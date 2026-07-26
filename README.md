@@ -1,0 +1,407 @@
+# 프로토 배당 공략 프로젝트 — 사전조사 정리본
+
+> 한국 프로스포츠(KBO·K리그) 고정배당(프로토) 시장을 대상으로, 배당을 이길 수 있는지 검증하는 프로젝트의 사전조사 결과.
+> **이 문서는 다른 세션/계정에서 이어받기 위한 자립형 문서다.** 사전 컨텍스트 없이 이 파일만 읽고 착수할 수 있게 작성했다.
+>
+> - 작성: 2026-07-25 ~ 07-26
+> - 웹 보고서(같은 내용, 시각화 포함): https://claude.ai/code/artifact/b1fa7e4d-8a73-428e-8f3d-aa97b9eb8622
+> - 대상 GitHub 계정: `choigod1023`
+
+---
+
+## 0. 한 페이지 요약
+
+| 항목 | 결론 |
+|---|---|
+| 프로토 마진 | **12~14%** (마켓별 고정). 해외 샤프북 2~3%, 소프트북 5.6% 대비 매우 비쌈 |
+| 가장 유리한 판 | **2-way 단폴** (KBO 승패·언더오버) = 환급률 88.0% |
+| 절대 금지 | **조합(다폴)** — 마진이 곱해져 4폴이면 60%까지 붕괴 |
+| 엣지의 원천 | 예측력이 아니라 **정보 시차** (배당 확정 후 경기까지 최대 60시간+) |
+| 전략 | 해외 샤프북 devig 컨센서스 = 기준선 / 시차 동안 바뀐 정보 = 델타 |
+| 데이터 | **과거 배당+결과 아카이브가 이미 공개돼 있음** → 백테스트 즉시 가능 |
+| 현실성 | 회차당 10만원 한도 → **수익 사업 아님. 공개 연구·포트폴리오로 포지셔닝** |
+
+---
+
+## 1. 실측: 프로토 마진 구조 ⭐ 가장 중요
+
+와이즈토토 아카이브에서 **2025년 99회차 626개 게임행 전량**을 파싱해 직접 계산한 값.
+
+| 마켓 유형 | 표본 n | 오버라운드 | 이론환급률 | 표준편차 |
+|---|---|---|---|---|
+| 2-way 승패 | 86 | 1.1362 | **88.01%** | 0.0006 |
+| 언더오버 | 182 | 1.1364 | **88.00%** | 0.0007 |
+| 핸디캡 (2-way) | 42 | 1.1363 | **88.00%** | 0.0004 |
+| 3-way 승무패 | 204 | 1.1494 | **87.00%** | 0.0007 |
+| 핸디캡 승①패 (3-way) | 112 | 1.1629 | **85.99%** | 0.0008 |
+
+**해석**
+- 표준편차가 전부 ~0.0007. 경기마다 배당을 따로 매기는 게 아니라 **유형별 목표 환급률을 정해 놓고 기계적으로 산출**한다.
+- **2-way 계열이 88%로 가장 유리, 승①패가 86%로 최악.** KBO 승패는 2-way → 공략 지점.
+- 모델에 넣을 숫자는 공시 환급률이 아니라 **유형별 booking 값(1.1362 / 1.1494 / 1.1629)**.
+
+**조합 시 붕괴 (2-way 88% 기준, 0.88ⁿ)**
+
+| 폴 수 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 |
+|---|---|---|---|---|---|---|---|---|
+| 기대환급률 | 88.00% | 77.44% | 68.15% | 59.97% | 52.77% | 46.44% | 35.96% | 27.85% |
+
+스포츠토토 공시 승부식 실제 환급률 **63.50%(2024) · 65.48%(2025)**가 3~4폴 사이에 떨어진다 → 평균 구매자가 3~4폴을 산다는 뜻.
+
+**손익분기 조건**
+배당 `o`에 베팅해 이기려면 실제 확률 `p > 1/o`. 2-way 프로토 배당의 내재확률은 컨센서스의 **1.1362배**로 부풀려져 있으므로, **내 확률 추정이 그 경기에서 13.6% 이상 높아야** +EV. 전 경기에서는 불가능 → **그런 경기를 골라내는 필터를 만드는 문제**로 재정의해야 한다.
+
+### ⚠️ 폐기된 수치 (중요)
+초판에서 `wc2026-predictor`의 월드컵 국내 마감배당 72경기로 오버라운드 **1.1111(=90.00%)**를 얻어 "마진 10%"라고 적었으나, **와이즈토토 원본 재측정 결과 실제 프로토는 86~88%로 다르다.**
+두 측정 모두 표준편차 0.0007로 안정적 → 잡음이 아니라 **named API의 `representativeOdds.domestic`이 프로토 원본이 아닌 가공물/다른 상품**일 가능성이 크다.
+→ **수집 기준선은 와이즈토토 원본. named는 대조용.** 이 불일치 규명은 착수 직후 과제.
+
+### 재현용 스니펫 (브라우저 콘솔, 와이즈토토 회차 페이지에서)
+```js
+// 회차 페이지를 연 뒤 실행. get_proto_list 응답을 파싱해 마켓별 오버라운드 집계
+const ent = performance.getEntriesByType('resource').find(e=>e.name.includes('get_proto_list'));
+const html = await (await fetch(ent.name,{credentials:'include'})).text();
+const doc = new DOMParser().parseFromString(html,'text/html');
+const groups=[];
+doc.querySelectorAll('div.gameinfo ul').forEach(ul=>{
+  const odds=[...ul.querySelectorAll('span.pt')].map(s=>parseFloat(s.textContent.trim())).filter(n=>n>1&&n<200);
+  if(odds.length>=2) groups.push({t:ul.innerText.replace(/\s+/g,' ').trim(), odds});
+});
+const bucket={};
+groups.forEach(g=>{
+  const n=g.odds.length, ov=g.odds.reduce((a,o)=>a+1/o,0);
+  const mk=/핸디|H\b/.test(g.t)?'핸디캡':(/언더|오버|U\/O|UO/.test(g.t)?'언더오버':(n===3?'3-way':'2-way'));
+  (bucket[mk+'/'+n]=bucket[mk+'/'+n]||[]).push(ov);
+});
+Object.entries(bucket).map(([k,v])=>{
+  const m=v.reduce((a,b)=>a+b,0)/v.length;
+  return {k, n:v.length, ov:+m.toFixed(4), payout:(100/m).toFixed(2)+'%'};
+});
+```
+
+---
+
+## 2. 데이터 수집 레시피 ⭐ 실제 엔드포인트
+
+브라우저 네트워크 추적으로 직접 확인함 (2026-07-26).
+
+### 2-1. 프로토 배당 + 경기결과 (핵심)
+
+```
+GET https://www.wisetoto.com/util/gameinfo/get_proto_list.htm
+  ?game_category=pt1
+  &game_year=2025
+  &game_round=99
+  &game_month=          (빈값 허용)
+  &game_day=            (빈값 허용)
+  &game_info_master_seq=<5자리 숫자>   ← 필수
+  &sports=              (빈값 허용)
+  &sort=                (빈값 허용)
+  &tab_type=proto
+```
+
+- 응답: **약 950KB HTML, 배당 3,848개** (한 회차 기준)
+- 파싱 셀렉터: **`div.gameinfo ul`** = 게임행, **`span.pt`** = 배당값
+- 🌟 **같은 응답에 경기 결과(홈승/오버 등)와 스코어가 함께 들어있다.**
+  → 배당과 결과를 다른 소스에서 긁어 조인하는 작업(이런 프로젝트 최대 실패지점)이 불필요
+- 게임행 텍스트 예시:
+  ```
+  007 08.22(금) 18:00 NPB 요미우리 8 : 1 요코베이 1.94 - 1.61 홈승
+  008 08.22(금) 18:00 NPB 승①패 요미우리 8 : 1 요코베이 3.40 2.55 2.16 홈승
+  009 08.22(금) 18:00 NPB U 5.5 요미우리 9 요코베이 1.73↑ - 1.79↓ 오버
+  ```
+
+**주의사항**
+- `game_info_master_seq`는 회차별 내부 ID → 회차 페이지에서 먼저 획득 필요
+  회차 페이지: `https://www.wisetoto.com/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=YYYY&game_round=N`
+- 인접 엔드포인트 `/util/common/generateNonce.htm` 존재 → 가드 가능성. **세션 쿠키 유지 권장**
+- `index.htm` 원본 HTML에는 배당이 없다(8개뿐). 배당은 위 XHR로 주입됨 → **하지만 XHR을 직접 부르면 헤드리스 브라우저는 불필요**
+- **비상업 이용·요청 간격 준수**
+
+### 2-2. 수집기 스켈레톤 (Python)
+
+```python
+import requests, re
+from bs4 import BeautifulSoup
+
+BASE = "https://www.wisetoto.com"
+s = requests.Session()
+s.headers.update({"User-Agent": "Mozilla/5.0", "Referer": BASE + "/index.htm"})
+
+def get_master_seq(year: int, rnd: int) -> str:
+    """회차 페이지에서 game_info_master_seq 추출 (패턴은 실제 HTML 보고 확정할 것)"""
+    url = f"{BASE}/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year={year}&game_round={rnd}"
+    html = s.get(url, timeout=20).text
+    m = re.search(r"game_info_master_seq[=\"'\s:]+(\d{4,6})", html)
+    return m.group(1) if m else None
+
+def fetch_round(year: int, rnd: int):
+    seq = get_master_seq(year, rnd)
+    if not seq:
+        return []
+    r = s.get(f"{BASE}/util/gameinfo/get_proto_list.htm", params={
+        "game_category": "pt1", "game_year": year, "game_round": rnd,
+        "game_month": "", "game_day": "", "game_info_master_seq": seq,
+        "sports": "", "sort": "", "tab_type": "proto",
+    }, timeout=30)
+    soup = BeautifulSoup(r.text, "html.parser")
+    rows = []
+    for ul in soup.select("div.gameinfo ul"):
+        odds = [float(x.get_text(strip=True)) for x in ul.select("span.pt")
+                if re.fullmatch(r"\d{1,2}\.\d{2}", x.get_text(strip=True))]
+        if len(odds) >= 2:
+            rows.append({"year": year, "round": rnd,
+                         "text": " ".join(ul.get_text(" ", strip=True).split()),
+                         "odds": odds,
+                         "overround": sum(1/o for o in odds)})
+    return rows
+
+# 예: 2025년 전 회차 백필 (요청 간격 반드시 둘 것)
+# import time
+# for rnd in range(1, 155):
+#     for row in fetch_round(2025, rnd): ...
+#     time.sleep(2)
+```
+
+> ⚠️ `get_master_seq`의 정규식은 실제 회차 페이지 HTML을 확인해 확정할 것. 위는 추정 패턴이다.
+
+### 2-3. 나머지 소스
+
+| 대상 | 호출 | 비고 |
+|---|---|---|
+| KBO 기록 | `POST koreabaseball.com/ws/Schedule.asmx/GetScoreBoardScroll`<br>`POST .../GetBoxScoreScroll` | JSON이 table1·table2·table3으로 분리. `\r\n` 제거 후 파싱. 비상업 이용 |
+| 해외 배당(과거) | OddsPortal / BetExplorer 연도별 결과 페이지 | JS 렌더링 → **헤드리스 필요**. 오프닝·클로징 모두 제공 |
+| 해외 배당(시계열) | The Odds API `/v4/historical/sports/{sport}/odds` | 2020-06-06~, 10분(2022-09부터 5분) 간격. 유료·호출당 1크레딧. KBO는 18개 북메이커 커버 |
+| K리그 기록 | data.kleague.com | 드리블·키패스·전진패스 등 상세. **경기 종료 48시간 후 공개** → 실시간 예측 불가, 학습용 |
+| 날씨(L3) | 기상청 단기예보 API (공공데이터포털) | 구장 좌표 기준. **배당 확정 시점의 예보**와 실제 관측을 따로 저장해야 시차 분석 가능 |
+| STATIZ / KBReport | 크롤링 | KBO 세이버메트릭스. 공개 API 없음 |
+
+---
+
+## 3. 과거 배당 아카이브
+
+**"과거 배당은 소급 수집 불가"는 오판이었다. 백테스트를 지금 시작할 수 있다.**
+
+| 아카이브 | 보유 범위 | 접근 |
+|---|---|---|
+| **와이즈토토 회차 아카이브** | **2009년~현재, 회차 단위** (프로토 배당) | 위 2-1 엔드포인트. 결과 포함 |
+| **OddsPortal / BetExplorer** | KBO **2012~2026(15시즌)**, K리그1 **2008~**, K리그2, KBL. **오프닝·클로징 모두** | 연도별 결과 페이지, JS 렌더링 |
+| **The Odds API historical** | 2020-06-06~, 5~10분 간격 스냅샷 | 유료. **배당 '변동'까지 잡히는 유일 소스** |
+
+⚠️ **미확인**: 와이즈토토 아카이브가 보관하는 배당이 **최초 공개값인지 마감값인지 불명.** 프로토는 발매 중 배당이 변경될 수 있으므로, 최종값만 남는다면 배당 변동 이력은 실시간 수집으로만 얻을 수 있다.
+→ **과거 아카이브 백필과 실시간 스냅샷 수집을 동시에 시작할 것.** 둘은 다른 데이터다.
+
+---
+
+## 4. 프로토 제도 — 설계에 영향을 주는 규칙
+
+| 항목 | 내용 | 함의 |
+|---|---|---|
+| 구매 단위 | **단폴(1경기) 1,000원** / 조합(2~10경기) 100원 | 단폴 허용이 프로젝트 성립의 전제 |
+| 배당 방식 | 고정배당률. 구매 시점 배당이 영수증에 고정. 발매 중 변경 가능 | 배당 변경 이력 = 시장 시그널 |
+| 승부식 유형 | 일반(승·무·패) / 승1패 / 승5패 / 핸디캡 / 언더오버 / SUM(홀짝) / 더블찬스 | 유형별 마진 상이 (§1 표) |
+| 종목 | 축구·야구·농구·배구 (국내외 주요경기) | KBO·K리그·KBL·V리그 + 해외리그 |
+| **발매 일정**<br>(2026-03-27 개편) | 주초 **월 08시~화 23시** / 주중 수 08시~목 23시 / 주말 금 08시~일 23시<br>**"회차마감 다음날 경기까지" 구매 범위 확대**<br>경기번호 3자리→4자리 | ⭐ **정보 시차 가설의 핵심 근거.** 월 08시 배당 고정 → 수요일 경기 구매 가능 = **60시간+ 시차** |
+| 구매 한도 | 회차당 1인 **10만원** · 투표권당 최대 적중금 **1억원** | 자금 규모 하드 상한. 켈리보다 한도가 먼저 걸림 |
+| 세금 | 적중금 200만원 초과 시 22%(3억 초과 33%) 원천징수.<br>200만원 이하 & 배당 100배 이하 **비과세** | 단폴·저배당 전략은 사실상 비과세 구간 |
+| 무효 처리 | 무효 경기는 승·무·패 배당 모두 1.0배, 전부 무효면 환불 | KBO 우천취소 잦음 → 백테스트에 반드시 구현 |
+| 합법성 | 합법 발매는 오프라인 판매점 + **betman.co.kr** 뿐 | 해외 북메이커 이용은 불법. **해외 배당은 참조 신호로만** |
+
+### 법적 위치 (예측 정보 서비스)
+- 국민체육진흥법 제26조 '유사행위' = **투표권을 발행하고 적중자에게 재물 제공**하는 행위
+- 대법원 **2018도7172**: 투표권 발행 없이 이익만 제공한 경우 유사행위로 보기 어렵다고 판시
+- → **예측·분석 정보 공개 자체는 유사행위가 아니다** (와이즈토토도 합법 운영)
+- 다만 유료 픽 판매·적중 보상·베팅 대행은 성격이 달라짐
+- → **공개 연구·대시보드로 포지셔닝**하는 것이 안전하고 포트폴리오 가치도 높음
+
+---
+
+## 5. 분석 설계 — 배당 분석 vs 경기력 분석
+
+**둘 다 한다. 단 역할이 다르고, 직렬이다. 순서를 뒤집으면 실패한다.**
+
+### 배당 분석 = 기준선
+해외 샤프북(Pinnacle 등) 배당을 devig해 "이 경기의 공정 가격은 얼마인가"를 정한다.
+내 모델이 아니라 **시장 전체의 집단지성**을 기준으로 빌려오는 것 — 개인이 이길 수 없는 부분을 그냥 가져다 쓴다. 여기서 후보 경기를 좁힌다.
+
+### 경기력 분석 = 델타
+기준선만으로는 12% 마진을 못 넘는다. **프로토 배당 자체가 해외 배당을 참조해 만들어지므로, 정보가 같은 시점에는 괴리가 마진 안쪽에 머문다.**
+괴리가 마진을 넘으려면 **프로토가 아직 반영하지 못한 정보**가 있어야 하고, 그 정보를 확률로 환산하는 것이 경기력 분석이다.
+
+→ **L3(선발투수·라인업·불펜 소모도·날씨)는 '있으면 좋은 피처'가 아니라 수익 원천 그 자체다.**
+배당이 월요일 아침에 굳고 경기는 수요일에 열리는 60시간 동안 벌어진 일 — 그게 델타다.
+Hubáček(2019) decorrelation도 같은 말: **배당과 상관이 높은 모델은 돈이 되지 않는다.**
+
+⚠️ 반대로 **경기력 분석만으로 시장을 정면 돌파하려는 시도는 거의 실패한다** (국내 KBO 예측 논문 대부분이 그 함정).
+경기력 분석은 전면전이 아니라 **시차 구간 한정으로 투입**할 것.
+
+### devig 방법론 (상용 EV 도구의 실제 엔진)
+방법에 따라 결과가 **1~2%p** 갈린다. 마진 12% 시장에서 이 차이는 +EV 판정을 뒤집는다.
+
+| 방법 | 계산 | 적합 시장 |
+|---|---|---|
+| Multiplicative | `p_i = (1/o_i) / Σ(1/o_j)` 단순 정규화 | 축구 3-way. **현재 `evaluate.py`가 쓰는 방법** |
+| **Power** | `p_i ∝ (1/o_i)^k`, `Σp=1` 되도록 k를 수치해 | **2-way 시장의 사실상 표준** (KBO·핸디캡·언더오버) |
+| Shin | 내부자 거래 비율 z 가정, 반복 알고리즘 | 결과가 많은 다중 시장(우승·순위) |
+| Additive | 초과분 균등 차감 | 비교 기준용 |
+
+→ **KBO는 2-way라 power devig가 표준.** 3종 모두 구현해 캘리브레이션 비교할 것.
+
+---
+
+## 6. 데이터 레이어
+
+| 레이어 | 항목 | 난이도 |
+|---|---|---|
+| **L1 배당** (최우선) | 프로토 배당(승무패·핸디캡·언더오버) · **공개~마감 전 구간 스냅샷** · 회차·경기 매핑 · 무효 플래그 | 중 |
+| **L1′ 해외 배당** (대조군) | Pinnacle 등 샤프북 배당, 오프닝→클로징 이동, 북별 편차 | 낮 (유료 API) |
+| **L2 경기·기록** | 결과·스코어 · 팀 성적 · 선수 세부기록 · 순위 · 상대전적 | 중 (KBO는 공개 API 없음) |
+| **L3 외부변수** (차별화 핵심) | **야구:** 선발투수 예고와 **변경 여부** · 라인업 · 부상/엔트리 말소 · 불펜 소모도(직전 3일 투구수) · 구장 파크팩터 · **날씨** · 더블헤더 · 이동거리/휴식일 · 외국인 교체<br>**축구:** 라인업 · 부상 · 경고누적 · ACL 병행일정 · 원정거리 · 감독 교체 | 높 — **여기가 엣지** |
+| **L4 시장·심리** | 프로토 배당 변경 이력 · 대중 배팅 분포 · 커뮤니티 여론 · 인기구단 편향 | 중 |
+
+### 🔴 데이터 수집의 철칙
+**모든 데이터에 "언제 알 수 있었는가" 타임스탬프를 붙일 것.**
+프로토 배당 확정 시각보다 나중에 발표된 정보(선발 변경, 우천, 라인업)를 백테스트에 쓰면 그 순간 미래정보 누수(look-ahead bias)로 수익률이 환상이 된다.
+`wc2026-predictor`가 이미 walk-forward 검증과 예측 고정본 가드를 구현해 둔 것이 정확히 이 문제 대응 — **그 규율을 그대로 가져올 것.**
+
+---
+
+## 7. 기존 GitHub 자산 (choigod1023)
+
+| 레포 | 한 일 | 쓸모 | 판정 |
+|---|---|---|---|
+| **wc2026-predictor** | Elo → 다항 로지스틱 확률화, walk-forward Brier 검증, Dixon-Coles 스코어 모델, 몬테카를로, 모델 vs 시장 채점, GitHub Actions 6시간 자동 갱신 | **직계 원형.** `capture_odds.py`(배당 수집), `evaluate.py`(마진 제거 정규화 + Brier 비교), `score_model.py`(Dixon-Coles) 재사용 | 그대로 이식 |
+| **MLB-Prophet** | MLB-StatsAPI 수집, RF/XGBoost 승패·스코어 예측, Flask 대시보드, 예측이력, Docker/Nginx | 야구 피처 엔지니어링·예측이력 구조. **단 정확도만 보고 수익성 검증 없음** → 고칠 지점 | 구조 재사용 |
+| **TodayToto** | NestJS+MongoDB+Next.js, 경기·배당·전력·순위 수집, Gemini 픽 생성, 적중 판정, Vercel 배포 | 서비스 껍데기(수집→픽→적중판정→표시). **LLM 픽 구조는 폐기 대상**(확률 보정 불가 → EV 계산 불가) | 부분 흡수 |
+| **livescore** / react_livescore / kakaobot_livescore | KBO/MLB/축구 일정·스코어·라인업·타자/투수 기록. named API + 다음스포츠 프록시 | **KBO·K리그 수집 경로 이미 확보** | 수집기 재사용 |
+| toss-dashboard / upbit_autotrade | 트레이딩 대시보드, 자동매매 | 포지션 사이징·수익곡선·리스크 UI → 켈리 자금관리 화면 | 패턴 참고 |
+| ticketjam-dashboard / quasarzone_saleinfo_bot | 주기 크롤링 + 가격 추적 + 알림 | 배당 변동 추적·밸류 발생 알림 | 패턴 참고 |
+| — | — | **신규 필요:** 프로토 배당 시계열 아카이브 · 해외 배당 대조 파이프라인 · L3 외부변수 피처 · 베팅 시뮬레이터(켈리·세금·무효 반영) · CLV 추적 | 신규 |
+
+**요약**: 새로 만드는 게 아니라 네 개를 합치고 **'배당 대비 수익성'이라는 평가축을 처음 붙이는 일**이다.
+
+⚠️ named API(`sports-api.named.com`)는 일부 환경에서 ECONNRESET. 사용자 GitHub Actions에서는 동작 중 → 접근 경로 확인 필요. 그리고 §1에서 확인했듯 **`domestic` 배당이 프로토 원본과 불일치**하므로 기준선으로 쓰지 말 것.
+
+---
+
+## 8. 선행 연구 — 무엇을 베낄 것인가
+
+> 문헌 전체를 관통하는 한 문장: **시장을 이긴 연구들은 예측을 더 잘해서 이긴 게 아니라, 배당이 틀린 지점을 골라내서 이겼다.**
+
+| 연구 | 핵심 | 적용 |
+|---|---|---|
+| **Kaunitz, Zhong & Kreiner (2017)**<br>arXiv:1710.02824 | 자체 예측모델 없이 **북메이커 배당 합의값 대비 이탈**을 찾아 베팅. 10년 백테스트·6개월 분단위 시뮬·5개월 실자금 모두 수익. 단 수익 나자 **북메이커가 계정 제한** | **1순위 전략.** 해외 컨센서스 vs 프로토 괴리 탐지.<br>🌟 **프로토는 국가 독점이라 "이기면 잘린다" 문제가 없다** — 논문 최대 약점이 한국에선 사라짐 |
+| **Hubáček, Šourek & Železný (2019)**<br>Int. J. Forecasting 35(2) 783-796 | 정확도만 최대화하면 북메이커와 예측이 겹쳐 돈이 안 됨. **북메이커 예측과의 상관을 일부러 낮추는(decorrelation)** 목적함수. CNN으로 선수 통계 대량 투입 | 손실함수를 정확도가 아니라 "배당 대비 수익"으로. 프로토와 갈리는 경기에 학습 가중 |
+| **Walsh & Joshi (2024)**<br>Mach. Learn. Appl. 16:100539<br>arXiv:2303.06021 | NBA 실험에서 모델 선택 기준을 정확도→**캘리브레이션**으로 바꾸자 ROI **−35.17% → +34.69%** 역전 | **평가 지표 확정: Accuracy 금지.** Brier·Log loss·신뢰도 곡선으로 선택 |
+| **Constantinou & Fenton**<br>pi-ratings / pi-football BN | 점수차 기반 동적 레이팅 + 베이지안 네트워크로 **과거 데이터가 못 잡는 주관 변수**(부상·사기·일정)를 명시적 주입 | Elo → 점수차 기반 레이팅 업그레이드. 외부변수를 피처가 아니라 **구조적 노드**로 |
+| **Dixon & Coles (1997)** | 포아송 스코어 모델 + 저득점 보정 + 시간 감쇠 | **이미 구현됨**(`score_model.py`). K리그 언더오버·핸디캡에 직결 |
+| **Snowberg & Wolfers**<br>NBER w15923 | favorite-longshot bias: 대중은 **역배를 과대평가**. 장기 강팀 −5%, 극단 역배 −40%. 마감 시점엔 상당 해소 | ⚠️ **"역배 맞히기"를 목표로 삼지 말 것.** 목표는 저평가된 쪽이고 문헌상 그건 강팀일 때가 많다. 단 한국 시장 방향은 **직접 측정**(인기구단 쏠림으로 반대일 수도) |
+| 국내 KBO 승부예측 논문군<br>DBpia·KCI·ScienceON | ANN·XGBoost·RF·KNN/AdaBoost. 대체로 XGBoost > RF > DL | **피처 아이디어 출처로만.** 공통 한계는 **배당 대비 수익성 미검증, 정확도만 봄** → **이 공백이 본 프로젝트의 기여 지점** |
+
+---
+
+## 9. 경쟁 서비스 지형
+
+**국내는 배당을 '읽고', 해외는 배당을 '계산한다'. 그 사이가 비어 있다.**
+
+| 서비스 | 실제로 하는 분석 | 한계 |
+|---|---|---|
+| **와이즈토토** (공식 위탁) | 배당결과 통계 · 배당률 계산기 · 해외배당 정보 · 홈/원정 성적 · H2H · xG·WAR·Pace · 해설위원 정성 분석 | **EV를 계산하지 않는다.** devig 없어 가격 판정 불가. 전문가 픽 사후검증 비공개 |
+| **스포노트** | 배당통계(베트맨 배당 확정 후 1시간 내 생성, 변경 시 10~30분 내 갱신) · 승패/핸디캡 알고리즘 통계 · 선발투수 분석 · AI 픽 | 성과가 **적중률 표기 위주** — 배당 미반영이라 수익성과 무관 |
+| 배당분석 / 스포츠스토커 (앱) | 프로토 일정·결과 조회 · 배당 필터 · 해외배당 변동 알림 | 조회 도구. 판정 로직 없음 |
+| 개인 분석가 (데니스박 등) | "오즈메이커는 분석 끝내고 배당을 내지만 베터는 배당 본 뒤 분석한다"는 정보 비대칭 전제. **국내·해외 배당 + 환급률 대조** | **방향은 정확** — 본 프로젝트와 같은 발상. 다만 수작업·표본 통제 없음·미검증 |
+| **OddsJam · Unabated · Outlier · RebelBetting** | **예측 모델을 만들지 않음.** 샤프북 devig → fair odds → 100~150개 북 대조로 +EV·아비트리지 자동 탐지. **KBO 커버** | **프로토(베트맨)는 북메이커 목록에 없음** |
+| Pinnacle Odds Dropper · DRatings | **CLV**: `CLV% = (마감배당 / 베팅배당) − 1`. 승패가 아니라 가격 우위로 실력 측정 | 기준선이 Pinnacle. 프로토용 기준선은 직접 구축 |
+| `georgedouzas/sports-betting` (OSS) | sklearn 래핑 `dataloader + bettor`. TimeSeriesSplit 백테스트, value bet 산출. 축구 27개국·927 리그/시즌(1994~2026), 북메이커 배당 포함 | **KBO·K리그 미지원** → 한국 리그 dataloader 추가는 그 자체로 기여 |
+
+**빈 자리** = **프로토를 하나의 '소프트북'으로 취급하고, 해외 샤프북 devig 컨센서스와 대조하는 +EV 스캐너.**
+방법론은 해외에서 검증됐고, 데이터 경로는 확보됐고, 대상 시장만 아무도 손대지 않았다.
+다만 프로토 마진 12%는 bet365(5.6%)의 두 배 이상 → **모든 경기가 아니라 정보 시차가 발생한 소수 경기로 좁히는 것이 유일한 길.**
+
+---
+
+## 10. 실행 로드맵
+
+각 단계에 통과/중단 조건을 걸었다. **통과 못 하면 다음으로 가지 말 것** — 이 분야는 자기기만이 가장 큰 비용이다.
+
+### 1단계 (2~3주) — 과거 아카이브 백필 + 실시간 수집 동시 시작 · 모델 금지
+- 백필: 와이즈토토 회차 아카이브(2009~)에서 프로토 배당+결과, OddsPortal/BetExplorer에서 KBO(2012~)·K리그1(2008~) 해외 배당
+- 실시간: KBO·K리그 프로토 배당 30분 간격 스냅샷 → 배당 변동 시계열 (GitHub Actions)
+- 경기 결과·무효 플래그 매칭, 정산 로직, 우천취소 처리
+- 비상업 이용·요청 간격 준수
+- ✅ **통과 조건**: 최소 2시즌 이상의 (프로토 배당 × 해외 배당 × 결과) 정합 데이터셋
+
+### 2단계 (1주) — 시장 구조 실측
+- 종목별·유형별 오버라운드 재확인 (§1을 다른 회차·연도로 검증)
+- **devig 3종(multiplicative·power·shin) 구현 후 캘리브레이션 비교** → KBO 2-way에 맞는 방법 확정
+- 프로토 배당 vs 해외 컨센서스 괴리 분포 — 괴리가 큰 경기가 실제로 존재하는가
+- 프로토 배당 캘리브레이션 곡선 — 배당 구간별 실제 적중률
+- 한국판 favorite-longshot 편향 방향 측정 (인기구단 쏠림 검정)
+- 🛑 **중단 조건**: 프로토 배당이 해외 클로징과 거의 일치하고 괴리 구간이 없으면 **솔직하게 접거나** 순수 예측 연구로 목표 변경
+
+### 3단계 (3~4주) — 베이스라인 모델 (정확도 대신 캘리브레이션)
+- KBO: 팀 레이팅 + 선발투수 조정 + 파크팩터 + 불펜 소모도 → 승률 확률
+- K리그: pi-ratings + Dixon-Coles (`score_model.py` 이식)
+- 모델 선택 기준을 Brier/Log loss + 신뢰도 곡선으로 **고정**
+- Hubáček식 decorrelation: 프로토 배당과 예측이 갈리는 경기에 학습 가중
+- ✅ **통과 조건**: walk-forward Brier가 **프로토 배당의 정규화 확률보다 낮을 것**
+
+### 4단계 (2주) — 베팅 시뮬레이터 (여기서 대부분의 전략이 죽는다)
+- 단폴 전용. EV > 임계값인 경기만 선별, **전 경기 베팅 금지**
+- 프랙셔널 켈리(1/4 정도) + 회차당 10만원 한도 반영
+- 무효/우천취소·세금·소수점 절사 규칙 구현
+- 부트스트랩으로 수익이 **운인지 실력인지** 신뢰구간 산출
+- 🛑 **중단 조건**: 시뮬 ROI 신뢰구간 하한이 0 미만이면 실전 금지 (대부분 여기서 걸림)
+
+### 5단계 (1시즌) — 페이퍼 트레이딩 + 공개 대시보드
+- 실제 돈 없이 예측을 **사전에 공개 커밋** (사후 수정 차단 가드)
+- 핵심 KPI는 수익률이 아니라 **CLV** — 표본이 적을 때 실력을 가장 빨리 보여주는 지표
+- Next.js 대시보드로 예측·EV·적중·수익곡선 공개
+- ✅ **통과 조건**: CLV가 지속적으로 양(+)
+
+---
+
+## 11. 미해결 / 다음 세션에서 확인할 것
+
+1. ⭐ **named API `representativeOdds.domestic`이 프로토 원본과 왜 다른가** (1.1111 vs 1.1362). 다른 상품인가, 가공값인가?
+2. ⭐ **와이즈토토 아카이브 배당이 최초 공개값인가 마감값인가** — 배당 변동 이력 확보 가능 여부가 갈림
+3. `game_info_master_seq` 획득 방법 확정 (회차 페이지 HTML의 정확한 패턴)
+4. `generateNonce.htm` 가드가 실제로 걸리는지 (세션 없이 호출 시 동작 여부)
+5. 마켓 파싱 시 **종목 분류가 '미상'으로 나옴** — 종목 필드가 별도 요소에 있으므로 셀렉터 보완 필요
+6. §1 측정을 **다른 회차·다른 연도**로 재현해 booking 값이 시기별로 바뀌는지 확인
+7. KBO 전용 회차(야구 단독 회차)의 마진이 혼합 회차와 다른지
+8. The Odds API의 KBO 과거 커버리지 실제 깊이 (문서에 KBO 명시 없음)
+
+---
+
+## 12. 현실 점검 (솔직하게)
+
+**수익 사업으로는 성립하기 어렵다.** 회차당 10만원 한도에 엣지 3%면 회차당 기대 3,000원이고, 그 3% 엣지를 실제로 확보하는 것 자체가 대부분 실패한다. 12% 마진은 해외 샤프북의 4~6배다.
+
+**대신 연구·포트폴리오 프로젝트로는 대단히 좋다.** 국내 KBO 예측 논문들이 하나같이 정확도만 보고 배당 대비 수익성을 검증하지 않는다는 공백이 명확하고, 이미 Elo·Dixon-Coles·Brier 채점·자동 파이프라인·대시보드를 다 만들어 봤다. **"한국 프로스포츠 고정배당 시장은 효율적인가"를 실측 데이터로 답하는 공개 연구**는 결과가 어느 쪽이든 가치가 있다.
+
+### 스스로 지킬 규율
+- **조합 베팅 금지.** 마진이 곱해지는 순간 어떤 모델도 못 이긴다.
+- **"역배 맞히기"를 목표로 삼지 말 것.** 목표는 저평가된 쪽이고, 문헌상 그건 강팀일 때가 많다.
+- **정확도로 모델을 고르지 말 것.** 캘리브레이션으로 고른다.
+- **백테스트 수익률을 믿지 말 것.** 신뢰구간과 CLV로 검증한다.
+- **실제 돈은 최소 한 시즌 페이퍼 트레이딩 이후에.** 그리고 잃어도 되는 금액만.
+
+---
+
+## 13. 출처
+
+**제도·공시**
+- [프로토 승부식 규칙](https://www.sportstoto.co.kr/proto_rules.php) · [고정배당률 투표권 세부규칙](https://www.sportstoto.co.kr/terms_allocation.php)
+- [2024 연간 환급률 공시](https://www.sportstoto.co.kr/view.php?type=notice&idx=2638&page=1) (승부식 63.50%) · [2025 연간 환급률 공시](https://sportstoto.co.kr/view.php?idx=2740&page=3&text_search=&type=notice) (승부식 65.48%)
+- [프로토 운영방식 개편 안내 (2026-03-27 시행)](https://sportstoto.co.kr/view.php?idx=2746&page=1&type=notice)
+- [국민체육진흥법](https://www.law.go.kr/LSW/lsInfoP.do?lsId=001605&ancYnChk=0) · [대법원 2018도7172](https://casenote.kr/%EB%8C%80%EB%B2%95%EC%9B%90/2018%EB%8F%847172)
+
+**논문**
+- [Kaunitz et al. (2017)](https://arxiv.org/abs/1710.02824) · [Hubáček et al. (2019)](https://www.sciencedirect.com/science/article/abs/pii/S016920701930007X) · [Walsh & Joshi (2024)](https://www.sciencedirect.com/science/article/pii/S266682702400015X) · [pi-ratings](http://www.constantinou.info/downloads/papers/pi-ratings.pdf) · [Snowberg & Wolfers](https://www.nber.org/system/files/working_papers/w15923/w15923.pdf)
+
+**데이터**
+- [와이즈토토](https://www.wisetoto.com/index.htm) · [The Odds API](https://the-odds-api.com/) ([historical](https://the-odds-api.com/historical-odds-data/)) · [OddsPortal KBO 결과·배당](https://www.oddsportal.com/baseball/south-korea/kbo/results/) · [BetExplorer KBO](https://www.betexplorer.com/baseball/south-korea/kbo/) · [OddsPortal K리그1](https://www.oddsportal.com/football/south-korea/k-league-1/) · [K리그 데이터포털](https://data.kleague.com/) · [STATIZ](https://www.statiz.co.kr/)
+
+**서비스·방법론**
+- [스포노트](https://sponote.com/DataCenter/GuidePrediction) · [데니스박의 배당이야기](https://www.postype.com/@odds-story/post/7325745) · [OddsJam +EV](https://oddsjam.com/betting-tools/positive-ev) · [Outlier devig 비교](https://help.outlier.bet/en/articles/8208129-how-to-devig-odds-comparing-the-methods) · [DRatings CLV](https://www.dratings.com/what-is-closing-line-value-clv-and-how-do-you-calculate-it/) · [georgedouzas/sports-betting](https://github.com/georgedouzas/sports-betting)
