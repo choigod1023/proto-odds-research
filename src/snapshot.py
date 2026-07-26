@@ -103,7 +103,16 @@ def snap(year: int, rounds: list[int]) -> int:
             continue
         if rows is None:
             continue
-        for r in rows:
+        # ⚠️ 배당이 아직 공개되지 않은 행(odds=[])이 섞여 있다.
+        #    2026-88·89회차처럼 경기 목록만 먼저 뜨고 배당은 나중에 붙는다.
+        #    이걸 세면 '변동 0건'이 실제보다 안정적으로 보인다.
+        priced = [r for r in rows if r.odds]
+        unpriced = len(rows) - len(priced)
+        if unpriced:
+            print(f"  [{year}-{rnd}] 배당 미공개 {unpriced}행 제외 "
+                  f"(배당 있는 행 {len(priced)})", flush=True)
+
+        for r in priced:
             odds_s = ",".join(f"{o:.2f}" for o in r.odds)
             key = (str(year), str(rnd), r.game_no)
             rec = {"ts": ts, "year": year, "round": rnd, "game_no": r.game_no,
