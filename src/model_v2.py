@@ -28,11 +28,16 @@ SPORTS = {"bs": "야구", "sc": "축구", "bk": "농구", "vl": "배구"}
 
 # variable_impact.py 측정 결과로 확정된 종목별 피처
 SPORT_FEATURES: dict[str, list[str]] = {
-    "bs": [],
-    "sc": ["margin_diff", "form_diff", "venue_diff"],
-    "bk": ["margin_diff", "b2b_home"],
-    "vl": ["margin_diff", "form_diff"],
+    "bs": ["pi_diff"],
+    "sc": ["pi_diff", "margin_diff", "form_diff"],
+    "bk": ["pi_diff", "margin_diff", "b2b_home"],
+    "vl": ["pi_diff", "margin_diff", "form_diff"],
 }
+
+# pi_ratings.py 튜닝 결과(학습 구간 한정 격자탐색)로 확정
+PI_PARAMS = {"bs": (0.08, 6.0), "sc": (0.18, 3.0),
+             "bk": (0.18, 0.8), "vl": (0.18, 0.8)}
+PI_GAMMA = 0.7
 
 
 def design(d: pd.DataFrame, cols: list[str]) -> np.ndarray:
@@ -66,7 +71,14 @@ def attach_odds(df: pd.DataFrame) -> pd.DataFrame:
 
 def main() -> int:
     m = load_matches()
+    import pi_ratings
+    pi_ratings.LAMBDA = {k: v[0] for k, v in PI_PARAMS.items()}
+    pi_ratings.DAMP = {k: v[1] for k, v in PI_PARAMS.items()}
+    pi_ratings.GAMMA = PI_GAMMA
+    pi = pi_ratings.run_pi(m)
     df = build_features(m)
+    df = df.merge(pi[["date", "league", "home_team", "away_team", "pi_diff"]],
+                  on=["date", "league", "home_team", "away_team"], how="inner")
     df = attach_odds(df)
     df = df[df["outcome"] != 0.5]
     print(f"배당 결합 경기 {len(df):,}건\n")
