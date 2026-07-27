@@ -21,9 +21,14 @@
     움직이지 않는다              → 이미 알고 있었다   → **시차 없음**
 
 종목 커버리지 (2026-07-27 확인)
-    KBO       ✅ 선발 필드 제공
-    K리그/MLS  ⚠️ 스케줄 API에 라인업 없음. 라인업은 별도 엔드포인트(미확인)
-    KBL·NBA·V리그·EPL  — 7월 현재 시즌 오프. 검증은 시즌 개막 후
+    KBO  kbaseball/kbo   ✅ 선발
+    MLB  wbaseball/mlb   ✅ 선발
+    NPB  wbaseball/npb   ✅ 선발
+    축구 (K리그·MLS)      ❌ 라인업 없음.
+         `/schedule/games/{id}/preview` 에는 팀 기록·득점 상위 선수만 있고
+         라인업은 경기 직전에야 공개된다 → 시차 검증 대상으로는 오히려 더 좋지만
+         관측 경로를 따로 찾아야 한다
+    KBL·NBA·V리그·EPL     — 7월 현재 시즌 오프. 검증은 개막 후
 
 사용:
     python src/info_watch.py              # 1회
@@ -48,8 +53,13 @@ API = "https://api-gw.sports.naver.com/schedule/games"
 FIELDS = ["observed_at", "gameId", "game_datetime", "league",
           "home", "away", "field", "value", "hours_before_game", "is_baseline"]
 
-# (upperCategoryId, categoryId, 표시명) — 선발/라인업 필드를 제공하는 것만
-TARGETS = [("kbaseball", "kbo", "KBO")]
+# (upperCategoryId, categoryId, 표시명) — 선발 필드를 제공하는 것만.
+# ⚠️ upperCategoryId 가 리그마다 다르다. KBO 는 kbaseball, MLB/NPB 는 wbaseball 이다.
+TARGETS = [
+    ("kbaseball", "kbo", "KBO"),
+    ("wbaseball", "mlb", "MLB"),
+    ("wbaseball", "npb", "NPB"),
+]
 
 
 def _session() -> requests.Session:

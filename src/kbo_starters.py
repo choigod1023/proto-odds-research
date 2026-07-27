@@ -30,7 +30,7 @@ from pathlib import Path
 
 import requests
 
-OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "kbo_starters.json"
+OUT_DIR = Path(__file__).resolve().parent.parent / "data" / "raw"
 API = "https://api-gw.sports.naver.com/schedule/games"
 GAP = 1.2
 
@@ -46,10 +46,17 @@ def _session() -> requests.Session:
     return s
 
 
-def fetch_range(sess: requests.Session, f: date, t: date) -> list[dict]:
+# 리그 → (upperCategoryId, categoryId). upperCategoryId 가 리그마다 다르다.
+LEAGUES = {"kbo": ("kbaseball", "kbo"), "mlb": ("wbaseball", "mlb"),
+           "npb": ("wbaseball", "npb")}
+
+
+def fetch_range(sess: requests.Session, f: date, t: date,
+                league: str = "kbo") -> list[dict]:
+    up, cid = LEAGUES[league]
     r = sess.get(API, params={
         "fields": "basic,statusNum,homeStarterName,awayStarterName",
-        "upperCategoryId": "kbaseball", "categoryId": "kbo",
+        "upperCategoryId": up, "categoryId": cid,
         "fromDate": f.isoformat(), "toDate": t.isoformat(), "size": 500,
     }, timeout=25)
     r.raise_for_status()
@@ -66,8 +73,13 @@ def month_spans(y0: int, y1: int):
 
 
 def main(argv: list[str]) -> int:
-    y0 = int(argv[1]) if len(argv) > 1 else 2023
-    y1 = int(argv[2]) if len(argv) > 2 else date.today().year
+    args = [a for a in argv[1:] if not a.startswith("--")]
+    league = next((a for a in args if a in LEAGUES), "kbo")
+    yrs = [int(a) for a in args if a.isdigit()]
+    y0 = yrs[0] if yrs else 2023
+    y1 = yrs[1] if len(yrs) > 1 else date.today().year
+    OUT = OUT_DIR / f"{league}_starters.json"
+    print(f"리그 {league.upper()} · {y0}~{y1}")
 
     cache: dict[str, dict] = {}
     if OUT.exists():
@@ -78,10 +90,11 @@ def main(argv: list[str]) -> int:
     new = 0
     for f, t in month_spans(y0, y1):
         # KBO 는 3~11월. 비시즌은 건너뛴다
+        # KBO 3~11월, MLB 3~11월, NPB 3~11월
         if f.month < 3 or f.month > 11:
             continue
         try:
-            games = fetch_range(sess, f, t)
+            games = fetch_range(sess, f, t, league)
         except Exception as e:                       # noqa: BLE001
             print(f"  {f}~{t} 오류 {type(e).__name__}: {e}", flush=True)
             time.sleep(3)
