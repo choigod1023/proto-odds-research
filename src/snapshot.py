@@ -45,6 +45,34 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def probe_latest_round(sess, year: int) -> int:
+    """캐시 없이 그 해의 최신 회차를 찾는다 — 성큼 건너뛰고 이분 탐색으로 좁힌다.
+
+    회차를 1부터 하나씩 세면 요청이 수십 번 나간다. 존재 여부만 보면 되므로
+    2배씩 뛰어 상한을 잡은 뒤(≈8회) 이분 탐색으로 좁힌다(≈7회).
+    캐시가 빈 첫 부팅에만 드는 비용이다.
+    """
+    lo = 1
+    if not get_master_seq(year, lo, sess):
+        return 1
+    time.sleep(REQUEST_GAP)
+
+    hi = 2
+    while hi < 400 and get_master_seq(year, hi, sess):
+        time.sleep(REQUEST_GAP)
+        lo, hi = hi, hi * 2
+    # lo = 존재 확인됨, hi = 없음(또는 상한)
+    while hi - lo > 1:
+        mid = (lo + hi) // 2
+        if get_master_seq(year, mid, sess):
+            lo = mid
+        else:
+            hi = mid
+        time.sleep(REQUEST_GAP)
+    print(f"  캐시 없음 — 최신 회차 탐색 결과 {year}-{lo}회차", flush=True)
+    return lo
+
+
 def find_live_rounds(sess, year: int, start_hint: int) -> list[int]:
     """미정산 게임행이 남아 있는 회차를 찾는다."""
     live = []
@@ -163,7 +191,11 @@ def main(argv: list[str]) -> int:
                   for p in (CACHE / str(year)).glob("*.html.gz")) if (CACHE / str(year)).exists() else []
     # 캐시 최신 회차보다 조금 앞에서부터 훑는다.
     # 캐시에 있어도 그 시점엔 미정산이었을 수 있으므로(수집 당시 '경기전') 뒤로 물러선다.
-    hint = (max(have) - 3) if have else 1
+    # 캐시가 비어 있으면(새 서버 첫 부팅 등) 1회차부터 훑게 되는데, SCAN_RANGE 가
+    # 12 라 7월의 60번대 회차엔 영영 못 닿는다. fly.io 로 옮기고 나서 실제로
+    # "발매 중인 회차를 찾지 못했습니다" 로 죽었다(캐시 *.html.gz 는 gitignore).
+    # → 캐시가 없으면 서버에 직접 물어 최신 회차를 찾는다.
+    hint = (max(have) - 3) if have else max(1, probe_latest_round(sess, year) - 3)
     rounds = find_live_rounds(sess, year, hint)
     if not rounds:
         print("발매 중인 회차를 찾지 못했습니다.")
