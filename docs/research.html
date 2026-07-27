@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연구 현황 — 한국 프로토 시장은 효율적인가</title>
+<meta name="description" content="프로토 553회차 353,047건 실측. 여섯 번의 검증과 그 결과, 그리고 스스로 잡은 오류들.">
+<style>
+:root{--bg:#fbfbfa;--panel:#fff;--line:#e4e4e1;--line2:#efefec;
+ --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;
+ --neg:#b3261e;--pos:#1a7f4b;--warn:#9a6700;--accent:#2f4f8f;
+ --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#14140f;--panel:#1c1c18;--line:#33332c;
+ --line2:#26261f;--tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;
+ --neg:#f2857c;--pos:#63c48d;--warn:#e0b341;--accent:#8fb0e8}}
+:root[data-theme=dark]{--bg:#14140f;--panel:#1c1c18;--line:#33332c;--line2:#26261f;
+ --tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;--neg:#f2857c;--pos:#63c48d;
+ --warn:#e0b341;--accent:#8fb0e8}
+:root[data-theme=light]{--bg:#fbfbfa;--panel:#fff;--line:#e4e4e1;--line2:#efefec;
+ --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;--neg:#b3261e;--pos:#1a7f4b;
+ --warn:#9a6700;--accent:#2f4f8f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+ font:15.5px/1.72 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",
+ "Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px 90px}
+a{color:var(--accent)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+nav{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px}
+nav a{text-decoration:none;color:var(--tx2)}
+nav a.on{color:var(--tx);font-weight:600;border-bottom:2px solid var(--tx);padding-bottom:3px}
+header{padding:34px 0 22px;border-bottom:1px solid var(--line);margin-bottom:30px}
+h1{font-size:25px;margin:0 0 8px;letter-spacing:-.02em;font-weight:650;line-height:1.35}
+.sub{color:var(--tx2);font-size:14.5px;margin:0}
+.meta{margin-top:14px;font-size:12px;color:var(--tx3);display:flex;gap:16px;flex-wrap:wrap}
+h2{font-size:18.5px;margin:44px 0 4px;letter-spacing:-.01em;font-weight:650}
+h2 .n{color:var(--tx3);font-weight:400;margin-right:8px;font-family:var(--mono)}
+h2+.lead{color:var(--tx2);font-size:14px;margin:0 0 16px}
+h3{font-size:15.5px;margin:26px 0 8px;font-weight:640}
+p{margin:12px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line2)}
+th{font-weight:600;color:var(--tx2);font-size:12.5px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.neg{color:var(--neg)}.pos{color:var(--pos)}.warn{color:var(--warn)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
+ background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:18px 0}
+.stat{background:var(--panel);padding:13px 15px}
+.stat .k{font-size:11px;color:var(--tx3);letter-spacing:.04em;text-transform:uppercase}
+.stat .v{font-size:21px;font-weight:600;margin-top:3px;font-family:var(--mono)}
+.stat .n2{font-size:11.5px;color:var(--tx3);margin-top:2px}
+.card{border:1px solid var(--line);border-left:3px solid var(--tx3);background:var(--panel);
+ padding:14px 17px;border-radius:3px;margin:16px 0}
+.card.bad{border-left-color:var(--neg)}
+.card.good{border-left-color:var(--pos)}
+.card.warn{border-left-color:var(--warn)}
+.card h4{margin:0 0 7px;font-size:14.5px}
+.card p{margin:6px 0;font-size:14px;color:var(--tx2)}
+.wall{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line2)}
+.wall .idx{font-family:var(--mono);font-size:13px;color:var(--tx3);min-width:22px;padding-top:2px}
+.wall .body{flex:1}
+.wall .t{font-weight:600;font-size:14.5px}
+.wall .d{font-size:13.5px;color:var(--tx2);margin-top:3px}
+.wall .r{font-size:12.5px;font-weight:600;white-space:nowrap;padding-top:2px}
+blockquote{margin:16px 0;padding:12px 16px;border-left:3px solid var(--line);
+ color:var(--tx2);font-size:14px;background:var(--panel)}
+footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);
+ font-size:12.5px;color:var(--tx3)}
+.thm{position:fixed;right:16px;bottom:16px;width:34px;height:34px;border-radius:50%;
+ display:grid;place-items:center;font-size:15px;border:1px solid var(--line);
+ background:var(--panel);color:var(--tx);cursor:pointer}
+@media(max-width:620px){h1{font-size:21px}.stats{grid-template-columns:repeat(2,1fr)}
+ table{font-size:13px}th,td{padding:6px 7px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <a href="index.html">가격 분석</a>
+  <a href="picks.html">오늘의 픽</a>
+  <a href="research.html" class="on">연구 현황</a>
+  <a href="https://github.com/choigod1023/proto-odds-research">소스</a>
+</nav>
+
+<header>
+  <h1>한국 프로토 고정배당 시장은 효율적인가</h1>
+  <p class="sub">553회차·353,047건을 실측해 답을 찾는 공개 연구. 결과가 어느 쪽이든 그대로 적는다.</p>
+  <div class="meta">
+    <span>최종 갱신 2026-07-27</span>
+    <span>실측 경기 43,509</span>
+    <span><a href="https://github.com/choigod1023/proto-odds-research/tree/main/findings">전체 문서</a></span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="k">수집 회차</div><div class="v">553</div><div class="n2">2023–2026</div></div>
+  <div class="stat"><div class="k">베팅 레코드</div><div class="v">353,047</div><div class="n2">게임행 177,549</div></div>
+  <div class="stat"><div class="k">프로토 환급률</div><div class="v">88.0%</div><div class="n2">2-way 기준</div></div>
+  <div class="stat"><div class="k">해외 환급률</div><div class="v">95.3%</div><div class="n2">7.3%p 차이</div></div>
+</div>
+
+<h2><span class="n">01</span>지금까지 만난 여섯 개의 벽</h2>
+<p class="lead">각 검증의 판정 기준은 <b>데이터를 보기 전에</b> 정해뒀다. 나중에 정하면 어떤 결과든 성공으로 해석되기 때문이다.</p>
+
+<div class="wall"><div class="idx">1</div><div class="body">
+  <div class="t">배당 구조만으로 +EV 구간이 있는가</div>
+  <div class="d">배당대·종목·상품·리그로 134개 구간을 쪼개 검정</div></div>
+  <div class="r neg">0개</div></div>
+<div class="wall"><div class="idx">2</div><div class="body">
+  <div class="t">팀 단위 변수가 시장을 넘는가</div>
+  <div class="d">폼·득실마진·홈원정·백투백·휴식·상대전적 9종</div></div>
+  <div class="r neg">시장 우위</div></div>
+<div class="wall"><div class="idx">3</div><div class="body">
+  <div class="t">모델을 정교화하면 좁혀지는가</div>
+  <div class="d">점수차 기반 pi-ratings 도입</div></div>
+  <div class="r warn">15%만 축소</div></div>
+<div class="wall"><div class="idx">4</div><div class="body">
+  <div class="t">선발 정보 시차가 우위인가</div>
+  <div class="d">KBO·MLB·NPB 선발 예고 시점 대조</div></div>
+  <div class="r neg">재현 실패</div></div>
+<div class="wall"><div class="idx">5</div><div class="body">
+  <div class="t">축구 라인업이 우위인가</div>
+  <div class="d">라인업은 경기 1시간 전 공개 = 배당보다 확실히 늦음</div></div>
+  <div class="r warn">표본 부족</div></div>
+<div class="wall"><div class="idx">6</div><div class="body">
+  <div class="t">해외 배당과의 괴리에 기회가 있는가</div>
+  <div class="d">509경기·1,120선택지 대조 <span class="warn">← 진행 중</span></div></div>
+  <div class="r warn">0.9%</div></div>
+
+<h2><span class="n">02</span>확정된 사실</h2>
+<p class="lead">재현 가능하고, 코드가 공개돼 있다.</p>
+
+<h3>booking은 상품이 아니라 <b>구조</b>로 결정된다</h3>
+<table>
+<tr><th>구조</th><th>포함 상품</th><th class="n">환급률</th><th class="n">회차 내부 SD</th></tr>
+<tr><td><b>2-way</b></td><td>승패·언더오버·2way핸디캡</td><td class="n">88.00%</td><td class="n">0.0006</td></tr>
+<tr><td>3-way</td><td>승무패·승①패</td><td class="n">87.00%</td><td class="n">0.0007</td></tr>
+<tr><td>3-way 핸디캡</td><td>—</td><td class="n">85.99%</td><td class="n">0.0008</td></tr>
+</table>
+<p>회차 <b>내부</b> SD는 0.0007인데 회차 <b>간</b> SD는 0.0090으로 <b>13.5배</b>다.
+회차마다 목표 환급률이 86/87/88/89% 중 하나로 달라진다.</p>
+
+<h3>favorite-longshot 편향이 교과서적으로 존재한다</h3>
+<table>
+<tr><th>배당 구간</th><th class="n">실측 ROI</th><th class="n">기준선 대비</th></tr>
+<tr><td>1.0–1.5 (강팀)</td><td class="n">−9.90%</td><td class="n pos">+2.50%p</td></tr>
+<tr><td>1.8–2.2 (박빙)</td><td class="n">−12.57%</td><td class="n">−0.16%p</td></tr>
+<tr><td><b>5.0+ (극단 역배)</b></td><td class="n neg"><b>−33.19%</b></td><td class="n neg"><b>−20.04%p</b></td></tr>
+</table>
+<p>미국 경마(Snowberg &amp; Wolfers)와 <b>같은 방향</b>이다.
+"한국은 인기구단 쏠림으로 반대일 것"이라는 가설은 기각 방향.</p>
+
+<h3>승패보다 득실 마진이 정보량이 많다</h3>
+<p>축구·농구·배구 <b>세 종목 모두</b> '최근 득실 마진'이 '최근 승률'을 앞섰다.
+같은 5승 5패라도 한 점 차로 이기고 크게 지는 팀은 다르다.
+문헌(pi-ratings)을 읽고 넣은 게 아니라 <b>측정에서 먼저 나왔다.</b></p>
+
+<h3 class="pos">선발투수는 지표를 바꾸자 결과가 뒤집혔다</h3>
+<table>
+<tr><th>지표</th><th class="n">최대 z</th><th class="n">최대 Brier 개선</th></tr>
+<tr><td>팀 실점 (불펜 섞임)</td><td class="n">2.58</td><td class="n">+0.00204</td></tr>
+<tr><td><b>투수 개인 자책점·이닝</b></td><td class="n pos"><b>4.53</b></td><td class="n pos"><b>+0.00613</b></td></tr>
+</table>
+<p><b>"선발투수는 소용없다"가 아니라 "지표가 거칠어서 안 잡혔다"</b>였다.
+흥미롭게도 자책률보다 <b>평균 이닝</b>이 더 강하다 — 얼마나 적게 내주느냐보다
+<b>얼마나 길게 끌어주느냐</b>가 승패에 직결된다.</p>
+
+<h2><span class="n">03</span>스스로 잡은 오류</h2>
+<p class="lead">연구 과정에서 낸 실수와 발견 경위. 같은 실수를 반복하지 않기 위해 남긴다.</p>
+
+<div class="card bad">
+<h4>① 언더오버 배당 순서를 반대로 읽음</h4>
+<p><b>발견</b>: 같은 구간의 오버·언더가 <b>둘 다 +ROI</b>로 나오는 물리적 모순</p>
+<p><b>영향</b>: 전체의 26%(46,088행) 오염. <span class="mono">ROI +54%</span>라는 가짜 결과</p>
+</div>
+<div class="card bad">
+<h4>② 같은 경기가 여러 회차에 중복 발매되는 걸 놓침</h4>
+<p><b>발견</b>: 2026 LG 시즌 성적이 196경기(실제 144)로 집계</p>
+<p><b>영향</b>: Elo 누수. 픽 ROI가 −8.6%로 좋아 보였으나 실제 −15.1%</p>
+</div>
+<div class="card bad">
+<h4>③ pi-ratings 파라미터를 감으로 지정</h4>
+<p><b>발견</b>: 농구 Brier가 Elo보다 0.026 악화</p>
+<p><b>영향</b>: 프로젝트 원칙 위반. 학습 구간 격자탐색으로 재설정</p>
+</div>
+<div class="card bad">
+<h4>④ 3-way를 2-way 로직으로 계산</h4>
+<p><b>발견</b>: 마진 12% 시장에서 <span class="mono">ROI +64%</span>라는 불가능한 값</p>
+<p><b>영향</b>: +EV 비율 21.6% → 실제 0.9%</p>
+</div>
+
+<blockquote><b>교훈: 결과가 "너무 좋으면" 버그다.</b>
+물리적으로 불가능한 값(양쪽 다 +EV, ROI +54%, +64%)이 매번 오류를 잡아냈다.
+검증 장치를 먼저 만들어 둔 것이 실제로 작동했다.</blockquote>
+
+<h2><span class="n">04</span>지금 돌아가는 것</h2>
+<p class="lead">남은 질문은 하나다 — <b>배당이 굳은 뒤 공개되는 정보에 기회가 있는가.</b>
+과거 데이터로는 답할 수 없어 실시간으로 쌓는 중이다.</p>
+<table>
+<tr><th>수집기</th><th>주기</th><th>무엇을</th></tr>
+<tr><td>프로토 배당 스냅샷</td><td class="n">15분</td><td>발매 중 배당이 실제로 변하는가</td></tr>
+<tr><td>해외 배당 스냅샷</td><td class="n">15분</td><td>같은 시점 해외 배당 (동시점 대조)</td></tr>
+<tr><td>선발 정보 관측기</td><td class="n">30분</td><td>KBO·MLB·NPB 선발 예고 시각</td></tr>
+</table>
+<div class="card warn">
+<h4>왜 실시간이어야 하나</h4>
+<p>과거 해외 배당은 <b>마감 배당</b>이다. 경기 상세의 기록 시각으로 확인했다 —
+경기 약 7시간 전 값이다. 프로토는 최대 60시간 전에 굳으므로
+<b>베팅 시점에 알 수 없는 값</b>이고, 그걸로 계산한 +EV에는 낙관 편향이 섞인다.</p>
+</div>
+
+<h2><span class="n">05</span>현실 점검</h2>
+<p>구매 한도가 <b>회차당 10만원</b>이다. 엣지 3%를 확보해도 회차당 3,000원,
+연 150회차면 45만원이 구조적 천장이다. 그리고 그 3%를 실제로 확보하는 것 자체가 대부분 실패한다.</p>
+<p>지금까지 여섯 번 검증했고 <b>실전에 쓸 수 있는 +EV는 아직 확인되지 않았다.</b>
+결과가 "시장은 효율적이다"로 나와도 그건 실패가 아니라 결론이다.</p>
+
+<footer>
+<p>데이터 출처 와이즈토토 회차 아카이브 · 네이버 스포츠 · BetExplorer · 비상업 연구 목적</p>
+<p>합법 발매처는 오프라인 판매점과 betman.co.kr 뿐이며, 해외 북메이커 이용은 국민체육진흥법 위반이다.</p>
+<p><a href="https://github.com/choigod1023/proto-odds-research">소스·방법론·재현 코드</a></p>
+</footer>
+</div>
+<button class="thm" id="thm">◐</button>
+<script>
+const rt=document.documentElement;
+document.getElementById('thm').onclick=()=>{
+  const c=rt.getAttribute('data-theme')||
+    (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  rt.setAttribute('data-theme',c==='dark'?'light':'dark')};
+</script>
+</body>
+</html>

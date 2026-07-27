@@ -32,7 +32,10 @@ body{margin:0;background:var(--bg);color:var(--tx);
 a{color:var(--accent)}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-header{border-bottom:1px solid var(--line);margin-bottom:28px;padding:34px 0 22px}
+nav{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px}
+nav a{text-decoration:none;color:var(--tx2)}
+nav a.on{color:var(--tx);font-weight:600;border-bottom:2px solid var(--tx);padding-bottom:3px}
+header{border-bottom:1px solid var(--line);margin-bottom:28px;padding:28px 0 22px}
 h1{font-size:23px;margin:0 0 6px;letter-spacing:-.02em;font-weight:650}
 .sub{color:var(--tx2);font-size:13.5px;margin:0}
 .meta{margin-top:14px;font-size:12px;color:var(--tx3);display:flex;
@@ -105,6 +108,12 @@ footer p{margin:5px 0}
 </head>
 <body>
 <div class="wrap">
+<nav>
+  <a href="index.html" class="on">가격 분석</a>
+  <a href="picks.html">오늘의 픽</a>
+  <a href="research.html">연구 현황</a>
+  <a href="https://github.com/choigod1023/proto-odds-research">소스</a>
+</nav>
 <header>
   <h1>프로토 가격 분석</h1>
   <p class="sub">한국 고정배당 시장을 553회차·353,047건 실측으로 분석한다. 승부 예측이 아니라 <b>가격 분석과 회피 필터</b>다.</p>
