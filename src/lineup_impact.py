@@ -130,6 +130,40 @@ def build_lineup_features(lu: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def add_controls(df: pd.DataFrame, train_mask) -> pd.DataFrame:
+    """역인과 통제 — 팀 간 차이를 빼고 **팀 안에서의 변동만** 남긴다.
+
+    왜 필요한가
+    ------------
+    첫 측정에서 결장 계수의 부호가 예상과 일관되게 반대였다.
+    가능한 설명은 **선택 효과**다: 강팀은 순위가 안정되면 주전을 쉬게 한다.
+    그러면 '주전이 빠진 팀'이 오히려 강한 팀이 되어 부호가 뒤집힌다.
+
+    Elo 가 팀 강함을 통제하지만, Elo 는 천천히 움직여서
+    '이 팀은 원래 로테이션을 자주 한다' 같은 팀별 성향은 못 잡는다.
+
+    해결: 팀별 평균을 빼서(**within-team demeaning**) 팀 간 비교를 제거한다.
+          "로테이션 잦은 팀"이 아니라 **"이 팀 치고 유독 많이 빠진 경기"**만 남는다.
+
+    ⚠️ 팀 평균은 **학습 구간에서만** 계산한다(검증 구간 정보 누수 방지).
+    """
+    out = df.copy()
+    tr = out[train_mask]
+    for side, teamcol in (("h", "home_team"), ("a", "away_team")):
+        for col in ("core_absent", "absent_value", "change"):
+            src = f"{side}_{col}"
+            if src not in out.columns:
+                continue
+            mu = tr.groupby(teamcol)[src].mean()
+            gm = float(tr[src].mean())
+            out[f"{src}_dm"] = out[src] - out[teamcol].map(mu).fillna(gm)
+
+    out["core_absent_dm_diff"] = out["a_core_absent_dm"] - out["h_core_absent_dm"]
+    out["absent_value_dm_diff"] = out["a_absent_value_dm"] - out["h_absent_value_dm"]
+    out["change_dm_diff"] = out["a_change_dm"] - out["h_change_dm"]
+    return out
+
+
 def build_team_map(proto: pd.DataFrame, lu: pd.DataFrame) -> dict:
     """프로토 팀명 → 네이버 팀명. 날짜+스코어로 경기를 잇고 동시출현으로 확정.
 
@@ -173,11 +207,18 @@ def build_team_map(proto: pd.DataFrame, lu: pd.DataFrame) -> dict:
 
 
 FEATS = ["lineup_change_diff", "core_absent_diff", "absent_value_diff",
-         "formation_chg_diff", "xi_exp_diff"]
+         "formation_chg_diff", "xi_exp_diff",
+         # 역인과 통제판 (팀별 평균 제거)
+         "core_absent_dm_diff", "absent_value_dm_diff", "change_dm_diff"]
+# 일정 변수는 통제항으로 같이 넣는다 (로테이션의 직접 원인)
+CONTROLS = ["rest_diff"]
 LABELS = {
     "lineup_change_diff": "선발 교체 인원 차 (원정−홈)",
     "core_absent_diff": "주전 결장 수 차 (원정−홈)",
-    "absent_value_diff": "결장 주전의 가치 합 차 ⭐",
+    "absent_value_diff": "결장 주전의 가치 합 차",
+    "core_absent_dm_diff": "주전 결장 (팀평균 제거) ⭐",
+    "absent_value_dm_diff": "결장 가치 (팀평균 제거) ⭐",
+    "change_dm_diff": "선발 교체 (팀평균 제거)",
     "formation_chg_diff": "포메이션 변경 (홈−원정)",
     "xi_exp_diff": "선발 11명 출장경험 차 (홈−원정)",
 }
@@ -229,6 +270,7 @@ def main() -> int:
         return 1
 
     df = df.dropna(subset=["elo_diff", "gd"])
+    df = add_controls(df, df["year"] <= TRAIN_END)
     tr, te = df[df["year"] <= TRAIN_END], df[df["year"] > TRAIN_END]
     print(f"학습 {len(tr):,} / 검증 {len(te):,}  "
           f"(무승부 {(df['gd'] == 0).sum():,}건 포함)\n")
@@ -253,9 +295,16 @@ def main() -> int:
         cov = s2 * np.linalg.pinv(X.T @ X)
         return b / np.sqrt(np.maximum(np.diag(cov), 1e-18))
 
+    # 기준 모델에 일정 변수(휴식일 차)를 통제항으로 포함한다.
+    # 로테이션의 직접 원인이므로 여기서 걷어내야 결장의 순수 효과가 남는다.
+    ctrl = [c for c in CONTROLS if c in tr.columns and tr[c].notna().mean() > 0.7]
+    base_cols = ["elo_diff"] + ctrl
+    tr = tr.dropna(subset=base_cols)
+    te = te.dropna(subset=base_cols)
+    print(f"통제항: {ctrl or '없음'}")
     y_tr, y_te = tr["gd"].to_numpy(float), te["gd"].to_numpy(float)
-    b0 = ols(mk(tr, ["elo_diff"]), y_tr)
-    base_rmse = rmse(mk(te, ["elo_diff"]), b0, y_te)
+    b0 = ols(mk(tr, base_cols), y_tr)
+    base_rmse = rmse(mk(te, base_cols), b0, y_te)
     print("종속변수 = 득점차 (홈−원정). 연속값이라 승패보다 정보량이 많다.")
     print(f"기준 (Elo 단독) 검증 RMSE = {base_rmse:.5f}\n")
 
@@ -268,16 +317,16 @@ def main() -> int:
             print(f"{LABELS[f]:<30} 표본 부족 ({len(t2)}/{len(v2)})")
             continue
         yt, yv = t2["gd"].to_numpy(float), v2["gd"].to_numpy(float)
-        X, Xv = mk(t2, ["elo_diff", f]), mk(v2, ["elo_diff", f])
+        X, Xv = mk(t2, base_cols + [f]), mk(v2, base_cols + [f])
         b = ols(X, yt)
-        t = tstat(X, b, yt)[2]
-        b_ref = ols(mk(t2, ["elo_diff"]), yt)
-        ref = rmse(mk(v2, ["elo_diff"]), b_ref, yv)
+        t = tstat(X, b, yt)[-1]
+        b_ref = ols(mk(t2, base_cols), yt)
+        ref = rmse(mk(v2, base_cols), b_ref, yv)
         cur = rmse(Xv, b, yv)
         good = abs(t) >= 2.58 and (ref - cur) > 0
         if good:
             ok_feats.append(f)
-        print(f"{LABELS[f]:<30}{len(t2):>7,}{b[2]:>10.4f}{t:>8.2f}"
+        print(f"{LABELS[f]:<30}{len(t2):>7,}{b[-1]:>10.4f}{t:>8.2f}"
               f"{cur:>10.5f}{ref-cur:>+11.5f}  {'✅ 채택' if good else '❌'}")
 
     if not ok_feats:
@@ -286,15 +335,15 @@ def main() -> int:
 
     t2, v2 = tr.dropna(subset=ok_feats), te.dropna(subset=ok_feats)
     yt, yv = t2["gd"].to_numpy(float), v2["gd"].to_numpy(float)
-    b = ols(mk(t2, ["elo_diff"] + ok_feats), yt)
-    print(f"\n채택 피처 전부: 검증 RMSE {rmse(mk(v2, ['elo_diff'] + ok_feats), b, yv):.5f}")
+    b = ols(mk(t2, base_cols + ok_feats), yt)
+    print(f"\n채택 피처 전부: 검증 RMSE {rmse(mk(v2, base_cols + ok_feats), b, yv):.5f}")
 
     # ---- 득점차 모델을 승패 확률로 바꿔 시장과 비교
     #      득점차 예측을 정규분포로 보고 P(홈승) = 1 − Φ(0.5 | mu, sigma)
     from math import erf, sqrt
-    resid = yt - mk(t2, ["elo_diff"] + ok_feats) @ b
+    resid = yt - mk(t2, base_cols + ok_feats) @ b
     sigma = float(np.std(resid))
-    mu_v = mk(v2, ["elo_diff"] + ok_feats) @ b
+    mu_v = mk(v2, base_cols + ok_feats) @ b
     p_home = 0.5 * (1 - np.array([erf((0.5 - m) / (sigma * sqrt(2)))
                                   for m in mu_v]))
 
