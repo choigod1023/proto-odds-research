@@ -58,13 +58,18 @@ RAW = Path(__file__).resolve().parent.parent / "data" / "raw" / "overseas"
 BASE = "https://www.betexplorer.com"
 GAP = 1.5
 
-# 프로토 리그 → BetExplorer 경로
+# 프로토 리그 → (BetExplorer 슬러그, 선택지 수)
+# ⚠️ 축구는 3-way(승/무/패)다. 앞의 두 배당만 쓰면 오버라운드가
+#    140% 같은 값으로 나온다(첫 측정의 K리그1 오류가 이것이었다).
 SOURCES = {
-    "KBO": "/baseball/south-korea/kbo/results/",
-    "MLB": "/baseball/usa/mlb/results/",
-    "K리그1": "/football/south-korea/k-league-1/results/",
-    "NPB": "/baseball/japan/npb/results/",
+    "KBO": ("/baseball/south-korea/kbo", 2),
+    "MLB": ("/baseball/usa/mlb", 2),
+    "NPB": ("/baseball/japan/npb", 2),
+    "K리그1": ("/football/south-korea/k-league-1", 3),
 }
+
+# 과거 시즌은 슬러그에 연도가 붙는다: /kbo-2025/results/
+SEASONS = [2026, 2025, 2024, 2023]
 
 _TAG = re.compile(r"<[^>]+>")
 
@@ -79,7 +84,8 @@ def _session() -> requests.Session:
     return s
 
 
-def parse_results(html: str, today: pd.Timestamp | None = None) -> list[dict]:
+def parse_results(html: str, today: pd.Timestamp | None = None,
+                  nway: int = 2, season: int | None = None) -> list[dict]:
     """결과 테이블 행 → (팀명, 날짜, 스코어, 배당).
 
     ⚠️ 팀명이 `<span><strong>Doosan Bears</strong></span> - <span>Samsung Lions</span>`
@@ -94,7 +100,7 @@ def parse_results(html: str, today: pd.Timestamp | None = None) -> list[dict]:
         m_a = re.search(r'class="in-match"[^>]*>(.*?)</a>', tr, re.S)
         m_sc = re.search(r">(\d+):(\d+)<", tr)
         odds = re.findall(r'data-odd="([\d.]+)"', tr)
-        if not (m_a and m_sc) or len(odds) < 2:
+        if not (m_a and m_sc) or len(odds) < nway:
             continue
         txt = _TAG.sub("", m_a.group(1)).strip()
         if " - " not in txt:
@@ -112,7 +118,9 @@ def parse_results(html: str, today: pd.Timestamp | None = None) -> list[dict]:
             m = re.match(r"(\d{2})\.(\d{2})\.", raw)
             if m:
                 dd, mm = int(m.group(1)), int(m.group(2))
-                yr = today.year - (1 if mm > today.month else 0)
+                # 과거 시즌 페이지면 그 시즌 연도를 쓴다
+                yr = season if season is not None else (
+                    today.year - (1 if mm > today.month else 0))
                 try:
                     date = pd.Timestamp(year=yr, month=mm, day=dd)
                 except ValueError:
@@ -121,41 +129,68 @@ def parse_results(html: str, today: pd.Timestamp | None = None) -> list[dict]:
             "home_en": home_en, "away_en": away_en,
             "date": date.isoformat() if date is not None else None,
             "home_score": int(m_sc.group(1)), "away_score": int(m_sc.group(2)),
-            "odds": [float(o) for o in odds[:3]],
+            "odds": [float(o) for o in odds[:nway]],
         })
     return rows
 
 
-def collect(sess: requests.Session) -> dict:
+def collect(sess: requests.Session, seasons=None) -> dict:
+    """리그 × 시즌으로 결과 페이지를 훑는다.
+
+    현재 시즌은 슬러그 그대로, 과거 시즌은 `-YYYY` 를 붙인다.
+    """
     RAW.mkdir(parents=True, exist_ok=True)
+    seasons = seasons or SEASONS
     out = {}
-    for league, path in SOURCES.items():
-        try:
-            r = sess.get(BASE + path, timeout=25)
-            rows = parse_results(r.text) if r.status_code == 200 else []
-        except Exception as e:                       # noqa: BLE001
-            print(f"  [{league}] 오류 {type(e).__name__}")
-            rows = []
-        out[league] = rows
-        ov = [sum(1 / o for o in x["odds"][:2]) for x in rows
-              if len(x["odds"]) >= 2 and all(o > 1 for o in x["odds"][:2])]
+    cur = pd.Timestamp.today().year
+    for league, (slug, nway) in SOURCES.items():
+        rows = []
+        for yr in seasons:
+            url = f"{BASE}{slug}{'' if yr == cur else f'-{yr}'}/results/"
+            try:
+                r = sess.get(url, timeout=25)
+                got = parse_results(r.text, nway=nway, season=yr) \
+                    if r.status_code == 200 else []
+            except Exception as e:                   # noqa: BLE001
+                print(f"    [{league} {yr}] 오류 {type(e).__name__}")
+                got = []
+            rows += got
+            time.sleep(GAP)
+        # 중복 제거 (날짜+팀)
+        seen, uniq = set(), []
+        for x in rows:
+            k = (x.get("date"), x["home_en"], x["away_en"])
+            if k in seen:
+                continue
+            seen.add(k)
+            uniq.append(x)
+        out[league] = uniq
+        ov = [sum(1 / o for o in x["odds"]) for x in uniq
+              if x["odds"] and all(o > 1 for o in x["odds"])]
         pay = 100 / np.mean(ov) if ov else float("nan")
-        print(f"  {league:8} {len(rows):4d}경기 · 해외 환급률 {pay:.2f}%")
-        (RAW / f"{league}.json").write_text(json.dumps(rows, ensure_ascii=False),
+        print(f"  {league:8} {len(uniq):5d}경기 ({nway}-way) · 해외 환급률 {pay:.2f}%")
+        (RAW / f"{league}.json").write_text(json.dumps(uniq, ensure_ascii=False),
                                             encoding="utf-8")
-        time.sleep(GAP)
     return out
 
 
 def compare(data: dict) -> None:
     """프로토 배당과 해외 배당을 같은 경기에서 맞대본다."""
     from matches import GAMES, _DATE_RE, _away, _home
+    # ⚠️ 축구는 프로토도 3-way(승무패)다. 2-way 승패만 보면 축구가 통째로 빠진다.
     proto = pd.read_csv(GAMES)
-    proto = proto[(~proto["is_void"].astype(bool)) & (proto["market_family"] == "승패")
-                  & (proto["n_way"] == 2) & (proto["result"].isin(["홈승", "홈패"]))]
+    proto = proto[(~proto["is_void"].astype(bool))
+                  & (((proto["market_family"] == "승패") & (proto["n_way"] == 2))
+                     | ((proto["market_family"] == "승무패") & (proto["n_way"] == 3)))
+                  & (proto["result"].isin(["홈승", "홈패", "무승부"]))]
     parts = proto["odds"].str.split(",", expand=True)
     proto = proto.assign(p_home=pd.to_numeric(parts[0], errors="coerce"),
-                         p_away=pd.to_numeric(parts[1], errors="coerce"))
+                         p_draw=pd.to_numeric(parts[1], errors="coerce"),
+                         p_away=pd.to_numeric(parts[2], errors="coerce"))
+    # 2-way 는 두 번째 칸이 원정이다
+    two = proto["n_way"] == 2
+    proto.loc[two, "p_away"] = pd.to_numeric(parts[1], errors="coerce")[two]
+    proto.loc[two, "p_draw"] = np.nan
     hs, aw = proto["home"].map(_home), proto["away"].map(_away)
     proto = proto.assign(home_team=[t for t, _ in hs], home_score=[s for _, s in hs],
                          away_score=[s for s, _ in aw], away_team=[t for _, t in aw])
@@ -164,6 +199,7 @@ def compare(data: dict) -> None:
                          _dd=pd.to_numeric(md[1], errors="coerce"))
     proto = proto.dropna(subset=["_mm", "_dd", "p_home", "p_away",
                                  "home_score", "away_score"])
+    proto = proto[proto["n_way"].eq(2) | proto["p_draw"].notna()]
     proto["date"] = pd.to_datetime(dict(year=proto["year"],
                                         month=proto["_mm"].astype(int),
                                         day=proto["_dd"].astype(int)), errors="coerce")
@@ -184,8 +220,9 @@ def compare(data: dict) -> None:
             idx[(r.date.date(), int(r.home_score), int(r.away_score))].append(r)
 
         matched = 0
+        nway = SOURCES.get(league, (None, 2))[1]
         for x in rows:
-            if len(x["odds"]) < 2 or any(o <= 1 for o in x["odds"][:2]):
+            if len(x["odds"]) < nway or any(o <= 1 for o in x["odds"]):
                 continue
             if not x.get("date"):
                 continue
@@ -194,17 +231,24 @@ def compare(data: dict) -> None:
             if len(cands) != 1:
                 continue          # 날짜+스코어로 유일하지 않으면 버린다
             c = cands[0]
-            o_ov = x["odds"][:2]
+            if int(c.n_way) != nway:
+                continue                  # 선택지 수가 다르면 비교 불가
+            o_ov = x["odds"][:nway]
             ov_o = sum(1 / o for o in o_ov)
-            ov_p = 1 / c.p_home + 1 / c.p_away
+            ov_p = (1 / c.p_home + 1 / c.p_away
+                    + (1 / c.p_draw if nway == 3 else 0.0))
             allrows.append({
                 "league": league, "date": c.date,
                 "proto_home": c.p_home, "proto_away": c.p_away,
-                "os_home": o_ov[0], "os_away": o_ov[1],
+                "proto_draw": (c.p_draw if nway == 3 else np.nan),
+                "os_home": o_ov[0], "os_away": o_ov[-1],
+                "os_draw": (o_ov[1] if nway == 3 else np.nan),
                 "p_proto": (1 / c.p_home) / ov_p,     # devig(multiplicative)
                 "p_os": (1 / o_ov[0]) / ov_o,
+                "result": c.result,
                 "pay_proto": 100 / ov_p, "pay_os": 100 / ov_o,
                 "won": 1.0 if c.result == "홈승" else 0.0,
+                "n_way": nway,
             })
             matched += 1
         print(f"  {league:8} 해외 {len(rows):4d}경기 → 프로토 결합 {matched:4d}")
@@ -214,38 +258,61 @@ def compare(data: dict) -> None:
         return
     df = pd.DataFrame(allrows)
     df["edge"] = df["p_os"] - df["p_proto"]        # 해외가 더 높게 보는 정도
-    df["ev_home"] = df["p_os"] * df["proto_home"] - 1
-    df["ev_away"] = (1 - df["p_os"]) * df["proto_away"] - 1
-    df["best_ev"] = df[["ev_home", "ev_away"]].max(axis=1)
 
-    print(f"\n총 결합 {len(df):,}경기")
+    # ⚠️ 3-way 를 2-way 로직으로 계산하면 안 된다.
+    #    (1 − p_홈) 은 원정 확률이 아니라 '무승부 + 원정'이고,
+    #    적중 판정에서 원정 베팅이 무승부에도 맞은 것으로 처리된다.
+    #    실제로 그렇게 계산했더니 ROI +64% 라는 불가능한 값이 나왔다.
+    #    → 선택지를 하나씩 펼쳐서 각각 devig 확률·배당·적중을 맞춘다.
+    legs = []
+    for r in df.itertuples():
+        if r.n_way == 2:
+            ov_o = 1 / r.os_home + 1 / r.os_away
+            opts = [("홈", r.proto_home, (1 / r.os_home) / ov_o, r.result == "홈승"),
+                    ("원정", r.proto_away, (1 / r.os_away) / ov_o, r.result == "홈패")]
+        else:
+            ov_o = 1 / r.os_home + 1 / r.os_draw + 1 / r.os_away
+            opts = [("홈", r.proto_home, (1 / r.os_home) / ov_o, r.result == "홈승"),
+                    ("무", r.proto_draw, (1 / r.os_draw) / ov_o, r.result == "무승부"),
+                    ("원정", r.proto_away, (1 / r.os_away) / ov_o, r.result == "홈패")]
+        for name, po, p_os, hit in opts:
+            if not po or po <= 1:
+                continue
+            legs.append({"league": r.league, "n_way": r.n_way, "sel": name,
+                         "odds": po, "p_os": p_os, "ev": p_os * po - 1,
+                         "won": bool(hit)})
+    L = pd.DataFrame(legs)
+
+    print(f"\n총 결합 {len(df):,}경기 · 선택지 {len(L):,}개")
     print(f"  프로토 평균 환급률 {df['pay_proto'].mean():.2f}%")
     print(f"  해외   평균 환급률 {df['pay_os'].mean():.2f}%")
     print(f"\n괴리(해외확률 − 프로토확률) 분포")
-    q = df["edge"].abs().quantile([0.5, 0.75, 0.9, 0.95, 0.99])
-    for k, v in q.items():
+    for k, v in df["edge"].abs().quantile([0.5, 0.75, 0.9, 0.95, 0.99]).items():
         print(f"    {int(k*100)}분위 {v:.4f} ({v*100:.2f}%p)")
 
-    print(f"\n⭐ 해외 확률로 계산한 프로토 베팅 EV")
-    print(f"  EV > 0  경기 수: {(df['best_ev'] > 0).sum():,} / {len(df):,} "
-          f"({(df['best_ev'] > 0).mean():.1%})")
-    for th in (0.0, 0.02, 0.05):
-        sel = df[df["best_ev"] > th]
-        if len(sel) < 10:
+    print(f"\n⭐ 해외 확률로 계산한 프로토 베팅 EV (선택지 단위)")
+    print(f"  EV > 0 인 선택지: {(L['ev'] > 0).sum():,} / {len(L):,} "
+          f"({(L['ev'] > 0).mean():.1%})")
+    rng = np.random.default_rng(42)
+    for th in (0.0, 0.02, 0.05, 0.10):
+        sel = L[L["ev"] > th]
+        if len(sel) < 20:
             continue
-        # 실제 수익률
-        pick_home = sel["ev_home"] >= sel["ev_away"]
-        odds = np.where(pick_home, sel["proto_home"], sel["proto_away"])
-        won = np.where(pick_home, sel["won"] == 1, sel["won"] == 0)
-        roi = float(np.mean(np.where(won, odds - 1, -1.0)))
-        print(f"    EV>{th:.0%}: {len(sel):4d}경기 · 실제 ROI {roi:+.2%}")
+        prof = np.where(sel["won"], sel["odds"] - 1, -1.0)
+        idx = rng.integers(0, len(prof), size=(4000, len(prof)))
+        d = prof[idx].mean(axis=1)
+        lo, hi = np.quantile(d, [0.025, 0.975])
+        print(f"    EV>{th:>4.0%}: {len(sel):4d}건 · 적중 {sel['won'].mean():5.1%} · "
+              f"ROI {prof.mean():+7.2%}  95%CI [{lo:+.2%}, {hi:+.2%}]")
+    print("\n  기준선: 프로토에 아무거나 걸면 약 −12%")
     print("\n  ※ 표본이 작으면 ROI 는 참고치일 뿐이다. 핵심은 괴리 분포다.")
 
 
 def main() -> int:
     sess = _session()
-    print("해외 배당 수집 (BetExplorer)")
-    data = collect(sess)
+    seasons = [int(a) for a in sys.argv[1:] if a.isdigit()] or None
+    print(f"해외 배당 수집 (BetExplorer) · 시즌 {seasons or SEASONS}")
+    data = collect(sess, seasons)
     compare(data)
     return 0
 
