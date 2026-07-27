@@ -50,8 +50,10 @@ def load_lineups(fname: str) -> pd.DataFrame:
     for g in raw.values():
         d = g.get("data") or {}
         h, a = d.get("home") or {}, d.get("away") or {}
-        hp = [p.get("name") for p in (h.get("players") or []) if p.get("name")]
-        ap = [p.get("name") for p in (a.get("players") or []) if p.get("name")]
+        hpl = [p for p in (h.get("players") or []) if p.get("name")]
+        apl = [p for p in (a.get("players") or []) if p.get("name")]
+        hp = [p["name"] for p in hpl]
+        ap = [p["name"] for p in apl]
         if len(hp) < 7 or len(ap) < 7:
             continue          # 라인업이 온전치 않은 경기는 버린다
         rows.append({
@@ -59,6 +61,7 @@ def load_lineups(fname: str) -> pd.DataFrame:
             "home_team": g.get("home"), "away_team": g.get("away"),
             "home_score": g.get("home_score"), "away_score": g.get("away_score"),
             "home_xi": hp, "away_xi": ap,
+            "home_pl": hpl, "away_pl": apl,
             "home_formation": h.get("formation"), "away_formation": a.get("formation"),
         })
     df = pd.DataFrame(rows).dropna(subset=["date"])
@@ -71,6 +74,8 @@ def build_lineup_features(lu: pd.DataFrame) -> pd.DataFrame:
     last_xi: dict = {}
     last_form: dict = {}
     starts: dict = defaultdict(Counter)      # 팀 → 선수별 누적 선발 수
+    # 선수 가치 = 누적 (득점 + 도움). 에이스 1명 결장과 백업 3명 결장은 다르다.
+    value: dict = defaultdict(float)         # (팀, 선수) → 누적 공격포인트
     rows = []
 
     for r in lu.itertuples():
@@ -91,27 +96,37 @@ def build_lineup_features(lu: pd.DataFrame) -> pd.DataFrame:
                 for p in past:
                     cnt.update(p)
                 core = {n for n, c in cnt.items() if c >= CORE_MIN}
-                out[f"{side}_core_absent"] = len(core - set(xi))
+                miss = core - set(xi)
+                out[f"{side}_core_absent"] = len(miss)
+                # ⭐ 빠진 주전의 '가치' 합 — 에이스 결장에 더 큰 가중
+                out[f"{side}_absent_value"] = float(
+                    sum(value[(team, n)] for n in miss))
             else:
                 out[f"{side}_core_absent"] = np.nan
+                out[f"{side}_absent_value"] = np.nan
             # 라인업 무게 = 선발 11명의 과거 선발 누적 합
             out[f"{side}_xi_exp"] = float(sum(starts[team][n] for n in xi))
 
         rows.append(out)
 
         # ---- 상태 갱신 (피처 생성 이후)
-        for team, xi, form in ((r.home_team, r.home_xi, r.home_formation),
-                               (r.away_team, r.away_xi, r.away_formation)):
+        for team, xi, form, pl in (
+                (r.home_team, r.home_xi, r.home_formation, r.home_pl),
+                (r.away_team, r.away_xi, r.away_formation, r.away_pl)):
             hist[team].append(list(xi))
             last_xi[team] = list(xi)
             last_form[team] = form
             starts[team].update(xi)
+            for p in pl:
+                value[(team, p["name"])] += (float(p.get("goal") or 0)
+                                             + float(p.get("assists") or 0))
 
     df = pd.DataFrame(rows)
     df["lineup_change_diff"] = df["a_change"] - df["h_change"]
     df["core_absent_diff"] = df["a_core_absent"] - df["h_core_absent"]
     df["formation_chg_diff"] = df["h_form_chg"] - df["a_form_chg"]
     df["xi_exp_diff"] = df["h_xi_exp"] - df["a_xi_exp"]
+    df["absent_value_diff"] = df["a_absent_value"] - df["h_absent_value"]
     return df
 
 
@@ -139,16 +154,30 @@ def build_team_map(proto: pd.DataFrame, lu: pd.DataFrame) -> dict:
     mapping = {}
     for pteam, c in votes.items():
         nteam, n = c.most_common(1)[0]
-        if n >= 3 and n / sum(c.values()) >= 0.6:
+        if n >= 2 and n / sum(c.values()) >= 0.55:
             mapping[pteam] = nteam
+
+    # 스코어 매칭으로 못 잡은 팀은 문자열 포함관계로 보조 매핑한다.
+    # 프로토 `김천상무` ↔ 네이버 `김천` 처럼 한쪽이 다른 쪽을 포함하는 경우가 많다.
+    nav_teams = set(lu["home_team"]) | set(lu["away_team"])
+    used = set(mapping.values())
+    for pteam in set(proto["home_team"]) | set(proto["away_team"]):
+        if pteam in mapping:
+            continue
+        cands = [n for n in nav_teams if n in pteam or pteam in n]
+        # 가장 긴 공통 후보 하나만, 그리고 아직 안 쓰인 것 우선
+        cands.sort(key=lambda n: (n in used, -len(n)))
+        if cands:
+            mapping[pteam] = cands[0]
     return mapping
 
 
-FEATS = ["lineup_change_diff", "core_absent_diff", "formation_chg_diff",
-         "xi_exp_diff"]
+FEATS = ["lineup_change_diff", "core_absent_diff", "absent_value_diff",
+         "formation_chg_diff", "xi_exp_diff"]
 LABELS = {
     "lineup_change_diff": "선발 교체 인원 차 (원정−홈)",
     "core_absent_diff": "주전 결장 수 차 (원정−홈)",
+    "absent_value_diff": "결장 주전의 가치 합 차 ⭐",
     "formation_chg_diff": "포메이션 변경 (홈−원정)",
     "xi_exp_diff": "선발 11명 출장경험 차 (홈−원정)",
 }
@@ -168,10 +197,20 @@ def main() -> int:
 
     m = load_matches()
     fe = build_features(m)
-    sc = fe[(fe["sport"] == "sc") & (fe["outcome"] != 0.5)].copy()
+    # ⭐ 무승부를 버리지 않는다. 종속변수가 득점차이므로 무승부는 0 이라는 정상값이다.
+    #    (승패 이진으로 보면 K리그 경기의 28.4% 를 통째로 잃는다)
+    sc = fe[fe["sport"] == "sc"].copy()
     sc["date"] = pd.to_datetime(sc["date"])
 
     # 프로토 팀명(강원FC) ↔ 네이버 팀명(강원) 자동 매핑
+    # 득점차를 종속변수로 쓰기 위해 스코어를 붙인다
+    scores = m[m["sport"] == "sc"][["date", "league", "home_team", "away_team",
+                                    "home_score", "away_score"]].copy()
+    scores["date"] = pd.to_datetime(scores["date"])
+    sc = sc.merge(scores, on=["date", "league", "home_team", "away_team"],
+                  how="left")
+    sc["gd"] = sc["home_score"] - sc["away_score"]
+
     proto_scored = m[m["sport"] == "sc"].copy()
     proto_scored["date"] = pd.to_datetime(proto_scored["date"])
     tmap = build_team_map(proto_scored, lu)
@@ -189,9 +228,10 @@ def main() -> int:
         print("  네이버 라인업 팀 예:", sorted(lu['home_team'].unique())[:8])
         return 1
 
-    df = df.dropna(subset=["elo_diff"])
+    df = df.dropna(subset=["elo_diff", "gd"])
     tr, te = df[df["year"] <= TRAIN_END], df[df["year"] > TRAIN_END]
-    print(f"학습 {len(tr):,} / 검증 {len(te):,}\n")
+    print(f"학습 {len(tr):,} / 검증 {len(te):,}  "
+          f"(무승부 {(df['gd'] == 0).sum():,}건 포함)\n")
     if len(tr) < 200 or len(te) < 150:
         print("학습/검증 표본 부족")
         return 1
@@ -200,13 +240,26 @@ def main() -> int:
         return np.column_stack([np.ones(len(d))]
                                + [d[c].to_numpy(float) for c in cols])
 
-    y_tr = (tr["outcome"] == 1.0).to_numpy(float)
-    y_te = (te["outcome"] == 1.0).to_numpy(float)
-    b0 = _fit(mk(tr, ["elo_diff"]), y_tr)
-    print(f"기준 (Elo 단독) 검증 Brier = "
-          f"{_brier(mk(te, ['elo_diff']), b0, y_te):.5f}\n")
+    def ols(X, y):
+        return np.linalg.lstsq(X, y, rcond=None)[0]
 
-    print(f"{'피처':<30}{'n':>7}{'계수':>10}{'z':>8}{'Brier':>10}{'개선':>11}  판정")
+    def rmse(X, b, y):
+        return float(np.sqrt(np.mean((X @ b - y) ** 2)))
+
+    def tstat(X, b, y):
+        n, k = X.shape
+        resid = y - X @ b
+        s2 = float(resid @ resid) / max(n - k, 1)
+        cov = s2 * np.linalg.pinv(X.T @ X)
+        return b / np.sqrt(np.maximum(np.diag(cov), 1e-18))
+
+    y_tr, y_te = tr["gd"].to_numpy(float), te["gd"].to_numpy(float)
+    b0 = ols(mk(tr, ["elo_diff"]), y_tr)
+    base_rmse = rmse(mk(te, ["elo_diff"]), b0, y_te)
+    print("종속변수 = 득점차 (홈−원정). 연속값이라 승패보다 정보량이 많다.")
+    print(f"기준 (Elo 단독) 검증 RMSE = {base_rmse:.5f}\n")
+
+    print(f"{'피처':<30}{'n':>7}{'계수':>10}{'t':>8}{'RMSE':>10}{'개선':>11}  판정")
     print("-" * 80)
     ok_feats = []
     for f in FEATS:
@@ -214,43 +267,51 @@ def main() -> int:
         if len(t2) < 200 or len(v2) < 120 or t2[f].std() < 1e-9:
             print(f"{LABELS[f]:<30} 표본 부족 ({len(t2)}/{len(v2)})")
             continue
-        yt = (t2["outcome"] == 1.0).to_numpy(float)
-        yv = (v2["outcome"] == 1.0).to_numpy(float)
-        b = _fit(mk(t2, ["elo_diff", f]), yt)
-        se = _se(mk(t2, ["elo_diff", f]), b)
-        z = b[2] / se[2] if se[2] > 0 else 0.0
-        b_ref = _fit(mk(t2, ["elo_diff"]), yt)
-        ref = _brier(mk(v2, ["elo_diff"]), b_ref, yv)
-        br = _brier(mk(v2, ["elo_diff", f]), b, yv)
-        good = abs(z) >= 2.58 and (ref - br) > 0
+        yt, yv = t2["gd"].to_numpy(float), v2["gd"].to_numpy(float)
+        X, Xv = mk(t2, ["elo_diff", f]), mk(v2, ["elo_diff", f])
+        b = ols(X, yt)
+        t = tstat(X, b, yt)[2]
+        b_ref = ols(mk(t2, ["elo_diff"]), yt)
+        ref = rmse(mk(v2, ["elo_diff"]), b_ref, yv)
+        cur = rmse(Xv, b, yv)
+        good = abs(t) >= 2.58 and (ref - cur) > 0
         if good:
             ok_feats.append(f)
-        print(f"{LABELS[f]:<30}{len(t2):>7,}{b[2]:>10.4f}{z:>8.2f}"
-              f"{br:>10.5f}{ref-br:>+11.5f}  {'✅ 채택' if good else '❌'}")
+        print(f"{LABELS[f]:<30}{len(t2):>7,}{b[2]:>10.4f}{t:>8.2f}"
+              f"{cur:>10.5f}{ref-cur:>+11.5f}  {'✅ 채택' if good else '❌'}")
 
-    if ok_feats:
-        t2, v2 = tr.dropna(subset=ok_feats), te.dropna(subset=ok_feats)
-        yt = (t2["outcome"] == 1.0).to_numpy(float)
-        yv = (v2["outcome"] == 1.0).to_numpy(float)
-        b = _fit(mk(t2, ["elo_diff"] + ok_feats), yt)
-        br = _brier(mk(v2, ["elo_diff"] + ok_feats), b, yv)
-        print(f"\n채택 피처 전부: Brier {br:.5f}")
-
-        from model_v2 import attach_odds
-        v3 = attach_odds(v2)
-        if len(v3) > 120:
-            yv3 = (v3["outcome"] == 1.0).to_numpy(float)
-            p = 1 / (1 + np.exp(-np.clip(mk(v3, ["elo_diff"] + ok_feats) @ b,
-                                         -30, 30)))
-            ov = 1 / v3["o_home"] + 1 / v3["o_away"]
-            pm = ((1 / v3["o_home"]) / ov).to_numpy(float)
-            bm, bk = float(np.mean((p - yv3) ** 2)), float(np.mean((pm - yv3) ** 2))
-            print(f"\n⭐ 시장 비교 (검증 {len(v3):,}경기)")
-            print(f"   모델(Elo+라인업) Brier {bm:.5f}   시장 Brier {bk:.5f}   "
-                  f"{'✅ 모델 우위' if bm < bk else '❌ 시장 우위'}")
-            print("   ※ 라인업은 배당 확정 후 공개되므로 시장이 가질 수 없던 정보다.")
-    else:
+    if not ok_feats:
         print("\n채택된 라인업 피처 없음.")
+        return 0
+
+    t2, v2 = tr.dropna(subset=ok_feats), te.dropna(subset=ok_feats)
+    yt, yv = t2["gd"].to_numpy(float), v2["gd"].to_numpy(float)
+    b = ols(mk(t2, ["elo_diff"] + ok_feats), yt)
+    print(f"\n채택 피처 전부: 검증 RMSE {rmse(mk(v2, ['elo_diff'] + ok_feats), b, yv):.5f}")
+
+    # ---- 득점차 모델을 승패 확률로 바꿔 시장과 비교
+    #      득점차 예측을 정규분포로 보고 P(홈승) = 1 − Φ(0.5 | mu, sigma)
+    from math import erf, sqrt
+    resid = yt - mk(t2, ["elo_diff"] + ok_feats) @ b
+    sigma = float(np.std(resid))
+    mu_v = mk(v2, ["elo_diff"] + ok_feats) @ b
+    p_home = 0.5 * (1 - np.array([erf((0.5 - m) / (sigma * sqrt(2)))
+                                  for m in mu_v]))
+
+    from model_v2 import attach_odds
+    v3 = v2.assign(_p=p_home)
+    v3 = attach_odds(v3)
+    v3 = v3[v3["gd"] != 0]          # 승패 시장이라 무승부는 비교 대상에서 제외
+    if len(v3) > 120:
+        yv3 = (v3["gd"] > 0).astype(float).to_numpy()
+        p = v3["_p"].to_numpy(float)
+        ov = 1 / v3["o_home"] + 1 / v3["o_away"]
+        pm = ((1 / v3["o_home"]) / ov).to_numpy(float)
+        bm, bk = float(np.mean((p - yv3) ** 2)), float(np.mean((pm - yv3) ** 2))
+        print(f"\n⭐ 시장 비교 (검증 {len(v3):,}경기)")
+        print(f"   모델(Elo+라인업) Brier {bm:.5f}   시장 Brier {bk:.5f}   "
+              f"{'✅ 모델 우위' if bm < bk else '❌ 시장 우위'}")
+        print("   ※ 라인업은 배당 확정 후 공개되므로 시장이 가질 수 없던 정보다.")
     return 0
 
 
