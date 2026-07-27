@@ -65,6 +65,8 @@ label{font-size:12.5px;color:var(--tx2);display:inline-flex;align-items:center;g
   font-weight:600;background:var(--tx);color:var(--bg)}
 .sus{font-size:11.5px;color:var(--warn);border:1px solid var(--warn);
   padding:1px 6px;border-radius:2px}
+.hit{font-size:11.5px;padding:1px 7px;border-radius:2px;font-weight:600;color:#fff}
+.hit.ok{background:var(--pos)}.hit.no{background:var(--neg)}
 
 .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:3px;
@@ -108,7 +110,12 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
   실제로 마진 12%인 시장에서 그런 값이 진짜일 가능성은 매우 낮습니다.</p>
 </div>
 
+<div id="tally"></div>
+
 <div class="bar">
+  <label>상태 <select id="fSt">
+    <option value="">전체</option><option value="경기전">경기전</option>
+    <option value="정산">정산 완료</option></select></label>
   <label>리그 <select id="fLg"><option value="">전체</option></select></label>
   <label>정렬 <select id="fSort">
     <option value="ev">기대값 높은 순</option>
@@ -147,14 +154,25 @@ function init(d){
     ['픽 실제 수익률',pc(b.pick_roi),`95%CI [${pc(b.pick_ci[0])}, ${pc(b.pick_ci[1])}]`],
     ['아무거나 걸기',pc(b.baseline_roi),'기준선'],
   ].map(([k,v,n])=>`<div><div class="k">${k}</div><div class="v mono">${v}</div><div class="k">${n}</div></div>`).join('');
+  const ty=d.tally;
+  if(ty){
+    $('#tally').innerHTML=`<div class="alert" style="border-color:var(--warn)">
+      <h2 style="color:var(--warn)">정산된 픽 성적 (표본 ${ty.n}건)</h2>
+      <p>적중 <b>${ty.wins}/${ty.n} (${(ty.hit_rate*100).toFixed(1)}%)</b> ·
+      수익률 <b class="mono">${ty.roi>0?'+':''}${(ty.roi*100).toFixed(2)}%</b></p>
+      <p>⚠️ <b>${ty.n}건은 판단하기에 턱없이 적은 표본입니다.</b>
+      4,530건 백테스트에서는 −15.07%가 나왔습니다. 한두 회차 결과는 운입니다.</p></div>`;
+  }
   const lgs=[...new Set(P.map(p=>p.league))].sort();
   $('#fLg').innerHTML='<option value="">전체</option>'+lgs.map(l=>`<option>${l}</option>`).join('');
-  ['#fLg','#fSort','#fSane'].forEach(s=>$(s).addEventListener('input',render));
+  ['#fLg','#fSort','#fSane','#fSt'].forEach(s=>$(s).addEventListener('input',render));
   render();
 }
 function render(){
-  const lg=$('#fLg').value,so=$('#fSort').value,sane=$('#fSane').checked;
-  let ps=P.filter(p=>(!lg||p.league===lg)&&(!sane||p.pick_ev<=0.20));
+  const lg=$('#fLg').value,so=$('#fSort').value,sane=$('#fSane').checked,
+        st=$('#fSt').value;
+  let ps=P.filter(p=>(!lg||p.league===lg)&&(!sane||p.pick_ev<=0.20)
+                     &&(!st||p.status===st));
   if(so==='ev') ps.sort((a,b)=>b.pick_ev-a.pick_ev);
   else if(so==='edge') ps.sort((a,b)=>Math.abs(b.edge_home)-Math.abs(a.edge_home));
   else ps.sort((a,b)=>(a.date+a.game_no).localeCompare(b.date+b.game_no));
@@ -163,9 +181,15 @@ function render(){
 }
 function fm(f,label){
   if(!f) return '';
-  return `<span><b>${label}</b> ${f.w}승${f.l}패`+
-    (f.streak?` · ${f.streak}`:'')+` · 최근10 ${f.last10}`+
-    (f.avg_scored!=null?` · ${f.avg_scored}득 ${f.avg_conceded}실`:'')+`</span>`;
+  const bits=[`${f.w}승${f.l}패`];
+  if(f.streak) bits.push(f.streak);
+  bits.push(`최근10 ${f.last10}`);
+  if(f.avg_scored!=null) bits.push(`${f.avg_scored}득 ${f.avg_conceded}실`);
+  if(f.trend&&f.trend!=='유지') bits.push(`마진 ${f.trend}(${f.margin_prev}→${f.margin_recent})`);
+  if(f.rest_days!=null&&f.rest_days>=2) bits.push(`휴식 ${f.rest_days}일`);
+  else if(f.streak_days>=4) bits.push(`${f.streak_days}연전`);
+  if(f.close_games>=6) bits.push(`접전 ${f.close_games}/10`);
+  return `<span><b>${label}</b> ${bits.join(' · ')}</span>`;
 }
 function card(p){
   const sus=p.pick_ev>0.20;
@@ -175,6 +199,7 @@ function card(p){
       <span class="lg">${p.league}</span>
       <span class="match">${p.home} <span style="color:var(--tx3);font-weight:400">vs</span> ${p.away}</span>
       ${sus?'<span class="sus">이상치 의심</span>':''}
+      ${p.hit===true?'<span class="hit ok">적중</span>':(p.hit===false?'<span class="hit no">실패</span>':'')}
       <span class="ev ${p.pick_ev>0?'p':'n'}">EV ${p.pick_ev>0?'+':''}${pc(p.pick_ev)}</span>
     </div>
     <div><span class="side">픽 · ${p.pick_side}</span>

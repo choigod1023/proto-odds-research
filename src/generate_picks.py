@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from commentary import make_preview, make_short          # noqa: E402
 from elo_model import fit_logistic, load_results, prob_home, run_elo  # noqa: E402
 from snapshot import UNPLAYED, _fetch, find_live_rounds  # noqa: E402
-from team_form import build_forms, h2h_text              # noqa: E402
+from team_form import build_forms, h2h_text, set_rest_days  # noqa: E402
 from wisetoto import CACHE, _session                     # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -64,19 +64,29 @@ def main() -> int:
     a, b = fit_logistic(hist[hist["year"] <= 2024])
     season = datetime.now().year
     forms, h2h = build_forms(hist, season=season)
+    # 오늘 기준 휴식일 계산 (경기 변수)
+    import pandas as _pd
+    set_rest_days(forms, _pd.Timestamp(datetime.now().date()))
     print(f"Elo 레이팅 {len(ratings)}팀 · 시즌 {season} 폼 {len(forms)}팀")
 
     sess = _session()
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
-    rounds = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
+    live_rounds = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
+    # 발매 중인 회차 + 직전 회차들. 직전 회차는 이미 정산됐으므로
+    # **모델 픽이 실제로 맞았는지** 확인할 수 있다(공개 검증).
+    recent = [r for r in have[-3:] if r not in live_rounds]
+    rounds = sorted(set(live_rounds) | set(recent))
+    print(f"대상 회차: 발매중 {live_rounds} + 최근정산 {recent}")
 
     picks = []
     for rnd in rounds:
         rows = _fetch(sess, season, rnd) or []
+        # 배당이 붙은 승패 2-way 전부. 정산된 경기는 적중 여부까지 낸다
+        # (배당은 회차 공개 시 한 번에 붙지 않고 순차적으로 붙는다 — 2026-07-26 관측)
         live = [r for r in rows
-                if r.result in UNPLAYED and r.odds and not r.is_void
+                if r.odds and not r.is_void
                 and r.market_family == "승패" and r.n_way == 2
                 and r.overround and 1.0 <= r.overround <= 1.40]
         if not live:
@@ -102,6 +112,15 @@ def main() -> int:
             ev = max(ev_h, ev_a)
             fh, fa = forms.get(kh), forms.get(ka)
 
+            # 정산 상태와 적중 여부
+            settled = r.result in ("홈승", "홈패")
+            hit = None
+            profit = None
+            if settled:
+                winner = ht if r.result == "홈승" else at
+                hit = (side == winner)
+                profit = (r.odds[0 if side == ht else 1] - 1) if hit else -1.0
+
             picks.append({
                 "round": rnd, "game_no": r.game_no, "date": r.date_text,
                 "sport": r.sport, "league": r.league,
@@ -116,6 +135,9 @@ def main() -> int:
                 "pick_odds": round(o_h if side == ht else o_a, 2),
                 "elo_home": round(ratings[kh], 1), "elo_away": round(ratings[ka], 1),
                 "n_games_home": games_seen[kh], "n_games_away": games_seen[ka],
+                "status": "정산" if settled else "경기전",
+                "result": r.result if settled else None,
+                "hit": hit, "profit": round(profit, 3) if profit is not None else None,
                 "h2h": h2h_text(h2h, r.league, ht, at),
                 "form_home": _form_dict(fh), "form_away": _form_dict(fa),
                 "preview": make_preview(ht, at, r.league, fh, fa, h2h,
@@ -126,8 +148,18 @@ def main() -> int:
                                     side, ev),
             })
 
-    picks.sort(key=lambda x: -x["pick_ev"])
+    picks.sort(key=lambda x: (x["status"] != "경기전", -x["pick_ev"]))
+    done = [p for p in picks if p["hit"] is not None]
+    tally = None
+    if done:
+        n = len(done)
+        w = sum(1 for p in done if p["hit"])
+        roi = sum(p["profit"] for p in done) / n
+        tally = {"n": n, "wins": w, "hit_rate": round(w / n, 4),
+                 "roi": round(roi, 4)}
+        print(f"\n정산분 성적: {w}/{n} 적중({w/n:.1%}) · ROI {roi:+.2%}")
     doc = {
+        "tally": tally,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "season": season, "rounds": rounds,
         "n_picks": len(picks), "backtest": BACKTEST, "picks": picks,
@@ -148,7 +180,12 @@ def _form_dict(f) -> dict | None:
             "streak": f"{f.streak_n}{f.streak_kind}" if f.streak_n >= 2 else "",
             "home": f"{f.home_w}-{f.home_l}", "away": f"{f.away_w}-{f.away_l}",
             "avg_scored": round(f.avg_scored, 1) if f.avg_scored else None,
-            "avg_conceded": round(f.avg_conceded, 1) if f.avg_conceded else None}
+            "avg_conceded": round(f.avg_conceded, 1) if f.avg_conceded else None,
+            "rest_days": f.rest_days, "streak_days": f.streak_days,
+            "close_games": f.close_games, "blowout_w": f.blowout_w,
+            "shutout_l": f.shutout_l, "trend": f.trend,
+            "margin_recent": round(f.margin_recent, 1) if f.margin_recent is not None else None,
+            "margin_prev": round(f.margin_prev, 1) if f.margin_prev is not None else None}
 
 
 if __name__ == "__main__":

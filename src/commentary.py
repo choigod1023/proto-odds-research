@@ -101,6 +101,56 @@ def _projection(fh: Form | None, fa: Form | None, sport: str) -> str | None:
     return s
 
 
+def _schedule(fh: Form | None, fa: Form | None, home: str, away: str
+              ) -> str | None:
+    """일정 변수 — 휴식일과 연전. 피로는 후반 집중력에 직결된다."""
+    bits = []
+    for f, n in ((fh, home), (fa, away)):
+        if not f or f.rest_days is None:
+            continue
+        if f.rest_days >= 3:
+            bits.append(f"{josa(n,'은','는')} {f.rest_days}일 쉬고 나온다")
+        elif f.streak_days >= 5:
+            bits.append(f"{josa(n,'은','는')} {f.streak_days}연전째로 체력 부담이 있다")
+        elif f.rest_days <= 1 and f.streak_days >= 3:
+            bits.append(f"{josa(n,'은','는')} {f.streak_days}일 연속 경기 중이다")
+    return ", ".join(bits) if bits else None
+
+
+def _momentum(f: Form | None, name: str) -> str | None:
+    """득실 마진 추세 — 성적이 아니라 내용이 좋아지고 있는가."""
+    if not f:
+        return None
+    t = f.trend
+    if t == "상승":
+        return (f"{josa(name,'은','는')} 득실 마진이 최근 5경기 "
+                f"{f.margin_prev:+.1f}에서 {f.margin_recent:+.1f}로 올라오며 "
+                f"내용이 좋아지고 있다")
+    if t == "하락":
+        return (f"{josa(name,'은','는')} 득실 마진이 {f.margin_prev:+.1f}에서 "
+                f"{f.margin_recent:+.1f}로 떨어져 내용이 나빠지고 있다")
+    return None
+
+
+def _style(fh: Form | None, fa: Form | None, home: str, away: str
+           ) -> str | None:
+    """접전 성향 — 박빙으로 흐르는 팀인지."""
+    bits = []
+    for f, n in ((fh, home), (fa, away)):
+        if not f or f.close_rate is None or len(f.last10) < 8:
+            continue
+        if f.close_rate >= 0.6:
+            bits.append(f"{josa(n,'은','는')} 최근 10경기 중 "
+                        f"{f.close_games}경기가 2점차 이내였을 만큼 접전이 잦다")
+        elif f.blowout_w >= 3:
+            bits.append(f"{josa(n,'은','는')} 최근 10경기 중 5점차 이상 대승이 "
+                        f"{f.blowout_w}번으로 한 번 터지면 크게 벌린다")
+        elif f.shutout_l >= 2:
+            bits.append(f"{josa(n,'은','는')} 최근 10경기 중 무득점 패가 "
+                        f"{f.shutout_l}번으로 타선이 침묵하는 경기가 있다")
+    return ". ".join(bits) if bits else None
+
+
 def _counterpoint(fh: Form | None, fa: Form | None, home: str, away: str,
                   side: str) -> str | None:
     """우세로 본 쪽의 반대 근거 — 프리뷰 기사의 '다만 ~' 자리."""
@@ -124,7 +174,7 @@ def make_preview(home: str, away: str, league: str,
                  fh: Form | None, fa: Form | None, h2h: dict,
                  p_model: float, p_market: float, odds_home: float,
                  odds_away: float, payout: float, ev_home: float,
-                 ev_away: float, sport: str = "bs", limit: int = 420) -> str:
+                 ev_away: float, sport: str = "bs", limit: int = 560) -> str:
     """경기 프리뷰 본문 — **경기가 어떻게 굴러갈지**를 쓴다.
 
     배당 구조(2-way/3-way, 환급률) 얘기는 여기 넣지 않는다.
@@ -142,6 +192,11 @@ def make_preview(home: str, away: str, league: str,
     t = h2h_text(h2h, league, home, away)
     if t:
         parts.append(t + ".")
+
+    for extra in (_momentum(fh, home), _momentum(fa, away),
+                  _style(fh, fa, home, away), _schedule(fh, fa, home, away)):
+        if extra:
+            parts.append(extra + ".")
 
     pj = _projection(fh, fa, sport)
     if pj:
