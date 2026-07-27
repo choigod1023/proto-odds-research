@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import html as H
 import json
+import os
 import re
 import sys
 import time
@@ -132,7 +133,32 @@ def parse_match(html: str) -> dict | None:
 
 
 def collect(league: str = "kleague1", limit: int | None = None) -> int:
-    """오늘자 스냅샷을 append-only 로 적재. 같은 날 재실행해도 덮어쓰지 않는다."""
+    """오늘자 스냅샷을 append-only 로 적재. 같은 날 재실행해도 덮어쓰지 않는다.
+
+    멱등 검사는 시작 시점에 한 번만 파일을 읽으므로, 두 프로세스가 겹쳐 돌면
+    둘 다 "없다"고 판단해 같은 레코드를 두 번 쓴다. 정기 수집기라 실제로 겹쳤다.
+    → 락으로 막는다.
+    """
+    lock = OUT.with_suffix(".lock")
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        age = time.time() - lock.stat().st_mtime
+        if age < 3600:
+            print(f"이미 수집 중입니다 ({age/60:.0f}분 전 시작). 중복 실행 방지.")
+            return 1
+        print(f"오래된 락({age/3600:.1f}시간) 무시하고 진행")
+        lock.unlink(missing_ok=True)
+        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    os.close(fd)
+    try:
+        return _collect(league, limit)
+    finally:
+        lock.unlink(missing_ok=True)
+
+
+def _collect(league: str, limit: int | None) -> int:
     s = _session()
     path = LEAGUES[league]
     try:
@@ -148,43 +174,62 @@ def collect(league: str = "kleague1", limit: int | None = None) -> int:
     stamp = datetime.now(timezone.utc).isoformat(timespec="seconds")
     day = stamp[:10]
 
-    # 같은 날 이미 찍은 (리그, 홈, 원정) 은 건너뛴다 — 멱등
-    seen: set[tuple] = set()
+    # 오늘 이미 찍은 팀은 건너뛴다 — 멱등
+    done: set[tuple] = set()
     if OUT.exists():
         for ln in OUT.read_text(encoding="utf-8").splitlines():
             try:
                 r = json.loads(ln)
             except json.JSONDecodeError:
                 continue
-            if r.get("snapshot_date") == day:
-                seen.add((r.get("league"), r.get("home_team"), r.get("away_team")))
+            if r.get("snapshot_date") == day and r.get("league") == league:
+                done.add((league, r["home_team"]))
+                done.add((league, r["away_team"]))
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    ok = skip = fail = 0
+    ok = fail = 0
     with OUT.open("a", encoding="utf-8") as fh:
         for i, href in enumerate(links, 1):
+            # 이 페이지의 두 팀이 URL 슬러그에 들어 있다. 둘 다 오늘 이미 찍었으면
+            # 요청 자체를 건너뛴다 — 66페이지가 실제로는 6~7요청으로 줄고,
+            # 그래야 429 를 자초하지 않는다.
+            if _covered(done, league, href.rsplit("/", 1)[-1]):
+                continue
             try:
                 rec = parse_match(_get(s, BASE + href))
             except Exception as e:
                 fail += 1
-                print(f"  [{i}/{len(links)}] 실패 {type(e).__name__} {href[-45:]}")
+                print(f"  [{i}] 실패 {type(e).__name__} {href[-45:]}")
+                if fail >= 5:
+                    print("  연속 실패 — 중단(레이트리밋 추정). 내일 다시 찍는다.")
+                    break
                 continue
             if rec is None:
                 fail += 1
                 continue
-            key = (league, rec["home_team"], rec["away_team"])
-            if key in seen:
-                skip += 1
+            if (league, rec["home_team"]) in done and (league, rec["away_team"]) in done:
                 continue
-            seen.add(key)
+            done.add((league, rec["home_team"]))
+            done.add((league, rec["away_team"]))
             rec.update(league=league, snapshot_at=stamp, snapshot_date=day, url=href)
             fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            fh.flush()          # 중간에 죽어도 지금까지 건 남는다
             ok += 1
-            if ok % 10 == 0:
-                print(f"  [{i}/{len(links)}] 적재 {ok} · 중복 {skip} · 실패 {fail}")
+            print(f"  [{i}] {rec['home_team'][:20]} / {rec['away_team'][:20]}"
+                  f"  (팀 {len(done)})")
 
-    print(f"\n적재 {ok} · 오늘 중복 {skip} · 실패 {fail}  →  {OUT}")
+    print(f"\n적재 {ok}경기 · 팀 {len({t for _, t in done})} · 실패 {fail}  →  {OUT}")
     return 0
+
+
+def _slug_seen(team: str, slug: str) -> bool:
+    """팀명이 URL 슬러그에 들어 있는지 — 느슨한 대조."""
+    key = re.sub(r"[^a-z]", "", team.lower())[:6]
+    return bool(key) and key in slug.replace("-", "")
+
+
+def _covered(done: set[tuple], league: str, slug: str) -> bool:
+    teams = [t for lg, t in done if lg == league]
+    return sum(_slug_seen(t, slug) for t in teams) >= 2
 
 
 def main() -> int:

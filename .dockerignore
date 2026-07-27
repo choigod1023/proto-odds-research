@@ -1,0 +1,11 @@
+# 이미지에는 supervisor 와 requirements 만 들어간다. 코드·데이터는 머신에서
+# git clone 으로 받으므로, 116MB 짜리 data/ 를 빌더에 올릴 이유가 전혀 없다.
+data/
+.git/
+docs/
+findings/
+experiments/
+__pycache__/
+*.pyc
+.venv/
+venv/

@@ -1,0 +1,25 @@
+# 상시 수집 워커 — HTTP 서비스가 아니라 계속 도는 백그라운드 프로세스다.
+# 그래서 [http_service] 도 [[services]] 도 없다. 포트를 열지 않는다.
+app = "proto-odds-collector"
+primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국내 사이트에 가장 가깝다
+
+# dockerfile 경로는 이 파일 위치(deploy/) 기준이고, COPY 의 기준이 되는
+# 빌드 컨텍스트는 fly deploy 를 실행한 디렉터리다. Dockerfile 이 requirements.txt 를
+# 레포 루트에서 집으므로 **반드시 레포 루트에서** 배포할 것:
+#   fly deploy -c deploy/fly.toml
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  REPO_DIR = "/data/repo"
+  TZ = "Asia/Seoul"
+
+# 볼륨 — 재시작해도 살아남는 디스크. 여기에 레포를 클론해 두고 돌린다.
+# (진짜 백업은 git push. 볼륨은 이 머신에만 붙어 있다.)
+[mounts]
+  source = "collector_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"              # 수집만 하므로 넉넉하다. 모델 학습은 로컬에서.
