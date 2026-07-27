@@ -56,6 +56,12 @@ def sh(args: list[str], cwd: Path | None = None, check: bool = False):
                           capture_output=True, text=True)
 
 
+def _mask(s: str) -> str:
+    """토큰이 로그로 새 나가지 않게. git 은 실패 메시지에 URL 을 그대로 싣는다."""
+    tok = os.environ.get("GITHUB_TOKEN", "")
+    return (s or "").replace(tok, "***") if tok else (s or "")
+
+
 def _auth_remote() -> str:
     """토큰을 URL 에 끼워 넣는다. 토큰 자체는 로그에 절대 찍지 않는다."""
     tok = os.environ.get("GITHUB_TOKEN", "")
@@ -64,27 +70,36 @@ def _auth_remote() -> str:
     return REMOTE.replace("https://", f"https://x-access-token:{tok}@")
 
 
+def _configure(repo: Path) -> None:
+    """커밋 신원과 토큰이 박힌 remote URL 을 붙인다.
+
+    ⚠️ 클론할 때만 하면 안 된다. 볼륨에 이미 (토큰 없이) 클론된 레포가 남아
+    있으면 재시작해도 설정이 안 붙어 push 가 인증 실패로 죽는다. 실제로 그랬다.
+    → 부팅할 때마다 무조건 다시 붙인다. 토큰이 갱신돼도 이때 반영된다.
+    """
+    sh(["git", "config", "user.name", "proto-collector"], cwd=repo)
+    sh(["git", "config", "user.email", "collector@users.noreply.github.com"], cwd=repo)
+    sh(["git", "remote", "set-url", "origin", _auth_remote()], cwd=repo)
+
+
 def ensure_repo() -> bool:
     """볼륨에 레포가 없으면 클론, 있으면 최신화."""
     if (REPO / ".git").exists():
         log("레포 확인됨 — pull")
+        _configure(REPO)
         r = sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
         if r.returncode:
-            log(f"pull 실패(계속 진행): {r.stderr.strip()[:160]}")
+            log(f"pull 실패(계속 진행): {_mask(r.stderr)[:160]}")
         return True
 
     log(f"레포 클론 → {REPO}")
     REPO.parent.mkdir(parents=True, exist_ok=True)
     r = sh(["git", "clone", "--depth", "50", _auth_remote(), str(REPO)])
     if r.returncode:
-        # stderr 에 토큰이 섞일 수 있으니 마스킹
-        err = r.stderr.replace(os.environ.get("GITHUB_TOKEN", "\0"), "***")
-        log(f"클론 실패: {err.strip()[:220]}")
+        log(f"클론 실패: {_mask(r.stderr)[:220]}")
         return False
 
-    sh(["git", "config", "user.name", "proto-collector"], cwd=REPO)
-    sh(["git", "config", "user.email", "collector@users.noreply.github.com"], cwd=REPO)
-    sh(["git", "remote", "set-url", "origin", _auth_remote()], cwd=REPO)
+    _configure(REPO)
     log("클론 완료")
     return True
 
@@ -103,8 +118,10 @@ def push_data() -> None:
         # 원격이 앞서 있으면 rebase 후 재시도
         sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
         p = sh(["git", "push", "origin", "HEAD"], cwd=REPO)
-    ok = "OK" if p.returncode == 0 else "실패"
-    log(f"push {ok} — 파일 {n}개")
+    if p.returncode:
+        log(f"push 실패 — 파일 {n}개 · {_mask(p.stderr).strip()[:200]}")
+    else:
+        log(f"push OK — 파일 {n}개")
 
 
 def run_looper(name: str, cmd: list[str]) -> None:
@@ -133,12 +150,15 @@ def run_daily() -> None:
 
 
 def run_push() -> None:
+    # 첫 push 는 빨리 한다. 30분을 기다리면 그 사이 재시작이 겹칠 때
+    # 볼륨에만 있던 수집분이 밖으로 못 나간다. 2분이면 수집기들이 한 바퀴 돈다.
+    time.sleep(120)
     while True:
-        time.sleep(PUSH_EVERY)
         try:
             push_data()
         except Exception as e:                        # noqa: BLE001
             log(f"push 예외: {type(e).__name__}: {e}")
+        time.sleep(PUSH_EVERY)
 
 
 def main() -> int:
