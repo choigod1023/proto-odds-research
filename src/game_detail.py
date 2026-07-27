@@ -88,6 +88,29 @@ def parse_baseball(res: dict) -> dict | None:
     return out or None
 
 
+def parse_soccer_shots(res: dict) -> dict | None:
+    """축구 슈팅 통계 — **xG 의 대용품**.
+
+    네이버에 xG 는 없지만 선수별 `shots`·`shotsOnGoal` 이 있다.
+    실제 골은 운이 크게 섞이므로, 문헌이 xG 를 쓰는 이유와 같은 논리로
+    **유효슈팅이 골보다 나은 과정 지표**다.
+    """
+    rd = (res or {}).get("recordData") or {}
+    out = {}
+    for side, key in (("home", "homePlayerStats"), ("away", "awayPlayerStats")):
+        pl = rd.get(key) or []
+        if not pl:
+            return None
+        out[side] = {
+            "shots": sum(float(p.get("shots") or 0) for p in pl),
+            "sog": sum(float(p.get("shotsOnGoal") or 0) for p in pl),
+            "goals": sum(float(p.get("goals") or 0) for p in pl),
+            "fouls": sum(float(p.get("foulsCommitted") or 0) for p in pl),
+            "n_players": len(pl),
+        }
+    return out or None
+
+
 def parse_soccer(res: dict) -> dict | None:
     ld = (res or {}).get("lineUpData") or {}
     lu = ld.get("lineup") or {}
@@ -121,8 +144,10 @@ def main(argv: list[str]) -> int:
     yrs = [int(a) for a in argv[3:] if a.isdigit()]
     y0 = yrs[0] if yrs else 2023
     y1 = yrs[1] if len(yrs) > 1 else date.today().year
-    path = "record" if kind == "baseball" else "lineup"
-    parse = parse_baseball if kind == "baseball" else parse_soccer
+    # kind: baseball(투수기록) / lineup(축구 라인업) / shots(축구 슈팅)
+    path = "lineup" if kind == "lineup" else "record"
+    parse = {"baseball": parse_baseball, "lineup": parse_soccer,
+             "shots": parse_soccer_shots}[kind]
 
     RAW.mkdir(parents=True, exist_ok=True)
     out_file = RAW / f"{league}_{kind}_{y0}_{y1}.json"

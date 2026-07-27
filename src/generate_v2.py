@@ -1,0 +1,283 @@
+"""전 마켓 통합 픽 생성 — 경기마다 '가장 나은 하나'를 고른다.
+
+기존 generate_picks.py 의 한계
+------------------------------
+승패(2-way)만 봤다. 그건 프로토 물량의 24%다.
+그리고 승패 확률만으론 **"근소 우위"를 표현할 방법이 없다.**
+
+이 버전은 스코어 분포에서 **전 마켓을 계산하고 하나만 추천**한다.
+
+    P(홈=i, 원정=j)
+      → 승패 · 승무패 · 언더오버(라인별) · 핸디캡(라인별) · 승①패
+      → 각 선택지의 기대 손익 = 모델확률 × 배당 − 1
+      → 그중 최선 하나
+
+추천 점수 — 기대 손익만 보지 않는다
+-----------------------------------
+`마켓선택.md` 실측:
+  · 박빙(45~55%)은 어느 마켓이든 −13% 이하 → **판단이 안 서면 추천하지 않는다**
+  · 강한 판단에서 승무패(3-way)는 −19.8% → **감점**
+  · 물량 몰리는 라인(핸디 −1.0, 언더오버 2.5)이 가장 촘촘 → **감점**
+  · 모델 괴리가 0.3 넘으면 기회가 아니라 **모델 고장 신호** → **제외**
+
+용어
+----
+사이트에 나가는 값은 전부 쉬운 말로 바꾼다.
+    EV        → 예상 손익
+    devig     → (표시하지 않음)
+    이상치 의심 → 계산 신뢰 낮음
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from collections import defaultdict, deque
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from score_dist import joint, p_handicap, p_one_run, p_over, p_win  # noqa: E402
+from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
+from wisetoto import CACHE, _session                                # noqa: E402
+
+ROOT = Path(__file__).resolve().parent.parent
+PROC = ROOT / "data" / "processed"
+OUT = ROOT / "web" / "data"
+
+WINDOW = 20
+_LINE = re.compile(r"([-+]?\d+\.?\d*)")
+
+# 실측 기반 감점 (findings/마켓선택.md)
+CROWDED = {("핸디캡", -1.0), ("언더오버", 2.5)}    # 물량 몰려 촘촘한 라인
+
+# ⚠️ 괴리 상한 — 이 프로젝트에서 가장 중요한 숫자다.
+#
+# 정산 114경기로 실측한 결과:
+#     괴리 ≤0.02  n=76   수익률  −3.53%
+#     괴리 ≤0.05  n=106  수익률 −35.02%
+#     제한 없음    n=114  수익률 −23.19%
+#
+# **모델이 시장과 다르다고 말하는 순간 그 판단이 틀렸다.**
+# market_scan.py 에서 모델이 전 마켓에서 프로토에 진 것의 직접적 귀결이다.
+# EV 최대화로 고르면 '모델이 가장 크게 틀린 경기'를 고르게 된다 — 역선택이다.
+#
+# 그래서 상한을 0.02 로 조인다. 이건 사실상 **시장에 동의할 때만 본다**는 뜻이고,
+# 모델이 시장을 이기기 전까지는 이게 정직한 운영이다.
+MAX_SANE_GAP = 0.02
+
+
+def clean(x: str) -> str:
+    s = re.sub(r"^\s*-?\d+\s+", "", str(x).strip())
+    return re.sub(r"\s+-?\d+\s*$", "", s).strip()
+
+
+def team_lambdas() -> dict:
+    """리그·팀별 최근 득실 → λ 재료. 과거 전체를 훑어 최신 상태를 만든다."""
+    from matches import load_matches
+    m = load_matches()
+    gf: dict = defaultdict(lambda: deque(maxlen=WINDOW))
+    ga: dict = defaultdict(lambda: deque(maxlen=WINDOW))
+    for r in m.itertuples():
+        gf[(r.league, r.home_team)].append(r.home_score)
+        ga[(r.league, r.home_team)].append(r.away_score)
+        gf[(r.league, r.away_team)].append(r.away_score)
+        ga[(r.league, r.away_team)].append(r.home_score)
+    return {"gf": gf, "ga": ga}
+
+
+HOME_MULT = {"bs": 1.03, "sc": 1.12, "bk": 1.02, "vl": 1.05}
+
+
+def lambdas_for(st: dict, league: str, home: str, away: str, sport: str):
+    kh, ka = (league, home), (league, away)
+    if len(st["gf"][kh]) < 8 or len(st["gf"][ka]) < 8:
+        return None
+    hm = HOME_MULT.get(sport, 1.05)
+    lh = (np.mean(st["gf"][kh]) + np.mean(st["ga"][ka])) / 2 * hm
+    la = (np.mean(st["gf"][ka]) + np.mean(st["ga"][kh])) / 2
+    return float(lh), float(la)
+
+
+SEL_NAMES = {
+    ("승패", 2): ["홈 승", "원정 승"],
+    ("승무패", 3): ["홈 승", "무승부", "원정 승"],
+    ("언더오버", 2): ["언더", "오버"],
+    ("핸디캡", 2): ["핸디 홈", "핸디 원정"],
+    ("핸디캡", 3): ["핸디 홈", "핸디 무", "핸디 원정"],
+    ("승①패", 3): ["홈 2점차+", "1점차", "원정 2점차+"],
+}
+
+
+def market_probs(M, fam: str, nw: int, line: float | None):
+    if fam == "승패" and nw == 2:
+        h, _, a = p_win(M)
+        s = h + a
+        return [h / s, a / s] if s > 0 else None
+    if fam == "승무패" and nw == 3:
+        return list(p_win(M))
+    if fam == "언더오버" and nw == 2 and line is not None:
+        po = p_over(M, line)
+        return [1 - po, po]
+    if fam == "핸디캡" and line is not None:
+        w, d, l = p_handicap(M, line)
+        if nw == 2:
+            s = w + l
+            return [w / s, l / s] if s > 0 else None
+        return [w, d, l]
+    if fam == "승①패" and nw == 3:
+        return list(p_one_run(M))
+    return None
+
+
+def main() -> int:
+    st = team_lambdas()
+    sess = _session()
+    season = datetime.now().year
+    have = sorted(int(p.stem.replace(".html", ""))
+                  for p in (CACHE / str(season)).glob("*.html.gz")) \
+        if (CACHE / str(season)).exists() else []
+    live = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
+    recent = [r for r in have[-3:] if r not in live]
+    rounds = sorted(set(live) | set(recent))
+    print(f"대상 회차: 발매중 {live} + 최근 {recent}")
+
+    games: dict = {}
+    for rnd in rounds:
+        for r in (_fetch(sess, season, rnd) or []):
+            if not r.odds or r.is_void or not r.overround:
+                continue
+            if not (1.0 <= r.overround <= 1.40):
+                continue
+            ht, at = clean(r.home), clean(r.away)
+            lam = lambdas_for(st, r.league, ht, at, r.sport)
+            if not lam:
+                continue
+            nw = r.n_way
+            line = None
+            if r.market_family in ("언더오버", "핸디캡"):
+                m0 = _LINE.search(str(r.market_label))
+                if not m0:
+                    continue
+                line = float(m0.group(1))
+            M = joint(lam[0], lam[1], r.sport)
+            pm = market_probs(M, r.market_family, nw, line)
+            if not pm or len(pm) != len(r.odds):
+                continue
+
+            ov = sum(1 / o for o in r.odds)
+            names = SEL_NAMES.get((r.market_family, nw), [f"{i}" for i in range(nw)])
+            settled = r.result not in UNPLAYED and r.result != ""
+
+            # ⭐ 경기 단위로 묶는다 — 같은 경기가 여러 상품으로 중복 발매되므로
+            gkey = f"{r.league}|{ht}|{at}|{r.date_text}"
+            g = games.setdefault(gkey, {
+                "round": rnd, "date": r.date_text, "league": r.league,
+                "sport": r.sport, "home": ht, "away": at,
+                "lam_home": round(lam[0], 2), "lam_away": round(lam[1], 2),
+                "status": "정산" if settled else "경기전",
+                "options": []})
+            if settled:
+                g["status"] = "정산"
+
+            for i, (p, o) in enumerate(zip(pm, r.odds)):
+                p_mkt = (1 / o) / ov
+                gap = abs(p - p_mkt)
+                g["options"].append({
+                    "market": r.market_family, "n_way": nw,
+                    "label": r.market_label or "", "line": line,
+                    "선택": names[i] if i < len(names) else str(i),
+                    "배당": round(o, 2),
+                    "모델확률": round(p, 4),
+                    "시장확률": round(p_mkt, 4),
+                    "예상손익": round(p * o - 1, 4),
+                    "괴리": round(gap, 4),
+                    "게임번호": r.game_no,
+                    "적중": (None if not settled else _hit(nw, r.result, i)),
+                })
+
+    # ---- 경기별 최선 하나 고르기
+    out = []
+    for g in games.values():
+        h, _, a = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
+        p_home = h / (h + a) if h + a > 0 else 0.5
+        g["홈승률"] = round(p_home, 4)
+        g["판단"] = ("박빙" if 0.45 <= p_home <= 0.55
+                     else ("홈 근소" if p_home < 0.60 else "홈 우세")
+                     if p_home > 0.55
+                     else ("원정 근소" if p_home > 0.40 else "원정 우세"))
+
+        best, best_score = None, -9e9
+        for o in g["options"]:
+            if o["괴리"] > MAX_SANE_GAP:
+                # 모델이 시장과 크게 다르다 = 모델이 틀렸을 확률이 높다
+                o["제외"] = "모델·시장 차이가 커서 신뢰 낮음"
+                continue
+            score = o["예상손익"]
+            # 실측 기반 감점
+            if 0.45 <= p_home <= 0.55:
+                score -= 0.05                      # 박빙은 전 마켓 열위
+            if o["market"] == "승무패" and not (0.45 <= p_home <= 0.55):
+                score -= 0.04                      # 강한 판단에서 3-way 재앙
+            if (o["market"], o["line"]) in CROWDED:
+                score -= 0.02                      # 물량 몰린 라인
+            o["추천점수"] = round(score, 4)
+            if score > best_score:
+                best, best_score = o, score
+        g["추천"] = best
+        g["선택지수"] = len(g["options"])
+        out.append(g)
+
+    # 시간순 정렬
+    out.sort(key=lambda g: (g["date"], g["home"]))
+    live_g = [g for g in out if g["status"] == "경기전"]
+    past_g = [g for g in out if g["status"] == "정산"]
+
+    tally = None
+    done = [g["추천"] for g in past_g if g.get("추천") and g["추천"].get("적중") is not None]
+    if done:
+        wins = sum(1 for o in done if o["적중"])
+        roi = float(np.mean([(o["배당"] - 1) if o["적중"] else -1.0 for o in done]))
+        tally = {"n": len(done), "wins": wins,
+                 "hit_rate": round(wins / len(done), 4), "roi": round(roi, 4)}
+
+    doc = {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "rounds": rounds, "live": live_g, "past": past_g, "tally": tally,
+        "note": ("전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 "
+                 "경기마다 하나만 골라 보여줍니다."),
+        "warning": ("⚠️ 아직 베팅에 쓸 수 없습니다. 모델이 시장보다 부정확해서, "
+                    "모델과 시장의 판단이 다를수록 모델이 틀렸을 확률이 높습니다. "
+                    "그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다."),
+        "gap_cap": MAX_SANE_GAP,
+    }
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "picks_v2.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1),
+                                       encoding="utf-8")
+    print(f"\n경기 {len(out)} (예정 {len(live_g)} / 정산 {len(past_g)})")
+    if tally:
+        print(f"정산 추천 성적: {tally['wins']}/{tally['n']} "
+              f"({tally['hit_rate']:.1%}) · 수익률 {tally['roi']:+.2%}")
+    print(f"저장: {OUT / 'picks_v2.json'}")
+    for g in live_g[:5]:
+        b = g["추천"]
+        if b:
+            print(f"  {g['date']} {g['league']} {g['home']}vs{g['away']} "
+                  f"[{g['판단']}] → {b['market']} {b['label']} {b['선택']} "
+                  f"@{b['배당']} 예상손익 {b['예상손익']:+.1%}")
+    return 0
+
+
+def _hit(nw: int, result: str, i: int) -> bool:
+    W = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
+         (2, "핸디승"): 0, (2, "핸디패"): 1,
+         (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
+         (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1}
+    return W.get((nw, result)) == i
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
