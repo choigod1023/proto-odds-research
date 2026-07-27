@@ -31,14 +31,17 @@ from features import build_features                    # noqa: E402
 from matches import load_matches                       # noqa: E402
 from variable_impact import _brier, _fit, _se          # noqa: E402
 
-STARTERS = Path(__file__).resolve().parent.parent / "data" / "raw" / "kbo_starters.json"
+RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
+TEAM_MAP = Path(__file__).resolve().parent.parent / "data" / "processed" / "team_map.json"
+LEAGUE_FILE = {"KBO": "kbo_starters.json", "MLB": "mlb_starters.json",
+               "NPB": "npb_starters.json"}
 TRAIN_END = 2024
 WINDOW = 12          # 투수별 최근 등판 표본
 MIN_START = 4        # 이보다 적으면 신뢰하지 않는다
 
 
-def load_starters() -> pd.DataFrame:
-    rows = json.loads(STARTERS.read_text(encoding="utf-8"))
+def load_starters(league: str) -> pd.DataFrame:
+    rows = json.loads((RAW / LEAGUE_FILE[league]).read_text(encoding="utf-8"))
     df = pd.DataFrame(rows)
     df = df[(df["home_starter"] != "") & (df["away_starter"] != "")]
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
@@ -84,25 +87,35 @@ def build_pitcher_features(sd: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def main() -> int:
-    if not STARTERS.exists():
-        print("먼저 python src/kbo_starters.py 를 실행하세요.")
-        return 1
-    sd = load_starters()
-    print(f"선발 확보 경기 {len(sd):,}건 "
-          f"({sd['date'].min().date()} ~ {sd['date'].max().date()})")
+def analyse(league: str, fe: pd.DataFrame, tmap: dict) -> None:
+    """리그 하나에 대해 선발 피처가 Elo를 넘는지 측정."""
+    sd = load_starters(league)
     pf = build_pitcher_features(sd)
 
-    m = load_matches()
-    fe = build_features(m)
-    kbo = fe[(fe["league"] == "KBO") & (fe["outcome"] != 0.5)].copy()
-    kbo["date"] = pd.to_datetime(kbo["date"])
+    sub = fe[(fe["league"] == league) & (fe["outcome"] != 0.5)].copy()
+    sub["date"] = pd.to_datetime(sub["date"])
+    # 프로토 팀명 → 네이버 팀명으로 변환해 결합한다
+    mp = tmap.get(league, {})
+    sub["home_team"] = sub["home_team"].map(lambda x: mp.get(x, x))
+    sub["away_team"] = sub["away_team"].map(lambda x: mp.get(x, x))
 
-    df = kbo.merge(pf, on=["date", "home_team", "away_team"], how="inner")
-    print(f"프로토 KBO 경기와 결합: {len(df):,}건")
+    df = sub.merge(pf, on=["date", "home_team", "away_team"], how="inner")
+    print(f"\n{'='*76}")
+    print(f"[{league}] 선발 확보 {len(sd):,}건 · 프로토 결합 {len(df):,}건")
+    print("="*76)
+    if len(df) < 600:
+        print("  표본 부족 — 생략")
+        return
+    _run(df)
+
+
+def _run(df: pd.DataFrame) -> None:
 
     df = df.dropna(subset=["elo_diff"])
     tr, te = df[df["year"] <= TRAIN_END], df[df["year"] > TRAIN_END]
+    if len(tr) < 300 or len(te) < 200:
+        print(f"  학습/검증 표본 부족 ({len(tr)}/{len(te)})")
+        return
     print(f"학습 {len(tr):,} / 검증 {len(te):,}\n")
 
     def mk(d, cols):
@@ -156,9 +169,18 @@ def main() -> int:
             p = 1 / (1 + np.exp(-np.clip(mk(v3, ["elo_diff"] + both) @ b, -30, 30)))
             ov = 1 / v3["o_home"] + 1 / v3["o_away"]
             pm = ((1 / v3["o_home"]) / ov).to_numpy(float)
-            print(f"\n시장 비교 (검증 {len(v3):,}경기)")
-            print(f"  모델(Elo+투수) Brier {np.mean((p-yv3)**2):.5f}   "
+            print(f"\n  시장 비교 (검증 {len(v3):,}경기)")
+            print(f"    모델(Elo+투수) Brier {np.mean((p-yv3)**2):.5f}   "
                   f"시장 Brier {np.mean((pm-yv3)**2):.5f}")
+
+
+def main() -> int:
+    tmap = json.loads(TEAM_MAP.read_text(encoding="utf-8")) if TEAM_MAP.exists() else {}
+    m = load_matches()
+    fe = build_features(m)
+    for lg in ("KBO", "MLB", "NPB"):
+        if (RAW / LEAGUE_FILE[lg]).exists():
+            analyse(lg, fe, tmap)
     return 0
 
 
