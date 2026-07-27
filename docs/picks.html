@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오늘의 픽 — 프로토 모델 분석</title>
+<meta name="description" content="Elo 모델 확률과 시장 배당을 비교해 기대값 순으로 정렬한 픽. 백테스트 성적을 함께 공개한다.">
+<style>
+:root{
+  --bg:#fbfbfa; --panel:#fff; --line:#e4e4e1; --line2:#efefec;
+  --tx:#1a1a18; --tx2:#5c5c56; --tx3:#8a8a82;
+  --neg:#b3261e; --pos:#1a7f4b; --warn:#9a6700; --accent:#2f4f8f;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{--bg:#14140f;--panel:#1c1c18;--line:#33332c;
+  --line2:#26261f;--tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;
+  --neg:#f2857c;--pos:#63c48d;--warn:#e0b341;--accent:#8fb0e8;}}
+:root[data-theme=dark]{--bg:#14140f;--panel:#1c1c18;--line:#33332c;--line2:#26261f;
+  --tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;--neg:#f2857c;--pos:#63c48d;
+  --warn:#e0b341;--accent:#8fb0e8;}
+:root[data-theme=light]{--bg:#fbfbfa;--panel:#fff;--line:#e4e4e1;--line2:#efefec;
+  --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;--neg:#b3261e;--pos:#1a7f4b;
+  --warn:#9a6700;--accent:#2f4f8f;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+  font:15px/1.65 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",
+  "Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+nav{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px}
+nav a{text-decoration:none;color:var(--tx2)}
+nav a.on{color:var(--tx);font-weight:600;border-bottom:2px solid var(--tx);padding-bottom:3px}
+header{padding:28px 0 20px}
+h1{font-size:23px;margin:0 0 6px;letter-spacing:-.02em;font-weight:650}
+.sub{color:var(--tx2);font-size:13.5px;margin:0}
+.meta{margin-top:12px;font-size:12px;color:var(--tx3);display:flex;gap:16px;flex-wrap:wrap}
+
+.alert{border:1px solid var(--neg);border-radius:3px;padding:15px 17px;margin:0 0 24px;
+  background:var(--panel)}
+.alert h2{margin:0 0 8px;font-size:15px;color:var(--neg)}
+.alert p{margin:5px 0;font-size:13.5px;color:var(--tx2)}
+.bt{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;
+  margin-top:11px;overflow:hidden}
+.bt div{background:var(--panel);padding:9px 11px}
+.bt .k{font-size:11px;color:var(--tx3)}
+.bt .v{font-size:16px;font-weight:600;margin-top:2px}
+
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 0;
+  border-bottom:1px solid var(--line)}
+select{font:inherit;font-size:13px;padding:5px 9px;border:1px solid var(--line);
+  background:var(--panel);color:var(--tx);border-radius:3px}
+label{font-size:12.5px;color:var(--tx2);display:inline-flex;align-items:center;gap:5px}
+.count{margin-left:auto;font-size:12.5px;color:var(--tx3)}
+
+.pick{border-bottom:1px solid var(--line2);padding:18px 0}
+.p-head{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.lg{font-size:11.5px;padding:1px 6px;border:1px solid var(--line);border-radius:2px;color:var(--tx2)}
+.when{font-size:12px;color:var(--tx3)}
+.match{font-weight:600;font-size:16px}
+.ev{margin-left:auto;font-family:var(--mono);font-size:17px;font-weight:700}
+.ev.p{color:var(--pos)}.ev.n{color:var(--neg)}
+.side{display:inline-block;padding:2px 9px;border-radius:3px;font-size:13px;
+  font-weight:600;background:var(--tx);color:var(--bg)}
+.sus{font-size:11.5px;color:var(--warn);border:1px solid var(--warn);
+  padding:1px 6px;border-radius:2px}
+
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;margin:9px 0}
+.nums div{background:var(--panel);padding:8px 10px}
+.nums .k{font-size:10.5px;color:var(--tx3);letter-spacing:.03em}
+.nums .v{font-family:var(--mono);font-size:15px;margin-top:1px}
+
+.form{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--tx2);margin:7px 0}
+.form b{color:var(--tx);font-weight:600}
+.prev{font-size:13.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);
+  border-left:2px solid var(--accent);padding:11px 13px;border-radius:2px;margin-top:9px}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--tx3)}
+.thm{position:fixed;right:16px;bottom:16px;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;font-size:15px;border:1px solid var(--line);
+  background:var(--panel);color:var(--tx);cursor:pointer}
+@media(max-width:620px){h1{font-size:19px}.ev{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <a href="index.html">가격 분석</a>
+  <a href="picks.html" class="on">오늘의 픽</a>
+  <a href="https://github.com/choigod1023/proto-odds-research">방법론</a>
+</nav>
+
+<header>
+  <h1>오늘의 픽</h1>
+  <p class="sub">Elo 모델 확률과 시장 배당을 비교해 기대값(EV) 순으로 정렬했다. <b>EV = 모델확률 × 배당 − 1</b></p>
+  <div class="meta" id="meta"></div>
+</header>
+
+<div class="alert">
+  <h2>⚠ 이 픽을 따라 베팅하지 마세요</h2>
+  <p>이 모델은 <b>과거 검증에서 시장보다 부정확했고, 픽의 실제 수익률이 기준선보다 나빴습니다.</b>
+  아래 숫자는 "지금 모델이 이 정도 수준"이라는 <b>기록된 출발점</b>이지 매수 신호가 아닙니다.</p>
+  <div class="bt" id="bt"></div>
+  <p style="margin-top:11px">EV가 +20%를 넘는 픽은 대체로 모델이 그 리그에서 헛도는 신호입니다.
+  실제로 마진 12%인 시장에서 그런 값이 진짜일 가능성은 매우 낮습니다.</p>
+</div>
+
+<div class="bar">
+  <label>리그 <select id="fLg"><option value="">전체</option></select></label>
+  <label>정렬 <select id="fSort">
+    <option value="ev">기대값 높은 순</option>
+    <option value="time">경기 시간순</option>
+    <option value="edge">모델-시장 괴리 큰 순</option>
+  </select></label>
+  <label><input type="checkbox" id="fSane"> EV 20% 넘는 이상치 숨기기</label>
+  <span class="count" id="count"></span>
+</div>
+
+<div id="list"></div>
+
+<footer>
+  <p>데이터 출처 와이즈토토 회차 아카이브 · 학습 2023–2024 / 검증 2025–2026 (시간 분리)</p>
+  <p>합법 발매처는 오프라인 판매점과 betman.co.kr 뿐이며, 해외 북메이커 이용은 국민체육진흥법 위반입니다.</p>
+  <p><a href="https://github.com/choigod1023/proto-odds-research">소스·방법론·백테스트 코드</a></p>
+</footer>
+</div>
+<button class="thm" id="thm">◐</button>
+
+<script>
+const $=s=>document.querySelector(s), pc=v=>(v*100).toFixed(1)+'%';
+let D=null,P=[];
+fetch('data/picks.json?'+Date.now()).then(r=>r.json()).then(d=>{D=d;init(d)})
+ .catch(e=>$('#list').innerHTML='<p style="color:var(--neg)">불러오기 실패: '+e+'</p>');
+
+function init(d){
+  P=d.picks||[];
+  const g=new Date(d.generated_at);
+  $('#meta').innerHTML=`<span>생성 ${g.toLocaleString('ko-KR')}</span>`+
+    `<span>회차 ${(d.rounds||[]).join(', ')}</span><span>픽 ${d.n_picks}건</span>`;
+  const b=d.backtest;
+  $('#bt').innerHTML=[
+    ['모델 Brier',b.model_brier,'낮을수록 정확'],
+    ['시장 Brier',b.market_brier,'시장이 더 정확'],
+    ['픽 실제 수익률',pc(b.pick_roi),`95%CI [${pc(b.pick_ci[0])}, ${pc(b.pick_ci[1])}]`],
+    ['아무거나 걸기',pc(b.baseline_roi),'기준선'],
+  ].map(([k,v,n])=>`<div><div class="k">${k}</div><div class="v mono">${v}</div><div class="k">${n}</div></div>`).join('');
+  const lgs=[...new Set(P.map(p=>p.league))].sort();
+  $('#fLg').innerHTML='<option value="">전체</option>'+lgs.map(l=>`<option>${l}</option>`).join('');
+  ['#fLg','#fSort','#fSane'].forEach(s=>$(s).addEventListener('input',render));
+  render();
+}
+function render(){
+  const lg=$('#fLg').value,so=$('#fSort').value,sane=$('#fSane').checked;
+  let ps=P.filter(p=>(!lg||p.league===lg)&&(!sane||p.pick_ev<=0.20));
+  if(so==='ev') ps.sort((a,b)=>b.pick_ev-a.pick_ev);
+  else if(so==='edge') ps.sort((a,b)=>Math.abs(b.edge_home)-Math.abs(a.edge_home));
+  else ps.sort((a,b)=>(a.date+a.game_no).localeCompare(b.date+b.game_no));
+  $('#count').textContent=`${ps.length}건 표시 / 전체 ${P.length}`;
+  $('#list').innerHTML=ps.map(card).join('')||'<p style="color:var(--tx3);padding:30px 0">조건에 맞는 픽이 없습니다.</p>';
+}
+function fm(f,label){
+  if(!f) return '';
+  return `<span><b>${label}</b> ${f.w}승${f.l}패`+
+    (f.streak?` · ${f.streak}`:'')+` · 최근10 ${f.last10}`+
+    (f.avg_scored!=null?` · ${f.avg_scored}득 ${f.avg_conceded}실`:'')+`</span>`;
+}
+function card(p){
+  const sus=p.pick_ev>0.20;
+  return `<div class="pick">
+    <div class="p-head">
+      <span class="when">${p.date}</span>
+      <span class="lg">${p.league}</span>
+      <span class="match">${p.home} <span style="color:var(--tx3);font-weight:400">vs</span> ${p.away}</span>
+      ${sus?'<span class="sus">이상치 의심</span>':''}
+      <span class="ev ${p.pick_ev>0?'p':'n'}">EV ${p.pick_ev>0?'+':''}${pc(p.pick_ev)}</span>
+    </div>
+    <div><span class="side">픽 · ${p.pick_side}</span>
+      <span class="mono" style="margin-left:8px;font-size:15px">@${p.pick_odds.toFixed(2)}</span></div>
+    <div class="nums">
+      <div><div class="k">모델 홈승률</div><div class="v">${pc(p.p_model_home)}</div></div>
+      <div><div class="k">시장 홈승률</div><div class="v">${pc(p.p_market_home)}</div></div>
+      <div><div class="k">괴리</div><div class="v ${p.edge_home>0?'':''}">${p.edge_home>0?'+':''}${pc(p.edge_home)}</div></div>
+      <div><div class="k">배당 홈/원정</div><div class="v">${p.odds_home.toFixed(2)} / ${p.odds_away.toFixed(2)}</div></div>
+      <div><div class="k">표본 경기수</div><div class="v">${p.n_games_home} / ${p.n_games_away}</div></div>
+      <div><div class="k">Elo</div><div class="v">${Math.round(p.elo_home)} / ${Math.round(p.elo_away)}</div></div>
+    </div>
+    <div class="form">${fm(p.form_home,p.home)}${fm(p.form_away,p.away)}</div>
+    <div class="prev">${p.preview}</div>
+  </div>`;
+}
+const rt=document.documentElement;
+$('#thm').onclick=()=>{const c=rt.getAttribute('data-theme')||
+  (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  rt.setAttribute('data-theme',c==='dark'?'light':'dark')};
+</script>
+</body>
+</html>
