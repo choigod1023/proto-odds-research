@@ -84,14 +84,14 @@ footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);
 <div class="navnote">
   <b>가격 분석</b> 회차 환급률·상품별 유불리 ·
   <b>경기 분석</b> 경기별 전 마켓 비교와 근거 ·
-  <b>연구 현황</b> 시장을 이길 수 있는가
+  <b>연구 현황</b> 왜 이길 수 없는가 — 12개 검증 기록
 </div>
 
 <header>
   <h1>한국 프로토 고정배당 시장은 효율적인가</h1>
   <p class="sub">553회차·353,047건을 실측해 답을 찾는 공개 연구. 결과가 어느 쪽이든 그대로 적는다.</p>
   <div class="meta">
-    <span>최종 갱신 2026-07-27</span>
+    <span>최종 갱신 2026-07-28</span>
     <span>실측 경기 43,509</span>
     <span><a href="https://github.com/choigod1023/proto-odds-research/tree/main/findings">전체 문서</a></span>
   </div>
@@ -104,7 +104,24 @@ footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);
   <div class="stat"><div class="k">해외 환급률</div><div class="v">95.3%</div><div class="n2">7.3%p 차이</div></div>
 </div>
 
-<h2><span class="n">01</span>지금까지 만난 여섯 개의 벽</h2>
+<div class="notice" style="border-left-color:var(--neg);margin-bottom:30px">
+  <b style="color:var(--neg)">2026-07-28 · 연구 종료 — 답이 나왔다</b>
+  <p><b>이 시장은 이길 수 없다.</b> 우리 모델이 부족해서가 아니다.</p>
+  <table style="margin-top:10px;font-size:13px;width:auto">
+    <tr><td style="padding:2px 16px 2px 0">필요한 우위</td><td class="mono"><b>6.8%p</b> (2-way 마진 12%)</td></tr>
+    <tr><td style="padding:2px 16px 2px 0">정보의 크기</td><td class="mono">2.4%p — 샤프 마켓 자신의 24h 스윙</td></tr>
+    <tr><td style="padding:2px 16px 2px 0">구조 선택의 이득</td><td class="mono">2.4%p — 규칙 7개 전부 누적</td></tr>
+    <tr><td style="padding:2px 16px 2px 0"><b>합쳐도</b></td><td class="mono"><b>4.8%p &lt; 6.8%p</b></td></tr>
+  </table>
+  <p style="margin-top:10px">문헌이 이걸 확증한다 — 장기 수익 베터는 약 3%, 프로가 효율 시장에서
+  목표하는 CLV 는 <b>+2~3%</b>, 라인이 무른 틈새시장에서도 <b>+5%</b>다.
+  <b>프로토 마진 12%는 세계 최고의 엣지를 그대로 가져와도 −7%가 되는 크기다.</b>
+  Aoki et al.(KDD 2017)도 "운이 상당해서 정교한 모델이 단순 모델을 거의 못 이긴다"고 한다.</p>
+  <p style="margin-top:10px">→ 목표를 <b>덜 잃는 것</b>으로 바꿨다. 아무거나 사면 −13.7%,
+  등급 A 구간만 사면 −9.2%. <b>4.5%p를 아낀다.</b> 이기는 도구가 아니다.</p>
+</div>
+
+<h2><span class="n">01</span>지금까지 만난 열두 개의 벽</h2>
 <p class="lead">각 검증의 판정 기준은 <b>데이터를 보기 전에</b> 정해뒀다. 나중에 정하면 어떤 결과든 성공으로 해석되기 때문이다.</p>
 
 <div class="wall"><div class="idx">1</div><div class="body">
@@ -129,8 +146,37 @@ footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);
   <div class="r warn">표본 부족</div></div>
 <div class="wall"><div class="idx">6</div><div class="body">
   <div class="t">해외 배당과의 괴리에 기회가 있는가</div>
-  <div class="d">509경기·1,120선택지 대조 <span class="warn">← 진행 중</span></div></div>
-  <div class="r warn">0.9%</div></div>
+  <div class="d">509경기·1,120선택지 대조. 괴리는 있으나 마감배당(미래정보)이었다</div></div>
+  <div class="r neg">0.9%</div></div>
+<div class="wall"><div class="idx">7</div><div class="body">
+  <div class="t">구장 파크팩터가 우위인가</div>
+  <div class="d">walk-forward 구장 효과는 진짜(총득점 RMSE 개선, 우위확률 97.9%).
+  그런데 <b>시장 확률 위에 얹으니 오히려 나빠졌다</b></div></div>
+  <div class="r neg">시장이 안다</div></div>
+<div class="wall"><div class="idx">8</div><div class="body">
+  <div class="t">타선을 선수 단위로 재면 달라지는가</div>
+  <div class="d">2,896경기 선수별 재수집. 라인업 wOBA·주전이탈.
+  방향은 일관(계수 +8~9)이나 크기가 1.7%p</div></div>
+  <div class="r neg">44시즌 필요</div></div>
+<div class="wall"><div class="idx">9</div><div class="body">
+  <div class="t">프로토가 약한 리그가 있는가</div>
+  <div class="d">리그 × 마켓 74조합. 커버가 얇은 리그일수록 <b>오히려 더 진다</b>
+  (표본이 적어 우리 λ 추정이 무너진다)</div></div>
+  <div class="r neg">0개</div></div>
+<div class="wall"><div class="idx">10</div><div class="body">
+  <div class="t">얇은 시장이 기회인가</div>
+  <div class="d">팀쌍 과거 대결 횟수로 '얇음'을 정의. 초대면 −1.89% → 16회+ +0.10%,
+  단조인데 <b>방향이 반대</b></div></div>
+  <div class="r neg">기각</div></div>
+<div class="wall"><div class="idx">11</div><div class="body">
+  <div class="t">배당이 얼어 있으니 정보 시차가 있지 않은가</div>
+  <div class="d">프로토 라인의 <b>86.2%가 33시간 동안 한 번도 안 움직인다</b> — 전제는 참.
+  그런데 실제로 갱신하는 샤프 마켓조차 24시간 스윙이 중앙 2.4%p</div></div>
+  <div class="r neg">정보가 작다</div></div>
+<div class="wall"><div class="idx">12</div><div class="body">
+  <div class="t">구조적 선택으로 마진을 낮출 수 있는가</div>
+  <div class="d">규칙 7개를 전부 AND. 표본은 5.5배 줄었는데 얻은 건 2.4%p</div></div>
+  <div class="r warn">−13.9%→−11.5%</div></div>
 
 <h2><span class="n">02</span>확정된 사실</h2>
 <p class="lead">재현 가능하고, 코드가 공개돼 있다.</p>
