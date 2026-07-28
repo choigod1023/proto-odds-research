@@ -46,7 +46,9 @@ from wisetoto import CACHE, _session                                # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PROC = ROOT / "data" / "processed"
-OUT = ROOT / "web" / "data"
+# ⚠️ GitHub Pages 가 서빙하는 건 `docs/` 다. `web/` 에 쓰면 만들어도 사이트에
+#    안 나온다 — 전 마켓 픽이 여태 화면에 없던 이유가 이것이었다.
+OUT = ROOT / "docs" / "data"
 
 WINDOW = 20
 _LINE = re.compile(r"([-+]?\d+\.?\d*)")
