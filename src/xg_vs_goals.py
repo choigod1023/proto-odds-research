@@ -166,6 +166,33 @@ def main() -> int:
             print(f"  {LABELS[k]:<28}{diff.mean():+.5f}  "
                   f"95% CI [{lo:+.5f}, {hi:+.5f}]  우위확률 {win:.1%}  → {verdict}")
         print("\n  (음수 = xG 가 득실차보다 낫다)")
+
+    # ---- 둘을 같이 쓰면?
+    # 단독 비교로는 '어느 쪽이 나은가'만 답한다. 정작 중요한 건
+    # **xG 가 득실차 위에 얹혔을 때 뭔가를 더 주는가** 다. 둘이 같은 정보를
+    # 담고 있으면 아무것도 안 늘고, 다른 정보를 담고 있으면 늘어난다.
+    print("\n" + "=" * 71)
+    print("⭐ 같이 쓰면 — xG 가 득실차 위에 정보를 더하는가")
+    combos = [(["goal_diff"], "득실차 단독"),
+              (["xg_diff"], "xG 단독"),
+              (["goal_diff", "xg_diff"], "득실차 + xG"),
+              (["goal_diff", "npxg_diff"], "득실차 + npxG"),
+              (["goal_diff", "xg_diff", "luck_diff"], "득실차 + xG + 운")]
+    ref = None
+    print(f"  {'모델':<26}{'Brier':>10}{'단독대비':>11}")
+    for cols, name in combos:
+        b = _fit(mk(tr, cols), y_tr)
+        if b is None:
+            continue
+        br = _brier(mk(te, cols), b, y_te)
+        if name == "득실차 단독":
+            ref = br
+        gap = f"{ref - br:>+11.5f}" if ref is not None and name != "득실차 단독" else ""
+        print(f"  {name:<26}{br:>10.5f}{gap}")
+        if len(cols) > 1:
+            se = _se(mk(tr, cols), b)
+            zs = "  ".join(f"{c}: z={b[i+1]/se[i+1]:.2f}" for i, c in enumerate(cols))
+            print(f"      {zs}")
     return 0
 
 
