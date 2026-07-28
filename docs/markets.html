@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>전 마켓 분석 — 승패·언더오버·핸디캡·승①패</title>
+<title>경기 분석 — 승패·언더오버·핸디캡·승①패</title>
 <meta name="description" content="한 경기의 모든 프로토 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포로 계산해 한 화면에서 비교한다.">
 <style>
 :root{
@@ -76,6 +76,15 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
 .why{font-size:11.5px;color:var(--tx3)}
 .pos{color:var(--pos)}.neg{color:var(--neg)}
 .badge{font-size:10.5px;padding:1px 6px;border-radius:3px;background:var(--pos);color:#fff}
+.why-box{padding:12px 15px;border-top:1px solid var(--line2);font-size:13px;
+  color:var(--tx2);line-height:1.75}
+.why-box .lead{color:var(--tx);font-weight:600;margin-bottom:5px}
+.why-box .facts{margin-top:6px;font-size:12.5px;color:var(--tx3)}
+.verdict{border:1px solid var(--neg);border-left:3px solid var(--neg);
+  background:var(--panel);padding:14px 16px;border-radius:3px;margin-bottom:22px}
+.verdict b{color:var(--neg)}
+.verdict table{margin-top:9px;font-size:12.5px;background:transparent}
+.verdict td{border:none;padding:2px 14px 2px 0}
 .empty{padding:40px 0;text-align:center;color:var(--tx3)}
 footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
   font-size:12px;color:var(--tx3)}
@@ -90,23 +99,22 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 
 <nav>
   <a href="index.html">가격 분석</a>
-  <a href="markets.html" class="on">전 마켓</a>
-  <a href="picks.html">오늘의 픽</a>
+  <a href="markets.html" class="on">경기 분석</a>
   <a href="research.html">연구 현황</a>
 </nav>
 <div class="navnote">
   <b>가격 분석</b> 회차 환급률·상품별 유불리 ·
-  <b>전 마켓</b> 한 경기의 모든 마켓을 한눈에(이 페이지) ·
-  <b>오늘의 픽</b> 승패 단일 추천과 성적 ·
+  <b>경기 분석</b> 경기별 전 마켓 비교와 근거(이 페이지) ·
   <b>연구 현황</b> 시장을 이길 수 있는가
 </div>
 
 <header>
-  <h1>전 마켓 분석</h1>
+  <h1>경기 분석</h1>
   <p class="sub">한 경기에 걸린 <b>승패 · 언더오버 · 핸디캡 · 승①패</b>를 스코어 분포로 한꺼번에 계산해 비교한다.</p>
   <div class="meta" id="meta"></div>
 </header>
 
+<div class="verdict" id="verdict"></div>
 <div class="notice" id="warn"></div>
 
 <div class="bar">
@@ -134,13 +142,36 @@ const pct = v => (v==null ? "–" : (v*100).toFixed(1)+"%");
 const sgn = v => (v==null ? "–" : (v>=0?"+":"")+(v*100).toFixed(1)+"%");
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-let DATA=null;
+let DATA=null, WHY={};
+const wkey = g => `${g.date}|${g.home}|${g.away}`;
 
 function optName(o){
   const lb = o.label ? " "+o.label : "";
   return esc(o.market + lb + " · " + o["선택"]);
 }
 
+function fmForm(f){
+  if(!f) return "";
+  const b=[`${f.w}승${f.l}패`];
+  if(f.streak) b.push(f.streak);
+  if(f.last10) b.push(`최근10 ${f.last10}`);
+  if(f.avg_scored!=null) b.push(`${f.avg_scored}득 ${f.avg_conceded}실`);
+  return b.join(" · ");
+}
+function whyBox(g){
+  const w=WHY[wkey(g)];
+  if(!w) return "";
+  const facts=[];
+  if(w.elo_home!=null) facts.push(`Elo ${esc(g.home)} ${w.elo_home} / ${esc(g.away)} ${w.elo_away}`);
+  if(w.h2h) facts.push(esc(w.h2h));
+  const fh=fmForm(w.form_home), fa=fmForm(w.form_away);
+  if(fh) facts.push(`${esc(g.home)} ${esc(fh)}`);
+  if(fa) facts.push(`${esc(g.away)} ${esc(fa)}`);
+  return `<div class="why-box">
+    ${w.preview?`<div class="lead">${esc(w.preview)}</div>`:""}
+    ${facts.length?`<div class="facts">${facts.join(" · ")}</div>`:""}
+  </div>`;
+}
 function render(){
   const st=fst.value, lg=flg.value, mk=fmk.value, onlyReco=fre.checked;
   const pool=[...(DATA.live||[]),...(DATA.past||[])];
@@ -178,14 +209,29 @@ function render(){
           <td class="num ${ev>=0?"pos":"neg"}">${sgn(ev)}</td>
           <td class="why">${reco?"<b>추천</b>":esc(o["제외"]||"")}</td>
         </tr>`;}).join("")}
-      </tbody></table></div>`);
+      </tbody></table>${whyBox(g)}</div>`);
   }
   list.innerHTML = out.length? out.join("") :
     `<div class="empty">조건에 맞는 경기가 없습니다.</div>`;
 }
 
-fetch("data/picks_v2.json?"+Date.now()).then(r=>r.json()).then(d=>{
+Promise.all([
+  fetch("data/picks_v2.json?"+Date.now()).then(r=>r.json()),
+  fetch("data/picks.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
+]).then(([d,pk])=>{
   DATA=d;
+  if(pk){
+    (pk.picks||[]).forEach(p=>{ WHY[`${p.date}|${p.home}|${p.away}`]=p; });
+    const b=pk.backtest;
+    if(b) document.getElementById("verdict").innerHTML=
+      `<b>⚠ 이 분석을 따라 베팅하지 마세요</b>
+       <p style="margin:6px 0 0;font-size:13.5px;color:var(--tx2)">${esc(b.verdict||"")}</p>
+       <table><tr><td>검증 구간</td><td class="mono">${esc(b.test||"")} (학습 ${esc(b.train||"")})</td></tr>
+       <tr><td>모델 Brier</td><td class="mono">${b.model_brier} vs 시장 ${b.market_brier}</td></tr>
+       <tr><td>픽 수익률</td><td class="mono">${(b.pick_roi*100).toFixed(2)}%
+         (95%CI ${(b.pick_ci[0]*100).toFixed(1)}% ~ ${(b.pick_ci[1]*100).toFixed(1)}%)
+         · 표본 ${b.n_picks.toLocaleString()}건</td></tr></table>`;
+  }
   gen.textContent=(d.generated_at||"").replace("T"," ").replace("+00:00"," UTC");
   const pool=[...(d.live||[]),...(d.past||[])];
   const t=d.tally||{};
