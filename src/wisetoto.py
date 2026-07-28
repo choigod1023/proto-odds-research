@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import gzip
 import re
+import sys
 import time
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -117,13 +118,24 @@ class GameRow:
         농구·배구는 무승부가 없다(연장으로 반드시 승부가 난다). 따라서 이 두 종목의
         3-way 일반 마켓은 **구조적으로 승⑤패**다. 이 사실로 가른다.
         """
-        # ⚠️ 태그가 **비어 있으면 홀짝(SUM)** 이다.
-        #    사이트가 홀짝에는 마켓 class 를 안 붙인다. 그래서 여태 '승패 2-way' 로
-        #    분류돼 18,781건(승패 2-way 의 44.2%)이 뒤섞여 있었다.
-        #    검증: 태그 없는 승패2way 중 정산분 18,537건이 **전부 홀/짝**(순도 98.6%).
-        #    ⚠️ 홀짝은 승패와 완전히 다른 상품이다. 섞이면 승패 분석이 오염된다.
+        # ⚠️ 태그가 비어 있는 행이 **한 종류가 아니다.**
+        #    · n_way=2 → 홀짝(SUM). 사이트가 홀짝에만 class 를 안 붙인다.
+        #      검증: 태그 없는 2-way 정산분 18,537건이 전부 홀/짝(순도 98.6%).
+        #    · n_way=3 → 농구·배구면 승⑤패
+        #    · n_way=0 → 배당 자체가 없는 행
+        # ⚠️ 태그 없는 행이 한 종류가 아니다. 여기서 n_way 로 다시 갈라야 한다.
+        #    2026-07-28 실수: 아래를 `홀짝 if n_way==2 else 미분류` 로만 짰더니
+        #    **태그 없는 3-way(=KBL 승⑤패 1,206건)를 통째로 '미분류'로 삼켰다.**
+        #    같은 날 아침에 고친 승⑤패 분류를 저녁에 다시 깨뜨린 셈이다.
         if not self.market_tag:
-            return "홀짝" if self.n_way == 2 else "미분류"
+            if self.n_way == 2:
+                return "홀짝"
+            if self.n_way == 3:
+                # 농구·배구는 무승부가 없다 → 3-way 는 구조적으로 승⑤패
+                return "승⑤패" if self.sport in ("bk", "vl") else "승무패"
+            # n_way=0 : 배당이 아예 없는 행(미공개). 476건, 결과는 대개 홀/짝이지만
+            # 배당이 없어 마켓을 확정할 수 없고 어차피 분석에 못 쓴다.
+            return "미분류"
         if self.market_tag == "un":
             return "언더오버"
         if self.market_tag == "d1":
@@ -281,3 +293,53 @@ def rows_to_records(rows: list[GameRow]) -> list[dict]:
         d["booking_class"] = r.booking_class
         out.append(d)
     return out
+
+
+def _self_test() -> None:
+    """market_family 분류 단위검사.
+
+    ⚠️ 2026-07-28 에 여기서 두 번 사고가 났다.
+      · 아침: 태그 'hm' 하나에 승무패·승⑤패·홀짝이 섞여 오는 걸 놓쳐
+              KBL 승⑤패가 '승무패' 로 분류 → 결과 `⑤` 32% 가 조용히 버려져
+              가짜 ROI +30% 가 나왔다.
+      · 저녁: 홀짝을 고치면서 `태그없음 → 홀짝 or 미분류` 로만 갈라
+              **태그 없는 3-way(KBL 승⑤패 1,206건)를 미분류로 삼켰다.**
+    분류는 (태그 × 선택지수 × 종목) 세 축이 얽혀 있어 눈으로 못 지킨다.
+    바꿀 때마다 `python3 src/wisetoto.py --selftest` 를 돌릴 것.
+    """
+    def mk(tag, nw, sp, lab=""):
+        return GameRow(year=2026, round=1, game_no="1", date_text="", sport=sp,
+                       league="", market_tag=tag, market_label=lab, home="", away="",
+                       score_text="", odds=[2.0] * nw, result="", is_void=False)
+
+    cases = [
+        ("", 2, "bs", "홀짝"),        # 사이트가 홀짝에만 class 를 안 붙인다
+        ("", 3, "bk", "승⑤패"),       # 태그 없는 3-way 농구 = 승⑤패 (저녁 사고)
+        ("", 3, "vl", "승⑤패"),
+        ("", 3, "sc", "승무패"),
+        ("", 0, "bs", "미분류"),       # 배당 자체가 없는 행
+        ("hm", 3, "bk", "승⑤패"),     # 농구·배구는 무승부가 없다 (아침 사고)
+        ("hm", 3, "sc", "승무패"),
+        ("hm", 2, "bs", "승패"),
+        ("un", 2, "bs", "언더오버"),
+        # ⚠️ hp 는 **라벨이 있어야** 핸디캡으로 잡힌다(is_handicap 이 라벨을 본다).
+        #    라벨 없이 넣으면 승무패로 떨어진다 — 자기검사가 이걸 잡아냈다.
+        ("hp", 3, "sc", "핸디캡", "H -1.0"),
+        ("d1", 3, "bs", "승①패"),
+    ]
+    bad = []
+    for c in cases:
+        t, n, sp, want = c[:4]
+        lab = c[4] if len(c) > 4 else ""
+        got = mk(t, n, sp, lab).market_family
+        if got != want:
+            bad.append((t, n, sp, want, got))
+    for t, n, sp, want, got in bad:
+        print(f"  FAIL tag={t or '(없음)'} n_way={n} {sp} → {got} (기대 {want})")
+    print(f"market_family 단위검사: {len(cases) - len(bad)}/{len(cases)} 통과")
+    if bad:
+        raise SystemExit(1)
+
+
+if __name__ == "__main__" and "--selftest" in sys.argv:
+    _self_test()
