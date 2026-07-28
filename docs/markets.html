@@ -80,6 +80,10 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
   border-radius:3px;font-size:10.5px;font-weight:700;color:#fff;margin-right:6px;
   vertical-align:1px}
 .grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
+.grT{background:var(--tx3)}
+.grnote{font-size:12px;color:var(--tx2);margin:-14px 0 22px;line-height:1.7;
+  border-left:3px solid var(--line);padding-left:12px}
+.grnote b{color:var(--tx)}
 .gradebar{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;
   margin-bottom:22px}
@@ -127,6 +131,13 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 
 <div class="verdict" id="verdict"></div>
 <div class="gradebar" id="gradebar"></div>
+<div class="grnote">
+  등급은 <b>"이 선택지를 사라"가 아니다.</b> <b>그 배당대의 과거 실측 수익률</b>이다 —
+  전부 마이너스이고, 가장 좋은 A 도 −9.2% 다.<br>
+  <b>양쪽을 동시에 살 수는 없다.</b> 같은 마켓의 두 선택지가 같은 배당대에 있으면
+  <span class="gr grT">=</span> 로 표시한다. <b>어느 쪽을 사도 결과가 같아 고를 근거가 없다는 뜻</b>이다.<br>
+  쓰는 법은 하나다 — <b>여러 경기·여러 마켓 중 무엇을 살지 고를 때</b> 낮은 배당대를 고르면 덜 잃는다.
+</div>
 <div class="notice" id="warn"></div>
 
 <div class="bar">
@@ -217,13 +228,30 @@ function render(){
         <th style="text-align:right">시장</th><th style="text-align:right">모델</th>
         <th style="text-align:right">예상손익</th><th>판단</th>
       </tr></thead><tbody>
+      ${(()=>{
+        // ⚠️ 등급은 배당대 통계다. 같은 마켓의 양쪽이 같은 등급이면 **고를 근거가 없다**.
+        //    배지가 선택지 옆에 붙어 있어 매수 신호로 읽히던 문제를 여기서 막는다.
+        const byMk={};
+        opts.forEach(o=>{const k=o.market+(o.label||""); (byMk[k]=byMk[k]||[]).push(o);});
+        window.__tie={};
+        Object.entries(byMk).forEach(([k,v])=>{
+          const gs=v.map(x=>oddsGrade(x["배당"])?.grade);
+          window.__tie[k]= v.length>1 && new Set(gs).size===1;
+        });
+        return "";
+      })()}
       ${opts.map(o=>{
         const reco=o["추천점수"]!=null, ev=o["예상손익"];
         const cls=reco?"reco":(o["제외"]?"excl":"");
         const hit=o["적중"]===true?' <span class="badge">적중</span>':
                   o["적중"]===false?' <span class="tag">미적중</span>':"";
         const gr=oddsGrade(o["배당"]);
-        const grHtml=gr?`<span class="gr gr${gr.grade}" title="배당 ${gr.bin} 실측 수익률 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`:"";
+        const tie=window.__tie&&window.__tie[o.market+(o.label||"")];
+        const grHtml=gr
+          ?(tie
+            ? `<span class="gr grT" title="양쪽이 같은 배당대(${gr.bin}) — 어느 쪽을 사도 같다. 고를 근거가 없다">=</span>`
+            : `<span class="gr gr${gr.grade}" title="배당 ${gr.bin} 실측 수익률 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`)
+          :"";
         return `<tr class="${cls}">
           <td>${grHtml}<span class="mk">${optName(o)}</span>${hit}</td>
           <td class="num">${o["배당"]??"–"}</td>
