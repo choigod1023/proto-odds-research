@@ -56,6 +56,9 @@ PUBLISH = [
     ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"]),
     ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"]),
     ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"]),
+    # 정보 시차 결합 — 표본이 쌓이는 걸 눈으로 보려고 매 주기 갱신한다.
+    # 원본에서 매번 다시 계산하므로 실패해도 뒤에 영향이 없다.
+    ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"]),
 ]
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
