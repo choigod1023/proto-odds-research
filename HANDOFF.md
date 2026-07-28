@@ -375,7 +375,9 @@ CSV 를 받을 수 있다. 돈 쓰는 결정이라 대신 하지 않았다.
     (KBL 승⑤패 +30% · FA컵 R1 · 승①패 중간 · 마켓 정합성 +12.5%) 전부 같은 구조였다.
     **버려지는 이유가 결과값과 상관있으면 반드시 가짜다** — 높은 배당의 근거인 위험을
     지우고 배당만 취하는 셈이다. Bonferroni·부트스트랩·시간분리를 다 통과해도 안 잡힌다.
-    → **`src/guard.py` 의 `check_slice()` 를 부분집합마다 호출할 것.**
+    → **`python3 src/selftest_all.py`** 를 파이프라인 수정 후 반드시 돌릴 것
+      (wisetoto·bets·market_scan·score_dist·devig·guard 6종).
+    → 부분집합을 만들 때는 **`src/guard.py` 의 `check_slice()`** 를 호출할 것.
     버려진 행의 적중률을 z 검정해 결과값 기반 누락을 자동으로 잡는다.
 
 ### 운영

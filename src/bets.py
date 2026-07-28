@@ -21,6 +21,9 @@
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 from dataclasses import dataclass
 
 # (n_way, 결과라벨) → 적중 인덱스
@@ -31,6 +34,11 @@ _WINNER: dict[tuple[int, str], int] = {
     (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
     (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2,
     (3, "①"): 1,
+    # ⚠️ 2026-07-28 추가. 아래 둘이 빠져 있어 **조용히 버려지고 있었다.**
+    #    같은 누락이 market_scan.WIN_IDX 에도 있었고, 그쪽에서 KBL 가짜 ROI +30% 가
+    #    나왔다. 매핑 테이블이 두 군데 있으면 한쪽만 고치게 된다 — 실제로 그랬다.
+    (3, "⑤"): 1,                      # 승⑤패 '5점차 이내' (농구·배구)
+    (2, "홀"): 0, (2, "짝"): 1,        # 홀짝(SUM)
 }
 
 # 선택지 인덱스 → 사람이 읽는 이름
@@ -41,6 +49,8 @@ _SEL_NAMES = {
     ("승무패", 3): ("홈", "무", "원정"),
     ("핸디캡", 3): ("핸디홈", "핸디무", "핸디원정"),
     ("승①패", 3): ("홈2+", "1점차", "원정2+"),
+    ("승⑤패", 3): ("홈6+", "5점차이내", "원정6+"),
+    ("홀짝", 2): ("홀", "짝"),
 }
 
 
@@ -103,3 +113,76 @@ def to_bets(rows) -> list[Bet]:
                 sel_index=i, odds=o, won=(i == wi),
             ))
     return out
+
+
+def _selftest() -> None:
+    """결과값 매핑 커버리지 검사 — **실제 데이터에 있는 결과값을 다 덮는가.**
+
+    ⚠️ 2026-07-28 에 이 누락으로 가짜를 만들었다.
+       `market_scan.WIN_IDX` 에 `⑤` 가 없어 KBL 승⑤패의 중간 결과 32% 가
+       조용히 버려졌고, 6점차 이상으로 갈린 경기만 남아 **가짜 ROI +30%** 가 나왔다.
+       Bonferroni·부트스트랩·시간분리를 다 통과했는데도 가짜였다.
+
+    핵심: **매핑에 없는 결과값은 예외 없이 조용히 사라진다.**
+    그 누락이 결과값과 상관있으면 표본이 편향돼 반드시 가짜가 나온다.
+    → 데이터에 실재하는 (n_way, result) 조합을 세어 매핑 커버리지를 본다.
+    """
+    import collections
+    import pandas as pd
+
+    path = Path(__file__).resolve().parent.parent / "data" / "processed" / "games.csv"
+    if not path.exists():
+        print("bets 커버리지 검사: games.csv 없음 — build_dataset.py 먼저")
+        return
+
+    g = pd.read_csv(path)
+    g = g[~g["is_void"].astype(bool)]
+    # 정산된 것으로 보이는 결과만 (경기전·인코딩깨짐 제외)
+    SKIP = {"경기전", "하프타임", "취소", "연기", "중단", "무효", "nan"}
+    cnt = collections.Counter()
+    for nw, res in zip(g["n_way"], g["result"].astype(str)):
+        try:
+            nw = int(nw)
+        except (TypeError, ValueError):
+            continue
+        if res in SKIP or not res.isprintable():
+            continue
+        cnt[(nw, res)] += 1
+
+    total = sum(cnt.values())
+    # ⚠️ n_way=0 은 배당 자체가 없는 행이다. 선택지가 없으니 매핑할 수 없고
+    #    `overround is None` 에서 어차피 걸러진다. 정당한 제외이지 누락이 아니다.
+    no_odds = {k: v for k, v in cnt.items() if k[0] < 2}
+    missing = {k: v for k, v in cnt.items() if k[0] >= 2 and k not in _WINNER}
+    # 인코딩 깨진 값은 별도로 센다 (한글 자모가 깨진 형태)
+    broken = {k: v for k, v in missing.items()
+              if not all("가" <= c <= "힣" or c in "①⑤" for c in k[1])}
+    real = {k: v for k, v in missing.items() if k not in broken}
+
+    print(f"bets 결과값 커버리지: 전체 {total:,}건")
+    mapped = total - sum(missing.values()) - sum(broken.values()) - sum(no_odds.values())
+    print(f"  매핑됨      {mapped:,} ({mapped/total:.2%})")
+    print(f"  인코딩깨짐  {sum(broken.values()):,} (파서 문제, 무작위라 편향 없음)")
+    print(f"  배당없음    {sum(no_odds.values()):,} (n_way=0, 매핑 불가·정당한 제외)")
+    n_miss = sum(real.values())
+    if real:
+        # 0.1% 미만은 파싱 이상치로 보고 경고만. 그 이상이면 실패.
+        # ⚠️ 알려진 이상치: 축월드컵 10건은 **스코어와 결과가 모순**이다
+        #    (한국 2:1 체코 → '원정', 잉글랜드 1:2 아르헨티나 → '홈').
+        #    매핑할 값이 아니라 파서가 잘못 읽은 것이다.
+        lvl = "🔴 매핑 누락" if n_miss > total * 0.001 else "⚠️ 미매핑(이상치)"
+        print(f"  {lvl} {n_miss:,}건 ({n_miss/total:.3%}):")
+        for k, v in sorted(real.items(), key=lambda x: -x[1])[:8]:
+            print(f"       n_way={k[0]} result={k[1]!r}  {v:,}건")
+        if n_miss > total * 0.001:
+            print("       → 매핑 테이블(_WINNER)에 추가하거나 원인을 규명할 것")
+            raise SystemExit(1)
+        print("  ✅ 누락이 0.1% 미만 — 편향을 만들 크기가 아니다")
+    else:
+        print("  ✅ 실제 결과값을 모두 덮는다")
+
+if __name__ == "__main__":
+    # ⚠️ --selftest 는 main() 보다 **먼저** 검사해야 한다.
+    #    아래 순서가 뒤바뀌면 자기검사가 영영 안 돌아간다(실제로 그랬다).
+    if "--selftest" in sys.argv:
+        _selftest()
