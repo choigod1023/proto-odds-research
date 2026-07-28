@@ -38,9 +38,14 @@ LOOPERS = [
     ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py", "--loop", "900"]),
 ]
 
-# 하루 1회짜리 — FootyStats 는 연속 요청을 막으므로 자주 찍을 이유도 없다
+# 하루 1회짜리 — FootyStats 는 연속 요청을 막으므로 자주 찍을 이유도 없다.
+# 리그를 넷으로 늘린 이유는 판정 시점 때문이다: K리그1 만이면 필요 표본(441경기)에
+# 2027년 8월에나 닿는데, 넷을 합치면 2026년 11월이다. 자세한 계산은 xg_watch.py.
 DAILY = [
-    ("K리그 xG", [sys.executable, "-u", "src/xg_watch.py", "kleague1"]),
+    ("K리그1 xG", [sys.executable, "-u", "src/xg_watch.py", "kleague1"]),
+    ("K리그2 xG", [sys.executable, "-u", "src/xg_watch.py", "kleague2"]),
+    ("J1 xG", [sys.executable, "-u", "src/xg_watch.py", "j1"]),
+    ("J2 xG", [sys.executable, "-u", "src/xg_watch.py", "j2"]),
 ]
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
@@ -141,7 +146,11 @@ def run_looper(name: str, cmd: list[str]) -> None:
 
 def run_daily() -> None:
     while True:
-        for name, cmd in DAILY:
+        for i, (name, cmd) in enumerate(DAILY):
+            if i:
+                # 리그를 연달아 긁으면 FootyStats 가 429 로 막는다(실제로 겪음).
+                # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
+                time.sleep(300)
             log(f"{name} 실행")
             r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
             tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]

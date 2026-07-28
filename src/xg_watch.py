@@ -41,10 +41,24 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "raw" / "xg_snapshots.jsonl"
 
 BASE = "https://footystats.org"
-# 나중에 J리그를 붙일 자리 — 사용자가 예고한 다음 대상
+# 리그를 왜 이만큼 붙였나 — 순전히 **판정 시점을 당기기 위해서**다.
+#
+# 필요 표본은 측정 정밀도에서 나온다. close_market.py 부트스트랩에서 n=307 일 때
+# 신뢰구간 반폭이 0.0072 였고, 반폭은 1/√n 로 줄어든다:
+#
+#     필요 n = (0.126 / 효과크기)²
+#     효과 +0.006(야구 xFIP 전체 수준) → 441경기
+#
+# K리그1 만 쓰면 연 228경기라 441경기는 **2027년 8월**이다. 네 리그를 합치면
+# 연 ~1,258경기라 **2026년 11월**로 당겨진다.
+#
+# ⚠️ 리그를 섞으면 모델에 리그 효과를 넣어야 한다(리그마다 득점 수준이 다르다).
+#    표본만 합치고 그걸 빼먹으면 없는 신호를 만들어낸다.
 LEAGUES = {
     "kleague1": "/south-korea/k-league-1",
     "kleague2": "/south-korea/k-league-2",
+    "j1": "/japan/j1-league",
+    "j2": "/japan/j2-league",
 }
 
 # robots 의 ClaudeBot Crawl-delay 는 1s 지만, 그 속도로 연속 요청하면 실제로
