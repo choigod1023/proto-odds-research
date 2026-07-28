@@ -137,6 +137,10 @@ def main() -> int:
                 "year": d["year"], "sport": d["sport"], "league": d["league"],
                 "market": f"{d['market_family']}({int(d['n_way'])}-way)",
                 "p_model": p_model, "p_proto": p_proto, "odds": o,
+                # ⚠️ 선택지 위치가 없으면 '승①패의 1점차'처럼 **마켓 안의 특정
+                #    선택지**를 못 집는다. Q0 의 최대 이상점(+6.46%p)이 바로
+                #    그 형태였는데 마켓 단위로만 보면 +0.70% 로 희석된다.
+                "sel_idx": i, "n_way": int(d["n_way"]),
                 "won": 1.0 if i == wi else 0.0})
 
     L = pd.DataFrame(rows)
