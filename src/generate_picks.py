@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -28,6 +28,35 @@ from team_form import build_forms, h2h_text, set_rest_days  # noqa: E402
 from wisetoto import CACHE, _session                     # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
+
+KST = timezone(timedelta(hours=9))
+_KICK_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\([^)]*\)\s*(\d{1,2}):(\d{2})")
+
+
+def _now_kst() -> datetime:
+    return datetime.now(KST)
+
+
+def _kickoff(date_text: str, season: int) -> datetime | None:
+    """'07.28(화) 18:30' → 경기 시작 시각(KST).
+
+    ⚠️ 회차 데이터에는 연도가 없다. 시즌 연도를 붙이되, 12월↔1월 경계에서
+       한 해가 틀어지는 걸 막기 위해 지금과 반년 이상 벌어지면 보정한다.
+    """
+    m = _KICK_RE.match(str(date_text).strip())
+    if not m:
+        return None
+    mm, dd, hh, mi = (int(x) for x in m.groups())
+    try:
+        ko = datetime(season, mm, dd, hh, mi, tzinfo=KST)
+    except ValueError:                       # 2/30 같은 파싱 오류
+        return None
+    now = _now_kst()
+    if ko - now > timedelta(days=180):
+        ko = ko.replace(year=season - 1)
+    elif now - ko > timedelta(days=180):
+        ko = ko.replace(year=season + 1)
+    return ko
 OUT = ROOT / "docs" / "data" / "picks.json"
 
 # src/picks.py 백테스트에서 측정한 값 — 산출물에 그대로 싣는다
@@ -113,7 +142,13 @@ def main() -> int:
             fh, fa = forms.get(kh), forms.get(ka)
 
             # 정산 상태와 적중 여부
+            # ⚠️ 정산 여부만 보면 안 된다. 소스가 결과를 늦게 반영하면
+            #    **이미 끝난 경기가 영원히 '경기전'으로 남아** 프론트 맨 위에 뜬다.
+            #    (2026-07-28 버그: 7/28 인데 7/24 경기가 예정으로 보였다)
+            #    킥오프 시각을 같이 봐서 지난 경기는 '정산대기'로 분리한다.
             settled = r.result in ("홈승", "홈패")
+            ko = _kickoff(r.date_text, season)
+            upcoming = ko is None or ko > _now_kst()
             hit = None
             profit = None
             if settled:
@@ -135,7 +170,9 @@ def main() -> int:
                 "pick_odds": round(o_h if side == ht else o_a, 2),
                 "elo_home": round(ratings[kh], 1), "elo_away": round(ratings[ka], 1),
                 "n_games_home": games_seen[kh], "n_games_away": games_seen[ka],
-                "status": "정산" if settled else "경기전",
+                "kickoff": ko.isoformat() if ko else None,
+                "status": ("정산" if settled
+                           else ("경기전" if upcoming else "정산대기")),
                 "result": r.result if settled else None,
                 "hit": hit, "profit": round(profit, 3) if profit is not None else None,
                 "h2h": h2h_text(h2h, r.league, ht, at),
@@ -148,7 +185,14 @@ def main() -> int:
                                     side, ev),
             })
 
-    picks.sort(key=lambda x: (x["status"] != "경기전", -x["pick_ev"]))
+    # 경기전 → 정산대기 → 정산 순.
+    # 경기전은 **킥오프가 임박한 순**이 실제로 쓸모 있다(베팅 마감이 먼저 온다).
+    # 정산분은 최신 경기가 위로 오게 역순.
+    _ORDER = {"경기전": 0, "정산대기": 1, "정산": 2}
+    picks.sort(key=lambda x: (_ORDER.get(x["status"], 9),
+                              (x.get("kickoff") or "") if x["status"] == "경기전"
+                              else "",
+                              -x["pick_ev"]))
     done = [p for p in picks if p["hit"] is not None]
     tally = None
     if done:
