@@ -155,12 +155,20 @@ def p_handicap(M: np.ndarray, h: float) -> tuple[float, float, float]:
     return float(win), float(draw), float(1 - win - draw)
 
 
-def p_one_run(M: np.ndarray) -> tuple[float, float, float]:
-    """승①패 — (홈 2점차+승, 1점차, 원정 2점차+승)"""
+def p_margin_band(M: np.ndarray, band: int) -> tuple[float, float, float]:
+    """마진 밴드형 3-way — (홈 band+1점차 이상 승, |차| ≤ band, 원정 band+1점차 이상 승).
+
+    band=1 → 승①패(야구)   band=5 → 승⑤패(농구·배구)
+    """
     n = M.shape[0]
-    a = float(sum(M[i, j] for i in range(n) for j in range(n) if i - j >= 2))
-    m = float(sum(M[i, j] for i in range(n) for j in range(n) if abs(i - j) == 1))
-    return a, m, float(1 - a - m)
+    a = float(sum(M[i, j] for i in range(n) for j in range(n) if i - j > band))
+    m = float(sum(M[i, j] for i in range(n) for j in range(n) if abs(i - j) <= band))
+    return a, m, float(max(0.0, 1 - a - m))
+
+
+def p_one_run(M: np.ndarray) -> tuple[float, float, float]:
+    """승①패 — (홈 2점차+승, 1점차 이내, 원정 2점차+승)"""
+    return p_margin_band(M, 1)
 
 
 # ---------------------------------------------------------------- λ 추정
