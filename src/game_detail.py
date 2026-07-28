@@ -157,6 +157,48 @@ def parse_baseball_batters(res: dict) -> dict | None:
     return out
 
 
+def parse_baseball_batters_indiv(res: dict) -> dict | None:
+    """타자 박스스코어를 **선수 단위 그대로** 남긴다.
+
+    왜 따로 만드나
+    --------------
+    `parse_baseball_batters` 는 선수 행을 팀 합계로 접어 버린다. 그래서
+    `batter_process.py` 의 "타선은 죽었다"는 판정은 **팀 시즌 평균**으로 낸 것이고,
+    **그날 실제로 나온 9명이 누구인지는 한 번도 보지 않았다.**
+
+    투수는 개인 단위(FIP·xFIP)로 재서 통했다(+0.006). 타선만 팀 단위로 재고
+    죽었다고 결론 낸 셈이라, 비교가 공정하지 않다. 이 파서는 그 구멍을 메운다.
+
+    남기는 것
+    ---------
+    · `playerCode`·`name` — 선수 식별. walk-forward 개인 성적 누적의 키
+    · **`batOrder`** — 그날의 타순. 라인업 구성 자체가 경기마다 바뀌는 정보다
+    · `pos` — 포지션(대타·대주자 구분에 필요)
+    · ab·hit·hr·bb·kk·run·rbi·sb + 이닝 칸에서 파싱한 단타/2루타/3루타
+    """
+    rd = (res or {}).get("recordData") or {}
+    bb = rd.get("battersBoxscore") or {}
+    if not bb.get("home") or not bb.get("away"):
+        return None
+
+    gi = rd.get("gameInfo") or {}
+    out = {"stadium": gi.get("stadium"), "gtime": gi.get("gtime")}
+    for side in ("home", "away"):
+        rows = []
+        for p in bb.get(side) or []:
+            rec = {"code": str(p.get("playerCode") or ""),
+                   "name": p.get("name"),
+                   "order": p.get("batOrder"),
+                   "pos": p.get("pos")}
+            for k in ("ab", "hit", "hr", "bb", "kk", "run", "rbi", "sb"):
+                rec[k] = int(p.get(k) or 0)
+            hits = _batter_hits(p)
+            rec["s"], rec["d"], rec["t"] = hits["s"], hits["d"], hits["t"]
+            rows.append(rec)
+        out[side] = rows
+    return out
+
+
 def parse_soccer_shots(res: dict) -> dict | None:
     """축구 슈팅 통계 — **xG 의 대용품**.
 
@@ -217,6 +259,7 @@ def main(argv: list[str]) -> int:
     #       / shots(축구 슈팅)
     path = "lineup" if kind == "lineup" else "record"
     parse = {"baseball": parse_baseball, "batters": parse_baseball_batters,
+             "batters_indiv": parse_baseball_batters_indiv,
              "lineup": parse_soccer, "shots": parse_soccer_shots}[kind]
 
     RAW.mkdir(parents=True, exist_ok=True)
