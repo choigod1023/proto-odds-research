@@ -101,14 +101,31 @@ class GameRow:
 
     @property
     def market_family(self) -> str:
-        """상품 구분 (booking과는 별개 축)."""
+        """상품 구분 (booking과는 별개 축).
+
+        ⚠️ 사이트의 `hm`(일반) 태그 하나에 **승무패·승⑤패·홀짝이 섞여 온다.**
+           태그만 보고 n_way 로 가르면 셋이 뭉개진다. 실제로 그랬다:
+
+           · 농구/배구 3-way 를 '승무패'로 라벨 → 결과값 '⑤'(5점차 이내)가
+             WIN_IDX 에 없어 **조용히 버려졌다.** KBL 32.2% · WKBL 34.3% 가
+             사라졌고, 6점차 이상으로 갈린 경기만 남아 모델이 이기는 것처럼
+             보였다(가짜 ROI +30%). 2026-07-28 발견.
+           · 홀짝(SUM)을 '승패 2-way'로 라벨 → 18,781건(44.2%)이 통째로 버려졌다.
+             이쪽은 결과와 무관한 전량 누락이라 승패 분석 자체는 오염되지 않았지만,
+             **홀짝 마켓은 한 번도 분석된 적이 없다.**
+
+        농구·배구는 무승부가 없다(연장으로 반드시 승부가 난다). 따라서 이 두 종목의
+        3-way 일반 마켓은 **구조적으로 승⑤패**다. 이 사실로 가른다.
+        """
         if self.market_tag == "un":
             return "언더오버"
         if self.market_tag == "d1":
             return "승①패"
         if self.is_handicap:
             return "핸디캡"
-        return "승무패" if self.n_way == 3 else "승패"
+        if self.n_way == 3:
+            return "승⑤패" if self.sport in ("bk", "vl") else "승무패"
+        return "승패"
 
     @property
     def market_type(self) -> str:

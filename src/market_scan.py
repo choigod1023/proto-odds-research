@@ -30,7 +30,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from score_dist import joint, p_handicap, p_one_run, p_over, p_win  # noqa: E402
+from score_dist import (joint, p_handicap, p_margin_band, p_one_run,  # noqa: E402
+                        p_over, p_win)
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 TRAIN_END = 2024
@@ -96,13 +97,17 @@ def model_probs(row) -> list[float] | None:
         return [w, d, l]
     if fam == "승①패" and nw == 3:
         return list(p_one_run(M))
+    if fam == "승⑤패" and nw == 3:
+        # 농구·배구의 3-way 일반 마켓. 무승부가 아니라 **5점차 이내**다.
+        return list(p_margin_band(M, 5))
     return None
 
 
 WIN_IDX = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
            (2, "핸디승"): 0, (2, "핸디패"): 1,
            (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
-           (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1}
+           (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1,
+           (3, "⑤"): 1}
 
 
 def main() -> int:
@@ -125,7 +130,11 @@ def main() -> int:
         pp = [(1 / o) / ov for o in odds]        # 프로토 devig
         for i, (p_model, p_proto, o) in enumerate(zip(pm, pp, odds)):
             rows.append({
-                "year": d["year"], "sport": d["sport"],
+                # ⚠️ league 를 남기는 이유: 지금까지 종목(bs/sc/bk/vl)으로만
+                #    쪼개 봤는데, 프로토 배당은 해외 북메이커를 참조해 만들어진다.
+                #    같은 야구여도 MLB 는 해외 커버가 두껍고 NPB·KBO 는 얇다.
+                #    시장이 허술한 곳을 찾으려면 리그 단위로 봐야 한다.
+                "year": d["year"], "sport": d["sport"], "league": d["league"],
                 "market": f"{d['market_family']}({int(d['n_way'])}-way)",
                 "p_model": p_model, "p_proto": p_proto, "odds": o,
                 "won": 1.0 if i == wi else 0.0})
