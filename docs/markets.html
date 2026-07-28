@@ -76,6 +76,16 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
 .why{font-size:11.5px;color:var(--tx3)}
 .pos{color:var(--pos)}.neg{color:var(--neg)}
 .badge{font-size:10.5px;padding:1px 6px;border-radius:3px;background:var(--pos);color:#fff}
+.gr{display:inline-block;width:17px;height:17px;line-height:17px;text-align:center;
+  border-radius:3px;font-size:10.5px;font-weight:700;color:#fff;margin-right:6px;
+  vertical-align:1px}
+.grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
+.gradebar{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;
+  margin-bottom:22px}
+.gradebar div{background:var(--panel);padding:9px 10px;font-size:12px}
+.gradebar .b{font-family:var(--mono);font-weight:600;font-size:12.5px}
+.gradebar .r{color:var(--tx3);font-size:11.5px;margin-top:2px}
 .why-box{padding:12px 15px;border-top:1px solid var(--line2);font-size:13px;
   color:var(--tx2);line-height:1.75}
 .why-box .lead{color:var(--tx);font-weight:600;margin-bottom:5px}
@@ -110,11 +120,13 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 
 <header>
   <h1>경기 분석</h1>
-  <p class="sub">한 경기에 걸린 <b>승패 · 언더오버 · 핸디캡 · 승①패</b>를 스코어 분포로 한꺼번에 계산해 비교한다.</p>
+  <p class="sub">한 경기에 걸린 <b>승패 · 언더오버 · 핸디캡 · 승①패</b>를 비교하고,
+  각 선택지에 <b>실측 수익률 등급</b>을 붙인다. <b>이기는 도구가 아니라 덜 지는 도구다.</b></p>
   <div class="meta" id="meta"></div>
 </header>
 
 <div class="verdict" id="verdict"></div>
+<div class="gradebar" id="gradebar"></div>
 <div class="notice" id="warn"></div>
 
 <div class="bar">
@@ -142,7 +154,16 @@ const pct = v => (v==null ? "–" : (v*100).toFixed(1)+"%");
 const sgn = v => (v==null ? "–" : (v>=0?"+":"")+(v*100).toFixed(1)+"%");
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-let DATA=null, WHY={};
+let DATA=null, WHY={}, GRADES=null;
+// 배당 → 등급. loss_grades.json 의 실측 ROI 구간을 그대로 쓴다.
+function oddsGrade(o){
+  if(!GRADES||o==null) return null;
+  for(const g of GRADES.odds_bins){
+    const [lo,hi]=g.bin.replace("+","-999").split("-").map(Number);
+    if(o>=lo && o<hi) return g;
+  }
+  return null;
+}
 const wkey = g => `${g.date}|${g.home}|${g.away}`;
 
 function optName(o){
@@ -201,8 +222,10 @@ function render(){
         const cls=reco?"reco":(o["제외"]?"excl":"");
         const hit=o["적중"]===true?' <span class="badge">적중</span>':
                   o["적중"]===false?' <span class="tag">미적중</span>':"";
+        const gr=oddsGrade(o["배당"]);
+        const grHtml=gr?`<span class="gr gr${gr.grade}" title="배당 ${gr.bin} 실측 수익률 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`:"";
         return `<tr class="${cls}">
-          <td><span class="mk">${optName(o)}</span>${hit}</td>
+          <td>${grHtml}<span class="mk">${optName(o)}</span>${hit}</td>
           <td class="num">${o["배당"]??"–"}</td>
           <td class="num">${pct(o["시장확률"])}</td>
           <td class="num">${pct(o["모델확률"])}</td>
@@ -218,8 +241,19 @@ function render(){
 Promise.all([
   fetch("data/picks_v2.json?"+Date.now()).then(r=>r.json()),
   fetch("data/picks.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
-]).then(([d,pk])=>{
+  fetch("data/loss_grades.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
+]).then(([d,pk,lg])=>{
   DATA=d;
+  if(lg){
+    GRADES=lg;
+    const h=lg.headline;
+    document.getElementById("gradebar").innerHTML =
+      `<div><div class="b">등급 기준</div><div class="r">실측 ${lg.basis.n_selections.toLocaleString()}건 · ${lg.basis.years[0]}~${lg.basis.years.at(-1)}</div></div>` +
+      lg.odds_bins.map(g=>`<div><div class="b"><span class="gr gr${g.grade}">${g.grade}</span>${g.bin}</div>
+        <div class="r">${(g.roi*100).toFixed(1)}% · ${g.n.toLocaleString()}건</div></div>`).join("") +
+      `<div><div class="b">아무거나 살 때</div><div class="r">${(h.overall_roi*100).toFixed(1)}% → 최선 ${(h.best_bucket_roi*100).toFixed(1)}%
+        <b style="color:var(--pos)">(${h.saving_pp}%p 절감)</b></div></div>`;
+  }
   if(pk){
     (pk.picks||[]).forEach(p=>{ WHY[`${p.date}|${p.home}|${p.away}`]=p; });
     const b=pk.backtest;
