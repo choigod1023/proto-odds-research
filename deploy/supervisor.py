@@ -178,6 +178,13 @@ def main() -> int:
         log("레포 준비 실패 — 60초 후 재시도하도록 종료")
         return 1
 
+    # 재시작은 수집을 중간에 죽이므로 락이 남는다. 그러면 xg_watch 가
+    # "이미 수집 중" 으로 최대 1시간을 건너뛴다(실제로 겪음).
+    # 여기까지 왔다는 건 머신이 방금 떴다는 뜻이고, 그러면 도는 수집기는 없다.
+    for lock in (REPO / "data" / "raw").glob("*.lock"):
+        lock.unlink(missing_ok=True)
+        log(f"남은 락 제거: {lock.name}")
+
     for name, cmd in LOOPERS:
         threading.Thread(target=run_looper, args=(name, cmd), daemon=True).start()
         time.sleep(5)          # 동시에 몰려 나가지 않게 살짝 엇갈려 띄운다
