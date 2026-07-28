@@ -88,6 +88,75 @@ def parse_baseball(res: dict) -> dict | None:
     return out or None
 
 
+# 이닝별 타격 결과 문자열에서 안타 종류를 읽는다.
+#
+# ⚠️ 표기 규칙을 정확히 잡아야 한다. 실제 어휘를 표본으로 확인한 결과:
+#
+#   방향이 **1글자가 아니라 2글자**인 경우가 있다
+#       우2(우익 2루타) · **우중2**(우중간 2루타) · 좌중안(좌중간 안타)
+#   숫자가 **앞**에 오면 그건 수비 위치다
+#       2땅(2루수 땅볼) · 3비(3루수 뜬공) · 2직(2루수 직선타) — 전부 아웃
+#
+# 그래서 접두사가 아니라 **접미사**로 판정한다. 앞자리로 잡으면 우중2/좌중2 를
+# 통째로 놓쳐 2루타의 40% 가 사라진다(단타로 오분류 → wOBA 가 장타력을 잃는다).
+_HIT_SUFFIX = (("홈", "hr"), ("3", "t"), ("2", "d"), ("안", "s"))
+
+
+def _batter_hits(rec: dict) -> dict:
+    """이닝 칸을 훑어 단타·2루타·3루타·홈런을 센다.
+
+    ⚠️ 한 이닝에 두 번 이상 타석에 서면 **한 칸에 '/' 로 이어 적는다**:
+       '좌중안/2땅' = 좌중간 안타 + 2루수 땅볼, '우2/4구' = 2루타 + 볼넷.
+    칸 전체로 판정하면 마지막 것만 보게 돼 안타를 흘린다.
+    """
+    out = {"s": 0, "d": 0, "t": 0, "hr": 0}
+    for k, v in rec.items():
+        if not (k.startswith("inn") and isinstance(v, str) and v):
+            continue
+        for pa in v.split("/"):
+            pa = pa.strip()
+            if not pa:
+                continue
+            for suf, key in _HIT_SUFFIX:
+                if pa.endswith(suf):
+                    out[key] += 1
+                    break
+    return out
+
+
+def parse_baseball_batters(res: dict) -> dict | None:
+    """타자 박스스코어 — **투수의 FIP 에 대응하는 타선의 과정 지표** 재료.
+
+    지금 모델은 투수만 정교하다(FIP·xFIP). 타선은 '팀 득점 평균'뿐인데
+    그건 결과 지표라 운이 크게 섞인다. ERA 를 쓰던 것과 같은 실수다.
+
+    박스스코어에서 뽑을 수 있는 것:
+      · 과정 — wOBA(장타 가중), K%·BB%(가장 안정적인 타자 지표)
+      · 운   — BABIP = (안타−홈런)/(타수−삼진−홈런). 야구의 대표적 운 지표.
+
+    구장도 함께 담는다. 파크팩터는 언더오버 격차에 직결된다.
+    """
+    rd = (res or {}).get("recordData") or {}
+    bb = rd.get("battersBoxscore") or {}
+    if not bb.get("home") or not bb.get("away"):
+        return None
+
+    out = {"stadium": (rd.get("gameInfo") or {}).get("stadium")}
+    for side in ("home", "away"):
+        agg = {"ab": 0, "hit": 0, "hr": 0, "bb": 0, "kk": 0,
+               "run": 0, "rbi": 0, "s": 0, "d": 0, "t": 0, "hr_parsed": 0}
+        for p in bb.get(side) or []:
+            for k in ("ab", "hit", "hr", "bb", "kk", "run", "rbi"):
+                agg[k] += int(p.get(k) or 0)
+            for k, v in _batter_hits(p).items():
+                agg["hr_parsed" if k == "hr" else k] += v
+        # 검산용: 파싱한 안타 합이 박스스코어 hit 와 맞는지 나중에 확인할 수 있게
+        # 둘 다 남긴다. 어긋나면 표기 규칙을 놓친 것이다.
+        agg["hits_parsed"] = agg["s"] + agg["d"] + agg["t"] + agg["hr_parsed"]
+        out[side] = agg
+    return out
+
+
 def parse_soccer_shots(res: dict) -> dict | None:
     """축구 슈팅 통계 — **xG 의 대용품**.
 
@@ -144,10 +213,11 @@ def main(argv: list[str]) -> int:
     yrs = [int(a) for a in argv[3:] if a.isdigit()]
     y0 = yrs[0] if yrs else 2023
     y1 = yrs[1] if len(yrs) > 1 else date.today().year
-    # kind: baseball(투수기록) / lineup(축구 라인업) / shots(축구 슈팅)
+    # kind: baseball(투수기록) / batters(야구 타자기록) / lineup(축구 라인업)
+    #       / shots(축구 슈팅)
     path = "lineup" if kind == "lineup" else "record"
-    parse = {"baseball": parse_baseball, "lineup": parse_soccer,
-             "shots": parse_soccer_shots}[kind]
+    parse = {"baseball": parse_baseball, "batters": parse_baseball_batters,
+             "lineup": parse_soccer, "shots": parse_soccer_shots}[kind]
 
     RAW.mkdir(parents=True, exist_ok=True)
     out_file = RAW / f"{league}_{kind}_{y0}_{y1}.json"
