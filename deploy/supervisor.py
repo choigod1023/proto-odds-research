@@ -48,8 +48,19 @@ DAILY = [
     ("J2 xG", [sys.executable, "-u", "src/xg_watch.py", "j2"]),
 ]
 
+# 산출물 생성 — 수집만 하고 갱신을 안 하면 사이트가 어제 값에 멈춘다.
+# 실제로 2026-07-27 이후 픽이 안 돌아 7/28 에 7/24 경기가 예정으로 떠 있었다.
+# 순서가 중요하다: 원본 → 데이터셋 → 산출물.
+PUBLISH = [
+    ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"]),
+    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"]),
+    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"]),
+    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"]),
+]
+
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
+PUBLISH_EVERY = 21600      # 6시간마다 산출물 갱신 (하루 4회)
 
 
 def log(msg: str) -> None:
@@ -109,13 +120,20 @@ def ensure_repo() -> bool:
     return True
 
 
+TRACKED = ["data/", "docs/data/"]      # 수집 원본 + 사이트가 읽는 산출물
+
+
 def push_data() -> None:
-    """수집 결과만 커밋한다 — 소스 변경은 사람이 하는 것이므로 건드리지 않는다."""
-    r = sh(["git", "status", "--porcelain", "data/"], cwd=REPO)
+    """수집 결과와 **사이트 산출물**만 커밋한다.
+
+    소스 변경은 사람이 하는 것이므로 건드리지 않는다.
+    ⚠️ `docs/data/` 를 빼먹으면 수집은 도는데 사이트는 안 바뀐다(2026-07-28 겪음).
+    """
+    r = sh(["git", "status", "--porcelain", *TRACKED], cwd=REPO)
     if not r.stdout.strip():
         return
     n = len(r.stdout.strip().splitlines())
-    sh(["git", "add", "data/"], cwd=REPO)
+    sh(["git", "add", *TRACKED], cwd=REPO)
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     sh(["git", "commit", "-m", f"chore: 수집 데이터 자동 갱신 ({stamp})"], cwd=REPO)
     p = sh(["git", "push", "origin", "HEAD"], cwd=REPO)
@@ -158,6 +176,38 @@ def run_daily() -> None:
         time.sleep(DAILY_EVERY)
 
 
+def run_publish() -> None:
+    """산출물 갱신. 실패해도 다음 주기에 다시 시도한다.
+
+    첫 실행을 3분 뒤로 둔 이유: 부팅 직후엔 수집기가 아직 한 바퀴를 안 돌아
+    발매 회차 캐시가 비어 있을 수 있다(생성기가 '발매중 []' 로 끝난다).
+    """
+    time.sleep(180)
+    while True:
+        for name, cmd in PUBLISH:
+            log(f"{name} 실행")
+            try:
+                r = subprocess.run(cmd, cwd=REPO, capture_output=True,
+                                   text=True, timeout=1800)
+                tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
+                if r.returncode:
+                    err = (r.stderr or "").strip().splitlines()[-1:] or [""]
+                    log(f"{name} 실패(rc={r.returncode}) — {err[0][:140]}")
+                    break          # 앞 단계가 깨지면 뒤는 낡은 입력을 쓴다
+                log(f"{name} 완료 — {tail[0][:120]}")
+            except subprocess.TimeoutExpired:
+                log(f"{name} 타임아웃 — 이번 주기 중단")
+                break
+            except Exception as e:                    # noqa: BLE001
+                log(f"{name} 예외: {type(e).__name__}: {e}")
+                break
+        try:
+            push_data()                                # 만든 즉시 내보낸다
+        except Exception as e:                         # noqa: BLE001
+            log(f"publish push 예외: {type(e).__name__}: {e}")
+        time.sleep(PUBLISH_EVERY)
+
+
 def run_push() -> None:
     # 첫 push 는 빨리 한다. 30분을 기다리면 그 사이 재시작이 겹칠 때
     # 볼륨에만 있던 수집분이 밖으로 못 나간다. 2분이면 수집기들이 한 바퀴 돈다.
@@ -189,6 +239,7 @@ def main() -> int:
         threading.Thread(target=run_looper, args=(name, cmd), daemon=True).start()
         time.sleep(5)          # 동시에 몰려 나가지 않게 살짝 엇갈려 띄운다
     threading.Thread(target=run_daily, daemon=True).start()
+    threading.Thread(target=run_publish, daemon=True).start()
     threading.Thread(target=run_push, daemon=True).start()
 
     while True:                # 메인 스레드는 살아만 있으면 된다
