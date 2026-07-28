@@ -30,8 +30,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from score_dist import (joint, p_handicap, p_margin_band, p_one_run,  # noqa: E402
-                        p_over, p_win)
+from score_dist import (joint, p_handicap, p_margin_band, p_odd,  # noqa: E402
+                        p_one_run, p_over, p_win)
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 TRAIN_END = 2024
@@ -97,6 +97,9 @@ def model_probs(row) -> list[float] | None:
         return [w, d, l]
     if fam == "승①패" and nw == 3:
         return list(p_one_run(M))
+    if fam == "홀짝" and nw == 2:
+        po = p_odd(M)
+        return [po, 1 - po]                 # [홀, 짝]
     if fam == "승⑤패" and nw == 3:
         # 농구·배구의 3-way 일반 마켓. 무승부가 아니라 **5점차 이내**다.
         return list(p_margin_band(M, 5))
@@ -107,7 +110,9 @@ WIN_IDX = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 
            (2, "핸디승"): 0, (2, "핸디패"): 1,
            (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
            (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1,
-           (3, "⑤"): 1}
+           (3, "⑤"): 1,
+           # 홀짝(SUM). 없으면 18,537건이 조용히 버려진다 — 자기검사가 잡아냈다.
+           (2, "홀"): 0, (2, "짝"): 1}
 
 
 def main() -> int:
@@ -179,5 +184,80 @@ def main() -> int:
     return 0
 
 
+
+
+def _selftest() -> None:
+    """WIN_IDX 커버리지 + model_probs 정합성.
+
+    ⚠️ 2026-07-28 의 가짜 ROI +30% 가 정확히 여기서 나왔다.
+       `WIN_IDX` 에 `⑤` 가 없어 KBL 승⑤패의 중간 결과 32% 가 조용히 버려졌고,
+       6점차 이상으로 갈린 경기만 남아 모델이 이기는 것처럼 보였다.
+       **매핑에 없는 결과값은 예외 없이 사라진다.** 그게 결과값과 상관있으면 가짜다.
+    """
+    import collections
+    fails: list[str] = []
+
+    # ① 실제 데이터의 (n_way, result) 를 WIN_IDX 가 덮는가
+    path = PROC.parent / "processed" / "games.csv"
+    if path.exists():
+        g = pd.read_csv(path)
+        g = g[~g["is_void"].astype(bool)]
+        SKIP = {"경기전", "하프타임", "취소", "연기", "중단", "무효", "nan"}
+        cnt = collections.Counter()
+        for nw, res in zip(g["n_way"], g["result"].astype(str)):
+            try:
+                nw = int(nw)
+            except (TypeError, ValueError):
+                continue
+            if nw < 2 or res in SKIP:
+                continue
+            if not all("가" <= c <= "힣" or c in "①⑤" for c in res):
+                continue                      # 인코딩 깨진 값은 별개 문제
+            cnt[(nw, res)] += 1
+        total = sum(cnt.values())
+        miss = {k: v for k, v in cnt.items() if k not in WIN_IDX}
+        n_miss = sum(miss.values())
+        print(f"WIN_IDX 커버리지: {total - n_miss:,}/{total:,} ({1 - n_miss/total:.3%})")
+        for k, v in sorted(miss.items(), key=lambda x: -x[1])[:6]:
+            print(f"    미매핑 n_way={k[0]} {k[1]!r} {v:,}건")
+        if n_miss > total * 0.001:
+            fails.append(f"WIN_IDX 누락 {n_miss:,}건 ({n_miss/total:.2%}) — 조용히 버려진다")
+    else:
+        print("WIN_IDX 커버리지: games.csv 없음 — 건너뜀")
+
+    # ② model_probs 가 마켓별로 올바른 길이의 확률 벡터를 주는가
+    cases = [
+        ({"market_family": "승패", "n_way": 2, "market_label": ""}, 2),
+        ({"market_family": "승무패", "n_way": 3, "market_label": ""}, 3),
+        ({"market_family": "승①패", "n_way": 3, "market_label": "승①패"}, 3),
+        ({"market_family": "승⑤패", "n_way": 3, "market_label": ""}, 3),
+        ({"market_family": "언더오버", "n_way": 2, "market_label": "U 8.5"}, 2),
+        ({"market_family": "핸디캡", "n_way": 2, "market_label": "H -1.5"}, 2),
+        ({"market_family": "핸디캡", "n_way": 3, "market_label": "H -1.5"}, 3),
+        ({"market_family": "홀짝", "n_way": 2, "market_label": ""}, 2),
+    ]
+    for base, want in cases:
+        row = {**base, "lam_home": 4.8, "lam_away": 4.3, "sport": "bs"}
+        pm = model_probs(row)
+        if pm is None:
+            fails.append(f"{base['market_family']}({want}): None 반환")
+            continue
+        if len(pm) != want:
+            fails.append(f"{base['market_family']}({want}): 길이 {len(pm)}")
+        elif abs(sum(pm) - 1.0) > 1e-6:
+            fails.append(f"{base['market_family']}({want}): 합 {sum(pm):.6f} ≠ 1")
+        elif min(pm) < 0:
+            fails.append(f"{base['market_family']}({want}): 음수 확률")
+
+    for f in fails:
+        print(f"  FAIL {f}")
+    print(f"market_scan 자기검사: {'통과' if not fails else str(len(fails)) + '건 실패'}")
+    if fails:
+        raise SystemExit(1)
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # ⚠️ --selftest 를 main() 보다 먼저 검사한다.
+    if "--selftest" in sys.argv:
+        _selftest()
+    else:
+        raise SystemExit(main())

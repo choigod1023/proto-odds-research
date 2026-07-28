@@ -340,6 +340,8 @@ def _self_test() -> None:
     if bad:
         raise SystemExit(1)
 
-
-if __name__ == "__main__" and "--selftest" in sys.argv:
-    _self_test()
+if __name__ == "__main__":
+    # ⚠️ --selftest 는 main() 보다 **먼저** 검사해야 한다.
+    #    아래 순서가 뒤바뀌면 자기검사가 영영 안 돌아간다(실제로 그랬다).
+    if "--selftest" in sys.argv:
+        _self_test()

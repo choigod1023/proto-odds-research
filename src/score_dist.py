@@ -166,6 +166,17 @@ def p_margin_band(M: np.ndarray, band: int) -> tuple[float, float, float]:
     return a, m, float(max(0.0, 1 - a - m))
 
 
+def p_odd(M: np.ndarray) -> float:
+    """P(총득점이 홀수). 홀짝(SUM) 마켓용.
+
+    ⚠️ 총득점의 홀짝은 곧 **점수차의 홀짝**이다. 야구는 무승부가 없어 점수차 0 이
+       빠지므로 홀 쪽으로 쏠린다 — 실측 59.0%(z=+21.6). 배구는 세트 합이 3·4·5 뿐이라
+       64.8%. 프로토는 이걸 이미 정확히 반영한다(야구 홀 배당 중앙 1.53 = devig 58.7%).
+    """
+    n = M.shape[0]
+    return float(sum(M[i, j] for i in range(n) for j in range(n) if (i + j) % 2 == 1))
+
+
 def p_one_run(M: np.ndarray) -> tuple[float, float, float]:
     """승①패 — (홈 2점차+승, 1점차 이내, 원정 2점차+승)"""
     return p_margin_band(M, 1)
@@ -238,5 +249,73 @@ def main() -> int:
     return 0
 
 
+
+
+def _selftest() -> None:
+    """스코어 분포 함수 성질 검사.
+
+    ⚠️ 2026-07-28 에 `p_one_run` 이 중간 구간을 `|i−j| == 1` 로 잡고 있었다.
+       규정은 "1점차 이내, **무승부 포함**" 인데 무승부가 원정승으로 넘어가고 있었다.
+       확률 벡터의 합은 1 이라 **합만 검사하면 안 잡힌다.** 구성까지 봐야 한다.
+    """
+    import numpy as _np
+    fails: list[str] = []
+
+    def chk(cond, msg):
+        if not cond:
+            fails.append(msg)
+
+    for sport, lh, la in [("bs", 4.8, 4.3), ("sc", 1.5, 1.2), ("bk", 108.0, 105.0)]:
+        M = joint(lh, la, sport)
+        chk(abs(M.sum() - 1.0) < 1e-6, f"{sport}: 결합분포 합 {M.sum():.6f} ≠ 1")
+
+        h, d, a = p_win(M)
+        chk(abs(h + d + a - 1.0) < 1e-6, f"{sport}: 승무패 합 ≠ 1")
+        chk(min(h, d, a) >= 0, f"{sport}: 승무패에 음수")
+
+        # 마진 밴드: 합 = 1, 그리고 **밴드가 넓어질수록 중간이 커져야** 한다
+        prev_mid = -1.0
+        for band in (0, 1, 2, 5):
+            x, m, y = p_margin_band(M, band)
+            chk(abs(x + m + y - 1.0) < 1e-6, f"{sport}: 마진밴드({band}) 합 ≠ 1")
+            chk(m >= prev_mid - 1e-9, f"{sport}: 밴드 {band} 에서 중간이 줄었다")
+            prev_mid = m
+        # band=0 의 중간 = 무승부. p_win 의 무승부와 같아야 한다
+        chk(abs(p_margin_band(M, 0)[1] - d) < 1e-9,
+            f"{sport}: band=0 중간({p_margin_band(M,0)[1]:.6f}) ≠ 무승부({d:.6f})")
+        # ⭐ 승①패 중간은 무승부를 **포함**해야 한다 (2026-07-28 버그)
+        chk(p_one_run(M)[1] >= d - 1e-12,
+            f"{sport}: 승①패 중간이 무승부보다 작다 — 무승부가 빠졌다")
+
+        po_odd = p_odd(M)
+        chk(0.0 <= po_odd <= 1.0, f"{sport}: p_odd={po_odd} 범위 밖")
+
+        # 언더오버: 라인이 올라가면 오버 확률이 낮아져야 한다
+        prev = 2.0
+        for line in (0.5, 2.5, 5.5, 9.5):
+            po = p_over(M, line)
+            chk(0.0 <= po <= 1.0, f"{sport}: p_over({line})={po} 범위 밖")
+            chk(po <= prev + 1e-9, f"{sport}: 라인 {line} 에서 오버 확률이 올랐다")
+            prev = po
+
+        # 핸디캡: 합 = 1, 홈에 불리한 핸디일수록 홈 확률이 낮아져야 한다
+        prev_w = 2.0
+        for hc in (2.5, 0.5, -0.5, -2.5):
+            w, dd, l = p_handicap(M, hc)
+            chk(abs(w + dd + l - 1.0) < 1e-6, f"{sport}: 핸디캡({hc}) 합 ≠ 1")
+            chk(w <= prev_w + 1e-9, f"{sport}: 핸디 {hc} 에서 홈 확률이 올랐다")
+            prev_w = w
+
+    for f in fails:
+        print(f"  FAIL {f}")
+    print(f"score_dist 성질검사: {'통과' if not fails else str(len(fails)) + '건 실패'}")
+    if fails:
+        raise SystemExit(1)
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # ⚠️ --selftest 는 main() 보다 **먼저** 검사해야 한다.
+    #    아래 순서가 뒤바뀌면 자기검사가 영영 안 돌아간다(실제로 그랬다).
+    if "--selftest" in sys.argv:
+        _selftest()
+    else:
+        raise SystemExit(main())

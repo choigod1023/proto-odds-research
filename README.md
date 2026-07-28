@@ -116,8 +116,19 @@ Bonferroni·부트스트랩·시간분리를 **다 통과해도** 이건 안 잡
 **버려진 행의 적중률**을 검사해 결과값 기반 누락을 자동으로 잡습니다.
 
 ```bash
-python3 src/guard.py     # 자기검사: KBL 버그를 재현해 잡는지 확인
+python3 src/selftest_all.py   # 전체 자기검사 (6개 스크립트)
 ```
+
+| 스크립트 | 무엇을 지키는가 |
+|---|---|
+| `wisetoto.py` | 마켓 분류 (태그 × 선택지수 × 종목) — **하루에 두 번 깨진 함수** |
+| `bets.py` | 결과값 → 승리 선택지 매핑 커버리지 |
+| `market_scan.py` | `WIN_IDX` 커버리지 + 모델 확률 정합성 |
+| `score_dist.py` | 확률 성질 (합=1 · 단조성 · 밴드 포함관계) |
+| `devig.py` | devig 4종 (합=1 · 양수) |
+| `guard.py` | 표본 축소 가드 — KBL 버그를 재현해 잡는지 확인 |
+
+**데이터 파이프라인을 건드렸으면 이걸 먼저 돌리세요.**
 
 ---
 
@@ -130,6 +141,8 @@ python3 src/collect.py          # 와이즈토토 회차 아카이브 수집
 python3 src/build_dataset.py    # → data/processed/{games,bets}.csv
 python3 src/market_scan.py      # 전 마켓 가격 비교
 python3 src/loss_filter.py      # 손실 축소 등급표 → docs/data/loss_grades.json
+
+python3 src/selftest_all.py     # ⚠️ 코드를 고쳤으면 반드시
 ```
 
 부트스트랩 시드 42 고정. 학습 ≤2024 / 검증 2025~ 시간 분리.
