@@ -109,12 +109,41 @@ def _text(html: str) -> str:
     return " ".join(H.unescape(_TAG.sub(" ", html)).split())
 
 
-def fixture_links(s: requests.Session, league_path: str) -> list[str]:
-    """일정 페이지에서 경기 페이지 URL 을 뽑는다(앵커 #id 는 제거해 중복 제거)."""
+# 일정 페이지의 경기 블록. `<ul class='match row cf z8436148'>` 하나가 편성 경기
+# 하나이고, 안에 data-time(킥오프 유닉스 시각)과 h2h 링크가 같이 들어 있다.
+_BLOCK = re.compile(r"<ul class='match row[^']*'.*?</ul>", re.S)
+_TIME = re.compile(r"data-time='(\d+)'")
+_H2H = re.compile(r"href='([^']*h2h-stats)'")
+
+
+def fixture_links(s: requests.Session, league_path: str,
+                  horizon_days: int = 14) -> list[str]:
+    """다가오는 **편성 경기**의 페이지 URL 만, 킥오프 이른 순으로.
+
+    ⚠️ 전에는 페이지의 h2h 링크를 전부(66개) 긁었다. 그런데 편성되지 않은 팀
+    조합은 일반 H2H 페이지로 빠져 xG 블록이 없다 — 60요청 중 56실패가 그것이다.
+    낭비이기도 하고 429 를 자초하는 원인이기도 했다.
+
+    일정 페이지에는 경기별로 킥오프 시각이 붙어 있으므로, 가까운 경기만 고른다.
+    한 라운드면 리그의 모든 팀이 한 번씩 나오므로 팀 커버리지도 충분하다.
+    """
     html = _get(s, BASE + league_path + "/fixtures")
-    hrefs = set(re.findall(r"href=['\"]([^'\"]+)", html))
-    out = {h.split("#")[0] for h in hrefs if "-vs-" in h and "h2h-stats" in h}
-    return sorted(out)
+    now = time.time()
+    out: list[tuple[int, str]] = []
+    seen: set[str] = set()
+    for blk in _BLOCK.findall(html):
+        t, h = _TIME.search(blk), _H2H.search(blk)
+        if not (t and h):
+            continue
+        ts, href = int(t.group(1)), h.group(1).split("#")[0]
+        if ts < now or ts > now + horizon_days * 86400:
+            continue
+        if href in seen:
+            continue
+        seen.add(href)
+        out.append((ts, href))
+    out.sort()
+    return [h for _, h in out]
 
 
 def parse_match(html: str) -> dict | None:
