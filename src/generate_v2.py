@@ -82,6 +82,50 @@ def clean(x: str) -> str:
     return re.sub(r"\s+-?\d+\s*$", "", s).strip()
 
 
+def lineup_profiles() -> dict:
+    """K리그 팀별 로테이션 성향 — 해설에 쓸 '이 팀은 어떤 팀인가'.
+
+    ⚠️ 우위로는 못 쓴다. 리그 안에서 교체 인원과 결과는 무관했다
+       (승률 0–1명 35.2% · 2–3명 37.1% · 4–5명 34.5% · 6명+ 35.9%, 단조성 없음).
+       그래도 **경기 내용**으로는 쓸 수 있다 — 어떤 팀은 선발을 계속 갈고
+       어떤 팀은 한 XI 로 간다. 라인업이 킥오프 1시간 전에 나온다는 건
+       '이번 경기 예측에 늦다' 는 뜻이지 '과거를 못 본다' 는 뜻이 아니다.
+    """
+    f = ROOT / "data" / "processed" / "lineup_soccer.csv"
+    if not f.exists():
+        return {}
+    try:
+        d = pd.read_csv(f)
+    except Exception:
+        return {}
+    d = d.dropna(subset=["churn"])
+    out = {}
+
+    def keys(name: str) -> set:
+        """프로토와 네이버가 팀 이름을 다르게 쓴다(김천상무↔김천, 광주FC↔광주).
+        접미사를 떼어 둘 다 등록한다."""
+        n = str(name)
+        ks = {n}
+        for suf in ("FC", "상무", "유나", "아이", "시티", "삼성", "현대", "SK"):
+            if n.endswith(suf) and len(n) > len(suf):
+                ks.add(n[: -len(suf)])
+        return ks
+
+    for team, g in d.groupby("team"):
+        if len(g) < 20:            # 표본이 적으면 성향이라 부를 수 없다
+            continue
+        rec = {
+            "churn": round(float(g["churn"].mean()), 1),
+            "reserve": round(float(g["n_reserve"].mean()), 1),
+            "form_change": round(float(g["formation_changed"].mean()), 2),
+            "formation": g["formation"].value_counts().index[0],
+            "n": int(len(g)),
+        }
+        for k in keys(team):
+            out.setdefault(k, rec)
+    return out
+
+
 def starters() -> dict:
     """야구 선발 투수 — (리그, 홈, 원정) → {'home':이름, 'away':이름}.
 
@@ -287,7 +331,8 @@ _STORY_FAIL: list = []
 
 
 def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
-                  by_team: dict | None = None, h2h_any: dict | None = None) -> None:
+                  by_team: dict | None = None, h2h_any: dict | None = None,
+                  lineups: dict | None = None) -> None:
     """경기 하나에 최근폼·상대전적·선발·줄글 해설을 붙인다.
 
     수치만 있으면 '해석' 이지 '분석' 이 아니다. 모델이 시장을 못 이긴다는 것과
@@ -305,6 +350,18 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         if alt:
             g["h2h"] = h2h_text(h2h, alt[0], ht, at)
     g["선발"] = st.get((lg, ht, at))
+    # 라인업 성향 — 예측이 아니라 팀 성질이다
+    lp = lineups or {}
+    def _lp(name: str):
+        n = str(name)
+        if n in lp:
+            return lp[n]
+        for suf in ("FC", "상무", "유나", "아이", "시티", "삼성", "현대", "SK"):
+            if n.endswith(suf) and n[: -len(suf)] in lp:
+                return lp[n[: -len(suf)]]
+        return None
+
+    g["라인업"] = {k: v for k, v in (("home", _lp(ht)), ("away", _lp(at))) if v}
 
     # 줄글 — 승패/승무패 계열 배당이 있으면 그걸 근거로 쓴다
     base = next((o for o in g["options"]
@@ -318,12 +375,33 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
                 o_a = o["배당"]
     p_home = g.get("홈승률")
     p_mkt = base["시장확률"] if base else None
+    extra = []
+    for side, name in (("home", ht), ("away", at)):
+        v = g["라인업"].get(side)
+        if not v:
+            continue
+        # ⚠️ '몇 명 바꿨나' 가 아니라 '주전이 아닌 선수를 몇 명 냈나' 로 쓴다.
+        #    실측상 교체 인원 수는 결과와 무관했고(승률 34.5~37.1%),
+        #    **비주전 투입**만 단조로 갈렸다(0–1명 45.7% → 6명+ 30.1%).
+        if v["reserve"] >= 4.5:
+            extra.append(f"{name}은 주전이 아닌 선수를 평균 {v['reserve']}명 선발로 내는 팀이다")
+        elif v["reserve"] <= 3.2:
+            extra.append(f"{name}은 주전 XI 를 거의 그대로 쓴다(비주전 평균 {v['reserve']}명)")
+        if v["form_change"] <= 0.10:
+            extra.append(f"{name}은 {v['formation']} 를 사실상 고정으로 쓴다")
+        elif v["form_change"] >= 0.40:
+            extra.append(f"{name}은 포메이션을 경기마다 바꾼다(변경률 "
+                         f"{v['form_change']*100:.0f}%)")
+    g["라인업메모"] = ". ".join(extra) + ("." if extra else "")
+
     try:
         g["해설"] = make_preview(ht, at, lg, fh, fa, h2h,
                                  p_home if p_home is not None else 0.5,
                                  p_mkt if p_mkt is not None else 0.5,
                                  o_h or 0, o_a or 0, g.get("payout") or 88.0,
                                  0.0, 0.0, sport=g["sport"])
+        if g.get("라인업메모"):
+            g["해설"] = (g["해설"] or "") + " " + g["라인업메모"]
     except Exception as e:
         # ⚠️ 조용히 삼키면 안 된다. 실제로 make_preview 가 NameError 를 던지는데
         #    해설 0건이 그대로 배포됐다. 화면엔 그냥 '해설 없음' 으로 보인다.
@@ -359,6 +437,7 @@ def main() -> int:
     hist = load_history()
     FORMS, H2H = build_forms(hist, season=season)
     STARTERS = starters()
+    LINEUPS = lineup_profiles()
     # ⚠️ build_forms 는 (리그, 팀) 키다 → 컵대회는 폼이 비어 있고, 그러면 해설이
     #    "이번 시즌 기록이 충분히 쌓이지 않았다" 를 양 팀에 대해 두 번 말한 뒤
     #    "53% 우세" 라고 단정하는 자기모순 문장이 된다. 실제로 그랬다.
@@ -486,7 +565,7 @@ def main() -> int:
             g["판단"] = "배당 미발표"
             g["추천"] = None
             g["선택지수"] = 0
-            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY)
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS)
             out.append(g)
             continue
         # 모델이 없는 경기(컵대회 등)는 배당·등급만 보여준다. 추천은 하지 않는다.
@@ -497,7 +576,7 @@ def main() -> int:
                 o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
             g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
             g["선택지수"] = len(g["options"])
-            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY)
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS)
             out.append(g)
             continue
 
@@ -532,7 +611,7 @@ def main() -> int:
                 best, best_score = o, score
         g["추천"] = best
         g["선택지수"] = len(g["options"])
-        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY)
+        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS)
         out.append(g)
 
     # 시간순 정렬
