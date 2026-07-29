@@ -41,7 +41,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
-from commentary import make_preview, make_short                     # noqa: E402
+from commentary import josa, make_preview, make_short               # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -446,13 +446,13 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         #    실측상 교체 인원 수는 결과와 무관했고(승률 34.5~37.1%),
         #    **비주전 투입**만 단조로 갈렸다(0–1명 45.7% → 6명+ 30.1%).
         if v["reserve"] >= 4.5:
-            extra.append(f"{name}은 주전이 아닌 선수를 평균 {v['reserve']}명 선발로 내는 팀이다")
+            extra.append(f"{josa(name, '은', '는')} 주전이 아닌 선수를 평균 {v['reserve']}명 선발로 내는 팀이다")
         elif v["reserve"] <= 3.2:
-            extra.append(f"{name}은 주전 XI 를 거의 그대로 쓴다(비주전 평균 {v['reserve']}명)")
+            extra.append(f"{josa(name, '은', '는')} 주전 XI 를 거의 그대로 쓴다(비주전 평균 {v['reserve']}명)")
         if v["form_change"] <= 0.10:
-            extra.append(f"{name}은 {v['formation']} 를 사실상 고정으로 쓴다")
+            extra.append(f"{josa(name, '은', '는')} {v['formation']} 를 사실상 고정으로 쓴다")
         elif v["form_change"] >= 0.40:
-            extra.append(f"{name}은 포메이션을 경기마다 바꾼다(변경률 "
+            extra.append(f"{josa(name, '은', '는')} 포메이션을 경기마다 바꾼다(변경률 "
                          f"{v['form_change']*100:.0f}%)")
     for side, name in (("home", ht), ("away", at)):
         v = g["슈팅폼"].get(side)
@@ -460,10 +460,10 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
             continue
         diff = v["sog"] - v["sog_a"]
         if abs(diff) >= 1.5:
-            extra.append(f"{name}은 최근 10경기 유효슈팅 {v['sog']}대 {v['sog_a']}로 "
+            extra.append(f"{josa(name, '은', '는')} 최근 10경기 유효슈팅 {v['sog']}대 {v['sog_a']}로 "
                          f"내용에서 {'앞선다' if diff > 0 else '밀린다'}")
         if v["conv"] is not None and v["conv"] <= 0.22:
-            extra.append(f"{name}은 유효슈팅 대비 득점이 {v['conv']:.2f} 로 낮아 "
+            extra.append(f"{josa(name, '은', '는')} 유효슈팅 대비 득점이 {v['conv']:.2f}로 낮아 "
                          f"만들고도 못 넣는 경기가 있다")
     g["라인업메모"] = ". ".join(extra) + ("." if extra else "")
 

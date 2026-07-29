@@ -32,6 +32,18 @@ def _has_batchim(word: str) -> bool:
     return ch.upper() in "LMNRSXZ"
 
 
+def _ro(word: str) -> str:
+    """'로 / 으로' — 받침이 없거나 **ㄹ 받침**이면 '로', 그 외는 '으로'.
+    (골→로, 세트→로, 점→으로) 한국어에서 ㄹ 은 예외라 _has_batchim 만으로는 안 된다."""
+    if not word:
+        return "로"
+    c = ord(word[-1])
+    if not (0xAC00 <= c <= 0xD7A3):
+        return "로"
+    jong = (c - 0xAC00) % 28
+    return "로" if jong in (0, 8) else "으로"      # 8 = ㄹ
+
+
 def josa(word: str, with_b: str, without_b: str) -> str:
     """받침에 맞는 조사를 붙인다. josa('삼성','이','가') → '삼성이'"""
     return word + (with_b if _has_batchim(word) else without_b)
@@ -87,17 +99,24 @@ def _projection(fh: Form | None, fa: Form | None, sport: str) -> str | None:
               "vl": (4.2, 3.6)}.get(sport, (10.0, 7.5))
     unit = {"bs": "점", "bk": "점", "sc": "골", "vl": "세트"}.get(sport, "점")
 
-    if total >= hi:
-        tone = "양 팀 다 화력이 올라와 있어 점수가 오가는 흐름이 예상된다"
-    elif total <= lo:
-        tone = "양 팀 다 최근 실점이 적어 낮은 스코어 승부가 될 공산이 크다"
-    else:
-        tone = "평범한 스코어 흐름이 예상된다"
-
+    # ⚠️ 예전엔 "평범한 스코어 흐름이 예상된다" 같은 문장을 넣었다.
+    #    아무 말도 안 하는 문장이다. 프리뷰는 **뭐가 일어날지 특정**해야 한다.
+    #    라인이 있는 마켓(언더오버·핸디캡)에 바로 대볼 수 있는 형태로 쓴다.
+    line = {"bs": 8.5, "bk": 215, "sc": 2.5, "vl": 3.5}.get(sport, 8.5)
+    ou = "오버" if total > line else "언더"
     s = (f"최근 화력과 실점을 겹쳐 보면 {eh:.1f}{unit} 대 {ea:.1f}{unit}, "
-         f"합계 {total:.1f}{unit} 규모다. {tone}")
-    if gap < 0.6:
-        s += ". 예상 득점 차가 크지 않아 접전 가능성이 높다"
+         f"합계 {total:.1f}{unit} — 기준선 {line}{unit} 대비 {ou} 쪽이다")
+
+    # 야구는 무승부가 사실상 없다(연장). 종목에 없는 결과를 말하면 안 된다.
+    tie_ok = sport in ("sc",)
+    side = "홈" if eh > ea else "원정"
+    if gap < 0.35:
+        near = f"무승부·1{unit}차" if tie_ok else f"1{unit}차"
+        s += f". 득점 차 {gap:.1f}{unit}{_ro(unit)} 갈리지 않아 {near} 승부가 유력하다"
+    elif gap < 0.8:
+        s += f". {side}이 {gap:.1f}{unit} 앞서는 정도라 1{unit}차 접전으로 본다"
+    else:
+        s += f". {side}이 {gap:.1f}{unit} 앞서 2{unit}차 이상으로 갈릴 공산이 크다"
     return s
 
 
@@ -214,18 +233,29 @@ def make_preview(home: str, away: str, league: str,
         # ⚠️ 예전엔 EV 가 큰 쪽을 '우세' 라고 적었다. 그래서 확률 44% 인 팀이
         #    '근소 우세' 로 나가는 모순이 생겼다 — EV 는 배당이 섞인 값이라
         #    '더 이길 것 같다' 와 다르다. 확률은 확률대로 적는다.
-        pm = p_model * 100
-        if abs(pm - 50) < 3:
-            parts.append(f"모델은 {josa(home,'과','와')} {away} 를 사실상 대등하게 본다"
-                         f"({home} {pm:.0f}%).")
+        pm, pk = p_model * 100, p_market * 100
+        d = abs(pm - pk)
+        # ⚠️ 괴리가 15%p 를 넘으면 모델이 그 경기를 못 다루는 것이다.
+        #    실제 사례: 부산아이(K리그2) vs FC서울(K리그1) 에서 모델 53% vs 시장 20%.
+        #    풀링 λ 가 리그 등급 차이를 못 보기 때문이다. 그럴 땐 모델 수치를
+        #    앞세우지 않고 시장으로 말한다 — 틀린 숫자를 먼저 보여주면 안 된다.
+        if d >= 15:
+            up = home if pk >= 50 else away
+            parts.append(f"시장은 {josa(up,'의','의')} 승리 확률을 "
+                         f"{(pk if up == home else 100 - pk):.0f}%로 본다.")
+            parts.append(f"우리 모델은 {pm:.0f}%로 {d:.0f}%p 벌어지는데, 이 크기의 괴리는 "
+                         f"보통 리그 등급이 다른 대결처럼 모델이 못 다루는 경우다 — "
+                         f"모델 쪽을 버린다.")
         else:
             up = home if pm >= 50 else away
-            parts.append(f"모델은 {josa(up,'의','의')} 승리 확률을 "
-                         f"{(pm if up == home else 100 - pm):.0f}% 로 본다.")
-        gap = (p_model - p_market) * 100
-        if abs(gap) >= 5:
-            parts.append(f"시장({p_market*100:.0f}%)과 {abs(gap):.0f}%p 벌어져 있는데, "
-                         f"이만큼 차이가 나면 모델이 틀렸을 확률이 더 높다.")
+            v = pm if up == home else 100 - pm
+            if abs(pm - 50) < 3:
+                parts.append(f"승패는 사실상 반반으로 본다({home} {pm:.0f}%).")
+            elif v >= 65:
+                parts.append(f"{josa(up,'의','의')} 승리를 {v:.0f}%로 본다 — "
+                             f"한쪽으로 기운 경기다.")
+            else:
+                parts.append(f"{josa(up,'이','가')} {v:.0f}%로 근소하게 앞선다.")
 
     cp = _counterpoint(fh, fa, home, away, side)
     if cp:
