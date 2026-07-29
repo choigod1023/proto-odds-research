@@ -143,7 +143,8 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 <div class="grnote">
   등급은 <b>"이 선택지를 사라"가 아니다.</b> <b>그 배당대의 과거 실측 수익률</b>이다 —
   전부 마이너스이고, 가장 좋은 A 도 −9.2% 다.
-  <b>그리고 이 숫자는 선택지 1개 기준이라 그대로는 살 수 없다</b> — 프로토는 최소 2경기 조합만 발매한다.<br>
+  <b>그리고 이 숫자는 선택지 1개 기준이다</b> — 단폴은 지정 경기만 가능하고,
+  배당을 올리려면 조합해야 하는데 조합하면 다리마다 마진이 한 번씩 더 물린다.<br>
   <b>양쪽을 동시에 살 수는 없다.</b> 같은 마켓의 두 선택지가 같은 배당대에 있으면
   <span class="gr grT">=</span> 로 표시한다. <b>어느 쪽을 사도 결과가 같아 고를 근거가 없다는 뜻</b>이다.<br>
   쓰는 법은 하나다 — <b>여러 경기·여러 마켓 중 무엇을 살지 고를 때</b> 낮은 배당대를 고르면 덜 잃는다.<br>
@@ -151,10 +152,11 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 </div>
 
 <section id="combo">
-  <h2 style="font-size:15px;margin:22px 0 6px">조합 설계 — 프로토는 <b>단폴을 팔지 않는다</b></h2>
+  <h2 style="font-size:15px;margin:22px 0 6px">조합 설계 — <b>다리마다 마진이 한 번씩 물린다</b></h2>
   <p class="grnote" style="margin-top:0">
     <a href="https://www.sportstoto.co.kr/proto_rules.php" target="_blank" rel="noopener">공식 규정</a>상
-    <b>최소 2경기 · 최대 10경기</b>만 발매하고, 같은 경기의 승패·핸디캡·언더오버는 한 장에 못 담는다.
+    <b>조합구매는 2~10경기</b>, <b>한경기구매(단폴)는 '한경기' 로 지정된 경기만</b> 가능하다.
+    같은 경기의 승패·핸디캡·언더오버는 한 장에 못 담는다.
     그래서 <b>모든 다리는 서로 다른 경기</b>고 결과가 독립이라 기대값은 그냥 곱셈이다 —
     <b>다리를 하나 더 붙일 때마다 마진이 한 번 더 물린다.</b>
   </p>
@@ -344,7 +346,7 @@ Promise.all([
   if(cb){
     const bl = cb.baseline.find(x=>x.legs===2);
     document.getElementById("combobar").innerHTML =
-      `<div><div class="b">살 수 있는 최소</div><div class="r">2폴 — 단폴 발매 없음</div></div>` +
+      `<div><div class="b">기준</div><div class="r">단폴은 지정 경기만<br>조합은 2~10경기</div></div>` +
       `<div><div class="b">아무 2폴</div><div class="r">${(bl.any*100).toFixed(1)}%</div></div>` +
       `<div><div class="b">최적 2폴</div><div class="r">${(bl.best*100).toFixed(1)}%
          <b style="color:var(--pos)">(${(bl.saving*100).toFixed(1)}%p 절감)</b></div></div>` +
@@ -366,7 +368,7 @@ Promise.all([
       lg.odds_bins.map(g=>`<div><div class="b"><span class="gr gr${gcls(g.grade)}">${g.grade}</span>${g.bin}</div>
         <div class="r">${(g.roi*100).toFixed(1)}% · ${g.n.toLocaleString()}건</div></div>`).join("") +
       `<div><div class="b">선택지 1개 기준</div><div class="r">${(h.overall_roi*100).toFixed(1)}% → 최선 ${(h.best_bucket_roi*100).toFixed(1)}%
-        <br><b style="color:var(--neg,#b3261e)">단폴은 발매하지 않는다 → 아래 조합표</b></div></div>`;
+        <br><b style="color:var(--neg,#b3261e)">단폴은 지정 경기만 → 아래 조합표</b></div></div>`;
   }
   if(pk){
     (pk.picks||[]).forEach(p=>{ WHY[`${p.date}|${p.home}|${p.away}`]=p; });

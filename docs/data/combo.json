@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-07-29T02:04:03+00:00",
+ "generated_at": "2026-07-29T02:30:44+00:00",
  "rules_source": "https://www.sportstoto.co.kr/proto_rules.php",
  "constraints": {
   "min_legs": 2,
@@ -76,7 +76,8 @@
  "baseline": [
   {
    "legs": 1,
-   "buyable": false,
+   "buyable": true,
+   "restricted": true,
    "any": -0.1358,
    "best": -0.0983,
    "saving": 0.0375
@@ -84,6 +85,7 @@
   {
    "legs": 2,
    "buyable": true,
+   "restricted": false,
    "any": -0.2531,
    "best": -0.1869,
    "saving": 0.0662
@@ -91,6 +93,7 @@
   {
    "legs": 3,
    "buyable": true,
+   "restricted": false,
    "any": -0.3545,
    "best": -0.2668,
    "saving": 0.0877
