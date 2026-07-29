@@ -81,6 +81,13 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
   vertical-align:1px}
 .grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
 .grT{background:var(--tx3)}
+.fold{border:1px solid var(--line);border-radius:8px;margin:14px 0;padding:0 12px}
+.fold>summary{cursor:pointer;padding:10px 0;font-size:13px;font-weight:600;color:var(--tx2)}
+.fold[open]>summary{border-bottom:1px solid var(--line);margin-bottom:8px}
+.lead-answer{border:1px solid var(--line);border-left:3px solid var(--pos);border-radius:8px;padding:12px 14px;margin:14px 0;font-size:13.5px;line-height:1.75}
+.lead-answer b{font-size:15px}
+.tallybox{font-size:12.5px;line-height:1.8;padding:4px 0 10px}
+.tallybad{color:#e5484d;font-weight:700}
 .waitbox{font-size:12px;color:var(--tx3);padding:8px 10px;border:1px dashed var(--line);
   border-radius:6px;margin:6px 0}
 .tcrow{border:1px solid var(--line);border-radius:6px;margin:8px 0;overflow:hidden}
@@ -135,11 +142,34 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 
 <header>
   <h1>경기 분석</h1>
-  <p class="sub">한 경기에 걸린 <b>승패 · 언더오버 · 핸디캡 · 승①패 · 승⑤패 · 홀짝</b>을 비교하고,
-  각 선택지에 <b>실측 수익률 등급</b>을 붙인다. <b>이기는 도구가 아니라 덜 지는 도구다.</b></p>
+  <p class="sub">발매 중인 전 마켓을 <b>과거 실측 수익률</b>로 등급화한다. 예측이 아니라 <b>덜 잃는 선택</b>이다.</p>
   <div class="meta" id="meta"></div>
 </header>
 
+<div class="lead-answer" id="answer"></div>
+
+<section id="todaycombo">
+  <h2 style="font-size:15px;margin:22px 0 6px">오늘의 최적 조합</h2>
+  <p class="grnote" style="margin-top:0">
+    목표 배당별로 <b>가장 덜 잃는 구성</b>이다. 고른 기준은 <b>경기별 환급률</b> 하나 —
+    같은 배당대면 과거 실측 수익률이 같아서 팀 예측으로는 고를 근거가 없다.
+    <a href="#" onclick="document.getElementById('cbwhy').open=true;return false">자세히</a>
+  </p>
+  <details id="cbwhy" class="fold" style="margin:0 0 8px"><summary>고르는 기준이 왜 환급률 하나인가</summary>
+    <p class="grnote">같은 배당대 안에서는 과거 실측 ROI 가 <b>같다</b>. 즉 "어느 팀이 이길 것 같은가" 로는
+    고를 근거가 없다 — 그게 이 프로젝트의 결론이다. 남는 건 경기별 환급률(86~89%)뿐이고,
+    같은 배당대라면 마진이 낮은 경기가 순수하게 유리하다. 예측이 아니라 산술이다.<br>
+    <b>프로토는 회차를 겹쳐 발매한다</b> — 같은 경기가 두 회차에 다른 배당으로 걸리면 높은 쪽만 남겼다.
+    실측 개선 폭은 오버라운드 평균 1.56%p 다(차익거래는 0건).</p>
+  </details>
+  <div id="tcbox"></div>
+  <p class="grnote">⚠️ 모든 칸의 기대값이 <b>음수</b>다. 목표 배당을 올릴수록 더 잃는다.
+    단폴은 '한경기' 지정 경기만 가능하다.</p>
+</section>
+
+
+
+<details class="fold"><summary>왜 이 조합인가 — 배당대 등급과 조합 산술</summary>
 <div class="verdict" id="verdict"></div>
 <div class="gradebar" id="gradebar"></div>
 <div class="grnote">
@@ -175,22 +205,18 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
     회차당 1인 10만원 한도가 "크게" 의 상한이다.
   </p>
 </section>
-<section id="todaycombo">
-  <h2 style="font-size:15px;margin:22px 0 6px">오늘의 최적 조합</h2>
-  <p class="grnote" style="margin-top:0">
-    같은 배당대 안에서는 <b>과거 실측 ROI 가 같다</b> — "어느 팀이 이길 것 같은가" 로는 고를 근거가 없다.
-    그래서 남는 기준은 하나뿐이다: <b>경기별 환급률</b>. 같은 배당대라면 마진이 낮은 경기가
-    순수하게 유리하다. 이건 예측이 아니라 산술이다.<br>
-    <b>프로토는 회차를 겹쳐 발매한다</b> — 같은 경기가 두 회차에 다른 배당으로 걸리면 높은 쪽만 남겼다.
-  </p>
-  <div id="tcbox"></div>
-  <p class="grnote">
-    ⚠️ <b>이기는 조합이 아니다.</b> 모든 칸의 기대값이 음수다. 목표 배당을 올릴수록 더 잃는다.
-    단폴(한경기구매)은 <b>'한경기' 로 지정된 경기만</b> 살 수 있어 베트맨에서 확인이 필요하다.
-  </p>
-</section>
 
-<div class="notice" id="warn"></div>
+
+
+</details>
+
+<details class="fold"><summary>🔴 모델 추천을 따르면 안 되는 이유 — 실적 공개</summary>
+  <div id="tally"></div>
+</details>
+
+<details class="fold"><summary>읽기 전에 — 이 표를 어떻게 쓰나</summary>
+  <div class="notice" id="warn"></div>
+</details>
 
 <div class="bar">
   <label>상태 <select id="fst">
@@ -204,7 +230,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
   <label>마켓 <select id="fmk"><option value="">전체</option></select></label>
   <label>회차 <select id="frd"><option value="">전체</option></select></label>
   <label>검색 <input id="fq" type="search" placeholder="팀·리그" style="width:130px"></label>
-  <label><input type="checkbox" id="fre"> 추천만 보기</label>
+  <label><input type="checkbox" id="fre"> 모델 괴리만</label>
 </div>
 
 <div id="list"></div>
@@ -329,7 +355,7 @@ function render(){
           <td class="num">${pct(o["시장확률"])}</td>
           <td class="num">${pct(o["모델확률"])}</td>
           <td class="num ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
-          <td class="why">${reco?"<b>추천</b>":esc(o["제외"]||"")}</td>
+          <td class="why">${reco?`<span class="mk">모델 최대괴리</span>`:esc(o["제외"]||"")}</td>
         </tr>`;}).join("")}
       </tbody></table>`}${whyBox(g)}</div>`);
   }
@@ -346,6 +372,29 @@ Promise.all([
   fetch("data/combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/today_combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
 ]).then(([d,pk,lg,cb,tc])=>{
+  if(lg&&tc){
+    const bl=(tc.baseline||[]).find(x=>x.legs===2)||{};
+    const A=(lg.odds_bins||[]).find(g=>g.grade==="A");
+    document.getElementById("answer").innerHTML =
+      `<b>살 거면 — 배당 ${A?A.bin:"1.0-1.3"} 구간에서, 다리는 최소로.</b><br>
+       아무 2폴 <span class="mono">${((bl.any||0)*100).toFixed(1)}%</span> &rarr;
+       최적 2폴 <span class="mono">${((bl.best||0)*100).toFixed(1)}%</span>
+       <b style="color:var(--pos)">(${((bl.saving||0)*100).toFixed(1)}%p 덜 잃는다)</b>
+       <span style="color:var(--tx3)">&middot; 전부 마이너스다. 이기는 도구가 아니라 덜 지는 도구다.</span>`;
+  }
+  if(d.tally){
+    const t=d.tally;
+    document.getElementById("tally").innerHTML=`<div class="tallybox">
+      이 페이지의 <b>모델 추천</b>을 그대로 따랐다면 정산 ${t.n}건에서
+      적중 <b>${(t.hit_rate*100).toFixed(1)}%</b>,
+      수익률 <span class="tallybad">${(t.roi*100).toFixed(1)}%</span> 였다.<br>
+      아무거나 사면 <span class="mono">-13.7%</span>, 배당 1.0-1.3 만 사면 <span class="mono">-9.2%</span> 다.
+      <b>추천을 따르면 오히려 3배 더 잃는다.</b><br>
+      이유는 분명하다 — 추천은 <span class="mono">모델확률 &times; 배당 - 1</span> 이 가장 큰 것을 고른다.
+      그런데 모델이 시장보다 부정확하므로 <b>그 격차가 가장 큰 곳은 모델이 가장 크게 틀린 곳</b>이다.
+      역선택이다. 그래서 표의 '모델 최대괴리' 는 <b>추천이 아니라 경고</b>로 읽어야 한다.
+    </div>`;
+  }
   if(tc){
     const leg = c => `<div class="tcleg"><span class="mono">${esc(c.date)}</span>
         <span class="tag">${esc(c.league)}</span> ${esc(c.match)} —
