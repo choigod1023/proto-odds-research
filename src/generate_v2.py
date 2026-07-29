@@ -283,16 +283,27 @@ def _form_dict(f) -> dict | None:
             "rest_days": f.rest_days, "trend": f.trend}
 
 
-def _attach_story(g: dict, forms: dict, h2h: dict, st: dict) -> None:
+_STORY_FAIL: list = []
+
+
+def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
+                  by_team: dict | None = None, h2h_any: dict | None = None) -> None:
     """경기 하나에 최근폼·상대전적·선발·줄글 해설을 붙인다.
 
     수치만 있으면 '해석' 이지 '분석' 이 아니다. 모델이 시장을 못 이긴다는 것과
     경기 정보를 안 보여줘도 된다는 건 별개다.
     """
     lg, ht, at = g["league"], g["home"], g["away"]
-    fh, fa = forms.get((lg, ht)), forms.get((lg, at))
+    by_team = by_team or {}
+    fh = forms.get((lg, ht)) or by_team.get(ht)
+    fa = forms.get((lg, at)) or by_team.get(at)
+    g["form_src"] = "리그" if forms.get((lg, ht)) else ("풀링" if fh else None)
     g["form_home"], g["form_away"] = _form_dict(fh), _form_dict(fa)
     g["h2h"] = h2h_text(h2h, lg, ht, at)
+    if not g["h2h"] and h2h_any:
+        alt = h2h_any.get((ht, at)) or h2h_any.get((at, ht))
+        if alt:
+            g["h2h"] = h2h_text(h2h, alt[0], ht, at)
     g["선발"] = st.get((lg, ht, at))
 
     # 줄글 — 승패/승무패 계열 배당이 있으면 그걸 근거로 쓴다
@@ -313,8 +324,11 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict) -> None:
                                  p_mkt if p_mkt is not None else 0.5,
                                  o_h or 0, o_a or 0, g.get("payout") or 88.0,
                                  0.0, 0.0, sport=g["sport"])
-    except Exception:
+    except Exception as e:
+        # ⚠️ 조용히 삼키면 안 된다. 실제로 make_preview 가 NameError 를 던지는데
+        #    해설 0건이 그대로 배포됐다. 화면엔 그냥 '해설 없음' 으로 보인다.
         g["해설"] = None
+        _STORY_FAIL.append(f"{g['league']} {g['home']}vs{g['away']}: {type(e).__name__} {e}")
 
 
 # ⚠️ 퇴화 확률 = 모델이 그 마켓을 못 매긴 것이다.
@@ -345,6 +359,23 @@ def main() -> int:
     hist = load_history()
     FORMS, H2H = build_forms(hist, season=season)
     STARTERS = starters()
+    # ⚠️ build_forms 는 (리그, 팀) 키다 → 컵대회는 폼이 비어 있고, 그러면 해설이
+    #    "이번 시즌 기록이 충분히 쌓이지 않았다" 를 양 팀에 대해 두 번 말한 뒤
+    #    "53% 우세" 라고 단정하는 자기모순 문장이 된다. 실제로 그랬다.
+    #    λ 때와 같은 처리 — 그 팀이 **가장 많이 뛴 리그의 폼**을 끌어온다.
+    #    (부산아이는 한국FA컵 3경기지만 K리그2 에 20경기가 있다)
+    FORM_BY_TEAM: dict = {}
+    for (lg_, tm_), fm_ in FORMS.items():
+        n_ = fm_.w + fm_.l + fm_.d
+        cur = FORM_BY_TEAM.get(tm_)
+        if cur is None or n_ > cur[0]:
+            FORM_BY_TEAM[tm_] = (n_, fm_)
+    FORM_BY_TEAM = {k: v[1] for k, v in FORM_BY_TEAM.items()}
+    # 상대전적도 같은 이유로 리그를 가리지 않고 찾는다
+    H2H_ANY: dict = {}
+    for k_, v_ in H2H.items():
+        if len(k_) == 3:
+            H2H_ANY.setdefault((k_[1], k_[2]), (k_[0], v_))
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
@@ -455,7 +486,7 @@ def main() -> int:
             g["판단"] = "배당 미발표"
             g["추천"] = None
             g["선택지수"] = 0
-            _attach_story(g, FORMS, H2H, STARTERS)
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY)
             out.append(g)
             continue
         # 모델이 없는 경기(컵대회 등)는 배당·등급만 보여준다. 추천은 하지 않는다.
@@ -466,7 +497,7 @@ def main() -> int:
                 o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
             g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
             g["선택지수"] = len(g["options"])
-            _attach_story(g, FORMS, H2H, STARTERS)
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY)
             out.append(g)
             continue
 
@@ -501,10 +532,15 @@ def main() -> int:
                 best, best_score = o, score
         g["추천"] = best
         g["선택지수"] = len(g["options"])
-        _attach_story(g, FORMS, H2H, STARTERS)
+        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY)
         out.append(g)
 
     # 시간순 정렬
+    if _STORY_FAIL:
+        print(f"🔴 해설 생성 실패 {len(_STORY_FAIL)}건 — 예: {_STORY_FAIL[0]}")
+    n_story = sum(1 for g in out if g.get("해설"))
+    print(f"해설 {n_story}/{len(out)}건")
+
     out.sort(key=lambda g: (g["date"], g["home"]))
     live_g = [g for g in out if g["status"] in ("경기전", "배당대기")]
     past_g = [g for g in out if g["status"] == "정산"]

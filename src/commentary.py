@@ -180,31 +180,52 @@ def make_preview(home: str, away: str, league: str,
     배당 구조(2-way/3-way, 환급률) 얘기는 여기 넣지 않는다.
     그건 가격 분석 페이지의 몫이고, 프리뷰에서 읽고 싶은 건 경기 내용이다.
     """
-    parts = [_flow(fh, home) + ".", _flow(fa, away) + "."]
+    # ⚠️ 순서를 고정하면 모든 경기가 똑같은 문장으로 시작해 읽는 사람이 금방 질린다.
+    #    **이 경기에서 가장 특징적인 사실**을 앞에 세우고 나머지를 뒤에 붙인다.
+    #    (연승·연패, 무득점 패 누적, 접전 빈도 같은 건 그 경기만의 얘기다)
+    lead = _momentum(fh, home) or _momentum(fa, away) or _style(fh, fa, home, away)
+    parts = []
+    if lead:
+        parts.append(lead + ".")
+    parts += [_flow(fh, home) + ".", _flow(fa, away) + "."]
 
-    v = _venue(fh, home, True)
-    if v:
-        parts.append(v + ".")
-    v = _venue(fa, away, False)
-    if v:
-        parts.append(v + ".")
-
-    t = h2h_text(h2h, league, home, away)
-    if t:
-        parts.append(t + ".")
-
-    for extra in (_momentum(fh, home), _momentum(fa, away),
-                  _style(fh, fa, home, away), _schedule(fh, fa, home, away)):
+    for extra in (_venue(fh, home, True), _venue(fa, away, False),
+                  h2h_text(h2h, league, home, away),
+                  _schedule(fh, fa, home, away)):
         if extra:
+            parts.append(extra + ".")
+    for extra in (_momentum(fh, home), _momentum(fa, away),
+                  _style(fh, fa, home, away)):
+        if extra and (extra + ".") not in parts:
             parts.append(extra + ".")
 
     pj = _projection(fh, fa, sport)
     if pj:
         parts.append(pj + ".")
 
-    side = home if ev_home >= ev_away else away
-    p = p_model if side == home else 1 - p_model
-    parts.append(f"종합하면 {josa(side,'의','의')} 근소 우세를 본다({p*100:.0f}%).")
+    # ⚠️ 양 팀 모두 기록이 없으면 확률을 단정하지 않는다.
+    #    "기록이 충분히 쌓이지 않았다" 를 두 번 말하고 "53% 우세" 라고 끝내면
+    #    그 자체로 모순이다. 실제로 FA컵 해설이 그렇게 나갔다.
+    side = home if p_model >= 0.5 else away      # 반론 문장이 쓰는 '우세 쪽'
+    if (fh is None or not fh.recent_games) and (fa is None or not fa.recent_games):
+        parts.append("양 팀 모두 최근 기록이 없어 경기 내용을 근거로 한 판단은 보류한다.")
+        parts.append(f"시장은 {josa(home,'의','의')} 우세로 본다({p_market*100:.0f}%).")
+    else:
+        # ⚠️ 예전엔 EV 가 큰 쪽을 '우세' 라고 적었다. 그래서 확률 44% 인 팀이
+        #    '근소 우세' 로 나가는 모순이 생겼다 — EV 는 배당이 섞인 값이라
+        #    '더 이길 것 같다' 와 다르다. 확률은 확률대로 적는다.
+        pm = p_model * 100
+        if abs(pm - 50) < 3:
+            parts.append(f"모델은 {josa(home,'과','와')} {away} 를 사실상 대등하게 본다"
+                         f"({home} {pm:.0f}%).")
+        else:
+            up = home if pm >= 50 else away
+            parts.append(f"모델은 {josa(up,'의','의')} 승리 확률을 "
+                         f"{(pm if up == home else 100 - pm):.0f}% 로 본다.")
+        gap = (p_model - p_market) * 100
+        if abs(gap) >= 5:
+            parts.append(f"시장({p_market*100:.0f}%)과 {abs(gap):.0f}%p 벌어져 있는데, "
+                         f"이만큼 차이가 나면 모델이 틀렸을 확률이 더 높다.")
 
     cp = _counterpoint(fh, fa, home, away, side)
     if cp:
