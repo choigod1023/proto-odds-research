@@ -5,23 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>연구 현황 — 한국 프로토 시장은 효율적인가</title>
 <meta name="description" content="프로토 553회차 353,047건 실측. 여섯 번의 검증과 그 결과, 그리고 스스로 잡은 오류들.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.0.13/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.0.13/600.css">
 <style>
-:root{--bg:#fbfbfa;--panel:#fff;--line:#e4e4e1;--line2:#efefec;
- --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;
- --neg:#b3261e;--pos:#1a7f4b;--warn:#9a6700;--accent:#2f4f8f;
- --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
-@media (prefers-color-scheme:dark){:root{--bg:#14140f;--panel:#1c1c18;--line:#33332c;
- --line2:#26261f;--tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;
- --neg:#f2857c;--pos:#63c48d;--warn:#e0b341;--accent:#8fb0e8}}
-:root[data-theme=dark]{--bg:#14140f;--panel:#1c1c18;--line:#33332c;--line2:#26261f;
- --tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;--neg:#f2857c;--pos:#63c48d;
- --warn:#e0b341;--accent:#8fb0e8}
-:root[data-theme=light]{--bg:#fbfbfa;--panel:#fff;--line:#e4e4e1;--line2:#efefec;
- --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;--neg:#b3261e;--pos:#1a7f4b;
- --warn:#9a6700;--accent:#2f4f8f}
+:root{--bg:#faf9f6;--panel:#fff;--line:#e3e2dd;--line2:#efeeea;
+ --tx:#1b1b1f;--tx2:#55555f;--tx3:#8b8b92;
+ --neg:#a8322a;--pos:#3f4a5a;--warn:#9a6a3c;--accent:#2f4f8f;
+ --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#17171a;--panel:#1e1e22;--line:#33333a;
+ --line2:#27272c;--tx:#ececed;--tx2:#a4a4ad;--tx3:#74747d;
+ --neg:#ef8279;--pos:#8ea3c4;--warn:#d6a55f;--accent:#8fb0e8}}
+:root[data-theme=dark]{--bg:#17171a;--panel:#1e1e22;--line:#33333a;--line2:#27272c;
+ --tx:#ececed;--tx2:#a4a4ad;--tx3:#74747d;--neg:#ef8279;--pos:#8ea3c4;
+ --warn:#d6a55f;--accent:#8fb0e8}
+:root[data-theme=light]{--bg:#faf9f6;--panel:#fff;--line:#e3e2dd;--line2:#efeeea;
+ --tx:#1b1b1f;--tx2:#55555f;--tx3:#8b8b92;--neg:#a8322a;--pos:#3f4a5a;
+ --warn:#9a6a3c;--accent:#2f4f8f}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);
- font:15.5px/1.72 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",
+ font:15.5px/1.72 -apple-system,BlinkMacSystemFont,"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",
  "Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
 .wrap{max-width:820px;margin:0 auto;padding:0 20px 90px}
 a{color:var(--accent)}

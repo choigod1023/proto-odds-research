@@ -5,28 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>프로토 가격 분석 — 실측 기반 회피 필터</title>
 <meta name="description" content="한국 프로토 고정배당 시장을 553회차 실측 데이터로 분석한다. 승부 예측이 아니라 가격 분석·회피 필터.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.0.13/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.0.13/600.css">
 <style>
 :root{
-  --bg:#fbfbfa; --panel:#fff; --line:#e4e4e1; --line2:#efefec;
-  --tx:#1a1a18; --tx2:#5c5c56; --tx3:#8a8a82;
-  --neg:#b3261e; --pos:#1a7f4b; --warn:#9a6700; --accent:#2f4f8f;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  --bg:#faf9f6; --panel:#fff; --line:#e3e2dd; --line2:#efeeea;
+  --tx:#1b1b1f; --tx2:#55555f; --tx3:#8b8b92;
+  --neg:#a8322a; --pos:#3f4a5a; --warn:#9a6a3c; --accent:#2f4f8f;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#14140f;--panel:#1c1c18;--line:#33332c;--line2:#26261f;
-  --tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;
-  --neg:#f2857c;--pos:#63c48d;--warn:#e0b341;--accent:#8fb0e8;}
+  :root{--bg:#17171a;--panel:#1e1e22;--line:#33333a;--line2:#27272c;
+  --tx:#ececed;--tx2:#a4a4ad;--tx3:#74747d;
+  --neg:#ef8279;--pos:#8ea3c4;--warn:#d6a55f;--accent:#8fb0e8;}
 }
-:root[data-theme=dark]{--bg:#14140f;--panel:#1c1c18;--line:#33332c;--line2:#26261f;
-  --tx:#ecece4;--tx2:#a8a89e;--tx3:#77776e;
-  --neg:#f2857c;--pos:#63c48d;--warn:#e0b341;--accent:#8fb0e8;}
-:root[data-theme=light]{--bg:#fbfbfa;--panel:#fff;--line:#e4e4e1;--line2:#efefec;
-  --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;
-  --neg:#b3261e;--pos:#1a7f4b;--warn:#9a6700;--accent:#2f4f8f;}
+:root[data-theme=dark]{--bg:#17171a;--panel:#1e1e22;--line:#33333a;--line2:#27272c;
+  --tx:#ececed;--tx2:#a4a4ad;--tx3:#74747d;
+  --neg:#ef8279;--pos:#8ea3c4;--warn:#d6a55f;--accent:#8fb0e8;}
+:root[data-theme=light]{--bg:#faf9f6;--panel:#fff;--line:#e3e2dd;--line2:#efeeea;
+  --tx:#1b1b1f;--tx2:#55555f;--tx3:#8b8b92;
+  --neg:#a8322a;--pos:#3f4a5a;--warn:#9a6a3c;--accent:#2f4f8f;}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);
-  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",
   "Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 a{color:var(--accent)}
@@ -58,7 +62,7 @@ h1{font-size:23px;margin:0 0 6px;letter-spacing:-.02em;font-weight:650}
 .grade{display:inline-flex;align-items:center;justify-content:center;
   width:26px;height:26px;border-radius:3px;font-weight:700;font-size:14px;
   color:#fff;vertical-align:-5px;margin-right:7px}
-.gA{background:#1a7f4b}.gB{background:#4a7fb5}.gC{background:#9a6700}.gD{background:#b3261e}
+.gA{background:#3f4a5a}.gB{background:#4a7fb5}.gC{background:#9a6a3c}.gD{background:#a8322a}
 
 .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;
   padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:4px;
