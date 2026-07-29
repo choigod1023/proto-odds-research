@@ -22,7 +22,9 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       input: {
+        index: resolve(__dirname, "index.html"),
         markets: resolve(__dirname, "markets.html"),
+        research: resolve(__dirname, "research.html"),
       },
     },
   },
