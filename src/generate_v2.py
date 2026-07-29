@@ -216,8 +216,13 @@ def main() -> int:
                 continue
             ht, at = clean(r.home), clean(r.away)
             lam = lambdas_for(st, r.league, ht, at, r.sport)
-            if not lam:
-                continue
+            # ⚠️ 여기서 continue 하면 **컵대회가 통째로 사라진다.**
+            #    λ 키가 (리그, 팀) 이라 한국FA컵·UCL 처럼 경기 수가 적은 대회는
+            #    8경기 문턱을 영영 못 넘는다. FC서울은 K리그1 에 20경기가 있는데도
+            #    (한국FA컵, FC서울) 로는 4경기뿐이라 탈락했다.
+            #    실측 2026-07-29: 363건 중 138건(38%)이 이렇게 조용히 버려졌고
+            #    한국FA컵 64건은 **전부** 빠졌다.
+            #    → 모델 확률만 비우고 경기 자체는 내보낸다. 배당·등급은 모델이 필요 없다.
             nw = r.n_way
             line = None
             if r.market_family in ("언더오버", "핸디캡"):
@@ -225,10 +230,14 @@ def main() -> int:
                 if not m0:
                     continue
                 line = float(m0.group(1))
-            M = joint(lam[0], lam[1], r.sport)
-            pm = market_probs(M, r.market_family, nw, line)
-            if not pm or len(pm) != len(r.odds):
-                continue
+            pm = None
+            if lam:
+                M = joint(lam[0], lam[1], r.sport)
+                pm = market_probs(M, r.market_family, nw, line)
+            if pm is not None and len(pm) != len(r.odds):
+                pm = None
+            if pm is None:
+                pm = [None] * len(r.odds)      # 모델 없음 — 배당·등급만 보여준다
 
             ov = sum(1 / o for o in r.odds)
             names = SEL_NAMES.get((r.market_family, nw), tuple(f"sel{i}" for i in range(nw)))
@@ -239,7 +248,9 @@ def main() -> int:
             g = games.setdefault(gkey, {
                 "round": rnd, "date": r.date_text, "league": r.league,
                 "sport": r.sport, "home": ht, "away": at,
-                "lam_home": round(lam[0], 2), "lam_away": round(lam[1], 2),
+                "lam_home": (round(lam[0], 2) if lam else None),
+                "lam_away": (round(lam[1], 2) if lam else None),
+                "no_model": lam is None,
                 "status": "정산" if settled else "경기전",
                 "options": []})
             if settled:
@@ -247,16 +258,16 @@ def main() -> int:
 
             for i, (p, o) in enumerate(zip(pm, r.odds)):
                 p_mkt = (1 / o) / ov
-                gap = abs(p - p_mkt)
+                gap = (None if p is None else abs(p - p_mkt))
                 g["options"].append({
                     "market": r.market_family, "n_way": nw,
                     "label": r.market_label or "", "line": line,
                     "선택": names[i] if i < len(names) else str(i),
                     "배당": round(o, 2),
-                    "모델확률": round(p, 4),
+                    "모델확률": (None if p is None else round(p, 4)),
                     "시장확률": round(p_mkt, 4),
-                    "예상손익": round(p * o - 1, 4),
-                    "괴리": round(gap, 4),
+                    "예상손익": (None if p is None else round(p * o - 1, 4)),
+                    "괴리": (None if gap is None else round(gap, 4)),
                     "게임번호": r.game_no,
                     "적중": (None if not settled else _hit(nw, r.result, i)),
                 })
@@ -264,6 +275,17 @@ def main() -> int:
     # ---- 경기별 최선 하나 고르기
     out = []
     for g in games.values():
+        # 모델이 없는 경기(컵대회 등)는 배당·등급만 보여준다. 추천은 하지 않는다.
+        if g.get("no_model"):
+            g["홈승률"] = None
+            g["판단"] = "모델 없음 — 배당만"
+            for o in g["options"]:
+                o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
+            g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
+            g["선택지수"] = len(g["options"])
+            out.append(g)
+            continue
+
         h, _, a = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
         p_home = h / (h + a) if h + a > 0 else 0.5
         g["홈승률"] = round(p_home, 4)
@@ -274,6 +296,10 @@ def main() -> int:
 
         best, best_score = None, -9e9
         for o in g["options"]:
+            # 모델 확률이 없는 선택지(전반 마켓 등)는 비교 대상이 아니다
+            if o["괴리"] is None or o["예상손익"] is None:
+                o["제외"] = "모델이 값을 매기지 않는 마켓 (전반전 등)"
+                continue
             if o["괴리"] > MAX_SANE_GAP:
                 # 모델이 시장과 크게 다르다 = 모델이 틀렸을 확률이 높다
                 o["제외"] = "모델·시장 차이가 커서 신뢰 낮음"
