@@ -81,6 +81,13 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
   vertical-align:1px}
 .grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
 .grT{background:var(--tx3)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px;
+  cursor:pointer;background:transparent;color:var(--tx2);font-family:inherit}
+.chip.on{border-color:var(--pos);color:var(--tx);font-weight:600}
+.chip .e{font-family:var(--mono);font-size:11px;color:var(--tx3);margin-left:5px}
+.modelcol{display:none}
+body.showmodel .modelcol{display:table-cell}
 .lghead{font-size:11.5px;color:var(--tx3);font-weight:600;letter-spacing:.02em;
   margin:16px 0 4px;padding-bottom:3px;border-bottom:1px solid var(--line)}
 .gcard{border:1px solid var(--line);border-radius:8px;margin:6px 0;background:var(--panel)}
@@ -181,6 +188,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
     <b>프로토는 회차를 겹쳐 발매한다</b> — 같은 경기가 두 회차에 다른 배당으로 걸리면 높은 쪽만 남겼다.
     실측 개선 폭은 오버라운드 평균 1.56%p 다(차익거래는 0건).</p>
   </details>
+  <div class="chips" id="tcchips"></div>
   <div id="tcbox"></div>
   <p class="grnote">⚠️ 모든 칸의 기대값이 <b>음수</b>다. 목표 배당을 올릴수록 더 잃는다.
     단폴은 '한경기' 지정 경기만 가능하다.</p>
@@ -249,7 +257,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
   <label>마켓 <select id="fmk"><option value="">전체</option></select></label>
   <label>회차 <select id="frd"><option value="">전체</option></select></label>
   <label>검색 <input id="fq" type="search" placeholder="팀·리그" style="width:130px"></label>
-  <label><input type="checkbox" id="fre"> 모델 괴리만</label>
+  <label><input type="checkbox" id="fsm"> 모델 수치 보기</label><label style="display:none"><input type="checkbox" id="fre"></label>
 </div>
 
 <div id="list"></div>
@@ -350,8 +358,8 @@ function render(){
     </summary><div class="gbody">
       ${waiting?`<div class="waitbox">배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b></div>`:`<table><thead><tr>
         <th>마켓 / 선택</th><th style="text-align:right">배당</th>
-        <th style="text-align:right">시장</th><th style="text-align:right">모델</th>
-        <th style="text-align:right">예상손익</th><th>판단</th>
+        <th class="modelcol" style="text-align:right">시장</th><th class="modelcol" style="text-align:right">모델</th>
+        <th class="modelcol" style="text-align:right">예상손익</th><th class="modelcol">판단</th>
       </tr></thead><tbody>
       ${(()=>{const t={};opts.forEach(o=>{const k=o.market+(o.label||"");const gr=oddsGrade(o["배당"]);
         if(!t[k])t[k]=[];t[k].push(gr&&gr.grade);});window.__tie={};
@@ -372,10 +380,10 @@ function render(){
         return `<tr class="${cls}">
           <td>${grHtml}<span class="mk">${optName(o)}</span>${hit}</td>
           <td class="num">${o["배당"]??"–"}</td>
-          <td class="num">${pct(o["시장확률"])}</td>
-          <td class="num">${pct(o["모델확률"])}</td>
-          <td class="num ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
-          <td class="why">${reco?`<span class="mk">모델 최대괴리</span>`:esc(o["제외"]||"")}</td>
+          <td class="num modelcol">${pct(o["시장확률"])}</td>
+          <td class="num modelcol">${pct(o["모델확률"])}</td>
+          <td class="num modelcol ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
+          <td class="why modelcol">${reco?`<span class="mk">모델 최대괴리</span>`:esc(o["제외"]||"")}</td>
         </tr>`;}).join("")}
       </tbody></table>`}${whyBox(g)}
     </div></details>`);
@@ -425,14 +433,26 @@ Promise.all([
         ${c.beats?`<span class="tcbeat">${c.round}회차 (${c.beats.round}회차는 @${c.beats.odds})</span>`:""}
       </div>`;
     const s0 = tc.solo;
-    document.getElementById("tcbox").innerHTML =
-      (s0?`<div class="tcrow"><div class="tchead">단폴 <span class="tcsub">지정 경기만</span></div>
-           <div class="tcbody">${leg(s0)}</div></div>`:"") +
-      tc.plans.filter(p=>p.ok).map(p=>`<div class="tcrow">
-        <div class="tchead">목표 ${p.target}×
+    const plans=tc.plans.filter(p=>p.ok);
+    window.__tcRender=(i)=>{
+      const p=plans[i];
+      document.getElementById("tcchips").innerHTML =
+        (s0?`<button class="chip${i===-1?" on":""}" onclick="__tcRender(-1)">단폴</button>`:"")+
+        plans.map((q,k)=>`<button class="chip${k===i?" on":""}" onclick="__tcRender(${k})">
+          ${q.target}배<span class="e">${(q.expected_roi*100).toFixed(0)}%</span></button>`).join("");
+      if(i===-1&&s0){
+        document.getElementById("tcbox").innerHTML=
+          `<div class="tcrow"><div class="tchead">단폴 <span class="tcsub">'한경기' 지정 경기만 구매 가능</span></div>
+           <div class="tcbody">${leg(s0)}</div></div>`;
+        return;
+      }
+      document.getElementById("tcbox").innerHTML=`<div class="tcrow">
+        <div class="tchead">목표 ${p.target}배 — ${p.legs}폴
           <span class="tcsub">실배당 ${p.actual_odds}× · 적중 ${(p.hit_est*100).toFixed(1)}%
           · 기대 <b class="neg">${(p.expected_roi*100).toFixed(1)}%</b></span></div>
-        <div class="tcbody">${p.picks.map(leg).join("")}</div></div>`).join("");
+        <div class="tcbody">${p.picks.map(leg).join("")}</div></div>`;
+    };
+    __tcRender(0);
   }
   if(cb){
     const bl = cb.baseline.find(x=>x.legs===2);
@@ -492,6 +512,8 @@ Promise.all([
   fmk.innerHTML='<option value="">전체</option>'+mks.map(m=>`<option>${esc(m)}</option>`).join("");
   [fst,flg,fmk,fre,frd].forEach(el=>el.addEventListener("change",render));
   fq.addEventListener("input",render);
+  document.getElementById("fsm").addEventListener("change",e=>
+    document.body.classList.toggle("showmodel",e.target.checked));
   const rounds=[...new Set([...(DATA.live||[]),...(DATA.past||[])].map(g=>g.round))]
     .sort((a,b)=>b-a);
   frd.innerHTML='<option value="">전체</option>'+rounds.map(r=>`<option value="${r}">${r}회차</option>`).join("");
