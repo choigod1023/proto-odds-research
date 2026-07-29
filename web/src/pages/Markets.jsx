@@ -109,10 +109,14 @@ function TodayPlan({ today, combo, grades }) {
 
       {bl && (
         <div className="mt-3 border-t border-rule2 pt-[11px] text-[12px] leading-[1.75] text-ink2">
-          아무 2폴 <b className="tnum text-ink">{(bl.any * 100).toFixed(1)}%</b> →{" "}
+          <b className="text-ink">다리를 줄이는 게 제일 크다.</b>{" "}
+          같은 선택도 1폴 <b className="tnum text-ink">−9.8%</b> ·
+          2폴 <b className="tnum text-ink">−18.7%</b> · 3폴 <b className="tnum">−26.7%</b> —
+          다리 하나에 <b className="text-ink">8.9%p</b> 다. 배당대를 고르는 이득(3.9%p)보다 크다.
+          단폴은 '한경기' 지정 경기만 되니, 되면 그걸 먼저 본다.<br />
+          아무 2폴 <b className="tnum">{(bl.any * 100).toFixed(1)}%</b> →{" "}
           배당 {A ? A.bin : "1.0-1.3"} 로 짠 2폴{" "}
-          <b className="tnum text-ink">{(bl.best * 100).toFixed(1)}%</b> —{" "}
-          <b className="text-ink">{(bl.saving * 100).toFixed(1)}%p 덜 잃는다.</b>{" "}
+          <b className="tnum">{(bl.best * 100).toFixed(1)}%</b>.
           전부 마이너스다. 목표 배당을 올릴수록 더 잃는다.
         </div>
       )}
