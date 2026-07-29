@@ -82,6 +82,46 @@ def clean(x: str) -> str:
     return re.sub(r"\s+-?\d+\s*$", "", s).strip()
 
 
+def shot_form() -> dict:
+    """팀별 최근 슈팅 폼 — **배당 시점에 아는 과거 정보**다.
+
+    ⚠️ 우위로는 못 쓴다. 시장 확률 위에 얹으면 오히려 나빠진다
+       (검증 114경기: 시장 0.20362 → +유효슈팅차 0.24545).
+       다만 **과정지표가 결과지표보다는 낫다**는 건 재현됐다
+       (유효슈팅 0.24545 < 득실차 0.25423). 경기 내용으로는 쓸 값이다.
+    """
+    f = ROOT / "data" / "raw" / "detail" / "kleague_shots_2023_2026.json"
+    if not f.exists():
+        return {}
+    try:
+        raw = json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    from collections import deque as _dq
+    sf: dict = defaultdict(lambda: _dq(maxlen=10))
+    sa: dict = defaultdict(lambda: _dq(maxlen=10))
+    gf: dict = defaultdict(lambda: _dq(maxlen=10))
+    for g in sorted(raw.values(), key=lambda x: x["date"]):
+        d = g.get("data") or {}
+        H, A = d.get("home") or {}, d.get("away") or {}
+        if H.get("sog") is None or A.get("sog") is None:
+            continue
+        for team, me, op in ((g["home"], H, A), (g["away"], A, H)):
+            sf[team].append(me["sog"]); sa[team].append(op["sog"]); gf[team].append(me["goals"])
+    out = {}
+    for t, v in sf.items():
+        if len(v) < 5:
+            continue
+        s_for, s_ag = float(np.mean(v)), float(np.mean(sa[t]))
+        g_for = float(np.mean(gf[t]))
+        out[str(t)] = {
+            "sog": round(s_for, 1), "sog_a": round(s_ag, 1),
+            # 결정력 — 유효슈팅 대비 실제 득점. 낮으면 '만들고도 못 넣는다'
+            "conv": round(g_for / s_for, 3) if s_for else None,
+        }
+    return out
+
+
 def lineup_profiles() -> dict:
     """K리그 팀별 로테이션 성향 — 해설에 쓸 '이 팀은 어떤 팀인가'.
 
@@ -327,12 +367,30 @@ def _form_dict(f) -> dict | None:
             "rest_days": f.rest_days, "trend": f.trend}
 
 
+_PRE = ("FC",)
+_SUF = ("FC", "HD", "SK", "하나", "상무", "유나", "아이", "시티", "삼성", "현대", "스틸")
+
+
+def _norm_team(n: str) -> str:
+    """프로토와 네이버 표기 차이 — FC서울↔서울, 울산HD↔울산."""
+    n = str(n).strip()
+    for p in _PRE:
+        if n.startswith(p) and len(n) > len(p):
+            n = n[len(p):]
+            break
+    for s in _SUF:
+        if n.endswith(s) and len(n) > len(s):
+            n = n[: -len(s)]
+            break
+    return n
+
+
 _STORY_FAIL: list = []
 
 
 def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
                   by_team: dict | None = None, h2h_any: dict | None = None,
-                  lineups: dict | None = None) -> None:
+                  lineups: dict | None = None, shots: dict | None = None) -> None:
     """경기 하나에 최근폼·상대전적·선발·줄글 해설을 붙인다.
 
     수치만 있으면 '해석' 이지 '분석' 이 아니다. 모델이 시장을 못 이긴다는 것과
@@ -362,6 +420,10 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         return None
 
     g["라인업"] = {k: v for k, v in (("home", _lp(ht)), ("away", _lp(at))) if v}
+    sh = shots or {}
+    g["슈팅폼"] = {k: v for k, v in
+                 (("home", sh.get(ht) or sh.get(_norm_team(ht))),
+                  ("away", sh.get(at) or sh.get(_norm_team(at)))) if v}
 
     # 줄글 — 승패/승무패 계열 배당이 있으면 그걸 근거로 쓴다
     base = next((o for o in g["options"]
@@ -392,6 +454,17 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         elif v["form_change"] >= 0.40:
             extra.append(f"{name}은 포메이션을 경기마다 바꾼다(변경률 "
                          f"{v['form_change']*100:.0f}%)")
+    for side, name in (("home", ht), ("away", at)):
+        v = g["슈팅폼"].get(side)
+        if not v:
+            continue
+        diff = v["sog"] - v["sog_a"]
+        if abs(diff) >= 1.5:
+            extra.append(f"{name}은 최근 10경기 유효슈팅 {v['sog']}대 {v['sog_a']}로 "
+                         f"내용에서 {'앞선다' if diff > 0 else '밀린다'}")
+        if v["conv"] is not None and v["conv"] <= 0.22:
+            extra.append(f"{name}은 유효슈팅 대비 득점이 {v['conv']:.2f} 로 낮아 "
+                         f"만들고도 못 넣는 경기가 있다")
     g["라인업메모"] = ". ".join(extra) + ("." if extra else "")
 
     try:
@@ -438,6 +511,7 @@ def main() -> int:
     FORMS, H2H = build_forms(hist, season=season)
     STARTERS = starters()
     LINEUPS = lineup_profiles()
+    SHOTFORM = shot_form()
     # ⚠️ build_forms 는 (리그, 팀) 키다 → 컵대회는 폼이 비어 있고, 그러면 해설이
     #    "이번 시즌 기록이 충분히 쌓이지 않았다" 를 양 팀에 대해 두 번 말한 뒤
     #    "53% 우세" 라고 단정하는 자기모순 문장이 된다. 실제로 그랬다.
@@ -565,7 +639,7 @@ def main() -> int:
             g["판단"] = "배당 미발표"
             g["추천"] = None
             g["선택지수"] = 0
-            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS)
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
             out.append(g)
             continue
         # 모델이 없는 경기(컵대회 등)는 배당·등급만 보여준다. 추천은 하지 않는다.
@@ -576,7 +650,7 @@ def main() -> int:
                 o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
             g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
             g["선택지수"] = len(g["options"])
-            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS)
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
             out.append(g)
             continue
 
@@ -611,7 +685,7 @@ def main() -> int:
                 best, best_score = o, score
         g["추천"] = best
         g["선택지수"] = len(g["options"])
-        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS)
+        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
         out.append(g)
 
     # 시간순 정렬

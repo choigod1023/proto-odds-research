@@ -161,6 +161,9 @@ def main() -> int:
             "base": round(float(s["base"].mean()), 4),
             "edge": round(float(s["edge"].mean()), 4),
             "grade": grade(float(s["ret"].mean())) if ok else "?",
+            # 적중률 — 수익률과 반대로 움직인다. "덜 잃기" 와 "자주 맞기" 는
+            # 같은 방향이지만(둘 다 낮은 배당), 목표 배당을 올리면 갈라진다.
+            "hit": round(float(s["hit"].mean()), 4) if "hit" in s else None,
             "by_year": by_year, "stable": ok, "why_unstable": why,
         })
 
