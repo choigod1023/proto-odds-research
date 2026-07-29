@@ -41,6 +41,9 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
+from commentary import make_preview, make_short                     # noqa: E402
+from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
+                       set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
                         p_one_run, p_over, p_win)
 from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
@@ -79,31 +82,105 @@ def clean(x: str) -> str:
     return re.sub(r"\s+-?\d+\s*$", "", s).strip()
 
 
+def starters() -> dict:
+    """야구 선발 투수 — (리그, 홈, 원정) → {'home':이름, 'away':이름}.
+
+    ⚠️ 왜 붙이나: 선발은 **경기마다 바뀌고 시장이 늦게 반영할 수 있는** 몇 안 되는
+       정보다(피처 심사 3조건 통과). 실측으로는 시장을 못 이겼지만
+       (Brier +0.006), **사람이 경기를 이해하는 데는 필요한 정보다.**
+       숫자가 시장을 못 이긴다는 것과 화면에 안 보여줘도 된다는 건 다른 얘기다.
+    """
+    f = ROOT / "data" / "raw" / "info_watch" / "starter_announcements.csv"
+    if not f.exists():
+        return {}
+    try:
+        s = pd.read_csv(f)
+    except Exception:
+        return {}
+    s = s[s["field"].isin(["homeStarterName", "awayStarterName"])]
+    s = s.sort_values("observed_at")
+    out: dict = {}
+    for r in s.itertuples():
+        k = (str(r.league), str(r.home), str(r.away))
+        side = "home" if r.field == "homeStarterName" else "away"
+        out.setdefault(k, {})[side] = str(r.value)
+    return out
+
+
 def team_lambdas() -> dict:
-    """리그·팀별 최근 득실 → λ 재료. 과거 전체를 훑어 최신 상태를 만든다."""
+    """리그·팀별 + **팀별(리그 무관)** 최근 득실 → λ 재료.
+
+    ⚠️ 왜 팀별 풀링까지 만드나 — 컵대회 때문이다.
+       λ 키를 (리그, 팀)으로만 두면 컵대회는 경기 수가 적어 8경기 문턱을 영영 못 넘는다.
+       FC서울은 K리그1 에 20경기가 있는데도 (한국FA컵, FC서울)로는 4경기뿐이다.
+       그 결과 한국FA컵 64건이 **전부** 버려지고 있었다.
+
+       팀 단위로 풀링하면 예측 가능한 컵 경기가 **64건 → 1,032건(16배)** 이 된다.
+
+    ⚠️ 단, 컵은 모델이 더 못 맞힌다 — 로테이션과 이종등급 대결 때문이다.
+       실측(승무패 Brier, 모델−시장): 리그 +0.028 vs **컵 +0.043**, 4년 내내 일관.
+       그래서 값은 내되 `lam_src="풀링"` 으로 표시하고 신뢰도를 낮게 본다.
+       (컵 압축 자체를 보정하려 했으나 기울기 차이 −0.173 의 95%CI 가
+        [−0.389, +0.055] 로 0 을 포함하고 2026 년엔 부호가 반대라 넣지 않았다.)
+    """
     from matches import load_matches
-    m = load_matches()
-    gf: dict = defaultdict(lambda: deque(maxlen=WINDOW))
-    ga: dict = defaultdict(lambda: deque(maxlen=WINDOW))
+    m = load_matches().sort_values("date")
+    gf: dict = defaultdict(lambda: deque(maxlen=W_LONG))
+    ga: dict = defaultdict(lambda: deque(maxlen=W_LONG))
+    gfT: dict = defaultdict(lambda: deque(maxlen=W_LONG))   # 팀 단위(리그 무관)
+    gaT: dict = defaultdict(lambda: deque(maxlen=W_LONG))
     for r in m.itertuples():
-        gf[(r.league, r.home_team)].append(r.home_score)
-        ga[(r.league, r.home_team)].append(r.away_score)
-        gf[(r.league, r.away_team)].append(r.away_score)
-        ga[(r.league, r.away_team)].append(r.home_score)
-    return {"gf": gf, "ga": ga}
+        y = int(r.year)
+        gf[(r.league, r.home_team)].append((y, r.home_score))
+        ga[(r.league, r.home_team)].append((y, r.away_score))
+        gf[(r.league, r.away_team)].append((y, r.away_score))
+        ga[(r.league, r.away_team)].append((y, r.home_score))
+        gfT[r.home_team].append((y, r.home_score)); gaT[r.home_team].append((y, r.away_score))
+        gfT[r.away_team].append((y, r.away_score)); gaT[r.away_team].append((y, r.home_score))
+    return {"gf": gf, "ga": ga, "gfT": gfT, "gaT": gaT,
+            "season": int(m["year"].max())}
+
+
+W_LONG = 40                 # 가중 평균에 쓰는 최대 경기 수
+SEASON_BOOST = 2.0          # 이번 시즌 경기에 주는 가중
+
+
+def _wmean(rec, season: int) -> float:
+    """이번 시즌 경기에 2배 가중한 평균.
+
+    ⚠️ 왜 균등이 아닌가 — 실측으로 정했다. 축구 승무패 8,026건(2025~) 검증:
+         균등20(구)      Brier 0.62113
+         지수감쇠 10      0.61973
+         **시즌가중 2배   0.61947**  ← 채택
+         지수+시즌 2배    0.62069   (섞으면 오히려 나빠진다)
+       그리고 **네 해 모두** 균등20보다 나았다(+3.1 / +1.3 / +1.6 / +1.8, ×1000).
+       시장과의 격차를 약 5% 좁힌다 — 여전히 못 이기지만 방향은 확실하다.
+    """
+    r = list(rec)[-W_LONG:]
+    w = np.array([SEASON_BOOST if y == season else 1.0 for y, _ in r])
+    v = np.array([x for _, x in r], dtype=float)
+    return float((v * w).sum() / w.sum())
 
 
 HOME_MULT = {"bs": 1.03, "sc": 1.12, "bk": 1.02, "vl": 1.05}
 
 
 def lambdas_for(st: dict, league: str, home: str, away: str, sport: str):
+    """(λ홈, λ원정, 출처). 리그 키가 얇으면 **팀 단위 풀링**으로 떨어진다."""
     kh, ka = (league, home), (league, away)
-    if len(st["gf"][kh]) < 8 or len(st["gf"][ka]) < 8:
+    if len(st["gf"][kh]) >= 8 and len(st["gf"][ka]) >= 8:
+        H = (st["gf"][kh], st["ga"][kh]); A = (st["gf"][ka], st["ga"][ka]); src = "리그"
+    elif len(st["gfT"][home]) >= 8 and len(st["gfT"][away]) >= 8:
+        # 컵대회 등 — 그 팀이 다른 리그에서 쌓은 기록을 끌어온다
+        H = (st["gfT"][home], st["gaT"][home]); A = (st["gfT"][away], st["gaT"][away])
+        src = "풀링"
+    else:
         return None
+    yr = st["season"]
     hm = HOME_MULT.get(sport, 1.05)
-    lh = (np.mean(st["gf"][kh]) + np.mean(st["ga"][ka])) / 2 * hm
-    la = (np.mean(st["gf"][ka]) + np.mean(st["ga"][kh])) / 2
-    return float(lh), float(la)
+    lh = (_wmean(H[0], yr) + _wmean(A[1], yr)) / 2 * hm
+    la = (_wmean(A[0], yr) + _wmean(H[1], yr)) / 2
+    return float(lh), float(la), src
 
 
 # 선택지 이름은 bets.SEL_NAMES 가 정본이다 (사본을 만들지 말 것).
@@ -195,10 +272,62 @@ def _selftest() -> int:
     return 0
 
 
+def _form_dict(f) -> dict | None:
+    if f is None:
+        return None
+    return {"w": f.w, "l": f.l, "d": f.d, "last10": f.last10_str,
+            "streak": f"{f.streak_n}{f.streak_kind}" if f.streak_n >= 2 else "",
+            "home": f"{f.home_w}-{f.home_l}", "away": f"{f.away_w}-{f.away_l}",
+            "avg_scored": round(f.avg_scored, 1) if f.avg_scored else None,
+            "avg_conceded": round(f.avg_conceded, 1) if f.avg_conceded else None,
+            "rest_days": f.rest_days, "trend": f.trend}
+
+
+def _attach_story(g: dict, forms: dict, h2h: dict, st: dict) -> None:
+    """경기 하나에 최근폼·상대전적·선발·줄글 해설을 붙인다.
+
+    수치만 있으면 '해석' 이지 '분석' 이 아니다. 모델이 시장을 못 이긴다는 것과
+    경기 정보를 안 보여줘도 된다는 건 별개다.
+    """
+    lg, ht, at = g["league"], g["home"], g["away"]
+    fh, fa = forms.get((lg, ht)), forms.get((lg, at))
+    g["form_home"], g["form_away"] = _form_dict(fh), _form_dict(fa)
+    g["h2h"] = h2h_text(h2h, lg, ht, at)
+    g["선발"] = st.get((lg, ht, at))
+
+    # 줄글 — 승패/승무패 계열 배당이 있으면 그걸 근거로 쓴다
+    base = next((o for o in g["options"]
+                 if o["market"] in ("승패", "승무패") and o["선택"] in ("홈", "원정")), None)
+    o_h = o_a = None
+    for o in g["options"]:
+        if o["market"] in ("승패", "승무패"):
+            if o["선택"] == "홈":
+                o_h = o["배당"]
+            elif o["선택"] == "원정":
+                o_a = o["배당"]
+    p_home = g.get("홈승률")
+    p_mkt = base["시장확률"] if base else None
+    try:
+        g["해설"] = make_preview(ht, at, lg, fh, fa, h2h,
+                                 p_home if p_home is not None else 0.5,
+                                 p_mkt if p_mkt is not None else 0.5,
+                                 o_h or 0, o_a or 0, g.get("payout") or 88.0,
+                                 0.0, 0.0, sport=g["sport"])
+    except Exception:
+        g["해설"] = None
+
+
 def main() -> int:
     st = team_lambdas()
     sess = _session()
     season = datetime.now().year
+    # 최근폼·상대전적·줄글 해설 — 예전엔 generate_picks 가 '승패 2-way' 에만 붙였다.
+    # 그래서 언더오버·핸디캡·컵대회 경기는 해설이 **아예 만들어지지 않았다.**
+    # ⚠️ season 을 안 넘기면 4년치가 누적된다 (LG 300승 212패 · 시즌 맞대결 32승 24패).
+    #    "최근 폼" 이라는 말이 무의미해진다.
+    hist = load_history()
+    FORMS, H2H = build_forms(hist, season=season)
+    STARTERS = starters()
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
@@ -210,7 +339,28 @@ def main() -> int:
     games: dict = {}
     for rnd in rounds:
         for r in (_fetch(sess, season, rnd) or []):
-            if not r.odds or r.is_void or not r.overround:
+            # ⚠️ 배당이 아직 안 나온 회차를 통째로 버리고 있었다.
+            #    프로토는 **경기 목록을 먼저 열고 배당을 나중에 붙인다.**
+            #    실측 2026-07-29: 회차 90 의 697행이 전부 odds=[] · n_way=0 이라
+            #    '앞으로 있을 경기' 가 사이트에 하나도 안 보였다.
+            #    배당이 없어도 대진·최근폼·해설은 보여줄 수 있다.
+            if r.is_void:
+                continue
+            if not r.odds or not r.overround:
+                if r.result in UNPLAYED:
+                    ht0, at0 = clean(r.home), clean(r.away)
+                    lam0 = lambdas_for(st, r.league, ht0, at0, r.sport)
+                    k0 = f"{r.league}|{ht0}|{at0}|{r.date_text}"
+                    if k0 not in games:
+                        games[k0] = {
+                            "round": rnd, "date": r.date_text, "league": r.league,
+                            "sport": r.sport, "home": ht0, "away": at0,
+                            "lam_home": (round(lam0[0], 2) if lam0 else None),
+                            "lam_away": (round(lam0[1], 2) if lam0 else None),
+                            "lam_src": (lam0[2] if lam0 else None),
+                            "no_model": lam0 is None,
+                            "no_odds": True,          # 배당 미발표
+                            "status": "배당대기", "options": []}
                 continue
             if not (1.0 <= r.overround <= 1.40):
                 continue
@@ -250,11 +400,15 @@ def main() -> int:
                 "sport": r.sport, "home": ht, "away": at,
                 "lam_home": (round(lam[0], 2) if lam else None),
                 "lam_away": (round(lam[1], 2) if lam else None),
+                "lam_src": (lam[2] if lam else None),
                 "no_model": lam is None,
                 "status": "정산" if settled else "경기전",
                 "options": []})
+            g.pop("no_odds", None)
             if settled:
                 g["status"] = "정산"
+            elif g["status"] == "배당대기":
+                g["status"] = "경기전"
 
             for i, (p, o) in enumerate(zip(pm, r.odds)):
                 p_mkt = (1 / o) / ov
@@ -275,6 +429,18 @@ def main() -> int:
     # ---- 경기별 최선 하나 고르기
     out = []
     for g in games.values():
+        if g.get("no_odds") and not g["options"]:
+            if not g.get("no_model"):
+                h0, _, a0 = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
+                g["홈승률"] = round(h0 / (h0 + a0), 4) if h0 + a0 > 0 else None
+            else:
+                g["홈승률"] = None
+            g["판단"] = "배당 미발표"
+            g["추천"] = None
+            g["선택지수"] = 0
+            _attach_story(g, FORMS, H2H, STARTERS)
+            out.append(g)
+            continue
         # 모델이 없는 경기(컵대회 등)는 배당·등급만 보여준다. 추천은 하지 않는다.
         if g.get("no_model"):
             g["홈승률"] = None
@@ -283,6 +449,7 @@ def main() -> int:
                 o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
             g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
             g["선택지수"] = len(g["options"])
+            _attach_story(g, FORMS, H2H, STARTERS)
             out.append(g)
             continue
 
@@ -317,11 +484,12 @@ def main() -> int:
                 best, best_score = o, score
         g["추천"] = best
         g["선택지수"] = len(g["options"])
+        _attach_story(g, FORMS, H2H, STARTERS)
         out.append(g)
 
     # 시간순 정렬
     out.sort(key=lambda g: (g["date"], g["home"]))
-    live_g = [g for g in out if g["status"] == "경기전"]
+    live_g = [g for g in out if g["status"] in ("경기전", "배당대기")]
     past_g = [g for g in out if g["status"] == "정산"]
 
     tally = None

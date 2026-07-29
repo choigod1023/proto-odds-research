@@ -81,6 +81,8 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
   vertical-align:1px}
 .grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
 .grT{background:var(--tx3)}
+.waitbox{font-size:12px;color:var(--tx3);padding:8px 10px;border:1px dashed var(--line);
+  border-radius:6px;margin:6px 0}
 .tcrow{border:1px solid var(--line);border-radius:6px;margin:8px 0;overflow:hidden}
 .tchead{background:var(--panel);padding:7px 10px;font-size:12.5px;font-weight:600}
 .tcsub{font-weight:400;color:var(--tx3);font-size:11.5px;margin-left:6px}
@@ -192,12 +194,16 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
 
 <div class="bar">
   <label>상태 <select id="fst">
-    <option value="경기전">경기전</option>
+    <option value="예정">예정 (경기전+배당대기)</option>
+    <option value="경기전">경기전 (배당 나옴)</option>
+    <option value="배당대기">배당대기</option>
     <option value="">전체</option>
-    <option value="정산">정산 완료</option>
+    <option value="정산">정산</option>
   </select></label>
   <label>리그 <select id="flg"><option value="">전체</option></select></label>
   <label>마켓 <select id="fmk"><option value="">전체</option></select></label>
+  <label>회차 <select id="frd"><option value="">전체</option></select></label>
+  <label>검색 <input id="fq" type="search" placeholder="팀·리그" style="width:130px"></label>
   <label><input type="checkbox" id="fre"> 추천만 보기</label>
 </div>
 
@@ -241,29 +247,43 @@ function fmForm(f){
   return b.join(" · ");
 }
 function whyBox(g){
-  const w=WHY[wkey(g)];
-  if(!w) return "";
+  // 경기 자체에 붙은 해설을 먼저 쓴다. 예전엔 picks.json(승패 2-way 125건)에만 있어서
+  // 언더오버·핸디캡·컵대회 경기는 해설이 아예 안 나왔다.
+  const w=WHY[wkey(g)]||{};
+  const lead = g["해설"] || w.preview;
   const facts=[];
+  const st=g["선발"];
+  if(st&&(st.home||st.away))
+    facts.push(`선발 ${esc(g.home)} ${esc(st.home||"?")} / ${esc(g.away)} ${esc(st.away||"?")}`);
   if(w.elo_home!=null) facts.push(`Elo ${esc(g.home)} ${w.elo_home} / ${esc(g.away)} ${w.elo_away}`);
-  if(w.h2h) facts.push(esc(w.h2h));
-  const fh=fmForm(w.form_home), fa=fmForm(w.form_away);
+  const h2h=g["h2h"]||w.h2h;
+  if(h2h) facts.push(esc(h2h));
+  const fh=fmForm(g.form_home||w.form_home), fa=fmForm(g.form_away||w.form_away);
   if(fh) facts.push(`${esc(g.home)} ${esc(fh)}`);
   if(fa) facts.push(`${esc(g.away)} ${esc(fa)}`);
+  if(g.lam_src==="풀링") facts.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다(실측 +0.043 vs 리그 +0.028)");
+  if(!lead&&!facts.length) return "";
   return `<div class="why-box">
-    ${w.preview?`<div class="lead">${esc(w.preview)}</div>`:""}
+    ${lead?`<div class="lead">${esc(lead)}</div>`:""}
     ${facts.length?`<div class="facts">${facts.join(" · ")}</div>`:""}
   </div>`;
 }
 function render(){
   const st=fst.value, lg=flg.value, mk=fmk.value, onlyReco=fre.checked;
+  const rd=frd.value, q=(fq.value||"").trim().toLowerCase();
   const pool=[...(DATA.live||[]),...(DATA.past||[])];
-  const games=pool.filter(g=>(!st||g.status===st)&&(!lg||g.league===lg));
+  const games=pool.filter(g=>(!st|| (st==="예정" ? (g.status==="경기전"||g.status==="배당대기") : g.status===st))&&(!lg||g.league===lg)
+    &&(!rd||String(g.round)===rd)
+    &&(!q||[g.home,g.away,g.league,g.date].join(" ").toLowerCase().includes(q)));
   const out=[];
   for(const g of games){
     let opts=(g.options||[]).filter(o=>!mk||o.market===mk);
     if(onlyReco) opts=opts.filter(o=>o["추천점수"]!=null);
-    if(!opts.length) continue;
-    const done=g.status!=="경기전";
+    // 배당 미발표 경기는 선택지가 없어도 보여준다 — 앞으로 있을 경기이기 때문이다
+    const waiting = g.status==="배당대기";
+    if(!opts.length && !waiting) continue;
+    if(waiting && (mk||onlyReco)) continue;
+    const done=g.status!=="경기전"&&!waiting;
     out.push(`<div class="game">
       <div class="ghead">
         <div><span class="gteam">${esc(g.home)} vs ${esc(g.away)}</span>
@@ -273,7 +293,8 @@ function render(){
         <div class="gwhen">${esc(g.date)} · ${g.round}회차 ·
           ${g["홈승률"]==null?"<b>모델 없음</b> — 리그 표본 부족(컵대회 등). 배당·등급만 쓴다":`모델 홈승률 <span class="mono">${pct(g["홈승률"])}</span>`}</div>
       </div>
-      <table><thead><tr>
+      ${waiting?`<div class="waitbox">배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b>
+        아래 해설·최근폼은 지금도 볼 수 있다.</div>`:`<table><thead><tr>
         <th>마켓 / 선택</th><th style="text-align:right">배당</th>
         <th style="text-align:right">시장</th><th style="text-align:right">모델</th>
         <th style="text-align:right">예상손익</th><th>판단</th>
@@ -310,7 +331,7 @@ function render(){
           <td class="num ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
           <td class="why">${reco?"<b>추천</b>":esc(o["제외"]||"")}</td>
         </tr>`;}).join("")}
-      </tbody></table>${whyBox(g)}</div>`);
+      </tbody></table>`}${whyBox(g)}</div>`);
   }
   list.innerHTML = out.length? out.join("") :
     `<div class="empty">조건에 맞는 경기가 없습니다.</div>`;
@@ -399,7 +420,11 @@ Promise.all([
   flg.innerHTML='<option value="">전체</option>'+leagues.map(l=>`<option>${esc(l)}</option>`).join("");
   const mks=[...new Set(pool.flatMap(g=>(g.options||[]).map(o=>o.market)))].sort();
   fmk.innerHTML='<option value="">전체</option>'+mks.map(m=>`<option>${esc(m)}</option>`).join("");
-  [fst,flg,fmk,fre].forEach(el=>el.addEventListener("change",render));
+  [fst,flg,fmk,fre,frd].forEach(el=>el.addEventListener("change",render));
+  fq.addEventListener("input",render);
+  const rounds=[...new Set([...(DATA.live||[]),...(DATA.past||[])].map(g=>g.round))]
+    .sort((a,b)=>b-a);
+  frd.innerHTML='<option value="">전체</option>'+rounds.map(r=>`<option value="${r}">${r}회차</option>`).join("");
   render();
 }).catch(e=>{list.innerHTML=`<div class="empty">데이터를 불러오지 못했습니다: ${esc(e.message)}</div>`;});
 </script>
