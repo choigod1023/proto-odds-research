@@ -95,7 +95,18 @@ def stability(s, base_by_year: dict[int, float]) -> tuple[dict, bool, str]:
 def _rules(odds_rows, st_rows, sel_rows) -> list[dict]:
     """등급표에서 규칙을 뽑아낸다. 안정성 관문을 통과한 것만 규칙이 된다."""
     ok_bins = [r for r in odds_rows if r["stable"]]
-    rules = []
+    # ⚠️ 지렛대 크기 순으로 적는다. 예전엔 배당대 규칙을 맨 앞에 두고 단폴을
+    #    '지정 경기만 되니까' 라며 뒤로 미뤘는데, 실측하니 **단폴이 압도적으로 크다.**
+    #      단폴 vs 2폴  8.86%p   (−9.83% vs −18.69%)
+    #      배당대       3.86%p
+    #      2-way 구조   2.39%p
+    #      회차 환급률   2.36%p — 단, 배당대 규칙과 겹쳐 추가 이득이 없다
+    #                          (둘 다 −9.38% vs 배당대만 −9.23%)
+    #    다리를 하나 줄이는 게 나머지 규칙을 다 합친 것보다 크다.
+    rules = [{"rule": "단폴이 가능하면 무조건 단폴",
+              "why": "다리 하나가 −9.8%, 두 다리면 −18.7% — 8.9%p 차이다. "
+                     "다른 어떤 규칙보다 크다. 단 '한경기' 로 지정된 경기만 되고 "
+                     "단위투표금액이 1,000원이다(조합은 100원)"}]
     worst = min(ok_bins, key=lambda r: r["roi"]) if ok_bins else None
     best = max(ok_bins, key=lambda r: r["roi"]) if ok_bins else None
     if worst:
