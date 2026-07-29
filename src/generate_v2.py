@@ -122,6 +122,32 @@ def shot_form() -> dict:
     return out
 
 
+# 리그 등급 — 국내 축구만. 그 해 가장 많이 뛴 리그가 그 팀의 등급이다.
+TIER = {"K리그1": 1, "K리그2": 2}
+# 이종등급 대결에서 상위등급이 실제로 앞서는 폭.
+# 실측 42경기: +0.500골 · 95%CI [+0.167, +0.857] · p(≤0)=0.002 · 3년 모두 양수.
+# (동일등급 홈 이점 +0.125골과 비교하면 4배다)
+TIER_EDGE = 0.50
+
+
+def team_tiers() -> dict:
+    """(연도, 팀) → 등급. 없으면 0(모름)."""
+    from matches import load_matches
+    from collections import Counter
+    m = load_matches()
+    m = m[m["sport"] == "sc"]
+    cnt: Counter = Counter()
+    for r in m.itertuples():
+        cnt[(r.year, r.home_team, r.league)] += 1
+        cnt[(r.year, r.away_team, r.league)] += 1
+    best: dict = {}
+    for (y, t, lg), n in cnt.items():
+        k = (int(y), str(t))
+        if k not in best or n > best[k][1]:
+            best[k] = (lg, n)
+    return {k: TIER.get(v[0], 0) for k, v in best.items()}
+
+
 def lineup_profiles() -> dict:
     """K리그 팀별 로테이션 성향 — 해설에 쓸 '이 팀은 어떤 팀인가'.
 
@@ -511,6 +537,7 @@ def main() -> int:
     FORMS, H2H = build_forms(hist, season=season)
     STARTERS = starters()
     LINEUPS = lineup_profiles()
+    TIERS = team_tiers()
     SHOTFORM = shot_form()
     # ⚠️ build_forms 는 (리그, 팀) 키다 → 컵대회는 폼이 비어 있고, 그러면 해설이
     #    "이번 시즌 기록이 충분히 쌓이지 않았다" 를 양 팀에 대해 두 번 말한 뒤
@@ -567,6 +594,19 @@ def main() -> int:
                 continue
             ht, at = clean(r.home), clean(r.away)
             lam = lambdas_for(st, r.league, ht, at, r.sport)
+            # ⚠️ 풀링 λ 는 리그 등급 차이를 못 본다. K리그2 팀의 득점은 약한 상대
+            #    기준이라 K리그1 팀과 같은 값처럼 보인다. 그래서 부산아이(2부) vs
+            #    FC서울(1부) 에서 모델이 53% (시장 20%) 를 냈다.
+            #    실측한 등급 우위(+0.50골)를 양쪽에 절반씩 나눠 얹는다.
+            if lam and r.sport == "sc":
+                th = TIERS.get((season, _norm_team(ht)), 0) or TIERS.get((season, ht), 0)
+                ta = TIERS.get((season, _norm_team(at)), 0) or TIERS.get((season, at), 0)
+                if th and ta and th != ta:
+                    up_home = th < ta          # 숫자가 작을수록 상위 등급
+                    d = TIER_EDGE / 2
+                    lh = max(0.15, lam[0] + (d if up_home else -d))
+                    la = max(0.15, lam[1] + (-d if up_home else d))
+                    lam = (lh, la, lam[2] + "+등급보정")
             # ⚠️ 여기서 continue 하면 **컵대회가 통째로 사라진다.**
             #    λ 키가 (리그, 팀) 이라 한국FA컵·UCL 처럼 경기 수가 적은 대회는
             #    8경기 문턱을 영영 못 넘는다. FC서울은 K리그1 에 20경기가 있는데도
