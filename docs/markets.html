@@ -160,11 +160,11 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
   <a href="markets.html" class="on">경기 분석</a>
   <a href="research.html">연구 현황</a>
 </nav>
-<div class="navnote">
+<details class="navnote"><summary style="cursor:pointer">메뉴 설명</summary>
   <b>가격 분석</b> 회차 환급률·상품별 유불리 ·
   <b>경기 분석</b> 경기별 전 마켓 비교와 근거(이 페이지) ·
   <b>연구 현황</b> 왜 이길 수 없는가 — 12개 검증 기록
-</div>
+</details>
 
 <header>
   <h1>경기 분석</h1>
@@ -348,7 +348,7 @@ function render(){
     const btns=shown.map(o=>{
       const gr=oddsGrade(o["배당"]);
       return `<span class="ob ${gr?gcls(gr.grade):"U"}" title="${gr?`배당 ${gr.bin} 실측 ${(gr.roi*100).toFixed(1)}%`:"등급 없음"}">
-        <span class="l">${esc(o["선택"])}</span><span class="v">${o["배당"]??"–"}</span></span>`;}).join("");
+        <span class="l">${esc(o["선택"])}</span><span class="v">${o["배당"]==null?"–":Number(o["배당"]).toFixed(2)}</span></span>`;}).join("");
 
     out.push(`<details class="gcard"><summary>
       <span class="gtime">${esc(String(g.date).slice(-5))}</span>
@@ -379,7 +379,7 @@ function render(){
           :"";
         return `<tr class="${cls}">
           <td>${grHtml}<span class="mk">${optName(o)}</span>${hit}</td>
-          <td class="num">${o["배당"]??"–"}</td>
+          <td class="num">${o["배당"]==null?"–":Number(o["배당"]).toFixed(2)}</td>
           <td class="num modelcol">${pct(o["시장확률"])}</td>
           <td class="num modelcol">${pct(o["모델확률"])}</td>
           <td class="num modelcol ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
