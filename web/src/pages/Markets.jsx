@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
-import { day, formLine, gcls, gradeOf, hhmm, odds, pct, sgn } from "../lib/fmt.js";
+import { day, formLine, gcls, gradeOf, hhmm, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
 
 const J = (p) => fetch(`data/${p}?${Date.now()}`).then((r) => r.json());
 
@@ -243,6 +243,8 @@ function Game({ g, opts, wait, grades }) {
 
   const head = opts.filter((o) => o.market === "승패" || o.market === "승무패");
   const shown = (head.length ? head : opts).slice(0, 3);
+  // 경기별 픽 — 모델이 아니라 **실측 등급**으로 고른다 (모델 추천은 −42.2% 였다)
+  const pick = wait ? null : lessBadPick(grades, opts);
 
   return (
     <Card as="details" className="my-1.5">
@@ -260,6 +262,21 @@ function Game({ g, opts, wait, grades }) {
                   title={gr ? `배당 ${gr.bin} 실측 ${(gr.roi * 100).toFixed(1)}%` : "등급 없음"} />;
               })}
         </span>
+        {pick && (
+          <span
+            title={pick.tie
+              ? `최선 등급(${pick.g.bin})이 여럿이라 고를 근거가 없다`
+              : `배당 ${pick.g.bin} 실측 ${(pick.g.roi * 100).toFixed(1)}%`}
+            className="whitespace-nowrap rounded border border-rule px-1.5 py-0.5 text-[10.5px] text-ink2"
+          >
+            {pick.tie ? (
+              <>고를 근거 없음</>
+            ) : (
+              <>덜 잃는 쪽 <b className="text-ink">{pick.o["선택"]}</b>{" "}
+                <span className="tnum">{odds(pick.o["배당"])}</span></>
+            )}
+          </span>
+        )}
         <span className="whitespace-nowrap text-[10.5px] text-ink3">
           {g.round}회차{g["판단"] ? ` · ${g["판단"]}` : ""}
         </span>
@@ -269,14 +286,14 @@ function Game({ g, opts, wait, grades }) {
           <div className="rounded-[7px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
             배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b>
           </div>
-        ) : <OptTable opts={opts} grades={grades} tie={tie} />}
+        ) : <OptTable opts={opts} grades={grades} tie={tie} pick={pick} model={g["추천"]} />}
         <Why g={g} />
       </div>
     </Card>
   );
 }
 
-function OptTable({ opts, grades, tie }) {
+function OptTable({ opts, grades, tie, pick, model }) {
   const th = "border-b border-rule2 pb-[5px] pr-2 text-left text-[11px] font-medium text-ink3";
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
@@ -287,6 +304,7 @@ function OptTable({ opts, grades, tie }) {
         <th className={`${th} model-col text-right`}>시장</th>
         <th className={`${th} model-col text-right`}>모델</th>
         <th className={`${th} model-col text-right`}>기대</th>
+        <th className={th}>판단</th>
       </tr></thead>
       <tbody>
         {opts.map((o, k) => {
@@ -305,6 +323,15 @@ function OptTable({ opts, grades, tie }) {
               <td className={`${td} model-col tnum text-right`}>{pct(o["시장확률"])}</td>
               <td className={`${td} model-col tnum text-right`}>{pct(o["모델확률"])}</td>
               <td className={`${td} model-col tnum text-right`}>{sgn(o["예상손익"])}</td>
+              <td className={`${td} text-[11.5px]`}>
+                {pick && !pick.tie && pick.o === o && (
+                  <span className="text-ink">덜 잃는 쪽</span>)}
+                {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
+                  <span className="text-ink3">동률 — 고를 근거 없음</span>)}
+                {model && model["게임번호"] === o["게임번호"] &&
+                 model["선택"] === o["선택"] && model.market === o.market && (
+                  <span className="model-col text-sev2"> 모델 최대괴리</span>)}
+              </td>
             </tr>
           );
         })}
