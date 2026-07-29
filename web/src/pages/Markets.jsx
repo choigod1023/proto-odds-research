@@ -282,9 +282,9 @@ function Game({ g, opts, wait, grades }) {
             ) : (
               <>{pick.o["선택"]} <span className="tnum">{odds(pick.o["배당"])}</span>
                 {pick.g.hit != null && (
-                  <> · 적중 <b className="tnum text-ink">
+                  <> · 적중 <b className="tnum">
                     {(pick.g.hit * 100).toFixed(0)}%</b></>)}
-                {pick.why && <span className="text-ink3"> · {pick.why}</span>}</>
+                {pick.why && <span className="opacity-70"> · {pick.why}</span>}</>
             )}
           </span>
         )}
