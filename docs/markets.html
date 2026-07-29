@@ -81,6 +81,7 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
   vertical-align:1px}
 .grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
 .grT{background:var(--tx3)}
+.grU{background:transparent;border:1px dashed var(--tx3);color:var(--tx3)}
 .grnote{font-size:12px;color:var(--tx2);margin:-14px 0 22px;line-height:1.7;
   border-left:3px solid var(--line);padding-left:12px}
 .grnote b{color:var(--tx)}
@@ -136,8 +137,31 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
   전부 마이너스이고, 가장 좋은 A 도 −9.2% 다.<br>
   <b>양쪽을 동시에 살 수는 없다.</b> 같은 마켓의 두 선택지가 같은 배당대에 있으면
   <span class="gr grT">=</span> 로 표시한다. <b>어느 쪽을 사도 결과가 같아 고를 근거가 없다는 뜻</b>이다.<br>
-  쓰는 법은 하나다 — <b>여러 경기·여러 마켓 중 무엇을 살지 고를 때</b> 낮은 배당대를 고르면 덜 잃는다.
+  쓰는 법은 하나다 — <b>여러 경기·여러 마켓 중 무엇을 살지 고를 때</b> 낮은 배당대를 고르면 덜 잃는다.<br>
+  <b>단, 위 등급은 '최소 손실' 기준이다.</b> 목표 배당이 있으면 뒤집힌다 — 아래 조합표를 볼 것.
 </div>
+
+<section id="combo">
+  <h2 style="font-size:15px;margin:22px 0 6px">조합 설계 — 프로토는 <b>단폴을 팔지 않는다</b></h2>
+  <p class="grnote" style="margin-top:0">
+    <a href="https://www.sportstoto.co.kr/proto_rules.php" target="_blank" rel="noopener">공식 규정</a>상
+    <b>최소 2경기 · 최대 10경기</b>만 발매하고, 같은 경기의 승패·핸디캡·언더오버는 한 장에 못 담는다.
+    그래서 <b>모든 다리는 서로 다른 경기</b>고 결과가 독립이라 기대값은 그냥 곱셈이다 —
+    <b>다리를 하나 더 붙일 때마다 마진이 한 번 더 물린다.</b>
+  </p>
+  <div class="gradebar" id="combobar"></div>
+  <p class="grnote">
+    <b>목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다.</b>
+    저배당은 다리 하나로는 최선이지만 배당을 만드는 효율은 최악이라, 목표를 맞추려면
+    다리를 여러 개 붙이게 되고 그만큼 더 잃는다.
+  </p>
+  <div class="gradebar" id="varbar"></div>
+  <p class="grnote">
+    기대값은 <b>어떤 구조에서도 음수</b>다. 원금을 넘길 확률은 오직 <b>적게·크게</b> 살 때만 남고,
+    <b>많이 살수록 0 으로 수렴한다</b> — 대수의 법칙이 마진을 실현시킨다.
+    회차당 1인 10만원 한도가 "크게" 의 상한이다.
+  </p>
+</section>
 <div class="notice" id="warn"></div>
 
 <div class="bar">
@@ -250,7 +274,7 @@ function render(){
         const grHtml=gr
           ?(tie
             ? `<span class="gr grT" title="양쪽이 같은 배당대(${gr.bin}) — 어느 쪽을 사도 같다. 고를 근거가 없다">=</span>`
-            : `<span class="gr gr${gr.grade}" title="배당 ${gr.bin} 실측 수익률 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`)
+            : `<span class="gr gr${gcls(gr.grade)}" title="배당 ${gr.bin} 실측 수익률 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`)
           :"";
         return `<tr class="${cls}">
           <td>${grHtml}<span class="mk">${optName(o)}</span>${hit}</td>
@@ -266,18 +290,37 @@ function render(){
     `<div class="empty">조건에 맞는 경기가 없습니다.</div>`;
 }
 
+const gcls = g => (g === "?" ? "U" : g);   // '?' 는 CSS 클래스명이 못 된다
+
 Promise.all([
   fetch("data/picks_v2.json?"+Date.now()).then(r=>r.json()),
   fetch("data/picks.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/loss_grades.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
-]).then(([d,pk,lg])=>{
+  fetch("data/combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
+]).then(([d,pk,lg,cb])=>{
+  if(cb){
+    const bl = cb.baseline.find(x=>x.legs===2);
+    document.getElementById("combobar").innerHTML =
+      `<div><div class="b">살 수 있는 최소</div><div class="r">2폴 — 단폴 발매 없음</div></div>` +
+      `<div><div class="b">아무 2폴</div><div class="r">${(bl.any*100).toFixed(1)}%</div></div>` +
+      `<div><div class="b">최적 2폴</div><div class="r">${(bl.best*100).toFixed(1)}%
+         <b style="color:var(--pos)">(${(bl.saving*100).toFixed(1)}%p 절감)</b></div></div>` +
+      cb.plans.map(p=>`<div><div class="b">목표 ${p.target}×</div>
+        <div class="r">${p.best.legs}폴 · 적중 ${(p.best.hit*100).toFixed(1)}%<br>
+        <b>${(p.best.roi*100).toFixed(1)}%</b></div></div>`).join("");
+    const NS=["10","100","300"];
+    document.getElementById("varbar").innerHTML =
+      `<div><div class="b">원금초과 확률</div><div class="r">티켓 ${NS.join(" / ")}장</div></div>` +
+      cb.variance.map(v=>`<div><div class="b">${v.odds}× (적중 ${(v.hit*100).toFixed(1)}%)</div>
+        <div class="r">${NS.map(n=>(v.p_profit[n]*100).toFixed(1)+"%").join(" / ")}</div></div>`).join("");
+  }
   DATA=d;
   if(lg){
     GRADES=lg;
     const h=lg.headline;
     document.getElementById("gradebar").innerHTML =
       `<div><div class="b">등급 기준</div><div class="r">실측 ${lg.basis.n_selections.toLocaleString()}건 · ${lg.basis.years[0]}~${lg.basis.years.at(-1)}</div></div>` +
-      lg.odds_bins.map(g=>`<div><div class="b"><span class="gr gr${g.grade}">${g.grade}</span>${g.bin}</div>
+      lg.odds_bins.map(g=>`<div><div class="b"><span class="gr gr${gcls(g.grade)}">${g.grade}</span>${g.bin}</div>
         <div class="r">${(g.roi*100).toFixed(1)}% · ${g.n.toLocaleString()}건</div></div>`).join("") +
       `<div><div class="b">아무거나 살 때</div><div class="r">${(h.overall_roi*100).toFixed(1)}% → 최선 ${(h.best_bucket_roi*100).toFixed(1)}%
         <b style="color:var(--pos)">(${h.saving_pp}%p 절감)</b></div></div>`;
