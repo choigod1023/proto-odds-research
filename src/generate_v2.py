@@ -40,7 +40,9 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from score_dist import joint, p_handicap, p_one_run, p_over, p_win  # noqa: E402
+from bets import SEL_NAMES                                          # noqa: E402
+from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
+                        p_one_run, p_over, p_win)
 from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
 from wisetoto import CACHE, _session                                # noqa: E402
 
@@ -104,15 +106,7 @@ def lambdas_for(st: dict, league: str, home: str, away: str, sport: str):
     return float(lh), float(la)
 
 
-SEL_NAMES = {
-    ("승패", 2): ["홈 승", "원정 승"],
-    ("승무패", 3): ["홈 승", "무승부", "원정 승"],
-    ("언더오버", 2): ["언더", "오버"],
-    ("핸디캡", 2): ["핸디 홈", "핸디 원정"],
-    ("핸디캡", 3): ["핸디 홈", "핸디 무", "핸디 원정"],
-    ("승①패", 3): ["홈 2점차+", "1점차", "원정 2점차+"],
-}
-
+# 선택지 이름은 bets.SEL_NAMES 가 정본이다 (사본을 만들지 말 것).
 
 def market_probs(M, fam: str, nw: int, line: float | None):
     if fam == "승패" and nw == 2:
@@ -132,7 +126,73 @@ def market_probs(M, fam: str, nw: int, line: float | None):
         return [w, d, l]
     if fam == "승①패" and nw == 3:
         return list(p_one_run(M))
+    if fam == "승⑤패" and nw == 3:
+        return list(p_margin_band(M, 5))
+    if fam == "홀짝" and nw == 2:
+        po = p_odd(M)
+        return [po, 1 - po]              # [홀, 짝]
     return None
+
+
+def _selftest() -> int:
+    """실제 데이터에 나오는 모든 (마켓, 선택지수) 조합을 사이트가 그릴 수 있나.
+
+    이게 없으면 새 마켓이 생겼을 때 **사이트에 'sel0/sel1' 이 그대로 나간다.**
+    실제로 승⑤패·홀짝이 그랬다 — 분석 코드만 고치고 생성기를 안 고쳤다.
+    """
+    import numpy as _np
+    df = pd.read_csv(ROOT / "data/processed/games.csv")
+    # 취소 경기는 배당이 1.00/1.00 이고 사이트에 올라가지 않는다.
+    # (승①패인데 n_way=2 인 29건이 전부 이것이었다 — 진짜 구멍이 아니다)
+    if "is_void" in df.columns:
+        df = df[~df["is_void"].astype(str).str.lower().isin(("true", "1"))]
+    df = df[df["result"].astype(str) != "취소"]
+    combos = (df.groupby(["market_family", "n_way"]).size()
+                .sort_values(ascending=False))
+    M = joint(4.5, 4.2, "bb")
+    fails = []
+    # 배당이 없는 행(n_way=0)과 미분류는 애초에 사이트에 안 올라간다
+    SKIP = {"미분류"}
+    # 전반 마켓은 **일부러** 모델 확률이 없다. 풀게임 분포로 값을 매기면 가짜 우위가 나온다.
+    UNPRICED_OK = "전반"
+    print("사이트 렌더 가능성 검사")
+    for (fam, nw), n in combos.items():
+        nw = int(nw)
+        if nw == 0 or fam in SKIP:
+            print(f"  ⏭ {fam:<6} {nw}-way {n:>7,}건 (사이트 대상 아님)")
+            continue
+        if fam.startswith(UNPRICED_OK):
+            names = SEL_NAMES.get((fam, nw))
+            ok = names is not None and len(names) == nw
+            print(f"  {'⏭' if ok else '🔴'} {fam:<8} {nw}-way {n:>7,}건 "
+                  f"(전반 — 모델 가격 없음이 정상"
+                  + ("" if ok else ", **이름이 없어 sel0 노출**") + ")")
+            if not ok:
+                fails.append((fam, nw, n, ["전반인데 이름없음"]))
+            continue
+        names = SEL_NAMES.get((fam, nw))
+        line = 1.5 if fam in ("언더오버", "핸디캡") else None
+        pm = market_probs(M, fam, nw, line)
+        bad = []
+        if names is None:
+            bad.append("이름없음→sel0/sel1 노출")
+        elif len(names) != nw:
+            bad.append(f"이름 {len(names)}개 ≠ {nw}")
+        if pm is None:
+            bad.append("모델확률 없음→비교 불가")
+        elif len(pm) != nw or abs(sum(pm) - 1) > 1e-6:
+            bad.append(f"확률 len={len(pm)} 합={sum(pm):.4f}")
+        mark = "✅" if not bad else "🔴"
+        print(f"  {mark} {fam:<6} {nw}-way {n:>7,}건"
+              + (f"  ← {', '.join(bad)}" if bad else f"  {'/'.join(names)}"))
+        if bad:
+            fails.append((fam, nw, n, bad))
+    if fails:
+        tot = sum(f[2] for f in fails)
+        print(f"\n🔴 {len(fails)}개 조합 {tot:,}건이 사이트에서 깨진다")
+        return 1
+    print("\n✅ 모든 마켓이 이름·확률 둘 다 있다")
+    return 0
 
 
 def main() -> int:
@@ -171,7 +231,7 @@ def main() -> int:
                 continue
 
             ov = sum(1 / o for o in r.odds)
-            names = SEL_NAMES.get((r.market_family, nw), [f"{i}" for i in range(nw)])
+            names = SEL_NAMES.get((r.market_family, nw), tuple(f"sel{i}" for i in range(nw)))
             settled = r.result not in UNPLAYED and r.result != ""
 
             # ⭐ 경기 단위로 묶는다 — 같은 경기가 여러 상품으로 중복 발매되므로
@@ -282,4 +342,7 @@ def _hit(nw: int, result: str, i: int) -> bool:
 
 
 if __name__ == "__main__":
+    # ⚠️ --selftest 는 main() **앞에서** 분기해야 한다. 뒤에 두면 영영 안 돈다.
+    if "--selftest" in sys.argv:
+        raise SystemExit(_selftest())
     raise SystemExit(main())

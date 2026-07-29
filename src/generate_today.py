@@ -22,6 +22,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bets import SEL_NAMES                                 # noqa: E402
 from devig import devig                                    # noqa: E402
 from snapshot import UNPLAYED, find_live_rounds, _fetch    # noqa: E402
 from wisetoto import CACHE, _session                       # noqa: E402
@@ -143,13 +144,8 @@ def main() -> int:
             #       3-way 는 강팀 쪽에 마진이 더 얹혀 있어 power 를 쓴다.
             method = "multiplicative" if r.n_way == 2 else "power"
             probs = devig(r.odds, method)
-            sel_names = {
-                ("승패", 2): ["홈", "원정"], ("언더오버", 2): ["언더", "오버"],
-                ("핸디캡", 2): ["핸디홈", "핸디원정"],
-                ("승무패", 3): ["홈", "무", "원정"],
-                ("핸디캡", 3): ["핸디홈", "핸디무", "핸디원정"],
-                ("승①패", 3): ["홈2+", "1점차", "원정2+"],
-            }.get((r.market_family, r.n_way), [f"sel{i}" for i in range(r.n_way)])
+            sel_names = SEL_NAMES.get(
+                (r.market_family, r.n_way), tuple(f"sel{i}" for i in range(r.n_way)))
 
             sels = []
             for i, o in enumerate(r.odds):

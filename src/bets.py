@@ -42,7 +42,10 @@ _WINNER: dict[tuple[int, str], int] = {
 }
 
 # 선택지 인덱스 → 사람이 읽는 이름
-_SEL_NAMES = {
+# ⚠️ 선택지 이름의 **단일 정본**. 예전엔 이 표가 bets·generate_today·generate_v2 에
+#    따로 있었고(4중 사본), 승⑤패·홀짝을 추가할 때 한 군데만 고쳐 사이트에는
+#    'sel0/sel1' 이 그대로 나갔다. 새 마켓은 여기에만 추가한다.
+SEL_NAMES = {
     ("승패", 2): ("홈", "원정"),
     ("언더오버", 2): ("언더", "오버"),
     ("핸디캡", 2): ("핸디홈", "핸디원정"),
@@ -51,6 +54,12 @@ _SEL_NAMES = {
     ("승①패", 3): ("홈2+", "1점차", "원정2+"),
     ("승⑤패", 3): ("홈6+", "5점차이내", "원정6+"),
     ("홀짝", 2): ("홀", "짝"),
+    # 전반전 한정 마켓 — 이름은 필요하지만 모델은 값을 안 매긴다(위 주석 참고)
+    ("전반승패", 2): ("전반홈", "전반원정"),
+    ("전반승무패", 3): ("전반홈", "전반무", "전반원정"),
+    ("전반언더오버", 2): ("전반언더", "전반오버"),
+    ("전반핸디캡", 2): ("전반핸디홈", "전반핸디원정"),
+    ("전반핸디캡", 3): ("전반핸디홈", "전반핸디무", "전반핸디원정"),
 }
 
 
@@ -102,7 +111,7 @@ def to_bets(rows) -> list[Bet]:
         wi = winner_index(r.n_way, r.result)
         if wi is None or wi >= r.n_way:
             continue  # 미정산·미인식 결과는 제외
-        names = _SEL_NAMES.get((r.market_family, r.n_way))
+        names = SEL_NAMES.get((r.market_family, r.n_way))
         for i, o in enumerate(r.odds):
             out.append(Bet(
                 year=r.year, round=r.round, game_no=r.game_no,
