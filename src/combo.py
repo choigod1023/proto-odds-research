@@ -1,14 +1,17 @@
-"""조합(2폴~) 설계표 — 프로토는 단폴을 팔지 않는다.
+"""조합 설계표 — 배당을 올리려면 조합해야 하고, 다리마다 마진이 한 번씩 물린다.
 
 왜 이 파일이 따로 있나
 ----------------------
-`loss_filter.py` 는 **선택지 1개** 기준으로 등급을 매긴다. 그런데 프로토 승부식은
-**최소 2경기 · 최대 10경기** 조합만 발매한다(공식 규정). 즉 −9.2% 라는 헤드라인은
-**살 수 없는 숫자**였다. 실제로 살 수 있는 최소 단위는 2폴이고 거기서는 마진이
-두 번 물린다 — 같은 선택으로도 −18.7% 다.
+`loss_filter.py` 는 **선택지 1개** 기준으로 등급을 매긴다. 그런데 배당을 올리려면
+조합해야 하고, **조합하면 다리마다 마진이 한 번씩 물린다** — 같은 선택으로도
+1폴 −9.8% 가 2폴에서는 −18.7% 가 된다.
+
+단폴(한경기구매)도 있지만 **'한경기' 로 지정된 경기만** 살 수 있어 아무 경기나
+단폴로 갈 수는 없다. 그래서 실전에서는 조합이 기본이다.
 
 규정에서 온 제약 (sportstoto.co.kr/proto_rules.php)
-  · 최소 2경기, 최대 10경기
+  · **한경기구매(단폴)**: '한경기' 로 지정된 경기만. 단위투표금액 1,000원
+  · **조합구매**: 2~10경기. 단위투표금액 100원
   · **같은 경기의 승패·핸디캡·언더오버는 한 장에 못 담는다**
     → 모든 다리는 서로 다른 경기 → 결과가 독립 → 기대값은 그냥 곱셈이다
   · 회차당 1인 10만원 · 투표권당 적중금 상한 1억원
@@ -124,7 +127,9 @@ def build() -> dict:
     baseline = []
     for k in (1, 2, 3):
         baseline.append({
-            "legs": k, "buyable": k >= MIN_LEGS,
+            "legs": k,
+            # 1폴은 '한경기' 로 지정된 경기만 가능하다 (아무 경기나 되는 게 아니다)
+            "buyable": True, "restricted": k < MIN_LEGS,
             "any": round((1 + any_roi)**k - 1, 4),
             "best": round((1 + lo)**k - 1, 4),
             "saving": round((1 + lo)**k - (1 + any_roi)**k, 4),
@@ -184,9 +189,9 @@ def _selftest() -> int:
     print(f"  ✅ 목표 {len(d['plans'])}개 — 다리 추가는 손해 (5.0+ 회피 예외 {n_exc}건)")
 
     one = [x for x in d["baseline"] if x["legs"] == 1][0]
-    if one["buyable"]:
-        bad.append("단폴이 구매 가능으로 표시된다 — 규정 위반(최소 2경기)")
-    print("  ✅ 단폴 = 구매 불가 표시")
+    if not one["restricted"]:
+        bad.append("단폴이 '지정 경기 한정' 으로 표시되지 않는다")
+    print("  ✅ 단폴 = 지정 경기 한정 표시")
 
     for v in d["variance"]:
         if v["p_profit"]["300"] > v["p_profit"]["10"]:
@@ -205,9 +210,9 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print("살 수 있는 최소 단위는 2폴이다 (프로토 규정: 최소 2경기)")
+    print("배당을 올리려면 조합해야 하고, 다리마다 마진이 한 번씩 물린다")
     for x in d["baseline"]:
-        tag = "" if x["buyable"] else "   ← 구매 불가"
+        tag = "   ← '한경기' 지정 경기만" if x["restricted"] else ""
         print(f"  {x['legs']}폴  아무거나 {x['any']*100:+7.2f}%   "
               f"최적 {x['best']*100:+7.2f}%   절약 {x['saving']*100:5.2f}%p{tag}")
     print("\n목표 배당별 최적 조합")
