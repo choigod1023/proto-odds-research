@@ -61,6 +61,10 @@ PUBLISH = [
     ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"]),
     # 손실 축소 등급표 — 이 프로젝트의 최종 산출물. 사이트가 읽는다.
     ("손실등급 갱신", [sys.executable, "-u", "src/loss_filter.py"]),
+    # ⚠️ 순서 주의: combo 는 bets.csv, today_combo 는 today.json·combo.json·
+    #    loss_grades.json 을 읽는다. 앞의 것들이 먼저 돌아야 한다.
+    ("조합표 갱신", [sys.executable, "-u", "src/combo.py"]),
+    ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"]),
 ]
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시

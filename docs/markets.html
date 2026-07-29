@@ -81,6 +81,14 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
   vertical-align:1px}
 .grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
 .grT{background:var(--tx3)}
+.tcrow{border:1px solid var(--line);border-radius:6px;margin:8px 0;overflow:hidden}
+.tchead{background:var(--panel);padding:7px 10px;font-size:12.5px;font-weight:600}
+.tcsub{font-weight:400;color:var(--tx3);font-size:11.5px;margin-left:6px}
+.tcbody{padding:4px 10px 8px}
+.tcleg{font-size:12px;padding:3px 0;border-top:1px solid var(--line)}
+.tcleg:first-child{border-top:0}
+.tcpay{color:var(--tx3);font-size:11px;margin-left:6px}
+.tcbeat{color:var(--pos);font-size:11px;margin-left:6px}
 .grU{background:transparent;border:1px dashed var(--tx3);color:var(--tx3)}
 .grnote{font-size:12px;color:var(--tx2);margin:-14px 0 22px;line-height:1.7;
   border-left:3px solid var(--line);padding-left:12px}
@@ -163,6 +171,21 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
     회차당 1인 10만원 한도가 "크게" 의 상한이다.
   </p>
 </section>
+<section id="todaycombo">
+  <h2 style="font-size:15px;margin:22px 0 6px">오늘의 최적 조합</h2>
+  <p class="grnote" style="margin-top:0">
+    같은 배당대 안에서는 <b>과거 실측 ROI 가 같다</b> — "어느 팀이 이길 것 같은가" 로는 고를 근거가 없다.
+    그래서 남는 기준은 하나뿐이다: <b>경기별 환급률</b>. 같은 배당대라면 마진이 낮은 경기가
+    순수하게 유리하다. 이건 예측이 아니라 산술이다.<br>
+    <b>프로토는 회차를 겹쳐 발매한다</b> — 같은 경기가 두 회차에 다른 배당으로 걸리면 높은 쪽만 남겼다.
+  </p>
+  <div id="tcbox"></div>
+  <p class="grnote">
+    ⚠️ <b>이기는 조합이 아니다.</b> 모든 칸의 기대값이 음수다. 목표 배당을 올릴수록 더 잃는다.
+    단폴(한경기구매)은 <b>'한경기' 로 지정된 경기만</b> 살 수 있어 베트맨에서 확인이 필요하다.
+  </p>
+</section>
+
 <div class="notice" id="warn"></div>
 
 <div class="bar">
@@ -246,7 +269,7 @@ function render(){
           <span class="tag">${esc(g.league)}</span>
           ${g["판단"]?`<span class="tag">${esc(g["판단"])}</span>`:""}</div>
         <div class="gwhen">${esc(g.date)} · ${g.round}회차 ·
-          모델 홈승률 <span class="mono">${pct(g["홈승률"])}</span></div>
+          ${g["홈승률"]==null?"<b>모델 없음</b> — 리그 표본 부족(컵대회 등). 배당·등급만 쓴다":`모델 홈승률 <span class="mono">${pct(g["홈승률"])}</span>`}</div>
       </div>
       <table><thead><tr>
         <th>마켓 / 선택</th><th style="text-align:right">배당</th>
@@ -282,7 +305,7 @@ function render(){
           <td class="num">${o["배당"]??"–"}</td>
           <td class="num">${pct(o["시장확률"])}</td>
           <td class="num">${pct(o["모델확률"])}</td>
-          <td class="num ${ev>=0?"pos":"neg"}">${sgn(ev)}</td>
+          <td class="num ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
           <td class="why">${reco?"<b>추천</b>":esc(o["제외"]||"")}</td>
         </tr>`;}).join("")}
       </tbody></table>${whyBox(g)}</div>`);
@@ -298,7 +321,26 @@ Promise.all([
   fetch("data/picks.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/loss_grades.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
-]).then(([d,pk,lg,cb])=>{
+  fetch("data/today_combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
+]).then(([d,pk,lg,cb,tc])=>{
+  if(tc){
+    const leg = c => `<div class="tcleg"><span class="mono">${esc(c.date)}</span>
+        <span class="tag">${esc(c.league)}</span> ${esc(c.match)} —
+        <b>${esc(c.market)}${c.market_label?" "+esc(c.market_label):""} ${esc(c.sel)}</b>
+        <span class="mono">@${c.odds}</span>
+        <span class="tcpay">환급 ${c.payout}%</span>
+        ${c.beats?`<span class="tcbeat">${c.round}회차 (${c.beats.round}회차는 @${c.beats.odds})</span>`:""}
+      </div>`;
+    const s0 = tc.solo;
+    document.getElementById("tcbox").innerHTML =
+      (s0?`<div class="tcrow"><div class="tchead">단폴 <span class="tcsub">지정 경기만</span></div>
+           <div class="tcbody">${leg(s0)}</div></div>`:"") +
+      tc.plans.filter(p=>p.ok).map(p=>`<div class="tcrow">
+        <div class="tchead">목표 ${p.target}×
+          <span class="tcsub">실배당 ${p.actual_odds}× · 적중 ${(p.hit_est*100).toFixed(1)}%
+          · 기대 <b class="neg">${(p.expected_roi*100).toFixed(1)}%</b></span></div>
+        <div class="tcbody">${p.picks.map(leg).join("")}</div></div>`).join("");
+  }
   if(cb){
     const bl = cb.baseline.find(x=>x.legs===2);
     document.getElementById("combobar").innerHTML =
