@@ -1,94 +1,118 @@
 @import "tailwindcss";
 
-/* ── 디자인 토큰 ────────────────────────────────────────────────────
-   여기가 이 사이트의 **유일한** 색·간격 정의다.
+/* ⚠️ 폰트는 여기서 @import 하면 안 된다 — Vite 빌드가 통째로 걷어낸다.
+      (빌드 CSS 를 grep 해서 확인했다: @import 0개)
+      markets.html 의 <link> 로 뺐다. */
 
-   ⚠️ 왜 토큰을 강제하나: 예전 vanilla 페이지는 margin 22px 옆에 26px,
-      border-radius 3px·8px·10px 이 뒤섞여 섹션마다 다른 사이트처럼 보였다.
-      Tailwind 스케일 안에서만 쓰면 그 재발이 구조적으로 막힌다.
-      → 새 색이 필요하면 여기 추가하고, 컴포넌트에서 임의 hex 를 쓰지 말 것.
+/* ── 디자인 토큰 ────────────────────────────────────────────────────
+   이 사이트의 **유일한** 색·간격 정의다. 컴포넌트에서 임의 hex 를 쓰지 말 것.
+
+   ⚠️ 초록이 없다. 일부러 뺐다.
+      이 페이지의 모든 숫자는 손실이다. 가장 좋은 구간도 −9.2% 이고 조합하면
+      −18.7% 다. 그런데 예전 팔레트는 '덜 잃는다' 에 초록을 칠했고, 그러면
+      −18.7% 가 이득처럼 읽힌다. 좋음/나쁨 양방향 스케일 자체가 거짓말이다.
+      → **한 방향 심각도 램프**(sev0 덜 나쁨 … sev3 최악)만 둔다.
+      signal 은 링크·포커스 같은 **구조**에만 쓰고 값 판단에는 절대 쓰지 않는다.
    ------------------------------------------------------------------ */
 @theme {
-  --color-bg: #fbfbfa;
+  /* 지면 — 중립색을 signal 쪽으로 살짝 기울여 '고른 색' 으로 읽히게 한다 */
+  --color-paper: #faf9f6;
   --color-panel: #ffffff;
-  --color-line: #e4e4e1;
-  --color-line2: #efefec;
-  --color-tx: #1a1a18;
-  --color-tx2: #5c5c56;
-  --color-tx3: #8a8a82;
-  --color-neg: #b3261e;
-  --color-pos: #1a7f4b;
-  --color-warn: #9a6700;
-  --color-accent: #2f4f8f;
+  --color-rule: #e3e2dd;
+  --color-rule2: #efeeea;
+  --color-ink: #1b1b1f;
+  --color-ink2: #55555f;
+  --color-ink3: #8b8b92;
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "Pretendard",
-    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  /* 심각도 램프 — 값에는 이것만 쓴다 */
+  --color-sev0: #3f4a5a; /* 덜 나쁨 (A) */
+  --color-sev1: #6b6480; /* B */
+  --color-sev2: #9a6a3c; /* C */
+  --color-sev3: #a8322a; /* D · 최악 */
+
+  --color-signal: #2f4f8f; /* 구조 전용 */
+
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-card: 10px;
 }
 
-/* 다크 모드 — 시스템 설정과 사용자 토글 둘 다 받는다 */
+/* 다크 — 뒤집지 않고 따로 짰다. 지면은 종이가 아니라 계측기 하우징이다.
+   램프는 어두운 바탕에서 채도를 올려야 같은 세기로 읽힌다. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #14140f;
-    --color-panel: #1c1c18;
-    --color-line: #33332c;
-    --color-line2: #26261f;
-    --color-tx: #ecece4;
-    --color-tx2: #a8a89e;
-    --color-tx3: #77776e;
-    --color-neg: #f2857c;
-    --color-pos: #63c48d;
-    --color-warn: #e0b341;
-    --color-accent: #8fb0e8;
+    --color-paper: #17171a;
+    --color-panel: #1e1e22;
+    --color-rule: #33333a;
+    --color-rule2: #27272c;
+    --color-ink: #ececed;
+    --color-ink2: #a4a4ad;
+    --color-ink3: #74747d;
+    --color-sev0: #8ea3c4;
+    --color-sev1: #a99cc4;
+    --color-sev2: #d6a55f;
+    --color-sev3: #ef8279;
+    --color-signal: #8fb0e8;
   }
 }
 :root[data-theme="dark"] {
-  --color-bg: #14140f;
-  --color-panel: #1c1c18;
-  --color-line: #33332c;
-  --color-line2: #26261f;
-  --color-tx: #ecece4;
-  --color-tx2: #a8a89e;
-  --color-tx3: #77776e;
-  --color-neg: #f2857c;
-  --color-pos: #63c48d;
-  --color-warn: #e0b341;
-  --color-accent: #8fb0e8;
+  --color-paper: #17171a;
+  --color-panel: #1e1e22;
+  --color-rule: #33333a;
+  --color-rule2: #27272c;
+  --color-ink: #ececed;
+  --color-ink2: #a4a4ad;
+  --color-ink3: #74747d;
+  --color-sev0: #8ea3c4;
+  --color-sev1: #a99cc4;
+  --color-sev2: #d6a55f;
+  --color-sev3: #ef8279;
+  --color-signal: #8fb0e8;
 }
 :root[data-theme="light"] {
-  --color-bg: #fbfbfa;
+  --color-paper: #faf9f6;
   --color-panel: #ffffff;
-  --color-line: #e4e4e1;
-  --color-line2: #efefec;
-  --color-tx: #1a1a18;
-  --color-tx2: #5c5c56;
-  --color-tx3: #8a8a82;
-  --color-neg: #b3261e;
-  --color-pos: #1a7f4b;
-  --color-warn: #9a6700;
-  --color-accent: #2f4f8f;
+  --color-rule: #e3e2dd;
+  --color-rule2: #efeeea;
+  --color-ink: #1b1b1f;
+  --color-ink2: #55555f;
+  --color-ink3: #8b8b92;
+  --color-sev0: #3f4a5a;
+  --color-sev1: #6b6480;
+  --color-sev2: #9a6a3c;
+  --color-sev3: #a8322a;
+  --color-signal: #2f4f8f;
 }
 
 html {
-  background: var(--color-bg);
+  background: var(--color-paper);
   color-scheme: light dark;
 }
 body {
   margin: 0;
-  background: var(--color-bg);
-  color: var(--color-tx);
+  background: var(--color-paper);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-/* 숫자는 자리수가 흔들리면 안 읽힌다 */
+
+/* 수치는 자리수가 흔들리면 표로 안 읽힌다 */
 .tnum {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
+/* 눈금 라벨 */
+.tick {
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--color-ink3);
+}
+
 /* details 기본 삼각형 제거 — 카드 전체가 버튼이다 */
 summary::-webkit-details-marker {
   display: none;
@@ -96,11 +120,33 @@ summary::-webkit-details-marker {
 summary {
   list-style: none;
 }
+details[open] > summary {
+  border-bottom: 1px solid var(--color-rule2);
+}
+details.card[open] {
+  border-color: var(--color-ink3);
+}
+
+/* 키보드 포커스는 반드시 보여야 한다 */
+:where(a, button, select, input, summary):focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 
 /* 모델 수치 컬럼 — 기본 숨김. 추천 실적이 −42.2% 라 기본 화면에 있을 이유가 없다. */
-.model-col { display: none; }
-.show-model .model-col { display: table-cell; }
+.model-col {
+  display: none;
+}
+.show-model .model-col {
+  display: table-cell;
+}
 
-/* 펼친 경기 카드는 테두리를 진하게 — open: 변형은 v4 가 생성해주지 않아 직접 쓴다 */
-details[open] > summary { border-bottom: 1px solid var(--color-line2); }
-details.card[open] { border-color: var(--color-tx3); }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
