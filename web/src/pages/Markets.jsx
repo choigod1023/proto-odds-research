@@ -44,11 +44,11 @@ function Shell({ children, meta }) {
       <Nav current="markets.html" />
       <header>
         <h1 className="mt-[22px] mb-1 text-[22px] tracking-[-.01em]">경기 분석</h1>
-        <p className="m-0 text-[13.5px] text-tx2">
+        <p className="m-0 text-[13.5px] text-ink2">
           발매 중인 전 마켓을 <b>과거 실측 수익률</b>로 등급화한다. 예측이 아니라{" "}
           <b>덜 잃는 선택</b>이다.
         </p>
-        {meta && <div className="mt-1.5 text-[11.5px] text-tx3">{meta}</div>}
+        {meta && <div className="mt-1.5 text-[11.5px] text-ink3">{meta}</div>}
       </header>
       {children}
     </div>
@@ -56,7 +56,7 @@ function Shell({ children, meta }) {
 }
 
 const Empty = ({ children }) => (
-  <div className="py-7 text-center text-[13px] text-tx3">{children}</div>
+  <div className="py-7 text-center text-[13px] text-ink3">{children}</div>
 );
 
 /* ── ① 오늘 살 것 ──────────────────────────────────────────────── */
@@ -72,26 +72,26 @@ function TodayPlan({ today, combo, grades }) {
 
   return (
     <Card className="mt-[18px] px-[18px] py-4">
-      <div className="text-[12px] tracking-[.02em] text-tx3">오늘 살 거면</div>
+      <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
 
       <div className="my-2.5 mb-3.5 flex flex-wrap gap-1.5">
         {solo && <Tab on={i < 0} onClick={() => setI(-1)}>단폴</Tab>}
         {plans.map((q, k) => (
           <Tab key={q.target} on={k === i} onClick={() => setI(k)}>
             {q.target}배
-            <span className={`tnum text-[11px] ${k === i ? "text-neg" : "text-tx3"}`}>
+            <span className={`tnum text-[11px] ${k === i ? "text-sev3" : "text-ink3"}`}>
               {(q.expected_roi * 100).toFixed(0)}%
             </span>
           </Tab>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-line2 pb-3">
+      <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
         {p ? (
           <>
             <Stat k="실배당" v={`${p.actual_odds.toFixed(2)}×`} />
             <Stat k="적중 확률" v={`${(p.hit_est * 100).toFixed(1)}%`} />
-            <Stat k="기대 수익률" v={`${(p.expected_roi * 100).toFixed(1)}%`} tone="neg" />
+            <Stat k="기대 수익률" v={`${(p.expected_roi * 100).toFixed(1)}%`} tone="sev" />
             <Stat k="구성" v={`${p.legs}폴`} />
           </>
         ) : (
@@ -108,11 +108,11 @@ function TodayPlan({ today, combo, grades }) {
       </div>
 
       {bl && (
-        <div className="mt-3 border-t border-line2 pt-[11px] text-[12px] leading-[1.75] text-tx2">
-          아무 2폴 <b className="tnum text-tx">{(bl.any * 100).toFixed(1)}%</b> →{" "}
+        <div className="mt-3 border-t border-rule2 pt-[11px] text-[12px] leading-[1.75] text-ink2">
+          아무 2폴 <b className="tnum text-ink">{(bl.any * 100).toFixed(1)}%</b> →{" "}
           배당 {A ? A.bin : "1.0-1.3"} 로 짠 2폴{" "}
-          <b className="tnum text-tx">{(bl.best * 100).toFixed(1)}%</b> —{" "}
-          <b className="text-tx">{(bl.saving * 100).toFixed(1)}%p 덜 잃는다.</b>{" "}
+          <b className="tnum text-ink">{(bl.best * 100).toFixed(1)}%</b> —{" "}
+          <b className="text-ink">{(bl.saving * 100).toFixed(1)}%p 덜 잃는다.</b>{" "}
           전부 마이너스다. 목표 배당을 올릴수록 더 잃는다.
         </div>
       )}
@@ -124,7 +124,7 @@ const Tab = ({ on, onClick, children }) => (
   <button
     onClick={onClick}
     className={`flex items-center gap-1.5 rounded-full border px-[13px] py-1.5 text-[12px] leading-none ${
-      on ? "border-tx font-semibold text-tx" : "border-line text-tx2 hover:border-tx3"
+      on ? "border-ink font-semibold text-ink" : "border-rule text-ink2 hover:border-ink3"
     }`}
   >
     {children}
@@ -132,9 +132,9 @@ const Tab = ({ on, onClick, children }) => (
 );
 
 const Leg = ({ c }) => (
-  <div className="flex flex-wrap items-baseline gap-2.5 border-t border-line2 py-[7px] text-[13px] first:border-t-0">
-    <span className="tnum min-w-[38px] text-[11.5px] text-tx3">{hhmm(c.date)}</span>
-    <span className="rounded border border-line px-[5px] py-px text-[10.5px] text-tx3">
+  <div className="flex flex-wrap items-baseline gap-2.5 border-t border-rule2 py-[7px] text-[13px] first:border-t-0">
+    <span className="tnum min-w-[38px] text-[11.5px] text-ink3">{hhmm(c.date)}</span>
+    <span className="rounded border border-rule px-[5px] py-px text-[10.5px] text-ink3">
       {c.league}
     </span>
     <span className="min-w-[170px] flex-1">
@@ -142,7 +142,7 @@ const Leg = ({ c }) => (
     </span>
     <span className="tnum font-semibold">{odds(c.odds)}</span>
     {c.beats && (
-      <span className="text-[10.5px] text-pos">
+      <span className="text-[10.5px] text-signal">
         {c.round}회차가 유리 ({c.beats.round}회차 {odds(c.beats.odds)})
       </span>
     )}
@@ -188,16 +188,16 @@ function GameList({ data, grades }) {
     const key = `${g.league} · ${day(g.date)}`;
     if (key !== cur) {
       cur = key;
-      rows.push(<div key={`h${key}${n}`} className="mt-[18px] mb-1.5 text-[11px] font-semibold tracking-[.03em] text-tx3">{key}</div>);
+      rows.push(<div key={`h${key}${n}`} className="mt-[18px] mb-1.5 text-[11px] font-semibold tracking-[.03em] text-ink3">{key}</div>);
     }
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} />);
   }
 
-  const sel = "rounded-md border border-line bg-panel px-[7px] py-1 text-[12px] text-tx";
+  const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
   return (
     <>
       <SectionTitle note={`${n}경기`}>경기</SectionTitle>
-      <div className={`sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b border-line bg-bg py-2.5 text-[12px] text-tx2 ${showModel ? "show-model" : ""}`}>
+      <div className={`sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b border-rule bg-paper py-2.5 text-[12px] text-ink2 ${showModel ? "show-model" : ""}`}>
         <label className="flex items-center gap-1.5">상태
           <select className={sel} value={f.st} onChange={(e) => setF({ ...f, st: e.target.value })}>
             {STATUS.map(([v, l]) => <option key={l} value={v}>{l}</option>)}
@@ -247,9 +247,9 @@ function Game({ g, opts, wait, grades }) {
   return (
     <Card as="details" className="my-1.5">
       <summary className="flex cursor-pointer flex-wrap items-center gap-[11px] px-3 py-2.5">
-        <span className="tnum min-w-10 text-[11.5px] text-tx3">{hhmm(g.date)}</span>
+        <span className="tnum min-w-10 text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-[160px] flex-1 text-[13.5px] font-semibold">
-          {g.home} <span className="text-[12px] font-normal text-tx3">vs</span> {g.away}
+          {g.home} <span className="text-[12px] font-normal text-ink3">vs</span> {g.away}
         </span>
         <span className="flex gap-1.5">
           {wait ? <OddsChip label="배당" value="대기" />
@@ -260,13 +260,13 @@ function Game({ g, opts, wait, grades }) {
                   title={gr ? `배당 ${gr.bin} 실측 ${(gr.roi * 100).toFixed(1)}%` : "등급 없음"} />;
               })}
         </span>
-        <span className="whitespace-nowrap text-[10.5px] text-tx3">
+        <span className="whitespace-nowrap text-[10.5px] text-ink3">
           {g.round}회차{g["판단"] ? ` · ${g["판단"]}` : ""}
         </span>
       </summary>
       <div className="px-3 pb-3 pt-2.5">
         {wait ? (
-          <div className="rounded-[7px] border border-dashed border-line px-2.5 py-2 text-[12px] text-tx3">
+          <div className="rounded-[7px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
             배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b>
           </div>
         ) : <OptTable opts={opts} grades={grades} tie={tie} />}
@@ -277,8 +277,8 @@ function Game({ g, opts, wait, grades }) {
 }
 
 function OptTable({ opts, grades, tie }) {
-  const th = "border-b border-line2 pb-[5px] pr-2 text-left text-[11px] font-medium text-tx3";
-  const td = "border-b border-line2 py-[5px] pr-2 align-baseline";
+  const th = "border-b border-rule2 pb-[5px] pr-2 text-left text-[11px] font-medium text-ink3";
+  const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
     <table className="w-full border-collapse text-[12.5px]">
       <thead><tr>
@@ -324,9 +324,9 @@ function Why({ g }) {
   if (g.lam_src === "풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
   if (!g["해설"] && !f.length) return null;
   return (
-    <div className="mt-2.5 border-t border-line2 pt-2.5 text-[12.5px] leading-[1.75] text-tx2">
+    <div className="mt-2.5 border-t border-rule2 pt-2.5 text-[12.5px] leading-[1.75] text-ink2">
       {g["해설"]}
-      {!!f.length && <div className="mt-1.5 text-[11.5px] text-tx3">{f.join(" · ")}</div>}
+      {!!f.length && <div className="mt-1.5 text-[11.5px] text-ink3">{f.join(" · ")}</div>}
     </div>
   );
 }
@@ -351,16 +351,16 @@ function Evidence({ grades, tally }) {
           <Card key={h}>
             <a href="research.html" className="block px-[15px] py-[13px] text-inherit no-underline">
               <div className="mb-[3px] text-[13px] font-semibold">{h}</div>
-              <div className="text-[11.5px] leading-[1.65] text-tx3">{dsc}</div>
+              <div className="text-[11.5px] leading-[1.65] text-ink3">{dsc}</div>
             </a>
           </Card>
         ))}
       </div>
       {tally && (
-        <div className="mt-3 text-[11.5px] leading-[1.75] text-tx3">
-          모델 수치는 <b className="text-neg">참고용이다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
+        <div className="mt-3 text-[11.5px] leading-[1.75] text-ink3">
+          모델 수치는 <b className="text-sev3">참고용이다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
           정산 {tally.n}건에서 적중 {(tally.hit_rate * 100).toFixed(1)}%,
-          수익률 <b className="text-neg">{(tally.roi * 100).toFixed(1)}%</b> 였다 —
+          수익률 <b className="text-sev3">{(tally.roi * 100).toFixed(1)}%</b> 였다 —
           아무거나 살 때(−13.7%)보다 나쁘다. 모델이 시장보다 부정확해서,
           격차가 큰 곳은 곧 모델이 크게 틀린 곳이다.
         </div>
