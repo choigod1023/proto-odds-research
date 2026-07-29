@@ -317,6 +317,23 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict) -> None:
         g["해설"] = None
 
 
+# ⚠️ 퇴화 확률 = 모델이 그 마켓을 못 매긴 것이다.
+#    실측 2026-07-29: 배구 언더오버 라인이 140.5~185.5(총 **득점**)인데
+#    score_dist 는 배구를 **세트**로 모델링한다. 그래서 p_over 가 그대로 0 이 되고
+#    "언더 100% · 예상손익 +76%" 라는 가짜 우위가 화면에 찍혔다.
+#    (연구 수치에도 샜다 — 배구 언더오버 모델 Brier 0.489 vs 시장 0.250)
+#    유한 배당이 걸린 선택지에 확률 0/1 은 존재할 수 없다. 값을 버린다.
+_EPS = 1e-6
+
+
+def _sane(pm):
+    if pm is None:
+        return None
+    if any((p <= _EPS or p >= 1 - _EPS) for p in pm):
+        return None
+    return pm
+
+
 def main() -> int:
     st = team_lambdas()
     sess = _session()
@@ -383,7 +400,7 @@ def main() -> int:
             pm = None
             if lam:
                 M = joint(lam[0], lam[1], r.sport)
-                pm = market_probs(M, r.market_family, nw, line)
+                pm = _sane(market_probs(M, r.market_family, nw, line))
             if pm is not None and len(pm) != len(r.odds):
                 pm = None
             if pm is None:
