@@ -219,47 +219,47 @@ def make_preview(home: str, away: str, league: str,
             parts.append(extra + ".")
 
     pj = _projection(fh, fa, sport)
+    pj_over = None
     if pj:
         parts.append(pj + ".")
+        pj_over = "오버" if "오버 쪽" in pj else ("언더" if "언더 쪽" in pj else None)
 
-    # ⚠️ 양 팀 모두 기록이 없으면 확률을 단정하지 않는다.
-    #    "기록이 충분히 쌓이지 않았다" 를 두 번 말하고 "53% 우세" 라고 끝내면
-    #    그 자체로 모순이다. 실제로 FA컵 해설이 그렇게 나갔다.
-    side = home if p_model >= 0.5 else away      # 반론 문장이 쓰는 '우세 쪽'
-    if (fh is None or not fh.recent_games) and (fa is None or not fa.recent_games):
-        parts.append("양 팀 모두 최근 기록이 없어 경기 내용을 근거로 한 판단은 보류한다.")
-        parts.append(f"시장은 {josa(home,'의','의')} 우세로 본다({p_market*100:.0f}%).")
+    # ⚠️ 결론은 **맨 앞에 하나로** 낸다.
+    #    예전엔 "모델은 …로 본다" 로 끝냈는데 그건 판단이 아니라 관찰이다.
+    #    읽는 사람이 원하는 건 "그래서 뭘로 보나" 하나다.
+    #
+    #    픽의 근거는 **모델이 아니라 시장**이다 — 모델 추천은 실측 −42.2% 였고
+    #    적중률도 시장 51.9% > 모델 48.8% 다. '가장 일어날 법한 결과' 를 묻는다면
+    #    답은 시장의 최저 배당 쪽이다.
+    #    ⚠️ 이건 **이기는 픽이 아니라 가장 잘 맞는 픽**이다. 기대값은 여전히 음수다.
+    pk = p_market * 100
+    up, o_up = (home, odds_home) if pk >= 50 else (away, odds_away)
+    v = pk if up == home else 100 - pk
+    no_form = (fh is None or not fh.recent_games) and (fa is None or not fa.recent_games)
+
+    if abs(pk - 50) < 3:
+        # 반반이면 '픽' 이라고 부르면 안 된다. 그래도 사야 한다면 낮은 배당 쪽이다.
+        head = f"양쪽이 사실상 반반이다({up} {v:.0f}%). 굳이 고르면 {up} 승"
+        head += f", 배당 {o_up:.2f}." if o_up else "."
     else:
-        # ⚠️ 예전엔 EV 가 큰 쪽을 '우세' 라고 적었다. 그래서 확률 44% 인 팀이
-        #    '근소 우세' 로 나가는 모순이 생겼다 — EV 는 배당이 섞인 값이라
-        #    '더 이길 것 같다' 와 다르다. 확률은 확률대로 적는다.
-        pm, pk = p_model * 100, p_market * 100
-        d = abs(pm - pk)
-        # ⚠️ 괴리가 15%p 를 넘으면 모델이 그 경기를 못 다루는 것이다.
-        #    실제 사례: 부산아이(K리그2) vs FC서울(K리그1) 에서 모델 53% vs 시장 20%.
-        #    풀링 λ 가 리그 등급 차이를 못 보기 때문이다. 그럴 땐 모델 수치를
-        #    앞세우지 않고 시장으로 말한다 — 틀린 숫자를 먼저 보여주면 안 된다.
+        head = f"예상 픽은 {up} 승. 적중 확률 {v:.0f}%"
+        head += f" · 배당 {o_up:.2f}." if o_up else "."
+    if pj_over:
+        head += f" 총득점은 {pj_over} 쪽."
+    if no_form:
+        head += " 양 팀 모두 최근 기록이 없어 경기 내용으로는 보탤 게 없다."
+    else:
+        d = abs(p_model * 100 - pk)
         if d >= 15:
-            up = home if pk >= 50 else away
-            parts.append(f"시장은 {josa(up,'의','의')} 승리 확률을 "
-                         f"{(pk if up == home else 100 - pk):.0f}%로 본다.")
-            parts.append(f"우리 모델은 {pm:.0f}%로 {d:.0f}%p 벌어진다. 한쪽 팀의 최근 상대가 "
-                         f"약해 득점이 부풀려 잡힌 경우이므로, 이 경기는 시장 확률로 읽는다.")
-        else:
-            up = home if pm >= 50 else away
-            v = pm if up == home else 100 - pm
-            if abs(pm - 50) < 3:
-                parts.append(f"승패는 사실상 반반으로 본다({home} {pm:.0f}%).")
-            elif v >= 65:
-                parts.append(f"{josa(up,'의','의')} 승리를 {v:.0f}%로 본다 — "
-                             f"한쪽으로 기운 경기다.")
-            else:
-                parts.append(f"{josa(up,'이','가')} {v:.0f}%로 근소하게 앞선다.")
+            head += (f" 우리 모델은 {p_model*100:.0f}%로 {d:.0f}%p 다르게 보는데, "
+                     f"한쪽 팀의 최근 상대가 약해 득점이 부풀려 잡힌 경우다 — 시장 쪽을 쓴다.")
 
+    side = home if p_market >= 0.5 else away      # 반론 문장이 쓰는 '우세 쪽'
     cp = _counterpoint(fh, fa, home, away, side)
     if cp:
         parts.append(cp + ".")
 
+    parts.insert(0, head)      # 결론이 맨 앞
     out = " ".join(parts).replace("  ", " ").replace(". .", ".")
     if len(out) > limit:
         out = out[:limit - 1].rstrip().rstrip(",") + "…"

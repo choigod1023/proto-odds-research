@@ -271,7 +271,11 @@ function Game({ g, opts, wait, grades }) {
             title={pick.tie
               ? `최선 등급(${pick.g.bin})이 여럿이라 고를 근거가 없다`
               : `배당 ${pick.g.bin} — 과거 적중 ${((pick.g.hit ?? 0) * 100).toFixed(1)}% · 수익률 ${(pick.g.roi * 100).toFixed(1)}%`}
-            className="whitespace-nowrap rounded border border-rule px-1.5 py-0.5 text-[10.5px] text-ink2"
+            className={`whitespace-nowrap rounded px-2 py-[3px] text-[11px] font-semibold ${
+              pick.tie
+                ? "border border-dashed border-ink3 text-ink3"
+                : "bg-ink text-paper"
+            }`}
           >
             {pick.tie ? (
               <>고를 근거 없음</>
@@ -360,9 +364,14 @@ function Why({ g }) {
   if (fa) f.push(`${g.away} ${fa}`);
   if (g.lam_src === "풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
   if (!g["해설"] && !f.length) return null;
+  // 결론 문장(첫 마침표까지)을 떼어 굵게 — 판단이 본문에 묻히면 안 된다
+  const txt = g["해설"] || "";
+  const cut = txt.indexOf(". ");
+  const verdict = cut > 0 ? txt.slice(0, cut + 1) : txt;
+  const rest = cut > 0 ? txt.slice(cut + 2) : "";
   return (
     <div className="mt-2.5 border-t border-rule2 pt-2.5 text-[12.5px] leading-[1.75] text-ink2">
-      {g["해설"]}
+      {verdict && <b className="text-ink">{verdict}</b>} {rest}
       {!!f.length && <div className="mt-1.5 text-[11.5px] text-ink3">{f.join(" · ")}</div>}
     </div>
   );
