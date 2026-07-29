@@ -104,6 +104,10 @@ def build() -> pd.DataFrame:
                 "booking": r.booking_class, "odds": o,
                 "prior_meets": r.prior_meets,
                 "ret": (o - 1) if i == wi else -1.0,
+                # 적중 여부 — 수익률과 별개로 봐야 한다.
+                # "덜 잃기" 와 "자주 맞기" 는 낮은 배당에서 같은 방향이지만,
+                # 목표 배당을 올리면 갈라진다(1.0–1.3 적중 77% vs 5.0+ 11%).
+                "hit": 1.0 if i == wi else 0.0,
                 "base": (1 / o) / ov * o - 1,
             })
     d = pd.DataFrame(rows)

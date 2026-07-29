@@ -89,8 +89,8 @@ function TodayPlan({ today, combo, grades }) {
       <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
         {p ? (
           <>
-            <Stat k="실배당" v={`${p.actual_odds.toFixed(2)}×`} />
             <Stat k="적중 확률" v={`${(p.hit_est * 100).toFixed(1)}%`} />
+            <Stat k="실배당" v={`${p.actual_odds.toFixed(2)}×`} />
             <Stat k="기대 수익률" v={`${(p.expected_roi * 100).toFixed(1)}%`} tone="sev" />
             <Stat k="구성" v={`${p.legs}폴`} />
           </>
@@ -266,14 +266,16 @@ function Game({ g, opts, wait, grades }) {
           <span
             title={pick.tie
               ? `최선 등급(${pick.g.bin})이 여럿이라 고를 근거가 없다`
-              : `배당 ${pick.g.bin} 실측 ${(pick.g.roi * 100).toFixed(1)}%`}
+              : `배당 ${pick.g.bin} — 과거 적중 ${((pick.g.hit ?? 0) * 100).toFixed(1)}% · 수익률 ${(pick.g.roi * 100).toFixed(1)}%`}
             className="whitespace-nowrap rounded border border-rule px-1.5 py-0.5 text-[10.5px] text-ink2"
           >
             {pick.tie ? (
               <>고를 근거 없음</>
             ) : (
-              <>덜 잃는 쪽 <b className="text-ink">{pick.o["선택"]}</b>{" "}
-                <span className="tnum">{odds(pick.o["배당"])}</span></>
+              <>{pick.o["선택"]} <span className="tnum">{odds(pick.o["배당"])}</span>
+                {pick.g.hit != null && (
+                  <> · 적중 <b className="tnum text-ink">
+                    {(pick.g.hit * 100).toFixed(0)}%</b></>)}</>
             )}
           </span>
         )}
@@ -301,6 +303,7 @@ function OptTable({ opts, grades, tie, pick, model }) {
       <thead><tr>
         <th className={th}>마켓 / 선택</th>
         <th className={`${th} text-right`}>배당</th>
+        <th className={`${th} text-right`}>과거 적중</th>
         <th className={`${th} model-col text-right`}>시장</th>
         <th className={`${th} model-col text-right`}>모델</th>
         <th className={`${th} model-col text-right`}>기대</th>
@@ -320,6 +323,8 @@ function OptTable({ opts, grades, tie, pick, model }) {
                 {o["적중"] === true ? " ✔" : o["적중"] === false ? " ✕" : ""}
               </td>
               <td className={`${td} tnum text-right`}>{odds(o["배당"])}</td>
+              <td className={`${td} tnum text-right text-ink3`}>
+                {gr?.hit != null ? `${(gr.hit * 100).toFixed(0)}%` : "–"}</td>
               <td className={`${td} model-col tnum text-right`}>{pct(o["시장확률"])}</td>
               <td className={`${td} model-col tnum text-right`}>{pct(o["모델확률"])}</td>
               <td className={`${td} model-col tnum text-right`}>{sgn(o["예상손익"])}</td>
