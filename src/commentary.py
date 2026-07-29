@@ -243,9 +243,8 @@ def make_preview(home: str, away: str, league: str,
             up = home if pk >= 50 else away
             parts.append(f"시장은 {josa(up,'의','의')} 승리 확률을 "
                          f"{(pk if up == home else 100 - pk):.0f}%로 본다.")
-            parts.append(f"우리 모델은 {pm:.0f}%로 {d:.0f}%p 벌어지는데, 이 크기의 괴리는 "
-                         f"보통 리그 등급이 다른 대결처럼 모델이 못 다루는 경우다 — "
-                         f"모델 쪽을 버린다.")
+            parts.append(f"우리 모델은 {pm:.0f}%로 {d:.0f}%p 벌어진다. 한쪽 팀의 최근 상대가 "
+                         f"약해 득점이 부풀려 잡힌 경우이므로, 이 경기는 시장 확률로 읽는다.")
         else:
             up = home if pm >= 50 else away
             v = pm if up == home else 100 - pm

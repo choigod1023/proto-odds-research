@@ -56,7 +56,23 @@ export function lessBadPick(grades, opts) {
   if (!scored.length) return null;
   const best = Math.min(...scored.map((x) => RANK[x.g.grade] ?? 9));
   const top = scored.filter((x) => (RANK[x.g.grade] ?? 9) === best);
-  // 동률이 여럿이면 배당이 가장 낮은 것 — 같은 등급 안에서도 낮을수록 덜 잃는다
-  top.sort((a, b) => a.o["배당"] - b.o["배당"]);
-  return { ...top[0], tie: top.length > 1 && top[0].o["배당"] === top[1].o["배당"] };
+
+  /* 동률이면 더 판다. 순서대로:
+     ① **환급률** — 동률은 보통 다른 마켓끼리 생기고 마켓마다 환급률이 다르다
+        (2-way 87.8% · 3-way 87.0% · 3-way핸디 86.8%, 네 해 모두 안정).
+        같은 등급이면 마진이 낮은 쪽이 순수하게 유리하다.
+     ② **낮은 배당** — 같은 등급 안에서도 낮을수록 자주 맞고 덜 잃는다.
+     ⚠️ 홈/원정은 tie-break 로 쓰지 않는다. 배당대별로는 원정이 나아 보이지만
+        연도 부호가 뒤집힌다(2023 +7.5%p vs 2026 −3.0%p).  */
+  const payout = (o) => {
+    const n = Number(o.n_way) || 2;
+    return n === 2 ? 87.8 : (String(o.market).includes("핸디") ? 86.8 : 87.0);
+  };
+  top.sort((a, b) => payout(b.o) - payout(a.o) || a.o["배당"] - b.o["배당"]);
+  const t0 = top[0], t1 = top[1];
+  const tie = top.length > 1 &&
+    payout(t0.o) === payout(t1.o) && t0.o["배당"] === t1.o["배당"];
+  return { ...t0, tie, why: top.length > 1 && !tie
+    ? (payout(t0.o) > payout(t1.o) ? `환급률 ${payout(t0.o)}%` : "같은 등급 중 최저 배당")
+    : null };
 }
