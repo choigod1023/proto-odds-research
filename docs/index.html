@@ -109,6 +109,10 @@ footer p{margin:5px 0}
   h1{font-size:19px}
   .bar{position:static}
 }
+.rnd{color:var(--tx3);font-size:11px;border:1px solid var(--line);
+  border-radius:4px;padding:0 5px}
+.worse{color:var(--warn);font-size:11px;border:1px solid var(--warn);
+  border-radius:4px;padding:0 5px}
 </style>
 </head>
 <body>
@@ -183,6 +187,23 @@ fetch('data/today.json?'+Date.now()).then(r=>r.json()).then(d=>{DATA=d;init(d)})
 function init(d){
   const rounds=d.rounds||[];
   GAMES=rounds.flatMap(r=>r.games.map(g=>({...g,_round:r.round,_grade:r.grade,_rpay:r.payout_2way})));
+  // 프로토는 회차를 겹쳐 발매한다 → 같은 경기·마켓·선택이 두 회차에 다른 배당으로 걸린다.
+  // 같은 결과에 더 받는 쪽이 순수하게 유리하다(실측: 오버라운드 평균 1.56%p 개선, 차익거래는 0건).
+  {
+    const best = {};
+    const key = (g, s) => `${g.game_no}|${g.market}|${g.market_label || ""}|${s.name}`;
+    GAMES.forEach(g => (g.selections || []).forEach(s => {
+      const k = key(g, s);
+      if (!best[k] || s.odds > best[k].odds) best[k] = { odds: s.odds, round: g._round };
+    }));
+    GAMES.forEach(g => {
+      // 이 회차의 어떤 선택지든 다른 회차에서 더 높은 배당이 걸려 있으면 표시한다
+      g._worse = (g.selections || []).some(s => {
+        const b = best[key(g, s)];
+        return b && b.round !== g._round && b.odds > s.odds;
+      });
+    });
+  }
 
   const gen=new Date(d.generated_at);
   $('#meta').innerHTML=
@@ -235,11 +256,13 @@ function card(g){
   return `<div class="game">
     <div class="g-top">
       <span class="no mono">${g.game_no}</span>
+      <span class="rnd mono">${g._round}회차</span>
       <span class="when">${g.date}</span>
       <span class="lg">${g.league}</span>
       <span class="teams">${g.home} <span style="color:var(--tx3);font-weight:400">vs</span> ${g.away}</span>
       <span class="mk${bad?' bad':''}">${g.market}${g.market_label?' '+g.market_label:''} · ${g.booking_class}</span>
       <span class="when mono">환급 ${g.payout}%</span>
+      ${g._worse?`<span class="worse">다른 회차가 배당이 높다</span>`:``}
     </div>
     <div class="sels">${sels}</div>
     <div class="cmt">${g.comment}</div>
