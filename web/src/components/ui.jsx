@@ -101,6 +101,28 @@ export function OddsChip({ label, value, grade = "U", title }) {
   );
 }
 
+/** 테마 토글 — 시스템 설정을 기본으로 두고 사용자가 뒤집을 수 있다.
+ *  data-theme 이 미디어쿼리를 양방향으로 이겨야 하므로 root 에 스탬프한다. */
+export function ThemeToggle() {
+  const flip = () => {
+    const r = document.documentElement;
+    const cur =
+      r.getAttribute("data-theme") ||
+      (matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
+    r.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+  };
+  return (
+    <button
+      onClick={flip}
+      aria-label="밝기 전환"
+      title="밝기 전환"
+      className="fixed bottom-5 right-5 z-20 h-9 w-9 rounded-full border border-rule bg-panel text-[15px] text-ink2 hover:text-ink"
+    >
+      ◐
+    </button>
+  );
+}
+
 export function Stat({ k, v, tone }) {
   return (
     <div>
