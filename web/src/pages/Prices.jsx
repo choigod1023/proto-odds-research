@@ -23,20 +23,40 @@ export default function Prices() {
    */
   const games = useMemo(() => {
     const gs = (d?.rounds || []).flatMap((r) =>
-      r.games.map((g) => ({ ...g, _round: r.round })));
+      r.games.map((g) => ({ ...g, _rounds: [r.round] })));
+
+    /* ① 배당 벡터가 **완전히 같은** 회차끼리는 한 줄로 합친다.
+          프로토는 회차를 겹쳐 발매해서 같은 경기가 두 번 나오는데, 실측상
+          겹친 마켓의 중앙값은 배당 차이가 0 이다. 그대로 두면 목록 절반이
+          아무 정보 없는 중복이 된다. */
+    const merged = new Map();
+    for (const g of gs) {
+      const k = `${g.game_no}|${g.market}|${g.market_label || ""}|` +
+        (g.selections || []).map((s) => s.odds).join(",");
+      const prev = merged.get(k);
+      if (prev) prev._rounds.push(...g._rounds);
+      else merged.set(k, g);
+    }
+    const out = [...merged.values()];
+
+    /* ② 남은 중복은 **배당이 실제로 다른** 경우다. 이때는 선택지마다
+          어느 회차가 더 주는지가 갈린다(홈은 89회차, 원정은 88회차 식).
+          그래서 카드 단위가 아니라 **선택지 단위로** 표시해야 쓸 수 있다.
+          실측: 오버라운드 평균 1.56%p 개선 · 차익거래는 0건. */
     const key = (g, s) => `${g.game_no}|${g.market}|${g.market_label || ""}|${s.name}`;
     const best = {};
-    gs.forEach((g) => (g.selections || []).forEach((s) => {
+    out.forEach((g) => (g.selections || []).forEach((s) => {
       const k = key(g, s);
-      if (!best[k] || s.odds > best[k].odds) best[k] = { odds: s.odds, round: g._round };
+      if (!best[k] || s.odds > best[k].odds)
+        best[k] = { odds: s.odds, round: g._rounds[0] };
     }));
-    gs.forEach((g) => {
-      g._worse = (g.selections || []).some((s) => {
+    out.forEach((g) => {
+      g._better = (g.selections || []).map((s) => {
         const b = best[key(g, s)];
-        return b && b.round !== g._round && b.odds > s.odds;
+        return b && b.odds > s.odds ? b : null;
       });
     });
-    return gs;
+    return out;
   }, [d]);
 
   if (err) return <Shell><p className="py-8 text-sev3">데이터를 불러오지 못했습니다: {err}</p></Shell>;
@@ -143,7 +163,7 @@ function GameList({ games }) {
           경고 있는 경기 숨기기
         </label>
       </div>
-      {rows.length ? rows.map((g, k) => <GameCard key={`${g.game_no}-${g._round}-${k}`} g={g} />)
+      {rows.length ? rows.map((g, k) => <GameCard key={`${g.game_no}-${g._rounds.join("_")}-${k}`} g={g} />)
         : <p className="py-8 text-[13px] text-ink3">조건에 맞는 경기가 없습니다.</p>}
     </>
   );
@@ -156,7 +176,7 @@ function GameCard({ g }) {
     <Card className="mt-2.5 px-3.5 py-3">
       <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink3">
         <span className="tnum">{g.game_no}</span>
-        <span className="tnum rounded border border-rule px-[5px]">{g._round}회차</span>
+        <span className="tnum rounded border border-rule px-[5px]">{g._rounds.join("·")}회차</span>
         <span>{g.date}</span>
         <span className="rounded border border-rule px-[5px]">{g.league}</span>
         <span className="text-[13.5px] font-semibold text-ink">
@@ -166,11 +186,7 @@ function GameCard({ g }) {
           {g.market}{g.market_label ? ` ${g.market_label}` : ""} · {g.booking_class}
         </span>
         <span className="tnum ml-auto">환급 {g.payout}%</span>
-        {g._worse && (
-          <span className="rounded border border-sev2 px-[5px] text-sev2">
-            다른 회차가 배당이 높다
-          </span>
-        )}
+
       </div>
 
       <div className="mt-2.5 grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]">
@@ -184,6 +200,11 @@ function GameCard({ g }) {
             <div className="mt-0.5 text-[11px] text-ink3">
               시장 <span className="tnum">{pct(s.prob)}</span>
             </div>
+            {g._better?.[k] && (
+              <div className="mt-0.5 text-[11px] text-sev2">
+                {g._better[k].round}회차는 <span className="tnum">{odds(g._better[k].odds)}</span> — 그쪽이 유리
+              </div>
+            )}
             {s.hist_roi != null && (
               <div className="text-[11px] text-ink3">
                 과거 실측{" "}
