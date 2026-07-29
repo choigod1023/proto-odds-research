@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ── 디자인 토큰 ────────────────────────────────────────────────────
+   여기가 이 사이트의 **유일한** 색·간격 정의다.
+
+   ⚠️ 왜 토큰을 강제하나: 예전 vanilla 페이지는 margin 22px 옆에 26px,
+      border-radius 3px·8px·10px 이 뒤섞여 섹션마다 다른 사이트처럼 보였다.
+      Tailwind 스케일 안에서만 쓰면 그 재발이 구조적으로 막힌다.
+      → 새 색이 필요하면 여기 추가하고, 컴포넌트에서 임의 hex 를 쓰지 말 것.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-bg: #fbfbfa;
+  --color-panel: #ffffff;
+  --color-line: #e4e4e1;
+  --color-line2: #efefec;
+  --color-tx: #1a1a18;
+  --color-tx2: #5c5c56;
+  --color-tx3: #8a8a82;
+  --color-neg: #b3261e;
+  --color-pos: #1a7f4b;
+  --color-warn: #9a6700;
+  --color-accent: #2f4f8f;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Pretendard",
+    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  --radius-card: 10px;
+}
+
+/* 다크 모드 — 시스템 설정과 사용자 토글 둘 다 받는다 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #14140f;
+    --color-panel: #1c1c18;
+    --color-line: #33332c;
+    --color-line2: #26261f;
+    --color-tx: #ecece4;
+    --color-tx2: #a8a89e;
+    --color-tx3: #77776e;
+    --color-neg: #f2857c;
+    --color-pos: #63c48d;
+    --color-warn: #e0b341;
+    --color-accent: #8fb0e8;
+  }
+}
+:root[data-theme="dark"] {
+  --color-bg: #14140f;
+  --color-panel: #1c1c18;
+  --color-line: #33332c;
+  --color-line2: #26261f;
+  --color-tx: #ecece4;
+  --color-tx2: #a8a89e;
+  --color-tx3: #77776e;
+  --color-neg: #f2857c;
+  --color-pos: #63c48d;
+  --color-warn: #e0b341;
+  --color-accent: #8fb0e8;
+}
+:root[data-theme="light"] {
+  --color-bg: #fbfbfa;
+  --color-panel: #ffffff;
+  --color-line: #e4e4e1;
+  --color-line2: #efefec;
+  --color-tx: #1a1a18;
+  --color-tx2: #5c5c56;
+  --color-tx3: #8a8a82;
+  --color-neg: #b3261e;
+  --color-pos: #1a7f4b;
+  --color-warn: #9a6700;
+  --color-accent: #2f4f8f;
+}
+
+html {
+  background: var(--color-bg);
+  color-scheme: light dark;
+}
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-tx);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+/* 숫자는 자리수가 흔들리면 안 읽힌다 */
+.tnum {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+/* details 기본 삼각형 제거 — 카드 전체가 버튼이다 */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style: none;
+}
+
+/* 모델 수치 컬럼 — 기본 숨김. 추천 실적이 −42.2% 라 기본 화면에 있을 이유가 없다. */
+.model-col { display: none; }
+.show-model .model-col { display: table-cell; }
+
+/* 펼친 경기 카드는 테두리를 진하게 — open: 변형은 v4 가 생성해주지 않아 직접 쓴다 */
+details[open] > summary { border-bottom: 1px solid var(--color-line2); }
+details.card[open] { border-color: var(--color-tx3); }

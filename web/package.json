@@ -1,0 +1,22 @@
+{
+  "name": "proto-odds-web",
+  "private": true,
+  "type": "module",
+  "description": "사이트 소스. 빌드 산출물은 ../docs 로 나가고, docs/data/*.json 은 수집기가 따로 갱신한다.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prebuild": "node -e \"require('fs').rmSync('../docs/assets',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "tailwindcss": "^4.1.14",
+    "vite": "^7.1.9"
+  }
+}
