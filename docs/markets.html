@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>경기 분석 — 승패·언더오버·핸디캡·승①패·승⑤패·홀짝</title>
-<meta name="description" content="한 경기의 모든 프로토 마켓(승패·언더오버·핸디캡·승①패·승⑤패·홀짝)을 스코어 분포로 계산해 한 화면에서 비교한다. 전반전 한정 마켓은 값을 매기지 않는다.">
+<title>경기 분석 — 오늘 뭘 사면 덜 잃나</title>
+<meta name="description" content="발매 중인 프로토 전 마켓을 과거 실측 수익률로 등급화하고, 목표 배당별로 가장 덜 잃는 조합을 보여준다. 예측이 아니라 손실 축소 도구다.">
 <style>
 :root{
   --bg:#fbfbfa; --panel:#fff; --line:#e4e4e1; --line2:#efefec;
@@ -24,132 +24,118 @@
   --tx:#1a1a18;--tx2:#5c5c56;--tx3:#8a8a82;
   --neg:#b3261e;--pos:#1a7f4b;--warn:#9a6700;--accent:#2f4f8f;}
 
+/* ── 기본 ────────────────────────────────────────────────────────── */
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);
   font:15px/1.6 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",
   "Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 80px}
 a{color:var(--accent)}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+h1{font-size:22px;margin:22px 0 4px;letter-spacing:-.01em}
+.sub{color:var(--tx2);font-size:13.5px;margin:0}
+.meta{color:var(--tx3);font-size:11.5px;margin-top:6px}
 
 nav{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);
   font-size:14px;flex-wrap:wrap}
 nav a{text-decoration:none;color:var(--tx2)}
 nav a.on{color:var(--tx);font-weight:600;border-bottom:2px solid var(--tx);padding-bottom:3px}
-.navnote{font-size:12px;color:var(--tx3);padding:10px 0 0;border-bottom:1px solid var(--line2)}
 
-header{border-bottom:1px solid var(--line);margin-bottom:24px;padding:26px 0 20px}
-h1{font-size:23px;margin:0 0 6px;letter-spacing:-.02em;font-weight:650}
-.sub{color:var(--tx2);font-size:13.5px;margin:0}
-.meta{margin-top:12px;font-size:12px;color:var(--tx3);display:flex;gap:16px;flex-wrap:wrap}
+/* ── 카드: 페이지의 모든 블록이 같은 규칙을 쓴다 ───────────────────── */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.sec{margin:28px 0 10px;display:flex;align-items:baseline;gap:9px}
+.sec h2{font-size:15px;margin:0;letter-spacing:-.01em}
+.sec .note{font-size:11.5px;color:var(--tx3)}
 
-.notice{border:1px solid var(--line);border-left:3px solid var(--warn);
-  background:var(--panel);padding:14px 16px;border-radius:3px;margin-bottom:22px}
-.notice b{color:var(--warn)}
-.notice p{margin:6px 0 0;font-size:13.5px;color:var(--tx2)}
+/* ── 히어로: 오늘 살 것 ────────────────────────────────────────────── */
+.hero{padding:16px 18px;margin-top:18px}
+.hero .q{font-size:12px;color:var(--tx3);letter-spacing:.02em}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
+.tab{border:1px solid var(--line);background:transparent;border-radius:999px;
+  padding:6px 13px;font:inherit;font-size:12px;color:var(--tx2);cursor:pointer;
+  display:flex;align-items:center;gap:6px;line-height:1}
+.tab:hover{border-color:var(--tx3)}
+.tab.on{border-color:var(--tx);color:var(--tx);font-weight:600}
+.tab .e{font-family:var(--mono);font-size:11px;color:var(--tx3)}
+.tab.on .e{color:var(--neg)}
+.stats{display:flex;gap:26px;flex-wrap:wrap;padding-bottom:12px;
+  border-bottom:1px solid var(--line2)}
+.stat .k{font-size:11px;color:var(--tx3)}
+.stat .v{font-family:var(--mono);font-size:19px;font-weight:600;line-height:1.35}
+.stat .v.neg{color:var(--neg)}
+.stat .v.sm{font-size:14px}
+.legs{margin-top:12px}
+.leg{display:flex;align-items:baseline;gap:9px;padding:7px 0;font-size:13px;
+  border-top:1px solid var(--line2);flex-wrap:wrap}
+.leg:first-child{border-top:0}
+.leg .t{font-family:var(--mono);font-size:11.5px;color:var(--tx3);min-width:38px}
+.leg .lg{font-size:10.5px;color:var(--tx3);border:1px solid var(--line);
+  border-radius:4px;padding:1px 5px}
+.leg .m{flex:1;min-width:170px}
+.leg .o{font-family:var(--mono);font-weight:600}
+.leg .x{font-size:10.5px;color:var(--pos)}
+.hero .foot{margin-top:12px;padding-top:11px;border-top:1px solid var(--line2);
+  font-size:12px;color:var(--tx2);line-height:1.75}
+.hero .foot b{color:var(--tx)}
 
-.bar{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:18px;
-  font-size:13px;color:var(--tx2)}
-.bar label{display:flex;gap:6px;align-items:center}
-select{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:3px;
-  background:var(--panel);color:var(--tx)}
+/* ── 필터 ────────────────────────────────────────────────────────── */
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:9px 0;
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+  border-bottom:1px solid var(--line);font-size:12px;color:var(--tx2)}
+.bar select,.bar input[type=search]{font:inherit;font-size:12px;padding:4px 7px;
+  background:var(--panel);color:var(--tx);border:1px solid var(--line);border-radius:6px}
+.bar label{display:flex;align-items:center;gap:5px}
 
-.game{border:1px solid var(--line);border-radius:4px;background:var(--panel);
-  margin-bottom:14px;overflow:hidden}
-.ghead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-  padding:12px 15px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
-.gteam{font-weight:650;font-size:15.5px}
-.gwhen{font-size:12.5px;color:var(--tx3)}
-.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:3px;
-  border:1px solid var(--line);color:var(--tx2);margin-left:6px}
-.tag.pre{border-color:var(--accent);color:var(--accent)}
-.tag.done{color:var(--tx3)}
-
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{text-align:left;padding:8px 15px;border-bottom:1px solid var(--line2)}
-th{font-size:11px;color:var(--tx3);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
-tbody tr:last-child td{border-bottom:none}
-tr.reco{background:color-mix(in srgb,var(--pos) 8%,transparent)}
-tr.excl td{color:var(--tx3)}
-td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.mk{font-weight:600}
-.why{font-size:11.5px;color:var(--tx3)}
-.pos{color:var(--pos)}.neg{color:var(--neg)}
-.badge{font-size:10.5px;padding:1px 6px;border-radius:3px;background:var(--pos);color:#fff}
-.gr{display:inline-block;width:17px;height:17px;line-height:17px;text-align:center;
-  border-radius:3px;font-size:10.5px;font-weight:700;color:#fff;margin-right:6px;
-  vertical-align:1px}
-.grA{background:#1a7f4b}.grB{background:#4a7fb5}.grC{background:#9a6700}.grD{background:#b3261e}
-.grT{background:var(--tx3)}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.chip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px;
-  cursor:pointer;background:transparent;color:var(--tx2);font-family:inherit}
-.chip.on{border-color:var(--pos);color:var(--tx);font-weight:600}
-.chip .e{font-family:var(--mono);font-size:11px;color:var(--tx3);margin-left:5px}
-.modelcol{display:none}
-body.showmodel .modelcol{display:table-cell}
-.lghead{font-size:11.5px;color:var(--tx3);font-weight:600;letter-spacing:.02em;
-  margin:16px 0 4px;padding-bottom:3px;border-bottom:1px solid var(--line)}
-.gcard{border:1px solid var(--line);border-radius:8px;margin:6px 0;background:var(--panel)}
-.gcard>summary{cursor:pointer;list-style:none;padding:9px 11px;display:flex;
-  align-items:center;gap:10px;flex-wrap:wrap}
-.gcard>summary::-webkit-details-marker{display:none}
-.gtime{font-family:var(--mono);font-size:11.5px;color:var(--tx3);min-width:44px}
-.gname{font-size:13.5px;font-weight:600;flex:1;min-width:150px}
-.gpick{display:flex;gap:5px;flex-wrap:wrap}
-.ob{display:flex;flex-direction:column;align-items:center;min-width:58px;
-  border:1px solid var(--line);border-radius:6px;padding:3px 7px;font-size:12px}
+/* ── 경기 목록 ───────────────────────────────────────────────────── */
+.lgh{font-size:11px;color:var(--tx3);font-weight:600;letter-spacing:.03em;margin:18px 0 6px}
+.g{margin:6px 0}
+.g>summary{cursor:pointer;list-style:none;padding:10px 12px;display:flex;
+  align-items:center;gap:11px;flex-wrap:wrap}
+.g>summary::-webkit-details-marker{display:none}
+.g[open]{border-color:var(--tx3)}
+.g[open]>summary{border-bottom:1px solid var(--line2)}
+.g .t{font-family:var(--mono);font-size:11.5px;color:var(--tx3);min-width:40px}
+.g .n{font-size:13.5px;font-weight:600;flex:1;min-width:160px}
+.g .n s{color:var(--tx3);text-decoration:none;font-weight:400;font-size:12px}
+.g .r{font-size:10.5px;color:var(--tx3);white-space:nowrap}
+.obs{display:flex;gap:5px}
+.ob{display:flex;flex-direction:column;align-items:center;min-width:56px;
+  border:1px solid var(--line);border-radius:7px;padding:4px 8px}
 .ob .l{font-size:9.5px;color:var(--tx3);letter-spacing:.03em}
-.ob .v{font-family:var(--mono);font-weight:600}
-.ob.A{border-color:#1a7f4b}.ob.B{border-color:#4a7fb5}
-.ob.C{border-color:#9a6700}.ob.D{border-color:#b3261e}
+.ob .v{font-family:var(--mono);font-size:12.5px;font-weight:600;line-height:1.35}
+.ob.A{border-color:var(--pos)}.ob.B{border-color:var(--accent)}
+.ob.C{border-color:var(--warn)}.ob.D{border-color:var(--neg)}
 .ob.U{border-style:dashed}
-.gcard[open]>summary{border-bottom:1px solid var(--line)}
-.gbody{padding:0 11px 10px}
-.gmeta{font-size:11px;color:var(--tx3);margin-left:auto}
-.fold{border:1px solid var(--line);border-radius:8px;margin:14px 0;padding:0 12px}
-.fold>summary{cursor:pointer;padding:10px 0;font-size:13px;font-weight:600;color:var(--tx2)}
-.fold[open]>summary{border-bottom:1px solid var(--line);margin-bottom:8px}
-.lead-answer{border:1px solid var(--line);border-left:3px solid var(--pos);border-radius:8px;padding:12px 14px;margin:14px 0;font-size:13.5px;line-height:1.75}
-.lead-answer b{font-size:15px}
-.tallybox{font-size:12.5px;line-height:1.8;padding:4px 0 10px}
-.tallybad{color:#e5484d;font-weight:700}
-.waitbox{font-size:12px;color:var(--tx3);padding:8px 10px;border:1px dashed var(--line);
-  border-radius:6px;margin:6px 0}
-.tcrow{border:1px solid var(--line);border-radius:6px;margin:8px 0;overflow:hidden}
-.tchead{background:var(--panel);padding:7px 10px;font-size:12.5px;font-weight:600}
-.tcsub{font-weight:400;color:var(--tx3);font-size:11.5px;margin-left:6px}
-.tcbody{padding:4px 10px 8px}
-.tcleg{font-size:12px;padding:3px 0;border-top:1px solid var(--line)}
-.tcleg:first-child{border-top:0}
-.tcpay{color:var(--tx3);font-size:11px;margin-left:6px}
-.tcbeat{color:var(--pos);font-size:11px;margin-left:6px}
+.body{padding:10px 12px 12px}
+.wait{font-size:12px;color:var(--tx3);padding:8px 10px;border:1px dashed var(--line);
+  border-radius:7px}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-weight:500;color:var(--tx3);font-size:11px;
+  padding:0 8px 5px 0;border-bottom:1px solid var(--line2)}
+td{padding:5px 8px 5px 0;border-bottom:1px solid var(--line2);vertical-align:baseline}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.gr{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;
+  border-radius:4px;color:#fff;font-size:10px;font-weight:700;margin-right:7px}
+.grA{background:var(--pos)}.grB{background:var(--accent)}
+.grC{background:var(--warn)}.grD{background:var(--neg)}
 .grU{background:transparent;border:1px dashed var(--tx3);color:var(--tx3)}
-.grnote{font-size:12px;color:var(--tx2);margin:-14px 0 22px;line-height:1.7;
-  border-left:3px solid var(--line);padding-left:12px}
-.grnote b{color:var(--tx)}
-.gradebar{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:1px;
-  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;
-  margin-bottom:22px}
-.gradebar div{background:var(--panel);padding:9px 10px;font-size:12px}
-.gradebar .b{font-family:var(--mono);font-weight:600;font-size:12.5px}
-.gradebar .r{color:var(--tx3);font-size:11.5px;margin-top:2px}
-.why-box{padding:12px 15px;border-top:1px solid var(--line2);font-size:13px;
-  color:var(--tx2);line-height:1.75}
-.why-box .lead{color:var(--tx);font-weight:600;margin-bottom:5px}
-.why-box .facts{margin-top:6px;font-size:12.5px;color:var(--tx3)}
-.verdict{border:1px solid var(--neg);border-left:3px solid var(--neg);
-  background:var(--panel);padding:14px 16px;border-radius:3px;margin-bottom:22px}
-.verdict b{color:var(--neg)}
-.verdict table{margin-top:9px;font-size:12.5px;background:transparent}
-.verdict td{border:none;padding:2px 14px 2px 0}
-.empty{padding:40px 0;text-align:center;color:var(--tx3)}
-footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
-  font-size:12px;color:var(--tx3)}
-@media(max-width:640px){
-  th:nth-child(5),td:nth-child(5){display:none}
-  .wrap{padding:0 14px 60px}
-}
+.grT{background:var(--tx3)}
+.mcol{display:none}
+body.mon .mcol{display:table-cell}
+.why{border-top:1px solid var(--line2);margin-top:10px;padding-top:10px;
+  font-size:12.5px;color:var(--tx2);line-height:1.75}
+.why .f{margin-top:6px;font-size:11.5px;color:var(--tx3)}
+.empty{color:var(--tx3);padding:26px 0;text-align:center;font-size:13px}
+
+/* ── 근거 ────────────────────────────────────────────────────────── */
+.more{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.more a{display:block;padding:13px 15px;text-decoration:none;color:inherit}
+.more .h{font-size:13px;font-weight:600;margin-bottom:3px}
+.more .d{font-size:11.5px;color:var(--tx3);line-height:1.65}
+.warnline{font-size:11.5px;color:var(--tx3);margin-top:12px;line-height:1.75}
+.warnline b{color:var(--neg)}
 </style>
 </head>
 <body>
@@ -160,138 +146,80 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
   <a href="markets.html" class="on">경기 분석</a>
   <a href="research.html">연구 현황</a>
 </nav>
-<details class="navnote"><summary style="cursor:pointer">메뉴 설명</summary>
-  <b>가격 분석</b> 회차 환급률·상품별 유불리 ·
-  <b>경기 분석</b> 경기별 전 마켓 비교와 근거(이 페이지) ·
-  <b>연구 현황</b> 왜 이길 수 없는가 — 12개 검증 기록
-</details>
 
 <header>
   <h1>경기 분석</h1>
-  <p class="sub">발매 중인 전 마켓을 <b>과거 실측 수익률</b>로 등급화한다. 예측이 아니라 <b>덜 잃는 선택</b>이다.</p>
+  <p class="sub">발매 중인 전 마켓을 <b>과거 실측 수익률</b>로 등급화한다.
+    예측이 아니라 <b>덜 잃는 선택</b>이다.</p>
   <div class="meta" id="meta"></div>
 </header>
 
-<div class="lead-answer" id="answer"></div>
-
-<section id="todaycombo">
-  <h2 style="font-size:15px;margin:22px 0 6px">오늘의 최적 조합</h2>
-  <p class="grnote" style="margin-top:0">
-    목표 배당별로 <b>가장 덜 잃는 구성</b>이다. 고른 기준은 <b>경기별 환급률</b> 하나 —
-    같은 배당대면 과거 실측 수익률이 같아서 팀 예측으로는 고를 근거가 없다.
-    <a href="#" onclick="document.getElementById('cbwhy').open=true;return false">자세히</a>
-  </p>
-  <details id="cbwhy" class="fold" style="margin:0 0 8px"><summary>고르는 기준이 왜 환급률 하나인가</summary>
-    <p class="grnote">같은 배당대 안에서는 과거 실측 ROI 가 <b>같다</b>. 즉 "어느 팀이 이길 것 같은가" 로는
-    고를 근거가 없다 — 그게 이 프로젝트의 결론이다. 남는 건 경기별 환급률(86~89%)뿐이고,
-    같은 배당대라면 마진이 낮은 경기가 순수하게 유리하다. 예측이 아니라 산술이다.<br>
-    <b>프로토는 회차를 겹쳐 발매한다</b> — 같은 경기가 두 회차에 다른 배당으로 걸리면 높은 쪽만 남겼다.
-    실측 개선 폭은 오버라운드 평균 1.56%p 다(차익거래는 0건).</p>
-  </details>
-  <div class="chips" id="tcchips"></div>
-  <div id="tcbox"></div>
-  <p class="grnote">⚠️ 모든 칸의 기대값이 <b>음수</b>다. 목표 배당을 올릴수록 더 잃는다.
-    단폴은 '한경기' 지정 경기만 가능하다.</p>
+<!-- ① 오늘 살 것 — 이 페이지에서 실제로 쓸 수 있는 유일한 것 -->
+<section class="card hero">
+  <div class="q">오늘 살 거면</div>
+  <div class="tabs" id="tabs"></div>
+  <div id="plan"></div>
+  <div class="foot" id="foot"></div>
 </section>
 
-
-
-<details class="fold"><summary>왜 이 조합인가 — 배당대 등급과 조합 산술</summary>
-<div class="verdict" id="verdict"></div>
-<div class="gradebar" id="gradebar"></div>
-<div class="grnote">
-  등급은 <b>"이 선택지를 사라"가 아니다.</b> <b>그 배당대의 과거 실측 수익률</b>이다 —
-  전부 마이너스이고, 가장 좋은 A 도 −9.2% 다.
-  <b>그리고 이 숫자는 선택지 1개 기준이다</b> — 단폴은 지정 경기만 가능하고,
-  배당을 올리려면 조합해야 하는데 조합하면 다리마다 마진이 한 번씩 더 물린다.<br>
-  <b>양쪽을 동시에 살 수는 없다.</b> 같은 마켓의 두 선택지가 같은 배당대에 있으면
-  <span class="gr grT">=</span> 로 표시한다. <b>어느 쪽을 사도 결과가 같아 고를 근거가 없다는 뜻</b>이다.<br>
-  쓰는 법은 하나다 — <b>여러 경기·여러 마켓 중 무엇을 살지 고를 때</b> 낮은 배당대를 고르면 덜 잃는다.<br>
-  <b>단, 위 등급은 '최소 손실' 기준이다.</b> 목표 배당이 있으면 뒤집힌다 — 아래 조합표를 볼 것.
-</div>
-
-<section id="combo">
-  <h2 style="font-size:15px;margin:22px 0 6px">조합 설계 — <b>다리마다 마진이 한 번씩 물린다</b></h2>
-  <p class="grnote" style="margin-top:0">
-    <a href="https://www.sportstoto.co.kr/proto_rules.php" target="_blank" rel="noopener">공식 규정</a>상
-    <b>조합구매는 2~10경기</b>, <b>한경기구매(단폴)는 '한경기' 로 지정된 경기만</b> 가능하다.
-    같은 경기의 승패·핸디캡·언더오버는 한 장에 못 담는다.
-    그래서 <b>모든 다리는 서로 다른 경기</b>고 결과가 독립이라 기대값은 그냥 곱셈이다 —
-    <b>다리를 하나 더 붙일 때마다 마진이 한 번 더 물린다.</b>
-  </p>
-  <div class="gradebar" id="combobar"></div>
-  <p class="grnote">
-    <b>목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다.</b>
-    저배당은 다리 하나로는 최선이지만 배당을 만드는 효율은 최악이라, 목표를 맞추려면
-    다리를 여러 개 붙이게 되고 그만큼 더 잃는다.
-  </p>
-  <div class="gradebar" id="varbar"></div>
-  <p class="grnote">
-    기대값은 <b>어떤 구조에서도 음수</b>다. 원금을 넘길 확률은 오직 <b>적게·크게</b> 살 때만 남고,
-    <b>많이 살수록 0 으로 수렴한다</b> — 대수의 법칙이 마진을 실현시킨다.
-    회차당 1인 10만원 한도가 "크게" 의 상한이다.
-  </p>
-</section>
-
-
-
-</details>
-
-<details class="fold"><summary>🔴 모델 추천을 따르면 안 되는 이유 — 실적 공개</summary>
-  <div id="tally"></div>
-</details>
-
-<details class="fold"><summary>읽기 전에 — 이 표를 어떻게 쓰나</summary>
-  <div class="notice" id="warn"></div>
-</details>
-
+<!-- ② 경기 -->
+<div class="sec"><h2>경기</h2><span class="note" id="cnt"></span></div>
 <div class="bar">
   <label>상태 <select id="fst">
-    <option value="예정">예정 (경기전+배당대기)</option>
-    <option value="경기전">경기전 (배당 나옴)</option>
-    <option value="배당대기">배당대기</option>
-    <option value="">전체</option>
+    <option value="예정">예정</option>
+    <option value="경기전">배당 나옴</option>
+    <option value="배당대기">배당 대기</option>
     <option value="정산">정산</option>
+    <option value="">전체</option>
   </select></label>
   <label>리그 <select id="flg"><option value="">전체</option></select></label>
   <label>마켓 <select id="fmk"><option value="">전체</option></select></label>
   <label>회차 <select id="frd"><option value="">전체</option></select></label>
-  <label>검색 <input id="fq" type="search" placeholder="팀·리그" style="width:130px"></label>
-  <label><input type="checkbox" id="fsm"> 모델 수치 보기</label><label style="display:none"><input type="checkbox" id="fre"></label>
+  <label><input id="fq" type="search" placeholder="팀 검색" style="width:120px"></label>
+  <label><input type="checkbox" id="fmo"> 모델 수치</label>
 </div>
-
 <div id="list"></div>
 
-<footer>
-  데이터 <span class="mono" id="gen"></span> ·
-  <a href="https://github.com/choigod1023/proto-odds-research">choigod1023/proto-odds-research</a><br>
-  프로토 구매는 오프라인 판매점과 betman.co.kr 에서만 가능합니다. 이 페이지는 정보 제공용입니다.
-</footer>
+<!-- ③ 근거 — 접지 않고 연구 페이지로 보낸다 -->
+<div class="sec"><h2>근거</h2><span class="note">숫자의 출처</span></div>
+<div class="more">
+  <div class="card"><a href="research.html">
+    <div class="h">배당대 등급</div>
+    <div class="d" id="m1">실측 수익률로 A~D 를 매긴다. 네 해 모두 같은 방향일 때만 등급을 준다.</div>
+  </a></div>
+  <div class="card"><a href="research.html">
+    <div class="h">조합 산술</div>
+    <div class="d">다리를 하나 더 붙일 때마다 마진이 한 번 더 물린다 — 약 −6%p.
+      목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다.</div>
+  </a></div>
+  <div class="card"><a href="research.html">
+    <div class="h">왜 이길 수 없나</div>
+    <div class="d">12개 검증 기록. 필요한 우위 6.8%p, 동원 가능한 정보 4.8%p.</div>
+  </a></div>
+</div>
+<div class="warnline" id="warn"></div>
 
 </div>
 <script>
-const pct = v => (v==null ? "–" : (v*100).toFixed(1)+"%");
-const sgn = v => (v==null ? "–" : (v>=0?"+":"")+(v*100).toFixed(1)+"%");
-const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pct=v=>(v==null?"–":(v*100).toFixed(1)+"%");
+const sgn=v=>(v==null?"–":(v>=0?"+":"")+(v*100).toFixed(1)+"%");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const od=v=>(v==null?"–":Number(v).toFixed(2));
+const gcls=g=>(g==="?"?"U":g);          // '?' 는 CSS 클래스명이 못 된다
 
-let DATA=null, WHY={}, GRADES=null;
-// 배당 → 등급. loss_grades.json 의 실측 ROI 구간을 그대로 쓴다.
-function oddsGrade(o){
+let DATA=null, GRADES=null, PLANS=[], SOLO=null;
+const $=id=>document.getElementById(id);
+
+function grade(o){
   if(!GRADES||o==null) return null;
   for(const g of GRADES.odds_bins){
     const [lo,hi]=g.bin.replace("+","-999").split("-").map(Number);
-    if(o>=lo && o<hi) return g;
+    if(o>=lo&&o<hi) return g;
   }
   return null;
 }
-const wkey = g => `${g.date}|${g.home}|${g.away}`;
-
-function optName(o){
-  const lb = o.label ? " "+o.label : "";
-  return esc(o.market + lb + " · " + o["선택"]);
-}
-
-function fmForm(f){
+function optName(o){ return esc(o.market+(o.label?" "+o.label:"")+" · "+o["선택"]); }
+function form(f){
   if(!f) return "";
   const b=[`${f.w}승${f.l}패`];
   if(f.streak) b.push(f.streak);
@@ -299,226 +227,157 @@ function fmForm(f){
   if(f.avg_scored!=null) b.push(`${f.avg_scored}득 ${f.avg_conceded}실`);
   return b.join(" · ");
 }
-function whyBox(g){
-  // 경기 자체에 붙은 해설을 먼저 쓴다. 예전엔 picks.json(승패 2-way 125건)에만 있어서
-  // 언더오버·핸디캡·컵대회 경기는 해설이 아예 안 나왔다.
-  const w=WHY[wkey(g)]||{};
-  const lead = g["해설"] || w.preview;
-  const facts=[];
-  const st=g["선발"];
-  if(st&&(st.home||st.away))
-    facts.push(`선발 ${esc(g.home)} ${esc(st.home||"?")} / ${esc(g.away)} ${esc(st.away||"?")}`);
-  if(w.elo_home!=null) facts.push(`Elo ${esc(g.home)} ${w.elo_home} / ${esc(g.away)} ${w.elo_away}`);
-  const h2h=g["h2h"]||w.h2h;
-  if(h2h) facts.push(esc(h2h));
-  const fh=fmForm(g.form_home||w.form_home), fa=fmForm(g.form_away||w.form_away);
-  if(fh) facts.push(`${esc(g.home)} ${esc(fh)}`);
-  if(fa) facts.push(`${esc(g.away)} ${esc(fa)}`);
-  if(g.lam_src==="풀링") facts.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다(실측 +0.043 vs 리그 +0.028)");
-  if(!lead&&!facts.length) return "";
-  return `<div class="why-box">
-    ${lead?`<div class="lead">${esc(lead)}</div>`:""}
-    ${facts.length?`<div class="facts">${facts.join(" · ")}</div>`:""}
+
+/* ── 오늘 살 것 ───────────────────────────────────────────────────── */
+function legRow(c){
+  return `<div class="leg">
+    <span class="t">${esc(String(c.date).slice(-5))}</span>
+    <span class="lg">${esc(c.league)}</span>
+    <span class="m">${esc(c.match)} — <b>${esc(c.market)}${c.market_label?" "+esc(c.market_label):""} ${esc(c.sel)}</b></span>
+    <span class="o">${od(c.odds)}</span>
+    ${c.beats?`<span class="x">${c.round}회차가 유리 (${c.beats.round}회차 ${od(c.beats.odds)})</span>`:""}
   </div>`;
 }
-function render(){
-  const st=fst.value, lg=flg.value, mk=fmk.value, onlyReco=fre.checked;
-  const rd=frd.value, q=(fq.value||"").trim().toLowerCase();
-  const pool=[...(DATA.live||[]),...(DATA.past||[])];
-  const games=pool.filter(g=>(!st|| (st==="예정" ? (g.status==="경기전"||g.status==="배당대기") : g.status===st))&&(!lg||g.league===lg)
-    &&(!rd||String(g.round)===rd)
-    &&(!q||[g.home,g.away,g.league,g.date].join(" ").toLowerCase().includes(q)));
-  const out=[];
-  let curLg=null;
-  for(const g of games){
-    let opts=(g.options||[]).filter(o=>!mk||o.market===mk);
-    if(onlyReco) opts=opts.filter(o=>o["추천점수"]!=null);
-    const waiting = g.status==="배당대기";
-    if(!opts.length && !waiting) continue;
-    if(waiting && (mk||onlyReco)) continue;
-    const done=g.status!=="경기전"&&!waiting;
-
-    // 리그 헤더 — Oddspedia 처럼 리그별로 묶으면 173경기도 스캔된다
-    const lgkey=`${g.league} · ${String(g.date).slice(0,8)}`;
-    if(lgkey!==curLg){ curLg=lgkey; out.push(`<div class="lghead">${esc(lgkey)}</div>`); }
-
-    // 접힌 줄에 보여줄 대표 배당 — 승패/승무패 우선, 없으면 앞의 3개
-    const head=opts.filter(o=>o.market==="승패"||o.market==="승무패");
-    const shown=(head.length?head:opts).slice(0,3);
-    const btns=shown.map(o=>{
-      const gr=oddsGrade(o["배당"]);
-      return `<span class="ob ${gr?gcls(gr.grade):"U"}" title="${gr?`배당 ${gr.bin} 실측 ${(gr.roi*100).toFixed(1)}%`:"등급 없음"}">
-        <span class="l">${esc(o["선택"])}</span><span class="v">${o["배당"]==null?"–":Number(o["배당"]).toFixed(2)}</span></span>`;}).join("");
-
-    out.push(`<details class="gcard"><summary>
-      <span class="gtime">${esc(String(g.date).slice(-5))}</span>
-      <span class="gname">${esc(g.home)} <span style="color:var(--tx3)">vs</span> ${esc(g.away)}</span>
-      <span class="gpick">${waiting?`<span class="ob U"><span class="l">배당</span><span class="v">대기</span></span>`:btns}</span>
-      <span class="gmeta">${g.round}회차${g["판단"]?" · "+esc(g["판단"]):""}</span>
-    </summary><div class="gbody">
-      ${waiting?`<div class="waitbox">배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b></div>`:`<table><thead><tr>
-        <th>마켓 / 선택</th><th style="text-align:right">배당</th>
-        <th class="modelcol" style="text-align:right">시장</th><th class="modelcol" style="text-align:right">모델</th>
-        <th class="modelcol" style="text-align:right">예상손익</th><th class="modelcol">판단</th>
-      </tr></thead><tbody>
-      ${(()=>{const t={};opts.forEach(o=>{const k=o.market+(o.label||"");const gr=oddsGrade(o["배당"]);
-        if(!t[k])t[k]=[];t[k].push(gr&&gr.grade);});window.__tie={};
-        Object.entries(t).forEach(([k,v])=>{if(v.length===2&&v[0]&&v[0]===v[1])window.__tie[k]=true;});
-        return "";})()}
-      ${opts.map(o=>{
-        const reco=o["추천점수"]!=null, ev=o["예상손익"];
-        const cls=reco?"reco":(o["제외"]?"excl":"");
-        const hit=o["적중"]===true?' <span class="badge">적중</span>':
-                  o["적중"]===false?' <span class="tag">미적중</span>':"";
-        const gr=oddsGrade(o["배당"]);
-        const tie=window.__tie&&window.__tie[o.market+(o.label||"")];
-        const grHtml=gr
-          ?(tie
-            ? `<span class="gr grT" title="양쪽이 같은 배당대(${gr.bin}) — 어느 쪽을 사도 같다">=</span>`
-            : `<span class="gr gr${gcls(gr.grade)}" title="배당 ${gr.bin} 실측 수익률 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`)
-          :"";
-        return `<tr class="${cls}">
-          <td>${grHtml}<span class="mk">${optName(o)}</span>${hit}</td>
-          <td class="num">${o["배당"]==null?"–":Number(o["배당"]).toFixed(2)}</td>
-          <td class="num modelcol">${pct(o["시장확률"])}</td>
-          <td class="num modelcol">${pct(o["모델확률"])}</td>
-          <td class="num modelcol ${ev==null?"":(ev>=0?"pos":"neg")}">${sgn(ev)}</td>
-          <td class="why modelcol">${reco?`<span class="mk">모델 최대괴리</span>`:esc(o["제외"]||"")}</td>
-        </tr>`;}).join("")}
-      </tbody></table>`}${whyBox(g)}
-    </div></details>`);
+function showPlan(i){
+  $("tabs").innerHTML =
+    (SOLO?`<button class="tab${i<0?" on":""}" onclick="showPlan(-1)">단폴</button>`:"")+
+    PLANS.map((p,k)=>`<button class="tab${k===i?" on":""}" onclick="showPlan(${k})">${p.target}배<span class="e">${(p.expected_roi*100).toFixed(0)}%</span></button>`).join("");
+  if(i<0&&SOLO){
+    $("plan").innerHTML=`<div class="stats">
+      <div class="stat"><div class="k">배당</div><div class="v">${od(SOLO.odds)}</div></div>
+      <div class="stat"><div class="k">환급률</div><div class="v">${SOLO.payout}%</div></div>
+      <div class="stat"><div class="k">구매 조건</div><div class="v sm">'한경기' 지정 경기만</div></div>
+    </div><div class="legs">${legRow(SOLO)}</div>`;
+    return;
   }
-  list.innerHTML = out.length? out.join("") :
-    `<div class="empty">조건에 맞는 경기가 없습니다.</div>`;
+  const p=PLANS[i];
+  if(!p){ $("plan").innerHTML=`<div class="empty">발매 중인 조합이 없다</div>`; return; }
+  $("plan").innerHTML=`<div class="stats">
+    <div class="stat"><div class="k">실배당</div><div class="v">${p.actual_odds.toFixed(2)}×</div></div>
+    <div class="stat"><div class="k">적중 확률</div><div class="v">${(p.hit_est*100).toFixed(1)}%</div></div>
+    <div class="stat"><div class="k">기대 수익률</div><div class="v neg">${(p.expected_roi*100).toFixed(1)}%</div></div>
+    <div class="stat"><div class="k">구성</div><div class="v">${p.legs}폴</div></div>
+  </div><div class="legs">${p.picks.map(legRow).join("")}</div>`;
 }
 
-const gcls = g => (g === "?" ? "U" : g);   // '?' 는 CSS 클래스명이 못 된다
+/* ── 경기 목록 ────────────────────────────────────────────────────── */
+function whyBox(g){
+  const f=[];
+  const s=g["선발"];
+  if(s&&(s.home||s.away)) f.push(`선발 ${esc(g.home)} ${esc(s.home||"?")} / ${esc(g.away)} ${esc(s.away||"?")}`);
+  if(g["h2h"]) f.push(esc(g["h2h"]));
+  const fh=form(g.form_home), fa=form(g.form_away);
+  if(fh) f.push(`${esc(g.home)} ${esc(fh)}`);
+  if(fa) f.push(`${esc(g.away)} ${esc(fa)}`);
+  if(g.lam_src==="풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
+  if(!g["해설"]&&!f.length) return "";
+  return `<div class="why">${g["해설"]?esc(g["해설"]):""}${f.length?`<div class="f">${f.join(" · ")}</div>`:""}</div>`;
+}
+function render(){
+  const st=$("fst").value, lg=$("flg").value, mk=$("fmk").value,
+        rd=$("frd").value, q=($("fq").value||"").trim().toLowerCase();
+  const pool=[...(DATA.live||[]),...(DATA.past||[])];
+  const games=pool.filter(g=>
+      (!st || (st==="예정" ? (g.status==="경기전"||g.status==="배당대기") : g.status===st))
+    &&(!lg||g.league===lg) &&(!rd||String(g.round)===rd)
+    &&(!q||[g.home,g.away,g.league].join(" ").toLowerCase().includes(q)));
+  const out=[]; let cur=null, n=0;
+  for(const g of games){
+    const opts=(g.options||[]).filter(o=>!mk||o.market===mk);
+    const wait=g.status==="배당대기";
+    if(!opts.length&&!wait) continue;
+    if(wait&&mk) continue;
+    n++;
+    const key=`${g.league} · ${String(g.date).slice(0,8)}`;
+    if(key!==cur){ cur=key; out.push(`<div class="lgh">${esc(key)}</div>`); }
 
+    const head=opts.filter(o=>o.market==="승패"||o.market==="승무패");
+    const shown=(head.length?head:opts).slice(0,3);
+    const obs=wait
+      ? `<span class="ob U"><span class="l">배당</span><span class="v">대기</span></span>`
+      : shown.map(o=>{const gr=grade(o["배당"]);
+          return `<span class="ob ${gr?gcls(gr.grade):"U"}" title="${gr?`배당 ${gr.bin} 실측 ${(gr.roi*100).toFixed(1)}%`:"등급 없음"}"><span class="l">${esc(o["선택"])}</span><span class="v">${od(o["배당"])}</span></span>`;}).join("");
+
+    // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
+    const tie={}, byMk={};
+    opts.forEach(o=>{const k=o.market+(o.label||""), gr=grade(o["배당"]);
+      (byMk[k]=byMk[k]||[]).push(gr&&gr.grade);});
+    Object.entries(byMk).forEach(([k,v])=>{ if(v.length===2&&v[0]&&v[0]===v[1]) tie[k]=true; });
+
+    out.push(`<details class="card g"><summary>
+      <span class="t">${esc(String(g.date).slice(-5))}</span>
+      <span class="n">${esc(g.home)} <s>vs</s> ${esc(g.away)}</span>
+      <span class="obs">${obs}</span>
+      <span class="r">${g.round}회차${g["판단"]?" · "+esc(g["판단"]):""}</span>
+    </summary><div class="body">
+      ${wait?`<div class="wait">배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b></div>`
+      :`<table><thead><tr>
+        <th>마켓 / 선택</th><th style="text-align:right">배당</th>
+        <th class="mcol" style="text-align:right">시장</th>
+        <th class="mcol" style="text-align:right">모델</th>
+        <th class="mcol" style="text-align:right">기대</th>
+      </tr></thead><tbody>${opts.map(o=>{
+        const gr=grade(o["배당"]), ev=o["예상손익"], t=tie[o.market+(o.label||"")];
+        const b=gr?(t?`<span class="gr grT" title="양쪽이 같은 배당대(${gr.bin}) — 고를 근거가 없다">=</span>`
+                     :`<span class="gr gr${gcls(gr.grade)}" title="배당 ${gr.bin} 실측 ${(gr.roi*100).toFixed(1)}%">${gr.grade}</span>`):"";
+        const hit=o["적중"]===true?" ✔":o["적중"]===false?" ✕":"";
+        return `<tr><td>${b}${optName(o)}${hit}</td>
+          <td class="num">${od(o["배당"])}</td>
+          <td class="num mcol">${pct(o["시장확률"])}</td>
+          <td class="num mcol">${pct(o["모델확률"])}</td>
+          <td class="num mcol">${sgn(ev)}</td></tr>`;}).join("")}
+      </tbody></table>`}
+      ${whyBox(g)}
+    </div></details>`);
+  }
+  $("list").innerHTML = out.length?out.join(""):`<div class="empty">조건에 맞는 경기가 없다</div>`;
+  $("cnt").textContent = `${n}경기`;
+}
+
+/* ── 로드 ─────────────────────────────────────────────────────────── */
 Promise.all([
   fetch("data/picks_v2.json?"+Date.now()).then(r=>r.json()),
-  fetch("data/picks.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/loss_grades.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
   fetch("data/today_combo.json?"+Date.now()).then(r=>r.json()).catch(()=>null),
-]).then(([d,pk,lg,cb,tc])=>{
+]).then(([d,lg,cb,tc])=>{
+  DATA=d; GRADES=lg;
+  if(tc){ PLANS=(tc.plans||[]).filter(p=>p.ok); SOLO=tc.solo||null; showPlan(0); }
+
   if(lg&&cb){
-    const bl=((cb&&cb.baseline)||[]).find(x=>x.legs===2)||{};   // baseline 은 combo.json 에 있다
-    const A=(lg.odds_bins||[]).find(g=>g.grade==="A");
-    document.getElementById("answer").innerHTML =
-      `<b>살 거면 — 배당 ${A?A.bin:"1.0-1.3"} 구간에서, 다리는 최소로.</b><br>
-       아무 2폴 <span class="mono">${((bl.any||0)*100).toFixed(1)}%</span> &rarr;
-       최적 2폴 <span class="mono">${((bl.best||0)*100).toFixed(1)}%</span>
-       <b style="color:var(--pos)">(${((bl.saving||0)*100).toFixed(1)}%p 덜 잃는다)</b>
-       <span style="color:var(--tx3)">&middot; 전부 마이너스다. 이기는 도구가 아니라 덜 지는 도구다.</span>`;
+    const bl=(cb.baseline||[]).find(x=>x.legs===2)||{};
+    const A=(lg.odds_bins||[]).find(x=>x.grade==="A");
+    $("foot").innerHTML=`아무 2폴 <b class="mono">${(bl.any*100).toFixed(1)}%</b> &rarr;
+      배당 ${A?A.bin:"1.0-1.3"} 로 짠 2폴 <b class="mono">${(bl.best*100).toFixed(1)}%</b>
+      — <b>${(bl.saving*100).toFixed(1)}%p 덜 잃는다.</b>
+      전부 마이너스다. 목표 배당을 올릴수록 더 잃는다.`;
+    if(lg.basis) $("m1").textContent=
+      `실측 ${lg.basis.n_selections.toLocaleString()}건 · ${lg.basis.years[0]}~${lg.basis.years.at(-1)}. `+
+      `네 해 모두 같은 방향일 때만 등급을 준다.`;
   }
   if(d.tally){
     const t=d.tally;
-    document.getElementById("tally").innerHTML=`<div class="tallybox">
-      이 페이지의 <b>모델 추천</b>을 그대로 따랐다면 정산 ${t.n}건에서
-      적중 <b>${(t.hit_rate*100).toFixed(1)}%</b>,
-      수익률 <span class="tallybad">${(t.roi*100).toFixed(1)}%</span> 였다.<br>
-      아무거나 사면 <span class="mono">-13.7%</span>, 배당 1.0-1.3 만 사면 <span class="mono">-9.2%</span> 다.
-      <b>추천을 따르면 오히려 3배 더 잃는다.</b><br>
-      이유는 분명하다 — 추천은 <span class="mono">모델확률 &times; 배당 - 1</span> 이 가장 큰 것을 고른다.
-      그런데 모델이 시장보다 부정확하므로 <b>그 격차가 가장 큰 곳은 모델이 가장 크게 틀린 곳</b>이다.
-      역선택이다. 그래서 표의 '모델 최대괴리' 는 <b>추천이 아니라 경고</b>로 읽어야 한다.
-    </div>`;
+    $("warn").innerHTML=`모델 수치는 <b>참고용이다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
+      정산 ${t.n}건에서 적중 ${(t.hit_rate*100).toFixed(1)}%, 수익률 <b>${(t.roi*100).toFixed(1)}%</b> 였다 —
+      아무거나 살 때(−13.7%)보다 나쁘다. 모델이 시장보다 부정확해서, 격차가 큰 곳은 곧 모델이 크게 틀린 곳이다.`;
   }
-  if(tc){
-    const leg = c => `<div class="tcleg"><span class="mono">${esc(c.date)}</span>
-        <span class="tag">${esc(c.league)}</span> ${esc(c.match)} —
-        <b>${esc(c.market)}${c.market_label?" "+esc(c.market_label):""} ${esc(c.sel)}</b>
-        <span class="mono">@${c.odds}</span>
-        <span class="tcpay">환급 ${c.payout}%</span>
-        ${c.beats?`<span class="tcbeat">${c.round}회차 (${c.beats.round}회차는 @${c.beats.odds})</span>`:""}
-      </div>`;
-    const s0 = tc.solo;
-    const plans=tc.plans.filter(p=>p.ok);
-    window.__tcRender=(i)=>{
-      const p=plans[i];
-      document.getElementById("tcchips").innerHTML =
-        (s0?`<button class="chip${i===-1?" on":""}" onclick="__tcRender(-1)">단폴</button>`:"")+
-        plans.map((q,k)=>`<button class="chip${k===i?" on":""}" onclick="__tcRender(${k})">
-          ${q.target}배<span class="e">${(q.expected_roi*100).toFixed(0)}%</span></button>`).join("");
-      if(i===-1&&s0){
-        document.getElementById("tcbox").innerHTML=
-          `<div class="tcrow"><div class="tchead">단폴 <span class="tcsub">'한경기' 지정 경기만 구매 가능</span></div>
-           <div class="tcbody">${leg(s0)}</div></div>`;
-        return;
-      }
-      document.getElementById("tcbox").innerHTML=`<div class="tcrow">
-        <div class="tchead">목표 ${p.target}배 — ${p.legs}폴
-          <span class="tcsub">실배당 ${p.actual_odds}× · 적중 ${(p.hit_est*100).toFixed(1)}%
-          · 기대 <b class="neg">${(p.expected_roi*100).toFixed(1)}%</b></span></div>
-        <div class="tcbody">${p.picks.map(leg).join("")}</div></div>`;
-    };
-    __tcRender(0);
-  }
-  if(cb){
-    const bl = cb.baseline.find(x=>x.legs===2);
-    document.getElementById("combobar").innerHTML =
-      `<div><div class="b">기준</div><div class="r">단폴은 지정 경기만<br>조합은 2~10경기</div></div>` +
-      `<div><div class="b">아무 2폴</div><div class="r">${(bl.any*100).toFixed(1)}%</div></div>` +
-      `<div><div class="b">최적 2폴</div><div class="r">${(bl.best*100).toFixed(1)}%
-         <b style="color:var(--pos)">(${(bl.saving*100).toFixed(1)}%p 절감)</b></div></div>` +
-      cb.plans.map(p=>`<div><div class="b">목표 ${p.target}×</div>
-        <div class="r">${p.best.legs}폴 · 적중 ${(p.best.hit*100).toFixed(1)}%<br>
-        <b>${(p.best.roi*100).toFixed(1)}%</b></div></div>`).join("");
-    const NS=["10","100","300"];
-    document.getElementById("varbar").innerHTML =
-      `<div><div class="b">원금초과 확률</div><div class="r">티켓 ${NS.join(" / ")}장</div></div>` +
-      cb.variance.map(v=>`<div><div class="b">${v.odds}× (적중 ${(v.hit*100).toFixed(1)}%)</div>
-        <div class="r">${NS.map(n=>(v.p_profit[n]*100).toFixed(1)+"%").join(" / ")}</div></div>`).join("");
-  }
-  DATA=d;
-  if(lg){
-    GRADES=lg;
-    const h=lg.headline;
-    document.getElementById("gradebar").innerHTML =
-      `<div><div class="b">등급 기준</div><div class="r">실측 ${lg.basis.n_selections.toLocaleString()}건 · ${lg.basis.years[0]}~${lg.basis.years.at(-1)}</div></div>` +
-      lg.odds_bins.map(g=>`<div><div class="b"><span class="gr gr${gcls(g.grade)}">${g.grade}</span>${g.bin}</div>
-        <div class="r">${(g.roi*100).toFixed(1)}% · ${g.n.toLocaleString()}건</div></div>`).join("") +
-      `<div><div class="b">선택지 1개 기준</div><div class="r">${(h.overall_roi*100).toFixed(1)}% → 최선 ${(h.best_bucket_roi*100).toFixed(1)}%
-        <br><b style="color:var(--neg,#b3261e)">단폴은 지정 경기만 → 아래 조합표</b></div></div>`;
-  }
-  if(pk){
-    (pk.picks||[]).forEach(p=>{ WHY[`${p.date}|${p.home}|${p.away}`]=p; });
-    const b=pk.backtest;
-    if(b) document.getElementById("verdict").innerHTML=
-      `<b>⚠ 모델 예측은 베팅 근거가 못 됩니다 — 등급만 쓰세요</b>
-       <p style="margin:6px 0 0;font-size:13.5px;color:var(--tx2)">${esc(b.verdict||"")}
-       <br>아래 <b>표의 모델확률·추천은 참고용</b>입니다. 실제로 쓸 수 있는 건
-       <b>배당 등급(A~D)</b> 뿐이고, 그것도 손실을 줄일 뿐 이익을 내지 못합니다.</p>
-       <table><tr><td>검증 구간</td><td class="mono">${esc(b.test||"")} (학습 ${esc(b.train||"")})</td></tr>
-       <tr><td>모델 Brier</td><td class="mono">${b.model_brier} vs 시장 ${b.market_brier}</td></tr>
-       <tr><td>픽 수익률</td><td class="mono">${(b.pick_roi*100).toFixed(2)}%
-         (95%CI ${(b.pick_ci[0]*100).toFixed(1)}% ~ ${(b.pick_ci[1]*100).toFixed(1)}%)
-         · 표본 ${b.n_picks.toLocaleString()}건</td></tr></table>`;
-  }
-  gen.textContent=(d.generated_at||"").replace("T"," ").replace("+00:00"," UTC");
+  $("meta").textContent=`${(d.live||[]).length+(d.past||[]).length}경기 · 회차 ${(d.rounds||[]).join(", ")}`+
+    ` · 갱신 ${String(d.generated_at||"").slice(0,16).replace("T"," ")}`;
+
   const pool=[...(d.live||[]),...(d.past||[])];
-  const t=d.tally||{};
-  meta.innerHTML=[
-    `경기 <b>${pool.length}</b>건 (예정 ${(d.live||[]).length})`,
-    `회차 ${(d.rounds||[]).join(", ")}`,
-    t.n?`최근 정산 ${t.n}건 (표본이 적어 수익률은 의미 없음)`:""
-  ].filter(Boolean).join(" · ");
-  warn.innerHTML=`<b>읽기 전에</b><p>${esc(d.warning||"")}</p>
-    <p style="color:var(--tx3);font-size:12.5px">${esc(d.note||"")}
-    모델과 시장의 차이가 ${((d.gap_cap??0)*100).toFixed(0)}%p 를 넘으면 신뢰가 낮다고 보고 제외한다.</p>`;
-  const leagues=[...new Set(pool.map(g=>g.league))].sort();
-  flg.innerHTML='<option value="">전체</option>'+leagues.map(l=>`<option>${esc(l)}</option>`).join("");
-  const mks=[...new Set(pool.flatMap(g=>(g.options||[]).map(o=>o.market)))].sort();
-  fmk.innerHTML='<option value="">전체</option>'+mks.map(m=>`<option>${esc(m)}</option>`).join("");
-  [fst,flg,fmk,fre,frd].forEach(el=>el.addEventListener("change",render));
-  fq.addEventListener("input",render);
-  document.getElementById("fsm").addEventListener("change",e=>
-    document.body.classList.toggle("showmodel",e.target.checked));
-  const rounds=[...new Set([...(DATA.live||[]),...(DATA.past||[])].map(g=>g.round))]
-    .sort((a,b)=>b-a);
-  frd.innerHTML='<option value="">전체</option>'+rounds.map(r=>`<option value="${r}">${r}회차</option>`).join("");
+  const uniq=a=>[...new Set(a)].filter(v=>v!=null&&v!=="");
+  $("flg").innerHTML='<option value="">전체</option>'+
+    uniq(pool.map(g=>g.league)).sort().map(x=>`<option>${esc(x)}</option>`).join("");
+  $("fmk").innerHTML='<option value="">전체</option>'+
+    uniq(pool.flatMap(g=>(g.options||[]).map(o=>o.market))).sort().map(x=>`<option>${esc(x)}</option>`).join("");
+  $("frd").innerHTML='<option value="">전체</option>'+
+    uniq(pool.map(g=>g.round)).sort((a,b)=>b-a).map(x=>`<option value="${x}">${x}회차</option>`).join("");
+
+  ["fst","flg","fmk","frd"].forEach(id=>$(id).addEventListener("change",render));
+  $("fq").addEventListener("input",render);
+  $("fmo").addEventListener("change",e=>document.body.classList.toggle("mon",e.target.checked));
   render();
-}).catch(e=>{list.innerHTML=`<div class="empty">데이터를 불러오지 못했습니다: ${esc(e.message)}</div>`;});
+}).catch(e=>{$("list").innerHTML=`<div class="empty">데이터를 불러오지 못했습니다: ${esc(e.message)}</div>`;});
 </script>
 </body>
 </html>
