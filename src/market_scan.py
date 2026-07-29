@@ -68,8 +68,29 @@ def load() -> pd.DataFrame:
                    on=key, how="inner", suffixes=("", "_l"))
 
 
+# ⚠️ 퇴화 확률 = 모델이 그 마켓을 못 매긴 것이다.
+#    실측 2026-07-29: 배구 언더오버 라인이 140.5~185.5(총 **득점**)인데
+#    score_dist 는 배구를 **세트**로 모델링한다. 그래서 p_over 가 그대로 0 이 되고
+#    "언더 100% · 예상손익 +76%" 라는 가짜 우위가 화면에 찍혔다.
+#    (연구 수치에도 샜다 — 배구 언더오버 모델 Brier 0.489 vs 시장 0.250)
+#    유한 배당이 걸린 선택지에 확률 0/1 은 존재할 수 없다. 값을 버린다.
+_EPS = 1e-6
+
+
+def _sane(pm):
+    if pm is None:
+        return None
+    if any((p <= _EPS or p >= 1 - _EPS) for p in pm):
+        return None
+    return pm
+
+
 def model_probs(row) -> list[float] | None:
     """마켓별 모델 확률 벡터. 프로토 선택지 순서와 맞춘다."""
+    return _sane(_model_probs(row))
+
+
+def _model_probs(row) -> list[float] | None:
     M = joint(row["lam_home"], row["lam_away"], row["sport"])
     fam, nw = row["market_family"], int(row["n_way"])
     lab = row["market_label"]
@@ -233,7 +254,10 @@ def _selftest() -> None:
         ({"market_family": "승⑤패", "n_way": 3, "market_label": ""}, 3),
         ({"market_family": "언더오버", "n_way": 2, "market_label": "U 8.5"}, 2),
         ({"market_family": "핸디캡", "n_way": 2, "market_label": "H -1.5"}, 2),
-        ({"market_family": "핸디캡", "n_way": 3, "market_label": "H -1.5"}, 3),
+        # ⚠️ 3-way 핸디캡은 **정수 라인만** 존재한다(실측 24,230건 중 .5 라인 0건).
+        #    .5 라인은 무승부가 불가능해 구조적으로 2-way 다.
+        ({"market_family": "핸디캡", "n_way": 3, "market_label": "H -1.0"}, 3),
+        ({"market_family": "핸디캡", "n_way": 2, "market_label": "H -1.5"}, 2),
         ({"market_family": "홀짝", "n_way": 2, "market_label": ""}, 2),
     ]
     for base, want in cases:
