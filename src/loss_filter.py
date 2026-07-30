@@ -204,6 +204,23 @@ def main() -> int:
                          "by_year": by_year, "stable": ok, "why_unstable": why})
     sel_rows.sort(key=lambda r: -r["roi"])
 
+    # --- 마켓 × 배당대 셀
+    # ⚠️ 같은 배당대라도 마켓마다 ROI 가 1~3%p 갈린다. 배당대만 보면 그걸 버린다.
+    #    실측: 1.0–1.3 에서 승무패 −6.29% vs 언더오버 −13.26% (7%p 차이).
+    #    안정성 관문(그 해 평균 대비 방향이 네 해 모두 같은가)을 통과한 셀만 싣는다.
+    cell_rows = []
+    for (fam, b), s2 in d.groupby(["fam", "bin"], observed=True):
+        if len(s2) < 800:
+            continue
+        by_year, ok, why = stability(s2, base_by_year)
+        cell_rows.append({
+            "fam": fam, "bin": str(b), "n": int(len(s2)),
+            "roi": round(float(s2["ret"].mean()), 4),
+            "hit": round(float(s2["hit"].mean()), 4),
+            "stable": ok, "why_unstable": why,
+        })
+    cell_rows.sort(key=lambda r: -r["roi"])
+
     overall = float(d["ret"].mean())
     OVERALL[0] = overall
     best = float(d[d["odds"] < 1.3]["ret"].mean())
@@ -220,6 +237,7 @@ def main() -> int:
                  "가장 좋은 구간도 −9%대다. 프로토 마진(12%)은 세계 최고 수준의 "
                  "베팅 엣지(+2~5%)보다 크다."),
         "odds_bins": odds_rows,
+        "market_bins": cell_rows,
         "structures": st_rows,
         "three_way_selections": sel_rows,
         # ⚠️ 규칙은 **위 표에서 파생**한다. 손으로 적으면 표와 어긋난다.
