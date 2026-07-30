@@ -162,6 +162,8 @@ const STATUS = [
 function GameList({ data, grades }) {
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "" });
   const [showModel, setShowModel] = useState(false);
+  // 적중 우선 / 손실 최소 — 두 목표가 갈린다(62.34%·−10.68% vs 58.80%·−10.13%)
+  const [mode, setMode] = useState("hit");
   const pool = useMemo(() => [...(data.live || []), ...(data.past || [])], [data]);
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
@@ -194,7 +196,7 @@ function GameList({ data, grades }) {
       cur = key;
       rows.push(<div key={`h${key}${n}`} className="mt-[18px] mb-1.5 text-[11px] font-semibold tracking-[.03em] text-ink3">{key}</div>);
     }
-    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} />);
+    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} />);
   }
 
   const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
@@ -212,6 +214,11 @@ function GameList({ data, grades }) {
         <input type="search" placeholder="팀 검색" value={f.q}
           onChange={(e) => setF({ ...f, q: e.target.value })}
           className={`${sel} w-[120px]`} />
+        <label className="flex items-center gap-1.5">픽 기준
+          <select className={sel} value={mode} onChange={(e) => setMode(e.target.value)}>
+            <option value="hit">적중 우선 (62.3% · −10.7%)</option>
+            <option value="roi">손실 최소 (58.8% · −10.1%)</option>
+          </select></label>
         <label className="flex items-center gap-1.5">
           <input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} />
           모델 수치
@@ -233,7 +240,7 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
-function Game({ g, opts, wait, grades }) {
+function Game({ g, opts, wait, grades, mode }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -248,7 +255,7 @@ function Game({ g, opts, wait, grades }) {
   const head = opts.filter((o) => o.market === "승패" || o.market === "승무패");
   const shown = (head.length ? head : opts).slice(0, 3);
   // 경기별 픽 — 모델이 아니라 **실측 등급**으로 고른다 (모델 추천은 −42.2% 였다)
-  const pick = wait ? null : lessBadPick(grades, opts);
+  const pick = wait ? null : lessBadPick(grades, opts, mode);
 
   return (
     <Card as="details" className="my-1.5">
@@ -270,7 +277,7 @@ function Game({ g, opts, wait, grades }) {
           <span
             title={pick.tie
               ? `최선 등급(${pick.g.bin})이 여럿이라 고를 근거가 없다`
-              : `배당 ${pick.g.bin} — 과거 적중 ${((pick.g.hit ?? 0) * 100).toFixed(1)}% · 수익률 ${(pick.g.roi * 100).toFixed(1)}%`}
+              : `${pick.exact ? pick.o.market + " " : "배당 "}${pick.g.bin} — 과거 적중 ${((pick.hit ?? 0) * 100).toFixed(1)}% · 수익률 ${(pick.roi * 100).toFixed(1)}%`}
             className={`whitespace-nowrap rounded px-2 py-[3px] text-[11px] font-semibold ${
               pick.tie
                 ? "border border-dashed border-ink3 text-ink3"
@@ -281,9 +288,9 @@ function Game({ g, opts, wait, grades }) {
               <>고를 근거 없음</>
             ) : (
               <>{pick.o["선택"]} <span className="tnum">{odds(pick.o["배당"])}</span>
-                {pick.g.hit != null && (
+                {pick.hit != null && (
                   <> · 적중 <b className="tnum">
-                    {(pick.g.hit * 100).toFixed(0)}%</b></>)}
+                    {(pick.hit * 100).toFixed(0)}%</b></>)}
                 {pick.why && <span className="opacity-70"> · {pick.why}</span>}</>
             )}
           </span>
