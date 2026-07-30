@@ -204,13 +204,70 @@ def _cache_path(year: int, rnd: int) -> Path:
     return CACHE / str(year) / f"{rnd:04d}.html.gz"
 
 
+# 한글이 한 글자도 없으면 디코딩이 틀린 것이다.
+_HANGUL = re.compile(r"[가-힣]")
+# 잘못 디코딩된 흔적 — 키릴/라틴확장이 본문에 섞인다.
+_MOJI = re.compile(r"[Ѐ-ӿĀ-ſ]")
+
+
+def _decode(r: requests.Response) -> str:
+    """응답을 **UTF-8 로 고정** 디코딩한다.
+
+    🔴 원래 `r.text` 를 그냥 썼다. 이 API 는 charset 헤더를 안 줄 때가 있고,
+       그러면 requests 가 chardet 로 **추측**한다. 추측이 빗나가서
+       아카이브 10개 회차(게임행 3,429건 · 1.9%)가 통째로 모지바케로 저장됐다 —
+       `ptcp154`(카자흐 키릴) 2,497건 · `mac_latin2` 1,157건.
+       `result` 컬럼까지 깨져서('нҷҲмҠ№'=홈승) 그 행들은 모든 분석에서
+       조용히 빠졌다. 이 프로젝트가 반복해서 당한 '결과와 상관있는 행 누락'이다.
+
+    저장 전에 한글이 있는지 확인하고, 없으면 알려진 오디코딩을 되돌려 본다.
+    """
+    r.encoding = "utf-8"
+    html = r.text
+    if _HANGUL.search(html):
+        return html
+    # UTF-8 이 아니었을 수도 있다 — 한국 사이트의 나머지 후보를 시도한다.
+    for enc in ("euc-kr", "cp949"):
+        try:
+            t = r.content.decode(enc)
+        except UnicodeDecodeError:
+            continue
+        if _HANGUL.search(t):
+            return t
+    return html
+
+
+def repair_mojibake(s: str) -> str:
+    """이미 깨진 채로 저장된 문자열을 되돌린다 (아카이브 소급 복구용).
+
+    세 계열 다 왕복 검증했다 (chardet 이 회차마다 다르게 빗나갔다) —
+        'нҷҲмҠ№'.encode('ptcp154').decode('utf-8')     == '홈승'
+        'ŪôąŪĆ®'.encode('mac_latin2').decode('utf-8')   == '홈패'
+        'л≤ИнШЄ'.encode('mac_cyrillic').decode('utf-8') == '번호'
+    되돌린 결과에 한글이 없으면 원본을 그대로 돌려준다(추측하지 않는다).
+    """
+    if not s or not _MOJI.search(s):
+        return s
+    for enc in ("ptcp154", "mac_latin2", "mac_cyrillic"):
+        try:
+            t = s.encode(enc).decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            continue
+        if _HANGUL.search(t) and not _MOJI.search(t):
+            # 원본의 \xa0(줄바꿈없는공백)이 팀명을 갈랐다 — 보통 공백으로 되돌린다
+            return t.replace("\xa0", " ")
+    return s
+
+
 def fetch_round(year: int, rnd: int, sess: requests.Session | None = None,
                 use_cache: bool = True) -> str | None:
     """한 회차의 전 종목 게임 목록 HTML을 반환. 캐시가 있으면 요청하지 않는다(멱등)."""
     path = _cache_path(year, rnd)
     if use_cache and path.exists():
         with gzip.open(path, "rt", encoding="utf-8") as f:
-            return f.read()
+            # 이미 깨진 채로 저장된 회차가 10개 있다 — 읽을 때 되돌린다.
+            # (다시 긁으면 되지만 아카이브는 멱등이 원칙이라 캐시를 건드리지 않는다)
+            return repair_mojibake(f.read())
 
     s = sess or _session()
     seq = get_master_seq(year, rnd, s)
@@ -224,7 +281,7 @@ def fetch_round(year: int, rnd: int, sess: requests.Session | None = None,
         "sports": "", "sort": "", "tab_type": "proto",
     }, timeout=40)
     r.raise_for_status()
-    html = r.text
+    html = _decode(r)
 
     path.parent.mkdir(parents=True, exist_ok=True)
     with gzip.open(path, "wt", encoding="utf-8") as f:

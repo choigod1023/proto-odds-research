@@ -23,6 +23,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from matches import clean_team
 
 BETS = Path(__file__).resolve().parent.parent / "data" / "processed" / "bets.csv"
 GAMES = Path(__file__).resolve().parent.parent / "data" / "processed" / "games.csv"
@@ -147,8 +148,9 @@ def popularity(b: pd.DataFrame) -> None:
     g = g[(g["league"] == "KBO") & (g["market_family"] == "승패")
           & (~g["is_void"].astype(bool))]
 
-    def team(s: str) -> str:
-        return re.sub(r"[\s\d\-]+$", "", str(s)).strip()
+    # 🔴 원래 접미만 벗겼다. KBO 원정은 "10 롯데" 처럼 **접두**라
+    #    away_t 가 통째로 안 맞아 2,688행 중 30행(1.1%)만 남아 있었다.
+    team = clean_team
 
     g = g.assign(home_t=g["home"].map(team), away_t=g["away"].map(team))
     g = g[g["home_t"].isin(KBO_TEAMS) & g["away_t"].isin(KBO_TEAMS)]

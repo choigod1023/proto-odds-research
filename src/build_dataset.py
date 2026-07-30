@@ -21,7 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import to_bets                             # noqa: E402
-from wisetoto import CACHE, parse_rows               # noqa: E402
+from wisetoto import CACHE, parse_rows, repair_mojibake   # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "processed"
 
@@ -55,8 +55,12 @@ def main() -> int:
         for i, p in enumerate(files, 1):
             year = int(p.parent.name)
             rnd = int(p.stem.replace(".html", ""))
+            # ⚠️ 여기는 `fetch_round` 를 안 거치고 gzip 을 직접 연다.
+            #    수집 당시 charset 추측이 빗나가 모지바케로 저장된 회차가 11개 있어서
+            #    읽는 쪽에서도 되돌려 줘야 한다. 안 그러면 그 3,429행의 result 가
+            #    깨진 채('нҷҲмҠ№'=홈승) 모든 분석에서 조용히 빠진다.
             with gzip.open(p, "rt", encoding="utf-8") as f:
-                rows = parse_rows(f.read(), year, rnd)
+                rows = parse_rows(repair_mojibake(f.read()), year, rnd)
 
             for r in rows:
                 d = asdict(r)

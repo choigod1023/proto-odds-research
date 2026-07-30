@@ -30,6 +30,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from matches import clean_team                           # noqa: E402
 from score_dist import joint, p_handicap, p_over, p_win   # noqa: E402
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
@@ -47,8 +48,8 @@ def load() -> pd.DataFrame:
                  _dd=pd.to_numeric(md[1], errors="coerce")).dropna(subset=["_mm", "_dd"])
     g["date"] = pd.to_datetime(dict(year=g["year"], month=g["_mm"].astype(int),
                                     day=g["_dd"].astype(int)), errors="coerce")
-    g["home_team"] = g["home"].map(lambda x: re.sub(r"\s+-?\d+\s*$", "", str(x)).strip())
-    g["away_team"] = g["away"].map(lambda x: re.sub(r"^\s*-?\d+\s+", "", str(x)).strip())
+    g["home_team"] = [clean_team(x) for x in g["home"]]
+    g["away_team"] = [clean_team(x) for x in g["away"]]
     key = ["date", "league", "home_team", "away_team"]
     # ⚠️ games.csv 에 이미 sport 가 있으므로 lam 쪽에서는 빼고 병합한다
     return g.merge(lam[key + ["lam_home", "lam_away"]], on=key, how="inner")
