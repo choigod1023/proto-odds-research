@@ -44,7 +44,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from stack_filter import build                          # noqa: E402
+from stack_filter import WIN_IDX, build                  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "loss_grades.json"
@@ -90,6 +90,59 @@ def stability(s, base_by_year: dict[int, float]) -> tuple[dict, bool, str]:
         d = " ".join(f"{y}:{x*100:+.1f}" for y, x in sorted(diffs.items()))
         return by_year, False, f"그 해 평균 대비 방향이 뒤집힌다 ({d})"
     return by_year, True, ""
+
+
+def odds_caps() -> list[dict]:
+    """최저배당 상한별 — 경기를 버릴수록 적중률이 어떻게 오르나.
+
+    ⚠️ 적중률을 올리는 지렛대는 '경기 안에서 뭘 고르나' 가 아니라
+       **'어느 경기를 버리나'** 다. 실측: 전부 사면 62.34%, 최저배당 ≤1.3 인
+       경기만 사면 **77.61%**. 그리고 이 축에서는 적중률과 ROI 가 **같이** 좋아진다
+       (−10.68% → −9.12%). 지금까지 본 교환관계와 반대다.
+
+    ⚠️ 경기 키에 home 을 그대로 쓰면 안 된다. 형식이 마켓마다 다르다
+       ("두산 12" vs "두산") — 같은 경기가 마켓별로 쪼개져 경기 수가 두 배가 된다.
+    """
+    import re as _re
+    g = pd.read_csv(ROOT / "data" / "processed" / "games.csv")
+    g = g[(~g["is_void"].astype(bool)) & (g["n_way"] > 0)].copy()
+    g["ht"] = g["home"].astype(str).str.replace(r"\s+-?\d+\s*$", "", regex=True).str.strip()
+    g["at"] = g["away"].astype(str).str.replace(r"^\s*-?\d+\s+", "", regex=True).str.strip()
+
+    rows = []
+    for r in g.itertuples():
+        wi = WIN_IDX.get((int(r.n_way), str(r.result)))
+        if wi is None:
+            continue
+        try:
+            od = [float(x) for x in str(r.odds).split(",")]
+        except ValueError:
+            continue
+        if len(od) != int(r.n_way) or any(o <= 1.001 for o in od):
+            continue
+        m = _re.search(r"(\d{2})\.(\d{2})", str(r.date_text))
+        mmdd = (m.group(1) + m.group(2)) if m else ""
+        key = f"{r.year}|{r.league}|{r.ht}|{r.at}|{mmdd}"
+        for i, o in enumerate(od):
+            rows.append({"m": key, "odds": o,
+                         "hit": 1.0 if i == wi else 0.0,
+                         "ret": (o - 1) if i == wi else -1.0})
+    d = pd.DataFrame(rows)
+    if d.empty:
+        return []
+    pick = d.sort_values(["m", "odds"]).groupby("m").head(1)   # 경기별 최저 배당
+    n_all = len(pick)
+    out = []
+    for cap in (99, 1.8, 1.5, 1.4, 1.3, 1.25, 1.2, 1.15):
+        s2 = pick[pick["odds"] <= cap]
+        if len(s2) < 200:
+            continue
+        h = float(s2["hit"].mean())
+        out.append({"cap": (None if cap == 99 else cap), "n": int(len(s2)),
+                    "share": round(len(s2) / n_all, 4),
+                    "hit": round(h, 4), "roi": round(float(s2["ret"].mean()), 4),
+                    "hit2": round(h * h, 4), "hit3": round(h ** 3, 4)})
+    return out
 
 
 def _rules(odds_rows, st_rows, sel_rows) -> list[dict]:
@@ -237,6 +290,7 @@ def main() -> int:
                  "가장 좋은 구간도 −9%대다. 프로토 마진(12%)은 세계 최고 수준의 "
                  "베팅 엣지(+2~5%)보다 크다."),
         "odds_bins": odds_rows,
+        "odds_caps": odds_caps(),
         "market_bins": cell_rows,
         "structures": st_rows,
         "three_way_selections": sel_rows,
