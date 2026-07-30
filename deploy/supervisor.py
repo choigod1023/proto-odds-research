@@ -52,6 +52,15 @@ DAILY = [
 # 실제로 2026-07-27 이후 픽이 안 돌아 7/28 에 7/24 경기가 예정으로 떠 있었다.
 # 순서가 중요하다: 원본 → 데이터셋 → 산출물.
 PUBLISH = [
+    # ⚠️ 이 단계가 없어서 **산출물 자동 갱신이 한 번도 작동하지 않았다.**
+    #    와이즈토토 아카이브(data/raw/wisetoto/*.html.gz)는 .gitignore 대상이라
+    #    머신의 clone 에 안 딸려온다. 그래서 build_dataset 이 매 주기
+    #    "캐시가 비어 있습니다"(rc=1)로 끝났고, 뒤 단계가 전부 break 됐다.
+    #    사이트는 내가 로컬에서 돌려 push 할 때만 갱신되고 있었다.
+    #    · 캐시된 회차는 대기 없이 continue 하므로 2회차부터는 몇 초에 끝난다
+    #    · 첫 실행만 553회차 × 2.5초 ≈ 23분 (타임아웃 1800초 안)
+    ("아카이브 수집", [sys.executable, "-u", "src/collect.py",
+                  "2023", "2024", "2025", "2026"]),
     ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"]),
     ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"]),
     ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"]),
