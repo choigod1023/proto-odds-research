@@ -28,7 +28,7 @@ export default function Markets() {
   return (
     <Shell meta={metaLine(d)}>
       <TodayPlan today={today} combo={combo} grades={grades} />
-      <GameList data={d} grades={grades} />
+      <GameList data={d} grades={grades} caps={grades?.odds_caps} />
       <Evidence grades={grades} tally={d.tally} />
     </Shell>
   );
@@ -159,11 +159,14 @@ const STATUS = [
   ["정산", "정산"], ["", "전체"],
 ];
 
-function GameList({ data, grades }) {
+function GameList({ data, grades, caps }) {
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "" });
   const [showModel, setShowModel] = useState(false);
   // 적중 우선 / 손실 최소 — 두 목표가 갈린다(62.34%·−10.68% vs 58.80%·−10.13%)
   const [mode, setMode] = useState("hit");
+  // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
+  //    실측: 전부 62.2% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
+  const [cap, setCap] = useState(0);          // 0 = 제한 없음
   const pool = useMemo(() => [...(data.live || []), ...(data.past || [])], [data]);
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
@@ -190,7 +193,13 @@ function GameList({ data, grades }) {
     const wait = g.status === "배당대기";
     if (!opts.length && !wait) continue;
     if (wait && f.mk) continue;
+    if (cap && wait) continue;      // 배당이 없으면 상한을 적용할 수 없다
     n++;
+    // 최저배당 상한 — 강한 favorite 이 없는 경기는 버린다
+    if (cap) {
+      const lo = Math.min(...opts.map((o) => o["배당"]).filter((x) => x > 0));
+      if (!(lo <= cap)) continue;
+    }
     const key = `${g.league} · ${day(g.date)}`;
     if (key !== cur) {
       cur = key;
@@ -200,6 +209,7 @@ function GameList({ data, grades }) {
   }
 
   const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
+  const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
       <SectionTitle note={`${n}경기`}>경기</SectionTitle>
@@ -214,6 +224,15 @@ function GameList({ data, grades }) {
         <input type="search" placeholder="팀 검색" value={f.q}
           onChange={(e) => setF({ ...f, q: e.target.value })}
           className={`${sel} w-[120px]`} />
+        <label className="flex items-center gap-1.5">최저배당
+          <select className={sel} value={cap}
+            onChange={(e) => setCap(Number(e.target.value))}>
+            <option value={0}>제한 없음</option>
+            {(caps || []).filter((c) => c.cap).map((c) => (
+              <option key={c.cap} value={c.cap}>
+                ≤{c.cap} · 적중 {(c.hit * 100).toFixed(0)}%
+              </option>))}
+          </select></label>
         <label className="flex items-center gap-1.5">픽 기준
           <select className={sel} value={mode} onChange={(e) => setMode(e.target.value)}>
             <option value="hit">적중 우선 (62.3% · −10.7%)</option>
@@ -224,6 +243,23 @@ function GameList({ data, grades }) {
           모델 수치
         </label>
       </div>
+      {cap > 0 && n < 2 && (
+        <p className="mt-2 text-[11.5px] leading-[1.7] text-sev3">
+          남은 경기가 {n}개다 — <b>2폴을 만들 수 없다.</b> 조합은 서로 다른 경기가
+          최소 둘 필요하다. 상한을 올리거나 다음 회차를 기다려야 한다.
+        </p>
+      )}
+      {capRow && (
+        <p className="mt-2 text-[11.5px] leading-[1.7] text-ink3">
+          최저배당 ≤{capRow.cap} 인 경기만 산 과거 실측 —
+          적중 <b className="tnum text-ink">{(capRow.hit * 100).toFixed(1)}%</b> ·
+          ROI <b className="tnum">{(capRow.roi * 100).toFixed(2)}%</b> ·
+          2폴 티켓 적중 <b className="tnum">{(capRow.hit2 * 100).toFixed(1)}%</b>
+          <span className="opacity-70">
+            {" "}(전체 경기의 {(capRow.share * 100).toFixed(0)}% · n={capRow.n.toLocaleString()})
+          </span>
+        </p>
+      )}
       <div className={showModel ? "show-model" : ""}>
         {rows.length ? rows : <Empty>조건에 맞는 경기가 없다</Empty>}
       </div>
