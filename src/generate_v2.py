@@ -78,8 +78,43 @@ MAX_SANE_GAP = 0.02
 
 
 def clean(x: str) -> str:
-    s = re.sub(r"^\s*-?\d+\s+", "", str(x).strip())
-    return re.sub(r"\s+-?\d+\s*$", "", s).strip()
+    """팀명 옆에 붙은 숫자를 벗긴다.
+
+    🔴 **소수점을 빠뜨리면 안 된다.** 원래 `-?\\d+` 였는데 핸디캡 행의
+       "세이부 5.5"·"한신 -0.5" 를 못 벗겨서 팀명이 그대로 남았다.
+       경기 키가 `리그|홈|원정|날짜` 라서 **핸디캡 마켓이 별개 경기로 쪼개졌고**,
+       사이트 484경기 중 **162건(33%)이 유령**이었다.
+       (`matches.py` 맨 위의 "두산 12" 함정과 같은 부류다 — 팀명에 숫자가 붙는데
+        정규화를 부분만 하면 조용히 행이 갈린다.)
+    """
+    s = re.sub(r"^\s*-?\d+(?:\.\d+)?\s+", "", str(x).strip())
+    return re.sub(r"\s+-?\d+(?:\.\d+)?\s*$", "", s).strip()
+
+
+# 점수를 믿을 수 있는 마켓 — 아래 참조
+SCORE_OK = ("승패", "승무패", "승①패", "승⑤패")
+
+
+def score_of(home: str, away: str, family: str) -> list | None:
+    """`home`/`away` 문자열에 박혀 있는 **실제 점수**를 꺼낸다.
+
+    아카이브는 정산된 경기의 팀명 옆에 점수를 붙여 준다 —
+        home "야쿠르트 5" · away "3 히로카프"  →  5:3
+
+    🔴 **핸디캡 행에서 꺼내면 안 된다.** 거기 홈 숫자는 핸디를 더한 **보정 점수**다.
+       같은 경기의 실측:
+           승패      "주니치 3"   / "2 요코베이"   → 3:2  (진짜)
+           핸디캡+2.5 "주니치 5.5" / "2 요코베이"   → 5.5:2 (3+2.5, 가짜)
+       언더오버·홀짝 행에는 숫자가 아예 없다.
+       그래서 `SCORE_OK` 마켓에서만 꺼낸다.
+    """
+    if family not in SCORE_OK:
+        return None
+    h = re.search(r"\s+(\d+)\s*$", str(home))
+    a = re.match(r"^\s*(\d+)\s+", str(away))
+    if not (h and a):
+        return None
+    return [int(h.group(1)), int(a.group(1))]
 
 
 def shot_form() -> dict:
@@ -374,11 +409,48 @@ def _selftest() -> int:
               + (f"  ← {', '.join(bad)}" if bad else f"  {'/'.join(names)}"))
         if bad:
             fails.append((fam, nw, n, bad))
+    # ---- 팀명 정규화 — 유령 경기 회귀 검사
+    # 🔴 `clean()` 이 소수점을 못 벗겨서 핸디캡 마켓이 별개 경기로 갈렸고,
+    #    사이트 484경기 중 162건(33%)이 유령이었다. 다시 나면 여기서 잡는다.
+    print("\n팀명 정규화 검사")
+    for raw, want in (("야쿠르트 5", "야쿠르트"), ("3 히로카프", "히로카프"),
+                      ("세이부 5.5", "세이부"), ("한신 -0.5", "한신"),
+                      ("-0.5 한신", "한신"), ("2.5 두산", "두산"), ("LG", "LG")):
+        got = clean(raw)
+        if got != want:
+            fails.append(("clean", 0, 0, [f"{raw!r}→{got!r} (기대 {want!r})"]))
+            print(f"  🔴 clean({raw!r}) = {got!r} ≠ {want!r}")
+    # ⚠️ "끝에 숫자가 있으면 실패" 로 짜면 **샬케04·마인츠05** 가 걸린다 —
+    #    팀명 자체에 숫자가 붙는다. 잡아야 하는 건 **띄어쓰기로 분리된 숫자 토큰**이다.
+    _NUMTOK = re.compile(r"(^\s*-?\d+(?:\.\d+)?\s+)|(\s+-?\d+(?:\.\d+)?\s*$)")
+    left = [x for c in ("home", "away") for x in df[c].astype(str).map(clean)
+            if _NUMTOK.search(x)]
+    if left:
+        fails.append(("clean", 0, len(left), ["벗긴 뒤에도 숫자 토큰이 남았다"]))
+        print(f"  🔴 정규화 후에도 숫자 토큰이 남은 행 {len(left):,}건 — 예: {left[:3]}")
+    else:
+        print(f"  ✅ 정수·소수·앞뒤 모두 벗긴다 (유령 경기 없음, {len(df)*2:,}행 검사)")
+        print("     ※ 샬케04·마인츠05 처럼 팀명에 붙은 숫자는 남기는 게 맞다")
+
+    # ---- 모지바케 — 수집 시 charset 추측이 빗나가면 여기서 잡힌다
+    # 🔴 11개 회차 3,429행이 통째로 깨진 채 저장돼 있었다. `result` 까지 깨져서
+    #    ('нҷҲмҠ№'=홈승) 그 행들이 모든 분석에서 조용히 빠졌다.
+    _MOJI = re.compile(r"[Ѐ-ӿĀ-ſ]")
+    dirty = {c: sum(1 for v in df[c].tolist() if isinstance(v, str) and _MOJI.search(v))
+             for c in ("home", "away", "result", "league")}
+    tot = sum(dirty.values())
+    if tot:
+        fails.append(("모지바케", 0, tot, [f"{k}={v}" for k, v in dirty.items() if v]))
+        print(f"  🔴 모지바케 {tot:,}건 — {dirty}")
+        print("     → wisetoto.repair_mojibake 가 못 되돌린 계열이 있다")
+    else:
+        print("  ✅ 모지바케 없음 (팀명·결과·리그에 키릴/라틴확장 0건)")
+
     if fails:
         tot = sum(f[2] for f in fails)
-        print(f"\n🔴 {len(fails)}개 조합 {tot:,}건이 사이트에서 깨진다")
+        print(f"\n🔴 {len(fails)}개 항목 {tot:,}건이 사이트에서 깨진다")
         return 1
-    print("\n✅ 모든 마켓이 이름·확률 둘 다 있다")
+    print("\n✅ 모든 마켓이 이름·확률 둘 다 있고, 팀명도 깨끗하다")
     return 0
 
 
@@ -644,10 +716,19 @@ def main() -> int:
                 "lam_src": (lam[2] if lam else None),
                 "no_model": lam is None,
                 "status": "정산" if settled else "경기전",
+                "score": None, "결과": None,
                 "options": []})
             g.pop("no_odds", None)
             if settled:
                 g["status"] = "정산"
+                # 점수·승패는 경기당 한 번만 잡으면 된다. 여러 마켓 행 중
+                # 점수를 믿을 수 있는 행(SCORE_OK)이 나올 때 채운다.
+                if g.get("score") is None:
+                    sc = score_of(r.home, r.away, r.market_family)
+                    if sc:
+                        g["score"] = sc
+                if g.get("결과") is None and r.market_family in ("승패", "승무패"):
+                    g["결과"] = r.result
             elif g["status"] == "배당대기":
                 g["status"] = "경기전"
 

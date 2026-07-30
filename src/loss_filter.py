@@ -45,12 +45,21 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stack_filter import WIN_IDX, build                  # noqa: E402
+from matches import clean_team                          # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "loss_grades.json"
 
 BINS = [1, 1.3, 1.5, 1.8, 2.2, 3.0, 5.0, 999]
 LABELS = ["1.0-1.3", "1.3-1.5", "1.5-1.8", "1.8-2.2", "2.2-3.0", "3.0-5.0", "5.0+"]
+
+
+def _bin_of(o: float) -> str:
+    """배당 → 배당대 라벨. 화면 `fmt.js:gradeOf` 와 경계가 같아야 한다."""
+    for i in range(len(LABELS)):
+        if o < BINS[i + 1]:
+            return LABELS[i]
+    return LABELS[-1]
 
 # 등급 경계 — 실측 ROI 기준. 전체 평균이 −13.9% 이므로 그보다 나으면 의미가 있다.
 def grade(roi: float) -> str:
@@ -96,18 +105,21 @@ def odds_caps() -> list[dict]:
     """최저배당 상한별 — 경기를 버릴수록 적중률이 어떻게 오르나.
 
     ⚠️ 적중률을 올리는 지렛대는 '경기 안에서 뭘 고르나' 가 아니라
-       **'어느 경기를 버리나'** 다. 실측: 전부 사면 62.34%, 최저배당 ≤1.3 인
+       **'어느 경기를 버리나'** 다. 실측: 전부 사면 65.86%, 최저배당 ≤1.3 인
        경기만 사면 **77.61%**. 그리고 이 축에서는 적중률과 ROI 가 **같이** 좋아진다
-       (−10.68% → −9.12%). 지금까지 본 교환관계와 반대다.
+       (−10.25% → −9.55%). 지금까지 본 교환관계와 반대다.
 
-    ⚠️ 경기 키에 home 을 그대로 쓰면 안 된다. 형식이 마켓마다 다르다
+    🔴 경기 키에 home 을 그대로 쓰면 안 된다. 형식이 마켓마다 다르다
        ("두산 12" vs "두산") — 같은 경기가 마켓별로 쪼개져 경기 수가 두 배가 된다.
+       **이 경고를 적어두고도 당했다.** 정수만 벗기는 정규식을 써서 핸디캡 행의
+       소수("맨체스C -1.5")를 못 벗겼고, 경기 키가 44,915 → 71,282 로 부풀었다
+       (유령 26,367개). 그래서 정본 `matches.clean_team` 하나만 쓴다.
     """
     import re as _re
     g = pd.read_csv(ROOT / "data" / "processed" / "games.csv")
     g = g[(~g["is_void"].astype(bool)) & (g["n_way"] > 0)].copy()
-    g["ht"] = g["home"].astype(str).str.replace(r"\s+-?\d+\s*$", "", regex=True).str.strip()
-    g["at"] = g["away"].astype(str).str.replace(r"^\s*-?\d+\s+", "", regex=True).str.strip()
+    g["ht"] = [clean_team(x) for x in g["home"]]
+    g["at"] = [clean_team(x) for x in g["away"]]
 
     rows = []
     for r in g.itertuples():
@@ -142,6 +154,69 @@ def odds_caps() -> list[dict]:
                     "share": round(len(s2) / n_all, 4),
                     "hit": round(h, 4), "roi": round(float(s2["ret"].mean()), 4),
                     "hit2": round(h * h, 4), "hit3": round(h ** 3, 4)})
+    return out
+
+
+def pick_modes(odds_rows, mkt_rows) -> dict:
+    """사이트의 두 픽 기준을 **실제로 재서** 돌려준다.
+
+    화면(`web/src/lib/fmt.js:lessBadPick`)이 경기마다 하나를 고르는 기준이 둘이다.
+        hit — 가장 낮은 배당대 (동률이면 환급률 높은 쪽 → 낮은 배당)
+        roi — (마켓, 배당대) 실측 ROI 가 가장 덜 나쁜 것
+
+    🔴 이 두 수치가 **화면에 손으로 박혀 있었다.** 파이프라인을 고치면 조용히 틀린
+       숫자가 남는다 — 실제로 62.34%/58.80% 이 유령 경기 시절 값 그대로였다.
+       여기서 계산해 JSON 으로 넘긴다.
+    """
+    bins = [r["bin"] for r in odds_rows]
+    grade_roi = {r["bin"]: r["roi"] for r in odds_rows}
+    cell = {(r["fam"], r["bin"]): r for r in mkt_rows}
+
+    import re as _re
+    g = pd.read_csv(ROOT / "data" / "processed" / "games.csv")
+    g = g[(~g["is_void"].astype(bool)) & (g["n_way"] > 0)].copy()
+    g["ht"] = [clean_team(x) for x in g["home"]]
+    g["at"] = [clean_team(x) for x in g["away"]]
+
+    games: dict = {}
+    for r in g.itertuples():
+        nw = int(r.n_way)
+        wi = WIN_IDX.get((nw, str(r.result)))
+        if wi is None:
+            continue
+        try:
+            od = [float(x) for x in str(r.odds).split(",")]
+        except ValueError:
+            continue
+        if len(od) != nw or any(o <= 1.001 for o in od):
+            continue
+        m = _re.search(r"(\d{2})\.(\d{2})", str(r.date_text))
+        key = f"{r.year}|{r.league}|{r.ht}|{r.at}|{(m.group(1)+m.group(2)) if m else ''}"
+        # 환급률 — 화면의 payout() 과 같은 값이어야 한다
+        pay = 87.8 if nw == 2 else (86.8 if "핸디" in str(r.market_family) else 87.0)
+        for i, o in enumerate(od):
+            b = _bin_of(o)
+            c = cell.get((str(r.market_family), b))
+            games.setdefault(key, []).append({
+                "odds": o, "bin": b, "pay": pay,
+                "roi": (c or {}).get("roi", grade_roi.get(b)),
+                "hit": 1.0 if i == wi else 0.0,
+                "ret": (o - 1) if i == wi else -1.0})
+
+    out = {}
+    for mode in ("hit", "roi"):
+        n = h = 0
+        ret = 0.0
+        for opts in games.values():
+            o = [x for x in opts if x["roi"] is not None]
+            if not o:
+                continue
+            if mode == "roi":
+                o.sort(key=lambda x: (-x["roi"], x["odds"]))
+            else:
+                o.sort(key=lambda x: (bins.index(x["bin"]), -x["pay"], x["odds"]))
+            n += 1; h += o[0]["hit"]; ret += o[0]["ret"]
+        out[mode] = {"n": n, "hit": round(h / n, 4), "roi": round(ret / n, 4)} if n else None
     return out
 
 
@@ -292,6 +367,8 @@ def main() -> int:
         "odds_bins": odds_rows,
         "odds_caps": odds_caps(),
         "market_bins": cell_rows,
+        # 화면의 두 픽 기준 실적 — 손으로 박아두면 파이프라인 고칠 때 어긋난다
+        "pick_modes": pick_modes(odds_rows, cell_rows),
         "structures": st_rows,
         "three_way_selections": sel_rows,
         # ⚠️ 규칙은 **위 표에서 파생**한다. 손으로 적으면 표와 어긋난다.

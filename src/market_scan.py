@@ -30,6 +30,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bets import _WINNER                                          # noqa: E402
+from matches import clean_team                                    # noqa: E402
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,  # noqa: E402
                         p_one_run, p_over, p_win)
 
@@ -56,9 +58,7 @@ def load() -> pd.DataFrame:
     g = g.dropna(subset=["date"])
 
     # 팀명 정리 (스코어가 붙어 있다)
-    g["home_team"] = g["home"].map(
-        lambda x: (re.match(r"^(.+?)\s+-?\d+\s*$", str(x).strip()) or [None, str(x).strip()])[1]
-        if re.match(r"^(.+?)\s+-?\d+\s*$", str(x).strip()) else str(x).strip())
+    g["home_team"] = [clean_team(x) for x in g["home"]]
     g["away_team"] = g["away"].map(
         lambda x: (re.match(r"^-?\d+\s+(.+?)\s*$", str(x).strip()) or [None, str(x).strip()])[1]
         if re.match(r"^-?\d+\s+(.+?)\s*$", str(x).strip()) else str(x).strip())
@@ -127,13 +127,9 @@ def _model_probs(row) -> list[float] | None:
     return None
 
 
-WIN_IDX = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
-           (2, "핸디승"): 0, (2, "핸디패"): 1,
-           (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
-           (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1,
-           (3, "⑤"): 1,
-           # 홀짝(SUM). 없으면 18,537건이 조용히 버려진다 — 자기검사가 잡아냈다.
-           (2, "홀"): 0, (2, "짝"): 1}
+# 🔴 사본 금지 — 정본은 `bets._WINNER` 하나뿐이다.
+#    여기 손으로 적어 두면 새 마켓이 생겼을 때 한쪽만 고치게 된다.
+WIN_IDX = _WINNER
 
 
 def main() -> int:

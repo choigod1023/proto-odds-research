@@ -32,14 +32,13 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bets import _WINNER                                          # noqa: E402
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 
-WIN_IDX = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
-           (2, "핸디승"): 0, (2, "핸디패"): 1,
-           (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
-           (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2,
-           (3, "①"): 1, (3, "⑤"): 1}
+# 🔴 사본 금지 — 정본은 `bets._WINNER` 하나뿐이다.
+#    여기 손으로 적어 두면 새 마켓이 생겼을 때 한쪽만 고치게 된다.
+WIN_IDX = _WINNER
 
 
 def load() -> pd.DataFrame:

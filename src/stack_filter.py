@@ -47,16 +47,21 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from matches import load_matches                       # noqa: E402
+from bets import _WINNER                               # noqa: E402
+from matches import clean_team, load_matches           # noqa: E402
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 TRAIN_END = 2024
 
-WIN_IDX = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
-           (2, "핸디승"): 0, (2, "핸디패"): 1,
-           (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
-           (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2,
-           (3, "①"): 1, (3, "⑤"): 1}
+# 🔴 여기 사본을 두면 안 된다. 정본은 `bets._WINNER` 하나뿐이다.
+#
+#    이 표는 원래 여기 손으로 적혀 있었고 **홀짝이 빠져 있었다.** 88~90줄이
+#    `WIN_IDX.get(...) is None` 이면 `continue` 라서 홀 9,985 · 짝 9,027 = 19,012 게임행이
+#    손실등급표 모집단에서 조용히 사라졌다 — 전체의 10.9%.
+#    `bets.py:37-41` 주석이 "매핑 테이블이 두 군데 있으면 한쪽만 고치게 된다 —
+#    실제로 그랬다" 고 경고했는데, 그게 **세 번째 사본에서 그대로 재발**했다.
+#    (market_scan 의 같은 누락이 KBL 가짜 ROI +30% 를 만들었다)
+WIN_IDX = _WINNER
 SEL = {(2, 0): "홈/언더", (2, 1): "원정/오버",
        (3, 0): "홈", (3, 1): "중간", (3, 2): "원정"}
 
@@ -66,8 +71,8 @@ def build() -> pd.DataFrame:
     g = g[~g["is_void"].astype(bool)].copy()
 
     # --- 팀명·날짜 (초대면 계산용)
-    g["home_team"] = g["home"].astype(str).str.replace(r"\s+-?\d+\s*$", "", regex=True).str.strip()
-    g["away_team"] = g["away"].astype(str).str.replace(r"^\s*-?\d+\s+", "", regex=True).str.strip()
+    g["home_team"] = [clean_team(x) for x in g["home"]]
+    g["away_team"] = [clean_team(x) for x in g["away"]]
     md = g["date_text"].astype(str).str.extract(r"(\d{2})\.(\d{2})")
     g["mmdd"] = md[0] + md[1]
 

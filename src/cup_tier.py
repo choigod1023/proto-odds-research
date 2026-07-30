@@ -38,6 +38,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bets import _WINNER                               # noqa: E402
 from matches import load_matches                       # noqa: E402
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
@@ -60,8 +61,10 @@ CUP = {
 }
 UNRANKED = 3          # 리그 데이터에 안 잡히는 팀 = 하부리그로 본다
 
-WIN_IDX = {(2, "홈승"): 0, (2, "홈패"): 1,
-           (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2}
+# 정본(`bets._WINNER`)에서 **이 스크립트가 다루는 결과만** 잘라 쓴다.
+# 손으로 다시 적으면 정본이 바뀔 때 조용히 어긋난다(홀짝이 실제로 그랬다).
+_CUP_RESULTS = ("홈승", "무승부", "홈패")      # 92줄 result 필터와 같은 집합
+WIN_IDX = {k: v for k, v in _WINNER.items() if k[1] in _CUP_RESULTS}
 
 
 def build_tiers(m: pd.DataFrame) -> dict:

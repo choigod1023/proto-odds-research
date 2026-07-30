@@ -154,6 +154,7 @@ const Leg = ({ c }) => (
 );
 
 /* ── ② 경기 ───────────────────────────────────────────────────── */
+const MODES = [["hit", "적중 우선"], ["roi", "손실 최소"]];
 const STATUS = [
   ["예정", "예정"], ["경기전", "배당 나옴"], ["배당대기", "배당 대기"],
   ["정산", "정산"], ["", "전체"],
@@ -162,10 +163,12 @@ const STATUS = [
 function GameList({ data, grades, caps }) {
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "" });
   const [showModel, setShowModel] = useState(false);
-  // 적중 우선 / 손실 최소 — 두 목표가 갈린다(62.34%·−10.68% vs 58.80%·−10.13%)
+  // 적중 우선 / 손실 최소 — 두 목표가 갈린다.
+  // ⚠️ 수치를 여기 적지 않는다. loss_grades.json 의 pick_modes 를 읽는다 —
+  //    예전엔 손으로 박아뒀다가 파이프라인을 고친 뒤 조용히 틀린 값이 남았다.
   const [mode, setMode] = useState("hit");
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
-  //    실측: 전부 62.2% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
+  //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
   const [cap, setCap] = useState(0);          // 0 = 제한 없음
   const pool = useMemo(() => [...(data.live || []), ...(data.past || [])], [data]);
 
@@ -188,17 +191,28 @@ function GameList({ data, grades, caps }) {
 
   const rows = [];
   let cur = null, n = 0;
+  // 화면에 실제로 뜬 픽의 성적 — 정산된 경기만. 필터·모드·상한을 그대로 반영한다.
+  const live = { n: 0, hit: 0, ret: 0 };
   for (const g of games) {
     const opts = (g.options || []).filter((o) => !f.mk || o.market === f.mk);
     const wait = g.status === "배당대기";
     if (!opts.length && !wait) continue;
     if (wait && f.mk) continue;
     if (cap && wait) continue;      // 배당이 없으면 상한을 적용할 수 없다
-    n++;
     // 최저배당 상한 — 강한 favorite 이 없는 경기는 버린다
+    // ⚠️ n++ 를 이 필터 **앞**에 두면 헤더의 '몇 경기' 가 버린 경기까지 센다.
     if (cap) {
       const lo = Math.min(...opts.map((o) => o["배당"]).filter((x) => x > 0));
       if (!(lo <= cap)) continue;
+    }
+    n++;
+    if (g.status === "정산") {
+      const pk = lessBadPick(grades, opts, mode);
+      const h = pk && !pk.tie ? pk.o["적중"] : null;
+      if (h !== null && h !== undefined) {
+        live.n++; live.hit += h ? 1 : 0;
+        live.ret += h ? pk.o["배당"] - 1 : -1;
+      }
     }
     const key = `${g.league} · ${day(g.date)}`;
     if (key !== cur) {
@@ -235,8 +249,12 @@ function GameList({ data, grades, caps }) {
           </select></label>
         <label className="flex items-center gap-1.5">픽 기준
           <select className={sel} value={mode} onChange={(e) => setMode(e.target.value)}>
-            <option value="hit">적중 우선 (62.3% · −10.7%)</option>
-            <option value="roi">손실 최소 (58.8% · −10.1%)</option>
+            {MODES.map(([v, label]) => {
+              const m = grades?.pick_modes?.[v];
+              return <option key={v} value={v}>{label}
+                {m ? ` (${(m.hit * 100).toFixed(1)}% · ${(m.roi * 100).toFixed(1)}%)` : ""}
+              </option>;
+            })}
           </select></label>
         <label className="flex items-center gap-1.5">
           <input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} />
@@ -258,6 +276,17 @@ function GameList({ data, grades, caps }) {
           <span className="opacity-70">
             {" "}(전체 경기의 {(capRow.share * 100).toFixed(0)}% · n={capRow.n.toLocaleString()})
           </span>
+        </p>
+      )}
+      {live.n > 0 && (
+        <p className="mt-2 text-[11.5px] leading-[1.7] text-ink3">
+          지금 조건에서 <b className="text-ink">끝난 {live.n}경기</b> — 여기 뜬 픽을 그대로 샀다면
+          적중 <b className="tnum text-ink">{live.hit}/{live.n}
+          ({((live.hit / live.n) * 100).toFixed(1)}%)</b> ·
+          수익률 <b className={`tnum ${live.ret < 0 ? "text-sev3" : "text-ink"}`}>
+            {((live.ret / live.n) * 100).toFixed(1)}%</b>
+          <span className="opacity-70"> · 화면에 보이는 것만 센 값이라 표본이 작다.
+            장기 실측은 위의 등급표를 봐라</span>
         </p>
       )}
       <div className={showModel ? "show-model" : ""}>
@@ -292,13 +321,29 @@ function Game({ g, opts, wait, grades, mode }) {
   const shown = (head.length ? head : opts).slice(0, 3);
   // 경기별 픽 — 모델이 아니라 **실측 등급**으로 고른다 (모델 추천은 −42.2% 였다)
   const pick = wait ? null : lessBadPick(grades, opts, mode);
+  const done = g.status === "정산";
+  // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
+  const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
   return (
     <Card as="details" className="my-1.5">
       <summary className="flex cursor-pointer flex-wrap items-center gap-[11px] px-3 py-2.5">
         <span className="tnum min-w-10 text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-[160px] flex-1 text-[13.5px] font-semibold">
-          {g.home} <span className="text-[12px] font-normal text-ink3">vs</span> {g.away}
+          {g.home}{" "}
+          {done && g.score
+            ? <span className="tnum text-[13px]" title={g["결과"] || ""}>
+                <b className={g.score[0] > g.score[1] ? "" : "font-normal text-ink3"}>{g.score[0]}</b>
+                <span className="px-[3px] font-normal text-ink3">:</span>
+                <b className={g.score[1] > g.score[0] ? "" : "font-normal text-ink3"}>{g.score[1]}</b>
+              </span>
+            : <span className="text-[12px] font-normal text-ink3">vs</span>}{" "}
+          {g.away}
+        </span>
+        <span className={`whitespace-nowrap rounded-[4px] border px-[5px] py-[2px] text-[10px] font-semibold ${
+          done ? "border-rule text-ink3" : wait ? "border-dashed border-rule text-ink3" : "border-signal text-signal"
+        }`}>
+          {done ? "종료" : wait ? "배당 대기" : "예정"}
         </span>
         <span className="flex gap-1.5">
           {wait ? <OddsChip label="배당" value="대기" />
@@ -317,17 +362,21 @@ function Game({ g, opts, wait, grades, mode }) {
             className={`whitespace-nowrap rounded px-2 py-[3px] text-[11px] font-semibold ${
               pick.tie
                 ? "border border-dashed border-ink3 text-ink3"
-                : "bg-ink text-paper"
+                : picked === false
+                  ? "border border-sev3 text-sev3"
+                  : "bg-ink text-paper"
             }`}
           >
             {pick.tie ? (
               <>고를 근거 없음</>
             ) : (
               <>{pick.o["선택"]} <span className="tnum">{odds(pick.o["배당"])}</span>
-                {pick.hit != null && (
-                  <> · 적중 <b className="tnum">
-                    {(pick.hit * 100).toFixed(0)}%</b></>)}
-                {pick.why && <span className="opacity-70"> · {pick.why}</span>}</>
+                {/* 끝난 경기는 '과거 적중률' 이 아니라 **이 경기에서 맞았나** 를 보여준다 */}
+                {picked === true ? <> · 적중 ✔</>
+                  : picked === false ? <> · 미적중 ✕</>
+                  : pick.hit != null && (
+                      <> · 적중 <b className="tnum">{(pick.hit * 100).toFixed(0)}%</b></>)}
+                {picked === null && pick.why && <span className="opacity-70"> · {pick.why}</span>}</>
             )}
           </span>
         )}
