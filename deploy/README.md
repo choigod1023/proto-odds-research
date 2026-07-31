@@ -94,3 +94,40 @@ fly secrets set GITHUB_TOKEN=<토큰> -a proto-odds-collector
 ## 비용
 
 `shared-cpu-1x` 512MB 24시간 ≈ 월 $3.2, 볼륨 3GB ≈ 월 $0.45 → **월 $3.7 안팎**.
+
+---
+
+## 실시간 점수 (2026-07-31 추가)
+
+`src/live_scores.py` 가 3분마다 네이버 스포츠 API 에서 KBO/MLB/NPB/K리그 점수를 받아
+`docs/data/live_scores.json` 을 쓴다. 머신이 그 파일 하나를 직접 서빙한다:
+
+```
+https://proto-odds-collector.fly.dev/live_scores.json
+```
+
+**왜 git 이 아니라 HTTP 인가** — 산출물은 git push(30분)로 나르는데 점수는 3분마다
+바뀐다. 3분마다 커밋하면 하루 300커밋으로 레포가 망가지고, 브라우저가 네이버 API 를
+직접 부르는 건 CORS 로 막힌다. 그래서 이 파일만 예외로 뒀다.
+
+⚠️ **키에 날짜를 반드시 넣을 것.** 팀 조합만으로 경기를 찾으면 MLB 3~4연전에서
+어제/오늘 경기가 뭉개진다 — 정산 경기 55건 중 **37건이 어긋났었다.**
+`live_scores.json` 의 `md`("07.31") 필드가 그래서 있다.
+
+## 사이트 빌드 자동화
+
+`.github/workflows/build-site.yml` — `web/**` 이 바뀐 push 에만 돌아 `docs/` 를 되커밋한다.
+**데이터 갱신에는 돌지 않는다** — 앱이 JSON 을 런타임에 fetch 하므로 재빌드가 필요 없다.
+
+⚠️ `npm run build` 의 prebuild 가 `docs/assets` 를 **먼저 지운다.** node_modules 없이
+돌리면 번들이 사라진 채 실패한다. 로컬에서 빌드할 땐 `npm install` 을 먼저.
+
+## 🕳 겪은 함정
+
+- **메모리 512mb 는 부족했다.** PUBLISH 가 games.csv 25MB·bets.csv 30MB 를 pandas 로
+  여러 번 읽는다. `Out of memory: Killed process` 로 7단계에서 죽었고, 당시 break
+  로직 때문에 8·9단계까지 멈춰 사이트가 하루 넘게 낡았다 → 1gb 로 올리고,
+  PUBLISH 단계에 critical 플래그를 둬 필수(데이터셋 재빌드) 외에는 continue 하게 했다.
+- **`.claude/worktrees/` 를 커밋하면 안 된다.** gitlink(160000)로 잡혀
+  `No url found for submodule path` 로 **GitHub Pages 배포가 통째로 실패한다.**
+  .gitignore 에 넣어 뒀다.
