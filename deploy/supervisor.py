@@ -59,21 +59,30 @@ PUBLISH = [
     #    사이트는 내가 로컬에서 돌려 push 할 때만 갱신되고 있었다.
     #    · 캐시된 회차는 대기 없이 continue 하므로 2회차부터는 몇 초에 끝난다
     #    · 첫 실행만 553회차 × 2.5초 ≈ 23분 (타임아웃 1800초 안)
+    #
+    # 세 번째 칸은 **critical** 이다. True 면 실패 시 이번 주기를 중단한다.
+    # ⚠️ 예전에는 전 단계가 실패하면 무조건 break 였다. 그래서 7단계(손실등급)가
+    #    OOM 으로 죽자 8·9단계까지 같이 멈춰, loss_grades·combo·today_combo 가
+    #    하루 넘게 낡은 채로 사이트에 나갔다(2026-07-31 발견).
+    #    한 단계가 깨져도 **그 산출물을 읽지 않는 단계는 돌아야 한다.**
     ("아카이브 수집", [sys.executable, "-u", "src/collect.py",
-                  "2023", "2024", "2025", "2026"]),
-    ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"]),
-    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"]),
-    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"]),
-    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"]),
+                  "2023", "2024", "2025", "2026"], False),
+    # 유일한 필수 단계 — games.csv·bets.csv 를 만든다. 뒤가 전부 이걸 읽는다.
+    ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"], True),
+    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False),
+    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False),
+    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False),
     # 정보 시차 결합 — 표본이 쌓이는 걸 눈으로 보려고 매 주기 갱신한다.
     # 원본에서 매번 다시 계산하므로 실패해도 뒤에 영향이 없다.
-    ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"]),
+    ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"], False),
     # 손실 축소 등급표 — 이 프로젝트의 최종 산출물. 사이트가 읽는다.
-    ("손실등급 갱신", [sys.executable, "-u", "src/loss_filter.py"]),
+    ("손실등급 갱신", [sys.executable, "-u", "src/loss_filter.py"], False),
     # ⚠️ 순서 주의: combo 는 bets.csv, today_combo 는 today.json·combo.json·
     #    loss_grades.json 을 읽는다. 앞의 것들이 먼저 돌아야 한다.
-    ("조합표 갱신", [sys.executable, "-u", "src/combo.py"]),
-    ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"]),
+    #    다만 앞이 실패해도 **직전 주기 산출물이 남아 있으므로** 낡은 입력으로나마
+    #    돌리는 편이 아예 안 도는 것보다 낫다.
+    ("조합표 갱신", [sys.executable, "-u", "src/combo.py"], False),
+    ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False),
 ]
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
@@ -202,7 +211,7 @@ def run_publish() -> None:
     """
     time.sleep(180)
     while True:
-        for name, cmd in PUBLISH:
+        for name, cmd, critical in PUBLISH:
             log(f"{name} 실행")
             try:
                 r = subprocess.run(cmd, cwd=REPO, capture_output=True,
@@ -210,15 +219,22 @@ def run_publish() -> None:
                 tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
                 if r.returncode:
                     err = (r.stderr or "").strip().splitlines()[-1:] or [""]
-                    log(f"{name} 실패(rc={r.returncode}) — {err[0][:140]}")
-                    break          # 앞 단계가 깨지면 뒤는 낡은 입력을 쓴다
+                    # rc=-9 는 OOM 킬이다. 메시지가 비니 따로 짚어 준다.
+                    why = " (OOM 추정)" if r.returncode == -9 else ""
+                    log(f"{name} 실패(rc={r.returncode}){why} — {err[0][:140]}")
+                    if critical:
+                        log("  필수 단계라 이번 주기 중단")
+                        break
+                    continue
                 log(f"{name} 완료 — {tail[0][:120]}")
             except subprocess.TimeoutExpired:
-                log(f"{name} 타임아웃 — 이번 주기 중단")
-                break
+                log(f"{name} 타임아웃")
+                if critical:
+                    break
             except Exception as e:                    # noqa: BLE001
                 log(f"{name} 예외: {type(e).__name__}: {e}")
-                break
+                if critical:
+                    break
         try:
             push_data()                                # 만든 즉시 내보낸다
         except Exception as e:                         # noqa: BLE001

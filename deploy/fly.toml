@@ -22,4 +22,9 @@ primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국
 
 [[vm]]
   size = "shared-cpu-1x"
-  memory = "512mb"              # 수집만 하므로 넉넉하다. 모델 학습은 로컬에서.
+  # ⚠️ 512mb 로는 **부족했다.** 수집만 하는 게 아니라 PUBLISH 가 산출물을 만든다.
+  #    games.csv 25MB · bets.csv 30MB(391,235행)를 pandas 로 여러 번 통째로 읽는데
+  #    (loss_filter 2회 · combo 2회), 512mb 에서 `Out of memory: Killed process` 로
+  #    죽었다(2026-07-31 00:40:45Z 로그 확인). 산출물 생성이 7단계에서 끊겨
+  #    loss_grades·combo·today_combo 가 하루 넘게 낡은 채로 있었다.
+  memory = "1gb"
