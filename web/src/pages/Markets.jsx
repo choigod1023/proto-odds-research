@@ -4,6 +4,43 @@ import { day, formLine, gcls, gradeOf, hhmm, lessBadPick, odds, pct, sgn } from 
 
 const J = (p) => fetch(`data/${p}?${Date.now()}`).then((r) => r.json());
 
+// 실시간 점수만 **수집 머신이 직접 서빙**한다.
+// 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
+// 실시간이 될 수 없다. 3분마다 커밋하면 하루 300커밋이라 레포가 망가지고,
+// 브라우저가 네이버 API 를 직접 부르는 건 CORS 로 막힌다. 그래서 이 파일만 별도 경로다.
+const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
+
+/** 60초마다 실시간 점수를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
+function useLive() {
+  const [live, setLive] = useState(null);
+  useEffect(() => {
+    let stop = false;
+    const load = () =>
+      fetch(`${LIVE_URL}?${Date.now()}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => { if (!stop && d) setLive(d); })
+        .catch(() => {});
+    load();
+    const t = setInterval(load, 60000);
+    return () => { stop = true; clearInterval(t); };
+  }, []);
+  return live;
+}
+
+/** 프로토 표기와 네이버 표기가 다르므로(마이말린 ↔ 마이애미) 별칭까지 키로 넣는다.
+ *
+ * ⚠️ 키에 **날짜(MM.DD)를 반드시 포함**한다. 팀 조합만으로 잡으면 MLB 3~4연전에서
+ *    어제 경기와 오늘 경기가 뭉개진다 — 정산 경기 55건 중 37건이 어긋났었다. */
+function buildLiveIndex(live) {
+  const m = new Map();
+  (live?.games || []).forEach((g) => {
+    const hs = [g.home, ...(g.home_alias || [])].filter(Boolean);
+    const as = [g.away, ...(g.away_alias || [])].filter(Boolean);
+    hs.forEach((h) => as.forEach((a) => m.set(`${h}|${a}|${g.md}`, g)));
+  });
+  return m;
+}
+
 export default function Markets() {
   const [d, setD] = useState(null);      // picks_v2
   const [grades, setGrades] = useState(null);
@@ -32,6 +69,14 @@ export default function Markets() {
       <Evidence grades={grades} tally={d.tally} />
     </Shell>
   );
+}
+
+/** 진행 중이면 실시간 점수를, 아니면 null. 정산 표시는 기존 로직이 맡는다.
+ *  프로토 date 는 '07.31(금) 08:10' 꼴이라 앞 5글자가 MM.DD 다. */
+function liveOf(idx, g) {
+  const m = idx.get(`${g.home}|${g.away}|${String(g.date || "").slice(0, 5)}`);
+  if (!m || m.status === "BEFORE") return null;
+  return m;
 }
 
 const metaLine = (d) =>
@@ -161,6 +206,8 @@ const STATUS = [
 ];
 
 function GameList({ data, grades, caps }) {
+  const liveFeed = useLive();
+  const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "" });
   const [showModel, setShowModel] = useState(false);
   // 적중 우선 / 손실 최소 — 두 목표가 갈린다.
@@ -219,7 +266,7 @@ function GameList({ data, grades, caps }) {
       cur = key;
       rows.push(<div key={`h${key}${n}`} className="mt-[18px] mb-1.5 text-[11px] font-semibold tracking-[.03em] text-ink3">{key}</div>);
     }
-    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} />);
+    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} lv={liveOf(lidx, g)} />);
   }
 
   const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
@@ -305,7 +352,7 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
-function Game({ g, opts, wait, grades, mode }) {
+function Game({ g, opts, wait, grades, mode, lv }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -322,6 +369,12 @@ function Game({ g, opts, wait, grades, mode }) {
   // 경기별 픽 — 모델이 아니라 **실측 등급**으로 고른다 (모델 추천은 −42.2% 였다)
   const pick = wait ? null : lessBadPick(grades, opts, mode);
   const done = g.status === "정산";
+  // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
+  const playing = !!lv && !lv.finished;
+  // 정산 점수가 있으면 그걸 쓰고(확정), 없으면 실시간 점수로 채운다.
+  const score = (done && g.score)
+    || (lv && lv.home_score != null && lv.away_score != null
+        ? [lv.home_score, lv.away_score] : null);
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
@@ -331,19 +384,23 @@ function Game({ g, opts, wait, grades, mode }) {
         <span className="tnum min-w-10 text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-[160px] flex-1 text-[13.5px] font-semibold">
           {g.home}{" "}
-          {done && g.score
+          {score
             ? <span className="tnum text-[13px]" title={g["결과"] || ""}>
-                <b className={g.score[0] > g.score[1] ? "" : "font-normal text-ink3"}>{g.score[0]}</b>
+                <b className={score[0] > score[1] ? "" : "font-normal text-ink3"}>{score[0]}</b>
                 <span className="px-[3px] font-normal text-ink3">:</span>
-                <b className={g.score[1] > g.score[0] ? "" : "font-normal text-ink3"}>{g.score[1]}</b>
+                <b className={score[1] > score[0] ? "" : "font-normal text-ink3"}>{score[1]}</b>
               </span>
             : <span className="text-[12px] font-normal text-ink3">vs</span>}{" "}
           {g.away}
         </span>
+        {/* 색을 새로 만들지 않는다 — 테마에서 색은 값의 심각도(sev)와 구조(signal)
+            전용이고 '진행 중'은 둘 다 아니다. 대신 배지에 '3회초' 처럼 어디까지
+            왔는지를 그대로 찍어, 라벨 자체로 '예정'과 구분되게 한다. */}
         <span className={`whitespace-nowrap rounded-[4px] border px-[5px] py-[2px] text-[10px] font-semibold ${
-          done ? "border-rule text-ink3" : wait ? "border-dashed border-rule text-ink3" : "border-signal text-signal"
+          done ? "border-rule text-ink3"
+            : wait ? "border-dashed border-rule text-ink3" : "border-signal text-signal"
         }`}>
-          {done ? "종료" : wait ? "배당 대기" : "예정"}
+          {playing ? (lv.status_text || "진행 중") : done ? "종료" : wait ? "배당 대기" : "예정"}
         </span>
         <span className="flex gap-1.5">
           {wait ? <OddsChip label="배당" value="대기" />

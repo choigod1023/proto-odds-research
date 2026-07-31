@@ -98,10 +98,16 @@ def main() -> int:
                     continue
                 st = g.get("statusCode") or ""
                 home, away = g.get("homeTeamName"), g.get("awayTeamName")
+                start = g.get("gameDateTime") or ""
                 rec = {
                     "league": league,
                     "game_id": g.get("gameId"),
-                    "start": g.get("gameDateTime"),
+                    "start": start,
+                    # ⚠️ 팀 조합만으로는 경기를 못 가린다. MLB 는 같은 팀끼리
+                    #    3~4연전을 하므로 어제/오늘 경기가 뭉개진다(실제로 정산
+                    #    경기 55건 중 37건이 어긋났다). 날짜를 키에 넣어야 한다.
+                    #    네이버 gameDateTime 은 이미 KST 다.
+                    "md": start[5:10].replace("-", "."),      # '07.31'
                     "home": home, "away": away,
                     # 프론트가 프로토 표기로도 찾을 수 있게 별칭을 같이 준다
                     "home_alias": alias.get(home, []),
