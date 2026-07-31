@@ -1,0 +1,66 @@
+# 사이트 자동 빌드
+#
+# 왜 필요했나 — 지금까지 `web/` 을 고치면 **사람이 로컬에서 npm run build 를 돌려야만**
+# 사이트가 바뀌었다. 데이터(docs/data/*.json)는 fly.io 수집기가 알아서 갱신하는데,
+# 화면 코드만 수동이라 한쪽이 늘 뒤처졌다.
+#
+# 데이터 갱신에는 이 워크플로가 돌지 않는다 — 앱이 JSON 을 **런타임에 fetch** 하므로
+# 재빌드가 필요 없다. 오직 화면 코드가 바뀔 때만 돈다.
+name: build-site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - ".github/workflows/build-site.yml"
+  workflow_dispatch:        # 손으로도 돌릴 수 있게
+
+permissions:
+  contents: write           # 빌드 결과(docs/)를 되커밋한다
+
+concurrency:
+  # fly.io 수집기가 30분마다 push 한다. 빌드가 겹치면 push 가 충돌하므로 직렬화한다.
+  group: site-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: 의존성 설치
+        working-directory: web
+        # package-lock.json 이 있으면 ci, 없으면 install (락파일 없이도 안 멈추게)
+        run: npm ci || npm install
+
+      - name: 빌드
+        working-directory: web
+        run: npm run build
+
+      - name: 산출물 되커밋
+        run: |
+          set -euo pipefail
+          git config user.name  "site-builder"
+          git config user.email "site-builder@users.noreply.github.com"
+          # 빌드가 건드리는 건 docs/ 뿐이다. 데이터(docs/data)는 수집기 소관이라 뺀다.
+          git add docs -- ':!docs/data'
+          if git diff --cached --quiet; then
+            echo "빌드 결과가 같다 — 커밋 생략"
+            exit 0
+          fi
+          git commit -m "chore: 사이트 빌드 (${GITHUB_SHA::7})"
+          # 수집기가 그 사이 push 했을 수 있으므로 rebase 후 재시도
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push origin HEAD:main && exit 0
+            echo "push 재시도 $i"
+            sleep 5
+          done
+          exit 1
