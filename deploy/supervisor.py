@@ -85,6 +85,11 @@ PUBLISH = [
     ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False),
 ]
 
+# 실시간 점수 — 무거운 PUBLISH 와 분리한다. CSV 를 안 읽고 API 만 때리므로 가볍다.
+LIVE = [sys.executable, "-u", "src/live_scores.py"]
+LIVE_EVERY = 180           # 3분
+LIVE_PORT = 8080
+
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
 PUBLISH_EVERY = 21600      # 6시간마다 산출물 갱신 (하루 4회)
@@ -242,6 +247,81 @@ def run_publish() -> None:
         time.sleep(PUBLISH_EVERY)
 
 
+def run_live() -> None:
+    """3분마다 실시간 점수를 갱신한다. 실패해도 다음 주기에 다시 한다."""
+    while True:
+        try:
+            r = subprocess.run(LIVE, cwd=REPO, capture_output=True,
+                               text=True, timeout=180)
+            if r.returncode:
+                err = (r.stderr or "").strip().splitlines()[-1:] or [""]
+                log(f"실시간 점수 실패(rc={r.returncode}) — {err[0][:120]}")
+            else:
+                head = (r.stdout or "").strip().splitlines()[:1] or [""]
+                log(f"실시간 점수 — {head[0][:110]}")
+        except Exception as e:                        # noqa: BLE001
+            log(f"실시간 점수 예외: {type(e).__name__}: {e}")
+        time.sleep(LIVE_EVERY)
+
+
+def serve_live() -> None:
+    """실시간 점수 JSON 하나만 내보내는 초소형 서버.
+
+    git push(30분)로는 3분 주기 점수를 못 나른다. 그렇다고 3분마다 커밋하면
+    하루 300커밋이라 레포가 망가진다. 그래서 이 파일만 직접 서빙한다.
+    브라우저가 다른 도메인(사이트)에서 부르므로 CORS 를 열어 준다.
+    """
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    live_path = REPO / "docs" / "data" / "live_scores.json"
+
+    class H(BaseHTTPRequestHandler):
+        def _cors(self):
+            self.send_header("Access-Control-Allow-Origin", "*")
+            # 3분마다 바뀌므로 캐시를 길게 두면 실시간이 아니게 된다
+            self.send_header("Cache-Control", "public, max-age=60")
+
+        def do_OPTIONS(self):                          # noqa: N802
+            self.send_response(204)
+            self._cors()
+            self.end_headers()
+
+        def do_GET(self):                              # noqa: N802
+            if self.path.rstrip("/") in ("", "/health"):
+                self.send_response(200)
+                self._cors()
+                self.send_header("Content-Type", "text/plain; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(b"ok")
+                return
+            if not self.path.startswith("/live_scores.json"):
+                self.send_response(404)
+                self._cors()
+                self.end_headers()
+                return
+            try:
+                body = live_path.read_bytes()
+            except OSError:
+                self.send_response(503)
+                self._cors()
+                self.end_headers()
+                return
+            self.send_response(200)
+            self._cors()
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *a):                     # 접근 로그로 로그를 덮지 않는다
+            pass
+
+    try:
+        ThreadingHTTPServer(("0.0.0.0", LIVE_PORT), H).serve_forever()
+    except Exception as e:                             # noqa: BLE001
+        log(f"실시간 서버 종료: {type(e).__name__}: {e}")
+
+
 def run_push() -> None:
     # 첫 push 는 빨리 한다. 30분을 기다리면 그 사이 재시작이 겹칠 때
     # 볼륨에만 있던 수집분이 밖으로 못 나간다. 2분이면 수집기들이 한 바퀴 돈다.
@@ -275,6 +355,9 @@ def main() -> int:
     threading.Thread(target=run_daily, daemon=True).start()
     threading.Thread(target=run_publish, daemon=True).start()
     threading.Thread(target=run_push, daemon=True).start()
+    # 실시간 점수는 즉시 시작한다 — 사이트가 제일 먼저 필요로 하는 값이다
+    threading.Thread(target=run_live, daemon=True).start()
+    threading.Thread(target=serve_live, daemon=True).start()
 
     while True:                # 메인 스레드는 살아만 있으면 된다
         time.sleep(3600)

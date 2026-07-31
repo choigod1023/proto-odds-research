@@ -1,5 +1,9 @@
-# 상시 수집 워커 — HTTP 서비스가 아니라 계속 도는 백그라운드 프로세스다.
-# 그래서 [http_service] 도 [[services]] 도 없다. 포트를 열지 않는다.
+# 상시 수집 워커 + **실시간 점수 배달용 초소형 HTTP**.
+#
+# 원래는 포트를 안 열었다. 그런데 실시간 점수는 3분마다 바뀌는데 git push 는
+# 30분 주기다 — 그 경로로는 실시간이 될 수 없고, 3분마다 커밋하면 하루 300커밋으로
+# 레포가 망가진다. 그래서 이 파일 하나만 머신이 직접 서빙한다.
+# (브라우저가 네이버 API 를 직접 부르는 건 CORS 로 막힌다.)
 app = "proto-odds-collector"
 primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국내 사이트에 가장 가깝다
 
@@ -19,6 +23,15 @@ primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국
 [mounts]
   source = "collector_data"
   destination = "/data"
+
+# 실시간 점수 JSON 만 내보내는 통로. 수집기가 죽으면 안 되므로
+# auto_stop 은 끈다 — 잠들면 수집도 같이 멈춘다.
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
 
 [[vm]]
   size = "shared-cpu-1x"
