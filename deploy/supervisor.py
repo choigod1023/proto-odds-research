@@ -65,24 +65,28 @@ PUBLISH = [
     #    OOM 으로 죽자 8·9단계까지 같이 멈춰, loss_grades·combo·today_combo 가
     #    하루 넘게 낡은 채로 사이트에 나갔다(2026-07-31 발견).
     #    한 단계가 깨져도 **그 산출물을 읽지 않는 단계는 돌아야 한다.**
+    # 네 번째 칸은 **제한 시간(초)** 이다.
+    # ⚠️ 전부 1800초로 두었더니 '데이터셋 재빌드' 가 타임아웃으로 죽었고(01:53:16),
+    #    critical 이라 뒤가 전부 멈췄다. 로컬에선 2분 19초인데 머신에서 30분을 넘긴다 —
+    #    shared-cpu-1x 를 수집기들과 나눠 쓰기 때문이다. 무거운 단계에 시간을 더 준다.
     ("아카이브 수집", [sys.executable, "-u", "src/collect.py",
-                  "2023", "2024", "2025", "2026"], False),
+                  "2023", "2024", "2025", "2026"], False, 2400),
     # 유일한 필수 단계 — games.csv·bets.csv 를 만든다. 뒤가 전부 이걸 읽는다.
-    ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"], True),
-    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False),
-    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False),
-    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False),
+    ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"], True, 5400),
+    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
+    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False, 1800),
+    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False, 1800),
     # 정보 시차 결합 — 표본이 쌓이는 걸 눈으로 보려고 매 주기 갱신한다.
     # 원본에서 매번 다시 계산하므로 실패해도 뒤에 영향이 없다.
-    ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"], False),
+    ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"], False, 1200),
     # 손실 축소 등급표 — 이 프로젝트의 최종 산출물. 사이트가 읽는다.
-    ("손실등급 갱신", [sys.executable, "-u", "src/loss_filter.py"], False),
+    ("손실등급 갱신", [sys.executable, "-u", "src/loss_filter.py"], False, 2400),
     # ⚠️ 순서 주의: combo 는 bets.csv, today_combo 는 today.json·combo.json·
     #    loss_grades.json 을 읽는다. 앞의 것들이 먼저 돌아야 한다.
     #    다만 앞이 실패해도 **직전 주기 산출물이 남아 있으므로** 낡은 입력으로나마
     #    돌리는 편이 아예 안 도는 것보다 낫다.
-    ("조합표 갱신", [sys.executable, "-u", "src/combo.py"], False),
-    ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False),
+    ("조합표 갱신", [sys.executable, "-u", "src/combo.py"], False, 2400),
+    ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
 ]
 
 # 실시간 점수 — 무거운 PUBLISH 와 분리한다. CSV 를 안 읽고 API 만 때리므로 가볍다.
@@ -216,11 +220,11 @@ def run_publish() -> None:
     """
     time.sleep(180)
     while True:
-        for name, cmd, critical in PUBLISH:
+        for name, cmd, critical, tmo in PUBLISH:
             log(f"{name} 실행")
             try:
                 r = subprocess.run(cmd, cwd=REPO, capture_output=True,
-                                   text=True, timeout=1800)
+                                   text=True, timeout=tmo)
                 tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
                 if r.returncode:
                     err = (r.stderr or "").strip().splitlines()[-1:] or [""]
@@ -233,7 +237,7 @@ def run_publish() -> None:
                     continue
                 log(f"{name} 완료 — {tail[0][:120]}")
             except subprocess.TimeoutExpired:
-                log(f"{name} 타임아웃")
+                log(f"{name} 타임아웃({tmo}s)")
                 if critical:
                     break
             except Exception as e:                    # noqa: BLE001

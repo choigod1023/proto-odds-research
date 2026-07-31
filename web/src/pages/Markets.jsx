@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
 import { day, formLine, gcls, gradeOf, hhmm, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
-
-const J = (p) => fetch(`data/${p}?${Date.now()}`).then((r) => r.json());
+import { usePolledData } from "../lib/poll.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -42,28 +41,21 @@ function buildLiveIndex(live) {
 }
 
 export default function Markets() {
-  const [d, setD] = useState(null);      // picks_v2
-  const [grades, setGrades] = useState(null);
-  const [combo, setCombo] = useState(null);
-  const [today, setToday] = useState(null);
-  const [err, setErr] = useState(null);
+  // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
+  //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
+  const { data, at } = usePolledData({
+    d: "data/picks_v2.json",
+    grades: "data/loss_grades.json",
+    combo: "data/combo.json",
+    today: "data/today_combo.json",
+  }, 300000);   // 5분
+  const { d, grades, combo, today } = data;
 
-  useEffect(() => {
-    Promise.all([
-      J("picks_v2.json"),
-      J("loss_grades.json").catch(() => null),
-      J("combo.json").catch(() => null),
-      J("today_combo.json").catch(() => null),
-    ])
-      .then(([a, b, c, e]) => { setD(a); setGrades(b); setCombo(c); setToday(e); })
-      .catch((e) => setErr(e.message));
-  }, []);
-
-  if (err) return <Shell><Empty>데이터를 불러오지 못했습니다: {err}</Empty></Shell>;
+  if (at && !d) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
   if (!d) return <Shell><Empty>불러오는 중…</Empty></Shell>;
 
   return (
-    <Shell meta={metaLine(d)}>
+    <Shell meta={metaLine(d, at)}>
       <TodayPlan today={today} combo={combo} grades={grades} />
       <GameList data={d} grades={grades} caps={grades?.odds_caps} />
       <Evidence grades={grades} tally={d.tally} />
@@ -79,9 +71,12 @@ function liveOf(idx, g) {
   return m;
 }
 
-const metaLine = (d) =>
+// `갱신` 은 데이터가 만들어진 시각, `확인` 은 브라우저가 마지막으로 받아 본 시각이다.
+// 둘을 나눠 적어야 "화면이 멈춘 건지, 서버가 안 만든 건지"가 구분된다.
+const metaLine = (d, at) =>
   `${(d.live || []).length + (d.past || []).length}경기 · 회차 ${(d.rounds || []).join(", ")}` +
-  ` · 갱신 ${String(d.generated_at || "").slice(0, 16).replace("T", " ")}`;
+  ` · 갱신 ${String(d.generated_at || "").slice(0, 16).replace("T", " ")}` +
+  (at ? ` · 확인 ${new Date(at).toTimeString().slice(0, 5)}` : "");
 
 function Shell({ children, meta }) {
   return (

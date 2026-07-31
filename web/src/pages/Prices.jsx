@@ -1,19 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, Nav, SectionTitle, Stat, ThemeToggle } from "../components/ui.jsx";
 import { odds, pct } from "../lib/fmt.js";
+import { usePolledData } from "../lib/poll.js";
 
 const SPORTS = { sc: "축구", bs: "야구", bk: "농구", vl: "배구" };
 
 export default function Prices() {
-  const [d, setD] = useState(null);
-  const [err, setErr] = useState(null);
-
-  useEffect(() => {
-    fetch(`data/today.json?${Date.now()}`)
-      .then((r) => r.json())
-      .then(setD)
-      .catch((e) => setErr(e.message));
-  }, []);
+  // 열어 둔 채로도 갱신되게 한다 — 예전엔 첫 로드 한 번뿐이라 새로고침이 필요했다.
+  const { data, at } = usePolledData({ d: "data/today.json" }, 300000);
+  const d = data.d;
+  const err = at && !d ? "불러오지 못했습니다" : null;
 
   /**
    * 프로토는 회차를 겹쳐 발매한다 → 같은 경기·마켓·선택이 두 회차에 다른 배당으로 걸린다.
