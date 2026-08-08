@@ -45,8 +45,20 @@ def main() -> int:
     t0 = time.time()
     n_games = n_bets = 0
 
-    with (OUT / "games.csv").open("w", newline="", encoding="utf-8") as gf, \
-         (OUT / "bets.csv").open("w", newline="", encoding="utf-8") as bf:
+    # ⚠️ 최종 파일에 직접 쓰면 **중간에 죽었을 때 잘린 파일이 그대로 남는다.**
+    #    2026-08-08 에 정확히 그랬다: 재빌드가 5400초 제한에 걸려 죽었고
+    #    games.csv 가 2025 중간에서 끊긴 채 19MB 로 남았다. 크기가 멀쩡해
+    #    아무도 눈치채지 못했다.
+    #    그리고 glob 이 정렬돼 있어 **잘리는 건 언제나 맨 뒤, 즉 올해**다.
+    #    그 결과 build_forms(season=올해) 가 0건이 되고, 사이트 해설 249건 중
+    #    56% 가 "이번 시즌 기록이 충분히 쌓이지 않았다" 로 나갔다.
+    #    → 임시 파일에 쓰고 **다 끝난 뒤에만** 갈아끼운다.
+    tmp_g = OUT / "games.csv.tmp"
+    tmp_b = OUT / "bets.csv.tmp"
+    years_seen: set[int] = set()
+
+    with tmp_g.open("w", newline="", encoding="utf-8") as gf, \
+         tmp_b.open("w", newline="", encoding="utf-8") as bf:
         gw = csv.DictWriter(gf, fieldnames=GAME_FIELDS)
         bw = csv.DictWriter(bf, fieldnames=BET_FIELDS)
         gw.writeheader()
@@ -72,6 +84,8 @@ def main() -> int:
                 d["n_way"] = r.n_way
                 gw.writerow({k: d.get(k, "") for k in GAME_FIELDS})
             n_games += len(rows)
+            if rows:
+                years_seen.add(year)
 
             for b in to_bets(rows):
                 bw.writerow({
@@ -89,8 +103,24 @@ def main() -> int:
                 print(f"  {i}/{len(files)} 회차 처리 "
                       f"({time.time()-t0:.0f}초)", flush=True)
 
+    # ⚠️ 갈아끼우기 전에 **올해가 들어 있는지** 확인한다.
+    #    이 데이터셋을 읽는 build_forms 는 season=올해 로 거른다. 올해가 없으면
+    #    최근폼이 통째로 비고, 사이트는 "이번 시즌 기록이 충분히 쌓이지 않았다" 만
+    #    반복한다. 그 상태로 갈아끼우느니 **직전 데이터셋을 지키는 게 낫다.**
+    cur_year = max(int(p.parent.name) for p in files)
+    if cur_year not in years_seen:
+        print(f"🔴 최신 연도({cur_year}) 행이 0건 — 교체하지 않고 중단한다. "
+              f"수집된 연도: {sorted(years_seen)}")
+        tmp_g.unlink(missing_ok=True)
+        tmp_b.unlink(missing_ok=True)
+        return 1
+
+    # 여기까지 왔으면 완주했다. 이제 갈아끼운다(같은 파일시스템이라 원자적).
+    tmp_g.replace(OUT / "games.csv")
+    tmp_b.replace(OUT / "bets.csv")
+
     print(f"\n완료 — 회차 {len(files)} · 게임행 {n_games:,} · 베팅레코드 {n_bets:,}")
-    print(f"소요 {time.time()-t0:.0f}초")
+    print(f"소요 {time.time()-t0:.0f}초 · 연도 {sorted(years_seen)}")
     print(f"  {OUT/'games.csv'}")
     print(f"  {OUT/'bets.csv'}")
     return 0
