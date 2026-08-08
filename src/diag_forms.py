@@ -25,9 +25,43 @@ from team_form import build_forms, load_history          # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def _raw() -> None:
+    """load_matches 의 필터를 걷어내고 games.csv 원본을 본다.
+
+    2026 이 통째로 사라지는 게 **원본에 없어서인지, 필터가 지워서인지** 가른다.
+    """
+    import pandas as pd
+    p = ROOT / "data" / "processed" / "games.csv"
+    print(f"=== 0. games.csv 원본  ({p})")
+    if not p.exists():
+        print("  🔴 파일 없음")
+        return
+    g = pd.read_csv(p)
+    print(f"  행수        : {len(g):,}")
+    print(f"  연도 분포   : {dict(sorted(Counter(g['year'].tolist()).items()))}")
+    cur = g[g["year"] == datetime.now().year]
+    print(f"  {datetime.now().year}년 행수: {len(cur):,}")
+    if not len(cur):
+        print("  🔴 원본에 올해가 없다 — build_dataset 단계의 문제다")
+        return
+    # 필터를 하나씩 걸어 어디서 죽는지 본다
+    steps = [
+        ("is_void=False", ~cur["is_void"].astype(bool)),
+        ("market_family∈{승패,승무패}", cur["market_family"].isin(["승패", "승무패"])),
+        ("result∈{홈승,홈패,무승부}", cur["result"].isin(["홈승", "홈패", "무승부"])),
+    ]
+    m = pd.Series(True, index=cur.index)
+    for name, cond in steps:
+        m = m & cond
+        print(f"    {name:<28} 남은 행 {int(m.sum()):,}")
+    print(f"  올해 result 값 분포 : {dict(Counter(cur['result'].astype(str)).most_common(8))}")
+    print(f"  올해 market_family  : {dict(Counter(cur['market_family'].astype(str)).most_common(8))}")
+
+
 def main() -> int:
     season = datetime.now().year
-    print(f"=== 1. 원본 이력 (season={season})")
+    _raw()
+    print(f"\n=== 1. 원본 이력 (season={season})")
     hist = load_history()
     print(f"  load_history 행수 : {len(hist):,}")
     if not len(hist):
