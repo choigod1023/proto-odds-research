@@ -104,3 +104,45 @@ def test_같은_문장은_한_번만_부른다(monkeypatch):
 
 def test_None_은_그대로():
     assert L.polish(None) is None
+
+
+def test_하루_상한을_넘으면_더_안_부른다(monkeypatch):
+    """비용 천장. 이게 없으면 주기 상한만으로 24×120 = 2,880건/일까지 열린다."""
+    monkeypatch.setenv("GEMINI_API_KEY", "dummy")
+    monkeypatch.setattr(L, "MAX_CALLS_DAY", 2)
+    n = {"c": 0}
+
+    def counted(text, *a, **k):
+        n["c"] += 1
+        return "볼티오리 쪽에 무게가 실린다. LA에인절은 3연패 중이라 흐름이 나쁘다."
+
+    monkeypatch.setattr(L, "_call", counted)
+    L.polish._cache = {}
+    L.polish._budget = {"date": L._today(), "used": 0}
+    L._calls = 0
+
+    # 캐시를 타지 않도록 매번 다른 문장을 준다
+    outs = [L.polish(SRC + f" 표본 {i}번째 문장이다.") for i in range(5)]
+    assert n["c"] == 2, f"상한 2건인데 {n['c']}번 불렀다"
+    # 상한 뒤의 것들은 원문이 그대로 남아야 한다 — 해설이 사라지면 안 된다
+    assert outs[-1].startswith("예상 픽은"), "상한 초과분이 비었다"
+
+
+def test_예산은_날짜가_바뀌면_초기화된다(monkeypatch, tmp_path):
+    monkeypatch.setattr(L, "BUDGET_PATH", tmp_path / "budget.json")
+    L._budget_save({"date": "2020-01-01", "used": 999})
+    b = L._budget_load()
+    assert b["used"] == 0 and b["date"] == L._today()
+
+
+def test_캐시_적중은_예산을_안_쓴다(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "dummy")
+    monkeypatch.setattr(L, "_call", lambda *a, **k: "볼티오리 쪽에 무게가 실린다. 흐름이 나쁘다.")
+    L.polish._cache = {}
+    L.polish._budget = {"date": L._today(), "used": 0}
+    L._calls = 0
+    L.polish(SRC)
+    used_after_first = L.polish._budget["used"]
+    for _ in range(10):
+        L.polish(SRC)
+    assert L.polish._budget["used"] == used_after_first, "캐시 적중이 예산을 깎았다"

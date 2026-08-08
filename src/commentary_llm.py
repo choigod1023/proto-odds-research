@@ -25,9 +25,20 @@ generate_v2 는 매 주기 전 경기를 다시 만든다. live 만 172경기이
 
 환경변수
 --------
-  GEMINI_API_KEY   없으면 덧씌우기 자체를 건너뛴다(조용히, 템플릿 그대로)
-  GEMINI_MODEL     기본 gemini-3.1-flash-lite
-  LLM_MAX_CALLS    한 주기 최대 호출 수(기본 120) — 비용·시간 상한
+  GEMINI_API_KEY     없으면 덧씌우기 자체를 건너뛴다(조용히, 템플릿 그대로)
+  GEMINI_MODEL       기본 gemini-3.1-flash-lite
+  LLM_MAX_CALLS      한 주기 최대 호출 수(기본 120) — 한 번에 몰리는 걸 막는다
+  LLM_MAX_CALLS_DAY  하루 최대 호출 수(기본 700) — **비용 상한은 이쪽이다**
+
+비용 상한
+---------
+실측 1건 = 입력 738 · 출력 298 토큰 ≈ $0.00063 (약 0.9원, gemini-3.1-flash-lite).
+주기 상한만 두면 24주기 × 120 = 2,880건/일까지 열려 있어 월 7만원을 넘길 수 있다.
+그래서 **하루 총량**을 막는다: 700건/일 × 30일 × 0.9원 ≈ 월 18,900원이 천장이다.
+한도를 넘긴 날은 그대로 템플릿으로 돈다 — 해설이 사라지지는 않는다.
+
+⚠️ generate_v2 는 주기마다 새 프로세스로 뜬다. 카운터를 메모리에 두면 매번
+   0 으로 시작해 상한이 아무것도 막지 못한다. 반드시 디스크에 남긴다.
 """
 from __future__ import annotations
 
@@ -42,16 +53,44 @@ import requests
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "commentary.json"
+BUDGET_PATH = ROOT / "data" / "raw" / "llm_cache" / "budget.json"
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models"
 TIMEOUT = 25
 MAX_CALLS = int(os.environ.get("LLM_MAX_CALLS", "120"))
+# 하루 700건 × 30일 × 0.9원 ≈ 월 18,900원. 이게 비용 천장이다.
+MAX_CALLS_DAY = int(os.environ.get("LLM_MAX_CALLS_DAY", "700"))
 CACHE_MAX = 4000               # 엔트리 상한 — data/ 는 30분마다 커밋되므로 무한정 키우면 안 된다
 
 _calls = 0
 _hits = 0
 _fails = 0
+_skipped_budget = 0
+
+
+def _today() -> str:
+    """머신 TZ 는 Asia/Seoul 이다. 한국 날짜로 하루를 끊는다."""
+    return time.strftime("%Y-%m-%d", time.localtime())
+
+
+def _budget_load() -> dict:
+    """오늘 쓴 호출 수. 날짜가 바뀌면 0 부터 다시 센다."""
+    try:
+        b = json.loads(BUDGET_PATH.read_text(encoding="utf-8"))
+        if b.get("date") == _today():
+            return b
+    except (OSError, ValueError):
+        pass
+    return {"date": _today(), "used": 0}
+
+
+def _budget_save(b: dict) -> None:
+    try:
+        BUDGET_PATH.parent.mkdir(parents=True, exist_ok=True)
+        BUDGET_PATH.write_text(json.dumps(b), encoding="utf-8")
+    except OSError as e:
+        print(f"  [llm] 예산 저장 실패(무시): {e}")
 
 
 SYSTEM = """너는 스포츠 프리뷰 문장을 다듬는 편집자다. 기자가 아니다.
@@ -141,7 +180,7 @@ def _call(text: str, api_key: str) -> str | None:
 
 def polish(text: str | None) -> str | None:
     """템플릿 해설 한 건을 다듬는다. 무슨 일이 있어도 원문 이상은 잃지 않는다."""
-    global _calls, _hits, _fails
+    global _calls, _hits, _fails, _skipped_budget
     if not text:
         return text
 
@@ -154,13 +193,20 @@ def polish(text: str | None) -> str | None:
     hit = cache.get(k)
     if hit:
         _hits += 1
-        return hit["out"]
+        return hit["out"]                 # 캐시 적중은 예산을 안 쓴다
 
     if _calls >= MAX_CALLS:
-        return text                       # 이번 주기 상한 — 나머지는 다음에
+        return text                       # 이번 주기 상한 — 나머지는 다음 주기에
+
+    # 하루 총량 상한. 넘긴 날은 남은 경기를 템플릿으로 낸다.
+    # 여기서 막지 않으면 주기 상한만으로는 24×120 = 2,880건/일까지 열린다.
+    if polish._budget["used"] >= MAX_CALLS_DAY:
+        _skipped_budget += 1
+        return text
 
     try:
         _calls += 1
+        polish._budget["used"] += 1
         out = _call(text, api_key)
     except Exception as e:                # noqa: BLE001
         _fails += 1
@@ -184,11 +230,19 @@ def polish(text: str | None) -> str | None:
 
 
 polish._cache = _load()                   # 프로세스 시작 시 한 번만 읽는다
+polish._budget = _budget_load()
 
 
 def flush(verbose: bool = True) -> None:
-    """캐시를 저장하고 이번 주기 요약을 찍는다. 생성기 끝에서 부른다."""
+    """캐시·예산을 저장하고 이번 주기 요약을 찍는다. 생성기 끝에서 부른다."""
     _save(polish._cache)
+    _budget_save(polish._budget)
     if verbose:
-        print(f"해설 다듬기 — 호출 {_calls}건 · 캐시적중 {_hits}건 · "
-              f"실패/탈락 {_fails}건 · 캐시 {len(polish._cache)}개 (model={MODEL})")
+        used = polish._budget["used"]
+        won = used * 0.9              # 1건 ≈ 0.9원 (실측 738/298 토큰)
+        msg = (f"해설 다듬기 — 호출 {_calls}건 · 캐시적중 {_hits}건 · "
+               f"실패/탈락 {_fails}건 · 캐시 {len(polish._cache)}개 (model={MODEL})")
+        if _skipped_budget:
+            msg += f"\n  ⚠️ 하루 상한({MAX_CALLS_DAY}건) 도달 — {_skipped_budget}건은 템플릿으로 냈다"
+        msg += f"\n  오늘 누적 {used}/{MAX_CALLS_DAY}건 ≈ {won:,.0f}원"
+        print(msg)
