@@ -42,6 +42,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
+import commentary_llm                                               # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -573,6 +574,9 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
                                  0.0, 0.0, sport=g["sport"])
         if g.get("라인업메모"):
             g["해설"] = (g["해설"] or "") + " " + g["라인업메모"]
+        # 템플릿 문장을 LLM 이 말투만 다듬는다. 사실은 건드리지 않는다.
+        # 키가 없거나·실패하거나·검사에 걸리면 템플릿 원문이 그대로 남는다.
+        g["해설"] = commentary_llm.polish(g["해설"])
     except Exception as e:
         # ⚠️ 조용히 삼키면 안 된다. 실제로 make_preview 가 NameError 를 던지는데
         #    해설 0건이 그대로 배포됐다. 화면엔 그냥 '해설 없음' 으로 보인다.
@@ -814,6 +818,7 @@ def main() -> int:
         print(f"🔴 해설 생성 실패 {len(_STORY_FAIL)}건 — 예: {_STORY_FAIL[0]}")
     n_story = sum(1 for g in out if g.get("해설"))
     print(f"해설 {n_story}/{len(out)}건")
+    commentary_llm.flush()      # 캐시 저장 + 이번 주기 호출/적중 요약
 
     out.sort(key=lambda g: (g["date"], g["home"]))
     live_g = [g for g in out if g["status"] in ("경기전", "배당대기")]

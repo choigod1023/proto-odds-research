@@ -1,0 +1,194 @@
+"""템플릿 해설을 LLM 이 사람 말투로 고쳐 쓴다 — **사실은 건드리지 않고**.
+
+왜 덧씌우기인가 (새로 쓰게 하지 않는 이유)
+------------------------------------------
+이 프로젝트의 결론은 "우리는 시장을 못 이긴다, 덜 잃을 뿐"이다. HANDOFF.md 가
+**"그 이상을 약속하면 거짓말이다"** 라고 못박아 뒀다. 그런데 LLM 은 근거가 없어도
+그럴듯하고 확신에 찬 문장을 잘 쓴다 — 이 제품이 팔지 않기로 한 바로 그것이다.
+
+그래서 LLM 에게 **자료를 주고 쓰게 하지 않는다.** 이미 완성된 템플릿 문장을 주고
+**말투만 고치라**고 시킨다. 새 사실을 넣을 자료 자체를 주지 않으므로, 환각이
+들어올 통로가 구조적으로 막힌다. 그리고 결과를 다시 검사한다(_looks_safe).
+
+왜 캐시가 먼저인가
+------------------
+generate_v2 는 매 주기 전 경기를 다시 만든다. live 만 172경기이고 갱신은 매시간이라,
+캐시 없이 붙이면 하루 4,000회를 부른다. 그런데 경기와 배당이 그대로면 템플릿 문장도
+그대로다 — **템플릿 문장 자체를 캐시 키로 쓴다.** 문장이 안 바뀌었으면 다시 부를
+이유가 없다. 실제 호출은 새 경기·배당이 움직인 경기로만 줄어든다.
+
+없어도 도는가
+-------------
+돈다. 키가 없거나·실패하거나·검사에 걸리면 **템플릿 문장을 그대로 돌려준다.**
+해설이 사라지는 일은 없다. 외부 API 를 PUBLISH 경로에 넣으면서 장애 표면을
+늘리지 않으려는 것이다(2026-08-06 에 볼륨 하나로 39시간 멈춘 전례가 있다).
+
+환경변수
+--------
+  GEMINI_API_KEY   없으면 덧씌우기 자체를 건너뛴다(조용히, 템플릿 그대로)
+  GEMINI_MODEL     기본 gemini-3.1-flash-lite
+  LLM_MAX_CALLS    한 주기 최대 호출 수(기본 120) — 비용·시간 상한
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import time
+from pathlib import Path
+
+import requests
+
+ROOT = Path(__file__).resolve().parent.parent
+CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "commentary.json"
+
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
+ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models"
+TIMEOUT = 25
+MAX_CALLS = int(os.environ.get("LLM_MAX_CALLS", "120"))
+CACHE_MAX = 4000               # 엔트리 상한 — data/ 는 30분마다 커밋되므로 무한정 키우면 안 된다
+
+_calls = 0
+_hits = 0
+_fails = 0
+
+
+SYSTEM = """너는 스포츠 프리뷰 문장을 다듬는 편집자다. 기자가 아니다.
+
+주어진 문장은 **이미 사실 확인이 끝난 완성문**이다. 네 일은 딱 하나 — 기계가 쓴
+티가 나는 문장을 사람이 쓴 것처럼 자연스럽게 고치는 것이다.
+
+절대 규칙(하나라도 어기면 결과물은 버려진다):
+- 원문에 없는 사실을 **절대** 추가하지 마라. 팀 이름, 선수, 부상, 날씨, 순위,
+  일정 — 원문에 없으면 쓰지 마라. 너는 이 경기에 대해 아무것도 모른다.
+- 숫자를 바꾸지 마라. 지우는 건 되지만 새로 만들거나 반올림하지 마라.
+- 승패 판단을 뒤집지 마라. 원문이 A 우세라고 하면 A 우세다.
+- 확신을 키우지 마라. "유력하다"를 "확실하다"로 바꾸지 마라. 이 글을 읽고
+  사람이 돈을 건다. 원문보다 단정적으로 들리면 안 된다.
+- 이모지·마크다운·머리말·인용부호를 붙이지 마라. 고친 본문만 출력해라.
+
+고칠 것:
+- 같은 구조가 반복되면 문장을 합치거나 순서를 바꿔라.
+- 숫자가 연달아 나오면 흐름을 먼저 말하고 숫자를 뒤로 보내라.
+- "~이다" 가 계속되면 어미를 섞어라. 딱딱한 보고서 말투를 없애라.
+- 길이는 원문과 비슷하게. 늘리지 마라."""
+
+
+def _load() -> dict:
+    try:
+        return json.loads(CACHE_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _save(cache: dict) -> None:
+    # 오래된 것부터 버린다. 값에 저장한 ts 로 정렬한다.
+    if len(cache) > CACHE_MAX:
+        keep = sorted(cache.items(), key=lambda kv: kv[1].get("ts", 0),
+                      reverse=True)[:CACHE_MAX]
+        cache = dict(keep)
+    try:
+        CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        CACHE_PATH.write_text(json.dumps(cache, ensure_ascii=False),
+                              encoding="utf-8")
+    except OSError as e:
+        print(f"  [llm] 캐시 저장 실패(무시): {e}")
+
+
+def _key(text: str) -> str:
+    """템플릿 문장 + 모델이 키다. 문장이 같으면 다시 부를 이유가 없다."""
+    return hashlib.sha256(f"{MODEL}\n{text}".encode()).hexdigest()[:24]
+
+
+_NUM = re.compile(r"\d+(?:\.\d+)?")
+
+
+def _looks_safe(src: str, out: str) -> tuple[bool, str]:
+    """고쳐 쓴 결과가 원문의 사실을 지켰는지 검사한다.
+
+    LLM 을 믿지 않는다. 통과 못 하면 템플릿 원문을 쓴다.
+    """
+    if not out or len(out) < 20:
+        return False, "너무 짧다"
+    # 길이 폭주 — 늘렸다는 건 뭔가 지어냈다는 뜻일 때가 많다
+    if len(out) > len(src) * 1.35 + 40:
+        return False, f"너무 길다({len(src)}→{len(out)})"
+    # 새 숫자가 생기면 안 된다. 지우는 건 허용.
+    new_nums = set(_NUM.findall(out)) - set(_NUM.findall(src))
+    if new_nums:
+        return False, f"원문에 없는 숫자 {sorted(new_nums)[:4]}"
+    # 마크다운·이모지가 섞이면 형식 지시를 무시한 것이다
+    if re.search(r"[*#`]|^\s*[-•]", out) or re.search(r"[\U0001F300-\U0001FAFF]", out):
+        return False, "형식 위반(마크다운·이모지)"
+    return True, ""
+
+
+def _call(text: str, api_key: str) -> str | None:
+    url = f"{ENDPOINT}/{MODEL}:generateContent?key={api_key}"
+    body = {
+        "systemInstruction": {"parts": [{"text": SYSTEM}]},
+        "contents": [{"role": "user", "parts": [{"text": text}]}],
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 700},
+    }
+    r = requests.post(url, json=body, timeout=TIMEOUT)
+    if r.status_code != 200:
+        raise RuntimeError(f"HTTP {r.status_code} {r.text[:160]}")
+    data = r.json()
+    parts = (data.get("candidates") or [{}])[0].get("content", {}).get("parts") or [{}]
+    return (parts[0].get("text") or "").strip() or None
+
+
+def polish(text: str | None) -> str | None:
+    """템플릿 해설 한 건을 다듬는다. 무슨 일이 있어도 원문 이상은 잃지 않는다."""
+    global _calls, _hits, _fails
+    if not text:
+        return text
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return text                       # 키가 없으면 조용히 템플릿 그대로
+
+    cache = polish._cache
+    k = _key(text)
+    hit = cache.get(k)
+    if hit:
+        _hits += 1
+        return hit["out"]
+
+    if _calls >= MAX_CALLS:
+        return text                       # 이번 주기 상한 — 나머지는 다음에
+
+    try:
+        _calls += 1
+        out = _call(text, api_key)
+    except Exception as e:                # noqa: BLE001
+        _fails += 1
+        if _fails <= 3:
+            print(f"  [llm] 호출 실패(템플릿 사용): {type(e).__name__} {e}")
+        return text
+
+    if not out:
+        _fails += 1
+        return text
+
+    ok, why = _looks_safe(text, out)
+    if not ok:
+        _fails += 1
+        if _fails <= 5:
+            print(f"  [llm] 검사 탈락(템플릿 사용): {why}")
+        return text
+
+    cache[k] = {"out": out, "ts": int(time.time())}
+    return out
+
+
+polish._cache = _load()                   # 프로세스 시작 시 한 번만 읽는다
+
+
+def flush(verbose: bool = True) -> None:
+    """캐시를 저장하고 이번 주기 요약을 찍는다. 생성기 끝에서 부른다."""
+    _save(polish._cache)
+    if verbose:
+        print(f"해설 다듬기 — 호출 {_calls}건 · 캐시적중 {_hits}건 · "
+              f"실패/탈락 {_fails}건 · 캐시 {len(polish._cache)}개 (model={MODEL})")
