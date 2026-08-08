@@ -50,8 +50,9 @@ def main() -> int:
             flag = "🔴" if n <= 0 else "  "
             print(f"  {flag} {p.name:<16} 행 {n:>5}   {note}")
 
-        # 그 연도 전체에서 몇 개 파일이 0행인지 (2026 만 전수)
-        if ydir.name == "2026":
+        # 전수 스캔은 shared-cpu-1x 에서 10분을 넘긴다. 필요할 때만 켠다.
+        #   python src/diag_archive.py --full
+        if ydir.name == "2026" and "--full" in sys.argv:
             zero = []
             total = 0
             for p in files:
