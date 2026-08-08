@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
-import { day, formLine, gcls, gradeOf, hhmm, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
+import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
@@ -206,7 +206,7 @@ const STATUS = [
 function GameList({ data, grades, caps }) {
   const liveFeed = useLive();
   const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
-  const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "" });
+  const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: "" });
   const [showModel, setShowModel] = useState(false);
   // 적중 우선 / 손실 최소 — 두 목표가 갈린다.
   // ⚠️ 수치를 여기 적지 않는다. loss_grades.json 의 pick_modes 를 읽는다 —
@@ -231,6 +231,9 @@ function GameList({ data, grades, caps }) {
         : g.status === f.st)) &&
       (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
+      // 날짜 — 회차는 여러 날에 걸쳐 있어서(93회차만 08.07~08.10) 회차 필터로는
+      // '오늘 살 수 있는 것'을 못 고른다. 경기일로 직접 거른다.
+      (!f.dt || String(g.date ?? "").slice(0, 5) === f.dt) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)));
   }, [pool, f]);
 
@@ -262,7 +265,19 @@ function GameList({ data, grades, caps }) {
     const key = `${g.league} · ${day(g.date)}`;
     if (key !== cur) {
       cur = key;
-      rows.push(<div key={`h${key}${n}`} className="mt-[18px] mb-1.5 text-[11px] font-semibold tracking-[.03em] text-ink3">{key}</div>);
+      // '오늘/내일' 을 헤더에 박아 둔다. 전체 보기에서도 눈으로 갈리게 —
+      // 필터를 걸어야만 구분되면 목록을 훑는 사람에게는 없는 기능이다.
+      const tag = dayTag(g.date);
+      rows.push(
+        <div key={`h${key}${n}`} className="mt-[18px] mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold tracking-[.03em] text-ink3">
+          {tag && (
+            <span className={`rounded-[4px] px-[5px] py-[2px] text-[10px] ${
+              tag === "오늘" ? "bg-ink text-paper" : "border border-rule text-ink2"}`}>
+              {tag}
+            </span>
+          )}
+          <span>{key}</span>
+        </div>);
     }
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} lv={liveOf(lidx, g)} />);
   }
@@ -276,6 +291,15 @@ function GameList({ data, grades, caps }) {
         <label className="flex items-center gap-1.5">상태
           <select className={sel} value={f.st} onChange={(e) => setF({ ...f, st: e.target.value })}>
             {STATUS.map(([v, l]) => <option key={l} value={v}>{l}</option>)}
+          </select></label>
+        {/* 회차는 여러 날에 걸쳐 있다(93회차만 08.07~08.10). '오늘 뭘 살 수 있나'
+            를 보려면 회차가 아니라 경기일로 골라야 한다. */}
+        <label className="flex items-center gap-1.5">날짜
+          <select className={sel} value={f.dt}
+            onChange={(e) => setF({ ...f, dt: e.target.value })}>
+            <option value="">전체</option>
+            <option value={kstMMDD(0)}>오늘</option>
+            <option value={kstMMDD(1)}>내일</option>
           </select></label>
         <Sel label="리그" v={f.lg} opts={leagues} on={(v) => setF({ ...f, lg: v })} cls={sel} />
         <Sel label="마켓" v={f.mk} opts={markets} on={(v) => setF({ ...f, mk: v })} cls={sel} />

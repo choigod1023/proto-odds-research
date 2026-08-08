@@ -12,6 +12,31 @@ export const hhmm = (d) => String(d ?? "").slice(-5);
 export const day = (d) => String(d ?? "").slice(0, 8);
 
 /**
+ * 오늘(+offset일)의 'MM.DD' — **한국 날짜로** 계산한다.
+ *
+ * ⚠️ new Date().getMonth() 를 쓰면 보는 사람의 브라우저 표준시를 따른다.
+ *    프로토 경기 시각은 전부 KST 이므로, 해외에서 보면 '오늘' 이 하루 어긋나
+ *    오늘 살 수 있는 경기가 목록에서 사라진다. 표준시를 못박는다.
+ */
+export const kstMMDD = (offsetDays = 0) => {
+  const t = new Date(Date.now() + offsetDays * 86400000);
+  const p = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit",
+  }).formatToParts(t);
+  const get = (k) => p.find((x) => x.type === k).value;
+  return `${get("month")}.${get("day")}`;
+};
+
+/** '08.09(일) 14:00' 이 오늘이면 '오늘', 내일이면 '내일', 아니면 null */
+export const dayTag = (d) => {
+  const md = String(d ?? "").slice(0, 5);
+  if (!md) return null;
+  if (md === kstMMDD(0)) return "오늘";
+  if (md === kstMMDD(1)) return "내일";
+  return null;
+};
+
+/**
  * 배당 → 등급 구간. loss_grades.json 의 실측 구간을 그대로 쓴다.
  * bin 은 '1.0-1.3' 또는 '5.0+' 형태다.
  */
