@@ -20,7 +20,9 @@ fly 머신의 파일시스템은 재시작하면 날아간다. 그래서 **볼�
 """
 from __future__ import annotations
 
+import json
 import os
+import shutil
 import subprocess
 import sys
 import threading
@@ -132,6 +134,18 @@ def _configure(repo: Path) -> None:
     sh(["git", "config", "user.name", "proto-collector"], cwd=repo)
     sh(["git", "config", "user.email", "collector@users.noreply.github.com"], cwd=repo)
     sh(["git", "remote", "set-url", "origin", _auth_remote()], cwd=repo)
+    # ⚠️ 2026-08-06: gc 가 한 번도 안 돌아 loose object 6,312개 = 2.67GiB 가 쌓여
+    #    3GB 볼륨을 혼자 다 먹었다. 그때 packfile 은 421개에 겨우 2.53MiB 였다 —
+    #    30분마다 찍는 CSV 스냅샷은 서로 거의 같아 델타 압축이 1000배로 듣는다.
+    #    **압축만 하면 3GB 로 충분했다. 용량 문제가 아니었다.**
+    #    git 기본 임계값 6,700 은 이 레포엔 너무 높아 6,312개에서 디스크가 먼저 터졌다.
+    sh(["git", "config", "gc.auto", "500"], cwd=repo)
+    # 백그라운드 gc 는 실패해도 로그에 안 남는다. 앞에서 돌게 한다.
+    sh(["git", "config", "gc.autoDetach", "false"], cwd=repo)
+    # 1gb 머신이라 pack-objects 가 88MB CSV 를 델타 압축하다 OOM(signal 9)으로 죽는다.
+    # 실제로 복구 때 겪었고, 상한을 걸어야 통과한다.
+    sh(["git", "config", "pack.threads", "1"], cwd=repo)
+    sh(["git", "config", "pack.windowMemory", "24m"], cwd=repo)
 
 
 def ensure_repo() -> bool:
@@ -158,6 +172,16 @@ def ensure_repo() -> bool:
 
 TRACKED = ["data/", "docs/data/"]      # 수집 원본 + 사이트가 읽는 산출물
 
+_push_fail_streak = 0                  # push 가 몇 주기째 연달아 실패하고 있나
+
+
+def _free_mb() -> int:
+    """볼륨 여유 공간(MB). 못 재면 -1."""
+    try:
+        return shutil.disk_usage(REPO.parent).free // (1024 * 1024)
+    except OSError:
+        return -1
+
 
 def push_data() -> None:
     """수집 결과와 **사이트 산출물**만 커밋한다.
@@ -177,10 +201,27 @@ def push_data() -> None:
         # 원격이 앞서 있으면 rebase 후 재시도
         sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
         p = sh(["git", "push", "origin", "HEAD"], cwd=REPO)
+    global _push_fail_streak
     if p.returncode:
-        log(f"push 실패 — 파일 {n}개 · {_mask(p.stderr).strip()[:200]}")
+        _push_fail_streak += 1
+        log(f"push 실패({_push_fail_streak}회 연속) — 파일 {n}개 · "
+            f"{_mask(p.stderr).strip()[:200]}")
+        # ⚠️ 예전엔 실패해도 이 한 줄이 전부였다. 그래서 2026-08-06 부터 39시간을
+        #    매 주기 실패하는 동안 아무도 몰랐다. 연속 실패는 다른 사건이다 —
+        #    일시적 네트워크가 아니라 디스크·토큰·rebase 충돌 중 하나다.
+        if _push_fail_streak >= 3:
+            log(f"🔴 push 가 {_push_fail_streak}회 연속 실패 — "
+                f"디스크 여유 {_free_mb()}MB")
     else:
+        if _push_fail_streak:
+            log(f"push 복구됨 ({_push_fail_streak}회 실패 후)")
+        _push_fail_streak = 0
         log(f"push OK — 파일 {n}개")
+
+    # 압축은 push 성공 여부와 무관하게 한다. push 가 실패해 커밋이 쌓일 때가
+    # 오히려 디스크가 제일 빨리 차는 상황이다.
+    sh(["git", "reflog", "expire", "--expire=90.days", "--all"], cwd=REPO)
+    sh(["git", "gc", "--auto"], cwd=REPO)
 
 
 def run_looper(name: str, cmd: list[str]) -> None:
@@ -292,11 +333,26 @@ def serve_live() -> None:
 
         def do_GET(self):                              # noqa: N802
             if self.path.rstrip("/") in ("", "/health"):
+                # ⚠️ "ok" 만 뱉으면 안 된다. 2026-08-06 에 볼륨이 꽉 차 수집이
+                #    전부 멈췄는데도 이 엔드포인트는 39시간 내내 200 "ok" 였다.
+                #    (기존 파일 덮어쓰기는 새 블록이 안 필요해 계속 성공했다.)
+                #    "프로세스가 살아 있나"만 답하는 헬스체크는 이런 죽음을 못 잡는다.
+                #    감시견(.github/workflows/watchdog.yml)이 판단할 수 있게 숫자를 낸다.
+                try:
+                    live_mtime = int(live_path.stat().st_mtime)
+                except OSError:
+                    live_mtime = 0
+                body = json.dumps({
+                    "status": "ok",
+                    "disk_free_mb": _free_mb(),
+                    "live_mtime": live_mtime,
+                }).encode()
                 self.send_response(200)
                 self._cors()
-                self.send_header("Content-Type", "text/plain; charset=utf-8")
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
                 self.end_headers()
-                self.wfile.write(b"ok")
+                self.wfile.write(body)
                 return
             if not self.path.startswith("/live_scores.json"):
                 self.send_response(404)
