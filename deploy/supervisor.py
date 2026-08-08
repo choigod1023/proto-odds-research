@@ -75,19 +75,34 @@ PUBLISH = [
                   "2023", "2024", "2025", "2026"], False, 2400),
     # 유일한 필수 단계 — games.csv·bets.csv 를 만든다. 뒤가 전부 이걸 읽는다.
     ("데이터셋 재빌드", [sys.executable, "-u", "src/build_dataset.py"], True, 5400),
-    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
-    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False, 1800),
-    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False, 1800),
-    # 정보 시차 결합 — 표본이 쌓이는 걸 눈으로 보려고 매 주기 갱신한다.
+    # 정보 시차 결합 — 표본이 쌓이는 걸 눈으로 보려고 갱신한다.
     # 원본에서 매번 다시 계산하므로 실패해도 뒤에 영향이 없다.
     ("정보시차 결합", [sys.executable, "-u", "src/info_lag.py"], False, 1200),
     # 손실 축소 등급표 — 이 프로젝트의 최종 산출물. 사이트가 읽는다.
     ("손실등급 갱신", [sys.executable, "-u", "src/loss_filter.py"], False, 2400),
-    # ⚠️ 순서 주의: combo 는 bets.csv, today_combo 는 today.json·combo.json·
-    #    loss_grades.json 을 읽는다. 앞의 것들이 먼저 돌아야 한다.
-    #    다만 앞이 실패해도 **직전 주기 산출물이 남아 있으므로** 낡은 입력으로나마
-    #    돌리는 편이 아예 안 도는 것보다 낫다.
+    # ⚠️ combo 는 bets.csv 를 읽는다. 데이터셋 재빌드 뒤에 와야 한다.
     ("조합표 갱신", [sys.executable, "-u", "src/combo.py"], False, 2400),
+]
+
+# 가벼운 단계 — **매시간** 돈다.
+#
+# 왜 나눴나 — 예전엔 아홉 단계가 한 덩어리로 6시간마다 돌았다. 그런데 화면에서
+# 실제로 자주 바뀌어야 하는 건 오늘의 픽·해설뿐이고, 그걸 만드는 생성기들은
+# **발매 중인 회차를 직접 긁는다**(generate_v2 가 snapshot._fetch·find_live_rounds 를
+# import 한다). 즉 무거운 단계 없이도 새 값이 나온다.
+# 반대로 무거운 쪽(아카이브·데이터셋·손실등급·조합표)은 과거 이력 통계라
+# 한 시간 만에 달라질 게 없는데, shared-cpu-1x 를 수집기들과 나눠 쓰느라
+# 한 바퀴에 30분을 넘긴다. 이걸 매시간 돌리면 수집기가 굶고 OOM 위험만 커진다.
+#
+# ⚠️ 이 단계들은 games.csv 를 읽으므로, 그 파일이 없으면 무거운 쪽을 먼저 돌려야 한다.
+#    (run_publish 가 그때는 강제로 HEAVY 를 낀다)
+PUBLISH_LIGHT = [
+    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
+    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False, 1800),
+    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False, 1800),
+    # ⚠️ today_combo 는 today.json·combo.json·loss_grades.json 을 읽는다.
+    #    combo·loss_grades 는 무거운 쪽이라 최대 6시간 낡을 수 있지만,
+    #    그건 과거 통계라 낡아도 값이 같다. 낡은 입력으로나마 도는 편이 낫다.
     ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
 ]
 
@@ -98,7 +113,8 @@ LIVE_PORT = 8080
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
-PUBLISH_EVERY = 21600      # 6시간마다 산출물 갱신 (하루 4회)
+PUBLISH_EVERY = 3600       # 가벼운 산출물은 매시간
+HEAVY_EVERY_N = 6          # 무거운 단계는 6번에 한 번 (= 6시간)
 
 
 def log(msg: str) -> None:
@@ -253,42 +269,65 @@ def run_daily() -> None:
         time.sleep(DAILY_EVERY)
 
 
+def _run_steps(steps: list) -> None:
+    """단계 목록을 순서대로 실행한다. critical 이 실패하면 거기서 멈춘다."""
+    for name, cmd, critical, tmo in steps:
+        log(f"{name} 실행")
+        try:
+            r = subprocess.run(cmd, cwd=REPO, capture_output=True,
+                               text=True, timeout=tmo)
+            tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
+            if r.returncode:
+                err = (r.stderr or "").strip().splitlines()[-1:] or [""]
+                # rc=-9 는 OOM 킬이다. 메시지가 비니 따로 짚어 준다.
+                why = " (OOM 추정)" if r.returncode == -9 else ""
+                log(f"{name} 실패(rc={r.returncode}){why} — {err[0][:140]}")
+                if critical:
+                    log("  필수 단계라 이번 주기 중단")
+                    break
+                continue
+            log(f"{name} 완료 — {tail[0][:120]}")
+        except subprocess.TimeoutExpired:
+            log(f"{name} 타임아웃({tmo}s)")
+            if critical:
+                break
+        except Exception as e:                        # noqa: BLE001
+            log(f"{name} 예외: {type(e).__name__}: {e}")
+            if critical:
+                break
+
+
 def run_publish() -> None:
-    """산출물 갱신. 실패해도 다음 주기에 다시 시도한다.
+    """산출물 갱신.
+
+    가벼운 단계는 매시간, 무거운 단계는 6번에 한 번만 낀다.
+    화면에서 자주 바뀌어야 하는 건 오늘의 픽·해설뿐이고 그 생성기들은
+    발매 회차를 직접 긁으므로, 무거운 통계 재계산 없이도 새 값이 나온다.
 
     첫 실행을 3분 뒤로 둔 이유: 부팅 직후엔 수집기가 아직 한 바퀴를 안 돌아
     발매 회차 캐시가 비어 있을 수 있다(생성기가 '발매중 []' 로 끝난다).
     """
     time.sleep(180)
+    n = 0
     while True:
-        for name, cmd, critical, tmo in PUBLISH:
-            log(f"{name} 실행")
-            try:
-                r = subprocess.run(cmd, cwd=REPO, capture_output=True,
-                                   text=True, timeout=tmo)
-                tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
-                if r.returncode:
-                    err = (r.stderr or "").strip().splitlines()[-1:] or [""]
-                    # rc=-9 는 OOM 킬이다. 메시지가 비니 따로 짚어 준다.
-                    why = " (OOM 추정)" if r.returncode == -9 else ""
-                    log(f"{name} 실패(rc={r.returncode}){why} — {err[0][:140]}")
-                    if critical:
-                        log("  필수 단계라 이번 주기 중단")
-                        break
-                    continue
-                log(f"{name} 완료 — {tail[0][:120]}")
-            except subprocess.TimeoutExpired:
-                log(f"{name} 타임아웃({tmo}s)")
-                if critical:
-                    break
-            except Exception as e:                    # noqa: BLE001
-                log(f"{name} 예외: {type(e).__name__}: {e}")
-                if critical:
-                    break
+        # ⚠️ 가벼운 단계는 games.csv 를 읽는다. 그 파일이 없으면(첫 부팅,
+        #    또는 디스크 정리로 지워진 뒤) 무거운 쪽을 먼저 돌려야 한다.
+        #    안 그러면 매시간 조용히 실패만 반복한다.
+        missing = not (REPO / "data" / "processed" / "games.csv").exists()
+        heavy = (n % HEAVY_EVERY_N == 0) or missing
+        if missing and n:
+            log("games.csv 가 없다 — 무거운 단계를 앞당겨 실행한다")
+
+        log(f"=== 산출물 갱신 시작 ({'전체' if heavy else '가벼운 단계만'})")
+        if heavy:
+            _run_steps(PUBLISH)
+        _run_steps(PUBLISH_LIGHT)
+
         try:
             push_data()                                # 만든 즉시 내보낸다
         except Exception as e:                         # noqa: BLE001
             log(f"publish push 예외: {type(e).__name__}: {e}")
+        n += 1
         time.sleep(PUBLISH_EVERY)
 
 
