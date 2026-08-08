@@ -74,7 +74,10 @@ function liveOf(idx, g) {
 // `갱신` 은 데이터가 만들어진 시각, `확인` 은 브라우저가 마지막으로 받아 본 시각이다.
 // 둘을 나눠 적어야 "화면이 멈춘 건지, 서버가 안 만든 건지"가 구분된다.
 const metaLine = (d, at) =>
-  `${(d.live || []).length + (d.past || []).length}경기 · 회차 ${(d.rounds || []).join(", ")}` +
+  // ⚠️ '승부식' 을 못박아 적는다. 수집기가 game_category=pt1 을 하드코딩하고 있어
+  //    이 사이트의 모든 숫자는 **승부식 전용**이다. 기록식(pt2)은 한 건도 수집한 적이 없다.
+  //    안 적으면 보는 사람이 기록식 배당도 여기 있다고 착각한다.
+  `${(d.live || []).length + (d.past || []).length}경기 · 회차 ${(d.rounds || []).join(", ")} · 승부식` +
   ` · 갱신 ${String(d.generated_at || "").slice(0, 16).replace("T", " ")}` +
   (at ? ` · 확인 ${new Date(at).toTimeString().slice(0, 5)}` : "");
 
@@ -454,6 +457,10 @@ function OptTable({ opts, grades, tie, pick, model }) {
   return (
     <table className="w-full border-collapse text-[12.5px]">
       <thead><tr>
+        {/* 용지 대조용 게임번호. 화면을 보면서 실제 프로토 용지에 마킹하려면
+            이 번호가 있어야 한다 — 없으면 팀 이름으로 용지를 다시 뒤져야 한다.
+            프로토는 **마켓 한 줄마다** 번호가 따로 붙으므로 경기가 아니라 옵션 단위다. */}
+        <th className={`${th} text-right`}>번호</th>
         <th className={th}>마켓 / 선택</th>
         <th className={`${th} text-right`}>배당</th>
         <th className={`${th} text-right`}>과거 적중</th>
@@ -468,6 +475,8 @@ function OptTable({ opts, grades, tie, pick, model }) {
           const t = tie[o.market + (o.label || "")];
           return (
             <tr key={k}>
+              <td className={`${td} tnum text-right text-ink3 whitespace-nowrap`}>
+                {o["게임번호"] || "–"}</td>
               <td className={td}>
                 {gr && <GradeBadge grade={t ? "T" : gcls(gr.grade)}
                   title={t ? `양쪽이 같은 배당대(${gr.bin}) — 고를 근거가 없다`
