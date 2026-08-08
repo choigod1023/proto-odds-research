@@ -276,7 +276,12 @@ def _run_steps(steps: list) -> None:
         try:
             r = subprocess.run(cmd, cwd=REPO, capture_output=True,
                                text=True, timeout=tmo)
-            tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
+            # ⚠️ 예전엔 마지막 한 줄만 찍었다. 그래서 생성기가 끝에 남기는 요약
+            #    (예: LLM 덧씌우기의 호출·캐시적중·누적비용)이 그 뒤에 다른 print 가
+            #    한 줄이라도 있으면 통째로 묻혔다 — 로그를 넣어 놓고 못 보고 있었다.
+            #    돈이 걸린 정보는 안 보이면 없는 것과 같다. 꼬리 3줄을 남긴다.
+            lines = (r.stdout or "").strip().splitlines()
+            tail = lines[-3:] or ["(출력 없음)"]
             if r.returncode:
                 err = (r.stderr or "").strip().splitlines()[-1:] or [""]
                 # rc=-9 는 OOM 킬이다. 메시지가 비니 따로 짚어 준다.
@@ -286,7 +291,10 @@ def _run_steps(steps: list) -> None:
                     log("  필수 단계라 이번 주기 중단")
                     break
                 continue
-            log(f"{name} 완료 — {tail[0][:120]}")
+            log(f"{name} 완료 — {tail[-1][:120]}")
+            for extra in tail[:-1]:
+                if extra.strip():
+                    log(f"    {extra[:120]}")
         except subprocess.TimeoutExpired:
             log(f"{name} 타임아웃({tmo}s)")
             if critical:
