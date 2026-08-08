@@ -54,13 +54,36 @@ def _flow(f: Form | None, name: str) -> str:
     if f is None or not f.recent_games:
         return f"{josa(name,'은','는')} 이번 시즌 기록이 충분히 쌓이지 않았다"
 
-    scores = ", ".join(f"{g['gf']}-{g['ga']}" for g in f.recent_games[:3])
-    s = f"{josa(name,'은','는')} 최근 3경기에서 {scores}를 기록했다"
+    # ⚠️ 예전엔 최근 3경기 스코어를 그대로 나열했다("10-9, 0-14, 8-5를 기록했다").
+    #    실측: 해설 225건 중 **97%** 에 이 나열이 들어갔고, 해설 1건당 숫자가
+    #    평균 45.2개까지 불었다(483자에 45개 — 열 자에 하나 꼴).
+    #    스코어 세 개를 읽고 뭘 알 수 있나? 아무것도 없다. 읽는 사람이 머릿속에서
+    #    다시 요약해야 한다. **요약은 여기서 해 주는 게 맞다.**
+    #    숫자를 버리는 게 아니라, 숫자가 말하려던 걸 대신 말한다.
+    last3 = f.recent_games[:3]
+    w3 = sum(1 for g in last3 if g["gf"] > g["ga"])
+    l3 = sum(1 for g in last3 if g["gf"] < g["ga"])
+    gf3 = [g["gf"] for g in last3]
 
     if f.streak_n >= 2:
-        s += f". {f.streak_n}{f.streak_kind} 중이며 최근 10경기 {f.last10_str}"
+        # 연승·연패는 그 자체로 3경기 흐름을 다 말한다. 겹쳐 쓰지 않는다.
+        s = f"{josa(name,'은','는')} {f.streak_n}{f.streak_kind} 중이다"
+    elif w3 and l3:
+        s = f"{josa(name,'은','는')} 최근 3경기를 {w3}승 {l3}패로 오락가락했다"
+    elif w3 == len(last3) and last3:
+        s = f"{josa(name,'은','는')} 최근 3경기를 모두 잡았다"
+    elif l3 == len(last3) and last3:
+        s = f"{josa(name,'은','는')} 최근 3경기를 모두 놓쳤다"
     else:
-        s += f". 최근 10경기 {f.last10_str}"
+        s = f"{josa(name,'은','는')} 최근 3경기에서 승부를 가리지 못했다"
+
+    # 기복은 평균이 못 잡는 정보다 — 같은 평균이라도 매 경기 같은 팀과
+    # 어느 날만 터지는 팀은 다르게 사야 한다. 그래서 한 문장을 준다.
+    if len(gf3) == 3 and max(gf3) - min(gf3) >= 5:
+        # 앞 문장이 '~했다/~잡았다/~놓쳤다' 로 끝나 종결형이라, 쉼표로 이으면 비문이 된다.
+        s += ". 득점이 경기마다 크게 출렁인다"
+
+    s += f". 최근 10경기 {f.last10_str}"
 
     ac, aq = f.avg_scored, f.avg_conceded
     if ac is not None and aq is not None:
@@ -104,8 +127,11 @@ def _projection(fh: Form | None, fa: Form | None, sport: str) -> str | None:
     #    라인이 있는 마켓(언더오버·핸디캡)에 바로 대볼 수 있는 형태로 쓴다.
     line = {"bs": 8.5, "bk": 215, "sc": 2.5, "vl": 3.5}.get(sport, 8.5)
     ou = "오버" if total > line else "언더"
-    s = (f"최근 화력과 실점을 겹쳐 보면 {eh:.1f}{unit} 대 {ea:.1f}{unit}, "
-         f"합계 {total:.1f}{unit} — 기준선 {line}{unit} 대비 {ou} 쪽이다")
+    # ⚠️ 예전엔 "{eh} 대 {ea}, 합계 {total} — 기준선 {line} 대비" 로 산수를 다 펼쳤다.
+    #    한 문장에 숫자 넷이다. 읽는 사람이 알아야 할 건 **기준선 어느 쪽인가** 하나고,
+    #    그 판단을 뒤집는 유일한 숫자는 합계다. 나머지 셋은 과정이지 결론이 아니다.
+    s = (f"최근 화력과 실점을 겹쳐 보면 합계 {total:.1f}{unit} 언저리로 "
+         f"기준선({line}{unit})보다 {'높다' if ou == '오버' else '낮다'} — {ou} 쪽이다")
 
     # 야구는 무승부가 사실상 없다(연장). 종목에 없는 결과를 말하면 안 된다.
     tie_ok = sport in ("sc",)
@@ -257,7 +283,11 @@ def make_preview(home: str, away: str, league: str,
     side = home if p_market >= 0.5 else away      # 반론 문장이 쓰는 '우세 쪽'
     cp = _counterpoint(fh, fa, home, away, side)
     if cp:
-        parts.append(cp + ".")
+        # ⚠️ 예전엔 parts 맨 뒤에 붙였다. 그래서 앞의 수치 문장들이 자리를 다 먹고
+        #    상한(27% 가 잘렸다)에서 **반론이 제일 먼저 희생됐다** — 실측 28% 만 살아남았다.
+        #    '다만 ~' 은 결론을 뒤집을 수도 있는 문장이라 잘려선 안 되는 쪽이다.
+        #    결론 바로 뒤에 세운다. 기사에서도 그 자리다.
+        parts.insert(0, cp + ".")
 
     parts.insert(0, head)      # 결론이 맨 앞
     out = " ".join(parts).replace("  ", " ").replace(". .", ".")
