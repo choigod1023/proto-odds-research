@@ -43,6 +43,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
+from devig import shin                                              # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -736,8 +737,30 @@ def main() -> int:
             elif g["status"] == "배당대기":
                 g["status"] = "경기전"
 
+            # ⚠️ 예전엔 (1/o)/ov, 즉 multiplicative devig 였다 — 마진이 모든
+            #    선택지에 같은 비율로 얹혀 있다는 가정이다. 실측은 그렇지 않다:
+            #    마진이 배당을 따라 단조 증가한다(1.0-1.3 에서 8.7% → 5.0+ 에서 35.9%,
+            #    236,637 선택지). 균등이 아니므로 multiplicative 는 **역배 확률을
+            #    부풀린다** — 배당 6.6 에서 실측 9.71% 를 13.18% 로, 36% 과대평가했다.
+            #
+            #    실제 발매 배당 1,129건에 4종을 걸어 실측 참확률((1+ROI)/배당)과
+            #    대조한 결과(devig_pick.py):
+            #        multiplicative  오차 0.619%p · 역배편향 +1.006%p
+            #        additive        0.716%p · −0.670%p
+            #        power           1.208%p · −0.972%p   (과교정)
+            #        shin            0.613%p · −0.304%p   ← 채택
+            #    shin 은 시장에 내부정보 보유자가 비율 z 만큼 있다고 보는 모형이라
+            #    역배에 마진이 더 얹히는 현상을 구조적으로 설명한다.
+            #
+            #    ⚠️ 그래도 5.0+ 는 실측 −35.90% 로 어떤 devig 으로도 다 설명되지 않는다.
+            #       그 구간은 등급 D 로 픽에서 이미 걸러진다(lessBadPick 은 확률이
+            #       아니라 실측 ROI 로 고른다). 여기서 고치는 건 **표시값의 정직함**이다.
+            try:
+                p_shin = shin(list(r.odds))
+            except Exception:                              # noqa: BLE001
+                p_shin = None                              # 실패하면 옛 방식으로
             for i, (p, o) in enumerate(zip(pm, r.odds)):
-                p_mkt = (1 / o) / ov
+                p_mkt = p_shin[i] if p_shin else (1 / o) / ov
                 gap = (None if p is None else abs(p - p_mkt))
                 g["options"].append({
                     "market": r.market_family, "n_way": nw,
