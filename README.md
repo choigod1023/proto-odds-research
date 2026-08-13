@@ -1,7 +1,5 @@
 # 한국 프로토 고정배당 시장은 효율적인가
 
-**한국어** · [日本語](README.ja.md) · [English](README.en.md)
-
 **553회차 · 399,150 베팅레코드 실측 연구 (2023–2026)**
 
 🌐 [산출물 사이트](https://choigod1023.github.io/proto-odds-research/) ·
