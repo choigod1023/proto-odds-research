@@ -55,8 +55,13 @@ jobs:
           add() { problems="${problems}- $1"$'\n'; }
 
           # ── 1. 데이터가 실제로 들어오고 있나 (가장 중요한 신호)
-          # docs/data/ 를 건드린 마지막 커밋. 수집기가 살아 있으면 30분 안쪽이다.
-          last=$(git log -1 --format=%ct -- docs/data/ || echo 0)
+          # ⚠️ 작성자를 **수집기로 한정**한다. 그냥 docs/data/ 의 마지막 커밋을 보면
+          #    사람이 손으로 만진 커밋에 신선도가 리셋된다. 2026-08-13 에 그랬다 —
+          #    수집이 8/10 부터 멎어 있었는데 8/12 의 수동 커밋이 시계를 되돌려
+          #    사흘 내내 알림이 안 떴다.
+          #    여기서 답해야 할 질문은 "파일이 바뀌었나" 가 아니라
+          #    **"수집기가 살아서 밀어 넣고 있나"** 다.
+          last=$(git log -1 --format=%ct --author=proto-collector -- docs/data/ || echo 0)
           now=$(date +%s)
           age_h=$(( (now - last) / 3600 ))
           echo "age_h=$age_h" >> "$GITHUB_OUTPUT"

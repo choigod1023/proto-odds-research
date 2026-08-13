@@ -38,6 +38,9 @@ LOOPERS = [
     ("배당 스냅샷", [sys.executable, "-u", "src/snapshot.py", "--loop", "900"]),
     ("선발 예고", [sys.executable, "-u", "src/info_watch.py", "--loop", "1800"]),
     ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py", "--loop", "900"]),
+    # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
+    # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
+    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "300"]),
 ]
 
 # 하루 1회짜리 — FootyStats 는 연속 요청을 막으므로 자주 찍을 이유도 없다.
@@ -385,6 +388,7 @@ def serve_live() -> None:
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
     live_path = REPO / "docs" / "data" / "live_scores.json"
+    odds_path = REPO / "docs" / "data" / "live_odds.json"
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
@@ -420,13 +424,20 @@ def serve_live() -> None:
                 self.end_headers()
                 self.wfile.write(body)
                 return
-            if not self.path.startswith("/live_scores.json"):
+            # 서빙하는 파일은 둘이다. 점수와 **배당** — 둘 다 git push(30분)로는
+            # 못 나르는 주기이고, 그렇다고 자주 커밋하면 레포가 망가진다.
+            served = {
+                "/live_scores.json": live_path,
+                "/live_odds.json": odds_path,
+            }
+            target = served.get(self.path.split("?")[0].rstrip("/"))
+            if target is None:
                 self.send_response(404)
                 self._cors()
                 self.end_headers()
                 return
             try:
-                body = live_path.read_bytes()
+                body = target.read_bytes()
             except OSError:
                 self.send_response(503)
                 self._cors()

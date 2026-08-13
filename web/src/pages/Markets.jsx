@@ -9,21 +9,62 @@ import { usePolledData } from "../lib/poll.js";
 // 브라우저가 네이버 API 를 직접 부르는 건 CORS 로 막힌다. 그래서 이 파일만 별도 경로다.
 const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
 
-/** 60초마다 실시간 점수를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
-function useLive() {
-  const [live, setLive] = useState(null);
+// 배당도 같은 처리다. picks_v2.json 의 배당은 산출물 갱신 때 굳으므로 최대 한 시간
+// 낡는다 — 2026-08-13 실측 231건 중 73건(32%)이 원천과 달랐다. 5분마다 갱신되는
+// 이 파일로 덮어쓴다.
+const ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
+
+/** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
+function usePoll(url, ms) {
+  const [data, setData] = useState(null);
   useEffect(() => {
     let stop = false;
     const load = () =>
-      fetch(`${LIVE_URL}?${Date.now()}`)
+      fetch(`${url}?${Date.now()}`)
         .then((r) => (r.ok ? r.json() : null))
-        .then((d) => { if (!stop && d) setLive(d); })
+        .then((d) => { if (!stop && d) setData(d); })
         .catch(() => {});
     load();
-    const t = setInterval(load, 60000);
+    const t = setInterval(load, ms);
     return () => { stop = true; clearInterval(t); };
-  }, []);
-  return live;
+  }, [url, ms]);
+  return data;
+}
+
+const useLive = () => usePoll(LIVE_URL, 60000);
+const useLiveOdds = () => usePoll(ODDS_URL, 120000);
+
+/**
+ * picks_v2 의 배당 위에 실시간 배당을 덮어쓴다.
+ *
+ * ⚠️ 실시간 쪽에 값이 **있을 때만** 갈아끼운다. 없다고 지우면 멀쩡한 값을
+ *    빈 칸으로 바꿔 오히려 나빠진다(아직 배당이 안 붙은 회차가 늘 섞여 있다).
+ * ⚠️ 배당이 바뀌면 등급·판단도 같이 바뀌어야 하므로, 화면은 이 값을 기준으로
+ *    다시 계산한다. 모델확률·시장확률은 산출 시점 값이라 건드리지 않는다.
+ */
+function withLiveOdds(games, lo) {
+  if (!lo?.odds) return games;
+  return games.map((g) => {
+    const bucket = lo.odds[String(g.round)];
+    if (!bucket) return g;
+    // ⚠️ 위치로 맞춘다. picks_v2 의 옵션에는 선택지 인덱스가 없고, '선택'(홈/무/원정/
+    //    언더/오버/홀/짝…)을 배당 배열의 자리로 옮기는 규칙은 마켓마다 달라 깨지기 쉽다.
+    //    같은 게임번호 안에서 옵션 순서는 원천 배당 배열 순서와 동일하므로,
+    //    게임번호별로 묶어 n번째끼리 대응시킨다.
+    const seen = {};
+    let touched = false;
+    const options = (g.options || []).map((o) => {
+      const gn = String(o["게임번호"]);
+      const i = (seen[gn] = (seen[gn] ?? -1) + 1);
+      const fresh = bucket[gn];
+      if (!fresh || i >= fresh.length) return o;
+      const v = fresh[i];
+      if (v == null || v === o["배당"]) return o;
+      touched = true;
+      return { ...o, 배당: v, _live: true };
+    });
+    return touched ? { ...g, options } : g;
+  });
 }
 
 /** 프로토 표기와 네이버 표기가 다르므로(마이말린 ↔ 마이애미) 별칭까지 키로 넣는다.
@@ -205,6 +246,7 @@ const STATUS = [
 
 function GameList({ data, grades, caps }) {
   const liveFeed = useLive();
+  const liveOdds = useLiveOdds();
   const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: "" });
   const [showModel, setShowModel] = useState(false);
@@ -215,7 +257,11 @@ function GameList({ data, grades, caps }) {
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
   const [cap, setCap] = useState(0);          // 0 = 제한 없음
-  const pool = useMemo(() => [...(data.live || []), ...(data.past || [])], [data]);
+  // 실시간 배당을 덮어쓴 뒤에 필터·등급 계산으로 넘긴다. 배당이 바뀌면
+  // 등급·'덜 잃는 쪽' 판정도 같이 바뀌어야 하므로 반드시 이 지점에서 갈아끼운다.
+  const pool = useMemo(
+    () => withLiveOdds([...(data.live || []), ...(data.past || [])], liveOdds),
+    [data, liveOdds]);
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
@@ -508,7 +554,13 @@ function OptTable({ opts, grades, tie, pick, model }) {
                 {o.market}{o.label ? ` ${o.label}` : ""} · {o["선택"]}
                 {o["적중"] === true ? " ✔" : o["적중"] === false ? " ✕" : ""}
               </td>
-              <td className={`${td} tnum text-right`}>{odds(o["배당"])}</td>
+              {/* 실시간으로 갈아끼운 값은 점 하나로 표시한다. 산출 시점 값과
+                  구분이 안 되면 "왜 아까랑 다르지" 가 된다. */}
+              <td className={`${td} tnum text-right`}>
+                {odds(o["배당"])}
+                {o._live && <span className="ml-1 text-[10px] text-ink3"
+                  title="방금 받아온 값 (5분 주기)">•</span>}
+              </td>
               <td className={`${td} tnum text-right text-ink3`}>
                 {gr?.hit != null ? `${(gr.hit * 100).toFixed(0)}%` : "–"}</td>
               <td className={`${td} model-col tnum text-right`}>{pct(o["시장확률"])}</td>
