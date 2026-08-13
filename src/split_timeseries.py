@@ -41,12 +41,19 @@ def main(argv: list[str]) -> int:
     handles: dict = {}
     total = 0
 
+    ragged = 0
     with SRC.open(newline="", encoding="utf-8") as f:
-        rd = csv.DictReader(f)
+        # ⚠️ 헤더보다 열이 많은 행이 섞여 있다. 기본값이면 남는 값이 None 키로 들어가고
+        #    DictWriter 가 "fields not in fieldnames: None" 으로 죽는다.
+        #    마이그레이션이 그 몇 행 때문에 통째로 멈추면 안 되므로, 남는 값은
+        #    세어서 보고만 하고 알려진 열만 옮긴다.
+        rd = csv.DictReader(f, restkey="_extra")
         fields = rd.fieldnames or []
         for row in rd:
             total += 1
-            # ts 는 '2026-08-13T08:03:31+00:00' 형태. 앞 7자가 연-월이다.
+            if row.pop("_extra", None) is not None:
+                ragged += 1
+            # ts 는 '2026-08-13T08:03:31+00:00' 형태. 앞 10자가 연-월-일이다.
             ym = str(row.get("ts", ""))[:10].replace("-", "")
             if len(ym) != 8 or not ym.isdigit():
                 ym = "unknown"
@@ -55,11 +62,11 @@ def main(argv: list[str]) -> int:
                 continue
             if ym not in writers:
                 p = OUT / f"odds_timeseries_{ym}.csv"
-                # ⚠️ 이미 이번 달 샤드가 있으면(수집기가 새 코드로 먼저 돌았다면)
+                # ⚠️ 이미 그날 샤드가 있으면(수집기가 새 코드로 먼저 돌았다면)
                 #    덮어쓰지 말고 이어 붙인다. 그 사이 모은 행을 잃으면 안 된다.
                 new = not p.exists()
                 h = p.open("a", newline="", encoding="utf-8")
-                w = csv.DictWriter(h, fieldnames=fields)
+                w = csv.DictWriter(h, fieldnames=fields, extrasaction="ignore")
                 if new:
                     w.writeheader()
                 handles[ym], writers[ym] = h, w
@@ -68,7 +75,7 @@ def main(argv: list[str]) -> int:
     for h in handles.values():
         h.close()
 
-    print(f"총 {total:,}행")
+    print(f"총 {total:,}행" + (f" · 열이 남는 행 {ragged:,}건(남는 값은 버림)" if ragged else ""))
     for ym in sorted(counts):
         mb = (OUT / f"odds_timeseries_{ym}.csv").stat().st_size / 1024 / 1024 \
             if write and (OUT / f"odds_timeseries_{ym}.csv").exists() else 0
