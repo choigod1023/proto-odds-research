@@ -42,7 +42,9 @@ sys.path.insert(0, str(ROOT / "src"))
 from stack_filter import WIN_IDX  # noqa: E402
 
 GAMES = ROOT / "data" / "processed" / "games.csv"
-SNAP = ROOT / "data" / "raw" / "snapshots" / "odds_timeseries.csv"
+# ⚠️ 스냅샷은 2026-08-13 부터 **월별 샤드**다(단일 파일이 138MB 가 되어
+#    GitHub 100MB 한도에 걸렸다). 경로를 직접 열지 말고 로더를 쓴다.
+from snapshot import load_timeseries, ts_files      # noqa: E402
 SKIP = ("경기전", "취소", "")
 
 
@@ -92,9 +94,9 @@ def from_rounds() -> pd.DataFrame:
 
 def from_snapshots() -> pd.DataFrame:
     """스냅샷 — 15분 간격. 첫 관측 대비 마지막 관측."""
-    if not SNAP.exists():
+    if not ts_files():
         return pd.DataFrame()
-    t = pd.read_csv(SNAP)
+    t = load_timeseries()
     t["ts"] = pd.to_datetime(t["ts"])
     t = t.sort_values("ts")
     # ⚠️ 결과로 먼저 거르면 안 된다. 스냅샷은 시점별 스냅이라 **경기 전 행의 result 는

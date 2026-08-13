@@ -44,7 +44,9 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
-SNAP = ROOT / "data" / "raw" / "snapshots" / "odds_timeseries.csv"
+# ⚠️ 스냅샷은 2026-08-13 부터 **월별 샤드**다(단일 파일이 138MB 가 되어
+#    GitHub 100MB 한도에 걸렸다). 경로를 직접 열지 말고 로더를 쓴다.
+from snapshot import load_timeseries, ts_files      # noqa: E402
 ANN = ROOT / "data" / "raw" / "info_watch" / "starter_announcements.csv"
 
 # 네이버 gameId 의 팀 약어 → 프로토 표기. 야구만 대상(선발이 있는 종목).
@@ -77,7 +79,7 @@ def _team_map() -> dict:
 
 def load_odds() -> pd.DataFrame:
     """경기별 배당 최초 관측 시각. 승패 2-way 기준(가장 먼저 열리는 마켓)."""
-    t = pd.read_csv(SNAP)
+    t = load_timeseries()
     t["ts"] = pd.to_datetime(t["ts"], utc=True)
     start = t["ts"].min()
 
@@ -125,7 +127,7 @@ def load_ann() -> pd.DataFrame:
 
 
 def main() -> int:
-    if not SNAP.exists() or not ANN.exists():
+    if not ts_files() or not ANN.exists():
         print("수집 파일이 없다. snapshot.py / info_watch.py 를 먼저 돌릴 것.")
         return 1
 

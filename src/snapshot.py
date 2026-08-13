@@ -23,15 +23,49 @@ from __future__ import annotations
 import csv
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from wisetoto import BASE, _session, get_master_seq, parse_rows  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
-TS_FILE = OUT / "odds_timeseries.csv"
 CH_FILE = OUT / "changes.csv"
+
+# ⚠️ 예전엔 단일 파일(odds_timeseries.csv)에 계속 append 했다. 그게 두 번 터졌다.
+#
+#   1. **GitHub 100MB 파일 한도** — 2026-08-13 에 138MB 가 되어 pre-receive 훅이
+#      push 를 거부했다. 수집은 되는데 밖으로 못 나가는 상태로 3일이 갔다.
+#   2. **git 비대화** — 30분마다 커밋하는데 그때마다 100MB 넘는 blob 이 통째로
+#      새로 생긴다. 2026-08-06 에 loose object 2.67GiB 가 3GB 볼륨을 다 먹고
+#      모든 쓰기가 ENOSPC 로 실패했다.
+#
+# 월별로 쪼개면 둘 다 풀린다. 지난달 샤드는 더 이상 안 바뀌므로 git 이 한 번만
+# 저장하고, 커밋마다 움직이는 건 이번 달 것뿐이다.
+LEGACY_TS = OUT / "odds_timeseries.csv"      # 쪼개기 전 단일 파일(남아 있으면 같이 읽는다)
+
+
+def ts_file(when: datetime | None = None) -> Path:
+    """이번 달 스냅샷 샤드 경로."""
+    d = when or datetime.now(timezone.utc)
+    return OUT / f"odds_timeseries_{d:%Y%m}.csv"
+
+
+def ts_files() -> list[Path]:
+    """읽을 때 쓰는 전체 목록 — 월별 샤드 + (남아 있다면) 옛 단일 파일."""
+    files = sorted(OUT.glob("odds_timeseries_*.csv"))
+    if LEGACY_TS.exists():
+        files.insert(0, LEGACY_TS)
+    return files
+
+
+def load_timeseries():
+    """모든 샤드를 이어 붙인다. 읽는 쪽은 파일 경로를 직접 알 필요가 없다."""
+    import pandas as pd                      # 수집 루프에는 필요 없는 무거운 의존이다
+    fs = ts_files()
+    if not fs:
+        return pd.DataFrame()
+    return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True)
 
 UNPLAYED = {"경기전", "", "-"}
 SCAN_RANGE = 12          # 최신 회차 기준 앞뒤로 훑을 범위
@@ -108,11 +142,19 @@ def _fetch(sess, year: int, rnd: int, seq: str | None = None):
 def _load_last() -> dict[tuple, str]:
     """직전 스냅샷의 (회차,경기번호) → 배당문자열"""
     last: dict[tuple, str] = {}
-    if not TS_FILE.exists():
-        return last
-    with TS_FILE.open(newline="", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            last[(row["year"], row["round"], row["game_no"])] = row["odds"]
+    # ⚠️ 이번 달 샤드만 읽는다. 배당 변동은 **직전 스냅샷과의 비교**라서
+    #    최신 값만 있으면 되고, 전 기간을 읽으면 15분마다 100MB 를 훑게 된다.
+    #    달이 막 바뀐 직후 첫 주기만 직전 달 샤드를 함께 본다(값이 안 끊기게).
+    files = [ts_file()]
+    prev = ts_file(datetime.now(timezone.utc).replace(day=1) - timedelta(days=1))
+    if prev.exists():
+        files.insert(0, prev)
+    for p in files:
+        if not p.exists():
+            continue
+        with p.open(newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                last[(row["year"], row["round"], row["game_no"])] = row["odds"]
     return last
 
 
@@ -154,7 +196,7 @@ def snap(year: int, rounds: list[int]) -> int:
                 changes.append({**rec, "prev_odds": prev})
         time.sleep(REQUEST_GAP)
 
-    _append(TS_FILE, FIELDS, new_rows)
+    _append(ts_file(), FIELDS, new_rows)   # 이번 달 샤드에 붙인다
     if changes:
         _append(CH_FILE, FIELDS + ["prev_odds"], changes)
 

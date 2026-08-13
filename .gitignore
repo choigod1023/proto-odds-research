@@ -30,3 +30,6 @@ web/.vite/
 # git worktree 작업 폴더 — 커밋되면 gitlink(서브모듈)로 잡혀
 # GitHub Pages 배포가 "No url found for submodule path" 로 통째로 실패한다
 .claude/worktrees/
+
+# 스냅샷 마이그레이션 잔재 — 쪼갠 뒤 남는 원본 백업(100MB 초과라 push 불가)
+data/raw/snapshots/odds_timeseries.csv.bak

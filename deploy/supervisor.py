@@ -174,6 +174,12 @@ def ensure_repo() -> bool:
     if (REPO / ".git").exists():
         log("레포 확인됨 — pull")
         _configure(REPO)
+        # ⚠️ detached HEAD 로 남아 있으면 커밋은 쌓이는데 push 가 안 나간다.
+        #    부팅 때마다 브랜치에 붙여 둔다. 이미 main 이면 아무 일도 안 한다.
+        br = sh(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=REPO)
+        if br.stdout.strip() == "HEAD":
+            log("⚠️ detached HEAD 발견 — main 에 다시 붙인다")
+            sh(["git", "checkout", "-B", "main"], cwd=REPO)
         r = sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
         if r.returncode:
             log(f"pull 실패(계속 진행): {_mask(r.stderr)[:160]}")
@@ -217,11 +223,19 @@ def push_data() -> None:
     sh(["git", "add", *TRACKED], cwd=REPO)
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     sh(["git", "commit", "-m", f"chore: 수집 데이터 자동 갱신 ({stamp})"], cwd=REPO)
-    p = sh(["git", "push", "origin", "HEAD"], cwd=REPO)
+    # ⚠️ `git push origin HEAD` 는 **HEAD 가 detached 면 실패한다**
+    #    ("The destination you provided is not a full refname").
+    #    2026-08-13: 레포 정리 중 detached 로 남았고, 그 뒤 167회 연속 실패하며
+    #    3일치 수집분 152커밋이 머신에만 쌓였다. 목적지를 명시하면 그 상태에서도 나간다.
+    p = sh(["git", "push", "origin", "HEAD:main"], cwd=REPO)
     if p.returncode:
         # 원격이 앞서 있으면 rebase 후 재시도
         sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
-        p = sh(["git", "push", "origin", "HEAD"], cwd=REPO)
+        # ⚠️ `git push origin HEAD` 는 **HEAD 가 detached 면 실패한다**
+    #    ("The destination you provided is not a full refname").
+    #    2026-08-13: 레포 정리 중 detached 로 남았고, 그 뒤 167회 연속 실패하며
+    #    3일치 수집분 152커밋이 머신에만 쌓였다. 목적지를 명시하면 그 상태에서도 나간다.
+    p = sh(["git", "push", "origin", "HEAD:main"], cwd=REPO)
     global _push_fail_streak
     if p.returncode:
         _push_fail_streak += 1
