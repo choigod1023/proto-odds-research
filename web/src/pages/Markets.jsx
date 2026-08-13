@@ -248,7 +248,13 @@ function GameList({ data, grades, caps }) {
   const liveFeed = useLive();
   const liveOdds = useLiveOdds();
   const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
-  const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: "" });
+  // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
+  //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
+  //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
+  //    '배당 대기'만 줄줄이 보여서 "오늘 건데 왜 배당이 없냐"로 읽힌다.
+  //    이 페이지의 제목이 '오늘 뭘 사면 덜 잃나' 다. 기본값이 그걸 보여줘야 한다.
+  const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "",
+                               dt: kstMMDD(0) });
   const [showModel, setShowModel] = useState(false);
   // 적중 우선 / 손실 최소 — 두 목표가 갈린다.
   // ⚠️ 수치를 여기 적지 않는다. loss_grades.json 의 pick_modes 를 읽는다 —
@@ -405,7 +411,17 @@ function GameList({ data, grades, caps }) {
         </p>
       )}
       <div className={showModel ? "show-model" : ""}>
-        {rows.length ? rows : <Empty>조건에 맞는 경기가 없다</Empty>}
+        {rows.length ? rows : (
+          // 날짜 기본값이 '오늘' 이라 심야·비수기엔 빈 화면이 될 수 있다.
+          // 그때 '고장' 으로 보이지 않게 다음 행동을 바로 알려 준다.
+          <Empty>
+            조건에 맞는 경기가 없다
+            {f.dt && (
+              <> — <button className="underline underline-offset-2"
+                onClick={() => setF({ ...f, dt: "" })}>모든 날짜 보기</button></>
+            )}
+          </Empty>
+        )}
       </div>
     </>
   );
