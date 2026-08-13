@@ -40,19 +40,21 @@ CH_FILE = OUT / "changes.csv"
 #      새로 생긴다. 2026-08-06 에 loose object 2.67GiB 가 3GB 볼륨을 다 먹고
 #      모든 쓰기가 ENOSPC 로 실패했다.
 #
-# 월별로 쪼개면 둘 다 풀린다. 지난달 샤드는 더 이상 안 바뀌므로 git 이 한 번만
-# 저장하고, 커밋마다 움직이는 건 이번 달 것뿐이다.
+# 쪼개면 둘 다 풀린다. 지난 샤드는 더 이상 안 바뀌므로 git 이 한 번만 저장하고,
+# 커밋마다 움직이는 건 오늘 것뿐이다.
+# ⚠️ **일별**이다. 월별로 했더니 2026-08 한 달만 868,787행 ≈ 106MB 로 여전히
+#    한도를 넘었다(하루 약 67,000행). 일 단위면 약 8MB 로 안전하게 묶인다.
 LEGACY_TS = OUT / "odds_timeseries.csv"      # 쪼개기 전 단일 파일(남아 있으면 같이 읽는다)
 
 
 def ts_file(when: datetime | None = None) -> Path:
-    """이번 달 스냅샷 샤드 경로."""
+    """그날의 스냅샷 샤드 경로."""
     d = when or datetime.now(timezone.utc)
-    return OUT / f"odds_timeseries_{d:%Y%m}.csv"
+    return OUT / f"odds_timeseries_{d:%Y%m%d}.csv"
 
 
 def ts_files() -> list[Path]:
-    """읽을 때 쓰는 전체 목록 — 월별 샤드 + (남아 있다면) 옛 단일 파일."""
+    """읽을 때 쓰는 전체 목록 — 일별 샤드 + (남아 있다면) 옛 단일 파일."""
     files = sorted(OUT.glob("odds_timeseries_*.csv"))
     if LEGACY_TS.exists():
         files.insert(0, LEGACY_TS)
@@ -142,13 +144,11 @@ def _fetch(sess, year: int, rnd: int, seq: str | None = None):
 def _load_last() -> dict[tuple, str]:
     """직전 스냅샷의 (회차,경기번호) → 배당문자열"""
     last: dict[tuple, str] = {}
-    # ⚠️ 이번 달 샤드만 읽는다. 배당 변동은 **직전 스냅샷과의 비교**라서
-    #    최신 값만 있으면 되고, 전 기간을 읽으면 15분마다 100MB 를 훑게 된다.
-    #    달이 막 바뀐 직후 첫 주기만 직전 달 샤드를 함께 본다(값이 안 끊기게).
-    files = [ts_file()]
-    prev = ts_file(datetime.now(timezone.utc).replace(day=1) - timedelta(days=1))
-    if prev.exists():
-        files.insert(0, prev)
+    # ⚠️ 오늘·어제 샤드만 읽는다. 배당 변동은 **직전 스냅샷과의 비교**라서
+    #    최신 값만 있으면 되고, 전 기간을 읽으면 15분마다 130MB 를 훑게 된다.
+    #    자정 직후에도 값이 안 끊기도록 어제 것을 함께 본다.
+    now = datetime.now(timezone.utc)
+    files = [ts_file(now - timedelta(days=1)), ts_file(now)]
     for p in files:
         if not p.exists():
             continue

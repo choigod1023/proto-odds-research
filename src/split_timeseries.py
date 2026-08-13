@@ -1,4 +1,4 @@
-"""단일 odds_timeseries.csv 를 월별 샤드로 쪼갠다 (1회성 마이그레이션).
+"""단일 odds_timeseries.csv 를 일별 샤드로 쪼갠다 (1회성 마이그레이션).
 
 왜
 --
@@ -9,7 +9,8 @@ pre-receive 훅이 push 를 거부해 수집은 되는데 밖으로 못 나가�
 
 무엇을
 ------
-ts 컬럼(ISO8601)의 연-월로 갈라 odds_timeseries_YYYYMM.csv 로 쓴다.
+ts 컬럼(ISO8601)의 연-월-일로 갈라 odds_timeseries_YYYYMMDD.csv 로 쓴다.
+(월별로 해봤더니 2026-08 한 달이 106MB 라 여전히 한도를 넘었다.)
 원본은 .bak 으로 남긴다. 행 수가 맞는지 확인한 뒤에만 원본을 치운다.
 
     python src/split_timeseries.py          # 확인만(쓰지 않음)
@@ -46,8 +47,8 @@ def main(argv: list[str]) -> int:
         for row in rd:
             total += 1
             # ts 는 '2026-08-13T08:03:31+00:00' 형태. 앞 7자가 연-월이다.
-            ym = str(row.get("ts", ""))[:7].replace("-", "")
-            if len(ym) != 6 or not ym.isdigit():
+            ym = str(row.get("ts", ""))[:10].replace("-", "")
+            if len(ym) != 8 or not ym.isdigit():
                 ym = "unknown"
             counts[ym] += 1
             if not write:
