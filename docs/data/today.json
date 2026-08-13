@@ -1,323 +1,23 @@
 {
- "generated_at": "2026-08-10T03:55:33+00:00",
+ "generated_at": "2026-08-13T08:32:57+00:00",
  "year": 2026,
  "rounds": [
   {
-   "round": 94,
-   "n_games": 97,
+   "round": 95,
+   "n_games": 129,
    "payout_2way": 88.01,
    "grade": "B",
    "grade_note": "환급률 양호 (중앙값 수준)",
    "games": [
     {
-     "game_no": "1434",
-     "date": "08.11(화) 08:07",
+     "game_no": "1869",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "토론블루",
-     "away": "보스레드",
+     "league": "NPB",
+     "home": "요미우리",
+     "away": "한신",
      "market": "승패",
      "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1365,
-     "payout": 87.99,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 2.17,
-       "prob": 0.4055,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      },
-      {
-       "name": "원정",
-       "odds": 1.48,
-       "prob": 0.5945,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 원정 59%로 본다(배당 1.48). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1435",
-     "date": "08.11(화) 08:07",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "토론블루",
-     "away": "보스레드",
-     "market": "승①패",
-     "market_label": "승①패",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1482,
-     "payout": 87.09,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈2+",
-       "odds": 3.4,
-       "prob": 0.244,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "1점차",
-       "odds": 3.35,
-       "prob": 0.2482,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정2+",
-       "odds": 1.8,
-       "prob": 0.5079,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 원정2+ 51%로 본다(배당 1.80). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1436",
-     "date": "08.11(화) 08:07",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "토론블루",
-     "away": "보스레드",
-     "market": "핸디캡",
-     "market_label": "H +2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1366,
-     "payout": 87.98,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.41,
-       "prob": 0.624,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      },
-      {
-       "name": "핸디원정",
-       "odds": 2.34,
-       "prob": 0.376,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1479,
-       "hist_n": 16994
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 핸디홈 62%로 본다(배당 1.41). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1437",
-     "date": "08.11(화) 08:07",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "토론블루",
-     "away": "보스레드",
-     "market": "언더오버",
-     "market_label": "U 8.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1358,
-     "payout": 88.05,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.68,
-       "prob": 0.5241,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.85,
-       "prob": 0.4759,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 52%로 본다(배당 1.68). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1438",
-     "date": "08.11(화) 08:07",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "토론블루",
-     "away": "보스레드",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.56,
-       "prob": 0.5642,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 2.02,
-       "prob": 0.4358,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1439",
-     "date": "08.11(화) 08:15",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애틀브레",
-     "away": "뉴욕메츠",
-     "market": "승패",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1363,
-     "payout": 88.01,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.49,
-       "prob": 0.5907,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      },
-      {
-       "name": "원정",
-       "odds": 2.15,
-       "prob": 0.4093,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홈 59%로 본다(배당 1.49). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1440",
-     "date": "08.11(화) 08:15",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애틀브레",
-     "away": "뉴욕메츠",
-     "market": "승①패",
-     "market_label": "승①패",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1483,
-     "payout": 87.09,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈2+",
-       "odds": 2.03,
-       "prob": 0.4436,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
-      },
-      {
-       "name": "1점차",
-       "odds": 3.35,
-       "prob": 0.2496,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정2+",
-       "odds": 2.8,
-       "prob": 0.3067,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 홈2+ 44%로 본다(배당 2.03). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1441",
-     "date": "08.11(화) 08:15",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애틀브레",
-     "away": "뉴욕메츠",
-     "market": "핸디캡",
-     "market_label": "H -2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1369,
-     "payout": 87.96,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 2.72,
-       "prob": 0.3234,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1479,
-       "hist_n": 16994
-      },
-      {
-       "name": "핸디원정",
-       "odds": 1.3,
-       "prob": 0.6766,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 핸디원정 68%로 본다(배당 1.30). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1442",
-     "date": "08.11(화) 08:15",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애틀브레",
-     "away": "뉴욕메츠",
-     "market": "언더오버",
-     "market_label": "U 8.5",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1377,
@@ -325,254 +25,79 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "언더",
-       "odds": 1.7,
-       "prob": 0.517,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
+       "name": "홈",
        "odds": 1.82,
        "prob": 0.483,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 52%로 본다(배당 1.70). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1443",
-     "date": "08.11(화) 08:15",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애틀브레",
-     "away": "뉴욕메츠",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.08,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.55,
-       "prob": 0.5682,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 2.04,
-       "prob": 0.4318,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1444",
-     "date": "08.11(화) 08:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "미네트윈",
-     "away": "볼티오리",
-     "market": "승패",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1367,
-     "payout": 87.97,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.79,
-       "prob": 0.4915,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
       },
       {
        "name": "원정",
-       "odds": 1.73,
-       "prob": 0.5085,
+       "odds": 1.7,
+       "prob": 0.517,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       }
      ],
      "warnings": [],
-     "comment": "시장은 원정 51%로 본다(배당 1.73). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 원정 52%로 본다(배당 1.70). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1445",
-     "date": "08.11(화) 08:40",
+     "game_no": "1870",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "미네트윈",
-     "away": "볼티오리",
+     "league": "NPB",
+     "home": "요미우리",
+     "away": "한신",
      "market": "승①패",
      "market_label": "승①패",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1485,
-     "payout": 87.07,
+     "overround": 1.149,
+     "payout": 87.03,
      "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "홈2+",
-       "odds": 2.6,
-       "prob": 0.3343,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
-      },
-      {
-       "name": "1점차",
-       "odds": 3.3,
-       "prob": 0.2544,
+       "odds": 3.0,
+       "prob": 0.284,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1262,
        "hist_n": 38408
       },
       {
+       "name": "1점차",
+       "odds": 2.6,
+       "prob": 0.3346,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
        "name": "원정2+",
-       "odds": 2.17,
-       "prob": 0.4113,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
+       "odds": 2.32,
+       "prob": 0.3813,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
       }
      ],
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 원정2+ 41%로 본다(배당 2.17). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 원정2+ 38%로 본다(배당 2.32). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1446",
-     "date": "08.11(화) 08:40",
+     "game_no": "1871",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "미네트윈",
-     "away": "볼티오리",
+     "league": "NPB",
+     "home": "요미우리",
+     "away": "한신",
      "market": "핸디캡",
      "market_label": "H +2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1358,
-     "payout": 88.04,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.27,
-       "prob": 0.6932,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      },
-      {
-       "name": "핸디원정",
-       "odds": 2.87,
-       "prob": 0.3068,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1479,
-       "hist_n": 16994
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 핸디홈 69%로 본다(배당 1.27). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1447",
-     "date": "08.11(화) 08:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "미네트윈",
-     "away": "볼티오리",
-     "market": "언더오버",
-     "market_label": "U 8.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1365,
-     "payout": 87.99,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.74,
-       "prob": 0.5057,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.78,
-       "prob": 0.4943,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1448",
-     "date": "08.11(화) 08:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "미네트윈",
-     "away": "볼티오리",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.08,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.55,
-       "prob": 0.5682,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 2.04,
-       "prob": 0.4318,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1449",
-     "date": "08.11(화) 08:45",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "세인카디",
-     "away": "필라필리",
-     "market": "승패",
-     "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1364,
@@ -580,97 +105,202 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "홈",
-       "odds": 1.75,
-       "prob": 0.5028,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
+       "name": "핸디홈",
+       "odds": 1.2,
+       "prob": 0.7333,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
       },
       {
-       "name": "원정",
-       "odds": 1.77,
-       "prob": 0.4972,
+       "name": "핸디원정",
+       "odds": 3.3,
+       "prob": 0.2667,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1923,
+       "hist_n": 6291
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 핸디홈 73%로 본다(배당 1.20). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1872",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "요미우리",
+     "away": "한신",
+     "market": "언더오버",
+     "market_label": "U 6.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.137,
+     "payout": 87.95,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.8,
+       "prob": 0.4886,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "오버",
+       "odds": 1.72,
+       "prob": 0.5114,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       }
      ],
      "warnings": [],
-     "comment": "시장은 홈 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 오버 51%로 본다(배당 1.72). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1450",
-     "date": "08.11(화) 08:45",
+     "game_no": "1873",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "세인카디",
-     "away": "필라필리",
+     "league": "NPB",
+     "home": "요미우리",
+     "away": "한신",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1366,
+     "payout": 87.98,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.61,
+       "prob": 0.5465,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.94,
+       "prob": 0.4535,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1879",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "주니치",
+     "away": "요코베이",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1373,
+     "payout": 87.93,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.71,
+       "prob": 0.5142,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "원정",
+       "odds": 1.81,
+       "prob": 0.4858,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈 51%로 본다(배당 1.71). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1880",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "주니치",
+     "away": "요코베이",
      "market": "승①패",
      "market_label": "승①패",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1495,
-     "payout": 87.0,
+     "overround": 1.1493,
+     "payout": 87.01,
      "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "홈2+",
-       "odds": 2.5,
-       "prob": 0.3495,
+       "odds": 2.7,
+       "prob": 0.3206,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
       },
       {
        "name": "1점차",
-       "odds": 3.3,
-       "prob": 0.2541,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
+       "odds": 2.65,
+       "prob": 0.3276,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
       },
       {
        "name": "원정2+",
-       "odds": 2.24,
-       "prob": 0.3964,
+       "odds": 2.49,
+       "prob": 0.3518,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
       }
      ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 원정2+ 40%로 본다(배당 2.24). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "warnings": [],
+     "comment": "시장은 원정2+ 35%로 본다(배당 2.49). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1451",
-     "date": "08.11(화) 08:45",
+     "game_no": "1881",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "세인카디",
-     "away": "필라필리",
+     "league": "NPB",
+     "home": "주니치",
+     "away": "요코베이",
      "market": "핸디캡",
      "market_label": "H -2.5",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1365,
-     "payout": 87.99,
+     "overround": 1.136,
+     "payout": 88.02,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "핸디홈",
-       "odds": 3.46,
-       "prob": 0.2543,
+       "odds": 3.65,
+       "prob": 0.2412,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1923,
        "hist_n": 6291
       },
       {
        "name": "핸디원정",
-       "odds": 1.18,
-       "prob": 0.7457,
+       "odds": 1.16,
+       "prob": 0.7588,
        "bucket": "1.0–1.5",
        "hist_roi": -0.1067,
        "hist_n": 30126
@@ -679,17 +309,348 @@
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 핸디원정 75%로 본다(배당 1.18). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 핸디원정 76%로 본다(배당 1.16). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1452",
-     "date": "08.11(화) 08:45",
+     "game_no": "1882",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "세인카디",
-     "away": "필라필리",
+     "league": "NPB",
+     "home": "주니치",
+     "away": "요코베이",
      "market": "언더오버",
-     "market_label": "U 8.5",
+     "market_label": "U 6.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.86,
+       "prob": 0.4731,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "오버",
+       "odds": 1.67,
+       "prob": 0.5269,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 53%로 본다(배당 1.67). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1883",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "주니치",
+     "away": "요코베이",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1366,
+     "payout": 87.98,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.61,
+       "prob": 0.5465,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.94,
+       "prob": 0.4535,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1884",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "닛폰햄",
+     "away": "세이부",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1362,
+     "payout": 88.01,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.51,
+       "prob": 0.5829,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "원정",
+       "odds": 2.11,
+       "prob": 0.4171,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈 58%로 본다(배당 1.51). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1885",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "닛폰햄",
+     "away": "세이부",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1507,
+     "payout": 86.9,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.17,
+       "prob": 0.4108,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      },
+      {
+       "name": "1점차",
+       "odds": 2.85,
+       "prob": 0.3004,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.95,
+       "prob": 0.2888,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈2+ 41%로 본다(배당 2.17). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1886",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "닛폰햄",
+     "away": "세이부",
+     "market": "핸디캡",
+     "market_label": "H -2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1359,
+     "payout": 88.04,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 2.82,
+       "prob": 0.3122,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.28,
+       "prob": 0.6878,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디원정 69%로 본다(배당 1.28). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1887",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "닛폰햄",
+     "away": "세이부",
+     "market": "언더오버",
+     "market_label": "U 7.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 88.0,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.77,
+       "prob": 0.4972,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.75,
+       "prob": 0.5028,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1888",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "닛폰햄",
+     "away": "세이부",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1366,
+     "payout": 87.98,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.61,
+       "prob": 0.5465,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.94,
+       "prob": 0.4535,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1889",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "라쿠텐",
+     "away": "오릭스",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1352,
+     "payout": 88.09,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.6,
+       "prob": 0.5506,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "원정",
+       "odds": 1.96,
+       "prob": 0.4494,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈 55%로 본다(배당 1.60). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1890",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "라쿠텐",
+     "away": "오릭스",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1493,
+     "payout": 87.01,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.49,
+       "prob": 0.3518,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "1점차",
+       "odds": 2.7,
+       "prob": 0.3206,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.65,
+       "prob": 0.3276,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈2+ 35%로 본다(배당 2.49). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1891",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "라쿠텐",
+     "away": "오릭스",
+     "market": "핸디캡",
+     "market_label": "H -2.5",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1361,
@@ -697,122 +658,344 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
+       "name": "핸디홈",
+       "odds": 3.16,
+       "prob": 0.2785,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1923,
+       "hist_n": 6291
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.22,
+       "prob": 0.7215,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 핸디원정 72%로 본다(배당 1.22). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1892",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "라쿠텐",
+     "away": "오릭스",
+     "market": "언더오버",
+     "market_label": "U 6.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.07,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
        "name": "언더",
-       "odds": 1.9,
-       "prob": 0.4633,
+       "odds": 1.93,
+       "prob": 0.4563,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       },
       {
        "name": "오버",
-       "odds": 1.64,
-       "prob": 0.5367,
+       "odds": 1.62,
+       "prob": 0.5437,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       }
      ],
      "warnings": [],
-     "comment": "시장은 오버 54%로 본다(배당 1.64). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 오버 54%로 본다(배당 1.62). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1453",
-     "date": "08.11(화) 08:45",
+     "game_no": "1893",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "세인카디",
-     "away": "필라필리",
+     "league": "NPB",
+     "home": "라쿠텐",
+     "away": "오릭스",
      "market": "홀짝",
      "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.08,
+     "overround": 1.1366,
+     "payout": 87.98,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "홀",
-       "odds": 1.55,
-       "prob": 0.5682,
+       "odds": 1.61,
+       "prob": 0.5465,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "짝",
-       "odds": 2.04,
-       "prob": 0.4318,
+       "odds": 1.94,
+       "prob": 0.4535,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홀 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1454",
-     "date": "08.11(화) 10:38",
+     "game_no": "1894",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "LA에인절",
-     "away": "텍사레인",
+     "league": "NPB",
+     "home": "소프트뱅",
+     "away": "지바롯데",
      "market": "승패",
      "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1372,
+     "overround": 1.1371,
      "payout": 87.94,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "홈",
-       "odds": 1.87,
-       "prob": 0.4703,
+       "odds": 1.42,
+       "prob": 0.6193,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "원정",
+       "odds": 2.31,
+       "prob": 0.3807,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈 62%로 본다(배당 1.42). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1895",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "소프트뱅",
+     "away": "지바롯데",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1497,
+     "payout": 86.98,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 1.92,
+       "prob": 0.4719,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      },
+      {
+       "name": "1점차",
+       "odds": 2.95,
+       "prob": 0.2878,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "원정2+",
+       "odds": 3.45,
+       "prob": 0.2403,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 홈2+ 47%로 본다(배당 1.92). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1896",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "소프트뱅",
+     "away": "지바롯데",
+     "market": "핸디캡",
+     "market_label": "H -2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1362,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 2.43,
+       "prob": 0.3622,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.38,
+       "prob": 0.6378,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디원정 64%로 본다(배당 1.38). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1897",
+     "date": "08.13(목) 18:00",
+     "sport": "bs",
+     "league": "NPB",
+     "home": "소프트뱅",
+     "away": "지바롯데",
+     "market": "언더오버",
+     "market_label": "U 7.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1352,
+     "payout": 88.09,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.84,
+       "prob": 0.4788,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       },
       {
-       "name": "원정",
-       "odds": 1.66,
-       "prob": 0.5297,
+       "name": "오버",
+       "odds": 1.69,
+       "prob": 0.5212,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       }
      ],
      "warnings": [],
-     "comment": "시장은 원정 53%로 본다(배당 1.66). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 오버 52%로 본다(배당 1.69). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1455",
-     "date": "08.11(화) 10:38",
+     "game_no": "1898",
+     "date": "08.13(목) 18:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "LA에인절",
-     "away": "텍사레인",
+     "league": "NPB",
+     "home": "소프트뱅",
+     "away": "지바롯데",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1366,
+     "payout": 87.98,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.61,
+       "prob": 0.5465,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.94,
+       "prob": 0.4535,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1899",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1366,
+     "payout": 87.98,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.94,
+       "prob": 0.4535,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.61,
+       "prob": 0.5465,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1900",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
      "market": "승①패",
      "market_label": "승①패",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1498,
-     "payout": 86.97,
+     "overround": 1.1505,
+     "payout": 86.92,
      "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "홈2+",
-       "odds": 2.75,
-       "prob": 0.3128,
+       "odds": 2.9,
+       "prob": 0.2942,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
       },
       {
        "name": "1점차",
-       "odds": 3.3,
-       "prob": 0.2537,
+       "odds": 3.1,
+       "prob": 0.2725,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1262,
        "hist_n": 38408
@@ -820,7 +1003,7 @@
       {
        "name": "원정2+",
        "odds": 2.07,
-       "prob": 0.4335,
+       "prob": 0.4334,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1392,
        "hist_n": 12982
@@ -829,15 +1012,15 @@
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 원정2+ 43%로 본다(배당 2.07). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 원정2+ 43%로 본다(배당 2.07). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1456",
-     "date": "08.11(화) 10:38",
+     "game_no": "1901",
+     "date": "08.13(목) 19:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "LA에인절",
-     "away": "텍사레인",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
      "market": "핸디캡",
      "market_label": "H +2.5",
      "booking_class": "2-way",
@@ -867,14 +1050,314 @@
      "comment": "시장은 핸디홈 68%로 본다(배당 1.30). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1457",
-     "date": "08.11(화) 10:38",
+     "game_no": "1902",
+     "date": "08.13(목) 19:00",
      "sport": "bs",
-     "league": "MLB",
-     "home": "LA에인절",
-     "away": "텍사레인",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
      "market": "언더오버",
-     "market_label": "U 8.5",
+     "market_label": "U 7.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1352,
+     "payout": 88.09,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.84,
+       "prob": 0.4788,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "오버",
+       "odds": 1.69,
+       "prob": 0.5212,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 52%로 본다(배당 1.69). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1903",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.59,
+       "prob": 0.5534,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.97,
+       "prob": 0.4466,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 55%로 본다(배당 1.59). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1904",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
+     "market": "전반승무패",
+     "market_label": "h(전반)",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1503,
+     "payout": 86.94,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "전반홈",
+       "odds": 2.4,
+       "prob": 0.3631,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "전반무",
+       "odds": 4.7,
+       "prob": 0.1668,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "전반원정",
+       "odds": 1.92,
+       "prob": 0.4701,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 전반원정 47%로 본다(배당 1.92). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1905",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
+     "market": "전반핸디캡",
+     "market_label": "h H +1.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반핸디홈",
+       "odds": 1.33,
+       "prob": 0.6616,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "전반핸디원정",
+       "odds": 2.6,
+       "prob": 0.3384,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반핸디홈 66%로 본다(배당 1.33). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1906",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "두산",
+     "away": "한화",
+     "market": "전반언더오버",
+     "market_label": "h U 4.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.07,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반언더",
+       "odds": 1.62,
+       "prob": 0.5437,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "전반오버",
+       "odds": 1.93,
+       "prob": 0.4563,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반언더 54%로 본다(배당 1.62). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1907",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1358,
+     "payout": 88.05,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.85,
+       "prob": 0.4759,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.68,
+       "prob": 0.5241,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 52%로 본다(배당 1.68). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1908",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1498,
+     "payout": 86.97,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.65,
+       "prob": 0.3265,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "1점차",
+       "odds": 3.35,
+       "prob": 0.2494,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.11,
+       "prob": 0.4241,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 42%로 본다(배당 2.11). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1909",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1362,
+     "payout": 88.01,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.29,
+       "prob": 0.6823,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.77,
+       "prob": 0.3177,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 68%로 본다(배당 1.29). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1910",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "언더오버",
+     "market_label": "U 9.5",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1365,
@@ -883,6 +1366,456 @@
      "selections": [
       {
        "name": "언더",
+       "odds": 1.78,
+       "prob": 0.4943,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1911",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.07,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.58,
+       "prob": 0.5574,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.99,
+       "prob": 0.4426,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 56%로 본다(배당 1.58). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1912",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "전반승무패",
+     "market_label": "h(전반)",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1485,
+     "payout": 87.07,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "전반홈",
+       "odds": 2.15,
+       "prob": 0.4099,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      },
+      {
+       "name": "전반무",
+       "odds": 6.6,
+       "prob": 0.1109,
+       "bucket": "5.0+",
+       "hist_roi": -0.3335,
+       "hist_n": 8116
+      },
+      {
+       "name": "전반원정",
+       "odds": 1.88,
+       "prob": 0.4792,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
+     ],
+     "comment": "시장은 전반원정 48%로 본다(배당 1.88). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1913",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "전반핸디캡",
+     "market_label": "h H +1.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.136,
+     "payout": 88.03,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반핸디홈",
+       "odds": 1.35,
+       "prob": 0.6521,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "전반핸디원정",
+       "odds": 2.53,
+       "prob": 0.3479,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반핸디홈 65%로 본다(배당 1.35). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1914",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "SSG",
+     "away": "롯데",
+     "market": "전반언더오버",
+     "market_label": "h U 5.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1373,
+     "payout": 87.93,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반언더",
+       "odds": 1.71,
+       "prob": 0.5142,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "전반오버",
+       "odds": 1.81,
+       "prob": 0.4858,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반언더 51%로 본다(배당 1.71). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1915",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 2.4,
+       "prob": 0.3668,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      },
+      {
+       "name": "원정",
+       "odds": 1.39,
+       "prob": 0.6332,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 63%로 본다(배당 1.39). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1916",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1483,
+     "payout": 87.09,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 3.5,
+       "prob": 0.2349,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "1점차",
+       "odds": 3.6,
+       "prob": 0.2274,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 1.71,
+       "prob": 0.5377,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 54%로 본다(배당 1.71). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1917",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 88.0,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.52,
+       "prob": 0.5789,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.09,
+       "prob": 0.4211,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 58%로 본다(배당 1.52). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1918",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "언더오버",
+     "market_label": "U 9.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1371,
+     "payout": 87.95,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.91,
+       "prob": 0.4605,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "오버",
+       "odds": 1.63,
+       "prob": 0.5395,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 54%로 본다(배당 1.63). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1919",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.07,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.58,
+       "prob": 0.5574,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.99,
+       "prob": 0.4426,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 56%로 본다(배당 1.58). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1920",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "전반승무패",
+     "market_label": "h(전반)",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1497,
+     "payout": 86.98,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "전반홈",
+       "odds": 2.55,
+       "prob": 0.3341,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "전반무",
+       "odds": 6.6,
+       "prob": 0.1097,
+       "bucket": "5.0+",
+       "hist_roi": -0.3335,
+       "hist_n": 8116
+      },
+      {
+       "name": "전반원정",
+       "odds": 1.65,
+       "prob": 0.5563,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
+      }
+     ],
+     "warnings": [
+      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
+     ],
+     "comment": "시장은 전반원정 56%로 본다(배당 1.65). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1921",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "전반핸디캡",
+     "market_label": "h H +1.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반핸디홈",
+       "odds": 1.56,
+       "prob": 0.5642,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "전반핸디원정",
+       "odds": 2.02,
+       "prob": 0.4358,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반핸디홈 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1922",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "KIA",
+     "away": "삼성",
+     "market": "전반언더오버",
+     "market_label": "h U 5.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반언더",
        "odds": 1.74,
        "prob": 0.5057,
        "bucket": "1.5–1.8",
@@ -890,7 +1823,7 @@
        "hist_n": 119682
       },
       {
-       "name": "오버",
+       "name": "전반오버",
        "odds": 1.78,
        "prob": 0.4943,
        "bucket": "1.5–1.8",
@@ -899,15 +1832,907 @@
       }
      ],
      "warnings": [],
-     "comment": "시장은 언더 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 전반언더 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1458",
-     "date": "08.11(화) 10:38",
+     "game_no": "1923",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1377,
+     "payout": 87.9,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.82,
+       "prob": 0.483,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.7,
+       "prob": 0.517,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 52%로 본다(배당 1.70). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1924",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1484,
+     "payout": 87.08,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.6,
+       "prob": 0.334,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "1점차",
+       "odds": 3.45,
+       "prob": 0.2415,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.11,
+       "prob": 0.4245,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 42%로 본다(배당 2.11). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1925",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1369,
+     "payout": 87.96,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.3,
+       "prob": 0.6766,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.72,
+       "prob": 0.3234,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 68%로 본다(배당 1.30). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1926",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "언더오버",
+     "market_label": "U 10.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 88.0,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.75,
+       "prob": 0.5028,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.77,
+       "prob": 0.4972,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 언더 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1927",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1369,
+     "payout": 87.96,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.57,
+       "prob": 0.5602,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 2.0,
+       "prob": 0.4398,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 56%로 본다(배당 1.57). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1928",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "전반승무패",
+     "market_label": "h(전반)",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.149,
+     "payout": 87.03,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "전반홈",
+       "odds": 2.1,
+       "prob": 0.421,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      },
+      {
+       "name": "전반무",
+       "odds": 6.7,
+       "prob": 0.1088,
+       "bucket": "5.0+",
+       "hist_roi": -0.3335,
+       "hist_n": 8116
+      },
+      {
+       "name": "전반원정",
+       "odds": 1.91,
+       "prob": 0.4702,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
+     ],
+     "comment": "시장은 전반원정 47%로 본다(배당 1.91). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1929",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "전반핸디캡",
+     "market_label": "h H +1.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반핸디홈",
+       "odds": 1.33,
+       "prob": 0.6616,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "전반핸디원정",
+       "odds": 2.6,
+       "prob": 0.3384,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반핸디홈 66%로 본다(배당 1.33). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1930",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "NC",
+     "away": "KT",
+     "market": "전반언더오버",
+     "market_label": "h U 5.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.07,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반언더",
+       "odds": 1.93,
+       "prob": 0.4563,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "전반오버",
+       "odds": 1.62,
+       "prob": 0.5437,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반오버 54%로 본다(배당 1.62). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1931",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1367,
+     "payout": 87.97,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 2.07,
+       "prob": 0.425,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.53,
+       "prob": 0.575,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 57%로 본다(배당 1.53). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1932",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1505,
+     "payout": 86.92,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 3.1,
+       "prob": 0.2718,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "1점차",
+       "odds": 3.2,
+       "prob": 0.262,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 1.94,
+       "prob": 0.4662,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 47%로 본다(배당 1.94). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1933",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1369,
+     "payout": 87.96,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.36,
+       "prob": 0.6468,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.49,
+       "prob": 0.3532,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 65%로 본다(배당 1.36). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1934",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "언더오버",
+     "market_label": "U 8.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1373,
+     "payout": 87.93,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.71,
+       "prob": 0.5142,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.81,
+       "prob": 0.4858,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 언더 51%로 본다(배당 1.71). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1935",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.59,
+       "prob": 0.5534,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.97,
+       "prob": 0.4466,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 55%로 본다(배당 1.59). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1936",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "전반승무패",
+     "market_label": "h(전반)",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1508,
+     "payout": 86.9,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "전반홈",
+       "odds": 2.4,
+       "prob": 0.3607,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "전반무",
+       "odds": 5.7,
+       "prob": 0.1317,
+       "bucket": "5.0+",
+       "hist_roi": -0.3335,
+       "hist_n": 8116
+      },
+      {
+       "name": "전반원정",
+       "odds": 1.79,
+       "prob": 0.5076,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
+      }
+     ],
+     "warnings": [
+      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
+     ],
+     "comment": "시장은 전반원정 51%로 본다(배당 1.79). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1937",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "전반핸디캡",
+     "market_label": "h H +1.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반핸디홈",
+       "odds": 1.37,
+       "prob": 0.6423,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "전반핸디원정",
+       "odds": 2.46,
+       "prob": 0.3577,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반핸디홈 64%로 본다(배당 1.37). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1938",
+     "date": "08.13(목) 19:00",
+     "sport": "bs",
+     "league": "KBO",
+     "home": "키움",
+     "away": "LG",
+     "market": "전반언더오버",
+     "market_label": "h U 4.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 88.0,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "전반언더",
+       "odds": 1.75,
+       "prob": 0.5028,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "전반오버",
+       "odds": 1.77,
+       "prob": 0.4972,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 전반언더 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1939",
+     "date": "08.13(목) 19:00",
+     "sport": "bk",
+     "league": "여농INTL",
+     "home": "일본W",
+     "away": "한국W",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1363,
+     "payout": 88.01,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.01,
+       "prob": 0.8713,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "원정",
+       "odds": 6.84,
+       "prob": 0.1287,
+       "bucket": "5.0+",
+       "hist_roi": -0.3753,
+       "hist_n": 1885
+      }
+     ],
+     "warnings": [
+      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
+     ],
+     "comment": "시장은 홈 87%로 본다(배당 1.01). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1940",
+     "date": "08.13(목) 19:00",
+     "sport": "bk",
+     "league": "여농INTL",
+     "home": "일본W",
+     "away": "한국W",
+     "market": "핸디캡",
+     "market_label": "H -15.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 88.0,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.77,
+       "prob": 0.4972,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.75,
+       "prob": 0.5028,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디원정 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1941",
+     "date": "08.13(목) 19:00",
+     "sport": "bk",
+     "league": "여농INTL",
+     "home": "일본W",
+     "away": "한국W",
+     "market": "언더오버",
+     "market_label": "U 146.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.78,
+       "prob": 0.4943,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1942",
+     "date": "08.13(목) 19:00",
+     "sport": "bk",
+     "league": "여농INTL",
+     "home": "일본W",
+     "away": "한국W",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 88.0,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.76,
+       "prob": 0.5,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.76,
+       "prob": 0.5,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 50%로 본다(배당 1.76). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1943",
+     "date": "08.14(금) 02:10",
      "sport": "bs",
      "league": "MLB",
-     "home": "LA에인절",
-     "away": "텍사레인",
+     "home": "마이말린",
+     "away": "피츠파이",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.9,
+       "prob": 0.4633,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.64,
+       "prob": 0.5367,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 54%로 본다(배당 1.64). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1944",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "마이말린",
+     "away": "피츠파이",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1504,
+     "payout": 86.93,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.8,
+       "prob": 0.3061,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "1점차",
+       "odds": 3.3,
+       "prob": 0.2534,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.04,
+       "prob": 0.4405,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 44%로 본다(배당 2.04). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1945",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "마이말린",
+     "away": "피츠파이",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1369,
+     "payout": 87.96,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.3,
+       "prob": 0.6766,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.72,
+       "prob": 0.3234,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 68%로 본다(배당 1.30). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1946",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "마이말린",
+     "away": "피츠파이",
+     "market": "언더오버",
+     "market_label": "U 8.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.137,
+     "payout": 87.95,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.72,
+       "prob": 0.5114,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.8,
+       "prob": 0.4886,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 언더 51%로 본다(배당 1.72). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1947",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "마이말린",
+     "away": "피츠파이",
      "market": "홀짝",
      "market_label": "",
      "booking_class": "2-way",
@@ -937,12 +2762,197 @@
      "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1459",
-     "date": "08.11(화) 10:40",
+     "game_no": "1948",
+     "date": "08.14(금) 02:10",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌디파드",
-     "away": "밀워브루",
+     "home": "디트타이",
+     "away": "클리가디",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1377,
+     "payout": 87.9,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.82,
+       "prob": 0.483,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.7,
+       "prob": 0.517,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 52%로 본다(배당 1.70). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1949",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "디트타이",
+     "away": "클리가디",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1499,
+     "payout": 86.97,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.65,
+       "prob": 0.3265,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "1점차",
+       "odds": 3.3,
+       "prob": 0.2538,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.13,
+       "prob": 0.4196,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 42%로 본다(배당 2.13). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1950",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "디트타이",
+     "away": "클리가디",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1359,
+     "payout": 88.04,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.28,
+       "prob": 0.6878,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.82,
+       "prob": 0.3122,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 69%로 본다(배당 1.28). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1951",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "디트타이",
+     "away": "클리가디",
+     "market": "언더오버",
+     "market_label": "U 8.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1358,
+     "payout": 88.05,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.68,
+       "prob": 0.5241,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.85,
+       "prob": 0.4759,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 언더 52%로 본다(배당 1.68). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1952",
+     "date": "08.14(금) 02:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "디트타이",
+     "away": "클리가디",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.08,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.55,
+       "prob": 0.5682,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 2.04,
+       "prob": 0.4318,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1953",
+     "date": "08.14(금) 02:35",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "뉴욕양키",
+     "away": "시애매리",
      "market": "승패",
      "market_label": "",
      "booking_class": "2-way",
@@ -953,59 +2963,59 @@
      "selections": [
       {
        "name": "홈",
-       "odds": 1.73,
-       "prob": 0.5085,
+       "odds": 1.53,
+       "prob": 0.575,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "원정",
-       "odds": 1.79,
-       "prob": 0.4915,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
+       "odds": 2.07,
+       "prob": 0.425,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 홈 51%로 본다(배당 1.73). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홈 57%로 본다(배당 1.53). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1460",
-     "date": "08.11(화) 10:40",
+     "game_no": "1954",
+     "date": "08.14(금) 02:35",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌디파드",
-     "away": "밀워브루",
+     "home": "뉴욕양키",
+     "away": "시애매리",
      "market": "승①패",
      "market_label": "승①패",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1501,
-     "payout": 86.95,
+     "overround": 1.1498,
+     "payout": 86.97,
      "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "홈2+",
-       "odds": 2.55,
-       "prob": 0.3416,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
+       "odds": 2.12,
+       "prob": 0.422,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
       },
       {
        "name": "1점차",
-       "odds": 3.15,
-       "prob": 0.268,
+       "odds": 3.25,
+       "prob": 0.2584,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1262,
        "hist_n": 38408
       },
       {
        "name": "원정2+",
-       "odds": 2.27,
-       "prob": 0.3904,
+       "odds": 2.7,
+       "prob": 0.3197,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
@@ -1014,15 +3024,916 @@
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 원정2+ 39%로 본다(배당 2.27). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홈2+ 42%로 본다(배당 2.12). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1461",
-     "date": "08.11(화) 10:40",
+     "game_no": "1955",
+     "date": "08.14(금) 02:35",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌디파드",
-     "away": "밀워브루",
+     "home": "뉴욕양키",
+     "away": "시애매리",
+     "market": "핸디캡",
+     "market_label": "H -2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 2.92,
+       "prob": 0.3014,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.26,
+       "prob": 0.6986,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디원정 70%로 본다(배당 1.26). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1956",
+     "date": "08.14(금) 02:35",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "뉴욕양키",
+     "away": "시애매리",
+     "market": "언더오버",
+     "market_label": "U 7.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.78,
+       "prob": 0.4943,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1957",
+     "date": "08.14(금) 02:35",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "뉴욕양키",
+     "away": "시애매리",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.08,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.55,
+       "prob": 0.5682,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 2.04,
+       "prob": 0.4318,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1958",
+     "date": "08.14(금) 03:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "시카화이",
+     "away": "신시레즈",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.08,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.55,
+       "prob": 0.5682,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "원정",
+       "odds": 2.04,
+       "prob": 0.4318,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1959",
+     "date": "08.14(금) 03:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "시카화이",
+     "away": "신시레즈",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1485,
+     "payout": 87.07,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.17,
+       "prob": 0.4113,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      },
+      {
+       "name": "1점차",
+       "odds": 3.3,
+       "prob": 0.2544,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.6,
+       "prob": 0.3343,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 홈2+ 41%로 본다(배당 2.17). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1960",
+     "date": "08.14(금) 03:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "시카화이",
+     "away": "신시레즈",
+     "market": "핸디캡",
+     "market_label": "H -2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 2.92,
+       "prob": 0.3014,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.26,
+       "prob": 0.6986,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디원정 70%로 본다(배당 1.26). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1961",
+     "date": "08.14(금) 03:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "시카화이",
+     "away": "신시레즈",
+     "market": "언더오버",
+     "market_label": "U 8.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1364,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.67,
+       "prob": 0.5269,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.86,
+       "prob": 0.4731,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 언더 53%로 본다(배당 1.67). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1962",
+     "date": "08.14(금) 03:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "시카화이",
+     "away": "신시레즈",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.08,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.55,
+       "prob": 0.5682,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 2.04,
+       "prob": 0.4318,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1963",
+     "date": "08.14(금) 04:07",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "토론블루",
+     "away": "보스레드",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1369,
+     "payout": 87.96,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 2.26,
+       "prob": 0.3892,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      },
+      {
+       "name": "원정",
+       "odds": 1.44,
+       "prob": 0.6108,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 61%로 본다(배당 1.44). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1964",
+     "date": "08.14(금) 04:07",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "토론블루",
+     "away": "보스레드",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.149,
+     "payout": 87.03,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 3.6,
+       "prob": 0.2277,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "1점차",
+       "odds": 3.3,
+       "prob": 0.2518,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 1.76,
+       "prob": 0.5205,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 52%로 본다(배당 1.76). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1965",
+     "date": "08.14(금) 04:07",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "토론블루",
+     "away": "보스레드",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.136,
+     "payout": 88.03,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.43,
+       "prob": 0.6156,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.29,
+       "prob": 0.3844,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 62%로 본다(배당 1.43). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1966",
+     "date": "08.14(금) 04:07",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "토론블루",
+     "away": "보스레드",
+     "market": "언더오버",
+     "market_label": "U 7.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.78,
+       "prob": 0.4943,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1967",
+     "date": "08.14(금) 04:07",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "토론블루",
+     "away": "보스레드",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.08,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.55,
+       "prob": 0.5682,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 2.04,
+       "prob": 0.4318,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1968",
+     "date": "08.14(금) 05:05",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "워싱내셔",
+     "away": "시카컵스",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1362,
+     "payout": 88.01,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 2.11,
+       "prob": 0.4171,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "원정",
+       "odds": 1.51,
+       "prob": 0.5829,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 원정 58%로 본다(배당 1.51). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1969",
+     "date": "08.14(금) 05:05",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "워싱내셔",
+     "away": "시카컵스",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1486,
+     "payout": 87.06,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 3.2,
+       "prob": 0.262,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "1점차",
+       "odds": 3.35,
+       "prob": 0.2486,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 1.86,
+       "prob": 0.4894,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1392,
+       "hist_n": 12982
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 49%로 본다(배당 1.86). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1970",
+     "date": "08.14(금) 05:05",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "워싱내셔",
+     "away": "시카컵스",
+     "market": "핸디캡",
+     "market_label": "H +2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 1.39,
+       "prob": 0.6332,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.4,
+       "prob": 0.3668,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.1479,
+       "hist_n": 16994
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 핸디홈 63%로 본다(배당 1.39). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1971",
+     "date": "08.14(금) 05:05",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "워싱내셔",
+     "away": "시카컵스",
+     "market": "언더오버",
+     "market_label": "U 8.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.78,
+       "prob": 0.4943,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1972",
+     "date": "08.14(금) 05:05",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "워싱내셔",
+     "away": "시카컵스",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1361,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.56,
+       "prob": 0.5642,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 2.02,
+       "prob": 0.4358,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홀 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1973",
+     "date": "08.14(금) 07:00",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "미라솔",
+     "away": "LDU키토",
+     "market": "승무패",
+     "market_label": "",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1488,
+     "payout": 87.04,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.63,
+       "prob": 0.5665,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
+      },
+      {
+       "name": "무",
+       "odds": 3.1,
+       "prob": 0.2682,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정",
+       "odds": 4.7,
+       "prob": 0.1653,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 홈 57%로 본다(배당 1.63). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1974",
+     "date": "08.14(금) 07:00",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "미라솔",
+     "away": "LDU키토",
+     "market": "핸디캡",
+     "market_label": "H -1.0",
+     "booking_class": "3-way-핸디캡",
+     "n_way": 3,
+     "overround": 1.1483,
+     "payout": 87.08,
+     "theoretical_roi": -0.1401,
+     "selections": [
+      {
+       "name": "핸디홈",
+       "odds": 3.05,
+       "prob": 0.2781,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1656,
+       "hist_n": 37469
+      },
+      {
+       "name": "핸디무",
+       "odds": 3.05,
+       "prob": 0.2781,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1656,
+       "hist_n": 37469
+      },
+      {
+       "name": "핸디원정",
+       "odds": 2.03,
+       "prob": 0.4437,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.087,
+       "hist_n": 7681
+      }
+     ],
+     "warnings": [
+      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 핸디원정 44%로 본다(배당 2.03). 3-way 핸디캡 환급률 87.1%, 구조상 가장 불리. 1.8–2.2 구간 과거 실측 수익률 -8.7%(n=7,681). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1975",
+     "date": "08.14(금) 07:00",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "미라솔",
+     "away": "LDU키토",
+     "market": "언더오버",
+     "market_label": "U 2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1362,
+     "payout": 88.02,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.5,
+       "prob": 0.5868,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "오버",
+       "odds": 2.13,
+       "prob": 0.4132,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 언더 59%로 본다(배당 1.50). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1976",
+     "date": "08.14(금) 07:00",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "미라솔",
+     "away": "LDU키토",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홀",
+       "odds": 1.78,
+       "prob": 0.4943,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "짝",
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 짝 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1977",
+     "date": "08.14(금) 08:30",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "미네트윈",
+     "away": "필라필리",
+     "market": "승패",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1352,
+     "payout": 88.09,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "홈",
+       "odds": 1.69,
+       "prob": 0.5212,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      },
+      {
+       "name": "원정",
+       "odds": 1.84,
+       "prob": 0.4788,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 홈 52%로 본다(배당 1.69). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1978",
+     "date": "08.14(금) 08:30",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "미네트윈",
+     "away": "필라필리",
+     "market": "승①패",
+     "market_label": "승①패",
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1489,
+     "payout": 87.04,
+     "theoretical_roi": -0.13,
+     "selections": [
+      {
+       "name": "홈2+",
+       "odds": 2.4,
+       "prob": 0.3665,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "1점차",
+       "odds": 3.3,
+       "prob": 0.2544,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
+      },
+      {
+       "name": "원정2+",
+       "odds": 2.33,
+       "prob": 0.3791,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      }
+     ],
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정2+ 38%로 본다(배당 2.33). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1979",
+     "date": "08.14(금) 08:30",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "미네트윈",
+     "away": "필라필리",
      "market": "핸디캡",
      "market_label": "H -2.5",
      "booking_class": "2-way",
@@ -1033,16 +3944,16 @@
      "selections": [
       {
        "name": "핸디홈",
-       "odds": 3.55,
-       "prob": 0.2479,
+       "odds": 3.3,
+       "prob": 0.2667,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1923,
        "hist_n": 6291
       },
       {
        "name": "핸디원정",
-       "odds": 1.17,
-       "prob": 0.7521,
+       "odds": 1.2,
+       "prob": 0.7333,
        "bucket": "1.0–1.5",
        "hist_roi": -0.1067,
        "hist_n": 30126
@@ -1051,52 +3962,17 @@
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 핸디원정 75%로 본다(배당 1.17). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 핸디원정 73%로 본다(배당 1.20). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1462",
-     "date": "08.11(화) 10:40",
+     "game_no": "1980",
+     "date": "08.14(금) 08:30",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌디파드",
-     "away": "밀워브루",
+     "home": "미네트윈",
+     "away": "필라필리",
      "market": "언더오버",
-     "market_label": "U 7.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1352,
-     "payout": 88.09,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.65,
-       "prob": 0.5339,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.89,
-       "prob": 0.4661,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 53%로 본다(배당 1.65). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1463",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "샌디파드",
-     "away": "밀워브루",
-     "market": "홀짝",
-     "market_label": "",
+     "market_label": "U 8.5",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1372,
@@ -1104,149 +3980,195 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
+       "name": "언더",
+       "odds": 1.87,
+       "prob": 0.4703,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
+      },
+      {
+       "name": "오버",
+       "odds": 1.66,
+       "prob": 0.5297,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
+      }
+     ],
+     "warnings": [],
+     "comment": "시장은 오버 53%로 본다(배당 1.66). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1981",
+     "date": "08.14(금) 08:30",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "미네트윈",
+     "away": "필라필리",
+     "market": "홀짝",
+     "market_label": "",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1354,
+     "payout": 88.08,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
        "name": "홀",
-       "odds": 1.54,
-       "prob": 0.571,
+       "odds": 1.55,
+       "prob": 0.5682,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "짝",
-       "odds": 2.05,
-       "prob": 0.429,
+       "odds": 2.04,
+       "prob": 0.4318,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 홀 57%로 본다(배당 1.54). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1464",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애슬레틱",
-     "away": "탬파레이",
-     "market": "승패",
+     "game_no": "1982",
+     "date": "08.14(금) 09:30",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "로사리오",
+     "away": "코린티안",
+     "market": "승무패",
      "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1362,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
+     "booking_class": "3-way",
+     "n_way": 3,
+     "overround": 1.1499,
+     "payout": 86.97,
+     "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "홈",
        "odds": 2.13,
-       "prob": 0.4132,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      },
-      {
-       "name": "원정",
-       "odds": 1.5,
-       "prob": 0.5868,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 원정 59%로 본다(배당 1.50). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1465",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애슬레틱",
-     "away": "탬파레이",
-     "market": "승①패",
-     "market_label": "승①패",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.15,
-     "payout": 86.95,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈2+",
-       "odds": 3.25,
-       "prob": 0.2565,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "1점차",
-       "odds": 3.45,
-       "prob": 0.2394,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정2+",
-       "odds": 1.81,
-       "prob": 0.5041,
+       "prob": 0.4196,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1392,
        "hist_n": 12982
+      },
+      {
+       "name": "무",
+       "odds": 2.65,
+       "prob": 0.3265,
+       "bucket": "2.2–3.0",
+       "hist_roi": -0.131,
+       "hist_n": 25054
+      },
+      {
+       "name": "원정",
+       "odds": 3.3,
+       "prob": 0.2538,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
       }
      ],
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 원정2+ 50%로 본다(배당 1.81). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홈 42%로 본다(배당 2.13). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1466",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애슬레틱",
-     "away": "탬파레이",
+     "game_no": "1983",
+     "date": "08.14(금) 09:30",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "로사리오",
+     "away": "코린티안",
      "market": "핸디캡",
-     "market_label": "H +2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1366,
-     "payout": 87.98,
-     "theoretical_roi": -0.12,
+     "market_label": "H -1.0",
+     "booking_class": "3-way-핸디캡",
+     "n_way": 3,
+     "overround": 1.1487,
+     "payout": 87.05,
+     "theoretical_roi": -0.1401,
      "selections": [
       {
        "name": "핸디홈",
-       "odds": 1.41,
-       "prob": 0.624,
+       "odds": 4.9,
+       "prob": 0.1565,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1656,
+       "hist_n": 37469
+      },
+      {
+       "name": "핸디무",
+       "odds": 3.25,
+       "prob": 0.2527,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1656,
+       "hist_n": 37469
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.57,
+       "prob": 0.5907,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.099,
+       "hist_n": 9747
+      }
+     ],
+     "warnings": [
+      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 핸디원정 59%로 본다(배당 1.57). 3-way 핸디캡 환급률 87.1%, 구조상 가장 불리. 1.5–1.8 구간 과거 실측 수익률 -9.9%(n=9,747). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
+    },
+    {
+     "game_no": "1984",
+     "date": "08.14(금) 09:30",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "로사리오",
+     "away": "코린티안",
+     "market": "언더오버",
+     "market_label": "U 2.5",
+     "booking_class": "2-way",
+     "n_way": 2,
+     "overround": 1.1365,
+     "payout": 87.99,
+     "theoretical_roi": -0.12,
+     "selections": [
+      {
+       "name": "언더",
+       "odds": 1.31,
+       "prob": 0.6717,
        "bucket": "1.0–1.5",
        "hist_roi": -0.1067,
        "hist_n": 30126
       },
       {
-       "name": "핸디원정",
-       "odds": 2.34,
-       "prob": 0.376,
+       "name": "오버",
+       "odds": 2.68,
+       "prob": 0.3283,
        "bucket": "2.2–3.0",
        "hist_roi": -0.1479,
        "hist_n": 16994
       }
      ],
      "warnings": [],
-     "comment": "시장은 핸디홈 62%로 본다(배당 1.41). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 언더 67%로 본다(배당 1.31). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1467",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애슬레틱",
-     "away": "탬파레이",
-     "market": "언더오버",
-     "market_label": "U 9.5",
+     "game_no": "1985",
+     "date": "08.14(금) 09:30",
+     "sport": "sc",
+     "league": "코파리베",
+     "home": "로사리오",
+     "away": "코린티안",
+     "market": "홀짝",
+     "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1367,
@@ -1254,7 +4176,7 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "언더",
+       "name": "홀",
        "odds": 1.79,
        "prob": 0.4915,
        "bucket": "1.5–1.8",
@@ -1262,7 +4184,7 @@
        "hist_n": 119682
       },
       {
-       "name": "오버",
+       "name": "짝",
        "odds": 1.73,
        "prob": 0.5085,
        "bucket": "1.5–1.8",
@@ -1271,235 +4193,15 @@
       }
      ],
      "warnings": [],
-     "comment": "시장은 오버 51%로 본다(배당 1.73). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 짝 51%로 본다(배당 1.73). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1468",
-     "date": "08.11(화) 10:40",
+     "game_no": "1986",
+     "date": "08.14(금) 11:07",
      "sport": "bs",
      "league": "MLB",
-     "home": "애슬레틱",
-     "away": "탬파레이",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.56,
-       "prob": 0.5642,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 2.02,
-       "prob": 0.4358,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1469",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애리다이",
-     "away": "콜로로키",
-     "market": "승패",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.45,
-       "prob": 0.607,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      },
-      {
-       "name": "원정",
-       "odds": 2.24,
-       "prob": 0.393,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1479,
-       "hist_n": 16994
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홈 61%로 본다(배당 1.45). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1470",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애리다이",
-     "away": "콜로로키",
-     "market": "승①패",
-     "market_label": "승①패",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1491,
-     "payout": 87.02,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈2+",
-       "odds": 1.96,
-       "prob": 0.4612,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
-      },
-      {
-       "name": "1점차",
-       "odds": 3.4,
-       "prob": 0.2448,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정2+",
-       "odds": 2.9,
-       "prob": 0.2939,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 홈2+ 46%로 본다(배당 1.96). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1471",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애리다이",
-     "away": "콜로로키",
-     "market": "핸디캡",
-     "market_label": "H -2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1365,
-     "payout": 87.99,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 2.6,
-       "prob": 0.3384,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1479,
-       "hist_n": 16994
-      },
-      {
-       "name": "핸디원정",
-       "odds": 1.33,
-       "prob": 0.6616,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 핸디원정 66%로 본다(배당 1.33). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1472",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애리다이",
-     "away": "콜로로키",
-     "market": "언더오버",
-     "market_label": "U 8.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1352,
-     "payout": 88.09,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.84,
-       "prob": 0.4788,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      },
-      {
-       "name": "오버",
-       "odds": 1.69,
-       "prob": 0.5212,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 오버 52%로 본다(배당 1.69). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1473",
-     "date": "08.11(화) 10:40",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "애리다이",
-     "away": "콜로로키",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.56,
-       "prob": 0.5642,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 2.02,
-       "prob": 0.4358,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1474",
-     "date": "08.11(화) 10:45",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "샌프자이",
-     "away": "휴스애스",
+     "home": "LA에인절",
+     "away": "텍사레인",
      "market": "승패",
      "market_label": "",
      "booking_class": "2-way",
@@ -1529,12 +4231,12 @@
      "comment": "시장은 원정 61%로 본다(배당 1.45). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1475",
-     "date": "08.11(화) 10:45",
+     "game_no": "1987",
+     "date": "08.14(금) 11:07",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌프자이",
-     "away": "휴스애스",
+     "home": "LA에인절",
+     "away": "텍사레인",
      "market": "승①패",
      "market_label": "승①패",
      "booking_class": "3-way",
@@ -1574,82 +4276,82 @@
      "comment": "시장은 원정2+ 52%로 본다(배당 1.77). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1476",
-     "date": "08.11(화) 10:45",
+     "game_no": "1988",
+     "date": "08.14(금) 11:07",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌프자이",
-     "away": "휴스애스",
+     "home": "LA에인절",
+     "away": "텍사레인",
      "market": "핸디캡",
      "market_label": "H +2.5",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1369,
-     "payout": 87.96,
+     "overround": 1.136,
+     "payout": 88.03,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "핸디홈",
-       "odds": 1.44,
-       "prob": 0.6108,
+       "odds": 1.43,
+       "prob": 0.6156,
        "bucket": "1.0–1.5",
        "hist_roi": -0.1067,
        "hist_n": 30126
       },
       {
        "name": "핸디원정",
-       "odds": 2.26,
-       "prob": 0.3892,
+       "odds": 2.29,
+       "prob": 0.3844,
        "bucket": "2.2–3.0",
        "hist_roi": -0.1479,
        "hist_n": 16994
       }
      ],
      "warnings": [],
-     "comment": "시장은 핸디홈 61%로 본다(배당 1.44). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 핸디홈 62%로 본다(배당 1.43). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1477",
-     "date": "08.11(화) 10:45",
+     "game_no": "1989",
+     "date": "08.14(금) 11:07",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌프자이",
-     "away": "휴스애스",
+     "home": "LA에인절",
+     "away": "텍사레인",
      "market": "언더오버",
      "market_label": "U 8.5",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1358,
-     "payout": 88.05,
+     "overround": 1.1352,
+     "payout": 88.09,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "언더",
-       "odds": 1.68,
-       "prob": 0.5241,
+       "odds": 1.65,
+       "prob": 0.5339,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "오버",
-       "odds": 1.85,
-       "prob": 0.4759,
+       "odds": 1.89,
+       "prob": 0.4661,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 언더 52%로 본다(배당 1.68). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 언더 53%로 본다(배당 1.65). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1478",
-     "date": "08.11(화) 10:45",
+     "game_no": "1990",
+     "date": "08.14(금) 11:07",
      "sport": "bs",
      "league": "MLB",
-     "home": "샌프자이",
-     "away": "휴스애스",
+     "home": "LA에인절",
+     "away": "텍사레인",
      "market": "홀짝",
      "market_label": "",
      "booking_class": "2-way",
@@ -1679,453 +4381,14 @@
      "comment": "시장은 홀 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1479",
-     "date": "08.11(화) 11:10",
+     "game_no": "1991",
+     "date": "08.14(금) 11:10",
      "sport": "bs",
      "league": "MLB",
      "home": "LA다저스",
-     "away": "캔자로얄",
+     "away": "밀워브루",
      "market": "승패",
      "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.136,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.21,
-       "prob": 0.7275,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      },
-      {
-       "name": "원정",
-       "odds": 3.23,
-       "prob": 0.2725,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1923,
-       "hist_n": 6291
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 홈 73%로 본다(배당 1.21). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1480",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "승①패",
-     "market_label": "승①패",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1501,
-     "payout": 86.95,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈2+",
-       "odds": 1.53,
-       "prob": 0.608,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1345,
-       "hist_n": 7380
-      },
-      {
-       "name": "1점차",
-       "odds": 3.75,
-       "prob": 0.213,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정2+",
-       "odds": 4.35,
-       "prob": 0.179,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 홈2+ 61%로 본다(배당 1.53). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1481",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "핸디캡",
-     "market_label": "H -2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1366,
-     "payout": 87.98,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.94,
-       "prob": 0.4535,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      },
-      {
-       "name": "핸디원정",
-       "odds": 1.61,
-       "prob": 0.5465,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 핸디원정 55%로 본다(배당 1.61). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1482",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "언더오버",
-     "market_label": "U 7.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.137,
-     "payout": 87.95,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.72,
-       "prob": 0.5114,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.8,
-       "prob": 0.4886,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 51%로 본다(배당 1.72). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1483",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.07,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.58,
-       "prob": 0.5574,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 1.99,
-       "prob": 0.4426,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 56%로 본다(배당 1.58). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1484",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "전반승무패",
-     "market_label": "h(전반)",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.15,
-     "payout": 86.96,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "전반홈",
-       "odds": 1.47,
-       "prob": 0.6347,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.08,
-       "hist_n": 5797
-      },
-      {
-       "name": "전반무",
-       "odds": 6.0,
-       "prob": 0.1208,
-       "bucket": "5.0+",
-       "hist_roi": -0.3335,
-       "hist_n": 8116
-      },
-      {
-       "name": "전반원정",
-       "odds": 3.3,
-       "prob": 0.2445,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      }
-     ],
-     "warnings": [
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 전반홈 63%로 본다(배당 1.47). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.0–1.5 구간 과거 실측 수익률 -8.0%(n=5,797). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1485",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "전반핸디캡",
-     "market_label": "h H -1.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "전반핸디홈",
-       "odds": 2.02,
-       "prob": 0.4358,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      },
-      {
-       "name": "전반핸디원정",
-       "odds": 1.56,
-       "prob": 0.5642,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 전반핸디원정 56%로 본다(배당 1.56). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1486",
-     "date": "08.11(화) 11:10",
-     "sport": "bs",
-     "league": "MLB",
-     "home": "LA다저스",
-     "away": "캔자로얄",
-     "market": "전반언더오버",
-     "market_label": "h U 4.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.07,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "전반언더",
-       "odds": 1.62,
-       "prob": 0.5437,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "전반오버",
-       "odds": 1.93,
-       "prob": 0.4563,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 전반언더 54%로 본다(배당 1.62). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1573",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "승무패",
-     "market_label": "",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1496,
-     "payout": 86.99,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.52,
-       "prob": 0.6127,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1345,
-       "hist_n": 7380
-      },
-      {
-       "name": "무",
-       "odds": 3.9,
-       "prob": 0.2034,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정",
-       "odds": 4.25,
-       "prob": 0.1839,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 홈 61%로 본다(배당 1.52). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1574",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "핸디캡",
-     "market_label": "H -1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1484,
-     "payout": 87.08,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 2.45,
-       "prob": 0.3577,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      },
-      {
-       "name": "핸디무",
-       "odds": 3.5,
-       "prob": 0.2376,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 2.2,
-       "prob": 0.4047,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디원정 40%로 본다(배당 2.20). 3-way 핸디캡 환급률 87.1%, 구조상 가장 불리. 2.2–3.0 구간 과거 실측 수익률 -16.3%(n=9,241). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1575",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "핸디캡",
-     "market_label": "H -2.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1492,
-     "payout": 87.02,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 4.3,
-       "prob": 0.1793,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디무",
-       "odds": 4.5,
-       "prob": 0.17,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 1.44,
-       "prob": 0.6507,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디원정 65%로 본다(배당 1.44). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1576",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "언더오버",
-     "market_label": "U 3.5",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1365,
@@ -2133,7 +4396,7 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "언더",
+       "name": "홈",
        "odds": 1.59,
        "prob": 0.5534,
        "bucket": "1.5–1.8",
@@ -2141,7 +4404,7 @@
        "hist_n": 119682
       },
       {
-       "name": "오버",
+       "name": "원정",
        "odds": 1.97,
        "prob": 0.4466,
        "bucket": "1.8–2.2",
@@ -2150,204 +4413,43 @@
       }
      ],
      "warnings": [],
-     "comment": "시장은 언더 55%로 본다(배당 1.59). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홈 55%로 본다(배당 1.59). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1577",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1364,
-     "payout": 88.0,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.76,
-       "prob": 0.5,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 1.76,
-       "prob": 0.5,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 50%로 본다(배당 1.76). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1578",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "전반승무패",
-     "market_label": "h(전반)",
+     "game_no": "1992",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
+     "market": "승①패",
+     "market_label": "승①패",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1504,
-     "payout": 86.93,
+     "overround": 1.1497,
+     "payout": 86.98,
      "theoretical_roi": -0.13,
      "selections": [
       {
-       "name": "전반홈",
-       "odds": 1.98,
-       "prob": 0.454,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
-      },
-      {
-       "name": "전반무",
-       "odds": 2.35,
-       "prob": 0.3725,
+       "name": "홈2+",
+       "odds": 2.2,
+       "prob": 0.4045,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
       },
       {
-       "name": "전반원정",
-       "odds": 4.55,
-       "prob": 0.1735,
+       "name": "1점차",
+       "odds": 3.3,
+       "prob": 0.254,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1262,
        "hist_n": 38408
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 전반홈 45%로 본다(배당 1.98). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1579",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "전반핸디캡",
-     "market_label": "h H -1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1502,
-     "payout": 86.94,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "전반핸디홈",
-       "odds": 4.35,
-       "prob": 0.1806,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
       },
       {
-       "name": "전반핸디무",
-       "odds": 3.3,
-       "prob": 0.2491,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "전반핸디원정",
-       "odds": 1.62,
-       "prob": 0.5703,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.099,
-       "hist_n": 9747
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 전반핸디원정 57%로 본다(배당 1.62). 3-way 핸디캡 환급률 86.9%, 구조상 가장 불리. 1.5–1.8 구간 과거 실측 수익률 -9.9%(n=9,747). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1580",
-     "date": "08.12(수) 01:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "보되글림",
-     "away": "위니옹SG",
-     "market": "전반언더오버",
-     "market_label": "h U 1.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "전반언더",
-       "odds": 1.64,
-       "prob": 0.5367,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "전반오버",
-       "odds": 1.9,
-       "prob": 0.4633,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 전반언더 54%로 본다(배당 1.64). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1581",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "승무패",
-     "market_label": "",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1492,
-     "payout": 87.02,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈",
+       "name": "원정2+",
        "odds": 2.55,
-       "prob": 0.3421,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
-      },
-      {
-       "name": "무",
-       "odds": 3.0,
-       "prob": 0.284,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정",
-       "odds": 2.36,
-       "prob": 0.3739,
+       "prob": 0.3415,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
@@ -2356,270 +4458,17 @@
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 원정 37%로 본다(배당 2.36). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홈2+ 40%로 본다(배당 2.20). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1582",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
+     "game_no": "1993",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
      "market": "핸디캡",
-     "market_label": "H +1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1489,
-     "payout": 87.04,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.45,
-       "prob": 0.6456,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      },
-      {
-       "name": "핸디무",
-       "odds": 3.8,
-       "prob": 0.2076,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 5.1,
-       "prob": 0.1468,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 핸디홈 65%로 본다(배당 1.45). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1583",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "핸디캡",
-     "market_label": "H +2.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1495,
-     "payout": 86.99,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.07,
-       "prob": 0.9096,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      },
-      {
-       "name": "핸디무",
-       "odds": 7.1,
-       "prob": 0.0643,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      },
-      {
-       "name": "핸디원정",
-       "odds": 13.5,
-       "prob": 0.0261,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 핸디홈 91%로 본다(배당 1.07). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1584",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "언더오버",
-     "market_label": "U 2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1361,
-     "payout": 88.02,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.64,
-       "prob": 0.5367,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.9,
-       "prob": 0.4633,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 54%로 본다(배당 1.64). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1585",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1364,
-     "payout": 88.0,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.77,
-       "prob": 0.4972,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 1.75,
-       "prob": 0.5028,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 짝 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1586",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "전반승무패",
-     "market_label": "h(전반)",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1492,
-     "payout": 87.02,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "전반홈",
-       "odds": 3.3,
-       "prob": 0.2531,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "전반무",
-       "odds": 1.91,
-       "prob": 0.4749,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
-      },
-      {
-       "name": "전반원정",
-       "odds": 3.1,
-       "prob": 0.272,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 전반무 47%로 본다(배당 1.91). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1587",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "전반핸디캡",
-     "market_label": "h H +1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.15,
-     "payout": 86.96,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "전반핸디홈",
-       "odds": 1.25,
-       "prob": 0.7598,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      },
-      {
-       "name": "전반핸디무",
-       "odds": 4.0,
-       "prob": 0.1815,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "전반핸디원정",
-       "odds": 10.0,
-       "prob": 0.0587,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 전반핸디홈 76%로 본다(배당 1.25). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1588",
-     "date": "08.12(수) 02:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "네이메헌",
-     "away": "올림피아",
-     "market": "전반언더오버",
-     "market_label": "h U 1.5",
+     "market_label": "H -2.5",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1365,
@@ -2627,902 +4476,264 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "전반언더",
-       "odds": 1.31,
-       "prob": 0.6717,
+       "name": "핸디홈",
+       "odds": 3.03,
+       "prob": 0.2904,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1923,
+       "hist_n": 6291
+      },
+      {
+       "name": "핸디원정",
+       "odds": 1.24,
+       "prob": 0.7096,
        "bucket": "1.0–1.5",
        "hist_roi": -0.1067,
        "hist_n": 30126
-      },
-      {
-       "name": "전반오버",
-       "odds": 2.68,
-       "prob": 0.3283,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1479,
-       "hist_n": 16994
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 전반언더 67%로 본다(배당 1.31). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1589",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
-     "market": "승무패",
-     "market_label": "",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.148,
-     "payout": 87.11,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 3.5,
-       "prob": 0.2356,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "무",
-       "odds": 3.4,
-       "prob": 0.2436,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정",
-       "odds": 1.76,
-       "prob": 0.5208,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1345,
-       "hist_n": 7380
       }
      ],
      "warnings": [
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 원정 52%로 본다(배당 1.76). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 핸디원정 71%로 본다(배당 1.24). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1590",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
-     "market": "핸디캡",
-     "market_label": "H +1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1508,
-     "payout": 86.9,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.84,
-       "prob": 0.4947,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.087,
-       "hist_n": 7681
-      },
-      {
-       "name": "핸디무",
-       "odds": 3.45,
-       "prob": 0.2394,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 3.15,
-       "prob": 0.2659,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디홈 49%로 본다(배당 1.84). 3-way 핸디캡 환급률 86.9%, 구조상 가장 불리. 1.8–2.2 구간 과거 실측 수익률 -8.7%(n=7,681). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1591",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
-     "market": "핸디캡",
-     "market_label": "H +2.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1499,
-     "payout": 86.96,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 1.25,
-       "prob": 0.7615,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      },
-      {
-       "name": "핸디무",
-       "odds": 5.1,
-       "prob": 0.1368,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      },
-      {
-       "name": "핸디원정",
-       "odds": 6.5,
-       "prob": 0.1017,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 핸디홈 76%로 본다(배당 1.25). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1592",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
+     "game_no": "1994",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
      "market": "언더오버",
-     "market_label": "U 2.5",
+     "market_label": "U 8.5",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.07,
+     "overround": 1.1365,
+     "payout": 87.99,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "언더",
-       "odds": 1.99,
-       "prob": 0.4426,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
+       "odds": 1.74,
+       "prob": 0.5057,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
       },
       {
        "name": "오버",
-       "odds": 1.58,
-       "prob": 0.5574,
+       "odds": 1.78,
+       "prob": 0.4943,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       }
      ],
      "warnings": [],
-     "comment": "시장은 오버 56%로 본다(배당 1.58). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 언더 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1593",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
+     "game_no": "1995",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
      "market": "홀짝",
      "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1364,
-     "payout": 88.0,
+     "overround": 1.1354,
+     "payout": 88.08,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "홀",
-       "odds": 1.77,
-       "prob": 0.4972,
+       "odds": 1.55,
+       "prob": 0.5682,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "짝",
-       "odds": 1.75,
-       "prob": 0.5028,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
+       "odds": 2.04,
+       "prob": 0.4318,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.1305,
+       "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 짝 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 홀 57%로 본다(배당 1.55). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1594",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
+     "game_no": "1996",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
      "market": "전반승무패",
      "market_label": "h(전반)",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1497,
-     "payout": 86.98,
+     "overround": 1.1508,
+     "payout": 86.9,
      "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "전반홈",
-       "odds": 4.15,
-       "prob": 0.194,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
+       "odds": 1.79,
+       "prob": 0.5076,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
       },
       {
        "name": "전반무",
-       "odds": 2.11,
-       "prob": 0.423,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
+       "odds": 5.7,
+       "prob": 0.1317,
+       "bucket": "5.0+",
+       "hist_roi": -0.3335,
+       "hist_n": 8116
       },
       {
        "name": "전반원정",
-       "odds": 2.3,
-       "prob": 0.383,
+       "odds": 2.4,
+       "prob": 0.3607,
        "bucket": "2.2–3.0",
        "hist_roi": -0.131,
        "hist_n": 25054
       }
      ],
      "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 전반무 42%로 본다(배당 2.11). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1595",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
-     "market": "전반핸디캡",
-     "market_label": "h H +1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.149,
-     "payout": 87.03,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "전반핸디홈",
-       "odds": 1.45,
-       "prob": 0.645,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      },
-      {
-       "name": "전반핸디무",
-       "odds": 3.45,
-       "prob": 0.2319,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "전반핸디원정",
-       "odds": 5.9,
-       "prob": 0.1231,
-       "bucket": "5.0+",
-       "hist_roi": -0.3332,
-       "hist_n": 3956
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
       "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
      ],
-     "comment": "시장은 전반핸디홈 64%로 본다(배당 1.45). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 전반홈 51%로 본다(배당 1.79). 3-way 환급률 86.9%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1596",
-     "date": "08.12(수) 03:30",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "S그라츠",
-     "away": "페네르SK",
-     "market": "전반언더오버",
-     "market_label": "h U 1.5",
+     "game_no": "1997",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
+     "market": "전반핸디캡",
+     "market_label": "h H -1.5",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1361,
+     "overround": 1.1362,
      "payout": 88.02,
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "전반언더",
-       "odds": 1.45,
-       "prob": 0.607,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
-      },
-      {
-       "name": "전반오버",
-       "odds": 2.24,
-       "prob": 0.393,
+       "name": "전반핸디홈",
+       "odds": 2.43,
+       "prob": 0.3622,
        "bucket": "2.2–3.0",
        "hist_roi": -0.1479,
        "hist_n": 16994
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 전반언더 61%로 본다(배당 1.45). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1597",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "승무패",
-     "market_label": "",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1477,
-     "payout": 87.13,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.43,
-       "prob": 0.6559,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.08,
-       "hist_n": 5797
-      },
-      {
-       "name": "무",
-       "odds": 3.85,
-       "prob": 0.2041,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정",
-       "odds": 5.3,
-       "prob": 0.14,
-       "bucket": "5.0+",
-       "hist_roi": -0.3335,
-       "hist_n": 8116
-      }
-     ],
-     "warnings": [
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 홈 66%로 본다(배당 1.43). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.0–1.5 구간 과거 실측 수익률 -8.0%(n=5,797). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1598",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "핸디캡",
-     "market_label": "H -1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1489,
-     "payout": 87.04,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 2.33,
-       "prob": 0.3791,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      },
-      {
-       "name": "핸디무",
-       "odds": 3.3,
-       "prob": 0.2544,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 2.4,
-       "prob": 0.3665,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디홈 38%로 본다(배당 2.33). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 2.2–3.0 구간 과거 실측 수익률 -16.3%(n=9,241). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1599",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "핸디캡",
-     "market_label": "H -2.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1502,
-     "payout": 86.94,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 4.2,
-       "prob": 0.1856,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디무",
-       "odds": 4.15,
-       "prob": 0.1882,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 1.49,
-       "prob": 0.6262,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디원정 63%로 본다(배당 1.49). 3-way 핸디캡 환급률 86.9%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1600",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "언더오버",
-     "market_label": "U 2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1372,
-     "payout": 87.94,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 2.05,
-       "prob": 0.429,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      },
-      {
-       "name": "오버",
-       "odds": 1.54,
-       "prob": 0.571,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 오버 57%로 본다(배당 1.54). 2-way라 환급률 87.9%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1601",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1364,
-     "payout": 88.0,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.76,
-       "prob": 0.5,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 1.76,
-       "prob": 0.5,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 홀 50%로 본다(배당 1.76). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1602",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "전반승무패",
-     "market_label": "h(전반)",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1481,
-     "payout": 87.1,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "전반홈",
-       "odds": 1.93,
-       "prob": 0.4664,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1392,
-       "hist_n": 12982
-      },
-      {
-       "name": "전반무",
-       "odds": 2.2,
-       "prob": 0.4007,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
-      },
-      {
-       "name": "전반원정",
-       "odds": 5.7,
-       "prob": 0.1328,
-       "bucket": "5.0+",
-       "hist_roi": -0.3335,
-       "hist_n": 8116
-      }
-     ],
-     "warnings": [
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 전반홈 47%로 본다(배당 1.93). 3-way 환급률 87.1%, 2-way보다 약 1%p 불리. 1.8–2.2 구간 과거 실측 수익률 -13.9%(n=12,982). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1603",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
-     "market": "전반핸디캡",
-     "market_label": "h H -1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1497,
-     "payout": 86.98,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "전반핸디홈",
-       "odds": 4.45,
-       "prob": 0.1765,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "전반핸디무",
-       "odds": 3.1,
-       "prob": 0.2686,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
       },
       {
        "name": "전반핸디원정",
-       "odds": 1.66,
-       "prob": 0.5549,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.099,
-       "hist_n": 9747
+       "odds": 1.38,
+       "prob": 0.6378,
+       "bucket": "1.0–1.5",
+       "hist_roi": -0.1067,
+       "hist_n": 30126
       }
      ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 전반핸디원정 55%로 본다(배당 1.66). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.5–1.8 구간 과거 실측 수익률 -9.9%(n=9,747). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
+     "warnings": [],
+     "comment": "시장은 전반핸디원정 64%로 본다(배당 1.38). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1604",
-     "date": "08.12(수) 04:00",
-     "sport": "sc",
-     "league": "UCL",
-     "home": "리옹",
-     "away": "스파프라",
+     "game_no": "1998",
+     "date": "08.14(금) 11:10",
+     "sport": "bs",
+     "league": "MLB",
+     "home": "LA다저스",
+     "away": "밀워브루",
      "market": "전반언더오버",
-     "market_label": "h U 1.5",
+     "market_label": "h U 4.5",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1369,
-     "payout": 87.96,
+     "overround": 1.137,
+     "payout": 87.95,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "전반언더",
-       "odds": 1.47,
-       "prob": 0.5984,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.1067,
-       "hist_n": 30126
+       "odds": 1.72,
+       "prob": 0.5114,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1206,
+       "hist_n": 119682
       },
       {
        "name": "전반오버",
-       "odds": 2.19,
-       "prob": 0.4016,
+       "odds": 1.8,
+       "prob": 0.4886,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 전반언더 60%로 본다(배당 1.47). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.0–1.5 구간 과거 실측 수익률 -10.7%(n=30,126). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 전반언더 51%로 본다(배당 1.72). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1605",
-     "date": "08.12(수) 07:00",
+     "game_no": "2069",
+     "date": "08.14(금) 19:00",
      "sport": "sc",
-     "league": "코파리베",
-     "home": "플루미넨",
-     "away": "리바다비",
+     "league": "J1리그",
+     "home": "도쿄베르",
+     "away": "가시와R",
      "market": "승무패",
      "market_label": "",
      "booking_class": "3-way",
      "n_way": 3,
-     "overround": 1.1494,
-     "payout": 87.0,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.59,
-       "prob": 0.5824,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1345,
-       "hist_n": 7380
-      },
-      {
-       "name": "무",
-       "odds": 3.25,
-       "prob": 0.253,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정",
-       "odds": 4.7,
-       "prob": 0.1646,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      }
-     ],
-     "warnings": [
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 홈 58%로 본다(배당 1.59). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1606",
-     "date": "08.12(수) 07:00",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "플루미넨",
-     "away": "리바다비",
-     "market": "핸디캡",
-     "market_label": "H -1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1505,
-     "payout": 86.92,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 2.9,
-       "prob": 0.2942,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      },
-      {
-       "name": "핸디무",
-       "odds": 3.1,
-       "prob": 0.2725,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 2.07,
-       "prob": 0.4334,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.087,
-       "hist_n": 7681
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디원정 43%로 본다(배당 2.07). 3-way 핸디캡 환급률 86.9%, 구조상 가장 불리. 1.8–2.2 구간 과거 실측 수익률 -8.7%(n=7,681). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1607",
-     "date": "08.12(수) 07:00",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "플루미넨",
-     "away": "리바다비",
-     "market": "언더오버",
-     "market_label": "U 2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.07,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.58,
-       "prob": 0.5574,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.99,
-       "prob": 0.4426,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 56%로 본다(배당 1.58). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1608",
-     "date": "08.12(수) 07:00",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "플루미넨",
-     "away": "리바다비",
-     "market": "홀짝",
-     "market_label": "",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1364,
-     "payout": 88.0,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "홀",
-       "odds": 1.77,
-       "prob": 0.4972,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 1.75,
-       "prob": 0.5028,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 짝 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1654",
-     "date": "08.12(수) 09:30",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "톨리마",
-     "away": "델바예",
-     "market": "승무패",
-     "market_label": "",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.1492,
+     "overround": 1.1493,
      "payout": 87.01,
      "theoretical_roi": -0.13,
      "selections": [
       {
        "name": "홈",
-       "odds": 2.65,
-       "prob": 0.3274,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
+       "odds": 4.0,
+       "prob": 0.2012,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
       },
       {
        "name": "무",
-       "odds": 2.95,
-       "prob": 0.2895,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
+       "odds": 3.05,
+       "prob": 0.2753,
+       "bucket": "3.0–5.0",
+       "hist_roi": -0.1262,
+       "hist_n": 38408
       },
       {
        "name": "원정",
-       "odds": 2.31,
-       "prob": 0.3831,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.131,
-       "hist_n": 25054
+       "odds": 1.75,
+       "prob": 0.5235,
+       "bucket": "1.5–1.8",
+       "hist_roi": -0.1345,
+       "hist_n": 7380
       }
      ],
-     "warnings": [],
-     "comment": "시장은 원정 38%로 본다(배당 2.31). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 2.2–3.0 구간 과거 실측 수익률 -13.1%(n=25,054). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "warnings": [
+      "배당 3.0 이상 포함 — 기준선 대비 열위"
+     ],
+     "comment": "시장은 원정 52%로 본다(배당 1.75). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 3.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1655",
-     "date": "08.12(수) 09:30",
+     "game_no": "2070",
+     "date": "08.14(금) 19:00",
      "sport": "sc",
-     "league": "코파리베",
-     "home": "톨리마",
-     "away": "델바예",
+     "league": "J1리그",
+     "home": "도쿄베르",
+     "away": "가시와R",
      "market": "핸디캡",
      "market_label": "H +1.0",
      "booking_class": "3-way-핸디캡",
@@ -3533,24 +4744,24 @@
      "selections": [
       {
        "name": "핸디홈",
-       "odds": 1.49,
-       "prob": 0.6263,
-       "bucket": "1.0–1.5",
-       "hist_roi": -0.0805,
-       "hist_n": 5019
+       "odds": 1.86,
+       "prob": 0.4892,
+       "bucket": "1.8–2.2",
+       "hist_roi": -0.087,
+       "hist_n": 7681
       },
       {
        "name": "핸디무",
-       "odds": 3.65,
-       "prob": 0.2188,
+       "odds": 3.15,
+       "prob": 0.2666,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1656,
        "hist_n": 37469
       },
       {
        "name": "핸디원정",
-       "odds": 4.9,
-       "prob": 0.1549,
+       "odds": 3.4,
+       "prob": 0.2442,
        "bucket": "3.0–5.0",
        "hist_roi": -0.1656,
        "hist_n": 37469
@@ -3560,52 +4771,17 @@
       "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
       "배당 3.0 이상 포함 — 기준선 대비 열위"
      ],
-     "comment": "시장은 핸디홈 63%로 본다(배당 1.49). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.0–1.5 구간 과거 실측 수익률 -8.1%(n=5,019). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 핸디홈 49%로 본다(배당 1.86). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 1.8–2.2 구간 과거 실측 수익률 -8.7%(n=7,681). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1656",
-     "date": "08.12(수) 09:30",
+     "game_no": "2071",
+     "date": "08.14(금) 19:00",
      "sport": "sc",
-     "league": "코파리베",
-     "home": "톨리마",
-     "away": "델바예",
+     "league": "J1리그",
+     "home": "도쿄베르",
+     "away": "가시와R",
      "market": "언더오버",
      "market_label": "U 2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1354,
-     "payout": 88.07,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
-       "name": "언더",
-       "odds": 1.58,
-       "prob": 0.5574,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "오버",
-       "odds": 1.99,
-       "prob": 0.4426,
-       "bucket": "1.8–2.2",
-       "hist_roi": -0.1305,
-       "hist_n": 54948
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 언더 56%로 본다(배당 1.58). 2-way라 환급률 88.1%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1657",
-     "date": "08.12(수) 09:30",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "톨리마",
-     "away": "델바예",
-     "market": "홀짝",
-     "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
      "overround": 1.1364,
@@ -3613,185 +4789,59 @@
      "theoretical_roi": -0.12,
      "selections": [
       {
-       "name": "홀",
-       "odds": 1.77,
-       "prob": 0.4972,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      },
-      {
-       "name": "짝",
-       "odds": 1.75,
-       "prob": 0.5028,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1206,
-       "hist_n": 119682
-      }
-     ],
-     "warnings": [],
-     "comment": "시장은 짝 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1658",
-     "date": "08.12(수) 09:30",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "에스라플",
-     "away": "카톨리카",
-     "market": "승무패",
-     "market_label": "",
-     "booking_class": "3-way",
-     "n_way": 3,
-     "overround": 1.15,
-     "payout": 86.96,
-     "theoretical_roi": -0.13,
-     "selections": [
-      {
-       "name": "홈",
-       "odds": 1.53,
-       "prob": 0.6074,
-       "bucket": "1.5–1.8",
-       "hist_roi": -0.1345,
-       "hist_n": 7380
-      },
-      {
-       "name": "무",
-       "odds": 3.25,
-       "prob": 0.2511,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1262,
-       "hist_n": 38408
-      },
-      {
-       "name": "원정",
-       "odds": 5.3,
-       "prob": 0.1415,
-       "bucket": "5.0+",
-       "hist_roi": -0.3335,
-       "hist_n": 8116
-      }
-     ],
-     "warnings": [
-      "배당 5.0 이상 포함 — 과거 실측 ROI −33%"
-     ],
-     "comment": "시장은 홈 61%로 본다(배당 1.53). 3-way 환급률 87.0%, 2-way보다 약 1%p 불리. 1.5–1.8 구간 과거 실측 수익률 -13.5%(n=7,380). 배당 5.0 이상 포함 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1659",
-     "date": "08.12(수) 09:30",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "에스라플",
-     "away": "카톨리카",
-     "market": "핸디캡",
-     "market_label": "H -1.0",
-     "booking_class": "3-way-핸디캡",
-     "n_way": 3,
-     "overround": 1.1495,
-     "payout": 87.0,
-     "theoretical_roi": -0.1401,
-     "selections": [
-      {
-       "name": "핸디홈",
-       "odds": 2.75,
-       "prob": 0.3135,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      },
-      {
-       "name": "핸디무",
-       "odds": 3.0,
-       "prob": 0.2837,
-       "bucket": "3.0–5.0",
-       "hist_roi": -0.1656,
-       "hist_n": 37469
-      },
-      {
-       "name": "핸디원정",
-       "odds": 2.21,
-       "prob": 0.4028,
-       "bucket": "2.2–3.0",
-       "hist_roi": -0.1628,
-       "hist_n": 9241
-      }
-     ],
-     "warnings": [
-      "3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리",
-      "배당 3.0 이상 포함 — 기준선 대비 열위"
-     ],
-     "comment": "시장은 핸디원정 40%로 본다(배당 2.21). 3-way 핸디캡 환급률 87.0%, 구조상 가장 불리. 2.2–3.0 구간 과거 실측 수익률 -16.3%(n=9,241). 3-way 핸디캡 주의. 배당 기반 +EV 구간은 미발견."
-    },
-    {
-     "game_no": "1660",
-     "date": "08.12(수) 09:30",
-     "sport": "sc",
-     "league": "코파리베",
-     "home": "에스라플",
-     "away": "카톨리카",
-     "market": "언더오버",
-     "market_label": "U 2.5",
-     "booking_class": "2-way",
-     "n_way": 2,
-     "overround": 1.1367,
-     "payout": 87.97,
-     "theoretical_roi": -0.12,
-     "selections": [
-      {
        "name": "언더",
-       "odds": 1.53,
-       "prob": 0.575,
+       "odds": 1.52,
+       "prob": 0.5789,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "오버",
-       "odds": 2.07,
-       "prob": 0.425,
+       "odds": 2.09,
+       "prob": 0.4211,
        "bucket": "1.8–2.2",
        "hist_roi": -0.1305,
        "hist_n": 54948
       }
      ],
      "warnings": [],
-     "comment": "시장은 언더 57%로 본다(배당 1.53). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 언더 58%로 본다(배당 1.52). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     },
     {
-     "game_no": "1661",
-     "date": "08.12(수) 09:30",
+     "game_no": "2072",
+     "date": "08.14(금) 19:00",
      "sport": "sc",
-     "league": "코파리베",
-     "home": "에스라플",
-     "away": "카톨리카",
+     "league": "J1리그",
+     "home": "도쿄베르",
+     "away": "가시와R",
      "market": "홀짝",
      "market_label": "",
      "booking_class": "2-way",
      "n_way": 2,
-     "overround": 1.1364,
-     "payout": 88.0,
+     "overround": 1.1365,
+     "payout": 87.99,
      "theoretical_roi": -0.12,
      "selections": [
       {
        "name": "홀",
-       "odds": 1.77,
-       "prob": 0.4972,
+       "odds": 1.78,
+       "prob": 0.4943,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       },
       {
        "name": "짝",
-       "odds": 1.75,
-       "prob": 0.5028,
+       "odds": 1.74,
+       "prob": 0.5057,
        "bucket": "1.5–1.8",
        "hist_roi": -0.1206,
        "hist_n": 119682
       }
      ],
      "warnings": [],
-     "comment": "시장은 짝 50%로 본다(배당 1.75). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
+     "comment": "시장은 짝 51%로 본다(배당 1.74). 2-way라 환급률 88.0%로 구조상 가장 유리. 1.5–1.8 구간 과거 실측 수익률 -12.1%(n=119,682). 회차 환급률 B등급. 배당 기반 +EV 구간은 미발견."
     }
    ]
   }
