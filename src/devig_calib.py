@@ -49,11 +49,22 @@ def load() -> pd.DataFrame:
     return b
 
 
-def devigged(b: pd.DataFrame) -> pd.DataFrame:
-    """마켓 단위로 묶어 방법별 확률을 붙인다."""
+def devigged(b: pd.DataFrame, sample: int = 60000) -> pd.DataFrame:
+    """마켓 단위로 묶어 방법별 확률을 붙인다.
+
+    ⚠️ power·shin 은 마켓마다 이분탐색을 돈다. 전수(20만 마켓)를 돌리면
+       shared-cpu-1x 에서 10분을 넘긴다. 캘리브레이션은 표본으로 충분하다 —
+       6만 마켓이면 배당대별 셀마다 수천 건이 들어간다. 재현 위해 시드 고정.
+    """
     out = []
     key = ["year", "round", "game_no", "market_family", "n_way"]
-    for _, grp in b.groupby(key, sort=False):
+    groups = list(b.groupby(key, sort=False))
+    if sample and len(groups) > sample:
+        rng = np.random.default_rng(20260813)
+        idx = rng.choice(len(groups), size=sample, replace=False)
+        groups = [groups[i] for i in idx]
+        print(f"  마켓 {len(groups):,}개 표본 추출(전체 대비)", flush=True)
+    for _, grp in groups:
         grp = grp.sort_values("sel_index")
         odds = grp["odds"].tolist()
         n = int(grp["n_way"].iloc[0])
