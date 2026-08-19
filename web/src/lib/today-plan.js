@@ -1,5 +1,15 @@
+import { eligibleAutoSelections } from "./recommendation-policy.js";
+
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DATE_TIME = /(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/;
+export const SAFE_TARGET_BINS = {
+  1.4: ["1.0-1.3", "1.0-1.3"],
+  2: ["1.0-1.3", "1.5-1.8"],
+  3: ["1.3-1.5", "1.8-2.2"],
+  5: ["1.5-1.8", "1.5-1.8", "1.5-1.8"],
+  8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
+  12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
+};
 
 export function kickoffTime(candidate, year) {
   const iso = Date.parse(candidate?.kickoff_at || "");
@@ -56,7 +66,8 @@ function betterScore(score, previous) {
 }
 
 export function pickNextLegs(candidates, bins, year, target = null) {
-  const pools = bins.map((bin) => candidatePool(candidates, bin, year));
+  const eligible = eligibleAutoSelections(candidates);
+  const pools = bins.map((bin) => candidatePool(eligible, bin, year));
   if (pools.some((pool) => !pool.length)) return null;
   const lower = target ? Number(target) * 0.95 : 0;
   const upper = target ? Number(target) * 1.15 : Number.POSITIVE_INFINITY;
@@ -122,15 +133,17 @@ function legacyCandidates(today) {
 export function availableToday(today, now = Date.now()) {
   if (!today) return { plans: [], solo: null, candidates: [], next: null };
   const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
-  const candidates = source
+  const candidates = eligibleAutoSelections(source)
     .filter((candidate) => kickoffTime(candidate, today.year) > now)
     .sort((a, b) => byNextKickoff(a, b, today.year));
 
   const plans = (today.plans || []).map((plan) => {
-    const bins = plan.bins?.length ? plan.bins : (plan.picks || []).map((pick) => pick.bin);
+    const bins = SAFE_TARGET_BINS[Number(plan.target)] ||
+      (plan.bins?.length ? plan.bins : (plan.picks || []).map((pick) => pick.bin));
     const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
-      return { ...plan, ok: false, why: "시작 전인 서로 다른 경기로 조합할 수 없다" };
+      return { ...plan, ok: false,
+        why: "시장 최유력·2.20 미만인 시작 전 경기만으로 조합할 수 없다" };
     }
     return {
       ...plan,

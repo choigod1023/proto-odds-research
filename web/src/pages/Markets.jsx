@@ -178,6 +178,9 @@ function TodayPlan({ today, combo, grades }) {
       {activeToday.next && (
         <div className="mt-1 text-[11.5px] text-ink2">시작한 경기 자동 제외 · 다음 후보 {activeToday.next.date}</div>
       )}
+      <div className="mt-1 text-[11.5px] text-ink2">
+        역배 끼워맞춤 금지 · 각 시장 최유력만 · 다리당 배당 2.20 미만
+      </div>
 
       <BetPreference
         plans={plans}

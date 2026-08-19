@@ -6,6 +6,10 @@
 """
 from __future__ import annotations
 
+import math
+
+
+MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
 AUTO_RECOMMENDATION_EXCLUSIONS = {
     "홀짝": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외",
@@ -15,6 +19,40 @@ AUTO_RECOMMENDATION_EXCLUSIONS = {
 def recommendation_exclusion_reason(market: object) -> str | None:
     """자동 추천에서 제외해야 하는 마켓이면 사용자용 사유를 돌려준다."""
     return AUTO_RECOMMENDATION_EXCLUSIONS.get(str(market or "").strip())
+
+
+def automatic_selection_exclusion_reason(
+    market: object,
+    odds: object,
+    market_probability: object = None,
+    favorite_probability: object = None,
+) -> str | None:
+    """검증 전 자동 추천에서 제외할 선택지면 사용자용 사유를 돌려준다."""
+    reason = recommendation_exclusion_reason(market)
+    if reason:
+        return reason
+
+    try:
+        price = float(odds)
+    except (TypeError, ValueError):
+        price = None
+    if price is not None and math.isfinite(price) and price >= MAX_AUTO_RECOMMENDATION_ODDS:
+        return "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+
+    try:
+        probability = float(market_probability)
+        favorite = float(favorite_probability)
+    except (TypeError, ValueError):
+        probability = favorite = None
+    if (
+        probability is not None
+        and favorite is not None
+        and math.isfinite(probability)
+        and math.isfinite(favorite)
+        and probability < favorite - 1e-9
+    ):
+        return "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    return None
 
 
 def is_recommendable_market(market: object) -> bool:

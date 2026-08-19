@@ -44,7 +44,7 @@ from bets import SEL_NAMES                                          # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from devig import market_probabilities                              # noqa: E402
-from recommendation_policy import recommendation_exclusion_reason  # noqa: E402
+from recommendation_policy import automatic_selection_exclusion_reason  # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -865,12 +865,21 @@ def main() -> int:
                      if p_home > 0.55
                      else ("원정 근소" if p_home > 0.40 else "원정 우세"))
 
+        # 같은 마켓 안에서 시장확률이 가장 높은 선택지만 자동 추천 자격이 있다.
+        # 3-way에서는 50% 미만이어도 셋 중 1위면 favorite이므로 확률 0.5로 자르지 않는다.
+        favorite_by_market: dict[tuple, float] = {}
+        for option in g["options"]:
+            key = (option["market"], option["label"], option["line"], option["게임번호"])
+            favorite_by_market[key] = max(
+                favorite_by_market.get(key, 0.0), float(option["시장확률"]))
+
         best, best_score = None, -9e9
         for o in g["options"]:
-            policy_reason = recommendation_exclusion_reason(o["market"])
+            key = (o["market"], o["label"], o["line"], o["게임번호"])
+            policy_reason = automatic_selection_exclusion_reason(
+                o["market"], o["배당"], o["시장확률"], favorite_by_market[key])
             if policy_reason:
-                # 확률을 계산할 수 있어도 시장 우위가 검증되지 않은 마켓은 추천하지 않는다.
-                # 상세 선택지에는 남겨 사용자가 가격과 확률을 확인할 수 있게 한다.
+                # 상세에는 남기되 검증 안 된 역배를 자동 추천으로 포장하지 않는다.
                 o["제외"] = policy_reason
                 continue
             # 모델 확률이 없는 선택지(전반 마켓 등)는 비교 대상이 아니다
