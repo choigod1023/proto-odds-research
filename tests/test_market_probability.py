@@ -11,11 +11,13 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from devig import market_probabilities, shin  # noqa: E402
 from recommendation_policy import (  # noqa: E402
+    MAX_AUTO_RECOMMENDATION_ODDS,
+    automatic_selection_exclusion_reason,
     is_recommendable_market,
     recommendation_exclusion_reason,
 )
 import today_combo  # noqa: E402
-from today_combo import pick_legs, ticket_metrics  # noqa: E402
+from today_combo import BANNED, SAFE_TARGET_BINS, pick_legs, ticket_metrics  # noqa: E402
 
 
 def candidate(event: str, probability: float, odds: float = 1.6) -> dict:
@@ -58,6 +60,21 @@ def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():
     assert is_recommendable_market("승패")
 
 
+def test_high_odds_and_market_underdog_are_not_auto_recommendations():
+    assert MAX_AUTO_RECOMMENDATION_ODDS == 2.2
+    assert "2.20 이상" in automatic_selection_exclusion_reason("승패", 2.2, 0.48, 0.52)
+    assert "역배" in automatic_selection_exclusion_reason("승패", 2.05, 0.42, 0.58)
+    assert automatic_selection_exclusion_reason("승무패", 1.95, 0.45, 0.45) is None
+
+
+def test_high_targets_use_more_safe_legs_instead_of_underdog_bins():
+    assert len(SAFE_TARGET_BINS[5]) == 3
+    assert len(SAFE_TARGET_BINS[8]) == 3
+    assert len(SAFE_TARGET_BINS[12]) == 4
+    assert all(wanted_bin not in BANNED
+               for bins in SAFE_TARGET_BINS.values() for wanted_bin in bins)
+
+
 def test_today_combo_filters_odd_even_candidates(monkeypatch, tmp_path):
     games = []
     for game_no, market in ((1, "홀짝"), (2, "승패")):
@@ -88,5 +105,7 @@ def test_today_combo_filters_odd_even_candidates(monkeypatch, tmp_path):
         datetime(2026, 8, 19, 12, 0, tzinfo=ZoneInfo("Asia/Seoul"))
     )
 
-    assert candidates
+    assert len(candidates) == 1
     assert {candidate["market"] for candidate in candidates} == {"승패"}
+    assert candidates[0]["sel"] == "홈"
+    assert candidates[0]["is_market_favorite"] is True

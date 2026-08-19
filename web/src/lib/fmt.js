@@ -1,3 +1,5 @@
+import { eligibleAutoSelections } from "./recommendation-policy.js";
+
 // 표시 형식 — 페이지 전체가 같은 규칙을 쓴다.
 // 예전엔 배당이 '2' 와 '1.65' 로 섞여 나와 버튼 폭이 흔들렸다.
 
@@ -112,7 +114,7 @@ const BINS = ["1.0-1.3","1.3-1.5","1.5-1.8","1.8-2.2","2.2-3.0","3.0-5.0","5.0+"
  *    승무패 −6.29% vs 언더오버 −13.26% 로 7%p 갈린다. roi 모드가 이걸 쓴다.
  */
 export function lessBadPick(grades, opts, mode = "hit") {
-  const scored = (opts || [])
+  const scored = eligibleAutoSelections(opts)
     .map((o) => {
       const g = gradeOf(grades, o["배당"]);
       if (!g) return null;
