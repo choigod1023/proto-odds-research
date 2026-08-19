@@ -1,12 +1,20 @@
 from __future__ import annotations
 
+import json
 import sys
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from devig import market_probabilities, shin  # noqa: E402
+from recommendation_policy import (  # noqa: E402
+    is_recommendable_market,
+    recommendation_exclusion_reason,
+)
+import today_combo  # noqa: E402
 from today_combo import pick_legs, ticket_metrics  # noqa: E402
 
 
@@ -42,3 +50,43 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["hit_est"] == 0.264
     assert metrics["upset_risk"] == 0.736
     assert metrics["expected_roi"] == -0.107
+
+
+def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():
+    assert not is_recommendable_market("홀짝")
+    assert "시장 대비 우위" in recommendation_exclusion_reason("홀짝")
+    assert is_recommendable_market("승패")
+
+
+def test_today_combo_filters_odd_even_candidates(monkeypatch, tmp_path):
+    games = []
+    for game_no, market in ((1, "홀짝"), (2, "승패")):
+        games.append({
+            "game_no": game_no,
+            "date": "08.20(목) 10:00",
+            "league": "MLB",
+            "home": f"홈{game_no}",
+            "away": f"원정{game_no}",
+            "market": market,
+            "market_label": "",
+            "overround": 1.12,
+            "payout": 89.3,
+            "selections": [
+                {"name": "홈", "odds": 1.70, "prob": 0.55},
+                {"name": "원정", "odds": 2.00, "prob": 0.45},
+            ],
+        })
+    today = tmp_path / "today.json"
+    today.write_text(
+        json.dumps({"year": 2026, "rounds": [{"round": 99, "games": games}]},
+                   ensure_ascii=False),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(today_combo, "TODAY", today)
+
+    candidates = today_combo.legs_today(
+        datetime(2026, 8, 19, 12, 0, tzinfo=ZoneInfo("Asia/Seoul"))
+    )
+
+    assert candidates
+    assert {candidate["market"] for candidate in candidates} == {"승패"}
