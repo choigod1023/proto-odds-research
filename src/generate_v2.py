@@ -43,7 +43,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
-from devig import shin                                              # noqa: E402
+from devig import market_probabilities                              # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -765,7 +765,6 @@ def main() -> int:
             if pm is None:
                 pm = [None] * len(r.odds)      # 모델 없음 — 배당·등급만 보여준다
 
-            ov = sum(1 / o for o in r.odds)
             names = SEL_NAMES.get((r.market_family, nw), tuple(f"sel{i}" for i in range(nw)))
             settled = r.result not in UNPLAYED and r.result != ""
 
@@ -813,12 +812,9 @@ def main() -> int:
             #    ⚠️ 그래도 5.0+ 는 실측 −35.90% 로 어떤 devig 으로도 다 설명되지 않는다.
             #       그 구간은 등급 D 로 픽에서 이미 걸러진다(lessBadPick 은 확률이
             #       아니라 실측 ROI 로 고른다). 여기서 고치는 건 **표시값의 정직함**이다.
-            try:
-                p_shin = shin(list(r.odds))
-            except Exception:                              # noqa: BLE001
-                p_shin = None                              # 실패하면 옛 방식으로
+            p_market = market_probabilities(list(r.odds))
             for i, (p, o) in enumerate(zip(pm, r.odds)):
-                p_mkt = p_shin[i] if p_shin else (1 / o) / ov
+                p_mkt = p_market[i]
                 gap = (None if p is None else abs(p - p_mkt))
                 g["options"].append({
                     "market": r.market_family, "n_way": nw,

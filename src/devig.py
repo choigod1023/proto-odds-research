@@ -121,9 +121,29 @@ METHODS = {
     "shin": shin,
 }
 
+# 화면과 조합기가 서로 다른 마진 제거법을 쓰면 같은 배당에 서로 다른 확률이
+# 표시된다. outcome-level 교정 모델이 도입되기 전까지는 프로젝트 내부 실측에서
+# 오차가 가장 작았던 Shin을 공통 기준으로 사용한다.
+MARKET_PROBABILITY_METHOD = "shin"
+
 
 def devig(odds: list[float], method: str = "multiplicative") -> list[float]:
     return METHODS[method](odds)
+
+
+def market_probabilities(odds: list[float]) -> list[float]:
+    """사이트 전역에서 쓰는 일관된 시장 기준 확률.
+
+    Shin 계산이 극단적인 입력에서 실패하더라도 화면 생성을 중단하지 않고
+    multiplicative로 보수적으로 되돌아간다.
+    """
+    try:
+        probability = devig(odds, MARKET_PROBABILITY_METHOD)
+    except (ArithmeticError, ValueError, ZeroDivisionError):
+        probability = multiplicative(odds)
+    if len(probability) != len(odds) or any(not (0.0 < p < 1.0) for p in probability):
+        return multiplicative(odds)
+    return probability
 
 
 def fair_odds(odds: list[float], method: str = "multiplicative") -> list[float]:

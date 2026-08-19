@@ -24,28 +24,87 @@ function byNextKickoff(a, b, year) {
   );
 }
 
-export function pickNextLegs(candidates, bins, year) {
-  const used = new Set();
-  const picked = new Map();
-  const slots = bins
-    .map((bin, index) => ({ bin, index }))
-    .sort(
-      (a, b) =>
-        candidates.filter((candidate) => candidate.bin === a.bin).length -
-        candidates.filter((candidate) => candidate.bin === b.bin).length,
-    );
+function byLegQuality(a, b, year) {
+  const aProbability = Number(a?.market_prob);
+  const bProbability = Number(b?.market_prob);
+  const probabilityOrder =
+    (Number.isFinite(bProbability) ? bProbability : 0) -
+    (Number.isFinite(aProbability) ? aProbability : 0);
+  return probabilityOrder ||
+    Number(a.overround || 99) - Number(b.overround || 99) ||
+    byNextKickoff(a, b, year);
+}
 
-  for (const slot of slots) {
-    const pool = candidates
-      .filter(
-        (candidate) => candidate.bin === slot.bin && !used.has(eventKey(candidate, year)),
-      )
-      .sort((a, b) => byNextKickoff(a, b, year));
-    if (!pool.length) return null;
-    used.add(eventKey(pool[0], year));
-    picked.set(slot.index, pool[0]);
+function candidatePool(candidates, bin, year) {
+  const byPrice = new Map();
+  for (const candidate of candidates.filter((row) => row.bin === bin)) {
+    const bucket = Math.round(Number(candidate.odds) / 0.05);
+    if (!byPrice.has(bucket)) byPrice.set(bucket, []);
+    byPrice.get(bucket).push(candidate);
   }
-  return bins.map((_, index) => picked.get(index));
+  return [...byPrice.values()]
+    .flatMap((rows) => rows.sort((a, b) => byLegQuality(a, b, year)).slice(0, 3))
+    .sort((a, b) => byLegQuality(a, b, year));
+}
+
+function betterScore(score, previous) {
+  if (!previous) return true;
+  for (let index = 0; index < score.length; index += 1) {
+    if (score[index] !== previous[index]) return score[index] > previous[index];
+  }
+  return false;
+}
+
+export function pickNextLegs(candidates, bins, year, target = null) {
+  const pools = bins.map((bin) => candidatePool(candidates, bin, year));
+  if (pools.some((pool) => !pool.length)) return null;
+  const lower = target ? Number(target) * 0.95 : 0;
+  const upper = target ? Number(target) * 1.15 : Number.POSITIVE_INFINITY;
+  let best = null;
+
+  function search(index, picks, used, actualOdds, hitEstimate, payout) {
+    if (actualOdds > upper) return;
+    if (index === pools.length) {
+      if (actualOdds < lower) return;
+      const closeness = target ? -Math.abs(Math.log(actualOdds / Number(target))) : 0;
+      const score = [hitEstimate, payout, closeness];
+      if (betterScore(score, best?.score)) best = { score, picks: [...picks] };
+      return;
+    }
+    for (const candidate of pools[index]) {
+      const key = eventKey(candidate, year);
+      if (used.has(key)) continue;
+      const probability = Number(candidate.market_prob);
+      const nextHit = Number.isFinite(probability) && probability > 0 && probability < 1
+        ? hitEstimate * probability : 0;
+      used.add(key);
+      picks.push(candidate);
+      search(index + 1, picks, used, actualOdds * Number(candidate.odds), nextHit,
+        payout / Number(candidate.overround));
+      picks.pop();
+      used.delete(key);
+    }
+  }
+
+  search(0, [], new Set(), 1, 1, 1);
+  return best?.picks || null;
+}
+
+export function ticketMetrics(picks) {
+  const actualOdds = picks.reduce((total, pick) => total * Number(pick.odds), 1);
+  const probabilities = picks.map((pick) => Number(pick.market_prob));
+  const hasProbabilities = probabilities.every(
+    (probability) => Number.isFinite(probability) && probability > 0 && probability < 1,
+  );
+  if (!hasProbabilities) return { actual_odds: Number(actualOdds.toFixed(2)) };
+  const hitEstimate = probabilities.reduce((total, probability) => total * probability, 1);
+  return {
+    actual_odds: Number(actualOdds.toFixed(2)),
+    hit_est: Number(hitEstimate.toFixed(5)),
+    upset_risk: Number((1 - hitEstimate).toFixed(5)),
+    expected_roi: Number((hitEstimate * actualOdds - 1).toFixed(4)),
+    probability_basis: "선택 경기의 Shin 시장확률 곱",
+  };
 }
 
 function legacyCandidates(today) {
@@ -69,22 +128,22 @@ export function availableToday(today, now = Date.now()) {
 
   const plans = (today.plans || []).map((plan) => {
     const bins = plan.bins?.length ? plan.bins : (plan.picks || []).map((pick) => pick.bin);
-    const picks = pickNextLegs(candidates, bins, today.year);
+    const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
       return { ...plan, ok: false, why: "시작 전인 서로 다른 경기로 조합할 수 없다" };
     }
     return {
       ...plan,
+      ...ticketMetrics(picks),
       ok: true,
       bins,
       picks,
-      actual_odds: Number(picks.reduce((total, pick) => total * pick.odds, 1).toFixed(2)),
     };
   });
 
   const solo = candidates
     .filter((candidate) => candidate.bin === "1.0-1.3")
-    .sort((a, b) => byNextKickoff(a, b, today.year))[0] || null;
+    .sort((a, b) => byLegQuality(a, b, today.year))[0] || null;
 
   return {
     ...today,
