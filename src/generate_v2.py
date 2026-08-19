@@ -467,6 +467,60 @@ def _form_dict(f) -> dict | None:
             "rest_days": f.rest_days, "trend": f.trend}
 
 
+def _as_float(value):
+    try:
+        return float(value) if value is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _market_context(options: list[dict]) -> dict:
+    """해설이 실제 발매선과 교차 마켓의 충돌을 읽도록 필요한 값만 뽑는다.
+
+    이 문맥은 새로운 예측 점수가 아니다. 승패 시장의 확신이 득점 모델·핸디캡·
+    마진 밴드와 동시에 어긋나는지 설명하기 위한 진단값이다.
+    """
+    context: dict = {}
+
+    totals = [o for o in options if o.get("market") == "언더오버"]
+    if totals:
+        first = totals[0]
+        line = _as_float(first.get("line"))
+        if line is None:
+            m = _LINE.search(str(first.get("label") or ""))
+            line = _as_float(m.group(1)) if m else None
+        if line is not None:
+            context["total"] = {
+                "line": line,
+                "label": first.get("label") or f"U/O {line:g}",
+            }
+
+    handicap = [o for o in options if o.get("market") == "핸디캡"]
+    if handicap:
+        home = next((o for o in handicap if o.get("선택") == "핸디홈"), None)
+        away = next((o for o in handicap if o.get("선택") == "핸디원정"), None)
+        if home and away:
+            context["handicap"] = {
+                "label": home.get("label") or away.get("label") or "실제 라인",
+                "home_market": _as_float(home.get("시장확률")),
+                "home_model": _as_float(home.get("모델확률")),
+                "away_market": _as_float(away.get("시장확률")),
+                "away_model": _as_float(away.get("모델확률")),
+            }
+
+    close = next((o for o in options
+                  if o.get("market") in ("승①패", "승⑤패")
+                  and o.get("선택") in ("1점차", "5점차")), None)
+    if close:
+        context["margin_band"] = {
+            "label": close.get("선택"),
+            "close_market": _as_float(close.get("시장확률")),
+            "close_model": _as_float(close.get("모델확률")),
+        }
+
+    return context
+
+
 _PRE = ("FC",)
 _SUF = ("FC", "HD", "SK", "하나", "상무", "유나", "아이", "시티", "삼성", "현대", "스틸")
 
@@ -525,9 +579,10 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
                  (("home", sh.get(ht) or sh.get(_norm_team(ht))),
                   ("away", sh.get(at) or sh.get(_norm_team(at)))) if v}
 
-    # 줄글 — 승패/승무패 계열 배당이 있으면 그걸 근거로 쓴다
-    base = next((o for o in g["options"]
-                 if o["market"] in ("승패", "승무패") and o["선택"] in ("홈", "원정")), None)
+    # make_preview 의 p_market 은 언제나 '홈' 확률이다. 옵션 정렬이 바뀌어 원정이
+    # 먼저 와도 방향이 뒤집히지 않게 홈 행을 명시적으로 고른다.
+    base_home = next((o for o in g["options"]
+                      if o["market"] in ("승패", "승무패") and o["선택"] == "홈"), None)
     o_h = o_a = None
     for o in g["options"]:
         if o["market"] in ("승패", "승무패"):
@@ -536,7 +591,7 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
             elif o["선택"] == "원정":
                 o_a = o["배당"]
     p_home = g.get("홈승률")
-    p_mkt = base["시장확률"] if base else None
+    p_mkt = base_home["시장확률"] if base_home else None
     extra = []
     for side, name in (("home", ht), ("away", at)):
         v = g["라인업"].get(side)
@@ -568,11 +623,14 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
     g["라인업메모"] = ". ".join(extra) + ("." if extra else "")
 
     try:
+        market_context = _market_context(g["options"])
+        g["시장문맥"] = market_context
         g["해설"] = make_preview(ht, at, lg, fh, fa, h2h,
                                  p_home if p_home is not None else 0.5,
                                  p_mkt if p_mkt is not None else 0.5,
                                  o_h or 0, o_a or 0, g.get("payout") or 88.0,
-                                 0.0, 0.0, sport=g["sport"])
+                                 0.0, 0.0, sport=g["sport"],
+                                 market_context=market_context)
         if g.get("라인업메모"):
             g["해설"] = (g["해설"] or "") + " " + g["라인업메모"]
         # 템플릿 문장을 LLM 이 말투만 다듬는다. 사실은 건드리지 않는다.

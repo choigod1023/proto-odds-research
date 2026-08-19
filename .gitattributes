@@ -1,0 +1,5 @@
+# Build artifacts must have stable diffs across Windows and macOS.
+docs/*.html text eol=lf
+docs/assets/*.js text eol=lf
+docs/assets/*.css text eol=lf
+web/*.html text eol=lf

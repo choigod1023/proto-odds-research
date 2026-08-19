@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
+import BetPreference from "../components/BetPreference.jsx";
+import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
+import { availableToday } from "../lib/today-plan.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -145,12 +148,26 @@ const Empty = ({ children }) => (
 
 /* ── ① 오늘 살 것 ──────────────────────────────────────────────── */
 function TodayPlan({ today, combo, grades }) {
-  const plans = useMemo(() => (today?.plans || []).filter((p) => p.ok), [today]);
-  const solo = today?.solo || null;
+  const [clock, setClock] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setClock(Date.now()), 30000);
+    return () => clearInterval(timer);
+  }, []);
+  const activeToday = useMemo(() => availableToday(today, clock), [today, clock]);
+  const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
+  const solo = activeToday.solo || null;
   const [i, setI] = useState(0);
 
-  if (!plans.length && !solo) return null;
-  const p = i < 0 ? null : plans[i];
+  if (!plans.length && !solo) {
+    return (
+      <Card className="mt-[18px] px-[18px] py-4">
+        <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
+        <Empty>지금 살 수 있는 조합이 없다. 다음 경기 배당이 열리면 자동으로 표시한다.</Empty>
+      </Card>
+    );
+  }
+  const selectedIndex = i < 0 ? -1 : (i < plans.length ? i : 0);
+  const p = selectedIndex < 0 ? null : plans[selectedIndex];
   const bl = (combo?.baseline || []).find((x) => x.legs === 2);
   const A = (grades?.odds_bins || []).find((x) => x.grade === "A");
 
@@ -158,12 +175,23 @@ function TodayPlan({ today, combo, grades }) {
     <Card className="mt-[18px] px-[18px] py-4">
       <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
 
+      {activeToday.next && (
+        <div className="mt-1 text-[11.5px] text-ink2">시작한 경기 자동 제외 · 다음 후보 {activeToday.next.date}</div>
+      )}
+
+      <BetPreference
+        plans={plans}
+        solo={solo}
+        selectedIndex={selectedIndex}
+        onSelect={setI}
+      />
+
       <div className="my-2.5 mb-3.5 flex flex-wrap gap-1.5">
-        {solo && <Tab on={i < 0} onClick={() => setI(-1)}>단폴</Tab>}
+        {solo && <Tab on={selectedIndex < 0} onClick={() => setI(-1)}>단폴</Tab>}
         {plans.map((q, k) => (
-          <Tab key={q.target} on={k === i} onClick={() => setI(k)}>
+          <Tab key={q.target} on={k === selectedIndex} onClick={() => setI(k)}>
             {q.target}배
-            <span className={`tnum text-[11px] ${k === i ? "text-sev3" : "text-ink3"}`}>
+            <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
               {(q.expected_roi * 100).toFixed(0)}%
             </span>
           </Tab>
@@ -210,6 +238,8 @@ function TodayPlan({ today, combo, grades }) {
 
 const Tab = ({ on, onClick, children }) => (
   <button
+    type="button"
+    aria-pressed={on}
     onClick={onClick}
     className={`flex items-center gap-1.5 rounded-full border px-[13px] py-1.5 text-[12px] leading-none ${
       on ? "border-ink font-semibold text-ink" : "border-rule text-ink2 hover:border-ink3"
@@ -224,6 +254,9 @@ const Leg = ({ c }) => (
     <span className="tnum min-w-[38px] text-[11.5px] text-ink3">{hhmm(c.date)}</span>
     <span className="rounded border border-rule px-[5px] py-px text-[10.5px] text-ink3">
       {c.league}
+    </span>
+    <span className="tnum text-[10.5px] text-ink3">
+      {c.round}회 #{c.game_no}
     </span>
     <span className="min-w-[170px] flex-1">
       {c.match} — <b>{c.market}{c.market_label ? ` ${c.market_label}` : ""} {c.sel}</b>
@@ -610,7 +643,7 @@ function Why({ g }) {
   if (g.lam_src === "풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
   if (!g["해설"] && !f.length) return null;
   // 결론 문장(첫 마침표까지)을 떼어 굵게 — 판단이 본문에 묻히면 안 된다
-  const txt = g["해설"] || "";
+  const txt = displayCommentary(g);
   const cut = txt.indexOf(". ");
   const verdict = cut > 0 ? txt.slice(0, cut + 1) : txt;
   const rest = cut > 0 ? txt.slice(cut + 2) : "";

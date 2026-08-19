@@ -1,0 +1,53 @@
+import assert from "node:assert/strict";
+import { availableToday, kickoffTime, pickNextLegs } from "./today-plan.js";
+
+const leg = (event, kickoff, bin, odds, gameNo) => ({
+  event_key: event,
+  kickoff_at: kickoff,
+  date: "08.19(수) 07:00",
+  match: event,
+  market: "승패",
+  market_label: "",
+  sel: "홈",
+  bin,
+  odds,
+  overround: 1.12,
+  game_no: gameNo,
+});
+
+const past = leg("past", "2026-08-19T06:00:00+09:00", "1.5-1.8", 1.6, "1");
+const sameA = leg("same", "2026-08-19T07:00:00+09:00", "1.5-1.8", 1.6, "2");
+const sameB = leg("same", "2026-08-19T07:00:00+09:00", "1.8-2.2", 2.0, "3");
+const nextA = leg("next-a", "2026-08-19T07:05:00+09:00", "1.5-1.8", 1.65, "4");
+const nextB = leg("next-b", "2026-08-19T07:10:00+09:00", "1.8-2.2", 2.05, "5");
+
+const picked = pickNextLegs([sameA, sameB, nextA, nextB], ["1.5-1.8", "1.8-2.2"], 2026);
+assert.equal(picked.length, 2);
+assert.notEqual(picked[0].event_key, picked[1].event_key, "같은 실제 경기의 마켓을 묶으면 안 된다");
+
+const today = {
+  year: 2026,
+  candidates: [past, sameA, sameB, nextA, nextB],
+  plans: [{
+    target: 3,
+    ok: true,
+    bins: ["1.5-1.8", "1.8-2.2"],
+    expected_roi: -0.2,
+    hit_est: 0.3,
+    picks: [past, sameB],
+  }],
+};
+
+const before = availableToday(today, Date.parse("2026-08-19T06:59:00+09:00"));
+assert.equal(before.candidates.some((candidate) => candidate.event_key === "past"), false);
+assert.equal(before.next.event_key, "same");
+assert.equal(before.plans[0].ok, true);
+assert.notEqual(before.plans[0].picks[0].event_key, before.plans[0].picks[1].event_key);
+
+const after = availableToday(today, Date.parse("2026-08-19T07:01:00+09:00"));
+assert.equal(after.candidates.some((candidate) => candidate.event_key === "same"), false);
+assert.deepEqual(after.plans[0].picks.map((candidate) => candidate.event_key), ["next-a", "next-b"]);
+assert.equal(after.plans[0].actual_odds, 3.38);
+
+assert.equal(kickoffTime({ date: "08.19(수) 07:00" }, 2026), Date.parse("2026-08-19T07:00:00+09:00"));
+console.log("today-plan schedule tests passed");
