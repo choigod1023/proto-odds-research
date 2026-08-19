@@ -35,11 +35,12 @@ GRADES = ROOT / "docs" / "data" / "loss_grades.json"
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 
 METHODS = {
-    "multiplicative(현재)": multiplicative,
+    "multiplicative": multiplicative,
     "additive": additive,
     "power": power,
     "shin": shin,
 }
+CURRENT_METHOD = "shin"
 
 
 def true_prob_fn():
@@ -119,11 +120,11 @@ def main() -> int:
         print(f"  {name:<22}{mae*100:>11.3f}%p{bias*100:>+16.3f}%p")
 
     best = min(results, key=results.get)
-    cur = results.get("multiplicative(현재)")
+    cur = results.get(CURRENT_METHOD)
     print(f"\n→ 가장 잘 맞는 방식: **{best}** (평균절대오차 {results[best]*100:.3f}%p)")
-    if cur and best != "multiplicative(현재)":
+    if cur and best != CURRENT_METHOD:
         gain = (cur - results[best]) / cur * 100
-        print(f"   현재(multiplicative) 대비 오차 {gain:.1f}% 감소")
+        print(f"   현재({CURRENT_METHOD}) 대비 오차 {gain:.1f}% 감소")
     print(f"\n※ 역배 편향이 +면 그 방식이 역배 확률을 부풀린다는 뜻이다.")
     return 0
 

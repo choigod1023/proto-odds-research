@@ -12,11 +12,10 @@
    목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다.
 
 2. **그 배당대 안에서 어느 경기를 고를 것인가** — 여기가 이 파일이다.
-   같은 배당대면 과거 실측 ROI 가 **동일하다**(버킷 단위로 재니까).
-   즉 "어느 팀이 이길 것 같은가" 로는 고를 근거가 없다 — 그게 이 프로젝트의 결론이다.
-   남는 근거는 **경기별 환급률(overround) 차이** 하나뿐이다.
-   프로토는 회차·경기마다 환급률이 86~89% 로 다르다. 같은 배당대라면
-   **마진이 낮은 경기가 순수하게 유리하다.** 이건 예측이 아니라 산술이다.
+   실제 조합배당을 목표의 95~115% 안에 묶고, 선택 경기별 공통 Shin 시장확률의
+   곱이 가장 큰 서로 다른 경기 조합을 찾는다. 동률이면 환급률과 목표 근접도를 쓴다.
+   이 확률은 자체 모델 우위가 아니라 시장 기준이다. 따라서 적중·이변 위험을
+   정직하게 비교할 수는 있지만, 시장보다 더 잘 맞는다는 뜻은 아니다.
 
 규정 (https://www.sportstoto.co.kr/proto_rules.php · 2022-03 19회차 한경기구매 도입)
   · **한경기구매(단폴)**: '한경기' 로 지정된 경기만. 단위투표금액 1,000원
@@ -34,7 +33,9 @@
 from __future__ import annotations
 
 from datetime import datetime
+import itertools
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -60,6 +61,24 @@ def bin_of(o: float) -> str | None:
         if lo < o <= hi:
             return lab
     return None
+
+
+def probability_of(value: object) -> float | None:
+    try:
+        probability = float(value)
+    except (TypeError, ValueError):
+        return None
+    return probability if 0.0 < probability < 1.0 else None
+
+
+def leg_quality(candidate: dict) -> tuple:
+    probability = probability_of(candidate.get("market_prob"))
+    return (
+        -(probability or 0.0),
+        candidate["overround"],
+        candidate["kickoff_at"],
+        -candidate["odds"],
+    )
 
 
 def kickoff_at(date_text: object, year: int) -> datetime | None:
@@ -101,6 +120,7 @@ def legs_today(now: datetime | None = None) -> list[dict]:
             if not over or not (1.0 < over <= 1.40):
                 continue
             for s in g.get("selections", []):
+                market_prob = probability_of(s.get("prob"))
                 o = s.get("odds")
                 b = bin_of(o) if o else None
                 if not b or b in BANNED:
@@ -116,6 +136,9 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "booking": g.get("booking_class"), "sel": s.get("name"),
                     "odds": o, "bin": b, "overround": round(over, 4),
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
+                    "market_prob": (round(market_prob, 4) if market_prob else None),
+                    "failure_prob": (round(1.0 - market_prob, 4)
+                                     if market_prob else None),
                 })
 
     # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
@@ -135,26 +158,60 @@ def legs_today(now: datetime | None = None) -> list[dict]:
     )
 
 
-def pick_legs(cands: list[dict], bins: list[str]) -> list[dict] | None:
-    """요구된 배당대 구성대로 **서로 다른 경기**에서 다리를 고른다.
+def candidate_pool(cands: list[dict], wanted_bin: str) -> list[dict]:
+    """배당 구간 전체를 남기되 같은 0.05 구간에서는 확률 상위 3개만 쓴다."""
+    by_price: dict[int, list[dict]] = {}
+    for candidate in (c for c in cands if c["bin"] == wanted_bin):
+        bucket = int(round(float(candidate["odds"]) / 0.05))
+        by_price.setdefault(bucket, []).append(candidate)
+    pool = []
+    for rows in by_price.values():
+        pool.extend(sorted(rows, key=leg_quality)[:3])
+    return sorted(pool, key=leg_quality)
 
-    같은 배당대 안에서는 실측 ROI 가 같으므로 **환급률이 높은(=마진이 낮은) 경기**를
-    비교하되, 끝난 경기를 즉시 대체할 수 있도록 **가장 가까운 다음 경기**를 먼저 쓴다.
-    동일 실제 경기의 다른 마켓은 한 티켓에 함께 넣지 않는다.
-    """
-    used_events: set = set()
-    chosen_by_slot: dict[int, dict] = {}
-    # 후보가 적은 배당대부터 채우면 같은 경기에 막혀 조합을 놓치는 경우가 줄어든다.
-    slots = sorted(enumerate(bins), key=lambda item: sum(c["bin"] == item[1] for c in cands))
-    for slot, b in slots:
-        pool = [c for c in cands if c["bin"] == b and c["event_key"] not in used_events]
-        if not pool:
-            return None
-        pool.sort(key=lambda c: (c["kickoff_at"], c["overround"], -c["odds"]))
-        best = pool[0]
-        used_events.add(best["event_key"])
-        chosen_by_slot[slot] = best
-    return [chosen_by_slot[index] for index in range(len(bins))]
+
+def pick_legs(
+    cands: list[dict],
+    bins: list[str],
+    target: float | None = None,
+) -> list[dict] | None:
+    """목표 배당 범위 안에서 시장 기준 적중률이 가장 높은 서로 다른 경기 조합."""
+    pools = [candidate_pool(cands, wanted_bin) for wanted_bin in bins]
+    if any(not pool for pool in pools):
+        return None
+
+    lower = target * 0.95 if target else 0.0
+    upper = target * 1.15 if target else float("inf")
+    best: tuple | None = None
+    for legs in itertools.product(*pools):
+        if len({candidate["event_key"] for candidate in legs}) != len(legs):
+            continue
+        odds = math.prod(float(candidate["odds"]) for candidate in legs)
+        if not lower <= odds <= upper:
+            continue
+        probabilities = [probability_of(candidate.get("market_prob")) for candidate in legs]
+        hit = math.prod(probabilities) if all(p is not None for p in probabilities) else 0.0
+        payout = math.prod(1.0 / float(candidate["overround"]) for candidate in legs)
+        closeness = -abs(math.log(odds / target)) if target else 0.0
+        score = (hit, payout, closeness)
+        if best is None or score > best[0]:
+            best = (score, legs)
+    return list(best[1]) if best else None
+
+
+def ticket_metrics(legs: list[dict]) -> dict:
+    odds = math.prod(float(candidate["odds"]) for candidate in legs)
+    probabilities = [probability_of(candidate.get("market_prob")) for candidate in legs]
+    market_hit = math.prod(probabilities) if all(p is not None for p in probabilities) else None
+    return {
+        "actual_odds": round(odds, 2),
+        "hit_est": (round(market_hit, 5) if market_hit is not None else None),
+        "upset_risk": (round(1.0 - market_hit, 5) if market_hit is not None else None),
+        "expected_roi": (round(market_hit * odds - 1.0, 4)
+                         if market_hit is not None else None),
+    }
+
+
 
 
 def build() -> dict:
@@ -167,20 +224,25 @@ def build() -> dict:
         p = by_target.get(t)
         if not p:
             continue
-        legs = pick_legs(cands, p["best"]["bins"])
+        legs = pick_legs(cands, p["best"]["bins"], target=t)
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "why": f"오늘 발매 중인 경기로는 {p['best']['bins']} 구성을 못 만든다"})
             continue
-        odds = 1.0
-        for c in legs:
-            odds *= c["odds"]
+        metrics = ticket_metrics(legs)
+        has_market_probability = metrics["hit_est"] is not None
         out_plans.append({
             "target": t, "ok": True, "legs": len(legs),
             "bins": p["best"]["bins"],
-            "expected_roi": p["best"]["roi"],      # 실측 기반 기대 ROI
-            "hit_est": p["best"]["hit"],
-            "actual_odds": round(odds, 2),
+            "expected_roi": (metrics["expected_roi"] if has_market_probability
+                             else p["best"]["roi"]),
+            "hit_est": (metrics["hit_est"] if has_market_probability else p["best"]["hit"]),
+            "upset_risk": metrics["upset_risk"],
+            "actual_odds": metrics["actual_odds"],
+            "probability_basis": ("선택 경기의 Shin 시장확률 곱" if has_market_probability
+                                  else "과거 배당구간 평균"),
+            "historical_bucket_hit_est": p["best"]["hit"],
+            "historical_bucket_roi": p["best"]["roi"],
             "picks": legs,
         })
 
@@ -188,7 +250,7 @@ def build() -> dict:
     solo = None
     lo = [c for c in cands if c["bin"] == "1.0-1.3"]
     if lo:
-        lo.sort(key=lambda c: (c["overround"], -c["odds"]))
+        lo.sort(key=leg_quality)
         solo = lo[0]
 
     grades = json.loads(GRADES.read_text(encoding="utf-8"))
@@ -196,7 +258,9 @@ def build() -> dict:
     return {
         "generated_at": today.get("generated_at"),
         "year": today.get("year"),
-        "basis": "같은 배당대 안에서는 실측 ROI 가 같다. 남는 근거는 경기별 환급률 차이뿐이다.",
+        "probability_method": today.get("probability_method", "legacy"),
+        "basis": "배당대는 과거 손실구조에, 티켓 적중률은 선택 경기별 시장확률 곱에 쓴다. "
+                 "독립 모델 우위가 검증되기 전까지 모델 괴리는 적중률에 섞지 않는다.",
         "n_candidates": len(cands),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
@@ -205,8 +269,9 @@ def build() -> dict:
         # 브라우저가 시간이 지난 직후 다음 경기로 즉시 다시 조합할 때 쓴다.
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
-        "note": "이기는 조합이 아니다. 같은 목표 배당을 만들 때 덜 잃는 구성일 뿐이고, "
-                "모든 칸의 기대값이 음수다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+        "note": "표시 적중률은 선택한 서로 다른 경기의 시장 기준 확률을 곱한 값이다. "
+                "자체 모델 우위가 검증된 확률은 아니며, 기대값이 음수면 시장을 이긴 픽이 아니다. "
+                "단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
     }
 
 
@@ -224,6 +289,17 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 같은 경기를 두 번 썼다 {gs} — 규정 위반")
         if any(c["bin"] in BANNED for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 금지 배당대가 섞였다")
+        probabilities = [probability_of(c.get("market_prob")) for c in p["picks"]]
+        if all(x is not None for x in probabilities):
+            expected_hit = math.prod(probabilities)
+            if abs(p["hit_est"] - expected_hit) > 1e-4:
+                bad.append(f"목표 {p['target']}× : 선택 경기 확률 곱과 적중률이 다르다")
+            expected_roi = expected_hit * math.prod(c["odds"] for c in p["picks"]) - 1.0
+            if abs(p["expected_roi"] - expected_roi) > 1e-3:
+                bad.append(f"목표 {p['target']}× : 실제 배당 기준 기대값과 다르다")
+        exact_odds = math.prod(c["odds"] for c in p["picks"])
+        if not p["target"] * 0.95 <= exact_odds <= p["target"] * 1.15:
+            bad.append(f"목표 {p['target']}× : 실제 배당 {p['actual_odds']}×가 허용범위 밖")
         if p["expected_roi"] >= 0:
             bad.append(f"목표 {p['target']}× : 기대 ROI 가 양수다 — 그런 구성은 없다")
         print(f"  ✅ 목표 {p['target']}× — {p['legs']}폴 · 실배당 {p['actual_odds']}× · "

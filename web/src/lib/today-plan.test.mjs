@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
-import { availableToday, kickoffTime, pickNextLegs } from "./today-plan.js";
+import { availableToday, kickoffTime, pickNextLegs, ticketMetrics } from "./today-plan.js";
 
-const leg = (event, kickoff, bin, odds, gameNo) => ({
+const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
   event_key: event,
   kickoff_at: kickoff,
   date: "08.19(수) 07:00",
@@ -13,13 +13,14 @@ const leg = (event, kickoff, bin, odds, gameNo) => ({
   odds,
   overround: 1.12,
   game_no: gameNo,
+  market_prob: marketProb,
 });
 
-const past = leg("past", "2026-08-19T06:00:00+09:00", "1.5-1.8", 1.6, "1");
-const sameA = leg("same", "2026-08-19T07:00:00+09:00", "1.5-1.8", 1.6, "2");
-const sameB = leg("same", "2026-08-19T07:00:00+09:00", "1.8-2.2", 2.0, "3");
-const nextA = leg("next-a", "2026-08-19T07:05:00+09:00", "1.5-1.8", 1.65, "4");
-const nextB = leg("next-b", "2026-08-19T07:10:00+09:00", "1.8-2.2", 2.05, "5");
+const past = leg("past", "2026-08-19T06:00:00+09:00", "1.5-1.8", 1.6, "1", 0.58);
+const sameA = leg("same", "2026-08-19T07:00:00+09:00", "1.5-1.8", 1.6, "2", 0.55);
+const sameB = leg("same", "2026-08-19T07:00:00+09:00", "1.8-2.2", 2.0, "3", 0.45);
+const nextA = leg("next-a", "2026-08-19T07:05:00+09:00", "1.5-1.8", 1.65, "4", 0.60);
+const nextB = leg("next-b", "2026-08-19T07:10:00+09:00", "1.8-2.2", 2.05, "5", 0.44);
 
 const picked = pickNextLegs([sameA, sameB, nextA, nextB], ["1.5-1.8", "1.8-2.2"], 2026);
 assert.equal(picked.length, 2);
@@ -48,6 +49,14 @@ const after = availableToday(today, Date.parse("2026-08-19T07:01:00+09:00"));
 assert.equal(after.candidates.some((candidate) => candidate.event_key === "same"), false);
 assert.deepEqual(after.plans[0].picks.map((candidate) => candidate.event_key), ["next-a", "next-b"]);
 assert.equal(after.plans[0].actual_odds, 3.38);
+assert.equal(after.plans[0].hit_est, 0.264);
+assert.equal(after.plans[0].upset_risk, 0.736);
+assert.equal(after.plans[0].expected_roi, -0.107);
+
+assert.deepEqual(ticketMetrics([nextA, nextB]), {
+  actual_odds: 3.38, hit_est: 0.264, upset_risk: 0.736,
+  expected_roi: -0.107, probability_basis: "선택 경기의 Shin 시장확률 곱",
+});
 
 assert.equal(kickoffTime({ date: "08.19(수) 07:00" }, 2026), Date.parse("2026-08-19T07:00:00+09:00"));
 console.log("today-plan schedule tests passed");

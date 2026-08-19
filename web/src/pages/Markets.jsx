@@ -201,9 +201,10 @@ function TodayPlan({ today, combo, grades }) {
       <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
         {p ? (
           <>
-            <Stat k="적중 확률" v={`${(p.hit_est * 100).toFixed(1)}%`} />
+            <Stat k="시장 기준 적중" v={`${(p.hit_est * 100).toFixed(1)}%`} />
+            <Stat k="한 경기 이상 이변" v={`${((p.upset_risk ?? 1 - p.hit_est) * 100).toFixed(1)}%`} tone="sev" />
             <Stat k="실배당" v={`${p.actual_odds.toFixed(2)}×`} />
-            <Stat k="기대 수익률" v={`${(p.expected_roi * 100).toFixed(1)}%`} tone="sev" />
+            <Stat k="시장 기준 기대" v={`${(p.expected_roi * 100).toFixed(1)}%`} tone="sev" />
             <Stat k="구성" v={`${p.legs}폴`} />
           </>
         ) : (

@@ -23,7 +23,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                 # noqa: E402
-from devig import devig                                    # noqa: E402
+from devig import MARKET_PROBABILITY_METHOD, market_probabilities  # noqa: E402
 from snapshot import UNPLAYED, find_live_rounds, _fetch    # noqa: E402
 from wisetoto import CACHE, _session                       # noqa: E402
 
@@ -140,10 +140,9 @@ def main() -> int:
 
         games = []
         for r in live:
-            # Q1-f: 2-way 는 균등마진이 유지되므로 multiplicative 로 충분.
-            #       3-way 는 강팀 쪽에 마진이 더 얹혀 있어 power 를 쓴다.
-            method = "multiplicative" if r.n_way == 2 else "power"
-            probs = devig(r.odds, method)
+            # 상세 픽과 오늘 조합이 같은 시장확률을 쓰도록 공통 devig를 적용한다.
+            # 서로 다른 방법을 쓰면 같은 경기의 확률이 화면마다 달라진다.
+            probs = market_probabilities(list(r.odds))
             sel_names = SEL_NAMES.get(
                 (r.market_family, r.n_way), tuple(f"sel{i}" for i in range(r.n_way)))
 
@@ -194,6 +193,7 @@ def main() -> int:
     doc = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "year": year,
+        "probability_method": MARKET_PROBABILITY_METHOD,
         "rounds": out_rounds,
         "basis": {
             "history_rounds": 553,
