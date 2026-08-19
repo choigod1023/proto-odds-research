@@ -44,6 +44,7 @@ from bets import SEL_NAMES                                          # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from devig import market_probabilities                              # noqa: E402
+from recommendation_policy import recommendation_exclusion_reason  # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -866,6 +867,12 @@ def main() -> int:
 
         best, best_score = None, -9e9
         for o in g["options"]:
+            policy_reason = recommendation_exclusion_reason(o["market"])
+            if policy_reason:
+                # 확률을 계산할 수 있어도 시장 우위가 검증되지 않은 마켓은 추천하지 않는다.
+                # 상세 선택지에는 남겨 사용자가 가격과 확률을 확인할 수 있게 한다.
+                o["제외"] = policy_reason
+                continue
             # 모델 확률이 없는 선택지(전반 마켓 등)는 비교 대상이 아니다
             if o["괴리"] is None or o["예상손익"] is None:
                 o["제외"] = "모델이 값을 매기지 않는 마켓 (전반전 등)"

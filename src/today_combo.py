@@ -41,6 +41,8 @@ import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from recommendation_policy import recommendation_exclusion_reason
+
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = ROOT / "docs" / "data" / "today.json"
 GRADES = ROOT / "docs" / "data" / "loss_grades.json"
@@ -112,6 +114,9 @@ def legs_today(now: datetime | None = None) -> list[dict]:
     out = []
     for rnd in d.get("rounds", []):
         for g in rnd.get("games", []):
+            # 검증되지 않은 마켓은 가격 정보로는 보여도 단폴·다폴 구매 후보가 아니다.
+            if recommendation_exclusion_reason(g.get("market")):
+                continue
             kickoff = kickoff_at(g.get("date"), source_year)
             # 시작한 경기는 더 이상 살 수 없다. 결과 수집이 늦어도 시각으로 즉시 제외한다.
             if kickoff is None or kickoff <= now:
