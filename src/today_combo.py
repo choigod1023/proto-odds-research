@@ -33,9 +33,12 @@
 """
 from __future__ import annotations
 
+from datetime import datetime
 import json
+import re
 import sys
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 TODAY = ROOT / "docs" / "data" / "today.json"
@@ -48,6 +51,8 @@ BINS = [(1.0, 1.3), (1.3, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), 
 LABELS = ["1.0-1.3", "1.3-1.5", "1.5-1.8", "1.8-2.2", "2.2-3.0", "3.0-5.0", "5.0+"]
 BANNED = {"5.0+"}          # −33.5%. 어떤 목표에서도 쓰지 않는다.
 TARGETS = [1.4, 2, 3, 5, 8, 12]
+KST = ZoneInfo("Asia/Seoul")
+DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 
 def bin_of(o: float) -> str | None:
@@ -57,8 +62,20 @@ def bin_of(o: float) -> str | None:
     return None
 
 
-def legs_today() -> list[dict]:
-    """오늘 발매 중인 모든 선택지를 다리 후보로 편다.
+def kickoff_at(date_text: object, year: int) -> datetime | None:
+    """프로토 `MM.DD(요일) HH:MM`을 KST 시각으로 바꾼다."""
+    match = DATE_TIME.search(str(date_text or ""))
+    if not match:
+        return None
+    month, day, hour, minute = map(int, match.groups())
+    try:
+        return datetime(year, month, day, hour, minute, tzinfo=KST)
+    except ValueError:
+        return None
+
+
+def legs_today(now: datetime | None = None) -> list[dict]:
+    """지금 구매할 수 있는 시작 전 선택지만 다리 후보로 편다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
        배당으로 걸린다.** 같은 결과에 더 받는 쪽이 순수하게 유리하므로 높은 배당만 남긴다.
@@ -69,9 +86,17 @@ def legs_today() -> list[dict]:
        **차익거래(환급률 100% 초과)는 0개** — 양쪽을 다 사서 확정 수익을 낼 수는 없다.
     """
     d = json.loads(TODAY.read_text(encoding="utf-8"))
+    now = now or datetime.now(KST)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=KST)
+    source_year = int(d.get("year") or now.year)
     out = []
     for rnd in d.get("rounds", []):
         for g in rnd.get("games", []):
+            kickoff = kickoff_at(g.get("date"), source_year)
+            # 시작한 경기는 더 이상 살 수 없다. 결과 수집이 늦어도 시각으로 즉시 제외한다.
+            if kickoff is None or kickoff <= now:
+                continue
             over = g.get("overround")
             if not over or not (1.0 < over <= 1.40):
                 continue
@@ -81,19 +106,22 @@ def legs_today() -> list[dict]:
                 if not b or b in BANNED:
                     continue
                 out.append({
+                    "event_key": f"{kickoff.isoformat()}|{g.get('home')}|{g.get('away')}",
+                    "kickoff_at": kickoff.isoformat(),
                     "round": rnd.get("round"), "game_no": g.get("game_no"),
                     "date": g.get("date"), "league": g.get("league"),
                     "match": f"{g.get('home')} vs {g.get('away')}",
+                    "home": g.get("home"), "away": g.get("away"),
                     "market": g.get("market"), "market_label": g.get("market_label", ""),
                     "booking": g.get("booking_class"), "sel": s.get("name"),
                     "odds": o, "bin": b, "overround": round(over, 4),
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
                 })
 
-    # 같은 (경기, 선택)이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
+    # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
     best: dict = {}
     for x in out:
-        k = (x["game_no"], x["market"], str(x["market_label"]), x["sel"])
+        k = (x["event_key"], x["market"], str(x["market_label"]), x["sel"])
         cur = best.get(k)
         if cur is None or x["odds"] > cur["odds"]:
             if cur is not None:
@@ -101,26 +129,32 @@ def legs_today() -> list[dict]:
             best[k] = x
         elif x["odds"] < cur["odds"]:
             best[k] = {**cur, "beats": {"round": x["round"], "odds": x["odds"]}}
-    return list(best.values())
+    return sorted(
+        best.values(),
+        key=lambda x: (x["kickoff_at"], x["overround"], -x["odds"]),
+    )
 
 
 def pick_legs(cands: list[dict], bins: list[str]) -> list[dict] | None:
     """요구된 배당대 구성대로 **서로 다른 경기**에서 다리를 고른다.
 
     같은 배당대 안에서는 실측 ROI 가 같으므로 **환급률이 높은(=마진이 낮은) 경기**를
-    먼저 쓴다. 동률이면 배당이 높은 쪽 — 같은 마진이면 더 받는 게 낫다.
+    비교하되, 끝난 경기를 즉시 대체할 수 있도록 **가장 가까운 다음 경기**를 먼저 쓴다.
+    동일 실제 경기의 다른 마켓은 한 티켓에 함께 넣지 않는다.
     """
-    used: set = set()
-    chosen = []
-    for b in bins:
-        pool = [c for c in cands if c["bin"] == b and c["game_no"] not in used]
+    used_events: set = set()
+    chosen_by_slot: dict[int, dict] = {}
+    # 후보가 적은 배당대부터 채우면 같은 경기에 막혀 조합을 놓치는 경우가 줄어든다.
+    slots = sorted(enumerate(bins), key=lambda item: sum(c["bin"] == item[1] for c in cands))
+    for slot, b in slots:
+        pool = [c for c in cands if c["bin"] == b and c["event_key"] not in used_events]
         if not pool:
             return None
-        pool.sort(key=lambda c: (c["overround"], -c["odds"]))
+        pool.sort(key=lambda c: (c["kickoff_at"], c["overround"], -c["odds"]))
         best = pool[0]
-        used.add(best["game_no"])
-        chosen.append(best)
-    return chosen
+        used_events.add(best["event_key"])
+        chosen_by_slot[slot] = best
+    return [chosen_by_slot[index] for index in range(len(bins))]
 
 
 def build() -> dict:
@@ -143,6 +177,7 @@ def build() -> dict:
             odds *= c["odds"]
         out_plans.append({
             "target": t, "ok": True, "legs": len(legs),
+            "bins": p["best"]["bins"],
             "expected_roi": p["best"]["roi"],      # 실측 기반 기대 ROI
             "hit_est": p["best"]["hit"],
             "actual_odds": round(odds, 2),
@@ -157,13 +192,18 @@ def build() -> dict:
         solo = lo[0]
 
     grades = json.loads(GRADES.read_text(encoding="utf-8"))
+    today = json.loads(TODAY.read_text(encoding="utf-8"))
     return {
-        "generated_at": json.loads(TODAY.read_text(encoding="utf-8")).get("generated_at"),
+        "generated_at": today.get("generated_at"),
+        "year": today.get("year"),
         "basis": "같은 배당대 안에서는 실측 ROI 가 같다. 남는 근거는 경기별 환급률 차이뿐이다.",
         "n_candidates": len(cands),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
+        "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
         "solo": solo,
         "plans": out_plans,
+        # 브라우저가 시간이 지난 직후 다음 경기로 즉시 다시 조합할 때 쓴다.
+        "candidates": cands,
         "odds_bins": grades["odds_bins"],
         "note": "이기는 조합이 아니다. 같은 목표 배당을 만들 때 덜 잃는 구성일 뿐이고, "
                 "모든 칸의 기대값이 음수다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
@@ -179,7 +219,7 @@ def _selftest() -> int:
         if not p.get("ok"):
             print(f"  ⏭ 목표 {p['target']}× — {p['why']}")
             continue
-        gs = [c["game_no"] for c in p["picks"]]
+        gs = [c["event_key"] for c in p["picks"]]
         if len(set(gs)) != len(gs):
             bad.append(f"목표 {p['target']}× : 같은 경기를 두 번 썼다 {gs} — 규정 위반")
         if any(c["bin"] in BANNED for c in p["picks"]):
@@ -188,6 +228,10 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 기대 ROI 가 양수다 — 그런 구성은 없다")
         print(f"  ✅ 목표 {p['target']}× — {p['legs']}폴 · 실배당 {p['actual_odds']}× · "
               f"서로 다른 경기 {len(set(gs))}개")
+    now = datetime.now(KST)
+    past = [c for c in d.get("candidates", []) if datetime.fromisoformat(c["kickoff_at"]) <= now]
+    if past:
+        bad.append(f"시작한 경기 {len(past)}개가 후보에 남았다")
     if d["solo"] and d["solo"]["bin"] in BANNED:
         bad.append("단폴이 금지 배당대다")
     if bad:

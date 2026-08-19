@@ -103,7 +103,8 @@ def _venue(f: Form | None, name: str, is_home: bool) -> str | None:
     return f"{josa(name,'은','는')} {where} {w}승 {l}패로 {tone}"
 
 
-def _projection(fh: Form | None, fa: Form | None, sport: str) -> str | None:
+def _projection(fh: Form | None, fa: Form | None, sport: str,
+                line: float | None = None, describe_gap: bool = True) -> str | None:
     """양 팀 최근 화력·실점에서 경기 양상을 추정한다.
 
     홈 예상 득점 = (홈 평균득점 + 원정 평균실점) / 2   ← 공격력과 상대 수비력의 절충
@@ -117,33 +118,80 @@ def _projection(fh: Form | None, fa: Form | None, sport: str) -> str | None:
     total = eh + ea
     gap = abs(eh - ea)
 
-    # 종목별 '타격전' 기준선
-    hi, lo = {"bs": (10.0, 7.5), "bk": (225, 205), "sc": (3.0, 2.2),
-              "vl": (4.2, 3.6)}.get(sport, (10.0, 7.5))
     unit = {"bs": "점", "bk": "점", "sc": "골", "vl": "세트"}.get(sport, "점")
 
-    # ⚠️ 예전엔 "평범한 스코어 흐름이 예상된다" 같은 문장을 넣었다.
-    #    아무 말도 안 하는 문장이다. 프리뷰는 **뭐가 일어날지 특정**해야 한다.
-    #    라인이 있는 마켓(언더오버·핸디캡)에 바로 대볼 수 있는 형태로 쓴다.
-    line = {"bs": 8.5, "bk": 215, "sc": 2.5, "vl": 3.5}.get(sport, 8.5)
-    ou = "오버" if total > line else "언더"
-    # ⚠️ 예전엔 "{eh} 대 {ea}, 합계 {total} — 기준선 {line} 대비" 로 산수를 다 펼쳤다.
-    #    한 문장에 숫자 넷이다. 읽는 사람이 알아야 할 건 **기준선 어느 쪽인가** 하나고,
-    #    그 판단을 뒤집는 유일한 숫자는 합계다. 나머지 셋은 과정이지 결론이 아니다.
-    s = (f"최근 화력과 실점을 겹쳐 보면 합계 {total:.1f}{unit} 언저리로 "
-         f"기준선({line}{unit})보다 {'높다' if ou == '오버' else '낮다'} — {ou} 쪽이다")
-
-    # 야구는 무승부가 사실상 없다(연장). 종목에 없는 결과를 말하면 안 된다.
-    tie_ok = sport in ("sc",)
-    side = "홈" if eh > ea else "원정"
-    if gap < 0.35:
-        near = f"무승부·1{unit}차" if tie_ok else f"1{unit}차"
-        s += f". 득점 차 {gap:.1f}{unit}{_ro(unit)} 갈리지 않아 {near} 승부가 유력하다"
-    elif gap < 0.8:
-        s += f". {side}이 {gap:.1f}{unit} 앞서는 정도라 1{unit}차 접전으로 본다"
+    # 종목별 기본선을 실제 발매선인 것처럼 쓰면 안 된다. 실제 U/O 라인이 있을 때만
+    # 비교하고, 없으면 단순 합계 추정치만 말한다.
+    if line is not None:
+        ou = "오버" if total > line else "언더"
+        s = (f"단순 최근 지표로 계산한 합계는 {total:.1f}{unit} 안팎이다. "
+             f"실제 기준선 {line:g}{unit}과 비교하면 {ou} 쪽이다")
     else:
-        s += f". {side}이 {gap:.1f}{unit} 앞서 2{unit}차 이상으로 갈릴 공산이 크다"
+        s = f"단순 최근 지표로 계산한 합계는 {total:.1f}{unit} 안팎이다"
+
+    # 기대득점 차는 승리 마진의 확률이 아니다. 평균 차 1.3을 보고 "2점차 이상이
+    # 유력"하다고 쓰던 오류를 막는다. 마진밴드 확률이 없을 때만 평균 차를 묘사한다.
+    if describe_gap:
+        side = "홈" if eh > ea else "원정"
+        if gap < 0.35:
+            s += f". 평균 득점 차는 {gap:.1f}{unit}로 거의 갈리지 않는다"
+        else:
+            s += f". 평균 득점 추정치는 {side}이 {gap:.1f}{unit} 앞선다"
     return s
+
+
+def _market_tension(home: str, away: str, p_model: float, p_market: float,
+                    context: dict | None) -> str | None:
+    """시장 정배 확신과 같은 득점분포의 교차 마켓 충돌을 '의외성'으로 설명한다.
+
+    실제 투표량이 없으므로 사람 쏠림을 단정하지 않는다. 이 값은 역배 추천 확률이
+    아니라, 시장의 확신을 다시 볼 이유가 몇 개나 겹치는지를 보여 주는 진단이다.
+    """
+    context = context or {}
+    favorite_home = p_market >= 0.5
+    favorite = home if favorite_home else away
+    underdog = away if favorite_home else home
+    p_fav_market = p_market if favorite_home else 1.0 - p_market
+    p_fav_model = p_model if favorite_home else 1.0 - p_model
+    premium = p_fav_market - p_fav_model
+    if premium < 0.08:
+        return None
+
+    bits = [
+        f"어라 포인트는 시장의 확신이 득점분포의 교차 마켓 진단보다 강하다는 점이다. "
+        f"시장은 {favorite}를 {p_fav_market*100:.0f}%로 보지만 검증 전 득점 모델은 {p_fav_model*100:.0f}%로 "
+        f"{premium*100:.0f}%p 낮게 본다"
+    ]
+    routes = 0
+
+    handicap = context.get("handicap") or {}
+    dog_key = "home" if not favorite_home else "away"
+    dog_market = handicap.get(f"{dog_key}_market")
+    dog_model = handicap.get(f"{dog_key}_model")
+    if dog_market is not None and dog_model is not None and dog_model - dog_market >= 0.08:
+        bits.append(
+            f"{underdog} 쪽 핸디캡({handicap.get('label', '실제 라인')}) 커버도 "
+            f"시장 {dog_market*100:.0f}%보다 모델 {dog_model*100:.0f}%가 높다"
+        )
+        routes += 1
+
+    margin = context.get("margin_band") or {}
+    close_market = margin.get("close_market")
+    close_model = margin.get("close_model")
+    if close_market is not None and close_model is not None and close_model - close_market >= 0.08:
+        close_label = margin.get("label") or "접전"
+        bits.append(
+            f"{close_label} 가능성도 시장 {close_market*100:.0f}%와 모델 {close_model*100:.0f}%가 엇갈린다"
+        )
+        routes += 1
+
+    # 승패 모델 하나만 시장과 다르면 모델 오류일 가능성이 더 크다. 같은 득점분포를
+    # 핸디캡/마진에 투영해도 접전 방향이 확인될 때만 독자에게 '어라'라고 말한다.
+    if not routes:
+        return None
+    bits.append("역배가 나온다면 정배가 압도당해서라기보다 접전이 길어져 한 번의 득점으로 뒤집히는 경로다")
+    bits.append("실제 투표량이 없어 쏠림 확정은 아니며, 여기서는 '쏠림 의심'으로만 표시한다")
+    return ". ".join(bits)
 
 
 def _schedule(fh: Form | None, fa: Form | None, home: str, away: str
@@ -219,7 +267,8 @@ def make_preview(home: str, away: str, league: str,
                  fh: Form | None, fa: Form | None, h2h: dict,
                  p_model: float, p_market: float, odds_home: float,
                  odds_away: float, payout: float, ev_home: float,
-                 ev_away: float, sport: str = "bs", limit: int = 560) -> str:
+                 ev_away: float, sport: str = "bs", limit: int = 760,
+                 market_context: dict | None = None) -> str:
     """경기 프리뷰 본문 — **경기가 어떻게 굴러갈지**를 쓴다.
 
     배당 구조(2-way/3-way, 환급률) 얘기는 여기 넣지 않는다.
@@ -244,7 +293,9 @@ def make_preview(home: str, away: str, league: str,
         if extra and (extra + ".") not in parts:
             parts.append(extra + ".")
 
-    pj = _projection(fh, fa, sport)
+    context = market_context or {}
+    total_line = (context.get("total") or {}).get("line")
+    pj = _projection(fh, fa, sport, total_line, describe_gap=not bool(context.get("margin_band")))
     pj_over = None
     if pj:
         parts.append(pj + ".")
@@ -264,32 +315,25 @@ def make_preview(home: str, away: str, league: str,
     no_form = (fh is None or not fh.recent_games) and (fa is None or not fa.recent_games)
 
     if abs(pk - 50) < 3:
-        # 반반이면 '픽' 이라고 부르면 안 된다. 그래도 사야 한다면 낮은 배당 쪽이다.
-        head = f"양쪽이 사실상 반반이다({up} {v:.0f}%). 굳이 고르면 {up} 승"
+        head = f"시장은 양쪽을 사실상 반반으로 가격한다({up} {v:.0f}%). 낮은 배당은 {up} 쪽"
         head += f", 배당 {o_up:.2f}." if o_up else "."
     else:
-        head = f"예상 픽은 {up} 승. 적중 확률 {v:.0f}%"
+        head = f"시장 기본값은 {up} 승 {v:.0f}%"
         head += f" · 배당 {o_up:.2f}." if o_up else "."
     if pj_over:
-        head += f" 총득점은 {pj_over} 쪽."
+        head += f" 실제 발매선 기준 총득점은 {pj_over} 쪽."
     if no_form:
         head += " 양 팀 모두 최근 기록이 없어 경기 내용으로는 보탤 게 없다."
-    else:
-        d = abs(p_model * 100 - pk)
-        if d >= 15:
-            head += (f" 우리 모델은 {p_model*100:.0f}%로 {d:.0f}%p 다르게 보는데, "
-                     f"한쪽 팀의 최근 상대가 약해 득점이 부풀려 잡힌 경우다 — 시장 쪽을 쓴다.")
 
     side = home if p_market >= 0.5 else away      # 반론 문장이 쓰는 '우세 쪽'
     cp = _counterpoint(fh, fa, home, away, side)
+    tension = _market_tension(home, away, p_model, p_market, context)
+    front = [head]
+    if tension:
+        front.append(tension + ".")
     if cp:
-        # ⚠️ 예전엔 parts 맨 뒤에 붙였다. 그래서 앞의 수치 문장들이 자리를 다 먹고
-        #    상한(27% 가 잘렸다)에서 **반론이 제일 먼저 희생됐다** — 실측 28% 만 살아남았다.
-        #    '다만 ~' 은 결론을 뒤집을 수도 있는 문장이라 잘려선 안 되는 쪽이다.
-        #    결론 바로 뒤에 세운다. 기사에서도 그 자리다.
-        parts.insert(0, cp + ".")
-
-    parts.insert(0, head)      # 결론이 맨 앞
+        front.append(cp + ".")
+    parts = front + parts
     out = " ".join(parts).replace("  ", " ").replace(". .", ".")
     if len(out) > limit:
         out = out[:limit - 1].rstrip().rstrip(",") + "…"
