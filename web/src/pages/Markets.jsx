@@ -199,7 +199,7 @@ function TodayPlan({ today, combo, grades }) {
     return (
       <Card className="mt-[18px] px-[18px] py-4">
         <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
-        <Empty>지금 살 수 있는 조합이 없다. 다음 경기 배당이 열리면 자동으로 표시한다.</Empty>
+        <Empty>오늘 23:59 KST까지 살 수 있는 조합이 없다. 날짜가 바뀌면 자동으로 다시 찾는다.</Empty>
       </Card>
     );
   }
@@ -214,7 +214,7 @@ function TodayPlan({ today, combo, grades }) {
 
       {activeToday.next && (
         <div className="mt-1 text-[11.5px] text-ink2">
-          한국시간(KST) 기준 · 시작 즉시 자동 제외 · 다음 후보 {activeToday.next.date}
+          한국시간(KST) 기준 · 오늘 23:59 시작까지 · 다음 후보 {activeToday.next.date}
         </div>
       )}
       <div className="mt-1 text-[11.5px] text-ink3">
