@@ -2,6 +2,7 @@ import { eligibleAutoSelections } from "./recommendation-policy.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DATE_TIME = /(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/;
+export const MAX_TODAY_RECHECK_MS = 30 * 60 * 1000;
 export const SAFE_TARGET_BINS = {
   1.4: ["1.0-1.3", "1.0-1.3"],
   2: ["1.0-1.3", "1.5-1.8"],
@@ -128,6 +129,28 @@ function legacyCandidates(today) {
     seen.add(key);
     return true;
   });
+}
+
+/**
+ * 다음 경기 시작 직후 다시 판정하되, 후보가 멀리 있어도 30분마다 시계를 보정한다.
+ * 브라우저 타이머는 절전 중 늦어질 수 있으므로 화면 복귀 이벤트에서도 별도로 호출한다.
+ */
+export function nextTodayRefreshDelay(
+  today,
+  now = Date.now(),
+  maxWait = MAX_TODAY_RECHECK_MS,
+) {
+  const waitLimit = Number.isFinite(maxWait) && maxWait > 0
+    ? maxWait : MAX_TODAY_RECHECK_MS;
+  if (!today) return waitLimit;
+  const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
+  const nextKickoff = source
+    .map((candidate) => kickoffTime(candidate, today.year))
+    .filter((kickoff) => Number.isFinite(kickoff) && kickoff > now)
+    .sort((a, b) => a - b)[0];
+  if (!Number.isFinite(nextKickoff)) return waitLimit;
+  // 시작 시각과 같은 밀리초에 경계 판정이 흔들리지 않도록 1초 뒤에 갱신한다.
+  return Math.min(waitLimit, Math.max(1000, nextKickoff - now + 1000));
 }
 
 export function availableToday(today, now = Date.now()) {

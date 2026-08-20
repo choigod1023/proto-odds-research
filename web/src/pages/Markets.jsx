@@ -4,7 +4,7 @@ import BetPreference from "../components/BetPreference.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday } from "../lib/today-plan.js";
+import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -115,6 +115,25 @@ function liveOf(idx, g) {
   return m;
 }
 
+const KST_FORMAT = new Intl.DateTimeFormat("ko-KR", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
+
+function kstStamp(value) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return String(value || "-");
+  const parts = Object.fromEntries(
+    KST_FORMAT.formatToParts(date).map(({ type, value: part }) => [type, part]),
+  );
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}`;
+}
+
 // `갱신` 은 데이터가 만들어진 시각, `확인` 은 브라우저가 마지막으로 받아 본 시각이다.
 // 둘을 나눠 적어야 "화면이 멈춘 건지, 서버가 안 만든 건지"가 구분된다.
 const metaLine = (d, at) =>
@@ -122,8 +141,8 @@ const metaLine = (d, at) =>
   //    이 사이트의 모든 숫자는 **승부식 전용**이다. 기록식(pt2)은 한 건도 수집한 적이 없다.
   //    안 적으면 보는 사람이 기록식 배당도 여기 있다고 착각한다.
   `${(d.live || []).length + (d.past || []).length}경기 · 회차 ${(d.rounds || []).join(", ")} · 승부식` +
-  ` · 갱신 ${String(d.generated_at || "").slice(0, 16).replace("T", " ")}` +
-  (at ? ` · 확인 ${new Date(at).toTimeString().slice(0, 5)}` : "");
+  ` · 갱신 ${kstStamp(d.generated_at)} KST` +
+  (at ? ` · 확인 ${kstStamp(at)} KST` : "");
 
 function Shell({ children, meta }) {
   return (
@@ -150,9 +169,27 @@ const Empty = ({ children }) => (
 function TodayPlan({ today, combo, grades }) {
   const [clock, setClock] = useState(() => Date.now());
   useEffect(() => {
-    const timer = setInterval(() => setClock(Date.now()), 30000);
-    return () => clearInterval(timer);
-  }, []);
+    let timer;
+    const schedule = () => {
+      const now = Date.now();
+      setClock(now);
+      clearTimeout(timer);
+      timer = setTimeout(schedule, nextTodayRefreshDelay(today, now));
+    };
+    const onVisible = () => { if (document.visibilityState === "visible") schedule(); };
+    schedule();
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", schedule);
+    window.addEventListener("pageshow", schedule);
+    window.addEventListener("online", schedule);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", schedule);
+      window.removeEventListener("pageshow", schedule);
+      window.removeEventListener("online", schedule);
+    };
+  }, [today]);
   const activeToday = useMemo(() => availableToday(today, clock), [today, clock]);
   const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
   const solo = activeToday.solo || null;
@@ -176,8 +213,13 @@ function TodayPlan({ today, combo, grades }) {
       <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
 
       {activeToday.next && (
-        <div className="mt-1 text-[11.5px] text-ink2">시작한 경기 자동 제외 · 다음 후보 {activeToday.next.date}</div>
+        <div className="mt-1 text-[11.5px] text-ink2">
+          한국시간(KST) 기준 · 시작 즉시 자동 제외 · 다음 후보 {activeToday.next.date}
+        </div>
       )}
+      <div className="mt-1 text-[11.5px] text-ink3">
+        다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
+      </div>
       <div className="mt-1 text-[11.5px] text-ink2">
         역배 끼워맞춤 금지 · 각 시장 최유력만 · 다리당 배당 2.20 미만
       </div>
