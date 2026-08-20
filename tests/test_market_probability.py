@@ -75,12 +75,12 @@ def test_high_targets_use_more_safe_legs_instead_of_underdog_bins():
                for bins in SAFE_TARGET_BINS.values() for wanted_bin in bins)
 
 
-def test_today_combo_filters_odd_even_candidates(monkeypatch, tmp_path):
+def test_today_combo_filters_odd_even_and_next_day_candidates(monkeypatch, tmp_path):
     games = []
     for game_no, market in ((1, "홀짝"), (2, "승패")):
         games.append({
             "game_no": game_no,
-            "date": "08.20(목) 10:00",
+            "date": "08.20(목) 23:00" if game_no == 1 else "08.20(목) 23:59",
             "league": "MLB",
             "home": f"홈{game_no}",
             "away": f"원정{game_no}",
@@ -93,6 +93,8 @@ def test_today_combo_filters_odd_even_candidates(monkeypatch, tmp_path):
                 {"name": "원정", "odds": 2.00, "prob": 0.45},
             ],
         })
+    games.append({**games[1], "game_no": 3, "date": "08.21(금) 00:00",
+                  "home": "홈3", "away": "원정3"})
     today = tmp_path / "today.json"
     today.write_text(
         json.dumps({"year": 2026, "rounds": [{"round": 99, "games": games}]},
@@ -102,10 +104,12 @@ def test_today_combo_filters_odd_even_candidates(monkeypatch, tmp_path):
     monkeypatch.setattr(today_combo, "TODAY", today)
 
     candidates = today_combo.legs_today(
-        datetime(2026, 8, 19, 12, 0, tzinfo=ZoneInfo("Asia/Seoul"))
+        datetime(2026, 8, 20, 12, 0, tzinfo=ZoneInfo("Asia/Seoul"))
     )
 
     assert len(candidates) == 1
     assert {candidate["market"] for candidate in candidates} == {"승패"}
     assert candidates[0]["sel"] == "홈"
     assert candidates[0]["is_market_favorite"] is True
+    assert candidates[0]["date"].endswith("23:59")
+    assert candidates[0]["game_no"] == 2

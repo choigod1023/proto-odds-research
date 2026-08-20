@@ -1,6 +1,7 @@
 import { eligibleAutoSelections } from "./recommendation-policy.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 const DATE_TIME = /(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/;
 export const MAX_TODAY_RECHECK_MS = 30 * 60 * 1000;
 export const SAFE_TARGET_BINS = {
@@ -131,6 +132,18 @@ function legacyCandidates(today) {
   });
 }
 
+const kstDay = (time) => Math.floor((time + KST_OFFSET_MS) / DAY_MS);
+const nextKstMidnight = (now) => (kstDay(now) + 1) * DAY_MS - KST_OFFSET_MS;
+
+function futureTodayCandidates(today, now) {
+  if (!today) return [];
+  const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
+  return eligibleAutoSelections(source).filter((candidate) => {
+    const kickoff = kickoffTime(candidate, today.year);
+    return Number.isFinite(kickoff) && kickoff > now && kstDay(kickoff) === kstDay(now);
+  });
+}
+
 /**
  * 다음 경기 시작 직후 다시 판정하되, 후보가 멀리 있어도 30분마다 시계를 보정한다.
  * 브라우저 타이머는 절전 중 늦어질 수 있으므로 화면 복귀 이벤트에서도 별도로 호출한다.
@@ -143,21 +156,17 @@ export function nextTodayRefreshDelay(
   const waitLimit = Number.isFinite(maxWait) && maxWait > 0
     ? maxWait : MAX_TODAY_RECHECK_MS;
   if (!today) return waitLimit;
-  const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
-  const nextKickoff = source
+  const nextKickoff = futureTodayCandidates(today, now)
     .map((candidate) => kickoffTime(candidate, today.year))
-    .filter((kickoff) => Number.isFinite(kickoff) && kickoff > now)
     .sort((a, b) => a - b)[0];
-  if (!Number.isFinite(nextKickoff)) return waitLimit;
+  const wakeAt = Number.isFinite(nextKickoff) ? nextKickoff : nextKstMidnight(now);
   // 시작 시각과 같은 밀리초에 경계 판정이 흔들리지 않도록 1초 뒤에 갱신한다.
-  return Math.min(waitLimit, Math.max(1000, nextKickoff - now + 1000));
+  return Math.min(waitLimit, Math.max(1000, wakeAt - now + 1000));
 }
 
 export function availableToday(today, now = Date.now()) {
   if (!today) return { plans: [], solo: null, candidates: [], next: null };
-  const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
-  const candidates = eligibleAutoSelections(source)
-    .filter((candidate) => kickoffTime(candidate, today.year) > now)
+  const candidates = futureTodayCandidates(today, now)
     .sort((a, b) => byNextKickoff(a, b, today.year));
 
   const plans = (today.plans || []).map((plan) => {

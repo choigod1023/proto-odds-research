@@ -25,6 +25,8 @@ const nextB = leg("next-b", "2026-08-19T07:10:00+09:00", "1.8-2.2", 2.05, "5", 0
 const high = leg("high", "2026-08-19T07:20:00+09:00", "2.2-3.0", 2.4, "6", 0.40);
 const reverse = { ...leg("reverse", "2026-08-19T07:30:00+09:00", "1.8-2.2", 1.95, "7", 0.46),
   is_market_favorite: false };
+const lastMinute = leg("last-minute", "2026-08-19T23:59:00+09:00", "1.5-1.8", 1.7, "8", 0.56);
+const tomorrow = leg("tomorrow", "2026-08-20T00:00:00+09:00", "1.8-2.2", 2.0, "9", 0.48);
 
 const picked = pickNextLegs([sameA, sameB, nextA, nextB], ["1.5-1.8", "1.8-2.2"], 2026);
 assert.equal(picked.length, 2);
@@ -69,6 +71,17 @@ assert.equal(nextTodayRefreshDelay(today, thirtyMinutesBefore), 30 * 60 * 1000,
 const tenSecondsBefore = Date.parse("2026-08-19T06:59:50+09:00");
 assert.equal(nextTodayRefreshDelay(today, tenSecondsBefore), 11 * 1000,
   "다음 KST 경기 시작 직후 재추천하도록 예약해야 한다");
+
+const cutoffToday = { year: 2026, candidates: [lastMinute, tomorrow], plans: [] };
+const beforeLastMinute = Date.parse("2026-08-19T23:58:50+09:00");
+const cutoffResult = availableToday(cutoffToday, beforeLastMinute);
+assert.deepEqual(cutoffResult.candidates.map((candidate) => candidate.event_key), ["last-minute"],
+  "오늘 23:59 KST 경기는 포함하고 다음 날 00:00 경기는 제외해야 한다");
+assert.equal(nextTodayRefreshDelay(cutoffToday, beforeLastMinute), 11 * 1000);
+const afterLastStart = Date.parse("2026-08-19T23:59:01+09:00");
+assert.equal(availableToday(cutoffToday, afterLastStart).candidates.length, 0);
+assert.equal(nextTodayRefreshDelay(cutoffToday, Date.parse("2026-08-19T23:59:50+09:00")), 11 * 1000,
+  "오늘 후보가 없으면 KST 자정 직후 다시 확인해야 한다");
 
 assert.deepEqual(ticketMetrics([nextA, nextB]), {
   actual_odds: 3.38, hit_est: 0.264, upset_risk: 0.736,

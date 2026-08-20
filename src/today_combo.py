@@ -108,7 +108,7 @@ def kickoff_at(date_text: object, year: int) -> datetime | None:
 
 
 def legs_today(now: datetime | None = None) -> list[dict]:
-    """지금 구매할 수 있는 시작 전 선택지만 다리 후보로 편다.
+    """KST 오늘 23:59까지 구매할 수 있는 시작 전 선택지만 다리 후보로 편다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
        배당으로 걸린다.** 같은 결과에 더 받는 쪽이 순수하게 유리하므로 높은 배당만 남긴다.
@@ -122,6 +122,8 @@ def legs_today(now: datetime | None = None) -> list[dict]:
     now = now or datetime.now(KST)
     if now.tzinfo is None:
         now = now.replace(tzinfo=KST)
+    else:
+        now = now.astimezone(KST)
     source_year = int(d.get("year") or now.year)
     out = []
     for rnd in d.get("rounds", []):
@@ -130,8 +132,9 @@ def legs_today(now: datetime | None = None) -> list[dict]:
             if recommendation_exclusion_reason(g.get("market")):
                 continue
             kickoff = kickoff_at(g.get("date"), source_year)
-            # 시작한 경기는 더 이상 살 수 없다. 결과 수집이 늦어도 시각으로 즉시 제외한다.
-            if kickoff is None or kickoff <= now:
+            # 시작한 경기와 KST 자정 이후 경기는 '오늘 살 거면'에서 제외한다.
+            # 23:59 시작은 오늘, 00:00 시작은 내일 픽이다.
+            if kickoff is None or kickoff <= now or kickoff.date() != now.date():
                 continue
             over = g.get("overround")
             if not over or not (1.0 < over <= 1.40):
