@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { availableToday, kickoffTime, pickNextLegs, SAFE_TARGET_BINS,
+import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
   ticketMetrics } from "./today-plan.js";
 
 const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
@@ -58,6 +58,17 @@ assert.equal(after.plans[0].actual_odds, 3.38);
 assert.equal(after.plans[0].hit_est, 0.264);
 assert.equal(after.plans[0].upset_risk, 0.736);
 assert.equal(after.plans[0].expected_roi, -0.107);
+
+const exactKickoff = availableToday(today, Date.parse("2026-08-19T07:00:00+09:00"));
+assert.equal(exactKickoff.candidates.some((candidate) => candidate.event_key === "same"), false,
+  "KST 경기 시작 시각이 되면 즉시 후보에서 제외해야 한다");
+
+const thirtyMinutesBefore = Date.parse("2026-08-19T06:30:00+09:00");
+assert.equal(nextTodayRefreshDelay(today, thirtyMinutesBefore), 30 * 60 * 1000,
+  "다음 시작이 멀어도 최대 30분 뒤에는 다시 확인해야 한다");
+const tenSecondsBefore = Date.parse("2026-08-19T06:59:50+09:00");
+assert.equal(nextTodayRefreshDelay(today, tenSecondsBefore), 11 * 1000,
+  "다음 KST 경기 시작 직후 재추천하도록 예약해야 한다");
 
 assert.deepEqual(ticketMetrics([nextA, nextB]), {
   actual_odds: 3.38, hit_est: 0.264, upset_risk: 0.736,
