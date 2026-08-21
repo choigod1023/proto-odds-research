@@ -1,10 +1,10 @@
 {
- "generated_at": "2026-08-21T03:12:25+00:00",
+ "generated_at": "2026-08-21T04:14:42+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "각 시장에서 시장확률 1위이며 배당 2.20 미만인 선택만 쓴다. 목표 총배당은 역배 대신 안전 구간의 다리 수를 늘려 맞춘다.",
  "n_candidates": 57,
- "n_better_round": 0,
+ "n_better_round": 2,
  "next_kickoff_at": "2026-08-21T18:00:00+09:00",
  "selection_policy": "시장 최유력만 · 다리당 2.20 미만 · 홀짝 제외",
  "max_leg_odds_exclusive": 2.2,
@@ -439,7 +439,11 @@
      "hist_roi": -0.1345,
      "market_prob": 0.5901,
      "failure_prob": 0.4099,
-     "is_market_favorite": true
+     "is_market_favorite": true,
+     "beats": {
+      "round": 99,
+      "odds": 1.5
+     }
     },
     {
      "event_key": "2026-08-21T19:00:00+09:00|한화|LG",
@@ -1271,7 +1275,11 @@
    "hist_roi": -0.1206,
    "market_prob": 0.5097,
    "failure_prob": 0.4903,
-   "is_market_favorite": true
+   "is_market_favorite": true,
+   "beats": {
+    "round": 99,
+    "odds": 1.66
+   }
   },
   {
    "event_key": "2026-08-21T19:00:00+09:00|두산|롯데",
@@ -1685,7 +1693,11 @@
    "hist_roi": -0.1345,
    "market_prob": 0.5901,
    "failure_prob": 0.4099,
-   "is_market_favorite": true
+   "is_market_favorite": true,
+   "beats": {
+    "round": 99,
+    "odds": 1.5
+   }
   },
   {
    "event_key": "2026-08-21T19:00:00+09:00|두산|롯데",
