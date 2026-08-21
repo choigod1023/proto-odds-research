@@ -85,13 +85,44 @@ def probability_of(value: object) -> float | None:
     return probability if 0.0 < probability < 1.0 else None
 
 
+def calibrated_leg_probability(candidate: dict) -> tuple[float | None, float | None]:
+    """실측 ROI를 후보 배당의 적중확률로 역산하고 95% 단측 Wilson 하한을 낸다.
+
+    p = (1 + ROI) / odds 는 이 저장소의 devig_pick.py가 검증에 쓰는 동일한 정의다.
+    자체 모델은 시장보다 나빴으므로 사용하지 않는다. 실측 표본이 없으면 시장확률로
+    되돌아가되, 그 값을 수익 우위라고 부르지 않는다.
+    """
+    market = probability_of(candidate.get("market_prob"))
+    try:
+        odds = float(candidate.get("odds"))
+        roi = float(candidate.get("hist_roi"))
+        n = int(candidate.get("hist_n") or 0)
+    except (TypeError, ValueError):
+        return market, market
+    if odds <= 1.0 or not -0.99 < roi < 5.0:
+        return market, market
+    estimate = min(0.999, max(0.001, (1.0 + roi) / odds))
+    if n < 30:
+        return estimate, estimate
+    z = 1.645  # 95% 단측 하한
+    z2 = z * z
+    denominator = 1.0 + z2 / n
+    center = (estimate + z2 / (2.0 * n)) / denominator
+    margin = z * math.sqrt(estimate * (1.0 - estimate) / n + z2 / (4.0 * n * n)) / denominator
+    return estimate, max(0.001, center - margin)
+
+
 def leg_quality(candidate: dict) -> tuple:
+    calibrated, conservative = calibrated_leg_probability(candidate)
     probability = probability_of(candidate.get("market_prob"))
+    odds = float(candidate.get("odds") or 0.0)
     return (
+        -((conservative or 0.0) * odds),
+        -((calibrated or 0.0) * odds),
         -(probability or 0.0),
         candidate["overround"],
         candidate["kickoff_at"],
-        -candidate["odds"],
+        -odds,
     )
 
 
@@ -168,6 +199,7 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "booking": g.get("booking_class"), "sel": s.get("name"),
                     "odds": o, "bin": b, "overround": round(over, 4),
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
+                    "hist_n": s.get("hist_n"),
                     "market_prob": round(market_prob, 4),
                     "failure_prob": round(1.0 - market_prob, 4),
                     "is_market_favorite": True,
@@ -218,7 +250,7 @@ def pick_legs(
     bins: list[str],
     target: float | None = None,
 ) -> list[dict] | None:
-    """목표 배당 범위 안에서 시장 기준 적중률이 가장 높은 서로 다른 경기 조합."""
+    """목표 범위에서 보수 기대수익, 보정 적중률 순으로 가장 나은 서로 다른 경기 조합."""
     pools = [candidate_pool(cands, wanted_bin) for wanted_bin in bins]
     if any(not pool for pool in pools):
         return None
@@ -232,11 +264,12 @@ def pick_legs(
         odds = math.prod(float(candidate["odds"]) for candidate in legs)
         if not lower <= odds <= upper:
             continue
-        probabilities = [probability_of(candidate.get("market_prob")) for candidate in legs]
-        hit = math.prod(probabilities) if all(p is not None for p in probabilities) else 0.0
+        metrics = ticket_metrics(list(legs))
         payout = math.prod(1.0 / float(candidate["overround"]) for candidate in legs)
         closeness = -abs(math.log(odds / target)) if target else 0.0
-        score = (hit, payout, closeness)
+        score = (metrics.get("conservative_expected_roi", -99.0),
+                 metrics.get("calibrated_hit_est", 0.0),
+                 metrics.get("hit_est", 0.0), payout, closeness)
         if best is None or score > best[0]:
             best = (score, legs)
     return list(best[1]) if best else None
@@ -246,15 +279,79 @@ def ticket_metrics(legs: list[dict]) -> dict:
     odds = math.prod(float(candidate["odds"]) for candidate in legs)
     probabilities = [probability_of(candidate.get("market_prob")) for candidate in legs]
     market_hit = math.prod(probabilities) if all(p is not None for p in probabilities) else None
-    return {
+    calibrated = [calibrated_leg_probability(candidate) for candidate in legs]
+    calibrated_hit = (math.prod(p[0] for p in calibrated)
+                      if all(p[0] is not None for p in calibrated) else None)
+    conservative_hit = (math.prod(p[1] for p in calibrated)
+                         if all(p[1] is not None for p in calibrated) else None)
+    sample_sizes = []
+    for candidate in legs:
+        try:
+            n = int(candidate.get("hist_n") or 0)
+        except (TypeError, ValueError):
+            n = 0
+        if n > 0:
+            sample_sizes.append(n)
+    out = {
         "actual_odds": round(odds, 2),
         "hit_est": (round(market_hit, 5) if market_hit is not None else None),
         "upset_risk": (round(1.0 - market_hit, 5) if market_hit is not None else None),
         "expected_roi": (round(market_hit * odds - 1.0, 4)
                          if market_hit is not None else None),
+        "calibrated_hit_est": (round(calibrated_hit, 5)
+                               if calibrated_hit is not None else None),
+        "calibrated_expected_roi": (round(calibrated_hit * odds - 1.0, 4)
+                                     if calibrated_hit is not None else None),
+        "conservative_hit_est": (round(conservative_hit, 5)
+                                 if conservative_hit is not None else None),
+        "conservative_expected_roi": (round(conservative_hit * odds - 1.0, 4)
+                                       if conservative_hit is not None else None),
+        "calibration_min_n": min(sample_sizes) if sample_sizes else None,
     }
+    return out
 
 
+
+
+def _kelly_growth(plan: dict) -> float:
+    p = probability_of(plan.get("conservative_hit_est"))
+    odds = float(plan.get("actual_odds") or 0.0)
+    if p is None or odds <= 1.0 or p * odds <= 1.0:
+        return float("-inf")
+    full = min(1.0, max(0.0, (p * odds - 1.0) / (odds - 1.0)))
+    fraction = full * 0.5
+    return p * math.log1p(fraction * (odds - 1.0)) + (1.0 - p) * math.log1p(-fraction)
+
+
+def _metric_number(plan: dict, key: str, default: float) -> float:
+    try:
+        value = float(plan.get(key))
+    except (TypeError, ValueError):
+        return default
+    return value if math.isfinite(value) else default
+
+
+def daily_recommendation(plans: list[dict]) -> dict:
+    available = [plan for plan in plans if plan.get("ok")]
+    if not available:
+        return {"action": "none", "recommended_target": None,
+                "why": "오늘 23:59 KST까지 구성 가능한 조합이 없다"}
+    positive = [plan for plan in available
+                if _metric_number(plan, "conservative_expected_roi", -99.0) > 0.0]
+    if positive:
+        best = max(positive, key=lambda plan: (_kelly_growth(plan),
+                   _metric_number(plan, "calibrated_hit_est", 0.0)))
+        action = "buy"
+        why = "실측 보정확률의 95% 보수 하한에서도 기대수익이 양수다"
+    else:
+        best = max(available, key=lambda plan: (
+            _metric_number(plan, "conservative_expected_roi", -99.0),
+            _metric_number(plan, "calibrated_hit_est", 0.0)))
+        action = "pass"
+        why = "가장 나은 조합도 95% 보수 기대수익이 0 이하라 자동 투입하지 않는다"
+    return {"action": action, "recommended_target": best["target"],
+            "conservative_expected_roi": best.get("conservative_expected_roi"),
+            "calibrated_hit_est": best.get("calibrated_hit_est"), "why": why}
 
 
 def build() -> dict:
@@ -279,17 +376,11 @@ def build() -> dict:
                               "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
-        has_market_probability = metrics["hit_est"] is not None
         out_plans.append({
             "target": t, "ok": True, "legs": len(legs),
             "bins": bins,
-            "expected_roi": (metrics["expected_roi"] if has_market_probability
-                             else historical_roi),
-            "hit_est": (metrics["hit_est"] if has_market_probability else historical_hit),
-            "upset_risk": metrics["upset_risk"],
-            "actual_odds": metrics["actual_odds"],
-            "probability_basis": ("선택 경기의 Shin 시장확률 곱" if has_market_probability
-                                  else "과거 배당구간 평균"),
+            **metrics,
+            "probability_basis": "배당구간 실측 ROI 보정확률 · 95% Wilson 단측 하한",
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
             "picks": legs,
@@ -300,7 +391,7 @@ def build() -> dict:
     lo = [c for c in cands if c["bin"] == "1.0-1.3"]
     if lo:
         lo.sort(key=leg_quality)
-        solo = lo[0]
+        solo = {**lo[0], **ticket_metrics([lo[0]])}
 
     grades = json.loads(GRADES.read_text(encoding="utf-8"))
     today = json.loads(TODAY.read_text(encoding="utf-8"))
@@ -318,9 +409,11 @@ def build() -> dict:
         "solo": solo,
         "plans": out_plans,
         # 브라우저가 시간이 지난 직후 다음 경기로 즉시 다시 조합할 때 쓴다.
+        "recommendation": daily_recommendation(out_plans),
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
-        "note": "표시 적중률은 선택한 서로 다른 경기의 시장 기준 확률을 곱한 값이다. "
+        "note": "자동 1순위는 실측 ROI로 보정한 확률과 95% 보수 하한을 사용한다. "
+                "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
                 "검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "
                 "단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
