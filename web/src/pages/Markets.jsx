@@ -4,7 +4,7 @@ import BetPreference from "../components/BetPreference.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
+import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -192,6 +192,7 @@ function TodayPlan({ today, combo, grades }) {
   }, [today]);
   const activeToday = useMemo(() => availableToday(today, clock), [today, clock]);
   const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
+  const recommendation = useMemo(() => recommendationFromPlans(plans), [plans]);
   const solo = activeToday.solo || null;
   const [i, setI] = useState(0);
 
@@ -205,6 +206,11 @@ function TodayPlan({ today, combo, grades }) {
   }
   const selectedIndex = i < 0 ? -1 : (i < plans.length ? i : 0);
   const p = selectedIndex < 0 ? null : plans[selectedIndex];
+  const selected = p || solo;
+  const shouldPass = selectedIndex < 0 || !(Number(selected?.conservative_expected_roi) > 0);
+  const recommendedPlan = plans.find(
+    (plan) => Number(plan.target) === Number(recommendation.target),
+  );
   const bl = (combo?.baseline || []).find((x) => x.legs === 2);
   const A = (grades?.odds_bins || []).find((x) => x.grade === "A");
 
@@ -224,11 +230,28 @@ function TodayPlan({ today, combo, grades }) {
         역배 끼워맞춤 금지 · 각 시장 최유력만 · 다리당 배당 2.20 미만
       </div>
 
+      <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
+        recommendation.action === "buy"
+          ? "border-rule2 bg-panel text-ink"
+          : "border-sev2 bg-paper text-sev3"
+      }`}>
+        {recommendation.action === "buy" ? (
+          <>자동 1순위 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+        ) : (
+          <>자동 판정 <b>패스</b> · 관찰 1순위 {recommendation.target}배 · {recommendation.why}</>
+        )}
+        {recommendedPlan?.conservative_expected_roi != null && (
+          <> · 보수 기대 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
+        )}
+      </div>
+
       <BetPreference
         plans={plans}
         solo={solo}
         selectedIndex={selectedIndex}
         onSelect={setI}
+        recommendedTarget={recommendation.target}
+        shouldPass={shouldPass}
       />
 
       <div className="my-2.5 mb-3.5 flex flex-wrap gap-1.5">
@@ -236,29 +259,33 @@ function TodayPlan({ today, combo, grades }) {
         {plans.map((q, k) => (
           <Tab key={q.target} on={k === selectedIndex} onClick={() => setI(k)}>
             {q.target}배
+            {Number(q.target) === Number(recommendation.target) && (
+              <span className="text-[10px]">{recommendation.action === "buy" ? "1순위" : "관찰"}</span>
+            )}
             <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
-              {(q.expected_roi * 100).toFixed(0)}%
+              {(q.conservative_expected_roi * 100).toFixed(0)}%
             </span>
           </Tab>
         ))}
       </div>
 
       <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
-        {p ? (
-          <>
-            <Stat k="시장 기준 적중" v={`${(p.hit_est * 100).toFixed(1)}%`} />
-            <Stat k="한 경기 이상 이변" v={`${((p.upset_risk ?? 1 - p.hit_est) * 100).toFixed(1)}%`} tone="sev" />
-            <Stat k="실배당" v={`${p.actual_odds.toFixed(2)}×`} />
-            <Stat k="시장 기준 기대" v={`${(p.expected_roi * 100).toFixed(1)}%`} tone="sev" />
-            <Stat k="구성" v={`${p.legs}폴`} />
-          </>
-        ) : (
-          <>
-            <Stat k="배당" v={odds(solo.odds)} />
-            <Stat k="환급률" v={`${solo.payout}%`} />
-            <Stat k="구매 조건" v="'한경기' 지정만" />
-          </>
-        )}
+        <Stat k="실측 보정 적중" v={selected?.calibrated_hit_est != null
+          ? `${(selected.calibrated_hit_est * 100).toFixed(1)}%` : "-"} />
+        <Stat k="95% 보수 적중" v={selected?.conservative_hit_est != null
+          ? `${(selected.conservative_hit_est * 100).toFixed(1)}%` : "-"} />
+        <Stat k="실배당" v={selected?.actual_odds != null
+          ? `${Number(selected.actual_odds).toFixed(2)}×` : odds(selected?.odds)} />
+        <Stat k="95% 보수 기대" v={selected?.conservative_expected_roi != null
+          ? `${(selected.conservative_expected_roi * 100).toFixed(1)}%` : "-"}
+          tone={Number(selected?.conservative_expected_roi) < 0 ? "sev" : undefined} />
+        <Stat k="구성" v={`${p?.legs || 1}폴`} />
+        <Stat k="보정 표본" v={selected?.calibration_min_n
+          ? `${Number(selected.calibration_min_n).toLocaleString("ko-KR")}건+` : "없음"} />
+      </div>
+      <div className="mt-1.5 text-[10.5px] text-ink3">
+        시장 배당 기준 적중 {selected?.hit_est != null ? `${(selected.hit_est * 100).toFixed(1)}%` : "-"} ·
+        시장 기대 {selected?.expected_roi != null ? ` ${(selected.expected_roi * 100).toFixed(1)}%` : " -"}
       </div>
 
       <div className="mt-3">

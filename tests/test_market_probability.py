@@ -17,7 +17,9 @@ from recommendation_policy import (  # noqa: E402
     recommendation_exclusion_reason,
 )
 import today_combo  # noqa: E402
-from today_combo import BANNED, SAFE_TARGET_BINS, pick_legs, ticket_metrics  # noqa: E402
+from today_combo import (  # noqa: E402
+    BANNED, SAFE_TARGET_BINS, daily_recommendation, pick_legs, ticket_metrics,
+)
 
 
 def candidate(event: str, probability: float, odds: float = 1.6) -> dict:
@@ -28,6 +30,8 @@ def candidate(event: str, probability: float, odds: float = 1.6) -> dict:
         "bin": "1.5-1.8",
         "overround": 1.12,
         "kickoff_at": "2026-08-20T10:00:00+09:00",
+        "hist_roi": -0.10,
+        "hist_n": 10_000,
     }
 
 
@@ -44,6 +48,14 @@ def test_pick_prefers_higher_market_probability_inside_same_bin():
     assert pick_legs([lower, higher], ["1.5-1.8"]) == [higher]
 
 
+def test_pick_prefers_better_conservative_history_before_market_probability():
+    better_history = candidate("better-history", 0.55)
+    better_history["hist_roi"] = -0.04
+    higher_market = candidate("higher-market", 0.62)
+    higher_market["hist_roi"] = -0.20
+    assert pick_legs([higher_market, better_history], ["1.5-1.8"]) == [better_history]
+
+
 def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     first = candidate("a", 0.60, 1.65)
     second = candidate("b", 0.44, 2.05)
@@ -52,6 +64,22 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["hit_est"] == 0.264
     assert metrics["upset_risk"] == 0.736
     assert metrics["expected_roi"] == -0.107
+    assert metrics["calibrated_expected_roi"] == -0.19
+    assert metrics["conservative_expected_roi"] < -0.19
+    assert metrics["conservative_hit_est"] < metrics["calibrated_hit_est"]
+    assert metrics["calibration_min_n"] == 10_000
+
+
+def test_daily_recommendation_passes_unless_conservative_edge_is_positive():
+    negative = [
+        {"ok": True, "target": 2, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.52},
+        {"ok": True, "target": 5, "conservative_expected_roi": -0.12, "calibrated_hit_est": 0.70},
+    ]
+    assert daily_recommendation(negative)["action"] == "pass"
+    assert daily_recommendation(negative)["recommended_target"] == 2
+    positive = [{"ok": True, "target": 3, "actual_odds": 3.0,
+                 "conservative_hit_est": 0.35, "conservative_expected_roi": 0.05}]
+    assert daily_recommendation(positive)["action"] == "buy"
 
 
 def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():

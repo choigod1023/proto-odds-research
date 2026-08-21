@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
-  ticketMetrics } from "./today-plan.js";
+  recommendationFromPlans, ticketMetrics } from "./today-plan.js";
 
 const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
   event_key: event,
@@ -15,6 +15,8 @@ const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
   overround: 1.12,
   game_no: gameNo,
   market_prob: marketProb,
+  hist_roi: -0.1,
+  hist_n: 10_000,
 });
 
 const past = leg("past", "2026-08-19T06:00:00+09:00", "1.5-1.8", 1.6, "1", 0.58);
@@ -83,10 +85,26 @@ assert.equal(availableToday(cutoffToday, afterLastStart).candidates.length, 0);
 assert.equal(nextTodayRefreshDelay(cutoffToday, Date.parse("2026-08-19T23:59:50+09:00")), 11 * 1000,
   "오늘 후보가 없으면 KST 자정 직후 다시 확인해야 한다");
 
-assert.deepEqual(ticketMetrics([nextA, nextB]), {
-  actual_odds: 3.38, hit_est: 0.264, upset_risk: 0.736,
-  expected_roi: -0.107, probability_basis: "선택 경기의 Shin 시장확률 곱",
-});
+const metrics = ticketMetrics([nextA, nextB]);
+assert.equal(metrics.actual_odds, 3.38);
+assert.equal(metrics.hit_est, 0.264);
+assert.equal(metrics.upset_risk, 0.736);
+assert.equal(metrics.expected_roi, -0.107);
+assert.equal(metrics.calibrated_expected_roi, -0.19);
+assert.ok(metrics.conservative_expected_roi < -0.19);
+assert.ok(metrics.conservative_hit_est < metrics.calibrated_hit_est);
+assert.equal(metrics.calibration_min_n, 10_000);
+assert.match(metrics.probability_basis, /Wilson/);
+
+const pass = recommendationFromPlans([
+  { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.52 },
+  { ok: true, target: 5, conservative_expected_roi: -0.12, calibrated_hit_est: 0.70 },
+]);
+assert.equal(pass.action, "pass");
+assert.equal(pass.target, 2);
+const buy = recommendationFromPlans([{ ok: true, target: 3, actual_odds: 3,
+  conservative_hit_est: 0.35, conservative_expected_roi: 0.05 }]);
+assert.equal(buy.action, "buy");
 
 assert.equal(SAFE_TARGET_BINS[5].length, 3);
 assert.equal(SAFE_TARGET_BINS[8].length, 3);
