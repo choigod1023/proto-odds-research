@@ -208,6 +208,66 @@ export function recommendationFromPlans(plans) {
       why: "최선 조합도 95% 보수 기대수익이 0 이하라 자동 투입하지 않는다" };
 }
 
+/**
+ * 자동 패스와 별개로, 사용자가 감수할 금액에 맞는 '도전 조합'을 고른다.
+ * 하루 예산의 30%를 의미 있는 순이익 목표로 두고, 그 금액을 넘기는 조합 중
+ * 보정 적중률이 가장 높은 것을 택한다. +EV 신호로 승격하지는 않는다.
+ */
+export function challengeOptions(plans, budget) {
+  const dayBudget = Math.max(1000, Math.min(100000, Number(budget) || 10000));
+  const desiredProfit = Math.round(dayBudget * 0.3);
+  const stakes = [...new Set([0.1, 0.3, 0.5, 1].map((ratio) =>
+    Math.min(dayBudget, Math.max(1000, Math.floor(dayBudget * ratio / 1000) * 1000))))];
+  const available = (plans || []).map((plan, index) => ({ plan, index })).filter(({ plan }) => {
+    const odds = Number(plan?.actual_odds);
+    return plan?.ok && Number.isFinite(odds) && odds > 1;
+  });
+  if (!available.length) return [];
+
+  const probabilityOfPlan = (plan) => {
+    const calibrated = Number(plan?.calibrated_hit_est);
+    if (plan?.calibrated_hit_est != null && Number.isFinite(calibrated) &&
+      calibrated > 0 && calibrated < 1) return calibrated;
+    const market = Number(plan?.hit_est);
+    return Number.isFinite(market) && market > 0 && market < 1 ? market : 0;
+  };
+  const conservativeRoiOf = (plan) => {
+    const conservative = Number(plan?.conservative_expected_roi);
+    if (plan?.conservative_expected_roi != null && Number.isFinite(conservative))
+      return conservative;
+    const calibrated = Number(plan?.calibrated_expected_roi);
+    return Number.isFinite(calibrated) ? calibrated : -1;
+  };
+
+  return stakes.map((stake) => {
+    const enriched = available.map(({ plan, index }) => ({
+      plan,
+      index,
+      hit: probabilityOfPlan(plan),
+      roi: conservativeRoiOf(plan),
+      net: stake * (Number(plan.actual_odds) - 1),
+    }));
+    const meetingGoal = enriched.filter((row) => row.net >= desiredProfit);
+    const pool = meetingGoal.length ? meetingGoal : enriched;
+    const best = [...pool].sort((a, b) => meetingGoal.length
+      ? b.hit - a.hit || b.roi - a.roi || Number(a.plan.target) - Number(b.plan.target)
+      : b.net - a.net || b.hit - a.hit)[0];
+    return {
+      stake,
+      budget_share: stake / dayBudget,
+      desired_profit: desiredProfit,
+      meets_goal: best.net >= desiredProfit,
+      plan_index: best.index,
+      target: best.plan.target,
+      actual_odds: Number(best.plan.actual_odds),
+      calibrated_hit_est: best.hit,
+      conservative_expected_roi: best.roi,
+      net_profit: Math.round(best.net),
+      conservative_loss: Math.round(Math.max(0, -best.roi * stake)),
+    };
+  });
+}
+
 function legacyCandidates(today) {
   const all = [today?.solo, ...(today?.plans || []).flatMap((plan) => plan.picks || [])]
     .filter(Boolean);

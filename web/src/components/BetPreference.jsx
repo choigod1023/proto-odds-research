@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Stat } from "./ui.jsx";
+import { challengeOptions } from "../lib/today-plan.js";
 
 const STORAGE_KEY = "proto-bet-preference-v1";
 
@@ -38,6 +39,10 @@ function readPreference() {
   }
 }
 
+const planSignature = (plan) => [plan?.target, plan?.actual_odds,
+  ...(plan?.picks || []).map((pick) => `${pick.round}-${pick.game_no}`),
+].join("|");
+
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 
 const Choice = ({ active, onClick, children }) => (
@@ -62,6 +67,7 @@ export default function BetPreference({
   shouldPass,
 }) {
   const [preference, setPreference] = useState(readPreference);
+  const [challenge, setChallenge] = useState(null);
   const initialized = useRef(false);
   const appliedRecommendation = useRef(null);
 
@@ -89,9 +95,13 @@ export default function BetPreference({
 
   const profile = PROFILES[preference.profile];
   const selected = selectedIndex < 0 ? solo : plans[selectedIndex];
+  const challenges = challengeOptions(plans, preference.budget);
+  const activeChallenge = shouldPass && challenge && selectedIndex >= 0 &&
+    planSignature(selected) === challenge.plan_signature;
   const unit = selectedIndex < 0 ? 1_000 : 100;
   const stake = shouldPass
-    ? 0 : Math.floor((preference.budget * profile.ratio) / unit) * unit;
+    ? (activeChallenge ? challenge.stake : 0)
+    : Math.floor((preference.budget * profile.ratio) / unit) * unit;
   const selectedOdds = selected?.actual_odds || selected?.odds || 0;
   const gross = Math.round(stake * selectedOdds);
   const reserve = preference.budget - stake;
@@ -102,7 +112,19 @@ export default function BetPreference({
 
   const changeBudget = (event) => {
     const value = Math.max(1_000, Math.min(100_000, Number(event.target.value) || 1_000));
+    setChallenge(null);
     setPreference((current) => ({ ...current, budget: value }));
+  };
+
+  const chooseChallenge = (option) => {
+    const plan = plans[option.plan_index];
+    const signature = planSignature(plan);
+    if (challenge?.stake === option.stake && challenge?.plan_signature === signature) {
+      setChallenge(null);
+      return;
+    }
+    onSelect(option.plan_index);
+    setChallenge({ ...option, plan_signature: signature });
   };
 
   return (
@@ -139,19 +161,59 @@ export default function BetPreference({
         </label>
       </div>
 
+      {shouldPass && challenges.length > 0 && (
+        <div className="mt-2.5 rounded-lg border border-rule2 bg-panel p-3">
+          <div className="text-[12px] font-semibold text-ink">손실 감수 도전픽</div>
+          <div className="mt-0.5 text-[10.5px] leading-[1.55] text-ink3">
+            하루 예산의 30% 순이익을 목표로 금액마다 적중 가능성이 가장 높은 조합을 찾았다.
+            시장 우위 신호는 아니며 같은 카드를 다시 누르면 취소된다.
+          </div>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {challenges.map((option) => {
+              const plan = plans[option.plan_index];
+              const active = challenge?.stake === option.stake &&
+                challenge?.plan_signature === planSignature(plan) && activeChallenge;
+              return (
+                <button
+                  type="button"
+                  key={`${option.stake}-${option.target}`}
+                  aria-pressed={active}
+                  onClick={() => chooseChallenge(option)}
+                  className={`rounded-md border p-2.5 text-left ${
+                    active ? "border-ink bg-paper" : "border-rule bg-paper hover:border-ink3"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 text-[11px] text-ink3">
+                    <span className="tnum font-semibold text-ink">{money(option.stake)}</span>
+                    <span>{option.target}배 도전</span>
+                  </div>
+                  <div className="mt-1 text-[10.5px] leading-[1.5] text-ink2">
+                    보정 적중 <b className="tnum text-ink">{(option.calibrated_hit_est * 100).toFixed(1)}%</b><br />
+                    적중 시 <b className="tnum text-ink">+{money(option.net_profit)}</b><br />
+                    보수 손실 추정 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {shouldPass && (
         <div className="mt-2.5 rounded-md border border-sev2 bg-paper px-3 py-2 text-[11.5px] leading-[1.55] text-sev3">
           {selectedIndex < 0
             ? "단폴은 ‘한경기’ 지정 여부를 확인하기 전에는 자동 투입하지 않는다."
-            : "현재 조합은 95% 보수 기대수익이 0 이하라 권장 투입액을 0원으로 잡았다."}
-          {" "}직접 탭을 바꿔 비교할 수 있지만 자동 구매 신호는 아니다.
+            : activeChallenge
+              ? `${money(stake)} 손실을 감수하는 도전픽을 선택했다.`
+              : "현재 조합은 95% 보수 기대수익이 0 이하라 자동 권장 투입액은 0원이다."}
+          {" "}도전픽은 자동 구매 신호와 별도로 사용자가 선택한 금액이다.
         </div>
       )}
 
       {selected && (
         <>
           <div className="mt-3 grid gap-x-5 gap-y-2 border-y border-rule2 py-3 sm:grid-cols-5">
-            <Stat k="권장 투입" v={money(stake)} />
+            <Stat k={activeChallenge ? "도전 투입" : "권장 투입"} v={money(stake)} />
             <Stat k="적중 환급" v={money(gross)} />
             <Stat k="적중 시 순이익" v={`+${money(gross - stake)}`} />
             <Stat k="실패 시 손실" v={`−${money(stake)}`} tone="sev" />
