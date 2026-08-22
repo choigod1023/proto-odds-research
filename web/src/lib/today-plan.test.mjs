@@ -116,20 +116,29 @@ const challengePlans = [
   { ok: true, target: 5, actual_odds: 5, calibrated_hit_est: 0.18,
     conservative_expected_roi: -0.25 },
 ];
-const challenges = challengeOptions(challengePlans, 10_000);
+const challenges = challengeOptions(challengePlans, 10_000, 3);
 assert.deepEqual(challenges.map((option) => option.stake), [1000, 3000, 5000, 10000]);
-assert.deepEqual(challenges.map((option) => option.target), [5, 2, 2, 1.4],
-  "작은 금액은 수익 목표를 채울 고배당, 큰 금액은 적중률 높은 저배당이어야 한다");
-assert.deepEqual(challenges.map((option) => option.net_profit), [4000, 3000, 5000, 4000]);
-assert.deepEqual(challenges.map((option) => option.conservative_loss), [250, 450, 750, 1200]);
-assert.ok(challenges.every((option) => option.meets_goal));
+assert.deepEqual(challenges.map((option) => option.target), [3, 3, 3, 3],
+  "투입 금액과 무관하게 사용자가 고른 도전 강도를 유지해야 한다");
+assert.deepEqual(challenges.map((option) => option.net_profit), [2000, 6000, 10000, 20000]);
+assert.deepEqual(challenges.map((option) => option.conservative_loss), [180, 540, 900, 1800]);
+assert.ok(challenges.every((option) => option.requested_target === 3));
+
+const doubleChallenges = challengeOptions(challengePlans, 10_000, 2);
+assert.deepEqual(doubleChallenges.map((option) => option.target), [2, 2, 2, 2]);
+const fivefoldChallenges = challengeOptions(challengePlans, 10_000, 5);
+assert.deepEqual(fivefoldChallenges.map((option) => option.target), [5, 5, 5, 5]);
+assert.equal(fivefoldChallenges.at(-1).net_profit, 40_000,
+  "만원 전액도 사용자가 선택한 5배 도전에 투입할 수 있어야 한다");
+assert.deepEqual(challengeOptions(challengePlans, 10_000).map((option) => option.target),
+  [3, 3, 3, 3], "기본 도전 강도는 3배여야 한다");
 
 const fallbackChallenge = challengeOptions([
   { ok: true, target: 1.4, actual_odds: 1.2, calibrated_hit_est: 0.8,
     conservative_expected_roi: -0.1 },
 ], 10_000);
-assert.equal(fallbackChallenge[0].meets_goal, false);
 assert.equal(fallbackChallenge[0].target, 1.4);
+assert.equal(fallbackChallenge[0].requested_target, 3);
 assert.deepEqual(challengeOptions([], 10_000), []);
 
 assert.equal(SAFE_TARGET_BINS[5].length, 3);

@@ -209,13 +209,14 @@ export function recommendationFromPlans(plans) {
 }
 
 /**
- * 자동 패스와 별개로, 사용자가 감수할 금액에 맞는 '도전 조합'을 고른다.
- * 하루 예산의 30%를 의미 있는 순이익 목표로 두고, 그 금액을 넘기는 조합 중
- * 보정 적중률이 가장 높은 것을 택한다. +EV 신호로 승격하지는 않는다.
+ * 자동 패스와 별개로, 사용자가 고른 도전 강도와 투입 금액을 조합한다.
+ * 금액이 커져도 저배당으로 자동 변경하지 않으며, 모든 금액 카드가 같은
+ * 목표 배당 조합을 가리킨다. +EV 신호로 승격하지는 않는다.
  */
-export function challengeOptions(plans, budget) {
+export function challengeOptions(plans, budget, desiredTarget = 3) {
   const dayBudget = Math.max(1000, Math.min(100000, Number(budget) || 10000));
-  const desiredProfit = Math.round(dayBudget * 0.3);
+  const requestedTarget = Number.isFinite(Number(desiredTarget)) && Number(desiredTarget) > 1
+    ? Number(desiredTarget) : 3;
   const stakes = [...new Set([0.1, 0.3, 0.5, 1].map((ratio) =>
     Math.min(dayBudget, Math.max(1000, Math.floor(dayBudget * ratio / 1000) * 1000))))];
   const available = (plans || []).map((plan, index) => ({ plan, index })).filter(({ plan }) => {
@@ -239,30 +240,33 @@ export function challengeOptions(plans, budget) {
     return Number.isFinite(calibrated) ? calibrated : -1;
   };
 
+  const enriched = available.map(({ plan, index }) => ({
+    plan,
+    index,
+    target: Number(plan.target),
+    hit: probabilityOfPlan(plan),
+    roi: conservativeRoiOf(plan),
+  })).filter((row) => Number.isFinite(row.target));
+  if (!enriched.length) return [];
+
+  const atOrAbove = enriched.filter((row) => row.target >= requestedTarget);
+  const best = [...(atOrAbove.length ? atOrAbove : enriched)].sort((a, b) =>
+    atOrAbove.length
+      ? a.target - b.target || b.hit - a.hit || b.roi - a.roi
+      : b.target - a.target || b.hit - a.hit || b.roi - a.roi)[0];
+
   return stakes.map((stake) => {
-    const enriched = available.map(({ plan, index }) => ({
-      plan,
-      index,
-      hit: probabilityOfPlan(plan),
-      roi: conservativeRoiOf(plan),
-      net: stake * (Number(plan.actual_odds) - 1),
-    }));
-    const meetingGoal = enriched.filter((row) => row.net >= desiredProfit);
-    const pool = meetingGoal.length ? meetingGoal : enriched;
-    const best = [...pool].sort((a, b) => meetingGoal.length
-      ? b.hit - a.hit || b.roi - a.roi || Number(a.plan.target) - Number(b.plan.target)
-      : b.net - a.net || b.hit - a.hit)[0];
+    const net = stake * (Number(best.plan.actual_odds) - 1);
     return {
       stake,
       budget_share: stake / dayBudget,
-      desired_profit: desiredProfit,
-      meets_goal: best.net >= desiredProfit,
+      requested_target: requestedTarget,
       plan_index: best.index,
       target: best.plan.target,
       actual_odds: Number(best.plan.actual_odds),
       calibrated_hit_est: best.hit,
       conservative_expected_roi: best.roi,
-      net_profit: Math.round(best.net),
+      net_profit: Math.round(net),
       conservative_loss: Math.round(Math.max(0, -best.roi * stake)),
     };
   });
