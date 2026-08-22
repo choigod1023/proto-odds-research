@@ -45,6 +45,7 @@ from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from devig import market_probabilities                              # noqa: E402
 from recommendation_policy import automatic_selection_exclusion_reason  # noqa: E402
+from player_info import game_index, match_game                       # noqa: E402
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -231,28 +232,17 @@ def lineup_profiles() -> dict:
 
 
 def starters() -> dict:
-    """야구 선발 투수 — (리그, 홈, 원정) → {'home':이름, 'away':이름}.
+    """날짜·팀 별칭으로 정규화한 경기별 선수 정보 인덱스.
 
     ⚠️ 왜 붙이나: 선발은 **경기마다 바뀌고 시장이 늦게 반영할 수 있는** 몇 안 되는
        정보다(피처 심사 3조건 통과). 실측으로는 시장을 못 이겼지만
        (Brier +0.006), **사람이 경기를 이해하는 데는 필요한 정보다.**
        숫자가 시장을 못 이긴다는 것과 화면에 안 보여줘도 된다는 건 다른 얘기다.
+
+    팀 조합만 키로 쓰면 MLB 3연전의 어제 선발을 오늘 경기에 붙일 수 있다. 날짜를
+    반드시 포함하고, team_map 의 검증된 프로토↔자료원 별칭을 통과시킨다.
     """
-    f = ROOT / "data" / "raw" / "info_watch" / "starter_announcements.csv"
-    if not f.exists():
-        return {}
-    try:
-        s = pd.read_csv(f)
-    except Exception:
-        return {}
-    s = s[s["field"].isin(["homeStarterName", "awayStarterName"])]
-    s = s.sort_values("observed_at")
-    out: dict = {}
-    for r in s.itertuples():
-        k = (str(r.league), str(r.home), str(r.away))
-        side = "home" if r.field == "homeStarterName" else "away"
-        out.setdefault(k, {})[side] = str(r.value)
-    return out
+    return game_index()
 
 
 def team_lambdas() -> dict:
@@ -562,7 +552,7 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         alt = h2h_any.get((ht, at)) or h2h_any.get((at, ht))
         if alt:
             g["h2h"] = h2h_text(h2h, alt[0], ht, at)
-    g["선발"] = st.get((lg, ht, at))
+    g["선발"] = match_game(st, lg, g.get("date", ""), ht, at)
     # 라인업 성향 — 예측이 아니라 팀 성질이다
     lp = lineups or {}
     def _lp(name: str):

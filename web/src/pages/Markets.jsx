@@ -3,6 +3,8 @@ import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../componen
 import BetPreference from "../components/BetPreference.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
+import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
+  unavailableFor } from "../lib/game-info.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 
@@ -717,6 +719,174 @@ function OptTable({ opts, grades, tie, pick, model }) {
   );
 }
 
+const PANEL_BTN = "rounded-[5px] border px-2 py-1 text-[11px] font-semibold transition-colors";
+
+function SourceStamp({ source }) {
+  if (!source) return null;
+  let updated = "";
+  if (source.updatedAt) {
+    const d = new Date(source.updatedAt);
+    if (!Number.isNaN(d.getTime())) {
+      updated = d.toLocaleString("ko-KR", {
+        timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+      });
+    }
+  }
+  const name = source.url ? (
+    <a className="underline decoration-rule underline-offset-2 hover:text-ink"
+      href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+  ) : source.name;
+  return <div className="mt-2 text-[10.5px] text-ink3">출처 {name}{updated ? ` · KST ${updated} 확인` : ""}</div>;
+}
+
+function PitcherCard({ team, pitcher }) {
+  const metrics = pitcherMetrics(pitcher);
+  return (
+    <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+      <div className="text-[11px] text-ink3">{team}</div>
+      {pitcher ? <>
+        <div className="mt-0.5 flex flex-wrap items-baseline gap-1.5">
+          <b className="text-[13px] text-ink">{pitcher.name}</b>
+          {pitcher.stats?.period && <span className="text-[10.5px] text-ink3">{pitcher.stats.period}</span>}
+          {pitcher.stats?.low_sample && <span className="rounded border border-dashed border-rule px-1 text-[9.5px] text-ink3">표본 적음</span>}
+        </div>
+        {metrics.length ? (
+          <div className="mt-2 grid grid-cols-4 gap-x-2 gap-y-1.5 sm:grid-cols-8">
+            {metrics.map(([label, value]) => (
+              <div key={label}>
+                <div className="text-[9.5px] text-ink3">{label}</div>
+                <div className="tnum text-[12px] font-semibold text-ink">{value}</div>
+              </div>
+            ))}
+          </div>
+        ) : <p className="mt-1 text-[11px] text-ink3">선발 이름은 확인됐지만 개인 지표 자료는 아직 없다.</p>}
+        {pitcher.stats?.fip_approx && <div className="mt-1 text-[9.5px] text-ink3">* FIP는 사구 자료가 없어 사구를 제외한 근사치다.</div>}
+        {pitcher.stats_source && <div className="mt-1.5 text-[10px] text-ink3">{pitcher.stats_source}</div>}
+      </> : <p className="mt-1 text-[11.5px] text-ink3">아직 선발이 발표되지 않았다.</p>}
+    </div>
+  );
+}
+
+function LineupTendency({ team, profile }) {
+  if (!profile) return null;
+  return (
+    <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+      <div className="text-[11px] text-ink3">{team} · 과거 라인업 성향</div>
+      <div className="mt-1 text-[11.5px] leading-[1.7]">
+        주 포메이션 <b>{profile.formation || "자료 없음"}</b>
+        {profile.churn != null && <> · 직전 경기 대비 선발 교체 평균 <b className="tnum">{profile.churn}명</b></>}
+        {profile.reserve != null && <> · 비주전 선발 평균 <b className="tnum">{profile.reserve}명</b></>}
+      </div>
+      <p className="mt-1 text-[10.5px] text-ink3">실제 오늘 선발 명단이 아니라 과거 {profile.n || ""}경기의 팀 성향이다.</p>
+    </div>
+  );
+}
+
+function ActualLineup({ team, players }) {
+  if (!players?.length) return null;
+  return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+    <div className="text-[11px] text-ink3">{team} · 발표 라인업</div>
+    <ol className="mt-1 grid grid-cols-2 gap-x-2 text-[11px] leading-[1.7]">
+      {players.map((p, i) => <li key={`${p.name}-${i}`} className="truncate">
+        <span className="tnum mr-1 text-ink3">{p.order || i + 1}</span>
+        <b className="font-medium text-ink">{p.name}</b>
+        {p.position && <span className="ml-1 text-[9.5px] text-ink3">{p.position}</span>}
+      </li>)}
+    </ol>
+  </div>;
+}
+
+function PlayersPanel({ g }) {
+  if (g.sport === "bs") {
+    const lineups = g["선발"]?.lineups || {};
+    return <>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <PitcherCard team={g.home} pitcher={starterFor(g, "home")} />
+        <PitcherCard team={g.away} pitcher={starterFor(g, "away")} />
+      </div>
+      {(lineups.home?.length || lineups.away?.length) ? <>
+        <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">실제 발표 명단</div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <ActualLineup team={g.home} players={lineups.home} />
+          <ActualLineup team={g.away} players={lineups.away} />
+        </div>
+      </> : <p className="mt-2 text-[10.5px] text-ink3">타자 선발 명단은 아직 발표되지 않았다.</p>}
+    </>;
+  }
+  const lp = g["라인업"] || {};
+  if (!lp.home && !lp.away) {
+    return <p className="text-[11.5px] text-ink3">실제 선발 명단은 아직 발표 전이거나 이 리그의 명단 수집 경로가 연결되지 않았다.</p>;
+  }
+  return <div className="grid gap-2 sm:grid-cols-2">
+    <LineupTendency team={g.home} profile={lp.home} />
+    <LineupTendency team={g.away} profile={lp.away} />
+  </div>;
+}
+
+function TeamFormCard({ team, form, record }) {
+  return (
+    <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+      <div className="text-[11px] text-ink3">{team}</div>
+      {form ? <>
+        <div className="mt-0.5 text-[12px] font-semibold text-ink">{form.last10 || formLine(form)}</div>
+        <div className="mt-1 text-[11px] leading-[1.7] text-ink2">
+          시즌 {form.w}승 {form.d ? `${form.d}무 ` : ""}{form.l}패
+          {form.streak ? ` · ${form.streak}` : ""}
+          {form.home ? ` · 홈 ${form.home}` : ""}{form.away ? ` · 원정 ${form.away}` : ""}
+          {form.avg_scored != null ? ` · 평균 ${form.avg_scored}득점/${form.avg_conceded}실점` : ""}
+        </div>
+      </> : <p className="mt-1 text-[11.5px] text-ink3">저장된 최근 경기 표본이 부족하다.</p>}
+      {record && <div className="mt-1.5 border-t border-rule2 pt-1.5 text-[10.5px] text-ink3">
+        공식 현재 성적 <b className="tnum text-ink">{record.wins}승 {record.losses}패</b>
+        {record.pct ? ` · 승률 ${(record.pct * 100).toFixed(1)}%` : ""}
+      </div>}
+    </div>
+  );
+}
+
+function TeamsPanel({ g }) {
+  return <>
+    <div className="grid gap-2 sm:grid-cols-2">
+      <TeamFormCard team={g.home} form={g.form_home} record={teamRecordFor(g, "home")} />
+      <TeamFormCard team={g.away} form={g.form_away} record={teamRecordFor(g, "away")} />
+    </div>
+    {g["h2h"] && <div className="mt-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] text-ink2">
+      <span className="mr-1 text-[10.5px] text-ink3">맞대결</span>{g["h2h"]}
+    </div>}
+  </>;
+}
+
+function AvailabilityTeam({ team, rows, connected }) {
+  return (
+    <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+      <div className="text-[11px] text-ink3">{team}</div>
+      {rows.length ? <ul className="mt-1 space-y-1">
+        {rows.map((x, i) => <li key={`${x.name}-${i}`} className="text-[11.5px]">
+          <b className="text-ink">{x.name}</b>
+          <span className="text-ink3"> · {x.status || "출전 불가"}{x.position ? ` · ${x.position}` : ""}</span>
+        </li>)}
+      </ul> : <p className="mt-1 text-[11.5px] text-ink3">
+        {connected ? "공식 명단에서 부상 상태로 표시된 선수가 없다." : "부상·출전 상태 자료가 아직 연결되지 않았다."}
+      </p>}
+    </div>
+  );
+}
+
+function AvailabilityPanel({ g }) {
+  const un = g["선발"]?.unavailable;
+  const connected = !!un && Object.hasOwn(un, "home") && Object.hasOwn(un, "away");
+  const actual = g["선발"]?.lineups;
+  return <>
+    <div className="grid gap-2 sm:grid-cols-2">
+      <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} />
+      <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} />
+    </div>
+    {!actual && <p className="mt-2 text-[10.5px] leading-[1.6] text-ink3">
+      실제 경기 선발 명단은 보통 시작 직전에 확정된다. 발표 전에는 과거 라인업 성향을 실제 출전 명단처럼 쓰지 않는다.
+    </p>}
+  </>;
+}
+
 function Why({ g }) {
   const f = [];
   const s = g["선발"];
@@ -726,16 +896,35 @@ function Why({ g }) {
   if (fh) f.push(`${g.home} ${fh}`);
   if (fa) f.push(`${g.away} ${fa}`);
   if (g.lam_src === "풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
-  if (!g["해설"] && !f.length) return null;
   // 결론 문장(첫 마침표까지)을 떼어 굵게 — 판단이 본문에 묻히면 안 된다
   const txt = displayCommentary(g);
   const cut = txt.indexOf(". ");
   const verdict = cut > 0 ? txt.slice(0, cut + 1) : txt;
   const rest = cut > 0 ? txt.slice(cut + 2) : "";
+  const tabs = infoTabs(g, txt);
+  const [active, setActive] = useState(tabs[0]?.id || "summary");
+  if (!tabs.length && !f.length) return null;
+  const current = tabs.some((x) => x.id === active) ? active : tabs[0]?.id;
+  const source = sourceFor(g);
   return (
     <div className="mt-2.5 border-t border-rule2 pt-2.5 text-[12.5px] leading-[1.75] text-ink2">
-      {verdict && <b className="text-ink">{verdict}</b>} {rest}
-      {!!f.length && <div className="mt-1.5 text-[11.5px] text-ink3">{f.join(" · ")}</div>}
+      <div className="mb-2 flex flex-wrap gap-1.5" role="tablist" aria-label={`${g.home} 대 ${g.away} 경기 정보`}>
+        {tabs.map((tab) => <button key={tab.id} type="button" role="tab"
+          aria-selected={current === tab.id}
+          className={`${PANEL_BTN} ${current === tab.id
+            ? "border-ink bg-ink text-paper" : "border-rule bg-panel text-ink3 hover:text-ink"}`}
+          onClick={() => setActive(tab.id)}>{tab.label}</button>)}
+      </div>
+      <div role="tabpanel">
+        {current === "summary" && <>
+          {verdict && <b className="text-ink">{verdict}</b>} {rest}
+          {!!f.length && <div className="mt-1.5 text-[11.5px] text-ink3">{f.join(" · ")}</div>}
+        </>}
+        {current === "players" && <PlayersPanel g={g} />}
+        {current === "teams" && <TeamsPanel g={g} />}
+        {current === "availability" && <AvailabilityPanel g={g} />}
+      </div>
+      {current !== "summary" && <SourceStamp source={source} />}
     </div>
   );
 }

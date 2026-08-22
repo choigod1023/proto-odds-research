@@ -18,10 +18,11 @@
 |---|---|---|---|
 | `snapshot.py` | 15분 | 와이즈토토 프로토 배당 | ✅ 88회차 273경기 |
 | `info_watch.py` | 30분 | 네이버 KBO/MLB/NPB 선발 예고 | ✅ 212필드 |
+| `player_info.py` | 30분 | MLB 공식 선발·ERA·부상·라인업 + KBO 최근 투수 지표 | ✅ 출처·갱신시각 포함 |
 | `overseas_watch.py` | 15분 | BetExplorer 해외 배당 | ✅ 23건 |
 | `xg_watch.py` | 하루 1회 | FootyStats K리그 xG | ✅ 팀 9 |
 
-`deploy/supervisor.py` 가 앞의 셋을 자식 프로세스로 띄우고 죽으면 지수 백오프로
+`deploy/supervisor.py` 가 반복 수집기를 자식 프로세스로 띄우고 죽으면 지수 백오프로
 재시작한다. xg_watch 는 1회성이라 감독자가 주기를 잰다.
 30분마다 `data/` 만 커밋해 GitHub 에 push → 레포에 남고 Vercel 이 자동 재배포.
 
