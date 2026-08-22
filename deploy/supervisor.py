@@ -37,6 +37,9 @@ REMOTE = "https://github.com/choigod1023/proto-odds-research.git"
 LOOPERS = [
     ("배당 스냅샷", [sys.executable, "-u", "src/snapshot.py", "--loop", "900"]),
     ("선발 예고", [sys.executable, "-u", "src/info_watch.py", "--loop", "1800"]),
+    # MLB 공식 예정 선발·시즌 투수 지표·부상 상태와 KBO 최근 12선발 지표.
+    # 선발 변경이 잦은 경기 직전에도 화면이 한 시간 낡지 않도록 예고와 같은 주기다.
+    ("선수·팀 정보", [sys.executable, "-u", "src/player_info.py", "--loop", "1800"]),
     ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py", "--loop", "900"]),
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
