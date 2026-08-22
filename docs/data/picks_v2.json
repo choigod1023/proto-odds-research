@@ -1,1217 +1,11 @@
 {
- "generated_at": "2026-08-22T17:40:23+00:00",
+ "generated_at": "2026-08-22T18:42:30+00:00",
  "rounds": [
   99,
   100,
   101
  ],
  "live": [
-  {
-   "round": 99,
-   "date": "08.23(일) 02:35",
-   "league": "MLB",
-   "sport": "bs",
-   "home": "뉴욕양키",
-   "away": "토론블루",
-   "lam_home": 4.61,
-   "lam_away": 4.12,
-   "lam_src": "리그",
-   "no_model": false,
-   "status": "경기전",
-   "score": null,
-   "결과": null,
-   "options": [
-    {
-     "market": "승패",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홈",
-     "배당": 1.7,
-     "모델확률": 0.5742,
-     "시장확률": 0.5194,
-     "예상손익": -0.0239,
-     "괴리": 0.0548,
-     "게임번호": "5748",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "승패",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "원정",
-     "배당": 1.82,
-     "모델확률": 0.4258,
-     "시장확률": 0.4806,
-     "예상손익": -0.225,
-     "괴리": 0.0548,
-     "게임번호": "5748",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "홈2+",
-     "배당": 2.45,
-     "모델확률": 0.3619,
-     "시장확률": 0.3575,
-     "예상손익": -0.1134,
-     "괴리": 0.0044,
-     "게임번호": "5749",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "1점차",
-     "배당": 3.15,
-     "모델확률": 0.3904,
-     "시장확률": 0.2701,
-     "예상손익": 0.2297,
-     "괴리": 0.1203,
-     "게임번호": "5749",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "원정2+",
-     "배당": 2.36,
-     "모델확률": 0.2477,
-     "시장확률": 0.3725,
-     "예상손익": -0.4154,
-     "괴리": 0.1248,
-     "게임번호": "5749",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 2,
-     "label": "H -2.5",
-     "line": -2.5,
-     "선택": "핸디홈",
-     "배당": 3.46,
-     "모델확률": 0.2433,
-     "시장확률": 0.2208,
-     "예상손익": -0.1582,
-     "괴리": 0.0225,
-     "게임번호": "5750",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 2,
-     "label": "H -2.5",
-     "line": -2.5,
-     "선택": "핸디원정",
-     "배당": 1.18,
-     "모델확률": 0.7567,
-     "시장확률": 0.7792,
-     "예상손익": -0.1071,
-     "괴리": 0.0225,
-     "게임번호": "5750",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 7.5",
-     "line": 7.5,
-     "선택": "언더",
-     "배당": 1.59,
-     "모델확률": 0.3559,
-     "시장확률": 0.5607,
-     "예상손익": -0.4341,
-     "괴리": 0.2047,
-     "게임번호": "5751",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 7.5",
-     "line": 7.5,
-     "선택": "오버",
-     "배당": 1.97,
-     "모델확률": 0.6441,
-     "시장확률": 0.4393,
-     "예상손익": 0.2688,
-     "괴리": 0.2047,
-     "게임번호": "5751",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홀",
-     "배당": 1.57,
-     "모델확률": 0.5,
-     "시장확률": 0.5815,
-     "예상손익": -0.215,
-     "괴리": 0.0815,
-     "게임번호": "5752",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "짝",
-     "배당": 2.11,
-     "모델확률": 0.5,
-     "시장확률": 0.4185,
-     "예상손익": 0.055,
-     "괴리": 0.0815,
-     "게임번호": "5752",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    }
-   ],
-   "홈승률": 0.5751,
-   "판단": "홈 근소",
-   "추천": null,
-   "선택지수": 11,
-   "form_src": "리그",
-   "form_home": {
-    "w": 54,
-    "l": 45,
-    "d": 0,
-    "last10": "5승 5패",
-    "streak": "",
-    "home": "19-21",
-    "away": "35-24",
-    "avg_scored": 3.9,
-    "avg_conceded": 4.5,
-    "rest_days": null,
-    "trend": "유지"
-   },
-   "form_away": {
-    "w": 47,
-    "l": 54,
-    "d": 0,
-    "last10": "4승 6패",
-    "streak": "",
-    "home": "26-30",
-    "away": "21-24",
-    "avg_scored": 3.3,
-    "avg_conceded": 4.8,
-    "rest_days": null,
-    "trend": "상승"
-   },
-   "h2h": "시즌 맞대결은 뉴욕양키가 4승 3패로 앞선다. 최근 두 번의 맞대결은 1-3, 3-8였다",
-   "선발": {
-    "home": "Ryan Weathers",
-    "away": "Dylan Cease",
-    "home_detail": {
-     "name": "Ryan Weathers",
-     "player_id": 677960,
-     "announced": true,
-     "stats": {
-      "era": 3.56,
-      "whip": 1.19,
-      "k9": 9.4,
-      "bb9": 2.55,
-      "hr9": 1.21,
-      "avg_ip": 5.58,
-      "games_started": 24,
-      "wins": 5,
-      "losses": 7,
-      "period": "2026 시즌",
-      "low_sample": false
-     },
-     "stats_source": "MLB Stats API 시즌 투구 기록"
-    },
-    "away_detail": {
-     "name": "Dylan Cease",
-     "player_id": 656302,
-     "announced": true,
-     "stats": {
-      "era": 2.42,
-      "whip": 1.06,
-      "k9": 13.14,
-      "bb9": 3.86,
-      "hr9": 0.59,
-      "avg_ip": 5.99,
-      "games_started": 23,
-      "wins": 7,
-      "losses": 5,
-      "period": "2026 시즌",
-      "low_sample": false
-     },
-     "stats_source": "MLB Stats API 시즌 투구 기록"
-    },
-    "teams": {
-     "home": {
-      "wins": 73,
-      "losses": 55,
-      "pct": 0.57,
-      "abbreviation": "NYY"
-     },
-     "away": {
-      "wins": 63,
-      "losses": 67,
-      "pct": 0.485,
-      "abbreviation": "TOR"
-     }
-    },
-    "unavailable": {
-     "home": [
-      {
-       "name": "Aaron Judge",
-       "status": "60일 부상자 명단",
-       "position": "RF"
-      },
-      {
-       "name": "Clarke Schmidt",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Cody Bellinger",
-       "status": "10일 부상자 명단",
-       "position": "LF"
-      },
-      {
-       "name": "Giancarlo Stanton",
-       "status": "10일 부상자 명단",
-       "position": "DH"
-      },
-      {
-       "name": "Kervin Castro",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Max Fried",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Ryan McMahon",
-       "status": "10일 부상자 명단",
-       "position": "3B"
-      }
-     ],
-     "away": [
-      {
-       "name": "Addison Barger",
-       "status": "60일 부상자 명단",
-       "position": "RF"
-      },
-      {
-       "name": "Anthony Santander",
-       "status": "60일 부상자 명단",
-       "position": "RF"
-      },
-      {
-       "name": "Bowden Francis",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Cody Ponce",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Jake Bloss",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Jameson Taillon",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Joe Mantiply",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Jonatan Clase",
-       "status": "10일 부상자 명단",
-       "position": "LF"
-      },
-      {
-       "name": "José Berríos",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Josh Smith",
-       "status": "10일 부상자 명단",
-       "position": "2B"
-      },
-      {
-       "name": "Luis Urías",
-       "status": "10일 부상자 명단",
-       "position": "2B"
-      },
-      {
-       "name": "Patrick Corbin",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Trey Yesavage",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Vladimir Guerrero Jr.",
-       "status": "7일 부상자 명단",
-       "position": "1B"
-      },
-      {
-       "name": "Yimi García",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      }
-     ]
-    },
-    "lineups": {
-     "home": [
-      {
-       "name": "Trent Grisham",
-       "position": "CF",
-       "order": 1
-      },
-      {
-       "name": "Ben Rice",
-       "position": "DH",
-       "order": 2
-      },
-      {
-       "name": "Heliot Ramos",
-       "position": "LF",
-       "order": 3
-      },
-      {
-       "name": "Luis García Jr.",
-       "position": "1B",
-       "order": 4
-      },
-      {
-       "name": "Spencer Jones",
-       "position": "RF",
-       "order": 5
-      },
-      {
-       "name": "George Lombard Jr.",
-       "position": "SS",
-       "order": 6
-      },
-      {
-       "name": "Jazz Chisholm Jr.",
-       "position": "2B",
-       "order": 7
-      },
-      {
-       "name": "Austin Wells",
-       "position": "C",
-       "order": 8
-      },
-      {
-       "name": "José Caballero",
-       "position": "3B",
-       "order": 9
-      }
-     ],
-     "away": [
-      {
-       "name": "Brett Bateman",
-       "position": "RF",
-       "order": 1
-      },
-      {
-       "name": "Vladimir Guerrero Jr.",
-       "position": "1B",
-       "order": 2
-      },
-      {
-       "name": "Alejandro Kirk",
-       "position": "C",
-       "order": 3
-      },
-      {
-       "name": "George Springer",
-       "position": "DH",
-       "order": 4
-      },
-      {
-       "name": "Kazuma Okamoto",
-       "position": "3B",
-       "order": 5
-      },
-      {
-       "name": "Ernie Clement",
-       "position": "SS",
-       "order": 6
-      },
-      {
-       "name": "Daz Cameron",
-       "position": "LF",
-       "order": 7
-      },
-      {
-       "name": "Charles McAdoo",
-       "position": "2B",
-       "order": 8
-      },
-      {
-       "name": "Myles Straw",
-       "position": "CF",
-       "order": 9
-      }
-     ]
-    },
-    "source": "MLB Stats API",
-    "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
-    "key_players": {},
-    "benches": {},
-    "formations": {},
-    "lineup_status": {},
-    "game_id": "823509"
-   },
-   "라인업": {},
-   "슈팅폼": {},
-   "라인업메모": "",
-   "시장문맥": {
-    "total": {
-     "line": 7.5,
-     "label": "U 7.5"
-    },
-    "handicap": {
-     "label": "H -2.5",
-     "home_market": 0.2208,
-     "home_model": 0.2433,
-     "away_market": 0.7792,
-     "away_model": 0.7567
-    },
-    "margin_band": {
-     "label": "1점차",
-     "close_market": 0.2701,
-     "close_model": 0.3904
-    }
-   },
-   "해설": "뉴욕양키(52%)와 토론블루가 사실상 대등한 시장 평가를 받는 가운데, 배당은 1.70을 기록 중인 뉴욕양키 쪽이 조금 더 낮게 형성되어 있습니다. 발매 기준 총득점은 오버를 향하는 흐름입니다.\n\n토론블루는 최근 5경기 득실 마진이 -3.6에서 +0.6으로 개선되며 경기력을 끌어올리는 모습입니다. 다만 최근 10경기 성적은 4승 6패, 평균 3.3득점 4.8실점에 그치며 최근 3경기는 2승 1패로 기복을 보였습니다. 뉴욕양키 역시 최근 10경기 5승 5패, 평균 3.9득점 4.5실점으로 흐름이 일정치 않으며, 최근 3경기는 2승 1패를 기록했습니다.\n\n두 팀 모두 홈과 원정 성적이 5할 언저리인 점도 비슷합니다. 뉴욕양키는 홈에서 19승 21패, 토론블루는 원정에서 21승 24패를 기록 중입니다. 시즌 맞대결은 뉴욕양키가 4승 3패로 근소하게 우위이나, 최근 두 번의 맞대결에서는 1-3, 3-8로 패했습니다. 뉴욕양키의 최근 10경기 중 6경기가 2점 차 이내 승부였을 만큼 접전이 잦았다는 점은 눈여겨볼 대목입니다. 최근 지표로 계산한 합계는 8.2점 안팎으로, 실제 기준선인 7.5점을 웃돌 것으로 보입니다."
-  },
-  {
-   "round": 99,
-   "date": "08.23(일) 03:10",
-   "league": "MLB",
-   "sport": "bs",
-   "home": "밀워브루",
-   "away": "애틀브레",
-   "lam_home": 4.85,
-   "lam_away": 4.24,
-   "lam_src": "리그",
-   "no_model": false,
-   "status": "경기전",
-   "score": null,
-   "결과": null,
-   "options": [
-    {
-     "market": "승패",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홈",
-     "배당": 1.44,
-     "모델확률": 0.592,
-     "시장확률": 0.626,
-     "예상손익": -0.1475,
-     "괴리": 0.034,
-     "게임번호": "5757",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "승패",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "원정",
-     "배당": 2.26,
-     "모델확률": 0.408,
-     "시장확률": 0.374,
-     "예상손익": -0.078,
-     "괴리": 0.034,
-     "게임번호": "5757",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "홈2+",
-     "배당": 1.97,
-     "모델확률": 0.3812,
-     "시장확률": 0.4533,
-     "예상손익": -0.249,
-     "괴리": 0.0721,
-     "게임번호": "5758",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "1점차",
-     "배당": 3.3,
-     "모델확률": 0.3805,
-     "시장확률": 0.256,
-     "예상손익": 0.2557,
-     "괴리": 0.1245,
-     "게임번호": "5758",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "원정2+",
-     "배당": 2.95,
-     "모델확률": 0.2383,
-     "시장확률": 0.2906,
-     "예상손익": -0.2971,
-     "괴리": 0.0523,
-     "게임번호": "5758",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 2,
-     "label": "H -2.5",
-     "line": -2.5,
-     "선택": "핸디홈",
-     "배당": 2.64,
-     "모델확률": 0.2618,
-     "시장확률": 0.3106,
-     "예상손익": -0.3089,
-     "괴리": 0.0488,
-     "게임번호": "5759",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 2,
-     "label": "H -2.5",
-     "line": -2.5,
-     "선택": "핸디원정",
-     "배당": 1.32,
-     "모델확률": 0.7382,
-     "시장확률": 0.6894,
-     "예상손익": -0.0256,
-     "괴리": 0.0488,
-     "게임번호": "5759",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 7.5",
-     "line": 7.5,
-     "선택": "언더",
-     "배당": 1.77,
-     "모델확률": 0.3133,
-     "시장확률": 0.4968,
-     "예상손익": -0.4455,
-     "괴리": 0.1835,
-     "게임번호": "5760",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 7.5",
-     "line": 7.5,
-     "선택": "오버",
-     "배당": 1.75,
-     "모델확률": 0.6867,
-     "시장확률": 0.5032,
-     "예상손익": 0.2017,
-     "괴리": 0.1835,
-     "게임번호": "5760",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홀",
-     "배당": 1.59,
-     "모델확률": 0.5,
-     "시장확률": 0.5729,
-     "예상손익": -0.205,
-     "괴리": 0.0729,
-     "게임번호": "5761",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "짝",
-     "배당": 2.07,
-     "모델확률": 0.5,
-     "시장확률": 0.4271,
-     "예상손익": 0.035,
-     "괴리": 0.0729,
-     "게임번호": "5761",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    }
-   ],
-   "홈승률": 0.5911,
-   "판단": "홈 근소",
-   "추천": null,
-   "선택지수": 11,
-   "form_src": "리그",
-   "form_home": {
-    "w": 62,
-    "l": 37,
-    "d": 0,
-    "last10": "6승 4패",
-    "streak": "",
-    "home": "34-19",
-    "away": "28-18",
-    "avg_scored": 4.7,
-    "avg_conceded": 4.4,
-    "rest_days": null,
-    "trend": "유지"
-   },
-   "form_away": {
-    "w": 56,
-    "l": 43,
-    "d": 0,
-    "last10": "6승 4패",
-    "streak": "2연패",
-    "home": "30-18",
-    "away": "26-25",
-    "avg_scored": 4.4,
-    "avg_conceded": 5.4,
-    "rest_days": null,
-    "trend": "하락"
-   },
-   "h2h": "시즌 맞대결은 애틀브레가 2승 1패로 앞선다. 최근 두 번의 맞대결은 4-3, 4-9였다",
-   "선발": {
-    "home": "Logan Henderson",
-    "away": "Martín Pérez",
-    "home_detail": {
-     "name": "Logan Henderson",
-     "player_id": 701656,
-     "announced": true,
-     "stats": {
-      "era": 2.7,
-      "whip": 0.87,
-      "k9": 10.66,
-      "bb9": 1.71,
-      "hr9": 1.42,
-      "avg_ip": 5.28,
-      "games_started": 12,
-      "wins": 7,
-      "losses": 2,
-      "period": "2026 시즌",
-      "low_sample": false
-     },
-     "stats_source": "MLB Stats API 시즌 투구 기록"
-    },
-    "away_detail": {
-     "name": "Martín Pérez",
-     "player_id": 527048,
-     "announced": true,
-     "stats": {
-      "era": 3.15,
-      "whip": 1.19,
-      "k9": 6.71,
-      "bb9": 3.64,
-      "hr9": 0.89,
-      "avg_ip": 5.57,
-      "games_started": 20,
-      "wins": 8,
-      "losses": 7,
-      "period": "2026 시즌",
-      "low_sample": false
-     },
-     "stats_source": "MLB Stats API 시즌 투구 기록"
-    },
-    "teams": {
-     "home": {
-      "wins": 80,
-      "losses": 49,
-      "pct": 0.62,
-      "abbreviation": "MIL"
-     },
-     "away": {
-      "wins": 75,
-      "losses": 54,
-      "pct": 0.581,
-      "abbreviation": "ATL"
-     }
-    },
-    "unavailable": {
-     "home": [
-      {
-       "name": "Abner Uribe",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Angel Zerpa",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Brandon Woodruff",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Brian Fitzpatrick",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "JoJo Romero",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Joel Kuhnel",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Quinn Priester",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Rob Zastryzny",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Sal Frelick",
-       "status": "10일 부상자 명단",
-       "position": "RF"
-      }
-     ],
-     "away": [
-      {
-       "name": "Joe Jiménez",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Joey Wentz",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Reynaldo López",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Robert Suarez",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Spencer Schwellenbach",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Spencer Strider",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      }
-     ]
-    },
-    "lineups": {
-     "home": [
-      {
-       "name": "Jackson Chourio",
-       "position": "LF",
-       "order": 1
-      },
-      {
-       "name": "Brice Turang",
-       "position": "2B",
-       "order": 2
-      },
-      {
-       "name": "William Contreras",
-       "position": "C",
-       "order": 3
-      },
-      {
-       "name": "Jake Bauers",
-       "position": "RF",
-       "order": 4
-      },
-      {
-       "name": "Andrew Vaughn",
-       "position": "1B",
-       "order": 5
-      },
-      {
-       "name": "Christian Yelich",
-       "position": "DH",
-       "order": 6
-      },
-      {
-       "name": "Joey Ortiz",
-       "position": "3B",
-       "order": 7
-      },
-      {
-       "name": "Luis Lara",
-       "position": "CF",
-       "order": 8
-      },
-      {
-       "name": "Cooper Pratt",
-       "position": "SS",
-       "order": 9
-      }
-     ],
-     "away": [
-      {
-       "name": "Drake Baldwin",
-       "position": "C",
-       "order": 1
-      },
-      {
-       "name": "Ronald Acuña Jr.",
-       "position": "RF",
-       "order": 2
-      },
-      {
-       "name": "Matt Olson",
-       "position": "1B",
-       "order": 3
-      },
-      {
-       "name": "Michael Harris II",
-       "position": "CF",
-       "order": 4
-      },
-      {
-       "name": "Ozzie Albies",
-       "position": "DH",
-       "order": 5
-      },
-      {
-       "name": "Mauricio Dubón",
-       "position": "2B",
-       "order": 6
-      },
-      {
-       "name": "Mike Yastrzemski",
-       "position": "LF",
-       "order": 7
-      },
-      {
-       "name": "Austin Riley",
-       "position": "3B",
-       "order": 8
-      },
-      {
-       "name": "Jim Jarvis",
-       "position": "SS",
-       "order": 9
-      }
-     ]
-    },
-    "source": "MLB Stats API",
-    "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
-    "key_players": {},
-    "benches": {},
-    "formations": {},
-    "lineup_status": {},
-    "game_id": "823743"
-   },
-   "라인업": {},
-   "슈팅폼": {},
-   "라인업메모": "",
-   "시장문맥": {
-    "total": {
-     "line": 7.5,
-     "label": "U 7.5"
-    },
-    "handicap": {
-     "label": "H -2.5",
-     "home_market": 0.3106,
-     "home_model": 0.2618,
-     "away_market": 0.6894,
-     "away_model": 0.7382
-    },
-    "margin_band": {
-     "label": "1점차",
-     "close_market": 0.256,
-     "close_model": 0.3805
-    }
-   },
-   "해설": "시장 기본값상 밀워브루 승리 확률은 63%, 배당은 1.44로 책정됐습니다. 실제 발매 기준점은 오버 쪽으로 쏠린 상태입니다.\n\n밀워브루는 최근 10경기 6승 4패를 기록했으나, 최근 3경기는 1승 2패로 흐름이 불안정합니다. 경기마다 득점 편차가 큰 편이며, 최근 10경기 평균 4.7득점 4.4실점을 보였습니다. 다만 홈에서는 34승 19패로 강한 면모를 보입니다. 10경기 중 5점 차 이상 대승이 3번 나올 만큼 터질 때 크게 벌리는 경향이 있습니다.\n\n애틀브레는 최근 10경기 6승 4패로 흐름은 나쁘지 않았으나, 최근 2연패 중이며 득실 마진이 +0.2에서 -2.2로 하락하는 등 경기 내용이 저하되고 있습니다. 최근 10경기 평균 4.4득점 5.4실점을 기록 중이며 원정 성적은 26승 25패로 5할 수준입니다. 잦은 접전 양상 속에 최근 10경기 중 7경기가 2점 차 이내 승부였습니다.\n\n시즌 맞대결은 애틀브레가 2승 1패로 우위이며, 직전 두 차례 맞대결 결과는 4-3과 4-9였습니다. 최근 지표로 계산한 합계는 9.5점 안팎으로, 실제 기준점인 7.5점과 비교하면 오버 가능성이 엿보입니다."
-  },
-  {
-   "round": 99,
-   "date": "08.23(일) 03:30",
-   "league": "독슈퍼컵",
-   "sport": "sc",
-   "home": "도르트문",
-   "away": "바이뮌헨",
-   "lam_home": 1.8,
-   "lam_away": 2.23,
-   "lam_src": "풀링",
-   "no_model": false,
-   "status": "경기전",
-   "score": null,
-   "결과": null,
-   "options": [
-    {
-     "market": "승무패",
-     "n_way": 3,
-     "label": "",
-     "line": null,
-     "선택": "홈",
-     "배당": 4.15,
-     "모델확률": 0.316,
-     "시장확률": 0.1959,
-     "예상손익": 0.3114,
-     "괴리": 0.1201,
-     "게임번호": "5762",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승무패",
-     "n_way": 3,
-     "label": "",
-     "line": null,
-     "선택": "무",
-     "배당": 4.05,
-     "모델확률": 0.2022,
-     "시장확률": 0.2016,
-     "예상손익": -0.181,
-     "괴리": 0.0006,
-     "게임번호": "5762",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승무패",
-     "n_way": 3,
-     "label": "",
-     "line": null,
-     "선택": "원정",
-     "배당": 1.51,
-     "모델확률": 0.4818,
-     "시장확률": 0.6024,
-     "예상손익": -0.2725,
-     "괴리": 0.1207,
-     "게임번호": "5762",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 3,
-     "label": "H +1.0",
-     "line": 1.0,
-     "선택": "핸디홈",
-     "배당": 2.22,
-     "모델확률": 0.5182,
-     "시장확률": 0.398,
-     "예상손익": 0.1505,
-     "괴리": 0.1202,
-     "게임번호": "5763",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 3,
-     "label": "H +1.0",
-     "line": 1.0,
-     "선택": "핸디무",
-     "배당": 3.65,
-     "모델확률": 0.1946,
-     "시장확률": 0.2281,
-     "예상손익": -0.2896,
-     "괴리": 0.0334,
-     "게임번호": "5763",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 3,
-     "label": "H +1.0",
-     "line": 1.0,
-     "선택": "핸디원정",
-     "배당": 2.35,
-     "모델확률": 0.2871,
-     "시장확률": 0.3739,
-     "예상손익": -0.3252,
-     "괴리": 0.0868,
-     "게임번호": "5763",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 3.5",
-     "line": 3.5,
-     "선택": "언더",
-     "배당": 1.77,
-     "모델확률": 0.4286,
-     "시장확률": 0.4968,
-     "예상손익": -0.2415,
-     "괴리": 0.0682,
-     "게임번호": "5764",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 3.5",
-     "line": 3.5,
-     "선택": "오버",
-     "배당": 1.75,
-     "모델확률": 0.5714,
-     "시장확률": 0.5032,
-     "예상손익": 0.0,
-     "괴리": 0.0682,
-     "게임번호": "5764",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홀",
-     "배당": 1.8,
-     "모델확률": 0.4998,
-     "시장확률": 0.5,
-     "예상손익": -0.1003,
-     "괴리": 0.0002,
-     "게임번호": "5765",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "짝",
-     "배당": 1.8,
-     "모델확률": 0.5002,
-     "시장확률": 0.5,
-     "예상손익": -0.0997,
-     "괴리": 0.0002,
-     "게임번호": "5765",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    }
-   ],
-   "홈승률": 0.3972,
-   "판단": "원정 우세",
-   "추천": null,
-   "선택지수": 10,
-   "form_src": "풀링",
-   "form_home": {
-    "w": 13,
-    "l": 3,
-    "d": 2,
-    "last10": "7승 3패",
-    "streak": "2연승",
-    "home": "8-2",
-    "away": "5-1",
-    "avg_scored": 2.0,
-    "avg_conceded": 1.0,
-    "rest_days": null,
-    "trend": "유지"
-   },
-   "form_away": {
-    "w": 14,
-    "l": 1,
-    "d": 3,
-    "last10": "8승 0패 2무",
-    "streak": "2연승",
-    "home": "6-1",
-    "away": "8-0",
-    "avg_scored": 3.3,
-    "avg_conceded": 1.3,
-    "rest_days": null,
-    "trend": "유지"
-   },
-   "h2h": "시즌 맞대결은 바이뮌헨이 1승 0패로 앞선다. 최근 두 번의 맞대결은 2-3였다",
-   "선발": null,
-   "라인업": {},
-   "슈팅폼": {},
-   "라인업메모": "",
-   "시장문맥": {
-    "total": {
-     "line": 3.5,
-     "label": "U 3.5"
-    },
-    "handicap": {
-     "label": "H +1.0",
-     "home_market": 0.398,
-     "home_model": 0.5182,
-     "away_market": 0.3739,
-     "away_model": 0.2871
-    }
-   },
-   "해설": "시장 기본값은 바이뮌헨 승리 80%, 배당 1.51로 나타납니다. 실 발매 기준 총득점은 오버 쪽으로 쏠려 있는데, 어라 포인트는 시장의 확신이 득점 분포 교차 마켓 진단보다 강하다는 점입니다. 시장은 바이뮌헨 승리를 80%로 점치지만, 검증 전 득점 모델은 이보다 20%p 낮은 60%를 예상합니다. 도르트문 핸디캡(H +1.0) 커버 가능성 역시 시장은 40%로 보나 모델은 52%로 더 높게 평가했습니다. 역배가 나온다면 정배가 압도당하기보다 접전이 길어지다 한 번의 득점으로 뒤집히는 그림이 될 것입니다. 투표 데이터가 없어 쏠림 의심 단계로만 분류하며, 도르트문의 최근 2연승 상승세를 고려하면 일방적인 흐름을 단정하긴 어렵습니다. 도르트문은 최근 10경기 중 9경기, 바이뮌헨은 6경기가 2점 차 이내였을 만큼 두 팀 모두 접전 양상이 잦았습니다. 도르트문은 최근 10경기 7승 3패로 평균 2.0득점 1.0실점을, 바이뮌헨은 8승 2무로 평균 3.3득점 1.3실점을 기록 중입니다. 도르트문은 홈 8승 2패, 바이뮌헨은 원정 8승 무패로 강세를 보입니다. 최근 지표를 합산한 예상치는 3.8골 내외로, 실제 기준선 3.5골 대비 오버 가능성이 높으며 평균 득점 추정치는 원정 팀이 0.5골 앞서 있습니다."
-  },
   {
    "round": 99,
    "date": "08.23(일) 03:45",
@@ -1449,18 +243,180 @@
      "home": [],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "1011783",
+       "name": "예반 디우프",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "543760",
+       "name": "앙투안 멘디",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "1745371",
+       "name": "은다이시미예",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "eWfaVsgl",
+       "name": "만자 치엔디",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "144864",
+       "name": "클로스",
+       "position": "MF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "jkt6L6qT",
+       "name": "쿨리발리",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "oZnZoXGj",
+       "name": "페레이라 다 시우바",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "1322900",
+       "name": "바드",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "ohWNkDyt",
+       "name": "헤인",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "1508075",
+       "name": "디옵",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "kHGzP9BT",
+       "name": "디알로",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ],
+     "away": [
+      {
+       "player_id": "HNzhvz56",
+       "name": "음보고",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "6Hhf7Y2R",
+       "name": "실라",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "ym8q916y",
+       "name": "탈비",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "YPGt5Bgq",
+       "name": "아드제이",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "2ZlLGA84",
+       "name": "쿠아시",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "hiMfYdce",
+       "name": "아봄",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "6rI5FPUs",
+       "name": "카디우",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "a2e7IKLh",
+       "name": "르 브리",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "Dg8Cbifd",
+       "name": "마켕고",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "42snlsrg",
+       "name": "베르나르도",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "vMWOQvQ4",
+       "name": "코네",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "3421",
+     "away": "4231"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T02:45:00+09:00"
     },
     "game_id": "zP3GY4A3gH9AHOv"
@@ -1708,18 +664,180 @@
      "home": [],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "ztBA1Btr",
+       "name": "코칙",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "NaKYvyWV",
+       "name": "보세",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "8E4BpkJX",
+       "name": "에유므",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "nHPI5UYk",
+       "name": "밤바",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "0NFosF31",
+       "name": "부아데스",
+       "position": "MF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "bA4Yol6e",
+       "name": "부라바",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "BKzpHbeV",
+       "name": "로레",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "cvkZITkH",
+       "name": "라루치",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "rG6mRfeM",
+       "name": "게예",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "5Pll1ba5",
+       "name": "마포우타",
+       "position": "FW",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "TXkBmPnR",
+       "name": "라빌라르",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ],
+     "away": [
+      {
+       "player_id": "nhXFNj9Q",
+       "name": "셀비크",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "141080",
+       "name": "랄라",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "1643682",
+       "name": "쇼타르",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "PLKbEO13",
+       "name": "르 괸",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "UZrMFC5l",
+       "name": "로코",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "ZUdbm8wk",
+       "name": "논게 보엔데",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "546940",
+       "name": "투사",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "565945",
+       "name": "델카스티요",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "bu0wn8uK",
+       "name": "둠비아",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "8NFBixVG",
+       "name": "무부",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "343971",
+       "name": "아조르크",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "3412",
+     "away": "4231"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T02:45:00+09:00"
     },
     "game_id": "zPn9Gekixj105r9"
@@ -1979,18 +1097,180 @@
      "home": [],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "IMQcrMIK",
+       "name": "바일로",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "hG5AlS4o",
+       "name": "마르칸달리",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "Wbxxvu62",
+       "name": "외스티고르",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "1379523",
+       "name": "바스케스",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "V60glCc6",
+       "name": "노턴-커피",
+       "position": "MF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "gkCWVlf9",
+       "name": "프렌드럽",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "tdKXbu8z",
+       "name": "알렉스 아모림",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "1402577",
+       "name": "엘레르트손",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "2A9BwQbe",
+       "name": "발단치",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "DIJEyGUv",
+       "name": "비티냐",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "dxkt5w30",
+       "name": "로렌초 콜롬보",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ],
+     "away": [
+      {
+       "player_id": "538287",
+       "name": "메레",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "153257",
+       "name": "디 로렌조",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "332155",
+       "name": "라흐마니",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "SlEWmHPK",
+       "name": "라파 마린",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "06cbYkY2",
+       "name": "스피나촐라",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "561933",
+       "name": "앙귀사",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "150383",
+       "name": "로보트카",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "dwddevku",
+       "name": "맥토미니",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "496804",
+       "name": "폴리타노",
+       "position": "FW",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "1986771",
+       "name": "호일룬",
+       "position": "FW",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "BeH4dI0L",
+       "name": "알리슨 산토스",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "3421",
+     "away": "433"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T02:45:00+09:00"
     },
     "game_id": "vcQxoysen50neqp"
@@ -2250,18 +1530,180 @@
      "home": [],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "2543681",
+       "name": "레스테스",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "VnodZgh6",
+       "name": "맥켄지",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "PohfK5bq",
+       "name": "타페",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "XfRyCgcz",
+       "name": "니콜라이센",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "1135147",
+       "name": "카세레스",
+       "position": "MF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "cU6HbxHC",
+       "name": "요르겐센",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "564010",
+       "name": "슈미트",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "KiMEGgA2",
+       "name": "비뇰로",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "XdmLe0WW",
+       "name": "히달고",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "mNi2OJqq",
+       "name": "보호",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "xBF8tx5N",
+       "name": "디알로",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ],
+     "away": [
+      {
+       "player_id": "nyyQi9lD",
+       "name": "데캉",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "2oPmtngp",
+       "name": "아테카메",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "S2XXJ0vD",
+       "name": "클린톤 마타",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "FwNWpTTh",
+       "name": "바커",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "a05hiGOS",
+       "name": "우에드라고",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "iMAfGhO4",
+       "name": "비드스트룹",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "f9Ez9L6k",
+       "name": "드 카르발류",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "2358271",
+       "name": "뒤랑빌",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "iu13QtKc",
+       "name": "나르테이",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "iWDGdJjY",
+       "name": "부다슈",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "jokbCeqb",
+       "name": "힘베르트",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "3421",
+     "away": "4231"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T02:45:00+09:00"
     },
     "game_id": "kn3IbwUABGh2OID"
@@ -2509,18 +1951,180 @@
      "home": [],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "MYugyX1z",
+       "name": "비치",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "kEaurf8t",
+       "name": "티티",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "QJwiKaGS",
+       "name": "디아즈",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "JxuHRvAj",
+       "name": "몽프레",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "a35k1ucs",
+       "name": "우제나지",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "B70Araa6",
+       "name": "이프나위",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "DG8eaeXt",
+       "name": "디오프",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "fHwb0Wk8",
+       "name": "디아와라",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "HoebHcfI",
+       "name": "피카르",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "STGIomUp",
+       "name": "고미스",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "KzxauVh1",
+       "name": "리파르",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ],
+     "away": [
+      {
+       "player_id": "377466",
+       "name": "트랍",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "7oFYySng",
+       "name": "카마라",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "NaKzXvKE",
+       "name": "무스타파 음보우",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "8neQetYM",
+       "name": "코폴라",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "YS8BSgJr",
+       "name": "오타비우",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "556880",
+       "name": "리스 멜로",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "t2Qb7RQP",
+       "name": "마톤도",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "1DuNveoI",
+       "name": "케발",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "ZR2tmJNg",
+       "name": "파지스",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "3YlEFQWI",
+       "name": "콜레오쇼",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "addzTWbv",
+       "name": "시나요코",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "4231",
+     "away": "4231"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T02:45:00+09:00"
     },
     "game_id": "HqECq9fiesEOGZZ"
@@ -2794,18 +2398,180 @@
      "home": [],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "1860648",
+       "name": "코르비",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "c8VyBhdp",
+       "name": "델 프라토",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "nT4ksJDy",
+       "name": "트로일로",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "1744149",
+       "name": "은디아예",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "XPDCJGhh",
+       "name": "발레리",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "81eRYtcV",
+       "name": "아드리안 베르나베",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "kzueil1V",
+       "name": "오르도녜스",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "I3hPS5ba",
+       "name": "만델라 케이타",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "F1IWatSh",
+       "name": "코나테",
+       "position": "FW",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "uMBOqoFg",
+       "name": "투레",
+       "position": "FW",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "XY7oGfPJ",
+       "name": "론타니",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ],
+     "away": [
+      {
+       "player_id": "dlc9zAJM",
+       "name": "카프릴레",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "QQyWcrQH",
+       "name": "제 페드루",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "wvOvehSF",
+       "name": "데이올라",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "5v2nmdXr",
+       "name": "로드리게스",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "1642948",
+       "name": "오베르트",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "419m0yl5",
+       "name": "로마노",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "492298",
+       "name": "윙크스",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "oj5hutbi",
+       "name": "아도포",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "9pB7PgJp",
+       "name": "말디니",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "1985577",
+       "name": "파치니",
+       "position": "MF",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "chYKrYIy",
+       "name": "멘디",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "433",
+     "away": "4231"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T02:45:00+09:00"
     },
     "game_id": "z6WrqLcVcOEBufQ"
@@ -3062,13 +2828,386 @@
      }
     },
     "unavailable": {
-     "home": [],
+     "home": [
+      {
+       "name": "루카 오옌",
+       "position": "FW",
+       "status": "경기 명단 미포함 · 사유 확인 필요"
+      }
+     ],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "jkieGIVI",
+       "name": "클라베르부르",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "s3gcDHaQ",
+       "name": "브라우드",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "FozYoSn6",
+       "name": "케르스텐",
+       "position": "DF",
+       "number": null,
+       "order": 3,
+       "stats": {
+        "player_id": "FozYoSn6",
+        "name": "샘 케르스텐",
+        "position": "DF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 1,
+        "xg": 0,
+        "xa": 0.05,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 0,
+        "minutes": 173,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/FozYoSn6.png"
+       }
+      },
+      {
+       "player_id": "YsY53nXN",
+       "name": "빌렘센",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "7TIODVlh",
+       "name": "자가리티스",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "qElvjfSi",
+       "name": "린데이",
+       "position": "MF",
+       "number": null,
+       "order": 6,
+       "stats": {
+        "player_id": "qElvjfSi",
+        "name": "마르쿠스 린데이",
+        "position": "MF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0.08,
+        "xa": 0.47,
+        "shots": 1,
+        "shots_on_target": 1,
+        "key_passes": 4,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/qElvjfSi.png"
+       }
+      },
+      {
+       "player_id": "dYs6U3MD",
+       "name": "프로퍼",
+       "position": "MF",
+       "number": null,
+       "order": 7,
+       "stats": {
+        "player_id": "dYs6U3MD",
+        "name": "디르크 프로퍼",
+        "position": "MF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0.12,
+        "xa": 0.06,
+        "shots": 2,
+        "shots_on_target": 1,
+        "key_passes": 1,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/dYs6U3MD.png"
+       }
+      },
+      {
+       "player_id": "EKtxt2V7",
+       "name": "트렌스코",
+       "position": "MF",
+       "number": null,
+       "order": 8,
+       "stats": {
+        "player_id": "EKtxt2V7",
+        "name": "야콥 트렌스코",
+        "position": "FW",
+        "apps": 2,
+        "starts": 2,
+        "goals": 1,
+        "assists": 1,
+        "xg": 0.41,
+        "xa": 0.29,
+        "shots": 5,
+        "shots_on_target": 4,
+        "key_passes": 4,
+        "minutes": 173,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/EKtxt2V7.png"
+       }
+      },
+      {
+       "player_id": "erTFGPsX",
+       "name": "메르벨트",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "m1T1OYL1",
+       "name": "리베라",
+       "position": "MF",
+       "number": null,
+       "order": 10,
+       "stats": {
+        "player_id": "m1T1OYL1",
+        "name": "막상스 리베라",
+        "position": "MF",
+        "apps": 1,
+        "starts": 0,
+        "goals": 1,
+        "assists": 0,
+        "xg": 0.54,
+        "xa": 0,
+        "shots": 2,
+        "shots_on_target": 2,
+        "key_passes": 0,
+        "minutes": 32,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/m1T1OYL1.png"
+       }
+      },
+      {
+       "player_id": "6q4xtga9",
+       "name": "벤테",
+       "position": "FW",
+       "number": null,
+       "order": 11,
+       "stats": {
+        "player_id": "6q4xtga9",
+        "name": "딜런 벤테",
+        "position": "FW",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0.35,
+        "xa": 0.03,
+        "shots": 2,
+        "shots_on_target": 1,
+        "key_passes": 1,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/6q4xtga9.png"
+       }
+      }
+     ],
+     "away": [
+      {
+       "player_id": "Q9xmbOrt",
+       "name": "션델라르",
+       "position": "GK",
+       "number": null,
+       "order": 1,
+       "stats": {
+        "player_id": "Q9xmbOrt",
+        "name": "재스퍼 션델라르",
+        "position": "GK",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0,
+        "xa": 0.02,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 0,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/Q9xmbOrt.png"
+       }
+      },
+      {
+       "player_id": "IIBVpjSf",
+       "name": "에르트센",
+       "position": "DF",
+       "number": null,
+       "order": 2,
+       "stats": {
+        "player_id": "IIBVpjSf",
+        "name": "올리비에 에르트센",
+        "position": "DF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0,
+        "xa": 0.03,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 1,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/IIBVpjSf.png"
+       }
+      },
+      {
+       "player_id": "2fOmYlca",
+       "name": "그레이브스",
+       "position": "DF",
+       "number": null,
+       "order": 3,
+       "stats": {
+        "player_id": "2fOmYlca",
+        "name": "사이먼 그레이브스",
+        "position": "DF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0.08,
+        "xa": 0.05,
+        "shots": 1,
+        "shots_on_target": 0,
+        "key_passes": 0,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2fOmYlca.png"
+       }
+      },
+      {
+       "player_id": "daXPCCzO",
+       "name": "비어헤버",
+       "position": "DF",
+       "number": null,
+       "order": 4,
+       "stats": {
+        "player_id": "daXPCCzO",
+        "name": "닉 비어헤버",
+        "position": "DF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0,
+        "xa": 0,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 0,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/daXPCCzO.png"
+       }
+      },
+      {
+       "player_id": "sfu4Bh54",
+       "name": "반 더 하르",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "xkzmmgzx",
+       "name": "토마스",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "1uOX3OxI",
+       "name": "소머",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "vnH7hQWc",
+       "name": "음바요",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "1P3Rnb1D",
+       "name": "오스팅",
+       "position": "MF",
+       "number": null,
+       "order": 9,
+       "stats": {
+        "player_id": "1P3Rnb1D",
+        "name": "타이스 오스팅",
+        "position": "MF",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 1,
+        "xg": 0,
+        "xa": 0.01,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 2,
+        "minutes": 139,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/1P3Rnb1D.png"
+       }
+      },
+      {
+       "player_id": "54mhTQf5",
+       "name": "쇠렌센",
+       "position": "MF",
+       "number": null,
+       "order": 10,
+       "stats": {
+        "player_id": "54mhTQf5",
+        "name": "엘리야스 쇠렌센",
+        "position": "FW",
+        "apps": 2,
+        "starts": 1,
+        "goals": 1,
+        "assists": 0,
+        "xg": 0.38,
+        "xa": 0.28,
+        "shots": 2,
+        "shots_on_target": 1,
+        "key_passes": 0,
+        "minutes": 71,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/54mhTQf5.png"
+       }
+      },
+      {
+       "player_id": "2UNuSSh7",
+       "name": "코스톤스",
+       "position": "FW",
+       "number": null,
+       "order": 11,
+       "stats": {
+        "player_id": "2UNuSSh7",
+        "name": "쾬 코스톤스",
+        "position": "FW",
+        "apps": 2,
+        "starts": 2,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0.33,
+        "xa": 0.1,
+        "shots": 2,
+        "shots_on_target": 1,
+        "key_passes": 0,
+        "minutes": 180,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2UNuSSh7.png"
+       }
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -3300,9 +3439,12 @@
      ]
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "4231",
+     "away": "4231"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T03:00:00+09:00"
     },
     "game_id": "CCF2lNzOJZQGcUO"
@@ -3559,13 +3701,274 @@
      }
     },
     "unavailable": {
-     "home": [],
+     "home": [
+      {
+       "name": "라펠 바우차",
+       "position": "MF",
+       "status": "경기 명단 미포함 · 사유 확인 필요"
+      }
+     ],
      "away": []
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "player_id": "94527",
+       "name": "드미트로비치",
+       "position": "GK",
+       "number": null,
+       "order": 1,
+       "stats": {
+        "player_id": "94527",
+        "name": "마르코 드미트로비치",
+        "position": "GK",
+        "apps": 1,
+        "starts": 1,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0,
+        "xa": 0,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 0,
+        "minutes": 90,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/94527.png"
+       }
+      },
+      {
+       "player_id": "2100932",
+       "name": "엘 힐랄리",
+       "position": "DF",
+       "number": null,
+       "order": 2,
+       "stats": {
+        "player_id": "2100932",
+        "name": "오마르 엘 힐랄리",
+        "position": "DF",
+        "apps": 1,
+        "starts": 1,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0,
+        "xa": 0.01,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 0,
+        "minutes": 90,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2100932.png"
+       }
+      },
+      {
+       "player_id": "vIpb9pkf",
+       "name": "리델",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "605658",
+       "name": "우나이 누녜스",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "ZrLBwSCM",
+       "name": "로헤르 이노호",
+       "position": "DF",
+       "number": null,
+       "order": 5,
+       "stats": {
+        "player_id": "ZrLBwSCM",
+        "name": "로헤르 이노호",
+        "position": "DF",
+        "apps": 1,
+        "starts": 1,
+        "goals": 0,
+        "assists": 0,
+        "xg": 0,
+        "xa": 0.04,
+        "shots": 0,
+        "shots_on_target": 0,
+        "key_passes": 1,
+        "minutes": 90,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/ZrLBwSCM.png"
+       }
+      },
+      {
+       "player_id": "0ZUo1JdZ",
+       "name": "칼라",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "1120845",
+       "name": "에두 엑스포지토",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "2071001",
+       "name": "우르코 곤잘레스",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "jYfzyMEt",
+       "name": "돌란",
+       "position": "MF",
+       "number": null,
+       "order": 9,
+       "stats": {
+        "player_id": "jYfzyMEt",
+        "name": "타이리스 돌란",
+        "position": "FW",
+        "apps": 1,
+        "starts": 1,
+        "goals": 1,
+        "assists": 0,
+        "xg": 0.21,
+        "xa": 0.04,
+        "shots": 2,
+        "shots_on_target": 1,
+        "key_passes": 0,
+        "minutes": 81,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/jYfzyMEt.png"
+       }
+      },
+      {
+       "player_id": "R0mT4nhw",
+       "name": "로베르토 페르난데스",
+       "position": "FW",
+       "number": null,
+       "order": 10,
+       "stats": {
+        "player_id": "R0mT4nhw",
+        "name": "로베르토 페르난데스",
+        "position": "FW",
+        "apps": 1,
+        "starts": 1,
+        "goals": 2,
+        "assists": 0,
+        "xg": 0.46,
+        "xa": 0.1,
+        "shots": 2,
+        "shots_on_target": 2,
+        "key_passes": 2,
+        "minutes": 90,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/R0mT4nhw.png"
+       }
+      },
+      {
+       "player_id": "fXu8efV3",
+       "name": "하비 에르난데스",
+       "position": "FW",
+       "number": null,
+       "order": 11,
+       "stats": {
+        "player_id": "fXu8efV3",
+        "name": "하비 에르난데스",
+        "position": "MF",
+        "apps": 1,
+        "starts": 1,
+        "goals": 0,
+        "assists": 1,
+        "xg": 0.19,
+        "xa": 0.35,
+        "shots": 2,
+        "shots_on_target": 1,
+        "key_passes": 2,
+        "minutes": 82,
+        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/fXu8efV3.png"
+       }
+      }
+     ],
+     "away": [
+      {
+       "player_id": "427509",
+       "name": "쿠르투아",
+       "position": "GK",
+       "number": null,
+       "order": 1
+      },
+      {
+       "player_id": "543304",
+       "name": "덤프리스",
+       "position": "DF",
+       "number": null,
+       "order": 2
+      },
+      {
+       "player_id": "uh0VvfMQ",
+       "name": "딘 하이센",
+       "position": "DF",
+       "number": null,
+       "order": 3
+      },
+      {
+       "player_id": "936572",
+       "name": "코나테",
+       "position": "DF",
+       "number": null,
+       "order": 4
+      },
+      {
+       "player_id": "zRRd2ruG",
+       "name": "알바로 페르난데스",
+       "position": "DF",
+       "number": null,
+       "order": 5
+      },
+      {
+       "player_id": "2159140",
+       "name": "귈러",
+       "position": "MF",
+       "number": null,
+       "order": 6
+      },
+      {
+       "player_id": "962433",
+       "name": "발베르데",
+       "position": "MF",
+       "number": null,
+       "order": 7
+      },
+      {
+       "player_id": "529266",
+       "name": "베르나르두 실바",
+       "position": "MF",
+       "number": null,
+       "order": 8
+      },
+      {
+       "player_id": "1848612",
+       "name": "벨링엄",
+       "position": "MF",
+       "number": null,
+       "order": 9
+      },
+      {
+       "player_id": "566889",
+       "name": "음바페",
+       "position": "FW",
+       "number": null,
+       "order": 10
+      },
+      {
+       "player_id": "1134403",
+       "name": "비니시우스",
+       "position": "FW",
+       "number": null,
+       "order": 11
+      }
+     ]
+    },
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -3684,9 +4087,12 @@
      "away": []
     },
     "benches": {},
-    "formations": {},
+    "formations": {
+     "home": "442",
+     "away": "442"
+    },
     "lineup_status": {
-     "state": "before",
+     "state": "announced",
      "expected_at": "2026-08-23T03:30:00+09:00"
     },
     "game_id": "luLFAGfjCRT4PmQ"
@@ -4166,7 +4572,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -4516,10 +4922,58 @@
       }
      ]
     },
-    "lineups": {},
+    "lineups": {
+     "home": [
+      {
+       "name": "Kyle Schwarber",
+       "position": "DH",
+       "order": 1
+      },
+      {
+       "name": "Trea Turner",
+       "position": "SS",
+       "order": 2
+      },
+      {
+       "name": "Bryce Harper",
+       "position": "RF",
+       "order": 3
+      },
+      {
+       "name": "Luis Arraez",
+       "position": "2B",
+       "order": 4
+      },
+      {
+       "name": "Alec Bohm",
+       "position": "1B",
+       "order": 5
+      },
+      {
+       "name": "Edmundo Sosa",
+       "position": "3B",
+       "order": 6
+      },
+      {
+       "name": "Bryan De La Cruz",
+       "position": "LF",
+       "order": 7
+      },
+      {
+       "name": "J.T. Realmuto",
+       "position": "C",
+       "order": 8
+      },
+      {
+       "name": "Derek Hill",
+       "position": "CF",
+       "order": 9
+      }
+     ]
+    },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -4930,7 +5384,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -5327,7 +5781,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -5729,7 +6183,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -6135,7 +6589,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -6527,7 +6981,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -6969,7 +7423,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -7386,7 +7840,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -7823,7 +8277,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -8093,7 +8547,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -8604,7 +9058,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -9115,7 +9569,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -9612,7 +10066,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -10123,7 +10577,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -10620,7 +11074,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -11239,7 +11693,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -11606,7 +12060,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -11876,7 +12330,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -12373,7 +12827,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -12870,7 +13324,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -13589,7 +14043,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -13859,7 +14313,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -14401,7 +14855,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -14898,7 +15352,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -15409,7 +15863,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -16713,7 +17167,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -17367,7 +17821,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -17932,7 +18386,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -18511,7 +18965,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -18953,7 +19407,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -19342,7 +19796,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -19731,7 +20185,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -20114,7 +20568,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -20611,7 +21065,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -21153,7 +21607,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -21483,7 +21937,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -21768,7 +22222,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -22041,7 +22495,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -22538,7 +22992,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -23035,7 +23489,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -23351,7 +23805,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -23624,7 +24078,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -23883,7 +24337,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -24142,7 +24596,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -24619,7 +25073,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -24832,7 +25286,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -24987,7 +25441,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -25195,7 +25649,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -25395,7 +25849,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -25630,7 +26084,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -25802,7 +26256,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -25997,7 +26451,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -26339,7 +26793,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -26610,7 +27064,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -26881,7 +27335,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -27082,7 +27536,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -27322,7 +27776,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -27650,7 +28104,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -27971,7 +28425,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -28174,7 +28628,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -28407,7 +28861,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -28615,7 +29069,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -28882,7 +29336,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -29393,7 +29847,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -29835,7 +30289,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -29936,7 +30390,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -30043,7 +30497,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": [
@@ -30263,7 +30717,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -30370,7 +30824,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -30453,7 +30907,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -30892,7 +31346,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -31084,7 +31538,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -31261,7 +31715,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -31448,7 +31902,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -31613,7 +32067,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -31778,7 +32232,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -31940,7 +32394,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -32157,7 +32611,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -32349,7 +32803,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -32549,7 +33003,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -33254,7 +33708,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -33476,7 +33930,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -33698,7 +34152,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -34222,7 +34676,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -34687,7 +35141,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -34879,7 +35333,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -35056,7 +35510,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -35198,7 +35652,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -35420,7 +35874,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -35610,7 +36064,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -35792,7 +36246,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -35979,7 +36433,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -36121,7 +36575,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -36350,7 +36804,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -36515,7 +36969,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -36677,7 +37131,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -36894,7 +37348,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -37086,7 +37540,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -37268,7 +37722,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -38395,7 +38849,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -38617,7 +39071,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -38839,7 +39293,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -39223,7 +39677,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -39553,7 +40007,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": [
@@ -40048,7 +40502,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -40230,7 +40684,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -40377,7 +40831,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -40524,7 +40978,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -40686,7 +41140,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -40878,7 +41332,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -41055,7 +41509,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -41197,7 +41651,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -41419,7 +41873,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -41609,7 +42063,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -41791,7 +42245,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -41978,7 +42432,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -42120,7 +42574,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -42365,7 +42819,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -43612,7 +44066,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -44077,7 +44531,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -44166,7 +44620,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -44396,7 +44850,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [],
      "away": [
@@ -44646,7 +45100,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -44868,7 +45322,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -45040,7 +45494,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -45381,7 +45835,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -45651,7 +46105,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -46486,7 +46940,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -46703,7 +47157,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-23T02:32:18+09:00",
+    "updated_at": "2026-08-23T03:41:48+09:00",
     "key_players": {
      "home": [
       {
@@ -52652,7 +53106,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -53107,7 +53561,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -53622,7 +54076,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -54112,7 +54566,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -54666,7 +55120,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -55175,7 +55629,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -55689,7 +56143,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -56238,7 +56692,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -56742,7 +57196,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -57237,7 +57691,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -57702,7 +58156,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -58187,7 +58641,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -58677,7 +59131,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -59450,7 +59904,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -59965,7 +60419,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-22T17:32:17+00:00",
+    "updated_at": "2026-08-22T18:41:47+00:00",
     "key_players": {},
     "benches": {},
     "formations": {},
@@ -72397,10 +72851,10 @@
    "no_model": false,
    "status": "정산",
    "score": [
-    2,
+    3,
     0
    ],
-   "결과": "47'",
+   "결과": "홈승",
    "options": [
     {
      "market": "승무패",
@@ -72414,7 +72868,7 @@
      "예상손익": -0.0052,
      "괴리": 0.0422,
      "게임번호": "5725",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -72459,7 +72913,7 @@
      "예상손익": -0.0275,
      "괴리": 0.0347,
      "게임번호": "5726",
-     "적중": false,
+     "적중": true,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
     },
     {
@@ -72504,7 +72958,7 @@
      "예상손익": -0.0202,
      "괴리": 0.0339,
      "게임번호": "5727",
-     "적중": false,
+     "적중": true,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
     },
     {
@@ -72564,7 +73018,7 @@
      "예상손익": -0.1214,
      "괴리": 0.0172,
      "게임번호": "5728",
-     "적중": false,
+     "적중": true,
      "추천점수": -0.1414
     },
     {
@@ -72612,7 +73066,7 @@
     "예상손익": -0.1214,
     "괴리": 0.0172,
     "게임번호": "5728",
-    "적중": false,
+    "적중": true,
     "추천점수": -0.1414
    },
    "선택지수": 13,
@@ -72644,352 +73098,7 @@
     "trend": "상승"
    },
    "h2h": "시즌 맞대결은 0승 0패 1무로 팽팽하다. 최근 두 번의 맞대결은 0-0였다",
-   "선발": {
-    "home": null,
-    "away": null,
-    "home_detail": null,
-    "away_detail": null,
-    "teams": {
-     "home": {
-      "rank": 6,
-      "played": 0,
-      "wins": 0,
-      "draws": 1,
-      "losses": 0,
-      "points": 1,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     },
-     "away": {
-      "rank": 7,
-      "played": 0,
-      "wins": 0,
-      "draws": 1,
-      "losses": 0,
-      "points": 1,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     }
-    },
-    "unavailable": {
-     "home": [],
-     "away": []
-    },
-    "lineups": {
-     "home": [
-      {
-       "player_id": "755360",
-       "name": "켈러허",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "2164250",
-       "name": "카요데",
-       "position": "DF",
-       "number": null,
-       "order": 2,
-       "stats": {
-        "player_id": "2164250",
-        "name": "마이클 카요데",
-        "position": "DF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2164250.png"
-       }
-      },
-      {
-       "player_id": "576384",
-       "name": "아예르",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "7hO265pQ",
-       "name": "콜린스",
-       "position": "DF",
-       "number": null,
-       "order": 4,
-       "stats": {
-        "player_id": "7hO265pQ",
-        "name": "네이선 콜린스",
-        "position": "DF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/7hO265pQ.png"
-       }
-      },
-      {
-       "player_id": "1662121",
-       "name": "루이스-포터",
-       "position": "DF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "822586",
-       "name": "야넬트",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "39fK2PNC",
-       "name": "상가레",
-       "position": "MF",
-       "number": null,
-       "order": 7,
-       "stats": {
-        "player_id": "39fK2PNC",
-        "name": "마마두 상가레",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/39fK2PNC.png"
-       }
-      },
-      {
-       "player_id": "2200344",
-       "name": "와타라",
-       "position": "MF",
-       "number": null,
-       "order": 8,
-       "stats": {
-        "player_id": "2200344",
-        "name": "단고 와타라",
-        "position": "FW",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2200344.png"
-       }
-      },
-      {
-       "player_id": "775687",
-       "name": "옌센",
-       "position": "MF",
-       "number": null,
-       "order": 9
-      },
-      {
-       "player_id": "1575774",
-       "name": "샤데",
-       "position": "MF",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "MGqgNf6K",
-       "name": "치아구",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ],
-     "away": [
-      {
-       "player_id": "uJSIV80q",
-       "name": "킨스키",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "2278985",
-       "name": "그레이",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "1630352",
-       "name": "반 헤케",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "954708",
-       "name": "세네시",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "478510",
-       "name": "로버트슨",
-       "position": "DF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "1265128",
-       "name": "토날리",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "2397923",
-       "name": "베리발",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "o0jSiO6f",
-       "name": "무어",
-       "position": "MF",
-       "number": null,
-       "order": 8
-      },
-      {
-       "player_id": "1297742",
-       "name": "갤러거",
-       "position": "MF",
-       "number": null,
-       "order": 9
-      },
-      {
-       "player_id": "2059277",
-       "name": "텔",
-       "position": "MF",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "992069",
-       "name": "히샬리송",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ]
-    },
-    "source": "네이버 스포츠 공식 경기·시즌 기록",
-    "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-23T02:32:18+09:00",
-    "key_players": {
-     "home": [
-      {
-       "player_id": "7hO265pQ",
-       "name": "네이선 콜린스",
-       "position": "DF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/7hO265pQ.png"
-      },
-      {
-       "player_id": "2200344",
-       "name": "단고 와타라",
-       "position": "FW",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2200344.png"
-      },
-      {
-       "player_id": "39fK2PNC",
-       "name": "마마두 상가레",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/39fK2PNC.png"
-      },
-      {
-       "player_id": "2164250",
-       "name": "마이클 카요데",
-       "position": "DF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/2164250.png"
-      }
-     ],
-     "away": []
-    },
-    "benches": {},
-    "formations": {
-     "home": "4231",
-     "away": "4231"
-    },
-    "lineup_status": {
-     "state": "announced",
-     "expected_at": "2026-08-23T00:30:00+09:00"
-    },
-    "game_id": "H8VJfF8YleL5HLM"
-   },
+   "선발": null,
    "라인업": {},
    "슈팅폼": {},
    "라인업메모": "",
@@ -73022,9 +73131,9 @@
    "status": "정산",
    "score": [
     1,
-    0
+    1
    ],
-   "결과": "하프타임",
+   "결과": "무승부",
    "options": [
     {
      "market": "승무패",
@@ -73053,7 +73162,7 @@
      "예상손익": -0.2056,
      "괴리": 0.0184,
      "게임번호": "5736",
-     "적중": false,
+     "적중": true,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
     },
     {
@@ -73083,7 +73192,7 @@
      "예상손익": 0.0391,
      "괴리": 0.0743,
      "게임번호": "5737",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -73128,7 +73237,7 @@
      "예상손익": -0.2089,
      "괴리": 0.0671,
      "게임번호": "5738",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -73209,353 +73318,7 @@
     "trend": "유지"
    },
    "h2h": "시즌 맞대결은 코모1907이 1승 0패 1무로 앞선다. 최근 두 번의 맞대결은 1-0, 0-0였다",
-   "선발": {
-    "home": null,
-    "away": null,
-    "home_detail": null,
-    "away_detail": null,
-    "teams": {
-     "home": {
-      "rank": 3,
-      "played": 0,
-      "wins": 0,
-      "draws": 1,
-      "losses": 0,
-      "points": 1,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     },
-     "away": {
-      "rank": 2,
-      "played": 0,
-      "wins": 0,
-      "draws": 1,
-      "losses": 0,
-      "points": 1,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     }
-    },
-    "unavailable": {
-     "home": [],
-     "away": []
-    },
-    "lineups": {
-     "home": [
-      {
-       "player_id": "937200",
-       "name": "오코예",
-       "position": "GK",
-       "number": null,
-       "order": 1,
-       "stats": {
-        "player_id": "937200",
-        "name": "마두카 오코예",
-        "position": "GK",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/937200.png"
-       }
-      },
-      {
-       "player_id": "wMOQZJbi",
-       "name": "아방콰",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "q3fBWZUF",
-       "name": "팔마",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "Oh8abTU1",
-       "name": "솔레",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "uqLr7WwT",
-       "name": "보이보다",
-       "position": "MF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "KAtmVSJa",
-       "name": "칼스트룀",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "s3otUoIA",
-       "name": "피오트로프스키",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "uSkeIUKI",
-       "name": "카마라",
-       "position": "MF",
-       "number": null,
-       "order": 8
-      },
-      {
-       "player_id": "1088400",
-       "name": "자니올로",
-       "position": "MF",
-       "number": null,
-       "order": 9,
-       "stats": {
-        "player_id": "1088400",
-        "name": "니콜로 자니올로",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/1088400.png"
-       }
-      },
-      {
-       "player_id": "5MLvkfLh",
-       "name": "에켈렌캠프",
-       "position": "MF",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "SURafbAQ",
-       "name": "게예",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ],
-     "away": [
-      {
-       "player_id": "4RnDcA8k",
-       "name": "뷔테즈",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "1957237",
-       "name": "얀 쿠토",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "eBBHmzgD",
-       "name": "하코보 라몬",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "936112",
-       "name": "찰로바",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "1dqJLI21",
-       "name": "알렉스 바예",
-       "position": "DF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "2101874",
-       "name": "페로네",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "891594",
-       "name": "루이스 미야",
-       "position": "MF",
-       "number": null,
-       "order": 7,
-       "stats": {
-        "player_id": "891594",
-        "name": "루이스 밀라",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/891594.png"
-       }
-      },
-      {
-       "player_id": "bF5jE9tV",
-       "name": "니코 파스",
-       "position": "MF",
-       "number": null,
-       "order": 8,
-       "stats": {
-        "player_id": "bF5jE9tV",
-        "name": "니코 파스",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/bF5jE9tV.png"
-       }
-      },
-      {
-       "player_id": "vnnL9MJo",
-       "name": "바투리나",
-       "position": "MF",
-       "number": null,
-       "order": 9
-      },
-      {
-       "player_id": "erUnf6hs",
-       "name": "헤수스 로드리게스",
-       "position": "MF",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "1264266",
-       "name": "두비카스",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ]
-    },
-    "source": "네이버 스포츠 공식 경기·시즌 기록",
-    "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
-    "key_players": {
-     "home": [
-      {
-       "player_id": "1088400",
-       "name": "니콜로 자니올로",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/1088400.png"
-      },
-      {
-       "player_id": "937200",
-       "name": "마두카 오코예",
-       "position": "GK",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/937200.png"
-      }
-     ],
-     "away": [
-      {
-       "player_id": "bF5jE9tV",
-       "name": "니코 파스",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/bF5jE9tV.png"
-      },
-      {
-       "player_id": "891594",
-       "name": "루이스 밀라",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/891594.png"
-      }
-     ]
-    },
-    "benches": {},
-    "formations": {
-     "home": "3421",
-     "away": "4231"
-    },
-    "lineup_status": {
-     "state": "announced",
-     "expected_at": "2026-08-23T00:30:00+09:00"
-    },
-    "game_id": "CUuWnFEaj0BNh4f"
-   },
+   "선발": null,
    "라인업": {},
    "슈팅폼": {},
    "라인업메모": "",
@@ -73587,10 +73350,10 @@
    "no_model": false,
    "status": "정산",
    "score": [
-    1,
+    4,
     1
    ],
-   "결과": "하프타임",
+   "결과": "홈승",
    "options": [
     {
      "market": "승무패",
@@ -73604,7 +73367,7 @@
      "예상손익": -0.1849,
      "괴리": 0.094,
      "게임번호": "5730",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -73649,7 +73412,7 @@
      "예상손익": -0.265,
      "괴리": 0.1127,
      "게임번호": "5731",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -73694,7 +73457,7 @@
      "예상손익": -0.3588,
      "괴리": 0.0986,
      "게임번호": "5732",
-     "적중": false,
+     "적중": true,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
     },
     {
@@ -73754,7 +73517,7 @@
      "예상손익": -0.0117,
      "괴리": 0.0578,
      "게임번호": "5733",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -73784,7 +73547,7 @@
      "예상손익": -0.1299,
      "괴리": 0.0228,
      "게임번호": "5734",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -73838,385 +73601,7 @@
    },
    "form_away": null,
    "h2h": null,
-   "선발": {
-    "home": null,
-    "away": null,
-    "home_detail": null,
-    "away_detail": null,
-    "teams": {
-     "home": {
-      "rank": 1,
-      "played": 0,
-      "wins": 1,
-      "draws": 0,
-      "losses": 0,
-      "points": 3,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     },
-     "away": {
-      "rank": 20,
-      "played": 0,
-      "wins": 0,
-      "draws": 0,
-      "losses": 1,
-      "points": 0,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     }
-    },
-    "unavailable": {
-     "home": [],
-     "away": []
-    },
-    "lineups": {
-     "home": [
-      {
-       "player_id": "1011959",
-       "name": "호셉 마르티네스",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "1259458",
-       "name": "비세크",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "545566",
-       "name": "아칸지",
-       "position": "DF",
-       "number": null,
-       "order": 3,
-       "stats": {
-        "player_id": "545566",
-        "name": "마누엘 아칸지",
-        "position": "DF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/545566.png"
-       }
-      },
-      {
-       "player_id": "581331",
-       "name": "바스토니",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "2059275",
-       "name": "디우프",
-       "position": "MF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "541688",
-       "name": "바렐라",
-       "position": "MF",
-       "number": null,
-       "order": 6,
-       "stats": {
-        "player_id": "541688",
-        "name": "니콜로 바렐라",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/541688.png"
-       }
-      },
-      {
-       "player_id": "484320",
-       "name": "찰하놀루",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "495336",
-       "name": "지엘린스키",
-       "position": "MF",
-       "number": null,
-       "order": 8
-      },
-      {
-       "player_id": "545663",
-       "name": "디마르코",
-       "position": "MF",
-       "number": null,
-       "order": 9
-      },
-      {
-       "player_id": "jGzIhVlb",
-       "name": "에스포지토",
-       "position": "FW",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "925842",
-       "name": "라우타로 마르티네스",
-       "position": "FW",
-       "number": null,
-       "order": 11,
-       "stats": {
-        "player_id": "925842",
-        "name": "라우타로 마르티네스",
-        "position": "FW",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/925842.png"
-       }
-      }
-     ],
-     "away": [
-      {
-       "player_id": "Uw3t9f35",
-       "name": "피치냐코",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "odX8IpyD",
-       "name": "쿠아디오",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "JMwr1ctr",
-       "name": "루케시",
-       "position": "DF",
-       "number": null,
-       "order": 3,
-       "stats": {
-        "player_id": "JMwr1ctr",
-        "name": "로렌조 루케시",
-        "position": "DF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/JMwr1ctr.png"
-       }
-      },
-      {
-       "player_id": "1991827",
-       "name": "카르보니",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "hCmx2d6O",
-       "name": "바쿠네",
-       "position": "MF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "o6UTrBMx",
-       "name": "포-온도아",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "K7Gk1Hn2",
-       "name": "무트",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "1065876",
-       "name": "비린델리",
-       "position": "MF",
-       "number": null,
-       "order": 8
-      },
-      {
-       "player_id": "Ipnpw2or",
-       "name": "콜파니",
-       "position": "FW",
-       "number": null,
-       "order": 9
-      },
-      {
-       "player_id": "FeDKVLz0",
-       "name": "구스타보 바렐라",
-       "position": "FW",
-       "number": null,
-       "order": 10,
-       "stats": {
-        "player_id": "FeDKVLz0",
-        "name": "구스타보 바렐라",
-        "position": "FW",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/FeDKVLz0.png"
-       }
-      },
-      {
-       "player_id": "sJDKVKIx",
-       "name": "히카르두 망가스",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ]
-    },
-    "source": "네이버 스포츠 공식 경기·시즌 기록",
-    "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-23T02:32:18+09:00",
-    "key_players": {
-     "home": [
-      {
-       "player_id": "541688",
-       "name": "니콜로 바렐라",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/541688.png"
-      },
-      {
-       "player_id": "925842",
-       "name": "라우타로 마르티네스",
-       "position": "FW",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/925842.png"
-      },
-      {
-       "player_id": "545566",
-       "name": "마누엘 아칸지",
-       "position": "DF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/545566.png"
-      }
-     ],
-     "away": [
-      {
-       "player_id": "FeDKVLz0",
-       "name": "구스타보 바렐라",
-       "position": "FW",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/FeDKVLz0.png"
-      },
-      {
-       "player_id": "JMwr1ctr",
-       "name": "로렌조 루케시",
-       "position": "DF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/JMwr1ctr.png"
-      }
-     ]
-    },
-    "benches": {},
-    "formations": {
-     "home": "352",
-     "away": "343"
-    },
-    "lineup_status": {
-     "state": "announced",
-     "expected_at": "2026-08-23T00:30:00+09:00"
-    },
-    "game_id": "o8ZAi7PGNwb2ZMD"
-   },
+   "선발": null,
    "라인업": {},
    "슈팅폼": {},
    "라인업메모": "",
@@ -74248,10 +73633,10 @@
    "no_model": false,
    "status": "정산",
    "score": [
-    1,
-    1
+    3,
+    3
    ],
-   "결과": "하프타임",
+   "결과": "무승부",
    "options": [
     {
      "market": "승무패",
@@ -74280,7 +73665,7 @@
      "예상손익": -0.2248,
      "괴리": 0.0223,
      "게임번호": "5740",
-     "적중": false,
+     "적중": true,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
     },
     {
@@ -74310,7 +73695,7 @@
      "예상손익": -0.1912,
      "괴리": 0.0699,
      "게임번호": "5741",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -74370,7 +73755,7 @@
      "예상손익": -0.0557,
      "괴리": 0.0333,
      "게임번호": "5742",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -74436,663 +73821,7 @@
     "trend": "상승"
    },
    "h2h": "시즌 맞대결은 스파로테가 1승 0패로 앞선다. 최근 두 번의 맞대결은 0-1였다",
-   "선발": {
-    "home": null,
-    "away": null,
-    "home_detail": null,
-    "away_detail": null,
-    "teams": {
-     "home": {
-      "rank": 12,
-      "played": 2,
-      "wins": 1,
-      "draws": 0,
-      "losses": 1,
-      "points": 3,
-      "goals_per_game": 1.5,
-      "conceded_per_game": 1,
-      "xg": 4.05,
-      "xga": 5.01,
-      "possession": 40.2,
-      "last_five": "WL"
-     },
-     "away": {
-      "rank": 14,
-      "played": 2,
-      "wins": 0,
-      "draws": 0,
-      "losses": 2,
-      "points": 0,
-      "goals_per_game": 1,
-      "conceded_per_game": 3,
-      "xg": 2.95,
-      "xga": 3.65,
-      "possession": 44.8,
-      "last_five": "LL"
-     }
-    },
-    "unavailable": {
-     "home": [],
-     "away": [
-      {
-       "name": "애드리언 블레이크",
-       "position": "FW",
-       "status": "경기 명단 미포함 · 사유 확인 필요"
-      }
-     ]
-    },
-    "lineups": {
-     "home": [
-      {
-       "player_id": "L9Vczoqm",
-       "name": "베드나렉",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "F3mE4BTz",
-       "name": "영",
-       "position": "DF",
-       "number": null,
-       "order": 2,
-       "stats": {
-        "player_id": "F3mE4BTz",
-        "name": "마빈 영",
-        "position": "DF",
-        "apps": 2,
-        "starts": 2,
-        "goals": 1,
-        "assists": 0,
-        "xg": 0.62,
-        "xa": 0.01,
-        "shots": 2,
-        "shots_on_target": 1,
-        "key_passes": 0,
-        "minutes": 180,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/F3mE4BTz.png"
-       }
-      },
-      {
-       "player_id": "L5jmO0kl",
-       "name": "페르슈런",
-       "position": "DF",
-       "number": null,
-       "order": 3,
-       "stats": {
-        "player_id": "L5jmO0kl",
-        "name": "닉 페르슈런",
-        "position": "DF",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0.12,
-        "xa": 0.01,
-        "shots": 1,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 180,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/L5jmO0kl.png"
-       }
-      },
-      {
-       "player_id": "0carS1Nk",
-       "name": "마르틴스 인디",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "an68Lwvr",
-       "name": "마르테스",
-       "position": "MF",
-       "number": null,
-       "order": 5,
-       "stats": {
-        "player_id": "an68Lwvr",
-        "name": "루셴드리 마르테스",
-        "position": "DF",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0.41,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 6,
-        "minutes": 180,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/an68Lwvr.png"
-       }
-      },
-      {
-       "player_id": "zkmLZ7XA",
-       "name": "미토",
-       "position": "MF",
-       "number": null,
-       "order": 6,
-       "stats": {
-        "player_id": "zkmLZ7XA",
-        "name": "미토 슌스케",
-        "position": "FW",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 1,
-        "xg": 0,
-        "xa": 0.41,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 1,
-        "minutes": 153,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/zkmLZ7XA.png"
-       }
-      },
-      {
-       "player_id": "PC4xEoht",
-       "name": "바스",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "3JZn446H",
-       "name": "카이퍼스",
-       "position": "MF",
-       "number": null,
-       "order": 8,
-       "stats": {
-        "player_id": "3JZn446H",
-        "name": "바스 카이퍼스",
-        "position": "DF",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 1,
-        "xg": 0.02,
-        "xa": 0.31,
-        "shots": 1,
-        "shots_on_target": 0,
-        "key_passes": 2,
-        "minutes": 180,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/3JZn446H.png"
-       }
-      },
-      {
-       "player_id": "HFFSSMeg",
-       "name": "반 크루이센",
-       "position": "FW",
-       "number": null,
-       "order": 9,
-       "stats": {
-        "player_id": "HFFSSMeg",
-        "name": "로빈 반 크루이센",
-        "position": "MF",
-        "apps": 2,
-        "starts": 0,
-        "goals": 1,
-        "assists": 0,
-        "xg": 0.41,
-        "xa": 0.01,
-        "shots": 1,
-        "shots_on_target": 1,
-        "key_passes": 0,
-        "minutes": 47,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/HFFSSMeg.png"
-       }
-      },
-      {
-       "player_id": "PatwVM76",
-       "name": "소리손",
-       "position": "FW",
-       "number": null,
-       "order": 10,
-       "stats": {
-        "player_id": "PatwVM76",
-        "name": "노크비 토리손",
-        "position": "FW",
-        "apps": 2,
-        "starts": 2,
-        "goals": 1,
-        "assists": 1,
-        "xg": 1.53,
-        "xa": 0.11,
-        "shots": 7,
-        "shots_on_target": 4,
-        "key_passes": 2,
-        "minutes": 147,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/PatwVM76.png"
-       }
-      },
-      {
-       "player_id": "Bcej9v6f",
-       "name": "산토스",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ],
-     "away": [
-      {
-       "player_id": "GyGNBM24",
-       "name": "바르카스",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "IcNK7nHE",
-       "name": "호레만스",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "PLOUiFVB",
-       "name": "디든",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "jAXSveLN",
-       "name": "네블 오기디 은완코",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "7XNXpxvk",
-       "name": "베스터룬드",
-       "position": "MF",
-       "number": null,
-       "order": 5,
-       "stats": {
-        "player_id": "7XNXpxvk",
-        "name": "니클라스 베스터룬드",
-        "position": "DF",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0.04,
-        "xa": 0.05,
-        "shots": 1,
-        "shots_on_target": 1,
-        "key_passes": 2,
-        "minutes": 180,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/7XNXpxvk.png"
-       }
-      },
-      {
-       "player_id": "943504",
-       "name": "드 위트",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "s816H11p",
-       "name": "반 덴 베르흐",
-       "position": "MF",
-       "number": null,
-       "order": 7,
-       "stats": {
-        "player_id": "s816H11p",
-        "name": "데이비 반 덴 베르흐",
-        "position": "MF",
-        "apps": 2,
-        "starts": 0,
-        "goals": 0,
-        "assists": 1,
-        "xg": 0,
-        "xa": 0.23,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 2,
-        "minutes": 56,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/s816H11p.png"
-       }
-      },
-      {
-       "player_id": "SdzcNcvX",
-       "name": "자그레",
-       "position": "MF",
-       "number": null,
-       "order": 8,
-       "stats": {
-        "player_id": "SdzcNcvX",
-        "name": "아서르 자그레",
-        "position": "DF",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0.65,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 5,
-        "minutes": 170,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/SdzcNcvX.png"
-       }
-      },
-      {
-       "player_id": "OapjJAvZ",
-       "name": "앙헬 알라르콘",
-       "position": "FW",
-       "number": null,
-       "order": 9,
-       "stats": {
-        "player_id": "OapjJAvZ",
-        "name": "앙헬 알라르콘",
-        "position": "FW",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 0,
-        "xg": 1.37,
-        "xa": 0.36,
-        "shots": 5,
-        "shots_on_target": 3,
-        "key_passes": 1,
-        "minutes": 174,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/OapjJAvZ.png"
-       }
-      },
-      {
-       "player_id": "uy5nKCWx",
-       "name": "스테파노프",
-       "position": "FW",
-       "number": null,
-       "order": 10,
-       "stats": {
-        "player_id": "uy5nKCWx",
-        "name": "아르템 스테파노프",
-        "position": "FW",
-        "apps": 1,
-        "starts": 1,
-        "goals": 1,
-        "assists": 0,
-        "xg": 0.31,
-        "xa": 0.12,
-        "shots": 1,
-        "shots_on_target": 1,
-        "key_passes": 1,
-        "minutes": 90,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/uy5nKCWx.png"
-       }
-      },
-      {
-       "player_id": "YZ7uvUOU",
-       "name": "카틀린",
-       "position": "FW",
-       "number": null,
-       "order": 11,
-       "stats": {
-        "player_id": "YZ7uvUOU",
-        "name": "요안 카틀린",
-        "position": "FW",
-        "apps": 2,
-        "starts": 2,
-        "goals": 0,
-        "assists": 1,
-        "xg": 0.29,
-        "xa": 0.22,
-        "shots": 2,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 124,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/YZ7uvUOU.png"
-       }
-      }
-     ]
-    },
-    "source": "네이버 스포츠 공식 경기·시즌 기록",
-    "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-23T02:32:18+09:00",
-    "key_players": {
-     "home": [
-      {
-       "player_id": "PatwVM76",
-       "name": "노크비 토리손",
-       "position": "FW",
-       "apps": 2,
-       "starts": 2,
-       "goals": 1,
-       "assists": 1,
-       "xg": 1.53,
-       "xa": 0.11,
-       "shots": 7,
-       "shots_on_target": 4,
-       "key_passes": 2,
-       "minutes": 147,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/PatwVM76.png"
-      },
-      {
-       "player_id": "F3mE4BTz",
-       "name": "마빈 영",
-       "position": "DF",
-       "apps": 2,
-       "starts": 2,
-       "goals": 1,
-       "assists": 0,
-       "xg": 0.62,
-       "xa": 0.01,
-       "shots": 2,
-       "shots_on_target": 1,
-       "key_passes": 0,
-       "minutes": 180,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/F3mE4BTz.png"
-      },
-      {
-       "player_id": "HFFSSMeg",
-       "name": "로빈 반 크루이센",
-       "position": "MF",
-       "apps": 2,
-       "starts": 0,
-       "goals": 1,
-       "assists": 0,
-       "xg": 0.41,
-       "xa": 0.01,
-       "shots": 1,
-       "shots_on_target": 1,
-       "key_passes": 0,
-       "minutes": 47,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/HFFSSMeg.png"
-      },
-      {
-       "player_id": "3JZn446H",
-       "name": "바스 카이퍼스",
-       "position": "DF",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 1,
-       "xg": 0.02,
-       "xa": 0.31,
-       "shots": 1,
-       "shots_on_target": 0,
-       "key_passes": 2,
-       "minutes": 180,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/3JZn446H.png"
-      },
-      {
-       "player_id": "zkmLZ7XA",
-       "name": "미토 슌스케",
-       "position": "FW",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 1,
-       "xg": 0,
-       "xa": 0.41,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 1,
-       "minutes": 153,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/zkmLZ7XA.png"
-      },
-      {
-       "player_id": "L5jmO0kl",
-       "name": "닉 페르슈런",
-       "position": "DF",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0.12,
-       "xa": 0.01,
-       "shots": 1,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 180,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/L5jmO0kl.png"
-      },
-      {
-       "player_id": "an68Lwvr",
-       "name": "루셴드리 마르테스",
-       "position": "DF",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0.41,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 6,
-       "minutes": 180,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/an68Lwvr.png"
-      }
-     ],
-     "away": [
-      {
-       "player_id": "uy5nKCWx",
-       "name": "아르템 스테파노프",
-       "position": "FW",
-       "apps": 1,
-       "starts": 1,
-       "goals": 1,
-       "assists": 0,
-       "xg": 0.31,
-       "xa": 0.12,
-       "shots": 1,
-       "shots_on_target": 1,
-       "key_passes": 1,
-       "minutes": 90,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/uy5nKCWx.png"
-      },
-      {
-       "player_id": "0l0A1RwQ",
-       "name": "애드리언 블레이크",
-       "position": "FW",
-       "apps": 2,
-       "starts": 0,
-       "goals": 1,
-       "assists": 0,
-       "xg": 0.24,
-       "xa": 0.19,
-       "shots": 2,
-       "shots_on_target": 1,
-       "key_passes": 0,
-       "minutes": 56,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/0l0A1RwQ.png"
-      },
-      {
-       "player_id": "YZ7uvUOU",
-       "name": "요안 카틀린",
-       "position": "FW",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 1,
-       "xg": 0.29,
-       "xa": 0.22,
-       "shots": 2,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 124,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/YZ7uvUOU.png"
-      },
-      {
-       "player_id": "s816H11p",
-       "name": "데이비 반 덴 베르흐",
-       "position": "MF",
-       "apps": 2,
-       "starts": 0,
-       "goals": 0,
-       "assists": 1,
-       "xg": 0,
-       "xa": 0.23,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 2,
-       "minutes": 56,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/s816H11p.png"
-      },
-      {
-       "player_id": "7XNXpxvk",
-       "name": "니클라스 베스터룬드",
-       "position": "DF",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0.04,
-       "xa": 0.05,
-       "shots": 1,
-       "shots_on_target": 1,
-       "key_passes": 2,
-       "minutes": 180,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/7XNXpxvk.png"
-      },
-      {
-       "player_id": "OapjJAvZ",
-       "name": "앙헬 알라르콘",
-       "position": "FW",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 0,
-       "xg": 1.37,
-       "xa": 0.36,
-       "shots": 5,
-       "shots_on_target": 3,
-       "key_passes": 1,
-       "minutes": 174,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/OapjJAvZ.png"
-      },
-      {
-       "player_id": "SdzcNcvX",
-       "name": "아서르 자그레",
-       "position": "DF",
-       "apps": 2,
-       "starts": 2,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0.65,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 5,
-       "minutes": 170,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/SdzcNcvX.png"
-      }
-     ]
-    },
-    "benches": {},
-    "formations": {
-     "home": "343",
-     "away": "343"
-    },
-    "lineup_status": {
-     "state": "announced",
-     "expected_at": "2026-08-23T00:45:00+09:00"
-    },
-    "game_id": "sEWxuAf0x66DWcS"
-   },
+   "선발": null,
    "라인업": {},
    "슈팅폼": {},
    "라인업메모": "",
@@ -75127,7 +73856,7 @@
     0,
     0
    ],
-   "결과": "1'",
+   "결과": "48'",
    "options": [
     {
      "market": "승무패",
@@ -75300,288 +74029,7 @@
    },
    "form_away": null,
    "h2h": null,
-   "선발": {
-    "home": null,
-    "away": null,
-    "home_detail": null,
-    "away_detail": null,
-    "teams": {
-     "home": {
-      "rank": 15,
-      "played": 0,
-      "wins": 0,
-      "draws": 0,
-      "losses": 0,
-      "points": 0,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     },
-     "away": {
-      "rank": 12,
-      "played": 0,
-      "wins": 0,
-      "draws": 0,
-      "losses": 0,
-      "points": 0,
-      "goals_per_game": 0,
-      "conceded_per_game": 0,
-      "xg": 0,
-      "xga": 0,
-      "possession": 0,
-      "last_five": ""
-     }
-    },
-    "unavailable": {
-     "home": [],
-     "away": []
-    },
-    "lineups": {
-     "home": [
-      {
-       "player_id": "97951",
-       "name": "디미트리예프스키",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "1637532",
-       "name": "헤수스 바스케스",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "2253033",
-       "name": "세자르 타레가",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "769521",
-       "name": "페펠루",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "GZ8VWa62",
-       "name": "드 하스",
-       "position": "DF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "487511",
-       "name": "호세 가야",
-       "position": "DF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "ZViDZFWE",
-       "name": "우그리니치",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "609752",
-       "name": "로드리게스",
-       "position": "MF",
-       "number": null,
-       "order": 8,
-       "stats": {
-        "player_id": "609752",
-        "name": "기도 로드리게스",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/609752.png"
-       }
-      },
-      {
-       "player_id": "q6EUGG1e",
-       "name": "사토",
-       "position": "MF",
-       "number": null,
-       "order": 9,
-       "stats": {
-        "player_id": "q6EUGG1e",
-        "name": "류노스케 사토",
-        "position": "MF",
-        "apps": 1,
-        "starts": 0,
-        "goals": 0,
-        "assists": 0,
-        "xg": 0,
-        "xa": 0,
-        "shots": 0,
-        "shots_on_target": 0,
-        "key_passes": 0,
-        "minutes": 0,
-        "image": "https://sports-phinf.pstatic.net/player/wfootball/default/q6EUGG1e.png"
-       }
-      },
-      {
-       "player_id": "2287743",
-       "name": "하비 게라",
-       "position": "FW",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "hQgGpEAz",
-       "name": "단주마",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ],
-     "away": [
-      {
-       "player_id": "5ai12cGP",
-       "name": "라두",
-       "position": "GK",
-       "number": null,
-       "order": 1
-      },
-      {
-       "player_id": "UMMSrqH6",
-       "name": "하비 로드리게스",
-       "position": "DF",
-       "number": null,
-       "order": 2
-      },
-      {
-       "player_id": "Ttp5h4xH",
-       "name": "요엘 라고",
-       "position": "DF",
-       "number": null,
-       "order": 3
-      },
-      {
-       "player_id": "446928",
-       "name": "마르코스 알론소",
-       "position": "DF",
-       "number": null,
-       "order": 4
-      },
-      {
-       "player_id": "1743259",
-       "name": "세르히오 카레이라",
-       "position": "MF",
-       "number": null,
-       "order": 5
-      },
-      {
-       "player_id": "B6kXUxto",
-       "name": "알레익스 페바스",
-       "position": "MF",
-       "number": null,
-       "order": 6
-      },
-      {
-       "player_id": "1SCrwCy7",
-       "name": "미겔 로만",
-       "position": "MF",
-       "number": null,
-       "order": 7
-      },
-      {
-       "player_id": "931006",
-       "name": "하비 갈란",
-       "position": "MF",
-       "number": null,
-       "order": 8
-      },
-      {
-       "player_id": "4KTk9HWI",
-       "name": "엘 압델라우이",
-       "position": "FW",
-       "number": null,
-       "order": 9
-      },
-      {
-       "player_id": "DGw3Uuu1",
-       "name": "페란 후틀가",
-       "position": "FW",
-       "number": null,
-       "order": 10
-      },
-      {
-       "player_id": "2244215",
-       "name": "우고 알바레스",
-       "position": "FW",
-       "number": null,
-       "order": 11
-      }
-     ]
-    },
-    "source": "네이버 스포츠 공식 경기·시즌 기록",
-    "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-23T02:32:18+09:00",
-    "key_players": {
-     "home": [
-      {
-       "player_id": "609752",
-       "name": "기도 로드리게스",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/609752.png"
-      },
-      {
-       "player_id": "q6EUGG1e",
-       "name": "류노스케 사토",
-       "position": "MF",
-       "apps": 1,
-       "starts": 0,
-       "goals": 0,
-       "assists": 0,
-       "xg": 0,
-       "xa": 0,
-       "shots": 0,
-       "shots_on_target": 0,
-       "key_passes": 0,
-       "minutes": 0,
-       "image": "https://sports-phinf.pstatic.net/player/wfootball/default/q6EUGG1e.png"
-      }
-     ],
-     "away": []
-    },
-    "benches": {},
-    "formations": {
-     "home": "532",
-     "away": "343"
-    },
-    "lineup_status": {
-     "state": "announced",
-     "expected_at": "2026-08-23T01:30:00+09:00"
-    },
-    "game_id": "x4u25seLOd6nsu5"
-   },
+   "선발": null,
    "라인업": {},
    "슈팅폼": {},
    "라인업메모": "",
@@ -75599,13 +74047,1228 @@
     }
    },
    "해설": "셀타비고의 승리 확률은 시장 기본값 기준 61%, 배당은 2.80으로 책정됐다. 하지만 최근 2연승을 달리는 발렌시아의 기세를 고려하면 일방적인 흐름을 예상하긴 조심스럽다. 발렌시아는 최근 10경기 모두 2점 차 이내 승부를 펼쳤을 만큼 접전 양상이 잦았다. 이 기간 5승 3패 2무를 기록하며 평균 1.6득점, 1.3실점을 기록 중이다. 반면 셀타비고는 이번 시즌 표본이 다소 부족한 상황이다. 홈에서 5승 3패로 강세를 보이는 발렌시아가 어떤 변수를 만들어낼지 지켜볼 필요가 있다."
+  },
+  {
+   "round": 99,
+   "date": "08.23(일) 02:35",
+   "league": "MLB",
+   "sport": "bs",
+   "home": "뉴욕양키",
+   "away": "토론블루",
+   "lam_home": 4.61,
+   "lam_away": 4.12,
+   "lam_src": "리그",
+   "no_model": false,
+   "status": "정산",
+   "score": [
+    0,
+    2
+   ],
+   "결과": "4회초",
+   "options": [
+    {
+     "market": "승패",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홈",
+     "배당": 1.7,
+     "모델확률": 0.5742,
+     "시장확률": 0.5194,
+     "예상손익": -0.0239,
+     "괴리": 0.0548,
+     "게임번호": "5748",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "승패",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "원정",
+     "배당": 1.82,
+     "모델확률": 0.4258,
+     "시장확률": 0.4806,
+     "예상손익": -0.225,
+     "괴리": 0.0548,
+     "게임번호": "5748",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "홈2+",
+     "배당": 2.45,
+     "모델확률": 0.3619,
+     "시장확률": 0.3575,
+     "예상손익": -0.1134,
+     "괴리": 0.0044,
+     "게임번호": "5749",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "1점차",
+     "배당": 3.15,
+     "모델확률": 0.3904,
+     "시장확률": 0.2701,
+     "예상손익": 0.2297,
+     "괴리": 0.1203,
+     "게임번호": "5749",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "원정2+",
+     "배당": 2.36,
+     "모델확률": 0.2477,
+     "시장확률": 0.3725,
+     "예상손익": -0.4154,
+     "괴리": 0.1248,
+     "게임번호": "5749",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 2,
+     "label": "H -2.5",
+     "line": -2.5,
+     "선택": "핸디홈",
+     "배당": 3.46,
+     "모델확률": 0.2433,
+     "시장확률": 0.2208,
+     "예상손익": -0.1582,
+     "괴리": 0.0225,
+     "게임번호": "5750",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 2,
+     "label": "H -2.5",
+     "line": -2.5,
+     "선택": "핸디원정",
+     "배당": 1.18,
+     "모델확률": 0.7567,
+     "시장확률": 0.7792,
+     "예상손익": -0.1071,
+     "괴리": 0.0225,
+     "게임번호": "5750",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 7.5",
+     "line": 7.5,
+     "선택": "언더",
+     "배당": 1.59,
+     "모델확률": 0.3559,
+     "시장확률": 0.5607,
+     "예상손익": -0.4341,
+     "괴리": 0.2047,
+     "게임번호": "5751",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 7.5",
+     "line": 7.5,
+     "선택": "오버",
+     "배당": 1.97,
+     "모델확률": 0.6441,
+     "시장확률": 0.4393,
+     "예상손익": 0.2688,
+     "괴리": 0.2047,
+     "게임번호": "5751",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홀",
+     "배당": 1.57,
+     "모델확률": 0.5,
+     "시장확률": 0.5815,
+     "예상손익": -0.215,
+     "괴리": 0.0815,
+     "게임번호": "5752",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "짝",
+     "배당": 2.11,
+     "모델확률": 0.5,
+     "시장확률": 0.4185,
+     "예상손익": 0.055,
+     "괴리": 0.0815,
+     "게임번호": "5752",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    }
+   ],
+   "홈승률": 0.5751,
+   "판단": "홈 근소",
+   "추천": null,
+   "선택지수": 11,
+   "form_src": "리그",
+   "form_home": {
+    "w": 54,
+    "l": 45,
+    "d": 0,
+    "last10": "5승 5패",
+    "streak": "",
+    "home": "19-21",
+    "away": "35-24",
+    "avg_scored": 3.9,
+    "avg_conceded": 4.5,
+    "rest_days": null,
+    "trend": "유지"
+   },
+   "form_away": {
+    "w": 47,
+    "l": 54,
+    "d": 0,
+    "last10": "4승 6패",
+    "streak": "",
+    "home": "26-30",
+    "away": "21-24",
+    "avg_scored": 3.3,
+    "avg_conceded": 4.8,
+    "rest_days": null,
+    "trend": "상승"
+   },
+   "h2h": "시즌 맞대결은 뉴욕양키가 4승 3패로 앞선다. 최근 두 번의 맞대결은 1-3, 3-8였다",
+   "선발": {
+    "home": "Ryan Weathers",
+    "away": "Dylan Cease",
+    "home_detail": {
+     "name": "Ryan Weathers",
+     "player_id": 677960,
+     "announced": true,
+     "stats": {
+      "era": 3.54,
+      "whip": 1.22,
+      "k9": 9.37,
+      "bb9": 2.49,
+      "hr9": 1.18,
+      "avg_ip": 5.49,
+      "games_started": 25,
+      "wins": 5,
+      "losses": 7,
+      "period": "2026 시즌",
+      "low_sample": false
+     },
+     "stats_source": "MLB Stats API 시즌 투구 기록"
+    },
+    "away_detail": {
+     "name": "Dylan Cease",
+     "player_id": 656302,
+     "announced": true,
+     "stats": {
+      "era": 2.37,
+      "whip": 1.05,
+      "k9": 13.18,
+      "bb9": 3.9,
+      "hr9": 0.58,
+      "avg_ip": 5.86,
+      "games_started": 24,
+      "wins": 7,
+      "losses": 5,
+      "period": "2026 시즌",
+      "low_sample": false
+     },
+     "stats_source": "MLB Stats API 시즌 투구 기록"
+    },
+    "teams": {
+     "home": {
+      "wins": 73,
+      "losses": 55,
+      "pct": 0.57,
+      "abbreviation": "NYY"
+     },
+     "away": {
+      "wins": 63,
+      "losses": 67,
+      "pct": 0.485,
+      "abbreviation": "TOR"
+     }
+    },
+    "unavailable": {
+     "home": [
+      {
+       "name": "Aaron Judge",
+       "status": "60일 부상자 명단",
+       "position": "RF"
+      },
+      {
+       "name": "Clarke Schmidt",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Cody Bellinger",
+       "status": "10일 부상자 명단",
+       "position": "LF"
+      },
+      {
+       "name": "Giancarlo Stanton",
+       "status": "10일 부상자 명단",
+       "position": "DH"
+      },
+      {
+       "name": "Kervin Castro",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Max Fried",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Ryan McMahon",
+       "status": "10일 부상자 명단",
+       "position": "3B"
+      }
+     ],
+     "away": [
+      {
+       "name": "Addison Barger",
+       "status": "60일 부상자 명단",
+       "position": "RF"
+      },
+      {
+       "name": "Anthony Santander",
+       "status": "60일 부상자 명단",
+       "position": "RF"
+      },
+      {
+       "name": "Bowden Francis",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Cody Ponce",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Jake Bloss",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Jameson Taillon",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Joe Mantiply",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Jonatan Clase",
+       "status": "10일 부상자 명단",
+       "position": "LF"
+      },
+      {
+       "name": "José Berríos",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Josh Smith",
+       "status": "10일 부상자 명단",
+       "position": "2B"
+      },
+      {
+       "name": "Luis Urías",
+       "status": "10일 부상자 명단",
+       "position": "2B"
+      },
+      {
+       "name": "Patrick Corbin",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Trey Yesavage",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Vladimir Guerrero Jr.",
+       "status": "7일 부상자 명단",
+       "position": "1B"
+      },
+      {
+       "name": "Yimi García",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      }
+     ]
+    },
+    "lineups": {
+     "home": [
+      {
+       "name": "Trent Grisham",
+       "position": "CF",
+       "order": 1
+      },
+      {
+       "name": "Ben Rice",
+       "position": "DH",
+       "order": 2
+      },
+      {
+       "name": "Heliot Ramos",
+       "position": "LF",
+       "order": 3
+      },
+      {
+       "name": "Luis García Jr.",
+       "position": "1B",
+       "order": 4
+      },
+      {
+       "name": "Spencer Jones",
+       "position": "RF",
+       "order": 5
+      },
+      {
+       "name": "George Lombard Jr.",
+       "position": "SS",
+       "order": 6
+      },
+      {
+       "name": "Jazz Chisholm Jr.",
+       "position": "2B",
+       "order": 7
+      },
+      {
+       "name": "Austin Wells",
+       "position": "C",
+       "order": 8
+      },
+      {
+       "name": "José Caballero",
+       "position": "3B",
+       "order": 9
+      }
+     ],
+     "away": [
+      {
+       "name": "Brett Bateman",
+       "position": "RF",
+       "order": 1
+      },
+      {
+       "name": "Vladimir Guerrero Jr.",
+       "position": "1B",
+       "order": 2
+      },
+      {
+       "name": "Alejandro Kirk",
+       "position": "C",
+       "order": 3
+      },
+      {
+       "name": "George Springer",
+       "position": "DH",
+       "order": 4
+      },
+      {
+       "name": "Kazuma Okamoto",
+       "position": "3B",
+       "order": 5
+      },
+      {
+       "name": "Ernie Clement",
+       "position": "SS",
+       "order": 6
+      },
+      {
+       "name": "Daz Cameron",
+       "position": "LF",
+       "order": 7
+      },
+      {
+       "name": "Charles McAdoo",
+       "position": "2B",
+       "order": 8
+      },
+      {
+       "name": "Myles Straw",
+       "position": "CF",
+       "order": 9
+      }
+     ]
+    },
+    "source": "MLB Stats API",
+    "source_url": "https://www.mlb.com/probable-pitchers",
+    "updated_at": "2026-08-22T18:41:47+00:00",
+    "key_players": {},
+    "benches": {},
+    "formations": {},
+    "lineup_status": {},
+    "game_id": "823509"
+   },
+   "라인업": {},
+   "슈팅폼": {},
+   "라인업메모": "",
+   "시장문맥": {
+    "total": {
+     "line": 7.5,
+     "label": "U 7.5"
+    },
+    "handicap": {
+     "label": "H -2.5",
+     "home_market": 0.2208,
+     "home_model": 0.2433,
+     "away_market": 0.7792,
+     "away_model": 0.7567
+    },
+    "margin_band": {
+     "label": "1점차",
+     "close_market": 0.2701,
+     "close_model": 0.3904
+    }
+   },
+   "해설": "뉴욕양키(52%)와 토론블루가 사실상 대등한 시장 평가를 받는 가운데, 배당은 1.70을 기록 중인 뉴욕양키 쪽이 조금 더 낮게 형성되어 있습니다. 발매 기준 총득점은 오버를 향하는 흐름입니다.\n\n토론블루는 최근 5경기 득실 마진이 -3.6에서 +0.6으로 개선되며 경기력을 끌어올리는 모습입니다. 다만 최근 10경기 성적은 4승 6패, 평균 3.3득점 4.8실점에 그치며 최근 3경기는 2승 1패로 기복을 보였습니다. 뉴욕양키 역시 최근 10경기 5승 5패, 평균 3.9득점 4.5실점으로 흐름이 일정치 않으며, 최근 3경기는 2승 1패를 기록했습니다.\n\n두 팀 모두 홈과 원정 성적이 5할 언저리인 점도 비슷합니다. 뉴욕양키는 홈에서 19승 21패, 토론블루는 원정에서 21승 24패를 기록 중입니다. 시즌 맞대결은 뉴욕양키가 4승 3패로 근소하게 우위이나, 최근 두 번의 맞대결에서는 1-3, 3-8로 패했습니다. 뉴욕양키의 최근 10경기 중 6경기가 2점 차 이내 승부였을 만큼 접전이 잦았다는 점은 눈여겨볼 대목입니다. 최근 지표로 계산한 합계는 8.2점 안팎으로, 실제 기준선인 7.5점을 웃돌 것으로 보입니다."
+  },
+  {
+   "round": 99,
+   "date": "08.23(일) 03:10",
+   "league": "MLB",
+   "sport": "bs",
+   "home": "밀워브루",
+   "away": "애틀브레",
+   "lam_home": 4.85,
+   "lam_away": 4.24,
+   "lam_src": "리그",
+   "no_model": false,
+   "status": "정산",
+   "score": [
+    0,
+    1
+   ],
+   "결과": "2회말",
+   "options": [
+    {
+     "market": "승패",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홈",
+     "배당": 1.44,
+     "모델확률": 0.592,
+     "시장확률": 0.626,
+     "예상손익": -0.1475,
+     "괴리": 0.034,
+     "게임번호": "5757",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "승패",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "원정",
+     "배당": 2.26,
+     "모델확률": 0.408,
+     "시장확률": 0.374,
+     "예상손익": -0.078,
+     "괴리": 0.034,
+     "게임번호": "5757",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "홈2+",
+     "배당": 1.97,
+     "모델확률": 0.3812,
+     "시장확률": 0.4533,
+     "예상손익": -0.249,
+     "괴리": 0.0721,
+     "게임번호": "5758",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "1점차",
+     "배당": 3.3,
+     "모델확률": 0.3805,
+     "시장확률": 0.256,
+     "예상손익": 0.2557,
+     "괴리": 0.1245,
+     "게임번호": "5758",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "원정2+",
+     "배당": 2.95,
+     "모델확률": 0.2383,
+     "시장확률": 0.2906,
+     "예상손익": -0.2971,
+     "괴리": 0.0523,
+     "게임번호": "5758",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 2,
+     "label": "H -2.5",
+     "line": -2.5,
+     "선택": "핸디홈",
+     "배당": 2.64,
+     "모델확률": 0.2618,
+     "시장확률": 0.3106,
+     "예상손익": -0.3089,
+     "괴리": 0.0488,
+     "게임번호": "5759",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 2,
+     "label": "H -2.5",
+     "line": -2.5,
+     "선택": "핸디원정",
+     "배당": 1.32,
+     "모델확률": 0.7382,
+     "시장확률": 0.6894,
+     "예상손익": -0.0256,
+     "괴리": 0.0488,
+     "게임번호": "5759",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 7.5",
+     "line": 7.5,
+     "선택": "언더",
+     "배당": 1.77,
+     "모델확률": 0.3133,
+     "시장확률": 0.4968,
+     "예상손익": -0.4455,
+     "괴리": 0.1835,
+     "게임번호": "5760",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 7.5",
+     "line": 7.5,
+     "선택": "오버",
+     "배당": 1.75,
+     "모델확률": 0.6867,
+     "시장확률": 0.5032,
+     "예상손익": 0.2017,
+     "괴리": 0.1835,
+     "게임번호": "5760",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홀",
+     "배당": 1.59,
+     "모델확률": 0.5,
+     "시장확률": 0.5729,
+     "예상손익": -0.205,
+     "괴리": 0.0729,
+     "게임번호": "5761",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "짝",
+     "배당": 2.07,
+     "모델확률": 0.5,
+     "시장확률": 0.4271,
+     "예상손익": 0.035,
+     "괴리": 0.0729,
+     "게임번호": "5761",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    }
+   ],
+   "홈승률": 0.5911,
+   "판단": "홈 근소",
+   "추천": null,
+   "선택지수": 11,
+   "form_src": "리그",
+   "form_home": {
+    "w": 62,
+    "l": 37,
+    "d": 0,
+    "last10": "6승 4패",
+    "streak": "",
+    "home": "34-19",
+    "away": "28-18",
+    "avg_scored": 4.7,
+    "avg_conceded": 4.4,
+    "rest_days": null,
+    "trend": "유지"
+   },
+   "form_away": {
+    "w": 56,
+    "l": 43,
+    "d": 0,
+    "last10": "6승 4패",
+    "streak": "2연패",
+    "home": "30-18",
+    "away": "26-25",
+    "avg_scored": 4.4,
+    "avg_conceded": 5.4,
+    "rest_days": null,
+    "trend": "하락"
+   },
+   "h2h": "시즌 맞대결은 애틀브레가 2승 1패로 앞선다. 최근 두 번의 맞대결은 4-3, 4-9였다",
+   "선발": {
+    "home": "Logan Henderson",
+    "away": "Martín Pérez",
+    "home_detail": {
+     "name": "Logan Henderson",
+     "player_id": 701656,
+     "announced": true,
+     "stats": {
+      "era": 2.76,
+      "whip": 0.89,
+      "k9": 10.61,
+      "bb9": 1.79,
+      "hr9": 1.38,
+      "avg_ip": 5.03,
+      "games_started": 13,
+      "wins": 7,
+      "losses": 2,
+      "period": "2026 시즌",
+      "low_sample": false
+     },
+     "stats_source": "MLB Stats API 시즌 투구 기록"
+    },
+    "away_detail": {
+     "name": "Martín Pérez",
+     "player_id": 527048,
+     "announced": true,
+     "stats": {
+      "era": 3.12,
+      "whip": 1.2,
+      "k9": 6.73,
+      "bb9": 3.77,
+      "hr9": 0.88,
+      "avg_ip": 5.35,
+      "games_started": 21,
+      "wins": 8,
+      "losses": 7,
+      "period": "2026 시즌",
+      "low_sample": false
+     },
+     "stats_source": "MLB Stats API 시즌 투구 기록"
+    },
+    "teams": {
+     "home": {
+      "wins": 80,
+      "losses": 49,
+      "pct": 0.62,
+      "abbreviation": "MIL"
+     },
+     "away": {
+      "wins": 75,
+      "losses": 54,
+      "pct": 0.581,
+      "abbreviation": "ATL"
+     }
+    },
+    "unavailable": {
+     "home": [
+      {
+       "name": "Abner Uribe",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Angel Zerpa",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Brandon Woodruff",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Brian Fitzpatrick",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "JoJo Romero",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Joel Kuhnel",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Quinn Priester",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Rob Zastryzny",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Sal Frelick",
+       "status": "10일 부상자 명단",
+       "position": "RF"
+      }
+     ],
+     "away": [
+      {
+       "name": "Joe Jiménez",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Joey Wentz",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Reynaldo López",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Robert Suarez",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Spencer Schwellenbach",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Spencer Strider",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      }
+     ]
+    },
+    "lineups": {
+     "home": [
+      {
+       "name": "Jackson Chourio",
+       "position": "LF",
+       "order": 1
+      },
+      {
+       "name": "Brice Turang",
+       "position": "2B",
+       "order": 2
+      },
+      {
+       "name": "William Contreras",
+       "position": "C",
+       "order": 3
+      },
+      {
+       "name": "Jake Bauers",
+       "position": "RF",
+       "order": 4
+      },
+      {
+       "name": "Andrew Vaughn",
+       "position": "1B",
+       "order": 5
+      },
+      {
+       "name": "Christian Yelich",
+       "position": "DH",
+       "order": 6
+      },
+      {
+       "name": "Joey Ortiz",
+       "position": "3B",
+       "order": 7
+      },
+      {
+       "name": "Luis Lara",
+       "position": "CF",
+       "order": 8
+      },
+      {
+       "name": "Cooper Pratt",
+       "position": "SS",
+       "order": 9
+      }
+     ],
+     "away": [
+      {
+       "name": "Drake Baldwin",
+       "position": "C",
+       "order": 1
+      },
+      {
+       "name": "Ronald Acuña Jr.",
+       "position": "RF",
+       "order": 2
+      },
+      {
+       "name": "Matt Olson",
+       "position": "1B",
+       "order": 3
+      },
+      {
+       "name": "Michael Harris II",
+       "position": "CF",
+       "order": 4
+      },
+      {
+       "name": "Ozzie Albies",
+       "position": "DH",
+       "order": 5
+      },
+      {
+       "name": "Mauricio Dubón",
+       "position": "2B",
+       "order": 6
+      },
+      {
+       "name": "Mike Yastrzemski",
+       "position": "LF",
+       "order": 7
+      },
+      {
+       "name": "Austin Riley",
+       "position": "3B",
+       "order": 8
+      },
+      {
+       "name": "Jim Jarvis",
+       "position": "SS",
+       "order": 9
+      }
+     ]
+    },
+    "source": "MLB Stats API",
+    "source_url": "https://www.mlb.com/probable-pitchers",
+    "updated_at": "2026-08-22T18:41:47+00:00",
+    "key_players": {},
+    "benches": {},
+    "formations": {},
+    "lineup_status": {},
+    "game_id": "823743"
+   },
+   "라인업": {},
+   "슈팅폼": {},
+   "라인업메모": "",
+   "시장문맥": {
+    "total": {
+     "line": 7.5,
+     "label": "U 7.5"
+    },
+    "handicap": {
+     "label": "H -2.5",
+     "home_market": 0.3106,
+     "home_model": 0.2618,
+     "away_market": 0.6894,
+     "away_model": 0.7382
+    },
+    "margin_band": {
+     "label": "1점차",
+     "close_market": 0.256,
+     "close_model": 0.3805
+    }
+   },
+   "해설": "시장 기본값상 밀워브루 승리 확률은 63%, 배당은 1.44로 책정됐습니다. 실제 발매 기준점은 오버 쪽으로 쏠린 상태입니다.\n\n밀워브루는 최근 10경기 6승 4패를 기록했으나, 최근 3경기는 1승 2패로 흐름이 불안정합니다. 경기마다 득점 편차가 큰 편이며, 최근 10경기 평균 4.7득점 4.4실점을 보였습니다. 다만 홈에서는 34승 19패로 강한 면모를 보입니다. 10경기 중 5점 차 이상 대승이 3번 나올 만큼 터질 때 크게 벌리는 경향이 있습니다.\n\n애틀브레는 최근 10경기 6승 4패로 흐름은 나쁘지 않았으나, 최근 2연패 중이며 득실 마진이 +0.2에서 -2.2로 하락하는 등 경기 내용이 저하되고 있습니다. 최근 10경기 평균 4.4득점 5.4실점을 기록 중이며 원정 성적은 26승 25패로 5할 수준입니다. 잦은 접전 양상 속에 최근 10경기 중 7경기가 2점 차 이내 승부였습니다.\n\n시즌 맞대결은 애틀브레가 2승 1패로 우위이며, 직전 두 차례 맞대결 결과는 4-3과 4-9였습니다. 최근 지표로 계산한 합계는 9.5점 안팎으로, 실제 기준점인 7.5점과 비교하면 오버 가능성이 엿보입니다."
+  },
+  {
+   "round": 99,
+   "date": "08.23(일) 03:30",
+   "league": "독슈퍼컵",
+   "sport": "sc",
+   "home": "도르트문",
+   "away": "바이뮌헨",
+   "lam_home": 1.8,
+   "lam_away": 2.23,
+   "lam_src": "풀링",
+   "no_model": false,
+   "status": "정산",
+   "score": [
+    0,
+    0
+   ],
+   "결과": "11'",
+   "options": [
+    {
+     "market": "승무패",
+     "n_way": 3,
+     "label": "",
+     "line": null,
+     "선택": "홈",
+     "배당": 4.15,
+     "모델확률": 0.316,
+     "시장확률": 0.1959,
+     "예상손익": 0.3114,
+     "괴리": 0.1201,
+     "게임번호": "5762",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승무패",
+     "n_way": 3,
+     "label": "",
+     "line": null,
+     "선택": "무",
+     "배당": 4.05,
+     "모델확률": 0.2022,
+     "시장확률": 0.2016,
+     "예상손익": -0.181,
+     "괴리": 0.0006,
+     "게임번호": "5762",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승무패",
+     "n_way": 3,
+     "label": "",
+     "line": null,
+     "선택": "원정",
+     "배당": 1.51,
+     "모델확률": 0.4818,
+     "시장확률": 0.6024,
+     "예상손익": -0.2725,
+     "괴리": 0.1207,
+     "게임번호": "5762",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 3,
+     "label": "H +1.0",
+     "line": 1.0,
+     "선택": "핸디홈",
+     "배당": 2.22,
+     "모델확률": 0.5182,
+     "시장확률": 0.398,
+     "예상손익": 0.1505,
+     "괴리": 0.1202,
+     "게임번호": "5763",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 3,
+     "label": "H +1.0",
+     "line": 1.0,
+     "선택": "핸디무",
+     "배당": 3.65,
+     "모델확률": 0.1946,
+     "시장확률": 0.2281,
+     "예상손익": -0.2896,
+     "괴리": 0.0334,
+     "게임번호": "5763",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 3,
+     "label": "H +1.0",
+     "line": 1.0,
+     "선택": "핸디원정",
+     "배당": 2.35,
+     "모델확률": 0.2871,
+     "시장확률": 0.3739,
+     "예상손익": -0.3252,
+     "괴리": 0.0868,
+     "게임번호": "5763",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 3.5",
+     "line": 3.5,
+     "선택": "언더",
+     "배당": 1.77,
+     "모델확률": 0.4286,
+     "시장확률": 0.4968,
+     "예상손익": -0.2415,
+     "괴리": 0.0682,
+     "게임번호": "5764",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 3.5",
+     "line": 3.5,
+     "선택": "오버",
+     "배당": 1.75,
+     "모델확률": 0.5714,
+     "시장확률": 0.5032,
+     "예상손익": 0.0,
+     "괴리": 0.0682,
+     "게임번호": "5764",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홀",
+     "배당": 1.8,
+     "모델확률": 0.4998,
+     "시장확률": 0.5,
+     "예상손익": -0.1003,
+     "괴리": 0.0002,
+     "게임번호": "5765",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "짝",
+     "배당": 1.8,
+     "모델확률": 0.5002,
+     "시장확률": 0.5,
+     "예상손익": -0.0997,
+     "괴리": 0.0002,
+     "게임번호": "5765",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    }
+   ],
+   "홈승률": 0.3972,
+   "판단": "원정 우세",
+   "추천": null,
+   "선택지수": 10,
+   "form_src": "풀링",
+   "form_home": {
+    "w": 13,
+    "l": 3,
+    "d": 2,
+    "last10": "7승 3패",
+    "streak": "2연승",
+    "home": "8-2",
+    "away": "5-1",
+    "avg_scored": 2.0,
+    "avg_conceded": 1.0,
+    "rest_days": null,
+    "trend": "유지"
+   },
+   "form_away": {
+    "w": 14,
+    "l": 1,
+    "d": 3,
+    "last10": "8승 0패 2무",
+    "streak": "2연승",
+    "home": "6-1",
+    "away": "8-0",
+    "avg_scored": 3.3,
+    "avg_conceded": 1.3,
+    "rest_days": null,
+    "trend": "유지"
+   },
+   "h2h": "시즌 맞대결은 바이뮌헨이 1승 0패로 앞선다. 최근 두 번의 맞대결은 2-3였다",
+   "선발": null,
+   "라인업": {},
+   "슈팅폼": {},
+   "라인업메모": "",
+   "시장문맥": {
+    "total": {
+     "line": 3.5,
+     "label": "U 3.5"
+    },
+    "handicap": {
+     "label": "H +1.0",
+     "home_market": 0.398,
+     "home_model": 0.5182,
+     "away_market": 0.3739,
+     "away_model": 0.2871
+    }
+   },
+   "해설": "시장 기본값은 바이뮌헨 승리 80%, 배당 1.51로 나타납니다. 실 발매 기준 총득점은 오버 쪽으로 쏠려 있는데, 어라 포인트는 시장의 확신이 득점 분포 교차 마켓 진단보다 강하다는 점입니다. 시장은 바이뮌헨 승리를 80%로 점치지만, 검증 전 득점 모델은 이보다 20%p 낮은 60%를 예상합니다. 도르트문 핸디캡(H +1.0) 커버 가능성 역시 시장은 40%로 보나 모델은 52%로 더 높게 평가했습니다. 역배가 나온다면 정배가 압도당하기보다 접전이 길어지다 한 번의 득점으로 뒤집히는 그림이 될 것입니다. 투표 데이터가 없어 쏠림 의심 단계로만 분류하며, 도르트문의 최근 2연승 상승세를 고려하면 일방적인 흐름을 단정하긴 어렵습니다. 도르트문은 최근 10경기 중 9경기, 바이뮌헨은 6경기가 2점 차 이내였을 만큼 두 팀 모두 접전 양상이 잦았습니다. 도르트문은 최근 10경기 7승 3패로 평균 2.0득점 1.0실점을, 바이뮌헨은 8승 2무로 평균 3.3득점 1.3실점을 기록 중입니다. 도르트문은 홈 8승 2패, 바이뮌헨은 원정 8승 무패로 강세를 보입니다. 최근 지표를 합산한 예상치는 3.8골 내외로, 실제 기준선 3.5골 대비 오버 가능성이 높으며 평균 득점 추정치는 원정 팀이 0.5골 앞서 있습니다."
   }
  ],
  "tally": {
   "n": 23,
-  "wins": 14,
-  "hit_rate": 0.6087,
-  "roi": -0.1052
+  "wins": 15,
+  "hit_rate": 0.6522,
+  "roi": -0.0383
  },
  "note": "전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 경기마다 하나만 골라 보여줍니다.",
  "warning": "⚠️ 아직 베팅에 쓸 수 없습니다. 모델이 시장보다 부정확해서, 모델과 시장의 판단이 다를수록 모델이 틀렸을 확률이 높습니다. 그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다.",
