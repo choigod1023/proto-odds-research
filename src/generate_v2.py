@@ -45,7 +45,8 @@ from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from devig import market_probabilities                              # noqa: E402
 from recommendation_policy import automatic_selection_exclusion_reason  # noqa: E402
-from player_info import game_index, match_game                       # noqa: E402
+from player_info import (collect as collect_player_info, game_index, # noqa: E402
+                         match_game)
 from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
                        set_rest_days)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -231,7 +232,7 @@ def lineup_profiles() -> dict:
     return out
 
 
-def starters() -> dict:
+def starters(refresh: bool = False) -> dict:
     """날짜·팀 별칭으로 정규화한 경기별 선수 정보 인덱스.
 
     ⚠️ 왜 붙이나: 선발은 **경기마다 바뀌고 시장이 늦게 반영할 수 있는** 몇 안 되는
@@ -242,6 +243,13 @@ def starters() -> dict:
     팀 조합만 키로 쓰면 MLB 3연전의 어제 선발을 오늘 경기에 붙일 수 있다. 날짜를
     반드시 포함하고, team_map 의 검증된 프로토↔자료원 별칭을 통과시킨다.
     """
+    if refresh:
+        try:
+            # 30분 전용 looper가 아직 배포되지 않았어도 기존 시간별 생성기가 보조한다.
+            # 외부 장애면 collect 자체가 직전 MLB 캐시를 유지한다.
+            return game_index(collect_player_info())
+        except Exception as exc:  # noqa: BLE001 — 화면은 직전 캐시로 계속 만들어야 한다
+            print(f"선수정보 시간별 갱신 실패 — 직전 캐시 사용: {type(exc).__name__}: {exc}")
     return game_index()
 
 
@@ -661,7 +669,7 @@ def main() -> int:
     #    "최근 폼" 이라는 말이 무의미해진다.
     hist = load_history()
     FORMS, H2H = build_forms(hist, season=season)
-    STARTERS = starters()
+    STARTERS = starters(refresh=True)
     LINEUPS = lineup_profiles()
     TIERS = team_tiers()
     SHOTFORM = shot_form()
