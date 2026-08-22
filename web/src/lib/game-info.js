@@ -33,10 +33,10 @@ export function infoTabs(game, commentary = "") {
     || unavailableFor(game, "away").length || hasTendency || game?.["선발"]?.lineups;
   const tabs = [];
   if (commentary) tabs.push({ id: "summary", label: "요약" });
-  if (game?.sport === "bs" || starter || hasTendency) tabs.push({ id: "players", label: "선발·라인업" });
+  if (["bs", "sc"].includes(game?.sport) || starter || hasTendency) tabs.push({ id: "players", label: "선발·라인업" });
   if (team) tabs.push({ id: "teams", label: "팀 흐름" });
-  // 자료가 0명이어도 야구는 '현재 공식 부상 명단 없음/미연결'을 구분해 보여준다.
-  if (game?.sport === "bs" || availability) tabs.push({ id: "availability", label: "부상·출전" });
+  // 자료가 0명이어도 야구·축구는 '발표 전/명단 없음/미연결'을 구분해 보여준다.
+  if (["bs", "sc"].includes(game?.sport) || availability) tabs.push({ id: "availability", label: "부상·출전" });
   return tabs;
 }
 

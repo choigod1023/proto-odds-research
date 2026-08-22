@@ -14,6 +14,12 @@ test("경기 설명을 네 구획으로 나눈다", () => {
     ["summary", "players", "teams", "availability"]);
 });
 
+test("축구도 발표 전부터 선수·출전 탭을 숨기지 않는다", () => {
+  const game = { sport: "sc", form_home: { last10: "5승 3무 2패" } };
+  assert.deepEqual(infoTabs(game, "해설").map((x) => x.id),
+    ["summary", "players", "teams", "availability"]);
+});
+
 test("0도 유효한 투수 지표로 표시하고 부상 배열을 정리한다", () => {
   assert.deepEqual(pitcherMetrics({ stats: { era: 0, fip: null, games_started: 2 } }),
     [["ERA", 0], ["선발", 2]]);
