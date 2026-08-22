@@ -22,6 +22,12 @@ const PROFILES = {
   },
 };
 
+const CHALLENGE_TARGETS = [
+  { target: 2, label: "2배 도전" },
+  { target: 3, label: "3배 도전" },
+  { target: 5, label: "5배 한방" },
+];
+
 function readPreference() {
   const fallback = { profile: "balanced", budget: 10_000 };
   try {
@@ -68,6 +74,7 @@ export default function BetPreference({
 }) {
   const [preference, setPreference] = useState(readPreference);
   const [challenge, setChallenge] = useState(null);
+  const [challengeTarget, setChallengeTarget] = useState(3);
   const initialized = useRef(false);
   const appliedRecommendation = useRef(null);
 
@@ -95,7 +102,7 @@ export default function BetPreference({
 
   const profile = PROFILES[preference.profile];
   const selected = selectedIndex < 0 ? solo : plans[selectedIndex];
-  const challenges = challengeOptions(plans, preference.budget);
+  const challenges = challengeOptions(plans, preference.budget, challengeTarget);
   const activeChallenge = shouldPass && challenge && selectedIndex >= 0 &&
     planSignature(selected) === challenge.plan_signature;
   const unit = selectedIndex < 0 ? 1_000 : 100;
@@ -125,6 +132,11 @@ export default function BetPreference({
     }
     onSelect(option.plan_index);
     setChallenge({ ...option, plan_signature: signature });
+  };
+
+  const chooseChallengeTarget = (target) => {
+    setChallenge(null);
+    setChallengeTarget(target);
   };
 
   return (
@@ -165,8 +177,19 @@ export default function BetPreference({
         <div className="mt-2.5 rounded-lg border border-rule2 bg-panel p-3">
           <div className="text-[12px] font-semibold text-ink">손실 감수 도전픽</div>
           <div className="mt-0.5 text-[10.5px] leading-[1.55] text-ink3">
-            하루 예산의 30% 순이익을 목표로 금액마다 적중 가능성이 가장 높은 조합을 찾았다.
-            시장 우위 신호는 아니며 같은 카드를 다시 누르면 취소된다.
+            도전 강도와 투입 금액을 따로 고른다. 기본은 3배 도전이며 시장 우위 신호는 아니다.
+            같은 금액 카드를 다시 누르면 취소된다.
+          </div>
+          <div className="mt-2 flex flex-wrap gap-1.5" aria-label="도전 강도">
+            {CHALLENGE_TARGETS.map((item) => (
+              <Choice
+                key={item.target}
+                active={challengeTarget === item.target}
+                onClick={() => chooseChallengeTarget(item.target)}
+              >
+                {item.label}
+              </Choice>
+            ))}
           </div>
           <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
             {challenges.map((option) => {
@@ -185,9 +208,10 @@ export default function BetPreference({
                 >
                   <div className="flex items-center justify-between gap-2 text-[11px] text-ink3">
                     <span className="tnum font-semibold text-ink">{money(option.stake)}</span>
-                    <span>{option.target}배 도전</span>
+                    <span>{option.target}배 목표</span>
                   </div>
                   <div className="mt-1 text-[10.5px] leading-[1.5] text-ink2">
+                    실배당 <b className="tnum text-ink">{option.actual_odds.toFixed(2)}×</b><br />
                     보정 적중 <b className="tnum text-ink">{(option.calibrated_hit_est * 100).toFixed(1)}%</b><br />
                     적중 시 <b className="tnum text-ink">+{money(option.net_profit)}</b><br />
                     보수 손실 추정 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
