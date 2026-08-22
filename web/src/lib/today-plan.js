@@ -13,6 +13,11 @@ export const SAFE_TARGET_BINS = {
   12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 };
 
+export const DAILY_CHALLENGE_MIN_ROI = -0.20;
+export const DAILY_CHALLENGE_MIN_HIT = 0.55;
+export const DAILY_CHALLENGE_MAX_TARGET = 1.4;
+export const DAILY_CHALLENGE_BUDGET_RATIO = 0.10;
+
 export function kickoffTime(candidate, year) {
   const iso = Date.parse(candidate?.kickoff_at || "");
   if (Number.isFinite(iso)) return iso;
@@ -191,21 +196,39 @@ export function recommendationFromPlans(plans) {
   if (!available.length) return { action: "none", target: null, index: -1,
     why: "오늘 23:59 KST까지 구성 가능한 조합이 없다" };
   const positive = available.filter((plan) => Number(plan.conservative_expected_roi) > 0);
-  const pool = positive.length ? positive : available;
-  const best = [...pool].sort((a, b) => {
-    if (positive.length) {
-      const growth = kellyGrowth(b) - kellyGrowth(a);
-      if (growth) return growth;
-    }
-    return Number(b.conservative_expected_roi ?? -99) - Number(a.conservative_expected_roi ?? -99) ||
-      Number(b.calibrated_hit_est ?? 0) - Number(a.calibrated_hit_est ?? 0);
-  })[0];
+  const challenge = available.filter((plan) =>
+    Number(plan.target) <= DAILY_CHALLENGE_MAX_TARGET &&
+    Number(plan.conservative_expected_roi) >= DAILY_CHALLENGE_MIN_ROI &&
+    Number(plan.calibrated_hit_est) >= DAILY_CHALLENGE_MIN_HIT);
+  const byRiskAdjustedQuality = (a, b) =>
+    Number(b.conservative_expected_roi ?? -99) - Number(a.conservative_expected_roi ?? -99) ||
+    Number(b.calibrated_hit_est ?? 0) - Number(a.calibrated_hit_est ?? 0);
+
+  let action;
+  let best;
+  let why;
+  if (positive.length) {
+    action = "buy";
+    best = [...positive].sort((a, b) =>
+      kellyGrowth(b) - kellyGrowth(a) || byRiskAdjustedQuality(a, b))[0];
+    why = "95% 보수 하한에서도 기대수익이 양수다";
+  } else if (challenge.length) {
+    action = "challenge";
+    best = [...challenge].sort(byRiskAdjustedQuality)[0];
+    why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다";
+  } else {
+    action = "pass";
+    best = [...available].sort(byRiskAdjustedQuality)[0];
+    why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다";
+  }
   const index = available.findIndex((plan) => plan.target === best.target);
-  return positive.length
-    ? { action: "buy", target: best.target, index,
-      why: "95% 보수 하한에서도 기대수익이 양수다" }
-    : { action: "pass", target: best.target, index,
-      why: "최선 조합도 95% 보수 기대수익이 0 이하라 자동 투입하지 않는다" };
+  return {
+    action,
+    target: best.target,
+    index,
+    budget_ratio: action === "challenge" ? DAILY_CHALLENGE_BUDGET_RATIO : null,
+    why,
+  };
 }
 
 /**

@@ -102,6 +102,18 @@ const pass = recommendationFromPlans([
 ]);
 assert.equal(pass.action, "pass");
 assert.equal(pass.target, 2);
+const dailyChallenge = recommendationFromPlans([
+  { ok: true, target: 1.4, actual_odds: 1.39, calibrated_hit_est: 0.607,
+    conservative_hit_est: 0.593, conservative_expected_roi: -0.174 },
+]);
+assert.equal(dailyChallenge.action, "challenge");
+assert.equal(dailyChallenge.target, 1.4);
+assert.equal(dailyChallenge.budget_ratio, 0.1);
+const tooRiskyForDailyChallenge = recommendationFromPlans([
+  { ok: true, target: 1.4, calibrated_hit_est: 0.60,
+    conservative_expected_roi: -0.201 },
+]);
+assert.equal(tooRiskyForDailyChallenge.action, "pass");
 const buy = recommendationFromPlans([{ ok: true, target: 3, actual_odds: 3,
   conservative_hit_est: 0.35, conservative_expected_roi: 0.05 }]);
 assert.equal(buy.action, "buy");
