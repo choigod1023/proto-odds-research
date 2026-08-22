@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
-  recommendationFromPlans, ticketMetrics } from "./today-plan.js";
+  challengeOptions, recommendationFromPlans, ticketMetrics } from "./today-plan.js";
 
 const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
   event_key: event,
@@ -105,6 +105,32 @@ assert.equal(pass.target, 2);
 const buy = recommendationFromPlans([{ ok: true, target: 3, actual_odds: 3,
   conservative_hit_est: 0.35, conservative_expected_roi: 0.05 }]);
 assert.equal(buy.action, "buy");
+
+const challengePlans = [
+  { ok: true, target: 1.4, actual_odds: 1.4, calibrated_hit_est: 0.70,
+    conservative_expected_roi: -0.12 },
+  { ok: true, target: 2, actual_odds: 2, calibrated_hit_est: 0.45,
+    conservative_expected_roi: -0.15 },
+  { ok: true, target: 3, actual_odds: 3, calibrated_hit_est: 0.30,
+    conservative_expected_roi: -0.18 },
+  { ok: true, target: 5, actual_odds: 5, calibrated_hit_est: 0.18,
+    conservative_expected_roi: -0.25 },
+];
+const challenges = challengeOptions(challengePlans, 10_000);
+assert.deepEqual(challenges.map((option) => option.stake), [1000, 3000, 5000, 10000]);
+assert.deepEqual(challenges.map((option) => option.target), [5, 2, 2, 1.4],
+  "작은 금액은 수익 목표를 채울 고배당, 큰 금액은 적중률 높은 저배당이어야 한다");
+assert.deepEqual(challenges.map((option) => option.net_profit), [4000, 3000, 5000, 4000]);
+assert.deepEqual(challenges.map((option) => option.conservative_loss), [250, 450, 750, 1200]);
+assert.ok(challenges.every((option) => option.meets_goal));
+
+const fallbackChallenge = challengeOptions([
+  { ok: true, target: 1.4, actual_odds: 1.2, calibrated_hit_est: 0.8,
+    conservative_expected_roi: -0.1 },
+], 10_000);
+assert.equal(fallbackChallenge[0].meets_goal, false);
+assert.equal(fallbackChallenge[0].target, 1.4);
+assert.deepEqual(challengeOptions([], 10_000), []);
 
 assert.equal(SAFE_TARGET_BINS[5].length, 3);
 assert.equal(SAFE_TARGET_BINS[8].length, 3);
