@@ -233,10 +233,19 @@ function TodayPlan({ today, combo, grades }) {
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
         recommendation.action === "buy"
           ? "border-rule2 bg-panel text-ink"
-          : "border-sev2 bg-paper text-sev3"
+          : recommendation.action === "challenge"
+            ? "border-signal bg-panel text-ink"
+            : "border-sev2 bg-paper text-sev3"
       }`}>
         {recommendation.action === "buy" ? (
           <>자동 1순위 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+        ) : recommendation.action === "challenge" ? (
+          <>
+            자동 판정 <b>소액 도전</b> · {recommendation.target}배 조합 · {recommendation.why}
+            {recommendation.budget_ratio != null && (
+              <> · 기본 투입 <b>예산의 {recommendation.budget_ratio * 100}% 수준(최소 1,000원)</b></>
+            )}
+          </>
         ) : (
           <>자동 판정 <b>패스</b> · 관찰 1순위 {recommendation.target}배 · {recommendation.why}</>
         )}
@@ -251,6 +260,7 @@ function TodayPlan({ today, combo, grades }) {
         selectedIndex={selectedIndex}
         onSelect={setI}
         recommendedTarget={recommendation.target}
+        recommendationAction={recommendation.action}
         shouldPass={shouldPass}
       />
 
@@ -260,7 +270,9 @@ function TodayPlan({ today, combo, grades }) {
           <Tab key={q.target} on={k === selectedIndex} onClick={() => setI(k)}>
             {q.target}배
             {Number(q.target) === Number(recommendation.target) && (
-              <span className="text-[10px]">{recommendation.action === "buy" ? "1순위" : "관찰"}</span>
+              <span className="text-[10px]">
+                {recommendation.action === "buy" ? "1순위" : recommendation.action === "challenge" ? "도전" : "관찰"}
+              </span>
             )}
             <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
               {(q.conservative_expected_roi * 100).toFixed(0)}%

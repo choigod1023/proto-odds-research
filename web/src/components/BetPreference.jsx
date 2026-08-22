@@ -23,6 +23,7 @@ const PROFILES = {
 };
 
 const CHALLENGE_TARGETS = [
+  { target: 1.4, label: "1.4배 적중 우선" },
   { target: 2, label: "2배 도전" },
   { target: 3, label: "3배 도전" },
   { target: 5, label: "5배 한방" },
@@ -70,6 +71,7 @@ export default function BetPreference({
   selectedIndex,
   onSelect,
   recommendedTarget,
+  recommendationAction,
   shouldPass,
 }) {
   const [preference, setPreference] = useState(readPreference);
@@ -100,14 +102,26 @@ export default function BetPreference({
     }
   }, [onSelect, plans, recommendedTarget, selectedIndex, solo]);
 
+  useEffect(() => {
+    const target = recommendationAction === "challenge"
+      ? Number(recommendedTarget) : 3;
+    setChallengeTarget(Number.isFinite(target) ? target : 3);
+    setChallenge(null);
+  }, [recommendationAction, recommendedTarget]);
+
   const profile = PROFILES[preference.profile];
   const selected = selectedIndex < 0 ? solo : plans[selectedIndex];
   const challenges = challengeOptions(plans, preference.budget, challengeTarget);
-  const activeChallenge = shouldPass && challenge && selectedIndex >= 0 &&
-    planSignature(selected) === challenge.plan_signature;
+  const automaticChallenge = recommendationAction === "challenge" && challenge == null &&
+    Number(challengeTarget) === Number(recommendedTarget) ? challenges[0] : null;
+  const effectiveChallenge = challenge === false ? null : (challenge || automaticChallenge);
+  const effectiveSignature = effectiveChallenge
+    ? planSignature(plans[effectiveChallenge.plan_index]) : null;
+  const activeChallenge = shouldPass && effectiveChallenge && selectedIndex >= 0 &&
+    planSignature(selected) === effectiveSignature;
   const unit = selectedIndex < 0 ? 1_000 : 100;
   const stake = shouldPass
-    ? (activeChallenge ? challenge.stake : 0)
+    ? (activeChallenge ? effectiveChallenge.stake : 0)
     : Math.floor((preference.budget * profile.ratio) / unit) * unit;
   const selectedOdds = selected?.actual_odds || selected?.odds || 0;
   const gross = Math.round(stake * selectedOdds);
@@ -126,8 +140,9 @@ export default function BetPreference({
   const chooseChallenge = (option) => {
     const plan = plans[option.plan_index];
     const signature = planSignature(plan);
-    if (challenge?.stake === option.stake && challenge?.plan_signature === signature) {
-      setChallenge(null);
+    if (effectiveChallenge?.stake === option.stake &&
+      effectiveSignature === signature && activeChallenge) {
+      setChallenge(false);
       return;
     }
     onSelect(option.plan_index);
@@ -135,8 +150,10 @@ export default function BetPreference({
   };
 
   const chooseChallengeTarget = (target) => {
-    setChallenge(null);
     setChallengeTarget(target);
+    const useAutomatic = recommendationAction === "challenge" &&
+      Number(target) === Number(recommendedTarget);
+    setChallenge(useAutomatic ? null : false);
   };
 
   return (
@@ -177,8 +194,10 @@ export default function BetPreference({
         <div className="mt-2.5 rounded-lg border border-rule2 bg-panel p-3">
           <div className="text-[12px] font-semibold text-ink">손실 감수 도전픽</div>
           <div className="mt-0.5 text-[10.5px] leading-[1.55] text-ink3">
-            도전 강도와 투입 금액을 따로 고른다. 기본은 3배 도전이며 시장 우위 신호는 아니다.
-            같은 금액 카드를 다시 누르면 취소된다.
+            {recommendationAction === "challenge"
+              ? "소액 도전 판정은 적중 우선 조합과 예산 10% 수준(최소 1,000원)을 먼저 선택한다. "
+              : "도전 강도와 투입 금액을 따로 고른다. 기본은 3배 도전이다. "}
+            시장 우위 신호는 아니며 같은 금액 카드를 다시 누르면 취소된다.
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5" aria-label="도전 강도">
             {CHALLENGE_TARGETS.map((item) => (
@@ -194,8 +213,8 @@ export default function BetPreference({
           <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
             {challenges.map((option) => {
               const plan = plans[option.plan_index];
-              const active = challenge?.stake === option.stake &&
-                challenge?.plan_signature === planSignature(plan) && activeChallenge;
+              const active = effectiveChallenge?.stake === option.stake &&
+                effectiveSignature === planSignature(plan) && activeChallenge;
               return (
                 <button
                   type="button"
@@ -229,7 +248,11 @@ export default function BetPreference({
             ? "단폴은 ‘한경기’ 지정 여부를 확인하기 전에는 자동 투입하지 않는다."
             : activeChallenge
               ? `${money(stake)} 손실을 감수하는 도전픽을 선택했다.`
-              : "현재 조합은 95% 보수 기대수익이 0 이하라 자동 권장 투입액은 0원이다."}
+              : recommendationAction === "challenge"
+                ? challenge === false && Number(challengeTarget) === Number(recommendedTarget)
+                  ? "자동 소액 도전의 기본 투입을 해제했다."
+                  : `자동 소액 도전은 ${recommendedTarget}배 1순위에만 기본 금액을 적용한다.`
+                : "현재 조합은 소액 도전 기준에도 못 미쳐 자동 권장 투입액은 0원이다."}
           {" "}도전픽은 자동 구매 신호와 별도로 사용자가 선택한 금액이다.
         </div>
       )}

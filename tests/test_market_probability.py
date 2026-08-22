@@ -70,13 +70,24 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["calibration_min_n"] == 10_000
 
 
-def test_daily_recommendation_passes_unless_conservative_edge_is_positive():
+def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     negative = [
         {"ok": True, "target": 2, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.52},
         {"ok": True, "target": 5, "conservative_expected_roi": -0.12, "calibrated_hit_est": 0.70},
     ]
     assert daily_recommendation(negative)["action"] == "pass"
     assert daily_recommendation(negative)["recommended_target"] == 2
+    challenge = [{"ok": True, "target": 1.4, "actual_odds": 1.39,
+                  "calibrated_hit_est": 0.607,
+                  "conservative_hit_est": 0.593,
+                  "conservative_expected_roi": -0.174}]
+    assert daily_recommendation(challenge)["action"] == "challenge"
+    assert daily_recommendation(challenge)["recommended_target"] == 1.4
+    assert daily_recommendation(challenge)["budget_ratio"] == 0.1
+    too_risky = [{"ok": True, "target": 1.4,
+                  "calibrated_hit_est": 0.60,
+                  "conservative_expected_roi": -0.201}]
+    assert daily_recommendation(too_risky)["action"] == "pass"
     positive = [{"ok": True, "target": 3, "actual_odds": 3.0,
                  "conservative_hit_est": 0.35, "conservative_expected_roi": 0.05}]
     assert daily_recommendation(positive)["action"] == "buy"

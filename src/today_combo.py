@@ -66,6 +66,10 @@ SAFE_TARGET_BINS = {
     8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
     12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 }
+DAILY_CHALLENGE_MIN_ROI = -0.20
+DAILY_CHALLENGE_MIN_HIT = 0.55
+DAILY_CHALLENGE_MAX_TARGET = 1.4
+DAILY_CHALLENGE_BUDGET_RATIO = 0.10
 KST = ZoneInfo("Asia/Seoul")
 DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
@@ -344,12 +348,28 @@ def daily_recommendation(plans: list[dict]) -> dict:
         action = "buy"
         why = "실측 보정확률의 95% 보수 하한에서도 기대수익이 양수다"
     else:
-        best = max(available, key=lambda plan: (
-            _metric_number(plan, "conservative_expected_roi", -99.0),
-            _metric_number(plan, "calibrated_hit_est", 0.0)))
-        action = "pass"
-        why = "가장 나은 조합도 95% 보수 기대수익이 0 이하라 자동 투입하지 않는다"
+        challenge = [plan for plan in available
+                     if _metric_number(plan, "target", 99.0) <=
+                     DAILY_CHALLENGE_MAX_TARGET
+                     and _metric_number(plan, "conservative_expected_roi", -99.0) >=
+                     DAILY_CHALLENGE_MIN_ROI
+                     and _metric_number(plan, "calibrated_hit_est", 0.0) >=
+                     DAILY_CHALLENGE_MIN_HIT]
+        if challenge:
+            best = max(challenge, key=lambda plan: (
+                _metric_number(plan, "conservative_expected_roi", -99.0),
+                _metric_number(plan, "calibrated_hit_est", 0.0)))
+            action = "challenge"
+            why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다"
+        else:
+            best = max(available, key=lambda plan: (
+                _metric_number(plan, "conservative_expected_roi", -99.0),
+                _metric_number(plan, "calibrated_hit_est", 0.0)))
+            action = "pass"
+            why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다"
     return {"action": action, "recommended_target": best["target"],
+            "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO
+                             if action == "challenge" else None),
             "conservative_expected_roi": best.get("conservative_expected_roi"),
             "calibrated_hit_est": best.get("calibrated_hit_est"), "why": why}
 
@@ -412,7 +432,9 @@ def build() -> dict:
         "recommendation": daily_recommendation(out_plans),
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
-        "note": "자동 1순위는 실측 ROI로 보정한 확률과 95% 보수 하한을 사용한다. "
+        "note": "시장 우위 매수는 실측 ROI 보정확률의 95% 보수 하한이 양수일 때만 쓴다. "
+                "그보다 낮아도 목표 1.4배·보수 기대 −20% 이내·보정 적중 55% 이상이면 "
+                "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
                 "검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "
