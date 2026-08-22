@@ -791,8 +791,35 @@ function ActualLineup({ team, players }) {
         <span className="tnum mr-1 text-ink3">{p.order || i + 1}</span>
         <b className="font-medium text-ink">{p.name}</b>
         {p.position && <span className="ml-1 text-[9.5px] text-ink3">{p.position}</span>}
+        {p.stats && <span className="ml-1 text-[9.5px] text-ink3">
+          · {p.stats.apps ?? "-"}경기 {p.stats.goals ?? 0}골 {p.stats.assists ?? 0}도움
+        </span>}
       </li>)}
     </ol>
+  </div>;
+}
+
+function FootballKeyPlayers({ team, players }) {
+  if (!players?.length) return null;
+  return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+    <div className="text-[11px] text-ink3">{team} · 현재 시즌 핵심 선수</div>
+    <ul className="mt-1 space-y-1.5">
+      {players.slice(0, 5).map((p, i) => <li key={`${p.player_id || p.name}-${i}`} className="text-[11px]">
+        <div className="flex items-baseline gap-1">
+          <b className="text-ink">{p.name}</b>
+          {p.position && <span className="text-[9.5px] text-ink3">{p.position}</span>}
+        </div>
+        <div className="tnum text-[10px] text-ink3">
+          {p.apps != null && <span>{p.apps}경기</span>}
+          {p.starts != null && <span> · 선발 {p.starts}</span>}
+          {p.goals != null && <span> · {p.goals}골</span>}
+          {p.assists != null && <span> · {p.assists}도움</span>}
+          {p.xg != null && <span> · xG {p.xg}</span>}
+          {p.xa != null && <span> · xA {p.xa}</span>}
+        </div>
+      </li>)}
+    </ul>
+    <p className="mt-1.5 text-[9.5px] text-ink3">실제 오늘 선발이 아니라 공식 시즌 기록의 공격 기여 상위 선수다.</p>
   </div>;
 }
 
@@ -813,14 +840,40 @@ function PlayersPanel({ g }) {
       </> : <p className="mt-2 text-[10.5px] text-ink3">타자 선발 명단은 아직 발표되지 않았다.</p>}
     </>;
   }
+  const info = g["선발"] || {};
+  const actual = info.lineups || {};
+  const key = info.key_players || {};
+  const formations = info.formations || {};
+  const status = info.lineup_status || {};
   const lp = g["라인업"] || {};
-  if (!lp.home && !lp.away) {
-    return <p className="text-[11.5px] text-ink3">실제 선발 명단은 아직 발표 전이거나 이 리그의 명단 수집 경로가 연결되지 않았다.</p>;
-  }
-  return <div className="grid gap-2 sm:grid-cols-2">
-    <LineupTendency team={g.home} profile={lp.home} />
-    <LineupTendency team={g.away} profile={lp.away} />
-  </div>;
+  const expected = status.expected_at ? new Date(status.expected_at).toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  }) : null;
+  const hasActual = !!(actual.home?.length || actual.away?.length);
+  const hasKey = !!(key.home?.length || key.away?.length);
+  const hasTendency = !!(lp.home || lp.away);
+  return <>
+    {hasActual ? <>
+      <div className="mb-1 text-[10.5px] font-semibold text-ink3">실제 발표 선발 명단</div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <ActualLineup team={`${g.home}${formations.home ? ` · ${formations.home}` : ""}`} players={actual.home} />
+        <ActualLineup team={`${g.away}${formations.away ? ` · ${formations.away}` : ""}`} players={actual.away} />
+      </div>
+    </> : <p className="text-[11.5px] text-ink3">
+      {info.source ? `실제 선발 명단 발표 전${expected ? ` · 통상 ${expected} 전후 확인` : ""}` : "이 리그의 선수·라인업 자료 경로가 아직 연결되지 않았다."}
+    </p>}
+    {hasKey && <>
+      <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">시즌 핵심 선수 기록</div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <FootballKeyPlayers team={g.home} players={key.home} />
+        <FootballKeyPlayers team={g.away} players={key.away} />
+      </div>
+    </>}
+    {hasTendency && <div className="mt-2 grid gap-2 sm:grid-cols-2">
+      <LineupTendency team={g.home} profile={lp.home} />
+      <LineupTendency team={g.away} profile={lp.away} />
+    </div>}
+  </>;
 }
 
 function TeamFormCard({ team, form, record }) {
@@ -837,8 +890,14 @@ function TeamFormCard({ team, form, record }) {
         </div>
       </> : <p className="mt-1 text-[11.5px] text-ink3">저장된 최근 경기 표본이 부족하다.</p>}
       {record && <div className="mt-1.5 border-t border-rule2 pt-1.5 text-[10.5px] text-ink3">
-        공식 현재 성적 <b className="tnum text-ink">{record.wins}승 {record.losses}패</b>
-        {record.pct ? ` · 승률 ${(record.pct * 100).toFixed(1)}%` : ""}
+        {record.draws != null ? <>
+          공식 현재 성적 <b className="tnum text-ink">{record.rank ? `${record.rank}위 · ` : ""}{record.wins}승 {record.draws}무 {record.losses}패</b>
+          {record.goals_per_game != null && <span> · 평균 {record.goals_per_game}득점/{record.conceded_per_game}실점</span>}
+          {record.xg != null && <span> · 팀 xG {record.xg}{record.xga != null ? `/xGA ${record.xga}` : ""}</span>}
+        </> : <>
+          공식 현재 성적 <b className="tnum text-ink">{record.wins}승 {record.losses}패</b>
+          {record.pct ? ` · 승률 ${(record.pct * 100).toFixed(1)}%` : ""}
+        </>}
       </div>}
     </div>
   );
@@ -856,7 +915,7 @@ function TeamsPanel({ g }) {
   </>;
 }
 
-function AvailabilityTeam({ team, rows, connected }) {
+function AvailabilityTeam({ team, rows, connected, emptyText }) {
   return (
     <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
       <div className="text-[11px] text-ink3">{team}</div>
@@ -866,23 +925,27 @@ function AvailabilityTeam({ team, rows, connected }) {
           <span className="text-ink3"> · {x.status || "출전 불가"}{x.position ? ` · ${x.position}` : ""}</span>
         </li>)}
       </ul> : <p className="mt-1 text-[11.5px] text-ink3">
-        {connected ? "공식 명단에서 부상 상태로 표시된 선수가 없다." : "부상·출전 상태 자료가 아직 연결되지 않았다."}
+        {connected ? (emptyText || "공식 명단에서 부상 상태로 표시된 선수가 없다.") : "부상·출전 상태 자료가 아직 연결되지 않았다."}
       </p>}
     </div>
   );
 }
 
 function AvailabilityPanel({ g }) {
-  const un = g["선발"]?.unavailable;
-  const connected = !!un && Object.hasOwn(un, "home") && Object.hasOwn(un, "away");
-  const actual = g["선발"]?.lineups;
+  const info = g["선발"] || {};
+  const un = info.unavailable;
+  const state = info.lineup_status?.state;
+  const actual = info.lineups || {};
+  const hasActual = !!(actual.home?.length || actual.away?.length);
+  const connected = g.sport === "sc" ? state === "announced" : !!un && Object.hasOwn(un, "home") && Object.hasOwn(un, "away");
+  const emptyText = g.sport === "sc" ? "시즌 핵심 선수들이 모두 선발 명단에 포함됐다." : null;
   return <>
     <div className="grid gap-2 sm:grid-cols-2">
-      <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} />
-      <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} />
+      <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} emptyText={emptyText} />
+      <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} emptyText={emptyText} />
     </div>
-    {!actual && <p className="mt-2 text-[10.5px] leading-[1.6] text-ink3">
-      실제 경기 선발 명단은 보통 시작 직전에 확정된다. 발표 전에는 과거 라인업 성향을 실제 출전 명단처럼 쓰지 않는다.
+    {!hasActual && <p className="mt-2 text-[10.5px] leading-[1.6] text-ink3">
+      {g.sport === "sc" ? "실제 선발 명단 발표 전에는 결장·벤치 여부를 단정하지 않는다." : "실제 경기 선발 명단은 보통 시작 직전에 확정된다."}
     </p>}
   </>;
 }

@@ -9,6 +9,7 @@
   * MLB Stats API: 예정 선발, 시즌 투수 지표, 팀 승패, 40인 로스터 부상 상태
   * 네이버 스포츠 경기기록: KBO/NPB 예고 선발
   * 저장된 KBO 박스스코어: 최근 12선발 ERA/FIP/WHIP/K·BB/9/평균 이닝
+  * 네이버 스포츠 축구: 현재 시즌 핵심 선수·팀 순위와 경기 직전 실제 라인업
 
 사용:
     python src/player_info.py              # 한 번 수집
@@ -31,6 +32,8 @@ from zoneinfo import ZoneInfo
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
+                         selftest as soccer_selftest)
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -373,7 +376,7 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
 
 
 def collect() -> dict:
-    """로컬 자료와 MLB 공식 자료를 합치고, 외부 장애 때 직전 MLB 캐시를 유지한다."""
+    """야구·축구 선수 자료를 합치고, 외부 장애 때 직전 캐시를 유지한다."""
     try:
         existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     except (OSError, json.JSONDecodeError):
@@ -386,12 +389,19 @@ def collect() -> dict:
     except requests.RequestException as exc:
         print(f"MLB Stats API 오류 — 직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
         mlb = [g for g in existing.get("games", []) if g.get("league") == "MLB"]
+    soccer_cache = existing.get("soccer_team_cache") or {}
+    try:
+        soccer, soccer_cache = collect_soccer_info(existing, PICKS, _session())
+    except (requests.RequestException, OSError, ValueError) as exc:
+        print(f"축구 선수정보 오류 — 직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
+        soccer = [g for g in existing.get("games", []) if g.get("league") in SOCCER_CATS]
     # 공식 API 범위 밖의 과거 MLB 경기는 네이버 예고 이름을 유지한다. 같은 날짜의
     # 중복은 game_index/match_game 에서 갱신 시각이 더 최신인 공식 API가 이긴다.
-    games = games + mlb
+    games = games + mlb + soccer
     doc = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "injuries_refreshed_at": injury_stamp, "team_injuries": injuries, "games": games,
+        "injuries_refreshed_at": injury_stamp, "team_injuries": injuries,
+        "soccer_team_cache": soccer_cache, "games": games,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     tmp = OUT.with_suffix(".tmp")
@@ -442,6 +452,9 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
         "teams": rec.get("teams") or {}, "unavailable": rec.get("unavailable") or {},
         "lineups": rec.get("lineups") or {}, "source": rec.get("source"),
         "source_url": rec.get("source_url"), "updated_at": rec.get("updated_at"),
+        "key_players": rec.get("key_players") or {},
+        "benches": rec.get("benches") or {}, "formations": rec.get("formations") or {},
+        "lineup_status": rec.get("lineup_status") or {},
         "game_id": rec.get("game_id"),
     }
     return payload
@@ -462,7 +475,7 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
     index, changed = game_index(player_doc), 0
     for bucket in ("live", "past"):
         for game in picks.get(bucket, []):
-            if game.get("sport") != "bs":
+            if game.get("sport") not in ("bs", "sc"):
                 continue
             info = match_game(index, str(game.get("league")), str(game.get("date")),
                               str(game.get("home")), str(game.get("away")))
@@ -479,6 +492,7 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
 
 
 def _selftest() -> int:
+    soccer_selftest()
     mapping = {"MLB": {"뉴욕양키": "뉴욕양키스", "토론블루": "토론토"}}
     assert canonical_team("MLB", "뉴욕양키", mapping) == "뉴욕양키스"
     assert canonical_team("MLB", "뉴욕 양키스", mapping) == "뉴욕양키스"
@@ -497,6 +511,9 @@ def _selftest() -> int:
             "sport": "bs", "league": "MLB", "date": "08.23(일) 02:35",
             "home": "뉴욕양키", "away": "토론블루", "추천": {"모델확률": .51},
             "선발": {"home": "어제 투수"},
+        }, {
+            "sport": "sc", "league": "EPL", "date": "08.23(일) 22:00",
+            "home": "맨체스C", "away": "본머스", "추천": {"모델확률": .58},
         }], "past": []}, ensure_ascii=False), encoding="utf-8")
         player_doc = {"generated_at": "2026-08-23T00:00:00+00:00", "games": [{
             "league": "MLB", "game_datetime": "2026-08-23T02:35:00+09:00",
@@ -504,12 +521,20 @@ def _selftest() -> int:
             "updated_at": "2026-08-23T00:00:00+00:00",
             "starters": {"home": {"name": "오늘 투수", "stats": {"era": 3.2}}},
             "source": "MLB Stats API",
+        }, {
+            "league": "EPL", "game_datetime": "2026-08-23T22:00:00+09:00",
+            "home_team": "맨체스C", "away_team": "본머스",
+            "updated_at": "2026-08-23T00:00:00+00:00", "starters": {},
+            "key_players": {"home": [{"name": "A", "goals": 2}]},
+            "source": "네이버 스포츠 공식 경기·시즌 기록",
         }]}
-        assert enrich_picks(player_doc, path) == 1
+        assert enrich_picks(player_doc, path) == 2
         enriched = json.loads(path.read_text(encoding="utf-8"))
         assert enriched["live"][0]["선발"]["home"] == "오늘 투수"
+        assert enriched["live"][1]["선발"]["key_players"]["home"][0]["goals"] == 2
         # 30분 경량 갱신은 예측·추천 값을 절대 바꾸지 않는다.
         assert enriched["live"][0]["추천"]["모델확률"] == .51
+        assert enriched["live"][1]["추천"]["모델확률"] == .58
         assert enriched["player_info_at"] == player_doc["generated_at"]
     print("[OK] 선수정보 - 팀 별칭, 날짜 경기키, 이닝 변환, 상세 선발 결합")
     return 0
@@ -527,7 +552,9 @@ def main(argv: list[str]) -> int:
             doc = collect()
             enriched = enrich_picks(doc)
             both = sum(1 for g in doc["games"] if len(g.get("starters") or {}) == 2)
-            print(f"선수정보 {len(doc['games'])}경기 · 양쪽 선발 {both} · 화면 {enriched}경기 갱신 · 저장 {OUT}", flush=True)
+            soccer = sum(1 for g in doc["games"] if g.get("league") in SOCCER_CATS)
+            print(f"선수정보 {len(doc['games'])}경기 · 야구 양쪽 선발 {both} · "
+                  f"축구 {soccer}경기 · 화면 {enriched}경기 갱신 · 저장 {OUT}", flush=True)
         except Exception as exc:  # noqa: BLE001 — 상시 수집기는 다음 주기에 복구해야 한다
             print(f"선수정보 수집 오류: {type(exc).__name__}: {exc}", flush=True)
             if delay is None:
