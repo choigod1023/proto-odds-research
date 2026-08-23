@@ -41,6 +41,7 @@ from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
                          selftest as soccer_selftest)
 from japan_info import collect_npb_games
 
+from player_commentary import with_player_context
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 OUT = RAW / "player_info.json"
@@ -516,10 +517,10 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
 
 
 def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
-    """전체 예측을 다시 돌리지 않고 선수정보 칸만 30분마다 안전하게 갱신한다.
+    """전체 예측을 다시 돌리지 않고 선수정보와 선수 해설만 안전하게 갱신한다.
 
     games.csv가 필요한 무거운 생성기는 매시간이지만 선발 변경은 경기 직전에도 난다.
-    이 단계는 확률·추천·배당을 건드리지 않고 `선발` 객체만 원자적으로 교체한다.
+    이 단계는 확률·추천·배당과 기본 해설을 건드리지 않는다.
     """
     if not picks_path.exists():
         return 0
@@ -534,8 +535,22 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
                 continue
             info = match_game(index, str(game.get("league")), str(game.get("date")),
                               str(game.get("home")), str(game.get("away")))
+            game_changed = False
             if game.get("선발") != info:
                 game["선발"] = info
+                game_changed = True
+            base = game.get("해설기본")
+            if not base and game.get("해설"):
+                base = game["해설"]
+                game["해설기본"] = base
+                game_changed = True
+            refreshed = with_player_context(
+                base, str(game.get("home")), str(game.get("away")),
+                str(game.get("sport")), info)
+            if base and game.get("해설") != refreshed:
+                game["해설"] = refreshed
+                game_changed = True
+            if game_changed:
                 changed += 1
     if not changed and picks.get("player_info_at") == player_doc.get("generated_at"):
         return 0
