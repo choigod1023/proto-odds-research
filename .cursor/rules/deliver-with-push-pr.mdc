@@ -1,0 +1,13 @@
+---
+description: Deliver completed repository changes through a pushed branch and pull request
+alwaysApply: true
+---
+
+# Push and PR Delivery
+
+- After completing and verifying an implementation, commit only the changes that belong to the requested work.
+- Push the commit to an appropriately named remote branch and create a pull request targeting `main`.
+- If a pull request for the active branch already exists, update that pull request instead of creating a duplicate.
+- Do not include unrelated or unfinished user changes in the commit.
+- Report the branch name, commit hash, and pull request link when delivery finishes.
+- If authentication, conflicts, or repository policy prevents push or PR creation, report the exact blocker instead of silently stopping.

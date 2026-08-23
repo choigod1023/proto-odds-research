@@ -799,6 +799,38 @@ function ActualLineup({ team, players }) {
   </div>;
 }
 
+function formatBaseballRate(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(3).replace(/^0/, "") : "-";
+}
+
+function BaseballLineup({ team, players, referenceDate, projected }) {
+  if (!players?.length) return null;
+  const subtitle = projected && referenceDate ? `${referenceDate.replaceAll("-", ".")} 공식 선발 타순 기준` : "발표 라인업";
+  return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+    <div className="text-[11px] text-ink3">{team} · {subtitle}</div>
+    <ol className="mt-1 space-y-1.5">
+      {players.map((p, i) => {
+        const stats = p.stats || null;
+        const last = p.last_game || null;
+        return <li key={`${p.player_id || p.name}-${i}`} className="text-[11px] leading-[1.45]">
+          <div className="flex items-baseline gap-1">
+            <span className="tnum w-3 text-ink3">{p.order || i + 1}</span>
+            {p.profile_url ? <a href={p.profile_url} target="_blank" rel="noreferrer" className="font-medium text-ink underline decoration-rule2 underline-offset-2 hover:decoration-ink">{p.name}</a> : <b className="font-medium text-ink">{p.name}</b>}
+            {p.position && <span className="text-[9.5px] text-ink3">{p.position}</span>}
+          </div>
+          {stats && <div className="tnum ml-4 text-[9.5px] text-ink3">
+            시즌 타율 {formatBaseballRate(stats.avg)} · {stats.home_runs ?? 0}홈런 · {stats.rbi ?? 0}타점 · OPS {formatBaseballRate(stats.ops)}
+          </div>}
+          {last && <div className="tnum ml-4 text-[9.5px] text-ink3">
+            기준 경기 {last.at_bats ?? "-"}타수 {last.hits ?? "-"}안타 · {last.rbi ?? 0}타점
+          </div>}
+        </li>;
+      })}
+    </ol>
+  </div>;
+}
+
 function FootballKeyPlayers({ team, players }) {
   if (!players?.length) return null;
   return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
@@ -896,18 +928,31 @@ function CourtPlayersPanel({ g }) {
 
 function PlayersPanel({ g }) {
   if (g.sport === "bs") {
-    const lineups = g["선발"]?.lineups || {};
+    const info = g["선발"] || {};
+    const lineups = info.lineups || {};
+    const status = info.lineup_status || {};
+    const projected = status.state === "projected_from_recent_official";
+    const references = status.reference_dates || {};
     return <>
       <div className="grid gap-2 sm:grid-cols-2">
         <PitcherCard team={g.home} pitcher={starterFor(g, "home")} />
         <PitcherCard team={g.away} pitcher={starterFor(g, "away")} />
       </div>
       {(lineups.home?.length || lineups.away?.length) ? <>
-        <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">실제 발표 명단</div>
+        <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">{projected ? "최근 공식 경기 기반 예상 타순" : "실제 발표 명단"}</div>
         <div className="grid gap-2 sm:grid-cols-2">
-          <ActualLineup team={g.home} players={lineups.home} />
-          <ActualLineup team={g.away} players={lineups.away} />
+          <BaseballLineup
+            team={g.home} players={lineups.home}
+            referenceDate={references.home} projected={projected}
+          />
+          <BaseballLineup
+            team={g.away} players={lineups.away}
+            referenceDate={references.away} projected={projected}
+          />
         </div>
+        {projected && <p className="mt-1.5 text-[9.5px] leading-[1.55] text-ink3">
+          {status.caveat || "오늘 실제 발표 라인업이 아니며, 선발 발표 시 교체될 수 있다."}
+        </p>}
       </> : <p className="mt-2 text-[10.5px] text-ink3">타자 선발 명단은 아직 발표되지 않았다.</p>}
     </>;
   }
