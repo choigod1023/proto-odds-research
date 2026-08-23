@@ -43,16 +43,20 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .filter-actions label { display: flex; gap: 6px; align-items: center; }
 .filter-actions button { border: 0; background: none; color: var(--color-ink2); text-decoration: underline; cursor: pointer; }
 
-.match-card.card { margin: 0; border-width: 0 0 1px; border-radius: 0; }
+.match-card.card { margin: 0; border-width: 0 0 1px; border-radius: 0; transition: margin 160ms ease; }
+.match-card.card[open] { margin: 14px 0 20px; border: 1px solid var(--color-rule); border-radius: 6px; background: var(--color-panel); }
+.match-card.card[open] > .match-row { padding: 16px 18px !important; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
+.match-card.card[open] > .match-row:hover { background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
 .match-row { padding: 15px 0 !important; display: grid !important; grid-template-columns: 52px minmax(210px, 1.1fr) minmax(150px, .8fr) auto !important; gap: 14px !important; align-items: center; }
 .match-row:hover { background: color-mix(in srgb, var(--color-panel) 58%, transparent); }
 .match-call-inline { display: flex; flex-direction: column; min-width: 0; padding-left: 13px; border-left: 1px solid var(--color-rule2); }
 .match-call-inline small { color: var(--color-ink3); font-size: 9.5px; }
 .match-call-inline b { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .match-player-inline { display: block; overflow: hidden; margin-top: 3px; color: var(--color-ink3); font-size: 10px; font-weight: 450; text-overflow: ellipsis; white-space: nowrap; }
-.match-detail { padding: 18px 0 22px !important; background: var(--color-panel); }
+.match-detail { padding: 22px 18px 24px !important; background: var(--color-panel); }
+.match-detail > * + * { margin-top: 16px; }
 
-.prediction-card { border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-rule); background: var(--color-panel); }
+.prediction-card { padding: 0 18px; border: 1px solid var(--color-rule); border-top: 2px solid var(--color-ink); border-radius: 5px; background: var(--color-paper); }
 .prediction-head { padding: 18px 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--color-rule2); }
 .prediction-label { margin: 0 0 4px !important; color: var(--color-ink3) !important; font-size: 10px !important; font-weight: 680; }
 .prediction-head h3 { margin: 0; font-size: 23px; letter-spacing: -.045em; }
@@ -61,14 +65,14 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .prediction-probability b, .prediction-probability span { display: block; }
 .prediction-probability b { font-size: 18px; }
 .prediction-probability span { color: var(--color-ink3); font-size: 9px; }
-.prediction-body { padding: 18px 0; }
+.prediction-body { padding: 20px 0 22px; }
 .prediction-body.has-players { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr); gap: 34px; }
 .prediction-body h4 { margin: 0 0 9px; color: var(--color-ink3); font-size: 10px; }
-.performance-reasons { margin: 0; padding: 0; list-style: none; }
-.performance-reasons li { padding: 8px 0; display: grid; grid-template-columns: 22px 1fr; border-top: 1px solid var(--color-rule2); }
-.performance-reasons li:first-child { border-top: 0; }
-.performance-reasons span { color: var(--color-ink3); font-size: 9px; }
-.performance-reasons p { margin: 0; color: var(--color-ink2); font-size: 12px; line-height: 1.6; }
+.performance-intro { margin: -3px 0 12px; color: var(--color-ink3); font-size: 10.5px; line-height: 1.6; }
+.performance-reasons { margin: 0; padding: 0; border-top: 1px solid var(--color-rule); list-style: none; }
+.performance-reasons li { padding: 13px 0; display: grid; grid-template-columns: 104px 1fr; gap: 18px; border-bottom: 1px solid var(--color-rule2); }
+.performance-reasons strong { color: var(--color-ink); font-size: 11px; line-height: 1.65; }
+.performance-reasons p { margin: 0; color: var(--color-ink2); font-size: 12px; line-height: 1.72; }
 .player-watch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--color-rule2); border-bottom: 1px solid var(--color-rule2); }
 .player-watch article { min-width: 0; padding: 10px 9px; border-right: 1px solid var(--color-rule2); }
 .player-watch article:last-child { border-right: 0; }
@@ -82,13 +86,15 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .prediction-caution b { color: var(--color-sev2); }
 .prediction-card > footer { padding: 8px 0; border-top: 1px solid var(--color-rule2); color: var(--color-ink3); font-size: 9.5px; text-align: right; }
 
-.intel-panel { margin-top: 14px; border-top: 1px solid var(--color-rule); color: var(--color-ink2); font-size: 12px; line-height: 1.7; }
-.intel-tabs { display: flex; gap: 18px; overflow-x: auto; border-bottom: 1px solid var(--color-rule2); }
+.intel-panel { margin-top: 16px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-paper); color: var(--color-ink2); font-size: 12px; line-height: 1.7; }
+.intel-tabs { padding: 0 16px; display: flex; gap: 18px; overflow-x: auto; border-bottom: 1px solid var(--color-rule2); }
 .intel-tab { min-width: max-content; padding: 11px 0 9px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--color-ink3); font: 620 11px/1 var(--font-sans); cursor: pointer; }
 .intel-tab.is-active { border-bottom-color: var(--color-ink); color: var(--color-ink); }
-.intel-content { padding: 15px 0; }
-.price-sheet { margin-top: 14px; border-top: 1px solid var(--color-rule); border-bottom: 1px solid var(--color-rule); }
-.price-sheet > summary { padding: 11px 0; display: flex; justify-content: space-between; color: var(--color-ink2); font-size: 11px; cursor: pointer; }
+.intel-content { padding: 18px 16px; }
+.price-sheet { margin-top: 16px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-paper); }
+.price-sheet > summary { padding: 12px 14px; display: flex; justify-content: space-between; color: var(--color-ink2); font-size: 11px; cursor: pointer; }
+.price-sheet[open] > summary { border-bottom: 1px solid var(--color-rule2); }
+.price-sheet > div { padding: 12px 14px !important; }
 
 @media (max-width: 720px) {
   .site-nav { display: block; padding-top: 13px; }
@@ -102,5 +108,13 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .filter-grid { grid-template-columns: repeat(2, 1fr); }
   .match-row { grid-template-columns: 46px minmax(0, 1fr) !important; }
   .match-call-inline { grid-column: 2; padding: 8px 0 0; border-top: 1px solid var(--color-rule2); border-left: 0; }
+  .match-card.card[open] { margin: 10px -8px 16px; }
+  .match-card.card[open] > .match-row { padding: 14px !important; }
+  .match-detail { padding: 14px !important; }
+  .prediction-card { padding: 0 14px; }
   .prediction-head h3 { font-size: 20px; }
+  .prediction-body { padding: 17px 0 18px; }
+  .performance-reasons li { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }
+  .intel-tabs { padding: 0 12px; }
+  .intel-content { padding: 14px 12px; }
 }

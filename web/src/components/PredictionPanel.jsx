@@ -1,3 +1,10 @@
+const reasonParts = (reason) => {
+  const [title, ...body] = String(reason).split(" — ");
+  return body.length
+    ? { title, body: body.join(" — ") }
+    : { title: "경기력 근거", body: title };
+};
+
 export default function PredictionPanel({ analysis }) {
   if (!analysis) return null;
   const { prediction, reasons, cautions, featuredPlayers, playerNotes } = analysis;
@@ -15,9 +22,13 @@ export default function PredictionPanel({ analysis }) {
       <div className={`prediction-body ${featuredPlayers?.length ? "has-players" : ""}`}>
         <div>
           <h4>경기 흐름을 이렇게 봤습니다</h4>
-          <ol className="performance-reasons">
-            {reasons.map((reason, index) => <li key={reason}><span>{index + 1}</span><p>{reason}</p></li>)}
-          </ol>
+          <p className="performance-intro">최근 경기에서 반복된 공격·수비 흐름과 선수 변수를 중심으로 읽었습니다.</p>
+          <ul className="performance-reasons">
+            {reasons.map((reason) => {
+              const item = reasonParts(reason);
+              return <li key={reason}><strong>{item.title}</strong><p>{item.body}</p></li>;
+            })}
+          </ul>
         </div>
         {!!featuredPlayers?.length && <div className="player-watch">
           <h4>주요 선수</h4>

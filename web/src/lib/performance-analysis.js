@@ -1,5 +1,8 @@
 import { playerSummaryFor } from "./player-summary.js";
-const number = (value) => Number.isFinite(Number(value)) ? Number(value) : null;
+const number = (value) => {
+  if (value === null || value === undefined || (typeof value === "string" && !value.trim())) return null;
+  return Number.isFinite(Number(value)) ? Number(value) : null;
+};
 
 const particle = (name, pair) => {
   const last = String(name || "").trim().at(-1);
@@ -15,7 +18,7 @@ export function predictionFor(game) {
   const best = [...pool].sort((a, b) => number(b["모델확률"]) - number(a["모델확률"]))[0];
   const outcome = best?.["선택"] || null;
   const draw = ["무", "무승부"].includes(outcome);
-  const away = ["패", "원정승", game?.away].includes(outcome);
+  const away = ["패", "원정승", "원정 승", game?.away].includes(outcome);
   const side = draw ? "무승부" : away ? game?.away : game?.home;
   const probability = number(best?.["모델확률"]);
   const marketProbability = number(best?.["시장확률"]);
@@ -105,38 +108,147 @@ export function playerSnapshot(game) {
   return { featuredPlayers, playerNotes };
 }
 
-function performanceReasons(game, prediction) {
-  const reasons = [];
-  for (const [team, form] of [[game?.home, game?.form_home], [game?.away, game?.form_away]]) {
-    if (!team || !form) continue;
-    if (form.streak && /연승/.test(form.streak)) reasons.push(`${particle(team, ["이", "가"])} ${form.streak} 흐름을 타고 있다.`);
-    if (form.trend === "상승") reasons.push(`${particle(team, ["은", "는"])} 최근으로 올수록 득실 내용이 좋아지고 있다.`);
-    if (form.trend === "하락") reasons.push(`${particle(team, ["은", "는"])} 최근 경기 내용이 내려가는 흐름이다.`);
+const metric = (value) => {
+  const n = number(value);
+  return n === null ? null : new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 1 }).format(n);
+};
+
+function formSentence(team, form) {
+  if (!team || !form) return null;
+  const parts = [];
+  if (form.last10) parts.push(`최근 10경기 ${form.last10}`);
+  else if (number(form.w) !== null || number(form.l) !== null) {
+    parts.push(`${number(form.w) || 0}승${number(form.d) ? ` ${number(form.d)}무` : ""} ${number(form.l) || 0}패`);
   }
+  if (form.streak) parts.push(`${form.streak} 흐름`);
+  if (form.trend === "상승") parts.push("경기 내용도 상승세");
+  if (form.trend === "하락") parts.push("다만 최근 경기 내용은 하락세");
+  return parts.length ? `${particle(team, ["은", "는"])} ${parts.join(", ")}다` : null;
+}
+
+function venueSentence(game) {
+  const homeRecord = String(game?.form_home?.home || "");
+  const awayRecord = String(game?.form_away?.away || "");
+  const readable = (value) => {
+    const match = value.match(/^(\d+)-(\d+)$/);
+    return match ? `${match[1]}승 ${match[2]}패` : value;
+  };
+  if (!homeRecord && !awayRecord) return null;
+  const parts = [];
+  if (homeRecord) parts.push(`${game.home}의 홈 성적은 ${readable(homeRecord)}`);
+  if (awayRecord) parts.push(`${game.away}의 원정 성적은 ${readable(awayRecord)}`);
+  if (homeRecord && awayRecord) {
+    const homeParts = homeRecord.match(/^(\d+)-(\d+)$/);
+    const awayParts = awayRecord.match(/^(\d+)-(\d+)$/);
+    const homeRate = homeParts ? Number(homeParts[1]) / (Number(homeParts[1]) + Number(homeParts[2])) : null;
+    const awayRate = awayParts ? Number(awayParts[1]) / (Number(awayParts[1]) + Number(awayParts[2])) : null;
+    const lean = homeRate !== null && awayRate !== null && Math.abs(homeRate - awayRate) >= .08
+      ? ` 이 조건에서는 ${homeRate > awayRate ? game.home : game.away} 쪽이 더 안정적이었다.`
+      : " 장소에 따른 뚜렷한 우위는 크지 않다.";
+    return `${parts.join(", ")}다.${lean}`;
+  }
+  return `${parts[0]}다. 이번 경기 장소에서의 적응력을 함께 볼 필요가 있다.`;
+}
+
+function balanceSentence(game) {
   const hs = number(game?.form_home?.avg_scored), as = number(game?.form_away?.avg_scored);
   const hc = number(game?.form_home?.avg_conceded), ac = number(game?.form_away?.avg_conceded);
-  if (hs !== null && as !== null && Math.abs(hs - as) >= .7) {
-    const team = hs > as ? game.home : game.away;
-    reasons.push(`${particle(team, ["이", "가"])} 최근 경기에서 더 꾸준하게 득점 기회를 만들었다.`);
+  if (hs === null && as === null && hc === null && ac === null) return null;
+
+  const figures = [];
+  if (hs !== null || hc !== null) figures.push(
+    `${game.home} ${hs !== null ? `${metric(hs)}득점` : ""}${hs !== null && hc !== null ? "·" : ""}${hc !== null ? `${metric(hc)}실점` : ""}`);
+  if (as !== null || ac !== null) figures.push(
+    `${game.away} ${as !== null ? `${metric(as)}득점` : ""}${as !== null && ac !== null ? "·" : ""}${ac !== null ? `${metric(ac)}실점` : ""}`);
+
+  const reads = [];
+  if (hs !== null && as !== null) {
+    if (Math.abs(hs - as) < .2) reads.push("득점 생산력은 비슷하다");
+    else reads.push(`${hs > as ? game.home : game.away}의 공격 전개가 더 꾸준했다`);
   }
-  if (hc !== null && ac !== null && Math.abs(hc - ac) >= .7) {
-    const team = hc < ac ? game.home : game.away;
-    reasons.push(`${particle(team, ["은", "는"])} 최근 수비에서 상대 득점을 더 잘 억제했다.`);
+  if (hc !== null && ac !== null) {
+    if (Math.abs(hc - ac) < .2) reads.push("실점 억제력도 큰 차이가 없다");
+    else reads.push(`${hc < ac ? game.home : game.away}가 수비에서 더 안정적이었다`);
   }
-  const hr = number(game?.["선발"]?.teams?.home?.rank), ar = number(game?.["선발"]?.teams?.away?.rank);
-  if (hr !== null && ar !== null && Math.abs(hr - ar) >= 2) {
-    const team = hr < ar ? game.home : game.away;
-    reasons.push(`${particle(team, ["이", "가"])} 현재 순위와 시즌 흐름에서 앞서 있다.`);
+  const interpretation = reads.length ? `${reads.join(", ")}.` : "두 팀을 직접 비교할 수 있는 표본은 아직 충분하지 않다.";
+  return `최근 경기당 ${figures.join(", ")}이다. ${interpretation}`;
+}
+
+function seasonSentence(game) {
+  const home = game?.["선발"]?.teams?.home || {};
+  const away = game?.["선발"]?.teams?.away || {};
+  const hr = number(home.rank), ar = number(away.rank);
+  if (hr === null && ar === null) return null;
+  const record = (team) => {
+    const bits = [];
+    if (number(team.rank) !== null) bits.push(`${team.rank}위`);
+    if (number(team.wins) !== null) {
+      bits.push(`${team.wins}승${number(team.draws) ? ` ${team.draws}무` : ""}${number(team.losses) !== null ? ` ${team.losses}패` : ""}`);
+    }
+    if (number(team.points) !== null) bits.push(`${team.points}점`);
+    return bits.join(" · ");
+  };
+  const figures = [record(home) && `${game.home} ${record(home)}`, record(away) && `${game.away} ${record(away)}`].filter(Boolean);
+  const read = hr !== null && ar !== null
+    ? hr === ar ? "현재 순위상 두 팀의 간격은 없다."
+      : `누적 성적과 시즌 안정감은 ${hr < ar ? game.home : game.away} 쪽이 앞선다.`
+    : "현재 확인되는 시즌 위치도 경기 흐름을 판단하는 배경이다.";
+  return `${figures.join(", ")}. ${read}`;
+}
+
+function playerSentence(players) {
+  const featured = players?.featuredPlayers || [];
+  if (!featured.length && !players?.playerNotes?.length) return null;
+  const leads = featured.slice(0, 2).map((player) =>
+    `${player.team} ${player.name}(${player.role}${player.detail && player.detail !== player.role ? ` · ${player.detail}` : ""})`);
+  const note = players?.playerNotes?.[0];
+  const lead = leads.length ? `이번 경기에서 먼저 볼 선수는 ${leads.join(", ")}다. 경기 운영과 승부처에서 이들의 영향력을 확인해야 한다.` : "";
+  return `${lead}${note ? ` ${note}` : ""}`.trim();
+}
+
+function expectedFlowSentence(game, prediction) {
+  if (prediction?.side === "무승부") {
+    return "양쪽의 강점이 엇갈려 한 팀이 계속 밀어붙이기보다 주도권을 주고받는 접전 가능성을 높게 봤다.";
   }
-  if (prediction?.side === "무승부") reasons.unshift("두 팀의 최근 흐름 차이가 크지 않아 한쪽이 주도권을 굳히기 어렵다.");
-  return [...new Set(reasons)].slice(0, 4);
+  const side = prediction?.side;
+  if (!side) return "현재 연결된 경기력 자료만으로는 한쪽이 흐름을 계속 가져갈 것이라고 단정하기 어렵다.";
+  const isHome = side === game?.home;
+  const ownForm = isHome ? game?.form_home : game?.form_away;
+  const ownRecord = isHome ? ownForm?.home : ownForm?.away;
+  const bases = [];
+  if (ownForm?.streak && /연승/.test(ownForm.streak)) bases.push(ownForm.streak);
+  if (ownForm?.trend === "상승") bases.push("최근 상승 흐름");
+  if (ownRecord) bases.push(isHome ? "홈 경기 경쟁력" : "원정 경기 경쟁력");
+  const basis = bases.length ? bases.slice(0, 2).join("과 ") : "현재 확인된 경기 정보";
+  const opponent = isHome ? game?.away : game?.home;
+  const ownConceded = number(ownForm?.avg_conceded);
+  const otherScored = number((isHome ? game?.form_away : game?.form_home)?.avg_scored);
+  const caveat = ownConceded !== null && otherScored !== null && otherScored > ownConceded
+    ? ` 다만 ${opponent}의 최근 득점 생산력은 경기를 쉽게 벌리지 못하게 할 변수다.`
+    : " 다만 경기 초반 실점 여부와 선발 구성은 흐름을 바꿀 수 있다.";
+  return `${particle(side, ["이", "가"])} ${basis}을 바탕으로 주도권을 조금 더 오래 가져갈 가능성을 높게 봤다.${caveat}`;
+}
+
+function performanceReasons(game, prediction, players) {
+  const reasons = [];
+  const recent = [formSentence(game?.home, game?.form_home), formSentence(game?.away, game?.form_away)].filter(Boolean);
+  if (recent.length) reasons.push(`최근 분위기 — ${recent.join(". ")}.`);
+  const balance = balanceSentence(game);
+  if (balance) reasons.push(`공격·수비 균형 — ${balance}`);
+  const venue = venueSentence(game);
+  if (venue) reasons.push(`홈·원정 조건 — ${venue}`);
+  const season = seasonSentence(game);
+  if (season) reasons.push(`시즌 위치 — ${season}`);
+  const player = playerSentence(players);
+  if (player) reasons.push(`선수 변수 — ${player}`);
+  reasons.push(`예상 경기 흐름 — ${expectedFlowSentence(game, prediction)}`);
+  return [...new Set(reasons)].slice(0, 6);
 }
 
 export function performanceAnalysis(game) {
   const prediction = predictionFor(game);
-  const reasons = performanceReasons(game, prediction);
   const players = playerSnapshot(game);
-  if (!reasons.length) reasons.push("현재 연결된 최근 경기 자료만으로는 뚜렷한 경기력 차이를 단정하기 어렵다.");
+  const reasons = performanceReasons(game, prediction, players);
   const announced = game?.["선발"]?.lineup_status?.state === "announced"
     || (game?.sport === "bs" && game?.["선발"]?.home);
   return {
