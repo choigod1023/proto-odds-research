@@ -33,6 +33,7 @@ def test_parse_npb_official_starters_maps_teams_and_players():
     games = parse_npb_starters(html, datetime(2026, 8, 23, 1, tzinfo=KST))
     assert len(games) == 1
     assert games[0]["home_team"] == "요미우리"
+    assert games[0]["starters"]["away"]["profile_url"].endswith("/222.html")
     assert games[0]["away_team"] == "히로시마"
     assert games[0]["starters"]["home"]["name"] == "小笠原 慎之介"
     assert games[0]["starters"]["away"]["player_id"] == "222"
