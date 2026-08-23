@@ -24,9 +24,15 @@ Bonferroni·부트스트랩·시간분리를 **다 통과해도** 이런 건 안
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
+
+# Windows CP949 콘솔에서 상태 이모지가 검사 자체를 실패시키지 않게 한다.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(errors="replace")
 
 SRC = Path(__file__).resolve().parent
 
@@ -45,6 +51,8 @@ TESTS = [
     ("lineup_edge.py", "라인업 우위 (비주전 범위 · 결합 규모)"),
     ("devig.py", "devig 4종 (합=1 · 양수)"),
     ("guard.py", "표본 축소 가드 (결과값 기반 누락 탐지)"),
+    ("lotto645.py", "로또 6/45 (정확한 비복원 확률 · 균등복귀 · 고유조합)"),
+    ("lotto_collect.py", "로또 공식 원장 (필드 매핑 · 미확인값 미추정)"),
 ]
 
 
@@ -62,7 +70,10 @@ def main() -> int:
         args = [sys.executable, str(path)]
         if script != "guard.py":
             args.append("--selftest")
-        r = subprocess.run(args, capture_output=True, text=True, cwd=SRC.parent)
+        r = subprocess.run(
+            args, capture_output=True, text=True, encoding="utf-8", errors="replace",
+            cwd=SRC.parent, env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+        )
         ok = r.returncode == 0
         tail = [ln for ln in (r.stdout or "").strip().splitlines() if ln.strip()]
         summary = tail[-1][:70] if tail else (r.stderr or "").strip().splitlines()[-1:][0][:70] if r.stderr else ""

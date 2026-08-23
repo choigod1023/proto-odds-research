@@ -3,7 +3,8 @@
 **553회차 · 399,150 베팅레코드 실측 연구 (2023–2026)**
 
 🌐 [산출물 사이트](https://choigod1023.github.io/proto-odds-research/) ·
-📁 [검정 문서 28편](findings/) · 📄 [인수인계](HANDOFF.md)
+📁 [검정 문서 28편](findings/) · 📄 [인수인계](HANDOFF.md) ·
+🎱 [로또 6/45 검증실](https://choigod1023.github.io/proto-odds-research/lotto.html) · [방법론](findings/로또_미래상수_MVP.md)
 
 ---
 

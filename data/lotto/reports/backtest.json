@@ -1,0 +1,56 @@
+{
+  "method": "expanding_window_walk_forward",
+  "data_cutoff_draw_no": 1238,
+  "evaluation_draw_range": [
+    301,
+    1238
+  ],
+  "min_train": 300,
+  "models": {
+    "bayesian_bias": {
+      "brier_gain": {
+        "mean": -0.00011258780164787312,
+        "se": 3.157680577017375e-05,
+        "hac_lag": 10,
+        "lower_95": -0.00017447834095741366,
+        "upper_95": -5.069726233833257e-05
+      },
+      "joint_log_gain": {
+        "mean": -0.021323156654740258,
+        "se": 0.006065847439700604,
+        "hac_lag": 10,
+        "lower_95": -0.033212217636553444,
+        "upper_95": -0.009434095672927073
+      },
+      "recent_half_brier_gain": -0.0001270876437947767,
+      "recent_half_log_gain": -0.024132031564945366,
+      "gate_passed": false,
+      "evaluations": 938
+    },
+    "future_constant": {
+      "brier_gain": {
+        "mean": -0.00011258780164787312,
+        "se": 3.157680577017375e-05,
+        "hac_lag": 10,
+        "lower_95": -0.00017447834095741366,
+        "upper_95": -5.069726233833257e-05
+      },
+      "joint_log_gain": {
+        "mean": -0.021323156654740258,
+        "se": 0.006065847439700604,
+        "hac_lag": 10,
+        "lower_95": -0.033212217636553444,
+        "upper_95": -0.009434095672927073
+      },
+      "recent_half_brier_gain": -0.0001270876437947767,
+      "recent_half_log_gain": -0.024132031564945366,
+      "gate_passed": false,
+      "evaluations": 938
+    }
+  },
+  "chosen_model": "uniform",
+  "operational_edge_weight": 0.0,
+  "gate_rule": "Brier와 조합 로그점수 개선의 95% 하한이 모두 0 초과이고 평가기간 후반부에서도 두 지표가 모두 같은 방향일 때만 채택",
+  "data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "generated_at": "2026-08-23T13:15:11+09:00"
+}
