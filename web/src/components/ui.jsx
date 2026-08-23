@@ -1,4 +1,4 @@
-// 공용 조각들. 세 페이지가 같은 네비·카드·배지를 쓴다.
+// 공용 조각들. 네 페이지가 같은 네비·카드·배지를 쓴다.
 // (예전엔 nav/card/badge 마크업이 3개 HTML 에 복붙돼 있었다)
 //
 // ⚠️ 색은 토큰만 쓴다. 특히 **값에는 심각도 램프(sev0~sev3)만** 쓰고
@@ -9,6 +9,7 @@ export const NAV = [
   { href: "markets.html", label: "경기 보기" },
   { href: "index.html", label: "배당 비교" },
   { href: "research.html", label: "모델 검증" },
+  { href: "lotto.html", label: "로또 검증" },
 ];
 
 export function Nav({ current }) {

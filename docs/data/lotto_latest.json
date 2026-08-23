@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-23T13:15:11+09:00",
+  "official_source": "https://www.dhlottery.co.kr/lt645/result",
+  "data_cutoff_draw_no": 1238,
+  "data_cutoff_draw_date": "2026-08-22",
+  "draw_count": 1238,
+  "data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "model_version": "lotto-fc-v1.0",
+  "audit": {
+    "null_model": "45개 중 균등 비복원 6개 추출",
+    "draw_count": 1238,
+    "observed": {
+      "max_abs_frequency_z": 2.4301858786923374,
+      "max_abs_pair_z": 3.5463449767573008,
+      "max_abs_lag1": 0.08260979668620223
+    },
+    "familywise_monte_carlo_p": {
+      "max_abs_frequency_z": 0.44621513944223107,
+      "max_abs_pair_z": 0.5378486055776892,
+      "max_abs_lag1": 0.17928286852589642
+    },
+    "simulations": 250,
+    "seed": 645,
+    "uniform_compatible": true,
+    "decision": "균등모델과 구별되는 재현 가능한 증거 없음",
+    "data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "generated_at": "2026-08-23T13:15:03+09:00"
+  },
+  "backtest": {
+    "method": "expanding_window_walk_forward",
+    "data_cutoff_draw_no": 1238,
+    "evaluation_draw_range": [
+      301,
+      1238
+    ],
+    "min_train": 300,
+    "models": {
+      "bayesian_bias": {
+        "brier_gain": {
+          "mean": -0.00011258780164787312,
+          "se": 3.157680577017375e-05,
+          "hac_lag": 10,
+          "lower_95": -0.00017447834095741366,
+          "upper_95": -5.069726233833257e-05
+        },
+        "joint_log_gain": {
+          "mean": -0.021323156654740258,
+          "se": 0.006065847439700604,
+          "hac_lag": 10,
+          "lower_95": -0.033212217636553444,
+          "upper_95": -0.009434095672927073
+        },
+        "recent_half_brier_gain": -0.0001270876437947767,
+        "recent_half_log_gain": -0.024132031564945366,
+        "gate_passed": false,
+        "evaluations": 938
+      },
+      "future_constant": {
+        "brier_gain": {
+          "mean": -0.00011258780164787312,
+          "se": 3.157680577017375e-05,
+          "hac_lag": 10,
+          "lower_95": -0.00017447834095741366,
+          "upper_95": -5.069726233833257e-05
+        },
+        "joint_log_gain": {
+          "mean": -0.021323156654740258,
+          "se": 0.006065847439700604,
+          "hac_lag": 10,
+          "lower_95": -0.033212217636553444,
+          "upper_95": -0.009434095672927073
+        },
+        "recent_half_brier_gain": -0.0001270876437947767,
+        "recent_half_log_gain": -0.024132031564945366,
+        "gate_passed": false,
+        "evaluations": 938
+      }
+    },
+    "chosen_model": "uniform",
+    "operational_edge_weight": 0.0,
+    "gate_rule": "Brier와 조합 로그점수 개선의 95% 하한이 모두 0 초과이고 평가기간 후반부에서도 두 지표가 모두 같은 방향일 때만 채택",
+    "data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "generated_at": "2026-08-23T13:15:11+09:00"
+  },
+  "portfolio": {
+    "target_draw_no": 1239,
+    "budget_won": 10000,
+    "ticket_price_won": 1000,
+    "ticket_count": 10,
+    "model_status": "uniform_fallback",
+    "chosen_model": "uniform",
+    "operational_edge_weight": 0.0,
+    "rho_raw": 0.004117471755130132,
+    "rho_after_noise_shrinkage": 0.0,
+    "combinations": [
+      {
+        "numbers": [
+          11,
+          15,
+          19,
+          29,
+          33,
+          41
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 6
+      },
+      {
+        "numbers": [
+          7,
+          13,
+          18,
+          37,
+          39,
+          44
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 6
+      },
+      {
+        "numbers": [
+          14,
+          16,
+          20,
+          34,
+          38,
+          45
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 6
+      },
+      {
+        "numbers": [
+          1,
+          3,
+          9,
+          24,
+          32,
+          40
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 6
+      },
+      {
+        "numbers": [
+          5,
+          8,
+          21,
+          25,
+          36,
+          42
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 6
+      },
+      {
+        "numbers": [
+          5,
+          17,
+          20,
+          23,
+          41,
+          43
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 5
+      },
+      {
+        "numbers": [
+          10,
+          17,
+          21,
+          30,
+          32,
+          38
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 5
+      },
+      {
+        "numbers": [
+          9,
+          17,
+          19,
+          22,
+          34,
+          37
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 5
+      },
+      {
+        "numbers": [
+          1,
+          6,
+          8,
+          38,
+          41,
+          44
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 5
+      },
+      {
+        "numbers": [
+          9,
+          25,
+          29,
+          31,
+          38,
+          43
+        ],
+        "robust_log_gain": 0.0,
+        "mean_log_gain": 0.0,
+        "popularity_risk": {
+          "score": 0.0,
+          "reasons": []
+        },
+        "min_distance_from_previous": 5
+      }
+    ],
+    "number_weights": [
+      {
+        "number": 1,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 2,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 3,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 4,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 5,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 6,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 7,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 8,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 9,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 10,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 11,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 12,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 13,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 14,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 15,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 16,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 17,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 18,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 19,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 20,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 21,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 22,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 23,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 24,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 25,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 26,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 27,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 28,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 29,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 30,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 31,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 32,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 33,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 34,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 35,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 36,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 37,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 38,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 39,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 40,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 41,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 42,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 43,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 44,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      },
+      {
+        "number": 45,
+        "inclusion_probability": 0.13333333333333333,
+        "uniform_probability": 0.13333333333333333
+      }
+    ],
+    "jackpot_probability_if_fair": 1.2277380399898835e-06,
+    "seed": "lotto-fc-v1.0|target=1239|cutoff=1238|data=da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "seed_sha256": "eab7a135e2ec7b82fd1690698c46886b8f808c113d035681777f6c925b0667d6",
+    "candidate_pool_size": 5000,
+    "uncertainty_samples": 1,
+    "notes": [
+      "고유 조합 수만큼 1등 확률이 늘며 조합 간 거리 자체가 1등 확률을 더 올리지는 않습니다.",
+      "인기 조합 회피는 공동당첨 위험을 낮추려는 휴리스틱이며 당첨확률을 높이지 않습니다.",
+      "미래상수의 독립 충격 R과 미관측 상태 U는 예측점수가 아니라 불확실성 계산에만 사용합니다."
+    ]
+  },
+  "preregistration": {
+    "target_draw_no": 1239,
+    "data_cutoff_draw_no": 1238,
+    "model_version": "lotto-fc-v1.0",
+    "model_status": "uniform_fallback",
+    "chosen_model": "uniform",
+    "future_constant_seed": "lotto-fc-v1.0|target=1239|cutoff=1238|data=da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "budget_won": 10000,
+    "combinations": [
+      [
+        11,
+        15,
+        19,
+        29,
+        33,
+        41
+      ],
+      [
+        7,
+        13,
+        18,
+        37,
+        39,
+        44
+      ],
+      [
+        14,
+        16,
+        20,
+        34,
+        38,
+        45
+      ],
+      [
+        1,
+        3,
+        9,
+        24,
+        32,
+        40
+      ],
+      [
+        5,
+        8,
+        21,
+        25,
+        36,
+        42
+      ],
+      [
+        5,
+        17,
+        20,
+        23,
+        41,
+        43
+      ],
+      [
+        10,
+        17,
+        21,
+        30,
+        32,
+        38
+      ],
+      [
+        9,
+        17,
+        19,
+        22,
+        34,
+        37
+      ],
+      [
+        1,
+        6,
+        8,
+        38,
+        41,
+        44
+      ],
+      [
+        9,
+        25,
+        29,
+        31,
+        38,
+        43
+      ]
+    ],
+    "generated_at": "2026-08-23T13:15:11+09:00",
+    "data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "backtest_hash": "25b0e7fc2d4667f03c310649d8543391a9a264298fbc26014fd22630886d5e53",
+    "audit_hash": "5083bfaa63dbaa536eef147779449e6032ee70c2dbf8a2246677d6115ae87689",
+    "code_commit": "99aadee598c9544e296965aa49f09b940c324f75+working-tree",
+    "model_code_hash": "bb179b6413257433e593141bcc97ce38f68f6a972e1eb20cd20ae21d6d3573a5",
+    "prediction_hash": "45621656c8f9c19dc004e8afbf886ec5b2b6ca56bc88d13125fd414d5c446c76"
+  },
+  "preregistration_file": "data/lotto/preregistrations/draw-1239-45621656c8f9.json",
+  "warning": "로또는 공정하다면 모든 고유 조합의 1등 확률이 같습니다. 검증 관문을 통과하지 못한 모델은 번호 가중치를 0으로 되돌립니다."
+}

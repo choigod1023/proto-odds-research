@@ -25,6 +25,7 @@ export default defineConfig({
         index: resolve(__dirname, "index.html"),
         markets: resolve(__dirname, "markets.html"),
         research: resolve(__dirname, "research.html"),
+        lotto: resolve(__dirname, "lotto.html"),
       },
     },
   },
