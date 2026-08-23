@@ -37,7 +37,9 @@ REMOTE = "https://github.com/choigod1023/proto-odds-research.git"
 LOOPERS = [
     ("배당 스냅샷", [sys.executable, "-u", "src/snapshot.py", "--loop", "900"]),
     ("선발 예고", [sys.executable, "-u", "src/info_watch.py", "--loop", "1800"]),
-    # MLB 공식 예정 선발·시즌 투수 지표·부상 상태와 KBO 최근 12선발 지표.
+    # MLB 공식 예정 선발·시즌 투수 지표·부상 상태, KBO 최근 12선발 지표,
+    # NPB.jp 공식 선발·양대 리그 순위, J.LEAGUE.jp J1/J2 공식 순위,
+    # FIBA·Volleyball World·네이버 농구/배구 선수·팀 기록.
     # 선발 변경이 잦은 경기 직전에도 화면이 한 시간 낡지 않도록 예고와 같은 주기다.
     ("선수·팀 정보", [sys.executable, "-u", "src/player_info.py", "--loop", "1800"]),
     ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py", "--loop", "900"]),

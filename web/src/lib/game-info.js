@@ -32,11 +32,16 @@ export function infoTabs(game, commentary = "") {
   const availability = unavailableFor(game, "home").length
     || unavailableFor(game, "away").length || hasTendency || game?.["선발"]?.lineups;
   const tabs = [];
+  const sport = game?.sport;
+  const supported = ["bs", "sc", "bk", "vl"].includes(sport);
+  const court = ["bk", "vl"].includes(sport);
   if (commentary) tabs.push({ id: "summary", label: "요약" });
-  if (["bs", "sc"].includes(game?.sport) || starter || hasTendency) tabs.push({ id: "players", label: "선발·라인업" });
-  if (team) tabs.push({ id: "teams", label: "팀 흐름" });
-  // 자료가 0명이어도 야구·축구는 '발표 전/명단 없음/미연결'을 구분해 보여준다.
-  if (["bs", "sc"].includes(game?.sport) || availability) tabs.push({ id: "availability", label: "부상·출전" });
+  if (supported || starter || hasTendency) tabs.push({
+    id: "players", label: court ? "선수·명단" : "선발·라인업",
+  });
+  if (team || supported) tabs.push({ id: "teams", label: "팀 흐름" });
+  // 자료가 0명이어도 모든 프로토 종목은 발표 전·미연결 상태를 구분해 보여준다.
+  if (supported || availability) tabs.push({ id: "availability", label: "부상·출전" });
   return tabs;
 }
 

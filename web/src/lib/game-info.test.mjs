@@ -20,6 +20,13 @@ test("축구도 발표 전부터 선수·출전 탭을 숨기지 않는다", () 
     ["summary", "players", "teams", "availability"]);
 });
 
+test("농구와 배구도 선수·명단 및 출전 탭을 항상 연다", () => {
+  for (const sport of ["bk", "vl"]) {
+    const tabs = infoTabs({ sport }, "해설");
+    assert.deepEqual(tabs.map((x) => x.id), ["summary", "players", "teams", "availability"]);
+    assert.equal(tabs.find((x) => x.id === "players").label, "선수·명단");
+  }
+});
 test("0도 유효한 투수 지표로 표시하고 부상 배열을 정리한다", () => {
   assert.deepEqual(pitcherMetrics({ stats: { era: 0, fip: null, games_started: 2 } }),
     [["ERA", 0], ["선발", 2]]);
