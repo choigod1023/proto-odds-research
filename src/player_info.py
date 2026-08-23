@@ -220,6 +220,38 @@ def announcement_games() -> list[dict]:
     return list(games.values())
 
 
+def apply_korean_starter_names(games: list[dict], announcements: list[dict]) -> list[dict]:
+    """공식 MLB 투수 기록은 유지하고 네이버의 검증된 한글 선발명만 합친다."""
+    mapping = _team_map()
+    localized = {}
+    for rec in announcements:
+        key = (
+            str(rec.get("league")), _mmdd(rec.get("game_datetime")),
+            canonical_team(rec.get("league", ""), rec.get("home_team", ""), mapping),
+            canonical_team(rec.get("league", ""), rec.get("away_team", ""), mapping),
+        )
+        if key[0] != "MLB":
+            continue
+        current = localized.get(key)
+        if current is None or str(rec.get("updated_at") or "") > str(current.get("updated_at") or ""):
+            localized[key] = rec
+    for game in games:
+        key = (
+            str(game.get("league")), _mmdd(game.get("game_datetime")),
+            canonical_team(game.get("league", ""), game.get("home_team", ""), mapping),
+            canonical_team(game.get("league", ""), game.get("away_team", ""), mapping),
+        )
+        announced = localized.get(key) or {}
+        for side, starter in (game.get("starters") or {}).items():
+            korean = ((announced.get("starters") or {}).get(side) or {}).get("name")
+            if korean and re.search(r"[가-힣]", str(korean)):
+                native = starter.get("name")
+                if native and native != korean:
+                    starter["native_name"] = native
+                starter["name"] = korean
+    return games
+
+
 def _session() -> requests.Session:
     s = requests.Session()
     retry = Retry(total=3, connect=3, read=3, backoff_factor=.5,
@@ -387,9 +419,11 @@ def collect() -> dict:
         existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     except (OSError, json.JSONDecodeError):
         existing = {}
-    games = announcement_games()
+    announcements = announcement_games()
+    games = announcements
+    npb_name_cache = existing.get("npb_name_cache") or {}
     try:
-        npb = collect_npb_games(PICKS, _session())
+        npb = collect_npb_games(PICKS, _session(), name_cache=npb_name_cache)
     except (requests.RequestException, OSError, ValueError) as exc:
         print(f"NPB.jp 공식정보 오류 — 네이버/직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
         npb = [g for g in existing.get("games", []) if g.get("league") == "NPB"]
@@ -400,6 +434,7 @@ def collect() -> dict:
     except requests.RequestException as exc:
         print(f"MLB Stats API 오류 — 직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
         mlb = [g for g in existing.get("games", []) if g.get("league") == "MLB"]
+    apply_korean_starter_names(mlb, announcements)
     soccer_cache = existing.get("soccer_team_cache") or {}
     try:
         soccer, soccer_cache = collect_soccer_info(existing, PICKS, _session())
@@ -412,13 +447,14 @@ def collect() -> dict:
     except (requests.RequestException, OSError, ValueError) as exc:
         print(f"농구·배구 선수정보 오류 — 직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
         court = [g for g in existing.get("games", []) if g.get("sport") in COURT_SPORTS]
-    # 공식 API 범위 밖의 과거 MLB 경기는 네이버 예고 이름을 유지한다. 같은 날짜의
-    # 중복은 game_index/match_game 에서 갱신 시각이 더 최신인 공식 API가 이긴다.
+    # 공식 API 범위 밖의 과거 MLB 경기는 네이버 예고 이름을 유지하고, 공식 경기에는
+    # 네이버 한글 선발명과 MLB 기록을 합친다. 최신 공식 레코드가 화면에 사용된다.
     games = games + npb + mlb + soccer + court
     doc = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "injuries_refreshed_at": injury_stamp, "team_injuries": injuries,
-        "soccer_team_cache": soccer_cache, "court_team_cache": court_cache, "games": games,
+        "npb_name_cache": npb_name_cache, "soccer_team_cache": soccer_cache,
+        "court_team_cache": court_cache, "games": games,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     tmp = OUT.with_suffix(".tmp")
@@ -519,6 +555,22 @@ def _selftest() -> int:
     assert abs(baseball_innings("5 ⅔") - 5 - 2 / 3) < 1e-9
     assert abs(baseball_innings("103.1") - 103 - 1 / 3) < 1e-9
     assert _mmdd("2026-08-23T02:35:00+09:00") == "08.23"
+    official = [{
+        "league": "MLB", "game_datetime": "2026-08-23T02:35:00+09:00",
+        "home_team": "뉴욕양키스", "away_team": "토론토",
+        "starters": {"home": {"name": "Garrett Cole", "stats": {"era": 2.9}}},
+    }]
+    announced = [{
+        "league": "MLB", "game_datetime": "2026-08-23T02:35:00",
+        "home_team": "뉴욕양키스", "away_team": "토론토",
+        "updated_at": "2026-08-22T12:00:00+00:00",
+        "starters": {"home": {"name": "게릿 콜"}},
+    }]
+    apply_korean_starter_names(official, announced)
+    assert official[0]["starters"]["home"] == {
+        "name": "게릿 콜", "native_name": "Garrett Cole", "stats": {"era": 2.9},
+    }
+
     sample = {("MLB", "08.23", "뉴욕양키스", "토론토"): [{
         "league": "MLB", "updated_at": "2026-08-23T00:00:00+00:00",
         "starters": {"home": {"name": "A", "stats": {"era": 3.2}}, "away": {"name": "B"}},

@@ -1,11 +1,22 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from src.japan_info import (jleague_record_for, parse_jleague_standings,
+from src.japan_info import (jleague_record_for, kana_to_hangul,
+                            parse_jleague_standings, parse_npb_player_reading,
                             parse_npb_standings, parse_npb_starters)
 
 
 KST = ZoneInfo("Asia/Seoul")
+
+
+def test_npb_profile_reading_is_rendered_as_korean_name():
+    html = '<ul><li id="pc_v_kana">おがさわら・しんのすけ</li></ul>'
+    assert parse_npb_player_reading(html) == "おがさわら・しんのすけ"
+    assert kana_to_hangul(parse_npb_player_reading(html)) == "오가사와라 신노스케"
+    assert kana_to_hangul("そたに・りゅうへい") == "소타니 류헤이"
+    assert kana_to_hangul("まつもと・けんご") == "마츠모토 켄고"
+    assert kana_to_hangul("ゆうたろう・はると") == "유타로 하루토"
+    assert kana_to_hangul("アンドレ・ジャクソン（ANDRE JACKSON）") == "안드레 잭슨"
 
 
 def test_parse_npb_official_starters_maps_teams_and_players():
