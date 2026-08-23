@@ -6,29 +6,25 @@
 //    이 페이지의 모든 숫자가 손실이라, 초록을 칠하면 −18.7% 가 이득처럼 읽힌다.
 
 export const NAV = [
-  { href: "index.html", label: "가격 분석" },
-  { href: "markets.html", label: "경기 분석" },
-  { href: "research.html", label: "연구 현황" },
+  { href: "markets.html", label: "경기 보기" },
+  { href: "index.html", label: "배당 비교" },
+  { href: "research.html", label: "모델 검증" },
   { href: "lotto.html", label: "로또 검증" },
 ];
 
 export function Nav({ current }) {
   return (
-    <nav className="flex flex-wrap gap-5 border-b border-rule py-4 text-sm">
-      {NAV.map((n) => (
-        <a
-          key={n.href}
-          href={n.href}
-          aria-current={n.href === current ? "page" : undefined}
-          className={
-            n.href === current
-              ? "border-b-2 border-ink pb-[3px] font-semibold text-ink no-underline"
-              : "text-ink2 no-underline hover:text-ink"
-          }
-        >
-          {n.label}
-        </a>
-      ))}
+    <nav className="site-nav" aria-label="주요 메뉴">
+      <a className="site-brand" href="markets.html">경기 분석</a>
+      <div className="site-nav-links">
+        {NAV.map((n) => (
+          <a key={n.href} href={n.href}
+            aria-current={n.href === current ? "page" : undefined}
+            className="site-nav-link">
+            {n.label}
+          </a>
+        ))}
+      </div>
     </nav>
   );
 }
