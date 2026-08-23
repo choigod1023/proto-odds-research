@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
+from npb_lineups import collect_recent_npb_lineups
 
 KST = ZoneInfo("Asia/Seoul")
 NPB_STARTERS_URL = "https://npb.jp/announcement/starter/"
@@ -270,6 +271,14 @@ def localize_npb_starters(games: list[dict], session: requests.Session,
     return games
 
 
+def localize_npb_lineup_players(players: list[dict], session: requests.Session,
+                                name_cache: dict | None = None) -> list[dict]:
+    """박스스코어 타자도 선발투수와 같은 공식 독음 캐시로 한글화한다."""
+    proxy = {str(index): player for index, player in enumerate(players)}
+    localize_npb_starters([{"starters": proxy}], session, name_cache)
+    return players
+
+
 def parse_npb_starters(html: str, now: datetime | None = None) -> list[dict]:
     """NPB `予告先発投手` 페이지를 경기 단위로 변환한다."""
     now = now or datetime.now(KST)
@@ -412,6 +421,30 @@ def _npb_canon(team: str) -> str:
     return NPB_PROTO_CANON.get(str(team or ""), str(team or ""))
 
 
+def _projected_lineup(entry: dict, starter: dict | None) -> list[dict]:
+    """최근 타순을 복사하고 센트럴리그 투수 슬롯만 오늘 예고 선발로 바꾼다."""
+    players = [{**player} for player in (entry.get("players") or [])]
+    for index, player in enumerate(players):
+        if player.get("position") != "투수":
+            continue
+        replacement = {
+            "order": player.get("order"), "position": "투수",
+            "name": "선발 투수 발표 대기", "player_id": None,
+            "profile_url": None,
+        }
+        if starter and starter.get("name"):
+            player_id = starter.get("player_id")
+            replacement.update({
+                "name": starter["name"], "native_name": starter.get("native_name"),
+                "player_id": player_id,
+                "profile_url": (f"https://npb.jp/bis/players/{player_id}.html"
+                                if player_id else None),
+            })
+        players[index] = replacement
+        break
+    return players
+
+
 def collect_npb_games(picks_path: Path, session: requests.Session,
                       now: datetime | None = None,
                       name_cache: dict | None = None) -> list[dict]:
@@ -436,9 +469,23 @@ def collect_npb_games(picks_path: Path, session: requests.Session,
         key = (start.date().isoformat(), game["home_team"], game["away_team"])
         starter_index[key] = game
 
+    proto_games = _load_npb_proto_games(picks_path, now)
+    target_teams = {
+        _npb_canon(team) for proto in proto_games
+        for team in (proto.get("home"), proto.get("away"))
+    }
+    target_teams.discard("")
+    try:
+        recent_lineups = collect_recent_npb_lineups(
+            session, now, target_teams, NPB_TEAM_KO, _html)
+    except (requests.RequestException, ValueError):
+        recent_lineups = {}
+    for entry in recent_lineups.values():
+        localize_npb_lineup_players(entry.get("players") or [], session, name_cache)
+
     out = []
     stamp = now.isoformat(timespec="seconds")
-    for proto in _load_npb_proto_games(picks_path, now):
+    for proto in proto_games:
         home, away = _npb_canon(proto.get("home")), _npb_canon(proto.get("away"))
         key = (proto["_start"].date().isoformat(), home, away)
         official = starter_index.get(key) or {}
@@ -447,16 +494,32 @@ def collect_npb_games(picks_path: Path, session: requests.Session,
             teams["home"] = standings[home]
         if standings.get(away):
             teams["away"] = standings[away]
+        lineups, reference_dates, source_urls = {}, {}, {}
+        official_starters = official.get("starters") or {}
+        for side, team in (("home", home), ("away", away)):
+            entry = recent_lineups.get(team) or {}
+            if not entry.get("players"):
+                continue
+            lineups[side] = _projected_lineup(entry, official_starters.get(side))
+            reference_dates[side] = entry.get("reference_date")
+            source_urls[side] = entry.get("source_url")
+        lineup_status = ({
+            "state": "projected_from_recent_official",
+            "label": "NPB 최근 공식 선발 타순 기반 예상 라인업",
+            "reference_dates": reference_dates, "source_urls": source_urls,
+            "official_today": False,
+            "caveat": "오늘 실제 선발 타순이 아니라 최근 완료 경기 기준",
+        } if lineups else {})
         # 일본 공식 자료를 하나도 못 받았으면 네이버/직전 캐시가 이기게 둔다.
-        if not official and not teams:
+        if not official and not teams and not lineups:
             continue
         out.append({
             "league": "NPB", "game_id": None,
             "game_datetime": proto["_start"].isoformat(),
             "home_team": proto.get("home"), "away_team": proto.get("away"),
             "starters": official.get("starters") or {}, "teams": teams,
-            "unavailable": {}, "lineups": {},
-            "source": "NPB.jp 일본야구기구 공식 선발·순위",
+            "unavailable": {}, "lineups": lineups, "lineup_status": lineup_status,
+            "source": "NPB.jp 일본야구기구 공식 선발·순위·최근 타순·타격 기록",
             "source_url": NPB_STARTERS_URL, "updated_at": stamp,
         })
     return out
