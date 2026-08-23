@@ -35,13 +35,13 @@ export function infoTabs(game, commentary = "") {
   const sport = game?.sport;
   const supported = ["bs", "sc", "bk", "vl"].includes(sport);
   const court = ["bk", "vl"].includes(sport);
-  if (commentary) tabs.push({ id: "summary", label: "요약" });
+  if (commentary) tabs.push({ id: "summary", label: "예측·해석" });
   if (supported || starter || hasTendency) tabs.push({
     id: "players", label: court ? "선수·명단" : "선발·라인업",
   });
-  if (team || supported) tabs.push({ id: "teams", label: "팀 흐름" });
+  if (team || supported) tabs.push({ id: "teams", label: "팀 전력 비교" });
   // 자료가 0명이어도 모든 프로토 종목은 발표 전·미연결 상태를 구분해 보여준다.
-  if (supported || availability) tabs.push({ id: "availability", label: "부상·출전" });
+  if (supported || availability) tabs.push({ id: "availability", label: "출전 변수" });
   return tabs;
 }
 
