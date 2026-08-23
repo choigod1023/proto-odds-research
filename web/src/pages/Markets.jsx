@@ -823,6 +823,77 @@ function FootballKeyPlayers({ team, players }) {
   </div>;
 }
 
+function CourtRoster({ team, players }) {
+  return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+    <div className="text-[11px] text-ink3">{team} · 등록/최근 대표 명단</div>
+    {players?.length ? <ul className="mt-1 grid grid-cols-2 gap-x-2 text-[11px] leading-[1.7]">
+      {players.map((p, i) => <li key={`${p.player_id || p.name}-${i}`} className="truncate">
+        {p.number != null && p.number !== "" && <span className="tnum mr-1 text-ink3">#{p.number}</span>}
+        <b className="font-medium text-ink">{p.name}</b>
+        {p.position && <span className="ml-1 text-[9.5px] text-ink3">{p.position}</span>}
+        {p.club && <span className="ml-1 text-[9.5px] text-ink3">· {p.club}</span>}
+      </li>)}
+    </ul> : <p className="mt-1 text-[11px] text-ink3">이 팀의 최종 명단은 아직 공개되지 않았다.</p>}
+  </div>;
+}
+
+function CourtKeyPlayers({ team, players, sport }) {
+  return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
+    <div className="text-[11px] text-ink3">{team} · 공식 기록 상위 선수</div>
+    {players?.length ? <ul className="mt-1 space-y-1.5">
+      {players.slice(0, 5).map((p, i) => {
+        const metrics = sport === "bk"
+          ? [["경기", p.games], ["득점", p.points], ["리바운드", p.rebounds], ["도움", p.assists], ["효율", p.efficiency], ["3P%", p.three_pct]]
+          : [["순위", p.rank], ["득점", p.points], ["공격", p.attacks], ["블로킹", p.blocks], ["서브", p.serves], ["공격%", p.attack_pct]];
+        return <li key={`${p.player_id || p.name}-${i}`} className="text-[11px]">
+          <div className="flex items-baseline gap-1">
+            <b className="text-ink">{p.name}</b>
+            {p.position && <span className="text-[9.5px] text-ink3">{p.position}</span>}
+          </div>
+          <div className="tnum text-[10px] text-ink3">
+            {metrics.filter(([, value]) => value != null).map(([label, value], j) =>
+              <span key={label}>{j ? " · " : ""}{label} {value}</span>)}
+          </div>
+        </li>;
+      })}
+    </ul> : <p className="mt-1 text-[11px] text-ink3">이 팀의 선수 기록 자료가 아직 연결되지 않았다.</p>}
+  </div>;
+}
+
+function CourtPlayersPanel({ g }) {
+  const info = g["선발"] || {};
+  const rosters = info.rosters || {};
+  const key = info.key_players || {};
+  const hasRoster = !!(rosters.home?.length || rosters.away?.length);
+  const hasKey = !!(key.home?.length || key.away?.length);
+  return <>
+    <div className="mb-2 rounded-[7px] border border-rule2 bg-paper2 px-2.5 py-2 text-[10.5px] leading-[1.6] text-ink3">
+      <b className="text-ink">{info.roster_status?.label || info.coverage?.label || "공식 선수 자료원 미연결"}</b>
+      {info.roster_status?.label && info.coverage?.label && <span> · {info.coverage.label}</span>}
+    </div>
+    {hasRoster && <>
+      <div className="mb-1 text-[10.5px] font-semibold text-ink3">선수 명단</div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <CourtRoster team={g.home} players={rosters.home} />
+        <CourtRoster team={g.away} players={rosters.away} />
+      </div>
+    </>}
+    {hasKey && <>
+      <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">선수 기록</div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <CourtKeyPlayers team={g.home} players={key.home} sport={g.sport} />
+        <CourtKeyPlayers team={g.away} players={key.away} sport={g.sport} />
+      </div>
+    </>}
+    {!hasRoster && !hasKey && <p className="text-[11.5px] text-ink3">
+      {info.coverage?.label || "이 대회의 공식 선수·명단 자료 경로가 아직 연결되지 않았다."}
+    </p>}
+    <p className="mt-2 text-[9.5px] leading-[1.6] text-ink3">
+      등록 명단과 최근 대표 명단은 실제 당일 선발·출전 확정이나 부상 보고서가 아니다.
+    </p>
+  </>;
+}
+
 function PlayersPanel({ g }) {
   if (g.sport === "bs") {
     const lineups = g["선발"]?.lineups || {};
@@ -840,6 +911,7 @@ function PlayersPanel({ g }) {
       </> : <p className="mt-2 text-[10.5px] text-ink3">타자 선발 명단은 아직 발표되지 않았다.</p>}
     </>;
   }
+  if (["bk", "vl"].includes(g.sport)) return <CourtPlayersPanel g={g} />;
   const info = g["선발"] || {};
   const actual = info.lineups || {};
   const key = info.key_players || {};
@@ -875,8 +947,39 @@ function PlayersPanel({ g }) {
     </div>}
   </>;
 }
+function OfficialRecord({ record, sport }) {
+  const rank = record.rank ? `${record.rank}위 · ` : "";
+  const wl = record.wins != null || record.losses != null
+    ? `${record.wins ?? 0}승${record.draws != null ? ` ${record.draws}무` : ""} ${record.losses ?? 0}패`
+    : "경기 기록 확인 중";
+  return <div className="mt-1.5 border-t border-rule2 pt-1.5 text-[10.5px] leading-[1.65] text-ink3">
+    공식 현재 성적 <b className="tnum text-ink">{rank}{wl}</b>
+    {sport === "sc" && <>
+      {record.goals_per_game != null && <span> · 평균 {record.goals_per_game}득점/{record.conceded_per_game}실점</span>}
+      {record.xg != null && <span> · xG {record.xg}{record.xga != null ? `/xGA ${record.xga}` : ""}</span>}
+    </>}
+    {sport === "bs" && record.pct != null && <span> · 승률 {(record.pct * 100).toFixed(1)}%</span>}
+    {sport === "bk" && <>
+      {record.points_per_game != null && <span> · 평균 {record.points_per_game}득점{record.conceded_per_game != null ? `/${record.conceded_per_game}실점` : ""}</span>}
+      {record.rebounds_per_game != null && <span> · 리바운드 {record.rebounds_per_game}</span>}
+      {record.assists_per_game != null && <span> · 도움 {record.assists_per_game}</span>}
+      {record.fg_pct != null && <span> · FG {record.fg_pct}%</span>}
+      {record.three_pct != null && <span> · 3P {record.three_pct}%</span>}
+      {record.turnovers_per_game != null && <span> · 턴오버 {record.turnovers_per_game}</span>}
+    </>}
+    {sport === "vl" && <>
+      {record.table_points != null && <span> · 승점 {record.table_points}</span>}
+      {record.set_ratio != null && <span> · 세트비 {record.set_ratio}</span>}
+      {record.point_ratio != null && <span> · 점수비 {record.point_ratio}</span>}
+      {record.attack_pct != null && <span> · 공격 {record.attack_pct}%</span>}
+      {record.blocks_per_set != null && <span> · 블로킹/세트 {record.blocks_per_set}</span>}
+      {record.serves_per_set != null && <span> · 서브/세트 {record.serves_per_set}</span>}
+      {record.receive_efficiency != null && <span> · 리시브 {record.receive_efficiency}%</span>}
+    </>}
+  </div>;
+}
 
-function TeamFormCard({ team, form, record }) {
+function TeamFormCard({ team, form, record, sport }) {
   return (
     <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
       <div className="text-[11px] text-ink3">{team}</div>
@@ -889,25 +992,15 @@ function TeamFormCard({ team, form, record }) {
           {form.avg_scored != null ? ` · 평균 ${form.avg_scored}득점/${form.avg_conceded}실점` : ""}
         </div>
       </> : <p className="mt-1 text-[11.5px] text-ink3">저장된 최근 경기 표본이 부족하다.</p>}
-      {record && <div className="mt-1.5 border-t border-rule2 pt-1.5 text-[10.5px] text-ink3">
-        {record.draws != null ? <>
-          공식 현재 성적 <b className="tnum text-ink">{record.rank ? `${record.rank}위 · ` : ""}{record.wins}승 {record.draws}무 {record.losses}패</b>
-          {record.goals_per_game != null && <span> · 평균 {record.goals_per_game}득점/{record.conceded_per_game}실점</span>}
-          {record.xg != null && <span> · 팀 xG {record.xg}{record.xga != null ? `/xGA ${record.xga}` : ""}</span>}
-        </> : <>
-          공식 현재 성적 <b className="tnum text-ink">{record.wins}승 {record.losses}패</b>
-          {record.pct ? ` · 승률 ${(record.pct * 100).toFixed(1)}%` : ""}
-        </>}
-      </div>}
+      {record && Object.keys(record).length > 0 && <OfficialRecord record={record} sport={sport} />}
     </div>
   );
 }
-
 function TeamsPanel({ g }) {
   return <>
     <div className="grid gap-2 sm:grid-cols-2">
-      <TeamFormCard team={g.home} form={g.form_home} record={teamRecordFor(g, "home")} />
-      <TeamFormCard team={g.away} form={g.form_away} record={teamRecordFor(g, "away")} />
+      <TeamFormCard team={g.home} form={g.form_home} record={teamRecordFor(g, "home")} sport={g.sport} />
+      <TeamFormCard team={g.away} form={g.form_away} record={teamRecordFor(g, "away")} sport={g.sport} />
     </div>
     {g["h2h"] && <div className="mt-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] text-ink2">
       <span className="mr-1 text-[10.5px] text-ink3">맞대결</span>{g["h2h"]}
@@ -937,19 +1030,30 @@ function AvailabilityPanel({ g }) {
   const state = info.lineup_status?.state;
   const actual = info.lineups || {};
   const hasActual = !!(actual.home?.length || actual.away?.length);
-  const connected = g.sport === "sc" ? state === "announced" : !!un && Object.hasOwn(un, "home") && Object.hasOwn(un, "away");
-  const emptyText = g.sport === "sc" ? "시즌 핵심 선수들이 모두 선발 명단에 포함됐다." : null;
+  const court = ["bk", "vl"].includes(g.sport);
+  const rosterState = info.roster_status?.state;
+  const courtConnected = ["official_competition_roster", "official_roster_partial", "official_player_stats", "recent_international_roster", "season_stats"].includes(rosterState);
+  const connected = court ? true
+    : g.sport === "sc" ? state === "announced"
+      : !!un && Object.hasOwn(un, "home") && Object.hasOwn(un, "away");
+  const emptyText = court
+    ? (courtConnected
+      ? "선수 자료는 연결됐지만 별도의 당일 부상·출전 확정 자료는 아니다."
+      : (info.coverage?.label || "공식 부상·출전 상태 자료원이 아직 연결되지 않았다."))
+    : g.sport === "sc" ? "시즌 핵심 선수들이 모두 선발 명단에 포함됐다." : null;
   return <>
     <div className="grid gap-2 sm:grid-cols-2">
       <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} emptyText={emptyText} />
       <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} emptyText={emptyText} />
     </div>
     {!hasActual && <p className="mt-2 text-[10.5px] leading-[1.6] text-ink3">
-      {g.sport === "sc" ? "실제 선발 명단 발표 전에는 결장·벤치 여부를 단정하지 않는다." : "실제 경기 선발 명단은 보통 시작 직전에 확정된다."}
+      {court
+        ? "등록/최근 명단은 실제 당일 선발이나 부상 보고서가 아니다. 경기 직전 공식 출전 명단을 별도로 확인한다."
+        : g.sport === "sc" ? "실제 선발 명단 발표 전에는 결장·벤치 여부를 단정하지 않는다."
+          : "실제 경기 선발 명단은 보통 시작 직전에 확정된다."}
     </p>}
   </>;
 }
-
 function Why({ g }) {
   const f = [];
   const s = g["선발"];

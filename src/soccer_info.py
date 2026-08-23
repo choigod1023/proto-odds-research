@@ -15,6 +15,9 @@ from zoneinfo import ZoneInfo
 
 import requests
 
+from japan_info import (JLEAGUE_STANDINGS_URL, collect_jleague_standings,
+                        jleague_record_for)
+
 NAVER_API = "https://api-gw.sports.naver.com"
 KST = ZoneInfo("Asia/Seoul")
 STATS_TTL = timedelta(hours=6)
@@ -41,6 +44,7 @@ SOCCER_CATS = {
     "UCL": ("wfootball", "champs"),
     "UEL": ("wfootball", "europa"),
     "J1리그": ("wfootball", "jleague"),
+    "J2리그": ("wfootball", "jleague2"),
     "잉리그컵": ("wfootball", "carlingcup"),
 }
 
@@ -360,6 +364,9 @@ def collect(existing: dict, picks_path: Path, session: requests.Session,
     now = now or datetime.now(KST)
     proto = _load_proto_games(picks_path, now)
     schedules = _schedules(session, proto)
+    japanese_leagues = {str(g["league"]) for g in proto
+                        if g.get("league") in JLEAGUE_STANDINGS_URL}
+    official_jleague = collect_jleague_standings(session, japanese_leagues)
     cache = dict(existing.get("soccer_team_cache") or {})
     matches, seen = [], set()
     for game in proto:
@@ -410,6 +417,19 @@ def collect(existing: dict, picks_path: Path, session: requests.Session,
                 except requests.RequestException:
                     pass
 
+        official_table = official_jleague.get(str(proto_game["league"])) or {}
+        official_used = False
+        for side in ("home", "away"):
+            official = jleague_record_for(official_table, proto_game.get(side))
+            if not official:
+                continue
+            # 네이버 값이 있으면 보존하되, 비어 있던 순위/성적은 J리그 공식표로 채운다.
+            current = teams.get(side) if isinstance(teams.get(side), dict) else {}
+            teams[side] = {
+                **official, **{k: v for k, v in current.items() if v is not None},
+            }
+            official_used = True
+
         lineups, benches, formations, lineup_status = _actual_lineup(session, raw, key_players, now)
         rec = {
             "league": proto_game["league"], "game_id": str(raw.get("gameId") or ""),
@@ -420,11 +440,45 @@ def collect(existing: dict, picks_path: Path, session: requests.Session,
             "unavailable": _availability(key_players, lineups, benches),
             "lineups": lineups, "benches": benches, "formations": formations,
             "lineup_status": lineup_status,
-            "source": "네이버 스포츠 공식 경기·시즌 기록",
-            "source_url": f"https://m.sports.naver.com/{SOCCER_CATS[proto_game['league']][0]}/schedule/index?category={category}",
+            "source": ("J.LEAGUE.jp 공식 순위 · 네이버 스포츠 경기기록"
+                       if official_used else "네이버 스포츠 공식 경기·시즌 기록"),
+            "source_url": (JLEAGUE_STANDINGS_URL.get(str(proto_game["league"]))
+                           if official_used else
+                           f"https://m.sports.naver.com/{SOCCER_CATS[proto_game['league']][0]}/schedule/index?category={category}"),
             "updated_at": now.isoformat(timespec="seconds"),
         }
         out.append(rec)
+
+    # 네이버 일정의 시즌 코드/팀 매칭이 비어도 일본 공식 순위는 버리지 않는다.
+    # 프로토 경기키로 최소 레코드를 만들어 팀 순위가 화면에서 사라지지 않게 한다.
+    covered = {(g["league"], g["_start"].isoformat(), g.get("home"), g.get("away"))
+               for g, _raw in matches}
+    for game in proto:
+        key = (game["league"], game["_start"].isoformat(), game.get("home"), game.get("away"))
+        table = official_jleague.get(str(game["league"])) or {}
+        if key in covered or not table:
+            continue
+        teams = {}
+        for side in ("home", "away"):
+            record = jleague_record_for(table, game.get(side))
+            if record:
+                teams[side] = record
+        if not teams:
+            continue
+        out.append({
+            "league": game["league"], "game_id": None,
+            "game_datetime": game["_start"].isoformat(),
+            "home_team": game.get("home"), "away_team": game.get("away"),
+            "starters": {}, "key_players": {"home": [], "away": []}, "teams": teams,
+            "unavailable": {"home": [], "away": []}, "lineups": {}, "benches": {},
+            "formations": {}, "lineup_status": {
+                "state": "before",
+                "expected_at": (game["_start"] - timedelta(hours=1)).isoformat(),
+            },
+            "source": "J.LEAGUE.jp 공식 순위",
+            "source_url": JLEAGUE_STANDINGS_URL[str(game["league"])],
+            "updated_at": now.isoformat(timespec="seconds"),
+        })
     # 현재 판매팀과 무관해진 오래된 캐시는 버려 JSON이 끝없이 커지는 것을 막는다.
     live_keys = set()
     for _game, raw in matches:

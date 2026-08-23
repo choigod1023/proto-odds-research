@@ -7,9 +7,12 @@
 
 자료원
   * MLB Stats API: 예정 선발, 시즌 투수 지표, 팀 승패, 40인 로스터 부상 상태
-  * 네이버 스포츠 경기기록: KBO/NPB 예고 선발
+  * 네이버 스포츠 경기기록: KBO 예고 선발
+  * NPB.jp 일본야구기구: NPB 예고 선발과 센트럴·퍼시픽 팀 순위
   * 저장된 KBO 박스스코어: 최근 12선발 ERA/FIP/WHIP/K·BB/9/평균 이닝
   * 네이버 스포츠 축구: 현재 시즌 핵심 선수·팀 순위와 경기 직전 실제 라인업
+  * FIBA/네이버 농구: 국가대표 등록 명단·선수/팀 통계와 NBA·KBL·WKBL 시즌 기록
+  * Volleyball World/네이버 배구: 최근 대표 명단·VNL 기록과 V리그 시즌 기록
 
 사용:
     python src/player_info.py              # 한 번 수집
@@ -32,8 +35,11 @@ from zoneinfo import ZoneInfo
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from court_info import (COURT_SPORTS, collect as collect_court_info,
+                        selftest as court_selftest)
 from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
                          selftest as soccer_selftest)
+from japan_info import collect_npb_games
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -376,12 +382,17 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
 
 
 def collect() -> dict:
-    """야구·축구 선수 자료를 합치고, 외부 장애 때 직전 캐시를 유지한다."""
+    """야구·축구·농구·배구 선수 자료를 합치고, 외부 장애 때 직전 캐시를 유지한다."""
     try:
         existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     except (OSError, json.JSONDecodeError):
         existing = {}
     games = announcement_games()
+    try:
+        npb = collect_npb_games(PICKS, _session())
+    except (requests.RequestException, OSError, ValueError) as exc:
+        print(f"NPB.jp 공식정보 오류 — 네이버/직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
+        npb = [g for g in existing.get("games", []) if g.get("league") == "NPB"]
     injuries = existing.get("team_injuries") or {}
     injury_stamp = existing.get("injuries_refreshed_at")
     try:
@@ -395,13 +406,19 @@ def collect() -> dict:
     except (requests.RequestException, OSError, ValueError) as exc:
         print(f"축구 선수정보 오류 — 직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
         soccer = [g for g in existing.get("games", []) if g.get("league") in SOCCER_CATS]
+    court_cache = existing.get("court_team_cache") or {}
+    try:
+        court, court_cache = collect_court_info(existing, PICKS, _session())
+    except (requests.RequestException, OSError, ValueError) as exc:
+        print(f"농구·배구 선수정보 오류 — 직전 캐시 유지: {type(exc).__name__}: {exc}", flush=True)
+        court = [g for g in existing.get("games", []) if g.get("sport") in COURT_SPORTS]
     # 공식 API 범위 밖의 과거 MLB 경기는 네이버 예고 이름을 유지한다. 같은 날짜의
     # 중복은 game_index/match_game 에서 갱신 시각이 더 최신인 공식 API가 이긴다.
-    games = games + mlb + soccer
+    games = games + npb + mlb + soccer + court
     doc = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "injuries_refreshed_at": injury_stamp, "team_injuries": injuries,
-        "soccer_team_cache": soccer_cache, "games": games,
+        "soccer_team_cache": soccer_cache, "court_team_cache": court_cache, "games": games,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     tmp = OUT.with_suffix(".tmp")
@@ -452,9 +469,11 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
         "teams": rec.get("teams") or {}, "unavailable": rec.get("unavailable") or {},
         "lineups": rec.get("lineups") or {}, "source": rec.get("source"),
         "source_url": rec.get("source_url"), "updated_at": rec.get("updated_at"),
-        "key_players": rec.get("key_players") or {},
+        "key_players": rec.get("key_players") or {}, "rosters": rec.get("rosters") or {},
         "benches": rec.get("benches") or {}, "formations": rec.get("formations") or {},
         "lineup_status": rec.get("lineup_status") or {},
+        "roster_status": rec.get("roster_status") or {},
+        "coverage": rec.get("coverage") or {}, "sport": rec.get("sport"),
         "game_id": rec.get("game_id"),
     }
     return payload
@@ -475,7 +494,7 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
     index, changed = game_index(player_doc), 0
     for bucket in ("live", "past"):
         for game in picks.get(bucket, []):
-            if game.get("sport") not in ("bs", "sc"):
+            if game.get("sport") not in ({"bs", "sc"} | COURT_SPORTS):
                 continue
             info = match_game(index, str(game.get("league")), str(game.get("date")),
                               str(game.get("home")), str(game.get("away")))
@@ -493,6 +512,7 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
 
 def _selftest() -> int:
     soccer_selftest()
+    court_selftest()
     mapping = {"MLB": {"뉴욕양키": "뉴욕양키스", "토론블루": "토론토"}}
     assert canonical_team("MLB", "뉴욕양키", mapping) == "뉴욕양키스"
     assert canonical_team("MLB", "뉴욕 양키스", mapping) == "뉴욕양키스"
@@ -514,6 +534,9 @@ def _selftest() -> int:
         }, {
             "sport": "sc", "league": "EPL", "date": "08.23(일) 22:00",
             "home": "맨체스C", "away": "본머스", "추천": {"모델확률": .58},
+        }, {
+            "sport": "bk", "league": "남농월예", "date": "08.28(금) 00:30",
+            "home": "핀란드M", "away": "스웨덴M", "추천": {"모델확률": .61},
         }], "past": []}, ensure_ascii=False), encoding="utf-8")
         player_doc = {"generated_at": "2026-08-23T00:00:00+00:00", "games": [{
             "league": "MLB", "game_datetime": "2026-08-23T02:35:00+09:00",
@@ -527,14 +550,24 @@ def _selftest() -> int:
             "updated_at": "2026-08-23T00:00:00+00:00", "starters": {},
             "key_players": {"home": [{"name": "A", "goals": 2}]},
             "source": "네이버 스포츠 공식 경기·시즌 기록",
+        }, {
+            "sport": "bk", "league": "남농월예", "game_datetime": "2026-08-28T00:30:00+09:00",
+            "home_team": "핀란드M", "away_team": "스웨덴M",
+            "updated_at": "2026-08-23T00:00:00+00:00", "starters": {},
+            "rosters": {"home": [{"name": "C", "position": "PG"}]},
+            "roster_status": {"state": "official_competition_roster"},
+            "source": "FIBA 공식 경기·대회 기록",
         }]}
-        assert enrich_picks(player_doc, path) == 2
+        assert enrich_picks(player_doc, path) == 3
         enriched = json.loads(path.read_text(encoding="utf-8"))
         assert enriched["live"][0]["선발"]["home"] == "오늘 투수"
         assert enriched["live"][1]["선발"]["key_players"]["home"][0]["goals"] == 2
+        assert enriched["live"][2]["선발"]["rosters"]["home"][0]["position"] == "PG"
+        assert enriched["live"][2]["선발"]["roster_status"]["state"] == "official_competition_roster"
         # 30분 경량 갱신은 예측·추천 값을 절대 바꾸지 않는다.
         assert enriched["live"][0]["추천"]["모델확률"] == .51
         assert enriched["live"][1]["추천"]["모델확률"] == .58
+        assert enriched["live"][2]["추천"]["모델확률"] == .61
         assert enriched["player_info_at"] == player_doc["generated_at"]
     print("[OK] 선수정보 - 팀 별칭, 날짜 경기키, 이닝 변환, 상세 선발 결합")
     return 0
