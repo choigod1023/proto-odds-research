@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -17,6 +18,7 @@ from bs4 import BeautifulSoup
 
 KST = ZoneInfo("Asia/Seoul")
 NPB_STARTERS_URL = "https://npb.jp/announcement/starter/"
+NPB_PLAYER_URL = "https://npb.jp/bis/players/{player_id}.html"
 NPB_STATS_URL = "https://npb.jp/bis/{season}/stats/std_{group}.html"
 JLEAGUE_STANDINGS_URL = {
     "J1리그": "https://www.jleague.jp/j1/standings/",
@@ -114,6 +116,158 @@ def _html(session: requests.Session, url: str) -> str:
     response.raise_for_status()
     # 두 공식 사이트 모두 UTF-8이지만 간혹 text/html 헤더에 charset이 빠진다.
     return response.content.decode("utf-8", errors="replace")
+
+# NPB 선수 프로필의 가나 독음을 화면용 한글 표기로 바꾼다. 일본어 원문은
+# native_name에 남겨 원자료 대조가 가능하게 하고, 화면의 name만 한글로 쓴다.
+_KANA_KO = {
+    "あ": "아", "い": "이", "う": "우", "え": "에", "お": "오",
+    "か": "카", "き": "키", "く": "쿠", "け": "케", "こ": "코",
+    "が": "가", "ぎ": "기", "ぐ": "구", "げ": "게", "ご": "고",
+    "さ": "사", "し": "시", "す": "스", "せ": "세", "そ": "소",
+    "ざ": "자", "じ": "지", "ず": "즈", "ぜ": "제", "ぞ": "조",
+    "た": "다", "ち": "치", "つ": "츠", "て": "데", "と": "토",
+    "だ": "다", "ぢ": "지", "づ": "즈", "で": "데", "ど": "도",
+    "な": "나", "に": "니", "ぬ": "누", "ね": "네", "の": "노",
+    "は": "하", "ひ": "히", "ふ": "후", "へ": "헤", "ほ": "호",
+    "ば": "바", "び": "비", "ぶ": "부", "べ": "베", "ぼ": "보",
+    "ぱ": "파", "ぴ": "피", "ぷ": "푸", "ぺ": "페", "ぽ": "포",
+    "ま": "마", "み": "미", "む": "무", "め": "메", "も": "모",
+    "や": "야", "ゆ": "유", "よ": "요",
+    "ら": "라", "り": "리", "る": "루", "れ": "레", "ろ": "로",
+    "わ": "와", "ゐ": "이", "ゑ": "에", "を": "오", "ゔ": "브",
+    "ぁ": "아", "ぃ": "이", "ぅ": "우", "ぇ": "에", "ぉ": "오",
+    "きゃ": "캬", "きゅ": "큐", "きょ": "쿄",
+    "ぎゃ": "갸", "ぎゅ": "규", "ぎょ": "교",
+    "しゃ": "샤", "しゅ": "슈", "しょ": "쇼",
+    "じゃ": "자", "じゅ": "주", "じょ": "조",
+    "ちゃ": "차", "ちゅ": "추", "ちょ": "초",
+    "にゃ": "냐", "にゅ": "뉴", "にょ": "뇨",
+    "ひゃ": "햐", "ひゅ": "휴", "ひょ": "효",
+    "びゃ": "뱌", "びゅ": "뷰", "びょ": "뵤",
+    "ぴゃ": "퍄", "ぴゅ": "퓨", "ぴょ": "표",
+    "みゃ": "먀", "みゅ": "뮤", "みょ": "묘",
+    "りゃ": "랴", "りゅ": "류", "りょ": "료",
+    "ふぁ": "파", "ふぃ": "피", "ふぇ": "페", "ふぉ": "포",
+    "てぃ": "티", "でぃ": "디", "とぅ": "투", "どぅ": "두",
+    "ちぇ": "체", "しぇ": "셰", "じぇ": "제",
+    "うぃ": "위", "うぇ": "웨", "うぉ": "워",
+    "ゔぁ": "바", "ゔぃ": "비", "ゔぇ": "베", "ゔぉ": "보",
+}
+_NAME_KANA_KO = {
+    "あんどれ": "안드레", "じゃくそん": "잭슨",
+    "そたに": "소타니", "たつき": "타츠키", "ゆうたろう": "유타로",
+}
+
+NPB_NAME_RULE_VERSION = 2
+def parse_npb_player_reading(html: str) -> str | None:
+    """NPB 선수 프로필의 공식 가나 독음을 반환한다."""
+    soup = BeautifulSoup(html, "lxml")
+    node = soup.select_one("#pc_v_kana")
+    reading = _clean(node.get_text(" ") if node else "")
+    return reading or None
+
+def _hiragana(value: str) -> str:
+    value = unicodedata.normalize("NFKC", str(value or ""))
+    value = re.sub(r"\([^)]*\)", "", value)
+    return "".join(chr(ord(ch) - 0x60) if "ァ" <= ch <= "ヶ" else ch for ch in value)
+
+def _append_final(parts: list[str], jong: int) -> None:
+    for index in range(len(parts) - 1, -1, -1):
+        if not parts[index] or parts[index].isspace():
+            continue
+        last = parts[index][-1]
+        code = ord(last) - 0xAC00
+        if 0 <= code < 11172 and code % 28 == 0:
+            parts[index] = parts[index][:-1] + chr(ord(last) + jong)
+        return
+
+def _last_vowel(parts: list[str]) -> int | None:
+    for part in reversed(parts):
+        if not part or part.isspace():
+            continue
+        code = ord(part[-1]) - 0xAC00
+        return (code // 28) % 21 if 0 <= code < 11172 else None
+    return None
+
+def kana_to_hangul(reading: str) -> str:
+    """일본인명 독음과 외국인 선수의 가타카나 이름을 한글로 전사한다."""
+    text = _hiragana(reading).replace("・", " ").replace("=", " ")
+    for kana, korean in _NAME_KANA_KO.items():
+        text = text.replace(kana, korean)
+    parts: list[str] = []
+    index = 0
+    while index < len(text):
+        ch = text[index]
+        if ch in " .·/":
+            if parts and not parts[-1].isspace():
+                parts.append(" ")
+            index += 1
+            continue
+        if ch == "ー":
+            index += 1
+            continue
+        if ch == "ん":
+            following = text[index + 1:index + 2]
+            _append_final(parts, 16 if following in "ばびぶべぼぱぴぷぺぽまみむめも" else 4)
+            index += 1
+            continue
+        if ch == "っ":
+            following = text[index + 1:index + 2]
+            if following in "かきくけこがぎぐげご":
+                _append_final(parts, 1)
+            elif following in "ぱぴぷぺぽばびぶべぼ":
+                _append_final(parts, 17)
+            else:
+                _append_final(parts, 19)
+            index += 1
+            continue
+        token = text[index:index + 2]
+        if token in _KANA_KO:
+            mapped, consumed = _KANA_KO[token], 2
+        else:
+            mapped, consumed = _KANA_KO.get(ch), 1
+        # しょう·ゆう처럼 う가 앞 음절의 장음을 나타내면 한글에서 반복하지 않는다.
+        if ch == "う" and _last_vowel(parts) in (8, 12, 17):
+            index += 1
+            continue
+        if mapped:
+            parts.append(mapped)
+        elif not ("ぁ" <= ch <= "ゖ"):
+            parts.append(ch)
+        index += consumed
+    return _clean("".join(parts))
+
+def localize_npb_starters(games: list[dict], session: requests.Session,
+                          name_cache: dict | None = None) -> list[dict]:
+    """선수 ID별 공식 독음을 캐시하고 NPB 선발의 화면 이름을 한글로 바꾼다."""
+    cache = name_cache if name_cache is not None else {}
+    for game in games:
+        for starter in (game.get("starters") or {}).values():
+            player_id = str(starter.get("player_id") or "")
+            native = _clean(starter.get("name"))
+            if not player_id or not native:
+                continue
+            saved = cache.get(player_id) or {}
+            if (saved.get("native_name") == native and saved.get("name_ko") and
+                    saved.get("rule_version") == NPB_NAME_RULE_VERSION):
+                korean = saved["name_ko"]
+            else:
+                try:
+                    reading = parse_npb_player_reading(_html(
+                        session, NPB_PLAYER_URL.format(player_id=player_id)))
+                except requests.RequestException:
+                    reading = None
+                korean = kana_to_hangul(reading or "")
+                if korean:
+                    cache[player_id] = {
+                        "native_name": native, "reading": reading, "name_ko": korean,
+                        "rule_version": NPB_NAME_RULE_VERSION,
+                        "updated_at": datetime.now(KST).isoformat(timespec="seconds"),
+                    }
+            if korean:
+                starter["native_name"] = native
+                starter["name"] = korean
+    return games
 
 
 def parse_npb_starters(html: str, now: datetime | None = None) -> list[dict]:
@@ -259,7 +413,8 @@ def _npb_canon(team: str) -> str:
 
 
 def collect_npb_games(picks_path: Path, session: requests.Session,
-                      now: datetime | None = None) -> list[dict]:
+                      now: datetime | None = None,
+                      name_cache: dict | None = None) -> list[dict]:
     """판매 중 NPB 경기마다 공식 선발(발표 시)과 양 팀 순위를 만든다."""
     now = now or datetime.now(KST)
     standings = {}
@@ -273,6 +428,7 @@ def collect_npb_games(picks_path: Path, session: requests.Session,
         announced = parse_npb_starters(_html(session, NPB_STARTERS_URL), now)
     except requests.RequestException:
         announced = []
+    localize_npb_starters(announced, session, name_cache)
 
     starter_index = {}
     for game in announced:
