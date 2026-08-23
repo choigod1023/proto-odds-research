@@ -23,7 +23,11 @@ export default function PredictionPanel({ analysis }) {
           <h4>주요 선수</h4>
           <div className="player-watch-grid">
             {featuredPlayers.map((player) => <article key={`${player.team}-${player.name}`}>
-              <small>{player.team} · {player.role}</small><b>{player.name}</b><p>{player.detail}</p>
+              <small>{player.team} · {player.role}</small>
+              {player.profileUrl
+                ? <a href={player.profileUrl} target="_blank" rel="noreferrer">{player.name}</a>
+                : <b>{player.name}</b>}
+              <p>{player.detail}</p>
             </article>)}
           </div>
           {!!playerNotes?.length && <ul className="player-notes">{playerNotes.map((note) => <li key={note}>{note}</li>)}</ul>}

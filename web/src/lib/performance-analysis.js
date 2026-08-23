@@ -1,3 +1,4 @@
+import { playerSummaryFor } from "./player-summary.js";
 const number = (value) => Number.isFinite(Number(value)) ? Number(value) : null;
 
 const particle = (name, pair) => {
@@ -70,28 +71,29 @@ const normalizePlayer = (player, team, sport, role) => player?.name ? {
 
 export function playerSnapshot(game) {
   const info = game?.["선발"] || {};
-  const featuredPlayers = [];
-  const playerNotes = [];
-
+  const summary = playerSummaryFor(game);
+  const featuredPlayers = summary.players.map((player) => ({
+    team: player.team,
+    name: player.name,
+    role: player.position,
+    detail: player.role,
+    profileUrl: player.profileUrl,
+  }));
+  const playerNotes = summary.note ? [summary.note] : [];
   if (game?.sport === "bs") {
-    const home = info.home_detail || (info.home ? { name: info.home } : null);
-    const away = info.away_detail || (info.away ? { name: info.away } : null);
-    featuredPlayers.push(
-      normalizePlayer(home, game.home, game.sport, "선발투수"),
-      normalizePlayer(away, game.away, game.sport, "선발투수"),
-    );
-    if (home?.name && away?.name) {
-      playerNotes.push(`${game.home} ${home.name}와 ${game.away} ${away.name}의 선발 맞대결이다.`);
-    }
-  } else {
-    for (const side of ["home", "away"]) {
-      const keyPlayers = info.key_players?.[side] || [];
-      const lineups = info.lineups?.[side] || [];
-      const pool = keyPlayers.length ? keyPlayers : lineups;
-      const player = [...pool].sort((a, b) => playerScore(b, game?.sport) - playerScore(a, game?.sport))[0];
-      featuredPlayers.push(normalizePlayer(player, game?.[side], game?.sport));
-    }
-    if (info.lineups?.home?.length || info.lineups?.away?.length) playerNotes.push("실제 발표 선발 명단을 반영했다.");
+    const starters = featuredPlayers.filter((player) => player.role === "선발투수");
+    if (starters.length === 2) playerNotes.unshift(
+      `${starters[0].team} ${starters[0].name}와 ${starters[1].team} ${starters[1].name}의 선발 맞대결이다.`);
+  }
+
+  for (const side of ["home", "away"]) {
+    if (featuredPlayers.some((player) => player.team === game?.[side])) continue;
+    const keyPlayers = info.key_players?.[side] || [];
+    const lineups = info.lineups?.[side] || [];
+    const pool = keyPlayers.length ? keyPlayers : lineups;
+    const player = [...pool].sort((a, b) => playerScore(b, game?.sport) - playerScore(a, game?.sport))[0];
+    const normalized = normalizePlayer(player, game?.[side], game?.sport);
+    if (normalized) featuredPlayers.push(normalized);
   }
 
   const unavailable = ["home", "away"].flatMap((side) =>
@@ -100,7 +102,7 @@ export function playerSnapshot(game) {
     const sample = unavailable.slice(0, 2).map((row) => `${row.team} ${row.name}`).join(", ");
     playerNotes.push(`${sample}${unavailable.length > 2 ? ` 외 ${unavailable.length - 2}명` : ""}의 출전 여부가 변수다.`);
   }
-  return { featuredPlayers: featuredPlayers.filter(Boolean), playerNotes };
+  return { featuredPlayers, playerNotes };
 }
 
 function performanceReasons(game, prediction) {

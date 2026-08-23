@@ -35,7 +35,7 @@ export function infoTabs(game, commentary = "") {
   const sport = game?.sport;
   const supported = ["bs", "sc", "bk", "vl"].includes(sport);
   const court = ["bk", "vl"].includes(sport);
-  if (commentary) tabs.push({ id: "summary", label: "예측·해석" });
+  if (commentary || starter || game?.["선발"]?.lineups || game?.["선발"]?.key_players) tabs.push({ id: "summary", label: "예측·해석" });
   if (supported || starter || hasTendency) tabs.push({
     id: "players", label: court ? "선수·명단" : "선발·라인업",
   });
@@ -49,8 +49,10 @@ export function pitcherMetrics(starter) {
   const s = starter?.stats;
   if (!s) return [];
   return [
-    ["ERA", s.era], [s.fip_approx ? "FIP*" : "FIP", s.fip], ["WHIP", s.whip],
+    ["ERA", s.era], ["WHIP", s.whip], ["승-패", s.record],
+    ["이닝", s.innings_display ?? s.innings], ["탈삼진", s.strikeouts],
     ["K/9", s.k9], ["BB/9", s.bb9], ["HR/9", s.hr9],
+    [s.fip_approx ? "FIP*" : "FIP", s.fip],
     ["평균 이닝", s.avg_ip], ["선발", s.games_started],
   ].filter(([, value]) => value !== null && value !== undefined && value !== "");
 }

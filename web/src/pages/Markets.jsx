@@ -797,9 +797,11 @@ function formatBaseballRate(value) {
   return Number.isFinite(number) ? number.toFixed(3).replace(/^0/, "") : "-";
 }
 
-function BaseballLineup({ team, players, referenceDate, projected }) {
+function BaseballLineup({ team, players, referenceDate, lineupState }) {
   if (!players?.length) return null;
-  const subtitle = projected && referenceDate ? `${referenceDate.replaceAll("-", ".")} 공식 선발 타순 기준` : "발표 라인업";
+  const official = lineupState === "official_today";
+  const subtitle = official ? `${referenceDate ? `${referenceDate.replaceAll("-", ".")} · ` : ""}오늘 공식 선발 타순`
+    : (referenceDate ? `${referenceDate.replaceAll("-", ".")} 공식 선발 타순 기준 예상` : "예상 라인업");
   return <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
     <div className="text-[11px] text-ink3">{team} · {subtitle}</div>
     <ol className="mt-1 space-y-1.5">
@@ -815,7 +817,7 @@ function BaseballLineup({ team, players, referenceDate, projected }) {
           {stats && <div className="tnum ml-4 text-[9.5px] text-ink3">
             시즌 타율 {formatBaseballRate(stats.avg)} · {stats.home_runs ?? 0}홈런 · {stats.rbi ?? 0}타점 · OPS {formatBaseballRate(stats.ops)}
           </div>}
-          {last && <div className="tnum ml-4 text-[9.5px] text-ink3">
+          {!official && last && <div className="tnum ml-4 text-[9.5px] text-ink3">
             기준 경기 {last.at_bats ?? "-"}타수 {last.hits ?? "-"}안타 · {last.rbi ?? 0}타점
           </div>}
         </li>;
@@ -924,7 +926,8 @@ function PlayersPanel({ g }) {
     const info = g["선발"] || {};
     const lineups = info.lineups || {};
     const status = info.lineup_status || {};
-    const projected = status.state === "projected_from_recent_official";
+    const sideStates = status.side_states || {};
+    const projected = status.official_today !== true;
     const references = status.reference_dates || {};
     return <>
       <div className="grid gap-2 sm:grid-cols-2">
@@ -932,15 +935,15 @@ function PlayersPanel({ g }) {
         <PitcherCard team={g.away} pitcher={starterFor(g, "away")} />
       </div>
       {(lineups.home?.length || lineups.away?.length) ? <>
-        <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">{projected ? "최근 공식 경기 기반 예상 타순" : "실제 발표 명단"}</div>
+        <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">{status.label || (projected ? "최근 공식 경기 기반 예상 타순" : "오늘 공식 선발 타순")}</div>
         <div className="grid gap-2 sm:grid-cols-2">
           <BaseballLineup
             team={g.home} players={lineups.home}
-            referenceDate={references.home} projected={projected}
+            referenceDate={references.home} lineupState={sideStates.home}
           />
           <BaseballLineup
             team={g.away} players={lineups.away}
-            referenceDate={references.away} projected={projected}
+            referenceDate={references.away} lineupState={sideStates.away}
           />
         </div>
         {projected && <p className="mt-1.5 text-[9.5px] leading-[1.55] text-ink3">
@@ -1067,7 +1070,7 @@ function AvailabilityPanel({ g }) {
   const un = info.unavailable;
   const state = info.lineup_status?.state;
   const actual = info.lineups || {};
-  const hasActual = !!(actual.home?.length || actual.away?.length);
+  const hasActual = g.sport === "bs" ? info.lineup_status?.official_today === true : !!(actual.home?.length || actual.away?.length);
   const court = ["bk", "vl"].includes(g.sport);
   const rosterState = info.roster_status?.state;
   const courtConnected = ["official_competition_roster", "official_roster_partial", "official_player_stats", "recent_international_roster", "season_stats"].includes(rosterState);
