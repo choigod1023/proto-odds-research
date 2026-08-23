@@ -15,7 +15,14 @@ from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
-from npb_lineups import collect_recent_npb_lineups
+try:
+    from .npb_lineups import (collect_npb_official_lineups, collect_npb_pitcher_stats,
+                              collect_recent_npb_lineups, find_npb_player_stats)
+except ImportError:  # python src/player_info.py처럼 스크립트로 실행할 때
+    from npb_lineups import (collect_npb_official_lineups,
+                             collect_npb_pitcher_stats,
+                             collect_recent_npb_lineups,
+                             find_npb_player_stats)
 
 KST = ZoneInfo("Asia/Seoul")
 NPB_STARTERS_URL = "https://npb.jp/announcement/starter/"
@@ -302,9 +309,12 @@ def parse_npb_starters(html: str, now: datetime | None = None) -> list[dict]:
             teams[side] = NPB_TEAM_KO.get(raw_team, raw_team)
             link = name.find_parent("a")
             player_match = re.search(r"/players/(\d+)\.html", link.get("href", "") if link else "")
+            player_id = player_match.group(1) if player_match else None
             sides[side] = {
                 "name": _clean(name.get_text(" ")), "announced": True,
-                "player_id": player_match.group(1) if player_match else None,
+                "player_id": player_id,
+                "profile_url": (NPB_PLAYER_URL.format(player_id=player_id)
+                                if player_id else None),
             }
         if len(sides) != 2:
             continue
@@ -476,11 +486,35 @@ def collect_npb_games(picks_path: Path, session: requests.Session,
     }
     target_teams.discard("")
     try:
+        pitching_stats = collect_npb_pitcher_stats(
+            session, now.year, target_teams, _html)
+    except (requests.RequestException, ValueError):
+        pitching_stats = {}
+    for game in announced:
+        starters = game.get("starters") or {}
+        for side, team in (("home", game.get("home_team")), ("away", game.get("away_team"))):
+            starter = starters.get(side) or {}
+            if not starter.get("native_name"):
+                continue
+            stats = find_npb_player_stats(
+                starter["native_name"], pitching_stats.get(team) or {})
+            if stats:
+                starter["stats"] = stats
+                starter["stats_source"] = "NPB.jp 공식 시즌 투수 기록"
+
+    try:
+        official_lineups = collect_npb_official_lineups(
+            session, now, target_teams, NPB_TEAM_KO, _html)
+    except (requests.RequestException, ValueError):
+        official_lineups = {}
+    try:
         recent_lineups = collect_recent_npb_lineups(
             session, now, target_teams, NPB_TEAM_KO, _html)
     except (requests.RequestException, ValueError):
         recent_lineups = {}
     for entry in recent_lineups.values():
+        localize_npb_lineup_players(entry.get("players") or [], session, name_cache)
+    for entry in official_lineups.values():
         localize_npb_lineup_players(entry.get("players") or [], session, name_cache)
 
     out = []
@@ -494,21 +528,41 @@ def collect_npb_games(picks_path: Path, session: requests.Session,
             teams["home"] = standings[home]
         if standings.get(away):
             teams["away"] = standings[away]
-        lineups, reference_dates, source_urls = {}, {}, {}
+        lineups, reference_dates, source_urls, side_states = {}, {}, {}, {}
         official_starters = official.get("starters") or {}
+        is_today = proto["_start"].date() == now.date()
         for side, team in (("home", home), ("away", away)):
-            entry = recent_lineups.get(team) or {}
+            official_entry = (official_lineups.get(team) or {}) if is_today else {}
+            entry = official_entry or recent_lineups.get(team) or {}
             if not entry.get("players"):
                 continue
-            lineups[side] = _projected_lineup(entry, official_starters.get(side))
+            if official_entry:
+                lineups[side] = [{**player} for player in entry["players"]]
+                side_states[side] = "official_today"
+            else:
+                lineups[side] = _projected_lineup(entry, official_starters.get(side))
+                side_states[side] = "projected_recent"
             reference_dates[side] = entry.get("reference_date")
             source_urls[side] = entry.get("source_url")
+        official_today = (len(side_states) == 2 and
+                          all(state == "official_today" for state in side_states.values()))
+        has_official = any(state == "official_today" for state in side_states.values())
+        if official_today:
+            state = "official_today"
+            label = "NPB 오늘 공식 선발 타순"
+            caveat = "NPB 공식 박스스코어에 공개된 오늘 1~9번 선발 타순"
+        elif has_official:
+            state = "mixed_official_projected"
+            label = "NPB 공식·최근 경기 혼합 타순"
+            caveat = "공개된 팀은 오늘 공식 타순, 미공개 팀은 최근 완료 경기 기준"
+        else:
+            state = "projected_from_recent_official"
+            label = "NPB 최근 공식 선발 타순 기반 예상 라인업"
+            caveat = "오늘 실제 선발 타순이 아니라 최근 완료 경기 기준"
         lineup_status = ({
-            "state": "projected_from_recent_official",
-            "label": "NPB 최근 공식 선발 타순 기반 예상 라인업",
+            "state": state, "label": label, "side_states": side_states,
             "reference_dates": reference_dates, "source_urls": source_urls,
-            "official_today": False,
-            "caveat": "오늘 실제 선발 타순이 아니라 최근 완료 경기 기준",
+            "official_today": official_today, "caveat": caveat,
         } if lineups else {})
         # 일본 공식 자료를 하나도 못 받았으면 네이버/직전 캐시가 이기게 둔다.
         if not official and not teams and not lineups:
@@ -519,7 +573,7 @@ def collect_npb_games(picks_path: Path, session: requests.Session,
             "home_team": proto.get("home"), "away_team": proto.get("away"),
             "starters": official.get("starters") or {}, "teams": teams,
             "unavailable": {}, "lineups": lineups, "lineup_status": lineup_status,
-            "source": "NPB.jp 일본야구기구 공식 선발·순위·최근 타순·타격 기록",
+            "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
             "source_url": NPB_STARTERS_URL, "updated_at": stamp,
         })
     return out

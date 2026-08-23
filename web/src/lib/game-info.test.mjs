@@ -30,6 +30,11 @@ test("농구와 배구도 선수·명단 및 출전 탭을 항상 연다", () =>
 test("0도 유효한 투수 지표로 표시하고 부상 배열을 정리한다", () => {
   assert.deepEqual(pitcherMetrics({ stats: { era: 0, fip: null, games_started: 2 } }),
     [["ERA", 0], ["선발", 2]]);
+  assert.deepEqual(pitcherMetrics({ stats: {
+    era: 2.5, whip: .99, record: "8승 4패", innings_display: "100⅔",
+    strikeouts: 90, k9: 8.05,
+  } }), [["ERA", 2.5], ["WHIP", .99], ["승-패", "8승 4패"],
+    ["이닝", "100⅔"], ["탈삼진", 90], ["K/9", 8.05]]);
   assert.deepEqual(unavailableFor({ 선발: { unavailable: { home: [{ name: "A" }, {}] } } }, "home"),
     [{ name: "A" }]);
 });

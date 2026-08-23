@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
 
@@ -11,6 +12,7 @@ from bs4 import BeautifulSoup
 NPB_ORIGIN = "https://npb.jp"
 NPB_DAILY_URL = "https://npb.jp/bis/{season}/games/gm{date}.html"
 NPB_TEAM_BATTING_URL = "https://npb.jp/bis/{season}/stats/idb1_{code}.html"
+NPB_TEAM_PITCHING_URL = "https://npb.jp/bis/{season}/stats/idp1_{code}.html"
 
 TEAM_STATS_CODE = {
     "한신": "t", "요코하마": "db", "요미우리": "g", "주니치": "d",
@@ -37,6 +39,22 @@ def _number(value, integer: bool = False):
     except ValueError:
         return None
     return int(number) if integer else number
+
+
+def _innings(value) -> float | None:
+    """NPB의 `4 .2` 표기를 4⅔이닝으로 변환한다."""
+    text = _clean(value).replace(" ", "")
+    match = re.fullmatch(r"(\d+)(?:\.(\d))?", text)
+    if not match:
+        return None
+    whole, outs = int(match.group(1)), int(match.group(2) or 0)
+    if outs not in (0, 1, 2):
+        return None
+    return round(whole + outs / 3, 3)
+
+
+def _rate(numerator, denominator, scale=1, digits=2):
+    return round(numerator / denominator * scale, digits) if denominator else None
 
 
 def parse_npb_daily_box_links(html: str, day) -> list[str]:
@@ -112,7 +130,10 @@ def parse_npb_box_lineups(html: str, team_name_ko: dict[str, str]) -> dict[str, 
 
 
 def _name_key(value: str) -> str:
-    return re.sub(r"[\s・･.*＊+＋]", "", _clean(value)).casefold()
+    key = re.sub(r"[\s・･.*＊+＋]", "", unicodedata.normalize("NFKC", _clean(value))).casefold()
+    # 예고 페이지의 `Ａ．ジャクソン`과 기록표의 `ジャクソン`처럼
+    # 로마자 이니셜 유무만 다른 외국인 등록명을 같은 선수로 본다.
+    return re.sub(r"^[a-z](?=[^\x00-\x7f])", "", key)
 
 
 def parse_npb_batting_stats(html: str, season: int) -> dict[str, dict]:
@@ -146,14 +167,94 @@ def parse_npb_batting_stats(html: str, season: int) -> dict[str, dict]:
     return out
 
 
-def _match_batting_stats(native_name: str, stats: dict[str, dict]) -> dict | None:
-    """박스스코어의 성/등록명을 구단 타격표의 전체 이름과 유일하게 연결한다."""
+def _innings_label(value) -> str | None:
+    text = _clean(value).replace(" ", "")
+    match = re.fullmatch(r"(\d+)(?:\.(\d))?", text)
+    if not match:
+        return None
+    whole, outs = match.group(1), match.group(2)
+    if outs == "1":
+        return f"{whole}⅓"
+    if outs == "2":
+        return f"{whole}⅔"
+    return whole
+
+
+def parse_npb_pitching_stats(html: str, season: int) -> dict[str, dict]:
+    """구단별 공식 개인 투수표를 등록명 → 시즌 투수 지표로 변환한다."""
+    soup = BeautifulSoup(html, "lxml")
+    table = soup.select_one("table.tablefix2") or soup.find("table")
+    if not table:
+        return {}
+    out = {}
+    for row in table.find_all("tr")[1:]:
+        cells = row.find_all(["th", "td"], recursive=False)
+        if len(cells) < 24:
+            continue
+        native_name = _clean(cells[0].get_text(" "))
+        name_key = _name_key(native_name)
+        innings_raw = cells[12].get_text(" ")
+        innings = _innings(innings_raw)
+        if not name_key or innings is None:
+            continue
+        games = _number(cells[1].get_text(" "), True)
+        wins = _number(cells[2].get_text(" "), True)
+        losses = _number(cells[3].get_text(" "), True)
+        hits = _number(cells[13].get_text(" "), True)
+        home_runs = _number(cells[14].get_text(" "), True)
+        walks = _number(cells[15].get_text(" "), True)
+        strikeouts = _number(cells[18].get_text(" "), True)
+        out[name_key] = {
+            "native_name": native_name, "season": season, "period": f"{season}시즌",
+            "games": games, "wins": wins, "losses": losses,
+            "record": f"{wins or 0}승 {losses or 0}패",
+            "innings": innings, "innings_display": _innings_label(innings_raw),
+            "hits_allowed": hits, "walks": walks, "strikeouts": strikeouts,
+            "home_runs_allowed": home_runs,
+            "era": _number(cells[23].get_text(" ")),
+            "whip": _rate((hits or 0) + (walks or 0), innings),
+            "k9": _rate(strikeouts or 0, innings, 9),
+            "bb9": _rate(walks or 0, innings, 9),
+            "hr9": _rate(home_runs or 0, innings, 9),
+        }
+    return out
+
+
+def find_npb_player_stats(native_name: str, stats: dict[str, dict]) -> dict | None:
+    """공식 표의 전체 등록명과 박스스코어/예고 선발 이름을 유일하게 연결한다."""
     key = _name_key(native_name)
     if key in stats:
         return stats[key]
     matches = [value for stat_name, value in stats.items()
                if stat_name.startswith(key) or key.startswith(stat_name)]
     return matches[0] if len(matches) == 1 else None
+
+
+def _match_batting_stats(native_name: str, stats: dict[str, dict]) -> dict | None:
+    """박스스코어의 성/등록명을 구단 타격표의 전체 이름과 유일하게 연결한다."""
+    return find_npb_player_stats(native_name, stats)
+
+
+def _attach_batting_stats(session: requests.Session, season: int, entries: dict,
+                          fetch_html, stats_cache: dict | None = None) -> dict:
+    cache = stats_cache if stats_cache is not None else {}
+    for team, entry in entries.items():
+        code = TEAM_STATS_CODE.get(team)
+        if not code:
+            continue
+        if team not in cache:
+            stats_url = NPB_TEAM_BATTING_URL.format(season=season, code=code)
+            try:
+                cache[team] = parse_npb_batting_stats(fetch_html(session, stats_url), season)
+            except (requests.RequestException, ValueError):
+                cache[team] = {}
+        stats = cache[team]
+        for player in entry["players"]:
+            player_stats = _match_batting_stats(player.get("native_name") or "", stats)
+            if player_stats:
+                player["stats"] = player_stats
+                player["stats_source"] = "NPB.jp 공식 시즌 타격 기록"
+    return entries
 
 
 def collect_recent_npb_lineups(session: requests.Session, now: datetime,
@@ -185,18 +286,46 @@ def collect_recent_npb_lineups(session: requests.Session, now: datetime,
         if target_teams.issubset(latest):
             break
 
-    for team, entry in latest.items():
+    return _attach_batting_stats(session, now.year, latest, fetch_html)
+
+
+def collect_npb_official_lineups(session: requests.Session, now: datetime,
+                                 target_teams: set[str], team_name_ko: dict[str, str],
+                                 fetch_html, stats_cache: dict | None = None) -> dict[str, dict]:
+    """오늘 NPB 박스스코어에 1~9번이 공개된 경기만 공식 타순으로 반환한다."""
+    day = now.date()
+    daily_url = NPB_DAILY_URL.format(season=day.year, date=day.strftime("%Y%m%d"))
+    try:
+        links = parse_npb_daily_box_links(fetch_html(session, daily_url), day)
+    except (requests.RequestException, ValueError):
+        return {}
+    official = {}
+    for box_url in links:
+        try:
+            parsed = parse_npb_box_lineups(fetch_html(session, box_url), team_name_ko)
+        except (requests.RequestException, ValueError):
+            continue
+        for team, players in parsed.items():
+            if team not in target_teams:
+                continue
+            official[team] = {
+                "players": players, "reference_date": day.isoformat(),
+                "source_url": box_url, "official_today": True,
+            }
+    return _attach_batting_stats(session, now.year, official, fetch_html, stats_cache)
+
+
+def collect_npb_pitcher_stats(session: requests.Session, season: int,
+                              target_teams: set[str], fetch_html) -> dict[str, dict]:
+    """대상 구단의 NPB 공식 시즌 투수 기록을 팀별로 수집한다."""
+    out = {}
+    for team in target_teams:
         code = TEAM_STATS_CODE.get(team)
         if not code:
             continue
-        stats_url = NPB_TEAM_BATTING_URL.format(season=now.year, code=code)
+        stats_url = NPB_TEAM_PITCHING_URL.format(season=season, code=code)
         try:
-            stats = parse_npb_batting_stats(fetch_html(session, stats_url), now.year)
+            out[team] = parse_npb_pitching_stats(fetch_html(session, stats_url), season)
         except (requests.RequestException, ValueError):
-            stats = {}
-        for player in entry["players"]:
-            player_stats = _match_batting_stats(player.get("native_name") or "", stats)
-            if player_stats:
-                player["stats"] = player_stats
-                player["stats_source"] = "NPB.jp 공식 시즌 타격 기록"
-    return latest
+            out[team] = {}
+    return out
