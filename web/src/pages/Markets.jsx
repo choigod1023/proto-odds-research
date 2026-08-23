@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
 import BetPreference from "../components/BetPreference.jsx";
+import PredictionPanel from "../components/PredictionPanel.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
-import { playerSummaryFor } from "../lib/player-summary.js";
+import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 
@@ -103,9 +104,9 @@ export default function Markets() {
 
   return (
     <Shell meta={metaLine(d, at)}>
-      <TodayPlan today={today} combo={combo} grades={grades} />
-      <GameList data={d} grades={grades} caps={grades?.odds_caps} />
-      <Evidence grades={grades} tally={d.tally} />
+      <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} /></section>
+      <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} /></section>
+      <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
     </Shell>
   );
 }
@@ -149,16 +150,20 @@ const metaLine = (d, at) =>
 
 function Shell({ children, meta }) {
   return (
-    <div className="mx-auto max-w-[960px] px-5 pb-20">
+    <div className="mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="markets.html" />
-      <header>
-        <h1 className="mt-[22px] mb-1 text-[22px] tracking-[-.01em]">경기 분석</h1>
-        <p className="m-0 text-[13.5px] text-ink2">
-          발매 중인 전 마켓을 <b>과거 실측 수익률</b>로 등급화한다. 예측이 아니라{" "}
-          <b>덜 잃는 선택</b>이다.
-        </p>
-        {meta && <div className="mt-1.5 text-[11.5px] text-ink3">{meta}</div>}
+      <header className="market-header">
+        <div>
+          <h1>오늘 경기 분석</h1>
+          <p>예상 결과와 최근 경기력, 선발·라인업, 핵심 선수와 결장 정보를 함께 봅니다.</p>
+        </div>
+        {meta && <div className="market-meta">{meta}</div>}
       </header>
+      <nav className="section-nav" aria-label="경기 분석 바로가기">
+        <a href="#today-brief">오늘 요약</a>
+        <a href="#match-list">경기 목록</a>
+        <a href="#evidence">분석 기준</a>
+      </nav>
       {children}
     </div>
   );
@@ -201,8 +206,8 @@ function TodayPlan({ today, combo, grades }) {
 
   if (!plans.length && !solo) {
     return (
-      <Card className="mt-[18px] px-[18px] py-4">
-        <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
+      <Card className="today-brief">
+        <div className="brief-heading"><h2>오늘의 비교 후보</h2></div>
         <Empty>오늘 23:59 KST까지 살 수 있는 조합이 없다. 날짜가 바뀌면 자동으로 다시 찾는다.</Empty>
       </Card>
     );
@@ -218,8 +223,11 @@ function TodayPlan({ today, combo, grades }) {
   const A = (grades?.odds_bins || []).find((x) => x.grade === "A");
 
   return (
-    <Card className="mt-[18px] px-[18px] py-4">
-      <div className="text-[12px] tracking-[.02em] text-ink3">오늘 살 거면</div>
+    <Card className="today-brief">
+      <div className="brief-heading">
+        <h2>오늘의 비교 후보</h2>
+        <p>자동 구매 지시가 아닌 비교용 후보입니다. 최종 판단은 직접 합니다.</p>
+      </div>
 
       {activeToday.next && (
         <div className="mt-1 text-[11.5px] text-ink2">
@@ -241,31 +249,29 @@ function TodayPlan({ today, combo, grades }) {
             : "border-sev2 bg-paper text-sev3"
       }`}>
         {recommendation.action === "buy" ? (
-          <>자동 1순위 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+          <>조건이 가장 안정적인 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
         ) : recommendation.action === "challenge" ? (
-          <>
-            자동 판정 <b>소액 도전</b> · {recommendation.target}배 조합 · {recommendation.why}
-            {recommendation.budget_ratio != null && (
-              <> · 기본 투입 <b>예산의 {recommendation.budget_ratio * 100}% 수준(최소 1,000원)</b></>
-            )}
-          </>
+          <>변동성이 큰 관찰 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
         ) : (
-          <>자동 판정 <b>패스</b> · 관찰 1순위 {recommendation.target}배 · {recommendation.why}</>
+          <>현재는 관찰만 · 비교 후보 {recommendation.target}배 · {recommendation.why}</>
         )}
         {recommendedPlan?.conservative_expected_roi != null && (
           <> · 보수 기대 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
         )}
       </div>
 
-      <BetPreference
-        plans={plans}
-        solo={solo}
-        selectedIndex={selectedIndex}
-        onSelect={setI}
-        recommendedTarget={recommendation.target}
-        recommendationAction={recommendation.action}
-        shouldPass={shouldPass}
-      />
+      <details className="budget-simulator">
+        <summary>금액 시뮬레이터 · 원할 때만 열어 손실 범위를 비교합니다.</summary>
+        <BetPreference
+          plans={plans}
+          solo={solo}
+          selectedIndex={selectedIndex}
+          onSelect={setI}
+          recommendedTarget={recommendation.target}
+          recommendationAction={recommendation.action}
+          shouldPass={shouldPass}
+        />
+      </details>
 
       <div className="my-2.5 mb-3.5 flex flex-wrap gap-1.5">
         {solo && <Tab on={selectedIndex < 0} onClick={() => setI(-1)}>단폴</Tab>}
@@ -459,49 +465,52 @@ function GameList({ data, grades, caps }) {
   const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
-      <SectionTitle note={`${n}경기`}>경기</SectionTitle>
-      <div className={`sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b border-rule bg-paper py-2.5 text-[12px] text-ink2 ${showModel ? "show-model" : ""}`}>
-        <label className="flex items-center gap-1.5">상태
-          <select className={sel} value={f.st} onChange={(e) => setF({ ...f, st: e.target.value })}>
-            {STATUS.map(([v, l]) => <option key={l} value={v}>{l}</option>)}
-          </select></label>
-        {/* 회차는 여러 날에 걸쳐 있다(93회차만 08.07~08.10). '오늘 뭘 살 수 있나'
-            를 보려면 회차가 아니라 경기일로 골라야 한다. */}
-        <label className="flex items-center gap-1.5">날짜
-          <select className={sel} value={f.dt}
-            onChange={(e) => setF({ ...f, dt: e.target.value })}>
-            <option value="">전체</option>
-            <option value={kstMMDD(0)}>오늘</option>
-            <option value={kstMMDD(1)}>내일</option>
-          </select></label>
-        <Sel label="리그" v={f.lg} opts={leagues} on={(v) => setF({ ...f, lg: v })} cls={sel} />
-        <Sel label="마켓" v={f.mk} opts={markets} on={(v) => setF({ ...f, mk: v })} cls={sel} />
-        <Sel label="회차" v={f.rd} opts={rounds} on={(v) => setF({ ...f, rd: v })} cls={sel} suffix="회차" />
-        <input type="search" placeholder="팀 검색" value={f.q}
-          onChange={(e) => setF({ ...f, q: e.target.value })}
-          className={`${sel} w-[120px]`} />
-        <label className="flex items-center gap-1.5">최저배당
-          <select className={sel} value={cap}
-            onChange={(e) => setCap(Number(e.target.value))}>
-            <option value={0}>제한 없음</option>
-            {(caps || []).filter((c) => c.cap).map((c) => (
-              <option key={c.cap} value={c.cap}>
-                ≤{c.cap} · 적중 {(c.hit * 100).toFixed(0)}%
-              </option>))}
-          </select></label>
-        <label className="flex items-center gap-1.5">픽 기준
-          <select className={sel} value={mode} onChange={(e) => setMode(e.target.value)}>
-            {MODES.map(([v, label]) => {
-              const m = grades?.pick_modes?.[v];
-              return <option key={v} value={v}>{label}
-                {m ? ` (${(m.hit * 100).toFixed(1)}% · ${(m.roi * 100).toFixed(1)}%)` : ""}
-              </option>;
-            })}
-          </select></label>
-        <label className="flex items-center gap-1.5">
-          <input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} />
-          모델 수치
-        </label>
+      <div className="match-section-title">
+        <h2>경기 목록</h2>
+        <b>${n}경기</b>
+      </div>
+      <div className={`filter-shell ${showModel ? "show-model" : ""}`}>
+        <div className="filter-primary">
+          <div className="date-switch" aria-label="경기 날짜">
+            <button type="button" aria-pressed={f.dt === kstMMDD(0)} onClick={() => setF({ ...f, dt: kstMMDD(0) })}>오늘</button>
+            <button type="button" aria-pressed={f.dt === kstMMDD(1)} onClick={() => setF({ ...f, dt: kstMMDD(1) })}>내일</button>
+            <button type="button" aria-pressed={!f.dt} onClick={() => setF({ ...f, dt: "" })}>전체</button>
+          </div>
+          <div className="team-search">
+            <input type="search" placeholder="팀 또는 리그 검색" value={f.q}
+              onChange={(e) => setF({ ...f, q: e.target.value })} />
+          </div>
+        </div>
+        <details className="advanced-filters">
+          <summary><span>상세 조건</span><small>상태 · 리그 · 마켓 · 회차 · 배당 기준</small></summary>
+          <div className="filter-grid">
+            <label>상태
+              <select className="filter-select" value={f.st} onChange={(e) => setF({ ...f, st: e.target.value })}>
+                {STATUS.map(([v, l]) => <option key={l} value={v}>{l}</option>)}
+              </select>
+            </label>
+            <Sel label="리그" v={f.lg} opts={leagues} on={(v) => setF({ ...f, lg: v })} cls="filter-select" />
+            <Sel label="마켓" v={f.mk} opts={markets} on={(v) => setF({ ...f, mk: v })} cls="filter-select" />
+            <Sel label="회차" v={f.rd} opts={rounds} on={(v) => setF({ ...f, rd: v })} cls="filter-select" suffix="회차" />
+            <label>최저배당
+              <select className="filter-select" value={cap} onChange={(e) => setCap(Number(e.target.value))}>
+                <option value={0}>제한 없음</option>
+                {(caps || []).filter((c) => c.cap).map((c) => (
+                  <option key={c.cap} value={c.cap}>≤{c.cap} · 적중 {(c.hit * 100).toFixed(0)}%</option>
+                ))}
+              </select>
+            </label>
+            <label>비교 기준
+              <select className="filter-select" value={mode} onChange={(e) => setMode(e.target.value)}>
+                {MODES.map(([v, label]) => <option key={v} value={v}>{label}</option>)}
+              </select>
+            </label>
+          </div>
+          <div className="filter-actions">
+            <label><input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} /> 모델 수치 보기</label>
+            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: kstMMDD(0) }); setCap(0); }}>조건 초기화</button>
+          </div>
+        </details>
       </div>
       {cap > 0 && n < 2 && (
         <p className="mt-2 text-[11.5px] leading-[1.7] text-sev3">
@@ -583,29 +592,34 @@ function Game({ g, opts, wait, grades, mode, lv }) {
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
+  const analysis = wait ? null : performanceAnalysis(g);
+  const forecast = analysis?.prediction;
   return (
-    <Card as="details" className="my-1.5">
-      <summary className="flex cursor-pointer flex-wrap items-center gap-[11px] px-3 py-2.5">
-        <span className="tnum min-w-10 text-[11.5px] text-ink3">{hhmm(g.date)}</span>
-        <span className="min-w-[160px] flex-1 text-[13.5px] font-semibold">
-          {g.home}{" "}
-          {score
-            ? <span className="tnum text-[13px]" title={g["결과"] || ""}>
-                <b className={score[0] > score[1] ? "" : "font-normal text-ink3"}>{score[0]}</b>
-                <span className="px-[3px] font-normal text-ink3">:</span>
-                <b className={score[1] > score[0] ? "" : "font-normal text-ink3"}>{score[1]}</b>
-              </span>
-            : <span className="text-[12px] font-normal text-ink3">vs</span>}{" "}
-          {g.away}
+    <Card as="details" className="match-card">
+      <summary className="match-row">
+        <span className="tnum text-[11.5px] text-ink3">{hhmm(g.date)}</span>
+        <span className="min-w-0 text-[13.5px] font-semibold">
+          <span>
+            {g.home}{" "}
+            {score
+              ? <span className="tnum text-[13px]" title={g["결과"] || ""}>
+                  <b className={score[0] > score[1] ? "" : "font-normal text-ink3"}>{score[0]}</b>
+                  <span className="px-[3px] font-normal text-ink3">:</span>
+                  <b className={score[1] > score[0] ? "" : "font-normal text-ink3"}>{score[1]}</b>
+                </span>
+              : <span className="text-[12px] font-normal text-ink3">vs</span>}{" "}
+            {g.away}
+          </span>
+          <small className="match-player-inline">
+            {playing ? (lv.status_text || "진행 중") : done ? "종료" : wait ? "배당 대기" : "예정"} · {g.round}회차
+            {analysis?.featuredPlayers?.length
+              ? ` · ${analysis.featuredPlayers.map((player) => player.name).join(" · ")}`
+              : ""}
+          </small>
         </span>
-        {/* 색을 새로 만들지 않는다 — 테마에서 색은 값의 심각도(sev)와 구조(signal)
-            전용이고 '진행 중'은 둘 다 아니다. 대신 배지에 '3회초' 처럼 어디까지
-            왔는지를 그대로 찍어, 라벨 자체로 '예정'과 구분되게 한다. */}
-        <span className={`whitespace-nowrap rounded-[4px] border px-[5px] py-[2px] text-[10px] font-semibold ${
-          done ? "border-rule text-ink3"
-            : wait ? "border-dashed border-rule text-ink3" : "border-signal text-signal"
-        }`}>
-          {playing ? (lv.status_text || "진행 중") : done ? "종료" : wait ? "배당 대기" : "예정"}
+        <span className="match-call-inline">
+          <small>경기 예상</small>
+          <b>{forecast?.headline || (wait ? "배당 발표 대기" : "분석 자료 확인 중")}</b>
         </span>
         <span className="flex gap-1.5">
           {wait ? <OddsChip label="배당" value="대기" />
@@ -616,43 +630,21 @@ function Game({ g, opts, wait, grades, mode, lv }) {
                   title={gr ? `배당 ${gr.bin} 실측 ${(gr.roi * 100).toFixed(1)}%` : "등급 없음"} />;
               })}
         </span>
-        {pick && (
-          <span
-            title={pick.tie
-              ? `최선 등급(${pick.g.bin})이 여럿이라 고를 근거가 없다`
-              : `${pick.exact ? pick.o.market + " " : "배당 "}${pick.g.bin} — 과거 적중 ${((pick.hit ?? 0) * 100).toFixed(1)}% · 수익률 ${(pick.roi * 100).toFixed(1)}%`}
-            className={`whitespace-nowrap rounded px-2 py-[3px] text-[11px] font-semibold ${
-              pick.tie
-                ? "border border-dashed border-ink3 text-ink3"
-                : picked === false
-                  ? "border border-sev3 text-sev3"
-                  : "bg-ink text-paper"
-            }`}
-          >
-            {pick.tie ? (
-              <>고를 근거 없음</>
-            ) : (
-              <>{pick.o["선택"]} <span className="tnum">{odds(pick.o["배당"])}</span>
-                {/* 끝난 경기는 '과거 적중률' 이 아니라 **이 경기에서 맞았나** 를 보여준다 */}
-                {picked === true ? <> · 적중 ✔</>
-                  : picked === false ? <> · 미적중 ✕</>
-                  : pick.hit != null && (
-                      <> · 적중 <b className="tnum">{(pick.hit * 100).toFixed(0)}%</b></>)}
-                {picked === null && pick.why && <span className="opacity-70"> · {pick.why}</span>}</>
-            )}
-          </span>
-        )}
-        <span className="whitespace-nowrap text-[10.5px] text-ink3">
-          {g.round}회차{g["판단"] ? ` · ${g["판단"]}` : ""}
-        </span>
       </summary>
-      <div className="px-3 pb-3 pt-2.5">
-        {wait ? (
-          <div className="rounded-[7px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
-            배당이 아직 발표되지 않았다. 프로토는 <b>경기 목록을 먼저 열고 배당을 나중에 붙인다.</b>
+      <div className="match-detail">
+        {wait && (
+          <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
+            배당이 아직 발표되지 않았습니다. 경기 정보는 먼저 확인할 수 있습니다.
           </div>
-        ) : <OptTable opts={opts} grades={grades} tie={tie} pick={pick} model={g["추천"]} />}
+        )}
+        {analysis && <PredictionPanel analysis={analysis} />}
         <Why g={g} />
+        {!wait && <details className="price-sheet">
+          <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
+          <div className="overflow-x-auto py-3">
+            <OptTable opts={opts} grades={grades} tie={tie} pick={pick} model={g["추천"]} />
+          </div>
+        </details>}
       </div>
     </Card>
   );
@@ -720,7 +712,7 @@ function OptTable({ opts, grades, tie, pick, model }) {
   );
 }
 
-const PANEL_BTN = "rounded-[5px] border px-2 py-1 text-[11px] font-semibold transition-colors";
+const PANEL_BTN = "intel-tab";
 
 function SourceStamp({ source }) {
   if (!source) return null;
@@ -1103,27 +1095,6 @@ function AvailabilityPanel({ g }) {
     </p>}
   </>;
 }
-
-function PlayerSummary({ g }) {
-  const summary = playerSummaryFor(g);
-  if (!summary.players.length) return null;
-  return <div className="mt-2 rounded-[7px] border border-rule2 bg-paper2 px-2.5 py-2">
-    <div className="text-[10.5px] font-semibold text-ink3">선수 포인트</div>
-    <div className="mt-1.5 grid gap-1.5 sm:grid-cols-2">
-      {summary.players.map((player, index) => <div key={`${player.team}-${player.name}-${index}`} className="rounded-[5px] border border-rule2 bg-panel px-2 py-1.5">
-        <div className="text-[9.5px] text-ink3">{player.team} · {player.position}</div>
-        <div className="flex flex-wrap items-baseline gap-1">
-          {player.profileUrl
-            ? <a href={player.profileUrl} target="_blank" rel="noreferrer" className="font-semibold text-ink underline decoration-rule2 underline-offset-2">{player.name}</a>
-            : <b className="text-ink">{player.name}</b>}
-        </div>
-        <div className="tnum text-[10px] leading-[1.55] text-ink3">{player.role}</div>
-      </div>)}
-    </div>
-    {summary.note && <p className="mt-1.5 text-[9.5px] leading-[1.55] text-ink3">{summary.note}</p>}
-  </div>;
-}
-
 function Why({ g }) {
   const f = [];
   const s = g["선발"];
@@ -1144,19 +1115,18 @@ function Why({ g }) {
   const current = tabs.some((x) => x.id === active) ? active : tabs[0]?.id;
   const source = sourceFor(g);
   return (
-    <div className="mt-2.5 border-t border-rule2 pt-2.5 text-[12.5px] leading-[1.75] text-ink2">
-      <div className="mb-2 flex flex-wrap gap-1.5" role="tablist" aria-label={`${g.home} 대 ${g.away} 경기 정보`}>
+    <div className="intel-panel">
+      <div className="intel-tabs" role="tablist" aria-label={`${g.home} 대 ${g.away} 경기 정보`}>
         {tabs.map((tab) => <button key={tab.id} type="button" role="tab"
           aria-selected={current === tab.id}
           className={`${PANEL_BTN} ${current === tab.id
-            ? "border-ink bg-ink text-paper" : "border-rule bg-panel text-ink3 hover:text-ink"}`}
+            ? "is-active" : ""}`}
           onClick={() => setActive(tab.id)}>{tab.label}</button>)}
       </div>
-      <div role="tabpanel">
+      <div className="intel-content" role="tabpanel">
         {current === "summary" && <>
           {verdict && <b className="text-ink">{verdict}</b>} {rest}
           {!!f.length && <div className="mt-1.5 text-[11.5px] text-ink3">{f.join(" · ")}</div>}
-          <PlayerSummary g={g} />
         </>}
         {current === "players" && <PlayersPanel g={g} />}
         {current === "teams" && <TeamsPanel g={g} />}

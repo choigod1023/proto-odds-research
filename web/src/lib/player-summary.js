@@ -33,11 +33,10 @@ function bestHitter(players) {
   return [...(players || [])]
     .filter((player) => player?.name && player.position !== "투수")
     .sort((a, b) => {
-      const aStats = a.stats || {};
-      const bStats = b.stats || {};
-      return (Number(bStats.ops) || 0) - (Number(aStats.ops) || 0)
-        || (Number(bStats.home_runs) || 0) - (Number(aStats.home_runs) || 0)
-        || (Number(bStats.rbi) || 0) - (Number(aStats.rbi) || 0)
+      const as = a.stats || {}, bs = b.stats || {};
+      return (Number(bs.ops) || 0) - (Number(as.ops) || 0)
+        || (Number(bs.home_runs) || 0) - (Number(as.home_runs) || 0)
+        || (Number(bs.rbi) || 0) - (Number(as.rbi) || 0)
         || (Number(a.order) || 99) - (Number(b.order) || 99);
     })[0] || null;
 }
@@ -69,25 +68,22 @@ export function playerSummaryFor(game) {
     for (const side of ["home", "away"]) {
       const starter = info[`${side}_detail`] || (info[side] ? { name: info[side] } : null);
       if (starter?.name) players.push({
-        name: starter.name,
-        team: game[side],
-        position: "선발투수",
-        role: pitcherRole(starter.stats),
-        profileUrl: starter.profile_url || null,
+        name: starter.name, team: game[side], position: "선발투수",
+        role: pitcherRole(starter.stats), profileUrl: starter.profile_url || null,
       });
     }
     for (const side of ["home", "away"]) {
       const hitter = bestHitter(info.lineups?.[side]);
       if (hitter) players.push({
-        name: hitter.name,
-        team: game[side],
+        name: hitter.name, team: game[side],
         position: `${hitter.order || "-"}번 타자${hitter.position ? ` · ${hitter.position}` : ""}`,
-        role: hitterRole(hitter),
-        profileUrl: hitter.profile_url || null,
+        role: hitterRole(hitter), profileUrl: hitter.profile_url || null,
       });
     }
-    const state = info.lineup_status?.state;
-    const note = state === "official_today"
+    const status = info.lineup_status || {};
+    const state = status.state;
+    const officialToday = status.official_today === true || state === "official_today";
+    const note = officialToday
       ? "오늘 NPB 공식 선발 타순과 공식 시즌 선수 기록을 반영했다."
       : state === "mixed_official_projected"
         ? "공개된 팀은 오늘 공식 타순, 미공개 팀은 최근 완료 경기 기반 예상 타순이다."
@@ -99,11 +95,8 @@ export function playerSummaryFor(game) {
   for (const side of ["home", "away"]) {
     const player = keyPlayers[side]?.[0];
     if (player?.name) players.push({
-      name: player.name,
-      team: game[side],
-      position: player.position || "핵심 선수",
-      role: genericRole(player, game?.sport),
-      profileUrl: player.profile_url || null,
+      name: player.name, team: game[side], position: player.position || "핵심 선수",
+      role: genericRole(player, game?.sport), profileUrl: player.profile_url || null,
     });
   }
   return { players, note: players.length ? "공식 시즌 기록의 팀별 주요 선수를 표시한다." : "" };
