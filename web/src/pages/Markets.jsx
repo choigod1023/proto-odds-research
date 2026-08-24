@@ -9,6 +9,7 @@ import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
+import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -101,11 +102,19 @@ export default function Markets() {
 
   if (at && !d) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
   if (!d) return <Shell><Empty>불러오는 중…</Empty></Shell>;
+  const stale = isDataStale(d.generated_at);
 
   return (
     <Shell meta={metaLine(d, at)}>
-      <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} /></section>
-      <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} /></section>
+      {stale ? (
+        <section id="today-brief" className="mx-auto mt-5 max-w-[1180px] rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
+          <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
+          <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 배당과 추천 판단을 잠시 중단했습니다. 수집이 복구되면 최신 정보가 자동으로 다시 표시됩니다.</p>
+        </section>
+      ) : (
+        <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} /></section>
+      )}
+      <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
       <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
     </Shell>
   );
@@ -367,11 +376,11 @@ const Leg = ({ c }) => (
 /* ── ② 경기 ───────────────────────────────────────────────────── */
 const MODES = [["hit", "적중 우선"], ["roi", "손실 최소"]];
 const STATUS = [
-  ["예정", "예정"], ["경기전", "배당 나옴"], ["배당대기", "배당 대기"],
+  ["예정", "예정"], ["경기전", "배당 나옴"], ["배당대기", "배당 미발표"],
   ["정산", "정산"], ["", "전체"],
 ];
 
-function GameList({ data, grades, caps }) {
+function GameList({ data, grades, caps, stale }) {
   const liveFeed = useLive();
   const liveOdds = useLiveOdds();
   const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
@@ -458,7 +467,7 @@ function GameList({ data, grades, caps }) {
           <span>{key}</span>
         </div>);
     }
-    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} lv={liveOf(lidx, g)} />);
+    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} lv={liveOf(lidx, g)} stale={stale} generatedAt={data.generated_at} year={data.year} />);
   }
 
   const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
@@ -566,7 +575,7 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
-function Game({ g, opts, wait, grades, mode, lv }) {
+function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -581,10 +590,12 @@ function Game({ g, opts, wait, grades, mode, lv }) {
   const head = opts.filter((o) => o.market === "승패" || o.market === "승무패");
   const shown = (head.length ? head : opts).slice(0, 3);
   // 경기별 픽 — 모델이 아니라 **실측 등급**으로 고른다 (모델 추천은 −42.2% 였다)
-  const pick = wait ? null : lessBadPick(grades, opts, mode);
+  const pick = wait || stale ? null : lessBadPick(grades, opts, mode);
   const done = g.status === "정산";
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
   const playing = !!lv && !lv.finished;
+  const finished = !!lv?.finished;
+  const waitText = wait ? waitingLabel(g, { generatedAt, year }) : null;
   // 정산 점수가 있으면 그걸 쓰고(확정), 없으면 실시간 점수로 채운다.
   const score = (done && g.score)
     || (lv && lv.home_score != null && lv.away_score != null
@@ -592,8 +603,15 @@ function Game({ g, opts, wait, grades, mode, lv }) {
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
-  const analysis = wait ? null : performanceAnalysis(g);
+  const analysis = wait || stale ? null : performanceAnalysis(g);
   const forecast = analysis?.prediction;
+  const fallbackForecast = stale
+    ? "최신 데이터 확인 필요"
+    : waitText === "상태 확인 불가"
+      ? "경기 상태 확인 필요"
+      : wait
+        ? "배당 발표 전"
+        : "분석 자료 확인 중";
   return (
     <Card as="details" className="match-card">
       <summary className="match-row">
@@ -611,7 +629,7 @@ function Game({ g, opts, wait, grades, mode, lv }) {
             {g.away}
           </span>
           <small className="match-player-inline">
-            {playing ? (lv.status_text || "진행 중") : done ? "종료" : wait ? "배당 대기" : "예정"} · {g.round}회차
+            {playing ? (lv.status_text || "진행 중") : done || finished ? "종료" : wait ? waitText : stale ? "데이터 갱신 지연" : "예정"} · {g.round}회차
             {analysis?.featuredPlayers?.length
               ? ` · ${analysis.featuredPlayers.map((player) => player.name).join(" · ")}`
               : ""}
@@ -619,10 +637,10 @@ function Game({ g, opts, wait, grades, mode, lv }) {
         </span>
         <span className="match-call-inline">
           <small>경기 예상</small>
-          <b>{forecast?.headline || (wait ? "배당 발표 대기" : "분석 자료 확인 중")}</b>
+          <b>{forecast?.headline || fallbackForecast}</b>
         </span>
         <span className="flex gap-1.5">
-          {wait ? <OddsChip label="배당" value="대기" />
+          {wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : shown.map((o, k) => {
                 const gr = gradeOf(grades, o["배당"]);
                 return <OddsChip key={k} label={o["선택"]} value={odds(o["배당"])}
@@ -634,7 +652,11 @@ function Game({ g, opts, wait, grades, mode, lv }) {
       <div className="match-detail">
         {wait && (
           <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
-            배당이 아직 발표되지 않았습니다. 경기 정보는 먼저 확인할 수 있습니다.
+            {stale
+              ? "오래된 데이터로는 배당 발표 여부를 판단하지 않습니다. 최신 수집이 확인될 때까지 기다려 주세요."
+              : waitText === "상태 확인 불가"
+                ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했습니다."
+                : "배당이 아직 발표되지 않았습니다. 경기 정보는 먼저 확인할 수 있습니다."}
           </div>
         )}
         {analysis && <PredictionPanel analysis={analysis} />}
