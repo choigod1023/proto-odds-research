@@ -3,10 +3,11 @@ import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../componen
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import { displayCommentary } from "../lib/commentary.js";
-import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, lessBadPick, odds, pct, sgn } from "../lib/fmt.js";
+import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
+import { alignTodayRecommendations, canonicalPick } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
@@ -112,7 +113,7 @@ export default function Markets() {
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 배당과 추천 판단을 잠시 중단했습니다. 수집이 복구되면 최신 정보가 자동으로 다시 표시됩니다.</p>
         </section>
       ) : (
-        <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} /></section>
+        <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(d.live || []), ...(d.past || [])]} /></section>
       )}
       <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
       <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
@@ -183,7 +184,7 @@ const Empty = ({ children }) => (
 );
 
 /* ── ① 오늘 살 것 ──────────────────────────────────────────────── */
-function TodayPlan({ today, combo, grades }) {
+function TodayPlan({ today, combo, grades, games }) {
   const [clock, setClock] = useState(() => Date.now());
   useEffect(() => {
     let timer;
@@ -207,7 +208,8 @@ function TodayPlan({ today, combo, grades }) {
       window.removeEventListener("online", schedule);
     };
   }, [today]);
-  const activeToday = useMemo(() => availableToday(today, clock), [today, clock]);
+  const alignedToday = useMemo(() => alignTodayRecommendations(today, games), [today, games]);
+  const activeToday = useMemo(() => availableToday(alignedToday, clock), [alignedToday, clock]);
   const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
   const recommendation = useMemo(() => recommendationFromPlans(plans), [plans]);
   const solo = activeToday.solo || null;
@@ -247,7 +249,7 @@ function TodayPlan({ today, combo, grades }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        역배 끼워맞춤 금지 · 각 시장 최유력만 · 다리당 배당 2.20 미만
+        경기 카드와 같은 통합 추천만 조합 · 역배 금지 · 다리당 배당 2.20 미만
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
@@ -374,7 +376,6 @@ const Leg = ({ c }) => (
 );
 
 /* ── ② 경기 ───────────────────────────────────────────────────── */
-const MODES = [["hit", "적중 우선"], ["roi", "손실 최소"]];
 const STATUS = [
   ["예정", "예정"], ["경기전", "배당 나옴"], ["배당대기", "배당 미발표"],
   ["정산", "정산"], ["", "전체"],
@@ -392,10 +393,7 @@ function GameList({ data, grades, caps, stale }) {
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "",
                                dt: kstMMDD(0) });
   const [showModel, setShowModel] = useState(false);
-  // 적중 우선 / 손실 최소 — 두 목표가 갈린다.
-  // ⚠️ 수치를 여기 적지 않는다. loss_grades.json 의 pick_modes 를 읽는다 —
-  //    예전엔 손으로 박아뒀다가 파이프라인을 고친 뒤 조용히 틀린 값이 남았다.
-  const [mode, setMode] = useState("hit");
+
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
   const [cap, setCap] = useState(0);          // 0 = 제한 없음
@@ -443,7 +441,7 @@ function GameList({ data, grades, caps, stale }) {
     }
     n++;
     if (g.status === "정산") {
-      const pk = lessBadPick(grades, opts, mode);
+      const pk = canonicalPick(g, opts, grades);
       const h = pk && !pk.tie ? pk.o["적중"] : null;
       if (h !== null && h !== undefined) {
         live.n++; live.hit += h ? 1 : 0;
@@ -467,11 +465,10 @@ function GameList({ data, grades, caps, stale }) {
           <span>{key}</span>
         </div>);
     }
-    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} mode={mode} lv={liveOf(lidx, g)} stale={stale} generatedAt={data.generated_at} year={data.year} />);
+    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} lv={liveOf(lidx, g)} stale={stale} generatedAt={data.generated_at} year={data.year} />);
   }
 
-  const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
-  const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
+    const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
       <div className="match-section-title">
@@ -509,11 +506,7 @@ function GameList({ data, grades, caps, stale }) {
                 ))}
               </select>
             </label>
-            <label>비교 기준
-              <select className="filter-select" value={mode} onChange={(e) => setMode(e.target.value)}>
-                {MODES.map(([v, label]) => <option key={v} value={v}>{label}</option>)}
-              </select>
-            </label>
+
           </div>
           <div className="filter-actions">
             <label><input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} /> 모델 수치 보기</label>
@@ -575,7 +568,7 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
-function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
+function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -587,10 +580,9 @@ function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
     return t;
   }, [opts, grades]);
 
-  const head = opts.filter((o) => o.market === "승패" || o.market === "승무패");
-  const shown = (head.length ? head : opts).slice(0, 3);
-  // 경기별 픽 — 모델이 아니라 **실측 등급**으로 고른다 (모델 추천은 −42.2% 였다)
-  const pick = wait || stale ? null : lessBadPick(grades, opts, mode);
+  // 경기별 추천은 생성기가 시장·모델 일치와 안전 배당을 통과시켜 확정한 하나만 쓴다.
+  // 실시간 배당이 안전 범위를 벗어나면 예전 선택을 고집하지 않고 보류한다.
+  const pick = wait || stale ? null : canonicalPick(g, opts, grades);
   const done = g.status === "정산";
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
   const playing = !!lv && !lv.finished;
@@ -603,7 +595,7 @@ function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
-  const analysis = wait || stale ? null : performanceAnalysis(g);
+  const analysis = wait || stale ? null : performanceAnalysis(g, pick?.o || null);
   const forecast = analysis?.prediction;
   const fallbackForecast = stale
     ? "최신 데이터 확인 필요"
@@ -641,12 +633,10 @@ function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
         </span>
         <span className="flex gap-1.5">
           {wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
-            : shown.map((o, k) => {
-                const gr = gradeOf(grades, o["배당"]);
-                return <OddsChip key={k} label={o["선택"]} value={odds(o["배당"])}
-                  grade={gr ? gcls(gr.grade) : "U"}
-                  title={gr ? `배당 ${gr.bin} 실측 ${(gr.roi * 100).toFixed(1)}%` : "등급 없음"} />;
-              })}
+            : pick ? <OddsChip label={pick.o["선택"]} value={odds(pick.o["배당"])}
+                grade={pick.g ? gcls(pick.g.grade) : "U"}
+                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · 경기 예상과 같은 통합 추천`} />
+              : <OddsChip label="추천" value="보류" />}
         </span>
       </summary>
       <div className="match-detail">
@@ -664,7 +654,7 @@ function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
         {!wait && <details className="price-sheet">
           <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
           <div className="overflow-x-auto py-3">
-            <OptTable opts={opts} grades={grades} tie={tie} pick={pick} model={g["추천"]} />
+            <OptTable opts={opts} grades={grades} tie={tie} pick={pick} />
           </div>
         </details>}
       </div>
@@ -672,7 +662,7 @@ function Game({ g, opts, wait, grades, mode, lv, stale, generatedAt, year }) {
   );
 }
 
-function OptTable({ opts, grades, tie, pick, model }) {
+function OptTable({ opts, grades, tie, pick }) {
   const th = "border-b border-rule2 pb-[5px] pr-2 text-left text-[11px] font-medium text-ink3";
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
@@ -700,7 +690,7 @@ function OptTable({ opts, grades, tie, pick, model }) {
                 {o["게임번호"] || "–"}</td>
               <td className={td}>
                 {gr && <GradeBadge grade={t ? "T" : gcls(gr.grade)}
-                  title={t ? `양쪽이 같은 배당대(${gr.bin}) — 고를 근거가 없다`
+                  title={t ? `양쪽이 같은 배당대(${gr.bin}) — 추천 보류`
                            : `배당 ${gr.bin} 실측 ${(gr.roi * 100).toFixed(1)}%`} />}
                 {o.market}{o.label ? ` ${o.label}` : ""} · {o["선택"]}
                 {o["적중"] === true ? " ✔" : o["적중"] === false ? " ✕" : ""}
@@ -719,12 +709,10 @@ function OptTable({ opts, grades, tie, pick, model }) {
               <td className={`${td} model-col tnum text-right`}>{sgn(o["예상손익"])}</td>
               <td className={`${td} text-[11.5px]`}>
                 {pick && !pick.tie && pick.o === o && (
-                  <span className="text-ink">덜 잃는 쪽</span>)}
+                  <span className="text-ink">통합 추천</span>)}
                 {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
-                {model && model["게임번호"] === o["게임번호"] &&
-                 model["선택"] === o["선택"] && model.market === o.market && (
-                  <span className="model-col text-sev2"> 모델 최대괴리</span>)}
+
               </td>
             </tr>
           );

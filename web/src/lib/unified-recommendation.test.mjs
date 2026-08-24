@@ -1,0 +1,20 @@
+import assert from "node:assert/strict";
+import { alignTodayRecommendations, canonicalOption, canonicalPick } from "./unified-recommendation.js";
+
+const home = { market: "승패", label: "", "게임번호": "10", "선택": "홈", "배당": 1.55 };
+const away = { market: "승패", label: "", "게임번호": "10", "선택": "원정", "배당": 2.1 };
+const game = { round: 7, "추천": { ...home, "배당": 1.6 }, options: [home, away] };
+const grades = { odds_bins: [{ bin: "1.5-1.8", roi: -.1, hit: .6, grade: "B" }] };
+
+assert.equal(canonicalOption(game), home, "생성 시점 추천을 현재 배당 선택지에 연결한다");
+assert.equal(canonicalPick(game, game.options, grades).o, home);
+
+const today = { candidates: [
+  { round: 7, game_no: "10", market: "승패", market_label: "", sel: "홈", odds: 1.55 },
+  { round: 7, game_no: "10", market: "승패", market_label: "", sel: "원정", odds: 2.1 },
+] };
+assert.deepEqual(alignTodayRecommendations(today, [game]).candidates.map((row) => row.sel), ["홈"]);
+
+const moved = { ...game, options: [{ ...home, "배당": 2.2 }, away] };
+assert.equal(canonicalOption(moved), null, "안전 배당 범위를 벗어나면 예전 추천을 유지하지 않는다");
+console.log("unified recommendation tests passed");
