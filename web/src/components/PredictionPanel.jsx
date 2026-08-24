@@ -13,9 +13,9 @@ export default function PredictionPanel({ analysis }) {
     <section className="prediction-card" aria-label="경기 예상과 경기력 해석">
       <header className="prediction-head">
         <div>
-          <p className="prediction-label">경기 예상 · 참고용</p>
+          <p className="prediction-label">통합 추천 근거 · 참고용</p>
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
-          <p>최근 경기력과 현재 선수 정보를 함께 읽은 결과</p>
+          <p>시장 확률·모델 확률·검증 배당대를 같은 선택에 연결한 결과</p>
         </div>
         {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>모델 예상</span></div>}
       </header>

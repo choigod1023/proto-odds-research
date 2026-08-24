@@ -10,26 +10,32 @@ const particle = (name, pair) => {
   return `${name}${(last.charCodeAt(0) - 0xac00) % 28 ? pair[0] : pair[1]}`;
 };
 
-export function predictionFor(game) {
+export function predictionFor(game, recommended = null) {
   const options = game?.options || [];
   const main = options.filter((option) => ["승무패", "승패"].includes(option.market)
     && number(option["모델확률"]) !== null);
   const pool = main.length ? main : options.filter((option) => number(option["모델확률"]) !== null);
-  const best = [...pool].sort((a, b) => number(b["모델확률"]) - number(a["모델확률"]))[0];
+  const best = recommended || [...pool].sort((a, b) => number(b["모델확률"]) - number(a["모델확률"]))[0];
   const outcome = best?.["선택"] || null;
-  const draw = ["무", "무승부"].includes(outcome);
-  const away = ["패", "원정승", "원정 승", game?.away].includes(outcome);
+  const draw = ["무", "무승부", "핸디무"].includes(outcome);
+  const away = /원정|패/.test(String(outcome || "")) || outcome === game?.away;
   const side = draw ? "무승부" : away ? game?.away : game?.home;
   const probability = number(best?.["모델확률"]);
   const marketProbability = number(best?.["시장확률"]);
+  const market = best?.market || null;
+  let headline;
+  if (market === "언더오버") headline = `${best?.label || "기준점"} ${outcome} 흐름`;
+  else if (market === "핸디캡") headline = `${best?.label || "핸디캡"} ${outcome} 선택`;
+  else headline = draw ? "팽팽한 흐름 예상" : side ? `${side} 우세` : "예측 자료 확인 중";
   return {
     outcome,
     side,
     probability,
     marketProbability,
     margin: probability !== null && marketProbability !== null ? probability - marketProbability : null,
-    market: best?.market || null,
-    headline: draw ? "팽팽한 흐름 예상" : side ? `${side} 우세` : "예측 자료 확인 중",
+    market,
+    label: best?.label || "",
+    headline,
   };
 }
 
@@ -207,6 +213,16 @@ function playerSentence(players) {
 }
 
 function expectedFlowSentence(game, prediction) {
+  if (prediction?.market === "언더오버") {
+    const low = prediction.outcome === "언더";
+    const homeScored = number(game?.form_home?.avg_scored);
+    const awayScored = number(game?.form_away?.avg_scored);
+    const total = homeScored !== null && awayScored !== null ? homeScored + awayScored : null;
+    const evidence = total !== null
+      ? `두 팀의 최근 경기당 득점 합은 ${metric(total)}점이다.`
+      : "최근 득실과 시장 기준선을 함께 비교했다.";
+    return `${evidence} ${prediction.label || "발매 기준점"}에서 ${low ? "득점이 크게 벌어지지 않는" : "공격 전개가 이어지는"} 쪽을 통합 추천으로 남겼다.`;
+  }
   if (prediction?.side === "무승부") {
     return "양쪽의 강점이 엇갈려 한 팀이 계속 밀어붙이기보다 주도권을 주고받는 접전 가능성을 높게 봤다.";
   }
@@ -245,8 +261,8 @@ function performanceReasons(game, prediction, players) {
   return [...new Set(reasons)].slice(0, 6);
 }
 
-export function performanceAnalysis(game) {
-  const prediction = predictionFor(game);
+export function performanceAnalysis(game, recommended = null) {
+  const prediction = predictionFor(game, recommended);
   const players = playerSnapshot(game);
   const reasons = performanceReasons(game, prediction, players);
   const announced = game?.["선발"]?.lineup_status?.state === "announced"
