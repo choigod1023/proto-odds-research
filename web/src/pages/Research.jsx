@@ -23,6 +23,41 @@ const MISTAKES = [
   ["pi-ratings 파라미터를 감으로 지정", "농구 Brier 가 Elo 보다 0.026 악화", "프로젝트 원칙 위반. 학습 구간 격자탐색으로 재설정"],
   ["3-way 를 2-way 로직으로 계산", "마진 12% 시장에서 ROI +64% 라는 불가능한 값", "+EV 비율 21.6% → 실제 0.9%"],
 ];
+const DIALECTIC = [
+  {
+    mark: "정",
+    title: "경기 정보는 시장에 없는 신호를 보탠다",
+    body: "선수 능력, 실제 선발, 부상·복귀, 불펜 소모와 최근 경기력은 팀 평균만으로 사라지는 변화를 포착할 수 있다.",
+    test: "시장 확률에 팀·선수 변수를 추가했을 때 시계열 표본 밖 Brier와 로그손실이 함께 개선되는가",
+  },
+  {
+    mark: "반",
+    title: "배당은 이미 강한 집단 예측이다",
+    body: "복잡한 모델의 적중률이 높아져도 마진, 데이터 누수, 과적합을 넘지 못할 수 있다. 우연한 한 시즌 수익은 증거가 아니다.",
+    test: "종가보다 앞선 시점의 정보만 사용해 리그·시즌을 바꿔도 개선과 CLV가 반복되는가",
+  },
+  {
+    mark: "합",
+    title: "시장을 기준점으로 두고 수정분만 검증한다",
+    body: "모델이 승패를 처음부터 다시 맞히게 하지 않는다. 시장 확률을 출발점으로 삼고 새 정보가 만든 확률 변화만 측정한다.",
+    test: "시장 → 팀 → 선수·라인업 → 텍스트의 순서로 한 단계씩 추가해 순수 기여도를 분리한다",
+  },
+];
+
+const EXPERIMENT_LADDER = [
+  ["M0", "시장 기준", "마진을 제거한 프로토·동시점 해외 배당", "비교 기준"],
+  ["M1", "팀 경기력", "최근 득실마진·홈원정·휴식·상대 강도", "M0 대비 개선"],
+  ["M2", "선수·라인업", "선발, 결장·복귀, 최근 타격, 불펜 소모, 출전 시간", "M1 대비 개선"],
+  ["M3", "텍스트·LLM", "공식 발표와 기사에서 구조화한 변화 신호", "M2 대비 개선"],
+];
+
+const RESEARCH_SOURCES = [
+  ["확률 보정이 정확도보다 중요", "Walsh & Joshi, Machine Learning with Applications (2024)", "https://doi.org/10.1016/j.mlwa.2024.100539"],
+  ["선수 능력을 포함한 베이지안 축구 모델", "Whitaker et al., JRSS Series C (2021)", "https://doi.org/10.1111/rssc.12454"],
+  ["배당과 다른 신호·포트폴리오 위험", "Hubáček et al., International Journal of Forecasting (2019)", "https://doi.org/10.1016/j.ijforecast.2019.01.001"],
+  ["시장 가격은 새 정보를 빠르게 반영", "Croxson & Reade, The Economic Journal (2014)", "https://doi.org/10.1111/ecoj.12033"],
+  ["운의 비중이 복잡한 모델의 상한을 만든다", "Aoki et al., KDD (2017)", "https://doi.org/10.1145/3097983.3098045"],
+];
 
 export default function Research() {
   return (
@@ -36,7 +71,7 @@ export default function Research() {
           553회차·353,047건을 실측해 답을 찾는 공개 연구. 결과가 어느 쪽이든 그대로 적는다.
         </p>
         <div className="mt-1.5 text-[11.5px] text-ink3">
-          최종 갱신 2026-07-29 · 실측 경기 43,509 ·{" "}
+          연구 설계 추가 2026-08-24 · 실측 경기 43,509 ·{" "}
           <a className="text-signal" href="https://github.com/choigod1023/proto-odds-research/tree/main/findings">
             전체 문서
           </a>
@@ -58,9 +93,9 @@ export default function Research() {
 
       {/* 결론 — 이 페이지의 논지 */}
       <Card className="mt-4 border-l-[3px] border-l-sev3 px-4 py-4">
-        <b className="text-[13.5px] text-sev3">연구 종료 — 답이 나왔다</b>
+        <b className="text-[13.5px] text-sev3">1차 결론 — 현재 데이터에서 확인된 것</b>
         <p className="mt-1.5 mb-2.5 text-[13px] leading-[1.75] text-ink2">
-          <b className="text-ink">이 시장은 이길 수 없다.</b> 우리 모델이 부족해서가 아니다.
+          <b className="text-ink">현재 검증한 규칙만으로는 시장을 이기지 못했다.</b> 새 정보는 같은 기준으로 다시 반증한다.
         </p>
         <table className="w-auto border-collapse text-[13px]">
           <tbody>
@@ -83,6 +118,48 @@ export default function Research() {
         </p>
       </Card>
 
+      <H2 n="01">다음 검증 — 시장에서 시작해 정보의 값을 분리한다</H2>
+      <Lead>
+        새 모델이 과거 결론을 뒤집을 수는 있다. 단, “더 그럴듯해졌다”가 아니라
+        <b> 어느 정보가 표본 밖 확률을 얼마나 개선했는지</b>로 판정한다.
+      </Lead>
+      <div className="grid gap-2.5 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
+        {DIALECTIC.map((item) => (
+          <Card key={item.mark} className="px-4 py-4">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="tnum flex size-7 items-center justify-center rounded-full border border-rule text-[12px] font-semibold">{item.mark}</span>
+              <b className="text-[13px]">{item.title}</b>
+            </div>
+            <p className="m-0 text-[12px] leading-[1.75] text-ink2">{item.body}</p>
+            <p className="mt-3 mb-0 border-t border-rule2 pt-2.5 text-[11px] leading-[1.7] text-ink3">
+              <b className="text-ink2">판정 질문</b> {item.test}
+            </p>
+          </Card>
+        ))}
+      </div>
+
+      <H3>한 번에 하나씩 추가하는 네 단계</H3>
+      <Table head={["단계", "모델", "사용 정보", "판정"]} rows={EXPERIMENT_LADDER} />
+      <Card className="mt-3 border-l-[3px] border-l-sev2 px-4 py-3.5">
+        <div className="text-[13px] font-semibold">미래 불확실성은 임의 난수가 아니라 시나리오로 넣는다</div>
+        <p className="mt-1.5 mb-0 text-[12.5px] leading-[1.75] text-ink2">
+          선발 출전 70%·결장 30%처럼 관측 가능한 불확실성을 각각 시뮬레이션하고 합친다.
+          데이터 지연, 라인업 미확정, 복귀 후 경기력은 서로 다른 불확실성으로 기록한다.
+          LLM은 확률을 직접 만들지 않고 공식 발표와 기사에서 이 상태를 구조화하고 설명한다.
+        </p>
+      </Card>
+
+      <H3>통과 기준</H3>
+      <Table head={["지표", "무엇을 막는가", "판정 방식"]}
+        rows={[["Brier·로그손실", "적중률만 높이는 과신", "M0보다 두 지표 모두 개선"],
+               ["Calibration", "60% 예측이 실제 45%인 문제", "확률 구간별 오차와 ECE"],
+               ["CLV", "결과 운으로 생긴 단기 수익", "예측 시점 대비 마감 확률 우위"],
+               ["ROI·최대낙폭", "수익만 보고 위험을 숨기는 문제", "회차 순서 그대로 walk-forward"],
+               ["재현성", "한 리그·한 시즌 과적합", "리그와 시즌을 바꿔 방향 반복"]]} />
+      <P>
+        M1이 실패하면 팀 변수는 중단한다. M2가 성공하면 어떤 선수군에서 개선됐는지 다시 분리한다.
+        M3는 M2를 넘어설 때만 예측 입력으로 인정하며, 그렇지 않으면 경기력 설명에만 사용한다.
+      </P>
       {/* 오늘 확인된 정정 — 예전 문서의 −9.2% 는 살 수 없는 숫자였다 */}
       <Card className="mt-3 border-l-[3px] border-l-sev2 px-4 py-4">
         <b className="text-[13.5px] text-sev2">2026-07-29 정정 — 실제로 살 수 있는 값</b>
@@ -123,7 +200,7 @@ export default function Research() {
         </p>
       </Card>
 
-      <H2 n="01">지금까지 만난 열두 개의 벽</H2>
+      <H2 n="02">지금까지 만난 열두 개의 벽</H2>
       <Lead>각 검증의 판정 기준은 <b>데이터를 보기 전에</b> 정해뒀다. 나중에 정하면 어떤 결과든 성공으로 해석되기 때문이다.</Lead>
       <ol className="m-0 list-none p-0">
         {WALLS.map(([t, dsc, r, tone], i) => (
@@ -140,7 +217,7 @@ export default function Research() {
         ))}
       </ol>
 
-      <H2 n="02">확정된 사실</H2>
+      <H2 n="03">확정된 사실</H2>
       <Lead>재현 가능하고, 코드가 공개돼 있다.</Lead>
 
       <H3>booking 은 상품이 아니라 <b>구조</b>로 결정된다</H3>
@@ -172,7 +249,7 @@ export default function Research() {
         흥미롭게도 자책률보다 <b>평균 이닝</b>이 더 강하다 — 얼마나 적게 내주느냐보다{" "}
         <b>얼마나 길게 끌어주느냐</b>가 승패에 직결된다.</P>
 
-      <H2 n="03">스스로 잡은 오류</H2>
+      <H2 n="04">스스로 잡은 오류</H2>
       <Lead>연구 과정에서 낸 실수와 발견 경위. 같은 실수를 반복하지 않기 위해 남긴다.</Lead>
       <div className="grid gap-2.5 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
         {MISTAKES.map(([t, found, impact], i) => (
@@ -193,7 +270,7 @@ export default function Research() {
         실제로 작동했다. 지금은 자기검사 9종이 매 실행마다 돈다.
       </blockquote>
 
-      <H2 n="04">지금 돌아가는 것</H2>
+      <H2 n="05">지금 돌아가는 것</H2>
       <Lead>남은 질문은 하나다 — <b>배당이 굳은 뒤 공개되는 정보에 기회가 있는가.</b>
         과거 데이터로는 답할 수 없어 실시간으로 쌓는 중이다.</Lead>
       <Table head={["수집기", "주기", "무엇을"]}
@@ -210,12 +287,21 @@ export default function Research() {
         </p>
       </Card>
 
-      <H2 n="05">현실 점검</H2>
+      <H2 n="06">현실 점검</H2>
       <P>구매 한도가 <b>회차당 10만원</b>이다. 엣지 3%를 확보해도 회차당 3,000원,
         연 150회차면 45만원이 구조적 천장이다. 그리고 그 3%를 실제로 확보하는 것 자체가 대부분 실패한다.</P>
       <P>열두 번 검증했고 <b>실전에 쓸 수 있는 +EV 는 확인되지 않았다.</b>
         결과가 "시장은 효율적이다"로 나와도 그건 실패가 아니라 결론이다.</P>
 
+      <H2 n="07">이번 검증을 지탱하는 근거</H2>
+      <div className="divide-y divide-rule2 border-y border-rule">
+        {RESEARCH_SOURCES.map(([title, paper, href]) => (
+          <a key={href} href={href} className="grid gap-1 py-3 text-inherit no-underline sm:grid-cols-[210px_1fr]">
+            <b className="text-[12px]">{title}</b>
+            <span className="text-[11.5px] text-ink3">{paper}</span>
+          </a>
+        ))}
+      </div>
       <footer className="mt-9 border-t border-rule pt-4 text-[11.5px] leading-[1.85] text-ink3">
         <p className="m-0">데이터 출처 와이즈토토 회차 아카이브 · 네이버 스포츠 · BetExplorer · 비상업 연구 목적</p>
         <p className="m-0">합법 발매처는 오프라인 판매점과 betman.co.kr 뿐이며, 해외 북메이커 이용은 국민체육진흥법 위반이다.</p>
