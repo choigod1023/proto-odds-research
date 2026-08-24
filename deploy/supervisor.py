@@ -218,40 +218,43 @@ def _free_mb() -> int:
         return -1
 
 
-def push_data() -> None:
-    """수집 결과와 **사이트 산출물**만 커밋한다.
+def _push_remote_main():
+    """detached HEAD에서도 원격 main을 명시해 rebase한 뒤 push한다."""
+    push = ["git", "push", "origin", "HEAD:main"]
+    result = sh(push, cwd=REPO)
+    if not result.returncode:
+        return result
 
-    소스 변경은 사람이 하는 것이므로 건드리지 않는다.
-    ⚠️ `docs/data/` 를 빼먹으면 수집은 도는데 사이트는 안 바뀐다(2026-07-28 겪음).
-    """
+    fetched = sh(["git", "fetch", "origin", "main"], cwd=REPO)
+    if fetched.returncode:
+        return fetched
+
+    rebased = sh(["git", "rebase", "--autostash", "origin/main"], cwd=REPO)
+    if rebased.returncode:
+        sh(["git", "rebase", "--abort"], cwd=REPO)
+        return rebased
+    return sh(push, cwd=REPO)
+
+
+def push_data() -> None:
+    """수집 결과와 사이트 데이터만 커밋해 원격 main에 보낸다."""
     r = sh(["git", "status", "--porcelain", *TRACKED], cwd=REPO)
     if not r.stdout.strip():
         return
     n = len(r.stdout.strip().splitlines())
     sh(["git", "add", *TRACKED], cwd=REPO)
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
-    sh(["git", "commit", "-m", f"chore: 수집 데이터 자동 갱신 ({stamp})"], cwd=REPO)
-    # ⚠️ `git push origin HEAD` 는 **HEAD 가 detached 면 실패한다**
-    #    ("The destination you provided is not a full refname").
-    #    2026-08-13: 레포 정리 중 detached 로 남았고, 그 뒤 167회 연속 실패하며
-    #    3일치 수집분 152커밋이 머신에만 쌓였다. 목적지를 명시하면 그 상태에서도 나간다.
-    p = sh(["git", "push", "origin", "HEAD:main"], cwd=REPO)
-    if p.returncode:
-        # 원격이 앞서 있으면 rebase 후 재시도
-        sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
-        # ⚠️ `git push origin HEAD` 는 **HEAD 가 detached 면 실패한다**
-    #    ("The destination you provided is not a full refname").
-    #    2026-08-13: 레포 정리 중 detached 로 남았고, 그 뒤 167회 연속 실패하며
-    #    3일치 수집분 152커밋이 머신에만 쌓였다. 목적지를 명시하면 그 상태에서도 나간다.
-    p = sh(["git", "push", "origin", "HEAD:main"], cwd=REPO)
+    committed = sh(["git", "commit", "-m", f"chore: 수집 데이터 자동 갱신 ({stamp})"], cwd=REPO)
+    if committed.returncode:
+        log(f"데이터 커밋 실패 — {_mask(committed.stderr).strip()[:200]}")
+        return
+
+    p = _push_remote_main()
     global _push_fail_streak
     if p.returncode:
         _push_fail_streak += 1
         log(f"push 실패({_push_fail_streak}회 연속) — 파일 {n}개 · "
             f"{_mask(p.stderr).strip()[:200]}")
-        # ⚠️ 예전엔 실패해도 이 한 줄이 전부였다. 그래서 2026-08-06 부터 39시간을
-        #    매 주기 실패하는 동안 아무도 몰랐다. 연속 실패는 다른 사건이다 —
-        #    일시적 네트워크가 아니라 디스크·토큰·rebase 충돌 중 하나다.
         if _push_fail_streak >= 3:
             log(f"🔴 push 가 {_push_fail_streak}회 연속 실패 — "
                 f"디스크 여유 {_free_mb()}MB")
@@ -261,12 +264,8 @@ def push_data() -> None:
         _push_fail_streak = 0
         log(f"push OK — 파일 {n}개")
 
-    # 압축은 push 성공 여부와 무관하게 한다. push 가 실패해 커밋이 쌓일 때가
-    # 오히려 디스크가 제일 빨리 차는 상황이다.
     sh(["git", "reflog", "expire", "--expire=90.days", "--all"], cwd=REPO)
     sh(["git", "gc", "--auto"], cwd=REPO)
-
-
 def run_looper(name: str, cmd: list[str]) -> None:
     """죽으면 다시 살린다. 즉시 재시작을 반복하지 않도록 뒤로 물러선다."""
     backoff = 30
