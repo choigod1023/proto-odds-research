@@ -9,7 +9,7 @@ import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { alignTodayRecommendations, canonicalPick } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
+import { availableToday, calibratedLegProbability, eligibleTwoLegPlans, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
@@ -210,23 +210,23 @@ function TodayPlan({ today, combo, grades, games }) {
   }, [today]);
   const alignedToday = useMemo(() => alignTodayRecommendations(today, games), [today, games]);
   const activeToday = useMemo(() => availableToday(alignedToday, clock), [alignedToday, clock]);
-  const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
+  const plans = useMemo(() => eligibleTwoLegPlans(activeToday.plans || []), [activeToday]);
   const recommendation = useMemo(() => recommendationFromPlans(plans), [plans]);
-  const solo = activeToday.solo || null;
+  const solo = null;
   const [i, setI] = useState(0);
 
-  if (!plans.length && !solo) {
+  if (!plans.length) {
     return (
       <Card className="today-brief">
-        <div className="brief-heading"><h2>오늘의 비교 후보</h2></div>
-        <Empty>오늘 23:59 KST까지 살 수 있는 조합이 없다. 날짜가 바뀌면 자동으로 다시 찾는다.</Empty>
+        <div className="brief-heading"><h2>오늘의 2폴더 후보</h2></div>
+        <Empty>오늘 23:59 KST까지 2폴더 안전 관문을 통과한 조합이 없다. 날짜가 바뀌면 자동으로 다시 찾는다.</Empty>
       </Card>
     );
   }
-  const selectedIndex = i < 0 ? -1 : (i < plans.length ? i : 0);
-  const p = selectedIndex < 0 ? null : plans[selectedIndex];
-  const selected = p || solo;
-  const shouldPass = selectedIndex < 0 || !(Number(selected?.conservative_expected_roi) > 0);
+  const selectedIndex = i < plans.length ? i : 0;
+  const p = plans[selectedIndex];
+  const selected = p;
+  const shouldPass = !(Number(selected?.conservative_expected_roi) > 0);
   const recommendedPlan = plans.find(
     (plan) => Number(plan.target) === Number(recommendation.target),
   );
@@ -236,8 +236,8 @@ function TodayPlan({ today, combo, grades, games }) {
   return (
     <Card className="today-brief">
       <div className="brief-heading">
-        <h2>오늘의 비교 후보</h2>
-        <p>자동 구매 지시가 아닌 비교용 후보입니다. 최종 판단은 직접 합니다.</p>
+        <h2>오늘의 2폴더 후보</h2>
+        <p>두 경기의 통합 추천만 묶어 비교합니다. 자동 구매 지시가 아니며 최종 판단은 직접 합니다.</p>
       </div>
 
       {activeToday.next && (
@@ -249,7 +249,7 @@ function TodayPlan({ today, combo, grades, games }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        경기 카드와 같은 통합 추천만 조합 · 역배 금지 · 다리당 배당 2.20 미만
+        통합 추천 2개만 · 서로 다른 경기 · 겹치는 팀 없음 · 합산 배당 3.00 이하
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
@@ -260,11 +260,11 @@ function TodayPlan({ today, combo, grades, games }) {
             : "border-sev2 bg-paper text-sev3"
       }`}>
         {recommendation.action === "buy" ? (
-          <>조건이 가장 안정적인 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+          <>조건이 가장 안정적인 <b>{Number(recommendedPlan?.actual_odds).toFixed(2)}배 2폴더</b> · {recommendation.why}</>
         ) : recommendation.action === "challenge" ? (
-          <>변동성이 큰 관찰 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+          <>변동성이 큰 관찰 후보 <b>{Number(recommendedPlan?.actual_odds).toFixed(2)}배 2폴더</b> · {recommendation.why}</>
         ) : (
-          <>현재는 관찰만 · 비교 후보 {recommendation.target}배 · {recommendation.why}</>
+          <>현재는 관찰만 · 비교 후보 <b>{Number(recommendedPlan?.actual_odds).toFixed(2)}배 2폴더</b> · {recommendation.why}</>
         )}
         {recommendedPlan?.conservative_expected_roi != null && (
           <> · 보수 기대 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
@@ -275,7 +275,7 @@ function TodayPlan({ today, combo, grades, games }) {
         <summary>금액 시뮬레이터 · 원할 때만 열어 손실 범위를 비교합니다.</summary>
         <BetPreference
           plans={plans}
-          solo={solo}
+          solo={null}
           selectedIndex={selectedIndex}
           onSelect={setI}
           recommendedTarget={recommendation.target}
@@ -285,10 +285,9 @@ function TodayPlan({ today, combo, grades, games }) {
       </details>
 
       <div className="my-2.5 mb-3.5 flex flex-wrap gap-1.5">
-        {solo && <Tab on={selectedIndex < 0} onClick={() => setI(-1)}>단폴</Tab>}
         {plans.map((q, k) => (
           <Tab key={q.target} on={k === selectedIndex} onClick={() => setI(k)}>
-            {q.target}배
+            {Number(q.actual_odds).toFixed(2)}배
             {Number(q.target) === Number(recommendation.target) && (
               <span className="text-[10px]">
                 {recommendation.action === "buy" ? "1순위" : recommendation.action === "challenge" ? "도전" : "관찰"}
@@ -311,7 +310,7 @@ function TodayPlan({ today, combo, grades, games }) {
         <Stat k="95% 보수 기대" v={selected?.conservative_expected_roi != null
           ? `${(selected.conservative_expected_roi * 100).toFixed(1)}%` : "-"}
           tone={Number(selected?.conservative_expected_roi) < 0 ? "sev" : undefined} />
-        <Stat k="구성" v={`${p?.legs || 1}폴`} />
+        <Stat k="구성" v={`${p?.legs || 2}폴더`} />
         <Stat k="보정 표본" v={selected?.calibration_min_n
           ? `${Number(selected.calibration_min_n).toLocaleString("ko-KR")}건+` : "없음"} />
       </div>
@@ -319,9 +318,13 @@ function TodayPlan({ today, combo, grades, games }) {
         시장 배당 기준 적중 {selected?.hit_est != null ? `${(selected.hit_est * 100).toFixed(1)}%` : "-"} ·
         시장 기대 {selected?.expected_roi != null ? ` ${(selected.expected_roi * 100).toFixed(1)}%` : " -"}
       </div>
+      <div className="mt-1 text-[10.5px] leading-[1.65] text-sev2">
+        결합 적중률은 서로 다른 두 경기가 독립이라는 가정 아래 계산한다. 한 다리의 확률 오차도
+        조합에서는 함께 증폭되므로 단폴보다 보수적으로 해석해야 한다.
+      </div>
 
       <div className="mt-3">
-        {(p ? p.picks : [solo]).map((c, k) => <Leg key={k} c={c} />)}
+        {p.picks.map((c, k) => <Leg key={k} c={c} />)}
       </div>
 
       {bl && (
@@ -354,7 +357,9 @@ const Tab = ({ on, onClick, children }) => (
   </button>
 );
 
-const Leg = ({ c }) => (
+const Leg = ({ c }) => {
+  const conservative = calibratedLegProbability(c).lower;
+  return (
   <div className="flex flex-wrap items-baseline gap-2.5 border-t border-rule2 py-[7px] text-[13px] first:border-t-0">
     <span className="tnum min-w-[38px] text-[11.5px] text-ink3">{hhmm(c.date)}</span>
     <span className="rounded border border-rule px-[5px] py-px text-[10.5px] text-ink3">
@@ -367,13 +372,15 @@ const Leg = ({ c }) => (
       {c.match} — <b>{c.market}{c.market_label ? ` ${c.market_label}` : ""} {c.sel}</b>
     </span>
     <span className="tnum font-semibold">{odds(c.odds)}</span>
+    <span className="tnum text-[10.5px] text-ink3">시장 {(Number(c.market_prob) * 100).toFixed(1)}% · 보수 {(Number(conservative) * 100).toFixed(1)}%</span>
     {c.beats && (
       <span className="text-[10.5px] text-signal">
         {c.round}회차가 유리 ({c.beats.round}회차 {odds(c.beats.odds)})
       </span>
     )}
   </div>
-);
+  );
+};
 
 /* ── ② 경기 ───────────────────────────────────────────────────── */
 const STATUS = [

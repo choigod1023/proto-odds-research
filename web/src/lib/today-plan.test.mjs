@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
+import { availableToday, eligibleTwoLegPlans, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
   challengeOptions, recommendationFromPlans, ticketMetrics } from "./today-plan.js";
 
 const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
@@ -7,6 +7,8 @@ const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
   kickoff_at: kickoff,
   date: "08.19(수) 07:00",
   match: event,
+  home: `${event}-홈`,
+  away: `${event}-원정`,
   market: "승패",
   market_label: "",
   sel: "홈",
@@ -33,6 +35,9 @@ const tomorrow = leg("tomorrow", "2026-08-20T00:00:00+09:00", "1.8-2.2", 2.0, "9
 const picked = pickNextLegs([sameA, sameB, nextA, nextB], ["1.5-1.8", "1.8-2.2"], 2026);
 assert.equal(picked.length, 2);
 assert.notEqual(picked[0].event_key, picked[1].event_key, "같은 실제 경기의 마켓을 묶으면 안 된다");
+const sharedTeam = { ...nextB, event_key: "shared-team", home: nextA.home, game_no: "shared" };
+const noSharedTeam = pickNextLegs([nextA, sharedTeam, nextB], ["1.5-1.8", "1.8-2.2"], 2026);
+assert.notEqual(noSharedTeam[1].event_key, "shared-team", "같은 팀이 들어간 두 경기를 한 조합에 묶으면 안 된다");
 
 const today = {
   year: 2026,
@@ -95,6 +100,16 @@ assert.ok(metrics.conservative_expected_roi < -0.19);
 assert.ok(metrics.conservative_hit_est < metrics.calibrated_hit_est);
 assert.equal(metrics.calibration_min_n, 10_000);
 assert.match(metrics.probability_basis, /Wilson/);
+assert.match(metrics.joint_probability_assumption, /독립/);
+
+const safeSecond = { ...nextA, event_key: "safe-second", game_no: "safe-2",
+  home: "별도홈", away: "별도원정", odds: 1.45, bin: "1.3-1.5", market_prob: 0.65 };
+const safePicks = [nextA, safeSecond];
+const safePlan = { ok: true, target: 2, picks: safePicks, ...ticketMetrics(safePicks) };
+assert.equal(eligibleTwoLegPlans([safePlan]).length, 1);
+assert.equal(eligibleTwoLegPlans([{ ...safePlan, actual_odds: 3.01 }]).length, 0, "합산 3배 초과는 제외한다");
+assert.equal(eligibleTwoLegPlans([{ ...safePlan, picks: [nextA, { ...safeSecond, home: nextA.home }] }]).length, 0,
+  "팀 노출이 겹치는 2폴더는 제외한다");
 
 const pass = recommendationFromPlans([
   { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.52 },

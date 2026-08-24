@@ -25,8 +25,7 @@ const PROFILES = {
 const CHALLENGE_TARGETS = [
   { target: 1.4, label: "1.4배 적중 우선" },
   { target: 2, label: "2배 도전" },
-  { target: 3, label: "3배 도전" },
-  { target: 5, label: "5배 한방" },
+  { target: 3, label: "3배 상한" },
 ];
 
 function readPreference() {

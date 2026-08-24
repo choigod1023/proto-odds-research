@@ -72,6 +72,14 @@ function candidatePool(candidates, bin, year) {
     .sort((a, b) => byLegQuality(a, b, year));
 }
 
+const teamsOf = (candidate) => new Set(
+  [candidate?.home, candidate?.away].map((team) => String(team || "").trim()).filter(Boolean),
+);
+
+function sharesTeam(picks, candidate) {
+  const nextTeams = teamsOf(candidate);
+  return picks.some((pick) => [...teamsOf(pick)].some((team) => nextTeams.has(team)));
+}
 function betterScore(score, previous) {
   if (!previous) return true;
   for (let index = 0; index < score.length; index += 1) {
@@ -130,7 +138,7 @@ export function pickNextLegs(candidates, bins, year, target = null) {
     }
     for (const candidate of pools[index]) {
       const key = eventKey(candidate, year);
-      if (used.has(key)) continue;
+      if (used.has(key) || sharesTeam(picks, candidate)) continue;
       const probability = Number(candidate.market_prob);
       const nextHit = Number.isFinite(probability) && probability > 0 && probability < 1
         ? hitEstimate * probability : 0;
@@ -161,6 +169,7 @@ export function ticketMetrics(picks) {
   const result = {
     actual_odds: Number(actualOdds.toFixed(2)),
     probability_basis: "배당구간 실측 ROI 보정확률 · 95% Wilson 단측 하한",
+    joint_probability_assumption: picks.length > 1 ? "서로 다른 경기의 독립을 가정한 확률 곱" : null,
   };
   if (marketHit != null) {
     result.hit_est = Number(marketHit.toFixed(5));
@@ -179,6 +188,32 @@ export function ticketMetrics(picks) {
   return result;
 }
 
+export const TWO_LEG_MAX_ODDS = 3;
+
+/**
+ * 2폴더 전용 관문. 두 다리가 모두 통합 추천이어야 하고, 같은 경기·같은 팀 노출을
+ * 허용하지 않는다. 결합배당이 커질수록 마진과 확률 오차가 함께 증폭되므로 3배에서 자른다.
+ */
+export function eligibleTwoLegPlans(plans, maxOdds = TWO_LEG_MAX_ODDS) {
+  return (plans || []).filter((plan) => {
+    const picks = plan?.picks || [];
+    if (!plan?.ok || picks.length !== 2) return false;
+    const actualOdds = Number(plan.actual_odds);
+    if (!Number.isFinite(actualOdds) || actualOdds > maxOdds) return false;
+    const [first, second] = picks;
+    if (eventKey(first) === eventKey(second) || sharesTeam([first], second)) return false;
+    return picks.every((pick) => {
+      const probability = calibratedLegProbability(pick).lower;
+      return probability != null && probability > 0.5;
+    });
+  }).map((plan) => ({
+    ...plan,
+    legs: 2,
+    leg_conservative_probabilities: plan.picks.map((pick) =>
+      Number(calibratedLegProbability(pick).lower.toFixed(5))),
+    correlation_policy: "서로 다른 경기 · 겹치는 팀 없음",
+  }));
+}
 function kellyGrowth(plan) {
   const probability = validProbability(plan?.conservative_hit_est);
   const odds = Number(plan?.actual_odds);
