@@ -1,625 +1,11 @@
 {
- "generated_at": "2026-08-25T01:44:28+00:00",
+ "generated_at": "2026-08-25T02:46:43+00:00",
  "rounds": [
   99,
   100,
   101
  ],
  "live": [
-  {
-   "round": 100,
-   "date": "08.25(화) 10:45",
-   "league": "MLB",
-   "sport": "bs",
-   "home": "샌프자이",
-   "away": "신시레즈",
-   "lam_home": 4.51,
-   "lam_away": 4.17,
-   "lam_src": "리그",
-   "no_model": false,
-   "status": "경기전",
-   "score": null,
-   "결과": null,
-   "options": [
-    {
-     "market": "승패",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홈",
-     "배당": 2.19,
-     "모델확률": 0.5511,
-     "시장확률": 0.3882,
-     "예상손익": 0.2069,
-     "괴리": 0.1629,
-     "게임번호": "6260",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    },
-    {
-     "market": "승패",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "원정",
-     "배당": 1.47,
-     "모델확률": 0.4489,
-     "시장확률": 0.6118,
-     "예상손익": -0.3401,
-     "괴리": 0.1629,
-     "게임번호": "6260",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "홈2+",
-     "배당": 3.25,
-     "모델확률": 0.3422,
-     "시장확률": 0.2603,
-     "예상손익": 0.1122,
-     "괴리": 0.0819,
-     "게임번호": "6261",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "1점차",
-     "배당": 3.45,
-     "모델확률": 0.394,
-     "시장확률": 0.2432,
-     "예상손익": 0.3591,
-     "괴리": 0.1508,
-     "게임번호": "6261",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "승①패",
-     "n_way": 3,
-     "label": "승①패",
-     "line": null,
-     "선택": "원정2+",
-     "배당": 1.81,
-     "모델확률": 0.2638,
-     "시장확률": 0.4965,
-     "예상손익": -0.5225,
-     "괴리": 0.2327,
-     "게임번호": "6261",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 2,
-     "label": "H +2.5",
-     "line": 2.5,
-     "선택": "핸디홈",
-     "배당": 1.37,
-     "모델확률": 0.8354,
-     "시장확률": 0.6617,
-     "예상손익": 0.1444,
-     "괴리": 0.1736,
-     "게임번호": "6262",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "핸디캡",
-     "n_way": 2,
-     "label": "H +2.5",
-     "line": 2.5,
-     "선택": "핸디원정",
-     "배당": 2.46,
-     "모델확률": 0.1646,
-     "시장확률": 0.3383,
-     "예상손익": -0.595,
-     "괴리": 0.1736,
-     "게임번호": "6262",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 7.5",
-     "line": 7.5,
-     "선택": "언더",
-     "배당": 1.71,
-     "모델확률": 0.3625,
-     "시장확률": 0.5162,
-     "예상손익": -0.3801,
-     "괴리": 0.1536,
-     "게임번호": "6263",
-     "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
-    },
-    {
-     "market": "언더오버",
-     "n_way": 2,
-     "label": "U 7.5",
-     "line": 7.5,
-     "선택": "오버",
-     "배당": 1.81,
-     "모델확률": 0.6375,
-     "시장확률": 0.4838,
-     "예상손익": 0.1538,
-     "괴리": 0.1536,
-     "게임번호": "6263",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "홀",
-     "배당": 1.58,
-     "모델확률": 0.5,
-     "시장확률": 0.5772,
-     "예상손익": -0.21,
-     "괴리": 0.0772,
-     "게임번호": "6264",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    },
-    {
-     "market": "홀짝",
-     "n_way": 2,
-     "label": "",
-     "line": null,
-     "선택": "짝",
-     "배당": 2.09,
-     "모델확률": 0.5,
-     "시장확률": 0.4228,
-     "예상손익": 0.045,
-     "괴리": 0.0772,
-     "게임번호": "6264",
-     "적중": null,
-     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
-    },
-    {
-     "market": "전반승무패",
-     "n_way": 3,
-     "label": "h(전반)",
-     "line": null,
-     "선택": "전반홈",
-     "배당": 2.55,
-     "모델확률": null,
-     "시장확률": 0.3417,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6265",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "전반승무패",
-     "n_way": 3,
-     "label": "h(전반)",
-     "line": null,
-     "선택": "전반무",
-     "배당": 5.4,
-     "모델확률": null,
-     "시장확률": 0.1433,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6265",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "전반승무패",
-     "n_way": 3,
-     "label": "h(전반)",
-     "line": null,
-     "선택": "전반원정",
-     "배당": 1.75,
-     "모델확률": null,
-     "시장확률": 0.515,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6265",
-     "적중": null,
-     "제외": "모델이 값을 매기지 않는 마켓 (전반전 등)"
-    },
-    {
-     "market": "전반핸디캡",
-     "n_way": 2,
-     "label": "h H +1.5",
-     "line": null,
-     "선택": "전반핸디홈",
-     "배당": 1.37,
-     "모델확률": null,
-     "시장확률": 0.6617,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6266",
-     "적중": null,
-     "제외": "모델이 값을 매기지 않는 마켓 (전반전 등)"
-    },
-    {
-     "market": "전반핸디캡",
-     "n_way": 2,
-     "label": "h H +1.5",
-     "line": null,
-     "선택": "전반핸디원정",
-     "배당": 2.46,
-     "모델확률": null,
-     "시장확률": 0.3383,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6266",
-     "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
-    },
-    {
-     "market": "전반언더오버",
-     "n_way": 2,
-     "label": "h U 4.5",
-     "line": null,
-     "선택": "전반언더",
-     "배당": 1.58,
-     "모델확률": null,
-     "시장확률": 0.5652,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6267",
-     "적중": null,
-     "제외": "모델이 값을 매기지 않는 마켓 (전반전 등)"
-    },
-    {
-     "market": "전반언더오버",
-     "n_way": 2,
-     "label": "h U 4.5",
-     "line": null,
-     "선택": "전반오버",
-     "배당": 1.99,
-     "모델확률": null,
-     "시장확률": 0.4348,
-     "예상손익": null,
-     "괴리": null,
-     "게임번호": "6267",
-     "적중": null,
-     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
-    }
-   ],
-   "홈승률": 0.5524,
-   "판단": "홈 근소",
-   "추천": null,
-   "선택지수": 18,
-   "form_src": "리그",
-   "form_home": {
-    "w": 42,
-    "l": 58,
-    "d": 0,
-    "last10": "4승 6패",
-    "streak": "",
-    "home": "26-27",
-    "away": "16-31",
-    "avg_scored": 5.2,
-    "avg_conceded": 4.1,
-    "rest_days": null,
-    "trend": "상승"
-   },
-   "form_away": {
-    "w": 42,
-    "l": 56,
-    "d": 0,
-    "last10": "5승 5패",
-    "streak": "2연패",
-    "home": "19-29",
-    "away": "23-27",
-    "avg_scored": 3.6,
-    "avg_conceded": 5.3,
-    "rest_days": null,
-    "trend": "유지"
-   },
-   "h2h": null,
-   "선발": {
-    "home": "카슨 위즌헌트",
-    "away": "체이스 번스",
-    "home_detail": {
-     "name": "카슨 위즌헌트",
-     "player_id": 687931,
-     "announced": true,
-     "stats": {
-      "era": 7.03,
-      "whip": 1.84,
-      "k9": 6.47,
-      "bb9": 5.63,
-      "hr9": 1.41,
-      "avg_ip": 4.57,
-      "games_started": 7,
-      "wins": 3,
-      "losses": 4,
-      "period": "2026 시즌",
-      "low_sample": false
-     },
-     "stats_source": "MLB Stats API 시즌 투구 기록",
-     "native_name": "Carson Whisenhunt"
-    },
-    "away_detail": {
-     "name": "체이스 번스",
-     "player_id": 695505,
-     "announced": true,
-     "stats": {
-      "era": 2.51,
-      "whip": 1.11,
-      "k9": 10.52,
-      "bb9": 3.18,
-      "hr9": 0.86,
-      "avg_ip": 5.67,
-      "games_started": 24,
-      "wins": 14,
-      "losses": 2,
-      "period": "2026 시즌",
-      "low_sample": false
-     },
-     "stats_source": "MLB Stats API 시즌 투구 기록",
-     "native_name": "Chase Burns"
-    },
-    "teams": {
-     "home": {
-      "wins": 52,
-      "losses": 78,
-      "pct": 0.4,
-      "abbreviation": "SF"
-     },
-     "away": {
-      "wins": 62,
-      "losses": 69,
-      "pct": 0.473,
-      "abbreviation": "CIN"
-     }
-    },
-    "unavailable": {
-     "home": [
-      {
-       "name": "Casey Schmitt",
-       "status": "10일 부상자 명단",
-       "position": "LF"
-      },
-      {
-       "name": "Daniel Susac",
-       "status": "60일 부상자 명단",
-       "position": "C"
-      },
-      {
-       "name": "Harrison Bader",
-       "status": "60일 부상자 명단",
-       "position": "CF"
-      },
-      {
-       "name": "Hayden Birdsong",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Jesus Rodriguez",
-       "status": "10일 부상자 명단",
-       "position": "C"
-      },
-      {
-       "name": "Joel Peguero",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "José Buttó",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Keaton Winn",
-       "status": "15일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Marcelo Mayer",
-       "status": "10일 부상자 명단",
-       "position": "2B"
-      },
-      {
-       "name": "Matt Chapman",
-       "status": "60일 부상자 명단",
-       "position": "3B"
-      },
-      {
-       "name": "Matt Gage",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Randy Rodríguez",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Rowan Wick",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Trevor McDonald",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      }
-     ],
-     "away": [
-      {
-       "name": "Blake Dunn",
-       "status": "60일 부상자 명단",
-       "position": "CF"
-      },
-      {
-       "name": "Brandon Williamson",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Graham Ashcraft",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Hunter Greene",
-       "status": "60일 부상자 명단",
-       "position": "P"
-      },
-      {
-       "name": "Michael Toglia",
-       "status": "10일 부상자 명단",
-       "position": "1B"
-      },
-      {
-       "name": "Spencer Steer",
-       "status": "10일 부상자 명단",
-       "position": "1B"
-      }
-     ]
-    },
-    "lineups": {
-     "home": [
-      {
-       "name": "Drew Gilbert",
-       "position": "CF",
-       "order": 1
-      },
-      {
-       "name": "Rafael Devers",
-       "position": "1B",
-       "order": 2
-      },
-      {
-       "name": "Jung Hoo Lee",
-       "position": "DH",
-       "order": 3
-      },
-      {
-       "name": "Turner Hill",
-       "position": "LF",
-       "order": 4
-      },
-      {
-       "name": "Drew Cavanaugh",
-       "position": "C",
-       "order": 5
-      },
-      {
-       "name": "Nate Furman",
-       "position": "2B",
-       "order": 6
-      },
-      {
-       "name": "Shay Whitcomb",
-       "position": "3B",
-       "order": 7
-      },
-      {
-       "name": "Grant McCray",
-       "position": "RF",
-       "order": 8
-      },
-      {
-       "name": "Christian Koss",
-       "position": "SS",
-       "order": 9
-      }
-     ],
-     "away": [
-      {
-       "name": "Elly De La Cruz",
-       "position": "SS",
-       "order": 1
-      },
-      {
-       "name": "Sal Stewart",
-       "position": "1B",
-       "order": 2
-      },
-      {
-       "name": "Dane Myers",
-       "position": "CF",
-       "order": 3
-      },
-      {
-       "name": "Tyler Stephenson",
-       "position": "DH",
-       "order": 4
-      },
-      {
-       "name": "Eugenio Suárez",
-       "position": "3B",
-       "order": 5
-      },
-      {
-       "name": "Matt McLain",
-       "position": "2B",
-       "order": 6
-      },
-      {
-       "name": "JJ Bleday",
-       "position": "RF",
-       "order": 7
-      },
-      {
-       "name": "Jose Trevino",
-       "position": "C",
-       "order": 8
-      },
-      {
-       "name": "Ivan Johnson",
-       "position": "LF",
-       "order": 9
-      }
-     ]
-    },
-    "source": "MLB Stats API",
-    "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
-    "key_players": {},
-    "rosters": {},
-    "benches": {},
-    "formations": {},
-    "lineup_status": {},
-    "roster_status": {},
-    "coverage": {},
-    "sport": null,
-    "game_id": "823183"
-   },
-   "라인업": {},
-   "슈팅폼": {},
-   "라인업메모": "",
-   "시장문맥": {
-    "total": {
-     "line": 7.5,
-     "label": "U 7.5"
-    },
-    "handicap": {
-     "label": "H +2.5",
-     "home_market": 0.6617,
-     "home_model": 0.8354,
-     "away_market": 0.3383,
-     "away_model": 0.1646
-    },
-    "margin_band": {
-     "label": "1점차",
-     "close_market": 0.2432,
-     "close_model": 0.394
-    }
-   },
-   "해설기본": "신시레즈의 승리 확률은 61%, 배당은 1.47로 형성되어 있습니다. 실제 발매 기준점 대비 총득점은 오버가 우세한 상황입니다. 눈여겨볼 점은 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 것입니다. 신시레즈의 승리 확률을 시장은 61%로 보지만, 득점 모델은 그보다 16%p 낮은 45%를 가리킵니다. 핸디캡의 경우 샌프자이의 +2.5 커버 가능성을 시장은 66%로 잡았으나 모델은 84%까지 높게 평가하며, 1점 차 승부 역시 시장의 24%보다 높은 39%의 가능성을 제시합니다. 만약 역배가 터진다면 정배당 팀이 무너지기보다는, 접전이 이어지다 한 번의 득점으로 승패가 갈리는 양상이 될 가능성이 큽니다. 투표량이 확인되지 않아 확정할 순 없지만, 시장 쏠림 의심은 있는 상태입니다.\n\n샌프자이는 최근 5경기 득실 마진을 -1.0에서 +3.2까지 끌어올리며 흐름이 개선되었습니다. 최근 10경기 성적은 4승 6패, 평균 5.2득점 4.1실점을 기록 중입니다. 3경기 기준으로는 2승 1패로 다소 기복이 있으나, 평균 5.2득점의 화력을 갖춰 언제든 승부를 뒤집을 저력이 있습니다. 반면 신시레즈는 2연패 중이며, 최근 10경기 5승 5패에 평균 3.6득점 5.3실점으로 다소 아쉬운 모습입니다. 특히 10경기 중 두 차례나 무득점 패배를 당할 정도로 타선 침묵이 변수입니다. 홈에서 26승 27패를 기록 중인 샌프자이와 원정 23승 27패인 신시레즈 모두 5할 승률 언저리에 머물러 있습니다. 최근 지표를 종합한 예상 합계는 9.1점 안팎으로, 실제 기준점인 7.5점보다는 오버가 유력해 보입니다.",
-   "해설": "신시레즈의 승리 확률은 61%, 배당은 1.47로 형성되어 있습니다. 선발 맞대결은 샌프자이 카슨 위즌헌트(2026 시즌, 3승 4패, ERA 7.03, WHIP 1.84), 신시레즈 체이스 번스(2026 시즌, 14승 2패, ERA 2.51, WHIP 1.11)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 샌프자이 1번 Drew Gilbert, 신시레즈 1번 Elly De La Cruz입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 샌프자이 Casey Schmitt(10일 부상자 명단), 샌프자이 Daniel Susac(60일 부상자 명단), 신시레즈 Blake Dunn(60일 부상자 명단), 신시레즈 Brandon Williamson(60일 부상자 명단)입니다. 실제 발매 기준점 대비 총득점은 오버가 우세한 상황입니다. 눈여겨볼 점은 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 것입니다. 신시레즈의 승리 확률을 시장은 61%로 보지만, 득점 모델은 그보다 16%p 낮은 45%를 가리킵니다. 핸디캡의 경우 샌프자이의 +2.5 커버 가능성을 시장은 66%로 잡았으나 모델은 84%까지 높게 평가하며, 1점 차 승부 역시 시장의 24%보다 높은 39%의 가능성을 제시합니다. 만약 역배가 터진다면 정배당 팀이 무너지기보다는, 접전이 이어지다 한 번의 득점으로 승패가 갈리는 양상이 될 가능성이 큽니다. 투표량이 확인되지 않아 확정할 순 없지만, 시장 쏠림 의심은 있는 상태입니다.\n\n샌프자이는 최근 5경기 득실 마진을 -1.0에서 +3.2까지 끌어올리며 흐름이 개선되었습니다. 최근 10경기 성적은 4승 6패, 평균 5.2득점 4.1실점을 기록 중입니다. 3경기 기준으로는 2승 1패로 다소 기복이 있으나, 평균 5.2득점의 화력을 갖춰 언제든 승부를 뒤집을 저력이 있습니다. 반면 신시레즈는 2연패 중이며, 최근 10경기 5승 5패에 평균 3.6득점 5.3실점으로 다소 아쉬운 모습입니다. 특히 10경기 중 두 차례나 무득점 패배를 당할 정도로 타선 침묵이 변수입니다. 홈에서 26승 27패를 기록 중인 샌프자이와 원정 23승 27패인 신시레즈 모두 5할 승률 언저리에 머물러 있습니다. 최근 지표를 종합한 예상 합계는 9.1점 안팎으로, 실제 기준점인 7.5점보다는 오버가 유력해 보입니다."
-  },
   {
    "round": 100,
    "date": "08.25(화) 18:00",
@@ -1493,7 +879,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -2358,7 +1744,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -3283,7 +2669,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -4148,7 +3534,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -4296,11 +3682,11 @@
      "label": "H +2.5",
      "line": 2.5,
      "선택": "핸디홈",
-     "배당": 1.56,
+     "배당": 1.65,
      "모델확률": 0.6905,
-     "시장확률": 0.573,
-     "예상손익": 0.0771,
-     "괴리": 0.1175,
+     "시장확률": 0.5385,
+     "예상손익": 0.1392,
+     "괴리": 0.152,
      "게임번호": "6290",
      "적중": null,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
@@ -4311,11 +3697,11 @@
      "label": "H +2.5",
      "line": 2.5,
      "선택": "핸디원정",
-     "배당": 2.02,
+     "배당": 1.89,
      "모델확률": 0.3095,
-     "시장확률": 0.427,
-     "예상손익": -0.3747,
-     "괴리": 0.1175,
+     "시장확률": 0.4615,
+     "예상손익": -0.415,
+     "괴리": 0.152,
      "게임번호": "6290",
      "적중": null,
      "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
@@ -5059,7 +4445,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -5097,9 +4483,9 @@
     },
     "handicap": {
      "label": "H +2.5",
-     "home_market": 0.573,
+     "home_market": 0.5385,
      "home_model": 0.6905,
-     "away_market": 0.427,
+     "away_market": 0.4615,
      "away_model": 0.3095
     },
     "margin_band": {
@@ -5938,7 +5324,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -8608,7 +7994,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -9178,7 +8564,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -9748,7 +9134,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -12027,7 +11413,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -13126,7 +12512,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -13217,14 +12603,14 @@
     "teams": {
      "home": {
       "wins": 67,
-      "losses": 64,
-      "pct": 0.511,
+      "losses": 65,
+      "pct": 0.508,
       "abbreviation": "MIA"
      },
      "away": {
-      "wins": 71,
+      "wins": 72,
       "losses": 59,
-      "pct": 0.546,
+      "pct": 0.55,
       "abbreviation": "BOS"
      }
     },
@@ -13337,7 +12723,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -13427,15 +12813,15 @@
     "away_detail": null,
     "teams": {
      "home": {
-      "wins": 61,
+      "wins": 62,
       "losses": 71,
-      "pct": 0.462,
+      "pct": 0.466,
       "abbreviation": "WSH"
      },
      "away": {
       "wins": 50,
-      "losses": 80,
-      "pct": 0.385,
+      "losses": 81,
+      "pct": 0.382,
       "abbreviation": "COL"
      }
     },
@@ -13543,7 +12929,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -13728,7 +13114,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -13988,7 +13374,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -14203,7 +13589,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -14433,7 +13819,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -14663,7 +14049,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -14834,7 +14220,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -15455,7 +14841,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -15645,7 +15031,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -15855,7 +15241,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -16115,7 +15501,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -16350,7 +15736,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -16580,7 +15966,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -16642,7 +16028,7 @@
     "lineups": {},
     "source": "Volleyball World 공식 선수·대회 기록",
     "source_url": "https://en.volleyballworld.com/volleyball/competitions/volleyball-nations-league/teams/women/7546/players/",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -17601,7 +16987,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -18226,7 +17612,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -18899,7 +18285,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -19524,7 +18910,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -20197,7 +19583,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -20822,7 +20208,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -22066,7 +21452,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -22636,7 +22022,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -23192,7 +22578,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -23786,7 +23172,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -24126,7 +23512,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -24780,7 +24166,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25010,7 +24396,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25205,7 +24591,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25376,7 +24762,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25586,7 +24972,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25696,14 +25082,14 @@
     "teams": {
      "home": {
       "wins": 67,
-      "losses": 64,
-      "pct": 0.511,
+      "losses": 65,
+      "pct": 0.508,
       "abbreviation": "MIA"
      },
      "away": {
-      "wins": 71,
+      "wins": 72,
       "losses": 59,
-      "pct": 0.546,
+      "pct": 0.55,
       "abbreviation": "BOS"
      }
     },
@@ -25816,7 +25202,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25906,15 +25292,15 @@
     },
     "teams": {
      "home": {
-      "wins": 61,
+      "wins": 62,
       "losses": 71,
-      "pct": 0.462,
+      "pct": 0.466,
       "abbreviation": "WSH"
      },
      "away": {
       "wins": 50,
-      "losses": 80,
-      "pct": 0.385,
+      "losses": 81,
+      "pct": 0.382,
       "abbreviation": "COL"
      }
     },
@@ -26022,7 +25408,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -26188,7 +25574,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -26448,7 +25834,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -26663,7 +26049,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -26893,7 +26279,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -27123,7 +26509,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -27294,7 +26680,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -27583,7 +26969,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -28245,7 +27631,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -28918,7 +28304,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -29543,7 +28929,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -30216,7 +29602,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -30841,7 +30227,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -31229,7 +30615,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127082",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -31740,7 +31126,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126963",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -32082,7 +31468,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127083",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -32369,7 +31755,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126973",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -32887,15 +32273,15 @@
     },
     "teams": {
      "home": {
-      "wins": 61,
+      "wins": 62,
       "losses": 71,
-      "pct": 0.462,
+      "pct": 0.466,
       "abbreviation": "WSH"
      },
      "away": {
       "wins": 50,
-      "losses": 80,
-      "pct": 0.385,
+      "losses": 81,
+      "pct": 0.382,
       "abbreviation": "COL"
      }
     },
@@ -33003,7 +32389,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -33176,7 +32562,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127117",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -33518,7 +32904,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126968",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -33902,7 +33288,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127118",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -34147,7 +33533,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127116",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -34551,7 +33937,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -34645,7 +34031,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -35062,7 +34448,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127081",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -35357,7 +34743,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -35690,7 +35076,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127281",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -36116,7 +35502,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -36357,7 +35743,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -36572,7 +35958,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -36673,7 +36059,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127297",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -36918,7 +36304,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127286",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -37163,7 +36549,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127296",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -37634,7 +37020,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -37735,7 +37121,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127291",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -38101,7 +37487,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -38202,7 +37588,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127298",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -38447,7 +37833,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126979",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -39344,7 +38730,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -40017,7 +39403,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -40135,7 +39521,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126978",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -41032,7 +40418,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -41657,7 +41043,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -42282,7 +41668,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -42907,7 +42293,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-25T10:40:44+09:00",
+    "updated_at": "2026-08-25T11:45:58+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -43292,7 +42678,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -43514,7 +42900,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-25T10:41:23+09:00",
+    "updated_at": "2026-08-25T11:46:02+09:00",
     "key_players": {
      "home": [
       {
@@ -43733,7 +43119,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126980",
-    "updated_at": "2026-08-25T10:41:25+09:00",
+    "updated_at": "2026-08-25T11:46:04+09:00",
     "key_players": {
      "home": [
       {
@@ -84937,7 +84323,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -86807,7 +86193,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -86858,7 +86244,7 @@
     2,
     4
    ],
-   "결과": "9회말",
+   "결과": "홈패",
    "options": [
     {
      "market": "승패",
@@ -86887,7 +86273,7 @@
      "예상손익": -0.0884,
      "괴리": 0.0121,
      "게임번호": "6215",
-     "적중": false,
+     "적중": true,
      "추천점수": -0.0884
     },
     {
@@ -86932,7 +86318,7 @@
      "예상손익": -0.2881,
      "괴리": 0.0937,
      "게임번호": "6216",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -86947,7 +86333,7 @@
      "예상손익": 0.0044,
      "괴리": 0.0716,
      "게임번호": "6217",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -86977,7 +86363,7 @@
      "예상손익": -0.3299,
      "괴리": 0.1182,
      "게임번호": "6218",
-     "적중": false,
+     "적중": true,
      "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
     },
     {
@@ -87040,7 +86426,7 @@
     "예상손익": -0.0884,
     "괴리": 0.0121,
     "게임번호": "6215",
-    "적중": false,
+    "적중": true,
     "추천점수": -0.0884
    },
    "선택지수": 11,
@@ -87118,14 +86504,14 @@
     "teams": {
      "home": {
       "wins": 67,
-      "losses": 64,
-      "pct": 0.511,
+      "losses": 65,
+      "pct": 0.508,
       "abbreviation": "MIA"
      },
      "away": {
-      "wins": 71,
+      "wins": 72,
       "losses": 59,
-      "pct": 0.546,
+      "pct": 0.55,
       "abbreviation": "BOS"
      }
     },
@@ -87333,7 +86719,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -87384,7 +86770,7 @@
     13,
     3
    ],
-   "결과": "9회초",
+   "결과": "홈승",
    "options": [
     {
      "market": "승패",
@@ -87398,7 +86784,7 @@
      "예상손익": -0.2118,
      "괴리": 0.0873,
      "게임번호": "6225",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -87428,7 +86814,7 @@
      "예상손익": -0.3166,
      "괴리": 0.1249,
      "게임번호": "6226",
-     "적중": false,
+     "적중": true,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
     },
     {
@@ -87473,7 +86859,7 @@
      "예상손익": -0.335,
      "괴리": 0.0732,
      "게임번호": "6227",
-     "적중": false,
+     "적중": true,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
     },
     {
@@ -87518,7 +86904,7 @@
      "예상손익": 0.4559,
      "괴리": 0.3124,
      "게임번호": "6228",
-     "적중": false,
+     "적중": true,
      "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
     },
     {
@@ -87599,7 +86985,7 @@
       "hr9": 1.03,
       "avg_ip": 5.31,
       "games_started": 28,
-      "wins": 11,
+      "wins": 12,
       "losses": 5,
       "period": "2026 시즌",
       "low_sample": false
@@ -87620,7 +87006,7 @@
       "avg_ip": 4.88,
       "games_started": 20,
       "wins": 5,
-      "losses": 7,
+      "losses": 8,
       "period": "2026 시즌",
       "low_sample": false
      },
@@ -87629,15 +87015,15 @@
     },
     "teams": {
      "home": {
-      "wins": 61,
+      "wins": 62,
       "losses": 71,
-      "pct": 0.462,
+      "pct": 0.466,
       "abbreviation": "WSH"
      },
      "away": {
       "wins": 50,
-      "losses": 80,
-      "pct": 0.385,
+      "losses": 81,
+      "pct": 0.382,
       "abbreviation": "COL"
      }
     },
@@ -87840,7 +87226,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -87873,7 +87259,7 @@
     }
    },
    "해설기본": "워싱내셔의 승리 확률은 시장에서 67%, 배당은 1.36으로 형성되어 있으며, 총득점은 오버를 가리키고 있습니다. 시장의 확신이 득점 분포 교차 마켓 진단보다 강하다는 점은 눈여겨볼 부분입니다. 시장은 워싱내셔의 승리를 67%로 점치지만, 검증 전 득점 모델은 이보다 9%p 낮은 58%를 제시합니다. 1점 차 승부 가능성 또한 시장은 23%, 모델은 35%로 서로 의견이 갈립니다. 만약 역배당이 나온다면, 정배당 팀이 무너진다기보다 접전 끝에 막판 득점으로 승패가 뒤집히는 양상이 될 가능성이 있습니다. 현재 투표량 데이터가 없어 쏠림을 단정할 수는 없으나, 일단 쏠림 의심 단계로 둡니다.\n\n워싱내셔는 최근 3경기에서 1승 2패로 흐름이 좋지 않으며, 득실 마진도 +2.6에서 +0.6으로 줄어든 상태입니다. 최근 10경기 성적은 6승 4패, 평균 5.6득점 4.0실점을 기록 중입니다. 홈에서는 22승 31패로 고전하고 있으며 경기마다 득점 기복이 심한 편입니다.\n\n4연패에 빠진 콜로로키 역시 득실 마진이 -1.4에서 -2.4로 하락하며 내용이 나빠졌습니다. 최근 10경기 3승 7패, 평균 4.7득점 6.6실점으로 수비 불안이 큽니다. 원정 성적은 16승 36패로 저조합니다. 이번 시즌 맞대결은 워싱내셔가 2승 1패로 우위를 점하고 있으나, 최근 두 번의 맞대결 결과는 8-7과 0-8로 양 팀 모두 득점 편차가 컸습니다. 최근 지표로 계산한 합계 점수는 10.4점 안팎으로, 실제 기준점인 8.5점보다는 높게 형성되어 있습니다.",
-   "해설": "워싱내셔의 승리 확률은 시장에서 67%, 배당은 1.36으로 형성되어 있으며, 총득점은 오버를 가리키고 있습니다. 선발 맞대결은 워싱내셔 케이드 카발리(2026 시즌, 11승 5패, ERA 3.21, WHIP 1.21), 콜로로키 라이언 펠트너(2026 시즌, 5승 7패, ERA 6.08, WHIP 1.55)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 워싱내셔 1번 CJ Abrams, 콜로로키 1번 Jake McCarthy입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 워싱내셔 Connelly Early(60일 부상자 명단), 워싱내셔 DJ Herz(60일 부상자 명단), 콜로로키 Chase Dollander(60일 부상자 명단), 콜로로키 Hunter Goodman(10일 부상자 명단)입니다. 시장의 확신이 득점 분포 교차 마켓 진단보다 강하다는 점은 눈여겨볼 부분입니다. 시장은 워싱내셔의 승리를 67%로 점치지만, 검증 전 득점 모델은 이보다 9%p 낮은 58%를 제시합니다. 1점 차 승부 가능성 또한 시장은 23%, 모델은 35%로 서로 의견이 갈립니다. 만약 역배당이 나온다면, 정배당 팀이 무너진다기보다 접전 끝에 막판 득점으로 승패가 뒤집히는 양상이 될 가능성이 있습니다. 현재 투표량 데이터가 없어 쏠림을 단정할 수는 없으나, 일단 쏠림 의심 단계로 둡니다.\n\n워싱내셔는 최근 3경기에서 1승 2패로 흐름이 좋지 않으며, 득실 마진도 +2.6에서 +0.6으로 줄어든 상태입니다. 최근 10경기 성적은 6승 4패, 평균 5.6득점 4.0실점을 기록 중입니다. 홈에서는 22승 31패로 고전하고 있으며 경기마다 득점 기복이 심한 편입니다.\n\n4연패에 빠진 콜로로키 역시 득실 마진이 -1.4에서 -2.4로 하락하며 내용이 나빠졌습니다. 최근 10경기 3승 7패, 평균 4.7득점 6.6실점으로 수비 불안이 큽니다. 원정 성적은 16승 36패로 저조합니다. 이번 시즌 맞대결은 워싱내셔가 2승 1패로 우위를 점하고 있으나, 최근 두 번의 맞대결 결과는 8-7과 0-8로 양 팀 모두 득점 편차가 컸습니다. 최근 지표로 계산한 합계 점수는 10.4점 안팎으로, 실제 기준점인 8.5점보다는 높게 형성되어 있습니다."
+   "해설": "워싱내셔의 승리 확률은 시장에서 67%, 배당은 1.36으로 형성되어 있으며, 총득점은 오버를 가리키고 있습니다. 선발 맞대결은 워싱내셔 케이드 카발리(2026 시즌, 12승 5패, ERA 3.21, WHIP 1.21), 콜로로키 라이언 펠트너(2026 시즌, 5승 8패, ERA 6.08, WHIP 1.55)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 워싱내셔 1번 CJ Abrams, 콜로로키 1번 Jake McCarthy입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 워싱내셔 Connelly Early(60일 부상자 명단), 워싱내셔 DJ Herz(60일 부상자 명단), 콜로로키 Chase Dollander(60일 부상자 명단), 콜로로키 Hunter Goodman(10일 부상자 명단)입니다. 시장의 확신이 득점 분포 교차 마켓 진단보다 강하다는 점은 눈여겨볼 부분입니다. 시장은 워싱내셔의 승리를 67%로 점치지만, 검증 전 득점 모델은 이보다 9%p 낮은 58%를 제시합니다. 1점 차 승부 가능성 또한 시장은 23%, 모델은 35%로 서로 의견이 갈립니다. 만약 역배당이 나온다면, 정배당 팀이 무너진다기보다 접전 끝에 막판 득점으로 승패가 뒤집히는 양상이 될 가능성이 있습니다. 현재 투표량 데이터가 없어 쏠림을 단정할 수는 없으나, 일단 쏠림 의심 단계로 둡니다.\n\n워싱내셔는 최근 3경기에서 1승 2패로 흐름이 좋지 않으며, 득실 마진도 +2.6에서 +0.6으로 줄어든 상태입니다. 최근 10경기 성적은 6승 4패, 평균 5.6득점 4.0실점을 기록 중입니다. 홈에서는 22승 31패로 고전하고 있으며 경기마다 득점 기복이 심한 편입니다.\n\n4연패에 빠진 콜로로키 역시 득실 마진이 -1.4에서 -2.4로 하락하며 내용이 나빠졌습니다. 최근 10경기 3승 7패, 평균 4.7득점 6.6실점으로 수비 불안이 큽니다. 원정 성적은 16승 36패로 저조합니다. 이번 시즌 맞대결은 워싱내셔가 2승 1패로 우위를 점하고 있으나, 최근 두 번의 맞대결 결과는 8-7과 0-8로 양 팀 모두 득점 편차가 컸습니다. 최근 지표로 계산한 합계 점수는 10.4점 안팎으로, 실제 기준점인 8.5점보다는 높게 형성되어 있습니다."
   },
   {
    "round": 100,
@@ -87889,9 +87275,9 @@
    "status": "정산",
    "score": [
     2,
-    7
+    11
    ],
-   "결과": "6회초",
+   "결과": "9회말",
    "options": [
     {
      "market": "승패",
@@ -88119,12 +87505,12 @@
      "player_id": 677958,
      "announced": true,
      "stats": {
-      "era": 4.43,
+      "era": 4.41,
       "whip": 1.4,
-      "k9": 8.29,
-      "bb9": 3.57,
-      "hr9": 1.29,
-      "avg_ip": 5.48,
+      "k9": 8.31,
+      "bb9": 3.62,
+      "hr9": 1.28,
+      "avg_ip": 5.51,
       "games_started": 23,
       "wins": 4,
       "losses": 10,
@@ -88352,7 +87738,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -88385,7 +87771,7 @@
     }
    },
    "해설기본": "시장 기본값은 시카화이 승 54%, 배당 1.64를 가리키고 있습니다. 실제 발매 기준 총득점은 오버를 향하는 분위기입니다. 시카화이는 홈에서 32승 18패로 강세를 보이나 최근 10경기 5승 5패, 평균 4.8득점 4.8실점으로 흐름이 다소 정체되었습니다. 텍사레인은 최근 10경기 5승 5패를 기록 중이나 득실 마진이 +1.6에서 +0.2로 줄어들며 경기력이 하락세이고, 현재 2연패에 빠져 있습니다. 원정 성적도 24승 25패로 5할 수준에 머뭅니다. 시즌 맞대결은 시카화이가 2승 1패로 우위이며, 직전 두 차례 대결은 10-0과 2-4로 갈렸습니다. 최근 지표로 계산한 합계는 8.8점 안팎으로, 실제 기준점인 8.5점보다는 오버 가능성이 엿보입니다.",
-   "해설": "시장 기본값은 시카화이 승 54%, 배당 1.64를 가리키고 있습니다. 선발 맞대결은 시카화이 호세 우르퀴디(2026 시즌, 2승 1패, ERA 6.63, WHIP 1.79), 텍사레인 쿠마 로커(2026 시즌, 4승 10패, ERA 4.43, WHIP 1.40)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 시카화이 1번 Sam Antonacci, 텍사레인 1번 Joc Pederson입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 시카화이 Brooks Baldwin(60일 부상자 명단), 시카화이 Chris Murphy(15일 부상자 명단), 텍사레인 Carter Baumler(60일 부상자 명단), 텍사레인 Jack Leiter(60일 부상자 명단)입니다. 실제 발매 기준 총득점은 오버를 향하는 분위기입니다. 시카화이는 홈에서 32승 18패로 강세를 보이나 최근 10경기 5승 5패, 평균 4.8득점 4.8실점으로 흐름이 다소 정체되었습니다. 텍사레인은 최근 10경기 5승 5패를 기록 중이나 득실 마진이 +1.6에서 +0.2로 줄어들며 경기력이 하락세이고, 현재 2연패에 빠져 있습니다. 원정 성적도 24승 25패로 5할 수준에 머뭅니다. 시즌 맞대결은 시카화이가 2승 1패로 우위이며, 직전 두 차례 대결은 10-0과 2-4로 갈렸습니다. 최근 지표로 계산한 합계는 8.8점 안팎으로, 실제 기준점인 8.5점보다는 오버 가능성이 엿보입니다."
+   "해설": "시장 기본값은 시카화이 승 54%, 배당 1.64를 가리키고 있습니다. 선발 맞대결은 시카화이 호세 우르퀴디(2026 시즌, 2승 1패, ERA 6.63, WHIP 1.79), 텍사레인 쿠마 로커(2026 시즌, 4승 10패, ERA 4.41, WHIP 1.40)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 시카화이 1번 Sam Antonacci, 텍사레인 1번 Joc Pederson입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 시카화이 Brooks Baldwin(60일 부상자 명단), 시카화이 Chris Murphy(15일 부상자 명단), 텍사레인 Carter Baumler(60일 부상자 명단), 텍사레인 Jack Leiter(60일 부상자 명단)입니다. 실제 발매 기준 총득점은 오버를 향하는 분위기입니다. 시카화이는 홈에서 32승 18패로 강세를 보이나 최근 10경기 5승 5패, 평균 4.8득점 4.8실점으로 흐름이 다소 정체되었습니다. 텍사레인은 최근 10경기 5승 5패를 기록 중이나 득실 마진이 +1.6에서 +0.2로 줄어들며 경기력이 하락세이고, 현재 2연패에 빠져 있습니다. 원정 성적도 24승 25패로 5할 수준에 머뭅니다. 시즌 맞대결은 시카화이가 2승 1패로 우위이며, 직전 두 차례 대결은 10-0과 2-4로 갈렸습니다. 최근 지표로 계산한 합계는 8.8점 안팎으로, 실제 기준점인 8.5점보다는 오버 가능성이 엿보입니다."
   },
   {
    "round": 100,
@@ -88400,10 +87786,10 @@
    "no_model": false,
    "status": "정산",
    "score": [
-    0,
-    0
+    1,
+    1
    ],
-   "결과": "1회초",
+   "결과": "4회말",
    "options": [
     {
      "market": "승패",
@@ -88625,12 +88011,12 @@
      "player_id": 691946,
      "announced": true,
      "stats": {
-      "era": 3.74,
-      "whip": 1.66,
-      "k9": 8.72,
-      "bb9": 7.48,
-      "hr9": 0.83,
-      "avg_ip": 3.61,
+      "era": 3.51,
+      "whip": 1.64,
+      "k9": 8.42,
+      "bb9": 7.01,
+      "hr9": 0.7,
+      "avg_ip": 4.28,
       "games_started": 6,
       "wins": 2,
       "losses": 1,
@@ -88645,13 +88031,13 @@
      "player_id": 800048,
      "announced": true,
      "stats": {
-      "era": 2.54,
-      "whip": 1.03,
-      "k9": 9.18,
-      "bb9": 2.42,
-      "hr9": 0.85,
-      "avg_ip": 5.96,
-      "games_started": 25,
+      "era": 2.53,
+      "whip": 1.02,
+      "k9": 9.12,
+      "bb9": 2.35,
+      "hr9": 0.82,
+      "avg_ip": 5.88,
+      "games_started": 26,
       "wins": 9,
       "losses": 8,
       "period": "2026 시즌",
@@ -88843,7 +88229,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -88876,7 +88262,7 @@
     }
    },
    "해설기본": "클리가디의 승리 확률은 시장에서 62%, 배당은 1.45로 형성되어 있으며, 총득점은 언더 쪽으로 무게가 실립니다. 다만 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 점이 눈에 띕니다. 클리가디의 승리를 시장은 62%로 보지만, 검증 전 득점 모델은 51%로 11%p 낮게 잡고 있습니다. LA에인절의 핸디캡(+2.5) 커버 가능성 역시 시장은 65%로 보나 모델은 80%로 더 높게 평가하며, 1점 차 승부 가능성도 시장의 25%와 모델의 40%가 엇갈립니다. 역배가 나온다면 정배가 압도당하는 그림보다는 접전 끝에 한 번의 득점으로 승부가 갈리는 형태가 될 것입니다. 실제 투표량이 확인되지 않아 쏠림 의심 단계로 분류합니다.\n\nLA에인절은 최근 3연패에 빠져 있으며, 득실 마진이 +0.8에서 -2.4로 하락하며 흐름이 좋지 않습니다. 최근 10경기 4승 6패를 기록 중이며 경기당 평균 3.3득점, 4.1실점에 그쳤습니다. 클리가디 역시 2연승 중이나 득실 마진이 +0.0에서 -1.2로 떨어지는 등 내용 면에서 하향세입니다. 최근 10경기 성적은 4승 6패, 평균 4.1득점과 4.7실점을 기록했고 경기마다 득점 기복이 심합니다.\n\n홈에서 23승 28패를 기록 중인 LA에인절과 원정 28승 25패인 클리가디 모두 5할 승률 언저리에 머물러 있습니다. 올 시즌 맞대결은 클리가디가 3승 무패로 우위이며, 최근 두 번의 대결은 3-2, 4-2로 마무리됐습니다. LA에인절은 최근 10경기 중 7경기가 2점 차 이내 승부였을 만큼 접전이 잦았고, 클리가디는 무득점 패배가 2번 포함될 정도로 타선 침묵이 변수입니다. 최근 지표로 계산한 합계는 8.1점 안팎이며, 실제 기준점은 8점입니다.",
-   "해설": "클리가디의 승리 확률은 시장에서 62%, 배당은 1.45로 형성되어 있으며, 총득점은 언더 쪽으로 무게가 실립니다. 선발 맞대결은 LA에인절 월버트 우레나(2026 시즌, 2승 1패, ERA 3.74, WHIP 1.66), 클리가디 파커 메식(2026 시즌, 9승 8패, ERA 2.54, WHIP 1.03)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 LA에인절 1번 Zach Neto, 클리가디 1번 Steven Kwan입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 LA에인절 Anthony Rendon(60일 부상자 명단), LA에인절 Jack Kochanowicz(60일 부상자 명단), 클리가디 Rhys Hoskins(10일 부상자 명단), 클리가디 Shawn Armstrong(60일 부상자 명단)입니다. 다만 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 점이 눈에 띕니다. 클리가디의 승리를 시장은 62%로 보지만, 검증 전 득점 모델은 51%로 11%p 낮게 잡고 있습니다. LA에인절의 핸디캡(+2.5) 커버 가능성 역시 시장은 65%로 보나 모델은 80%로 더 높게 평가하며, 1점 차 승부 가능성도 시장의 25%와 모델의 40%가 엇갈립니다. 역배가 나온다면 정배가 압도당하는 그림보다는 접전 끝에 한 번의 득점으로 승부가 갈리는 형태가 될 것입니다. 실제 투표량이 확인되지 않아 쏠림 의심 단계로 분류합니다.\n\nLA에인절은 최근 3연패에 빠져 있으며, 득실 마진이 +0.8에서 -2.4로 하락하며 흐름이 좋지 않습니다. 최근 10경기 4승 6패를 기록 중이며 경기당 평균 3.3득점, 4.1실점에 그쳤습니다. 클리가디 역시 2연승 중이나 득실 마진이 +0.0에서 -1.2로 떨어지는 등 내용 면에서 하향세입니다. 최근 10경기 성적은 4승 6패, 평균 4.1득점과 4.7실점을 기록했고 경기마다 득점 기복이 심합니다.\n\n홈에서 23승 28패를 기록 중인 LA에인절과 원정 28승 25패인 클리가디 모두 5할 승률 언저리에 머물러 있습니다. 올 시즌 맞대결은 클리가디가 3승 무패로 우위이며, 최근 두 번의 대결은 3-2, 4-2로 마무리됐습니다. LA에인절은 최근 10경기 중 7경기가 2점 차 이내 승부였을 만큼 접전이 잦았고, 클리가디는 무득점 패배가 2번 포함될 정도로 타선 침묵이 변수입니다. 최근 지표로 계산한 합계는 8.1점 안팎이며, 실제 기준점은 8점입니다."
+   "해설": "클리가디의 승리 확률은 시장에서 62%, 배당은 1.45로 형성되어 있으며, 총득점은 언더 쪽으로 무게가 실립니다. 선발 맞대결은 LA에인절 월버트 우레나(2026 시즌, 2승 1패, ERA 3.51, WHIP 1.64), 클리가디 파커 메식(2026 시즌, 9승 8패, ERA 2.53, WHIP 1.02)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 LA에인절 1번 Zach Neto, 클리가디 1번 Steven Kwan입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 LA에인절 Anthony Rendon(60일 부상자 명단), LA에인절 Jack Kochanowicz(60일 부상자 명단), 클리가디 Rhys Hoskins(10일 부상자 명단), 클리가디 Shawn Armstrong(60일 부상자 명단)입니다. 다만 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 점이 눈에 띕니다. 클리가디의 승리를 시장은 62%로 보지만, 검증 전 득점 모델은 51%로 11%p 낮게 잡고 있습니다. LA에인절의 핸디캡(+2.5) 커버 가능성 역시 시장은 65%로 보나 모델은 80%로 더 높게 평가하며, 1점 차 승부 가능성도 시장의 25%와 모델의 40%가 엇갈립니다. 역배가 나온다면 정배가 압도당하는 그림보다는 접전 끝에 한 번의 득점으로 승부가 갈리는 형태가 될 것입니다. 실제 투표량이 확인되지 않아 쏠림 의심 단계로 분류합니다.\n\nLA에인절은 최근 3연패에 빠져 있으며, 득실 마진이 +0.8에서 -2.4로 하락하며 흐름이 좋지 않습니다. 최근 10경기 4승 6패를 기록 중이며 경기당 평균 3.3득점, 4.1실점에 그쳤습니다. 클리가디 역시 2연승 중이나 득실 마진이 +0.0에서 -1.2로 떨어지는 등 내용 면에서 하향세입니다. 최근 10경기 성적은 4승 6패, 평균 4.1득점과 4.7실점을 기록했고 경기마다 득점 기복이 심합니다.\n\n홈에서 23승 28패를 기록 중인 LA에인절과 원정 28승 25패인 클리가디 모두 5할 승률 언저리에 머물러 있습니다. 올 시즌 맞대결은 클리가디가 3승 무패로 우위이며, 최근 두 번의 대결은 3-2, 4-2로 마무리됐습니다. LA에인절은 최근 10경기 중 7경기가 2점 차 이내 승부였을 만큼 접전이 잦았고, 클리가디는 무득점 패배가 2번 포함될 정도로 타선 침묵이 변수입니다. 최근 지표로 계산한 합계는 8.1점 안팎이며, 실제 기준점은 8점입니다."
   },
   {
    "round": 100,
@@ -88894,7 +88280,7 @@
     0,
     0
    ],
-   "결과": "1회초",
+   "결과": "5회초",
    "options": [
     {
      "market": "승패",
@@ -89116,13 +88502,13 @@
      "player_id": 592662,
      "announced": true,
      "stats": {
-      "era": 3.2,
+      "era": 3.11,
       "whip": 1.31,
-      "k9": 7.65,
-      "bb9": 4.45,
-      "hr9": 1.18,
-      "avg_ip": 5.74,
-      "games_started": 24,
+      "k9": 7.69,
+      "bb9": 4.38,
+      "hr9": 1.14,
+      "avg_ip": 5.67,
+      "games_started": 25,
       "wins": 11,
       "losses": 7,
       "period": "2026 시즌",
@@ -89136,13 +88522,13 @@
      "player_id": 677952,
      "announced": true,
      "stats": {
-      "era": 3.68,
-      "whip": 1.08,
-      "k9": 9.58,
-      "bb9": 1.99,
-      "hr9": 1.27,
-      "avg_ip": 5.97,
-      "games_started": 25,
+      "era": 3.58,
+      "whip": 1.06,
+      "k9": 9.39,
+      "bb9": 1.94,
+      "hr9": 1.23,
+      "avg_ip": 5.9,
+      "games_started": 26,
       "wins": 13,
       "losses": 5,
       "period": "2026 시즌",
@@ -89329,7 +88715,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -89362,7 +88748,7 @@
     }
    },
    "해설기본": "시장은 샌디파드 승리 배당 1.70을 책정하며 52%의 확률로 사실상 반반 승부를 예상하고 있습니다. 최근 샌디파드는 5연승을 달리고 있으나 득실 마진이 +3.8에서 +2.4로 하락하며 경기력이 다소 무뎌진 모습입니다. 최근 10경기 성적은 7승 3패, 평균 6.7득점 3.6실점을 기록 중이며 득점 편차가 큽니다. 2연패 중인 피츠파이는 최근 10경기 5승 5패, 평균 4.4득점 4.7실점으로 득실 마진이 +2.0에서 -2.6까지 떨어졌습니다. 홈과 원정에서 각각 26승 24패를 기록 중인 양 팀은 시즌 맞대결에서 샌디파드가 2승 1패로 우위에 있습니다. 직전 두 차례 맞대결 결과는 7-1, 2-8이었습니다. 샌디파드는 최근 10경기 중 7경기가 2점 차 이내 접전이었고, 피츠파이는 최근 10경기 중 무득점 패배가 두 번 나올 정도로 타선 기복이 심합니다. 단순 지표상 합계는 9.7점 안팎으로, 실제 발매 기준점인 7.5점보다는 오버 가능성이 높게 점쳐집니다.",
-   "해설": "시장은 샌디파드 승리 배당 1.70을 책정하며 52%의 확률로 사실상 반반 승부를 예상하고 있습니다. 선발 맞대결은 샌디파드 로비 레이(2026 시즌, 11승 7패, ERA 3.20, WHIP 1.31), 피츠파이 브랙스톤 애쉬크레프트(2026 시즌, 13승 5패, ERA 3.68, WHIP 1.08)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 샌디파드 1번 Fernando Tatis Jr., 피츠파이 1번 Nick Gonzales입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 샌디파드 Bryan Hoeing(60일 부상자 명단), 샌디파드 Jason Adam(60일 부상자 명단), 피츠파이 Endy Rodríguez(10일 부상자 명단), 피츠파이 Konnor Griffin(60일 부상자 명단)입니다. 최근 샌디파드는 5연승을 달리고 있으나 득실 마진이 +3.8에서 +2.4로 하락하며 경기력이 다소 무뎌진 모습입니다. 최근 10경기 성적은 7승 3패, 평균 6.7득점 3.6실점을 기록 중이며 득점 편차가 큽니다. 2연패 중인 피츠파이는 최근 10경기 5승 5패, 평균 4.4득점 4.7실점으로 득실 마진이 +2.0에서 -2.6까지 떨어졌습니다. 홈과 원정에서 각각 26승 24패를 기록 중인 양 팀은 시즌 맞대결에서 샌디파드가 2승 1패로 우위에 있습니다. 직전 두 차례 맞대결 결과는 7-1, 2-8이었습니다. 샌디파드는 최근 10경기 중 7경기가 2점 차 이내 접전이었고, 피츠파이는 최근 10경기 중 무득점 패배가 두 번 나올 정도로 타선 기복이 심합니다. 단순 지표상 합계는 9.7점 안팎으로, 실제 발매 기준점인 7.5점보다는 오버 가능성이 높게 점쳐집니다."
+   "해설": "시장은 샌디파드 승리 배당 1.70을 책정하며 52%의 확률로 사실상 반반 승부를 예상하고 있습니다. 선발 맞대결은 샌디파드 로비 레이(2026 시즌, 11승 7패, ERA 3.11, WHIP 1.31), 피츠파이 브랙스톤 애쉬크레프트(2026 시즌, 13승 5패, ERA 3.58, WHIP 1.06)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 샌디파드 1번 Fernando Tatis Jr., 피츠파이 1번 Nick Gonzales입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 샌디파드 Bryan Hoeing(60일 부상자 명단), 샌디파드 Jason Adam(60일 부상자 명단), 피츠파이 Endy Rodríguez(10일 부상자 명단), 피츠파이 Konnor Griffin(60일 부상자 명단)입니다. 최근 샌디파드는 5연승을 달리고 있으나 득실 마진이 +3.8에서 +2.4로 하락하며 경기력이 다소 무뎌진 모습입니다. 최근 10경기 성적은 7승 3패, 평균 6.7득점 3.6실점을 기록 중이며 득점 편차가 큽니다. 2연패 중인 피츠파이는 최근 10경기 5승 5패, 평균 4.4득점 4.7실점으로 득실 마진이 +2.0에서 -2.6까지 떨어졌습니다. 홈과 원정에서 각각 26승 24패를 기록 중인 양 팀은 시즌 맞대결에서 샌디파드가 2승 1패로 우위에 있습니다. 직전 두 차례 맞대결 결과는 7-1, 2-8이었습니다. 샌디파드는 최근 10경기 중 7경기가 2점 차 이내 접전이었고, 피츠파이는 최근 10경기 중 무득점 패배가 두 번 나올 정도로 타선 기복이 심합니다. 단순 지표상 합계는 9.7점 안팎으로, 실제 발매 기준점인 7.5점보다는 오버 가능성이 높게 점쳐집니다."
   },
   {
    "round": 100,
@@ -89377,10 +88763,10 @@
    "no_model": false,
    "status": "정산",
    "score": [
-    0,
-    0
+    6,
+    2
    ],
-   "결과": "1회초",
+   "결과": "3회말",
    "options": [
     {
      "market": "승패",
@@ -89602,13 +88988,13 @@
      "player_id": 669302,
      "announced": true,
      "stats": {
-      "era": 3.35,
-      "whip": 1.01,
-      "k9": 9.4,
-      "bb9": 2.22,
-      "hr9": 1.2,
-      "avg_ip": 6.01,
-      "games_started": 25,
+      "era": 3.4,
+      "whip": 1.02,
+      "k9": 9.39,
+      "bb9": 2.23,
+      "hr9": 1.23,
+      "avg_ip": 5.9,
+      "games_started": 26,
       "wins": 10,
       "losses": 7,
       "period": "2026 시즌",
@@ -89622,13 +89008,13 @@
      "player_id": 554430,
      "announced": true,
      "stats": {
-      "era": 2.92,
-      "whip": 1.01,
-      "k9": 10.77,
-      "bb9": 2.47,
-      "hr9": 1.12,
-      "avg_ip": 5.73,
-      "games_started": 21,
+      "era": 3.24,
+      "whip": 1.05,
+      "k9": 10.81,
+      "bb9": 2.65,
+      "hr9": 1.25,
+      "avg_ip": 5.56,
+      "games_started": 22,
       "wins": 10,
       "losses": 4,
       "period": "2026 시즌",
@@ -89835,7 +89221,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -89868,7 +89254,7 @@
     }
    },
    "해설기본": "시장 기본값상 필라필리의 승리 확률은 54%, 배당은 1.64가 책정되었습니다. 실제 발매 기준 총득점은 오버가 우세한 상황입니다.\n\n시애매리는 득실 마진이 +1.2에서 -1.8로 떨어지며 경기력이 하락세입니다. 최근 10경기 4승 6패를 기록 중이며, 이 기간 평균 4.2득점 4.5실점으로 득점 편차가 큽니다. 최근 3경기는 1승 2패로 흐름이 좋지 않습니다.\n\n3연패에 빠진 필라필리 역시 경기당 득점 기복이 심합니다. 최근 10경기 2승 8패에 평균 4.2득점 4.9실점으로 수비 불안이 보이지만, 최근 5경기 득실 마진이 -1.6에서 +0.2로 개선되며 내용은 점차 나아지는 모습입니다.\n\n홈에서 27승 21패로 강점을 보이는 시애매리와 달리 필라필리는 원정에서 29승 24패로 5할 승률을 유지하고 있습니다. 양 팀 모두 최근 10경기 중 6경기가 2점 차 이내였을 만큼 접전 양상이 잦았습니다. 단순 지표상 합계는 8.9점 안팎으로, 기준점 6.5점 대비 오버 가능성이 높게 점쳐집니다.",
-   "해설": "시장 기본값상 필라필리의 승리 확률은 54%, 배당은 1.64가 책정되었습니다. 선발 맞대결은 시애매리 로건 길버트(2026 시즌, 10승 7패, ERA 3.35, WHIP 1.01), 필라필리 잭 휠러(2026 시즌, 10승 4패, ERA 2.92, WHIP 1.01)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 시애매리 1번 Randy Arozarena, 필라필리 1번 Kyle Schwarber입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 시애매리 Brendan Donovan(7일 부상자 명단), 시애매리 Cole Wilcox(15일 부상자 명단), 필라필리 Adolis García(60일 부상자 명단), 필라필리 Brad Keller(60일 부상자 명단)입니다. 실제 발매 기준 총득점은 오버가 우세한 상황입니다.\n\n시애매리는 득실 마진이 +1.2에서 -1.8로 떨어지며 경기력이 하락세입니다. 최근 10경기 4승 6패를 기록 중이며, 이 기간 평균 4.2득점 4.5실점으로 득점 편차가 큽니다. 최근 3경기는 1승 2패로 흐름이 좋지 않습니다.\n\n3연패에 빠진 필라필리 역시 경기당 득점 기복이 심합니다. 최근 10경기 2승 8패에 평균 4.2득점 4.9실점으로 수비 불안이 보이지만, 최근 5경기 득실 마진이 -1.6에서 +0.2로 개선되며 내용은 점차 나아지는 모습입니다.\n\n홈에서 27승 21패로 강점을 보이는 시애매리와 달리 필라필리는 원정에서 29승 24패로 5할 승률을 유지하고 있습니다. 양 팀 모두 최근 10경기 중 6경기가 2점 차 이내였을 만큼 접전 양상이 잦았습니다. 단순 지표상 합계는 8.9점 안팎으로, 기준점 6.5점 대비 오버 가능성이 높게 점쳐집니다."
+   "해설": "시장 기본값상 필라필리의 승리 확률은 54%, 배당은 1.64가 책정되었습니다. 선발 맞대결은 시애매리 로건 길버트(2026 시즌, 10승 7패, ERA 3.40, WHIP 1.02), 필라필리 잭 휠러(2026 시즌, 10승 4패, ERA 3.24, WHIP 1.05)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 시애매리 1번 Randy Arozarena, 필라필리 1번 Kyle Schwarber입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 시애매리 Brendan Donovan(7일 부상자 명단), 시애매리 Cole Wilcox(15일 부상자 명단), 필라필리 Adolis García(60일 부상자 명단), 필라필리 Brad Keller(60일 부상자 명단)입니다. 실제 발매 기준 총득점은 오버가 우세한 상황입니다.\n\n시애매리는 득실 마진이 +1.2에서 -1.8로 떨어지며 경기력이 하락세입니다. 최근 10경기 4승 6패를 기록 중이며, 이 기간 평균 4.2득점 4.5실점으로 득점 편차가 큽니다. 최근 3경기는 1승 2패로 흐름이 좋지 않습니다.\n\n3연패에 빠진 필라필리 역시 경기당 득점 기복이 심합니다. 최근 10경기 2승 8패에 평균 4.2득점 4.9실점으로 수비 불안이 보이지만, 최근 5경기 득실 마진이 -1.6에서 +0.2로 개선되며 내용은 점차 나아지는 모습입니다.\n\n홈에서 27승 21패로 강점을 보이는 시애매리와 달리 필라필리는 원정에서 29승 24패로 5할 승률을 유지하고 있습니다. 양 팀 모두 최근 10경기 중 6경기가 2점 차 이내였을 만큼 접전 양상이 잦았습니다. 단순 지표상 합계는 8.9점 안팎으로, 기준점 6.5점 대비 오버 가능성이 높게 점쳐집니다."
   },
   {
    "round": 100,
@@ -89884,9 +89270,9 @@
    "status": "정산",
    "score": [
     0,
-    0
+    1
    ],
-   "결과": "1회초",
+   "결과": "4회말",
    "options": [
     {
      "market": "승패",
@@ -90108,13 +89494,13 @@
      "player_id": 518876,
      "announced": true,
      "stats": {
-      "era": 5.37,
-      "whip": 1.52,
-      "k9": 5.86,
-      "bb9": 3.98,
-      "hr9": 1.81,
-      "avg_ip": 5.61,
-      "games_started": 23,
+      "era": 5.28,
+      "whip": 1.5,
+      "k9": 5.95,
+      "bb9": 3.99,
+      "hr9": 1.76,
+      "avg_ip": 5.54,
+      "games_started": 24,
       "wins": 8,
       "losses": 11,
       "period": "2026 시즌",
@@ -90128,13 +89514,13 @@
      "player_id": 592332,
      "announced": true,
      "stats": {
-      "era": 4.58,
-      "whip": 1.3,
+      "era": 4.46,
+      "whip": 1.28,
       "k9": 8.98,
-      "bb9": 2.51,
-      "hr9": 1.13,
-      "avg_ip": 5.51,
-      "games_started": 26,
+      "bb9": 2.5,
+      "hr9": 1.1,
+      "avg_ip": 5.46,
+      "games_started": 27,
       "wins": 6,
       "losses": 11,
       "period": "2026 시즌",
@@ -90391,7 +89777,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -90424,7 +89810,7 @@
     }
    },
    "해설기본": "시카컵스의 승리 확률은 시장 기본값 기준 58%, 배당은 1.55입니다. 실제 발매 기준 총득점은 오버를 가리키고 있습니다. 애리다이가 2연승으로 흐름을 타는 중이라 일방적인 승부를 장담하긴 어렵지만, 애리다이의 득실 마진이 +2.6에서 -0.4로 떨어지며 경기 내용은 다소 하락세입니다. 애리다이는 최근 10경기 6승 4패를 기록했고, 이 기간 평균 5.9득점 4.8실점입니다. 경기마다 득점 편차가 큰 편입니다.\n\n시카컵스는 최근 3경기 2승 1패로 다소 기복이 있습니다. 최근 10경기 성적은 6승 4패로 애리다이와 같으나, 평균 6.8득점 3.4실점으로 공수 지표는 더 안정적입니다. 특히 최근 5경기 득실 마진이 +2.6에서 +4.2로 개선됐고, 10경기 중 4번의 5점 차 이상 대승을 거둘 만큼 화력이 터지면 크게 벌리는 경향이 있습니다.\n\n시즌 맞대결은 시카컵스가 3승 무패로 압도적이며, 최근 두 차례 맞대결도 2-0, 8-4로 승리했습니다. 홈에서 29승 21패로 강한 애리다이와 원정 28승 23패로 5할 승률 근처인 시카컵의 대결입니다. 지표상 합계는 10.4점 안팎으로 계산되어, 실제 기준선 9.5점 대비 오버 가능성이 높게 점쳐집니다.",
-   "해설": "시카컵스의 승리 확률은 시장 기본값 기준 58%, 배당은 1.55입니다. 선발 맞대결은 애리다이 메릴 켈리(2026 시즌, 8승 11패, ERA 5.37, WHIP 1.52), 시카컵스 케빈 가우스먼(2026 시즌, 6승 11패, ERA 4.58, WHIP 1.30)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 애리다이 1번 Lars Nootbaar, 시카컵스 1번 Pete Crow-Armstrong입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 애리다이 A.J. Puk(60일 부상자 명단), 애리다이 Andrew Saalfrank(60일 부상자 명단), 시카컵스 Ben Brown(60일 부상자 명단), 시카컵스 Cade Horton(60일 부상자 명단)입니다. 실제 발매 기준 총득점은 오버를 가리키고 있습니다. 애리다이가 2연승으로 흐름을 타는 중이라 일방적인 승부를 장담하긴 어렵지만, 애리다이의 득실 마진이 +2.6에서 -0.4로 떨어지며 경기 내용은 다소 하락세입니다. 애리다이는 최근 10경기 6승 4패를 기록했고, 이 기간 평균 5.9득점 4.8실점입니다. 경기마다 득점 편차가 큰 편입니다.\n\n시카컵스는 최근 3경기 2승 1패로 다소 기복이 있습니다. 최근 10경기 성적은 6승 4패로 애리다이와 같으나, 평균 6.8득점 3.4실점으로 공수 지표는 더 안정적입니다. 특히 최근 5경기 득실 마진이 +2.6에서 +4.2로 개선됐고, 10경기 중 4번의 5점 차 이상 대승을 거둘 만큼 화력이 터지면 크게 벌리는 경향이 있습니다.\n\n시즌 맞대결은 시카컵스가 3승 무패로 압도적이며, 최근 두 차례 맞대결도 2-0, 8-4로 승리했습니다. 홈에서 29승 21패로 강한 애리다이와 원정 28승 23패로 5할 승률 근처인 시카컵의 대결입니다. 지표상 합계는 10.4점 안팎으로 계산되어, 실제 기준선 9.5점 대비 오버 가능성이 높게 점쳐집니다."
+   "해설": "시카컵스의 승리 확률은 시장 기본값 기준 58%, 배당은 1.55입니다. 선발 맞대결은 애리다이 메릴 켈리(2026 시즌, 8승 11패, ERA 5.28, WHIP 1.50), 시카컵스 케빈 가우스먼(2026 시즌, 6승 11패, ERA 4.46, WHIP 1.28)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 애리다이 1번 Lars Nootbaar, 시카컵스 1번 Pete Crow-Armstrong입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 애리다이 A.J. Puk(60일 부상자 명단), 애리다이 Andrew Saalfrank(60일 부상자 명단), 시카컵스 Ben Brown(60일 부상자 명단), 시카컵스 Cade Horton(60일 부상자 명단)입니다. 실제 발매 기준 총득점은 오버를 가리키고 있습니다. 애리다이가 2연승으로 흐름을 타는 중이라 일방적인 승부를 장담하긴 어렵지만, 애리다이의 득실 마진이 +2.6에서 -0.4로 떨어지며 경기 내용은 다소 하락세입니다. 애리다이는 최근 10경기 6승 4패를 기록했고, 이 기간 평균 5.9득점 4.8실점입니다. 경기마다 득점 편차가 큰 편입니다.\n\n시카컵스는 최근 3경기 2승 1패로 다소 기복이 있습니다. 최근 10경기 성적은 6승 4패로 애리다이와 같으나, 평균 6.8득점 3.4실점으로 공수 지표는 더 안정적입니다. 특히 최근 5경기 득실 마진이 +2.6에서 +4.2로 개선됐고, 10경기 중 4번의 5점 차 이상 대승을 거둘 만큼 화력이 터지면 크게 벌리는 경향이 있습니다.\n\n시즌 맞대결은 시카컵스가 3승 무패로 압도적이며, 최근 두 차례 맞대결도 2-0, 8-4로 승리했습니다. 홈에서 29승 21패로 강한 애리다이와 원정 28승 23패로 5할 승률 근처인 시카컵의 대결입니다. 지표상 합계는 10.4점 안팎으로 계산되어, 실제 기준선 9.5점 대비 오버 가능성이 높게 점쳐집니다."
   },
   {
    "round": 100,
@@ -90439,10 +89825,10 @@
    "no_model": false,
    "status": "정산",
    "score": [
-    0,
-    0
+    1,
+    2
    ],
-   "결과": "1회초",
+   "결과": "4회초",
    "options": [
     {
      "market": "승패",
@@ -90650,12 +90036,12 @@
      "player_id": 605488,
      "announced": true,
      "stats": {
-      "era": 6.0,
+      "era": 5.97,
       "whip": 1.47,
-      "k9": 7.03,
-      "bb9": 3.71,
-      "hr9": 2.29,
-      "avg_ip": 4.75,
+      "k9": 6.96,
+      "bb9": 3.67,
+      "hr9": 2.22,
+      "avg_ip": 4.9,
       "games_started": 24,
       "wins": 3,
       "losses": 11,
@@ -90670,13 +90056,13 @@
      "player_id": 805673,
      "announced": true,
      "stats": {
-      "era": 5.12,
-      "whip": 1.33,
-      "k9": 7.54,
+      "era": 5.06,
+      "whip": 1.34,
+      "k9": 7.59,
       "bb9": 2.89,
-      "hr9": 1.77,
-      "avg_ip": 5.69,
-      "games_started": 17,
+      "hr9": 1.72,
+      "avg_ip": 5.54,
+      "games_started": 18,
       "wins": 7,
       "losses": 8,
       "period": "2026 시즌",
@@ -90908,7 +90294,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-25T01:41:22+00:00",
+    "updated_at": "2026-08-25T02:46:01+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -90941,14 +90327,631 @@
     }
    },
    "해설기본": "미네트윈의 승리 확률은 배당 기준 61%로 1.48의 배당을 받았다. 시장은 총득점 언더를 가리키고 있다. 미네트윈은 최근 5경기 득실 마진을 -3.0에서 0.0까지 끌어올리며 경기력을 회복하는 모습이다. 다만 최근 3경기는 2승 1패로 흐름이 다소 들쑥날쑥하며, 득점 편차도 크다. 최근 10경기 성적은 5승 5패, 평균 3.6득점 5.1실점이다.\n\n애슬레틱은 최근 3경기 1승 2패를 기록했고, 최근 10경기 성적은 3승 7패로 부진하다. 이 기간 평균 3.5득점 5.2실점에 그쳤다. 홈 성적 역시 18승 28패로 고전 중이다. 미네트윈은 원정에서 25승 28패로 5할 승률 근처를 유지하고 있다.\n\n시즌 맞대결에서는 미네트윈이 2승 1패로 우위에 있다. 최근 두 차례 맞대결은 2-0, 11-8로 결과가 갈렸다. 애슬레틱은 최근 10경기 중 6경기가 2점 차 이내 승부였을 만큼 접전이 잦았고, 미네트윈은 같은 기간 무득점 패배가 두 번 있을 만큼 타선 기복이 있다. 최근 지표를 종합한 합계는 8.7점 안팎으로, 실제 기준점인 10.5점보다는 낮게 형성되어 있다.",
-   "해설": "미네트윈의 승리 확률은 배당 기준 61%로 1.48의 배당을 받았다. 선발 맞대결은 애슬레틱 게이지 점프(2026 시즌, 3승 11패, ERA 6.00, WHIP 1.47), 미네트윈 제비 매튜스(2026 시즌, 7승 8패, ERA 5.12, WHIP 1.33)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 애슬레틱 1번 Henry Bolte, 미네트윈 1번 Luke Keaschall입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 애슬레틱 Brent Rooker(60일 부상자 명단), 애슬레틱 Brooks Kriske(60일 부상자 명단), 미네트윈 Anthony Banda(60일 부상자 명단), 미네트윈 Austin Martin(10일 부상자 명단)입니다. 시장은 총득점 언더를 가리키고 있다. 미네트윈은 최근 5경기 득실 마진을 -3.0에서 0.0까지 끌어올리며 경기력을 회복하는 모습이다. 다만 최근 3경기는 2승 1패로 흐름이 다소 들쑥날쑥하며, 득점 편차도 크다. 최근 10경기 성적은 5승 5패, 평균 3.6득점 5.1실점이다.\n\n애슬레틱은 최근 3경기 1승 2패를 기록했고, 최근 10경기 성적은 3승 7패로 부진하다. 이 기간 평균 3.5득점 5.2실점에 그쳤다. 홈 성적 역시 18승 28패로 고전 중이다. 미네트윈은 원정에서 25승 28패로 5할 승률 근처를 유지하고 있다.\n\n시즌 맞대결에서는 미네트윈이 2승 1패로 우위에 있다. 최근 두 차례 맞대결은 2-0, 11-8로 결과가 갈렸다. 애슬레틱은 최근 10경기 중 6경기가 2점 차 이내 승부였을 만큼 접전이 잦았고, 미네트윈은 같은 기간 무득점 패배가 두 번 있을 만큼 타선 기복이 있다. 최근 지표를 종합한 합계는 8.7점 안팎으로, 실제 기준점인 10.5점보다는 낮게 형성되어 있다."
+   "해설": "미네트윈의 승리 확률은 배당 기준 61%로 1.48의 배당을 받았다. 선발 맞대결은 애슬레틱 게이지 점프(2026 시즌, 3승 11패, ERA 5.97, WHIP 1.47), 미네트윈 제비 매튜스(2026 시즌, 7승 8패, ERA 5.06, WHIP 1.34)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 애슬레틱 1번 Henry Bolte, 미네트윈 1번 Luke Keaschall입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 애슬레틱 Brent Rooker(60일 부상자 명단), 애슬레틱 Brooks Kriske(60일 부상자 명단), 미네트윈 Anthony Banda(60일 부상자 명단), 미네트윈 Austin Martin(10일 부상자 명단)입니다. 시장은 총득점 언더를 가리키고 있다. 미네트윈은 최근 5경기 득실 마진을 -3.0에서 0.0까지 끌어올리며 경기력을 회복하는 모습이다. 다만 최근 3경기는 2승 1패로 흐름이 다소 들쑥날쑥하며, 득점 편차도 크다. 최근 10경기 성적은 5승 5패, 평균 3.6득점 5.1실점이다.\n\n애슬레틱은 최근 3경기 1승 2패를 기록했고, 최근 10경기 성적은 3승 7패로 부진하다. 이 기간 평균 3.5득점 5.2실점에 그쳤다. 홈 성적 역시 18승 28패로 고전 중이다. 미네트윈은 원정에서 25승 28패로 5할 승률 근처를 유지하고 있다.\n\n시즌 맞대결에서는 미네트윈이 2승 1패로 우위에 있다. 최근 두 차례 맞대결은 2-0, 11-8로 결과가 갈렸다. 애슬레틱은 최근 10경기 중 6경기가 2점 차 이내 승부였을 만큼 접전이 잦았고, 미네트윈은 같은 기간 무득점 패배가 두 번 있을 만큼 타선 기복이 있다. 최근 지표를 종합한 합계는 8.7점 안팎으로, 실제 기준점인 10.5점보다는 낮게 형성되어 있다."
+  },
+  {
+   "round": 100,
+   "date": "08.25(화) 10:45",
+   "league": "MLB",
+   "sport": "bs",
+   "home": "샌프자이",
+   "away": "신시레즈",
+   "lam_home": 4.51,
+   "lam_away": 4.17,
+   "lam_src": "리그",
+   "no_model": false,
+   "status": "정산",
+   "score": [
+    5,
+    0
+   ],
+   "결과": "3회말",
+   "options": [
+    {
+     "market": "승패",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홈",
+     "배당": 2.19,
+     "모델확률": 0.5511,
+     "시장확률": 0.3882,
+     "예상손익": 0.2069,
+     "괴리": 0.1629,
+     "게임번호": "6260",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    },
+    {
+     "market": "승패",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "원정",
+     "배당": 1.47,
+     "모델확률": 0.4489,
+     "시장확률": 0.6118,
+     "예상손익": -0.3401,
+     "괴리": 0.1629,
+     "게임번호": "6260",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "홈2+",
+     "배당": 3.25,
+     "모델확률": 0.3422,
+     "시장확률": 0.2603,
+     "예상손익": 0.1122,
+     "괴리": 0.0819,
+     "게임번호": "6261",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "1점차",
+     "배당": 3.45,
+     "모델확률": 0.394,
+     "시장확률": 0.2432,
+     "예상손익": 0.3591,
+     "괴리": 0.1508,
+     "게임번호": "6261",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "승①패",
+     "n_way": 3,
+     "label": "승①패",
+     "line": null,
+     "선택": "원정2+",
+     "배당": 1.81,
+     "모델확률": 0.2638,
+     "시장확률": 0.4965,
+     "예상손익": -0.5225,
+     "괴리": 0.2327,
+     "게임번호": "6261",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 2,
+     "label": "H +2.5",
+     "line": 2.5,
+     "선택": "핸디홈",
+     "배당": 1.37,
+     "모델확률": 0.8354,
+     "시장확률": 0.6617,
+     "예상손익": 0.1444,
+     "괴리": 0.1736,
+     "게임번호": "6262",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "핸디캡",
+     "n_way": 2,
+     "label": "H +2.5",
+     "line": 2.5,
+     "선택": "핸디원정",
+     "배당": 2.46,
+     "모델확률": 0.1646,
+     "시장확률": 0.3383,
+     "예상손익": -0.595,
+     "괴리": 0.1736,
+     "게임번호": "6262",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 7.5",
+     "line": 7.5,
+     "선택": "언더",
+     "배당": 1.71,
+     "모델확률": 0.3625,
+     "시장확률": 0.5162,
+     "예상손익": -0.3801,
+     "괴리": 0.1536,
+     "게임번호": "6263",
+     "적중": false,
+     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+    },
+    {
+     "market": "언더오버",
+     "n_way": 2,
+     "label": "U 7.5",
+     "line": 7.5,
+     "선택": "오버",
+     "배당": 1.81,
+     "모델확률": 0.6375,
+     "시장확률": 0.4838,
+     "예상손익": 0.1538,
+     "괴리": 0.1536,
+     "게임번호": "6263",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "홀",
+     "배당": 1.58,
+     "모델확률": 0.5,
+     "시장확률": 0.5772,
+     "예상손익": -0.21,
+     "괴리": 0.0772,
+     "게임번호": "6264",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    },
+    {
+     "market": "홀짝",
+     "n_way": 2,
+     "label": "",
+     "line": null,
+     "선택": "짝",
+     "배당": 2.09,
+     "모델확률": 0.5,
+     "시장확률": 0.4228,
+     "예상손익": 0.045,
+     "괴리": 0.0772,
+     "게임번호": "6264",
+     "적중": false,
+     "제외": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외"
+    },
+    {
+     "market": "전반승무패",
+     "n_way": 3,
+     "label": "h(전반)",
+     "line": null,
+     "선택": "전반홈",
+     "배당": 2.55,
+     "모델확률": null,
+     "시장확률": 0.3417,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6265",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "전반승무패",
+     "n_way": 3,
+     "label": "h(전반)",
+     "line": null,
+     "선택": "전반무",
+     "배당": 5.4,
+     "모델확률": null,
+     "시장확률": 0.1433,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6265",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "전반승무패",
+     "n_way": 3,
+     "label": "h(전반)",
+     "line": null,
+     "선택": "전반원정",
+     "배당": 1.75,
+     "모델확률": null,
+     "시장확률": 0.515,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6265",
+     "적중": false,
+     "제외": "모델이 값을 매기지 않는 마켓 (전반전 등)"
+    },
+    {
+     "market": "전반핸디캡",
+     "n_way": 2,
+     "label": "h H +1.5",
+     "line": null,
+     "선택": "전반핸디홈",
+     "배당": 1.37,
+     "모델확률": null,
+     "시장확률": 0.6617,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6266",
+     "적중": false,
+     "제외": "모델이 값을 매기지 않는 마켓 (전반전 등)"
+    },
+    {
+     "market": "전반핸디캡",
+     "n_way": 2,
+     "label": "h H +1.5",
+     "line": null,
+     "선택": "전반핸디원정",
+     "배당": 2.46,
+     "모델확률": null,
+     "시장확률": 0.3383,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6266",
+     "적중": false,
+     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+    },
+    {
+     "market": "전반언더오버",
+     "n_way": 2,
+     "label": "h U 4.5",
+     "line": null,
+     "선택": "전반언더",
+     "배당": 1.58,
+     "모델확률": null,
+     "시장확률": 0.5652,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6267",
+     "적중": false,
+     "제외": "모델이 값을 매기지 않는 마켓 (전반전 등)"
+    },
+    {
+     "market": "전반언더오버",
+     "n_way": 2,
+     "label": "h U 4.5",
+     "line": null,
+     "선택": "전반오버",
+     "배당": 1.99,
+     "모델확률": null,
+     "시장확률": 0.4348,
+     "예상손익": null,
+     "괴리": null,
+     "게임번호": "6267",
+     "적중": false,
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
+    }
+   ],
+   "홈승률": 0.5524,
+   "판단": "홈 근소",
+   "추천": null,
+   "선택지수": 18,
+   "form_src": "리그",
+   "form_home": {
+    "w": 42,
+    "l": 58,
+    "d": 0,
+    "last10": "4승 6패",
+    "streak": "",
+    "home": "26-27",
+    "away": "16-31",
+    "avg_scored": 5.2,
+    "avg_conceded": 4.1,
+    "rest_days": null,
+    "trend": "상승"
+   },
+   "form_away": {
+    "w": 42,
+    "l": 56,
+    "d": 0,
+    "last10": "5승 5패",
+    "streak": "2연패",
+    "home": "19-29",
+    "away": "23-27",
+    "avg_scored": 3.6,
+    "avg_conceded": 5.3,
+    "rest_days": null,
+    "trend": "유지"
+   },
+   "h2h": null,
+   "선발": {
+    "home": "카슨 위즌헌트",
+    "away": "체이스 번스",
+    "home_detail": {
+     "name": "카슨 위즌헌트",
+     "player_id": 687931,
+     "announced": true,
+     "stats": {
+      "era": 6.49,
+      "whip": 1.79,
+      "k9": 6.75,
+      "bb9": 5.45,
+      "hr9": 1.3,
+      "avg_ip": 4.33,
+      "games_started": 8,
+      "wins": 3,
+      "losses": 4,
+      "period": "2026 시즌",
+      "low_sample": false
+     },
+     "stats_source": "MLB Stats API 시즌 투구 기록",
+     "native_name": "Carson Whisenhunt"
+    },
+    "away_detail": {
+     "name": "체이스 번스",
+     "player_id": 695505,
+     "announced": true,
+     "stats": {
+      "era": 2.79,
+      "whip": 1.15,
+      "k9": 10.58,
+      "bb9": 3.18,
+      "hr9": 0.91,
+      "avg_ip": 5.55,
+      "games_started": 25,
+      "wins": 14,
+      "losses": 2,
+      "period": "2026 시즌",
+      "low_sample": false
+     },
+     "stats_source": "MLB Stats API 시즌 투구 기록",
+     "native_name": "Chase Burns"
+    },
+    "teams": {
+     "home": {
+      "wins": 52,
+      "losses": 78,
+      "pct": 0.4,
+      "abbreviation": "SF"
+     },
+     "away": {
+      "wins": 62,
+      "losses": 69,
+      "pct": 0.473,
+      "abbreviation": "CIN"
+     }
+    },
+    "unavailable": {
+     "home": [
+      {
+       "name": "Casey Schmitt",
+       "status": "10일 부상자 명단",
+       "position": "LF"
+      },
+      {
+       "name": "Daniel Susac",
+       "status": "60일 부상자 명단",
+       "position": "C"
+      },
+      {
+       "name": "Harrison Bader",
+       "status": "60일 부상자 명단",
+       "position": "CF"
+      },
+      {
+       "name": "Hayden Birdsong",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Jesus Rodriguez",
+       "status": "10일 부상자 명단",
+       "position": "C"
+      },
+      {
+       "name": "Joel Peguero",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "José Buttó",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Keaton Winn",
+       "status": "15일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Marcelo Mayer",
+       "status": "10일 부상자 명단",
+       "position": "2B"
+      },
+      {
+       "name": "Matt Chapman",
+       "status": "60일 부상자 명단",
+       "position": "3B"
+      },
+      {
+       "name": "Matt Gage",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Randy Rodríguez",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Rowan Wick",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Trevor McDonald",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      }
+     ],
+     "away": [
+      {
+       "name": "Blake Dunn",
+       "status": "60일 부상자 명단",
+       "position": "CF"
+      },
+      {
+       "name": "Brandon Williamson",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Graham Ashcraft",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Hunter Greene",
+       "status": "60일 부상자 명단",
+       "position": "P"
+      },
+      {
+       "name": "Michael Toglia",
+       "status": "10일 부상자 명단",
+       "position": "1B"
+      },
+      {
+       "name": "Spencer Steer",
+       "status": "10일 부상자 명단",
+       "position": "1B"
+      }
+     ]
+    },
+    "lineups": {
+     "home": [
+      {
+       "name": "Drew Gilbert",
+       "position": "CF",
+       "order": 1
+      },
+      {
+       "name": "Rafael Devers",
+       "position": "1B",
+       "order": 2
+      },
+      {
+       "name": "Jung Hoo Lee",
+       "position": "DH",
+       "order": 3
+      },
+      {
+       "name": "Turner Hill",
+       "position": "LF",
+       "order": 4
+      },
+      {
+       "name": "Drew Cavanaugh",
+       "position": "C",
+       "order": 5
+      },
+      {
+       "name": "Nate Furman",
+       "position": "2B",
+       "order": 6
+      },
+      {
+       "name": "Shay Whitcomb",
+       "position": "3B",
+       "order": 7
+      },
+      {
+       "name": "Grant McCray",
+       "position": "RF",
+       "order": 8
+      },
+      {
+       "name": "Christian Koss",
+       "position": "SS",
+       "order": 9
+      }
+     ],
+     "away": [
+      {
+       "name": "Elly De La Cruz",
+       "position": "SS",
+       "order": 1
+      },
+      {
+       "name": "Sal Stewart",
+       "position": "1B",
+       "order": 2
+      },
+      {
+       "name": "Dane Myers",
+       "position": "CF",
+       "order": 3
+      },
+      {
+       "name": "Tyler Stephenson",
+       "position": "DH",
+       "order": 4
+      },
+      {
+       "name": "Eugenio Suárez",
+       "position": "3B",
+       "order": 5
+      },
+      {
+       "name": "Matt McLain",
+       "position": "2B",
+       "order": 6
+      },
+      {
+       "name": "JJ Bleday",
+       "position": "RF",
+       "order": 7
+      },
+      {
+       "name": "Jose Trevino",
+       "position": "C",
+       "order": 8
+      },
+      {
+       "name": "Ivan Johnson",
+       "position": "LF",
+       "order": 9
+      }
+     ]
+    },
+    "source": "MLB Stats API",
+    "source_url": "https://www.mlb.com/probable-pitchers",
+    "updated_at": "2026-08-25T02:46:01+00:00",
+    "key_players": {},
+    "rosters": {},
+    "benches": {},
+    "formations": {},
+    "lineup_status": {},
+    "roster_status": {},
+    "coverage": {},
+    "sport": null,
+    "game_id": "823183"
+   },
+   "라인업": {},
+   "슈팅폼": {},
+   "라인업메모": "",
+   "시장문맥": {
+    "total": {
+     "line": 7.5,
+     "label": "U 7.5"
+    },
+    "handicap": {
+     "label": "H +2.5",
+     "home_market": 0.6617,
+     "home_model": 0.8354,
+     "away_market": 0.3383,
+     "away_model": 0.1646
+    },
+    "margin_band": {
+     "label": "1점차",
+     "close_market": 0.2432,
+     "close_model": 0.394
+    }
+   },
+   "해설기본": "신시레즈의 승리 확률은 61%, 배당은 1.47로 형성되어 있습니다. 실제 발매 기준점 대비 총득점은 오버가 우세한 상황입니다. 눈여겨볼 점은 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 것입니다. 신시레즈의 승리 확률을 시장은 61%로 보지만, 득점 모델은 그보다 16%p 낮은 45%를 가리킵니다. 핸디캡의 경우 샌프자이의 +2.5 커버 가능성을 시장은 66%로 잡았으나 모델은 84%까지 높게 평가하며, 1점 차 승부 역시 시장의 24%보다 높은 39%의 가능성을 제시합니다. 만약 역배가 터진다면 정배당 팀이 무너지기보다는, 접전이 이어지다 한 번의 득점으로 승패가 갈리는 양상이 될 가능성이 큽니다. 투표량이 확인되지 않아 확정할 순 없지만, 시장 쏠림 의심은 있는 상태입니다.\n\n샌프자이는 최근 5경기 득실 마진을 -1.0에서 +3.2까지 끌어올리며 흐름이 개선되었습니다. 최근 10경기 성적은 4승 6패, 평균 5.2득점 4.1실점을 기록 중입니다. 3경기 기준으로는 2승 1패로 다소 기복이 있으나, 평균 5.2득점의 화력을 갖춰 언제든 승부를 뒤집을 저력이 있습니다. 반면 신시레즈는 2연패 중이며, 최근 10경기 5승 5패에 평균 3.6득점 5.3실점으로 다소 아쉬운 모습입니다. 특히 10경기 중 두 차례나 무득점 패배를 당할 정도로 타선 침묵이 변수입니다. 홈에서 26승 27패를 기록 중인 샌프자이와 원정 23승 27패인 신시레즈 모두 5할 승률 언저리에 머물러 있습니다. 최근 지표를 종합한 예상 합계는 9.1점 안팎으로, 실제 기준점인 7.5점보다는 오버가 유력해 보입니다.",
+   "해설": "신시레즈의 승리 확률은 61%, 배당은 1.47로 형성되어 있습니다. 선발 맞대결은 샌프자이 카슨 위즌헌트(2026 시즌, 3승 4패, ERA 6.49, WHIP 1.79), 신시레즈 체이스 번스(2026 시즌, 14승 2패, ERA 2.79, WHIP 1.15)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 샌프자이 1번 Drew Gilbert, 신시레즈 1번 Elly De La Cruz입니다. 해당 경기의 확정 명단은 아닙니다. 공식 출전 상태에 표시된 선수는 샌프자이 Casey Schmitt(10일 부상자 명단), 샌프자이 Daniel Susac(60일 부상자 명단), 신시레즈 Blake Dunn(60일 부상자 명단), 신시레즈 Brandon Williamson(60일 부상자 명단)입니다. 실제 발매 기준점 대비 총득점은 오버가 우세한 상황입니다. 눈여겨볼 점은 시장의 확신이 득점 분포를 분석한 수치보다 다소 강하다는 것입니다. 신시레즈의 승리 확률을 시장은 61%로 보지만, 득점 모델은 그보다 16%p 낮은 45%를 가리킵니다. 핸디캡의 경우 샌프자이의 +2.5 커버 가능성을 시장은 66%로 잡았으나 모델은 84%까지 높게 평가하며, 1점 차 승부 역시 시장의 24%보다 높은 39%의 가능성을 제시합니다. 만약 역배가 터진다면 정배당 팀이 무너지기보다는, 접전이 이어지다 한 번의 득점으로 승패가 갈리는 양상이 될 가능성이 큽니다. 투표량이 확인되지 않아 확정할 순 없지만, 시장 쏠림 의심은 있는 상태입니다.\n\n샌프자이는 최근 5경기 득실 마진을 -1.0에서 +3.2까지 끌어올리며 흐름이 개선되었습니다. 최근 10경기 성적은 4승 6패, 평균 5.2득점 4.1실점을 기록 중입니다. 3경기 기준으로는 2승 1패로 다소 기복이 있으나, 평균 5.2득점의 화력을 갖춰 언제든 승부를 뒤집을 저력이 있습니다. 반면 신시레즈는 2연패 중이며, 최근 10경기 5승 5패에 평균 3.6득점 5.3실점으로 다소 아쉬운 모습입니다. 특히 10경기 중 두 차례나 무득점 패배를 당할 정도로 타선 침묵이 변수입니다. 홈에서 26승 27패를 기록 중인 샌프자이와 원정 23승 27패인 신시레즈 모두 5할 승률 언저리에 머물러 있습니다. 최근 지표를 종합한 예상 합계는 9.1점 안팎으로, 실제 기준점인 7.5점보다는 오버가 유력해 보입니다."
   }
  ],
  "tally": {
   "n": 10,
-  "wins": 3,
-  "hit_rate": 0.3,
-  "roi": -0.554
+  "wins": 4,
+  "hit_rate": 0.4,
+  "roi": -0.397
  },
  "note": "전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 경기마다 하나만 골라 보여줍니다.",
  "warning": "⚠️ 아직 베팅에 쓸 수 없습니다. 모델이 시장보다 부정확해서, 모델과 시장의 판단이 다를수록 모델이 틀렸을 확률이 높습니다. 그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다.",
