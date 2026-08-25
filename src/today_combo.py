@@ -66,10 +66,11 @@ SAFE_TARGET_BINS = {
     8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
     12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 }
-DAILY_CHALLENGE_MIN_ROI = -0.20
-DAILY_CHALLENGE_MIN_HIT = 0.55
-DAILY_CHALLENGE_MAX_TARGET = 1.4
 DAILY_CHALLENGE_BUDGET_RATIO = 0.10
+PRIMARY_TARGET_MIN = 2.0
+PRIMARY_TARGET_MAX = 3.0
+PRIMARY_MIN_ACTUAL_ODDS = 1.75
+FRAGILE_MARKETS = {"승①패", "전반승무패", "전반언더오버", "전반핸디캡"}
 KST = ZoneInfo("Asia/Seoul")
 DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
@@ -335,6 +336,36 @@ def _metric_number(plan: dict, key: str, default: float) -> float:
     return value if math.isfinite(value) else default
 
 
+def _fragile_legs(plan: dict) -> int:
+    """정배 승리와 다른 사건을 묻는 파생시장의 수를 센다.
+
+    오늘 FC서울 승(적중)과 -2 핸디캡(실패), LG 승(적중)과 2점차 승(실패)이
+    갈린 것처럼 파생시장은 승패 확신을 그대로 재사용할 수 없다.
+    """
+    count = 0
+    for pick in plan.get("picks", []):
+        market = str(pick.get("market") or "")
+        if market in FRAGILE_MARKETS:
+            count += 1
+            continue
+        # 축구 -2처럼 승리와 큰 점수차 승리를 혼동하기 쉬운 극단 핸디캡.
+        if market == "핸디캡":
+            match = re.search(r"[-+]?\d+(?:\.\d+)?", str(pick.get("market_label") or ""))
+            if match and abs(float(match.group())) >= 1.5:
+                count += 1
+    return count
+
+
+def _balanced_score(plan: dict) -> tuple:
+    return (
+        -_fragile_legs(plan),
+        _metric_number(plan, "conservative_expected_roi", -99.0),
+        _metric_number(plan, "calibrated_hit_est", 0.0),
+        -int(plan.get("legs") or 99),
+        -abs(_metric_number(plan, "actual_odds", 0.0) - 2.25),
+    )
+
+
 def daily_recommendation(plans: list[dict]) -> dict:
     available = [plan for plan in plans if plan.get("ok")]
     if not available:
@@ -348,25 +379,14 @@ def daily_recommendation(plans: list[dict]) -> dict:
         action = "buy"
         why = "실측 보정확률의 95% 보수 하한에서도 기대수익이 양수다"
     else:
-        challenge = [plan for plan in available
-                     if _metric_number(plan, "target", 99.0) <=
-                     DAILY_CHALLENGE_MAX_TARGET
-                     and _metric_number(plan, "conservative_expected_roi", -99.0) >=
-                     DAILY_CHALLENGE_MIN_ROI
-                     and _metric_number(plan, "calibrated_hit_est", 0.0) >=
-                     DAILY_CHALLENGE_MIN_HIT]
-        if challenge:
-            best = max(challenge, key=lambda plan: (
-                _metric_number(plan, "conservative_expected_roi", -99.0),
-                _metric_number(plan, "calibrated_hit_est", 0.0)))
-            action = "challenge"
-            why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다"
-        else:
-            best = max(available, key=lambda plan: (
-                _metric_number(plan, "conservative_expected_roi", -99.0),
-                _metric_number(plan, "calibrated_hit_est", 0.0)))
-            action = "pass"
-            why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다"
+        balanced = [plan for plan in available
+                    if PRIMARY_TARGET_MIN <= _metric_number(plan, "target", 0.0)
+                    <= PRIMARY_TARGET_MAX
+                    and _metric_number(plan, "actual_odds", 0.0) >= PRIMARY_MIN_ACTUAL_ODDS]
+        best = max(balanced or available, key=_balanced_score)
+        action = "challenge"
+        why = ("저배당 1.4배 대신 2~3배 구간에서 파생시장 수·보수 기대·보정 적중률을 "
+               "함께 비교한 오늘의 균형 도전픽이다; 검증된 양의 기대수익 신호는 아니다")
     return {"action": action, "recommended_target": best["target"],
             "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO
                              if action == "challenge" else None),
@@ -403,6 +423,7 @@ def build() -> dict:
             "probability_basis": "배당구간 실측 ROI 보정확률 · 95% Wilson 단측 하한",
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
+            "fragile_legs": _fragile_legs({"picks": legs}),
             "picks": legs,
         })
 
@@ -424,7 +445,7 @@ def build() -> dict:
         "n_candidates": len(cands),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "시장 최유력만 · 다리당 2.20 미만 · 홀짝 제외",
+        "selection_policy": "기본 추천 2~3배 · 파생시장 감점 · 다리당 2.20 미만 · 홀짝 제외",
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
         "solo": solo,
         "plans": out_plans,
@@ -433,8 +454,8 @@ def build() -> dict:
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
         "note": "시장 우위 매수는 실측 ROI 보정확률의 95% 보수 하한이 양수일 때만 쓴다. "
-                "그보다 낮아도 목표 1.4배·보수 기대 −20% 이내·보정 적중 55% 이상이면 "
-                "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
+                "그보다 낮으면 패스로 숨기거나 1.4배를 대표픽으로 내세우지 않고, "
+                "2~3배 구간의 최선 후보를 위험이 표시된 소액 균형 도전픽으로 제안한다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
                 "검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "

@@ -252,7 +252,7 @@ function TodayPlan({ today, combo, grades, games }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        경기 카드와 같은 통합 추천만 조합 · 역배 금지 · 다리당 배당 2.20 미만
+        기본 추천 2~3배 · 파생시장 감점 · 다리당 배당 2.20 미만
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
@@ -265,7 +265,7 @@ function TodayPlan({ today, combo, grades, games }) {
         {recommendation.action === "buy" ? (
           <>조건이 가장 안정적인 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
         ) : recommendation.action === "challenge" ? (
-          <>변동성이 큰 관찰 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+          <>오늘의 균형 도전픽 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
         ) : (
           <>현재는 관찰만 · 비교 후보 {recommendation.target}배 · {recommendation.why}</>
         )}

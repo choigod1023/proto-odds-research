@@ -70,12 +70,12 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["calibration_min_n"] == 10_000
 
 
-def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
+def test_daily_recommendation_prefers_balanced_odds_and_never_hides_available_pick():
     negative = [
         {"ok": True, "target": 2, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.52},
         {"ok": True, "target": 5, "conservative_expected_roi": -0.12, "calibrated_hit_est": 0.70},
     ]
-    assert daily_recommendation(negative)["action"] == "pass"
+    assert daily_recommendation(negative)["action"] == "challenge"
     assert daily_recommendation(negative)["recommended_target"] == 2
     challenge = [{"ok": True, "target": 1.4, "actual_odds": 1.39,
                   "calibrated_hit_est": 0.607,
@@ -87,10 +87,20 @@ def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     too_risky = [{"ok": True, "target": 1.4,
                   "calibrated_hit_est": 0.60,
                   "conservative_expected_roi": -0.201}]
-    assert daily_recommendation(too_risky)["action"] == "pass"
+    assert daily_recommendation(too_risky)["action"] == "challenge"
     positive = [{"ok": True, "target": 3, "actual_odds": 3.0,
                  "conservative_hit_est": 0.35, "conservative_expected_roi": 0.05}]
     assert daily_recommendation(positive)["action"] == "buy"
+
+
+def test_daily_recommendation_penalizes_extreme_handicap_in_balanced_range():
+    extreme = {"ok": True, "target": 2, "actual_odds": 2.0, "legs": 1,
+               "conservative_expected_roi": -0.03, "calibrated_hit_est": 0.48,
+               "picks": [{"market": "핸디캡", "market_label": "홈 -2.0"}]}
+    plain = {"ok": True, "target": 3, "actual_odds": 2.9, "legs": 2,
+             "conservative_expected_roi": -0.08, "calibrated_hit_est": 0.36,
+             "picks": [{"market": "승패"}, {"market": "언더오버"}]}
+    assert daily_recommendation([extreme, plain])["recommended_target"] == 3
 
 
 def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():

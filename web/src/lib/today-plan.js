@@ -13,10 +13,11 @@ export const SAFE_TARGET_BINS = {
   12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 };
 
-export const DAILY_CHALLENGE_MIN_ROI = -0.20;
-export const DAILY_CHALLENGE_MIN_HIT = 0.55;
-export const DAILY_CHALLENGE_MAX_TARGET = 1.4;
 export const DAILY_CHALLENGE_BUDGET_RATIO = 0.10;
+export const PRIMARY_TARGET_MIN = 2;
+export const PRIMARY_TARGET_MAX = 3;
+export const PRIMARY_MIN_ACTUAL_ODDS = 1.75;
+const FRAGILE_MARKETS = new Set(["승①패", "전반승무패", "전반언더오버", "전반핸디캡"]);
 
 export function kickoffTime(candidate, year) {
   const iso = Date.parse(candidate?.kickoff_at || "");
@@ -196,10 +197,15 @@ export function recommendationFromPlans(plans) {
   if (!available.length) return { action: "none", target: null, index: -1,
     why: "오늘 23:59 KST까지 구성 가능한 조합이 없다" };
   const positive = available.filter((plan) => Number(plan.conservative_expected_roi) > 0);
-  const challenge = available.filter((plan) =>
-    Number(plan.target) <= DAILY_CHALLENGE_MAX_TARGET &&
-    Number(plan.conservative_expected_roi) >= DAILY_CHALLENGE_MIN_ROI &&
-    Number(plan.calibrated_hit_est) >= DAILY_CHALLENGE_MIN_HIT);
+  const balanced = available.filter((plan) =>
+    Number(plan.target) >= PRIMARY_TARGET_MIN && Number(plan.target) <= PRIMARY_TARGET_MAX &&
+    Number(plan.actual_odds) >= PRIMARY_MIN_ACTUAL_ODDS);
+  const fragileLegs = (plan) => (plan?.picks || []).filter((pick) => {
+    const market = String(pick?.market || "");
+    if (FRAGILE_MARKETS.has(market)) return true;
+    const handicap = String(pick?.market_label || "").match(/[-+]?\d+(?:\.\d+)?/);
+    return market === "핸디캡" && handicap && Math.abs(Number(handicap[0])) >= 1.5;
+  }).length;
   const byRiskAdjustedQuality = (a, b) =>
     Number(b.conservative_expected_roi ?? -99) - Number(a.conservative_expected_roi ?? -99) ||
     Number(b.calibrated_hit_est ?? 0) - Number(a.calibrated_hit_est ?? 0);
@@ -212,14 +218,13 @@ export function recommendationFromPlans(plans) {
     best = [...positive].sort((a, b) =>
       kellyGrowth(b) - kellyGrowth(a) || byRiskAdjustedQuality(a, b))[0];
     why = "95% 보수 하한에서도 기대수익이 양수다";
-  } else if (challenge.length) {
-    action = "challenge";
-    best = [...challenge].sort(byRiskAdjustedQuality)[0];
-    why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다";
   } else {
-    action = "pass";
-    best = [...available].sort(byRiskAdjustedQuality)[0];
-    why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다";
+    action = "challenge";
+    best = [...(balanced.length ? balanced : available)].sort((a, b) =>
+      fragileLegs(a) - fragileLegs(b) || byRiskAdjustedQuality(a, b) ||
+      Number(a.legs || 99) - Number(b.legs || 99) ||
+      Math.abs(Number(a.actual_odds) - 2.25) - Math.abs(Number(b.actual_odds) - 2.25))[0];
+    why = "저배당 1.4배 대신 2~3배 구간에서 파생시장 수·보수 기대·보정 적중률을 함께 비교한 균형 도전픽이다";
   }
   const index = available.findIndex((plan) => plan.target === best.target);
   return {

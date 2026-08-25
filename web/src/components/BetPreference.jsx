@@ -195,7 +195,7 @@ export default function BetPreference({
           <div className="text-[12px] font-semibold text-ink">손실 감수 도전픽</div>
           <div className="mt-0.5 text-[10.5px] leading-[1.55] text-ink3">
             {recommendationAction === "challenge"
-              ? "소액 도전 판정은 적중 우선 조합과 예산 10% 수준(최소 1,000원)을 먼저 선택한다. "
+              ? "대표 도전픽은 2~3배 구간에서 적중률·배당·파생시장 위험을 함께 비교한다. "
               : "도전 강도와 투입 금액을 따로 고른다. 기본은 3배 도전이다. "}
             시장 우위 신호는 아니며 같은 금액 카드를 다시 누르면 취소된다.
           </div>

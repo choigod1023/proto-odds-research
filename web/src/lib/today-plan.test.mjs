@@ -97,10 +97,10 @@ assert.equal(metrics.calibration_min_n, 10_000);
 assert.match(metrics.probability_basis, /Wilson/);
 
 const pass = recommendationFromPlans([
-  { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.52 },
+  { ok: true, target: 2, actual_odds: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.52 },
   { ok: true, target: 5, conservative_expected_roi: -0.12, calibrated_hit_est: 0.70 },
 ]);
-assert.equal(pass.action, "pass");
+assert.equal(pass.action, "challenge");
 assert.equal(pass.target, 2);
 const dailyChallenge = recommendationFromPlans([
   { ok: true, target: 1.4, actual_odds: 1.39, calibrated_hit_est: 0.607,
@@ -113,10 +113,18 @@ const tooRiskyForDailyChallenge = recommendationFromPlans([
   { ok: true, target: 1.4, calibrated_hit_est: 0.60,
     conservative_expected_roi: -0.201 },
 ]);
-assert.equal(tooRiskyForDailyChallenge.action, "pass");
+assert.equal(tooRiskyForDailyChallenge.action, "challenge");
 const buy = recommendationFromPlans([{ ok: true, target: 3, actual_odds: 3,
   conservative_hit_est: 0.35, conservative_expected_roi: 0.05 }]);
 assert.equal(buy.action, "buy");
+
+const derivativePenalty = recommendationFromPlans([
+  { ok: true, target: 2, actual_odds: 2, legs: 1, conservative_expected_roi: -0.03,
+    calibrated_hit_est: 0.48, picks: [{ market: "핸디캡", market_label: "홈 -2.0" }] },
+  { ok: true, target: 3, actual_odds: 2.9, legs: 2, conservative_expected_roi: -0.08,
+    calibrated_hit_est: 0.36, picks: [{ market: "승패" }, { market: "언더오버" }] },
+]);
+assert.equal(derivativePenalty.target, 3);
 
 const challengePlans = [
   { ok: true, target: 1.4, actual_odds: 1.4, calibrated_hit_est: 0.70,
