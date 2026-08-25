@@ -39,6 +39,43 @@ export function predictionFor(game, recommended = null) {
   };
 }
 
+const winRate = (record) => {
+  const match = String(record || "").match(/^(\d+)-(\d+)$/);
+  if (!match) return null;
+  const games = Number(match[1]) + Number(match[2]);
+  return games ? Number(match[1]) / games : null;
+};
+const recentRate = (form) => {
+  const match = String(form?.last10 || "").match(/(\d+)승(?:\s*(\d+)무)?\s*(\d+)패/);
+  if (!match) return null;
+  const games = Number(match[1]) + Number(match[2] || 0) + Number(match[3]);
+  return games ? (Number(match[1]) + Number(match[2] || 0) * .5) / games : null;
+};
+function directionalSignal(label, homeValue, awayValue, game, threshold = 0) {
+  if (homeValue === null || awayValue === null || Math.abs(homeValue - awayValue) <= threshold) return { label, side: null, state: "중립" };
+  return { label, side: homeValue > awayValue ? game.home : game.away, state: "우세" };
+}
+export function signalSummaryFor(game, prediction) {
+  if (!prediction?.side || prediction.side === "무승부" || !["승무패", "승패"].includes(prediction.market)) return null;
+  const hf = game?.form_home || {}, af = game?.form_away || {};
+  const signals = [], hr = recentRate(hf), ar = recentRate(af);
+  if (hr !== null || ar !== null) signals.push(directionalSignal("최근 10경기", hr, ar, game, .05));
+  const hNet = number(hf.avg_scored) !== null && number(hf.avg_conceded) !== null ? number(hf.avg_scored) - number(hf.avg_conceded) : null;
+  const aNet = number(af.avg_scored) !== null && number(af.avg_conceded) !== null ? number(af.avg_scored) - number(af.avg_conceded) : null;
+  if (hNet !== null || aNet !== null) signals.push(directionalSignal("최근 공수", hNet, aNet, game, .2));
+  const hv = winRate(hf.home), av = winRate(af.away);
+  if (hv !== null || av !== null) signals.push(directionalSignal("홈·원정", hv, av, game, .04));
+  const homeRank = number(game?.["선발"]?.teams?.home?.rank), awayRank = number(game?.["선발"]?.teams?.away?.rank);
+  if (homeRank !== null || awayRank !== null) signals.push(directionalSignal("시즌 순위", homeRank === null ? null : -homeRank, awayRank === null ? null : -awayRank, game));
+  const comparable = signals.filter((signal) => signal.side);
+  const support = comparable.filter((signal) => signal.side === prediction.side).length;
+  const oppose = comparable.filter((signal) => signal.side !== prediction.side).length;
+  const state = oppose === 0 ? (support ? "일치" : "자료 부족") : support === 0 ? "반대" : "엇갈림";
+  const explanation = state === "일치" ? "모델 선택과 확인 가능한 경기력 지표가 같은 방향입니다."
+    : state === "자료 부족" ? "방향을 비교할 경기력 표본이 아직 충분하지 않습니다."
+      : "모델은 배당과 장기 확률을 반영하지만, 최근 폼·장소·시즌 지표는 서로 다른 기간과 표본을 사용해 반대 방향이 나올 수 있습니다.";
+  return { modelSide: prediction.side, signals, support, oppose, state, explanation };
+}
 function playerDetail(player, sport) {
   const stats = player?.stats || player || {};
   const bits = [];
@@ -263,12 +300,17 @@ function performanceReasons(game, prediction, players) {
 
 export function performanceAnalysis(game, recommended = null) {
   const prediction = predictionFor(game, recommended);
+  const signalSummary = signalSummaryFor(game, prediction);
+  if (signalSummary && ["엇갈림", "반대"].includes(signalSummary.state)) {
+    prediction.headline = prediction.side + " 모델 우세 · 경기력 신호 " + signalSummary.state;
+  }
   const players = playerSnapshot(game);
   const reasons = performanceReasons(game, prediction, players);
   const announced = game?.["선발"]?.lineup_status?.state === "announced"
     || (game?.sport === "bs" && game?.["선발"]?.home);
   return {
     prediction,
+    signalSummary,
     reasons,
     ...players,
     cautions: announced ? [] : ["경기 직전 선발·출전 명단이 바뀌면 예상 흐름도 달라질 수 있다."],
