@@ -6,8 +6,7 @@
 //    이 페이지의 모든 숫자가 손실이라, 초록을 칠하면 −18.7% 가 이득처럼 읽힌다.
 
 export const NAV = [
-  { href: "markets.html", label: "경기 보기" },
-  { href: "index.html", label: "배당 비교" },
+  { href: "markets.html", label: "경기·배당 보기" },
   { href: "research.html", label: "모델 검증" },
   { href: "lotto.html", label: "로또 검증" },
 ];

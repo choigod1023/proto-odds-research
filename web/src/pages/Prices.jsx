@@ -5,7 +5,7 @@ import { usePolledData } from "../lib/poll.js";
 
 const SPORTS = { sc: "축구", bs: "야구", bk: "농구", vl: "배구" };
 
-export default function Prices() {
+export default function Prices({ embedded = false }) {
   // 열어 둔 채로도 갱신되게 한다 — 예전엔 첫 로드 한 번뿐이라 새로고침이 필요했다.
   const { data, at } = usePolledData({ d: "data/today.json" }, 300000);
   const d = data.d;
@@ -55,12 +55,12 @@ export default function Prices() {
     return out;
   }, [d]);
 
-  if (err) return <Shell><p className="py-8 text-sev3">데이터를 불러오지 못했습니다: {err}</p></Shell>;
-  if (!d) return <Shell><p className="py-8 text-ink3">불러오는 중…</p></Shell>;
+  if (err) return <Shell embedded={embedded}><p className="py-8 text-sev3">데이터를 불러오지 못했습니다: {err}</p></Shell>;
+  if (!d) return <Shell embedded={embedded}><p className="py-8 text-ink3">불러오는 중…</p></Shell>;
 
   const r0 = (d.rounds || [])[0];
   return (
-    <Shell meta={<Meta d={d} />}>
+    <Shell embedded={embedded} meta={<Meta d={d} />}>
       <Card className="mt-4 border-l-[3px] border-l-sev2 px-4 py-3.5">
         <b className="text-[13.5px]">먼저 알아야 할 것</b>
         <p className="mt-1.5 mb-0 text-[13px] leading-[1.75] text-ink2">
@@ -85,13 +85,23 @@ export default function Prices() {
       </p>
 
       <GameList games={games} />
-      <Footer />
-      <ThemeToggle />
+      {!embedded && <Footer />}
+      {!embedded && <ThemeToggle />}
     </Shell>
   );
 }
 
-function Shell({ children, meta }) {
+function Shell({ children, meta, embedded = false }) {
+  if (embedded) return (
+    <section id="price-comparison">
+      <SectionTitle note="같은 선택은 더 높은 배당이 유리">배당 비교</SectionTitle>
+      <p className="mb-3 text-[12px] leading-[1.7] text-ink3">
+        여기서 ‘유리’는 승리 예상이 아니라 <b className="text-ink">같은 결과를 더 높은 가격에 사는 회차</b>라는 뜻입니다.
+      </p>
+      {meta}
+      {children}
+    </section>
+  );
   return (
     <div className="mx-auto max-w-[960px] px-5 pb-20">
       <Nav current="index.html" />

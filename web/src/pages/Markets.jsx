@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
+import Prices from "./Prices.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
@@ -116,6 +117,7 @@ export default function Markets() {
         <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(d.live || []), ...(d.past || [])]} /></section>
       )}
       <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
+      <Prices embedded />
       <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
     </Shell>
   );
@@ -164,14 +166,15 @@ function Shell({ children, meta }) {
       <Nav current="markets.html" />
       <header className="market-header">
         <div>
-          <h1>오늘 경기 분석</h1>
-          <p>예상 결과와 최근 경기력, 선발·라인업, 핵심 선수와 결장 정보를 함께 봅니다.</p>
+          <h1>오늘 경기·배당 분석</h1>
+          <p>예상 결과와 경기력 신호, 선발·라인업, 같은 경기의 회차별 배당을 한 화면에서 봅니다.</p>
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#today-brief">오늘 요약</a>
         <a href="#match-list">경기 목록</a>
+        <a href="#price-comparison">배당 비교</a>
         <a href="#evidence">분석 기준</a>
       </nav>
       {children}
