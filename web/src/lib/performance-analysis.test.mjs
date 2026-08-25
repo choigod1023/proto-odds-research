@@ -67,8 +67,9 @@ test("모델 추천과 경기력 지표가 반대면 엇갈림을 숨기지 않�
     options: [{ market: "승패", 선택: "승", 모델확률: .52 }] };
   const analysis = performanceAnalysis(game);
   assert.equal(analysis.signalSummary.state, "엇갈림");
-  assert.match(analysis.prediction.headline, /경기력 신호 엇갈림/);
+  assert.equal(analysis.prediction.headline, "SSG 승리 예상");
   assert.ok(analysis.signalSummary.signals.some((signal) => signal.label === "홈·원정" && signal.side === "한화"));
+  assert.equal(analysis.signalSummary.narrative, "최근 성적에서는 SSG가 앞서고, 홈·원정 성적에서는 한화가 낫다. 시장과 모델 확률을 함께 반영해 SSG 승리를 예상한다.");
 });
 test("언더오버 추천에는 팀 우세 합의를 만들지 않는다", () => {
   const game = { home: "SSG", away: "한화", options: [{ market: "언더오버", 선택: "언더", 모델확률: .58, label: "10.5" }] };
@@ -81,4 +82,11 @@ test("경기 카드 추천을 분석 제목에도 그대로 사용한다", () =>
   ] };
   const recommended = game.options[1];
   assert.equal(predictionFor(game, recommended).headline, "한화 우세");
+});
+test("팀 이름에 맞는 조사를 사용해 자연어 요약을 만든다", () => {
+  const game = { home: "두산", away: "한화",
+    form_home: { last10: "7승 3패" },
+    form_away: { last10: "3승 7패" },
+    options: [{ market: "승패", 선택: "승", 모델확률: .57 }] };
+  assert.match(performanceAnalysis(game).signalSummary.narrative, /두산이 앞선다/);
 });

@@ -15,21 +15,10 @@ export default function PredictionPanel({ analysis }) {
         <div>
           <p className="prediction-label">통합 추천 근거 · 참고용</p>
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
-          <p>추천은 모델 확률, 아래 표시는 최근 경기력 신호 — 서로 다른 질문을 섞지 않습니다</p>
+          <p>{signalSummary?.narrative || "최근 기록과 선수 정보를 바탕으로 예상했습니다."}</p>
         </div>
         {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>모델 예상</span></div>}
       </header>
-      {signalSummary && <div className="border-t border-rule2 px-4 py-3">
-        <div className="flex flex-wrap items-center gap-2 text-[11.5px]">
-          <b className="text-ink">신호 합의: {signalSummary.state}</b>
-          <span className="rounded border border-rule px-2 py-0.5">모델 · {signalSummary.modelSide}</span>
-          {signalSummary.signals.map((signal) => <span key={signal.label}
-            className={"rounded border px-2 py-0.5 " + (signal.side && signal.side !== signalSummary.modelSide ? "border-sev3 text-sev3" : "border-rule text-ink2")}>
-            {signal.label} · {signal.side || "중립"}
-          </span>)}
-        </div>
-        <p className="mt-2 mb-0 text-[11px] leading-[1.65] text-ink3">{signalSummary.explanation}</p>
-      </div>}
       <div className={`prediction-body ${featuredPlayers?.length ? "has-players" : ""}`}>
         <div>
           <h4>경기 흐름을 이렇게 봤습니다</h4>

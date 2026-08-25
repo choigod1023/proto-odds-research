@@ -55,6 +55,30 @@ function directionalSignal(label, homeValue, awayValue, game, threshold = 0) {
   if (homeValue === null || awayValue === null || Math.abs(homeValue - awayValue) <= threshold) return { label, side: null, state: "중립" };
   return { label, side: homeValue > awayValue ? game.home : game.away, state: "우세" };
 }
+const readableSignal = {
+  "최근 10경기": "최근 성적",
+  "최근 공수": "최근 득실",
+  "홈·원정": "홈·원정 성적",
+  "시즌 순위": "시즌 성적",
+};
+const signalNames = (rows) => rows.map((signal) => readableSignal[signal.label] || signal.label).join("·");
+
+function signalNarrative(prediction, signals, state) {
+  const picked = prediction.side;
+  const supporting = signals.filter((signal) => signal.side === picked);
+  const opposing = signals.filter((signal) => signal.side && signal.side !== picked);
+  const opponent = opposing[0]?.side;
+  if (state === "일치") {
+    return signalNames(supporting) + "에서 모두 " + particle(picked, ["이", "가"]) + " 앞선다. 이 흐름과 시장·모델 확률을 함께 반영해 " + picked + " 승리를 예상한다.";
+  }
+  if (state === "엇갈림") {
+    return signalNames(supporting) + "에서는 " + particle(picked, ["이", "가"]) + " 앞서고, " + signalNames(opposing) + "에서는 " + particle(opponent, ["이", "가"]) + " 낫다. 시장과 모델 확률을 함께 반영해 " + picked + " 승리를 예상한다.";
+  }
+  if (state === "반대") {
+    return "확인되는 최근 기록은 " + particle(opponent, ["이", "가"]) + " 앞선다. 시장과 모델 확률을 함께 반영한 최종 예상은 " + picked + " 승리다.";
+  }
+  return "비교할 최근 기록이 충분하지 않아 시장과 모델 확률을 중심으로 " + picked + " 승리를 예상한다.";
+}
 export function signalSummaryFor(game, prediction) {
   if (!prediction?.side || prediction.side === "무승부" || !["승무패", "승패"].includes(prediction.market)) return null;
   const hf = game?.form_home || {}, af = game?.form_away || {};
@@ -71,10 +95,8 @@ export function signalSummaryFor(game, prediction) {
   const support = comparable.filter((signal) => signal.side === prediction.side).length;
   const oppose = comparable.filter((signal) => signal.side !== prediction.side).length;
   const state = oppose === 0 ? (support ? "일치" : "자료 부족") : support === 0 ? "반대" : "엇갈림";
-  const explanation = state === "일치" ? "모델 선택과 확인 가능한 경기력 지표가 같은 방향입니다."
-    : state === "자료 부족" ? "방향을 비교할 경기력 표본이 아직 충분하지 않습니다."
-      : "모델은 배당과 장기 확률을 반영하지만, 최근 폼·장소·시즌 지표는 서로 다른 기간과 표본을 사용해 반대 방향이 나올 수 있습니다.";
-  return { modelSide: prediction.side, signals, support, oppose, state, explanation };
+  const narrative = signalNarrative(prediction, signals, state);
+  return { modelSide: prediction.side, signals, support, oppose, state, narrative };
 }
 function playerDetail(player, sport) {
   const stats = player?.stats || player || {};
@@ -302,7 +324,7 @@ export function performanceAnalysis(game, recommended = null) {
   const prediction = predictionFor(game, recommended);
   const signalSummary = signalSummaryFor(game, prediction);
   if (signalSummary && ["엇갈림", "반대"].includes(signalSummary.state)) {
-    prediction.headline = prediction.side + " 모델 우세 · 경기력 신호 " + signalSummary.state;
+    prediction.headline = prediction.side + " 승리 예상";
   }
   const players = playerSnapshot(game);
   const reasons = performanceReasons(game, prediction, players);
