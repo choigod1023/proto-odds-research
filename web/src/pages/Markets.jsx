@@ -118,7 +118,8 @@ export default function Markets() {
       )}
       <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
       <Prices embedded />
-      <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
+      <section id="evidence"><Evidence grades={grades}
+        tally={d.tally_status === "prediction_ledger_verified" ? d.tally : null} /></section>
     </Shell>
   );
 }
@@ -235,7 +236,7 @@ function TodayPlan({ today, combo, grades, games }) {
   const selectedIndex = i < 0 ? -1 : (i < plans.length ? i : 0);
   const p = selectedIndex < 0 ? null : plans[selectedIndex];
   const selected = p || solo;
-  const shouldPass = selectedIndex < 0 || !(Number(selected?.conservative_expected_roi) > 0);
+  const shouldPass = selectedIndex < 0 || recommendation.action !== "buy";
   const recommendedPlan = plans.find(
     (plan) => Number(plan.target) === Number(recommendation.target),
   );
@@ -280,7 +281,7 @@ function TodayPlan({ today, combo, grades, games }) {
           <>현재는 관찰만 · 비교 후보 {recommendation.target}배 · {recommendation.why}</>
         )}
         {recommendedPlan?.conservative_expected_roi != null && (
-          <> · 보수 기대 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
+          <> · 시장확률 기준 지표 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
         )}
       </div>
 
@@ -315,22 +316,19 @@ function TodayPlan({ today, combo, grades, games }) {
       </div>
 
       <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
-        <Stat k="실측 보정 적중" v={selected?.calibrated_hit_est != null
+        <Stat k="Shin 시장 적중" v={selected?.calibrated_hit_est != null
           ? `${(selected.calibrated_hit_est * 100).toFixed(1)}%` : "-"} />
-        <Stat k="95% 보수 적중" v={selected?.conservative_hit_est != null
-          ? `${(selected.conservative_hit_est * 100).toFixed(1)}%` : "-"} />
         <Stat k="실배당" v={selected?.actual_odds != null
           ? `${Number(selected.actual_odds).toFixed(2)}×` : odds(selected?.odds)} />
-        <Stat k="95% 보수 기대" v={selected?.conservative_expected_roi != null
+        <Stat k="시장확률 기준 지표" v={selected?.conservative_expected_roi != null
           ? `${(selected.conservative_expected_roi * 100).toFixed(1)}%` : "-"}
           tone={Number(selected?.conservative_expected_roi) < 0 ? "sev" : undefined} />
         <Stat k="구성" v={`${p?.legs || 1}폴`} />
-        <Stat k="보정 표본" v={selected?.calibration_min_n
-          ? `${Number(selected.calibration_min_n).toLocaleString("ko-KR")}건+` : "없음"} />
+        <Stat k="확률 근거" v="시장 배당" />
       </div>
       <div className="mt-1.5 text-[10.5px] text-ink3">
         시장 배당 기준 적중 {selected?.hit_est != null ? `${(selected.hit_est * 100).toFixed(1)}%` : "-"} ·
-        시장 기대 {selected?.expected_roi != null ? ` ${(selected.expected_roi * 100).toFixed(1)}%` : " -"}
+        독립적인 +EV 증거가 아니라 같은 배당에서 역산한 비교값입니다
       </div>
 
       <div className="mt-3">
@@ -438,8 +436,6 @@ function GameList({ data, grades, caps, stale }) {
 
   const rows = [];
   let cur = null, n = 0;
-  // 화면에 실제로 뜬 픽의 성적 — 정산된 경기만. 필터·모드·상한을 그대로 반영한다.
-  const live = { n: 0, hit: 0, ret: 0 };
   for (const g of games) {
     const opts = (g.options || []).filter((o) => !f.mk || o.market === f.mk);
     const wait = g.status === "배당대기";
@@ -453,14 +449,6 @@ function GameList({ data, grades, caps, stale }) {
       if (!(lo <= cap)) continue;
     }
     n++;
-    if (g.status === "정산") {
-      const pk = canonicalPick(g, opts, grades);
-      const h = pk && !pk.tie ? pk.o["적중"] : null;
-      if (h !== null && h !== undefined) {
-        live.n++; live.hit += h ? 1 : 0;
-        live.ret += h ? pk.o["배당"] - 1 : -1;
-      }
-    }
     const key = `${g.league} · ${day(g.date)}`;
     if (key !== cur) {
       cur = key;
@@ -544,17 +532,6 @@ function GameList({ data, grades, caps, stale }) {
           </span>
         </p>
       )}
-      {live.n > 0 && (
-        <p className="mt-2 text-[11.5px] leading-[1.7] text-ink3">
-          지금 조건에서 <b className="text-ink">끝난 {live.n}경기</b> — 여기 뜬 픽을 그대로 샀다면
-          적중 <b className="tnum text-ink">{live.hit}/{live.n}
-          ({((live.hit / live.n) * 100).toFixed(1)}%)</b> ·
-          수익률 <b className={`tnum ${live.ret < 0 ? "text-sev3" : "text-ink"}`}>
-            {((live.ret / live.n) * 100).toFixed(1)}%</b>
-          <span className="opacity-70"> · 화면에 보이는 것만 센 값이라 표본이 작다.
-            장기 실측은 위의 등급표를 봐라</span>
-        </p>
-      )}
       <div className={showModel ? "show-model" : ""}>
         {rows.length ? rows : (
           // 날짜 기본값이 '오늘' 이라 심야·비수기엔 빈 화면이 될 수 있다.
@@ -595,8 +572,9 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
 
   // 경기별 추천은 생성기가 시장·모델 일치와 안전 배당을 통과시켜 확정한 하나만 쓴다.
   // 실시간 배당이 안전 범위를 벗어나면 예전 선택을 고집하지 않고 보류한다.
-  const pick = wait || stale ? null : canonicalPick(g, opts, grades);
   const done = g.status === "정산";
+  const predictionUnavailable = done || g.prediction_status === "prediction_ledger_required";
+  const pick = wait || stale || predictionUnavailable ? null : canonicalPick(g, opts, grades);
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
   const playing = !!lv && !lv.finished;
   const finished = !!lv?.finished;
@@ -608,11 +586,14 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
-  const analysis = wait || stale ? null : performanceAnalysis(g, pick?.o || null);
+  const analysis = wait || stale || predictionUnavailable
+    ? null : performanceAnalysis(g, pick?.o || null);
   const forecast = analysis?.prediction;
   const fallbackForecast = stale
     ? "최신 데이터 확인 필요"
-    : waitText === "상태 확인 불가"
+    : predictionUnavailable
+      ? (g.status === "결과확인" ? "정산 결과 확인 필요" : "사전 예측 기록 없음")
+      : waitText === "상태 확인 불가"
       ? "경기 상태 확인 필요"
       : wait
         ? "배당 발표 전"
@@ -663,7 +644,11 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
           </div>
         )}
         {analysis && <PredictionPanel analysis={analysis} />}
-        <Why g={g} />
+        {predictionUnavailable ? (
+          <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
+            경기 전에 저장된 예측 원장이 없어 현재 공식으로 과거 추천을 재구성하지 않습니다.
+          </div>
+        ) : <Why g={g} />}
         {!wait && <details className="price-sheet">
           <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
           <div className="overflow-x-auto py-3">

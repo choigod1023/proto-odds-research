@@ -1,0 +1,1747 @@
+{
+  "model_version": "accuracy-formula-lab-v1",
+  "causal_row_construction": {
+    "training_rows_precede_each_evaluation_year": true,
+    "same_day_results_are_deferred": true,
+    "feature_specification_preregistered": false,
+    "pristine_holdout_available": false
+  },
+  "data": {
+    "path": "data\\processed\\games.csv",
+    "sha256": "dfe95c2ace14ee42142ea0c86912b68359bc8ebee9ad3cb566812815bdec0eb0",
+    "rows": 184473
+  },
+  "limitations": [
+    "archive odds timestamp and sale_open are unavailable",
+    "2025 and 2026 informed earlier feature experiments and are not pristine holdouts",
+    "2026 is a partial year",
+    "accuracy gain is selection-dependent and is not the same as positive ROI"
+  ],
+  "devig": {
+    "quality": {
+      "input_rows": 184473,
+      "valid_unique_market_rows": 174620,
+      "invalid_rows": 3448,
+      "conflicting_reissues_excluded": 584
+    },
+    "by_year": {
+      "2023": {
+        "methods": {
+          "multiplicative": {
+            "n": 37227,
+            "log_loss": 0.763890935875536,
+            "brier": 0.22554993342368226
+          },
+          "additive": {
+            "n": 37227,
+            "log_loss": 0.7631674411960145,
+            "brier": 0.22539920971287838
+          },
+          "power": {
+            "n": 37227,
+            "log_loss": 0.7639710713730903,
+            "brier": 0.2255329888346433
+          },
+          "shin": {
+            "n": 37227,
+            "log_loss": 0.7631673774490592,
+            "brier": 0.22538318103049448
+          }
+        },
+        "best_log_loss": "shin",
+        "best_brier": "shin",
+        "shin_minus_multiplicative": {
+          "brier": -0.00016675239317478086,
+          "log_loss": -0.0007235584264281666,
+          "ci95": {
+            "brier_delta": [
+              -0.0002727443854636467,
+              -6.144099924219858e-05
+            ],
+            "log_loss_delta": [
+              -0.0011038521799520277,
+              -0.0003479935318576848
+            ]
+          },
+          "ci95_by_block_dates": {
+            "1": {
+              "brier_delta": [
+                -0.000265752724246366,
+                -5.818534676627154e-05
+              ],
+              "log_loss_delta": [
+                -0.001076573962946084,
+                -0.0003503812977836312
+              ]
+            },
+            "7": {
+              "brier_delta": [
+                -0.0002727443854636467,
+                -6.144099924219858e-05
+              ],
+              "log_loss_delta": [
+                -0.0011038521799520277,
+                -0.0003479935318576848
+              ]
+            },
+            "14": {
+              "brier_delta": [
+                -0.0002834233928362094,
+                -6.577327929544648e-05
+              ],
+              "log_loss_delta": [
+                -0.001157116082295645,
+                -0.00037208750734861543
+              ]
+            }
+          }
+        }
+      },
+      "2024": {
+        "methods": {
+          "multiplicative": {
+            "n": 45018,
+            "log_loss": 0.7793387579558192,
+            "brier": 0.22418616450805767
+          },
+          "additive": {
+            "n": 45018,
+            "log_loss": 0.7790306765999112,
+            "brier": 0.22414208309332087
+          },
+          "power": {
+            "n": 45018,
+            "log_loss": 0.780184276823056,
+            "brier": 0.224364192779471
+          },
+          "shin": {
+            "n": 45018,
+            "log_loss": 0.7789202717292246,
+            "brier": 0.2241250163577893
+          }
+        },
+        "best_log_loss": "shin",
+        "best_brier": "shin",
+        "shin_minus_multiplicative": {
+          "brier": -6.114815025577721e-05,
+          "log_loss": -0.00041848622653589766,
+          "ci95": {
+            "brier_delta": [
+              -0.00015867339039647086,
+              3.227774703325556e-05
+            ],
+            "log_loss_delta": [
+              -0.0007401471112576869,
+              -9.478793563504486e-05
+            ]
+          },
+          "ci95_by_block_dates": {
+            "1": {
+              "brier_delta": [
+                -0.00014846393656701905,
+                2.6984889430487802e-05
+              ],
+              "log_loss_delta": [
+                -0.0007348622260776487,
+                -0.00010574577681385526
+              ]
+            },
+            "7": {
+              "brier_delta": [
+                -0.00015867339039647086,
+                3.227774703325556e-05
+              ],
+              "log_loss_delta": [
+                -0.0007401471112576869,
+                -9.478793563504486e-05
+              ]
+            },
+            "14": {
+              "brier_delta": [
+                -0.0001508552709245924,
+                2.9116300857236185e-05
+              ],
+              "log_loss_delta": [
+                -0.0007180564319941331,
+                -9.353279527664678e-05
+              ]
+            }
+          }
+        }
+      },
+      "2025": {
+        "methods": {
+          "multiplicative": {
+            "n": 54727,
+            "log_loss": 0.7873411705710911,
+            "brier": 0.22463741855475855
+          },
+          "additive": {
+            "n": 54727,
+            "log_loss": 0.7870541138994153,
+            "brier": 0.22459850704480602
+          },
+          "power": {
+            "n": 54727,
+            "log_loss": 0.7876974963152823,
+            "brier": 0.2247610939377069
+          },
+          "shin": {
+            "n": 54727,
+            "log_loss": 0.7868827609828133,
+            "brier": 0.2245648373904646
+          }
+        },
+        "best_log_loss": "shin",
+        "best_brier": "shin",
+        "shin_minus_multiplicative": {
+          "brier": -7.258116428524267e-05,
+          "log_loss": -0.00045840958814514436,
+          "ci95": {
+            "brier_delta": [
+              -0.00015171777567324487,
+              6.197638116092106e-06
+            ],
+            "log_loss_delta": [
+              -0.0007386402885271823,
+              -0.00018083296463585038
+            ]
+          },
+          "ci95_by_block_dates": {
+            "1": {
+              "brier_delta": [
+                -0.00015079826886264566,
+                6.857893713060566e-06
+              ],
+              "log_loss_delta": [
+                -0.0007447657901593162,
+                -0.00016529955459151214
+              ]
+            },
+            "7": {
+              "brier_delta": [
+                -0.00015171777567324487,
+                6.197638116092106e-06
+              ],
+              "log_loss_delta": [
+                -0.0007386402885271823,
+                -0.00018083296463585038
+              ]
+            },
+            "14": {
+              "brier_delta": [
+                -0.00014772950410313975,
+                3.6413741568251637e-06
+              ],
+              "log_loss_delta": [
+                -0.000741069269143787,
+                -0.00018484381967860612
+              ]
+            }
+          }
+        }
+      },
+      "2026": {
+        "methods": {
+          "multiplicative": {
+            "n": 37648,
+            "log_loss": 0.7737118437229259,
+            "brier": 0.22621853089657004
+          },
+          "additive": {
+            "n": 37648,
+            "log_loss": 0.7736952409869926,
+            "brier": 0.22620149581248633
+          },
+          "power": {
+            "n": 37648,
+            "log_loss": 0.7747775029091069,
+            "brier": 0.22642204099356072
+          },
+          "shin": {
+            "n": 37648,
+            "log_loss": 0.7735118733779887,
+            "brier": 0.2261723538283653
+          }
+        },
+        "best_log_loss": "shin",
+        "best_brier": "shin",
+        "shin_minus_multiplicative": {
+          "brier": -4.617706820929988e-05,
+          "log_loss": -0.00019997034487698076,
+          "ci95": {
+            "brier_delta": [
+              -0.00017200184354761603,
+              7.878423052474405e-05
+            ],
+            "log_loss_delta": [
+              -0.0006320165740707257,
+              0.00022743849908636853
+            ]
+          },
+          "ci95_by_block_dates": {
+            "1": {
+              "brier_delta": [
+                -0.0001706199450237709,
+                7.42980307700659e-05
+              ],
+              "log_loss_delta": [
+                -0.0006302589884564322,
+                0.0002360807845749572
+              ]
+            },
+            "7": {
+              "brier_delta": [
+                -0.00017200184354761603,
+                7.878423052474405e-05
+              ],
+              "log_loss_delta": [
+                -0.0006320165740707257,
+                0.00022743849908636853
+              ]
+            },
+            "14": {
+              "brier_delta": [
+                -0.0001627421099725313,
+                7.218971831392886e-05
+              ],
+              "log_loss_delta": [
+                -0.0006338898918228149,
+                0.00023793871475578547
+              ]
+            }
+          }
+        }
+      }
+    },
+    "best_rank_both_retrospective_years": true,
+    "significant_both_retrospective_years": false,
+    "decision": "retain_existing_shin_no_new_accuracy_claim"
+  },
+  "market_offset_residual": {
+    "formula": "logit(p_final)=logit(p_shin_market)+X_beta",
+    "feature_specification": "existing SPORT_FEATURES from prior retrospective experiments",
+    "feature_specification_preregistered_for_2025_2026": false,
+    "ridge_grid": [
+      100.0,
+      1000.0,
+      10000.0,
+      100000.0
+    ],
+    "ridge_selected_on_2024_only": 10000.0,
+    "tuning_year": 2024,
+    "retrospective_evaluation_years": [
+      2025,
+      2026
+    ],
+    "tuning": [
+      {
+        "ridge": 100.0,
+        "n": 6387,
+        "brier": 0.22780887837157274,
+        "brier_delta": 0.0003657264725463372,
+        "log_loss_delta": 0.0007831080985316672
+      },
+      {
+        "ridge": 1000.0,
+        "n": 6387,
+        "brier": 0.22750897182411742,
+        "brier_delta": 6.581992509102756e-05,
+        "log_loss_delta": 0.00011315344140492732
+      },
+      {
+        "ridge": 10000.0,
+        "n": 6387,
+        "brier": 0.22742279384631958,
+        "brier_delta": -2.035805270681284e-05,
+        "log_loss_delta": -5.873216417903252e-05
+      },
+      {
+        "ridge": 100000.0,
+        "n": 6387,
+        "brier": 0.22743977394453385,
+        "brier_delta": -3.377954492515231e-06,
+        "log_loss_delta": -9.375730976145188e-06
+      }
+    ],
+    "years": {
+      "2024": {
+        "n": 6387,
+        "dates": 366,
+        "market_brier": 0.22744315189902636,
+        "model_brier": 0.22742279384631958,
+        "brier_delta": -2.035805270681284e-05,
+        "market_log_loss": 0.6450480359892775,
+        "model_log_loss": 0.6449893038250984,
+        "log_loss_delta": -5.873216417903252e-05,
+        "market_accuracy": 0.610771880382026,
+        "model_accuracy": 0.6109284484108345,
+        "accuracy_delta": 0.0001565680288085173,
+        "direction_disagreement_rate": 0.0026616564897447943,
+        "model_only_correct": 9,
+        "market_only_correct": 8,
+        "mcnemar_exact_p": 1.0,
+        "ci95": {
+          "brier_delta": [
+            -7.59092563361924e-05,
+            3.829721835022466e-05
+          ],
+          "log_loss_delta": [
+            -0.0001804600687641749,
+            7.105691554223997e-05
+          ],
+          "accuracy_delta": [
+            -0.0010733687982943546,
+            0.0014898688915375446
+          ]
+        },
+        "ci95_by_block_dates": {
+          "1": {
+            "brier_delta": [
+              -7.882144225030767e-05,
+              4.238283444781679e-05
+            ],
+            "log_loss_delta": [
+              -0.00018873502234988888,
+              7.716004233926468e-05
+            ],
+            "accuracy_delta": [
+              -0.0010953374627034784,
+              0.0014421170720678965
+            ]
+          },
+          "7": {
+            "brier_delta": [
+              -7.59092563361924e-05,
+              3.829721835022466e-05
+            ],
+            "log_loss_delta": [
+              -0.0001804600687641749,
+              7.105691554223997e-05
+            ],
+            "accuracy_delta": [
+              -0.0010733687982943546,
+              0.0014898688915375446
+            ]
+          },
+          "14": {
+            "brier_delta": [
+              -7.6275480067102e-05,
+              3.896368002208133e-05
+            ],
+            "log_loss_delta": [
+              -0.00018535482668647702,
+              6.998908741657213e-05
+            ],
+            "accuracy_delta": [
+              -0.0012008006695600553,
+              0.001461994935380961
+            ]
+          }
+        },
+        "by_sport": {
+          "bk": {
+            "n": 1831,
+            "dates": 269,
+            "market_brier": 0.20647212945584328,
+            "model_brier": 0.20643182493197404,
+            "brier_delta": -4.030452386926148e-05,
+            "market_log_loss": 0.6007315230264648,
+            "model_log_loss": 0.6005973544594887,
+            "log_loss_delta": -0.0001341685669761933,
+            "market_accuracy": 0.6772255598033862,
+            "model_accuracy": 0.6766794101583834,
+            "accuracy_delta": -0.0005461496450027307,
+            "direction_disagreement_rate": 0.0016384489350081922,
+            "model_only_correct": 1,
+            "market_only_correct": 2,
+            "mcnemar_exact_p": 1.0,
+            "ci95": {
+              "brier_delta": [
+                -0.00014717909247707441,
+                7.117941568420973e-05
+              ],
+              "log_loss_delta": [
+                -0.00038568936365653147,
+                0.00012799627449166376
+              ],
+              "accuracy_delta": [
+                -0.0027568369771295742,
+                0.00119067234443208
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.00014438699826723503,
+                  6.61332415152971e-05
+                ],
+                "log_loss_delta": [
+                  -0.00038035944178826963,
+                  0.00010911159477820875
+                ],
+                "accuracy_delta": [
+                  -0.00257751948315014,
+                  0.001144901839269155
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.00014717909247707441,
+                  7.117941568420973e-05
+                ],
+                "log_loss_delta": [
+                  -0.00038568936365653147,
+                  0.00012799627449166376
+                ],
+                "accuracy_delta": [
+                  -0.0027568369771295742,
+                  0.00119067234443208
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -0.0001529990312852208,
+                  6.897597215824156e-05
+                ],
+                "log_loss_delta": [
+                  -0.0003992834186524322,
+                  0.00012479816106973342
+                ],
+                "accuracy_delta": [
+                  -0.0030723106341246148,
+                  0.001304418868996874
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 1593,
+                "coverage": 0.87001638448935,
+                "model_accuracy": 0.7005649717514124,
+                "market_accuracy_same_rows": 0.7005649717514124,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 1353,
+                "coverage": 0.7389404696886948,
+                "model_accuracy": 0.7280118255728012,
+                "market_accuracy_same_rows": 0.7280118255728012,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 1109,
+                "coverage": 0.6056799563080284,
+                "model_accuracy": 0.7484220018034266,
+                "market_accuracy_same_rows": 0.7484220018034266,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 887,
+                "coverage": 0.4844347351174222,
+                "model_accuracy": 0.7779030439684329,
+                "market_accuracy_same_rows": 0.7779030439684329,
+                "accuracy_delta": 0.0
+              }
+            }
+          },
+          "bs": {
+            "n": 4041,
+            "dates": 238,
+            "market_brier": 0.24195550617924905,
+            "model_brier": 0.2419169315512573,
+            "brier_delta": -3.8574627991762704e-05,
+            "market_log_loss": 0.6767229503067517,
+            "model_log_loss": 0.6766407024595866,
+            "log_loss_delta": -8.224784716492278e-05,
+            "market_accuracy": 0.5686711210096511,
+            "model_accuracy": 0.5701559020044543,
+            "accuracy_delta": 0.0014847809948032665,
+            "direction_disagreement_rate": 0.0024746349913387774,
+            "model_only_correct": 8,
+            "market_only_correct": 2,
+            "mcnemar_exact_p": 0.109375,
+            "ci95": {
+              "brier_delta": [
+                -0.00010306321756691763,
+                2.4147156942884613e-05
+              ],
+              "log_loss_delta": [
+                -0.00021988730812184666,
+                5.083562493674364e-05
+              ],
+              "accuracy_delta": [
+                0.0,
+                0.0033727141068325022
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.00010972514765665264,
+                  3.3036149062499045e-05
+                ],
+                "log_loss_delta": [
+                  -0.00023546800736724282,
+                  7.007632729045641e-05
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.003237898374492116
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.00010306321756691763,
+                  2.4147156942884613e-05
+                ],
+                "log_loss_delta": [
+                  -0.00021988730812184666,
+                  5.083562493674364e-05
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.0033727141068325022
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -9.588870191783896e-05,
+                  2.41302442562857e-05
+                ],
+                "log_loss_delta": [
+                  -0.00020294130398851074,
+                  5.030877822848307e-05
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.0033379511589588786
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 2596,
+                "coverage": 0.6424152437515467,
+                "model_accuracy": 0.6036209553158706,
+                "market_accuracy_same_rows": 0.6036209553158706,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 1445,
+                "coverage": 0.3575847562484534,
+                "model_accuracy": 0.6269896193771626,
+                "market_accuracy_same_rows": 0.6269896193771626,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 548,
+                "coverage": 0.135609997525365,
+                "model_accuracy": 0.6806569343065694,
+                "market_accuracy_same_rows": 0.6806569343065694,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 171,
+                "coverage": 0.042316258351893093,
+                "model_accuracy": 0.7134502923976608,
+                "market_accuracy_same_rows": 0.7134502923976608,
+                "accuracy_delta": 0.0
+              }
+            }
+          },
+          "vl": {
+            "n": 515,
+            "dates": 215,
+            "market_brier": 0.18812959548560593,
+            "model_brier": 0.18832309213081158,
+            "brier_delta": 0.00019349664520566448,
+            "market_log_loss": 0.5540678543931553,
+            "model_log_loss": 0.5544618424784278,
+            "log_loss_delta": 0.00039398808527258674,
+            "market_accuracy": 0.7048543689320388,
+            "model_accuracy": 0.6970873786407767,
+            "accuracy_delta": -0.007766990291262136,
+            "direction_disagreement_rate": 0.007766990291262136,
+            "model_only_correct": 0,
+            "market_only_correct": 4,
+            "mcnemar_exact_p": 0.125,
+            "ci95": {
+              "brier_delta": [
+                -6.281231193267306e-05,
+                0.0004567871962183997
+              ],
+              "log_loss_delta": [
+                -0.0001866422924520049,
+                0.000978952201234963
+              ],
+              "accuracy_delta": [
+                -0.015068772178089386,
+                -0.0018796992481203006
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -9.501319318069864e-05,
+                  0.0004878983734510029
+                ],
+                "log_loss_delta": [
+                  -0.0002643848464537955,
+                  0.0010690048573424665
+                ],
+                "accuracy_delta": [
+                  -0.016360756310972543,
+                  -0.0018867036207938035
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -6.281231193267306e-05,
+                  0.0004567871962183997
+                ],
+                "log_loss_delta": [
+                  -0.0001866422924520049,
+                  0.000978952201234963
+                ],
+                "accuracy_delta": [
+                  -0.015068772178089386,
+                  -0.0018796992481203006
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -5.993208593302115e-05,
+                  0.00043723386948683846
+                ],
+                "log_loss_delta": [
+                  -0.00017527200267228185,
+                  0.0009407203253043774
+                ],
+                "accuracy_delta": [
+                  -0.013232827151065987,
+                  -0.0021321961620469083
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 455,
+                "coverage": 0.883495145631068,
+                "model_accuracy": 0.7274725274725274,
+                "market_accuracy_same_rows": 0.7274725274725274,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 397,
+                "coverage": 0.7708737864077669,
+                "model_accuracy": 0.760705289672544,
+                "market_accuracy_same_rows": 0.760705289672544,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 324,
+                "coverage": 0.629126213592233,
+                "model_accuracy": 0.808641975308642,
+                "market_accuracy_same_rows": 0.808641975308642,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 260,
+                "coverage": 0.5048543689320388,
+                "model_accuracy": 0.8153846153846154,
+                "market_accuracy_same_rows": 0.8153846153846154,
+                "accuracy_delta": 0.0
+              }
+            }
+          }
+        },
+        "absolute_confidence_thresholds": {
+          "0.55": {
+            "n": 4644,
+            "coverage": 0.7271019257867544,
+            "model_accuracy": 0.64900947459087,
+            "market_accuracy_same_rows": 0.64900947459087,
+            "accuracy_delta": 0.0
+          },
+          "0.60": {
+            "n": 3195,
+            "coverage": 0.5002348520432128,
+            "model_accuracy": 0.6863849765258216,
+            "market_accuracy_same_rows": 0.6863849765258216,
+            "accuracy_delta": 0.0
+          },
+          "0.65": {
+            "n": 1981,
+            "coverage": 0.3101612650696728,
+            "model_accuracy": 0.7395254921756689,
+            "market_accuracy_same_rows": 0.7395254921756689,
+            "accuracy_delta": 0.0
+          },
+          "0.70": {
+            "n": 1318,
+            "coverage": 0.2063566619696258,
+            "model_accuracy": 0.7769347496206374,
+            "market_accuracy_same_rows": 0.7769347496206374,
+            "accuracy_delta": 0.0
+          }
+        }
+      },
+      "2025": {
+        "n": 6357,
+        "dates": 360,
+        "market_brier": 0.22870888371498926,
+        "model_brier": 0.2286210845866385,
+        "brier_delta": -8.779912835076757e-05,
+        "market_log_loss": 0.64761464180547,
+        "model_log_loss": 0.6473918279155079,
+        "log_loss_delta": -0.0002228138899620883,
+        "market_accuracy": 0.6023281422054428,
+        "model_accuracy": 0.6040585181689476,
+        "accuracy_delta": 0.0017303759635047978,
+        "direction_disagreement_rate": 0.00550574170206072,
+        "model_only_correct": 23,
+        "market_only_correct": 12,
+        "mcnemar_exact_p": 0.08953107893466952,
+        "ci95": {
+          "brier_delta": [
+            -0.00018262920407475467,
+            6.322362981831783e-06
+          ],
+          "log_loss_delta": [
+            -0.00044502108009938517,
+            -5.481534704681852e-06
+          ],
+          "accuracy_delta": [
+            -0.00015158709868057905,
+            0.003571481749340593
+          ]
+        },
+        "ci95_by_block_dates": {
+          "1": {
+            "brier_delta": [
+              -0.0001851362774625767,
+              1.0074962153498381e-05
+            ],
+            "log_loss_delta": [
+              -0.0004497707529797879,
+              4.894647831833153e-06
+            ],
+            "accuracy_delta": [
+              -0.00015593447670283876,
+              0.003596194709205002
+            ]
+          },
+          "7": {
+            "brier_delta": [
+              -0.00018262920407475467,
+              6.322362981831783e-06
+            ],
+            "log_loss_delta": [
+              -0.00044502108009938517,
+              -5.481534704681852e-06
+            ],
+            "accuracy_delta": [
+              -0.00015158709868057905,
+              0.003571481749340593
+            ]
+          },
+          "14": {
+            "brier_delta": [
+              -0.00018053203339043035,
+              -1.4727888742578665e-06
+            ],
+            "log_loss_delta": [
+              -0.00045711114103856213,
+              -1.905120070707686e-05
+            ],
+            "accuracy_delta": [
+              -0.00015504598423604038,
+              0.003671631328499733
+            ]
+          }
+        },
+        "by_sport": {
+          "bk": {
+            "n": 1921,
+            "dates": 282,
+            "market_brier": 0.2097831041321235,
+            "model_brier": 0.2095426717376095,
+            "brier_delta": -0.00024043239451399277,
+            "market_log_loss": 0.6062879961178858,
+            "model_log_loss": 0.6056034589562284,
+            "log_loss_delta": -0.0006845371616572063,
+            "market_accuracy": 0.6689224362311296,
+            "model_accuracy": 0.6710046850598647,
+            "accuracy_delta": 0.002082248828735034,
+            "direction_disagreement_rate": 0.010411244143675169,
+            "model_only_correct": 12,
+            "market_only_correct": 8,
+            "mcnemar_exact_p": 0.5034446716308594,
+            "ci95": {
+              "brier_delta": [
+                -0.0004592307511066082,
+                -1.867402100246413e-05
+              ],
+              "log_loss_delta": [
+                -0.0012158835224571867,
+                -0.00015439600909687874
+              ],
+              "accuracy_delta": [
+                -0.0024423673739731866,
+                0.0065971220541515396
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.0004690768205295898,
+                  -4.022735609135191e-06
+                ],
+                "log_loss_delta": [
+                  -0.0012476362888637535,
+                  -8.998720195667154e-05
+                ],
+                "accuracy_delta": [
+                  -0.002560493259113617,
+                  0.0067956978458335055
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.0004592307511066082,
+                  -1.867402100246413e-05
+                ],
+                "log_loss_delta": [
+                  -0.0012158835224571867,
+                  -0.00015439600909687874
+                ],
+                "accuracy_delta": [
+                  -0.0024423673739731866,
+                  0.0065971220541515396
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -0.00044979409722853766,
+                  -2.473735867249621e-05
+                ],
+                "log_loss_delta": [
+                  -0.0012093010116072825,
+                  -0.0001648323099712724
+                ],
+                "accuracy_delta": [
+                  -0.002286352630420427,
+                  0.006824873975276216
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 1680,
+                "coverage": 0.8745445080687142,
+                "model_accuracy": 0.6928571428571428,
+                "market_accuracy_same_rows": 0.6928571428571428,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 1399,
+                "coverage": 0.7282665278500781,
+                "model_accuracy": 0.7105075053609721,
+                "market_accuracy_same_rows": 0.7105075053609721,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 1117,
+                "coverage": 0.5814679854242581,
+                "model_accuracy": 0.7448522829006267,
+                "market_accuracy_same_rows": 0.7448522829006267,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 867,
+                "coverage": 0.45132743362831856,
+                "model_accuracy": 0.7693194925028836,
+                "market_accuracy_same_rows": 0.7693194925028836,
+                "accuracy_delta": 0.0
+              }
+            }
+          },
+          "bs": {
+            "n": 3890,
+            "dates": 224,
+            "market_brier": 0.24125503273407517,
+            "model_brier": 0.24122455271111895,
+            "brier_delta": -3.0480022956193488e-05,
+            "market_log_loss": 0.6750109049895464,
+            "model_log_loss": 0.6749680708031065,
+            "log_loss_delta": -4.28341864399442e-05,
+            "market_accuracy": 0.5611825192802057,
+            "model_accuracy": 0.5629820051413882,
+            "accuracy_delta": 0.0017994858611825194,
+            "direction_disagreement_rate": 0.0033419023136246786,
+            "model_only_correct": 10,
+            "market_only_correct": 3,
+            "mcnemar_exact_p": 0.09228515625,
+            "ci95": {
+              "brier_delta": [
+                -0.0001276329077869374,
+                7.127382193060578e-05
+              ],
+              "log_loss_delta": [
+                -0.000257509455461746,
+                0.00018234392776215447
+              ],
+              "accuracy_delta": [
+                0.00025620497420691273,
+                0.0033939599682567675
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.00013656147345982687,
+                  7.535801731344604e-05
+                ],
+                "log_loss_delta": [
+                  -0.0002748315913224869,
+                  0.00019096983299856008
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.0037068701091551273
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.0001276329077869374,
+                  7.127382193060578e-05
+                ],
+                "log_loss_delta": [
+                  -0.000257509455461746,
+                  0.00018234392776215447
+                ],
+                "accuracy_delta": [
+                  0.00025620497420691273,
+                  0.0033939599682567675
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -0.00011366927499624287,
+                  6.023338343298272e-05
+                ],
+                "log_loss_delta": [
+                  -0.00022797667903181484,
+                  0.0001529997916759148
+                ],
+                "accuracy_delta": [
+                  0.0002489593541778498,
+                  0.003435099577599396
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 2572,
+                "coverage": 0.6611825192802057,
+                "model_accuracy": 0.6010886469673405,
+                "market_accuracy_same_rows": 0.6010886469673405,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 1398,
+                "coverage": 0.3593830334190231,
+                "model_accuracy": 0.6344778254649499,
+                "market_accuracy_same_rows": 0.6344778254649499,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 606,
+                "coverage": 0.1557840616966581,
+                "model_accuracy": 0.7145214521452146,
+                "market_accuracy_same_rows": 0.7145214521452146,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 200,
+                "coverage": 0.05141388174807198,
+                "model_accuracy": 0.765,
+                "market_accuracy_same_rows": 0.765,
+                "accuracy_delta": 0.0
+              }
+            }
+          },
+          "vl": {
+            "n": 546,
+            "dates": 220,
+            "market_brier": 0.20591017106744514,
+            "model_brier": 0.20595101147080624,
+            "brier_delta": 4.084040336106799e-05,
+            "market_log_loss": 0.5978289688746866,
+            "model_log_loss": 0.597948369926529,
+            "log_loss_delta": 0.00011940105184227226,
+            "market_accuracy": 0.6611721611721612,
+            "model_accuracy": 0.6611721611721612,
+            "accuracy_delta": 0.0,
+            "direction_disagreement_rate": 0.003663003663003663,
+            "model_only_correct": 1,
+            "market_only_correct": 1,
+            "mcnemar_exact_p": 1.0,
+            "ci95": {
+              "brier_delta": [
+                -0.00017113673239451646,
+                0.00024042036736059507
+              ],
+              "log_loss_delta": [
+                -0.00038316502414356425,
+                0.0005882948160474682
+              ],
+              "accuracy_delta": [
+                -0.00491843723037101,
+                0.0055152146190579525
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.0001575124096581595,
+                  0.00023016529164619656
+                ],
+                "log_loss_delta": [
+                  -0.0003239428364698501,
+                  0.0005703698421548173
+                ],
+                "accuracy_delta": [
+                  -0.005319622170061331,
+                  0.0055147058823529415
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.00017113673239451646,
+                  0.00024042036736059507
+                ],
+                "log_loss_delta": [
+                  -0.00038316502414356425,
+                  0.0005882948160474682
+                ],
+                "accuracy_delta": [
+                  -0.00491843723037101,
+                  0.0055152146190579525
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -0.0001954974307394144,
+                  0.0002611020975829999
+                ],
+                "log_loss_delta": [
+                  -0.0004366568816873149,
+                  0.0006271906862335379
+                ],
+                "accuracy_delta": [
+                  -0.004658566212339287,
+                  0.005917159763313609
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 478,
+                "coverage": 0.8754578754578755,
+                "model_accuracy": 0.698744769874477,
+                "market_accuracy_same_rows": 0.698744769874477,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 405,
+                "coverage": 0.7417582417582418,
+                "model_accuracy": 0.7209876543209877,
+                "market_accuracy_same_rows": 0.7209876543209877,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 333,
+                "coverage": 0.6098901098901099,
+                "model_accuracy": 0.7477477477477478,
+                "market_accuracy_same_rows": 0.7477477477477478,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 257,
+                "coverage": 0.4706959706959707,
+                "model_accuracy": 0.7898832684824902,
+                "market_accuracy_same_rows": 0.7898832684824902,
+                "accuracy_delta": 0.0
+              }
+            }
+          }
+        },
+        "absolute_confidence_thresholds": {
+          "0.55": {
+            "n": 4730,
+            "coverage": 0.7440616643070631,
+            "model_accuracy": 0.6435517970401692,
+            "market_accuracy_same_rows": 0.6435517970401692,
+            "accuracy_delta": 0.0
+          },
+          "0.60": {
+            "n": 3202,
+            "coverage": 0.5036967122856694,
+            "model_accuracy": 0.6786383510306059,
+            "market_accuracy_same_rows": 0.6786383510306059,
+            "accuracy_delta": 0.0
+          },
+          "0.65": {
+            "n": 2056,
+            "coverage": 0.32342299826962406,
+            "model_accuracy": 0.7363813229571985,
+            "market_accuracy_same_rows": 0.7363813229571985,
+            "accuracy_delta": 0.0
+          },
+          "0.70": {
+            "n": 1324,
+            "coverage": 0.2082743432436684,
+            "model_accuracy": 0.7726586102719033,
+            "market_accuracy_same_rows": 0.7726586102719033,
+            "accuracy_delta": 0.0
+          }
+        }
+      },
+      "2026": {
+        "n": 4497,
+        "dates": 230,
+        "market_brier": 0.22664148893956332,
+        "model_brier": 0.22655114404268853,
+        "brier_delta": -9.034489687478925e-05,
+        "market_log_loss": 0.6429949804332608,
+        "model_log_loss": 0.642741137469435,
+        "log_loss_delta": -0.0002538429638258469,
+        "market_accuracy": 0.6148543473426729,
+        "model_accuracy": 0.6168556815654881,
+        "accuracy_delta": 0.0020013342228152103,
+        "direction_disagreement_rate": 0.00778296642205915,
+        "model_only_correct": 22,
+        "market_only_correct": 13,
+        "mcnemar_exact_p": 0.175465248990804,
+        "ci95": {
+          "brier_delta": [
+            -0.00025916535831722724,
+            7.664929461964611e-05
+          ],
+          "log_loss_delta": [
+            -0.0006639067975300406,
+            0.00014049850110947574
+          ],
+          "accuracy_delta": [
+            -0.00041693376883706256,
+            0.004601031749378645
+          ]
+        },
+        "ci95_by_block_dates": {
+          "1": {
+            "brier_delta": [
+              -0.0002327825886618866,
+              5.277366661052597e-05
+            ],
+            "log_loss_delta": [
+              -0.000592480030544175,
+              7.422282221045998e-05
+            ],
+            "accuracy_delta": [
+              -0.000443279630198125,
+              0.0045445213173559195
+            ]
+          },
+          "7": {
+            "brier_delta": [
+              -0.00025916535831722724,
+              7.664929461964611e-05
+            ],
+            "log_loss_delta": [
+              -0.0006639067975300406,
+              0.00014049850110947574
+            ],
+            "accuracy_delta": [
+              -0.00041693376883706256,
+              0.004601031749378645
+            ]
+          },
+          "14": {
+            "brier_delta": [
+              -0.0002747219562150622,
+              7.960341611621573e-05
+            ],
+            "log_loss_delta": [
+              -0.0006932879416559736,
+              0.000136938115256942
+            ],
+            "accuracy_delta": [
+              0.0,
+              0.0044565588142864866
+            ]
+          }
+        },
+        "by_sport": {
+          "bk": {
+            "n": 1148,
+            "dates": 150,
+            "market_brier": 0.19267022045702745,
+            "model_brier": 0.1925112135936998,
+            "brier_delta": -0.00015900686332765308,
+            "market_log_loss": 0.5690048292409967,
+            "model_log_loss": 0.568410484183717,
+            "log_loss_delta": -0.0005943450572796816,
+            "market_accuracy": 0.7038327526132404,
+            "model_accuracy": 0.7090592334494773,
+            "accuracy_delta": 0.005226480836236934,
+            "direction_disagreement_rate": 0.013937282229965157,
+            "model_only_correct": 11,
+            "market_only_correct": 5,
+            "mcnemar_exact_p": 0.210113525390625,
+            "ci95": {
+              "brier_delta": [
+                -0.0007588466155094176,
+                0.00040100846769526696
+              ],
+              "log_loss_delta": [
+                -0.0020836245351870545,
+                0.0007755441504445292
+              ],
+              "accuracy_delta": [
+                -0.0010836903257620118,
+                0.011657008546689418
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.000576182376336536,
+                  0.00025864389139377105
+                ],
+                "log_loss_delta": [
+                  -0.0016379598155058612,
+                  0.00043667737791066463
+                ],
+                "accuracy_delta": [
+                  -0.0017592091891438322,
+                  0.011991076666563742
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.0007588466155094176,
+                  0.00040100846769526696
+                ],
+                "log_loss_delta": [
+                  -0.0020836245351870545,
+                  0.0007755441504445292
+                ],
+                "accuracy_delta": [
+                  -0.0010836903257620118,
+                  0.011657008546689418
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -0.0008447073896791483,
+                  0.0004324623184447977
+                ],
+                "log_loss_delta": [
+                  -0.0022692648659993547,
+                  0.0008499385690536038
+                ],
+                "accuracy_delta": [
+                  -0.0016631417237496975,
+                  0.010679756456358283
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 1007,
+                "coverage": 0.877177700348432,
+                "model_accuracy": 0.7378351539225422,
+                "market_accuracy_same_rows": 0.7378351539225422,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 854,
+                "coverage": 0.7439024390243902,
+                "model_accuracy": 0.7564402810304449,
+                "market_accuracy_same_rows": 0.7564402810304449,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 706,
+                "coverage": 0.6149825783972126,
+                "model_accuracy": 0.7932011331444759,
+                "market_accuracy_same_rows": 0.7932011331444759,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 565,
+                "coverage": 0.4921602787456446,
+                "model_accuracy": 0.8176991150442477,
+                "market_accuracy_same_rows": 0.8176991150442477,
+                "accuracy_delta": 0.0
+              }
+            }
+          },
+          "bs": {
+            "n": 2993,
+            "dates": 159,
+            "market_brier": 0.2428620730402205,
+            "model_brier": 0.24278616942503636,
+            "brier_delta": -7.590361518410996e-05,
+            "market_log_loss": 0.678398181049687,
+            "model_log_loss": 0.6782337270195726,
+            "log_loss_delta": -0.00016445403011432067,
+            "market_accuracy": 0.570664884731039,
+            "model_accuracy": 0.5716672235215503,
+            "accuracy_delta": 0.0010023387905111927,
+            "direction_disagreement_rate": 0.006348145673237555,
+            "model_only_correct": 11,
+            "market_only_correct": 8,
+            "mcnemar_exact_p": 0.6476058959960938,
+            "ci95": {
+              "brier_delta": [
+                -0.00020912671248474453,
+                6.286921530645796e-05
+              ],
+              "log_loss_delta": [
+                -0.00044626210082241075,
+                0.00013403753567268502
+              ],
+              "accuracy_delta": [
+                -0.001388985608170845,
+                0.003483164872800378
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.00019809809119323535,
+                  6.0304560878434934e-05
+                ],
+                "log_loss_delta": [
+                  -0.00042314417995421464,
+                  0.00012322806341701976
+                ],
+                "accuracy_delta": [
+                  -0.001675055909574683,
+                  0.0038598551822938074
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -0.00020912671248474453,
+                  6.286921530645796e-05
+                ],
+                "log_loss_delta": [
+                  -0.00044626210082241075,
+                  0.00013403753567268502
+                ],
+                "accuracy_delta": [
+                  -0.001388985608170845,
+                  0.003483164872800378
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -0.0002170331230841969,
+                  6.221375038015722e-05
+                ],
+                "log_loss_delta": [
+                  -0.0004695346671789727,
+                  0.00013267221423030368
+                ],
+                "accuracy_delta": [
+                  -0.001380381732362944,
+                  0.003111701134431226
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 1886,
+                "coverage": 0.6301369863013698,
+                "model_accuracy": 0.5933191940615058,
+                "market_accuracy_same_rows": 0.5933191940615058,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 887,
+                "coverage": 0.29635816906114265,
+                "model_accuracy": 0.62119503945885,
+                "market_accuracy_same_rows": 0.62119503945885,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 319,
+                "coverage": 0.10658202472435684,
+                "model_accuracy": 0.6739811912225705,
+                "market_accuracy_same_rows": 0.6739811912225705,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 99,
+                "coverage": 0.033077180086869364,
+                "model_accuracy": 0.7474747474747475,
+                "market_accuracy_same_rows": 0.7474747474747475,
+                "accuracy_delta": 0.0
+              }
+            }
+          },
+          "vl": {
+            "n": 356,
+            "dates": 121,
+            "market_brier": 0.19981791591901335,
+            "model_brier": 0.1998275743406433,
+            "brier_delta": 9.658421629942817e-06,
+            "market_log_loss": 0.5839469863988664,
+            "model_log_loss": 0.5840396471560697,
+            "log_loss_delta": 9.266075720337786e-05,
+            "market_accuracy": 0.699438202247191,
+            "model_accuracy": 0.699438202247191,
+            "accuracy_delta": 0.0,
+            "direction_disagreement_rate": 0.0,
+            "model_only_correct": 0,
+            "market_only_correct": 0,
+            "mcnemar_exact_p": 1.0,
+            "ci95": {
+              "brier_delta": [
+                -9.99288100071951e-05,
+                0.00013906940466209503
+              ],
+              "log_loss_delta": [
+                -0.0002082235136714904,
+                0.0004593105573249776
+              ],
+              "accuracy_delta": [
+                0.0,
+                0.0
+              ]
+            },
+            "ci95_by_block_dates": {
+              "1": {
+                "brier_delta": [
+                  -0.00010886219398559774,
+                  0.00013635625220798794
+                ],
+                "log_loss_delta": [
+                  -0.00023771871736146652,
+                  0.000448412837971579
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.0
+                ]
+              },
+              "7": {
+                "brier_delta": [
+                  -9.99288100071951e-05,
+                  0.00013906940466209503
+                ],
+                "log_loss_delta": [
+                  -0.0002082235136714904,
+                  0.0004593105573249776
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.0
+                ]
+              },
+              "14": {
+                "brier_delta": [
+                  -9.038275877131155e-05,
+                  0.00015187002980177118
+                ],
+                "log_loss_delta": [
+                  -0.0001832508291276727,
+                  0.0004788232180650738
+                ],
+                "accuracy_delta": [
+                  0.0,
+                  0.0
+                ]
+              }
+            },
+            "by_sport": {},
+            "absolute_confidence_thresholds": {
+              "0.55": {
+                "n": 317,
+                "coverage": 0.8904494382022472,
+                "model_accuracy": 0.7192429022082019,
+                "market_accuracy_same_rows": 0.7192429022082019,
+                "accuracy_delta": 0.0
+              },
+              "0.60": {
+                "n": 272,
+                "coverage": 0.7640449438202247,
+                "model_accuracy": 0.7389705882352942,
+                "market_accuracy_same_rows": 0.7389705882352942,
+                "accuracy_delta": 0.0
+              },
+              "0.65": {
+                "n": 225,
+                "coverage": 0.6320224719101124,
+                "model_accuracy": 0.7466666666666667,
+                "market_accuracy_same_rows": 0.7466666666666667,
+                "accuracy_delta": 0.0
+              },
+              "0.70": {
+                "n": 185,
+                "coverage": 0.5196629213483146,
+                "model_accuracy": 0.7621621621621621,
+                "market_accuracy_same_rows": 0.7621621621621621,
+                "accuracy_delta": 0.0
+              }
+            }
+          }
+        },
+        "absolute_confidence_thresholds": {
+          "0.55": {
+            "n": 3210,
+            "coverage": 0.7138092061374249,
+            "model_accuracy": 0.6510903426791277,
+            "market_accuracy_same_rows": 0.6510903426791277,
+            "accuracy_delta": 0.0
+          },
+          "0.60": {
+            "n": 2013,
+            "coverage": 0.447631754503002,
+            "model_accuracy": 0.6944858420268256,
+            "market_accuracy_same_rows": 0.6944858420268256,
+            "accuracy_delta": 0.0
+          },
+          "0.65": {
+            "n": 1250,
+            "coverage": 0.27796308650211254,
+            "model_accuracy": 0.7544,
+            "market_accuracy_same_rows": 0.7544,
+            "accuracy_delta": 0.0
+          },
+          "0.70": {
+            "n": 849,
+            "coverage": 0.1887925283522348,
+            "model_accuracy": 0.7974087161366313,
+            "market_accuracy_same_rows": 0.7974087161366313,
+            "accuracy_delta": 0.0
+          }
+        }
+      }
+    },
+    "promotion": {
+      "status": "shadow_only",
+      "passed": false,
+      "statistical_gate_passed": false,
+      "pristine_holdout_available": false,
+      "holdout_evidence": {
+        "available": false,
+        "reason": "no verified preregistration manifest and append-only prediction ledger",
+        "required_evidence": [
+          "model_code_sha256",
+          "feature_spec_sha256",
+          "data_cutoff_at",
+          "frozen_at",
+          "evaluation_start",
+          "evaluation_end",
+          "prediction_ledger_sha256",
+          "minimum_300_predictions"
+        ]
+      },
+      "minimum_material_accuracy_gain": 0.005,
+      "maximum_sport_accuracy_degradation": 0.005,
+      "maximum_sport_brier_degradation": 0.0005,
+      "rule": "사전등록된 완전한 미래 구간에서 1·7·14일 블록 Brier·log loss CI 상한<0, 적중 CI 하한과 점추정 모두 +0.5%p 이상, 종목별 비열등성 통과",
+      "mcnemar_is_descriptive_only": true
+    }
+  },
+  "combo_selector": {
+    "target": 2.0,
+    "candidate_days": 231,
+    "fixed_available_days": 231,
+    "dynamic_available_days": 231,
+    "union_available_days": 231,
+    "paired_days": 231,
+    "paired_coverage_of_union": 1.0,
+    "fixed_bins": {
+      "hit_rate": 0.4458874458874459,
+      "roi": -0.14850216450216452,
+      "mean_odds": 1.9093679653679652,
+      "mean_legs": 2.0,
+      "mean_estimated_hit": 0.4341929127894461
+    },
+    "dynamic_2_to_4_legs": {
+      "hit_rate": 0.42424242424242425,
+      "roi": -0.19114415584415587,
+      "mean_odds": 1.9061813852813854,
+      "mean_legs": 2.0,
+      "mean_estimated_hit": 0.4356487496283739
+    },
+    "dynamic_minus_fixed": {
+      "hit_rate": -0.021645021645021644,
+      "hit_rate_ci95": [
+        -0.07792207792207792,
+        0.030303030303030304
+      ],
+      "roi": -0.04264199134199133,
+      "roi_ci95": [
+        -0.1499668722943722,
+        0.056884761904761924
+      ],
+      "ci95_by_block_dates": {
+        "1": {
+          "hit_delta": [
+            -0.08658008658008658,
+            0.04329004329004329
+          ],
+          "roi_delta": [
+            -0.16613554112554108,
+            0.0814382683982684
+          ]
+        },
+        "7": {
+          "hit_delta": [
+            -0.07792207792207792,
+            0.030303030303030304
+          ],
+          "roi_delta": [
+            -0.1499668722943722,
+            0.056884761904761924
+          ]
+        },
+        "14": {
+          "hit_delta": [
+            -0.07792207792207792,
+            0.030303030303030304
+          ],
+          "roi_delta": [
+            -0.14988754329004325,
+            0.05714427489177488
+          ]
+        }
+      },
+      "dynamic_only_wins": 26,
+      "fixed_only_wins": 31,
+      "mcnemar_exact_p_descriptive": 0.5966417603730826
+    },
+    "decision": "shadow_only_keep_fixed_default",
+    "limitations": [
+      "archive price timestamp is unknown",
+      "both policy specifications were inspected on 2026 and are not pristine",
+      "existing fixed bins were informed by statistics that include 2026"
+    ]
+  },
+  "operating_decision": "market_only_with_shadow_residual"
+}

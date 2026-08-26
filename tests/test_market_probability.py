@@ -1,15 +1,22 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import numpy as np
+import pytest
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from devig import market_probabilities, shin  # noqa: E402
+from cross_market_edge import devig as cross_market_devig  # noqa: E402
+from outcome_signal_backtest import devig as outcome_signal_devig  # noqa: E402
+from combo_optimizer import pick_target_legs  # noqa: E402
 from recommendation_policy import (  # noqa: E402
     MAX_AUTO_RECOMMENDATION_ODDS,
     automatic_selection_exclusion_reason,
@@ -18,7 +25,7 @@ from recommendation_policy import (  # noqa: E402
 )
 import today_combo  # noqa: E402
 from today_combo import (  # noqa: E402
-    BANNED, SAFE_TARGET_BINS, daily_recommendation, pick_legs, ticket_metrics,
+    daily_recommendation, kickoff_at, pick_legs, ticket_metrics,
 )
 
 
@@ -41,6 +48,19 @@ def test_site_market_probability_is_shin():
     assert abs(sum(market_probabilities(odds)) - 1.0) < 1e-9
 
 
+def test_round_one_december_kickoff_uses_previous_calendar_year():
+    kickoff = kickoff_at("12.31(목) 21:30", 2026, 1)
+    assert kickoff.isoformat() == "2025-12-31T21:30:00+09:00"
+
+
+def test_snapshot_backtests_share_production_market_probability():
+    odds = np.asarray([1.29, 4.1, 7.7], dtype=float)
+    expected = np.asarray(market_probabilities(odds.tolist()), dtype=float)
+
+    np.testing.assert_allclose(cross_market_devig(odds), expected)
+    np.testing.assert_allclose(outcome_signal_devig(odds), expected)
+
+
 def test_pick_prefers_higher_market_probability_inside_same_bin():
     lower = candidate("early", 0.55)
     lower["kickoff_at"] = "2026-08-20T09:00:00+09:00"
@@ -48,12 +68,12 @@ def test_pick_prefers_higher_market_probability_inside_same_bin():
     assert pick_legs([lower, higher], ["1.5-1.8"]) == [higher]
 
 
-def test_pick_prefers_better_conservative_history_before_market_probability():
+def test_pick_does_not_turn_bucket_roi_into_candidate_probability():
     better_history = candidate("better-history", 0.55)
     better_history["hist_roi"] = -0.04
     higher_market = candidate("higher-market", 0.62)
     higher_market["hist_roi"] = -0.20
-    assert pick_legs([higher_market, better_history], ["1.5-1.8"]) == [better_history]
+    assert pick_legs([higher_market, better_history], ["1.5-1.8"]) == [higher_market]
 
 
 def test_ticket_metrics_use_selected_games_not_historical_bin_average():
@@ -64,10 +84,10 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["hit_est"] == 0.264
     assert metrics["upset_risk"] == 0.736
     assert metrics["expected_roi"] == -0.107
-    assert metrics["calibrated_expected_roi"] == -0.19
-    assert metrics["conservative_expected_roi"] < -0.19
-    assert metrics["conservative_hit_est"] < metrics["calibrated_hit_est"]
-    assert metrics["calibration_min_n"] == 10_000
+    assert metrics["calibrated_expected_roi"] == metrics["expected_roi"]
+    assert metrics["conservative_expected_roi"] == metrics["expected_roi"]
+    assert metrics["conservative_hit_est"] == metrics["calibrated_hit_est"]
+    assert metrics["calibration_min_n"] is None
 
 
 def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
@@ -103,8 +123,13 @@ def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
                   "calibrated_hit_est": 0.60,
                   "conservative_expected_roi": -0.201}]
     assert daily_recommendation(too_risky)["action"] == "pass"
+    malformed = [{"ok": True, "target": 1.4,
+                  "calibrated_hit_est": 0.60,
+                  "conservative_expected_roi": None}]
+    assert daily_recommendation(malformed)["action"] == "pass"
     positive = [{"ok": True, "target": 3, "actual_odds": 3.0,
                  "conservative_hit_est": 0.35, "conservative_expected_roi": 0.05}]
+    positive[0]["has_validated_edge"] = True
     assert daily_recommendation(positive)["action"] == "buy"
 
 
@@ -121,12 +146,17 @@ def test_high_odds_and_market_underdog_are_not_auto_recommendations():
     assert automatic_selection_exclusion_reason("승무패", 1.95, 0.45, 0.45) is None
 
 
-def test_high_targets_use_more_safe_legs_instead_of_underdog_bins():
-    assert len(SAFE_TARGET_BINS[5]) == 3
-    assert len(SAFE_TARGET_BINS[8]) == 3
-    assert len(SAFE_TARGET_BINS[12]) == 4
-    assert all(wanted_bin not in BANNED
-               for bins in SAFE_TARGET_BINS.values() for wanted_bin in bins)
+def test_target_optimizer_maximizes_joint_probability_without_fixed_bins():
+    choices = [
+        candidate("a", 0.80, 1.20),
+        candidate("b", 0.78, 1.20),
+        candidate("c", 0.60, 1.60),
+        candidate("d", 0.58, 1.60),
+    ]
+    choices[0]["bin"] = choices[1]["bin"] = "1.0-1.3"
+    picked = pick_target_legs(choices, 1.4, 2, 4)
+    assert [row["event_key"] for row in picked] == ["a", "b"]
+    assert math.prod(row["odds"] for row in picked) == pytest.approx(1.44)
 
 
 def test_today_combo_filters_odd_even_and_next_day_candidates(monkeypatch, tmp_path):

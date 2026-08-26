@@ -40,7 +40,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from bets import SEL_NAMES                                          # noqa: E402
+from bets import SEL_NAMES, winner_index                            # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from player_commentary import with_player_context                    # noqa: E402
@@ -48,8 +48,8 @@ from devig import market_probabilities                              # noqa: E402
 from recommendation_policy import automatic_selection_exclusion_reason  # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
                          match_game)
-from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
-                       set_rest_days)
+from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
+                       load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
                         p_one_run, p_over, p_win)
 from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
@@ -63,6 +63,7 @@ OUT = ROOT / "docs" / "data"
 
 WINDOW = 20
 _LINE = re.compile(r"([-+]?\d+\.?\d*)")
+_GAME_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 # 실측 기반 감점 (findings/마켓선택.md)
 CROWDED = {("핸디캡", -1.0), ("언더오버", 2.5)}    # 물량 몰려 촘촘한 라인
@@ -95,6 +96,20 @@ def clean(x: str) -> str:
     """
     s = re.sub(r"^\s*-?\d+(?:\.\d+)?\s+", "", str(x).strip())
     return re.sub(r"\s+-?\d+(?:\.\d+)?\s*$", "", s).strip()
+
+
+def _game_datetime(game: dict) -> pd.Timestamp | None:
+    match = _GAME_TIME.search(str(game.get("date") or ""))
+    if not match:
+        return None
+    month, day, hour, minute = map(int, match.groups())
+    year = int(game.get("year") or datetime.now().year)
+    if int(game.get("round") or 0) == 1 and month == 12:
+        year -= 1
+    try:
+        return pd.Timestamp(year=year, month=month, day=day, hour=hour, minute=minute)
+    except ValueError:
+        return None
 
 
 # 점수를 믿을 수 있는 마켓 — 아래 참조
@@ -552,8 +567,9 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
     """
     lg, ht, at = g["league"], g["home"], g["away"]
     by_team = by_team or {}
-    fh = forms.get((lg, ht)) or by_team.get(ht)
-    fa = forms.get((lg, at)) or by_team.get(at)
+    kickoff = _game_datetime(g)
+    fh = form_for_game(forms.get((lg, ht)) or by_team.get(ht), kickoff)
+    fa = form_for_game(forms.get((lg, at)) or by_team.get(at), kickoff)
     g["form_src"] = "리그" if forms.get((lg, ht)) else ("풀링" if fh else None)
     g["form_home"], g["form_away"] = _form_dict(fh), _form_dict(fa)
     g["h2h"] = h2h_text(h2h, lg, ht, at)
@@ -663,6 +679,53 @@ def _sane(pm):
     return pm
 
 
+def _remove_hindsight_prediction(game: dict) -> None:
+    """사전 원장이 없는 종료 경기에서 현재시점 모델 산출물을 제거한다."""
+    game["추천"] = None
+    game["홈승률"] = None
+    game["prediction_status"] = "prediction_ledger_required"
+    game["해설"] = None
+    game["해설기본"] = None
+    for option in game.get("options", []):
+        option["모델확률"] = None
+        option["예상손익"] = None
+        option["괴리"] = None
+        option.pop("추천점수", None)
+        option.pop("제외", None)
+
+
+def _sanitize_prediction_document(doc: dict, as_of: pd.Timestamp | None = None) -> dict:
+    """종료·시작 경기의 사후 추천을 지우고 원장 없는 집계를 닫는다.
+
+    수집기가 정산 결과를 늦게 반영해도 킥오프가 지난 순간부터 새 추천으로 보이지
+    않아야 한다. 아직 경기 전인 ``live`` 항목은 그대로 보존한다.
+    """
+    now = pd.Timestamp(as_of) if as_of is not None else pd.Timestamp.now(tz="Asia/Seoul")
+    if now.tzinfo is not None:
+        now = now.tz_convert("Asia/Seoul").tz_localize(None)
+    for game in doc.get("past", []):
+        _remove_hindsight_prediction(game)
+    for game in doc.get("live", []):
+        kickoff = _game_datetime(game)
+        if (game.get("status") in ("경기전", "배당대기")
+                and kickoff is not None and kickoff <= now):
+            game["status"] = "결과확인"
+        if game.get("status") in ("정산", "결과확인"):
+            _remove_hindsight_prediction(game)
+    doc["tally"] = None
+    doc["tally_status"] = "prediction_ledger_required"
+    return doc
+
+
+def _sanitize_existing_output() -> int:
+    path = OUT / "picks_v2.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    _sanitize_prediction_document(doc)
+    path.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"사후 추천 제거: {path}")
+    return 0
+
+
 def main() -> int:
     st = team_lambdas()
     sess = _session()
@@ -672,7 +735,8 @@ def main() -> int:
     # ⚠️ season 을 안 넘기면 4년치가 누적된다 (LG 300승 212패 · 시즌 맞대결 32승 24패).
     #    "최근 폼" 이라는 말이 무의미해진다.
     hist = load_history()
-    FORMS, H2H = build_forms(hist, season=season)
+    now_for_forms = pd.Timestamp.now(tz="Asia/Seoul").tz_localize(None)
+    FORMS, H2H = build_forms(hist, season=season, as_of=now_for_forms)
     STARTERS = starters(refresh=True)
     LINEUPS = lineup_profiles()
     TIERS = team_tiers()
@@ -719,7 +783,7 @@ def main() -> int:
                     k0 = f"{r.league}|{ht0}|{at0}|{r.date_text}"
                     if k0 not in games:
                         games[k0] = {
-                            "round": rnd, "date": r.date_text, "league": r.league,
+                            "year": season, "round": rnd, "date": r.date_text, "league": r.league,
                             "sport": r.sport, "home": ht0, "away": at0,
                             "lam_home": (round(lam0[0], 2) if lam0 else None),
                             "lam_away": (round(lam0[1], 2) if lam0 else None),
@@ -769,18 +833,21 @@ def main() -> int:
                 pm = [None] * len(r.odds)      # 모델 없음 — 배당·등급만 보여준다
 
             names = SEL_NAMES.get((r.market_family, nw), tuple(f"sel{i}" for i in range(nw)))
-            settled = r.result not in UNPLAYED and r.result != ""
+            canonical_winner = winner_index(nw, r.result)
+            settled = canonical_winner is not None
+            unknown_result = r.result not in UNPLAYED and r.result != "" and not settled
 
             # ⭐ 경기 단위로 묶는다 — 같은 경기가 여러 상품으로 중복 발매되므로
             gkey = f"{r.league}|{ht}|{at}|{r.date_text}"
             g = games.setdefault(gkey, {
-                "round": rnd, "date": r.date_text, "league": r.league,
+                "year": season, "round": rnd, "date": r.date_text, "league": r.league,
                 "sport": r.sport, "home": ht, "away": at,
                 "lam_home": (round(lam[0], 2) if lam else None),
                 "lam_away": (round(lam[1], 2) if lam else None),
                 "lam_src": (lam[2] if lam else None),
                 "no_model": lam is None,
-                "status": "정산" if settled else "경기전",
+                "status": ("정산" if settled else
+                           ("결과확인" if unknown_result else "경기전")),
                 "score": None, "결과": None,
                 "options": []})
             g.pop("no_odds", None)
@@ -794,6 +861,8 @@ def main() -> int:
                         g["score"] = sc
                 if g.get("결과") is None and r.market_family in ("승패", "승무패"):
                     g["결과"] = r.result
+            elif unknown_result and g["status"] != "정산":
+                g["status"] = "결과확인"
             elif g["status"] == "배당대기":
                 g["status"] = "경기전"
 
@@ -855,7 +924,9 @@ def main() -> int:
                 o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
             g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
             g["선택지수"] = len(g["options"])
-            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
+            if g["status"] not in ("정산", "결과확인"):
+                _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM,
+                              H2H_ANY, LINEUPS, SHOTFORM)
             out.append(g)
             continue
 
@@ -905,7 +976,9 @@ def main() -> int:
                 best, best_score = o, score
         g["추천"] = best
         g["선택지수"] = len(g["options"])
-        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
+        if g["status"] not in ("정산", "결과확인"):
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM,
+                          H2H_ANY, LINEUPS, SHOTFORM)
         out.append(g)
 
     # 시간순 정렬
@@ -916,27 +989,34 @@ def main() -> int:
     commentary_llm.flush()      # 캐시 저장 + 이번 주기 호출/적중 요약
 
     out.sort(key=lambda g: (g["date"], g["home"]))
-    live_g = [g for g in out if g["status"] in ("경기전", "배당대기")]
     past_g = [g for g in out if g["status"] == "정산"]
+    unresolved_g = [g for g in out if g["status"] == "결과확인"]
 
+    # 현재 전체 기록으로 다시 계산한 과거 모델값은 사전 예측이 아니다. 정산 결과와
+    # 당시 시장 배당은 남기되 추천·모델 확률·해설을 제거해 UI가 다시 조합하지 못하게 한다.
+    for game in [*past_g, *unresolved_g]:
+        _remove_hindsight_prediction(game)
+
+    live_g = [g for g in out if g["status"] in ("경기전", "배당대기", "결과확인")]
+
+    # 과거 경기에 현재까지의 전체 기록으로 λ를 다시 붙인 추천은 당시 예측이 아니다.
+    # 실제로 표시 28건 중 당시 데이터로 같은 선택은 8건뿐이었다. 사전 저장한 원장이
+    # 생기기 전까지는 가짜 적중률을 만드는 대신 집계를 비운다.
     tally = None
-    done = [g["추천"] for g in past_g if g.get("추천") and g["추천"].get("적중") is not None]
-    if done:
-        wins = sum(1 for o in done if o["적중"])
-        roi = float(np.mean([(o["배당"] - 1) if o["적중"] else -1.0 for o in done]))
-        tally = {"n": len(done), "wins": wins,
-                 "hit_rate": round(wins / len(done), 4), "roi": round(roi, 4)}
 
     doc = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "rounds": rounds, "live": live_g, "past": past_g, "tally": tally,
+        "tally_status": "prediction_ledger_required",
         "note": ("전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 "
                  "경기마다 하나만 골라 보여줍니다."),
         "warning": ("⚠️ 아직 베팅에 쓸 수 없습니다. 모델이 시장보다 부정확해서, "
                     "모델과 시장의 판단이 다를수록 모델이 틀렸을 확률이 높습니다. "
-                    "그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다."),
+                    "그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다. "
+                    "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다."),
         "gap_cap": MAX_SANE_GAP,
     }
+    _sanitize_prediction_document(doc)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "picks_v2.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1),
                                        encoding="utf-8")
@@ -954,16 +1034,15 @@ def main() -> int:
     return 0
 
 
-def _hit(nw: int, result: str, i: int) -> bool:
-    W = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
-         (2, "핸디승"): 0, (2, "핸디패"): 1,
-         (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
-         (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1}
-    return W.get((nw, result)) == i
+def _hit(nw: int, result: str, i: int) -> bool | None:
+    winner = winner_index(nw, result)
+    return None if winner is None else winner == i
 
 
 if __name__ == "__main__":
     # ⚠️ --selftest 는 main() **앞에서** 분기해야 한다. 뒤에 두면 영영 안 돈다.
     if "--selftest" in sys.argv:
         raise SystemExit(_selftest())
+    if "--sanitize-existing" in sys.argv:
+        raise SystemExit(_sanitize_existing_output())
     raise SystemExit(main())

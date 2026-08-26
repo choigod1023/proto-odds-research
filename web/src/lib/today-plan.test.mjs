@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
+import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs,
   challengeOptions, recommendationFromPlans, ticketMetrics } from "./today-plan.js";
 
 const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
@@ -90,11 +90,11 @@ assert.equal(metrics.actual_odds, 3.38);
 assert.equal(metrics.hit_est, 0.264);
 assert.equal(metrics.upset_risk, 0.736);
 assert.equal(metrics.expected_roi, -0.107);
-assert.equal(metrics.calibrated_expected_roi, -0.19);
-assert.ok(metrics.conservative_expected_roi < -0.19);
-assert.ok(metrics.conservative_hit_est < metrics.calibrated_hit_est);
-assert.equal(metrics.calibration_min_n, 10_000);
-assert.match(metrics.probability_basis, /Wilson/);
+assert.equal(metrics.calibrated_expected_roi, metrics.expected_roi);
+assert.equal(metrics.conservative_expected_roi, metrics.expected_roi);
+assert.equal(metrics.conservative_hit_est, metrics.calibrated_hit_est);
+assert.equal(metrics.calibration_min_n, null);
+assert.match(metrics.probability_basis, /Shin/);
 
 const pass = recommendationFromPlans([
   { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.39 },
@@ -125,8 +125,15 @@ const tooRiskyForDailyChallenge = recommendationFromPlans([
     conservative_expected_roi: -0.201 },
 ]);
 assert.equal(tooRiskyForDailyChallenge.action, "pass");
+const malformedChallenge = recommendationFromPlans([
+  { ok: true, target: 1.4, calibrated_hit_est: 0.60,
+    conservative_expected_roi: null },
+]);
+assert.equal(malformedChallenge.action, "pass",
+  "누락된 손실지표를 0으로 바꿔 소액 도전으로 승격하면 안 된다");
 const buy = recommendationFromPlans([{ ok: true, target: 3, actual_odds: 3,
-  conservative_hit_est: 0.35, conservative_expected_roi: 0.05 }]);
+  conservative_hit_est: 0.35, conservative_expected_roi: 0.05,
+  has_validated_edge: true }]);
 assert.equal(buy.action, "buy");
 
 const challengePlans = [
@@ -164,9 +171,8 @@ assert.equal(fallbackChallenge[0].target, 1.4);
 assert.equal(fallbackChallenge[0].requested_target, 3);
 assert.deepEqual(challengeOptions([], 10_000), []);
 
-assert.equal(SAFE_TARGET_BINS[5].length, 3);
-assert.equal(SAFE_TARGET_BINS[8].length, 3);
-assert.equal(SAFE_TARGET_BINS[12].length, 4);
-
 assert.equal(kickoffTime({ date: "08.19(수) 07:00" }, 2026), Date.parse("2026-08-19T07:00:00+09:00"));
+assert.equal(kickoffTime({ date: "12.31(목) 21:30", round: 1 }, 2026),
+  Date.parse("2025-12-31T21:30:00+09:00"),
+  "발매연도 1회차의 12월 31일은 이전 달력연도로 해석해야 한다");
 console.log("today-plan schedule tests passed");
