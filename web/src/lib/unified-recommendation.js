@@ -33,7 +33,7 @@ export function canonicalPick(game, options, grades) {
   return { o: option, g: grade, tie: false, policy: "prediction-calibrated" };
 }
 
-/** 경기 카드 추천을 우선하되, 추천이 없는 경기는 안전한 시장 최유력으로 보완한다. */
+/** 경기 모델 추천과 시장가격 기반 보완 선택을 서로 다른 근거로 표시한다. */
 export function alignTodayRecommendations(today, games = []) {
   if (!today) return today;
   const inputCandidates = today.candidates || [];
@@ -41,12 +41,13 @@ export function alignTodayRecommendations(today, games = []) {
     const option = canonicalOption(game, game?.options || []);
     return option ? [[selectionGroupKey(option, game.round), selectionKey(option, game.round)]] : [];
   }));
-  const candidates = eligibleAutoSelections(inputCandidates).map((candidate) => {
+  const safeCandidates = eligibleAutoSelections(inputCandidates);
+  const candidates = safeCandidates.map((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
     return {
       ...candidate,
       recommendation_basis: wanted === selectionKey(candidate, candidate?.round)
-        ? "game-model" : "market-favorite-fallback",
+        ? "game-model-match" : "market-only",
     };
   });
   const allowed = new Set(candidates.map((candidate) => selectionKey(candidate, candidate?.round)));
@@ -57,7 +58,7 @@ export function alignTodayRecommendations(today, games = []) {
   }));
   const solo = today.solo && keep(today.solo) ? today.solo : null;
   const gameModelCandidates = candidates.filter(
-    (candidate) => candidate.recommendation_basis === "game-model",
+    (candidate) => candidate.recommendation_basis === "game-model-match",
   ).length;
   return {
     ...today,
@@ -69,7 +70,7 @@ export function alignTodayRecommendations(today, games = []) {
       safe_candidates: candidates.length,
       game_model_candidates: gameModelCandidates,
       market_fallback_candidates: candidates.length - gameModelCandidates,
-      dropped_by_safety: inputCandidates.length - candidates.length,
+      dropped_by_safety: inputCandidates.length - safeCandidates.length,
     },
   };
 }

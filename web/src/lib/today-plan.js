@@ -192,10 +192,14 @@ function kellyGrowth(plan) {
     (1 - probability) * Math.log1p(-fraction);
 }
 
-export function recommendationFromPlans(plans) {
+export function recommendationFromPlans(plans, solo = null) {
   const available = (plans || []).filter((plan) => plan?.ok);
-  if (!available.length) return { action: "none", target: null, index: -1,
-    why: "오늘 23:59 KST까지 구성 가능한 조합이 없다" };
+  if (!available.length) {
+    if (solo) return { action: "solo", target: null, index: -1,
+      why: "조합 기준을 충족한 선택은 없고 단폴 후보만 남았다" };
+    return { action: "none", target: null, index: -1,
+      why: "오늘 23:59 KST까지 구성 가능한 조합이 없다" };
+  }
   const positive = available.filter((plan) => Number(plan.conservative_expected_roi) > 0);
   const challenge = available.filter((plan) =>
     Number(plan.target) <= DAILY_CHALLENGE_MAX_TARGET &&
@@ -226,7 +230,7 @@ export function recommendationFromPlans(plans) {
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
-    why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다";
+    why = "소액 도전 기준에도 미달했다";
   }
   const index = available.findIndex((plan) => plan.target === best.target);
   return {
@@ -236,6 +240,19 @@ export function recommendationFromPlans(plans) {
     budget_ratio: action === "challenge" ? DAILY_CHALLENGE_BUDGET_RATIO : null,
     why,
   };
+}
+
+/** 헤더의 자동 판정과 처음 펼쳐지는 티켓이 같은 조합을 가리키게 한다. */
+export function ticketIndexForRecommendation(recommendation, plans, solo = null) {
+  const available = (plans || []).filter((plan) => plan?.ok);
+  if (recommendation?.action === "solo" && solo) return -1;
+  const stated = Number(recommendation?.index);
+  if (Number.isInteger(stated) && stated >= 0 && stated < available.length) return stated;
+  const byTarget = available.findIndex((plan) =>
+    Number(plan.target) === Number(recommendation?.target));
+  if (byTarget >= 0) return byTarget;
+  if (!available.length && solo) return -1;
+  return 0;
 }
 
 /**
@@ -377,7 +394,7 @@ export function availableToday(today, now = Date.now()) {
     ...today,
     plans,
     solo: measuredSolo,
-    recommendation: recommendationFromPlans(plans),
+    recommendation: recommendationFromPlans(plans, measuredSolo),
     candidates,
     next: candidates[0] || null,
   };

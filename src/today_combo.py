@@ -375,7 +375,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 _metric_number(plan, "conservative_expected_roi", -99.0),
                 _metric_number(plan, "calibrated_hit_est", 0.0)))
             action = "pass"
-            why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다"
+            why = "소액 도전 기준에도 미달했다"
     return {"action": action, "recommended_target": best["target"],
             "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO
                              if action == "challenge" else None),
@@ -446,7 +446,7 @@ def build() -> dict:
                 "목표별 보정 적중 하한(1.4배 55%·2배 40%)을 넘으면 "
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
-                "검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. "
+                "검증되지 않은 역배는 자동 추천에서 제외한다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "
                 "단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
     }

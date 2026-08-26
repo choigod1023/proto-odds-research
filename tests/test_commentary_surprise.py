@@ -54,14 +54,14 @@ def _preview() -> str:
 
 def test_실제_기준선으로_언더오버를_판단한다():
     out = _preview()
-    assert "실제 기준선 11.5점" in out
-    assert "언더 쪽" in out
+    assert "실제 기준선은 11.5점" in out
+    assert "최근 득실 계산 결과는 언더다" in out
     assert "기준선 8.5" not in out
 
 
 def test_시장확률을_자체_적중확률이라_부르지_않는다():
     out = _preview()
-    assert "시장 기본값은 LA다저스 승 65%" in out
+    assert "승패 시장 1순위는 LA다저스 승이다. 시장확률은 65%" in out
     assert "적중 확률은 65%" not in out
 
 
@@ -70,7 +70,7 @@ def test_교차_마켓_충돌과_역배_경로를_설명한다():
     assert "어라 포인트" in out
     assert "검증 전 득점 모델은 53%" in out
     assert "콜로로키 쪽 핸디캡(H +2.5)" in out
-    assert "1점차 가능성" in out
+    assert "1점차 확률" in out
     assert "접전이 길어져" in out
     assert "쏠림 의심" in out
 

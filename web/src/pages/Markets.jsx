@@ -3,14 +3,15 @@ import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../componen
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import Prices from "./Prices.jsx";
-import { displayCommentary } from "../lib/commentary.js";
+import { commentaryParts, displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { alignTodayRecommendations, canonicalPick } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
+import { availableToday, nextTodayRefreshDelay, recommendationFromPlans,
+  ticketIndexForRecommendation } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
@@ -102,7 +103,7 @@ export default function Markets() {
   }, 300000);   // 5분
   const { d, grades, combo, today } = data;
 
-  if (at && !d) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
+  if (at && !d) return <Shell><Empty>데이터를 불러오지 못했다.</Empty></Shell>;
   if (!d) return <Shell><Empty>불러오는 중…</Empty></Shell>;
   const stale = isDataStale(d.generated_at);
 
@@ -110,8 +111,8 @@ export default function Markets() {
     <Shell meta={metaLine(d, at)}>
       {stale ? (
         <section id="today-brief" className="mx-auto mt-5 max-w-[1180px] rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
-          <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
-          <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 배당과 추천 판단을 잠시 중단했습니다. 수집이 복구되면 최신 정보가 자동으로 다시 표시됩니다.</p>
+          <b className="text-[15px]">데이터 갱신이 지연 중이다.</b>
+          <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 배당과 추천 판정을 중단했다. 수집이 복구되면 최신 정보를 다시 표시한다.</p>
         </section>
       ) : (
         <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(d.live || []), ...(d.past || [])]} /></section>
@@ -167,7 +168,7 @@ function Shell({ children, meta }) {
       <header className="market-header">
         <div>
           <h1>오늘 경기·배당 분석</h1>
-          <p>예상 결과와 경기력 신호, 선발·라인업, 같은 경기의 회차별 배당을 한 화면에서 봅니다.</p>
+          <p>최종 수치 선택과 판정 근거, 선발·라인업, 같은 경기의 회차별 배당을 한 화면에서 봅니다.</p>
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
@@ -214,25 +215,32 @@ function TodayPlan({ today, combo, grades, games }) {
   const alignedToday = useMemo(() => alignTodayRecommendations(today, games), [today, games]);
   const activeToday = useMemo(() => availableToday(alignedToday, clock), [alignedToday, clock]);
   const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
-  const recommendation = useMemo(() => recommendationFromPlans(plans), [plans]);
+  const solo = activeToday.solo || null;
+  const recommendation = useMemo(() => recommendationFromPlans(plans, solo), [plans, solo]);
+  const recommendedIndex = useMemo(
+    () => ticketIndexForRecommendation(recommendation, plans, solo),
+    [recommendation, plans, solo],
+  );
   const candidateSources = useMemo(() => (activeToday.candidates || []).reduce(
     (counts, candidate) => {
-      if (candidate.recommendation_basis === "game-model") counts.model += 1;
-      else counts.fallback += 1;
+      if (candidate.recommendation_basis === "game-model-match") counts.model += 1;
+      else counts.market += 1;
       return counts;
-    }, { model: 0, fallback: 0 }), [activeToday.candidates]);
-  const solo = activeToday.solo || null;
-  const [i, setI] = useState(0);
+    }, { model: 0, market: 0 }), [activeToday.candidates]);
+  const [i, setI] = useState(() => recommendedIndex);
+  useEffect(() => {
+    setI(recommendedIndex);
+  }, [recommendedIndex, recommendation.action, recommendation.target]);
 
   if (!plans.length && !solo) {
     return (
       <Card className="today-brief">
-        <div className="brief-heading"><h2>오늘의 비교 후보</h2></div>
-        <Empty>오늘 23:59 KST까지 살 수 있는 조합이 없다. 날짜가 바뀌면 자동으로 다시 찾는다.</Empty>
+        <div className="brief-heading"><h2>오늘의 구매 판정</h2></div>
+        <Empty>오늘 추천은 없다. 23:59 KST까지 구매 가능한 조합이 없으며 날짜가 바뀌면 다시 계산한다.</Empty>
       </Card>
     );
   }
-  const selectedIndex = i < 0 ? -1 : (i < plans.length ? i : 0);
+  const selectedIndex = i < 0 && solo ? -1 : (i >= 0 && i < plans.length ? i : 0);
   const p = selectedIndex < 0 ? null : plans[selectedIndex];
   const selected = p || solo;
   const shouldPass = selectedIndex < 0 || !(Number(selected?.conservative_expected_roi) > 0);
@@ -245,8 +253,8 @@ function TodayPlan({ today, combo, grades, games }) {
   return (
     <Card className="today-brief">
       <div className="brief-heading">
-        <h2>오늘의 비교 후보</h2>
-        <p>자동 구매 지시가 아닌 비교용 후보입니다. 최종 판단은 직접 합니다.</p>
+        <h2>오늘의 구매 판정</h2>
+        <p>서비스 판정과 사용자의 실제 구매 결정을 구분한다.</p>
       </div>
 
       {activeToday.next && (
@@ -258,11 +266,11 @@ function TodayPlan({ today, combo, grades, games }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        경기 카드 추천 우선 · 추천 없으면 시장 최유력 보완 · 역배 금지 · 다리당 2.20 미만
+        구매 판정은 시장가격·배당구간 실측치로 계산 · 경기 모델 일치 여부를 별도 표시 · 역배 금지 · 다리당 2.20 미만
       </div>
       <div className="mt-1 text-[11.5px] text-ink3">
-        현재 안전 후보 {candidateSources.model + candidateSources.fallback}개
-        {' · '}경기 모델 {candidateSources.model}개 · 시장 보완 {candidateSources.fallback}개
+        현재 추천 자격 후보 {candidateSources.model + candidateSources.market}개
+        {' · '}경기 모델과 일치 {candidateSources.model}개 · 시장 수치만 {candidateSources.market}개
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
@@ -273,11 +281,13 @@ function TodayPlan({ today, combo, grades, games }) {
             : "border-sev2 bg-paper text-sev3"
       }`}>
         {recommendation.action === "buy" ? (
-          <>조건이 가장 안정적인 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+          <>구매 추천은 <b>{recommendation.target}배 조합</b>이다. {recommendation.why}</>
         ) : recommendation.action === "challenge" ? (
-          <>변동성이 큰 관찰 후보 <b>{recommendation.target}배 조합</b> · {recommendation.why}</>
+          <>소액 도전은 <b>{recommendation.target}배 조합</b>이다. 하루 예산의 10%를 투입 기준으로 삼는다. {recommendation.why}</>
+        ) : recommendation.action === "solo" ? (
+          <>오늘 조합 구매는 없다. 단폴 비교 후보는 <b>{solo.match} {solo.market}{solo.market_label ? ` ${solo.market_label}` : ""} {solo.sel}</b>이다. {recommendation.why}</>
         ) : (
-          <>현재는 관찰만 · 비교 후보 {recommendation.target}배 · {recommendation.why}</>
+          <>오늘은 구매하지 않는다. 비교 1순위는 <b>{recommendation.target}배 조합</b>이다. {recommendation.why}</>
         )}
         {recommendedPlan?.conservative_expected_roi != null && (
           <> · 보수 기대 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
@@ -285,7 +295,7 @@ function TodayPlan({ today, combo, grades, games }) {
       </div>
 
       <details className="budget-simulator">
-        <summary>금액 시뮬레이터 · 원할 때만 열어 손실 범위를 비교합니다.</summary>
+        <summary>금액 시뮬레이터 · 원할 때만 열어 손실 범위를 비교한다.</summary>
         <BetPreference
           plans={plans}
           solo={solo}
@@ -304,7 +314,7 @@ function TodayPlan({ today, combo, grades, games }) {
             {q.target}배
             {Number(q.target) === Number(recommendation.target) && (
               <span className="text-[10px]">
-                {recommendation.action === "buy" ? "1순위" : recommendation.action === "challenge" ? "도전" : "관찰"}
+                {recommendation.action === "buy" ? "구매" : recommendation.action === "challenge" ? "소액 도전" : "비교 1순위"}
               </span>
             )}
             <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
@@ -334,7 +344,7 @@ function TodayPlan({ today, combo, grades, games }) {
       </div>
 
       <div className="mt-3">
-        {(p ? p.picks : [solo]).map((c, k) => <Leg key={k} c={c} />)}
+        {(p ? p.picks : solo ? [solo] : []).map((c, k) => <Leg key={k} c={c} />)}
       </div>
 
       {bl && (
@@ -378,6 +388,9 @@ const Leg = ({ c }) => (
     </span>
     <span className="min-w-[170px] flex-1">
       {c.match} — <b>{c.market}{c.market_label ? ` ${c.market_label}` : ""} {c.sel}</b>
+      <small className="ml-1.5 text-[10px] text-ink3">
+        {c.recommendation_basis === "game-model-match" ? "경기 모델과 일치" : "시장 수치만"}
+      </small>
     </span>
     <span className="tnum font-semibold">{odds(c.odds)}</span>
     {c.beats && (
@@ -595,7 +608,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
 
   // 경기별 추천은 생성기가 시장·모델 일치와 안전 배당을 통과시켜 확정한 하나만 쓴다.
   // 실시간 배당이 안전 범위를 벗어나면 예전 선택을 고집하지 않고 보류한다.
-  const pick = wait || stale ? null : canonicalPick(g, opts, grades);
+  const pick = wait || stale ? null : canonicalPick(g, g.options || [], grades);
   const done = g.status === "정산";
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
   const playing = !!lv && !lv.finished;
@@ -641,29 +654,29 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
           </small>
         </span>
         <span className="match-call-inline">
-          <small>경기 예상</small>
+          <small>경기 모델 판정</small>
           <b>{forecast?.headline || fallbackForecast}</b>
         </span>
         <span className="flex gap-1.5">
           {wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : pick ? <OddsChip label={pick.o["선택"]} value={odds(pick.o["배당"])}
                 grade={pick.g ? gcls(pick.g.grade) : "U"}
-                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · 경기 예상과 같은 통합 추천`} />
-              : <OddsChip label="추천" value="보류" />}
+                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · 최종 수치 선택과 같은 통합 추천`} />
+              : <OddsChip label="경기 모델" value={g["판단"] === "모델 없음 — 배당만" ? "미계산" : "추천 제외"} />}
         </span>
       </summary>
       <div className="match-detail">
         {wait && (
           <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
             {stale
-              ? "오래된 데이터로는 배당 발표 여부를 판단하지 않습니다. 최신 수집이 확인될 때까지 기다려 주세요."
+              ? "오래된 데이터로는 배당 발표 여부를 판정하지 않는다. 최신 수집을 기다린다."
               : waitText === "상태 확인 불가"
-                ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했습니다."
-                : "배당이 아직 발표되지 않았습니다. 경기 정보는 먼저 확인할 수 있습니다."}
+                ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했다."
+                : "배당은 아직 발표되지 않았다. 경기 정보는 먼저 확인할 수 있다."}
           </div>
         )}
         {analysis && <PredictionPanel analysis={analysis} />}
-        <Why g={g} />
+        <Why g={g} pick={pick} canJudge={!wait && !stale} />
         {!wait && <details className="price-sheet">
           <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
           <div className="overflow-x-auto py-3">
@@ -703,7 +716,7 @@ function OptTable({ opts, grades, tie, pick }) {
                 {o["게임번호"] || "–"}</td>
               <td className={td}>
                 {gr && <GradeBadge grade={t ? "T" : gcls(gr.grade)}
-                  title={t ? `양쪽이 같은 배당대(${gr.bin}) — 추천 보류`
+                  title={t ? `양쪽이 같은 배당대(${gr.bin}) — 추천 제외`
                            : `배당 ${gr.bin} 실측 ${(gr.roi * 100).toFixed(1)}%`} />}
                 {o.market}{o.label ? ` ${o.label}` : ""} · {o["선택"]}
                 {o["적중"] === true ? " ✔" : o["적중"] === false ? " ✕" : ""}
@@ -1118,7 +1131,7 @@ function AvailabilityPanel({ g }) {
     </p>}
   </>;
 }
-function Why({ g }) {
+function Why({ g, pick, canJudge }) {
   const f = [];
   const s = g["선발"];
   if (s && (s.home || s.away)) f.push(`선발 ${g.home} ${s.home || "?"} / ${g.away} ${s.away || "?"}`);
@@ -1127,11 +1140,12 @@ function Why({ g }) {
   if (fh) f.push(`${g.home} ${fh}`);
   if (fa) f.push(`${g.away} ${fa}`);
   if (g.lam_src === "풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
-  // 결론 문장(첫 마침표까지)을 떼어 굵게 — 판단이 본문에 묻히면 안 된다
+  // 산출 시점 결론과 현재 배당 판정을 구분한다. 실시간 가격 때문에 추천 자격을
+  // 잃었으면 오래된 결론·배당 숫자를 현재 결정처럼 굵게 반복하지 않는다.
   const txt = displayCommentary(g);
-  const cut = txt.indexOf(". ");
-  const verdict = cut > 0 ? txt.slice(0, cut + 1) : txt;
-  const rest = cut > 0 ? txt.slice(cut + 2) : "";
+  const { verdict, rest } = commentaryParts(txt, {
+    hadRecommendation: !!g["추천"], currentEligible: !!pick, canJudge,
+  });
   const tabs = infoTabs(g, txt);
   const [active, setActive] = useState(tabs[0]?.id || "summary");
   if (!tabs.length && !f.length) return null;
@@ -1187,7 +1201,7 @@ function Evidence({ grades, tally }) {
       </div>
       {tally && (
         <div className="mt-3 text-[11.5px] leading-[1.75] text-ink3">
-          모델 수치는 <b className="text-sev3">참고용이다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
+          모델 추천은 <b className="text-sev3">구매 근거로 채택하지 않는다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
           정산 {tally.n}건에서 적중 {(tally.hit_rate * 100).toFixed(1)}%,
           수익률 <b className="text-sev3">{(tally.roi * 100).toFixed(1)}%</b> 였다 —
           아무거나 살 때(−13.7%)보다 나쁘다. 모델이 시장보다 부정확해서,

@@ -30,15 +30,28 @@ def _starter_label(starter: dict) -> str:
     return f"{starter['name']}({', '.join(bits)})" if bits else str(starter["name"])
 
 
+def _starters_confirmed(info: dict) -> bool:
+    status = info.get("starter_status") or {}
+    if status is True:
+        return True
+    if not isinstance(status, dict):
+        return False
+    state = str(status.get("state") or "").lower()
+    return status.get("confirmed") is True or state in {
+        "confirmed", "official", "official_today",
+    }
+
+
 def _starter_sentence(home: str, away: str, info: dict) -> str | None:
     home_starter, away_starter = _starter(info, "home"), _starter(info, "away")
+    prefix = "확정 선발" if _starters_confirmed(info) else "예고 선발"
     if home_starter and away_starter:
-        return (f"선발 맞대결은 {home} {_starter_label(home_starter)}, "
-                f"{away} {_starter_label(away_starter)}로 잡혔습니다.")
+        return (f"{prefix} 맞대결은 {home} {_starter_label(home_starter)}, "
+                f"{away} {_starter_label(away_starter)}이다.")
     if home_starter:
-        return f"{home} 선발은 {_starter_label(home_starter)}입니다."
+        return f"{home} {prefix}은 {_starter_label(home_starter)}이다."
     if away_starter:
-        return f"{away} 선발은 {_starter_label(away_starter)}입니다."
+        return f"{away} {prefix}은 {_starter_label(away_starter)}이다."
     return None
 
 
@@ -79,12 +92,12 @@ def _lineup_sentence(home: str, away: str, info: dict) -> str | None:
     state = (info.get("lineup_status") or {}).get("state")
     joined = ", ".join(labels)
     if state == "official_today":
-        return f"오늘 공식 타순의 팀별 OPS 상위 타자는 {joined}입니다."
+        return f"오늘 공식 타순의 팀별 OPS 상위 타자는 {joined}이다."
     if state == "mixed_official_projected":
-        return (f"현재 타순 정보는 오늘 공식 명단과 최근 경기 기반 예상 명단이 섞여 있으며, "
-                f"팀별 OPS 상위 타자는 {joined}입니다.")
-    return (f"최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 {joined}입니다. "
-            "해당 경기의 확정 명단은 아닙니다.")
+        return (f"현재 타순 정보에는 오늘 공식 명단과 최근 경기 기반 예상 명단이 섞여 있다. "
+                f"팀별 OPS 상위 타자는 {joined}이다.")
+    return (f"최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 {joined}이다. "
+            "해당 경기의 확정 명단은 아니다.")
 
 
 def _generic_player_label(player: dict, sport: str) -> str:
@@ -117,7 +130,7 @@ def _key_player_sentence(home: str, away: str, sport: str, info: dict) -> str | 
         player = next((row for row in (key_players.get(side) or []) if row.get("name")), None)
         if player:
             labels.append(f"{team} {_generic_player_label(player, sport)}")
-    return f"공식 시즌 기록의 팀별 주요 선수는 {', '.join(labels)}입니다." if labels else None
+    return f"공식 시즌 기록의 팀별 주요 선수는 {', '.join(labels)}이다." if labels else None
 
 
 def _unavailable_sentence(home: str, away: str, info: dict) -> str | None:
@@ -128,7 +141,7 @@ def _unavailable_sentence(home: str, away: str, info: dict) -> str | None:
         for row in rows:
             status = row.get("status") or "출전 불가"
             labels.append(f"{team} {row['name']}({status})")
-    return f"공식 출전 상태에 표시된 선수는 {', '.join(labels)}입니다." if labels else None
+    return f"공식 출전 상태에 표시된 선수는 {', '.join(labels)}이다." if labels else None
 
 
 def player_context_text(home: str, away: str, sport: str, info: dict | None) -> str:
@@ -153,6 +166,12 @@ def with_player_context(base: str | None, home: str, away: str,
     if not context:
         return base
     cut = base.find(". ")
+    # 최종 선택 뒤에는 모델확률·시장확률·기대수익 문장이 이어진다. 선수 문맥이
+    # 그 사이를 갈라 선택과 수치 근거를 떼어 놓지 않도록 두 문장 뒤에 붙인다.
+    if base.startswith(("최종 수치 선택은", "산출 시점의 최종 선택은")) and cut >= 0:
+        second = base.find(". ", cut + 2)
+        if second >= 0:
+            cut = second
     if cut < 0:
         return f"{base.rstrip()} {context}".strip()
     return f"{base[:cut + 1]} {context} {base[cut + 2:]}".strip()

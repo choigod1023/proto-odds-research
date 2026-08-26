@@ -15,7 +15,7 @@ const today = { candidates: [
 ] };
 const alignedToday = alignTodayRecommendations(today, [game]);
 assert.deepEqual(alignedToday.candidates.map((row) => row.sel), ["홈"]);
-assert.equal(alignedToday.candidates[0].recommendation_basis, "game-model");
+assert.equal(alignedToday.candidates[0].recommendation_basis, "game-model-match");
 assert.deepEqual(alignedToday.alignment, {
   input_candidates: 2,
   safe_candidates: 1,
@@ -28,13 +28,15 @@ const fallback = { candidates: [
   { round: 8, game_no: "20", market: "승패", market_label: "", sel: "원정",
     odds: 1.85, is_market_favorite: true },
 ] };
-const alignedFallback = alignTodayRecommendations(fallback, [game]).candidates[0];
-assert.equal(alignedFallback.sel, "원정", "모델 추천이 없는 경기는 시장 최유력으로 보완한다");
-assert.equal(alignedFallback.recommendation_basis, "market-favorite-fallback");
+const alignedFallback = alignTodayRecommendations(fallback, [game]);
+assert.equal(alignedFallback.candidates[0].sel, "원정",
+  "시장가격으로 계산한 보완 선택은 매일 조합 후보로 유지한다");
+assert.equal(alignedFallback.candidates[0].recommendation_basis, "market-only",
+  "모델 미계산 후보를 경기 모델 추천이라고 부르지 않는다");
 
 const withoutGames = alignTodayRecommendations(fallback, []);
 assert.equal(withoutGames.candidates.length, 1,
-  "경기 카드 수집이 늦거나 비어도 안전한 시장 후보를 없애지 않는다");
+  "경기 카드 수집이 늦어도 시장 수치 후보는 유지한다");
 assert.equal(withoutGames.alignment.market_fallback_candidates, 1);
 
 const unsafeFallback = { candidates: [

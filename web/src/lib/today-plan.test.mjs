@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { availableToday, kickoffTime, nextTodayRefreshDelay, pickNextLegs, SAFE_TARGET_BINS,
-  challengeOptions, recommendationFromPlans, ticketMetrics } from "./today-plan.js";
+  challengeOptions, recommendationFromPlans, ticketIndexForRecommendation,
+  ticketMetrics } from "./today-plan.js";
 
 const leg = (event, kickoff, bin, odds, gameNo, marketProb = 0.5) => ({
   event_key: event,
@@ -82,6 +83,12 @@ assert.deepEqual(cutoffResult.candidates.map((candidate) => candidate.event_key)
 assert.equal(nextTodayRefreshDelay(cutoffToday, beforeLastMinute), 11 * 1000);
 const afterLastStart = Date.parse("2026-08-19T23:59:01+09:00");
 assert.equal(availableToday(cutoffToday, afterLastStart).candidates.length, 0);
+
+const soloOnly = leg("단폴 경기", "2026-08-19T20:00:00+09:00", "1.0-1.3", 1.25, "10", .72);
+assert.deepEqual(recommendationFromPlans([], soloOnly), {
+  action: "solo", target: null, index: -1,
+  why: "조합 기준을 충족한 선택은 없고 단폴 후보만 남았다",
+});
 assert.equal(nextTodayRefreshDelay(cutoffToday, Date.parse("2026-08-19T23:59:50+09:00")), 11 * 1000,
   "오늘 후보가 없으면 KST 자정 직후 다시 확인해야 한다");
 
@@ -115,6 +122,10 @@ const balancedChallenge = recommendationFromPlans([
 ]);
 assert.equal(balancedChallenge.action, "challenge");
 assert.equal(balancedChallenge.target, 2, "관문을 넘은 2배를 1.4배보다 우선한다");
+assert.equal(ticketIndexForRecommendation(balancedChallenge, [
+  { ok: true, target: 1.4 }, { ok: true, target: 2 },
+]), 1, "헤더가 2배를 판정하면 처음 펼쳐지는 티켓도 2배여야 한다");
+assert.equal(ticketIndexForRecommendation(recommendationFromPlans([], soloOnly), [], soloOnly), -1);
 const materiallyWorseDouble = recommendationFromPlans([
   { ok: true, target: 1.4, calibrated_hit_est: 0.62, conservative_expected_roi: -0.10 },
   { ok: true, target: 2, calibrated_hit_est: 0.43, conservative_expected_roi: -0.19 },

@@ -41,7 +41,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
-from commentary import josa, make_preview, make_short               # noqa: E402
+from commentary import decision_summary, josa, make_preview, make_short  # noqa: E402
 import commentary_llm                                               # noqa: E402
 from player_commentary import with_player_context                    # noqa: E402
 from devig import market_probabilities                              # noqa: E402
@@ -626,16 +626,18 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         market_context = _market_context(g["options"])
         g["시장문맥"] = market_context
         base_commentary = make_preview(ht, at, lg, fh, fa, h2h,
-                                       p_home if p_home is not None else 0.5,
-                                       p_mkt if p_mkt is not None else 0.5,
+                                       p_home, p_mkt,
                                        o_h or 0, o_a or 0, g.get("payout") or 88.0,
                                        0.0, 0.0, sport=g["sport"],
                                        market_context=market_context)
         if g.get("라인업메모"):
             base_commentary = (base_commentary or "") + " " + g["라인업메모"]
-        # 템플릿 문장을 LLM 이 말투만 다듬는다. 사실은 건드리지 않는다.
-        # 키가 없거나·실패하거나·검사에 걸리면 템플릿 원문이 그대로 남는다.
+        # 템플릿 근거만 LLM 이 다듬는다. 최종 선택은 그 뒤 코드로 붙인다.
+        # 그래야 LLM 이 확정 선택을 완곡하게 만들거나 다른 마켓으로 바꿀 수 없다.
         base_commentary = commentary_llm.polish(base_commentary)
+        verdict = decision_summary(g.get("추천"), ht, at, g["sport"])
+        if verdict:
+            base_commentary = f"{verdict} {base_commentary or ''}".strip()
         g["해설기본"] = base_commentary
         g["해설"] = with_player_context(
             base_commentary, ht, at, g["sport"], g.get("선발"))

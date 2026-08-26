@@ -56,6 +56,7 @@ CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "commentary.json"
 BUDGET_PATH = ROOT / "data" / "raw" / "llm_cache" / "budget.json"
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
+STYLE_VERSION = "korean-decision-v3"
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models"
 TIMEOUT = 25
 MAX_CALLS = int(os.environ.get("LLM_MAX_CALLS", "120"))
@@ -103,19 +104,24 @@ SYSTEM = """너는 스포츠 프리뷰 문장을 다듬는 편집자다. 기자�
   일정 — 원문에 없으면 쓰지 마라. 너는 이 경기에 대해 아무것도 모른다.
 - 숫자를 바꾸지 마라. 지우는 건 되지만 새로 만들거나 반올림하지 마라.
 - 승패 판단을 뒤집지 마라. 원문이 A 우세라고 하면 A 우세다.
-- 확신을 키우지 마라. "유력하다"를 "확실하다"로 바꾸지 마라. 이 글을 읽고
-  사람이 돈을 건다. 원문보다 단정적으로 들리면 안 된다.
+- **결정과 결과를 구분하라.** 원문이 "승패 시장 1순위", "시장 수치 1위", "수치 판정",
+  "최종 모델 선택"으로 결론을 냈다면 `예상한다`, `가능성이 있다`, `~로 보인다`로
+  물러서지 마라. 계산 결과와 선택은 단정형으로 보존한다.
+- 경기 결과를 보장하지 마라. "최종 선택은 A다"는 유지하지만 이를 "A가 반드시
+  이긴다", "확실하다"로 바꾸지 마라. 확률의 불확실성은 원문의 숫자로 표현한다.
+- 분석 문체는 `한다체`로만 쓴다. `합니다`, `됩니다`, `습니다`, `입니다` 같은
+  존댓말 종결을 섞지 마라.
 - 이모지·마크다운·머리말·인용부호를 붙이지 마라. 고친 본문만 출력해라.
-- "시장 기본값"은 배당에서 읽은 시장 확률이지 이 서비스의 적중 확률이 아니다.
+- "승패 시장 1순위"와 "시장 수치 1위"는 배당에서 읽은 시장 확률이지 이 서비스의 적중 확률이 아니다.
   이를 "예상", "추천", "적중 확률"로 바꾸지 마라.
-- "어라 포인트"와 "역배가 나온다면"의 조건부 의미를 보존하라. 역배가 유력하다고
+- "어라 포인트"와 "모델이 계산한 역배 경로"의 의미를 보존하라. 역배가 유력하다고
   단정하지 마라.
 - "쏠림 의심"을 실제 쏠림이나 투표량이 확인된 것처럼 고치지 마라.
 
 고칠 것:
 - 같은 구조가 반복되면 문장을 합치거나 순서를 바꿔라.
 - 숫자가 연달아 나오면 흐름을 먼저 말하고 숫자를 뒤로 보내라.
-- "~이다" 가 계속되면 어미를 섞어라. 딱딱한 보고서 말투를 없애라.
+- "~이다"가 반복되면 문장 구조와 서술 동사를 바꾸되 `한다체`는 유지한다.
 - 길이는 원문과 비슷하게. 늘리지 마라."""
 
 
@@ -141,11 +147,39 @@ def _save(cache: dict) -> None:
 
 
 def _key(text: str) -> str:
-    """템플릿 문장 + 모델이 키다. 문장이 같으면 다시 부를 이유가 없다."""
-    return hashlib.sha256(f"{MODEL}\n{text}".encode()).hexdigest()[:24]
+    """템플릿 문장 + 모델 + 문체 계약 버전이 키다."""
+    return hashlib.sha256(f"{MODEL}\n{STYLE_VERSION}\n{text}".encode()).hexdigest()[:24]
 
 
 _NUM = re.compile(r"\d+(?:\.\d+)?")
+_DECISIVE = re.compile(
+    r"(?:승패 시장 1순위|1순위는|시장 수치 1위|수치 판정|최종 (?:모델|수치) 선택|"
+    r"추천하지 않는다|추천에서 제외한다)"
+)
+_SOFTENED = re.compile(r"(?:예상(?:한다|된다|했다|합니다|됩니다|했습니다)|"
+                       r"전망(?:한다|된다|합니다|됩니다)|가능성이 (?:있다|높다|있습니다|높습니다)|"
+                       r"(?:것|듯)으로 보(?:인다|입니다)|것 같(?:다|습니다)|듯하(?:다|습니다))")
+_OVERCONFIDENT = re.compile(r"(?:반드시|확실(?:하다|합니다|한)|100%)")
+_HONORIFIC_ENDING = re.compile(
+    r"(?:합니다|됩니다|습니다|입니다|했습니다|였습니다|겠습니다|하세요)(?:[.!?]|$)"
+)
+_MARKET_FIRST_PATTERNS = (
+    re.compile(r"승패 시장 1순위는\s*(?P<choice>[^.]+?)\s*승(?:이다|이다가|이고|[.!?,]|$)"),
+    re.compile(r"1순위는\s*(?P<choice>[^.]+?)\s*승(?:이다|이다가|이고|[.!?,]|$)"),
+    re.compile(r"시장은\s*(?P<choice>[^.]+?)\s*승을\s*1순위(?:로|에)"),
+    re.compile(r"(?P<choice>[^.]+?)\s*승이\s*승패 시장 1순위(?:다|이다|로)"),
+)
+
+
+def _market_first_choices(text: str) -> set[str]:
+    """승패 시장 1순위의 팀을 뽑는다. 방향이 바뀌거나 사라지면 원문을 쓴다."""
+    choices = set()
+    for pattern in _MARKET_FIRST_PATTERNS:
+        for match in pattern.finditer(text):
+            choice = re.sub(r"\s+", " ", match.group("choice")).strip()
+            if choice:
+                choices.add(choice)
+    return choices
 
 
 def _looks_safe(src: str, out: str) -> tuple[bool, str]:
@@ -165,6 +199,19 @@ def _looks_safe(src: str, out: str) -> tuple[bool, str]:
     # 마크다운·이모지가 섞이면 형식 지시를 무시한 것이다
     if re.search(r"[*#`]|^\s*[-•]", out) or re.search(r"[\U0001F300-\U0001FAFF]", out):
         return False, "형식 위반(마크다운·이모지)"
+    # 수치로 확정한 결정을 LLM 이 다시 완곡한 예상문으로 바꾸면 원문의 의미가
+    # 달라진다. 결과 보장은 막되, 결정 자체는 흐리지 않는다.
+    if _DECISIVE.search(src) and _SOFTENED.search(out):
+        return False, "수치 판정을 완곡한 예상문으로 바꿨다"
+    source_market_first = _market_first_choices(src)
+    if source_market_first:
+        output_market_first = _market_first_choices(out)
+        if output_market_first != source_market_first:
+            return False, "승패 시장 1순위의 방향을 바꾸거나 삭제했다"
+    if _OVERCONFIDENT.search(out) and not _OVERCONFIDENT.search(src):
+        return False, "수치 선택을 경기 결과 보장으로 바꿨다"
+    if _HONORIFIC_ENDING.search(out):
+        return False, "문체 위반(한다체가 아닌 존댓말 종결)"
     return True, ""
 
 
