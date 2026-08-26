@@ -97,7 +97,14 @@ def from_snapshots() -> pd.DataFrame:
     if not ts_files():
         return pd.DataFrame()
     t = load_timeseries()
-    t["ts"] = pd.to_datetime(t["ts"])
+    # 스냅샷에는 초 단위와 마이크로초 단위 ISO 시각이 함께 존재한다.
+    # pandas 2의 단일 포맷 추론은 첫 행 형식으로 고정돼 정상 행까지 실패시킨다.
+    t["ts"] = pd.to_datetime(t["ts"], format="mixed", utc=True, errors="coerce")
+    # append 중 프로세스 중단으로 두 CSV 레코드가 붙은 손상 행이 과거 샤드에 1건 있다.
+    # n_way가 2/3이 아닌 행은 결과와 무관한 입력 손상이므로 명시적으로 감사 후 제외한다.
+    t["n_way"] = pd.to_numeric(t["n_way"], errors="coerce")
+    t = t.dropna(subset=["ts", "n_way"])
+    t = t[t["n_way"].isin([2, 3])]
     t = t.sort_values("ts")
     # ⚠️ 결과로 먼저 거르면 안 된다. 스냅샷은 시점별 스냅이라 **경기 전 행의 result 는
     #    '경기전'** 이다. 미리 거르면 경기 전 가격이 통째로 날아가고 first==last 가 돼
@@ -108,9 +115,11 @@ def from_snapshots() -> pd.DataFrame:
     settled = t[~t["result"].isin(SKIP)].groupby(key).tail(1)
     last = settled.merge(first, on=key)
     rows = []
-    for r in last.itertuples():
-        k = f"{r.year}-{r.round}-{r.game_no}"
-        rows += _pair(r.o_first, r.odds, r.n_way, r.result, k, "스냅샷")
+    # ``itertuples``는 ``_``가 들어간 열 이름을 위치명으로 치환할 수 있어 스키마가
+    # 바뀌면 n_way 자리에 sport가 들어가는 조용한 오염이 생긴다. 명시적 열 조회 사용.
+    for _, r in last.iterrows():
+        k = f"{r['year']}-{r['round']}-{r['game_no']}"
+        rows += _pair(r["o_first"], r["odds"], r["n_way"], r["result"], k, "스냅샷")
     return pd.DataFrame(rows)
 
 
