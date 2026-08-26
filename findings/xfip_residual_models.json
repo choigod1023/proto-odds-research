@@ -1,0 +1,401 @@
+{
+  "protocol": "2023 fit; 2024 ridge; <=2024 refit; 2025 blend; 2026 final test",
+  "split_n": {
+    "fit": 507,
+    "tune": 553,
+    "calibrate": 563,
+    "test": 355
+  },
+  "models": {
+    "market": {
+      "ridge": null,
+      "blend_weight": 0.0,
+      "calibrate": {
+        "n": 563,
+        "accuracy": 0.5968028419182948,
+        "accuracy_wilson95": [
+          0.5557591470354809,
+          0.6365344798752482
+        ],
+        "brier": 0.23405299166738983,
+        "logloss": 0.6601817572988145,
+        "roi": -0.10087033747779751,
+        "average_odds": 1.5265364120781526
+      },
+      "test": {
+        "n": 355,
+        "accuracy": 0.5746478873239437,
+        "accuracy_wilson95": [
+          0.5226894238500323,
+          0.6250081141495639
+        ],
+        "brier": 0.24077190570983578,
+        "logloss": 0.6743342614696198,
+        "roi": -0.12205633802816901,
+        "average_odds": 1.5407887323943663
+      },
+      "test_change_vs_market": {
+        "accuracy_pp": 0.0,
+        "brier": 0.0,
+        "logloss": 0.0,
+        "roi_pp": 0.0
+      }
+    },
+    "xfip": {
+      "columns": [
+        "xfip_diff"
+      ],
+      "ridge": 1.0,
+      "blend_weight": 1.0,
+      "calibrate_raw": {
+        "n": 563,
+        "accuracy": 0.5950266429840142,
+        "accuracy_wilson95": [
+          0.5539666024057226,
+          0.6347987010754519
+        ],
+        "brier": 0.23217997654800154,
+        "logloss": 0.6558881510736865,
+        "roi": -0.09955595026642984,
+        "average_odds": 1.5355595026642983
+      },
+      "calibrate": {
+        "n": 563,
+        "accuracy": 0.5950266429840142,
+        "accuracy_wilson95": [
+          0.5539666024057226,
+          0.6347987010754519
+        ],
+        "brier": 0.23217997654800154,
+        "logloss": 0.6558881510736865,
+        "roi": -0.09955595026642984,
+        "average_odds": 1.5355595026642983
+      },
+      "test_raw": {
+        "n": 355,
+        "accuracy": 0.5605633802816902,
+        "accuracy_wilson95": [
+          0.5085589574954154,
+          0.611271120504257
+        ],
+        "brier": 0.24005396489465428,
+        "logloss": 0.6728430344736569,
+        "roi": -0.14177464788732394,
+        "average_odds": 1.5508732394366203
+      },
+      "test": {
+        "n": 355,
+        "accuracy": 0.5605633802816902,
+        "accuracy_wilson95": [
+          0.5085589574954154,
+          0.611271120504257
+        ],
+        "brier": 0.24005396489465428,
+        "logloss": 0.6728430344736569,
+        "roi": -0.14177464788732394,
+        "average_odds": 1.5508732394366203
+      },
+      "paired_brier_bootstrap": {
+        "delta": -0.0007179408151815083,
+        "ci95": [
+          -0.0035772912334259563,
+          0.00220892021988015
+        ],
+        "probability_model_better": 0.6796
+      },
+      "test_change_vs_market": {
+        "accuracy_pp": -1.4084507042253502,
+        "brier": -0.0007179408151815059,
+        "logloss": -0.0014912269959629354,
+        "roi_pp": -1.971830985915493
+      }
+    },
+    "context": {
+      "columns": [
+        "elo_diff",
+        "pi_diff",
+        "form_diff",
+        "margin_diff",
+        "trend_diff",
+        "streak_diff",
+        "venue_diff",
+        "h2h_diff",
+        "rest_diff",
+        "b2b_home",
+        "b2b_away"
+      ],
+      "ridge": 100.0,
+      "blend_weight": 0.75,
+      "calibrate_raw": {
+        "n": 563,
+        "accuracy": 0.6003552397868561,
+        "accuracy_wilson95": [
+          0.5593458758546924,
+          0.6400043979151461
+        ],
+        "brier": 0.2337773666019398,
+        "logloss": 0.6596301839482401,
+        "roi": -0.09015985790408525,
+        "average_odds": 1.5351509769094138
+      },
+      "calibrate": {
+        "n": 563,
+        "accuracy": 0.6074600355239786,
+        "accuracy_wilson95": [
+          0.5665259255439885,
+          0.6469376419440684
+        ],
+        "brier": 0.23374888464747523,
+        "logloss": 0.6595658373779069,
+        "roi": -0.07904085257548846,
+        "average_odds": 1.53246891651865
+      },
+      "test_raw": {
+        "n": 355,
+        "accuracy": 0.5690140845070423,
+        "accuracy_wilson95": [
+          0.5170322266078763,
+          0.6195183273917505
+        ],
+        "brier": 0.2407613279438062,
+        "logloss": 0.6742733096358783,
+        "roi": -0.12777464788732396,
+        "average_odds": 1.5486760563380282
+      },
+      "test": {
+        "n": 355,
+        "accuracy": 0.571830985915493,
+        "accuracy_wilson95": [
+          0.5198599874907008,
+          0.6222640585089105
+        ],
+        "brier": 0.2406250327691389,
+        "logloss": 0.6740088852996311,
+        "roi": -0.12380281690140846,
+        "average_odds": 1.5466197183098593
+      },
+      "paired_brier_bootstrap": {
+        "delta": -0.0001468729406969062,
+        "ci95": [
+          -0.00214442270046862,
+          0.0018889244471373494
+        ],
+        "probability_model_better": 0.5547
+      },
+      "test_change_vs_market": {
+        "accuracy_pp": -0.28169014084507005,
+        "brier": -0.00014687294069687384,
+        "logloss": -0.00032537616998873364,
+        "roi_pp": -0.17464788732394487
+      }
+    },
+    "context_xfip": {
+      "columns": [
+        "elo_diff",
+        "pi_diff",
+        "form_diff",
+        "margin_diff",
+        "trend_diff",
+        "streak_diff",
+        "venue_diff",
+        "h2h_diff",
+        "rest_diff",
+        "b2b_home",
+        "b2b_away",
+        "xfip_diff"
+      ],
+      "ridge": 100.0,
+      "blend_weight": 1.0,
+      "calibrate_raw": {
+        "n": 563,
+        "accuracy": 0.6074600355239786,
+        "accuracy_wilson95": [
+          0.5665259255439885,
+          0.6469376419440684
+        ],
+        "brier": 0.23234416061622595,
+        "logloss": 0.656439213798544,
+        "roi": -0.07657193605683835,
+        "average_odds": 1.537424511545293
+      },
+      "calibrate": {
+        "n": 563,
+        "accuracy": 0.6074600355239786,
+        "accuracy_wilson95": [
+          0.5665259255439885,
+          0.6469376419440684
+        ],
+        "brier": 0.23234416061622595,
+        "logloss": 0.656439213798544,
+        "roi": -0.07657193605683835,
+        "average_odds": 1.537424511545293
+      },
+      "test_raw": {
+        "n": 355,
+        "accuracy": 0.5746478873239437,
+        "accuracy_wilson95": [
+          0.5226894238500323,
+          0.6250081141495639
+        ],
+        "brier": 0.24018108211961756,
+        "logloss": 0.6730713603922251,
+        "roi": -0.11487323943661971,
+        "average_odds": 1.5545352112676056
+      },
+      "test": {
+        "n": 355,
+        "accuracy": 0.5746478873239437,
+        "accuracy_wilson95": [
+          0.5226894238500323,
+          0.6250081141495639
+        ],
+        "brier": 0.24018108211961756,
+        "logloss": 0.6730713603922251,
+        "roi": -0.11487323943661971,
+        "average_odds": 1.5545352112676056
+      },
+      "paired_brier_bootstrap": {
+        "delta": -0.000590823590218242,
+        "ci95": [
+          -0.00381483067042777,
+          0.0026897938020614374
+        ],
+        "probability_model_better": 0.6373
+      },
+      "test_change_vs_market": {
+        "accuracy_pp": 0.0,
+        "brier": -0.0005908235902182257,
+        "logloss": -0.0012629010773946847,
+        "roi_pp": 0.7183098591549295
+      }
+    },
+    "context_xfip_nonlinear": {
+      "columns": [
+        "elo_diff",
+        "pi_diff",
+        "form_diff",
+        "margin_diff",
+        "trend_diff",
+        "streak_diff",
+        "venue_diff",
+        "h2h_diff",
+        "rest_diff",
+        "b2b_home",
+        "b2b_away",
+        "xfip_diff",
+        "xfip_signed_square",
+        "xfip_market_interaction"
+      ],
+      "ridge": 100.0,
+      "blend_weight": 1.0,
+      "calibrate_raw": {
+        "n": 563,
+        "accuracy": 0.6092362344582594,
+        "accuracy_wilson95": [
+          0.568322318659846,
+          0.6486695722577659
+        ],
+        "brier": 0.23176895361269947,
+        "logloss": 0.655040151131895,
+        "roi": -0.0731261101243339,
+        "average_odds": 1.5380284191829485
+      },
+      "calibrate": {
+        "n": 563,
+        "accuracy": 0.6092362344582594,
+        "accuracy_wilson95": [
+          0.568322318659846,
+          0.6486695722577659
+        ],
+        "brier": 0.23176895361269947,
+        "logloss": 0.6550401511318948,
+        "roi": -0.0731261101243339,
+        "average_odds": 1.5380284191829485
+      },
+      "test_raw": {
+        "n": 355,
+        "accuracy": 0.5746478873239437,
+        "accuracy_wilson95": [
+          0.5226894238500323,
+          0.6250081141495639
+        ],
+        "brier": 0.23991855077000637,
+        "logloss": 0.6724973858923127,
+        "roi": -0.1143943661971831,
+        "average_odds": 1.555549295774648
+      },
+      "test": {
+        "n": 355,
+        "accuracy": 0.5746478873239437,
+        "accuracy_wilson95": [
+          0.5226894238500323,
+          0.6250081141495639
+        ],
+        "brier": 0.23991855077000637,
+        "logloss": 0.6724973858923127,
+        "roi": -0.1143943661971831,
+        "average_odds": 1.555549295774648
+      },
+      "paired_brier_bootstrap": {
+        "delta": -0.0008533549398294347,
+        "ci95": [
+          -0.004614473049347166,
+          0.0029223517599056524
+        ],
+        "probability_model_better": 0.6649
+      },
+      "test_change_vs_market": {
+        "accuracy_pp": 0.0,
+        "brier": -0.0008533549398294094,
+        "logloss": -0.0018368755773071621,
+        "roi_pp": 0.7661971830985909
+      }
+    }
+  },
+  "betting_gate": {
+    "model": "context_xfip_nonlinear",
+    "selection": "2025 maximum ROI among fixed top-EV coverages",
+    "chosen_coverage": 0.2,
+    "calibrate": {
+      "n": 112,
+      "accuracy": 0.6607142857142857,
+      "accuracy_wilson95": [
+        0.5690006806867787,
+        0.7417688863274179
+      ],
+      "brier": 0.2272304373458216,
+      "logloss": 0.6449026212713036,
+      "roi": 0.03196428571428572,
+      "average_odds": 1.5611607142857142,
+      "coverage": 0.2,
+      "mean_estimated_ev": -0.014417706380351331
+    },
+    "test": {
+      "n": 71,
+      "accuracy": 0.6056338028169014,
+      "accuracy_wilson95": [
+        0.48935768499400845,
+        0.711065987077071
+      ],
+      "brier": 0.22811856180371937,
+      "logloss": 0.647682974160338,
+      "roi": -0.018873239436619723,
+      "average_odds": 1.6476056338028167,
+      "coverage": 0.2,
+      "mean_estimated_ev": -0.01902457993626353
+    }
+  },
+  "promotion": {
+    "probability_layer": "research_only",
+    "betting_recommender": "reject",
+    "point_estimate_candidates": [
+      "xfip",
+      "context",
+      "context_xfip",
+      "context_xfip_nonlinear"
+    ],
+    "statistically_supported": [],
+    "betting_eligible": [],
+    "rule": "probability: Brier/logloss improve and Brier CI upper<0; betting: plus ROI>0 and accuracy>market"
+  }
+}
