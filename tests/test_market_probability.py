@@ -72,7 +72,7 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
 
 def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     negative = [
-        {"ok": True, "target": 2, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.52},
+        {"ok": True, "target": 2, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.39},
         {"ok": True, "target": 5, "conservative_expected_roi": -0.12, "calibrated_hit_est": 0.70},
     ]
     assert daily_recommendation(negative)["action"] == "pass"
@@ -84,6 +84,21 @@ def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     assert daily_recommendation(challenge)["action"] == "challenge"
     assert daily_recommendation(challenge)["recommended_target"] == 1.4
     assert daily_recommendation(challenge)["budget_ratio"] == 0.1
+    balanced = [
+        {"ok": True, "target": 1.4, "calibrated_hit_est": 0.62,
+         "conservative_expected_roi": -0.15},
+        {"ok": True, "target": 2, "calibrated_hit_est": 0.43,
+         "conservative_expected_roi": -0.17},
+    ]
+    assert daily_recommendation(balanced)["action"] == "challenge"
+    assert daily_recommendation(balanced)["recommended_target"] == 2
+    materially_worse_double = [
+        {"ok": True, "target": 1.4, "calibrated_hit_est": 0.62,
+         "conservative_expected_roi": -0.10},
+        {"ok": True, "target": 2, "calibrated_hit_est": 0.43,
+         "conservative_expected_roi": -0.19},
+    ]
+    assert daily_recommendation(materially_worse_double)["recommended_target"] == 1.4
     too_risky = [{"ok": True, "target": 1.4,
                   "calibrated_hit_est": 0.60,
                   "conservative_expected_roi": -0.201}]

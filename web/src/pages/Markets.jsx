@@ -252,7 +252,7 @@ function TodayPlan({ today, combo, grades, games }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        경기 카드와 같은 통합 추천만 조합 · 역배 금지 · 다리당 배당 2.20 미만
+        경기 카드 추천 우선 · 추천 없으면 시장 최유력 보완 · 역배 금지 · 다리당 2.20 미만
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${

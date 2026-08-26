@@ -15,6 +15,14 @@ const today = { candidates: [
 ] };
 assert.deepEqual(alignTodayRecommendations(today, [game]).candidates.map((row) => row.sel), ["홈"]);
 
+const fallback = { candidates: [
+  { round: 8, game_no: "20", market: "승패", market_label: "", sel: "원정",
+    odds: 1.85, is_market_favorite: true },
+] };
+const alignedFallback = alignTodayRecommendations(fallback, [game]).candidates[0];
+assert.equal(alignedFallback.sel, "원정", "모델 추천이 없는 경기는 시장 최유력으로 보완한다");
+assert.equal(alignedFallback.recommendation_basis, "market-favorite-fallback");
+
 const moved = { ...game, options: [{ ...home, "배당": 2.2 }, away] };
 assert.equal(canonicalOption(moved), null, "안전 배당 범위를 벗어나면 예전 추천을 유지하지 않는다");
 console.log("unified recommendation tests passed");

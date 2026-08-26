@@ -14,8 +14,9 @@ export const SAFE_TARGET_BINS = {
 };
 
 export const DAILY_CHALLENGE_MIN_ROI = -0.20;
-export const DAILY_CHALLENGE_MIN_HIT = 0.55;
-export const DAILY_CHALLENGE_MAX_TARGET = 1.4;
+export const DAILY_CHALLENGE_MIN_HIT = { 1.4: 0.55, 2: 0.40 };
+export const DAILY_CHALLENGE_MAX_TARGET = 2;
+export const DAILY_CHALLENGE_ROI_TOLERANCE = 0.03;
 export const DAILY_CHALLENGE_BUDGET_RATIO = 0.10;
 
 export function kickoffTime(candidate, year) {
@@ -199,7 +200,8 @@ export function recommendationFromPlans(plans) {
   const challenge = available.filter((plan) =>
     Number(plan.target) <= DAILY_CHALLENGE_MAX_TARGET &&
     Number(plan.conservative_expected_roi) >= DAILY_CHALLENGE_MIN_ROI &&
-    Number(plan.calibrated_hit_est) >= DAILY_CHALLENGE_MIN_HIT);
+    Number(plan.calibrated_hit_est) >=
+      (DAILY_CHALLENGE_MIN_HIT[Number(plan.target)] ?? Number.POSITIVE_INFINITY));
   const byRiskAdjustedQuality = (a, b) =>
     Number(b.conservative_expected_roi ?? -99) - Number(a.conservative_expected_roi ?? -99) ||
     Number(b.calibrated_hit_est ?? 0) - Number(a.calibrated_hit_est ?? 0);
@@ -214,8 +216,13 @@ export function recommendationFromPlans(plans) {
     why = "95% 보수 하한에서도 기대수익이 양수다";
   } else if (challenge.length) {
     action = "challenge";
-    best = [...challenge].sort(byRiskAdjustedQuality)[0];
-    why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다";
+    const bestChallengeRoi = Math.max(...challenge.map((plan) =>
+      Number(plan.conservative_expected_roi)));
+    const balanced = challenge.filter((plan) =>
+      Number(plan.conservative_expected_roi) >= bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
+    best = [...balanced].sort((a, b) =>
+      Number(b.target) - Number(a.target) || byRiskAdjustedQuality(a, b))[0];
+    why = "2배 이하 균형 조합이 보수 기대 −20% 이내·목표별 적중 하한·3%p 품질차를 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];

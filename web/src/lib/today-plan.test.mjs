@@ -97,7 +97,7 @@ assert.equal(metrics.calibration_min_n, 10_000);
 assert.match(metrics.probability_basis, /Wilson/);
 
 const pass = recommendationFromPlans([
-  { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.52 },
+  { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.39 },
   { ok: true, target: 5, conservative_expected_roi: -0.12, calibrated_hit_est: 0.70 },
 ]);
 assert.equal(pass.action, "pass");
@@ -109,6 +109,17 @@ const dailyChallenge = recommendationFromPlans([
 assert.equal(dailyChallenge.action, "challenge");
 assert.equal(dailyChallenge.target, 1.4);
 assert.equal(dailyChallenge.budget_ratio, 0.1);
+const balancedChallenge = recommendationFromPlans([
+  { ok: true, target: 1.4, calibrated_hit_est: 0.62, conservative_expected_roi: -0.15 },
+  { ok: true, target: 2, calibrated_hit_est: 0.43, conservative_expected_roi: -0.17 },
+]);
+assert.equal(balancedChallenge.action, "challenge");
+assert.equal(balancedChallenge.target, 2, "관문을 넘은 2배를 1.4배보다 우선한다");
+const materiallyWorseDouble = recommendationFromPlans([
+  { ok: true, target: 1.4, calibrated_hit_est: 0.62, conservative_expected_roi: -0.10 },
+  { ok: true, target: 2, calibrated_hit_est: 0.43, conservative_expected_roi: -0.19 },
+]);
+assert.equal(materiallyWorseDouble.target, 1.4, "보수 기대가 3%p 넘게 나쁘면 2배를 강제하지 않는다");
 const tooRiskyForDailyChallenge = recommendationFromPlans([
   { ok: true, target: 1.4, calibrated_hit_est: 0.60,
     conservative_expected_roi: -0.201 },
