@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
-import Prices from "./Prices.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
@@ -117,7 +116,6 @@ export default function Markets() {
         <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(d.live || []), ...(d.past || [])]} /></section>
       )}
       <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
-      <Prices embedded />
       <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
     </Shell>
   );
@@ -167,14 +165,13 @@ function Shell({ children, meta }) {
       <header className="market-header">
         <div>
           <h1>오늘 경기·배당 분석</h1>
-          <p>예상 결과와 경기력 신호, 선발·라인업, 같은 경기의 회차별 배당을 한 화면에서 봅니다.</p>
+          <p>오늘의 판단을 먼저 보고, 필요한 경기만 열어 흐름·선수·반대 근거를 확인합니다.</p>
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#today-brief">오늘 요약</a>
         <a href="#match-list">경기 목록</a>
-        <a href="#price-comparison">배당 비교</a>
         <a href="#evidence">분석 기준</a>
       </nav>
       {children}
@@ -598,7 +595,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
-  const analysis = wait || stale ? null : performanceAnalysis(g, pick?.o || null);
+  const analysis = wait || stale ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const forecast = analysis?.prediction;
   const fallbackForecast = stale
     ? "최신 데이터 확인 필요"
@@ -653,7 +650,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
           </div>
         )}
         {analysis && <PredictionPanel analysis={analysis} />}
-        <Why g={g} />
+        <Why g={g} hideSummary={!!analysis} />
         {!wait && <details className="price-sheet">
           <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
           <div className="overflow-x-auto py-3">
@@ -1108,7 +1105,7 @@ function AvailabilityPanel({ g }) {
     </p>}
   </>;
 }
-function Why({ g }) {
+function Why({ g, hideSummary = false }) {
   const f = [];
   const s = g["선발"];
   if (s && (s.home || s.away)) f.push(`선발 ${g.home} ${s.home || "?"} / ${g.away} ${s.away || "?"}`);
@@ -1122,9 +1119,9 @@ function Why({ g }) {
   const cut = txt.indexOf(". ");
   const verdict = cut > 0 ? txt.slice(0, cut + 1) : txt;
   const rest = cut > 0 ? txt.slice(cut + 2) : "";
-  const tabs = infoTabs(g, txt);
+  const tabs = infoTabs(g, txt).filter((tab) => !hideSummary || tab.id !== "summary");
   const [active, setActive] = useState(tabs[0]?.id || "summary");
-  if (!tabs.length && !f.length) return null;
+  if (!tabs.length) return null;
   const current = tabs.some((x) => x.id === active) ? active : tabs[0]?.id;
   const source = sourceFor(g);
   return (

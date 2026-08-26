@@ -7,13 +7,13 @@ const reasonParts = (reason) => {
 
 export default function PredictionPanel({ analysis }) {
   if (!analysis) return null;
-  const { prediction, reasons, cautions, featuredPlayers, playerNotes, signalSummary } = analysis;
+  const { prediction, reasons, cautions, featuredPlayers, playerNotes, signalSummary, commentary } = analysis;
   const probability = prediction?.probability == null ? null : Math.round(prediction.probability * 100);
   return (
     <section className="prediction-card" aria-label="경기 예상과 경기력 해석">
       <header className="prediction-head">
         <div>
-          <p className="prediction-label">통합 추천 근거 · 참고용</p>
+          <p className="prediction-label">경기 예상 · 참고용</p>
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
           <p>{signalSummary?.narrative || "최근 기록과 선수 정보를 바탕으로 예상했습니다."}</p>
         </div>
@@ -21,8 +21,8 @@ export default function PredictionPanel({ analysis }) {
       </header>
       <div className={`prediction-body ${featuredPlayers?.length ? "has-players" : ""}`}>
         <div>
-          <h4>경기 흐름을 이렇게 봤습니다</h4>
-          <p className="performance-intro">최근 경기에서 반복된 공격·수비 흐름과 선수 변수를 중심으로 읽었습니다.</p>
+          <h4>경기 흐름</h4>
+          <p className="performance-intro">결론에 유리한 자료뿐 아니라 엇갈리는 신호도 함께 확인합니다.</p>
           <ul className="performance-reasons">
             {reasons.map((reason) => {
               const item = reasonParts(reason);
@@ -44,7 +44,12 @@ export default function PredictionPanel({ analysis }) {
           {!!playerNotes?.length && <ul className="player-notes">{playerNotes.map((note) => <li key={note}>{note}</li>)}</ul>}
         </div>}
       </div>
-      {!!cautions?.length && <div className="prediction-caution"><b>확인할 변수</b><span>{cautions.join(" ")}</span></div>}
+      {commentary && <div className="prediction-commentary">
+        <b>해설 정리</b>
+        <p>{commentary}</p>
+        <small>수집된 사실을 바꾸지 않고 LLM이 문장만 다듬었습니다.</small>
+      </div>}
+      {!!cautions?.length && <div className="prediction-caution"><b>반대 근거·변수</b><span>{cautions.join(" ")}</span></div>}
       <footer>예상은 판단 자료이며 구매를 대신 결정하지 않습니다.</footer>
     </section>
   );
