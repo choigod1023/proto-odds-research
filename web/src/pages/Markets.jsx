@@ -215,6 +215,12 @@ function TodayPlan({ today, combo, grades, games }) {
   const activeToday = useMemo(() => availableToday(alignedToday, clock), [alignedToday, clock]);
   const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
   const recommendation = useMemo(() => recommendationFromPlans(plans), [plans]);
+  const candidateSources = useMemo(() => (activeToday.candidates || []).reduce(
+    (counts, candidate) => {
+      if (candidate.recommendation_basis === "game-model") counts.model += 1;
+      else counts.fallback += 1;
+      return counts;
+    }, { model: 0, fallback: 0 }), [activeToday.candidates]);
   const solo = activeToday.solo || null;
   const [i, setI] = useState(0);
 
@@ -252,7 +258,11 @@ function TodayPlan({ today, combo, grades, games }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        경기 카드와 같은 통합 추천만 조합 · 역배 금지 · 다리당 배당 2.20 미만
+        경기 카드 추천 우선 · 추천 없으면 시장 최유력 보완 · 역배 금지 · 다리당 2.20 미만
+      </div>
+      <div className="mt-1 text-[11.5px] text-ink3">
+        현재 안전 후보 {candidateSources.model + candidateSources.fallback}개
+        {' · '}경기 모델 {candidateSources.model}개 · 시장 보완 {candidateSources.fallback}개
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${

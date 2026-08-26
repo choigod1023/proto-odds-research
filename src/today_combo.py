@@ -67,8 +67,9 @@ SAFE_TARGET_BINS = {
     12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 }
 DAILY_CHALLENGE_MIN_ROI = -0.20
-DAILY_CHALLENGE_MIN_HIT = 0.55
-DAILY_CHALLENGE_MAX_TARGET = 1.4
+DAILY_CHALLENGE_MIN_HIT = {1.4: 0.55, 2: 0.40}
+DAILY_CHALLENGE_MAX_TARGET = 2
+DAILY_CHALLENGE_ROI_TOLERANCE = 0.03
 DAILY_CHALLENGE_BUDGET_RATIO = 0.10
 KST = ZoneInfo("Asia/Seoul")
 DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
@@ -354,13 +355,21 @@ def daily_recommendation(plans: list[dict]) -> dict:
                      and _metric_number(plan, "conservative_expected_roi", -99.0) >=
                      DAILY_CHALLENGE_MIN_ROI
                      and _metric_number(plan, "calibrated_hit_est", 0.0) >=
-                     DAILY_CHALLENGE_MIN_HIT]
+                     DAILY_CHALLENGE_MIN_HIT.get(
+                         _metric_number(plan, "target", 99.0), float("inf"))]
         if challenge:
-            best = max(challenge, key=lambda plan: (
+            best_challenge_roi = max(
+                _metric_number(plan, "conservative_expected_roi", -99.0)
+                for plan in challenge)
+            balanced = [plan for plan in challenge
+                        if _metric_number(plan, "conservative_expected_roi", -99.0) >=
+                        best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
+            best = max(balanced, key=lambda plan: (
+                _metric_number(plan, "target", 0.0),
                 _metric_number(plan, "conservative_expected_roi", -99.0),
                 _metric_number(plan, "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다"
+            why = "2배 이하 균형 조합이 보수 기대 −20% 이내·목표별 적중 하한·3%p 품질차를 충족한다"
         else:
             best = max(available, key=lambda plan: (
                 _metric_number(plan, "conservative_expected_roi", -99.0),
@@ -433,7 +442,8 @@ def build() -> dict:
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
         "note": "시장 우위 매수는 실측 ROI 보정확률의 95% 보수 하한이 양수일 때만 쓴다. "
-                "그보다 낮아도 목표 1.4배·보수 기대 −20% 이내·보정 적중 55% 이상이면 "
+                "그보다 낮아도 목표 2배 이하·보수 기대 −20% 이내이며 "
+                "목표별 보정 적중 하한(1.4배 55%·2배 40%)을 넘으면 "
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
                 "검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. "
