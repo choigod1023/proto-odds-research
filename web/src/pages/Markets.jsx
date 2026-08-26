@@ -2,12 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
+import { AiDecisionPath, AiMethodology } from "../components/AiDisclosure.jsx";
 import Prices from "./Prices.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
+import { buildDecisionViewModel } from "../lib/decision-view-model.js";
 import { alignTodayRecommendations, canonicalPick } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
@@ -73,7 +75,9 @@ function withLiveOdds(games, lo) {
       touched = true;
       return { ...o, 배당: v, _live: true };
     });
-    return touched ? { ...g, options } : g;
+    // 가격만 새것이고 확률·설명이 예전 시점인 혼합 행을 만들지 않는다. 다음 산출물에서
+    // 재계산될 때까지 decision view model이 확률과 결론을 숨긴다.
+    return touched ? { ...g, options, _liveOddsChanged: true } : g;
   });
 }
 
@@ -101,10 +105,23 @@ export default function Markets() {
     today: "data/today_combo.json",
   }, 300000);   // 5분
   const { d, grades, combo, today } = data;
+  const liveOdds = useLiveOdds();
+  const liveFeed = useLive();
+  const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
+  // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
+  // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
+  const synchronized = useMemo(() => {
+    if (!d) return null;
+    const merge = (games) => withLiveOdds(games || [], liveOdds).map((game) => {
+      const liveState = liveOf(liveIndex, game);
+      return liveState ? { ...game, _liveState: liveState, _liveStarted: true } : game;
+    });
+    return { ...d, live: merge(d.live), past: merge(d.past) };
+  }, [d, liveOdds, liveIndex]);
 
-  if (at && !d) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
-  if (!d) return <Shell><Empty>불러오는 중…</Empty></Shell>;
-  const stale = isDataStale(d.generated_at);
+  if (at && !synchronized) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
+  if (!synchronized) return <Shell><Empty>불러오는 중…</Empty></Shell>;
+  const stale = isDataStale(synchronized.generated_at);
 
   return (
     <Shell meta={metaLine(d, at)}>
@@ -114,12 +131,13 @@ export default function Markets() {
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 배당과 추천 판단을 잠시 중단했습니다. 수집이 복구되면 최신 정보가 자동으로 다시 표시됩니다.</p>
         </section>
       ) : (
-        <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(d.live || []), ...(d.past || [])]} /></section>
+        <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(synchronized.live || []), ...(synchronized.past || [])]} /></section>
       )}
-      <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
-      <Prices embedded />
+      <AiMethodology />
+      <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
+      <Prices embedded liveOdds={liveOdds} />
       <section id="evidence"><Evidence grades={grades}
-        tally={d.tally_status === "prediction_ledger_verified" ? d.tally : null} /></section>
+        tally={synchronized.tally_status === "prediction_ledger_verified" ? synchronized.tally : null} /></section>
     </Shell>
   );
 }
@@ -174,6 +192,7 @@ function Shell({ children, meta }) {
       </header>
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#today-brief">오늘 요약</a>
+        <a href="#ai-method">AI 사용</a>
         <a href="#match-list">경기 목록</a>
         <a href="#price-comparison">배당 비교</a>
         <a href="#evidence">분석 기준</a>
@@ -216,12 +235,6 @@ function TodayPlan({ today, combo, grades, games }) {
   const activeToday = useMemo(() => availableToday(alignedToday, clock), [alignedToday, clock]);
   const plans = useMemo(() => (activeToday.plans || []).filter((p) => p.ok), [activeToday]);
   const recommendation = useMemo(() => recommendationFromPlans(plans), [plans]);
-  const candidateSources = useMemo(() => (activeToday.candidates || []).reduce(
-    (counts, candidate) => {
-      if (candidate.recommendation_basis === "game-model") counts.model += 1;
-      else counts.fallback += 1;
-      return counts;
-    }, { model: 0, fallback: 0 }), [activeToday.candidates]);
   const solo = activeToday.solo || null;
   const [i, setI] = useState(0);
 
@@ -259,11 +272,11 @@ function TodayPlan({ today, combo, grades, games }) {
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
       <div className="mt-1 text-[11.5px] text-ink2">
-        경기 카드 추천 우선 · 추천 없으면 시장 최유력 보완 · 역배 금지 · 다리당 2.20 미만
+        경기 판정과 정확히 같은 선택만 사용 · 역배 금지 · 다리당 2.20 미만
       </div>
       <div className="mt-1 text-[11.5px] text-ink3">
-        현재 안전 후보 {candidateSources.model + candidateSources.fallback}개
-        {' · '}경기 모델 {candidateSources.model}개 · 시장 보완 {candidateSources.fallback}개
+        현재 안전 후보 {(activeToday.candidates || []).length}개
+        {' · '}판정 불일치·안전 기준 제외 {activeToday.alignment?.dropped_by_safety || 0}개
       </div>
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
@@ -393,9 +406,6 @@ const STATUS = [
 ];
 
 function GameList({ data, grades, caps, stale }) {
-  const liveFeed = useLive();
-  const liveOdds = useLiveOdds();
-  const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
   //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
@@ -408,11 +418,9 @@ function GameList({ data, grades, caps, stale }) {
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
   const [cap, setCap] = useState(0);          // 0 = 제한 없음
-  // 실시간 배당을 덮어쓴 뒤에 필터·등급 계산으로 넘긴다. 배당이 바뀌면
-  // 등급·'덜 잃는 쪽' 판정도 같이 바뀌어야 하므로 반드시 이 지점에서 갈아끼운다.
   const pool = useMemo(
-    () => withLiveOdds([...(data.live || []), ...(data.past || [])], liveOdds),
-    [data, liveOdds]);
+    () => [...(data.live || []), ...(data.past || [])],
+    [data]);
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
@@ -466,7 +474,7 @@ function GameList({ data, grades, caps, stale }) {
           <span>{key}</span>
         </div>);
     }
-    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} lv={liveOf(lidx, g)} stale={stale} generatedAt={data.generated_at} year={data.year} />);
+    rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait} grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at} year={data.year} />);
   }
 
     const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
@@ -474,7 +482,7 @@ function GameList({ data, grades, caps, stale }) {
     <>
       <div className="match-section-title">
         <h2>경기 목록</h2>
-        <b>${n}경기</b>
+        <b>{n}경기</b>
       </div>
       <div className={`filter-shell ${showModel ? "show-model" : ""}`}>
         <div className="filter-primary">
@@ -510,7 +518,7 @@ function GameList({ data, grades, caps, stale }) {
 
           </div>
           <div className="filter-actions">
-            <label><input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} /> 모델 수치 보기</label>
+            <label><input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} /> 연구 수치 보기</label>
             <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: kstMMDD(0) }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
@@ -570,11 +578,13 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
     return t;
   }, [opts, grades]);
 
-  // 경기별 추천은 생성기가 시장·모델 일치와 안전 배당을 통과시켜 확정한 하나만 쓴다.
-  // 실시간 배당이 안전 범위를 벗어나면 예전 선택을 고집하지 않고 보류한다.
+  // 경기별 선택은 생성기가 확정한 시장 기준 스냅샷만 쓴다. 클라이언트는 별도의
+  // 모델 최대확률을 골라 새 추천을 만들지 않는다.
   const done = g.status === "정산";
+  const liveClosed = g._liveStarted === true;
   const predictionUnavailable = done || g.prediction_status === "prediction_ledger_required";
-  const pick = wait || stale || predictionUnavailable ? null : canonicalPick(g, opts, grades);
+  const pick = wait || stale || predictionUnavailable || liveClosed || g._liveOddsChanged
+    ? null : canonicalPick(g, opts, grades);
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
   const playing = !!lv && !lv.finished;
   const finished = !!lv?.finished;
@@ -586,10 +596,15 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
   // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
-  const analysis = wait || stale || predictionUnavailable
+  const analysis = wait || stale || predictionUnavailable || liveClosed
     ? null : performanceAnalysis(g, pick?.o || null);
+  const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
-  const fallbackForecast = stale
+  const fallbackForecast = liveClosed
+    ? (finished ? "경기 종료 · 사전 판정 마감" : "경기 시작 · 사전 판정 마감")
+    : g._liveOddsChanged
+    ? "배당 변경 · 재계산 대기"
+    : stale
     ? "최신 데이터 확인 필요"
     : predictionUnavailable
       ? (g.status === "결과확인" ? "정산 결과 확인 필요" : "사전 예측 기록 없음")
@@ -626,33 +641,36 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
           <b>{forecast?.headline || fallbackForecast}</b>
         </span>
         <span className="flex gap-1.5">
-          {wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
+          {liveClosed ? <OddsChip label="판정" value="마감" />
+            : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : pick ? <OddsChip label={pick.o["선택"]} value={odds(pick.o["배당"])}
                 grade={pick.g ? gcls(pick.g.grade) : "U"}
-                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · 경기 예상과 같은 통합 추천`} />
+                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · Shin 시장확률 기준 비교 후보`} />
               : <OddsChip label="추천" value="보류" />}
         </span>
       </summary>
       <div className="match-detail">
         {wait && (
           <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
-            {stale
+            {liveClosed
+              ? "실시간 중계에서 경기 시작을 확인해 사전 판정과 구매 후보를 마감했습니다."
+              : stale
               ? "오래된 데이터로는 배당 발표 여부를 판단하지 않습니다. 최신 수집이 확인될 때까지 기다려 주세요."
               : waitText === "상태 확인 불가"
                 ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했습니다."
                 : "배당이 아직 발표되지 않았습니다. 경기 정보는 먼저 확인할 수 있습니다."}
           </div>
         )}
-        {analysis && <PredictionPanel analysis={analysis} />}
         {predictionUnavailable ? (
           <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
             경기 전에 저장된 예측 원장이 없어 현재 공식으로 과거 추천을 재구성하지 않습니다.
           </div>
-        ) : <Why g={g} />}
+        ) : <MatchInsight g={g} analysis={analysis} decision={decision} />}
         {!wait && <details className="price-sheet">
-          <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
+          <summary><span>배당과 연구 수치</span><span>표 펼치기</span></summary>
           <div className="overflow-x-auto py-3">
-            <OptTable opts={opts} grades={grades} tie={tie} pick={pick} />
+            <OptTable opts={opts} grades={grades} tie={tie} pick={pick}
+              recalculating={g._liveOddsChanged === true} />
           </div>
         </details>}
       </div>
@@ -660,23 +678,24 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
   );
 }
 
-function OptTable({ opts, grades, tie, pick }) {
+function OptTable({ opts, grades, tie, pick, recalculating = false }) {
   const th = "border-b border-rule2 pb-[5px] pr-2 text-left text-[11px] font-medium text-ink3";
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
     <table className="w-full border-collapse text-[12.5px]">
+      <caption className="sr-only">프로토 배당, 시장확률, 검증 전 구조 AI 수치와 반영 상태</caption>
       <thead><tr>
         {/* 용지 대조용 게임번호. 화면을 보면서 실제 프로토 용지에 마킹하려면
             이 번호가 있어야 한다 — 없으면 팀 이름으로 용지를 다시 뒤져야 한다.
             프로토는 **마켓 한 줄마다** 번호가 따로 붙으므로 경기가 아니라 옵션 단위다. */}
-        <th className={`${th} text-right`}>번호</th>
-        <th className={th}>마켓 / 선택</th>
-        <th className={`${th} text-right`}>배당</th>
-        <th className={`${th} text-right`}>과거 적중</th>
-        <th className={`${th} model-col text-right`}>시장</th>
-        <th className={`${th} model-col text-right`}>모델</th>
-        <th className={`${th} model-col text-right`}>기대</th>
-        <th className={th}>판단</th>
+        <th scope="col" className={`${th} text-right`}>번호</th>
+        <th scope="col" className={th}>마켓 / 선택</th>
+        <th scope="col" className={`${th} text-right`}>배당</th>
+        <th scope="col" className={`${th} text-right`}>과거 적중</th>
+        <th scope="col" className={`${th} model-col text-right`}>시장</th>
+        <th scope="col" className={`${th} model-col text-right`}>구조 AI</th>
+        <th scope="col" className={`${th} model-col text-right`}>시장과 차이</th>
+        <th scope="col" className={th}>판정</th>
       </tr></thead>
       <tbody>
         {opts.map((o, k) => {
@@ -697,17 +716,18 @@ function OptTable({ opts, grades, tie, pick }) {
                   구분이 안 되면 "왜 아까랑 다르지" 가 된다. */}
               <td className={`${td} tnum text-right`}>
                 {odds(o["배당"])}
-                {o._live && <span className="ml-1 text-[10px] text-ink3"
-                  title="방금 받아온 값 (5분 주기)">•</span>}
+                {o._live && <span className="ml-1 text-[9.5px] text-ink3"
+                  aria-label="실시간 배당, 확률 재계산 대기">실시간</span>}
               </td>
               <td className={`${td} tnum text-right text-ink3`}>
                 {gr?.hit != null ? `${(gr.hit * 100).toFixed(0)}%` : "–"}</td>
-              <td className={`${td} model-col tnum text-right`}>{pct(o["시장확률"])}</td>
-              <td className={`${td} model-col tnum text-right`}>{pct(o["모델확률"])}</td>
-              <td className={`${td} model-col tnum text-right`}>{sgn(o["예상손익"])}</td>
+              <td className={`${td} model-col tnum text-right`}>{recalculating ? "–" : pct(o["시장확률"])}</td>
+              <td className={`${td} model-col tnum text-right`}>{recalculating ? "–" : pct(o["모델확률"])}</td>
+              <td className={`${td} model-col tnum text-right`}>{recalculating ? "–" : sgn(o["AI잔차"])}</td>
               <td className={`${td} text-[11.5px]`}>
+                {recalculating && <span className="text-ink3">재계산 대기</span>}
                 {pick && !pick.tie && pick.o === o && (
-                  <span className="text-ink">통합 추천</span>)}
+                  <span className="text-ink">시장 기준</span>)}
                 {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
 
@@ -737,7 +757,7 @@ function SourceStamp({ source }) {
     <a className="underline decoration-rule underline-offset-2 hover:text-ink"
       href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
   ) : source.name;
-  return <div className="mt-2 text-[10.5px] text-ink3">출처 {name}{updated ? ` · KST ${updated} 확인` : ""}</div>;
+  return <div className="source-stamp">출처 {name}{updated ? ` · KST ${updated} 확인` : ""}</div>;
 }
 
 function PitcherCard({ team, pitcher }) {
@@ -1103,44 +1123,53 @@ function AvailabilityPanel({ g }) {
     </p>}
   </>;
 }
-function Why({ g }) {
-  const f = [];
-  const s = g["선발"];
-  if (s && (s.home || s.away)) f.push(`선발 ${g.home} ${s.home || "?"} / ${g.away} ${s.away || "?"}`);
-  if (g["h2h"]) f.push(g["h2h"]);
-  const fh = formLine(g.form_home), fa = formLine(g.form_away);
-  if (fh) f.push(`${g.home} ${fh}`);
-  if (fa) f.push(`${g.away} ${fa}`);
-  if (g.lam_src === "풀링") f.push("λ는 리그 표본을 끌어와 추정 — 컵대회는 모델이 더 부정확하다");
-  // 결론 문장(첫 마침표까지)을 떼어 굵게 — 판단이 본문에 묻히면 안 된다
+function MatchInsight({ g, analysis, decision }) {
   const txt = displayCommentary(g);
-  const cut = txt.indexOf(". ");
-  const verdict = cut > 0 ? txt.slice(0, cut + 1) : txt;
-  const rest = cut > 0 ? txt.slice(cut + 2) : "";
   const tabs = infoTabs(g, txt);
   const [active, setActive] = useState(tabs[0]?.id || "summary");
-  if (!tabs.length && !f.length) return null;
+  if (!tabs.length) return null;
   const current = tabs.some((x) => x.id === active) ? active : tabs[0]?.id;
   const source = sourceFor(g);
+  const uid = String(g.event_id || `${g.round}-${g.home}-${g.away}`).replace(/[^a-zA-Z0-9_-]/g, "-");
+  const tabId = (id) => `tab-${uid}-${id}`;
+  const panelId = `panel-${uid}`;
+  const onTabKeyDown = (event, index) => {
+    const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+    let next = index;
+    if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+    if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+    if (event.key === "Home") next = 0;
+    if (event.key === "End") next = tabs.length - 1;
+    setActive(tabs[next].id);
+    event.currentTarget.parentElement?.querySelectorAll('[role="tab"]')?.[next]?.focus();
+  };
   return (
     <div className="intel-panel">
       <div className="intel-tabs" role="tablist" aria-label={`${g.home} 대 ${g.away} 경기 정보`}>
-        {tabs.map((tab) => <button key={tab.id} type="button" role="tab"
+        {tabs.map((tab, index) => <button key={tab.id} type="button" role="tab"
+          id={tabId(tab.id)} aria-controls={panelId}
           aria-selected={current === tab.id}
+          tabIndex={current === tab.id ? 0 : -1}
           className={`${PANEL_BTN} ${current === tab.id
             ? "is-active" : ""}`}
+          onKeyDown={(event) => onTabKeyDown(event, index)}
           onClick={() => setActive(tab.id)}>{tab.label}</button>)}
       </div>
-      <div className="intel-content" role="tabpanel">
-        {current === "summary" && <>
-          {verdict && <b className="text-ink">{verdict}</b>} {rest}
-          {!!f.length && <div className="mt-1.5 text-[11.5px] text-ink3">{f.join(" · ")}</div>}
-        </>}
+      <div className="intel-content" role="tabpanel" id={panelId}
+        aria-labelledby={tabId(current)} tabIndex={0}>
+        {current === "summary" && (analysis
+          ? <PredictionPanel analysis={analysis} />
+          : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>)}
+        {current === "ai" && (decision
+          ? <AiDecisionPath decision={decision} />
+          : <p className="m-0 text-[11.5px] text-ink3">AI 판정 스냅샷이 아직 없습니다.</p>)}
         {current === "players" && <PlayersPanel g={g} />}
         {current === "teams" && <TeamsPanel g={g} />}
         {current === "availability" && <AvailabilityPanel g={g} />}
       </div>
-      {current !== "summary" && <SourceStamp source={source} />}
+      {(current === "players" || current === "availability") && <SourceStamp source={source} />}
     </div>
   );
 }
@@ -1154,6 +1183,8 @@ function Evidence({ grades, tally }) {
         : "실측 수익률로 A~D 를 매긴다."],
     ["조합 산술",
       "다리를 하나 더 붙일 때마다 마진이 한 번 더 물린다 — 약 −6%p. 목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다."],
+    ["AI 반영 원장",
+      "시장·팀 기록·선발·결장 자료마다 최종 반영, 연구 중, 설명만, 미반영을 빠짐없이 표시한다."],
     ["왜 이길 수 없나",
       "12개 검증 기록. 필요한 우위 6.8%p, 동원 가능한 정보 4.8%p."],
   ];

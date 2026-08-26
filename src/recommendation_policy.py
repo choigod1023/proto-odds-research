@@ -36,7 +36,9 @@ def automatic_selection_exclusion_reason(
         price = float(odds)
     except (TypeError, ValueError):
         price = None
-    if price is not None and math.isfinite(price) and price >= MAX_AUTO_RECOMMENDATION_ODDS:
+    if price is None or not math.isfinite(price) or price <= 1.0:
+        return "유효한 배당이 없어 자동 추천 제외"
+    if price >= MAX_AUTO_RECOMMENDATION_ODDS:
         return "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
 
     try:
@@ -44,10 +46,11 @@ def automatic_selection_exclusion_reason(
         favorite = float(favorite_probability)
     except (TypeError, ValueError):
         probability = favorite = None
+    if probability is None or not math.isfinite(probability) or not 0.0 < probability < 1.0:
+        return "유효한 시장확률이 없어 자동 추천 제외"
     if (
         probability is not None
         and favorite is not None
-        and math.isfinite(probability)
         and math.isfinite(favorite)
         and probability < favorite - 1e-9
     ):

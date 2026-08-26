@@ -1,4 +1,5 @@
 import { Card, Nav, ThemeToggle } from "../components/ui.jsx";
+import { AiMethodology } from "../components/AiDisclosure.jsx";
 
 /* 정적 문서다. 데이터는 안 읽는다 — 여기 적힌 숫자는 findings/ 문서의 확정값이다. */
 
@@ -58,9 +59,9 @@ export default function Research() {
 
       {/* 결론 — 이 페이지의 논지 */}
       <Card className="mt-4 border-l-[3px] border-l-sev3 px-4 py-4">
-        <b className="text-[13.5px] text-sev3">연구 종료 — 답이 나왔다</b>
+        <b className="text-[13.5px] text-sev3">현재 운영 결론 — 기존 신호는 승격하지 않는다</b>
         <p className="mt-1.5 mb-2.5 text-[13px] leading-[1.75] text-ink2">
-          <b className="text-ink">이 시장은 이길 수 없다.</b> 우리 모델이 부족해서가 아니다.
+          <b className="text-ink">현재 검증한 신호로는 시장을 이기지 못했다.</b> 새 신호도 미래 구간에서 입증되기 전에는 운영에 넣지 않는다.
         </p>
         <table className="w-auto border-collapse text-[13px]">
           <tbody>
@@ -80,6 +81,29 @@ export default function Research() {
           <b className="text-ink">+2~3%</b>, 라인이 무른 틈새시장에서도 <b className="text-ink">+5%</b> 다.{" "}
           <b className="text-ink">프로토 마진 12% 는 세계 최고의 엣지를 그대로 가져와도 −7% 가 되는 크기다.</b>{" "}
           Aoki et al.(KDD 2017)도 "운이 상당해서 정교한 모델이 단순 모델을 거의 못 이긴다"고 한다.
+        </p>
+      </Card>
+
+      <AiMethodology id="ai-model" showLink={false} />
+      <Card className="mt-3 border-l-[3px] border-l-signal px-4 py-4">
+        <b className="text-[13.5px]">AI가 확률을 바꿀 수 있는 유일한 경로</b>
+        <p className="mt-1.5 mb-2 text-[13px] leading-[1.75] text-ink2">
+          운영식은 <b className="tnum text-ink">logit(p최종) = logit(p시장) + AI 잔차</b>다.
+          AI는 시장이 이미 아는 팀 전력 전체를 다시 예측하지 않고, 같은 시각 이후 새로 확인된
+          선발·결장·라인업 변화만 잔차로 학습한다. 현재 잔차는 검증 전이라 <b className="text-ink">0%p</b>다.
+        </p>
+        <ol className="m-0 grid gap-2 p-0 text-[12px] leading-[1.65] text-ink2 sm:grid-cols-2">
+          <li className="list-none border-t border-rule2 pt-2"><b className="text-ink">1. 시각 고정</b><br />예측 시점에 실제로 보인 배당·자료만 저장한다.</li>
+          <li className="list-none border-t border-rule2 pt-2"><b className="text-ink">2. 워크포워드</b><br />과거로 학습하고 그다음 경기만 예측한다.</li>
+          <li className="list-none border-t border-rule2 pt-2"><b className="text-ink">3. 확률 검정</b><br />Brier·로그손실·보정도를 시장 기준선과 비교한다.</li>
+          <li className="list-none border-t border-rule2 pt-2"><b className="text-ink">4. 승격 또는 0</b><br />미공개 기간 개선의 신뢰구간이 0을 넘을 때만 반영한다.</li>
+        </ol>
+        <p className="mt-2.5 mb-0 text-[11px] leading-[1.7] text-ink3">
+          생성형 AI는 기사·공식 발표를 구조화하고 문장을 다듬을 뿐, 직접 확률을 쓰지 않는다. 선택적 예측으로
+          자료가 낡았거나 분포가 바뀐 경기는 보류하고, 고정된 커버리지에서 성능을 비교한다.{" "}
+          <a className="text-signal" href="https://proceedings.mlr.press/v70/guo17a.html">확률 보정</a> ·{" "}
+          <a className="text-signal" href="https://proceedings.mlr.press/v97/geifman19a.html">선택적 예측</a> ·{" "}
+          <a className="text-signal" href="https://journals.sagepub.com/doi/10.1177/1471082X20929881">선수·팀 정보 결합</a>
         </p>
       </Card>
 

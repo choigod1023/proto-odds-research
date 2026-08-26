@@ -144,6 +144,9 @@ def test_high_odds_and_market_underdog_are_not_auto_recommendations():
     assert "2.20 이상" in automatic_selection_exclusion_reason("승패", 2.2, 0.48, 0.52)
     assert "역배" in automatic_selection_exclusion_reason("승패", 2.05, 0.42, 0.58)
     assert automatic_selection_exclusion_reason("승무패", 1.95, 0.45, 0.45) is None
+    assert "유효한 배당" in automatic_selection_exclusion_reason("승패", None, 0.60, 0.60)
+    assert "유효한 배당" in automatic_selection_exclusion_reason("승패", 1.0, 0.60, 0.60)
+    assert "시장확률" in automatic_selection_exclusion_reason("승패", 1.5, None, 0.60)
 
 
 def test_target_optimizer_maximizes_joint_probability_without_fixed_bins():
