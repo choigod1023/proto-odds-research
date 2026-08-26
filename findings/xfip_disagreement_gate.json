@@ -1,0 +1,1140 @@
+{
+  "protocol": "2023 fit; 2024 rule selection; <=2024 refit; >=2025 untouched test",
+  "selection_objective": "none: sparse 2024 data; use pre-specified broad hypothesis",
+  "promotion_gate": "test n>=300, Wilson lower>50%, ROI>0",
+  "joined_rows": 1978,
+  "split_n": {
+    "fit": 507,
+    "tune": 553,
+    "test": 918
+  },
+  "context_ridge": 100.0,
+  "context_columns": [
+    "elo_diff",
+    "pi_diff",
+    "form_diff",
+    "margin_diff",
+    "trend_diff",
+    "streak_diff",
+    "venue_diff",
+    "h2h_diff",
+    "rest_diff",
+    "b2b_home",
+    "b2b_away"
+  ],
+  "selected_rule": {
+    "market_max": 1.0,
+    "edge_min": 0.0,
+    "xfip_margin": 0.0,
+    "ev_min": -1.0
+  },
+  "tune": {
+    "n": 27,
+    "wins": 16,
+    "accuracy": 0.5925925925925926,
+    "accuracy_wilson95": [
+      0.4072670096806468,
+      0.7548524292560443
+    ],
+    "average_odds": 1.8388888888888886,
+    "roi": 0.08666666666666666,
+    "mean_model_probability": 0.5196374247079623
+  },
+  "test": {
+    "n": 52,
+    "wins": 26,
+    "accuracy": 0.5,
+    "accuracy_wilson95": [
+      0.36885862959780547,
+      0.6311413704021945
+    ],
+    "average_odds": 1.806346153846154,
+    "roi": -0.09038461538461538,
+    "mean_model_probability": 0.5187863130183966,
+    "promotion_status": "research_only"
+  },
+  "candidate_count": 54,
+  "max_exploratory_tune_n": 12,
+  "exploratory_candidates": [
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.0,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 10,
+        "wins": 6,
+        "accuracy": 0.6,
+        "accuracy_wilson95": [
+          0.31267376973365824,
+          0.8318196702937638
+        ],
+        "average_odds": 1.8679999999999999,
+        "roi": 0.11899999999999995,
+        "mean_model_probability": 0.5230054347450529
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.0,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.0,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 9,
+        "wins": 6,
+        "accuracy": 0.6666666666666666,
+        "accuracy_wilson95": [
+          0.3542021355803963,
+          0.879416181613089
+        ],
+        "average_odds": 1.8677777777777775,
+        "roi": 0.2433333333333333,
+        "mean_model_probability": 0.5242118748173676
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.0,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.0,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 7,
+        "wins": 5,
+        "accuracy": 0.7142857142857143,
+        "accuracy_wilson95": [
+          0.35893445183261935,
+          0.9177810759959433
+        ],
+        "average_odds": 1.8571428571428572,
+        "roi": 0.32714285714285707,
+        "mean_model_probability": 0.5272148854427992
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.0,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.01,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 10,
+        "wins": 6,
+        "accuracy": 0.6,
+        "accuracy_wilson95": [
+          0.31267376973365824,
+          0.8318196702937638
+        ],
+        "average_odds": 1.8679999999999999,
+        "roi": 0.11899999999999995,
+        "mean_model_probability": 0.5230054347450529
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.01,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.01,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 9,
+        "wins": 6,
+        "accuracy": 0.6666666666666666,
+        "accuracy_wilson95": [
+          0.3542021355803963,
+          0.879416181613089
+        ],
+        "average_odds": 1.8677777777777775,
+        "roi": 0.2433333333333333,
+        "mean_model_probability": 0.5242118748173676
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.01,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.01,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 7,
+        "wins": 5,
+        "accuracy": 0.7142857142857143,
+        "accuracy_wilson95": [
+          0.35893445183261935,
+          0.9177810759959433
+        ],
+        "average_odds": 1.8571428571428572,
+        "roi": 0.32714285714285707,
+        "mean_model_probability": 0.5272148854427992
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.01,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.02,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 10,
+        "wins": 6,
+        "accuracy": 0.6,
+        "accuracy_wilson95": [
+          0.31267376973365824,
+          0.8318196702937638
+        ],
+        "average_odds": 1.8679999999999999,
+        "roi": 0.11899999999999995,
+        "mean_model_probability": 0.5230054347450529
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.02,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.02,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 9,
+        "wins": 6,
+        "accuracy": 0.6666666666666666,
+        "accuracy_wilson95": [
+          0.3542021355803963,
+          0.879416181613089
+        ],
+        "average_odds": 1.8677777777777775,
+        "roi": 0.2433333333333333,
+        "mean_model_probability": 0.5242118748173676
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.02,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.02,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 7,
+        "wins": 5,
+        "accuracy": 0.7142857142857143,
+        "accuracy_wilson95": [
+          0.35893445183261935,
+          0.9177810759959433
+        ],
+        "average_odds": 1.8571428571428572,
+        "roi": 0.32714285714285707,
+        "mean_model_probability": 0.5272148854427992
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.55,
+        "edge_min": 0.02,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 2,
+        "wins": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.34238022750665303,
+          1.0
+        ],
+        "average_odds": 1.915,
+        "roi": 0.9149999999999999,
+        "mean_model_probability": 0.528650419024446
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.0,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 12,
+        "wins": 7,
+        "accuracy": 0.5833333333333334,
+        "accuracy_wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "average_odds": 1.8916666666666664,
+        "roi": 0.09666666666666664,
+        "mean_model_probability": 0.5252637561262319
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.0,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.0,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 11,
+        "wins": 7,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson95": [
+          0.35380117450784887,
+          0.8483352890463243
+        ],
+        "average_odds": 1.8936363636363636,
+        "roi": 0.19636363636363638,
+        "mean_model_probability": 0.5264561454018694
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.0,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.0,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 8,
+        "wins": 6,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.40927543031016883,
+          0.9285207872478909
+        ],
+        "average_odds": 1.8712499999999999,
+        "roi": 0.4075,
+        "mean_model_probability": 0.5287271868409626
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.0,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 3,
+        "wins": 3,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.4385029682449546,
+          1.0
+        ],
+        "average_odds": 1.9333333333333333,
+        "roi": 0.9333333333333332,
+        "mean_model_probability": 0.5322047115589998
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.01,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 12,
+        "wins": 7,
+        "accuracy": 0.5833333333333334,
+        "accuracy_wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "average_odds": 1.8916666666666664,
+        "roi": 0.09666666666666664,
+        "mean_model_probability": 0.5252637561262319
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.01,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.01,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 11,
+        "wins": 7,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson95": [
+          0.35380117450784887,
+          0.8483352890463243
+        ],
+        "average_odds": 1.8936363636363636,
+        "roi": 0.19636363636363638,
+        "mean_model_probability": 0.5264561454018694
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.01,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.01,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 8,
+        "wins": 6,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.40927543031016883,
+          0.9285207872478909
+        ],
+        "average_odds": 1.8712499999999999,
+        "roi": 0.4075,
+        "mean_model_probability": 0.5287271868409626
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.01,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 3,
+        "wins": 3,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.4385029682449546,
+          1.0
+        ],
+        "average_odds": 1.9333333333333333,
+        "roi": 0.9333333333333332,
+        "mean_model_probability": 0.5322047115589998
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.02,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 12,
+        "wins": 7,
+        "accuracy": 0.5833333333333334,
+        "accuracy_wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "average_odds": 1.8916666666666664,
+        "roi": 0.09666666666666664,
+        "mean_model_probability": 0.5252637561262319
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.02,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.02,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 11,
+        "wins": 7,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson95": [
+          0.35380117450784887,
+          0.8483352890463243
+        ],
+        "average_odds": 1.8936363636363636,
+        "roi": 0.19636363636363638,
+        "mean_model_probability": 0.5264561454018694
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.02,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.02,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 8,
+        "wins": 6,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.40927543031016883,
+          0.9285207872478909
+        ],
+        "average_odds": 1.8712499999999999,
+        "roi": 0.4075,
+        "mean_model_probability": 0.5287271868409626
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.6,
+        "edge_min": 0.02,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 3,
+        "wins": 3,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.4385029682449546,
+          1.0
+        ],
+        "average_odds": 1.9333333333333333,
+        "roi": 0.9333333333333332,
+        "mean_model_probability": 0.5322047115589998
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.0,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 12,
+        "wins": 7,
+        "accuracy": 0.5833333333333334,
+        "accuracy_wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "average_odds": 1.8916666666666664,
+        "roi": 0.09666666666666664,
+        "mean_model_probability": 0.5252637561262319
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.0,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.0,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 11,
+        "wins": 7,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson95": [
+          0.35380117450784887,
+          0.8483352890463243
+        ],
+        "average_odds": 1.8936363636363636,
+        "roi": 0.19636363636363638,
+        "mean_model_probability": 0.5264561454018694
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.0,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.0,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 8,
+        "wins": 6,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.40927543031016883,
+          0.9285207872478909
+        ],
+        "average_odds": 1.8712499999999999,
+        "roi": 0.4075,
+        "mean_model_probability": 0.5287271868409626
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.0,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 3,
+        "wins": 3,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.4385029682449546,
+          1.0
+        ],
+        "average_odds": 1.9333333333333333,
+        "roi": 0.9333333333333332,
+        "mean_model_probability": 0.5322047115589998
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.01,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 12,
+        "wins": 7,
+        "accuracy": 0.5833333333333334,
+        "accuracy_wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "average_odds": 1.8916666666666664,
+        "roi": 0.09666666666666664,
+        "mean_model_probability": 0.5252637561262319
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.01,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.01,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 11,
+        "wins": 7,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson95": [
+          0.35380117450784887,
+          0.8483352890463243
+        ],
+        "average_odds": 1.8936363636363636,
+        "roi": 0.19636363636363638,
+        "mean_model_probability": 0.5264561454018694
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.01,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.01,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 8,
+        "wins": 6,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.40927543031016883,
+          0.9285207872478909
+        ],
+        "average_odds": 1.8712499999999999,
+        "roi": 0.4075,
+        "mean_model_probability": 0.5287271868409626
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.01,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 3,
+        "wins": 3,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.4385029682449546,
+          1.0
+        ],
+        "average_odds": 1.9333333333333333,
+        "roi": 0.9333333333333332,
+        "mean_model_probability": 0.5322047115589998
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.02,
+        "xfip_margin": 0.0,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 12,
+        "wins": 7,
+        "accuracy": 0.5833333333333334,
+        "accuracy_wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "average_odds": 1.8916666666666664,
+        "roi": 0.09666666666666664,
+        "mean_model_probability": 0.5252637561262319
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.02,
+        "xfip_margin": 0.0,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.02,
+        "xfip_margin": 0.15,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 11,
+        "wins": 7,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson95": [
+          0.35380117450784887,
+          0.8483352890463243
+        ],
+        "average_odds": 1.8936363636363636,
+        "roi": 0.19636363636363638,
+        "mean_model_probability": 0.5264561454018694
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.02,
+        "xfip_margin": 0.15,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 4,
+        "wins": 3,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "average_odds": 1.9625,
+        "roi": 0.44999999999999996,
+        "mean_model_probability": 0.5326028910282864
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.02,
+        "xfip_margin": 0.3,
+        "ev_min": -0.05
+      },
+      "result": {
+        "n": 8,
+        "wins": 6,
+        "accuracy": 0.75,
+        "accuracy_wilson95": [
+          0.40927543031016883,
+          0.9285207872478909
+        ],
+        "average_odds": 1.8712499999999999,
+        "roi": 0.4075,
+        "mean_model_probability": 0.5287271868409626
+      }
+    },
+    {
+      "rule": {
+        "market_max": 0.65,
+        "edge_min": 0.02,
+        "xfip_margin": 0.3,
+        "ev_min": 0.0
+      },
+      "result": {
+        "n": 3,
+        "wins": 3,
+        "accuracy": 1.0,
+        "accuracy_wilson95": [
+          0.4385029682449546,
+          1.0
+        ],
+        "average_odds": 1.9333333333333333,
+        "roi": 0.9333333333333332,
+        "mean_model_probability": 0.5322047115589998
+      }
+    }
+  ]
+}
