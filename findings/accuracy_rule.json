@@ -1,0 +1,21 @@
+{
+  "version": "kbo-selective-accuracy-v2",
+  "learned_on": 2025,
+  "validation_data_cutoff": "2025-10-31",
+  "validation_data_sha256": "db695e16b21c433baf796e7e71a53119caba40a2578504ce865da3f64e3fb122",
+  "model_config": "nonlinear_w730_r100",
+  "blend_weight": 0.75,
+  "market_devig": "shin",
+  "odds_source": "historical_settlement_archive",
+  "odds_timing_status": "unknown",
+  "decision_cutoff_minutes": null,
+  "max_staleness_minutes": null,
+  "sale_status_policy": "not_available_in_archive",
+  "timezone": "Asia/Seoul",
+  "operationally_valid": false,
+  "odds_floor": 1.3,
+  "target_coverage": 0.3,
+  "model_confidence_cutoff": 0.621231,
+  "market_confidence_cutoff": 0.607423,
+  "artifact_sha256": "6b293c725a2a2eba323a41fa62afd7915bef5f0e0c29b5c4a825f89a59538fcf"
+}

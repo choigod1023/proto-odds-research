@@ -45,8 +45,18 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from detail_paths import latest_detail_path                # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
-LINEUP = ROOT / "data" / "raw" / "detail" / "kleague_soccer_2023_2026.json"
+
+
+def lineup_path() -> Path:
+    return latest_detail_path("kleague", "soccer")
+
+
+# Compatibility snapshot only; loaders resolve the path again at call time.
+LINEUP = lineup_path()
 GAMES = ROOT / "data" / "processed" / "games.csv"
 
 _PRE = ("FC",)
@@ -67,9 +77,10 @@ def _norm(n: str) -> str:
     return n
 
 
-def reserves() -> pd.DataFrame:
+def reserves(path: Path | None = None) -> pd.DataFrame:
     """경기별 각 팀의 **비주전 투입 인원**. 주전은 그 경기 직전까지로 판정한다."""
-    raw = json.loads(LINEUP.read_text(encoding="utf-8"))
+    path = lineup_path() if path is None else path
+    raw = json.loads(path.read_text(encoding="utf-8"))
     games = sorted(raw.values(), key=lambda g: g["date"])
     starts: dict = defaultdict(int)          # (팀, 시즌, 선수) → 그때까지 선발 횟수
     n_games: dict = defaultdict(int)

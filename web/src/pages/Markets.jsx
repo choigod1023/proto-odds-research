@@ -4,13 +4,15 @@ import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import Prices from "./Prices.jsx";
 import { displayCommentary } from "../lib/commentary.js";
-import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
+import { day, dayTag, formLine, gcls, gradeOf, hhmm, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
+import { adjustedGamesWithLiveOdds, syncTodayOdds } from "../lib/live-odds.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { alignTodayRecommendations, canonicalPick } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
+import { availableToday, kickoffTime, nextTodayRefreshDelay,
+  recommendationFromPlans } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
@@ -23,6 +25,7 @@ const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
 // 낡는다 — 2026-08-13 실측 231건 중 73건(32%)이 원천과 달랐다. 5분마다 갱신되는
 // 이 파일로 덮어쓴다.
 const ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
+export const MARKET_CLOCK_MS = 30000;
 
 /** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
 function usePoll(url, ms) {
@@ -43,39 +46,6 @@ function usePoll(url, ms) {
 
 const useLive = () => usePoll(LIVE_URL, 60000);
 const useLiveOdds = () => usePoll(ODDS_URL, 120000);
-
-/**
- * picks_v2 의 배당 위에 실시간 배당을 덮어쓴다.
- *
- * ⚠️ 실시간 쪽에 값이 **있을 때만** 갈아끼운다. 없다고 지우면 멀쩡한 값을
- *    빈 칸으로 바꿔 오히려 나빠진다(아직 배당이 안 붙은 회차가 늘 섞여 있다).
- * ⚠️ 배당이 바뀌면 등급·판단도 같이 바뀌어야 하므로, 화면은 이 값을 기준으로
- *    다시 계산한다. 모델확률·시장확률은 산출 시점 값이라 건드리지 않는다.
- */
-function withLiveOdds(games, lo) {
-  if (!lo?.odds) return games;
-  return games.map((g) => {
-    const bucket = lo.odds[String(g.round)];
-    if (!bucket) return g;
-    // ⚠️ 위치로 맞춘다. picks_v2 의 옵션에는 선택지 인덱스가 없고, '선택'(홈/무/원정/
-    //    언더/오버/홀/짝…)을 배당 배열의 자리로 옮기는 규칙은 마켓마다 달라 깨지기 쉽다.
-    //    같은 게임번호 안에서 옵션 순서는 원천 배당 배열 순서와 동일하므로,
-    //    게임번호별로 묶어 n번째끼리 대응시킨다.
-    const seen = {};
-    let touched = false;
-    const options = (g.options || []).map((o) => {
-      const gn = String(o["게임번호"]);
-      const i = (seen[gn] = (seen[gn] ?? -1) + 1);
-      const fresh = bucket[gn];
-      if (!fresh || i >= fresh.length) return o;
-      const v = fresh[i];
-      if (v == null || v === o["배당"]) return o;
-      touched = true;
-      return { ...o, 배당: v, _live: true };
-    });
-    return touched ? { ...g, options } : g;
-  });
-}
 
 /** 프로토 표기와 네이버 표기가 다르므로(마이말린 ↔ 마이애미) 별칭까지 키로 넣는다.
  *
@@ -101,6 +71,40 @@ export default function Markets() {
     today: "data/today_combo.json",
   }, 300000);   // 5분
   const { d, grades, combo, today } = data;
+  const liveOdds = useLiveOdds();
+  // 배당 freshness와 예정 경기 경계를 같은 시계로 판정한다. 탭이 절전에서
+  // 돌아오면 interval을 기다리지 않고 즉시 현재 시각으로 보정한다.
+  const [clock, setClock] = useState(() => Date.now());
+  useEffect(() => {
+    const refreshClock = () => setClock(Date.now());
+    const timer = setInterval(refreshClock, MARKET_CLOCK_MS);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refreshClock();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", refreshClock);
+    window.addEventListener("pageshow", refreshClock);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", refreshClock);
+      window.removeEventListener("pageshow", refreshClock);
+    };
+  }, []);
+  const sourceGames = useMemo(
+    () => [...(d?.live || []), ...(d?.past || [])],
+    [d],
+  );
+  // 한 번 만든 adjusted pool을 오늘 조합과 경기 목록이 함께 쓴다. fetch가
+  // 실패해도 30초 clock이 10분 경계를 넘는 즉시 오래된 overlay를 끊는다.
+  const adjusted = useMemo(
+    () => adjustedGamesWithLiveOdds(sourceGames, liveOdds, clock),
+    [sourceGames, liveOdds, clock],
+  );
+  const adjustedToday = useMemo(
+    () => syncTodayOdds(today, adjusted.games, grades),
+    [today, adjusted.games, grades],
+  );
 
   if (at && !d) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
   if (!d) return <Shell><Empty>불러오는 중…</Empty></Shell>;
@@ -108,15 +112,27 @@ export default function Markets() {
 
   return (
     <Shell meta={metaLine(d, at)}>
+      {liveOdds && !adjusted.freshness.fresh && (
+        <section className="mx-auto mt-5 max-w-[1180px] rounded-lg border border-amber-300 bg-amber-50 px-5 py-3 text-amber-950">
+          <b className="text-[14px]">실시간 배당 갱신 지연</b>
+          <p className="mt-1 text-[12px] leading-5">
+            10분 이내 관측값이 없어 실시간 덮어쓰기를 중단하고 생성 시점 배당을 표시합니다.
+            {adjusted.freshness.generatedAt
+              ? ` 마지막 관측 ${kstStamp(adjusted.freshness.generatedAt)} KST.` : ""}
+          </p>
+        </section>
+      )}
       {stale ? (
         <section id="today-brief" className="mx-auto mt-5 max-w-[1180px] rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
           <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 배당과 추천 판단을 잠시 중단했습니다. 수집이 복구되면 최신 정보가 자동으로 다시 표시됩니다.</p>
         </section>
       ) : (
-        <section id="today-brief"><TodayPlan today={today} combo={combo} grades={grades} games={[...(d.live || []), ...(d.past || [])]} /></section>
+        <section id="today-brief"><TodayPlan today={adjustedToday} combo={combo} grades={grades}
+          games={adjusted.games} oddsFreshness={adjusted.freshness} /></section>
       )}
-      <section id="match-list"><GameList data={d} grades={grades} caps={grades?.odds_caps} stale={stale} /></section>
+      <section id="match-list"><GameList data={d} pool={adjusted.games} grades={grades}
+        caps={grades?.odds_caps} stale={stale} clock={clock} /></section>
       <Prices embedded />
       <section id="evidence"><Evidence grades={grades} tally={d.tally} /></section>
     </Shell>
@@ -148,6 +164,101 @@ function kstStamp(value) {
     KST_FORMAT.formatToParts(date).map(({ type, value: part }) => [type, part]),
   );
   return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}`;
+}
+
+const GAME_DATE_TIME = /^(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})$/;
+const EXPLICIT_TIME_ZONE = /(?:Z|[+-]\d{2}:?\d{2})$/i;
+const SCHEDULED_STATUSES = new Set(["예정", "경기전", "배당대기"]);
+
+function kstParts(value) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return null;
+  const parts = Object.fromEntries(
+    KST_FORMAT.formatToParts(date).map(({ type, value: part }) => [type, part]),
+  );
+  const numeric = Object.fromEntries(
+    ["year", "month", "day", "hour", "minute"].map((key) => [key, Number(parts[key])]),
+  );
+  return Object.values(numeric).every(Number.isFinite) ? numeric : null;
+}
+
+function explicitYear(value) {
+  const year = Number(value);
+  return Number.isInteger(year) && year >= 2000 && year <= 2200 ? year : null;
+}
+
+/** KST 날짜 키. KST는 DST가 없으므로 하루 offset은 정확히 24시간이다. */
+export function marketKstDateKey(value, offsetDays = 0) {
+  const time = value instanceof Date ? value.getTime() : Number(value);
+  if (!Number.isFinite(time) || !Number.isInteger(offsetDays)) return null;
+  const parts = kstParts(time + offsetDays * 86400000);
+  if (!parts) return null;
+  return `${parts.year}-${String(parts.month).padStart(2, "0")}-${String(parts.day).padStart(2, "0")}`;
+}
+
+function sourceReference(source, now) {
+  const statedYear = explicitYear(source?.source_year ?? source?.year);
+  const generated = kstParts(source?.generated_at);
+  // 서로 모순되는 두 메타데이터 중 하나를 임의로 고르지 않는다.
+  if (statedYear != null && generated && statedYear !== generated.year) return null;
+  const year = statedYear ?? generated?.year ?? null;
+  if (year == null) return null;
+  if (generated) return { year, month: generated.month, day: generated.day };
+  const current = kstParts(now);
+  return current?.year === year
+    ? { year, month: current.month, day: current.day }
+    : { year, month: null, day: null };
+}
+
+function validLocalDate(year, month, day, hour, minute) {
+  if (!(month >= 1 && month <= 12 && hour >= 0 && hour <= 23 &&
+        minute >= 0 && minute <= 59 && day >= 1)) return false;
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  return day <= lastDay;
+}
+
+/**
+ * 경기 목록용 시작 시각.
+ *
+ * kickoff_at이 있으면 timezone이 붙은 절대시각만 허용한다. 없을 때만 date와
+ * 경기/파일의 명시 연도(또는 generated_at의 KST 연도)를 결합한다. 연말에
+ * 12월 소스가 1월 경기를 담거나 1월 소스가 12월 경기를 담은 경우만 인접
+ * 연도로 넘기며, 필요한 메타데이터가 없거나 모순되면 NaN으로 닫는다.
+ */
+export function marketKickoffTime(game, source = {}, now = Date.now()) {
+  const absolute = String(game?.kickoff_at || "").trim();
+  if (absolute) {
+    if (!EXPLICIT_TIME_ZONE.test(absolute)) return Number.NaN;
+    const parsed = kickoffTime(game, 0);
+    return Number.isFinite(parsed) ? parsed : Number.NaN;
+  }
+
+  const match = String(game?.date || "").trim().match(GAME_DATE_TIME);
+  if (!match) return Number.NaN;
+  const [, month, day, hour, minute] = match.map(Number);
+  const gameYear = explicitYear(game?.source_year ?? game?.year);
+  const reference = sourceReference(source, now);
+  if (gameYear == null && !reference) return Number.NaN;
+  let year = gameYear ?? reference.year;
+
+  // 개별 경기 연도가 없을 때만 소스 날짜를 기준으로 연말/연초를 해석한다.
+  if (gameYear == null && reference?.month != null) {
+    if (reference.month >= 11 && month <= 2) year += 1;
+    else if (reference.month <= 2 && month >= 11) year -= 1;
+  }
+  if (!validLocalDate(year, month, day, hour, minute)) return Number.NaN;
+
+  const parsed = kickoffTime({ ...game, kickoff_at: "" }, year);
+  if (!Number.isFinite(parsed)) return Number.NaN;
+  const seen = kstParts(parsed);
+  return seen && seen.year === year && seen.month === month && seen.day === day &&
+    seen.hour === hour && seen.minute === minute ? parsed : Number.NaN;
+}
+
+export function isUpcomingScheduledGame(game, source = {}, now = Date.now()) {
+  if (!SCHEDULED_STATUSES.has(String(game?.status || ""))) return true;
+  const kickoff = marketKickoffTime(game, source, now);
+  return Number.isFinite(kickoff) && kickoff > now;
 }
 
 // `갱신` 은 데이터가 만들어진 시각, `확인` 은 브라우저가 마지막으로 받아 본 시각이다.
@@ -187,7 +298,7 @@ const Empty = ({ children }) => (
 );
 
 /* ── ① 오늘 살 것 ──────────────────────────────────────────────── */
-function TodayPlan({ today, combo, grades, games }) {
+function TodayPlan({ today, combo, grades, games, oddsFreshness }) {
   const [clock, setClock] = useState(() => Date.now());
   useEffect(() => {
     let timer;
@@ -235,6 +346,10 @@ function TodayPlan({ today, combo, grades, games }) {
   const selectedIndex = i < 0 ? -1 : (i < plans.length ? i : 0);
   const p = selectedIndex < 0 ? null : plans[selectedIndex];
   const selected = p || solo;
+  const selectedPicks = p ? (p.picks || []) : (solo ? [solo] : []);
+  const oddsMetricsStale = selectedPicks.some((pick) => pick?._odds_metrics_stale);
+  const oddsObservedAt = selectedPicks.map((pick) => pick?.odds_observed_at)
+    .filter(Boolean).sort().at(-1);
   const shouldPass = selectedIndex < 0 || !(Number(selected?.conservative_expected_roi) > 0);
   const recommendedPlan = plans.find(
     (plan) => Number(plan.target) === Number(recommendation.target),
@@ -257,6 +372,11 @@ function TodayPlan({ today, combo, grades, games }) {
       <div className="mt-1 text-[11.5px] text-ink3">
         다음 시작 시각에 재추천 · 최대 30분마다 확인 · 마지막 판정 {kstStamp(clock)} KST
       </div>
+      {oddsObservedAt && oddsFreshness?.fresh && (
+        <div className="mt-1 text-[11.5px] text-ink2">
+          실시간 배당 관측 {kstStamp(oddsObservedAt)} KST · 현재 배당으로 조합배당 재계산
+        </div>
+      )}
       <div className="mt-1 text-[11.5px] text-ink2">
         경기 카드 추천 우선 · 추천 없으면 시장 최유력 보완 · 역배 금지 · 다리당 2.20 미만
       </div>
@@ -329,9 +449,17 @@ function TodayPlan({ today, combo, grades, games }) {
           ? `${Number(selected.calibration_min_n).toLocaleString("ko-KR")}건+` : "없음"} />
       </div>
       <div className="mt-1.5 text-[10.5px] text-ink3">
-        시장 배당 기준 적중 {selected?.hit_est != null ? `${(selected.hit_est * 100).toFixed(1)}%` : "-"} ·
-        시장 기대 {selected?.expected_roi != null ? ` ${(selected.expected_roi * 100).toFixed(1)}%` : " -"}
+        시장 배당 기준 적중 {oddsMetricsStale ? "재계산 대기" : selected?.hit_est != null
+          ? `${(selected.hit_est * 100).toFixed(1)}%` : "-"} ·
+        시장 기대 {oddsMetricsStale ? " 재계산 대기" : selected?.expected_roi != null
+          ? ` ${(selected.expected_roi * 100).toFixed(1)}%` : " -"}
       </div>
+      {oddsMetricsStale && (
+        <div className="mt-1 text-[10.5px] leading-5 text-ink3">
+          배당은 최신값이지만 시장확률·시장 기대는 Shin 방식 재계산 전이라 숨겼습니다.
+          모델확률과 배당구간 실측 보정값은 유지합니다.
+        </div>
+      )}
 
       <div className="mt-3">
         {(p ? p.picks : [solo]).map((c, k) => <Leg key={k} c={c} />)}
@@ -379,7 +507,10 @@ const Leg = ({ c }) => (
     <span className="min-w-[170px] flex-1">
       {c.match} — <b>{c.market}{c.market_label ? ` ${c.market_label}` : ""} {c.sel}</b>
     </span>
-    <span className="tnum font-semibold">{odds(c.odds)}</span>
+    <span className="tnum font-semibold">{odds(c.odds)}
+      {c._live && <span className="ml-1 text-[10px] text-ink3"
+        title={`실시간 관측 ${kstStamp(c.odds_observed_at)} KST`}>•</span>}
+    </span>
     {c.beats && (
       <span className="text-[10.5px] text-signal">
         {c.round}회차가 유리 ({c.beats.round}회차 {odds(c.beats.odds)})
@@ -394,28 +525,23 @@ const STATUS = [
   ["정산", "정산"], ["", "전체"],
 ];
 
-function GameList({ data, grades, caps, stale }) {
+function GameList({ data, pool, grades, caps, stale, clock }) {
   const liveFeed = useLive();
-  const liveOdds = useLiveOdds();
   const lidx = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
   //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
   //    '배당 대기'만 줄줄이 보여서 "오늘 건데 왜 배당이 없냐"로 읽힌다.
   //    이 페이지의 제목이 '오늘 뭘 사면 덜 잃나' 다. 기본값이 그걸 보여줘야 한다.
+  // 날짜를 MM.DD 값으로 고정하면 KST 자정 뒤에도 어제가 선택된 채 남는다.
+  // today/tomorrow 의도를 저장하고 30초 clock마다 실제 날짜 키를 다시 만든다.
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "",
-                               dt: kstMMDD(0) });
+                               dt: "today" });
   const [showModel, setShowModel] = useState(false);
 
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
   const [cap, setCap] = useState(0);          // 0 = 제한 없음
-  // 실시간 배당을 덮어쓴 뒤에 필터·등급 계산으로 넘긴다. 배당이 바뀌면
-  // 등급·'덜 잃는 쪽' 판정도 같이 바뀌어야 하므로 반드시 이 지점에서 갈아끼운다.
-  const pool = useMemo(
-    () => withLiveOdds([...(data.live || []), ...(data.past || [])], liveOdds),
-    [data, liveOdds]);
-
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
   const markets = useMemo(
@@ -424,17 +550,24 @@ function GameList({ data, grades, caps, stale }) {
 
   const games = useMemo(() => {
     const q = f.q.trim().toLowerCase();
-    return pool.filter((g) =>
-      (!f.st || (f.st === "예정"
-        ? g.status === "경기전" || g.status === "배당대기"
-        : g.status === f.st)) &&
-      (!f.lg || g.league === f.lg) &&
-      (!f.rd || String(g.round) === f.rd) &&
-      // 날짜 — 회차는 여러 날에 걸쳐 있어서(93회차만 08.07~08.10) 회차 필터로는
-      // '오늘 살 수 있는 것'을 못 고른다. 경기일로 직접 거른다.
-      (!f.dt || String(g.date ?? "").slice(0, 5) === f.dt) &&
-      (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)));
-  }, [pool, f]);
+    const targetDate = f.dt === "today"
+      ? marketKstDateKey(clock)
+      : f.dt === "tomorrow" ? marketKstDateKey(clock, 1) : null;
+    return pool.filter((g) => {
+      const scheduled = SCHEDULED_STATUSES.has(String(g.status || ""));
+      const kickoff = marketKickoffTime(g, data, clock);
+      // 시작했거나 시작 시각을 안전하게 확정할 수 없는 행은 예정 목록에서 숨긴다.
+      if (!isUpcomingScheduledGame(g, data, clock)) return false;
+      if (f.st && (f.st === "예정" ? !scheduled : g.status !== f.st)) return false;
+      if (f.lg && g.league !== f.lg) return false;
+      if (f.rd && String(g.round) !== f.rd) return false;
+      // 회차는 여러 날에 걸치므로 KST의 완전한 YYYY-MM-DD로 직접 거른다.
+      // 파싱 불가 날짜를 MM.DD만 보고 오늘로 추측하지 않는다.
+      if (targetDate && (!Number.isFinite(kickoff) || marketKstDateKey(kickoff) !== targetDate))
+        return false;
+      return !q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q);
+    });
+  }, [pool, f, data, clock]);
 
   const rows = [];
   let cur = null, n = 0;
@@ -491,8 +624,8 @@ function GameList({ data, grades, caps, stale }) {
       <div className={`filter-shell ${showModel ? "show-model" : ""}`}>
         <div className="filter-primary">
           <div className="date-switch" aria-label="경기 날짜">
-            <button type="button" aria-pressed={f.dt === kstMMDD(0)} onClick={() => setF({ ...f, dt: kstMMDD(0) })}>오늘</button>
-            <button type="button" aria-pressed={f.dt === kstMMDD(1)} onClick={() => setF({ ...f, dt: kstMMDD(1) })}>내일</button>
+            <button type="button" aria-pressed={f.dt === "today"} onClick={() => setF({ ...f, dt: "today" })}>오늘</button>
+            <button type="button" aria-pressed={f.dt === "tomorrow"} onClick={() => setF({ ...f, dt: "tomorrow" })}>내일</button>
             <button type="button" aria-pressed={!f.dt} onClick={() => setF({ ...f, dt: "" })}>전체</button>
           </div>
           <div className="team-search">
@@ -523,7 +656,7 @@ function GameList({ data, grades, caps, stale }) {
           </div>
           <div className="filter-actions">
             <label><input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} /> 모델 수치 보기</label>
-            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: kstMMDD(0) }); setCap(0); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: "today" }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
@@ -666,6 +799,11 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
         <Why g={g} />
         {!wait && <details className="price-sheet">
           <summary><span>배당과 모델 수치</span><span>표 펼치기</span></summary>
+          {opts.some((option) => option._odds_metrics_stale) && (
+            <p className="px-1 pt-2 text-[10.5px] leading-5 text-ink3">
+              실시간 배당 반영됨 · 시장확률과 기대손익은 재계산 전이라 표시하지 않습니다.
+            </p>
+          )}
           <div className="overflow-x-auto py-3">
             <OptTable opts={opts} grades={grades} tie={tie} pick={pick} />
           </div>
@@ -713,13 +851,19 @@ function OptTable({ opts, grades, tie, pick }) {
               <td className={`${td} tnum text-right`}>
                 {odds(o["배당"])}
                 {o._live && <span className="ml-1 text-[10px] text-ink3"
-                  title="방금 받아온 값 (5분 주기)">•</span>}
+                  title={`실시간 관측 ${kstStamp(o._live_observed_at)} KST`}>•</span>}
               </td>
               <td className={`${td} tnum text-right text-ink3`}>
                 {gr?.hit != null ? `${(gr.hit * 100).toFixed(0)}%` : "–"}</td>
-              <td className={`${td} model-col tnum text-right`}>{pct(o["시장확률"])}</td>
+              <td className={`${td} model-col tnum text-right`}>
+                {o._odds_metrics_stale
+                  ? <span className="text-[10px] text-ink3" title="Shin 재계산 전">대기</span>
+                  : pct(o["시장확률"])}</td>
               <td className={`${td} model-col tnum text-right`}>{pct(o["모델확률"])}</td>
-              <td className={`${td} model-col tnum text-right`}>{sgn(o["예상손익"])}</td>
+              <td className={`${td} model-col tnum text-right`}>
+                {o._odds_metrics_stale
+                  ? <span className="text-[10px] text-ink3" title="시장확률 재계산 전">대기</span>
+                  : sgn(o["예상손익"])}</td>
               <td className={`${td} text-[11.5px]`}>
                 {pick && !pick.tie && pick.o === o && (
                   <span className="text-ink">통합 추천</span>)}
@@ -777,6 +921,8 @@ function PitcherCard({ team, pitcher }) {
           </div>
         ) : <p className="mt-1 text-[11px] text-ink3">선발 이름은 확인됐지만 개인 지표 자료는 아직 없다.</p>}
         {pitcher.stats?.fip_approx && <div className="mt-1 text-[9.5px] text-ink3">* FIP는 사구 자료가 없어 사구를 제외한 근사치다.</div>}
+        {pitcher.stats?.xfip_approx && <div className="mt-1 text-[9.5px] text-ink3">* xFIP는 최근 피홈런을 리그 평균 쪽으로 보정한 근사치다.</div>}
+        {pitcher.stats?.stats_as_of && <div className="mt-1 text-[9.5px] text-ink3">통계 기준 {pitcher.stats.stats_as_of}</div>}
         {pitcher.stats_source && <div className="mt-1.5 text-[10px] text-ink3">{pitcher.stats_source}</div>}
       </> : <p className="mt-1 text-[11.5px] text-ink3">아직 선발이 발표되지 않았다.</p>}
     </div>

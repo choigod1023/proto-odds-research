@@ -44,6 +44,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from detail_paths import latest_detail_path                # noqa: E402
 from devig import multiplicative                       # noqa: E402
 from matches import _DATE_RE, _away, _home             # noqa: E402
 from variable_impact import _brier, _fit               # noqa: E402
@@ -60,7 +61,7 @@ ALLSTAR = {"나눔", "드림"}
 # ---------------------------------------------------------------- 데이터 로드
 def load_stadiums() -> pd.DataFrame:
     """네이버 KBO 박스스코어에서 (날짜, 홈, 원정) → 구장."""
-    src = RAW / "detail" / "kbo_batters_2023_2026.json"
+    src = latest_detail_path("kbo", "batters")
     rows = []
     for v in json.load(open(src, encoding="utf-8")).values():
         st = (v.get("data") or {}).get("stadium")

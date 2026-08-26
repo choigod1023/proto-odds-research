@@ -17,6 +17,7 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import pandas as pd
@@ -30,6 +31,7 @@ from wisetoto import CACHE, _session                       # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 BETS = ROOT / "data" / "processed" / "bets.csv"
 OUT = ROOT / "docs" / "data" / "today.json"
+KST = ZoneInfo("Asia/Seoul")
 
 BUCKETS = [(1.0, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), (5.0, 999)]
 THEORETICAL = {"2-way": 1 / 1.1364 - 1, "3-way": 1 / 1.1494 - 1,
@@ -114,7 +116,7 @@ def main() -> int:
     print(f"과거 실측 조회표 {len(lookup)}개 구간")
 
     sess = _session()
-    year = datetime.now().year
+    year = datetime.now(KST).year
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(year)).glob("*.html.gz")) \
         if (CACHE / str(year)).exists() else []

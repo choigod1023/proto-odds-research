@@ -17,12 +17,14 @@ import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 SNAP_DIR = ROOT / "data" / "raw" / "snapshots"
 DOCS = ROOT / "docs" / "data"
+KST = ZoneInfo("Asia/Seoul")
 
 FAIL: list[str] = []
 WARN: list[str] = []
@@ -105,7 +107,7 @@ def check_dataset() -> None:
     with g.open(newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             years[row["year"]] = years.get(row["year"], 0) + 1
-    cur = str(datetime.now().year)
+    cur = str(datetime.now(KST).year)
     print(f"  연도 분포: { {k: v for k, v in sorted(years.items())} }")
     if years.get(cur):
         ok(f"올해({cur}) {years[cur]:,}행 — 최근폼 계산 가능")

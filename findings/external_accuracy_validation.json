@@ -1,0 +1,331 @@
+{
+  "protocol": "KBO-derived cutoff frozen; monthly prior-only replay in external leagues",
+  "validation_type": "cutoff transportability audit, not same-model external validation: MLB/NPB use a context-only residual model without historical xFIP",
+  "test_integrity": "historical audit only; archived odds timing is unknown and these years have been inspected during project development",
+  "frozen_rule": {
+    "version": "kbo-selective-accuracy-v2",
+    "learned_on": 2025,
+    "validation_data_cutoff": "2025-10-31",
+    "validation_data_sha256": "db695e16b21c433baf796e7e71a53119caba40a2578504ce865da3f64e3fb122",
+    "model_config": "nonlinear_w730_r100",
+    "blend_weight": 0.75,
+    "market_devig": "shin",
+    "odds_source": "historical_settlement_archive",
+    "odds_timing_status": "unknown",
+    "decision_cutoff_minutes": null,
+    "max_staleness_minutes": null,
+    "sale_status_policy": "not_available_in_archive",
+    "timezone": "Asia/Seoul",
+    "operationally_valid": false,
+    "odds_floor": 1.3,
+    "target_coverage": 0.3,
+    "model_confidence_cutoff": 0.621231,
+    "market_confidence_cutoff": 0.607423,
+    "artifact_sha256": "6b293c725a2a2eba323a41fa62afd7915bef5f0e0c29b5c4a825f89a59538fcf",
+    "window_days": 730,
+    "ridge": 100.0
+  },
+  "limitation": "MLB/NPB lack historical xFIP detail; context residual model only; archived sales odds lack collected_at and conflicting repeated-sale prices are excluded",
+  "leagues": {
+    "MLB": {
+      "2025": {
+        "all_games": 2371,
+        "model_selector": {
+          "n": 498,
+          "wins": 298,
+          "coverage": 0.21003795866722902,
+          "accuracy": 0.5983935742971888,
+          "accuracy_wilson95": [
+            0.5547435327219542,
+            0.6405372641860888
+          ],
+          "average_odds": 1.3862650602409639,
+          "roi": -0.17283132530120485
+        },
+        "market_selector": {
+          "n": 670,
+          "wins": 401,
+          "coverage": 0.28258118937157317,
+          "accuracy": 0.5985074626865672,
+          "accuracy_wilson95": [
+            0.5609296110362414,
+            0.6349621647993036
+          ],
+          "average_odds": 1.4012089552238807,
+          "roi": -0.16392537313432837
+        },
+        "all_market_accuracy": 0.5558835934204976,
+        "selection_accuracy_vs_all_games_market_pp": 4.250998087669111,
+        "selection_accuracy_warning": "different difficulty/coverage; not a market direction edge",
+        "different_selection_sets_accuracy_difference_pp": -0.011388838937842483,
+        "coverage_matched_market_diagnostic": {
+          "method": "retrospective top market confidence with same pick count",
+          "operationally_valid": false,
+          "n": 498,
+          "wins": 307,
+          "coverage": 0.21003795866722902,
+          "accuracy": 0.6164658634538153,
+          "accuracy_wilson95": [
+            0.5730226712178238,
+            0.6581260271631252
+          ],
+          "average_odds": 1.3799196787148593,
+          "roi": -0.15148594377510038,
+          "comparison": {
+            "accuracy_difference_pp": -1.8072289156626509,
+            "ci95_pp": [
+              -3.980385037220016,
+              0.38144594205891785
+            ],
+            "probability_model_selector_better": 0.0517,
+            "bootstrap_sampling_unit": "date"
+          }
+        },
+        "same_selected_games": {
+          "n": 498,
+          "direction_disagreements": 1,
+          "model_accuracy": 0.5983935742971888,
+          "market_accuracy": 0.5963855421686747,
+          "accuracy_difference_pp": 0.20080321285140812,
+          "model_brier": 0.24126656047511852,
+          "market_brier": 0.24145651396622936,
+          "brier_delta": -0.00018995349111083915
+        },
+        "different_selection_sets": {
+          "accuracy_difference_pp": -0.011388838937842483,
+          "ci95_pp": [
+            -2.378221374360124,
+            2.328977224641353
+          ],
+          "probability_model_selector_better": 0.4896,
+          "bootstrap_sampling_unit": "date"
+        },
+        "temporal_status": "backcast_before_kbo_rule_data_cutoff"
+      },
+      "2026": {
+        "all_games": 1803,
+        "model_selector": {
+          "n": 278,
+          "wins": 166,
+          "coverage": 0.15418746533555186,
+          "accuracy": 0.5971223021582733,
+          "accuracy_wilson95": [
+            0.5385215828299486,
+            0.6530754952789697
+          ],
+          "average_odds": 1.385611510791367,
+          "roi": -0.17503597122302156
+        },
+        "market_selector": {
+          "n": 424,
+          "wins": 249,
+          "coverage": 0.23516361619523019,
+          "accuracy": 0.5872641509433962,
+          "accuracy_wilson95": [
+            0.5398232099645087,
+            0.6331380551825724
+          ],
+          "average_odds": 1.4078301886792455,
+          "roi": -0.17540094339622642
+        },
+        "all_market_accuracy": 0.5640599001663894,
+        "selection_accuracy_vs_all_games_market_pp": 3.3062401991883927,
+        "selection_accuracy_warning": "different difficulty/coverage; not a market direction edge",
+        "different_selection_sets_accuracy_difference_pp": 0.9858151214877098,
+        "coverage_matched_market_diagnostic": {
+          "method": "retrospective top market confidence with same pick count",
+          "operationally_valid": false,
+          "n": 278,
+          "wins": 166,
+          "coverage": 0.15418746533555186,
+          "accuracy": 0.5971223021582733,
+          "accuracy_wilson95": [
+            0.5385215828299486,
+            0.6530754952789697
+          ],
+          "average_odds": 1.3825179856115108,
+          "roi": -0.17690647482014388,
+          "comparison": {
+            "accuracy_difference_pp": 0.0,
+            "ci95_pp": [
+              -2.8732646571002154,
+              2.874401610389872
+            ],
+            "probability_model_selector_better": 0.4925,
+            "bootstrap_sampling_unit": "date"
+          }
+        },
+        "same_selected_games": {
+          "n": 278,
+          "direction_disagreements": 0,
+          "model_accuracy": 0.5971223021582733,
+          "market_accuracy": 0.5971223021582733,
+          "accuracy_difference_pp": 0.0,
+          "model_brier": 0.2413091463754949,
+          "market_brier": 0.24150251339744488,
+          "brier_delta": -0.00019336702194999722
+        },
+        "different_selection_sets": {
+          "accuracy_difference_pp": 0.9858151214877098,
+          "ci95_pp": [
+            -2.3975376114745184,
+            4.363161540315265
+          ],
+          "probability_model_selector_better": 0.7147,
+          "bootstrap_sampling_unit": "date"
+        },
+        "temporal_status": "after_rule_data_cutoff_but_inspected_historical_audit"
+      }
+    },
+    "NPB": {
+      "2025": {
+        "all_games": 832,
+        "model_selector": {
+          "n": 129,
+          "wins": 87,
+          "coverage": 0.15504807692307693,
+          "accuracy": 0.6744186046511628,
+          "accuracy_wilson95": [
+            0.5895305031355975,
+            0.7492191643213053
+          ],
+          "average_odds": 1.3789922480620154,
+          "roi": -0.07302325581395347
+        },
+        "market_selector": {
+          "n": 226,
+          "wins": 146,
+          "coverage": 0.27163461538461536,
+          "accuracy": 0.6460176991150443,
+          "accuracy_wilson95": [
+            0.5817065332273055,
+            0.7054479268019813
+          ],
+          "average_odds": 1.4096017699115044,
+          "roi": -0.09075221238938054
+        },
+        "all_market_accuracy": 0.546875,
+        "selection_accuracy_vs_all_games_market_pp": 12.754360465116276,
+        "selection_accuracy_warning": "different difficulty/coverage; not a market direction edge",
+        "different_selection_sets_accuracy_difference_pp": 2.8400905536118515,
+        "coverage_matched_market_diagnostic": {
+          "method": "retrospective top market confidence with same pick count",
+          "operationally_valid": false,
+          "n": 129,
+          "wins": 87,
+          "coverage": 0.15504807692307693,
+          "accuracy": 0.6744186046511628,
+          "accuracy_wilson95": [
+            0.5895305031355975,
+            0.7492191643213053
+          ],
+          "average_odds": 1.3712403100775195,
+          "roi": -0.07465116279069768,
+          "comparison": {
+            "accuracy_difference_pp": 0.0,
+            "ci95_pp": [
+              -3.7918959959052367,
+              3.6610558516180345
+            ],
+            "probability_model_selector_better": 0.4856,
+            "bootstrap_sampling_unit": "date"
+          }
+        },
+        "same_selected_games": {
+          "n": 129,
+          "direction_disagreements": 1,
+          "model_accuracy": 0.6744186046511628,
+          "market_accuracy": 0.6821705426356589,
+          "accuracy_difference_pp": -0.7751937984496138,
+          "model_brier": 0.2213152215441796,
+          "market_brier": 0.21889111868293853,
+          "brier_delta": 0.002424102861241062
+        },
+        "different_selection_sets": {
+          "accuracy_difference_pp": 2.8400905536118515,
+          "ci95_pp": [
+            -3.309928833424235,
+            8.85416933541709
+          ],
+          "probability_model_selector_better": 0.8236,
+          "bootstrap_sampling_unit": "date"
+        },
+        "temporal_status": "backcast_before_kbo_rule_data_cutoff"
+      },
+      "2026": {
+        "all_games": 635,
+        "model_selector": {
+          "n": 92,
+          "wins": 62,
+          "coverage": 0.14488188976377953,
+          "accuracy": 0.6739130434782609,
+          "accuracy_wilson95": [
+            0.5728326114575908,
+            0.761052122703932
+          ],
+          "average_odds": 1.3830434782608696,
+          "roi": -0.06521739130434785
+        },
+        "market_selector": {
+          "n": 155,
+          "wins": 99,
+          "coverage": 0.2440944881889764,
+          "accuracy": 0.6387096774193548,
+          "accuracy_wilson95": [
+            0.5605754288848729,
+            0.7101347516892046
+          ],
+          "average_odds": 1.4119999999999997,
+          "roi": -0.09690322580645164
+        },
+        "all_market_accuracy": 0.5716535433070866,
+        "selection_accuracy_vs_all_games_market_pp": 10.225950017117425,
+        "selection_accuracy_warning": "different difficulty/coverage; not a market direction edge",
+        "different_selection_sets_accuracy_difference_pp": 3.520336605890606,
+        "coverage_matched_market_diagnostic": {
+          "method": "retrospective top market confidence with same pick count",
+          "operationally_valid": false,
+          "n": 92,
+          "wins": 57,
+          "coverage": 0.14488188976377953,
+          "accuracy": 0.6195652173913043,
+          "accuracy_wilson95": [
+            0.5174573253344068,
+            0.7120884294016401
+          ],
+          "average_odds": 1.3804347826086958,
+          "roi": -0.14358695652173917,
+          "comparison": {
+            "accuracy_difference_pp": 5.434782608695654,
+            "ci95_pp": [
+              0.8771929824561427,
+              10.911472098467115
+            ],
+            "probability_model_selector_better": 0.9931,
+            "bootstrap_sampling_unit": "date"
+          }
+        },
+        "same_selected_games": {
+          "n": 92,
+          "direction_disagreements": 0,
+          "model_accuracy": 0.6739130434782609,
+          "market_accuracy": 0.6739130434782609,
+          "accuracy_difference_pp": 0.0,
+          "model_brier": 0.22257330183626148,
+          "market_brier": 0.22272383931233514,
+          "brier_delta": -0.00015053747607365886
+        },
+        "different_selection_sets": {
+          "accuracy_difference_pp": 3.520336605890606,
+          "ci95_pp": [
+            -2.7440478634584347,
+            10.134709503839085
+          ],
+          "probability_model_selector_better": 0.859,
+          "bootstrap_sampling_unit": "date"
+        },
+        "temporal_status": "after_rule_data_cutoff_but_inspected_historical_audit"
+      }
+    }
+  }
+}

@@ -25,16 +25,27 @@
 from __future__ import annotations
 
 import json
+import os
+import re
 import sys
+import tempfile
 import time
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 
 RAW = Path(__file__).resolve().parent.parent / "data" / "raw" / "detail"
 API = "https://api-gw.sports.naver.com"
 GAP = 1.0
+KST = ZoneInfo("Asia/Seoul")
+
+# 네이버 스케줄의 실제 KBO 2023~2026 응답은 종료 경기를 RESULT로
+# 내린다. 프로젝트의 실시간 판정(live_scores.py)이 호환 값 END도
+# 종료로 취급하므로 동일하게 유지한다. STARTED 등 알 수 없는 상태는
+# 부분 박스스코어를 영구 캐시하지 않도록 보수적으로 제외한다.
+COMPLETED_STATUS_CODES = frozenset({"RESULT", "END"})
 
 # 종목 → (upperCategoryId, categoryId) 목록
 CATS = {
@@ -42,6 +53,14 @@ CATS = {
     "npb": ("wbaseball", "npb"),
     "kleague": ("kfootball", "kleague"), "mls": ("wfootball", "mls"),
 }
+
+
+def is_completed_game(game: dict) -> bool:
+    """취소되지 않은 진짜 종료 경기만 상세 캐시 대상으로 인정한다."""
+    if game.get("cancel"):
+        return False
+    status = str(game.get("statusCode") or "").strip().upper()
+    return status in COMPLETED_STATUS_CODES
 
 
 def _session() -> requests.Session:
@@ -56,7 +75,7 @@ def _session() -> requests.Session:
 def list_games(sess, league: str, y0: int, y1: int) -> list[dict]:
     up, cid = CATS[league]
     out, d = [], date(y0, 1, 1)
-    end = min(date(y1, 12, 31), date.today())
+    end = min(date(y1, 12, 31), datetime.now(KST).date())
     while d <= end:
         nxt = (d.replace(day=28) + timedelta(days=4)).replace(day=1)
         hi = min(nxt - timedelta(days=1), end)
@@ -247,6 +266,54 @@ def parse_soccer(res: dict) -> dict | None:
     return out
 
 
+def _load_json_cache(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        backup = path.with_suffix(path.suffix + ".bak")
+        try:
+            value = json.loads(backup.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            raise RuntimeError(f"detail cache is corrupt; preserved without overwrite: {path}") from error
+    if not isinstance(value, dict):
+        raise RuntimeError(f"detail cache root must be an object: {path}")
+    return value
+
+
+def _atomic_write_json(path: Path, value: dict) -> None:
+    """같은 디렉터리 임시파일을 fsync한 뒤 교체해 강제 종료 절단을 막는다."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = tempfile.NamedTemporaryFile(
+        mode="w", encoding="utf-8", dir=path.parent,
+        prefix=f".{path.name}.", suffix=".tmp", delete=False)
+    temp_path = Path(handle.name)
+    try:
+        with handle:
+            json.dump(value, handle, ensure_ascii=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_path, path)
+    finally:
+        if temp_path.exists():
+            temp_path.unlink()
+
+
+def _seed_previous_cache(out_file: Path, league: str, kind: str,
+                         y0: int, y1: int) -> dict:
+    if out_file.exists():
+        return _load_json_cache(out_file)
+    candidates = []
+    pattern = re.compile(
+        rf"^{re.escape(league)}_{re.escape(kind)}_{y0}_(\d{{4}})\.json$")
+    for path in RAW.glob(f"{league}_{kind}_{y0}_*.json"):
+        match = pattern.match(path.name)
+        if match and int(match.group(1)) < y1:
+            candidates.append((int(match.group(1)), path))
+    return _load_json_cache(max(candidates, default=(0, None))[1]) if candidates else {}
+
+
 def main(argv: list[str]) -> int:
     if len(argv) < 3:
         print(__doc__)
@@ -254,7 +321,7 @@ def main(argv: list[str]) -> int:
     kind, league = argv[1], argv[2]
     yrs = [int(a) for a in argv[3:] if a.isdigit()]
     y0 = yrs[0] if yrs else 2023
-    y1 = yrs[1] if len(yrs) > 1 else date.today().year
+    y1 = yrs[1] if len(yrs) > 1 else datetime.now(KST).year
     # kind: baseball(투수기록) / batters(야구 타자기록) / lineup(축구 라인업)
     #       / shots(축구 슈팅)
     path = "lineup" if kind == "lineup" else "record"
@@ -264,13 +331,13 @@ def main(argv: list[str]) -> int:
 
     RAW.mkdir(parents=True, exist_ok=True)
     out_file = RAW / f"{league}_{kind}_{y0}_{y1}.json"
-    cache = json.loads(out_file.read_text(encoding="utf-8")) if out_file.exists() else {}
+    cache = _seed_previous_cache(out_file, league, kind, y0, y1)
     print(f"{league.upper()} {kind} {y0}~{y1} · 기존 캐시 {len(cache)}경기")
 
     sess = _session()
     games = list_games(sess, league, y0, y1)
     todo = [g for g in games if g.get("gameId") not in cache
-            and g.get("statusCode") != "BEFORE"]
+            and is_completed_game(g)]
     print(f"일정 {len(games)}경기 · 수집 대상 {len(todo)}경기 "
           f"(예상 {len(todo)*GAP/60:.0f}분)", flush=True)
 
@@ -293,12 +360,11 @@ def main(argv: list[str]) -> int:
             print(f"  {gid} 오류 {type(e).__name__}", flush=True)
             time.sleep(2)
         if i % 100 == 0:
-            out_file.write_text(json.dumps(cache, ensure_ascii=False),
-                                encoding="utf-8")
+            _atomic_write_json(out_file, cache)
             print(f"  {i}/{len(todo)} · 확보 {got}", flush=True)
         time.sleep(GAP)
 
-    out_file.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+    _atomic_write_json(out_file, cache)
     print(f"\n완료 · 총 {len(cache)}경기 (신규 {got}) → {out_file}")
     return 0
 

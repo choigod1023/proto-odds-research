@@ -42,12 +42,28 @@ def _psi(e: float, c: float) -> float:
 
 
 def run_pi(m: pd.DataFrame) -> pd.DataFrame:
-    """날짜순 1패스. 각 경기의 예측 점수차는 **그 경기 이전** 레이팅으로만 만든다."""
+    """날짜순 1패스. 같은 날짜 결과도 그날 모든 예측을 만든 뒤 반영한다."""
     RH: dict = defaultdict(float)     # 홈 레이팅
     RA: dict = defaultdict(float)     # 원정 레이팅
+    def apply_updates(pending) -> None:
+        for kh, ka, lam, err in pending:
+            # 홈팀: 홈 레이팅을 주로, 원정 레이팅에 일부 전이
+            RH[kh] += lam * err
+            RA[kh] += lam * GAMMA * err
+            # 원정팀: 반대 방향
+            RA[ka] -= lam * err
+            RH[ka] -= lam * GAMMA * err
+
     rows = []
+    pending = []
+    current_date = None
 
     for r in m.itertuples():
+        d = pd.Timestamp(r.date).normalize()
+        if current_date is not None and d != current_date:
+            apply_updates(pending)
+            pending.clear()
+        current_date = d
         kh, ka = (r.league, r.home_team), (r.league, r.away_team)
         lam = LAMBDA.get(r.sport, 0.08)
         c = DAMP.get(r.sport, 2.0)
@@ -62,13 +78,9 @@ def run_pi(m: pd.DataFrame) -> pd.DataFrame:
         obs_gd = float(r.home_score - r.away_score)
         err = _psi(obs_gd - exp_gd, c)
 
-        # 홈팀: 홈 레이팅을 주로, 원정 레이팅에 일부 전이
-        RH[kh] += lam * err
-        RA[kh] += lam * GAMMA * err
-        # 원정팀: 반대 방향
-        RA[ka] -= lam * err
-        RH[ka] -= lam * GAMMA * err
+        pending.append((kh, ka, lam, err))
 
+    apply_updates(pending)
     return pd.DataFrame(rows)
 
 

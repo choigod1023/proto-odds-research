@@ -53,6 +53,7 @@ export function pitcherMetrics(starter) {
     ["이닝", s.innings_display ?? s.innings], ["탈삼진", s.strikeouts],
     ["K/9", s.k9], ["BB/9", s.bb9], ["HR/9", s.hr9],
     [s.fip_approx ? "FIP*" : "FIP", s.fip],
-    ["평균 이닝", s.avg_ip], ["선발", s.games_started],
+    [s.xfip_approx ? "xFIP*" : "xFIP", s.xfip],
+    ["평균 이닝", s.avg_ip], ["표본 이닝", s.sample_ip], ["선발", s.games_started],
   ].filter(([, value]) => value !== null && value !== undefined && value !== "");
 }

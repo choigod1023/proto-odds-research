@@ -21,7 +21,7 @@
 from __future__ import annotations
 
 from collections import defaultdict, deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import pandas as pd
 
@@ -95,10 +95,25 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
 
     as_of 를 주면 그 시점까지의 경기만 사용한다(누수 방지).
     """
-    if season is not None:
-        g = g[g["year"] == season]
+    from features import season_key
+
+    anchor = pd.Timestamp(as_of) if as_of is not None else None
+    if anchor is not None and anchor.tzinfo is not None:
+        anchor = anchor.tz_localize(None)
     if as_of is not None:
-        g = g[g["date"] <= as_of]
+        g = g[g["date"] <= anchor]
+    if season is not None:
+        # ``year == season``은 해넘이 리그를 1월에 끊고, 8월 새 시즌에는 같은
+        # 해 상반기 기록을 섞는다. 기준일이 있으면 그 날짜가 속한 대회 시즌만 쓴다.
+        if anchor is None:
+            anchor = pd.Timestamp(year=int(season), month=12, day=31)
+        target = {str(league): season_key(str(league), anchor)
+                  for league in g["league"].dropna().unique()}
+        row_seasons = pd.Series(
+            [season_key(league, date) for league, date in zip(g["league"], g["date"])],
+            index=g.index)
+        wanted = g["league"].astype(str).map(target)
+        g = g[row_seasons == wanted]
 
     forms: dict[tuple[str, str], Form] = {}
     h2h: dict[tuple, dict] = defaultdict(
@@ -208,10 +223,34 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
 
 
 def set_rest_days(forms: dict, game_date: pd.Timestamp) -> None:
-    """경기 예정일 기준 휴식일을 채운다."""
+    """경기 예정일 기준 휴식일을 채운다.
+
+    여러 예정 경기를 한 번에 만드는 코드에서는 공유 객체가 마지막 경기 날짜로
+    덮이므로 :func:`form_for_game`을 사용한다. 이 함수는 기존 호출부 호환용이다.
+    """
     for f in forms.values():
         if f.last_date is not None:
             f.rest_days = int((game_date - f.last_date).days)
+
+
+def form_for_game(form: Form | None, game_date: pd.Timestamp | None) -> Form | None:
+    """공유 ``Form``을 바꾸지 않고 해당 경기 시점의 휴식일을 붙인 복사본.
+
+    같은 회차에 오늘 경기와 사흘 뒤 경기가 함께 있을 수 있다. 전역 ``Form``을
+    한 번만 수정하면 두 경기 모두 같은 휴식일로 표시되는 오류가 생긴다.
+    """
+    if form is None:
+        return None
+    rest_days = None
+    if game_date is not None and form.last_date is not None:
+        target = pd.Timestamp(game_date)
+        last = pd.Timestamp(form.last_date)
+        if target.tzinfo is not None:
+            target = target.tz_localize(None)
+        if last.tzinfo is not None:
+            last = last.tz_localize(None)
+        rest_days = int((target.normalize() - last.normalize()).days)
+    return replace(form, rest_days=rest_days)
 
 
 def h2h_text(h2h: dict, league: str, a: str, b: str) -> str | None:

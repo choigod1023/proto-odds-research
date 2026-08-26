@@ -28,6 +28,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from detail_paths import latest_detail_path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from features import build_features                    # noqa: E402
@@ -35,7 +36,14 @@ from matches import load_matches                       # noqa: E402
 from variable_impact import _brier, _fit, _se          # noqa: E402
 
 RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
-DETAIL = RAW / "detail" / "kbo_baseball_2023_2026.json"
+
+
+def detail_path() -> Path:
+    return latest_detail_path("kbo", "baseball")
+
+
+# Compatibility snapshot only; loaders resolve the path again at call time.
+DETAIL = detail_path()
 TEAM_MAP = Path(__file__).resolve().parent.parent / "data" / "processed" / "team_map.json"
 TRAIN_END = 2024
 WINDOW = 12
@@ -63,8 +71,9 @@ def _inn(x) -> float:
     return tot
 
 
-def load_detail() -> pd.DataFrame:
-    raw = json.loads(DETAIL.read_text(encoding="utf-8"))
+def load_detail(path: Path | None = None) -> pd.DataFrame:
+    path = detail_path() if path is None else path
+    raw = json.loads(path.read_text(encoding="utf-8"))
     rows = []
     for g in raw.values():
         d = g.get("data") or {}
@@ -152,10 +161,11 @@ LABELS = {"sp_era_diff": "선발 자책률 차 (원정−홈) ⭐",
 
 
 def main() -> int:
-    if not DETAIL.exists():
-        print("먼저 python src/game_detail.py baseball kbo 2023 2026")
+    path = detail_path()
+    if not path.exists():
+        print(f"먼저 python src/game_detail.py baseball kbo 2023 {path.stem.rsplit('_', 1)[-1]}")
         return 1
-    df = load_detail()
+    df = load_detail(path)
     print(f"KBO 투수 박스스코어 {len(df):,}경기 "
           f"({df['date'].min().date()} ~ {df['date'].max().date()})")
     verify_starter(df)

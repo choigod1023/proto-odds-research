@@ -1,0 +1,236 @@
+{
+  "status": "research_only",
+  "operationally_valid": false,
+  "scope": "KBO 2026 승패 2-way settled archive vs timestamped snapshots",
+  "protocol": {
+    "join_key": [
+      "year",
+      "round",
+      "game_no"
+    ],
+    "kickoff_conversion": "archive date_text interpreted as Asia/Seoul, converted to UTC",
+    "pregame_rule": "strict ts < kickoff AND snapshot result exactly 경기전",
+    "latest_pregame": "last valid observed price strictly before kickoff with explicit snapshot result=경기전",
+    "t_minus_30": "primary: last explicit-pregame price at or before kickoff-30m, observed no more than 35m before that target",
+    "outcome_source": "archive settlement row only; snapshot result is used only as a pregame-state eligibility field",
+    "sale_open_evidence": "not present in snapshots; explicit result=경기전 is necessary but not sufficient to prove purchasability"
+  },
+  "source_counts": {
+    "archive_raw_rows": 184473,
+    "snapshot_raw_rows": 49852,
+    "settled_archive_markets": 519,
+    "archive_markets_seen_in_snapshots": 89,
+    "snapshot_observations_joined": 37905,
+    "explicit_pregame_observations_joined": 3269,
+    "non_pregame_state_observations_excluded": 34636,
+    "snapshot_files": 32,
+    "all_snapshot_file_rows": 2340199
+  },
+  "primary": {
+    "name": "t_minus_30",
+    "target_minutes_before_kickoff": 30,
+    "maximum_staleness_minutes": 35,
+    "required_snapshot_result_state": "경기전",
+    "sale_open_status_observed": false,
+    "operationally_valid": false,
+    "operational_invalid_reason": "snapshot has no independently observed sale/open status; result=경기전 alone does not prove the price was purchasable",
+    "comparable_n": 60,
+    "mismatch_n": 11,
+    "mismatch_rate": 0.18333333333333332,
+    "favorite_direction_comparable_n": 60,
+    "favorite_reversal_n": 1,
+    "favorite_reversal_rate": 0.016666666666666666
+  },
+  "latest_pregame": {
+    "comparable_n": 69,
+    "mismatch_n": 4,
+    "mismatch_rate": 0.057971014492753624,
+    "favorite_direction_comparable_n": 69,
+    "favorite_reversal_n": 0,
+    "favorite_reversal_rate": 0.0
+  },
+  "t_minus_30": {
+    "comparable_n": 60,
+    "mismatch_n": 11,
+    "mismatch_rate": 0.18333333333333332,
+    "favorite_direction_comparable_n": 60,
+    "favorite_reversal_n": 1,
+    "favorite_reversal_rate": 0.016666666666666666
+  },
+  "archive_price_first_observed": {
+    "matching_price_ever_observed_n": 89,
+    "never_observed_n": 430,
+    "first_observed_at_or_after_kickoff_n": 24,
+    "examples": [
+      {
+        "year": 2026,
+        "round": 87,
+        "game_no": 8413,
+        "home": "두산 4",
+        "away": "15 삼성",
+        "kickoff_utc": "2026-07-24T09:30:00+00:00",
+        "archive_price_first_observed_utc": "2026-07-26T04:54:32+00:00",
+        "snapshot_result_state": "홈패",
+        "lag_minutes": 2604.5333333333333,
+        "archive_odds": [
+          2.13,
+          1.5
+        ],
+        "result_from_archive": "홈패"
+      },
+      {
+        "year": 2026,
+        "round": 87,
+        "game_no": 8421,
+        "home": "롯데 4",
+        "away": "5 KT",
+        "kickoff_utc": "2026-07-24T09:30:00+00:00",
+        "archive_price_first_observed_utc": "2026-07-26T04:54:32+00:00",
+        "snapshot_result_state": "홈패",
+        "lag_minutes": 2604.5333333333333,
+        "archive_odds": [
+          2.24,
+          1.45
+        ],
+        "result_from_archive": "홈패"
+      },
+      {
+        "year": 2026,
+        "round": 87,
+        "game_no": 8429,
+        "home": "SSG 7",
+        "away": "3 NC",
+        "kickoff_utc": "2026-07-24T09:30:00+00:00",
+        "archive_price_first_observed_utc": "2026-07-26T04:54:32+00:00",
+        "snapshot_result_state": "홈승",
+        "lag_minutes": 2604.5333333333333,
+        "archive_odds": [
+          2.34,
+          1.41
+        ],
+        "result_from_archive": "홈승"
+      },
+      {
+        "year": 2026,
+        "round": 87,
+        "game_no": 8437,
+        "home": "KIA 5",
+        "away": "8 키움",
+        "kickoff_utc": "2026-07-24T09:30:00+00:00",
+        "archive_price_first_observed_utc": "2026-07-26T04:54:32+00:00",
+        "snapshot_result_state": "홈패",
+        "lag_minutes": 2604.5333333333333,
+        "archive_odds": [
+          1.45,
+          2.24
+        ],
+        "result_from_archive": "홈패"
+      },
+      {
+        "year": 2026,
+        "round": 87,
+        "game_no": 8445,
+        "home": "한화 8",
+        "away": "4 LG",
+        "kickoff_utc": "2026-07-24T09:30:00+00:00",
+        "archive_price_first_observed_utc": "2026-07-26T04:54:32+00:00",
+        "snapshot_result_state": "홈승",
+        "lag_minutes": 2604.5333333333333,
+        "archive_odds": [
+          2.22,
+          1.46
+        ],
+        "result_from_archive": "홈승"
+      },
+      {
+        "year": 2026,
+        "round": 98,
+        "game_no": 4824,
+        "home": "LG 1",
+        "away": "0 KT",
+        "kickoff_utc": "2026-08-19T10:00:00+00:00",
+        "archive_price_first_observed_utc": "2026-08-20T16:42:35+00:00",
+        "snapshot_result_state": "홈승",
+        "lag_minutes": 1842.5833333333333,
+        "archive_odds": [
+          1.61,
+          1.94
+        ],
+        "result_from_archive": "홈승"
+      },
+      {
+        "year": 2026,
+        "round": 98,
+        "game_no": 4840,
+        "home": "롯데 5",
+        "away": "4 키움",
+        "kickoff_utc": "2026-08-19T10:00:00+00:00",
+        "archive_price_first_observed_utc": "2026-08-20T16:42:35+00:00",
+        "snapshot_result_state": "홈승",
+        "lag_minutes": 1842.5833333333333,
+        "archive_odds": [
+          1.67,
+          1.86
+        ],
+        "result_from_archive": "홈승"
+      },
+      {
+        "year": 2026,
+        "round": 98,
+        "game_no": 4832,
+        "home": "삼성 18",
+        "away": "4 SSG",
+        "kickoff_utc": "2026-08-19T10:00:00+00:00",
+        "archive_price_first_observed_utc": "2026-08-20T16:42:35+00:00",
+        "snapshot_result_state": "홈승",
+        "lag_minutes": 1842.5833333333333,
+        "archive_odds": [
+          1.36,
+          2.49
+        ],
+        "result_from_archive": "홈승"
+      },
+      {
+        "year": 2026,
+        "round": 98,
+        "game_no": 4856,
+        "home": "한화 3",
+        "away": "6 KIA",
+        "kickoff_utc": "2026-08-19T10:00:00+00:00",
+        "archive_price_first_observed_utc": "2026-08-20T16:42:35+00:00",
+        "snapshot_result_state": "홈패",
+        "lag_minutes": 1842.5833333333333,
+        "archive_odds": [
+          1.51,
+          2.11
+        ],
+        "result_from_archive": "홈패"
+      },
+      {
+        "year": 2026,
+        "round": 98,
+        "game_no": 4848,
+        "home": "NC 2",
+        "away": "8 두산",
+        "kickoff_utc": "2026-08-19T10:00:00+00:00",
+        "archive_price_first_observed_utc": "2026-08-20T16:42:35+00:00",
+        "snapshot_result_state": "홈패",
+        "lag_minutes": 1842.5833333333333,
+        "archive_odds": [
+          1.75,
+          1.77
+        ],
+        "result_from_archive": "홈패"
+      }
+    ]
+  },
+  "limitations": [
+    "Archive odds has no collected_at and is not certified as a purchasable pregame price.",
+    "A price first seen after kickoff may have existed earlier; it proves missing timing evidence, not when the bookmaker changed it.",
+    "Snapshots cover only the watcher period and may miss opening prices or intervals between polls.",
+    "Snapshot result must be exactly 경기전; blank, locked, in-play, and settled states are excluded even before nominal kickoff.",
+    "Results label correctness is inherited from settlement archive and is never inferred from snapshot rows.",
+    "No independent sale/open status is recorded, so even explicit-pregame prices are not operationally certified as purchasable.",
+    "This audit is descriptive and research_only; it does not validate historical ROI at archive prices."
+  ]
+}

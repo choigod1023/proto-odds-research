@@ -1,8 +1,9 @@
 """시장확률 위 팀·일정 컨텍스트의 시간분리 절제 실험.
 
-2023은 적합, 2024는 ridge 강도 선택, 2023~24로 재적합, 2025~26은 단 한 번
-홀드아웃 평가한다. 시장확률을 offset으로 고정해 공개 정보가 시장의 잔차를 실제로
-설명하는지만 묻는다. 결과는 findings/context_ablation.json에 저장한다.
+2023은 적합, 2024는 ridge 강도 선택, 2023~24로 재적합하고 2025~26을 고정 규칙으로
+역사 감사한다. 시장확률을 offset으로 고정해 공개 정보가 시장의 잔차를 실제로
+설명하는지만 묻는다. 2026은 프로젝트에서 반복 확인됐으므로 깨끗한 최종 홀드아웃으로
+부르지 않는다. 결과는 findings/context_ablation.json에 저장한다.
 """
 from __future__ import annotations
 
@@ -18,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from features import build_features  # noqa: E402
+from devig import MARKET_PROBABILITY_METHOD, market_probabilities  # noqa: E402
 from matches import load_matches  # noqa: E402
 from model_v2 import PI_GAMMA, PI_PARAMS, attach_odds  # noqa: E402
 import pi_ratings  # noqa: E402
@@ -33,6 +35,11 @@ GROUPS = {
                            "trend_diff", "streak_diff", "venue_diff", "h2h_diff",
                            "rest_diff", "b2b_home", "b2b_away"],
 }
+
+
+def market_home_probability(home_odds: float, away_odds: float) -> float:
+    """운영 추천기와 동일한 2-way 시장 홈 확률."""
+    return market_probabilities([float(home_odds), float(away_odds)])[0]
 
 
 def logit(p):
@@ -56,8 +63,12 @@ def prepare() -> pd.DataFrame:
         on=["date", "league", "home_team", "away_team"], how="inner")
     frame = attach_odds(frame)
     frame = frame[frame["outcome"] != 0.5].copy()
-    overround = 1 / frame["o_home"] + 1 / frame["o_away"]
-    frame["p_market"] = (1 / frame["o_home"]) / overround
+    # 운영 추천기와 같은 마진 제거법을 써야 오프라인 문턱을 그대로 재현할 수 있다.
+    # 2-way 시장이라도 multiplicative와 Shin의 차이가 문턱 부근 선택을 바꾼다.
+    frame["p_market"] = [
+        market_home_probability(home, away)
+        for home, away in zip(frame["o_home"], frame["o_away"])
+    ]
     frame["y"] = (frame["outcome"] == 1.0).astype(float)
     return frame.replace([np.inf, -np.inf], np.nan)
 
@@ -185,7 +196,7 @@ def analyze_sport(frame: pd.DataFrame, sport: str) -> dict:
             "market_disagreements": disagreements(test, p)}
     market = result["ablations"]["market"]
     full = result["ablations"]["team_plus_schedule"]
-    result["holdout_change"] = {
+    result["historical_audit_change"] = {
         "accuracy_pp": (full["accuracy"] - market["accuracy"]) * 100,
         "brier": full["brier"] - market["brier"],
         "logloss": full["logloss"] - market["logloss"],
@@ -198,8 +209,12 @@ def analyze_sport(frame: pd.DataFrame, sport: str) -> dict:
 def main() -> int:
     frame = prepare()
     report = {
-        "protocol": "2023 fit; 2024 ridge selection; <=2024 refit; >=2025 untouched holdout",
-        "baseline": "same-event devig Proto 2-way probability",
+        "protocol": "2023 fit; 2024 ridge selection; <=2024 refit; >=2025 historical audit",
+        "test_integrity": ("not a pristine project-level holdout: 2025-26, especially 2026, "
+                           "have been inspected by earlier project experiments"),
+        "odds_timing": ("archived sales odds without collected_at; opening/closing time unknown; "
+                        "conflicting repeated-sale prices excluded"),
+        "baseline": f"same-event {MARKET_PROBABILITY_METHOD} devig Proto 2-way probability",
         "target": "absolute accuracy +5 percentage points without lower-odds substitution",
         "rows": int(len(frame)),
         "sports": [analyze_sport(frame, sport) for sport in sorted(frame["sport"].unique())],

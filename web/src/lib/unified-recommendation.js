@@ -2,6 +2,7 @@ import { gradeOf } from "./fmt.js";
 import { eligibleAutoSelections } from "./recommendation-policy.js";
 
 const clean = (value) => String(value ?? "").trim();
+const selectionRound = (selection, fallbackRound) => selection?.round ?? fallbackRound;
 
 export function selectionKey(selection, round = selection?.round) {
   const gameNo = selection?.game_no ?? selection?.["게임번호"];
@@ -20,8 +21,9 @@ const selectionGroupKey = (selection, round = selection?.round) => {
 export function canonicalOption(game, options = game?.options || []) {
   const source = game?.["추천"];
   if (!source) return null;
-  const wanted = selectionKey(source, game?.round);
-  const current = (options || []).find((option) => selectionKey(option, game?.round) === wanted);
+  const wanted = selectionKey(source, selectionRound(source, game?.round));
+  const current = (options || []).find((option) =>
+    selectionKey(option, selectionRound(option, game?.round)) === wanted);
   if (!current) return null;
   return eligibleAutoSelections(options).includes(current) ? current : null;
 }
@@ -39,7 +41,8 @@ export function alignTodayRecommendations(today, games = []) {
   const inputCandidates = today.candidates || [];
   const canonical = new Map((games || []).flatMap((game) => {
     const option = canonicalOption(game, game?.options || []);
-    return option ? [[selectionGroupKey(option, game.round), selectionKey(option, game.round)]] : [];
+    const round = selectionRound(option, game.round);
+    return option ? [[selectionGroupKey(option, round), selectionKey(option, round)]] : [];
   }));
   const candidates = eligibleAutoSelections(inputCandidates).map((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));

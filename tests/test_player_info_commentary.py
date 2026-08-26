@@ -1,10 +1,12 @@
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from player_info import enrich_picks  # noqa: E402
+from player_info import enrich_picks, game_index, match_game  # noqa: E402
 
 
 def test_lightweight_player_refresh_rebuilds_only_player_commentary(tmp_path):
@@ -42,3 +44,40 @@ def test_lightweight_player_refresh_rebuilds_only_player_commentary(tmp_path):
     assert game["추천"]["모델확률"] == .59
     assert "선발 맞대결은 주니치 야나기 유야(ERA 2.45)" in game["해설"]
     assert "오늘 공식 타순의 팀별 OPS 상위 타자" in game["해설"]
+
+
+def test_game_matching_keeps_year_and_doubleheader_kickoff_distinct():
+    doc = {"games": [
+        {"league": "KBO", "game_datetime": "2025-08-23T14:00:00+09:00",
+         "home_team": "홈", "away_team": "원정",
+         "starters": {"home": {"name": "작년"}}},
+        {"league": "KBO", "game_datetime": "2026-08-23T14:00:00+09:00",
+         "home_team": "홈", "away_team": "원정",
+         "starters": {"home": {"name": "더블1"}}},
+        {"league": "KBO", "game_datetime": "2026-08-23T18:00:00+09:00",
+         "home_team": "홈", "away_team": "원정",
+         "starters": {"home": {"name": "더블2"}}},
+    ]}
+    index = game_index(doc)
+    reference = datetime(2026, 8, 23, tzinfo=ZoneInfo("Asia/Seoul"))
+
+    first = match_game(index, "KBO", "08.23(일) 14:00", "홈", "원정", reference)
+    second = match_game(index, "KBO", "08.23(일) 18:00", "홈", "원정", reference)
+
+    assert first["home"] == "더블1"
+    assert second["home"] == "더블2"
+
+
+def test_lightweight_refresh_does_not_rewrite_past_with_future_stats(tmp_path):
+    picks_path = tmp_path / "picks.json"
+    original = {"home": "당시 선발", "home_detail": {"stats": {"era": 2.0}}}
+    picks_path.write_text(json.dumps({"live": [], "past": [{
+        "sport": "bs", "league": "KBO", "date": "08.01(토) 18:00",
+        "home": "홈", "away": "원정", "선발": original,
+    }]}, ensure_ascii=False), encoding="utf-8")
+    player_doc = {"generated_at": "2026-08-23T00:00:00Z", "games": []}
+
+    enrich_picks(player_doc, picks_path)
+
+    past = json.loads(picks_path.read_text(encoding="utf-8"))["past"][0]
+    assert past["선발"] == original

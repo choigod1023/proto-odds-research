@@ -1,294 +1,413 @@
 {
-  "protocol": "2025 gate selection; 2026 untouched final test",
+  "protocol": "2025 learns absolute confidence cutoff; 2026 applies it per game without future ranks",
+  "test_integrity": "method-level frozen audit, but not a pristine project-level holdout: 2026 has been inspected by earlier project experiments",
+  "data_scope": {
+    "feature_data_cutoff": "2026-08-25",
+    "odds_timing": "archived sales odds without collected_at; opening/closing time unknown; conflicting repeated-sale prices excluded",
+    "universe_2026": {
+      "joined_kbo_games": 519,
+      "xfip_eligible_games": 418,
+      "selected_games": 86,
+      "coverage_of_joined_kbo": 0.16570327552986513,
+      "coverage_of_xfip_eligible": 0.20574162679425836
+    },
+    "doubleheaders": "ambiguous date/team duplicate keys excluded",
+    "starter_feature": "actual box-score starter used as a historical proxy",
+    "starter_proxy_audit": {
+      "status": "partial_period_proxy_check",
+      "period": [
+        "2026-07-28",
+        "2026-08-25"
+      ],
+      "games": 89,
+      "announced_starter_sides": 178,
+      "matches": 177,
+      "match_rate": 0.9943820224719101,
+      "cutoff_match_rates": [
+        {
+          "hours_before_game": 24,
+          "announced_starter_sides": 54,
+          "matches": 54,
+          "match_rate": 1.0
+        },
+        {
+          "hours_before_game": 6,
+          "announced_starter_sides": 170,
+          "matches": 169,
+          "match_rate": 0.9941176470588236
+        },
+        {
+          "hours_before_game": 1,
+          "announced_starter_sides": 170,
+          "matches": 169,
+          "match_rate": 0.9941176470588236
+        }
+      ],
+      "mismatches": [
+        {
+          "game_id": "20260812LTSK02026",
+          "side": "away",
+          "announced": "나균안",
+          "actual": "김한결",
+          "game_date": "2026-08-12"
+        }
+      ],
+      "limitation": "no pregame announcement snapshots before this period; legacy watcher missed changes until this revision"
+    }
+  },
   "constraints": {
     "minimum_average_odds_validation": 1.4,
     "minimum_target_coverage": 0.3,
-    "selection_metric": "Wilson 95% accuracy lower bound"
+    "selection_metric": "Wilson 95% accuracy lower bound",
+    "accuracy_interval_assumption": "binomial approximation; not adjusted for same-date dependence",
+    "comparisons": "date-block bootstrap"
   },
   "base_model": {
     "config": "nonlinear_w730_r100",
-    "blend": 0.75
+    "blend": 0.75,
+    "market_devig": "shin"
+  },
+  "frozen_rule_artifact": {
+    "path": "findings/accuracy_rule.json",
+    "sha256": "6b293c725a2a2eba323a41fa62afd7915bef5f0e0c29b5c4a825f89a59538fcf"
   },
   "validation_candidates": [
     {
       "odds_floor": 1.2,
       "target_coverage": 0.3,
-      "n": 168,
-      "wins": 124,
-      "coverage": 0.2984014209591474,
-      "accuracy": 0.7380952380952381,
+      "confidence_cutoff": 0.637871,
+      "n": 166,
+      "wins": 118,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.7108433734939759,
       "accuracy_wilson95": [
-        0.6668202524772925,
-        0.79872514354658
+        0.6377243964163045,
+        0.7744246777028759
       ],
-      "average_odds": 1.3697619047619047,
-      "roi": 0.006309523809523806
+      "average_odds": 1.36855421686747,
+      "roi": -0.03210843373493976
     },
     {
       "odds_floor": 1.2,
       "target_coverage": 0.4,
-      "n": 225,
-      "wins": 152,
-      "coverage": 0.3996447602131439,
-      "accuracy": 0.6755555555555556,
+      "confidence_cutoff": 0.607644,
+      "n": 221,
+      "wins": 153,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.6923076923076923,
       "accuracy_wilson95": [
-        0.6118799653031943,
-        0.7333372012326103
+        0.628604831494927,
+        0.7494393265790763
       ],
-      "average_odds": 1.3968444444444443,
-      "roi": -0.06595555555555556
+      "average_odds": 1.3974660633484164,
+      "roi": -0.04004524886877827
     },
     {
       "odds_floor": 1.2,
       "target_coverage": 0.5,
-      "n": 281,
-      "wins": 185,
-      "coverage": 0.4991119005328597,
-      "accuracy": 0.6583629893238434,
-      "accuracy_wilson95": [
-        0.6011099574820815,
-        0.7113445579823436
-      ],
-      "average_odds": 1.4227046263345196,
-      "roi": -0.07245551601423487
-    },
-    {
-      "odds_floor": 1.2,
-      "target_coverage": 0.6,
-      "n": 337,
-      "wins": 217,
-      "coverage": 0.5985790408525755,
-      "accuracy": 0.6439169139465876,
-      "accuracy_wilson95": [
-        0.5914340670997243,
-        0.6931557252794612
-      ],
-      "average_odds": 1.443946587537092,
-      "roi": -0.07925816023738873
-    },
-    {
-      "odds_floor": 1.3,
-      "target_coverage": 0.3,
-      "n": 168,
-      "wins": 116,
-      "coverage": 0.2984014209591474,
-      "accuracy": 0.6904761904761905,
-      "accuracy_wilson95": [
-        0.6169668465261757,
-        0.7554694702929221
-      ],
-      "average_odds": 1.4090476190476189,
-      "roi": -0.032380952380952385
-    },
-    {
-      "odds_floor": 1.3,
-      "target_coverage": 0.4,
-      "n": 225,
-      "wins": 146,
-      "coverage": 0.3996447602131439,
-      "accuracy": 0.6488888888888888,
-      "accuracy_wilson95": [
-        0.5844964096998161,
-        0.7082827062229547
-      ],
-      "average_odds": 1.4334222222222222,
-      "roi": -0.07733333333333334
-    },
-    {
-      "odds_floor": 1.3,
-      "target_coverage": 0.5,
-      "n": 281,
-      "wins": 178,
-      "coverage": 0.4991119005328597,
-      "accuracy": 0.6334519572953736,
-      "accuracy_wilson95": [
-        0.5756643979893152,
-        0.6876399689750878
-      ],
-      "average_odds": 1.455266903914591,
-      "roi": -0.08512455516014235
-    },
-    {
-      "odds_floor": 1.3,
-      "target_coverage": 0.6,
-      "n": 337,
-      "wins": 206,
-      "coverage": 0.5985790408525755,
-      "accuracy": 0.6112759643916914,
-      "accuracy_wilson95": [
-        0.558256526878615,
-        0.6617871270228171
-      ],
-      "average_odds": 1.4758456973293768,
-      "roi": -0.106379821958457
-    },
-    {
-      "odds_floor": 1.4,
-      "target_coverage": 0.3,
-      "n": 168,
-      "wins": 98,
-      "coverage": 0.2984014209591474,
-      "accuracy": 0.5833333333333334,
-      "accuracy_wilson95": [
-        0.5077351292199366,
-        0.6552057593884189
-      ],
-      "average_odds": 1.486488095238095,
-      "roi": -0.13464285714285718
-    },
-    {
-      "odds_floor": 1.4,
-      "target_coverage": 0.4,
-      "n": 225,
-      "wins": 131,
-      "coverage": 0.3996447602131439,
-      "accuracy": 0.5822222222222222,
-      "accuracy_wilson95": [
-        0.5169275408917565,
-        0.6447564484984304
-      ],
-      "average_odds": 1.5021777777777778,
-      "roi": -0.1260888888888889
-    },
-    {
-      "odds_floor": 1.4,
-      "target_coverage": 0.5,
-      "n": 281,
-      "wins": 162,
-      "coverage": 0.4991119005328597,
-      "accuracy": 0.5765124555160143,
-      "accuracy_wilson95": [
-        0.5180899056299247,
-        0.6328712647629998
-      ],
-      "average_odds": 1.5223487544483985,
-      "roi": -0.12259786476868328
-    },
-    {
-      "odds_floor": 1.4,
-      "target_coverage": 0.6,
-      "n": 337,
-      "wins": 197,
-      "coverage": 0.5985790408525755,
-      "accuracy": 0.5845697329376854,
-      "accuracy_wilson95": [
-        0.53129135464276,
-        0.6359418223223285
-      ],
-      "average_odds": 1.5441543026706228,
-      "roi": -0.0965578635014837
-    },
-    {
-      "odds_floor": 1.5,
-      "target_coverage": 0.3,
-      "n": 168,
-      "wins": 98,
-      "coverage": 0.2984014209591474,
-      "accuracy": 0.5833333333333334,
-      "accuracy_wilson95": [
-        0.5077351292199366,
-        0.6552057593884189
-      ],
-      "average_odds": 1.5749999999999997,
-      "roi": -0.08220238095238093
-    },
-    {
-      "odds_floor": 1.5,
-      "target_coverage": 0.4,
-      "n": 225,
-      "wins": 133,
-      "coverage": 0.3996447602131439,
-      "accuracy": 0.5911111111111111,
-      "accuracy_wilson95": [
-        0.5258664609013212,
-        0.6532968786932104
-      ],
-      "average_odds": 1.596977777777778,
-      "roi": -0.055111111111111104
-    },
-    {
-      "odds_floor": 1.5,
-      "target_coverage": 0.5,
-      "n": 281,
-      "wins": 162,
-      "coverage": 0.4991119005328597,
-      "accuracy": 0.5765124555160143,
-      "accuracy_wilson95": [
-        0.5180899056299247,
-        0.6328712647629998
-      ],
-      "average_odds": 1.6187544483985765,
-      "roi": -0.0682562277580071
-    },
-    {
-      "odds_floor": 1.5,
-      "target_coverage": 0.6,
-      "n": 334,
+      "confidence_cutoff": 0.587133,
+      "n": 276,
       "wins": 186,
-      "coverage": 0.5932504440497336,
-      "accuracy": 0.5568862275449101,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.6739130434782609,
       "accuracy_wilson95": [
-        0.5032651420396382,
-        0.6092136524003541
+        0.6165500154006244,
+        0.7265013694962473
       ],
-      "average_odds": 1.6407185628742516,
-      "roi": -0.08793413173652692
+      "average_odds": 1.4224637681159422,
+      "roi": -0.04793478260869565
+    },
+    {
+      "odds_floor": 1.2,
+      "target_coverage": 0.6,
+      "confidence_cutoff": 0.569453,
+      "n": 331,
+      "wins": 214,
+      "coverage": 0.6007259528130672,
+      "accuracy": 0.6465256797583081,
+      "accuracy_wilson95": [
+        0.5936135047374004,
+        0.6960758316477423
+      ],
+      "average_odds": 1.447250755287009,
+      "roi": -0.0742296072507553
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.3,
+      "confidence_cutoff": 0.621231,
+      "n": 166,
+      "wins": 116,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.6987951807228916,
+      "accuracy_wilson95": [
+        0.6251551911582904,
+        0.7634425072969369
+      ],
+      "average_odds": 1.409457831325301,
+      "roi": -0.01879518072289158
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.4,
+      "confidence_cutoff": 0.597784,
+      "n": 221,
+      "wins": 145,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.6561085972850679,
+      "accuracy_wilson95": [
+        0.5912960851806123,
+        0.7155868196088727
+      ],
+      "average_odds": 1.4351583710407243,
+      "roi": -0.06389140271493213
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.5,
+      "confidence_cutoff": 0.575658,
+      "n": 276,
+      "wins": 180,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.6521739130434783,
+      "accuracy_wilson95": [
+        0.5942432423504033,
+        0.7059267194343594
+      ],
+      "average_odds": 1.457789855072464,
+      "roi": -0.05456521739130434
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.6,
+      "confidence_cutoff": 0.558951,
+      "n": 331,
+      "wins": 204,
+      "coverage": 0.6007259528130672,
+      "accuracy": 0.6163141993957704,
+      "accuracy_wilson95": [
+        0.562877126518171,
+        0.6670824497875608
+      ],
+      "average_odds": 1.4774320241691843,
+      "roi": -0.09697885196374621
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.3,
+      "confidence_cutoff": 0.589026,
+      "n": 166,
+      "wins": 101,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.608433734939759,
+      "accuracy_wilson95": [
+        0.5325335635299231,
+        0.6794288174456555
+      ],
+      "average_odds": 1.4876506024096385,
+      "roi": -0.09355421686746988
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.4,
+      "confidence_cutoff": 0.569608,
+      "n": 221,
+      "wins": 131,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.5927601809954751,
+      "accuracy_wilson95": [
+        0.5269351794929911,
+        0.655415532048587
+      ],
+      "average_odds": 1.508054298642534,
+      "roi": -0.10737556561085972
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.5,
+      "confidence_cutoff": 0.550594,
+      "n": 276,
+      "wins": 157,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.5688405797101449,
+      "accuracy_wilson95": [
+        0.5098640758139327,
+        0.6259270973744123
+      ],
+      "average_odds": 1.5240579710144928,
+      "roi": -0.13471014492753622
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.6,
+      "confidence_cutoff": 0.532838,
+      "n": 331,
+      "wins": 193,
+      "coverage": 0.6007259528130672,
+      "accuracy": 0.5830815709969789,
+      "accuracy_wilson95": [
+        0.5293095135046635,
+        0.6349473267137165
+      ],
+      "average_odds": 1.5457099697885197,
+      "roi": -0.09791540785498488
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.3,
+      "confidence_cutoff": 0.549617,
+      "n": 166,
+      "wins": 97,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.5843373493975904,
+      "accuracy_wilson95": [
+        0.5082864417902249,
+        0.6565731878574474
+      ],
+      "average_odds": 1.5782530120481932,
+      "roi": -0.08072289156626505
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.4,
+      "confidence_cutoff": 0.529974,
+      "n": 221,
+      "wins": 132,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.5972850678733032,
+      "accuracy_wilson95": [
+        0.5314952556484052,
+        0.6597506125537376
+      ],
+      "average_odds": 1.5984615384615384,
+      "roi": -0.04601809954751129
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.5,
+      "confidence_cutoff": 0.512909,
+      "n": 276,
+      "wins": 157,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.5688405797101449,
+      "accuracy_wilson95": [
+        0.5098640758139327,
+        0.6259270973744123
+      ],
+      "average_odds": 1.622101449275362,
+      "roi": -0.08061594202898549
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.6,
+      "confidence_cutoff": 0.500261,
+      "n": 326,
+      "wins": 182,
+      "coverage": 0.5916515426497277,
+      "accuracy": 0.558282208588957,
+      "accuracy_wilson95": [
+        0.5040077695535811,
+        0.6111990941798747
+      ],
+      "average_odds": 1.6399079754601225,
+      "roi": -0.08730061349693251
     }
   ],
   "selected_rule": {
     "odds_floor": 1.3,
     "target_coverage": 0.3,
-    "n": 168,
+    "confidence_cutoff": 0.621231,
+    "n": 166,
     "wins": 116,
-    "coverage": 0.2984014209591474,
-    "accuracy": 0.6904761904761905,
+    "coverage": 0.30127041742286753,
+    "accuracy": 0.6987951807228916,
     "accuracy_wilson95": [
-      0.6169668465261757,
-      0.7554694702929221
+      0.6251551911582904,
+      0.7634425072969369
     ],
-    "average_odds": 1.4090476190476189,
-    "roi": -0.032380952380952385
+    "average_odds": 1.409457831325301,
+    "roi": -0.01879518072289158
   },
   "test_2026": {
     "model_selector": {
-      "n": 106,
-      "wins": 72,
-      "coverage": 0.29859154929577464,
-      "accuracy": 0.6792452830188679,
+      "n": 86,
+      "wins": 59,
+      "coverage": 0.20574162679425836,
+      "accuracy": 0.686046511627907,
       "accuracy_wilson95": [
-        0.5854617194006704,
-        0.7604914426201603
+        0.5817959683851581,
+        0.7743870279736356
       ],
-      "average_odds": 1.4313207547169808,
-      "roi": -0.02660377358490566
+      "average_odds": 1.4070930232558139,
+      "roi": -0.029418604651162795
     },
     "market_selector": {
-      "n": 106,
-      "wins": 67,
-      "coverage": 0.29859154929577464,
-      "accuracy": 0.6320754716981132,
+      "confidence_cutoff": 0.607423,
+      "n": 104,
+      "wins": 65,
+      "coverage": 0.24880382775119617,
+      "accuracy": 0.625,
       "accuracy_wilson95": [
-        0.5371543636475911,
-        0.7177584925782841
+        0.5290673810155041,
+        0.7120272803913829
       ],
-      "average_odds": 1.4110377358490562,
-      "roi": -0.11047169811320756
+      "average_odds": 1.4003846153846153,
+      "roi": -0.12384615384615387
     },
-    "all_market_accuracy": 0.5746478873239437,
-    "uplift_vs_all_market_pp": 10.45973956949242,
-    "selector_comparison": {
-      "accuracy_difference_pp": 4.716981132075471,
-      "ci95_pp": [
-        -7.547169811320753,
-        17.924528301886788
+    "coverage_matched_market_diagnostic": {
+      "method": "retrospective top market confidence with same pick count",
+      "operationally_valid": false,
+      "n": 86,
+      "wins": 54,
+      "coverage": 0.20574162679425836,
+      "accuracy": 0.627906976744186,
+      "accuracy_wilson95": [
+        0.5223383164148251,
+        0.7225374935818455
       ],
-      "probability_model_selector_better": 0.7432
+      "average_odds": 1.3870930232558136,
+      "roi": -0.12790697674418608,
+      "comparison": {
+        "accuracy_difference_pp": 5.813953488372093,
+        "ci95_pp": [
+          -1.503832390855984,
+          13.377378681015575
+        ],
+        "probability_model_selector_better": 0.9382,
+        "bootstrap_sampling_unit": "date"
+      }
+    },
+    "all_market_accuracy": 0.569377990430622,
+    "selection_accuracy_vs_all_games_market_pp": 11.6668521197285,
+    "selection_accuracy_warning": "different difficulty/coverage; not a market direction edge",
+    "same_selected_games": {
+      "n": 86,
+      "direction_disagreements": 0,
+      "model_accuracy": 0.686046511627907,
+      "market_accuracy": 0.686046511627907,
+      "accuracy_difference_pp": 0.0,
+      "model_brier": 0.21968633094322312,
+      "market_brier": 0.22359460108909526,
+      "brier_delta": -0.003908270145872139
+    },
+    "different_selection_sets": {
+      "accuracy_difference_pp": 6.104651162790697,
+      "ci95_pp": [
+        -0.3247885377206096,
+        13.076923076923075
+      ],
+      "probability_model_selector_better": 0.9671,
+      "bootstrap_sampling_unit": "date"
     }
   },
   "promotion": {
-    "accuracy_profile": "candidate",
+    "selective_accuracy_vs_unfiltered_market": "descriptive_only",
+    "selection_edge_vs_coverage_matched_market": "descriptive_only",
+    "historical_coverage_matched_ci_excludes_zero": false,
+    "market_direction_edge": "reject",
+    "accuracy_profile": "research_only",
     "profit_profile": "reject",
     "automatic_deployment": "reject",
-    "reason": "automatic deployment requires Wilson lower bound >=60%; profit requires ROI>0"
+    "reason": "2026 is not a pristine project-level holdout and historical odds timing is unknown; forward promotion requires preregistered T-30 prices, a positive date-block confidence bound versus the frozen comparator, and positive ROI"
   }
 }

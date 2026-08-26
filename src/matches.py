@@ -11,7 +11,7 @@
 해결
 ----
 · `date_text`('07.26(일) 16:30')와 연도를 합쳐 **실제 날짜**를 만든다
-· (리그, 홈팀, 원정팀, 날짜)로 중복을 제거한다
+· (리그, 홈팀, 원정팀, 경기시각)으로 재발매 중복만 제거한다
 · **날짜순으로 정렬**한다 — 회차 번호는 시간 순서가 아니다
 """
 from __future__ import annotations
@@ -27,6 +27,7 @@ GAMES = Path(__file__).resolve().parent.parent / "data" / "processed" / "games.c
 _HOME_RE = re.compile(r"^(.+?)\s+(-?\d+)\s*$")
 _AWAY_RE = re.compile(r"^(-?\d+)\s+(.+?)\s*$")
 _DATE_RE = re.compile(r"(\d{2})\.(\d{2})")
+_DATETIME_RE = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 # ---------------------------------------------------------------- 팀명 정규화
 # 🔴 **팀명을 벗기는 정규식은 여기 하나만 둔다.** 사본을 만들면 반드시 어긋난다.
@@ -65,9 +66,18 @@ def _away(x):
     return (int(m.group(1)), m.group(2)) if m else (None, None)
 
 
-def load_matches(sports: tuple[str, ...] | None = None) -> pd.DataFrame:
-    """정산 완료된 실제 경기 테이블. 중복 제거 + 날짜순 정렬."""
-    g = pd.read_csv(GAMES)
+def actual_game_year(year, round_no, month):
+    """발매 연도 1회차에 섞인 전년도 12월 31일의 실제 경기 연도를 복원한다."""
+    y = pd.to_numeric(year, errors="coerce")
+    rnd = pd.to_numeric(round_no, errors="coerce")
+    mm = pd.to_numeric(month, errors="coerce")
+    return y - ((rnd == 1) & (mm == 12)).astype(int)
+
+
+def load_matches(sports: tuple[str, ...] | None = None,
+                 path: Path = GAMES) -> pd.DataFrame:
+    """정산 완료 경기. 시각으로 더블헤더를 보존하고 재발매만 합친다."""
+    g = pd.read_csv(path)
     g = g[(~g["is_void"].astype(bool))
           & (g["market_family"].isin(["승패", "승무패"]))
           & (g["result"].isin(["홈승", "홈패", "무승부"]))]
@@ -80,18 +90,31 @@ def load_matches(sports: tuple[str, ...] | None = None) -> pd.DataFrame:
                  away_score=[s for s, _ in aw], away_team=[t for _, t in aw])
     g = g.dropna(subset=["home_team", "away_team", "home_score", "away_score"])
 
-    # 날짜 복원: date_text 는 'MM.DD(요일) HH:MM'
-    md = g["date_text"].astype(str).str.extract(_DATE_RE)
-    g = g.assign(_mm=pd.to_numeric(md[0], errors="coerce"),
-                 _dd=pd.to_numeric(md[1], errors="coerce"))
-    g = g.dropna(subset=["_mm", "_dd"])
+    # 경기시각 복원: 날짜만 쓰면 같은 날 더블헤더와 재발매를 구별할 수 없다.
+    dt = g["date_text"].astype(str).str.extract(_DATETIME_RE)
+    g = g.assign(_mm=pd.to_numeric(dt[0], errors="coerce"),
+                 _dd=pd.to_numeric(dt[1], errors="coerce"),
+                 _hh=pd.to_numeric(dt[2], errors="coerce"),
+                 _minute=pd.to_numeric(dt[3], errors="coerce"))
+    g = g.dropna(subset=["_mm", "_dd", "_hh", "_minute"])
+    game_year = actual_game_year(g["year"], g["round"], g["_mm"])
     g["date"] = pd.to_datetime(
-        dict(year=g["year"], month=g["_mm"].astype(int), day=g["_dd"].astype(int)),
+        dict(year=game_year, month=g["_mm"].astype(int), day=g["_dd"].astype(int),
+             hour=g["_hh"].astype(int), minute=g["_minute"].astype(int)),
         errors="coerce")
     g = g.dropna(subset=["date"])
+    # 이후 학습/검증 분할의 year도 발매 연도가 아니라 실제 경기 연도여야 한다.
+    g["year"] = g["date"].dt.year.astype(int)
 
-    # ⭐ 같은 경기가 여러 회차에 중복 발매된다 → 경기 단위로 1건만
-    g = g.drop_duplicates(subset=["league", "home_team", "away_team", "date"])
+    key = ["league", "home_team", "away_team", "date"]
+    # 동일 시각·팀인데 최종 스코어가 다르면 어느 행도 실제 경기로 확정하지 않는다.
+    variants = g.groupby(key)[["home_score", "away_score"]].nunique()
+    bad = variants.index[variants.max(axis=1) > 1]
+    if len(bad):
+        keys = pd.MultiIndex.from_frame(g[key])
+        g = g.loc[~keys.isin(bad)]
+    # 같은 실제 경기가 여러 회차에 판매된 행은 결과가 같을 때만 1건으로 축약한다.
+    g = g.drop_duplicates(subset=key)
 
     g["outcome"] = np.where(g["home_score"] > g["away_score"], 1.0,
                             np.where(g["home_score"] < g["away_score"], 0.0, 0.5))

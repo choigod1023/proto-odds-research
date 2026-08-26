@@ -12,20 +12,21 @@
 """
 from __future__ import annotations
 
-import json
 import re
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from commentary import make_preview, make_short          # noqa: E402
+from atomic_publish import PublishGuardError, publish_nonempty_json  # noqa: E402
 from elo_model import fit_logistic, load_results, prob_home, run_elo  # noqa: E402
 from snapshot import UNPLAYED, _fetch, find_live_rounds  # noqa: E402
-from team_form import build_forms, h2h_text, set_rest_days  # noqa: E402
-from wisetoto import CACHE, _session                     # noqa: E402
+from team_form import build_forms, form_for_game, h2h_text  # noqa: E402
+from wisetoto import CACHE, _session, repair_text_tree   # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -91,11 +92,9 @@ def main() -> int:
         games_seen[(r.league, r.away_team)] += 1
     MIN_GAMES = 30
     a, b = fit_logistic(hist[hist["year"] <= 2024])
-    season = datetime.now().year
-    forms, h2h = build_forms(hist, season=season)
-    # 오늘 기준 휴식일 계산 (경기 변수)
-    import pandas as _pd
-    set_rest_days(forms, _pd.Timestamp(datetime.now().date()))
+    now = _now_kst()
+    season = now.year
+    forms, h2h = build_forms(hist, season=season, as_of=pd.Timestamp(now))
     print(f"Elo 레이팅 {len(ratings)}팀 · 시즌 {season} 폼 {len(forms)}팀")
 
     sess = _session()
@@ -139,8 +138,6 @@ def main() -> int:
 
             side = ht if ev_h >= ev_a else at
             ev = max(ev_h, ev_a)
-            fh, fa = forms.get(kh), forms.get(ka)
-
             # 정산 상태와 적중 여부
             # ⚠️ 정산 여부만 보면 안 된다. 소스가 결과를 늦게 반영하면
             #    **이미 끝난 경기가 영원히 '경기전'으로 남아** 프론트 맨 위에 뜬다.
@@ -148,6 +145,9 @@ def main() -> int:
             #    킥오프 시각을 같이 봐서 지난 경기는 '정산대기'로 분리한다.
             settled = r.result in ("홈승", "홈패")
             ko = _kickoff(r.date_text, season)
+            game_day = pd.Timestamp(ko) if ko is not None else None
+            fh = form_for_game(forms.get(kh), game_day)
+            fa = form_for_game(forms.get(ka), game_day)
             upcoming = ko is None or ko > _now_kst()
             hit = None
             profit = None
@@ -208,8 +208,13 @@ def main() -> int:
         "season": season, "rounds": rounds,
         "n_picks": len(picks), "backtest": BACKTEST, "picks": picks,
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    doc = repair_text_tree(doc)
+    try:
+        publish_nonempty_json(
+            OUT, doc, rounds=rounds, records=picks, artifact_name="picks.json")
+    except PublishGuardError as exc:
+        print(f"\n산출물 갱신 보류: {exc}")
+        return 1
     print(f"\n픽 {len(picks)}건 → {OUT}")
     for p in picks[:5]:
         print(f"  [{p['pick_ev']:+.1%}] {p['league']} {p['home']} vs {p['away']} "

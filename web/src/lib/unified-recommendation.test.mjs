@@ -49,4 +49,24 @@ assert.equal(rejected.alignment.dropped_by_safety, 2);
 
 const moved = { ...game, options: [{ ...home, "배당": 2.2 }, away] };
 assert.equal(canonicalOption(moved), null, "안전 배당 범위를 벗어나면 예전 추천을 유지하지 않는다");
+
+const laterRoundHome = { ...home, round: 8, "게임번호": "20" };
+const crossRoundGame = {
+  ...game,
+  round: 7,
+  "추천": { ...laterRoundHome },
+  options: [{ ...home, round: 7 }, { ...away, round: 7 }, laterRoundHome],
+};
+assert.equal(canonicalOption(crossRoundGame), laterRoundHome,
+  "합쳐진 경기의 추천은 옵션 자체 판매 회차로 다시 연결해야 한다");
+const crossRoundToday = { candidates: [{
+  round: 8, game_no: "20", market: "승패", market_label: "", sel: "홈",
+  odds: 1.55,
+}] };
+assert.equal(
+  alignTodayRecommendations(crossRoundToday, [crossRoundGame])
+    .candidates[0].recommendation_basis,
+  "game-model",
+  "다음 판매 회차 후보를 최초 game.round 때문에 fallback으로 낮추면 안 된다",
+);
 console.log("unified recommendation tests passed");

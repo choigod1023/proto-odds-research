@@ -32,9 +32,10 @@ test("0도 유효한 투수 지표로 표시하고 부상 배열을 정리한다
     [["ERA", 0], ["선발", 2]]);
   assert.deepEqual(pitcherMetrics({ stats: {
     era: 2.5, whip: .99, record: "8승 4패", innings_display: "100⅔",
-    strikeouts: 90, k9: 8.05,
+    strikeouts: 90, k9: 8.05, xfip: 3.44, xfip_approx: true, sample_ip: 61.2,
   } }), [["ERA", 2.5], ["WHIP", .99], ["승-패", "8승 4패"],
-    ["이닝", "100⅔"], ["탈삼진", 90], ["K/9", 8.05]]);
+    ["이닝", "100⅔"], ["탈삼진", 90], ["K/9", 8.05], ["xFIP*", 3.44],
+    ["표본 이닝", 61.2]]);
   assert.deepEqual(unavailableFor({ 선발: { unavailable: { home: [{ name: "A" }, {}] } } }, "home"),
     [{ name: "A" }]);
 });

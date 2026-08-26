@@ -1,7 +1,7 @@
 """시장 반대 + 컨텍스트 모델 + 선발 xFIP 합의 규칙의 시간분리 검증.
 
-2023 적합, 2024 규칙 선택, 2023~24 재적합, 2025+ 고정 홀드아웃 평가.
-홀드아웃 결과를 본 뒤 문턱을 바꾸지 않도록 후보와 선택 기준을 코드에 고정한다.
+2023 적합, 2024 규칙 선택, 2023~24 재적합 후 2025+를 고정 규칙으로 역사 감사한다.
+감사 결과를 본 뒤 문턱을 바꾸지 않도록 후보와 선택 기준을 코드에 고정한다.
 """
 from __future__ import annotations
 
@@ -13,8 +13,7 @@ import numpy as np
 import pandas as pd
 
 import context_ablation as ca
-from pitcher_er import _inn
-from pitcher_xfip import build, load_full
+from pitcher_xfip import build_causal, load_full
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "findings" / "xfip_disagreement_gate.json"
@@ -33,31 +32,37 @@ def wilson(successes: int, n: int, z: float = 1.959963984540054) -> tuple[float,
 
 
 def pitcher_frame() -> pd.DataFrame:
-    raw = load_full()
-    train = raw[raw["date"] < "2025-01-01"]
-    totals = {key: 0.0 for key in ("ip", "er", "hr", "bb", "kk")}
-    for row in train.itertuples():
-        for pitcher in (row.home_sp, row.away_sp):
-            totals["ip"] += _inn(pitcher.get("inn"))
-            for key in ("er", "hr", "bb", "kk"):
-                totals[key] += float(pitcher.get(key) or 0)
-    fip_c = (totals["er"] / totals["ip"] * 9
-             - (13 * totals["hr"] + 3 * totals["bb"] - 2 * totals["kk"]) / totals["ip"])
-    lg_hr9 = totals["hr"] / totals["ip"] * 9
-    return build(raw, fip_c, lg_hr9)
+    return build_causal(load_full())
+
+
+GAME_KEY = ["date", "home_team", "away_team"]
+
+
+def merge_unique_games(frame: pd.DataFrame, pitchers: pd.DataFrame) -> pd.DataFrame:
+    """시간/gameId 없는 중복 경기 키는 모두 버리고 1:1로만 결합한다."""
+    left = frame.loc[~frame.duplicated(GAME_KEY, keep=False)].copy()
+    right = pitchers.loc[~pitchers.duplicated(GAME_KEY, keep=False)].copy()
+    return left.merge(
+        right,
+        on=GAME_KEY,
+        how="inner",
+        validate="one_to_one",
+    )
 
 
 def prepare() -> pd.DataFrame:
     frame = ca.prepare()
     frame = frame[(frame["sport"] == "bs") & (frame["league"] == "KBO")].copy()
-    frame["date"] = pd.to_datetime(frame["date"])
+    # 박스스코어 원천에는 시각이 없으므로 날짜로 내리되, 그 결과 생기는
+    # 더블헤더 중복은 merge_unique_games에서 양쪽 모두 전부 제외한다.
+    frame["date"] = pd.to_datetime(frame["date"]).dt.normalize()
     team_map = json.loads((ROOT / "data" / "processed" / "team_map.json").read_text(
         encoding="utf-8")).get("KBO", {})
     for column in ("home_team", "away_team"):
         frame[column] = frame[column].map(lambda team: team_map.get(team, team))
     pitchers = pitcher_frame()
     # 양쪽 원천 모두 공식 경기 날짜와 정규화된 팀명을 사용한다.
-    return frame.merge(pitchers, on=["date", "home_team", "away_team"], how="inner")
+    return merge_unique_games(frame, pitchers)
 
 
 def fit_context(fit: pd.DataFrame, tune: pd.DataFrame, train: pd.DataFrame):
@@ -134,14 +139,22 @@ def main() -> int:
 
     p_test = ca.predict(test, columns, beta, transform)
     test_result = evaluate(test, p_test, select(test, p_test, rule))
-    test_result["promotion_status"] = (
-        "promote" if test_result["n"] >= MIN_PROMOTION_N
+    test_result["historical_gate_pass"] = bool(
+        test_result["n"] >= MIN_PROMOTION_N
         and test_result["accuracy_wilson95"][0] > .5 and test_result["roi"] > 0
-        else "research_only")
+    )
+    test_result["promotion_status"] = "research_only"
     report = {
-        "protocol": "2023 fit; 2024 rule selection; <=2024 refit; >=2025 untouched test",
+        "protocol": "2023 fit; 2024 rule selection; <=2024 refit; >=2025 historical audit",
+        "test_integrity": ("not a pristine project-level holdout after repeated project audits; "
+                           "actual box-score starter is a historical proxy for announced starter"),
+        "odds_timing": ("archived sales odds without collected_at; opening/closing time unknown; "
+                        "conflicting repeated-sale prices excluded"),
+        "feature_timing": ("league rates and rolling pitcher features use prior dates only; "
+                           "ambiguous doubleheaders excluded"),
         "selection_objective": "none: sparse 2024 data; use pre-specified broad hypothesis",
-        "promotion_gate": "test n>=300, Wilson lower>50%, ROI>0",
+        "promotion_gate": ("forward-only: new preregistered n>=300, Wilson lower>50%, ROI>0; "
+                           "historical audit cannot promote"),
         "joined_rows": int(len(frame)), "split_n": {"fit": len(fit), "tune": len(tune), "test": len(test)},
         "context_ridge": ridge, "context_columns": columns,
         "selected_rule": rule, "tune": tune_result, "test": test_result,

@@ -32,6 +32,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from snapshot import find_live_rounds, _fetch          # noqa: E402
@@ -39,6 +40,7 @@ from wisetoto import CACHE, _session                   # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_odds.json"
+KST = ZoneInfo("Asia/Seoul")
 
 
 def _start_hint(season: int) -> int:
@@ -51,7 +53,7 @@ def _start_hint(season: int) -> int:
 
 def collect() -> dict:
     sess = _session()
-    season = datetime.now(timezone.utc).year
+    season = datetime.now(KST).year
     rounds = find_live_rounds(sess, season, _start_hint(season))
 
     odds: dict[str, dict[str, list[float]]] = {}

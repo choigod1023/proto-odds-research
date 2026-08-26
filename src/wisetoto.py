@@ -259,6 +259,33 @@ def repair_mojibake(s: str) -> str:
     return s
 
 
+_NON_HANGUL_RUN = re.compile(r"[^\s가-힣]+")
+
+
+def repair_mojibake_segments(s: str) -> str:
+    """한글 문장 속에 섞인 깨진 팀명 토큰도 복구한다.
+
+    과거 해설 캐시는 ``'시장값은 нЕН... 승'``처럼 정상 한글과 깨진 이름이
+    한 문자열에 함께 있어 문자열 전체의 인코딩 왕복이 불가능하다. 한글 경계로
+    나눈 비한글 구간만 기존의 보수적인 왕복 검사를 적용한다. 라틴·키릴 실제
+    선수명은 복구 결과에 한글이 생기지 않으므로 그대로 보존된다.
+    """
+    if not isinstance(s, str) or not _MOJI.search(s):
+        return s
+    return _NON_HANGUL_RUN.sub(lambda match: repair_mojibake(match.group(0)), s)
+
+
+def repair_text_tree(value):
+    """JSON 형태 값의 모든 문자열에 segment 복구를 재귀 적용한다."""
+    if isinstance(value, str):
+        return repair_mojibake_segments(value)
+    if isinstance(value, list):
+        return [repair_text_tree(item) for item in value]
+    if isinstance(value, dict):
+        return {key: repair_text_tree(item) for key, item in value.items()}
+    return value
+
+
 def fetch_round(year: int, rnd: int, sess: requests.Session | None = None,
                 use_cache: bool = True) -> str | None:
     """한 회차의 전 종목 게임 목록 HTML을 반환. 캐시가 있으면 요청하지 않는다(멱등)."""

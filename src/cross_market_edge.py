@@ -26,6 +26,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+from matches import actual_game_year
 from scipy.optimize import minimize
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -164,9 +166,10 @@ def load_snapshots() -> tuple[pd.DataFrame, dict]:
     data["ts"] = pd.to_datetime(data["ts"], errors="coerce", utc=True)
     dt = data["date_text"].astype(str).str.extract(DATE_TIME)
     dt = dt.apply(pd.to_numeric, errors="coerce")
+    game_year = actual_game_year(data["year"], data["round"], dt[0])
     naive = pd.to_datetime(
         {
-            "year": data["year"],
+            "year": game_year,
             "month": dt[0],
             "day": dt[1],
             "hour": dt[2],
@@ -200,6 +203,8 @@ def load_snapshots() -> tuple[pd.DataFrame, dict]:
     )
     data["event_id"] = (
         data["league"].astype(str)
+        + "|"
+        + data["sport"].astype(str)
         + "|"
         + data["kickoff"].astype(str)
         + "|"
@@ -236,6 +241,17 @@ def settled_markets(data: pd.DataFrame) -> pd.DataFrame:
         _WINNER[(int(n_way), str(result))]
         for n_way, result in zip(settled["n_way"], settled["result"])
     ]
+    # 사후 정정으로 승자 라벨이 바뀌거나 같은 market_id의 경기 정체성이 바뀐
+    # 스냅샷은 공식 정산표 대조 전에는 어느 쪽도 임의 채택하지 않는다.
+    bad = set(settled.groupby("market_id")["winner_idx"].nunique().loc[lambda x: x > 1].index)
+    if "event_id" in data:
+        bad.update(data.groupby("market_id")["event_id"].nunique().loc[lambda x: x > 1].index)
+    if "market_signature" in data:
+        bad.update(
+            data.groupby("market_id")["market_signature"].nunique()
+            .loc[lambda x: x > 1].index
+        )
+    settled = settled[~settled["market_id"].isin(bad)]
     return settled.groupby("market_id", sort=False).tail(1)[
         ["market_id", "winner_idx", "result"]
     ]
@@ -247,7 +263,9 @@ def prices_at_cutoff(
     cutoff_min: int,
     stale_min: int = 35,
 ) -> pd.DataFrame:
-    pre = data[data["ts"] < data["kickoff"]].merge(
+    # kickoff 이전이어도 지연·잠금·진행 상태면 살 수 있는 가격으로 인증되지 않는다.
+    pre = data[(data["ts"] < data["kickoff"])
+               & (data["result"].astype(str).str.strip() == "경기전")].merge(
         settled, on="market_id", how="inner", validate="many_to_one"
     )
     target = pre["kickoff"] - pd.to_timedelta(cutoff_min, unit="m")

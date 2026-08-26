@@ -46,6 +46,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from detail_paths import latest_detail_path                # noqa: E402
 from devig import multiplicative                       # noqa: E402
 from matches import _DATE_RE, _away, _home             # noqa: E402
 from park_factor import boot_diff, brier               # noqa: E402
@@ -53,7 +54,14 @@ from variable_impact import _brier, _fit               # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PROC = ROOT / "data" / "processed"
-INDIV = ROOT / "data" / "raw" / "detail" / "kbo_batters_indiv_2023_2026.json"
+
+
+def indiv_path() -> Path:
+    return latest_detail_path("kbo", "batters_indiv")
+
+
+# Compatibility snapshot only; loaders resolve the path again at call time.
+INDIV = indiv_path()
 
 TRAIN_END = 2024
 SHRINK_PA = 150          # 이 타석 수만큼은 리그 평균으로 당긴다
@@ -75,9 +83,11 @@ def woba(st: dict) -> float | None:
 
 
 # ------------------------------------------------------------------ 데이터
-def load_games() -> list[dict]:
+def load_games(path: Path | None = None) -> list[dict]:
     """선발 라인업(타순 1~9의 첫 등장)만 남긴 경기 목록, 날짜순."""
-    raw = json.load(open(INDIV, encoding="utf-8"))
+    path = indiv_path() if path is None else path
+    with path.open(encoding="utf-8") as handle:
+        raw = json.load(handle)
     out = []
     for v in raw.values():
         if v["home"] in ALLSTAR or v["away"] in ALLSTAR:
@@ -267,12 +277,14 @@ def gate3(d: pd.DataFrame, feat: str, y_col: str, title: str) -> None:
 
 
 def main() -> int:
-    if not INDIV.exists():
-        print(f"선수별 타자 데이터가 없다: {INDIV}")
-        print("먼저:  python3 src/game_detail.py batters_indiv kbo 2023 2026")
+    path = indiv_path()
+    if not path.exists():
+        print(f"선수별 타자 데이터가 없다: {path}")
+        print("먼저:  python3 src/game_detail.py batters_indiv kbo 2023 "
+              f"{path.stem.rsplit('_', 1)[-1]}")
         return 1
 
-    games = load_games()
+    games = load_games(path)
     print(f"선발 라인업 9명이 확인된 경기: {len(games):,}")
     df = build(games)
     print(f"walk-forward 라인업 wOBA 산출: {len(df):,}경기")

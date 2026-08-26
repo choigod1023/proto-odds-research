@@ -33,14 +33,25 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from detail_paths import latest_detail_path                # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "data" / "raw" / "detail" / "kleague_soccer_2023_2026.json"
+
+
+def source_path() -> Path:
+    return latest_detail_path("kleague", "soccer")
+
+
+# Compatibility snapshot only; loaders resolve the path again at call time.
+SRC = source_path()
 OUT = ROOT / "data" / "processed" / "lineup_soccer.csv"
 
 
-def load() -> pd.DataFrame:
+def load(path: Path | None = None) -> pd.DataFrame:
     """경기 × 팀 단위로 편다. 한 행이 '이 팀이 이 경기에 낸 XI'."""
-    raw = json.loads(SRC.read_text(encoding="utf-8"))
+    path = source_path() if path is None else path
+    raw = json.loads(path.read_text(encoding="utf-8"))
     rows = []
     for g in raw.values():
         d = g.get("data") or {}

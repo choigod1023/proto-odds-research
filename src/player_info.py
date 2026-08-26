@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 import re
 import sys
 import time
@@ -42,15 +43,27 @@ from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
 from japan_info import collect_npb_games
 
 from player_commentary import with_player_context
+from detail_paths import latest_detail_path
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 OUT = RAW / "player_info.json"
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 ANNOUNCEMENTS = RAW / "info_watch" / "starter_announcements.csv"
-KBO_DETAIL = RAW / "detail" / "kbo_baseball_2023_2026.json"
+
+
+def kbo_detail_path() -> Path:
+    """Resolve the newest cache on every collection cycle."""
+    return latest_detail_path("kbo", "baseball")
+
+
+# Compatibility snapshot for callers that only display the conventional path.
+# Runtime reads must call ``kbo_detail_path`` so a long-lived --loop process
+# notices the new file after a KST year rollover.
+KBO_DETAIL = kbo_detail_path()
 TEAM_MAP = ROOT / "data" / "processed" / "team_map.json"
 KST = ZoneInfo("Asia/Seoul")
 WINDOW = 12
+XFIP_SHRINK_IP = 40.0
 INJURY_REFRESH_HOURS = 6
 
 MLB_TEAM_KO = {
@@ -121,34 +134,92 @@ def _num(value) -> float:
         return 0.0
 
 
-def kbo_pitcher_stats(path: Path = KBO_DETAIL) -> dict[str, dict]:
-    """저장된 완료 경기에서 투수별 최근 12선발 과정·결과 지표를 만든다."""
+def _kbo_pitcher_identity(pitcher: dict, team: str) -> str | None:
+    code = pitcher.get("pcode")
+    if code not in (None, ""):
+        if isinstance(code, float) and code.is_integer():
+            code = int(code)
+        return f"pcode:{str(code).strip()}"
+    name = str(pitcher.get("name") or "").strip()
+    return f"name:{team}:{name}" if name else None
+
+
+def kbo_pitcher_stats(path: Path | None = None) -> dict[object, dict]:
+    """저장된 완료 경기에서 투수별 최근 12선발 과정·결과 지표를 만든다.
+
+    xFIP는 오프라인 실험과 똑같이 실제 피홈런을 리그 HR/9 쪽으로 40이닝
+    축소한다. 원자료의 날짜나 핵심 카운팅 지표가 빠진 등판은 0으로 간주하지
+    않고 제외해, 불완전한 자료로 좋은 수치를 만들어 내지 않게 한다.
+    """
+    path = kbo_detail_path() if path is None else path
     if not path.exists():
         return {}
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return {}
+    if not isinstance(raw, dict):
+        return {}
 
     starts: dict[str, deque] = defaultdict(lambda: deque(maxlen=WINDOW))
+    identity_names: dict[str, str] = {}
+    name_identities: dict[str, set[str]] = defaultdict(set)
+    latest_alias: dict[tuple[str, str], tuple[str, str]] = {}
     all_lines = []
-    games = sorted(raw.values(), key=lambda g: str(g.get("date") or ""))
+    games = sorted(
+        (g for g in raw.values() if isinstance(g, dict)),
+        key=lambda g: str(g.get("date") or ""),
+    )
     for game in games:
+        try:
+            game_date = datetime.fromisoformat(
+                str(game.get("date") or "").replace("Z", "+00:00")
+            ).date().isoformat()
+        except ValueError:
+            continue
         data = game.get("data") or {}
+        if not isinstance(data, dict):
+            continue
         for side in ("home", "away"):
             pitchers = data.get(side) or []
             if not pitchers:
                 continue
             p = pitchers[0]  # 저장 시 예고 선발과 대조해 검증한 박스스코어 첫 투수
+            if not isinstance(p, dict):
+                continue
+            team = str(game.get(side) or "").strip()
             ip = baseball_innings(p.get("inn"))
             if not p.get("name") or ip <= 0:
                 continue
+            # 결측을 0실점/0피홈런처럼 해석하면 FIP·xFIP가 과도하게 좋아진다.
+            values = []
+            for field in ("er", "hr", "bb", "kk", "hit"):
+                value = p.get(field)
+                try:
+                    number = float(value) if value not in (None, "") else None
+                except (TypeError, ValueError):
+                    number = None
+                if number is None or not math.isfinite(number) or number < 0:
+                    values = []
+                    break
+                values.append(number)
+            if not values:
+                continue
+            er, hr, bb, so, hit = values
             line = {
-                "ip": ip, "er": _num(p.get("er")), "hr": _num(p.get("hr")),
-                "bb": _num(p.get("bb")), "so": _num(p.get("kk")),
-                "hit": _num(p.get("hit")),
+                "date": game_date, "ip": ip, "er": er, "hr": hr,
+                "bb": bb, "so": so, "hit": hit,
             }
-            starts[str(p["name"])].append(line)
+            name = str(p["name"]).strip()
+            identity = _kbo_pitcher_identity(p, team)
+            if not identity:
+                continue
+            starts[identity].append(line)
+            identity_names[identity] = name
+            name_identities[name].add(identity)
+            alias = (team, name)
+            if alias not in latest_alias or game_date >= latest_alias[alias][0]:
+                latest_alias[alias] = (game_date, identity)
             all_lines.append(line)
 
     totals = {k: sum(x[k] for x in all_lines) for k in ("ip", "er", "hr", "bb", "so")}
@@ -158,26 +229,46 @@ def kbo_pitcher_stats(path: Path = KBO_DETAIL) -> dict[str, dict]:
     fip_c = totals["er"] / totals["ip"] * 9 - (
         13 * totals["hr"] + 3 * totals["bb"] - 2 * totals["so"]
     ) / totals["ip"]
+    league_hr9 = totals["hr"] / totals["ip"] * 9
 
-    out = {}
-    for name, lines in starts.items():
+    by_identity = {}
+    for identity, lines in starts.items():
         ip = sum(x["ip"] for x in lines)
         if ip <= 0:
             continue
         er, hr, bb, so, hit = (sum(x[k] for x in lines) for k in ("er", "hr", "bb", "so", "hit"))
-        out[name] = {
+        weight = ip / (ip + XFIP_SHRINK_IP)
+        hr_adjusted = weight * hr + (1 - weight) * (league_hr9 * ip / 9)
+        by_identity[identity] = {
+            "player_id": (identity.removeprefix("pcode:")
+                          if identity.startswith("pcode:") else None),
             "era": round(er / ip * 9, 2),
             "fip": round((13 * hr + 3 * bb - 2 * so) / ip + fip_c, 2),
+            "xfip": round((13 * hr_adjusted + 3 * bb - 2 * so) / ip + fip_c, 2),
             "whip": round((hit + bb) / ip, 2),
             "k9": round(so / ip * 9, 2),
             "bb9": round(bb / ip * 9, 2),
             "hr9": round(hr / ip * 9, 2),
             "avg_ip": round(ip / len(lines), 2),
+            "sample_ip": round(ip, 2),
             "games_started": len(lines),
             "period": f"최근 {len(lines)}선발",
+            "stats_as_of": max(x["date"] for x in lines),
             "low_sample": len(lines) < 4,
             "fip_approx": True,
+            "xfip_approx": True,
+            "xfip_shrink_ip": XFIP_SHRINK_IP,
+            "xfip_league_hr9": round(league_hr9, 4),
         }
+    out: dict[object, dict] = {}
+    for alias, (_, identity) in latest_alias.items():
+        if identity in by_identity:
+            out[alias] = by_identity[identity]
+    # 기존 호출 호환: 이름이 단 하나의 선수 ID를 뜻할 때만 이름 단독 조회를 허용한다.
+    for name, identities in name_identities.items():
+        available = [identity for identity in identities if identity in by_identity]
+        if len(available) == 1:
+            out[name] = by_identity[available[0]]
     return out
 
 
@@ -214,9 +305,11 @@ def announcement_games() -> list[dict]:
     kbo_stats = kbo_pitcher_stats()
     for rec in games.values():
         if rec["league"] == "KBO":
-            for p in rec["starters"].values():
-                if p.get("name") in kbo_stats:
-                    p["stats"] = kbo_stats[p["name"]]
+            for side, p in rec["starters"].items():
+                team = rec.get(f"{side}_team") or ""
+                stats = kbo_stats.get((team, p.get("name"))) or kbo_stats.get(p.get("name"))
+                if stats:
+                    p["stats"] = stats
                     p["stats_source"] = "네이버 경기기록 기반 최근 선발"
     return list(games.values())
 
@@ -227,7 +320,7 @@ def apply_korean_starter_names(games: list[dict], announcements: list[dict]) -> 
     localized = {}
     for rec in announcements:
         key = (
-            str(rec.get("league")), _mmdd(rec.get("game_datetime")),
+            str(rec.get("league")), _kickoff_minute(rec.get("game_datetime")),
             canonical_team(rec.get("league", ""), rec.get("home_team", ""), mapping),
             canonical_team(rec.get("league", ""), rec.get("away_team", ""), mapping),
         )
@@ -238,7 +331,7 @@ def apply_korean_starter_names(games: list[dict], announcements: list[dict]) -> 
             localized[key] = rec
     for game in games:
         key = (
-            str(game.get("league")), _mmdd(game.get("game_datetime")),
+            str(game.get("league")), _kickoff_minute(game.get("game_datetime")),
             canonical_team(game.get("league", ""), game.get("home_team", ""), mapping),
             canonical_team(game.get("league", ""), game.get("away_team", ""), mapping),
         )
@@ -474,6 +567,34 @@ def _mmdd(value: str) -> str | None:
     return f"{m.group(1)}.{m.group(2)}" if m else None
 
 
+def _kickoff_minute(value: str, reference: datetime | None = None) -> str | None:
+    """ISO 또는 프로토 MM.DD HH:MM을 KST 연월일·분 키로 정규화한다."""
+    text = str(value or "").strip()
+    try:
+        if re.match(r"^\d{4}-\d{2}-\d{2}", text):
+            stamp = datetime.fromisoformat(text.replace("Z", "+00:00"))
+            stamp = stamp.replace(tzinfo=KST) if stamp.tzinfo is None else stamp.astimezone(KST)
+            return stamp.isoformat(timespec="minutes")
+    except ValueError:
+        return None
+    match = re.search(r"(\d{2})\.(\d{2}).*?(\d{1,2}):(\d{2})", text)
+    if not match:
+        return None
+    month, day, hour, minute = map(int, match.groups())
+    anchor = reference or datetime.now(KST)
+    anchor = anchor.replace(tzinfo=KST) if anchor.tzinfo is None else anchor.astimezone(KST)
+    candidates = []
+    for year in (anchor.year - 1, anchor.year, anchor.year + 1):
+        try:
+            candidates.append(datetime(year, month, day, hour, minute, tzinfo=KST))
+        except ValueError:
+            continue
+    if not candidates:
+        return None
+    stamp = min(candidates, key=lambda candidate: abs((candidate - anchor).total_seconds()))
+    return stamp.isoformat(timespec="minutes")
+
+
 def game_index(doc: dict | None = None) -> dict[tuple, list[dict]]:
     if doc is None:
         try:
@@ -482,21 +603,22 @@ def game_index(doc: dict | None = None) -> dict[tuple, list[dict]]:
             doc = {"games": announcement_games()}
     mapping, out = _team_map(), defaultdict(list)
     for rec in doc.get("games", []):
-        key = (str(rec.get("league")), _mmdd(rec.get("game_datetime")),
+        key = (str(rec.get("league")), _kickoff_minute(rec.get("game_datetime")),
                canonical_team(rec.get("league", ""), rec.get("home_team", ""), mapping),
                canonical_team(rec.get("league", ""), rec.get("away_team", ""), mapping))
         out[key].append(rec)
     return dict(out)
 
 
-def match_game(index: dict, league: str, game_date: str, home: str, away: str) -> dict | None:
+def match_game(index: dict, league: str, game_date: str, home: str, away: str,
+               reference: datetime | None = None) -> dict | None:
     mapping = _team_map()
-    key = (league, _mmdd(game_date), canonical_team(league, home, mapping), canonical_team(league, away, mapping))
+    key = (league, _kickoff_minute(game_date, reference),
+           canonical_team(league, home, mapping), canonical_team(league, away, mapping))
     candidates = index.get(key) or []
     if not candidates:
         return None
-    # 더블헤더도 최신 관측을 우선한다. 현재 프로토 문자열에는 초 단위가 없어 임의
-    # 경기 정보를 섞기보다 동일 키 안에서 갱신 시각이 가장 늦은 값만 택한다.
+    # 동일 경기의 여러 자료원만 최신 관측으로 합친다. 시각이 다른 더블헤더는 키부터 다르다.
     rec = max(candidates, key=lambda x: str(x.get("updated_at") or ""))
     starters = rec.get("starters") or {}
     payload = {
@@ -511,7 +633,7 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
         "lineup_status": rec.get("lineup_status") or {},
         "roster_status": rec.get("roster_status") or {},
         "coverage": rec.get("coverage") or {}, "sport": rec.get("sport"),
-        "game_id": rec.get("game_id"),
+        "game_id": rec.get("game_id"), "game_datetime": rec.get("game_datetime"),
     }
     return payload
 
@@ -529,12 +651,18 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
     except (OSError, json.JSONDecodeError):
         return 0
     index, changed = game_index(player_doc), 0
-    for bucket in ("live", "past"):
+    try:
+        reference = datetime.fromisoformat(
+            str(player_doc.get("generated_at") or "").replace("Z", "+00:00"))
+    except ValueError:
+        reference = datetime.now(KST)
+    # 종료 경기에 이후 등판까지 포함한 최신 시즌 통계를 다시 붙이지 않는다.
+    for bucket in ("live",):
         for game in picks.get(bucket, []):
             if game.get("sport") not in ({"bs", "sc"} | COURT_SPORTS):
                 continue
             info = match_game(index, str(game.get("league")), str(game.get("date")),
-                              str(game.get("home")), str(game.get("away")))
+                              str(game.get("home")), str(game.get("away")), reference)
             game_changed = False
             if game.get("선발") != info:
                 game["선발"] = info
@@ -586,11 +714,12 @@ def _selftest() -> int:
         "name": "게릿 콜", "native_name": "Garrett Cole", "stats": {"era": 2.9},
     }
 
-    sample = {("MLB", "08.23", "뉴욕양키스", "토론토"): [{
+    sample = {("MLB", "2026-08-23T02:35+09:00", "뉴욕양키스", "토론토"): [{
         "league": "MLB", "updated_at": "2026-08-23T00:00:00+00:00",
         "starters": {"home": {"name": "A", "stats": {"era": 3.2}}, "away": {"name": "B"}},
     }]}
-    got = match_game(sample, "MLB", "08.23(일) 02:35", "뉴욕양키", "토론블루")
+    got = match_game(sample, "MLB", "08.23(일) 02:35", "뉴욕양키", "토론블루",
+                     datetime(2026, 8, 23, tzinfo=KST))
     assert got and got["home"] == "A" and got["home_detail"]["stats"]["era"] == 3.2
     with TemporaryDirectory() as td:
         path = Path(td) / "picks.json"

@@ -1,11 +1,12 @@
 """xFIP를 시장확률의 연속 잔차로 결합하는 최종 시간분리 실험.
 
-2023 적합, 2024 ridge 선택, 2023~24 재적합, 2025 시장 혼합비 선택,
-2026 최종 평가는 한 번만 수행한다.
+2023 적합, 2024 ridge 선택, 2023~24 재적합, 2025 시장 혼합비 선택 후
+2026을 역사 감사한다. 2026은 프로젝트에서 반복 확인돼 깨끗한 최종 홀드아웃이 아니다.
 """
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 import numpy as np
@@ -88,7 +89,7 @@ def top_ev_gate(frame: pd.DataFrame, probability: np.ndarray, coverage: float) -
     selected_p = np.where(home, probability, 1-probability)
     odds = np.where(home, frame["o_home"], frame["o_away"])
     expected_value = selected_p * odds - 1
-    n = max(1, int(len(frame)*coverage))
+    n = max(1, math.ceil(len(frame)*coverage))
     idx = np.argsort(-expected_value)[:n]
     subset = frame.iloc[idx]
     result = score(subset, probability[idx])
@@ -151,17 +152,26 @@ def main() -> int:
     betting = [(name, r) for name, r in proven if r["test"]["roi"] > 0
                and r["test"]["accuracy"] > baseline["accuracy"]]
     report = {
-        "protocol": "2023 fit; 2024 ridge; <=2024 refit; 2025 blend; 2026 final test",
+        "protocol": "2023 fit; 2024 ridge; <=2024 refit; 2025 blend; 2026 historical audit",
+        "test_integrity": ("not a pristine project-level holdout after repeated project audits; "
+                           "actual box-score starter is a historical proxy for announced starter"),
+        "odds_timing": ("archived sales odds without collected_at; opening/closing time unknown; "
+                        "conflicting repeated-sale prices excluded"),
+        "feature_timing": ("league rates and rolling pitcher features use prior dates only; "
+                           "ambiguous doubleheaders excluded"),
         "split_n": {"fit": len(fit), "tune": len(tune), "calibrate": len(calibrate), "test": len(test)},
         "models": results,
         "betting_gate": betting_gate,
         "promotion": {
-            "probability_layer": "promote" if proven else "research_only",
-            "betting_recommender": "promote" if betting else "reject",
+            "probability_layer": "research_only",
+            "betting_recommender": "reject",
+            "historical_probability_gate_pass": bool(proven),
+            "historical_betting_gate_pass": bool(betting),
             "point_estimate_candidates": [name for name, _ in probability_candidates],
             "statistically_supported": [name for name, _ in proven],
             "betting_eligible": [name for name, _ in betting],
-            "rule": "probability: Brier/logloss improve and Brier CI upper<0; betting: plus ROI>0 and accuracy>market",
+            "rule": ("historical candidates cannot promote; new preregistered data must show "
+                     "Brier/logloss improvement, Brier CI upper<0, ROI>0 and accuracy>market"),
         },
     }
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

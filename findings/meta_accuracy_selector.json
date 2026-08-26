@@ -1,0 +1,338 @@
+{
+  "protocol": "2024 meta fit; 2025 model/absolute cutoff; frozen 2026 historical audit",
+  "test_integrity": "not a pristine project-level holdout: 2026 has been inspected by earlier project experiments",
+  "odds_timing": "archived sales odds without collected_at; opening/closing time unknown; conflicting repeated-sale prices excluded",
+  "meta_target": "probability that the frozen base pick is correct",
+  "selected_meta_model": {
+    "features": "nonlinear",
+    "ridge": 100.0,
+    "columns": [
+      "base_conf",
+      "market_conf",
+      "confidence_delta",
+      "selected_odds",
+      "market_agree",
+      "home_pick",
+      "xfip_aligned",
+      "xfip_abs",
+      "month_sin",
+      "month_cos",
+      "pick_elo_diff",
+      "pick_pi_diff",
+      "pick_form_diff",
+      "pick_margin_diff",
+      "pick_trend_diff",
+      "pick_streak_diff",
+      "pick_venue_diff",
+      "pick_h2h_diff",
+      "pick_rest_diff",
+      "pick_b2b",
+      "opp_b2b",
+      "base_conf_sq",
+      "market_conf_sq",
+      "xfip_aligned_sq",
+      "xfip_uncertainty",
+      "confidence_odds_interaction"
+    ]
+  },
+  "validation_gate": {
+    "odds_floor": 1.2,
+    "target_coverage": 0.3,
+    "meta_score_cutoff": 0.633454,
+    "n": 166,
+    "wins": 118,
+    "coverage": 0.30127041742286753,
+    "accuracy": 0.7108433734939759,
+    "accuracy_wilson95": [
+      0.6377243964163045,
+      0.7744246777028759
+    ],
+    "average_odds": 1.4115662650602407,
+    "roi": -0.007108433734939763
+  },
+  "validation_gate_candidates": [
+    {
+      "odds_floor": 1.2,
+      "target_coverage": 0.3,
+      "meta_score_cutoff": 0.633454,
+      "n": 166,
+      "wins": 118,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.7108433734939759,
+      "accuracy_wilson95": [
+        0.6377243964163045,
+        0.7744246777028759
+      ],
+      "average_odds": 1.4115662650602407,
+      "roi": -0.007108433734939763
+    },
+    {
+      "odds_floor": 1.2,
+      "target_coverage": 0.4,
+      "meta_score_cutoff": 0.619617,
+      "n": 221,
+      "wins": 146,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.6606334841628959,
+      "accuracy_wilson95": [
+        0.5959376129953037,
+        0.7198404484547462
+      ],
+      "average_odds": 1.4459276018099547,
+      "roi": -0.0569683257918552
+    },
+    {
+      "odds_floor": 1.2,
+      "target_coverage": 0.5,
+      "meta_score_cutoff": 0.60205,
+      "n": 276,
+      "wins": 181,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.6557971014492754,
+      "accuracy_wilson95": [
+        0.5979521258573841,
+        0.7093647397793967
+      ],
+      "average_odds": 1.467717391304348,
+      "roi": -0.048804347826086954
+    },
+    {
+      "odds_floor": 1.2,
+      "target_coverage": 0.6,
+      "meta_score_cutoff": 0.590477,
+      "n": 331,
+      "wins": 215,
+      "coverage": 0.6007259528130672,
+      "accuracy": 0.649546827794562,
+      "accuracy_wilson95": [
+        0.5966990923280788,
+        0.6989632200650051
+      ],
+      "average_odds": 1.4849848942598187,
+      "roi": -0.04540785498489426
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.3,
+      "meta_score_cutoff": 0.625629,
+      "n": 166,
+      "wins": 107,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.6445783132530121,
+      "accuracy_wilson95": [
+        0.569250005873466,
+        0.7133665020939721
+      ],
+      "average_odds": 1.4628313253012046,
+      "roi": -0.06572289156626505
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.4,
+      "meta_score_cutoff": 0.606676,
+      "n": 221,
+      "wins": 140,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.6334841628959276,
+      "accuracy_wilson95": [
+        0.5681791676178255,
+        0.6942279538688355
+      ],
+      "average_odds": 1.4847963800904977,
+      "roi": -0.07113122171945702
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.5,
+      "meta_score_cutoff": 0.596152,
+      "n": 276,
+      "wins": 175,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.6340579710144928,
+      "accuracy_wilson95": [
+        0.5757508860704311,
+        0.6886845564542409
+      ],
+      "average_odds": 1.5030072463768118,
+      "roi": -0.05539855072463768
+    },
+    {
+      "odds_floor": 1.3,
+      "target_coverage": 0.6,
+      "meta_score_cutoff": 0.580905,
+      "n": 331,
+      "wins": 208,
+      "coverage": 0.6007259528130672,
+      "accuracy": 0.6283987915407855,
+      "accuracy_wilson95": [
+        0.5751459223268995,
+        0.6787055580105967
+      ],
+      "average_odds": 1.5192447129909368,
+      "roi": -0.05283987915407855
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.3,
+      "meta_score_cutoff": 0.60307,
+      "n": 166,
+      "wins": 97,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.5843373493975904,
+      "accuracy_wilson95": [
+        0.5082864417902249,
+        0.6565731878574474
+      ],
+      "average_odds": 1.5513253012048192,
+      "roi": -0.09626506024096387
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.4,
+      "meta_score_cutoff": 0.591364,
+      "n": 221,
+      "wins": 133,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.6018099547511312,
+      "accuracy_wilson95": [
+        0.5360609009061076,
+        0.6640801239566
+      ],
+      "average_odds": 1.5602262443438915,
+      "roi": -0.06031674208144797
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.5,
+      "meta_score_cutoff": 0.575756,
+      "n": 276,
+      "wins": 162,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.5869565217391305,
+      "accuracy_wilson95": [
+        0.5280615109212421,
+        0.6434641815271938
+      ],
+      "average_odds": 1.5692753623188407,
+      "roi": -0.0785144927536232
+    },
+    {
+      "odds_floor": 1.4,
+      "target_coverage": 0.6,
+      "meta_score_cutoff": 0.561256,
+      "n": 331,
+      "wins": 192,
+      "coverage": 0.6007259528130672,
+      "accuracy": 0.5800604229607251,
+      "accuracy_wilson95": [
+        0.52627013876972,
+        0.632013725440719
+      ],
+      "average_odds": 1.5735045317220542,
+      "roi": -0.08598187311178249
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.3,
+      "meta_score_cutoff": 0.57992,
+      "n": 166,
+      "wins": 98,
+      "coverage": 0.30127041742286753,
+      "accuracy": 0.5903614457831325,
+      "accuracy_wilson95": [
+        0.5143313424383751,
+        0.6623039750412738
+      ],
+      "average_odds": 1.6385542168674703,
+      "roi": -0.03204819277108433
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.4,
+      "meta_score_cutoff": 0.564321,
+      "n": 221,
+      "wins": 132,
+      "coverage": 0.4010889292196007,
+      "accuracy": 0.5972850678733032,
+      "accuracy_wilson95": [
+        0.5314952556484052,
+        0.6597506125537376
+      ],
+      "average_odds": 1.630678733031674,
+      "roi": -0.0262443438914027
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.5,
+      "meta_score_cutoff": 0.546088,
+      "n": 276,
+      "wins": 161,
+      "coverage": 0.5009074410163339,
+      "accuracy": 0.5833333333333334,
+      "accuracy_wilson95": [
+        0.5244157199390118,
+        0.6399630686574058
+      ],
+      "average_odds": 1.6348188405797104,
+      "roi": -0.04619565217391304
+    },
+    {
+      "odds_floor": 1.5,
+      "target_coverage": 0.6,
+      "meta_score_cutoff": 0.481028,
+      "n": 326,
+      "wins": 182,
+      "coverage": 0.5916515426497277,
+      "accuracy": 0.558282208588957,
+      "accuracy_wilson95": [
+        0.5040077695535811,
+        0.6111990941798747
+      ],
+      "average_odds": 1.6399079754601227,
+      "roi": -0.08730061349693252
+    }
+  ],
+  "test_2026": {
+    "meta_selector": {
+      "n": 102,
+      "wins": 63,
+      "coverage": 0.24401913875598086,
+      "accuracy": 0.6176470588235294,
+      "accuracy_wilson95": [
+        0.5206975536972436,
+        0.7060566905035885
+      ],
+      "average_odds": 1.447058823529411,
+      "roi": -0.11029411764705883
+    },
+    "confidence_selector": {
+      "confidence_cutoff": 0.637871,
+      "n": 76,
+      "wins": 53,
+      "coverage": 0.18181818181818182,
+      "accuracy": 0.6973684210526315,
+      "accuracy_wilson95": [
+        0.5866579842518127,
+        0.7890866532224752
+      ],
+      "average_odds": 1.3647368421052632,
+      "roi": -0.043289473684210523
+    },
+    "comparison": {
+      "accuracy_difference_pp": -7.972136222910208,
+      "ci95_pp": [
+        -16.583398166627212,
+        0.7648165797651721
+      ],
+      "probability_model_selector_better": 0.0357,
+      "bootstrap_sampling_unit": "date"
+    }
+  },
+  "promotion": {
+    "status": "reject",
+    "automatic": "reject",
+    "historical_point_gate_pass": false,
+    "historical_automatic_gate_pass": false,
+    "reason": "historical audit cannot promote; use new preregistered games"
+  }
+}

@@ -10,7 +10,7 @@
 
 무엇을 기록하나
 ---------------
-경기 전 경기를 주기적으로 조회해, 각 필드가 **비어 있다가 채워지는 순간**을 기록한다.
+경기 전 경기를 주기적으로 조회해, 각 필드의 최초 공개와 이후 선발 변경을 모두 기록한다.
 
     KBO   homeStarterName / awayStarterName  (네이버 스포츠 공개 API)
           → 비어 있음 → 채워짐 = 선발 예고 시각
@@ -51,7 +51,8 @@ STATE = OUT / "_state.json"
 API = "https://api-gw.sports.naver.com/schedule/games"
 
 FIELDS = ["observed_at", "gameId", "game_datetime", "league",
-          "home", "away", "field", "value", "hours_before_game", "is_baseline"]
+          "home", "away", "field", "value", "previous_value", "event_type",
+          "hours_before_game", "is_baseline"]
 
 # (upperCategoryId, categoryId, 표시명) — 선발 필드를 제공하는 것만.
 # ⚠️ upperCategoryId 가 리그마다 다르다. KBO 는 kbaseball, MLB/NPB 는 wbaseball 이다.
@@ -86,6 +87,22 @@ def _save_state(st: dict) -> None:
 def _append(rows: list[dict]) -> None:
     if not rows:
         return
+    if LOG.exists():
+        with LOG.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            existing = list(reader)
+            old_fields = reader.fieldnames or []
+        if old_fields != FIELDS:
+            tmp = LOG.with_suffix(LOG.suffix + ".tmp")
+            with tmp.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=FIELDS)
+                writer.writeheader()
+                for row in existing:
+                    row.setdefault("previous_value", "")
+                    row.setdefault("event_type", "baseline" if row.get("is_baseline") == "1"
+                                   else "first")
+                    writer.writerow({field: row.get(field, "") for field in FIELDS})
+            tmp.replace(LOG)
     new = not LOG.exists()
     LOG.parent.mkdir(parents=True, exist_ok=True)
     with LOG.open("a", newline="", encoding="utf-8") as f:
@@ -95,11 +112,31 @@ def _append(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def classify_starter_event(value: str, previous: str, *, observed_before: bool) -> str | None:
+    if not value or value == previous:
+        return None
+    if not observed_before:
+        return "baseline"
+    return "first" if not previous else "change"
+
+
+def _logged_latest() -> dict[str, str]:
+    if not LOG.exists():
+        return {}
+    latest = {}
+    try:
+        with LOG.open(newline="", encoding="utf-8") as handle:
+            for row in csv.DictReader(handle):
+                if row.get("gameId") and row.get("field") and row.get("value"):
+                    latest[f"{row['gameId']}|{row['field']}"] = row["value"]
+    except (OSError, csv.Error):
+        return {}
+    return latest
+
+
 def poll(sess: requests.Session, days_ahead: int = 5) -> int:
     st = _load_state()
-    # ⚠️ 첫 폴링은 이미 공개돼 있던 값을 처음 보는 것이라 '공개 시각'이 아니다.
-    #    기준선으로 표시하고 분석에서 제외한다.
-    baseline = not st
+    logged = _logged_latest()
     now = datetime.now(timezone.utc)
     today = date.today()
     events = []
@@ -126,9 +163,17 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
             for fld in ("homeStarterName", "awayStarterName"):
                 val = (g.get(fld) or "").strip()
                 key = f"{gid}|{fld}"
+                observed_before = key in st
                 had = st.get(key, "")
-                if val and not had:
-                    # ⭐ 비어 있다가 채워지는 순간
+                event_type = classify_starter_event(
+                    val, had, observed_before=observed_before)
+                previous_for_event = had
+                # 과거 버전이 변경을 state에만 쓰고 CSV에는 누락한 경우 현재값을
+                # 복구한다. 실제 변경 시각은 모르므로 기준선으로 분류한다.
+                if not event_type and val and had == val and logged.get(key) != val:
+                    event_type = "reconciled"
+                    previous_for_event = logged.get(key, "")
+                if event_type:
                     hrs = None
                     if gdt:
                         try:
@@ -141,8 +186,9 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
                         "observed_at": now.isoformat(timespec="seconds"),
                         "gameId": gid, "game_datetime": gdt, "league": name,
                         "home": g.get("homeTeamName"), "away": g.get("awayTeamName"),
-                        "field": fld, "value": val, "hours_before_game": hrs,
-                        "is_baseline": int(baseline)})
+                        "field": fld, "value": val, "previous_value": previous_for_event,
+                        "event_type": event_type, "hours_before_game": hrs,
+                        "is_baseline": int(event_type in ("baseline", "reconciled"))})
                 if val:
                     st[key] = val
                 elif key not in st:
@@ -151,7 +197,7 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
     _append(events)
     _save_state(st)
     ts = now.isoformat(timespec="seconds")
-    print(f"[{ts}] 신규 공개 {len(events)}건 · 추적 중 {len(st)}필드", flush=True)
+    print(f"[{ts}] 선발 공개·변경 {len(events)}건 · 추적 중 {len(st)}필드", flush=True)
     for e in events:
         h = e["hours_before_game"]
         print(f"    {e['league']} {e['away']}@{e['home']} {e['field']}={e['value']}"

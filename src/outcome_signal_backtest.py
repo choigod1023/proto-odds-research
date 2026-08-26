@@ -22,6 +22,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from matches import actual_game_year
+
 
 ROOT = Path(__file__).resolve().parent.parent
 SNAP_DIR = ROOT / "data" / "raw" / "snapshots"
@@ -39,6 +41,7 @@ OUTCOME_IDX = {
     (3, "홈패"): 2,
 }
 MAIN_MARKETS = {("승패", 2), ("승무패", 3)}
+EXTERNAL_MARKET_BY_NWAY = {2: "승패", 3: "승무패"}
 TEAM_NUM_PRE = re.compile(r"^\s*-?\d+(?:\.\d+)?\s+")
 TEAM_NUM_SUF = re.compile(r"\s+-?\d+(?:\.\d+)?\s*$")
 HOME_SCORE = re.compile(r"\s+(-?\d+)\s*$")
@@ -91,9 +94,10 @@ def load_snapshots() -> tuple[pd.DataFrame, dict]:
     dt = data["date_text"].astype(str).str.extract(DATE_TIME)
     for col in dt.columns:
         dt[col] = pd.to_numeric(dt[col], errors="coerce")
+    game_year = actual_game_year(data["year"], data["round"], dt[0])
     naive = pd.to_datetime(
         {
-            "year": data["year"],
+            "year": game_year,
             "month": dt[0],
             "day": dt[1],
             "hour": dt[2],
@@ -127,11 +131,20 @@ def load_snapshots() -> tuple[pd.DataFrame, dict]:
     data["event_id"] = (
         data["league"].astype(str)
         + "|"
+        + data["sport"].astype(str)
+        + "|"
         + data["kickoff"].astype(str)
         + "|"
         + data["home_team"]
         + "|"
         + data["away_team"]
+    )
+    data["market_signature"] = (
+        data["market_family"].astype(str)
+        + "|"
+        + data["n_way"].astype(str)
+        + "|"
+        + data["market_label"].fillna("").astype(str).str.strip()
     )
     data = data.sort_values(["market_id", "ts"]).drop_duplicates(
         ["market_id", "ts"], keep="last"
@@ -156,6 +169,15 @@ def settled_markets(data: pd.DataFrame) -> pd.DataFrame:
     ok["winner_idx"] = [
         OUTCOME_IDX[(int(n), str(r))] for n, r in zip(ok["n_way"], ok["result"])
     ]
+    bad = set(ok.groupby("market_id")["winner_idx"].nunique().loc[lambda x: x > 1].index)
+    if "event_id" in data:
+        bad.update(data.groupby("market_id")["event_id"].nunique().loc[lambda x: x > 1].index)
+    if "market_signature" in data:
+        bad.update(
+            data.groupby("market_id")["market_signature"].nunique()
+            .loc[lambda x: x > 1].index
+        )
+    ok = ok[~ok["market_id"].isin(bad)]
     out = ok.groupby("market_id", sort=False).tail(1).copy()
     out["home_score"] = pd.to_numeric(
         out["home"].astype(str).str.extract(HOME_SCORE)[0], errors="coerce"
@@ -178,7 +200,10 @@ def proto_prices_at(
     cutoff_min: int,
     stale_min: int = 35,
 ) -> pd.DataFrame:
-    pre = data[data["ts"] < data["kickoff"]].copy()
+    # kickoff 이전 시각만으로 판매 가능 상태를 가정하지 않는다. 지연·잠금·진행
+    # 문자열은 제외하고 관측 당시 명시적으로 경기전이던 가격만 쓴다.
+    pre = data[(data["ts"] < data["kickoff"])
+               & (data["result"].astype(str).str.strip() == "경기전")].copy()
     pre = pre.merge(
         settled[["market_id", "winner_idx"]], on="market_id", how="inner",
         validate="many_to_one",
@@ -196,9 +221,11 @@ def proto_prices_at(
 
     rows = []
     for row in current.itertuples(index=False):
-        old = parse_odds(row.open_odds, int(row.n_way))
-        now = parse_odds(row.odds, int(row.n_way))
-        if old is None or now is None:
+        n_way = int(row.n_way)
+        market_family = getattr(row, "market_family", EXTERNAL_MARKET_BY_NWAY.get(n_way))
+        old = parse_odds(row.open_odds, n_way)
+        now = parse_odds(row.odds, n_way)
+        if old is None or now is None or (market_family, n_way) not in MAIN_MARKETS:
             continue
         rows.append(
             {
@@ -206,7 +233,8 @@ def proto_prices_at(
                 "event_id": row.event_id,
                 "kickoff": row.kickoff,
                 "league": row.league,
-                "n_way": int(row.n_way),
+                "market_family": market_family,
+                "n_way": n_way,
                 "winner_idx": int(row.winner_idx),
                 "observed_at": row.ts,
                 "open_ts": row.open_ts,
@@ -455,11 +483,15 @@ def map_live_to_events(
         odds = parse_odds(row.odds, int(event.n_way))
         if odds is None:
             continue
+        market_family = EXTERNAL_MARKET_BY_NWAY.get(int(event.n_way))
+        if market_family is None:
+            continue
         matched.append(
             {
                 "event_id": event.event_id,
                 "kickoff": event.kickoff,
                 "league": event.league,
+                "market_family": market_family,
                 "n_way": int(event.n_way),
                 "winner_idx": int(event.winner_idx),
                 "observed_at": row.observed_at,
@@ -487,16 +519,33 @@ def external_gap_bets(
 ) -> pd.DataFrame:
     if proto_prices.empty or live_events.empty:
         return pd.DataFrame()
-    target = live_events["kickoff"] - pd.to_timedelta(cutoff_min, unit="m")
-    age = target - live_events["observed_at"]
-    os_at = live_events[(age >= pd.Timedelta(0)) & (age <= pd.Timedelta(minutes=stale_min))]
-    os_at = os_at.groupby("event_id", sort=False).tail(1).copy()
+    join_key = ["event_id", "n_way", "market_family"]
+    if (not set(join_key).issubset(proto_prices.columns)
+            or not set(join_key).issubset(live_events.columns)):
+        return pd.DataFrame()
+
+    # 같은 실제 경기에 2-way 승패와 3-way 승무패가 모두 있을 수 있다.
+    # event_id만으로 결합하면 2개 해외 확률과 3개 프로토 배당을 곱하게 되므로,
+    # 선택지 수와 직접 호환되는 메인 마켓까지 일치할 때만 사용한다.
+    proto = proto_prices.copy()
+    live = live_events.copy()
+    proto_expected = proto["n_way"].map(EXTERNAL_MARKET_BY_NWAY)
+    live_expected = live["n_way"].map(EXTERNAL_MARKET_BY_NWAY)
+    proto = proto[proto["market_family"].eq(proto_expected)].copy()
+    live = live[live["market_family"].eq(live_expected)].copy()
+    if proto.empty or live.empty:
+        return pd.DataFrame()
+
+    target = live["kickoff"] - pd.to_timedelta(cutoff_min, unit="m")
+    age = target - live["observed_at"]
+    os_at = live[(age >= pd.Timedelta(0)) & (age <= pd.Timedelta(minutes=stale_min))]
+    os_at = os_at.groupby(join_key, sort=False).tail(1).copy()
     if os_at.empty:
         return pd.DataFrame()
 
-    proto = proto_prices.copy()
     joined = proto.merge(
-        os_at[["event_id", "p_os"]], on="event_id", how="inner", validate="many_to_one"
+        os_at[join_key + ["p_os"]], on=join_key, how="inner",
+        validate="many_to_one",
     )
     rows = []
     for row in joined.itertuples(index=False):

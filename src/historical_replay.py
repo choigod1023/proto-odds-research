@@ -149,12 +149,21 @@ def main() -> int:
     test = run[run["year"] == 2026].reset_index(drop=True)
     pt = blend(test["p_market"].to_numpy(float), test["p_model"].to_numpy(float), weight)
     test_slice = compare_slice(test, slice_mask(test, chosen_slice, pt), pt)
+    historical_gate_pass = bool(test_slice["brier_delta"] < 0
+                                and test_slice["roi_uplift_pp"] > 0)
     result["error_driven_gate"] = {"selected_on": 2025, "slice": chosen_slice,
                                    "validation": validation_slice, "test_2026": test_slice,
-                                   "promotion": "promote" if test_slice["brier_delta"] < 0
-                                   and test_slice["roi_uplift_pp"] > 0 else "reject"}
+                                   "historical_gate_pass": historical_gate_pass,
+                                   "promotion": "research_only"}
     report = {"protocol": "monthly prequential replay; each prediction uses only prior months",
-              "selection": "2024 chooses config/blend; 2025 chooses one fixed error slice; 2026 final",
+              "selection": ("2024 chooses config/blend; 2025 chooses one fixed error slice; "
+                            "2026 historical audit"),
+              "test_integrity": ("not a pristine project-level holdout: 2026 has been inspected "
+                                 "by earlier project experiments"),
+              "odds_timing": ("archived sales odds without collected_at; opening/closing time "
+                              "unknown; conflicting repeated-sale prices excluded"),
+              "feature_timing": ("league rates and rolling pitcher features use prior dates only; "
+                                 "ambiguous doubleheaders excluded"),
               "rows": len(frame), "candidate_configs": len(CONFIGS)*len(BLENDS), "selected": result}
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))

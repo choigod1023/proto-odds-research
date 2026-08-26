@@ -85,12 +85,25 @@ def coverage_at(
 ) -> dict:
     if proto_prices.empty or mapped.empty:
         return {"overseas_events_at_cutoff": 0, "joined_events": 0}
-    target = mapped["kickoff"] - pd.to_timedelta(cutoff_min, unit="m")
-    age = target - mapped["observed_at"]
-    os_at = mapped[(age >= pd.Timedelta(0)) & (age <= pd.Timedelta(minutes=stale_min))]
-    os_at = os_at.groupby("event_id", sort=False).tail(1)
-    joined = proto_prices[["event_id"]].drop_duplicates().merge(
-        os_at[["event_id"]].drop_duplicates(), on="event_id", how="inner"
+    join_key = ["event_id", "n_way", "market_family"]
+    if (not set(join_key).issubset(proto_prices.columns)
+            or not set(join_key).issubset(mapped.columns)):
+        return {"overseas_events_at_cutoff": 0, "joined_events": 0}
+    proto = proto_prices[
+        proto_prices["market_family"].eq(
+            proto_prices["n_way"].map(core.EXTERNAL_MARKET_BY_NWAY))
+    ]
+    live = mapped[
+        mapped["market_family"].eq(
+            mapped["n_way"].map(core.EXTERNAL_MARKET_BY_NWAY))
+    ]
+    target = live["kickoff"] - pd.to_timedelta(cutoff_min, unit="m")
+    age = target - live["observed_at"]
+    os_at = live[(age >= pd.Timedelta(0)) & (age <= pd.Timedelta(minutes=stale_min))]
+    os_at = os_at.groupby(join_key, sort=False).tail(1)
+    joined = proto[join_key].drop_duplicates().merge(
+        os_at[join_key].drop_duplicates(), on=join_key, how="inner",
+        validate="one_to_one",
     )
     return {
         "overseas_events_at_cutoff": int(os_at["event_id"].nunique()),

@@ -34,8 +34,18 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from detail_paths import latest_detail_path                # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
-SHOTS = ROOT / "data" / "raw" / "detail" / "kleague_shots_2023_2026.json"
+
+
+def shots_path() -> Path:
+    return latest_detail_path("kleague", "shots")
+
+
+# Compatibility snapshot only; loaders resolve the path again at call time.
+SHOTS = shots_path()
 GAMES = ROOT / "data" / "processed" / "games.csv"
 WINDOW = 10          # 최근 N경기 폼
 
@@ -64,9 +74,10 @@ def _norm(n: str) -> str:
     return n
 
 
-def build() -> pd.DataFrame:
+def build(path: Path | None = None) -> pd.DataFrame:
     """경기별 **직전까지의** 폼 → 그 경기 결과. 워크포워드라 누수가 없다."""
-    raw = json.loads(SHOTS.read_text(encoding="utf-8"))
+    path = shots_path() if path is None else path
+    raw = json.loads(path.read_text(encoding="utf-8"))
     rows = sorted(raw.values(), key=lambda g: g["date"])
 
     gf, ga = defaultdict(lambda: deque(maxlen=WINDOW)), defaultdict(lambda: deque(maxlen=WINDOW))

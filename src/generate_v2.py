@@ -35,6 +35,7 @@ import sys
 from collections import defaultdict, deque
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import pandas as pd
@@ -43,17 +44,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES                                          # noqa: E402
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
+from atomic_publish import PublishGuardError, publish_nonempty_json # noqa: E402
 from player_commentary import with_player_context                    # noqa: E402
 from devig import market_probabilities                              # noqa: E402
+from detail_paths import latest_detail_path                         # noqa: E402
 from recommendation_policy import automatic_selection_exclusion_reason  # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
                          match_game)
-from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
-                       set_rest_days)
+from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
+                       load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
                         p_one_run, p_over, p_win)
 from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
-from wisetoto import CACHE, _session                                # noqa: E402
+from wisetoto import CACHE, _session, repair_text_tree              # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PROC = ROOT / "data" / "processed"
@@ -63,6 +66,7 @@ OUT = ROOT / "docs" / "data"
 
 WINDOW = 20
 _LINE = re.compile(r"([-+]?\d+\.?\d*)")
+_GAME_TIME = re.compile(r"(\d{1,2})\.(\d{1,2}).*?(\d{1,2}):(\d{2})")
 
 # 실측 기반 감점 (findings/마켓선택.md)
 CROWDED = {("핸디캡", -1.0), ("언더오버", 2.5)}    # 물량 몰려 촘촘한 라인
@@ -131,7 +135,7 @@ def shot_form() -> dict:
        다만 **과정지표가 결과지표보다는 낫다**는 건 재현됐다
        (유효슈팅 0.24545 < 득실차 0.25423). 경기 내용으로는 쓸 값이다.
     """
-    f = ROOT / "data" / "raw" / "detail" / "kleague_shots_2023_2026.json"
+    f = latest_detail_path("kleague", "shots")
     if not f.exists():
         return {}
     try:
@@ -383,13 +387,13 @@ def _selftest() -> int:
     for (fam, nw), n in combos.items():
         nw = int(nw)
         if nw == 0 or fam in SKIP:
-            print(f"  ⏭ {fam:<6} {nw}-way {n:>7,}건 (사이트 대상 아님)")
+            print(f"  SKIP {fam:<6} {nw}-way {n:>7,}건 (사이트 대상 아님)")
             continue
         if fam.startswith(UNPRICED_OK):
             names = SEL_NAMES.get((fam, nw))
             ok = names is not None and len(names) == nw
-            print(f"  {'⏭' if ok else '🔴'} {fam:<8} {nw}-way {n:>7,}건 "
-                  f"(전반 — 모델 가격 없음이 정상"
+            print(f"  {'SKIP' if ok else 'FAIL'} {fam:<8} {nw}-way {n:>7,}건 "
+                  f"(전반 - 모델 가격 없음이 정상"
                   + ("" if ok else ", **이름이 없어 sel0 노출**") + ")")
             if not ok:
                 fails.append((fam, nw, n, ["전반인데 이름없음"]))
@@ -406,9 +410,9 @@ def _selftest() -> int:
             bad.append("모델확률 없음→비교 불가")
         elif len(pm) != nw or abs(sum(pm) - 1) > 1e-6:
             bad.append(f"확률 len={len(pm)} 합={sum(pm):.4f}")
-        mark = "✅" if not bad else "🔴"
+        mark = "OK" if not bad else "FAIL"
         print(f"  {mark} {fam:<6} {nw}-way {n:>7,}건"
-              + (f"  ← {', '.join(bad)}" if bad else f"  {'/'.join(names)}"))
+              + (f"  <- {', '.join(bad)}" if bad else f"  {'/'.join(names)}"))
         if bad:
             fails.append((fam, nw, n, bad))
     # ---- 팀명 정규화 — 유령 경기 회귀 검사
@@ -421,7 +425,7 @@ def _selftest() -> int:
         got = clean(raw)
         if got != want:
             fails.append(("clean", 0, 0, [f"{raw!r}→{got!r} (기대 {want!r})"]))
-            print(f"  🔴 clean({raw!r}) = {got!r} ≠ {want!r}")
+            print(f"  FAIL clean({raw!r}) = {got!r} != {want!r}")
     # ⚠️ "끝에 숫자가 있으면 실패" 로 짜면 **샬케04·마인츠05** 가 걸린다 —
     #    팀명 자체에 숫자가 붙는다. 잡아야 하는 건 **띄어쓰기로 분리된 숫자 토큰**이다.
     _NUMTOK = re.compile(r"(^\s*-?\d+(?:\.\d+)?\s+)|(\s+-?\d+(?:\.\d+)?\s*$)")
@@ -429,10 +433,10 @@ def _selftest() -> int:
             if _NUMTOK.search(x)]
     if left:
         fails.append(("clean", 0, len(left), ["벗긴 뒤에도 숫자 토큰이 남았다"]))
-        print(f"  🔴 정규화 후에도 숫자 토큰이 남은 행 {len(left):,}건 — 예: {left[:3]}")
+        print(f"  FAIL 정규화 후에도 숫자 토큰이 남은 행 {len(left):,}건 - 예: {left[:3]}")
     else:
-        print(f"  ✅ 정수·소수·앞뒤 모두 벗긴다 (유령 경기 없음, {len(df)*2:,}행 검사)")
-        print("     ※ 샬케04·마인츠05 처럼 팀명에 붙은 숫자는 남기는 게 맞다")
+        print(f"  OK 정수·소수·앞뒤 모두 벗긴다 (유령 경기 없음, {len(df)*2:,}행 검사)")
+        print("     샬케04·마인츠05 처럼 팀명에 붙은 숫자는 남기는 게 맞다")
 
     # ---- 모지바케 — 수집 시 charset 추측이 빗나가면 여기서 잡힌다
     # 🔴 11개 회차 3,429행이 통째로 깨진 채 저장돼 있었다. `result` 까지 깨져서
@@ -443,16 +447,16 @@ def _selftest() -> int:
     tot = sum(dirty.values())
     if tot:
         fails.append(("모지바케", 0, tot, [f"{k}={v}" for k, v in dirty.items() if v]))
-        print(f"  🔴 모지바케 {tot:,}건 — {dirty}")
-        print("     → wisetoto.repair_mojibake 가 못 되돌린 계열이 있다")
+        print(f"  FAIL 모지바케 {tot:,}건 - {dirty}")
+        print("     wisetoto.repair_mojibake 가 못 되돌린 계열이 있다")
     else:
-        print("  ✅ 모지바케 없음 (팀명·결과·리그에 키릴/라틴확장 0건)")
+        print("  OK 모지바케 없음 (팀명·결과·리그에 키릴/라틴확장 0건)")
 
     if fails:
         tot = sum(f[2] for f in fails)
-        print(f"\n🔴 {len(fails)}개 항목 {tot:,}건이 사이트에서 깨진다")
+        print(f"\nFAIL {len(fails)}개 항목 {tot:,}건이 사이트에서 깨진다")
         return 1
-    print("\n✅ 모든 마켓이 이름·확률 둘 다 있고, 팀명도 깨끗하다")
+    print("\nOK 모든 마켓이 이름·확률 둘 다 있고, 팀명도 깨끗하다")
     return 0
 
 
@@ -552,8 +556,10 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
     """
     lg, ht, at = g["league"], g["home"], g["away"]
     by_team = by_team or {}
-    fh = forms.get((lg, ht)) or by_team.get(ht)
-    fa = forms.get((lg, at)) or by_team.get(at)
+    kickoff = g.get("kickoff_at")
+    game_day = pd.Timestamp(kickoff) if kickoff else None
+    fh = form_for_game(forms.get((lg, ht)) or by_team.get(ht), game_day)
+    fa = form_for_game(forms.get((lg, at)) or by_team.get(at), game_day)
     g["form_src"] = "리그" if forms.get((lg, ht)) else ("풀링" if fh else None)
     g["form_home"], g["form_away"] = _form_dict(fh), _form_dict(fa)
     g["h2h"] = h2h_text(h2h, lg, ht, at)
@@ -561,7 +567,9 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         alt = h2h_any.get((ht, at)) or h2h_any.get((at, ht))
         if alt:
             g["h2h"] = h2h_text(h2h, alt[0], ht, at)
-    g["선발"] = match_game(st, lg, g.get("date", ""), ht, at)
+    # 종료 뒤 갱신된 시즌 통계를 과거 경기의 '당시 정보'처럼 붙이지 않는다.
+    g["선발"] = (match_game(st, lg, g.get("date", ""), ht, at)
+                 if g.get("status") != "정산" else None)
     # 라인업 성향 — 예측이 아니라 팀 성질이다
     lp = lineups or {}
     def _lp(name: str):
@@ -653,6 +661,24 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
 #    (연구 수치에도 샜다 — 배구 언더오버 모델 Brier 0.489 vs 시장 0.250)
 #    유한 배당이 걸린 선택지에 확률 0/1 은 존재할 수 없다. 값을 버린다.
 _EPS = 1e-6
+KST = ZoneInfo("Asia/Seoul")
+
+
+def _kickoff_at(date_text: object, reference: datetime) -> datetime | None:
+    """연도 없는 프로토 시각을 reference에 가장 가까운 KST 연도로 해석한다."""
+    match = _GAME_TIME.search(str(date_text or ""))
+    if not match:
+        return None
+    month, day, hour, minute = map(int, match.groups())
+    try:
+        kickoff = datetime(reference.year, month, day, hour, minute, tzinfo=KST)
+    except ValueError:
+        return None
+    if kickoff - reference > pd.Timedelta(days=180):
+        kickoff = kickoff.replace(year=kickoff.year - 1)
+    elif reference - kickoff > pd.Timedelta(days=180):
+        kickoff = kickoff.replace(year=kickoff.year + 1)
+    return kickoff
 
 
 def _sane(pm):
@@ -666,13 +692,14 @@ def _sane(pm):
 def main() -> int:
     st = team_lambdas()
     sess = _session()
-    season = datetime.now().year
+    now = datetime.now(KST)
+    season = now.year
     # 최근폼·상대전적·줄글 해설 — 예전엔 generate_picks 가 '승패 2-way' 에만 붙였다.
     # 그래서 언더오버·핸디캡·컵대회 경기는 해설이 **아예 만들어지지 않았다.**
     # ⚠️ season 을 안 넘기면 4년치가 누적된다 (LG 300승 212패 · 시즌 맞대결 32승 24패).
     #    "최근 폼" 이라는 말이 무의미해진다.
     hist = load_history()
-    FORMS, H2H = build_forms(hist, season=season)
+    FORMS, H2H = build_forms(hist, season=season, as_of=pd.Timestamp(now))
     STARTERS = starters(refresh=True)
     LINEUPS = lineup_profiles()
     TIERS = team_tiers()
@@ -705,6 +732,8 @@ def main() -> int:
     games: dict = {}
     for rnd in rounds:
         for r in (_fetch(sess, season, rnd) or []):
+            kickoff = _kickoff_at(r.date_text, now)
+            kickoff_iso = kickoff.isoformat() if kickoff else None
             # ⚠️ 배당이 아직 안 나온 회차를 통째로 버리고 있었다.
             #    프로토는 **경기 목록을 먼저 열고 배당을 나중에 붙인다.**
             #    실측 2026-07-29: 회차 90 의 697행이 전부 odds=[] · n_way=0 이라
@@ -720,6 +749,7 @@ def main() -> int:
                     if k0 not in games:
                         games[k0] = {
                             "round": rnd, "date": r.date_text, "league": r.league,
+                            "kickoff_at": kickoff_iso,
                             "sport": r.sport, "home": ht0, "away": at0,
                             "lam_home": (round(lam0[0], 2) if lam0 else None),
                             "lam_away": (round(lam0[1], 2) if lam0 else None),
@@ -775,6 +805,7 @@ def main() -> int:
             gkey = f"{r.league}|{ht}|{at}|{r.date_text}"
             g = games.setdefault(gkey, {
                 "round": rnd, "date": r.date_text, "league": r.league,
+                "kickoff_at": kickoff_iso,
                 "sport": r.sport, "home": ht, "away": at,
                 "lam_home": (round(lam[0], 2) if lam else None),
                 "lam_away": (round(lam[1], 2) if lam else None),
@@ -820,7 +851,10 @@ def main() -> int:
                 p_mkt = p_market[i]
                 gap = (None if p is None else abs(p - p_mkt))
                 g["options"].append({
-                    "market": r.market_family, "n_way": nw,
+                    # 한 실제 경기에 여러 판매 회차 옵션이 함께 들어간다. 경기의
+                    # round는 최초 회차라 옵션 자체의 회차를 잃으면 live 배당이
+                    # 다른 bucket에 결합되거나 갱신되지 않는다.
+                    "round": rnd, "market": r.market_family, "n_way": nw,
                     "label": r.market_label or "", "line": line,
                     "선택": names[i] if i < len(names) else str(i),
                     "배당": round(o, 2),
@@ -937,14 +971,20 @@ def main() -> int:
                     "그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다."),
         "gap_cap": MAX_SANE_GAP,
     }
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "picks_v2.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1),
-                                       encoding="utf-8")
+    doc = repair_text_tree(doc)
+    output_path = OUT / "picks_v2.json"
+    try:
+        publish_nonempty_json(
+            output_path, doc, rounds=rounds, records=out,
+            artifact_name="picks_v2.json")
+    except PublishGuardError as exc:
+        print(f"\n산출물 갱신 보류: {exc}")
+        return 1
     print(f"\n경기 {len(out)} (예정 {len(live_g)} / 정산 {len(past_g)})")
     if tally:
         print(f"정산 추천 성적: {tally['wins']}/{tally['n']} "
               f"({tally['hit_rate']:.1%}) · 수익률 {tally['roi']:+.2%}")
-    print(f"저장: {OUT / 'picks_v2.json'}")
+    print(f"저장: {output_path}")
     for g in live_g[:5]:
         b = g["추천"]
         if b:

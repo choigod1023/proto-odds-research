@@ -25,12 +25,14 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from wisetoto import BASE, _session, get_master_seq, parse_rows  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
 CH_FILE = OUT / "changes.csv"
+KST = ZoneInfo("Asia/Seoul")
 
 # ⚠️ 예전엔 단일 파일(odds_timeseries.csv)에 계속 append 했다. 그게 두 번 터졌다.
 #
@@ -224,7 +226,7 @@ def main(argv: list[str]) -> int:
     if "--loop" in argv:
         loop = int(argv[argv.index("--loop") + 1])
 
-    year = datetime.now().year
+    year = datetime.now(KST).year
     sess = _session()
     print(f"발매 중인 회차 탐지 ({year}년)...", flush=True)
     # 캐시에 있는 최신 회차 다음부터 훑는다

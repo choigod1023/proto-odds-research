@@ -29,9 +29,30 @@ import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 REPO = Path(os.environ.get("REPO_DIR", "/data/repo"))
 REMOTE = "https://github.com/choigod1023/proto-odds-research.git"
+KST = ZoneInfo("Asia/Seoul")
+
+
+def current_kst_year(now: datetime | None = None) -> int:
+    """Return the KST calendar year at call time.
+
+    The supervisor is intended to run for months without a restart, so callers
+    must not rely on the year observed when this module was imported.
+    """
+    observed = datetime.now(KST) if now is None else now
+    if observed.tzinfo is None:
+        observed = observed.replace(tzinfo=KST)
+    else:
+        observed = observed.astimezone(KST)
+    return observed.year
+
+
+# Backwards-compatible import snapshot. Runtime publish cycles use
+# ``build_publish_steps`` below and therefore do not depend on this value.
+CURRENT_KST_YEAR = current_kst_year()
 
 # (이름, 명령) — 전부 `--loop 초` 로 스스로 반복한다
 LOOPERS = [
@@ -61,7 +82,36 @@ DAILY = [
 # 산출물 생성 — 수집만 하고 갱신을 안 하면 사이트가 어제 값에 멈춘다.
 # 실제로 2026-07-27 이후 픽이 안 돌아 7/28 에 7/24 경기가 예정으로 떠 있었다.
 # 순서가 중요하다: 원본 → 데이터셋 → 산출물.
+def _kbo_detail_refresh(year: int):
+    return (
+        "KBO 완료경기 상세",
+        [sys.executable, "-u", "src/game_detail.py", "baseball", "kbo", "2023",
+         str(year)],
+        False,
+        1800,
+    )
+
+
+def _archive_collect(year: int):
+    return (
+        "아카이브 수집",
+        [sys.executable, "-u", "src/collect.py",
+         *[str(value) for value in range(2023, year + 1)]],
+        False,
+        2400,
+    )
+
+
+KBO_DETAIL_REFRESH = _kbo_detail_refresh(CURRENT_KST_YEAR)
+
 PUBLISH = [
+    # player_info.py가 읽는 경로는
+    # data/raw/detail/kbo_baseball_2023_2026.json 이다. game_detail의 출력
+    # 파일명은 인자로 받은 연도 범위까지 포함하므로 두 연도를 모두
+    # 명시한다. 완료경기만 기존 캐시에 추가하며, 실패해도 주기를
+    # 중단하지 않도록 비필수 단계로 둔다. 무거운 수집보다 앞에 두어
+    # 선발 정보 갱신이 데이터셋 재빌드에 몇 시간씩 막히지 않게 한다.
+    KBO_DETAIL_REFRESH,
     # ⚠️ 이 단계가 없어서 **산출물 자동 갱신이 한 번도 작동하지 않았다.**
     #    와이즈토토 아카이브(data/raw/wisetoto/*.html.gz)는 .gitignore 대상이라
     #    머신의 clone 에 안 딸려온다. 그래서 build_dataset 이 매 주기
@@ -79,8 +129,7 @@ PUBLISH = [
     # ⚠️ 전부 1800초로 두었더니 '데이터셋 재빌드' 가 타임아웃으로 죽었고(01:53:16),
     #    critical 이라 뒤가 전부 멈췄다. 로컬에선 2분 19초인데 머신에서 30분을 넘긴다 —
     #    shared-cpu-1x 를 수집기들과 나눠 쓰기 때문이다. 무거운 단계에 시간을 더 준다.
-    ("아카이브 수집", [sys.executable, "-u", "src/collect.py",
-                  "2023", "2024", "2025", "2026"], False, 2400),
+    _archive_collect(CURRENT_KST_YEAR),
     # 유일한 필수 단계 — games.csv·bets.csv 를 만든다. 뒤가 전부 이걸 읽는다.
     # ⚠️ 5400초로는 모자랐다. 2026-08-08 실측: 559회차 중 약 460회차까지 가고
     #    타임아웃 — 남는 건 언제나 맨 뒤, 즉 **올해**다. 그래서 최근폼이 통째로
@@ -118,6 +167,12 @@ PUBLISH_LIGHT = [
     #    그건 과거 통계라 낡아도 값이 같다. 낡은 입력으로나마 도는 편이 낫다.
     ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
 ]
+
+
+def build_publish_steps(now: datetime | None = None) -> list:
+    """Build heavy steps from the KST year observed for this exact cycle."""
+    year = current_kst_year(now)
+    return [_kbo_detail_refresh(year), _archive_collect(year), *PUBLISH[2:]]
 
 # 실시간 점수 — 무거운 PUBLISH 와 분리한다. CSV 를 안 읽고 API 만 때리므로 가볍다.
 LIVE = [sys.executable, "-u", "src/live_scores.py"]
@@ -354,7 +409,9 @@ def run_publish() -> None:
 
         log(f"=== 산출물 갱신 시작 ({'전체' if heavy else '가벼운 단계만'})")
         if heavy:
-            _run_steps(PUBLISH)
+            # A process surviving 12/31 -> 1/1 must immediately collect the new
+            # KST year and write the new year-suffixed detail cache.
+            _run_steps(build_publish_steps())
         _run_steps(PUBLISH_LIGHT)
 
         try:

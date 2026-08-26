@@ -33,6 +33,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from detail_paths import latest_detail_path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from features import build_features                    # noqa: E402
@@ -41,7 +42,14 @@ from pitcher_er import _inn                            # noqa: E402
 from variable_impact import _brier, _fit, _se          # noqa: E402
 
 RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
-DETAIL = RAW / "detail" / "kbo_baseball_2023_2026.json"
+
+
+def detail_path() -> Path:
+    return latest_detail_path("kbo", "baseball")
+
+
+# Compatibility snapshot only; loaders resolve the path again at call time.
+DETAIL = detail_path()
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 TRAIN_END = 2024
 WINDOW = 12
@@ -50,9 +58,25 @@ SHRINK_K = 40.0        # HR 축소 강도 — 이 이닝만큼 리그평균을 �
 PEN_DAYS = 3           # 불펜 소모도 집계 기간
 
 
-def load_full() -> pd.DataFrame:
+def pitcher_key(pitcher: dict | None, team: str | None = None) -> str | None:
+    """동명이인을 섞지 않도록 원본 선수 ID를 우선하는 내부 키를 만든다."""
+    if not isinstance(pitcher, dict):
+        return None
+    code = pitcher.get("pcode")
+    if code not in (None, ""):
+        if isinstance(code, float) and code.is_integer():
+            code = int(code)
+        return f"pcode:{str(code).strip()}"
+    name = str(pitcher.get("name") or "").strip()
+    if not name:
+        return None
+    return f"name:{str(team or '').strip()}:{name}"
+
+
+def load_full(path: Path | None = None) -> pd.DataFrame:
     """선발뿐 아니라 **전 투수**를 보관한다 (불펜 지표용)."""
-    raw = json.loads(DETAIL.read_text(encoding="utf-8"))
+    path = detail_path() if path is None else path
+    raw = json.loads(path.read_text(encoding="utf-8"))
     rows = []
     for g in raw.values():
         d = g.get("data") or {}
@@ -81,8 +105,8 @@ def build(df: pd.DataFrame, fip_c: float, lg_hr9: float) -> pd.DataFrame:
     pen_days: dict = defaultdict(list)                       # (팀) → [(날짜, 이닝)]
     rows = []
 
-    def sp_stat(p):
-        v = list(sp[p])
+    def sp_stat(key):
+        v = list(sp[key])
         ip = sum(x["ip"] for x in v)
         if ip < MIN_IP:
             return None
@@ -106,7 +130,8 @@ def build(df: pd.DataFrame, fip_c: float, lg_hr9: float) -> pd.DataFrame:
         return {"fip": (13 * hr + 3 * bb - 2 * kk) / ip + fip_c, "load": recent}
 
     for r in df.itertuples():
-        hp, ap = r.home_sp.get("name"), r.away_sp.get("name")
+        hp = pitcher_key(r.home_sp, r.home_team)
+        ap = pitcher_key(r.away_sp, r.away_team)
         sh, sa = sp_stat(hp), sp_stat(ap)
         ph, pa = pen_stat(r.home_team, r.date), pen_stat(r.away_team, r.date)
         out = {"date": r.date, "home_team": r.home_team, "away_team": r.away_team}
@@ -117,18 +142,141 @@ def build(df: pd.DataFrame, fip_c: float, lg_hr9: float) -> pd.DataFrame:
         out["pen_load_diff"] = (pa["load"] - ph["load"]) if ph and pa else np.nan
         rows.append(out)
 
-        for name, one, allp, team in ((hp, r.home_sp, r.home_all, r.home_team),
-                                      (ap, r.away_sp, r.away_all, r.away_team)):
-            sp[name].append({"ip": _inn(one.get("inn")),
-                             "er": float(one.get("er") or 0),
-                             "hr": float(one.get("hr") or 0),
-                             "bb": float(one.get("bb") or 0),
-                             "kk": float(one.get("kk") or 0)})
+        for key, one, allp, team in ((hp, r.home_sp, r.home_all, r.home_team),
+                                     (ap, r.away_sp, r.away_all, r.away_team)):
+            if key:
+                sp[key].append({"ip": _inn(one.get("inn")),
+                                "er": float(one.get("er") or 0),
+                                "hr": float(one.get("hr") or 0),
+                                "bb": float(one.get("bb") or 0),
+                                "kk": float(one.get("kk") or 0)})
             b = agg(allp[1:])          # 선발 제외 = 불펜
             pen[team].append(b)
             pen_days[team].append((r.date, b["ip"]))
             pen_days[team] = [(d, i) for d, i in pen_days[team]
                               if (r.date - d).days <= PEN_DAYS]
+    return pd.DataFrame(rows)
+
+
+def build_causal(df: pd.DataFrame) -> pd.DataFrame:
+    """경기 시점까지 알려진 값만으로 xFIP 재생 피처를 만든다.
+
+    리그 HR/9와 FIP 상수도 고정된 시즌 전체 값이 아니라 *이전 날짜에
+    끝난 경기*의 선발 기록으로 계산한다. 원천 데이터에 경기 시작 시각이
+    없으므로 같은 날짜 경기는 서로의 결과를 볼 수 없게 한꺼번에 계산한
+    뒤 상태를 갱신한다. 과거 표본이 전혀 없는 초반 경기는 ``NaN``으로
+    남겨 선택 규칙이 닫힌 상태(fail closed)가 되게 한다.
+    """
+    ordered = df.copy()
+    ordered["date"] = pd.to_datetime(ordered["date"])
+    ordered = ordered.dropna(subset=["date"]).sort_values("date", kind="stable")
+
+    sp: dict = defaultdict(lambda: deque(maxlen=WINDOW))
+    pen: dict = defaultdict(lambda: deque(maxlen=WINDOW))
+    pen_days: dict = defaultdict(list)
+    league = {key: 0.0 for key in ("ip", "er", "hr", "bb", "kk")}
+    rows: list[dict] = []
+
+    def league_rates() -> tuple[float, float] | None:
+        ip = league["ip"]
+        if ip <= 0:
+            return None
+        fip_c = (league["er"] / ip * 9
+                 - (13 * league["hr"] + 3 * league["bb"]
+                    - 2 * league["kk"]) / ip)
+        return fip_c, league["hr"] / ip * 9
+
+    def sp_stat(key: str | None, rates: tuple[float, float] | None):
+        if not key or rates is None:
+            return None
+        values = list(sp[key])
+        ip = sum(item["ip"] for item in values)
+        if ip < MIN_IP:
+            return None
+        hr, bb, kk = (sum(item[key] for item in values)
+                      for key in ("hr", "bb", "kk"))
+        fip_c, lg_hr9 = rates
+        weight = ip / (ip + SHRINK_K)
+        hr_adjusted = weight * hr + (1 - weight) * (lg_hr9 * ip / 9)
+        return {
+            "fip": (13 * hr + 3 * bb - 2 * kk) / ip + fip_c,
+            "xfip": (13 * hr_adjusted + 3 * bb - 2 * kk) / ip + fip_c,
+            "ip": ip / len(values),
+        }
+
+    def pen_stat(team: str, date: pd.Timestamp,
+                 rates: tuple[float, float] | None):
+        if rates is None:
+            return None
+        values = list(pen[team])
+        ip = sum(item["ip"] for item in values)
+        if ip < 10:
+            return None
+        hr, bb, kk = (sum(item[key] for item in values)
+                      for key in ("hr", "bb", "kk"))
+        recent = sum(innings for prior_date, innings in pen_days[team]
+                     if (date - prior_date).days <= PEN_DAYS)
+        fip_c, _ = rates
+        return {
+            "fip": (13 * hr + 3 * bb - 2 * kk) / ip + fip_c,
+            "load": recent,
+        }
+
+    for date, same_day in ordered.groupby("date", sort=True):
+        # 같은 날짜 안에서는 상태를 갱신하지 않는다. 시작 시각이 없어서
+        # 어느 경기가 먼저 끝났는지 확정할 수 없기 때문이다.
+        rates = league_rates()
+        pending = list(same_day.itertuples())
+        for row in pending:
+            home_key = pitcher_key(row.home_sp, row.home_team)
+            away_key = pitcher_key(row.away_sp, row.away_team)
+            home_sp = sp_stat(home_key, rates)
+            away_sp = sp_stat(away_key, rates)
+            home_pen = pen_stat(row.home_team, date, rates)
+            away_pen = pen_stat(row.away_team, date, rates)
+            rows.append({
+                "date": date,
+                "home_team": row.home_team,
+                "away_team": row.away_team,
+                "fip_diff": ((away_sp["fip"] - home_sp["fip"])
+                             if home_sp and away_sp else np.nan),
+                "xfip_diff": ((away_sp["xfip"] - home_sp["xfip"])
+                              if home_sp and away_sp else np.nan),
+                "ip_diff": ((home_sp["ip"] - away_sp["ip"])
+                            if home_sp and away_sp else np.nan),
+                "pen_fip_diff": ((away_pen["fip"] - home_pen["fip"])
+                                 if home_pen and away_pen else np.nan),
+                "pen_load_diff": ((away_pen["load"] - home_pen["load"])
+                                  if home_pen and away_pen else np.nan),
+            })
+
+        # 해당 날짜의 모든 피처를 만든 뒤에만 경기 결과를 과거 상태에 넣는다.
+        for row in pending:
+            for key, one, all_pitchers, team in (
+                    (pitcher_key(row.home_sp, row.home_team), row.home_sp,
+                     row.home_all, row.home_team),
+                    (pitcher_key(row.away_sp, row.away_team), row.away_sp,
+                     row.away_all, row.away_team)):
+                starter = {
+                    "ip": _inn(one.get("inn")),
+                    "er": float(one.get("er") or 0),
+                    "hr": float(one.get("hr") or 0),
+                    "bb": float(one.get("bb") or 0),
+                    "kk": float(one.get("kk") or 0),
+                }
+                if key:
+                    sp[key].append(starter)
+                for key in league:
+                    league[key] += starter[key]
+                bullpen = agg(all_pitchers[1:])
+                pen[team].append(bullpen)
+                pen_days[team].append((date, bullpen["ip"]))
+                pen_days[team] = [
+                    (prior_date, innings)
+                    for prior_date, innings in pen_days[team]
+                    if (date - prior_date).days <= PEN_DAYS
+                ]
+
     return pd.DataFrame(rows)
 
 
