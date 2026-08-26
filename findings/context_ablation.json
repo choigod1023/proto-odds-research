@@ -1,0 +1,836 @@
+{
+  "protocol": "2023 fit; 2024 ridge selection; <=2024 refit; >=2025 untouched holdout",
+  "baseline": "same-event devig Proto 2-way probability",
+  "target": "absolute accuracy +5 percentage points without lower-odds substitution",
+  "rows": 23794,
+  "sports": [
+    {
+      "sport": "bk",
+      "n": {
+        "fit": 1847,
+        "tune": 1831,
+        "test": 3085
+      },
+      "ablations": {
+        "market": {
+          "ridge": null,
+          "n": 3085,
+          "accuracy": 0.6829821717990275,
+          "brier": 0.20271273404889786,
+          "logloss": 0.5907534074844952,
+          "roi": -0.1187520259319287,
+          "average_odds": 1.3264700162074554,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 617,
+              "model_accuracy": 0.8606158833063209,
+              "market_accuracy_same_games": 0.8606158833063209,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.0435008103727714,
+              "roi": -0.10358184764991893
+            },
+            {
+              "coverage": 0.3,
+              "n": 925,
+              "model_accuracy": 0.8248648648648649,
+              "market_accuracy_same_games": 0.8248648648648649,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.076735135135135,
+              "roi": -0.1154162162162162
+            },
+            {
+              "coverage": 0.5,
+              "n": 1542,
+              "model_accuracy": 0.7833981841763943,
+              "market_accuracy_same_games": 0.7833981841763943,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.145077821011673,
+              "roi": -0.10994163424124513
+            },
+            {
+              "coverage": 1.0,
+              "n": 3085,
+              "model_accuracy": 0.6829821717990275,
+              "market_accuracy_same_games": 0.6829821717990275,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.3264700162074554,
+              "roi": -0.1187520259319287
+            }
+          ]
+        },
+        "team_state": {
+          "ridge": 10.0,
+          "columns": [
+            "elo_diff",
+            "pi_diff",
+            "form_diff",
+            "margin_diff",
+            "trend_diff",
+            "streak_diff",
+            "venue_diff",
+            "h2h_diff"
+          ],
+          "n": 3085,
+          "accuracy": 0.6826580226904376,
+          "brier": 0.20274202354705817,
+          "logloss": 0.5906112880727055,
+          "roi": -0.11843435980551054,
+          "average_odds": 1.3282528363047001,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 617,
+              "model_accuracy": 0.8573743922204214,
+              "market_accuracy_same_games": 0.8573743922204214,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.0447325769854132,
+              "roi": -0.1064019448946515
+            },
+            {
+              "coverage": 0.3,
+              "n": 925,
+              "model_accuracy": 0.827027027027027,
+              "market_accuracy_same_games": 0.827027027027027,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.0784108108108108,
+              "roi": -0.11153513513513512
+            },
+            {
+              "coverage": 0.5,
+              "n": 1542,
+              "model_accuracy": 0.7892347600518806,
+              "market_accuracy_same_games": 0.7892347600518806,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.147166018158236,
+              "roi": -0.10091439688715953
+            },
+            {
+              "coverage": 1.0,
+              "n": 3085,
+              "model_accuracy": 0.6826580226904376,
+              "market_accuracy_same_games": 0.6829821717990275,
+              "accuracy_uplift_pp": -0.032414910858991064,
+              "choice_disagreement_rate": 0.019124797406807132,
+              "average_odds": 1.3282528363047001,
+              "roi": -0.11843435980551054
+            }
+          ],
+          "market_disagreements": {
+            "n": 59,
+            "coverage": 0.019124797406807132,
+            "model_accuracy": 0.4915254237288136,
+            "market_accuracy": 0.5084745762711864,
+            "accuracy_uplift_pp": -1.6949152542372836,
+            "average_odds": 1.797457627118644,
+            "roi": -0.11694915254237288
+          }
+        },
+        "schedule": {
+          "ridge": 100.0,
+          "columns": [
+            "rest_diff",
+            "b2b_home",
+            "b2b_away"
+          ],
+          "n": 3085,
+          "accuracy": 0.6807131280388979,
+          "brier": 0.202904461102633,
+          "logloss": 0.5912174875947135,
+          "roi": -0.11981199351701782,
+          "average_odds": 1.3319513776337115,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 617,
+              "model_accuracy": 0.86709886547812,
+              "market_accuracy_same_games": 0.86709886547812,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.006482982171799027,
+              "average_odds": 1.065542949756888,
+              "roi": -0.08183144246353319
+            },
+            {
+              "coverage": 0.3,
+              "n": 925,
+              "model_accuracy": 0.8205405405405405,
+              "market_accuracy_same_games": 0.8216216216216217,
+              "accuracy_uplift_pp": -0.1081081081081181,
+              "choice_disagreement_rate": 0.005405405405405406,
+              "average_odds": 1.0941837837837836,
+              "roi": -0.11156756756756755
+            },
+            {
+              "coverage": 0.5,
+              "n": 1542,
+              "model_accuracy": 0.7814526588845655,
+              "market_accuracy_same_games": 0.7821011673151751,
+              "accuracy_uplift_pp": -0.06485084306095956,
+              "choice_disagreement_rate": 0.00324254215304799,
+              "average_odds": 1.1553242542153048,
+              "roi": -0.10726329442282748
+            },
+            {
+              "coverage": 1.0,
+              "n": 3085,
+              "model_accuracy": 0.6807131280388979,
+              "market_accuracy_same_games": 0.6829821717990275,
+              "accuracy_uplift_pp": -0.22690437601295965,
+              "choice_disagreement_rate": 0.00940032414910859,
+              "average_odds": 1.3319513776337115,
+              "roi": -0.11981199351701782
+            }
+          ],
+          "market_disagreements": {
+            "n": 29,
+            "coverage": 0.00940032414910859,
+            "model_accuracy": 0.3793103448275862,
+            "market_accuracy": 0.6206896551724138,
+            "accuracy_uplift_pp": -24.13793103448276,
+            "average_odds": 2.1831034482758622,
+            "roi": -0.11689655172413792
+          }
+        },
+        "team_plus_schedule": {
+          "ridge": 100.0,
+          "columns": [
+            "elo_diff",
+            "pi_diff",
+            "form_diff",
+            "margin_diff",
+            "trend_diff",
+            "streak_diff",
+            "venue_diff",
+            "h2h_diff",
+            "rest_diff",
+            "b2b_home",
+            "b2b_away"
+          ],
+          "n": 3085,
+          "accuracy": 0.6813614262560778,
+          "brier": 0.2028813616922358,
+          "logloss": 0.5909530323421013,
+          "roi": -0.11841815235008103,
+          "average_odds": 1.3324246353322529,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 617,
+              "model_accuracy": 0.8654781199351702,
+              "market_accuracy_same_games": 0.8654781199351702,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.006482982171799027,
+              "average_odds": 1.0656888168557537,
+              "roi": -0.08353322528363043
+            },
+            {
+              "coverage": 0.3,
+              "n": 925,
+              "model_accuracy": 0.8216216216216217,
+              "market_accuracy_same_games": 0.8227027027027027,
+              "accuracy_uplift_pp": -0.108108108108107,
+              "choice_disagreement_rate": 0.005405405405405406,
+              "average_odds": 1.0944972972972973,
+              "roi": -0.11008648648648647
+            },
+            {
+              "coverage": 0.5,
+              "n": 1542,
+              "model_accuracy": 0.7846952010376135,
+              "market_accuracy_same_games": 0.7853437094682231,
+              "accuracy_uplift_pp": -0.06485084306095956,
+              "choice_disagreement_rate": 0.00324254215304799,
+              "average_odds": 1.1560246433203634,
+              "roi": -0.10254215304798962
+            },
+            {
+              "coverage": 1.0,
+              "n": 3085,
+              "model_accuracy": 0.6813614262560778,
+              "market_accuracy_same_games": 0.6829821717990275,
+              "accuracy_uplift_pp": -0.16207455429497752,
+              "choice_disagreement_rate": 0.017828200972447326,
+              "average_odds": 1.3324246353322529,
+              "roi": -0.11841815235008103
+            }
+          ],
+          "market_disagreements": {
+            "n": 55,
+            "coverage": 0.017828200972447326,
+            "model_accuracy": 0.45454545454545453,
+            "market_accuracy": 0.5454545454545454,
+            "accuracy_uplift_pp": -9.090909090909088,
+            "average_odds": 1.9905454545454544,
+            "roi": -0.07963636363636363
+          }
+        }
+      },
+      "holdout_change": {
+        "accuracy_pp": -0.16207455429497752,
+        "brier": 0.000168627643337943,
+        "logloss": 0.0001996248576060511,
+        "roi_pp": 0.03338735818476657,
+        "five_point_target_met": false
+      }
+    },
+    {
+      "sport": "bs",
+      "n": {
+        "fit": 4051,
+        "tune": 4040,
+        "test": 6927
+      },
+      "ablations": {
+        "market": {
+          "ridge": null,
+          "n": 6927,
+          "accuracy": 0.5646022809296954,
+          "brier": 0.24196207083285834,
+          "logloss": 0.6765944008385574,
+          "roi": -0.1382243395409268,
+          "average_odds": 1.5410711707810019,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 1385,
+              "model_accuracy": 0.6664259927797834,
+              "market_accuracy_same_games": 0.6664259927797834,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.3386714801444044,
+              "roi": -0.1123465703971119
+            },
+            {
+              "coverage": 0.3,
+              "n": 2078,
+              "model_accuracy": 0.6308950914340712,
+              "market_accuracy_same_games": 0.6308950914340712,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.3755004812319538,
+              "roi": -0.13794995187680464
+            },
+            {
+              "coverage": 0.5,
+              "n": 3463,
+              "model_accuracy": 0.6092982962749062,
+              "market_accuracy_same_games": 0.6092982962749062,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.430814322841467,
+              "roi": -0.13365001443834826
+            },
+            {
+              "coverage": 1.0,
+              "n": 6927,
+              "model_accuracy": 0.5646022809296954,
+              "market_accuracy_same_games": 0.5646022809296954,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.5410711707810019,
+              "roi": -0.1382243395409268
+            }
+          ]
+        },
+        "team_state": {
+          "ridge": 100.0,
+          "columns": [
+            "elo_diff",
+            "pi_diff",
+            "form_diff",
+            "margin_diff",
+            "trend_diff",
+            "streak_diff",
+            "venue_diff",
+            "h2h_diff"
+          ],
+          "n": 6927,
+          "accuracy": 0.5673451710697271,
+          "brier": 0.24188982533723216,
+          "logloss": 0.676461171783907,
+          "roi": -0.13321062509022666,
+          "average_odds": 1.541512920456186,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 1385,
+              "model_accuracy": 0.6628158844765343,
+              "market_accuracy_same_games": 0.6628158844765343,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.3394512635379061,
+              "roi": -0.11707581227436825
+            },
+            {
+              "coverage": 0.3,
+              "n": 2078,
+              "model_accuracy": 0.6381135707410972,
+              "market_accuracy_same_games": 0.6381135707410972,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.3763522617901829,
+              "roi": -0.12679980750721848
+            },
+            {
+              "coverage": 0.5,
+              "n": 3463,
+              "model_accuracy": 0.6087207623447878,
+              "market_accuracy_same_games": 0.6087207623447878,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.4316026566560784,
+              "roi": -0.1341351429396477
+            },
+            {
+              "coverage": 1.0,
+              "n": 6927,
+              "model_accuracy": 0.5673451710697271,
+              "market_accuracy_same_games": 0.5646022809296954,
+              "accuracy_uplift_pp": 0.27428901400317063,
+              "choice_disagreement_rate": 0.01573552764544536,
+              "average_odds": 1.5415129204561862,
+              "roi": -0.13321062509022666
+            }
+          ],
+          "market_disagreements": {
+            "n": 109,
+            "coverage": 0.01573552764544536,
+            "model_accuracy": 0.5871559633027523,
+            "market_accuracy": 0.41284403669724773,
+            "accuracy_uplift_pp": 17.431192660550458,
+            "average_odds": 1.7670642201834865,
+            "roi": 0.036422018348623866
+          }
+        },
+        "schedule": {
+          "ridge": 100.0,
+          "columns": [
+            "rest_diff",
+            "b2b_home",
+            "b2b_away"
+          ],
+          "n": 6927,
+          "accuracy": 0.5643135556517973,
+          "brier": 0.24252292514697651,
+          "logloss": 0.6818046362986302,
+          "roi": -0.13826909195900103,
+          "average_odds": 1.5432871372888695,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 1385,
+              "model_accuracy": 0.6685920577617328,
+              "market_accuracy_same_games": 0.6714801444043321,
+              "accuracy_uplift_pp": -0.2888086642599319,
+              "choice_disagreement_rate": 0.004332129963898917,
+              "average_odds": 1.3500216606498197,
+              "roi": -0.1076462093862816
+            },
+            {
+              "coverage": 0.3,
+              "n": 2078,
+              "model_accuracy": 0.6284889316650626,
+              "market_accuracy_same_games": 0.6304138594802695,
+              "accuracy_uplift_pp": -0.19249278152069227,
+              "choice_disagreement_rate": 0.0028873917228103944,
+              "average_odds": 1.382993262752647,
+              "roi": -0.14041385948026947
+            },
+            {
+              "coverage": 0.5,
+              "n": 3463,
+              "model_accuracy": 0.6092982962749062,
+              "market_accuracy_same_games": 0.610453364135143,
+              "accuracy_uplift_pp": -0.11550678602367803,
+              "choice_disagreement_rate": 0.0017326017903551833,
+              "average_odds": 1.435252671094427,
+              "roi": -0.13293387236500145
+            },
+            {
+              "coverage": 1.0,
+              "n": 6927,
+              "model_accuracy": 0.5643135556517973,
+              "market_accuracy_same_games": 0.5646022809296954,
+              "accuracy_uplift_pp": -0.028872527789813862,
+              "choice_disagreement_rate": 0.0023098022231846397,
+              "average_odds": 1.54328713728887,
+              "roi": -0.138269091959001
+            }
+          ],
+          "market_disagreements": {
+            "n": 16,
+            "coverage": 0.0023098022231846397,
+            "model_accuracy": 0.4375,
+            "market_accuracy": 0.5625,
+            "accuracy_uplift_pp": -12.5,
+            "average_odds": 2.515625,
+            "roi": -0.21437499999999998
+          }
+        },
+        "team_plus_schedule": {
+          "ridge": 100.0,
+          "columns": [
+            "elo_diff",
+            "pi_diff",
+            "form_diff",
+            "margin_diff",
+            "trend_diff",
+            "streak_diff",
+            "venue_diff",
+            "h2h_diff",
+            "rest_diff",
+            "b2b_home",
+            "b2b_away"
+          ],
+          "n": 6927,
+          "accuracy": 0.5670564457918291,
+          "brier": 0.242445696147821,
+          "logloss": 0.6817631909424157,
+          "roi": -0.1332669265194168,
+          "average_odds": 1.5437057889418215,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 1385,
+              "model_accuracy": 0.6592057761732852,
+              "market_accuracy_same_games": 0.6620938628158844,
+              "accuracy_uplift_pp": -0.2888086642599208,
+              "choice_disagreement_rate": 0.004332129963898917,
+              "average_odds": 1.3509386281588447,
+              "roi": -0.12051985559566789
+            },
+            {
+              "coverage": 0.3,
+              "n": 2078,
+              "model_accuracy": 0.6381135707410972,
+              "market_accuracy_same_games": 0.6400384985563041,
+              "accuracy_uplift_pp": -0.19249278152069227,
+              "choice_disagreement_rate": 0.0028873917228103944,
+              "average_odds": 1.3838257940327239,
+              "roi": -0.12573147256977865
+            },
+            {
+              "coverage": 0.5,
+              "n": 3463,
+              "model_accuracy": 0.607565694484551,
+              "market_accuracy_same_games": 0.6087207623447878,
+              "accuracy_uplift_pp": -0.11550678602367803,
+              "choice_disagreement_rate": 0.0017326017903551833,
+              "average_odds": 1.4360410049090384,
+              "roi": -0.1352180190586197
+            },
+            {
+              "coverage": 1.0,
+              "n": 6927,
+              "model_accuracy": 0.5670564457918291,
+              "market_accuracy_same_games": 0.5646022809296954,
+              "accuracy_uplift_pp": 0.24541648621336787,
+              "choice_disagreement_rate": 0.01602425292334344,
+              "average_odds": 1.5437057889418218,
+              "roi": -0.13326692651941677
+            }
+          ],
+          "market_disagreements": {
+            "n": 111,
+            "coverage": 0.01602425292334344,
+            "model_accuracy": 0.5765765765765766,
+            "market_accuracy": 0.42342342342342343,
+            "accuracy_uplift_pp": 15.315315315315313,
+            "average_odds": 1.8762162162162164,
+            "roi": 0.020270270270270258
+          }
+        }
+      },
+      "holdout_change": {
+        "accuracy_pp": 0.24541648621336787,
+        "brier": 0.0004836253149626546,
+        "logloss": 0.0051687901038582895,
+        "roi_pp": 0.495741302151001,
+        "five_point_target_met": false
+      }
+    },
+    {
+      "sport": "vl",
+      "n": {
+        "fit": 588,
+        "tune": 515,
+        "test": 910
+      },
+      "ablations": {
+        "market": {
+          "ridge": null,
+          "n": 910,
+          "accuracy": 0.6758241758241759,
+          "brier": 0.20373723295594973,
+          "logloss": 0.593368898137438,
+          "roi": -0.12370329670329672,
+          "average_odds": 1.334241758241758,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 182,
+              "model_accuracy": 0.8681318681318682,
+              "market_accuracy_same_games": 0.8681318681318682,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.0755494505494507,
+              "roi": -0.06725274725274723
+            },
+            {
+              "coverage": 0.3,
+              "n": 273,
+              "model_accuracy": 0.8388278388278388,
+              "market_accuracy_same_games": 0.8388278388278388,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.105054945054945,
+              "roi": -0.07567765567765566
+            },
+            {
+              "coverage": 0.5,
+              "n": 455,
+              "model_accuracy": 0.7758241758241758,
+              "market_accuracy_same_games": 0.7758241758241758,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.1617142857142857,
+              "roi": -0.10540659340659339
+            },
+            {
+              "coverage": 1.0,
+              "n": 910,
+              "model_accuracy": 0.6758241758241759,
+              "market_accuracy_same_games": 0.6758241758241759,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.334241758241758,
+              "roi": -0.12370329670329672
+            }
+          ]
+        },
+        "team_state": {
+          "ridge": 100.0,
+          "columns": [
+            "elo_diff",
+            "pi_diff",
+            "form_diff",
+            "margin_diff",
+            "trend_diff",
+            "streak_diff",
+            "venue_diff",
+            "h2h_diff"
+          ],
+          "n": 910,
+          "accuracy": 0.6835164835164835,
+          "brier": 0.20367142684722125,
+          "logloss": 0.5930025297389141,
+          "roi": -0.10890109890109889,
+          "average_odds": 1.336868131868132,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 182,
+              "model_accuracy": 0.8571428571428571,
+              "market_accuracy_same_games": 0.8571428571428571,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.0796153846153846,
+              "roi": -0.077032967032967
+            },
+            {
+              "coverage": 0.3,
+              "n": 273,
+              "model_accuracy": 0.8205128205128205,
+              "market_accuracy_same_games": 0.8205128205128205,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.1076556776556779,
+              "roi": -0.09538461538461539
+            },
+            {
+              "coverage": 0.5,
+              "n": 455,
+              "model_accuracy": 0.7758241758241758,
+              "market_accuracy_same_games": 0.7758241758241758,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.1652087912087912,
+              "roi": -0.10276923076923075
+            },
+            {
+              "coverage": 1.0,
+              "n": 910,
+              "model_accuracy": 0.6835164835164835,
+              "market_accuracy_same_games": 0.6758241758241759,
+              "accuracy_uplift_pp": 0.7692307692307665,
+              "choice_disagreement_rate": 0.02967032967032967,
+              "average_odds": 1.336868131868132,
+              "roi": -0.10890109890109889
+            }
+          ],
+          "market_disagreements": {
+            "n": 27,
+            "coverage": 0.02967032967032967,
+            "model_accuracy": 0.6296296296296297,
+            "market_accuracy": 0.37037037037037035,
+            "accuracy_uplift_pp": 25.92592592592593,
+            "average_odds": 1.7988888888888892,
+            "roi": 0.1366666666666667
+          }
+        },
+        "schedule": {
+          "ridge": 100.0,
+          "columns": [
+            "rest_diff",
+            "b2b_home",
+            "b2b_away"
+          ],
+          "n": 910,
+          "accuracy": 0.6802197802197802,
+          "brier": 0.20352372856662518,
+          "logloss": 0.5926912549461621,
+          "roi": -0.11560439560439563,
+          "average_odds": 1.3352307692307692,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 182,
+              "model_accuracy": 0.8736263736263736,
+              "market_accuracy_same_games": 0.8736263736263736,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.0782967032967037,
+              "roi": -0.05884615384615381
+            },
+            {
+              "coverage": 0.3,
+              "n": 273,
+              "model_accuracy": 0.8315018315018315,
+              "market_accuracy_same_games": 0.8315018315018315,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.106886446886447,
+              "roi": -0.08289377289377291
+            },
+            {
+              "coverage": 0.5,
+              "n": 455,
+              "model_accuracy": 0.7802197802197802,
+              "market_accuracy_same_games": 0.7802197802197802,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.1633626373626371,
+              "roi": -0.09863736263736264
+            },
+            {
+              "coverage": 1.0,
+              "n": 910,
+              "model_accuracy": 0.6802197802197802,
+              "market_accuracy_same_games": 0.6758241758241759,
+              "accuracy_uplift_pp": 0.439560439560438,
+              "choice_disagreement_rate": 0.01978021978021978,
+              "average_odds": 1.3352307692307692,
+              "roi": -0.1156043956043956
+            }
+          ],
+          "market_disagreements": {
+            "n": 18,
+            "coverage": 0.01978021978021978,
+            "model_accuracy": 0.6111111111111112,
+            "market_accuracy": 0.3888888888888889,
+            "accuracy_uplift_pp": 22.222222222222225,
+            "average_odds": 1.7766666666666666,
+            "roi": 0.0811111111111111
+          }
+        },
+        "team_plus_schedule": {
+          "ridge": 100.0,
+          "columns": [
+            "elo_diff",
+            "pi_diff",
+            "form_diff",
+            "margin_diff",
+            "trend_diff",
+            "streak_diff",
+            "venue_diff",
+            "h2h_diff",
+            "rest_diff",
+            "b2b_home",
+            "b2b_away"
+          ],
+          "n": 910,
+          "accuracy": 0.689010989010989,
+          "brier": 0.2035729765199479,
+          "logloss": 0.592621472361593,
+          "roi": -0.0980989010989011,
+          "average_odds": 1.339230769230769,
+          "gates": [
+            {
+              "coverage": 0.2,
+              "n": 182,
+              "model_accuracy": 0.8571428571428571,
+              "market_accuracy_same_games": 0.8571428571428571,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.07989010989011,
+              "roi": -0.076043956043956
+            },
+            {
+              "coverage": 0.3,
+              "n": 273,
+              "model_accuracy": 0.8168498168498168,
+              "market_accuracy_same_games": 0.8168498168498168,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.109047619047619,
+              "roi": -0.09886446886446885
+            },
+            {
+              "coverage": 0.5,
+              "n": 455,
+              "model_accuracy": 0.778021978021978,
+              "market_accuracy_same_games": 0.778021978021978,
+              "accuracy_uplift_pp": 0.0,
+              "choice_disagreement_rate": 0.0,
+              "average_odds": 1.1667912087912087,
+              "roi": -0.0994065934065934
+            },
+            {
+              "coverage": 1.0,
+              "n": 910,
+              "model_accuracy": 0.689010989010989,
+              "market_accuracy_same_games": 0.6758241758241759,
+              "accuracy_uplift_pp": 1.318681318681314,
+              "choice_disagreement_rate": 0.03736263736263736,
+              "average_odds": 1.339230769230769,
+              "roi": -0.0980989010989011
+            }
+          ],
+          "market_disagreements": {
+            "n": 34,
+            "coverage": 0.03736263736263736,
+            "model_accuracy": 0.6764705882352942,
+            "market_accuracy": 0.3235294117647059,
+            "accuracy_uplift_pp": 35.294117647058826,
+            "average_odds": 1.8247058823529414,
+            "roi": 0.23411764705882354
+          }
+        }
+      },
+      "holdout_change": {
+        "accuracy_pp": 1.318681318681314,
+        "brier": -0.0001642564360018195,
+        "logloss": -0.0007474257758449676,
+        "roi_pp": 2.560439560439562,
+        "five_point_target_met": false
+      }
+    }
+  ]
+}
