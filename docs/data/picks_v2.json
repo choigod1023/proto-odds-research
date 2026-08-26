@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-26T07:00:08+00:00",
+ "generated_at": "2026-08-26T08:02:43+00:00",
  "rounds": [
   100,
   101,
@@ -863,7 +863,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -934,14 +934,14 @@
      "label": "",
      "line": null,
      "선택": "홈",
-     "배당": 2.22,
+     "배당": 2.13,
      "모델확률": 0.317,
-     "시장확률": 0.3828,
-     "예상손익": -0.2962,
-     "괴리": 0.0657,
+     "시장확률": 0.4014,
+     "예상손익": -0.3247,
+     "괴리": 0.0844,
      "게임번호": "6517",
      "적중": null,
-     "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
+     "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
     },
     {
      "market": "승패",
@@ -949,11 +949,11 @@
      "label": "",
      "line": null,
      "선택": "원정",
-     "배당": 1.46,
+     "배당": 1.5,
      "모델확률": 0.683,
-     "시장확률": 0.6172,
-     "예상손익": -0.0029,
-     "괴리": 0.0657,
+     "시장확률": 0.5986,
+     "예상손익": 0.0245,
+     "괴리": 0.0844,
      "게임번호": "6517",
      "적중": null,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
@@ -964,11 +964,11 @@
      "label": "승①패",
      "line": null,
      "선택": "홈2+",
-     "배당": 3.65,
+     "배당": 3.5,
      "모델확률": 0.1574,
-     "시장확률": 0.2282,
-     "예상손익": -0.4253,
-     "괴리": 0.0708,
+     "시장확률": 0.2395,
+     "예상손익": -0.449,
+     "괴리": 0.0821,
      "게임번호": "6518",
      "적중": null,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
@@ -979,11 +979,11 @@
      "label": "승①패",
      "line": null,
      "선택": "1점차",
-     "배당": 2.8,
+     "배당": 2.75,
      "모델확률": 0.4145,
-     "시장확률": 0.3082,
-     "예상손익": 0.1607,
-     "괴리": 0.1064,
+     "시장확률": 0.3144,
+     "예상손익": 0.14,
+     "괴리": 0.1001,
      "게임번호": "6518",
      "적중": null,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
@@ -994,14 +994,14 @@
      "label": "승①패",
      "line": null,
      "선택": "원정2+",
-     "배당": 1.93,
+     "배당": 2.0,
      "모델확률": 0.428,
-     "시장확률": 0.4636,
-     "예상손익": -0.1739,
-     "괴리": 0.0356,
+     "시장확률": 0.4461,
+     "예상손익": -0.1439,
+     "괴리": 0.018,
      "게임번호": "6518",
      "적중": null,
-     "제외": "모델·시장 차이가 커서 신뢰 낮음"
+     "추천점수": -0.1439
     },
     {
      "market": "핸디캡",
@@ -1096,7 +1096,21 @@
    ],
    "홈승률": 0.3181,
    "판단": "원정 우세",
-   "추천": null,
+   "추천": {
+    "market": "승①패",
+    "n_way": 3,
+    "label": "승①패",
+    "line": null,
+    "선택": "원정2+",
+    "배당": 2.0,
+    "모델확률": 0.428,
+    "시장확률": 0.4461,
+    "예상손익": -0.1439,
+    "괴리": 0.018,
+    "게임번호": "6518",
+    "적중": null,
+    "추천점수": -0.1439
+   },
    "선택지수": 11,
    "form_src": "리그",
    "form_home": {
@@ -1726,7 +1740,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -1771,12 +1785,12 @@
     },
     "margin_band": {
      "label": "1점차",
-     "close_market": 0.3082,
+     "close_market": 0.3144,
      "close_model": 0.4145
     }
    },
-   "해설기본": "요미우리의 승리 확률은 시장 기본값 기준 62%, 배당은 1.46입니다. 실제 발매선상 총득점은 오버를 향하고 있습니다. 야쿠르트는 최근 5경기 득실 마진을 -4.8에서 -0.4까지 끌어올리며 경기력을 회복 중이나, 10경기 성적은 3승 7패에 그칩니다. 이 기간 평균 3.0득점 5.6실점을 기록하며 최근 3경기는 2승 1패로 흐름이 다소 불안정합니다. 요미우리 역시 최근 3경기 2승 1패로 기복이 있으며 득점 편차가 큽니다. 다만 10경기 7승 3패의 상승세 속에 평균 3.8득점 2.4실점으로 안정적인 지표를 보입니다. 야쿠르트는 홈에서 16승 23패로 부진한 반면, 요미우리는 원정 22승 17패로 강점을 드러냈습니다. 시즌 맞대결은 야쿠르트가 7승 6패로 근소하게 앞서지만, 최근 두 차례 맞대결에서는 2-8, 1-3으로 요미우리가 우위를 점했습니다. 최근 지표로 계산한 예상 합계는 7.4점 안팎으로, 실제 기준점인 6.5점보다는 오버 가능성이 높게 점쳐집니다.",
-   "해설": "요미우리의 승리 확률은 시장 기본값 기준 62%, 배당은 1.46입니다. 선발 맞대결은 야쿠르트 야마노 다이치(2026시즌, 9승 3패, ERA 2.15, WHIP 1.01), 요미우리 이노에 하루토(2026시즌, 10승 7패, ERA 2.15, WHIP 1.03)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 야쿠르트 2번 몬데루(타율 .289, 3홈런, OPS .779), 요미우리 4번 오오시로 다쿠미(타율 .272, 8홈런, OPS .808)입니다. 해당 경기의 확정 명단은 아닙니다. 실제 발매선상 총득점은 오버를 향하고 있습니다. 야쿠르트는 최근 5경기 득실 마진을 -4.8에서 -0.4까지 끌어올리며 경기력을 회복 중이나, 10경기 성적은 3승 7패에 그칩니다. 이 기간 평균 3.0득점 5.6실점을 기록하며 최근 3경기는 2승 1패로 흐름이 다소 불안정합니다. 요미우리 역시 최근 3경기 2승 1패로 기복이 있으며 득점 편차가 큽니다. 다만 10경기 7승 3패의 상승세 속에 평균 3.8득점 2.4실점으로 안정적인 지표를 보입니다. 야쿠르트는 홈에서 16승 23패로 부진한 반면, 요미우리는 원정 22승 17패로 강점을 드러냈습니다. 시즌 맞대결은 야쿠르트가 7승 6패로 근소하게 앞서지만, 최근 두 차례 맞대결에서는 2-8, 1-3으로 요미우리가 우위를 점했습니다. 최근 지표로 계산한 예상 합계는 7.4점 안팎으로, 실제 기준점인 6.5점보다는 오버 가능성이 높게 점쳐집니다."
+   "해설기본": "요미우리의 승리 확률은 시장 기본값 기준 60%, 배당은 1.50이 책정되었습니다. 실제 발매 시장에서는 총득점 오버를 향한 쏠림이 의심됩니다. 야쿠르트는 최근 5경기 득실 마진이 -4.8에서 -0.4까지 개선되며 경기력이 올라오는 모습이나, 최근 10경기 성적은 3승 7패에 머물러 있습니다. 이 기간 평균 3.0득점 5.6실점을 기록하며 최근 3경기는 2승 1패로 흐름이 일정치 않습니다. 요미우리 역시 최근 3경기 2승 1패로 기복을 보였고 득점 편차도 크지만, 최근 10경기 7승 3패와 평균 3.8득점 2.4실점이라는 준수한 지표를 유지 중입니다. 홈에서 16승 23패로 고전 중인 야쿠르트와 달리 요미우리는 원정에서 22승 17패로 강세를 보입니다. 시즌 맞대결은 야쿠르트가 7승 6패로 근소하게 앞서지만, 가장 최근 두 차례 맞대결에서는 2-8, 1-3으로 요미우리가 우위를 점했습니다. 최근 지표로 계산한 합계는 7.4점 수준으로, 실제 기준점인 6.5점을 고려하면 오버 가능성이 엿보입니다.",
+   "해설": "요미우리의 승리 확률은 시장 기본값 기준 60%, 배당은 1.50이 책정되었습니다. 선발 맞대결은 야쿠르트 야마노 다이치(2026시즌, 9승 3패, ERA 2.15, WHIP 1.01), 요미우리 이노에 하루토(2026시즌, 10승 7패, ERA 2.15, WHIP 1.03)로 잡혔습니다. 최근 공식 경기 기반 예상 타순의 팀별 OPS 상위 타자는 야쿠르트 2번 몬데루(타율 .289, 3홈런, OPS .779), 요미우리 4번 오오시로 다쿠미(타율 .272, 8홈런, OPS .808)입니다. 해당 경기의 확정 명단은 아닙니다. 실제 발매 시장에서는 총득점 오버를 향한 쏠림이 의심됩니다. 야쿠르트는 최근 5경기 득실 마진이 -4.8에서 -0.4까지 개선되며 경기력이 올라오는 모습이나, 최근 10경기 성적은 3승 7패에 머물러 있습니다. 이 기간 평균 3.0득점 5.6실점을 기록하며 최근 3경기는 2승 1패로 흐름이 일정치 않습니다. 요미우리 역시 최근 3경기 2승 1패로 기복을 보였고 득점 편차도 크지만, 최근 10경기 7승 3패와 평균 3.8득점 2.4실점이라는 준수한 지표를 유지 중입니다. 홈에서 16승 23패로 고전 중인 야쿠르트와 달리 요미우리는 원정에서 22승 17패로 강세를 보입니다. 시즌 맞대결은 야쿠르트가 7승 6패로 근소하게 앞서지만, 가장 최근 두 차례 맞대결에서는 2-8, 1-3으로 요미우리가 우위를 점했습니다. 최근 지표로 계산한 합계는 7.4점 수준으로, 실제 기준점인 6.5점을 고려하면 오버 가능성이 엿보입니다."
   },
   {
    "round": 100,
@@ -2649,7 +2663,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -3512,7 +3526,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -3613,11 +3627,11 @@
      "label": "승①패",
      "line": null,
      "선택": "홈2+",
-     "배당": 4.2,
+     "배당": 4.3,
      "모델확률": 0.1801,
-     "시장확률": 0.1933,
-     "예상손익": -0.2434,
-     "괴리": 0.0132,
+     "시장확률": 0.1883,
+     "예상손익": -0.2254,
+     "괴리": 0.0082,
      "게임번호": "6538",
      "적중": null,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
@@ -3628,11 +3642,11 @@
      "label": "승①패",
      "line": null,
      "선택": "1점차",
-     "배당": 2.85,
+     "배당": 2.95,
      "모델확률": 0.3782,
-     "시장확률": 0.3015,
-     "예상손익": 0.078,
-     "괴리": 0.0767,
+     "시장확률": 0.2904,
+     "예상손익": 0.1158,
+     "괴리": 0.0878,
      "게임번호": "6538",
      "적중": null,
      "제외": "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
@@ -3643,11 +3657,11 @@
      "label": "승①패",
      "line": null,
      "선택": "원정2+",
-     "배당": 1.78,
+     "배당": 1.73,
      "모델확률": 0.4416,
-     "시장확률": 0.5052,
-     "예상손익": -0.2139,
-     "괴리": 0.0635,
+     "시장확률": 0.5213,
+     "예상손익": -0.236,
+     "괴리": 0.0797,
      "게임번호": "6538",
      "적중": null,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
@@ -4421,7 +4435,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -4466,7 +4480,7 @@
     },
     "margin_band": {
      "label": "1점차",
-     "close_market": 0.3015,
+     "close_market": 0.2904,
      "close_model": 0.3782
     }
    },
@@ -5284,7 +5298,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -7068,11 +7082,11 @@
      "label": "U 8.5",
      "line": 8.5,
      "선택": "언더",
-     "배당": 1.87,
+     "배당": 1.94,
      "모델확률": 0.3338,
-     "시장확률": 0.4662,
-     "예상손익": -0.3758,
-     "괴리": 0.1324,
+     "시장확률": 0.4472,
+     "예상손익": -0.3525,
+     "괴리": 0.1134,
      "게임번호": "6586",
      "적중": null,
      "제외": "시장 최유력 선택이 아닌 역배 — 검증 우위가 없어 자동 추천 제외"
@@ -7083,11 +7097,11 @@
      "label": "U 8.5",
      "line": 8.5,
      "선택": "오버",
-     "배당": 1.66,
+     "배당": 1.61,
      "모델확률": 0.6662,
-     "시장확률": 0.5338,
-     "예상손익": 0.1059,
-     "괴리": 0.1324,
+     "시장확률": 0.5528,
+     "예상손익": 0.0726,
+     "괴리": 0.1134,
      "게임번호": "6586",
      "적중": null,
      "제외": "모델·시장 차이가 커서 신뢰 낮음"
@@ -7510,9 +7524,9 @@
      "label": "",
      "line": null,
      "선택": "홈",
-     "배당": 1.99,
+     "배당": 2.22,
      "모델확률": null,
-     "시장확률": 0.4486,
+     "시장확률": 0.3979,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6547",
@@ -7527,7 +7541,7 @@
      "선택": "무",
      "배당": 3.25,
      "모델확률": null,
-     "시장확률": 0.2607,
+     "시장확률": 0.2604,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6547",
@@ -7540,9 +7554,9 @@
      "label": "",
      "line": null,
      "선택": "원정",
-     "배당": 2.95,
+     "배당": 2.55,
      "모델확률": null,
-     "시장확률": 0.2908,
+     "시장확률": 0.3417,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6547",
@@ -7555,9 +7569,9 @@
      "label": "H -1.0",
      "line": -1.0,
      "선택": "핸디홈",
-     "배당": 3.75,
+     "배당": 4.4,
      "모델확률": null,
-     "시장확률": 0.2207,
+     "시장확률": 0.1834,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6548",
@@ -7570,9 +7584,9 @@
      "label": "H -1.0",
      "line": -1.0,
      "선택": "핸디무",
-     "배당": 3.6,
+     "배당": 3.8,
      "모델확률": null,
-     "시장확률": 0.2313,
+     "시장확률": 0.2177,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6548",
@@ -7585,9 +7599,9 @@
      "label": "H -1.0",
      "line": -1.0,
      "선택": "핸디원정",
-     "배당": 1.65,
+     "배당": 1.52,
      "모델확률": null,
-     "시장확률": 0.5481,
+     "시장확률": 0.5989,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6548",
@@ -7600,9 +7614,9 @@
      "label": "U 2.5",
      "line": 2.5,
      "선택": "언더",
-     "배당": 1.93,
+     "배당": 1.96,
      "모델확률": null,
-     "시장확률": 0.4504,
+     "시장확률": 0.4426,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6549",
@@ -7615,9 +7629,9 @@
      "label": "U 2.5",
      "line": 2.5,
      "선택": "오버",
-     "배당": 1.62,
+     "배당": 1.6,
      "모델확률": null,
-     "시장확률": 0.5496,
+     "시장확률": 0.5574,
      "예상손익": null,
      "괴리": null,
      "게임번호": "6549",
@@ -7680,8 +7694,8 @@
      "away_model": null
     }
    },
-   "해설기본": "사우스멜의 승리 확률은 시장 기본값 기준 55%, 배당은 2.95를 기록 중입니다. 양 팀 모두 최근 경기 기록이 부족해 구체적인 흐름을 파악하기는 어렵습니다. 프레라이와 사우스멜 양쪽 다 이번 시즌 데이터가 충분히 쌓이지 않은 상황입니다.",
-   "해설": "사우스멜의 승리 확률은 시장 기본값 기준 55%, 배당은 2.95를 기록 중입니다. 양 팀 모두 최근 경기 기록이 부족해 구체적인 흐름을 파악하기는 어렵습니다. 프레라이와 사우스멜 양쪽 다 이번 시즌 데이터가 충분히 쌓이지 않은 상황입니다."
+   "해설기본": "사우스멜의 승리 확률은 시장 기본값 기준 55%, 배당은 2.55입니다. 양 팀 모두 최근 치른 경기가 없어 흐름을 가늠하기 어렵습니다. 사우스멜과 프레라이 양측 모두 이번 시즌 데이터가 충분히 쌓이지 않아 경기 내용을 분석하기엔 변수가 많습니다.",
+   "해설": "사우스멜의 승리 확률은 시장 기본값 기준 55%, 배당은 2.55입니다. 양 팀 모두 최근 치른 경기가 없어 흐름을 가늠하기 어렵습니다. 사우스멜과 프레라이 양측 모두 이번 시즌 데이터가 충분히 쌓이지 않아 경기 내용을 분석하기엔 변수가 많습니다."
   },
   {
    "round": 100,
@@ -10053,7 +10067,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -10938,7 +10952,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -11809,7 +11823,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -12734,7 +12748,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -14693,7 +14707,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -16376,7 +16390,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -16824,7 +16838,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -17203,7 +17217,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -17577,7 +17591,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -17980,7 +17994,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -18399,7 +18413,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -18803,7 +18817,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -19153,7 +19167,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -19602,7 +19616,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -19996,7 +20010,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -20405,7 +20419,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -20838,7 +20852,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -21217,7 +21231,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -21973,7 +21987,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -22816,7 +22830,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -23489,7 +23503,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -24114,7 +24128,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -24787,7 +24801,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25412,7 +25426,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -25800,7 +25814,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127082",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -26705,7 +26719,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126963",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -27047,7 +27061,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127083",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -27543,7 +27557,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126973",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -29008,7 +29022,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -29599,7 +29613,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127117",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -29941,7 +29955,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126968",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -30631,7 +30645,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127118",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -30973,7 +30987,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127116",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -31479,7 +31493,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -31770,7 +31784,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -32617,7 +32631,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127081",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -33139,7 +33153,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -33484,7 +33498,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127281",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -33910,7 +33924,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -34175,7 +34189,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -34385,7 +34399,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -34486,7 +34500,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127297",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -34731,7 +34745,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127286",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -34976,7 +34990,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127296",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -35442,7 +35456,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -35543,7 +35557,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127291",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -36026,7 +36040,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -36127,7 +36141,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127298",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -36469,7 +36483,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126979",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -37366,7 +37380,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -38039,7 +38053,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -38157,7 +38171,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126978",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -39054,7 +39068,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -39679,7 +39693,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -40304,7 +40318,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -40929,7 +40943,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -41480,7 +41494,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -41880,7 +41894,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -42111,7 +42125,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126980",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -42337,14 +42351,6 @@
        "number": "7",
        "club": "Amman United Club",
        "height": 196
-      },
-      {
-       "player_id": "413419",
-       "name": "Yousef Dweik",
-       "position": "Guard",
-       "number": "8",
-       "club": "Al-Faisaly Club",
-       "height": 188
       }
      ],
      "away": []
@@ -42426,7 +42432,7 @@
     "lineups": {},
     "source": null,
     "source_url": null,
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -42503,7 +42509,7 @@
     "lineups": {},
     "source": null,
     "source_url": null,
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -42600,7 +42606,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -42906,7 +42912,7 @@
     "lineups": {},
     "source": null,
     "source_url": null,
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -42983,7 +42989,7 @@
     "lineups": {},
     "source": null,
     "source_url": null,
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -43060,7 +43066,7 @@
     "lineups": {},
     "source": null,
     "source_url": null,
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -43169,7 +43175,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -43612,7 +43618,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -43718,7 +43724,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -43818,7 +43824,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -44156,7 +44162,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -44494,7 +44500,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -44800,7 +44806,7 @@
     "lineups": {},
     "source": null,
     "source_url": null,
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -44909,7 +44915,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -45247,7 +45253,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -45701,7 +45707,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -45878,7 +45884,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -46049,7 +46055,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -46235,7 +46241,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -46412,7 +46418,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -46623,7 +46629,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -46790,7 +46796,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -47016,7 +47022,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -47193,7 +47199,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -47385,7 +47391,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -47522,7 +47528,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -47699,7 +47705,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -47896,7 +47902,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -48138,7 +48144,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -48794,7 +48800,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -49467,7 +49473,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -49588,7 +49594,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -49740,7 +49746,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -49934,7 +49940,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -50650,7 +50656,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -51275,7 +51281,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -51384,7 +51390,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -51998,7 +52004,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -52677,7 +52683,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -52786,7 +52792,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -52896,7 +52902,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -52982,7 +52988,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53080,7 +53086,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53178,7 +53184,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53264,7 +53270,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53362,7 +53368,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53472,7 +53478,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53582,7 +53588,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53680,7 +53686,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53778,7 +53784,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53876,7 +53882,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -53986,7 +53992,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -54096,7 +54102,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -54194,7 +54200,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j1/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -54304,7 +54310,7 @@
     "lineups": {},
     "source": "J.LEAGUE.jp 공식 순위",
     "source_url": "https://www.jleague.jp/j2/standings/",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -54408,7 +54414,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -54624,7 +54630,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -54846,7 +54852,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -55073,7 +55079,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -55289,7 +55295,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -55511,7 +55517,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -55735,7 +55741,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -56061,7 +56067,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -56399,7 +56405,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -56737,7 +56743,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -57075,7 +57081,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -57187,7 +57193,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -57287,7 +57293,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -57387,7 +57393,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -57499,7 +57505,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -57611,7 +57617,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -57949,7 +57955,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -58263,7 +58269,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -58601,7 +58607,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -58981,7 +58987,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -59319,7 +59325,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -59645,7 +59651,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -59971,7 +59977,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=england2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -60309,7 +60315,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -60647,7 +60653,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -60985,7 +60991,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -61311,7 +61317,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -61637,7 +61643,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -61975,7 +61981,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -62087,7 +62093,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -62425,7 +62431,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -62751,7 +62757,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -63089,7 +63095,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -63427,7 +63433,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -63851,7 +63857,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -64092,7 +64098,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -64284,7 +64290,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -64421,7 +64427,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -64632,7 +64638,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -64726,7 +64732,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -65052,7 +65058,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -65390,7 +65396,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -65728,7 +65734,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -66066,7 +66072,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -66404,7 +66410,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -66843,7 +66849,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -66949,7 +66955,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -67423,7 +67429,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -67600,7 +67606,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -67771,7 +67777,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -67938,7 +67944,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -68124,7 +68130,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -68301,7 +68307,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -68407,7 +68413,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -68816,7 +68822,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -68922,7 +68928,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -69260,7 +69266,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -69598,7 +69604,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -69936,7 +69942,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -70274,7 +70280,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -70612,7 +70618,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -70950,7 +70956,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -71288,7 +71294,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -71626,7 +71632,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -71964,7 +71970,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -72447,7 +72453,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -72624,7 +72630,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -72730,7 +72736,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -73068,7 +73074,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -73956,7 +73962,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -74629,7 +74635,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -74747,7 +74753,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126982",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -75644,7 +75650,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -76485,7 +76491,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -77110,7 +77116,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -77282,7 +77288,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126981",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -77606,14 +77612,6 @@
        "number": "7",
        "club": "Amman United Club",
        "height": 196
-      },
-      {
-       "player_id": "413419",
-       "name": "Yousef Dweik",
-       "position": "Guard",
-       "number": "8",
-       "club": "Al-Faisaly Club",
-       "height": 188
       }
      ]
     },
@@ -78228,7 +78226,7 @@
     },
     "source": "NPB.jp 일본야구기구 공식 선발·순위·당일/최근 타순·투타 기록",
     "source_url": "https://npb.jp/announcement/starter/",
-    "updated_at": "2026-08-26T15:59:18+09:00",
+    "updated_at": "2026-08-26T17:01:31+09:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -78351,7 +78349,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -78681,7 +78679,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -78908,7 +78906,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -79135,7 +79133,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -79351,7 +79349,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague2",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -79573,7 +79571,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -79800,7 +79798,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/kfootball/schedule/index?category=kleague",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -80025,7 +80023,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126983",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -80270,7 +80268,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127119",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -80694,7 +80692,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -81020,7 +81018,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -81353,7 +81351,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127120",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -81700,7 +81698,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -82038,7 +82036,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -82376,7 +82374,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=epl",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -82714,7 +82712,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -83052,7 +83050,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -83164,7 +83162,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -83490,7 +83488,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -83816,7 +83814,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -84203,7 +84201,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127084",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -84595,7 +84593,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=bundesliga",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [],
      "away": []
@@ -84702,7 +84700,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127121",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -85044,7 +85042,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127085",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -85438,7 +85436,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -85544,7 +85542,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -85870,7 +85868,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -86294,7 +86292,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -86461,7 +86459,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -86668,7 +86666,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -86890,7 +86888,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -87057,7 +87055,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -87234,7 +87232,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -87335,7 +87333,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/127086",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -87573,7 +87571,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=eredivisie",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -87997,7 +87995,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -88174,7 +88172,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -88311,7 +88309,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -88417,7 +88415,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=ligue1",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -88755,7 +88753,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -89093,7 +89091,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=seria",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -89477,7 +89475,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -89559,7 +89557,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=primera",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -89988,7 +89986,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -90165,7 +90163,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -90271,7 +90269,7 @@
     "lineups": {},
     "source": "네이버 스포츠 공식 경기·시즌 기록",
     "source_url": "https://m.sports.naver.com/wfootball/schedule/index?category=mls",
-    "updated_at": "2026-08-26T15:59:22+09:00",
+    "updated_at": "2026-08-26T17:01:40+09:00",
     "key_players": {
      "home": [
       {
@@ -90695,7 +90693,7 @@
     "lineups": {},
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -90796,7 +90794,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126976",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -91138,7 +91136,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126960",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -91577,7 +91575,7 @@
     "lineups": {},
     "source": "FIBA 공식 경기·대회 기록",
     "source_url": "https://www.fiba.basketball/en/games/126966",
-    "updated_at": "2026-08-26T15:59:26+09:00",
+    "updated_at": "2026-08-26T17:01:44+09:00",
     "key_players": {
      "home": [
       {
@@ -94045,7 +94043,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -94576,7 +94574,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -95078,7 +95076,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -95595,7 +95593,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -96086,7 +96084,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -96572,7 +96570,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -97073,7 +97071,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -97629,7 +97627,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -98146,7 +98144,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -98783,7 +98781,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -107092,7 +107090,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -107609,7 +107607,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -108125,7 +108123,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -108757,7 +108755,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -109483,7 +109481,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -110140,7 +110138,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -110812,7 +110810,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -111494,7 +111492,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -112150,7 +112148,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -113524,7 +113522,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -114175,7 +114173,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -114827,7 +114825,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -115548,7 +115546,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -116230,7 +116228,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
@@ -117151,7 +117149,7 @@
     },
     "source": "MLB Stats API",
     "source_url": "https://www.mlb.com/probable-pitchers",
-    "updated_at": "2026-08-26T06:59:21+00:00",
+    "updated_at": "2026-08-26T08:01:34+00:00",
     "key_players": {},
     "rosters": {},
     "benches": {},
