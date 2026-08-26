@@ -36,11 +36,12 @@ export function canonicalPick(game, options, grades) {
 /** 경기 카드 추천을 우선하되, 추천이 없는 경기는 안전한 시장 최유력으로 보완한다. */
 export function alignTodayRecommendations(today, games = []) {
   if (!today) return today;
+  const inputCandidates = today.candidates || [];
   const canonical = new Map((games || []).flatMap((game) => {
     const option = canonicalOption(game, game?.options || []);
     return option ? [[selectionGroupKey(option, game.round), selectionKey(option, game.round)]] : [];
   }));
-  const candidates = eligibleAutoSelections(today.candidates || []).map((candidate) => {
+  const candidates = eligibleAutoSelections(inputCandidates).map((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
     return {
       ...candidate,
@@ -55,5 +56,20 @@ export function alignTodayRecommendations(today, games = []) {
     picks: (plan.picks || []).filter(keep),
   }));
   const solo = today.solo && keep(today.solo) ? today.solo : null;
-  return { ...today, candidates, plans, solo };
+  const gameModelCandidates = candidates.filter(
+    (candidate) => candidate.recommendation_basis === "game-model",
+  ).length;
+  return {
+    ...today,
+    candidates,
+    plans,
+    solo,
+    alignment: {
+      input_candidates: inputCandidates.length,
+      safe_candidates: candidates.length,
+      game_model_candidates: gameModelCandidates,
+      market_fallback_candidates: candidates.length - gameModelCandidates,
+      dropped_by_safety: inputCandidates.length - candidates.length,
+    },
+  };
 }
