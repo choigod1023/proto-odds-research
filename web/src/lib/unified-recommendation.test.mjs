@@ -99,8 +99,8 @@ const reversalGame = {
   decision_snapshot: undefined,
   options: [reversalHome, reversalAway],
 };
-assert.equal(canonicalOption(reversalGame), reversalAway,
-  "역배 관문을 통과하면 화면의 기존 정배를 완전히 교체한다");
+assert.equal(canonicalOption(reversalGame), reversalHome,
+  "미검증 역배 관문은 관찰만 하고 시장 최유력을 유지한다");
 const reversalToday = alignTodayRecommendations({
   ...today,
   year: 2026,
@@ -109,9 +109,9 @@ const reversalToday = alignTodayRecommendations({
     { bin: "1.8-2.2", roi: -0.12, n: 1000, hit: 0.45, grade: "C" },
   ],
 }, [reversalGame]);
-assert.deepEqual(reversalToday.candidates.map((row) => row.sel), ["원정"]);
-assert.equal(reversalToday.candidates[0].final_reversal, true);
-assert.equal(reversalToday.candidates[0].is_market_favorite, false);
+assert.deepEqual(reversalToday.candidates.map((row) => row.sel), ["홈"]);
+assert.equal(reversalToday.candidates[0].final_reversal, false);
+assert.equal(reversalToday.candidates[0].is_market_favorite, true);
 
 const liveFavoriteFlipped = {
   ...game,

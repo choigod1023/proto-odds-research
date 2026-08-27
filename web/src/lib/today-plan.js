@@ -1,4 +1,4 @@
-import { eligibleFinalSelections, recommendationPriority } from "./recommendation-policy.js";
+import { eligibleFinalSelections } from "./recommendation-policy.js";
 import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -45,7 +45,6 @@ function byNextKickoff(a, b, year) {
 }
 
 function byLegQuality(a, b, year) {
-  const priorityOrder = recommendationPriority(b) - recommendationPriority(a);
   const aCalibrated = calibratedLegProbability(a);
   const bCalibrated = calibratedLegProbability(b);
   const aOdds = Number(a?.odds || 0);
@@ -59,7 +58,7 @@ function byLegQuality(a, b, year) {
     (Number.isFinite(aProbability) ? aProbability : 0);
   const returnOrder = (bCalibrated.lower ?? 0) * bOdds -
     (aCalibrated.lower ?? 0) * aOdds;
-  return priorityOrder || conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
+  return conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
     Number(a.overround || 99) - Number(b.overround || 99) ||
     byNextKickoff(a, b, year);
 }
@@ -110,8 +109,8 @@ export function pickNextLegs(candidates, bins, year, target = null) {
       const closeness = target ? -Math.abs(Math.log(actualOdds / Number(target))) : 0;
       const metrics = ticketMetrics(picks);
       const score = [
-        metrics.calibrated_hit_est ?? 0,
-        metrics.conservative_expected_roi ?? Number.NEGATIVE_INFINITY,
+        metrics.independent_hit_est ?? 0,
+        metrics.market_reference_roi ?? Number.NEGATIVE_INFINITY,
         hitEstimate,
         payout,
         closeness,
@@ -151,9 +150,12 @@ export function ticketMetrics(picks) {
   const samples = calibrated.map(({ n }) => n).filter((n) => Number.isFinite(n) && n > 0);
   const result = {
     actual_odds: Number(actualOdds.toFixed(2)),
-    probability_basis: "Shin 시장확률 · 검증된 잔차 계수 0",
+    probability_basis: "서로 다른 경기의 Shin 시장확률 독립 가정 · 검증된 잔차 계수 0",
+    independence_assumption: true,
   };
   if (marketHit != null) {
+    result.independent_hit_est = Number(marketHit.toFixed(5));
+    result.market_reference_roi = Number((marketHit * actualOdds - 1).toFixed(4));
     result.hit_est = Number(marketHit.toFixed(5));
     result.upset_risk = Number((1 - marketHit).toFixed(5));
     result.expected_roi = Number((marketHit * actualOdds - 1).toFixed(4));
@@ -191,21 +193,28 @@ function metricNumber(plan, key, fallback) {
   return Number.isFinite(value) ? value : fallback;
 }
 
+function referenceMetric(plan, current, legacy, fallback) {
+  return plan?.[current] != null
+    ? metricNumber(plan, current, fallback)
+    : metricNumber(plan, legacy, fallback);
+}
+
 export function recommendationFromPlans(plans) {
   const available = (plans || []).filter((plan) => plan?.ok);
   if (!available.length) return { action: "none", target: null, index: -1,
     why: "현재 선택 가능한 경기로 구성할 조합이 없다" };
   const positive = available.filter((plan) => plan.has_validated_edge === true &&
-    metricNumber(plan, "conservative_expected_roi", -99) > 0);
+    referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) > 0);
   const challenge = available.filter((plan) =>
     metricNumber(plan, "target", 99) <= DAILY_CHALLENGE_MAX_TARGET &&
-    metricNumber(plan, "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
-    metricNumber(plan, "calibrated_hit_est", 0) >=
+    referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
+    referenceMetric(plan, "independent_hit_est", "calibrated_hit_est", 0) >=
       (DAILY_CHALLENGE_MIN_HIT[metricNumber(plan, "target", 99)] ?? Number.POSITIVE_INFINITY));
   const byRiskAdjustedQuality = (a, b) =>
-    metricNumber(b, "conservative_expected_roi", -99) -
-      metricNumber(a, "conservative_expected_roi", -99) ||
-    metricNumber(b, "calibrated_hit_est", 0) - metricNumber(a, "calibrated_hit_est", 0);
+    referenceMetric(b, "market_reference_roi", "conservative_expected_roi", -99) -
+      referenceMetric(a, "market_reference_roi", "conservative_expected_roi", -99) ||
+    referenceMetric(b, "independent_hit_est", "calibrated_hit_est", 0) -
+      referenceMetric(a, "independent_hit_est", "calibrated_hit_est", 0);
 
   let action;
   let best;
@@ -218,14 +227,14 @@ export function recommendationFromPlans(plans) {
   } else if (challenge.length) {
     action = "challenge";
     const bestChallengeRoi = Math.max(...challenge.map((plan) =>
-      metricNumber(plan, "conservative_expected_roi", -99)));
+      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99)));
     const balanced = challenge.filter((plan) =>
-      metricNumber(plan, "conservative_expected_roi", -99) >=
+      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >=
         bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
     best = [...balanced].sort((a, b) =>
       metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
         byRiskAdjustedQuality(a, b))[0];
-    why = "1순위인 각 경기 1.50배 이상 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다";
+    why = "경기별 시장 최유력으로 만든 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
@@ -272,6 +281,9 @@ export function challengeOptions(plans, budget, desiredTarget = 3) {
   if (!available.length) return [];
 
   const probabilityOfPlan = (plan) => {
+    const independent = Number(plan?.independent_hit_est);
+    if (plan?.independent_hit_est != null && Number.isFinite(independent) &&
+      independent > 0 && independent < 1) return independent;
     const calibrated = Number(plan?.calibrated_hit_est);
     if (plan?.calibrated_hit_est != null && Number.isFinite(calibrated) &&
       calibrated > 0 && calibrated < 1) return calibrated;
@@ -279,6 +291,8 @@ export function challengeOptions(plans, budget, desiredTarget = 3) {
     return Number.isFinite(market) && market > 0 && market < 1 ? market : 0;
   };
   const conservativeRoiOf = (plan) => {
+    const reference = Number(plan?.market_reference_roi);
+    if (plan?.market_reference_roi != null && Number.isFinite(reference)) return reference;
     const conservative = Number(plan?.conservative_expected_roi);
     if (plan?.conservative_expected_roi != null && Number.isFinite(conservative))
       return conservative;
@@ -310,6 +324,8 @@ export function challengeOptions(plans, budget, desiredTarget = 3) {
       plan_index: best.index,
       target: best.plan.target,
       actual_odds: Number(best.plan.actual_odds),
+      independent_hit_est: best.hit,
+      market_reference_roi: best.roi,
       calibrated_hit_est: best.hit,
       conservative_expected_roi: best.roi,
       net_profit: Math.round(net),
@@ -387,7 +403,7 @@ export function availableToday(today, now = Date.now()) {
     const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
       return { ...plan, ok: false,
-        why: "1순위인 시장 최유력·1.50 이상·2.20 미만 시작 전 경기만으로 조합할 수 없다" };
+        why: "경기별 시장 최유력 중 1.50~2.20 미만 시작 전 경기만으로 조합할 수 없다" };
     }
     return {
       ...plan,

@@ -21,8 +21,8 @@ export const AI_STAGE_CATALOG = [
   {
     id: "structured_ai",
     label: "수치 AI 후보",
-    status: "selection_gate",
-    summary: "비극단 역배 전환 관문을 통과할 때만 최종 선택 방향을 바꾸며, 표시 확률은 해당 선택의 시장확률을 유지합니다.",
+    status: "shadow",
+    summary: "구조 모델이 시장과 다른 방향이면 관찰 신호로 남기며, 운영 선택과 확률은 바꾸지 않습니다.",
   },
   {
     id: "availability_ai",
@@ -378,13 +378,13 @@ export function decisionLabel(decision) {
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
   if (decision?.recommendationPriority === "reversal") {
-    return "이변 전환 · 최종 픽";
+    return "이전 이변 판정 · 재계산 필요";
   }
   if (decision?.recommendationPriority === "fallback") {
-    return "시장 기준 비교 · 보조 추천";
+    return "시장 기준 비교 · 1.50 미만 최유력";
   }
   if (decision?.policyRecalculated && decision?.recommendationEligible) {
-    return "시장 기준 비교 · 1.50 이상 우선 적용";
+    return "시장 기준 비교 · 시장확률 최유력";
   }
   if (decision?.liveOddsRecalculated) return "시장 기준 비교 · 실시간 재계산";
   if (decision?.contractReconstructed) return "시장 기준 비교 · 자동 복구";

@@ -43,11 +43,11 @@ assert.deepEqual(
 );
 assert.deepEqual(qualifiedUnderdogSelections([favorite, reverse]), [reverse],
   "중간 배당·비극단 모델 괴리 역배만 전환 후보로 남긴다");
-assert.equal(finalRecommendedSelection([favorite, reverse]), reverse,
-  "전환 관문을 통과하면 기존 정배 대신 역배 하나만 최종 선택한다");
+assert.equal(finalRecommendedSelection([favorite, reverse]), favorite,
+  "이변 후보는 관찰만 하고 운영 선택은 시장 최유력을 유지한다");
 assert.deepEqual(eligibleFinalSelections([
   { ...reverse, is_market_favorite: false, final_reversal: true },
-]), [{ ...reverse, is_market_favorite: false, final_reversal: true }]);
+]), []);
 assert.deepEqual(qualifiedUnderdogSelections([
   favorite,
   { ...reverse, odds: 3.0 },

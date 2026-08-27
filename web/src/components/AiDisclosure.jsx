@@ -21,8 +21,8 @@ const reasonText = {
 
 const gateText = {
   no_eligible_market_reference: "유효한 배당·시장확률을 갖춘 자동 비교 후보가 없습니다.",
-  lower_odds_fallback: "이 경기에는 1.50 이상 1순위 후보가 없어, 1.50 미만 시장 최유력을 보조 추천합니다.",
-  qualified_market_reversal: "역배 전환 관문을 통과해 기존 정배를 제거하고 이 선택 하나로 교체했습니다. 확률은 해당 선택의 시장확률입니다.",
+  lower_odds_fallback: "시장확률 최유력이 1.50 미만입니다. 경기 방향은 유지하되 목표조합 가격대에는 넣지 않습니다.",
+  qualified_market_reversal: "이전 역배 전환 판정입니다. 현재 정책에서는 시장 최유력으로 다시 계산합니다.",
   not_auto_recommendable: "시장 분석은 유지하지만 자동 투입 안전조건을 통과하지 못했습니다.",
   no_operating_selection: "운영 판정이 없어 선택을 보류합니다.",
   invalid_decision_contract: "판정 자료의 시각·식별자·스키마가 맞지 않아 보류합니다.",
@@ -36,7 +36,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
       <div className="ai-method-heading">
         <div>
           <p>현재 AI 사용 범위</p>
-          <h2 id={`${id}-title`}>AI는 시장확률을 바꾸지 않고, 제한된 관문에서 선택 방향을 전환합니다</h2>
+          <h2 id={`${id}-title`}>AI는 시장확률과 추천 방향을 바꾸지 않고, 반대 신호를 설명합니다</h2>
         </div>
         {showLink && <a href="research.html#ai-model">검증 방법 보기</a>}
       </div>
@@ -53,7 +53,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
         ))}
       </ol>
       <p className="ai-method-foot">
-        최종 확률은 선택된 방향의 Shin 시장확률입니다. 수치 AI는 역배 전환 관문에만 쓰며 확률 가산은 0%p입니다.
+        최종 방향은 Shin 시장확률 최유력, 최종 확률도 같은 시장값입니다. 수치 AI는 검증 전까지 관찰 신호이며 확률 가산은 0%p입니다.
       </p>
     </section>
   );
@@ -104,11 +104,9 @@ export function AiDecisionPath({ decision }) {
       {decision.contractReconstructed && (
         <p className="ai-revision-warning" role="status">
           {decision.policyRecalculated
-            ? decision.recommendationPriority === "reversal"
-              ? "현재 배당과 구조 모델 차이로 역배 전환 관문을 다시 계산해 최종 방향을 교체했습니다."
-              : decision.recommendationPriority === "fallback"
-              ? "이전 정책에서 제외했던 1.50 미만 시장 최유력을 보조 추천으로 다시 판정했습니다."
-              : "같은 경기에서 1.50 이상 시장 최유력을 1순위로 다시 판정했습니다."
+            ? decision.recommendationPriority === "fallback"
+              ? "현재 배당에서 1.50 미만 시장 최유력을 경기 방향으로 다시 판정했습니다."
+              : "현재 배당에서 시장확률이 가장 높은 선택으로 다시 판정했습니다."
             : decision.liveOddsRecalculated
             ? "실시간 배당으로 Shin 시장확률과 최종 판정을 다시 계산했습니다. 구조 AI와 이전 가격의 추천값은 반영하지 않았습니다."
             : "판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다. 구조 AI와 레거시 추천값은 반영하지 않았습니다."}

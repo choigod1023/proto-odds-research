@@ -15,9 +15,8 @@ PREFERRED_RECOMMENDATION_ODDS = 1.5
 MIN_AUTO_RECOMMENDATION_ODDS = PREFERRED_RECOMMENDATION_ODDS
 MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
-# 역배 전환은 정배 옆에 별도 추천을 하나 더 만드는 기능이 아니다. 검증 전 구조
-# 모델의 극단값과 장기적으로 손실이 급증한 3.0+ 구간을 막은 뒤, 관문을 통과하면
-# 경기의 기존 최종 픽을 역배 하나로 교체한다.
+# 역배 조건은 연구·설명용 관찰 신호다. 시간순 외부검증을 통과하기 전에는
+# 경기의 운영 선택이나 확률을 바꾸지 않는다.
 UPSET_MIN_ODDS = 1.5
 UPSET_MAX_ODDS = 3.0
 UPSET_MIN_MARKET_PROBABILITY = 0.28
@@ -91,10 +90,10 @@ def qualified_underdog(
     favorite_probability: object,
     model_probability: object,
 ) -> bool:
-    """기존 최종 픽을 완전히 교체할 역배 후보인지 판정한다.
+    """시장과 모델이 크게 다른 연구용 이변 관찰 후보인지 판정한다.
 
-    선택 방향은 바꾸지만 최종 확률은 계속 해당 선택의 시장값이다. 모델 차이는
-    전환 관문일 뿐 적중확률이나 기대수익으로 승격하지 않는다.
+    이 값은 설명과 사전등록 검증 표본 수집에만 사용한다. 운영 선택·적중확률·
+    기대수익에는 반영하지 않는다.
     """
     if recommendation_exclusion_reason(market):
         return False
