@@ -3,7 +3,6 @@ import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../componen
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import { AiDecisionPath, AiMethodology } from "../components/AiDisclosure.jsx";
-import Prices from "./Prices.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
@@ -100,7 +99,6 @@ export default function Markets() {
       <AiMethodology />
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
         stale={stale} today={today} combo={combo} /></section>
-      <Prices embedded liveOdds={liveOdds} />
       <section id="evidence"><Evidence grades={grades}
         tally={synchronized.tally_status === "prediction_ledger_verified" ? synchronized.tally : null} /></section>
     </Shell>
@@ -151,14 +149,13 @@ function Shell({ children, meta }) {
       <header className="market-header">
         <div>
           <h1>오늘 경기·배당 분석</h1>
-          <p>예상 결과와 경기력 신호, 선발·라인업, 같은 경기의 회차별 배당을 한 화면에서 봅니다.</p>
+          <p>오늘의 판단을 먼저 보고, 필요한 경기만 열어 흐름·선수·반대 근거를 확인합니다.</p>
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#ai-method">AI 사용</a>
         <a href="#match-list">경기 목록</a>
-        <a href="#price-comparison">발매 경기·배당</a>
         <a href="#evidence">분석 기준</a>
       </nav>
       {children}
@@ -613,7 +610,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
   const analysis = wait || stale || predictionUnavailable || liveClosed
-    ? null : performanceAnalysis(g, pick?.o || null);
+    ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
   const fallbackForecast = liveClosed

@@ -182,3 +182,13 @@ test("팀 이름에 맞는 조사를 사용해 자연어 요약을 만든다", (
     options: [{ market: "승패", 선택: "승", 모델확률: .57, 시장확률: .55 }] });
   assert.match(performanceAnalysis(game, game.options[0]).signalSummary.narrative, /두산이 앞선다/);
 });
+
+test("엇갈리는 경기력 신호와 LLM 편집문을 분리해 전달한다", () => {
+  const game = withDecision({ home: "서울", away: "부산",
+    form_home: { last10: "7승 3패", home: "2-5" },
+    form_away: { last10: "3승 7패", away: "6-1" },
+    options: [{ market: "승무패", 선택: "승", 모델확률: .57, 시장확률: .55 }] });
+  const result = performanceAnalysis(game, game.options[0], "서울의 최근 흐름이 조금 낫다.");
+  assert.equal(result.commentary, "서울의 최근 흐름이 조금 낫다.");
+  assert.ok(result.cautions.some((line) => line.includes("홈·원정 성적은 부산 쪽")));
+});

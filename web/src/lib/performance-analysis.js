@@ -358,19 +358,27 @@ function performanceReasons(game, prediction, players) {
   return [...new Set(reasons)].slice(0, 6);
 }
 
-export function performanceAnalysis(game, recommended = null) {
+export function performanceAnalysis(game, recommended = null, commentary = "") {
   const prediction = predictionFor(game, recommended);
   const signalSummary = signalSummaryFor(game, prediction);
   const players = playerSnapshot(game);
   const reasons = performanceReasons(game, prediction, players);
   const announced = game?.["선발"]?.lineup_status?.state === "announced"
     || (game?.sport === "bs" && game?.["선발"]?.home);
+  const opposingSignals = (signalSummary?.signals || [])
+    .filter((signal) => signal.side && signal.side !== prediction.side)
+    .map((signal) => `${readableSignal[signal.label] || signal.label}은 ${signal.side} 쪽이 앞선다.`);
+  const cautions = [
+    ...opposingSignals,
+    ...(announced ? [] : ["경기 직전 선발·출전 명단이 바뀌면 예상 흐름도 달라질 수 있다."]),
+  ];
   return {
     prediction,
     decision: prediction.decision,
     signalSummary,
     reasons,
+    commentary: String(commentary || "").trim(),
     ...players,
-    cautions: announced ? [] : ["경기 직전 선발·출전 명단이 바뀌면 예상 흐름도 달라질 수 있다."],
+    cautions: [...new Set(cautions)],
   };
 }
