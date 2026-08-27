@@ -133,10 +133,10 @@ def annotate_options(game: dict) -> None:
 
 
 def choose_market_reference(options: list[dict]) -> dict | None:
-    """전환 관문을 통과한 역배가 있으면 기존 정배 대신 하나만 최종 선택한다.
+    """시장확률이 가장 높은 유효 선택 하나를 운영 기준으로 고른다.
 
-    모델값은 전환 후보를 좁히는 데만 쓰고 최종 확률은 선택된 역배의 Shin
-    시장확률을 유지한다. 전환 후보가 없으면 기존 시장 최유력 정책으로 복귀한다.
+    이변 후보는 설명용 shadow 신호로만 남긴다. 시간순 외부검증을 통과하지 않은
+    모델 차이로 운영 방향을 뒤집지 않는다.
     """
     favorite_by_market: dict[tuple, float] = {}
     for option in options:
@@ -154,7 +154,6 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         favorite_by_market[key] = max(favorite_by_market.get(key, 0.0), probability)
 
     eligible: list[dict] = []
-    reversals: list[dict] = []
     for option in options:
         key = (option.get("market"), option.get("label"), option.get("line"),
                option.get("게임번호"))
@@ -164,11 +163,8 @@ def choose_market_reference(options: list[dict]) -> dict | None:
             option.get("market"), option.get("배당"), probability,
             favorite_by_market.get(key), model,
         ):
-            option["추천점수"] = round(underdog_score(probability, model), 4)
-            option["추천우선순위"] = "reversal"
-            option["선택근거"] = "qualified_shadow_reversal_market_probability"
-            reversals.append(option)
-            continue
+            option["이변후보"] = True
+            option["이변점수"] = round(underdog_score(probability, model), 4)
         reason = automatic_selection_exclusion_reason(
             option.get("market"), option.get("배당"), probability,
             favorite_by_market.get(key),
@@ -184,25 +180,14 @@ def choose_market_reference(options: list[dict]) -> dict | None:
             "primary" if recommendation_priority(option.get("배당")) == 1 else "fallback"
         )
         option["선택근거"] = (
-            "shin_market_accuracy_preferred_odds"
+            "shin_market_accuracy_target_band"
             if option["추천우선순위"] == "primary"
-            else "shin_market_accuracy_low_odds_fallback"
+            else "shin_market_accuracy_low_odds"
         )
         eligible.append(option)
-    if reversals:
-        selected = max(reversals, key=lambda option: (
-            underdog_score(option.get("시장확률"), option.get("모델확률")),
-            _number(option.get("시장확률")) or 0.0,
-            -(_number(option.get("배당")) or 999.0),
-            str(option.get("selection_id") or ""),
-        ))
-        selected["최종전환"] = True
-        selected.pop("제외", None)
-        return selected
     if not eligible:
         return None
     return max(eligible, key=lambda option: (
-        recommendation_priority(option.get("배당")),
         _number(option.get("시장확률")) or 0.0,
         -(_number(option.get("배당")) or 999.0),
         str(option.get("selection_id") or ""),

@@ -61,16 +61,15 @@ test("스냅샷이 없으면 모델이 아니라 현재 시장 최유력으로 �
   assert.equal(predictionFor(game).decision.contractReconstructed, true);
 });
 
-test("역배 전환은 시장 최유력 문구를 지우고 최종 방향 하나만 설명한다", () => {
+test("미검증 역배 신호가 있어도 시장 최유력 방향을 유지한다", () => {
   const game = { home: "서울", away: "부산", options: [
     { market: "승패", 선택: "승", 배당: 1.55, 모델확률: .30, 시장확률: .58 },
     { market: "승패", 선택: "패", 배당: 2.05, 모델확률: .55, 시장확률: .42 },
   ] };
   const analysis = performanceAnalysis(game);
-  assert.equal(analysis.prediction.headline, "전환 픽 · 부산 우세");
-  assert.equal(analysis.prediction.probability, .42);
-  assert.match(analysis.signalSummary.narrative, /구조 모델 전환 관문/);
-  assert.doesNotMatch(analysis.prediction.headline, /시장 기준/);
+  assert.equal(analysis.prediction.headline, "시장 기준 · 서울 우세");
+  assert.equal(analysis.prediction.probability, .58);
+  assert.match(analysis.signalSummary.narrative, /시장확률만 기준/);
 });
 
 test("생성기가 고른 시장 기준 선택만 경기 예상으로 읽는다", () => {

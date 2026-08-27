@@ -113,7 +113,6 @@ def leg_quality(candidate: dict) -> tuple:
     probability = probability_of(candidate.get("market_prob"))
     odds = float(candidate.get("odds") or 0.0)
     return (
-        -recommendation_priority(odds),
         -(conservative or 0.0),
         -(calibrated or 0.0),
         -(probability or 0.0),
@@ -326,8 +325,8 @@ def pick_legs(
         closeness = -abs(math.log(odds / target)) if target else 0.0
         # 목표 배당 범위는 이미 제약으로 걸었다. 그 안에서는 적중확률을 먼저
         # 최대화해야 '높은 EV 때문에 더 잘 틀리는 조합'을 고르지 않는다.
-        score = (metrics.get("calibrated_hit_est", 0.0),
-                 metrics.get("conservative_expected_roi", -99.0),
+        score = (metrics.get("independent_hit_est", 0.0),
+                 metrics.get("market_reference_roi", -99.0),
                  metrics.get("hit_est", 0.0), payout, closeness)
         if best is None or score > best[0]:
             best = (score, legs)
@@ -345,6 +344,11 @@ def ticket_metrics(legs: list[dict]) -> dict:
                          if all(p[1] is not None for p in calibrated) else None)
     out = {
         "actual_odds": round(odds, 2),
+        "independent_hit_est": (round(market_hit, 5) if market_hit is not None else None),
+        "market_reference_roi": (round(market_hit * odds - 1.0, 4)
+                                 if market_hit is not None else None),
+        "independence_assumption": True,
+        # 구형 산출물·브라우저 호환용 별칭. 실제 보정치나 신뢰하한은 아니다.
         "hit_est": (round(market_hit, 5) if market_hit is not None else None),
         "upset_risk": (round(1.0 - market_hit, 5) if market_hit is not None else None),
         "expected_roi": (round(market_hit * odds - 1.0, 4)
@@ -384,6 +388,13 @@ def _metric_number(plan: dict, key: str, default: float) -> float:
     return value if math.isfinite(value) else default
 
 
+def _reference_metric(plan: dict, current: str, legacy: str, default: float) -> float:
+    """새 의미가 명확한 필드를 우선하고 구형 저장물만 별칭으로 읽는다."""
+    if plan.get(current) is not None:
+        return _metric_number(plan, current, default)
+    return _metric_number(plan, legacy, default)
+
+
 def daily_recommendation(plans: list[dict]) -> dict:
     available = [plan for plan in plans if plan.get("ok")]
     if not available:
@@ -391,45 +402,57 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 "why": "현재 선택 가능한 경기로 구성할 조합이 없다"}
     positive = [plan for plan in available
                 if plan.get("has_validated_edge") is True
-                and _metric_number(plan, "conservative_expected_roi", -99.0) > 0.0]
+                and _reference_metric(plan, "market_reference_roi",
+                                      "conservative_expected_roi", -99.0) > 0.0]
     if positive:
         best = max(positive, key=lambda plan: (_kelly_growth(plan),
-                   _metric_number(plan, "calibrated_hit_est", 0.0)))
+                   _reference_metric(plan, "independent_hit_est",
+                                     "calibrated_hit_est", 0.0)))
         action = "buy"
         why = "사전 검증된 독립 확률모델의 기대수익이 양수다"
     else:
         challenge = [plan for plan in available
                      if _metric_number(plan, "target", 99.0) <=
                      DAILY_CHALLENGE_MAX_TARGET
-                     and _metric_number(plan, "conservative_expected_roi", -99.0) >=
+                     and _reference_metric(plan, "market_reference_roi",
+                                           "conservative_expected_roi", -99.0) >=
                      DAILY_CHALLENGE_MIN_ROI
-                     and _metric_number(plan, "calibrated_hit_est", 0.0) >=
+                     and _reference_metric(plan, "independent_hit_est",
+                                           "calibrated_hit_est", 0.0) >=
                      DAILY_CHALLENGE_MIN_HIT.get(
                          _metric_number(plan, "target", 99.0), float("inf"))]
         if challenge:
             best_challenge_roi = max(
-                _metric_number(plan, "conservative_expected_roi", -99.0)
+                _reference_metric(plan, "market_reference_roi",
+                                  "conservative_expected_roi", -99.0)
                 for plan in challenge)
             balanced = [plan for plan in challenge
-                        if _metric_number(plan, "conservative_expected_roi", -99.0) >=
+                        if _reference_metric(plan, "market_reference_roi",
+                                             "conservative_expected_roi", -99.0) >=
                         best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
             best = max(balanced, key=lambda plan: (
                 _metric_number(plan, "target", 0.0),
-                _metric_number(plan, "conservative_expected_roi", -99.0),
-                _metric_number(plan, "calibrated_hit_est", 0.0)))
+                _reference_metric(plan, "market_reference_roi",
+                                  "conservative_expected_roi", -99.0),
+                _reference_metric(plan, "independent_hit_est",
+                                  "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "1순위인 각 경기 1.50배 이상 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다"
+            why = "경기별 시장 최유력으로 만든 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
-                _metric_number(plan, "conservative_expected_roi", -99.0),
-                _metric_number(plan, "calibrated_hit_est", 0.0)))
+                _reference_metric(plan, "market_reference_roi",
+                                  "conservative_expected_roi", -99.0),
+                _reference_metric(plan, "independent_hit_est",
+                                  "calibrated_hit_est", 0.0)))
             action = "pass"
             why = "소액 도전 기준에도 미달했다"
     return {"action": action, "recommended_target": best["target"],
             "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO
                              if action == "challenge" else None),
-            "conservative_expected_roi": best.get("conservative_expected_roi"),
-            "calibrated_hit_est": best.get("calibrated_hit_est"), "why": why}
+            "market_reference_roi": _reference_metric(
+                best, "market_reference_roi", "conservative_expected_roi", -99.0),
+            "independent_hit_est": _reference_metric(
+                best, "independent_hit_est", "calibrated_hit_est", 0.0), "why": why}
 
 
 def build() -> dict:
@@ -451,14 +474,14 @@ def build() -> dict:
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "bins": bins,
-                              "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"})
+                              "why": "경기별 시장 최유력 중 1.50~2.20 미만 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
         out_plans.append({
             "target": t, "ok": True, "legs": len(legs),
             "bins": bins,
             **metrics,
-            "probability_basis": "Shin 시장확률 · 검증된 잔차 계수 0",
+            "probability_basis": "서로 다른 경기의 Shin 시장확률 독립 가정 · 검증된 잔차 계수 0",
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
             "picks": legs,
@@ -479,9 +502,9 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": today.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "각 시장의 최유력 중 배당 1.50 이상을 1순위로 쓴다. 해당 경기에서 "
-                 "1순위 후보가 없으면 1.50 미만 최유력을 보조 추천으로 남긴다. "
-                 "목표 조합은 1순위 후보만 사용하고 결합 적중확률을 먼저 최대화한다.",
+        "basis": "경기별 방향은 배당 경계와 무관하게 Shin 시장확률이 가장 높은 "
+                 "선택 하나로 고정한다. 목표 조합은 그 뒤 1.50~2.20 미만 가격 제약 "
+                 "안에서 독립 가정 결합 적중확률을 최대화한다.",
         "n_candidates": len(cands),
         "n_primary_candidates": sum(
             1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
@@ -491,7 +514,7 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "시장 최유력만 · 1.50 이상 1순위 · 1.50 미만 보조 · 2.20 이상 제외",
+        "selection_policy": "시장 최유력만 · 방향과 목표배당 분리 · 2.20 이상 제외 · 역배는 관찰만",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,

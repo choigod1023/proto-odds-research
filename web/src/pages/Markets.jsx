@@ -134,6 +134,11 @@ function kstStamp(value) {
   return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}`;
 }
 
+const planMetric = (plan, current, legacy) => {
+  const value = Number(plan?.[current] ?? plan?.[legacy]);
+  return Number.isFinite(value) ? value : null;
+};
+
 // `갱신` 은 데이터가 만들어진 시각, `확인` 은 브라우저가 마지막으로 받아 본 시각이다.
 // 둘을 나눠 적어야 "화면이 멈춘 건지, 서버가 안 만든 건지"가 구분된다.
 const metaLine = (d, at) =>
@@ -237,7 +242,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
           </div>
         </div>
         <div className="text-right text-[10.5px] leading-5 text-ink3">
-          기본 1순위 1.50 이상 · 미만은 보조 추천<br />역배 전환 시 기존 픽 교체 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
+          경기별 Shin 시장확률 1위 · 목표조합만 1.50~2.20 미만<br />이변 모델은 관찰 신호만 제공 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
         </div>
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-rule2 py-2 text-[10.5px] text-ink3" aria-live="polite">
@@ -262,8 +267,8 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
         ) : (
           <>오늘 23:59 KST까지 구성 가능한 최종 조합은 없습니다.</>
         )}
-        {recommendedPlan?.conservative_expected_roi != null && (
-          <> · 시장확률 기준 지표 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
+        {planMetric(recommendedPlan, "market_reference_roi", "conservative_expected_roi") != null && (
+          <> · 시장 기준 손익참조 <b className="tnum">{(planMetric(recommendedPlan, "market_reference_roi", "conservative_expected_roi") * 100).toFixed(1)}%</b></>
         )}
       </div>
 
@@ -279,20 +284,20 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
               </span>
             )}
             <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
-              {(q.conservative_expected_roi * 100).toFixed(0)}%
+              {(planMetric(q, "market_reference_roi", "conservative_expected_roi") * 100).toFixed(0)}%
             </span>
           </Tab>
         ))}
       </div>
 
       {selected && <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
-        <Stat k="Shin 시장 적중" v={selected?.calibrated_hit_est != null
-          ? `${(selected.calibrated_hit_est * 100).toFixed(1)}%` : "-"} />
+        <Stat k="독립 가정 적중" v={planMetric(selected, "independent_hit_est", "calibrated_hit_est") != null
+          ? `${(planMetric(selected, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"} />
         <Stat k="실배당" v={selected?.actual_odds != null
           ? `${Number(selected.actual_odds).toFixed(2)}×` : odds(selected?.odds)} />
-        <Stat k="시장확률 기준 지표" v={selected?.conservative_expected_roi != null
-          ? `${(selected.conservative_expected_roi * 100).toFixed(1)}%` : "-"}
-          tone={Number(selected?.conservative_expected_roi) < 0 ? "sev" : undefined} />
+        <Stat k="시장 기준 손익참조" v={planMetric(selected, "market_reference_roi", "conservative_expected_roi") != null
+          ? `${(planMetric(selected, "market_reference_roi", "conservative_expected_roi") * 100).toFixed(1)}%` : "-"}
+          tone={planMetric(selected, "market_reference_roi", "conservative_expected_roi") < 0 ? "sev" : undefined} />
         <Stat k="구성" v={`${selectedPlan?.legs || 1}폴`} />
         <Stat k="확률 근거" v="시장 배당" />
       </div>}
@@ -302,7 +307,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
       </div>}
 
       <p className="mt-2 text-[10.5px] leading-5 text-ink3">
-        각 경기에는 최종 픽 하나만 표시됩니다. 역배 전환 관문을 통과하면 기존 정배는 사라지고 조합·설명·토토번호도 전환된 선택을 따릅니다.
+        각 경기 방향은 배당 경계와 무관하게 현재 Shin 시장확률이 가장 높은 선택 하나로 고정합니다. 목표 배당은 그 다음 조합 단계에서만 적용합니다.
       </p>
 
       <details className="budget-simulator">
@@ -327,7 +332,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
         </div>
       )}
       <div className="mt-2 border-t border-rule2 pt-2 text-[10.5px] text-ink3">
-        역배 전환에서 구조 모델은 방향 관문에만 쓰며, 표시 확률은 전환된 선택의 Shin 시장확률입니다. {" "}
+        구조 모델과 시장이 다른 방향을 가리키면 이변 관찰 근거로만 표시하며 자동 추천 방향은 바꾸지 않습니다. {" "}
         <a className="font-semibold text-signal" href="research.html#evolutionary-selector">검증 결과 보기 →</a>
       </div>
     </div>
@@ -656,9 +661,9 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                   value={odds(pick.o["배당"])}
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
-                    decision.recommendationPriority === "fallback" ? "1.50 미만 보조 추천"
-                      : decision.recommendationPriority === "reversal" ? "역배 전환 최종 픽"
-                        : "1.50 이상 1순위"
+                    decision.recommendationPriority === "fallback" ? "1.50 미만 시장 최유력"
+                      : decision.recommendationPriority === "reversal" ? "이전 역배 판정 · 재계산 필요"
+                        : "시장확률 최유력"
                   } · Shin 시장확률 기준 선택`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>

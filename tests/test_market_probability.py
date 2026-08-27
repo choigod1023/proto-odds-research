@@ -90,6 +90,9 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["calibrated_expected_roi"] == metrics["expected_roi"]
     assert metrics["conservative_expected_roi"] == metrics["expected_roi"]
     assert metrics["conservative_hit_est"] == metrics["calibrated_hit_est"]
+    assert metrics["independent_hit_est"] == metrics["hit_est"]
+    assert metrics["market_reference_roi"] == metrics["expected_roi"]
+    assert metrics["independence_assumption"] is True
     assert metrics["calibration_min_n"] is None
 
 

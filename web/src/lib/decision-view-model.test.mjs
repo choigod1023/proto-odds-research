@@ -227,10 +227,10 @@ test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 �
   assert.deepEqual(decision.gateCodes, ["lower_odds_fallback"]);
   assert.equal(decision.liveOddsRecalculated, true);
   assert.equal(decision.asOf, "2026-08-27T05:02:24Z");
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 보조 추천");
+  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 미만 최유력");
 });
 
-test("1.50 미만 시장 최유력도 보조 추천한다", () => {
+test("1.50 미만이어도 시장 최유력 방향을 유지한다", () => {
   const lowOption = { ...option, 배당: 1.49 };
   const decision = buildDecisionViewModel(
     gameFor(snapshot, { options: [lowOption] }),
@@ -241,10 +241,10 @@ test("1.50 미만 시장 최유력도 보조 추천한다", () => {
   assert.equal(decision.recommendationEligible, true);
   assert.equal(decision.recommendationPriority, "fallback");
   assert.deepEqual(decision.gateCodes, ["lower_odds_fallback"]);
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 보조 추천");
+  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 미만 최유력");
 });
 
-test("기존 판정이 1.50 미만이면 같은 경기의 다음 시장 최유력으로 다시 판정한다", () => {
+test("1.50 경계보다 시장확률이 높은 기존 방향을 우선한다", () => {
   const lowOption = { ...option, 배당: 1.48 };
   const eligibleOption = {
     ...option,
@@ -259,13 +259,13 @@ test("기존 판정이 1.50 미만이면 같은 경기의 다음 시장 최유�
   const game = gameFor(snapshot, { options: [lowOption, eligibleOption] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, eligibleOption);
+  assert.equal(selected, lowOption);
   assert.equal(decision.action, "market_reference");
-  assert.equal(decision.probability.final, .55);
+  assert.equal(decision.probability.final, .62);
   assert.equal(decision.recommendationEligible, true);
-  assert.equal(decision.policyRecalculated, true);
-  assert.equal(decision.recommendationPriority, "primary");
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 이상 우선 적용");
+  assert.equal(decision.policyRecalculated, false);
+  assert.equal(decision.recommendationPriority, "fallback");
+  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 미만 최유력");
 });
 
 test("이전 정책의 1.50 미만 보류를 보조 추천으로 복구한다", () => {
