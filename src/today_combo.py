@@ -44,8 +44,9 @@ from zoneinfo import ZoneInfo
 from evolutionary_policy import live_snapshot, load_artifact
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
-    MIN_AUTO_RECOMMENDATION_ODDS,
+    PREFERRED_RECOMMENDATION_ODDS,
     automatic_selection_exclusion_reason,
+    recommendation_priority,
     recommendation_exclusion_reason,
 )
 
@@ -77,6 +78,9 @@ DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 
 def bin_of(o: float) -> str | None:
+    # 과거 구간은 오른쪽 닫힘이지만 운영 우선선 1.50은 상위 구간에 포함한다.
+    if math.isclose(float(o), PREFERRED_RECOMMENDATION_ODDS, abs_tol=1e-9):
+        return "1.5-1.8"
     for (lo, hi), lab in zip(BINS, LABELS):
         if lo < o <= hi:
             return lab
@@ -106,6 +110,7 @@ def leg_quality(candidate: dict) -> tuple:
     probability = probability_of(candidate.get("market_prob"))
     odds = float(candidate.get("odds") or 0.0)
     return (
+        -recommendation_priority(odds),
         -(conservative or 0.0),
         -(calibrated or 0.0),
         -(probability or 0.0),
@@ -201,6 +206,9 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "n_way": len(selections),
                     "failure_prob": round(1.0 - market_prob, 4),
                     "is_market_favorite": True,
+                    "recommendation_priority": (
+                        "primary" if recommendation_priority(o) == 1 else "fallback"
+                    ),
                 })
 
     # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
@@ -226,7 +234,8 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                favorite_by_market[(candidate["event_key"], candidate["market"],
                                    str(candidate["market_label"]))] - 1e-9]
     # 경기 카드와 오늘 조합이 서로 다른 마켓을 추천하지 않도록 실제 경기마다
-    # 시장확률이 가장 높은 자동 투입 후보 하나만 남긴다.
+    # 1.50 이상을 먼저 고르고, 그 안에서 시장확률이 가장 높은 후보 하나만 남긴다.
+    # 해당 경기의 유효 후보가 전부 1.50 미만이면 최유력을 보조 추천으로 남긴다.
     best_by_event: dict[str, dict] = {}
     for candidate in deduped:
         current = best_by_event.get(candidate["event_key"])
@@ -366,7 +375,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 _metric_number(plan, "conservative_expected_roi", -99.0),
                 _metric_number(plan, "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "각 경기 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다"
+            why = "1순위인 각 경기 1.50배 이상 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
                 _metric_number(plan, "conservative_expected_roi", -99.0),
@@ -398,7 +407,7 @@ def build() -> dict:
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "bins": bins,
-                              "why": "시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"})
+                              "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
         out_plans.append({
@@ -424,13 +433,20 @@ def build() -> dict:
         "generated_at": today.get("generated_at"),
         "year": today.get("year"),
         "probability_method": today.get("probability_method", "legacy"),
-        "basis": "각 시장에서 시장확률 1위이며 배당 1.50 이상 2.20 미만인 선택만 쓴다. "
-                 "목표 배당 범위 안에서는 결합 적중확률을 가장 먼저 최대화한다.",
+        "basis": "각 시장의 최유력 중 배당 1.50 이상을 1순위로 쓴다. 해당 경기에서 "
+                 "1순위 후보가 없으면 1.50 미만 최유력을 보조 추천으로 남긴다. "
+                 "목표 조합은 1순위 후보만 사용하고 결합 적중확률을 먼저 최대화한다.",
         "n_candidates": len(cands),
+        "n_primary_candidates": sum(
+            1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
+        ),
+        "n_fallback_candidates": sum(
+            1 for candidate in cands if candidate.get("recommendation_priority") == "fallback"
+        ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "시장 최유력만 · 다리당 1.50 이상 2.20 미만 · 목표범위에서 적중확률 우선",
-        "min_leg_odds_inclusive": MIN_AUTO_RECOMMENDATION_ODDS,
+        "selection_policy": "시장 최유력만 · 1.50 이상 1순위 · 1.50 미만 보조 · 2.20 이상 제외",
+        "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
         "solo": solo,
@@ -467,8 +483,8 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 같은 경기를 두 번 썼다 {gs} — 규정 위반")
         if any(c["bin"] in BANNED for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 금지 배당대가 섞였다")
-        if any(float(c["odds"]) < MIN_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
-            bad.append(f"목표 {p['target']}× : 1.50 미만 선택지가 섞였다")
+        if any(float(c["odds"]) < PREFERRED_RECOMMENDATION_ODDS for c in p["picks"]):
+            bad.append(f"목표 {p['target']}× : 1순위 조합에 1.50 미만 보조 선택지가 섞였다")
         if any(float(c["odds"]) >= MAX_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 2.20 이상 선택지가 섞였다")
         if any(not c.get("is_market_favorite") for c in p["picks"]):
@@ -510,7 +526,8 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"다리 후보 {d['n_candidates']:,}개 (홀짝·역배·1.50 미만·2.20+ 제외)\n")
+    print(f"다리 후보 {d['n_candidates']:,}개 "
+          f"(1순위 {d['n_primary_candidates']:,} · 1.50 미만 보조 {d['n_fallback_candidates']:,})\n")
     if d["solo"]:
         s = d["solo"]
         print(f"[단폴] {s['league']} {s['match']} · {s['market']} {s['sel']} @ {s['odds']} "

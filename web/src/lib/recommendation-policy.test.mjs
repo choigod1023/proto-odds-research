@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { eligibleAutoSelections, MAX_AUTO_ODDS, MIN_AUTO_ODDS } from "./recommendation-policy.js";
+import { eligibleAutoSelections, MAX_AUTO_ODDS, MIN_AUTO_ODDS,
+  PREFERRED_AUTO_ODDS, recommendationPriority } from "./recommendation-policy.js";
 import { lessBadPick } from "./fmt.js";
 
 const choice = (sel, odds, probability, market = "승패") => ({
@@ -18,10 +19,13 @@ const oddEven = { ...choice("홀", 1.7, 0.55, "홀짝"), event_key: "game-c" };
 const tooLow = { ...choice("홈", 1.49, 0.68), event_key: "game-d" };
 
 assert.equal(MIN_AUTO_ODDS, 1.5);
+assert.equal(PREFERRED_AUTO_ODDS, 1.5);
 assert.equal(MAX_AUTO_ODDS, 2.2);
-assert.deepEqual(eligibleAutoSelections([favorite, reverse, high, oddEven, tooLow]), [favorite]);
+assert.deepEqual(eligibleAutoSelections([favorite, reverse, high, oddEven, tooLow]), [favorite, tooLow]);
+assert.equal(recommendationPriority(favorite), 1);
+assert.equal(recommendationPriority(tooLow), 0);
 assert.equal(eligibleAutoSelections([{ ...tooLow, odds: 1.5 }]).length, 1,
-  "배당 1.50은 하한에 포함한다");
+  "배당 1.50은 1순위 경계에 포함한다");
 assert.deepEqual(
   eligibleAutoSelections([{ ...favorite, is_market_favorite: false }]),
   [],

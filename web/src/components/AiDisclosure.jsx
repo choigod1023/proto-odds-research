@@ -21,7 +21,7 @@ const reasonText = {
 
 const gateText = {
   no_eligible_market_reference: "유효한 배당·시장확률을 갖춘 자동 비교 후보가 없습니다.",
-  minimum_recommendation_odds: "시장 최유력이어도 배당 1.50 미만이면 자동 투입 후보에서 제외합니다.",
+  lower_odds_fallback: "이 경기에는 1.50 이상 1순위 후보가 없어, 1.50 미만 시장 최유력을 보조 추천합니다.",
   not_auto_recommendable: "시장 분석은 유지하지만 자동 투입 안전조건을 통과하지 못했습니다.",
   no_operating_selection: "운영 판정이 없어 선택을 보류합니다.",
   invalid_decision_contract: "판정 자료의 시각·식별자·스키마가 맞지 않아 보류합니다.",
@@ -103,13 +103,15 @@ export function AiDecisionPath({ decision }) {
       {decision.contractReconstructed && (
         <p className="ai-revision-warning" role="status">
           {decision.policyRecalculated
-            ? "기존 시장 최유력의 배당이 1.50 미만이라, 같은 경기에서 1.50 이상·2.20 미만인 시장 최유력 후보로 다시 판정했습니다."
+            ? decision.recommendationPriority === "fallback"
+              ? "이전 정책에서 제외했던 1.50 미만 시장 최유력을 보조 추천으로 다시 판정했습니다."
+              : "같은 경기에서 1.50 이상 시장 최유력을 1순위로 다시 판정했습니다."
             : decision.liveOddsRecalculated
             ? "실시간 배당으로 Shin 시장확률과 최종 판정을 다시 계산했습니다. 구조 AI와 이전 가격의 추천값은 반영하지 않았습니다."
             : "판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다. 구조 AI와 레거시 추천값은 반영하지 않았습니다."}
         </p>
       )}
-      {(decision.action === "withhold" || visibleGate === "minimum_recommendation_odds") && visibleGate && (
+      {(decision.action === "withhold" || visibleGate === "lower_odds_fallback") && visibleGate && (
         <p className="ai-revision-warning" role="status">{gateText[visibleGate]}</p>
       )}
       <div className="ai-stage-list" aria-label="AI 단계별 반영 상태">

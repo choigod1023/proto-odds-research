@@ -61,9 +61,21 @@ def test_market_reference_ignores_shadow_model_ev():
 
     assert selected["선택"] == "언더"
     assert selected["시장확률"] == 0.55
-    assert game["options"][0]["제외"].startswith("배당 1.50 미만")
+    assert "제외" not in game["options"][0]
+    assert game["options"][0]["추천우선순위"] == "fallback"
     assert game["options"][1]["제외"].startswith("배당 2.20 이상")
-    assert game["options"][2]["선택근거"] == "shin_market_accuracy"
+    assert game["options"][2]["추천우선순위"] == "primary"
+    assert game["options"][2]["선택근거"] == "shin_market_accuracy_preferred_odds"
+
+
+def test_low_odds_market_reference_remains_as_fallback_without_primary():
+    low_only = [_game()["options"][0]]
+
+    selected = choose_market_reference(low_only)
+
+    assert selected["선택"] == "승"
+    assert selected["추천우선순위"] == "fallback"
+    assert selected["선택근거"] == "shin_market_accuracy_low_odds_fallback"
 
 
 def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():

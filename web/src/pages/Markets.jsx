@@ -233,7 +233,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
           </div>
         </div>
         <div className="text-right text-[10.5px] leading-5 text-ink3">
-          각 경기 1.50 이상·2.20 미만<br />KST 23:59까지 · 30분마다 재계산
+          1순위 1.50 이상 · 미만은 보조 추천<br />2.20 미만 · KST 23:59까지 · 30분마다 재계산
         </div>
       </div>
       <div className={`mt-3 rounded border px-3 py-2 text-[11.5px] leading-[1.65] ${
@@ -629,11 +629,14 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         <span className="flex gap-1.5">
           {liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
-            : decision.recommendationEligible === false
-              ? <OddsChip label="투입 제외" value="1.50 미만" />
-            : pick ? <OddsChip label={pick.o["선택"]} value={odds(pick.o["배당"])}
+            : pick ? <OddsChip
+                label={decision.recommendationPriority === "fallback"
+                  ? `보조·${pick.o["선택"]}` : pick.o["선택"]}
+                value={odds(pick.o["배당"])}
                 grade={pick.g ? gcls(pick.g.grade) : "U"}
-                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · Shin 시장확률 기준 선택`} />
+                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
+                  decision.recommendationPriority === "fallback" ? "1.50 미만 보조 추천" : "1.50 이상 1순위"
+                } · Shin 시장확률 기준 선택`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
       </summary>

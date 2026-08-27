@@ -4,6 +4,7 @@ from pathlib import Path
 from src.recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     MIN_AUTO_RECOMMENDATION_ODDS,
+    PREFERRED_RECOMMENDATION_ODDS,
 )
 from src.today_combo import (
     DAILY_CHALLENGE_MAX_TARGET,
@@ -27,6 +28,7 @@ def test_browser_and_generator_recommendation_thresholds_stay_in_sync():
     policy_js = (ROOT / "web/src/lib/recommendation-policy.js").read_text(encoding="utf-8")
 
     assert _js_number(policy_js, "MIN_AUTO_ODDS") == MIN_AUTO_RECOMMENDATION_ODDS
+    assert _js_number(policy_js, "PREFERRED_AUTO_ODDS") == PREFERRED_RECOMMENDATION_ODDS
     assert _js_number(policy_js, "MAX_AUTO_ODDS") == MAX_AUTO_RECOMMENDATION_ODDS
     assert _js_number(plan_js, "DAILY_CHALLENGE_MIN_ROI") == DAILY_CHALLENGE_MIN_ROI
     assert _js_number(plan_js, "DAILY_CHALLENGE_MAX_TARGET") == DAILY_CHALLENGE_MAX_TARGET
