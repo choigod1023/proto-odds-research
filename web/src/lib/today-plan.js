@@ -1,4 +1,5 @@
 import { eligibleAutoSelections } from "./recommendation-policy.js";
+import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -382,5 +383,6 @@ export function availableToday(today, now = Date.now()) {
     recommendation: recommendationFromPlans(plans),
     candidates,
     next: candidates[0] || null,
+    evolutionary_selector: refreshEvolutionarySelector(today.evolutionary_selector, candidates),
   };
 }

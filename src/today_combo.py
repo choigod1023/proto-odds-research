@@ -41,6 +41,7 @@ import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from evolutionary_policy import live_snapshot, load_artifact
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     automatic_selection_exclusion_reason,
@@ -52,6 +53,7 @@ TODAY = ROOT / "docs" / "data" / "today.json"
 GRADES = ROOT / "docs" / "data" / "loss_grades.json"
 COMBO = ROOT / "docs" / "data" / "combo.json"
 OUT = ROOT / "docs" / "data" / "today_combo.json"
+EVOLUTION_ARTIFACT = ROOT / "findings" / "evolutionary_selector.json"
 
 # combo.py 가 쓰는 것과 같은 경계
 BINS = [(1.0, 1.3), (1.3, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), (5.0, 999)]
@@ -169,6 +171,10 @@ def legs_today(now: datetime | None = None) -> list[dict]:
             if not selections:
                 continue
             favorite_probability = max(probability for _, probability in selections)
+            ordered_probability = sorted((probability for _, probability in selections),
+                                         reverse=True)
+            market_gap = (ordered_probability[0] - ordered_probability[1]
+                          if len(ordered_probability) > 1 else ordered_probability[0])
             for s, market_prob in selections:
                 o = s.get("odds")
                 policy_reason = automatic_selection_exclusion_reason(
@@ -182,7 +188,8 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "event_key": f"{kickoff.isoformat()}|{g.get('home')}|{g.get('away')}",
                     "kickoff_at": kickoff.isoformat(),
                     "round": rnd.get("round"), "game_no": g.get("game_no"),
-                    "date": g.get("date"), "league": g.get("league"),
+                    "date": g.get("date"), "sport": g.get("sport"),
+                    "league": g.get("league"),
                     "match": f"{g.get('home')} vs {g.get('away')}",
                     "home": g.get("home"), "away": g.get("away"),
                     "market": g.get("market"), "market_label": g.get("market_label", ""),
@@ -191,6 +198,8 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
                     "hist_n": s.get("hist_n"),
                     "market_prob": round(market_prob, 4),
+                    "market_gap": round(market_gap, 4),
+                    "n_way": len(selections),
                     "failure_prob": round(1.0 - market_prob, 4),
                     "is_market_favorite": True,
                 })
@@ -367,6 +376,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
 
 def build() -> dict:
     cands = legs_today()
+    evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     combo = json.loads(COMBO.read_text(encoding="utf-8"))
     leg_history = {row["bin"]: row for row in combo["legs"]}
 
@@ -414,6 +424,7 @@ def build() -> dict:
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
         "selection_policy": "시장 최유력만 · 다리당 2.20 미만 · 목표범위에서 적중확률 우선",
+        "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
         "solo": solo,
         "plans": out_plans,
@@ -474,6 +485,10 @@ def _selftest() -> int:
         bad.append(f"시작한 경기 {len(past)}개가 후보에 남았다")
     if d["solo"] and d["solo"]["bin"] in BANNED:
         bad.append("단폴이 금지 배당대다")
+    for name, profile in (d.get("evolutionary_selector", {}).get("profiles") or {}).items():
+        selected = profile.get("selected")
+        if selected and datetime.fromisoformat(selected["kickoff_at"]) <= now:
+            bad.append(f"자연선택 {name}에 시작한 경기가 남았다")
     if bad:
         print("\n[오류] " + "\n[오류] ".join(bad))
         return 1

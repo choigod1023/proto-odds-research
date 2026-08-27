@@ -37,6 +37,18 @@ assert.notEqual(picked[0].event_key, picked[1].event_key, "같은 실제 경기�
 const today = {
   year: 2026,
   candidates: [past, sameA, sameB, nextA, nextB, high, reverse],
+  evolutionary_selector: {
+    status: "shadow_only",
+    profiles: {
+      balanced: {
+        historical_status: "promising_but_unproven",
+        rule: {
+          genome: { confidence: 1 },
+          constraints: { odds_min: 1.4, odds_max: 1.85, target_odds: 1.58 },
+        },
+      },
+    },
+  },
   plans: [{
     target: 3.2,
     ok: true,
@@ -54,6 +66,7 @@ assert.equal(before.candidates.some((candidate) => candidate.event_key === "reve
 assert.equal(before.next.event_key, "same");
 assert.equal(before.plans[0].ok, true);
 assert.notEqual(before.plans[0].picks[0].event_key, before.plans[0].picks[1].event_key);
+assert.equal(before.evolutionary_selector.profiles.balanced.selected.event_key, "next-a");
 
 const after = availableToday(today, Date.parse("2026-08-19T07:01:00+09:00"));
 assert.equal(after.candidates.some((candidate) => candidate.event_key === "same"), false);
@@ -62,6 +75,7 @@ assert.equal(after.plans[0].actual_odds, 3.38);
 assert.equal(after.plans[0].hit_est, 0.264);
 assert.equal(after.plans[0].upset_risk, 0.736);
 assert.equal(after.plans[0].expected_roi, -0.107);
+assert.equal(after.evolutionary_selector.profiles.balanced.selected.event_key, "next-a");
 
 const exactKickoff = availableToday(today, Date.parse("2026-08-19T07:00:00+09:00"));
 assert.equal(exactKickoff.candidates.some((candidate) => candidate.event_key === "same"), false,

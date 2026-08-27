@@ -107,6 +107,33 @@ export default function Research() {
         </p>
       </Card>
 
+      <Card className="mt-3 border-l-[3px] border-l-rule px-4 py-4">
+        <b className="text-[13.5px]">자연선택 추천기 — 확률을 바꾸지 않고 한 픽을 고르는 AI</b>
+        <p className="mt-1.5 mb-2 text-[13px] leading-[1.75] text-ink2">
+          전략 56개를 한 세대로 두고 24세대 동안 교배·돌연변이시킨다. 적중률만 좇아
+          초저배당으로 퇴화하지 않도록 유형별 최소배당·추천 빈도·종목 쏠림을 함께 생존 조건으로 둔다.
+          2023–2024에서 진화하고 2025에서 생존 전략을 고른 뒤 2026의 하루 한 픽으로 역사 감사했다.
+        </p>
+        <div className="grid gap-2 text-[12px] sm:grid-cols-3">
+          {[
+            ["안정형", "77.9% · 평균 1.21배", "2025 +0.6 → 2026 −0.9%p", "−6.1~+4.3%p"],
+            ["균형형", "62.8% · 평균 1.45배", "2025 −0.6 → 2026 +6.1%p", "−1.7~+13.9%p"],
+            ["도전형", "48.5% · 평균 1.75배", "2025 +1.7 → 2026 −6.1%p", "−14.3~+2.2%p"],
+          ].map(([name, result, delta, interval]) => (
+            <div key={name} className="border-t border-rule2 pt-2">
+              <b className="text-ink">{name}</b><br />
+              <span className="tnum text-ink2">{result}</span><br />
+              <span className="tnum text-sev3">동일 배당범위 기준선 대비 {delta}</span><br />
+              <span className="tnum text-[10.5px] text-ink3">95% CI {interval}</span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-2.5 mb-0 text-[11px] leading-[1.7] text-ink3">
+          세 유형 모두 2025와 2026에서 방향이 일치하지 않아 탈락했다. 균형형의 2026 +6.1%p만 떼어 쓰면 안 된다.
+          초기 설계를 2026 감사 후 수정했으므로 이 수치는 독립 홀드아웃이 아니며, 사전등록 미래 300픽 전에는 운영 추천에 반영하지 않는다.
+        </p>
+      </Card>
+
       {/* 오늘 확인된 정정 — 예전 문서의 −9.2% 는 살 수 없는 숫자였다 */}
       <Card className="mt-3 border-l-[3px] border-l-sev2 px-4 py-4">
         <b className="text-[13.5px] text-sev2">2026-07-29 정정 — 실제로 살 수 있는 값</b>

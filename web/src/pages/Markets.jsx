@@ -206,6 +206,80 @@ const Empty = ({ children }) => (
   <div className="py-7 text-center text-[13px] text-ink3">{children}</div>
 );
 
+const signedPp = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? `${number >= 0 ? "+" : ""}${number.toFixed(1)}%p` : "–";
+};
+
+function EvolutionarySelectorPanel({ selector }) {
+  const names = ["safe", "balanced", "challenge"].filter((name) => selector?.profiles?.[name]);
+  const [requested, setRequested] = useState(() => selector?.default_profile || "balanced");
+  if (!names.length) return null;
+  const active = names.includes(requested)
+    ? requested : (names.includes(selector?.default_profile) ? selector.default_profile : names[0]);
+  const profile = selector.profiles[active];
+  const test = profile?.historical_test;
+  const evolved = test?.evolved;
+  const comparison = test?.comparison;
+  const rejected = profile?.historical_status === "rejected_in_historical_audit";
+  const operational = selector?.status === "operational" && profile?.historical_ci_gate_passed;
+  const status = rejected ? "역사 감사 탈락" : operational ? "운영 반영" : "연구 중·미반영";
+
+  return (
+    <section className="mt-3 rounded-md border border-rule2 bg-panel px-3 py-3" aria-label="자연선택 한 픽">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">자연선택 한 픽</div>
+          <div className="mt-0.5 text-[13px] font-semibold text-ink">전략을 교배해도 미래 경기에서 살아남아야 합니다</div>
+        </div>
+        <span className={`rounded-full border px-2 py-1 text-[10.5px] ${
+          rejected ? "border-sev2 text-sev3" : operational ? "border-signal text-signal" : "border-rule text-ink2"
+        }`}>{status}</span>
+      </div>
+
+      <div className="mt-2 flex flex-wrap gap-1.5" role="tablist" aria-label="자연선택 위험 유형">
+        {names.map((name) => (
+          <button key={name} type="button" role="tab" aria-selected={name === active}
+            onClick={() => setRequested(name)}
+            className={`min-h-11 rounded-full border px-3 text-[11.5px] ${
+              name === active ? "border-ink font-semibold text-ink" : "border-rule text-ink2"
+            }`}>
+            {selector.profiles[name].label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-2 text-[11.5px] leading-[1.65] text-ink2">
+        2023–2024 진화 · 2025 생존 선택 · 2026 역사 감사 {evolved?.n ? `${evolved.n}픽` : "자료 없음"}
+        {evolved?.accuracy != null && <> · 적중 <b className="tnum text-ink">{(evolved.accuracy * 100).toFixed(1)}%</b></>}
+        {evolved?.average_odds != null && <> · 평균배당 <b className="tnum text-ink">{evolved.average_odds.toFixed(2)}</b></>}
+        {comparison?.accuracy_delta_pp != null && <> · 동일 배당범위 기준선 대비 <b className="tnum text-ink">{signedPp(comparison.accuracy_delta_pp)}</b></>}
+      </div>
+      {comparison?.ci95_pp?.[0] != null && (
+        <div className="mt-0.5 text-[10.5px] text-ink3">
+          95% 신뢰구간 {signedPp(comparison.ci95_pp[0])}~{signedPp(comparison.ci95_pp[1])}
+          {!operational && " · 독립 미래 검증 전이라 기본 추천에는 반영하지 않음"}
+        </div>
+      )}
+
+      {rejected ? (
+        <div className="mt-2 rounded border border-sev2 bg-paper px-2.5 py-2 text-[11.5px] text-sev3">
+          이 유형은 검증 연도와 역사 감사에서 연속 생존하지 못해 현재 후보를 내지 않습니다.
+        </div>
+      ) : profile?.selected ? (
+        <div className="mt-2 border-t border-rule2 pt-1">
+          <Leg c={profile.selected} />
+          <div className="text-[10.5px] text-ink3">
+            표시 확률은 AI가 만든 확률이 아니라 Shin 시장확률 {pct(profile.selected.market_prob)}입니다.
+          </div>
+        </div>
+      ) : (
+        <div className="mt-2 text-[11.5px] text-ink3">남은 경기 중 이 유형의 배당 범위를 충족하는 후보가 없습니다.</div>
+      )}
+    </section>
+  );
+}
+
 /* ── ① 오늘 살 것 ──────────────────────────────────────────────── */
 function TodayPlan({ today, combo, grades, games }) {
   const [clock, setClock] = useState(() => Date.now());
@@ -242,6 +316,7 @@ function TodayPlan({ today, combo, grades, games }) {
     return (
       <Card className="today-brief">
         <div className="brief-heading"><h2>오늘의 비교 후보</h2></div>
+        <EvolutionarySelectorPanel selector={activeToday.evolutionary_selector} />
         <Empty>오늘 23:59 KST까지 살 수 있는 조합이 없다. 날짜가 바뀌면 자동으로 다시 찾는다.</Empty>
       </Card>
     );
@@ -278,6 +353,8 @@ function TodayPlan({ today, combo, grades, games }) {
         현재 안전 후보 {(activeToday.candidates || []).length}개
         {' · '}판정 불일치·안전 기준 제외 {activeToday.alignment?.dropped_by_safety || 0}개
       </div>
+
+      <EvolutionarySelectorPanel selector={activeToday.evolutionary_selector} />
 
       <div className={`mt-3 rounded-md border px-3 py-2 text-[12px] leading-[1.6] ${
         recommendation.action === "buy"
