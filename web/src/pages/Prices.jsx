@@ -21,7 +21,7 @@ export default function Prices({ embedded = false, liveOdds = null }) {
   // 열어 둔 채로도 갱신되게 한다 — 예전엔 첫 로드 한 번뿐이라 새로고침이 필요했다.
   const { data, at } = usePolledData({ d: "data/today.json" }, 300000);
   const d = data.d;
-  const err = at && !d ? "불러오지 못했습니다" : null;
+  const err = at && !d ? "원본 응답이 없다" : null;
 
   /**
    * 프로토는 회차를 겹쳐 발매한다 → 같은 경기·마켓·선택이 두 회차에 다른 배당으로 걸린다.
@@ -75,7 +75,7 @@ export default function Prices({ embedded = false, liveOdds = null }) {
     return out;
   }, [d, liveOdds]);
 
-  if (err) return <Shell embedded={embedded}><p className="py-8 text-sev3">데이터를 불러오지 못했습니다: {err}</p></Shell>;
+  if (err) return <Shell embedded={embedded}><p className="py-8 text-sev3">데이터를 불러오지 못했다: {err}.</p></Shell>;
   if (!d) return <Shell embedded={embedded}><p className="py-8 text-ink3">불러오는 중…</p></Shell>;
 
   const r0 = (d.rounds || [])[0];
@@ -199,7 +199,7 @@ function GameList({ games, showTitle = false }) {
         </label>
       </div>
       {rows.length ? rows.map((g, k) => <GameCard key={`${g.game_no}-${g._rounds.join("_")}-${k}`} g={g} />)
-        : <p className="py-8 text-[13px] text-ink3">조건에 맞는 경기가 없습니다.</p>}
+        : <p className="py-8 text-[13px] text-ink3">조건에 맞는 경기가 없다.</p>}
     </>
   );
 }

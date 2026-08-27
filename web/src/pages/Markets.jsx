@@ -12,7 +12,8 @@ import { buildDecisionViewModel } from "../lib/decision-view-model.js";
 import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships, canonicalPick, selectionKey } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
+import { availableToday, nextTodayRefreshDelay, recommendationFromPlans,
+  ticketIndexForRecommendation } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { qualifiedUnderdogSelections } from "../lib/recommendation-policy.js";
 
@@ -271,7 +272,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView, upsetCoun
             {q.target}배
             {k === recommendedIndex && (
               <span className="text-[10px]">
-                {recommendation.action === "buy" ? "1순위" : recommendation.action === "challenge" ? "도전" : "관찰"}
+                {recommendation.action === "buy" ? "구매" : recommendation.action === "challenge" ? "소액 도전" : "비교 1순위"}
               </span>
             )}
             <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
@@ -707,8 +708,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
               : stale
               ? "오래된 데이터로는 배당 발표 여부를 판단하지 않습니다. 최신 수집이 확인될 때까지 기다려 주세요."
               : waitText === "상태 확인 불가"
-                ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했습니다."
-                : "배당이 아직 발표되지 않았습니다. 경기 정보는 먼저 확인할 수 있습니다."}
+                ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했다."
+                : "배당은 아직 발표되지 않았다. 경기 정보는 먼저 확인할 수 있다."}
           </div>
         )}
         {predictionUnavailable ? (
@@ -1260,7 +1261,7 @@ function Evidence({ grades, tally }) {
       </div>
       {tally && (
         <div className="mt-3 text-[11.5px] leading-[1.75] text-ink3">
-          모델 수치는 <b className="text-sev3">참고용이다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
+          모델 추천은 <b className="text-sev3">구매 근거로 채택하지 않는다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
           정산 {tally.n}건에서 적중 {(tally.hit_rate * 100).toFixed(1)}%,
           수익률 <b className="text-sev3">{(tally.roi * 100).toFixed(1)}%</b> 였다 —
           아무거나 살 때(−13.7%)보다 나쁘다. 모델이 시장보다 부정확해서,

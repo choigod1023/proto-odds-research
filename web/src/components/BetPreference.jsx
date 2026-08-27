@@ -251,7 +251,7 @@ export default function BetPreference({
                 ? challenge === false && Number(challengeTarget) === Number(recommendedTarget)
                   ? "자동 소액 도전의 기본 투입을 해제했다."
                   : `자동 소액 도전은 ${recommendedTarget}배 1순위에만 기본 금액을 적용한다.`
-                : "현재 조합은 소액 도전 기준에도 못 미쳐 자동 권장 투입액은 0원이다."}
+                : "현재 조합은 소액 도전 기준에 미달했다. 자동 판정 투입액은 0원이다."}
           {" "}도전픽은 자동 구매 신호와 별도로 사용자가 선택한 금액이다.
         </div>
       )}
@@ -259,7 +259,7 @@ export default function BetPreference({
       {selected && (
         <>
           <div className="mt-3 grid gap-x-5 gap-y-2 border-y border-rule2 py-3 sm:grid-cols-5">
-            <Stat k={activeChallenge ? "도전 투입" : "권장 투입"} v={money(stake)} />
+            <Stat k={activeChallenge ? "도전 투입" : "판정 투입"} v={money(stake)} />
             <Stat k="적중 환급" v={money(gross)} />
             <Stat k="적중 시 순이익" v={`+${money(gross - stake)}`} />
             <Stat k="실패 시 손실" v={`−${money(stake)}`} tone="sev" />

@@ -33,9 +33,27 @@ export function displayCommentary(game) {
   const best = candidates.sort((a, b) => Number(b["모델확률"]) - Number(a["모델확률"]))[0];
   const unit = game?.sport === "sc" ? "골" : "점";
   const correction = best
-    ? `실제 언더오버 기준점은 ${line}${unit}이며, 득점분포 모델은 ${best["선택"]} ${(Number(best["모델확률"]) * 100).toFixed(1)}%로 본다.`
+    ? `실제 언더오버 기준점은 ${line}${unit}이다. 득점분포 모델의 ${best["선택"]} 확률은 ${(Number(best["모델확률"]) * 100).toFixed(1)}%다.`
     : `실제 언더오버 기준점은 ${line}${unit}이다. 기존 8.5${unit} 비교는 잘못된 기본값이라 제외했다.`;
 
   if (!sentences.length) return correction;
   return [sentences[0], correction, ...sentences.slice(1)].join(" ");
+}
+
+export function commentaryParts(text, { hadRecommendation = false,
+  currentEligible = true, canJudge = true } = {}) {
+  const source = String(text || "").trim();
+  let cut = source.indexOf(". ");
+  let verdict = cut > 0 ? source.slice(0, cut + 1) : source;
+  let rest = cut > 0 ? source.slice(cut + 2) : "";
+  if (!(canJudge && hadRecommendation && !currentEligible)) return { verdict, rest };
+
+  verdict = "현재 배당 기준 경기 모델 추천은 제외됐다.";
+  let remaining = source;
+  const dropCount = /^(?:산출 시점의 최종 선택은|최종 수치 선택은)/.test(source) ? 2 : 1;
+  for (let index = 0; index < dropCount; index += 1) {
+    cut = remaining.indexOf(". ");
+    remaining = cut > 0 ? remaining.slice(cut + 2) : "";
+  }
+  return { verdict, rest: remaining };
 }

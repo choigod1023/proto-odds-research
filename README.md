@@ -4,7 +4,8 @@
 
 🌐 [산출물 사이트](https://choigod1023.github.io/proto-odds-research/) ·
 📁 [검정 문서 28편](findings/) · 📄 [인수인계](HANDOFF.md) ·
-🎱 [로또 6/45 검증실](https://choigod1023.github.io/proto-odds-research/lotto.html) · [방법론](findings/로또_미래상수_MVP.md)
+🎱 [로또 6/45 검증실](https://choigod1023.github.io/proto-odds-research/lotto.html) · [방법론](findings/로또_미래상수_MVP.md) ·
+✍️ [수치 판정 한국어 문체](docs/KOREAN_DECISION_STYLE.md)
 
 ---
 

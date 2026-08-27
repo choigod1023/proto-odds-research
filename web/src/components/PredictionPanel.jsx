@@ -18,7 +18,7 @@ export default function PredictionPanel({ analysis }) {
       : "운영 조건을 통과한 선택이 없어 팀 방향과 확률을 새로 만들지 않습니다."
   );
   return (
-    <section className="prediction-card" aria-label="경기 예상과 경기력 해석">
+    <section className="prediction-card" aria-label="경기 모델 판정과 경기력 해석">
       <header className="prediction-head">
         <div>
           <p className="prediction-label">{label} · 참고용</p>
