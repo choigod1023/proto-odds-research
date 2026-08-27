@@ -89,16 +89,17 @@ export function predictionFor(game, recommended = null) {
   const side = teamMarket ? outcomeSide : null;
   const probability = decision.probability.final;
   const marketProbability = decision.probability.market;
+  const basisLabel = decision.recommendationPriority === "reversal" ? "전환 픽" : "시장 기준";
   let headline;
-  if (totalMarket) headline = `시장 기준 · ${best?.label || "기준점"} ${outcome}`;
-  else if (handicapMarket) headline = `시장 기준 · ${best?.label || "핸디캡"} ${outcome}`;
-  else if (marginMarket) headline = `시장 기준 · ${market} ${outcome}`;
+  if (totalMarket) headline = `${basisLabel} · ${best?.label || "기준점"} ${outcome}`;
+  else if (handicapMarket) headline = `${basisLabel} · ${best?.label || "핸디캡"} ${outcome}`;
+  else if (marginMarket) headline = `${basisLabel} · ${market} ${outcome}`;
   else if (firstHalfTeamMarket) {
-    headline = draw ? "시장 기준 · 전반 무승부" : `시장 기준 · 전반 ${outcomeSide} 우세`;
+    headline = draw ? `${basisLabel} · 전반 무승부` : `${basisLabel} · 전반 ${outcomeSide} 우세`;
   } else if (teamMarket) {
-    headline = draw ? "시장 기준 · 팽팽함" : `시장 기준 · ${side} 우세`;
+    headline = draw ? `${basisLabel} · 팽팽함` : `${basisLabel} · ${side} 우세`;
   } else {
-    headline = `시장 기준 · ${[market, best?.label, outcome].filter(Boolean).join(" ")}`;
+    headline = `${basisLabel} · ${[market, best?.label, outcome].filter(Boolean).join(" ")}`;
   }
   return {
     outcome,
@@ -140,19 +141,28 @@ const signalNames = (rows) => rows.map((signal) => readableSignal[signal.label] 
 
 function signalNarrative(prediction, signals, state) {
   const picked = prediction.side;
+  const reversal = prediction?.decision?.recommendationPriority === "reversal";
   const supporting = signals.filter((signal) => signal.side === picked);
   const opposing = signals.filter((signal) => signal.side && signal.side !== picked);
   const opponent = opposing[0]?.side;
   if (state === "일치") {
-    return signalNames(supporting) + "에서 모두 " + particle(picked, ["이", "가"]) + " 앞선다. 현재 최종 판정은 AI 보정이 아닌 시장 기준으로 " + picked + " 쪽이다.";
+    return signalNames(supporting) + "에서 모두 " + particle(picked, ["이", "가"]) + " 앞선다. " +
+      (reversal ? "역배 전환 관문도 같은 방향을 가리켜 최종 픽을 교체했다."
+        : "현재 최종 판정은 AI 보정이 아닌 시장 기준으로 " + picked + " 쪽이다.");
   }
   if (state === "엇갈림") {
-    return signalNames(supporting) + "에서는 " + particle(picked, ["이", "가"]) + " 앞서고, " + signalNames(opposing) + "에서는 " + particle(opponent, ["이", "가"]) + " 낫다. 엇갈림은 숨기지 않되 최종 값은 시장 기준으로 유지한다.";
+    return signalNames(supporting) + "에서는 " + particle(picked, ["이", "가"]) + " 앞서고, " + signalNames(opposing) + "에서는 " + particle(opponent, ["이", "가"]) + " 낫다. " +
+      (reversal ? "엇갈림을 숨기지 않으며 전환 방향의 확률은 해당 역배 시장확률로 표시한다."
+        : "엇갈림은 숨기지 않되 최종 값은 시장 기준으로 유지한다.");
   }
   if (state === "반대") {
-    return "확인되는 최근 기록은 " + particle(opponent, ["이", "가"]) + " 앞선다. 시장 기준 방향과 반대이므로 AI 우위로 해석하지 않고 충돌 자료로 남긴다.";
+    return "확인되는 최근 기록은 " + particle(opponent, ["이", "가"]) + " 앞선다. " +
+      (reversal ? "전환 픽과 반대되는 자료이므로 위험 신호로 함께 남긴다."
+        : "시장 기준 방향과 반대이므로 AI 우위로 해석하지 않고 충돌 자료로 남긴다.");
   }
-  return "비교할 최근 기록이 충분하지 않아 시장확률만 기준으로 " + picked + " 쪽을 비교 후보로 둔다.";
+  return reversal
+    ? "비교할 최근 기록은 부족하다. 구조 모델 전환 관문으로 " + picked + " 쪽을 최종 선택했지만 표시 확률은 해당 역배의 시장확률이다."
+    : "비교할 최근 기록이 충분하지 않아 시장확률만 기준으로 " + picked + " 쪽을 비교 후보로 둔다.";
 }
 export function signalSummaryFor(game, prediction) {
   if (!prediction?.side || prediction.side === "무승부" || !["승무패", "승패"].includes(prediction.market)) return null;
@@ -356,6 +366,8 @@ function playerSentence(players) {
 
 function expectedFlowSentence(game, prediction) {
   const marketName = String(prediction?.market || "");
+  const reversal = prediction?.decision?.recommendationPriority === "reversal";
+  const chosen = reversal ? "전환 최종 픽으로 정했다" : "시장 기준 비교 후보로 남겼다";
   if (marketName.includes("언더오버")) {
     const low = String(prediction.outcome || "").includes("언더");
     const firstHalf = marketName.startsWith("전반");
@@ -365,16 +377,16 @@ function expectedFlowSentence(game, prediction) {
     const evidence = !firstHalf && total !== null
       ? `두 팀의 최근 경기당 득점 합은 ${metric(total)}점이다.`
       : `${firstHalf ? "전반" : "경기"} 득점 기준의 시장확률을 사용했다.`;
-    return `${evidence} ${prediction.label || "발매 기준점"}에서 ${low ? "득점이 크게 벌어지지 않는" : "공격 전개가 이어지는"} 쪽을 시장 기준 비교 후보로 남겼다.`;
+    return `${evidence} ${prediction.label || "발매 기준점"}에서 ${low ? "득점이 크게 벌어지지 않는" : "공격 전개가 이어지는"} 쪽을 ${chosen}.`;
   }
   if (marketName.includes("핸디캡")) {
-    return `${prediction.label || "발매 핸디캡"} 기준에서 ${prediction.outcome} 쪽을 시장 비교 후보로 둔다. 이는 핸디캡 적용 후 적중 방향이며 실제 승리 예측과는 다르다.`;
+    return `${prediction.label || "발매 핸디캡"} 기준에서 ${prediction.outcome} 쪽을 ${chosen}. 이는 핸디캡 적용 후 적중 방향이며 실제 승리 예측과는 다르다.`;
   }
   if (["승①패", "승⑤패"].includes(prediction?.market)) {
-    return `${prediction.market}의 ${prediction.outcome} 쪽을 시장 비교 후보로 둔다. 이 판정은 승패만이 아니라 발매된 점수 차 조건까지 포함한다.`;
+    return `${prediction.market}의 ${prediction.outcome} 쪽을 ${chosen}. 이 판정은 승패만이 아니라 발매된 점수 차 조건까지 포함한다.`;
   }
   if (marketName.startsWith("전반")) {
-    return `전반 시장에서 ${prediction.outcome} 쪽을 비교 후보로 둔다. 전반 결과와 경기 최종 결과는 별개의 마켓이다.`;
+    return `전반 시장에서 ${prediction.outcome} 쪽을 ${chosen}. 전반 결과와 경기 최종 결과는 별개의 마켓이다.`;
   }
   if (prediction?.side === "무승부") {
     return `${verdict} 양쪽의 강점이 엇갈리는 접전 시나리오를 기준으로 삼았다.`;

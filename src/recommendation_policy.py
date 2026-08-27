@@ -15,9 +15,9 @@ PREFERRED_RECOMMENDATION_ODDS = 1.5
 MIN_AUTO_RECOMMENDATION_ODDS = PREFERRED_RECOMMENDATION_ODDS
 MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
-# 역배는 정배 1순위를 밀어내지 않는 별도 실험 레인이다. 검증 전 구조 모델의
-# 극단값과 장기적으로 손실이 급증한 3.0+ 구간을 막고, 시장보다 모델이 실제로
-# 방향을 뒤집어 본 중간 배당만 '이변 도전'으로 표시한다.
+# 역배 전환은 정배 옆에 별도 추천을 하나 더 만드는 기능이 아니다. 검증 전 구조
+# 모델의 극단값과 장기적으로 손실이 급증한 3.0+ 구간을 막은 뒤, 관문을 통과하면
+# 경기의 기존 최종 픽을 역배 하나로 교체한다.
 UPSET_MIN_ODDS = 1.5
 UPSET_MAX_ODDS = 3.0
 UPSET_MIN_MARKET_PROBABILITY = 0.28
@@ -91,10 +91,10 @@ def qualified_underdog(
     favorite_probability: object,
     model_probability: object,
 ) -> bool:
-    """정배와 분리해 보여 줄 검증 전 '이변 도전' 후보인지 판정한다.
+    """기존 최종 픽을 완전히 교체할 역배 후보인지 판정한다.
 
-    최종 확률은 계속 시장값이다. 모델 차이는 후보를 좁히는 진단 관문일 뿐
-    적중확률이나 기대수익으로 승격하지 않는다.
+    선택 방향은 바꾸지만 최종 확률은 계속 해당 선택의 시장값이다. 모델 차이는
+    전환 관문일 뿐 적중확률이나 기대수익으로 승격하지 않는다.
     """
     if recommendation_exclusion_reason(market):
         return False

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
-import { eligibleAutoSelections, MAX_AUTO_ODDS, MIN_AUTO_ODDS,
-  PREFERRED_AUTO_ODDS, qualifiedUnderdogSelections, recommendationPriority,
+import { eligibleAutoSelections, eligibleFinalSelections, finalRecommendedSelection,
+  MAX_AUTO_ODDS, MIN_AUTO_ODDS, PREFERRED_AUTO_ODDS,
+  qualifiedUnderdogSelections, recommendationPriority,
   UPSET_MAX_MODEL_GAP, UPSET_MAX_MODEL_PROBABILITY, UPSET_MAX_ODDS,
   UPSET_MIN_MARKET_PROBABILITY, UPSET_MIN_MODEL_GAP, UPSET_MIN_MODEL_PROBABILITY,
   UPSET_MIN_ODDS } from "./recommendation-policy.js";
@@ -41,7 +42,12 @@ assert.deepEqual(
   "생성기가 역배로 표시한 선택지는 단독으로 남아도 추천하면 안 된다",
 );
 assert.deepEqual(qualifiedUnderdogSelections([favorite, reverse]), [reverse],
-  "중간 배당·비극단 모델 괴리 역배만 별도 이변 후보로 남긴다");
+  "중간 배당·비극단 모델 괴리 역배만 전환 후보로 남긴다");
+assert.equal(finalRecommendedSelection([favorite, reverse]), reverse,
+  "전환 관문을 통과하면 기존 정배 대신 역배 하나만 최종 선택한다");
+assert.deepEqual(eligibleFinalSelections([
+  { ...reverse, is_market_favorite: false, final_reversal: true },
+]), [{ ...reverse, is_market_favorite: false, final_reversal: true }]);
 assert.deepEqual(qualifiedUnderdogSelections([
   favorite,
   { ...reverse, odds: 3.0 },

@@ -1,5 +1,7 @@
 import { gradeOf } from "./fmt.js";
-import { eligibleAutoSelections } from "./recommendation-policy.js";
+import { eligibleFinalSelections, finalRecommendedSelection,
+  qualifiedUnderdogSelections } from "./recommendation-policy.js";
+import { pickNextLegs, ticketMetrics } from "./today-plan.js";
 import { resolveDecisionOption } from "./decision-view-model.js";
 
 const clean = (value) => String(value ?? "").trim();
@@ -51,7 +53,7 @@ export function canonicalOption(game, options = game?.options || []) {
   if (game?._liveOddsChanged || game?._liveStarted) return null;
   const current = resolveDecisionOption(game, options);
   if (!current) return null;
-  return eligibleAutoSelections(options).includes(current) ? current : null;
+  return finalRecommendedSelection(options) === current ? current : null;
 }
 
 export function canonicalPick(game, options, grades) {
@@ -87,6 +89,7 @@ export function alignTodayRecommendations(today, games = []) {
     const wanted = canonical.get(groupKey);
     if (!wanted) return [];
     const option = wanted.option;
+    const reversal = qualifiedUnderdogSelections(wanted.game.options || []).includes(option);
     const currentOdds = Number(option?.["배당"]);
     const currentProbability = Number(option?.["시장확률"]);
     const grade = gradeOf(grades, currentOdds);
@@ -106,21 +109,38 @@ export function alignTodayRecommendations(today, games = []) {
         ? Number((100 / overround).toFixed(2)) : candidate.payout,
       hist_roi: grade?.roi ?? candidate.hist_roi,
       hist_n: grade?.n ?? candidate.hist_n,
-      is_market_favorite: true,
+      is_market_favorite: !reversal,
+      final_reversal: reversal,
+      model_prob: Number(option?.["모델확률"]),
       recommendation_basis: wanted.basis,
     }];
   });
-  const candidates = eligibleAutoSelections(repriced).filter((candidate) => {
+  const candidates = eligibleFinalSelections(repriced).filter((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
     return wanted?.key === selectionKey(candidate, candidate?.round);
   });
-  const allowed = new Set(candidates.map((candidate) => selectionKey(candidate, candidate?.round)));
-  const keep = (candidate) => allowed.has(selectionKey(candidate, candidate?.round));
-  const plans = (today.plans || []).map((plan) => ({
-    ...plan,
-    picks: (plan.picks || []).filter(keep),
-  }));
-  const solo = today.solo && keep(today.solo) ? today.solo : null;
+  const plans = (today.plans || []).map((plan) => {
+    const bins = plan.bins || [];
+    const picks = bins.length
+      ? pickNextLegs(candidates, bins, today.year, Number(plan.target)) : null;
+    if (!picks) return {
+      ...plan, ok: false, picks: [],
+      why: "최종 픽 전환 뒤 목표 배당을 구성할 수 없다",
+    };
+    return {
+      ...plan,
+      ok: true,
+      picks,
+      legs: picks.length,
+      ...ticketMetrics(picks),
+      why: "경기별 최종 픽 하나로 다시 계산했다",
+    };
+  });
+  const solo = today.solo
+    ? candidates.find((candidate) =>
+      selectionGroupKey(candidate, candidate?.round) ===
+      selectionGroupKey(today.solo, today.solo?.round)) || null
+    : null;
   const gameModelCandidates = candidates.filter(
     (candidate) => candidate.recommendation_basis === "game-decision",
   ).length;

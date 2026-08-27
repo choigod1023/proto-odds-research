@@ -1,4 +1,5 @@
-import { eligibleAutoSelections, recommendationPriority } from "./recommendation-policy.js";
+import { eligibleAutoSelections, finalRecommendedSelection, qualifiedUnderdogSelections,
+  recommendationPriority } from "./recommendation-policy.js";
 
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
@@ -20,8 +21,8 @@ export const AI_STAGE_CATALOG = [
   {
     id: "structured_ai",
     label: "수치 AI 후보",
-    status: "shadow",
-    summary: "현재 팀·득점분포 모델과 시장의 차이를 잔차 후보로 검증하며, 통과 전에는 0%p만 반영합니다.",
+    status: "selection_gate",
+    summary: "비극단 역배 전환 관문을 통과할 때만 최종 선택 방향을 바꾸며, 표시 확률은 해당 선택의 시장확률을 유지합니다.",
   },
   {
     id: "availability_ai",
@@ -41,6 +42,7 @@ export const AI_STATUS_LABELS = {
   used: "최종 반영",
   operational: "검증 반영",
   shadow: "연구 중·미반영",
+  selection_gate: "조건부 선택 반영",
   context_only: "설명만",
   wording_only: "문체만",
   template: "규칙 문장",
@@ -111,8 +113,9 @@ const fallbackStages = (option) => AI_STAGE_CATALOG.map((stage) => ({
   ...stage,
   status: stage.id === "market"
     ? (finite(option?.["시장확률"]) !== null ? "used" : "missing")
-    : stage.id === "structured_ai"
-      ? (finite(option?.["모델확률"]) !== null ? "shadow" : "missing")
+      : stage.id === "structured_ai"
+      ? (option?.["최종전환"] === true ? "selection_gate"
+        : finite(option?.["모델확률"]) !== null ? "shadow" : "missing")
       : stage.status,
   affects_probability: stage.id === "market" && finite(option?.["시장확률"]) !== null,
 }));
@@ -141,24 +144,14 @@ const reconstructMarketContract = (game) => {
       return String(option?.market || "").trim() !== "홀짝" &&
         probability !== null && probability > 0 && probability < 1 && price > 1;
     });
-  const eligible = eligibleAutoSelections(valid).filter((option) => {
-    const probability = finite(option?.["시장확률"]);
-    return probability !== null && probability > 0 && probability < 1;
-  });
-  const rank = (a, b) =>
-    recommendationPriority(b) - recommendationPriority(a) ||
-    finite(b?.["시장확률"]) - finite(a?.["시장확률"]) ||
-    finite(a?.["배당"]) - finite(b?.["배당"]) ||
-    String(a?.market || "").localeCompare(String(b?.market || "")) ||
-    String(a?.label || "").localeCompare(String(b?.label || "")) ||
-    String(a?.["선택"] || "").localeCompare(String(b?.["선택"] || ""));
-  const resolved = [...(eligible.length ? eligible : valid)].sort(rank)[0] || null;
+  const resolved = finalRecommendedSelection(valid);
+  const reversal = qualifiedUnderdogSelections(valid).includes(resolved);
   const market = finite(resolved?.["시장확률"]);
   const shadow = finite(resolved?.["모델확률"]);
   const recalculatedAt = game?._liveOddsRecalculatedAt || null;
   return {
     reconstructed: true,
-    recommendationRecovered: eligible.includes(resolved),
+    recommendationRecovered: Boolean(resolved),
     resolved,
     errors: [],
     raw: {
@@ -180,10 +173,10 @@ const reconstructMarketContract = (game) => {
         artifact_hash: null,
       },
       gate_codes: resolved
-        ? eligible.includes(resolved)
-          ? [game?._liveOddsRecalculated
+        ? reversal
+          ? ["qualified_market_reversal"]
+          : [game?._liveOddsRecalculated
             ? "live_odds_recalculated" : "reconstructed_market_reference"]
-          : ["no_eligible_market_reference"]
         : ["no_eligible_market_reference"],
       explanation: { kind: "structured_ui", affects_probability: false },
       audit: recalculatedAt ? {
@@ -247,11 +240,8 @@ const snapshotContract = (game) => {
   }
   const resolvedOdds = finite(resolved?.["배당"]);
   const eligibleNow = eligibleAutoSelections(game?.options || []);
-  const preferredAvailable = eligibleNow.some((option) => recommendationPriority(option) === 1);
-  const shouldRebuildSelection = resolved && resolvedOdds !== null && (
-    !eligibleNow.includes(resolved) ||
-    (recommendationPriority(resolved) === 0 && preferredAvailable)
-  );
+  const finalNow = finalRecommendedSelection(game?.options || []);
+  const shouldRebuildSelection = resolved && resolvedOdds !== null && finalNow !== resolved;
   if (!errors.length && shouldRebuildSelection) {
     const rebuilt = reconstructMarketContract(game);
     if (rebuilt.recommendationRecovered) {
@@ -293,10 +283,13 @@ export function buildDecisionViewModel(game, option = null) {
   const contractValid = contract.errors.length === 0;
   const resolvedOdds = finite(contract.resolved?.["배당"]);
   const recommendationEligible = contract.resolved && resolvedOdds !== null
-    ? eligibleAutoSelections(game?.options || []).includes(contract.resolved)
+    ? finalRecommendedSelection(game?.options || []) === contract.resolved
     : null;
+  const reversal = recommendationEligible
+    && qualifiedUnderdogSelections(game?.options || []).includes(contract.resolved);
   const recommendationTier = recommendationEligible
-    ? (recommendationPriority(contract.resolved) === 1 ? "primary" : "fallback")
+    ? reversal ? "reversal"
+      : (recommendationPriority(contract.resolved) === 1 ? "primary" : "fallback")
     : null;
   const action = contractValid && raw.action === "market_reference" && game?._liveStarted
     ? "closed"
@@ -384,6 +377,9 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
+  if (decision?.recommendationPriority === "reversal") {
+    return "이변 전환 · 최종 픽";
+  }
   if (decision?.recommendationPriority === "fallback") {
     return "시장 기준 비교 · 보조 추천";
   }
