@@ -14,7 +14,9 @@ export default function PredictionPanel({ analysis }) {
   const label = decisionLabel(decision);
   const summary = signalSummary?.narrative || (
     decision?.action === "market_reference"
-      ? "현재 검증된 운영값은 시장확률이며 구조 AI는 연구값으로만 비교합니다."
+      ? decision?.recommendationPriority === "reversal"
+        ? "구조 모델은 선택 방향을 전환했으며, 표시 확률은 해당 역배의 시장확률입니다."
+        : "현재 검증된 운영값은 시장확률이며 구조 AI는 연구값으로만 비교합니다."
       : "운영 조건을 통과한 선택이 없어 팀 방향과 확률을 새로 만들지 않습니다."
   );
   return (
@@ -40,7 +42,9 @@ export default function PredictionPanel({ analysis }) {
         </div>
       </div>
       {!!cautions?.length && <div className="prediction-caution"><b>확인할 변수</b><span>{cautions.join(" ")}</span></div>}
-      <footer>시장 기준 비교와 검증된 AI 우위는 같은 뜻이 아닙니다. 구매 판단은 직접 합니다.</footer>
+      <footer>{decision?.recommendationPriority === "reversal"
+        ? "전환 픽은 시장 최유력이 아닙니다. 표시 확률과 위험을 함께 확인해야 합니다."
+        : "시장 기준 비교와 검증된 AI 우위는 같은 뜻이 아닙니다. 구매 판단은 직접 합니다."}</footer>
     </section>
   );
 }

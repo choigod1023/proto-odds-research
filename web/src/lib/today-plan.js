@@ -1,4 +1,4 @@
-import { eligibleAutoSelections, recommendationPriority } from "./recommendation-policy.js";
+import { eligibleFinalSelections, recommendationPriority } from "./recommendation-policy.js";
 import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -95,7 +95,7 @@ export function calibratedLegProbability(candidate) {
 }
 
 export function pickNextLegs(candidates, bins, year, target = null) {
-  const eligible = eligibleAutoSelections(candidates);
+  const eligible = eligibleFinalSelections(candidates);
   const pools = bins.map((bin) => candidatePool(eligible, bin, year));
   if (pools.some((pool) => !pool.length)) return null;
   const lower = target ? Number(target) * 0.95 : 0;
@@ -322,7 +322,7 @@ const nextKstMidnight = (now) => (kstDay(now) + 1) * DAY_MS - KST_OFFSET_MS;
 function futureTodayCandidates(today, now) {
   if (!today) return [];
   const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
-  return eligibleAutoSelections(source).filter((candidate) => {
+  return eligibleFinalSelections(source).filter((candidate) => {
     const kickoff = kickoffTime(candidate, today.year);
     return Number.isFinite(kickoff) && kickoff > now && kstDay(kickoff) === kstDay(now);
   });

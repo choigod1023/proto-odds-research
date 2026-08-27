@@ -133,10 +133,10 @@ def annotate_options(game: dict) -> None:
 
 
 def choose_market_reference(options: list[dict]) -> dict | None:
-    """검증된 AI 잔차가 없을 때 시장 최유력 중 적중확률이 가장 높은 하나를 고른다.
+    """전환 관문을 통과한 역배가 있으면 기존 정배 대신 하나만 최종 선택한다.
 
-    구조 모델의 EV나 시장과의 괴리는 순위에 쓰지 않는다. 그 값은 shadow 진단으로
-    남기되 최종 선택을 바꾸지 못한다.
+    모델값은 전환 후보를 좁히는 데만 쓰고 최종 확률은 선택된 역배의 Shin
+    시장확률을 유지한다. 전환 후보가 없으면 기존 시장 최유력 정책으로 복귀한다.
     """
     favorite_by_market: dict[tuple, float] = {}
     for option in options:
@@ -145,6 +145,7 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         option.pop("추천점수", None)
         option.pop("선택근거", None)
         option.pop("추천우선순위", None)
+        option.pop("최종전환", None)
         probability = _number(option.get("시장확률"))
         if probability is None:
             continue
@@ -153,10 +154,21 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         favorite_by_market[key] = max(favorite_by_market.get(key, 0.0), probability)
 
     eligible: list[dict] = []
+    reversals: list[dict] = []
     for option in options:
         key = (option.get("market"), option.get("label"), option.get("line"),
                option.get("게임번호"))
         probability = _number(option.get("시장확률"))
+        model = _number(option.get("모델확률"))
+        if qualified_underdog(
+            option.get("market"), option.get("배당"), probability,
+            favorite_by_market.get(key), model,
+        ):
+            option["추천점수"] = round(underdog_score(probability, model), 4)
+            option["추천우선순위"] = "reversal"
+            option["선택근거"] = "qualified_shadow_reversal_market_probability"
+            reversals.append(option)
+            continue
         reason = automatic_selection_exclusion_reason(
             option.get("market"), option.get("배당"), probability,
             favorite_by_market.get(key),
@@ -177,6 +189,16 @@ def choose_market_reference(options: list[dict]) -> dict | None:
             else "shin_market_accuracy_low_odds_fallback"
         )
         eligible.append(option)
+    if reversals:
+        selected = max(reversals, key=lambda option: (
+            underdog_score(option.get("시장확률"), option.get("모델확률")),
+            _number(option.get("시장확률")) or 0.0,
+            -(_number(option.get("배당")) or 999.0),
+            str(option.get("selection_id") or ""),
+        ))
+        selected["최종전환"] = True
+        selected.pop("제외", None)
+        return selected
     if not eligible:
         return None
     return max(eligible, key=lambda option: (
@@ -378,6 +400,7 @@ def build_decision_snapshot(
     market = _number(selected.get("시장확률")) if selected else None
     shadow = _number(selected.get("모델확률")) if selected else None
     action = "market_reference" if selected and market is not None else "withhold"
+    reversed_pick = selected and selected.get("추천우선순위") == "reversal"
     built_at = built_at or as_of
     evidence, sources = _evidence(game, selected, market_observed_at=as_of)
     input_hash = _input_revision_hash(game, evidence)
@@ -396,7 +419,11 @@ def build_decision_snapshot(
         "selection_id": selected.get("selection_id") if selected else None,
         "offer_id": selected.get("offer_id") if selected else None,
         "input_revision_hash": input_hash,
-        "gate_codes": ([] if action == "market_reference" else ["no_eligible_market_reference"]),
+        "gate_codes": (
+            ["qualified_market_reversal"] if reversed_pick
+            else [] if action == "market_reference"
+            else ["no_eligible_market_reference"]
+        ),
         "probability": {
             "market": market,
             "ai_candidate": shadow,
@@ -419,7 +446,10 @@ def build_decision_snapshot(
         # 둬서 웹 데이터가 같은 설명을 수백 번 중복하지 않게 한다.
         "stages": {
             "market": _stage("used" if market is not None else "missing", market is not None),
-            "structured_ai": _stage("shadow" if shadow is not None else "missing"),
+            "structured_ai": _stage(
+                "selection_gate" if reversed_pick else
+                "shadow" if shadow is not None else "missing"
+            ),
             "availability_ai": _stage(
                 "context_only" if any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence) else "missing"),
             "language_ai": _stage(explanation_status),
@@ -454,7 +484,9 @@ def validate_decision_snapshot(snapshot: dict) -> None:
     evidence_ids = [row.get("id") for row in snapshot.get("evidence", [])]
     if len(stage_ids) != len(set(stage_ids)) or set(stage_ids) != set(STAGE_IDS):
         raise ValueError("duplicate or incomplete AI stage id")
-    if any(row.get("status") not in (USAGE_STATUSES | {"wording_only", "template"})
+    if any(row.get("status") not in (
+        USAGE_STATUSES | {"wording_only", "template", "selection_gate"}
+    )
            for row in stage_rows):
         raise ValueError("unknown AI stage status")
     if len(evidence_ids) != len(set(evidence_ids)):

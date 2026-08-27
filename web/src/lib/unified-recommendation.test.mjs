@@ -90,6 +90,29 @@ const legacyAligned = alignTodayRecommendations(today, [legacy]);
 assert.equal(legacyAligned.candidates[0].recommendation_basis, "market-fallback");
 assert.equal(legacyAligned.alignment.market_fallback_candidates, 1);
 
+const reversalHome = { ...home, "모델확률": 0.40 };
+const reversalAway = {
+  ...away, "배당": 2.05, "시장확률": 0.42, "모델확률": 0.55,
+};
+const reversalGame = {
+  ...game,
+  decision_snapshot: undefined,
+  options: [reversalHome, reversalAway],
+};
+assert.equal(canonicalOption(reversalGame), reversalAway,
+  "역배 관문을 통과하면 화면의 기존 정배를 완전히 교체한다");
+const reversalToday = alignTodayRecommendations({
+  ...today,
+  year: 2026,
+  odds_bins: [
+    { bin: "1.5-1.8", roi: -0.1, n: 1000, hit: 0.6, grade: "B" },
+    { bin: "1.8-2.2", roi: -0.12, n: 1000, hit: 0.45, grade: "C" },
+  ],
+}, [reversalGame]);
+assert.deepEqual(reversalToday.candidates.map((row) => row.sel), ["원정"]);
+assert.equal(reversalToday.candidates[0].final_reversal, true);
+assert.equal(reversalToday.candidates[0].is_market_favorite, false);
+
 const liveFavoriteFlipped = {
   ...game,
   decision_snapshot: null,

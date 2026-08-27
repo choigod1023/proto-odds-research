@@ -73,8 +73,8 @@ export function recommendationPriority(selection) {
 }
 
 /**
- * 정배 추천을 밀어내지 않는 별도 '이변 도전' 레인이다. 구조 모델값은 아직
- * shadow 상태라 최종 확률로 쓰지 않고, 과도한 역배를 거르는 진단 관문으로만 쓴다.
+ * 기존 정배를 완전히 교체할 역배 전환 후보를 고른다. 구조 모델값은 선택 관문에만
+ * 쓰고, 표시하는 최종 확률은 선택된 역배의 시장확률을 유지한다.
  */
 export function qualifiedUnderdogSelections(selections) {
   const rows = (selections || []).filter(Boolean);
@@ -112,5 +112,31 @@ export function qualifiedUnderdogSelections(selections) {
     const gap = (modelProbabilityOf(b) - probabilityOf(b))
       - (modelProbabilityOf(a) - probabilityOf(a));
     return gap || probabilityOf(b) - probabilityOf(a) || oddsOf(a) - oddsOf(b);
+  });
+}
+
+/** 경기에서 화면·설명·오늘 조합이 함께 따라야 할 최종 선택 하나를 반환한다. */
+export function finalRecommendedSelection(selections) {
+  const reversal = qualifiedUnderdogSelections(selections)[0];
+  if (reversal) return reversal;
+  return [...eligibleAutoSelections(selections)].sort((a, b) =>
+    recommendationPriority(b) - recommendationPriority(a) ||
+    probabilityOf(b) - probabilityOf(a) ||
+    oddsOf(a) - oddsOf(b) ||
+    String(a?.selection_id || "").localeCompare(String(b?.selection_id || ""))
+  )[0] || null;
+}
+
+/** 완전히 교체된 최종 역배를 오늘 조합 후보로 전달할 때만 쓰는 명시적 표식이다. */
+export function eligibleFinalSelections(selections) {
+  return (selections || []).filter((selection) => {
+    if (selection?.final_reversal === true || selection?.["최종전환"] === true) {
+      const price = oddsOf(selection);
+      const probability = probabilityOf(selection);
+      return !EXCLUDED_MARKETS.has(String(selection.market || "").trim())
+        && Number.isFinite(price) && price >= UPSET_MIN_ODDS && price < UPSET_MAX_ODDS
+        && Number.isFinite(probability) && probability >= UPSET_MIN_MARKET_PROBABILITY;
+    }
+    return eligibleAutoSelections([selection]).includes(selection);
   });
 }

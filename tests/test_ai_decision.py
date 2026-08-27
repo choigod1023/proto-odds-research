@@ -79,7 +79,7 @@ def test_low_odds_market_reference_remains_as_fallback_without_primary():
     assert selected["선택근거"] == "shin_market_accuracy_low_odds_fallback"
 
 
-def test_moderate_underdog_is_annotated_without_becoming_main_pick():
+def test_moderate_underdog_replaces_previous_main_pick():
     game = _game()
     game["options"][1]["배당"] = 2.05
     game["options"][1]["모델확률"] = 0.55
@@ -90,7 +90,26 @@ def test_moderate_underdog_is_annotated_without_becoming_main_pick():
     assert game["options"][1]["이변후보"] is True
     assert game["options"][1]["이변점수"] == 0.21
     assert "검증 전 모델" in game["options"][1]["이변근거"]
-    assert selected["선택"] == "언더"
+    assert selected["선택"] == "패"
+    assert selected["추천우선순위"] == "reversal"
+    assert selected["최종전환"] is True
+
+
+def test_reversal_snapshot_keeps_market_probability_and_one_selection():
+    game = _game()
+    game["options"][1]["배당"] = 2.05
+    game["options"][1]["모델확률"] = 0.55
+
+    snapshot = build_decision_snapshot(
+        game, as_of="2026-08-27T09:00:00+09:00")
+
+    assert game["추천"] is game["options"][1]
+    assert snapshot["selection_id"] == game["options"][1]["selection_id"]
+    assert snapshot["gate_codes"] == ["qualified_market_reversal"]
+    assert snapshot["probability"]["market"] == 0.34
+    assert snapshot["probability"]["final"] == 0.34
+    assert snapshot["probability"]["ai_delta_applied"] == 0.0
+    assert snapshot["stages"]["structured_ai"]["status"] == "selection_gate"
 
 
 def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():
