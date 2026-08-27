@@ -11,6 +11,35 @@ export function selectionKey(selection, round = selection?.round) {
   return [round, gameNo, selection?.market, label, choice].map(clean).join("|");
 }
 
+/**
+ * 오늘 조합의 선택을 경기 카드에 붙이기 위한 단일 인덱스다.
+ * 별도 후보 화면이 같은 경기를 다시 해석하지 않고, 이미 정렬된 선택 키만 공유한다.
+ */
+export function buildTodayMemberships(today) {
+  const memberships = new Map();
+  const ensure = (selection) => {
+    if (!selection) return null;
+    const key = selectionKey(selection, selection?.round);
+    if (!memberships.has(key)) {
+      memberships.set(key, { selection, solo: false, targets: [] });
+    }
+    return memberships.get(key);
+  };
+
+  if (today?.solo) {
+    const membership = ensure(today.solo);
+    if (membership) membership.solo = true;
+  }
+  (today?.plans || []).filter((plan) => plan?.ok).forEach((plan) => {
+    (plan.picks || []).forEach((selection) => {
+      const membership = ensure(selection);
+      if (!membership || membership.targets.some((target) => Number(target) === Number(plan.target))) return;
+      membership.targets.push(plan.target);
+    });
+  });
+  return memberships;
+}
+
 const selectionGroupKey = (selection, round = selection?.round) => {
   const gameNo = selection?.game_no ?? selection?.["게임번호"];
   const label = selection?.market_label ?? selection?.label ?? "";
