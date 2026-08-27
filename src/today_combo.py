@@ -33,6 +33,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+import copy
 import itertools
 import json
 import math
@@ -42,6 +43,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from evolutionary_policy import live_snapshot, load_artifact
+from devig import MARKET_PROBABILITY_METHOD, market_probabilities
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     PREFERRED_RECOMMENDATION_ODDS,
@@ -55,6 +57,7 @@ TODAY = ROOT / "docs" / "data" / "today.json"
 GRADES = ROOT / "docs" / "data" / "loss_grades.json"
 COMBO = ROOT / "docs" / "data" / "combo.json"
 OUT = ROOT / "docs" / "data" / "today_combo.json"
+LIVE_ODDS = ROOT / "docs" / "data" / "live_odds.json"
 EVOLUTION_ARTIFACT = ROOT / "findings" / "evolutionary_selector.json"
 
 # combo.py 가 쓰는 것과 같은 경계
@@ -134,7 +137,38 @@ def kickoff_at(date_text: object, year: int, round_no: object = None) -> datetim
         return None
 
 
-def legs_today(now: datetime | None = None) -> list[dict]:
+def _live_prices() -> tuple[dict, str | None]:
+    """현재 배당 스냅샷을 읽는다. 깨진/없는 파일은 정적 today 값으로 복귀한다."""
+    try:
+        payload = json.loads(LIVE_ODDS.read_text(encoding="utf-8"))
+        return payload.get("odds") or {}, payload.get("generated_at")
+    except (OSError, json.JSONDecodeError, TypeError):
+        return {}, None
+
+
+def _reprice_game(game: dict, round_no: object, live: dict) -> tuple[dict, bool]:
+    fresh = (live.get(str(round_no)) or {}).get(str(game.get("game_no")))
+    selections = game.get("selections") or []
+    if not isinstance(fresh, list) or len(fresh) != len(selections):
+        return game, False
+    try:
+        odds = [float(value) for value in fresh]
+        if any(value <= 1.0 for value in odds):
+            return game, False
+        probabilities = market_probabilities(odds)
+    except (TypeError, ValueError, ArithmeticError):
+        return game, False
+    repriced = copy.deepcopy(game)
+    for selection, price, probability in zip(repriced["selections"], odds, probabilities):
+        selection["odds"] = round(price, 2)
+        selection["prob"] = round(probability, 6)
+    overround = sum(1.0 / price for price in odds)
+    repriced["overround"] = round(overround, 6)
+    repriced["payout"] = round(100.0 / overround, 2)
+    return repriced, True
+
+
+def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> list[dict]:
     """KST 오늘과, 오늘 후보 소진 시 쓸 다음 날 오전 선택지를 함께 준비한다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
@@ -152,9 +186,11 @@ def legs_today(now: datetime | None = None) -> list[dict]:
     else:
         now = now.astimezone(KST)
     source_year = int(d.get("year") or now.year)
+    live_prices = _live_prices()[0] if live_prices is None else live_prices
     out = []
     for rnd in d.get("rounds", []):
-        for g in rnd.get("games", []):
+        for original in rnd.get("games", []):
+            g, live_repriced = _reprice_game(original, rnd.get("round"), live_prices)
             # 검증되지 않은 마켓은 가격 정보로는 보여도 단폴·다폴 구매 후보가 아니다.
             if recommendation_exclusion_reason(g.get("market")):
                 continue
@@ -215,6 +251,7 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "recommendation_priority": (
                         "primary" if recommendation_priority(o) == 1 else "fallback"
                     ),
+                    "price_source": "live_odds" if live_repriced else "published_snapshot",
                 })
 
     # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
@@ -396,7 +433,8 @@ def daily_recommendation(plans: list[dict]) -> dict:
 
 
 def build() -> dict:
-    cands = legs_today()
+    live_prices, live_generated_at = _live_prices()
+    cands = legs_today(live_prices=live_prices)
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     combo = json.loads(COMBO.read_text(encoding="utf-8"))
     leg_history = {row["bin"]: row for row in combo["legs"]}
@@ -436,9 +474,11 @@ def build() -> dict:
     grades = json.loads(GRADES.read_text(encoding="utf-8"))
     today = json.loads(TODAY.read_text(encoding="utf-8"))
     return {
-        "generated_at": today.get("generated_at"),
+        "generated_at": datetime.now(KST).isoformat(timespec="seconds"),
+        "source_generated_at": today.get("generated_at"),
+        "live_odds_at": live_generated_at,
         "year": today.get("year"),
-        "probability_method": today.get("probability_method", "legacy"),
+        "probability_method": MARKET_PROBABILITY_METHOD,
         "basis": "각 시장의 최유력 중 배당 1.50 이상을 1순위로 쓴다. 해당 경기에서 "
                  "1순위 후보가 없으면 1.50 미만 최유력을 보조 추천으로 남긴다. "
                  "목표 조합은 1순위 후보만 사용하고 결합 적중확률을 먼저 최대화한다.",

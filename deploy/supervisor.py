@@ -46,6 +46,7 @@ LOOPERS = [
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
     ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "300"]),
+    ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py", "--loop", "300"]),
 ]
 
 # 하루 1회짜리 — FootyStats 는 연속 요청을 막으므로 자주 찍을 이유도 없다.
@@ -126,8 +127,8 @@ LIVE_PORT = 8080
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
-PUBLISH_EVERY = 3600       # 가벼운 산출물은 매시간
-HEAVY_EVERY_N = 6          # 무거운 단계는 6번에 한 번 (= 6시간)
+PUBLISH_EVERY = 1800       # 선발·최근 흐름을 반영한 전체 판정은 30분마다
+HEAVY_EVERY_N = 12         # 무거운 단계는 12번에 한 번 (= 6시간)
 
 
 def log(msg: str) -> None:
@@ -334,7 +335,7 @@ def _run_steps(steps: list) -> None:
 def run_publish() -> None:
     """산출물 갱신.
 
-    가벼운 단계는 매시간, 무거운 단계는 6번에 한 번만 낀다.
+    가벼운 단계는 30분마다, 무거운 단계는 12번에 한 번만 낀다.
     화면에서 자주 바뀌어야 하는 건 오늘의 픽·해설뿐이고 그 생성기들은
     발매 회차를 직접 긁으므로, 무거운 통계 재계산 없이도 새 값이 나온다.
 
@@ -393,6 +394,7 @@ def serve_live() -> None:
 
     live_path = REPO / "docs" / "data" / "live_scores.json"
     odds_path = REPO / "docs" / "data" / "live_odds.json"
+    recommendation_path = REPO / "docs" / "data" / "today_combo.json"
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
@@ -433,6 +435,7 @@ def serve_live() -> None:
             served = {
                 "/live_scores.json": live_path,
                 "/live_odds.json": odds_path,
+                "/today_combo.json": recommendation_path,
             }
             target = served.get(self.path.split("?")[0].rstrip("/"))
             if target is None:

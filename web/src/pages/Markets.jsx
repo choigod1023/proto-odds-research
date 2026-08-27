@@ -26,6 +26,7 @@ const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
 // 낡는다 — 2026-08-13 실측 231건 중 73건(32%)이 원천과 달랐다. 5분마다 갱신되는
 // 이 파일로 덮어쓴다.
 const ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
+const RECOMMENDATION_URL = "https://proto-odds-collector.fly.dev/today_combo.json";
 
 /** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
 function usePoll(url, ms) {
@@ -72,6 +73,7 @@ export default function Markets() {
   }, 300000);   // 5분
   const { d, grades, combo, today } = data;
   const liveOdds = useLiveOdds();
+  const liveToday = usePoll(RECOMMENDATION_URL, 120000);
   const liveFeed = useLive();
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
@@ -98,7 +100,7 @@ export default function Markets() {
     <Shell meta={metaLine(d, at)}>
       <AiMethodology />
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={today} combo={combo} /></section>
+        stale={stale} today={liveToday || today} combo={combo} /></section>
       <section id="evidence"><Evidence grades={grades}
         tally={synchronized.tally_status === "prediction_ledger_verified" ? synchronized.tally : null} /></section>
     </Shell>
@@ -211,6 +213,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
   const bl = (combo?.baseline || []).find((row) => row.legs === 2);
   const bestBin = (grades?.odds_bins || []).find((row) => row.grade === "A");
   const periodLabel = activeToday?.window === "next_morning" ? "다음 날 오전" : "오늘";
+  const revision = activeToday?.last_recommendation_change;
 
   if (!plans.length && !solo) {
     return (
@@ -236,6 +239,12 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
         <div className="text-right text-[10.5px] leading-5 text-ink3">
           기본 1순위 1.50 이상 · 미만은 보조 추천<br />역배 전환 시 기존 픽 교체 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
         </div>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-rule2 py-2 text-[10.5px] text-ink3" aria-live="polite">
+        <b className="text-ink">경기 전 자동 재계산</b>
+        <span>배당 5분 · 선발과 최근 흐름 30분 주기</span>
+        <span>마지막 계산 {kstStamp(activeToday.refreshed_at || activeToday.generated_at)} KST</span>
+        {revision?.changed_at && <span className="text-sev3">추천 변경 {kstStamp(revision.changed_at)} KST · {revision.reason === "live_market_pick_changed" ? "배당 변화로 최종 픽 변경" : revision.reason === "recommendation_status_changed" ? "추천 상태 변경" : "첫 추천 확정"}</span>}
       </div>
       <div className={`mt-3 rounded border px-3 py-2 text-[11.5px] leading-[1.65] ${
         recommendation.action === "buy"
