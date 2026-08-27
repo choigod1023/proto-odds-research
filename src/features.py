@@ -86,9 +86,7 @@ def build_features(m: pd.DataFrame) -> pd.DataFrame:
         # 시간키 없는 같은 날짜 경기는 입력 순서가 정보가 되지 않도록 정렬한다.
         for r, kh, ka, pair, elo_diff, d in sorted(
                 pending,
-                key=lambda item: (pd.Timestamp(
-                                      getattr(item[0], "kickoff", item[0].date)),
-                                  str(item[0].league), str(item[0].home_team),
+                key=lambda item: (str(item[0].league), str(item[0].home_team),
                                   str(item[0].away_team), int(item[0].home_score),
                                   int(item[0].away_score))):
             hs, as_ = int(r.home_score), int(r.away_score)
@@ -133,7 +131,7 @@ def build_features(m: pd.DataFrame) -> pd.DataFrame:
     for r in m.itertuples():
         lg, ht, at, sp = r.league, r.home_team, r.away_team, r.sport
         kh, ka = (lg, ht), (lg, at)
-        game_datetime = pd.Timestamp(getattr(r, "kickoff", r.date))
+        game_datetime = pd.Timestamp(r.date)
         d = game_datetime.normalize()
         season = season_key(lg, game_datetime)
         if current_date is not None and d != current_date:
@@ -177,8 +175,7 @@ def build_features(m: pd.DataFrame) -> pd.DataFrame:
         ha = (h2h_w[(pair, at)] / h2h_n[pair]) if h2h_n[pair] >= 3 else None
 
         rows.append({
-            "date": game_datetime.normalize(), "kickoff": game_datetime,
-            "year": r.year, "league": lg, "sport": sp,
+            "date": game_datetime, "year": r.year, "league": lg, "sport": sp,
             "home_team": ht, "away_team": at, "outcome": r.outcome,
             "elo_diff": elo_diff,
             "form_diff": (fh - fa) if None not in (fh, fa) else np.nan,

@@ -1,21 +1,21 @@
-import { eligibleAutoSelections, recommendationPriority } from "./recommendation-policy.js";
-import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
+import { eligibleAutoSelections } from "./recommendation-policy.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
-const NEXT_MORNING_END_HOUR = 12;
 const DATE_TIME = /(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/;
 export const MAX_TODAY_RECHECK_MS = 30 * 60 * 1000;
 export const SAFE_TARGET_BINS = {
-  3: ["1.5-1.8", "1.5-1.8"],
+  1.4: ["1.0-1.3", "1.0-1.3"],
+  2: ["1.0-1.3", "1.5-1.8"],
+  3: ["1.3-1.5", "1.8-2.2"],
   5: ["1.5-1.8", "1.5-1.8", "1.5-1.8"],
   8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
   12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 };
 
-export const DAILY_CHALLENGE_MIN_ROI = -0.205;
-export const DAILY_CHALLENGE_MIN_HIT = { 3: 0.27 };
-export const DAILY_CHALLENGE_MAX_TARGET = 3;
+export const DAILY_CHALLENGE_MIN_ROI = -0.20;
+export const DAILY_CHALLENGE_MIN_HIT = { 1.4: 0.55, 2: 0.40 };
+export const DAILY_CHALLENGE_MAX_TARGET = 2;
 export const DAILY_CHALLENGE_ROI_TOLERANCE = 0.03;
 export const DAILY_CHALLENGE_BUDGET_RATIO = 0.10;
 
@@ -27,9 +27,7 @@ export function kickoffTime(candidate, year) {
   if (!match) return Number.NaN;
   const [, month, day, hour, minute] = match.map(Number);
   const sourceYear = Number(year) || new Date().getUTCFullYear();
-  const gameYear = Number(candidate?.round) === 1 && month === 12
-    ? sourceYear - 1 : sourceYear;
-  return Date.UTC(gameYear, month - 1, day, hour, minute) - KST_OFFSET_MS;
+  return Date.UTC(sourceYear, month - 1, day, hour, minute) - KST_OFFSET_MS;
 }
 
 const eventKey = (candidate, year) =>
@@ -45,21 +43,20 @@ function byNextKickoff(a, b, year) {
 }
 
 function byLegQuality(a, b, year) {
-  const priorityOrder = recommendationPriority(b) - recommendationPriority(a);
   const aCalibrated = calibratedLegProbability(a);
   const bCalibrated = calibratedLegProbability(b);
   const aOdds = Number(a?.odds || 0);
   const bOdds = Number(b?.odds || 0);
-  const conservativeOrder = (bCalibrated.lower ?? 0) - (aCalibrated.lower ?? 0);
-  const calibratedOrder = (bCalibrated.estimate ?? 0) - (aCalibrated.estimate ?? 0);
+  const conservativeOrder = (bCalibrated.lower ?? 0) * bOdds -
+    (aCalibrated.lower ?? 0) * aOdds;
+  const calibratedOrder = (bCalibrated.estimate ?? 0) * bOdds -
+    (aCalibrated.estimate ?? 0) * aOdds;
   const aProbability = Number(a?.market_prob);
   const bProbability = Number(b?.market_prob);
   const probabilityOrder =
     (Number.isFinite(bProbability) ? bProbability : 0) -
     (Number.isFinite(aProbability) ? aProbability : 0);
-  const returnOrder = (bCalibrated.lower ?? 0) * bOdds -
-    (aCalibrated.lower ?? 0) * aOdds;
-  return priorityOrder || conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
+  return conservativeOrder || calibratedOrder || probabilityOrder ||
     Number(a.overround || 99) - Number(b.overround || 99) ||
     byNextKickoff(a, b, year);
 }
@@ -92,7 +89,20 @@ const validProbability = (value) => {
 
 export function calibratedLegProbability(candidate) {
   const market = validProbability(candidate?.market_prob);
-  return { estimate: market, lower: market, n: null };
+  const odds = Number(candidate?.odds);
+  const roi = Number(candidate?.hist_roi);
+  const n = Number(candidate?.hist_n);
+  if (!(odds > 1) || !Number.isFinite(roi) || roi <= -0.99 || roi >= 5) {
+    return { estimate: market, lower: market, n: null };
+  }
+  const estimate = Math.min(0.999, Math.max(0.001, (1 + roi) / odds));
+  if (!Number.isFinite(n) || n < 30) return { estimate, lower: estimate, n: null };
+  const z = 1.645;
+  const z2 = z * z;
+  const denominator = 1 + z2 / n;
+  const center = (estimate + z2 / (2 * n)) / denominator;
+  const margin = z * Math.sqrt(estimate * (1 - estimate) / n + z2 / (4 * n * n)) / denominator;
+  return { estimate, lower: Math.max(0.001, center - margin), n };
 }
 
 export function pickNextLegs(candidates, bins, year, target = null) {
@@ -110,8 +120,8 @@ export function pickNextLegs(candidates, bins, year, target = null) {
       const closeness = target ? -Math.abs(Math.log(actualOdds / Number(target))) : 0;
       const metrics = ticketMetrics(picks);
       const score = [
-        metrics.calibrated_hit_est ?? 0,
         metrics.conservative_expected_roi ?? Number.NEGATIVE_INFINITY,
+        metrics.calibrated_hit_est ?? 0,
         hitEstimate,
         payout,
         closeness,
@@ -151,7 +161,7 @@ export function ticketMetrics(picks) {
   const samples = calibrated.map(({ n }) => n).filter((n) => Number.isFinite(n) && n > 0);
   const result = {
     actual_odds: Number(actualOdds.toFixed(2)),
-    probability_basis: "Shin 시장확률 · 검증된 잔차 계수 0",
+    probability_basis: "배당구간 실측 ROI 보정확률 · 95% Wilson 단측 하한",
   };
   if (marketHit != null) {
     result.hit_est = Number(marketHit.toFixed(5));
@@ -167,8 +177,6 @@ export function ticketMetrics(picks) {
     result.conservative_expected_roi = Number((conservativeHit * actualOdds - 1).toFixed(4));
   }
   result.calibration_min_n = samples.length ? Math.min(...samples) : null;
-  result.has_validated_edge = false;
-  result.probability_source = "shin_market";
   return result;
 }
 
@@ -184,28 +192,19 @@ function kellyGrowth(plan) {
     (1 - probability) * Math.log1p(-fraction);
 }
 
-function metricNumber(plan, key, fallback) {
-  const raw = plan?.[key];
-  if (raw == null || raw === "") return fallback;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : fallback;
-}
-
 export function recommendationFromPlans(plans) {
   const available = (plans || []).filter((plan) => plan?.ok);
   if (!available.length) return { action: "none", target: null, index: -1,
-    why: "현재 선택 가능한 경기로 구성할 조합이 없다" };
-  const positive = available.filter((plan) => plan.has_validated_edge === true &&
-    metricNumber(plan, "conservative_expected_roi", -99) > 0);
+    why: "오늘 23:59 KST까지 구성 가능한 조합이 없다" };
+  const positive = available.filter((plan) => Number(plan.conservative_expected_roi) > 0);
   const challenge = available.filter((plan) =>
-    metricNumber(plan, "target", 99) <= DAILY_CHALLENGE_MAX_TARGET &&
-    metricNumber(plan, "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
-    metricNumber(plan, "calibrated_hit_est", 0) >=
-      (DAILY_CHALLENGE_MIN_HIT[metricNumber(plan, "target", 99)] ?? Number.POSITIVE_INFINITY));
+    Number(plan.target) <= DAILY_CHALLENGE_MAX_TARGET &&
+    Number(plan.conservative_expected_roi) >= DAILY_CHALLENGE_MIN_ROI &&
+    Number(plan.calibrated_hit_est) >=
+      (DAILY_CHALLENGE_MIN_HIT[Number(plan.target)] ?? Number.POSITIVE_INFINITY));
   const byRiskAdjustedQuality = (a, b) =>
-    metricNumber(b, "conservative_expected_roi", -99) -
-      metricNumber(a, "conservative_expected_roi", -99) ||
-    metricNumber(b, "calibrated_hit_est", 0) - metricNumber(a, "calibrated_hit_est", 0);
+    Number(b.conservative_expected_roi ?? -99) - Number(a.conservative_expected_roi ?? -99) ||
+    Number(b.calibrated_hit_est ?? 0) - Number(a.calibrated_hit_est ?? 0);
 
   let action;
   let best;
@@ -214,18 +213,16 @@ export function recommendationFromPlans(plans) {
     action = "buy";
     best = [...positive].sort((a, b) =>
       kellyGrowth(b) - kellyGrowth(a) || byRiskAdjustedQuality(a, b))[0];
-    why = "사전 검증된 독립 확률모델의 기대수익이 양수다";
+    why = "95% 보수 하한에서도 기대수익이 양수다";
   } else if (challenge.length) {
     action = "challenge";
     const bestChallengeRoi = Math.max(...challenge.map((plan) =>
-      metricNumber(plan, "conservative_expected_roi", -99)));
+      Number(plan.conservative_expected_roi)));
     const balanced = challenge.filter((plan) =>
-      metricNumber(plan, "conservative_expected_roi", -99) >=
-        bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
+      Number(plan.conservative_expected_roi) >= bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
     best = [...balanced].sort((a, b) =>
-      metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
-        byRiskAdjustedQuality(a, b))[0];
-    why = "1순위인 각 경기 1.50배 이상 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다";
+      Number(b.target) - Number(a.target) || byRiskAdjustedQuality(a, b))[0];
+    why = "2배 이하 균형 조합이 보수 기대 −20% 이내·목표별 적중 하한·3%p 품질차를 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
@@ -320,26 +317,13 @@ function legacyCandidates(today) {
 const kstDay = (time) => Math.floor((time + KST_OFFSET_MS) / DAY_MS);
 const nextKstMidnight = (now) => (kstDay(now) + 1) * DAY_MS - KST_OFFSET_MS;
 
-function futureCandidatesInWindow(today, now) {
-  if (!today) return { candidates: [], window: "today" };
+function futureTodayCandidates(today, now) {
+  if (!today) return [];
   const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
-  const future = eligibleAutoSelections(source).filter((candidate) => {
+  return eligibleAutoSelections(source).filter((candidate) => {
     const kickoff = kickoffTime(candidate, today.year);
-    return Number.isFinite(kickoff) && kickoff > now;
+    return Number.isFinite(kickoff) && kickoff > now && kstDay(kickoff) === kstDay(now);
   });
-  const currentDay = kstDay(now);
-  const todayCandidates = future.filter((candidate) =>
-    kstDay(kickoffTime(candidate, today.year)) === currentDay);
-  if (todayCandidates.length) return { candidates: todayCandidates, window: "today" };
-  const morningEnd = (currentDay + 1) * DAY_MS - KST_OFFSET_MS
-    + NEXT_MORNING_END_HOUR * 60 * 60 * 1000;
-  return {
-    candidates: future.filter((candidate) => {
-      const kickoff = kickoffTime(candidate, today.year);
-      return kstDay(kickoff) === currentDay + 1 && kickoff < morningEnd;
-    }),
-    window: "next_morning",
-  };
 }
 
 /**
@@ -354,7 +338,7 @@ export function nextTodayRefreshDelay(
   const waitLimit = Number.isFinite(maxWait) && maxWait > 0
     ? maxWait : MAX_TODAY_RECHECK_MS;
   if (!today) return waitLimit;
-  const nextKickoff = futureCandidatesInWindow(today, now).candidates
+  const nextKickoff = futureTodayCandidates(today, now)
     .map((candidate) => kickoffTime(candidate, today.year))
     .sort((a, b) => a - b)[0];
   const wakeAt = Number.isFinite(nextKickoff) ? nextKickoff : nextKstMidnight(now);
@@ -364,8 +348,7 @@ export function nextTodayRefreshDelay(
 
 export function availableToday(today, now = Date.now()) {
   if (!today) return { plans: [], solo: null, candidates: [], next: null };
-  const activeWindow = futureCandidatesInWindow(today, now);
-  const candidates = activeWindow.candidates
+  const candidates = futureTodayCandidates(today, now)
     .sort((a, b) => byNextKickoff(a, b, today.year));
 
   const plans = (today.plans || []).map((plan) => {
@@ -374,7 +357,7 @@ export function availableToday(today, now = Date.now()) {
     const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
       return { ...plan, ok: false,
-        why: "1순위인 시장 최유력·1.50 이상·2.20 미만 시작 전 경기만으로 조합할 수 없다" };
+        why: "시장 최유력·2.20 미만인 시작 전 경기만으로 조합할 수 없다" };
     }
     return {
       ...plan,
@@ -385,7 +368,8 @@ export function availableToday(today, now = Date.now()) {
     };
   });
 
-  const solo = [...candidates]
+  const solo = candidates
+    .filter((candidate) => candidate.bin === "1.0-1.3")
     .sort((a, b) => byLegQuality(a, b, today.year))[0] || null;
   const measuredSolo = solo ? { ...solo, ...ticketMetrics([solo]) } : null;
 
@@ -395,8 +379,6 @@ export function availableToday(today, now = Date.now()) {
     solo: measuredSolo,
     recommendation: recommendationFromPlans(plans),
     candidates,
-    window: activeWindow.window,
     next: candidates[0] || null,
-    evolutionary_selector: refreshEvolutionarySelector(today.evolutionary_selector, candidates),
   };
 }

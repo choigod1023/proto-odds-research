@@ -64,13 +64,13 @@ def attach_odds(df: pd.DataFrame, games_path: Path | None = None) -> pd.DataFram
     raw = raw.dropna(subset=["home_team", "away_team", "_mm", "_dd", "_hh", "_minute",
                              "o_home", "o_away"])
     game_year = actual_game_year(raw["year"], raw["round"], raw["_mm"])
-    raw["kickoff"] = pd.to_datetime(dict(year=game_year,
-                                         month=raw["_mm"].astype(int),
-                                         day=raw["_dd"].astype(int),
-                                         hour=raw["_hh"].astype(int),
-                                         minute=raw["_minute"].astype(int)), errors="coerce")
-    key = ["league", "home_team", "away_team", "kickoff"]
-    raw = raw.dropna(subset=["kickoff"])
+    raw["date"] = pd.to_datetime(dict(year=game_year,
+                                      month=raw["_mm"].astype(int),
+                                      day=raw["_dd"].astype(int),
+                                      hour=raw["_hh"].astype(int),
+                                      minute=raw["_minute"].astype(int)), errors="coerce")
+    key = ["league", "home_team", "away_team", "date"]
+    raw = raw.dropna(subset=["date"])
     # 같은 실제 경기의 재발매 가격이 다르면 어느 시점 가격인지 알 수 없으므로 제외한다.
     variants = raw.groupby(key)[["o_home", "o_away"]].nunique()
     bad = variants.index[variants.max(axis=1) > 1]
@@ -90,9 +90,8 @@ def main() -> int:
     pi_ratings.GAMMA = PI_GAMMA
     pi = pi_ratings.run_pi(m)
     df = build_features(m)
-    df = df.merge(pi[["kickoff", "league", "home_team", "away_team", "pi_diff"]],
-                  on=["kickoff", "league", "home_team", "away_team"], how="inner",
-                  validate="one_to_one")
+    df = df.merge(pi[["date", "league", "home_team", "away_team", "pi_diff"]],
+                  on=["date", "league", "home_team", "away_team"], how="inner")
     df = attach_odds(df)
     df = df[df["outcome"] != 0.5]
     print(f"배당 결합 경기 {len(df):,}건\n")

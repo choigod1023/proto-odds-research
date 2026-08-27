@@ -34,7 +34,6 @@ from tempfile import TemporaryDirectory
 from zoneinfo import ZoneInfo
 
 import requests
-from availability import enrich_availability
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from court_info import (COURT_SPORTS, collect as collect_court_info,
@@ -419,8 +418,6 @@ def _mlb_injuries(session: requests.Session, team_ids: set[int]) -> dict[str, li
                     "name": (row.get("person") or {}).get("fullName"),
                     "status": _injury_label(status.get("description")),
                     "position": (row.get("position") or {}).get("abbreviation"),
-                    "reason_code": "injury", "availability_status": "out",
-                    "source_type": "official_roster",
                 })
             out[str(team_id)] = injured
         except requests.RequestException:
@@ -472,7 +469,6 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
         teams = game["teams"]
         rec = {
             "league": "MLB", "game_id": str(game.get("gamePk")),
-            "sport": "bs",
             "game_datetime": datetime.fromisoformat(game["gameDate"].replace("Z", "+00:00")).astimezone(KST).isoformat(),
             "home_team": MLB_TEAM_KO.get(int(teams["home"]["team"]["id"]), teams["home"]["team"].get("name")),
             "away_team": MLB_TEAM_KO.get(int(teams["away"]["team"]["id"]), teams["away"]["team"].get("name")),
@@ -639,7 +635,7 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str,
         "coverage": rec.get("coverage") or {}, "sport": rec.get("sport"),
         "game_id": rec.get("game_id"), "game_datetime": rec.get("game_datetime"),
     }
-    return enrich_availability(payload)
+    return payload
 
 
 def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:

@@ -1,6 +1,5 @@
 import { gradeOf } from "./fmt.js";
 import { eligibleAutoSelections } from "./recommendation-policy.js";
-import { resolveDecisionOption } from "./decision-view-model.js";
 
 const clean = (value) => String(value ?? "").trim();
 const selectionRound = (selection, fallbackRound) => selection?.round ?? fallbackRound;
@@ -12,35 +11,6 @@ export function selectionKey(selection, round = selection?.round) {
   return [round, gameNo, selection?.market, label, choice].map(clean).join("|");
 }
 
-/**
- * 오늘 조합의 선택을 경기 카드에 붙이기 위한 단일 인덱스다.
- * 별도 후보 화면이 같은 경기를 다시 해석하지 않고, 이미 정렬된 선택 키만 공유한다.
- */
-export function buildTodayMemberships(today) {
-  const memberships = new Map();
-  const ensure = (selection) => {
-    if (!selection) return null;
-    const key = selectionKey(selection, selection?.round);
-    if (!memberships.has(key)) {
-      memberships.set(key, { selection, solo: false, targets: [] });
-    }
-    return memberships.get(key);
-  };
-
-  if (today?.solo) {
-    const membership = ensure(today.solo);
-    if (membership) membership.solo = true;
-  }
-  (today?.plans || []).filter((plan) => plan?.ok).forEach((plan) => {
-    (plan.picks || []).forEach((selection) => {
-      const membership = ensure(selection);
-      if (!membership || membership.targets.some((target) => Number(target) === Number(plan.target))) return;
-      membership.targets.push(plan.target);
-    });
-  });
-  return memberships;
-}
-
 const selectionGroupKey = (selection, round = selection?.round) => {
   const gameNo = selection?.game_no ?? selection?.["게임번호"];
   const label = selection?.market_label ?? selection?.label ?? "";
@@ -49,8 +19,11 @@ const selectionGroupKey = (selection, round = selection?.round) => {
 
 /** 생성 단계에서 하나로 확정한 추천을 현재(실시간 배당 반영) 선택지에 다시 연결한다. */
 export function canonicalOption(game, options = game?.options || []) {
-  if (game?._liveOddsChanged || game?._liveStarted) return null;
-  const current = resolveDecisionOption(game, options);
+  const source = game?.["추천"];
+  if (!source) return null;
+  const wanted = selectionKey(source, selectionRound(source, game?.round));
+  const current = (options || []).find((option) =>
+    selectionKey(option, selectionRound(option, game?.round)) === wanted);
   if (!current) return null;
   return eligibleAutoSelections(options).includes(current) ? current : null;
 }
@@ -59,61 +32,25 @@ export function canonicalPick(game, options, grades) {
   const option = canonicalOption(game, options);
   if (!option) return null;
   const grade = gradeOf(grades, option["배당"]);
-  return {
-    o: option, g: grade, tie: false,
-    policy: game?.decision_snapshot ? "market-anchored" : "market-fallback",
-  };
+  return { o: option, g: grade, tie: false, policy: "prediction-calibrated" };
 }
 
-/** 오늘 후보도 경기 카드의 v2 판정과 정확히 같은 선택만 남긴다. */
+/** 경기 카드 추천을 우선하되, 추천이 없는 경기는 안전한 시장 최유력으로 보완한다. */
 export function alignTodayRecommendations(today, games = []) {
   if (!today) return today;
   const inputCandidates = today.candidates || [];
   const canonical = new Map((games || []).flatMap((game) => {
     const option = canonicalOption(game, game?.options || []);
-    return option ? [[selectionGroupKey(option, game.round), {
-      key: selectionKey(option, game.round),
-      basis: game?.decision_snapshot ? "game-decision" : "market-fallback",
-      option,
-      game,
-    }]] : [];
+    const round = selectionRound(option, game.round);
+    return option ? [[selectionGroupKey(option, round), selectionKey(option, round)]] : [];
   }));
-  const candidateGroups = new Map();
-  inputCandidates.forEach((candidate) => {
-    const key = selectionGroupKey(candidate, candidate?.round);
-    if (!candidateGroups.has(key)) candidateGroups.set(key, candidate);
-  });
-  const grades = { odds_bins: today.odds_bins || [] };
-  const repriced = [...candidateGroups.entries()].flatMap(([groupKey, candidate]) => {
-    const wanted = canonical.get(groupKey);
-    if (!wanted) return [];
-    const option = wanted.option;
-    const currentOdds = Number(option?.["배당"]);
-    const currentProbability = Number(option?.["시장확률"]);
-    const grade = gradeOf(grades, currentOdds);
-    const overround = Number(option?._liveOverround ?? candidate.overround);
-    return [{
-      ...candidate,
-      round: wanted.game.round,
-      game_no: String(option?.["게임번호"] ?? candidate.game_no),
-      market: option?.market,
-      market_label: option?.label || "",
-      sel: option?.["선택"],
-      odds: currentOdds,
-      bin: grade?.bin || candidate.bin,
-      market_prob: currentProbability,
-      overround: Number.isFinite(overround) ? overround : candidate.overround,
-      payout: Number.isFinite(overround) && overround > 0
-        ? Number((100 / overround).toFixed(2)) : candidate.payout,
-      hist_roi: grade?.roi ?? candidate.hist_roi,
-      hist_n: grade?.n ?? candidate.hist_n,
-      is_market_favorite: true,
-      recommendation_basis: wanted.basis,
-    }];
-  });
-  const candidates = eligibleAutoSelections(repriced).filter((candidate) => {
+  const candidates = eligibleAutoSelections(inputCandidates).map((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
-    return wanted?.key === selectionKey(candidate, candidate?.round);
+    return {
+      ...candidate,
+      recommendation_basis: wanted === selectionKey(candidate, candidate?.round)
+        ? "game-model" : "market-favorite-fallback",
+    };
   });
   const allowed = new Set(candidates.map((candidate) => selectionKey(candidate, candidate?.round)));
   const keep = (candidate) => allowed.has(selectionKey(candidate, candidate?.round));
@@ -123,10 +60,7 @@ export function alignTodayRecommendations(today, games = []) {
   }));
   const solo = today.solo && keep(today.solo) ? today.solo : null;
   const gameModelCandidates = candidates.filter(
-    (candidate) => candidate.recommendation_basis === "game-decision",
-  ).length;
-  const marketFallbackCandidates = candidates.filter(
-    (candidate) => candidate.recommendation_basis === "market-fallback",
+    (candidate) => candidate.recommendation_basis === "game-model",
   ).length;
   return {
     ...today,
@@ -137,7 +71,7 @@ export function alignTodayRecommendations(today, games = []) {
       input_candidates: inputCandidates.length,
       safe_candidates: candidates.length,
       game_model_candidates: gameModelCandidates,
-      market_fallback_candidates: marketFallbackCandidates,
+      market_fallback_candidates: candidates.length - gameModelCandidates,
       dropped_by_safety: inputCandidates.length - candidates.length,
     },
   };

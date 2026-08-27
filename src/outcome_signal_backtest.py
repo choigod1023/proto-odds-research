@@ -22,7 +22,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from devig import market_probabilities
+from matches import actual_game_year
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -65,7 +65,8 @@ def parse_odds(value: object, n_way: int) -> np.ndarray | None:
 
 
 def devig(odds: np.ndarray) -> np.ndarray:
-    return np.asarray(market_probabilities(odds.tolist()), dtype=float)
+    inv = 1.0 / odds
+    return inv / inv.sum()
 
 
 def load_snapshots() -> tuple[pd.DataFrame, dict]:

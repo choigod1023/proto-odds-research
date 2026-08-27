@@ -56,7 +56,6 @@ CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "commentary.json"
 BUDGET_PATH = ROOT / "data" / "raw" / "llm_cache" / "budget.json"
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
-PROMPT_VERSION = "2026-08-26-editorial-2"
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models"
 TIMEOUT = 25
 MAX_CALLS = int(os.environ.get("LLM_MAX_CALLS", "120"))
@@ -114,10 +113,6 @@ SYSTEM = """너는 스포츠 프리뷰 문장을 다듬는 편집자다. 기자�
 - "쏠림 의심"을 실제 쏠림이나 투표량이 확인된 것처럼 고치지 마라.
 
 고칠 것:
-- 첫 문장에는 원문의 결론만 짧게 남기고, 이어서 경기력 근거와 선수 변수를 배치하라.
-- 원문에 결론과 어긋나는 신호나 조건부 표현이 있으면 마지막에 반드시 보존하라.
-- 선수는 원문에 등장한 경우에만 쓰고, 선발투수라는 이유만으로 다른 선수보다 중요하다고
-  단정하지 마라. 타격·공격·수비 기여가 적혀 있다면 그 역할을 그대로 살려라.
 - 같은 구조가 반복되면 문장을 합치거나 순서를 바꿔라.
 - 숫자가 연달아 나오면 흐름을 먼저 말하고 숫자를 뒤로 보내라.
 - "~이다" 가 계속되면 어미를 섞어라. 딱딱한 보고서 말투를 없애라.
@@ -147,7 +142,7 @@ def _save(cache: dict) -> None:
 
 def _key(text: str) -> str:
     """템플릿 문장 + 모델이 키다. 문장이 같으면 다시 부를 이유가 없다."""
-    return hashlib.sha256(f"{MODEL}\n{PROMPT_VERSION}\n{text}".encode()).hexdigest()[:24]
+    return hashlib.sha256(f"{MODEL}\n{text}".encode()).hexdigest()[:24]
 
 
 _NUM = re.compile(r"\d+(?:\.\d+)?")
@@ -178,7 +173,7 @@ def _call(text: str, api_key: str) -> str | None:
     body = {
         "systemInstruction": {"parts": [{"text": SYSTEM}]},
         "contents": [{"role": "user", "parts": [{"text": text}]}],
-        "generationConfig": {"temperature": 0.35, "maxOutputTokens": 700},
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 700},
     }
     r = requests.post(url, json=body, timeout=TIMEOUT)
     if r.status_code != 200:

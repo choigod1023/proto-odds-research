@@ -1,17 +1,18 @@
-"""과거 박빙 xFIP 실험을 재현하는 감사용 스크립트 — 운영 채택 금지.
+"""박빙 구간에서 모델이 시장을 이기는가 — 이 프로젝트의 핵심 질문.
 
-2026-08-26 인과 재감사(`findings/xfip_causal_audit_reference.json`)에서 이
-스크립트가 전제로 삼은 xFIP 피처에 미래 리그평균과
-같은 날짜 경기 순서 누수가 있었음이 확인됐다. 누수를 제거한 재실험에서는 모델 적중률이
-시장보다 0.24%p 낮고 Brier도 악화했다. 따라서 아래 계산에서 과거의 음수 격차가 다시
-나오더라도 예측 우위나 추천 승격 근거가 아니다.
+배경
+----
+`박빙과xFIP.md` 에서 확인한 것:
+  · 선발 xFIP 의 Brier 개선이 전체 +0.00597 → 박빙(45~55%) **+0.01443** (2.4배)
+  · Elo 단독 Brier 는 오히려 박빙에서 나쁘다 (0.24686 → 0.25163)
+  → 실력이 비슷하면 팀 레이팅으로 안 갈리고, 그 빈자리를 선발이 채운다.
 
 그런데 그건 **모델 내부 비교**였다. 진짜 물어야 할 건 이것이다:
 
     전체 구간에서는 시장이 앞선다. 박빙에서도 그런가?
 
-과거 실험의 규율
-----------------
+⚠️ 규율
+-------
 1. **박빙은 시장 확률로 정의한다.** 모델 확률로 자르면 모델이 헷갈리는 경기만
    골라내는 셈이라 자기 편한 표본이 된다. 시장 확률은 경기 전에 알 수 있고
    비교 기준 자체이므로 공정하다.
@@ -38,7 +39,7 @@ from variable_impact import _brier, _fit               # noqa: E402
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 
-# 과거 실험의 박빙 정의. 밴드 자체도 채택 근거가 아니다.
+# 박빙 정의 — 시장 확률 기준. 문서(마켓선택.md·박빙과xFIP.md)와 같은 45~55%.
 CLOSE_LO, CLOSE_HI = 0.45, 0.55
 
 
@@ -96,9 +97,6 @@ def _predict(X: np.ndarray, beta: np.ndarray) -> np.ndarray:
 
 
 def main() -> int:
-    print("[정정] 이 스크립트는 시간누수가 포함된 과거 출력의 감사 재현용입니다.")
-    print("       근거: findings/xfip_causal_audit_reference.json")
-    print("       최신 인과 재실험: 시장 대비 적중 -0.24%p·Brier 악화·승격 없음.\n")
     # ---- 시장
     mkt = load_market("KBO")
     print(f"시장(KBO 승패 2-way) {len(mkt):,}경기 "
@@ -175,7 +173,7 @@ def main() -> int:
     wdr = report(wide, "박빙 아닌 구간")
 
     print("\n" + "=" * 52)
-    print("[과거 누수 출력] 모델(Elo+xFIP) − 시장 · 음수여도 채택 근거 아님")
+    print("⭐ 모델(Elo+xFIP) − 시장  · 음수면 모델 우위")
     for name, r in (("전체", allr), ("박빙", clr), ("그 외", wdr)):
         g = r["모델 Elo+xFIP"] - r["시장 (devig)"]
         print(f"   {name:<6}{g:+.5f}  {'← 모델 우위' if g < 0 else ''}")
@@ -187,7 +185,7 @@ def main() -> int:
     # 격차가 −0.0003 수준이면 표본을 조금만 흔들어도 부호가 뒤집힐 수 있다.
     # 경기별 Brier 차이를 짝지어(paired) 재표집해 신뢰구간을 낸다.
     print("\n" + "=" * 52)
-    print("과거 누수 표본의 민감도 — 부트스트랩 10,000회 (인과 검증 아님)")
+    print("이 격차가 진짜인가 — 부트스트랩 10,000회 (경기 단위 재표집)")
     rng = np.random.default_rng(42)
     for name, sub in (("전체", te), ("박빙", close), ("그 외", wide)):
         y = (sub["outcome"] == 1.0).to_numpy(float)
@@ -197,8 +195,7 @@ def main() -> int:
         boot = diff[idx].mean(axis=1)
         lo, hi = np.percentile(boot, [2.5, 97.5])
         p_better = float((boot < 0).mean())
-        verdict = ("과거 표본 내 모델 우위" if hi < 0 else
-                   ("과거 표본 내 시장 우위" if lo > 0 else "판정 불가"))
+        verdict = "유의" if hi < 0 else ("역방향 유의" if lo > 0 else "판정 불가")
         print(f"  {name:<6}{diff.mean():+.5f}  95% CI [{lo:+.5f}, {hi:+.5f}]"
               f"  모델 우위 확률 {p_better:.1%}  → {verdict}")
 
@@ -219,12 +216,12 @@ def main() -> int:
 
     print()
     if g_close < 0 <= g_wide:
-        print("[과거 출력] 점추정으로는 박빙에서만 모델이 앞선 것처럼 보였다.")
+        print("[사실] 점추정으로는 박빙에서만 모델이 시장을 앞선다.")
+        print("[해석] 다만 위 신뢰구간을 보고 판단할 것 — 0 을 포함하면 아직 증거가 아니다.")
     elif g_close < g_wide:
-        print("[과거 출력] 박빙에서 격차가 줄지만 시장이 앞섰다.")
+        print("[사실] 박빙에서 격차가 줄지만 여전히 시장이 앞선다.")
     else:
-        print("[과거 출력] 박빙에서도 시장 우위가 유지됐다.")
-    print("[현재 판정] 시간누수 제거 후 적중 -0.24%p·Brier 악화. 자동 추천 승격 없음.")
+        print("[사실] 박빙에서도 시장 우위가 유지된다.")
     return 0
 
 

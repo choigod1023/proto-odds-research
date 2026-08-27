@@ -34,7 +34,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from bets import _WINNER  # noqa: E402
-from devig import market_probabilities  # noqa: E402
 from score_dist import (  # noqa: E402
     joint,
     p_handicap,
@@ -84,7 +83,8 @@ def parse_odds(value: object, n_way: int) -> np.ndarray | None:
 
 
 def devig(odds: np.ndarray) -> np.ndarray:
-    return np.asarray(market_probabilities(odds.tolist()), dtype=float)
+    inv = 1.0 / odds
+    return inv / inv.sum()
 
 
 def parse_line(label: object) -> float | None:

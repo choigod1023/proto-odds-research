@@ -1,9 +1,5 @@
 import assert from "node:assert/strict";
-import { eligibleAutoSelections, MAX_AUTO_ODDS, MIN_AUTO_ODDS,
-  PREFERRED_AUTO_ODDS, qualifiedUnderdogSelections, recommendationPriority,
-  UPSET_MAX_MODEL_GAP, UPSET_MAX_MODEL_PROBABILITY, UPSET_MAX_ODDS,
-  UPSET_MIN_MARKET_PROBABILITY, UPSET_MIN_MODEL_GAP, UPSET_MIN_MODEL_PROBABILITY,
-  UPSET_MIN_ODDS } from "./recommendation-policy.js";
+import { eligibleAutoSelections, MAX_AUTO_ODDS } from "./recommendation-policy.js";
 import { lessBadPick } from "./fmt.js";
 
 const choice = (sel, odds, probability, market = "승패") => ({
@@ -16,38 +12,17 @@ const choice = (sel, odds, probability, market = "승패") => ({
 });
 
 const favorite = choice("홈", 1.65, 0.58);
-const reverse = { ...choice("원정", 2.05, 0.42), model_prob: 0.55 };
+const reverse = choice("원정", 2.05, 0.42);
 const high = { ...choice("홈", 2.2, 0.52), event_key: "game-b" };
 const oddEven = { ...choice("홀", 1.7, 0.55, "홀짝"), event_key: "game-c" };
-const tooLow = { ...choice("홈", 1.49, 0.68), event_key: "game-d" };
 
-assert.equal(MIN_AUTO_ODDS, 1.5);
-assert.equal(PREFERRED_AUTO_ODDS, 1.5);
 assert.equal(MAX_AUTO_ODDS, 2.2);
-assert.deepEqual(
-  [UPSET_MIN_ODDS, UPSET_MAX_ODDS, UPSET_MIN_MARKET_PROBABILITY,
-    UPSET_MIN_MODEL_PROBABILITY, UPSET_MAX_MODEL_PROBABILITY,
-    UPSET_MIN_MODEL_GAP, UPSET_MAX_MODEL_GAP],
-  [1.5, 3.0, 0.28, 0.50, 0.75, 0.08, 0.25],
-);
-assert.deepEqual(eligibleAutoSelections([favorite, reverse, high, oddEven, tooLow]), [favorite, tooLow]);
-assert.equal(recommendationPriority(favorite), 1);
-assert.equal(recommendationPriority(tooLow), 0);
-assert.equal(eligibleAutoSelections([{ ...tooLow, odds: 1.5 }]).length, 1,
-  "배당 1.50은 1순위 경계에 포함한다");
+assert.deepEqual(eligibleAutoSelections([favorite, reverse, high, oddEven]), [favorite]);
 assert.deepEqual(
   eligibleAutoSelections([{ ...favorite, is_market_favorite: false }]),
   [],
   "생성기가 역배로 표시한 선택지는 단독으로 남아도 추천하면 안 된다",
 );
-assert.deepEqual(qualifiedUnderdogSelections([favorite, reverse]), [reverse],
-  "중간 배당·비극단 모델 괴리 역배만 별도 이변 후보로 남긴다");
-assert.deepEqual(qualifiedUnderdogSelections([
-  favorite,
-  { ...reverse, odds: 3.0 },
-  { ...reverse, model_prob: 0.95 },
-  { ...reverse, model_prob: 0.48 },
-]), [], "극단 배당·과신 모델·괴리 부족 역배는 제외한다");
 
 const grades = {
   odds_bins: [

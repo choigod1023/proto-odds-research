@@ -35,8 +35,7 @@ export function infoTabs(game, commentary = "") {
   const sport = game?.sport;
   const supported = ["bs", "sc", "bk", "vl"].includes(sport);
   const court = ["bk", "vl"].includes(sport);
-  if (supported || commentary || starter || game?.["선발"]?.lineups || game?.["선발"]?.key_players) tabs.push({ id: "summary", label: "예측·해석" });
-  if (supported || game?.decision_snapshot) tabs.push({ id: "ai", label: "AI 판정" });
+  if (commentary || starter || game?.["선발"]?.lineups || game?.["선발"]?.key_players) tabs.push({ id: "summary", label: "예측·해석" });
   if (supported || starter || hasTendency) tabs.push({
     id: "players", label: court ? "선수·명단" : "선발·라인업",
   });

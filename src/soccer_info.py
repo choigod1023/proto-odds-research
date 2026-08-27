@@ -355,8 +355,6 @@ def _availability(key_players: dict, lineups: dict, benches: dict) -> dict:
             out[side].append({
                 "name": p.get("name"), "position": p.get("position"),
                 "status": "벤치 시작" if pid in bench else "경기 명단 미포함 · 사유 확인 필요",
-                "availability_status": "bench" if pid in bench else "out",
-                "reason_code": "unknown", "source_type": "official_lineup",
             })
     return out
 
@@ -435,7 +433,6 @@ def collect(existing: dict, picks_path: Path, session: requests.Session,
         lineups, benches, formations, lineup_status = _actual_lineup(session, raw, key_players, now)
         rec = {
             "league": proto_game["league"], "game_id": str(raw.get("gameId") or ""),
-            "sport": "sc",
             "game_datetime": proto_game["_start"].isoformat(),
             # 매칭을 통과한 뒤 프로토 표기로 저장해야 game_index가 확정적으로 다시 찾는다.
             "home_team": proto_game.get("home"), "away_team": proto_game.get("away"),
@@ -470,7 +467,6 @@ def collect(existing: dict, picks_path: Path, session: requests.Session,
             continue
         out.append({
             "league": game["league"], "game_id": None,
-            "sport": "sc",
             "game_datetime": game["_start"].isoformat(),
             "home_team": game.get("home"), "away_team": game.get("away"),
             "starters": {}, "key_players": {"home": [], "away": []}, "teams": teams,

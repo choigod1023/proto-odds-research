@@ -1,23 +1,11 @@
 import { useMemo, useState } from "react";
 import { Card, Nav, SectionTitle, Stat, ThemeToggle } from "../components/ui.jsx";
 import { odds, pct } from "../lib/fmt.js";
-import { repricePriceGame } from "../lib/live-odds.js";
 import { usePolledData } from "../lib/poll.js";
 
 const SPORTS = { sc: "축구", bs: "야구", bk: "농구", vl: "배구" };
 
-const liveWarnings = (game) => {
-  const warnings = [];
-  if (game.booking_class === "3-way-핸디캡") {
-    warnings.push("3-way 핸디캡 — 같은 경기 2-way 대비 약 2%p 불리");
-  }
-  const highest = Math.max(...(game.selections || []).map((selection) => Number(selection.odds)));
-  if (highest >= 5) warnings.push("배당 5.0 이상 포함 — 과거 실측 ROI −33%");
-  else if (highest >= 3) warnings.push("배당 3.0 이상 포함 — 기준선 대비 열위");
-  return warnings;
-};
-
-export default function Prices({ embedded = false, liveOdds = null }) {
+export default function Prices({ embedded = false }) {
   // 열어 둔 채로도 갱신되게 한다 — 예전엔 첫 로드 한 번뿐이라 새로고침이 필요했다.
   const { data, at } = usePolledData({ d: "data/today.json" }, 300000);
   const d = data.d;
@@ -31,15 +19,7 @@ export default function Prices({ embedded = false, liveOdds = null }) {
    */
   const games = useMemo(() => {
     const gs = (d?.rounds || []).flatMap((r) =>
-      r.games.map((g) => {
-        const fresh = liveOdds?.odds?.[String(r.round)]?.[String(g.game_no)];
-        const repriced = repricePriceGame(g, fresh, liveOdds?.generated_at || null);
-        return {
-          ...repriced,
-          warnings: repriced._liveOddsRecalculated ? liveWarnings(repriced) : repriced.warnings,
-          _rounds: [r.round],
-        };
-      }));
+      r.games.map((g) => ({ ...g, _rounds: [r.round] })));
 
     /* ① 배당 벡터가 **완전히 같은** 회차끼리는 한 줄로 합친다.
           프로토는 회차를 겹쳐 발매해서 같은 경기가 두 번 나오는데, 실측상
@@ -73,7 +53,7 @@ export default function Prices({ embedded = false, liveOdds = null }) {
       });
     });
     return out;
-  }, [d, liveOdds]);
+  }, [d]);
 
   if (err) return <Shell embedded={embedded}><p className="py-8 text-sev3">데이터를 불러오지 못했습니다: {err}</p></Shell>;
   if (!d) return <Shell embedded={embedded}><p className="py-8 text-ink3">불러오는 중…</p></Shell>;
@@ -104,7 +84,7 @@ export default function Prices({ embedded = false, liveOdds = null }) {
         {r0 ? `${r0.n_games}개 경기 · ${r0.grade_note}` : ""} · +EV 는 134개 구간 검정 결과다
       </p>
 
-      <GameList games={games} showTitle={!embedded} />
+      <GameList games={games} />
       {!embedded && <Footer />}
       {!embedded && <ThemeToggle />}
     </Shell>
@@ -114,11 +94,9 @@ export default function Prices({ embedded = false, liveOdds = null }) {
 function Shell({ children, meta, embedded = false }) {
   if (embedded) return (
     <section id="price-comparison">
-      <SectionTitle note="경기별 배당·시장확률·환급률을 한 카드에서 확인">
-        발매 중인 경기·배당 비교
-      </SectionTitle>
+      <SectionTitle note="같은 선택은 더 높은 배당이 유리">배당 비교</SectionTitle>
       <p className="mb-3 text-[12px] leading-[1.7] text-ink3">
-        발매 중인 경기만 모아 보여줍니다. 회차별 가격이 다르면 같은 결과를 더 높은 배당으로 살 수 있는 회차를 선택지에 표시합니다.
+        여기서 ‘유리’는 승리 예상이 아니라 <b className="text-ink">같은 결과를 더 높은 가격에 사는 회차</b>라는 뜻입니다.
       </p>
       {meta}
       {children}
@@ -151,7 +129,7 @@ const Meta = ({ d }) => (
 const SORTS = [["time", "시간순"], ["payout", "환급률 높은 순"], ["roi", "과거 실측 좋은 순"]];
 const bestRoi = (g) => Math.max(...g.selections.map((s) => s.hist_roi ?? -1));
 
-function GameList({ games, showTitle = false }) {
+function GameList({ games }) {
   const [f, setF] = useState({ sp: "", mk: "", safe: false, sort: "time" });
   const uniq = (a) => [...new Set(a)].filter(Boolean).sort();
 
@@ -168,15 +146,8 @@ function GameList({ games, showTitle = false }) {
   const sel = "rounded-md border border-rule bg-panel px-[7px] py-1 text-[12px] text-ink";
   return (
     <>
-      {showTitle && (
-        <SectionTitle note="경기별 배당·시장확률·환급률을 한 카드에서 확인">
-          발매 중인 경기·배당 비교
-        </SectionTitle>
-      )}
+      <SectionTitle note={`${rows.length}경기 / 전체 ${games.length}`}>발매 중인 경기</SectionTitle>
       <div className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b border-rule bg-paper py-2.5 text-[12px] text-ink2">
-        <span className="tnum mr-auto font-semibold text-ink">
-          {rows.length}경기 <span className="font-normal text-ink3">/ 전체 {games.length}</span>
-        </span>
         <label className="flex items-center gap-1.5">종목
           <select className={sel} value={f.sp} onChange={(e) => setF({ ...f, sp: e.target.value })}>
             <option value="">전체</option>
@@ -221,7 +192,6 @@ function GameCard({ g }) {
           {g.market}{g.market_label ? ` ${g.market_label}` : ""} · {g.booking_class}
         </span>
         <span className="tnum ml-auto">환급 {g.payout}%</span>
-        {g._liveOddsRecalculated && <span className="text-signal">실시간 배당 · 재계산 완료</span>}
 
       </div>
 
@@ -252,9 +222,7 @@ function GameCard({ g }) {
         ))}
       </div>
 
-      <p className="mt-2.5 mb-0 text-[12.5px] leading-[1.75] text-ink2">
-        {g.comment}
-      </p>
+      <p className="mt-2.5 mb-0 text-[12.5px] leading-[1.75] text-ink2">{g.comment}</p>
       {!!g.warnings.length && (
         <ul className="mt-1.5 mb-0 list-none p-0 text-[11.5px] text-sev2">
           {g.warnings.map((w, k) => <li key={k}>⚠ {w}</li>)}

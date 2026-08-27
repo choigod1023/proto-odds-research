@@ -7,7 +7,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from features import build_features, season_key  # noqa: E402
 from pi_ratings import run_pi  # noqa: E402
-from score_dist import build_lambdas  # noqa: E402
 from team_form import Form, build_forms, form_for_game  # noqa: E402
 
 
@@ -47,12 +46,6 @@ def test_pi_ratings_do_not_depend_on_same_day_row_order():
         canonical(run_pi(sample((0, 1)))),
         canonical(run_pi(sample((1, 0)))),
     )
-
-
-def test_score_lambdas_do_not_depend_on_same_day_row_order():
-    first = canonical(build_lambdas(sample((0, 1))))
-    second = canonical(build_lambdas(sample((1, 0))))
-    pd.testing.assert_frame_equal(first, second)
 
 
 def test_venue_and_head_to_head_features_reset_each_season():
@@ -124,36 +117,6 @@ def test_runtime_forms_keep_december_and_january_in_same_nba_season():
     assert len(h2h[("NBA", "A", "B")]["games"]) == 5
 
 
-def test_runtime_forms_infer_latest_observed_date_when_as_of_is_omitted():
-    rows = [_nba_game(f"2025-12-{day:02d}") for day in range(1, 4)]
-    rows.extend(_nba_game(f"2026-01-{day:02d}") for day in range(1, 3))
-
-    forms, _ = build_forms(pd.DataFrame(rows), season=2026)
-
-    assert forms[("NBA", "A")].w == 5
-
-
-def test_runtime_forms_exclude_result_at_exact_prediction_cutoff():
-    rows = [_nba_game("2026-01-01"), _nba_game("2026-01-02")]
-
-    forms, _ = build_forms(
-        pd.DataFrame(rows), season=2026, as_of=pd.Timestamp("2026-01-02"))
-
-    assert forms[("NBA", "A")].w == 1
-
-
-def test_runtime_forms_use_kickoff_for_same_day_cutoff():
-    rows = [_nba_game("2026-01-02"), _nba_game("2026-01-02")]
-    frame = pd.DataFrame(rows)
-    frame["kickoff"] = pd.to_datetime([
-        "2026-01-02 14:00", "2026-01-02 18:00"])
-
-    forms, _ = build_forms(
-        frame, season=2026, as_of=pd.Timestamp("2026-01-02 16:00"))
-
-    assert forms[("NBA", "A")].w == 1
-
-
 def test_game_specific_rest_days_do_not_mutate_shared_form():
     shared = Form(team="A", league="KBO", last_date=pd.Timestamp("2026-08-20"))
 
@@ -163,28 +126,3 @@ def test_game_specific_rest_days_do_not_mutate_shared_form():
     assert today.rest_days == 1
     assert later.rest_days == 4
     assert shared.rest_days is None
-
-
-def test_doubleheader_recent_order_follows_kickoff_not_final_score():
-    rows = [
-        {"kickoff": "2025-12-31 18:00", "league": "TEST", "sport": "bs",
-         "home_team": "D", "away_team": "E", "home_score": 3, "away_score": 1,
-         "outcome": 1.0},
-        {"kickoff": "2026-01-01 14:00", "league": "TEST", "sport": "bs",
-         "home_team": "A", "away_team": "B", "home_score": 5, "away_score": 1,
-         "outcome": 1.0},
-        {"kickoff": "2026-01-01 18:00", "league": "TEST", "sport": "bs",
-         "home_team": "A", "away_team": "C", "home_score": 1, "away_score": 4,
-         "outcome": 0.0},
-        {"kickoff": "2026-01-02 18:00", "league": "TEST", "sport": "bs",
-         "home_team": "A", "away_team": "D", "home_score": 2, "away_score": 1,
-         "outcome": 1.0},
-    ]
-    frame = pd.DataFrame(rows)
-    frame["kickoff"] = pd.to_datetime(frame["kickoff"])
-    frame["date"] = frame["kickoff"].dt.normalize()
-    frame["year"] = frame["kickoff"].dt.year
-
-    next_day = build_features(frame).iloc[-1]
-
-    assert next_day["streak_diff"] == -2

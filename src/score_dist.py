@@ -185,34 +185,11 @@ def p_one_run(M: np.ndarray) -> tuple[float, float, float]:
 # ---------------------------------------------------------------- λ 추정
 
 def build_lambdas(m: pd.DataFrame) -> pd.DataFrame:
-    """날짜순 1패스. 같은 날 결과는 그날 모든 λ를 만든 뒤 반영한다."""
+    """날짜순 1패스. 각 경기의 λ 는 **그 경기 이전** 기록만 쓴다."""
     gf: dict = defaultdict(lambda: deque(maxlen=WINDOW))
     ga: dict = defaultdict(lambda: deque(maxlen=WINDOW))
     rows = []
-
-    def apply_updates(pending) -> None:
-        # 원자료 행순서가 같은 날 미래정보의 순서가 되지 않게 고정한다.
-        for r in sorted(
-                pending,
-                key=lambda game: (pd.Timestamp(
-                                      getattr(game, "kickoff", game.date)),
-                                  str(game.league), str(game.home_team),
-                                  str(game.away_team), int(game.home_score),
-                                  int(game.away_score))):
-            kh, ka = (r.league, r.home_team), (r.league, r.away_team)
-            gf[kh].append(r.home_score)
-            ga[kh].append(r.away_score)
-            gf[ka].append(r.away_score)
-            ga[ka].append(r.home_score)
-
-    pending = []
-    current_date = None
     for r in m.itertuples():
-        game_date = pd.Timestamp(r.date).normalize()
-        if current_date is not None and game_date != current_date:
-            apply_updates(pending)
-            pending.clear()
-        current_date = game_date
         kh, ka = (r.league, r.home_team), (r.league, r.away_team)
         ok = len(gf[kh]) >= 8 and len(gf[ka]) >= 8
         if ok:
@@ -221,15 +198,13 @@ def build_lambdas(m: pd.DataFrame) -> pd.DataFrame:
             la = (np.mean(gf[ka]) + np.mean(ga[kh])) / 2
         else:
             lh = la = np.nan
-        rows.append({"date": pd.Timestamp(r.date).normalize(),
-                     "kickoff": pd.Timestamp(getattr(r, "kickoff", r.date)),
-                     "year": r.year, "league": r.league,
+        rows.append({"date": r.date, "year": r.year, "league": r.league,
                      "sport": r.sport, "home_team": r.home_team,
                      "away_team": r.away_team,
                      "home_score": r.home_score, "away_score": r.away_score,
                      "lam_home": lh, "lam_away": la})
-        pending.append(r)
-    apply_updates(pending)
+        gf[kh].append(r.home_score); ga[kh].append(r.away_score)
+        gf[ka].append(r.away_score); ga[ka].append(r.home_score)
     return pd.DataFrame(rows)
 
 
