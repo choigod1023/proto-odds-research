@@ -29,6 +29,8 @@ const reverse = { ...leg("reverse", "2026-08-19T07:30:00+09:00", "1.8-2.2", 1.95
   is_market_favorite: false };
 const lastMinute = leg("last-minute", "2026-08-19T23:59:00+09:00", "1.5-1.8", 1.7, "8", 0.56);
 const tomorrow = leg("tomorrow", "2026-08-20T00:00:00+09:00", "1.8-2.2", 2.0, "9", 0.48);
+const tomorrowMorning = leg("tomorrow-morning", "2026-08-20T09:00:00+09:00", "1.5-1.8", 1.7, "10", 0.56);
+const tomorrowNoon = leg("tomorrow-noon", "2026-08-20T12:00:00+09:00", "1.5-1.8", 1.7, "11", 0.56);
 
 const picked = pickNextLegs([sameA, sameB, nextA, nextB], ["1.5-1.8", "1.8-2.2"], 2026);
 assert.equal(picked.length, 2);
@@ -88,16 +90,20 @@ const tenSecondsBefore = Date.parse("2026-08-19T06:59:50+09:00");
 assert.equal(nextTodayRefreshDelay(today, tenSecondsBefore), 11 * 1000,
   "다음 KST 경기 시작 직후 재추천하도록 예약해야 한다");
 
-const cutoffToday = { year: 2026, candidates: [lastMinute, tomorrow], plans: [] };
+const cutoffToday = { year: 2026, candidates: [lastMinute, tomorrow, tomorrowMorning, tomorrowNoon], plans: [] };
 const beforeLastMinute = Date.parse("2026-08-19T23:58:50+09:00");
 const cutoffResult = availableToday(cutoffToday, beforeLastMinute);
 assert.deepEqual(cutoffResult.candidates.map((candidate) => candidate.event_key), ["last-minute"],
-  "오늘 23:59 KST 경기는 포함하고 다음 날 00:00 경기는 제외해야 한다");
+  "오늘 후보가 남아 있으면 다음 날 오전 경기를 섞지 않아야 한다");
 assert.equal(nextTodayRefreshDelay(cutoffToday, beforeLastMinute), 11 * 1000);
 const afterLastStart = Date.parse("2026-08-19T23:59:01+09:00");
-assert.equal(availableToday(cutoffToday, afterLastStart).candidates.length, 0);
+const morningFallback = availableToday(cutoffToday, afterLastStart);
+assert.equal(morningFallback.window, "next_morning");
+assert.deepEqual(morningFallback.candidates.map((candidate) => candidate.event_key),
+  ["tomorrow", "tomorrow-morning"],
+  "오늘 후보가 소진되면 다음 날 00:00~11:59 경기만 사용해야 한다");
 assert.equal(nextTodayRefreshDelay(cutoffToday, Date.parse("2026-08-19T23:59:50+09:00")), 11 * 1000,
-  "오늘 후보가 없으면 KST 자정 직후 다시 확인해야 한다");
+  "다음 날 첫 경기 시작 직후 다시 확인해야 한다");
 
 const metrics = ticketMetrics([nextA, nextB]);
 assert.equal(metrics.actual_odds, 3.38);

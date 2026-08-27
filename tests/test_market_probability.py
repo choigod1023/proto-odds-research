@@ -155,7 +155,7 @@ def test_target_optimizer_maximizes_joint_probability_without_fixed_bins():
     assert math.prod(row["odds"] for row in picked) == pytest.approx(1.44)
 
 
-def test_today_combo_filters_odd_even_and_next_day_candidates(monkeypatch, tmp_path):
+def test_today_combo_prepares_today_and_next_morning_candidates(monkeypatch, tmp_path):
     games = []
     for game_no, market in ((1, "홀짝"), (2, "승패")):
         games.append({
@@ -175,6 +175,8 @@ def test_today_combo_filters_odd_even_and_next_day_candidates(monkeypatch, tmp_p
         })
     games.append({**games[1], "game_no": 3, "date": "08.21(금) 00:00",
                   "home": "홈3", "away": "원정3"})
+    games.append({**games[1], "game_no": 4, "date": "08.21(금) 12:00",
+                  "home": "홈4", "away": "원정4"})
     today = tmp_path / "today.json"
     today.write_text(
         json.dumps({"year": 2026, "rounds": [{"round": 99, "games": games}]},
@@ -187,9 +189,8 @@ def test_today_combo_filters_odd_even_and_next_day_candidates(monkeypatch, tmp_p
         datetime(2026, 8, 20, 12, 0, tzinfo=ZoneInfo("Asia/Seoul"))
     )
 
-    assert len(candidates) == 1
+    assert len(candidates) == 2
     assert {candidate["market"] for candidate in candidates} == {"승패"}
-    assert candidates[0]["sel"] == "홈"
-    assert candidates[0]["is_market_favorite"] is True
-    assert candidates[0]["date"].endswith("23:59")
-    assert candidates[0]["game_no"] == 2
+    assert all(candidate["sel"] == "홈" for candidate in candidates)
+    assert all(candidate["is_market_favorite"] is True for candidate in candidates)
+    assert {candidate["game_no"] for candidate in candidates} == {2, 3}
