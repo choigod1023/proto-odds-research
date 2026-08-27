@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { alignTodayRecommendations, canonicalOption, canonicalPick } from "./unified-recommendation.js";
+import { alignTodayRecommendations, buildTodayMemberships, canonicalOption, canonicalPick,
+  selectionKey } from "./unified-recommendation.js";
 
 const home = {
   selection_id: "sel_home", offer_id: "off_home",
@@ -88,5 +89,19 @@ assert.equal(canonicalPick(legacy, legacy.options, grades).policy, "market-fallb
 const legacyAligned = alignTodayRecommendations(today, [legacy]);
 assert.equal(legacyAligned.candidates[0].recommendation_basis, "market-fallback");
 assert.equal(legacyAligned.alignment.market_fallback_candidates, 1);
+
+const memberships = buildTodayMemberships({
+  solo: alignedToday.candidates[0],
+  plans: [
+    { ok: true, target: 1.4, picks: [alignedToday.candidates[0]] },
+    { ok: true, target: 2, picks: [alignedToday.candidates[0]] },
+    { ok: false, target: 5, picks: [alignedToday.candidates[0]] },
+  ],
+});
+const membership = memberships.get(selectionKey(home, game.round));
+assert.equal(membership.solo, true);
+assert.deepEqual(membership.targets, [1.4, 2],
+  "경기 카드 하나에 실제로 포함된 오늘 조합만 붙인다");
+assert.equal(memberships.size, 1, "별도 후보 행이 아니라 같은 판정 키로 통합한다");
 
 console.log("unified recommendation tests passed");
