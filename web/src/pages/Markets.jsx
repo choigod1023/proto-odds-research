@@ -192,6 +192,7 @@ function Shell({ children, meta }) {
       </header>
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#today-brief">오늘 요약</a>
+        <a href="#evolutionary-selection">자연선택</a>
         <a href="#ai-method">AI 사용</a>
         <a href="#match-list">경기 목록</a>
         <a href="#price-comparison">배당 비교</a>
@@ -211,6 +212,14 @@ const signedPp = (value) => {
   return Number.isFinite(number) ? `${number >= 0 ? "+" : ""}${number.toFixed(1)}%p` : "–";
 };
 
+const stageDeltaPp = (stage) => {
+  const direct = Number(stage?.comparison?.accuracy_delta_pp);
+  if (Number.isFinite(direct)) return direct;
+  const evolved = Number(stage?.evolved?.accuracy);
+  const baseline = Number(stage?.market_confidence_baseline?.accuracy);
+  return Number.isFinite(evolved) && Number.isFinite(baseline) ? (evolved - baseline) * 100 : NaN;
+};
+
 function EvolutionarySelectorPanel({ selector }) {
   const names = ["safe", "balanced", "challenge"].filter((name) => selector?.profiles?.[name]);
   const [requested, setRequested] = useState(() => selector?.default_profile || "balanced");
@@ -218,24 +227,49 @@ function EvolutionarySelectorPanel({ selector }) {
   const active = names.includes(requested)
     ? requested : (names.includes(selector?.default_profile) ? selector.default_profile : names[0]);
   const profile = selector.profiles[active];
+  const validation = profile?.historical_validation;
   const test = profile?.historical_test;
   const evolved = test?.evolved;
   const comparison = test?.comparison;
+  const validationDelta = stageDeltaPp(validation);
+  const testDelta = stageDeltaPp(test);
+  const directionReversed = Number.isFinite(validationDelta) && Number.isFinite(testDelta) &&
+    validationDelta !== 0 && testDelta !== 0 && Math.sign(validationDelta) !== Math.sign(testDelta);
   const rejected = profile?.historical_status === "rejected_in_historical_audit";
   const operational = selector?.status === "operational" && profile?.historical_ci_gate_passed;
   const status = rejected ? "역사 감사 탈락" : operational ? "운영 반영" : "연구 중·미반영";
+  const promotion = selector?.promotion;
+  const yearCards = [
+    ["2025", "생존 선택", validation?.evolved, validationDelta],
+    ["2026", "역사 감사", evolved, testDelta],
+  ];
 
   return (
-    <section className="mt-3 rounded-md border border-rule2 bg-panel px-3 py-3" aria-label="자연선택 한 픽">
+    <section id="evolutionary-selection" className="mt-3 scroll-mt-4 rounded-md border border-rule2 bg-panel px-3 py-3" aria-label="자연선택 추천기">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">자연선택 한 픽</div>
-          <div className="mt-0.5 text-[13px] font-semibold text-ink">전략을 교배해도 미래 경기에서 살아남아야 합니다</div>
+          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">자연선택 추천기</div>
+          <div className="mt-0.5 text-[13px] font-semibold text-ink">여러 전략을 경쟁시켜 검증 연도까지 살아남은 한 픽만 고릅니다</div>
         </div>
         <span className={`rounded-full border px-2 py-1 text-[10.5px] ${
           rejected ? "border-sev2 text-sev3" : operational ? "border-signal text-signal" : "border-rule text-ink2"
         }`}>{status}</span>
       </div>
+
+      <ol className="mt-3 grid list-none gap-1.5 p-0 text-[10.5px] sm:grid-cols-4" aria-label="자연선택 검증 단계">
+        {[
+          ["01", "후보 생성", "전략 56개"],
+          ["02", "교배·돌연변이", "24세대"],
+          ["03", "생존 선택", "2025"],
+          ["04", "역사 감사", "2026"],
+        ].map(([number, title, detail]) => (
+          <li key={number} className="rounded border border-rule2 bg-paper px-2 py-2">
+            <span className="tnum text-ink3">{number}</span>{" "}
+            <b className="text-ink">{title}</b>
+            <div className="mt-0.5 text-ink3">{detail}</div>
+          </li>
+        ))}
+      </ol>
 
       <div className="mt-2 flex flex-wrap gap-1.5" role="tablist" aria-label="자연선택 위험 유형">
         {names.map((name) => (
@@ -249,22 +283,39 @@ function EvolutionarySelectorPanel({ selector }) {
         ))}
       </div>
 
-      <div className="mt-2 text-[11.5px] leading-[1.65] text-ink2">
-        2023–2024 진화 · 2025 생존 선택 · 2026 역사 감사 {evolved?.n ? `${evolved.n}픽` : "자료 없음"}
-        {evolved?.accuracy != null && <> · 적중 <b className="tnum text-ink">{(evolved.accuracy * 100).toFixed(1)}%</b></>}
-        {evolved?.average_odds != null && <> · 평균배당 <b className="tnum text-ink">{evolved.average_odds.toFixed(2)}</b></>}
-        {comparison?.accuracy_delta_pp != null && <> · 동일 배당범위 기준선 대비 <b className="tnum text-ink">{signedPp(comparison.accuracy_delta_pp)}</b></>}
+      <div className="mt-2 grid gap-2 sm:grid-cols-2">
+        {yearCards.map(([year, label, metrics, stageDelta]) => {
+          const delta = Number(stageDelta);
+          return (
+            <div key={year} className="rounded border border-rule2 bg-paper px-2.5 py-2">
+              <div className="flex items-center justify-between gap-2 text-[10.5px] text-ink3">
+                <span><b className="tnum text-ink">{year}</b> {label}</span>
+                <span>{metrics?.n ? `${metrics.n}픽` : "자료 없음"}</span>
+              </div>
+              <div className="mt-1 text-[11.5px] text-ink2">
+                적중 <b className="tnum text-ink">{metrics?.accuracy != null ? `${(metrics.accuracy * 100).toFixed(1)}%` : "–"}</b>
+                {metrics?.average_odds != null && <> · 평균배당 <b className="tnum text-ink">{metrics.average_odds.toFixed(2)}</b></>}
+              </div>
+              <div className={`mt-0.5 text-[11px] font-semibold ${Number.isFinite(delta) && delta > 0 ? "text-sev0" : "text-sev3"}`}>
+                같은 배당 기준선 대비 {signedPp(delta)}
+              </div>
+            </div>
+          );
+        })}
       </div>
       {comparison?.ci95_pp?.[0] != null && (
-        <div className="mt-0.5 text-[10.5px] text-ink3">
-          95% 신뢰구간 {signedPp(comparison.ci95_pp[0])}~{signedPp(comparison.ci95_pp[1])}
-          {!operational && " · 독립 미래 검증 전이라 기본 추천에는 반영하지 않음"}
+        <div className="mt-2 text-[10.5px] text-ink3">
+          2026 차이의 95% 신뢰구간 {signedPp(comparison.ci95_pp[0])}~{signedPp(comparison.ci95_pp[1])}
         </div>
       )}
 
       {rejected ? (
-        <div className="mt-2 rounded border border-sev2 bg-paper px-2.5 py-2 text-[11.5px] text-sev3">
-          이 유형은 검증 연도와 역사 감사에서 연속 생존하지 못해 현재 후보를 내지 않습니다.
+        <div className="mt-2 rounded border border-sev2 bg-paper px-2.5 py-2 text-[11.5px] leading-[1.65] text-sev3">
+          <b>현재 결정 · 추천 중단</b><br />
+          {directionReversed
+            ? `2025 ${signedPp(validationDelta)}에서 2026 ${signedPp(testDelta)}로 개선 방향이 뒤집혔습니다.`
+            : "검증 연도와 역사 감사에서 연속 생존하지 못했습니다."}
+          {" "}좋아 보이는 한 해만 골라 쓰지 않으므로 오늘 후보는 없습니다.
         </div>
       ) : profile?.selected ? (
         <div className="mt-2 border-t border-rule2 pt-1">
@@ -275,6 +326,15 @@ function EvolutionarySelectorPanel({ selector }) {
         </div>
       ) : (
         <div className="mt-2 text-[11.5px] text-ink3">남은 경기 중 이 유형의 배당 범위를 충족하는 후보가 없습니다.</div>
+      )}
+
+      {!operational && (
+        <div className="mt-2 border-t border-rule2 pt-2 text-[10.5px] leading-[1.65] text-ink3">
+          <b className="text-ink2">다시 추천하려면</b> · {promotion?.rule || "독립 미래 경기에서 개선을 다시 입증해야 합니다."}
+          <div className="mt-1">
+            <a className="font-semibold text-signal" href="research.html#evolutionary-selector">검증 과정과 전체 결과 보기 →</a>
+          </div>
+        </div>
       )}
     </section>
   );
