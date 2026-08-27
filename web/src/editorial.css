@@ -12,16 +12,32 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .market-header h1 { margin: 0; font-size: clamp(27px, 4vw, 38px); line-height: 1.2; letter-spacing: -.055em; }
 .market-header p { margin: 10px 0 0; color: var(--color-ink2); font-size: 14px; line-height: 1.7; }
 .market-meta { max-width: 380px; color: var(--color-ink3); font-size: 10.5px; line-height: 1.65; text-align: right; }
-.section-nav { position: sticky; top: 0; z-index: 12; display: flex; gap: 24px; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 96%, transparent); backdrop-filter: blur(8px); }
-.section-nav a { padding: 13px 0 11px; color: var(--color-ink3); font-size: 12px; font-weight: 650; text-decoration: none; }
+.section-nav { position: sticky; top: 0; z-index: 12; display: flex; gap: 24px; overflow-x: auto; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 96%, transparent); backdrop-filter: blur(8px); scrollbar-width: thin; }
+.section-nav a { min-width: max-content; padding: 13px 0 11px; color: var(--color-ink3); font-size: 12px; font-weight: 650; text-decoration: none; }
 .section-nav a:hover { color: var(--color-ink); }
 
-.today-brief.card { margin-top: 30px; padding: 22px; border-radius: 4px; }
-.brief-heading { margin-bottom: 14px; }
-.brief-heading h2 { margin: 0; font-size: 18px; letter-spacing: -.035em; }
-.brief-heading p { margin: 5px 0 0; color: var(--color-ink3); font-size: 11.5px; }
 .budget-simulator { margin-top: 12px; border-top: 1px solid var(--color-rule2); }
 .budget-simulator > summary { padding: 11px 0; color: var(--color-ink2); font-size: 11px; cursor: pointer; }
+
+.ai-method { margin-top: 18px; padding: 20px 22px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-panel); }
+.ai-method-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+.ai-method-heading p { margin: 0 0 3px; color: var(--color-ink3); font-size: 10px; font-weight: 680; }
+.ai-method-heading h2 { margin: 0; font-size: 17px; letter-spacing: -.035em; }
+.ai-method-heading a { min-width: max-content; color: var(--color-signal); font-size: 11px; }
+.ai-stage-grid { margin: 15px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--color-rule); border-bottom: 1px solid var(--color-rule); list-style: none; }
+.ai-stage-grid li { min-width: 0; padding: 12px 12px 13px; border-right: 1px solid var(--color-rule2); }
+.ai-stage-grid li:first-child { padding-left: 0; }
+.ai-stage-grid li:last-child { padding-right: 0; border-right: 0; }
+.ai-stage-top { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.ai-stage-top > .tnum { color: var(--color-ink3); font-size: 9px; }
+.ai-stage-top b { margin-right: auto; font-size: 11px; }
+.ai-stage-grid p { margin: 7px 0 0; color: var(--color-ink3); font-size: 10.5px; line-height: 1.62; }
+.ai-method-foot { margin: 10px 0 0; color: var(--color-ink2); font-size: 10.5px; }
+.ai-status { display: inline-flex; min-height: 22px; align-items: center; padding: 0 7px; border: 1px solid var(--color-rule); border-radius: 999px; color: var(--color-ink3); font-size: 10px; font-weight: 650; line-height: 1; white-space: nowrap; }
+.ai-status-used, .ai-status-operational { border-color: var(--color-ink); color: var(--color-ink); }
+.ai-status-shadow { border-style: dashed; border-color: var(--color-sev2); color: var(--color-sev2); }
+.ai-status-context_only, .ai-status-wording_only, .ai-status-template { border-color: var(--color-ink3); }
+.ai-status-ignored, .ai-status-missing, .ai-status-unavailable { opacity: .75; border-style: dotted; }
 
 .match-section-title { margin: 42px 0 12px; display: flex; align-items: end; justify-content: space-between; }
 .match-section-title h2 { margin: 0; font-size: 20px; letter-spacing: -.04em; }
@@ -82,15 +98,44 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .player-watch a { text-decoration-color: var(--color-rule); text-underline-offset: 2px; }
 .player-watch article p { margin: 2px 0 0; color: var(--color-ink2); font-size: 10px; }
 .player-notes { margin: 9px 0 0; padding-left: 15px; color: var(--color-ink3); font-size: 10px; }
-.prediction-caution { padding: 10px 0; display: grid; grid-template-columns: 76px 1fr; border-top: 1px solid var(--color-rule2); color: var(--color-ink2); font-size: 10.5px; }
+.prediction-commentary { padding: 14px 0; display: grid; grid-template-columns: 92px 1fr; gap: 4px 16px; border-top: 1px solid var(--color-rule2); }
+.prediction-commentary b { color: var(--color-ink); font-size: 11px; }
+.prediction-commentary p { margin: 0; color: var(--color-ink2); font-size: 12px; line-height: 1.75; }
+.prediction-commentary small { grid-column: 2; color: var(--color-ink3); font-size: 9.5px; }
+.prediction-caution { padding: 10px 0; display: grid; grid-template-columns: 92px 1fr; gap: 16px; border-top: 1px solid var(--color-rule2); color: var(--color-ink2); font-size: 10.5px; }
 .prediction-caution b { color: var(--color-sev2); }
 .prediction-card > footer { padding: 8px 0; border-top: 1px solid var(--color-rule2); color: var(--color-ink3); font-size: 9.5px; text-align: right; }
 
 .intel-panel { margin-top: 16px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-paper); color: var(--color-ink2); font-size: 12px; line-height: 1.7; }
 .intel-tabs { padding: 0 16px; display: flex; gap: 18px; overflow-x: auto; border-bottom: 1px solid var(--color-rule2); }
-.intel-tab { min-width: max-content; padding: 11px 0 9px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--color-ink3); font: 620 11px/1 var(--font-sans); cursor: pointer; }
+.intel-tab { min-width: max-content; min-height: 44px; padding: 11px 0 9px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--color-ink3); font: 620 11px/1 var(--font-sans); cursor: pointer; }
 .intel-tab.is-active { border-bottom-color: var(--color-ink); color: var(--color-ink); }
 .intel-content { padding: 18px 16px; }
+.intel-content > .prediction-card { padding: 0; border: 0; border-radius: 0; background: transparent; }
+.intel-content > .prediction-card .prediction-head { padding-top: 0; }
+.ai-decision-path { color: var(--color-ink2); }
+.probability-provenance { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; border-top: 1px solid var(--color-rule); border-bottom: 1px solid var(--color-rule); }
+.probability-provenance > div { padding: 12px 10px; }
+.probability-provenance > div:first-child { padding-left: 0; }
+.probability-provenance > div:last-child { padding-right: 0; }
+.probability-provenance span, .probability-provenance b { display: block; }
+.probability-provenance div > span { color: var(--color-ink3); font-size: 9.5px; }
+.probability-provenance div > b { margin-top: 2px; color: var(--color-ink); font-size: 16px; }
+.probability-provenance .probability-arrow { color: var(--color-ink3); font-size: 12px; }
+.ai-revision-warning { margin: 10px 0 0; padding: 9px 10px; border-left: 2px solid var(--color-sev2); background: var(--color-panel); color: var(--color-sev3); font-size: 10.5px; }
+.ai-stage-list { margin-top: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--color-rule2); }
+.ai-stage-list article { padding: 11px 12px 11px 0; border-bottom: 1px solid var(--color-rule2); }
+.ai-stage-list article:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--color-rule2); }
+.ai-stage-list article > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ai-stage-list article b { color: var(--color-ink); font-size: 11px; }
+.ai-stage-list article p { margin: 5px 0 0; color: var(--color-ink3); font-size: 10.5px; line-height: 1.55; }
+.evidence-usage { margin-top: 13px; border-top: 1px solid var(--color-rule); border-bottom: 1px solid var(--color-rule); }
+.evidence-usage > summary { min-height: 44px; padding: 9px 0; display: flex; align-items: center; color: var(--color-ink2); font-size: 10.5px; cursor: pointer; }
+.evidence-usage ul { margin: 0; padding: 0 0 8px; list-style: none; }
+.evidence-usage li { padding: 7px 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--color-rule2); font-size: 10.5px; }
+.evidence-usage li b { color: var(--color-ink); }
+.ai-decision-meta { margin: 9px 0 0; color: var(--color-ink3); font-size: 9.5px; text-align: right; }
+.source-stamp { padding: 0 16px 12px; }
 .price-sheet { margin-top: 16px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-paper); }
 .price-sheet > summary { padding: 12px 14px; display: flex; justify-content: space-between; color: var(--color-ink2); font-size: 11px; cursor: pointer; }
 .price-sheet[open] > summary { border-bottom: 1px solid var(--color-rule2); }
@@ -104,10 +149,17 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .market-header { padding-top: 28px; grid-template-columns: 1fr; gap: 9px; }
   .market-meta { text-align: left; }
   .section-nav { gap: 18px; }
+  .ai-method { padding: 17px 15px; }
+  .ai-method-heading { align-items: start; flex-direction: column; gap: 6px; }
+  .ai-stage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ai-stage-grid li, .ai-stage-grid li:first-child, .ai-stage-grid li:last-child { padding: 11px 9px; border-right: 1px solid var(--color-rule2); }
+  .ai-stage-grid li:nth-child(2n) { border-right: 0; }
+  .ai-stage-grid li:nth-child(-n+2) { border-bottom: 1px solid var(--color-rule2); }
   .filter-primary, .prediction-body.has-players { grid-template-columns: 1fr; }
   .filter-grid { grid-template-columns: repeat(2, 1fr); }
   .match-row { grid-template-columns: 46px minmax(0, 1fr) !important; }
   .match-call-inline { grid-column: 2; padding: 8px 0 0; border-top: 1px solid var(--color-rule2); border-left: 0; }
+  .match-call-inline b { overflow: visible; text-overflow: clip; white-space: normal; }
   .match-card.card[open] { margin: 10px -8px 16px; }
   .match-card.card[open] > .match-row { padding: 14px !important; }
   .match-detail { padding: 14px !important; }
@@ -115,6 +167,14 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .prediction-head h3 { font-size: 20px; }
   .prediction-body { padding: 17px 0 18px; }
   .performance-reasons li { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }
+  .prediction-commentary, .prediction-caution { grid-template-columns: 1fr; gap: 4px; }
+  .prediction-commentary small { grid-column: 1; }
   .intel-tabs { padding: 0 12px; }
   .intel-content { padding: 14px 12px; }
+  .probability-provenance { grid-template-columns: 1fr; }
+  .probability-provenance > div, .probability-provenance > div:first-child, .probability-provenance > div:last-child { padding: 8px 0; display: flex; align-items: center; justify-content: space-between; }
+  .probability-provenance .probability-arrow { display: none; }
+  .ai-stage-list { grid-template-columns: 1fr; }
+  .ai-stage-list article:nth-child(even) { padding-left: 0; border-left: 0; }
+  .source-stamp { padding: 0 12px 10px; }
 }

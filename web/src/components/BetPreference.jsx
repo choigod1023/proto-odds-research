@@ -23,10 +23,9 @@ const PROFILES = {
 };
 
 const CHALLENGE_TARGETS = [
-  { target: 1.4, label: "1.4배 적중 우선" },
-  { target: 2, label: "2배 도전" },
-  { target: 3, label: "3배 도전" },
+  { target: 3, label: "3배 적중 우선" },
   { target: 5, label: "5배 한방" },
+  { target: 8, label: "8배 고위험" },
 ];
 
 function readPreference() {
@@ -231,9 +230,9 @@ export default function BetPreference({
                   </div>
                   <div className="mt-1 text-[10.5px] leading-[1.5] text-ink2">
                     실배당 <b className="tnum text-ink">{option.actual_odds.toFixed(2)}×</b><br />
-                    보정 적중 <b className="tnum text-ink">{(option.calibrated_hit_est * 100).toFixed(1)}%</b><br />
+                    Shin 시장 적중 <b className="tnum text-ink">{(option.calibrated_hit_est * 100).toFixed(1)}%</b><br />
                     적중 시 <b className="tnum text-ink">+{money(option.net_profit)}</b><br />
-                    보수 손실 추정 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
+                    시장확률 기준 평균손실 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
                   </div>
                 </button>
               );
