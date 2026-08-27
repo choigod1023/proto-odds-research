@@ -98,15 +98,18 @@ def load_matches(sports: tuple[str, ...] | None = None,
                  _minute=pd.to_numeric(dt[3], errors="coerce"))
     g = g.dropna(subset=["_mm", "_dd", "_hh", "_minute"])
     game_year = actual_game_year(g["year"], g["round"], g["_mm"])
-    g["date"] = pd.to_datetime(
+    g["kickoff"] = pd.to_datetime(
         dict(year=game_year, month=g["_mm"].astype(int), day=g["_dd"].astype(int),
              hour=g["_hh"].astype(int), minute=g["_minute"].astype(int)),
         errors="coerce")
-    g = g.dropna(subset=["date"])
+    g = g.dropna(subset=["kickoff"])
+    # 기존 선수·라인업·과정지표는 자정으로 정규화된 ``date``에 조인한다.
+    # 그 계약을 깨지 않으면서 더블헤더를 보존하도록 정확한 시각은 별도 열로 둔다.
+    g["date"] = g["kickoff"].dt.normalize()
     # 이후 학습/검증 분할의 year도 발매 연도가 아니라 실제 경기 연도여야 한다.
-    g["year"] = g["date"].dt.year.astype(int)
+    g["year"] = g["kickoff"].dt.year.astype(int)
 
-    key = ["league", "home_team", "away_team", "date"]
+    key = ["league", "home_team", "away_team", "kickoff"]
     # 동일 시각·팀인데 최종 스코어가 다르면 어느 행도 실제 경기로 확정하지 않는다.
     variants = g.groupby(key)[["home_score", "away_score"]].nunique()
     bad = variants.index[variants.max(axis=1) > 1]
@@ -118,8 +121,8 @@ def load_matches(sports: tuple[str, ...] | None = None,
 
     g["outcome"] = np.where(g["home_score"] > g["away_score"], 1.0,
                             np.where(g["home_score"] < g["away_score"], 0.0, 0.5))
-    g = g.sort_values(["date", "league", "home_team"]).reset_index(drop=True)
-    return g[["date", "year", "league", "sport", "home_team", "away_team",
+    g = g.sort_values(["kickoff", "league", "home_team"]).reset_index(drop=True)
+    return g[["date", "kickoff", "year", "league", "sport", "home_team", "away_team",
               "home_score", "away_score", "outcome"]]
 
 

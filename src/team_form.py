@@ -97,20 +97,34 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
     """
     from features import season_key
 
+    g = g.copy()
+    source_time = g["kickoff"] if "kickoff" in g.columns else g["date"]
+    g["event_time"] = pd.to_datetime(source_time, errors="coerce")
     anchor = pd.Timestamp(as_of) if as_of is not None else None
     if anchor is not None and anchor.tzinfo is not None:
         anchor = anchor.tz_localize(None)
-    if as_of is not None:
-        g = g[g["date"] <= anchor]
+    cutoff = anchor
+    if anchor is None:
+        # 호출자가 기준시점을 생략한 운영 경로에서는 실제로 관측된 가장 최근
+        # 경기일을 시즌 기준으로 쓴다. 12월 31일을 임의로 넣으면 1~6월 NBA·EPL
+        # 기록이 다음 시즌으로 오인돼 전부 사라진다.
+        observed = g["event_time"]
+        calendar_end = pd.Timestamp(year=int(season), month=12, day=31) \
+            if season is not None else observed.max()
+        eligible = observed[observed <= calendar_end]
+        anchor = eligible.max() if eligible.notna().any() else calendar_end
+        cutoff = anchor.normalize() + pd.Timedelta(days=1)
+    if cutoff is not None:
+        # target kickoff와 같은 시각의 결과는 아직 알 수 없다.
+        g = g[g["event_time"] < cutoff]
     if season is not None:
         # ``year == season``은 해넘이 리그를 1월에 끊고, 8월 새 시즌에는 같은
         # 해 상반기 기록을 섞는다. 기준일이 있으면 그 날짜가 속한 대회 시즌만 쓴다.
-        if anchor is None:
-            anchor = pd.Timestamp(year=int(season), month=12, day=31)
         target = {str(league): season_key(str(league), anchor)
                   for league in g["league"].dropna().unique()}
         row_seasons = pd.Series(
-            [season_key(league, date) for league, date in zip(g["league"], g["date"])],
+            [season_key(league, date)
+             for league, date in zip(g["league"], g["event_time"])],
             index=g.index)
         wanted = g["league"].astype(str).map(target)
         g = g[row_seasons == wanted]
@@ -153,10 +167,10 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
             SC[key].append(gf)
             CC[key].append(ga)
             MG[key].append(mg)
-            DATES[key].append(r.date)
+            DATES[key].append(r.event_time)
             REC[key].append({"opp": at if key[1] == ht else ht, "at": at_,
                              "gf": gf, "ga": ga, "r": res,
-                             "date": r.date})
+                             "date": r.event_time})
 
         # 접전·대승·영봉
         for key, gf, ga, res in (((lg, ht), hs, as_, rh), ((lg, at), as_, hs, ra)):
@@ -176,7 +190,7 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
             rec["a" if at == k[1] else "b"] += 1
         else:
             rec["d"] += 1
-        rec["games"].append({"date": r.date, "home": ht, "away": at,
+        rec["games"].append({"date": r.event_time, "home": ht, "away": at,
                              "hs": hs, "as": as_})
 
     for k, f in forms.items():

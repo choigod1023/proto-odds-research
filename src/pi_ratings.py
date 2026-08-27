@@ -59,7 +59,8 @@ def run_pi(m: pd.DataFrame) -> pd.DataFrame:
     current_date = None
 
     for r in m.itertuples():
-        d = pd.Timestamp(r.date).normalize()
+        kickoff = pd.Timestamp(getattr(r, "kickoff", r.date))
+        d = kickoff.normalize()
         if current_date is not None and d != current_date:
             apply_updates(pending)
             pending.clear()
@@ -69,7 +70,8 @@ def run_pi(m: pd.DataFrame) -> pd.DataFrame:
         c = DAMP.get(r.sport, 2.0)
 
         exp_gd = RH[kh] - RA[ka]                      # 예측 점수차(홈 기준)
-        rows.append({"date": r.date, "year": r.year, "league": r.league,
+        rows.append({"date": d, "kickoff": kickoff,
+                     "year": r.year, "league": r.league,
                      "sport": r.sport, "home_team": r.home_team,
                      "away_team": r.away_team, "outcome": r.outcome,
                      "pi_diff": exp_gd,

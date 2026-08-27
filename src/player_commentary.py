@@ -127,7 +127,10 @@ def _unavailable_sentence(home: str, away: str, info: dict) -> str | None:
         rows = [row for row in (unavailable.get(side) or []) if row.get("name")][:2]
         for row in rows:
             status = row.get("status") or "출전 불가"
-            labels.append(f"{team} {row['name']}({status})")
+            reason = row.get("reason_label")
+            impact = row.get("impact_label")
+            detail = " · ".join(x for x in (reason, status, f"예상 영향 {impact}" if impact else None) if x)
+            labels.append(f"{team} {row['name']}({detail})")
     return f"공식 출전 상태에 표시된 선수는 {', '.join(labels)}입니다." if labels else None
 
 
