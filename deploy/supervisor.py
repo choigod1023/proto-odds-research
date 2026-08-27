@@ -25,6 +25,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from datetime import datetime, timezone
@@ -137,7 +138,8 @@ def log(msg: str) -> None:
 
 def sh(args: list[str], cwd: Path | None = None, check: bool = False):
     return subprocess.run(args, cwd=cwd, check=check,
-                          capture_output=True, text=True)
+                          capture_output=True, text=True,
+                          encoding="utf-8", errors="replace")
 
 
 def _mask(s: str) -> str:
@@ -191,6 +193,9 @@ def ensure_repo() -> bool:
             sh(["git", "checkout", "-B", "main"], cwd=REPO)
         r = sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
         if r.returncode:
+            # 충돌 상태를 남긴 채 수집 스레드를 시작하면 이후 commit/push가 전부
+            # 실패한다. 로컬 수집 커밋은 보존하고 rebase 상태만 정리한다.
+            sh(["git", "rebase", "--abort"], cwd=REPO)
             log(f"pull 실패(계속 진행): {_mask(r.stderr)[:160]}")
         return True
 
@@ -219,12 +224,58 @@ def _free_mb() -> int:
         return -1
 
 
+def _publish_snapshot_on_remote(snapshot: str):
+    """최신 원격 코드 위에 수집 데이터 스냅샷만 다시 얹어 push한다.
+
+    PR 병합과 수집기 커밋이 엇갈리면 데이터 파일에서 rebase 충돌이 난다. 실행 중인
+    수집 저장소를 reset 하면 동시에 쓰이는 새 스냅샷을 잃을 수 있으므로, 임시
+    worktree에서 origin/main + 수집 데이터만 합친다.
+    """
+    parent = Path(REPO).parent
+    target = Path(tempfile.mkdtemp(prefix="collector-publish-", dir=parent))
+    shutil.rmtree(target)
+    added = False
+    try:
+        made = sh(["git", "worktree", "add", "--detach", str(target), "origin/main"],
+                  cwd=REPO)
+        if made.returncode:
+            return made
+        added = True
+        # 원격에만 있던 데이터 파일도 snapshot에 없다면 삭제되어야 하므로 먼저
+        # 데이터 경로를 비운 뒤, 방금 커밋한 수집기 스냅샷을 정확히 복원한다.
+        sh(["git", "rm", "-r", "-q", "--ignore-unmatch", *TRACKED], cwd=target)
+        restored = sh(["git", "checkout", snapshot, "--", *TRACKED], cwd=target)
+        if restored.returncode:
+            return restored
+        staged = sh(["git", "add", "--all", "--", *TRACKED], cwd=target)
+        if staged.returncode:
+            return staged
+        changed = sh(["git", "diff", "--cached", "--quiet"], cwd=target)
+        if changed.returncode == 0:
+            return subprocess.CompletedProcess([], 0, "", "")
+        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+        committed = sh(["git", "commit", "-m",
+                        f"chore: 수집 데이터 충돌 복구 ({stamp})"], cwd=target)
+        if committed.returncode:
+            return committed
+        return sh(["git", "push", "origin", "HEAD:main"], cwd=target)
+    finally:
+        if added:
+            sh(["git", "worktree", "remove", "--force", str(target)], cwd=REPO)
+        shutil.rmtree(target, ignore_errors=True)
+
+
 def _push_remote_main():
-    """detached HEAD에서도 원격 main을 명시해 rebase한 뒤 push한다."""
+    """원격 main에 push하고, rebase 충돌이면 데이터 스냅샷으로 안전하게 복구한다."""
     push = ["git", "push", "origin", "HEAD:main"]
     result = sh(push, cwd=REPO)
     if not result.returncode:
         return result
+
+    snapshot_result = sh(["git", "rev-parse", "HEAD"], cwd=REPO)
+    if snapshot_result.returncode:
+        return snapshot_result
+    snapshot = snapshot_result.stdout.strip()
 
     fetched = sh(["git", "fetch", "origin", "main"], cwd=REPO)
     if fetched.returncode:
@@ -233,7 +284,8 @@ def _push_remote_main():
     rebased = sh(["git", "rebase", "--autostash", "origin/main"], cwd=REPO)
     if rebased.returncode:
         sh(["git", "rebase", "--abort"], cwd=REPO)
-        return rebased
+        log("rebase 충돌 — 최신 main 위에 수집 데이터 스냅샷만 다시 게시한다")
+        return _publish_snapshot_on_remote(snapshot)
     return sh(push, cwd=REPO)
 
 
