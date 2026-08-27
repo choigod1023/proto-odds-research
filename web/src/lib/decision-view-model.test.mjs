@@ -76,7 +76,7 @@ const gameFor = (decisionSnapshot = snapshot, extra = {}) => ({
   ...extra,
 });
 
-test("추천이 없으면 큰 모델확률로 화면 추천을 새로 만들지 않는다", () => {
+test("유효한 배당이 없으면 큰 모델확률로 화면 추천을 새로 만들지 않는다", () => {
   const decision = buildDecisionViewModel(
     { options: [{ ...option, 모델확률: .99 }] },
     null,
@@ -84,7 +84,8 @@ test("추천이 없으면 큰 모델확률로 화면 추천을 새로 만들지 
   assert.equal(decision.action, "withhold");
   assert.equal(decision.probability.final, null);
   assert.equal(decision.option, null);
-  assert.equal(decisionLabel(decision), "판정 계약 오류 · 보류");
+  assert.deepEqual(decision.contractErrors, []);
+  assert.equal(decisionLabel(decision), "비교 후보 보류");
 });
 
 test("shadow AI가 잘못 저장한 final도 시장확률로 fail-close한다", () => {
@@ -181,14 +182,35 @@ test("v2 압축 원장의 단계 설명과 자료 사용 상태를 공용 카탈
   assert.equal(decision.evidence[0].display_status, "context_only");
 });
 
-test("스냅샷 없는 레거시 모델 방향은 시장 판정으로 재포장하지 않는다", () => {
+test("스냅샷이 없으면 레거시 모델을 무시하고 현재 시장 최유력으로 복구한다", () => {
+  const marketFavorite = {
+    ...option, selection_id: undefined, offer_id: undefined,
+    배당: 1.55, 시장확률: .60, 모델확률: .10,
+  };
+  const modelFavorite = {
+    ...option, selection_id: undefined, offer_id: undefined,
+    선택: "원정", 배당: 2.05, 시장확률: .40, 모델확률: .99,
+  };
   const legacy = {
     event_id: eventId,
-    options: [{ ...option, 시장확률: .40, 모델확률: .90 }],
-    추천: { ...option, 시장확률: .40, 모델확률: .90 },
+    options: [marketFavorite, modelFavorite],
+    추천: modelFavorite,
   };
-  assert.equal(resolveDecisionOption(legacy), null);
-  assert.equal(buildDecisionViewModel(legacy, legacy.options[0]).action, "withhold");
+  assert.equal(resolveDecisionOption(legacy), marketFavorite);
+  const decision = buildDecisionViewModel(legacy, marketFavorite);
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.probability.final, .60);
+  assert.equal(decision.contractReconstructed, true);
+  assert.deepEqual(decision.contractErrors, []);
+  assert.equal(decisionLabel(decision), "시장 기준 비교 · 자동 복구");
+});
+
+test("스냅샷이 실제로 존재하지만 식별자가 깨졌으면 자동 복구하지 않는다", () => {
+  const malformed = { ...snapshot, offer_id: "wrong_offer" };
+  const decision = buildDecisionViewModel(gameFor(malformed), option);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.contractReconstructed, false);
+  assert.ok(decision.contractErrors.includes("selection_not_unique"));
 });
 
 test("selection 또는 offer 식별자가 하나라도 다르면 보류한다", () => {

@@ -50,14 +50,15 @@ function withDecision(input, selectedIndex = 0) {
   };
 }
 
-test("추천이 없으면 가장 높은 모델 확률을 예상으로 만들지 않는다", () => {
+test("스냅샷이 없으면 모델이 아니라 현재 시장 최유력으로 복구한다", () => {
   const game = { home: "서울", away: "부산", options: [
-    { market: "승무패", 선택: "승", 모델확률: .94, 시장확률: .54 },
-    { market: "승무패", 선택: "무", 모델확률: .03, 시장확률: .25 },
-    { market: "승무패", 선택: "패", 모델확률: .03, 시장확률: .21 },
+    { market: "승무패", 선택: "승", 배당: 1.65, 모델확률: .03, 시장확률: .54 },
+    { market: "승무패", 선택: "무", 배당: 3.2, 모델확률: .03, 시장확률: .25 },
+    { market: "승무패", 선택: "패", 배당: 4.1, 모델확률: .94, 시장확률: .21 },
   ] };
-  assert.equal(predictionFor(game).headline, "판정 계약 오류 · 보류");
-  assert.equal(predictionFor(game).probability, null);
+  assert.equal(predictionFor(game).headline, "시장 기준 · 서울 우세");
+  assert.equal(predictionFor(game).probability, .54);
+  assert.equal(predictionFor(game).decision.contractReconstructed, true);
 });
 
 test("생성기가 고른 시장 기준 선택만 경기 예상으로 읽는다", () => {

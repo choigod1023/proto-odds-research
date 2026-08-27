@@ -98,6 +98,12 @@ export function AiDecisionPath({ decision }) {
           실시간 중계에서 경기 시작을 확인해 이 판정은 더 이상 구매 후보로 사용하지 않습니다.
         </p>
       )}
+      {decision.contractReconstructed && (
+        <p className="ai-revision-warning" role="status">
+          판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다.
+          구조 AI와 레거시 추천값은 반영하지 않았습니다.
+        </p>
+      )}
       {decision.action === "withhold" && visibleGate && (
         <p className="ai-revision-warning" role="status">{gateText[visibleGate]}</p>
       )}
