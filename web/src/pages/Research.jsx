@@ -107,13 +107,26 @@ export default function Research() {
         </p>
       </Card>
 
-      <Card className="mt-3 border-l-[3px] border-l-rule px-4 py-4">
+      <Card id="evolutionary-selector" className="mt-3 scroll-mt-4 border-l-[3px] border-l-rule px-4 py-4">
         <b className="text-[13.5px]">자연선택 추천기 — 확률을 바꾸지 않고 한 픽을 고르는 AI</b>
         <p className="mt-1.5 mb-2 text-[13px] leading-[1.75] text-ink2">
           전략 56개를 한 세대로 두고 24세대 동안 교배·돌연변이시킨다. 적중률만 좇아
           초저배당으로 퇴화하지 않도록 유형별 최소배당·추천 빈도·종목 쏠림을 함께 생존 조건으로 둔다.
           2023–2024에서 진화하고 2025에서 생존 전략을 고른 뒤 2026의 하루 한 픽으로 역사 감사했다.
         </p>
+        <ol className="mb-3 grid list-none gap-2 p-0 text-[11px] leading-[1.6] text-ink2 sm:grid-cols-4">
+          {[
+            ["01", "후보 생성", "서로 다른 가중치 전략 56개"],
+            ["02", "진화", "상위 전략 교배·돌연변이 24세대"],
+            ["03", "생존 선택", "2025 성능으로 최종 전략 선택"],
+            ["04", "감사", "2026 하루 한 픽으로 재검사"],
+          ].map(([number, title, description]) => (
+            <li key={number} className="rounded border border-rule2 bg-panel px-2.5 py-2">
+              <span className="tnum text-ink3">{number}</span>{" "}<b className="text-ink">{title}</b><br />
+              {description}
+            </li>
+          ))}
+        </ol>
         <div className="grid gap-2 text-[12px] sm:grid-cols-3">
           {[
             ["안정형", "77.9% · 평균 1.21배", "2025 +0.6 → 2026 −0.9%p", "−6.1~+4.3%p"],
@@ -128,9 +141,15 @@ export default function Research() {
             </div>
           ))}
         </div>
+        <div className="mt-3 rounded border border-sev2 bg-panel px-3 py-2.5 text-[11.5px] leading-[1.7] text-ink2">
+          <b className="text-sev3">운영 결정 · 세 유형 모두 추천 중단</b><br />
+          2025와 2026의 개선 방향이 모두 뒤집혔다. 균형형의 2026 +6.1%p만 떼어 쓰지 않으며,
+          오늘 화면에서도 탈락 유형은 실제 후보를 내지 않는다.
+        </div>
         <p className="mt-2.5 mb-0 text-[11px] leading-[1.7] text-ink3">
-          세 유형 모두 2025와 2026에서 방향이 일치하지 않아 탈락했다. 균형형의 2026 +6.1%p만 떼어 쓰면 안 된다.
-          초기 설계를 2026 감사 후 수정했으므로 이 수치는 독립 홀드아웃이 아니며, 사전등록 미래 300픽 전에는 운영 추천에 반영하지 않는다.
+          초기 설계를 2026 감사 후 수정했으므로 이 수치는 독립 홀드아웃이 아니다.
+          사전등록 미래 300픽 이상에서 동일 날짜·동일 배당 범위 시장확률 1순위보다 적중률 차이의 95% 신뢰구간 하한이 0을 넘을 때만 다시 연다.{" "}
+          <a className="text-signal" href="https://github.com/choigod1023/proto-odds-research/blob/main/findings/%EC%9E%90%EC%97%B0%EC%84%A0%ED%83%9D_%EC%B6%94%EC%B2%9C%EA%B8%B0_%EA%B2%80%EC%A6%9D.md">재현 문서 보기 →</a>
         </p>
       </Card>
 
