@@ -22,6 +22,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from devig import market_probabilities
+
 
 ROOT = Path(__file__).resolve().parent.parent
 SNAP_DIR = ROOT / "data" / "raw" / "snapshots"
@@ -62,8 +64,7 @@ def parse_odds(value: object, n_way: int) -> np.ndarray | None:
 
 
 def devig(odds: np.ndarray) -> np.ndarray:
-    inv = 1.0 / odds
-    return inv / inv.sum()
+    return np.asarray(market_probabilities(odds.tolist()), dtype=float)
 
 
 def load_snapshots() -> tuple[pd.DataFrame, dict]:

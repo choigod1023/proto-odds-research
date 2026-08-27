@@ -32,7 +32,7 @@
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import itertools
 import json
 import math
@@ -41,9 +41,12 @@ import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from evolutionary_policy import live_snapshot, load_artifact
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
+    PREFERRED_RECOMMENDATION_ODDS,
     automatic_selection_exclusion_reason,
+    recommendation_priority,
     recommendation_exclusion_reason,
 )
 
@@ -52,29 +55,32 @@ TODAY = ROOT / "docs" / "data" / "today.json"
 GRADES = ROOT / "docs" / "data" / "loss_grades.json"
 COMBO = ROOT / "docs" / "data" / "combo.json"
 OUT = ROOT / "docs" / "data" / "today_combo.json"
+EVOLUTION_ARTIFACT = ROOT / "findings" / "evolutionary_selector.json"
 
 # combo.py 가 쓰는 것과 같은 경계
 BINS = [(1.0, 1.3), (1.3, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), (5.0, 999)]
 LABELS = ["1.0-1.3", "1.3-1.5", "1.5-1.8", "1.8-2.2", "2.2-3.0", "3.0-5.0", "5.0+"]
 BANNED = {"2.2-3.0", "3.0-5.0", "5.0+"}
-TARGETS = [1.4, 2, 3, 5, 8, 12]
+TARGETS = [3, 5, 8, 12]
 SAFE_TARGET_BINS = {
-    1.4: ["1.0-1.3", "1.0-1.3"],
-    2: ["1.0-1.3", "1.5-1.8"],
-    3: ["1.3-1.5", "1.8-2.2"],
+    3: ["1.5-1.8", "1.5-1.8"],
     5: ["1.5-1.8", "1.5-1.8", "1.5-1.8"],
     8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
     12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 }
-DAILY_CHALLENGE_MIN_ROI = -0.20
-DAILY_CHALLENGE_MIN_HIT = 0.55
-DAILY_CHALLENGE_MAX_TARGET = 1.4
+DAILY_CHALLENGE_MIN_ROI = -0.205
+DAILY_CHALLENGE_MIN_HIT = {3: 0.27}
+DAILY_CHALLENGE_MAX_TARGET = 3
+DAILY_CHALLENGE_ROI_TOLERANCE = 0.03
 DAILY_CHALLENGE_BUDGET_RATIO = 0.10
 KST = ZoneInfo("Asia/Seoul")
 DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 
 def bin_of(o: float) -> str | None:
+    # 과거 구간은 오른쪽 닫힘이지만 운영 우선선 1.50은 상위 구간에 포함한다.
+    if math.isclose(float(o), PREFERRED_RECOMMENDATION_ODDS, abs_tol=1e-9):
+        return "1.5-1.8"
     for (lo, hi), lab in zip(BINS, LABELS):
         if lo < o <= hi:
             return lab
@@ -90,30 +96,13 @@ def probability_of(value: object) -> float | None:
 
 
 def calibrated_leg_probability(candidate: dict) -> tuple[float | None, float | None]:
-    """실측 ROI를 후보 배당의 적중확률로 역산하고 95% 단측 Wilson 하한을 낸다.
+    """검증된 잔차 계수가 없으면 후보의 동일 시점 시장확률로 정확히 복귀한다.
 
-    p = (1 + ROI) / odds 는 이 저장소의 devig_pick.py가 검증에 쓰는 동일한 정의다.
-    자체 모델은 시장보다 나빴으므로 사용하지 않는다. 실측 표본이 없으면 시장확률로
-    되돌아가되, 그 값을 수익 우위라고 부르지 않는다.
+    예전 식은 넓은 배당구간 평균 ROI를 개별 후보 배당으로 나눈 뒤, 실제 승수도 아닌
+    그 파생값에 Wilson 하한을 적용했다. 후보별 적중확률이 아니므로 선택에 쓰지 않는다.
     """
     market = probability_of(candidate.get("market_prob"))
-    try:
-        odds = float(candidate.get("odds"))
-        roi = float(candidate.get("hist_roi"))
-        n = int(candidate.get("hist_n") or 0)
-    except (TypeError, ValueError):
-        return market, market
-    if odds <= 1.0 or not -0.99 < roi < 5.0:
-        return market, market
-    estimate = min(0.999, max(0.001, (1.0 + roi) / odds))
-    if n < 30:
-        return estimate, estimate
-    z = 1.645  # 95% 단측 하한
-    z2 = z * z
-    denominator = 1.0 + z2 / n
-    center = (estimate + z2 / (2.0 * n)) / denominator
-    margin = z * math.sqrt(estimate * (1.0 - estimate) / n + z2 / (4.0 * n * n)) / denominator
-    return estimate, max(0.001, center - margin)
+    return market, market
 
 
 def leg_quality(candidate: dict) -> tuple:
@@ -121,29 +110,32 @@ def leg_quality(candidate: dict) -> tuple:
     probability = probability_of(candidate.get("market_prob"))
     odds = float(candidate.get("odds") or 0.0)
     return (
-        -((conservative or 0.0) * odds),
-        -((calibrated or 0.0) * odds),
+        -recommendation_priority(odds),
+        -(conservative or 0.0),
+        -(calibrated or 0.0),
         -(probability or 0.0),
+        -((conservative or 0.0) * odds),
         candidate["overround"],
         candidate["kickoff_at"],
         -odds,
     )
 
 
-def kickoff_at(date_text: object, year: int) -> datetime | None:
+def kickoff_at(date_text: object, year: int, round_no: object = None) -> datetime | None:
     """프로토 `MM.DD(요일) HH:MM`을 KST 시각으로 바꾼다."""
     match = DATE_TIME.search(str(date_text or ""))
     if not match:
         return None
     month, day, hour, minute = map(int, match.groups())
+    game_year = int(year) - (int(round_no or 0) == 1 and month == 12)
     try:
-        return datetime(year, month, day, hour, minute, tzinfo=KST)
+        return datetime(game_year, month, day, hour, minute, tzinfo=KST)
     except ValueError:
         return None
 
 
 def legs_today(now: datetime | None = None) -> list[dict]:
-    """KST 오늘 23:59까지 구매할 수 있는 시작 전 선택지만 다리 후보로 편다.
+    """KST 오늘과, 오늘 후보 소진 시 쓸 다음 날 오전 선택지를 함께 준비한다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
        배당으로 걸린다.** 같은 결과에 더 받는 쪽이 순수하게 유리하므로 높은 배당만 남긴다.
@@ -166,10 +158,16 @@ def legs_today(now: datetime | None = None) -> list[dict]:
             # 검증되지 않은 마켓은 가격 정보로는 보여도 단폴·다폴 구매 후보가 아니다.
             if recommendation_exclusion_reason(g.get("market")):
                 continue
-            kickoff = kickoff_at(g.get("date"), source_year)
-            # 시작한 경기와 KST 자정 이후 경기는 '오늘 살 거면'에서 제외한다.
-            # 23:59 시작은 오늘, 00:00 시작은 내일 픽이다.
-            if kickoff is None or kickoff <= now or kickoff.date() != now.date():
+            kickoff = kickoff_at(g.get("date"), source_year, rnd.get("round"))
+            # 화면은 오늘 적격 후보가 있으면 오늘 것만 쓰고, 없을 때에만 다음 날
+            # 00:00~11:59 후보로 전환한다. 자정 직후 수집을 기다리지 않도록 생성물에는
+            # 두 구간을 미리 함께 담는다.
+            tomorrow = now.date() + timedelta(days=1)
+            in_window = kickoff is not None and (
+                kickoff.date() == now.date()
+                or (kickoff.date() == tomorrow and kickoff.hour < 12)
+            )
+            if kickoff is None or kickoff <= now or not in_window:
                 continue
             over = g.get("overround")
             if not over or not (1.0 < over <= 1.40):
@@ -183,6 +181,10 @@ def legs_today(now: datetime | None = None) -> list[dict]:
             if not selections:
                 continue
             favorite_probability = max(probability for _, probability in selections)
+            ordered_probability = sorted((probability for _, probability in selections),
+                                         reverse=True)
+            market_gap = (ordered_probability[0] - ordered_probability[1]
+                          if len(ordered_probability) > 1 else ordered_probability[0])
             for s, market_prob in selections:
                 o = s.get("odds")
                 policy_reason = automatic_selection_exclusion_reason(
@@ -196,7 +198,8 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "event_key": f"{kickoff.isoformat()}|{g.get('home')}|{g.get('away')}",
                     "kickoff_at": kickoff.isoformat(),
                     "round": rnd.get("round"), "game_no": g.get("game_no"),
-                    "date": g.get("date"), "league": g.get("league"),
+                    "date": g.get("date"), "sport": g.get("sport"),
+                    "league": g.get("league"),
                     "match": f"{g.get('home')} vs {g.get('away')}",
                     "home": g.get("home"), "away": g.get("away"),
                     "market": g.get("market"), "market_label": g.get("market_label", ""),
@@ -205,8 +208,13 @@ def legs_today(now: datetime | None = None) -> list[dict]:
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
                     "hist_n": s.get("hist_n"),
                     "market_prob": round(market_prob, 4),
+                    "market_gap": round(market_gap, 4),
+                    "n_way": len(selections),
                     "failure_prob": round(1.0 - market_prob, 4),
                     "is_market_favorite": True,
+                    "recommendation_priority": (
+                        "primary" if recommendation_priority(o) == 1 else "fallback"
+                    ),
                 })
 
     # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
@@ -231,8 +239,16 @@ def legs_today(now: datetime | None = None) -> list[dict]:
     deduped = [candidate for candidate in deduped if float(candidate["market_prob"]) >=
                favorite_by_market[(candidate["event_key"], candidate["market"],
                                    str(candidate["market_label"]))] - 1e-9]
+    # 경기 카드와 오늘 조합이 서로 다른 마켓을 추천하지 않도록 실제 경기마다
+    # 1.50 이상을 먼저 고르고, 그 안에서 시장확률이 가장 높은 후보 하나만 남긴다.
+    # 해당 경기의 유효 후보가 전부 1.50 미만이면 최유력을 보조 추천으로 남긴다.
+    best_by_event: dict[str, dict] = {}
+    for candidate in deduped:
+        current = best_by_event.get(candidate["event_key"])
+        if current is None or leg_quality(candidate) < leg_quality(current):
+            best_by_event[candidate["event_key"]] = candidate
     return sorted(
-        deduped,
+        best_by_event.values(),
         key=lambda x: (x["kickoff_at"], x["overround"], -x["odds"]),
     )
 
@@ -254,7 +270,7 @@ def pick_legs(
     bins: list[str],
     target: float | None = None,
 ) -> list[dict] | None:
-    """목표 범위에서 보수 기대수익, 보정 적중률 순으로 가장 나은 서로 다른 경기 조합."""
+    """목표 범위에서 시장 추정 적중률을 우선하는 서로 다른 경기 조합."""
     pools = [candidate_pool(cands, wanted_bin) for wanted_bin in bins]
     if any(not pool for pool in pools):
         return None
@@ -271,8 +287,10 @@ def pick_legs(
         metrics = ticket_metrics(list(legs))
         payout = math.prod(1.0 / float(candidate["overround"]) for candidate in legs)
         closeness = -abs(math.log(odds / target)) if target else 0.0
-        score = (metrics.get("conservative_expected_roi", -99.0),
-                 metrics.get("calibrated_hit_est", 0.0),
+        # 목표 배당 범위는 이미 제약으로 걸었다. 그 안에서는 적중확률을 먼저
+        # 최대화해야 '높은 EV 때문에 더 잘 틀리는 조합'을 고르지 않는다.
+        score = (metrics.get("calibrated_hit_est", 0.0),
+                 metrics.get("conservative_expected_roi", -99.0),
                  metrics.get("hit_est", 0.0), payout, closeness)
         if best is None or score > best[0]:
             best = (score, legs)
@@ -288,14 +306,6 @@ def ticket_metrics(legs: list[dict]) -> dict:
                       if all(p[0] is not None for p in calibrated) else None)
     conservative_hit = (math.prod(p[1] for p in calibrated)
                          if all(p[1] is not None for p in calibrated) else None)
-    sample_sizes = []
-    for candidate in legs:
-        try:
-            n = int(candidate.get("hist_n") or 0)
-        except (TypeError, ValueError):
-            n = 0
-        if n > 0:
-            sample_sizes.append(n)
     out = {
         "actual_odds": round(odds, 2),
         "hit_est": (round(market_hit, 5) if market_hit is not None else None),
@@ -310,7 +320,9 @@ def ticket_metrics(legs: list[dict]) -> dict:
                                  if conservative_hit is not None else None),
         "conservative_expected_roi": (round(conservative_hit * odds - 1.0, 4)
                                        if conservative_hit is not None else None),
-        "calibration_min_n": min(sample_sizes) if sample_sizes else None,
+        "calibration_min_n": None,
+        "has_validated_edge": False,
+        "probability_source": "shin_market",
     }
     return out
 
@@ -339,14 +351,15 @@ def daily_recommendation(plans: list[dict]) -> dict:
     available = [plan for plan in plans if plan.get("ok")]
     if not available:
         return {"action": "none", "recommended_target": None,
-                "why": "오늘 23:59 KST까지 구성 가능한 조합이 없다"}
+                "why": "현재 선택 가능한 경기로 구성할 조합이 없다"}
     positive = [plan for plan in available
-                if _metric_number(plan, "conservative_expected_roi", -99.0) > 0.0]
+                if plan.get("has_validated_edge") is True
+                and _metric_number(plan, "conservative_expected_roi", -99.0) > 0.0]
     if positive:
         best = max(positive, key=lambda plan: (_kelly_growth(plan),
                    _metric_number(plan, "calibrated_hit_est", 0.0)))
         action = "buy"
-        why = "실측 보정확률의 95% 보수 하한에서도 기대수익이 양수다"
+        why = "사전 검증된 독립 확률모델의 기대수익이 양수다"
     else:
         challenge = [plan for plan in available
                      if _metric_number(plan, "target", 99.0) <=
@@ -354,13 +367,21 @@ def daily_recommendation(plans: list[dict]) -> dict:
                      and _metric_number(plan, "conservative_expected_roi", -99.0) >=
                      DAILY_CHALLENGE_MIN_ROI
                      and _metric_number(plan, "calibrated_hit_est", 0.0) >=
-                     DAILY_CHALLENGE_MIN_HIT]
+                     DAILY_CHALLENGE_MIN_HIT.get(
+                         _metric_number(plan, "target", 99.0), float("inf"))]
         if challenge:
-            best = max(challenge, key=lambda plan: (
+            best_challenge_roi = max(
+                _metric_number(plan, "conservative_expected_roi", -99.0)
+                for plan in challenge)
+            balanced = [plan for plan in challenge
+                        if _metric_number(plan, "conservative_expected_roi", -99.0) >=
+                        best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
+            best = max(balanced, key=lambda plan: (
+                _metric_number(plan, "target", 0.0),
                 _metric_number(plan, "conservative_expected_roi", -99.0),
                 _metric_number(plan, "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "적중 우선 조합이 보수 기대 −20% 이내·보정 적중 55% 이상이다"
+            why = "1순위인 각 경기 1.50배 이상 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
                 _metric_number(plan, "conservative_expected_roi", -99.0),
@@ -376,14 +397,13 @@ def daily_recommendation(plans: list[dict]) -> dict:
 
 def build() -> dict:
     cands = legs_today()
+    evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     combo = json.loads(COMBO.read_text(encoding="utf-8"))
     leg_history = {row["bin"]: row for row in combo["legs"]}
 
     out_plans = []
     for t in TARGETS:
-        bins = SAFE_TARGET_BINS.get(t)
-        if not bins:
-            continue
+        bins = SAFE_TARGET_BINS[t]
         history = [leg_history.get(wanted_bin) for wanted_bin in bins]
         historical_hit = (round(math.prod(row["hit"] for row in history), 5)
                           if all(history) else None)
@@ -393,14 +413,14 @@ def build() -> dict:
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "bins": bins,
-                              "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"})
+                              "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
         out_plans.append({
             "target": t, "ok": True, "legs": len(legs),
             "bins": bins,
             **metrics,
-            "probability_basis": "배당구간 실측 ROI 보정확률 · 95% Wilson 단측 하한",
+            "probability_basis": "Shin 시장확률 · 검증된 잔차 계수 0",
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
             "picks": legs,
@@ -408,7 +428,7 @@ def build() -> dict:
 
     # 단폴 — 지정 경기라면 가장 덜 잃는 한 장
     solo = None
-    lo = [c for c in cands if c["bin"] == "1.0-1.3"]
+    lo = list(cands)
     if lo:
         lo.sort(key=leg_quality)
         solo = {**lo[0], **ticket_metrics([lo[0]])}
@@ -419,12 +439,21 @@ def build() -> dict:
         "generated_at": today.get("generated_at"),
         "year": today.get("year"),
         "probability_method": today.get("probability_method", "legacy"),
-        "basis": "각 시장에서 시장확률 1위이며 배당 2.20 미만인 선택만 쓴다. "
-                 "목표 총배당은 역배 대신 안전 구간의 다리 수를 늘려 맞춘다.",
+        "basis": "각 시장의 최유력 중 배당 1.50 이상을 1순위로 쓴다. 해당 경기에서 "
+                 "1순위 후보가 없으면 1.50 미만 최유력을 보조 추천으로 남긴다. "
+                 "목표 조합은 1순위 후보만 사용하고 결합 적중확률을 먼저 최대화한다.",
         "n_candidates": len(cands),
+        "n_primary_candidates": sum(
+            1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
+        ),
+        "n_fallback_candidates": sum(
+            1 for candidate in cands if candidate.get("recommendation_priority") == "fallback"
+        ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "시장 최유력만 · 다리당 2.20 미만 · 홀짝 제외",
+        "selection_policy": "시장 최유력만 · 1.50 이상 1순위 · 1.50 미만 보조 · 2.20 이상 제외",
+        "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
+        "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
         "solo": solo,
         "plans": out_plans,
@@ -432,11 +461,16 @@ def build() -> dict:
         "recommendation": daily_recommendation(out_plans),
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
-        "note": "시장 우위 매수는 실측 ROI 보정확률의 95% 보수 하한이 양수일 때만 쓴다. "
-                "그보다 낮아도 목표 1.4배·보수 기대 −20% 이내·보정 적중 55% 이상이면 "
+        "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. "
+                "목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 "
+                "나아 유지하지만 사전 검증된 시장 우위는 아니다. "
+                "그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 "
+                "손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 "
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
+                "과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
-                "검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. "
+                "검증되지 않은 역배는 1순위 조합에 넣지 않으며, 비극단 가격·시장확률·"
+                "shadow 모델 괴리 관문을 통과한 경우만 별도 이변 도전으로 표시한다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "
                 "단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
     }
@@ -449,13 +483,15 @@ def _selftest() -> int:
     print(f"  다리 후보 {d['n_candidates']:,}개")
     for p in d["plans"]:
         if not p.get("ok"):
-            print(f"  ⏭ 목표 {p['target']}× — {p['why']}")
+            print(f"  [건너뜀] 목표 {p['target']}배 - {p['why']}")
             continue
         gs = [c["event_key"] for c in p["picks"]]
         if len(set(gs)) != len(gs):
             bad.append(f"목표 {p['target']}× : 같은 경기를 두 번 썼다 {gs} — 규정 위반")
         if any(c["bin"] in BANNED for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 금지 배당대가 섞였다")
+        if any(float(c["odds"]) < PREFERRED_RECOMMENDATION_ODDS for c in p["picks"]):
+            bad.append(f"목표 {p['target']}× : 1순위 조합에 1.50 미만 보조 선택지가 섞였다")
         if any(float(c["odds"]) >= MAX_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 2.20 이상 선택지가 섞였다")
         if any(not c.get("is_market_favorite") for c in p["picks"]):
@@ -473,7 +509,7 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 실제 배당 {p['actual_odds']}×가 허용범위 밖")
         if p["expected_roi"] >= 0:
             bad.append(f"목표 {p['target']}× : 기대 ROI 가 양수다 — 그런 구성은 없다")
-        print(f"  ✅ 목표 {p['target']}× — {p['legs']}폴 · 실배당 {p['actual_odds']}× · "
+        print(f"  [통과] 목표 {p['target']}배 - {p['legs']}폴 · 실배당 {p['actual_odds']}배 · "
               f"서로 다른 경기 {len(set(gs))}개")
     now = datetime.now(KST)
     past = [c for c in d.get("candidates", []) if datetime.fromisoformat(c["kickoff_at"]) <= now]
@@ -481,10 +517,14 @@ def _selftest() -> int:
         bad.append(f"시작한 경기 {len(past)}개가 후보에 남았다")
     if d["solo"] and d["solo"]["bin"] in BANNED:
         bad.append("단폴이 금지 배당대다")
+    for name, profile in (d.get("evolutionary_selector", {}).get("profiles") or {}).items():
+        selected = profile.get("selected")
+        if selected and datetime.fromisoformat(selected["kickoff_at"]) <= now:
+            bad.append(f"자연선택 {name}에 시작한 경기가 남았다")
     if bad:
-        print("\n🔴 " + "\n🔴 ".join(bad))
+        print("\n[오류] " + "\n[오류] ".join(bad))
         return 1
-    print("\n✅ 오늘의 조합 자기검사 통과")
+    print("\n[통과] 오늘의 조합 자기검사")
     return 0
 
 
@@ -493,7 +533,8 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"다리 후보 {d['n_candidates']:,}개 (홀짝·역배·2.20+ 제외)\n")
+    print(f"다리 후보 {d['n_candidates']:,}개 "
+          f"(1순위 {d['n_primary_candidates']:,} · 1.50 미만 보조 {d['n_fallback_candidates']:,})\n")
     if d["solo"]:
         s = d["solo"]
         print(f"[단폴] {s['league']} {s['match']} · {s['market']} {s['sel']} @ {s['odds']} "

@@ -9,6 +9,10 @@
 name: build-site
 
 on:
+  pull_request:
+    paths:
+      - "web/**"
+      - ".github/workflows/build-site.yml"
   push:
     branches: [main]
     paths:
@@ -43,9 +47,10 @@ jobs:
 
       - name: 빌드
         working-directory: web
-        run: npm run build
+        run: npm test && npm run build
 
       - name: 산출물 되커밋
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
           git config user.name  "site-builder"
