@@ -73,15 +73,47 @@ export function alignTodayRecommendations(today, games = []) {
     return option ? [[selectionGroupKey(option, game.round), {
       key: selectionKey(option, game.round),
       basis: game?.decision_snapshot ? "game-decision" : "market-fallback",
+      option,
+      game,
     }]] : [];
   }));
-  const candidates = eligibleAutoSelections(inputCandidates).filter((candidate) => {
+  const candidateGroups = new Map();
+  inputCandidates.forEach((candidate) => {
+    const key = selectionGroupKey(candidate, candidate?.round);
+    if (!candidateGroups.has(key)) candidateGroups.set(key, candidate);
+  });
+  const grades = { odds_bins: today.odds_bins || [] };
+  const repriced = [...candidateGroups.entries()].flatMap(([groupKey, candidate]) => {
+    const wanted = canonical.get(groupKey);
+    if (!wanted) return [];
+    const option = wanted.option;
+    const currentOdds = Number(option?.["배당"]);
+    const currentProbability = Number(option?.["시장확률"]);
+    const grade = gradeOf(grades, currentOdds);
+    const overround = Number(option?._liveOverround ?? candidate.overround);
+    return [{
+      ...candidate,
+      round: wanted.game.round,
+      game_no: String(option?.["게임번호"] ?? candidate.game_no),
+      market: option?.market,
+      market_label: option?.label || "",
+      sel: option?.["선택"],
+      odds: currentOdds,
+      bin: grade?.bin || candidate.bin,
+      market_prob: currentProbability,
+      overround: Number.isFinite(overround) ? overround : candidate.overround,
+      payout: Number.isFinite(overround) && overround > 0
+        ? Number((100 / overround).toFixed(2)) : candidate.payout,
+      hist_roi: grade?.roi ?? candidate.hist_roi,
+      hist_n: grade?.n ?? candidate.hist_n,
+      is_market_favorite: true,
+      recommendation_basis: wanted.basis,
+    }];
+  });
+  const candidates = eligibleAutoSelections(repriced).filter((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
     return wanted?.key === selectionKey(candidate, candidate?.round);
-  }).map((candidate) => ({
-    ...candidate,
-    recommendation_basis: canonical.get(selectionGroupKey(candidate, candidate?.round))?.basis,
-  }));
+  });
   const allowed = new Set(candidates.map((candidate) => selectionKey(candidate, candidate?.round)));
   const keep = (candidate) => allowed.has(selectionKey(candidate, candidate?.round));
   const plans = (today.plans || []).map((plan) => ({

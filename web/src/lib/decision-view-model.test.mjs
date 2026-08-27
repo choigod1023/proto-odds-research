@@ -205,6 +205,28 @@ test("스냅샷이 없으면 레거시 모델을 무시하고 현재 시장 최�
   assert.equal(decisionLabel(decision), "시장 기준 비교 · 자동 복구");
 });
 
+test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 표시한다", () => {
+  const live = {
+    event_id: eventId,
+    decision_snapshot: null,
+    _liveOddsRecalculated: true,
+    _liveOddsRecalculatedAt: "2026-08-27T05:02:24Z",
+    options: [
+      { ...option, selection_id: undefined, offer_id: undefined,
+        배당: 2.92, 시장확률: .2744, 모델확률: .31 },
+      { ...option, selection_id: undefined, offer_id: undefined,
+        선택: "원정", 배당: 1.26, 시장확률: .7256, 모델확률: .69 },
+    ],
+  };
+  const selected = resolveDecisionOption(live);
+  const decision = buildDecisionViewModel(live, selected);
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.probability.final, .7256);
+  assert.equal(decision.liveOddsRecalculated, true);
+  assert.equal(decision.asOf, "2026-08-27T05:02:24Z");
+  assert.equal(decisionLabel(decision), "시장 기준 비교 · 실시간 재계산");
+});
+
 test("스냅샷이 실제로 존재하지만 식별자가 깨졌으면 자동 복구하지 않는다", () => {
   const malformed = { ...snapshot, offer_id: "wrong_offer" };
   const decision = buildDecisionViewModel(gameFor(malformed), option);
