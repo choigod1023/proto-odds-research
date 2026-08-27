@@ -15,6 +15,7 @@ import { alignTodayRecommendations, buildTodayMemberships, canonicalPick, select
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
+import { qualifiedUnderdogSelections } from "../lib/recommendation-policy.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -198,7 +199,7 @@ function useTodayClock(today) {
 
 const todayViewKey = (target) => `target:${target}`;
 
-function TodayListControls({ activeToday, combo, grades, view, onView }) {
+function TodayListControls({ activeToday, combo, grades, view, onView, upsetCount = 0 }) {
   const plans = (activeToday?.plans || []).filter((plan) => plan.ok);
   const recommendation = recommendationFromPlans(plans);
   const solo = activeToday?.solo || null;
@@ -213,7 +214,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
   const bl = (combo?.baseline || []).find((row) => row.legs === 2);
   const bestBin = (grades?.odds_bins || []).find((row) => row.grade === "A");
 
-  if (!plans.length && !solo) {
+  if (!plans.length && !solo && !upsetCount) {
     return (
       <div className="mb-5 rounded-md border border-rule bg-panel px-4 py-4">
         <b className="text-[14px]">오늘 조합</b>
@@ -233,7 +234,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
           </div>
         </div>
         <div className="text-right text-[10.5px] leading-5 text-ink3">
-          1순위 1.50 이상 · 미만은 보조 추천<br />2.20 미만 · KST 23:59까지 · 30분마다 재계산
+          정배 1순위 1.50 이상 · 미만은 보조 추천<br />역배는 근거 관문 통과 때 별도 표시 · KST 23:59까지
         </div>
       </div>
       <div className={`mt-3 rounded border px-3 py-2 text-[11.5px] leading-[1.65] ${
@@ -247,8 +248,10 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
           <>가장 안정적인 조합은 <b>{recommendation.target}배</b>입니다. {recommendation.why}</>
         ) : recommendation.action === "challenge" ? (
           <>손실을 감수한 오늘 도전은 <b>{recommendation.target}배</b>입니다. {recommendation.why}</>
-        ) : (
+        ) : recommendation.action === "pass" ? (
           <>자동 우선 조합은 없습니다. {recommendation.target}배 구성을 관찰할 수 있습니다. {recommendation.why}</>
+        ) : (
+          <>오늘 23:59 KST까지 구성 가능한 정배 조합은 없습니다. 이변 도전 후보는 아래에서 따로 볼 수 있습니다.</>
         )}
         {recommendedPlan?.conservative_expected_roi != null && (
           <> · 시장확률 기준 지표 <b className="tnum">{(recommendedPlan.conservative_expected_roi * 100).toFixed(1)}%</b></>
@@ -257,6 +260,11 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
 
       <div className="my-3 flex flex-wrap gap-1.5" role="group" aria-label="오늘 조합으로 경기 목록 좁히기">
         <Tab on={view === "all"} onClick={() => onView("all")}>전체 경기</Tab>
+        {upsetCount > 0 && (
+          <Tab on={view === "upset"} onClick={() => onView("upset")}>
+            이변 도전 <span className="tnum text-[11px] text-ink3">{upsetCount}</span>
+          </Tab>
+        )}
         {solo && <Tab on={view === "solo"} onClick={() => { setSelectedIndex(-1); onView("solo"); }}>단폴</Tab>}
         {plans.map((q, k) => (
           <Tab key={q.target} on={view === todayViewKey(q.target)} onClick={() => { setSelectedIndex(k); onView(todayViewKey(q.target)); }}>
@@ -290,7 +298,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
       </div>}
 
       <p className="mt-2 text-[10.5px] leading-5 text-ink3">
-        조합의 각 선택은 아래 해당 경기 카드에만 표시됩니다. 별도 후보 목록을 만들지 않아 경기 판정과 방향이 달라질 수 없습니다.
+        정배 조합의 각 선택과 이변 도전은 아래 경기 카드에 함께 표시됩니다. 이변 도전은 정배 1순위를 바꾸거나 자동 조합에 들어가지 않습니다.
       </p>
 
       <details className="budget-simulator">
@@ -315,7 +323,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
         </div>
       )}
       <div className="mt-2 border-t border-rule2 pt-2 text-[10.5px] text-ink3">
-        자연선택 실험처럼 역사 검증을 통과하지 못한 모델은 이 목록에 섞지 않습니다. {" "}
+        역사 검증을 통과하지 못한 모델은 정배 조합의 확률과 선택에 섞지 않습니다. 이변 도전에서는 후보를 좁히는 진단 관문으로만 씁니다. {" "}
         <a className="font-semibold text-signal" href="research.html#evolutionary-selector">검증 결과 보기 →</a>
       </div>
     </div>
@@ -340,6 +348,13 @@ const STATUS = [
   ["예정", "예정"], ["경기전", "배당 나옴"], ["배당대기", "배당 미발표"],
   ["정산", "정산"], ["", "전체"],
 ];
+
+const upsetForGame = (game, options, stale) => {
+  if (stale || game.status === "배당대기" || game.status === "정산"
+      || game._liveStarted || game._liveOddsChanged
+      || game.prediction_status === "prediction_ledger_required") return null;
+  return qualifiedUnderdogSelections(options || [])[0] || null;
+};
 
 function GameList({ data, grades, caps, stale, today, combo }) {
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
@@ -374,7 +389,14 @@ function GameList({ data, grades, caps, stale, today, combo }) {
   const chooseTodayView = (nextView) => {
     setTodayView(nextView);
     if (nextView !== "all") {
-      setF((current) => ({ ...current, st: "예정", mk: "", dt: kstMMDD(0) }));
+      setF((current) => ({
+        ...current,
+        st: "예정",
+        mk: "",
+        // 조합 탭은 오늘 구매용이지만 이변 도전은 사용자가 보고 있던 날짜를
+        // 유지해야 내일 후보를 살펴보다 갑자기 오늘로 튕기지 않는다.
+        dt: nextView === "upset" ? current.dt : kstMMDD(0),
+      }));
       setCap(0);
     }
   };
@@ -398,6 +420,13 @@ function GameList({ data, grades, caps, stale, today, combo }) {
       (!f.dt || String(g.date ?? "").slice(0, 5) === f.dt) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)));
   }, [pool, f]);
+  const upsetCount = useMemo(() => games.filter((g) => {
+    const options = (g.options || []).filter((o) => !f.mk || o.market === f.mk);
+    return Boolean(upsetForGame(g, options, stale));
+  }).length, [games, f.mk, stale]);
+  useEffect(() => {
+    if (todayView === "upset" && upsetCount === 0) setTodayView("all");
+  }, [todayView, upsetCount]);
 
   const rows = [];
   let cur = null, n = 0;
@@ -415,10 +444,12 @@ function GameList({ data, grades, caps, stale, today, combo }) {
     }
     const cardPick = wait || stale || g._liveStarted || g._liveOddsChanged
       ? null : canonicalPick(g, g.options || [], grades);
+    const upset = upsetForGame(g, opts, stale);
     const membership = cardPick
       ? todayMemberships.get(selectionKey(cardPick.o, g.round)) || null
       : null;
     if (todayView === "solo" && !membership?.solo) continue;
+    if (todayView === "upset" && !upset) continue;
     if (todayView.startsWith("target:")) {
       const wanted = Number(todayView.slice("target:".length));
       if (!membership?.targets.some((target) => Number(target) === wanted)) continue;
@@ -443,7 +474,8 @@ function GameList({ data, grades, caps, stale, today, combo }) {
     }
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait}
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
-      year={data.year} todayMembership={membership} activeToday={activeToday} />);
+      year={data.year} todayMembership={membership} activeToday={activeToday}
+      upsetCandidate={upset} />);
   }
 
     const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
@@ -460,7 +492,7 @@ function GameList({ data, grades, caps, stale, today, combo }) {
         </div>
       ) : (
         <TodayListControls activeToday={activeToday} combo={combo} grades={grades}
-          view={todayView} onView={chooseTodayView} />
+          view={todayView} onView={chooseTodayView} upsetCount={upsetCount} />
       )}
       <div className={`filter-shell ${showModel ? "show-model" : ""}`}>
         <div className="filter-primary">
@@ -544,7 +576,8 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
-function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership, activeToday }) {
+function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
+  activeToday, upsetCandidate }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -629,14 +662,20 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         <span className="flex gap-1.5">
           {liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
-            : pick ? <OddsChip
-                label={decision.recommendationPriority === "fallback"
-                  ? `보조·${pick.o["선택"]}` : pick.o["선택"]}
-                value={odds(pick.o["배당"])}
-                grade={pick.g ? gcls(pick.g.grade) : "U"}
-                title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
-                  decision.recommendationPriority === "fallback" ? "1.50 미만 보조 추천" : "1.50 이상 1순위"
-                } · Shin 시장확률 기준 선택`} />
+            : pick ? <>
+                <OddsChip
+                  label={decision.recommendationPriority === "fallback"
+                    ? `보조·${pick.o["선택"]}` : pick.o["선택"]}
+                  value={odds(pick.o["배당"])}
+                  grade={pick.g ? gcls(pick.g.grade) : "U"}
+                  title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
+                    decision.recommendationPriority === "fallback" ? "1.50 미만 보조 추천" : "1.50 이상 1순위"
+                  } · Shin 시장확률 기준 선택`} />
+                {upsetCandidate && <OddsChip
+                  label={`이변·${upsetCandidate["선택"]}`}
+                  value={odds(upsetCandidate["배당"])}
+                  title={`${upsetCandidate.market}${upsetCandidate.label ? ` ${upsetCandidate.label}` : ""} · 이변 도전 · 시장 ${pct(upsetCandidate["시장확률"])} · 검증 전 구조 모델 차이 ${sgn(Number(upsetCandidate["모델확률"]) - Number(upsetCandidate["시장확률"]))}p`} />}
+              </>
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
       </summary>
@@ -648,6 +687,15 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             <b>{primary ? "오늘 우선 조합" : "오늘 조합"} · {todayLabel}</b>
             {" · "}{pick.o.market}{pick.o.label ? ` ${pick.o.label}` : ""} {pick.o["선택"]}
             {" · "}<span className="tnum">{odds(pick.o["배당"])}</span>
+          </div>
+        )}
+        {upsetCandidate && (
+          <div className="mb-3 rounded border border-dashed border-sev2 bg-panel px-3 py-2 text-[12px] leading-6 text-ink2">
+            <b className="text-ink">이변 도전 · {upsetCandidate.market}{upsetCandidate.label ? ` ${upsetCandidate.label}` : ""} {upsetCandidate["선택"]}</b>
+            {" · "}<span className="tnum">{odds(upsetCandidate["배당"])}</span>
+            {" · 시장 "}<span className="tnum">{pct(upsetCandidate["시장확률"])}</span>
+            {" · 검증 전 모델 차이 "}<span className="tnum">{sgn(Number(upsetCandidate["모델확률"]) - Number(upsetCandidate["시장확률"]))}p</span>
+            <p className="text-[10.5px] leading-5 text-ink3">정배 1순위를 바꾸지 않는 별도 후보입니다. 구조 모델 수치를 적중확률로 쓰지 않으며 3.00배 이상 극단 역배는 제외했습니다.</p>
           </div>
         )}
         {wait && (

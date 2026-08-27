@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from ai_decision import (  # noqa: E402
     USAGE_CONSUMERS,
     build_decision_snapshot,
+    annotate_options,
     choose_market_reference,
     event_id,
     offer_id,
@@ -76,6 +77,20 @@ def test_low_odds_market_reference_remains_as_fallback_without_primary():
     assert selected["선택"] == "승"
     assert selected["추천우선순위"] == "fallback"
     assert selected["선택근거"] == "shin_market_accuracy_low_odds_fallback"
+
+
+def test_moderate_underdog_is_annotated_without_becoming_main_pick():
+    game = _game()
+    game["options"][1]["배당"] = 2.05
+    game["options"][1]["모델확률"] = 0.55
+
+    annotate_options(game)
+    selected = choose_market_reference(game["options"])
+
+    assert game["options"][1]["이변후보"] is True
+    assert game["options"][1]["이변점수"] == 0.21
+    assert "검증 전 모델" in game["options"][1]["이변근거"]
+    assert selected["선택"] == "언더"
 
 
 def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():

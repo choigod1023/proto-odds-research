@@ -14,7 +14,9 @@ from typing import Iterable
 
 from recommendation_policy import (
     automatic_selection_exclusion_reason,
+    qualified_underdog,
     recommendation_priority,
+    underdog_score,
 )
 
 
@@ -94,6 +96,15 @@ def offer_id(game: dict, option: dict) -> str:
 def annotate_options(game: dict) -> None:
     """모든 선택지에 최종 확률 출처와 stable id를 한 번만 붙인다."""
     game["event_id"] = event_id(game)
+    favorite_by_market: dict[tuple, float] = {}
+    for option in game.get("options", []):
+        probability = _number(option.get("시장확률"))
+        if probability is None:
+            continue
+        key = (option.get("market"), option.get("label"), option.get("line"),
+               option.get("게임번호"))
+        favorite_by_market[key] = max(favorite_by_market.get(key, 0.0), probability)
+
     for option in game.get("options", []):
         option["selection_id"] = selection_id(game, option)
         option["offer_id"] = offer_id(game, option)
@@ -104,6 +115,20 @@ def annotate_options(game: dict) -> None:
         model = _number(option.get("모델확률"))
         option["AI잔차"] = (
             None if market is None or model is None else round(model - market, 4)
+        )
+        key = (option.get("market"), option.get("label"), option.get("line"),
+               option.get("게임번호"))
+        is_upset = qualified_underdog(
+            option.get("market"), option.get("배당"), market,
+            favorite_by_market.get(key), model,
+        )
+        option["이변후보"] = is_upset
+        option["이변점수"] = (
+            round(underdog_score(market, model), 4) if is_upset else None
+        )
+        option["이변근거"] = (
+            "시장 역배·1.50~3.00 미만·검증 전 모델 우위 8~25%p"
+            if is_upset else None
         )
 
 

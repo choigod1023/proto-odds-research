@@ -15,6 +15,17 @@ PREFERRED_RECOMMENDATION_ODDS = 1.5
 MIN_AUTO_RECOMMENDATION_ODDS = PREFERRED_RECOMMENDATION_ODDS
 MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
+# 역배는 정배 1순위를 밀어내지 않는 별도 실험 레인이다. 검증 전 구조 모델의
+# 극단값과 장기적으로 손실이 급증한 3.0+ 구간을 막고, 시장보다 모델이 실제로
+# 방향을 뒤집어 본 중간 배당만 '이변 도전'으로 표시한다.
+UPSET_MIN_ODDS = 1.5
+UPSET_MAX_ODDS = 3.0
+UPSET_MIN_MARKET_PROBABILITY = 0.28
+UPSET_MIN_MODEL_PROBABILITY = 0.50
+UPSET_MAX_MODEL_PROBABILITY = 0.75
+UPSET_MIN_MODEL_GAP = 0.08
+UPSET_MAX_MODEL_GAP = 0.25
+
 AUTO_RECOMMENDATION_EXCLUSIONS = {
     "홀짝": "시장 대비 우위가 검증되지 않은 마켓 — 자동 추천 제외",
 }
@@ -71,6 +82,48 @@ def recommendation_priority(odds: object) -> int:
     if not math.isfinite(price) or price <= 1.0 or price >= MAX_AUTO_RECOMMENDATION_ODDS:
         return -1
     return 1 if price >= PREFERRED_RECOMMENDATION_ODDS else 0
+
+
+def qualified_underdog(
+    market: object,
+    odds: object,
+    market_probability: object,
+    favorite_probability: object,
+    model_probability: object,
+) -> bool:
+    """정배와 분리해 보여 줄 검증 전 '이변 도전' 후보인지 판정한다.
+
+    최종 확률은 계속 시장값이다. 모델 차이는 후보를 좁히는 진단 관문일 뿐
+    적중확률이나 기대수익으로 승격하지 않는다.
+    """
+    if recommendation_exclusion_reason(market):
+        return False
+    try:
+        price = float(odds)
+        probability = float(market_probability)
+        favorite = float(favorite_probability)
+        model = float(model_probability)
+    except (TypeError, ValueError):
+        return False
+    if not all(math.isfinite(value) for value in (price, probability, favorite, model)):
+        return False
+    gap = model - probability
+    return (
+        UPSET_MIN_ODDS <= price < UPSET_MAX_ODDS
+        and UPSET_MIN_MARKET_PROBABILITY <= probability < favorite - 1e-9
+        and UPSET_MIN_MODEL_PROBABILITY <= model <= UPSET_MAX_MODEL_PROBABILITY
+        and UPSET_MIN_MODEL_GAP <= gap <= UPSET_MAX_MODEL_GAP
+    )
+
+
+def underdog_score(market_probability: object, model_probability: object) -> float:
+    """이변 후보끼리만 정렬하는 진단 점수. 운영 확률로 사용하면 안 된다."""
+    try:
+        probability = float(market_probability)
+        model = float(model_probability)
+    except (TypeError, ValueError):
+        return float("-inf")
+    return model - probability if math.isfinite(model - probability) else float("-inf")
 
 
 def is_recommendable_market(market: object) -> bool:
