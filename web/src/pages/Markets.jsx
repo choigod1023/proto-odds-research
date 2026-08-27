@@ -3,7 +3,6 @@ import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../componen
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import { AiDecisionPath, AiMethodology } from "../components/AiDisclosure.jsx";
-import Prices from "./Prices.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
@@ -99,7 +98,6 @@ export default function Markets() {
       <AiMethodology />
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
         stale={stale} today={today} combo={combo} /></section>
-      <Prices embedded liveOdds={liveOdds} />
       <section id="evidence"><Evidence grades={grades}
         tally={synchronized.tally_status === "prediction_ledger_verified" ? synchronized.tally : null} /></section>
     </Shell>
@@ -150,14 +148,13 @@ function Shell({ children, meta }) {
       <header className="market-header">
         <div>
           <h1>오늘 경기·배당 분석</h1>
-          <p>예상 결과와 경기력 신호, 선발·라인업, 같은 경기의 회차별 배당을 한 화면에서 봅니다.</p>
+          <p>오늘의 판단을 먼저 보고, 필요한 경기만 열어 흐름·선수·반대 근거를 확인합니다.</p>
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#ai-method">AI 사용</a>
         <a href="#match-list">경기 목록</a>
-        <a href="#price-comparison">발매 경기·배당</a>
         <a href="#evidence">분석 기준</a>
       </nav>
       {children}
@@ -212,12 +209,13 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
   const recommendedPlan = recommendedIndex >= 0 ? plans[recommendedIndex] : null;
   const bl = (combo?.baseline || []).find((row) => row.legs === 2);
   const bestBin = (grades?.odds_bins || []).find((row) => row.grade === "A");
+  const periodLabel = activeToday?.window === "next_morning" ? "다음 날 오전" : "오늘";
 
   if (!plans.length && !solo) {
     return (
       <div className="mb-5 rounded-md border border-rule bg-panel px-4 py-4">
-        <b className="text-[14px]">오늘 조합</b>
-        <p className="mt-1 text-[12px] leading-6 text-ink3">오늘 23:59 KST까지 시작하는 경기 중 현재 판정과 안전 조건을 함께 통과한 조합이 없습니다. 경기 시작과 데이터 갱신 때 자동으로 다시 계산합니다.</p>
+        <b className="text-[14px]">예측 가능한 경기 없음</b>
+        <p className="mt-1 text-[12px] leading-6 text-ink3">오늘 남은 경기와 다음 날 오전 11:59 KST까지의 경기 중 현재 판정과 안전 조건을 함께 통과한 후보가 없습니다. 경기 시작과 데이터 갱신 때 자동으로 다시 계산합니다.</p>
       </div>
     );
   }
@@ -226,14 +224,16 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
     <div className="mb-5 rounded-md border border-ink bg-paper px-4 py-4" aria-label="경기 목록 오늘 조합">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">경기 목록에 통합된 오늘 조합</div>
+          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">
+            {activeToday.window === "next_morning" ? "오늘 후보 없음 · 다음 날 오전 경기" : "경기 목록에 통합된 오늘 조합"}
+          </div>
           <div className="mt-1 text-[14px] font-semibold text-ink">
-            {recommendation.action === "buy" ? "오늘 우선" : recommendation.action === "challenge" ? "오늘 도전" : "오늘 관찰"}
+            {recommendation.action === "buy" ? `${periodLabel} 우선` : recommendation.action === "challenge" ? `${periodLabel} 도전` : `${periodLabel} 관찰`}
             {recommendedPlan ? ` · ${recommendedPlan.target}배 · ${recommendedPlan.legs}폴` : ""}
           </div>
         </div>
         <div className="text-right text-[10.5px] leading-5 text-ink3">
-          기본 1순위 1.50 이상 · 미만은 보조 추천<br />역배 전환 시 기존 픽 교체 · KST 23:59까지
+          기본 1순위 1.50 이상 · 미만은 보조 추천<br />역배 전환 시 기존 픽 교체 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
         </div>
       </div>
       <div className={`mt-3 rounded border px-3 py-2 text-[11.5px] leading-[1.65] ${
@@ -380,7 +380,8 @@ function GameList({ data, grades, caps, stale, today, combo }) {
         ...current,
         st: "예정",
         mk: "",
-        dt: kstMMDD(0),
+        // 오늘 남은 경기가 없으면 다음 날 오전 후보도 목록에서 볼 수 있어야 한다.
+        dt: activeToday.window === "next_morning" ? "" : kstMMDD(0),
       }));
       setCap(0);
     }
@@ -583,7 +584,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
 
   const analysis = wait || stale || predictionUnavailable || liveClosed
-    ? null : performanceAnalysis(g, pick?.o || null);
+    ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
   const fallbackForecast = liveClosed
@@ -1105,7 +1106,8 @@ function AvailabilityTeam({ team, rows, connected, emptyText }) {
       {rows.length ? <ul className="mt-1 space-y-1">
         {rows.map((x, i) => <li key={`${x.name}-${i}`} className="text-[11.5px]">
           <b className="text-ink">{x.name}</b>
-          <span className="text-ink3"> · {x.status || "출전 불가"}{x.position ? ` · ${x.position}` : ""}</span>
+          <span className="text-ink3"> · {x.reason_label || "사유 미확인"} · {x.status || "출전 불가"}{x.position ? ` · ${x.position}` : ""}</span>
+          {x.impact_label && <span className="ml-1 rounded border border-rule px-1 text-[9.5px] text-ink3">예상 영향 {x.impact_label}</span>}
         </li>)}
       </ul> : <p className="mt-1 text-[11.5px] text-ink3">
         {connected ? (emptyText || "공식 명단에서 부상 상태로 표시된 선수가 없다.") : "부상·출전 상태 자료가 아직 연결되지 않았다."}
@@ -1131,7 +1133,13 @@ function AvailabilityPanel({ g }) {
       ? "선수 자료는 연결됐지만 별도의 당일 부상·출전 확정 자료는 아니다."
       : (info.coverage?.label || "공식 부상·출전 상태 자료원이 아직 연결되지 않았다."))
     : g.sport === "sc" ? "시즌 핵심 선수들이 모두 선발 명단에 포함됐다." : null;
+  const impact = info.availability_summary;
+  const burdenLabel = (value) => value >= .6 ? "큼" : value >= .25 ? "중간" : value > 0 ? "작음" : "없음";
   return <>
+    {impact && (impact.home_burden > 0 || impact.away_burden > 0) && <div className="mb-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] leading-[1.7] text-ink2">
+      명단 변수 예상 영향 · <b>{g.home} {burdenLabel(impact.home_burden)}</b> · <b>{g.away} {burdenLabel(impact.away_burden)}</b>
+      <p className="mt-1 text-[10px] text-ink3">선수 비중·결장 가능성·대체 수준·출처 신뢰도를 함께 본 진단값이다. 과거 검증 전이라 승률에는 직접 더하지 않는다.</p>
+    </div>}
     <div className="grid gap-2 sm:grid-cols-2">
       <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} emptyText={emptyText} />
       <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} emptyText={emptyText} />

@@ -204,8 +204,16 @@ export function playerSnapshot(game) {
   const unavailable = ["home", "away"].flatMap((side) =>
     (info.unavailable?.[side] || []).map((row) => ({ ...row, team: game?.[side] })));
   if (unavailable.length) {
-    const sample = unavailable.slice(0, 2).map((row) => `${row.team} ${row.name}`).join(", ");
+    const sample = unavailable.slice(0, 2).map((row) => {
+      const detail = [row.reason_label || row.status, row.impact_label && `영향 ${row.impact_label}`].filter(Boolean).join(" · ");
+      return `${row.team} ${row.name}${detail ? `(${detail})` : ""}`;
+    }).join(", ");
     playerNotes.push(`${sample}${unavailable.length > 2 ? ` 외 ${unavailable.length - 2}명` : ""}의 출전 여부가 변수다.`);
+  }
+  const availability = info.availability_summary;
+  if (availability?.leans) {
+    const team = availability.leans === "home" ? game?.away : game?.home;
+    playerNotes.push(`확인된 명단 기준으로는 ${team} 쪽 전력 손실 부담이 더 크다. 이 값은 과거 검증 전이라 모델 확률에는 직접 더하지 않았다.`);
   }
   return { featuredPlayers, playerNotes };
 }
@@ -370,19 +378,27 @@ function performanceReasons(game, prediction, players) {
   return [...new Set(reasons)].slice(0, 6);
 }
 
-export function performanceAnalysis(game, recommended = null) {
+export function performanceAnalysis(game, recommended = null, commentary = "") {
   const prediction = predictionFor(game, recommended);
   const signalSummary = signalSummaryFor(game, prediction);
   const players = playerSnapshot(game);
   const reasons = performanceReasons(game, prediction, players);
   const announced = game?.["선발"]?.lineup_status?.state === "announced"
     || (game?.sport === "bs" && game?.["선발"]?.home);
+  const opposingSignals = (signalSummary?.signals || [])
+    .filter((signal) => signal.side && signal.side !== prediction.side)
+    .map((signal) => `${readableSignal[signal.label] || signal.label}은 ${signal.side} 쪽이 앞선다.`);
+  const cautions = [
+    ...opposingSignals,
+    ...(announced ? [] : ["경기 직전 선발·출전 명단이 바뀌면 예상 흐름도 달라질 수 있다."]),
+  ];
   return {
     prediction,
     decision: prediction.decision,
     signalSummary,
     reasons,
+    commentary: String(commentary || "").trim(),
     ...players,
-    cautions: announced ? [] : ["경기 직전 선발·출전 명단이 바뀌면 예상 흐름도 달라질 수 있다."],
+    cautions: [...new Set(cautions)],
   };
 }

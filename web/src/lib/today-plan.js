@@ -3,6 +3,7 @@ import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
+const NEXT_MORNING_END_HOUR = 12;
 const DATE_TIME = /(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/;
 export const MAX_TODAY_RECHECK_MS = 30 * 60 * 1000;
 export const SAFE_TARGET_BINS = {
@@ -193,7 +194,7 @@ function metricNumber(plan, key, fallback) {
 export function recommendationFromPlans(plans) {
   const available = (plans || []).filter((plan) => plan?.ok);
   if (!available.length) return { action: "none", target: null, index: -1,
-    why: "오늘 23:59 KST까지 구성 가능한 조합이 없다" };
+    why: "현재 선택 가능한 경기로 구성할 조합이 없다" };
   const positive = available.filter((plan) => plan.has_validated_edge === true &&
     metricNumber(plan, "conservative_expected_roi", -99) > 0);
   const challenge = available.filter((plan) =>
@@ -319,13 +320,26 @@ function legacyCandidates(today) {
 const kstDay = (time) => Math.floor((time + KST_OFFSET_MS) / DAY_MS);
 const nextKstMidnight = (now) => (kstDay(now) + 1) * DAY_MS - KST_OFFSET_MS;
 
-function futureTodayCandidates(today, now) {
-  if (!today) return [];
+function futureCandidatesInWindow(today, now) {
+  if (!today) return { candidates: [], window: "today" };
   const source = today.candidates?.length ? today.candidates : legacyCandidates(today);
-  return eligibleFinalSelections(source).filter((candidate) => {
+  const future = eligibleFinalSelections(source).filter((candidate) => {
     const kickoff = kickoffTime(candidate, today.year);
-    return Number.isFinite(kickoff) && kickoff > now && kstDay(kickoff) === kstDay(now);
+    return Number.isFinite(kickoff) && kickoff > now;
   });
+  const currentDay = kstDay(now);
+  const todayCandidates = future.filter((candidate) =>
+    kstDay(kickoffTime(candidate, today.year)) === currentDay);
+  if (todayCandidates.length) return { candidates: todayCandidates, window: "today" };
+  const morningEnd = (currentDay + 1) * DAY_MS - KST_OFFSET_MS
+    + NEXT_MORNING_END_HOUR * 60 * 60 * 1000;
+  return {
+    candidates: future.filter((candidate) => {
+      const kickoff = kickoffTime(candidate, today.year);
+      return kstDay(kickoff) === currentDay + 1 && kickoff < morningEnd;
+    }),
+    window: "next_morning",
+  };
 }
 
 /**
@@ -340,7 +354,7 @@ export function nextTodayRefreshDelay(
   const waitLimit = Number.isFinite(maxWait) && maxWait > 0
     ? maxWait : MAX_TODAY_RECHECK_MS;
   if (!today) return waitLimit;
-  const nextKickoff = futureTodayCandidates(today, now)
+  const nextKickoff = futureCandidatesInWindow(today, now).candidates
     .map((candidate) => kickoffTime(candidate, today.year))
     .sort((a, b) => a - b)[0];
   const wakeAt = Number.isFinite(nextKickoff) ? nextKickoff : nextKstMidnight(now);
@@ -350,7 +364,8 @@ export function nextTodayRefreshDelay(
 
 export function availableToday(today, now = Date.now()) {
   if (!today) return { plans: [], solo: null, candidates: [], next: null };
-  const candidates = futureTodayCandidates(today, now)
+  const activeWindow = futureCandidatesInWindow(today, now);
+  const candidates = activeWindow.candidates
     .sort((a, b) => byNextKickoff(a, b, today.year));
 
   const plans = (today.plans || []).map((plan) => {
@@ -380,6 +395,7 @@ export function availableToday(today, now = Date.now()) {
     solo: measuredSolo,
     recommendation: recommendationFromPlans(plans),
     candidates,
+    window: activeWindow.window,
     next: candidates[0] || null,
     evolutionary_selector: refreshEvolutionarySelector(today.evolutionary_selector, candidates),
   };

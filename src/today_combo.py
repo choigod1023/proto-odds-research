@@ -32,7 +32,7 @@
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import itertools
 import json
 import math
@@ -135,7 +135,7 @@ def kickoff_at(date_text: object, year: int, round_no: object = None) -> datetim
 
 
 def legs_today(now: datetime | None = None) -> list[dict]:
-    """KST 오늘 23:59까지 구매할 수 있는 시작 전 선택지만 다리 후보로 편다.
+    """KST 오늘과, 오늘 후보 소진 시 쓸 다음 날 오전 선택지를 함께 준비한다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
        배당으로 걸린다.** 같은 결과에 더 받는 쪽이 순수하게 유리하므로 높은 배당만 남긴다.
@@ -159,9 +159,15 @@ def legs_today(now: datetime | None = None) -> list[dict]:
             if recommendation_exclusion_reason(g.get("market")):
                 continue
             kickoff = kickoff_at(g.get("date"), source_year, rnd.get("round"))
-            # 시작한 경기와 KST 자정 이후 경기는 '오늘 살 거면'에서 제외한다.
-            # 23:59 시작은 오늘, 00:00 시작은 내일 픽이다.
-            if kickoff is None or kickoff <= now or kickoff.date() != now.date():
+            # 화면은 오늘 적격 후보가 있으면 오늘 것만 쓰고, 없을 때에만 다음 날
+            # 00:00~11:59 후보로 전환한다. 자정 직후 수집을 기다리지 않도록 생성물에는
+            # 두 구간을 미리 함께 담는다.
+            tomorrow = now.date() + timedelta(days=1)
+            in_window = kickoff is not None and (
+                kickoff.date() == now.date()
+                or (kickoff.date() == tomorrow and kickoff.hour < 12)
+            )
+            if kickoff is None or kickoff <= now or not in_window:
                 continue
             over = g.get("overround")
             if not over or not (1.0 < over <= 1.40):
@@ -345,7 +351,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
     available = [plan for plan in plans if plan.get("ok")]
     if not available:
         return {"action": "none", "recommended_target": None,
-                "why": "오늘 23:59 KST까지 구성 가능한 조합이 없다"}
+                "why": "현재 선택 가능한 경기로 구성할 조합이 없다"}
     positive = [plan for plan in available
                 if plan.get("has_validated_edge") is True
                 and _metric_number(plan, "conservative_expected_roi", -99.0) > 0.0]
