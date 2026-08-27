@@ -213,12 +213,13 @@ function TodayListControls({ activeToday, combo, grades, view, onView, upsetCoun
   const recommendedPlan = recommendedIndex >= 0 ? plans[recommendedIndex] : null;
   const bl = (combo?.baseline || []).find((row) => row.legs === 2);
   const bestBin = (grades?.odds_bins || []).find((row) => row.grade === "A");
+  const periodLabel = activeToday?.window === "next_morning" ? "다음 날 오전" : "오늘";
 
   if (!plans.length && !solo && !upsetCount) {
     return (
       <div className="mb-5 rounded-md border border-rule bg-panel px-4 py-4">
-        <b className="text-[14px]">오늘 조합</b>
-        <p className="mt-1 text-[12px] leading-6 text-ink3">오늘 23:59 KST까지 시작하는 경기 중 현재 판정과 안전 조건을 함께 통과한 조합이 없습니다. 경기 시작과 데이터 갱신 때 자동으로 다시 계산합니다.</p>
+        <b className="text-[14px]">예측 가능한 경기 없음</b>
+        <p className="mt-1 text-[12px] leading-6 text-ink3">오늘 남은 경기와 다음 날 오전 11:59 KST까지의 경기 중 현재 판정과 안전 조건을 함께 통과한 후보가 없습니다. 경기 시작과 데이터 갱신 때 자동으로 다시 계산합니다.</p>
       </div>
     );
   }
@@ -227,14 +228,16 @@ function TodayListControls({ activeToday, combo, grades, view, onView, upsetCoun
     <div className="mb-5 rounded-md border border-ink bg-paper px-4 py-4" aria-label="경기 목록 오늘 조합">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">경기 목록에 통합된 오늘 조합</div>
+          <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">
+            {activeToday.window === "next_morning" ? "오늘 후보 없음 · 다음 날 오전 경기" : "경기 목록에 통합된 오늘 조합"}
+          </div>
           <div className="mt-1 text-[14px] font-semibold text-ink">
-            {recommendation.action === "buy" ? "오늘 우선" : recommendation.action === "challenge" ? "오늘 도전" : "오늘 관찰"}
+            {recommendation.action === "buy" ? `${periodLabel} 우선` : recommendation.action === "challenge" ? `${periodLabel} 도전` : `${periodLabel} 관찰`}
             {recommendedPlan ? ` · ${recommendedPlan.target}배 · ${recommendedPlan.legs}폴` : ""}
           </div>
         </div>
         <div className="text-right text-[10.5px] leading-5 text-ink3">
-          정배 1순위 1.50 이상 · 미만은 보조 추천<br />역배는 근거 관문 통과 때 별도 표시 · KST 23:59까지
+          정배 1순위 1.50 이상 · 미만은 보조 추천<br />역배는 근거 관문 통과 때 별도 표시 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
         </div>
       </div>
       <div className={`mt-3 rounded border px-3 py-2 text-[11.5px] leading-[1.65] ${
@@ -395,7 +398,9 @@ function GameList({ data, grades, caps, stale, today, combo }) {
         mk: "",
         // 조합 탭은 오늘 구매용이지만 이변 도전은 사용자가 보고 있던 날짜를
         // 유지해야 내일 후보를 살펴보다 갑자기 오늘로 튕기지 않는다.
-        dt: nextView === "upset" ? current.dt : kstMMDD(0),
+        dt: nextView === "upset"
+          ? current.dt
+          : activeToday.window === "next_morning" ? "" : kstMMDD(0),
       }));
       setCap(0);
     }
