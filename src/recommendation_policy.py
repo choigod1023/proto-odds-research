@@ -9,6 +9,7 @@ from __future__ import annotations
 import math
 
 
+MIN_AUTO_RECOMMENDATION_ODDS = 1.5
 MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
 AUTO_RECOMMENDATION_EXCLUSIONS = {
@@ -38,6 +39,8 @@ def automatic_selection_exclusion_reason(
         price = None
     if price is None or not math.isfinite(price) or price <= 1.0:
         return "유효한 배당이 없어 자동 추천 제외"
+    if price < MIN_AUTO_RECOMMENDATION_ODDS:
+        return "배당 1.50 미만 — 적중 대비 환급이 낮아 자동 투입 제외"
     if price >= MAX_AUTO_RECOMMENDATION_ODDS:
         return "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
 

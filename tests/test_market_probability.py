@@ -19,6 +19,7 @@ from outcome_signal_backtest import devig as outcome_signal_devig  # noqa: E402
 from combo_optimizer import pick_target_legs  # noqa: E402
 from recommendation_policy import (  # noqa: E402
     MAX_AUTO_RECOMMENDATION_ODDS,
+    MIN_AUTO_RECOMMENDATION_ODDS,
     automatic_selection_exclusion_reason,
     is_recommendable_market,
     recommendation_exclusion_reason,
@@ -92,39 +93,24 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
 
 def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     negative = [
-        {"ok": True, "target": 2, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.39},
+        {"ok": True, "target": 3, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.269},
         {"ok": True, "target": 5, "conservative_expected_roi": -0.12, "calibrated_hit_est": 0.70},
     ]
     assert daily_recommendation(negative)["action"] == "pass"
-    assert daily_recommendation(negative)["recommended_target"] == 2
-    challenge = [{"ok": True, "target": 1.4, "actual_odds": 1.39,
-                  "calibrated_hit_est": 0.607,
-                  "conservative_hit_est": 0.593,
-                  "conservative_expected_roi": -0.174}]
+    assert daily_recommendation(negative)["recommended_target"] == 3
+    challenge = [{"ok": True, "target": 3, "actual_odds": 2.89,
+                  "calibrated_hit_est": 0.282,
+                  "conservative_hit_est": 0.282,
+                  "conservative_expected_roi": -0.185}]
     assert daily_recommendation(challenge)["action"] == "challenge"
-    assert daily_recommendation(challenge)["recommended_target"] == 1.4
+    assert daily_recommendation(challenge)["recommended_target"] == 3
     assert daily_recommendation(challenge)["budget_ratio"] == 0.1
-    balanced = [
-        {"ok": True, "target": 1.4, "calibrated_hit_est": 0.62,
-         "conservative_expected_roi": -0.15},
-        {"ok": True, "target": 2, "calibrated_hit_est": 0.43,
-         "conservative_expected_roi": -0.17},
-    ]
-    assert daily_recommendation(balanced)["action"] == "challenge"
-    assert daily_recommendation(balanced)["recommended_target"] == 2
-    materially_worse_double = [
-        {"ok": True, "target": 1.4, "calibrated_hit_est": 0.62,
-         "conservative_expected_roi": -0.10},
-        {"ok": True, "target": 2, "calibrated_hit_est": 0.43,
-         "conservative_expected_roi": -0.19},
-    ]
-    assert daily_recommendation(materially_worse_double)["recommended_target"] == 1.4
-    too_risky = [{"ok": True, "target": 1.4,
-                  "calibrated_hit_est": 0.60,
-                  "conservative_expected_roi": -0.201}]
+    too_risky = [{"ok": True, "target": 3,
+                  "calibrated_hit_est": 0.30,
+                  "conservative_expected_roi": -0.206}]
     assert daily_recommendation(too_risky)["action"] == "pass"
-    malformed = [{"ok": True, "target": 1.4,
-                  "calibrated_hit_est": 0.60,
+    malformed = [{"ok": True, "target": 3,
+                  "calibrated_hit_est": 0.30,
                   "conservative_expected_roi": None}]
     assert daily_recommendation(malformed)["action"] == "pass"
     positive = [{"ok": True, "target": 3, "actual_odds": 3.0,
@@ -140,7 +126,10 @@ def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():
 
 
 def test_high_odds_and_market_underdog_are_not_auto_recommendations():
+    assert MIN_AUTO_RECOMMENDATION_ODDS == 1.5
     assert MAX_AUTO_RECOMMENDATION_ODDS == 2.2
+    assert "1.50 미만" in automatic_selection_exclusion_reason("승패", 1.49, 0.68, 0.68)
+    assert automatic_selection_exclusion_reason("승패", 1.5, 0.60, 0.60) is None
     assert "2.20 이상" in automatic_selection_exclusion_reason("승패", 2.2, 0.48, 0.52)
     assert "역배" in automatic_selection_exclusion_reason("승패", 2.05, 0.42, 0.58)
     assert automatic_selection_exclusion_reason("승무패", 1.95, 0.45, 0.45) is None

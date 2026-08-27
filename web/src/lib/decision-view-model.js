@@ -1,4 +1,4 @@
-import { eligibleAutoSelections } from "./recommendation-policy.js";
+import { eligibleAutoSelections, MIN_AUTO_ODDS } from "./recommendation-policy.js";
 
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
@@ -134,23 +134,30 @@ const stageRows = (stages) => Array.isArray(stages)
     : [];
 
 const reconstructMarketContract = (game) => {
-  const eligible = eligibleAutoSelections(game?.options || [])
+  const valid = (game?.options || [])
     .filter((option) => {
       const probability = finite(option?.["시장확률"]);
-      return probability !== null && probability > 0 && probability < 1;
+      const price = finite(option?.["배당"]);
+      return String(option?.market || "").trim() !== "홀짝" &&
+        probability !== null && probability > 0 && probability < 1 && price > 1;
     });
-  const resolved = eligible.sort((a, b) =>
+  const eligible = eligibleAutoSelections(valid).filter((option) => {
+    const probability = finite(option?.["시장확률"]);
+    return probability !== null && probability > 0 && probability < 1;
+  });
+  const rank = (a, b) =>
     finite(b?.["시장확률"]) - finite(a?.["시장확률"]) ||
     finite(a?.["배당"]) - finite(b?.["배당"]) ||
     String(a?.market || "").localeCompare(String(b?.market || "")) ||
     String(a?.label || "").localeCompare(String(b?.label || "")) ||
-    String(a?.["선택"] || "").localeCompare(String(b?.["선택"] || ""))
-  )[0] || null;
+    String(a?.["선택"] || "").localeCompare(String(b?.["선택"] || ""));
+  const resolved = [...(eligible.length ? eligible : valid)].sort(rank)[0] || null;
   const market = finite(resolved?.["시장확률"]);
   const shadow = finite(resolved?.["모델확률"]);
   const recalculatedAt = game?._liveOddsRecalculatedAt || null;
   return {
     reconstructed: true,
+    recommendationRecovered: eligible.includes(resolved),
     resolved,
     errors: [],
     raw: {
@@ -172,8 +179,10 @@ const reconstructMarketContract = (game) => {
         artifact_hash: null,
       },
       gate_codes: resolved
-        ? [game?._liveOddsRecalculated
-          ? "live_odds_recalculated" : "reconstructed_market_reference"]
+        ? eligible.includes(resolved)
+          ? [game?._liveOddsRecalculated
+            ? "live_odds_recalculated" : "reconstructed_market_reference"]
+          : ["no_eligible_market_reference"]
         : ["no_eligible_market_reference"],
       explanation: { kind: "structured_ui", affects_probability: false },
       audit: recalculatedAt ? {
@@ -235,6 +244,14 @@ const snapshotContract = (game) => {
   } else {
     errors.push("unknown_action");
   }
+  const resolvedOdds = finite(resolved?.["배당"]);
+  if (!errors.length && resolved && resolvedOdds !== null &&
+      !eligibleAutoSelections(game?.options || []).includes(resolved)) {
+    const rebuilt = reconstructMarketContract(game);
+    if (rebuilt.recommendationRecovered) {
+      return { ...rebuilt, policyRecalculated: true };
+    }
+  }
   return { raw, errors, resolved, reconstructed: false };
 };
 
@@ -259,6 +276,12 @@ export function buildDecisionViewModel(game, option = null) {
     (rawSelectionId === optionSelectionId && raw?.offer_id === option?.offer_id)
   );
   const contractValid = contract.errors.length === 0;
+  const resolvedOdds = finite(contract.resolved?.["배당"]);
+  const recommendationEligible = contract.resolved && resolvedOdds !== null
+    ? eligibleAutoSelections(game?.options || []).includes(contract.resolved)
+    : null;
+  const minimumOddsBlocked = contractValid && raw.action === "market_reference" &&
+    contract.resolved && resolvedOdds !== null && resolvedOdds < MIN_AUTO_ODDS;
   const action = contractValid && raw.action === "market_reference" && game?._liveStarted
     ? "closed"
     : contractValid && raw.action === "market_reference" && liveRevisionChanged
@@ -325,10 +348,16 @@ export function buildDecisionViewModel(game, option = null) {
     audit: raw?.audit || null,
     contractReconstructed: contract.reconstructed === true,
     liveOddsRecalculated: game?._liveOddsRecalculated === true,
+    policyRecalculated: contract.policyRecalculated === true,
+    recommendationEligible,
     contractErrors: contract.errors,
     gateCodes: contract.errors.length
       ? ["invalid_decision_contract", ...contract.errors]
-      : raw?.gate_codes || (action === "withhold" ? ["no_operating_selection"] : []),
+      : minimumOddsBlocked
+        ? ["minimum_recommendation_odds"]
+        : recommendationEligible === false
+          ? ["not_auto_recommendable"]
+        : raw?.gate_codes || (action === "withhold" ? ["no_operating_selection"] : []),
     staleReason: liveRevisionChanged ? "live_price_revision_changed" : null,
   };
 }
@@ -338,6 +367,9 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
+  if (decision?.policyRecalculated && decision?.recommendationEligible) {
+    return "시장 기준 비교 · 1.50 하한 적용";
+  }
   if (decision?.liveOddsRecalculated) return "시장 기준 비교 · 실시간 재계산";
   if (decision?.contractReconstructed) return "시장 기준 비교 · 자동 복구";
   return decision?.model?.validatedEdge ? "검증 AI 판정" : "시장 기준 비교";

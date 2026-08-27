@@ -59,8 +59,9 @@ def test_market_reference_ignores_shadow_model_ev():
     game = _game()
     selected = choose_market_reference(game["options"])
 
-    assert selected["선택"] == "승"
-    assert selected["시장확률"] == 0.66
+    assert selected["선택"] == "언더"
+    assert selected["시장확률"] == 0.55
+    assert game["options"][0]["제외"].startswith("배당 1.50 미만")
     assert game["options"][1]["제외"].startswith("배당 2.20 이상")
     assert game["options"][2]["선택근거"] == "shin_market_accuracy"
 
@@ -72,11 +73,11 @@ def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():
     snapshot = build_decision_snapshot(
         game, as_of="2026-08-27T09:00:00+09:00", explanation_kind="llm_assisted")
 
-    assert game["추천"]["선택"] == "승"
+    assert game["추천"]["선택"] == "언더"
     assert snapshot["selection_id"] == game["추천"]["selection_id"]
-    assert snapshot["probability"]["market"] == 0.66
-    assert snapshot["probability"]["ai_candidate"] == 0.31
-    assert snapshot["probability"]["ai_delta_candidate"] == -0.35
+    assert snapshot["probability"]["market"] == 0.55
+    assert snapshot["probability"]["ai_candidate"] == 0.75
+    assert snapshot["probability"]["ai_delta_candidate"] == 0.20
     assert snapshot["probability"]["ai_delta_applied"] == 0.0
     assert snapshot["probability"]["final"] == snapshot["probability"]["market"]
     assert snapshot["model"]["status"] == "shadow"
@@ -122,7 +123,7 @@ def test_no_eligible_market_reference_is_an_explicit_withhold():
 
 def test_recalculation_clears_stale_exclusion_reason():
     game = _game()
-    option = game["options"][0]
+    option = game["options"][2]
     option["제외"] = "이전 배당에서 제외됨"
 
     selected = choose_market_reference(game["options"])

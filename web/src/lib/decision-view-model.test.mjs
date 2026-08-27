@@ -222,9 +222,47 @@ test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 �
   const decision = buildDecisionViewModel(live, selected);
   assert.equal(decision.action, "market_reference");
   assert.equal(decision.probability.final, .7256);
+  assert.equal(decision.recommendationEligible, false);
+  assert.deepEqual(decision.gateCodes, ["minimum_recommendation_odds"]);
   assert.equal(decision.liveOddsRecalculated, true);
   assert.equal(decision.asOf, "2026-08-27T05:02:24Z");
   assert.equal(decisionLabel(decision), "시장 기준 비교 · 실시간 재계산");
+});
+
+test("1.50 미만 시장 최유력은 분석하되 자동 투입에서 제외한다", () => {
+  const lowOption = { ...option, 배당: 1.49 };
+  const decision = buildDecisionViewModel(
+    gameFor(snapshot, { options: [lowOption] }),
+    lowOption,
+  );
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.probability.final, .62);
+  assert.equal(decision.recommendationEligible, false);
+  assert.deepEqual(decision.gateCodes, ["minimum_recommendation_odds"]);
+  assert.equal(decisionLabel(decision), "시장 기준 비교");
+});
+
+test("기존 판정이 1.50 미만이면 같은 경기의 다음 시장 최유력으로 다시 판정한다", () => {
+  const lowOption = { ...option, 배당: 1.48 };
+  const eligibleOption = {
+    ...option,
+    selection_id: "sel_under",
+    offer_id: "off_under",
+    market: "언더오버",
+    선택: "언더",
+    배당: 1.75,
+    시장확률: .55,
+    모델확률: .57,
+  };
+  const game = gameFor(snapshot, { options: [lowOption, eligibleOption] });
+  const selected = resolveDecisionOption(game);
+  const decision = buildDecisionViewModel(game, selected);
+  assert.equal(selected, eligibleOption);
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.probability.final, .55);
+  assert.equal(decision.recommendationEligible, true);
+  assert.equal(decision.policyRecalculated, true);
+  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 하한 적용");
 });
 
 test("스냅샷이 실제로 존재하지만 식별자가 깨졌으면 자동 복구하지 않는다", () => {

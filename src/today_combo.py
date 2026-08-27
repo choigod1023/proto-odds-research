@@ -44,6 +44,7 @@ from zoneinfo import ZoneInfo
 from evolutionary_policy import live_snapshot, load_artifact
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
+    MIN_AUTO_RECOMMENDATION_ODDS,
     automatic_selection_exclusion_reason,
     recommendation_exclusion_reason,
 )
@@ -59,18 +60,16 @@ EVOLUTION_ARTIFACT = ROOT / "findings" / "evolutionary_selector.json"
 BINS = [(1.0, 1.3), (1.3, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), (5.0, 999)]
 LABELS = ["1.0-1.3", "1.3-1.5", "1.5-1.8", "1.8-2.2", "2.2-3.0", "3.0-5.0", "5.0+"]
 BANNED = {"2.2-3.0", "3.0-5.0", "5.0+"}
-TARGETS = [1.4, 2, 3, 5, 8, 12]
+TARGETS = [3, 5, 8, 12]
 SAFE_TARGET_BINS = {
-    1.4: ["1.0-1.3", "1.0-1.3"],
-    2: ["1.0-1.3", "1.5-1.8"],
-    3: ["1.3-1.5", "1.8-2.2"],
+    3: ["1.5-1.8", "1.5-1.8"],
     5: ["1.5-1.8", "1.5-1.8", "1.5-1.8"],
     8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
     12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 }
-DAILY_CHALLENGE_MIN_ROI = -0.20
-DAILY_CHALLENGE_MIN_HIT = {1.4: 0.55, 2: 0.40}
-DAILY_CHALLENGE_MAX_TARGET = 2
+DAILY_CHALLENGE_MIN_ROI = -0.205
+DAILY_CHALLENGE_MIN_HIT = {3: 0.27}
+DAILY_CHALLENGE_MAX_TARGET = 3
 DAILY_CHALLENGE_ROI_TOLERANCE = 0.03
 DAILY_CHALLENGE_BUDGET_RATIO = 0.10
 KST = ZoneInfo("Asia/Seoul")
@@ -226,8 +225,15 @@ def legs_today(now: datetime | None = None) -> list[dict]:
     deduped = [candidate for candidate in deduped if float(candidate["market_prob"]) >=
                favorite_by_market[(candidate["event_key"], candidate["market"],
                                    str(candidate["market_label"]))] - 1e-9]
+    # 경기 카드와 오늘 조합이 서로 다른 마켓을 추천하지 않도록 실제 경기마다
+    # 시장확률이 가장 높은 자동 투입 후보 하나만 남긴다.
+    best_by_event: dict[str, dict] = {}
+    for candidate in deduped:
+        current = best_by_event.get(candidate["event_key"])
+        if current is None or leg_quality(candidate) < leg_quality(current):
+            best_by_event[candidate["event_key"]] = candidate
     return sorted(
-        deduped,
+        best_by_event.values(),
         key=lambda x: (x["kickoff_at"], x["overround"], -x["odds"]),
     )
 
@@ -360,7 +366,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 _metric_number(plan, "conservative_expected_roi", -99.0),
                 _metric_number(plan, "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "2배 이하 조합이 시장확률 기준 손실지표 −20% 이내와 목표별 적중 문턱을 충족한다"
+            why = "각 경기 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
                 _metric_number(plan, "conservative_expected_roi", -99.0),
@@ -392,7 +398,7 @@ def build() -> dict:
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "bins": bins,
-                              "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"})
+                              "why": "시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
         out_plans.append({
@@ -407,7 +413,7 @@ def build() -> dict:
 
     # 단폴 — 지정 경기라면 가장 덜 잃는 한 장
     solo = None
-    lo = [c for c in cands if c["bin"] == "1.0-1.3"]
+    lo = list(cands)
     if lo:
         lo.sort(key=leg_quality)
         solo = {**lo[0], **ticket_metrics([lo[0]])}
@@ -418,12 +424,13 @@ def build() -> dict:
         "generated_at": today.get("generated_at"),
         "year": today.get("year"),
         "probability_method": today.get("probability_method", "legacy"),
-        "basis": "각 시장에서 시장확률 1위이며 배당 2.20 미만인 선택만 쓴다. "
+        "basis": "각 시장에서 시장확률 1위이며 배당 1.50 이상 2.20 미만인 선택만 쓴다. "
                  "목표 배당 범위 안에서는 결합 적중확률을 가장 먼저 최대화한다.",
         "n_candidates": len(cands),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "시장 최유력만 · 다리당 2.20 미만 · 목표범위에서 적중확률 우선",
+        "selection_policy": "시장 최유력만 · 다리당 1.50 이상 2.20 미만 · 목표범위에서 적중확률 우선",
+        "min_leg_odds_inclusive": MIN_AUTO_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
         "solo": solo,
@@ -435,8 +442,8 @@ def build() -> dict:
         "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. "
                 "목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 "
                 "나아 유지하지만 사전 검증된 시장 우위는 아니다. "
-                "그보다 낮아도 목표 2배 이하·시장확률 기준 손실지표 −20% 이내이며 "
-                "목표별 시장 적중 추정(1.4배 55%·2배 40%)을 넘으면 "
+                "그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 "
+                "손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 "
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
@@ -460,6 +467,8 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 같은 경기를 두 번 썼다 {gs} — 규정 위반")
         if any(c["bin"] in BANNED for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 금지 배당대가 섞였다")
+        if any(float(c["odds"]) < MIN_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
+            bad.append(f"목표 {p['target']}× : 1.50 미만 선택지가 섞였다")
         if any(float(c["odds"]) >= MAX_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 2.20 이상 선택지가 섞였다")
         if any(not c.get("is_market_favorite") for c in p["picks"]):
@@ -501,7 +510,7 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"다리 후보 {d['n_candidates']:,}개 (홀짝·역배·2.20+ 제외)\n")
+    print(f"다리 후보 {d['n_candidates']:,}개 (홀짝·역배·1.50 미만·2.20+ 제외)\n")
     if d["solo"]:
         s = d["solo"]
         print(f"[단폴] {s['league']} {s['match']} · {s['market']} {s['sel']} @ {s['odds']} "

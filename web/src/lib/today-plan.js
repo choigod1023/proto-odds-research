@@ -6,17 +6,15 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const DATE_TIME = /(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/;
 export const MAX_TODAY_RECHECK_MS = 30 * 60 * 1000;
 export const SAFE_TARGET_BINS = {
-  1.4: ["1.0-1.3", "1.0-1.3"],
-  2: ["1.0-1.3", "1.5-1.8"],
-  3: ["1.3-1.5", "1.8-2.2"],
+  3: ["1.5-1.8", "1.5-1.8"],
   5: ["1.5-1.8", "1.5-1.8", "1.5-1.8"],
   8: ["1.8-2.2", "1.8-2.2", "1.8-2.2"],
   12: ["1.5-1.8", "1.8-2.2", "1.8-2.2", "1.8-2.2"],
 };
 
-export const DAILY_CHALLENGE_MIN_ROI = -0.20;
-export const DAILY_CHALLENGE_MIN_HIT = { 1.4: 0.55, 2: 0.40 };
-export const DAILY_CHALLENGE_MAX_TARGET = 2;
+export const DAILY_CHALLENGE_MIN_ROI = -0.205;
+export const DAILY_CHALLENGE_MIN_HIT = { 3: 0.27 };
+export const DAILY_CHALLENGE_MAX_TARGET = 3;
 export const DAILY_CHALLENGE_ROI_TOLERANCE = 0.03;
 export const DAILY_CHALLENGE_BUDGET_RATIO = 0.10;
 
@@ -225,7 +223,7 @@ export function recommendationFromPlans(plans) {
     best = [...balanced].sort((a, b) =>
       metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
         byRiskAdjustedQuality(a, b))[0];
-    why = "2배 이하 조합이 시장확률 기준 손실지표 −20% 이내와 목표별 적중 문턱을 충족한다";
+    why = "각 경기 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
@@ -360,7 +358,7 @@ export function availableToday(today, now = Date.now()) {
     const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
       return { ...plan, ok: false,
-        why: "시장 최유력·2.20 미만인 시작 전 경기만으로 조합할 수 없다" };
+        why: "시장 최유력·1.50 이상·2.20 미만인 시작 전 경기만으로 조합할 수 없다" };
     }
     return {
       ...plan,
@@ -371,8 +369,7 @@ export function availableToday(today, now = Date.now()) {
     };
   });
 
-  const solo = candidates
-    .filter((candidate) => candidate.bin === "1.0-1.3")
+  const solo = [...candidates]
     .sort((a, b) => byLegQuality(a, b, today.year))[0] || null;
   const measuredSolo = solo ? { ...solo, ...ticketMetrics([solo]) } : null;
 

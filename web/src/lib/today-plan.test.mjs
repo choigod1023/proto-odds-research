@@ -111,36 +111,25 @@ assert.equal(metrics.calibration_min_n, null);
 assert.match(metrics.probability_basis, /Shin/);
 
 const pass = recommendationFromPlans([
-  { ok: true, target: 2, conservative_expected_roi: -0.05, calibrated_hit_est: 0.39 },
+  { ok: true, target: 3, conservative_expected_roi: -0.05, calibrated_hit_est: 0.269 },
   { ok: true, target: 5, conservative_expected_roi: -0.12, calibrated_hit_est: 0.70 },
 ]);
 assert.equal(pass.action, "pass");
-assert.equal(pass.target, 2);
+assert.equal(pass.target, 3);
 const dailyChallenge = recommendationFromPlans([
-  { ok: true, target: 1.4, actual_odds: 1.39, calibrated_hit_est: 0.607,
-    conservative_hit_est: 0.593, conservative_expected_roi: -0.174 },
+  { ok: true, target: 3, actual_odds: 2.89, calibrated_hit_est: 0.282,
+    conservative_hit_est: 0.282, conservative_expected_roi: -0.185 },
 ]);
 assert.equal(dailyChallenge.action, "challenge");
-assert.equal(dailyChallenge.target, 1.4);
+assert.equal(dailyChallenge.target, 3);
 assert.equal(dailyChallenge.budget_ratio, 0.1);
-const balancedChallenge = recommendationFromPlans([
-  { ok: true, target: 1.4, calibrated_hit_est: 0.62, conservative_expected_roi: -0.15 },
-  { ok: true, target: 2, calibrated_hit_est: 0.43, conservative_expected_roi: -0.17 },
-]);
-assert.equal(balancedChallenge.action, "challenge");
-assert.equal(balancedChallenge.target, 2, "관문을 넘은 2배를 1.4배보다 우선한다");
-const materiallyWorseDouble = recommendationFromPlans([
-  { ok: true, target: 1.4, calibrated_hit_est: 0.62, conservative_expected_roi: -0.10 },
-  { ok: true, target: 2, calibrated_hit_est: 0.43, conservative_expected_roi: -0.19 },
-]);
-assert.equal(materiallyWorseDouble.target, 1.4, "보수 기대가 3%p 넘게 나쁘면 2배를 강제하지 않는다");
 const tooRiskyForDailyChallenge = recommendationFromPlans([
-  { ok: true, target: 1.4, calibrated_hit_est: 0.60,
-    conservative_expected_roi: -0.201 },
+  { ok: true, target: 3, calibrated_hit_est: 0.30,
+    conservative_expected_roi: -0.206 },
 ]);
 assert.equal(tooRiskyForDailyChallenge.action, "pass");
 const malformedChallenge = recommendationFromPlans([
-  { ok: true, target: 1.4, calibrated_hit_est: 0.60,
+  { ok: true, target: 3, calibrated_hit_est: 0.30,
     conservative_expected_roi: null },
 ]);
 assert.equal(malformedChallenge.action, "pass",
