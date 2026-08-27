@@ -148,6 +148,7 @@ const reconstructMarketContract = (game) => {
   )[0] || null;
   const market = finite(resolved?.["시장확률"]);
   const shadow = finite(resolved?.["모델확률"]);
+  const recalculatedAt = game?._liveOddsRecalculatedAt || null;
   return {
     reconstructed: true,
     resolved,
@@ -156,7 +157,7 @@ const reconstructMarketContract = (game) => {
       action: resolved ? "market_reference" : "withhold",
       selection_id: null,
       offer_id: null,
-      as_of: null,
+      as_of: recalculatedAt,
       probability: {
         market,
         ai_candidate: shadow,
@@ -171,9 +172,15 @@ const reconstructMarketContract = (game) => {
         artifact_hash: null,
       },
       gate_codes: resolved
-        ? ["reconstructed_market_reference"]
+        ? [game?._liveOddsRecalculated
+          ? "live_odds_recalculated" : "reconstructed_market_reference"]
         : ["no_eligible_market_reference"],
       explanation: { kind: "structured_ui", affects_probability: false },
+      audit: recalculatedAt ? {
+        feature_cutoff_at: recalculatedAt,
+        built_at: recalculatedAt,
+        pre_registered: false,
+      } : null,
     },
   };
 };
@@ -317,6 +324,7 @@ export function buildDecisionViewModel(game, option = null) {
     sources: uniqueById(raw?.sources || []),
     audit: raw?.audit || null,
     contractReconstructed: contract.reconstructed === true,
+    liveOddsRecalculated: game?._liveOddsRecalculated === true,
     contractErrors: contract.errors,
     gateCodes: contract.errors.length
       ? ["invalid_decision_contract", ...contract.errors]
@@ -330,6 +338,7 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
+  if (decision?.liveOddsRecalculated) return "시장 기준 비교 · 실시간 재계산";
   if (decision?.contractReconstructed) return "시장 기준 비교 · 자동 복구";
   return decision?.model?.validatedEdge ? "검증 AI 판정" : "시장 기준 비교";
 }
