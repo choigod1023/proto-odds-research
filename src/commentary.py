@@ -5,7 +5,7 @@
     2) 연승/연패·홈원정 성적 등 상태 진단
     3) 시즌 상대전적
     4) 모델 판단과 시장 가격 비교
-    5) "다만 ~" 으로 반박 여지 제시
+    5) "반대 근거: ~" 로 반박 여지 제시
 
 ⚠️ 데이터에 있는 것만 쓴다.
    프로토 아카이브에는 팀명·스코어·배당·결과만 있다.
@@ -118,14 +118,14 @@ def _projection(fh: Form | None, fa: Form | None, sport: str,
     total = eh + ea
     gap = abs(eh - ea)
 
-    unit = {"bs": "점", "bk": "점", "sc": "골", "vl": "세트"}.get(sport, "점")
+    unit = "골" if sport == "sc" else "점"
 
     # 종목별 기본선을 실제 발매선인 것처럼 쓰면 안 된다. 실제 U/O 라인이 있을 때만
     # 비교하고, 없으면 단순 합계 추정치만 말한다.
     if line is not None:
         ou = "오버" if total > line else "언더"
         s = (f"단순 최근 지표로 계산한 합계는 {total:.1f}{unit} 안팎이다. "
-             f"실제 기준선 {line:g}{unit}과 비교하면 {ou} 쪽이다")
+             f"실제 기준선은 {line:g}{unit}이고 최근 득실 계산 결과는 {ou}다")
     else:
         s = f"단순 최근 지표로 계산한 합계는 {total:.1f}{unit} 안팎이다"
 
@@ -181,7 +181,7 @@ def _market_tension(home: str, away: str, p_model: float, p_market: float,
     if close_market is not None and close_model is not None and close_model - close_market >= 0.08:
         close_label = margin.get("label") or "접전"
         bits.append(
-            f"{close_label} 가능성도 시장 {close_market*100:.0f}%와 모델 {close_model*100:.0f}%가 엇갈린다"
+            f"{close_label} 확률도 시장 {close_market*100:.0f}%와 모델 {close_model*100:.0f}%가 엇갈린다"
         )
         routes += 1
 
@@ -189,8 +189,8 @@ def _market_tension(home: str, away: str, p_model: float, p_market: float,
     # 핸디캡/마진에 투영해도 접전 방향이 확인될 때만 독자에게 '어라'라고 말한다.
     if not routes:
         return None
-    bits.append("역배가 나온다면 정배가 압도당해서라기보다 접전이 길어져 한 번의 득점으로 뒤집히는 경로다")
-    bits.append("실제 투표량이 없어 쏠림 확정은 아니며, 여기서는 '쏠림 의심'으로만 표시한다")
+    bits.append("모델이 계산한 역배 경로는 정배가 압도당하는 그림이 아니라 접전이 길어져 한 번의 득점으로 뒤집히는 그림이다")
+    bits.append("실제 투표량이 없어 쏠림 여부는 판정하지 않는다. 화면 표시는 '쏠림 의심'이다")
     return ". ".join(bits)
 
 
@@ -246,26 +246,125 @@ def _style(fh: Form | None, fa: Form | None, home: str, away: str
 
 def _counterpoint(fh: Form | None, fa: Form | None, home: str, away: str,
                   side: str) -> str | None:
-    """우세로 본 쪽의 반대 근거 — 프리뷰 기사의 '다만 ~' 자리."""
+    """우세로 본 쪽과 반대되는 근거를 주체와 함께 명시한다."""
     under = fa if side == home else fh
     uname = away if side == home else home
     if not under:
         return None
     if under.streak_kind == "연승" and under.streak_n >= 2:
-        return (f"다만 {josa(uname,'은','는')} {under.streak_n}연승으로 분위기를 타고 있어 "
-                f"일방적으로 흐른다고 보긴 어렵다")
+        return (f"반대 근거: {josa(uname,'은','는')} {under.streak_n}연승 중이다. "
+                f"이 기록 때문에 일방적 흐름으로 판정하지 않는다")
     if under.last10.count("W") >= 6:
-        return (f"다만 {josa(uname,'은','는')} 최근 10경기 {under.last10_str}로 "
-                f"흐름 자체는 나쁘지 않다")
+        return (f"반대 근거: {josa(uname,'은','는')} 최근 10경기 {under.last10_str}다. "
+                f"최근 흐름은 열세로 판정하지 않는다")
     if under.avg_scored and under.avg_scored >= 5:
-        return (f"다만 {josa(uname,'은','는')} 최근 평균 {under.avg_scored:.1f}득점으로 "
-                f"한 번 터지면 뒤집을 화력은 갖고 있다")
+        return (f"반대 근거: {josa(uname,'은','는')} 최근 평균 {under.avg_scored:.1f}득점이다. "
+                f"역전 시나리오에 필요한 득점력은 확인됐다")
     return None
+
+
+def _pick_text(recommendation: dict, home: str, away: str, sport: str) -> str:
+    """확정 추천 객체를 사용자에게 보이는 한 가지 선택으로 바꾼다."""
+    market = str(recommendation.get("market") or "").strip()
+    selection = str(recommendation.get("선택") or "").strip()
+    label = str(recommendation.get("label") or recommendation.get("market_label") or "").strip()
+    compact = selection.replace(" ", "")
+
+    if market in ("승패", "승무패"):
+        if compact in ("홈", "홈승", "승"):
+            return f"{home} 승"
+        if compact in ("원정", "원정승", "홈패", "패"):
+            return f"{away} 승"
+        if "무" in compact:
+            return "무승부"
+
+    if market in ("전반승무패", "전반승패"):
+        if "홈" in compact:
+            return f"{home} 전반 승"
+        if "원정" in compact:
+            return f"{away} 전반 승"
+        if "무" in compact:
+            return "전반 무승부"
+
+    if market == "승①패":
+        if compact == "홈2+":
+            return f"{home} 2점 차 이상 승"
+        if compact == "원정2+":
+            return f"{away} 2점 차 이상 승"
+        if compact == "1점차":
+            return "1점 차 승부"
+
+    if market == "승⑤패":
+        if compact == "홈6+":
+            return f"{home} 6점 차 이상 승"
+        if compact == "원정6+":
+            return f"{away} 6점 차 이상 승"
+        if compact in ("5점차", "5점차이내"):
+            return "5점 차 이내 승부"
+
+    line = recommendation.get("line")
+    unit = "골" if sport == "sc" else "점"
+    if market in ("언더오버", "전반언더오버"):
+        line_text = f"{float(line):g}{unit}" if line is not None else label
+        period = "전반 " if market == "전반언더오버" else ""
+        return f"{period}{line_text} {selection.replace('전반', '')}".strip()
+
+    if market in ("핸디캡", "전반핸디캡"):
+        if "홈" in compact or compact in ("핸디승",):
+            side = home
+        elif "원정" in compact or compact in ("핸디패",):
+            side = away
+        elif "무" in compact:
+            side = "무승부"
+        else:
+            side = selection
+        period = "전반 " if market == "전반핸디캡" else ""
+        applied = label.removeprefix("H").strip()
+        if not applied and line is not None:
+            applied = f"{float(line):+g}"
+        result = "무승부" if side == "무승부" else f"{side} 쪽"
+        return f"{period}홈팀 {home} {applied} 적용 후 {result}".strip()
+
+    return " ".join(part for part in (market, label, selection) if part)
+
+
+def decision_summary(recommendation: dict | None, home: str, away: str,
+                     sport: str) -> str | None:
+    """서비스가 계산을 끝낸 선택을 단정형으로 고정한다.
+
+    경기 결과를 보장하는 문장이 아니다. `무엇을 선택했는가`만 확정하고 결과의
+    불확실성은 모델확률과 시장확률 숫자로 그대로 드러낸다. 이 문장은 LLM 교정 뒤에
+    붙여 말투가 다시 완곡해지거나 실제 추천과 다른 마켓을 말하지 못하게 한다.
+    """
+    if not recommendation:
+        return None
+    choice = _pick_text(recommendation, home, away, sport)
+    if not choice:
+        return None
+
+    sentences = [f"산출 시점의 최종 선택은 {josa(choice, '이다', '다')}."]
+    model = recommendation.get("모델확률")
+    market = recommendation.get("시장확률")
+    odds = recommendation.get("배당")
+    expected = recommendation.get("예상손익")
+    figures = []
+    if model is not None:
+        figures.append(f"모델확률은 {float(model)*100:.1f}%")
+        figures.append(f"실패확률은 {(1-float(model))*100:.1f}%")
+    if market is not None:
+        figures.append(f"시장확률은 {float(market)*100:.1f}%")
+    if odds is not None:
+        figures.append(f"배당은 {float(odds):.2f}배")
+    if expected is not None:
+        figures.append(f"기대수익은 {float(expected)*100:+.1f}%")
+    if figures:
+        sentences.append(", ".join(figures) + "다.")
+    return " ".join(sentences)
 
 
 def make_preview(home: str, away: str, league: str,
                  fh: Form | None, fa: Form | None, h2h: dict,
-                 p_model: float, p_market: float, odds_home: float,
+                 p_model: float | None, p_market: float | None, odds_home: float,
                  odds_away: float, payout: float, ev_home: float,
                  ev_away: float, sport: str = "bs", limit: int = 760,
                  market_context: dict | None = None) -> str:
@@ -309,25 +408,27 @@ def make_preview(home: str, away: str, league: str,
     #    적중률도 시장 51.9% > 모델 48.8% 다. '가장 일어날 법한 결과' 를 묻는다면
     #    답은 시장의 최저 배당 쪽이다.
     #    ⚠️ 이건 **이기는 픽이 아니라 가장 잘 맞는 픽**이다. 기대값은 여전히 음수다.
-    pk = p_market * 100
-    up, o_up = (home, odds_home) if pk >= 50 else (away, odds_away)
-    v = pk if up == home else 100 - pk
     no_form = (fh is None or not fh.recent_games) and (fa is None or not fa.recent_games)
 
-    if abs(pk - 50) < 3:
-        head = f"시장은 양쪽을 사실상 반반으로 가격한다({up} {v:.0f}%). 낮은 배당은 {up} 쪽"
-        head += f", 배당 {o_up:.2f}." if o_up else "."
+    if p_market is None:
+        head = "승패 배당은 아직 발표되지 않았다."
     else:
-        head = f"시장 기본값은 {up} 승 {v:.0f}%"
-        head += f" · 배당 {o_up:.2f}." if o_up else "."
-    if pj_over:
-        head += f" 실제 발매선 기준 총득점은 {pj_over} 쪽."
+        pk = p_market * 100
+        up, o_up = (home, odds_home) if pk >= 50 else (away, odds_away)
+        v = pk if up == home else 100 - pk
+        if abs(pk - 50) < 3:
+            head = (f"승패 시장은 두 팀을 사실상 동률로 가격했다. 1순위는 {up} 승이고 "
+                    f"시장확률은 {v:.0f}%")
+        else:
+            head = f"승패 시장 1순위는 {up} 승이다. 시장확률은 {v:.0f}%"
+        head += f", 배당은 {o_up:.2f}다." if o_up else "."
     if no_form:
-        head += " 양 팀 모두 최근 기록이 없어 경기 내용으로는 보탤 게 없다."
+        head += " 양 팀 모두 최근 기록이 없다. 경기력 판정은 하지 않는다."
 
-    side = home if p_market >= 0.5 else away      # 반론 문장이 쓰는 '우세 쪽'
-    cp = _counterpoint(fh, fa, home, away, side)
-    tension = _market_tension(home, away, p_model, p_market, context)
+    side = home if p_market is not None and p_market >= 0.5 else away
+    cp = _counterpoint(fh, fa, home, away, side) if p_market is not None else None
+    tension = (_market_tension(home, away, p_model, p_market, context)
+               if p_model is not None and p_market is not None else None)
     front = [head]
     if tension:
         front.append(tension + ".")
@@ -353,5 +454,6 @@ def make_short(home: str, away: str, fh: Form | None, fa: Form | None,
     if fa and fa.last10:
         bits.append(f"{away} 최근10 {fa.last10_str}")
     head = " · ".join(bits) if bits else "시즌 표본 부족"
-    s = f"{head}. 모델은 {side} 우세({p_model*100:.0f}%), 기대값 {ev*100:+.1f}%."
+    s = (f"{head}. 최종 모델 선택은 {side}다. "
+         f"모델확률은 {p_model*100:.0f}%, 기대값은 {ev*100:+.1f}%다.")
     return s[:limit - 1] + "…" if len(s) > limit else s

@@ -11,6 +11,54 @@ const particle = (name, pair) => {
   return `${name}${(last.charCodeAt(0) - 0xac00) % 28 ? pair[0] : pair[1]}`;
 };
 
+const copula = (text) => {
+  const value = String(text || "").trim();
+  const last = value.at(-1);
+  const hasBatchim = last && /[가-힣]/.test(last)
+    ? (last.charCodeAt(0) - 0xac00) % 28 !== 0 : false;
+  return `${value}${hasBatchim ? "이다" : "다"}`;
+};
+
+function decisionFor(game, option) {
+  if (!option) return null;
+  const market = String(option.market || "").trim();
+  const outcome = String(option["선택"] || "").trim();
+  const compact = outcome.replaceAll(" ", "");
+  const draw = ["무", "무승부", "핸디무", "전반무", "전반핸디무"].includes(compact);
+  const away = /원정|패/.test(compact) || outcome === game?.away;
+
+  if (["승무패", "승패", "전반승무패", "전반승패"].includes(market)) {
+    if (draw) return market === "전반승무패" ? "전반 무승부" : "무승부";
+    const team = away ? game?.away : game?.home;
+    return `${team} ${market.startsWith("전반") ? "전반 " : ""}승`;
+  }
+  if (market === "승①패") {
+    if (compact === "홈2+") return `${game?.home} 2점 차 이상 승`;
+    if (compact === "원정2+") return `${game?.away} 2점 차 이상 승`;
+    if (compact === "1점차") return "1점 차 승부";
+  }
+  if (market === "승⑤패") {
+    if (compact === "홈6+") return `${game?.home} 6점 차 이상 승`;
+    if (compact === "원정6+") return `${game?.away} 6점 차 이상 승`;
+    if (["5점차", "5점차이내"].includes(compact)) return "5점 차 이내 승부";
+  }
+  if (["언더오버", "전반언더오버"].includes(market)) {
+    const line = number(option.line);
+    const unit = game?.sport === "sc" ? "골" : "점";
+    const lineText = line === null ? (option.label || option.market_label || "발매 기준점")
+      : `${line}${unit}`;
+    const period = market === "전반언더오버" ? "전반 " : "";
+    return `${period}${lineText} ${outcome.replace("전반", "")}`.trim();
+  }
+  if (["핸디캡", "전반핸디캡"].includes(market)) {
+    const side = draw ? "무승부" : away ? game?.away : game?.home;
+    const label = option.label || option.market_label || "발매 기준";
+    const period = market === "전반핸디캡" ? "전반 " : "";
+    return `${period}홈팀 ${game?.home} ${label.replace(/^H\s*/i, "")} 적용 후 ${side} 쪽`;
+  }
+  return [market, option.label || option.market_label, outcome].filter(Boolean).join(" ");
+}
+
 export function predictionFor(game, recommended = null) {
   const options = game?.options || [];
   const resolved = resolveDecisionOption(game, options);
@@ -232,7 +280,7 @@ function formSentence(team, form) {
   }
   if (form.streak) parts.push(`${form.streak} 흐름`);
   if (form.trend === "상승") parts.push("경기 내용도 상승세");
-  if (form.trend === "하락") parts.push("다만 최근 경기 내용은 하락세");
+  if (form.trend === "하락") parts.push("최근 경기 내용은 하락세");
   return parts.length ? `${particle(team, ["은", "는"])} ${parts.join(", ")}다` : null;
 }
 
@@ -341,10 +389,12 @@ function expectedFlowSentence(game, prediction) {
     return `전반 시장에서 ${prediction.outcome} 쪽을 ${chosen}. 전반 결과와 경기 최종 결과는 별개의 마켓이다.`;
   }
   if (prediction?.side === "무승부") {
-    return "양쪽의 강점이 엇갈려 한 팀이 계속 밀어붙이기보다 주도권을 주고받는 접전 가능성을 높게 봤다.";
+    return `${verdict} 양쪽의 강점이 엇갈리는 접전 시나리오를 기준으로 삼았다.`;
   }
   const side = prediction?.side;
-  if (!side) return "현재 연결된 경기력 자료만으로는 한쪽이 흐름을 계속 가져갈 것이라고 단정하기 어렵다.";
+  if (!side) return prediction?.modelAvailable
+    ? "경기 모델 추천 기준을 통과한 선택이 없다. 경기 모델 추천에서 제외한다."
+    : "이 경기에는 모델확률이 없다. 경기 모델 추천에서 제외한다.";
   const isHome = side === game?.home;
   const ownForm = isHome ? game?.form_home : game?.form_away;
   const ownRecord = isHome ? ownForm?.home : ownForm?.away;
@@ -374,7 +424,7 @@ function performanceReasons(game, prediction, players) {
   if (season) reasons.push(`시즌 위치 — ${season}`);
   const player = playerSentence(players);
   if (player) reasons.push(`선수 변수 — ${player}`);
-  reasons.push(`예상 경기 흐름 — ${expectedFlowSentence(game, prediction)}`);
+  reasons.push(`판정 시나리오 — ${expectedFlowSentence(game, prediction)}`);
   return [...new Set(reasons)].slice(0, 6);
 }
 

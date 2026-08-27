@@ -111,7 +111,7 @@ test("충분한 자료가 있으면 경기 관점별 해설을 제공한다", ()
     } } });
   const reasons = performanceAnalysis(game, game.options[0]).reasons;
   assert.ok(reasons.length >= 5);
-  for (const label of ["최근 분위기", "공격·수비 균형", "홈·원정 조건", "시즌 위치", "예상 경기 흐름"]) {
+  for (const label of ["최근 분위기", "공격·수비 균형", "홈·원정 조건", "시즌 위치", "판정 시나리오"]) {
     assert.ok(reasons.some((line) => line.startsWith(`${label} — `)), label);
   }
   assert.ok(reasons.every((line) => !line.includes("null점")));

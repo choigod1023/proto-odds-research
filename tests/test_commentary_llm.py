@@ -20,6 +20,8 @@ import commentary_llm as L                 # noqa: E402
 
 SRC = ("예상 픽은 볼티오리 승. 적중 확률 57% · 배당 1.55. "
        "LA에인절은 3연패 중이다. 최근 10경기 3승 7패, 평균 3.3득점이다.")
+DECISIVE_SRC = ("최종 모델 선택은 볼티오리 승이다. 모델확률은 57%, 배당은 1.55다. "
+                "LA에인절은 3연패 중이다.")
 
 
 def test_원문에_없는_숫자를_지어내면_탈락():
@@ -58,6 +60,65 @@ def test_마크다운_이모지는_탈락():
 def test_빈_응답은_탈락():
     ok, _ = L._looks_safe(SRC, "")
     assert not ok
+
+
+def test_합니다체가_섞이면_탈락():
+    out = "볼티오리 승을 선택합니다. LA에인절은 3연패 중입니다."
+    ok, why = L._looks_safe(SRC, out)
+    assert not ok and "문체 위반" in why
+
+
+def test_확정_선택을_예상문으로_약화하면_탈락():
+    out = "볼티오리 승리가 예상됩니다. 모델확률은 57%, 배당은 1.55다. LA에인절은 3연패 중이다."
+    ok, why = L._looks_safe(DECISIVE_SRC, out)
+    assert not ok and "완곡" in why
+
+
+def test_실제_승패시장_문구를_예상문으로_약화하면_탈락():
+    src = "승패 시장 1순위는 볼티오리 승이다. 시장확률은 57%, 배당은 1.55다."
+    out = "볼티오리 승리가 예상된다. 시장확률은 57%, 배당은 1.55다."
+    ok, why = L._looks_safe(src, out)
+    assert not ok and "완곡" in why
+
+
+def test_승패시장_1순위의_팀을_바꾸거나_지우면_탈락():
+    src = ("승패 시장 1순위는 볼티오리 승이다. 시장확률은 57%, 배당은 1.55다. "
+           "LA에인절은 3연패 중이다.")
+    flipped = ("승패 시장 1순위는 LA에인절 승이다. 시장확률은 57%, 배당은 1.55다. "
+               "LA에인절은 3연패 중이다.")
+    missing = "시장은 팽팽하다. 시장확률은 57%, 배당은 1.55다. LA에인절은 3연패 중이다."
+
+    for out in (flipped, missing):
+        ok, why = L._looks_safe(src, out)
+        assert not ok and "방향" in why
+
+
+def test_동률_시장_템플릿의_1순위도_예상문으로_바꾸면_탈락():
+    src = ("승패 시장은 두 팀을 사실상 동률로 가격했다. 1순위는 볼티오리 승이고 "
+           "시장확률은 51%, 배당은 1.91이다.")
+    out = ("시장은 팽팽하다. LA에인절 승리가 예상된다. "
+           "시장확률은 51%, 배당은 1.91이다.")
+    ok, why = L._looks_safe(src, out)
+    assert not ok and "완곡" in why
+
+
+def test_확정_선택을_결과_보장으로_강화해도_탈락():
+    out = "볼티오리가 반드시 이긴다. 모델확률은 57%, 배당은 1.55다. LA에인절은 3연패 중이다."
+    ok, why = L._looks_safe(DECISIVE_SRC, out)
+    assert not ok and "결과 보장" in why
+
+
+def test_근거_본문도_결과_보장으로_강화하면_탈락():
+    src = "LA에인절은 3연패 중이다. 최근 득실 계산 결과는 언더다."
+    out = "LA에인절은 3연패 중이다. 언더가 반드시 적중한다."
+    ok, why = L._looks_safe(src, out)
+    assert not ok and "결과 보장" in why
+
+
+def test_선택과_확률을_분리한_단정문은_통과():
+    out = "최종 모델 선택은 볼티오리 승이다. 모델확률은 57%, 배당은 1.55다. LA에인절은 3연패 중이다."
+    ok, why = L._looks_safe(DECISIVE_SRC, out)
+    assert ok, why
 
 
 def test_키가_없으면_원문을_그대로_돌려준다(monkeypatch):

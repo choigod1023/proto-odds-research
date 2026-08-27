@@ -387,7 +387,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 _metric_number(plan, "conservative_expected_roi", -99.0),
                 _metric_number(plan, "calibrated_hit_est", 0.0)))
             action = "pass"
-            why = "소액 도전 기준에도 못 미쳐 오늘은 쉬는 편이 낫다"
+            why = "소액 도전 기준에도 미달했다"
     return {"action": action, "recommended_target": best["target"],
             "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO
                              if action == "challenge" else None),
