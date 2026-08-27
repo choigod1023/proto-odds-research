@@ -205,3 +205,19 @@ def test_today_combo_prepares_today_and_next_morning_candidates(monkeypatch, tmp
     assert all(candidate["sel"] == "홈" for candidate in candidates)
     assert all(candidate["is_market_favorite"] is True for candidate in candidates)
     assert {candidate["game_no"] for candidate in candidates} == {2, 3}
+
+
+def test_today_combo_reprices_entire_market_from_live_snapshot():
+    game = {
+        "game_no": 7,
+        "selections": [
+            {"name": "홈", "odds": 1.70, "prob": 0.55},
+            {"name": "원정", "odds": 2.00, "prob": 0.45},
+        ],
+    }
+    repriced, changed = today_combo._reprice_game(game, 99, {"99": {"7": [1.55, 2.25]}})
+    assert changed is True
+    assert [row["odds"] for row in repriced["selections"]] == [1.55, 2.25]
+    assert sum(row["prob"] for row in repriced["selections"]) == pytest.approx(1.0, abs=1e-5)
+    assert repriced["overround"] == pytest.approx(1 / 1.55 + 1 / 2.25, abs=1e-6)
+    assert game["selections"][0]["odds"] == 1.70
