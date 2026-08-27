@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-08-27T04:23:02+00:00",
+ "generated_at": "2026-08-27T05:38:56+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "각 시장에서 시장확률 1위이며 배당 1.50 이상 2.20 미만인 선택만 쓴다. 목표 배당 범위 안에서는 결합 적중확률을 가장 먼저 최대화한다.",
- "n_candidates": 11,
+ "n_candidates": 10,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-27T15:00:00+09:00",
+ "next_kickoff_at": "2026-08-27T18:00:00+09:00",
  "selection_policy": "시장 최유력만 · 다리당 1.50 이상 2.20 미만 · 목표범위에서 적중확률 우선",
  "min_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -734,33 +734,6 @@
   "why": "각 경기 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-27T15:00:00+09:00|태국W|한국W",
-   "kickoff_at": "2026-08-27T15:00:00+09:00",
-   "round": 101,
-   "game_no": "6648",
-   "date": "08.27(목) 15:00",
-   "sport": "vl",
-   "league": "여배아선",
-   "match": "태국W vs 한국W",
-   "home": "태국W",
-   "away": "한국W",
-   "market": "핸디캡",
-   "market_label": "H -1.5",
-   "booking": "2-way",
-   "sel": "핸디홈",
-   "odds": 1.52,
-   "bin": "1.5-1.8",
-   "overround": 1.1364,
-   "payout": 88.0,
-   "hist_roi": -0.12,
-   "hist_n": 87443,
-   "market_prob": 0.5897,
-   "market_gap": 0.1794,
-   "n_way": 2,
-   "failure_prob": 0.4103,
-   "is_market_favorite": true
-  },
   {
    "event_key": "2026-08-27T18:00:00+09:00|야쿠르트|요미우리",
    "kickoff_at": "2026-08-27T18:00:00+09:00",
