@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from commentary import make_preview, make_short          # noqa: E402
 from elo_model import fit_logistic, load_results, prob_home, run_elo  # noqa: E402
 from snapshot import UNPLAYED, _fetch, find_live_rounds  # noqa: E402
-from team_form import build_forms, h2h_text, set_rest_days  # noqa: E402
+from team_form import build_forms, form_for_game, h2h_text  # noqa: E402
 from wisetoto import CACHE, _session                     # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -57,6 +57,47 @@ def _kickoff(date_text: str, season: int) -> datetime | None:
     elif now - ko > timedelta(days=180):
         ko = ko.replace(year=season + 1)
     return ko
+
+
+def _is_recommendable_now(result: str | None, kickoff: datetime | None,
+                          now: datetime | None = None) -> bool:
+    """사전등록되지 않은 레거시 픽은 시작 전 경기만 추천한다."""
+    if result in ("홈승", "홈패"):
+        return False
+    return kickoff is not None and kickoff > (now or _now_kst())
+
+
+def _sanitize_existing_document(doc: dict, now: datetime | None = None) -> dict:
+    """기존 레거시 산출물에서 시작 전 픽만 보존한다."""
+    cutoff = now or _now_kst()
+    if cutoff.tzinfo is None:
+        cutoff = cutoff.replace(tzinfo=KST)
+    kept = []
+    for pick in doc.get("picks", []):
+        try:
+            kickoff = datetime.fromisoformat(str(pick.get("kickoff")))
+        except (TypeError, ValueError):
+            kickoff = None
+        if not _is_recommendable_now(pick.get("result"), kickoff, cutoff):
+            continue
+        pick.update(status="경기전", result=None, hit=None, profit=None)
+        kept.append(pick)
+    doc["picks"] = kept
+    doc["n_picks"] = len(kept)
+    doc["rounds"] = sorted({int(pick["round"]) for pick in kept})
+    doc["tally"] = None
+    doc["tally_status"] = "prediction_ledger_required"
+    return doc
+
+
+def _sanitize_existing_output() -> int:
+    doc = json.loads(OUT.read_text(encoding="utf-8"))
+    _sanitize_existing_document(doc)
+    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"시작 전 레거시 픽만 보존: {OUT}")
+    return 0
+
+
 OUT = ROOT / "docs" / "data" / "picks.json"
 
 # src/picks.py 백테스트에서 측정한 값 — 산출물에 그대로 싣는다
@@ -92,10 +133,9 @@ def main() -> int:
     MIN_GAMES = 30
     a, b = fit_logistic(hist[hist["year"] <= 2024])
     season = datetime.now().year
-    forms, h2h = build_forms(hist, season=season)
-    # 오늘 기준 휴식일 계산 (경기 변수)
     import pandas as _pd
-    set_rest_days(forms, _pd.Timestamp(datetime.now().date()))
+    now_for_forms = _pd.Timestamp.now(tz="Asia/Seoul").tz_localize(None)
+    forms, h2h = build_forms(hist, season=season, as_of=now_for_forms)
     print(f"Elo 레이팅 {len(ratings)}팀 · 시즌 {season} 폼 {len(forms)}팀")
 
     sess = _session()
@@ -103,16 +143,15 @@ def main() -> int:
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
     live_rounds = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
-    # 발매 중인 회차 + 직전 회차들. 직전 회차는 이미 정산됐으므로
-    # **모델 픽이 실제로 맞았는지** 확인할 수 있다(공개 검증).
-    recent = [r for r in have[-3:] if r not in live_rounds]
-    rounds = sorted(set(live_rounds) | set(recent))
-    print(f"대상 회차: 발매중 {live_rounds} + 최근정산 {recent}")
+    # 이 산출물은 사전등록 원장이 아니다. 이미 끝난 경기를 현재 모델로 다시
+    # 예측하면 결과를 본 뒤 만든 '가짜 과거 성적'이 되므로 발매 중 회차만 다룬다.
+    rounds = sorted(set(live_rounds))
+    print(f"대상 회차: 발매중 {live_rounds}")
 
     picks = []
     for rnd in rounds:
         rows = _fetch(sess, season, rnd) or []
-        # 배당이 붙은 승패 2-way 전부. 정산된 경기는 적중 여부까지 낸다
+        # 배당이 붙은 승패 2-way 전부. 실제 추천은 아직 시작하지 않은 경기만 낸다.
         # (배당은 회차 공개 시 한 번에 붙지 않고 순차적으로 붙는다 — 2026-07-26 관측)
         live = [r for r in rows
                 if r.odds and not r.is_void
@@ -123,6 +162,10 @@ def main() -> int:
         payout = 100 / float(np.mean([r.overround for r in live]))
 
         for r in live:
+            ko = _kickoff(r.date_text, season)
+            if not _is_recommendable_now(r.result, ko):
+                continue
+
             ht, at = clean_team(r.home), clean_team(r.away)
             kh, ka = (r.league, ht), (r.league, at)
             if kh not in ratings or ka not in ratings:
@@ -139,22 +182,9 @@ def main() -> int:
 
             side = ht if ev_h >= ev_a else at
             ev = max(ev_h, ev_a)
-            fh, fa = forms.get(kh), forms.get(ka)
-
-            # 정산 상태와 적중 여부
-            # ⚠️ 정산 여부만 보면 안 된다. 소스가 결과를 늦게 반영하면
-            #    **이미 끝난 경기가 영원히 '경기전'으로 남아** 프론트 맨 위에 뜬다.
-            #    (2026-07-28 버그: 7/28 인데 7/24 경기가 예정으로 보였다)
-            #    킥오프 시각을 같이 봐서 지난 경기는 '정산대기'로 분리한다.
-            settled = r.result in ("홈승", "홈패")
-            ko = _kickoff(r.date_text, season)
-            upcoming = ko is None or ko > _now_kst()
-            hit = None
-            profit = None
-            if settled:
-                winner = ht if r.result == "홈승" else at
-                hit = (side == winner)
-                profit = (r.odds[0 if side == ht else 1] - 1) if hit else -1.0
+            game_time = (_pd.Timestamp(ko).tz_localize(None) if ko is not None else None)
+            fh = form_for_game(forms.get(kh), game_time)
+            fa = form_for_game(forms.get(ka), game_time)
 
             picks.append({
                 "round": rnd, "game_no": r.game_no, "date": r.date_text,
@@ -171,10 +201,9 @@ def main() -> int:
                 "elo_home": round(ratings[kh], 1), "elo_away": round(ratings[ka], 1),
                 "n_games_home": games_seen[kh], "n_games_away": games_seen[ka],
                 "kickoff": ko.isoformat() if ko else None,
-                "status": ("정산" if settled
-                           else ("경기전" if upcoming else "정산대기")),
-                "result": r.result if settled else None,
-                "hit": hit, "profit": round(profit, 3) if profit is not None else None,
+                "status": "경기전",
+                "result": None,
+                "hit": None, "profit": None,
                 "h2h": h2h_text(h2h, r.league, ht, at),
                 "form_home": _form_dict(fh), "form_away": _form_dict(fa),
                 "preview": make_preview(ht, at, r.league, fh, fa, h2h,
@@ -185,25 +214,12 @@ def main() -> int:
                                     side, ev),
             })
 
-    # 경기전 → 정산대기 → 정산 순.
-    # 경기전은 **킥오프가 임박한 순**이 실제로 쓸모 있다(베팅 마감이 먼저 온다).
-    # 정산분은 최신 경기가 위로 오게 역순.
-    _ORDER = {"경기전": 0, "정산대기": 1, "정산": 2}
-    picks.sort(key=lambda x: (_ORDER.get(x["status"], 9),
-                              (x.get("kickoff") or "") if x["status"] == "경기전"
-                              else "",
-                              -x["pick_ev"]))
-    done = [p for p in picks if p["hit"] is not None]
-    tally = None
-    if done:
-        n = len(done)
-        w = sum(1 for p in done if p["hit"])
-        roi = sum(p["profit"] for p in done) / n
-        tally = {"n": n, "wins": w, "hit_rate": round(w / n, 4),
-                 "roi": round(roi, 4)}
-        print(f"\n정산분 성적: {w}/{n} 적중({w/n:.1%}) · ROI {roi:+.2%}")
+    # 킥오프가 임박한 순. 과거 성적은 예측 시점에 고정한 append-only 원장에서만
+    # 계산해야 하므로 이 즉석 산출물에는 tally를 만들지 않는다.
+    picks.sort(key=lambda x: (x.get("kickoff") or "", -x["pick_ev"]))
     doc = {
-        "tally": tally,
+        "tally": None,
+        "tally_status": "prediction_ledger_required",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "season": season, "rounds": rounds,
         "n_picks": len(picks), "backtest": BACKTEST, "picks": picks,
@@ -233,4 +249,6 @@ def _form_dict(f) -> dict | None:
 
 
 if __name__ == "__main__":
+    if "--sanitize-existing" in sys.argv:
+        raise SystemExit(_sanitize_existing_output())
     raise SystemExit(main())

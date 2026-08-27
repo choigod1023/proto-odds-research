@@ -1,41 +1,495 @@
 {
- "generated_at": "2026-08-26T12:41:30+00:00",
+ "generated_at": "2026-08-27T09:47:51+00:00",
  "year": 2026,
  "probability_method": "shin",
- "basis": "각 시장에서 시장확률 1위이며 배당 2.20 미만인 선택만 쓴다. 목표 총배당은 역배 대신 안전 구간의 다리 수를 늘려 맞춘다.",
- "n_candidates": 3,
- "n_better_round": 2,
- "next_kickoff_at": "2026-08-26T22:00:00+09:00",
- "selection_policy": "시장 최유력만 · 다리당 2.20 미만 · 홀짝 제외",
+ "basis": "각 시장의 최유력 중 배당 1.50 이상을 1순위로 쓴다. 해당 경기에서 1순위 후보가 없으면 1.50 미만 최유력을 보조 추천으로 남긴다. 목표 조합은 1순위 후보만 사용하고 결합 적중확률을 먼저 최대화한다.",
+ "n_candidates": 0,
+ "n_primary_candidates": 0,
+ "n_fallback_candidates": 0,
+ "n_better_round": 0,
+ "next_kickoff_at": null,
+ "selection_policy": "시장 최유력만 · 1.50 이상 1순위 · 1.50 미만 보조 · 2.20 이상 제외",
+ "preferred_leg_odds_inclusive": 1.5,
+ "evolutionary_selector": {
+  "schema": "evolutionary-selection-v1",
+  "status": "shadow_only",
+  "default_profile": "balanced",
+  "artifact_sha256": "75c27aee6cf41dc1beeb87ddc8ae9678b754cf7f8fdcdce3477a5f21bfe8aaee",
+  "trained_through": "2025-12-31",
+  "profiles": {
+   "safe": {
+    "label": "안정형",
+    "rule": {
+     "profile": "safe",
+     "genome": {
+      "confidence": 1.84003572,
+      "odds": -0.35883476,
+      "overround": -3.94256922,
+      "market_gap": 0.76135123,
+      "price_distance": -2.43185246,
+      "three_way": -0.20326203,
+      "handicap": -0.21705754,
+      "totals": 0.01978563,
+      "first_half": -0.52738404,
+      "baseball": -0.00658504,
+      "basketball": 0.04337706,
+      "volleyball": -0.15653019,
+      "soccer": -0.13177705
+     },
+     "genomes": [
+      {
+       "confidence": 2.30345135,
+       "odds": 0.35303092,
+       "overround": -5.99012266,
+       "market_gap": 2.52666243,
+       "price_distance": 0.0,
+       "three_way": -0.14358553,
+       "handicap": -0.39287948,
+       "totals": 0.20435304,
+       "first_half": -1.21614925,
+       "baseball": 0.08741994,
+       "basketball": -0.12474916,
+       "volleyball": -0.28756115,
+       "soccer": -0.28396308
+      },
+      {
+       "confidence": 1.70183438,
+       "odds": -0.59815588,
+       "overround": -4.12819096,
+       "market_gap": 0.78345499,
+       "price_distance": -3.95235305,
+       "three_way": -0.72892591,
+       "handicap": 0.19310087,
+       "totals": 0.19715844,
+       "first_half": -0.14862595,
+       "baseball": -0.07384203,
+       "basketball": 0.12209213,
+       "volleyball": -0.15291435,
+       "soccer": 0.02364619
+      },
+      {
+       "confidence": 1.51482143,
+       "odds": -0.8313793,
+       "overround": -1.70939406,
+       "market_gap": -1.02606375,
+       "price_distance": -3.34320432,
+       "three_way": 0.26272535,
+       "handicap": -0.45139401,
+       "totals": -0.3421546,
+       "first_half": -0.21737692,
+       "baseball": -0.03333304,
+       "basketball": 0.1327882,
+       "volleyball": -0.02911507,
+       "soccer": -0.13501426
+      }
+     ],
+     "constraints": {
+      "label": "안정형",
+      "odds_min": 1.18,
+      "odds_max": 1.45,
+      "target_odds": 1.3,
+      "minimum_average_odds": 1.18,
+      "minimum_coverage": 0.7
+     }
+    },
+    "selected": null,
+    "alternatives": [],
+    "historical_validation": {
+     "evolved": {
+      "n": 360,
+      "wins": 282,
+      "coverage": 1.0,
+      "accuracy": 0.7833333333333333,
+      "accuracy_wilson95": [
+       0.7379050408401376,
+       0.8227787269229361
+      ],
+      "average_odds": 1.2080833333333332,
+      "roi": -0.054583333333333366,
+      "max_drawdown": 21.230000000000025,
+      "sport_max_share": 0.3888888888888889
+     },
+     "market_confidence_baseline": {
+      "n": 360,
+      "wins": 280,
+      "coverage": 1.0,
+      "accuracy": 0.7777777777777778,
+      "accuracy_wilson95": [
+       0.7320261727127885,
+       0.8176637956823818
+      ],
+      "average_odds": 1.2004166666666667,
+      "roi": -0.06708333333333337,
+      "max_drawdown": 28.050000000000033,
+      "sport_max_share": 0.4
+     }
+    },
+    "historical_test": {
+     "evolved": {
+      "n": 231,
+      "wins": 180,
+      "coverage": 1.0,
+      "accuracy": 0.7792207792207793,
+      "accuracy_wilson95": [
+       0.7214089879472466,
+       0.8278977683972281
+      ],
+      "average_odds": 1.205281385281385,
+      "roi": -0.06069264069264072,
+      "max_drawdown": 19.360000000000014,
+      "sport_max_share": 0.4155844155844156
+     },
+     "market_confidence_baseline": {
+      "n": 231,
+      "wins": 182,
+      "coverage": 1.0,
+      "accuracy": 0.7878787878787878,
+      "accuracy_wilson95": [
+       0.7306724908417451,
+       0.8356670331413177
+      ],
+      "average_odds": 1.1941558441558442,
+      "roi": -0.05978354978354983,
+      "max_drawdown": 19.69000000000002,
+      "sport_max_share": 0.43722943722943725
+     },
+     "comparison": {
+      "n_dates": 231,
+      "accuracy_delta_pp": -0.8658008658008658,
+      "ci95_pp": [
+       -6.0606060606060606,
+       4.329004329004329
+      ],
+      "probability_evolved_better": 0.3358
+     }
+    },
+    "historical_status": "rejected_in_historical_audit",
+    "historical_point_gate_passed": false,
+    "historical_ci_gate_passed": false
+   },
+   "balanced": {
+    "label": "균형형",
+    "rule": {
+     "profile": "balanced",
+     "genome": {
+      "confidence": 2.0965401,
+      "odds": 0.77453891,
+      "overround": -2.67433927,
+      "market_gap": 0.80080143,
+      "price_distance": -2.79459696,
+      "three_way": -0.65187641,
+      "handicap": -0.08486277,
+      "totals": 0.30568479,
+      "first_half": -1.07604697,
+      "baseball": -0.09184027,
+      "basketball": 0.14846299,
+      "volleyball": 0.14979372,
+      "soccer": -0.04494449
+     },
+     "genomes": [
+      {
+       "confidence": 2.87477035,
+       "odds": 0.79865003,
+       "overround": -3.04708562,
+       "market_gap": 0.33100451,
+       "price_distance": -4.36790068,
+       "three_way": -0.94975609,
+       "handicap": -0.60705677,
+       "totals": 0.21966049,
+       "first_half": -1.31257472,
+       "baseball": 0.08881571,
+       "basketball": 0.20097946,
+       "volleyball": 0.21589495,
+       "soccer": 0.05099886
+      },
+      {
+       "confidence": 1.8825956,
+       "odds": -0.01340402,
+       "overround": -3.07949192,
+       "market_gap": 1.4411762,
+       "price_distance": -2.60257294,
+       "three_way": -0.35057071,
+       "handicap": 0.71696815,
+       "totals": -0.13648939,
+       "first_half": -0.3176367,
+       "baseball": -0.33981399,
+       "basketball": 0.09121949,
+       "volleyball": 0.11785386,
+       "soccer": -0.06227469
+      },
+      {
+       "confidence": 1.53225436,
+       "odds": 1.53837071,
+       "overround": -1.89644026,
+       "market_gap": 0.63022358,
+       "price_distance": -1.41331726,
+       "three_way": -0.65530244,
+       "handicap": -0.36449969,
+       "totals": 0.83388327,
+       "first_half": -1.59792951,
+       "baseball": -0.02452253,
+       "basketball": 0.15319001,
+       "volleyball": 0.11563233,
+       "soccer": -0.12355765
+      }
+     ],
+     "constraints": {
+      "label": "균형형",
+      "odds_min": 1.4,
+      "odds_max": 1.85,
+      "target_odds": 1.58,
+      "minimum_average_odds": 1.4,
+      "minimum_coverage": 0.65
+     }
+    },
+    "selected": null,
+    "alternatives": [],
+    "historical_validation": {
+     "evolved": {
+      "n": 360,
+      "wins": 230,
+      "coverage": 1.0,
+      "accuracy": 0.6388888888888888,
+      "accuracy_wilson95": [
+       0.5880464015197211,
+       0.686798582677864
+      ],
+      "average_odds": 1.440777777777778,
+      "roi": -0.07869444444444448,
+      "max_drawdown": 29.22000000000002,
+      "sport_max_share": 0.7944444444444444
+     },
+     "market_confidence_baseline": {
+      "n": 360,
+      "wins": 232,
+      "coverage": 1.0,
+      "accuracy": 0.6444444444444445,
+      "accuracy_wilson95": [
+       0.5937100977080827,
+       0.692128685857406
+      ],
+      "average_odds": 1.4109722222222223,
+      "roi": -0.09100000000000005,
+      "max_drawdown": 35.020000000000095,
+      "sport_max_share": 0.6083333333333333
+     }
+    },
+    "historical_test": {
+     "evolved": {
+      "n": 231,
+      "wins": 145,
+      "coverage": 1.0,
+      "accuracy": 0.6277056277056277,
+      "accuracy_wilson95": [
+       0.5637538434492838,
+       0.6874794792198944
+      ],
+      "average_odds": 1.4511688311688313,
+      "roi": -0.08865800865800867,
+      "max_drawdown": 24.900000000000006,
+      "sport_max_share": 0.7489177489177489
+     },
+     "market_confidence_baseline": {
+      "n": 231,
+      "wins": 131,
+      "coverage": 1.0,
+      "accuracy": 0.5670995670995671,
+      "accuracy_wilson95": [
+       0.5026223726319216,
+       0.6293815765671382
+      ],
+      "average_odds": 1.4119480519480518,
+      "roi": -0.19857142857142862,
+      "max_drawdown": 46.510000000000055,
+      "sport_max_share": 0.5584415584415584
+     },
+     "comparison": {
+      "n_dates": 231,
+      "accuracy_delta_pp": 6.0606060606060606,
+      "ci95_pp": [
+       -1.7316017316017316,
+       13.852813852813853
+      ],
+      "probability_evolved_better": 0.925
+     }
+    },
+    "historical_status": "rejected_in_historical_audit",
+    "historical_point_gate_passed": false,
+    "historical_ci_gate_passed": false
+   },
+   "challenge": {
+    "label": "도전형",
+    "rule": {
+     "profile": "challenge",
+     "genome": {
+      "confidence": 2.02755431,
+      "odds": 0.73839621,
+      "overround": -3.60946835,
+      "market_gap": -1.01833525,
+      "price_distance": -3.64294478,
+      "three_way": 0.05742207,
+      "handicap": -0.04788992,
+      "totals": -0.37288253,
+      "first_half": -0.82519959,
+      "baseball": -0.12346799,
+      "basketball": -0.06220479,
+      "volleyball": -0.01376182,
+      "soccer": -0.014331
+     },
+     "genomes": [
+      {
+       "confidence": 3.45540174,
+       "odds": 1.29165384,
+       "overround": -1.77753423,
+       "market_gap": -1.29026506,
+       "price_distance": -5.32555758,
+       "three_way": 0.50754999,
+       "handicap": 0.51047015,
+       "totals": -0.69579151,
+       "first_half": -0.99033546,
+       "baseball": -0.24978009,
+       "basketball": 0.17491938,
+       "volleyball": -0.09597619,
+       "soccer": -0.25901641
+      },
+      {
+       "confidence": 1.21684833,
+       "odds": 0.9396326,
+       "overround": -6.73773371,
+       "market_gap": -0.34776332,
+       "price_distance": -1.42272133,
+       "three_way": -0.24876152,
+       "handicap": -0.12730576,
+       "totals": 0.08653535,
+       "first_half": -0.87737796,
+       "baseball": -0.06115553,
+       "basketball": -0.12855222,
+       "volleyball": 0.02640223,
+       "soccer": 0.06071905
+      },
+      {
+       "confidence": 1.41041287,
+       "odds": -0.0160978,
+       "overround": -2.3131371,
+       "market_gap": -1.41697738,
+       "price_distance": -4.18055543,
+       "three_way": -0.08652225,
+       "handicap": -0.52683416,
+       "totals": -0.50939145,
+       "first_half": -0.60788534,
+       "baseball": -0.05946834,
+       "basketball": -0.23298154,
+       "volleyball": 0.02828849,
+       "soccer": 0.15530436
+      }
+     ],
+     "constraints": {
+      "label": "도전형",
+      "odds_min": 1.65,
+      "odds_max": 2.2,
+      "target_odds": 1.88,
+      "minimum_average_odds": 1.65,
+      "minimum_coverage": 0.55
+     }
+    },
+    "selected": null,
+    "alternatives": [],
+    "historical_validation": {
+     "evolved": {
+      "n": 360,
+      "wins": 172,
+      "coverage": 1.0,
+      "accuracy": 0.4777777777777778,
+      "accuracy_wilson95": [
+       0.4266864291340905,
+       0.5293383733942959
+      ],
+      "average_odds": 1.7667777777777778,
+      "roi": -0.15230555555555556,
+      "max_drawdown": 58.96000000000005,
+      "sport_max_share": 0.38055555555555554
+     },
+     "market_confidence_baseline": {
+      "n": 360,
+      "wins": 166,
+      "coverage": 1.0,
+      "accuracy": 0.46111111111111114,
+      "accuracy_wilson95": [
+       0.4102994865680359,
+       0.5127439178566403
+      ],
+      "average_odds": 1.6588333333333332,
+      "roi": -0.23541666666666672,
+      "max_drawdown": 85.39999999999998,
+      "sport_max_share": 0.6472222222222223
+     }
+    },
+    "historical_test": {
+     "evolved": {
+      "n": 231,
+      "wins": 112,
+      "coverage": 1.0,
+      "accuracy": 0.48484848484848486,
+      "accuracy_wilson95": [
+       0.421176664360546,
+       0.5490159922719243
+      ],
+      "average_odds": 1.7532034632034632,
+      "roi": -0.14982683982683984,
+      "max_drawdown": 37.24000000000001,
+      "sport_max_share": 0.38961038961038963
+     },
+     "market_confidence_baseline": {
+      "n": 231,
+      "wins": 126,
+      "coverage": 1.0,
+      "accuracy": 0.5454545454545454,
+      "accuracy_wilson95": [
+       0.4810229218247761,
+       0.6083991082778127
+      ],
+      "average_odds": 1.659307359307359,
+      "roi": -0.09489177489177492,
+      "max_drawdown": 25.559999999999995,
+      "sport_max_share": 0.6623376623376623
+     },
+     "comparison": {
+      "n_dates": 231,
+      "accuracy_delta_pp": -6.0606060606060606,
+      "ci95_pp": [
+       -14.285714285714285,
+       2.1645021645021645
+      ],
+      "probability_evolved_better": 0.0704
+     }
+    },
+    "historical_status": "rejected_in_historical_audit",
+    "historical_point_gate_passed": false,
+    "historical_ci_gate_passed": false
+   }
+  },
+  "method": "multi-objective genetic selection; one pick per KST date and profile; mean-score ensemble across independent populations",
+  "promotion": {
+   "status": "shadow_only",
+   "passed": false,
+   "pristine_holdout_available": false,
+   "minimum_future_predictions": 300,
+   "rule": "사전등록 미래 300픽 이상에서 동일 날짜 시장확률 1순위 대비 적중률 차이 CI 하한>0, 평균 배당·커버리지 제약 유지",
+   "reason": "2026은 이미 여러 실험에서 열람한 역사 감사 구간",
+   "historical_iteration_disclosure": "초기 유전자 설계의 종목 쏠림과 불공정 배당 기준을 2026 감사 후 수정했으므로 이 결과는 탐색 기록이며 독립 홀드아웃이 아니다"
+  }
+ },
  "max_leg_odds_exclusive": 2.2,
  "solo": null,
  "plans": [
   {
-   "target": 1.4,
-   "ok": false,
-   "bins": [
-    "1.0-1.3",
-    "1.0-1.3"
-   ],
-   "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"
-  },
-  {
-   "target": 2,
-   "ok": false,
-   "bins": [
-    "1.0-1.3",
-    "1.5-1.8"
-   ],
-   "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"
-  },
-  {
    "target": 3,
    "ok": false,
    "bins": [
-    "1.3-1.5",
-    "1.8-2.2"
+    "1.5-1.8",
+    "1.5-1.8"
    ],
-   "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"
+   "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"
   },
   {
    "target": 5,
@@ -45,7 +499,7 @@
     "1.5-1.8",
     "1.5-1.8"
    ],
-   "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"
+   "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"
   },
   {
    "target": 8,
@@ -55,7 +509,7 @@
     "1.8-2.2",
     "1.8-2.2"
    ],
-   "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"
+   "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"
   },
   {
    "target": 12,
@@ -66,7 +520,7 @@
     "1.8-2.2",
     "1.8-2.2"
    ],
-   "why": "시장 최유력·2.20 미만 선택만으로 목표 배당을 못 만든다"
+   "why": "1순위인 시장 최유력·1.50 이상·2.20 미만 선택만으로 목표 배당을 못 만든다"
   }
  ],
  "recommendation": {
@@ -74,201 +528,120 @@
   "recommended_target": null,
   "why": "오늘 23:59 KST까지 구성 가능한 조합이 없다"
  },
- "candidates": [
-  {
-   "event_key": "2026-08-26T22:00:00+09:00|베트남|태국",
-   "kickoff_at": "2026-08-26T22:00:00+09:00",
-   "round": 101,
-   "game_no": "6368",
-   "date": "08.26(수) 22:00",
-   "league": "축ASEA챔",
-   "match": "베트남 vs 태국",
-   "home": "베트남",
-   "away": "태국",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.68,
-   "bin": "1.5-1.8",
-   "overround": 1.1358,
-   "payout": 88.05,
-   "hist_roi": -0.119,
-   "hist_n": 76080,
-   "market_prob": 0.5273,
-   "failure_prob": 0.4727,
-   "is_market_favorite": true,
-   "beats": {
-    "round": 100,
-    "odds": 1.63
-   }
-  },
-  {
-   "event_key": "2026-08-26T22:00:00+09:00|베트남|태국",
-   "kickoff_at": "2026-08-26T22:00:00+09:00",
-   "round": 101,
-   "game_no": "6367",
-   "date": "08.26(수) 22:00",
-   "league": "축ASEA챔",
-   "match": "베트남 vs 태국",
-   "home": "베트남",
-   "away": "태국",
-   "market": "핸디캡",
-   "market_label": "H -1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디원정",
-   "odds": 2.0,
-   "bin": "1.8-2.2",
-   "overround": 1.1494,
-   "payout": 87.0,
-   "hist_roi": -0.0967,
-   "hist_n": 5361,
-   "market_prob": 0.4461,
-   "failure_prob": 0.5539,
-   "is_market_favorite": true,
-   "beats": {
-    "round": 100,
-    "odds": 1.91
-   }
-  },
-  {
-   "event_key": "2026-08-26T22:00:00+09:00|베트남|태국",
-   "kickoff_at": "2026-08-26T22:00:00+09:00",
-   "round": 100,
-   "game_no": "6366",
-   "date": "08.26(수) 22:00",
-   "league": "축ASEA챔",
-   "match": "베트남 vs 태국",
-   "home": "베트남",
-   "away": "태국",
-   "market": "승무패",
-   "market_label": "",
-   "booking": "3-way",
-   "sel": "홈",
-   "odds": 1.64,
-   "bin": "1.5-1.8",
-   "overround": 1.1508,
-   "payout": 86.9,
-   "hist_roi": -0.1171,
-   "hist_n": 4814,
-   "market_prob": 0.5515,
-   "failure_prob": 0.4485,
-   "is_market_favorite": true
-  }
- ],
+ "candidates": [],
  "odds_bins": [
   {
    "bin": "1.0-1.3",
-   "n": 9967,
-   "roi": -0.0863,
-   "base": -0.1227,
-   "edge": 0.0365,
+   "n": 11734,
+   "roi": -0.0878,
+   "base": -0.124,
+   "edge": 0.0363,
    "grade": "A",
-   "hit": 0.7828,
+   "hit": 0.78,
    "by_year": {
     "2023": -0.0768,
-    "2024": -0.0947,
-    "2025": -0.0839
+    "2024": -0.0946,
+    "2025": -0.0889
    },
    "stable": true,
    "why_unstable": ""
   },
   {
    "bin": "1.3-1.5",
-   "n": 19063,
-   "roi": -0.1044,
-   "base": -0.1221,
-   "edge": 0.0177,
+   "n": 22410,
+   "roi": -0.1018,
+   "base": -0.1234,
+   "edge": 0.0217,
    "grade": "B",
-   "hit": 0.6277,
+   "hit": 0.6292,
    "by_year": {
-    "2023": -0.1073,
+    "2023": -0.1074,
     "2024": -0.102,
-    "2025": -0.104
+    "2025": -0.0968
    },
    "stable": true,
    "why_unstable": ""
   },
   {
    "bin": "1.5-1.8",
-   "n": 88198,
-   "roi": -0.1172,
-   "base": -0.122,
-   "edge": 0.0047,
+   "n": 101519,
+   "roi": -0.1191,
+   "base": -0.1229,
+   "edge": 0.0038,
    "grade": "B",
-   "hit": 0.5223,
+   "hit": 0.5212,
    "by_year": {
     "2023": -0.1152,
     "2024": -0.1141,
-    "2025": -0.124
+    "2025": -0.1267
    },
    "stable": true,
    "why_unstable": ""
   },
   {
    "bin": "1.8-2.2",
-   "n": 49455,
-   "roi": -0.1257,
-   "base": -0.1212,
-   "edge": -0.0044,
+   "n": 56871,
+   "roi": -0.126,
+   "base": -0.1224,
+   "edge": -0.0036,
    "grade": "C",
-   "hit": 0.4453,
+   "hit": 0.4446,
    "by_year": {
     "2023": -0.1369,
     "2024": -0.1248,
-    "2025": -0.1119
+    "2025": -0.1178
    },
    "stable": true,
    "why_unstable": ""
   },
   {
    "bin": "2.2-3.0",
-   "n": 33934,
-   "roi": -0.1421,
-   "base": -0.1238,
-   "edge": -0.0183,
+   "n": 40036,
+   "roi": -0.1423,
+   "base": -0.1255,
+   "edge": -0.0168,
    "grade": "C",
-   "hit": 0.3368,
+   "hit": 0.3362,
    "by_year": {
     "2023": -0.138,
     "2024": -0.1419,
-    "2025": -0.1463
+    "2025": -0.1452
    },
    "stable": true,
    "why_unstable": ""
   },
   {
    "bin": "3.0-5.0",
-   "n": 54204,
-   "roi": -0.1455,
-   "base": -0.1262,
-   "edge": -0.0193,
-   "grade": "?",
-   "hit": 0.2363,
+   "n": 63277,
+   "roi": -0.1489,
+   "base": -0.128,
+   "edge": -0.0208,
+   "grade": "C",
+   "hit": 0.2355,
    "by_year": {
     "2023": -0.1635,
-    "2024": -0.1477,
-    "2025": -0.1214
+    "2024": -0.1478,
+    "2025": -0.1395
    },
-   "stable": false,
-   "why_unstable": "그 해 평균 대비 방향이 뒤집힌다 (2023:-2.6 2024:-1.5 2025:+0.6)"
+   "stable": true,
+   "why_unstable": ""
   },
   {
    "bin": "5.0+",
-   "n": 7911,
-   "roi": -0.3486,
-   "base": -0.1256,
-   "edge": -0.223,
+   "n": 9507,
+   "roi": -0.3565,
+   "base": -0.1279,
+   "edge": -0.2285,
    "grade": "D",
-   "hit": 0.1034,
+   "hit": 0.1022,
    "by_year": {
     "2023": -0.3696,
     "2024": -0.3609,
-    "2025": -0.3063
+    "2025": -0.3439
    },
    "stable": true,
    "why_unstable": ""
   }
  ],
- "note": "시장 우위 매수는 실측 ROI 보정확률의 95% 보수 하한이 양수일 때만 쓴다. 그보다 낮아도 목표 2배 이하·보수 기대 −20% 이내이며 목표별 보정 적중 하한(1.4배 55%·2배 40%)을 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 검증되지 않은 역배는 관찰만 하고 자동 추천하지 않는다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 검증되지 않은 역배는 1순위 조합에 넣지 않으며, 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 경우만 별도 이변 도전으로 표시한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
 }

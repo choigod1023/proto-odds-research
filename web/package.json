@@ -5,6 +5,7 @@
   "description": "사이트 소스. 빌드 산출물은 ../docs 로 나가고, docs/data/*.json 은 수집기가 따로 갱신한다.",
   "scripts": {
     "dev": "vite",
+    "test": "node --test",
     "build": "vite build",
     "preview": "vite preview",
     "prebuild": "node -e \"require('fs').rmSync('../docs/assets',{recursive:true,force:true})\""

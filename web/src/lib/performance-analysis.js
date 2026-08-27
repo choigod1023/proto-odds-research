@@ -1,4 +1,5 @@
 import { playerSummaryFor } from "./player-summary.js";
+import { buildDecisionViewModel, decisionLabel, resolveDecisionOption } from "./decision-view-model.js";
 const number = (value) => {
   if (value === null || value === undefined || (typeof value === "string" && !value.trim())) return null;
   return Number.isFinite(Number(value)) ? Number(value) : null;
@@ -59,36 +60,59 @@ function decisionFor(game, option) {
 }
 
 export function predictionFor(game, recommended = null) {
-  // 추천이 없으면 모델 최고값을 임의로 승격하지 않는다. `추천 없음`도 확정된
-  // 정책 결정이며, 설명 카드가 그 결정을 뒤집어서는 안 된다.
-  const best = recommended && number(recommended["모델확률"]) !== null ? recommended : null;
-  const modelAvailable = (game?.options || []).some(
-    (option) => number(option?.["모델확률"]) !== null,
-  );
+  const options = game?.options || [];
+  const resolved = resolveDecisionOption(game, options);
+  // detached 추천 객체나 레거시 game["추천"]은 브라우저에서 이관하지 않는다.
+  const best = recommended
+    ? (recommended === resolved ? recommended : null)
+    : resolved;
+  const decision = buildDecisionViewModel(game, best);
+  if (decision.action !== "market_reference" || !decision.option) {
+    return {
+      outcome: null, side: null, probability: null, marketProbability: null,
+      shadowProbability: null, margin: 0, market: null, label: "",
+      headline: decisionLabel(decision), decision,
+    };
+  }
   const outcome = best?.["선택"] || null;
   const market = best?.market || null;
-  const compactOutcome = String(outcome || "").replaceAll(" ", "");
-  const draw = ["무", "무승부", "핸디무", "전반무", "전반핸디무"].includes(outcome);
+  const marketName = String(market || "");
+  const totalMarket = marketName.includes("언더오버");
+  const handicapMarket = marketName.includes("핸디캡");
+  const marginMarket = ["승①패", "승⑤패"].includes(market);
+  const firstHalfTeamMarket = ["전반승무패", "전반승패"].includes(market);
+  const teamMarket = ["승무패", "승패"].includes(market);
+  const draw = /무/.test(String(outcome || ""));
   const away = /원정|패/.test(String(outcome || "")) || outcome === game?.away;
-  const middleMargin = (market === "승①패" && compactOutcome === "1점차") ||
-    (market === "승⑤패" && ["5점차", "5점차이내"].includes(compactOutcome));
-  const side = !outcome || middleMargin ? null : draw ? "무승부" : away ? game?.away : game?.home;
-  const probability = number(best?.["모델확률"]);
-  const marketProbability = number(best?.["시장확률"]);
-  const decision = decisionFor(game, best);
-  const headline = decision ? `${decision.replace(/ 승$/, " 승리")} 선택`
-    : modelAvailable ? "경기 모델 추천 제외" : "경기 모델 미계산";
+  const outcomeSide = draw ? "무승부" : away ? game?.away : game?.home;
+  // 핸디캡·득점·점수차 선택을 실제 승리 방향으로 읽지 않는다.
+  const side = teamMarket ? outcomeSide : null;
+  const probability = decision.probability.final;
+  const marketProbability = decision.probability.market;
+  let headline;
+  if (totalMarket) headline = `시장 기준 · ${best?.label || "기준점"} ${outcome}`;
+  else if (handicapMarket) headline = `시장 기준 · ${best?.label || "핸디캡"} ${outcome}`;
+  else if (marginMarket) headline = `시장 기준 · ${market} ${outcome}`;
+  else if (firstHalfTeamMarket) {
+    headline = draw ? "시장 기준 · 전반 무승부" : `시장 기준 · 전반 ${outcomeSide} 우세`;
+  } else if (teamMarket) {
+    headline = draw ? "시장 기준 · 팽팽함" : `시장 기준 · ${side} 우세`;
+  } else {
+    headline = `시장 기준 · ${[market, best?.label, outcome].filter(Boolean).join(" ")}`;
+  }
   return {
     outcome,
     side,
     probability,
     marketProbability,
-    margin: probability !== null && marketProbability !== null ? probability - marketProbability : null,
+    shadowProbability: decision.probability.aiCandidate,
+    margin: decision.probability.aiDeltaApplied,
     market,
     label: best?.label || "",
     decision,
     modelAvailable,
     headline,
+    decision,
   };
 }
 
@@ -122,15 +146,15 @@ function signalNarrative(prediction, signals, state) {
   const opposing = signals.filter((signal) => signal.side && signal.side !== picked);
   const opponent = opposing[0]?.side;
   if (state === "일치") {
-    return "최종 선택은 " + picked + " 승리다. " + signalNames(supporting) + "에서 모두 " + particle(picked, ["이", "가"]) + " 앞선다.";
+    return signalNames(supporting) + "에서 모두 " + particle(picked, ["이", "가"]) + " 앞선다. 현재 최종 판정은 AI 보정이 아닌 시장 기준으로 " + picked + " 쪽이다.";
   }
   if (state === "엇갈림") {
-    return "최종 선택은 " + picked + " 승리다. " + signalNames(supporting) + "에서는 " + particle(picked, ["이", "가"]) + " 앞서고, " + signalNames(opposing) + "에서는 " + particle(opponent, ["이", "가"]) + " 낫다.";
+    return signalNames(supporting) + "에서는 " + particle(picked, ["이", "가"]) + " 앞서고, " + signalNames(opposing) + "에서는 " + particle(opponent, ["이", "가"]) + " 낫다. 엇갈림은 숨기지 않되 최종 값은 시장 기준으로 유지한다.";
   }
   if (state === "반대") {
-    return "최종 선택은 " + picked + " 승리다. 확인되는 최근 기록은 " + particle(opponent, ["이", "가"]) + " 앞서지만 시장과 모델 확률을 우선했다.";
+    return "확인되는 최근 기록은 " + particle(opponent, ["이", "가"]) + " 앞선다. 시장 기준 방향과 반대이므로 AI 우위로 해석하지 않고 충돌 자료로 남긴다.";
   }
-  return "최종 선택은 " + picked + " 승리다. 비교할 최근 기록이 부족해 시장과 모델 확률을 기준으로 결정했다.";
+  return "비교할 최근 기록이 충분하지 않아 시장확률만 기준으로 " + picked + " 쪽을 비교 후보로 둔다.";
 }
 export function signalSummaryFor(game, prediction) {
   if (!prediction?.side || prediction.side === "무승부" || !["승무패", "승패"].includes(prediction.market)) return null;
@@ -204,7 +228,7 @@ export function playerSnapshot(game) {
   if (game?.sport === "bs") {
     const starters = featuredPlayers.filter((player) => player.role === "선발투수");
     if (starters.length === 2) playerNotes.unshift(
-      `${starters[0].team} ${starters[0].name}와 ${starters[1].team} ${starters[1].name}의 선발 맞대결이다.`);
+      `${starters[0].team} ${particle(starters[0].name, ["과", "와"])} ${starters[1].team} ${starters[1].name}의 선발 맞대결이다.`);
   }
 
   for (const side of ["home", "away"]) {
@@ -220,9 +244,16 @@ export function playerSnapshot(game) {
   const unavailable = ["home", "away"].flatMap((side) =>
     (info.unavailable?.[side] || []).map((row) => ({ ...row, team: game?.[side] })));
   if (unavailable.length) {
-    const sample = unavailable.slice(0, 2).map((row) =>
-      `${row.team} ${row.name}(${row.status || "상태 확인 필요"})`).join(", ");
-    playerNotes.push(`${sample}${unavailable.length > 2 ? ` 외 ${unavailable.length - 2}명` : ""}의 현재 상태를 선수 정보에 표시했다.`);
+    const sample = unavailable.slice(0, 2).map((row) => {
+      const detail = [row.reason_label || row.status, row.impact_label && `영향 ${row.impact_label}`].filter(Boolean).join(" · ");
+      return `${row.team} ${row.name}${detail ? `(${detail})` : ""}`;
+    }).join(", ");
+    playerNotes.push(`${sample}${unavailable.length > 2 ? ` 외 ${unavailable.length - 2}명` : ""}의 출전 여부가 변수다.`);
+  }
+  const availability = info.availability_summary;
+  if (availability?.leans) {
+    const team = availability.leans === "home" ? game?.away : game?.home;
+    playerNotes.push(`확인된 명단 기준으로는 ${team} 쪽 전력 손실 부담이 더 크다. 이 값은 과거 검증 전이라 모델 확률에는 직접 더하지 않았다.`);
   }
   return { featuredPlayers, playerNotes };
 }
@@ -326,26 +357,26 @@ function playerSentence(players) {
 }
 
 function expectedFlowSentence(game, prediction) {
-  const verdict = prediction?.decision ? `최종 선택은 ${copula(prediction.decision)}.` : null;
-  if (["언더오버", "전반언더오버"].includes(prediction?.market)) {
+  const marketName = String(prediction?.market || "");
+  if (marketName.includes("언더오버")) {
     const low = String(prediction.outcome || "").includes("언더");
+    const firstHalf = marketName.startsWith("전반");
     const homeScored = number(game?.form_home?.avg_scored);
     const awayScored = number(game?.form_away?.avg_scored);
     const total = homeScored !== null && awayScored !== null ? homeScored + awayScored : null;
-    const unit = game?.sport === "sc" ? "골" : "점";
-    const evidence = total !== null
-      ? `두 팀의 최근 경기당 득점 합은 ${metric(total)}${unit}이다.`
-      : "최근 득실과 시장 기준선을 함께 비교했다.";
-    return `${verdict} ${evidence} 기준 시나리오는 ${low ? "득점 억제" : "공격 전개 지속"}이다.`;
+    const evidence = !firstHalf && total !== null
+      ? `두 팀의 최근 경기당 득점 합은 ${metric(total)}점이다.`
+      : `${firstHalf ? "전반" : "경기"} 득점 기준의 시장확률을 사용했다.`;
+    return `${evidence} ${prediction.label || "발매 기준점"}에서 ${low ? "득점이 크게 벌어지지 않는" : "공격 전개가 이어지는"} 쪽을 시장 기준 비교 후보로 남겼다.`;
   }
-  if (["핸디캡", "전반핸디캡"].includes(prediction?.market)) {
-    return `${verdict} 발매 핸디캡 기준의 모델확률과 시장확률로 결정했다.`;
+  if (marketName.includes("핸디캡")) {
+    return `${prediction.label || "발매 핸디캡"} 기준에서 ${prediction.outcome} 쪽을 시장 비교 후보로 둔다. 이는 핸디캡 적용 후 적중 방향이며 실제 승리 예측과는 다르다.`;
   }
   if (["승①패", "승⑤패"].includes(prediction?.market)) {
-    return `${verdict} 득점분포의 점수 차 확률과 시장확률로 결정했다.`;
+    return `${prediction.market}의 ${prediction.outcome} 쪽을 시장 비교 후보로 둔다. 이 판정은 승패만이 아니라 발매된 점수 차 조건까지 포함한다.`;
   }
-  if (["전반승무패", "전반승패"].includes(prediction?.market)) {
-    return `${verdict} 전반 시장의 모델확률과 시장확률로 결정했다.`;
+  if (marketName.startsWith("전반")) {
+    return `전반 시장에서 ${prediction.outcome} 쪽을 비교 후보로 둔다. 전반 결과와 경기 최종 결과는 별개의 마켓이다.`;
   }
   if (prediction?.side === "무승부") {
     return `${verdict} 양쪽의 강점이 엇갈리는 접전 시나리오를 기준으로 삼았다.`;
@@ -366,9 +397,9 @@ function expectedFlowSentence(game, prediction) {
   const ownConceded = number(ownForm?.avg_conceded);
   const otherScored = number((isHome ? game?.form_away : game?.form_home)?.avg_scored);
   const caveat = ownConceded !== null && otherScored !== null && otherScored > ownConceded
-    ? ` 반대 근거는 ${opponent}의 최근 득점 생산력이다.`
-    : " 미반영 정보는 경기 초반 사건과 선발 변경이다.";
-  return `${verdict} 기준 시나리오는 ${particle(side, ["이", "가"])} ${basis}을 바탕으로 주도권을 더 오래 가져가는 흐름이다.${caveat}`;
+    ? ` 다만 ${opponent}의 최근 득점 생산력은 경기를 쉽게 벌리지 못하게 할 변수다.`
+    : " 다만 경기 초반 실점 여부와 선발 구성은 흐름을 바꿀 수 있다.";
+  return `${particle(side, ["이", "가"])} ${particle(basis, ["을", "를"])} 바탕으로 주도권을 조금 더 오래 가져갈 가능성을 높게 봤다.${caveat}`;
 }
 
 function performanceReasons(game, prediction, players) {
@@ -387,22 +418,27 @@ function performanceReasons(game, prediction, players) {
   return [...new Set(reasons)].slice(0, 6);
 }
 
-export function performanceAnalysis(game, recommended = null) {
+export function performanceAnalysis(game, recommended = null, commentary = "") {
   const prediction = predictionFor(game, recommended);
   const signalSummary = signalSummaryFor(game, prediction);
   const players = playerSnapshot(game);
   const reasons = performanceReasons(game, prediction, players);
-  const lineupStatus = game?.["선발"]?.lineup_status || {};
-  const sideStates = Object.values(lineupStatus.side_states || {});
-  const announced = lineupStatus.state === "announced"
-    || lineupStatus.state === "official_today"
-    || lineupStatus.official_today === true
-    || (sideStates.length >= 2 && sideStates.every((state) => state === "official_today"));
+  const announced = game?.["선발"]?.lineup_status?.state === "announced"
+    || (game?.sport === "bs" && game?.["선발"]?.home);
+  const opposingSignals = (signalSummary?.signals || [])
+    .filter((signal) => signal.side && signal.side !== prediction.side)
+    .map((signal) => `${readableSignal[signal.label] || signal.label}은 ${signal.side} 쪽이 앞선다.`);
+  const cautions = [
+    ...opposingSignals,
+    ...(announced ? [] : ["경기 직전 선발·출전 명단이 바뀌면 예상 흐름도 달라질 수 있다."]),
+  ];
   return {
     prediction,
+    decision: prediction.decision,
     signalSummary,
     reasons,
+    commentary: String(commentary || "").trim(),
     ...players,
-    cautions: announced ? [] : ["확정 선발·출전 명단을 반영하지 않았다. 명단 발표 뒤 다시 계산한다."],
+    cautions: [...new Set(cautions)],
   };
 }

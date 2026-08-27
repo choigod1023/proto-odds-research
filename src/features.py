@@ -28,6 +28,39 @@ BASE = 1500.0
 HOME_ADV = 45.0
 K_BY_SPORT = {"bs": 12.0, "bk": 16.0, "sc": 24.0, "vl": 18.0}
 
+# 프로토 ``year``는 경기의 달력 연도다. NBA·EPL처럼 전년도 가을에 시작해
+# 다음 해 봄에 끝나는 대회를 1월 1일에 초기화하면 시즌 홈/원정·맞대결 피처가
+# 인위적으로 끊긴다. 7월은 이 목록의 실제 경기 공백 또는 새 시즌 예선 경계라
+# 하나의 일관된 시즌 시작 연도로 안전하게 정규화할 수 있다.
+CROSS_YEAR_LEAGUES = frozenset({
+    # 농구 / 배구
+    "NBA", "KBL", "WKBL", "남농EASL", "KOVO남", "KOVO여",
+    # 유럽·호주 리그
+    "EPL", "EFL챔", "라리가", "분데스리", "세리에A", "에레디비",
+    "프리그1", "A리그",
+    # 유럽·아시아 클럽대항전과 같은 시즌에 이어지는 국내 컵
+    "UCL", "UEL", "UECL", "ACLE", "ACL2",
+    "잉글FA컵", "잉리그컵", "스페FA컵", "독일FA컵", "이탈FA컵",
+    "프랑FA컵", "네덜FA컵",
+    # 가을 조별리그 뒤 다음 해 결선이 열리는 국가대항전
+    "U네이션", "C네이션",
+})
+JAPAN_CROSS_YEAR_FROM = frozenset({"J1리그", "J2리그", "일리그컵", "일본FA컵"})
+
+
+def season_key(league: str, game_datetime: pd.Timestamp) -> int:
+    """대회 시즌의 시작 연도. 달력제 리그는 경기 연도를 그대로 쓴다."""
+    stamp = pd.Timestamp(game_datetime)
+    name = str(league)
+    crosses_year = name in CROSS_YEAR_LEAGUES
+    # J리그는 2026-08부터 추춘제로 전환했다. 2025까지의 춘추제와 2026 상반기
+    # 백년구상 특별대회까지 과거로 당기지 않는다.
+    if name in JAPAN_CROSS_YEAR_FROM and stamp >= pd.Timestamp("2026-07-01"):
+        crosses_year = True
+    if crosses_year and stamp.month < 7:
+        return int(stamp.year - 1)
+    return int(stamp.year)
+
 
 def _rate(dq) -> float | None:
     if not dq:
@@ -38,7 +71,7 @@ def _rate(dq) -> float | None:
 
 
 def build_features(m: pd.DataFrame) -> pd.DataFrame:
-    """날짜순 1패스. 각 경기의 피처는 그 경기 '이전' 상태로만 만든다."""
+    """날짜순 1패스. 같은 날짜 결과도 그날 모든 피처를 만든 뒤 반영한다."""
     rating: dict = defaultdict(lambda: BASE)
     res: dict = defaultdict(lambda: deque(maxlen=10))
     mgn: dict = defaultdict(lambda: deque(maxlen=10))
@@ -49,11 +82,64 @@ def build_features(m: pd.DataFrame) -> pd.DataFrame:
     h2h_w: dict = defaultdict(int)
     h2h_n: dict = defaultdict(int)
 
+    def apply_updates(pending) -> None:
+        # 시간키 없는 같은 날짜 경기는 입력 순서가 정보가 되지 않도록 정렬한다.
+        for r, kh, ka, pair, elo_diff, d in sorted(
+                pending,
+                key=lambda item: (pd.Timestamp(
+                                      getattr(item[0], "kickoff", item[0].date)),
+                                  str(item[0].league), str(item[0].home_team),
+                                  str(item[0].away_team), int(item[0].home_score),
+                                  int(item[0].away_score))):
+            hs, as_ = int(r.home_score), int(r.away_score)
+            gap = hs - as_
+            rh_, ra_ = (("W", "L") if gap > 0 else
+                        (("L", "W") if gap < 0 else ("D", "D")))
+            res[kh].append(rh_)
+            res[ka].append(ra_)
+            mgn[kh].append(gap)
+            mgn[ka].append(-gap)
+
+            season = season_key(r.league, d)
+            venue_n[(season, "H", kh)] += 1
+            venue_n[(season, "A", ka)] += 1
+            if gap > 0:
+                venue_w[(season, "H", kh)] += 1
+            elif gap < 0:
+                venue_w[(season, "A", ka)] += 1
+            h2h_n[pair] += 1
+            if gap > 0:
+                h2h_w[(pair, r.home_team)] += 1
+            elif gap < 0:
+                h2h_w[(pair, r.away_team)] += 1
+
+            for k in (kh, ka):
+                if k in last_date and (d - last_date[k]).days == 1:
+                    streak_days[k] += 1
+                else:
+                    streak_days[k] = 1
+                last_date[k] = d
+
+            exp_h = 1.0 / (1.0 + 10 ** (-elo_diff / 400.0))
+            k_ = K_BY_SPORT.get(r.sport, 16.0)
+            mult = min(np.log1p(abs(gap)) / np.log(2), 3.0) if gap else 1.0
+            delta = k_ * mult * (r.outcome - exp_h)
+            rating[kh] += delta
+            rating[ka] -= delta
+
     rows = []
+    pending = []
+    current_date = None
     for r in m.itertuples():
         lg, ht, at, sp = r.league, r.home_team, r.away_team, r.sport
         kh, ka = (lg, ht), (lg, at)
-        d = r.date
+        game_datetime = pd.Timestamp(getattr(r, "kickoff", r.date))
+        d = game_datetime.normalize()
+        season = season_key(lg, game_datetime)
+        if current_date is not None and d != current_date:
+            apply_updates(pending)
+            pending.clear()
+        current_date = d
 
         # ---------- 경기 전 상태로 피처 생성 ----------
         elo_diff = rating[kh] + HOME_ADV - rating[ka]
@@ -82,14 +168,17 @@ def build_features(m: pd.DataFrame) -> pd.DataFrame:
                 n += 1
             return n if v[0] == "W" else (-n if v[0] == "L" else 0)
 
-        vh = venue_w[("H", kh)] / venue_n[("H", kh)] if venue_n[("H", kh)] >= 5 else None
-        va = venue_w[("A", ka)] / venue_n[("A", ka)] if venue_n[("A", ka)] >= 5 else None
-        pair = (lg,) + tuple(sorted([ht, at]))
+        vh = (venue_w[(season, "H", kh)] / venue_n[(season, "H", kh)]
+              if venue_n[(season, "H", kh)] >= 5 else None)
+        va = (venue_w[(season, "A", ka)] / venue_n[(season, "A", ka)]
+              if venue_n[(season, "A", ka)] >= 5 else None)
+        pair = (season, lg) + tuple(sorted([ht, at]))
         hh = (h2h_w[(pair, ht)] / h2h_n[pair]) if h2h_n[pair] >= 3 else None
         ha = (h2h_w[(pair, at)] / h2h_n[pair]) if h2h_n[pair] >= 3 else None
 
         rows.append({
-            "date": d, "year": r.year, "league": lg, "sport": sp,
+            "date": game_datetime.normalize(), "kickoff": game_datetime,
+            "year": r.year, "league": lg, "sport": sp,
             "home_team": ht, "away_team": at, "outcome": r.outcome,
             "elo_diff": elo_diff,
             "form_diff": (fh - fa) if None not in (fh, fa) else np.nan,
@@ -105,38 +194,9 @@ def build_features(m: pd.DataFrame) -> pd.DataFrame:
             "h2h_diff": (hh - ha) if None not in (hh, ha) else np.nan,
         })
 
-        # ---------- 상태 갱신 (피처 생성 이후) ----------
-        hs, as_ = int(r.home_score), int(r.away_score)
-        gap = hs - as_
-        rh_, ra_ = ("W", "L") if gap > 0 else (("L", "W") if gap < 0 else ("D", "D"))
-        res[kh].append(rh_); res[ka].append(ra_)
-        mgn[kh].append(gap); mgn[ka].append(-gap)
+        pending.append((r, kh, ka, pair, elo_diff, d))
 
-        venue_n[("H", kh)] += 1; venue_n[("A", ka)] += 1
-        if gap > 0:
-            venue_w[("H", kh)] += 1
-        elif gap < 0:
-            venue_w[("A", ka)] += 1
-        h2h_n[pair] += 1
-        if gap > 0:
-            h2h_w[(pair, ht)] += 1
-        elif gap < 0:
-            h2h_w[(pair, at)] += 1
-
-        for k, dt in ((kh, d), (ka, d)):
-            if k in last_date and (dt - last_date[k]).days == 1:
-                streak_days[k] += 1
-            else:
-                streak_days[k] = 1
-            last_date[k] = dt
-
-        exp_h = 1.0 / (1.0 + 10 ** (-elo_diff / 400.0))
-        k_ = K_BY_SPORT.get(sp, 16.0)
-        mult = min(np.log1p(abs(gap)) / np.log(2), 3.0) if gap else 1.0
-        delta = k_ * mult * (r.outcome - exp_h)
-        rating[kh] += delta
-        rating[ka] -= delta
-
+    apply_updates(pending)
     return pd.DataFrame(rows)
 
 

@@ -1,0 +1,24 @@
+---
+description: Complete every user-facing feature through data, frontend, build, and browser verification
+alwaysApply: true
+---
+
+# Browser-Integrated Feature Delivery
+
+- Treat a feature as incomplete until users can understand and use it in the website.
+- For every user-visible feature, update all affected layers in the same task:
+  1. calculation or backend source;
+  2. generated data and its schema/contract;
+  3. frontend rendering, wording, empty/error/stale states, and interaction;
+  4. production files under `docs/`.
+- Do not stop after adding a formula, script, JSON field, or API response unless the user explicitly requested backend-only work.
+- Keep Python generation logic, browser-side recomputation, and displayed numbers consistent.
+- Explain the feature in plain Korean: what was selected, why, why it was rejected or withheld, and what condition changes the decision.
+- Never expose a failed, stale, missing, or unverified signal as an active recommendation. Show its status and reason in the UI.
+- If an existing screen already consumes the new behavior, verify that contract with real generated data instead of assuming no frontend change is needed.
+- Run the relevant web tests and production build after implementation.
+- Inspect the rendered page in a browser using real generated data. Exercise important tabs, buttons, links, and time-dependent states.
+- Check a mobile viewport whenever layout or responsive content changes, then restore the viewport.
+- After merge, verify both that `main` contains the commit and that the site deployment completed successfully.
+- Report separately: source implementation, frontend integration, browser QA, repository merge, and deployment status.
+
