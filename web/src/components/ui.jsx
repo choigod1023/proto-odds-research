@@ -6,7 +6,6 @@
 //    이 페이지의 모든 숫자가 손실이라, 초록을 칠하면 −18.7% 가 이득처럼 읽힌다.
 
 export const NAV = [
-  { href: "markets.html", label: "경기·배당 보기" },
   { href: "research.html", label: "모델 검증" },
   { href: "lotto.html", label: "로또 검증" },
 ];
@@ -14,7 +13,7 @@ export const NAV = [
 export function Nav({ current }) {
   return (
     <nav className="site-nav" aria-label="주요 메뉴">
-      <a className="site-brand" href="markets.html">경기 분석</a>
+      <a className="site-brand" href="markets.html">경기·배당</a>
       <div className="site-nav-links">
         {NAV.map((n) => (
           <a key={n.href} href={n.href}
