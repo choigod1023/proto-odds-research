@@ -30,7 +30,7 @@ export default function PredictionPanel({ analysis }) {
       <div className="prediction-body">
         <div>
           <h4>판정과 구분된 경기 자료</h4>
-          <p className="performance-intro">설명 자료와 반대 신호를 함께 보며, AI가 사용한 값은 ‘AI 판정’ 탭에서 따로 확인합니다.</p>
+          <p className="performance-intro">설명 자료와 반대 신호를 함께 보며, AI가 사용한 값은 ‘픽 근거·수식’ 탭에서 확인합니다.</p>
           <ul className="performance-reasons">
             {reasons.map((reason) => {
               const item = reasonParts(reason);

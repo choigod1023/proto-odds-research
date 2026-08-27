@@ -8,23 +8,23 @@ test("상세 선발 구조와 레거시 문자열을 모두 읽는다", () => {
   assert.equal(starterFor(game, "home").stats.era, 2.91);
 });
 
-test("경기 설명과 AI 판정을 다섯 구획으로 나눈다", () => {
+test("경기 설명과 판정 자료를 세 구획으로 합친다", () => {
   const game = { sport: "bs", form_home: { last10: "7승 3패" }, 선발: { home: "A" } };
   assert.deepEqual(infoTabs(game, "해설").map((x) => x.id),
-    ["summary", "ai", "players", "teams", "availability"]);
+    ["summary", "players", "evidence"]);
 });
 
-test("축구도 발표 전부터 선수·출전 탭을 숨기지 않는다", () => {
+test("축구도 발표 전부터 통합 선수·출전 탭을 숨기지 않는다", () => {
   const game = { sport: "sc", form_home: { last10: "5승 3무 2패" } };
   assert.deepEqual(infoTabs(game, "해설").map((x) => x.id),
-    ["summary", "ai", "players", "teams", "availability"]);
+    ["summary", "players", "evidence"]);
 });
 
-test("농구와 배구도 선수·명단 및 출전 탭을 항상 연다", () => {
+test("농구와 배구도 통합 선수·출전 탭을 항상 연다", () => {
   for (const sport of ["bk", "vl"]) {
     const tabs = infoTabs({ sport }, "해설");
-    assert.deepEqual(tabs.map((x) => x.id), ["summary", "ai", "players", "teams", "availability"]);
-    assert.equal(tabs.find((x) => x.id === "players").label, "선수·명단");
+    assert.deepEqual(tabs.map((x) => x.id), ["summary", "players", "evidence"]);
+    assert.equal(tabs.find((x) => x.id === "players").label, "선수·출전");
   }
 });
 test("0도 유효한 투수 지표로 표시하고 부상 배열을 정리한다", () => {

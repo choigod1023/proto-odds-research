@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { Card, GradeBadge, Nav, OddsChip, SectionTitle, Stat } from "../components/ui.jsx";
+import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import BetPreference from "../components/BetPreference.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
-import { AiDecisionPath, AiMethodology } from "../components/AiDisclosure.jsx";
+import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
@@ -68,10 +68,9 @@ export default function Markets() {
   const { data, at } = usePolledData({
     d: "data/picks_v2.json",
     grades: "data/loss_grades.json",
-    combo: "data/combo.json",
     today: "data/today_combo.json",
   }, 300000);   // 5분
-  const { d, grades, combo, today } = data;
+  const { d, grades, today } = data;
   const liveOdds = useLiveOdds();
   const liveToday = usePoll(RECOMMENDATION_URL, 120000);
   const liveFeed = useLive();
@@ -98,11 +97,8 @@ export default function Markets() {
 
   return (
     <Shell meta={metaLine(d, at)}>
-      <AiMethodology />
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday || today} combo={combo} /></section>
-      <section id="evidence"><Evidence grades={grades}
-        tally={synchronized.tally_status === "prediction_ledger_verified" ? synchronized.tally : null} /></section>
+        stale={stale} today={liveToday || today} /></section>
     </Shell>
   );
 }
@@ -160,11 +156,6 @@ function Shell({ children, meta }) {
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
-      <nav className="section-nav" aria-label="경기 분석 바로가기">
-        <a href="#ai-method">AI 사용</a>
-        <a href="#match-list">경기 목록</a>
-        <a href="#evidence">분석 기준</a>
-      </nav>
       {children}
     </div>
   );
@@ -201,9 +192,7 @@ function useTodayClock(today) {
   return clock;
 }
 
-const todayViewKey = (target) => `target:${target}`;
-
-function TodayListControls({ activeToday, combo, grades, view, onView }) {
+function TodayListControls({ activeToday }) {
   const plans = (activeToday?.plans || []).filter((plan) => plan.ok);
   const recommendation = recommendationFromPlans(plans);
   const solo = activeToday?.solo || null;
@@ -215,8 +204,6 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
   const selected = selectedPlan || solo;
   const shouldPass = selectedIndex < 0 || recommendation.action !== "buy";
   const recommendedPlan = recommendedIndex >= 0 ? plans[recommendedIndex] : null;
-  const bl = (combo?.baseline || []).find((row) => row.legs === 2);
-  const bestBin = (grades?.odds_bins || []).find((row) => row.grade === "A");
   const periodLabel = activeToday?.window === "next_morning" ? "다음 날 오전" : "오늘";
   const revision = activeToday?.last_recommendation_change;
 
@@ -234,10 +221,10 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="text-[11px] font-semibold uppercase tracking-[.08em] text-ink3">
-            {activeToday.window === "next_morning" ? "오늘 후보 없음 · 다음 날 오전 경기" : "경기 목록에 통합된 오늘 조합"}
+            {activeToday.window === "next_morning" ? "오늘 후보 없음 · 다음 날 오전 경기" : "오늘의 구매안"}
           </div>
           <div className="mt-1 text-[14px] font-semibold text-ink">
-            {recommendation.action === "buy" ? `${periodLabel} 우선` : recommendation.action === "challenge" ? `${periodLabel} 도전` : `${periodLabel} 관찰`}
+            {recommendation.action === "buy" ? `${periodLabel} 우선` : recommendation.action === "challenge" ? `${periodLabel} 고위험 구매안` : `${periodLabel} 관찰`}
             {recommendedPlan ? ` · ${recommendedPlan.target}배 · ${recommendedPlan.legs}폴` : ""}
           </div>
         </div>
@@ -261,7 +248,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
         {recommendation.action === "buy" ? (
           <>가장 안정적인 조합은 <b>{recommendation.target}배</b>입니다. {recommendation.why}</>
         ) : recommendation.action === "challenge" ? (
-          <>손실을 감수한 오늘 도전은 <b>{recommendation.target}배</b>입니다. {recommendation.why}</>
+          <>손실을 감수할 때의 우선 구매안은 <b>{recommendation.target}배</b>입니다. {recommendation.why}</>
         ) : recommendation.action === "pass" ? (
           <>자동 우선 조합은 없습니다. {recommendation.target}배 구성을 관찰할 수 있습니다. {recommendation.why}</>
         ) : (
@@ -272,25 +259,7 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
         )}
       </div>
 
-      <div className="my-3 flex flex-wrap gap-1.5" role="group" aria-label="오늘 조합으로 경기 목록 좁히기">
-        <Tab on={view === "all"} onClick={() => onView("all")}>전체 경기</Tab>
-        {solo && <Tab on={view === "solo"} onClick={() => { setSelectedIndex(-1); onView("solo"); }}>단폴</Tab>}
-        {plans.map((q, k) => (
-          <Tab key={q.target} on={view === todayViewKey(q.target)} onClick={() => { setSelectedIndex(k); onView(todayViewKey(q.target)); }}>
-            {q.target}배
-            {k === recommendedIndex && (
-              <span className="text-[10px]">
-                {recommendation.action === "buy" ? "구매" : recommendation.action === "challenge" ? "소액 도전" : "비교 1순위"}
-              </span>
-            )}
-            <span className={`tnum text-[11px] ${k === selectedIndex ? "text-sev3" : "text-ink3"}`}>
-              {(planMetric(q, "market_reference_roi", "conservative_expected_roi") * 100).toFixed(0)}%
-            </span>
-          </Tab>
-        ))}
-      </div>
-
-      {selected && <div className="flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
+      {selected && <div className="mt-3 flex flex-wrap gap-x-7 gap-y-2 border-b border-rule2 pb-3">
         <Stat k="독립 가정 적중" v={planMetric(selected, "independent_hit_est", "calibrated_hit_est") != null
           ? `${(planMetric(selected, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"} />
         <Stat k="실배당" v={selected?.actual_odds != null
@@ -299,58 +268,25 @@ function TodayListControls({ activeToday, combo, grades, view, onView }) {
           ? `${(planMetric(selected, "market_reference_roi", "conservative_expected_roi") * 100).toFixed(1)}%` : "-"}
           tone={planMetric(selected, "market_reference_roi", "conservative_expected_roi") < 0 ? "sev" : undefined} />
         <Stat k="구성" v={`${selectedPlan?.legs || 1}폴`} />
-        <Stat k="확률 근거" v="시장 배당" />
-      </div>}
-      {selected && <div className="mt-1.5 text-[10.5px] text-ink3">
-        시장 배당 기준 적중 {selected?.hit_est != null ? `${(selected.hit_est * 100).toFixed(1)}%` : "-"} ·
-        독립적인 +EV 증거가 아니라 같은 배당에서 역산한 비교값입니다
       </div>}
 
       <p className="mt-2 text-[10.5px] leading-5 text-ink3">
         각 경기 방향은 배당 경계와 무관하게 현재 Shin 시장확률이 가장 높은 선택 하나로 고정합니다. 목표 배당은 그 다음 조합 단계에서만 적용합니다.
       </p>
 
-      <details className="budget-simulator">
-        <summary>금액 시뮬레이터 · 선택한 조합의 손실 범위를 비교합니다.</summary>
+      <div className="mt-3 border-t border-rule2 pt-3">
         <BetPreference plans={plans} solo={solo} selectedIndex={selectedIndex}
           onSelect={setSelectedIndex}
           recommendedTarget={recommendation.target} recommendationAction={recommendation.action}
           shouldPass={shouldPass} />
-      </details>
-
-      {bl && (
-        <div className="mt-3 border-t border-rule2 pt-[11px] text-[12px] leading-[1.75] text-ink2">
-          <b className="text-ink">다리를 줄이는 게 제일 크다.</b>{" "}
-          같은 선택도 1폴 <b className="tnum text-ink">−9.8%</b> ·
-          2폴 <b className="tnum text-ink">−18.7%</b> · 3폴 <b className="tnum">−26.7%</b> —
-          다리 하나에 <b className="text-ink">8.9%p</b> 다. 배당대를 고르는 이득(3.9%p)보다 크다.
-          단폴은 '한경기' 지정 경기만 되니, 되면 그걸 먼저 본다.<br />
-          아무 2폴 <b className="tnum">{(bl.any * 100).toFixed(1)}%</b> →{" "}
-          배당 {bestBin ? bestBin.bin : "1.0-1.3"} 로 짠 2폴{" "}
-          <b className="tnum">{(bl.best * 100).toFixed(1)}%</b>.
-          전부 마이너스다. 목표 배당을 올릴수록 더 잃는다.
-        </div>
-      )}
+      </div>
       <div className="mt-2 border-t border-rule2 pt-2 text-[10.5px] text-ink3">
-        구조 모델과 시장이 다른 방향을 가리키면 이변 관찰 근거로만 표시하며 자동 추천 방향은 바꾸지 않습니다. {" "}
+        표시 확률은 배당에서 역산한 시장 추정치이며, 구조 모델의 반대 방향은 관찰 근거로만 남깁니다. {" "}
         <a className="font-semibold text-signal" href="research.html#evolutionary-selector">검증 결과 보기 →</a>
       </div>
     </div>
   );
 }
-
-const Tab = ({ on, onClick, children }) => (
-  <button
-    type="button"
-    aria-pressed={on}
-    onClick={onClick}
-    className={`flex items-center gap-1.5 rounded-full border px-[13px] py-1.5 text-[12px] leading-none ${
-      on ? "border-ink font-semibold text-ink" : "border-rule text-ink2 hover:border-ink3"
-    }`}
-  >
-    {children}
-  </button>
-);
 
 /* ── 경기 목록과 오늘 조합 ────────────────────────────────────── */
 const STATUS = [
@@ -358,7 +294,7 @@ const STATUS = [
   ["정산", "정산"], ["", "전체"],
 ];
 
-function GameList({ data, grades, caps, stale, today, combo }) {
+function GameList({ data, grades, caps, stale, today }) {
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
   //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
@@ -366,8 +302,6 @@ function GameList({ data, grades, caps, stale, today, combo }) {
   //    이 페이지의 제목이 '오늘 뭘 사면 덜 잃나' 다. 기본값이 그걸 보여줘야 한다.
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "",
                                dt: kstMMDD(0) });
-  const [showModel, setShowModel] = useState(false);
-  const [todayView, setTodayView] = useState("all");
 
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
@@ -383,24 +317,11 @@ function GameList({ data, grades, caps, stale, today, combo }) {
   );
   const todayMemberships = useMemo(() => buildTodayMemberships(activeToday), [activeToday]);
   useEffect(() => {
-    if (todayView === "solo" && !activeToday?.solo) setTodayView("all");
-    if (todayView.startsWith("target:") && !(activeToday?.plans || []).some(
-      (plan) => plan.ok && todayViewKey(plan.target) === todayView,
-    )) setTodayView("all");
-  }, [activeToday, todayView]);
-  const chooseTodayView = (nextView) => {
-    setTodayView(nextView);
-    if (nextView !== "all") {
-      setF((current) => ({
-        ...current,
-        st: "예정",
-        mk: "",
-        // 오늘 남은 경기가 없으면 다음 날 오전 후보도 목록에서 볼 수 있어야 한다.
-        dt: activeToday.window === "next_morning" ? "" : kstMMDD(0),
-      }));
-      setCap(0);
-    }
-  };
+    if (activeToday?.window !== "next_morning") return;
+    setF((current) => current.dt === kstMMDD(0)
+      ? { ...current, dt: kstMMDD(1) }
+      : current);
+  }, [activeToday?.window]);
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
@@ -441,11 +362,6 @@ function GameList({ data, grades, caps, stale, today, combo }) {
     const membership = cardPick
       ? todayMemberships.get(selectionKey(cardPick.o, g.round)) || null
       : null;
-    if (todayView === "solo" && !membership?.solo) continue;
-    if (todayView.startsWith("target:")) {
-      const wanted = Number(todayView.slice("target:".length));
-      if (!membership?.targets.some((target) => Number(target) === wanted)) continue;
-    }
     n++;
     const key = `${g.league} · ${day(g.date)}`;
     if (key !== cur) {
@@ -482,15 +398,14 @@ function GameList({ data, grades, caps, stale, today, combo }) {
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 오늘 조합과 경기 판정을 함께 멈췄습니다. 수집이 복구되면 경기 목록 안에서 자동으로 다시 표시됩니다.</p>
         </div>
       ) : (
-        <TodayListControls activeToday={activeToday} combo={combo} grades={grades}
-          view={todayView} onView={chooseTodayView} />
+        <TodayListControls activeToday={activeToday} />
       )}
-      <div className={`filter-shell ${showModel ? "show-model" : ""}`}>
+      <div className="filter-shell">
         <div className="filter-primary">
           <div className="date-switch" aria-label="경기 날짜">
-            <button type="button" aria-pressed={f.dt === kstMMDD(0)} onClick={() => { setF({ ...f, dt: kstMMDD(0) }); setTodayView("all"); }}>오늘</button>
-            <button type="button" aria-pressed={f.dt === kstMMDD(1)} onClick={() => { setF({ ...f, dt: kstMMDD(1) }); setTodayView("all"); }}>내일</button>
-            <button type="button" aria-pressed={!f.dt} onClick={() => { setF({ ...f, dt: "" }); setTodayView("all"); }}>전체</button>
+            <button type="button" aria-pressed={f.dt === kstMMDD(0)} onClick={() => setF({ ...f, dt: kstMMDD(0) })}>오늘</button>
+            <button type="button" aria-pressed={f.dt === kstMMDD(1)} onClick={() => setF({ ...f, dt: kstMMDD(1) })}>내일</button>
+            <button type="button" aria-pressed={!f.dt} onClick={() => setF({ ...f, dt: "" })}>전체</button>
           </div>
           <div className="team-search">
             <input type="search" placeholder="팀 또는 리그 검색" value={f.q}
@@ -519,8 +434,7 @@ function GameList({ data, grades, caps, stale, today, combo }) {
 
           </div>
           <div className="filter-actions">
-            <label><input type="checkbox" checked={showModel} onChange={(e) => setShowModel(e.target.checked)} /> 연구 수치 보기</label>
-            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: kstMMDD(0) }); setCap(0); setTodayView("all"); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: kstMMDD(0) }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
@@ -541,7 +455,7 @@ function GameList({ data, grades, caps, stale, today, combo }) {
           </span>
         </p>
       )}
-      <div className={showModel ? "show-model" : ""}>
+      <div>
         {rows.length ? rows : (
           // 날짜 기본값이 '오늘' 이라 심야·비수기엔 빈 화면이 될 수 있다.
           // 그때 '고장' 으로 보이지 않게 다음 행동을 바로 알려 준다.
@@ -698,18 +612,15 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                 : "배당은 아직 발표되지 않았다. 경기 정보는 먼저 확인할 수 있다."}
           </div>
         )}
-        {predictionUnavailable ? (
+        {predictionUnavailable && (
           <div className="rounded-[2px] border border-dashed border-rule px-2.5 py-2 text-[12px] text-ink3">
             경기 전에 저장된 예측 원장이 없어 현재 공식으로 과거 추천을 재구성하지 않습니다.
           </div>
-        ) : <MatchInsight g={g} analysis={analysis} decision={decision} />}
-        {!wait && <details className="price-sheet">
-          <summary><span>배당과 연구 수치</span><span>표 펼치기</span></summary>
-          <div className="overflow-x-auto py-3">
-            <OptTable opts={opts} grades={grades} tie={tie} pick={pick}
-              recalculating={g._liveOddsChanged === true} />
-          </div>
-        </details>}
+        )}
+        <MatchInsight g={g} analysis={analysis}
+          decision={predictionUnavailable ? null : decision}
+          opts={opts} grades={grades} tie={tie} pick={pick}
+          recalculating={g._liveOddsChanged === true} showPrices={!wait} />
       </div>
     </Card>
   );
@@ -728,7 +639,7 @@ function OptTable({ opts, grades, tie, pick, recalculating = false }) {
         <th scope="col" className={`${th} text-right`}>번호</th>
         <th scope="col" className={th}>마켓 / 선택</th>
         <th scope="col" className={`${th} text-right`}>배당</th>
-        <th scope="col" className={`${th} text-right`}>과거 적중</th>
+        <th scope="col" className={`${th} text-right`}>배당구간 적중</th>
         <th scope="col" className={`${th} model-col text-right`}>시장</th>
         <th scope="col" className={`${th} model-col text-right`}>구조 AI</th>
         <th scope="col" className={`${th} model-col text-right`}>시장과 차이</th>
@@ -1167,9 +1078,13 @@ function AvailabilityPanel({ g }) {
     </p>}
   </>;
 }
-function MatchInsight({ g, analysis, decision }) {
+function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
+  recalculating = false, showPrices = false }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
+  if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
+    tabs.push({ id: "evidence", label: "픽 근거·수식" });
+  }
   const [active, setActive] = useState(tabs[0]?.id || "summary");
   if (!tabs.length) return null;
   const current = tabs.some((x) => x.id === active) ? active : tabs[0]?.id;
@@ -1203,57 +1118,27 @@ function MatchInsight({ g, analysis, decision }) {
       </div>
       <div className="intel-content" role="tabpanel" id={panelId}
         aria-labelledby={tabId(current)} tabIndex={0}>
-        {current === "summary" && (analysis
-          ? <PredictionPanel analysis={analysis} />
-          : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>)}
-        {current === "ai" && (decision
-          ? <AiDecisionPath decision={decision} />
-          : <p className="m-0 text-[11.5px] text-ink3">AI 판정 스냅샷이 아직 없습니다.</p>)}
-        {current === "players" && <PlayersPanel g={g} />}
-        {current === "teams" && <TeamsPanel g={g} />}
-        {current === "availability" && <AvailabilityPanel g={g} />}
+        {current === "summary" && <>
+          {analysis
+            ? <PredictionPanel analysis={analysis} />
+            : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>}
+          <div className="mt-3 border-t border-rule2 pt-3"><TeamsPanel g={g} /></div>
+        </>}
+        {current === "players" && <>
+          <PlayersPanel g={g} />
+          <div className="mt-3 border-t border-rule2 pt-3"><AvailabilityPanel g={g} /></div>
+        </>}
+        {current === "evidence" && <>
+          {decision
+            ? <AiDecisionPath decision={decision} />
+            : <p className="m-0 text-[11.5px] text-ink3">경기 전 판정 스냅샷이 아직 없습니다.</p>}
+          {showPrices && <div className="show-model mt-3 overflow-x-auto border-t border-rule2 pt-3">
+            <OptTable opts={opts} grades={grades} tie={tie} pick={pick}
+              recalculating={recalculating} />
+          </div>}
+        </>}
       </div>
-      {(current === "players" || current === "availability") && <SourceStamp source={source} />}
+      {current === "players" && <SourceStamp source={source} />}
     </div>
-  );
-}
-
-/* ── ③ 근거 ───────────────────────────────────────────────────── */
-function Evidence({ grades, tally }) {
-  const b = grades?.basis;
-  const items = [
-    ["배당대 등급",
-      b ? `실측 ${b.n_selections.toLocaleString()}건 · ${b.years[0]}~${b.years.at(-1)}. 네 해 모두 같은 방향일 때만 등급을 준다.`
-        : "실측 수익률로 A~D 를 매긴다."],
-    ["조합 산술",
-      "다리를 하나 더 붙일 때마다 마진이 한 번 더 물린다 — 약 −6%p. 목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다."],
-    ["AI 반영 원장",
-      "시장·팀 기록·선발·결장 자료마다 최종 반영, 연구 중, 설명만, 미반영을 빠짐없이 표시한다."],
-    ["왜 이길 수 없나",
-      "12개 검증 기록. 필요한 우위 6.8%p, 동원 가능한 정보 4.8%p."],
-  ];
-  return (
-    <>
-      <SectionTitle note="숫자의 출처">근거</SectionTitle>
-      <div className="grid gap-2.5 [grid-template-columns:repeat(auto-fit,minmax(230px,1fr))]">
-        {items.map(([h, dsc]) => (
-          <Card key={h}>
-            <a href="research.html" className="block px-[15px] py-[13px] text-inherit no-underline">
-              <div className="mb-[3px] text-[13px] font-semibold">{h}</div>
-              <div className="text-[11.5px] leading-[1.65] text-ink3">{dsc}</div>
-            </a>
-          </Card>
-        ))}
-      </div>
-      {tally && (
-        <div className="mt-3 text-[11.5px] leading-[1.75] text-ink3">
-          모델 추천은 <b className="text-sev3">구매 근거로 채택하지 않는다.</b> 이 페이지의 모델 추천을 그대로 따랐다면
-          정산 {tally.n}건에서 적중 {(tally.hit_rate * 100).toFixed(1)}%,
-          수익률 <b className="text-sev3">{(tally.roi * 100).toFixed(1)}%</b> 였다 —
-          아무거나 살 때(−13.7%)보다 나쁘다. 모델이 시장보다 부정확해서,
-          격차가 큰 곳은 곧 모델이 크게 틀린 곳이다.
-        </div>
-      )}
-    </>
   );
 }

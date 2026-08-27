@@ -238,7 +238,7 @@ export function recommendationFromPlans(plans) {
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
-    why = "소액 도전 기준에도 미달했다";
+    why = "구매 기준에도 미달했다";
   }
   const index = available.findIndex((plan) => plan.target === best.target);
   return {
