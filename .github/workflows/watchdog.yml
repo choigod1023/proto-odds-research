@@ -61,7 +61,9 @@ jobs:
           #    사흘 내내 알림이 안 떴다.
           #    여기서 답해야 할 질문은 "파일이 바뀌었나" 가 아니라
           #    **"수집기가 살아서 밀어 넣고 있나"** 다.
-          last=$(git log -1 --format=%ct --author=proto-collector -- docs/data/ || echo 0)
+          # live_scores/live_odds만 바뀌어도 docs/data 전체 커밋 시각은 새것처럼
+          # 보인다. 화면의 stale 판정과 같은 핵심 산출물인 picks_v2를 직접 본다.
+          last=$(git log -1 --format=%ct --author=proto-collector -- docs/data/picks_v2.json || echo 0)
           now=$(date +%s)
           age_h=$(( (now - last) / 3600 ))
           echo "age_h=$age_h" >> "$GITHUB_OUTPUT"
