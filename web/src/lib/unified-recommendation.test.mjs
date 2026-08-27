@@ -81,7 +81,12 @@ assert.equal(canonicalOption(liveMoved), null, "실시간 배당 revision 뒤에
 const started = { ...game, _liveStarted: true };
 assert.equal(canonicalOption(started), null, "실시간 중계가 시작되면 오늘 후보에서 제거한다");
 
-const legacy = { ...game, decision_snapshot: undefined, 추천: home };
-assert.equal(canonicalOption(legacy), null, "스냅샷 없는 레거시 추천은 이관하지 않는다");
+const legacy = { ...game, decision_snapshot: undefined, 추천: away };
+assert.equal(canonicalOption(legacy), home,
+  "스냅샷이 없으면 레거시 추천을 무시하고 시장 최유력으로 복구한다");
+assert.equal(canonicalPick(legacy, legacy.options, grades).policy, "market-fallback");
+const legacyAligned = alignTodayRecommendations(today, [legacy]);
+assert.equal(legacyAligned.candidates[0].recommendation_basis, "market-fallback");
+assert.equal(legacyAligned.alignment.market_fallback_candidates, 1);
 
 console.log("unified recommendation tests passed");

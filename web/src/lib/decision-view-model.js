@@ -1,3 +1,5 @@
+import { eligibleAutoSelections } from "./recommendation-policy.js";
+
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
   const number = Number(value);
@@ -131,10 +133,58 @@ const stageRows = (stages) => Array.isArray(stages)
     ? Object.entries(stages).map(([id, value]) => ({ id, ...(value || {}) }))
     : [];
 
+const reconstructMarketContract = (game) => {
+  const eligible = eligibleAutoSelections(game?.options || [])
+    .filter((option) => {
+      const probability = finite(option?.["시장확률"]);
+      return probability !== null && probability > 0 && probability < 1;
+    });
+  const resolved = eligible.sort((a, b) =>
+    finite(b?.["시장확률"]) - finite(a?.["시장확률"]) ||
+    finite(a?.["배당"]) - finite(b?.["배당"]) ||
+    String(a?.market || "").localeCompare(String(b?.market || "")) ||
+    String(a?.label || "").localeCompare(String(b?.label || "")) ||
+    String(a?.["선택"] || "").localeCompare(String(b?.["선택"] || ""))
+  )[0] || null;
+  const market = finite(resolved?.["시장확률"]);
+  const shadow = finite(resolved?.["모델확률"]);
+  return {
+    reconstructed: true,
+    resolved,
+    errors: [],
+    raw: {
+      action: resolved ? "market_reference" : "withhold",
+      selection_id: null,
+      offer_id: null,
+      as_of: null,
+      probability: {
+        market,
+        ai_candidate: shadow,
+        ai_delta_applied: 0,
+        final: market,
+      },
+      model: {
+        status: shadow === null ? "unavailable" : "shadow",
+        validated_edge: false,
+        promotion_gate: "not_passed",
+        operating_version: "shin-market-anchor-v1",
+        artifact_hash: null,
+      },
+      gate_codes: resolved
+        ? ["reconstructed_market_reference"]
+        : ["no_eligible_market_reference"],
+      explanation: { kind: "structured_ui", affects_probability: false },
+    },
+  };
+};
+
 const snapshotContract = (game) => {
   const raw = game?.decision_snapshot;
   const errors = [];
-  if (!raw || typeof raw !== "object") return { raw: {}, errors: ["missing_snapshot"], resolved: null };
+  // 수집기가 새 스키마보다 먼저 돌면 문서 전체에서 snapshot이 빠질 수 있다.
+  // 이때 레거시 추천이나 모델확률은 신뢰하지 않고, 현재 options의 Shin 시장확률과
+  // 동일 안전정책만으로 비교 후보를 복구한다. 스냅샷이 있는데 깨진 경우는 그대로 막는다.
+  if (!raw || typeof raw !== "object") return reconstructMarketContract(game);
   if (raw.schema_version !== DECISION_SCHEMA) errors.push("unsupported_schema");
   if (!raw.event_id || raw.event_id !== game?.event_id) errors.push("event_id_mismatch");
   if (!raw.input_revision_hash || !/^[a-f0-9]{64}$/.test(raw.input_revision_hash)) {
@@ -178,7 +228,7 @@ const snapshotContract = (game) => {
   } else {
     errors.push("unknown_action");
   }
-  return { raw, errors, resolved };
+  return { raw, errors, resolved, reconstructed: false };
 };
 
 /** v2 판정 스냅샷과 현재 선택지가 정확히 하나로 맞을 때만 반환한다. */
@@ -197,8 +247,10 @@ export function buildDecisionViewModel(game, option = null) {
   const liveRevisionChanged = game?._liveOddsChanged === true;
   const rawSelectionId = raw?.selection_id || null;
   const optionSelectionId = option?.selection_id || null;
-  const selectionMatches = !!option && contract.resolved === option
-    && rawSelectionId === optionSelectionId && raw?.offer_id === option?.offer_id;
+  const selectionMatches = !!option && contract.resolved === option && (
+    contract.reconstructed ||
+    (rawSelectionId === optionSelectionId && raw?.offer_id === option?.offer_id)
+  );
   const contractValid = contract.errors.length === 0;
   const action = contractValid && raw.action === "market_reference" && game?._liveStarted
     ? "closed"
@@ -264,6 +316,7 @@ export function buildDecisionViewModel(game, option = null) {
     },
     sources: uniqueById(raw?.sources || []),
     audit: raw?.audit || null,
+    contractReconstructed: contract.reconstructed === true,
     contractErrors: contract.errors,
     gateCodes: contract.errors.length
       ? ["invalid_decision_contract", ...contract.errors]
@@ -277,5 +330,6 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
+  if (decision?.contractReconstructed) return "시장 기준 비교 · 자동 복구";
   return decision?.model?.validatedEdge ? "검증 AI 판정" : "시장 기준 비교";
 }

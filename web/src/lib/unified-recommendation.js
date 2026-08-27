@@ -29,7 +29,10 @@ export function canonicalPick(game, options, grades) {
   const option = canonicalOption(game, options);
   if (!option) return null;
   const grade = gradeOf(grades, option["배당"]);
-  return { o: option, g: grade, tie: false, policy: "market-anchored" };
+  return {
+    o: option, g: grade, tie: false,
+    policy: game?.decision_snapshot ? "market-anchored" : "market-fallback",
+  };
 }
 
 /** 오늘 후보도 경기 카드의 v2 판정과 정확히 같은 선택만 남긴다. */
@@ -38,12 +41,18 @@ export function alignTodayRecommendations(today, games = []) {
   const inputCandidates = today.candidates || [];
   const canonical = new Map((games || []).flatMap((game) => {
     const option = canonicalOption(game, game?.options || []);
-    return option ? [[selectionGroupKey(option, game.round), selectionKey(option, game.round)]] : [];
+    return option ? [[selectionGroupKey(option, game.round), {
+      key: selectionKey(option, game.round),
+      basis: game?.decision_snapshot ? "game-decision" : "market-fallback",
+    }]] : [];
   }));
   const candidates = eligibleAutoSelections(inputCandidates).filter((candidate) => {
     const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
-    return wanted === selectionKey(candidate, candidate?.round);
-  }).map((candidate) => ({ ...candidate, recommendation_basis: "game-decision" }));
+    return wanted?.key === selectionKey(candidate, candidate?.round);
+  }).map((candidate) => ({
+    ...candidate,
+    recommendation_basis: canonical.get(selectionGroupKey(candidate, candidate?.round))?.basis,
+  }));
   const allowed = new Set(candidates.map((candidate) => selectionKey(candidate, candidate?.round)));
   const keep = (candidate) => allowed.has(selectionKey(candidate, candidate?.round));
   const plans = (today.plans || []).map((plan) => ({
@@ -54,6 +63,9 @@ export function alignTodayRecommendations(today, games = []) {
   const gameModelCandidates = candidates.filter(
     (candidate) => candidate.recommendation_basis === "game-decision",
   ).length;
+  const marketFallbackCandidates = candidates.filter(
+    (candidate) => candidate.recommendation_basis === "market-fallback",
+  ).length;
   return {
     ...today,
     candidates,
@@ -63,7 +75,7 @@ export function alignTodayRecommendations(today, games = []) {
       input_candidates: inputCandidates.length,
       safe_candidates: candidates.length,
       game_model_candidates: gameModelCandidates,
-      market_fallback_candidates: 0,
+      market_fallback_candidates: marketFallbackCandidates,
       dropped_by_safety: inputCandidates.length - candidates.length,
     },
   };
