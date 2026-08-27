@@ -109,8 +109,6 @@ export function predictionFor(game, recommended = null) {
     margin: decision.probability.aiDeltaApplied,
     market,
     label: best?.label || "",
-    decision,
-    modelAvailable,
     headline,
     decision,
   };
