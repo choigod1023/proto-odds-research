@@ -1,4 +1,4 @@
-import { eligibleAutoSelections, MIN_AUTO_ODDS } from "./recommendation-policy.js";
+import { eligibleAutoSelections, recommendationPriority } from "./recommendation-policy.js";
 
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
@@ -146,6 +146,7 @@ const reconstructMarketContract = (game) => {
     return probability !== null && probability > 0 && probability < 1;
   });
   const rank = (a, b) =>
+    recommendationPriority(b) - recommendationPriority(a) ||
     finite(b?.["시장확률"]) - finite(a?.["시장확률"]) ||
     finite(a?.["배당"]) - finite(b?.["배당"]) ||
     String(a?.market || "").localeCompare(String(b?.market || "")) ||
@@ -245,8 +246,22 @@ const snapshotContract = (game) => {
     errors.push("unknown_action");
   }
   const resolvedOdds = finite(resolved?.["배당"]);
-  if (!errors.length && resolved && resolvedOdds !== null &&
-      !eligibleAutoSelections(game?.options || []).includes(resolved)) {
+  const eligibleNow = eligibleAutoSelections(game?.options || []);
+  const preferredAvailable = eligibleNow.some((option) => recommendationPriority(option) === 1);
+  const shouldRebuildSelection = resolved && resolvedOdds !== null && (
+    !eligibleNow.includes(resolved) ||
+    (recommendationPriority(resolved) === 0 && preferredAvailable)
+  );
+  if (!errors.length && shouldRebuildSelection) {
+    const rebuilt = reconstructMarketContract(game);
+    if (rebuilt.recommendationRecovered) {
+      return { ...rebuilt, policyRecalculated: true };
+    }
+  }
+  // 이전 정책이 1.50 미만을 제외해 남긴 정상 withhold는 새 정책에서 복구한다.
+  if (!errors.length && raw.action === "withhold" && eligibleNow.length &&
+      (raw.gate_codes || []).some((code) =>
+        ["no_eligible_market_reference", "minimum_recommendation_odds"].includes(code))) {
     const rebuilt = reconstructMarketContract(game);
     if (rebuilt.recommendationRecovered) {
       return { ...rebuilt, policyRecalculated: true };
@@ -280,8 +295,9 @@ export function buildDecisionViewModel(game, option = null) {
   const recommendationEligible = contract.resolved && resolvedOdds !== null
     ? eligibleAutoSelections(game?.options || []).includes(contract.resolved)
     : null;
-  const minimumOddsBlocked = contractValid && raw.action === "market_reference" &&
-    contract.resolved && resolvedOdds !== null && resolvedOdds < MIN_AUTO_ODDS;
+  const recommendationTier = recommendationEligible
+    ? (recommendationPriority(contract.resolved) === 1 ? "primary" : "fallback")
+    : null;
   const action = contractValid && raw.action === "market_reference" && game?._liveStarted
     ? "closed"
     : contractValid && raw.action === "market_reference" && liveRevisionChanged
@@ -350,11 +366,12 @@ export function buildDecisionViewModel(game, option = null) {
     liveOddsRecalculated: game?._liveOddsRecalculated === true,
     policyRecalculated: contract.policyRecalculated === true,
     recommendationEligible,
+    recommendationPriority: recommendationTier,
     contractErrors: contract.errors,
     gateCodes: contract.errors.length
       ? ["invalid_decision_contract", ...contract.errors]
-      : minimumOddsBlocked
-        ? ["minimum_recommendation_odds"]
+      : recommendationTier === "fallback"
+        ? ["lower_odds_fallback"]
         : recommendationEligible === false
           ? ["not_auto_recommendable"]
         : raw?.gate_codes || (action === "withhold" ? ["no_operating_selection"] : []),
@@ -367,8 +384,11 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
+  if (decision?.recommendationPriority === "fallback") {
+    return "시장 기준 비교 · 보조 추천";
+  }
   if (decision?.policyRecalculated && decision?.recommendationEligible) {
-    return "시장 기준 비교 · 1.50 하한 적용";
+    return "시장 기준 비교 · 1.50 이상 우선 적용";
   }
   if (decision?.liveOddsRecalculated) return "시장 기준 비교 · 실시간 재계산";
   if (decision?.contractReconstructed) return "시장 기준 비교 · 자동 복구";

@@ -1,4 +1,4 @@
-import { eligibleAutoSelections } from "./recommendation-policy.js";
+import { eligibleAutoSelections, recommendationPriority } from "./recommendation-policy.js";
 import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -44,6 +44,7 @@ function byNextKickoff(a, b, year) {
 }
 
 function byLegQuality(a, b, year) {
+  const priorityOrder = recommendationPriority(b) - recommendationPriority(a);
   const aCalibrated = calibratedLegProbability(a);
   const bCalibrated = calibratedLegProbability(b);
   const aOdds = Number(a?.odds || 0);
@@ -57,7 +58,7 @@ function byLegQuality(a, b, year) {
     (Number.isFinite(aProbability) ? aProbability : 0);
   const returnOrder = (bCalibrated.lower ?? 0) * bOdds -
     (aCalibrated.lower ?? 0) * aOdds;
-  return conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
+  return priorityOrder || conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
     Number(a.overround || 99) - Number(b.overround || 99) ||
     byNextKickoff(a, b, year);
 }
@@ -223,7 +224,7 @@ export function recommendationFromPlans(plans) {
     best = [...balanced].sort((a, b) =>
       metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
         byRiskAdjustedQuality(a, b))[0];
-    why = "각 경기 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다";
+    why = "1순위인 각 경기 1.50배 이상 3배 조합이 시장확률 기준 손실지표 −20.5% 이내와 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
@@ -358,7 +359,7 @@ export function availableToday(today, now = Date.now()) {
     const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
       return { ...plan, ok: false,
-        why: "시장 최유력·1.50 이상·2.20 미만인 시작 전 경기만으로 조합할 수 없다" };
+        why: "1순위인 시장 최유력·1.50 이상·2.20 미만 시작 전 경기만으로 조합할 수 없다" };
     }
     return {
       ...plan,

@@ -12,7 +12,10 @@ import math
 from datetime import datetime, timezone
 from typing import Iterable
 
-from recommendation_policy import automatic_selection_exclusion_reason
+from recommendation_policy import (
+    automatic_selection_exclusion_reason,
+    recommendation_priority,
+)
 
 
 SCHEMA_VERSION = "decision-snapshot-v2"
@@ -116,6 +119,7 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         option.pop("제외", None)
         option.pop("추천점수", None)
         option.pop("선택근거", None)
+        option.pop("추천우선순위", None)
         probability = _number(option.get("시장확률"))
         if probability is None:
             continue
@@ -139,11 +143,19 @@ def choose_market_reference(options: list[dict]) -> dict | None:
             option["제외"] = "시장확률을 계산할 수 없음"
             continue
         option["추천점수"] = round(probability, 4)
-        option["선택근거"] = "shin_market_accuracy"
+        option["추천우선순위"] = (
+            "primary" if recommendation_priority(option.get("배당")) == 1 else "fallback"
+        )
+        option["선택근거"] = (
+            "shin_market_accuracy_preferred_odds"
+            if option["추천우선순위"] == "primary"
+            else "shin_market_accuracy_low_odds_fallback"
+        )
         eligible.append(option)
     if not eligible:
         return None
     return max(eligible, key=lambda option: (
+        recommendation_priority(option.get("배당")),
         _number(option.get("시장확률")) or 0.0,
         -(_number(option.get("배당")) or 999.0),
         str(option.get("selection_id") or ""),
