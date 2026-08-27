@@ -427,6 +427,26 @@ def _run_steps(steps: list) -> None:
                 break
 
 
+def _run_publish_cycle(n: int) -> None:
+    """한 번의 산출물 갱신 주기를 실행한다."""
+    missing = not (REPO / "data" / "processed" / "games.csv").exists()
+    heavy = (n % HEAVY_EVERY_N == 0) or missing
+    if missing and n:
+        log("games.csv 가 없다 — 무거운 단계를 앞당겨 실행한다")
+
+    log(f"=== 산출물 갱신 시작 ({'전체' if heavy else '가벼운 단계만'})")
+    # 재시작 첫 주기는 전체 재계산이어서 길게는 수십 분 걸린다. 기존
+    # games.csv가 있으면 화면용 산출물을 먼저 갱신·게시해 stale 경고부터 푼다.
+    if heavy and not missing:
+        log("전체 재계산 전 화면 산출물을 먼저 갱신한다")
+        _run_steps(PUBLISH_LIGHT)
+        push_data()
+    if heavy:
+        _run_steps(PUBLISH)
+    _run_steps(PUBLISH_LIGHT)
+    push_data()
+
+
 def run_publish() -> None:
     """산출물 갱신.
 
@@ -440,21 +460,8 @@ def run_publish() -> None:
     time.sleep(180)
     n = 0
     while True:
-        # ⚠️ 가벼운 단계는 games.csv 를 읽는다. 그 파일이 없으면(첫 부팅,
-        #    또는 디스크 정리로 지워진 뒤) 무거운 쪽을 먼저 돌려야 한다.
-        #    안 그러면 매시간 조용히 실패만 반복한다.
-        missing = not (REPO / "data" / "processed" / "games.csv").exists()
-        heavy = (n % HEAVY_EVERY_N == 0) or missing
-        if missing and n:
-            log("games.csv 가 없다 — 무거운 단계를 앞당겨 실행한다")
-
-        log(f"=== 산출물 갱신 시작 ({'전체' if heavy else '가벼운 단계만'})")
-        if heavy:
-            _run_steps(PUBLISH)
-        _run_steps(PUBLISH_LIGHT)
-
         try:
-            push_data()                                # 만든 즉시 내보낸다
+            _run_publish_cycle(n)
         except Exception as e:                         # noqa: BLE001
             log(f"publish push 예외: {type(e).__name__}: {e}")
         n += 1

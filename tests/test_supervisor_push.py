@@ -153,3 +153,18 @@ def test_startup_sync_keeps_volume_data_and_updates_source(tmp_path, monkeypatch
     assert (collector / "data" / "cache.tmp").read_text(encoding="utf-8") == "untracked cache\n"
     _git(seed, "pull", "--ff-only")
     assert (seed / "data" / "raw.txt").read_text(encoding="utf-8") == "fresh volume data\n"
+
+
+def test_restart_refreshes_site_before_heavy_pipeline(tmp_path, monkeypatch):
+    (tmp_path / "data" / "processed").mkdir(parents=True)
+    (tmp_path / "data" / "processed" / "games.csv").write_text("ok\n", encoding="utf-8")
+    calls = []
+    monkeypatch.setattr(supervisor, "REPO", tmp_path)
+    monkeypatch.setattr(supervisor, "PUBLISH_LIGHT", ["light"])
+    monkeypatch.setattr(supervisor, "PUBLISH", ["heavy"])
+    monkeypatch.setattr(supervisor, "_run_steps", lambda steps: calls.append(steps[0]))
+    monkeypatch.setattr(supervisor, "push_data", lambda: calls.append("push"))
+
+    supervisor._run_publish_cycle(0)
+
+    assert calls == ["light", "push", "heavy", "light", "push"]
