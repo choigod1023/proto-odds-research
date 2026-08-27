@@ -157,7 +157,7 @@ function Shell({ children, meta }) {
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#ai-method">AI 사용</a>
         <a href="#match-list">경기 목록</a>
-        <a href="#price-comparison">배당 비교</a>
+        <a href="#price-comparison">발매 경기·배당</a>
         <a href="#evidence">분석 기준</a>
       </nav>
       {children}
