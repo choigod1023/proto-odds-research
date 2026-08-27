@@ -183,21 +183,9 @@ def _configure(repo: Path) -> None:
 def ensure_repo() -> bool:
     """볼륨에 레포가 없으면 클론, 있으면 최신화."""
     if (REPO / ".git").exists():
-        log("레포 확인됨 — pull")
+        log("레포 확인됨 — 최신 main과 수집 데이터 동기화")
         _configure(REPO)
-        # ⚠️ detached HEAD 로 남아 있으면 커밋은 쌓이는데 push 가 안 나간다.
-        #    부팅 때마다 브랜치에 붙여 둔다. 이미 main 이면 아무 일도 안 한다.
-        br = sh(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=REPO)
-        if br.stdout.strip() == "HEAD":
-            log("⚠️ detached HEAD 발견 — main 에 다시 붙인다")
-            sh(["git", "checkout", "-B", "main"], cwd=REPO)
-        r = sh(["git", "pull", "--rebase", "--autostash"], cwd=REPO)
-        if r.returncode:
-            # 충돌 상태를 남긴 채 수집 스레드를 시작하면 이후 commit/push가 전부
-            # 실패한다. 로컬 수집 커밋은 보존하고 rebase 상태만 정리한다.
-            sh(["git", "rebase", "--abort"], cwd=REPO)
-            log(f"pull 실패(계속 진행): {_mask(r.stderr)[:160]}")
-        return True
+        return _sync_existing_repo()
 
     log(f"레포 클론 → {REPO}")
     REPO.parent.mkdir(parents=True, exist_ok=True)
@@ -222,6 +210,61 @@ def _free_mb() -> int:
         return shutil.disk_usage(REPO.parent).free // (1024 * 1024)
     except OSError:
         return -1
+
+
+def _sync_existing_repo() -> bool:
+    """시작 전에 최신 코드와 볼륨의 최신 수집 데이터를 충돌 없이 합친다.
+
+    이 시점에는 아직 수집 스레드가 시작되지 않았으므로 tracked 데이터 체크포인트를
+    만든 뒤 main을 옮겨도 안전하다. untracked 캐시·대용량 파생 파일은 건드리지 않는다.
+    """
+    # 이전 재시작이 충돌 중 끊겼어도 새 동기화를 시작할 수 있게 상태부터 정리한다.
+    sh(["git", "rebase", "--abort"], cwd=REPO)
+    sh(["git", "merge", "--abort"], cwd=REPO)
+    staged = sh(["git", "add", "--all", "--", *TRACKED], cwd=REPO)
+    if staged.returncode:
+        log(f"시작 체크포인트 add 실패: {_mask(staged.stderr)[:160]}")
+        return False
+    changed = sh(["git", "diff", "--cached", "--quiet"], cwd=REPO)
+    if changed.returncode:
+        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+        committed = sh(["git", "commit", "-m",
+                        f"chore: 재시작 전 수집 데이터 체크포인트 ({stamp})"], cwd=REPO)
+        if committed.returncode:
+            log(f"시작 체크포인트 commit 실패: {_mask(committed.stderr)[:160]}")
+            return False
+    snapshot_result = sh(["git", "rev-parse", "HEAD"], cwd=REPO)
+    if snapshot_result.returncode:
+        return False
+    snapshot = snapshot_result.stdout.strip()
+    fetched = sh(["git", "fetch", "origin", "main"], cwd=REPO)
+    if fetched.returncode:
+        log(f"시작 fetch 실패: {_mask(fetched.stderr)[:160]}")
+        return False
+    switched = sh(["git", "checkout", "-B", "main", "origin/main"], cwd=REPO)
+    if switched.returncode:
+        log(f"시작 main 전환 실패: {_mask(switched.stderr)[:160]}")
+        return False
+    sh(["git", "rm", "-r", "-q", "--ignore-unmatch", *TRACKED], cwd=REPO)
+    restored = sh(["git", "checkout", snapshot, "--", *TRACKED], cwd=REPO)
+    if restored.returncode:
+        log(f"시작 데이터 복원 실패: {_mask(restored.stderr)[:160]}")
+        return False
+    sh(["git", "add", "--all", "--", *TRACKED], cwd=REPO)
+    changed = sh(["git", "diff", "--cached", "--quiet"], cwd=REPO)
+    if changed.returncode == 0:
+        return True
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+    committed = sh(["git", "commit", "-m",
+                    f"chore: 재시작 수집 데이터 복구 ({stamp})"], cwd=REPO)
+    if committed.returncode:
+        return False
+    pushed = _push_remote_main()
+    if pushed.returncode:
+        log(f"시작 데이터 push 실패: {_mask(pushed.stderr)[:160]}")
+        return False
+    log("최신 main 동기화와 수집 데이터 복구 완료")
+    return True
 
 
 def _publish_snapshot_on_remote(snapshot: str):

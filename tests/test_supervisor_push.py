@@ -48,27 +48,18 @@ def test_push_remote_main_uses_snapshot_after_failed_rebase(monkeypatch):
     assert recovered == ["snapshot123"]
 
 
-def test_existing_repo_aborts_failed_startup_rebase(tmp_path, monkeypatch):
+def test_existing_repo_uses_startup_synchronizer(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     (repo / ".git").mkdir(parents=True)
-    calls = []
-    results = iter([
-        result(stdout="HEAD\n"),  # rev-parse
-        result(),                  # checkout -B main
-        result(1),                 # pull --rebase
-        result(),                  # rebase --abort
-    ])
-
-    def fake_sh(cmd, cwd=None, **kwargs):
-        calls.append(cmd)
-        return next(results)
+    synchronized = []
 
     monkeypatch.setattr(supervisor, "REPO", repo)
     monkeypatch.setattr(supervisor, "_configure", lambda _: None)
-    monkeypatch.setattr(supervisor, "sh", fake_sh)
+    monkeypatch.setattr(supervisor, "_sync_existing_repo",
+                        lambda: synchronized.append(True) or True)
 
     assert supervisor.ensure_repo() is True
-    assert calls[-1] == ["git", "rebase", "--abort"]
+    assert synchronized == [True]
 
 
 def _git(cwd, *args):
@@ -121,3 +112,44 @@ def test_conflicting_collector_data_is_rebuilt_on_latest_remote(tmp_path, monkey
     assert (seed / "source.txt").read_text(encoding="utf-8") == "new source\n"
     assert (seed / "data" / "raw.txt").read_text(encoding="utf-8") == "collector data\n"
     assert '"fresh"' in (seed / "docs" / "data" / "picks_v2.json").read_text(encoding="utf-8")
+
+
+def test_startup_sync_keeps_volume_data_and_updates_source(tmp_path, monkeypatch):
+    remote = tmp_path / "remote.git"
+    seed = tmp_path / "seed"
+    collector = tmp_path / "collector"
+    _git(tmp_path, "init", "--bare", str(remote))
+    _git(tmp_path, "init", "-b", "main", str(seed))
+    _git(seed, "config", "user.name", "test")
+    _git(seed, "config", "user.email", "test@example.com")
+    _write(seed / "source.txt", "old source\n")
+    _write(seed / "data" / "raw.txt", "old data\n")
+    _write(seed / "docs" / "data" / "picks_v2.json", '{"generated_at":"old"}\n')
+    _git(seed, "add", ".")
+    _git(seed, "commit", "-m", "base")
+    _git(seed, "remote", "add", "origin", str(remote))
+    _git(seed, "push", "-u", "origin", "main")
+    _git(tmp_path, "clone", "-b", "main", str(remote), str(collector))
+    _git(collector, "config", "user.name", "collector")
+    _git(collector, "config", "user.email", "collector@example.com")
+
+    _write(collector / "data" / "raw.txt", "fresh volume data\n")
+    _write(collector / "docs" / "data" / "picks_v2.json",
+           '{"generated_at":"fresh-volume"}\n')
+    _write(collector / "data" / "cache.tmp", "untracked cache\n")
+    _write(seed / "source.txt", "new remote source\n")
+    _write(seed / "data" / "raw.txt", "remote data\n")
+    _git(seed, "add", ".")
+    _git(seed, "commit", "-m", "remote source update")
+    _git(seed, "push", "origin", "main")
+
+    monkeypatch.setattr(supervisor, "REPO", collector)
+    monkeypatch.setattr(supervisor, "_configure", lambda _: None)
+    assert supervisor.ensure_repo() is True
+
+    assert _git(collector, "branch", "--show-current").stdout.strip() == "main"
+    assert (collector / "source.txt").read_text(encoding="utf-8") == "new remote source\n"
+    assert (collector / "data" / "raw.txt").read_text(encoding="utf-8") == "fresh volume data\n"
+    assert (collector / "data" / "cache.tmp").read_text(encoding="utf-8") == "untracked cache\n"
+    _git(seed, "pull", "--ff-only")
+    assert (seed / "data" / "raw.txt").read_text(encoding="utf-8") == "fresh volume data\n"
