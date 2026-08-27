@@ -1,24 +1,22 @@
-"""전 마켓 통합 픽 생성 — 경기마다 '가장 나은 하나'를 고른다.
+"""전 마켓 경기 자료와 시장 기준 선택을 생성한다.
 
 기존 generate_picks.py 의 한계
 ------------------------------
 승패(2-way)만 봤다. 그건 프로토 물량의 24%다.
 그리고 승패 확률만으론 **"근소 우위"를 표현할 방법이 없다.**
 
-이 버전은 스코어 분포에서 **전 마켓을 계산하고 하나만 추천**한다.
+이 버전은 스코어 분포에서 전 마켓 연구값을 계산하되 운영 선택과 분리한다.
 
     P(홈=i, 원정=j)
       → 승패 · 승무패 · 언더오버(라인별) · 핸디캡(라인별) · 승①패
-      → 각 선택지의 기대 손익 = 모델확률 × 배당 − 1
-      → 그중 최선 하나
+      → 연구값은 shadow 로만 저장
+      → 운영값은 Shin 시장확률로 복귀
 
-추천 점수 — 기대 손익만 보지 않는다
------------------------------------
-`마켓선택.md` 실측:
-  · 박빙(45~55%)은 어느 마켓이든 −13% 이하 → **판단이 안 서면 추천하지 않는다**
-  · 강한 판단에서 승무패(3-way)는 −19.8% → **감점**
-  · 물량 몰리는 라인(핸디 −1.0, 언더오버 2.5)이 가장 촘촘 → **감점**
-  · 모델 괴리가 0.3 넘으면 기회가 아니라 **모델 고장 신호** → **제외**
+운영 원칙
+---------
+검증되지 않은 득점분포 모델이 선택이나 확률을 바꾸지 못하게 한다. 자동 선택은
+홀짝·2.20 이상·시장 역배를 제외한 뒤 시장확률이 가장 높은 비교 후보 하나다.
+모델값은 사이트의 AI 연구 탭에서만 보이며 최종 확률 기여는 항상 0%p다.
 
 용어
 ----
@@ -40,16 +38,17 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from bets import SEL_NAMES                                          # noqa: E402
+from bets import SEL_NAMES, winner_index                            # noqa: E402
+from ai_decision import (build_decision_snapshot, choose_market_reference, # noqa: E402
+                         annotate_options, decision_manifest)
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from player_commentary import with_player_context                    # noqa: E402
 from devig import market_probabilities                              # noqa: E402
-from recommendation_policy import automatic_selection_exclusion_reason  # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
                          match_game)
-from team_form import (build_forms, h2h_text, load_history,         # noqa: E402
-                       set_rest_days)
+from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
+                       load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
                         p_one_run, p_over, p_win)
 from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
@@ -63,25 +62,7 @@ OUT = ROOT / "docs" / "data"
 
 WINDOW = 20
 _LINE = re.compile(r"([-+]?\d+\.?\d*)")
-
-# 실측 기반 감점 (findings/마켓선택.md)
-CROWDED = {("핸디캡", -1.0), ("언더오버", 2.5)}    # 물량 몰려 촘촘한 라인
-
-# ⚠️ 괴리 상한 — 이 프로젝트에서 가장 중요한 숫자다.
-#
-# 정산 114경기로 실측한 결과:
-#     괴리 ≤0.02  n=76   수익률  −3.53%
-#     괴리 ≤0.05  n=106  수익률 −35.02%
-#     제한 없음    n=114  수익률 −23.19%
-#
-# **모델이 시장과 다르다고 말하는 순간 그 판단이 틀렸다.**
-# market_scan.py 에서 모델이 전 마켓에서 프로토에 진 것의 직접적 귀결이다.
-# EV 최대화로 고르면 '모델이 가장 크게 틀린 경기'를 고르게 된다 — 역선택이다.
-#
-# 그래서 상한을 0.02 로 조인다. 이건 사실상 **시장에 동의할 때만 본다**는 뜻이고,
-# 모델이 시장을 이기기 전까지는 이게 정직한 운영이다.
-MAX_SANE_GAP = 0.02
-
+_GAME_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 def clean(x: str) -> str:
     """팀명 옆에 붙은 숫자를 벗긴다.
@@ -95,6 +76,20 @@ def clean(x: str) -> str:
     """
     s = re.sub(r"^\s*-?\d+(?:\.\d+)?\s+", "", str(x).strip())
     return re.sub(r"\s+-?\d+(?:\.\d+)?\s*$", "", s).strip()
+
+
+def _game_datetime(game: dict) -> pd.Timestamp | None:
+    match = _GAME_TIME.search(str(game.get("date") or ""))
+    if not match:
+        return None
+    month, day, hour, minute = map(int, match.groups())
+    year = int(game.get("year") or datetime.now().year)
+    if int(game.get("round") or 0) == 1 and month == 12:
+        year -= 1
+    try:
+        return pd.Timestamp(year=year, month=month, day=day, hour=hour, minute=minute)
+    except ValueError:
+        return None
 
 
 # 점수를 믿을 수 있는 마켓 — 아래 참조
@@ -542,9 +537,17 @@ def _norm_team(n: str) -> str:
 _STORY_FAIL: list = []
 
 
+def _unpublished_market_commentary(home: str, away: str) -> str:
+    return (
+        f"{home}와 {away}의 배당이 아직 발표되지 않아 시장 방향과 확률은 "
+        "정하지 않는다."
+    )
+
+
 def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
                   by_team: dict | None = None, h2h_any: dict | None = None,
-                  lineups: dict | None = None, shots: dict | None = None) -> None:
+                  lineups: dict | None = None, shots: dict | None = None,
+                  narrative: bool = True) -> None:
     """경기 하나에 최근폼·상대전적·선발·줄글 해설을 붙인다.
 
     수치만 있으면 '해석' 이지 '분석' 이 아니다. 모델이 시장을 못 이긴다는 것과
@@ -552,8 +555,9 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
     """
     lg, ht, at = g["league"], g["home"], g["away"]
     by_team = by_team or {}
-    fh = forms.get((lg, ht)) or by_team.get(ht)
-    fa = forms.get((lg, at)) or by_team.get(at)
+    kickoff = _game_datetime(g)
+    fh = form_for_game(forms.get((lg, ht)) or by_team.get(ht), kickoff)
+    fa = form_for_game(forms.get((lg, at)) or by_team.get(at), kickoff)
     g["form_src"] = "리그" if forms.get((lg, ht)) else ("풀링" if fh else None)
     g["form_home"], g["form_away"] = _form_dict(fh), _form_dict(fa)
     g["h2h"] = h2h_text(h2h, lg, ht, at)
@@ -590,7 +594,6 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
                 o_h = o["배당"]
             elif o["선택"] == "원정":
                 o_a = o["배당"]
-    p_home = g.get("홈승률")
     p_mkt = base_home["시장확률"] if base_home else None
     extra = []
     for side, name in (("home", ht), ("away", at)):
@@ -621,21 +624,44 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
             extra.append(f"{josa(name, '은', '는')} 유효슈팅 대비 득점이 {v['conv']:.2f}로 낮아 "
                          f"만들고도 못 넣는 경기가 있다")
     g["라인업메모"] = ". ".join(extra) + ("." if extra else "")
+    market_context = _market_context(g["options"])
+    g["시장문맥"] = market_context
+    if not narrative:
+        # 배당 발표 경기는 웹의 구조화 reason 한 경로만 사용한다. 별도 긴 해설을
+        # 만들어 전송한 뒤 화면에서 버리거나, 다른 마켓 결론과 충돌시키지 않는다.
+        g["해설"] = None
+        g["해설기본"] = None
+        g["설명메타"] = { "kind": "structured_ui", "affects_probability": False }
+        return
 
     try:
-        market_context = _market_context(g["options"])
-        g["시장문맥"] = market_context
-        base_commentary = make_preview(ht, at, lg, fh, fa, h2h,
-                                       p_home if p_home is not None else 0.5,
-                                       p_mkt if p_mkt is not None else 0.5,
-                                       o_h or 0, o_a or 0, g.get("payout") or 88.0,
-                                       0.0, 0.0, sport=g["sport"],
-                                       market_context=market_context)
+        if p_mkt is None:
+            # 배당 미발표를 50:50 시장으로 바꾸면 존재하지 않는 가격과 방향을 만든다.
+            # 상세 선수·팀 자료는 별도 탭에서 보여 주고 요약은 미발표 사실만 말한다.
+            base_commentary = _unpublished_market_commentary(ht, at)
+        else:
+            base_commentary = make_preview(
+                ht, at, lg, fh, fa, h2h,
+                # 운영 확률은 시장 기준이다. 검증 전 홈승률을 최종 예상처럼
+                # 문장에 다시 섞지 않는다.
+                p_mkt, p_mkt, o_h or 0, o_a or 0,
+                g.get("payout") or 88.0, 0.0, 0.0,
+                sport=g["sport"], market_context=market_context,
+            )
         if g.get("라인업메모"):
             base_commentary = (base_commentary or "") + " " + g["라인업메모"]
         # 템플릿 문장을 LLM 이 말투만 다듬는다. 사실은 건드리지 않는다.
         # 키가 없거나·실패하거나·검사에 걸리면 템플릿 원문이 그대로 남는다.
-        base_commentary = commentary_llm.polish(base_commentary)
+        template_commentary = base_commentary
+        # 시장 자료가 없을 때는 생성형 AI도 호출하지 않는다. 미발표 상태를 그럴듯한
+        # 50:50 확률로 채우는 경로 자체를 없앤다.
+        base_commentary = (template_commentary if p_mkt is None
+                           else commentary_llm.polish(template_commentary))
+        g["설명메타"] = {
+            "kind": ("llm_assisted" if base_commentary != template_commentary
+                     else "deterministic"),
+            "affects_probability": False,
+        }
         g["해설기본"] = base_commentary
         g["해설"] = with_player_context(
             base_commentary, ht, at, g["sport"], g.get("선발"))
@@ -663,6 +689,102 @@ def _sane(pm):
     return pm
 
 
+def _remove_hindsight_prediction(game: dict) -> None:
+    """사전 원장이 없는 종료 경기에서 현재시점 모델 산출물을 제거한다."""
+    game["추천"] = None
+    game["홈승률"] = None
+    game["prediction_status"] = "prediction_ledger_required"
+    game["해설"] = None
+    game["해설기본"] = None
+    game.pop("설명메타", None)
+    game.pop("decision_snapshot", None)
+    for option in game.get("options", []):
+        option["모델확률"] = None
+        option["예상손익"] = None
+        option["괴리"] = None
+        option["AI잔차"] = None
+        option["AI반영"] = False
+        option["최종확률"] = option.get("시장확률")
+        option["확률근거"] = "shin_market"
+        option.pop("추천점수", None)
+        option.pop("제외", None)
+
+
+def _sanitize_prediction_document(doc: dict, as_of: pd.Timestamp | None = None) -> dict:
+    """종료·시작 경기의 사후 추천을 지우고 원장 없는 집계를 닫는다.
+
+    수집기가 정산 결과를 늦게 반영해도 킥오프가 지난 순간부터 새 추천으로 보이지
+    않아야 한다. 아직 경기 전인 ``live`` 항목은 그대로 보존한다.
+    """
+    now = pd.Timestamp(as_of) if as_of is not None else pd.Timestamp.now(tz="Asia/Seoul")
+    if now.tzinfo is not None:
+        now = now.tz_convert("Asia/Seoul").tz_localize(None)
+    for game in doc.get("past", []):
+        _remove_hindsight_prediction(game)
+    for game in doc.get("live", []):
+        kickoff = _game_datetime(game)
+        if (game.get("status") in ("경기전", "배당대기")
+                and kickoff is not None and kickoff <= now):
+            game["status"] = "결과확인"
+        if game.get("status") in ("정산", "결과확인"):
+            _remove_hindsight_prediction(game)
+    doc["tally"] = None
+    doc["tally_status"] = "prediction_ledger_required"
+    return doc
+
+
+def _sanitize_existing_output() -> int:
+    path = OUT / "picks_v2.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    as_of = str(doc.get("generated_at") or datetime.now(timezone.utc).isoformat(timespec="seconds"))
+    reconstructed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    # 네트워크 재수집 없이도 예전 산출물의 모델 추천을 시장 기준 계약으로 이관한다.
+    # 종료 경기는 아래 sanitizer가 곧 지우므로 경기 전 항목만 새 스냅샷을 만든다.
+    for game in doc.get("live", []):
+        if game.get("status") not in ("경기전", "배당대기"):
+            continue
+        annotate_options(game)
+        if not game.get("options"):
+            base = _unpublished_market_commentary(game.get("home", ""), game.get("away", ""))
+            game["해설기본"] = base
+            game["해설"] = with_player_context(
+                base, game.get("home", ""), game.get("away", ""),
+                game.get("sport", ""), game.get("선발"),
+            )
+            game["설명메타"] = {
+                "kind": "deterministic",
+                "affects_probability": False,
+            }
+        else:
+            game["해설"] = None
+            game["해설기본"] = None
+            game["설명메타"] = {
+                "kind": "structured_ui",
+                "affects_probability": False,
+            }
+        game["판단"] = "시장 기준" if game.get("options") else "배당 미발표"
+        game["추천"] = choose_market_reference(game.get("options", []))
+        game["decision_snapshot"] = build_decision_snapshot(
+            game,
+            as_of=as_of,
+            built_at=reconstructed_at,
+            pre_registered=False,
+            reconstructed_at=reconstructed_at,
+            explanation_kind=(game.get("설명메타") or {}).get("kind", "deterministic"),
+        )
+    doc["decision_schema"] = "decision-snapshot-v2"
+    doc["decision_manifest"] = decision_manifest()
+    doc["warning"] = (
+        "경기별 선택은 검증된 AI 우위가 아니라 Shin 시장확률 기준의 비교 후보입니다. "
+        "구조 모델과 선수 정보 AI는 연구·설명 단계로 분리되어 최종 확률을 바꾸지 않습니다. "
+        "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다."
+    )
+    _sanitize_prediction_document(doc)
+    path.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"사후 추천 제거: {path}")
+    return 0
+
+
 def main() -> int:
     st = team_lambdas()
     sess = _session()
@@ -672,7 +794,8 @@ def main() -> int:
     # ⚠️ season 을 안 넘기면 4년치가 누적된다 (LG 300승 212패 · 시즌 맞대결 32승 24패).
     #    "최근 폼" 이라는 말이 무의미해진다.
     hist = load_history()
-    FORMS, H2H = build_forms(hist, season=season)
+    now_for_forms = pd.Timestamp.now(tz="Asia/Seoul").tz_localize(None)
+    FORMS, H2H = build_forms(hist, season=season, as_of=now_for_forms)
     STARTERS = starters(refresh=True)
     LINEUPS = lineup_profiles()
     TIERS = team_tiers()
@@ -719,7 +842,7 @@ def main() -> int:
                     k0 = f"{r.league}|{ht0}|{at0}|{r.date_text}"
                     if k0 not in games:
                         games[k0] = {
-                            "round": rnd, "date": r.date_text, "league": r.league,
+                            "year": season, "round": rnd, "date": r.date_text, "league": r.league,
                             "sport": r.sport, "home": ht0, "away": at0,
                             "lam_home": (round(lam0[0], 2) if lam0 else None),
                             "lam_away": (round(lam0[1], 2) if lam0 else None),
@@ -769,18 +892,21 @@ def main() -> int:
                 pm = [None] * len(r.odds)      # 모델 없음 — 배당·등급만 보여준다
 
             names = SEL_NAMES.get((r.market_family, nw), tuple(f"sel{i}" for i in range(nw)))
-            settled = r.result not in UNPLAYED and r.result != ""
+            canonical_winner = winner_index(nw, r.result)
+            settled = canonical_winner is not None
+            unknown_result = r.result not in UNPLAYED and r.result != "" and not settled
 
             # ⭐ 경기 단위로 묶는다 — 같은 경기가 여러 상품으로 중복 발매되므로
             gkey = f"{r.league}|{ht}|{at}|{r.date_text}"
             g = games.setdefault(gkey, {
-                "round": rnd, "date": r.date_text, "league": r.league,
+                "year": season, "round": rnd, "date": r.date_text, "league": r.league,
                 "sport": r.sport, "home": ht, "away": at,
                 "lam_home": (round(lam[0], 2) if lam else None),
                 "lam_away": (round(lam[1], 2) if lam else None),
                 "lam_src": (lam[2] if lam else None),
                 "no_model": lam is None,
-                "status": "정산" if settled else "경기전",
+                "status": ("정산" if settled else
+                           ("결과확인" if unknown_result else "경기전")),
                 "score": None, "결과": None,
                 "options": []})
             g.pop("no_odds", None)
@@ -794,6 +920,8 @@ def main() -> int:
                         g["score"] = sc
                 if g.get("결과") is None and r.market_family in ("승패", "승무패"):
                     g["결과"] = r.result
+            elif unknown_result and g["status"] != "정산":
+                g["status"] = "결과확인"
             elif g["status"] == "배당대기":
                 g["status"] = "경기전"
 
@@ -826,15 +954,34 @@ def main() -> int:
                     "배당": round(o, 2),
                     "모델확률": (None if p is None else round(p, 4)),
                     "시장확률": round(p_mkt, 4),
+                    # 운영 EV가 아니다. 검증 전 구조 모델을 진단하기 위한 shadow 값이다.
+                    # 레거시 소비자를 위해 키는 유지하되 연구 전용임을 같은 객체에 명시한다.
                     "예상손익": (None if p is None else round(p * o - 1, 4)),
+                    "연구전용": True,
                     "괴리": (None if gap is None else round(gap, 4)),
                     "게임번호": r.game_no,
                     "적중": (None if not settled else _hit(nw, r.result, i)),
                 })
 
-    # ---- 경기별 최선 하나 고르기
+    # ---- 경기별 운영 선택 하나 고르기
+    # 구조 모델은 연구값일 뿐이다. 운영 선택은 오직 Shin 시장확률과 안전 정책으로
+    # 고르고, AI가 실제로 무엇을 썼는지는 decision_snapshot에 한 번만 기록한다.
+    # 모든 배당·팀·선수 자료를 읽은 뒤 확률 입력 컷오프를 고정한다. 생성기 시작 시각을
+    # 쓰면 나중에 읽은 자료가 과거에 이미 관측된 것처럼 보이는 시간 누수가 생긴다.
+    feature_cutoff_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+    def _snapshot(game: dict) -> dict:
+        return build_decision_snapshot(
+            game,
+            as_of=feature_cutoff_at,
+            built_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            pre_registered=False,
+            explanation_kind=(game.get("설명메타") or {}).get("kind", "deterministic"),
+        )
+
     out = []
     for g in games.values():
+        annotate_options(g)
         if g.get("no_odds") and not g["options"]:
             if not g.get("no_model"):
                 h0, _, a0 = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
@@ -845,67 +992,39 @@ def main() -> int:
             g["추천"] = None
             g["선택지수"] = 0
             _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
+            g["decision_snapshot"] = _snapshot(g)
             out.append(g)
             continue
-        # 모델이 없는 경기(컵대회 등)는 배당·등급만 보여준다. 추천은 하지 않는다.
+
+        # 모델이 없는 경기에도 시장 기준 비교 후보는 만들 수 있다. 다만 AI 추천으로
+        # 부르지 않고 구조 모델이 없다는 사실을 snapshot에 그대로 남긴다.
         if g.get("no_model"):
             g["홈승률"] = None
-            g["판단"] = "모델 없음 — 배당만"
-            for o in g["options"]:
-                o["제외"] = "리그 표본이 부족해 모델을 못 세운다 (컵대회 등)"
-            g["추천"] = None                 # 추천은 안 하되 **목록에는 남긴다**
+            g["연구판단"] = "구조 모델 없음"
+            g["판단"] = "시장 기준"
+            g["추천"] = choose_market_reference(g["options"])
             g["선택지수"] = len(g["options"])
-            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
+            if g["status"] not in ("정산", "결과확인"):
+                _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM,
+                              H2H_ANY, LINEUPS, SHOTFORM, narrative=False)
+            g["decision_snapshot"] = _snapshot(g)
             out.append(g)
             continue
 
         h, _, a = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
         p_home = h / (h + a) if h + a > 0 else 0.5
         g["홈승률"] = round(p_home, 4)
-        g["판단"] = ("박빙" if 0.45 <= p_home <= 0.55
-                     else ("홈 근소" if p_home < 0.60 else "홈 우세")
-                     if p_home > 0.55
-                     else ("원정 근소" if p_home > 0.40 else "원정 우세"))
-
-        # 같은 마켓 안에서 시장확률이 가장 높은 선택지만 자동 추천 자격이 있다.
-        # 3-way에서는 50% 미만이어도 셋 중 1위면 favorite이므로 확률 0.5로 자르지 않는다.
-        favorite_by_market: dict[tuple, float] = {}
-        for option in g["options"]:
-            key = (option["market"], option["label"], option["line"], option["게임번호"])
-            favorite_by_market[key] = max(
-                favorite_by_market.get(key, 0.0), float(option["시장확률"]))
-
-        best, best_score = None, -9e9
-        for o in g["options"]:
-            key = (o["market"], o["label"], o["line"], o["게임번호"])
-            policy_reason = automatic_selection_exclusion_reason(
-                o["market"], o["배당"], o["시장확률"], favorite_by_market[key])
-            if policy_reason:
-                # 상세에는 남기되 검증 안 된 역배를 자동 추천으로 포장하지 않는다.
-                o["제외"] = policy_reason
-                continue
-            # 모델 확률이 없는 선택지(전반 마켓 등)는 비교 대상이 아니다
-            if o["괴리"] is None or o["예상손익"] is None:
-                o["제외"] = "모델이 값을 매기지 않는 마켓 (전반전 등)"
-                continue
-            if o["괴리"] > MAX_SANE_GAP:
-                # 모델이 시장과 크게 다르다 = 모델이 틀렸을 확률이 높다
-                o["제외"] = "모델·시장 차이가 커서 신뢰 낮음"
-                continue
-            score = o["예상손익"]
-            # 실측 기반 감점
-            if 0.45 <= p_home <= 0.55:
-                score -= 0.05                      # 박빙은 전 마켓 열위
-            if o["market"] == "승무패" and not (0.45 <= p_home <= 0.55):
-                score -= 0.04                      # 강한 판단에서 3-way 재앙
-            if (o["market"], o["line"]) in CROWDED:
-                score -= 0.02                      # 물량 몰린 라인
-            o["추천점수"] = round(score, 4)
-            if score > best_score:
-                best, best_score = o, score
-        g["추천"] = best
+        g["연구판단"] = ("박빙" if 0.45 <= p_home <= 0.55
+                       else ("홈 근소" if p_home < 0.60 else "홈 우세")
+                       if p_home > 0.55
+                       else ("원정 근소" if p_home > 0.40 else "원정 우세"))
+        g["판단"] = "시장 기준"
+        g["추천"] = choose_market_reference(g["options"])
         g["선택지수"] = len(g["options"])
-        _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM, H2H_ANY, LINEUPS, SHOTFORM)
+        if g["status"] not in ("정산", "결과확인"):
+            _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM,
+                          H2H_ANY, LINEUPS, SHOTFORM, narrative=False)
+        g["decision_snapshot"] = _snapshot(g)
         out.append(g)
 
     # 시간순 정렬
@@ -916,27 +1035,35 @@ def main() -> int:
     commentary_llm.flush()      # 캐시 저장 + 이번 주기 호출/적중 요약
 
     out.sort(key=lambda g: (g["date"], g["home"]))
-    live_g = [g for g in out if g["status"] in ("경기전", "배당대기")]
     past_g = [g for g in out if g["status"] == "정산"]
+    unresolved_g = [g for g in out if g["status"] == "결과확인"]
 
+    # 현재 전체 기록으로 다시 계산한 과거 모델값은 사전 예측이 아니다. 정산 결과와
+    # 당시 시장 배당은 남기되 추천·모델 확률·해설을 제거해 UI가 다시 조합하지 못하게 한다.
+    for game in [*past_g, *unresolved_g]:
+        _remove_hindsight_prediction(game)
+
+    live_g = [g for g in out if g["status"] in ("경기전", "배당대기", "결과확인")]
+
+    # 과거 경기에 현재까지의 전체 기록으로 λ를 다시 붙인 추천은 당시 예측이 아니다.
+    # 실제로 표시 28건 중 당시 데이터로 같은 선택은 8건뿐이었다. 사전 저장한 원장이
+    # 생기기 전까지는 가짜 적중률을 만드는 대신 집계를 비운다.
     tally = None
-    done = [g["추천"] for g in past_g if g.get("추천") and g["추천"].get("적중") is not None]
-    if done:
-        wins = sum(1 for o in done if o["적중"])
-        roi = float(np.mean([(o["배당"] - 1) if o["적중"] else -1.0 for o in done]))
-        tally = {"n": len(done), "wins": wins,
-                 "hit_rate": round(wins / len(done), 4), "roi": round(roi, 4)}
 
+    generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     doc = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": generated_at,
         "rounds": rounds, "live": live_g, "past": past_g, "tally": tally,
+        "tally_status": "prediction_ledger_required",
         "note": ("전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 "
                  "경기마다 하나만 골라 보여줍니다."),
-        "warning": ("⚠️ 아직 베팅에 쓸 수 없습니다. 모델이 시장보다 부정확해서, "
-                    "모델과 시장의 판단이 다를수록 모델이 틀렸을 확률이 높습니다. "
-                    "그래서 '시장과 거의 같게 본 경기'만 남겨 두었습니다."),
-        "gap_cap": MAX_SANE_GAP,
+        "warning": ("경기별 선택은 검증된 AI 우위가 아니라 Shin 시장확률 기준의 비교 후보입니다. "
+                    "구조 모델과 선수 정보 AI는 연구·설명 단계로 분리되어 최종 확률을 바꾸지 않습니다. "
+                    "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다."),
+        "decision_schema": "decision-snapshot-v2",
+        "decision_manifest": decision_manifest(),
     }
+    _sanitize_prediction_document(doc)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "picks_v2.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1),
                                        encoding="utf-8")
@@ -950,20 +1077,19 @@ def main() -> int:
         if b:
             print(f"  {g['date']} {g['league']} {g['home']}vs{g['away']} "
                   f"[{g['판단']}] → {b['market']} {b['label']} {b['선택']} "
-                  f"@{b['배당']} 예상손익 {b['예상손익']:+.1%}")
+                  f"@{b['배당']} 시장확률 {b['시장확률']:.1%}")
     return 0
 
 
-def _hit(nw: int, result: str, i: int) -> bool:
-    W = {(2, "홈승"): 0, (2, "홈패"): 1, (2, "언더"): 0, (2, "오버"): 1,
-         (2, "핸디승"): 0, (2, "핸디패"): 1,
-         (3, "홈승"): 0, (3, "무승부"): 1, (3, "홈패"): 2,
-         (3, "핸디승"): 0, (3, "핸디무"): 1, (3, "핸디패"): 2, (3, "①"): 1}
-    return W.get((nw, result)) == i
+def _hit(nw: int, result: str, i: int) -> bool | None:
+    winner = winner_index(nw, result)
+    return None if winner is None else winner == i
 
 
 if __name__ == "__main__":
     # ⚠️ --selftest 는 main() **앞에서** 분기해야 한다. 뒤에 두면 영영 안 돈다.
     if "--selftest" in sys.argv:
         raise SystemExit(_selftest())
+    if "--sanitize-existing" in sys.argv:
+        raise SystemExit(_sanitize_existing_output())
     raise SystemExit(main())

@@ -45,10 +45,10 @@ def design(d: pd.DataFrame, cols: list[str]) -> np.ndarray:
                            + [d[c].to_numpy(float) for c in ["elo_diff"] + cols])
 
 
-def attach_odds(df: pd.DataFrame) -> pd.DataFrame:
-    """승패 2-way 배당 결합 (리그·홈·원정·날짜 기준)."""
-    from matches import GAMES, _DATE_RE, _away, _home
-    raw = pd.read_csv(GAMES)
+def attach_odds(df: pd.DataFrame, games_path: Path | None = None) -> pd.DataFrame:
+    """승패 2-way 배당 결합. 충돌하는 재발매 가격은 임의 선택하지 않는다."""
+    from matches import GAMES, _DATETIME_RE, _away, _home, actual_game_year
+    raw = pd.read_csv(games_path or GAMES)
     raw = raw[(~raw["is_void"].astype(bool)) & (raw["market_family"] == "승패")
               & (raw["n_way"] == 2) & (raw["result"].isin(["홈승", "홈패"]))]
     parts = raw["odds"].str.split(",", expand=True)
@@ -56,17 +56,30 @@ def attach_odds(df: pd.DataFrame) -> pd.DataFrame:
                      o_away=pd.to_numeric(parts[1], errors="coerce"))
     hs, aw = raw["home"].map(_home), raw["away"].map(_away)
     raw = raw.assign(home_team=[t for t, _ in hs], away_team=[t for _, t in aw])
-    md = raw["date_text"].astype(str).str.extract(_DATE_RE)
-    raw = raw.assign(_mm=pd.to_numeric(md[0], errors="coerce"),
-                     _dd=pd.to_numeric(md[1], errors="coerce"))
-    raw = raw.dropna(subset=["home_team", "away_team", "_mm", "_dd",
+    dt = raw["date_text"].astype(str).str.extract(_DATETIME_RE)
+    raw = raw.assign(_mm=pd.to_numeric(dt[0], errors="coerce"),
+                     _dd=pd.to_numeric(dt[1], errors="coerce"),
+                     _hh=pd.to_numeric(dt[2], errors="coerce"),
+                     _minute=pd.to_numeric(dt[3], errors="coerce"))
+    raw = raw.dropna(subset=["home_team", "away_team", "_mm", "_dd", "_hh", "_minute",
                              "o_home", "o_away"])
-    raw["date"] = pd.to_datetime(dict(year=raw["year"],
-                                      month=raw["_mm"].astype(int),
-                                      day=raw["_dd"].astype(int)), errors="coerce")
-    key = ["league", "home_team", "away_team", "date"]
-    raw = raw.dropna(subset=["date"]).drop_duplicates(key)
-    return df.merge(raw[key + ["o_home", "o_away"]], on=key, how="inner")
+    game_year = actual_game_year(raw["year"], raw["round"], raw["_mm"])
+    raw["kickoff"] = pd.to_datetime(dict(year=game_year,
+                                         month=raw["_mm"].astype(int),
+                                         day=raw["_dd"].astype(int),
+                                         hour=raw["_hh"].astype(int),
+                                         minute=raw["_minute"].astype(int)), errors="coerce")
+    key = ["league", "home_team", "away_team", "kickoff"]
+    raw = raw.dropna(subset=["kickoff"])
+    # 같은 실제 경기의 재발매 가격이 다르면 어느 시점 가격인지 알 수 없으므로 제외한다.
+    variants = raw.groupby(key)[["o_home", "o_away"]].nunique()
+    bad = variants.index[variants.max(axis=1) > 1]
+    if len(bad):
+        keys = pd.MultiIndex.from_frame(raw[key])
+        raw = raw.loc[~keys.isin(bad)]
+    raw = raw.drop_duplicates(key)
+    return df.merge(raw[key + ["o_home", "o_away"]], on=key, how="inner",
+                    validate="one_to_one")
 
 
 def main() -> int:
@@ -77,8 +90,9 @@ def main() -> int:
     pi_ratings.GAMMA = PI_GAMMA
     pi = pi_ratings.run_pi(m)
     df = build_features(m)
-    df = df.merge(pi[["date", "league", "home_team", "away_team", "pi_diff"]],
-                  on=["date", "league", "home_team", "away_team"], how="inner")
+    df = df.merge(pi[["kickoff", "league", "home_team", "away_team", "pi_diff"]],
+                  on=["kickoff", "league", "home_team", "away_team"], how="inner",
+                  validate="one_to_one")
     df = attach_odds(df)
     df = df[df["outcome"] != 0.5]
     print(f"배당 결합 경기 {len(df):,}건\n")

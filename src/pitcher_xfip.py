@@ -1,10 +1,16 @@
-"""xFIP · 불펜 · 박빙 정교화 — 야구에서 통한 방향을 더 판다.
+"""과거 xFIP · 불펜 · 박빙 실험의 감사 재현 — 운영 채택 금지.
+
+2026-08-26 재감사에서 미래 리그평균과 같은 날짜 경기 순서 누수가 확인됐다.
+두 누수를 제거한 인과 재실험(`findings/xfip_causal_audit_reference.json`)은
+시장 대비 적중 −0.24%p와 Brier 악화로 끝났으며
+추천 확률이나 시장 반대 신호로 승격하지 않았다. 이 파일이 출력하는 과거 개선치는
+가짜 발견의 재현 기록일 뿐이다.
 
 왜 야구를 더 파는가
 -------------------
 FIP 가 자책률을 1.7배 앞섰고 시장 격차를 1/3.6 까지 줄였다(`과정지표.md`).
 축구는 xG 가 막혀 유효슈팅으로 대신했는데 판정 보류다.
-**통한 곳을 더 파는 게 수익률이 높다.**
+당시에는 통했다고 판단해 후속 탐색을 진행했다.
 
 세 가지를 한 번에 검증한다.
 
@@ -133,12 +139,15 @@ def build(df: pd.DataFrame, fip_c: float, lg_hr9: float) -> pd.DataFrame:
 
 
 FEATS = ["fip_diff", "xfip_diff", "ip_diff", "pen_fip_diff", "pen_load_diff"]
-LABELS = {"fip_diff": "선발 FIP 차", "xfip_diff": "선발 xFIP 차 ⭐ (홈런 축소)",
-          "ip_diff": "선발 평균 이닝 차", "pen_fip_diff": "불펜 FIP 차 ⭐",
-          "pen_load_diff": f"불펜 소모도 차 ⭐ (최근 {PEN_DAYS}일 이닝)"}
+LABELS = {"fip_diff": "선발 FIP 차", "xfip_diff": "선발 xFIP 차 (과거 누수 실험)",
+          "ip_diff": "선발 평균 이닝 차", "pen_fip_diff": "불펜 FIP 차",
+          "pen_load_diff": f"불펜 소모도 차 (최근 {PEN_DAYS}일 이닝)"}
 
 
 def main() -> int:
+    print("[정정] 시간누수가 포함된 과거 xFIP 출력의 감사 재현입니다.")
+    print("       근거: findings/xfip_causal_audit_reference.json")
+    print("       최신 인과 재실험: 시장 대비 적중 -0.24%p·Brier 악화·승격 없음.\n")
     df = load_full()
     tr_d = df[df["date"] < f"{TRAIN_END+1}-01-01"]
     t = {"ip": 0.0, "er": 0.0, "hr": 0.0, "bb": 0.0, "kk": 0.0}
@@ -196,8 +205,8 @@ def main() -> int:
     all_s = run(tr, te, "전체")
 
     if "fip_diff" in all_s and "xfip_diff" in all_s:
-        print(f"\n⭐ FIP vs xFIP: {all_s['fip_diff']:+.5f} vs {all_s['xfip_diff']:+.5f}"
-              f"  → {'xFIP' if all_s['xfip_diff'] > all_s['fip_diff'] else 'FIP'} 우위")
+        print(f"\n[과거 누수 출력] FIP vs xFIP: {all_s['fip_diff']:+.5f} vs "
+              f"{all_s['xfip_diff']:+.5f}  → 채택 판단 금지")
 
     # ---- 박빙 구간만
     print()

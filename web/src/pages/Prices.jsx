@@ -5,7 +5,7 @@ import { usePolledData } from "../lib/poll.js";
 
 const SPORTS = { sc: "축구", bs: "야구", bk: "농구", vl: "배구" };
 
-export default function Prices({ embedded = false }) {
+export default function Prices({ embedded = false, liveOdds = null }) {
   // 열어 둔 채로도 갱신되게 한다 — 예전엔 첫 로드 한 번뿐이라 새로고침이 필요했다.
   const { data, at } = usePolledData({ d: "data/today.json" }, 300000);
   const d = data.d;
@@ -19,7 +19,17 @@ export default function Prices({ embedded = false }) {
    */
   const games = useMemo(() => {
     const gs = (d?.rounds || []).flatMap((r) =>
-      r.games.map((g) => ({ ...g, _rounds: [r.round] })));
+      r.games.map((g) => {
+        const fresh = liveOdds?.odds?.[String(r.round)]?.[String(g.game_no)];
+        let changed = false;
+        const selections = (g.selections || []).map((selection, index) => {
+          const next = fresh?.[index];
+          if (next == null || next === selection.odds) return selection;
+          changed = true;
+          return { ...selection, odds: next, _live: true };
+        });
+        return { ...g, selections, _rounds: [r.round], _liveOddsChanged: changed };
+      }));
 
     /* ① 배당 벡터가 **완전히 같은** 회차끼리는 한 줄로 합친다.
           프로토는 회차를 겹쳐 발매해서 같은 경기가 두 번 나오는데, 실측상
@@ -53,7 +63,7 @@ export default function Prices({ embedded = false }) {
       });
     });
     return out;
-  }, [d]);
+  }, [d, liveOdds]);
 
   if (err) return <Shell embedded={embedded}><p className="py-8 text-sev3">데이터를 불러오지 못했습니다: {err}</p></Shell>;
   if (!d) return <Shell embedded={embedded}><p className="py-8 text-ink3">불러오는 중…</p></Shell>;
@@ -191,7 +201,8 @@ function GameCard({ g }) {
         <span className={`rounded px-[5px] ${bad ? "border border-sev3 text-sev3" : "border border-rule"}`}>
           {g.market}{g.market_label ? ` ${g.market_label}` : ""} · {g.booking_class}
         </span>
-        <span className="tnum ml-auto">환급 {g.payout}%</span>
+        <span className="tnum ml-auto">환급 {g._liveOddsChanged ? "–" : `${g.payout}%`}</span>
+        {g._liveOddsChanged && <span className="text-sev2">실시간 배당 · 확률 재계산 대기</span>}
 
       </div>
 
@@ -200,18 +211,18 @@ function GameCard({ g }) {
           <div key={k} className="rounded-[7px] border border-rule px-2.5 py-2">
             <div className="flex items-baseline justify-between text-[11.5px] text-ink3">
               <span className="text-[12.5px] font-medium text-ink">{s.name}</span>
-              <span className="tnum">{s.bucket}</span>
+              <span className="tnum">{g._liveOddsChanged ? "재계산" : s.bucket}</span>
             </div>
             <div className="tnum text-[17px] font-semibold leading-tight">{odds(s.odds)}</div>
             <div className="mt-0.5 text-[11px] text-ink3">
-              시장 <span className="tnum">{pct(s.prob)}</span>
+              시장 <span className="tnum">{g._liveOddsChanged ? "–" : pct(s.prob)}</span>
             </div>
             {g._better?.[k] && (
               <div className="mt-0.5 text-[11px] text-sev2">
                 {g._better[k].round}회차는 <span className="tnum">{odds(g._better[k].odds)}</span> — 그쪽이 유리
               </div>
             )}
-            {s.hist_roi != null && (
+            {!g._liveOddsChanged && s.hist_roi != null && (
               <div className="text-[11px] text-ink3">
                 과거 실측{" "}
                 <span className="tnum text-sev3">{(s.hist_roi * 100).toFixed(1)}%</span>{" "}
@@ -222,8 +233,12 @@ function GameCard({ g }) {
         ))}
       </div>
 
-      <p className="mt-2.5 mb-0 text-[12.5px] leading-[1.75] text-ink2">{g.comment}</p>
-      {!!g.warnings.length && (
+      <p className="mt-2.5 mb-0 text-[12.5px] leading-[1.75] text-ink2">
+        {g._liveOddsChanged
+          ? "실시간 가격만 갱신됐습니다. 환급률·시장확률·과거 구간 설명은 같은 revision 재계산 전까지 숨깁니다."
+          : g.comment}
+      </p>
+      {!g._liveOddsChanged && !!g.warnings.length && (
         <ul className="mt-1.5 mb-0 list-none p-0 text-[11.5px] text-sev2">
           {g.warnings.map((w, k) => <li key={k}>⚠ {w}</li>)}
         </ul>

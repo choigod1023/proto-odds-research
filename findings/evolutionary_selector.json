@@ -1,0 +1,4690 @@
+{
+  "schema": "evolutionary-selection-v1",
+  "method": "multi-objective genetic selection; one pick per KST date and profile; mean-score ensemble across independent populations",
+  "market_probability_method": "shin",
+  "train_years": [
+    2023,
+    2024
+  ],
+  "validation_year": 2025,
+  "historical_test_year": 2026,
+  "trained_through": "2025-12-31",
+  "default_profile": "balanced",
+  "profiles": {
+    "safe": {
+      "profile": "safe",
+      "constraints": {
+        "label": "안정형",
+        "odds_min": 1.18,
+        "odds_max": 1.45,
+        "target_odds": 1.3,
+        "minimum_average_odds": 1.18,
+        "minimum_coverage": 0.7
+      },
+      "genome": {
+        "confidence": 1.84003572,
+        "odds": -0.35883476,
+        "overround": -3.94256922,
+        "market_gap": 0.76135123,
+        "price_distance": -2.43185246,
+        "three_way": -0.20326203,
+        "handicap": -0.21705754,
+        "totals": 0.01978563,
+        "first_half": -0.52738404,
+        "baseball": -0.00658504,
+        "basketball": 0.04337706,
+        "volleyball": -0.15653019,
+        "soccer": -0.13177705
+      },
+      "genomes": [
+        {
+          "confidence": 2.30345135,
+          "odds": 0.35303092,
+          "overround": -5.99012266,
+          "market_gap": 2.52666243,
+          "price_distance": 0.0,
+          "three_way": -0.14358553,
+          "handicap": -0.39287948,
+          "totals": 0.20435304,
+          "first_half": -1.21614925,
+          "baseball": 0.08741994,
+          "basketball": -0.12474916,
+          "volleyball": -0.28756115,
+          "soccer": -0.28396308
+        },
+        {
+          "confidence": 1.70183438,
+          "odds": -0.59815588,
+          "overround": -4.12819096,
+          "market_gap": 0.78345499,
+          "price_distance": -3.95235305,
+          "three_way": -0.72892591,
+          "handicap": 0.19310087,
+          "totals": 0.19715844,
+          "first_half": -0.14862595,
+          "baseball": -0.07384203,
+          "basketball": 0.12209213,
+          "volleyball": -0.15291435,
+          "soccer": 0.02364619
+        },
+        {
+          "confidence": 1.51482143,
+          "odds": -0.8313793,
+          "overround": -1.70939406,
+          "market_gap": -1.02606375,
+          "price_distance": -3.34320432,
+          "three_way": 0.26272535,
+          "handicap": -0.45139401,
+          "totals": -0.3421546,
+          "first_half": -0.21737692,
+          "baseball": -0.03333304,
+          "basketball": 0.1327882,
+          "volleyball": -0.02911507,
+          "soccer": -0.13501426
+        }
+      ],
+      "evolution": {
+        "population": 56,
+        "generations": 24,
+        "ensemble": "mean score of independently evolved genomes",
+        "replicates": [
+          {
+            "seed": 20260827,
+            "validation": {
+              "n": 360,
+              "wins": 281,
+              "coverage": 1.0,
+              "accuracy": 0.7805555555555556,
+              "accuracy_wilson95": [
+                0.7349642335015967,
+                0.8202226345775253
+              ],
+              "average_odds": 1.2038055555555554,
+              "roi": -0.061194444444444475,
+              "max_drawdown": 24.270000000000035,
+              "sport_max_share": 0.4027777777777778
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 184,
+              "coverage": 1.0,
+              "accuracy": 0.7965367965367965,
+              "accuracy_wilson95": [
+                0.7399700979828292,
+                0.8434021936388221
+              ],
+              "average_odds": 1.196926406926407,
+              "roi": -0.04670995670995675,
+              "max_drawdown": 17.340000000000018,
+              "sport_max_share": 0.4935064935064935
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 24,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 22,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2222845417236663,
+                  "roi": -0.05833105335157321,
+                  "max_drawdown": 47.910000000000046,
+                  "sport_max_share": 0.5690834473324213
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 565,
+                  "coverage": 1.0,
+                  "accuracy": 0.7729138166894665,
+                  "accuracy_wilson95": [
+                    0.741162653829858,
+                    0.8018116098165246
+                  ],
+                  "average_odds": 1.216142270861833,
+                  "roi": -0.059917920656634774,
+                  "max_drawdown": 49.77000000000004,
+                  "sport_max_share": 0.38850889192886456
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 561,
+                  "coverage": 1.0,
+                  "accuracy": 0.7674418604651163,
+                  "accuracy_wilson95": [
+                    0.7354668262454302,
+                    0.7966207353729547
+                  ],
+                  "average_odds": 1.2316142270861832,
+                  "roi": -0.056060191518467875,
+                  "max_drawdown": 44.75000000000001,
+                  "sport_max_share": 0.6497948016415869
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 561,
+                  "coverage": 1.0,
+                  "accuracy": 0.7674418604651163,
+                  "accuracy_wilson95": [
+                    0.7354668262454302,
+                    0.7966207353729547
+                  ],
+                  "average_odds": 1.2203830369357045,
+                  "roi": -0.06445964432284546,
+                  "max_drawdown": 49.87000000000005,
+                  "sport_max_share": 0.5129958960328317
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 27,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 566,
+                  "coverage": 1.0,
+                  "accuracy": 0.774281805745554,
+                  "accuracy_wilson95": [
+                    0.7425877438579549,
+                    0.8031081952954272
+                  ],
+                  "average_odds": 1.2169493844049246,
+                  "roi": -0.057455540355677175,
+                  "max_drawdown": 44.79999999999999,
+                  "sport_max_share": 0.44049247606019154
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 568,
+                  "coverage": 1.0,
+                  "accuracy": 0.7770177838577291,
+                  "accuracy_wilson95": [
+                    0.7454393038985166,
+                    0.8056999862688642
+                  ],
+                  "average_odds": 1.2139124487004103,
+                  "roi": -0.05712722298221617,
+                  "max_drawdown": 46.34000000000002,
+                  "sport_max_share": 0.36114911080711354
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 569,
+                  "coverage": 1.0,
+                  "accuracy": 0.7783857729138167,
+                  "accuracy_wilson95": [
+                    0.7468657798727438,
+                    0.8069951858016365
+                  ],
+                  "average_odds": 1.213515731874145,
+                  "roi": -0.055403556771545855,
+                  "max_drawdown": 45.120000000000026,
+                  "sport_max_share": 0.39261285909712723
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 562,
+                  "coverage": 1.0,
+                  "accuracy": 0.7688098495212038,
+                  "accuracy_wilson95": [
+                    0.7368901089078498,
+                    0.7979191282175345
+                  ],
+                  "average_odds": 1.229028727770178,
+                  "roi": -0.055800273597811235,
+                  "max_drawdown": 42.97,
+                  "sport_max_share": 0.6238030095759234
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 564,
+                  "coverage": 1.0,
+                  "accuracy": 0.771545827633379,
+                  "accuracy_wilson95": [
+                    0.7397380198991772,
+                    0.8005145682402061
+                  ],
+                  "average_odds": 1.2228043775649793,
+                  "roi": -0.05692202462380304,
+                  "max_drawdown": 44.45000000000002,
+                  "sport_max_share": 0.5663474692202463
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2169357045143638,
+                  "roi": -0.06261285909712726,
+                  "max_drawdown": 51.72000000000005,
+                  "sport_max_share": 0.4103967168262654
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.231860465116279,
+                  "roi": -0.057729138166894685,
+                  "max_drawdown": 44.18000000000003,
+                  "sport_max_share": 0.5772913816689467
+                }
+              }
+            ]
+          },
+          {
+            "seed": 20260828,
+            "validation": {
+              "n": 360,
+              "wins": 276,
+              "coverage": 1.0,
+              "accuracy": 0.7666666666666667,
+              "accuracy_wilson95": [
+                0.720300685365055,
+                0.8074016842943086
+              ],
+              "average_odds": 1.2097499999999999,
+              "roi": -0.07361111111111115,
+              "max_drawdown": 28.079999999999995,
+              "sport_max_share": 0.4527777777777778
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 176,
+              "coverage": 1.0,
+              "accuracy": 0.7619047619047619,
+              "accuracy_wilson95": [
+                0.7029787627790584,
+                0.8122624582882394
+              ],
+              "average_odds": 1.201818181818182,
+              "roi": -0.08489177489177493,
+              "max_drawdown": 21.960000000000004,
+              "sport_max_share": 0.5930735930735931
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 557,
+                  "coverage": 1.0,
+                  "accuracy": 0.761969904240766,
+                  "accuracy_wilson95": [
+                    0.7297781177660961,
+                    0.7914227418242912
+                  ],
+                  "average_odds": 1.216908344733242,
+                  "roi": -0.07363885088919292,
+                  "max_drawdown": 56.089999999999996,
+                  "sport_max_share": 0.3789329685362517
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 557,
+                  "coverage": 1.0,
+                  "accuracy": 0.761969904240766,
+                  "accuracy_wilson95": [
+                    0.7297781177660961,
+                    0.7914227418242912
+                  ],
+                  "average_odds": 1.216908344733242,
+                  "roi": -0.07363885088919292,
+                  "max_drawdown": 56.089999999999996,
+                  "sport_max_share": 0.3789329685362517
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 561,
+                  "coverage": 1.0,
+                  "accuracy": 0.7674418604651163,
+                  "accuracy_wilson95": [
+                    0.7354668262454302,
+                    0.7966207353729547
+                  ],
+                  "average_odds": 1.2118878248974005,
+                  "roi": -0.07027359781121753,
+                  "max_drawdown": 55.88000000000003,
+                  "sport_max_share": 0.4117647058823529
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2280711354309164,
+                  "roi": -0.05897400820793436,
+                  "max_drawdown": 46.98,
+                  "sport_max_share": 0.5034199726402189
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 557,
+                  "coverage": 1.0,
+                  "accuracy": 0.761969904240766,
+                  "accuracy_wilson95": [
+                    0.7297781177660961,
+                    0.7914227418242912
+                  ],
+                  "average_odds": 1.230205198358413,
+                  "roi": -0.06231190150478798,
+                  "max_drawdown": 50.84000000000003,
+                  "sport_max_share": 0.3953488372093023
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 562,
+                  "coverage": 1.0,
+                  "accuracy": 0.7688098495212038,
+                  "accuracy_wilson95": [
+                    0.7368901089078498,
+                    0.7979191282175345
+                  ],
+                  "average_odds": 1.2131463748290012,
+                  "roi": -0.06763337893296857,
+                  "max_drawdown": 54.100000000000044,
+                  "sport_max_share": 0.32694938440492477
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 41,
+                "best": {
+                  "n": 731,
+                  "wins": 559,
+                  "coverage": 1.0,
+                  "accuracy": 0.7647058823529411,
+                  "accuracy_wilson95": [
+                    0.7326215929016335,
+                    0.7940226177027525
+                  ],
+                  "average_odds": 1.2188235294117649,
+                  "roi": -0.06786593707250343,
+                  "max_drawdown": 55.73000000000003,
+                  "sport_max_share": 0.42818057455540354
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 43,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 41,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 40,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 562,
+                  "coverage": 1.0,
+                  "accuracy": 0.7688098495212038,
+                  "accuracy_wilson95": [
+                    0.7368901089078498,
+                    0.7979191282175345
+                  ],
+                  "average_odds": 1.2430506155950751,
+                  "roi": -0.044090287277701784,
+                  "max_drawdown": 35.760000000000005,
+                  "sport_max_share": 0.5116279069767442
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2380027359781123,
+                  "roi": -0.051805745554035575,
+                  "max_drawdown": 39.98,
+                  "sport_max_share": 0.4719562243502052
+                }
+              }
+            ]
+          },
+          {
+            "seed": 20260829,
+            "validation": {
+              "n": 360,
+              "wins": 274,
+              "coverage": 1.0,
+              "accuracy": 0.7611111111111111,
+              "accuracy_wilson95": [
+                0.7144535286532029,
+                0.8022550416382571
+              ],
+              "average_odds": 1.2286666666666666,
+              "roi": -0.06580555555555558,
+              "max_drawdown": 25.300000000000008,
+              "sport_max_share": 0.38333333333333336
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 184,
+              "coverage": 1.0,
+              "accuracy": 0.7965367965367965,
+              "accuracy_wilson95": [
+                0.7399700979828292,
+                0.8434021936388221
+              ],
+              "average_odds": 1.232077922077922,
+              "roi": -0.020389610389610405,
+              "max_drawdown": 9.399999999999997,
+              "sport_max_share": 0.41125541125541126
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2245554035567714,
+                  "roi": -0.06317373461012314,
+                  "max_drawdown": 49.07000000000003,
+                  "sport_max_share": 0.6101231190150479
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 564,
+                  "coverage": 1.0,
+                  "accuracy": 0.771545827633379,
+                  "accuracy_wilson95": [
+                    0.7397380198991772,
+                    0.8005145682402061
+                  ],
+                  "average_odds": 1.2267715458276334,
+                  "roi": -0.053926128590971296,
+                  "max_drawdown": 44.77000000000005,
+                  "sport_max_share": 0.4719562243502052
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2219288645690836,
+                  "roi": -0.06418604651162793,
+                  "max_drawdown": 52.02000000000005,
+                  "sport_max_share": 0.43091655266757867
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2192065663474692,
+                  "roi": -0.06079343365253081,
+                  "max_drawdown": 49.61000000000004,
+                  "sport_max_share": 0.4842681258549932
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 559,
+                  "coverage": 1.0,
+                  "accuracy": 0.7647058823529411,
+                  "accuracy_wilson95": [
+                    0.7326215929016335,
+                    0.7940226177027525
+                  ],
+                  "average_odds": 1.2164432284541722,
+                  "roi": -0.06968536251709989,
+                  "max_drawdown": 56.910000000000046,
+                  "sport_max_share": 0.42818057455540354
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2197537619699041,
+                  "roi": -0.06034199726402191,
+                  "max_drawdown": 49.36000000000004,
+                  "sport_max_share": 0.48700410396716826
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 559,
+                  "coverage": 1.0,
+                  "accuracy": 0.7647058823529411,
+                  "accuracy_wilson95": [
+                    0.7326215929016335,
+                    0.7940226177027525
+                  ],
+                  "average_odds": 1.2391244870041038,
+                  "roi": -0.053214774281805766,
+                  "max_drawdown": 43.079999999999984,
+                  "sport_max_share": 0.5348837209302325
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2191792065663476,
+                  "roi": -0.06127222982216145,
+                  "max_drawdown": 49.440000000000055,
+                  "sport_max_share": 0.3803009575923393
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 559,
+                  "coverage": 1.0,
+                  "accuracy": 0.7647058823529411,
+                  "accuracy_wilson95": [
+                    0.7326215929016335,
+                    0.7940226177027525
+                  ],
+                  "average_odds": 1.2204514363885086,
+                  "roi": -0.06670314637482903,
+                  "max_drawdown": 53.55000000000004,
+                  "sport_max_share": 0.4473324213406293
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 561,
+                  "coverage": 1.0,
+                  "accuracy": 0.7674418604651163,
+                  "accuracy_wilson95": [
+                    0.7354668262454302,
+                    0.7966207353729547
+                  ],
+                  "average_odds": 1.2161149110807115,
+                  "roi": -0.06726402188782492,
+                  "max_drawdown": 52.76999999999999,
+                  "sport_max_share": 0.3789329685362517
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2274008207934335,
+                  "roi": -0.06008207934336528,
+                  "max_drawdown": 46.04999999999997,
+                  "sport_max_share": 0.5362517099863201
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2274008207934335,
+                  "roi": -0.06008207934336528,
+                  "max_drawdown": 46.04999999999997,
+                  "sport_max_share": 0.5362517099863201
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 562,
+                  "coverage": 1.0,
+                  "accuracy": 0.7688098495212038,
+                  "accuracy_wilson95": [
+                    0.7368901089078498,
+                    0.7979191282175345
+                  ],
+                  "average_odds": 1.2230369357045143,
+                  "roi": -0.060095759233926155,
+                  "max_drawdown": 48.05000000000005,
+                  "sport_max_share": 0.45006839945280436
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 560,
+                  "coverage": 1.0,
+                  "accuracy": 0.7660738714090287,
+                  "accuracy_wilson95": [
+                    0.7340439884751562,
+                    0.7953218976362294
+                  ],
+                  "average_odds": 1.2274008207934335,
+                  "roi": -0.06008207934336528,
+                  "max_drawdown": 46.04999999999997,
+                  "sport_max_share": 0.5362517099863201
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 43,
+                "best": {
+                  "n": 731,
+                  "wins": 568,
+                  "coverage": 1.0,
+                  "accuracy": 0.7770177838577291,
+                  "accuracy_wilson95": [
+                    0.7454393038985166,
+                    0.8056999862688642
+                  ],
+                  "average_odds": 1.2236935704514362,
+                  "roi": -0.04937072503419975,
+                  "max_drawdown": 41.339999999999996,
+                  "sport_max_share": 0.5088919288645691
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2238714090287277,
+                  "roi": -0.05792065663474694,
+                  "max_drawdown": 47.60000000000006,
+                  "sport_max_share": 0.466484268125855
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 43,
+                "best": {
+                  "n": 731,
+                  "wins": 569,
+                  "coverage": 1.0,
+                  "accuracy": 0.7783857729138167,
+                  "accuracy_wilson95": [
+                    0.7468657798727438,
+                    0.8069951858016365
+                  ],
+                  "average_odds": 1.2249794801641585,
+                  "roi": -0.04645690834473326,
+                  "max_drawdown": 40.65999999999999,
+                  "sport_max_share": 0.5704514363885089
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 568,
+                  "coverage": 1.0,
+                  "accuracy": 0.7770177838577291,
+                  "accuracy_wilson95": [
+                    0.7454393038985166,
+                    0.8056999862688642
+                  ],
+                  "average_odds": 1.2230095759233925,
+                  "roi": -0.049534883720930255,
+                  "max_drawdown": 41.58000000000001,
+                  "sport_max_share": 0.48153214774281805
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 565,
+                  "coverage": 1.0,
+                  "accuracy": 0.7729138166894665,
+                  "accuracy_wilson95": [
+                    0.741162653829858,
+                    0.8018116098165246
+                  ],
+                  "average_odds": 1.231162790697674,
+                  "roi": -0.048932968536251724,
+                  "max_drawdown": 38.83000000000001,
+                  "sport_max_share": 0.5170998632010944
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2264432284541724,
+                  "roi": -0.055786593707250365,
+                  "max_drawdown": 43.630000000000024,
+                  "sport_max_share": 0.4172366621067031
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 565,
+                  "coverage": 1.0,
+                  "accuracy": 0.7729138166894665,
+                  "accuracy_wilson95": [
+                    0.741162653829858,
+                    0.8018116098165246
+                  ],
+                  "average_odds": 1.2193023255813953,
+                  "roi": -0.05725034199726405,
+                  "max_drawdown": 47.02000000000003,
+                  "sport_max_share": 0.478796169630643
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2178385772913818,
+                  "roi": -0.0619699042407661,
+                  "max_drawdown": 51.270000000000046,
+                  "sport_max_share": 0.38850889192886456
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 563,
+                  "coverage": 1.0,
+                  "accuracy": 0.7701778385772914,
+                  "accuracy_wilson95": [
+                    0.7383138391993381,
+                    0.7992170734330456
+                  ],
+                  "average_odds": 1.2178385772913818,
+                  "roi": -0.0619699042407661,
+                  "max_drawdown": 51.270000000000046,
+                  "sport_max_share": 0.38850889192886456
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 564,
+                  "coverage": 1.0,
+                  "accuracy": 0.771545827633379,
+                  "accuracy_wilson95": [
+                    0.7397380198991772,
+                    0.8005145682402061
+                  ],
+                  "average_odds": 1.2241039671682625,
+                  "roi": -0.05580027359781124,
+                  "max_drawdown": 44.91000000000005,
+                  "sport_max_share": 0.4637482900136799
+                }
+              }
+            ]
+          }
+        ],
+        "historical_seed_delta_pp": [
+          0.8658008658008658,
+          -2.5974025974025974,
+          0.8658008658008658
+        ]
+      },
+      "historical_validation": {
+        "evolved": {
+          "n": 360,
+          "wins": 282,
+          "coverage": 1.0,
+          "accuracy": 0.7833333333333333,
+          "accuracy_wilson95": [
+            0.7379050408401376,
+            0.8227787269229361
+          ],
+          "average_odds": 1.2080833333333332,
+          "roi": -0.054583333333333366,
+          "max_drawdown": 21.230000000000025,
+          "sport_max_share": 0.3888888888888889
+        },
+        "market_confidence_baseline": {
+          "n": 360,
+          "wins": 280,
+          "coverage": 1.0,
+          "accuracy": 0.7777777777777778,
+          "accuracy_wilson95": [
+            0.7320261727127885,
+            0.8176637956823818
+          ],
+          "average_odds": 1.2004166666666667,
+          "roi": -0.06708333333333337,
+          "max_drawdown": 28.050000000000033,
+          "sport_max_share": 0.4
+        }
+      },
+      "historical_test": {
+        "evolved": {
+          "n": 231,
+          "wins": 180,
+          "coverage": 1.0,
+          "accuracy": 0.7792207792207793,
+          "accuracy_wilson95": [
+            0.7214089879472466,
+            0.8278977683972281
+          ],
+          "average_odds": 1.205281385281385,
+          "roi": -0.06069264069264072,
+          "max_drawdown": 19.360000000000014,
+          "sport_max_share": 0.4155844155844156
+        },
+        "market_confidence_baseline": {
+          "n": 231,
+          "wins": 182,
+          "coverage": 1.0,
+          "accuracy": 0.7878787878787878,
+          "accuracy_wilson95": [
+            0.7306724908417451,
+            0.8356670331413177
+          ],
+          "average_odds": 1.1941558441558442,
+          "roi": -0.05978354978354983,
+          "max_drawdown": 19.69000000000002,
+          "sport_max_share": 0.43722943722943725
+        },
+        "comparison": {
+          "n_dates": 231,
+          "accuracy_delta_pp": -0.8658008658008658,
+          "ci95_pp": [
+            -6.0606060606060606,
+            4.329004329004329
+          ],
+          "probability_evolved_better": 0.3358
+        }
+      },
+      "historical_status": "rejected_in_historical_audit",
+      "validation_point_gate_passed": true,
+      "historical_point_gate_passed": false,
+      "historical_ci_gate_passed": false
+    },
+    "balanced": {
+      "profile": "balanced",
+      "constraints": {
+        "label": "균형형",
+        "odds_min": 1.4,
+        "odds_max": 1.85,
+        "target_odds": 1.58,
+        "minimum_average_odds": 1.4,
+        "minimum_coverage": 0.65
+      },
+      "genome": {
+        "confidence": 2.0965401,
+        "odds": 0.77453891,
+        "overround": -2.67433927,
+        "market_gap": 0.80080143,
+        "price_distance": -2.79459696,
+        "three_way": -0.65187641,
+        "handicap": -0.08486277,
+        "totals": 0.30568479,
+        "first_half": -1.07604697,
+        "baseball": -0.09184027,
+        "basketball": 0.14846299,
+        "volleyball": 0.14979372,
+        "soccer": -0.04494449
+      },
+      "genomes": [
+        {
+          "confidence": 2.87477035,
+          "odds": 0.79865003,
+          "overround": -3.04708562,
+          "market_gap": 0.33100451,
+          "price_distance": -4.36790068,
+          "three_way": -0.94975609,
+          "handicap": -0.60705677,
+          "totals": 0.21966049,
+          "first_half": -1.31257472,
+          "baseball": 0.08881571,
+          "basketball": 0.20097946,
+          "volleyball": 0.21589495,
+          "soccer": 0.05099886
+        },
+        {
+          "confidence": 1.8825956,
+          "odds": -0.01340402,
+          "overround": -3.07949192,
+          "market_gap": 1.4411762,
+          "price_distance": -2.60257294,
+          "three_way": -0.35057071,
+          "handicap": 0.71696815,
+          "totals": -0.13648939,
+          "first_half": -0.3176367,
+          "baseball": -0.33981399,
+          "basketball": 0.09121949,
+          "volleyball": 0.11785386,
+          "soccer": -0.06227469
+        },
+        {
+          "confidence": 1.53225436,
+          "odds": 1.53837071,
+          "overround": -1.89644026,
+          "market_gap": 0.63022358,
+          "price_distance": -1.41331726,
+          "three_way": -0.65530244,
+          "handicap": -0.36449969,
+          "totals": 0.83388327,
+          "first_half": -1.59792951,
+          "baseball": -0.02452253,
+          "basketball": 0.15319001,
+          "volleyball": 0.11563233,
+          "soccer": -0.12355765
+        }
+      ],
+      "evolution": {
+        "population": 56,
+        "generations": 24,
+        "ensemble": "mean score of independently evolved genomes",
+        "replicates": [
+          {
+            "seed": 20260927,
+            "validation": {
+              "n": 360,
+              "wins": 233,
+              "coverage": 1.0,
+              "accuracy": 0.6472222222222223,
+              "accuracy_wilson95": [
+                0.596544619463792,
+                0.6947910637856483
+              ],
+              "average_odds": 1.43175,
+              "roi": -0.0718055555555556,
+              "max_drawdown": 26.74000000000003,
+              "sport_max_share": 0.6944444444444444
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 136,
+              "coverage": 1.0,
+              "accuracy": 0.5887445887445888,
+              "accuracy_wilson95": [
+                0.5243429696620349,
+                0.6502428986334959
+              ],
+              "average_odds": 1.4395670995670995,
+              "roi": -0.1515584415584416,
+              "max_drawdown": 39.030000000000015,
+              "sport_max_share": 0.6320346320346321
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 18,
+                "best": {
+                  "n": 731,
+                  "wins": 474,
+                  "coverage": 1.0,
+                  "accuracy": 0.6484268125854993,
+                  "accuracy_wilson95": [
+                    0.6131206804101822,
+                    0.6821811120992539
+                  ],
+                  "average_odds": 1.4339945280437756,
+                  "roi": -0.07125854993160058,
+                  "max_drawdown": 53.42000000000021,
+                  "sport_max_share": 0.9097127222982216
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4375376196990424,
+                  "roi": -0.05634746922024628,
+                  "max_drawdown": 49.5800000000001,
+                  "sport_max_share": 0.7482900136798906
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.4569493844049248,
+                  "roi": -0.04227086183310536,
+                  "max_drawdown": 32.53000000000005,
+                  "sport_max_share": 0.8727770177838577
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 487,
+                  "coverage": 1.0,
+                  "accuracy": 0.6662106703146374,
+                  "accuracy_wilson95": [
+                    0.6312355143683307,
+                    0.6994480597320978
+                  ],
+                  "average_odds": 1.4415868673050616,
+                  "roi": -0.039521203830369396,
+                  "max_drawdown": 38.90000000000003,
+                  "sport_max_share": 0.8057455540355677
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4375376196990424,
+                  "roi": -0.05634746922024628,
+                  "max_drawdown": 49.5800000000001,
+                  "sport_max_share": 0.7482900136798906
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.4379206566347467,
+                  "roi": -0.054637482900136834,
+                  "max_drawdown": 50.71000000000006,
+                  "sport_max_share": 0.7578659370725034
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 476,
+                  "coverage": 1.0,
+                  "accuracy": 0.6511627906976745,
+                  "accuracy_wilson95": [
+                    0.6159041326576022,
+                    0.6848410108658328
+                  ],
+                  "average_odds": 1.448358413132695,
+                  "roi": -0.0571135430916553,
+                  "max_drawdown": 48.73000000000006,
+                  "sport_max_share": 0.7332421340629275
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 477,
+                  "coverage": 1.0,
+                  "accuracy": 0.652530779753762,
+                  "accuracy_wilson95": [
+                    0.6172963242293166,
+                    0.6861704948011178
+                  ],
+                  "average_odds": 1.443939808481532,
+                  "roi": -0.058467852257181985,
+                  "max_drawdown": 49.3100000000001,
+                  "sport_max_share": 0.7318741450068399
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 473,
+                  "coverage": 1.0,
+                  "accuracy": 0.6470588235294118,
+                  "accuracy_wilson95": [
+                    0.6117294180705108,
+                    0.680850698931926
+                  ],
+                  "average_odds": 1.4667578659370724,
+                  "roi": -0.05187414500683997,
+                  "max_drawdown": 38.42000000000006,
+                  "sport_max_share": 0.8891928864569083
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 486,
+                  "coverage": 1.0,
+                  "accuracy": 0.66484268125855,
+                  "accuracy_wilson95": [
+                    0.6298401683626518,
+                    0.6981217302307774
+                  ],
+                  "average_odds": 1.4519972640218877,
+                  "roi": -0.035321477428180606,
+                  "max_drawdown": 36.47000000000003,
+                  "sport_max_share": 0.8755129958960328
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4511080711354305,
+                  "roi": -0.04824897400820797,
+                  "max_drawdown": 42.39000000000002,
+                  "sport_max_share": 0.8317373461012312
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 479,
+                  "coverage": 1.0,
+                  "accuracy": 0.655266757865937,
+                  "accuracy_wilson95": [
+                    0.6200816425143488,
+                    0.6888285275300843
+                  ],
+                  "average_odds": 1.4579069767441861,
+                  "roi": -0.04554035567715461,
+                  "max_drawdown": 43.96000000000002,
+                  "sport_max_share": 0.8782489740082079
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 486,
+                  "coverage": 1.0,
+                  "accuracy": 0.66484268125855,
+                  "accuracy_wilson95": [
+                    0.6298401683626518,
+                    0.6981217302307774
+                  ],
+                  "average_odds": 1.4401367989056089,
+                  "roi": -0.04217510259917923,
+                  "max_drawdown": 34.870000000000026,
+                  "sport_max_share": 0.7551299589603283
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 40,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.442859097127223,
+                  "roi": -0.050588235294117684,
+                  "max_drawdown": 44.88000000000007,
+                  "sport_max_share": 0.7359781121751026
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 483,
+                  "coverage": 1.0,
+                  "accuracy": 0.6607387140902873,
+                  "accuracy_wilson95": [
+                    0.6256560441622953,
+                    0.6941408279101356
+                  ],
+                  "average_odds": 1.4400547195622433,
+                  "roi": -0.04865937072503424,
+                  "max_drawdown": 43.93000000000003,
+                  "sport_max_share": 0.7633378932968536
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 27,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4593570451436388,
+                  "roi": -0.0388919288645691,
+                  "max_drawdown": 37.66000000000001,
+                  "sport_max_share": 0.8467852257181943
+                }
+              }
+            ]
+          },
+          {
+            "seed": 20260928,
+            "validation": {
+              "n": 360,
+              "wins": 242,
+              "coverage": 1.0,
+              "accuracy": 0.6722222222222223,
+              "accuracy_wilson95": [
+                0.6221373037027988,
+                0.7186704767022069
+              ],
+              "average_odds": 1.4355555555555555,
+              "roi": -0.0369166666666667,
+              "max_drawdown": 28.839999999999996,
+              "sport_max_share": 0.6361111111111111
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 136,
+              "coverage": 1.0,
+              "accuracy": 0.5887445887445888,
+              "accuracy_wilson95": [
+                0.5243429696620349,
+                0.6502428986334959
+              ],
+              "average_odds": 1.4310822510822512,
+              "roi": -0.1583549783549784,
+              "max_drawdown": 39.33000000000004,
+              "sport_max_share": 0.5670995670995671
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 17,
+                "best": {
+                  "n": 731,
+                  "wins": 478,
+                  "coverage": 1.0,
+                  "accuracy": 0.6538987688098495,
+                  "accuracy_wilson95": [
+                    0.6186888272280083,
+                    0.6874996673094255
+                  ],
+                  "average_odds": 1.452093023255814,
+                  "roi": -0.05082079343365256,
+                  "max_drawdown": 37.79000000000006,
+                  "sport_max_share": 0.8782489740082079
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 479,
+                  "coverage": 1.0,
+                  "accuracy": 0.655266757865937,
+                  "accuracy_wilson95": [
+                    0.6200816425143488,
+                    0.6888285275300843
+                  ],
+                  "average_odds": 1.4457729138166897,
+                  "roi": -0.052982216142270895,
+                  "max_drawdown": 46.220000000000034,
+                  "sport_max_share": 0.811217510259918
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 20,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.4715868673050616,
+                  "roi": -0.03458276333789332,
+                  "max_drawdown": 28.380000000000035,
+                  "sport_max_share": 0.7797537619699042
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 478,
+                  "coverage": 1.0,
+                  "accuracy": 0.6538987688098495,
+                  "accuracy_wilson95": [
+                    0.6186888272280083,
+                    0.6874996673094255
+                  ],
+                  "average_odds": 1.434158686730506,
+                  "roi": -0.06262653898768814,
+                  "max_drawdown": 52.3900000000001,
+                  "sport_max_share": 0.6224350205198358
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 478,
+                  "coverage": 1.0,
+                  "accuracy": 0.6538987688098495,
+                  "accuracy_wilson95": [
+                    0.6186888272280083,
+                    0.6874996673094255
+                  ],
+                  "average_odds": 1.434158686730506,
+                  "roi": -0.06262653898768814,
+                  "max_drawdown": 52.3900000000001,
+                  "sport_max_share": 0.6224350205198358
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 44,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.4297811217510261,
+                  "roi": -0.059179206566347516,
+                  "max_drawdown": 46.25000000000011,
+                  "sport_max_share": 0.7838577291381669
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 478,
+                  "coverage": 1.0,
+                  "accuracy": 0.6538987688098495,
+                  "accuracy_wilson95": [
+                    0.6186888272280083,
+                    0.6874996673094255
+                  ],
+                  "average_odds": 1.434158686730506,
+                  "roi": -0.06262653898768814,
+                  "max_drawdown": 52.3900000000001,
+                  "sport_max_share": 0.6224350205198358
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4448700410396718,
+                  "roi": -0.05157318741450072,
+                  "max_drawdown": 43.25000000000004,
+                  "sport_max_share": 0.7879616963064295
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 40,
+                "best": {
+                  "n": 731,
+                  "wins": 478,
+                  "coverage": 1.0,
+                  "accuracy": 0.6538987688098495,
+                  "accuracy_wilson95": [
+                    0.6186888272280083,
+                    0.6874996673094255
+                  ],
+                  "average_odds": 1.434158686730506,
+                  "roi": -0.06262653898768814,
+                  "max_drawdown": 52.3900000000001,
+                  "sport_max_share": 0.6224350205198358
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 484,
+                  "coverage": 1.0,
+                  "accuracy": 0.6621067031463749,
+                  "accuracy_wilson95": [
+                    0.6270504342115341,
+                    0.6954681133678963
+                  ],
+                  "average_odds": 1.4412585499316004,
+                  "roi": -0.045622435020519866,
+                  "max_drawdown": 38.22000000000006,
+                  "sport_max_share": 0.6443228454172366
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.448891928864569,
+                  "roi": -0.04785225718194258,
+                  "max_drawdown": 40.77000000000004,
+                  "sport_max_share": 0.7564979480164159
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 42,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4311901504787958,
+                  "roi": -0.05994528043775653,
+                  "max_drawdown": 48.140000000000114,
+                  "sport_max_share": 0.5540355677154583
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 479,
+                  "coverage": 1.0,
+                  "accuracy": 0.655266757865937,
+                  "accuracy_wilson95": [
+                    0.6200816425143488,
+                    0.6888285275300843
+                  ],
+                  "average_odds": 1.4396580027359782,
+                  "roi": -0.05708618331053354,
+                  "max_drawdown": 47.390000000000065,
+                  "sport_max_share": 0.7181942544459644
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4921203830369356,
+                  "roi": -0.01824897400820795,
+                  "max_drawdown": 23.449999999999996,
+                  "sport_max_share": 0.45554035567715456
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 475,
+                  "coverage": 1.0,
+                  "accuracy": 0.6497948016415869,
+                  "accuracy_wilson95": [
+                    0.6145122516637721,
+                    0.6835112163526634
+                  ],
+                  "average_odds": 1.4291108071135432,
+                  "roi": -0.07188782489740088,
+                  "max_drawdown": 61.52000000000022,
+                  "sport_max_share": 0.4062927496580027
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 474,
+                  "coverage": 1.0,
+                  "accuracy": 0.6484268125854993,
+                  "accuracy_wilson95": [
+                    0.6131206804101822,
+                    0.6821811120992539
+                  ],
+                  "average_odds": 1.446703146374829,
+                  "roi": -0.06259917920656638,
+                  "max_drawdown": 53.5200000000001,
+                  "sport_max_share": 0.6826265389876881
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 484,
+                  "coverage": 1.0,
+                  "accuracy": 0.6621067031463749,
+                  "accuracy_wilson95": [
+                    0.6270504342115341,
+                    0.6954681133678963
+                  ],
+                  "average_odds": 1.451983584131327,
+                  "roi": -0.03953488372093027,
+                  "max_drawdown": 34.41000000000004,
+                  "sport_max_share": 0.761969904240766
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4373324213406293,
+                  "roi": -0.05616963064295489,
+                  "max_drawdown": 52.70000000000012,
+                  "sport_max_share": 0.4213406292749658
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4325444596443229,
+                  "roi": -0.0562243502051984,
+                  "max_drawdown": 45.4500000000001,
+                  "sport_max_share": 0.774281805745554
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.43859097127223,
+                  "roi": -0.05429548563611495,
+                  "max_drawdown": 49.20000000000004,
+                  "sport_max_share": 0.7346101231190151
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 41,
+                "best": {
+                  "n": 731,
+                  "wins": 473,
+                  "coverage": 1.0,
+                  "accuracy": 0.6470588235294118,
+                  "accuracy_wilson95": [
+                    0.6117294180705108,
+                    0.680850698931926
+                  ],
+                  "average_odds": 1.4526402188782492,
+                  "roi": -0.061354309165526706,
+                  "max_drawdown": 49.92000000000006,
+                  "sport_max_share": 0.8590971272229823
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 473,
+                  "coverage": 1.0,
+                  "accuracy": 0.6470588235294118,
+                  "accuracy_wilson95": [
+                    0.6117294180705108,
+                    0.680850698931926
+                  ],
+                  "average_odds": 1.4206703146374828,
+                  "roi": -0.08093023255813958,
+                  "max_drawdown": 68.06000000000017,
+                  "sport_max_share": 0.4021887824897401
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 476,
+                  "coverage": 1.0,
+                  "accuracy": 0.6511627906976745,
+                  "accuracy_wilson95": [
+                    0.6159041326576022,
+                    0.6848410108658328
+                  ],
+                  "average_odds": 1.4237893296853625,
+                  "roi": -0.0729274965800274,
+                  "max_drawdown": 62.46000000000014,
+                  "sport_max_share": 0.33105335157318744
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 481,
+                  "coverage": 1.0,
+                  "accuracy": 0.6580027359781122,
+                  "accuracy_wilson95": [
+                    0.6228682134513436,
+                    0.6914853076070885
+                  ],
+                  "average_odds": 1.4572229822161422,
+                  "roi": -0.04191518467852259,
+                  "max_drawdown": 38.420000000000016,
+                  "sport_max_share": 0.8481532147742818
+                }
+              }
+            ]
+          },
+          {
+            "seed": 20260929,
+            "validation": {
+              "n": 360,
+              "wins": 229,
+              "coverage": 1.0,
+              "accuracy": 0.6361111111111111,
+              "accuracy_wilson95": [
+                0.5852172090528581,
+                0.6841308754607752
+              ],
+              "average_odds": 1.4683333333333335,
+              "roi": -0.0669166666666667,
+              "max_drawdown": 26.25000000000001,
+              "sport_max_share": 0.8444444444444444
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 142,
+              "coverage": 1.0,
+              "accuracy": 0.6147186147186147,
+              "accuracy_wilson95": [
+                0.5505711794048092,
+                0.6751129918064865
+              ],
+              "average_odds": 1.4832034632034632,
+              "roi": -0.08831168831168833,
+              "max_drawdown": 24.569999999999993,
+              "sport_max_share": 0.8138528138528138
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 17,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4517373461012308,
+                  "roi": -0.047318741450068424,
+                  "max_drawdown": 40.250000000000036,
+                  "sport_max_share": 0.7975376196990424
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 24,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4517373461012308,
+                  "roi": -0.047318741450068424,
+                  "max_drawdown": 40.250000000000036,
+                  "sport_max_share": 0.7975376196990424
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4517373461012308,
+                  "roi": -0.047318741450068424,
+                  "max_drawdown": 40.250000000000036,
+                  "sport_max_share": 0.7975376196990424
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 483,
+                  "coverage": 1.0,
+                  "accuracy": 0.6607387140902873,
+                  "accuracy_wilson95": [
+                    0.6256560441622953,
+                    0.6941408279101356
+                  ],
+                  "average_odds": 1.4628864569083446,
+                  "roi": -0.03411764705882355,
+                  "max_drawdown": 28.530000000000026,
+                  "sport_max_share": 0.8604651162790697
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4517373461012308,
+                  "roi": -0.047318741450068424,
+                  "max_drawdown": 40.250000000000036,
+                  "sport_max_share": 0.7975376196990424
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 480,
+                  "coverage": 1.0,
+                  "accuracy": 0.6566347469220246,
+                  "accuracy_wilson95": [
+                    0.621474770960719,
+                    0.6901570745907135
+                  ],
+                  "average_odds": 1.4517373461012308,
+                  "roi": -0.047318741450068424,
+                  "max_drawdown": 40.250000000000036,
+                  "sport_max_share": 0.7975376196990424
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 483,
+                  "coverage": 1.0,
+                  "accuracy": 0.6607387140902873,
+                  "accuracy_wilson95": [
+                    0.6256560441622953,
+                    0.6941408279101356
+                  ],
+                  "average_odds": 1.448891928864569,
+                  "roi": -0.04311901504787965,
+                  "max_drawdown": 35.63000000000004,
+                  "sport_max_share": 0.7578659370725034
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 484,
+                  "coverage": 1.0,
+                  "accuracy": 0.6621067031463749,
+                  "accuracy_wilson95": [
+                    0.6270504342115341,
+                    0.6954681133678963
+                  ],
+                  "average_odds": 1.4557318741450067,
+                  "roi": -0.03696306429548567,
+                  "max_drawdown": 35.25000000000003,
+                  "sport_max_share": 0.7086183310533516
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 27,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 482,
+                  "coverage": 1.0,
+                  "accuracy": 0.6593707250341997,
+                  "accuracy_wilson95": [
+                    0.6242619708824273,
+                    0.6928132256830041
+                  ],
+                  "average_odds": 1.4560601915184677,
+                  "roi": -0.04043775649794804,
+                  "max_drawdown": 37.01000000000001,
+                  "sport_max_share": 0.813953488372093
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 485,
+                  "coverage": 1.0,
+                  "accuracy": 0.6634746922024624,
+                  "accuracy_wilson95": [
+                    0.6284451419631369,
+                    0.6967950811232927
+                  ],
+                  "average_odds": 1.464487004103967,
+                  "roi": -0.029042407660738734,
+                  "max_drawdown": 30.720000000000017,
+                  "sport_max_share": 0.8030095759233926
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 468,
+                  "coverage": 1.0,
+                  "accuracy": 0.640218878248974,
+                  "accuracy_wilson95": [
+                    0.604777711936794,
+                    0.6741940275306457
+                  ],
+                  "average_odds": 1.4826812585499314,
+                  "roi": -0.05310533515731876,
+                  "max_drawdown": 39.53000000000003,
+                  "sport_max_share": 0.8084815321477428
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 466,
+                  "coverage": 1.0,
+                  "accuracy": 0.6374829001367989,
+                  "accuracy_wilson95": [
+                    0.6019991641929222,
+                    0.6715292242605186
+                  ],
+                  "average_odds": 1.4333652530779752,
+                  "roi": -0.08677154582763341,
+                  "max_drawdown": 68.45000000000027,
+                  "sport_max_share": 0.35294117647058826
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 42,
+                "best": {
+                  "n": 731,
+                  "wins": 467,
+                  "coverage": 1.0,
+                  "accuracy": 0.6388508891928865,
+                  "accuracy_wilson95": [
+                    0.6033882863465809,
+                    0.6728617776138593
+                  ],
+                  "average_odds": 1.501751025991792,
+                  "roi": -0.043337893296853634,
+                  "max_drawdown": 32.48,
+                  "sport_max_share": 0.655266757865937
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 38,
+                "best": {
+                  "n": 731,
+                  "wins": 470,
+                  "coverage": 1.0,
+                  "accuracy": 0.6429548563611491,
+                  "accuracy_wilson95": [
+                    0.6075574764390368,
+                    0.6768576140424019
+                  ],
+                  "average_odds": 1.4757318741450067,
+                  "roi": -0.052859097127223004,
+                  "max_drawdown": 39.44000000000003,
+                  "sport_max_share": 0.8590971272229823
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 36,
+                "best": {
+                  "n": 731,
+                  "wins": 478,
+                  "coverage": 1.0,
+                  "accuracy": 0.6538987688098495,
+                  "accuracy_wilson95": [
+                    0.6186888272280083,
+                    0.6874996673094255
+                  ],
+                  "average_odds": 1.5032421340629274,
+                  "roi": -0.021792065663474698,
+                  "max_drawdown": 21.75,
+                  "sport_max_share": 0.43091655266757867
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 475,
+                  "coverage": 1.0,
+                  "accuracy": 0.6497948016415869,
+                  "accuracy_wilson95": [
+                    0.6145122516637721,
+                    0.6835112163526634
+                  ],
+                  "average_odds": 1.5076744186046513,
+                  "roi": -0.02444596443228455,
+                  "max_drawdown": 26.8,
+                  "sport_max_share": 0.5225718194254446
+                }
+              }
+            ]
+          }
+        ],
+        "historical_seed_delta_pp": [
+          2.1645021645021645,
+          2.1645021645021645,
+          4.761904761904762
+        ]
+      },
+      "historical_validation": {
+        "evolved": {
+          "n": 360,
+          "wins": 230,
+          "coverage": 1.0,
+          "accuracy": 0.6388888888888888,
+          "accuracy_wilson95": [
+            0.5880464015197211,
+            0.686798582677864
+          ],
+          "average_odds": 1.440777777777778,
+          "roi": -0.07869444444444448,
+          "max_drawdown": 29.22000000000002,
+          "sport_max_share": 0.7944444444444444
+        },
+        "market_confidence_baseline": {
+          "n": 360,
+          "wins": 232,
+          "coverage": 1.0,
+          "accuracy": 0.6444444444444445,
+          "accuracy_wilson95": [
+            0.5937100977080827,
+            0.692128685857406
+          ],
+          "average_odds": 1.4109722222222223,
+          "roi": -0.09100000000000005,
+          "max_drawdown": 35.020000000000095,
+          "sport_max_share": 0.6083333333333333
+        }
+      },
+      "historical_test": {
+        "evolved": {
+          "n": 231,
+          "wins": 145,
+          "coverage": 1.0,
+          "accuracy": 0.6277056277056277,
+          "accuracy_wilson95": [
+            0.5637538434492838,
+            0.6874794792198944
+          ],
+          "average_odds": 1.4511688311688313,
+          "roi": -0.08865800865800867,
+          "max_drawdown": 24.900000000000006,
+          "sport_max_share": 0.7489177489177489
+        },
+        "market_confidence_baseline": {
+          "n": 231,
+          "wins": 131,
+          "coverage": 1.0,
+          "accuracy": 0.5670995670995671,
+          "accuracy_wilson95": [
+            0.5026223726319216,
+            0.6293815765671382
+          ],
+          "average_odds": 1.4119480519480518,
+          "roi": -0.19857142857142862,
+          "max_drawdown": 46.510000000000055,
+          "sport_max_share": 0.5584415584415584
+        },
+        "comparison": {
+          "n_dates": 231,
+          "accuracy_delta_pp": 6.0606060606060606,
+          "ci95_pp": [
+            -1.7316017316017316,
+            13.852813852813853
+          ],
+          "probability_evolved_better": 0.925
+        }
+      },
+      "historical_status": "rejected_in_historical_audit",
+      "validation_point_gate_passed": false,
+      "historical_point_gate_passed": false,
+      "historical_ci_gate_passed": false
+    },
+    "challenge": {
+      "profile": "challenge",
+      "constraints": {
+        "label": "도전형",
+        "odds_min": 1.65,
+        "odds_max": 2.2,
+        "target_odds": 1.88,
+        "minimum_average_odds": 1.65,
+        "minimum_coverage": 0.55
+      },
+      "genome": {
+        "confidence": 2.02755431,
+        "odds": 0.73839621,
+        "overround": -3.60946835,
+        "market_gap": -1.01833525,
+        "price_distance": -3.64294478,
+        "three_way": 0.05742207,
+        "handicap": -0.04788992,
+        "totals": -0.37288253,
+        "first_half": -0.82519959,
+        "baseball": -0.12346799,
+        "basketball": -0.06220479,
+        "volleyball": -0.01376182,
+        "soccer": -0.014331
+      },
+      "genomes": [
+        {
+          "confidence": 3.45540174,
+          "odds": 1.29165384,
+          "overround": -1.77753423,
+          "market_gap": -1.29026506,
+          "price_distance": -5.32555758,
+          "three_way": 0.50754999,
+          "handicap": 0.51047015,
+          "totals": -0.69579151,
+          "first_half": -0.99033546,
+          "baseball": -0.24978009,
+          "basketball": 0.17491938,
+          "volleyball": -0.09597619,
+          "soccer": -0.25901641
+        },
+        {
+          "confidence": 1.21684833,
+          "odds": 0.9396326,
+          "overround": -6.73773371,
+          "market_gap": -0.34776332,
+          "price_distance": -1.42272133,
+          "three_way": -0.24876152,
+          "handicap": -0.12730576,
+          "totals": 0.08653535,
+          "first_half": -0.87737796,
+          "baseball": -0.06115553,
+          "basketball": -0.12855222,
+          "volleyball": 0.02640223,
+          "soccer": 0.06071905
+        },
+        {
+          "confidence": 1.41041287,
+          "odds": -0.0160978,
+          "overround": -2.3131371,
+          "market_gap": -1.41697738,
+          "price_distance": -4.18055543,
+          "three_way": -0.08652225,
+          "handicap": -0.52683416,
+          "totals": -0.50939145,
+          "first_half": -0.60788534,
+          "baseball": -0.05946834,
+          "basketball": -0.23298154,
+          "volleyball": 0.02828849,
+          "soccer": 0.15530436
+        }
+      ],
+      "evolution": {
+        "population": 56,
+        "generations": 24,
+        "ensemble": "mean score of independently evolved genomes",
+        "replicates": [
+          {
+            "seed": 20261027,
+            "validation": {
+              "n": 360,
+              "wins": 194,
+              "coverage": 1.0,
+              "accuracy": 0.5388888888888889,
+              "accuracy_wilson95": [
+                0.48725608214335964,
+                0.5897005134319642
+              ],
+              "average_odds": 1.7627222222222223,
+              "roi": -0.05236111111111112,
+              "max_drawdown": 28.27000000000001,
+              "sport_max_share": 0.525
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 127,
+              "coverage": 1.0,
+              "accuracy": 0.5497835497835498,
+              "accuracy_wilson95": [
+                0.485333214820777,
+                0.6126051991011061
+              ],
+              "average_odds": 1.7364502164502165,
+              "roi": -0.05051948051948053,
+              "max_drawdown": 26.17,
+              "sport_max_share": 0.5887445887445888
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 18,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.6850068399452802,
+                  "roi": -0.048221614227086214,
+                  "max_drawdown": 48.28000000000007,
+                  "sport_max_share": 0.8084815321477428
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 27,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.6850068399452802,
+                  "roi": -0.048221614227086214,
+                  "max_drawdown": 48.28000000000007,
+                  "sport_max_share": 0.8084815321477428
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.6850068399452802,
+                  "roi": -0.048221614227086214,
+                  "max_drawdown": 48.28000000000007,
+                  "sport_max_share": 0.8084815321477428
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 419,
+                  "coverage": 1.0,
+                  "accuracy": 0.573187414500684,
+                  "accuracy_wilson95": [
+                    0.537041069860991,
+                    0.6085685697634775
+                  ],
+                  "average_odds": 1.6728043775649795,
+                  "roi": -0.04105335157318745,
+                  "max_drawdown": 41.5800000000001,
+                  "sport_max_share": 0.6497948016415869
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.6850068399452802,
+                  "roi": -0.048221614227086214,
+                  "max_drawdown": 48.28000000000007,
+                  "sport_max_share": 0.8084815321477428
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 416,
+                  "coverage": 1.0,
+                  "accuracy": 0.5690834473324213,
+                  "accuracy_wilson95": [
+                    0.5329161322169907,
+                    0.6045284808864795
+                  ],
+                  "average_odds": 1.6783310533515734,
+                  "roi": -0.045088919288645724,
+                  "max_drawdown": 49.93000000000004,
+                  "sport_max_share": 0.8002735978112175
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.6941039671682625,
+                  "roi": -0.04292749658002739,
+                  "max_drawdown": 46.35000000000004,
+                  "sport_max_share": 0.7428180574555403
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 400,
+                  "coverage": 1.0,
+                  "accuracy": 0.5471956224350205,
+                  "accuracy_wilson95": [
+                    0.5109583854453318,
+                    0.5829394195461479
+                  ],
+                  "average_odds": 1.6810259917920656,
+                  "roi": -0.08004103967168266,
+                  "max_drawdown": 65.08,
+                  "sport_max_share": 0.4774281805745554
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.6850068399452802,
+                  "roi": -0.048194254445964466,
+                  "max_drawdown": 46.53000000000007,
+                  "sport_max_share": 0.8084815321477428
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 417,
+                  "coverage": 1.0,
+                  "accuracy": 0.5704514363885089,
+                  "accuracy_wilson95": [
+                    0.5342908339479782,
+                    0.6058754546624916
+                  ],
+                  "average_odds": 1.6766347469220244,
+                  "roi": -0.0438714090287278,
+                  "max_drawdown": 46.48000000000008,
+                  "sport_max_share": 0.8030095759233926
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 24,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6789192886456907,
+                  "roi": -0.05430916552667583,
+                  "max_drawdown": 53.22000000000001,
+                  "sport_max_share": 0.7920656634746922
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 23,
+                "best": {
+                  "n": 731,
+                  "wins": 414,
+                  "coverage": 1.0,
+                  "accuracy": 0.5663474692202463,
+                  "accuracy_wilson95": [
+                    0.5301675595956588,
+                    0.6018337024938127
+                  ],
+                  "average_odds": 1.686826265389877,
+                  "roi": -0.044596443228454206,
+                  "max_drawdown": 43.92000000000006,
+                  "sport_max_share": 0.786593707250342
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 414,
+                  "coverage": 1.0,
+                  "accuracy": 0.5663474692202463,
+                  "accuracy_wilson95": [
+                    0.5301675595956588,
+                    0.6018337024938127
+                  ],
+                  "average_odds": 1.686826265389877,
+                  "roi": -0.044596443228454206,
+                  "max_drawdown": 43.92000000000006,
+                  "sport_max_share": 0.786593707250342
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 27,
+                "best": {
+                  "n": 731,
+                  "wins": 414,
+                  "coverage": 1.0,
+                  "accuracy": 0.5663474692202463,
+                  "accuracy_wilson95": [
+                    0.5301675595956588,
+                    0.6018337024938127
+                  ],
+                  "average_odds": 1.686826265389877,
+                  "roi": -0.044596443228454206,
+                  "max_drawdown": 43.92000000000006,
+                  "sport_max_share": 0.786593707250342
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 414,
+                  "coverage": 1.0,
+                  "accuracy": 0.5663474692202463,
+                  "accuracy_wilson95": [
+                    0.5301675595956588,
+                    0.6018337024938127
+                  ],
+                  "average_odds": 1.686826265389877,
+                  "roi": -0.044596443228454206,
+                  "max_drawdown": 43.92000000000006,
+                  "sport_max_share": 0.786593707250342
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 37,
+                "best": {
+                  "n": 731,
+                  "wins": 414,
+                  "coverage": 1.0,
+                  "accuracy": 0.5663474692202463,
+                  "accuracy_wilson95": [
+                    0.5301675595956588,
+                    0.6018337024938127
+                  ],
+                  "average_odds": 1.686826265389877,
+                  "roi": -0.044596443228454206,
+                  "max_drawdown": 43.92000000000006,
+                  "sport_max_share": 0.786593707250342
+                }
+              }
+            ]
+          },
+          {
+            "seed": 20261028,
+            "validation": {
+              "n": 360,
+              "wins": 188,
+              "coverage": 1.0,
+              "accuracy": 0.5222222222222223,
+              "accuracy_wilson95": [
+                0.47066162660570415,
+                0.5733135708659095
+              ],
+              "average_odds": 1.681027777777778,
+              "roi": -0.12183333333333335,
+              "max_drawdown": 47.65000000000001,
+              "sport_max_share": 0.7416666666666667
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 126,
+              "coverage": 1.0,
+              "accuracy": 0.5454545454545454,
+              "accuracy_wilson95": [
+                0.4810229218247761,
+                0.6083991082778127
+              ],
+              "average_odds": 1.6844155844155846,
+              "roi": -0.0817748917748918,
+              "max_drawdown": 21.369999999999997,
+              "sport_max_share": 0.7619047619047619
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 16,
+                "best": {
+                  "n": 731,
+                  "wins": 411,
+                  "coverage": 1.0,
+                  "accuracy": 0.5622435020519836,
+                  "accuracy_wilson95": [
+                    0.5260467731410083,
+                    0.5977894624274649
+                  ],
+                  "average_odds": 1.6824487004103965,
+                  "roi": -0.05362517099863205,
+                  "max_drawdown": 44.16000000000003,
+                  "sport_max_share": 0.4801641586867305
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 11,
+                "best": {
+                  "n": 731,
+                  "wins": 411,
+                  "coverage": 1.0,
+                  "accuracy": 0.5622435020519836,
+                  "accuracy_wilson95": [
+                    0.5260467731410083,
+                    0.5977894624274649
+                  ],
+                  "average_odds": 1.6824487004103965,
+                  "roi": -0.05362517099863205,
+                  "max_drawdown": 44.16000000000003,
+                  "sport_max_share": 0.4801641586867305
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 20,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 23,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 24,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 18,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 22,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 24,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 22,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 27,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 26,
+                "best": {
+                  "n": 731,
+                  "wins": 415,
+                  "coverage": 1.0,
+                  "accuracy": 0.5677154582763337,
+                  "accuracy_wilson95": [
+                    0.5315417075379348,
+                    0.603181230058536
+                  ],
+                  "average_odds": 1.6914500683994529,
+                  "roi": -0.03932968536251712,
+                  "max_drawdown": 43.72000000000004,
+                  "sport_max_share": 0.7701778385772914
+                }
+              }
+            ]
+          },
+          {
+            "seed": 20261029,
+            "validation": {
+              "n": 360,
+              "wins": 186,
+              "coverage": 1.0,
+              "accuracy": 0.5166666666666667,
+              "accuracy_wilson95": [
+                0.46514274492323726,
+                0.567838653180473
+              ],
+              "average_odds": 1.7842777777777779,
+              "roi": -0.07433333333333333,
+              "max_drawdown": 32.05000000000001,
+              "sport_max_share": 0.46111111111111114
+            },
+            "historical_test": {
+              "n": 231,
+              "wins": 106,
+              "coverage": 1.0,
+              "accuracy": 0.4588744588744589,
+              "accuracy_wilson95": [
+                0.39581175596656054,
+                0.5232825977501446
+              ],
+              "average_odds": 1.7738528138528138,
+              "roi": -0.18852813852813852,
+              "max_drawdown": 46.35000000000002,
+              "sport_max_share": 0.45454545454545453
+            },
+            "lineage": [
+              {
+                "generation": 1,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 406,
+                  "coverage": 1.0,
+                  "accuracy": 0.5554035567715458,
+                  "accuracy_wilson95": [
+                    0.5191843030180027,
+                    0.5910435550154736
+                  ],
+                  "average_odds": 1.671217510259918,
+                  "roi": -0.07217510259917924,
+                  "max_drawdown": 65.06000000000017,
+                  "sport_max_share": 0.7797537619699042
+                }
+              },
+              {
+                "generation": 2,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 3,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 4,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 5,
+                "pareto_survivors": 25,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 6,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 413,
+                  "coverage": 1.0,
+                  "accuracy": 0.5649794801641587,
+                  "accuracy_wilson95": [
+                    0.528793688081893,
+                    0.600485898500579
+                  ],
+                  "average_odds": 1.679425444596443,
+                  "roi": -0.051272229822161446,
+                  "max_drawdown": 60.580000000000126,
+                  "sport_max_share": 0.774281805745554
+                }
+              },
+              {
+                "generation": 7,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 8,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 9,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 10,
+                "pareto_survivors": 33,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 11,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 412,
+                  "coverage": 1.0,
+                  "accuracy": 0.5636114911080712,
+                  "accuracy_wilson95": [
+                    0.5274200926952141,
+                    0.5991378183802586
+                  ],
+                  "average_odds": 1.6734883720930231,
+                  "roi": -0.057168262653898794,
+                  "max_drawdown": 49.34000000000009,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 12,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 423,
+                  "coverage": 1.0,
+                  "accuracy": 0.5786593707250342,
+                  "accuracy_wilson95": [
+                    0.5425448809497576,
+                    0.6139514607027085
+                  ],
+                  "average_odds": 1.6925034199726403,
+                  "roi": -0.02093023255813957,
+                  "max_drawdown": 42.57000000000001,
+                  "sport_max_share": 0.6703146374829001
+                }
+              },
+              {
+                "generation": 13,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6761696306429545,
+                  "roi": -0.03729138166894668,
+                  "max_drawdown": 39.38000000000006,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 14,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 421,
+                  "coverage": 1.0,
+                  "accuracy": 0.5759233926128591,
+                  "accuracy_wilson95": [
+                    0.5397924179372787,
+                    0.6112605727011885
+                  ],
+                  "average_odds": 1.6756361149110806,
+                  "roi": -0.035225718194254484,
+                  "max_drawdown": 37.87000000000007,
+                  "sport_max_share": 0.6744186046511628
+                }
+              },
+              {
+                "generation": 15,
+                "pareto_survivors": 31,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6761696306429545,
+                  "roi": -0.03729138166894668,
+                  "max_drawdown": 39.38000000000006,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 16,
+                "pareto_survivors": 35,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6761696306429545,
+                  "roi": -0.03729138166894668,
+                  "max_drawdown": 39.38000000000006,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 17,
+                "pareto_survivors": 32,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6761696306429545,
+                  "roi": -0.03729138166894668,
+                  "max_drawdown": 39.38000000000006,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 18,
+                "pareto_survivors": 39,
+                "best": {
+                  "n": 731,
+                  "wins": 422,
+                  "coverage": 1.0,
+                  "accuracy": 0.5772913816689467,
+                  "accuracy_wilson95": [
+                    0.5411685098987522,
+                    0.6126061562467146
+                  ],
+                  "average_odds": 1.675923392612859,
+                  "roi": -0.03279069767441864,
+                  "max_drawdown": 36.71000000000005,
+                  "sport_max_share": 0.6839945280437757
+                }
+              },
+              {
+                "generation": 19,
+                "pareto_survivors": 34,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6761696306429545,
+                  "roi": -0.03729138166894668,
+                  "max_drawdown": 39.38000000000006,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 20,
+                "pareto_survivors": 23,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6761696306429545,
+                  "roi": -0.03729138166894668,
+                  "max_drawdown": 39.38000000000006,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 21,
+                "pareto_survivors": 40,
+                "best": {
+                  "n": 731,
+                  "wins": 420,
+                  "coverage": 1.0,
+                  "accuracy": 0.5745554035567716,
+                  "accuracy_wilson95": [
+                    0.538416604708073,
+                    0.6099147104233951
+                  ],
+                  "average_odds": 1.6813816689466485,
+                  "roi": -0.03440492476060194,
+                  "max_drawdown": 35.690000000000026,
+                  "sport_max_share": 0.6757865937072504
+                }
+              },
+              {
+                "generation": 22,
+                "pareto_survivors": 28,
+                "best": {
+                  "n": 731,
+                  "wins": 418,
+                  "coverage": 1.0,
+                  "accuracy": 0.5718194254445964,
+                  "accuracy_wilson95": [
+                    0.5356658130529683,
+                    0.6072221510645007
+                  ],
+                  "average_odds": 1.6750478796169632,
+                  "roi": -0.042325581395348866,
+                  "max_drawdown": 37.830000000000034,
+                  "sport_max_share": 0.5526675786593708
+                }
+              },
+              {
+                "generation": 23,
+                "pareto_survivors": 29,
+                "best": {
+                  "n": 731,
+                  "wins": 423,
+                  "coverage": 1.0,
+                  "accuracy": 0.5786593707250342,
+                  "accuracy_wilson95": [
+                    0.5425448809497576,
+                    0.6139514607027085
+                  ],
+                  "average_odds": 1.676908344733242,
+                  "roi": -0.029972640218878282,
+                  "max_drawdown": 31.880000000000003,
+                  "sport_max_share": 0.5991792065663475
+                }
+              },
+              {
+                "generation": 24,
+                "pareto_survivors": 30,
+                "best": {
+                  "n": 731,
+                  "wins": 418,
+                  "coverage": 1.0,
+                  "accuracy": 0.5718194254445964,
+                  "accuracy_wilson95": [
+                    0.5356658130529683,
+                    0.6072221510645007
+                  ],
+                  "average_odds": 1.6750478796169632,
+                  "roi": -0.042325581395348866,
+                  "max_drawdown": 37.830000000000034,
+                  "sport_max_share": 0.5526675786593708
+                }
+              }
+            ]
+          }
+        ],
+        "historical_seed_delta_pp": [
+          0.4329004329004329,
+          0.0,
+          -8.658008658008658
+        ]
+      },
+      "historical_validation": {
+        "evolved": {
+          "n": 360,
+          "wins": 172,
+          "coverage": 1.0,
+          "accuracy": 0.4777777777777778,
+          "accuracy_wilson95": [
+            0.4266864291340905,
+            0.5293383733942959
+          ],
+          "average_odds": 1.7667777777777778,
+          "roi": -0.15230555555555556,
+          "max_drawdown": 58.96000000000005,
+          "sport_max_share": 0.38055555555555554
+        },
+        "market_confidence_baseline": {
+          "n": 360,
+          "wins": 166,
+          "coverage": 1.0,
+          "accuracy": 0.46111111111111114,
+          "accuracy_wilson95": [
+            0.4102994865680359,
+            0.5127439178566403
+          ],
+          "average_odds": 1.6588333333333332,
+          "roi": -0.23541666666666672,
+          "max_drawdown": 85.39999999999998,
+          "sport_max_share": 0.6472222222222223
+        }
+      },
+      "historical_test": {
+        "evolved": {
+          "n": 231,
+          "wins": 112,
+          "coverage": 1.0,
+          "accuracy": 0.48484848484848486,
+          "accuracy_wilson95": [
+            0.421176664360546,
+            0.5490159922719243
+          ],
+          "average_odds": 1.7532034632034632,
+          "roi": -0.14982683982683984,
+          "max_drawdown": 37.24000000000001,
+          "sport_max_share": 0.38961038961038963
+        },
+        "market_confidence_baseline": {
+          "n": 231,
+          "wins": 126,
+          "coverage": 1.0,
+          "accuracy": 0.5454545454545454,
+          "accuracy_wilson95": [
+            0.4810229218247761,
+            0.6083991082778127
+          ],
+          "average_odds": 1.659307359307359,
+          "roi": -0.09489177489177492,
+          "max_drawdown": 25.559999999999995,
+          "sport_max_share": 0.6623376623376623
+        },
+        "comparison": {
+          "n_dates": 231,
+          "accuracy_delta_pp": -6.0606060606060606,
+          "ci95_pp": [
+            -14.285714285714285,
+            2.1645021645021645
+          ],
+          "probability_evolved_better": 0.0704
+        }
+      },
+      "historical_status": "rejected_in_historical_audit",
+      "validation_point_gate_passed": true,
+      "historical_point_gate_passed": false,
+      "historical_ci_gate_passed": false
+    }
+  },
+  "promotion": {
+    "status": "shadow_only",
+    "passed": false,
+    "pristine_holdout_available": false,
+    "minimum_future_predictions": 300,
+    "rule": "사전등록 미래 300픽 이상에서 동일 날짜 시장확률 1순위 대비 적중률 차이 CI 하한>0, 평균 배당·커버리지 제약 유지",
+    "reason": "2026은 이미 여러 실험에서 열람한 역사 감사 구간",
+    "historical_iteration_disclosure": "초기 유전자 설계의 종목 쏠림과 불공정 배당 기준을 2026 감사 후 수정했으므로 이 결과는 탐색 기록이며 독립 홀드아웃이 아니다"
+  },
+  "artifact_sha256": "75c27aee6cf41dc1beeb87ddc8ae9678b754cf7f8fdcdce3477a5f21bfe8aaee",
+  "data_quality": {
+    "input_rows": 184473,
+    "valid_unique_market_rows": 174620,
+    "invalid_rows": 3448,
+    "conflicting_reissues_excluded": 584
+  }
+}
