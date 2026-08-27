@@ -1134,7 +1134,8 @@ function AvailabilityTeam({ team, rows, connected, emptyText }) {
       {rows.length ? <ul className="mt-1 space-y-1">
         {rows.map((x, i) => <li key={`${x.name}-${i}`} className="text-[11.5px]">
           <b className="text-ink">{x.name}</b>
-          <span className="text-ink3"> · {x.status || "출전 불가"}{x.position ? ` · ${x.position}` : ""}</span>
+          <span className="text-ink3"> · {x.reason_label || "사유 미확인"} · {x.status || "출전 불가"}{x.position ? ` · ${x.position}` : ""}</span>
+          {x.impact_label && <span className="ml-1 rounded border border-rule px-1 text-[9.5px] text-ink3">예상 영향 {x.impact_label}</span>}
         </li>)}
       </ul> : <p className="mt-1 text-[11.5px] text-ink3">
         {connected ? (emptyText || "공식 명단에서 부상 상태로 표시된 선수가 없다.") : "부상·출전 상태 자료가 아직 연결되지 않았다."}
@@ -1160,7 +1161,13 @@ function AvailabilityPanel({ g }) {
       ? "선수 자료는 연결됐지만 별도의 당일 부상·출전 확정 자료는 아니다."
       : (info.coverage?.label || "공식 부상·출전 상태 자료원이 아직 연결되지 않았다."))
     : g.sport === "sc" ? "시즌 핵심 선수들이 모두 선발 명단에 포함됐다." : null;
+  const impact = info.availability_summary;
+  const burdenLabel = (value) => value >= .6 ? "큼" : value >= .25 ? "중간" : value > 0 ? "작음" : "없음";
   return <>
+    {impact && (impact.home_burden > 0 || impact.away_burden > 0) && <div className="mb-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] leading-[1.7] text-ink2">
+      명단 변수 예상 영향 · <b>{g.home} {burdenLabel(impact.home_burden)}</b> · <b>{g.away} {burdenLabel(impact.away_burden)}</b>
+      <p className="mt-1 text-[10px] text-ink3">선수 비중·결장 가능성·대체 수준·출처 신뢰도를 함께 본 진단값이다. 과거 검증 전이라 승률에는 직접 더하지 않는다.</p>
+    </div>}
     <div className="grid gap-2 sm:grid-cols-2">
       <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} emptyText={emptyText} />
       <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} emptyText={emptyText} />

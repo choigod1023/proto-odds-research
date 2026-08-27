@@ -38,3 +38,8 @@ test("0도 유효한 투수 지표로 표시하고 부상 배열을 정리한다
   assert.deepEqual(unavailableFor({ 선발: { unavailable: { home: [{ name: "A" }, {}] } } }, "home"),
     [{ name: "A" }]);
 });
+
+test("출전 변수의 표준 사유와 예상 영향을 보존한다", () => {
+  const row = { name: "A", reason_label: "경고누적", impact_label: "큼", impact_score: .4 };
+  assert.deepEqual(unavailableFor({ 선발: { unavailable: { away: [row] } } }, "away"), [row]);
+});
