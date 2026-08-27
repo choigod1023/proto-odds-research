@@ -100,8 +100,9 @@ export function AiDecisionPath({ decision }) {
       )}
       {decision.contractReconstructed && (
         <p className="ai-revision-warning" role="status">
-          판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다.
-          구조 AI와 레거시 추천값은 반영하지 않았습니다.
+          {decision.liveOddsRecalculated
+            ? "실시간 배당으로 Shin 시장확률과 최종 판정을 다시 계산했습니다. 구조 AI와 이전 가격의 추천값은 반영하지 않았습니다."
+            : "판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다. 구조 AI와 레거시 추천값은 반영하지 않았습니다."}
         </p>
       )}
       {decision.action === "withhold" && visibleGate && (

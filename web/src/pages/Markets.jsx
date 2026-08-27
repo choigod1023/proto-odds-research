@@ -10,6 +10,7 @@ import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { buildDecisionViewModel } from "../lib/decision-view-model.js";
+import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships, canonicalPick, selectionKey } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
@@ -46,41 +47,6 @@ function usePoll(url, ms) {
 const useLive = () => usePoll(LIVE_URL, 60000);
 const useLiveOdds = () => usePoll(ODDS_URL, 120000);
 
-/**
- * picks_v2 의 배당 위에 실시간 배당을 덮어쓴다.
- *
- * ⚠️ 실시간 쪽에 값이 **있을 때만** 갈아끼운다. 없다고 지우면 멀쩡한 값을
- *    빈 칸으로 바꿔 오히려 나빠진다(아직 배당이 안 붙은 회차가 늘 섞여 있다).
- * ⚠️ 배당이 바뀌면 등급·판단도 같이 바뀌어야 하므로, 화면은 이 값을 기준으로
- *    다시 계산한다. 모델확률·시장확률은 산출 시점 값이라 건드리지 않는다.
- */
-function withLiveOdds(games, lo) {
-  if (!lo?.odds) return games;
-  return games.map((g) => {
-    const bucket = lo.odds[String(g.round)];
-    if (!bucket) return g;
-    // ⚠️ 위치로 맞춘다. picks_v2 의 옵션에는 선택지 인덱스가 없고, '선택'(홈/무/원정/
-    //    언더/오버/홀/짝…)을 배당 배열의 자리로 옮기는 규칙은 마켓마다 달라 깨지기 쉽다.
-    //    같은 게임번호 안에서 옵션 순서는 원천 배당 배열 순서와 동일하므로,
-    //    게임번호별로 묶어 n번째끼리 대응시킨다.
-    const seen = {};
-    let touched = false;
-    const options = (g.options || []).map((o) => {
-      const gn = String(o["게임번호"]);
-      const i = (seen[gn] = (seen[gn] ?? -1) + 1);
-      const fresh = bucket[gn];
-      if (!fresh || i >= fresh.length) return o;
-      const v = fresh[i];
-      if (v == null || v === o["배당"]) return o;
-      touched = true;
-      return { ...o, 배당: v, _live: true };
-    });
-    // 가격만 새것이고 확률·설명이 예전 시점인 혼합 행을 만들지 않는다. 다음 산출물에서
-    // 재계산될 때까지 decision view model이 확률과 결론을 숨긴다.
-    return touched ? { ...g, options, _liveOddsChanged: true } : g;
-  });
-}
-
 /** 프로토 표기와 네이버 표기가 다르므로(마이말린 ↔ 마이애미) 별칭까지 키로 넣는다.
  *
  * ⚠️ 키에 **날짜(MM.DD)를 반드시 포함**한다. 팀 조합만으로 잡으면 MLB 3~4연전에서
@@ -112,9 +78,14 @@ export default function Markets() {
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
   const synchronized = useMemo(() => {
     if (!d) return null;
-    const merge = (games) => withLiveOdds(games || [], liveOdds).map((game) => {
-      const liveState = liveOf(liveIndex, game);
-      return liveState ? { ...game, _liveState: liveState, _liveStarted: true } : game;
+    const merge = (games) => (games || []).map((game) => {
+      const repriced = repriceGameOdds(
+        game,
+        liveOdds?.odds?.[String(game.round)],
+        liveOdds?.generated_at || null,
+      );
+      const liveState = liveOf(liveIndex, repriced);
+      return liveState ? { ...repriced, _liveState: liveState, _liveStarted: true } : repriced;
     });
     return { ...d, live: merge(d.live), past: merge(d.past) };
   }, [d, liveOdds, liveIndex]);
@@ -186,7 +157,7 @@ function Shell({ children, meta }) {
       <nav className="section-nav" aria-label="경기 분석 바로가기">
         <a href="#ai-method">AI 사용</a>
         <a href="#match-list">경기 목록</a>
-        <a href="#price-comparison">배당 비교</a>
+        <a href="#price-comparison">발매 경기·배당</a>
         <a href="#evidence">분석 기준</a>
       </nav>
       {children}
@@ -741,7 +712,7 @@ function OptTable({ opts, grades, tie, pick, recalculating = false }) {
               <td className={`${td} tnum text-right`}>
                 {odds(o["배당"])}
                 {o._live && <span className="ml-1 text-[9.5px] text-ink3"
-                  aria-label="실시간 배당, 확률 재계산 대기">실시간</span>}
+                  aria-label="실시간 배당으로 확률 재계산 완료">실시간</span>}
               </td>
               <td className={`${td} tnum text-right text-ink3`}>
                 {gr?.hit != null ? `${(gr.hit * 100).toFixed(0)}%` : "–"}</td>

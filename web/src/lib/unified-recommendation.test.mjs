@@ -90,6 +90,26 @@ const legacyAligned = alignTodayRecommendations(today, [legacy]);
 assert.equal(legacyAligned.candidates[0].recommendation_basis, "market-fallback");
 assert.equal(legacyAligned.alignment.market_fallback_candidates, 1);
 
+const liveFavoriteFlipped = {
+  ...game,
+  decision_snapshot: null,
+  _liveOddsRecalculated: true,
+  options: [
+    { ...home, "배당": 2.1, "시장확률": 0.39 },
+    { ...away, "배당": 1.55, "시장확률": 0.61, _liveOverround: 1.121 },
+  ],
+};
+const flippedToday = alignTodayRecommendations({
+  ...today,
+  odds_bins: [{ bin: "1.5-1.8", roi: -0.1, n: 1000, hit: 0.6, grade: "B" }],
+  candidates: [today.candidates[0]],
+}, [liveFavoriteFlipped]);
+assert.equal(flippedToday.candidates[0].sel, "원정",
+  "실시간 배당에서 최유력 방향이 바뀌면 이전 방향을 유지하지 않는다");
+assert.equal(flippedToday.candidates[0].odds, 1.55);
+assert.equal(flippedToday.candidates[0].market_prob, 0.61);
+assert.equal(flippedToday.candidates[0].payout, 89.21);
+
 const memberships = buildTodayMemberships({
   solo: alignedToday.candidates[0],
   plans: [
