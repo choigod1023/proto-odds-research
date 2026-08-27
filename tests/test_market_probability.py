@@ -24,6 +24,7 @@ from recommendation_policy import (  # noqa: E402
     automatic_selection_exclusion_reason,
     is_recommendable_market,
     recommendation_exclusion_reason,
+    qualified_underdog,
 )
 import today_combo  # noqa: E402
 from today_combo import (  # noqa: E402
@@ -140,6 +141,16 @@ def test_low_odds_are_fallback_while_high_odds_and_underdogs_are_excluded():
     assert "유효한 배당" in automatic_selection_exclusion_reason("승패", None, 0.60, 0.60)
     assert "유효한 배당" in automatic_selection_exclusion_reason("승패", 1.0, 0.60, 0.60)
     assert "시장확률" in automatic_selection_exclusion_reason("승패", 1.5, None, 0.60)
+
+
+def test_qualified_underdog_is_separate_and_rejects_extremes():
+    assert qualified_underdog("승패", 2.05, 0.42, 0.58, 0.55)
+    assert not qualified_underdog("승패", 2.05, 0.58, 0.58, 0.70)
+    assert not qualified_underdog("승패", 3.0, 0.32, 0.68, 0.55)
+    assert not qualified_underdog("승패", 2.05, 0.42, 0.58, 0.95)
+    assert not qualified_underdog("승패", 2.05, 0.42, 0.58, 0.49)
+    assert not qualified_underdog("승패", 2.90, 0.27, 0.73, 0.50)
+    assert not qualified_underdog("홀짝", 2.05, 0.42, 0.58, 0.55)
 
 
 def test_target_optimizer_maximizes_joint_probability_without_fixed_bins():
