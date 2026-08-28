@@ -1,14 +1,14 @@
 {
- "generated_at": "2026-08-28T18:20:30+09:00",
- "source_generated_at": "2026-08-28T09:04:25+00:00",
- "live_odds_at": "2026-08-28T09:18:47+00:00",
+ "generated_at": "2026-08-28T18:47:10+09:00",
+ "source_generated_at": "2026-08-28T09:43:44+00:00",
+ "live_odds_at": "2026-08-28T09:41:10+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
  "n_candidates": 32,
  "n_primary_candidates": 32,
  "n_fallback_candidates": 0,
- "n_better_round": 0,
+ "n_better_round": 1,
  "next_kickoff_at": "2026-08-28T19:30:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
@@ -813,7 +813,7 @@
   {
    "event_key": "2026-08-28T19:30:00+09:00|전남드래|천안시티",
    "kickoff_at": "2026-08-28T19:30:00+09:00",
-   "round": 101,
+   "round": 102,
    "game_no": "7118",
    "date": "08.28(금) 19:30",
    "sport": "sc",
@@ -825,22 +825,26 @@
    "market_label": "H -1.0",
    "booking": "3-way-핸디캡",
    "sel": "핸디원정",
-   "odds": 1.54,
+   "odds": 1.57,
    "bin": "1.5-1.8",
-   "overround": 1.1486,
-   "payout": 87.06,
+   "overround": 1.1485,
+   "payout": 87.07,
    "hist_roi": -0.099,
    "hist_n": 9747,
-   "market_prob": 0.5906,
-   "predicted_hit_prob": 0.5906,
+   "market_prob": 0.5786,
+   "predicted_hit_prob": 0.5786,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.3695,
+   "market_gap": 0.3431,
    "n_way": 3,
-   "failure_prob": 0.4094,
+   "failure_prob": 0.4214,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds"
+   "price_source": "live_odds",
+   "beats": {
+    "round": 101,
+    "odds": 1.54
+   }
   },
   {
    "event_key": "2026-08-28T21:30:00+09:00|요르단M|필리핀M",
@@ -1917,57 +1921,5 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
- "last_recommendation_change": {
-  "changed_at": "2026-08-28T09:15:30+00:00",
-  "reason": "prices_recalculated",
-  "previous_revision": null,
-  "revision": "05b20adbcecb111984b3427c409a1ebecd65e0e28d9c4afe4fa6ef8d5da6d722",
-  "previous": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7180|승무패||원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7138|핸디캡|H -1.0|핸디원정",
-      "102|7130|핸디캡|H -9.5|핸디원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|7172|승무패||원정",
-      "102|7135|언더오버|U 159.5|언더",
-      "102|7230|승①패|승①패|홈2+"
-     ]
-    }
-   ]
-  },
-  "current": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7180|승무패||원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7138|핸디캡|H -1.0|핸디원정",
-      "102|7130|핸디캡|H -9.5|핸디원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|7172|승무패||원정",
-      "102|7135|언더오버|U 159.5|언더",
-      "102|7230|승①패|승①패|홈2+"
-     ]
-    }
-   ]
-  }
- },
- "recommendation_revision": "05b20adbcecb111984b3427c409a1ebecd65e0e28d9c4afe4fa6ef8d5da6d722",
- "refreshed_at": "2026-08-28T09:20:30+00:00"
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
 }
