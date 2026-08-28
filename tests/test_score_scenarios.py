@@ -192,4 +192,3 @@ def test_nonfinite_or_negative_probability_matrix_is_rejected():
         forecast_from_matrix("sc", np.array([[np.nan]]))
     with pytest.raises(ScoreForecastError, match="음수"):
         forecast_from_matrix("sc", np.array([[1.0, -0.1], [0.0, 0.1]]))
-
