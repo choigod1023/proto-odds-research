@@ -216,3 +216,40 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .ai-stage-list article:nth-child(even) { padding-left: 0; border-left: 0; }
   .source-stamp { padding: 0 12px 10px; }
 }
+
+
+.today-pick-compact { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin: 0 0 12px; padding: 12px 14px; border: 1px solid var(--color-rule); border-radius: 8px; background: var(--color-paper); }
+.today-pick-compact > div { display: grid; gap: 2px; }
+.today-pick-compact small { color: var(--color-ink3); font-size: 10px; }
+.today-pick-compact b { color: var(--color-ink); font-size: 13px; }
+.today-pick-compact > span { margin-left: auto; color: var(--color-ink3); font-size: 11px; }
+.bet-cart { position: sticky; top: 8px; z-index: 12; margin-bottom: 14px; border: 1px solid var(--color-ink); border-radius: 10px; background: var(--color-paper); box-shadow: 0 5px 18px rgba(26, 24, 20, .08); }
+.bet-cart-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; }
+.bet-cart-head small { display: block; color: var(--color-ink3); font-size: 10px; }
+.bet-cart-head h3 { margin: 2px 0 0; font-size: 14px; }
+.bet-cart-head button { color: var(--color-ink3); font-size: 10.5px; text-decoration: underline; text-underline-offset: 2px; }
+.bet-cart-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; border-top: 1px solid var(--color-rule2); background: var(--color-rule2); }
+.bet-cart-items > div { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 9px; padding: 9px 12px; background: var(--color-paper); }
+.bet-cart-items span { min-width: 0; }
+.bet-cart-items span b, .bet-cart-items span small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bet-cart-items span b { font-size: 11.5px; }
+.bet-cart-items span small { margin-top: 2px; color: var(--color-ink3); font-size: 10px; }
+.bet-cart-items strong { font-size: 12px; font-variant-numeric: tabular-nums; }
+.bet-cart-items button { color: var(--color-ink3); font-size: 17px; line-height: 1; }
+.bet-cart-summary { display: grid; grid-template-columns: minmax(150px, 1.25fr) repeat(4, minmax(90px, 1fr)); gap: 1px; border-top: 1px solid var(--color-rule2); background: var(--color-rule2); }
+.bet-cart-summary > * { min-width: 0; padding: 10px 12px; background: var(--color-panel); }
+.bet-cart-summary small, .bet-cart-summary label { color: var(--color-ink3); font-size: 10px; }
+.bet-cart-summary b { display: block; margin-top: 2px; color: var(--color-ink); font-size: 13px; font-variant-numeric: tabular-nums; }
+.bet-cart-summary label span { display: flex; align-items: center; gap: 4px; margin-top: 2px; color: var(--color-ink); font-size: 12px; }
+.bet-cart-summary input { width: 105px; border-bottom: 1px solid var(--color-rule); background: transparent; color: var(--color-ink); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.cart-add-button { min-width: 42px; border: 1px solid var(--color-rule); border-radius: 5px; padding: 4px 7px; color: var(--color-ink2); font-size: 10.5px; }
+.cart-add-button:hover { border-color: var(--color-ink); }
+.cart-add-button.is-active { border-color: var(--color-ink); background: var(--color-ink); color: var(--color-paper); }
+.cart-add-button:disabled { cursor: not-allowed; opacity: .35; }
+@media (max-width: 700px) {
+  .today-pick-compact { gap: 10px 18px; }
+  .today-pick-compact > span { flex-basis: 100%; margin-left: 0; }
+  .bet-cart { position: static; }
+  .bet-cart-summary { grid-template-columns: repeat(2, 1fr); }
+  .bet-cart-summary > label { grid-column: 1 / -1; }
+}
