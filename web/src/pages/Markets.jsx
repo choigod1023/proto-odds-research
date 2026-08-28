@@ -229,7 +229,7 @@ function TodayListControls({ activeToday }) {
           </div>
         </div>
         <div className="text-right text-[10.5px] leading-5 text-ink3">
-          경기별 Shin 시장확률 1위 · 목표조합만 1.50~2.20 미만<br />이변 모델은 관찰 신호만 제공 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
+          경기별 최종 예상 적중확률 1위 · 1.50~2.20 후보 우선<br />검증 보정이 없으면 Shin 시장값 복귀 · {activeToday.window === "next_morning" ? "다음 날 11:59 KST까지" : "오늘 23:59 KST까지"}
         </div>
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-y border-rule2 py-2 text-[10.5px] text-ink3" aria-live="polite">
@@ -271,7 +271,7 @@ function TodayListControls({ activeToday }) {
       </div>}
 
       <p className="mt-2 text-[10.5px] leading-5 text-ink3">
-        각 경기 방향은 배당 경계와 무관하게 현재 Shin 시장확률이 가장 높은 선택 하나로 고정합니다. 목표 배당은 그 다음 조합 단계에서만 적용합니다.
+        각 경기 추천은 1.50~2.20 후보를 먼저 확보한 뒤 최종 예상 적중확률이 가장 높은 선택으로 정합니다. 해당 가격대가 없을 때만 1.50 미만 최유력을 보조로 표시합니다.
       </p>
 
       <div className="mt-3 border-t border-rule2 pt-3">
