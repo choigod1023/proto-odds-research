@@ -86,6 +86,8 @@ test("유효한 배당이 없으면 큰 모델확률로 화면 추천을 새로 
   assert.equal(decision.option, null);
   assert.deepEqual(decision.contractErrors, []);
   assert.equal(decisionLabel(decision), "비교 후보 보류");
+  assert.equal(decision.withholdReasons[0].title, "배당 또는 시장확률이 불완전함");
+  assert.match(decision.withholdReasons[0].body, /가지 않습니다/);
 });
 
 test("shadow AI가 잘못 저장한 final도 시장확률로 fail-close한다", () => {
@@ -139,6 +141,11 @@ test("중복 단계나 근거 id는 조용히 합치지 않고 계약 오류로 
   assert.equal(decision.action, "withhold");
   assert.ok(decision.contractErrors.includes("invalid_stage_ids"));
   assert.ok(decision.contractErrors.includes("duplicate_evidence_ids"));
+  assert.deepEqual(decision.withholdReasons.map((reason) => reason.title), [
+    "계산 단계가 누락되거나 중복됨",
+    "같은 근거가 중복 기록됨",
+  ]);
+  assert.ok(decision.withholdReasons.every((reason) => /가지 않습니다/.test(reason.body)));
 });
 
 test("operational 문자열과 통과 표식만으로는 미승격 artifact가 확률을 바꾸지 못한다", () => {
@@ -290,19 +297,52 @@ test("이전 정책의 1.50 미만 보류를 보조 추천으로 복구한다", 
   assert.equal(decision.policyRecalculated, true);
 });
 
-test("스냅샷이 실제로 존재하지만 식별자가 깨졌으면 자동 복구하지 않는다", () => {
+test("선택 식별자만 깨졌으면 현재 유효 배당으로 자동 복구한다", () => {
   const malformed = { ...snapshot, offer_id: "wrong_offer" };
-  const decision = buildDecisionViewModel(gameFor(malformed), option);
-  assert.equal(decision.action, "withhold");
-  assert.equal(decision.contractReconstructed, false);
-  assert.ok(decision.contractErrors.includes("selection_not_unique"));
+  const pricedOption = { ...option, 배당: 1.6 };
+  const game = gameFor(malformed, { options: [pricedOption] });
+  const selected = resolveDecisionOption(game);
+  const decision = buildDecisionViewModel(game, selected);
+  assert.equal(selected, pricedOption);
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.contractReconstructed, true);
+  assert.equal(decision.policyRecalculated, true);
+  assert.deepEqual(decision.contractErrors, []);
+  assert.deepEqual(decision.contractRecoveredErrors, [
+    "selection_not_unique", "market_probability_mismatch",
+  ]);
 });
 
-test("selection 또는 offer 식별자가 하나라도 다르면 보류한다", () => {
-  const changed = { ...option, offer_id: "off_changed" };
+test("현재 선택의 offer 식별자가 달라져도 시장 기준으로 복구한다", () => {
+  const changed = { ...option, offer_id: "off_changed", 배당: 1.6 };
   const game = gameFor(snapshot, { options: [changed] });
-  const decision = buildDecisionViewModel(game, changed);
+  const selected = resolveDecisionOption(game);
+  const decision = buildDecisionViewModel(game, selected);
+  assert.equal(selected, changed);
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.contractReconstructed, true);
+  assert.deepEqual(decision.contractRecoveredErrors, [
+    "selection_not_unique", "market_probability_mismatch",
+  ]);
+});
+
+test("경기 ID나 시각 오류는 현재 배당이 있어도 보류하고 이유를 설명한다", () => {
+  const unsafe = {
+    ...snapshot,
+    event_id: "evt_other_game",
+    audit: {
+      ...snapshot.audit,
+      feature_cutoff_at: "2026-08-27T10:00:00+09:00",
+      built_at: "2026-08-27T09:00:01+09:00",
+    },
+  };
+  const game = gameFor(unsafe);
+  const decision = buildDecisionViewModel(game, null);
   assert.equal(resolveDecisionOption(game), null);
   assert.equal(decision.action, "withhold");
-  assert.ok(decision.contractErrors.includes("selection_not_unique"));
+  assert.equal(decision.contractReconstructed, false);
+  assert.ok(decision.contractErrors.includes("event_id_mismatch"));
+  assert.ok(decision.contractErrors.includes("invalid_cutoff"));
+  assert.match(decision.withholdReasons[0].body, /다른 경기/);
+  assert.match(decision.withholdReasons[1].body, /경기 후 정보/);
 });
