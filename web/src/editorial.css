@@ -43,8 +43,12 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-section-title h2 { margin: 0; font-size: 20px; letter-spacing: -.04em; }
 .match-section-title b { color: var(--color-ink3); font-size: 11px; }
 .match-phase-counts { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-.match-phase-counts b { padding: 4px 7px; border: 1px solid var(--color-rule2); border-radius: 999px; font-weight: 650; }
+.match-phase-counts button { padding: 4px 7px; border: 1px solid var(--color-rule2); border-radius: 999px; font-weight: 650; }
 .match-phase-counts .is-live { border-color: var(--color-sev2); color: var(--color-sev2); }
+.match-phase-counts button { cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+.match-phase-counts button:hover { border-color: var(--color-ink3); }
+.match-phase-counts button[aria-pressed="true"] { border-color: var(--color-ink); background: var(--color-ink); color: var(--color-paper); }
+.match-phase-counts button.is-live[aria-pressed="true"] { border-color: var(--color-sev2); background: var(--color-sev2); color: var(--color-paper); }
 .match-phase-tag { padding: 3px 6px; border: 1px solid var(--color-rule2); border-radius: 999px; color: var(--color-ink2); font-size: 9.5px; }
 .match-phase-tag.is-live { border-color: var(--color-sev2); background: color-mix(in srgb, var(--color-sev2) 8%, transparent); color: var(--color-sev2); }
 .match-phase-tag.is-finished { background: var(--color-panel); color: var(--color-ink3); }
