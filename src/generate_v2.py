@@ -43,7 +43,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import SEL_NAMES, winner_index                            # noqa: E402
 from ai_decision import (build_decision_snapshot, choose_market_reference, # noqa: E402
-                         annotate_options, decision_manifest)
+                         annotate_options, decision_manifest, event_id)
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
 from player_commentary import with_player_context                    # noqa: E402
@@ -713,6 +713,52 @@ def _remove_hindsight_prediction(game: dict) -> None:
         option.pop("제외", None)
 
 
+def _recorded_predictions(path: Path | None = None) -> dict[str, dict]:
+    """직전 산출물에서 경기 전에 실제 표시했던 추천만 보존한다."""
+    path = path or (OUT / "picks_v2.json")
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, TypeError):
+        return {}
+    captured_at = document.get("generated_at")
+    records = {}
+    for game in [*(document.get("live") or []), *(document.get("past") or [])]:
+        key = game.get("event_id") or event_id(game)
+        existing = game.get("prediction_record")
+        if existing:
+            records[key] = existing
+            continue
+        snapshot, selected = game.get("decision_snapshot") or {}, game.get("추천") or {}
+        if snapshot.get("action") != "market_reference" or not selected.get("selection_id"):
+            continue
+        records[key] = {
+            "selection_id": selected.get("selection_id"),
+            "offer_id": selected.get("offer_id"),
+            "market": selected.get("market"), "label": selected.get("label") or "",
+            "selection": selected.get("선택"), "odds": selected.get("배당"),
+            "probability": (snapshot.get("probability") or {}).get("final"),
+            "captured_at": snapshot.get("as_of") or captured_at,
+            "result": "pending",
+        }
+    return records
+
+
+def _attach_prediction_record(game: dict, records: dict[str, dict]) -> None:
+    record = records.get(game.get("event_id") or event_id(game))
+    if not record:
+        return
+    record = dict(record)
+    selected = next((option for option in game.get("options", [])
+                     if option.get("selection_id") == record.get("selection_id")), None)
+    hit = selected.get("적중") if selected else None
+    if game.get("status") == "정산":
+        record["result"] = "hit" if hit is True else "miss" if hit is False else "void"
+        record["settled_at"] = game.get("date")
+    else:
+        record["result"] = "pending"
+    game["prediction_record"] = record
+
+
 def _sanitize_prediction_document(doc: dict, as_of: pd.Timestamp | None = None) -> dict:
     """종료·시작 경기의 사후 추천을 지우고 원장 없는 집계를 닫는다.
 
@@ -789,6 +835,7 @@ def _sanitize_existing_output() -> int:
 
 
 def main() -> int:
+    prior_predictions = _recorded_predictions()
     st = team_lambdas()
     sess = _session()
     season = datetime.now().year
@@ -1038,6 +1085,8 @@ def main() -> int:
     commentary_llm.flush()      # 캐시 저장 + 이번 주기 호출/적중 요약
 
     out.sort(key=lambda g: (g["date"], g["home"]))
+    for game in out:
+        _attach_prediction_record(game, prior_predictions)
     past_g = [g for g in out if g["status"] == "정산"]
     unresolved_g = [g for g in out if g["status"] == "결과확인"]
 
