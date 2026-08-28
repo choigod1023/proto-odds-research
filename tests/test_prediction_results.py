@@ -48,6 +48,24 @@ def test_existing_record_survives_later_generation(tmp_path):
     assert _recorded_predictions(path)["evt_1"]["result"] == "miss"
 
 
+def test_ledger_settlement_is_not_overwritten_by_current_reconstruction():
+    settled = _game("정산", True)
+    records = {
+        "evt_1": {
+            "prediction_snapshot_id": "dec_1",
+            "selection_id": "sel_home",
+            "selection": "홈",
+            "result": "miss",
+            "settled_at": "2026-08-28T12:00:00Z",
+        },
+    }
+
+    _attach_prediction_record(settled, records)
+
+    assert settled["prediction_record"]["result"] == "miss"
+    assert settled["prediction_record"]["settled_at"] == "2026-08-28T12:00:00Z"
+
+
 def test_no_pregame_snapshot_does_not_invent_past_pick(tmp_path):
     path = tmp_path / "picks_v2.json"
     path.write_text(json.dumps({"live": [_game("정산", True)], "past": []},
