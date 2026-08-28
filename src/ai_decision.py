@@ -12,7 +12,13 @@ import hashlib
 import json
 import math
 from datetime import datetime, timezone
-from typing import Iterable
+from typing import Iterable, Mapping
+
+from probability_pipeline import (
+    ArtifactValidationError,
+    apply_artifact,
+    artifact_hash,
+)
 
 from recommendation_policy import (
     automatic_selection_exclusion_reason,
@@ -108,8 +114,41 @@ def offer_id(game: dict, option: dict) -> str:
     )
 
 
-def annotate_options(game: dict) -> None:
-    """모든 선택지에 최종 확률 출처와 stable id를 한 번만 붙인다."""
+def _residual_features(
+    game: Mapping, option: Mapping, favorite_probability: float | None,
+) -> dict[str, float | None]:
+    """Stable inference features available for future residual artifacts."""
+
+    market = _number(option.get("시장확률"))
+    model = _number(option.get("모델확률"))
+    home = _number(game.get("lam_home"))
+    away = _number(game.get("lam_away"))
+    return {
+        "market_probability": market,
+        "favorite_market_probability": favorite_probability,
+        "score_model_probability": model,
+        "score_market_gap": (
+            None if market is None or model is None else model - market
+        ),
+        "home_lambda": home,
+        "away_lambda": away,
+        "lambda_difference": (
+            None if home is None or away is None else home - away
+        ),
+        "lambda_total": (
+            None if home is None or away is None else home + away
+        ),
+        "odds": _number(option.get("배당")),
+    }
+
+
+def annotate_options(
+    game: dict,
+    *,
+    probability_artifact: Mapping | None = None,
+) -> None:
+    """Attach stable IDs and apply only a code-reviewed promoted artifact."""
+
     game["event_id"] = event_id(game)
     favorite_by_market: dict[tuple, float] = {}
     for option in game.get("options", []):
@@ -119,6 +158,15 @@ def annotate_options(game: dict) -> None:
         key = (option.get("market"), option.get("label"), option.get("line"),
                option.get("게임번호"))
         favorite_by_market[key] = max(favorite_by_market.get(key, 0.0), probability)
+
+    digest = None
+    if probability_artifact is not None:
+        try:
+            digest = artifact_hash(probability_artifact)
+        except (ArtifactValidationError, TypeError, ValueError):
+            digest = None
+    pipeline_statuses: list[str] = []
+    pipeline_reasons: list[str] = []
 
     for option in game.get("options", []):
         option["selection_id"] = selection_id(game, option)
@@ -131,8 +179,62 @@ def annotate_options(game: dict) -> None:
         option["AI잔차"] = (
             None if market is None or model is None else round(model - market, 4)
         )
+        for field in (
+            "잔차모델확률", "잔차모델구간", "잔차모델상태", "잔차모델사유",
+            "잔차모델해시",
+        ):
+            option.pop(field, None)
         key = (option.get("market"), option.get("label"), option.get("line"),
                option.get("게임번호"))
+        if (
+            market is not None
+            and 0.0 < market < 1.0
+            and probability_artifact is not None
+        ):
+            result = apply_artifact(
+                market,
+                sport=game.get("sport") or "unknown",
+                market=option.get("market") or "unknown",
+                features=_residual_features(
+                    game, option, favorite_by_market.get(key)
+                ),
+                artifact=probability_artifact,
+            )
+            reviewed = (
+                result.applied
+                and digest is not None
+                and digest in PROMOTED_ARTIFACT_HASHES
+            )
+            status = (
+                "promoted" if reviewed
+                else "shadow_only" if result.shadow_probability is not None
+                else "market_fallback"
+            )
+            reason = (
+                result.reason
+                if not result.applied or reviewed
+                else "artifact promotion claim is not in the code-reviewed allowlist"
+            )
+            option["잔차모델확률"] = (
+                None if result.shadow_probability is None
+                else round(result.shadow_probability, 4)
+            )
+            option["잔차모델구간"] = (
+                None if result.shadow_interval is None
+                else [round(value, 4) for value in result.shadow_interval]
+            )
+            option["잔차모델상태"] = status
+            option["잔차모델사유"] = reason
+            option["잔차모델해시"] = digest
+            option["최종확률"] = round(
+                result.probability if reviewed else market, 4
+            )
+            option["확률근거"] = (
+                "validated_market_residual" if reviewed else "shin_market"
+            )
+            option["AI반영"] = reviewed
+            pipeline_statuses.append(status)
+            pipeline_reasons.append(reason)
         is_upset = qualified_underdog(
             option.get("market"), option.get("배당"), market,
             favorite_by_market.get(key), model,
@@ -145,6 +247,23 @@ def annotate_options(game: dict) -> None:
             "시장 역배·1.50~3.00 미만·검증 전 모델 우위 8~25%p"
             if is_upset else None
         )
+
+    game["probability_pipeline"] = {
+        "status": (
+            "operational" if "promoted" in pipeline_statuses
+            else "shadow_only" if "shadow_only" in pipeline_statuses
+            else "market_fallback" if probability_artifact is not None
+            else "market_baseline"
+        ),
+        "artifact_hash": digest,
+        "allowlisted": bool(digest and digest in PROMOTED_ARTIFACT_HASHES),
+        "affects_probability": "promoted" in pipeline_statuses,
+        "reason": (
+            next(iter(dict.fromkeys(pipeline_reasons)), None)
+            if probability_artifact is not None
+            else "probability artifact is absent; Shin market retained"
+        ),
+    }
 
 
 def choose_market_reference(options: list[dict]) -> dict | None:
@@ -314,9 +433,11 @@ def _evidence(
         "available": has_lineup,
         "observed_at": info.get("updated_at"),
         **_all_usage(
-            market="ignored", residual="ignored", gate="ignored",
+            market="ignored",
+            residual="context_only" if has_lineup else "missing",
+            gate="ignored",
             explainer="context_only" if has_lineup else "missing",
-            residual_reason="no_first_seen_prediction_ledger" if has_lineup else None,
+            residual_reason="future_validation_pending" if has_lineup else None,
             gate_reason="not_in_operating_formula",
             explainer_reason="context_not_probability" if has_lineup else None,
         ),
@@ -328,9 +449,11 @@ def _evidence(
         "available": has_availability,
         "observed_at": info.get("updated_at"),
         **_all_usage(
-            market="ignored", residual="ignored", gate="ignored",
+            market="ignored",
+            residual="context_only" if has_availability else "missing",
+            gate="ignored",
             explainer="context_only" if has_availability else "missing",
-            residual_reason="no_first_seen_prediction_ledger" if has_availability else None,
+            residual_reason="future_validation_pending" if has_availability else None,
             gate_reason="not_in_operating_formula",
             explainer_reason="context_not_probability" if has_availability else None,
         ),
@@ -369,7 +492,8 @@ def _input_revision_hash(game: dict, evidence: list[dict]) -> str:
         "options": sorted((
             option.get("selection_id"), option.get("offer_id"),
             _number(option.get("배당")), _number(option.get("시장확률")),
-            _number(option.get("모델확률")),
+            _number(option.get("모델확률")), _number(option.get("잔차모델확률")),
+            _number(option.get("최종확률")), option.get("잔차모델해시"),
         ) for option in game.get("options", [])),
         "evidence": sorted((
             row.get("id"), row.get("available"), row.get("observed_at"),
@@ -403,15 +527,20 @@ def build_decision_snapshot(
     built_at: str | None = None,
     pre_registered: bool = False,
     reconstructed_at: str | None = None,
+    probability_artifact: Mapping | None = None,
 ) -> dict:
     """한 경기의 수치·근거·AI 역할을 단일 화면 계약으로 고정한다."""
-    annotate_options(game)
+    annotate_options(game, probability_artifact=probability_artifact)
     # 호출자가 예전 모델 추천을 넣어 둔 경우에도 그것을 신뢰하지 않는다. 운영 선택은
     # 이 함수 안에서 다시 계산해야 구조 AI/LLM이 우회 경로로 최종 판정을 바꿀 수 없다.
     selected = choose_market_reference(game.get("options", []))
     game["추천"] = selected
     market = _number(selected.get("시장확률")) if selected else None
     shadow = _number(selected.get("모델확률")) if selected else None
+    residual_shadow = _number(selected.get("잔차모델확률")) if selected else None
+    final = _number(selected.get("최종확률")) if selected else None
+    applied = bool(selected and selected.get("AI반영") is True)
+    pipeline = game.get("probability_pipeline") or {}
     action = "market_reference" if selected and market is not None else "withhold"
     reversed_pick = selected and selected.get("추천우선순위") == "reversal"
     built_at = built_at or as_of
@@ -443,25 +572,49 @@ def build_decision_snapshot(
             "ai_delta_candidate": (
                 None if market is None or shadow is None else round(shadow - market, 4)
             ),
-            "ai_delta_applied": 0.0,
-            "final": market,
-            "basis": "shin_market" if market is not None else "unavailable",
+            "residual_candidate": residual_shadow,
+            "residual_interval": (
+                selected.get("잔차모델구간") if selected else None
+            ),
+            "residual_delta_candidate": (
+                None if market is None or residual_shadow is None
+                else round(residual_shadow - market, 4)
+            ),
+            "ai_delta_applied": (
+                0.0 if market is None or final is None
+                else round(final - market, 4)
+            ),
+            "final": final,
+            "basis": (
+                selected.get("확률근거") if selected
+                else "unavailable"
+            ),
         },
         "model": {
             "operating_version": OPERATING_MODEL_VERSION,
             "residual_version": SHADOW_MODEL_VERSION,
-            "status": "shadow" if shadow is not None else "unavailable",
-            "validated_edge": False,
-            "promotion_gate": "not_passed",
-            "artifact_hash": None,
+            "probability_pipeline_version": "market-logit-residual-v1",
+            "status": (
+                "operational" if applied
+                else "shadow" if shadow is not None or residual_shadow is not None
+                else "unavailable"
+            ),
+            "validated_edge": applied,
+            "promotion_gate": "passed" if applied else "not_passed",
+            "artifact_hash": pipeline.get("artifact_hash"),
         },
         # label/summary는 전 경기 공통 카탈로그다. 스냅샷에는 경기마다 달라지는 상태만
         # 둬서 웹 데이터가 같은 설명을 수백 번 중복하지 않게 한다.
         "stages": {
             "market": _stage("used" if market is not None else "missing", market is not None),
             "structured_ai": _stage(
-                "selection_gate" if reversed_pick else
-                "shadow" if shadow is not None else "missing"
+                (
+                    "used" if applied
+                    else "selection_gate" if reversed_pick
+                    else "shadow" if shadow is not None
+                    else "missing"
+                ),
+                applied,
             ),
             "availability_ai": _stage(
                 "context_only" if any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence) else "missing"),

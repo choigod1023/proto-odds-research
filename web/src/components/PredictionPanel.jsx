@@ -7,7 +7,50 @@ const reasonParts = (reason) => {
     : { title: "경기력 근거", body: title };
 };
 
-export default function PredictionPanel({ analysis }) {
+const scoreNumber = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(1) : "-";
+};
+
+function ScoreForecast({ forecast }) {
+  if (!forecast || forecast.status !== "shadow") return null;
+  const expected = forecast.expected_scores || {};
+  const top = Array.isArray(forecast.top_scorelines)
+    ? forecast.top_scorelines.slice(0, 3)
+    : [];
+  const unit = forecast.contract?.score_unit_label || expected.unit || "득점";
+  return (
+    <div className="mt-3 rounded-md border border-rule2 bg-panel px-3.5 py-3"
+      aria-label="스코어 분포 전망">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <b className="text-[12px] text-ink">스코어 흐름 전망</b>
+          <p className="mt-1 text-[11px] leading-5 text-ink3">
+            현재 팀 전력 분포의 평균은 홈 {scoreNumber(expected.home)} · 원정 {scoreNumber(expected.away)} {unit}입니다.
+          </p>
+        </div>
+        <span className="rounded border border-rule2 bg-paper px-2 py-1 text-[10px] text-ink3">
+          연구값 · 추천 확률 미반영
+        </span>
+      </div>
+      {!!top.length && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {top.map((row) => (
+            <span key={`${row.home_score}-${row.away_score}`}
+              className="rounded border border-rule2 bg-paper px-2 py-1 text-[10.5px] text-ink2">
+              {row.home_score}:{row.away_score} · {Math.round(Number(row.probability || 0) * 100)}%
+            </span>
+          ))}
+        </div>
+      )}
+      <p className="mt-2 text-[10px] leading-4 text-ink3">
+        선발·결장별 영향량은 사전 원장으로 충분히 검증된 뒤 시나리오에 반영합니다. 임의 난수나 ‘미래상수’는 예측 입력으로 쓰지 않습니다.
+      </p>
+    </div>
+  );
+}
+
+export default function PredictionPanel({ analysis, scoreForecast }) {
   if (!analysis) return null;
   const { prediction, reasons, cautions, signalSummary, decision, commentary } = analysis;
   const probability = prediction?.probability == null ? null : Math.round(prediction.probability * 100);
@@ -56,6 +99,7 @@ export default function PredictionPanel({ analysis }) {
         <p>{commentary}</p>
         <small>수집된 사실을 바꾸지 않고 LLM이 문장만 다듬었습니다.</small>
       </div>}
+      <ScoreForecast forecast={scoreForecast} />
       {!!cautions?.length && <div className="prediction-caution"><b>반대 근거·변수</b><span>{cautions.join(" ")}</span></div>}
       <footer>예상 적중확률은 검증된 보정만 반영하며, 보정이 없으면 시장 기준선으로 복귀합니다. 구매 판단은 직접 합니다.</footer>
     </section>
