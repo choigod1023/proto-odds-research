@@ -1,12 +1,12 @@
 {
- "generated_at": "2026-08-28T17:20:14+09:00",
- "source_generated_at": "2026-08-28T07:46:31+00:00",
- "live_odds_at": "2026-08-28T08:19:53+00:00",
+ "generated_at": "2026-08-28T17:33:06+09:00",
+ "source_generated_at": "2026-08-28T08:25:21+00:00",
+ "live_odds_at": "2026-08-28T08:25:32+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 43,
- "n_primary_candidates": 43,
+ "n_candidates": 40,
+ "n_primary_candidates": 40,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
  "next_kickoff_at": "2026-08-28T18:00:00+09:00",
@@ -606,8 +606,8 @@
      "bin": "1.5-1.8",
      "overround": 1.1504,
      "payout": 86.92,
-     "hist_roi": -0.1392,
-     "hist_n": 12982,
+     "hist_roi": -0.1345,
+     "hist_n": 7380,
      "market_prob": 0.5146,
      "predicted_hit_prob": 0.5146,
      "probability_source": "shin_market_fallback",
@@ -700,8 +700,8 @@
      "bin": "1.5-1.8",
      "overround": 1.1504,
      "payout": 86.92,
-     "hist_roi": -0.1392,
-     "hist_n": 12982,
+     "hist_roi": -0.1345,
+     "hist_n": 7380,
      "market_prob": 0.5146,
      "predicted_hit_prob": 0.5146,
      "probability_source": "shin_market_fallback",
@@ -989,8 +989,8 @@
    "bin": "1.5-1.8",
    "overround": 1.1504,
    "payout": 86.92,
-   "hist_roi": -0.1392,
-   "hist_n": 12982,
+   "hist_roi": -0.1345,
+   "hist_n": 7380,
    "market_prob": 0.5146,
    "predicted_hit_prob": 0.5146,
    "probability_source": "shin_market_fallback",
@@ -1001,70 +1001,6 @@
    "is_market_favorite": true,
    "recommendation_priority": "primary",
    "price_source": "live_odds"
-  },
-  {
-   "event_key": "2026-08-28T18:30:00+09:00|한화|NC",
-   "kickoff_at": "2026-08-28T18:30:00+09:00",
-   "round": 102,
-   "game_no": "7112",
-   "date": "08.28(금) 18:30",
-   "sport": "bs",
-   "league": "KBO",
-   "match": "한화 vs NC",
-   "home": "한화",
-   "away": "NC",
-   "market": "전반언더오버",
-   "market_label": "h U 5.5",
-   "booking": "2-way",
-   "sel": "전반오버",
-   "odds": 1.67,
-   "bin": "1.5-1.8",
-   "overround": 1.1364,
-   "payout": 87.99,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5306,
-   "predicted_hit_prob": 0.5306,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0612,
-   "n_way": 2,
-   "failure_prob": 0.4694,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "published_snapshot"
-  },
-  {
-   "event_key": "2026-08-28T18:30:00+09:00|삼성|KT",
-   "kickoff_at": "2026-08-28T18:30:00+09:00",
-   "round": 102,
-   "game_no": "7084",
-   "date": "08.28(금) 18:30",
-   "sport": "bs",
-   "league": "KBO",
-   "match": "삼성 vs KT",
-   "home": "삼성",
-   "away": "KT",
-   "market": "언더오버",
-   "market_label": "U 11.5",
-   "booking": "2-way",
-   "sel": "오버",
-   "odds": 1.73,
-   "bin": "1.5-1.8",
-   "overround": 1.1367,
-   "payout": 87.97,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5097,
-   "predicted_hit_prob": 0.5097,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0194,
-   "n_way": 2,
-   "failure_prob": 0.4903,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "published_snapshot"
   },
   {
    "event_key": "2026-08-28T18:30:00+09:00|두산|키움",
@@ -1097,38 +1033,6 @@
    "is_market_favorite": true,
    "recommendation_priority": "primary",
    "price_source": "live_odds"
-  },
-  {
-   "event_key": "2026-08-28T18:30:00+09:00|KIA|SSG",
-   "kickoff_at": "2026-08-28T18:30:00+09:00",
-   "round": 102,
-   "game_no": "7102",
-   "date": "08.28(금) 18:30",
-   "sport": "bs",
-   "league": "KBO",
-   "match": "KIA vs SSG",
-   "home": "KIA",
-   "away": "SSG",
-   "market": "전반승무패",
-   "market_label": "h(전반)",
-   "booking": "3-way",
-   "sel": "전반홈",
-   "odds": 1.54,
-   "bin": "1.5-1.8",
-   "overround": 1.1494,
-   "payout": 87.01,
-   "hist_roi": -0.1345,
-   "hist_n": 7380,
-   "market_prob": 0.5899,
-   "predicted_hit_prob": 0.5899,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.2827,
-   "n_way": 3,
-   "failure_prob": 0.4101,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "published_snapshot"
   },
   {
    "event_key": "2026-08-28T19:30:00+09:00|안산그리|대구FC",
@@ -2269,57 +2173,5 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
- "last_recommendation_change": {
-  "changed_at": "2026-08-28T08:05:14+00:00",
-  "reason": "recommendation_status_changed",
-  "previous_revision": "e1d73e9df77cf6b534730a57185cdd5e8e98132c08399ec7539d0664ec2a87cd",
-  "revision": "84c322bb53a260e9298cf7f8b76e9c550646a5c5bced38a36da3fc10a60f329c",
-  "previous": {
-   "action": "pass",
-   "recommended_target": 3,
-   "solo": "102|7180|승무패||원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7121|승패||원정",
-      "102|7247|언더오버|U 7.5|언더"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|7172|승무패||원정",
-      "102|7084|언더오버|U 11.5|오버",
-      "102|7121|승패||원정"
-     ]
-    }
-   ]
-  },
-  "current": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7180|승무패||원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7172|승무패||원정",
-      "102|7055|승①패|승①패|홈2+"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|7172|승무패||원정",
-      "102|7055|승①패|승①패|홈2+",
-      "102|7230|승①패|승①패|홈2+"
-     ]
-    }
-   ]
-  }
- },
- "recommendation_revision": "84c322bb53a260e9298cf7f8b76e9c550646a5c5bced38a36da3fc10a60f329c",
- "refreshed_at": "2026-08-28T08:20:14+00:00"
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
 }
