@@ -575,10 +575,10 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                   value={odds(pick.o["배당"])}
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
-                    decision.recommendationPriority === "fallback" ? "1.50 미만 시장 최유력"
+                    decision.recommendationPriority === "fallback" ? "1.50 미만 최종 적중 보조"
                       : decision.recommendationPriority === "reversal" ? "이전 역배 판정 · 재계산 필요"
-                        : "시장확률 최유력"
-                  } · Shin 시장확률 기준 선택`} />
+                        : "1.50~2.20 최종 적중 1순위"
+                  } · 검증 보정 없으면 Shin 시장값 복귀`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
       </summary>

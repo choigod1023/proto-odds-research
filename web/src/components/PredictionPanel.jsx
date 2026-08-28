@@ -45,7 +45,7 @@ export default function PredictionPanel({ analysis }) {
         <small>수집된 사실을 바꾸지 않고 LLM이 문장만 다듬었습니다.</small>
       </div>}
       {!!cautions?.length && <div className="prediction-caution"><b>반대 근거·변수</b><span>{cautions.join(" ")}</span></div>}
-      <footer>시장 기준 비교와 검증된 AI 우위는 같은 뜻이 아닙니다. 구매 판단은 직접 합니다.</footer>
+      <footer>예상 적중확률은 검증된 보정만 반영하며, 보정이 없으면 시장 기준선으로 복귀합니다. 구매 판단은 직접 합니다.</footer>
     </section>
   );
 }

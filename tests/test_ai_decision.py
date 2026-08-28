@@ -56,20 +56,21 @@ def _game(round_no: int = 91) -> dict:
     }
 
 
-def test_market_reference_ignores_shadow_model_ev():
+def test_hit_probability_ranker_prefers_target_odds_before_low_price_fallback():
     game = _game()
     selected = choose_market_reference(game["options"])
 
-    assert selected["선택"] == "승"
-    assert selected["시장확률"] == 0.66
+    assert selected["선택"] == "언더"
+    assert selected["시장확률"] == 0.55
+    assert selected["예상적중확률"] == 0.55
     assert "제외" not in game["options"][0]
     assert game["options"][0]["추천우선순위"] == "fallback"
     assert game["options"][1]["제외"].startswith("배당 2.20 이상")
     assert game["options"][2]["추천우선순위"] == "primary"
-    assert game["options"][2]["선택근거"] == "shin_market_accuracy_target_band"
+    assert game["options"][2]["선택근거"] == "shin_market_hit_probability"
 
 
-def test_market_probability_beats_the_1_50_price_boundary():
+def test_target_odds_boundary_beats_low_price_market_probability():
     options = [
         {"market": "승패", "label": "", "line": None, "게임번호": "1",
          "선택": "홈", "배당": 1.49, "시장확률": 0.62, "모델확률": 0.60},
@@ -77,7 +78,24 @@ def test_market_probability_beats_the_1_50_price_boundary():
          "선택": "언더", "배당": 1.50, "시장확률": 0.60, "모델확률": 0.61},
     ]
 
-    assert choose_market_reference(options) is options[0]
+    assert choose_market_reference(options) is options[1]
+
+
+def test_validated_final_hit_probability_beats_raw_market_probability():
+    options = [
+        {"market": "승패", "label": "", "line": None, "게임번호": "1",
+         "선택": "홈", "배당": 1.60, "시장확률": 0.61, "최종확률": 0.58,
+         "확률근거": "validated_residual", "AI반영": True},
+        {"market": "언더오버", "label": "8.5", "line": 8.5, "게임번호": "2",
+         "선택": "언더", "배당": 1.65, "시장확률": 0.59, "최종확률": 0.66,
+         "확률근거": "validated_residual", "AI반영": True},
+    ]
+
+    selected = choose_market_reference(options)
+
+    assert selected is options[1]
+    assert selected["추천점수"] == 0.66
+    assert selected["선택근거"] == "validated_final_hit_probability"
 
 
 def test_low_odds_market_reference_remains_as_fallback_without_primary():
@@ -87,7 +105,7 @@ def test_low_odds_market_reference_remains_as_fallback_without_primary():
 
     assert selected["선택"] == "승"
     assert selected["추천우선순위"] == "fallback"
-    assert selected["선택근거"] == "shin_market_accuracy_low_odds"
+    assert selected["선택근거"] == "shin_market_hit_probability"
 
 
 def test_moderate_underdog_is_observed_but_does_not_replace_market_favorite():
@@ -101,8 +119,8 @@ def test_moderate_underdog_is_observed_but_does_not_replace_market_favorite():
     assert game["options"][1]["이변후보"] is True
     assert game["options"][1]["이변점수"] == 0.21
     assert "검증 전 모델" in game["options"][1]["이변근거"]
-    assert selected["선택"] == "승"
-    assert selected["추천우선순위"] == "fallback"
+    assert selected["선택"] == "언더"
+    assert selected["추천우선순위"] == "primary"
     assert not selected.get("최종전환")
 
 
@@ -114,11 +132,11 @@ def test_shadow_underdog_snapshot_keeps_market_favorite_and_zero_ai_delta():
     snapshot = build_decision_snapshot(
         game, as_of="2026-08-27T09:00:00+09:00")
 
-    assert game["추천"] is game["options"][0]
-    assert snapshot["selection_id"] == game["options"][0]["selection_id"]
+    assert game["추천"] is game["options"][2]
+    assert snapshot["selection_id"] == game["options"][2]["selection_id"]
     assert snapshot["gate_codes"] == []
-    assert snapshot["probability"]["market"] == 0.66
-    assert snapshot["probability"]["final"] == 0.66
+    assert snapshot["probability"]["market"] == 0.55
+    assert snapshot["probability"]["final"] == 0.55
     assert snapshot["probability"]["ai_delta_applied"] == 0.0
     assert snapshot["stages"]["structured_ai"]["status"] == "shadow"
 
@@ -130,11 +148,11 @@ def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():
     snapshot = build_decision_snapshot(
         game, as_of="2026-08-27T09:00:00+09:00", explanation_kind="llm_assisted")
 
-    assert game["추천"]["선택"] == "승"
+    assert game["추천"]["선택"] == "언더"
     assert snapshot["selection_id"] == game["추천"]["selection_id"]
-    assert snapshot["probability"]["market"] == 0.66
-    assert snapshot["probability"]["ai_candidate"] == 0.31
-    assert snapshot["probability"]["ai_delta_candidate"] == -0.35
+    assert snapshot["probability"]["market"] == 0.55
+    assert snapshot["probability"]["ai_candidate"] == 0.75
+    assert snapshot["probability"]["ai_delta_candidate"] == 0.2
     assert snapshot["probability"]["ai_delta_applied"] == 0.0
     assert snapshot["probability"]["final"] == snapshot["probability"]["market"]
     assert snapshot["model"]["status"] == "shadow"

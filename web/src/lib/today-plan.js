@@ -1,4 +1,5 @@
-import { eligibleFinalSelections } from "./recommendation-policy.js";
+import { eligibleFinalSelections, hitProbabilityOf,
+  recommendationPriority } from "./recommendation-policy.js";
 import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -45,20 +46,21 @@ function byNextKickoff(a, b, year) {
 }
 
 function byLegQuality(a, b, year) {
+  const priorityOrder = recommendationPriority(b) - recommendationPriority(a);
   const aCalibrated = calibratedLegProbability(a);
   const bCalibrated = calibratedLegProbability(b);
   const aOdds = Number(a?.odds || 0);
   const bOdds = Number(b?.odds || 0);
   const conservativeOrder = (bCalibrated.lower ?? 0) - (aCalibrated.lower ?? 0);
   const calibratedOrder = (bCalibrated.estimate ?? 0) - (aCalibrated.estimate ?? 0);
-  const aProbability = Number(a?.market_prob);
-  const bProbability = Number(b?.market_prob);
+  const aProbability = hitProbabilityOf(a);
+  const bProbability = hitProbabilityOf(b);
   const probabilityOrder =
     (Number.isFinite(bProbability) ? bProbability : 0) -
     (Number.isFinite(aProbability) ? aProbability : 0);
   const returnOrder = (bCalibrated.lower ?? 0) * bOdds -
     (aCalibrated.lower ?? 0) * aOdds;
-  return conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
+  return priorityOrder || conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
     Number(a.overround || 99) - Number(b.overround || 99) ||
     byNextKickoff(a, b, year);
 }
@@ -90,8 +92,8 @@ const validProbability = (value) => {
 };
 
 export function calibratedLegProbability(candidate) {
-  const market = validProbability(candidate?.market_prob);
-  return { estimate: market, lower: market, n: null };
+  const finalProbability = validProbability(hitProbabilityOf(candidate));
+  return { estimate: finalProbability, lower: finalProbability, n: null };
 }
 
 export function pickNextLegs(candidates, bins, year, target = null) {
@@ -121,7 +123,7 @@ export function pickNextLegs(candidates, bins, year, target = null) {
     for (const candidate of pools[index]) {
       const key = eventKey(candidate, year);
       if (used.has(key)) continue;
-      const probability = Number(candidate.market_prob);
+      const probability = hitProbabilityOf(candidate);
       const nextHit = Number.isFinite(probability) && probability > 0 && probability < 1
         ? hitEstimate * probability : 0;
       used.add(key);
@@ -142,6 +144,9 @@ export function ticketMetrics(picks) {
   const probabilities = picks.map((pick) => validProbability(pick.market_prob));
   const marketHit = probabilities.every((probability) => probability != null)
     ? probabilities.reduce((total, probability) => total * probability, 1) : null;
+  const finalProbabilities = picks.map((pick) => validProbability(hitProbabilityOf(pick)));
+  const finalHit = finalProbabilities.every((probability) => probability != null)
+    ? finalProbabilities.reduce((total, probability) => total * probability, 1) : null;
   const calibrated = picks.map(calibratedLegProbability);
   const calibratedHit = calibrated.every(({ estimate }) => estimate != null)
     ? calibrated.reduce((total, { estimate }) => total * estimate, 1) : null;
@@ -150,15 +155,20 @@ export function ticketMetrics(picks) {
   const samples = calibrated.map(({ n }) => n).filter((n) => Number.isFinite(n) && n > 0);
   const result = {
     actual_odds: Number(actualOdds.toFixed(2)),
-    probability_basis: "서로 다른 경기의 Shin 시장확률 독립 가정 · 검증된 잔차 계수 0",
+    probability_basis: picks.every((pick) => pick?.has_validated_edge === true)
+      ? "서로 다른 경기의 검증 보정 최종확률 독립 가정"
+      : "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정",
     independence_assumption: true,
   };
   if (marketHit != null) {
-    result.independent_hit_est = Number(marketHit.toFixed(5));
+    result.market_reference_hit_est = Number(marketHit.toFixed(5));
     result.market_reference_roi = Number((marketHit * actualOdds - 1).toFixed(4));
-    result.hit_est = Number(marketHit.toFixed(5));
-    result.upset_risk = Number((1 - marketHit).toFixed(5));
-    result.expected_roi = Number((marketHit * actualOdds - 1).toFixed(4));
+  }
+  if (finalHit != null) {
+    result.independent_hit_est = Number(finalHit.toFixed(5));
+    result.hit_est = Number(finalHit.toFixed(5));
+    result.upset_risk = Number((1 - finalHit).toFixed(5));
+    result.expected_roi = Number((finalHit * actualOdds - 1).toFixed(4));
   }
   if (calibratedHit != null) {
     result.calibrated_hit_est = Number(calibratedHit.toFixed(5));
@@ -169,8 +179,10 @@ export function ticketMetrics(picks) {
     result.conservative_expected_roi = Number((conservativeHit * actualOdds - 1).toFixed(4));
   }
   result.calibration_min_n = samples.length ? Math.min(...samples) : null;
-  result.has_validated_edge = false;
-  result.probability_source = "shin_market";
+  result.has_validated_edge = picks.length > 0 &&
+    picks.every((pick) => pick?.has_validated_edge === true);
+  result.probability_source = result.has_validated_edge
+    ? "validated_final_probability" : "shin_market_fallback";
   return result;
 }
 
@@ -234,7 +246,7 @@ export function recommendationFromPlans(plans) {
     best = [...balanced].sort((a, b) =>
       metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
         byRiskAdjustedQuality(a, b))[0];
-    why = "경기별 시장 최유력으로 만든 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
+    why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
@@ -403,7 +415,7 @@ export function availableToday(today, now = Date.now()) {
     const picks = pickNextLegs(candidates, bins, today.year, plan.target);
     if (!picks) {
       return { ...plan, ok: false,
-        why: "경기별 시장 최유력 중 1.50~2.20 미만 시작 전 경기만으로 조합할 수 없다" };
+        why: "1.50~2.20 미만 최종 적중 우선 경기만으로 조합할 수 없다" };
     }
     return {
       ...plan,

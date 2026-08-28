@@ -15,6 +15,16 @@ const oddsOf = (selection) => Number(selection?.odds ?? selection?.["배당"]);
 const probabilityOf = (selection) => Number(
   selection?.market_prob ?? selection?.["시장확률"],
 );
+export const hitProbabilityOf = (selection) => {
+  const finalProbability = Number(
+    selection?.predicted_hit_prob ?? selection?.["예상적중확률"] ??
+      selection?.final_probability ?? selection?.["최종확률"],
+  );
+  if (Number.isFinite(finalProbability) && finalProbability > 0 && finalProbability < 1) {
+    return finalProbability;
+  }
+  return probabilityOf(selection);
+};
 const modelProbabilityOf = (selection) => Number(
   selection?.model_prob ?? selection?.["모델확률"],
 );
@@ -117,8 +127,13 @@ export function qualifiedUnderdogSelections(selections) {
 
 /** 경기에서 화면·설명·오늘 조합이 함께 따라야 할 최종 선택 하나를 반환한다. */
 export function finalRecommendedSelection(selections) {
-  // 이변 후보는 shadow 진단이다. 외부검증 전에는 운영 방향을 바꾸지 않는다.
-  return [...eligibleAutoSelections(selections)].sort((a, b) =>
+  // 1.50~2.20 미만을 먼저 확보한 뒤 검증 보정까지 끝난 최종 예상 적중확률로
+  // 정렬한다. 해당 가격대가 없을 때만 1.50 미만을 보조 선택으로 남긴다.
+  const eligible = eligibleAutoSelections(selections);
+  const primary = eligible.filter((selection) => recommendationPriority(selection) === 1);
+  const pool = primary.length ? primary : eligible;
+  return [...pool].sort((a, b) =>
+    hitProbabilityOf(b) - hitProbabilityOf(a) ||
     probabilityOf(b) - probabilityOf(a) ||
     oddsOf(a) - oddsOf(b) ||
     String(a?.selection_id || "").localeCompare(String(b?.selection_id || ""))

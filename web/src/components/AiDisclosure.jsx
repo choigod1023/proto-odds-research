@@ -21,7 +21,7 @@ const reasonText = {
 
 const gateText = {
   no_eligible_market_reference: "유효한 배당·시장확률을 갖춘 자동 비교 후보가 없습니다.",
-  lower_odds_fallback: "시장확률 최유력이 1.50 미만입니다. 경기 방향은 유지하되 목표조합 가격대에는 넣지 않습니다.",
+  lower_odds_fallback: "1.50~2.20 후보가 없어 1.50 미만 최종 적중 1순위를 보조로 표시합니다.",
   qualified_market_reversal: "이전 역배 전환 판정입니다. 현재 정책에서는 시장 최유력으로 다시 계산합니다.",
   not_auto_recommendable: "시장 분석은 유지하지만 자동 투입 안전조건을 통과하지 못했습니다.",
   no_operating_selection: "운영 판정이 없어 선택을 보류합니다.",
@@ -36,7 +36,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
       <div className="ai-method-heading">
         <div>
           <p>현재 AI 사용 범위</p>
-          <h2 id={`${id}-title`}>AI는 시장확률과 추천 방향을 바꾸지 않고, 반대 신호를 설명합니다</h2>
+          <h2 id={`${id}-title`}>최종 추천은 예상 적중확률로 고르고, 검증된 AI만 확률에 반영합니다</h2>
         </div>
         {showLink && <a href="research.html#ai-model">검증 방법 보기</a>}
       </div>
@@ -53,7 +53,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
         ))}
       </ol>
       <p className="ai-method-foot">
-        최종 방향은 Shin 시장확률 최유력, 최종 확률도 같은 시장값입니다. 수치 AI는 검증 전까지 관찰 신호이며 확률 가산은 0%p입니다.
+        1.50~2.20 후보를 먼저 확보한 뒤 최종 예상 적중확률이 높은 선택을 고릅니다. 검증된 AI 보정이 없으면 Shin 시장값으로 복귀합니다.
       </p>
     </section>
   );
