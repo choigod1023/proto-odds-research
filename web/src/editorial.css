@@ -257,3 +257,17 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .bet-cart-summary { grid-template-columns: repeat(2, 1fr); }
   .bet-cart-summary > label { grid-column: 1 / -1; }
 }
+
+
+.live-baseball-situation { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(120px, 1fr) minmax(120px, 1fr); align-items: center; gap: 14px; padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--color-sev2) 28%, transparent); }
+.live-baseball-situation > div:not(.base-state) { display: grid; gap: 2px; }
+.live-baseball-situation small { color: var(--color-ink3); font-size: 9.5px; }
+.live-baseball-situation b { color: var(--color-ink); font-size: 13px; }
+.live-baseball-situation div > span { color: var(--color-ink3); font-size: 10px; }
+.base-state { display: flex; gap: 7px; }
+.base-state span { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-paper); color: var(--color-ink3); font-size: 9px; }
+.base-state span.is-occupied { border-color: var(--color-sev2); background: var(--color-sev2); color: var(--color-paper); font-weight: 750; }
+@media (max-width: 700px) {
+  .live-baseball-situation { grid-template-columns: 1fr 1fr; text-align: left; }
+  .base-state { grid-column: 1 / -1; justify-content: center; }
+}

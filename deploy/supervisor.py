@@ -123,7 +123,7 @@ PUBLISH_LIGHT = [
 
 # 실시간 점수 — 무거운 PUBLISH 와 분리한다. CSV 를 안 읽고 API 만 때리므로 가볍다.
 LIVE = [sys.executable, "-u", "src/live_scores.py"]
-LIVE_EVERY = 180           # 3분
+LIVE_EVERY = 30            # 30초
 LIVE_PORT = 8080
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
@@ -469,7 +469,7 @@ def run_publish() -> None:
 
 
 def run_live() -> None:
-    """3분마다 실시간 점수를 갱신한다. 실패해도 다음 주기에 다시 한다."""
+    """30초마다 실시간 점수와 야구 상황을 갱신한다. 실패해도 다음 주기에 다시 한다."""
     while True:
         try:
             r = subprocess.run(LIVE, cwd=REPO, capture_output=True,
@@ -501,8 +501,8 @@ def serve_live() -> None:
     class H(BaseHTTPRequestHandler):
         def _cors(self):
             self.send_header("Access-Control-Allow-Origin", "*")
-            # 3분마다 바뀌므로 캐시를 길게 두면 실시간이 아니게 된다
-            self.send_header("Cache-Control", "public, max-age=60")
+            # 30초마다 바뀌므로 브라우저·프록시 캐시를 짧게 유지한다
+            self.send_header("Cache-Control", "public, max-age=5")
 
         def do_OPTIONS(self):                          # noqa: N802
             self.send_response(204)

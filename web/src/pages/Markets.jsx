@@ -42,12 +42,22 @@ function usePoll(url, ms) {
         .catch(() => {});
     load();
     const t = setInterval(load, ms);
-    return () => { stop = true; clearInterval(t); };
+    const onVisible = () => { if (document.visibilityState === "visible") load(); };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", load);
+    window.addEventListener("online", load);
+    return () => {
+      stop = true;
+      clearInterval(t);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", load);
+      window.removeEventListener("online", load);
+    };
   }, [url, ms]);
   return data;
 }
 
-const useLive = () => usePoll(LIVE_URL, 60000);
+const useLive = () => usePoll(LIVE_URL, 15000);
 const useLiveOdds = () => usePoll(ODDS_URL, 120000);
 
 const SCORE_UNIT_LABEL = {
@@ -467,6 +477,26 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
+function BaseballSituation({ live }) {
+  const bases = live?.bases || {};
+  const countKnown = [live?.balls, live?.strikes, live?.outs].every((value) => value != null);
+  const occupied = [bases.first, bases.second, bases.third].filter((base) => base?.occupied);
+  return (
+    <div className="live-baseball-situation" aria-label="현재 야구 경기 상황">
+      <div className="base-state" aria-label={occupied.length ? `주자 ${occupied.length}명` : "주자 없음"}>
+        {[['third', '3루'], ['second', '2루'], ['first', '1루']].map(([key, label]) => (
+          <span key={key} className={bases[key]?.occupied ? "is-occupied" : ""}
+            title={bases[key]?.runner || `${label} 주자 없음`}>{label}</span>
+        ))}
+      </div>
+      <div><small>현재 타자</small><b>{live?.batter || "확인 중"}</b>
+        {countKnown && <span>B {live.balls} · S {live.strikes} · O {live.outs}</span>}</div>
+      <div><small>현재 투수</small><b>{live?.pitcher || "확인 중"}</b>
+        {live?.next_batter && <span>다음 {live.next_batter}</span>}</div>
+    </div>
+  );
+}
+
 function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
   activeToday, cart, onCartToggle }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
@@ -579,7 +609,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           <div className="live-score-panel" role="status" aria-live="polite">
             <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
             <strong>{g.home} <em>{score[0]}</em><i>:</i><em>{score[1]}</em> {g.away}</strong>
-            <small>실시간 점수는 1분마다 자동 갱신됩니다.</small>
+            <small>새로고침 없이 약 30초마다 자동 갱신됩니다.</small>
+            {g.sport === "bs" && <BaseballSituation live={lv} />}
           </div>
         )}
         {phase === "finished" && (
