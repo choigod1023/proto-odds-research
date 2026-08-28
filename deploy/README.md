@@ -100,7 +100,7 @@ fly secrets set GITHUB_TOKEN=<토큰> -a proto-odds-collector
 
 ## 실시간 점수 (2026-07-31 추가)
 
-`src/live_scores.py` 가 3분마다 네이버 스포츠 API 에서 KBO/MLB/NPB/K리그 점수를 받아
+`src/live_scores.py` 가 30초마다 네이버 스포츠 API 에서 KBO/MLB/NPB/K리그 점수를 받고, 진행 중인 야구는 현재 타자·투수·주자·카운트까지 받아
 `docs/data/live_scores.json` 을 쓴다. 머신이 그 파일 하나를 직접 서빙한다:
 
 ```

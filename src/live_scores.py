@@ -36,6 +36,7 @@ OUT = ROOT / "docs" / "data" / "live_scores.json"
 TEAM_MAP = ROOT / "data" / "processed" / "team_map.json"
 
 API = "https://api-gw.sports.naver.com/schedule/games"
+POLLING_API = API + "/{game_id}/game-polling"
 KST = timezone(timedelta(hours=9))
 
 # 프로토가 파는 것 중 네이버가 커버하는 리그. game_detail.CATS 와 같은 표기.
@@ -83,6 +84,44 @@ def fetch(s: requests.Session, league: str, day: str) -> list[dict]:
         return []
 
 
+def baseball_situation(payload: dict) -> dict:
+    """경기 폴링 응답에서 현재 타석과 주자 상황만 정규화한다."""
+    relay = (payload.get("result") or {}).get("textRelayData") or {}
+    base_info = relay.get("baseInfo") or {}
+    count = base_info.get("ballCount") or {}
+    if not count:
+        return {}
+    batting_side = "away" if str(relay.get("homeOrAway")) == "0" else "home"
+    pitcher = base_info.get("homePitcher") if batting_side == "away" else base_info.get("awayPitcher")
+    bases = {}
+    for number, key in ((1, "first"), (2, "second"), (3, "third")):
+        runner = count.get(f"base{number}") or None
+        runner_id = count.get(f"base{number}Id") or None
+        bases[key] = {"occupied": bool(runner or runner_id), "runner": runner,
+                      "runner_id": runner_id}
+    next_player = base_info.get("nextPlayer") or {}
+    return {
+        "batting_side": batting_side,
+        "batter": count.get("batter") or None,
+        "batter_id": count.get("batterId") or None,
+        "pitcher": pitcher or None,
+        "balls": count.get("b"), "strikes": count.get("s"), "outs": count.get("o"),
+        "bases": bases,
+        "next_batter": next_player.get("player") or None,
+        "on_deck": next_player.get("nextPlayer") or None,
+    }
+
+
+def fetch_situation(s: requests.Session, game_id: str) -> dict:
+    try:
+        r = s.get(POLLING_API.format(game_id=game_id), timeout=12)
+        r.raise_for_status()
+        return baseball_situation(r.json())
+    except Exception as e:                            # noqa: BLE001
+        print(f"  상세 {game_id} 실패: {type(e).__name__}", flush=True)
+        return {}
+
+
 def main() -> int:
     s = _session()
     alias = _aliases()
@@ -118,6 +157,8 @@ def main() -> int:
                     "status_text": g.get("statusInfo"),
                     "finished": st in ("RESULT", "END"),
                 }
+                if st == "STARTED" and league in ("KBO", "MLB", "NPB") and rec["game_id"]:
+                    rec.update(fetch_situation(s, str(rec["game_id"])))
                 # 경기 전이면 0-0 이 찍혀 나온다 — 점수처럼 보이면 안 된다
                 if st == "BEFORE":
                     rec["home_score"] = rec["away_score"] = None
