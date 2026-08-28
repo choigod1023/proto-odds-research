@@ -273,11 +273,21 @@ function GameList({ data, grades, caps, stale, today }) {
       });
   }, [pool, f, selectedDate]);
 
-  const phaseCounts = games.reduce((counts, game) => {
+  const phaseCounts = pool.filter((g) => {
+    const q = f.q.trim().toLowerCase();
+    return (!f.lg || g.league === f.lg) &&
+      (!f.rd || String(g.round) === f.rd) &&
+      (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
+      (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q));
+  }).reduce((counts, game) => {
     const phase = gamePhase(game);
     counts[phase] = (counts[phase] || 0) + 1;
     return counts;
   }, {});
+
+  const selectPhase = (phase) => {
+    setF((current) => ({ ...current, st: current.st === phase ? "" : phase }));
+  };
 
   const rows = [];
   let cur = null, n = 0;
@@ -329,11 +339,11 @@ function GameList({ data, grades, caps, stale, today }) {
     <>
       <div className="match-section-title">
         <h2>경기 목록</h2>
-        <div className="match-phase-counts" aria-label="경기 상태별 개수">
-          <b className="is-live">진행 중 {phaseCounts.live || 0}</b>
-          <b>예정 {phaseCounts.upcoming || 0}</b>
-          <b>종료 {phaseCounts.finished || 0}</b>
-          <b>전체 {n}</b>
+        <div className="match-phase-counts" aria-label="경기 상태 필터">
+          <button type="button" className="is-live" aria-pressed={f.st === "live"} onClick={() => selectPhase("live")}>진행 중 {phaseCounts.live || 0}</button>
+          <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
+          <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
+          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
         </div>
       </div>
       {stale ? (
