@@ -219,12 +219,12 @@ export function recommendationFromPlans(plans) {
     referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) > 0);
   const challenge = available.filter((plan) =>
     metricNumber(plan, "target", 99) <= DAILY_CHALLENGE_MAX_TARGET &&
-    referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
+    referenceMetric(plan, "calibrated_expected_roi", "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
     referenceMetric(plan, "independent_hit_est", "calibrated_hit_est", 0) >=
       (DAILY_CHALLENGE_MIN_HIT[metricNumber(plan, "target", 99)] ?? Number.POSITIVE_INFINITY));
   const byRiskAdjustedQuality = (a, b) =>
-    referenceMetric(b, "market_reference_roi", "conservative_expected_roi", -99) -
-      referenceMetric(a, "market_reference_roi", "conservative_expected_roi", -99) ||
+    referenceMetric(b, "calibrated_expected_roi", "conservative_expected_roi", -99) -
+      referenceMetric(a, "calibrated_expected_roi", "conservative_expected_roi", -99) ||
     referenceMetric(b, "independent_hit_est", "calibrated_hit_est", 0) -
       referenceMetric(a, "independent_hit_est", "calibrated_hit_est", 0);
 
@@ -239,14 +239,14 @@ export function recommendationFromPlans(plans) {
   } else if (challenge.length) {
     action = "challenge";
     const bestChallengeRoi = Math.max(...challenge.map((plan) =>
-      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99)));
+      referenceMetric(plan, "calibrated_expected_roi", "conservative_expected_roi", -99)));
     const balanced = challenge.filter((plan) =>
-      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >=
+      referenceMetric(plan, "calibrated_expected_roi", "conservative_expected_roi", -99) >=
         bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
     best = [...balanced].sort((a, b) =>
       metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
         byRiskAdjustedQuality(a, b))[0];
-    why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
+    why = "경기 내적 최종확률로 고른 3배 조합이 기대손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];

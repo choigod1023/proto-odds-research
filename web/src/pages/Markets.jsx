@@ -281,7 +281,7 @@ function TodayListControls({ activeToday }) {
           shouldPass={shouldPass} />
       </div>
       <div className="mt-2 border-t border-rule2 pt-2 text-[10.5px] text-ink3">
-        표시 확률은 배당에서 역산한 시장 추정치이며, 구조 모델의 반대 방향은 관찰 근거로만 남깁니다. {" "}
+        표시 확률은 구조모델 70%·시장 앵커 30%이며, 야구는 선발·타순·결장 확정도까지 반영합니다. {" "}
         <a className="font-semibold text-signal" href="research.html#evolutionary-selector">검증 결과 보기 →</a>
       </div>
     </div>
@@ -598,7 +598,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {" · "}<span className="tnum">{odds(pick.o["배당"])}</span>
             {" · 시장 "}<span className="tnum">{pct(pick.o["시장확률"])}</span>
             {" · 구조 모델 차이 "}<span className="tnum">{sgn(Number(pick.o["모델확률"]) - Number(pick.o["시장확률"]))}p</span>
-            <p className="text-[10.5px] leading-5 text-ink3">전환 관문을 통과해 기존 정배를 제거하고 이 선택 하나로 교체했습니다. 표시 확률은 모델값이 아니라 해당 역배의 Shin 시장확률입니다.</p>
+            <p className="text-[10.5px] leading-5 text-ink3">경기 내적 최종확률이 시장 최유력을 넘어 기존 정배 대신 이 선택으로 전환했습니다.</p>
           </div>
         )}
         {wait && (
@@ -631,7 +631,7 @@ function OptTable({ opts, grades, tie, pick, recalculating = false }) {
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
     <table className="w-full border-collapse text-[12.5px]">
-      <caption className="sr-only">프로토 배당, 시장확률, 검증 전 구조 AI 수치와 반영 상태</caption>
+      <caption className="sr-only">프로토 배당, 시장확률, 구조 AI와 경기 내적요소 반영 상태</caption>
       <thead><tr>
         {/* 용지 대조용 게임번호. 화면을 보면서 실제 프로토 용지에 마킹하려면
             이 번호가 있어야 한다 — 없으면 팀 이름으로 용지를 다시 뒤져야 한다.
@@ -675,7 +675,7 @@ function OptTable({ opts, grades, tie, pick, recalculating = false }) {
               <td className={`${td} text-[11.5px]`}>
                 {recalculating && <span className="text-ink3">재계산 대기</span>}
                 {pick && !pick.tie && pick.o === o && (
-                  <span className="text-ink">시장 기준</span>)}
+                  <span className="text-ink">내적요소 기준</span>)}
                 {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
 

@@ -14,21 +14,21 @@ const PROMOTED_ARTIFACT_HASHES = new Set();
 export const AI_STAGE_CATALOG = [
   {
     id: "market",
-    label: "시장 기준선",
+    label: "시장 앵커",
     status: "used",
-    summary: "동일 시점 배당을 Shin 방식으로 마진 제거해 예상 적중확률의 기준선으로 씁니다.",
+    summary: "동일 시점 배당은 최종 확률의 30% 안정화 앵커로 사용합니다.",
   },
   {
     id: "structured_ai",
     label: "수치 AI 후보",
-    status: "shadow",
-    summary: "구조 모델은 미래 검증 관문을 통과한 계수만 최종 적중확률에 반영합니다.",
+    status: "used",
+    summary: "팀 득점·실점 구조 모델을 최종 확률의 70% 주축으로 반영합니다.",
   },
   {
     id: "availability_ai",
     label: "선수·출전 정보 AI",
-    status: "context_only",
-    summary: "공식 발표에서 변화를 구조화하되 최초 관측 시각과 대체선수 영향이 검증되기 전에는 설명에만 씁니다.",
+    status: "used",
+    summary: "야구 선발 지표·타순 OPS·결장 차이를 확정도에 따라 제한 보정합니다.",
   },
   {
     id: "language_ai",
@@ -429,7 +429,11 @@ export function buildDecisionViewModel(game, option = null) {
     && raw?.model?.promotion_gate === "passed"
     && !!raw?.model?.operating_version
     && PROMOTED_ARTIFACT_HASHES.has(raw?.model?.artifact_hash);
-  const canApply = modelStatus === "operational" && validatedEdge;
+  const userDirectedInternalFirst = raw?.model?.operating_version === "internal-context-blend-v1"
+    && raw?.model?.promotion_gate === "user_directed_internal_first"
+    && raw?.probability?.basis === "internal_context_blend_v1";
+  const canApply = modelStatus === "operational"
+    && (validatedEdge || userDirectedInternalFirst);
   const aiCandidate = action === "market_reference"
     ? finite(raw?.probability?.ai_candidate) : null;
   // 검증되지 않은 AI가 final을 바꿔 담은 잘못된 JSON도 화면에서 fail-close한다.
@@ -461,12 +465,13 @@ export function buildDecisionViewModel(game, option = null) {
       aiDeltaApplied: appliedDelta,
       final: finalProbability,
       basis: finalProbability !== null
-        ? (canApply ? "validated_ai_residual" : "shin_market")
+        ? (canApply ? raw?.probability?.basis || "internal_context_blend_v1" : "shin_market")
         : "unavailable",
     },
     model: {
       status: modelStatus,
-      validatedEdge: canApply,
+      validatedEdge,
+      userDirectedInternalFirst,
       operatingVersion: raw?.model?.operating_version || "shin-market-anchor-v1",
       residualVersion: raw?.model?.residual_version || null,
     },

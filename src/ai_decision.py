@@ -1,8 +1,8 @@
 """시장 기준 예측과 AI 역할을 하나의 불변 스냅샷으로 만든다.
 
 수치 모델, 선수·출전 자료, 생성형 AI가 한 화면에 함께 나오더라도 실제 확률에
-무엇이 들어갔는지를 숨기지 않는 것이 목적이다. 현재 검증된 운영식은
-``p_final = p_shin_market`` 이므로 구조 모델의 차이는 shadow 로만 기록한다.
+무엇이 들어갔는지를 숨기지 않는 것이 목적이다. 구조 득점모델과 당일 선수 정보를
+주축으로 쓰고 Shin 시장확률은 제한적인 안정화 앵커로 둔다.
 추천 정렬은 시장확률 필드를 직접 보지 않고 이 최종확률을 사용한다. 이후 검증된
 잔차모델이 승격되면 같은 정렬 계약 안에서 보정된 적중확률이 자동으로 우선된다.
 """
@@ -20,11 +20,13 @@ from recommendation_policy import (
     recommendation_priority,
     underdog_score,
 )
+from internal_probability import (INTERNAL_MODEL_WEIGHT, MARKET_ANCHOR_WEIGHT,
+                                  internal_probability)
 
 
 SCHEMA_VERSION = "decision-snapshot-v2"
-OPERATING_MODEL_VERSION = "shin-market-anchor-v1"
-SHADOW_MODEL_VERSION = "score-distribution-shadow-v1"
+OPERATING_MODEL_VERSION = "internal-context-blend-v1"
+SHADOW_MODEL_VERSION = "score-distribution-v1"
 
 USAGE_CONSUMERS = ("market_baseline", "ai_residual", "decision_gate", "explainer")
 USAGE_STATUSES = {"used", "shadow", "context_only", "ignored", "missing"}
@@ -124,9 +126,15 @@ def annotate_options(game: dict) -> None:
         option["selection_id"] = selection_id(game, option)
         option["offer_id"] = offer_id(game, option)
         market = _number(option.get("시장확률"))
-        option["최종확률"] = None if market is None else round(market, 4)
-        option["확률근거"] = "shin_market" if market is not None else "unavailable"
-        option["AI반영"] = False
+        estimate = internal_probability(game, option)
+        option["최종확률"] = estimate["final"]
+        option["내적확률"] = estimate.get("internal")
+        option["확률근거"] = estimate["basis"]
+        option["내적요소"] = estimate
+        option["AI반영"] = (
+            market is not None and estimate["final"] is not None
+            and abs(estimate["final"] - market) >= 0.0001
+        )
         model = _number(option.get("모델확률"))
         option["AI잔차"] = (
             None if market is None or model is None else round(model - market, 4)
@@ -155,6 +163,7 @@ def choose_market_reference(options: list[dict]) -> dict | None:
     그 후보군을 먼저 쓰고, 없을 때만 1.50 미만 최유력을 보조 선택으로 남긴다.
     """
     favorite_by_market: dict[tuple, float] = {}
+    best_final_by_market: dict[tuple, float] = {}
     for option in options:
         # 같은 문서를 재계산할 때 예전 배당에서 붙은 제외 사유가 남지 않게 한다.
         option.pop("제외", None)
@@ -169,6 +178,9 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         key = (option.get("market"), option.get("label"), option.get("line"),
                option.get("게임번호"))
         favorite_by_market[key] = max(favorite_by_market.get(key, 0.0), probability)
+        final = hit_probability(option)
+        if final is not None:
+            best_final_by_market[key] = max(best_final_by_market.get(key, 0.0), final)
 
     eligible: list[dict] = []
     for option in options:
@@ -186,6 +198,15 @@ def choose_market_reference(options: list[dict]) -> dict | None:
             option.get("market"), option.get("배당"), probability,
             favorite_by_market.get(key),
         )
+        internal_reversal = (
+            reason is not None and "시장 최유력" in reason
+            and option.get("AI반영") is True
+            and hit_probability(option) is not None
+            and hit_probability(option) >= best_final_by_market.get(key, 1.0) - 1e-9
+            and hit_probability(option) >= 0.50
+        )
+        if internal_reversal:
+            reason = None
         if reason:
             option["제외"] = reason
             continue
@@ -199,8 +220,10 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         option["예상적중확률"] = round(predicted_hit, 4)
         option["추천점수"] = round(predicted_hit, 4)
         option["추천우선순위"] = (
+            "reversal" if internal_reversal else
             "primary" if recommendation_priority(option.get("배당")) == 1 else "fallback"
         )
+        option["최종전환"] = internal_reversal
         source = str(option.get("확률근거") or "shin_market")
         option["선택근거"] = (
             "validated_final_hit_probability"
@@ -211,7 +234,8 @@ def choose_market_reference(options: list[dict]) -> dict | None:
     if not eligible:
         return None
     primary = [
-        option for option in eligible if option.get("추천우선순위") == "primary"
+        option for option in eligible
+        if option.get("추천우선순위") in {"primary", "reversal"}
     ]
     pool = primary or eligible
     return max(pool, key=lambda option: (
@@ -301,10 +325,9 @@ def _evidence(
         "id": "team_performance",
         "available": has_form,
         **_all_usage(
-            market="ignored", residual="shadow" if has_form else "missing",
-            gate="ignored", explainer="used" if has_form else "missing",
-            residual_reason="model_not_promoted" if has_form else None,
-            gate_reason="market_anchor_policy",
+            market="ignored", residual="used" if has_form else "missing",
+            gate="used" if has_form else "missing",
+            explainer="used" if has_form else "missing",
         ),
     })
 
@@ -314,11 +337,9 @@ def _evidence(
         "available": has_lineup,
         "observed_at": info.get("updated_at"),
         **_all_usage(
-            market="ignored", residual="ignored", gate="ignored",
-            explainer="context_only" if has_lineup else "missing",
-            residual_reason="no_first_seen_prediction_ledger" if has_lineup else None,
-            gate_reason="not_in_operating_formula",
-            explainer_reason="context_not_probability" if has_lineup else None,
+            market="ignored", residual="used" if has_lineup else "missing",
+            gate="used" if has_lineup else "missing",
+            explainer="used" if has_lineup else "missing",
         ),
     })
 
@@ -328,11 +349,9 @@ def _evidence(
         "available": has_availability,
         "observed_at": info.get("updated_at"),
         **_all_usage(
-            market="ignored", residual="ignored", gate="ignored",
-            explainer="context_only" if has_availability else "missing",
-            residual_reason="no_first_seen_prediction_ledger" if has_availability else None,
-            gate_reason="not_in_operating_formula",
-            explainer_reason="context_not_probability" if has_availability else None,
+            market="ignored", residual="used" if has_availability else "missing",
+            gate="used" if has_availability else "missing",
+            explainer="used" if has_availability else "missing",
         ),
     })
 
@@ -369,7 +388,8 @@ def _input_revision_hash(game: dict, evidence: list[dict]) -> str:
         "options": sorted((
             option.get("selection_id"), option.get("offer_id"),
             _number(option.get("배당")), _number(option.get("시장확률")),
-            _number(option.get("모델확률")),
+            _number(option.get("모델확률")), _number(option.get("내적확률")),
+            _number(option.get("최종확률")),
         ) for option in game.get("options", [])),
         "evidence": sorted((
             row.get("id"), row.get("available"), row.get("observed_at"),
@@ -412,7 +432,8 @@ def build_decision_snapshot(
     game["추천"] = selected
     market = _number(selected.get("시장확률")) if selected else None
     shadow = _number(selected.get("모델확률")) if selected else None
-    action = "market_reference" if selected and market is not None else "withhold"
+    final = _number(selected.get("최종확률")) if selected else None
+    action = "market_reference" if selected and final is not None else "withhold"
     reversed_pick = selected and selected.get("추천우선순위") == "reversal"
     built_at = built_at or as_of
     evidence, sources = _evidence(game, selected, market_observed_at=as_of)
@@ -443,16 +464,21 @@ def build_decision_snapshot(
             "ai_delta_candidate": (
                 None if market is None or shadow is None else round(shadow - market, 4)
             ),
-            "ai_delta_applied": 0.0,
-            "final": market,
-            "basis": "shin_market" if market is not None else "unavailable",
+            "ai_delta_applied": (
+                0.0 if market is None or final is None else round(final - market, 4)
+            ),
+            "final": final,
+            "basis": (selected.get("확률근거") if selected else "unavailable"),
+            "internal": (selected.get("내적확률") if selected else None),
+            "player_factors": ((selected.get("내적요소") or {}).get("factors", [])
+                               if selected else []),
         },
         "model": {
             "operating_version": OPERATING_MODEL_VERSION,
             "residual_version": SHADOW_MODEL_VERSION,
-            "status": "shadow" if shadow is not None else "unavailable",
+            "status": "operational" if final is not None else "unavailable",
             "validated_edge": False,
-            "promotion_gate": "not_passed",
+            "promotion_gate": "user_directed_internal_first",
             "artifact_hash": None,
         },
         # label/summary는 전 경기 공통 카탈로그다. 스냅샷에는 경기마다 달라지는 상태만
@@ -461,10 +487,11 @@ def build_decision_snapshot(
             "market": _stage("used" if market is not None else "missing", market is not None),
             "structured_ai": _stage(
                 "selection_gate" if reversed_pick else
-                "shadow" if shadow is not None else "missing"
+                "used" if shadow is not None else "missing", shadow is not None
             ),
             "availability_ai": _stage(
-                "context_only" if any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence) else "missing"),
+                "used" if any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence) else "missing",
+                any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence)),
             "language_ai": _stage(explanation_status),
         },
         "evidence": evidence,
@@ -507,17 +534,37 @@ def validate_decision_snapshot(snapshot: dict) -> None:
     probability = snapshot.get("probability") or {}
     model = snapshot.get("model") or {}
     can_apply = (
-        model.get("status") == "operational"
-        and model.get("validated_edge") is True
-        and model.get("promotion_gate") == "passed"
-        and bool(model.get("operating_version"))
-        and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES
+        model.get("status") == "operational" and (
+            (
+                model.get("validated_edge") is True
+                and model.get("promotion_gate") == "passed"
+                and bool(model.get("operating_version"))
+                and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES
+            )
+            or (
+                model.get("operating_version") == OPERATING_MODEL_VERSION
+                and model.get("promotion_gate") == "user_directed_internal_first"
+                and probability.get("basis") == "internal_context_blend_v1"
+            )
+        )
     )
     if not can_apply:
         if probability.get("final") != probability.get("market"):
             raise ValueError("unvalidated AI changed final probability")
         if probability.get("ai_delta_applied") != 0.0:
             raise ValueError("unvalidated AI applied a probability delta")
+    elif model.get("promotion_gate") == "user_directed_internal_first":
+        market = _number(probability.get("market"))
+        internal = _number(probability.get("internal"))
+        final = _number(probability.get("final"))
+        if market is None or internal is None or final is None:
+            raise ValueError("internal-first probability inputs are incomplete")
+        expected = round(
+            INTERNAL_MODEL_WEIGHT * internal + MARKET_ANCHOR_WEIGHT * market, 4)
+        if abs(final - expected) > 1e-9:
+            raise ValueError("internal-first probability formula mismatch")
+        if abs(_number(probability.get("ai_delta_applied")) - round(final - market, 4)) > 1e-9:
+            raise ValueError("internal-first probability delta mismatch")
     known = set(evidence_ids)
     refs = set((snapshot.get("explanation") or {}).get("evidence_ids") or [])
     if not refs.issubset(known):

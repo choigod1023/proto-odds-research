@@ -103,6 +103,32 @@ test("shadow AI가 잘못 저장한 final도 시장확률로 fail-close한다", 
   assert.equal(decision.probability.basis, "shin_market");
 });
 
+test("사용자가 지시한 경기 내적 우선 정책은 시장 앵커보다 최종확률을 우선한다", () => {
+  const internalFirst = {
+    ...snapshot,
+    probability: {
+      ...snapshot.probability,
+      internal: .81,
+      ai_delta_applied: .133,
+      final: .753,
+      basis: "internal_context_blend_v1",
+    },
+    model: {
+      ...snapshot.model,
+      status: "operational",
+      operating_version: "internal-context-blend-v1",
+      promotion_gate: "user_directed_internal_first",
+    },
+  };
+  const decision = buildDecisionViewModel(gameFor(internalFirst), option);
+  assert.equal(decision.probability.market, .62);
+  assert.equal(decision.probability.final, .753);
+  assert.equal(decision.probability.aiDeltaApplied, .133);
+  assert.equal(decision.probability.basis, "internal_context_blend_v1");
+  assert.equal(decision.model.validatedEdge, false);
+  assert.equal(decision.model.userDirectedInternalFirst, true);
+});
+
 test("실시간 배당만 바뀌면 이전 확률과 해설 결론을 숨긴다", () => {
   const decision = buildDecisionViewModel(gameFor(snapshot, {
     _liveOddsChanged: true,
@@ -184,8 +210,8 @@ test("v2 압축 원장의 단계 설명과 자료 사용 상태를 공용 카탈
     }],
   };
   const decision = buildDecisionViewModel(gameFor(compact), option);
-  assert.equal(decision.stages[0].label, "시장 기준선");
-  assert.match(decision.stages[0].summary, /Shin/);
+  assert.equal(decision.stages[0].label, "시장 앵커");
+  assert.match(decision.stages[0].summary, /30%/);
   assert.equal(decision.evidence[0].display_status, "context_only");
 });
 

@@ -57,6 +57,7 @@ GRADES = ROOT / "docs" / "data" / "loss_grades.json"
 COMBO = ROOT / "docs" / "data" / "combo.json"
 OUT = ROOT / "docs" / "data" / "today_combo.json"
 LIVE_ODDS = ROOT / "docs" / "data" / "live_odds.json"
+PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 EVOLUTION_ARTIFACT = ROOT / "findings" / "evolutionary_selector.json"
 
 # combo.py 가 쓰는 것과 같은 경계
@@ -95,6 +96,31 @@ def probability_of(value: object) -> float | None:
     except (TypeError, ValueError):
         return None
     return probability if 0.0 < probability < 1.0 else None
+
+
+def _internal_probability_index() -> dict[tuple, dict]:
+    """경기 카드에서 이미 계산한 내적요소 확률을 오늘 조합과 공유한다."""
+    try:
+        document = json.loads(PICKS.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, TypeError):
+        return {}
+    index = {}
+    for game in document.get("live", []):
+        selected = game.get("추천") or {}
+        selected_id = selected.get("selection_id")
+        for option in game.get("options", []):
+            key = (
+                str(game.get("round") or ""), str(option.get("게임번호") or ""),
+                str(option.get("market") or ""), str(option.get("label") or ""),
+                str(option.get("선택") or ""),
+            )
+            index[key] = {
+                "probability": probability_of(option.get("최종확률")),
+                "basis": option.get("확률근거"),
+                "internal": option.get("내적요소"),
+                "selected": bool(selected_id and option.get("selection_id") == selected_id),
+            }
+    return index
 
 
 def calibrated_leg_probability(candidate: dict) -> tuple[float | None, float | None]:
@@ -190,6 +216,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
         now = now.astimezone(KST)
     source_year = int(d.get("year") or now.year)
     live_prices = _live_prices()[0] if live_prices is None else live_prices
+    internal_index = _internal_probability_index()
     out = []
     for rnd in d.get("rounds", []):
         for original in rnd.get("games", []):
@@ -226,8 +253,20 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
                           if len(ordered_probability) > 1 else ordered_probability[0])
             for s, market_prob in selections:
                 o = s.get("odds")
+                internal = internal_index.get((
+                    str(rnd.get("round") or ""), str(g.get("game_no") or ""),
+                    str(g.get("market") or ""), str(g.get("market_label", "") or ""),
+                    str(s.get("name") or ""),
+                )) or {}
                 policy_reason = automatic_selection_exclusion_reason(
                     g.get("market"), o, market_prob, favorite_probability)
+                internal_reversal = (
+                    policy_reason is not None and "시장 최유력" in policy_reason
+                    and internal.get("selected") is True
+                    and (internal.get("probability") or 0.0) >= 0.50
+                )
+                if internal_reversal:
+                    policy_reason = None
                 if policy_reason:
                     continue
                 b = bin_of(o) if o else None
@@ -247,13 +286,17 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
                     "hist_n": s.get("hist_n"),
                     "market_prob": round(market_prob, 4),
-                    "predicted_hit_prob": round(market_prob, 4),
-                    "probability_source": "shin_market_fallback",
+                    "predicted_hit_prob": round(
+                        internal.get("probability") or market_prob, 4),
+                    "probability_source": (
+                        internal.get("basis") or "shin_market_fallback"),
+                    "internal_factors": internal.get("internal"),
                     "has_validated_edge": False,
                     "market_gap": round(market_gap, 4),
                     "n_way": len(selections),
                     "failure_prob": round(1.0 - market_prob, 4),
-                    "is_market_favorite": True,
+                    "is_market_favorite": not internal_reversal,
+                    "internal_reversal": internal_reversal,
                     "recommendation_priority": (
                         "primary" if recommendation_priority(o) == 1 else "fallback"
                     ),
@@ -431,7 +474,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
         challenge = [plan for plan in available
                      if _metric_number(plan, "target", 99.0) <=
                      DAILY_CHALLENGE_MAX_TARGET
-                     and _reference_metric(plan, "market_reference_roi",
+                     and _reference_metric(plan, "calibrated_expected_roi",
                                            "conservative_expected_roi", -99.0) >=
                      DAILY_CHALLENGE_MIN_ROI
                      and _reference_metric(plan, "independent_hit_est",
@@ -440,24 +483,24 @@ def daily_recommendation(plans: list[dict]) -> dict:
                          _metric_number(plan, "target", 99.0), float("inf"))]
         if challenge:
             best_challenge_roi = max(
-                _reference_metric(plan, "market_reference_roi",
+                _reference_metric(plan, "calibrated_expected_roi",
                                   "conservative_expected_roi", -99.0)
                 for plan in challenge)
             balanced = [plan for plan in challenge
-                        if _reference_metric(plan, "market_reference_roi",
+                        if _reference_metric(plan, "calibrated_expected_roi",
                                              "conservative_expected_roi", -99.0) >=
                         best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
             best = max(balanced, key=lambda plan: (
                 _metric_number(plan, "target", 0.0),
-                _reference_metric(plan, "market_reference_roi",
+                _reference_metric(plan, "calibrated_expected_roi",
                                   "conservative_expected_roi", -99.0),
                 _reference_metric(plan, "independent_hit_est",
                                   "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
+            why = "경기 내적 최종확률로 고른 3배 조합이 기대손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
-                _reference_metric(plan, "market_reference_roi",
+                _reference_metric(plan, "calibrated_expected_roi",
                                   "conservative_expected_roi", -99.0),
                 _reference_metric(plan, "independent_hit_est",
                                   "calibrated_hit_est", 0.0)))
@@ -501,7 +544,7 @@ def build() -> dict:
             "probability_basis": (
                 "서로 다른 경기의 검증 보정 최종확률 독립 가정"
                 if metrics.get("has_validated_edge")
-                else "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정"
+                else "서로 다른 경기의 내적요소 70%·시장 앵커 30% 확률 독립 가정"
             ),
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
@@ -523,9 +566,8 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": today.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 "
-                 "적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 "
-                 "Shin 시장확률로 복귀한다.",
+        "basis": "1.50~2.20 미만 후보를 먼저 확보하고 구조모델 70%·시장 앵커 "
+                 "30%에 당일 선수 보정을 더한 최종 예상 적중확률로 고른다.",
         "n_candidates": len(cands),
         "n_primary_candidates": sum(
             1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
@@ -535,7 +577,7 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
+        "selection_policy": "경기 내적 최종확률 우선 · 1.50~2.20 먼저 · 시장은 30% 앵커",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
@@ -545,15 +587,15 @@ def build() -> dict:
         "recommendation": daily_recommendation(out_plans),
         "candidates": cands,
         "odds_bins": grades["odds_bins"],
-        "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. "
+        "note": "사용자 지시에 따라 구조모델 70%·시장 앵커 30%를 운영 확률로 쓰고, "
+                "야구 승패는 선발·타순·결장 확정도에 따라 최대 10%p를 추가 보정한다. "
                 "목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 "
                 "나아 유지하지만 사전 검증된 시장 우위는 아니다. "
                 "그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 "
                 "손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 "
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. "
-                "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
-                "비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 "
+                "내적 최종확률이 50% 이상이며 같은 마켓의 정배를 넘은 선택은 기존 "
                 "정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "
                 "단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
@@ -578,9 +620,10 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 1순위 조합에 1.50 미만 보조 선택지가 섞였다")
         if any(float(c["odds"]) >= MAX_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 2.20 이상 선택지가 섞였다")
-        if any(not c.get("is_market_favorite") for c in p["picks"]):
-            bad.append(f"목표 {p['target']}× : 시장 최유력 아닌 역배가 섞였다")
-        probabilities = [probability_of(c.get("market_prob")) for c in p["picks"]]
+        if any(not c.get("is_market_favorite") and not c.get("internal_reversal")
+               for c in p["picks"]):
+            bad.append(f"목표 {p['target']}× : 내적확률 전환 없는 역배가 섞였다")
+        probabilities = [probability_of(c.get("predicted_hit_prob")) for c in p["picks"]]
         if all(x is not None for x in probabilities):
             expected_hit = math.prod(probabilities)
             if abs(p["hit_est"] - expected_hit) > 1e-4:

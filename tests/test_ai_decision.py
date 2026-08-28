@@ -124,7 +124,7 @@ def test_moderate_underdog_is_observed_but_does_not_replace_market_favorite():
     assert not selected.get("최종전환")
 
 
-def test_shadow_underdog_snapshot_keeps_market_favorite_and_zero_ai_delta():
+def test_internal_model_snapshot_keeps_selected_market_and_applies_model_delta():
     game = _game()
     game["options"][1]["배당"] = 2.05
     game["options"][1]["모델확률"] = 0.55
@@ -136,12 +136,12 @@ def test_shadow_underdog_snapshot_keeps_market_favorite_and_zero_ai_delta():
     assert snapshot["selection_id"] == game["options"][2]["selection_id"]
     assert snapshot["gate_codes"] == []
     assert snapshot["probability"]["market"] == 0.55
-    assert snapshot["probability"]["final"] == 0.55
-    assert snapshot["probability"]["ai_delta_applied"] == 0.0
-    assert snapshot["stages"]["structured_ai"]["status"] == "shadow"
+    assert snapshot["probability"]["final"] == 0.69
+    assert snapshot["probability"]["ai_delta_applied"] == 0.14
+    assert snapshot["stages"]["structured_ai"]["status"] == "used"
 
 
-def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():
+def test_snapshot_replaces_caller_pick_and_applies_internal_model_delta():
     game = _game()
     game["추천"] = game["options"][1]  # 구조 모델이 좋아하는 역배를 일부러 주입
 
@@ -153,9 +153,9 @@ def test_snapshot_replaces_caller_model_pick_and_applies_zero_ai_delta():
     assert snapshot["probability"]["market"] == 0.55
     assert snapshot["probability"]["ai_candidate"] == 0.75
     assert snapshot["probability"]["ai_delta_candidate"] == 0.2
-    assert snapshot["probability"]["ai_delta_applied"] == 0.0
-    assert snapshot["probability"]["final"] == snapshot["probability"]["market"]
-    assert snapshot["model"]["status"] == "shadow"
+    assert snapshot["probability"]["ai_delta_applied"] == 0.14
+    assert snapshot["probability"]["final"] == 0.69
+    assert snapshot["model"]["status"] == "operational"
     assert snapshot["stages"]["language_ai"]["status"] == "wording_only"
     assert snapshot["stages"]["language_ai"]["affects_probability"] is False
 
@@ -170,7 +170,7 @@ def test_snapshot_has_unique_complete_evidence_usage_ledger():
     for evidence in snapshot["evidence"]:
         assert set(evidence["usage"]) == set(USAGE_CONSUMERS)
     assert sum(usage_counts(snapshot).values()) == len(snapshot["evidence"])
-    assert usage_counts(snapshot)["context_only"] >= 1
+    assert usage_counts(snapshot)["used"] >= 2
 
 
 def test_event_and_selection_ids_survive_reissued_round_and_game_number():
@@ -217,7 +217,7 @@ def test_operational_label_without_passed_gate_cannot_change_probability():
     try:
         validate_decision_snapshot(snapshot)
     except ValueError as error:
-        assert "unvalidated AI" in str(error)
+        assert "formula mismatch" in str(error)
     else:
         raise AssertionError("검증 관문 없는 operational 값이 통과했다")
 

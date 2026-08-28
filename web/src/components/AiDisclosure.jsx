@@ -36,7 +36,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
       <div className="ai-method-heading">
         <div>
           <p>현재 AI 사용 범위</p>
-          <h2 id={`${id}-title`}>최종 추천은 예상 적중확률로 고르고, 검증된 AI만 확률에 반영합니다</h2>
+          <h2 id={`${id}-title`}>경기 내적 모델을 주축으로 계산하고 시장은 보조 앵커로 사용합니다</h2>
         </div>
         {showLink && <a href="research.html#ai-model">검증 방법 보기</a>}
       </div>
@@ -53,7 +53,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
         ))}
       </ol>
       <p className="ai-method-foot">
-        1.50~2.20 후보를 먼저 확보한 뒤 최종 예상 적중확률이 높은 선택을 고릅니다. 검증된 AI 보정이 없으면 Shin 시장값으로 복귀합니다.
+        구조모델 70%·시장 앵커 30%를 기본으로 하며, 야구는 확정도에 따라 선발·타순·결장을 추가 보정합니다.
       </p>
     </section>
   );

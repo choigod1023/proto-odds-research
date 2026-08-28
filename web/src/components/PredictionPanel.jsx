@@ -14,7 +14,7 @@ export default function PredictionPanel({ analysis }) {
   const label = decisionLabel(decision);
   const summary = signalSummary?.narrative || (
     decision?.action === "market_reference"
-      ? "현재 검증된 운영값은 시장확률이며 구조 AI는 반대 신호를 설명하는 연구값으로만 비교합니다."
+      ? "구조 득점모델과 당일 선수 정보를 주축으로 계산하고 시장확률은 30% 안정화 앵커로 사용합니다."
       : "아래 위험이 해소되지 않아 이 픽은 추천하지 않습니다."
   );
   return (
@@ -25,7 +25,7 @@ export default function PredictionPanel({ analysis }) {
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
           <p>{summary}</p>
         </div>
-        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{decision?.model?.validatedEdge ? "AI 최종확률" : "Shin 시장확률"}</span></div>}
+        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{decision?.model?.userDirectedInternalFirst ? "내적요소 최종확률" : decision?.model?.validatedEdge ? "AI 최종확률" : "Shin 시장확률"}</span></div>}
       </header>
       <div className="prediction-body">
         <div>
@@ -57,7 +57,7 @@ export default function PredictionPanel({ analysis }) {
         <small>수집된 사실을 바꾸지 않고 LLM이 문장만 다듬었습니다.</small>
       </div>}
       {!!cautions?.length && <div className="prediction-caution"><b>반대 근거·변수</b><span>{cautions.join(" ")}</span></div>}
-      <footer>예상 적중확률은 검증된 보정만 반영하며, 보정이 없으면 시장 기준선으로 복귀합니다. 구매 판단은 직접 합니다.</footer>
+      <footer>선발·타순이 예상 명단이면 보정 강도를 낮추고 공식 발표 후 다시 계산합니다. 구매 판단은 직접 합니다.</footer>
     </section>
   );
 }

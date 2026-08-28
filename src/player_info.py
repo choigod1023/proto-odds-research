@@ -521,10 +521,10 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
 
 
 def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
-    """전체 예측을 다시 돌리지 않고 선수정보와 선수 해설만 안전하게 갱신한다.
+    """선수정보를 갱신하고 경기 전 내적요소 확률도 같은 시점으로 다시 계산한다.
 
     games.csv가 필요한 무거운 생성기는 매시간이지만 선발 변경은 경기 직전에도 난다.
-    이 단계는 확률·추천·배당과 기본 해설을 건드리지 않는다.
+    배당과 구조모델 원값은 보존하고, 새 선발·타순·결장 정보의 제한 보정만 재적용한다.
     """
     if not picks_path.exists():
         return 0
@@ -554,6 +554,16 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
             if base and game.get("해설") != refreshed:
                 game["해설"] = refreshed
                 game_changed = True
+            if game_changed and game.get("status") in (None, "경기전") and game.get("options"):
+                # 순환 import를 피하고 선수 수집만 실행할 때도 동일 판정 계약을 쓴다.
+                from ai_decision import build_decision_snapshot
+                as_of = str(player_doc.get("generated_at") or info.get("updated_at") or "")
+                if as_of:
+                    game["decision_snapshot"] = build_decision_snapshot(
+                        game, as_of=as_of, built_at=as_of, pre_registered=False,
+                        explanation_kind=(game.get("설명메타") or {}).get(
+                            "kind", "deterministic"),
+                    )
             if game_changed:
                 changed += 1
     if not changed and picks.get("player_info_at") == player_doc.get("generated_at"):
