@@ -15,6 +15,7 @@ import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans,
   ticketIndexForRecommendation } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
+import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -290,8 +291,8 @@ function TodayListControls({ activeToday }) {
 
 /* ── 경기 목록과 오늘 조합 ────────────────────────────────────── */
 const STATUS = [
-  ["예정", "예정"], ["경기전", "배당 나옴"], ["배당대기", "배당 미발표"],
-  ["정산", "정산"], ["", "전체"],
+  ["", "전체"], ["live", "진행 중"], ["upcoming", "예정"],
+  ["finished", "종료"], ["pending", "결과 확인 중"],
 ];
 
 function GameList({ data, grades, caps, stale, today }) {
@@ -302,7 +303,7 @@ function GameList({ data, grades, caps, stale, today }) {
   //    이 페이지의 제목이 '오늘 뭘 사면 덜 잃나' 다. 기본값이 그걸 보여줘야 한다.
   // 날짜는 실제 MM.DD 대신 상대값으로 보관한다. 페이지를 자정 너머 계속 열어
   // 두어도 "오늘"이 어제 날짜에 고정되지 않고 새 KST 날짜를 따라간다.
-  const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "",
+  const [f, setF] = useState({ st: "", lg: "", mk: "", rd: "", q: "",
                                dt: "today" });
 
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
@@ -331,16 +332,25 @@ function GameList({ data, grades, caps, stale, today }) {
   const games = useMemo(() => {
     const q = f.q.trim().toLowerCase();
     return pool.filter((g) =>
-      (!f.st || (f.st === "예정"
-        ? g.status === "경기전" || g.status === "배당대기"
-        : g.status === f.st)) &&
+      (!f.st || gamePhase(g) === f.st) &&
       (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
       // 날짜 — 회차는 여러 날에 걸쳐 있어서(93회차만 08.07~08.10) 회차 필터로는
       // '오늘 살 수 있는 것'을 못 고른다. 경기일로 직접 거른다.
       (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
-      (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)));
+      (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)))
+      .sort((a, b) => {
+        const order = { live: 0, upcoming: 1, pending: 2, finished: 3 };
+        return order[gamePhase(a)] - order[gamePhase(b)]
+          || String(a.date).localeCompare(String(b.date));
+      });
   }, [pool, f, selectedDate]);
+
+  const phaseCounts = games.reduce((counts, game) => {
+    const phase = gamePhase(game);
+    counts[phase] = (counts[phase] || 0) + 1;
+    return counts;
+  }, {});
 
   const rows = [];
   let cur = null, n = 0;
@@ -362,7 +372,8 @@ function GameList({ data, grades, caps, stale, today }) {
       ? todayMemberships.get(selectionKey(cardPick.o, g.round)) || null
       : null;
     n++;
-    const key = `${g.league} · ${day(g.date)}`;
+    const phase = gamePhase(g);
+    const key = `${phase} · ${g.league} · ${day(g.date)}`;
     if (key !== cur) {
       cur = key;
       // '오늘/내일' 을 헤더에 박아 둔다. 전체 보기에서도 눈으로 갈리게 —
@@ -376,7 +387,8 @@ function GameList({ data, grades, caps, stale, today }) {
               {tag}
             </span>
           )}
-          <span>{key}</span>
+          <span className={`match-phase-tag is-${phase}`}>{PHASE_LABEL[phase]}</span>
+          <span>{g.league} · {day(g.date)}</span>
         </div>);
     }
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait}
@@ -389,7 +401,12 @@ function GameList({ data, grades, caps, stale, today }) {
     <>
       <div className="match-section-title">
         <h2>경기 목록</h2>
-        <b>{n}경기</b>
+        <div className="match-phase-counts" aria-label="경기 상태별 개수">
+          <b className="is-live">진행 중 {phaseCounts.live || 0}</b>
+          <b>예정 {phaseCounts.upcoming || 0}</b>
+          <b>종료 {phaseCounts.finished || 0}</b>
+          <b>전체 {n}</b>
+        </div>
       </div>
       {stale ? (
         <div className="mb-5 rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
@@ -433,7 +450,7 @@ function GameList({ data, grades, caps, stale, today }) {
 
           </div>
           <div className="filter-actions">
-            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: "today" }); setCap(0); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today" }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
@@ -503,14 +520,13 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
   const playing = !!lv && !lv.finished;
   const finished = !!lv?.finished;
+  const phase = gamePhase(g, lv);
+  const outcome = recommendationOutcome(g);
   const waitText = wait ? waitingLabel(g, { generatedAt, year }) : null;
   // 정산 점수가 있으면 그걸 쓰고(확정), 없으면 실시간 점수로 채운다.
   const score = (done && g.score)
     || (lv && lv.home_score != null && lv.away_score != null
         ? [lv.home_score, lv.away_score] : null);
-  // 이 경기에서 우리 픽이 맞았나. 정산 전이면 null.
-  const picked = done && pick && !pick.tie ? pick.o["적중"] : null;
-
   const analysis = wait || stale || predictionUnavailable || liveClosed
     ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
@@ -536,8 +552,11 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     (target) => Number(target) === Number(primaryTarget),
   );
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
+  const resultHeadline = outcome.record
+    ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
+    : null;
   return (
-    <Card as="details" className={`match-card ${primary ? "border-signal" : ""}`}>
+    <Card as="details" className={`match-card is-${phase} result-${outcome.state} ${primary ? "border-signal" : ""}`}>
       <summary className="match-row">
         <span className="tnum text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-0 text-[13.5px] font-semibold">
@@ -553,18 +572,22 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {g.away}
           </span>
           <small className="match-player-inline">
-            {playing ? (lv.status_text || "진행 중") : done || finished ? "종료" : wait ? waitText : stale ? "데이터 갱신 지연" : "예정"} · {g.round}회차
+            {playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정"} · {g.round}회차
             {analysis?.featuredPlayers?.length
               ? ` · ${analysis.featuredPlayers.map((player) => player.name).join(" · ")}`
               : ""}
           </small>
         </span>
         <span className="match-call-inline">
-          <small>{todayLabel ? "오늘 조합" : "경기 예상"}</small>
-          <b>{todayLabel ? `${todayLabel} · ${forecast?.headline || fallbackForecast}` : forecast?.headline || fallbackForecast}</b>
+          <small>{phase === "finished" ? "추천 결과" : playing ? "실시간 경기" : todayLabel ? "오늘 조합" : "경기 예상"}</small>
+          <b>{phase === "finished"
+            ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
+            : todayLabel ? `${todayLabel} · ${forecast?.headline || fallbackForecast}` : forecast?.headline || fallbackForecast}</b>
         </span>
         <span className="flex gap-1.5">
-          {liveClosed ? <OddsChip label="판정" value="마감" />
+          {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+            : phase === "finished" ? <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
+            : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : pick ? <OddsChip
                   label={decision.recommendationPriority === "fallback"
@@ -582,6 +605,29 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         </span>
       </summary>
       <div className="match-detail">
+        {playing && score && (
+          <div className="live-score-panel" role="status" aria-live="polite">
+            <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
+            <strong>{g.home} <em>{score[0]}</em><i>:</i><em>{score[1]}</em> {g.away}</strong>
+            <small>실시간 점수는 1분마다 자동 갱신됩니다.</small>
+          </div>
+        )}
+        {phase === "finished" && (
+          <div className={`settled-result-panel is-${outcome.state}`}>
+            <div>
+              <span>최종 결과</span>
+              <strong>{g.home} {score ? `${score[0]} : ${score[1]}` : "– : –"} {g.away}</strong>
+            </div>
+            <div>
+              <span>사전 추천 판정</span>
+              <strong>{outcome.label}</strong>
+              {resultHeadline && <small>{resultHeadline} · 배당 {odds(outcome.record.odds)}</small>}
+            </div>
+            {outcome.state === "unrecorded" && (
+              <p>경기 전에 저장된 추천 원장이 없어 현재 결과로 과거 픽을 새로 만들지 않습니다.</p>
+            )}
+          </div>
+        )}
         {todayLabel && pick && (
           <div className={`mb-3 rounded border px-3 py-2 text-[12px] leading-6 ${
             primary ? "border-signal bg-panel text-ink" : "border-rule2 bg-panel text-ink2"

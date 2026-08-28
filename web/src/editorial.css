@@ -42,6 +42,12 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-section-title { margin: 42px 0 12px; display: flex; align-items: end; justify-content: space-between; }
 .match-section-title h2 { margin: 0; font-size: 20px; letter-spacing: -.04em; }
 .match-section-title b { color: var(--color-ink3); font-size: 11px; }
+.match-phase-counts { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.match-phase-counts b { padding: 4px 7px; border: 1px solid var(--color-rule2); border-radius: 999px; font-weight: 650; }
+.match-phase-counts .is-live { border-color: var(--color-sev2); color: var(--color-sev2); }
+.match-phase-tag { padding: 3px 6px; border: 1px solid var(--color-rule2); border-radius: 999px; color: var(--color-ink2); font-size: 9.5px; }
+.match-phase-tag.is-live { border-color: var(--color-sev2); background: color-mix(in srgb, var(--color-sev2) 8%, transparent); color: var(--color-sev2); }
+.match-phase-tag.is-finished { background: var(--color-panel); color: var(--color-ink3); }
 .filter-shell { margin-bottom: 22px; border-top: 1px solid var(--color-ink); border-bottom: 1px solid var(--color-rule); }
 .filter-primary { padding: 12px 0; display: grid; grid-template-columns: auto minmax(220px, 1fr); gap: 10px; }
 .date-switch { display: flex; border: 1px solid var(--color-rule); }
@@ -63,12 +69,38 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-card.card[open] { margin: 14px 0 20px; border: 1px solid var(--color-rule); border-radius: 6px; background: var(--color-panel); }
 .match-card.card[open] > .match-row { padding: 16px 18px !important; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
 .match-card.card[open] > .match-row:hover { background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
+.match-card.is-live.card { border-left: 3px solid var(--color-sev2); }
+.match-card.result-hit.card { border-left: 3px solid var(--color-signal); }
+.match-card.result-miss.card { border-left: 3px solid var(--color-sev2); }
 .match-row { padding: 15px 0 !important; display: grid !important; grid-template-columns: 52px minmax(210px, 1.1fr) minmax(150px, .8fr) auto !important; gap: 14px !important; align-items: center; }
 .match-row:hover { background: color-mix(in srgb, var(--color-panel) 58%, transparent); }
 .match-call-inline { display: flex; flex-direction: column; min-width: 0; padding-left: 13px; border-left: 1px solid var(--color-rule2); }
 .match-call-inline small { color: var(--color-ink3); font-size: 9.5px; }
 .match-call-inline b { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .match-player-inline { display: block; overflow: hidden; margin-top: 3px; color: var(--color-ink3); font-size: 10px; font-weight: 450; text-overflow: ellipsis; white-space: nowrap; }
+.live-score-badge, .result-badge { min-width: max-content; padding: 7px 9px; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--color-rule); border-radius: 999px; font-size: 10px; font-weight: 750; }
+.live-score-badge { border-color: var(--color-sev2); color: var(--color-sev2); }
+.live-score-badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: live-pulse 1.4s infinite; }
+.live-score-badge b { color: var(--color-ink); font-size: 10px; }
+.result-badge.is-hit { border-color: var(--color-signal); background: color-mix(in srgb, var(--color-signal) 9%, transparent); color: var(--color-signal); }
+.result-badge.is-miss { border-color: var(--color-sev2); background: color-mix(in srgb, var(--color-sev2) 8%, transparent); color: var(--color-sev2); }
+.result-badge.is-unrecorded, .result-badge.is-pending, .result-badge.is-void { color: var(--color-ink3); }
+.live-score-panel { padding: 14px 16px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; border: 1px solid var(--color-sev2); border-radius: 6px; background: color-mix(in srgb, var(--color-sev2) 6%, var(--color-paper)); }
+.live-score-panel > div { display: grid; gap: 3px; color: var(--color-sev2); font-size: 10px; }
+.live-score-panel > strong { font-size: 17px; text-align: center; }
+.live-score-panel em { padding: 0 5px; font-size: 24px; font-style: normal; }
+.live-score-panel i { color: var(--color-ink3); font-style: normal; }
+.live-score-panel small { color: var(--color-ink3); font-size: 9.5px; }
+.settled-result-panel { padding: 14px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border: 1px solid var(--color-rule); border-radius: 6px; }
+.settled-result-panel.is-hit { border-color: var(--color-signal); background: color-mix(in srgb, var(--color-signal) 7%, var(--color-paper)); }
+.settled-result-panel.is-miss { border-color: var(--color-sev2); background: color-mix(in srgb, var(--color-sev2) 6%, var(--color-paper)); }
+.settled-result-panel > div { display: grid; gap: 3px; }
+.settled-result-panel span, .settled-result-panel small { color: var(--color-ink3); font-size: 9.5px; }
+.settled-result-panel strong { font-size: 14px; }
+.settled-result-panel.is-hit > div:last-of-type strong { color: var(--color-signal); }
+.settled-result-panel.is-miss > div:last-of-type strong { color: var(--color-sev2); }
+.settled-result-panel p { grid-column: 1 / -1; margin: 0; color: var(--color-ink3); font-size: 10.5px; }
+@keyframes live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
 .match-detail { padding: 22px 18px 24px !important; background: var(--color-panel); }
 .match-detail > * + * { margin-top: 16px; }
 
@@ -163,6 +195,12 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .match-card.card[open] { margin: 10px -8px 16px; }
   .match-card.card[open] > .match-row { padding: 14px !important; }
   .match-detail { padding: 14px !important; }
+  .match-section-title { align-items: start; gap: 10px; }
+  .match-phase-counts { max-width: 230px; }
+  .live-score-panel { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+  .live-score-panel > div { display: flex; justify-content: center; gap: 6px; }
+  .settled-result-panel { grid-template-columns: 1fr; }
+  .settled-result-panel p { grid-column: 1; }
   .prediction-card { padding: 0 14px; }
   .prediction-head h3 { font-size: 20px; }
   .prediction-body { padding: 17px 0 18px; }
