@@ -50,6 +50,10 @@ from player_commentary import with_player_context                    # noqa: E40
 from devig import market_probabilities                              # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
                          match_game)
+from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
+                               PredictionLedgerError)
+from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
+                                kickoff_utc, tally_prediction_records)
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -62,6 +66,8 @@ PROC = ROOT / "data" / "processed"
 # ⚠️ GitHub Pages 가 서빙하는 건 `docs/` 다. `web/` 에 쓰면 만들어도 사이트에
 #    안 나온다 — 전 마켓 픽이 여태 화면에 없던 이유가 이것이었다.
 OUT = ROOT / "docs" / "data"
+PREDICTION_LEDGER = ROOT / "data" / "raw" / "prediction_ledger" / "pregame.jsonl"
+PROBABILITY_ARTIFACT = ROOT / "data" / "models" / "probability_pipeline_v1.json"
 
 WINDOW = 20
 _LINE = re.compile(r"([-+]?\d+\.?\d*)")
@@ -93,6 +99,20 @@ def _game_datetime(game: dict) -> pd.Timestamp | None:
         return pd.Timestamp(year=year, month=month, day=day, hour=hour, minute=minute)
     except ValueError:
         return None
+
+
+def _load_probability_artifact(path: Path | None = None) -> dict | None:
+    """Load an optional artifact; any malformed artifact fails closed to market."""
+
+    path = path or PROBABILITY_ARTIFACT
+    try:
+        artifact = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return None
+    except (OSError, json.JSONDecodeError, TypeError) as exc:
+        print(f"확률 artifact 읽기 실패 — 시장 기준 유지: {type(exc).__name__} {exc}")
+        return None
+    return artifact if isinstance(artifact, dict) else None
 
 
 # 점수를 믿을 수 있는 마켓 — 아래 참조
@@ -694,13 +714,22 @@ def _sane(pm):
 
 def _remove_hindsight_prediction(game: dict) -> None:
     """사전 원장이 없는 종료 경기에서 현재시점 모델 산출물을 제거한다."""
+    has_record = bool(game.get("prediction_record"))
     game["추천"] = None
     game["홈승률"] = None
-    game["prediction_status"] = "prediction_ledger_required"
+    game["prediction_status"] = (
+        "recorded_pregame" if has_record else "prediction_ledger_required"
+    )
     game["해설"] = None
     game["해설기본"] = None
     game.pop("설명메타", None)
     game.pop("decision_snapshot", None)
+    game.pop("probability_pipeline", None)
+    recorded_forecast = (game.get("prediction_record") or {}).get("score_forecast")
+    if recorded_forecast:
+        game["score_forecast"] = recorded_forecast
+    else:
+        game.pop("score_forecast", None)
     for option in game.get("options", []):
         option["모델확률"] = None
         option["예상손익"] = None
@@ -752,11 +781,106 @@ def _attach_prediction_record(game: dict, records: dict[str, dict]) -> None:
                      if option.get("selection_id") == record.get("selection_id")), None)
     hit = selected.get("적중") if selected else None
     if game.get("status") == "정산":
-        record["result"] = "hit" if hit is True else "miss" if hit is False else "void"
-        record["settled_at"] = game.get("date")
+        is_ledger_settlement = (
+            bool(record.get("prediction_snapshot_id"))
+            and record.get("result") in {"hit", "miss", "void"}
+        )
+        if not is_ledger_settlement:
+            record["result"] = "hit" if hit is True else "miss" if hit is False else "void"
+            record["settled_at"] = game.get("date")
     else:
         record["result"] = "pending"
     game["prediction_record"] = record
+    if record.get("score_forecast"):
+        game["score_forecast"] = record["score_forecast"]
+
+
+def _settlement_outcome(game: dict, record: dict) -> dict | None:
+    """Map the official result onto the exact selection stored pregame."""
+
+    selected = next((
+        option for option in game.get("options", [])
+        if option.get("selection_id") == record.get("selection_id")
+    ), None)
+    if selected is None or selected.get("적중") is None:
+        return None
+    return {
+        "result": "hit" if selected.get("적중") is True else "miss",
+        "selection_id": record.get("selection_id"),
+        "score": game.get("score"),
+        "official_result": game.get("결과"),
+    }
+
+
+def _sync_prediction_runtime(
+    runtime: PredictionRuntime,
+    games: list[dict],
+    *,
+    observed_at: str,
+) -> dict[str, int]:
+    """Append changed pregame revisions, then settle the latest revision."""
+
+    counts = {"predictions": 0, "settlements": 0, "skipped": 0, "errors": 0}
+    cutoff = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
+    for game in games:
+        if game.get("status") not in ("경기전", "배당대기"):
+            continue
+        kickoff = _game_datetime(game)
+        if kickoff is None:
+            counts["errors"] += 1
+            continue
+        kickoff_at = kickoff_utc(kickoff)
+        if cutoff >= datetime.fromisoformat(kickoff_at):
+            counts["skipped"] += 1
+            continue
+        try:
+            result = runtime.record_pregame(
+                game,
+                kickoff=kickoff_at,
+                market_observed_at=observed_at,
+            )
+            counts[
+                "predictions" if result is not None and result.appended else "skipped"
+            ] += 1
+        except (LedgerCorruptionError, LedgerConflictError):
+            raise
+        except PredictionLedgerError as exc:
+            counts["errors"] += 1
+            print(
+                f"예측 원장 기록 생략 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}: {exc}"
+            )
+
+    ui_records = runtime.ui_records()
+    for game in games:
+        if game.get("status") != "정산":
+            continue
+        key = game.get("event_id") or event_id(game)
+        record = ui_records.get(key)
+        outcome = _settlement_outcome(game, record) if record else None
+        if outcome is None:
+            continue
+        try:
+            result = runtime.settle_latest(
+                key,
+                outcome=outcome,
+                settled_at=observed_at,
+                source={
+                    "name": "proto_official",
+                    "round": game.get("round"),
+                    "game_date": game.get("date"),
+                },
+            )
+            counts["settlements" if result is not None else "skipped"] += 1
+        except (LedgerCorruptionError, LedgerConflictError):
+            raise
+        except PredictionLedgerError as exc:
+            counts["errors"] += 1
+            print(
+                f"예측 원장 정산 생략 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}: {exc}"
+            )
+    return counts
 
 
 def _sanitize_prediction_document(doc: dict, as_of: pd.Timestamp | None = None) -> dict:
@@ -777,8 +901,11 @@ def _sanitize_prediction_document(doc: dict, as_of: pd.Timestamp | None = None) 
             game["status"] = "결과확인"
         if game.get("status") in ("정산", "결과확인"):
             _remove_hindsight_prediction(game)
-    doc["tally"] = None
-    doc["tally_status"] = "prediction_ledger_required"
+    if doc.get("tally_status") not in {
+        "prediction_ledger", "prediction_ledger_collecting",
+    }:
+        doc["tally"] = None
+        doc["tally_status"] = "prediction_ledger_required"
     return doc
 
 
@@ -835,7 +962,11 @@ def _sanitize_existing_output() -> int:
 
 
 def main() -> int:
-    prior_predictions = _recorded_predictions()
+    legacy_predictions = _recorded_predictions()
+    prediction_runtime = PredictionRuntime(PREDICTION_LEDGER)
+    ledger_predictions = prediction_runtime.ui_records()
+    prior_predictions = {**legacy_predictions, **ledger_predictions}
+    probability_artifact = _load_probability_artifact()
     st = team_lambdas()
     sess = _session()
     season = datetime.now().year
@@ -1027,11 +1158,13 @@ def main() -> int:
             built_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
             pre_registered=False,
             explanation_kind=(game.get("설명메타") or {}).get("kind", "deterministic"),
+            probability_artifact=probability_artifact,
         )
 
     out = []
     for g in games.values():
         annotate_options(g)
+        attach_score_forecast(g)
         if g.get("no_odds") and not g["options"]:
             if not g.get("no_model"):
                 h0, _, a0 = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
@@ -1085,6 +1218,13 @@ def main() -> int:
     commentary_llm.flush()      # 캐시 저장 + 이번 주기 호출/적중 요약
 
     out.sort(key=lambda g: (g["date"], g["home"]))
+    ledger_sync = _sync_prediction_runtime(
+        prediction_runtime,
+        out,
+        observed_at=feature_cutoff_at,
+    )
+    ledger_predictions = prediction_runtime.ui_records()
+    prior_predictions = {**legacy_predictions, **ledger_predictions}
     for game in out:
         _attach_prediction_record(game, prior_predictions)
     past_g = [g for g in out if g["status"] == "정산"]
@@ -1097,21 +1237,38 @@ def main() -> int:
 
     live_g = [g for g in out if g["status"] in ("경기전", "배당대기", "결과확인")]
 
-    # 과거 경기에 현재까지의 전체 기록으로 λ를 다시 붙인 추천은 당시 예측이 아니다.
-    # 실제로 표시 28건 중 당시 데이터로 같은 선택은 8건뿐이었다. 사전 저장한 원장이
-    # 생기기 전까지는 가짜 적중률을 만드는 대신 집계를 비운다.
-    tally = None
+    # 불변 원장에 경기 전에 저장되고 공식 정산까지 연결된 최신 revision만 집계한다.
+    # 기존 picks_v2에서 복원한 레거시 기록은 원장 성적으로 섞지 않는다.
+    tally = tally_prediction_records(ledger_predictions)
+    ledger_record_count = len(prediction_runtime.records())
+    tally_status = (
+        "prediction_ledger" if tally is not None
+        else "prediction_ledger_collecting" if ledger_record_count
+        else "prediction_ledger_required"
+    )
 
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     doc = {
         "generated_at": generated_at,
         "rounds": rounds, "live": live_g, "past": past_g, "tally": tally,
-        "tally_status": "prediction_ledger_required",
+        "tally_status": tally_status,
+        "prediction_pipeline": {
+            "ledger_schema": "pregame-prediction-ledger-v1",
+            "ledger_records": ledger_record_count,
+            "sync": ledger_sync,
+            "score_forecast": "shadow_only",
+            "probability_artifact": (
+                "loaded_fail_closed" if probability_artifact is not None
+                else "absent_market_baseline"
+            ),
+            "minimum_pristine_predictions_for_promotion": 300,
+        },
         "note": ("전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 "
                  "경기마다 하나만 골라 보여줍니다."),
         "warning": ("경기별 선택은 검증된 AI 우위가 아니라 Shin 시장확률 기준의 비교 후보입니다. "
                     "구조 모델과 선수 정보 AI는 연구·설명 단계로 분리되어 최종 확률을 바꾸지 않습니다. "
-                    "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다."),
+                    "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다. "
+                    "스코어 전망은 아직 추천 확률을 바꾸지 않는 연구값입니다."),
         "decision_schema": "decision-snapshot-v2",
         "decision_manifest": decision_manifest(),
     }

@@ -3,6 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+import ai_decision  # noqa: E402
 from ai_decision import (  # noqa: E402
     USAGE_CONSUMERS,
     build_decision_snapshot,
@@ -14,6 +15,7 @@ from ai_decision import (  # noqa: E402
     usage_counts,
     validate_decision_snapshot,
 )
+from probability_pipeline import artifact_hash, build_artifact  # noqa: E402
 
 
 def _game(round_no: int = 91) -> dict:
@@ -54,6 +56,40 @@ def _game(round_no: int = 91) -> dict:
             },
         ],
     }
+
+
+def _promoted_artifact() -> dict:
+    return build_artifact(
+        feature_order=["market_probability"],
+        models=[{
+            "sport": "*",
+            "market": "*",
+            "intercept": 0.0,
+            "coefficients": [0.3],
+            "uncertainty_clip": {
+                "residual_min": -0.5,
+                "residual_max": 0.5,
+                "logit_radius": 0.1,
+                "probability_min": 0.01,
+                "probability_max": 0.99,
+            },
+            "calibration": {
+                "schema": "probability-calibration",
+                "version": 1,
+                "method": "identity",
+            },
+        }],
+        evidence={
+            "pristine_future": True,
+            "n_predictions": 300,
+            "brier_improvement_ci95": [0.001, 0.01],
+            "log_loss_improvement_ci95": [0.001, 0.01],
+            "baseline_average_odds": 1.65,
+            "candidate_average_odds": 1.65,
+            "baseline_coverage": 0.70,
+            "candidate_coverage": 0.70,
+        },
+    )
 
 
 def test_hit_probability_ranker_prefers_target_odds_before_low_price_fallback():
@@ -220,6 +256,41 @@ def test_operational_label_without_passed_gate_cannot_change_probability():
         assert "unvalidated AI" in str(error)
     else:
         raise AssertionError("검증 관문 없는 operational 값이 통과했다")
+
+
+def test_self_claimed_promoted_artifact_stays_shadow_until_code_reviewed():
+    artifact = _promoted_artifact()
+    snapshot = build_decision_snapshot(
+        _game(),
+        as_of="2026-08-27T09:00:00+09:00",
+        probability_artifact=artifact,
+    )
+
+    assert snapshot["probability"]["residual_candidate"] is not None
+    assert snapshot["probability"]["final"] == snapshot["probability"]["market"]
+    assert snapshot["probability"]["ai_delta_applied"] == 0.0
+    assert snapshot["model"]["artifact_hash"] == artifact_hash(artifact)
+    assert snapshot["model"]["promotion_gate"] == "not_passed"
+
+
+def test_allowlisted_promoted_artifact_can_change_final_probability(monkeypatch):
+    artifact = _promoted_artifact()
+    digest = artifact_hash(artifact)
+    monkeypatch.setattr(
+        ai_decision, "PROMOTED_ARTIFACT_HASHES", frozenset({digest})
+    )
+
+    snapshot = build_decision_snapshot(
+        _game(),
+        as_of="2026-08-27T09:00:00+09:00",
+        probability_artifact=artifact,
+    )
+
+    assert snapshot["probability"]["final"] != snapshot["probability"]["market"]
+    assert snapshot["probability"]["ai_delta_applied"] != 0.0
+    assert snapshot["model"]["status"] == "operational"
+    assert snapshot["model"]["promotion_gate"] == "passed"
+    validate_decision_snapshot(snapshot)
 
 
 def test_missing_or_invalid_price_cannot_be_a_market_reference():

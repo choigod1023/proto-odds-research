@@ -49,6 +49,35 @@ function usePoll(url, ms) {
 const useLive = () => usePoll(LIVE_URL, 60000);
 const useLiveOdds = () => usePoll(ODDS_URL, 120000);
 
+const SCORE_UNIT_LABEL = {
+  bs: "득점",
+  sc: "골",
+  bk: "득점",
+  vl: "세트",
+};
+
+// 새 생성기가 한 번 돌기 전의 정적 JSON도 빈칸으로 보이지 않게 한다. 이 fallback은
+// 경기 전 λ 평균만 보여주며 상위 스코어 확률은 원장 연동 데이터가 온 뒤 표시한다.
+function scoreForecastForView(game) {
+  if (game?.score_forecast) return game.score_forecast;
+  if (!["경기전", "배당대기"].includes(game?.status) || game?._liveStarted) return null;
+  const home = Number(game?.lam_home);
+  const away = Number(game?.lam_away);
+  if (!Number.isFinite(home) || !Number.isFinite(away)) return null;
+  return {
+    status: "shadow",
+    affects_probability: false,
+    expected_scores: {
+      home,
+      away,
+      total: home + away,
+      unit: SCORE_UNIT_LABEL[game.sport] || "득점",
+    },
+    contract: { score_unit_label: SCORE_UNIT_LABEL[game.sport] || "득점" },
+    top_scorelines: [],
+  };
+}
+
 /** 프로토 표기와 네이버 표기가 다르므로(마이말린 ↔ 마이애미) 별칭까지 키로 넣는다.
  *
  * ⚠️ 키에 **날짜(MM.DD)를 반드시 포함**한다. 팀 조합만으로 잡으면 MLB 3~4연전에서
@@ -1165,7 +1194,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
         aria-labelledby={tabId(current)} tabIndex={0}>
         {current === "summary" && <>
           {analysis
-            ? <PredictionPanel analysis={analysis} />
+            ? <PredictionPanel analysis={analysis} scoreForecast={scoreForecastForView(g)} />
             : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>}
           <div className="mt-3 border-t border-rule2 pt-3"><TeamsPanel g={g} /></div>
         </>}
