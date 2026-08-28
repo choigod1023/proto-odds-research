@@ -300,8 +300,10 @@ function GameList({ data, grades, caps, stale, today }) {
   //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
   //    '배당 대기'만 줄줄이 보여서 "오늘 건데 왜 배당이 없냐"로 읽힌다.
   //    이 페이지의 제목이 '오늘 뭘 사면 덜 잃나' 다. 기본값이 그걸 보여줘야 한다.
+  // 날짜는 실제 MM.DD 대신 상대값으로 보관한다. 페이지를 자정 너머 계속 열어
+  // 두어도 "오늘"이 어제 날짜에 고정되지 않고 새 KST 날짜를 따라간다.
   const [f, setF] = useState({ st: "예정", lg: "", mk: "", rd: "", q: "",
-                               dt: kstMMDD(0) });
+                               dt: "today" });
 
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
@@ -316,12 +318,9 @@ function GameList({ data, grades, caps, stale, today }) {
     [alignedToday, clock, stale],
   );
   const todayMemberships = useMemo(() => buildTodayMemberships(activeToday), [activeToday]);
-  useEffect(() => {
-    if (activeToday?.window !== "next_morning") return;
-    setF((current) => current.dt === kstMMDD(0)
-      ? { ...current, dt: kstMMDD(1) }
-      : current);
-  }, [activeToday?.window]);
+  const selectedDate = f.dt === "today"
+    ? kstMMDD(0)
+    : f.dt === "tomorrow" ? kstMMDD(1) : "";
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
@@ -339,9 +338,9 @@ function GameList({ data, grades, caps, stale, today }) {
       (!f.rd || String(g.round) === f.rd) &&
       // 날짜 — 회차는 여러 날에 걸쳐 있어서(93회차만 08.07~08.10) 회차 필터로는
       // '오늘 살 수 있는 것'을 못 고른다. 경기일로 직접 거른다.
-      (!f.dt || String(g.date ?? "").slice(0, 5) === f.dt) &&
+      (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)));
-  }, [pool, f]);
+  }, [pool, f, selectedDate]);
 
   const rows = [];
   let cur = null, n = 0;
@@ -403,8 +402,8 @@ function GameList({ data, grades, caps, stale, today }) {
       <div className="filter-shell">
         <div className="filter-primary">
           <div className="date-switch" aria-label="경기 날짜">
-            <button type="button" aria-pressed={f.dt === kstMMDD(0)} onClick={() => setF({ ...f, dt: kstMMDD(0) })}>오늘</button>
-            <button type="button" aria-pressed={f.dt === kstMMDD(1)} onClick={() => setF({ ...f, dt: kstMMDD(1) })}>내일</button>
+            <button type="button" aria-pressed={f.dt === "today"} onClick={() => setF({ ...f, dt: "today" })}>오늘</button>
+            <button type="button" aria-pressed={f.dt === "tomorrow"} onClick={() => setF({ ...f, dt: "tomorrow" })}>내일</button>
             <button type="button" aria-pressed={!f.dt} onClick={() => setF({ ...f, dt: "" })}>전체</button>
           </div>
           <div className="team-search">
@@ -434,7 +433,7 @@ function GameList({ data, grades, caps, stale, today }) {
 
           </div>
           <div className="filter-actions">
-            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: kstMMDD(0) }); setCap(0); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "예정", lg: "", mk: "", rd: "", q: "", dt: "today" }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
