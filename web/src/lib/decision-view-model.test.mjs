@@ -157,7 +157,7 @@ test("operational 문자열과 통과 표식만으로는 미승격 artifact가 �
   assert.equal(decision.probability.final, .62);
   assert.equal(decision.probability.aiDeltaApplied, 0);
   assert.equal(decision.probability.basis, "shin_market");
-  assert.equal(decisionLabel(decision), "시장 기준 비교");
+  assert.equal(decisionLabel(decision), "예상 적중 비교");
 });
 
 test("v2 압축 원장의 단계 설명과 자료 사용 상태를 공용 카탈로그에서 복원한다", () => {
@@ -202,7 +202,7 @@ test("스냅샷이 없으면 레거시 모델을 무시하고 현재 시장 최�
   assert.equal(decision.probability.final, .60);
   assert.equal(decision.contractReconstructed, true);
   assert.deepEqual(decision.contractErrors, []);
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 자동 복구");
+  assert.equal(decisionLabel(decision), "예상 적중 비교 · 자동 복구");
 });
 
 test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 표시한다", () => {
@@ -227,7 +227,7 @@ test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 �
   assert.deepEqual(decision.gateCodes, ["lower_odds_fallback"]);
   assert.equal(decision.liveOddsRecalculated, true);
   assert.equal(decision.asOf, "2026-08-27T05:02:24Z");
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 미만 최유력");
+  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 보조");
 });
 
 test("1.50 미만이어도 시장 최유력 방향을 유지한다", () => {
@@ -241,10 +241,10 @@ test("1.50 미만이어도 시장 최유력 방향을 유지한다", () => {
   assert.equal(decision.recommendationEligible, true);
   assert.equal(decision.recommendationPriority, "fallback");
   assert.deepEqual(decision.gateCodes, ["lower_odds_fallback"]);
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 미만 최유력");
+  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 보조");
 });
 
-test("1.50 경계보다 시장확률이 높은 기존 방향을 우선한다", () => {
+test("1.50 이상 후보를 저배당 시장확률보다 우선한다", () => {
   const lowOption = { ...option, 배당: 1.48 };
   const eligibleOption = {
     ...option,
@@ -259,13 +259,13 @@ test("1.50 경계보다 시장확률이 높은 기존 방향을 우선한다", (
   const game = gameFor(snapshot, { options: [lowOption, eligibleOption] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, lowOption);
+  assert.equal(selected, eligibleOption);
   assert.equal(decision.action, "market_reference");
-  assert.equal(decision.probability.final, .62);
+  assert.equal(decision.probability.final, .55);
   assert.equal(decision.recommendationEligible, true);
-  assert.equal(decision.policyRecalculated, false);
-  assert.equal(decision.recommendationPriority, "fallback");
-  assert.equal(decisionLabel(decision), "시장 기준 비교 · 1.50 미만 최유력");
+  assert.equal(decision.policyRecalculated, true);
+  assert.equal(decision.recommendationPriority, "primary");
+  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50~2.20 우선");
 });
 
 test("이전 정책의 1.50 미만 보류를 보조 추천으로 복구한다", () => {

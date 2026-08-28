@@ -367,7 +367,7 @@ function playerSentence(players) {
 function expectedFlowSentence(game, prediction) {
   const marketName = String(prediction?.market || "");
   const reversal = prediction?.decision?.recommendationPriority === "reversal";
-  const chosen = reversal ? "전환 최종 픽으로 정했다" : "시장 기준 비교 후보로 남겼다";
+  const chosen = reversal ? "전환 최종 픽으로 정했다" : "최종 예상 적중 후보로 정했다";
   if (marketName.includes("언더오버")) {
     const low = String(prediction.outcome || "").includes("언더");
     const firstHalf = marketName.startsWith("전반");

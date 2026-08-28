@@ -3,6 +3,8 @@
 수치 모델, 선수·출전 자료, 생성형 AI가 한 화면에 함께 나오더라도 실제 확률에
 무엇이 들어갔는지를 숨기지 않는 것이 목적이다. 현재 검증된 운영식은
 ``p_final = p_shin_market`` 이므로 구조 모델의 차이는 shadow 로만 기록한다.
+추천 정렬은 시장확률 필드를 직접 보지 않고 이 최종확률을 사용한다. 이후 검증된
+잔차모델이 승격되면 같은 정렬 계약 안에서 보정된 적중확률이 자동으로 우선된다.
 """
 from __future__ import annotations
 
@@ -43,6 +45,19 @@ def _number(value: object) -> float | None:
     except (TypeError, ValueError):
         return None
     return number if math.isfinite(number) else None
+
+
+def hit_probability(option: dict) -> float | None:
+    """추천 정렬에 쓰는 최종 예상 적중확률.
+
+    생성 단계가 검증된 AI 보정을 적용했으면 ``최종확률``에 반영한다. 아직 승격된
+    모델이 없거나 구형 산출물이면 동일 시점 Shin 시장확률로 안전하게 복귀한다.
+    """
+    final = _number(option.get("최종확률"))
+    if final is not None and 0.0 < final < 1.0:
+        return final
+    market = _number(option.get("시장확률"))
+    return market if market is not None and 0.0 < market < 1.0 else None
 
 
 def decision_manifest() -> dict:
@@ -133,16 +148,18 @@ def annotate_options(game: dict) -> None:
 
 
 def choose_market_reference(options: list[dict]) -> dict | None:
-    """시장확률이 가장 높은 유효 선택 하나를 운영 기준으로 고른다.
+    """가격대 우선선 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다.
 
     이변 후보는 설명용 shadow 신호로만 남긴다. 시간순 외부검증을 통과하지 않은
-    모델 차이로 운영 방향을 뒤집지 않는다.
+    모델 차이로 운영 방향을 뒤집지 않는다. 1.50~2.20 미만 후보가 하나라도 있으면
+    그 후보군을 먼저 쓰고, 없을 때만 1.50 미만 최유력을 보조 선택으로 남긴다.
     """
     favorite_by_market: dict[tuple, float] = {}
     for option in options:
         # 같은 문서를 재계산할 때 예전 배당에서 붙은 제외 사유가 남지 않게 한다.
         option.pop("제외", None)
         option.pop("추천점수", None)
+        option.pop("예상적중확률", None)
         option.pop("선택근거", None)
         option.pop("추천우선순위", None)
         option.pop("최종전환", None)
@@ -175,19 +192,30 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         if probability is None:
             option["제외"] = "시장확률을 계산할 수 없음"
             continue
-        option["추천점수"] = round(probability, 4)
+        predicted_hit = hit_probability(option)
+        if predicted_hit is None:
+            option["제외"] = "최종 예상 적중확률을 계산할 수 없음"
+            continue
+        option["예상적중확률"] = round(predicted_hit, 4)
+        option["추천점수"] = round(predicted_hit, 4)
         option["추천우선순위"] = (
             "primary" if recommendation_priority(option.get("배당")) == 1 else "fallback"
         )
+        source = str(option.get("확률근거") or "shin_market")
         option["선택근거"] = (
-            "shin_market_accuracy_target_band"
-            if option["추천우선순위"] == "primary"
-            else "shin_market_accuracy_low_odds"
+            "validated_final_hit_probability"
+            if option.get("AI반영") is True
+            else f"{source}_hit_probability"
         )
         eligible.append(option)
     if not eligible:
         return None
-    return max(eligible, key=lambda option: (
+    primary = [
+        option for option in eligible if option.get("추천우선순위") == "primary"
+    ]
+    pool = primary or eligible
+    return max(pool, key=lambda option: (
+        hit_probability(option) or 0.0,
         _number(option.get("시장확률")) or 0.0,
         -(_number(option.get("배당")) or 999.0),
         str(option.get("selection_id") or ""),

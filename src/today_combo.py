@@ -12,10 +12,9 @@
    목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다.
 
 2. **그 배당대 안에서 어느 경기를 고를 것인가** — 여기가 이 파일이다.
-   실제 조합배당을 목표의 95~115% 안에 묶고, 선택 경기별 공통 Shin 시장확률의
-   곱이 가장 큰 서로 다른 경기 조합을 찾는다. 동률이면 환급률과 목표 근접도를 쓴다.
-   이 확률은 자체 모델 우위가 아니라 시장 기준이다. 따라서 적중·이변 위험을
-   정직하게 비교할 수는 있지만, 시장보다 더 잘 맞는다는 뜻은 아니다.
+   실제 조합배당을 목표의 95~115% 안에 묶고, 선택 경기별 최종 예상 적중확률의
+   곱이 가장 큰 서로 다른 경기 조합을 찾는다. 검증 보정값이 없는 현재 선택지는
+   Shin 시장확률로 복귀한다. 동률이면 환급률과 목표 근접도를 쓴다.
 
 규정 (https://www.sportstoto.co.kr/proto_rules.php · 2022-03 19회차 한경기구매 도입)
   · **한경기구매(단폴)**: '한경기' 로 지정된 경기만. 단위투표금액 1,000원
@@ -104,15 +103,20 @@ def calibrated_leg_probability(candidate: dict) -> tuple[float | None, float | N
     예전 식은 넓은 배당구간 평균 ROI를 개별 후보 배당으로 나눈 뒤, 실제 승수도 아닌
     그 파생값에 Wilson 하한을 적용했다. 후보별 적중확률이 아니므로 선택에 쓰지 않는다.
     """
+    final = probability_of(candidate.get("predicted_hit_prob"))
     market = probability_of(candidate.get("market_prob"))
-    return market, market
+    estimate = final if final is not None else market
+    return estimate, estimate
 
 
 def leg_quality(candidate: dict) -> tuple:
     calibrated, conservative = calibrated_leg_probability(candidate)
-    probability = probability_of(candidate.get("market_prob"))
+    probability = probability_of(candidate.get("predicted_hit_prob"))
+    if probability is None:
+        probability = probability_of(candidate.get("market_prob"))
     odds = float(candidate.get("odds") or 0.0)
     return (
+        -recommendation_priority(odds),
         -(conservative or 0.0),
         -(calibrated or 0.0),
         -(probability or 0.0),
@@ -243,6 +247,9 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
                     "payout": g.get("payout"), "hist_roi": s.get("hist_roi"),
                     "hist_n": s.get("hist_n"),
                     "market_prob": round(market_prob, 4),
+                    "predicted_hit_prob": round(market_prob, 4),
+                    "probability_source": "shin_market_fallback",
+                    "has_validated_edge": False,
                     "market_gap": round(market_gap, 4),
                     "n_way": len(selections),
                     "failure_prob": round(1.0 - market_prob, 4),
@@ -276,7 +283,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
                favorite_by_market[(candidate["event_key"], candidate["market"],
                                    str(candidate["market_label"]))] - 1e-9]
     # 경기 카드와 오늘 조합이 서로 다른 마켓을 추천하지 않도록 실제 경기마다
-    # 1.50 이상을 먼저 고르고, 그 안에서 시장확률이 가장 높은 후보 하나만 남긴다.
+    # 1.50 이상을 먼저 고르고, 그 안에서 최종 예상 적중확률이 가장 높은 후보 하나만 남긴다.
     # 해당 경기의 유효 후보가 전부 1.50 미만이면 최유력을 보조 추천으로 남긴다.
     best_by_event: dict[str, dict] = {}
     for candidate in deduped:
@@ -344,15 +351,19 @@ def ticket_metrics(legs: list[dict]) -> dict:
                          if all(p[1] is not None for p in calibrated) else None)
     out = {
         "actual_odds": round(odds, 2),
-        "independent_hit_est": (round(market_hit, 5) if market_hit is not None else None),
+        "independent_hit_est": (round(calibrated_hit, 5)
+                                 if calibrated_hit is not None else None),
+        "market_reference_hit_est": (round(market_hit, 5)
+                                      if market_hit is not None else None),
         "market_reference_roi": (round(market_hit * odds - 1.0, 4)
                                  if market_hit is not None else None),
         "independence_assumption": True,
-        # 구형 산출물·브라우저 호환용 별칭. 실제 보정치나 신뢰하한은 아니다.
-        "hit_est": (round(market_hit, 5) if market_hit is not None else None),
-        "upset_risk": (round(1.0 - market_hit, 5) if market_hit is not None else None),
-        "expected_roi": (round(market_hit * odds - 1.0, 4)
-                         if market_hit is not None else None),
+        # 구형 산출물·브라우저 호환용 별칭. 현재는 위 최종 적중 추정치와 같다.
+        "hit_est": (round(calibrated_hit, 5) if calibrated_hit is not None else None),
+        "upset_risk": (round(1.0 - calibrated_hit, 5)
+                        if calibrated_hit is not None else None),
+        "expected_roi": (round(calibrated_hit * odds - 1.0, 4)
+                         if calibrated_hit is not None else None),
         "calibrated_hit_est": (round(calibrated_hit, 5)
                                if calibrated_hit is not None else None),
         "calibrated_expected_roi": (round(calibrated_hit * odds - 1.0, 4)
@@ -362,8 +373,14 @@ def ticket_metrics(legs: list[dict]) -> dict:
         "conservative_expected_roi": (round(conservative_hit * odds - 1.0, 4)
                                        if conservative_hit is not None else None),
         "calibration_min_n": None,
-        "has_validated_edge": False,
-        "probability_source": "shin_market",
+        "has_validated_edge": bool(legs) and all(
+            candidate.get("has_validated_edge") is True for candidate in legs
+        ),
+        "probability_source": (
+            "validated_final_probability"
+            if legs and all(candidate.get("has_validated_edge") is True for candidate in legs)
+            else "shin_market_fallback"
+        ),
     }
     return out
 
@@ -437,7 +454,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 _reference_metric(plan, "independent_hit_est",
                                   "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "경기별 시장 최유력으로 만든 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
+            why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
                 _reference_metric(plan, "market_reference_roi",
@@ -474,14 +491,18 @@ def build() -> dict:
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "bins": bins,
-                              "why": "경기별 시장 최유력 중 1.50~2.20 미만 선택만으로 목표 배당을 못 만든다"})
+                              "why": "1.50~2.20 미만 최종 적중 우선 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
         out_plans.append({
             "target": t, "ok": True, "legs": len(legs),
             "bins": bins,
             **metrics,
-            "probability_basis": "서로 다른 경기의 Shin 시장확률 독립 가정 · 검증된 잔차 계수 0",
+            "probability_basis": (
+                "서로 다른 경기의 검증 보정 최종확률 독립 가정"
+                if metrics.get("has_validated_edge")
+                else "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정"
+            ),
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
             "picks": legs,
@@ -502,9 +523,9 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": today.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "경기별 방향은 배당 경계와 무관하게 Shin 시장확률이 가장 높은 "
-                 "선택 하나로 고정한다. 목표 조합은 그 뒤 1.50~2.20 미만 가격 제약 "
-                 "안에서 독립 가정 결합 적중확률을 최대화한다.",
+        "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 "
+                 "적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 "
+                 "Shin 시장확률로 복귀한다.",
         "n_candidates": len(cands),
         "n_primary_candidates": sum(
             1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
@@ -514,7 +535,7 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "시장 최유력만 · 방향과 목표배당 분리 · 2.20 이상 제외 · 역배는 관찰만",
+        "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
