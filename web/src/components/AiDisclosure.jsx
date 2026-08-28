@@ -103,16 +103,30 @@ export function AiDecisionPath({ decision }) {
       )}
       {decision.contractReconstructed && (
         <p className="ai-revision-warning" role="status">
-          {decision.policyRecalculated
+          {decision.contractRecoveredErrors?.length
+            ? "저장된 선택 식별자나 당시 확률이 현재 배당과 어긋나 이전 값을 버렸습니다. 현재 유효 배당의 최종 예상 적중확률로 자동 복구했으며, 이전 픽과 미검증 AI 값은 사용하지 않았습니다."
+            : decision.policyRecalculated
             ? decision.recommendationPriority === "fallback"
               ? "현재 배당에서 1.50 미만 시장 최유력을 경기 방향으로 다시 판정했습니다."
-              : "현재 배당에서 시장확률이 가장 높은 선택으로 다시 판정했습니다."
+              : "현재 배당에서 1.50~2.20 후보 중 최종 예상 적중확률이 가장 높은 선택으로 다시 판정했습니다."
             : decision.liveOddsRecalculated
             ? "실시간 배당으로 Shin 시장확률과 최종 판정을 다시 계산했습니다. 구조 AI와 이전 가격의 추천값은 반영하지 않았습니다."
             : "판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다. 구조 AI와 레거시 추천값은 반영하지 않았습니다."}
         </p>
       )}
-      {(decision.action === "withhold" || ["lower_odds_fallback", "qualified_market_reversal"].includes(visibleGate)) && visibleGate && (
+      {decision.action === "withhold" && !!decision.withholdReasons?.length && (
+        <div className="ai-revision-warning" role="status">
+          <b>이 픽을 가지 말아야 하는 이유</b>
+          <ul className="mt-1 list-disc space-y-1 pl-4">
+            {decision.withholdReasons.map((reason) => (
+              <li key={`${reason.title}-${reason.body}`}>
+                <strong>{reason.title}</strong> · {reason.body}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {(decision.action !== "withhold" && ["lower_odds_fallback", "qualified_market_reversal"].includes(visibleGate)) && visibleGate && (
         <p className="ai-revision-warning" role="status">{gateText[visibleGate]}</p>
       )}
       <div className="ai-stage-list" aria-label="AI 단계별 반영 상태">
