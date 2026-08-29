@@ -27,6 +27,13 @@ def test_odds_are_idempotent_and_latest_value_is_queryable(tmp_path):
     assert latest[0]["odds"] == [1.75, 2.05]
 
 
+def test_malformed_legacy_odds_row_does_not_abort_batch(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    malformed = {**odds_row(), "game_no": "bad", "n_way": "bs"}
+    assert db.insert_odds([malformed, odds_row()]) == 1
+    assert db.counts()["odds_snapshots"] == 1
+
+
 def test_prediction_records_and_artifacts_survive_source_file_removal(tmp_path):
     db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
     record = {"ledger_sequence": 1, "record_type": "prediction",
