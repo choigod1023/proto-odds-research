@@ -159,6 +159,16 @@ def log(msg: str) -> None:
     print(f"[{datetime.now(timezone.utc):%m-%d %H:%M:%S}] {msg}", flush=True)
 
 
+def _clear_stale_locks() -> None:
+    """재시작으로 소유 프로세스가 사라진 수집·판정 잠금을 모두 제거한다."""
+    raw = REPO / "data" / "raw"
+    if not raw.exists():
+        return
+    for lock in raw.rglob("*.lock"):
+        lock.unlink(missing_ok=True)
+        log(f"남은 락 제거: {lock.relative_to(raw)}")
+
+
 def sh(args: list[str], cwd: Path | None = None, check: bool = False):
     return subprocess.run(args, cwd=cwd, check=check,
                           capture_output=True, text=True,
@@ -668,9 +678,7 @@ def main() -> int:
     # 재시작은 수집을 중간에 죽이므로 락이 남는다. 그러면 xg_watch 가
     # "이미 수집 중" 으로 최대 1시간을 건너뛴다(실제로 겪음).
     # 여기까지 왔다는 건 머신이 방금 떴다는 뜻이고, 그러면 도는 수집기는 없다.
-    for lock in (REPO / "data" / "raw").glob("*.lock"):
-        lock.unlink(missing_ok=True)
-        log(f"남은 락 제거: {lock.name}")
+    _clear_stale_locks()
 
     for name, cmd in LOOPERS:
         threading.Thread(target=run_looper, args=(name, cmd), daemon=True).start()

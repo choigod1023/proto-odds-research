@@ -174,3 +174,14 @@ def test_restart_refreshes_site_before_heavy_pipeline(tmp_path, monkeypatch):
     supervisor._run_publish_cycle(0)
 
     assert calls == ["light", "push", "heavy", "light", "push", "enrich", "push"]
+
+
+def test_restart_clears_nested_prediction_ledger_lock(tmp_path, monkeypatch):
+    nested = tmp_path / "data" / "raw" / "prediction_ledger" / "pregame.jsonl.lock"
+    nested.parent.mkdir(parents=True)
+    nested.write_text("stale\n", encoding="utf-8")
+    monkeypatch.setattr(supervisor, "REPO", tmp_path)
+
+    supervisor._clear_stale_locks()
+
+    assert not nested.exists()
