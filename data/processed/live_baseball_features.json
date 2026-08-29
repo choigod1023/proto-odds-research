@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T14:46:45+00:00",
+  "generated_at": "2026-08-29T15:49:17+00:00",
   "formula": "logit(p_adjusted)=logit(p_market)+beta^T*x",
   "coefficient_status": "not_fitted",
   "coefficient_gate": [
@@ -384,7 +384,7 @@
       "game_datetime": "2026-08-30T02:05:00",
       "away": "보스턴",
       "home": "뉴욕양키스",
-      "context_observed_at": "2026-08-29T09:21:57+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.022,
@@ -400,15 +400,15 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "NYY",
         "away_abbr": "BOS",
-        "home_capper_count": 1,
+        "home_capper_count": 2,
         "away_capper_count": 0,
-        "independent_capper_count": 1,
+        "independent_capper_count": 2,
         "home_share": 1.0,
-        "home_log_odds_smoothed": 1.0986,
+        "home_log_odds_smoothed": 1.6094,
         "opinion_entropy_0_to_1": 0.0,
         "strong_consensus": false,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
@@ -450,7 +450,7 @@
       "game_datetime": "2026-08-30T02:10:00",
       "away": "LA다저스",
       "home": "디트로이트",
-      "context_observed_at": "2026-08-29T09:21:57+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.137,
@@ -466,16 +466,16 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "DET",
         "away_abbr": "LAD",
-        "home_capper_count": 0,
-        "away_capper_count": 9,
-        "independent_capper_count": 9,
-        "home_share": 0.0,
-        "home_log_odds_smoothed": -2.9444,
-        "opinion_entropy_0_to_1": 0.0,
+        "home_capper_count": 1,
+        "away_capper_count": 10,
+        "independent_capper_count": 11,
+        "home_share": 0.0909,
+        "home_log_odds_smoothed": -1.9459,
+        "opinion_entropy_0_to_1": 0.4395,
         "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
@@ -516,7 +516,7 @@
       "game_datetime": "2026-08-30T03:10:00",
       "away": "시카고W",
       "home": "미네소타",
-      "context_observed_at": "2026-08-29T10:23:04+00:00",
+      "context_observed_at": "2026-08-29T15:32:16+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.056,
@@ -527,22 +527,22 @@
         "home_starter_hr9_edge": null,
         "away_starter_innings": 118.33333333333333,
         "home_starter_innings": 108.33333333333333,
-        "away_lineup_confirmed": false,
+        "away_lineup_confirmed": true,
         "home_lineup_confirmed": false
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "MIN",
         "away_abbr": "CWS",
-        "home_capper_count": 4,
-        "away_capper_count": 1,
-        "independent_capper_count": 5,
-        "home_share": 0.8,
-        "home_log_odds_smoothed": 1.0986,
-        "opinion_entropy_0_to_1": 0.7219,
-        "strong_consensus": true,
+        "home_capper_count": 5,
+        "away_capper_count": 2,
+        "independent_capper_count": 7,
+        "home_share": 0.7143,
+        "home_log_odds_smoothed": 0.7885,
+        "opinion_entropy_0_to_1": 0.8631,
+        "strong_consensus": false,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
       "weather": {
@@ -582,7 +582,7 @@
       "game_datetime": "2026-08-30T03:15:00",
       "away": "피츠버그",
       "home": "세인트루이스",
-      "context_observed_at": "2026-08-29T10:23:04+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.022,
@@ -598,16 +598,16 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "STL",
         "away_abbr": "PIT",
-        "home_capper_count": 3,
+        "home_capper_count": 5,
         "away_capper_count": 2,
-        "independent_capper_count": 5,
-        "home_share": 0.6,
-        "home_log_odds_smoothed": 0.3365,
-        "opinion_entropy_0_to_1": 0.971,
+        "independent_capper_count": 7,
+        "home_share": 0.7143,
+        "home_log_odds_smoothed": 0.7885,
+        "opinion_entropy_0_to_1": 0.8631,
         "strong_consensus": false,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
@@ -648,7 +648,7 @@
       "game_datetime": "2026-08-30T03:20:00",
       "away": "신시내티",
       "home": "시카고컵스",
-      "context_observed_at": "2026-08-29T10:23:04+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.089,
@@ -664,16 +664,16 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "CHC",
         "away_abbr": "CIN",
         "home_capper_count": 8,
-        "away_capper_count": 0,
-        "independent_capper_count": 8,
-        "home_share": 1.0,
-        "home_log_odds_smoothed": 2.8332,
-        "opinion_entropy_0_to_1": 0.0,
+        "away_capper_count": 1,
+        "independent_capper_count": 9,
+        "home_share": 0.8889,
+        "home_log_odds_smoothed": 1.7346,
+        "opinion_entropy_0_to_1": 0.5033,
         "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
@@ -714,7 +714,7 @@
       "game_datetime": "2026-08-30T04:07:00",
       "away": "시애틀",
       "home": "토론토",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.011,
@@ -730,17 +730,17 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "TOR",
         "away_abbr": "SEA",
-        "home_capper_count": 5,
+        "home_capper_count": 6,
         "away_capper_count": 2,
-        "independent_capper_count": 7,
-        "home_share": 0.7143,
-        "home_log_odds_smoothed": 0.7885,
-        "opinion_entropy_0_to_1": 0.8631,
-        "strong_consensus": false,
+        "independent_capper_count": 8,
+        "home_share": 0.75,
+        "home_log_odds_smoothed": 0.9555,
+        "opinion_entropy_0_to_1": 0.8113,
+        "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
       "weather": {
@@ -781,7 +781,7 @@
       "game_datetime": "2026-08-30T05:05:00",
       "away": "애리조나",
       "home": "샌프란시스코",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.122,
@@ -797,7 +797,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "SF",
         "away_abbr": "AZ",
@@ -849,7 +849,7 @@
       "game_datetime": "2026-08-30T05:05:00",
       "away": "마이애미",
       "home": "워싱턴",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.037,
@@ -865,7 +865,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "WSH",
         "away_abbr": "MIA",
@@ -915,7 +915,7 @@
       "game_datetime": "2026-08-30T05:10:00",
       "away": "콜로라도",
       "home": "애틀랜타",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.208,
@@ -931,7 +931,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "ATL",
         "away_abbr": "COL",
@@ -981,7 +981,7 @@
       "game_datetime": "2026-08-30T05:10:00",
       "away": "휴스턴",
       "home": "뉴욕메츠",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.06,
@@ -997,16 +997,16 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "NYM",
         "away_abbr": "HOU",
         "home_capper_count": 7,
-        "away_capper_count": 0,
-        "independent_capper_count": 7,
-        "home_share": 1.0,
-        "home_log_odds_smoothed": 2.7081,
-        "opinion_entropy_0_to_1": 0.0,
+        "away_capper_count": 1,
+        "independent_capper_count": 8,
+        "home_share": 0.875,
+        "home_log_odds_smoothed": 1.6094,
+        "opinion_entropy_0_to_1": 0.5436,
         "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
@@ -1048,7 +1048,7 @@
       "game_datetime": "2026-08-30T05:10:00",
       "away": "캔자스시티",
       "home": "클리블랜드",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.055,
@@ -1064,7 +1064,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "CLE",
         "away_abbr": "KC",
@@ -1114,7 +1114,7 @@
       "game_datetime": "2026-08-30T05:10:00",
       "away": "샌디에이고",
       "home": "탬파베이",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.064,
@@ -1130,16 +1130,16 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "TB",
         "away_abbr": "SD",
-        "home_capper_count": 7,
+        "home_capper_count": 9,
         "away_capper_count": 1,
-        "independent_capper_count": 8,
-        "home_share": 0.875,
-        "home_log_odds_smoothed": 1.6094,
-        "opinion_entropy_0_to_1": 0.5436,
+        "independent_capper_count": 10,
+        "home_share": 0.9,
+        "home_log_odds_smoothed": 1.8458,
+        "opinion_entropy_0_to_1": 0.469,
         "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
@@ -1180,7 +1180,7 @@
       "game_datetime": "2026-08-30T08:15:00",
       "away": "보스턴",
       "home": "뉴욕양키스",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.022,
@@ -1196,15 +1196,15 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "NYY",
         "away_abbr": "BOS",
-        "home_capper_count": 1,
+        "home_capper_count": 2,
         "away_capper_count": 0,
-        "independent_capper_count": 1,
+        "independent_capper_count": 2,
         "home_share": 1.0,
-        "home_log_odds_smoothed": 1.0986,
+        "home_log_odds_smoothed": 1.6094,
         "opinion_entropy_0_to_1": 0.0,
         "strong_consensus": false,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
@@ -1246,7 +1246,7 @@
       "game_datetime": "2026-08-30T08:15:00",
       "away": "텍사스",
       "home": "밀워키",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": 0.133,
@@ -1262,16 +1262,16 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "MIL",
         "away_abbr": "TEX",
-        "home_capper_count": 4,
+        "home_capper_count": 5,
         "away_capper_count": 1,
-        "independent_capper_count": 5,
-        "home_share": 0.8,
-        "home_log_odds_smoothed": 1.0986,
-        "opinion_entropy_0_to_1": 0.7219,
+        "independent_capper_count": 6,
+        "home_share": 0.8333,
+        "home_log_odds_smoothed": 1.2993,
+        "opinion_entropy_0_to_1": 0.65,
         "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
@@ -1312,7 +1312,7 @@
       "game_datetime": "2026-08-30T11:05:00",
       "away": "애리조나",
       "home": "샌프란시스코",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.122,
@@ -1328,7 +1328,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "SF",
         "away_abbr": "AZ",
@@ -1381,7 +1381,7 @@
       "game_datetime": "2026-08-30T11:05:00",
       "away": "볼티모어",
       "home": "애슬레틱스",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.096,
@@ -1397,15 +1397,15 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "ATH",
         "away_abbr": "BAL",
         "home_capper_count": 0,
-        "away_capper_count": 1,
-        "independent_capper_count": 1,
+        "away_capper_count": 2,
+        "independent_capper_count": 2,
         "home_share": 0.0,
-        "home_log_odds_smoothed": -1.0986,
+        "home_log_odds_smoothed": -1.6094,
         "opinion_entropy_0_to_1": 0.0,
         "strong_consensus": false,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
@@ -1447,7 +1447,7 @@
       "game_datetime": "2026-08-30T11:07:00",
       "away": "필라델피아",
       "home": "LA에인절스",
-      "context_observed_at": "2026-08-29T10:53:05+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.171,
@@ -1463,17 +1463,17 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T14:30:14+00:00",
+        "observed_at": "2026-08-29T15:34:19+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "LAA",
         "away_abbr": "PHI",
-        "home_capper_count": 0,
-        "away_capper_count": 3,
-        "independent_capper_count": 3,
-        "home_share": 0.0,
-        "home_log_odds_smoothed": -1.9459,
-        "opinion_entropy_0_to_1": 0.0,
-        "strong_consensus": false,
+        "home_capper_count": 1,
+        "away_capper_count": 4,
+        "independent_capper_count": 5,
+        "home_share": 0.2,
+        "home_log_odds_smoothed": -1.0986,
+        "opinion_entropy_0_to_1": 0.7219,
+        "strong_consensus": true,
         "warning": "전향 표본 검증 전에는 확률 보정에 사용하지 않음"
       },
       "weather": {
@@ -1690,17 +1690,17 @@
       "game_datetime": "2026-08-30T18:00:00",
       "away": "KT",
       "home": "삼성",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "context_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.007,
-        "home_recent_run_margin_edge": 4.8,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
-        "home_starter_whip_edge": 0.0,
-        "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "home_season_win_rate_edge": 0.001,
+        "home_recent_run_margin_edge": 5.2,
+        "home_starter_kbb9_edge": 4.049,
+        "home_starter_era_edge": -0.01,
+        "home_starter_whip_edge": -0.19,
+        "home_starter_hr9_edge": 0.155,
+        "away_starter_innings": 86.33333333333333,
+        "home_starter_innings": 23.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -1726,13 +1726,8 @@
         "weather_effect_applicable": true,
         "roof_state_known": true
       },
-      "missing_features": [
-        "home_starter_kbb9_edge",
-        "home_starter_hr9_edge"
-      ],
+      "missing_features": [],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -1744,17 +1739,17 @@
       "game_datetime": "2026-08-30T18:00:00",
       "away": "LG",
       "home": "롯데",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "context_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.098,
-        "home_recent_run_margin_edge": -0.2,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
-        "home_starter_whip_edge": 0.0,
-        "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "home_season_win_rate_edge": -0.107,
+        "home_recent_run_margin_edge": -4.2,
+        "home_starter_kbb9_edge": 0.053,
+        "home_starter_era_edge": 0.42,
+        "home_starter_whip_edge": -0.16,
+        "home_starter_hr9_edge": -0.492,
+        "away_starter_innings": 128.33333333333334,
+        "home_starter_innings": 114.66666666666667,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -1780,13 +1775,8 @@
         "weather_effect_applicable": true,
         "roof_state_known": true
       },
-      "missing_features": [
-        "home_starter_kbb9_edge",
-        "home_starter_hr9_edge"
-      ],
+      "missing_features": [],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -1798,17 +1788,17 @@
       "game_datetime": "2026-08-30T18:00:00",
       "away": "NC",
       "home": "한화",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "context_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.008,
-        "home_recent_run_margin_edge": -4.2,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
-        "home_starter_whip_edge": 0.0,
-        "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "home_season_win_rate_edge": -0.018,
+        "home_recent_run_margin_edge": -8.2,
+        "home_starter_kbb9_edge": 0.759,
+        "home_starter_era_edge": 0.43,
+        "home_starter_whip_edge": -0.18,
+        "home_starter_hr9_edge": 0.188,
+        "away_starter_innings": 119.33333333333333,
+        "home_starter_innings": 36.666666666666664,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -1834,13 +1824,8 @@
         "weather_effect_applicable": true,
         "roof_state_known": true
       },
-      "missing_features": [
-        "home_starter_kbb9_edge",
-        "home_starter_hr9_edge"
-      ],
+      "missing_features": [],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -1852,17 +1837,17 @@
       "game_datetime": "2026-08-30T18:00:00",
       "away": "SSG",
       "home": "KIA",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "context_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.125,
-        "home_recent_run_margin_edge": -0.2,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
-        "home_starter_whip_edge": 0.0,
-        "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "home_season_win_rate_edge": 0.133,
+        "home_recent_run_margin_edge": -1.8,
+        "home_starter_kbb9_edge": 8.63,
+        "home_starter_era_edge": 2.29,
+        "home_starter_whip_edge": 0.83,
+        "home_starter_hr9_edge": -0.704,
+        "away_starter_innings": 3.0,
+        "home_starter_innings": 140.66666666666666,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -1888,13 +1873,9 @@
         "weather_effect_applicable": true,
         "roof_state_known": true
       },
-      "missing_features": [
-        "home_starter_kbb9_edge",
-        "home_starter_hr9_edge"
-      ],
+      "missing_features": [],
       "warnings": [
         "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -1906,17 +1887,17 @@
       "game_datetime": "2026-08-30T18:00:00",
       "away": "키움",
       "home": "두산",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "context_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.17,
-        "home_recent_run_margin_edge": 3.0,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
-        "home_starter_whip_edge": 0.0,
-        "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "home_season_win_rate_edge": 0.177,
+        "home_recent_run_margin_edge": 6.8,
+        "home_starter_kbb9_edge": 6.649,
+        "home_starter_era_edge": 1.27,
+        "home_starter_whip_edge": 0.35,
+        "home_starter_hr9_edge": 0.416,
+        "away_starter_innings": 34.333333333333336,
+        "home_starter_innings": 121.66666666666667,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -1942,13 +1923,8 @@
         "weather_effect_applicable": true,
         "roof_state_known": true
       },
-      "missing_features": [
-        "home_starter_kbb9_edge",
-        "home_starter_hr9_edge"
-      ],
+      "missing_features": [],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2137,17 +2113,17 @@
       "game_datetime": "2026-08-31T01:15:00",
       "away": "마이애미",
       "home": "워싱턴",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.014,
-        "home_recent_run_margin_edge": -3.6667,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": -0.037,
+        "home_recent_run_margin_edge": 2.6667,
+        "home_starter_kbb9_edge": 0.621,
+        "home_starter_era_edge": 0.49,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 98.33333333333333,
+        "home_starter_innings": 84.66666666666667,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2174,13 +2150,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2192,17 +2165,17 @@
       "game_datetime": "2026-08-31T02:35:00",
       "away": "보스턴",
       "home": "뉴욕양키스",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.294,
-        "home_recent_run_margin_edge": 3.6667,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.022,
+        "home_recent_run_margin_edge": 1.3333,
+        "home_starter_kbb9_edge": -0.345,
+        "home_starter_era_edge": -0.97,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 118.33333333333333,
+        "home_starter_innings": 127.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2229,13 +2202,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2247,17 +2217,17 @@
       "game_datetime": "2026-08-31T02:35:00",
       "away": "콜로라도",
       "home": "애틀랜타",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.314,
-        "home_recent_run_margin_edge": 6.6667,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.208,
+        "home_recent_run_margin_edge": 0.0,
+        "home_starter_kbb9_edge": 0.824,
+        "home_starter_era_edge": -2.16,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 4.0,
+        "home_starter_innings": 118.33333333333333,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2284,13 +2254,11 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
         "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2302,17 +2270,17 @@
       "game_datetime": "2026-08-31T02:37:00",
       "away": "시애틀",
       "home": "토론토",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.014,
-        "home_recent_run_margin_edge": 4.3333,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.011,
+        "home_recent_run_margin_edge": 3.0,
+        "home_starter_kbb9_edge": -5.147,
+        "home_starter_era_edge": -3.66,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 155.33333333333334,
+        "home_starter_innings": 50.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2339,13 +2307,10 @@
         "roof_state_known": false
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2357,17 +2322,17 @@
       "game_datetime": "2026-08-31T02:40:00",
       "away": "캔자스시티",
       "home": "클리블랜드",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.073,
-        "home_recent_run_margin_edge": 3.0,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.055,
+        "home_recent_run_margin_edge": -3.6667,
+        "home_starter_kbb9_edge": 2.561,
+        "home_starter_era_edge": 2.13,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 150.33333333333334,
+        "home_starter_innings": 156.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2394,13 +2359,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2412,17 +2374,17 @@
       "game_datetime": "2026-08-31T02:40:00",
       "away": "LA다저스",
       "home": "디트로이트",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.104,
-        "home_recent_run_margin_edge": 3.0,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": -0.137,
+        "home_recent_run_margin_edge": 0.0,
+        "home_starter_kbb9_edge": -5.242,
+        "home_starter_era_edge": -1.33,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 44.666666666666664,
+        "home_starter_innings": 144.66666666666666,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2449,13 +2411,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2467,17 +2426,17 @@
       "game_datetime": "2026-08-31T02:40:00",
       "away": "샌디에이고",
       "home": "탬파베이",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.03,
-        "home_recent_run_margin_edge": 5.6667,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.064,
+        "home_recent_run_margin_edge": 2.6667,
+        "home_starter_kbb9_edge": 4.259,
+        "home_starter_era_edge": 0.27,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 143.0,
+        "home_starter_innings": 141.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2504,13 +2463,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2522,17 +2478,17 @@
       "game_datetime": "2026-08-31T03:10:00",
       "away": "시카고W",
       "home": "미네소타",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "home_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.042,
+        "home_season_win_rate_edge": -0.056,
         "home_recent_run_margin_edge": -7.0,
         "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_starter_era_edge": -4.86,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
         "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "home_starter_innings": 103.66666666666667,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2565,7 +2521,6 @@
       ],
       "warnings": [
         "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2577,17 +2532,17 @@
       "game_datetime": "2026-08-31T03:10:00",
       "away": "텍사스",
       "home": "밀워키",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.074,
-        "home_recent_run_margin_edge": 3.6667,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.133,
+        "home_recent_run_margin_edge": 11.0,
+        "home_starter_kbb9_edge": 0.812,
+        "home_starter_era_edge": -0.15,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 126.66666666666667,
+        "home_starter_innings": 124.33333333333333,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2614,13 +2569,10 @@
         "roof_state_known": false
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2632,17 +2584,17 @@
       "game_datetime": "2026-08-31T03:15:00",
       "away": "피츠버그",
       "home": "세인트루이스",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.045,
-        "home_recent_run_margin_edge": -4.0,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.022,
+        "home_recent_run_margin_edge": 3.0,
+        "home_starter_kbb9_edge": -1.288,
+        "home_starter_era_edge": -1.79,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 155.33333333333334,
+        "home_starter_innings": 129.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2669,13 +2621,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2687,17 +2636,17 @@
       "game_datetime": "2026-08-31T04:10:00",
       "away": "휴스턴",
       "home": "뉴욕메츠",
-      "context_observed_at": "2026-08-29T06:50:50+00:00",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
       "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.047,
-        "home_recent_run_margin_edge": -0.3333,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": -0.06,
+        "home_recent_run_margin_edge": -5.0,
+        "home_starter_kbb9_edge": -0.086,
+        "home_starter_era_edge": 3.59,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 40.333333333333336,
+        "home_starter_innings": 56.333333333333336,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2724,13 +2673,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2742,17 +2688,17 @@
       "game_datetime": "2026-08-31T05:05:00",
       "away": "볼티모어",
       "home": "애슬레틱스",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.088,
-        "home_recent_run_margin_edge": -0.3333,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": -0.096,
+        "home_recent_run_margin_edge": 1.3333,
+        "home_starter_kbb9_edge": 0.229,
+        "home_starter_era_edge": -1.34,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 74.0,
+        "home_starter_innings": 118.33333333333333,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2779,13 +2725,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2797,17 +2740,17 @@
       "game_datetime": "2026-08-31T05:07:00",
       "away": "필라델피아",
       "home": "LA에인절스",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": -0.041,
-        "home_recent_run_margin_edge": 1.0,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": -0.171,
+        "home_recent_run_margin_edge": -3.3333,
+        "home_starter_kbb9_edge": -2.462,
+        "home_starter_era_edge": -2.85,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 124.33333333333333,
+        "home_starter_innings": 36.0,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2834,13 +2777,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
@@ -2852,17 +2792,17 @@
       "game_datetime": "2026-08-31T08:20:00",
       "away": "신시내티",
       "home": "시카고컵스",
-      "context_observed_at": "2026-08-29T02:23:00+00:00",
-      "event_type": "baseline",
+      "context_observed_at": "2026-08-29T14:58:50+00:00",
+      "event_type": "away_starter_changed",
       "raw_features": {
-        "home_season_win_rate_edge": 0.059,
-        "home_recent_run_margin_edge": 7.0,
-        "home_starter_kbb9_edge": null,
-        "home_starter_era_edge": 0.0,
+        "home_season_win_rate_edge": 0.089,
+        "home_recent_run_margin_edge": -2.0,
+        "home_starter_kbb9_edge": -0.599,
+        "home_starter_era_edge": -1.07,
         "home_starter_whip_edge": null,
         "home_starter_hr9_edge": null,
-        "away_starter_innings": 0.0,
-        "home_starter_innings": 0.0,
+        "away_starter_innings": 139.66666666666666,
+        "home_starter_innings": 145.33333333333334,
         "away_lineup_confirmed": false,
         "home_lineup_confirmed": false
       },
@@ -2889,13 +2829,10 @@
         "roof_state_known": true
       },
       "missing_features": [
-        "home_starter_kbb9_edge",
         "home_starter_whip_edge",
         "home_starter_hr9_edge"
       ],
       "warnings": [
-        "away_starter_small_sample_lt_20ip",
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "probability_adjustment": null,
