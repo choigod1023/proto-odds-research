@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-30T02:53:34+09:00",
+ "generated_at": "2026-08-30T03:22:05+09:00",
  "source_generated_at": "2026-08-29T17:53:34+00:00",
- "live_odds_at": "2026-08-29T17:48:37+00:00",
+ "live_odds_at": "2026-08-29T18:16:15+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 61,
- "n_primary_candidates": 61,
+ "n_candidates": 58,
+ "n_primary_candidates": 58,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-30T03:10:00+09:00",
+ "next_kickoff_at": "2026-08-30T03:45:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -784,300 +784,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-30T03:10:00+09:00|미네트윈|시카화이",
-   "kickoff_at": "2026-08-30T03:10:00+09:00",
-   "round": 102,
-   "game_no": "7593",
-   "date": "08.30(일) 03:10",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "미네트윈 vs 시카화이",
-   "home": "미네트윈",
-   "away": "시카화이",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "홈",
-   "odds": 1.68,
-   "bin": "1.5-1.8",
-   "overround": 1.1358,
-   "payout": 88.05,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5273,
-   "predicted_hit_prob": 0.5273,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0547,
-   "n_way": 2,
-   "failure_prob": 0.4727,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 미네트윈 오버, 시카화이 페디다. 시즌 선발 지표는 미네트윈 선발 ERA 4.49·WHIP –·K-BB/9 3.7, 시카화이 선발 ERA 4.18·WHIP –·K-BB/9 3.1다. 최근 집계에서 미네트윈는 3경기 0승·득실 10:18, 시카화이는 3경기 3승·득실 28:15이다. 경기 외부 정보로는 경기 시각 예보는 기온 24.3°C·강수확률 2%·바람 4.9km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 4건은 홈 3건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260830CWMN0",
-    "observed_at": "2026-08-29T10:23:04+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "미네트윈",
-     "시카화이",
-     "오버",
-     "페디"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 미네트윈 오버, 시카화이 페디다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "starter_stats",
-      "text": "시즌 선발 지표는 미네트윈 선발 ERA 4.49·WHIP –·K-BB/9 3.7, 시카화이 선발 ERA 4.18·WHIP –·K-BB/9 3.1다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "recent_games",
-      "text": "최근 집계에서 미네트윈는 3경기 0승·득실 10:18, 시카화이는 3경기 3승·득실 28:15이다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 24.3°C·강수확률 2%·바람 4.9km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [
-     {
-      "kind": "public_picks",
-      "text": "공개 픽스터 머니라인 4건은 홈 3건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
-      "source": "TailSlips 공개 HTML",
-      "observed_at": "2026-08-29T11:41:13+00:00",
-      "status": "unvalidated"
-     }
-    ],
-    "limitations": [
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-30T03:15:00+09:00|세인카디|피츠파이",
-   "kickoff_at": "2026-08-30T03:15:00+09:00",
-   "round": 102,
-   "game_no": "7598",
-   "date": "08.30(일) 03:15",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "세인카디 vs 피츠파이",
-   "home": "세인카디",
-   "away": "피츠파이",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "홈",
-   "odds": 1.67,
-   "bin": "1.5-1.8",
-   "overround": 1.1364,
-   "payout": 87.99,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5306,
-   "predicted_hit_prob": 0.5306,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0612,
-   "n_way": 2,
-   "failure_prob": 0.4694,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 세인카디 레이히, 피츠파이 바처다. 시즌 선발 지표는 세인카디 선발 ERA 3.13·WHIP –·K-BB/9 5.6, 피츠파이 선발 ERA 3.70·WHIP –·K-BB/9 5.5다. 최근 집계에서 세인카디는 3경기 2승·득실 18:14, 피츠파이는 3경기 1승·득실 2:7이다. 경기 외부 정보로는 경기 시각 예보는 기온 30.3°C·강수확률 0%·바람 3.8km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 3건은 홈 2건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260830PISL0",
-    "observed_at": "2026-08-29T10:23:04+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "세인카디",
-     "피츠파이",
-     "레이히",
-     "바처"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 세인카디 레이히, 피츠파이 바처다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "starter_stats",
-      "text": "시즌 선발 지표는 세인카디 선발 ERA 3.13·WHIP –·K-BB/9 5.6, 피츠파이 선발 ERA 3.70·WHIP –·K-BB/9 5.5다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "recent_games",
-      "text": "최근 집계에서 세인카디는 3경기 2승·득실 18:14, 피츠파이는 3경기 1승·득실 2:7이다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 30.3°C·강수확률 0%·바람 3.8km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:08+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [
-     {
-      "kind": "public_picks",
-      "text": "공개 픽스터 머니라인 3건은 홈 2건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
-      "source": "TailSlips 공개 HTML",
-      "observed_at": "2026-08-29T11:41:13+00:00",
-      "status": "unvalidated"
-     }
-    ],
-    "limitations": [
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-30T03:20:00+09:00|시카컵스|신시레즈",
-   "kickoff_at": "2026-08-30T03:20:00+09:00",
-   "round": 102,
-   "game_no": "7606",
-   "date": "08.30(일) 03:20",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "시카컵스 vs 신시레즈",
-   "home": "시카컵스",
-   "away": "신시레즈",
-   "market": "언더오버",
-   "market_label": "U 8.5",
-   "booking": "2-way",
-   "sel": "오버",
-   "odds": 1.68,
-   "bin": "1.5-1.8",
-   "overround": 1.1358,
-   "payout": 88.05,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5273,
-   "predicted_hit_prob": 0.5273,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0547,
-   "n_way": 2,
-   "failure_prob": 0.4727,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 시카컵스 가우스먼, 신시레즈 애보트다. 시즌 선발 지표는 시카컵스 선발 ERA 4.43·WHIP –·K-BB/9 6.5, 신시레즈 선발 ERA 4.09·WHIP –·K-BB/9 2.8다. 최근 집계에서 시카컵스는 3경기 0승·득실 12:17, 신시레즈는 3경기 2승·득실 21:20이다. 경기 외부 정보로는 경기 시각 예보는 기온 27.5°C·강수확률 1%·바람 4.4km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 5건은 홈 5건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260830CICC0",
-    "observed_at": "2026-08-29T10:23:04+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "시카컵스",
-     "신시레즈",
-     "가우스먼",
-     "애보트"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 시카컵스 가우스먼, 신시레즈 애보트다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "starter_stats",
-      "text": "시즌 선발 지표는 시카컵스 선발 ERA 4.43·WHIP –·K-BB/9 6.5, 신시레즈 선발 ERA 4.09·WHIP –·K-BB/9 2.8다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "recent_games",
-      "text": "최근 집계에서 시카컵스는 3경기 0승·득실 12:17, 신시레즈는 3경기 2승·득실 21:20이다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:23:04+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 27.5°C·강수확률 1%·바람 4.4km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:10+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [
-     {
-      "kind": "public_picks",
-      "text": "공개 픽스터 머니라인 5건은 홈 5건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
-      "source": "TailSlips 공개 HTML",
-      "observed_at": "2026-08-29T11:41:13+00:00",
-      "status": "unvalidated"
-     }
-    ],
-    "limitations": [
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
   {
    "event_key": "2026-08-30T03:45:00+09:00|AJ오세르|앙제SCO",
    "kickoff_at": "2026-08-30T03:45:00+09:00",
@@ -3675,5 +3381,57 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-29T17:56:29+00:00",
+  "reason": "prices_recalculated",
+  "previous_revision": null,
+  "revision": "6e75961e4b0b12fb414fcccc4e629756d52f2a7e85d2647f7f1ccb81119546b7",
+  "previous": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7830|승무패||원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7744|승무패||홈",
+      "102|7855|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7855|핸디캡|H -1.0|핸디원정",
+      "102|7724|핸디캡|H -1.0|핸디원정",
+      "102|7830|승무패||원정"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7830|승무패||원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7744|승무패||홈",
+      "102|7855|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7855|핸디캡|H -1.0|핸디원정",
+      "102|7724|핸디캡|H -1.0|핸디원정",
+      "102|7830|승무패||원정"
+     ]
+    }
+   ]
+  }
+ },
+ "recommendation_revision": "6e75961e4b0b12fb414fcccc4e629756d52f2a7e85d2647f7f1ccb81119546b7",
+ "refreshed_at": "2026-08-29T18:22:05+00:00"
 }
