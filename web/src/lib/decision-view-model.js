@@ -10,6 +10,7 @@ const finite = (value) => {
 export const DECISION_SCHEMA = "decision-snapshot-v2";
 // 검증을 마쳐 배포된 artifact가 생길 때만 해시를 코드 리뷰로 추가한다.
 const PROMOTED_ARTIFACT_HASHES = new Set();
+const POLICY_AUTHORIZED_MODELS = new Set(["internal-context-blend-v2"]);
 
 export const AI_STAGE_CATALOG = [
   {
@@ -429,7 +430,11 @@ export function buildDecisionViewModel(game, option = null) {
     && raw?.model?.promotion_gate === "passed"
     && !!raw?.model?.operating_version
     && PROMOTED_ARTIFACT_HASHES.has(raw?.model?.artifact_hash);
-  const canApply = modelStatus === "operational" && validatedEdge;
+  const policyAuthorized = raw?.model?.policy_authorized === true
+    && POLICY_AUTHORIZED_MODELS.has(raw?.model?.operating_version);
+  const canApply = modelStatus === "operational"
+    && raw?.model?.promotion_gate === "passed"
+    && (validatedEdge || policyAuthorized);
   const aiCandidate = action === "market_reference"
     ? finite(raw?.probability?.ai_candidate) : null;
   // 검증되지 않은 AI가 final을 바꿔 담은 잘못된 JSON도 화면에서 fail-close한다.
@@ -461,12 +466,15 @@ export function buildDecisionViewModel(game, option = null) {
       aiDeltaApplied: appliedDelta,
       final: finalProbability,
       basis: finalProbability !== null
-        ? (canApply ? "validated_ai_residual" : "shin_market")
+        ? (validatedEdge ? "validated_ai_residual"
+          : policyAuthorized ? raw?.probability?.basis || "internal-context-blend-v2"
+          : "shin_market")
         : "unavailable",
     },
     model: {
       status: modelStatus,
-      validatedEdge: canApply,
+      validatedEdge,
+      policyAuthorized: canApply && policyAuthorized,
       operatingVersion: raw?.model?.operating_version || "shin-market-anchor-v1",
       residualVersion: raw?.model?.residual_version || null,
     },

@@ -167,6 +167,32 @@ test("operational 문자열과 통과 표식만으로는 미승격 artifact가 �
   assert.equal(decisionLabel(decision), "예상 적중 비교");
 });
 
+test("코드에 승인된 내부요인 운영식만 별도 표식으로 확률을 바꾼다", () => {
+  const internal = {
+    ...snapshot,
+    model: {
+      status: "operational",
+      validated_edge: false,
+      policy_authorized: true,
+      promotion_gate: "passed",
+      operating_version: "internal-context-blend-v2",
+      artifact_hash: null,
+    },
+    probability: {
+      ...snapshot.probability,
+      ai_delta_applied: .03,
+      final: .65,
+      basis: "internal-context-blend-v2",
+    },
+  };
+  const decision = buildDecisionViewModel(gameFor(internal), option);
+  assert.equal(decision.probability.final, .65);
+  assert.equal(decision.probability.aiDeltaApplied, .03);
+  assert.equal(decision.probability.basis, "internal-context-blend-v2");
+  assert.equal(decision.model.validatedEdge, false);
+  assert.equal(decision.model.policyAuthorized, true);
+});
+
 test("v2 압축 원장의 단계 설명과 자료 사용 상태를 공용 카탈로그에서 복원한다", () => {
   const compact = {
     ...snapshot,
