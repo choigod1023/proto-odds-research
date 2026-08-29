@@ -166,10 +166,11 @@ def test_restart_refreshes_site_before_heavy_pipeline(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(supervisor, "REPO", tmp_path)
     monkeypatch.setattr(supervisor, "PUBLISH_LIGHT", ["light"])
+    monkeypatch.setattr(supervisor, "PUBLISH_ENRICH", ["enrich"])
     monkeypatch.setattr(supervisor, "PUBLISH", ["heavy"])
     monkeypatch.setattr(supervisor, "_run_steps", lambda steps: calls.append(steps[0]))
     monkeypatch.setattr(supervisor, "push_data", lambda: calls.append("push"))
 
     supervisor._run_publish_cycle(0)
 
-    assert calls == ["light", "push", "heavy", "light", "push"]
+    assert calls == ["light", "push", "heavy", "light", "push", "enrich", "push"]

@@ -126,12 +126,22 @@ PUBLISH_LIGHT = [
     ("픽스터 전향판정", [sys.executable, "-u", "src/pickster_eval.py"], False, 300),
     ("무료 야구 feature", [sys.executable, "-u", "src/baseball_live_features.py"], False, 300),
     ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
-    ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False, 1800),
-    ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False, 1800),
+    # 홈페이지가 실제 읽는 전마켓 판정을 먼저 만든다. 캐시된 LLM 해설은 재사용하되
+    # 새 API 호출은 뒤의 보강 단계로 미뤄 수치 판정 게시를 막지 않게 한다.
+    ("전마켓 빠른 판정", ["env", "LLM_MAX_CALLS=0", sys.executable, "-u",
+                    "src/generate_v2.py"], False, 1800),
     # ⚠️ today_combo 는 today.json·combo.json·loss_grades.json 을 읽는다.
     #    combo·loss_grades 는 무거운 쪽이라 최대 6시간 낡을 수 있지만,
     #    그건 과거 통계라 낡아도 값이 같다. 낡은 입력으로나마 도는 편이 낫다.
     ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
+]
+
+# 느린 레거시 산출물과 새 LLM 호출은 빠른 판정이 직접 서빙된 다음 실행한다.
+# 둘 중 하나가 늦거나 실패해도 홈페이지의 배당·판정 시각은 이미 갱신돼 있다.
+PUBLISH_ENRICH = [
+    ("레거시 픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False, 1800),
+    ("LLM 해설 보강", [sys.executable, "-u", "src/generate_v2.py"], False, 1800),
+    ("LLM 반영 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
 ]
 
 # 실시간 점수 — 무거운 PUBLISH 와 분리한다. CSV 를 안 읽고 API 만 때리므로 가볍다.
@@ -497,6 +507,8 @@ def _run_publish_cycle(n: int) -> None:
         _run_steps(PUBLISH)
     _run_steps(PUBLISH_LIGHT)
     push_data()
+    _run_steps(PUBLISH_ENRICH)
+    push_data()
 
 
 def run_publish() -> None:
@@ -549,6 +561,7 @@ def serve_live() -> None:
     live_path = REPO / "docs" / "data" / "live_scores.json"
     odds_path = REPO / "docs" / "data" / "live_odds.json"
     recommendation_path = REPO / "docs" / "data" / "today_combo.json"
+    picks_path = REPO / "docs" / "data" / "picks_v2.json"
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
@@ -572,10 +585,18 @@ def serve_live() -> None:
                     live_mtime = int(live_path.stat().st_mtime)
                 except OSError:
                     live_mtime = 0
+                def mtime(path: Path) -> int:
+                    try:
+                        return int(path.stat().st_mtime)
+                    except OSError:
+                        return 0
+
                 body = json.dumps({
                     "status": "ok",
                     "disk_free_mb": _free_mb(),
                     "live_mtime": live_mtime,
+                    "odds_mtime": mtime(odds_path),
+                    "picks_mtime": mtime(picks_path),
                 }).encode()
                 self.send_response(200)
                 self._cors()
@@ -584,12 +605,13 @@ def serve_live() -> None:
                 self.end_headers()
                 self.wfile.write(body)
                 return
-            # 서빙하는 파일은 둘이다. 점수와 **배당** — 둘 다 git push(30분)로는
-            # 못 나르는 주기이고, 그렇다고 자주 커밋하면 레포가 망가진다.
+            # 점수·배당·판정·조합을 직접 서빙한다. git push(30분)와 Pages 배포를
+            # 기다리게 하면 수집은 살아 있는데 화면만 낡는 시간이 생긴다.
             served = {
                 "/live_scores.json": live_path,
                 "/live_odds.json": odds_path,
                 "/today_combo.json": recommendation_path,
+                "/picks_v2.json": picks_path,
             }
             target = served.get(self.path.split("?")[0].rstrip("/"))
             if target is None:
