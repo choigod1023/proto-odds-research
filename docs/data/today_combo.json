@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-30T03:52:47+09:00",
+ "generated_at": "2026-08-30T04:34:10+09:00",
  "source_generated_at": "2026-08-29T17:53:34+00:00",
- "live_odds_at": "2026-08-29T18:49:44+00:00",
+ "live_odds_at": "2026-08-29T19:25:43+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 53,
- "n_primary_candidates": 53,
+ "n_candidates": 50,
+ "n_primary_candidates": 50,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-30T04:00:00+09:00",
+ "next_kickoff_at": "2026-08-30T05:05:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -784,164 +784,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-30T04:00:00+09:00|즈볼러|네이메헌",
-   "kickoff_at": "2026-08-30T04:00:00+09:00",
-   "round": 102,
-   "game_no": "7632",
-   "date": "08.30(일) 04:00",
-   "sport": "sc",
-   "league": "에레디비",
-   "match": "즈볼러 vs 네이메헌",
-   "home": "즈볼러",
-   "away": "네이메헌",
-   "market": "언더오버",
-   "market_label": "U 3.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.62,
-   "bin": "1.5-1.8",
-   "overround": 1.1354,
-   "payout": 88.07,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5496,
-   "predicted_hit_prob": 0.5496,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0992,
-   "n_way": 2,
-   "failure_prob": 0.4504,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-30T04:07:00+09:00|토론블루|시애매리",
-   "kickoff_at": "2026-08-30T04:07:00+09:00",
-   "round": 102,
-   "game_no": "7634",
-   "date": "08.30(일) 04:07",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "토론블루 vs 시애매리",
-   "home": "토론블루",
-   "away": "시애매리",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "홈",
-   "odds": 1.64,
-   "bin": "1.5-1.8",
-   "overround": 1.1361,
-   "payout": 88.02,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5417,
-   "predicted_hit_prob": 0.5417,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0834,
-   "n_way": 2,
-   "failure_prob": 0.4583,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 토론블루 소리아노, 시애매리 앤더슨다. 최근 집계에서 토론블루는 3경기 2승·득실 13:14, 시애매리는 3경기 1승·득실 5:15이다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 24.9°C·강수확률 3%·바람 5.2km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 4건은 홈 3건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260830SETO0",
-    "observed_at": "2026-08-29T10:53:05+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "토론블루",
-     "시애매리",
-     "소리아노",
-     "앤더슨"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 토론블루 소리아노, 시애매리 앤더슨다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:53:05+00:00",
-      "status": "observed"
-     },
-     {
-      "kind": "recent_games",
-      "text": "최근 집계에서 토론블루는 3경기 2승·득실 13:14, 시애매리는 3경기 1승·득실 5:15이다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T10:53:05+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 24.9°C·강수확률 3%·바람 5.2km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:25+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [
-     {
-      "kind": "public_picks",
-      "text": "공개 픽스터 머니라인 4건은 홈 3건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
-      "source": "TailSlips 공개 HTML",
-      "observed_at": "2026-08-29T11:41:13+00:00",
-      "status": "unvalidated"
-     }
-    ],
-    "limitations": [
-     "선발 시즌 표본이 20이닝 미만이거나 누락되어 선발 수치 비교는 제외했다.",
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-30T04:30:00+09:00|세비야|AT마드",
-   "kickoff_at": "2026-08-30T04:30:00+09:00",
-   "round": 102,
-   "game_no": "7641",
-   "date": "08.30(일) 04:30",
-   "sport": "sc",
-   "league": "라리가",
-   "match": "세비야 vs AT마드",
-   "home": "세비야",
-   "away": "AT마드",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.66,
-   "bin": "1.5-1.8",
-   "overround": 1.1232,
-   "payout": 89.03,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5408,
-   "predicted_hit_prob": 0.5408,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0816,
-   "n_way": 2,
-   "failure_prob": 0.4592,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
   {
    "event_key": "2026-08-30T05:05:00+09:00|샌프자이|애리다이",
    "kickoff_at": "2026-08-30T05:05:00+09:00",
@@ -3268,5 +3110,5 @@
   }
  },
  "recommendation_revision": "6e75961e4b0b12fb414fcccc4e629756d52f2a7e85d2647f7f1ccb81119546b7",
- "refreshed_at": "2026-08-29T18:52:47+00:00"
+ "refreshed_at": "2026-08-29T19:34:10+00:00"
 }
