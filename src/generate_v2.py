@@ -58,6 +58,7 @@ from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # no
                                PredictionLedgerError)
 from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
                                 kickoff_utc, tally_prediction_records)
+from runtime_db import RuntimeDatabase                              # noqa: E402
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -1333,6 +1334,7 @@ def main() -> int:
         "decision_manifest": decision_manifest(),
     }
     _sanitize_prediction_document(doc)
+    RuntimeDatabase().store_artifact("picks_v2", doc)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "picks_v2.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1),
                                        encoding="utf-8")
