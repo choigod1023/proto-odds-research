@@ -195,3 +195,20 @@ class RuntimeDatabase:
                 for name in ("odds_snapshots", "prediction_records", "artifacts")
             }
 
+    def migration_is_current(self, source: str, fingerprint: str) -> bool:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT fingerprint FROM migration_state WHERE source=?", (source,)
+            ).fetchone()
+        return row is not None and row["fingerprint"] == fingerprint
+
+    def mark_migrated(self, source: str, fingerprint: str, row_count: int) -> None:
+        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        with self.transaction() as connection:
+            connection.execute(
+                """INSERT INTO migration_state(source,fingerprint,imported_at,row_count)
+                   VALUES (?,?,?,?) ON CONFLICT(source) DO UPDATE SET
+                   fingerprint=excluded.fingerprint,
+                   imported_at=excluded.imported_at,row_count=excluded.row_count""",
+                (source, fingerprint, now, int(row_count)),
+            )

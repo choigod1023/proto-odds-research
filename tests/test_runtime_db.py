@@ -41,6 +41,14 @@ def test_prediction_records_and_artifacts_survive_source_file_removal(tmp_path):
                            "artifacts": 1}
 
 
+def test_unchanged_migration_source_is_skipped(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    assert db.migration_is_current("odds.csv", "10:20") is False
+    db.mark_migrated("odds.csv", "10:20", 7)
+    assert db.migration_is_current("odds.csv", "10:20") is True
+    assert db.migration_is_current("odds.csv", "11:21") is False
+
+
 def test_prediction_ledger_restores_jsonl_from_database(tmp_path, monkeypatch):
     from prediction_ledger import PredictionLedger
 
