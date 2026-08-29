@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-29T19:14:12+09:00",
+ "generated_at": "2026-08-29T19:43:59+09:00",
  "source_generated_at": "2026-08-29T09:59:36+00:00",
- "live_odds_at": "2026-08-29T10:04:00+00:00",
+ "live_odds_at": "2026-08-29T10:37:52+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 70,
- "n_primary_candidates": 70,
+ "n_candidates": 64,
+ "n_primary_candidates": 64,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-29T19:30:00+09:00",
+ "next_kickoff_at": "2026-08-29T20:30:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -512,7 +512,7 @@
   "failure_prob": 0.3921,
   "is_market_favorite": true,
   "recommendation_priority": "primary",
-  "price_source": "live_odds",
+  "price_source": "published_snapshot",
   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
   "actual_odds": 1.51,
   "independent_hit_est": 0.6079,
@@ -586,7 +586,7 @@
      "failure_prob": 0.4567,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
-     "price_source": "live_odds",
+     "price_source": "published_snapshot",
      "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
     },
     {
@@ -614,12 +614,12 @@
      "predicted_hit_prob": 0.5324,
      "probability_source": "shin_market_fallback",
      "has_validated_edge": false,
-     "market_gap": 0.2895,
+     "market_gap": 0.2894,
      "n_way": 3,
      "failure_prob": 0.4676,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
-     "price_source": "live_odds",
+     "price_source": "published_snapshot",
      "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
     }
    ]
@@ -634,17 +634,17 @@
     "1.5-1.8"
    ],
    "actual_odds": 4.76,
-   "independent_hit_est": 0.15947,
-   "market_reference_hit_est": 0.15947,
-   "market_reference_roi": -0.2413,
+   "independent_hit_est": 0.15933,
+   "market_reference_hit_est": 0.15933,
+   "market_reference_roi": -0.242,
    "independence_assumption": true,
-   "hit_est": 0.15947,
-   "upset_risk": 0.84053,
-   "expected_roi": -0.2413,
-   "calibrated_hit_est": 0.15947,
-   "calibrated_expected_roi": -0.2413,
-   "conservative_hit_est": 0.15947,
-   "conservative_expected_roi": -0.2413,
+   "hit_est": 0.15933,
+   "upset_risk": 0.84067,
+   "expected_roi": -0.242,
+   "calibrated_hit_est": 0.15933,
+   "calibrated_expected_roi": -0.242,
+   "conservative_hit_est": 0.15933,
+   "conservative_expected_roi": -0.242,
    "calibration_min_n": null,
    "has_validated_edge": false,
    "probability_source": "shin_market_fallback",
@@ -653,69 +653,69 @@
    "historical_bucket_roi": -0.3192,
    "picks": [
     {
-     "event_key": "2026-08-29T19:30:00+09:00|성남FC|서울이랜",
-     "kickoff_at": "2026-08-29T19:30:00+09:00",
+     "event_key": "2026-08-29T22:30:00+09:00|마인츠05|파더보른",
+     "kickoff_at": "2026-08-29T22:30:00+09:00",
      "round": 102,
-     "game_no": "7446",
-     "date": "08.29(토) 19:30",
+     "game_no": "7472",
+     "date": "08.29(토) 22:30",
      "sport": "sc",
-     "league": "K리그2",
-     "match": "성남FC vs 서울이랜",
-     "home": "성남FC",
-     "away": "서울이랜",
-     "market": "핸디캡",
-     "market_label": "H +1.0",
-     "booking": "3-way-핸디캡",
-     "sel": "핸디홈",
-     "odds": 1.6,
+     "league": "분데스리",
+     "match": "마인츠05 vs 파더보른",
+     "home": "마인츠05",
+     "away": "파더보른",
+     "market": "승무패",
+     "market_label": "",
+     "booking": "3-way",
+     "sel": "홈",
+     "odds": 1.51,
      "bin": "1.5-1.8",
-     "overround": 1.1506,
-     "payout": 86.91,
-     "hist_roi": -0.099,
-     "hist_n": 9747,
-     "market_prob": 0.5663,
-     "predicted_hit_prob": 0.5663,
+     "overround": 1.1359,
+     "payout": 88.03,
+     "hist_roi": -0.1345,
+     "hist_n": 7380,
+     "market_prob": 0.6079,
+     "predicted_hit_prob": 0.6079,
      "probability_source": "shin_market_fallback",
      "has_validated_edge": false,
-     "market_gap": 0.3314,
+     "market_gap": 0.3866,
      "n_way": 3,
-     "failure_prob": 0.4337,
+     "failure_prob": 0.3921,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
-     "price_source": "live_odds",
+     "price_source": "published_snapshot",
      "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
     },
     {
-     "event_key": "2026-08-29T20:30:00+09:00|리버풀|노팅엄F",
-     "kickoff_at": "2026-08-29T20:30:00+09:00",
+     "event_key": "2026-08-30T10:30:00+09:00|콜로래피|레알솔트",
+     "kickoff_at": "2026-08-30T10:30:00+09:00",
      "round": 102,
-     "game_no": "7463",
-     "date": "08.29(토) 20:30",
+     "game_no": "7724",
+     "date": "08.30(일) 10:30",
      "sport": "sc",
-     "league": "EPL",
-     "match": "리버풀 vs 노팅엄F",
-     "home": "리버풀",
-     "away": "노팅엄F",
+     "league": "MLS",
+     "match": "콜로래피 vs 레알솔트",
+     "home": "콜로래피",
+     "away": "레알솔트",
      "market": "핸디캡",
-     "market_label": "H -2.0",
+     "market_label": "H -1.0",
      "booking": "3-way-핸디캡",
      "sel": "핸디원정",
-     "odds": 1.68,
+     "odds": 1.78,
      "bin": "1.5-1.8",
-     "overround": 1.1351,
-     "payout": 88.1,
+     "overround": 1.1495,
+     "payout": 86.99,
      "hist_roi": -0.099,
      "hist_n": 9747,
-     "market_prob": 0.5433,
-     "predicted_hit_prob": 0.5433,
+     "market_prob": 0.5057,
+     "predicted_hit_prob": 0.5057,
      "probability_source": "shin_market_fallback",
      "has_validated_edge": false,
-     "market_gap": 0.2958,
+     "market_gap": 0.2359,
      "n_way": 3,
-     "failure_prob": 0.4567,
+     "failure_prob": 0.4943,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
-     "price_source": "live_odds",
+     "price_source": "published_snapshot",
      "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
     },
     {
@@ -748,7 +748,7 @@
      "failure_prob": 0.4817,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
-     "price_source": "live_odds",
+     "price_source": "published_snapshot",
      "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
     }
    ]
@@ -785,204 +785,6 @@
  },
  "candidates": [
   {
-   "event_key": "2026-08-29T19:30:00+09:00|부천FC|FC안양",
-   "kickoff_at": "2026-08-29T19:30:00+09:00",
-   "round": 102,
-   "game_no": "7428",
-   "date": "08.29(토) 19:30",
-   "sport": "sc",
-   "league": "K리그1",
-   "match": "부천FC vs FC안양",
-   "home": "부천FC",
-   "away": "FC안양",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.7,
-   "bin": "1.5-1.8",
-   "overround": 1.123,
-   "payout": 89.05,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5267,
-   "predicted_hit_prob": 0.5267,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0535,
-   "n_way": 2,
-   "failure_prob": 0.4733,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-29T19:30:00+09:00|울산HDFC|김천상무",
-   "kickoff_at": "2026-08-29T19:30:00+09:00",
-   "round": 102,
-   "game_no": "7418",
-   "date": "08.29(토) 19:30",
-   "sport": "sc",
-   "league": "K리그1",
-   "match": "울산HDFC vs 김천상무",
-   "home": "울산HDFC",
-   "away": "김천상무",
-   "market": "핸디캡",
-   "market_label": "H -1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디원정",
-   "odds": 1.64,
-   "bin": "1.5-1.8",
-   "overround": 1.1364,
-   "payout": 87.99,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5569,
-   "predicted_hit_prob": 0.5569,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.3286,
-   "n_way": 3,
-   "failure_prob": 0.4431,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-29T19:30:00+09:00|경남FC|파주프런",
-   "kickoff_at": "2026-08-29T19:30:00+09:00",
-   "round": 102,
-   "game_no": "7438",
-   "date": "08.29(토) 19:30",
-   "sport": "sc",
-   "league": "K리그2",
-   "match": "경남FC vs 파주프런",
-   "home": "경남FC",
-   "away": "파주프런",
-   "market": "핸디캡",
-   "market_label": "H -1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디원정",
-   "odds": 1.65,
-   "bin": "1.5-1.8",
-   "overround": 1.1491,
-   "payout": 87.03,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5486,
-   "predicted_hit_prob": 0.5486,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.3053,
-   "n_way": 3,
-   "failure_prob": 0.4514,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-29T19:30:00+09:00|김포FC|수원삼성",
-   "kickoff_at": "2026-08-29T19:30:00+09:00",
-   "round": 102,
-   "game_no": "7434",
-   "date": "08.29(토) 19:30",
-   "sport": "sc",
-   "league": "K리그2",
-   "match": "김포FC vs 수원삼성",
-   "home": "김포FC",
-   "away": "수원삼성",
-   "market": "핸디캡",
-   "market_label": "H +1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디홈",
-   "odds": 1.63,
-   "bin": "1.5-1.8",
-   "overround": 1.1492,
-   "payout": 87.02,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5557,
-   "predicted_hit_prob": 0.5557,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.3164,
-   "n_way": 3,
-   "failure_prob": 0.4443,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-29T19:30:00+09:00|화성FC|충북청주",
-   "kickoff_at": "2026-08-29T19:30:00+09:00",
-   "round": 102,
-   "game_no": "7441",
-   "date": "08.29(토) 19:30",
-   "sport": "sc",
-   "league": "K리그2",
-   "match": "화성FC vs 충북청주",
-   "home": "화성FC",
-   "away": "충북청주",
-   "market": "승무패",
-   "market_label": "",
-   "booking": "3-way",
-   "sel": "홈",
-   "odds": 1.69,
-   "bin": "1.5-1.8",
-   "overround": 1.15,
-   "payout": 86.96,
-   "hist_roi": -0.1345,
-   "hist_n": 7380,
-   "market_prob": 0.5344,
-   "predicted_hit_prob": 0.5344,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.283,
-   "n_way": 3,
-   "failure_prob": 0.4656,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-29T19:30:00+09:00|성남FC|서울이랜",
-   "kickoff_at": "2026-08-29T19:30:00+09:00",
-   "round": 102,
-   "game_no": "7446",
-   "date": "08.29(토) 19:30",
-   "sport": "sc",
-   "league": "K리그2",
-   "match": "성남FC vs 서울이랜",
-   "home": "성남FC",
-   "away": "서울이랜",
-   "market": "핸디캡",
-   "market_label": "H +1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디홈",
-   "odds": 1.6,
-   "bin": "1.5-1.8",
-   "overround": 1.1506,
-   "payout": 86.91,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5663,
-   "predicted_hit_prob": 0.5663,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.3314,
-   "n_way": 3,
-   "failure_prob": 0.4337,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
    "event_key": "2026-08-29T20:30:00+09:00|리버풀|노팅엄F",
    "kickoff_at": "2026-08-29T20:30:00+09:00",
    "round": 102,
@@ -1012,7 +814,7 @@
    "failure_prob": 0.4567,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1040,12 +842,12 @@
    "predicted_hit_prob": 0.5607,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1213,
+   "market_gap": 0.1214,
    "n_way": 2,
    "failure_prob": 0.4393,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1078,7 +880,7 @@
    "failure_prob": 0.4253,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1111,7 +913,7 @@
    "failure_prob": 0.4485,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1139,12 +941,12 @@
    "predicted_hit_prob": 0.5921,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1841,
+   "market_gap": 0.1842,
    "n_way": 2,
    "failure_prob": 0.4079,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1177,7 +979,7 @@
    "failure_prob": 0.395,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1205,12 +1007,12 @@
    "predicted_hit_prob": 0.5746,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1491,
+   "market_gap": 0.1492,
    "n_way": 2,
    "failure_prob": 0.4254,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1243,7 +1045,7 @@
    "failure_prob": 0.3921,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1276,7 +1078,7 @@
    "failure_prob": 0.3925,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1309,7 +1111,7 @@
    "failure_prob": 0.4817,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1342,7 +1144,7 @@
    "failure_prob": 0.4759,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1375,7 +1177,7 @@
    "failure_prob": 0.4615,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1403,12 +1205,12 @@
    "predicted_hit_prob": 0.5607,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1213,
+   "market_gap": 0.1214,
    "n_way": 2,
    "failure_prob": 0.4393,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1436,12 +1238,12 @@
    "predicted_hit_prob": 0.5853,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1705,
+   "market_gap": 0.1706,
    "n_way": 2,
    "failure_prob": 0.4147,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1469,12 +1271,12 @@
    "predicted_hit_prob": 0.5324,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.2895,
+   "market_gap": 0.2894,
    "n_way": 3,
    "failure_prob": 0.4676,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1502,12 +1304,12 @@
    "predicted_hit_prob": 0.5598,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.3162,
+   "market_gap": 0.3163,
    "n_way": 3,
    "failure_prob": 0.4402,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1540,7 +1342,7 @@
    "failure_prob": 0.4014,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1568,12 +1370,12 @@
    "predicted_hit_prob": 0.6069,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.3828,
+   "market_gap": 0.3829,
    "n_way": 3,
    "failure_prob": 0.3931,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1606,7 +1408,7 @@
    "failure_prob": 0.4483,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1639,7 +1441,7 @@
    "failure_prob": 0.4412,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1672,7 +1474,7 @@
    "failure_prob": 0.4371,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1692,7 +1494,7 @@
    "sel": "오버",
    "odds": 1.5,
    "bin": "1.5-1.8",
-   "overround": 1.1361,
+   "overround": 1.1362,
    "payout": 88.02,
    "hist_roi": -0.1206,
    "hist_n": 119682,
@@ -1705,7 +1507,7 @@
    "failure_prob": 0.4014,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1733,12 +1535,12 @@
    "predicted_hit_prob": 0.579,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1579,
+   "market_gap": 0.158,
    "n_way": 2,
    "failure_prob": 0.421,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1766,12 +1568,12 @@
    "predicted_hit_prob": 0.5746,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1491,
+   "market_gap": 0.1492,
    "n_way": 2,
    "failure_prob": 0.4254,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1804,7 +1606,7 @@
    "failure_prob": 0.4174,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1832,12 +1634,12 @@
    "predicted_hit_prob": 0.5781,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.3391,
+   "market_gap": 0.3392,
    "n_way": 3,
    "failure_prob": 0.4219,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1870,7 +1672,7 @@
    "failure_prob": 0.41,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1903,7 +1705,7 @@
    "failure_prob": 0.4871,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1931,12 +1733,12 @@
    "predicted_hit_prob": 0.5267,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0535,
+   "market_gap": 0.0534,
    "n_way": 2,
    "failure_prob": 0.4733,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -1964,12 +1766,12 @@
    "predicted_hit_prob": 0.545,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0899,
+   "market_gap": 0.09,
    "n_way": 2,
    "failure_prob": 0.455,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "뉴욕양키와 보스레드의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 뉴욕양키 맥스 프리드(2026 시즌, 4승 2패, ERA 3.15, WHIP 1.21), 보스레드 레인저 수아레즈(2026 시즌, 8승 6패, ERA 3.49, WHIP 1.07)이다. 공식 출전 상태에 표시된 선수는 뉴욕양키 Clarke Schmidt(부상 · 60일 부상자 명단 · 예상 영향 큼), 뉴욕양키 Fernando Cruz(부상 · 15일 부상자 명단 · 예상 영향 큼), 보스레드 Garrett Crochet(부상 · 60일 부상자 명단 · 예상 영향 큼), 보스레드 Garrett Whitlock(부상 · 15일 부상자…",
    "commentary_method": null
@@ -2004,7 +1806,7 @@
    "failure_prob": 0.4615,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "디트타이와 LA다저스의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 디트타이 카이더 몬테로(2026 시즌, 9승 8패, ERA 3.30, WHIP 1.00), LA다저스 블레이크 스넬(2026 시즌, 2승 1패, ERA 2.57, WHIP 1.05)이다. 공식 출전 상태에 표시된 선수는 디트타이 Bailey Horn(부상 · 60일 부상자 명단 · 예상 영향 큼), 디트타이 Brant Hurter(부상 · 60일 부상자 명단 · 예상 영향 큼), LA다저스 Ben Casparius(부상 · 60일 부상자 명단 · 예상 영향 큼), LA다저스 Blake Treinen(부상 · 60일 부상자 명단 ·…",
    "commentary_method": null
@@ -2034,12 +1836,12 @@
    "predicted_hit_prob": 0.5273,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0547,
+   "market_gap": 0.0546,
    "n_way": 2,
    "failure_prob": 0.4727,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "미네트윈와 시카화이의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 미네트윈 베일리 오버(2026 시즌, 7승 4패, ERA 4.49, WHIP 1.26), 시카화이 에릭 페디(2026 시즌, 6승 8패, ERA 4.18, WHIP 1.39)이다. 공식 출전 상태에 표시된 선수는 미네트윈 Anthony Banda(부상 · 60일 부상자 명단 · 예상 영향 큼), 미네트윈 Cole Sands(부상 · 60일 부상자 명단 · 예상 영향 큼), 시카화이 Chris Murphy(부상 · 15일 부상자 명단 · 예상 영향 큼), 시카화이 Davis Martin(부상 · 15일 부상자 명단 · 예상 영향 큼)입…",
    "commentary_method": null
@@ -2074,7 +1876,7 @@
    "failure_prob": 0.4694,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "세인카디와 피츠파이의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 세인카디 카일 레이히(2026 시즌, 10승 4패, ERA 3.13, WHIP 1.30), 피츠파이 카르멘 모진스키(2026 시즌, 1승 3패, ERA 3.70, WHIP 1.11)이다. 공식 출전 상태에 표시된 선수는 세인카디 Andre Pallante(부상 · 15일 부상자 명단 · 예상 영향 큼), 세인카디 Hunter Dobbins(부상 · 15일 부상자 명단 · 예상 영향 큼), 피츠파이 Mitch Keller(부상 · 60일 부상자 명단 · 예상 영향 큼), 피츠파이 Endy Rodríguez(부상 · 10일 부상자 명단…",
    "commentary_method": null
@@ -2104,12 +1906,12 @@
    "predicted_hit_prob": 0.5032,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0065,
+   "market_gap": 0.0064,
    "n_way": 2,
    "failure_prob": 0.4968,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "시카컵스와 신시레즈의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 시카컵스 이마나가 쇼타(2026 시즌, 7승 11패, ERA 4.37, WHIP 1.26), 신시레즈 앤드류 애보트(2026 시즌, 6승 9패, ERA 4.15, WHIP 1.40)이다. 공식 출전 상태에 표시된 선수는 시카컵스 Ben Brown(부상 · 60일 부상자 명단 · 예상 영향 큼), 시카컵스 Cade Horton(부상 · 60일 부상자 명단 · 예상 영향 큼), 신시레즈 Brandon Williamson(부상 · 60일 부상자 명단 · 예상 영향 큼), 신시레즈 Graham Ashcraft(부상 · 60일 부상자 명단 ·…",
    "commentary_method": null
@@ -2144,7 +1946,7 @@
    "failure_prob": 0.4583,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2177,7 +1979,7 @@
    "failure_prob": 0.427,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2210,7 +2012,7 @@
    "failure_prob": 0.4694,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2243,7 +2045,7 @@
    "failure_prob": 0.4806,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2276,7 +2078,7 @@
    "failure_prob": 0.4219,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2309,7 +2111,7 @@
    "failure_prob": 0.4504,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2342,7 +2144,7 @@
    "failure_prob": 0.4583,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "토론블루와 시애매리의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 토론블루 호세 소리아노(2026 시즌, 10승 7패, ERA 3.43, WHIP 1.29), 시애매리 케이드 앤더슨(2026 시즌, 0승 0패, ERA 4.76, WHIP 1.24)이다. 공식 출전 상태에 표시된 선수는 토론블루 Bowden Francis(부상 · 60일 부상자 명단 · 예상 영향 큼), 토론블루 Cody Ponce(부상 · 60일 부상자 명단 · 예상 영향 큼), 시애매리 Cole Wilcox(부상 · 15일 부상자 명단 · 예상 영향 큼), 시애매리 Cooper Criswell(부상 · 60일 부상자 명단 · 예상…",
    "commentary_method": null
@@ -2377,7 +2179,7 @@
    "failure_prob": 0.4592,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2405,12 +2207,12 @@
    "predicted_hit_prob": 0.5065,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0129,
+   "market_gap": 0.013,
    "n_way": 2,
    "failure_prob": 0.4935,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "샌프자이와 애리다이의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 애리다이 예고 선발은 메릴 켈리(2026 시즌, 8승 12패, ERA 5.35, WHIP 1.51)이다. 공식 출전 상태에 표시된 선수는 샌프자이 Adrian Houser(부상 · 15일 부상자 명단 · 예상 영향 큼), 샌프자이 Carson Whisenhunt(부상 · 60일 부상자 명단 · 예상 영향 큼), 애리다이 A.J. Puk(부상 · 60일 부상자 명단 · 예상 영향 큼), 애리다이 Andrew Saalfrank(부상 · 60일 부상자 명단 · 예상 영향 큼)입니다.",
    "commentary_method": null
@@ -2445,7 +2247,7 @@
    "failure_prob": 0.4871,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "워싱내셔와 마이말린의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 워싱내셔 케이드 카발리(2026 시즌, 12승 5패, ERA 3.21, WHIP 1.21), 마이말린 잰슨 정크(2026 시즌, 13승 8패, ERA 3.38, WHIP 1.18)이다. 공식 출전 상태에 표시된 선수는 워싱내셔 Connelly Early(부상 · 60일 부상자 명단 · 예상 영향 큼), 워싱내셔 DJ Herz(부상 · 60일 부상자 명단 · 예상 영향 큼), 마이말린 Adam Mazur(부상 · 60일 부상자 명단 · 예상 영향 큼), 마이말린 Andrew Nardi(부상 · 60일 부상자 명단 · 예상 영향 큼)입니…",
    "commentary_method": null
@@ -2480,7 +2282,7 @@
    "failure_prob": 0.4426,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "탬파레이와 샌디파드의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 탬파레이 닉 마르티네즈(2026 시즌, 13승 4패, ERA 2.93, WHIP 1.10), 샌디파드 워커 뷸러(2026 시즌, 8승 6패, ERA 4.63, WHIP 1.35)이다. 공식 출전 상태에 표시된 선수는 탬파레이 Cole Sulser(부상 · 15일 부상자 명단 · 예상 영향 큼), 탬파레이 Edwin Uceta(부상 · 60일 부상자 명단 · 예상 영향 큼), 샌디파드 Bryan Hoeing(부상 · 60일 부상자 명단 · 예상 영향 큼), 샌디파드 Jason Adam(부상 · 60일 부상자 명단 · 예상 영향 큼)입니…",
    "commentary_method": null
@@ -2515,7 +2317,7 @@
    "failure_prob": 0.4426,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "뉴욕메츠와 휴스애스의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 뉴욕메츠 놀란 맥클린(2026 시즌, 9승 8패, ERA 3.21, WHIP 1.14), 휴스애스 크리스티안 하비에르(2026 시즌, 1승 3패, ERA 6.27, WHIP 1.82)이다. 공식 출전 상태에 표시된 선수는 뉴욕메츠 Cionel Pérez(부상 · 15일 부상자 명단 · 예상 영향 큼), 뉴욕메츠 Devin Williams(부상 · 15일 부상자 명단 · 예상 영향 큼), 휴스애스 Brandon Walter(부상 · 60일 부상자 명단 · 예상 영향 큼), 휴스애스 Mike Burrows(부상 · 15일 부상자 명단 ·…",
    "commentary_method": null
@@ -2545,12 +2347,12 @@
    "predicted_hit_prob": 0.5273,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0547,
+   "market_gap": 0.0546,
    "n_way": 2,
    "failure_prob": 0.4727,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "애틀브레와 콜로로키의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 애틀브레 마틴 페레즈(2026 시즌, 8승 8패, ERA 3.12, WHIP 1.21), 콜로로키 라이언 펠트너(2026 시즌, 5승 8패, ERA 6.08, WHIP 1.55)이다. 공식 출전 상태에 표시된 선수는 애틀브레 Joe Jiménez(부상 · 60일 부상자 명단 · 예상 영향 큼), 애틀브레 Joey Wentz(부상 · 60일 부상자 명단 · 예상 영향 큼), 콜로로키 Chase Dollander(부상 · 60일 부상자 명단 · 예상 영향 큼), 콜로로키 Jose Quintana(부상 · 60일 부상자 명단 · 예상 영향…",
    "commentary_method": null
@@ -2572,7 +2374,7 @@
    "sel": "홈",
    "odds": 1.5,
    "bin": "1.5-1.8",
-   "overround": 1.1361,
+   "overround": 1.1362,
    "payout": 88.02,
    "hist_roi": -0.1206,
    "hist_n": 119682,
@@ -2585,7 +2387,7 @@
    "failure_prob": 0.4014,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "클리가디와 캔자로얄의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 클리가디 포스터 그리핀(2026 시즌, 15승 4패, ERA 3.19, WHIP 1.13), 캔자로얄 다니엘 린치(2026 시즌, 4승 4패, ERA 2.93, WHIP 1.03)이다. 공식 출전 상태에 표시된 선수는 클리가디 Shawn Armstrong(부상 · 60일 부상자 명단 · 예상 영향 큼), 클리가디 Slade Cecconi(부상 · 15일 부상자 명단 · 예상 영향 큼), 캔자로얄 Alec Marsh(부상 · 60일 부상자 명단 · 예상 영향 큼), 캔자로얄 Beck Way(부상 · 15일 부상자 명단 · 예상 영향 큼…",
    "commentary_method": null
@@ -2620,7 +2422,7 @@
    "failure_prob": 0.4134,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2640,7 +2442,7 @@
    "sel": "홈",
    "odds": 1.5,
    "bin": "1.5-1.8",
-   "overround": 1.1361,
+   "overround": 1.1362,
    "payout": 88.02,
    "hist_roi": -0.1206,
    "hist_n": 119682,
@@ -2653,7 +2455,7 @@
    "failure_prob": 0.4014,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "밀워브루와 텍사레인의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 밀워브루 셰인 드로한(2026 시즌, 6승 5패, ERA 3.84, WHIP 1.29), 텍사레인 칼 콴트릴(2026 시즌, 6승 4패, ERA 2.90, WHIP 1.14)이다. 공식 출전 상태에 표시된 선수는 밀워브루 Abner Uribe(부상 · 15일 부상자 명단 · 예상 영향 큼), 밀워브루 Angel Zerpa(부상 · 60일 부상자 명단 · 예상 영향 큼), 텍사레인 Carter Baumler(부상 · 60일 부상자 명단 · 예상 영향 큼), 텍사레인 Jack Leiter(부상 · 60일 부상자 명단 · 예상 영향 큼)입…",
    "commentary_method": null
@@ -2683,12 +2485,12 @@
    "predicted_hit_prob": 0.5853,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1705,
+   "market_gap": 0.1706,
    "n_way": 2,
    "failure_prob": 0.4147,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2716,12 +2518,12 @@
    "predicted_hit_prob": 0.5853,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1705,
+   "market_gap": 0.1706,
    "n_way": 2,
    "failure_prob": 0.4147,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2749,12 +2551,12 @@
    "predicted_hit_prob": 0.545,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0899,
+   "market_gap": 0.09,
    "n_way": 2,
    "failure_prob": 0.455,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2782,12 +2584,12 @@
    "predicted_hit_prob": 0.5949,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.3835,
+   "market_gap": 0.3836,
    "n_way": 3,
    "failure_prob": 0.4051,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2820,7 +2622,7 @@
    "failure_prob": 0.4413,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2853,7 +2655,7 @@
    "failure_prob": 0.4504,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2886,7 +2688,7 @@
    "failure_prob": 0.4504,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2919,7 +2721,7 @@
    "failure_prob": 0.4225,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2947,12 +2749,12 @@
    "predicted_hit_prob": 0.5853,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1705,
+   "market_gap": 0.1706,
    "n_way": 2,
    "failure_prob": 0.4147,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -2980,12 +2782,12 @@
    "predicted_hit_prob": 0.5057,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.2358,
+   "market_gap": 0.2359,
    "n_way": 3,
    "failure_prob": 0.4943,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -3013,12 +2815,12 @@
    "predicted_hit_prob": 0.545,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0899,
+   "market_gap": 0.09,
    "n_way": 2,
    "failure_prob": 0.455,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "애슬레틱와 볼티오리의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 애슬레틱 잭 퍼킨스(2026 시즌, 3승 9패, ERA 6.68, WHIP 1.48), 볼티오리 셰인 바즈(2026 시즌, 4승 14패, ERA 4.04, WHIP 1.35)이다. 공식 출전 상태에 표시된 선수는 애슬레틱 Brooks Kriske(부상 · 60일 부상자 명단 · 예상 영향 큼), 애슬레틱 Gunnar Hoglund(부상 · 60일 부상자 명단 · 예상 영향 큼), 볼티오리 Colin Selby(부상 · 60일 부상자 명단 · 예상 영향 큼), 볼티오리 Félix Bautista(부상 · 60일 부상자 명단 · 예상 영…",
    "commentary_method": null
@@ -3053,7 +2855,7 @@
    "failure_prob": 0.3929,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "LA에인절와 필라필리의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 예고 선발 맞대결은 LA에인절 라이언 존슨(2026 시즌, 3승 7패, ERA 5.75, WHIP 1.43), 필라필리 크리스토퍼 산체스(2026 시즌, 16승 4패, ERA 2.62, WHIP 1.22)이다. 공식 출전 상태에 표시된 선수는 LA에인절 Jack Kochanowicz(부상 · 60일 부상자 명단 · 예상 영향 큼), LA에인절 Robert Stephenson(부상 · 60일 부상자 명단 · 예상 영향 큼), 필라필리 Brad Keller(부상 · 60일 부상자 명단 · 예상 영향 큼), 필라필리 Caleb Kilian(부상 · 15일…",
    "commentary_method": null
@@ -3088,7 +2890,7 @@
    "failure_prob": 0.4504,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
@@ -3116,12 +2918,12 @@
    "predicted_hit_prob": 0.603,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.3919,
+   "market_gap": 0.3918,
    "n_way": 3,
    "failure_prob": 0.397,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "live_odds",
+   "price_source": "published_snapshot",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   }
  ],
@@ -3239,5 +3041,57 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-29T10:38:59+00:00",
+  "reason": "live_market_pick_changed",
+  "previous_revision": "4a637b1c3239afae99a5d6cc73e0ba96637ff364531280945ecf14b5cb88da26",
+  "revision": "ed32982337d1f412ee4daa66039bf6b249a8414a2cf5f16d416b7c07473741f7",
+  "previous": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7487|승무패||원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7463|핸디캡|H -2.0|핸디원정",
+      "102|7525|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7529|승무패||홈",
+      "102|7724|핸디캡|H -1.0|핸디원정",
+      "102|7487|승무패||원정"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7472|승무패||홈",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7463|핸디캡|H -2.0|핸디원정",
+      "102|7525|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7472|승무패||홈",
+      "102|7724|핸디캡|H -1.0|핸디원정",
+      "102|7529|승무패||홈"
+     ]
+    }
+   ]
+  }
+ },
+ "recommendation_revision": "ed32982337d1f412ee4daa66039bf6b249a8414a2cf5f16d416b7c07473741f7",
+ "refreshed_at": "2026-08-29T10:43:59+00:00"
 }
