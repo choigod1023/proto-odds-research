@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-29T13:45:40+00:00",
+  "generated_at": "2026-08-29T14:46:45+00:00",
   "source": "TailSlips public HTML (public X MLB picks)",
   "leaderboard_cross_section": {
     "available": true,
-    "observed_at": "2026-08-29T12:11:28+00:00",
+    "observed_at": "2026-08-29T14:14:27+00:00",
     "window": "last_30_days",
     "n_ranked_cappers": 50,
     "total_displayed_picks": 4611,
@@ -259,18 +259,29 @@
     ]
   },
   "visible_slate_characteristics": {
-    "n_visible_unique_picks": 96,
-    "n_straight_picks": 96,
+    "n_visible_unique_picks": 159,
+    "n_straight_picks": 159,
     "market_counts": {
-      "moneyline": 52,
-      "total": 21,
-      "spread": 18,
-      "other": 5
+      "moneyline": 81,
+      "total": 46,
+      "spread": 24,
+      "other": 5,
+      "player_prop": 3
     },
-    "n_with_american_odds": 40,
-    "favorite_share_pct": 80.0,
-    "underdog_share_pct": 20.0,
+    "n_with_american_odds": 77,
+    "favorite_share_pct": 58.44,
+    "underdog_share_pct": 41.56,
     "capper_profiles_min_3_visible": [
+      {
+        "handle": "tonestakes",
+        "n_visible_straight_picks": 19,
+        "dominant_market": "total",
+        "market_counts": {
+          "total": 19
+        },
+        "favorite_share_pct": 21.1,
+        "median_american_odds": 125
+      },
       {
         "handle": "dbunk_picks",
         "n_visible_straight_picks": 17,
@@ -284,12 +295,36 @@
         "median_american_odds": 5984
       },
       {
+        "handle": "lottolocks",
+        "n_visible_straight_picks": 17,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 5,
+          "spread": 3,
+          "total": 1,
+          "other": 5,
+          "player_prop": 3
+        },
+        "favorite_share_pct": 0.0,
+        "median_american_odds": 3305
+      },
+      {
         "handle": "bookie___bandit",
         "n_visible_straight_picks": 14,
         "dominant_market": "moneyline",
         "market_counts": {
           "moneyline": 11,
           "spread": 3
+        },
+        "favorite_share_pct": null,
+        "median_american_odds": null
+      },
+      {
+        "handle": "prosportshq1",
+        "n_visible_straight_picks": 14,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 14
         },
         "favorite_share_pct": null,
         "median_american_odds": null
@@ -305,17 +340,16 @@
         "median_american_odds": null
       },
       {
-        "handle": "lottolocks",
-        "n_visible_straight_picks": 13,
-        "dominant_market": "moneyline",
+        "handle": "lincolng05bets",
+        "n_visible_straight_picks": 12,
+        "dominant_market": "spread",
         "market_counts": {
-          "moneyline": 5,
-          "spread": 2,
-          "total": 1,
-          "other": 5
+          "moneyline": 2,
+          "spread": 5,
+          "total": 5
         },
-        "favorite_share_pct": 0.0,
-        "median_american_odds": 2836.5
+        "favorite_share_pct": 44.4,
+        "median_american_odds": 105
       },
       {
         "handle": "ml_king24",
@@ -361,6 +395,16 @@
         "median_american_odds": -105
       },
       {
+        "handle": "picksagainst",
+        "n_visible_straight_picks": 4,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 4
+        },
+        "favorite_share_pct": 0.0,
+        "median_american_odds": 1028
+      },
+      {
         "handle": "itsparlaypete",
         "n_visible_straight_picks": 3,
         "dominant_market": "moneyline",
@@ -381,12 +425,33 @@
         },
         "favorite_share_pct": 100.0,
         "median_american_odds": -124
+      },
+      {
+        "handle": "degen__inc",
+        "n_visible_straight_picks": 3,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 3
+        },
+        "favorite_share_pct": null,
+        "median_american_odds": null
+      },
+      {
+        "handle": "cdlocklounge",
+        "n_visible_straight_picks": 3,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 2,
+          "total": 1
+        },
+        "favorite_share_pct": 100.0,
+        "median_american_odds": -122
       }
     ],
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
   },
   "prospective_validation": {
-    "n_eligible_pre_event": 226,
+    "n_eligible_pre_event": 413,
     "n_graded": 0,
     "n_decisive": 0,
     "wins": 0,
