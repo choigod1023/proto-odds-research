@@ -36,6 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from snapshot import find_live_rounds, _fetch          # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
+from runtime_db import RuntimeDatabase                 # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_odds.json"
@@ -88,6 +89,7 @@ def main(argv: list[str]) -> int:
     while True:
         try:
             data = collect()
+            RuntimeDatabase().store_artifact("live_odds", data)
             OUT.parent.mkdir(parents=True, exist_ok=True)
             OUT.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
             print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} → {OUT}",

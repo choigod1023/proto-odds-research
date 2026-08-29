@@ -22,6 +22,10 @@ data/*.log
 # 실행 중 배타 잠금은 데이터가 아니다. Git에 올라가면 다음 배포가 이를 실제
 # 보유 중인 잠금으로 오인해 판정 생성이 멈춘다.
 data/raw/**/*.lock
+data/runtime/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
 
 # 스냅샷 백업
 data/raw/snapshots/*.bak

@@ -136,6 +136,9 @@ PUBLISH_LIGHT = [
     ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
 ]
 
+DATABASE_BOOTSTRAP = [sys.executable, "-u", "src/migrate_runtime_db.py", "--critical"]
+DATABASE_MIGRATE = [sys.executable, "-u", "src/migrate_runtime_db.py"]
+
 # 느린 레거시 산출물과 새 LLM 호출은 빠른 판정이 직접 서빙된 다음 실행한다.
 # 둘 중 하나가 늦거나 실패해도 홈페이지의 배당·판정 시각은 이미 갱신돼 있다.
 PUBLISH_ENRICH = [
@@ -610,6 +613,9 @@ def serve_live() -> None:
                     "live_mtime": live_mtime,
                     "odds_mtime": mtime(odds_path),
                     "picks_mtime": mtime(picks_path),
+                    "database_path": os.environ.get("PROODD_DB_PATH"),
+                    "database_mtime": mtime(Path(os.environ.get(
+                        "PROODD_DB_PATH", "/data/proodd.sqlite3"))),
                 }).encode()
                 self.send_response(200)
                 self._cors()
@@ -667,13 +673,30 @@ def run_push() -> None:
         time.sleep(PUSH_EVERY)
 
 
+def run_database_migration() -> None:
+    """Import 267만 historical odds rows without blocking HTTP/collectors."""
+    result = sh(DATABASE_MIGRATE, cwd=REPO)
+    if result.returncode:
+        log(f"과거 배당 DB 이관 실패: {(result.stderr or result.stdout)[-220:]}")
+    else:
+        log(f"과거 배당 DB 이관 완료 — {(result.stdout or '').strip()[-220:]}")
+
+
 def main() -> int:
     log("=== 상시 수집 시작 ===")
+    # 레포 동기화가 checkout을 교체해도 운영 원본 DB는 건드리지 못한다.
+    os.environ.setdefault("PROODD_DB_PATH", "/data/proodd.sqlite3")
     if not os.environ.get("GITHUB_TOKEN"):
         log("⚠️ GITHUB_TOKEN 없음 — 수집은 되지만 결과가 레포에 안 올라간다")
     if not ensure_repo():
         log("레포 준비 실패 — 60초 후 재시도하도록 종료")
         return 1
+
+    migration = sh(DATABASE_BOOTSTRAP, cwd=REPO)
+    if migration.returncode:
+        log(f"DB 이관 실패: {(migration.stderr or migration.stdout)[-220:]}")
+        return 1
+    log(f"DB 준비 완료 — {(migration.stdout or '').strip()[-220:]}")
 
     # 재시작은 수집을 중간에 죽이므로 락이 남는다. 그러면 xg_watch 가
     # "이미 수집 중" 으로 최대 1시간을 건너뛴다(실제로 겪음).
@@ -686,6 +709,7 @@ def main() -> int:
     threading.Thread(target=run_daily, daemon=True).start()
     threading.Thread(target=run_publish, daemon=True).start()
     threading.Thread(target=run_push, daemon=True).start()
+    threading.Thread(target=run_database_migration, daemon=True).start()
     # 실시간 점수는 즉시 시작한다 — 사이트가 제일 먼저 필요로 하는 값이다
     threading.Thread(target=run_live, daemon=True).start()
     threading.Thread(target=serve_live, daemon=True).start()

@@ -28,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from wisetoto import BASE, _session, get_master_seq, parse_rows  # noqa: E402
+from runtime_db import RuntimeDatabase  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
 CH_FILE = OUT / "changes.csv"
@@ -196,7 +197,9 @@ def snap(year: int, rounds: list[int]) -> int:
                 changes.append({**rec, "prev_odds": prev})
         time.sleep(REQUEST_GAP)
 
-    _append(ts_file(), FIELDS, new_rows)   # 이번 달 샤드에 붙인다
+    # DB가 운영 원본이다. CSV는 기존 분석 코드용 호환 export다.
+    RuntimeDatabase().insert_odds(new_rows)
+    _append(ts_file(), FIELDS, new_rows)
     if changes:
         _append(CH_FILE, FIELDS + ["prev_odds"], changes)
 

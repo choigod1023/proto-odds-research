@@ -137,6 +137,21 @@ class PredictionLedger:
         self.stale_lock_after = float(stale_lock_after)
         if self.lock_timeout < 0 or self.stale_lock_after <= 0:
             raise ValueError("lock timeouts must be positive")
+        self._database = None
+        if os.environ.get("PROODD_DB_PATH"):
+            from runtime_db import RuntimeDatabase
+            self._database = RuntimeDatabase()
+            database_records = self._database.prediction_records()
+            if database_records:
+                # 운영 DB가 원본이다. checkout 교체나 중단된 파일 쓰기 뒤에도
+                # 기존 분석 코드가 읽는 JSONL export를 자동 복원한다.
+                payload = "".join(_canonical_json(row) + "\n" for row in database_records)
+                self.path.parent.mkdir(parents=True, exist_ok=True)
+                temporary = self.path.with_suffix(self.path.suffix + ".db-export.tmp")
+                temporary.write_text(payload, encoding="utf-8")
+                os.replace(temporary, self.path)
+            elif self.path.exists():
+                self._database.mirror_prediction_records(self._read_verified())
 
     def append_prediction(
         self,
@@ -394,6 +409,9 @@ class PredictionLedger:
 
     def _write_line(self, record: Mapping[str, Any]) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        # 볼륨 DB를 먼저 확정하고 JSONL은 호환 export로 기록한다.
+        if self._database is not None:
+            self._database.mirror_prediction_records([record])
         payload = (_canonical_json(record) + "\n").encode("utf-8")
         descriptor = os.open(
             self.path,
