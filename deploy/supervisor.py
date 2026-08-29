@@ -225,6 +225,40 @@ def _free_mb() -> int:
         return -1
 
 
+def _snapshot_delta_paths(snapshot: str, base_ref: str,
+                          cwd: Path | str | None = None):
+    """공통 조상 이후 수집기 쪽에서 실제로 바뀐 데이터 경로만 찾는다.
+
+    `data/` 전체를 snapshot에서 복원하면 원격 main에 새로 추가된 정적 설정까지
+    삭제된다. 수집기가 만든 delta만 최신 코드 위에 다시 얹어야 한다.
+    """
+    repo = cwd or REPO
+    base = sh(["git", "merge-base", snapshot, base_ref], cwd=repo)
+    if base.returncode:
+        return [], base
+    changed = sh([
+        "git", "diff", "--name-only", "-z", base.stdout.strip(), snapshot,
+        "--", *TRACKED,
+    ], cwd=repo)
+    if changed.returncode:
+        return [], changed
+    return [path for path in changed.stdout.split("\0") if path], changed
+
+
+def _restore_snapshot_delta(snapshot: str, paths: list[str],
+                            cwd: Path | str):
+    """최신 main 작업트리에 수집기 delta만 복원한다. 삭제도 그대로 재현한다."""
+    for path in paths:
+        exists = sh(["git", "cat-file", "-e", f"{snapshot}:{path}"], cwd=cwd)
+        if exists.returncode == 0:
+            restored = sh(["git", "checkout", snapshot, "--", path], cwd=cwd)
+        else:
+            restored = sh(["git", "rm", "-q", "--ignore-unmatch", "--", path], cwd=cwd)
+        if restored.returncode:
+            return restored
+    return subprocess.CompletedProcess([], 0, "", "")
+
+
 def _sync_existing_repo() -> bool:
     """시작 전에 최신 코드와 볼륨의 최신 수집 데이터를 충돌 없이 합친다.
 
@@ -254,12 +288,15 @@ def _sync_existing_repo() -> bool:
     if fetched.returncode:
         log(f"시작 fetch 실패: {_mask(fetched.stderr)[:160]}")
         return False
+    delta_paths, delta_result = _snapshot_delta_paths(snapshot, "origin/main", REPO)
+    if delta_result.returncode:
+        log(f"시작 데이터 delta 계산 실패: {_mask(delta_result.stderr)[:160]}")
+        return False
     switched = sh(["git", "checkout", "-B", "main", "origin/main"], cwd=REPO)
     if switched.returncode:
         log(f"시작 main 전환 실패: {_mask(switched.stderr)[:160]}")
         return False
-    sh(["git", "rm", "-r", "-q", "--ignore-unmatch", *TRACKED], cwd=REPO)
-    restored = sh(["git", "checkout", snapshot, "--", *TRACKED], cwd=REPO)
+    restored = _restore_snapshot_delta(snapshot, delta_paths, REPO)
     if restored.returncode:
         log(f"시작 데이터 복원 실패: {_mask(restored.stderr)[:160]}")
         return False
@@ -292,15 +329,17 @@ def _publish_snapshot_on_remote(snapshot: str):
     shutil.rmtree(target)
     added = False
     try:
+        delta_paths, delta_result = _snapshot_delta_paths(snapshot, "origin/main", REPO)
+        if delta_result.returncode:
+            return delta_result
         made = sh(["git", "worktree", "add", "--detach", str(target), "origin/main"],
                   cwd=REPO)
         if made.returncode:
             return made
         added = True
-        # 원격에만 있던 데이터 파일도 snapshot에 없다면 삭제되어야 하므로 먼저
-        # 데이터 경로를 비운 뒤, 방금 커밋한 수집기 스냅샷을 정확히 복원한다.
-        sh(["git", "rm", "-r", "-q", "--ignore-unmatch", *TRACKED], cwd=target)
-        restored = sh(["git", "checkout", snapshot, "--", *TRACKED], cwd=target)
+        # 원격 main에 새로 추가된 정적 자료는 그대로 두고 수집기에서 실제로
+        # 변경된 경로만 복원한다.
+        restored = _restore_snapshot_delta(snapshot, delta_paths, target)
         if restored.returncode:
             return restored
         staged = sh(["git", "add", "--all", "--", *TRACKED], cwd=target)

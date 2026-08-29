@@ -139,6 +139,9 @@ def test_startup_sync_keeps_volume_data_and_updates_source(tmp_path, monkeypatch
     _write(collector / "data" / "cache.tmp", "untracked cache\n")
     _write(seed / "source.txt", "new remote source\n")
     _write(seed / "data" / "raw.txt", "remote data\n")
+    # 수집 스냅샷에는 없고 새 main에만 생긴 정적 설정이다. 재시작 동기화가
+    # data/ 전체를 옛 snapshot으로 바꾸면 이 파일이 사라진다.
+    _write(seed / "data" / "static" / "venues.csv", "new remote config\n")
     _git(seed, "add", ".")
     _git(seed, "commit", "-m", "remote source update")
     _git(seed, "push", "origin", "main")
@@ -150,6 +153,8 @@ def test_startup_sync_keeps_volume_data_and_updates_source(tmp_path, monkeypatch
     assert _git(collector, "branch", "--show-current").stdout.strip() == "main"
     assert (collector / "source.txt").read_text(encoding="utf-8") == "new remote source\n"
     assert (collector / "data" / "raw.txt").read_text(encoding="utf-8") == "fresh volume data\n"
+    assert (collector / "data" / "static" / "venues.csv").read_text(
+        encoding="utf-8") == "new remote config\n"
     assert (collector / "data" / "cache.tmp").read_text(encoding="utf-8") == "untracked cache\n"
     _git(seed, "pull", "--ff-only")
     assert (seed / "data" / "raw.txt").read_text(encoding="utf-8") == "fresh volume data\n"
