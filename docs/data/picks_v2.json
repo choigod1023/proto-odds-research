@@ -37221,6 +37221,41 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 닛폰햄 오카와, 지바롯데 잭슨다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829JLNH0",
+    "observed_at": "2026-08-29T04:20:34+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "닛폰햄",
+     "지바롯데",
+     "오카와",
+     "잭슨"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 닛폰햄 오카와, 지바롯데 잭슨다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T04:20:34+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -38126,6 +38161,41 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 세이부 스미다, 라쿠텐 하야카와다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829RTSE0",
+    "observed_at": "2026-08-29T07:20:58+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "세이부",
+     "라쿠텐",
+     "스미다",
+     "하야카와"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 세이부 스미다, 라쿠텐 하야카와다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:20:58+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -39172,6 +39242,61 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 KIA 올러, SSG 아빌라다. 시즌 선발 지표는 KIA 선발 ERA 3.08·WHIP 1.08·K-BB/9 6.4, SSG 선발 ERA 1.93·WHIP 1.21·K-BB/9 6.6다. 최근 집계에서 KIA는 5경기 3승·득실 43:28, SSG는 5경기 3승·득실 30:14이다. 양 팀 선발 타순이 확인됐다(KIA 33명, SSG 33명). 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829SKHT02026",
+    "observed_at": "2026-08-29T07:51:02+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "KIA",
+     "SSG",
+     "올러",
+     "아빌라"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 KIA 올러, SSG 아빌라다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 KIA 선발 ERA 3.08·WHIP 1.08·K-BB/9 6.4, SSG 선발 ERA 1.93·WHIP 1.21·K-BB/9 6.6다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 KIA는 5경기 3승·득실 43:28, SSG는 5경기 3승·득실 30:14이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "lineup",
+      "text": "양 팀 선발 타순이 확인됐다(KIA 33명, SSG 33명).",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -39786,6 +39911,61 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 두산 곽빈, 키움 안우진다. 시즌 선발 지표는 두산 선발 ERA 2.33·WHIP 1.07·K-BB/9 8.5, 키움 선발 ERA 3.39·WHIP 1.21·K-BB/9 7.8다. 최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다. 양 팀 선발 타순이 확인됐다(두산 33명, 키움 33명). 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829WOOB02026",
+    "observed_at": "2026-08-29T07:51:02+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "두산",
+     "키움",
+     "곽빈",
+     "안우진"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 두산 곽빈, 키움 안우진다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 두산 선발 ERA 2.33·WHIP 1.07·K-BB/9 8.5, 키움 선발 ERA 3.39·WHIP 1.21·K-BB/9 7.8다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "lineup",
+      "text": "양 팀 선발 타순이 확인됐다(두산 33명, 키움 33명).",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -40112,6 +40292,61 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 롯데 김진욱, LG 카라스코다. 시즌 선발 지표는 롯데 선발 ERA 3.37·WHIP 1.25·K-BB/9 4.8, LG 선발 ERA 3.33·WHIP 0.78·K-BB/9 6.3다. 최근 집계에서 롯데는 5경기 2승·득실 35:32, LG는 5경기 3승·득실 39:35이다. 양 팀 선발 타순이 확인됐다(롯데 32명, LG 33명). 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829LGLT02026",
+    "observed_at": "2026-08-29T07:51:02+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "롯데",
+     "LG",
+     "김진욱",
+     "카라스코"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 롯데 김진욱, LG 카라스코다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 롯데 선발 ERA 3.37·WHIP 1.25·K-BB/9 4.8, LG 선발 ERA 3.33·WHIP 0.78·K-BB/9 6.3다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 롯데는 5경기 2승·득실 35:32, LG는 5경기 3승·득실 39:35이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "lineup",
+      "text": "양 팀 선발 타순이 확인됐다(롯데 32명, LG 33명).",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -41035,6 +41270,61 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 삼성 페덱, KT 로건다. 시즌 선발 지표는 삼성 선발 ERA 2.61·WHIP 0.76·K-BB/9 8.5, KT 선발 ERA 2.91·WHIP 1.29·K-BB/9 4.5다. 최근 집계에서 삼성는 5경기 4승·득실 40:14, KT는 5경기 3승·득실 17:15이다. 양 팀 선발 타순이 확인됐다(삼성 33명, KT 33명). 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829KTSS02026",
+    "observed_at": "2026-08-29T07:51:02+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "삼성",
+     "KT",
+     "페덱",
+     "로건"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 삼성 페덱, KT 로건다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 삼성 선발 ERA 2.61·WHIP 0.76·K-BB/9 8.5, KT 선발 ERA 2.91·WHIP 1.29·K-BB/9 4.5다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 삼성는 5경기 4승·득실 40:14, KT는 5경기 3승·득실 17:15이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "lineup",
+      "text": "양 팀 선발 타순이 확인됐다(삼성 33명, KT 33명).",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -41940,6 +42230,41 @@
      "built_at": "2026-08-28T12:12:47+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 오릭스 다카시마, 소프트뱅 오츠다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829SFOX0",
+    "observed_at": "2026-08-29T08:21:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "오릭스",
+     "소프트뱅",
+     "다카시마",
+     "오츠"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 오릭스 다카시마, 소프트뱅 오츠다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T08:21:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -42845,6 +43170,41 @@
      "built_at": "2026-08-28T12:12:47+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 요코베이 타이라, 주니치 뮬러다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829JNYK0",
+    "observed_at": "2026-08-29T08:51:10+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "요코베이",
+     "주니치",
+     "타이라",
+     "뮬러"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 요코베이 타이라, 주니치 뮬러다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T08:51:10+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -44024,6 +44384,41 @@
      "built_at": "2026-08-28T12:12:47+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 한신 오타케, 요미우리 다나카다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829YOHS0",
+    "observed_at": "2026-08-29T08:51:10+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "한신",
+     "요미우리",
+     "오타케",
+     "다나카"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 한신 오타케, 요미우리 다나카다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T08:51:10+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -44364,6 +44759,61 @@
      "built_at": "2026-08-28T12:12:46+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 한화 박준영, NC 라일리다. 시즌 선발 지표는 한화 선발 ERA 5.66·WHIP 1.53·K-BB/9 2.7, NC 선발 ERA 2.92·WHIP 1.05·K-BB/9 9.9다. 최근 집계에서 한화는 5경기 1승·득실 26:49, NC는 5경기 1승·득실 24:26이다. 양 팀 선발 타순이 확인됐다(한화 33명, NC 33명). 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829NCHH02026",
+    "observed_at": "2026-08-29T07:51:02+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "한화",
+     "NC",
+     "박준영",
+     "라일리"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 한화 박준영, NC 라일리다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 한화 선발 ERA 5.66·WHIP 1.53·K-BB/9 2.7, NC 선발 ERA 2.92·WHIP 1.05·K-BB/9 9.9다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 한화는 5경기 1승·득실 26:49, NC는 5경기 1승·득실 24:26이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "lineup",
+      "text": "양 팀 선발 타순이 확인됐다(한화 33명, NC 33명).",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T07:51:02+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -45269,6 +45719,41 @@
      "built_at": "2026-08-28T12:12:47+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 히로카프 타마무라, 야쿠르트 다카하시다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260829YAHI0",
+    "observed_at": "2026-08-29T08:51:10+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "히로카프",
+     "야쿠르트",
+     "타마무라",
+     "다카하시"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 히로카프 타마무라, 야쿠르트 다카하시다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T08:51:10+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -88066,6 +88551,71 @@
      "built_at": "2026-08-28T12:12:50+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 뉴욕양키 프리드, 보스레드 벨로다. 시즌 선발 지표는 뉴욕양키 선발 ERA 2.81·WHIP –·K-BB/9 5.4, 보스레드 선발 ERA 4.68·WHIP –·K-BB/9 3.8다. 최근 집계에서 뉴욕양키는 3경기 2승·득실 11:8, 보스레드는 3경기 1승·득실 7:8이다. 경기 외부 정보로는 경기 시각 예보는 기온 24.2°C·강수확률 0%·바람 1.7km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830BONY2",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "뉴욕양키",
+     "보스레드",
+     "프리드",
+     "벨로"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 뉴욕양키 프리드, 보스레드 벨로다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 뉴욕양키 선발 ERA 2.81·WHIP –·K-BB/9 5.4, 보스레드 선발 ERA 4.68·WHIP –·K-BB/9 3.8다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 뉴욕양키는 3경기 2승·득실 11:8, 보스레드는 3경기 1승·득실 7:8이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 24.2°C·강수확률 0%·바람 1.7km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:56+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -88806,6 +89356,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 디트타이 몬테로, LA다저스 스넬다. 시즌 선발 지표는 디트타이 선발 ERA 3.30·WHIP –·K-BB/9 4.0, LA다저스 선발 ERA 2.57·WHIP –·K-BB/9 7.3다. 최근 집계에서 디트타이는 3경기 1승·득실 5:6, LA다저스는 3경기 1승·득실 7:8이다. 경기 외부 정보로는 경기 시각 예보는 기온 26.7°C·강수확률 0%·바람 4.5km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 2건은 홈 0건·원정 2건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830LADE0",
+    "observed_at": "2026-08-29T09:21:57+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "디트타이",
+     "LA다저스",
+     "몬테로",
+     "스넬"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 디트타이 몬테로, LA다저스 스넬다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T09:21:57+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 디트타이 선발 ERA 3.30·WHIP –·K-BB/9 4.0, LA다저스 선발 ERA 2.57·WHIP –·K-BB/9 7.3다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T09:21:57+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 디트타이는 3경기 1승·득실 5:6, LA다저스는 3경기 1승·득실 7:8이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T09:21:57+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 26.7°C·강수확률 0%·바람 4.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:57+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 2건은 홈 0건·원정 2건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -89448,6 +90063,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 미네트윈 오버, 시카화이 페디다. 시즌 선발 지표는 미네트윈 선발 ERA 4.49·WHIP –·K-BB/9 3.7, 시카화이 선발 ERA 4.18·WHIP –·K-BB/9 3.1다. 최근 집계에서 미네트윈는 3경기 0승·득실 10:18, 시카화이는 3경기 3승·득실 28:15이다. 경기 외부 정보로는 경기 시각 예보는 기온 24.3°C·강수확률 2%·바람 4.9km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830CWMN0",
+    "observed_at": "2026-08-29T10:23:04+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "미네트윈",
+     "시카화이",
+     "오버",
+     "페디"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 미네트윈 오버, 시카화이 페디다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 미네트윈 선발 ERA 4.49·WHIP –·K-BB/9 3.7, 시카화이 선발 ERA 4.18·WHIP –·K-BB/9 3.1다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 미네트윈는 3경기 0승·득실 10:18, 시카화이는 3경기 3승·득실 28:15이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 24.3°C·강수확률 2%·바람 4.9km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -89964,6 +90644,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 세인카디 레이히, 피츠파이 바처다. 시즌 선발 지표는 세인카디 선발 ERA 3.13·WHIP –·K-BB/9 5.6, 피츠파이 선발 ERA 3.70·WHIP –·K-BB/9 5.5다. 최근 집계에서 세인카디는 3경기 2승·득실 18:14, 피츠파이는 3경기 1승·득실 2:7이다. 경기 외부 정보로는 경기 시각 예보는 기온 30.3°C·강수확률 0%·바람 3.8km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830PISL0",
+    "observed_at": "2026-08-29T10:23:04+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "세인카디",
+     "피츠파이",
+     "레이히",
+     "바처"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 세인카디 레이히, 피츠파이 바처다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 세인카디 선발 ERA 3.13·WHIP –·K-BB/9 5.6, 피츠파이 선발 ERA 3.70·WHIP –·K-BB/9 5.5다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 세인카디는 3경기 2승·득실 18:14, 피츠파이는 3경기 1승·득실 2:7이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 30.3°C·강수확률 0%·바람 3.8km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:08+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -90606,6 +91351,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 시카컵스 가우스먼, 신시레즈 애보트다. 시즌 선발 지표는 시카컵스 선발 ERA 4.43·WHIP –·K-BB/9 6.5, 신시레즈 선발 ERA 4.09·WHIP –·K-BB/9 2.8다. 최근 집계에서 시카컵스는 3경기 0승·득실 12:17, 신시레즈는 3경기 2승·득실 21:20이다. 경기 외부 정보로는 경기 시각 예보는 기온 27.5°C·강수확률 1%·바람 4.4km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 2건은 홈 2건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830CICC0",
+    "observed_at": "2026-08-29T10:23:04+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "시카컵스",
+     "신시레즈",
+     "가우스먼",
+     "애보트"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 시카컵스 가우스먼, 신시레즈 애보트다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 시카컵스 선발 ERA 4.43·WHIP –·K-BB/9 6.5, 신시레즈 선발 ERA 4.09·WHIP –·K-BB/9 2.8다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 시카컵스는 3경기 0승·득실 12:17, 신시레즈는 3경기 2승·득실 21:20이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:23:04+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 27.5°C·강수확률 1%·바람 4.4km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:10+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 2건은 홈 2건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -96784,6 +97594,65 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 토론블루 소리아노, 시애매리 앤더슨다. 최근 집계에서 토론블루는 3경기 2승·득실 13:14, 시애매리는 3경기 1승·득실 5:15이다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 24.9°C·강수확률 3%·바람 5.2km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830SETO0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "토론블루",
+     "시애매리",
+     "소리아노",
+     "앤더슨"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 토론블루 소리아노, 시애매리 앤더슨다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 토론블루는 3경기 2승·득실 13:14, 시애매리는 3경기 1승·득실 5:15이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 24.9°C·강수확률 3%·바람 5.2km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:25+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 시즌 표본이 20이닝 미만이거나 누락되어 선발 수치 비교는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -98483,6 +99352,64 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 샌프자이 미확인, 애리다이 켈리다. 최근 집계에서 샌프자이는 3경기 1승·득실 21:21, 애리다이는 3경기 2승·득실 13:12이다. 경기 외부 정보로는 경기 시각 예보는 기온 20.7°C·강수확률 1%·바람 7.2km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830AZSF1",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "샌프자이",
+     "애리다이",
+     "켈리"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 샌프자이 미확인, 애리다이 켈리다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 샌프자이는 3경기 1승·득실 21:21, 애리다이는 3경기 2승·득실 13:12이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 20.7°C·강수확률 1%·바람 7.2km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:06+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 시즌 표본이 20이닝 미만이거나 누락되어 선발 수치 비교는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -99083,6 +100010,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 워싱내셔 카발리, 마이말린 알칸타라다. 시즌 선발 지표는 워싱내셔 선발 ERA 3.21·WHIP –·K-BB/9 7.6, 마이말린 선발 ERA 3.43·WHIP –·K-BB/9 4.3다. 최근 집계에서 워싱내셔는 3경기 2승·득실 17:16, 마이말린는 3경기 1승·득실 9:16이다. 경기 외부 정보로는 경기 시각 예보는 기온 29.9°C·강수확률 0%·바람 1.0km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830FLMO0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "워싱내셔",
+     "마이말린",
+     "카발리",
+     "알칸타라"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 워싱내셔 카발리, 마이말린 알칸타라다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 워싱내셔 선발 ERA 3.21·WHIP –·K-BB/9 7.6, 마이말린 선발 ERA 3.43·WHIP –·K-BB/9 4.3다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 워싱내셔는 3경기 2승·득실 17:16, 마이말린는 3경기 1승·득실 9:16이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 29.9°C·강수확률 0%·바람 1.0km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:18+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -99613,6 +100605,65 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 뉴욕메츠 맥클린, 휴스애스 수자다. 최근 집계에서 뉴욕메츠는 3경기 0승·득실 4:19, 휴스애스는 3경기 2승·득실 11:11이다. 경기 외부 정보로는 경기 시각 예보는 기온 26.0°C·강수확률 0%·바람 2.3km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830HONM0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "뉴욕메츠",
+     "휴스애스",
+     "맥클린",
+     "수자"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 뉴욕메츠 맥클린, 휴스애스 수자다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 뉴욕메츠는 3경기 0승·득실 4:19, 휴스애스는 3경기 2승·득실 11:11이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 26.0°C·강수확률 0%·바람 2.3km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:55+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 시즌 표본이 20이닝 미만이거나 누락되어 선발 수치 비교는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -100185,6 +101236,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 애틀브레 페레즈, 콜로로키 펠트너다. 시즌 선발 지표는 애틀브레 선발 ERA 3.12·WHIP –·K-BB/9 2.9, 콜로로키 선발 ERA 6.08·WHIP –·K-BB/9 2.5다. 최근 집계에서 애틀브레는 3경기 3승·득실 13:9, 콜로로키는 3경기 1승·득실 18:14이다. 경기 외부 정보로는 경기 시각 예보는 기온 28.3°C·강수확률 10%·바람 1.6km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830COAT0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "애틀브레",
+     "콜로로키",
+     "페레즈",
+     "펠트너"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 애틀브레 페레즈, 콜로로키 펠트너다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 애틀브레 선발 ERA 3.12·WHIP –·K-BB/9 2.9, 콜로로키 선발 ERA 6.08·WHIP –·K-BB/9 2.5다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 애틀브레는 3경기 3승·득실 13:9, 콜로로키는 3경기 1승·득실 18:14이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 28.3°C·강수확률 10%·바람 1.6km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:17+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -100771,6 +101887,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 클리가디 그리핀, 캔자로얄 린치다. 시즌 선발 지표는 클리가디 선발 ERA 3.17·WHIP –·K-BB/9 5.9, 캔자로얄 선발 ERA 3.09·WHIP –·K-BB/9 4.0다. 최근 집계에서 클리가디는 3경기 2승·득실 12:12, 캔자로얄는 3경기 2승·득실 16:5이다. 경기 외부 정보로는 경기 시각 예보는 기온 28.9°C·강수확률 0%·바람 3.5km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830KCCL0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "클리가디",
+     "캔자로얄",
+     "그리핀",
+     "린치"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 클리가디 그리핀, 캔자로얄 린치다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 클리가디 선발 ERA 3.17·WHIP –·K-BB/9 5.9, 캔자로얄 선발 ERA 3.09·WHIP –·K-BB/9 4.0다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 클리가디는 3경기 2승·득실 12:12, 캔자로얄는 3경기 2승·득실 16:5이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 28.9°C·강수확률 0%·바람 3.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:22+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -101385,6 +102566,71 @@
      "built_at": "2026-08-28T12:12:51+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 탬파레이 마르티네즈, 샌디파드 뷸러다. 시즌 선발 지표는 탬파레이 선발 ERA 2.91·WHIP –·K-BB/9 4.0, 샌디파드 선발 ERA 4.63·WHIP –·K-BB/9 4.2다. 최근 집계에서 탬파레이는 3경기 2승·득실 13:8, 샌디파드는 3경기 1승·득실 7:10이다. 경기 외부 정보로는 돔 경기장이라 외부 날씨 효과는 분석에서 제외한다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830SDTB0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "탬파레이",
+     "샌디파드",
+     "마르티네즈",
+     "뷸러"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 탬파레이 마르티네즈, 샌디파드 뷸러다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 탬파레이 선발 ERA 2.91·WHIP –·K-BB/9 4.0, 샌디파드 선발 ERA 4.63·WHIP –·K-BB/9 4.2다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 탬파레이는 3경기 2승·득실 13:8, 샌디파드는 3경기 1승·득실 7:10이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "돔 경기장이라 외부 날씨 효과는 분석에서 제외한다.",
+      "source": "Open-Meteo + 경기장 지붕 분류",
+      "observed_at": "2026-08-29T10:23:23+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 1건·원정 0건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -102922,6 +104168,71 @@
      "built_at": "2026-08-28T12:12:52+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 밀워브루 드로한, 텍사레인 콴트릴다. 시즌 선발 지표는 밀워브루 선발 ERA 3.84·WHIP –·K-BB/9 5.8, 텍사레인 선발 ERA 2.90·WHIP –·K-BB/9 4.1다. 최근 집계에서 밀워브루는 3경기 3승·득실 22:4, 텍사레인는 3경기 0승·득실 12:27이다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 21.0°C·강수확률 8%·바람 2.5km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 2건은 홈 1건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830TEMI0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "밀워브루",
+     "텍사레인",
+     "드로한",
+     "콴트릴"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 밀워브루 드로한, 텍사레인 콴트릴다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 밀워브루 선발 ERA 3.84·WHIP –·K-BB/9 5.8, 텍사레인 선발 ERA 2.90·WHIP –·K-BB/9 4.1다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 밀워브루는 3경기 3승·득실 22:4, 텍사레인는 3경기 0승·득실 12:27이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 21.0°C·강수확률 8%·바람 2.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:01+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 2건은 홈 1건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -113305,6 +114616,71 @@
      "built_at": "2026-08-28T12:12:52+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 LA에인절 존슨, 필라필리 산체스다. 시즌 선발 지표는 LA에인절 선발 ERA 5.75·WHIP –·K-BB/9 2.5, 필라필리 선발 ERA 2.82·WHIP –·K-BB/9 8.3다. 최근 집계에서 LA에인절는 3경기 0승·득실 12:17, 필라필리는 3경기 2승·득실 12:7이다. 경기 외부 정보로는 경기 시각 예보는 기온 28.9°C·강수확률 1%·바람 2.2km/h다. 시장 밖 공개 의견은 공개 픽스터 머니라인 1건은 홈 0건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830PHAN0",
+    "observed_at": "2026-08-29T10:53:05+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "LA에인절",
+     "필라필리",
+     "존슨",
+     "산체스"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 LA에인절 존슨, 필라필리 산체스다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "starter_stats",
+      "text": "시즌 선발 지표는 LA에인절 선발 ERA 5.75·WHIP –·K-BB/9 2.5, 필라필리 선발 ERA 2.82·WHIP –·K-BB/9 8.3다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     },
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 LA에인절는 3경기 0승·득실 12:17, 필라필리는 3경기 2승·득실 12:7이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T10:53:05+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 28.9°C·강수확률 1%·바람 2.2km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:54+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [
+     {
+      "kind": "public_picks",
+      "text": "공개 픽스터 머니라인 1건은 홈 0건·원정 1건이다. 표본 중복과 선택편향을 제거하지 못했으므로 인기 신호로만 본다.",
+      "source": "TailSlips 공개 HTML",
+      "observed_at": "2026-08-29T10:08:28+00:00",
+      "status": "unvalidated"
+     }
+    ],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -116135,6 +117511,39 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 21.3°C·강수확률 2%·바람 4.7km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830JLNH0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "닛폰햄",
+     "지바롯데"
+    ],
+    "internal": [],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 21.3°C·강수확률 2%·바람 4.7km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:37+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -117094,6 +118503,39 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 외부 정보로는 돔 경기장이라 외부 날씨 효과는 분석에서 제외한다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830SFOX0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "오릭스",
+     "소프트뱅"
+    ],
+    "internal": [],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "돔 경기장이라 외부 날씨 효과는 분석에서 제외한다.",
+      "source": "Open-Meteo + 경기장 지붕 분류",
+      "observed_at": "2026-08-29T10:22:44+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -118671,6 +120113,39 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 외부 정보로는 경기 시각 예보는 기온 23.6°C·강수확률 3%·바람 0.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830RTSE0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "세이부",
+     "라쿠텐"
+    ],
+    "internal": [],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 23.6°C·강수확률 3%·바람 0.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:40+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -118931,6 +120406,47 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 최근 집계에서 KIA는 5경기 3승·득실 43:28, SSG는 5경기 3승·득실 30:14이다. 경기 외부 정보로는 경기 시각 예보는 기온 28.3°C·강수확률 100%·바람 1.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830SKHT02026",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "KIA",
+     "SSG"
+    ],
+    "internal": [
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 KIA는 5경기 3승·득실 43:28, SSG는 5경기 3승·득실 30:14이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 28.3°C·강수확률 100%·바람 1.3km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:36+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -119191,6 +120707,47 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다. 경기 외부 정보로는 경기 시각 예보는 기온 25.8°C·강수확률 27%·바람 1.1km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830WOOB02026",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "두산",
+     "키움"
+    ],
+    "internal": [
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 25.8°C·강수확률 27%·바람 1.1km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:26+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -119451,6 +121008,47 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 최근 집계에서 롯데는 5경기 2승·득실 35:32, LG는 5경기 3승·득실 39:35이다. 경기 외부 정보로는 경기 시각 예보는 기온 26.7°C·강수확률 100%·바람 1.9km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830LGLT02026",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "롯데",
+     "LG"
+    ],
+    "internal": [
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 롯데는 5경기 2승·득실 35:32, LG는 5경기 3승·득실 39:35이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 26.7°C·강수확률 100%·바람 1.9km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:34+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -119711,6 +121309,47 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 최근 집계에서 삼성는 5경기 4승·득실 40:14, KT는 5경기 3승·득실 17:15이다. 경기 외부 정보로는 경기 시각 예보는 기온 27.5°C·강수확률 100%·바람 2.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830KTSS02026",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "삼성",
+     "KT"
+    ],
+    "internal": [
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 삼성는 5경기 4승·득실 40:14, KT는 5경기 3승·득실 17:15이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 27.5°C·강수확률 100%·바람 2.3km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:32+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -120624,6 +122263,39 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 외부 정보로는 경기 시각 예보는 기온 24.4°C·강수확률 0%·바람 0.4km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830JNYK0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "요코베이",
+     "주니치"
+    ],
+    "internal": [],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 24.4°C·강수확률 0%·바람 0.4km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:46+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -121537,6 +123209,39 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 외부 정보로는 경기 시각 예보는 기온 29.8°C·강수확률 78%·바람 2.4km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830YOHS0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "한신",
+     "요미우리"
+    ],
+    "internal": [],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 29.8°C·강수확률 78%·바람 2.4km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:50+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -121797,6 +123502,47 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 최근 집계에서 한화는 5경기 1승·득실 26:49, NC는 5경기 1승·득실 24:26이다. 경기 외부 정보로는 경기 시각 예보는 기온 26.3°C·강수확률 92%·바람 1.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830NCHH02026",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "한화",
+     "NC"
+    ],
+    "internal": [
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 한화는 5경기 1승·득실 26:49, NC는 5경기 1승·득실 24:26이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 26.3°C·강수확률 92%·바람 1.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:31+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -123378,6 +125124,39 @@
      "built_at": "2026-08-28T12:12:53+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 외부 정보로는 경기 시각 예보는 기온 31.6°C·강수확률 86%·바람 0.6km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260830YAHI0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "히로카프",
+     "야쿠르트"
+    ],
+    "internal": [],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 31.6°C·강수확률 86%·바람 0.6km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:51+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -145911,6 +147690,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 워싱내셔 앤드류 알바레즈, 마이말린 잰슨 정크다. 경기 외부 정보로는 경기 시각 예보는 기온 29.4°C·강수확률 1%·바람 4.8km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831FLMO0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "워싱내셔",
+     "마이말린",
+     "앤드류 알바레즈",
+     "잰슨 정크"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 워싱내셔 앤드류 알바레즈, 마이말린 잰슨 정크다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 29.4°C·강수확률 1%·바람 4.8km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:18+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -148283,6 +150106,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 뉴욕양키 윌 워렌, 보스레드 레인저 수아레즈다. 경기 외부 정보로는 경기 시각 예보는 기온 27.3°C·강수확률 6%·바람 5.0km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831BONY0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "뉴욕양키",
+     "보스레드",
+     "윌 워렌",
+     "레인저 수아레즈"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 뉴욕양키 윌 워렌, 보스레드 레인저 수아레즈다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 27.3°C·강수확률 6%·바람 5.0km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:56+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -148855,6 +150722,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 애틀브레 타일러 말리, 콜로로키 메이슨 애덤스다. 경기 외부 정보로는 경기 시각 예보는 기온 28.5°C·강수확률 6%·바람 1.4km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831COAT0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "애틀브레",
+     "콜로로키",
+     "타일러 말리",
+     "메이슨 애덤스"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 애틀브레 타일러 말리, 콜로로키 메이슨 애덤스다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 28.5°C·강수확률 6%·바람 1.4km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:17+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -149539,6 +151450,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 토론블루 맥스 슈어저, 시애매리 로건 길버트다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 20.0°C·강수확률 20%·바람 2.7km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831SETO0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "토론블루",
+     "시애매리",
+     "맥스 슈어저",
+     "로건 길버트"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 토론블루 맥스 슈어저, 시애매리 로건 길버트다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 20.0°C·강수확률 20%·바람 2.7km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:25+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -150260,6 +152215,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 디트타이 프람버 발데스, LA다저스 타일러 글라스노우다. 경기 외부 정보로는 경기 시각 예보는 기온 21.4°C·강수확률 19%·바람 2.4km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831LADE0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "디트타이",
+     "LA다저스",
+     "프람버 발데스",
+     "타일러 글라스노우"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 디트타이 프람버 발데스, LA다저스 타일러 글라스노우다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 21.4°C·강수확률 19%·바람 2.4km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:57+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -150846,6 +152845,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 클리가디 파커 메식, 캔자로얄 세스 루고다. 경기 외부 정보로는 경기 시각 예보는 기온 26.7°C·강수확률 7%·바람 0.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831KCCL0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "클리가디",
+     "캔자로얄",
+     "파커 메식",
+     "세스 루고"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 클리가디 파커 메식, 캔자로얄 세스 루고다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 26.7°C·강수확률 7%·바람 0.3km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:22+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -151460,6 +153503,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 탬파레이 드류 라스무센, 샌디파드 로비 레이다. 경기 외부 정보로는 돔 경기장이라 외부 날씨 효과는 분석에서 제외한다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831SDTB0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "탬파레이",
+     "샌디파드",
+     "드류 라스무센",
+     "로비 레이"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 탬파레이 드류 라스무센, 샌디파드 로비 레이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "돔 경기장이라 외부 날씨 효과는 분석에서 제외한다.",
+      "source": "Open-Meteo + 경기장 지붕 분류",
+      "observed_at": "2026-08-29T10:23:23+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -153612,6 +155699,49 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다. 경기 외부 정보로는 경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831CWMN0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "미네트윈",
+     "시카화이",
+     "제비 매튜스"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -154212,6 +156342,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 밀워브루 더스틴 메이, 텍사레인 쿠마 로커다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 31.6°C·강수확률 6%·바람 7.0km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831TEMI0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "밀워브루",
+     "텍사레인",
+     "더스틴 메이",
+     "쿠마 로커"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 밀워브루 더스틴 메이, 텍사레인 쿠마 로커다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 31.6°C·강수확률 6%·바람 7.0km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:01+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -154728,6 +156902,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 세인카디 매튜 리베라토레, 피츠파이 브랙스톤 애쉬크레프트다. 경기 외부 정보로는 경기 시각 예보는 기온 34.1°C·강수확률 0%·바람 4.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831PISL0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "세인카디",
+     "피츠파이",
+     "매튜 리베라토레",
+     "브랙스톤 애쉬크레프트"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 세인카디 매튜 리베라토레, 피츠파이 브랙스톤 애쉬크레프트다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 34.1°C·강수확률 0%·바람 4.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:08+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -157980,6 +160198,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 뉴욕메츠 잭 손튼, 휴스애스 크리스티안 하비에르다. 경기 외부 정보로는 경기 시각 예보는 기온 27.2°C·강수확률 6%·바람 3.8km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831HONM0",
+    "observed_at": "2026-08-29T06:50:50+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "뉴욕메츠",
+     "휴스애스",
+     "잭 손튼",
+     "크리스티안 하비에르"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 뉴욕메츠 잭 손튼, 휴스애스 크리스티안 하비에르다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T06:50:50+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 27.2°C·강수확률 6%·바람 3.8km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:55+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -160011,6 +162273,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 LA에인절 기쿠치 유세이, 필라필리 잭 휠러다. 경기 외부 정보로는 경기 시각 예보는 기온 33.0°C·강수확률 1%·바람 4.0km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831PHAN0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "LA에인절",
+     "필라필리",
+     "기쿠치 유세이",
+     "잭 휠러"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 LA에인절 기쿠치 유세이, 필라필리 잭 휠러다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 33.0°C·강수확률 1%·바람 4.0km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:54+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -162527,6 +164833,50 @@
      "built_at": "2026-08-28T12:12:57+00:00",
      "pre_registered": false
     }
+   },
+   "근거해설": "경기 내부 정보로는 선발 예고는 시카컵스 이마나가 쇼타, 신시레즈 체이스 번스다. 경기 외부 정보로는 경기 시각 예보는 기온 30.1°C·강수확률 12%·바람 5.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "근거해설방식": "template_run_budget",
+   "경기근거": {
+    "source_game_id": "20260831CICC0",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "시카컵스",
+     "신시레즈",
+     "이마나가 쇼타",
+     "체이스 번스"
+    ],
+    "internal": [
+     {
+      "kind": "starter",
+      "text": "선발 예고는 시카컵스 이마나가 쇼타, 신시레즈 체이스 번스다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 30.1°C·강수확률 12%·바람 5.5km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:23:10+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
    }
   },
   {
@@ -234144,5 +236494,7 @@
    "used"
   ]
  },
- "player_info_at": "2026-08-29T10:56:53+00:00"
+ "player_info_at": "2026-08-29T10:56:53+00:00",
+ "context_enriched_at": "2026-08-29T11:18:26+00:00",
+ "context_games": 49
 }
