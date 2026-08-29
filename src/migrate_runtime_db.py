@@ -16,14 +16,22 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
     paths = sorted((root / "data/raw/snapshots").glob("odds_timeseries_*.csv")) \
         if include_odds else []
     for path in paths:
+        stat = path.stat()
+        source = str(path.relative_to(root))
+        fingerprint = f"{stat.st_size}:{stat.st_mtime_ns}"
+        if db.migration_is_current(source, fingerprint):
+            continue
+        seen = 0
         with path.open(newline="", encoding="utf-8") as handle:
             batch = []
             for row in csv.DictReader(handle):
+                seen += 1
                 batch.append(row)
                 if len(batch) >= 5000:
                     odds += db.insert_odds(batch)
                     batch.clear()
             odds += db.insert_odds(batch)
+        db.mark_migrated(source, fingerprint, seen)
 
     predictions = 0
     ledger = root / "data/raw/prediction_ledger/pregame.jsonl"
