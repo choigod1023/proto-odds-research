@@ -107,16 +107,23 @@ class RuntimeDatabase:
             )
 
     def insert_odds(self, rows: Iterable[Mapping[str, Any]]) -> int:
-        values = [(
-            str(row["ts"]), int(row["year"]), int(row["round"]), str(row["game_no"]),
-            row.get("sport"), row.get("league"), row.get("market_family"),
-            int(row["n_way"]) if row.get("n_way") not in (None, "") else None,
-            row.get("market_label"), row.get("home"), row.get("away"),
-            row.get("date_text"), json.dumps(
-                [float(value) for value in str(row["odds"]).split(",") if value],
-                separators=(",", ":"),
-            ), row.get("result"),
-        ) for row in rows]
+        values = []
+        for row in rows:
+            try:
+                odds = [float(value) for value in str(row["odds"]).split(",") if value]
+                n_way = (int(row["n_way"])
+                         if row.get("n_way") not in (None, "") else None)
+                values.append((
+                    str(row["ts"]), int(row["year"]), int(row["round"]),
+                    str(row["game_no"]), row.get("sport"), row.get("league"),
+                    row.get("market_family"), n_way, row.get("market_label"),
+                    row.get("home"), row.get("away"), row.get("date_text"),
+                    json.dumps(odds, separators=(",", ":")), row.get("result"),
+                ))
+            except (KeyError, TypeError, ValueError):
+                # 일부 옛 CSV에는 쉼표 escaping 오류로 열이 밀린 행이 있다.
+                # 한 손상 행 때문에 수백만 정상 관측의 이관을 중단하지 않는다.
+                continue
         if not values:
             return 0
         with self.transaction() as connection:
