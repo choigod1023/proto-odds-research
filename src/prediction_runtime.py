@@ -232,9 +232,33 @@ class PredictionRuntime:
         clock: Callable[[], datetime] | None = None,
     ) -> None:
         self.ledger = PredictionLedger(path, clock=clock)
+        # A refresh can evaluate hundreds of markets. Reading and verifying the
+        # complete JSONL hash chain for every game made that loop quadratic and
+        # kept picks_v2.json stale for many minutes. A runtime is single-use in
+        # the generators, so load the immutable ledger once and extend the
+        # in-memory view after successful appends.
+        self._record_cache: list[dict[str, Any]] | None = None
+        self._latest_cache: dict[str, dict[str, Any]] | None = None
+
+    def _cached_records(self) -> list[dict[str, Any]]:
+        if self._record_cache is None:
+            self._record_cache = self.ledger.records()
+        return self._record_cache
+
+    def _cached_latest(self) -> dict[str, dict[str, Any]]:
+        if self._latest_cache is None:
+            self._latest_cache = _latest_predictions(self._cached_records())
+        return self._latest_cache
+
+    def _remember(self, result: AppendResult) -> None:
+        if not result.appended:
+            return
+        self._cached_records().append(result.record)
+        if result.record.get("record_type") == "prediction":
+            self._cached_latest()[result.record["event_id"]] = result.record
 
     def records(self) -> list[dict[str, Any]]:
-        return self.ledger.records()
+        return list(self._cached_records())
 
     def record_pregame(
         self,
@@ -246,7 +270,7 @@ class PredictionRuntime:
         snapshot = game.get("decision_snapshot") or {}
         predictions = prediction_payload(game)
         features = ledger_features(game)
-        existing = _latest_predictions(self.records()).get(snapshot.get("event_id"))
+        existing = self._cached_latest().get(snapshot.get("event_id"))
         new_signature = _revision_signature(
             event_id=str(snapshot.get("event_id") or ""),
             input_revision_hash=snapshot.get("input_revision_hash"),
@@ -264,7 +288,7 @@ class PredictionRuntime:
             )
             if old_signature == new_signature:
                 return None
-        return self.ledger.append_prediction(
+        result = self.ledger.append_prediction(
             game,
             snapshot,
             kickoff=kickoff,
@@ -273,6 +297,8 @@ class PredictionRuntime:
             predictions=predictions,
             deduplication_key=new_signature,
         )
+        self._remember(result)
+        return result
 
     def settle_latest(
         self,
@@ -282,8 +308,8 @@ class PredictionRuntime:
         settled_at: str | datetime,
         source: Mapping[str, Any] | str,
     ) -> AppendResult | None:
-        records = self.records()
-        prediction = _latest_predictions(records).get(event_id)
+        records = self._cached_records()
+        prediction = self._cached_latest().get(event_id)
         if prediction is None:
             return None
         normalized_outcome = _safe_json(outcome)
@@ -298,13 +324,15 @@ class PredictionRuntime:
             for row in records
         ):
             return None
-        return self.ledger.append_settlement(
+        result = self.ledger.append_settlement(
             prediction["snapshot_id"],
             outcome=normalized_outcome,
             settled_at=settled_at,
             source=_safe_json(source),
             settlement_version=settlement_version,
         )
+        self._remember(result)
+        return result
 
     def ui_records(self) -> dict[str, dict[str, Any]]:
         records = self.records()

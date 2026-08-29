@@ -142,6 +142,41 @@ def test_cron_deduplicates_same_revision_but_appends_changed_odds(tmp_path):
     assert len([r for r in runtime.records() if r["record_type"] == "prediction"]) == 2
 
 
+def test_refresh_reads_complete_ledger_only_once(tmp_path, monkeypatch):
+    current = [datetime(2026, 8, 28, 9, 5, tzinfo=UTC)]
+    runtime = PredictionRuntime(
+        tmp_path / "pregame.jsonl", clock=lambda: current[0]
+    )
+    reads = 0
+    original_records = runtime.ledger.records
+
+    def counted_records():
+        nonlocal reads
+        reads += 1
+        return original_records()
+
+    monkeypatch.setattr(runtime.ledger, "records", counted_records)
+    value = game()
+    attach_score_forecast(value)
+    snapshot(value, "2026-08-28T09:00:00+00:00")
+
+    runtime.record_pregame(
+        value,
+        kickoff="2026-08-28T10:00:00+00:00",
+        market_observed_at="2026-08-28T09:00:00+00:00",
+    )
+    current[0] = datetime(2026, 8, 28, 9, 25, tzinfo=UTC)
+    snapshot(value, "2026-08-28T09:20:00+00:00")
+    runtime.record_pregame(
+        value,
+        kickoff="2026-08-28T10:00:00+00:00",
+        market_observed_at="2026-08-28T09:20:00+00:00",
+    )
+    runtime.ui_records()
+
+    assert reads == 1
+
+
 def test_latest_pregame_revision_is_settled_idempotently_and_tallied(tmp_path):
     current = [datetime(2026, 8, 28, 9, 5, tzinfo=UTC)]
     runtime = PredictionRuntime(
