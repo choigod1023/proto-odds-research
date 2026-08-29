@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-29T11:18:01+00:00",
+  "generated_at": "2026-08-29T11:50:12+00:00",
   "source": "TailSlips public HTML (public X MLB picks)",
   "leaderboard_cross_section": {
     "available": true,
-    "observed_at": "2026-08-29T10:08:28+00:00",
+    "observed_at": "2026-08-29T11:41:13+00:00",
     "window": "last_30_days",
     "n_ranked_cappers": 50,
     "total_displayed_picks": 4611,
@@ -259,16 +259,16 @@
     ]
   },
   "visible_slate_characteristics": {
-    "n_visible_unique_picks": 39,
-    "n_straight_picks": 39,
+    "n_visible_unique_picks": 74,
+    "n_straight_picks": 74,
     "market_counts": {
-      "moneyline": 18,
-      "total": 9,
-      "spread": 12
+      "moneyline": 47,
+      "total": 11,
+      "spread": 16
     },
-    "n_with_american_odds": 23,
-    "favorite_share_pct": 78.26,
-    "underdog_share_pct": 21.74,
+    "n_with_american_odds": 24,
+    "favorite_share_pct": 75.0,
+    "underdog_share_pct": 25.0,
     "capper_profiles_min_3_visible": [
       {
         "handle": "dbunk_picks",
@@ -281,6 +281,27 @@
         },
         "favorite_share_pct": 0.0,
         "median_american_odds": 5984
+      },
+      {
+        "handle": "bookie___bandit",
+        "n_visible_straight_picks": 14,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "spread": 3,
+          "moneyline": 11
+        },
+        "favorite_share_pct": null,
+        "median_american_odds": null
+      },
+      {
+        "handle": "bettingcowboy00",
+        "n_visible_straight_picks": 13,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 13
+        },
+        "favorite_share_pct": null,
+        "median_american_odds": null
       },
       {
         "handle": "ml_king24",
@@ -306,6 +327,18 @@
         "median_american_odds": -128
       },
       {
+        "handle": "lottolocks",
+        "n_visible_straight_picks": 7,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "total": 1,
+          "moneyline": 5,
+          "spread": 1
+        },
+        "favorite_share_pct": 0.0,
+        "median_american_odds": 3305
+      },
+      {
         "handle": "sbr_bets",
         "n_visible_straight_picks": 5,
         "dominant_market": "total",
@@ -319,7 +352,7 @@
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
   },
   "prospective_validation": {
-    "n_eligible_pre_event": 39,
+    "n_eligible_pre_event": 95,
     "n_graded": 0,
     "n_decisive": 0,
     "wins": 0,
