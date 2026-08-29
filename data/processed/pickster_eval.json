@@ -1,44 +1,44 @@
 {
-  "generated_at": "2026-08-29T04:04:59+00:00",
+  "generated_at": "2026-08-29T04:12:56+00:00",
   "source": "TailSlips public HTML (public X MLB picks)",
   "leaderboard_cross_section": {
     "available": true,
-    "observed_at": "2026-08-29T04:03:39+00:00",
+    "observed_at": "2026-08-29T04:11:37+00:00",
     "window": "last_30_days",
     "n_ranked_cappers": 50,
-    "total_displayed_picks": 4587,
+    "total_displayed_picks": 4588,
     "median_picks_per_capper": 40.5,
     "median_win_rate_pct": 55.0,
     "median_roi_pct": 4.95,
     "share_positive_roi_pct": 78.0,
-    "aggregate_roi_from_displayed_units_pct": 7.12,
-    "spearman_log_sample_vs_roi": 0.125,
+    "aggregate_roi_from_displayed_units_pct": 7.18,
+    "spearman_log_sample_vs_roi": 0.124,
     "deleted_indicator": {
-      "n_with_deleted_indicator": 8,
-      "median_roi_with_indicator_pct": 15.3,
-      "median_roi_without_indicator_pct": 3.35
+      "n_with_deleted_indicator": 9,
+      "median_roi_with_indicator_pct": 14.0,
+      "median_roi_without_indicator_pct": 3.4
     },
     "paid_pick_offer_indicator": {
       "n_offering_paid_picks": 18,
-      "median_roi_offering_paid_pct": 6.15,
+      "median_roi_offering_paid_pct": 6.25,
       "median_roi_public_only_pct": 4.9,
       "warning": "공개 픽만 등급화된 표식이며 유료 픽 품질을 측정하지 않는다."
     },
     "market_style_groups": {
       "moneyline": {
-        "n_cappers": 37,
+        "n_cappers": 36,
         "median_roi_pct": 4.9,
         "median_win_rate_pct": 55.0
       },
       "parlay": {
-        "n_cappers": 1,
-        "median_roi_pct": 2.3,
-        "median_win_rate_pct": 31.0
+        "n_cappers": 2,
+        "median_roi_pct": -1.85,
+        "median_win_rate_pct": 26.0
       },
       "prop": {
         "n_cappers": 3,
         "median_roi_pct": 12.6,
-        "median_win_rate_pct": 62.0
+        "median_win_rate_pct": 61.0
       },
       "spread": {
         "n_cappers": 2,
@@ -71,18 +71,18 @@
         "flags": []
       },
       {
-        "rank": 20,
+        "rank": 21,
         "handle": "lineupswinning",
         "name": "Winning Lineups $ This capper offers paid picks. TailSlips only tracks their public posts.",
-        "n_picks": 30,
-        "win_rate_pct": 63.0,
+        "n_picks": 31,
+        "win_rate_pct": 61.0,
         "win_rate_wilson_95_pct": [
-          45.51,
-          78.13
+          43.82,
+          76.27
         ],
-        "net_units": 6.4,
-        "roi_pct": 106.3,
-        "stability_shrunk_roi_pct": 24.53,
+        "net_units": 5.4,
+        "roi_pct": 76.8,
+        "stability_shrunk_roi_pct": 18.17,
         "trait": "prop",
         "offers_paid_picks": true,
         "deleted_count": 1,
@@ -93,44 +93,24 @@
         ]
       },
       {
-        "rank": 7,
+        "rank": 6,
         "handle": "bambino_bets",
         "name": "George Kent $ This capper offers paid picks. TailSlips only tracks their public posts.",
-        "n_picks": 88,
+        "n_picks": 89,
         "win_rate_pct": 62.0,
         "win_rate_wilson_95_pct": [
-          52.06,
-          71.89
+          51.41,
+          71.21
         ],
-        "net_units": 15.1,
-        "roi_pct": 18.0,
-        "stability_shrunk_roi_pct": 8.43,
+        "net_units": 16.0,
+        "roi_pct": 18.9,
+        "stability_shrunk_roi_pct": 8.9,
         "trait": "total",
         "offers_paid_picks": true,
         "deleted_count": 3,
         "flags": [
           "small_sample",
           "deleted_pick_indicator"
-        ]
-      },
-      {
-        "rank": 6,
-        "handle": "showtimepicks2",
-        "name": "Showtime Picks cooled off · 2 d",
-        "n_picks": 95,
-        "win_rate_pct": 62.0,
-        "win_rate_wilson_95_pct": [
-          52.06,
-          71.21
-        ],
-        "net_units": 15.6,
-        "roi_pct": 16.4,
-        "stability_shrunk_roi_pct": 7.99,
-        "trait": "moneyline",
-        "offers_paid_picks": false,
-        "deleted_count": 0,
-        "flags": [
-          "small_sample"
         ]
       },
       {
@@ -156,18 +136,38 @@
         ]
       },
       {
+        "rank": 9,
+        "handle": "showtimepicks2",
+        "name": "Showtime Picks cooled off · 2 d",
+        "n_picks": 96,
+        "win_rate_pct": 61.0,
+        "win_rate_wilson_95_pct": [
+          51.46,
+          70.57
+        ],
+        "net_units": 14.6,
+        "roi_pct": 15.2,
+        "stability_shrunk_roi_pct": 7.44,
+        "trait": "moneyline",
+        "offers_paid_picks": false,
+        "deleted_count": 0,
+        "flags": [
+          "small_sample"
+        ]
+      },
+      {
         "rank": 2,
         "handle": "bookie___bandit",
         "name": "Bookie Bandit $ This capper offers paid picks. TailSlips only tracks their public posts.",
-        "n_picks": 418,
+        "n_picks": 419,
         "win_rate_pct": 58.0,
         "win_rate_wilson_95_pct": [
-          53.11,
-          62.53
+          53.22,
+          62.63
         ],
-        "net_units": 34.9,
-        "roi_pct": 8.4,
-        "stability_shrunk_roi_pct": 6.78,
+        "net_units": 35.5,
+        "roi_pct": 8.5,
+        "stability_shrunk_roi_pct": 6.86,
         "trait": "Moneyline grinder",
         "offers_paid_picks": true,
         "deleted_count": 0,
@@ -197,15 +197,15 @@
         "rank": 3,
         "handle": "moneyline_mav",
         "name": "MoneylineMav $ This capper offers paid picks. TailSlips only tracks their public posts. × 1 deleted",
-        "n_picks": 501,
+        "n_picks": 502,
         "win_rate_pct": 55.0,
         "win_rate_wilson_95_pct": [
-          50.71,
-          59.39
+          50.61,
+          59.28
         ],
-        "net_units": 27.8,
-        "roi_pct": 5.9,
-        "stability_shrunk_roi_pct": 4.92,
+        "net_units": 28.9,
+        "roi_pct": 6.1,
+        "stability_shrunk_roi_pct": 5.09,
         "trait": "Moneyline grinder",
         "offers_paid_picks": true,
         "deleted_count": 1,
@@ -214,7 +214,7 @@
         ]
       },
       {
-        "rank": 9,
+        "rank": 8,
         "handle": "swampy_swami",
         "name": "SWAMPTHING",
         "n_picks": 171,
