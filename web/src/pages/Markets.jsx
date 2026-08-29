@@ -30,6 +30,7 @@ const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
 // 이 파일로 덮어쓴다.
 const ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
 const RECOMMENDATION_URL = "https://proto-odds-collector.fly.dev/today_combo.json";
+const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
 
 /** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
 function usePoll(url, ms) {
@@ -112,7 +113,11 @@ export default function Markets() {
     grades: "data/loss_grades.json",
     today: "data/today_combo.json",
   }, 300000);   // 5분
-  const { d, grades, today } = data;
+  const { d: staticPicks, grades, today } = data;
+  // 판정도 수집 머신에서 직접 받는다. Git push·Pages 배포를 기다리느라 최신 배당은
+  // 보이는데 판정만 3시간 넘게 낡는 상태를 막고, 장애 때는 정적 파일로 복귀한다.
+  const livePicks = usePoll(PICKS_URL, 60000);
+  const d = livePicks || staticPicks;
   const liveOdds = useLiveOdds();
   const liveToday = usePoll(RECOMMENDATION_URL, 120000);
   const liveFeed = useLive();
