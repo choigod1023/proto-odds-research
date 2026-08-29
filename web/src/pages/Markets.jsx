@@ -17,6 +17,7 @@ import { availableToday, nextTodayRefreshDelay, recommendationFromPlans,
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { toggleCartSelection } from "../lib/bet-cart.js";
+import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -1139,6 +1140,42 @@ function AvailabilityPanel({ g }) {
     </p>}
   </>;
 }
+
+function ContextEvidence({ g, pick }) {
+  const evidence = g["경기근거"] || null;
+  const direct = directPickReason(pick);
+  const sections = [
+    ["경기 내부", evidence?.internal || []],
+    ["경기 외부", evidence?.external || []],
+    ["공개 픽 흐름", evidence?.crowd || []],
+  ].filter(([, rows]) => rows.length);
+  const commentary = String(g["근거해설"] || "").trim();
+  if (!direct && !sections.length && !commentary && !evidence?.limitations?.length) return null;
+  return <div className="mt-3 border-t border-rule2 pt-3 text-[11.5px] leading-[1.7] text-ink2">
+    {direct && <div className="rounded-[7px] border border-rule bg-panel px-3 py-2.5">
+      <div className="mb-0.5 text-[10.5px] font-semibold tracking-[.04em] text-ink3">왜 이 픽인가</div>
+      <div className="text-ink">{direct}</div>
+    </div>}
+    {!!sections.length && <div className="mt-2 grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(210px,1fr))]">
+      {sections.map(([title, rows]) => <div key={title} className="rounded-[7px] border border-rule2 px-2.5 py-2">
+        <div className="mb-1 text-[10.5px] font-semibold tracking-[.04em] text-ink3">{title}</div>
+        {rows.map((row, index) => <div key={`${row.kind || title}-${index}`} className="mb-1 last:mb-0">
+          {row.text}{row.source && <span className="ml-1 text-[10px] text-ink3">({row.source})</span>}
+        </div>)}
+      </div>)}
+    </div>}
+    {commentary && <div className="mt-2 rounded-[7px] border border-rule2 px-2.5 py-2">
+      <span className="mr-1.5 rounded border border-rule px-1.5 py-0.5 text-[10px] text-ink3">
+        {commentaryMethod(g["근거해설방식"])}
+      </span>
+      {commentary}
+    </div>}
+    {!!evidence?.limitations?.length && <div className="mt-1.5 text-[10.5px] text-ink3">
+      검증 메모 · {evidence.limitations.join(" · ")}
+    </div>}
+  </div>;
+}
+
 function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
   recalculating = false, showPrices = false, cart, onCartToggle, cartDisabled }) {
   const txt = displayCommentary(g);
@@ -1193,6 +1230,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
           {decision
             ? <AiDecisionPath decision={decision} />
             : <p className="m-0 text-[11.5px] text-ink3">경기 전 판정 스냅샷이 아직 없습니다.</p>}
+          <ContextEvidence g={g} pick={pick} />
           {showPrices && <div className="show-model mt-3 overflow-x-auto border-t border-rule2 pt-3">
             <OptTable g={g} opts={opts} grades={grades} tie={tie} pick={pick}
               recalculating={recalculating} cart={cart} onCartToggle={onCartToggle}

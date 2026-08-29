@@ -43,7 +43,18 @@ LOOPERS = [
     # FIBA·Volleyball World·네이버 농구/배구 선수·팀 기록.
     # 선발 변경이 잦은 경기 직전에도 화면이 한 시간 낡지 않도록 예고와 같은 주기다.
     ("선수·팀 정보", [sys.executable, "-u", "src/player_info.py", "--loop", "1800"]),
+    # 무료 공식·공개 원천으로 시즌/상대 성적, K-BB/9, 최근 팀 득실과
+    # 실제 타선 공개 여부를 변경 이벤트로 저장한다.
+    ("무료 야구 컨텍스트", [sys.executable, "-u", "src/baseball_context_watch.py",
+                       "--loop", "1800"]),
     ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py", "--loop", "900"]),
+    # 공개 HTML만 저빈도로 읽는다. 첫 관측은 baseline으로 두고 이후에 관측한
+    # 미결 픽만 전향적으로 검증한다.
+    ("공개 픽스터", [sys.executable, "-u", "src/pickster_watch.py", "--loop", "900"]),
+    # API 키가 필요 없는 Open-Meteo 예보 변경 이력을 보존해 T-24h/T-6h
+    # 당시 정보로 백테스트할 수 있게 한다.
+    ("무료 날씨", [sys.executable, "-u", "src/weather_watch.py",
+                 "--league", "all", "--loop", "21600"]),
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
     ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "300"]),
@@ -112,6 +123,8 @@ PUBLISH = [
 # ⚠️ 이 단계들은 games.csv 를 읽으므로, 그 파일이 없으면 무거운 쪽을 먼저 돌려야 한다.
 #    (run_publish 가 그때는 강제로 HEAVY 를 낀다)
 PUBLISH_LIGHT = [
+    ("픽스터 전향판정", [sys.executable, "-u", "src/pickster_eval.py"], False, 300),
+    ("무료 야구 feature", [sys.executable, "-u", "src/baseball_live_features.py"], False, 300),
     ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
     ("픽 생성", [sys.executable, "-u", "src/generate_picks.py"], False, 1800),
     ("전마켓 픽 생성", [sys.executable, "-u", "src/generate_v2.py"], False, 1800),
