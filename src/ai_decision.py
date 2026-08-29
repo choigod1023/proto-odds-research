@@ -26,6 +26,8 @@ from recommendation_policy import (
     recommendation_priority,
     underdog_score,
 )
+from internal_probability import OPERATING_VERSION as INTERNAL_OPERATING_VERSION
+from internal_probability import internal_probability
 
 
 SCHEMA_VERSION = "decision-snapshot-v2"
@@ -36,6 +38,7 @@ USAGE_CONSUMERS = ("market_baseline", "ai_residual", "decision_gate", "explainer
 USAGE_STATUSES = {"used", "shadow", "context_only", "ignored", "missing"}
 STAGE_IDS = ("market", "structured_ai", "availability_ai", "language_ai")
 PROMOTED_ARTIFACT_HASHES: frozenset[str] = frozenset()
+POLICY_AUTHORIZED_MODELS = frozenset({INTERNAL_OPERATING_VERSION})
 EVIDENCE_MANIFEST = {
     "market_price": {"label": "동일 시점 프로토 배당", "type": "market"},
     "team_performance": {"label": "팀 경기력 기록", "type": "team"},
@@ -184,6 +187,8 @@ def annotate_options(
             "잔차모델해시",
         ):
             option.pop(field, None)
+        for field in ("내부확률", "선수보정", "내부요인", "내부모델상태", "내부모델사유"):
+            option.pop(field, None)
         key = (option.get("market"), option.get("label"), option.get("line"),
                option.get("게임번호"))
         if (
@@ -235,6 +240,20 @@ def annotate_options(
             option["AI반영"] = reviewed
             pipeline_statuses.append(status)
             pipeline_reasons.append(reason)
+        # 승격된 잔차 artifact가 없을 때만 코드 리뷰된 야구 내부식이 운영 후보가 된다.
+        # 둘을 동시에 더하지 않아 같은 구조 신호가 중복 반영되는 일을 막는다.
+        if not option.get("AI반영"):
+            internal = internal_probability(game, option)
+            option["내부확률"] = internal.get("internal")
+            option["선수보정"] = internal.get("player_delta")
+            option["내부요인"] = internal.get("factors")
+            option["내부모델상태"] = internal.get("status")
+            option["내부모델사유"] = internal.get("reason")
+            if internal.get("status") == "operational":
+                option["최종확률"] = internal["final"]
+                option["확률근거"] = INTERNAL_OPERATING_VERSION
+                option["AI반영"] = True
+                pipeline_statuses.append("internal_operational")
         is_upset = qualified_underdog(
             option.get("market"), option.get("배당"), market,
             favorite_by_market.get(key), model,
@@ -251,6 +270,7 @@ def annotate_options(
     game["probability_pipeline"] = {
         "status": (
             "operational" if "promoted" in pipeline_statuses
+            else "operational" if "internal_operational" in pipeline_statuses
             else "shadow_only" if "shadow_only" in pipeline_statuses
             else "market_fallback" if probability_artifact is not None
             else "market_baseline"
@@ -264,6 +284,13 @@ def annotate_options(
             else "probability artifact is absent; Shin market retained"
         ),
     }
+    if "internal_operational" in pipeline_statuses and "promoted" not in pipeline_statuses:
+        game["probability_pipeline"].update({
+            "operating_version": INTERNAL_OPERATING_VERSION,
+            "policy_authorized": True,
+            "affects_probability": True,
+            "reason": "baseball internal-factor activation gates passed",
+        })
 
 
 def choose_market_reference(options: list[dict]) -> dict | None:
@@ -395,6 +422,7 @@ def _evidence(
 ) -> tuple[list[dict], list[dict]]:
     """자료마다 사용처와 미반영 이유를 빠짐없이 기록한다."""
     info = _starter_info(game)
+    internal_applied = bool(option and option.get("확률근거") == INTERNAL_OPERATING_VERSION)
     evidence: list[dict] = []
     sources: list[dict] = []
 
@@ -434,12 +462,12 @@ def _evidence(
         "observed_at": info.get("updated_at"),
         **_all_usage(
             market="ignored",
-            residual="context_only" if has_lineup else "missing",
-            gate="ignored",
-            explainer="context_only" if has_lineup else "missing",
-            residual_reason="future_validation_pending" if has_lineup else None,
-            gate_reason="not_in_operating_formula",
-            explainer_reason="context_not_probability" if has_lineup else None,
+            residual="used" if has_lineup and internal_applied else "context_only" if has_lineup else "missing",
+            gate="used" if has_lineup and internal_applied else "ignored",
+            explainer="used" if has_lineup and internal_applied else "context_only" if has_lineup else "missing",
+            residual_reason=None if internal_applied else "future_validation_pending" if has_lineup else None,
+            gate_reason=None if internal_applied else "not_in_operating_formula",
+            explainer_reason=None if internal_applied else "context_not_probability" if has_lineup else None,
         ),
     })
 
@@ -450,12 +478,12 @@ def _evidence(
         "observed_at": info.get("updated_at"),
         **_all_usage(
             market="ignored",
-            residual="context_only" if has_availability else "missing",
-            gate="ignored",
-            explainer="context_only" if has_availability else "missing",
-            residual_reason="future_validation_pending" if has_availability else None,
-            gate_reason="not_in_operating_formula",
-            explainer_reason="context_not_probability" if has_availability else None,
+            residual="used" if has_availability and internal_applied else "context_only" if has_availability else "missing",
+            gate="used" if has_availability and internal_applied else "ignored",
+            explainer="used" if has_availability and internal_applied else "context_only" if has_availability else "missing",
+            residual_reason=None if internal_applied else "future_validation_pending" if has_availability else None,
+            gate_reason=None if internal_applied else "not_in_operating_formula",
+            explainer_reason=None if internal_applied else "context_not_probability" if has_availability else None,
         ),
     })
 
@@ -493,6 +521,7 @@ def _input_revision_hash(game: dict, evidence: list[dict]) -> str:
             option.get("selection_id"), option.get("offer_id"),
             _number(option.get("배당")), _number(option.get("시장확률")),
             _number(option.get("모델확률")), _number(option.get("잔차모델확률")),
+            _number(option.get("내부확률")), _number(option.get("선수보정")),
             _number(option.get("최종확률")), option.get("잔차모델해시"),
         ) for option in game.get("options", [])),
         "evidence": sorted((
@@ -591,7 +620,7 @@ def build_decision_snapshot(
             ),
         },
         "model": {
-            "operating_version": OPERATING_MODEL_VERSION,
+            "operating_version": pipeline.get("operating_version") or OPERATING_MODEL_VERSION,
             "residual_version": SHADOW_MODEL_VERSION,
             "probability_pipeline_version": "market-logit-residual-v1",
             "status": (
@@ -599,7 +628,8 @@ def build_decision_snapshot(
                 else "shadow" if shadow is not None or residual_shadow is not None
                 else "unavailable"
             ),
-            "validated_edge": applied,
+            "validated_edge": bool(applied and pipeline.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES),
+            "policy_authorized": bool(applied and pipeline.get("policy_authorized")),
             "promotion_gate": "passed" if applied else "not_passed",
             "artifact_hash": pipeline.get("artifact_hash"),
         },
@@ -617,7 +647,10 @@ def build_decision_snapshot(
                 applied,
             ),
             "availability_ai": _stage(
-                "context_only" if any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence) else "missing"),
+                "used" if applied and selected and selected.get("확률근거") == INTERNAL_OPERATING_VERSION
+                else "context_only" if any(row["id"] in {"lineup", "availability"} and row["available"] for row in evidence)
+                else "missing",
+                bool(applied and selected and selected.get("확률근거") == INTERNAL_OPERATING_VERSION)),
             "language_ai": _stage(explanation_status),
         },
         "evidence": evidence,
@@ -661,10 +694,14 @@ def validate_decision_snapshot(snapshot: dict) -> None:
     model = snapshot.get("model") or {}
     can_apply = (
         model.get("status") == "operational"
-        and model.get("validated_edge") is True
         and model.get("promotion_gate") == "passed"
         and bool(model.get("operating_version"))
-        and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES
+        and (
+            (model.get("validated_edge") is True
+             and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES)
+            or (model.get("policy_authorized") is True
+                and model.get("operating_version") in POLICY_AUTHORIZED_MODELS)
+        )
     )
     if not can_apply:
         if probability.get("final") != probability.get("market"):

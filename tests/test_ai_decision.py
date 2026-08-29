@@ -313,3 +313,24 @@ def test_evidence_observed_after_feature_cutoff_is_rejected():
         assert "observed after cutoff" in str(error)
     else:
         raise AssertionError("입력 컷오프 뒤 자료가 판정에 들어갔다")
+
+
+def test_policy_authorized_internal_baseball_model_changes_probability_with_audit():
+    game = _game()
+    game["options"] = game["options"][:2]
+    game["options"][0]["배당"] = 1.60
+    game["선발"].update({
+        "home_detail": {"name": "김선발", "stats": {"fip": 2.8}},
+        "away_detail": {"name": "박선발", "stats": {"fip": 4.8}},
+        "starter_status": {"state": "confirmed"},
+    })
+
+    snapshot = build_decision_snapshot(
+        game, as_of="2026-08-27T09:00:00+09:00")
+
+    assert snapshot["model"]["operating_version"] == "internal-context-blend-v2"
+    assert snapshot["model"]["policy_authorized"] is True
+    assert snapshot["model"]["validated_edge"] is False
+    assert snapshot["probability"]["final"] != snapshot["probability"]["market"]
+    assert snapshot["stages"]["availability_ai"]["affects_probability"] is True
+    validate_decision_snapshot(snapshot)
