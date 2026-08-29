@@ -46,6 +46,8 @@
 | K리그 슈팅 | 816경기 (슈팅·유효슈팅) | 과정지표 |
 | KBO/MLB/NPB 선발 | 228 관측 | 선발 정보 시차 |
 | 배당 스냅샷 | 15분 간격 상시 | 라인 이동 |
+| 무료 야구 직전 컨텍스트 | KBO·NPB·MLB 30분 간격 | 선발 교체·라인업·최근 득실·투수 성분지표 |
+| 공개 MLB 픽스터 | 공개 X 픽 15분 간격 | 군중 쏠림·전향 적중률/ROI |
 
 수집은 비상업 연구 목적이며 `robots.txt` 가 막은 경로는 수집하지 않는다.
 
@@ -58,9 +60,49 @@
 - **연도별 부호 일관성** — 그 해 평균 대비 방향이 네 해 모두 같아야 한다
 - 다중 검정에는 Bonferroni
 
-### 1.3 자동 검증
+### 1.3 무료 경기 컨텍스트와 쏠림 분해
 
-같은 함수가 하루에 두 번 깨진 뒤 `src/selftest_all.py`(12종)를 만들었다.
+정배를 같은 방향으로 지지한다는 이유만으로 새 정보를 채택하지 않는다.
+`src/free_context_eval.py`는 프로토 확률·독립 경기모델·시장 offset 모델을 분리하고,
+시장 대비 검증 손실이 실제로 개선될 때만 예측 변수로 인정한다.
+
+- `src/weather_watch.py`: API 키 없는 Open-Meteo K리그·KBO·NPB·MLB 경기장 예보를 관측시점별 보존
+- `src/weather_features.py`: 예측 cutoff 이전 예보만 골라 킥오프 시간에 결합
+- `src/context_features.py`: 휴식·최근 일정·이동거리·선수 workload 무료 파생
+- `src/free_context.py`: `valid_at/observed_at/fetched_at` 및 쏠림 분해 정본
+- `src/baseball_context_watch.py`: KBO·NPB·MLB keyless 공개 데이터의 선발 K-BB/9,
+  상대 성적, 최근 팀 득실, 라인업 확인/변경을 append-only로 관측
+- `src/pickster_watch.py`: TailSlips 공개 HTML의 MLB X 픽과 군중을 관측(`/api/` 미사용)
+- `src/pickster_eval.py`: 최근 30일 화면 단면과 우리 수집 이후의 전향 성과를 분리
+- `src/baseball_live_features.py`: 날씨·경기 내부 정보·픽스터 군중을 경기 날짜까지 맞춰 결합
+- [1차 검증 결과](findings/무료_컨텍스트_쏠림분해.md): 현재 일정·이동 묶음은 시장을
+  개선하지 않아 설명용으로만 유지
+- [야구 3리그 검증](findings/무료_야구_컨텍스트_쏠림분해.md): KBO·NPB·MLB 모두
+  일정·선발 컨텍스트의 시장 대비 개선 신뢰구간이 0을 넘지 못함
+
+무료 날씨 수집:
+
+```bash
+python3 src/weather_watch.py --league K리그1
+python3 src/weather_watch.py --league baseball
+python3 src/context_features.py --league K리그1
+python3 src/free_context_eval.py
+python3 src/free_baseball_eval.py
+python3 src/baseball_context_watch.py
+python3 src/pickster_watch.py
+python3 src/pickster_eval.py
+python3 src/baseball_live_features.py
+```
+
+픽스터 성과는 [전향 검증 문서](findings/픽스터_공개픽_전향검증.md)에 자동 갱신된다.
+첫 관측에 이미 끝난 픽은 baseline으로 격리한다. `logit(p_adj) = logit(p_market) + βᵀx`
+형태로 결합할 수 있지만, β는 walk-forward에서 Brier·log-loss·calibration이 모두
+개선되기 전에는 0으로 둔다. 즉 픽스터가 정배에 몰렸다는 이유만으로 정배 확률을
+자동 상향하지 않는다.
+
+### 1.4 자동 검증
+
+같은 함수가 하루에 두 번 깨진 뒤 `src/selftest_all.py`(22종)를 만들었다.
 매핑 커버리지·확률 성질·규정 정합성·팀명 정규화·인코딩·화면 렌더 가능성을
 매 실행마다 검사한다. **§4 의 결함 넷은 전부 이 검사가 없던 자리에서 나왔다.**
 

@@ -87,6 +87,21 @@ fly secrets set GITHUB_TOKEN=<토큰> -a proto-odds-collector
 `fly secrets set` 은 자동으로 머신을 재시작한다. 이후 로그에서
 `⚠️ GITHUB_TOKEN 없음` 경고가 사라지고 30분 뒤 첫 push 가 찍힌다.
 
+## Gemini 해설 설정 (선택·무료 티어 가능)
+
+경기 근거는 키 없이도 검증 템플릿으로 항상 표시된다. Google AI Studio에서 만든
+Gemini API 키를 넣으면, 선발·최근 경기·날씨·공개 픽 사실은 그대로 둔 채 문장만
+자연스럽게 편집한다. 기본 모델 `gemini-3.1-flash-lite`는
+[공식 가격표](https://ai.google.dev/gemini-api/docs/pricing)상 무료 티어의 입력·출력이
+무료이며, 무료 티어 입력은 Google 제품 개선에 사용될 수 있다.
+
+```bash
+fly secrets set GEMINI_API_KEY=<키> GEMINI_BILLING_TIER=free -a proto-odds-collector
+```
+
+한 주기 120회·하루 700회 상한과 문장 캐시가 있어 무료 요청 한도를 보호한다. 키가
+없거나 한도 초과·API 실패·환각 검사 탈락이면 원문 템플릿으로 자동 복귀한다.
+
 ## 로컬 수집기는 끄고 쓴다
 
 서버와 로컬이 동시에 같은 `data/` 를 쓰면 git 충돌이 난다.

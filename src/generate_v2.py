@@ -36,6 +36,7 @@ import sys
 from collections import defaultdict, deque
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import pandas as pd
@@ -46,6 +47,9 @@ from ai_decision import (build_decision_snapshot, choose_market_reference, # noq
                          annotate_options, decision_manifest, event_id)
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
+from recommendation_context import (ContextStore,                   # noqa: E402
+                                    narrative as context_narrative)
+from enrich_picks_context import enrich as enrich_existing          # noqa: E402
 from player_commentary import with_player_context                    # noqa: E402
 from devig import market_probabilities                              # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
@@ -558,6 +562,42 @@ def _norm_team(n: str) -> str:
 
 
 _STORY_FAIL: list = []
+_CONTEXT_STORE: ContextStore | None = None
+_DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
+
+
+def _published_future_exists(year: int) -> bool:
+    """발매 조회가 0건이어도 기존 산출물에 아직 시작 전 경기가 있는가."""
+    path = OUT / "picks_v2.json"
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    now = datetime.now(ZoneInfo("Asia/Seoul"))
+    for game in doc.get("live", []):
+        match = _DATE_TIME.search(str(game.get("date") or ""))
+        if not match:
+            continue
+        month, day, hour, minute = map(int, match.groups())
+        try:
+            if datetime(year, month, day, hour, minute, tzinfo=now.tzinfo) > now:
+                return True
+        except ValueError:
+            continue
+    return False
+
+
+def _enrich_published_only(store: ContextStore) -> int:
+    """원천 무응답 때 예정 목록은 보존하고 새 근거만 붙인다."""
+    path = OUT / "picks_v2.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    result, matched = enrich_existing(doc, store)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    tmp.replace(path)
+    commentary_llm.flush()
+    print(f"⚠️ 발매 중 회차 응답 0건 — 기존 예정 경기를 보존하고 컨텍스트 {matched}경기만 갱신")
+    return 0
 
 
 def _unpublished_market_commentary(home: str, away: str) -> str:
@@ -649,12 +689,21 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
     g["라인업메모"] = ". ".join(extra) + ("." if extra else "")
     market_context = _market_context(g["options"])
     g["시장문맥"] = market_context
+    # 경기 내부·외부·공개 픽 흐름은 경기와 관측 시점이 맞는 자료만 붙인다.
+    # 아직 검증 전이므로 최종 확률은 바꾸지 않고 설명 근거로만 사용한다.
+    evidence = _CONTEXT_STORE.evidence_for(g) if _CONTEXT_STORE else None
+    g["경기근거"] = evidence
+    dynamic_text = context_narrative(evidence)
+    protected = evidence.get("protected_entities", []) if evidence else []
     if not narrative:
         # 배당 발표 경기는 웹의 구조화 reason 한 경로만 사용한다. 별도 긴 해설을
         # 만들어 전송한 뒤 화면에서 버리거나, 다른 마켓 결론과 충돌시키지 않는다.
         g["해설"] = None
         g["해설기본"] = None
         g["설명메타"] = { "kind": "structured_ui", "affects_probability": False }
+        g["근거해설"] = (commentary_llm.polish(dynamic_text, protected_terms=protected)
+                         if dynamic_text else None)
+        g["근거해설방식"] = commentary_llm.last_status() if dynamic_text else None
         return
 
     try:
@@ -679,7 +728,10 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         # 시장 자료가 없을 때는 생성형 AI도 호출하지 않는다. 미발표 상태를 그럴듯한
         # 50:50 확률로 채우는 경로 자체를 없앤다.
         base_commentary = (template_commentary if p_mkt is None
-                           else commentary_llm.polish(template_commentary))
+                           else commentary_llm.polish(
+                               template_commentary, protected_terms=[ht, at]))
+        g["해설방식"] = ("template_market_unpublished" if p_mkt is None
+                         else commentary_llm.last_status())
         g["설명메타"] = {
             "kind": ("llm_assisted" if base_commentary != template_commentary
                      else "deterministic"),
@@ -688,6 +740,9 @@ def _attach_story(g: dict, forms: dict, h2h: dict, st: dict,
         g["해설기본"] = base_commentary
         g["해설"] = with_player_context(
             base_commentary, ht, at, g["sport"], g.get("선발"))
+        g["근거해설"] = (commentary_llm.polish(dynamic_text, protected_terms=protected)
+                         if dynamic_text else None)
+        g["근거해설방식"] = commentary_llm.last_status() if dynamic_text else None
     except Exception as e:
         # ⚠️ 조용히 삼키면 안 된다. 실제로 make_preview 가 NameError 를 던지는데
         #    해설 0건이 그대로 배포됐다. 화면엔 그냥 '해설 없음' 으로 보인다.
@@ -962,6 +1017,7 @@ def _sanitize_existing_output() -> int:
 
 
 def main() -> int:
+    global _CONTEXT_STORE
     legacy_predictions = _recorded_predictions()
     prediction_runtime = PredictionRuntime(PREDICTION_LEDGER)
     ledger_predictions = prediction_runtime.ui_records()
@@ -970,6 +1026,7 @@ def main() -> int:
     st = team_lambdas()
     sess = _session()
     season = datetime.now().year
+    _CONTEXT_STORE = ContextStore(year=season)
     # 최근폼·상대전적·줄글 해설 — 예전엔 generate_picks 가 '승패 2-way' 에만 붙였다.
     # 그래서 언더오버·핸디캡·컵대회 경기는 해설이 **아예 만들어지지 않았다.**
     # ⚠️ season 을 안 넘기면 4년치가 누적된다 (LG 300승 212패 · 시즌 맞대결 32승 24패).
@@ -1002,6 +1059,9 @@ def main() -> int:
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
     live = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
+    # 원천의 일시적 빈 응답을 실제 발매 종료로 오인해 예정 경기를 전부 지우지 않는다.
+    if not live and _published_future_exists(season):
+        return _enrich_published_only(_CONTEXT_STORE)
     recent = [r for r in have[-3:] if r not in live]
     rounds = sorted(set(live) | set(recent))
     print(f"대상 회차: 발매중 {live} + 최근 {recent}")

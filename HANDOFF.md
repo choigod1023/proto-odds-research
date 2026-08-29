@@ -40,6 +40,27 @@
 국민체육진흥법 위반**이다. 합법 경로는 오프라인 판매점과 betman.co.kr 뿐이고,
 해외 배당은 **참고 신호로만** 쓴다. 베팅 사이트 연동·자동 베팅은 만들지 않는다.
 
+### 2026-08-19 추가 — 무료 동적정보와 공개 픽스터 전향 수집
+
+정적 일정/선발 묶음이 시장을 못 개선한 뒤, **늦게 바뀌는 정보**를 실제 공개시각으로
+쌓는 단계로 넘어갔다.
+
+- `baseball_context_watch.py`: KBO·NPB·MLB 일정/선발과 KBO·MLB preview를 30분마다
+  정규화한다. 선발 K-BB/9·ERA·WHIP, 최근 5경기 득실, 라인업 확인/변경을 보존한다.
+- `info_watch.py`: 빈값→선발 발표뿐 아니라 값→다른 값인 선발 교체도 별도 기록한다.
+- `pickster_watch.py`: TailSlips 공개 HTML의 MLB X 픽을 15분마다 관측한다. `/api/`는
+  호출하지 않는다. 미국 동부 슬레이트 날짜+팀으로 경기 ID를 고정해 연속 시리즈와
+  진행 중 미채점 픽 누수를 막았다.
+- `pickster_eval.py`: 최근 30일 리더보드 단면과 우리 수집 이후 전향 표본을 분리한다.
+- `baseball_live_features.py`: 위 정보+Open-Meteo를 46경기(KBO 10·NPB 12·MLB 24)에
+  결합했다. 계수는 일부러 미학습 상태다.
+
+현재 픽스터 전향 판정 표본은 0이다. 첫 관측 477픽 및 진행 중 픽은 자격에서 제외했다.
+NPB는 공개 상세 preview가 비어 있어 날씨·일정·선발 관측까지만 들어온다. 다음 작업은
+① 전향 표본 축적 ② 확정 라인업 선수 품질 join ③ 최근 1–3일 불펜 투구수 ④ NPB 공식
+경기 페이지의 안정적인 pregame lineup 경로 확인 순이다. 수식과 무료/유료 소스 판단은
+`findings/무료_동적정보_픽스터_수집설계.md`에 정리했다.
+
 ### ⚠️ 넘어야 할 문턱
 
 프로토 환급률은 **약 88%** 다. 즉 **시장과 비기면 12% 를 잃는다.**
@@ -446,6 +467,11 @@ overseas_watch.py BetExplorer
 xg_watch.py       FootyStats 팀 xG (전진 스냅샷)
 game_detail.py    네이버 경기 상세 (baseball/batters/**batters_indiv**/lineup/shots)
                   batters_indiv = 타자 **선수 단위** 보존(playerCode·name·batOrder)
+weather_watch.py  ⭐ Open-Meteo 무료 예보를 경기장×관측시점 append-only 저장
+weather_features.py ⭐ 예측 cutoff 이전 예보만 고르는 as-of 결합
+context_features.py ⭐ 휴식·이동·일정혼잡·선수 workload 무료 파생
+free_context_eval.py ⭐ 프로토/독립모델/시장 offset 분리 + 쏠림 분류 관문
+free_baseball_eval.py ⭐ KBO·NPB·MLB 일정·선발·KBO 투수상세의 2-way 관문
 ```
 
 ---

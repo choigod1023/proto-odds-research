@@ -47,6 +47,7 @@ import requests
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "info_watch"
 LOG = OUT / "starter_announcements.csv"
+CHANGE_LOG = OUT / "starter_changes.jsonl"
 STATE = OUT / "_state.json"
 API = "https://api-gw.sports.naver.com/schedule/games"
 
@@ -95,6 +96,26 @@ def _append(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def _append_changes(rows: list[dict]) -> None:
+    """선발 교체는 기존 CSV 스키마를 깨지 않도록 별도 append-only 로그에 둔다."""
+    if not rows:
+        return
+    CHANGE_LOG.parent.mkdir(parents=True, exist_ok=True)
+    with CHANGE_LOG.open("a", encoding="utf-8") as f:
+        for row in rows:
+            f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
+
+
+def transition(old: str, new: str) -> str | None:
+    """공백→값은 발표, 값→다른 값은 실제로 중요한 선발 변경이다."""
+    old, new = (old or "").strip(), (new or "").strip()
+    if new and not old:
+        return "starter_announced"
+    if new and old and new != old:
+        return "starter_changed"
+    return None
+
+
 def poll(sess: requests.Session, days_ahead: int = 5) -> int:
     st = _load_state()
     # ⚠️ 첫 폴링은 이미 공개돼 있던 값을 처음 보는 것이라 '공개 시각'이 아니다.
@@ -103,6 +124,7 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
     now = datetime.now(timezone.utc)
     today = date.today()
     events = []
+    changes = []
 
     for up, cid, name in TARGETS:
         try:
@@ -127,7 +149,8 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
                 val = (g.get(fld) or "").strip()
                 key = f"{gid}|{fld}"
                 had = st.get(key, "")
-                if val and not had:
+                event_type = transition(had, val)
+                if event_type == "starter_announced":
                     # ⭐ 비어 있다가 채워지는 순간
                     hrs = None
                     if gdt:
@@ -143,20 +166,43 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
                         "home": g.get("homeTeamName"), "away": g.get("awayTeamName"),
                         "field": fld, "value": val, "hours_before_game": hrs,
                         "is_baseline": int(baseline)})
+                elif event_type == "starter_changed":
+                    hrs = None
+                    if gdt:
+                        try:
+                            gt = datetime.fromisoformat(gdt).replace(
+                                tzinfo=timezone(timedelta(hours=9)))
+                            hrs = round((gt - now).total_seconds() / 3600, 2)
+                        except ValueError:
+                            pass
+                    changes.append({
+                        "observed_at": now.isoformat(timespec="seconds"),
+                        "event_type": event_type, "gameId": gid,
+                        "game_datetime": gdt, "league": name,
+                        "home": g.get("homeTeamName"), "away": g.get("awayTeamName"),
+                        "field": fld, "previous_value": had, "value": val,
+                        "hours_before_game": hrs, "is_baseline": False,
+                    })
                 if val:
                     st[key] = val
                 elif key not in st:
                     st[key] = ""
 
     _append(events)
+    _append_changes(changes)
     _save_state(st)
     ts = now.isoformat(timespec="seconds")
-    print(f"[{ts}] 신규 공개 {len(events)}건 · 추적 중 {len(st)}필드", flush=True)
+    print(f"[{ts}] 신규 공개 {len(events)}건 · 선발 변경 {len(changes)}건 · "
+          f"추적 중 {len(st)}필드", flush=True)
     for e in events:
         h = e["hours_before_game"]
         print(f"    {e['league']} {e['away']}@{e['home']} {e['field']}={e['value']}"
               f"  경기 {h}시간 전", flush=True)
-    return len(events)
+    for e in changes:
+        print(f"    ⚠️ {e['league']} {e['away']}@{e['home']} {e['field']} "
+              f"{e['previous_value']} → {e['value']}  경기 {e['hours_before_game']}시간 전",
+              flush=True)
+    return len(events) + len(changes)
 
 
 def summarise() -> None:
@@ -179,6 +225,13 @@ def summarise() -> None:
 
 
 def main(argv: list[str]) -> int:
+    if "--selftest" in argv:
+        assert transition("", "화이트") == "starter_announced"
+        assert transition("화이트", "문동주") == "starter_changed"
+        assert transition("화이트", "화이트") is None
+        assert transition("화이트", "") is None
+        print("✅ info_watch 자기검사 통과 (발표/교체 구분)")
+        return 0
     loop = 0
     if "--loop" in argv:
         loop = int(argv[argv.index("--loop") + 1])

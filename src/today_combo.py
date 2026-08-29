@@ -58,6 +58,7 @@ COMBO = ROOT / "docs" / "data" / "combo.json"
 OUT = ROOT / "docs" / "data" / "today_combo.json"
 LIVE_ODDS = ROOT / "docs" / "data" / "live_odds.json"
 EVOLUTION_ARTIFACT = ROOT / "findings" / "evolutionary_selector.json"
+PICKS_V2 = ROOT / "docs" / "data" / "picks_v2.json"
 
 # combo.py 가 쓰는 것과 같은 경계
 BINS = [(1.0, 1.3), (1.3, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), (5.0, 999)]
@@ -472,9 +473,63 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 best, "independent_hit_est", "calibrated_hit_est", 0.0), "why": why}
 
 
+def _game_context_index() -> dict[tuple[str, str, str, str], dict]:
+    """전마켓 산출물의 LLM 해설·구조화 근거를 오늘 조합과 잇는다."""
+    try:
+        raw = json.loads(PICKS_V2.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    out = {}
+    for game in [*(raw.get("live") or []), *(raw.get("past") or [])]:
+        key = (str(game.get("date") or "")[:5], str(game.get("league") or ""),
+               str(game.get("home") or ""), str(game.get("away") or ""))
+        out[key] = game
+    return out
+
+
+def _candidate_reason(candidate: dict) -> str:
+    reason = (
+        f"목표 조합에 필요한 {candidate['bin']} 배당 구간을 채우는 시작 전 후보다. "
+        "가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 "
+        "마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
+    )
+    if candidate.get("beats"):
+        reason += (
+            f" 같은 경기의 {candidate['beats']['round']}회차 "
+            f"{candidate['beats']['odds']:.2f}보다 {candidate['round']}회차 "
+            f"{candidate['odds']:.2f}가 더 높다."
+        )
+    return reason
+
+
+def _enrich_candidates(candidates: list[dict]) -> list[dict]:
+    index = _game_context_index()
+    for candidate in candidates:
+        candidate["reason"] = _candidate_reason(candidate)
+        key = (str(candidate.get("date") or "")[:5],
+               str(candidate.get("league") or ""),
+               str(candidate.get("home") or ""),
+               str(candidate.get("away") or ""))
+        game = index.get(key)
+        if not game:
+            continue
+        commentary = str(game.get("근거해설") or game.get("해설") or "").strip()
+        if commentary:
+            candidate["context_summary"] = (
+                commentary if len(commentary) <= 360
+                else commentary[:359].rstrip() + "…"
+            )
+            candidate["commentary_method"] = (
+                game.get("근거해설방식") or game.get("해설방식")
+            )
+        if game.get("경기근거"):
+            candidate["evidence"] = game["경기근거"]
+    return candidates
+
+
 def build() -> dict:
     live_prices, live_generated_at = _live_prices()
-    cands = legs_today(live_prices=live_prices)
+    cands = _enrich_candidates(legs_today(live_prices=live_prices))
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     combo = json.loads(COMBO.read_text(encoding="utf-8"))
     leg_history = {row["bin"]: row for row in combo["legs"]}

@@ -27,12 +27,15 @@ generate_v2 는 매 주기 전 경기를 다시 만든다. live 만 172경기이
 --------
   GEMINI_API_KEY     없으면 덧씌우기 자체를 건너뛴다(조용히, 템플릿 그대로)
   GEMINI_MODEL       기본 gemini-3.1-flash-lite
+  GEMINI_BILLING_TIER 기본 free. paid 계정이면 paid 로 설정(로그의 비용 추정용)
   LLM_MAX_CALLS      한 주기 최대 호출 수(기본 120) — 한 번에 몰리는 걸 막는다
   LLM_MAX_CALLS_DAY  하루 최대 호출 수(기본 700) — **비용 상한은 이쪽이다**
 
 비용 상한
 ---------
-실측 1건 = 입력 738 · 출력 298 토큰 ≈ $0.00063 (약 0.9원, gemini-3.1-flash-lite).
+무료 티어에서는 입력·출력 비용이 없고 요청 한도와 데이터 사용 조건은 제공자
+정책을 따른다. 유료 티어라면 실측 1건 = 입력 738 · 출력 298 토큰 ≈ $0.00063
+(약 0.9원)이다.
 주기 상한만 두면 24주기 × 120 = 2,880건/일까지 열려 있어 월 7만원을 넘길 수 있다.
 그래서 **하루 총량**을 막는다: 700건/일 × 30일 × 0.9원 ≈ 월 18,900원이 천장이다.
 한도를 넘긴 날은 그대로 템플릿으로 돈다 — 해설이 사라지지는 않는다.
@@ -57,6 +60,7 @@ BUDGET_PATH = ROOT / "data" / "raw" / "llm_cache" / "budget.json"
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
 PROMPT_VERSION = "2026-08-26-editorial-2"
+BILLING_TIER = os.environ.get("GEMINI_BILLING_TIER", "free").lower()
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models"
 TIMEOUT = 25
 MAX_CALLS = int(os.environ.get("LLM_MAX_CALLS", "120"))
@@ -68,6 +72,7 @@ _calls = 0
 _hits = 0
 _fails = 0
 _skipped_budget = 0
+_last_status = "not_called"
 
 
 def _today() -> str:
@@ -173,6 +178,10 @@ _MARKET_FIRST_PATTERNS = (
     re.compile(r"시장은\s*(?P<choice>[^.]+?)\s*승을\s*1순위(?:로|에)"),
     re.compile(r"(?P<choice>[^.]+?)\s*승이\s*승패 시장 1순위(?:다|이다|로)"),
 )
+_SENSITIVE_FACTS = {
+    "부상", "결장", "복귀", "징계", "감독 교체", "주전 제외", "컨디션 난조",
+    "구장 변경", "우천 취소", "지명타자", "불펜 소모",
+}
 
 
 def _market_first_choices(text: str) -> set[str]:
@@ -186,7 +195,8 @@ def _market_first_choices(text: str) -> set[str]:
     return choices
 
 
-def _looks_safe(src: str, out: str) -> tuple[bool, str]:
+def _looks_safe(src: str, out: str,
+                protected_terms: list[str] | None = None) -> tuple[bool, str]:
     """고쳐 쓴 결과가 원문의 사실을 지켰는지 검사한다.
 
     LLM 을 믿지 않는다. 통과 못 하면 템플릿 원문을 쓴다.
@@ -200,6 +210,13 @@ def _looks_safe(src: str, out: str) -> tuple[bool, str]:
     new_nums = set(_NUM.findall(out)) - set(_NUM.findall(src))
     if new_nums:
         return False, f"원문에 없는 숫자 {sorted(new_nums)[:4]}"
+    missing_terms = [term for term in (protected_terms or [])
+                     if term and term in src and term not in out]
+    if missing_terms:
+        return False, f"필수 고유명사 누락 {missing_terms[:3]}"
+    new_sensitive = [term for term in _SENSITIVE_FACTS if term in out and term not in src]
+    if new_sensitive:
+        return False, f"원문에 없는 민감 사실 {new_sensitive[:3]}"
     # 마크다운·이모지가 섞이면 형식 지시를 무시한 것이다
     if re.search(r"[*#`]|^\s*[-•]", out) or re.search(r"[\U0001F300-\U0001FAFF]", out):
         return False, "형식 위반(마크다운·이모지)"
@@ -234,30 +251,38 @@ def _call(text: str, api_key: str) -> str | None:
     return (parts[0].get("text") or "").strip() or None
 
 
-def polish(text: str | None) -> str | None:
+def polish(text: str | None, protected_terms: list[str] | None = None) -> str | None:
     """템플릿 해설 한 건을 다듬는다. 무슨 일이 있어도 원문 이상은 잃지 않는다."""
-    global _calls, _hits, _fails, _skipped_budget
+    global _calls, _hits, _fails, _skipped_budget, _last_status
     if not text:
+        _last_status = "empty"
         return text
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
+        _last_status = "disabled_no_key"
         return text                       # 키가 없으면 조용히 템플릿 그대로
 
     cache = polish._cache
     k = _key(text)
     hit = cache.get(k)
     if hit:
-        _hits += 1
-        return hit["out"]                 # 캐시 적중은 예산을 안 쓴다
+        ok, _ = _looks_safe(text, hit.get("out", ""), protected_terms)
+        if ok:
+            _hits += 1
+            _last_status = "llm_cache"
+            return hit["out"]             # 캐시 적중은 예산을 안 쓴다
+        cache.pop(k, None)
 
     if _calls >= MAX_CALLS:
+        _last_status = "template_run_budget"
         return text                       # 이번 주기 상한 — 나머지는 다음 주기에
 
     # 하루 총량 상한. 넘긴 날은 남은 경기를 템플릿으로 낸다.
     # 여기서 막지 않으면 주기 상한만으로는 24×120 = 2,880건/일까지 열린다.
     if polish._budget["used"] >= MAX_CALLS_DAY:
         _skipped_budget += 1
+        _last_status = "template_daily_budget"
         return text
 
     try:
@@ -266,23 +291,32 @@ def polish(text: str | None) -> str | None:
         out = _call(text, api_key)
     except Exception as e:                # noqa: BLE001
         _fails += 1
+        _last_status = "template_api_failure"
         if _fails <= 3:
             print(f"  [llm] 호출 실패(템플릿 사용): {type(e).__name__} {e}")
         return text
 
     if not out:
         _fails += 1
+        _last_status = "template_empty_response"
         return text
 
-    ok, why = _looks_safe(text, out)
+    ok, why = _looks_safe(text, out, protected_terms)
     if not ok:
         _fails += 1
+        _last_status = "template_safety_reject"
         if _fails <= 5:
             print(f"  [llm] 검사 탈락(템플릿 사용): {why}")
         return text
 
     cache[k] = {"out": out, "ts": int(time.time())}
+    _last_status = "llm_rewritten"
     return out
+
+
+def last_status() -> str:
+    """방금 ``polish`` 호출이 LLM을 썼는지 산출물에 함께 기록한다."""
+    return _last_status
 
 
 polish._cache = _load()                   # 프로세스 시작 시 한 번만 읽는다
@@ -295,10 +329,13 @@ def flush(verbose: bool = True) -> None:
     _budget_save(polish._budget)
     if verbose:
         used = polish._budget["used"]
-        won = used * 0.9              # 1건 ≈ 0.9원 (실측 738/298 토큰)
+        won = used * 0.9              # 유료 티어 1건 ≈ 0.9원 (실측 738/298 토큰)
         msg = (f"해설 다듬기 — 호출 {_calls}건 · 캐시적중 {_hits}건 · "
                f"실패/탈락 {_fails}건 · 캐시 {len(polish._cache)}개 (model={MODEL})")
         if _skipped_budget:
             msg += f"\n  ⚠️ 하루 상한({MAX_CALLS_DAY}건) 도달 — {_skipped_budget}건은 템플릿으로 냈다"
-        msg += f"\n  오늘 누적 {used}/{MAX_CALLS_DAY}건 ≈ {won:,.0f}원"
+        if BILLING_TIER == "paid":
+            msg += f"\n  오늘 누적 {used}/{MAX_CALLS_DAY}건 · 유료 추정 {won:,.0f}원"
+        else:
+            msg += f"\n  오늘 누적 {used}/{MAX_CALLS_DAY}건 · 무료 티어"
         print(msg)

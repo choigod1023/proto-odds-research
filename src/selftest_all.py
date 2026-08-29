@@ -53,6 +53,17 @@ TESTS = [
     ("guard.py", "표본 축소 가드 (결과값 기반 누락 탐지)"),
     ("lotto645.py", "로또 6/45 (정확한 비복원 확률 · 균등복귀 · 고유조합)"),
     ("lotto_collect.py", "로또 공식 원장 (필드 매핑 · 미확인값 미추정)"),
+    ("weather_watch.py", "무료 날씨 (경기장·관측시점·예보필드 정합성)"),
+    ("weather_features.py", "날씨 as-of 결합 (미래 예보 차단·수정폭)"),
+    ("context_features.py", "무료 컨텍스트 (이동·휴식·선수 workload 누수 방지)"),
+    ("free_context_eval.py", "쏠림 분해 모델 (softmax·확률합·Brier)"),
+    ("free_baseball_eval.py", "무료 야구 컨텍스트 (3리그 2-way offset·시간분리)"),
+    ("baseball_context_watch.py", "야구 직전 컨텍스트 (이닝·K-BB/9·라인업)"),
+    ("pickster_watch.py", "공개 픽스터 (HTML 파싱·baseline·날짜 정합성)"),
+    ("pickster_eval.py", "픽스터 판정 (Wilson·ROI risk 역산·전향 자격)"),
+    ("baseball_live_features.py", "야구 live feature (부호·군중 날짜·entropy)"),
+    ("recommendation_context.py", "홈페이지 추천 근거 (대진 날짜·경기 전 시점·팀명 매핑)"),
+    ("enrich_picks_context.py", "원천 무응답 시 기존 픽 보존·근거 보강"),
 ]
 
 
