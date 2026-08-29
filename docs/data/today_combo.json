@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-29T16:32:22+09:00",
+ "generated_at": "2026-08-29T17:03:17+09:00",
  "source_generated_at": "2026-08-29T05:02:45+00:00",
- "live_odds_at": "2026-08-29T07:23:47+00:00",
+ "live_odds_at": "2026-08-29T07:58:23+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 85,
- "n_primary_candidates": 83,
+ "n_candidates": 84,
+ "n_primary_candidates": 82,
  "n_fallback_candidates": 2,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-29T17:00:00+09:00",
+ "next_kickoff_at": "2026-08-29T18:00:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -634,17 +634,17 @@
     "1.5-1.8"
    ],
    "actual_odds": 4.76,
-   "independent_hit_est": 0.15947,
-   "market_reference_hit_est": 0.15947,
-   "market_reference_roi": -0.2413,
+   "independent_hit_est": 0.15975,
+   "market_reference_hit_est": 0.15975,
+   "market_reference_roi": -0.24,
    "independence_assumption": true,
-   "hit_est": 0.15947,
-   "upset_risk": 0.84053,
-   "expected_roi": -0.2413,
-   "calibrated_hit_est": 0.15947,
-   "calibrated_expected_roi": -0.2413,
-   "conservative_hit_est": 0.15947,
-   "conservative_expected_roi": -0.2413,
+   "hit_est": 0.15975,
+   "upset_risk": 0.84025,
+   "expected_roi": -0.24,
+   "calibrated_hit_est": 0.15975,
+   "calibrated_expected_roi": -0.24,
+   "conservative_hit_est": 0.15975,
+   "conservative_expected_roi": -0.24,
    "calibration_min_n": null,
    "has_validated_edge": false,
    "probability_source": "shin_market_fallback",
@@ -653,33 +653,33 @@
    "historical_bucket_roi": -0.3192,
    "picks": [
     {
-     "event_key": "2026-08-29T19:30:00+09:00|성남FC|서울이랜",
-     "kickoff_at": "2026-08-29T19:30:00+09:00",
+     "event_key": "2026-08-29T19:00:00+09:00|우라와R|요코마리",
+     "kickoff_at": "2026-08-29T19:00:00+09:00",
      "round": 102,
-     "game_no": "7446",
-     "date": "08.29(토) 19:30",
+     "game_no": "7370",
+     "date": "08.29(토) 19:00",
      "sport": "sc",
-     "league": "K리그2",
-     "match": "성남FC vs 서울이랜",
-     "home": "성남FC",
-     "away": "서울이랜",
+     "league": "J1리그",
+     "match": "우라와R vs 요코마리",
+     "home": "우라와R",
+     "away": "요코마리",
      "market": "핸디캡",
-     "market_label": "H +1.0",
+     "market_label": "H -1.0",
      "booking": "3-way-핸디캡",
-     "sel": "핸디홈",
+     "sel": "핸디원정",
      "odds": 1.6,
      "bin": "1.5-1.8",
-     "overround": 1.1506,
-     "payout": 86.91,
+     "overround": 1.1479,
+     "payout": 87.12,
      "hist_roi": -0.099,
      "hist_n": 9747,
-     "market_prob": 0.5663,
-     "predicted_hit_prob": 0.5663,
+     "market_prob": 0.5673,
+     "predicted_hit_prob": 0.5673,
      "probability_source": "shin_market_fallback",
      "has_validated_edge": false,
-     "market_gap": 0.3314,
+     "market_gap": 0.3493,
      "n_way": 3,
-     "failure_prob": 0.4337,
+     "failure_prob": 0.4327,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
      "price_source": "live_odds",
@@ -784,41 +784,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-29T17:00:00+09:00|세이부|라쿠텐",
-   "kickoff_at": "2026-08-29T17:00:00+09:00",
-   "round": 102,
-   "game_no": "7272",
-   "date": "08.29(토) 17:00",
-   "sport": "bs",
-   "league": "NPB",
-   "match": "세이부 vs 라쿠텐",
-   "home": "세이부",
-   "away": "라쿠텐",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "홈",
-   "odds": 1.51,
-   "bin": "1.5-1.8",
-   "overround": 1.1362,
-   "payout": 88.01,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5942,
-   "predicted_hit_prob": 0.5942,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.1883,
-   "n_way": 2,
-   "failure_prob": 0.4058,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "세이부와 라쿠텐의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다. 오늘 공식 타순의 팀별 OPS 상위 타자는 세이부 4번 다이라 네빈(타율 .272, 17홈런, OPS .852), 라쿠텐 4번 카손 막카스카(타율 .267, 20홈런, OPS .886)이다.",
-   "commentary_method": null
-  },
   {
    "event_key": "2026-08-29T18:00:00+09:00|두산|키움",
    "kickoff_at": "2026-08-29T18:00:00+09:00",
@@ -1576,6 +1541,39 @@
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
+   "event_key": "2026-08-29T19:00:00+09:00|우라와R|요코마리",
+   "kickoff_at": "2026-08-29T19:00:00+09:00",
+   "round": 102,
+   "game_no": "7370",
+   "date": "08.29(토) 19:00",
+   "sport": "sc",
+   "league": "J1리그",
+   "match": "우라와R vs 요코마리",
+   "home": "우라와R",
+   "away": "요코마리",
+   "market": "핸디캡",
+   "market_label": "H -1.0",
+   "booking": "3-way-핸디캡",
+   "sel": "핸디원정",
+   "odds": 1.6,
+   "bin": "1.5-1.8",
+   "overround": 1.1479,
+   "payout": 87.12,
+   "hist_roi": -0.099,
+   "hist_n": 9747,
+   "market_prob": 0.5673,
+   "predicted_hit_prob": 0.5673,
+   "probability_source": "shin_market_fallback",
+   "has_validated_edge": false,
+   "market_gap": 0.3493,
+   "n_way": 3,
+   "failure_prob": 0.4327,
+   "is_market_favorite": true,
+   "recommendation_priority": "primary",
+   "price_source": "live_odds",
+   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
+  },
+  {
    "event_key": "2026-08-29T19:00:00+09:00|비셀고베|C오사카",
    "kickoff_at": "2026-08-29T19:00:00+09:00",
    "round": 102,
@@ -1747,39 +1745,6 @@
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
    "context_summary": "이마바리와 야마가타의 배당이 아직 발표되지 않아 시장 방향과 확률은 정하지 않는다.",
    "commentary_method": null
-  },
-  {
-   "event_key": "2026-08-29T19:00:00+09:00|우라와R|요코마리",
-   "kickoff_at": "2026-08-29T19:00:00+09:00",
-   "round": 102,
-   "game_no": "7370",
-   "date": "08.29(토) 19:00",
-   "sport": "sc",
-   "league": "J1리그",
-   "match": "우라와R vs 요코마리",
-   "home": "우라와R",
-   "away": "요코마리",
-   "market": "핸디캡",
-   "market_label": "H -1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디원정",
-   "odds": 1.56,
-   "bin": "1.5-1.8",
-   "overround": 1.1503,
-   "payout": 86.93,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5819,
-   "predicted_hit_prob": 0.5819,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.3543,
-   "n_way": 3,
-   "failure_prob": 0.4181,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   },
   {
    "event_key": "2026-08-29T19:00:00+09:00|가와사키|제프유나",
@@ -3746,33 +3711,11 @@
  ],
  "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
  "last_recommendation_change": {
-  "changed_at": "2026-08-29T06:40:51+00:00",
+  "changed_at": "2026-08-29T08:03:17+00:00",
   "reason": "live_market_pick_changed",
-  "previous_revision": "dcf20dd0e889bf5d09366713f52e89463e0cef3a99586922e5149d05a13bf789",
-  "revision": "cd08726a96684639c09c91b1d6b71afa4154d36a6009e7fa3238e4584f170c9d",
+  "previous_revision": "cd08726a96684639c09c91b1d6b71afa4154d36a6009e7fa3238e4584f170c9d",
+  "revision": "a45c0a060231e987eaf1e9c2dfe7ca40e58cb7aff59ccac7ebddd9731fd6cd03",
   "previous": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7472|승무패||홈",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7418|핸디캡|H -1.0|핸디원정",
-      "102|7529|승무패||홈"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|7418|핸디캡|H -1.0|핸디원정",
-      "102|7529|승무패||홈",
-      "102|7398|핸디캡|H -1.0|핸디원정"
-     ]
-    }
-   ]
-  },
-  "current": {
    "action": "challenge",
    "recommended_target": 3,
    "solo": "102|7472|승무패||홈",
@@ -3793,8 +3736,30 @@
      ]
     }
    ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7472|승무패||홈",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7463|핸디캡|H -2.0|핸디원정",
+      "102|7525|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7370|핸디캡|H -1.0|핸디원정",
+      "102|7463|핸디캡|H -2.0|핸디원정",
+      "102|7529|승무패||홈"
+     ]
+    }
+   ]
   }
  },
- "recommendation_revision": "cd08726a96684639c09c91b1d6b71afa4154d36a6009e7fa3238e4584f170c9d",
- "refreshed_at": "2026-08-29T07:32:22+00:00"
+ "recommendation_revision": "a45c0a060231e987eaf1e9c2dfe7ca40e58cb7aff59ccac7ebddd9731fd6cd03",
+ "refreshed_at": "2026-08-29T08:03:17+00:00"
 }
