@@ -140,7 +140,10 @@ export default function Markets() {
 
   if (at && !synchronized) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
   if (!synchronized) return <Shell><Empty>불러오는 중…</Empty></Shell>;
-  const stale = isDataStale(synchronized.generated_at);
+  // 경기 원장의 생성 시각이 낡았더라도 현재 회차 배당을 방금 정상 수집했다면 화면
+  // 전체를 중단하지 않는다. 각 경기 선택은 repriceGameOdds가 최신 가격으로 다시
+  // 판정하며, 식별자가 어긋나는 경우에는 기존 fail-close 규칙이 그대로 막는다.
+  const stale = isDataStale(liveOdds?.generated_at || synchronized.generated_at);
 
   return (
     <Shell meta={metaLine(d, at)}>

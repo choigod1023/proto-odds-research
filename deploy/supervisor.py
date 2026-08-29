@@ -125,11 +125,11 @@ PUBLISH = [
 PUBLISH_LIGHT = [
     ("픽스터 전향판정", [sys.executable, "-u", "src/pickster_eval.py"], False, 300),
     ("무료 야구 feature", [sys.executable, "-u", "src/baseball_live_features.py"], False, 300),
-    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
     # 홈페이지가 실제 읽는 전마켓 판정을 먼저 만든다. 캐시된 LLM 해설은 재사용하되
     # 새 API 호출은 뒤의 보강 단계로 미뤄 수치 판정 게시를 막지 않게 한다.
     ("전마켓 빠른 판정", ["env", "LLM_MAX_CALLS=0", sys.executable, "-u",
                     "src/generate_v2.py"], False, 1800),
+    ("가격분석 생성", [sys.executable, "-u", "src/generate_today.py"], False, 1800),
     # ⚠️ today_combo 는 today.json·combo.json·loss_grades.json 을 읽는다.
     #    combo·loss_grades 는 무거운 쪽이라 최대 6시간 낡을 수 있지만,
     #    그건 과거 통계라 낡아도 값이 같다. 낡은 입력으로나마 도는 편이 낫다.
@@ -440,6 +440,9 @@ def run_looper(name: str, cmd: list[str]) -> None:
 
 
 def run_daily() -> None:
+    # 재시작 직후 shared CPU를 화면 판정에 먼저 양보한다. 이전에는 xG 네 리그가
+    # 첫 generate_v2와 겹쳐 판정 한 건을 만드는 데도 7분 넘게 걸렸다.
+    time.sleep(900)
     while True:
         for i, (name, cmd) in enumerate(DAILY):
             if i:
@@ -518,10 +521,10 @@ def run_publish() -> None:
     화면에서 자주 바뀌어야 하는 건 오늘의 픽·해설뿐이고 그 생성기들은
     발매 회차를 직접 긁으므로, 무거운 통계 재계산 없이도 새 값이 나온다.
 
-    첫 실행을 3분 뒤로 둔 이유: 부팅 직후엔 수집기가 아직 한 바퀴를 안 돌아
-    발매 회차 캐시가 비어 있을 수 있다(생성기가 '발매중 []' 로 끝난다).
+    첫 실행은 수집기들이 엇갈려 뜬 뒤 1분만 기다린다. 발매 회차는 생성기가 원천에서
+    직접 확인하고, 빈 응답이면 기존 게시본을 보존하므로 3분을 막아 둘 이유가 없다.
     """
-    time.sleep(180)
+    time.sleep(60)
     n = 0
     while True:
         try:
