@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-29T17:01:02+00:00",
+  "generated_at": "2026-08-29T17:52:00+00:00",
   "source": "TailSlips public HTML (public X MLB picks)",
   "leaderboard_cross_section": {
     "available": true,
-    "observed_at": "2026-08-29T16:04:34+00:00",
+    "observed_at": "2026-08-29T17:36:58+00:00",
     "window": "last_30_days",
     "n_ranked_cappers": 50,
     "total_displayed_picks": 4611,
@@ -259,32 +259,44 @@
     ]
   },
   "visible_slate_characteristics": {
-    "n_visible_unique_picks": 242,
-    "n_straight_picks": 242,
+    "n_visible_unique_picks": 251,
+    "n_straight_picks": 251,
     "market_counts": {
-      "moneyline": 126,
+      "moneyline": 133,
+      "total": 51,
       "other": 9,
-      "spread": 38,
-      "total": 50,
+      "spread": 39,
       "player_prop": 19
     },
-    "n_with_american_odds": 123,
-    "favorite_share_pct": 58.54,
-    "underdog_share_pct": 41.46,
+    "n_with_american_odds": 128,
+    "favorite_share_pct": 58.59,
+    "underdog_share_pct": 41.41,
     "capper_profiles_min_3_visible": [
       {
         "handle": "lottolocks",
-        "n_visible_straight_picks": 27,
+        "n_visible_straight_picks": 29,
         "dominant_market": "moneyline",
         "market_counts": {
-          "moneyline": 10,
+          "moneyline": 12,
           "spread": 5,
           "total": 2,
           "other": 5,
           "player_prop": 5
         },
         "favorite_share_pct": 0.0,
-        "median_american_odds": 3305
+        "median_american_odds": 3119.5
+      },
+      {
+        "handle": "dbunk_picks",
+        "n_visible_straight_picks": 21,
+        "dominant_market": "moneyline",
+        "market_counts": {
+          "moneyline": 16,
+          "total": 2,
+          "spread": 3
+        },
+        "favorite_share_pct": 0.0,
+        "median_american_odds": 3465.0
       },
       {
         "handle": "tonestakes",
@@ -295,18 +307,6 @@
         },
         "favorite_share_pct": 21.1,
         "median_american_odds": 125
-      },
-      {
-        "handle": "dbunk_picks",
-        "n_visible_straight_picks": 17,
-        "dominant_market": "moneyline",
-        "market_counts": {
-          "moneyline": 12,
-          "spread": 3,
-          "total": 2
-        },
-        "favorite_share_pct": 0.0,
-        "median_american_odds": 5984
       },
       {
         "handle": "lincolng05bets",
@@ -441,8 +441,8 @@
         "n_visible_straight_picks": 6,
         "dominant_market": "spread",
         "market_counts": {
-          "spread": 5,
-          "moneyline": 1
+          "moneyline": 1,
+          "spread": 5
         },
         "favorite_share_pct": 83.3,
         "median_american_odds": -115.0
@@ -546,7 +546,7 @@
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
   },
   "prospective_validation": {
-    "n_eligible_pre_event": 761,
+    "n_eligible_pre_event": 867,
     "n_graded": 0,
     "n_decisive": 0,
     "wins": 0,
