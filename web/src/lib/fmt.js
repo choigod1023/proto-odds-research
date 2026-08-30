@@ -1,5 +1,8 @@
 import { eligibleAutoSelections } from "./recommendation-policy.js";
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
 // 표시 형식 — 페이지 전체가 같은 규칙을 쓴다.
 // 예전엔 배당이 '2' 와 '1.65' 로 섞여 나와 버튼 폭이 흔들렸다.
 
@@ -20,13 +23,21 @@ export const day = (d) => String(d ?? "").slice(0, 8);
  *    프로토 경기 시각은 전부 KST 이므로, 해외에서 보면 '오늘' 이 하루 어긋나
  *    오늘 살 수 있는 경기가 목록에서 사라진다. 표준시를 못박는다.
  */
-export const kstMMDD = (offsetDays = 0) => {
-  const t = new Date(Date.now() + offsetDays * 86400000);
+export const kstMMDD = (offsetDays = 0, now = Date.now()) => {
+  const t = new Date(now + offsetDays * DAY_MS);
   const p = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit",
   }).formatToParts(t);
   const get = (k) => p.find((x) => x.type === k).value;
   return `${get("month")}.${get("day")}`;
+};
+
+/** 현재 시각부터 다음 KST 자정 직후까지의 대기 시간. */
+export const nextKstDateRefreshDelay = (now = Date.now()) => {
+  const currentKstDay = Math.floor((now + KST_OFFSET_MS) / DAY_MS);
+  const nextMidnight = (currentKstDay + 1) * DAY_MS - KST_OFFSET_MS;
+  // 자정과 정확히 같은 밀리초에서 이전 날짜로 판정되는 경계를 피한다.
+  return Math.max(1000, nextMidnight - now + 1000);
 };
 
 /** '08.09(일) 14:00' 이 오늘이면 '오늘', 내일이면 '내일', 아니면 null */
