@@ -205,14 +205,10 @@ def _configure(repo: Path) -> None:
     sh(["git", "config", "user.name", "proto-collector"], cwd=repo)
     sh(["git", "config", "user.email", "collector@users.noreply.github.com"], cwd=repo)
     sh(["git", "remote", "set-url", "origin", _auth_remote()], cwd=repo)
-    # ⚠️ 2026-08-06: gc 가 한 번도 안 돌아 loose object 6,312개 = 2.67GiB 가 쌓여
-    #    3GB 볼륨을 혼자 다 먹었다. 그때 packfile 은 421개에 겨우 2.53MiB 였다 —
-    #    30분마다 찍는 CSV 스냅샷은 서로 거의 같아 델타 압축이 1000배로 듣는다.
-    #    **압축만 하면 3GB 로 충분했다. 용량 문제가 아니었다.**
-    #    git 기본 임계값 6,700 은 이 레포엔 너무 높아 6,312개에서 디스크가 먼저 터졌다.
-    sh(["git", "config", "gc.auto", "500"], cwd=repo)
-    # 백그라운드 gc 는 실패해도 로그에 안 남는다. 앞에서 돌게 한다.
-    sh(["git", "config", "gc.autoDetach", "false"], cwd=repo)
+    # 운영 정본은 SQLite이고 Git 파일은 호환 export다. fetch 직전에 자동 GC가 뜨면
+    # 1GB 머신에서 pack-objects가 부팅을 수분간 막아 HTTP가 완전히 내려간다.
+    # 부팅/push 경로에서는 GC를 금지하고 별도 유지보수 창에서만 실행한다.
+    sh(["git", "config", "gc.auto", "0"], cwd=repo)
     # 1gb 머신이라 pack-objects 가 88MB CSV 를 델타 압축하다 OOM(signal 9)으로 죽는다.
     # 실제로 복구 때 겪었고, 상한을 걸어야 통과한다.
     sh(["git", "config", "pack.threads", "1"], cwd=repo)
@@ -439,7 +435,8 @@ def push_data() -> None:
         log(f"push OK — 파일 {n}개")
 
     sh(["git", "reflog", "expire", "--expire=90.days", "--all"], cwd=REPO)
-    sh(["git", "gc", "--auto"], cwd=REPO)
+    # git gc는 서비스 부팅·수집과 분리한다. 여기서 실행하면 push 스레드가 아니라
+    # 다음 재시작의 fetch까지 maintenance lock에 묶일 수 있다.
 def run_looper(name: str, cmd: list[str]) -> None:
     """죽으면 다시 살린다. 즉시 재시작을 반복하지 않도록 뒤로 물러선다."""
     backoff = 30
