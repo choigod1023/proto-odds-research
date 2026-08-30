@@ -76,6 +76,17 @@ NAMED_STATUS = {
     "CUT": "CANCEL",
     "POSTPONED": "POSTPONED",
 }
+NAMED_STATUS_TEXT = {
+    "READY": "경기 전",
+    "IN_PROGRESS": "진행 중",
+    "BREAK_TIME": "하프타임",
+    "FINAL": "경기 종료",
+    "CANCEL": "경기 취소",
+    "CANCELED": "경기 취소",
+    "CANCELLED": "경기 취소",
+    "CUT": "경기 취소",
+    "POSTPONED": "경기 연기",
+}
 
 
 def _session() -> requests.Session:
@@ -155,7 +166,7 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
         "away_alias": [x for x in (away.get("shortName"),) if x],
         "home_score": _score(home), "away_score": _score(away),
         "status": status,
-        "status_text": original_status,
+        "status_text": NAMED_STATUS_TEXT.get(original_status, "상태 확인 중"),
         "finished": finished,
         "terminal": status in TERMINAL_STATUSES,
         "cancelled": status in {"CANCEL", "CANCELED", "CANCELLED"},

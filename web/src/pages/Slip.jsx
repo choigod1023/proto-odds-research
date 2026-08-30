@@ -67,14 +67,15 @@ export default function Slip() {
               <th className="border-b border-rule2 p-2">마켓</th>
               <th className="border-b border-rule2 p-2">선택·배당</th>
             </tr></thead>
-            <tbody>{rows.map((row) => <tr key={row.key}>
+            <tbody>{rows.map((row) => <tr key={row.key} className={row.selections.some((selection) => selection.recommended) ? "bg-signal/5" : ""}>
               <td className="tnum border-b border-rule2 p-2 text-right text-[16px] font-semibold">{row.number}</td>
               <td className="border-b border-rule2 p-2 whitespace-nowrap"><b>{row.round}회</b><br /><span className="text-ink3">{row.date}</span></td>
               <td className="border-b border-rule2 p-2"><b>{row.home}</b><span className="mx-1.5 text-ink3">vs</span><b>{row.away}</b></td>
               <td className="border-b border-rule2 p-2 whitespace-nowrap">{row.market}{row.label ? <><br /><span className="text-ink3">{row.label}</span></> : null}</td>
               <td className="border-b border-rule2 p-2"><div className="flex flex-wrap gap-2">{row.selections.map((selection) =>
-                <span key={selection.name} className="inline-flex min-w-[92px] justify-between gap-3 rounded-md border border-rule px-2.5 py-1.5">
-                  <span>{selection.name}</span><b className="tnum">{odds(selection.value)}</b>
+                <span key={selection.name} className={`inline-flex min-w-[92px] justify-between gap-3 rounded-md border px-2.5 py-1.5 ${selection.recommended ? "border-signal bg-signal text-white ring-2 ring-signal/20" : "border-rule"}`}
+                  title={selection.recommended ? "프로오드 최종 추천 픽" : undefined}>
+                  <span>{selection.recommended ? "★ " : ""}{selection.name}</span><b className="tnum">{odds(selection.value)}</b>
                 </span>)}</div></td>
             </tr>)}</tbody>
           </table>}

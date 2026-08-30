@@ -26,3 +26,13 @@ test("hides expired games from the paper slip table", () => {
   assert.equal(isCurrentSlipDate("08.30(일) 19:00", now), true);
   assert.equal(isCurrentSlipDate("08.31(월) 19:00", now), true);
 });
+
+test("marks the generated Proto recommendation on its exact slip selection", () => {
+  const home = { market: "승패", label: "", selection_id: "home", "게임번호": "17", "선택": "홈", "배당": 1.7 };
+  const away = { market: "승패", label: "", selection_id: "away", "게임번호": "17", "선택": "원정", "배당": 2.1 };
+  const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
+    options: [home, away], "추천": home }];
+  const selections = slipRows(games, null)[0].selections;
+  assert.equal(selections.find((row) => row.name === "홈").recommended, true);
+  assert.equal(selections.find((row) => row.name === "원정").recommended, false);
+});
