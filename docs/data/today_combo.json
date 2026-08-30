@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-08-30T17:23:02+09:00",
+ "generated_at": "2026-08-30T17:38:19+09:00",
  "source_generated_at": "2026-08-30T08:22:38+00:00",
- "live_odds_at": "2026-08-30T08:19:43+00:00",
+ "live_odds_at": "2026-08-30T08:29:43+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
@@ -829,6 +829,80 @@
  },
  "candidates": [
   {
+   "event_key": "2026-08-30T18:00:00+09:00|두산|키움",
+   "kickoff_at": "2026-08-30T18:00:00+09:00",
+   "round": 102,
+   "game_no": "7774",
+   "date": "08.30(일) 18:00",
+   "sport": "bs",
+   "league": "KBO",
+   "match": "두산 vs 키움",
+   "home": "두산",
+   "away": "키움",
+   "market": "전반언더오버",
+   "market_label": "h U 4.5",
+   "booking": "2-way",
+   "sel": "전반오버",
+   "odds": 1.6,
+   "bin": "1.5-1.8",
+   "overround": 1.1352,
+   "payout": 88.09,
+   "hist_roi": -0.1206,
+   "hist_n": 119682,
+   "market_prob": 0.5574,
+   "predicted_hit_prob": 0.5574,
+   "probability_source": "shin_market_fallback",
+   "has_validated_edge": false,
+   "market_gap": 0.1148,
+   "n_way": 2,
+   "failure_prob": 0.4426,
+   "is_market_favorite": true,
+   "recommendation_priority": "primary",
+   "price_source": "live_odds",
+   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
+   "context_summary": "경기 내부 정보로는 최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다. 경기 외부 정보로는 경기 시각 예보는 기온 25.8°C·강수확률 27%·바람 1.1km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+   "commentary_method": "template_run_budget",
+   "evidence": {
+    "source_game_id": "20260830WOOB02026",
+    "observed_at": "2026-08-29T02:23:00+00:00",
+    "asof_ok": true,
+    "coefficient_status": "not_fitted",
+    "coefficient_gate": [
+     "walk-forward out-of-sample",
+     "Brier와 log-loss 모두 시장 기준 개선",
+     "calibration slope/intercept 악화 없음",
+     "리그별 방향 안정성"
+    ],
+    "protected_entities": [
+     "두산",
+     "키움"
+    ],
+    "internal": [
+     {
+      "kind": "recent_games",
+      "text": "최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다.",
+      "source": "네이버 스포츠 공개 경기정보",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "status": "observed"
+     }
+    ],
+    "external": [
+     {
+      "kind": "weather",
+      "text": "경기 시각 예보는 기온 25.8°C·강수확률 27%·바람 1.1km/h다.",
+      "source": "Open-Meteo",
+      "observed_at": "2026-08-29T10:22:26+00:00",
+      "status": "observed"
+     }
+    ],
+    "crowd": [],
+    "limitations": [
+     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+    ]
+   }
+  },
+  {
    "event_key": "2026-08-30T18:00:00+09:00|히로카프|야쿠르트",
    "kickoff_at": "2026-08-30T18:00:00+09:00",
    "round": 102,
@@ -1197,80 +1271,6 @@
       "text": "경기 시각 예보는 기온 29.8°C·강수확률 78%·바람 2.4km/h다.",
       "source": "Open-Meteo",
       "observed_at": "2026-08-29T10:22:50+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-30T18:00:00+09:00|두산|키움",
-   "kickoff_at": "2026-08-30T18:00:00+09:00",
-   "round": 102,
-   "game_no": "7772",
-   "date": "08.30(일) 18:00",
-   "sport": "bs",
-   "league": "KBO",
-   "match": "두산 vs 키움",
-   "home": "두산",
-   "away": "키움",
-   "market": "전반승무패",
-   "market_label": "h(전반)",
-   "booking": "3-way",
-   "sel": "전반홈",
-   "odds": 1.63,
-   "bin": "1.5-1.8",
-   "overround": 1.1496,
-   "payout": 86.99,
-   "hist_roi": -0.1345,
-   "hist_n": 7380,
-   "market_prob": 0.5553,
-   "predicted_hit_prob": 0.5553,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.2284,
-   "n_way": 3,
-   "failure_prob": 0.4447,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다. 경기 외부 정보로는 경기 시각 예보는 기온 25.8°C·강수확률 27%·바람 1.1km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260830WOOB02026",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "두산",
-     "키움"
-    ],
-    "internal": [
-     {
-      "kind": "recent_games",
-      "text": "최근 집계에서 두산는 5경기 2승·득실 18:23, 키움는 5경기 2승·득실 18:38이다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 25.8°C·강수확률 27%·바람 1.1km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:22:26+00:00",
       "status": "observed"
      }
     ],
@@ -3584,5 +3584,57 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-30T08:28:01+00:00",
+  "reason": "prices_recalculated",
+  "previous_revision": null,
+  "revision": "f86890c2a78cd682f34e54eebacfbcef40d640eb8625d0204d933e0ccf4e6865",
+  "previous": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7839|핸디캡|H +1.0|핸디홈",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7895|언더오버|U 2.5|오버",
+      "102|7855|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7976|승①패|승①패|홈2+",
+      "102|7855|핸디캡|H -1.0|핸디원정",
+      "102|7832|핸디캡|H +2.0|핸디홈"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7839|핸디캡|H +1.0|핸디홈",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7895|언더오버|U 2.5|오버",
+      "102|7855|핸디캡|H -1.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7976|승①패|승①패|홈2+",
+      "102|7855|핸디캡|H -1.0|핸디원정",
+      "102|7832|핸디캡|H +2.0|핸디홈"
+     ]
+    }
+   ]
+  }
+ },
+ "recommendation_revision": "f86890c2a78cd682f34e54eebacfbcef40d640eb8625d0204d933e0ccf4e6865",
+ "refreshed_at": "2026-08-30T08:38:19+00:00"
 }
