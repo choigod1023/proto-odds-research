@@ -28,6 +28,7 @@ git push(30분)로는 3분 주기를 못 나르니 머신이 그 파일만 직�
 from __future__ import annotations
 
 import json
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -40,6 +41,11 @@ from runtime_db import RuntimeDatabase                 # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_odds.json"
+
+
+def _clean_team(value: str) -> str:
+    text = re.sub(r"^\s*-?\d+(?:\.\d+)?\s+", "", str(value or "").strip())
+    return re.sub(r"\s+-?\d+(?:\.\d+)?\s*$", "", text).strip()
 
 
 def _start_hint(season: int) -> int:
@@ -56,6 +62,7 @@ def collect() -> dict:
     rounds = find_live_rounds(sess, season, _start_hint(season))
 
     odds: dict[str, dict[str, list[float]]] = {}
+    markets: dict[str, dict[str, dict]] = {}
     n = 0
     for rnd in rounds:
         try:
@@ -67,10 +74,21 @@ def collect() -> dict:
             continue
         # ⚠️ 배당이 아직 안 붙은 행(odds=[])은 넣지 않는다. 넣으면 화면이
         #    멀쩡한 값을 빈 값으로 덮어써 오히려 나빠진다.
-        bucket = {str(r.game_no): [round(o, 2) for o in r.odds]
-                  for r in rows if r.odds}
+        priced = [r for r in rows if r.odds]
+        bucket = {str(r.game_no): [round(o, 2) for o in r.odds] for r in priced}
         if bucket:
             odds[str(rnd)] = bucket
+            markets[str(rnd)] = {
+                str(r.game_no): {
+                    "game_no": str(r.game_no), "date": r.date_text,
+                    "sport": r.sport, "league": r.league,
+                    "home": _clean_team(r.home), "away": _clean_team(r.away),
+                    "market": r.market_family, "label": r.market_label or "",
+                    "n_way": r.n_way, "odds": [round(o, 2) for o in r.odds],
+                    "result": r.result,
+                }
+                for r in priced
+            }
             n += len(bucket)
 
     return {
@@ -78,6 +96,10 @@ def collect() -> dict:
         "rounds": rounds,
         "n": n,
         "odds": odds,
+        # 가격만 보내면 기존 picks 문서가 options=[]인 경기를 복구할 수 없다.
+        # 최소 경기·마켓 메타데이터를 함께 보내 브라우저와 경량 게시기가 현재
+        # 발매 행에서 선택지를 재구성할 수 있게 한다.
+        "markets": markets,
     }
 
 

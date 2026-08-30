@@ -67,11 +67,73 @@ export function priceBucket(odds) {
 
 const rounded = (value, digits = 4) => Number(Number(value).toFixed(digits));
 
+const SELECTION_NAMES = {
+  "승패|2": ["홈", "원정"],
+  "언더오버|2": ["언더", "오버"],
+  "핸디캡|2": ["핸디홈", "핸디원정"],
+  "승무패|3": ["홈", "무", "원정"],
+  "핸디캡|3": ["핸디홈", "핸디무", "핸디원정"],
+  "승①패|3": ["홈2+", "1점차", "원정2+"],
+  "승⑤패|3": ["홈6+", "5점차이내", "원정6+"],
+  "홀짝|2": ["홀", "짝"],
+  "전반승패|2": ["전반홈", "전반원정"],
+  "전반승무패|3": ["전반홈", "전반무", "전반원정"],
+  "전반언더오버|2": ["전반언더", "전반오버"],
+  "전반핸디캡|2": ["전반핸디홈", "전반핸디원정"],
+  "전반핸디캡|3": ["전반핸디홈", "전반핸디무", "전반핸디원정"],
+};
+
+const lineOf = (label) => {
+  const match = String(label || "").match(/[-+]?\d+(?:\.\d+)?/);
+  return match ? Number(match[0]) : null;
+};
+
+export function hydrateUnpricedGame(game, roundMarkets, generatedAt = null) {
+  if (game?.options?.length || !roundMarkets) return game;
+  const rows = Object.values(roundMarkets).filter((row) =>
+    row?.home === game?.home && row?.away === game?.away && row?.date === game?.date);
+  const options = rows.flatMap((row) => {
+    const values = (row?.odds || []).map(Number);
+    const names = SELECTION_NAMES[`${row?.market}|${values.length}`];
+    const probabilities = shinProbabilities(values);
+    if (!names || names.length !== values.length || probabilities.length !== values.length) return [];
+    return values.map((value, index) => ({
+      market: row.market,
+      n_way: values.length,
+      label: row.label || "",
+      line: ["언더오버", "핸디캡", "전반언더오버", "전반핸디캡"].includes(row.market)
+        ? lineOf(row.label) : null,
+      "선택": names[index], "배당": value,
+      "시장확률": rounded(probabilities[index]), "모델확률": null,
+      "최종확률": rounded(probabilities[index]), "확률근거": "shin_market_live",
+      "AI반영": false, "AI잔차": null, "게임번호": String(row.game_no),
+      _live: true,
+    }));
+  });
+  if (!options.length) return game;
+  return {
+    ...game,
+    no_odds: false,
+    status: "경기전",
+    options,
+    추천: null,
+    판단: "실시간 시장 기준",
+    해설: null,
+    해설기본: null,
+    decision_snapshot: null,
+    _liveOddsHydrated: true,
+    _liveOddsRecalculated: true,
+    _liveOddsRecalculatedAt: generatedAt,
+  };
+}
+
 /**
  * 실시간 배당 벡터마다 시장확률·최종확률·shadow 진단값을 같은 시점으로 다시 만든다.
  * 운영식은 검증된 잔차가 없는 Shin 시장 기준이므로 브라우저에서도 결정적으로 재현된다.
  */
-export function repriceGameOdds(game, roundOdds, generatedAt = null) {
+export function repriceGameOdds(game, roundOdds, generatedAt = null, roundMarkets = null) {
+  const hydrated = hydrateUnpricedGame(game, roundMarkets, generatedAt);
+  if (hydrated !== game) return hydrated;
   if (!roundOdds || !game?.options?.length) return game;
   const groups = new Map();
   game.options.forEach((option, index) => {

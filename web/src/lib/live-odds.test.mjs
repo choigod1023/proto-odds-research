@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { priceBucket, repriceGameOdds, repricePriceGame, shinProbabilities } from "./live-odds.js";
+import { hydrateUnpricedGame, priceBucket, repriceGameOdds, repricePriceGame,
+  shinProbabilities } from "./live-odds.js";
 
 test("Python 운영식과 같은 Shin 확률을 계산한다", () => {
   const probabilities = shinProbabilities([2.92, 1.26]);
@@ -31,6 +32,31 @@ test("실시간 배당과 시장확률·최종 판정을 한 revision으로 다�
   assert.equal(repriced.options[1]["확률근거"], "shin_market_live");
   assert.equal(repriced.options[1]._live, true);
   assert.equal(game.options[1]["배당"], 1.19, "원본 산출물은 변경하지 않는다");
+});
+
+test("기존 판정에 선택지가 없어도 현재 발매 메타데이터로 복구한다", () => {
+  const game = {
+    round: 102, date: "08.30(일) 18:00", league: "KBO", sport: "bs",
+    home: "KIA", away: "SSG", status: "배당대기", no_odds: true,
+    options: [], 해설: "배당이 아직 발표되지 않았다.",
+  };
+  const markets = {
+    7100: { game_no: "7100", date: game.date, league: "KBO", sport: "bs",
+      home: "KIA", away: "SSG", market: "승패", label: "", n_way: 2,
+      odds: [1.55, 2.05] },
+    7101: { game_no: "7101", date: game.date, league: "KBO", sport: "bs",
+      home: "KIA", away: "SSG", market: "언더오버", label: "U 10.5", n_way: 2,
+      odds: [1.70, 1.82] },
+  };
+  const hydrated = hydrateUnpricedGame(game, markets, "2026-08-30T01:00:00Z");
+  assert.equal(hydrated.status, "경기전");
+  assert.equal(hydrated.no_odds, false);
+  assert.equal(hydrated.options.length, 4);
+  assert.deepEqual(hydrated.options.map((option) => option["선택"]),
+    ["홈", "원정", "언더", "오버"]);
+  assert.equal(hydrated.options[2].line, 10.5);
+  assert.equal(hydrated.해설, null, "낡은 배당 미발표 문장을 제거한다");
+  assert.equal(hydrated._liveOddsHydrated, true);
 });
 
 test("가격 비교 카드도 확률·환급률·구간을 즉시 다시 계산한다", () => {
