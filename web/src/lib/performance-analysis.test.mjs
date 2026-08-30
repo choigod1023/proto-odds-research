@@ -56,7 +56,7 @@ test("스냅샷이 없으면 모델이 아니라 현재 시장 최유력으로 �
     { market: "승무패", 선택: "무", 배당: 3.2, 모델확률: .03, 시장확률: .25 },
     { market: "승무패", 선택: "패", 배당: 4.1, 모델확률: .94, 시장확률: .21 },
   ] };
-  assert.equal(predictionFor(game).headline, "시장 기준 · 서울 우세");
+  assert.equal(predictionFor(game).headline, "서울 우세");
   assert.equal(predictionFor(game).probability, .54);
   assert.equal(predictionFor(game).decision.contractReconstructed, true);
 });
@@ -67,9 +67,9 @@ test("미검증 역배 신호가 있어도 시장 최유력 방향을 유지한�
     { market: "승패", 선택: "패", 배당: 2.05, 모델확률: .55, 시장확률: .42 },
   ] };
   const analysis = performanceAnalysis(game);
-  assert.equal(analysis.prediction.headline, "시장 기준 · 서울 우세");
+  assert.equal(analysis.prediction.headline, "서울 우세");
   assert.equal(analysis.prediction.probability, .58);
-  assert.match(analysis.signalSummary.narrative, /시장확률만 기준/);
+  assert.match(analysis.signalSummary.narrative, /배당에 반영된 평가/);
 });
 
 test("생성기가 고른 시장 기준 선택만 경기 예상으로 읽는다", () => {
@@ -79,7 +79,7 @@ test("생성기가 고른 시장 기준 선택만 경기 예상으로 읽는다"
     { market: "승무패", 선택: "패", 모델확률: .21, 시장확률: .21 },
   ] });
   const prediction = predictionFor(game, game.options[0]);
-  assert.equal(prediction.headline, "시장 기준 · 서울 우세");
+  assert.equal(prediction.headline, "서울 우세");
   assert.equal(prediction.probability, .54);
 });
 
@@ -88,7 +88,7 @@ test("원정 승 표기를 원정팀 우세로 읽는다", () => {
     { market: "승무패", 선택: "원정 승", 모델확률: .58, 시장확률: .52 },
     { market: "승무패", 선택: "홈 승", 모델확률: .42, 시장확률: .48 },
   ] });
-  assert.equal(predictionFor(game, game.options[0]).headline, "시장 기준 · 부산 우세");
+  assert.equal(predictionFor(game, game.options[0]).headline, "부산 우세");
 });
 
 test("최근 흐름을 경기력 문장으로 설명한다", () => {
@@ -156,9 +156,9 @@ test("모델 추천과 경기력 지표가 반대면 엇갈림을 숨기지 않�
     options: [{ market: "승패", 선택: "승", 모델확률: .52, 시장확률: .54 }] });
   const analysis = performanceAnalysis(game, game.options[0]);
   assert.equal(analysis.signalSummary.state, "엇갈림");
-  assert.equal(analysis.prediction.headline, "시장 기준 · SSG 우세");
+  assert.equal(analysis.prediction.headline, "SSG 우세");
   assert.ok(analysis.signalSummary.signals.some((signal) => signal.label === "홈·원정" && signal.side === "한화"));
-  assert.equal(analysis.signalSummary.narrative, "최근 성적에서는 SSG가 앞서고, 홈·원정 성적에서는 한화가 낫다. 엇갈림은 숨기지 않되 최종 값은 시장 기준으로 유지한다.");
+  assert.equal(analysis.signalSummary.narrative, "최근 성적에서는 SSG가 앞서고, 홈·원정 성적에서는 한화가 낫다. 엇갈리는 자료를 위험 신호로 함께 표시한다.");
 });
 
 test("예상 흐름 문장의 목적격 조사를 자연스럽게 붙인다", () => {
@@ -178,7 +178,7 @@ test("핸디캡 적중 방향을 실제 원정팀 승리로 해석하지 않는�
       시장확률: .772, 모델확률: .81 }] });
   const analysis = performanceAnalysis(game, game.options[0]);
   assert.equal(analysis.prediction.side, null);
-  assert.equal(analysis.prediction.headline, "시장 기준 · H -2.5 핸디원정");
+  assert.equal(analysis.prediction.headline, "H -2.5 핸디원정");
   assert.match(analysis.reasons.at(-1), /실제 승리 예측과는 다르다/);
   assert.doesNotMatch(analysis.reasons.at(-1), /탬파레이가.*주도권/);
 });
@@ -188,7 +188,7 @@ test("전반 언더오버를 홈팀 우세로 해석하지 않는다", () => {
       시장확률: .70, 모델확률: .72 }] });
   const analysis = performanceAnalysis(game, game.options[0]);
   assert.equal(analysis.prediction.side, null);
-  assert.equal(analysis.prediction.headline, "시장 기준 · h U 1.5 전반언더");
+  assert.equal(analysis.prediction.headline, "h U 1.5 전반언더");
   assert.match(analysis.reasons.at(-1), /전반 득점 기준/);
   assert.doesNotMatch(analysis.prediction.headline, /AEK아테 우세/);
 });
@@ -198,7 +198,7 @@ test("경기 카드 추천을 분석 제목에도 그대로 사용한다", () =>
     { market: "승패", 선택: "패", 모델확률: .40, 시장확률: .60 },
   ] }, 1);
   const recommended = game.options[1];
-  assert.equal(predictionFor(game, recommended).headline, "시장 기준 · 한화 우세");
+  assert.equal(predictionFor(game, recommended).headline, "한화 우세");
 });
 test("팀 이름에 맞는 조사를 사용해 자연어 요약을 만든다", () => {
   const game = withDecision({ home: "두산", away: "한화",

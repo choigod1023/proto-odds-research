@@ -85,7 +85,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
   const label = decisionLabel(decision);
   const summary = signalSummary?.narrative || (
     decision?.action === "market_reference"
-      ? "현재 검증된 운영값은 시장확률이며 구조 AI는 반대 신호를 설명하는 연구값으로만 비교합니다."
+      ? "추천 방향과 함께 최근 경기력·선수 정보·반대 신호를 비교해 확인하세요."
       : "아래 위험이 해소되지 않아 이 픽은 추천하지 않습니다."
   );
   return (
@@ -96,7 +96,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
           <p>{summary}</p>
         </div>
-        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{decision?.model?.validatedEdge ? "AI 최종확률" : "Shin 시장확률"}</span></div>}
+        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률"}</span></div>}
       </header>
       <div className="prediction-body">
         <div>
@@ -130,7 +130,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
       <TeamPreview previews={analysis.teamPreviews} />
       <ScoreForecast forecast={scoreForecast} />
       {!!cautions?.length && <div className="prediction-caution"><b>반대 근거·변수</b><span>{cautions.join(" ")}</span></div>}
-      <footer>예상 적중확률은 검증된 보정만 반영하며, 보정이 없으면 시장 기준선으로 복귀합니다. 구매 판단은 직접 합니다.</footer>
+      <footer>예상 적중확률은 실제 배당에 포함된 마진을 제거한 값을 출발점으로 삼고, 검증된 보정만 추가합니다. 구매 판단은 직접 합니다.</footer>
     </section>
   );
 }

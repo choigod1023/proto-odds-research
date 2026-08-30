@@ -15,9 +15,9 @@ const POLICY_AUTHORIZED_MODELS = new Set(["internal-context-blend-v2"]);
 export const AI_STAGE_CATALOG = [
   {
     id: "market",
-    label: "시장 기준선",
+    label: "배당 기반 확률",
     status: "used",
-    summary: "동일 시점 배당을 Shin 방식으로 마진 제거해 예상 적중확률의 기준선으로 씁니다.",
+    summary: "동일 시점 배당에서 운영사 마진을 제거해 예상 적중확률의 출발값으로 씁니다.",
   },
   {
     id: "structured_ai",

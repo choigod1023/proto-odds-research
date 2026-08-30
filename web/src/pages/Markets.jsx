@@ -622,7 +622,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                     decision.recommendationPriority === "fallback" ? "1.50 미만 최종 적중 보조"
                       : decision.recommendationPriority === "reversal" ? "이전 역배 판정 · 재계산 필요"
                         : "1.50~2.20 최종 적중 1순위"
-                  } · 검증 보정 없으면 Shin 시장값 복귀`} />
+                  } · 배당 기반 시장확률`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
       </summary>
@@ -666,7 +666,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {" · "}<span className="tnum">{odds(pick.o["배당"])}</span>
             {" · 시장 "}<span className="tnum">{pct(pick.o["시장확률"])}</span>
             {" · 구조 모델 차이 "}<span className="tnum">{sgn(Number(pick.o["모델확률"]) - Number(pick.o["시장확률"]))}p</span>
-            <p className="text-[10.5px] leading-5 text-ink3">전환 관문을 통과해 기존 정배를 제거하고 이 선택 하나로 교체했습니다. 표시 확률은 모델값이 아니라 해당 역배의 Shin 시장확률입니다.</p>
+            <p className="text-[10.5px] leading-5 text-ink3">전환 관문을 통과해 기존 정배를 제거하고 이 선택 하나로 교체했습니다. 표시 확률은 해당 배당에서 마진을 제거한 시장확률입니다.</p>
           </div>
         )}
         {wait && (
@@ -702,7 +702,7 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false,
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
     <table className="w-full border-collapse text-[12.5px]">
-      <caption className="sr-only">프로토 배당, 시장확률, 검증 전 구조 AI 수치와 반영 상태</caption>
+      <caption className="sr-only">프로토 배당, 배당 기반 시장확률, 검증 전 구조 AI 수치와 반영 상태</caption>
       <thead><tr>
         {/* 용지 대조용 게임번호. 화면을 보면서 실제 프로토 용지에 마킹하려면
             이 번호가 있어야 한다 — 없으면 팀 이름으로 용지를 다시 뒤져야 한다.
@@ -711,7 +711,7 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false,
         <th scope="col" className={th}>마켓 / 선택</th>
         <th scope="col" className={`${th} text-right`}>배당</th>
         <th scope="col" className={`${th} text-right`}>배당구간 적중</th>
-        <th scope="col" className={`${th} model-col text-right`}>시장</th>
+        <th scope="col" className={`${th} model-col text-right`}>배당 기반 확률</th>
         <th scope="col" className={`${th} model-col text-right`}>구조 AI</th>
         <th scope="col" className={`${th} model-col text-right`}>시장과 차이</th>
         <th scope="col" className={th}>판정</th>
@@ -758,7 +758,7 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false,
               <td className={`${td} text-[11.5px]`}>
                 {recalculating && <span className="text-ink3">재계산 대기</span>}
                 {pick && !pick.tie && pick.o === o && (
-                  <span className="font-semibold text-signal">추천 픽 · 시장 기준</span>)}
+                  <span className="font-semibold text-signal">추천 픽</span>)}
                 {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
                 {!recalculating && (!pick || (!pick.tie && pick.o !== o)) && (

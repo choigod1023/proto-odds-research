@@ -210,8 +210,8 @@ test("v2 압축 원장의 단계 설명과 자료 사용 상태를 공용 카탈
     }],
   };
   const decision = buildDecisionViewModel(gameFor(compact), option);
-  assert.equal(decision.stages[0].label, "시장 기준선");
-  assert.match(decision.stages[0].summary, /Shin/);
+  assert.equal(decision.stages[0].label, "배당 기반 확률");
+  assert.match(decision.stages[0].summary, /운영사 마진을 제거/);
   assert.equal(decision.evidence[0].display_status, "context_only");
 });
 
