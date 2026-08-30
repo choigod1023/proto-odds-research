@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
 
 from src.live_scores import (add_proto_aliases, baseball_situation,
-                             merge_recent_games, normalize_named_game)
+                             merge_recent_games, named_soccer_clock,
+                             normalize_named_game)
 
 
 def test_baseball_situation_extracts_batter_count_and_runners():
@@ -110,6 +111,24 @@ def test_normalize_named_break_time_is_still_live():
     game = normalize_named_game(raw, "soccer")
     assert game["status"] == "STARTED"
     assert game["finished"] is False
+    assert game["status_text"] == "하프타임"
+
+
+def test_named_soccer_clock_converts_cumulative_minute_to_half_minute():
+    first = {"gameStatus": "IN_PROGRESS", "period": 1,
+             "broadcast": {"displayTime": "00:34"}}
+    second = {"gameStatus": "IN_PROGRESS", "period": 2,
+              "broadcast": {"displayTime": "01:23"}}
+    assert named_soccer_clock(first) == {
+        "period": 1, "elapsed_minute": 34, "phase": "first_half", "label": "전반 34분",
+    }
+    assert named_soccer_clock(second) == {
+        "period": 2, "elapsed_minute": 83, "phase": "second_half", "label": "후반 38분",
+    }
+
+
+def test_named_soccer_clock_keeps_halftime_label():
+    assert named_soccer_clock({"gameStatus": "BREAK_TIME", "period": 2})["label"] == "하프타임"
 
 
 def test_add_proto_aliases_matches_abbreviated_names_by_sport_and_date():

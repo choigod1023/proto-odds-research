@@ -749,14 +749,20 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false,
               <td className={`${td} tnum text-right text-ink3`}>
                 {gr?.hit != null ? `${(gr.hit * 100).toFixed(0)}%` : "–"}</td>
               <td className={`${td} model-col tnum text-right`}>{recalculating ? "–" : pct(o["시장확률"])}</td>
-              <td className={`${td} model-col tnum text-right`}>{recalculating ? "–" : pct(o["모델확률"])}</td>
-              <td className={`${td} model-col tnum text-right`}>{recalculating ? "–" : sgn(o["AI잔차"])}</td>
+              <td className={`${td} model-col tnum text-right`}
+                title={o["모델확률"] == null ? "이 종목·마켓은 검증된 구조 모델 확률이 아직 없습니다." : "구조 모델이 산출한 연구 확률"}>
+                {recalculating ? "–" : o["모델확률"] == null ? "미산출" : pct(o["모델확률"])}</td>
+              <td className={`${td} model-col tnum text-right`}
+                title={o["AI잔차"] == null ? "구조 AI 확률이 없어 시장과의 차이를 계산하지 않습니다." : "구조 AI 확률 − 시장확률"}>
+                {recalculating ? "–" : o["AI잔차"] == null ? "–" : sgn(o["AI잔차"])}</td>
               <td className={`${td} text-[11.5px]`}>
                 {recalculating && <span className="text-ink3">재계산 대기</span>}
                 {pick && !pick.tie && pick.o === o && (
-                  <span className="text-ink">추천</span>)}
+                  <span className="font-semibold text-signal">추천 픽</span>)}
                 {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
+                {!recalculating && (!pick || (!pick.tie && pick.o !== o)) && (
+                  <span className="text-ink3">{o["모델확률"] == null ? "시장 참고" : "비추천"}</span>)}
               </td>
               <td className={`${td} text-right`}>
                 <button type="button" className={`cart-add-button ${inCart ? "is-active" : ""}`}
