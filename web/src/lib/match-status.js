@@ -1,8 +1,21 @@
-export function gamePhase(game, live = game?._liveState) {
+function scheduledAt(game) {
+  const match = String(game?.date || "").match(/(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/);
+  if (!match) return null;
+  const [, month, day, hour, minute] = match;
+  const year = Number(game?.year || new Date().getFullYear());
+  // 명시적 +09:00: 사용자의 브라우저 시간대와 무관하게 프로토 KST 시각으로 판정한다.
+  const value = new Date(`${year}-${month}-${day}T${hour}:${minute}:00+09:00`).getTime();
+  return Number.isFinite(value) ? value : null;
+}
+
+export function gamePhase(game, live = game?._liveState, now = Date.now()) {
   if (live?.cancelled || live?.postponed) return "pending";
   if (live && live.status !== "BEFORE" && !live.finished) return "live";
   if (game?.status === "정산" || live?.finished) return "finished";
   if (game?.status === "결과확인") return "pending";
+  const start = scheduledAt(game);
+  // 원천 매칭이 일시 실패해도 이미 끝났을 가능성이 큰 경기를 영원히 '예정'으로 두지 않는다.
+  if (start && Number(now) - start > 8 * 60 * 60 * 1000) return "pending";
   return "upcoming";
 }
 

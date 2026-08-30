@@ -11,10 +11,10 @@
 
 무엇을 쓰나
 -----------
-네이버 스포츠 일정 API. 이미 `game_detail.py`·`info_watch.py` 가 쓰는 검증된 경로다.
-한 번 호출에 그날 경기 전부가 점수·상태와 함께 온다:
-
-    homeTeamScore / awayTeamScore / statusCode / statusInfo / gameDateTime
+NAMED 스포츠 API를 기본 원천으로 쓴다. 축구·야구·농구 등 프로토 주요 종목을
+한 번에 내려주며, 종료·진행·취소 상태와 점수도 포함한다. 네이버 일정 API는
+KBO·MLB·NPB·K리그의 보조 원천과 야구 타석 상황용으로 계속 사용한다. NAMED의
+핵심 필드는 `teams.*.periodData`, `gameStatus`, `startDatetime` 이다.
 
 팀명 맞추기
 -----------
@@ -24,7 +24,9 @@
 """
 from __future__ import annotations
 
+import difflib
 import json
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -38,6 +40,8 @@ TEAM_MAP = ROOT / "data" / "processed" / "team_map.json"
 
 API = "https://api-gw.sports.naver.com/schedule/games"
 POLLING_API = API + "/{game_id}/game-polling"
+NAMED_API = "https://sports-api.named.com/v1.0/popular-games"
+PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 KST = timezone(timedelta(hours=9))
 
 # 프로토가 파는 것 중 네이버가 커버하는 리그. game_detail.CATS 와 같은 표기.
@@ -54,6 +58,23 @@ HISTORY_DAYS = 45
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36")
+
+NAMED_SPORTS = {
+    "soccer": ("sc", "축구"),
+    "baseball": ("bs", "야구"),
+    "basketball": ("bk", "농구"),
+    "volleyball": ("vl", "배구"),
+}
+NAMED_STATUS = {
+    "READY": "BEFORE",
+    "IN_PROGRESS": "STARTED",
+    "FINAL": "RESULT",
+    "CANCEL": "CANCEL",
+    "CANCELED": "CANCEL",
+    "CANCELLED": "CANCEL",
+    "CUT": "CANCEL",
+    "POSTPONED": "POSTPONED",
+}
 
 
 def _session() -> requests.Session:
@@ -87,6 +108,121 @@ def fetch(s: requests.Session, league: str, day: str) -> list[dict]:
     except Exception as e:                            # noqa: BLE001
         print(f"  {league} {day} 실패: {type(e).__name__}", flush=True)
         return []
+
+
+def fetch_named(s: requests.Session, day: str) -> dict:
+    """NAMED의 날짜별 인기 경기 목록. 종목별 배열을 그대로 돌려준다."""
+    try:
+        r = s.get(NAMED_API, params={"date": day, "tomorrow-game-flag": "true"},
+                  timeout=20)
+        r.raise_for_status()
+        return r.json() or {}
+    except Exception as e:                            # noqa: BLE001
+        print(f"  NAMED {day} 실패: {type(e).__name__}", flush=True)
+        return {}
+
+
+def _score(team: dict) -> int | float | None:
+    periods = team.get("periodData") or []
+    values = [p.get("score") for p in periods if p.get("score") is not None]
+    if values:
+        return sum(values)
+    value = team.get("score")
+    return value if value not in (None, "") else None
+
+
+def normalize_named_game(raw: dict, sport: str) -> dict:
+    """NAMED 한 경기를 프론트가 이미 읽는 live_scores 공통 형식으로 바꾼다."""
+    teams = raw.get("teams") or {}
+    home, away = teams.get("home") or {}, teams.get("away") or {}
+    original_status = str(raw.get("gameStatus") or "").upper()
+    status = NAMED_STATUS.get(original_status, original_status or "BEFORE")
+    start = str(raw.get("startDatetime") or "")
+    if start and not re.search(r"(?:Z|[+-]\d\d:\d\d)$", start):
+        start += "+09:00"
+    league = raw.get("league") or {}
+    finished = status in RESULT_STATUSES
+    rec = {
+        "source": "named",
+        "sport": NAMED_SPORTS[sport][0],
+        "league": league.get("shortName") or league.get("name") or NAMED_SPORTS[sport][1],
+        "game_id": f"named:{raw.get('id')}",
+        "start": start,
+        "md": start[5:10].replace("-", "."),
+        "home": home.get("name"), "away": away.get("name"),
+        "home_alias": [x for x in (home.get("shortName"),) if x],
+        "away_alias": [x for x in (away.get("shortName"),) if x],
+        "home_score": _score(home), "away_score": _score(away),
+        "status": status,
+        "status_text": original_status,
+        "finished": finished,
+        "terminal": status in TERMINAL_STATUSES,
+        "cancelled": status in {"CANCEL", "CANCELED", "CANCELLED"},
+        "postponed": status == "POSTPONED",
+    }
+    if status == "BEFORE":
+        rec["home_score"] = rec["away_score"] = None
+    return rec
+
+
+def _team_key(value: str) -> str:
+    return re.sub(r"[^0-9A-Za-z가-힣]", "", str(value or "")).lower()
+
+
+def _team_similarity(left: str, right: str) -> float:
+    a, b = _team_key(left), _team_key(right)
+    if not a or not b:
+        return 0.0
+    if a == b:
+        return 1.0
+    if min(len(a), len(b)) >= 3 and (a in b or b in a):
+        return .96
+    return difflib.SequenceMatcher(None, a, b).ratio()
+
+
+def _proto_games() -> list[dict]:
+    try:
+        payload = json.loads(PICKS.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    return [*payload.get("live", []), *payload.get("past", [])]
+
+
+def add_proto_aliases(named_games: list[dict], proto_games: list[dict]) -> int:
+    """NAMED 정식 팀명에 프로토 축약명을 붙여 프론트의 정확 키 조인을 살린다."""
+    candidates: dict[tuple[str, str], list[dict]] = {}
+    for game in proto_games:
+        md = str(game.get("date") or "")[:5]
+        candidates.setdefault((str(game.get("sport") or ""), md), []).append(game)
+
+    matched = 0
+    for game in named_games:
+        ranked = []
+        for proto in candidates.get((game.get("sport"), game.get("md")), []):
+            hs = _team_similarity(proto.get("home"), game.get("home"))
+            aws = _team_similarity(proto.get("away"), game.get("away"))
+            named_time = str(game.get("start") or "")[11:16]
+            match = re.search(r"(\d{2}:\d{2})", str(proto.get("date") or ""))
+            same_time = bool(match and named_time == match.group(1))
+            # 축약이 심한 프로토 팀명은 문자열 점수만 낮을 수 있다. 날짜와 킥오프가
+            # 모두 같으면 문턱을 낮추되 양 팀 중 하나라도 전혀 다르면 거부한다.
+            floor = .25 if same_time else .45
+            if min(hs, aws) >= floor:
+                ranked.append((hs + aws + (.2 if same_time else 0), min(hs, aws), proto))
+        ranked.sort(key=lambda row: (row[0], row[1]), reverse=True)
+        if not ranked or ranked[0][0] < 1.15:
+            continue
+        # 애매한 동명이인/축약 매칭은 붙이지 않는다.
+        if len(ranked) > 1 and ranked[0][0] - ranked[1][0] < .08:
+            continue
+        proto = ranked[0][2]
+        for side in ("home", "away"):
+            name = proto.get(side)
+            aliases = game[f"{side}_alias"]
+            if name and name != game.get(side) and name not in aliases:
+                aliases.append(name)
+        matched += 1
+    return matched
 
 
 def baseball_situation(payload: dict) -> dict:
@@ -162,7 +298,9 @@ def main() -> int:
     # 최근 3일을 다시 확인해 마지막 요청 실패·우천 연기처럼 경계에서 바뀐 상태도 회수한다.
     days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-3, -2, -1, 0, 1)]
 
-    games, live_n = [], 0
+    games = []
+    # 네이버는 보조 원천이다. 뒤에서 NAMED를 추가해 같은 프론트 키가 겹칠 때
+    # 더 넓은 종목을 커버하는 NAMED 관측이 우선되게 한다.
     for league in CATS:
         for day in days:
             for g in fetch(s, league, day):
@@ -172,8 +310,10 @@ def main() -> int:
                 home, away = g.get("homeTeamName"), g.get("awayTeamName")
                 start = g.get("gameDateTime") or ""
                 rec = {
+                    "source": "naver",
+                    "sport": "sc" if league == "K리그" else "bs",
                     "league": league,
-                    "game_id": g.get("gameId"),
+                    "game_id": f"naver:{g.get('gameId')}",
                     "start": start,
                     # ⚠️ 팀 조합만으로는 경기를 못 가린다. MLB 는 같은 팀끼리
                     #    3~4연전을 하므로 어제/오늘 경기가 뭉개진다(실제로 정산
@@ -194,13 +334,23 @@ def main() -> int:
                     "postponed": st == "POSTPONED",
                 }
                 if st == "STARTED" and league in ("KBO", "MLB", "NPB") and rec["game_id"]:
-                    rec.update(fetch_situation(s, str(rec["game_id"])))
+                    rec.update(fetch_situation(s, str(g.get("gameId"))))
                 # 경기 전이면 0-0 이 찍혀 나온다 — 점수처럼 보이면 안 된다
                 if st == "BEFORE":
                     rec["home_score"] = rec["away_score"] = None
-                elif not rec["finished"]:
-                    live_n += 1
                 games.append(rec)
+
+    named_games = []
+    for day in days:
+        payload = fetch_named(s, day)
+        for sport in NAMED_SPORTS:
+            for raw in payload.get(sport) or []:
+                named_games.append(normalize_named_game(raw, sport))
+
+    # tomorrow-game-flag 때문에 이웃 날짜 응답이 겹칠 수 있다.
+    named_games = list({g["game_id"]: g for g in named_games}.values())
+    alias_n = add_proto_aliases(named_games, _proto_games())
+    games.extend(named_games)
 
     # 같은 경기가 날짜 경계로 두 번 잡힐 수 있다
     seen, uniq = set(), []
@@ -210,6 +360,7 @@ def main() -> int:
         seen.add(g["game_id"])
         uniq.append(g)
     uniq = merge_recent_games(uniq, _previous_games(), now)
+    live_n = sum(1 for g in uniq if g.get("status") == "STARTED")
 
     document = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -218,7 +369,9 @@ def main() -> int:
     persist_artifact("live_scores", document, OUT, indent=None)
 
     done = sum(1 for g in uniq if g["finished"])
-    print(f"경기 {len(uniq)}건 · 진행중 {live_n} · 종료 {done} → {OUT}")
+    named_n = sum(1 for g in uniq if g.get("source") == "named")
+    print(f"경기 {len(uniq)}건(NAMED {named_n}) · 프로토 매칭 {alias_n}"
+          f" · 진행중 {live_n} · 종료 {done} → {OUT}")
     for g in uniq:
         if not g["finished"] and g["status"] != "BEFORE":
             print(f"  [{g['league']}] {g['away']} {g['away_score']}"

@@ -18,6 +18,12 @@ test("취소와 연기는 진행 중으로 오인하지 않는다", () => {
   assert.equal(gamePhase({}, { status: "POSTPONED", postponed: true }), "pending");
 });
 
+test("실시간 매칭이 없어도 시작 후 8시간이 지난 경기는 예정으로 남기지 않는다", () => {
+  const now = new Date("2026-08-30T12:01:00+09:00").getTime();
+  assert.equal(gamePhase({ year: 2026, date: "08.30(일) 03:00", status: "경기전" }, null, now), "pending");
+  assert.equal(gamePhase({ year: 2026, date: "08.30(일) 10:00", status: "경기전" }, null, now), "upcoming");
+});
+
 test("사전 저장 추천만 적중과 실패로 표시한다", () => {
   assert.equal(recommendationOutcome({ prediction_record: { result: "hit" } }).label, "적중");
   assert.equal(recommendationOutcome({ prediction_record: { result: "miss" } }).label, "적중 실패");
