@@ -53,6 +53,7 @@ import time
 from pathlib import Path
 
 import requests
+from runtime_db import RuntimeDatabase, database_enabled, persist_document
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "commentary.json"
@@ -83,7 +84,10 @@ def _today() -> str:
 def _budget_load() -> dict:
     """오늘 쓴 호출 수. 날짜가 바뀌면 0 부터 다시 센다."""
     try:
-        b = json.loads(BUDGET_PATH.read_text(encoding="utf-8"))
+        b = (RuntimeDatabase().get_document("llm_budget")
+             if database_enabled() else None)
+        if b is None:
+            b = json.loads(BUDGET_PATH.read_text(encoding="utf-8"))
         if b.get("date") == _today():
             return b
     except (OSError, ValueError):
@@ -93,8 +97,7 @@ def _budget_load() -> dict:
 
 def _budget_save(b: dict) -> None:
     try:
-        BUDGET_PATH.parent.mkdir(parents=True, exist_ok=True)
-        BUDGET_PATH.write_text(json.dumps(b), encoding="utf-8")
+        persist_document("llm_budget", b, BUDGET_PATH, indent=None)
     except OSError as e:
         print(f"  [llm] 예산 저장 실패(무시): {e}")
 
@@ -136,7 +139,10 @@ SYSTEM = """너는 스포츠 프리뷰 문장을 다듬는 편집자다. 기자�
 
 def _load() -> dict:
     try:
-        return json.loads(CACHE_PATH.read_text(encoding="utf-8"))
+        stored = (RuntimeDatabase().get_document("llm_commentary_cache")
+                  if database_enabled() else None)
+        return stored if stored is not None else json.loads(
+            CACHE_PATH.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
 
@@ -148,9 +154,7 @@ def _save(cache: dict) -> None:
                       reverse=True)[:CACHE_MAX]
         cache = dict(keep)
     try:
-        CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-        CACHE_PATH.write_text(json.dumps(cache, ensure_ascii=False),
-                              encoding="utf-8")
+        persist_document("llm_commentary_cache", cache, CACHE_PATH, indent=None)
     except OSError as e:
         print(f"  [llm] 캐시 저장 실패(무시): {e}")
 

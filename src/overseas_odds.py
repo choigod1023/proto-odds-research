@@ -50,6 +50,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import requests
+from runtime_db import persist_document
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from matches import load_matches                       # noqa: E402
@@ -169,8 +170,10 @@ def collect(sess: requests.Session, seasons=None) -> dict:
               if x["odds"] and all(o > 1 for o in x["odds"])]
         pay = 100 / np.mean(ov) if ov else float("nan")
         print(f"  {league:8} {len(uniq):5d}경기 ({nway}-way) · 해외 환급률 {pay:.2f}%")
-        (RAW / f"{league}.json").write_text(json.dumps(uniq, ensure_ascii=False),
-                                            encoding="utf-8")
+        document_name = {"K리그1": "overseas_kleague1"}.get(
+            league, f"overseas_{league.lower()}")
+        persist_document(document_name, uniq,
+                         RAW / f"{league}.json", indent=None)
     return out
 
 

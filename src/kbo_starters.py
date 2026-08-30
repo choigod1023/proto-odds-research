@@ -29,6 +29,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 import requests
+from runtime_db import persist_document
 
 OUT_DIR = Path(__file__).resolve().parent.parent / "data" / "raw"
 API = "https://api-gw.sports.naver.com/schedule/games"
@@ -125,8 +126,7 @@ def main(argv: list[str]) -> int:
         time.sleep(GAP)
 
     rows = sorted(cache.values(), key=lambda x: (x["date"] or "", x["gameId"]))
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+    persist_document("kbo_starters", rows, OUT, indent=None)
 
     filled = sum(1 for r in rows if r["home_starter"] and r["away_starter"])
     print(f"\n총 {len(rows)}경기 · 선발 양쪽 확보 {filled} ({filled/max(len(rows),1):.1%})")

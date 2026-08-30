@@ -40,6 +40,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+from runtime_db import RuntimeDatabase, database_enabled, persist_artifact
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -189,7 +190,15 @@ def _save(m: pd.DataFrame, ok: pd.DataFrame) -> None:
 
     out = ROOT / "data" / "processed" / "info_lag.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
-    m.to_csv(out, index=False)
+    if database_enabled():
+        stage = out.with_suffix(out.suffix + ".db-stage.tmp")
+        m.to_csv(stage, index=False)
+        database = RuntimeDatabase()
+        database.replace_dataset_csv("processed_info_lag", stage)
+        database.export_dataset_csv("processed_info_lag", out)
+        stage.unlink(missing_ok=True)
+    else:
+        m.to_csv(out, index=False)
 
     summary = {
         "joined": int(len(m)),
@@ -204,8 +213,7 @@ def _save(m: pd.DataFrame, ok: pd.DataFrame) -> None:
         summary["odds_first_rate"] = round(float((ok["lag_h"] > 0).mean()), 4)
         summary["median_lag_h"] = round(float(ok["lag_h"].median()), 2)
     js = ROOT / "docs" / "data" / "info_lag.json"
-    js.parent.mkdir(parents=True, exist_ok=True)
-    js.write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("info_lag", summary, js)
 
     print(f"\n저장: {out}  ← lag_h·censored 상세")
     print(f"      {js}  ← 진행상황 요약(추적됨)")
