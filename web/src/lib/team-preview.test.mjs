@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { playerFeature, teamPreviewsFor, teamPreviewSentence } from "./team-preview.js";
+import { compactTeamPlayerLine, playerFeature, teamPreviewsFor, teamPreviewSentence } from "./team-preview.js";
 
 test("팀별 특징과 핵심 선수를 홈·원정으로 분리한다", () => {
   const game = { sport: "sc", home: "안산", away: "대구",
@@ -15,6 +15,7 @@ test("팀별 특징과 핵심 선수를 홈·원정으로 분리한다", () => {
   assert.equal(previews[1].players[0].name, "세라핌");
   assert.match(teamPreviewSentence(previews), /안산.*마촙/);
   assert.match(teamPreviewSentence(previews), /대구.*세라핌/);
+  assert.equal(compactTeamPlayerLine(previews), "안산: 마촙 / 대구: 세라핌");
 });
 
 test("선수 기록으로 역할 특징을 설명한다", () => {
