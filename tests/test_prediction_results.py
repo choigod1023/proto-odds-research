@@ -1,6 +1,11 @@
 import json
+from types import SimpleNamespace
 
-from src.generate_v2 import _attach_prediction_record, _recorded_predictions
+from src.generate_v2 import (
+    _attach_prediction_record,
+    _recorded_predictions,
+    _sync_prediction_runtime,
+)
 
 
 def _game(status="경기전", hit=None):
@@ -64,6 +69,52 @@ def test_ledger_settlement_is_not_overwritten_by_current_reconstruction():
 
     assert settled["prediction_record"]["result"] == "miss"
     assert settled["prediction_record"]["settled_at"] == "2026-08-28T12:00:00Z"
+
+
+def test_ledger_settlement_survives_result_confirmation_state():
+    confirming = _game("결과확인", True)
+    records = {
+        "evt_1": {
+            "prediction_snapshot_id": "dec_1",
+            "selection_id": "sel_home",
+            "selection": "홈",
+            "result": "hit",
+            "settled_at": "2026-08-28T12:00:00Z",
+        },
+    }
+
+    _attach_prediction_record(confirming, records)
+
+    assert confirming["prediction_record"]["result"] == "hit"
+    assert confirming["prediction_record"]["settled_at"] == "2026-08-28T12:00:00Z"
+
+
+def test_result_confirmation_with_official_hit_value_is_settled():
+    class Runtime:
+        def __init__(self):
+            self.calls = []
+
+        def ui_records(self):
+            return {"evt_1": {
+                "prediction_snapshot_id": "dec_1",
+                "selection_id": "sel_home",
+                "result": "pending",
+            }}
+
+        def settle_latest(self, event_id, **kwargs):
+            self.calls.append((event_id, kwargs))
+            return SimpleNamespace(appended=True)
+
+    runtime = Runtime()
+    game = _game("결과확인", True)
+
+    counts = _sync_prediction_runtime(
+        runtime, [game], observed_at="2026-08-28T12:00:00+00:00",
+    )
+
+    assert counts["settlements"] == 1
+    assert runtime.calls[0][0] == "evt_1"
+    assert runtime.calls[0][1]["outcome"]["result"] == "hit"
 
 
 def test_no_pregame_snapshot_does_not_invent_past_pick(tmp_path):

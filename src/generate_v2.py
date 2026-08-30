@@ -839,16 +839,16 @@ def _attach_prediction_record(game: dict, records: dict[str, dict]) -> None:
     selected = next((option for option in game.get("options", [])
                      if option.get("selection_id") == record.get("selection_id")), None)
     hit = selected.get("적중") if selected else None
-    if game.get("status") == "정산":
-        is_ledger_settlement = (
-            bool(record.get("prediction_snapshot_id"))
-            and record.get("result") in {"hit", "miss", "void"}
-        )
-        if not is_ledger_settlement:
+    is_ledger_settlement = (
+        bool(record.get("prediction_snapshot_id"))
+        and record.get("result") in {"hit", "miss", "void"}
+    )
+    if not is_ledger_settlement:
+        if game.get("status") == "정산":
             record["result"] = "hit" if hit is True else "miss" if hit is False else "void"
             record["settled_at"] = game.get("date")
-    else:
-        record["result"] = "pending"
+        else:
+            record["result"] = "pending"
     game["prediction_record"] = record
     if record.get("score_forecast"):
         game["score_forecast"] = record["score_forecast"]
@@ -912,7 +912,9 @@ def _sync_prediction_runtime(
 
     ui_records = runtime.ui_records()
     for game in games:
-        if game.get("status") != "정산":
+        # 프로토 결과 수집은 선택지별 적중값을 먼저 채운 뒤 경기 상태를 한동안
+        # ``결과확인``으로 남길 수 있다. 이때도 공식 적중값이 있으면 정산 가능하다.
+        if game.get("status") not in ("정산", "결과확인"):
             continue
         key = game.get("event_id") or event_id(game)
         record = ui_records.get(key)
