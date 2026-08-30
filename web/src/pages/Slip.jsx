@@ -35,8 +35,8 @@ export default function Slip() {
       <Nav current="slip.html" />
       <header className="market-header">
         <div>
-          <h1>지류 작성 · 프로토 번호·배당표</h1>
-          <p>경기 상세를 하나씩 열지 않고, 승부식 지류에 옮길 번호와 현재 배당을 바로 대조합니다.</p>
+          <h1>프로토 번호·배당표</h1>
+          <p>승부식 용지에 옮길 게임번호와 현재 배당, 추천 선택을 한 표에서 대조합니다.</p>
         </div>
         <div className="market-meta">{allRows.length}개 게임번호 · 배당 갱신 {stamp(data.liveOdds?.generated_at)} KST</div>
       </header>
@@ -59,7 +59,7 @@ export default function Slip() {
         {!at ? <p className="py-7 text-center text-ink3">불러오는 중…</p> : rows.length === 0 ?
           <p className="py-7 text-center text-ink3">조건에 맞는 발매 경기 배당이 없습니다.</p> :
           <table className="w-full min-w-[760px] border-collapse text-[12.5px]">
-            <caption className="sr-only">프로토 승부식 지류 작성용 게임번호와 최신 배당</caption>
+            <caption className="sr-only">프로토 승부식 게임번호와 최신 배당</caption>
             <thead><tr className="text-left text-[11px] text-ink3">
               <th className="border-b border-rule2 p-2 text-right">번호</th>
               <th className="border-b border-rule2 p-2">회차·시간</th>
