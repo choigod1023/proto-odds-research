@@ -100,6 +100,18 @@ def test_normalize_named_ready_hides_zero_score():
     assert game["away_score"] is None
 
 
+def test_normalize_named_break_time_is_still_live():
+    raw = {
+        "id": 125, "gameStatus": "BREAK_TIME", "startDatetime": "2026-08-30T19:00:00",
+        "league": {"name": "EPL"},
+        "teams": {"home": {"name": "아스널", "periodData": [{"score": 1}]},
+                  "away": {"name": "리버풀", "periodData": [{"score": 0}]}},
+    }
+    game = normalize_named_game(raw, "soccer")
+    assert game["status"] == "STARTED"
+    assert game["finished"] is False
+
+
 def test_add_proto_aliases_matches_abbreviated_names_by_sport_and_date():
     named = [{
         "sport": "bs", "md": "08.30", "home": "밀워키 브루어스",
