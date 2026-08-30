@@ -712,6 +712,12 @@ def main() -> int:
     # 여기까지 왔다는 건 머신이 방금 떴다는 뜻이고, 그러면 도는 수집기는 없다.
     _clear_stale_locks()
 
+    # HTTP와 실시간 점수를 먼저 연다. LOOPERS는 각 5초씩 순차 기동하므로 서버를
+    # 뒤에 두면 정상 부팅이어도 1분 넘게 503이 난다. DB artifact의 직전 값은 이미
+    # 있으므로 서버는 즉시 응답하고 새 점수는 백그라운드에서 교체하면 된다.
+    threading.Thread(target=serve_live, daemon=True).start()
+    threading.Thread(target=run_live, daemon=True).start()
+
     for name, cmd in LOOPERS:
         threading.Thread(target=run_looper, args=(name, cmd), daemon=True).start()
         time.sleep(5)          # 동시에 몰려 나가지 않게 살짝 엇갈려 띄운다
@@ -719,10 +725,6 @@ def main() -> int:
     threading.Thread(target=run_publish, daemon=True).start()
     threading.Thread(target=run_push, daemon=True).start()
     threading.Thread(target=run_database_migration, daemon=True).start()
-    # 실시간 점수는 즉시 시작한다 — 사이트가 제일 먼저 필요로 하는 값이다
-    threading.Thread(target=run_live, daemon=True).start()
-    threading.Thread(target=serve_live, daemon=True).start()
-
     while True:                # 메인 스레드는 살아만 있으면 된다
         time.sleep(3600)
         log("생존 신호")
