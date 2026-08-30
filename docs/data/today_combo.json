@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-30T16:59:17+09:00",
+ "generated_at": "2026-08-30T17:04:23+09:00",
  "source_generated_at": "2026-08-30T04:39:23+00:00",
- "live_odds_at": "2026-08-30T07:54:41+00:00",
+ "live_odds_at": "2026-08-30T08:00:46+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 45,
- "n_primary_candidates": 45,
+ "n_candidates": 44,
+ "n_primary_candidates": 44,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-30T17:00:00+09:00",
+ "next_kickoff_at": "2026-08-30T18:00:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -784,72 +784,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-30T17:00:00+09:00|세이부|라쿠텐",
-   "kickoff_at": "2026-08-30T17:00:00+09:00",
-   "round": 102,
-   "game_no": "7762",
-   "date": "08.30(일) 17:00",
-   "sport": "bs",
-   "league": "NPB",
-   "match": "세이부 vs 라쿠텐",
-   "home": "세이부",
-   "away": "라쿠텐",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "홈",
-   "odds": 1.55,
-   "bin": "1.5-1.8",
-   "overround": 1.1354,
-   "payout": 88.08,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5775,
-   "predicted_hit_prob": 0.5775,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.155,
-   "n_way": 2,
-   "failure_prob": 0.4225,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 외부 정보로는 경기 시각 예보는 기온 23.6°C·강수확률 3%·바람 0.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260830RTSE0",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "세이부",
-     "라쿠텐"
-    ],
-    "internal": [],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 23.6°C·강수확률 3%·바람 0.5km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:22:40+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
   {
    "event_key": "2026-08-30T18:00:00+09:00|삼성|KT",
    "kickoff_at": "2026-08-30T18:00:00+09:00",
@@ -2773,5 +2707,5 @@
   }
  },
  "recommendation_revision": "63837c2dbe49cd42ffd67956813ef37888a0bff6a543dbb60c3a25e630884aaf",
- "refreshed_at": "2026-08-30T07:59:17+00:00"
+ "refreshed_at": "2026-08-30T08:04:23+00:00"
 }

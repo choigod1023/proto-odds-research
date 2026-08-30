@@ -14,7 +14,7 @@ export const NAV = [
 export function Nav({ current }) {
   return (
     <nav className="site-nav" aria-label="주요 메뉴">
-      <a className="site-brand" href="markets.html">경기·배당</a>
+      <a className="site-brand" href="markets.html">경기 분석</a>
       <div className="site-nav-links">
         {NAV.map((n) => (
           <a key={n.href} href={n.href}
