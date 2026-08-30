@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-08-30T19:47:52+09:00",
+ "generated_at": "2026-08-30T19:57:19+09:00",
  "source_generated_at": "2026-08-30T08:22:38+00:00",
- "live_odds_at": "2026-08-30T10:38:28+00:00",
+ "live_odds_at": "2026-08-30T10:52:44+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
@@ -483,49 +483,49 @@
  },
  "max_leg_odds_exclusive": 2.2,
  "solo": {
-  "event_key": "2026-08-31T02:30:00+09:00|데포아코|발렌시아",
-  "kickoff_at": "2026-08-31T02:30:00+09:00",
+  "event_key": "2026-08-31T01:30:00+09:00|나폴리|코모1907",
+  "kickoff_at": "2026-08-31T01:30:00+09:00",
   "round": 102,
-  "game_no": "7968",
-  "date": "08.31(월) 02:30",
+  "game_no": "7963",
+  "date": "08.31(월) 01:30",
   "sport": "sc",
-  "league": "라리가",
-  "match": "데포아코 vs 발렌시아",
-  "home": "데포아코",
-  "away": "발렌시아",
-  "market": "언더오버",
-  "market_label": "U 2.5",
-  "booking": "2-way",
-  "sel": "언더",
+  "league": "세리에A",
+  "match": "나폴리 vs 코모1907",
+  "home": "나폴리",
+  "away": "코모1907",
+  "market": "핸디캡",
+  "market_label": "H -1.0",
+  "booking": "3-way-핸디캡",
+  "sel": "핸디원정",
   "odds": 1.51,
   "bin": "1.5-1.8",
-  "overround": 1.1231,
-  "payout": 89.04,
-  "hist_roi": -0.1206,
-  "hist_n": 119682,
-  "market_prob": 0.6007,
-  "predicted_hit_prob": 0.6007,
+  "overround": 1.15,
+  "payout": 86.96,
+  "hist_roi": -0.0805,
+  "hist_n": 5019,
+  "market_prob": 0.6025,
+  "predicted_hit_prob": 0.6025,
   "probability_source": "shin_market_fallback",
   "has_validated_edge": false,
-  "market_gap": 0.2014,
-  "n_way": 2,
-  "failure_prob": 0.3993,
+  "market_gap": 0.3637,
+  "n_way": 3,
+  "failure_prob": 0.3975,
   "is_market_favorite": true,
   "recommendation_priority": "primary",
   "price_source": "live_odds",
   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
   "actual_odds": 1.51,
-  "independent_hit_est": 0.6007,
-  "market_reference_hit_est": 0.6007,
-  "market_reference_roi": -0.0929,
+  "independent_hit_est": 0.6025,
+  "market_reference_hit_est": 0.6025,
+  "market_reference_roi": -0.0902,
   "independence_assumption": true,
-  "hit_est": 0.6007,
-  "upset_risk": 0.3993,
-  "expected_roi": -0.0929,
-  "calibrated_hit_est": 0.6007,
-  "calibrated_expected_roi": -0.0929,
-  "conservative_hit_est": 0.6007,
-  "conservative_expected_roi": -0.0929,
+  "hit_est": 0.6025,
+  "upset_risk": 0.3975,
+  "expected_roi": -0.0902,
+  "calibrated_hit_est": 0.6025,
+  "calibrated_expected_roi": -0.0902,
+  "conservative_hit_est": 0.6025,
+  "conservative_expected_roi": -0.0902,
   "calibration_min_n": null
  },
  "plans": [
@@ -1547,30 +1547,30 @@
    "event_key": "2026-08-31T01:30:00+09:00|나폴리|코모1907",
    "kickoff_at": "2026-08-31T01:30:00+09:00",
    "round": 102,
-   "game_no": "7964",
+   "game_no": "7963",
    "date": "08.31(월) 01:30",
    "sport": "sc",
    "league": "세리에A",
    "match": "나폴리 vs 코모1907",
    "home": "나폴리",
    "away": "코모1907",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.53,
+   "market": "핸디캡",
+   "market_label": "H -1.0",
+   "booking": "3-way-핸디캡",
+   "sel": "핸디원정",
+   "odds": 1.51,
    "bin": "1.5-1.8",
-   "overround": 1.1367,
-   "payout": 87.97,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5853,
-   "predicted_hit_prob": 0.5853,
+   "overround": 1.15,
+   "payout": 86.96,
+   "hist_roi": -0.0805,
+   "hist_n": 5019,
+   "market_prob": 0.6025,
+   "predicted_hit_prob": 0.6025,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1705,
-   "n_way": 2,
-   "failure_prob": 0.4147,
+   "market_gap": 0.3637,
+   "n_way": 3,
+   "failure_prob": 0.3975,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
    "price_source": "live_odds",
@@ -2944,57 +2944,5 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
- "last_recommendation_change": {
-  "changed_at": "2026-08-30T10:32:29+00:00",
-  "reason": "live_market_pick_changed",
-  "previous_revision": "0792e69842dcb8f1bdf433e836de395a3694794c321492357e5168700b43a75c",
-  "revision": "ae327faf7b7357c7c1ea72ab691927f8c47d1e9311d5de42d4c76395ab25e259",
-  "previous": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7839|핸디캡|H +1.0|핸디홈",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|8028|핸디캡|H -1.0|핸디원정",
-      "102|7976|승①패|승①패|홈2+"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|7832|핸디캡|H +2.0|핸디홈",
-      "102|7936|핸디캡|H -2.0|핸디원정",
-      "102|7976|승①패|승①패|홈2+"
-     ]
-    }
-   ]
-  },
-  "current": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7968|언더오버|U 2.5|언더",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|8028|핸디캡|H -1.0|핸디원정",
-      "102|7976|승①패|승①패|홈2+"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|8028|핸디캡|H -1.0|핸디원정",
-      "102|7936|핸디캡|H -2.0|핸디원정",
-      "102|7976|승①패|승①패|홈2+"
-     ]
-    }
-   ]
-  }
- },
- "recommendation_revision": "ae327faf7b7357c7c1ea72ab691927f8c47d1e9311d5de42d4c76395ab25e259",
- "refreshed_at": "2026-08-30T10:47:52+00:00"
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
 }
