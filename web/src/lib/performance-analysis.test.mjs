@@ -125,6 +125,20 @@ test("축구 요약은 실제 선수와 공격 기록을 보여준다", () => {
   assert.match(result.featuredPlayers[0].detail, /8골/);
 });
 
+test("프리뷰에 양 팀 특징과 선수 역할이 함께 나온다", () => {
+  const game = withDecision({ home: "안산", away: "대구", sport: "sc",
+    options: [{ market: "승무패", 선택: "패", 모델확률: .55, 시장확률: .53 }],
+    선발: { team_profiles: {
+      home: { characteristics: ["현재 15위"], key_players: [{ name: "마촙", goals: 4, assists: 4 }] },
+      away: { characteristics: ["현재 4위"], key_players: [{ name: "세라핌", goals: 7, assists: 8 }] },
+    } } });
+  const result = performanceAnalysis(game, game.options[0]);
+  const preview = result.reasons.find((reason) => reason.startsWith("팀·선수 프리뷰 — "));
+  assert.match(preview, /안산.*마촙/);
+  assert.match(preview, /대구.*세라핌/);
+  assert.deepEqual(result.teamPreviews.map((row) => row.team), ["안산", "대구"]);
+});
+
 test("야구 요약은 선발투수 맞대결을 포함한다", () => {
   const game = withDecision({ home: "두산", away: "한화", sport: "bs",
     options: [{ market: "승패", 선택: "승", 모델확률: .51, 시장확률: .52 }],

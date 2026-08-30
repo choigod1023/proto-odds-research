@@ -1,4 +1,5 @@
 import { playerSummaryFor } from "./player-summary.js";
+import { teamPreviewsFor, teamPreviewSentence } from "./team-preview.js";
 import { buildDecisionViewModel, decisionLabel, resolveDecisionOption } from "./decision-view-model.js";
 const number = (value) => {
   if (value === null || value === undefined || (typeof value === "string" && !value.trim())) return null;
@@ -412,7 +413,7 @@ function expectedFlowSentence(game, prediction) {
   return `${particle(side, ["이", "가"])} ${particle(basis, ["을", "를"])} 바탕으로 주도권을 조금 더 오래 가져갈 가능성을 높게 봤다.${caveat}`;
 }
 
-function performanceReasons(game, prediction, players) {
+function performanceReasons(game, prediction, players, teamPreviews) {
   const reasons = [];
   const recent = [formSentence(game?.home, game?.form_home), formSentence(game?.away, game?.form_away)].filter(Boolean);
   if (recent.length) reasons.push(`최근 분위기 — ${recent.join(". ")}.`);
@@ -424,15 +425,18 @@ function performanceReasons(game, prediction, players) {
   if (season) reasons.push(`시즌 위치 — ${season}`);
   const player = playerSentence(players);
   if (player) reasons.push(`선수 변수 — ${player}`);
+  const teamPreview = teamPreviewSentence(teamPreviews);
+  if (teamPreview) reasons.push(`팀·선수 프리뷰 — ${teamPreview}`);
   reasons.push(`판정 시나리오 — ${expectedFlowSentence(game, prediction)}`);
-  return [...new Set(reasons)].slice(0, 6);
+  return [...new Set(reasons)].slice(0, 8);
 }
 
 export function performanceAnalysis(game, recommended = null, commentary = "") {
   const prediction = predictionFor(game, recommended);
   const signalSummary = signalSummaryFor(game, prediction);
   const players = playerSnapshot(game);
-  const reasons = performanceReasons(game, prediction, players);
+  const teamPreviews = teamPreviewsFor(game);
+  const reasons = performanceReasons(game, prediction, players, teamPreviews);
   const announced = game?.["선발"]?.lineup_status?.state === "announced"
     || (game?.sport === "bs" && game?.["선발"]?.home);
   const opposingSignals = (signalSummary?.signals || [])
@@ -449,6 +453,7 @@ export function performanceAnalysis(game, recommended = null, commentary = "") {
     reasons,
     commentary: String(commentary || "").trim(),
     ...players,
+    teamPreviews,
     cautions: [...new Set(cautions)],
   };
 }

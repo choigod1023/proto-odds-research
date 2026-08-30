@@ -50,6 +50,34 @@ function ScoreForecast({ forecast }) {
   );
 }
 
+function TeamPreview({ previews }) {
+  if (!previews?.some((preview) => preview.characteristics.length || preview.players.length)) return null;
+  return <div className="mt-3">
+    <h4 className="mb-2 text-[11px] font-semibold tracking-[.04em] text-ink3">팀·핵심 선수 프리뷰</h4>
+    <div className="grid gap-2 sm:grid-cols-2">
+      {previews.map((preview) => <article key={preview.side} className="rounded-md border border-rule2 bg-paper px-3 py-2.5">
+        <div className="flex items-center justify-between gap-2">
+          <b className="text-[12px] text-ink">{preview.team}</b>
+          <span className="text-[9.5px] text-ink3">{preview.side === "home" ? "홈" : "원정"}</span>
+        </div>
+        {!!preview.characteristics.length && <ul className="mt-1.5 space-y-1 text-[10.5px] leading-4 text-ink2">
+          {preview.characteristics.slice(0, 3).map((trait) => <li key={trait}>· {trait}</li>)}
+        </ul>}
+        {!!preview.players.length && <div className="mt-2 border-t border-rule2 pt-2">
+          {preview.players.map((player) => <div key={player.name} className="mb-1.5 last:mb-0">
+            <div className="flex flex-wrap items-baseline gap-1 text-[10.5px]"><b className="text-ink">{player.name}</b><span className="text-ink3">{player.characteristic}</span></div>
+            {!!player.facts.length && <p className="tnum mt-0.5 text-[9.5px] text-ink3">{player.facts.join(" · ")}</p>}
+          </div>)}
+        </div>}
+        {!!preview.unavailable.length && <p className="mt-2 border-t border-rule2 pt-1.5 text-[9.5px] leading-4 text-ink3">
+          출전 변수 · {preview.unavailable.map((player) => `${player.name}${player.status ? `(${player.status})` : ""}`).join(" · ")}
+        </p>}
+      </article>)}
+    </div>
+    <p className="mt-1.5 text-[9.5px] text-ink3">공식 시즌 기록과 최근 흐름을 요약한 설명이며, 검증 전에는 추천 확률을 직접 바꾸지 않습니다.</p>
+  </div>;
+}
+
 export default function PredictionPanel({ analysis, scoreForecast }) {
   if (!analysis) return null;
   const { prediction, reasons, cautions, signalSummary, decision, commentary } = analysis;
@@ -99,6 +127,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
         <p>{commentary}</p>
         <small>수집된 사실을 바꾸지 않고 LLM이 문장만 다듬었습니다.</small>
       </div>}
+      <TeamPreview previews={analysis.teamPreviews} />
       <ScoreForecast forecast={scoreForecast} />
       {!!cautions?.length && <div className="prediction-caution"><b>반대 근거·변수</b><span>{cautions.join(" ")}</span></div>}
       <footer>예상 적중확률은 검증된 보정만 반영하며, 보정이 없으면 시장 기준선으로 복귀합니다. 구매 판단은 직접 합니다.</footer>
