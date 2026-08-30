@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-31T05:02:27+09:00",
+ "generated_at": "2026-08-31T05:35:42+09:00",
  "source_generated_at": "2026-08-30T18:09:30+00:00",
- "live_odds_at": "2026-08-30T19:56:37+00:00",
+ "live_odds_at": "2026-08-30T20:27:37+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 5,
- "n_primary_candidates": 5,
+ "n_candidates": 2,
+ "n_primary_candidates": 2,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-31T05:05:00+09:00",
+ "next_kickoff_at": "2026-08-31T08:00:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -483,20 +483,20 @@
  },
  "max_leg_odds_exclusive": 2.2,
  "solo": {
-  "event_key": "2026-08-31T05:05:00+09:00|애슬레틱|볼티오리",
-  "kickoff_at": "2026-08-31T05:05:00+09:00",
+  "event_key": "2026-08-31T08:00:00+09:00|세인시티|FC댈러스",
+  "kickoff_at": "2026-08-31T08:00:00+09:00",
   "round": 102,
-  "game_no": "8044",
-  "date": "08.31(월) 05:05",
-  "sport": "bs",
-  "league": "MLB",
-  "match": "애슬레틱 vs 볼티오리",
-  "home": "애슬레틱",
-  "away": "볼티오리",
-  "market": "승패",
-  "market_label": "",
+  "game_no": "8056",
+  "date": "08.31(월) 08:00",
+  "sport": "sc",
+  "league": "MLS",
+  "match": "세인시티 vs FC댈러스",
+  "home": "세인시티",
+  "away": "FC댈러스",
+  "market": "언더오버",
+  "market_label": "U 2.5",
   "booking": "2-way",
-  "sel": "원정",
+  "sel": "오버",
   "odds": 1.5,
   "bin": "1.5-1.8",
   "overround": 1.1361,
@@ -576,149 +576,6 @@
   "why": "현재 선택 가능한 경기로 구성할 조합이 없다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-31T05:05:00+09:00|애슬레틱|볼티오리",
-   "kickoff_at": "2026-08-31T05:05:00+09:00",
-   "round": 102,
-   "game_no": "8044",
-   "date": "08.31(월) 05:05",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "애슬레틱 vs 볼티오리",
-   "home": "애슬레틱",
-   "away": "볼티오리",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "원정",
-   "odds": 1.5,
-   "bin": "1.5-1.8",
-   "overround": 1.1361,
-   "payout": 88.02,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5986,
-   "predicted_hit_prob": 0.5986,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.1972,
-   "n_way": 2,
-   "failure_prob": 0.4014,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-31T05:07:00+09:00|LA에인절|필라필리",
-   "kickoff_at": "2026-08-31T05:07:00+09:00",
-   "round": 102,
-   "game_no": "8052",
-   "date": "08.31(월) 05:07",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "LA에인절 vs 필라필리",
-   "home": "LA에인절",
-   "away": "필라필리",
-   "market": "언더오버",
-   "market_label": "U 8.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.63,
-   "bin": "1.5-1.8",
-   "overround": 1.1371,
-   "payout": 87.95,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.545,
-   "predicted_hit_prob": 0.545,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0899,
-   "n_way": 2,
-   "failure_prob": 0.455,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 LA에인절 기쿠치 유세이, 필라필리 잭 휠러다. 경기 외부 정보로는 경기 시각 예보는 기온 33.0°C·강수확률 1%·바람 4.0km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260831PHAN0",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "LA에인절",
-     "필라필리",
-     "기쿠치 유세이",
-     "잭 휠러"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 LA에인절 기쿠치 유세이, 필라필리 잭 휠러다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 33.0°C·강수확률 1%·바람 4.0km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:22:54+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-31T05:30:00+09:00|콜럼크루|뉴잉레벌",
-   "kickoff_at": "2026-08-31T05:30:00+09:00",
-   "round": 102,
-   "game_no": "7688",
-   "date": "08.31(월) 05:30",
-   "sport": "sc",
-   "league": "MLS",
-   "match": "콜럼크루 vs 뉴잉레벌",
-   "home": "콜럼크루",
-   "away": "뉴잉레벌",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "오버",
-   "odds": 1.53,
-   "bin": "1.5-1.8",
-   "overround": 1.1367,
-   "payout": 87.97,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5853,
-   "predicted_hit_prob": 0.5853,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.1705,
-   "n_way": 2,
-   "failure_prob": 0.4147,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
   {
    "event_key": "2026-08-31T08:00:00+09:00|세인시티|FC댈러스",
    "kickoff_at": "2026-08-31T08:00:00+09:00",
@@ -946,39 +803,23 @@
  ],
  "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
  "last_recommendation_change": {
-  "changed_at": "2026-08-30T18:14:21+00:00",
-  "reason": "recommendation_status_changed",
-  "previous_revision": null,
-  "revision": "3fd3ecad3f15e2c9641c8a5c4abff8f3c86243de1ff8fc1ad41d79feea0b2cec",
+  "changed_at": "2026-08-30T20:07:34+00:00",
+  "reason": "live_market_pick_changed",
+  "previous_revision": "3fd3ecad3f15e2c9641c8a5c4abff8f3c86243de1ff8fc1ad41d79feea0b2cec",
+  "revision": "fcfde53d6a384e6fff49e87c4cb418f857517ff92be39aeabc73fdacdade4b09",
   "previous": {
-   "action": "pass",
-   "recommended_target": 3,
-   "solo": "102|8044|승패||원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|8008|승패||홈",
-      "102|8018|승패||원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|8038|언더오버|U 8.5|오버",
-      "102|8016|언더오버|U 8.5|언더",
-      "102|8008|승패||홈"
-     ]
-    }
-   ]
-  },
-  "current": {
    "action": "none",
    "recommended_target": null,
    "solo": "102|8044|승패||원정",
    "plans": []
+  },
+  "current": {
+   "action": "none",
+   "recommended_target": null,
+   "solo": "102|8056|언더오버|U 2.5|오버",
+   "plans": []
   }
  },
- "recommendation_revision": "3fd3ecad3f15e2c9641c8a5c4abff8f3c86243de1ff8fc1ad41d79feea0b2cec",
- "refreshed_at": "2026-08-30T20:02:27+00:00"
+ "recommendation_revision": "fcfde53d6a384e6fff49e87c4cb418f857517ff92be39aeabc73fdacdade4b09",
+ "refreshed_at": "2026-08-30T20:35:42+00:00"
 }
