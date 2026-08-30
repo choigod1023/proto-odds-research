@@ -30,6 +30,13 @@ export function slipRows(games, liveOdds) {
       liveOdds?.generated_at || null,
       liveOdds?.markets?.[String(game.round)],
     );
+    const recommended = current["추천"] || game["추천"] || null;
+    const isRecommended = (option) => !!recommended && (
+      (recommended.selection_id && option.selection_id === recommended.selection_id) ||
+      (recommended["게임번호"] && String(option["게임번호"]) === String(recommended["게임번호"]) &&
+        option.market === recommended.market && (option.label || "") === (recommended.label || "") &&
+        option["선택"] === recommended["선택"])
+    );
     (current.options || []).forEach((option) => {
       const number = String(option["게임번호"] || "").trim();
       if (!number) return;
@@ -41,6 +48,7 @@ export function slipRows(games, liveOdds) {
       });
       groups.get(key).selectionsByName.set(option["선택"], {
         name: option["선택"], value: Number(option["배당"]), live: option._live === true,
+        recommended: isRecommended(option),
       });
     });
   });
