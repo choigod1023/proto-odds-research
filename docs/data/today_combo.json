@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-08-31T08:09:35+09:00",
+ "generated_at": "2026-08-31T08:13:54+09:00",
  "source_generated_at": "2026-08-30T23:02:14+00:00",
- "live_odds_at": "2026-08-30T23:06:32+00:00",
+ "live_odds_at": "2026-08-30T23:13:39+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
@@ -512,52 +512,8 @@
   "failure_prob": 0.4225,
   "is_market_favorite": true,
   "recommendation_priority": "primary",
-  "price_source": "published_snapshot",
+  "price_source": "live_odds",
   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-  "context_summary": "경기 내부 정보로는 선발 예고는 시카컵스 이마나가 쇼타, 신시레즈 체이스 번스다. 경기 외부 정보로는 경기 시각 예보는 기온 30.1°C·강수확률 12%·바람 5.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-  "commentary_method": "template_run_budget",
-  "evidence": {
-   "source_game_id": "20260831CICC0",
-   "observed_at": "2026-08-29T02:23:00+00:00",
-   "asof_ok": true,
-   "coefficient_status": "not_fitted",
-   "coefficient_gate": [
-    "walk-forward out-of-sample",
-    "Brier와 log-loss 모두 시장 기준 개선",
-    "calibration slope/intercept 악화 없음",
-    "리그별 방향 안정성"
-   ],
-   "protected_entities": [
-    "시카컵스",
-    "신시레즈",
-    "이마나가 쇼타",
-    "체이스 번스"
-   ],
-   "internal": [
-    {
-     "kind": "starter",
-     "text": "선발 예고는 시카컵스 이마나가 쇼타, 신시레즈 체이스 번스다.",
-     "source": "네이버 스포츠 공개 경기정보",
-     "observed_at": "2026-08-29T02:23:00+00:00",
-     "status": "observed"
-    }
-   ],
-   "external": [
-    {
-     "kind": "weather",
-     "text": "경기 시각 예보는 기온 30.1°C·강수확률 12%·바람 5.5km/h다.",
-     "source": "Open-Meteo",
-     "observed_at": "2026-08-29T10:23:10+00:00",
-     "status": "observed"
-    }
-   ],
-   "crowd": [],
-   "limitations": [
-    "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-    "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-    "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-   ]
-  },
   "actual_odds": 1.55,
   "independent_hit_est": 0.5775,
   "market_reference_hit_est": 0.5775,
@@ -650,52 +606,8 @@
    "failure_prob": 0.4225,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
-   "price_source": "published_snapshot",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 시카컵스 이마나가 쇼타, 신시레즈 체이스 번스다. 경기 외부 정보로는 경기 시각 예보는 기온 30.1°C·강수확률 12%·바람 5.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260831CICC0",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "시카컵스",
-     "신시레즈",
-     "이마나가 쇼타",
-     "체이스 번스"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 시카컵스 이마나가 쇼타, 신시레즈 체이스 번스다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 30.1°C·강수확률 12%·바람 5.5km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:10+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
+   "price_source": "live_odds",
+   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
   }
  ],
  "odds_bins": [
@@ -812,5 +724,25 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-30T23:13:54+00:00",
+  "reason": "prices_recalculated",
+  "previous_revision": null,
+  "revision": "d9e7b33457fd2bd17562dd00a2ace493a259fed907b7b96515cbf4c870939959",
+  "previous": {
+   "action": "none",
+   "recommended_target": null,
+   "solo": "102|8058|승패||홈",
+   "plans": []
+  },
+  "current": {
+   "action": "none",
+   "recommended_target": null,
+   "solo": "102|8058|승패||홈",
+   "plans": []
+  }
+ },
+ "recommendation_revision": "d9e7b33457fd2bd17562dd00a2ace493a259fed907b7b96515cbf4c870939959",
+ "refreshed_at": "2026-08-30T23:13:54+00:00"
 }
