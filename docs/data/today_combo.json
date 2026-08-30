@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-31T04:26:25+09:00",
+ "generated_at": "2026-08-31T05:02:27+09:00",
  "source_generated_at": "2026-08-30T18:09:30+00:00",
- "live_odds_at": "2026-08-30T19:17:48+00:00",
+ "live_odds_at": "2026-08-30T19:56:37+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 6,
- "n_primary_candidates": 6,
+ "n_candidates": 5,
+ "n_primary_candidates": 5,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-31T04:30:00+09:00",
+ "next_kickoff_at": "2026-08-31T05:05:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -577,39 +577,6 @@
  },
  "candidates": [
   {
-   "event_key": "2026-08-31T04:30:00+09:00|셀타비고|A빌바오",
-   "kickoff_at": "2026-08-31T04:30:00+09:00",
-   "round": 102,
-   "game_no": "8042",
-   "date": "08.31(월) 04:30",
-   "sport": "sc",
-   "league": "라리가",
-   "match": "셀타비고 vs A빌바오",
-   "home": "셀타비고",
-   "away": "A빌바오",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.6,
-   "bin": "1.5-1.8",
-   "overround": 1.1225,
-   "payout": 89.09,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5637,
-   "predicted_hit_prob": 0.5637,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.1275,
-   "n_way": 2,
-   "failure_prob": 0.4363,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
    "event_key": "2026-08-31T05:05:00+09:00|애슬레틱|볼티오리",
    "kickoff_at": "2026-08-31T05:05:00+09:00",
    "round": 102,
@@ -1013,5 +980,5 @@
   }
  },
  "recommendation_revision": "3fd3ecad3f15e2c9641c8a5c4abff8f3c86243de1ff8fc1ad41d79feea0b2cec",
- "refreshed_at": "2026-08-30T19:26:25+00:00"
+ "refreshed_at": "2026-08-30T20:02:27+00:00"
 }
