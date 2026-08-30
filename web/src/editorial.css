@@ -284,6 +284,17 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .bet-record-button:disabled { cursor: not-allowed; opacity: .35; }
 .bet-dialog-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(15, 14, 12, .55); backdrop-filter: blur(3px); }
 .bet-dialog { width: min(430px, 100%); border: 1px solid var(--color-ink); border-radius: 12px; padding: 20px; background: var(--color-paper); box-shadow: 0 18px 60px rgba(0,0,0,.22); }
+.dashboard-ocr { margin: 14px 0; }
+.dashboard-ocr-panel { margin-top: 10px; padding: 16px; border: 1px solid var(--color-rule); border-radius: 10px; background: var(--color-panel); }
+.dashboard-ocr-panel > p { color: var(--color-ink2); font-size: 13px; }
+.ocr-draft { margin: 12px 0; padding: 12px; border: 1px solid var(--color-rule2); border-radius: 8px; }
+.ocr-draft header { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; }
+.ocr-fields { display: grid; grid-template-columns: repeat(3, minmax(110px, 1fr)); gap: 8px; margin-top: 10px; }
+.ocr-fields label { color: var(--color-ink2); font-size: 11px; }
+.ocr-fields input, .ocr-fields select { display: block; width: 100%; margin-top: 3px; padding: 7px; border: 1px solid var(--color-rule); border-radius: 5px; background: var(--color-paper); }
+.ocr-match { color: var(--color-signal) !important; }
+.ocr-warning { color: var(--color-sev3) !important; }
+@media (max-width: 640px) { .ocr-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .bet-dialog small { color: var(--color-ink3); font-size: 10px; }
 .bet-dialog h2 { margin: 3px 0 14px; font-size: 18px; }
 .bet-dialog p { margin: 0 0 16px; border: 1px solid var(--color-rule2); border-radius: 7px; padding: 10px; background: var(--color-panel); font-size: 13px; }

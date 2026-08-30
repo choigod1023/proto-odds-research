@@ -6,12 +6,26 @@
 from __future__ import annotations
 
 import math
+import json
+from pathlib import Path
 
 INTERNAL_MODEL_WEIGHT = 0.70
 MARKET_ANCHOR_WEIGHT = 0.30
 MAX_PLAYER_DELTA = 0.10
 SUPPORTED_LEAGUES = frozenset({"MLB", "KBO", "NPB"})
 OPERATING_VERSION = "internal-context-blend-v2"
+VALIDATION_PATH = Path(__file__).resolve().parent.parent / "data" / "raw" / "internal_factor_validation.json"
+
+
+def league_is_promoted(league: str, path: Path = VALIDATION_PATH) -> bool:
+    try:
+        artifact = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    if artifact.get("schema") != "internal-factor-rolling-validation-v1":
+        return False
+    row = (artifact.get("leagues") or {}).get(str(league).upper()) or {}
+    return row.get("status") == "promoted" and int(row.get("future_sample") or 0) >= 300
 
 
 def _number(value: object) -> float | None:
@@ -69,6 +83,8 @@ def activation_reason(game: dict, option: dict) -> str | None:
     info = game.get("선발") if isinstance(game.get("선발"), dict) else {}
     if not info.get("source") or not info.get("updated_at"):
         return "player_provenance_missing"
+    if not info.get("first_seen_at") or not info.get("revision_id"):
+        return "player_first_seen_revision_missing"
     home, _ = _pitcher_value(info.get("home_detail"))
     away, _ = _pitcher_value(info.get("away_detail"))
     if home is None or away is None:
@@ -143,6 +159,14 @@ def internal_probability(game: dict, option: dict) -> dict:
     player_delta, factors = baseball_player_delta(game, option)
     internal = _clip(model + player_delta, 0.02, 0.98)
     final = _clip(INTERNAL_MODEL_WEIGHT * internal + MARKET_ANCHOR_WEIGHT * market, 0.02, 0.98)
+    if not league_is_promoted(str(game.get("league") or "")):
+        return {
+            "final": round(market, 4), "internal": round(internal, 4),
+            "market": round(market, 4), "player_delta": round(player_delta, 4),
+            "basis": "shin_market", "status": "shadow_only",
+            "reason": "league_future_validation_not_promoted", "factors": factors,
+            "shadow_final": round(final, 4),
+        }
     return {
         "final": round(final, 4), "internal": round(internal, 4),
         "market": round(market, 4), "player_delta": round(player_delta, 4),

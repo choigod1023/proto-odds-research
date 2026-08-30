@@ -267,6 +267,41 @@ def annotate_options(
             if is_upset else None
         )
 
+    # 배타 선택지는 독립 확률처럼 끝내지 않는다. 선수/잔차 보정 뒤 동일
+    # event/market/line의 확률질량을 한 번에 재정규화하고 그 양을 남긴다.
+    probability_audit: list[dict] = []
+    groups: dict[tuple, list[dict]] = {}
+    for option in game.get("options", []):
+        key = (
+            option.get("market"), option.get("label"), option.get("line"),
+            option.get("게임번호"),
+        )
+        groups.setdefault(key, []).append(option)
+    for key, options in groups.items():
+        raw = [_number(option.get("최종확률")) for option in options]
+        if (len(options) < 2 or not any(option.get("AI반영") for option in options)
+                or any(value is None or value <= 0.0 for value in raw)):
+            continue
+        before = sum(raw)
+        if before <= 0.0:
+            continue
+        normalized = [value / before for value in raw]
+        # 마지막 항목에 부동소수 잔차를 귀속해 합계 계약을 정확히 지킨다.
+        rounded = [round(value, 6) for value in normalized[:-1]]
+        rounded.append(round(1.0 - sum(rounded), 6))
+        audit = {
+            "market": key[0], "label": key[1], "line": key[2],
+            "game_no": key[3], "selection_count": len(options),
+            "sum_before": round(before, 6), "sum_after": round(sum(rounded), 6),
+            "normalization_l1": round(sum(abs(a - b) for a, b in zip(raw, rounded)), 6),
+            "method": "exclusive_market_proportional_v1",
+        }
+        probability_audit.append(audit)
+        for option, value, original in zip(options, rounded, raw):
+            option["정규화전확률"] = round(original, 6)
+            option["최종확률"] = value
+            option["확률정합성"] = audit
+
     game["probability_pipeline"] = {
         "status": (
             "operational" if "promoted" in pipeline_statuses
@@ -276,6 +311,7 @@ def annotate_options(
             else "market_baseline"
         ),
         "artifact_hash": digest,
+        "market_probability_audit": probability_audit,
         "allowlisted": bool(digest and digest in PROMOTED_ARTIFACT_HASHES),
         "affects_probability": "promoted" in pipeline_statuses,
         "reason": (
@@ -459,7 +495,10 @@ def _evidence(
     evidence.append({
         "id": "lineup",
         "available": has_lineup,
-        "observed_at": info.get("updated_at"),
+        "observed_at": info.get("first_seen_at") or info.get("updated_at"),
+        "source_published_at": info.get("source_published_at"),
+        "collected_at": info.get("collected_at"),
+        "revision_id": info.get("revision_id"),
         **_all_usage(
             market="ignored",
             residual="used" if has_lineup and internal_applied else "context_only" if has_lineup else "missing",
@@ -475,7 +514,7 @@ def _evidence(
     evidence.append({
         "id": "availability",
         "available": has_availability,
-        "observed_at": info.get("updated_at"),
+        "observed_at": info.get("first_seen_at") or info.get("updated_at"),
         **_all_usage(
             market="ignored",
             residual="used" if has_availability and internal_applied else "context_only" if has_availability else "missing",
