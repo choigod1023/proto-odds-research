@@ -39,6 +39,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+from runtime_db import RuntimeDatabase, database_enabled
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "raw" / "fotmob_xg.jsonl"
@@ -209,13 +210,19 @@ def _collect(league: str, season: str | None, limit: int | None) -> int:
         print(f"일정 실패: {type(e).__name__}: {e}")
         return 1
 
-    have = set()
-    if OUT.exists():
+    db = RuntimeDatabase() if database_enabled() else None
+    if db:
+        existing = db.events("fotmob_xg")
+    elif OUT.exists():
+        existing = []
         for ln in OUT.read_text(encoding="utf-8").splitlines():
             try:
-                have.add(json.loads(ln)["match_id"])
-            except (json.JSONDecodeError, KeyError):
+                existing.append(json.loads(ln))
+            except json.JSONDecodeError:
                 pass
+    else:
+        existing = []
+    have = {str(row["match_id"]) for row in existing if row.get("match_id")}
 
     todo = [f for f in fx if f["id"] not in have]
     if limit:
@@ -229,7 +236,8 @@ def _collect(league: str, season: str | None, limit: int | None) -> int:
     #   noxg  — 그 경기에 xG 가 아예 없는 것(중계 데이터 미비). 정상이며 중단 사유가
     #           아니다. 둘을 섞어 세면 멀쩡한 수집을 스스로 끊는다.
     ok = fail = noxg = 0
-    with OUT.open("a", encoding="utf-8") as fh:
+    fh = None if db else OUT.open("a", encoding="utf-8")
+    try:
         for i, f in enumerate(todo, 1):
             try:
                 rec = parse_match(_get(s, BASE + f["url"]))
@@ -246,11 +254,19 @@ def _collect(league: str, season: str | None, limit: int | None) -> int:
                 continue
             rec["league"] = league
             rec["fetched_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
-            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            fh.flush()
+            if db:
+                db.append_events("fotmob_xg", [rec], identity_keys=("match_id",))
+            else:
+                fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+                fh.flush()
             ok += 1
             if ok % 20 == 0:
                 print(f"  [{i}/{len(todo)}] 적재 {ok} · xG없음 {noxg} · 실패 {fail}", flush=True)
+    finally:
+        if fh:
+            fh.close()
+    if db:
+        db.export_events("fotmob_xg", OUT)
 
     cov = ok / max(ok + noxg, 1)
     print(f"\n적재 {ok} · xG없음 {noxg} (커버리지 {cov:.0%}) · 실패 {fail}  →  {OUT}")

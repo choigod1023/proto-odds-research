@@ -243,6 +243,12 @@ def normalize_game(game: dict, league: str, preview: dict | None,
 
 
 def _state() -> dict:
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        saved = RuntimeDatabase().get_document("baseball_context_state")
+        if saved is not None:
+            saved.setdefault("games", {})
+            return saved
     if not STATE.exists():
         return {"games": {}}
     try:
@@ -254,6 +260,13 @@ def _state() -> dict:
 
 
 def _save(state: dict) -> None:
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.put_document("baseball_context_state", state,
+                        generated_at=state.get("last_success_at"))
+        db.export_document("baseball_context_state", STATE, indent=None)
+        return
     STATE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE.with_suffix(".tmp")
     tmp.write_text(json.dumps(state, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -263,6 +276,12 @@ def _save(state: dict) -> None:
 def _append(rows: list[dict]) -> int:
     if not rows:
         return 0
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        db = RuntimeDatabase()
+        inserted = db.append_events("baseball_context_events", rows)
+        db.export_events("baseball_context_events", LOG)
+        return inserted
     LOG.parent.mkdir(parents=True, exist_ok=True)
     with LOG.open("a", encoding="utf-8") as f:
         for row in rows:

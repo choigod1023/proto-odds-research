@@ -44,6 +44,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+from runtime_db import RuntimeDatabase, database_enabled
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "info_watch"
 LOG = OUT / "starter_announcements.csv"
@@ -74,18 +75,32 @@ def _session() -> requests.Session:
 
 
 def _load_state() -> dict:
+    if database_enabled():
+        stored = RuntimeDatabase().get_document("info_watch_state")
+        if stored is not None:
+            return stored
     if STATE.exists():
         return json.loads(STATE.read_text(encoding="utf-8"))
     return {}
 
 
 def _save_state(st: dict) -> None:
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.put_document("info_watch_state", st)
+        db.export_document("info_watch_state", STATE, indent=None)
+        return
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(st, ensure_ascii=False), encoding="utf-8")
 
 
 def _append(rows: list[dict]) -> None:
     if not rows:
+        return
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.append_events("starter_announcements", rows)
+        db.export_events_csv("starter_announcements", LOG, FIELDS)
         return
     new = not LOG.exists()
     LOG.parent.mkdir(parents=True, exist_ok=True)
@@ -99,6 +114,11 @@ def _append(rows: list[dict]) -> None:
 def _append_changes(rows: list[dict]) -> None:
     """선발 교체는 기존 CSV 스키마를 깨지 않도록 별도 append-only 로그에 둔다."""
     if not rows:
+        return
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.append_events("starter_changes", rows)
+        db.export_events("starter_changes", CHANGE_LOG)
         return
     CHANGE_LOG.parent.mkdir(parents=True, exist_ok=True)
     with CHANGE_LOG.open("a", encoding="utf-8") as f:

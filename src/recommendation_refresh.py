@@ -13,6 +13,7 @@ SRC = Path(__file__).resolve().parent
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 import today_combo
+from runtime_db import RuntimeDatabase, database_enabled
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "today_combo.json"
@@ -58,10 +59,13 @@ def _atomic_json(path: Path, payload: dict) -> None:
 
 
 def refresh() -> dict:
-    try:
-        previous = json.loads(OUT.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        previous = None
+    db = RuntimeDatabase() if database_enabled() else None
+    previous = db.get_document("today_combo") if db else None
+    if previous is None:
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            previous = None
     payload = today_combo.build()
     signature = recommendation_signature(payload)
     digest = hashlib.sha256(json.dumps(signature, sort_keys=True).encode()).hexdigest()
@@ -73,15 +77,24 @@ def refresh() -> dict:
                   "previous_revision": old_digest, "revision": digest,
                   "previous": recommendation_signature(previous) if previous else None,
                   "current": signature}
-        LEDGER.parent.mkdir(parents=True, exist_ok=True)
-        with LEDGER.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(change, ensure_ascii=False) + "\n")
+        if db:
+            db.append_events("recommendation_revisions", [change],
+                             observed_at_key="changed_at")
+            db.export_events("recommendation_revisions", LEDGER)
+        else:
+            LEDGER.parent.mkdir(parents=True, exist_ok=True)
+            with LEDGER.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(change, ensure_ascii=False) + "\n")
         payload["last_recommendation_change"] = change
     else:
         payload["last_recommendation_change"] = (previous or {}).get("last_recommendation_change")
     payload["recommendation_revision"] = digest
     payload["refreshed_at"] = now
-    _atomic_json(OUT, payload)
+    if db:
+        db.put_document("today_combo", payload, generated_at=now)
+        db.export_document("today_combo", OUT)
+    else:
+        _atomic_json(OUT, payload)
     return {"changed": changed, "revision": digest, "n_candidates": payload["n_candidates"]}
 
 

@@ -68,3 +68,48 @@ def test_prediction_ledger_restores_jsonl_from_database(tmp_path, monkeypatch):
     export = tmp_path / "pregame.jsonl"
     PredictionLedger(export)
     assert json.loads(export.read_text(encoding="utf-8")) == record
+
+
+def test_documents_are_revisioned_and_exported_from_database(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    payload = {"generated_at": "2026-08-30T01:00:00Z", "games": [{"id": 1}]}
+    assert db.put_document("player_info", payload) == 1
+    assert db.put_document("player_info", payload) == 1
+    changed = {**payload, "games": [{"id": 1}, {"id": 2}]}
+    assert db.put_document("player_info", changed) == 2
+    assert db.get_document("player_info") == changed
+    assert db.document_metadata("player_info")["revision"] == 2
+
+    export = tmp_path / "player_info.json"
+    db.export_document("player_info", export)
+    assert json.loads(export.read_text(encoding="utf-8")) == changed
+
+
+def test_event_stream_is_idempotent_and_rebuilds_jsonl(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    rows = [
+        {"observed_at": "2026-08-30T01:00:00Z", "event_id": "a", "value": 1},
+        {"observed_at": "2026-08-30T02:00:00Z", "event_id": "b", "value": 2},
+    ]
+    assert db.append_events(
+        "weather", rows, identity_keys=("observed_at", "event_id")) == 2
+    assert db.append_events(
+        "weather", rows, identity_keys=("observed_at", "event_id")) == 0
+    assert db.events("weather", through="2026-08-30T01:30:00Z") == rows[:1]
+
+    export = tmp_path / "weather.jsonl"
+    db.export_events("weather", export)
+    assert [json.loads(line) for line in export.read_text().splitlines()] == rows
+
+
+def test_dataset_csv_round_trip(tmp_path):
+    source = tmp_path / "source.csv"
+    source.write_text("a,b\n1,한글\n2,x\n", encoding="utf-8")
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+
+    assert db.replace_dataset_csv("sample", source) == 1
+    assert db.replace_dataset_csv("sample", source) == 1
+    target = tmp_path / "export.csv"
+    db.export_dataset_csv("sample", target)
+
+    assert target.read_text(encoding="utf-8") == source.read_text(encoding="utf-8")

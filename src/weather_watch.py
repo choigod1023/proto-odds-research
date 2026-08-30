@@ -115,7 +115,7 @@ def poll(league: str, team: str | None = None, *, session=None, output: Path = O
         except Exception as exc:  # noqa: BLE001 - 한 경기장 실패가 전체 수집을 죽이면 안 된다
             print(f"  [{venue['team']}] {type(exc).__name__}: {exc}", flush=True)
         time.sleep(0.15)
-    n = append_jsonl(output, rows)
+    n = append_jsonl(output, rows, stream="weather_forecasts")
     stamp = utc_now().astimezone(timezone.utc).isoformat(timespec="seconds")
     print(f"[{stamp}] 무료 날씨 {n}/{len(venues)}개 경기장 기록", flush=True)
     return n
