@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
+import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
@@ -212,6 +213,7 @@ const STATUS = [
 ];
 
 function GameList({ data, grades, caps, stale }) {
+  const [betDraft, setBetDraft] = useState(null);
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
   //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
@@ -307,7 +309,7 @@ function GameList({ data, grades, caps, stale }) {
     }
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait}
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
-      year={data.year} />);
+      year={data.year} onSaveBet={(game, option) => setBetDraft({ game, option })} />);
   }
 
     const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
@@ -389,6 +391,7 @@ function GameList({ data, grades, caps, stale }) {
           </Empty>
         )}
       </div>
+      {betDraft && <BetSaveDialog draft={betDraft} onClose={() => setBetDraft(null)} />}
     </>
   );
 }
@@ -422,7 +425,7 @@ function BaseballSituation({ live }) {
   );
 }
 
-function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
+function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -587,13 +590,14 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year }) {
           decision={predictionUnavailable ? null : decision}
           opts={opts} grades={grades} tie={tie} pick={pick}
           recalculating={g._liveOddsChanged === true} showPrices={!wait}
+          onSaveBet={onSaveBet}
           />
       </div>
     </Card>
   );
 }
 
-function OptTable({ g, opts, grades, tie, pick, recalculating = false }) {
+function OptTable({ g, opts, grades, tie, pick, recalculating = false, onSaveBet }) {
   const th = "border-b border-rule2 pb-[5px] pr-2 text-left text-[11px] font-medium text-ink3";
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
@@ -611,6 +615,7 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false }) {
         <th scope="col" className={`${th} model-col text-right`}>구조 AI</th>
         <th scope="col" className={`${th} model-col text-right`}>시장과 차이</th>
         <th scope="col" className={th}>판정</th>
+        <th scope="col" className={`${th} text-right`}>내 베팅</th>
       </tr></thead>
       <tbody>
         {opts.map((o, k) => {
@@ -651,6 +656,10 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false }) {
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
                 {!recalculating && (!pick || (!pick.tie && pick.o !== o)) && (
                   <span className="text-ink3">{o["모델확률"] == null ? "시장 참고" : "비추천"}</span>)}
+              </td>
+              <td className={`${td} text-right`}>
+                <button type="button" className="bet-record-button" disabled={recalculating}
+                  onClick={() => onSaveBet?.(g, o)}>베팅 기록</button>
               </td>
             </tr>
           );
@@ -1093,7 +1102,7 @@ function ContextEvidence({ g, pick }) {
 }
 
 function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
-  recalculating = false, showPrices = false }) {
+  recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
   if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
@@ -1149,7 +1158,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
           <ContextEvidence g={g} pick={pick} />
           {showPrices && <div className="show-model mt-3 overflow-x-auto border-t border-rule2 pt-3">
             <OptTable g={g} opts={opts} grades={grades} tie={tie} pick={pick}
-              recalculating={recalculating} />
+              recalculating={recalculating} onSaveBet={onSaveBet} />
           </div>}
         </>}
       </div>
