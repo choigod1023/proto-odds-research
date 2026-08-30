@@ -7,6 +7,7 @@
 
 export const NAV = [
   { href: "markets.html", label: "경기 분석" },
+  { href: "dashboard.html", label: "내 베팅" },
   { href: "slip.html", label: "프로토 배당표" },
   { href: "research.html", label: "모델 검증" },
 ];
