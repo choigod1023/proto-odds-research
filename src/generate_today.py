@@ -26,6 +26,7 @@ from bets import SEL_NAMES                                 # noqa: E402
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities  # noqa: E402
 from snapshot import UNPLAYED, find_live_rounds, _fetch    # noqa: E402
 from wisetoto import CACHE, _session                       # noqa: E402
+from runtime_db import persist_artifact                    # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 BETS = ROOT / "data" / "processed" / "bets.csv"
@@ -202,8 +203,7 @@ def main() -> int:
                     "본 산출물은 승부 예측이 아니라 가격 분석·회피 필터다.",
         },
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("today", doc, OUT)
     print(f"\n생성 완료: {OUT}")
     print(f"  회차 {len(out_rounds)}개 · 경기 {sum(r['n_games'] for r in out_rounds)}건")
     return 0

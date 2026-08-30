@@ -169,7 +169,8 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
         predictions = db.mirror_prediction_records(records)
 
     artifacts = 0
-    for name in ("live_odds", "picks_v2", "today_combo", "live_scores"):
+    for name in ("live_odds", "picks_v2", "today", "today_combo", "live_scores",
+                 "loss_grades", "combo"):
         path = root / "docs/data" / f"{name}.json"
         if not path.exists():
             continue

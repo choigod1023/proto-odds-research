@@ -17,6 +17,7 @@ import math
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from runtime_db import persist_document
 from zoneinfo import ZoneInfo
 
 from weather_features import load_snapshots, select_asof_forecast
@@ -283,8 +284,7 @@ def main() -> int:
         _selftest()
         return 0
     result = build()
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    persist_document("processed_live_baseball_features", result, OUT, indent=2)
     print(json.dumps({"games": len(result["games"]), "output": str(OUT)}, ensure_ascii=False))
     return 0
 

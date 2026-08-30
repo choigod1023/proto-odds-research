@@ -42,6 +42,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from runtime_db import persist_artifact
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stack_filter import WIN_IDX, build                  # noqa: E402
@@ -377,8 +378,7 @@ def main() -> int:
         #    2025 +13.9 로 방향이 뒤집혔다. 재현되지 않는 규칙이었다.
         "rules": _rules(odds_rows, st_rows, sel_rows),
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("loss_grades", doc, OUT)
 
     print(f"선택지 {len(d):,} · 경기 {d['gid'].nunique():,} · {years[0]}~{years[-1]}")
     print(f"\n전체 ROI {overall:+.2%}  →  최선 구간(배당<1.3) {best:+.2%}  "

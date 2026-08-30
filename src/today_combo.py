@@ -43,6 +43,7 @@ from zoneinfo import ZoneInfo
 
 from evolutionary_policy import live_snapshot, load_artifact
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
+from runtime_db import persist_artifact
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     PREFERRED_RECOMMENDATION_ODDS,
@@ -669,8 +670,7 @@ def _selftest() -> int:
 
 def main() -> int:
     d = build()
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("today_combo", d, OUT)
 
     print(f"다리 후보 {d['n_candidates']:,}개 "
           f"(1순위 {d['n_primary_candidates']:,} · 1.50 미만 보조 {d['n_fallback_candidates']:,})\n")

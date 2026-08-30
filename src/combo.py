@@ -41,6 +41,7 @@ from math import comb
 from pathlib import Path
 
 import pandas as pd
+from runtime_db import persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "processed" / "bets.csv"
@@ -207,8 +208,7 @@ def _selftest() -> int:
 
 def main() -> int:
     d = build()
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("combo", d, OUT)
 
     print("배당을 올리려면 조합해야 하고, 다리마다 마진이 한 번씩 물린다")
     for x in d["baseline"]:

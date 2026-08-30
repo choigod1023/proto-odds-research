@@ -60,7 +60,7 @@ def _atomic_json(path: Path, payload: dict) -> None:
 
 def refresh() -> dict:
     db = RuntimeDatabase() if database_enabled() else None
-    previous = db.get_document("today_combo") if db else None
+    previous = db.get_artifact("today_combo") if db else None
     if previous is None:
         try:
             previous = json.loads(OUT.read_text(encoding="utf-8"))
@@ -91,8 +91,8 @@ def refresh() -> dict:
     payload["recommendation_revision"] = digest
     payload["refreshed_at"] = now
     if db:
-        db.put_document("today_combo", payload, generated_at=now)
-        db.export_document("today_combo", OUT)
+        db.store_artifact("today_combo", payload)
+        db.export_artifact("today_combo", OUT)
     else:
         _atomic_json(OUT, payload)
     return {"changed": changed, "revision": digest, "n_candidates": payload["n_candidates"]}

@@ -16,6 +16,7 @@ import statistics
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from runtime_db import persist_document
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw" / "picksters"
@@ -343,8 +344,7 @@ def _fmt(x: object, suffix: str = "") -> str:
 
 
 def write_outputs(result: dict) -> None:
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    persist_document("processed_pickster_eval", result, OUT, indent=2)
     l = result["leaderboard_cross_section"]
     p = result["prospective_validation"]
     v = result["visible_slate_characteristics"]

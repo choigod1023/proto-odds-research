@@ -30,6 +30,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+from runtime_db import persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_scores.json"
@@ -175,11 +176,11 @@ def main() -> int:
         uniq.append(g)
     uniq.sort(key=lambda x: x["start"] or "")
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps({
+    document = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "n_games": len(uniq), "n_live": live_n, "games": uniq,
-    }, ensure_ascii=False), encoding="utf-8")
+    }
+    persist_artifact("live_scores", document, OUT, indent=None)
 
     done = sum(1 for g in uniq if g["finished"])
     print(f"경기 {len(uniq)}건 · 진행중 {live_n} · 종료 {done} → {OUT}")

@@ -7,7 +7,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from runtime_db import RuntimeDatabase  # noqa: E402
+from runtime_db import RuntimeDatabase, persist_artifact, persist_document  # noqa: E402
 
 
 def odds_row(ts="2026-08-29T01:00:00+00:00", odds="1.80,2.00"):
@@ -99,6 +99,24 @@ def test_raw_json_document_is_stored_without_object_assumption(tmp_path):
 
     assert db.put_document_json("raw_starters", raw) == 1
     assert db.get_document("raw_starters") == [{"team": "KIA"}, {"team": "LG"}]
+
+
+def test_persist_helpers_commit_database_before_compatibility_export(tmp_path, monkeypatch):
+    database_path = tmp_path / "runtime.sqlite3"
+    monkeypatch.setenv("PROODD_DB_PATH", str(database_path))
+    document_path = tmp_path / "document.json"
+    artifact_path = tmp_path / "artifact.json"
+
+    persist_document("features", {"games": [1]}, document_path)
+    persist_artifact("today", {"generated_at": "now", "games": [2]}, artifact_path)
+    document_path.unlink()
+    artifact_path.unlink()
+    database = RuntimeDatabase(database_path)
+    database.export_document("features", document_path)
+    database.export_artifact("today", artifact_path)
+
+    assert json.loads(document_path.read_text()) == {"games": [1]}
+    assert json.loads(artifact_path.read_text()) == {"generated_at": "now", "games": [2]}
 
 
 def test_event_stream_is_idempotent_and_rebuilds_jsonl(tmp_path):

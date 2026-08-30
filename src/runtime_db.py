@@ -451,6 +451,19 @@ class RuntimeDatabase:
                 (name, payload.get("generated_at"), body, now),
             )
 
+    def get_artifact(self, name: str) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT payload_json FROM artifacts WHERE name=?", (name,)
+            ).fetchone()
+        return json.loads(row["payload_json"]) if row is not None else None
+
+    def export_artifact(self, name: str, path: Path, *, indent: int | None = 1) -> None:
+        payload = self.get_artifact(name)
+        if payload is None:
+            raise KeyError(name)
+        _atomic_json(path, payload, indent=indent)
+
     def counts(self) -> dict[str, int]:
         with self.connect() as connection:
             return {
@@ -475,3 +488,33 @@ class RuntimeDatabase:
                    imported_at=excluded.imported_at,row_count=excluded.row_count""",
                 (source, fingerprint, now, int(row_count)),
             )
+
+
+def _atomic_json(path: Path, payload: Any, *, indent: int | None = 1) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".json-export.tmp")
+    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=indent),
+                         encoding="utf-8")
+    temporary.replace(path)
+
+
+def persist_document(name: str, payload: Any, path: Path,
+                     *, indent: int | None = 1) -> None:
+    """운영에서는 DB를 먼저 확정하고 파일은 호환 export로만 만든다."""
+    if database_enabled():
+        database = RuntimeDatabase()
+        database.put_document(name, payload)
+        database.export_document(name, path, indent=indent)
+    else:
+        _atomic_json(path, payload, indent=indent)
+
+
+def persist_artifact(name: str, payload: Mapping[str, Any], path: Path,
+                     *, indent: int | None = 1) -> None:
+    """사이트 산출물의 운영 정본을 artifacts 테이블로 유지한다."""
+    if database_enabled():
+        database = RuntimeDatabase()
+        database.store_artifact(name, payload)
+        database.export_artifact(name, path, indent=indent)
+    else:
+        _atomic_json(path, payload, indent=indent)
