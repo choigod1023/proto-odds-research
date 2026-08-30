@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-31T03:10:02+09:00",
+ "generated_at": "2026-08-31T03:19:28+09:00",
  "source_generated_at": "2026-08-30T18:09:30+00:00",
- "live_odds_at": "2026-08-30T18:03:13+00:00",
+ "live_odds_at": "2026-08-30T18:13:03+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 13,
- "n_primary_candidates": 13,
+ "n_candidates": 10,
+ "n_primary_candidates": 10,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-31T03:10:00+09:00",
+ "next_kickoff_at": "2026-08-31T03:45:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -531,445 +531,22 @@
  "plans": [
   {
    "target": 3,
-   "ok": true,
-   "legs": 2,
+   "ok": false,
    "bins": [
     "1.5-1.8",
     "1.5-1.8"
    ],
-   "actual_odds": 2.86,
-   "independent_hit_est": 0.27388,
-   "market_reference_hit_est": 0.27388,
-   "market_reference_roi": -0.2178,
-   "independence_assumption": true,
-   "hit_est": 0.27388,
-   "upset_risk": 0.72612,
-   "expected_roi": -0.2178,
-   "calibrated_hit_est": 0.27388,
-   "calibrated_expected_roi": -0.2178,
-   "conservative_hit_est": 0.27388,
-   "conservative_expected_roi": -0.2178,
-   "calibration_min_n": null,
-   "has_validated_edge": false,
-   "probability_source": "shin_market_fallback",
-   "probability_basis": "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정",
-   "historical_bucket_hit_est": 0.26853,
-   "historical_bucket_roi": -0.2261,
-   "picks": [
-    {
-     "event_key": "2026-08-31T03:10:00+09:00|미네트윈|시카화이",
-     "kickoff_at": "2026-08-31T03:10:00+09:00",
-     "round": 102,
-     "game_no": "8008",
-     "date": "08.31(월) 03:10",
-     "sport": "bs",
-     "league": "MLB",
-     "match": "미네트윈 vs 시카화이",
-     "home": "미네트윈",
-     "away": "시카화이",
-     "market": "승패",
-     "market_label": "",
-     "booking": "2-way",
-     "sel": "홈",
-     "odds": 1.68,
-     "bin": "1.5-1.8",
-     "overround": 1.1358,
-     "payout": 88.05,
-     "hist_roi": -0.1206,
-     "hist_n": 119682,
-     "market_prob": 0.5273,
-     "predicted_hit_prob": 0.5273,
-     "probability_source": "shin_market_fallback",
-     "has_validated_edge": false,
-     "market_gap": 0.0547,
-     "n_way": 2,
-     "failure_prob": 0.4727,
-     "is_market_favorite": true,
-     "recommendation_priority": "primary",
-     "price_source": "live_odds",
-     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-     "context_summary": "경기 내부 정보로는 선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다. 경기 외부 정보로는 경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-     "commentary_method": "template_run_budget",
-     "evidence": {
-      "source_game_id": "20260831CWMN0",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "asof_ok": true,
-      "coefficient_status": "not_fitted",
-      "coefficient_gate": [
-       "walk-forward out-of-sample",
-       "Brier와 log-loss 모두 시장 기준 개선",
-       "calibration slope/intercept 악화 없음",
-       "리그별 방향 안정성"
-      ],
-      "protected_entities": [
-       "미네트윈",
-       "시카화이",
-       "제비 매튜스"
-      ],
-      "internal": [
-       {
-        "kind": "starter",
-        "text": "선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다.",
-        "source": "네이버 스포츠 공개 경기정보",
-        "observed_at": "2026-08-29T02:23:00+00:00",
-        "status": "observed"
-       }
-      ],
-      "external": [
-       {
-        "kind": "weather",
-        "text": "경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다.",
-        "source": "Open-Meteo",
-        "observed_at": "2026-08-29T10:23:00+00:00",
-        "status": "observed"
-       }
-      ],
-      "crowd": [],
-      "limitations": [
-       "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-       "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-       "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-      ]
-     }
-    },
-    {
-     "event_key": "2026-08-31T03:15:00+09:00|세인카디|피츠파이",
-     "kickoff_at": "2026-08-31T03:15:00+09:00",
-     "round": 102,
-     "game_no": "8018",
-     "date": "08.31(월) 03:15",
-     "sport": "bs",
-     "league": "MLB",
-     "match": "세인카디 vs 피츠파이",
-     "home": "세인카디",
-     "away": "피츠파이",
-     "market": "승패",
-     "market_label": "",
-     "booking": "2-way",
-     "sel": "원정",
-     "odds": 1.7,
-     "bin": "1.5-1.8",
-     "overround": 1.1377,
-     "payout": 87.9,
-     "hist_roi": -0.1206,
-     "hist_n": 119682,
-     "market_prob": 0.5194,
-     "predicted_hit_prob": 0.5194,
-     "probability_source": "shin_market_fallback",
-     "has_validated_edge": false,
-     "market_gap": 0.0388,
-     "n_way": 2,
-     "failure_prob": 0.4806,
-     "is_market_favorite": true,
-     "recommendation_priority": "primary",
-     "price_source": "live_odds",
-     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-     "context_summary": "경기 내부 정보로는 선발 예고는 세인카디 매튜 리베라토레, 피츠파이 브랙스톤 애쉬크레프트다. 경기 외부 정보로는 경기 시각 예보는 기온 34.1°C·강수확률 0%·바람 4.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-     "commentary_method": "template_run_budget",
-     "evidence": {
-      "source_game_id": "20260831PISL0",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "asof_ok": true,
-      "coefficient_status": "not_fitted",
-      "coefficient_gate": [
-       "walk-forward out-of-sample",
-       "Brier와 log-loss 모두 시장 기준 개선",
-       "calibration slope/intercept 악화 없음",
-       "리그별 방향 안정성"
-      ],
-      "protected_entities": [
-       "세인카디",
-       "피츠파이",
-       "매튜 리베라토레",
-       "브랙스톤 애쉬크레프트"
-      ],
-      "internal": [
-       {
-        "kind": "starter",
-        "text": "선발 예고는 세인카디 매튜 리베라토레, 피츠파이 브랙스톤 애쉬크레프트다.",
-        "source": "네이버 스포츠 공개 경기정보",
-        "observed_at": "2026-08-29T02:23:00+00:00",
-        "status": "observed"
-       }
-      ],
-      "external": [
-       {
-        "kind": "weather",
-        "text": "경기 시각 예보는 기온 34.1°C·강수확률 0%·바람 4.5km/h다.",
-        "source": "Open-Meteo",
-        "observed_at": "2026-08-29T10:23:08+00:00",
-        "status": "observed"
-       }
-      ],
-      "crowd": [],
-      "limitations": [
-       "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-       "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-       "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-      ]
-     }
-    }
-   ]
+   "why": "1.50~2.20 미만 최종 적중 우선 선택만으로 목표 배당을 못 만든다"
   },
   {
    "target": 5,
-   "ok": true,
-   "legs": 3,
+   "ok": false,
    "bins": [
     "1.5-1.8",
     "1.5-1.8",
     "1.5-1.8"
    ],
-   "actual_odds": 4.76,
-   "independent_hit_est": 0.14556,
-   "market_reference_hit_est": 0.14556,
-   "market_reference_roi": -0.3064,
-   "independence_assumption": true,
-   "hit_est": 0.14556,
-   "upset_risk": 0.85444,
-   "expected_roi": -0.3064,
-   "calibrated_hit_est": 0.14556,
-   "calibrated_expected_roi": -0.3064,
-   "conservative_hit_est": 0.14556,
-   "conservative_expected_roi": -0.3064,
-   "calibration_min_n": null,
-   "has_validated_edge": false,
-   "probability_source": "shin_market_fallback",
-   "probability_basis": "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정",
-   "historical_bucket_hit_est": 0.13915,
-   "historical_bucket_roi": -0.3192,
-   "picks": [
-    {
-     "event_key": "2026-08-31T04:10:00+09:00|뉴욕메츠|휴스애스",
-     "kickoff_at": "2026-08-31T04:10:00+09:00",
-     "round": 102,
-     "game_no": "8038",
-     "date": "08.31(월) 04:10",
-     "sport": "bs",
-     "league": "MLB",
-     "match": "뉴욕메츠 vs 휴스애스",
-     "home": "뉴욕메츠",
-     "away": "휴스애스",
-     "market": "언더오버",
-     "market_label": "U 8.5",
-     "booking": "2-way",
-     "sel": "오버",
-     "odds": 1.63,
-     "bin": "1.5-1.8",
-     "overround": 1.1371,
-     "payout": 87.95,
-     "hist_roi": -0.1206,
-     "hist_n": 119682,
-     "market_prob": 0.545,
-     "predicted_hit_prob": 0.545,
-     "probability_source": "shin_market_fallback",
-     "has_validated_edge": false,
-     "market_gap": 0.0899,
-     "n_way": 2,
-     "failure_prob": 0.455,
-     "is_market_favorite": true,
-     "recommendation_priority": "primary",
-     "price_source": "live_odds",
-     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-     "context_summary": "경기 내부 정보로는 선발 예고는 뉴욕메츠 잭 손튼, 휴스애스 크리스티안 하비에르다. 경기 외부 정보로는 경기 시각 예보는 기온 27.2°C·강수확률 6%·바람 3.8km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-     "commentary_method": "template_run_budget",
-     "evidence": {
-      "source_game_id": "20260831HONM0",
-      "observed_at": "2026-08-29T06:50:50+00:00",
-      "asof_ok": true,
-      "coefficient_status": "not_fitted",
-      "coefficient_gate": [
-       "walk-forward out-of-sample",
-       "Brier와 log-loss 모두 시장 기준 개선",
-       "calibration slope/intercept 악화 없음",
-       "리그별 방향 안정성"
-      ],
-      "protected_entities": [
-       "뉴욕메츠",
-       "휴스애스",
-       "잭 손튼",
-       "크리스티안 하비에르"
-      ],
-      "internal": [
-       {
-        "kind": "starter",
-        "text": "선발 예고는 뉴욕메츠 잭 손튼, 휴스애스 크리스티안 하비에르다.",
-        "source": "네이버 스포츠 공개 경기정보",
-        "observed_at": "2026-08-29T06:50:50+00:00",
-        "status": "observed"
-       }
-      ],
-      "external": [
-       {
-        "kind": "weather",
-        "text": "경기 시각 예보는 기온 27.2°C·강수확률 6%·바람 3.8km/h다.",
-        "source": "Open-Meteo",
-        "observed_at": "2026-08-29T10:22:55+00:00",
-        "status": "observed"
-       }
-      ],
-      "crowd": [],
-      "limitations": [
-       "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-       "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-       "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-      ]
-     }
-    },
-    {
-     "event_key": "2026-08-31T03:10:00+09:00|밀워브루|텍사레인",
-     "kickoff_at": "2026-08-31T03:10:00+09:00",
-     "round": 102,
-     "game_no": "8016",
-     "date": "08.31(월) 03:10",
-     "sport": "bs",
-     "league": "MLB",
-     "match": "밀워브루 vs 텍사레인",
-     "home": "밀워브루",
-     "away": "텍사레인",
-     "market": "언더오버",
-     "market_label": "U 8.5",
-     "booking": "2-way",
-     "sel": "언더",
-     "odds": 1.74,
-     "bin": "1.5-1.8",
-     "overround": 1.1365,
-     "payout": 87.99,
-     "hist_roi": -0.1206,
-     "hist_n": 119682,
-     "market_prob": 0.5065,
-     "predicted_hit_prob": 0.5065,
-     "probability_source": "shin_market_fallback",
-     "has_validated_edge": false,
-     "market_gap": 0.0129,
-     "n_way": 2,
-     "failure_prob": 0.4935,
-     "is_market_favorite": true,
-     "recommendation_priority": "primary",
-     "price_source": "live_odds",
-     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-     "context_summary": "경기 내부 정보로는 선발 예고는 밀워브루 더스틴 메이, 텍사레인 쿠마 로커다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 31.6°C·강수확률 6%·바람 7.0km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-     "commentary_method": "template_run_budget",
-     "evidence": {
-      "source_game_id": "20260831TEMI0",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "asof_ok": true,
-      "coefficient_status": "not_fitted",
-      "coefficient_gate": [
-       "walk-forward out-of-sample",
-       "Brier와 log-loss 모두 시장 기준 개선",
-       "calibration slope/intercept 악화 없음",
-       "리그별 방향 안정성"
-      ],
-      "protected_entities": [
-       "밀워브루",
-       "텍사레인",
-       "더스틴 메이",
-       "쿠마 로커"
-      ],
-      "internal": [
-       {
-        "kind": "starter",
-        "text": "선발 예고는 밀워브루 더스틴 메이, 텍사레인 쿠마 로커다.",
-        "source": "네이버 스포츠 공개 경기정보",
-        "observed_at": "2026-08-29T02:23:00+00:00",
-        "status": "observed"
-       }
-      ],
-      "external": [
-       {
-        "kind": "weather",
-        "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 31.6°C·강수확률 6%·바람 7.0km/h다.",
-        "source": "Open-Meteo",
-        "observed_at": "2026-08-29T10:23:01+00:00",
-        "status": "observed"
-       }
-      ],
-      "crowd": [],
-      "limitations": [
-       "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-       "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-       "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-      ]
-     }
-    },
-    {
-     "event_key": "2026-08-31T03:10:00+09:00|미네트윈|시카화이",
-     "kickoff_at": "2026-08-31T03:10:00+09:00",
-     "round": 102,
-     "game_no": "8008",
-     "date": "08.31(월) 03:10",
-     "sport": "bs",
-     "league": "MLB",
-     "match": "미네트윈 vs 시카화이",
-     "home": "미네트윈",
-     "away": "시카화이",
-     "market": "승패",
-     "market_label": "",
-     "booking": "2-way",
-     "sel": "홈",
-     "odds": 1.68,
-     "bin": "1.5-1.8",
-     "overround": 1.1358,
-     "payout": 88.05,
-     "hist_roi": -0.1206,
-     "hist_n": 119682,
-     "market_prob": 0.5273,
-     "predicted_hit_prob": 0.5273,
-     "probability_source": "shin_market_fallback",
-     "has_validated_edge": false,
-     "market_gap": 0.0547,
-     "n_way": 2,
-     "failure_prob": 0.4727,
-     "is_market_favorite": true,
-     "recommendation_priority": "primary",
-     "price_source": "live_odds",
-     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-     "context_summary": "경기 내부 정보로는 선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다. 경기 외부 정보로는 경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-     "commentary_method": "template_run_budget",
-     "evidence": {
-      "source_game_id": "20260831CWMN0",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "asof_ok": true,
-      "coefficient_status": "not_fitted",
-      "coefficient_gate": [
-       "walk-forward out-of-sample",
-       "Brier와 log-loss 모두 시장 기준 개선",
-       "calibration slope/intercept 악화 없음",
-       "리그별 방향 안정성"
-      ],
-      "protected_entities": [
-       "미네트윈",
-       "시카화이",
-       "제비 매튜스"
-      ],
-      "internal": [
-       {
-        "kind": "starter",
-        "text": "선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다.",
-        "source": "네이버 스포츠 공개 경기정보",
-        "observed_at": "2026-08-29T02:23:00+00:00",
-        "status": "observed"
-       }
-      ],
-      "external": [
-       {
-        "kind": "weather",
-        "text": "경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다.",
-        "source": "Open-Meteo",
-        "observed_at": "2026-08-29T10:23:00+00:00",
-        "status": "observed"
-       }
-      ],
-      "crowd": [],
-      "limitations": [
-       "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-       "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-       "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-      ]
-     }
-    }
-   ]
+   "why": "1.50~2.20 미만 최종 적중 우선 선택만으로 목표 배당을 못 만든다"
   },
   {
    "target": 8,
@@ -994,244 +571,11 @@
   }
  ],
  "recommendation": {
-  "action": "pass",
-  "recommended_target": 3,
-  "budget_ratio": null,
-  "market_reference_roi": -0.2178,
-  "independent_hit_est": 0.27388,
-  "why": "소액 도전 기준에도 미달했다"
+  "action": "none",
+  "recommended_target": null,
+  "why": "현재 선택 가능한 경기로 구성할 조합이 없다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-31T03:10:00+09:00|미네트윈|시카화이",
-   "kickoff_at": "2026-08-31T03:10:00+09:00",
-   "round": 102,
-   "game_no": "8008",
-   "date": "08.31(월) 03:10",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "미네트윈 vs 시카화이",
-   "home": "미네트윈",
-   "away": "시카화이",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "홈",
-   "odds": 1.68,
-   "bin": "1.5-1.8",
-   "overround": 1.1358,
-   "payout": 88.05,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5273,
-   "predicted_hit_prob": 0.5273,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0547,
-   "n_way": 2,
-   "failure_prob": 0.4727,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다. 경기 외부 정보로는 경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260831CWMN0",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "미네트윈",
-     "시카화이",
-     "제비 매튜스"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 미네트윈 제비 매튜스, 시카화이 미확인다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 31.4°C·강수확률 3%·바람 2.3km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-31T03:10:00+09:00|밀워브루|텍사레인",
-   "kickoff_at": "2026-08-31T03:10:00+09:00",
-   "round": 102,
-   "game_no": "8016",
-   "date": "08.31(월) 03:10",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "밀워브루 vs 텍사레인",
-   "home": "밀워브루",
-   "away": "텍사레인",
-   "market": "언더오버",
-   "market_label": "U 8.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.74,
-   "bin": "1.5-1.8",
-   "overround": 1.1365,
-   "payout": 87.99,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5065,
-   "predicted_hit_prob": 0.5065,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0129,
-   "n_way": 2,
-   "failure_prob": 0.4935,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 밀워브루 더스틴 메이, 텍사레인 쿠마 로커다. 경기 외부 정보로는 개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 31.6°C·강수확률 6%·바람 7.0km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260831TEMI0",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "밀워브루",
-     "텍사레인",
-     "더스틴 메이",
-     "쿠마 로커"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 밀워브루 더스틴 메이, 텍사레인 쿠마 로커다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "개폐식 지붕의 개방 여부는 미확인이며, 외부 기준 경기 시각 예보는 기온 31.6°C·강수확률 6%·바람 7.0km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:01+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
-  {
-   "event_key": "2026-08-31T03:15:00+09:00|세인카디|피츠파이",
-   "kickoff_at": "2026-08-31T03:15:00+09:00",
-   "round": 102,
-   "game_no": "8018",
-   "date": "08.31(월) 03:15",
-   "sport": "bs",
-   "league": "MLB",
-   "match": "세인카디 vs 피츠파이",
-   "home": "세인카디",
-   "away": "피츠파이",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "원정",
-   "odds": 1.7,
-   "bin": "1.5-1.8",
-   "overround": 1.1377,
-   "payout": 87.9,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5194,
-   "predicted_hit_prob": 0.5194,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0388,
-   "n_way": 2,
-   "failure_prob": 0.4806,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
-   "context_summary": "경기 내부 정보로는 선발 예고는 세인카디 매튜 리베라토레, 피츠파이 브랙스톤 애쉬크레프트다. 경기 외부 정보로는 경기 시각 예보는 기온 34.1°C·강수확률 0%·바람 4.5km/h다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
-   "commentary_method": "template_run_budget",
-   "evidence": {
-    "source_game_id": "20260831PISL0",
-    "observed_at": "2026-08-29T02:23:00+00:00",
-    "asof_ok": true,
-    "coefficient_status": "not_fitted",
-    "coefficient_gate": [
-     "walk-forward out-of-sample",
-     "Brier와 log-loss 모두 시장 기준 개선",
-     "calibration slope/intercept 악화 없음",
-     "리그별 방향 안정성"
-    ],
-    "protected_entities": [
-     "세인카디",
-     "피츠파이",
-     "매튜 리베라토레",
-     "브랙스톤 애쉬크레프트"
-    ],
-    "internal": [
-     {
-      "kind": "starter",
-      "text": "선발 예고는 세인카디 매튜 리베라토레, 피츠파이 브랙스톤 애쉬크레프트다.",
-      "source": "네이버 스포츠 공개 경기정보",
-      "observed_at": "2026-08-29T02:23:00+00:00",
-      "status": "observed"
-     }
-    ],
-    "external": [
-     {
-      "kind": "weather",
-      "text": "경기 시각 예보는 기온 34.1°C·강수확률 0%·바람 4.5km/h다.",
-      "source": "Open-Meteo",
-      "observed_at": "2026-08-29T10:23:08+00:00",
-      "status": "observed"
-     }
-    ],
-    "crowd": [],
-    "limitations": [
-     "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
-     "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
-     "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
-    ]
-   }
-  },
   {
    "event_key": "2026-08-31T03:45:00+09:00|AS모나코|마르세유",
    "kickoff_at": "2026-08-31T03:45:00+09:00",
@@ -1809,5 +1153,41 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-30T18:14:21+00:00",
+  "reason": "recommendation_status_changed",
+  "previous_revision": null,
+  "revision": "3fd3ecad3f15e2c9641c8a5c4abff8f3c86243de1ff8fc1ad41d79feea0b2cec",
+  "previous": {
+   "action": "pass",
+   "recommended_target": 3,
+   "solo": "102|8044|승패||원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|8008|승패||홈",
+      "102|8018|승패||원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|8038|언더오버|U 8.5|오버",
+      "102|8016|언더오버|U 8.5|언더",
+      "102|8008|승패||홈"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "none",
+   "recommended_target": null,
+   "solo": "102|8044|승패||원정",
+   "plans": []
+  }
+ },
+ "recommendation_revision": "3fd3ecad3f15e2c9641c8a5c4abff8f3c86243de1ff8fc1ad41d79feea0b2cec",
+ "refreshed_at": "2026-08-30T18:19:28+00:00"
 }
