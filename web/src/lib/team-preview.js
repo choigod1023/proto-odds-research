@@ -89,3 +89,10 @@ export function teamPreviewSentence(previews) {
     return [preview.team, trait, players].filter(Boolean).join(" — ");
   }).filter((text) => text.split(" — ").length > 1).join(" / ");
 }
+
+export function compactTeamPlayerLine(previews) {
+  return (previews || []).map((preview) => {
+    const names = (preview.players || []).slice(0, 2).map((player) => player.name).filter(Boolean);
+    return names.length && preview.team ? `${preview.team}: ${names.join(" · ")}` : null;
+  }).filter(Boolean).join(" / ");
+}

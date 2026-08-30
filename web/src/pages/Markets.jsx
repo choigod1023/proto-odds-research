@@ -18,6 +18,7 @@ import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { toggleCartSelection } from "../lib/bet-cart.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
+import { compactTeamPlayerLine } from "../lib/team-preview.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -562,6 +563,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const primary = activeToday?.recommendation?.action !== "pass" && todayMembership?.targets?.some(
     (target) => Number(target) === Number(primaryTarget),
   );
+  const todayRecommended = activeToday?.recommendation?.action !== "pass" && !!todayLabel;
+  const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
   // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
   // 경기 시작/예정시각 경과 뒤에는 그 문장을 사실처럼 재노출하지 않는다.
@@ -572,7 +575,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
     : null;
   return (
-    <Card as="details" className={`match-card is-${phase} result-${outcome.state} ${primary ? "border-signal" : ""}`}>
+    <Card as="details" className={`match-card is-${phase} result-${outcome.state} ${
+      todayRecommended ? "is-today-recommended" : ""} ${primary ? "is-today-primary border-signal" : ""}`}>
       <summary className="match-row">
         <span className="tnum text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-0 text-[13.5px] font-semibold">
@@ -588,9 +592,10 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {g.away}
           </span>
           <small className="match-player-inline">
+            {todayRecommended && <span className="today-recommend-inline">오늘 추천</span>}
             {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
-            {analysis?.featuredPlayers?.length
-              ? ` · ${analysis.featuredPlayers.map((player) => player.name).join(" · ")}`
+            {compactPlayers
+              ? ` · ${compactPlayers}`
               : ""}
           </small>
         </span>
