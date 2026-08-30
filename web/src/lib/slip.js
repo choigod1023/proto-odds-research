@@ -18,12 +18,12 @@ export function isCurrentSlipDate(value, now = new Date()) {
   return gameKey >= todayKey;
 }
 
-export function slipRows(games, liveOdds) {
+export function slipRows(games, liveOdds, now = new Date()) {
   const groups = new Map();
   const activeRounds = new Set((liveOdds?.rounds || []).map(String));
   (games || []).forEach((game) => {
     if (activeRounds.size && !activeRounds.has(String(game.round))) return;
-    if (!isCurrentSlipDate(game.date)) return;
+    if (!isCurrentSlipDate(game.date, now)) return;
     const current = repriceGameOdds(
       game,
       liveOdds?.odds?.[String(game.round)],

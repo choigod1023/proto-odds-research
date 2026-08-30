@@ -4,7 +4,8 @@ import PredictionPanel from "../components/PredictionPanel.jsx";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
-import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD, odds, pct, sgn } from "../lib/fmt.js";
+import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD,
+  nextKstDateRefreshDelay, odds, pct, sgn } from "../lib/fmt.js";
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
@@ -223,6 +224,33 @@ function GameList({ data, grades, caps, stale }) {
   // 두어도 "오늘"이 어제 날짜에 고정되지 않고 새 KST 날짜를 따라간다.
   const [f, setF] = useState({ st: "", lg: "", mk: "", rd: "", q: "",
                                dt: "today" });
+  const [dateClock, setDateClock] = useState(() => Date.now());
+
+  useEffect(() => {
+    let timer;
+    const refreshDate = () => setDateClock(Date.now());
+    const scheduleMidnight = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        refreshDate();
+        scheduleMidnight();
+      }, nextKstDateRefreshDelay());
+    };
+    const refreshWhenVisible = () => {
+      if (document.visibilityState === "visible") {
+        refreshDate();
+        scheduleMidnight();
+      }
+    };
+    scheduleMidnight();
+    document.addEventListener("visibilitychange", refreshWhenVisible);
+    window.addEventListener("focus", refreshWhenVisible);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("visibilitychange", refreshWhenVisible);
+      window.removeEventListener("focus", refreshWhenVisible);
+    };
+  }, []);
 
   // ⚠️ 적중률을 올리는 지렛대는 '뭘 고르나' 가 아니라 **'어느 경기를 버리나'** 다.
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
@@ -231,8 +259,8 @@ function GameList({ data, grades, caps, stale }) {
     () => [...(data.live || []), ...(data.past || [])],
     [data]);
   const selectedDate = f.dt === "today"
-    ? kstMMDD(0)
-    : f.dt === "tomorrow" ? kstMMDD(1) : "";
+    ? kstMMDD(0, dateClock)
+    : f.dt === "tomorrow" ? kstMMDD(1, dateClock) : "";
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
