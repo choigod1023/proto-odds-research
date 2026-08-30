@@ -58,6 +58,9 @@ LOOPERS = [
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
     ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "300"]),
+    # 전체 generate_v2가 다른 수집기와 메모리를 다투다 OOM이어도 현재 발매 행은
+    # 5분 안에 시장 판정으로 게시한다. 구조 모델·LLM을 읽지 않는 경량 경로다.
+    ("경량 시장 판정", [sys.executable, "-u", "src/live_market_refresh.py", "--loop", "300"]),
     ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py", "--loop", "300"]),
 ]
 
@@ -607,12 +610,21 @@ def serve_live() -> None:
                     except OSError:
                         return 0
 
+                def generated_at(path: Path) -> str | None:
+                    try:
+                        value = json.loads(path.read_text(encoding="utf-8")).get("generated_at")
+                    except (OSError, json.JSONDecodeError, AttributeError):
+                        return None
+                    return str(value) if value else None
+
                 body = json.dumps({
                     "status": "ok",
                     "disk_free_mb": _free_mb(),
                     "live_mtime": live_mtime,
                     "odds_mtime": mtime(odds_path),
                     "picks_mtime": mtime(picks_path),
+                    "odds_generated_at": generated_at(odds_path),
+                    "picks_generated_at": generated_at(picks_path),
                     "database_path": os.environ.get("PROODD_DB_PATH"),
                     "database_mtime": mtime(Path(os.environ.get(
                         "PROODD_DB_PATH", "/data/proodd.sqlite3"))),

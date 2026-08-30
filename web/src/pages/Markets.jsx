@@ -131,6 +131,7 @@ export default function Markets() {
         game,
         liveOdds?.odds?.[String(game.round)],
         liveOdds?.generated_at || null,
+        liveOdds?.markets?.[String(game.round)],
       );
       const liveState = liveOf(liveIndex, repriced);
       return liveState ? { ...repriced, _liveState: liveState, _liveStarted: true } : repriced;

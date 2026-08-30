@@ -97,6 +97,22 @@ jobs:
             fi
           fi
 
+          # picks_v2 파일은 player_info 보강이 내용 일부만 다시 써도 커밋된다. 따라서
+          # git 커밋/mtime만 보면 핵심 판정 생성기가 이틀 멈춰도 정상처럼 보인다.
+          # 문서 내부 generated_at을 직접 검사한다.
+          picks_gen=$(curl -s --max-time 25 "$APP_URL/picks_v2.json" \
+                | sed -n 's/.*"generated_at": *"\([^"]*\)".*/\1/p' | head -1)
+          if [ -z "$picks_gen" ]; then
+            add "**picks_v2.json 판정 시각을 읽을 수 없다** — 판정 게시 경로가 끊겼다."
+          else
+            picks_s=$(date -d "$picks_gen" +%s 2>/dev/null || echo 0)
+            picks_m=$(( (now - picks_s) / 60 ))
+            echo "picks_age_min=$picks_m"
+            if [ "$picks_s" -gt 0 ] && [ "$picks_m" -ge 90 ]; then
+              add "**핵심 판정이 ${picks_m}분째 재생성되지 않음** (정상은 30분, 경보는 90분). 파일 보강 커밋은 있었지만 generated_at이 멈췄다."
+            fi
+          fi
+
           # ── 4. 디스크 여유 (이번 사고의 진짜 원인)
           # /health 가 disk_free_mb 를 실어 주면 터지기 **전에** 잡는다.
           # supervisor.py 에 이 필드를 추가하기 전까지는 이 점검이 자동으로 건너뛴다.
