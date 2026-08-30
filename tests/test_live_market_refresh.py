@@ -48,3 +48,47 @@ def test_refresh_adds_new_round_game_without_structure_model():
     assert refreshed["rounds"] == [102]
     assert refreshed["live"][0]["no_model"] is True
     assert refreshed["live"][0]["추천"] is not None
+
+
+def test_refresh_recovers_mlb_odds_after_result_without_backfilling_prediction():
+    document = {"generated_at": "old", "rounds": [102], "live": [{
+        "year": 2026, "round": 102, "date": "08.30(일) 02:05",
+        "sport": "bs", "league": "MLB", "home": "뉴욕양키", "away": "보스레드",
+        "status": "배당대기", "options": [],
+        "decision_snapshot": {"action": "old"},
+    }], "past": []}
+    live_odds = {
+        "generated_at": "2026-08-30T03:00:00+00:00",
+        "markets": {"102": {"7583": {
+            "game_no": "7583", "date": "08.30(일) 02:05",
+            "sport": "bs", "league": "MLB", "home": "뉴욕양키", "away": "보스레드",
+            "market": "승패", "label": "", "odds": [1.63, 1.91], "result": "홈패",
+        }}},
+    }
+
+    refreshed, changed = refresh_document(document, live_odds)
+
+    game = refreshed["live"][0]
+    assert changed == 1
+    assert game["status"] == "결과확인"
+    assert [option["배당"] for option in game["options"]] == [1.63, 1.91]
+    assert game["odds_recovered_after_start"] is True
+    assert game["prediction_status"] == "prediction_ledger_required"
+    assert "decision_snapshot" not in game
+
+
+def test_refresh_does_not_add_finished_game_missing_from_document():
+    document = {"generated_at": "old", "rounds": [], "live": [], "past": []}
+    live_odds = {
+        "generated_at": "2026-08-30T03:00:00+00:00",
+        "markets": {"102": {"7583": {
+            "game_no": "7583", "date": "08.30(일) 02:05",
+            "sport": "bs", "league": "MLB", "home": "뉴욕양키", "away": "보스레드",
+            "market": "승패", "label": "", "odds": [1.63, 1.91], "result": "홈패",
+        }}},
+    }
+
+    refreshed, changed = refresh_document(document, live_odds)
+
+    assert changed == 0
+    assert refreshed["live"] == []
