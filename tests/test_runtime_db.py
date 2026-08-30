@@ -85,6 +85,14 @@ def test_documents_are_revisioned_and_exported_from_database(tmp_path):
     assert json.loads(export.read_text(encoding="utf-8")) == changed
 
 
+def test_document_can_store_top_level_json_array(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    payload = [{"team": "KIA"}, {"team": "LG"}]
+
+    assert db.put_document("starters", payload) == 1
+    assert db.get_document("starters") == payload
+
+
 def test_event_stream_is_idempotent_and_rebuilds_jsonl(tmp_path):
     db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
     rows = [

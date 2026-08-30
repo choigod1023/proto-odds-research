@@ -158,12 +158,15 @@ class RuntimeDatabase:
     def _hash(cls, value: Any) -> str:
         return hashlib.sha256(cls._canonical(value).encode("utf-8")).hexdigest()
 
-    def put_document(self, name: str, payload: Mapping[str, Any],
+    def put_document(self, name: str, payload: Any,
                      *, generated_at: str | None = None) -> int:
         """최신 상태 문서를 저장하고 실제 내용이 바뀐 경우에만 revision을 올린다."""
         body = self._canonical(payload)
         digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
-        stamp = generated_at or payload.get("generated_at") or payload.get("updated_at")
+        embedded_stamp = None
+        if isinstance(payload, Mapping):
+            embedded_stamp = payload.get("generated_at") or payload.get("updated_at")
+        stamp = generated_at or embedded_stamp
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         with self.transaction() as connection:
             current = connection.execute(
@@ -183,7 +186,7 @@ class RuntimeDatabase:
             )
         return revision
 
-    def get_document(self, name: str) -> dict[str, Any] | None:
+    def get_document(self, name: str) -> Any | None:
         with self.connect() as connection:
             row = connection.execute(
                 "SELECT payload_json FROM documents WHERE name=?", (name,)
