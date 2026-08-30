@@ -162,11 +162,23 @@ class RuntimeDatabase:
                      *, generated_at: str | None = None) -> int:
         """최신 상태 문서를 저장하고 실제 내용이 바뀐 경우에만 revision을 올린다."""
         body = self._canonical(payload)
-        digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
         embedded_stamp = None
         if isinstance(payload, Mapping):
             embedded_stamp = payload.get("generated_at") or payload.get("updated_at")
-        stamp = generated_at or embedded_stamp
+        return self.put_document_json(
+            name, body, generated_at=generated_at or embedded_stamp)
+
+    def put_document_json(self, name: str, payload_json: str,
+                          *, generated_at: str | None = None) -> int:
+        """JSON 원문을 객체로 펼치지 않고 저장한다.
+
+        대형 레거시 배열을 json.loads 후 재직렬화하면 실제 파일의 수십 배 메모리를
+        사용한다. 이관 경로는 이미 수집기가 만든 JSON 파일을 그대로 보존한다.
+        """
+        body = payload_json.strip()
+        if not body:
+            raise ValueError(f"empty JSON document: {name}")
+        digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         with self.transaction() as connection:
             current = connection.execute(
@@ -182,7 +194,7 @@ class RuntimeDatabase:
                    revision=excluded.revision,generated_at=excluded.generated_at,
                    content_hash=excluded.content_hash,payload_json=excluded.payload_json,
                    stored_at=excluded.stored_at""",
-                (name, revision, stamp, digest, body, now),
+                (name, revision, generated_at, digest, body, now),
             )
         return revision
 
@@ -213,7 +225,10 @@ class RuntimeDatabase:
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         values = []
         for row in rows:
-            payload = dict(row)
+            # 손상된 옛 CSV는 헤더보다 열이 많아 DictReader가 None 키를 만든다.
+            # JSON 객체 키로 정규화해 한 행 때문에 전체 원장을 중단하지 않는다.
+            payload = {(str(key) if key is not None else "_extra"): value
+                       for key, value in dict(row).items()}
             body = self._canonical(payload)
             digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
             identity_value = ([payload.get(key) for key in identity_keys]
