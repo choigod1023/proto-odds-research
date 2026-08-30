@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T23:50:26+00:00",
+  "generated_at": "2026-08-30T00:35:42+00:00",
   "formula": "logit(p_adjusted)=logit(p_market)+beta^T*x",
   "coefficient_status": "not_fitted",
   "coefficient_gate": [
@@ -832,7 +832,7 @@
       "game_datetime": "2026-08-30T11:05:00",
       "away": "애리조나",
       "home": "샌프란시스코",
-      "context_observed_at": "2026-08-29T18:21:01+00:00",
+      "context_observed_at": "2026-08-29T23:58:20+00:00",
       "event_type": "context_changed",
       "raw_features": {
         "home_season_win_rate_edge": -0.122,
@@ -843,12 +843,12 @@
         "home_starter_hr9_edge": null,
         "away_starter_innings": 39.666666666666664,
         "home_starter_innings": 0.0,
-        "away_lineup_confirmed": false,
+        "away_lineup_confirmed": true,
         "home_lineup_confirmed": false
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T23:45:00+00:00",
+        "observed_at": "2026-08-30T00:30:58+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "SF",
         "away_abbr": "AZ",
@@ -916,7 +916,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T23:45:00+00:00",
+        "observed_at": "2026-08-30T00:30:58+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "ATH",
         "away_abbr": "BAL",
@@ -982,7 +982,7 @@
       },
       "pickster_crowd": {
         "source": "tailslips_public_html",
-        "observed_at": "2026-08-29T23:45:00+00:00",
+        "observed_at": "2026-08-30T00:30:58+00:00",
         "slate_date": "2026-08-29",
         "home_abbr": "LAA",
         "away_abbr": "PHI",
@@ -2623,6 +2623,226 @@
         "wind_speed_10m_revision": 0.3199999999999994,
         "weather_effect_applicable": true,
         "roof_state_known": true
+      },
+      "missing_features": [
+        "home_starter_kbb9_edge",
+        "home_starter_whip_edge",
+        "home_starter_hr9_edge"
+      ],
+      "warnings": [
+        "away_starter_small_sample_lt_20ip",
+        "home_starter_small_sample_lt_20ip",
+        "lineup_not_confirmed"
+      ],
+      "probability_adjustment": null,
+      "adjustment_status": "계수 미학습 — 원시 feature만 제공"
+    },
+    {
+      "game_id": "20260901DEMN0",
+      "league": "MLB",
+      "game_datetime": "2026-09-01T08:40:00",
+      "away": "디트로이트",
+      "home": "미네소타",
+      "context_observed_at": "2026-08-29T23:58:20+00:00",
+      "event_type": "first_observed",
+      "raw_features": {
+        "home_season_win_rate_edge": -0.085,
+        "home_recent_run_margin_edge": -4.6667,
+        "home_starter_kbb9_edge": null,
+        "home_starter_era_edge": 0.0,
+        "home_starter_whip_edge": null,
+        "home_starter_hr9_edge": null,
+        "away_starter_innings": 0.0,
+        "home_starter_innings": 0.0,
+        "away_lineup_confirmed": false,
+        "home_lineup_confirmed": false
+      },
+      "pickster_crowd": null,
+      "weather": {
+        "weather_source": "open-meteo",
+        "weather_observed_at": "2026-08-29T22:28:44+00:00",
+        "weather_lead_hours": 49.187777777777775,
+        "weather_asof_ok": true,
+        "weather_roof": "open",
+        "temperature_2m": 34.0,
+        "relative_humidity_2m": 33,
+        "precipitation_probability": 2,
+        "precipitation": 0.0,
+        "weather_code": 3,
+        "wind_speed_10m": 4.18,
+        "wind_direction_10m": 11,
+        "wind_gusts_10m": 6.5,
+        "forecast_valid_at": "2026-09-01T00:00:00+00:00",
+        "temperature_2m_revision": -1.3999999999999986,
+        "precipitation_probability_revision": -2.0,
+        "wind_speed_10m_revision": 1.5699999999999998,
+        "weather_effect_applicable": true,
+        "roof_state_known": true
+      },
+      "missing_features": [
+        "home_starter_kbb9_edge",
+        "home_starter_whip_edge",
+        "home_starter_hr9_edge"
+      ],
+      "warnings": [
+        "away_starter_small_sample_lt_20ip",
+        "home_starter_small_sample_lt_20ip",
+        "lineup_not_confirmed"
+      ],
+      "probability_adjustment": null,
+      "adjustment_status": "계수 미학습 — 원시 feature만 제공"
+    },
+    {
+      "game_id": "20260901MICC0",
+      "league": "MLB",
+      "game_datetime": "2026-09-01T08:40:00",
+      "away": "밀워키",
+      "home": "시카고컵스",
+      "context_observed_at": "2026-08-29T23:58:20+00:00",
+      "event_type": "first_observed",
+      "raw_features": {
+        "home_season_win_rate_edge": 0.102,
+        "home_recent_run_margin_edge": -1.6667,
+        "home_starter_kbb9_edge": null,
+        "home_starter_era_edge": 0.0,
+        "home_starter_whip_edge": null,
+        "home_starter_hr9_edge": null,
+        "away_starter_innings": 0.0,
+        "home_starter_innings": 0.0,
+        "away_lineup_confirmed": false,
+        "home_lineup_confirmed": false
+      },
+      "pickster_crowd": null,
+      "weather": {
+        "weather_source": "open-meteo",
+        "weather_observed_at": "2026-08-29T22:28:54+00:00",
+        "weather_lead_hours": 49.185,
+        "weather_asof_ok": true,
+        "weather_roof": "open",
+        "temperature_2m": 29.0,
+        "relative_humidity_2m": 59,
+        "precipitation_probability": 2,
+        "precipitation": 0.0,
+        "weather_code": 3,
+        "wind_speed_10m": 5.39,
+        "wind_direction_10m": 220,
+        "wind_gusts_10m": 12.9,
+        "forecast_valid_at": "2026-09-01T00:00:00+00:00",
+        "temperature_2m_revision": -0.1999999999999993,
+        "precipitation_probability_revision": 0.0,
+        "wind_speed_10m_revision": 1.2299999999999995,
+        "weather_effect_applicable": true,
+        "roof_state_known": true
+      },
+      "missing_features": [
+        "home_starter_kbb9_edge",
+        "home_starter_whip_edge",
+        "home_starter_hr9_edge"
+      ],
+      "warnings": [
+        "away_starter_small_sample_lt_20ip",
+        "home_starter_small_sample_lt_20ip",
+        "lineup_not_confirmed"
+      ],
+      "probability_adjustment": null,
+      "adjustment_status": "계수 미학습 — 원시 feature만 제공"
+    },
+    {
+      "game_id": "20260901OATE0",
+      "league": "MLB",
+      "game_datetime": "2026-09-01T09:05:00",
+      "away": "애슬레틱스",
+      "home": "텍사스",
+      "context_observed_at": "2026-08-30T00:28:22+00:00",
+      "event_type": "first_observed",
+      "raw_features": {
+        "home_season_win_rate_edge": -0.058,
+        "home_recent_run_margin_edge": 2.6667,
+        "home_starter_kbb9_edge": null,
+        "home_starter_era_edge": 0.0,
+        "home_starter_whip_edge": null,
+        "home_starter_hr9_edge": null,
+        "away_starter_innings": 0.0,
+        "home_starter_innings": 0.0,
+        "away_lineup_confirmed": false,
+        "home_lineup_confirmed": false
+      },
+      "pickster_crowd": null,
+      "weather": {
+        "weather_source": "open-meteo",
+        "weather_observed_at": "2026-08-29T22:29:08+00:00",
+        "weather_lead_hours": 49.59777777777778,
+        "weather_asof_ok": true,
+        "weather_roof": "retractable",
+        "temperature_2m": 39.1,
+        "relative_humidity_2m": 20,
+        "precipitation_probability": 0,
+        "precipitation": 0.0,
+        "weather_code": 0,
+        "wind_speed_10m": 4.34,
+        "wind_direction_10m": 151,
+        "wind_gusts_10m": 4.9,
+        "forecast_valid_at": "2026-09-01T00:00:00+00:00",
+        "temperature_2m_revision": 0.5,
+        "precipitation_probability_revision": 0.0,
+        "wind_speed_10m_revision": 0.3799999999999999,
+        "weather_effect_applicable": true,
+        "roof_state_known": false
+      },
+      "missing_features": [
+        "home_starter_kbb9_edge",
+        "home_starter_whip_edge",
+        "home_starter_hr9_edge"
+      ],
+      "warnings": [
+        "away_starter_small_sample_lt_20ip",
+        "home_starter_small_sample_lt_20ip",
+        "lineup_not_confirmed"
+      ],
+      "probability_adjustment": null,
+      "adjustment_status": "계수 미학습 — 원시 feature만 제공"
+    },
+    {
+      "game_id": "20260901CWHO0",
+      "league": "MLB",
+      "game_datetime": "2026-09-01T09:10:00",
+      "away": "시카고W",
+      "home": "휴스턴",
+      "context_observed_at": "2026-08-30T00:28:22+00:00",
+      "event_type": "first_observed",
+      "raw_features": {
+        "home_season_win_rate_edge": -0.071,
+        "home_recent_run_margin_edge": -3.0,
+        "home_starter_kbb9_edge": null,
+        "home_starter_era_edge": 0.0,
+        "home_starter_whip_edge": null,
+        "home_starter_hr9_edge": null,
+        "away_starter_innings": 0.0,
+        "home_starter_innings": 0.0,
+        "away_lineup_confirmed": false,
+        "home_lineup_confirmed": false
+      },
+      "pickster_crowd": null,
+      "weather": {
+        "weather_source": "open-meteo",
+        "weather_observed_at": "2026-08-29T22:29:13+00:00",
+        "weather_lead_hours": 49.679722222222225,
+        "weather_asof_ok": true,
+        "weather_roof": "retractable",
+        "temperature_2m": 33.3,
+        "relative_humidity_2m": 45,
+        "precipitation_probability": 19,
+        "precipitation": 0.0,
+        "weather_code": 2,
+        "wind_speed_10m": 5.81,
+        "wind_direction_10m": 153,
+        "wind_gusts_10m": 5.7,
+        "forecast_valid_at": "2026-09-01T00:00:00+00:00",
+        "temperature_2m_revision": 0.3999999999999986,
+        "precipitation_probability_revision": -11.0,
+        "wind_speed_10m_revision": -0.16000000000000014,
+        "weather_effect_applicable": true,
+        "roof_state_known": false
       },
       "missing_features": [
         "home_starter_kbb9_edge",
