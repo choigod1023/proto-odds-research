@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-30T21:30:58+09:00",
+ "generated_at": "2026-08-30T21:54:48+09:00",
  "source_generated_at": "2026-08-30T12:22:22+00:00",
- "live_odds_at": "2026-08-30T12:26:27+00:00",
+ "live_odds_at": "2026-08-30T12:54:08+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 38,
- "n_primary_candidates": 38,
+ "n_candidates": 37,
+ "n_primary_candidates": 37,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-30T21:45:00+09:00",
+ "next_kickoff_at": "2026-08-30T22:00:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -785,39 +785,6 @@
  },
  "candidates": [
   {
-   "event_key": "2026-08-30T21:45:00+09:00|폴란드M|독일M",
-   "kickoff_at": "2026-08-30T21:45:00+09:00",
-   "round": 102,
-   "game_no": "7889",
-   "date": "08.30(일) 21:45",
-   "sport": "bk",
-   "league": "남농월예",
-   "match": "폴란드M vs 독일M",
-   "home": "폴란드M",
-   "away": "독일M",
-   "market": "핸디캡",
-   "market_label": "H +7.5",
-   "booking": "2-way",
-   "sel": "핸디홈",
-   "odds": 1.71,
-   "bin": "1.5-1.8",
-   "overround": 1.1373,
-   "payout": 87.93,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5162,
-   "predicted_hit_prob": 0.5162,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0323,
-   "n_way": 2,
-   "failure_prob": 0.4838,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
    "event_key": "2026-08-30T22:00:00+09:00|첼시|브라이턴",
    "kickoff_at": "2026-08-30T22:00:00+09:00",
    "round": 102,
@@ -964,19 +931,19 @@
    "market_label": "U 2.5",
    "booking": "2-way",
    "sel": "오버",
-   "odds": 1.67,
+   "odds": 1.62,
    "bin": "1.5-1.8",
-   "overround": 1.1224,
+   "overround": 1.1223,
    "payout": 89.1,
    "hist_roi": -0.1206,
    "hist_n": 119682,
-   "market_prob": 0.5376,
-   "predicted_hit_prob": 0.5376,
+   "market_prob": 0.5561,
+   "predicted_hit_prob": 0.5561,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.0752,
+   "market_gap": 0.1122,
    "n_way": 2,
-   "failure_prob": 0.4624,
+   "failure_prob": 0.4439,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
    "price_source": "live_odds",
@@ -2724,5 +2691,57 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-30T12:34:46+00:00",
+  "reason": "prices_recalculated",
+  "previous_revision": null,
+  "revision": "3d54cd225687fc3cd919d84fea46b0a57fd185175412249e95342ec59a02310e",
+  "previous": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7963|핸디캡|H -1.0|핸디원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7930|핸디캡|H -2.0|핸디원정",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|8042|언더오버|U 2.5|언더",
+      "102|7918|핸디캡|H +2.0|핸디홈",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7963|핸디캡|H -1.0|핸디원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7930|핸디캡|H -2.0|핸디원정",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|8042|언더오버|U 2.5|언더",
+      "102|7918|핸디캡|H +2.0|핸디홈",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    }
+   ]
+  }
+ },
+ "recommendation_revision": "3d54cd225687fc3cd919d84fea46b0a57fd185175412249e95342ec59a02310e",
+ "refreshed_at": "2026-08-30T12:54:48+00:00"
 }
