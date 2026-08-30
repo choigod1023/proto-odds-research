@@ -22,18 +22,18 @@ export function predictionForGame(options = []) {
   // 높은 확률이 대표 픽을 가로채면 "어느 팀이 유력한가"가 흐려진다.
   const main = valid.filter((option) => ["승패", "승무패"].includes(String(option.market).trim()));
   const pool = main.length ? main : valid;
-  const option = [...pool].sort((a, b) =>
+  const comparisonOption = [...pool].sort((a, b) =>
     finiteProbability(b) - finiteProbability(a)
       || Number(a["배당"]) - Number(b["배당"])
       || String(a.selection_id || "").localeCompare(String(b.selection_id || ""))
   )[0];
   const recommended = finalRecommendedSelection(valid);
-  const recommendationMatches = recommended === option;
-  const priority = recommendationMatches ? recommendationPriority(recommended) : -1;
+  const option = recommended || comparisonOption;
+  const priority = recommended ? recommendationPriority(recommended) : -1;
   return {
     option,
     probability: finiteProbability(option),
-    recommendation: recommendationMatches
+    recommendation: recommended
       ? (priority === 1 ? "recommend" : "weak")
       : "watch",
   };

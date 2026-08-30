@@ -23,12 +23,14 @@ test("운영 가격대의 시장 최유력 픽은 추천 강도를 함께 표시
   assert.equal(prediction.recommendation, "recommend");
 });
 
-test("파생 마켓의 확률이 더 높아도 경기 대표 픽은 풀타임 승패를 우선한다", () => {
+test("파생 마켓이 최종 운영 추천이면 관망으로 누락하지 않고 대표 픽으로 표시한다", () => {
   const prediction = predictionForGame([
     option("홈", 1.5, 0.6), option("원정", 2.1, 0.4),
-    option("핸디원정", 1.3, 0.7, "핸디캡"),
+    option("오버", 1.7, 0.65, "언더오버"),
   ]);
-  assert.equal(prediction.option["선택"], "홈");
+  assert.equal(prediction.option["선택"], "오버");
+  assert.equal(prediction.recommendation, "recommend");
+  assert.equal(predictionStrengthLabel(prediction), "추천");
 });
 
 test("배당이 없거나 홀짝만 있으면 억지 픽을 만들지 않는다", () => {
