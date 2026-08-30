@@ -62,7 +62,8 @@ def _fingerprint(path: Path) -> str:
     return f"{stat.st_size}:{stat.st_mtime_ns}"
 
 
-def _migrate_runtime_sources(root: Path, db: RuntimeDatabase) -> tuple[int, int, int]:
+def _migrate_runtime_sources(root: Path, db: RuntimeDatabase, *,
+                             include_datasets: bool = True) -> tuple[int, int, int]:
     documents = events = datasets = 0
     for name, relative in DOCUMENT_SOURCES.items():
         path = root / relative
@@ -117,7 +118,7 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase) -> tuple[int, int,
             events += db.append_events(stream, batch)
         db.mark_migrated(source, fingerprint, seen)
 
-    for name, relative in DATASET_SOURCES.items():
+    for name, relative in DATASET_SOURCES.items() if include_datasets else ():
         path = root / relative
         if not path.exists():
             continue
@@ -134,7 +135,8 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase) -> tuple[int, int,
 
 
 def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
-            *, include_odds: bool = True, include_runtime_sources: bool = True) -> dict[str, int]:
+            *, include_odds: bool = True, include_runtime_sources: bool = True,
+            include_datasets: bool = True) -> dict[str, int]:
     db = database or RuntimeDatabase()
     odds = 0
     paths = sorted((root / "data/raw/snapshots").glob("odds_timeseries_*.csv")) \
@@ -173,7 +175,8 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
         artifacts += 1
     documents = events = datasets = 0
     if include_runtime_sources:
-        documents, events, datasets = _migrate_runtime_sources(root, db)
+        documents, events, datasets = _migrate_runtime_sources(
+            root, db, include_datasets=include_datasets)
     return {"odds_imported": odds, "predictions_imported": predictions,
             "artifacts_imported": artifacts, "documents_imported": documents,
             "events_imported": events, "datasets_imported": datasets, **db.counts()}
@@ -182,4 +185,5 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
 if __name__ == "__main__":
     critical = "--critical" in sys.argv
     print(json.dumps(migrate(include_odds=not critical,
-                             include_runtime_sources=not critical), ensure_ascii=False))
+                             include_runtime_sources=True,
+                             include_datasets=not critical), ensure_ascii=False))
