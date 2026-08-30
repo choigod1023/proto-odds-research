@@ -30,7 +30,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
-from runtime_db import persist_artifact
+from runtime_db import RuntimeDatabase, database_enabled, persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_scores.json"
@@ -47,6 +47,10 @@ CATS = {
     "NPB": ("wbaseball", "npb"),
     "K리그": ("kfootball", "kleague"),
 }
+
+TERMINAL_STATUSES = {"RESULT", "END", "CANCEL", "CANCELED", "CANCELLED", "POSTPONED"}
+RESULT_STATUSES = {"RESULT", "END"}
+HISTORY_DAYS = 45
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36")
@@ -123,20 +127,48 @@ def fetch_situation(s: requests.Session, game_id: str) -> dict:
         return {}
 
 
+def _previous_games() -> list[dict]:
+    """DB에 남은 최근 종료 상태를 읽어 다음 관측에서 보존한다."""
+    previous = RuntimeDatabase().get_artifact("live_scores") if database_enabled() else None
+    if previous is None and OUT.exists():
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            previous = None
+    return (previous or {}).get("games") or []
+
+
+def merge_recent_games(current: list[dict], previous: list[dict], now: datetime) -> list[dict]:
+    """최신 관측을 우선하되 조회 범위 밖의 최근 종료·취소 기록은 보존한다."""
+    cutoff = (now - timedelta(days=HISTORY_DAYS)).date()
+    merged = {str(g.get("game_id")): g for g in current if g.get("game_id")}
+    for game in previous:
+        game_id = str(game.get("game_id") or "")
+        if not game_id or game_id in merged or game.get("status") not in TERMINAL_STATUSES:
+            continue
+        try:
+            played = datetime.fromisoformat(str(game.get("start") or "")[:10]).date()
+        except ValueError:
+            continue
+        if played >= cutoff:
+            merged[game_id] = game
+    return sorted(merged.values(), key=lambda x: x.get("start") or "")
+
+
 def main() -> int:
     s = _session()
     alias = _aliases()
     now = datetime.now(KST)
-    # 어제~내일을 담는다. MLB 는 한국시간으로 새벽에 걸쳐 날짜가 갈린다.
-    days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-1, 0, 1)]
+    # 최근 3일을 다시 확인해 마지막 요청 실패·우천 연기처럼 경계에서 바뀐 상태도 회수한다.
+    days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-3, -2, -1, 0, 1)]
 
     games, live_n = [], 0
     for league in CATS:
         for day in days:
             for g in fetch(s, league, day):
-                if g.get("cancel"):
-                    continue
                 st = g.get("statusCode") or ""
+                if g.get("cancel") and st not in TERMINAL_STATUSES:
+                    st = "CANCEL"
                 home, away = g.get("homeTeamName"), g.get("awayTeamName")
                 start = g.get("gameDateTime") or ""
                 rec = {
@@ -156,7 +188,10 @@ def main() -> int:
                     "away_score": g.get("awayTeamScore"),
                     "status": st,                     # BEFORE / STARTED / RESULT ...
                     "status_text": g.get("statusInfo"),
-                    "finished": st in ("RESULT", "END"),
+                    "finished": st in RESULT_STATUSES,
+                    "terminal": st in TERMINAL_STATUSES,
+                    "cancelled": st in {"CANCEL", "CANCELED", "CANCELLED"},
+                    "postponed": st == "POSTPONED",
                 }
                 if st == "STARTED" and league in ("KBO", "MLB", "NPB") and rec["game_id"]:
                     rec.update(fetch_situation(s, str(rec["game_id"])))
@@ -174,7 +209,7 @@ def main() -> int:
             continue
         seen.add(g["game_id"])
         uniq.append(g)
-    uniq.sort(key=lambda x: x["start"] or "")
+    uniq = merge_recent_games(uniq, _previous_games(), now)
 
     document = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),

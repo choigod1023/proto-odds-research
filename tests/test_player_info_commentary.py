@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from player_info import enrich_picks  # noqa: E402
+from player_info import build_team_profiles, enrich_picks  # noqa: E402
 
 
 def test_lightweight_player_refresh_rebuilds_only_player_commentary(tmp_path):
@@ -42,3 +42,15 @@ def test_lightweight_player_refresh_rebuilds_only_player_commentary(tmp_path):
     assert game["추천"]["모델확률"] == .59
     assert "선발 맞대결은 주니치 야나기 유야(ERA 2.45)" in game["해설"]
     assert "오늘 공식 타순의 팀별 OPS 상위 타자" in game["해설"]
+
+
+def test_team_profiles_keep_players_and_facts_separate_by_team():
+    profiles = build_team_profiles({
+        "teams": {"home": {"rank": 1, "wins": 10, "losses": 3}, "away": {"rank": 7}},
+        "key_players": {"home": [{"name": "홈선수"}], "away": [{"name": "원정선수"}]},
+        "unavailable": {"home": [{"name": "홈결장"}], "away": []},
+    })
+    assert profiles["home"]["key_players"][0]["name"] == "홈선수"
+    assert profiles["away"]["key_players"][0]["name"] == "원정선수"
+    assert "현재 1위" in profiles["home"]["characteristics"]
+    assert profiles["home"]["unavailable"][0]["name"] == "홈결장"

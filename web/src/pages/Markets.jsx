@@ -528,8 +528,9 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const pick = wait || stale || predictionUnavailable || liveClosed || g._liveOddsChanged
     ? null : canonicalPick(g, opts, grades);
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
-  const playing = !!lv && !lv.finished;
+  const playing = !!lv && !lv.finished && !lv.cancelled && !lv.postponed;
   const finished = !!lv?.finished;
+  const disruption = lv?.cancelled ? "경기 취소" : lv?.postponed ? "경기 연기" : null;
   const phase = gamePhase(g, lv);
   const outcome = recommendationOutcome(g);
   const waitText = wait ? waitingLabel(g, { generatedAt, year }) : null;
@@ -541,7 +542,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
-  const fallbackForecast = liveClosed
+  const fallbackForecast = disruption || (liveClosed
     ? (finished ? "경기 종료 · 사전 판정 마감" : "경기 시작 · 사전 판정 마감")
     : g._liveOddsChanged
     ? "배당 변경 · 재계산 대기"
@@ -553,7 +554,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
       ? "경기 상태 확인 필요"
       : wait
         ? "배당 발표 전"
-        : "분석 자료 확인 중";
+        : "분석 자료 확인 중");
   const targetLabels = todayMembership?.targets?.map((target) => `${target}배`) || [];
   if (todayMembership?.solo) targetLabels.unshift("단폴");
   const todayLabel = targetLabels.length ? `${targetLabels.join(" · ")} 포함` : null;
@@ -587,7 +588,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {g.away}
           </span>
           <small className="match-player-inline">
-            {playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정"} · {g.round}회차
+            {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
             {analysis?.featuredPlayers?.length
               ? ` · ${analysis.featuredPlayers.map((player) => player.name).join(" · ")}`
               : ""}
@@ -601,6 +602,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         </span>
         <span className="flex gap-1.5">
           {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+            : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
             : phase === "finished" ? <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
             : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
@@ -1090,10 +1092,16 @@ function TeamFormCard({ team, form, record, sport }) {
   );
 }
 function TeamsPanel({ g }) {
+  const profiles = g["선발"]?.team_profiles || {};
   return <>
     <div className="grid gap-2 sm:grid-cols-2">
-      <TeamFormCard team={g.home} form={g.form_home} record={teamRecordFor(g, "home")} sport={g.sport} />
-      <TeamFormCard team={g.away} form={g.form_away} record={teamRecordFor(g, "away")} sport={g.sport} />
+      {[['home', g.home, g.form_home], ['away', g.away, g.form_away]].map(([side, team, form]) =>
+        <div key={side}>
+          <TeamFormCard team={team} form={form} record={teamRecordFor(g, side)} sport={g.sport} />
+          {!!profiles[side]?.characteristics?.length && <div className="mt-1 rounded-[7px] border border-rule2 bg-paper2 px-2.5 py-2 text-[10.5px] leading-[1.7] text-ink2">
+            <b className="text-ink">{team} 특징</b> · {profiles[side].characteristics.join(" · ")}
+          </div>}
+        </div>)}
     </div>
     {g["h2h"] && <div className="mt-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] text-ink2">
       <span className="mr-1 text-[10.5px] text-ink3">맞대결</span>{g["h2h"]}

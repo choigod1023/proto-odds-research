@@ -17,7 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ai_decision import build_decision_snapshot  # noqa: E402
 from bets import SEL_NAMES  # noqa: E402
 from devig import market_probabilities  # noqa: E402
-from runtime_db import RuntimeDatabase  # noqa: E402
+from runtime_db import (RuntimeDatabase, database_enabled,
+                        persist_artifact)  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
@@ -119,8 +120,13 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
 
 def refresh_once() -> int:
     try:
-        document = json.loads(PICKS.read_text(encoding="utf-8"))
-        live_odds = json.loads(LIVE_ODDS.read_text(encoding="utf-8"))
+        database = RuntimeDatabase() if database_enabled() else None
+        document = database.get_artifact("picks_v2") if database else None
+        live_odds = database.get_artifact("live_odds") if database else None
+        if document is None:
+            document = json.loads(PICKS.read_text(encoding="utf-8"))
+        if live_odds is None:
+            live_odds = json.loads(LIVE_ODDS.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         print(f"경량 시장 판정 입력 실패: {type(exc).__name__}: {exc}")
         return 1
@@ -128,10 +134,7 @@ def refresh_once() -> int:
     if not changed:
         print("경량 시장 판정 변경 없음")
         return 0
-    RuntimeDatabase().store_artifact("picks_v2", document)
-    temporary = PICKS.with_suffix(PICKS.suffix + ".market.tmp")
-    temporary.write_text(json.dumps(document, ensure_ascii=False, indent=1), encoding="utf-8")
-    temporary.replace(PICKS)
+    persist_artifact("picks_v2", document, PICKS)
     print(f"경량 시장 판정 {changed}경기 → {PICKS}")
     return 0
 

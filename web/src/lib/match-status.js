@@ -1,4 +1,5 @@
 export function gamePhase(game, live = game?._liveState) {
+  if (live?.cancelled || live?.postponed) return "pending";
   if (live && live.status !== "BEFORE" && !live.finished) return "live";
   if (game?.status === "정산" || live?.finished) return "finished";
   if (game?.status === "결과확인") return "pending";
