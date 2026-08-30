@@ -73,8 +73,9 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase, *,
         source = f"document:{relative}"
         if db.migration_is_current(source, fingerprint):
             continue
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        db.put_document(name, payload)
+        # 대형 top-level 배열을 객체로 펼치면 파일 크기의 수십 배 RAM을 먹는다.
+        # 원문 JSON을 그대로 DB에 넣어 1GB 운영 머신에서도 이관 가능하게 한다.
+        db.put_document_json(name, path.read_text(encoding="utf-8"))
         db.mark_migrated(source, fingerprint, 1)
         documents += 1
 
@@ -86,15 +87,16 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase, *,
         source = f"events:{relative}"
         if db.migration_is_current(source, fingerprint):
             continue
-        rows = (json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()
-                if line.strip())
         batch, seen = [], 0
-        for row in rows:
-            batch.append(row)
-            seen += 1
-            if len(batch) >= 2000:
-                events += db.append_events(stream, batch)
-                batch.clear()
+        with path.open(encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                batch.append(json.loads(line))
+                seen += 1
+                if len(batch) >= 2000:
+                    events += db.append_events(stream, batch)
+                    batch.clear()
         events += db.append_events(stream, batch)
         db.mark_migrated(source, fingerprint, seen)
 

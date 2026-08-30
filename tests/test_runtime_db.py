@@ -93,6 +93,14 @@ def test_document_can_store_top_level_json_array(tmp_path):
     assert db.get_document("starters") == payload
 
 
+def test_raw_json_document_is_stored_without_object_assumption(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    raw = '[{"team":"KIA"},{"team":"LG"}]\n'
+
+    assert db.put_document_json("raw_starters", raw) == 1
+    assert db.get_document("raw_starters") == [{"team": "KIA"}, {"team": "LG"}]
+
+
 def test_event_stream_is_idempotent_and_rebuilds_jsonl(tmp_path):
     db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
     rows = [
@@ -108,6 +116,13 @@ def test_event_stream_is_idempotent_and_rebuilds_jsonl(tmp_path):
     export = tmp_path / "weather.jsonl"
     db.export_events("weather", export)
     assert [json.loads(line) for line in export.read_text().splitlines()] == rows
+
+
+def test_event_stream_normalizes_extra_legacy_csv_columns(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+
+    assert db.append_events("legacy_csv", [{"id": "1", None: ["extra"]}]) == 1
+    assert db.events("legacy_csv") == [{"id": "1", "_extra": ["extra"]}]
 
 
 def test_dataset_csv_round_trip(tmp_path):
