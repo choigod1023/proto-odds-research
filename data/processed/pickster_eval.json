@@ -10,7 +10,7 @@
       "픽 공개 후 시장확률 변화(CLV)"
     ]
   },
-  "generated_at": "2026-08-30T10:55:20+00:00",
+  "generated_at": "2026-08-30T11:35:31+00:00",
   "leaderboard_cross_section": {
     "aggregate_roi_from_displayed_units_pct": 5.84,
     "available": true,
@@ -55,7 +55,7 @@
     "median_roi_pct": 4.25,
     "median_win_rate_pct": 53.0,
     "n_ranked_cappers": 50,
-    "observed_at": "2026-08-30T06:21:19+00:00",
+    "observed_at": "2026-08-30T11:07:59+00:00",
     "paid_pick_offer_indicator": {
       "median_roi_offering_paid_pct": 2.05,
       "median_roi_public_only_pct": 4.85,
@@ -274,7 +274,7 @@
     "inferred_risked_units": 0,
     "n_consensus_games": 0,
     "n_decisive": 0,
-    "n_eligible_pre_event": 1358,
+    "n_eligible_pre_event": 1392,
     "n_graded": 0,
     "net_units": 0,
     "roi_pct": null,
@@ -324,6 +324,17 @@
       },
       {
         "dominant_market": "moneyline",
+        "favorite_share_pct": 71.4,
+        "handle": "lottolocks",
+        "market_counts": {
+          "moneyline": 5,
+          "total": 2
+        },
+        "median_american_odds": -114,
+        "n_visible_straight_picks": 7
+      },
+      {
+        "dominant_market": "moneyline",
         "favorite_share_pct": null,
         "handle": "bookie___bandit",
         "market_counts": {
@@ -331,19 +342,29 @@
         },
         "median_american_odds": null,
         "n_visible_straight_picks": 6
+      },
+      {
+        "dominant_market": "total",
+        "favorite_share_pct": 60.0,
+        "handle": "sbr_bets",
+        "market_counts": {
+          "total": 5
+        },
+        "median_american_odds": -102,
+        "n_visible_straight_picks": 5
       }
     ],
-    "favorite_share_pct": 65.52,
+    "favorite_share_pct": 67.44,
     "market_counts": {
-      "moneyline": 39,
+      "moneyline": 44,
       "other": 10,
-      "spread": 6,
-      "total": 5
+      "spread": 8,
+      "total": 12
     },
-    "n_straight_picks": 60,
-    "n_visible_unique_picks": 60,
-    "n_with_american_odds": 29,
-    "underdog_share_pct": 34.48,
+    "n_straight_picks": 74,
+    "n_visible_unique_picks": 74,
+    "n_with_american_odds": 43,
+    "underdog_share_pct": 32.56,
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
   }
 }
