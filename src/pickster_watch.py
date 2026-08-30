@@ -304,6 +304,18 @@ def _append_jsonl(path: Path, rows: Iterable[dict]) -> int:
     rows = list(rows)
     if not rows:
         return 0
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        streams = {
+            LEADERBOARD_LOG: "pickster_leaderboard",
+            PICK_LOG: "pickster_pick_events",
+            CROWD_LOG: "pickster_crowd",
+        }
+        stream = streams.get(path, "pickster:" + path.name)
+        db = RuntimeDatabase()
+        inserted = db.append_events(stream, rows)
+        db.export_events(stream, path)
+        return inserted
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as f:
         for row in rows:
@@ -312,6 +324,12 @@ def _append_jsonl(path: Path, rows: Iterable[dict]) -> int:
 
 
 def _load_state() -> dict:
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        saved = RuntimeDatabase().get_document("pickster_state")
+        if saved is not None:
+            saved.setdefault("picks", {})
+            return saved
     if not STATE.exists():
         return {"picks": {}, "leaderboard_hash": None, "crowd_hash": None}
     try:
@@ -323,6 +341,13 @@ def _load_state() -> dict:
 
 
 def _save_state(state: dict) -> None:
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.put_document("pickster_state", state,
+                        generated_at=state.get("last_success_at"))
+        db.export_document("pickster_state", STATE, indent=None)
+        return
     STATE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE.with_suffix(".tmp")
     tmp.write_text(json.dumps(state, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

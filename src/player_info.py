@@ -420,10 +420,14 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
 
 def collect() -> dict:
     """야구·축구·농구·배구 선수 자료를 합치고, 외부 장애 때 직전 캐시를 유지한다."""
-    try:
-        existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
-    except (OSError, json.JSONDecodeError):
-        existing = {}
+    from runtime_db import RuntimeDatabase, database_enabled
+    db = RuntimeDatabase() if database_enabled() else None
+    existing = db.get_document("player_info") if db else None
+    if existing is None:
+        try:
+            existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+        except (OSError, json.JSONDecodeError):
+            existing = {}
     announcements = announcement_games()
     games = announcements
     npb_name_cache = existing.get("npb_name_cache") or {}
@@ -461,10 +465,14 @@ def collect() -> dict:
         "npb_name_cache": npb_name_cache, "soccer_team_cache": soccer_cache,
         "court_team_cache": court_cache, "games": games,
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    tmp = OUT.with_suffix(".tmp")
-    tmp.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
-    tmp.replace(OUT)
+    if db:
+        db.put_document("player_info", doc)
+        db.export_document("player_info", OUT)
+    else:
+        OUT.parent.mkdir(parents=True, exist_ok=True)
+        tmp = OUT.with_suffix(".tmp")
+        tmp.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+        tmp.replace(OUT)
     return doc
 
 

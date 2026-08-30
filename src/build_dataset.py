@@ -22,6 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import to_bets                             # noqa: E402
 from wisetoto import CACHE, parse_rows, repair_mojibake   # noqa: E402
+from runtime_db import RuntimeDatabase, database_enabled  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "processed"
 
@@ -115,9 +116,19 @@ def main() -> int:
         tmp_b.unlink(missing_ok=True)
         return 1
 
-    # 여기까지 왔으면 완주했다. 이제 갈아끼운다(같은 파일시스템이라 원자적).
-    tmp_g.replace(OUT / "games.csv")
-    tmp_b.replace(OUT / "bets.csv")
+    # 운영에서는 DB가 정본이다. 두 임시 CSV가 모두 완주한 뒤 DB 트랜잭션으로
+    # 각각 교체하고, 호환 CSV는 DB에서 다시 만든다.
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.replace_dataset_csv("processed_games", tmp_g)
+        db.replace_dataset_csv("processed_bets", tmp_b)
+        db.export_dataset_csv("processed_games", OUT / "games.csv")
+        db.export_dataset_csv("processed_bets", OUT / "bets.csv")
+        tmp_g.unlink(missing_ok=True)
+        tmp_b.unlink(missing_ok=True)
+    else:
+        tmp_g.replace(OUT / "games.csv")
+        tmp_b.replace(OUT / "bets.csv")
 
     print(f"\n완료 — 회차 {len(files)} · 게임행 {n_games:,} · 베팅레코드 {n_bets:,}")
     print(f"소요 {time.time()-t0:.0f}초 · 연도 {sorted(years_seen)}")

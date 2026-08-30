@@ -6,7 +6,9 @@ git checkout in production, so repository synchronisation cannot delete it.
 from __future__ import annotations
 
 from contextlib import contextmanager
+import csv
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -20,6 +22,11 @@ DEFAULT_PATH = ROOT / "data" / "runtime" / "proodd.sqlite3"
 
 def configured_path() -> Path:
     return Path(os.environ.get("PROODD_DB_PATH", DEFAULT_PATH))
+
+
+def database_enabled() -> bool:
+    """운영 DB가 명시된 환경인지 확인한다. 테스트/일회 분석은 파일만 써도 된다."""
+    return bool(os.environ.get("PROODD_DB_PATH"))
 
 
 class RuntimeDatabase:
@@ -103,8 +110,239 @@ class RuntimeDatabase:
                     imported_at TEXT NOT NULL,
                     row_count INTEGER NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS documents (
+                    name TEXT PRIMARY KEY,
+                    revision INTEGER NOT NULL,
+                    generated_at TEXT,
+                    content_hash TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    stored_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS event_records (
+                    id INTEGER PRIMARY KEY,
+                    stream TEXT NOT NULL,
+                    identity TEXT NOT NULL,
+                    observed_at TEXT,
+                    content_hash TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    inserted_at TEXT NOT NULL,
+                    UNIQUE(stream, identity)
+                );
+                CREATE INDEX IF NOT EXISTS idx_event_stream_time
+                    ON event_records(stream, observed_at, id);
+                CREATE TABLE IF NOT EXISTS dataset_revisions (
+                    name TEXT PRIMARY KEY,
+                    revision INTEGER NOT NULL,
+                    fieldnames_json TEXT NOT NULL,
+                    row_count INTEGER NOT NULL,
+                    content_hash TEXT NOT NULL,
+                    generated_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS dataset_rows (
+                    dataset TEXT NOT NULL,
+                    ordinal INTEGER NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    PRIMARY KEY(dataset, ordinal),
+                    FOREIGN KEY(dataset) REFERENCES dataset_revisions(name)
+                        ON DELETE CASCADE
+                );
                 """
             )
+
+    @staticmethod
+    def _canonical(value: Any) -> str:
+        return json.dumps(value, ensure_ascii=False, sort_keys=True,
+                          separators=(",", ":"), allow_nan=False)
+
+    @classmethod
+    def _hash(cls, value: Any) -> str:
+        return hashlib.sha256(cls._canonical(value).encode("utf-8")).hexdigest()
+
+    def put_document(self, name: str, payload: Mapping[str, Any],
+                     *, generated_at: str | None = None) -> int:
+        """최신 상태 문서를 저장하고 실제 내용이 바뀐 경우에만 revision을 올린다."""
+        body = self._canonical(payload)
+        digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+        stamp = generated_at or payload.get("generated_at") or payload.get("updated_at")
+        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        with self.transaction() as connection:
+            current = connection.execute(
+                "SELECT revision,content_hash FROM documents WHERE name=?", (name,)
+            ).fetchone()
+            if current is not None and current["content_hash"] == digest:
+                return int(current["revision"])
+            revision = 1 if current is None else int(current["revision"]) + 1
+            connection.execute(
+                """INSERT INTO documents
+                   (name,revision,generated_at,content_hash,payload_json,stored_at)
+                   VALUES (?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET
+                   revision=excluded.revision,generated_at=excluded.generated_at,
+                   content_hash=excluded.content_hash,payload_json=excluded.payload_json,
+                   stored_at=excluded.stored_at""",
+                (name, revision, stamp, digest, body, now),
+            )
+        return revision
+
+    def get_document(self, name: str) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT payload_json FROM documents WHERE name=?", (name,)
+            ).fetchone()
+        return json.loads(row["payload_json"]) if row is not None else None
+
+    def document_metadata(self, name: str) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT name,revision,generated_at,content_hash,stored_at,
+                          length(payload_json) payload_bytes
+                   FROM documents WHERE name=?""", (name,)
+            ).fetchone()
+        return dict(row) if row is not None else None
+
+    def append_events(self, stream: str, rows: Iterable[Mapping[str, Any]],
+                      *, identity_keys: tuple[str, ...] = (),
+                      observed_at_key: str = "observed_at") -> int:
+        """append-only 원장에 이벤트를 중복 없이 기록한다.
+
+        identity_keys가 없으면 행 전체 해시가 identity다. 관측시각과 원천 ID를
+        함께 넘기면 같은 내용을 다시 수집해도 별도 revision으로 보존할 수 있다.
+        """
+        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        values = []
+        for row in rows:
+            payload = dict(row)
+            body = self._canonical(payload)
+            digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+            identity_value = ([payload.get(key) for key in identity_keys]
+                              if identity_keys else digest)
+            identity = self._hash(identity_value)
+            values.append((stream, identity, payload.get(observed_at_key), digest, body, now))
+        if not values:
+            return 0
+        with self.transaction() as connection:
+            before = connection.total_changes
+            connection.executemany(
+                """INSERT OR IGNORE INTO event_records
+                   (stream,identity,observed_at,content_hash,payload_json,inserted_at)
+                   VALUES (?,?,?,?,?,?)""", values,
+            )
+            return connection.total_changes - before
+
+    def events(self, stream: str, *, through: str | None = None) -> list[dict[str, Any]]:
+        sql = "SELECT payload_json FROM event_records WHERE stream=?"
+        params: list[Any] = [stream]
+        if through is not None:
+            sql += " AND observed_at<=?"
+            params.append(through)
+        sql += " ORDER BY observed_at,id"
+        with self.connect() as connection:
+            rows = connection.execute(sql, params).fetchall()
+        return [json.loads(row["payload_json"]) for row in rows]
+
+    def export_document(self, name: str, path: Path, *, indent: int | None = 1) -> None:
+        payload = self.get_document(name)
+        if payload is None:
+            raise KeyError(name)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(path.suffix + ".db-export.tmp")
+        temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=indent),
+                             encoding="utf-8")
+        temporary.replace(path)
+
+    def export_events(self, stream: str, path: Path) -> None:
+        rows = self.events(stream)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(path.suffix + ".db-export.tmp")
+        temporary.write_text("".join(self._canonical(row) + "\n" for row in rows),
+                             encoding="utf-8")
+        temporary.replace(path)
+
+    def export_events_csv(self, stream: str, path: Path,
+                          fieldnames: Iterable[str]) -> None:
+        """이벤트 원장을 기존 CSV 소비자가 읽을 수 있는 형태로 재생성한다."""
+        fields = list(fieldnames)
+        rows = self.events(stream)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(path.suffix + ".db-export.tmp")
+        with temporary.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+            writer.writeheader()
+            writer.writerows(rows)
+        temporary.replace(path)
+
+    def replace_dataset_csv(self, name: str, source: Path) -> int:
+        """완성된 CSV를 한 트랜잭션으로 교체해 잘린 데이터셋을 노출하지 않는다."""
+        digest = hashlib.sha256()
+        with source.open("rb") as raw:
+            for chunk in iter(lambda: raw.read(1024 * 1024), b""):
+                digest.update(chunk)
+        content_hash = digest.hexdigest()
+        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        with source.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            fields = list(reader.fieldnames or [])
+            if not fields:
+                raise ValueError(f"CSV header missing: {source}")
+            with self.transaction() as connection:
+                current = connection.execute(
+                    "SELECT revision,content_hash FROM dataset_revisions WHERE name=?",
+                    (name,),
+                ).fetchone()
+                if current is not None and current["content_hash"] == content_hash:
+                    return int(current["revision"])
+                revision = 1 if current is None else int(current["revision"]) + 1
+                connection.execute(
+                    """INSERT INTO dataset_revisions
+                       (name,revision,fieldnames_json,row_count,content_hash,generated_at)
+                       VALUES (?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET
+                       revision=excluded.revision,fieldnames_json=excluded.fieldnames_json,
+                       row_count=excluded.row_count,content_hash=excluded.content_hash,
+                       generated_at=excluded.generated_at""",
+                    (name, revision, json.dumps(fields), 0, content_hash, now),
+                )
+                connection.execute("DELETE FROM dataset_rows WHERE dataset=?", (name,))
+                batch: list[tuple[str, int, str]] = []
+                row_count = 0
+                for row_count, row in enumerate(reader, 1):
+                    batch.append((name, row_count, json.dumps(
+                        row, ensure_ascii=False, separators=(",", ":"))))
+                    if len(batch) >= 5000:
+                        connection.executemany(
+                            "INSERT INTO dataset_rows(dataset,ordinal,payload_json) VALUES (?,?,?)",
+                            batch,
+                        )
+                        batch.clear()
+                if batch:
+                    connection.executemany(
+                        "INSERT INTO dataset_rows(dataset,ordinal,payload_json) VALUES (?,?,?)",
+                        batch,
+                    )
+                connection.execute(
+                    "UPDATE dataset_revisions SET row_count=? WHERE name=?",
+                    (row_count, name),
+                )
+        return revision
+
+    def export_dataset_csv(self, name: str, path: Path) -> None:
+        with self.connect() as connection:
+            meta = connection.execute(
+                "SELECT fieldnames_json FROM dataset_revisions WHERE name=?", (name,)
+            ).fetchone()
+            if meta is None:
+                raise KeyError(name)
+            fields = json.loads(meta["fieldnames_json"])
+            cursor = connection.execute(
+                "SELECT payload_json FROM dataset_rows WHERE dataset=? ORDER BY ordinal",
+                (name,),
+            )
+            path.parent.mkdir(parents=True, exist_ok=True)
+            temporary = path.with_suffix(path.suffix + ".db-export.tmp")
+            with temporary.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                writer.writeheader()
+                for row in cursor:
+                    writer.writerow(json.loads(row["payload_json"]))
+            temporary.replace(path)
 
     def insert_odds(self, rows: Iterable[Mapping[str, Any]]) -> int:
         values = []

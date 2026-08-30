@@ -65,8 +65,20 @@ class Observation:
         return out
 
 
-def append_jsonl(path: Path, rows: Iterable[dict]) -> int:
-    """append-only JSONL. 비밀값은 애초에 rows에 넣지 않는다."""
+def append_jsonl(path: Path, rows: Iterable[dict], *, stream: str | None = None) -> int:
+    """append-only 원장을 DB에 먼저 기록하고 JSONL을 호환 export로 만든다."""
+    rows = list(rows)
+    if not rows:
+        return 0
+    from runtime_db import RuntimeDatabase, database_enabled
+    if database_enabled():
+        stream = stream or "raw:" + "/".join(path.parts[-3:])
+        db = RuntimeDatabase()
+        inserted = db.append_events(stream, rows)
+        # 파일은 더 이상 정본이 아니다. DB 전체를 원자적으로 export하므로 checkout
+        # 동기화가 지워도 다음 수집 때 복원된다.
+        db.export_events(stream, path)
+        return inserted
     path.parent.mkdir(parents=True, exist_ok=True)
     n = 0
     with path.open("a", encoding="utf-8") as f:

@@ -35,6 +35,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+from runtime_db import RuntimeDatabase, database_enabled
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "overseas"
 LOG = OUT / "live_odds.csv"
@@ -93,6 +94,11 @@ def parse_fixtures(html: str) -> list[dict]:
 
 def _append(rows: list[dict]) -> None:
     if not rows:
+        return
+    if database_enabled():
+        db = RuntimeDatabase()
+        db.append_events("overseas_live_odds", rows)
+        db.export_events_csv("overseas_live_odds", LOG, FIELDS)
         return
     new = not LOG.exists()
     LOG.parent.mkdir(parents=True, exist_ok=True)

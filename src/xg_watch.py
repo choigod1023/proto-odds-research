@@ -36,6 +36,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+from runtime_db import RuntimeDatabase, database_enabled
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "raw" / "xg_snapshots.jsonl"
@@ -219,18 +220,26 @@ def _collect(league: str, limit: int | None) -> int:
 
     # 오늘 이미 찍은 팀은 건너뛴다 — 멱등
     done: set[tuple] = set()
-    if OUT.exists():
+    db = RuntimeDatabase() if database_enabled() else None
+    if db:
+        existing = db.events("xg_snapshots")
+    elif OUT.exists():
+        existing = []
         for ln in OUT.read_text(encoding="utf-8").splitlines():
             try:
-                r = json.loads(ln)
+                existing.append(json.loads(ln))
             except json.JSONDecodeError:
                 continue
+    else:
+        existing = []
+    for r in existing:
             if r.get("snapshot_date") == day and r.get("league") == league:
                 done.add((league, r["home_team"]))
                 done.add((league, r["away_team"]))
 
     ok = fail = 0
-    with OUT.open("a", encoding="utf-8") as fh:
+    fh = None if db else OUT.open("a", encoding="utf-8")
+    try:
         for i, href in enumerate(links, 1):
             # 이 페이지의 두 팀이 URL 슬러그에 들어 있다. 둘 다 오늘 이미 찍었으면
             # 요청 자체를 건너뛴다 — 66페이지가 실제로는 6~7요청으로 줄고,
@@ -254,11 +263,19 @@ def _collect(league: str, limit: int | None) -> int:
             done.add((league, rec["home_team"]))
             done.add((league, rec["away_team"]))
             rec.update(league=league, snapshot_at=stamp, snapshot_date=day, url=href)
-            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            fh.flush()          # 중간에 죽어도 지금까지 건 남는다
+            if db:
+                db.append_events("xg_snapshots", [rec])
+            else:
+                fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+                fh.flush()          # 중간에 죽어도 지금까지 건 남는다
             ok += 1
             print(f"  [{i}] {rec['home_team'][:20]} / {rec['away_team'][:20]}"
                   f"  (팀 {len(done)})")
+    finally:
+        if fh:
+            fh.close()
+    if db:
+        db.export_events("xg_snapshots", OUT)
 
     print(f"\n적재 {ok}경기 · 팀 {len({t for _, t in done})} · 실패 {fail}  →  {OUT}")
     return 0
