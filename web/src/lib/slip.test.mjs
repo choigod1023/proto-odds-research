@@ -1,0 +1,28 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { isCurrentSlipDate, slipRows } from "./slip.js";
+
+test("groups selections by Proto game number", () => {
+  const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정", options: [
+    { market: "승패", "게임번호": "17", "선택": "홈", "배당": 1.7 },
+    { market: "승패", "게임번호": "17", "선택": "원정", "배당": 2.1 },
+  ] }];
+  const rows = slipRows(games, null);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].number, "17");
+  assert.deepEqual(rows[0].selections.map((row) => row.value), [1.7, 2.1]);
+});
+
+test("keeps only rounds currently published by the live odds feed", () => {
+  const game = (round, number) => ({ round, date: "08.30(일) 19:00", home: "홈", away: "원정", options: [
+    { market: "승패", "게임번호": number, "선택": "홈", "배당": 1.7 },
+  ] });
+  assert.deepEqual(slipRows([game(101, "1"), game(102, "2")], { rounds: [102] }).map((row) => row.number), ["2"]);
+});
+
+test("hides expired games from the paper slip table", () => {
+  const now = new Date("2026-08-30T03:00:00Z");
+  assert.equal(isCurrentSlipDate("08.29(토) 19:00", now), false);
+  assert.equal(isCurrentSlipDate("08.30(일) 19:00", now), true);
+  assert.equal(isCurrentSlipDate("08.31(월) 19:00", now), true);
+});
