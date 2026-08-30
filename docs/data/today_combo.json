@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-30T23:40:57+09:00",
+ "generated_at": "2026-08-30T23:54:54+09:00",
  "source_generated_at": "2026-08-30T12:22:22+00:00",
- "live_odds_at": "2026-08-30T14:31:15+00:00",
+ "live_odds_at": "2026-08-30T14:49:13+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 32,
- "n_primary_candidates": 32,
+ "n_candidates": 31,
+ "n_primary_candidates": 31,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-30T23:45:00+09:00",
+ "next_kickoff_at": "2026-08-31T00:00:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -633,18 +633,18 @@
     "1.5-1.8",
     "1.5-1.8"
    ],
-   "actual_odds": 4.76,
-   "independent_hit_est": 0.15628,
-   "market_reference_hit_est": 0.15628,
-   "market_reference_roi": -0.2563,
+   "actual_odds": 4.79,
+   "independent_hit_est": 0.15235,
+   "market_reference_hit_est": 0.15235,
+   "market_reference_roi": -0.2702,
    "independence_assumption": true,
-   "hit_est": 0.15628,
-   "upset_risk": 0.84372,
-   "expected_roi": -0.2563,
-   "calibrated_hit_est": 0.15628,
-   "calibrated_expected_roi": -0.2563,
-   "conservative_hit_est": 0.15628,
-   "conservative_expected_roi": -0.2563,
+   "hit_est": 0.15235,
+   "upset_risk": 0.84765,
+   "expected_roi": -0.2702,
+   "calibrated_hit_est": 0.15235,
+   "calibrated_expected_roi": -0.2702,
+   "conservative_hit_est": 0.15235,
+   "conservative_expected_roi": -0.2702,
    "calibration_min_n": null,
    "has_validated_edge": false,
    "probability_source": "shin_market_fallback",
@@ -653,70 +653,114 @@
    "historical_bucket_roi": -0.3192,
    "picks": [
     {
-     "event_key": "2026-08-31T03:45:00+09:00|라치오|제노아",
-     "kickoff_at": "2026-08-31T03:45:00+09:00",
+     "event_key": "2026-08-31T00:15:00+09:00|스타드렌|르망FC",
+     "kickoff_at": "2026-08-31T00:15:00+09:00",
      "round": 102,
-     "game_no": "8028",
-     "date": "08.31(월) 03:45",
+     "game_no": "7930",
+     "date": "08.31(월) 00:15",
      "sport": "sc",
-     "league": "세리에A",
-     "match": "라치오 vs 제노아",
-     "home": "라치오",
-     "away": "제노아",
+     "league": "프리그1",
+     "match": "스타드렌 vs 르망FC",
+     "home": "스타드렌",
+     "away": "르망FC",
      "market": "핸디캡",
-     "market_label": "H -1.0",
+     "market_label": "H -2.0",
      "booking": "3-way-핸디캡",
      "sel": "핸디원정",
-     "odds": 1.6,
+     "odds": 1.62,
      "bin": "1.5-1.8",
-     "overround": 1.1503,
-     "payout": 86.94,
+     "overround": 1.149,
+     "payout": 87.03,
      "hist_roi": -0.099,
      "hist_n": 9747,
-     "market_prob": 0.5664,
-     "predicted_hit_prob": 0.5664,
+     "market_prob": 0.5595,
+     "predicted_hit_prob": 0.5595,
      "probability_source": "shin_market_fallback",
      "has_validated_edge": false,
-     "market_gap": 0.3109,
+     "market_gap": 0.324,
      "n_way": 3,
-     "failure_prob": 0.4336,
+     "failure_prob": 0.4405,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
      "price_source": "live_odds",
      "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
     },
     {
-     "event_key": "2026-08-30T23:45:00+09:00|텔스타|아약스",
-     "kickoff_at": "2026-08-30T23:45:00+09:00",
+     "event_key": "2026-08-31T02:40:00+09:00|탬파레이|샌디파드",
+     "kickoff_at": "2026-08-31T02:40:00+09:00",
      "round": 102,
-     "game_no": "7918",
-     "date": "08.30(일) 23:45",
-     "sport": "sc",
-     "league": "에레디비",
-     "match": "텔스타 vs 아약스",
-     "home": "텔스타",
-     "away": "아약스",
-     "market": "핸디캡",
-     "market_label": "H +2.0",
-     "booking": "3-way-핸디캡",
-     "sel": "핸디홈",
-     "odds": 1.69,
+     "game_no": "7988",
+     "date": "08.31(월) 02:40",
+     "sport": "bs",
+     "league": "MLB",
+     "match": "탬파레이 vs 샌디파드",
+     "home": "탬파레이",
+     "away": "샌디파드",
+     "market": "언더오버",
+     "market_label": "U 7.5",
+     "booking": "2-way",
+     "sel": "언더",
+     "odds": 1.68,
      "bin": "1.5-1.8",
-     "overround": 1.1501,
-     "payout": 86.95,
-     "hist_roi": -0.099,
-     "hist_n": 9747,
-     "market_prob": 0.5343,
-     "predicted_hit_prob": 0.5343,
+     "overround": 1.1358,
+     "payout": 88.05,
+     "hist_roi": -0.1206,
+     "hist_n": 119682,
+     "market_prob": 0.5273,
+     "predicted_hit_prob": 0.5273,
      "probability_source": "shin_market_fallback",
      "has_validated_edge": false,
-     "market_gap": 0.2648,
-     "n_way": 3,
-     "failure_prob": 0.4657,
+     "market_gap": 0.0547,
+     "n_way": 2,
+     "failure_prob": 0.4727,
      "is_market_favorite": true,
      "recommendation_priority": "primary",
      "price_source": "live_odds",
-     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
+     "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다.",
+     "context_summary": "경기 내부 정보로는 선발 예고는 탬파레이 드류 라스무센, 샌디파드 로비 레이다. 경기 외부 정보로는 돔 경기장이라 외부 날씨 효과는 분석에서 제외한다. 다만 이 추가 정보는 전향 검증 전이라 현재 픽의 확률이나 선택 점수에는 반영하지 않았다.",
+     "commentary_method": "template_run_budget",
+     "evidence": {
+      "source_game_id": "20260831SDTB0",
+      "observed_at": "2026-08-29T02:23:00+00:00",
+      "asof_ok": true,
+      "coefficient_status": "not_fitted",
+      "coefficient_gate": [
+       "walk-forward out-of-sample",
+       "Brier와 log-loss 모두 시장 기준 개선",
+       "calibration slope/intercept 악화 없음",
+       "리그별 방향 안정성"
+      ],
+      "protected_entities": [
+       "탬파레이",
+       "샌디파드",
+       "드류 라스무센",
+       "로비 레이"
+      ],
+      "internal": [
+       {
+        "kind": "starter",
+        "text": "선발 예고는 탬파레이 드류 라스무센, 샌디파드 로비 레이다.",
+        "source": "네이버 스포츠 공개 경기정보",
+        "observed_at": "2026-08-29T02:23:00+00:00",
+        "status": "observed"
+       }
+      ],
+      "external": [
+       {
+        "kind": "weather",
+        "text": "돔 경기장이라 외부 날씨 효과는 분석에서 제외한다.",
+        "source": "Open-Meteo + 경기장 지붕 분류",
+        "observed_at": "2026-08-29T10:23:23+00:00",
+        "status": "observed"
+       }
+      ],
+      "crowd": [],
+      "limitations": [
+       "선수 상세 통계의 기준일이 경기와 14일 넘게 떨어져 있어 수치는 제외했다.",
+       "선발 타순은 아직 양 팀 모두 확정된 상태가 아니다.",
+       "선수·최근 경기·날씨·공개 픽은 전향 검증 전이라 현재 추천 확률과 선택 점수에는 가산하지 않았다."
+      ]
+     }
     },
     {
      "event_key": "2026-08-31T00:30:00+09:00|맨체스U|입스위치",
@@ -784,39 +828,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-30T23:45:00+09:00|텔스타|아약스",
-   "kickoff_at": "2026-08-30T23:45:00+09:00",
-   "round": 102,
-   "game_no": "7918",
-   "date": "08.30(일) 23:45",
-   "sport": "sc",
-   "league": "에레디비",
-   "match": "텔스타 vs 아약스",
-   "home": "텔스타",
-   "away": "아약스",
-   "market": "핸디캡",
-   "market_label": "H +2.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디홈",
-   "odds": 1.69,
-   "bin": "1.5-1.8",
-   "overround": 1.1501,
-   "payout": 86.95,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5343,
-   "predicted_hit_prob": 0.5343,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.2648,
-   "n_way": 3,
-   "failure_prob": 0.4657,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
   {
    "event_key": "2026-08-31T00:00:00+09:00|레알마드|말라가",
    "kickoff_at": "2026-08-31T00:00:00+09:00",
@@ -2526,5 +2537,57 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-08-30T14:49:49+00:00",
+  "reason": "live_market_pick_changed",
+  "previous_revision": "ac62d77d9d249de79081775abfaaa9a9d79d40dc10002bee175d84d999292812",
+  "revision": "d80c6f2fcf421400b9d0026a53b3229d50e7154ba7c0ad987fdbe7b7be59ab65",
+  "previous": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7963|핸디캡|H -1.0|핸디원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7930|핸디캡|H -2.0|핸디원정",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|8028|핸디캡|H -1.0|핸디원정",
+      "102|7918|핸디캡|H +2.0|핸디홈",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "102|7963|핸디캡|H -1.0|핸디원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "102|7930|핸디캡|H -2.0|핸디원정",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "102|7930|핸디캡|H -2.0|핸디원정",
+      "102|7988|언더오버|U 7.5|언더",
+      "102|7936|핸디캡|H -2.0|핸디원정"
+     ]
+    }
+   ]
+  }
+ },
+ "recommendation_revision": "d80c6f2fcf421400b9d0026a53b3229d50e7154ba7c0ad987fdbe7b7be59ab65",
+ "refreshed_at": "2026-08-30T14:54:54+00:00"
 }
