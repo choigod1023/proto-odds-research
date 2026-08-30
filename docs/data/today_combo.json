@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-08-30T21:54:48+09:00",
+ "generated_at": "2026-08-30T22:08:23+09:00",
  "source_generated_at": "2026-08-30T12:22:22+00:00",
- "live_odds_at": "2026-08-30T12:54:08+00:00",
+ "live_odds_at": "2026-08-30T13:01:04+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 37,
- "n_primary_candidates": 37,
+ "n_candidates": 33,
+ "n_primary_candidates": 33,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-08-30T22:00:00+09:00",
+ "next_kickoff_at": "2026-08-30T22:30:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -784,138 +784,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-08-30T22:00:00+09:00|첼시|브라이턴",
-   "kickoff_at": "2026-08-30T22:00:00+09:00",
-   "round": 102,
-   "game_no": "7895",
-   "date": "08.30(일) 22:00",
-   "sport": "sc",
-   "league": "EPL",
-   "match": "첼시 vs 브라이턴",
-   "home": "첼시",
-   "away": "브라이턴",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "오버",
-   "odds": 1.52,
-   "bin": "1.5-1.8",
-   "overround": 1.123,
-   "payout": 89.05,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5964,
-   "predicted_hit_prob": 0.5964,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.1928,
-   "n_way": 2,
-   "failure_prob": 0.4036,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-30T22:00:00+09:00|리즈U|브렌트퍼",
-   "kickoff_at": "2026-08-30T22:00:00+09:00",
-   "round": 102,
-   "game_no": "7900",
-   "date": "08.30(일) 22:00",
-   "sport": "sc",
-   "league": "EPL",
-   "match": "리즈U vs 브렌트퍼",
-   "home": "리즈U",
-   "away": "브렌트퍼",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "오버",
-   "odds": 1.75,
-   "bin": "1.5-1.8",
-   "overround": 1.1239,
-   "payout": 88.97,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5095,
-   "predicted_hit_prob": 0.5095,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0189,
-   "n_way": 2,
-   "failure_prob": 0.4905,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-30T22:00:00+09:00|파리FC|OGC니스",
-   "kickoff_at": "2026-08-30T22:00:00+09:00",
-   "round": 102,
-   "game_no": "7909",
-   "date": "08.30(일) 22:00",
-   "sport": "sc",
-   "league": "프리그1",
-   "match": "파리FC vs OGC니스",
-   "home": "파리FC",
-   "away": "OGC니스",
-   "market": "언더오버",
-   "market_label": "U 2.5",
-   "booking": "2-way",
-   "sel": "언더",
-   "odds": 1.6,
-   "bin": "1.5-1.8",
-   "overround": 1.1352,
-   "payout": 88.09,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5574,
-   "predicted_hit_prob": 0.5574,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.1148,
-   "n_way": 2,
-   "failure_prob": 0.4426,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
-  {
-   "event_key": "2026-08-30T22:00:00+09:00|선덜랜드|풀럼",
-   "kickoff_at": "2026-08-30T22:00:00+09:00",
-   "round": 102,
-   "game_no": "7903",
-   "date": "08.30(일) 22:00",
-   "sport": "sc",
-   "league": "EPL",
-   "match": "선덜랜드 vs 풀럼",
-   "home": "선덜랜드",
-   "away": "풀럼",
-   "market": "핸디캡",
-   "market_label": "H -1.0",
-   "booking": "3-way-핸디캡",
-   "sel": "핸디원정",
-   "odds": 1.54,
-   "bin": "1.5-1.8",
-   "overround": 1.1361,
-   "payout": 88.02,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
-   "market_prob": 0.5953,
-   "predicted_hit_prob": 0.5953,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.3636,
-   "n_way": 3,
-   "failure_prob": 0.4047,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
   {
    "event_key": "2026-08-30T22:30:00+09:00|프라이부|브레멘",
    "kickoff_at": "2026-08-30T22:30:00+09:00",
@@ -2691,57 +2559,5 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
- "last_recommendation_change": {
-  "changed_at": "2026-08-30T12:34:46+00:00",
-  "reason": "prices_recalculated",
-  "previous_revision": null,
-  "revision": "3d54cd225687fc3cd919d84fea46b0a57fd185175412249e95342ec59a02310e",
-  "previous": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7963|핸디캡|H -1.0|핸디원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7930|핸디캡|H -2.0|핸디원정",
-      "102|7936|핸디캡|H -2.0|핸디원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|8042|언더오버|U 2.5|언더",
-      "102|7918|핸디캡|H +2.0|핸디홈",
-      "102|7936|핸디캡|H -2.0|핸디원정"
-     ]
-    }
-   ]
-  },
-  "current": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "102|7963|핸디캡|H -1.0|핸디원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "102|7930|핸디캡|H -2.0|핸디원정",
-      "102|7936|핸디캡|H -2.0|핸디원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "102|8042|언더오버|U 2.5|언더",
-      "102|7918|핸디캡|H +2.0|핸디홈",
-      "102|7936|핸디캡|H -2.0|핸디원정"
-     ]
-    }
-   ]
-  }
- },
- "recommendation_revision": "3d54cd225687fc3cd919d84fea46b0a57fd185175412249e95342ec59a02310e",
- "refreshed_at": "2026-08-30T12:54:48+00:00"
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
 }
