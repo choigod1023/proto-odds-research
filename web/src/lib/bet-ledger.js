@@ -19,8 +19,9 @@ export function writeBetLedger(bets, storage = globalThis.localStorage) {
   return bets;
 }
 
-export function createBetRecord(game, option, { stake, purchaseOdds } = {}) {
-  const now = new Date().toISOString();
+export function createBetRecord(game, option, { stake, purchaseOdds, purchasedAt, source } = {}) {
+  const purchased = purchasedAt ? new Date(String(purchasedAt).replace(/[.]/g, "-").replace(" ", "T")) : null;
+  const now = purchased && Number.isFinite(purchased.getTime()) ? purchased.toISOString() : new Date().toISOString();
   const probability = Number(option?.["시장확률"]);
   const price = Number(purchaseOdds ?? option?.["배당"]);
   return {
@@ -37,6 +38,7 @@ export function createBetRecord(game, option, { stake, purchaseOdds } = {}) {
     purchaseOdds: Number.isFinite(price) ? price : null,
     stake: Math.max(0, Number(stake) || 0),
     openingProbability: Number.isFinite(probability) ? probability : null,
+    source: source || "manual",
     history: Number.isFinite(probability) ? [{ at: now, probability, phase: "pregame" }] : [],
   };
 }

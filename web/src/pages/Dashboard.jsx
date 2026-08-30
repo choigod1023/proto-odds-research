@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "../components/ui.jsx";
+import BetOcrImport from "../components/BetOcrImport.jsx";
 import { appendProbabilityHistory, estimateLiveProbability, liveKey,
   readBetLedger, removeBet, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 
@@ -88,6 +89,7 @@ function BetCard({ bet, live, onRemove }) {
 
 export default function Dashboard() {
   const [bets, setBets] = useState(() => readBetLedger());
+  const [oddsDocument, setOddsDocument] = useState(null);
   const liveData = useLiveScores();
   const index = useMemo(() => liveIndex(liveData), [liveData]);
   useEffect(() => {
@@ -95,6 +97,10 @@ export default function Dashboard() {
     window.addEventListener("storage", refresh);
     window.addEventListener("proodd:bet-ledger", refresh);
     return () => { window.removeEventListener("storage", refresh); window.removeEventListener("proodd:bet-ledger", refresh); };
+  }, []);
+  useEffect(() => {
+    fetch(`./data/picks_v2.json?${Date.now()}`).then((response) => response.ok ? response.json() : null)
+      .then(setOddsDocument).catch(() => {});
   }, []);
   useEffect(() => {
     if (!liveData || !bets.length) return;
@@ -134,6 +140,7 @@ export default function Dashboard() {
         <div><small>정산 완료</small><b>{totals.settled}건</b></div>
         <div><small>확정 손익</small><b className={totals.profit < 0 ? "text-sev3" : ""}>{totals.profit >= 0 ? "+" : ""}{money(totals.profit)}</b></div>
       </section>
+      <BetOcrImport oddsDocument={oddsDocument} onSaved={() => setBets(readBetLedger())} />
       <div className="dashboard-notice">
         현재 확률은 구매 당시 시장확률을 실시간 점수와 남은 시간으로 이동시킨 <b>상황 추정치</b>입니다.
         검증된 인플레이 베팅 모델이나 실시간 구매 추천이 아닙니다.

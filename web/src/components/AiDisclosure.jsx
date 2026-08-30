@@ -12,6 +12,8 @@ const signedPoint = (value) => isNumeric(value)
 const reasonText = {
   model_not_promoted: "미래 홀드아웃에서 아직 승격되지 않음",
   no_first_seen_prediction_ledger: "최초 관측 시각이 고정된 예측 원장이 없음",
+  player_first_seen_revision_missing: "선수 자료의 최초 관측 revision이 없어 확률에는 미반영",
+  league_future_validation_not_promoted: "리그별 미래 검증을 통과하지 않아 내부요인은 연구 수치로만 표시",
   market_anchor_policy: "현재 운영식은 시장 기준",
   not_in_operating_formula: "운영 수식에 아직 포함되지 않음",
   context_not_probability: "확률이 아니라 확인용 문맥",

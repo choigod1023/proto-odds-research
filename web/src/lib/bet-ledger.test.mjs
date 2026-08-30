@@ -14,6 +14,16 @@ test("선택과 구매 정보를 단일 베팅 원장으로 만든다", () => {
   assert.equal(bet.openingProbability, .55);
 });
 
+test("OCR 구매 시각과 출처를 원장에 보존한다", () => {
+  const record = createBetRecord(
+    { home: "홈", away: "원정", sport: "bs" },
+    { market: "승패", "선택": "홈", "배당": 1.8 },
+    { stake: 10000, purchasedAt: "2026.08.30 19:20", source: "client_ocr_confirmed" },
+  );
+  assert.equal(Number.isNaN(Date.parse(record.createdAt)), false);
+  assert.equal(record.source, "client_ocr_confirmed");
+});
+
 test("축구 홈 픽이 후반에 앞서면 실시간 상황 확률이 상승한다", () => {
   const estimate = estimateLiveProbability(bet, {
     status: "STARTED", home_score: 1, away_score: 0,

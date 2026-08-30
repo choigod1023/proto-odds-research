@@ -33,6 +33,8 @@ def _game(round_no: int = 91) -> dict:
             "home": "김선발",
             "away": "박선발",
             "updated_at": "2026-08-27T08:00:00+09:00",
+            "first_seen_at": "2026-08-27T08:00:00+09:00",
+            "revision_id": "revision-1",
             "source": "공식 경기 정보",
             "source_url": "https://example.test/game",
             "unavailable": {"home": [{"name": "이부상"}], "away": []},
@@ -306,6 +308,7 @@ def test_missing_or_invalid_price_cannot_be_a_market_reference():
 def test_evidence_observed_after_feature_cutoff_is_rejected():
     game = _game()
     game["선발"]["updated_at"] = "2026-08-27T10:00:00+09:00"
+    game["선발"]["first_seen_at"] = "2026-08-27T10:00:00+09:00"
 
     try:
         build_decision_snapshot(game, as_of="2026-08-27T09:00:00+09:00")
@@ -315,7 +318,8 @@ def test_evidence_observed_after_feature_cutoff_is_rejected():
         raise AssertionError("입력 컷오프 뒤 자료가 판정에 들어갔다")
 
 
-def test_policy_authorized_internal_baseball_model_changes_probability_with_audit():
+def test_policy_authorized_internal_baseball_model_changes_probability_with_audit(monkeypatch):
+    monkeypatch.setattr("internal_probability.league_is_promoted", lambda league: True)
     game = _game()
     game["options"] = game["options"][:2]
     game["options"][0]["배당"] = 1.60
@@ -334,3 +338,42 @@ def test_policy_authorized_internal_baseball_model_changes_probability_with_audi
     assert snapshot["probability"]["final"] != snapshot["probability"]["market"]
     assert snapshot["stages"]["availability_ai"]["affects_probability"] is True
     validate_decision_snapshot(snapshot)
+
+
+def test_exclusive_market_probabilities_are_renormalized_with_audit(monkeypatch):
+    monkeypatch.setattr("internal_probability.league_is_promoted", lambda league: True)
+    game = _game()
+    game["options"] = game["options"][:2]
+    game["options"][0]["모델확률"] = .60
+    game["options"][1]["모델확률"] = .50
+    game["선발"].update({
+        "home_detail": {"name": "김선발", "stats": {"fip": 2.8}},
+        "away_detail": {"name": "박선발", "stats": {"fip": 4.8}},
+        "starter_status": {"state": "confirmed"},
+    })
+
+    annotate_options(game)
+
+    assert sum(option["최종확률"] for option in game["options"]) == 1.0
+    audit = game["probability_pipeline"]["market_probability_audit"][0]
+    assert audit["sum_after"] == 1.0
+    assert audit["selection_count"] == 2
+    assert audit["normalization_l1"] > 0
+
+
+def test_market_normalization_is_order_independent(monkeypatch):
+    monkeypatch.setattr("internal_probability.league_is_promoted", lambda league: True)
+    left = _game()
+    right = _game()
+    left["options"] = left["options"][:2]
+    right["options"] = list(reversed(right["options"][:2]))
+    for game in (left, right):
+        game["선발"].update({
+            "home_detail": {"name": "김선발", "stats": {"fip": 2.8}},
+            "away_detail": {"name": "박선발", "stats": {"fip": 4.8}},
+            "starter_status": {"state": "confirmed"},
+        })
+        annotate_options(game)
+
+    by_choice = lambda game: {row["선택"]: row["최종확률"] for row in game["options"]}
+    assert by_choice(left) == by_choice(right)

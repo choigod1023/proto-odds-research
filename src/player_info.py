@@ -22,6 +22,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -460,13 +461,38 @@ def collect() -> dict:
     # 공식 API 범위 밖의 과거 MLB 경기는 네이버 예고 이름을 유지하고, 공식 경기에는
     # 네이버 한글 선발명과 MLB 기록을 합친다. 최신 공식 레코드가 화면에 사용된다.
     games = games + npb + mlb + soccer + court
+    collected_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    previous_revisions = {
+        row.get("revision_id"): row for row in existing.get("games", [])
+        if row.get("revision_id")
+    }
+    for game in games:
+        game.setdefault("source_published_at", None)
+        content = {key: value for key, value in game.items() if key not in {
+            "updated_at", "collected_at", "first_seen_at", "source_published_at",
+            "revision_id",
+        }}
+        revision_id = hashlib.sha256(json.dumps(
+            content, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+            default=str,
+        ).encode("utf-8")).hexdigest()
+        previous = previous_revisions.get(revision_id) or {}
+        game["revision_id"] = revision_id
+        game["first_seen_at"] = (
+            previous.get("first_seen_at") or game.get("first_seen_at") or collected_at
+        )
+        game["collected_at"] = collected_at
     doc = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": collected_at,
         "injuries_refreshed_at": injury_stamp, "team_injuries": injuries,
         "npb_name_cache": npb_name_cache, "soccer_team_cache": soccer_cache,
         "court_team_cache": court_cache, "games": games,
     }
     if db:
+        db.append_events(
+            "player_info_revisions", games,
+            identity_keys=("revision_id",), observed_at_key="first_seen_at",
+        )
         db.put_document("player_info", doc)
         db.export_document("player_info", OUT)
     else:
@@ -520,6 +546,10 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
         "teams": rec.get("teams") or {}, "unavailable": rec.get("unavailable") or {},
         "lineups": rec.get("lineups") or {}, "source": rec.get("source"),
         "source_url": rec.get("source_url"), "updated_at": rec.get("updated_at"),
+        "first_seen_at": rec.get("first_seen_at"),
+        "collected_at": rec.get("collected_at"),
+        "source_published_at": rec.get("source_published_at"),
+        "revision_id": rec.get("revision_id"),
         "key_players": rec.get("key_players") or {}, "rosters": rec.get("rosters") or {},
         "benches": rec.get("benches") or {}, "formations": rec.get("formations") or {},
         "lineup_status": rec.get("lineup_status") or {},
