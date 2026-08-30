@@ -143,6 +143,34 @@ def _score(team: dict) -> int | float | None:
     return value if value not in (None, "") else None
 
 
+def named_soccer_clock(raw: dict) -> dict:
+    """NAMED 축구 중계의 최신 이벤트 시각을 전·후반 경과 분으로 바꾼다.
+
+    `displayTime`은 HH:MM 모양이지만 시:분이 아니라 누적 경기 분이다.
+    예: 01:23 = 83분 = 후반 38분.
+    """
+    status = str(raw.get("gameStatus") or "").upper()
+    period = int(raw.get("period") or 0)
+    if status == "BREAK_TIME":
+        return {"period": period or 2, "elapsed_minute": 45,
+                "phase": "halftime", "label": "하프타임"}
+    if status != "IN_PROGRESS":
+        return {}
+    broadcast = raw.get("broadcast") or {}
+    display = str(broadcast.get("displayTime") or raw.get("displayTime") or "")
+    match = re.fullmatch(r"(\d{1,2}):(\d{2})", display)
+    if not match:
+        return {"period": period, "phase": "live", "label": "진행 중"}
+    elapsed = int(match.group(1)) * 60 + int(match.group(2))
+    if period <= 1:
+        minute = max(1, elapsed)
+        return {"period": 1, "elapsed_minute": elapsed,
+                "phase": "first_half", "label": f"전반 {minute}분"}
+    minute = max(1, elapsed - 45)
+    return {"period": period, "elapsed_minute": elapsed,
+            "phase": "second_half", "label": f"후반 {minute}분"}
+
+
 def normalize_named_game(raw: dict, sport: str) -> dict:
     """NAMED 한 경기를 프론트가 이미 읽는 live_scores 공통 형식으로 바꾼다."""
     teams = raw.get("teams") or {}
@@ -154,6 +182,7 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
         start += "+09:00"
     league = raw.get("league") or {}
     finished = status in RESULT_STATUSES
+    clock = named_soccer_clock(raw) if sport == "soccer" else {}
     rec = {
         "source": "named",
         "sport": NAMED_SPORTS[sport][0],
@@ -166,12 +195,14 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
         "away_alias": [x for x in (away.get("shortName"),) if x],
         "home_score": _score(home), "away_score": _score(away),
         "status": status,
-        "status_text": NAMED_STATUS_TEXT.get(original_status, "상태 확인 중"),
+        "status_text": clock.get("label") or NAMED_STATUS_TEXT.get(original_status, "상태 확인 중"),
         "finished": finished,
         "terminal": status in TERMINAL_STATUSES,
         "cancelled": status in {"CANCEL", "CANCELED", "CANCELLED"},
         "postponed": status == "POSTPONED",
     }
+    if clock:
+        rec["clock"] = clock
     if status == "BEFORE":
         rec["home_score"] = rec["away_score"] = None
     return rec
