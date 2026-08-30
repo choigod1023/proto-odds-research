@@ -147,6 +147,16 @@ def _unavailable_sentence(home: str, away: str, info: dict) -> str | None:
     return f"공식 출전 상태에 표시된 선수는 {', '.join(labels)}입니다." if labels else None
 
 
+def _team_characteristics_sentence(home: str, away: str, info: dict) -> str | None:
+    profiles = info.get("team_profiles") or {}
+    labels = []
+    for side, team in (("home", home), ("away", away)):
+        facts = [str(value) for value in (profiles.get(side) or {}).get("characteristics", []) if value]
+        if facts:
+            labels.append(f"{team}은 {' · '.join(facts[:4])}")
+    return f"공식 팀 기록상 {'; '.join(labels)}이다." if labels else None
+
+
 def player_context_text(home: str, away: str, sport: str, info: dict | None) -> str:
     """사실 확인된 선수정보만 0~3개 문장으로 압축한다."""
     info = info or {}
@@ -156,6 +166,7 @@ def player_context_text(home: str, away: str, sport: str, info: dict | None) -> 
                           _lineup_sentence(home, away, info)))
     else:
         sentences.append(_key_player_sentence(home, away, sport, info))
+    sentences.append(_team_characteristics_sentence(home, away, info))
     sentences.append(_unavailable_sentence(home, away, info))
     return " ".join(sentence for sentence in sentences if sentence)
 

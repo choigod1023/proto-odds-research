@@ -405,6 +405,39 @@ class RuntimeDatabase:
             ).fetchall()
         return [{**dict(row), "odds": json.loads(row["odds_json"])} for row in rows]
 
+    def export_odds_csv(self, path: Path, *, day: str | None = None) -> None:
+        """배당 스냅샷 호환 CSV를 DB 원장에서 재생성한다."""
+        sql = """SELECT observed_at,season,round,game_no,sport,league,
+                        market_family,n_way,market_label,home,away,date_text,
+                        odds_json,result FROM odds_snapshots"""
+        params: list[Any] = []
+        if day is not None:
+            sql += " WHERE substr(observed_at,1,10)=?"
+            params.append(day)
+        sql += " ORDER BY observed_at,season,round,game_no"
+        fields = ["ts", "year", "round", "game_no", "sport", "league",
+                  "market_family", "n_way", "market_label", "home", "away",
+                  "date_text", "odds", "result"]
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(path.suffix + ".db-export.tmp")
+        with self.connect() as connection, temporary.open(
+                "w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            for row in connection.execute(sql, params):
+                writer.writerow({
+                    "ts": row["observed_at"], "year": row["season"],
+                    "round": row["round"], "game_no": row["game_no"],
+                    "sport": row["sport"], "league": row["league"],
+                    "market_family": row["market_family"], "n_way": row["n_way"],
+                    "market_label": row["market_label"], "home": row["home"],
+                    "away": row["away"], "date_text": row["date_text"],
+                    "odds": ",".join(str(value) for value in
+                                     json.loads(row["odds_json"])),
+                    "result": row["result"],
+                })
+        temporary.replace(path)
+
     def mirror_prediction_records(self, records: Iterable[Mapping[str, Any]]) -> int:
         values = []
         for record in records:

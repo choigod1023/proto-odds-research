@@ -1,4 +1,6 @@
-from src.live_scores import baseball_situation
+from datetime import datetime, timezone
+
+from src.live_scores import baseball_situation, merge_recent_games
 
 
 def test_baseball_situation_extracts_batter_count_and_runners():
@@ -48,3 +50,17 @@ def test_baseball_situation_extracts_batter_count_and_runners():
 
 def test_baseball_situation_returns_empty_when_relay_is_missing():
     assert baseball_situation({"result": {}}) == {}
+
+
+def test_merge_recent_games_keeps_terminal_history_and_prefers_current():
+    now = datetime(2026, 8, 30, tzinfo=timezone.utc)
+    previous = [
+        {"game_id": "kept", "start": "2026-08-10T18:00:00+09:00", "status": "RESULT"},
+        {"game_id": "updated", "start": "2026-08-29T18:00:00+09:00", "status": "RESULT"},
+        {"game_id": "before", "start": "2026-08-29T18:00:00+09:00", "status": "BEFORE"},
+        {"game_id": "old", "start": "2026-06-01T18:00:00+09:00", "status": "RESULT"},
+    ]
+    current = [{"game_id": "updated", "start": "2026-08-29T18:00:00+09:00", "status": "CANCEL"}]
+    by_id = {row["game_id"]: row for row in merge_recent_games(current, previous, now)}
+    assert set(by_id) == {"kept", "updated"}
+    assert by_id["updated"]["status"] == "CANCEL"

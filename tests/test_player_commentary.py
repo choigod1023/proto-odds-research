@@ -1,6 +1,17 @@
 from src.player_commentary import player_context_text, with_player_context
 
 
+def test_팀별_공식_특징을_ai_입력_문장에_분리한다():
+    text = player_context_text("홈팀", "원정팀", "sc", {
+        "team_profiles": {
+            "home": {"characteristics": ["현재 1위", "경기당 2.1득점"]},
+            "away": {"characteristics": ["현재 8위", "경기당 1.4실점"]},
+        },
+    })
+    assert "홈팀은 현재 1위 · 경기당 2.1득점" in text
+    assert "원정팀은 현재 8위 · 경기당 1.4실점" in text
+
+
 NPB_INFO = {
     "home_detail": {"name": "야나기 유야", "stats": {
         "period": "2026시즌", "record": "4승 5패", "era": 2.45, "whip": 1.10,

@@ -28,7 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from wisetoto import BASE, _session, get_master_seq, parse_rows  # noqa: E402
-from runtime_db import RuntimeDatabase  # noqa: E402
+from runtime_db import RuntimeDatabase, database_enabled  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
 CH_FILE = OUT / "changes.csv"
@@ -198,10 +198,19 @@ def snap(year: int, rounds: list[int]) -> int:
         time.sleep(REQUEST_GAP)
 
     # DB가 운영 원본이다. CSV는 기존 분석 코드용 호환 export다.
-    RuntimeDatabase().insert_odds(new_rows)
-    _append(ts_file(), FIELDS, new_rows)
+    database = RuntimeDatabase()
+    database.insert_odds(new_rows)
+    if database_enabled():
+        database.export_odds_csv(ts_file(), day=ts[:10])
+    else:
+        _append(ts_file(), FIELDS, new_rows)
     if changes:
-        _append(CH_FILE, FIELDS + ["prev_odds"], changes)
+        if database_enabled():
+            database.append_events("odds_changes", changes)
+            database.export_events_csv("odds_changes", CH_FILE,
+                                       FIELDS + ["prev_odds"])
+        else:
+            _append(CH_FILE, FIELDS + ["prev_odds"], changes)
 
     print(f"[{ts}] 스냅샷 {len(new_rows)}행 · 배당변동 {len(changes)}건", flush=True)
     for c in changes[:15]:

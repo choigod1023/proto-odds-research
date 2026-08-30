@@ -13,6 +13,11 @@ test("실시간 종료와 프로토 정산을 모두 종료로 분류한다", ()
   assert.equal(gamePhase({ status: "정산" }, null), "finished");
 });
 
+test("취소와 연기는 진행 중으로 오인하지 않는다", () => {
+  assert.equal(gamePhase({}, { status: "CANCEL", cancelled: true }), "pending");
+  assert.equal(gamePhase({}, { status: "POSTPONED", postponed: true }), "pending");
+});
+
 test("사전 저장 추천만 적중과 실패로 표시한다", () => {
   assert.equal(recommendationOutcome({ prediction_record: { result: "hit" } }).label, "적중");
   assert.equal(recommendationOutcome({ prediction_record: { result: "miss" } }).label, "적중 실패");

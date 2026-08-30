@@ -512,6 +512,7 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
     # 경기 정보를 섞기보다 동일 키 안에서 갱신 시각이 가장 늦은 값만 택한다.
     rec = max(candidates, key=lambda x: str(x.get("updated_at") or ""))
     starters = rec.get("starters") or {}
+    team_profiles = build_team_profiles(rec)
     payload = {
         "home": (starters.get("home") or {}).get("name"),
         "away": (starters.get("away") or {}).get("name"),
@@ -524,9 +525,36 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
         "lineup_status": rec.get("lineup_status") or {},
         "roster_status": rec.get("roster_status") or {},
         "coverage": rec.get("coverage") or {}, "sport": rec.get("sport"),
-        "game_id": rec.get("game_id"),
+        "game_id": rec.get("game_id"), "team_profiles": team_profiles,
     }
     return enrich_availability(payload)
+
+
+def build_team_profiles(rec: dict) -> dict:
+    """공식 수치와 선수 목록을 홈·원정별 검증 가능한 구조로 만든다."""
+    teams = rec.get("teams") or {}
+    key_players = rec.get("key_players") or {}
+    lineups = rec.get("lineups") or {}
+    unavailable = rec.get("unavailable") or {}
+    out = {}
+    for side in ("home", "away"):
+        record = teams.get(side) or {}
+        characteristics = []
+        if record.get("rank") is not None:
+            characteristics.append(f"현재 {record['rank']}위")
+        if record.get("wins") is not None and record.get("losses") is not None:
+            draws = f" {record['draws']}무" if record.get("draws") is not None else ""
+            characteristics.append(f"{record['wins']}승{draws} {record['losses']}패")
+        for key, label, suffix in (("goals_per_game", "경기당", "득점"),
+                                   ("conceded_per_game", "경기당", "실점"),
+                                   ("points_per_game", "경기당", "득점"),
+                                   ("attack_pct", "공격 성공률", "%")):
+            if record.get(key) is not None:
+                characteristics.append(f"{label} {record[key]}{suffix}")
+        players = key_players.get(side) or lineups.get(side) or []
+        out[side] = {"record": record, "characteristics": characteristics,
+                     "key_players": players[:5], "unavailable": unavailable.get(side) or []}
+    return out
 
 
 def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
