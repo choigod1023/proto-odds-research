@@ -562,6 +562,11 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     (target) => Number(target) === Number(primaryTarget),
   );
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
+  // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
+  // 경기 시작/예정시각 경과 뒤에는 그 문장을 사실처럼 재노출하지 않는다.
+  const insightGame = wait && (liveClosed || waitText === "상태 확인 불가")
+    ? { ...g, 해설: null, 해설기본: null }
+    : g;
   const resultHeadline = outcome.record
     ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
     : null;
@@ -673,7 +678,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             경기 전에 저장된 예측 원장이 없어 현재 공식으로 과거 추천을 재구성하지 않습니다.
           </div>
         )}
-        <MatchInsight g={g} analysis={analysis}
+        <MatchInsight g={insightGame} analysis={analysis}
           decision={predictionUnavailable ? null : decision}
           opts={opts} grades={grades} tie={tie} pick={pick}
           recalculating={g._liveOddsChanged === true} showPrices={!wait}
