@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
-from src.live_scores import baseball_situation, merge_recent_games
+from src.live_scores import (add_proto_aliases, baseball_situation,
+                             merge_recent_games, normalize_named_game)
 
 
 def test_baseball_situation_extracts_batter_count_and_runners():
@@ -64,3 +65,50 @@ def test_merge_recent_games_keeps_terminal_history_and_prefers_current():
     by_id = {row["game_id"]: row for row in merge_recent_games(current, previous, now)}
     assert set(by_id) == {"kept", "updated"}
     assert by_id["updated"]["status"] == "CANCEL"
+
+
+def test_normalize_named_final_game_includes_score_and_kst():
+    raw = {
+        "id": 123, "gameStatus": "FINAL", "result": "WIN",
+        "startDatetime": "2026-08-30T19:00:00",
+        "league": {"shortName": "EPL"},
+        "teams": {
+            "home": {"name": "아스널", "shortName": "ARS",
+                     "periodData": [{"score": 1}, {"score": 2}]},
+            "away": {"name": "리버풀", "periodData": [{"score": 1}, {"score": 0}]},
+        },
+    }
+    game = normalize_named_game(raw, "soccer")
+    assert game["game_id"] == "named:123"
+    assert game["status"] == "RESULT"
+    assert game["finished"] is True
+    assert game["home_score"] == 3
+    assert game["away_score"] == 1
+    assert game["start"].endswith("+09:00")
+
+
+def test_normalize_named_ready_hides_zero_score():
+    raw = {
+        "id": 124, "gameStatus": "READY", "startDatetime": "2026-08-31T19:00:00",
+        "league": {"name": "K리그 1"},
+        "teams": {"home": {"name": "FC 서울", "score": 0},
+                  "away": {"name": "울산 HD", "score": 0}},
+    }
+    game = normalize_named_game(raw, "soccer")
+    assert game["status"] == "BEFORE"
+    assert game["home_score"] is None
+    assert game["away_score"] is None
+
+
+def test_add_proto_aliases_matches_abbreviated_names_by_sport_and_date():
+    named = [{
+        "sport": "bs", "md": "08.30", "home": "밀워키 브루어스",
+        "away": "애틀랜타 브레이브스", "home_alias": [], "away_alias": [],
+    }]
+    proto = [{
+        "sport": "bs", "date": "08.30(일) 08:10",
+        "home": "밀워브루", "away": "애틀브레",
+    }]
+    assert add_proto_aliases(named, proto) == 1
+    assert named[0]["home_alias"] == ["밀워브루"]
+    assert named[0]["away_alias"] == ["애틀브레"]
