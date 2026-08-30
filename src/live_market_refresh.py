@@ -68,9 +68,11 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
     grouped: dict[tuple, list[dict]] = {}
     for round_no, markets in live_odds["markets"].items():
         for row in (markets or {}).values():
-            if row.get("result") not in UNPLAYED:
-                continue
             key = _key(round_no, row.get("date"), row.get("home"), row.get("away"))
+            # 이미 목록에 있던 경기는 시작·종료 후 수집된 발매 행도 받아 둔다.
+            # 과거 경기까지 새로 live에 되살리는 것은 막고, 기존의 빈 배당만 복구한다.
+            if row.get("result") not in UNPLAYED and key not in existing:
+                continue
             grouped.setdefault(key, []).append(row)
 
     changed = 0
@@ -89,20 +91,34 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             }
             document.setdefault("live", []).append(game)
             existing[key] = game
+        pregame = all(row.get("result") in UNPLAYED for row in rows)
         old_signature = [(row.get("게임번호"), row.get("배당")) for row in game.get("options") or []]
         new_signature = [(row.get("게임번호"), row.get("배당")) for row in options]
-        if old_signature == new_signature and game.get("status") == "경기전":
+        target_status = "경기전" if pregame else (
+            game.get("status") if game.get("status") not in {"", "경기전", "배당대기"}
+            else "결과확인"
+        )
+        if old_signature == new_signature and game.get("status") == target_status:
             continue
         game.update({
-            "status": "경기전", "no_odds": False, "options": options,
-            "판단": "실시간 시장 기준", "추천": None,
-            "선택지수": len(options), "해설": None, "해설기본": None,
-            "설명메타": {"kind": "structured_ui", "affects_probability": False},
+            "status": target_status, "no_odds": False, "options": options,
+            "선택지수": len(options),
         })
-        game["decision_snapshot"] = build_decision_snapshot(
-            game, as_of=observed_at, built_at=observed_at,
-            explanation_kind="structured_ui",
-        )
+        if pregame:
+            game.update({
+                "판단": "실시간 시장 기준", "추천": None,
+                "해설": None, "해설기본": None,
+                "설명메타": {"kind": "structured_ui", "affects_probability": False},
+            })
+            game["decision_snapshot"] = build_decision_snapshot(
+                game, as_of=observed_at, built_at=observed_at,
+                explanation_kind="structured_ui",
+            )
+        else:
+            # 경기 후 복구한 가격으로 사전 추천을 소급 생성하지 않는다.
+            game.pop("decision_snapshot", None)
+            game["prediction_status"] = "prediction_ledger_required"
+            game["odds_recovered_after_start"] = True
         changed += 1
 
     if changed:
