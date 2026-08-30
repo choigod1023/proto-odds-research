@@ -26,6 +26,8 @@ from elo_model import fit_logistic, load_results, prob_home, run_elo  # noqa: E4
 from snapshot import UNPLAYED, _fetch, find_live_rounds  # noqa: E402
 from team_form import build_forms, form_for_game, h2h_text  # noqa: E402
 from wisetoto import CACHE, _session                     # noqa: E402
+from runtime_db import (RuntimeDatabase, database_enabled,
+                        persist_artifact)                 # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -91,9 +93,11 @@ def _sanitize_existing_document(doc: dict, now: datetime | None = None) -> dict:
 
 
 def _sanitize_existing_output() -> int:
-    doc = json.loads(OUT.read_text(encoding="utf-8"))
+    doc = RuntimeDatabase().get_artifact("picks") if database_enabled() else None
+    if doc is None:
+        doc = json.loads(OUT.read_text(encoding="utf-8"))
     _sanitize_existing_document(doc)
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("picks", doc, OUT)
     print(f"시작 전 레거시 픽만 보존: {OUT}")
     return 0
 
@@ -224,8 +228,7 @@ def main() -> int:
         "season": season, "rounds": rounds,
         "n_picks": len(picks), "backtest": BACKTEST, "picks": picks,
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("picks", doc, OUT)
     print(f"\n픽 {len(picks)}건 → {OUT}")
     for p in picks[:5]:
         print(f"  [{p['pick_ev']:+.1%}] {p['league']} {p['home']} vs {p['away']} "

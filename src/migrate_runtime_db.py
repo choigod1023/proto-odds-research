@@ -54,6 +54,7 @@ CSV_EVENT_SOURCES = {
 DATASET_SOURCES = {
     "processed_games": "data/processed/games.csv",
     "processed_bets": "data/processed/bets.csv",
+    "processed_info_lag": "data/processed/info_lag.csv",
 }
 
 
@@ -169,8 +170,8 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
         predictions = db.mirror_prediction_records(records)
 
     artifacts = 0
-    for name in ("live_odds", "picks_v2", "today", "today_combo", "live_scores",
-                 "loss_grades", "combo"):
+    for name in ("live_odds", "picks", "picks_v2", "today", "today_combo",
+                 "live_scores", "loss_grades", "combo", "info_lag"):
         path = root / "docs/data" / f"{name}.json"
         if not path.exists():
             continue

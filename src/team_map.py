@@ -22,6 +22,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import pandas as pd
+from runtime_db import persist_document
 
 RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
 OUT = Path(__file__).resolve().parent.parent / "data" / "processed" / "team_map.json"
@@ -95,8 +96,7 @@ def main(argv: list[str]) -> int:
             print(f"[{lg}] 선발 파일 없음 — 건너뜀")
             continue
         out[lg] = build_map(lg)
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_document("processed_team_map", out, OUT)
     print(f"\n저장: {OUT}")
     for lg, m in out.items():
         sample = list(m.items())[:5]

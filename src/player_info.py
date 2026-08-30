@@ -43,6 +43,7 @@ from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
 from japan_info import collect_npb_games
 
 from player_commentary import with_player_context
+from runtime_db import RuntimeDatabase, database_enabled, persist_artifact
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 OUT = RAW / "player_info.json"
@@ -537,7 +538,9 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
     if not picks_path.exists():
         return 0
     try:
-        picks = json.loads(picks_path.read_text(encoding="utf-8"))
+        picks = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
+        if picks is None:
+            picks = json.loads(picks_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return 0
     index, changed = game_index(player_doc), 0
@@ -567,9 +570,7 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
     if not changed and picks.get("player_info_at") == player_doc.get("generated_at"):
         return 0
     picks["player_info_at"] = player_doc.get("generated_at")
-    tmp = picks_path.with_suffix(".player.tmp")
-    tmp.write_text(json.dumps(picks, ensure_ascii=False, indent=1), encoding="utf-8")
-    tmp.replace(picks_path)
+    persist_artifact("picks_v2", picks, picks_path)
     return changed
 
 

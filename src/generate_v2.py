@@ -58,7 +58,8 @@ from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # no
                                PredictionLedgerError)
 from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
                                 kickoff_utc, tally_prediction_records)
-from runtime_db import RuntimeDatabase                              # noqa: E402
+from runtime_db import (RuntimeDatabase, database_enabled,
+                        persist_artifact)                            # noqa: E402
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -571,7 +572,9 @@ def _published_future_exists(year: int) -> bool:
     """발매 조회가 0건이어도 기존 산출물에 아직 시작 전 경기가 있는가."""
     path = OUT / "picks_v2.json"
     try:
-        doc = json.loads(path.read_text(encoding="utf-8"))
+        doc = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
+        if doc is None:
+            doc = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return False
     now = datetime.now(ZoneInfo("Asia/Seoul"))
@@ -591,11 +594,11 @@ def _published_future_exists(year: int) -> bool:
 def _enrich_published_only(store: ContextStore) -> int:
     """원천 무응답 때 예정 목록은 보존하고 새 근거만 붙인다."""
     path = OUT / "picks_v2.json"
-    doc = json.loads(path.read_text(encoding="utf-8"))
+    doc = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
+    if doc is None:
+        doc = json.loads(path.read_text(encoding="utf-8"))
     result, matched = enrich_existing(doc, store)
-    tmp = path.with_suffix(".tmp")
-    tmp.write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    tmp.replace(path)
+    persist_artifact("picks_v2", result, path)
     commentary_llm.flush()
     print(f"⚠️ 발매 중 회차 응답 0건 — 기존 예정 경기를 보존하고 컨텍스트 {matched}경기만 갱신")
     return 0
@@ -1012,7 +1015,7 @@ def _sanitize_existing_output() -> int:
         "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다."
     )
     _sanitize_prediction_document(doc)
-    path.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    persist_artifact("picks_v2", doc, path)
     print(f"사후 추천 제거: {path}")
     return 0
 
@@ -1334,10 +1337,7 @@ def main() -> int:
         "decision_manifest": decision_manifest(),
     }
     _sanitize_prediction_document(doc)
-    RuntimeDatabase().store_artifact("picks_v2", doc)
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "picks_v2.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1),
-                                       encoding="utf-8")
+    persist_artifact("picks_v2", doc, OUT / "picks_v2.json")
     print(f"\n경기 {len(out)} (예정 {len(live_g)} / 정산 {len(past_g)})")
     if tally:
         print(f"정산 추천 성적: {tally['wins']}/{tally['n']} "
