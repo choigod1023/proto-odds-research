@@ -53,7 +53,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
         ))}
       </ol>
       <p className="ai-method-foot">
-        1.50~2.20 후보를 먼저 확보한 뒤 최종 예상 적중확률이 높은 선택을 고릅니다. 검증된 AI 보정이 없으면 Shin 시장값으로 복귀합니다.
+        1.50~2.20 후보를 먼저 확보한 뒤 최종 예상 적중확률이 높은 선택을 고릅니다. 검증된 AI 보정이 없으면 배당 기반 시장확률을 사용합니다.
       </p>
     </section>
   );
@@ -64,7 +64,7 @@ function ProbabilityProvenance({ decision }) {
   const stale = ["recalculating", "closed"].includes(decision?.action);
   return (
     <div className="probability-provenance" role="group" aria-label="최종 확률 계산 경로">
-      <div><span>시장 기준</span><b>{stale ? "재계산 대기" : percent(probability.market)}</b></div>
+      <div><span>배당 기반 확률</span><b>{stale ? "재계산 대기" : percent(probability.market)}</b></div>
       <span className="probability-arrow" aria-hidden="true">+</span>
       <div><span>AI 반영</span><b>{stale ? "–" : signedPoint(probability.aiDeltaApplied)}</b></div>
       <span className="probability-arrow" aria-hidden="true">=</span>
@@ -110,7 +110,7 @@ export function AiDecisionPath({ decision }) {
               ? "현재 배당에서 1.50 미만 시장 최유력을 경기 방향으로 다시 판정했습니다."
               : "현재 배당에서 1.50~2.20 후보 중 최종 예상 적중확률이 가장 높은 선택으로 다시 판정했습니다."
             : decision.liveOddsRecalculated
-            ? "실시간 배당으로 Shin 시장확률과 최종 판정을 다시 계산했습니다. 구조 AI와 이전 가격의 추천값은 반영하지 않았습니다."
+            ? "실시간 배당으로 배당 기반 시장확률과 최종 판정을 다시 계산했습니다. 구조 AI와 이전 가격의 추천값은 반영하지 않았습니다."
             : "판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다. 구조 AI와 레거시 추천값은 반영하지 않았습니다."}
         </p>
       )}
