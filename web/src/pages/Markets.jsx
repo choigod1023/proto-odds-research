@@ -104,6 +104,15 @@ function buildLiveIndex(live) {
   return m;
 }
 
+function marketHistoryForGame(game, liveOdds) {
+  const rows = Object.values(liveOdds?.markets?.[String(game?.round)] || {}).filter((row) =>
+    row?.home === game?.home && row?.away === game?.away && row?.date === game?.date);
+  const history = liveOdds?.history?.[String(game?.round)] || {};
+  return rows.flatMap((row) => (history[String(row.game_no)] || []).map((entry) => ({
+    ...entry, gameNo: String(row.game_no),
+  })));
+}
+
 export default function Markets() {
   // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
   //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
@@ -130,8 +139,10 @@ export default function Markets() {
         liveOdds?.generated_at || null,
         liveOdds?.markets?.[String(game.round)],
       );
-      const liveState = liveOf(liveIndex, repriced);
-      return liveState ? { ...repriced, _liveState: liveState, _liveStarted: true } : repriced;
+      const marketHistory = marketHistoryForGame(game, liveOdds);
+      const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
+      const liveState = liveOf(liveIndex, withHistory);
+      return liveState ? { ...withHistory, _liveState: liveState, _liveStarted: true } : withHistory;
     });
     return { ...d, live: merge(d.live), past: merge(d.past) };
   }, [d, liveOdds, liveIndex]);
@@ -454,6 +465,58 @@ function BaseballSituation({ live }) {
   );
 }
 
+const historyTime = (value) => {
+  const stamp = new Date(value);
+  return Number.isNaN(stamp.getTime()) ? "시각 미상" : stamp.toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  });
+};
+
+function MarketHistory({ rows }) {
+  if (!rows?.length) return null;
+  const grouped = rows.reduce((result, row) => {
+    const key = `${row.gameNo}|${row.market}`;
+    if (!result.has(key)) result.set(key, []);
+    result.get(key).push(row);
+    return result;
+  }, new Map());
+  const groups = [...grouped.entries()]
+    .map(([key, entries]) => ({ key, entries }))
+    .filter(({ entries }) => entries.length > 1);
+  if (!groups.length) return null;
+  return <details className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]">
+    <summary className="cursor-pointer font-semibold text-ink">배당·기준점 변경 이력</summary>
+    <div className="mt-2 space-y-3">
+      {groups.map(({ key, entries }) => <div key={key}>
+        <b>{entries[0].market} · 게임번호 {entries[0].gameNo}</b>
+        <ol className="mt-1 space-y-1 text-ink2">
+          {entries.map((entry, index) => {
+            const previous = entries[index - 1];
+            const probabilityDelta = entry.probabilities?.map((value, selectionIndex) =>
+              previous?.probabilities?.[selectionIndex] == null ? null
+                : (Number(value) - Number(previous.probabilities[selectionIndex])) * 100);
+            const lineDelta = previous?.line == null || entry.line == null
+              ? null : Number(entry.line) - Number(previous.line);
+            return <li key={`${entry.observed_at}-${index}`} className="border-t border-rule2 pt-1 first:border-0">
+              <span className="tnum">{historyTime(entry.observed_at)}</span>
+              {" · "}<strong>{entry.label || "기준점 없음"}</strong>
+              {lineDelta ? <em className="ml-1 not-italic text-amber-700">(기준점 {lineDelta > 0 ? "+" : ""}{lineDelta})</em> : null}
+              {" · 배당 "}{(entry.odds || []).map((value) => Number(value).toFixed(2)).join(" / ")}
+              {entry.probabilities?.length ? <span>
+                {" · 예상 적중 "}{entry.probabilities.map((value, selectionIndex) => {
+                  const delta = probabilityDelta?.[selectionIndex];
+                  return `${Math.round(Number(value) * 1000) / 10}%${delta == null || Math.abs(delta) < .01 ? "" : ` (${delta > 0 ? "+" : ""}${delta.toFixed(1)}%p)`}`;
+                }).join(" / ")}
+              </span> : null}
+            </li>;
+          })}
+        </ol>
+      </div>)}
+      <p className="text-[10.5px] leading-5 text-ink3">예상 적중은 해당 시점 배당에서 마진을 제거한 값입니다. 기준점이 바뀌면 판정 대상 자체가 달라지므로 확률 숫자만 단순 비교하지 않습니다.</p>
+    </div>
+  </details>;
+}
+
 function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
@@ -567,6 +630,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }
         </span>
       </summary>
       <div className="match-detail">
+        <MarketHistory rows={g._marketHistory} />
         {g._liveLineChanged && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
             <b>핸디캡·언더오버 기준점 변경 반영</b>
