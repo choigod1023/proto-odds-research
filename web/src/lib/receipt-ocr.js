@@ -45,3 +45,20 @@ export function receiptMatches(text, games = []) {
   }
   return found;
 }
+
+const labeledNumber = (text, labels) => {
+  const source = String(text || "").replace(/\s+/g, " ");
+  const match = source.match(new RegExp(`(?:${labels.join("|")})[^0-9]{0,16}([0-9][0-9,.]*)`, "i"));
+  return match ? Number(match[1].replaceAll(",", "")) : null;
+};
+
+export function receiptTicketSummary(text, matches = []) {
+  const calculatedOdds = matches.reduce((value, row) => value * Number(row.purchaseOdds || 1), 1);
+  const stake = labeledNumber(text, ["개별투표금액", "총투표금액", "투표금액", "구매금액"])
+    || matches.find((row) => Number(row.stake) >= 100)?.stake || 10000;
+  const combinedOdds = labeledNumber(text, ["예상배당률", "조합배당", "배당률"])
+    || Number(calculatedOdds.toFixed(2));
+  const expectedPayout = labeledNumber(text, ["예상적중금액", "예상환급금", "적중금액"])
+    || Math.round(stake * combinedOdds);
+  return { stake, combinedOdds, expectedPayout, legCount: matches.length };
+}
