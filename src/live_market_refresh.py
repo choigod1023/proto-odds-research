@@ -58,6 +58,15 @@ def _options(rows: list[dict]) -> list[dict]:
     return options
 
 
+def _option_signature(option: dict) -> tuple:
+    """가격뿐 아니라 시장 종류와 기준점 변경도 하나의 revision으로 본다."""
+    return (
+        str(option.get("게임번호") or ""), str(option.get("market") or ""),
+        str(option.get("label") or ""), option.get("line"),
+        str(option.get("선택") or ""), option.get("배당"),
+    )
+
+
 def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
     observed_at = str(live_odds.get("generated_at") or "")
     if not observed_at or not isinstance(live_odds.get("markets"), dict):
@@ -93,8 +102,20 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             document.setdefault("live", []).append(game)
             existing[key] = game
         pregame = all(row.get("result") in UNPLAYED for row in rows)
-        old_signature = [(row.get("게임번호"), row.get("배당")) for row in game.get("options") or []]
-        new_signature = [(row.get("게임번호"), row.get("배당")) for row in options]
+        old_options = game.get("options") or []
+        old_signature = [_option_signature(row) for row in old_options]
+        new_signature = [_option_signature(row) for row in options]
+        old_lines = {
+            (str(row.get("게임번호") or ""), str(row.get("market") or "")):
+            (str(row.get("label") or ""), row.get("line"))
+            for row in old_options
+        }
+        new_lines = {
+            (str(row.get("게임번호") or ""), str(row.get("market") or "")):
+            (str(row.get("label") or ""), row.get("line"))
+            for row in options
+        }
+        line_changed = bool(old_options) and old_lines != new_lines
         target_status = "경기전" if pregame else (
             game.get("status") if game.get("status") not in {"", "경기전", "배당대기"}
             else "결과확인"
@@ -105,6 +126,19 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             "status": target_status, "no_odds": False, "options": options,
             "선택지수": len(options),
         })
+        if line_changed:
+            game["market_line_changed"] = True
+            game["market_line_changed_at"] = observed_at
+            game["market_line_revision"] = {
+                "before": [
+                    {"game_no": key_[0], "market": key_[1], "label": value[0], "line": value[1]}
+                    for key_, value in sorted(old_lines.items())
+                ],
+                "after": [
+                    {"game_no": key_[0], "market": key_[1], "label": value[0], "line": value[1]}
+                    for key_, value in sorted(new_lines.items())
+                ],
+            }
         if pregame:
             game.update({
                 "판단": "실시간 시장 기준", "추천": None,

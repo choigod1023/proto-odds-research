@@ -92,3 +92,30 @@ def test_refresh_does_not_add_finished_game_missing_from_document():
 
     assert changed == 0
     assert refreshed["live"] == []
+
+
+def test_refresh_recalculates_when_total_line_changes_without_price_change():
+    document = {"generated_at": "old", "rounds": [102], "live": [{
+        "year": 2026, "round": 102, "date": "08.30(일) 18:00",
+        "sport": "bs", "league": "KBO", "home": "KIA", "away": "SSG",
+        "status": "경기전", "options": [
+            {"market": "언더오버", "label": "U 10.5", "line": 10.5,
+             "게임번호": "7101", "선택": "언더", "배당": 1.70},
+            {"market": "언더오버", "label": "U 10.5", "line": 10.5,
+             "게임번호": "7101", "선택": "오버", "배당": 1.82},
+        ],
+    }], "past": []}
+    live_odds = _live_odds()
+    live_odds["markets"]["102"] = {"7101": {
+        **live_odds["markets"]["102"]["7101"], "label": "U 11.5",
+    }}
+
+    refreshed, changed = refresh_document(document, live_odds)
+
+    game = refreshed["live"][0]
+    assert changed == 1
+    assert {option["line"] for option in game["options"]} == {11.5}
+    assert game["market_line_changed"] is True
+    assert game["market_line_revision"]["before"][0]["line"] == 10.5
+    assert game["market_line_revision"]["after"][0]["line"] == 11.5
+    assert game["decision_snapshot"]["action"] == "market_reference"

@@ -88,28 +88,37 @@ const lineOf = (label) => {
   return match ? Number(match[0]) : null;
 };
 
+const rowsForGame = (game, roundMarkets) => Object.values(roundMarkets || {}).filter((row) =>
+  row?.home === game?.home && row?.away === game?.away && row?.date === game?.date)
+  .sort((left, right) => Number(left?.game_no || 0) - Number(right?.game_no || 0));
+
+const optionsFromRows = (rows) => rows.flatMap((row) => {
+  const values = (row?.odds || []).map(Number);
+  const names = SELECTION_NAMES[`${row?.market}|${values.length}`];
+  const probabilities = shinProbabilities(values);
+  if (!names || names.length !== values.length || probabilities.length !== values.length) return [];
+  return values.map((value, index) => ({
+    market: row.market,
+    n_way: values.length,
+    label: row.label || "",
+    line: ["언더오버", "핸디캡", "전반언더오버", "전반핸디캡"].includes(row.market)
+      ? lineOf(row.label) : null,
+    "선택": names[index], "배당": value,
+    "시장확률": rounded(probabilities[index]), "모델확률": null,
+    "최종확률": rounded(probabilities[index]), "확률근거": "shin_market_live",
+    "AI반영": false, "AI잔차": null, "게임번호": String(row.game_no),
+    _live: true,
+  }));
+});
+
+const structureSignature = (options) => JSON.stringify((options || []).map((option) => [
+  String(option?.["게임번호"] ?? ""), option?.market || "", option?.label || "",
+  option?.line ?? null, option?.["선택"] || "",
+]));
+
 export function hydrateUnpricedGame(game, roundMarkets, generatedAt = null) {
   if (game?.options?.length || !roundMarkets) return game;
-  const rows = Object.values(roundMarkets).filter((row) =>
-    row?.home === game?.home && row?.away === game?.away && row?.date === game?.date);
-  const options = rows.flatMap((row) => {
-    const values = (row?.odds || []).map(Number);
-    const names = SELECTION_NAMES[`${row?.market}|${values.length}`];
-    const probabilities = shinProbabilities(values);
-    if (!names || names.length !== values.length || probabilities.length !== values.length) return [];
-    return values.map((value, index) => ({
-      market: row.market,
-      n_way: values.length,
-      label: row.label || "",
-      line: ["언더오버", "핸디캡", "전반언더오버", "전반핸디캡"].includes(row.market)
-        ? lineOf(row.label) : null,
-      "선택": names[index], "배당": value,
-      "시장확률": rounded(probabilities[index]), "모델확률": null,
-      "최종확률": rounded(probabilities[index]), "확률근거": "shin_market_live",
-      "AI반영": false, "AI잔차": null, "게임번호": String(row.game_no),
-      _live: true,
-    }));
-  });
+  const options = optionsFromRows(rowsForGame(game, roundMarkets));
   if (!options.length) return game;
   return {
     ...game,
@@ -134,6 +143,28 @@ export function hydrateUnpricedGame(game, roundMarkets, generatedAt = null) {
 export function repriceGameOdds(game, roundOdds, generatedAt = null, roundMarkets = null) {
   const hydrated = hydrateUnpricedGame(game, roundMarkets, generatedAt);
   if (hydrated !== game) return hydrated;
+  const freshOptions = optionsFromRows(rowsForGame(game, roundMarkets));
+  if (freshOptions.length && structureSignature(freshOptions) !== structureSignature(game?.options)) {
+    return {
+      ...game,
+      options: freshOptions,
+      추천: null,
+      decision_snapshot: null,
+      _liveOddsRecalculated: true,
+      _liveOddsRecalculatedAt: generatedAt,
+      _liveLineChanged: true,
+      _liveLineRevision: {
+        before: (game?.options || []).map((option) => ({
+          gameNo: String(option?.["게임번호"] ?? ""), market: option?.market || "",
+          label: option?.label || "", line: option?.line ?? null,
+        })),
+        after: freshOptions.map((option) => ({
+          gameNo: String(option?.["게임번호"] ?? ""), market: option?.market || "",
+          label: option?.label || "", line: option?.line ?? null,
+        })),
+      },
+    };
+  }
   if (!roundOdds || !game?.options?.length) return game;
   const groups = new Map();
   game.options.forEach((option, index) => {

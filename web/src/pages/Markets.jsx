@@ -536,6 +536,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }
           <small className="match-player-inline">
             {prediction && <span className="today-recommend-inline">{predictionStrengthLabel(prediction)}</span>}
             {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
+            {g._liveLineChanged ? " · 기준점 변경 반영" : ""}
             {compactPlayers
               ? ` · ${compactPlayers}`
               : ""}
@@ -566,6 +567,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }
         </span>
       </summary>
       <div className="match-detail">
+        {g._liveLineChanged && (
+          <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
+            <b>핸디캡·언더오버 기준점 변경 반영</b>
+            <p>이전 기준점의 예측과 구조 모델 수치는 폐기했습니다. 현재 기준점과 배당으로 확률 및 추천을 다시 계산했습니다.</p>
+          </div>
+        )}
         {playing && score && (
           <div className="live-score-panel" role="status" aria-live="polite">
             <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
