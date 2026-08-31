@@ -10,13 +10,13 @@
       "픽 공개 후 시장확률 변화(CLV)"
     ]
   },
-  "generated_at": "2026-08-31T04:27:08+00:00",
+  "generated_at": "2026-08-31T05:27:26+00:00",
   "leaderboard_cross_section": {
-    "aggregate_roi_from_displayed_units_pct": 6.04,
+    "aggregate_roi_from_displayed_units_pct": 6.0,
     "available": true,
     "deleted_indicator": {
       "median_roi_with_indicator_pct": 11.3,
-      "median_roi_without_indicator_pct": 3.2,
+      "median_roi_without_indicator_pct": 4.3,
       "n_with_deleted_indicator": 9
     },
     "interpretation": [
@@ -26,12 +26,12 @@
     ],
     "market_style_groups": {
       "moneyline": {
-        "median_roi_pct": 4.3,
+        "median_roi_pct": 5.35,
         "median_win_rate_pct": 53.0,
-        "n_cappers": 33
+        "n_cappers": 32
       },
       "parlay": {
-        "median_roi_pct": 6.0,
+        "median_roi_pct": 5.7,
         "median_win_rate_pct": 24.5,
         "n_cappers": 2
       },
@@ -41,29 +41,29 @@
         "n_cappers": 5
       },
       "spread": {
-        "median_roi_pct": 15.0,
-        "median_win_rate_pct": 64.0,
-        "n_cappers": 3
+        "median_roi_pct": 6.75,
+        "median_win_rate_pct": 59.5,
+        "n_cappers": 4
       },
       "total": {
-        "median_roi_pct": 3.75,
+        "median_roi_pct": 3.1,
         "median_win_rate_pct": 49.5,
         "n_cappers": 4
       }
     },
     "median_picks_per_capper": 41.0,
-    "median_roi_pct": 6.2,
+    "median_roi_pct": 5.55,
     "median_win_rate_pct": 53.0,
     "n_ranked_cappers": 50,
-    "observed_at": "2026-08-31T04:12:44+00:00",
+    "observed_at": "2026-08-31T04:51:53+00:00",
     "paid_pick_offer_indicator": {
-      "median_roi_offering_paid_pct": 3.7,
-      "median_roi_public_only_pct": 6.2,
+      "median_roi_offering_paid_pct": 3.6,
+      "median_roi_public_only_pct": 5.55,
       "n_offering_paid_picks": 18,
       "warning": "공개 픽만 등급화된 표식이며 유료 픽 품질을 측정하지 않는다."
     },
-    "share_positive_roi_pct": 66.0,
-    "spearman_log_sample_vs_roi": 0.097,
+    "share_positive_roi_pct": 64.0,
+    "spearman_log_sample_vs_roi": 0.093,
     "top_by_stability_shrunk_roi": [
       {
         "deleted_count": 0,
@@ -264,7 +264,7 @@
         ]
       }
     ],
-    "total_displayed_picks": 4555,
+    "total_displayed_picks": 4571,
     "window": "last_30_days"
   },
   "prospective_validation": {
@@ -311,7 +311,7 @@
       {
         "dominant_market": "moneyline",
         "favorite_share_pct": null,
-        "handle": "prosportshq1",
+        "handle": "bettingcowboy00",
         "market_counts": {
           "moneyline": 14
         },
@@ -321,7 +321,7 @@
       {
         "dominant_market": "moneyline",
         "favorite_share_pct": null,
-        "handle": "bettingcowboy00",
+        "handle": "prosportshq1",
         "market_counts": {
           "moneyline": 14
         },
@@ -353,6 +353,18 @@
         "n_visible_straight_picks": 11
       },
       {
+        "dominant_market": "spread",
+        "favorite_share_pct": 50.0,
+        "handle": "lincolng05bets",
+        "market_counts": {
+          "moneyline": 2,
+          "spread": 6,
+          "total": 2
+        },
+        "median_american_odds": 29.5,
+        "n_visible_straight_picks": 10
+      },
+      {
         "dominant_market": "moneyline",
         "favorite_share_pct": null,
         "handle": "bookie___bandit",
@@ -364,15 +376,26 @@
         "n_visible_straight_picks": 9
       },
       {
-        "dominant_market": "spread",
-        "favorite_share_pct": 50.0,
-        "handle": "lincolng05bets",
+        "dominant_market": "total",
+        "favorite_share_pct": 88.9,
+        "handle": "yennysports",
         "market_counts": {
-          "moneyline": 2,
-          "spread": 5,
-          "total": 1
+          "moneyline": 4,
+          "total": 5
         },
-        "median_american_odds": 24.5,
+        "median_american_odds": -115,
+        "n_visible_straight_picks": 9
+      },
+      {
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 75.0,
+        "handle": "scottfosterlock",
+        "market_counts": {
+          "moneyline": 3,
+          "spread": 3,
+          "total": 2
+        },
+        "median_american_odds": -115.0,
         "n_visible_straight_picks": 8
       },
       {
@@ -383,17 +406,6 @@
           "moneyline": 7
         },
         "median_american_odds": 130,
-        "n_visible_straight_picks": 7
-      },
-      {
-        "dominant_market": "total",
-        "favorite_share_pct": 100.0,
-        "handle": "yennysports",
-        "market_counts": {
-          "moneyline": 2,
-          "total": 5
-        },
-        "median_american_odds": -115,
         "n_visible_straight_picks": 7
       },
       {
@@ -452,16 +464,6 @@
       },
       {
         "dominant_market": "moneyline",
-        "favorite_share_pct": 75.0,
-        "handle": "gogreenstreak",
-        "market_counts": {
-          "moneyline": 4
-        },
-        "median_american_odds": -115.0,
-        "n_visible_straight_picks": 4
-      },
-      {
-        "dominant_market": "moneyline",
         "favorite_share_pct": 100.0,
         "handle": "goatcapital_",
         "market_counts": {
@@ -469,6 +471,16 @@
           "total": 2
         },
         "median_american_odds": -135.0,
+        "n_visible_straight_picks": 4
+      },
+      {
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 50.0,
+        "handle": "spreadwizard",
+        "market_counts": {
+          "moneyline": 4
+        },
+        "median_american_odds": -7.5,
         "n_visible_straight_picks": 4
       },
       {
@@ -514,6 +526,16 @@
       },
       {
         "dominant_market": "moneyline",
+        "favorite_share_pct": 66.7,
+        "handle": "gogreenstreak",
+        "market_counts": {
+          "moneyline": 3
+        },
+        "median_american_odds": -115,
+        "n_visible_straight_picks": 3
+      },
+      {
+        "dominant_market": "moneyline",
         "favorite_share_pct": null,
         "handle": "renzomoneyline",
         "market_counts": {
@@ -532,16 +554,6 @@
           "total": 1
         },
         "median_american_odds": -115,
-        "n_visible_straight_picks": 3
-      },
-      {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 33.3,
-        "handle": "spreadwizard",
-        "market_counts": {
-          "moneyline": 3
-        },
-        "median_american_odds": 104,
         "n_visible_straight_picks": 3
       },
       {
@@ -565,17 +577,17 @@
         "n_visible_straight_picks": 3
       }
     ],
-    "favorite_share_pct": 59.59,
+    "favorite_share_pct": 59.62,
     "market_counts": {
-      "moneyline": 140,
+      "moneyline": 144,
       "other": 15,
-      "spread": 21,
-      "total": 47
+      "spread": 25,
+      "total": 49
     },
-    "n_straight_picks": 223,
-    "n_visible_unique_picks": 350,
-    "n_with_american_odds": 146,
-    "underdog_share_pct": 40.41,
+    "n_straight_picks": 233,
+    "n_visible_unique_picks": 371,
+    "n_with_american_odds": 156,
+    "underdog_share_pct": 40.38,
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
   }
 }
