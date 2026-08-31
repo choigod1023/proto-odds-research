@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-31T09:22:23+00:00",
+ "generated_at": "2026-08-31T09:33:59+00:00",
  "rounds": [
   101,
   102,
@@ -199650,8 +199650,8 @@
     {
      "market": "언더오버",
      "n_way": 2,
-     "label": "U 165.5",
-     "line": 165.5,
+     "label": "U 166.5",
+     "line": 166.5,
      "선택": "언더",
      "배당": 1.79,
      "시장확률": 0.4903,
@@ -199662,8 +199662,8 @@
      "AI잔차": null,
      "게임번호": "8076",
      "적중": null,
-     "selection_id": "sel_9f9bbdd872e2eae1",
-     "offer_id": "off_1c14a1206b02e414",
+     "selection_id": "sel_77904a715dd48164",
+     "offer_id": "off_2d1dc4aeb82d1714",
      "내부확률": null,
      "선수보정": 0.0,
      "내부요인": [],
@@ -199677,8 +199677,8 @@
     {
      "market": "언더오버",
      "n_way": 2,
-     "label": "U 165.5",
-     "line": 165.5,
+     "label": "U 166.5",
+     "line": 166.5,
      "선택": "오버",
      "배당": 1.73,
      "시장확률": 0.5097,
@@ -199689,8 +199689,8 @@
      "AI잔차": null,
      "게임번호": "8076",
      "적중": null,
-     "selection_id": "sel_3abcffa9f600d6a9",
-     "offer_id": "off_b2bec0745f4ad0e4",
+     "selection_id": "sel_4e1453504250ee4f",
+     "offer_id": "off_a8638bac7b949594",
      "내부확률": null,
      "선수보정": 0.0,
      "내부요인": [],
@@ -199764,8 +199764,8 @@
    "추천": {
     "market": "언더오버",
     "n_way": 2,
-    "label": "U 165.5",
-    "line": 165.5,
+    "label": "U 166.5",
+    "line": 166.5,
     "선택": "오버",
     "배당": 1.73,
     "시장확률": 0.5097,
@@ -199776,8 +199776,8 @@
     "AI잔차": null,
     "게임번호": "8076",
     "적중": null,
-    "selection_id": "sel_3abcffa9f600d6a9",
-    "offer_id": "off_b2bec0745f4ad0e4",
+    "selection_id": "sel_4e1453504250ee4f",
+    "offer_id": "off_a8638bac7b949594",
     "내부확률": null,
     "선수보정": 0.0,
     "내부요인": [],
@@ -199807,13 +199807,13 @@
    },
    "decision_snapshot": {
     "schema_version": "decision-snapshot-v2",
-    "decision_id": "dec_07b72ffe948f1118",
+    "decision_id": "dec_db35045de320cf7f",
     "event_id": "evt_9139db866c61b466",
-    "as_of": "2026-08-30T23:06:32+00:00",
+    "as_of": "2026-08-31T09:33:59+00:00",
     "action": "market_reference",
-    "selection_id": "sel_3abcffa9f600d6a9",
-    "offer_id": "off_b2bec0745f4ad0e4",
-    "input_revision_hash": "1ca6d3d89ca6c2903b8afcb2588c41ea30d808d2c934c72dbf3f260623487f43",
+    "selection_id": "sel_4e1453504250ee4f",
+    "offer_id": "off_a8638bac7b949594",
+    "input_revision_hash": "1bebf85c6336ed1edfb38462ee43f8c9e19b76f60d73c3b0c7bce850482c6483",
     "gate_codes": [],
     "probability": {
      "market": 0.5097,
@@ -199885,7 +199885,7 @@
      {
       "id": "lineup",
       "available": false,
-      "observed_at": null,
+      "observed_at": "2026-08-31T18:15:49+09:00",
       "usage": {
        "market_baseline": "ignored",
        "ai_residual": "missing",
@@ -199894,12 +199894,15 @@
       },
       "reason_codes": {
        "decision_gate": "not_in_operating_formula"
-      }
+      },
+      "source_ids": [
+       "player_source"
+      ]
      },
      {
       "id": "availability",
       "available": false,
-      "observed_at": null,
+      "observed_at": "2026-08-31T18:15:49+09:00",
       "usage": {
        "market_baseline": "ignored",
        "ai_residual": "missing",
@@ -199908,7 +199911,10 @@
       },
       "reason_codes": {
        "decision_gate": "not_in_operating_formula"
-      }
+      },
+      "source_ids": [
+       "player_source"
+      ]
      },
      {
       "id": "cross_market",
@@ -199929,7 +199935,13 @@
       "id": "proto_market",
       "name": "프로토 공식 배당",
       "url": null,
-      "collected_at": "2026-08-30T23:06:32+00:00"
+      "collected_at": "2026-08-31T09:33:59+00:00"
+     },
+     {
+      "id": "player_source",
+      "name": "FIBA 공식 경기·대회 기록",
+      "url": "https://www.fiba.basketball/en/games/126966",
+      "collected_at": "2026-08-31T18:15:49+09:00"
      }
     ],
     "explanation": {
@@ -199940,8 +199952,8 @@
      ]
     },
     "audit": {
-     "feature_cutoff_at": "2026-08-30T23:06:32+00:00",
-     "built_at": "2026-08-30T23:06:32+00:00",
+     "feature_cutoff_at": "2026-08-31T09:33:59+00:00",
+     "built_at": "2026-08-31T09:33:59+00:00",
      "pre_registered": false
     }
    },
@@ -200517,6 +200529,62 @@
      "model_adjustment": 0,
      "model_note": "과거 결장 백테스트 전에는 확률을 직접 보정하지 않고 불확실성 설명에만 사용"
     }
+   },
+   "market_line_changed": true,
+   "market_line_changed_at": "2026-08-31T09:33:59+00:00",
+   "market_line_revision": {
+    "before": [
+     {
+      "game_no": "8074",
+      "market": "승패",
+      "label": "",
+      "line": null
+     },
+     {
+      "game_no": "8075",
+      "market": "핸디캡",
+      "label": "H -4.5",
+      "line": -4.5
+     },
+     {
+      "game_no": "8076",
+      "market": "언더오버",
+      "label": "U 165.5",
+      "line": 165.5
+     },
+     {
+      "game_no": "8077",
+      "market": "홀짝",
+      "label": "",
+      "line": null
+     }
+    ],
+    "after": [
+     {
+      "game_no": "8074",
+      "market": "승패",
+      "label": "",
+      "line": null
+     },
+     {
+      "game_no": "8075",
+      "market": "핸디캡",
+      "label": "H -4.5",
+      "line": -4.5
+     },
+     {
+      "game_no": "8076",
+      "market": "언더오버",
+      "label": "U 166.5",
+      "line": 166.5
+     },
+     {
+      "game_no": "8077",
+      "market": "홀짝",
+      "label": "",
+      "line": null
+     }
+    ]
    }
   },
   {
@@ -313908,7 +313976,7 @@
  "context_enriched_at": "2026-08-29T11:50:47+00:00",
  "context_games": 49,
  "live_market_refresh": {
-  "generated_at": "2026-08-31T09:22:23+00:00",
+  "generated_at": "2026-08-31T09:33:59+00:00",
   "games_changed": 1,
   "source": "current_proto_market_rows",
   "duplicate_reissues_removed": 0
