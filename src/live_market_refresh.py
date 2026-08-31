@@ -134,11 +134,12 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
     return document, changed
 
 
-def refresh_once() -> int:
+def refresh_once(live_odds: dict | None = None) -> int:
     try:
         database = RuntimeDatabase() if database_enabled() else None
         document = database.get_artifact("picks_v2") if database else None
-        live_odds = database.get_artifact("live_odds") if database else None
+        if live_odds is None:
+            live_odds = database.get_artifact("live_odds") if database else None
         if document is None:
             document = json.loads(PICKS.read_text(encoding="utf-8"))
         if live_odds is None:

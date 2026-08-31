@@ -57,10 +57,8 @@ LOOPERS = [
                  "--league", "all", "--loop", "21600"]),
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
-    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "300"]),
-    # 전체 generate_v2가 다른 수집기와 메모리를 다투다 OOM이어도 현재 발매 행은
-    # 5분 안에 시장 판정으로 게시한다. 구조 모델·LLM을 읽지 않는 경량 경로다.
-    ("경량 시장 판정", [sys.executable, "-u", "src/live_market_refresh.py", "--loop", "300"]),
+    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "60"]),
+    # odds_live가 수집 직후 경량 시장 판정까지 같은 데이터로 연쇄 갱신한다.
     ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py", "--loop", "300"]),
 ]
 

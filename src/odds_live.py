@@ -38,6 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from snapshot import find_live_rounds, _fetch          # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
 from runtime_db import persist_artifact                # noqa: E402
+from live_market_refresh import refresh_once           # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_odds.json"
@@ -112,6 +113,9 @@ def main(argv: list[str]) -> int:
         try:
             data = collect()
             persist_artifact("live_odds", data, OUT, indent=None)
+            # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
+            # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
+            refresh_once(data)
             print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} → {OUT}",
                   flush=True)
         except Exception as e:                          # noqa: BLE001

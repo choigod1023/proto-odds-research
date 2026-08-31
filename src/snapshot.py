@@ -145,6 +145,11 @@ def _fetch(sess, year: int, rnd: int, seq: str | None = None):
 def _load_last() -> dict[tuple, str]:
     """직전 스냅샷의 (회차,경기번호) → 배당문자열"""
     last: dict[tuple, str] = {}
+    if database_enabled():
+        for row in RuntimeDatabase().latest_odds():
+            odds = ",".join(f"{float(value):.2f}" for value in row.get("odds") or [])
+            last[(str(row["season"]), str(row["round"]), str(row["game_no"]))] = odds
+        return last
     # ⚠️ 오늘·어제 샤드만 읽는다. 배당 변동은 **직전 스냅샷과의 비교**라서
     #    최신 값만 있으면 되고, 전 기간을 읽으면 15분마다 130MB 를 훑게 된다.
     #    자정 직후에도 값이 안 끊기도록 어제 것을 함께 본다.

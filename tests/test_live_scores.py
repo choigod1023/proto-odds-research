@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from src.live_scores import (add_proto_aliases, baseball_situation,
-                             merge_recent_games, named_soccer_clock,
+                             deduplicate_games, merge_recent_games, named_soccer_clock,
                              normalize_named_game)
 
 
@@ -66,6 +66,26 @@ def test_merge_recent_games_keeps_terminal_history_and_prefers_current():
     by_id = {row["game_id"]: row for row in merge_recent_games(current, previous, now)}
     assert set(by_id) == {"kept", "updated"}
     assert by_id["updated"]["status"] == "CANCEL"
+
+
+def test_deduplicate_games_merges_source_ids_but_keeps_doubleheader():
+    games = [
+        {"source": "naver", "game_id": "naver:20260830AZSF1", "league": "MLB",
+         "start": "2026-08-30T05:05:00", "home": "샌프란시스코", "away": "애리조나",
+         "home_alias": ["샌프자이"], "away_alias": ["애리다이"], "batter": "이정후"},
+        {"game_id": "20260830AZSF1", "league": "MLB",
+         "start": "2026-08-30T05:05:00", "home": "샌프란시스코", "away": "애리조나"},
+        {"source": "named", "game_id": "named:11775275", "league": "MLB",
+         "start": "2026-08-30T05:05:00+09:00", "home": "샌프란시스코", "away": "애리조나"},
+        {"source": "naver", "game_id": "naver:20260830AZSF2", "league": "MLB",
+         "start": "2026-08-30T11:05:00", "home": "샌프란시스코", "away": "애리조나"},
+    ]
+
+    result = deduplicate_games(games)
+
+    assert len(result) == 2
+    assert result[0]["game_id"] == "naver:20260830AZSF1"
+    assert result[0]["batter"] == "이정후"
 
 
 def test_normalize_named_final_game_includes_score_and_kst():
