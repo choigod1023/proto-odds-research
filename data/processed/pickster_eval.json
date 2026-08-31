@@ -10,7 +10,7 @@
       "픽 공개 후 시장확률 변화(CLV)"
     ]
   },
-  "generated_at": "2026-08-31T18:15:54+00:00",
+  "generated_at": "2026-08-31T19:20:49+00:00",
   "leaderboard_cross_section": {
     "aggregate_roi_from_displayed_units_pct": 5.99,
     "available": true,
@@ -274,7 +274,7 @@
     "inferred_risked_units": 0,
     "n_consensus_games": 0,
     "n_decisive": 0,
-    "n_eligible_pre_event": 3201,
+    "n_eligible_pre_event": 3341,
     "n_graded": 0,
     "net_units": 0,
     "roi_pct": null,
@@ -303,14 +303,28 @@
         "favorite_share_pct": 0.0,
         "handle": "lottolocks",
         "market_counts": {
-          "moneyline": 6,
+          "moneyline": 9,
           "other": 4,
           "player_prop": 4,
-          "spread": 5,
-          "total": 3
+          "spread": 6,
+          "total": 4
         },
-        "median_american_odds": 440,
-        "n_visible_straight_picks": 22
+        "median_american_odds": 1888.5,
+        "n_visible_straight_picks": 27
+      },
+      {
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 66.7,
+        "handle": "bigbetsbrand123",
+        "market_counts": {
+          "moneyline": 9,
+          "other": 1,
+          "player_prop": 1,
+          "spread": 1,
+          "total": 2
+        },
+        "median_american_odds": -112,
+        "n_visible_straight_picks": 14
       },
       {
         "dominant_market": "moneyline",
@@ -364,20 +378,6 @@
         },
         "median_american_odds": -135.0,
         "n_visible_straight_picks": 12
-      },
-      {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 62.5,
-        "handle": "bigbetsbrand123",
-        "market_counts": {
-          "moneyline": 6,
-          "other": 1,
-          "player_prop": 1,
-          "spread": 1,
-          "total": 2
-        },
-        "median_american_odds": -111.5,
-        "n_visible_straight_picks": 11
       },
       {
         "dominant_market": "spread",
@@ -491,6 +491,17 @@
         "n_visible_straight_picks": 4
       },
       {
+        "dominant_market": "spread",
+        "favorite_share_pct": 25.0,
+        "handle": "bigbuckbets",
+        "market_counts": {
+          "moneyline": 1,
+          "spread": 3
+        },
+        "median_american_odds": 122.5,
+        "n_visible_straight_picks": 4
+      },
+      {
         "dominant_market": "moneyline",
         "favorite_share_pct": 75.0,
         "handle": "sbr_bets",
@@ -525,17 +536,6 @@
         "n_visible_straight_picks": 3
       },
       {
-        "dominant_market": "spread",
-        "favorite_share_pct": 33.3,
-        "handle": "bigbuckbets",
-        "market_counts": {
-          "moneyline": 1,
-          "spread": 2
-        },
-        "median_american_odds": 133,
-        "n_visible_straight_picks": 3
-      },
-      {
         "dominant_market": "moneyline",
         "favorite_share_pct": 100.0,
         "handle": "spreadwizard",
@@ -547,18 +547,18 @@
         "n_visible_straight_picks": 3
       }
     ],
-    "favorite_share_pct": 60.78,
+    "favorite_share_pct": 60.38,
     "market_counts": {
-      "moneyline": 129,
+      "moneyline": 135,
       "other": 17,
       "player_prop": 8,
-      "spread": 45,
-      "total": 41
+      "spread": 48,
+      "total": 42
     },
-    "n_straight_picks": 240,
-    "n_visible_unique_picks": 240,
-    "n_with_american_odds": 102,
-    "underdog_share_pct": 39.22,
+    "n_straight_picks": 250,
+    "n_visible_unique_picks": 250,
+    "n_with_american_odds": 106,
+    "underdog_share_pct": 39.62,
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
   }
 }
