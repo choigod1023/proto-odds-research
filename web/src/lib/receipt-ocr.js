@@ -91,6 +91,27 @@ export function receiptRows(text, games = []) {
   return [...byNumber.values()];
 }
 
+export function mergedReceiptRows(text, digitText, games = []) {
+  const regularRows = receiptRows(text, games);
+  const digitRows = receiptRows(digitText, games);
+  const regularByNumber = new Map(regularRows.map((row) => [String(row.option?.["게임번호"] || row.sourceText), row]));
+  const ordered = [];
+  const seen = new Set();
+  for (const row of digitRows) {
+    const gameNo = String(row.option?.["게임번호"] || row.sourceText);
+    if (seen.has(gameNo)) continue;
+    ordered.push(regularByNumber.get(gameNo) || row);
+    seen.add(gameNo);
+  }
+  for (const row of regularRows) {
+    const gameNo = String(row.option?.["게임번호"] || row.sourceText);
+    if (seen.has(gameNo)) continue;
+    ordered.push(row);
+    seen.add(gameNo);
+  }
+  return ordered;
+}
+
 const labeledNumber = (text, labels) => {
   const source = String(text || "").replace(/\s+/g, " ");
   const match = source.match(new RegExp(`(?:${labels.join("|")})[^0-9]{0,16}([0-9][0-9,.]*)`, "i"));

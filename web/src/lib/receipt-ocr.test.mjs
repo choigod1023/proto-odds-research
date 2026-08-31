@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { receiptGameNumbers, receiptMatches, receiptRows, receiptTicketSummary } from "./receipt-ocr.js";
+import { mergedReceiptRows, receiptGameNumbers, receiptMatches, receiptRows, receiptTicketSummary } from "./receipt-ocr.js";
 
 const game = {
   round: 103, date: "08.31(월) 18:00", home: "두산", away: "LG",
@@ -52,6 +52,16 @@ test("영수증 하단 사업자번호를 프로토 경기번호로 오인하지
 test("여러 폴더의 경기번호를 데이터 배열이 아닌 사진에 나온 순서로 유지한다", () => {
   const later = { ...game, options: game.options.map((option) => ({ ...option, "게임번호": "8076" })) };
   assert.deepEqual(receiptGameNumbers("8076 조합\n217 조합", [game, later]), ["8076", "217"]);
+});
+
+test("숫자 전용 OCR은 누락 폴더를 보강하고 일반 OCR의 확정 픽은 유지한다", () => {
+  const later = { ...game, options: game.options.map((option) => ({ ...option, "게임번호": "8076" })) };
+  const rows = mergedReceiptRows("217 조합 한경기 승 1.72", "217\n8076", [game, later]);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].option["게임번호"], "217");
+  assert.equal(rows[0].option["선택"], "홈");
+  assert.equal(rows[1].sourceText, "8076");
+  assert.equal(rows[1].needsConfirmation, true);
 });
 
 test("구매내역의 조합배당·공통 투입금·예상적중금을 티켓 단위로 읽는다", () => {

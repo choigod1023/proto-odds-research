@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createTicketRecords, upsertBet } from "../lib/bet-ledger.js";
-import { receiptRows, receiptTicketSummary } from "../lib/receipt-ocr.js";
+import { mergedReceiptRows, receiptTicketSummary } from "../lib/receipt-ocr.js";
 import { buttonChoiceIndex, buttonOdds, selectedButtonRects, visualChoiceIndex } from "../lib/receipt-image.js";
 import { submitAnonymousTicket } from "../lib/anonymous-bets.js";
 
@@ -30,9 +30,11 @@ export default function ReceiptOcr({ games = [], onImported }) {
       await worker.setParameters({ tessedit_char_whitelist: "0123456789" });
       const digitResult = await worker.recognize(file, { rotateAuto: true });
       await worker.setParameters({ tessedit_char_whitelist: "" });
-      const recognized = `${result?.data?.text || ""}\n${digitResult?.data?.text || ""}`;
+      const regularText = result?.data?.text || "";
+      const digitText = digitResult?.data?.text || "";
+      const recognized = `${regularText}\n${digitText}`;
       setText(recognized);
-      const baseRows = receiptRows(recognized, games);
+      const baseRows = mergedReceiptRows(regularText, digitText, games);
       const visualRects = visual.rects.length >= baseRows.length ? visual.rects.slice(0, baseRows.length) : [];
       const rows = [];
       for (let index = 0; index < baseRows.length; index += 1) {
