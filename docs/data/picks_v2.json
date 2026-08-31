@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-31T10:18:04+00:00",
+ "generated_at": "2026-08-31T11:15:22+00:00",
  "rounds": [
   101,
   102,
@@ -230281,10 +230281,10 @@
      "label": "승①패",
      "line": null,
      "선택": "홈2+",
-     "배당": 1.93,
-     "시장확률": 0.4634,
+     "배당": 1.86,
+     "시장확률": 0.4822,
      "모델확률": null,
-     "최종확률": 0.4634,
+     "최종확률": 0.4822,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -230300,8 +230300,8 @@
      "이변후보": false,
      "이변점수": null,
      "이변근거": null,
-     "예상적중확률": 0.4634,
-     "추천점수": 0.4634,
+     "예상적중확률": 0.4822,
+     "추천점수": 0.4822,
      "추천우선순위": "primary",
      "선택근거": "shin_market_hit_probability"
     },
@@ -230311,10 +230311,10 @@
      "label": "승①패",
      "line": null,
      "선택": "1점차",
-     "배당": 3.35,
-     "시장확률": 0.2516,
+     "배당": 3.45,
+     "시장확률": 0.2432,
      "모델확률": null,
-     "최종확률": 0.2516,
+     "최종확률": 0.2432,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -230338,10 +230338,10 @@
      "label": "승①패",
      "line": null,
      "선택": "원정2+",
-     "배당": 3.0,
-     "시장확률": 0.2851,
+     "배당": 3.1,
+     "시장확률": 0.2746,
      "모델확률": null,
-     "최종확률": 0.2851,
+     "최종확률": 0.2746,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -230576,13 +230576,13 @@
    },
    "decision_snapshot": {
     "schema_version": "decision-snapshot-v2",
-    "decision_id": "dec_d119f8ad00a34bc2",
+    "decision_id": "dec_040fc27b74a8998c",
     "event_id": "evt_40ad3a77963d9e99",
-    "as_of": "2026-08-31T03:18:37+00:00",
+    "as_of": "2026-08-31T11:15:22+00:00",
     "action": "market_reference",
     "selection_id": "sel_84ab5f62f452d607",
     "offer_id": "off_aa52a7fd80504d31",
-    "input_revision_hash": "a3e185f1c407c423aabd9bf28665685b5a14bebaa7925eb14c74ee0244086581",
+    "input_revision_hash": "a9d1e7fc54f365d0546ae55edc22c047ba2d9fac0f70a49d486bdef886721d29",
     "gate_codes": [],
     "probability": {
      "market": 0.5385,
@@ -230615,7 +230615,7 @@
       "affects_probability": false
      },
      "availability_ai": {
-      "status": "missing",
+      "status": "context_only",
       "affects_probability": false
      },
      "language_ai": {
@@ -230653,31 +230653,41 @@
      },
      {
       "id": "lineup",
-      "available": false,
-      "observed_at": null,
+      "available": true,
+      "observed_at": "2026-08-31T10:55:52+00:00",
       "usage": {
        "market_baseline": "ignored",
-       "ai_residual": "missing",
+       "ai_residual": "context_only",
        "decision_gate": "ignored",
-       "explainer": "missing"
+       "explainer": "context_only"
       },
       "reason_codes": {
-       "decision_gate": "not_in_operating_formula"
-      }
+       "ai_residual": "future_validation_pending",
+       "decision_gate": "not_in_operating_formula",
+       "explainer": "context_not_probability"
+      },
+      "source_ids": [
+       "player_source"
+      ]
      },
      {
       "id": "availability",
-      "available": false,
-      "observed_at": null,
+      "available": true,
+      "observed_at": "2026-08-31T10:55:52+00:00",
       "usage": {
        "market_baseline": "ignored",
-       "ai_residual": "missing",
+       "ai_residual": "context_only",
        "decision_gate": "ignored",
-       "explainer": "missing"
+       "explainer": "context_only"
       },
       "reason_codes": {
-       "decision_gate": "not_in_operating_formula"
-      }
+       "ai_residual": "future_validation_pending",
+       "decision_gate": "not_in_operating_formula",
+       "explainer": "context_not_probability"
+      },
+      "source_ids": [
+       "player_source"
+      ]
      },
      {
       "id": "cross_market",
@@ -230698,19 +230708,27 @@
       "id": "proto_market",
       "name": "프로토 공식 배당",
       "url": null,
-      "collected_at": "2026-08-31T03:18:37+00:00"
+      "collected_at": "2026-08-31T11:15:22+00:00"
+     },
+     {
+      "id": "player_source",
+      "name": "MLB Stats API",
+      "url": "https://www.mlb.com/probable-pitchers",
+      "collected_at": "2026-08-31T10:55:52+00:00"
      }
     ],
     "explanation": {
      "kind": "structured_ui",
      "affects_probability": false,
      "evidence_ids": [
-      "market_price"
+      "market_price",
+      "lineup",
+      "availability"
      ]
     },
     "audit": {
-     "feature_cutoff_at": "2026-08-31T03:18:37+00:00",
-     "built_at": "2026-08-31T03:18:37+00:00",
+     "feature_cutoff_at": "2026-08-31T11:15:22+00:00",
+     "built_at": "2026-08-31T11:15:22+00:00",
      "pre_registered": false
     }
    },
@@ -313504,7 +313522,7 @@
  "context_enriched_at": "2026-08-29T11:50:47+00:00",
  "context_games": 49,
  "live_market_refresh": {
-  "generated_at": "2026-08-31T10:18:04+00:00",
+  "generated_at": "2026-08-31T11:15:22+00:00",
   "games_changed": 1,
   "source": "current_proto_market_rows",
   "duplicate_reissues_removed": 0
