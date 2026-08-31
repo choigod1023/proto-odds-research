@@ -134,6 +134,14 @@ export default function Dashboard() {
     staticPicks: "data/picks_v2.json",
   }, 60000);
   const picks = pickSources.picks || pickSources.staticPicks;
+  const receiptGames = useMemo(() => {
+    const seen = new Set();
+    return [pickSources.picks, pickSources.staticPicks].flatMap((source) => source?.live || []).filter((game) => {
+      const key = `${game.round}|${game.home}|${game.away}|${game.date}`;
+      if (seen.has(key)) return false;
+      seen.add(key); return true;
+    });
+  }, [pickSources.picks, pickSources.staticPicks]);
   const index = useMemo(() => liveIndex(liveData), [liveData]);
   const groups = useMemo(() => groupBetTickets(bets), [bets]);
   useEffect(() => {
@@ -172,7 +180,7 @@ export default function Dashboard() {
         <div><h1>내 베팅 대시보드</h1><p>내가 구매한 단일 경기의 확률 변화와 실시간 진행, 확정 손익을 추적합니다.</p></div>
         <div className="market-meta">15초마다 실시간 점수 확인 · 이 브라우저에 저장</div>
       </header>
-      <ReceiptOcr games={picks?.live || []} onImported={() => setBets(readBetLedger())} />
+      <ReceiptOcr games={receiptGames} onImported={() => setBets(readBetLedger())} />
       <section className="dashboard-summary">
         <div><small>저장한 티켓</small><b>{groups.length}장 · {bets.length}픽</b></div>
         <div><small>총 투입금</small><b>{money(totals.stake)}</b></div>

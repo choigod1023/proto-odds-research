@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createTicketRecords, upsertBet } from "../lib/bet-ledger.js";
 import { receiptRows, receiptTicketSummary } from "../lib/receipt-ocr.js";
+import { buttonOdds, selectedButtonRects, visualChoiceIndex } from "../lib/receipt-image.js";
 
 export default function ReceiptOcr({ games = [], onImported }) {
   const [busy, setBusy] = useState(false);
@@ -21,10 +22,26 @@ export default function ReceiptOcr({ games = [], onImported }) {
           if (message.status === "recognizing text") setProgress(Math.round((message.progress || 0) * 100));
         },
       });
-      const result = await worker.recognize(file, { rotateAuto: true });
+      const [result, visual] = await Promise.all([
+        worker.recognize(file, { rotateAuto: true }), selectedButtonRects(file).catch(() => ({ rects: [], width: 0 })),
+      ]);
       const recognized = result?.data?.text || "";
       setText(recognized);
-      const rows = receiptRows(recognized, games).map((row) => ({ ...row, selected: true }));
+      const baseRows = receiptRows(recognized, games);
+      const visualRects = visual.rects.length === baseRows.length ? visual.rects : [];
+      const rows = [];
+      for (let index = 0; index < baseRows.length; index += 1) {
+        const row = baseRows[index]; const rect = visualRects[index];
+        if (!row.needsConfirmation || !rect) { rows.push({ ...row, selected: true }); continue; }
+        const choiceIndex = visualChoiceIndex(rect, row.optionChoices.length, visual.width);
+        const option = row.optionChoices[choiceIndex];
+        let purchaseOdds = "";
+        try {
+          const crop = await worker.recognize(file, { rectangle: rect });
+          purchaseOdds = buttonOdds(crop?.data?.text) || "";
+        } catch { /* 사용자가 확인할 수 있도록 빈 배당으로 유지 */ }
+        rows.push({ ...row, option, purchaseOdds, selected: true, needsConfirmation: !option, visualDetected: true });
+      }
       setMatches(rows); setTicket(receiptTicketSummary(recognized, rows));
     } catch (cause) {
       setError(`사진을 읽지 못했습니다: ${cause?.message || cause}`);
