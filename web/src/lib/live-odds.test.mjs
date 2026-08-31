@@ -59,6 +59,58 @@ test("기존 판정에 선택지가 없어도 현재 발매 메타데이터로 �
   assert.equal(hydrated._liveOddsHydrated, true);
 });
 
+test("언더오버 기준점만 바뀌어도 최신 라인으로 옵션과 확률을 다시 만든다", () => {
+  const game = {
+    round: 102, date: "08.31(월) 18:00", league: "KBO", sport: "bs",
+    home: "KIA", away: "SSG", status: "경기전",
+    decision_snapshot: { schema_version: "decision-snapshot-v2" },
+    options: [
+      { market: "언더오버", label: "U 10.5", line: 10.5, "게임번호": "7101",
+        "선택": "언더", "배당": 1.70, "시장확률": 0.52, "모델확률": 0.61 },
+      { market: "언더오버", label: "U 10.5", line: 10.5, "게임번호": "7101",
+        "선택": "오버", "배당": 1.82, "시장확률": 0.48, "모델확률": 0.39 },
+    ],
+  };
+  const markets = { 7101: {
+    game_no: "7101", date: game.date, league: "KBO", sport: "bs",
+    home: "KIA", away: "SSG", market: "언더오버", label: "U 11.5",
+    odds: [1.70, 1.82],
+  }};
+
+  const revised = repriceGameOdds(game, { 7101: [1.70, 1.82] },
+    "2026-08-31T08:00:00Z", markets);
+
+  assert.equal(revised._liveLineChanged, true);
+  assert.equal(revised.decision_snapshot, null);
+  assert.deepEqual(revised.options.map((option) => option.line), [11.5, 11.5]);
+  assert.deepEqual(revised.options.map((option) => option.label), ["U 11.5", "U 11.5"]);
+  assert.deepEqual(revised.options.map((option) => option["모델확률"]), [null, null],
+    "이전 기준점의 구조 모델 확률을 새 기준점에 재사용하지 않는다");
+  assert.equal(revised.options[0]["최종확률"], revised.options[0]["시장확률"]);
+});
+
+test("핸디캡 기준점 변경과 새 게임번호 발행도 시장 revision으로 감지한다", () => {
+  const game = {
+    round: 102, date: "08.31(월) 19:00", home: "서울", away: "울산",
+    options: [
+      { market: "핸디캡", label: "H -1.0", line: -1, "게임번호": "7200",
+        "선택": "핸디홈", "배당": 1.80 },
+      { market: "핸디캡", label: "H -1.0", line: -1, "게임번호": "7200",
+        "선택": "핸디원정", "배당": 1.72 },
+    ],
+  };
+  const markets = { 7250: {
+    game_no: "7250", date: game.date, home: game.home, away: game.away,
+    market: "핸디캡", label: "H -0.5", odds: [1.65, 1.89],
+  }};
+
+  const revised = repriceGameOdds(game, {}, "2026-08-31T09:00:00Z", markets);
+
+  assert.equal(revised._liveLineChanged, true);
+  assert.deepEqual(revised.options.map((option) => option["게임번호"]), ["7250", "7250"]);
+  assert.deepEqual(revised.options.map((option) => option.line), [-0.5, -0.5]);
+});
+
 test("가격 비교 카드도 확률·환급률·구간을 즉시 다시 계산한다", () => {
   const game = {
     booking_class: "2-way",
