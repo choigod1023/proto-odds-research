@@ -20,10 +20,14 @@ const gameNumberPattern = (gameNo) => String(gameNo).split("")
   .join("[^0-9a-zA-Z]{0,2}");
 
 export function receiptGameNumbers(text, games = []) {
-  const source = String(text || "");
+  const lines = String(text || "").split(/\r?\n/);
   const known = new Set((games || []).flatMap((game) => (game.options || [])
     .map((option) => String(option?.["게임번호"] || "").trim())).filter(Boolean));
-  return [...known].filter((gameNo) => new RegExp(`(^|[^0-9])${gameNumberPattern(gameNo)}(?=[^0-9]|$)`, "i").test(source));
+  return [...known].filter((gameNo) => lines.some((line, index) => {
+    if (!new RegExp(`(^|[^0-9])${gameNumberPattern(gameNo)}(?=[^0-9]|$)`, "i").test(line)) return false;
+    const context = lines.slice(Math.max(0, index - 1), index + 3).join(" ");
+    return /(조[합한]|한경기|게임|승무패|승패|언더오버|핸디캡|홀짝)/i.test(context);
+  }));
 }
 
 export function receiptMatches(text, games = []) {
@@ -64,6 +68,23 @@ export function receiptMatches(text, games = []) {
     }
   }
   return found;
+}
+
+export function receiptRows(text, games = []) {
+  const matched = receiptMatches(text, games);
+  const byNumber = new Map(matched.map((row) => [String(row.option?.["게임번호"]), row]));
+  for (const gameNo of receiptGameNumbers(text, games)) {
+    if (byNumber.has(gameNo)) continue;
+    const game = (games || []).find((candidate) => (candidate.options || [])
+      .some((option) => String(option?.["게임번호"] || "") === gameNo));
+    if (!game) continue;
+    const optionChoices = (game.options || []).filter((option) => String(option?.["게임번호"] || "") === gameNo);
+    byNumber.set(gameNo, {
+      key: `${game.round}|${gameNo}|unresolved`, game, option: null, optionChoices,
+      purchaseOdds: "", stake: 10000, sourceText: gameNo, needsConfirmation: true,
+    });
+  }
+  return [...byNumber.values()];
 }
 
 const labeledNumber = (text, labels) => {

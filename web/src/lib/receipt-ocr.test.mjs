@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { receiptGameNumbers, receiptMatches, receiptTicketSummary } from "./receipt-ocr.js";
+import { receiptGameNumbers, receiptMatches, receiptRows, receiptTicketSummary } from "./receipt-ocr.js";
 
 const game = {
   round: 103, date: "08.31(월) 18:00", home: "두산", away: "LG",
@@ -34,6 +34,19 @@ test("게임번호를 우선 식별하고 선택 글자가 없어도 구매 배�
 
 test("OCR이 게임번호 사이를 띄우거나 1을 I로 읽어도 프로토 번호를 복원한다", () => {
   assert.deepEqual(receiptGameNumbers("게임 I 7 2I7 승 1.72", [game]), ["217"]);
+});
+
+test("배당과 선택을 놓쳐도 경기번호를 읽었으면 확인 가능한 폴더 행을 보존한다", () => {
+  const rows = receiptRows("217 조합 한경기\n야구 승패\n선택경기수 1경기", [game]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].sourceText, "217");
+  assert.equal(rows[0].needsConfirmation, true);
+  assert.equal(rows[0].optionChoices.length, 2);
+});
+
+test("영수증 하단 사업자번호를 프로토 경기번호로 오인하지 않는다", () => {
+  const noisyGame = { ...game, options: game.options.map((option) => ({ ...option, "게임번호": "7287" })) };
+  assert.deepEqual(receiptGameNumbers("사업자등록번호 72-87-03278", [noisyGame]), []);
 });
 
 test("구매내역의 조합배당·공통 투입금·예상적중금을 티켓 단위로 읽는다", () => {
