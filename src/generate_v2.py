@@ -60,6 +60,7 @@ from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noq
                                 kickoff_utc, tally_prediction_records)
 from runtime_db import (RuntimeDatabase, database_enabled,
                         persist_artifact)                            # noqa: E402
+from game_dedup import deduplicate_game_sections                     # noqa: E402
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
 from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
@@ -1339,6 +1340,7 @@ def main() -> int:
         "decision_manifest": decision_manifest(),
     }
     _sanitize_prediction_document(doc)
+    deduplicate_game_sections(doc)
     persist_artifact("picks_v2", doc, OUT / "picks_v2.json")
     print(f"\n경기 {len(out)} (예정 {len(live_g)} / 정산 {len(past_g)})")
     if tally:
