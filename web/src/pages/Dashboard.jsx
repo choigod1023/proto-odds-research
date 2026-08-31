@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "../components/ui.jsx";
+import ReceiptOcr from "../components/ReceiptOcr.jsx";
 import { appendProbabilityHistory, estimateLiveProbability, liveKey,
   readBetLedger, removeBet, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
+import { usePolledData } from "../lib/poll.js";
 
 const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
+const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
 const pct = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "–";
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 
@@ -89,6 +92,11 @@ function BetCard({ bet, live, onRemove }) {
 export default function Dashboard() {
   const [bets, setBets] = useState(() => readBetLedger());
   const liveData = useLiveScores();
+  const { data: pickSources } = usePolledData({
+    picks: PICKS_URL,
+    staticPicks: "data/picks_v2.json",
+  }, 60000);
+  const picks = pickSources.picks || pickSources.staticPicks;
   const index = useMemo(() => liveIndex(liveData), [liveData]);
   useEffect(() => {
     const refresh = () => setBets(readBetLedger());
@@ -128,6 +136,7 @@ export default function Dashboard() {
         <div><h1>내 베팅 대시보드</h1><p>내가 구매한 단일 경기의 확률 변화와 실시간 진행, 확정 손익을 추적합니다.</p></div>
         <div className="market-meta">15초마다 실시간 점수 확인 · 이 브라우저에 저장</div>
       </header>
+      <ReceiptOcr games={picks?.live || []} onImported={() => setBets(readBetLedger())} />
       <section className="dashboard-summary">
         <div><small>저장한 베팅</small><b>{bets.length}건</b></div>
         <div><small>총 투입금</small><b>{money(totals.stake)}</b></div>
