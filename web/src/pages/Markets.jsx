@@ -17,6 +17,7 @@ import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-stat
 import { predictionForGame, predictionStrengthLabel } from "../lib/game-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
+import { deduplicateGameCards } from "../lib/game-dedup.js";
 
 // 실시간 점수만 **수집 머신이 직접 서빙**한다.
 // 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
@@ -256,7 +257,7 @@ function GameList({ data, grades, caps, stale }) {
   //    실측: 전부 65.9% → 최저배당 ≤1.3 인 경기만 77.6%. ROI 도 같이 좋아진다.
   const [cap, setCap] = useState(0);          // 0 = 제한 없음
   const pool = useMemo(
-    () => [...(data.live || []), ...(data.past || [])],
+    () => deduplicateGameCards([...(data.live || []), ...(data.past || [])]),
     [data]);
   const selectedDate = f.dt === "today"
     ? kstMMDD(0, dateClock)

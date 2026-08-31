@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ai_decision import build_decision_snapshot  # noqa: E402
 from bets import SEL_NAMES  # noqa: E402
 from devig import market_probabilities  # noqa: E402
+from game_dedup import deduplicate_game_sections  # noqa: E402
 from runtime_db import (RuntimeDatabase, database_enabled,
                         persist_artifact)  # noqa: E402
 
@@ -121,6 +122,8 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             game["odds_recovered_after_start"] = True
         changed += 1
 
+    removed = deduplicate_game_sections(document)
+    changed += removed
     if changed:
         document["generated_at"] = observed_at
         document["rounds"] = sorted({
@@ -130,6 +133,7 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
         document["live_market_refresh"] = {
             "generated_at": observed_at, "games_changed": changed,
             "source": "current_proto_market_rows",
+            "duplicate_reissues_removed": removed,
         }
     return document, changed
 
