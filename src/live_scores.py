@@ -320,7 +320,7 @@ def _previous_games() -> list[dict]:
 def merge_recent_games(current: list[dict], previous: list[dict], now: datetime) -> list[dict]:
     """최신 관측을 우선하되 조회 범위 밖의 최근 종료·취소 기록은 보존한다."""
     cutoff = (now - timedelta(days=HISTORY_DAYS)).date()
-    merged = {str(g.get("game_id")): g for g in current if g.get("game_id")}
+    merged = {str(g.get("game_id")): g for g in deduplicate_games(current) if g.get("game_id")}
     for game in previous:
         game_id = str(game.get("game_id") or "")
         if not game_id or game_id in merged or game.get("status") not in TERMINAL_STATUSES:
@@ -331,7 +331,60 @@ def merge_recent_games(current: list[dict], previous: list[dict], now: datetime)
             continue
         if played >= cutoff:
             merged[game_id] = game
-    return sorted(merged.values(), key=lambda x: x.get("start") or "")
+    return sorted(deduplicate_games(list(merged.values())), key=lambda x: x.get("start") or "")
+
+
+def _identity_text(value: object) -> str:
+    """소스별 공백·구두점 차이를 없앤 경기 식별용 문자열."""
+    return re.sub(r"[^0-9A-Za-z가-힣]", "", str(value or "")).lower()
+
+
+def _team_names(game: dict, side: str) -> set[str]:
+    names = [game.get(side), *(game.get(f"{side}_alias") or [])]
+    return {cleaned for value in names if (cleaned := _identity_text(value))}
+
+
+def _same_physical_game(left: dict, right: dict) -> bool:
+    """네이버·NAMED·옛 ID가 달라도 실제 같은 경기인지 판별한다."""
+    left_id = re.sub(r"^(?:naver|named):", "", str(left.get("game_id") or ""))
+    right_id = re.sub(r"^(?:naver|named):", "", str(right.get("game_id") or ""))
+    if left_id and left_id == right_id:
+        return True
+    if _identity_text(left.get("league")) != _identity_text(right.get("league")):
+        return False
+    # 같은 날 같은 팀의 더블헤더는 시작 시각으로 반드시 분리한다.
+    if str(left.get("start") or "")[:16] != str(right.get("start") or "")[:16]:
+        return False
+    return bool(_team_names(left, "home") & _team_names(right, "home")) and bool(
+        _team_names(left, "away") & _team_names(right, "away")
+    )
+
+
+def _merge_duplicate(preferred: dict, other: dict) -> dict:
+    """실시간 야구 상황이 풍부한 네이버 값을 우선하고 별칭은 합친다."""
+    if preferred.get("source") != "naver" and other.get("source") == "naver":
+        preferred, other = other, preferred
+    merged = {**other, **preferred}
+    for side in ("home", "away"):
+        aliases = [*preferred.get(f"{side}_alias", []), other.get(side),
+                   *other.get(f"{side}_alias", [])]
+        merged[f"{side}_alias"] = list(dict.fromkeys(
+            value for value in aliases if value and value != merged.get(side)
+        ))
+    return merged
+
+
+def deduplicate_games(games: list[dict]) -> list[dict]:
+    """소스 ID가 다른 동일 경기를 하나로 합치고 실제 더블헤더는 유지한다."""
+    unique: list[dict] = []
+    for game in games:
+        duplicate_at = next((index for index, saved in enumerate(unique)
+                             if _same_physical_game(saved, game)), None)
+        if duplicate_at is None:
+            unique.append(game)
+        else:
+            unique[duplicate_at] = _merge_duplicate(unique[duplicate_at], game)
+    return unique
 
 
 def main() -> int:
@@ -395,13 +448,8 @@ def main() -> int:
     alias_n = add_proto_aliases(named_games, _proto_games())
     games.extend(named_games)
 
-    # 같은 경기가 날짜 경계로 두 번 잡힐 수 있다
-    seen, uniq = set(), []
-    for g in games:
-        if g["game_id"] in seen:
-            continue
-        seen.add(g["game_id"])
-        uniq.append(g)
+    # 날짜 경계뿐 아니라 네이버·NAMED의 서로 다른 ID도 실제 경기 기준으로 합친다.
+    uniq = deduplicate_games(games)
     uniq = merge_recent_games(uniq, _previous_games(), now)
     live_n = sum(1 for g in uniq if g.get("status") == "STARTED")
 
