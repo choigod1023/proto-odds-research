@@ -64,6 +64,17 @@ test("숫자 전용 OCR은 누락 폴더를 보강하고 일반 OCR의 확정 �
   assert.equal(rows[1].needsConfirmation, true);
 });
 
+test("경기번호를 놓쳐도 고유한 기준점과 배당 조합으로 폴더를 복원한다", () => {
+  const later = { ...game, home: "중국", away: "레바논", options: [
+    { "게임번호": "8076", market: "언더오버", label: "U 165.5", line: 165.5, "선택": "언더", "배당": 1.79 },
+    { "게임번호": "8076", market: "언더오버", label: "U 165.5", line: 165.5, "선택": "오버", "배당": 1.73 },
+  ] };
+  const rows = mergedReceiptRows("농구 언더오버 U/0 165.5 - 1.73", "", [game, later]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].option["게임번호"], "8076");
+  assert.equal(rows[0].option["선택"], "오버");
+});
+
 test("구매내역의 조합배당·공통 투입금·예상적중금을 티켓 단위로 읽는다", () => {
   const summary = receiptTicketSummary("선택경기수 2경기 예상배당률 2.4배 개별투표금액 10,000원 예상적중금액 24,000원", [
     { purchaseOdds: 1.63 }, { purchaseOdds: 1.43 },
