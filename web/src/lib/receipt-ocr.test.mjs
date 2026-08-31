@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { receiptMatches, receiptTicketSummary } from "./receipt-ocr.js";
+import { receiptGameNumbers, receiptMatches, receiptTicketSummary } from "./receipt-ocr.js";
 
 const game = {
   round: 103, date: "08.31(월) 18:00", home: "두산", away: "LG",
@@ -24,6 +24,16 @@ test("현재 발매 데이터와 일치하지 않는 OCR 문장은 자동 후보
 
 test("승패라는 마켓명만으로 홈이나 원정 선택을 추측하지 않는다", () => {
   assert.deepEqual(receiptMatches("프로토 승부식 217 승패 10,000원", [game]), []);
+});
+
+test("게임번호를 우선 식별하고 선택 글자가 없어도 구매 배당으로 픽을 판별한다", () => {
+  const matches = receiptMatches("217 조합 · 한경기\n야구 승패\n승 1.72 패 -", [game]);
+  assert.equal(matches.length, 1);
+  assert.equal(matches[0].option["선택"], "홈");
+});
+
+test("OCR이 게임번호 사이를 띄우거나 1을 I로 읽어도 프로토 번호를 복원한다", () => {
+  assert.deepEqual(receiptGameNumbers("게임 I 7 2I7 승 1.72", [game]), ["217"]);
 });
 
 test("구매내역의 조합배당·공통 투입금·예상적중금을 티켓 단위로 읽는다", () => {
