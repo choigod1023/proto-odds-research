@@ -54,6 +54,7 @@ from player_commentary import with_player_context                    # noqa: E40
 from devig import market_probabilities                              # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
                          match_game)
+from player_name_localizer import localize_player_names             # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
                                PredictionLedgerError)
 from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
@@ -273,7 +274,11 @@ def starters(refresh: bool = False) -> dict:
         try:
             # 30분 전용 looper가 아직 배포되지 않았어도 기존 시간별 생성기가 보조한다.
             # 외부 장애면 collect 자체가 직전 MLB 캐시를 유지한다.
-            return game_index(collect_player_info())
+            records = collect_player_info()
+            localized = localize_player_names(records)
+            print(f"선수명 한글화 {localized['localized']}/{localized['players']}명 "
+                  f"(새 요청 {localized['calls']}회 · 미처리 {localized['pending']}명)")
+            return game_index(records)
         except Exception as exc:  # noqa: BLE001 — 화면은 직전 캐시로 계속 만들어야 한다
             print(f"선수정보 시간별 갱신 실패 — 직전 캐시 사용: {type(exc).__name__}: {exc}")
     return game_index()
