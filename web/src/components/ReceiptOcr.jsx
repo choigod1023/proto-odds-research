@@ -30,7 +30,38 @@ export default function ReceiptOcr({ games = [], onImported }) {
       const regularText = String(result?.data?.text || "");
       const recognized = regularText;
       setText(recognized);
-      const baseRows = mergedReceiptRows(regularText, "", games);
+      let baseRows = mergedReceiptRows(regularText, "", games);
+      if (!baseRows.length) {
+        baseRows = (games || []).flatMap((game) => {
+          const numbers = [...new Set((game.options || []).map((option) => String(option?.["게임번호"] || "")).filter(Boolean))];
+          return numbers.filter((gameNo) => new RegExp(`(^|[^0-9])${gameNo}(?=[^0-9]|$)`).test(regularText))
+            .map((gameNo) => ({
+              key: `${game.round}|${gameNo}|unresolved`, game, option: null,
+              optionChoices: (game.options || []).filter((option) => String(option?.["게임번호"] || "") === gameNo),
+              purchaseOdds: "", stake: 10000, sourceText: gameNo, needsConfirmation: true,
+              textIndex: regularText.indexOf(gameNo),
+            }));
+        }).sort((a, b) => a.textIndex - b.textIndex);
+      }
+      const represented = new Set(baseRows.map((row) => String(row.option?.["게임번호"] || row.sourceText)));
+      for (const line of regularText.split(/\r?\n/)) {
+        const candidates = (games || []).flatMap((game) => (game.options || []).map((option) => ({ game, option })))
+          .filter(({ option }) => {
+            const gameNo = String(option?.["게임번호"] || "");
+            const lineValue = Number(option?.line); const odds = Number(option?.["배당"]);
+            return gameNo && !represented.has(gameNo) && Number.isFinite(lineValue) && Number.isFinite(odds)
+              && line.includes(String(Math.abs(lineValue))) && line.includes(odds.toFixed(2));
+          });
+        const numbers = [...new Set(candidates.map(({ option }) => String(option["게임번호"])))];
+        if (numbers.length !== 1) continue;
+        const selected = candidates.find(({ option }) => String(option["게임번호"]) === numbers[0]);
+        baseRows.push({
+          key: `${selected.game.round}|${numbers[0]}|inferred`, game: selected.game, option: selected.option,
+          optionChoices: (selected.game.options || []).filter((option) => String(option?.["게임번호"] || "") === numbers[0]),
+          purchaseOdds: selected.option["배당"], stake: 10000, sourceText: numbers[0], needsConfirmation: false,
+        });
+        represented.add(numbers[0]);
+      }
       const visualRects = visual.rects.length >= baseRows.length ? visual.rects.slice(0, baseRows.length) : [];
       const rows = [];
       for (let index = 0; index < baseRows.length; index += 1) {
