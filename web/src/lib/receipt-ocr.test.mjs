@@ -49,6 +49,11 @@ test("영수증 하단 사업자번호를 프로토 경기번호로 오인하지
   assert.deepEqual(receiptGameNumbers("사업자등록번호 72-87-03278", [noisyGame]), []);
 });
 
+test("여러 폴더의 경기번호를 데이터 배열이 아닌 사진에 나온 순서로 유지한다", () => {
+  const later = { ...game, options: game.options.map((option) => ({ ...option, "게임번호": "8076" })) };
+  assert.deepEqual(receiptGameNumbers("8076 조합\n217 조합", [game, later]), ["8076", "217"]);
+});
+
 test("구매내역의 조합배당·공통 투입금·예상적중금을 티켓 단위로 읽는다", () => {
   const summary = receiptTicketSummary("선택경기수 2경기 예상배당률 2.4배 개별투표금액 10,000원 예상적중금액 24,000원", [
     { purchaseOdds: 1.63 }, { purchaseOdds: 1.43 },

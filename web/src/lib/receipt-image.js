@@ -5,7 +5,7 @@ const blue = (data, index) => {
 
 export function blueButtonRects(imageData, width, height) {
   const runs = [];
-  const minWidth = width * 0.18;
+  const minWidth = width * 0.07;
   for (let y = 0; y < height; y += 1) {
     let first = -1; let last = -1; let count = 0;
     for (let x = 0; x < width; x += 1) {
@@ -60,4 +60,21 @@ export function buttonOdds(text) {
   if (decimal) return Number(decimal);
   const squeezed = normalized.match(/(?:^|\D)(1\d{2})(?=\D|$)/)?.[1];
   return squeezed ? Number(`${squeezed[0]}.${squeezed.slice(1)}`) : null;
+}
+
+export function buttonChoiceIndex(text, options = []) {
+  const value = String(text || "").replace(/\s+/g, "").toLowerCase();
+  const aliases = (choice) => {
+    const selected = String(choice || "");
+    if (/오버/.test(selected)) return ["오버", "over"];
+    if (/언더/.test(selected)) return ["언더", "under"];
+    if (/무/.test(selected)) return ["무", "draw"];
+    if (/원정|패/.test(selected)) return ["패", "원정", "away"];
+    if (/홈|승/.test(selected)) return ["승", "홈", "home"];
+    return [selected];
+  };
+  const candidates = options.map((option, index) => ({ index,
+    hit: aliases(option?.["선택"]).some((alias) => alias && value.includes(alias.toLowerCase())) }))
+    .filter((row) => row.hit);
+  return candidates.length === 1 ? candidates[0].index : null;
 }

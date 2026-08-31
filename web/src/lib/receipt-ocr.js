@@ -23,11 +23,15 @@ export function receiptGameNumbers(text, games = []) {
   const lines = String(text || "").split(/\r?\n/);
   const known = new Set((games || []).flatMap((game) => (game.options || [])
     .map((option) => String(option?.["게임번호"] || "").trim())).filter(Boolean));
-  return [...known].filter((gameNo) => lines.some((line, index) => {
-    if (!new RegExp(`(^|[^0-9])${gameNumberPattern(gameNo)}(?=[^0-9]|$)`, "i").test(line)) return false;
-    const context = lines.slice(Math.max(0, index - 1), index + 3).join(" ");
-    return /(조[합한]|한경기|게임|승무패|승패|언더오버|핸디캡|홀짝)/i.test(context);
-  }));
+  const found = [];
+  for (const line of lines) {
+    if (/(사업자|등록번호|\d{2}\s*-\s*\d{2,3}\s*-\s*\d{4,})/i.test(line)) continue;
+    for (const gameNo of known) {
+      if (found.includes(gameNo)) continue;
+      if (new RegExp(`(^|[^0-9])${gameNumberPattern(gameNo)}(?=[^0-9]|$)`, "i").test(line)) found.push(gameNo);
+    }
+  }
+  return found;
 }
 
 export function receiptMatches(text, games = []) {
