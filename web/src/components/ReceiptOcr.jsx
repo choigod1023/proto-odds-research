@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createTicketRecords, upsertBet } from "../lib/bet-ledger.js";
 import { receiptRows, receiptTicketSummary } from "../lib/receipt-ocr.js";
 import { buttonOdds, selectedButtonRects, visualChoiceIndex } from "../lib/receipt-image.js";
+import { submitAnonymousTicket } from "../lib/anonymous-bets.js";
 
 export default function ReceiptOcr({ games = [], onImported }) {
   const [busy, setBusy] = useState(false);
@@ -10,6 +11,7 @@ export default function ReceiptOcr({ games = [], onImported }) {
   const [matches, setMatches] = useState([]);
   const [ticket, setTicket] = useState({ stake: 10000, combinedOdds: 0, expectedPayout: 0 });
   const [error, setError] = useState("");
+  const [shareStatus, setShareStatus] = useState("");
 
   const scan = async (file) => {
     if (!file) return;
@@ -54,6 +56,9 @@ export default function ReceiptOcr({ games = [], onImported }) {
   const importSelected = () => {
     const selected = matches.filter((row) => row.selected && row.option);
     createTicketRecords(selected, ticket).forEach((record) => upsertBet(record));
+    setShareStatus("전송 중");
+    submitAnonymousTicket(selected, ticket).then((ok) => setShareStatus(ok ? "익명 통계 반영됨" : "익명 통계 전송 실패"))
+      .catch(() => setShareStatus("익명 통계 전송 실패"));
     onImported?.(selected.length);
     setMatches([]); setText("");
   };
@@ -93,6 +98,7 @@ export default function ReceiptOcr({ games = [], onImported }) {
         <button type="button" disabled={!confirmed.length || matches.some((row) => row.selected && (!row.option || !Number(row.purchaseOdds)))} onClick={importSelected}>{confirmed.length > 1 ? `${confirmed.length}폴더 조합으로 저장` : "단폴로 저장"}</button>
       </div>}
       <small className="receipt-ocr-privacy">사진은 이 브라우저에서 문자 인식하며 서버에 저장하지 않습니다. 최초 실행 시 한국어 OCR 모델을 내려받습니다.</small>
+      <small className="receipt-ocr-privacy">저장 시 경기번호·픽·배당·금액구간·폴더 수만 익명 통계로 전송합니다. 이미지·구매번호·IP·쿠키는 통계에 저장하지 않습니다.{shareStatus ? ` · ${shareStatus}` : ""}</small>
     </section>
   );
 }

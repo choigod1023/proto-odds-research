@@ -152,6 +152,8 @@ PUBLISH_ENRICH = [
 LIVE = [sys.executable, "-u", "src/live_scores.py"]
 LIVE_EVERY = 30            # 30초
 LIVE_PORT = 8080
+ANONYMOUS_BETS_PATH = Path(os.environ.get("ANONYMOUS_BETS_PATH", "/data/anonymous_bets.jsonl"))
+_anonymous_bets_lock = threading.Lock()
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
@@ -563,6 +565,54 @@ def run_live() -> None:
         time.sleep(LIVE_EVERY)
 
 
+def validate_anonymous_bet(value: object) -> dict:
+    """개인 식별자 없이 분석에 필요한 최소 베팅 통계만 허용한다."""
+    if not isinstance(value, dict) or value.get("schema_version") != 1:
+        raise ValueError("invalid schema")
+    legs = value.get("legs")
+    if not isinstance(legs, list) or not 1 <= len(legs) <= 20:
+        raise ValueError("invalid legs")
+    clean_legs = []
+    for leg in legs:
+        if not isinstance(leg, dict):
+            raise ValueError("invalid leg")
+        game_no = str(leg.get("game_no", ""))
+        odds = float(leg.get("purchase_odds", 0))
+        if not game_no.isdigit() or len(game_no) > 8 or not 1.0 <= odds <= 1000:
+            raise ValueError("invalid game or odds")
+        def short(key: str, limit: int) -> str:
+            return str(leg.get(key, ""))[:limit]
+        clean_legs.append({
+            "game_no": game_no, "sport": short("sport", 12), "league": short("league", 40),
+            "market": short("market", 30), "label": short("label", 30),
+            "choice": short("choice", 30), "purchase_odds": round(odds, 3),
+        })
+    stake_band = str(value.get("stake_band", ""))
+    allowed_bands = {"under_5000", "5000_9999", "10000_49999", "50000_99999", "100000_plus"}
+    if stake_band not in allowed_bands:
+        raise ValueError("invalid stake band")
+    combined = value.get("combined_odds")
+    combined = round(float(combined), 3) if combined is not None else None
+    if combined is not None and not 1.0 <= combined <= 100000:
+        raise ValueError("invalid combined odds")
+    return {
+        "schema_version": 1, "collected_day": datetime.now(timezone.utc).date().isoformat(),
+        "source": "receipt_ocr", "round": int(value["round"]) if value.get("round") is not None else None,
+        "combo_size": len(clean_legs), "combined_odds": combined,
+        "stake_band": stake_band, "legs": clean_legs,
+    }
+
+
+def store_anonymous_bet(value: object, path: Path = ANONYMOUS_BETS_PATH) -> dict:
+    clean = validate_anonymous_bet(value)
+    line = json.dumps(clean, ensure_ascii=False, separators=(",", ":")) + "\n"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with _anonymous_bets_lock:
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(line)
+    return clean
+
+
 def serve_live() -> None:
     """실시간 점수 JSON 하나만 내보내는 초소형 서버.
 
@@ -580,6 +630,8 @@ def serve_live() -> None:
     class H(BaseHTTPRequestHandler):
         def _cors(self):
             self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
             # 30초마다 바뀌므로 브라우저·프록시 캐시를 짧게 유지한다
             self.send_header("Cache-Control", "public, max-age=5")
 
@@ -658,6 +710,25 @@ def serve_live() -> None:
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+
+        def do_POST(self):                             # noqa: N802
+            if self.path.split("?")[0].rstrip("/") != "/anonymous-bets":
+                self.send_response(404); self._cors(); self.end_headers(); return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if not 1 <= length <= 32768:
+                    raise ValueError("invalid body size")
+                value = json.loads(self.rfile.read(length).decode("utf-8"))
+                store_anonymous_bet(value)
+            except (ValueError, UnicodeDecodeError, json.JSONDecodeError):
+                body = b'{"ok":false,"error":"invalid_payload"}'
+                self.send_response(400); self._cors()
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
+            body = b'{"ok":true}'
+            self.send_response(201); self._cors()
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
 
         def log_message(self, *a):                     # 접근 로그로 로그를 덮지 않는다
             pass
