@@ -45,12 +45,14 @@ export default function ReceiptOcr({ games = [], onImported }) {
       }
       const represented = new Set(baseRows.map((row) => String(row.option?.["게임번호"] || row.sourceText)));
       for (const line of regularText.split(/\r?\n/)) {
+        const lineNumbers = [...line.matchAll(/\d+(?:\.\d+)?/g)].map((match) => Number(match[0]));
         const candidates = (games || []).flatMap((game) => (game.options || []).map((option) => ({ game, option })))
           .filter(({ option }) => {
             const gameNo = String(option?.["게임번호"] || "");
             const lineValue = Number(option?.line); const odds = Number(option?.["배당"]);
             return gameNo && !represented.has(gameNo) && Number.isFinite(lineValue) && Number.isFinite(odds)
-              && line.includes(String(Math.abs(lineValue))) && line.includes(odds.toFixed(2));
+              && lineNumbers.some((value) => Math.abs(value - Math.abs(lineValue)) <= 2)
+              && line.includes(odds.toFixed(2));
           });
         const numbers = [...new Set(candidates.map(({ option }) => String(option["게임번호"])))];
         if (numbers.length !== 1) continue;
