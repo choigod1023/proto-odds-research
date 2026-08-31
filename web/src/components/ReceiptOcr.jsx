@@ -27,11 +27,13 @@ export default function ReceiptOcr({ games = [], onImported }) {
       const [result, visual] = await Promise.all([
         worker.recognize(file, { rotateAuto: true }), selectedButtonRects(file).catch(() => ({ rects: [], width: 0 })),
       ]);
+      // Tesseract workers can reuse the result buffer on the next recognize call.
+      // Copy the full OCR text before running the digits-only recovery pass.
+      const regularText = String(result?.data?.text || "");
       await worker.setParameters({ tessedit_char_whitelist: "0123456789" });
       const digitResult = await worker.recognize(file, { rotateAuto: true });
       await worker.setParameters({ tessedit_char_whitelist: "" });
-      const regularText = result?.data?.text || "";
-      const digitText = digitResult?.data?.text || "";
+      const digitText = String(digitResult?.data?.text || "");
       const recognized = `${regularText}\n${digitText}`;
       setText(recognized);
       const baseRows = mergedReceiptRows(regularText, digitText, games);
