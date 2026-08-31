@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-09-01T00:55:57+09:00",
+ "generated_at": "2026-09-01T01:27:25+09:00",
  "source_generated_at": "2026-08-31T15:40:57+00:00",
- "live_odds_at": "2026-08-31T15:50:26+00:00",
+ "live_odds_at": "2026-08-31T16:23:25+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 Shin 시장확률로 복귀한다.",
- "n_candidates": 42,
- "n_primary_candidates": 42,
+ "n_candidates": 41,
+ "n_primary_candidates": 41,
  "n_fallback_candidates": 0,
  "n_better_round": 0,
- "next_kickoff_at": "2026-09-01T01:00:00+09:00",
+ "next_kickoff_at": "2026-09-01T01:30:00+09:00",
  "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -784,39 +784,6 @@
   "why": "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
  },
  "candidates": [
-  {
-   "event_key": "2026-09-01T01:00:00+09:00|그리스M|스페인M",
-   "kickoff_at": "2026-09-01T01:00:00+09:00",
-   "round": 103,
-   "game_no": "8082",
-   "date": "09.01(화) 01:00",
-   "sport": "bk",
-   "league": "남농월예",
-   "match": "그리스M vs 스페인M",
-   "home": "그리스M",
-   "away": "스페인M",
-   "market": "승패",
-   "market_label": "",
-   "booking": "2-way",
-   "sel": "원정",
-   "odds": 1.66,
-   "bin": "1.5-1.8",
-   "overround": 1.1372,
-   "payout": 87.94,
-   "hist_roi": -0.1206,
-   "hist_n": 119682,
-   "market_prob": 0.5338,
-   "predicted_hit_prob": 0.5338,
-   "probability_source": "shin_market_fallback",
-   "has_validated_edge": false,
-   "market_gap": 0.0676,
-   "n_way": 2,
-   "failure_prob": 0.4662,
-   "is_market_favorite": true,
-   "recommendation_priority": "primary",
-   "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.5-1.8 배당 구간을 채우는 시작 전 후보다. 가장 가까운 경기부터 고르고, 같은 시작 조건에서는 환급률이 높아 마진이 낮은 쪽을 우선한다. 팀 전력 예측만으로 고른 선택은 아니다."
-  },
   {
    "event_key": "2026-09-01T01:30:00+09:00|US레체|AS로마",
    "kickoff_at": "2026-09-01T01:30:00+09:00",
@@ -2337,5 +2304,5 @@
   }
  },
  "recommendation_revision": "5a30835fa8a5ac7de0348a65b784ca74ed99b891489d611526a88b94b261617e",
- "refreshed_at": "2026-08-31T15:55:57+00:00"
+ "refreshed_at": "2026-08-31T16:27:25+00:00"
 }
