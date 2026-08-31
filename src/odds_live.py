@@ -39,9 +39,12 @@ from snapshot import find_live_rounds, _fetch          # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
 from runtime_db import persist_artifact                # noqa: E402
 from live_market_refresh import refresh_once           # noqa: E402
+from devig import market_probabilities                  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_odds.json"
+PICKS = ROOT / "docs" / "data" / "picks_v2.json"
+LINE = re.compile(r"[-+]?\d+(?:\.\d+)?")
 
 
 def _clean_team(value: str) -> str:
@@ -104,6 +107,73 @@ def collect() -> dict:
     }
 
 
+def _line(label: object) -> float | None:
+    match = LINE.search(str(label or ""))
+    return float(match.group()) if match else None
+
+
+def _history_entry(observed_at: str, market: object, label: object,
+                   odds: list[object]) -> dict:
+    prices = [round(float(value), 2) for value in odds]
+    probabilities = None
+    if len(prices) >= 2 and all(value > 1 for value in prices):
+        probabilities = [round(value, 4) for value in market_probabilities(prices)]
+    return {
+        "observed_at": observed_at, "market": str(market or ""),
+        "label": str(label or ""), "line": _line(label),
+        "odds": prices, "probabilities": probabilities,
+    }
+
+
+def _entry_signature(entry: dict) -> tuple:
+    return (entry.get("market"), entry.get("label"), entry.get("line"),
+            tuple(entry.get("odds") or []))
+
+
+def merge_market_history(current: dict, previous: dict | None = None,
+                         picks: dict | None = None) -> dict:
+    """현재 발매 변경만 보존한다. 매 폴링 중복은 넣지 않고 마켓별 최근 50건을 둔다."""
+    history = json.loads(json.dumps((previous or {}).get("history") or {}))
+    pick_rows: dict[tuple[str, str], list[dict]] = {}
+    for game in (picks or {}).get("live") or []:
+        round_no = str(game.get("round") or "")
+        for option in game.get("options") or []:
+            number = str(option.get("게임번호") or "")
+            if number:
+                pick_rows.setdefault((round_no, number), []).append(option)
+
+    for round_no, markets in (current.get("markets") or {}).items():
+        round_history = history.setdefault(str(round_no), {})
+        for game_no, row in (markets or {}).items():
+            entries = round_history.setdefault(str(game_no), [])
+            if not entries:
+                baseline = pick_rows.get((str(round_no), str(game_no))) or []
+                if baseline:
+                    seed = _history_entry(
+                        str((picks or {}).get("generated_at") or current.get("generated_at") or ""),
+                        baseline[0].get("market"), baseline[0].get("label"),
+                        [option.get("배당") for option in baseline],
+                    )
+                    entries.append(seed)
+            latest = _history_entry(
+                str(current.get("generated_at") or ""), row.get("market"),
+                row.get("label"), row.get("odds") or [],
+            )
+            if not entries or _entry_signature(entries[-1]) != _entry_signature(latest):
+                entries.append(latest)
+            round_history[str(game_no)] = entries[-50:]
+    current["history"] = history
+    return current
+
+
+def _read_json(path: Path) -> dict:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return value if isinstance(value, dict) else {}
+
+
 def main(argv: list[str]) -> int:
     loop = 0
     if "--loop" in argv:
@@ -111,7 +181,7 @@ def main(argv: list[str]) -> int:
 
     while True:
         try:
-            data = collect()
+            data = merge_market_history(collect(), _read_json(OUT), _read_json(PICKS))
             persist_artifact("live_odds", data, OUT, indent=None)
             # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
             # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
