@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "../components/ui.jsx";
 import ReceiptOcr from "../components/ReceiptOcr.jsx";
-import { appendProbabilityHistory, estimateLiveProbability, liveKey,
-  readBetLedger, removeBet, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
+import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, liveKey,
+  readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
 
 const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
@@ -89,6 +89,43 @@ function BetCard({ bet, live, onRemove }) {
   );
 }
 
+function ComboCard({ group, index, onRemove }) {
+  const rows = group.bets.map((bet) => {
+    const live = index.get(liveKey(bet.game));
+    return { bet, live, estimate: estimateLiveProbability(bet, live), outcome: settleBet(bet, live) };
+  });
+  const currentProbability = rows.every((row) => Number.isFinite(row.estimate.probability))
+    ? rows.reduce((value, row) => value * row.estimate.probability, 1) : null;
+  const openingProbability = rows.every((row) => Number.isFinite(row.bet.openingProbability))
+    ? rows.reduce((value, row) => value * row.bet.openingProbability, 1) : null;
+  const outcomes = rows.map((row) => row.outcome);
+  const outcome = outcomes.includes("miss") ? "miss"
+    : outcomes.length && outcomes.every((value) => value === "hit" || value === "void") ? "hit" : null;
+  const isLive = rows.some((row) => row.live?.status === "STARTED" && !row.live?.finished);
+  const profit = outcome === "hit" ? Number(group.ticket.expectedPayout) - Number(group.ticket.stake)
+    : outcome === "miss" ? -Number(group.ticket.stake) : null;
+  return (
+    <article className={`dashboard-ticket-card ${isLive ? "is-live" : outcome ? "is-finished" : ""}`}>
+      <header><div><small>{rows.length}폴더 조합</small><h2>조합 베팅 티켓</h2></div>
+        <strong>{isLive ? "LIVE" : outcome === "hit" ? "적중" : outcome === "miss" ? "실패" : "진행 대기"}</strong></header>
+      <div className="dashboard-ticket-summary">
+        <div><small>조합배당</small><b>{Number(group.ticket.combinedOdds).toFixed(2)}배</b></div>
+        <div><small>투입금</small><b>{money(group.ticket.stake)}</b></div>
+        <div><small>예상적중금</small><b>{money(group.ticket.expectedPayout)}</b></div>
+        <div><small>{outcome ? "확정 손익" : "현재 티켓 확률"}</small><b>{outcome ? `${profit >= 0 ? "+" : ""}${money(profit)}` : pct(currentProbability)}</b></div>
+      </div>
+      <div className="dashboard-ticket-legs">{rows.map(({ bet, live, estimate, outcome: legOutcome }, position) => <div key={bet.id}>
+        <span className="ticket-leg-number">{position + 1}</span>
+        <span><b>{bet.game.home} vs {bet.game.away}</b><small>{bet.selection.market}{bet.selection.label ? ` ${bet.selection.label}` : ""} · {bet.selection.choice} · {Number(bet.purchaseOdds).toFixed(2)}배</small></span>
+        <span className="ticket-leg-live"><b>{live ? `${live.home_score ?? "–"}:${live.away_score ?? "–"}` : "경기 전"}</b><small>{live?.status_text || ""}</small></span>
+        <span className="ticket-leg-probability"><b>{pct(estimate.probability)}</b><small>{legOutcome === "hit" ? "적중" : legOutcome === "miss" ? "실패" : "현재 추정"}</small></span>
+      </div>)}</div>
+      <footer><span>구매 당시 {pct(openingProbability)} · 현재 확률은 개별 상황 추정치의 단순 곱</span>
+        <button type="button" onClick={() => onRemove(group.id)}>티켓 삭제</button></footer>
+    </article>
+  );
+}
+
 export default function Dashboard() {
   const [bets, setBets] = useState(() => readBetLedger());
   const liveData = useLiveScores();
@@ -98,6 +135,7 @@ export default function Dashboard() {
   }, 60000);
   const picks = pickSources.picks || pickSources.staticPicks;
   const index = useMemo(() => liveIndex(liveData), [liveData]);
+  const groups = useMemo(() => groupBetTickets(bets), [bets]);
   useEffect(() => {
     const refresh = () => setBets(readBetLedger());
     window.addEventListener("storage", refresh);
@@ -116,16 +154,14 @@ export default function Dashboard() {
     }
   }, [liveData, index]); // 원장 자체 변경은 사용자 이벤트에서 별도로 반영
 
-  const totals = bets.reduce((result, bet) => {
-    result.stake += Number(bet.stake) || 0;
-    const live = index.get(liveKey(bet.game));
-    const estimate = estimateLiveProbability(bet, live);
-    if (live?.finished) {
-      const outcome = settleBet(bet, live);
-      if (outcome) result.settled += 1;
-      if (outcome === "hit") result.profit += bet.stake * (bet.purchaseOdds - 1);
-      if (outcome === "miss") result.profit -= bet.stake;
-    }
+  const totals = groups.reduce((result, group) => {
+    result.stake += Number(group.ticket.stake) || 0;
+    const outcomes = group.bets.map((bet) => settleBet(bet, index.get(liveKey(bet.game))));
+    const outcome = outcomes.includes("miss") ? "miss"
+      : outcomes.length && outcomes.every((value) => value === "hit" || value === "void") ? "hit" : null;
+    if (outcome) result.settled += 1;
+    if (outcome === "hit") result.profit += Number(group.ticket.expectedPayout) - Number(group.ticket.stake);
+    if (outcome === "miss") result.profit -= Number(group.ticket.stake);
     return result;
   }, { stake: 0, settled: 0, profit: 0 });
 
@@ -138,7 +174,7 @@ export default function Dashboard() {
       </header>
       <ReceiptOcr games={picks?.live || []} onImported={() => setBets(readBetLedger())} />
       <section className="dashboard-summary">
-        <div><small>저장한 베팅</small><b>{bets.length}건</b></div>
+        <div><small>저장한 티켓</small><b>{groups.length}장 · {bets.length}픽</b></div>
         <div><small>총 투입금</small><b>{money(totals.stake)}</b></div>
         <div><small>정산 완료</small><b>{totals.settled}건</b></div>
         <div><small>확정 손익</small><b className={totals.profit < 0 ? "text-sev3" : ""}>{totals.profit >= 0 ? "+" : ""}{money(totals.profit)}</b></div>
@@ -148,8 +184,10 @@ export default function Dashboard() {
         검증된 인플레이 베팅 모델이나 실시간 구매 추천이 아닙니다.
       </div>
       <section className="dashboard-bet-list">
-        {bets.map((bet) => <BetCard key={bet.id} bet={bet} live={index.get(liveKey(bet.game))}
-          onRemove={(id) => { removeBet(id); setBets(readBetLedger()); }} />)}
+        {groups.map((group) => group.bets.length > 1
+          ? <ComboCard key={group.id} group={group} index={index} onRemove={(id) => { removeTicket(id); setBets(readBetLedger()); }} />
+          : <BetCard key={group.id} bet={group.bets[0]} live={index.get(liveKey(group.bets[0].game))}
+              onRemove={(id) => { removeBet(id); setBets(readBetLedger()); }} />)}
         {!bets.length && <div className="dashboard-empty">
           <b>저장한 베팅이 없습니다</b>
           <p>경기 분석에서 실제로 구매한 선택지의 ‘베팅 기록’ 버튼을 눌러 추가하세요.</p>

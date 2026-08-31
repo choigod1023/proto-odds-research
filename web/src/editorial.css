@@ -319,6 +319,10 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .receipt-ocr-results input[type=number] { min-width: 0; border: 1px solid var(--color-rule); border-radius: 5px; padding: 6px; background: var(--color-paper); color: var(--color-ink); font-size: 11px; }
 .receipt-ocr-results > button { justify-self: end; }
 .receipt-ocr-results > button:disabled { cursor: not-allowed; opacity: .35; }
+.receipt-leg-odds { color: var(--color-ink3); font-size: 10px; text-align: right; }
+.receipt-ticket-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid var(--color-rule); padding-top: 10px; }
+.receipt-ticket-fields label { display: grid; gap: 4px; color: var(--color-ink3); font-size: 9.5px; }
+.receipt-ticket-fields input { min-width: 0; border: 1px solid var(--color-rule); border-radius: 5px; padding: 7px; background: var(--color-paper); color: var(--color-ink); font-size: 12px; font-variant-numeric: tabular-nums; }
 @media (max-width: 700px) {
   .receipt-ocr-head { align-items: flex-start; }
   .receipt-ocr-results > label { grid-template-columns: auto 1fr 78px; }
@@ -352,6 +356,22 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .probability-track b { color: var(--color-ink); }
 .dashboard-bet-card footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; color: var(--color-ink3); font-size: 9.5px; }
 .dashboard-bet-card footer button { text-decoration: underline; text-underline-offset: 2px; }
+.dashboard-ticket-card { border: 1px solid var(--color-ink); border-radius: 11px; overflow: hidden; background: var(--color-panel); }
+.dashboard-ticket-card > header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: var(--color-ink); color: var(--color-paper); }
+.dashboard-ticket-card > header small { font-size: 9.5px; opacity: .68; }.dashboard-ticket-card > header h2 { margin: 2px 0 0; font-size: 15px; }
+.dashboard-ticket-card > header > strong { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; font-size: 10px; }
+.dashboard-ticket-card.is-live > header > strong { background: #c9f400; color: #172000; }
+.dashboard-ticket-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--color-rule2); }
+.dashboard-ticket-summary > div { padding: 11px 13px; background: var(--color-panel); }
+.dashboard-ticket-summary small, .dashboard-ticket-summary b { display: block; }.dashboard-ticket-summary small { color: var(--color-ink3); font-size: 9.5px; }
+.dashboard-ticket-summary b { margin-top: 2px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.dashboard-ticket-legs > div { display: grid; grid-template-columns: 26px minmax(170px, 1fr) 92px 78px; align-items: center; gap: 10px; border-top: 1px solid var(--color-rule2); padding: 11px 13px; }
+.dashboard-ticket-legs span b, .dashboard-ticket-legs span small { display: block; }.dashboard-ticket-legs span b { font-size: 12px; }
+.dashboard-ticket-legs span small { margin-top: 2px; color: var(--color-ink3); font-size: 9.5px; }
+.ticket-leg-number { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--color-rule2); font: 600 10px 'IBM Plex Mono', monospace; }
+.ticket-leg-live, .ticket-leg-probability { text-align: right; }
+.dashboard-ticket-card > footer { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--color-rule2); padding: 9px 13px; color: var(--color-ink3); font-size: 9.5px; }
+.dashboard-ticket-card > footer button { text-decoration: underline; text-underline-offset: 2px; }
 .dashboard-empty { border: 1px dashed var(--color-rule); border-radius: 10px; padding: 44px 20px; text-align: center; }
 .dashboard-empty b { font-size: 15px; }.dashboard-empty p { margin: 5px 0 14px; color: var(--color-ink3); font-size: 12px; }
 .dashboard-empty a { border-bottom: 1px solid var(--color-ink); font-size: 12px; }
@@ -360,4 +380,7 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .dashboard-bet-pick { grid-template-columns: 1fr 1fr; }
   .dashboard-bet-pick > div:first-child { grid-column: 1 / -1; }
   .dashboard-bet-card { padding: 13px 12px; }
+  .receipt-ticket-fields, .dashboard-ticket-summary { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-ticket-legs > div { grid-template-columns: 24px minmax(0, 1fr) 68px; }
+  .ticket-leg-live { display: none; }
 }

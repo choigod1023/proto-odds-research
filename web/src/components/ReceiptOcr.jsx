@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { createBetRecord, upsertBet } from "../lib/bet-ledger.js";
-import { receiptMatches } from "../lib/receipt-ocr.js";
+import { createTicketRecords, upsertBet } from "../lib/bet-ledger.js";
+import { receiptMatches, receiptTicketSummary } from "../lib/receipt-ocr.js";
 
 export default function ReceiptOcr({ games = [], onImported }) {
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
   const [text, setText] = useState("");
   const [matches, setMatches] = useState([]);
+  const [ticket, setTicket] = useState({ stake: 10000, combinedOdds: 0, expectedPayout: 0 });
   const [error, setError] = useState("");
 
   const scan = async (file) => {
@@ -23,7 +24,8 @@ export default function ReceiptOcr({ games = [], onImported }) {
       const result = await worker.recognize(file, { rotateAuto: true });
       const recognized = result?.data?.text || "";
       setText(recognized);
-      setMatches(receiptMatches(recognized, games).map((row) => ({ ...row, selected: true })));
+      const rows = receiptMatches(recognized, games).map((row) => ({ ...row, selected: true }));
+      setMatches(rows); setTicket(receiptTicketSummary(recognized, rows));
     } catch (cause) {
       setError(`사진을 읽지 못했습니다: ${cause?.message || cause}`);
     } finally {
@@ -34,9 +36,7 @@ export default function ReceiptOcr({ games = [], onImported }) {
 
   const importSelected = () => {
     const selected = matches.filter((row) => row.selected);
-    selected.forEach((row) => upsertBet(createBetRecord(row.game, row.option, {
-      stake: row.stake, purchaseOdds: row.purchaseOdds,
-    })));
+    createTicketRecords(selected, ticket).forEach((record) => upsertBet(record));
     onImported?.(selected.length);
     setMatches([]); setText("");
   };
@@ -51,7 +51,7 @@ export default function ReceiptOcr({ games = [], onImported }) {
             onChange={(event) => scan(event.target.files?.[0])} />
         </label>
       </div>
-      <p>게임번호·선택·배당·금액을 읽어 현재 발매 데이터와 일치하는 항목만 후보로 만듭니다. 저장 전 반드시 확인하세요.</p>
+      <p>한 사진의 선택 경기를 하나의 티켓으로 묶습니다. 조합배당·공통 투입금·예상적중금을 확인한 뒤 저장하세요.</p>
       {busy && <div className="receipt-ocr-progress"><i style={{ width: `${progress}%` }} /><span>문자 인식 {progress}%</span></div>}
       {error && <div className="receipt-ocr-error">{error}</div>}
       {!busy && text && !matches.length && <div className="receipt-ocr-error">일치하는 발매 선택지를 찾지 못했습니다. 사진의 게임번호와 선택 영역을 더 크게 촬영해 주세요.</div>}
@@ -60,9 +60,14 @@ export default function ReceiptOcr({ games = [], onImported }) {
           <input type="checkbox" checked={row.selected} onChange={(event) => update(row.key, { selected: event.target.checked })} />
           <span><b>{row.game.home} vs {row.game.away}</b><small>{row.option["게임번호"]}번 · {row.option.market} {row.option.label || ""} · {row.option["선택"]}</small></span>
           <input aria-label="구매 배당" type="number" min="1.01" step="0.01" value={row.purchaseOdds} onChange={(event) => update(row.key, { purchaseOdds: event.target.value })} />
-          <input aria-label="투입금" type="number" min="100" step="100" value={row.stake} onChange={(event) => update(row.key, { stake: event.target.value })} />
+          <span className="receipt-leg-odds">개별 {Number(row.purchaseOdds).toFixed(2)}배</span>
         </label>)}
-        <button type="button" disabled={!matches.some((row) => row.selected)} onClick={importSelected}>선택한 항목을 내 베팅에 저장</button>
+        <div className="receipt-ticket-fields">
+          <label>조합배당<input aria-label="조합배당" type="number" min="1.01" step="0.01" value={ticket.combinedOdds} onChange={(event) => setTicket({ ...ticket, combinedOdds: event.target.value })} /></label>
+          <label>총 투입금<input aria-label="총 투입금" type="number" min="100" step="100" value={ticket.stake} onChange={(event) => setTicket({ ...ticket, stake: event.target.value })} /></label>
+          <label>예상적중금<input aria-label="예상적중금" type="number" min="0" step="100" value={ticket.expectedPayout} onChange={(event) => setTicket({ ...ticket, expectedPayout: event.target.value })} /></label>
+        </div>
+        <button type="button" disabled={!matches.some((row) => row.selected)} onClick={importSelected}>{matches.filter((row) => row.selected).length > 1 ? `${matches.filter((row) => row.selected).length}폴더 조합으로 저장` : "단폴로 저장"}</button>
       </div>}
       <small className="receipt-ocr-privacy">사진은 이 브라우저에서 문자 인식하며 서버에 저장하지 않습니다. 최초 실행 시 한국어 OCR 모델을 내려받습니다.</small>
     </section>

@@ -41,6 +41,42 @@ export function createBetRecord(game, option, { stake, purchaseOdds } = {}) {
   };
 }
 
+const newId = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
+
+export function createTicketRecords(rows, { stake, combinedOdds, expectedPayout, purchasedAt } = {}) {
+  const ticketId = newId();
+  const legs = (rows || []).filter((row) => row?.game && row?.option);
+  const calculatedOdds = legs.reduce((value, row) => value * Number(row.purchaseOdds || row.option?.["배당"] || 1), 1);
+  const price = Number(combinedOdds), amount = Math.max(0, Number(stake) || 0), payout = Number(expectedPayout);
+  const ticket = {
+    id: ticketId, type: legs.length > 1 ? "combo" : "single", stake: amount,
+    combinedOdds: Number.isFinite(price) && price > 1 ? price : Number(calculatedOdds.toFixed(2)),
+    expectedPayout: Number.isFinite(payout) && payout >= 0 ? payout : Math.round(amount * calculatedOdds),
+    purchasedAt: purchasedAt || new Date().toISOString(), legCount: legs.length,
+  };
+  return legs.map((row) => ({
+    ...createBetRecord(row.game, row.option, { stake: legs.length === 1 ? amount : 0, purchaseOdds: row.purchaseOdds }), ticket,
+  }));
+}
+
+export function groupBetTickets(bets = []) {
+  const groups = new Map();
+  bets.forEach((bet) => {
+    const id = bet?.ticket?.id || bet.id;
+    if (!groups.has(id)) groups.set(id, { id, bets: [], ticket: bet?.ticket || {
+      id, type: "single", stake: Number(bet.stake) || 0, combinedOdds: Number(bet.purchaseOdds) || 0,
+      expectedPayout: (Number(bet.stake) || 0) * (Number(bet.purchaseOdds) || 0),
+      purchasedAt: bet.createdAt, legCount: 1,
+    }});
+    groups.get(id).bets.push(bet);
+  });
+  return [...groups.values()].sort((a, b) => String(b.ticket.purchasedAt || "").localeCompare(String(a.ticket.purchasedAt || "")));
+}
+
+export function removeTicket(ticketId, storage = globalThis.localStorage) {
+  return writeBetLedger(readBetLedger(storage).filter((bet) => (bet?.ticket?.id || bet.id) !== ticketId), storage);
+}
+
 export function upsertBet(record, storage = globalThis.localStorage) {
   const bets = readBetLedger(storage);
   return writeBetLedger([record, ...bets.filter((bet) => bet.id !== record.id)], storage);
