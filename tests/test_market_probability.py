@@ -101,6 +101,66 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["calibration_min_n"] is None
 
 
+def test_today_combo_consumes_policy_approved_refactor_decision(monkeypatch):
+    row = candidate("approved", 0.55, 1.65)
+    row.update({"market": "승패", "market_label": "", "sel": "홈"})
+    snapshot = {
+        "decision_id": "dec-approved",
+        "selection_id": "sel-approved",
+        "probability": {"market": 0.55, "final": 0.63,
+                        "basis": "internal-context-blend-v2"},
+        "model": {"status": "operational", "promotion_gate": "passed",
+                  "policy_authorized": True, "validated_edge": False,
+                  "operating_version": "internal-context-blend-v2"},
+        "evidence": [{"id": "team_performance"}, {"id": "lineup"}],
+    }
+    game = {"decision_snapshot": snapshot, "options": [{
+        "selection_id": "sel-approved", "market": "승패", "label": "", "선택": "홈",
+        "배당": 1.65, "시장확률": 0.55,
+    }]}
+    monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
+
+    today_combo._apply_decision_pipeline(row, game)
+
+    assert row["predicted_hit_prob"] == 0.63
+    assert row["probability_source"] == "internal-context-blend-v2"
+    assert row["decision_pipeline_applied"] is True
+    assert row["has_validated_edge"] is True
+    assert row["decision_evidence_ids"] == ["team_performance", "lineup"]
+
+
+def test_today_combo_rejects_shadow_or_different_selection(monkeypatch):
+    row = candidate("shadow", 0.55, 1.65)
+    row.update({"market": "승패", "market_label": "", "sel": "홈",
+                "predicted_hit_prob": 0.55})
+    snapshot = {
+        "selection_id": "sel-away",
+        "probability": {"market": 0.45, "final": 0.80, "basis": "shadow"},
+        "model": {"status": "shadow", "promotion_gate": "not_passed",
+                  "policy_authorized": False, "validated_edge": False},
+    }
+    game = {"decision_snapshot": snapshot, "options": [{
+        "selection_id": "sel-away", "market": "승패", "label": "", "선택": "원정",
+        "배당": 1.65, "시장확률": 0.45,
+    }]}
+    monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
+
+    today_combo._apply_decision_pipeline(row, game)
+
+    assert row["predicted_hit_prob"] == 0.55
+    assert row["decision_pipeline_applied"] is False
+
+
+def test_policy_approved_event_candidate_beats_historical_fallback():
+    approved = candidate("same", 0.55, 1.65)
+    approved.update({"decision_pipeline_applied": True, "predicted_hit_prob": 0.63,
+                     "hist_roi": -0.20})
+    fallback = candidate("same", 0.60, 1.70)
+    fallback.update({"decision_pipeline_applied": False, "hist_roi": -0.04})
+
+    assert today_combo.select_event_candidates([fallback, approved]) == [approved]
+
+
 def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     negative = [
         {"ok": True, "target": 3, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.269},
