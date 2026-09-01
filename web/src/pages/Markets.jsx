@@ -512,7 +512,7 @@ function GameList({ data, grades, caps, stale, today }) {
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait}
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
       year={data.year} todayMembership={todaySelection.membership}
-      todayOption={todaySelection.option} activeToday={activeToday}
+      todayOption={todaySelection.option}
       onSaveBet={(game, option) => setBetDraft({ game, option })} />);
   }
 
@@ -682,7 +682,7 @@ function MarketHistory({ rows }) {
 }
 
 function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, activeToday, onSaveBet }) {
+  todayOption, onSaveBet }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -748,16 +748,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const targetLabels = todayMembership?.targets?.map((target) => `${target}배`) || [];
   if (todayMembership?.solo) targetLabels.unshift("단폴");
   const todayLabel = targetLabels.length ? `${targetLabels.join(" · ")} 포함` : null;
-  const primaryTarget = activeToday?.recommendation?.recommended_target
-    ?? activeToday?.recommendation?.target;
-  const recommendationActive = !["pass", "none"].includes(activeToday?.recommendation?.action);
-  const primary = recommendationActive && todayMembership?.targets?.some(
-    (target) => Number(target) === Number(primaryTarget),
-  );
-  const todayRecommended = recommendationActive && !!todayLabel;
   return (
-    <Card as="details" className={`match-card is-${phase} result-${outcome.state} ${
-      todayRecommended ? "is-today-recommended" : ""} ${primary ? "is-today-primary border-signal" : ""}`}>
+    <Card as="details" className={`match-card is-${phase} result-${outcome.state}`}>
       <summary className="match-row">
         <span className="tnum text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-0 text-[13.5px] font-semibold">
@@ -773,7 +765,6 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {g.away}
           </span>
           <small className="match-player-inline">
-            {todayRecommended && <span className="today-recommend-inline">오늘 추천</span>}
             {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
             {g._liveLineChanged ? " · 기준점 변경 반영" : ""}
             {compactPlayers
@@ -794,7 +785,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : pick ? <OddsChip
-                  label={`${todayRecommended ? "오늘 추천·" : ""}${pick.o["선택"]}`}
+                  label={pick.o["선택"]}
                   value={odds(pick.o["배당"])}
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${

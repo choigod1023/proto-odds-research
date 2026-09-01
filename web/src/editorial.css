@@ -70,12 +70,6 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .filter-actions button { border: 0; background: none; color: var(--color-ink2); text-decoration: underline; cursor: pointer; }
 
 .match-card.card { margin: 0; border-width: 0 0 1px; border-radius: 0; transition: margin 160ms ease; }
-.match-card.is-today-recommended.card { border-left: 4px solid #b9e600; background: color-mix(in srgb, #dfff00 19%, var(--color-paper)); }
-.match-card.is-today-recommended.card > .match-row { padding-right: 10px !important; padding-left: 10px !important; }
-.match-card.is-today-recommended.card > .match-row:hover { background: color-mix(in srgb, #dfff00 28%, var(--color-paper)); }
-.match-card.is-today-primary.card { background: color-mix(in srgb, #dfff00 31%, var(--color-paper)); box-shadow: inset 4px 0 0 #91bd00; }
-.match-card.is-today-recommended.card[open] { background: color-mix(in srgb, #dfff00 12%, var(--color-panel)); }
-.match-card.is-today-recommended.card[open] > .match-row { background: color-mix(in srgb, #dfff00 25%, var(--color-paper)); }
 .match-card.card[open] { margin: 14px 0 20px; border: 1px solid var(--color-rule); border-radius: 6px; background: var(--color-panel); }
 .match-card.card[open] > .match-row { padding: 16px 18px !important; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
 .match-card.card[open] > .match-row:hover { background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
@@ -88,7 +82,6 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-call-inline small { color: var(--color-ink3); font-size: 9.5px; }
 .match-call-inline b { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .match-player-inline { display: block; overflow: hidden; margin-top: 3px; color: var(--color-ink3); font-size: 10px; font-weight: 450; text-overflow: ellipsis; white-space: nowrap; }
-.today-recommend-inline { margin-right: 5px; padding: 1px 5px; border-radius: 999px; background: #c9f400; color: #182000; font-size: 9px; font-weight: 800; }
 .live-score-badge, .result-badge { min-width: max-content; padding: 7px 9px; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--color-rule); border-radius: 999px; font-size: 10px; font-weight: 750; }
 .live-score-badge { border-color: var(--color-sev2); color: var(--color-sev2); }
 .live-score-badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: live-pulse 1.4s infinite; }
