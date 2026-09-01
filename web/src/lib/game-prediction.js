@@ -47,6 +47,6 @@ export function predictionForGame(options = []) {
 export const predictionStrengthLabel = (prediction) => ({
   recommend: "추천",
   weak: "약한 추천",
-  market: "시장 우세",
+  market: "관망",
   watch: "관망",
 }[prediction?.recommendation] || "픽 산출 대기");
