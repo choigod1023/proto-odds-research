@@ -1,10 +1,27 @@
 import { gradeOf } from "./fmt.js";
 import { eligibleFinalSelections, finalRecommendedSelection,
-  qualifiedUnderdogSelections } from "./recommendation-policy.js";
+  hitProbabilityOf, qualifiedUnderdogSelections } from "./recommendation-policy.js";
 import { pickNextLegs, ticketMetrics } from "./today-plan.js";
 import { resolveDecisionOption } from "./decision-view-model.js";
 
 const clean = (value) => String(value ?? "").trim();
+
+export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
+export const DAILY_HIGHLIGHT_LIMIT = 5;
+
+/** 조합을 만들지 않고 경기별 최종 후보 가운데 오늘 표시할 소수만 고른다. */
+export function dailyHighlightedSelections(candidates = []) {
+  return [...eligibleFinalSelections(candidates)]
+    .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT)
+    .sort((a, b) =>
+      hitProbabilityOf(b) - hitProbabilityOf(a) ||
+      Number(a?.odds ?? a?.["배당"] ?? Infinity) -
+        Number(b?.odds ?? b?.["배당"] ?? Infinity) ||
+      String(a?.kickoff_at || a?.date || "").localeCompare(
+        String(b?.kickoff_at || b?.date || ""),
+      ) || selectionKey(a, a?.round).localeCompare(selectionKey(b, b?.round)))
+    .slice(0, DAILY_HIGHLIGHT_LIMIT);
+}
 
 export function selectionKey(selection, round = selection?.round) {
   const gameNo = selection?.game_no ?? selection?.["게임번호"];
@@ -30,7 +47,7 @@ export function buildTodayMemberships(today) {
 
   // 하이라이트의 기준은 조합 포함 여부가 아니라 생성기가 확정한 경기별 후보다.
   // plans/solo 정보는 기존 데이터 호환과 설명용으로만 보존한다.
-  (today?.candidates || []).forEach((selection) => {
+  dailyHighlightedSelections(today?.candidates || []).forEach((selection) => {
     const membership = ensure(selection);
     if (membership) membership.recommended = true;
   });

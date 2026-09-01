@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { alignTodayRecommendations, buildTodayMemberships, canonicalOption, canonicalPick,
+  dailyHighlightedSelections,
   selectionKey, todaySelectionForGame } from "./unified-recommendation.js";
 
 const home = {
@@ -149,6 +150,20 @@ assert.equal(membership.recommended, true,
 assert.deepEqual(membership.targets, [1.4, 2],
   "경기 카드 하나에 실제로 포함된 오늘 조합만 붙인다");
 assert.equal(memberships.size, 1, "별도 후보 행이 아니라 같은 판정 키로 통합한다");
+
+const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_, index) => ({
+  ...alignedToday.candidates[0],
+  event_key: `event-${index}`,
+  game_no: String(index),
+  odds: 1.5 + index * 0.01,
+  predicted_hit_prob: 0.60 - index * 0.01,
+})));
+assert.equal(rankedHighlights.length, 5, "오늘의 추천은 후보 전체가 아니라 상위 5개만 남긴다");
+assert.deepEqual(rankedHighlights.map((row) => Number(row.predicted_hit_prob.toFixed(2))),
+  [0.60, 0.59, 0.58, 0.57, 0.56]);
+assert.equal(dailyHighlightedSelections([{
+  ...alignedToday.candidates[0], predicted_hit_prob: 0.549,
+}]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
 
 const nonDefaultMarket = {
   ...away, selection_id: "sel_total", offer_id: "off_total",

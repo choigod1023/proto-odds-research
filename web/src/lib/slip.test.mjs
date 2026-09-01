@@ -47,7 +47,8 @@ test("highlights every individual daily pick without using a target combination"
   const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
     options: [home, away], "추천": away }];
   const today = {
-    candidates: [{ round: 102, game_no: "17", market: "승패", sel: "홈" }],
+    candidates: [{ round: 102, game_no: "17", market: "승패", sel: "홈",
+      odds: 1.7, market_prob: 0.56, predicted_hit_prob: 0.56 }],
   };
   const picks = recommendedTodayPicks(today);
   const selections = slipRows(games, null, NOW, picks)[0].selections;
@@ -59,7 +60,8 @@ test("highlights every individual daily pick without using a target combination"
 test("combo pass does not erase qualified individual daily picks", () => {
   assert.deepEqual(recommendedTodayPicks({
     recommendation: { action: "pass", recommended_target: 3 },
-    candidates: [{ round: 102, game_no: "17" }],
-  }), [{ round: 102, game_no: "17" }]);
+    candidates: [{ round: 102, game_no: "17", market: "승패", sel: "홈",
+      odds: 1.7, market_prob: 0.56, predicted_hit_prob: 0.56 }],
+  }).map((row) => row.game_no), ["17"]);
 });
 
