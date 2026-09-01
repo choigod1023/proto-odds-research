@@ -1,4 +1,5 @@
 import { repriceGameOdds } from "./live-odds.js";
+import { dailyHighlightedSelections } from "./unified-recommendation.js";
 
 const KST_DATE = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit",
@@ -27,7 +28,7 @@ const sameProtoSelection = (left, right, round) => !!left && !!right &&
 
 /** 조합 구성과 무관하게 오늘의 경기별 최종 추천을 형광 표시 대상으로 만든다. */
 export function recommendedTodayPicks(today) {
-  return Array.isArray(today?.candidates) ? today.candidates : [];
+  return dailyHighlightedSelections(today?.candidates || []);
 }
 
 export function slipRows(games, liveOdds, now = new Date(), todayPicks = null) {
