@@ -30,17 +30,23 @@ export function predictionForGame(options = []) {
   const recommended = finalRecommendedSelection(valid);
   const option = recommended || comparisonOption;
   const priority = recommended ? recommendationPriority(recommended) : -1;
+  // 가격대와 시장 최유력 여부만 통과한 선택은 비교 방향이지 구매 추천이 아니다.
+  // 검증 보정이 실제 최종확률에 반영된 선택만 추천 문구를 사용할 수 있다.
+  const validated = recommended && (
+    recommended["AI반영"] === true || recommended.has_validated_edge === true
+  );
   return {
     option,
     probability: finiteProbability(option),
-    recommendation: recommended
+    recommendation: validated
       ? (priority === 1 ? "recommend" : "weak")
-      : "watch",
+      : recommended ? "market" : "watch",
   };
 }
 
 export const predictionStrengthLabel = (prediction) => ({
   recommend: "추천",
   weak: "약한 추천",
+  market: "시장 우세",
   watch: "관망",
 }[prediction?.recommendation] || "픽 산출 대기");
