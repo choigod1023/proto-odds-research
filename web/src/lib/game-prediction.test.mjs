@@ -15,22 +15,31 @@ test("안전 추천이 없어도 경기의 시장 최유력 픽을 관망으로 
   assert.equal(predictionStrengthLabel(prediction), "관망");
 });
 
-test("운영 가격대의 시장 최유력 픽은 추천 강도를 함께 표시한다", () => {
+test("가격대만 통과한 시장 최유력 픽은 추천이라고 부르지 않는다", () => {
   const prediction = predictionForGame([
     option("홈", 1.8, 0.58), option("원정", 2.1, 0.42),
   ]);
   assert.equal(prediction.option["선택"], "홈");
-  assert.equal(prediction.recommendation, "recommend");
+  assert.equal(prediction.recommendation, "market");
+  assert.equal(predictionStrengthLabel(prediction), "시장 우세");
 });
 
-test("파생 마켓이 최종 운영 추천이면 관망으로 누락하지 않고 대표 픽으로 표시한다", () => {
+test("검증 보정이 실제 반영된 최종 선택만 추천으로 표시한다", () => {
   const prediction = predictionForGame([
     option("홈", 1.5, 0.6), option("원정", 2.1, 0.4),
-    option("오버", 1.7, 0.65, "언더오버"),
+    { ...option("오버", 1.7, 0.65, "언더오버"), "AI반영": true },
   ]);
   assert.equal(prediction.option["선택"], "오버");
   assert.equal(prediction.recommendation, "recommend");
   assert.equal(predictionStrengthLabel(prediction), "추천");
+});
+
+test("검증된 저배당 보조 선택은 약한 추천으로 구분한다", () => {
+  const prediction = predictionForGame([
+    { ...option("홈", 1.4, 0.72), "AI반영": true }, option("원정", 3.1, 0.28),
+  ]);
+  assert.equal(prediction.recommendation, "weak");
+  assert.equal(predictionStrengthLabel(prediction), "약한 추천");
 });
 
 test("배당이 없거나 홀짝만 있으면 억지 픽을 만들지 않는다", () => {

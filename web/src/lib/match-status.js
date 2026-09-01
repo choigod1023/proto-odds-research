@@ -28,7 +28,7 @@ export const PHASE_LABEL = {
 
 export function recommendationOutcome(game) {
   const record = game?.prediction_record;
-  if (!record) return { state: "unrecorded", label: "추천 기록 없음", record: null };
+  if (!record) return { state: "unrecorded", label: "사전 기록 전 경기", record: null };
   if (record.result === "hit") return { state: "hit", label: "적중", record };
   if (record.result === "miss") return { state: "miss", label: "적중 실패", record };
   if (record.result === "void") return { state: "void", label: "무효", record };

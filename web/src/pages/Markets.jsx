@@ -563,7 +563,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }
     : stale
     ? "최신 데이터 확인 필요"
     : predictionUnavailable
-      ? (g.status === "결과확인" ? "정산 결과 확인 필요" : "사전 예측 기록 없음")
+      ? (g.status === "결과확인" ? "정산 결과 확인 필요" : "사전 원장 도입 전 경기")
       : waitText === "상태 확인 불가"
       ? "경기 상태 확인 필요"
       : wait
@@ -622,9 +622,10 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }
                   value={odds(pick.o["배당"])}
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
-                    prediction.recommendation === "recommend" ? "운영 안전조건을 통과한 추천"
+                    prediction.recommendation === "recommend" ? "검증 보정이 실제 반영된 추천"
                       : prediction.recommendation === "weak" ? "방향은 제시하되 구매 우위가 약한 픽"
-                        : "시장 최유력 방향은 제시하되 구매 추천은 관망"
+                        : prediction.recommendation === "market" ? "시장 최유력 방향이며 구매 추천은 아님"
+                          : "시장 최유력 방향은 제시하되 구매 추천은 관망"
                   } · 배당 기반 시장확률`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
@@ -657,7 +658,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, onSaveBet }
               {resultHeadline && <small>{resultHeadline} · 배당 {odds(outcome.record.odds)}</small>}
             </div>
             {outcome.state === "unrecorded" && (
-              <p>경기 전에 저장된 추천 원장이 없어 현재 결과로 과거 픽을 새로 만들지 않습니다.</p>
+              <p>사전 추천 원장 도입 전에 끝난 경기입니다. 현재 결과를 보고 과거 픽을 새로 만들지 않습니다.</p>
             )}
           </div>
         )}
