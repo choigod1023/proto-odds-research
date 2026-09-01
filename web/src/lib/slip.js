@@ -28,7 +28,7 @@ const sameProtoSelection = (left, right, round) => !!left && !!right &&
 /** 오늘 판정이 실제 추천한 조합의 선택지만 형광 표시 대상으로 만든다. */
 export function recommendedTodayPicks(today) {
   const recommendation = today?.recommendation;
-  if (!recommendation || ["pass", "none"].includes(recommendation.action)) return [];
+  if (!recommendation || recommendation.action !== "buy") return [];
   const target = recommendation.recommended_target ?? recommendation.target;
   const plan = (today?.plans || []).find((item) => item?.ok && Number(item.target) === Number(target));
   if (plan?.picks?.length) return plan.picks;
