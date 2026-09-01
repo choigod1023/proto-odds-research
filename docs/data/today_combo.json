@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-09-01T19:15:49+09:00",
- "source_generated_at": "2026-09-01T08:18:43+00:00",
- "live_odds_at": "2026-09-01T10:09:09+00:00",
+ "generated_at": "2026-09-01T19:39:10+09:00",
+ "source_generated_at": "2026-09-01T10:38:34+00:00",
+ "live_odds_at": "2026-09-01T10:31:01+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 자체 과거 실측에서 손실이 가장 작았던 배당·마켓 구성을 고른다. 현재 확률은 Shin 값을 표시하되 추천 순위에는 시장 최유력 순서를 쓰지 않는다.",
@@ -483,55 +483,55 @@
  },
  "max_leg_odds_exclusive": 2.2,
  "solo": {
-  "event_key": "2026-09-02T04:00:00+09:00|토리노|AC몬차",
-  "kickoff_at": "2026-09-02T04:00:00+09:00",
+  "event_key": "2026-09-02T03:45:00+09:00|스완지C|왓포드",
+  "kickoff_at": "2026-09-02T03:45:00+09:00",
   "round": 103,
-  "game_no": "8326",
-  "date": "09.02(수) 04:00",
+  "game_no": "8310",
+  "date": "09.02(수) 03:45",
   "sport": "sc",
-  "league": "이탈FA컵",
-  "match": "토리노 vs AC몬차",
-  "home": "토리노",
-  "away": "AC몬차",
+  "league": "EFL챔",
+  "match": "스완지C vs 왓포드",
+  "home": "스완지C",
+  "away": "왓포드",
   "market": "핸디캡",
   "market_label": "H -1.0",
   "booking": "3-way-핸디캡",
   "sel": "핸디원정",
-  "odds": 1.96,
+  "odds": 1.89,
   "bin": "1.8-2.2",
-  "overround": 1.1506,
-  "payout": 86.91,
+  "overround": 1.1493,
+  "payout": 87.01,
   "hist_roi": -0.087,
   "hist_n": 7681,
-  "market_prob": 0.4555,
-  "predicted_hit_prob": 0.4555,
+  "market_prob": 0.4742,
+  "predicted_hit_prob": 0.4742,
   "probability_source": "shin_market_fallback",
   "has_validated_edge": false,
-  "market_gap": 0.1759,
+  "market_gap": 0.209,
   "n_way": 3,
-  "failure_prob": 0.5445,
+  "failure_prob": 0.5258,
   "is_market_favorite": true,
   "recommendation_priority": "primary",
   "price_source": "live_odds",
   "reason": "목표 조합에 필요한 1.8-2.2 배당 구간의 시작 전 후보 중 자체 과거 실측 손실률 -8.7%(n=7,681)를 기준으로 고른 선택이다. 확률 표시는 현재 배당을 사용하지만 추천 순서는 시장 최유력 순서가 아니다.",
-  "decision_id": "dec_e74126adf4bf4419",
+  "decision_id": "dec_5596630e90fc6b2a",
   "decision_model": "shin-market-anchor-v1",
   "decision_pipeline_status": "unavailable",
   "decision_pipeline_applied": false,
-  "actual_odds": 1.96,
-  "independent_hit_est": 0.4555,
-  "market_reference_hit_est": 0.4555,
-  "market_reference_roi": -0.1072,
+  "actual_odds": 1.89,
+  "independent_hit_est": 0.4742,
+  "market_reference_hit_est": 0.4742,
+  "market_reference_roi": -0.1038,
   "independence_assumption": true,
   "selection_basis": "historical_least_loss",
   "historical_expected_roi": -0.087,
-  "hit_est": 0.4555,
-  "upset_risk": 0.5445,
-  "expected_roi": -0.1072,
-  "calibrated_hit_est": 0.4555,
-  "calibrated_expected_roi": -0.1072,
-  "conservative_hit_est": 0.4555,
-  "conservative_expected_roi": -0.1072,
+  "hit_est": 0.4742,
+  "upset_risk": 0.5258,
+  "expected_roi": -0.1038,
+  "calibrated_hit_est": 0.4742,
+  "calibrated_expected_roi": -0.1038,
+  "conservative_hit_est": 0.4742,
+  "conservative_expected_roi": -0.1038,
   "calibration_min_n": null
  },
  "plans": [
@@ -982,8 +982,8 @@
    "bin": "1.8-2.2",
    "overround": 1.1493,
    "payout": 87.01,
-   "hist_roi": -0.099,
-   "hist_n": 9747,
+   "hist_roi": -0.087,
+   "hist_n": 7681,
    "market_prob": 0.4742,
    "predicted_hit_prob": 0.4742,
    "probability_source": "shin_market_fallback",
@@ -994,7 +994,7 @@
    "is_market_favorite": true,
    "recommendation_priority": "primary",
    "price_source": "live_odds",
-   "reason": "목표 조합에 필요한 1.8-2.2 배당 구간의 시작 전 후보 중 자체 과거 실측 손실률 -9.9%(n=9,747)를 기준으로 고른 선택이다. 확률 표시는 현재 배당을 사용하지만 추천 순서는 시장 최유력 순서가 아니다.",
+   "reason": "목표 조합에 필요한 1.8-2.2 배당 구간의 시작 전 후보 중 자체 과거 실측 손실률 -8.7%(n=7,681)를 기준으로 고른 선택이다. 확률 표시는 현재 배당을 사용하지만 추천 순서는 시장 최유력 순서가 아니다.",
    "decision_id": "dec_5596630e90fc6b2a",
    "decision_model": "shin-market-anchor-v1",
    "decision_pipeline_status": "unavailable",
@@ -1818,57 +1818,5 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
- "last_recommendation_change": {
-  "changed_at": "2026-09-01T09:37:23+00:00",
-  "reason": "live_market_pick_changed",
-  "previous_revision": "44195db4be60615d5684b1cb106c3436c0025c552636d46cc407ff7f176cb0a1",
-  "revision": "3bcbf520f581c65cbbe289ac763616116b76ab8b1b7bd6d3171689b2a9fe850b",
-  "previous": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "103|8326|핸디캡|H -1.0|핸디원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "103|8298|핸디캡|H -1.0|핸디원정",
-      "103|8314|핸디캡|H -1.0|핸디원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "103|8294|핸디캡|H -1.0|핸디원정",
-      "103|8298|핸디캡|H -1.0|핸디원정",
-      "103|8310|핸디캡|H -1.0|핸디원정"
-     ]
-    }
-   ]
-  },
-  "current": {
-   "action": "challenge",
-   "recommended_target": 3,
-   "solo": "103|8326|핸디캡|H -1.0|핸디원정",
-   "plans": [
-    {
-     "target": 3,
-     "picks": [
-      "103|8298|핸디캡|H -1.0|핸디원정",
-      "103|8314|핸디캡|H -1.0|핸디원정"
-     ]
-    },
-    {
-     "target": 5,
-     "picks": [
-      "103|8314|핸디캡|H -1.0|핸디원정",
-      "103|8352|언더오버|U 9.5|오버",
-      "103|8298|핸디캡|H -1.0|핸디원정"
-     ]
-    }
-   ]
-  }
- },
- "recommendation_revision": "3bcbf520f581c65cbbe289ac763616116b76ab8b1b7bd6d3171689b2a9fe850b",
- "refreshed_at": "2026-09-01T10:15:49+00:00"
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
 }
