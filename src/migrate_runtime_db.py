@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sys
@@ -16,6 +17,7 @@ DOCUMENT_SOURCES = {
     "info_watch_state": "data/raw/info_watch/_state.json",
     "llm_budget": "data/raw/llm_cache/budget.json",
     "llm_commentary_cache": "data/raw/llm_cache/commentary.json",
+    "player_names_ko": "data/raw/llm_cache/player_names_ko.json",
     "kbo_starters": "data/raw/kbo_starters.json",
     "mlb_starters": "data/raw/mlb_starters.json",
     "npb_starters": "data/raw/npb_starters.json",
@@ -32,6 +34,48 @@ DOCUMENT_SOURCES = {
     "processed_pickster_eval": "data/processed/pickster_eval.json",
     "processed_team_map": "data/processed/team_map.json",
 }
+
+
+def _generated_at(payload: object) -> datetime | None:
+    """산출물 생성시각을 비교 가능한 UTC 시각으로 읽는다."""
+    if not isinstance(payload, dict):
+        return None
+    value = payload.get("generated_at")
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _import_artifact_if_newer(db: RuntimeDatabase, name: str, payload: dict) -> bool:
+    """부팅 이관이 운영 DB의 더 최신 산출물을 되돌리지 않게 한다."""
+    current = db.get_artifact(name)
+    if current is not None:
+        incoming_at = _generated_at(payload)
+        current_at = _generated_at(current)
+        # 어느 쪽이 최신인지 증명할 수 없으면 지속 중인 운영 DB를 보존한다.
+        if incoming_at is None or current_at is None or incoming_at <= current_at:
+            return False
+    db.store_artifact(name, payload)
+    return True
+
+
+def _import_document_if_newer(db: RuntimeDatabase, name: str, raw: str) -> bool:
+    """호환 JSON 문서도 운영 DB보다 오래됐거나 시각 불명이면 덮지 않는다."""
+    current = db.get_document(name)
+    if current is not None:
+        incoming = json.loads(raw)
+        incoming_at = _generated_at(incoming)
+        current_at = _generated_at(current)
+        if incoming_at is None or current_at is None or incoming_at <= current_at:
+            return False
+    db.put_document_json(name, raw)
+    return True
 
 EVENT_SOURCES = {
     "baseball_context_events": "data/raw/baseball_context/events.jsonl",
@@ -76,9 +120,11 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase, *,
             continue
         # 대형 top-level 배열을 객체로 펼치면 파일 크기의 수십 배 RAM을 먹는다.
         # 원문 JSON을 그대로 DB에 넣어 1GB 운영 머신에서도 이관 가능하게 한다.
-        db.put_document_json(name, path.read_text(encoding="utf-8"))
+        imported = _import_document_if_newer(
+            db, name, path.read_text(encoding="utf-8")
+        )
         db.mark_migrated(source, fingerprint, 1)
-        documents += 1
+        documents += int(imported)
 
     for stream, relative in EVENT_SOURCES.items():
         path = root / relative
@@ -175,8 +221,8 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
         path = root / "docs/data" / f"{name}.json"
         if not path.exists():
             continue
-        db.store_artifact(name, json.loads(path.read_text(encoding="utf-8")))
-        artifacts += 1
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        artifacts += int(_import_artifact_if_newer(db, name, payload))
     documents = events = datasets = 0
     if include_runtime_sources:
         documents, events, datasets = _migrate_runtime_sources(
