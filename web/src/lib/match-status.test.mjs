@@ -18,6 +18,13 @@ test("취소와 연기는 진행 중으로 오인하지 않는다", () => {
   assert.equal(gamePhase({}, { status: "POSTPONED", postponed: true }), "pending");
 });
 
+test("10분 넘게 갱신되지 않은 시작 상태를 계속 진행 중으로 표시하지 않는다", () => {
+  const now = new Date("2026-09-01T20:30:00+09:00").getTime();
+  const game = { status: "경기전", _liveFeedAt: "2026-09-01T11:00:00Z" };
+  const live = { status: "STARTED", finished: false };
+  assert.equal(gamePhase(game, live, now), "pending");
+});
+
 test("실시간 매칭이 없어도 시작 후 8시간이 지난 경기는 예정으로 남기지 않는다", () => {
   const now = new Date("2026-08-30T12:01:00+09:00").getTime();
   assert.equal(gamePhase({ year: 2026, date: "08.30(일) 03:00", status: "경기전" }, null, now), "pending");

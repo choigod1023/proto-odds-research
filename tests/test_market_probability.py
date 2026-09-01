@@ -64,21 +64,21 @@ def test_snapshot_backtests_share_production_market_probability():
     np.testing.assert_allclose(outcome_signal_devig(odds), expected)
 
 
-def test_pick_prefers_our_historical_least_loss_score_inside_same_bin():
+def test_pick_prefers_higher_final_hit_probability_inside_same_bin():
     lower = candidate("early", 0.55)
     lower["kickoff_at"] = "2026-08-20T09:00:00+09:00"
     lower["hist_roi"] = -0.04
     higher = candidate("later", 0.60)
     higher["hist_roi"] = -0.20
-    assert pick_legs([lower, higher], ["1.5-1.8"]) == [lower]
+    assert pick_legs([lower, higher], ["1.5-1.8"]) == [higher]
 
 
-def test_pick_uses_bucket_roi_for_ranking_but_not_candidate_probability():
+def test_pick_keeps_bucket_roi_diagnostic_but_ranks_by_probability():
     better_history = candidate("better-history", 0.55)
     better_history["hist_roi"] = -0.04
     higher_market = candidate("higher-market", 0.62)
     higher_market["hist_roi"] = -0.20
-    assert pick_legs([higher_market, better_history], ["1.5-1.8"]) == [better_history]
+    assert pick_legs([higher_market, better_history], ["1.5-1.8"]) == [higher_market]
     assert ticket_metrics([better_history])["hit_est"] == 0.55
 
 
@@ -96,7 +96,7 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["independent_hit_est"] == metrics["hit_est"]
     assert metrics["market_reference_roi"] == metrics["expected_roi"]
     assert metrics["independence_assumption"] is True
-    assert metrics["selection_basis"] == "historical_least_loss"
+    assert metrics["selection_basis"] == "final_hit_probability"
     assert metrics["historical_expected_roi"] == -0.19
     assert metrics["calibration_min_n"] is None
 

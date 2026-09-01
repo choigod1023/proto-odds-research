@@ -148,7 +148,8 @@ export default function Markets() {
       const marketHistory = marketHistoryForGame(game, liveOdds);
       const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
       const liveState = liveOf(liveIndex, withHistory);
-      return liveState ? { ...withHistory, _liveState: liveState, _liveStarted: true } : withHistory;
+      return liveState ? { ...withHistory, _liveState: liveState, _liveStarted: true,
+        _liveFeedAt: liveFeed?.generated_at || null } : withHistory;
     });
     return { ...d, live: merge(d.live), past: merge(d.past) };
   }, [d, liveOdds, liveIndex]);
