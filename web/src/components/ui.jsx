@@ -83,12 +83,14 @@ export function GradeBadge({ grade, title }) {
  * 등급을 **왼쪽 세로 눈금**으로 표시한다. 테두리 전체를 물들이면 카드마다
  * 색이 튀어 목록이 소란스러워진다. 눈금이면 훑을 때 세로로 정렬돼 읽힌다.
  */
-export function OddsChip({ label, value, grade = "U", title }) {
+export function OddsChip({ label, value, grade = "U", title, highlighted = false }) {
   const g = SEV_BORDER[grade] ? grade : "U";
   return (
     <span
       title={title}
-      className={`flex min-w-14 flex-col items-center rounded-[6px] border border-rule border-l-[3px] px-2 py-1 ${SEV_BORDER[g]}`}
+      className={`odds-chip flex min-w-14 flex-col items-center rounded-[6px] border border-rule border-l-[3px] px-2 py-1 ${SEV_BORDER[g]} ${
+        highlighted ? "is-today-highlighted" : ""
+      }`}
     >
       <span className="text-[9.5px] tracking-[.03em] text-ink3">{label}</span>
       <span className="tnum text-[12.5px] font-semibold leading-[1.35]">

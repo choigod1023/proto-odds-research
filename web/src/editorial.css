@@ -73,6 +73,10 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-card.card[open] { margin: 14px 0 20px; border: 1px solid var(--color-rule); border-radius: 6px; background: var(--color-panel); }
 .match-card.card[open] > .match-row { padding: 16px 18px !important; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
 .match-card.card[open] > .match-row:hover { background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
+.odds-chip.is-today-highlighted { border-color: var(--color-signal); background: var(--color-signal); color: white; box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-signal) 20%, transparent); }
+.odds-chip.is-today-highlighted > span { color: white; }
+.show-model tr.is-today-pick > td { background: color-mix(in srgb, var(--color-signal) 10%, var(--color-paper)); border-color: var(--color-signal); }
+.show-model tr.is-today-pick > td:first-child { box-shadow: inset 4px 0 0 var(--color-signal); }
 .match-card.is-live.card { border-left: 3px solid var(--color-sev2); }
 .match-card.result-hit.card { border-left: 3px solid var(--color-signal); }
 .match-card.result-miss.card { border-left: 3px solid var(--color-sev2); }
