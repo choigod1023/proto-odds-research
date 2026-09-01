@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Card, Nav, ThemeToggle } from "../components/ui.jsx";
 import { odds } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
-import { slipRows } from "../lib/slip.js";
+import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
 
 const LIVE_ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
 const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
@@ -19,11 +19,16 @@ export default function Slip() {
     picks: PICKS_URL,
     staticPicks: "data/picks_v2.json",
     liveOdds: LIVE_ODDS_URL,
+    today: "data/today_combo.json",
   }, 60000);
   const [round, setRound] = useState("all");
   const [query, setQuery] = useState("");
   const picks = data.picks || data.staticPicks;
-  const allRows = useMemo(() => slipRows(picks?.live, data.liveOdds), [picks, data.liveOdds]);
+  const todayPicks = useMemo(() => recommendedTodayPicks(data.today), [data.today]);
+  const allRows = useMemo(
+    () => slipRows(picks?.live, data.liveOdds, undefined, todayPicks),
+    [picks, data.liveOdds, todayPicks],
+  );
   const rounds = [...new Set(allRows.map((row) => String(row.round)))];
   const normalized = query.trim().toLowerCase();
   const rows = allRows.filter((row) =>
@@ -74,7 +79,7 @@ export default function Slip() {
               <td className="border-b border-rule2 p-2 whitespace-nowrap">{row.market}{row.label ? <><br /><span className="text-ink3">{row.label}</span></> : null}</td>
               <td className="border-b border-rule2 p-2"><div className="flex flex-wrap gap-2">{row.selections.map((selection) =>
                 <span key={selection.name} className={`inline-flex min-w-[92px] justify-between gap-3 rounded-md border px-2.5 py-1.5 ${selection.recommended ? "border-signal bg-signal text-white ring-2 ring-signal/20" : "border-rule"}`}
-                  title={selection.recommended ? "프로오드 최종 추천 픽" : undefined}>
+                  title={selection.recommended ? "오늘의 베팅 추천 선택" : undefined}>
                   <span>{selection.recommended ? "★ " : ""}{selection.name}</span><b className="tnum">{odds(selection.value)}</b>
                 </span>)}</div></td>
             </tr>)}</tbody>
