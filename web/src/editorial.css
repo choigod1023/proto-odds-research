@@ -74,11 +74,16 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-card.is-today-recommended.card > .match-row { padding-right: 10px !important; padding-left: 10px !important; }
 .match-card.is-today-recommended.card > .match-row:hover { background: color-mix(in srgb, #dfff00 28%, var(--color-paper)); }
 .match-card.is-today-primary.card { background: color-mix(in srgb, #dfff00 31%, var(--color-paper)); box-shadow: inset 4px 0 0 #91bd00; }
-.match-card.is-today-recommended.card[open] { background: color-mix(in srgb, #dfff00 12%, var(--color-panel)); }
-.match-card.is-today-recommended.card[open] > .match-row { background: color-mix(in srgb, #dfff00 25%, var(--color-paper)); }
 .match-card.card[open] { margin: 14px 0 20px; border: 1px solid var(--color-rule); border-radius: 6px; background: var(--color-panel); }
 .match-card.card[open] > .match-row { padding: 16px 18px !important; border-bottom: 1px solid var(--color-rule); background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
 .match-card.card[open] > .match-row:hover { background: color-mix(in srgb, var(--color-paper) 72%, var(--color-panel)); }
+.match-card.is-today-recommended.card[open] { border-left: 4px solid #91bd00; background: color-mix(in srgb, #dfff00 12%, var(--color-panel)); }
+.match-card.is-today-recommended.card[open] > .match-row,
+.match-card.is-today-recommended.card[open] > .match-row:hover { background: color-mix(in srgb, #dfff00 25%, var(--color-paper)); }
+.odds-chip.is-today-highlighted { border-color: #91bd00; background: #dfff00; color: #182000; box-shadow: 0 0 0 2px color-mix(in srgb, #dfff00 28%, transparent); }
+.odds-chip.is-today-highlighted > span { color: #182000; }
+.show-model tr.is-today-pick > td { background: color-mix(in srgb, #dfff00 24%, var(--color-paper)); border-color: #b9e600; }
+.show-model tr.is-today-pick > td:first-child { box-shadow: inset 4px 0 0 #91bd00; }
 .match-card.is-live.card { border-left: 3px solid var(--color-sev2); }
 .match-card.result-hit.card { border-left: 3px solid var(--color-signal); }
 .match-card.result-miss.card { border-left: 3px solid var(--color-sev2); }
