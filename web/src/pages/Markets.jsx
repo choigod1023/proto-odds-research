@@ -489,6 +489,15 @@ function GameList({ data, grades, caps, stale, today }) {
     const todaySelection = wait || stale || g._liveStarted || g._liveOddsChanged
       ? { option: null, membership: null }
       : todaySelectionForGame(todayMemberships, g.options || [], g.round);
+    const recommendedTarget = activeToday?.recommendation?.recommended_target
+      ?? activeToday?.recommendation?.target;
+    const highlightedToday = !["pass", "none"].includes(activeToday?.recommendation?.action) && (
+      activeToday?.recommendation?.action === "solo"
+        ? todaySelection.membership?.solo === true
+        : todaySelection.membership?.targets?.some(
+          (target) => Number(target) === Number(recommendedTarget),
+        )
+    );
     n++;
     const phase = gamePhase(g);
     const key = `${phase} · ${g.league} · ${day(g.date)}`;
@@ -512,7 +521,7 @@ function GameList({ data, grades, caps, stale, today }) {
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait}
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
       year={data.year} todayMembership={todaySelection.membership}
-      todayOption={todaySelection.option}
+      todayOption={todaySelection.option} highlightedToday={highlightedToday}
       onSaveBet={(game, option) => setBetDraft({ game, option })} />);
   }
 
@@ -682,7 +691,7 @@ function MarketHistory({ rows }) {
 }
 
 function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, onSaveBet }) {
+  todayOption, highlightedToday, onSaveBet }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -788,6 +797,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                   label={pick.o["선택"]}
                   value={odds(pick.o["배당"])}
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
+                  highlighted={highlightedToday}
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
                     prediction.recommendation === "recommend" ? "검증 보정이 실제 반영된 추천"
                       : prediction.recommendation === "weak" ? "방향은 제시하되 구매 우위가 약한 픽"
@@ -857,6 +867,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         <MatchInsight g={insightGame} analysis={analysis}
           decision={predictionUnavailable ? null : decision}
           opts={opts} grades={grades} tie={tie} pick={pick}
+          highlightedToday={highlightedToday}
           recalculating={g._liveOddsChanged === true} showPrices={!wait}
           onSaveBet={onSaveBet}
           />
@@ -865,7 +876,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   );
 }
 
-function OptTable({ g, opts, grades, tie, pick, recalculating = false, onSaveBet }) {
+function OptTable({ g, opts, grades, tie, pick, highlightedToday = false,
+  recalculating = false, onSaveBet }) {
   const th = "border-b border-rule2 pb-[5px] pr-2 text-left text-[11px] font-medium text-ink3";
   const td = "border-b border-rule2 py-[5px] pr-2 align-baseline";
   return (
@@ -890,7 +902,7 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false, onSaveBet
           const gr = gradeOf(grades, o["배당"]);
           const t = tie[o.market + (o.label || "")];
           return (
-            <tr key={k}>
+            <tr key={k} className={highlightedToday && pick?.o === o ? "is-today-pick" : ""}>
               <td className={`${td} tnum text-right text-ink3 whitespace-nowrap`}>
                 {o["게임번호"] || "–"}</td>
               <td className={td}>
@@ -919,7 +931,9 @@ function OptTable({ g, opts, grades, tie, pick, recalculating = false, onSaveBet
               <td className={`${td} text-[11.5px]`}>
                 {recalculating && <span className="text-ink3">재계산 대기</span>}
                 {pick && !pick.tie && pick.o === o && (
-                  <span className="font-semibold text-signal">경기 예측 픽</span>)}
+                  <span className="font-semibold text-signal">{
+                    highlightedToday ? "★ 오늘의 베팅 추천" : "경기 예측 픽"
+                  }</span>)}
                 {pick && pick.tie && (gradeOf(grades, o["배당"])?.grade === pick.g.grade) && (
                   <span className="text-ink3">동률 — 고를 근거 없음</span>)}
                 {!recalculating && (!pick || (!pick.tie && pick.o !== o)) && (
@@ -1370,7 +1384,7 @@ function ContextEvidence({ g, pick }) {
 }
 
 function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
-  recalculating = false, showPrices = false, onSaveBet }) {
+  highlightedToday = false, recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
   if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
@@ -1426,6 +1440,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
           <ContextEvidence g={g} pick={pick} />
           {showPrices && <div className="show-model mt-3 overflow-x-auto border-t border-rule2 pt-3">
             <OptTable g={g} opts={opts} grades={grades} tie={tie} pick={pick}
+              highlightedToday={highlightedToday}
               recalculating={recalculating} onSaveBet={onSaveBet} />
           </div>}
         </>}
