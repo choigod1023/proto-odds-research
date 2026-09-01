@@ -599,10 +599,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     tie: false,
   } : null;
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
-  const playing = !!lv && !lv.finished && !lv.cancelled && !lv.postponed;
-  const finished = !!lv?.finished;
-  const disruption = lv?.cancelled ? "경기 취소" : lv?.postponed ? "경기 연기" : null;
   const phase = gamePhase(g, lv);
+  // 필터 집계와 카드 본문이 반드시 같은 상태 판정을 사용해야 한다. 단순히
+  // finished=false만 보면 갱신이 끊긴 중계 스냅샷이 카드에 영원히 LIVE로 남는다.
+  const playing = phase === "live";
+  const finished = phase === "finished";
+  const disruption = lv?.cancelled ? "경기 취소" : lv?.postponed ? "경기 연기" : null;
   const outcome = recommendationOutcome(g);
   const waitText = wait ? waitingLabel(g, { generatedAt, year }) : null;
   // 정산 점수가 있으면 그걸 쓰고(확정), 없으면 실시간 점수로 채운다.
