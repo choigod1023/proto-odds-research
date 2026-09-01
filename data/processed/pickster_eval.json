@@ -10,13 +10,13 @@
       "픽 공개 후 시장확률 변화(CLV)"
     ]
   },
-  "generated_at": "2026-09-01T03:52:24+00:00",
+  "generated_at": "2026-09-01T04:55:02+00:00",
   "leaderboard_cross_section": {
-    "aggregate_roi_from_displayed_units_pct": 6.39,
+    "aggregate_roi_from_displayed_units_pct": 6.02,
     "available": true,
     "deleted_indicator": {
-      "median_roi_with_indicator_pct": 5.15,
-      "median_roi_without_indicator_pct": 2.25,
+      "median_roi_with_indicator_pct": 5.05,
+      "median_roi_without_indicator_pct": 2.3,
       "n_with_deleted_indicator": 8
     },
     "interpretation": [
@@ -26,14 +26,14 @@
     ],
     "market_style_groups": {
       "moneyline": {
-        "median_roi_pct": -0.7,
+        "median_roi_pct": -0.4,
         "median_win_rate_pct": 55.0,
-        "n_cappers": 29
+        "n_cappers": 31
       },
       "parlay": {
-        "median_roi_pct": -3.5,
-        "median_win_rate_pct": 24.0,
-        "n_cappers": 3
+        "median_roi_pct": -15.9,
+        "median_win_rate_pct": 33.5,
+        "n_cappers": 2
       },
       "prop": {
         "median_roi_pct": 44.75,
@@ -41,46 +41,46 @@
         "n_cappers": 2
       },
       "spread": {
-        "median_roi_pct": 10.7,
-        "median_win_rate_pct": 60.0,
-        "n_cappers": 6
+        "median_roi_pct": 17.3,
+        "median_win_rate_pct": 65.0,
+        "n_cappers": 5
       },
       "total": {
-        "median_roi_pct": 7.1,
+        "median_roi_pct": 6.5,
         "median_win_rate_pct": 50.0,
         "n_cappers": 7
       }
     },
-    "median_picks_per_capper": 34.0,
-    "median_roi_pct": 3.6,
-    "median_win_rate_pct": 53.5,
+    "median_picks_per_capper": 34.5,
+    "median_roi_pct": 3.5,
+    "median_win_rate_pct": 54.0,
     "n_ranked_cappers": 50,
-    "observed_at": "2026-09-01T03:46:11+00:00",
+    "observed_at": "2026-09-01T04:44:37+00:00",
     "paid_pick_offer_indicator": {
-      "median_roi_offering_paid_pct": -0.45,
-      "median_roi_public_only_pct": 4.15,
-      "n_offering_paid_picks": 20,
+      "median_roi_offering_paid_pct": -0.2,
+      "median_roi_public_only_pct": 3.7,
+      "n_offering_paid_picks": 19,
       "warning": "공개 픽만 등급화된 표식이며 유료 픽 품질을 측정하지 않는다."
     },
     "share_positive_roi_pct": 56.0,
-    "spearman_log_sample_vs_roi": 0.264,
+    "spearman_log_sample_vs_roi": 0.248,
     "top_by_stability_shrunk_roi": [
       {
         "deleted_count": 0,
         "flags": [],
         "handle": "lottolocks",
-        "n_picks": 202,
+        "n_picks": 203,
         "name": "Lotto Locks",
-        "net_units": 125.6,
+        "net_units": 124.6,
         "offers_paid_picks": false,
         "rank": 1,
-        "roi_pct": 62.2,
-        "stability_shrunk_roi_pct": 41.6,
+        "roi_pct": 61.4,
+        "stability_shrunk_roi_pct": 41.14,
         "trait": null,
         "win_rate_pct": 10.0,
         "win_rate_wilson_95_pct": [
-          6.5,
-          14.8
+          6.47,
+          14.73
         ]
       },
       {
@@ -111,18 +111,18 @@
           "small_sample"
         ],
         "handle": "showtimepicks2",
-        "n_picks": 95,
+        "n_picks": 96,
         "name": "Showtime Picks",
-        "net_units": 17.2,
+        "net_units": 18.0,
         "offers_paid_picks": false,
         "rank": 3,
-        "roi_pct": 18.1,
-        "stability_shrunk_roi_pct": 8.82,
+        "roi_pct": 18.7,
+        "stability_shrunk_roi_pct": 9.16,
         "trait": "Moneyline grinder",
         "win_rate_pct": 63.0,
         "win_rate_wilson_95_pct": [
-          53.12,
-          72.17
+          52.51,
+          71.53
         ]
       },
       {
@@ -152,38 +152,18 @@
           "deleted_pick_indicator"
         ],
         "handle": "bambino_bets",
-        "n_picks": 91,
+        "n_picks": 92,
         "name": "George Kent $ This capper offers paid picks. TailSlips only tracks their public posts.",
-        "net_units": 14.9,
+        "net_units": 13.9,
         "offers_paid_picks": true,
         "rank": 7,
-        "roi_pct": 16.9,
-        "stability_shrunk_roi_pct": 8.05,
+        "roi_pct": 15.6,
+        "stability_shrunk_roi_pct": 7.48,
         "trait": "total",
-        "win_rate_pct": 62.0,
+        "win_rate_pct": 61.0,
         "win_rate_wilson_95_pct": [
-          51.27,
-          70.87
-        ]
-      },
-      {
-        "deleted_count": 0,
-        "flags": [
-          "small_sample"
-        ],
-        "handle": "joes_picks",
-        "n_picks": 92,
-        "name": "Joe’s Picks heating up · 2 d",
-        "net_units": 16.1,
-        "offers_paid_picks": false,
-        "rank": 5,
-        "roi_pct": 11.2,
-        "stability_shrunk_roi_pct": 5.37,
-        "trait": "moneyline",
-        "win_rate_pct": 60.0,
-        "win_rate_wilson_95_pct": [
-          49.57,
-          69.22
+          50.65,
+          70.21
         ]
       },
       {
@@ -194,7 +174,7 @@
         "name": "SWAMPTHING",
         "net_units": 15.3,
         "offers_paid_picks": false,
-        "rank": 6,
+        "rank": 5,
         "roi_pct": 8.0,
         "stability_shrunk_roi_pct": 5.05,
         "trait": "moneyline",
@@ -226,20 +206,40 @@
       },
       {
         "deleted_count": 0,
+        "flags": [
+          "small_sample"
+        ],
+        "handle": "joes_picks",
+        "n_picks": 93,
+        "name": "Joe’s Picks",
+        "net_units": 14.6,
+        "offers_paid_picks": false,
+        "rank": 6,
+        "roi_pct": 10.1,
+        "stability_shrunk_roi_pct": 4.87,
+        "trait": "moneyline",
+        "win_rate_pct": 59.0,
+        "win_rate_wilson_95_pct": [
+          48.98,
+          68.57
+        ]
+      },
+      {
+        "deleted_count": 0,
         "flags": [],
         "handle": "bettor_callpaul",
-        "n_picks": 166,
+        "n_picks": 167,
         "name": "Bettor Call Paul",
-        "net_units": 6.2,
+        "net_units": 5.7,
         "offers_paid_picks": false,
-        "rank": 16,
-        "roi_pct": 7.1,
-        "stability_shrunk_roi_pct": 4.43,
+        "rank": 18,
+        "roi_pct": 6.5,
+        "stability_shrunk_roi_pct": 4.07,
         "trait": "total",
         "win_rate_pct": 48.0,
         "win_rate_wilson_95_pct": [
-          40.72,
-          55.75
+          40.46,
+          55.44
         ]
       },
       {
@@ -248,22 +248,22 @@
           "deleted_pick_indicator"
         ],
         "handle": "moneyline_mav",
-        "n_picks": 464,
+        "n_picks": 465,
         "name": "MoneylineMav $ This capper offers paid picks. TailSlips only tracks their public posts. × 1 deleted",
-        "net_units": 21.7,
+        "net_units": 20.7,
         "offers_paid_picks": true,
         "rank": 2,
-        "roi_pct": 4.9,
-        "stability_shrunk_roi_pct": 4.03,
+        "roi_pct": 4.7,
+        "stability_shrunk_roi_pct": 3.87,
         "trait": "Moneyline grinder",
         "win_rate_pct": 55.0,
         "win_rate_wilson_95_pct": [
-          50.41,
-          59.42
+          50.51,
+          59.52
         ]
       }
     ],
-    "total_displayed_picks": 4276,
+    "total_displayed_picks": 4391,
     "window": "last_30_days"
   },
   "prospective_validation": {
@@ -312,21 +312,22 @@
       {
         "dominant_market": "moneyline",
         "favorite_share_pct": null,
-        "handle": "bettingcowboy00",
+        "handle": "bookie___bandit",
         "market_counts": {
-          "moneyline": 12
+          "moneyline": 10,
+          "spread": 2
         },
         "median_american_odds": null,
         "n_visible_straight_picks": 12
       },
       {
         "dominant_market": "moneyline",
-        "favorite_share_pct": 91.7,
-        "handle": "sorryforthedank",
+        "favorite_share_pct": null,
+        "handle": "bettingcowboy00",
         "market_counts": {
           "moneyline": 12
         },
-        "median_american_odds": -135.0,
+        "median_american_odds": null,
         "n_visible_straight_picks": 12
       },
       {
@@ -343,13 +344,12 @@
       },
       {
         "dominant_market": "moneyline",
-        "favorite_share_pct": null,
-        "handle": "bookie___bandit",
+        "favorite_share_pct": 91.7,
+        "handle": "sorryforthedank",
         "market_counts": {
-          "moneyline": 10,
-          "spread": 2
+          "moneyline": 12
         },
-        "median_american_odds": null,
+        "median_american_odds": -135.0,
         "n_visible_straight_picks": 12
       },
       {
@@ -389,27 +389,6 @@
         "n_visible_straight_picks": 7
       },
       {
-        "dominant_market": "spread",
-        "favorite_share_pct": 50.0,
-        "handle": "ml_king24",
-        "market_counts": {
-          "moneyline": 1,
-          "spread": 5
-        },
-        "median_american_odds": -2.0,
-        "n_visible_straight_picks": 6
-      },
-      {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 16.7,
-        "handle": "fadeai_",
-        "market_counts": {
-          "moneyline": 6
-        },
-        "median_american_odds": 122.0,
-        "n_visible_straight_picks": 6
-      },
-      {
         "dominant_market": "moneyline",
         "favorite_share_pct": 66.7,
         "handle": "cdlocklounge",
@@ -423,23 +402,12 @@
       },
       {
         "dominant_market": "moneyline",
-        "favorite_share_pct": 66.7,
-        "handle": "scottfosterlock",
+        "favorite_share_pct": 16.7,
+        "handle": "fadeai_",
         "market_counts": {
-          "moneyline": 5,
-          "spread": 1
+          "moneyline": 6
         },
-        "median_american_odds": -107.5,
-        "n_visible_straight_picks": 6
-      },
-      {
-        "dominant_market": "total",
-        "favorite_share_pct": 100.0,
-        "handle": "yennysports",
-        "market_counts": {
-          "total": 6
-        },
-        "median_american_odds": -115.0,
+        "median_american_odds": 122.0,
         "n_visible_straight_picks": 6
       },
       {
@@ -454,16 +422,36 @@
         "n_visible_straight_picks": 6
       },
       {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 0.0,
-        "handle": "degen__inc",
+        "dominant_market": "total",
+        "favorite_share_pct": 100.0,
+        "handle": "yennysports",
         "market_counts": {
-          "moneyline": 2,
-          "spread": 2,
-          "total": 1
+          "total": 6
         },
-        "median_american_odds": 105,
-        "n_visible_straight_picks": 5
+        "median_american_odds": -115.0,
+        "n_visible_straight_picks": 6
+      },
+      {
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 66.7,
+        "handle": "scottfosterlock",
+        "market_counts": {
+          "moneyline": 5,
+          "spread": 1
+        },
+        "median_american_odds": -107.5,
+        "n_visible_straight_picks": 6
+      },
+      {
+        "dominant_market": "spread",
+        "favorite_share_pct": 50.0,
+        "handle": "ml_king24",
+        "market_counts": {
+          "moneyline": 1,
+          "spread": 5
+        },
+        "median_american_odds": -2.0,
+        "n_visible_straight_picks": 6
       },
       {
         "dominant_market": "moneyline",
@@ -473,6 +461,18 @@
           "moneyline": 5
         },
         "median_american_odds": 103,
+        "n_visible_straight_picks": 5
+      },
+      {
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 0.0,
+        "handle": "degen__inc",
+        "market_counts": {
+          "moneyline": 2,
+          "spread": 2,
+          "total": 1
+        },
+        "median_american_odds": 105,
         "n_visible_straight_picks": 5
       },
       {
@@ -509,14 +509,25 @@
         "n_visible_straight_picks": 5
       },
       {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 50.0,
-        "handle": "Clutch_Betss",
+        "dominant_market": "spread",
+        "favorite_share_pct": 25.0,
+        "handle": "bigbuckbets",
         "market_counts": {
-          "moneyline": 3,
-          "spread": 1
+          "moneyline": 1,
+          "spread": 3
         },
-        "median_american_odds": 0.0,
+        "median_american_odds": 122.5,
+        "n_visible_straight_picks": 4
+      },
+      {
+        "dominant_market": "other",
+        "favorite_share_pct": null,
+        "handle": "bambino_bets",
+        "market_counts": {
+          "other": 3,
+          "total": 1
+        },
+        "median_american_odds": null,
         "n_visible_straight_picks": 4
       },
       {
@@ -527,41 +538,6 @@
           "moneyline": 4
         },
         "median_american_odds": -117.0,
-        "n_visible_straight_picks": 4
-      },
-      {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 0.0,
-        "handle": "luckyluke_hits",
-        "market_counts": {
-          "moneyline": 3,
-          "total": 1
-        },
-        "median_american_odds": 500.0,
-        "n_visible_straight_picks": 4
-      },
-      {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 0.0,
-        "handle": "lincolng05bets",
-        "market_counts": {
-          "moneyline": 1,
-          "other": 1,
-          "spread": 1,
-          "total": 1
-        },
-        "median_american_odds": 135.0,
-        "n_visible_straight_picks": 4
-      },
-      {
-        "dominant_market": "spread",
-        "favorite_share_pct": 25.0,
-        "handle": "bigbuckbets",
-        "market_counts": {
-          "moneyline": 1,
-          "spread": 3
-        },
-        "median_american_odds": 122.5,
         "n_visible_straight_picks": 4
       },
       {
@@ -588,14 +564,38 @@
         "n_visible_straight_picks": 4
       },
       {
-        "dominant_market": "other",
-        "favorite_share_pct": null,
-        "handle": "bambino_bets",
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 50.0,
+        "handle": "Clutch_Betss",
         "market_counts": {
-          "other": 3,
+          "moneyline": 3,
+          "spread": 1
+        },
+        "median_american_odds": 0.0,
+        "n_visible_straight_picks": 4
+      },
+      {
+        "dominant_market": "moneyline",
+        "favorite_share_pct": 0.0,
+        "handle": "luckyluke_hits",
+        "market_counts": {
+          "moneyline": 3,
           "total": 1
         },
-        "median_american_odds": null,
+        "median_american_odds": 500.0,
+        "n_visible_straight_picks": 4
+      },
+      {
+        "dominant_market": "total",
+        "favorite_share_pct": 0.0,
+        "handle": "lincolng05bets",
+        "market_counts": {
+          "moneyline": 1,
+          "other": 1,
+          "spread": 1,
+          "total": 1
+        },
+        "median_american_odds": 135.0,
         "n_visible_straight_picks": 4
       },
       {
@@ -610,26 +610,27 @@
         "n_visible_straight_picks": 3
       },
       {
-        "dominant_market": "moneyline",
-        "favorite_share_pct": 66.7,
-        "handle": "jasmine_parker",
+        "dominant_market": "total",
+        "favorite_share_pct": null,
+        "handle": "sps_birdman",
         "market_counts": {
-          "moneyline": 3
+          "spread": 1,
+          "total": 2
         },
-        "median_american_odds": -114,
+        "median_american_odds": null,
         "n_visible_straight_picks": 3
       }
     ],
     "favorite_share_pct": 58.43,
     "market_counts": {
-      "moneyline": 153,
+      "moneyline": 154,
       "other": 16,
       "player_prop": 1,
-      "spread": 49,
+      "spread": 50,
       "total": 59
     },
-    "n_straight_picks": 278,
-    "n_visible_unique_picks": 400,
+    "n_straight_picks": 280,
+    "n_visible_unique_picks": 402,
     "n_with_american_odds": 166,
     "underdog_share_pct": 41.57,
     "warning": "현재 슬레이트에 보인 선택 구성이다. baseline 결과로 성공률을 주장하지 않는다."
