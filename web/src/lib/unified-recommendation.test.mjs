@@ -155,12 +155,13 @@ const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_
   ...alignedToday.candidates[0],
   event_key: `event-${index}`,
   game_no: String(index),
+  league: index < 4 ? "MLB" : index < 7 ? "J1리그" : "EFL챔",
   odds: 1.5 + index * 0.01,
-  predicted_hit_prob: 0.60 - index * 0.01,
+  predicted_hit_prob: 0.62 - index * 0.01,
 })));
-assert.equal(rankedHighlights.length, 5, "오늘의 추천은 후보 전체가 아니라 상위 5개만 남긴다");
+assert.equal(rankedHighlights.length, 3, "오늘의 추천은 후보 전체가 아니라 리그별 최고 픽만 남긴다");
 assert.deepEqual(rankedHighlights.map((row) => Number(row.predicted_hit_prob.toFixed(2))),
-  [0.60, 0.59, 0.58, 0.57, 0.56]);
+  [0.62, 0.58, 0.55]);
 assert.equal(dailyHighlightedSelections([{
   ...alignedToday.candidates[0], predicted_hit_prob: 0.549,
 }]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
