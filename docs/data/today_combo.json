@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-09-02T00:02:05+09:00",
+ "generated_at": "2026-09-02T00:17:55+09:00",
  "source_generated_at": "2026-09-01T10:38:34+00:00",
- "live_odds_at": "2026-09-01T12:02:01+00:00",
+ "live_odds_at": "2026-09-01T15:14:06+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "1.50~2.20 미만 후보를 먼저 확보하고 생성기의 최종 예상 적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 동일 시점 Shin 시장확률로 복귀한다.",
@@ -830,24 +830,24 @@
    "market_label": "U 2.5",
    "booking": "2-way",
    "sel": "오버",
-   "odds": 1.6,
+   "odds": 1.55,
    "bin": "1.5-1.8",
-   "overround": 1.1352,
-   "payout": 88.09,
+   "overround": 1.1354,
+   "payout": 88.08,
    "hist_roi": -0.1206,
    "hist_n": 119682,
-   "market_prob": 0.5574,
-   "predicted_hit_prob": 0.5574,
+   "market_prob": 0.5775,
+   "predicted_hit_prob": 0.5775,
    "probability_source": "shin_market_fallback",
    "has_validated_edge": false,
-   "market_gap": 0.1148,
+   "market_gap": 0.155,
    "n_way": 2,
-   "failure_prob": 0.4426,
+   "failure_prob": 0.4225,
    "is_market_favorite": true,
    "recommendation_priority": "primary",
    "price_source": "live_odds",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간의 시작 전 후보 중 자체 과거 실측 손실률 -12.1%(n=119,682)를 기준으로 고른 선택이다. 확률 표시는 현재 배당을 사용하지만 추천 순서는 시장 최유력 순서가 아니다.",
-   "decision_id": "dec_e2bee171f6214f6d",
+   "decision_id": "dec_e56a7d75b4dbee79",
    "decision_model": "shin-market-anchor-v1",
    "decision_pipeline_status": "unavailable",
    "decision_pipeline_applied": false
@@ -1069,7 +1069,7 @@
    "recommendation_priority": "primary",
    "price_source": "live_odds",
    "reason": "목표 조합에 필요한 1.5-1.8 배당 구간의 시작 전 후보 중 자체 과거 실측 손실률 -12.1%(n=119,682)를 기준으로 고른 선택이다. 확률 표시는 현재 배당을 사용하지만 추천 순서는 시장 최유력 순서가 아니다.",
-   "decision_id": "dec_e74126adf4bf4419",
+   "decision_id": "dec_098f9d25769fa2ed",
    "decision_model": "shin-market-anchor-v1",
    "decision_pipeline_status": "unavailable",
    "decision_pipeline_applied": false
@@ -2225,5 +2225,57 @@
    "why_unstable": ""
   }
  ],
- "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다."
+ "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. 목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 나아 유지하지만 사전 검증된 시장 우위는 아니다. 그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. 과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. 자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. 비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. 다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. 단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
+ "last_recommendation_change": {
+  "changed_at": "2026-09-01T15:07:12+00:00",
+  "reason": "prices_recalculated",
+  "previous_revision": null,
+  "revision": "55c0d1f15cc583a9097a8ee073d5579018a8c05d92dedcc5464beba452affe55",
+  "previous": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "103|8318|핸디캡|H -1.0|핸디원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "103|8390|승①패|승①패|원정2+",
+      "103|8497|핸디캡|H +1.0|핸디홈"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "103|8322|핸디캡|H +1.0|핸디홈",
+      "103|8497|핸디캡|H +1.0|핸디홈",
+      "103|8485|핸디캡|H +1.0|핸디홈"
+     ]
+    }
+   ]
+  },
+  "current": {
+   "action": "challenge",
+   "recommended_target": 3,
+   "solo": "103|8318|핸디캡|H -1.0|핸디원정",
+   "plans": [
+    {
+     "target": 3,
+     "picks": [
+      "103|8390|승①패|승①패|원정2+",
+      "103|8497|핸디캡|H +1.0|핸디홈"
+     ]
+    },
+    {
+     "target": 5,
+     "picks": [
+      "103|8322|핸디캡|H +1.0|핸디홈",
+      "103|8497|핸디캡|H +1.0|핸디홈",
+      "103|8485|핸디캡|H +1.0|핸디홈"
+     ]
+    }
+   ]
+  }
+ },
+ "recommendation_revision": "55c0d1f15cc583a9097a8ee073d5579018a8c05d92dedcc5464beba452affe55",
+ "refreshed_at": "2026-09-01T15:17:55+00:00"
 }
