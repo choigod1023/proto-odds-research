@@ -7,11 +7,11 @@ import { resolveDecisionOption } from "./decision-view-model.js";
 const clean = (value) => String(value ?? "").trim();
 
 export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
-export const DAILY_HIGHLIGHT_LIMIT = 5;
+export const DAILY_HIGHLIGHT_PER_LEAGUE = 1;
 
-/** 조합을 만들지 않고 경기별 최종 후보 가운데 오늘 표시할 소수만 고른다. */
+/** 조합을 만들지 않고 각 리그의 경기별 최종 후보 가운데 최고 픽만 고른다. */
 export function dailyHighlightedSelections(candidates = []) {
-  return [...eligibleFinalSelections(candidates)]
+  const ranked = [...eligibleFinalSelections(candidates)]
     .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT)
     .sort((a, b) =>
       hitProbabilityOf(b) - hitProbabilityOf(a) ||
@@ -20,7 +20,14 @@ export function dailyHighlightedSelections(candidates = []) {
       String(a?.kickoff_at || a?.date || "").localeCompare(
         String(b?.kickoff_at || b?.date || ""),
       ) || selectionKey(a, a?.round).localeCompare(selectionKey(b, b?.round)))
-    .slice(0, DAILY_HIGHLIGHT_LIMIT);
+  const leagueCounts = new Map();
+  return ranked.filter((selection) => {
+    const league = clean(selection?.league) || "리그 미분류";
+    const count = leagueCounts.get(league) || 0;
+    if (count >= DAILY_HIGHLIGHT_PER_LEAGUE) return false;
+    leagueCounts.set(league, count + 1);
+    return true;
+  });
 }
 
 export function selectionKey(selection, round = selection?.round) {
