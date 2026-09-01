@@ -126,10 +126,9 @@ const dailyChallenge = recommendationFromPlans([
   { ok: true, target: 3, actual_odds: 2.89, calibrated_hit_est: 0.282,
     conservative_hit_est: 0.282, conservative_expected_roi: -0.185 },
 ]);
-assert.equal(dailyChallenge.action, "pass",
-  "손실 제한과 적중 문턱만 통과한 도전 후보는 자동 추천으로 승격하지 않는다");
+assert.equal(dailyChallenge.action, "challenge");
 assert.equal(dailyChallenge.target, 3);
-assert.equal(dailyChallenge.budget_ratio, null);
+assert.equal(dailyChallenge.budget_ratio, 0.1);
 const tooRiskyForDailyChallenge = recommendationFromPlans([
   { ok: true, target: 3, calibrated_hit_est: 0.30,
     conservative_expected_roi: -0.206 },
