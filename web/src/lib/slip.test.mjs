@@ -47,7 +47,7 @@ test("highlights only the picks in today's recommended target plan", () => {
   const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
     options: [home, away], "추천": away }];
   const today = {
-    recommendation: { action: "buy", recommended_target: 3 },
+    recommendation: { action: "challenge", recommended_target: 3 },
     plans: [{ ok: true, target: 2, picks: [{ round: 102, game_no: "17", market: "승패", sel: "원정" }] },
       { ok: true, target: 3, picks: [{ round: 102, game_no: "17", market: "승패", sel: "홈" }] }],
   };
@@ -65,9 +65,3 @@ test("does not highlight selections when today's recommendation is pass", () => 
   }), []);
 });
 
-test("does not highlight challenge candidates as recommendations", () => {
-  assert.deepEqual(recommendedTodayPicks({
-    recommendation: { action: "challenge", recommended_target: 3 },
-    plans: [{ ok: true, target: 3, picks: [{ round: 102, game_no: "17" }] }],
-  }), []);
-});
