@@ -25,14 +25,9 @@ const sameProtoSelection = (left, right, round) => !!left && !!right &&
   String(left.market_label ?? left.label ?? "") === String(right.market_label ?? right.label ?? "") &&
   String(left.sel ?? left["선택"] ?? "") === String(right.sel ?? right["선택"] ?? "");
 
-/** 오늘 판정이 실제 추천한 조합의 선택지만 형광 표시 대상으로 만든다. */
+/** 조합 구성과 무관하게 오늘의 경기별 최종 추천을 형광 표시 대상으로 만든다. */
 export function recommendedTodayPicks(today) {
-  const recommendation = today?.recommendation;
-  if (!recommendation || ["pass", "none"].includes(recommendation.action)) return [];
-  const target = recommendation.recommended_target ?? recommendation.target;
-  const plan = (today?.plans || []).find((item) => item?.ok && Number(item.target) === Number(target));
-  if (plan?.picks?.length) return plan.picks;
-  return recommendation.action === "solo" && today?.solo ? [today.solo] : [];
+  return Array.isArray(today?.candidates) ? today.candidates : [];
 }
 
 export function slipRows(games, liveOdds, now = new Date(), todayPicks = null) {

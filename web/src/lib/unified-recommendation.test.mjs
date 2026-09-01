@@ -134,6 +134,7 @@ assert.equal(flippedToday.candidates[0].market_prob, 0.61);
 assert.equal(flippedToday.candidates[0].payout, 89.21);
 
 const memberships = buildTodayMemberships({
+  candidates: [alignedToday.candidates[0]],
   solo: alignedToday.candidates[0],
   plans: [
     { ok: true, target: 1.4, picks: [alignedToday.candidates[0]] },
@@ -143,6 +144,8 @@ const memberships = buildTodayMemberships({
 });
 const membership = memberships.get(selectionKey(home, game.round));
 assert.equal(membership.solo, true);
+assert.equal(membership.recommended, true,
+  "조합 포함 여부가 아니라 경기별 최종 후보 자체를 추천으로 표시한다");
 assert.deepEqual(membership.targets, [1.4, 2],
   "경기 카드 하나에 실제로 포함된 오늘 조합만 붙인다");
 assert.equal(memberships.size, 1, "별도 후보 행이 아니라 같은 판정 키로 통합한다");

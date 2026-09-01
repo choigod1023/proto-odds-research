@@ -14,7 +14,7 @@ export function selectionKey(selection, round = selection?.round) {
 }
 
 /**
- * 오늘 조합의 선택을 경기 카드에 붙이기 위한 단일 인덱스다.
+ * 오늘의 경기별 최종 추천을 경기 카드에 붙이기 위한 단일 인덱스다.
  * 별도 후보 화면이 같은 경기를 다시 해석하지 않고, 이미 정렬된 선택 키만 공유한다.
  */
 export function buildTodayMemberships(today) {
@@ -23,10 +23,17 @@ export function buildTodayMemberships(today) {
     if (!selection) return null;
     const key = selectionKey(selection, selection?.round);
     if (!memberships.has(key)) {
-      memberships.set(key, { selection, solo: false, targets: [] });
+      memberships.set(key, { selection, recommended: false, solo: false, targets: [] });
     }
     return memberships.get(key);
   };
+
+  // 하이라이트의 기준은 조합 포함 여부가 아니라 생성기가 확정한 경기별 후보다.
+  // plans/solo 정보는 기존 데이터 호환과 설명용으로만 보존한다.
+  (today?.candidates || []).forEach((selection) => {
+    const membership = ensure(selection);
+    if (membership) membership.recommended = true;
+  });
 
   if (today?.solo) {
     const membership = ensure(today.solo);
@@ -162,7 +169,7 @@ export function alignTodayRecommendations(today, games = []) {
   };
 }
 
-/** 경기의 모든 선택지 중 오늘 조합에 실제로 들어간 선택지를 찾는다. */
+/** 경기의 모든 선택지 중 오늘의 경기별 최종 추천 선택지를 찾는다. */
 export function todaySelectionForGame(memberships, options = [], round) {
   for (const option of options || []) {
     const membership = memberships?.get(selectionKey(option, round));

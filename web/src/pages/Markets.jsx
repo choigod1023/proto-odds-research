@@ -372,15 +372,7 @@ function GameList({ data, grades, caps, stale, today }) {
     const todaySelection = wait || stale || g._liveStarted || g._liveOddsChanged
       ? { option: null, membership: null }
       : todaySelectionForGame(todayMemberships, g.options || [], g.round);
-    const recommendedTarget = activeToday?.recommendation?.recommended_target
-      ?? activeToday?.recommendation?.target;
-    const highlightedToday = !["pass", "none"].includes(activeToday?.recommendation?.action) && (
-      activeToday?.recommendation?.action === "solo"
-        ? todaySelection.membership?.solo === true
-        : todaySelection.membership?.targets?.some(
-          (target) => Number(target) === Number(recommendedTarget),
-        )
-    );
+    const highlightedToday = todaySelection.membership?.recommended === true;
     n++;
     const phase = gamePhase(g);
     const key = `${phase} · ${g.league} · ${day(g.date)}`;
@@ -639,9 +631,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const resultHeadline = outcome.record
     ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
     : null;
-  const targetLabels = todayMembership?.targets?.map((target) => `${target}배`) || [];
-  if (todayMembership?.solo) targetLabels.unshift("단폴");
-  const todayLabel = targetLabels.length ? `${targetLabels.join(" · ")} 포함` : null;
+  const todayLabel = todayMembership?.recommended ? "오늘의 추천 픽" : null;
   return (
     <Card as="details" className={`match-card is-${phase} result-${outcome.state}`}>
       <summary className="match-row">
