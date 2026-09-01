@@ -113,7 +113,7 @@ def calibrated_leg_probability(candidate: dict) -> tuple[float | None, float | N
 
 
 def historical_leg_score(candidate: dict) -> tuple[float, int]:
-    """자체 실측표의 손실률을 후보 선택 점수로 쓴다.
+    """자체 실측표의 손실률을 진단 지표로 계산한다.
 
     이 값은 후보별 적중확률이 아니다. 표본이 충분한 동일 배당·선택 구간에서 실제로
     덜 잃었던 정도만 비교하며, 확률 표시는 계속 동일 시점 Shin 확률을 사용한다.
@@ -132,7 +132,6 @@ def historical_leg_score(candidate: dict) -> tuple[float, int]:
 
 def leg_quality(candidate: dict) -> tuple:
     calibrated, conservative = calibrated_leg_probability(candidate)
-    historical_roi, historical_n = historical_leg_score(candidate)
     probability = probability_of(candidate.get("predicted_hit_prob"))
     if probability is None:
         probability = probability_of(candidate.get("market_prob"))
@@ -142,8 +141,6 @@ def leg_quality(candidate: dict) -> tuple:
         -recommendation_priority(odds),
         -int(pipeline_applied),
         -((conservative or 0.0) * odds) if pipeline_applied else 0.0,
-        -historical_roi,
-        -min(historical_n, 1000),
         -(conservative or 0.0),
         -(calibrated or 0.0),
         -(probability or 0.0),
@@ -364,13 +361,9 @@ def pick_legs(
         metrics = ticket_metrics(list(legs))
         payout = math.prod(1.0 / float(candidate["overround"]) for candidate in legs)
         closeness = -abs(math.log(odds / target)) if target else 0.0
-        historical_return = math.prod(
-            1.0 + historical_leg_score(candidate)[0] for candidate in legs
-        ) - 1.0
-        # 목표 배당 범위 안에서는 자체 실측표의 '가장 덜 잃는 구성'을 먼저 고른다.
-        # 시장확률은 같은 실측 등급 안의 동률 해소와 화면상 확률 표시에만 쓴다.
-        score = (historical_return,
-                 metrics.get("independent_hit_est", 0.0),
+        # DB 이전 직전 계약: 목표 배당 범위 안에서는 생성기가 확정한 최종 예상
+        # 적중확률을 먼저 최대화한다. 과거 구간 손실률은 진단용으로만 남긴다.
+        score = (metrics.get("independent_hit_est", 0.0),
                  metrics.get("market_reference_roi", -99.0),
                  metrics.get("hit_est", 0.0), payout, closeness)
         if best is None or score > best[0]:
@@ -396,7 +389,7 @@ def ticket_metrics(legs: list[dict]) -> dict:
         "market_reference_roi": (round(market_hit * odds - 1.0, 4)
                                  if market_hit is not None else None),
         "independence_assumption": True,
-        "selection_basis": "historical_least_loss",
+        "selection_basis": "final_hit_probability",
         "historical_expected_roi": round(
             math.prod(1.0 + historical_leg_score(candidate)[0] for candidate in legs) - 1.0,
             4,
@@ -455,15 +448,6 @@ def _reference_metric(plan: dict, current: str, legacy: str, default: float) -> 
     return _metric_number(plan, legacy, default)
 
 
-def _selection_loss_metric(plan: dict) -> float:
-    """현재 산출물은 자체 실측 손실률, 구형 산출물은 기존 지표로 판정한다."""
-    if plan.get("historical_expected_roi") is not None:
-        return _metric_number(plan, "historical_expected_roi", -99.0)
-    return _reference_metric(
-        plan, "market_reference_roi", "conservative_expected_roi", -99.0
-    )
-
-
 def daily_recommendation(plans: list[dict]) -> dict:
     available = [plan for plan in plans if plan.get("ok")]
     if not available:
@@ -482,21 +466,30 @@ def daily_recommendation(plans: list[dict]) -> dict:
     else:
         challenge = [plan for plan in available
                      if _metric_number(plan, "target", 99.0) <= DAILY_CHALLENGE_MAX_TARGET
-                     and _selection_loss_metric(plan) >= DAILY_CHALLENGE_MIN_ROI
+                     and _reference_metric(plan, "market_reference_roi",
+                                           "conservative_expected_roi", -99.0) >= DAILY_CHALLENGE_MIN_ROI
                      and _reference_metric(plan, "independent_hit_est", "calibrated_hit_est", 0.0) >=
                      DAILY_CHALLENGE_MIN_HIT.get(_metric_number(plan, "target", 99.0), float("inf"))]
         if challenge:
-            best_challenge_roi = max(_selection_loss_metric(plan) for plan in challenge)
-            balanced = [plan for plan in challenge if _selection_loss_metric(plan) >=
+            best_challenge_roi = max(
+                _reference_metric(plan, "market_reference_roi",
+                                  "conservative_expected_roi", -99.0)
+                for plan in challenge)
+            balanced = [plan for plan in challenge
+                        if _reference_metric(plan, "market_reference_roi",
+                                             "conservative_expected_roi", -99.0) >=
                         best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
             best = max(balanced, key=lambda plan: (
-                _metric_number(plan, "target", 0.0), _selection_loss_metric(plan),
+                _metric_number(plan, "target", 0.0),
+                _reference_metric(plan, "market_reference_roi",
+                                  "conservative_expected_roi", -99.0),
                 _reference_metric(plan, "independent_hit_est", "calibrated_hit_est", 0.0)))
             action = "challenge"
-            why = "자체 과거 실측에서 덜 잃은 구성으로 고른 3배 조합이 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
+            why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
-                _selection_loss_metric(plan),
+                _reference_metric(plan, "market_reference_roi",
+                                  "conservative_expected_roi", -99.0),
                 _reference_metric(plan, "independent_hit_est", "calibrated_hit_est", 0.0)))
             action = "pass"
             why = "소액 도전 기준에도 미달했다"
@@ -504,7 +497,8 @@ def daily_recommendation(plans: list[dict]) -> dict:
             "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO if action == "challenge" else None),
             "market_reference_roi": _reference_metric(
                 best, "market_reference_roi", "conservative_expected_roi", -99.0),
-            "selection_historical_roi": _selection_loss_metric(best),
+            "selection_historical_roi": _metric_number(
+                best, "historical_expected_roi", -99.0),
             "independent_hit_est": _reference_metric(
                 best, "independent_hit_est", "calibrated_hit_est", 0.0), "why": why}
 
@@ -674,7 +668,7 @@ def build() -> dict:
             "picks": legs,
         })
 
-    # 단폴 — 지정 경기라면 가장 덜 잃는 한 장
+    # 단폴 — 지정 경기라면 최종 예상 적중확률이 가장 높은 한 장
     solo = None
     lo = list(cands)
     if lo:
@@ -689,9 +683,9 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": today.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "1.50~2.20 미만 후보를 먼저 확보하고 자체 과거 실측에서 손실이 "
-                 "가장 작았던 배당·마켓 구성을 고른다. 현재 확률은 Shin 값을 "
-                 "표시하되 추천 순위에는 시장 최유력 순서를 쓰지 않는다.",
+        "basis": "1.50~2.20 미만 후보를 먼저 확보하고 생성기의 최종 예상 "
+                 "적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 "
+                 "동일 시점 Shin 시장확률로 복귀한다.",
         "n_candidates": len(cands),
         "n_primary_candidates": sum(
             1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
@@ -701,7 +695,7 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "자체 과거 실측 최소손실 우선 · 1.50~2.20 먼저 · 시장확률은 표시 전용",
+        "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,

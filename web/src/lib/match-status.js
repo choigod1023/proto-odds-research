@@ -10,8 +10,11 @@ function scheduledAt(game) {
 
 export function gamePhase(game, live = game?._liveState, now = Date.now()) {
   if (live?.cancelled || live?.postponed) return "pending";
-  if (live && live.status !== "BEFORE" && !live.finished) return "live";
+  const observed = new Date(game?._liveFeedAt || live?.observed_at || 0).getTime();
+  const feedFresh = !observed || Number(now) - observed <= 10 * 60 * 1000;
+  if (live && live.status !== "BEFORE" && !live.finished && feedFresh) return "live";
   if (game?.status === "정산" || live?.finished) return "finished";
+  if (live && live.status !== "BEFORE" && !live.finished && !feedFresh) return "pending";
   if (game?.status === "결과확인") return "pending";
   const start = scheduledAt(game);
   // 원천 매칭이 일시 실패해도 이미 끝났을 가능성이 큰 경기를 영원히 '예정'으로 두지 않는다.
