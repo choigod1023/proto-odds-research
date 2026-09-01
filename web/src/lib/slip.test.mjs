@@ -41,27 +41,25 @@ test("marks the generated Proto recommendation on its exact slip selection", () 
   assert.equal(selections.find((row) => row.name === "원정").recommended, false);
 });
 
-test("highlights only the picks in today's recommended target plan", () => {
+test("highlights every individual daily pick without using a target combination", () => {
   const home = { market: "승패", label: "", "게임번호": "17", "선택": "홈", "배당": 1.7 };
   const away = { market: "승패", label: "", "게임번호": "17", "선택": "원정", "배당": 2.1 };
   const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
     options: [home, away], "추천": away }];
   const today = {
-    recommendation: { action: "challenge", recommended_target: 3 },
-    plans: [{ ok: true, target: 2, picks: [{ round: 102, game_no: "17", market: "승패", sel: "원정" }] },
-      { ok: true, target: 3, picks: [{ round: 102, game_no: "17", market: "승패", sel: "홈" }] }],
+    candidates: [{ round: 102, game_no: "17", market: "승패", sel: "홈" }],
   };
   const picks = recommendedTodayPicks(today);
   const selections = slipRows(games, null, NOW, picks)[0].selections;
   assert.equal(selections.find((row) => row.name === "홈").recommended, true);
   assert.equal(selections.find((row) => row.name === "원정").recommended, false,
-    "경기별 레거시 추천이나 다른 목표 조합은 형광 표시하지 않는다");
+    "경기별 최종 추천과 다른 선택은 형광 표시하지 않는다");
 });
 
-test("does not highlight selections when today's recommendation is pass", () => {
+test("combo pass does not erase qualified individual daily picks", () => {
   assert.deepEqual(recommendedTodayPicks({
     recommendation: { action: "pass", recommended_target: 3 },
-    plans: [{ ok: true, target: 3, picks: [{ round: 102, game_no: "17" }] }],
-  }), []);
+    candidates: [{ round: 102, game_no: "17" }],
+  }), [{ round: 102, game_no: "17" }]);
 });
 
