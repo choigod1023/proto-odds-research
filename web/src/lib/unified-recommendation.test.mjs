@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { alignTodayRecommendations, buildTodayMemberships, canonicalOption, canonicalPick,
-  selectionKey } from "./unified-recommendation.js";
+  selectionKey, todaySelectionForGame } from "./unified-recommendation.js";
 
 const home = {
   selection_id: "sel_home", offer_id: "off_home",
@@ -146,5 +146,18 @@ assert.equal(membership.solo, true);
 assert.deepEqual(membership.targets, [1.4, 2],
   "경기 카드 하나에 실제로 포함된 오늘 조합만 붙인다");
 assert.equal(memberships.size, 1, "별도 후보 행이 아니라 같은 판정 키로 통합한다");
+
+const nonDefaultMarket = {
+  ...away, selection_id: "sel_total", offer_id: "off_total",
+  market: "언더오버", label: "2.5", "선택": "언더",
+};
+const nonDefaultMemberships = new Map([
+  [selectionKey(nonDefaultMarket, game.round), { targets: [3], solo: false }],
+]);
+assert.equal(
+  todaySelectionForGame(nonDefaultMemberships, [home, away, nonDefaultMarket], game.round).option,
+  nonDefaultMarket,
+  "기본 경기 예측과 다른 시장의 오늘 추천도 카드에서 찾아 강조한다",
+);
 
 console.log("unified recommendation tests passed");

@@ -196,7 +196,7 @@ export default function BetPreference({
             {recommendationAction === "challenge"
               ? "현재 우선안은 적중 우선 조합과 예산 10% 수준(최소 1,000원)을 먼저 선택한다. "
               : "목표 배당과 투입 금액을 함께 고른다. 기본은 3배 적중 우선안이다. "}
-            시장 우위 신호는 아니며 같은 금액 카드를 다시 누르면 취소된다.
+            자동 적중 보장은 아니며 같은 금액 카드를 다시 누르면 취소된다.
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5" aria-label="목표 배당">
             {CHALLENGE_TARGETS.map((item) => (
@@ -232,7 +232,7 @@ export default function BetPreference({
                     실배당 <b className="tnum text-ink">{option.actual_odds.toFixed(2)}×</b><br />
                     독립 가정 적중 <b className="tnum text-ink">{((option.independent_hit_est ?? option.calibrated_hit_est) * 100).toFixed(1)}%</b><br />
                     적중 시 <b className="tnum text-ink">+{money(option.net_profit)}</b><br />
-                    시장 기준 평균손실 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
+                    우리 실측 기준 평균손실 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
                   </div>
                 </button>
               );

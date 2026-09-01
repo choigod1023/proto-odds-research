@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
+import BetPreference from "../components/BetPreference.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD,
@@ -11,7 +12,8 @@ import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { buildDecisionViewModel } from "../lib/decision-view-model.js";
 import { repriceGameOdds } from "../lib/live-odds.js";
-import { alignTodayRecommendations, buildTodayMemberships, selectionKey } from "../lib/unified-recommendation.js";
+import { alignTodayRecommendations, buildTodayMemberships,
+  todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
@@ -256,24 +258,116 @@ function useTodayClock(today) {
   return clock;
 }
 
-function TodayListControls({ activeToday }) {
+const TodayTab = ({ active, onClick, children }) => (
+  <button type="button" aria-pressed={active} onClick={onClick}
+    className={`flex items-center gap-1.5 rounded-full border px-[13px] py-1.5 text-[12px] leading-none ${
+      active ? "border-ink font-semibold text-ink" : "border-rule text-ink2 hover:border-ink3"
+    }`}>
+    {children}
+  </button>
+);
+
+const TodayLeg = ({ pick, highlighted }) => (
+  <div className={`today-bet-leg ${highlighted ? "is-highlighted" : ""}`}>
+    <span className="tnum text-[11px] text-ink3">{hhmm(pick.date)}</span>
+    <span className="rounded border border-rule px-[5px] py-px text-[10px] text-ink3">
+      {pick.league}
+    </span>
+    <span className="min-w-[180px] flex-1 text-[12.5px]">
+      {pick.match} — <b>{pick.market}{pick.market_label ? ` ${pick.market_label}` : ""} {pick.sel}</b>
+    </span>
+    <span className="tnum text-[11px] text-ink3">{pick.round}회 #{pick.game_no}</span>
+    <b className="tnum text-[12px]">{odds(pick.odds)}</b>
+  </div>
+);
+
+function TodayBetRecommendation({ activeToday }) {
   const plans = (activeToday?.plans || []).filter((plan) => plan.ok);
-  const recommendation = recommendationFromPlans(plans);
+  const derivedRecommendation = recommendationFromPlans(plans);
+  const storedRecommendation = activeToday?.recommendation || null;
+  const recommendation = storedRecommendation?.action ? {
+    ...derivedRecommendation,
+    ...storedRecommendation,
+    target: storedRecommendation.recommended_target ?? storedRecommendation.target
+      ?? derivedRecommendation.target,
+    why: storedRecommendation.why || derivedRecommendation.why,
+  } : derivedRecommendation;
+  const solo = activeToday?.solo || null;
+  const [selected, setSelected] = useState(0);
   const recommendedPlan = plans.find((plan) => Number(plan.target) === Number(recommendation.target));
   const periodLabel = activeToday?.window === "next_morning" ? "다음 날 오전" : "오늘";
-  if (!plans.length && !activeToday?.solo) {
-    return <div className="today-pick-compact"><b>오늘 추천 픽 없음</b><span>선별 기준을 통과하면 자동으로 표시됩니다.</span></div>;
+  if (!plans.length && !solo) {
+    return <Card className="today-brief today-betting-recommendation">
+      <div className="brief-heading"><h2>오늘의 베팅 추천</h2></div>
+      <Empty>현재 우리 기준을 통과한 추천 픽이 없습니다. 다음 수집 때 자동으로 다시 판정합니다.</Empty>
+    </Card>;
   }
+  const recommendedIndex = plans.findIndex(
+    (plan) => Number(plan.target) === Number(recommendation.target),
+  );
+  const selectedIndex = selected < 0 ? -1
+    : selected < plans.length ? selected
+      : recommendedIndex >= 0 ? recommendedIndex : 0;
+  const plan = selectedIndex < 0 ? null : plans[selectedIndex];
+  const current = plan || solo;
+  const actionLabel = recommendation.action === "buy" ? "오늘의 추천 픽"
+    : recommendation.action === "challenge" ? "소액 도전 추천"
+      : "추천 없음 · 관찰만";
+  const highlighted = recommendation.action !== "pass" && recommendation.action !== "none";
   return (
-    <div className={`today-pick-compact is-${recommendation.action}`} aria-label="오늘 추천 픽 요약">
-      <div><small>{periodLabel} 추천</small><b>{recommendation.action === "buy" ? "추천 픽" : recommendation.action === "challenge" ? "고위험 후보" : "관찰"}</b></div>
-      {recommendedPlan && <>
-        <div><small>조합</small><b>{recommendedPlan.legs}폴더</b></div>
-        <div><small>배당</small><b>{Number(recommendedPlan.actual_odds || recommendedPlan.odds).toFixed(2)}배</b></div>
-        <div><small>예상 적중</small><b>{planMetric(recommendedPlan, "independent_hit_est", "calibrated_hit_est") != null ? `${(planMetric(recommendedPlan, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"}</b></div>
-      </>}
-      <span>선택된 경기만 아래 목록에서 오늘 추천으로 강조합니다.</span>
-    </div>
+    <Card className={`today-brief today-betting-recommendation is-${recommendation.action}`}
+      aria-label="오늘의 베팅 추천">
+      <div className="brief-heading">
+        <div><small>{periodLabel} 기준</small><h2>오늘의 베팅 추천</h2></div>
+        <p>개편된 판정 원장과 우리 실측 기준으로 선택하며, 추천에 포함된 경기만 아래에서 강조합니다.</p>
+      </div>
+
+      <div className="today-bet-verdict">
+        <div><small>현재 판정</small><b>{actionLabel}</b></div>
+        {recommendedPlan && <>
+          <div><small>추천 조합</small><b>{recommendedPlan.legs}폴더 · {recommendedPlan.target}배 목표</b></div>
+          <div><small>실배당</small><b className="tnum">{Number(recommendedPlan.actual_odds).toFixed(2)}배</b></div>
+          <div><small>예상 적중</small><b className="tnum">{
+            planMetric(recommendedPlan, "independent_hit_est", "calibrated_hit_est") != null
+              ? `${(planMetric(recommendedPlan, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"
+          }</b></div>
+        </>}
+      </div>
+      <p className="mt-2 text-[11px] leading-[1.65] text-ink3">{recommendation.why}</p>
+
+      <div className="my-3 flex flex-wrap gap-1.5" aria-label="추천 조합 선택">
+        {solo && <TodayTab active={selectedIndex < 0} onClick={() => setSelected(-1)}>단폴</TodayTab>}
+        {plans.map((item, index) => (
+          <TodayTab key={item.target} active={selectedIndex === index} onClick={() => setSelected(index)}>
+            {item.target}배 · {item.legs}폴
+            {Number(item.target) === Number(recommendation.target) && <small>추천</small>}
+          </TodayTab>
+        ))}
+      </div>
+
+      {current && <div className="grid gap-x-7 gap-y-2 border-y border-rule2 py-3 sm:grid-cols-4">
+        <Stat k="구성" v={`${plan?.legs || 1}폴더`} />
+        <Stat k="실배당" v={`${Number(current.actual_odds || current.odds).toFixed(2)}×`} />
+        <Stat k="예상 적중" v={planMetric(current, "independent_hit_est", "calibrated_hit_est") != null
+          ? `${(planMetric(current, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"} />
+        <Stat k="선택 기준" v={current.selection_basis === "approved_decision_pipeline"
+          ? "승인 판정 원장" : "과거 실측 최소손실"} />
+      </div>}
+
+      <div className="mt-3">
+        {(plan ? plan.picks : [solo]).filter(Boolean).map((pick, index) => (
+          <TodayLeg key={`${pick.round}-${pick.game_no}-${index}`} pick={pick} highlighted={highlighted} />
+        ))}
+      </div>
+
+      <details className="budget-simulator">
+        <summary>추천 금액·예산 시뮬레이터</summary>
+        <BetPreference plans={plans} solo={solo} selectedIndex={selectedIndex}
+          onSelect={setSelected} recommendedTarget={recommendation.target}
+          recommendationAction={recommendation.action}
+          shouldPass={selectedIndex < 0 || recommendation.action !== "buy"} />
+      </details>
+    </Card>
   );
 }
 
@@ -392,11 +486,9 @@ function GameList({ data, grades, caps, stale, today }) {
       const lo = Math.min(...opts.map((o) => o["배당"]).filter((x) => x > 0));
       if (!(lo <= cap)) continue;
     }
-    const cardPrediction = wait || stale || g._liveStarted || g._liveOddsChanged
-      ? null : predictionForGame(g.options || []);
-    const membership = cardPrediction
-      ? todayMemberships.get(selectionKey(cardPrediction.option, g.round)) || null
-      : null;
+    const todaySelection = wait || stale || g._liveStarted || g._liveOddsChanged
+      ? { option: null, membership: null }
+      : todaySelectionForGame(todayMemberships, g.options || [], g.round);
     n++;
     const phase = gamePhase(g);
     const key = `${phase} · ${g.league} · ${day(g.date)}`;
@@ -419,7 +511,8 @@ function GameList({ data, grades, caps, stale, today }) {
     }
     rows.push(<Game key={`${g.league}${g.home}${g.away}${g.date}${n}`} g={g} opts={opts} wait={wait}
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
-      year={data.year} todayMembership={membership} activeToday={activeToday}
+      year={data.year} todayMembership={todaySelection.membership}
+      todayOption={todaySelection.option} activeToday={activeToday}
       onSaveBet={(game, option) => setBetDraft({ game, option })} />);
   }
 
@@ -440,7 +533,7 @@ function GameList({ data, grades, caps, stale, today }) {
           <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 경기 판정을 멈췄습니다. 수집이 복구되면 경기별 픽과 추천 강도가 자동으로 다시 표시됩니다.</p>
         </div>
-      ) : <TodayListControls activeToday={activeToday} />}
+      ) : <TodayBetRecommendation activeToday={activeToday} />}
       <div className="filter-shell">
         <div className="filter-primary">
           <div className="date-switch" aria-label="경기 날짜">
@@ -589,7 +682,7 @@ function MarketHistory({ rows }) {
 }
 
 function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  activeToday, onSaveBet }) {
+  todayOption, activeToday, onSaveBet }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -608,9 +701,10 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const predictionUnavailable = done || g.prediction_status === "prediction_ledger_required";
   const prediction = wait || stale || predictionUnavailable || liveClosed || g._liveOddsChanged
     ? null : predictionForGame(opts);
-  const pick = prediction ? {
-    o: prediction.option,
-    g: gradeOf(grades, prediction.option["배당"]),
+  const displayedOption = todayOption || prediction?.option || null;
+  const pick = displayedOption ? {
+    o: displayedOption,
+    g: gradeOf(grades, displayedOption["배당"]),
     tie: false,
   } : null;
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
@@ -654,11 +748,13 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const targetLabels = todayMembership?.targets?.map((target) => `${target}배`) || [];
   if (todayMembership?.solo) targetLabels.unshift("단폴");
   const todayLabel = targetLabels.length ? `${targetLabels.join(" · ")} 포함` : null;
-  const primaryTarget = activeToday?.recommendation?.target;
-  const primary = activeToday?.recommendation?.action !== "pass" && todayMembership?.targets?.some(
+  const primaryTarget = activeToday?.recommendation?.recommended_target
+    ?? activeToday?.recommendation?.target;
+  const recommendationActive = !["pass", "none"].includes(activeToday?.recommendation?.action);
+  const primary = recommendationActive && todayMembership?.targets?.some(
     (target) => Number(target) === Number(primaryTarget),
   );
-  const todayRecommended = activeToday?.recommendation?.action !== "pass" && !!todayLabel;
+  const todayRecommended = recommendationActive && !!todayLabel;
   return (
     <Card as="details" className={`match-card is-${phase} result-${outcome.state} ${
       todayRecommended ? "is-today-recommended" : ""} ${primary ? "is-today-primary border-signal" : ""}`}>
