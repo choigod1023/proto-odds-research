@@ -15,7 +15,7 @@ import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
-import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
+import { isDataStale, latestGeneratedAt, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
@@ -159,7 +159,8 @@ export default function Markets() {
   // 경기 원장의 생성 시각이 낡았더라도 현재 회차 배당을 방금 정상 수집했다면 화면
   // 전체를 중단하지 않는다. 각 경기 선택은 repriceGameOdds가 최신 가격으로 다시
   // 판정하며, 식별자가 어긋나는 경우에는 기존 fail-close 규칙이 그대로 막는다.
-  const stale = isDataStale(liveOdds?.generated_at || synchronized.generated_at);
+  const latestDataAt = latestGeneratedAt(liveOdds?.generated_at, synchronized.generated_at);
+  const stale = isDataStale(latestDataAt);
 
   return (
     <Shell meta={metaLine(d, at)}>

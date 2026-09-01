@@ -2,6 +2,19 @@ import { kickoffTime } from "./today-plan.js";
 
 export const STALE_DATA_MS = 3 * 60 * 60 * 1000;
 
+export function latestGeneratedAt(...values) {
+  let latest = null;
+  let latestTime = -Infinity;
+  values.flat().forEach((value) => {
+    const time = Date.parse(value || "");
+    if (Number.isFinite(time) && time > latestTime) {
+      latest = value;
+      latestTime = time;
+    }
+  });
+  return latest;
+}
+
 export function isDataStale(generatedAt, now = Date.now()) {
   const generated = Date.parse(generatedAt || "");
   return !Number.isFinite(generated) || now - generated >= STALE_DATA_MS;
