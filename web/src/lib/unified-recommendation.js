@@ -161,3 +161,12 @@ export function alignTodayRecommendations(today, games = []) {
     },
   };
 }
+
+/** 경기의 모든 선택지 중 오늘 조합에 실제로 들어간 선택지를 찾는다. */
+export function todaySelectionForGame(memberships, options = [], round) {
+  for (const option of options || []) {
+    const membership = memberships?.get(selectionKey(option, round));
+    if (membership) return { option, membership };
+  }
+  return { option: null, membership: null };
+}
