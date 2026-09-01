@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isDataStale, waitingLabel } from "./data-freshness.js";
+import { isDataStale, latestGeneratedAt, waitingLabel } from "./data-freshness.js";
 
 const now = Date.parse("2026-08-24T10:00:00+09:00");
 
@@ -19,4 +19,20 @@ test("최신 데이터라도 시작 시각이 지났으면 배당 발표 전이�
   assert.equal(waitingLabel({ date: "08.24(월) 08:00" }, {
     generatedAt: "2026-08-24T09:30:00+09:00", year: 2026, now,
   }), "상태 확인 불가");
+});
+
+test("배당 파일보다 경기 원장이 최신이면 최신 원장 시각을 사용한다", () => {
+  assert.equal(latestGeneratedAt(
+    "2026-08-24T06:00:00+09:00",
+    "2026-08-24T09:30:00+09:00",
+  ), "2026-08-24T09:30:00+09:00");
+  assert.equal(isDataStale(latestGeneratedAt(
+    "2026-08-24T06:00:00+09:00",
+    "2026-08-24T09:30:00+09:00",
+  ), now), false);
+});
+
+test("유효하지 않은 시각은 최신값 선택에서 제외한다", () => {
+  assert.equal(latestGeneratedAt(null, "", "2026-08-24T09:00:00+09:00"),
+    "2026-08-24T09:00:00+09:00");
 });
