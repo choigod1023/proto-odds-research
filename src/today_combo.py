@@ -42,6 +42,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from evolutionary_policy import live_snapshot, load_artifact
+from ai_decision import validate_decision_snapshot
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
 from runtime_db import persist_artifact
 from recommendation_policy import (
@@ -136,8 +137,11 @@ def leg_quality(candidate: dict) -> tuple:
     if probability is None:
         probability = probability_of(candidate.get("market_prob"))
     odds = float(candidate.get("odds") or 0.0)
+    pipeline_applied = candidate.get("decision_pipeline_applied") is True
     return (
         -recommendation_priority(odds),
+        -int(pipeline_applied),
+        -((conservative or 0.0) * odds) if pipeline_applied else 0.0,
         -historical_roi,
         -min(historical_n, 1000),
         -(conservative or 0.0),
@@ -305,11 +309,18 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
     deduped = [candidate for candidate in deduped if float(candidate["market_prob"]) >=
                favorite_by_market[(candidate["event_key"], candidate["market"],
                                    str(candidate["market_label"]))] - 1e-9]
-    # 경기 카드와 오늘 조합이 서로 다른 마켓을 추천하지 않도록 실제 경기마다
-    # 1.50 이상을 먼저 고르고, 그 안에서 자체 실측 손실이 가장 작은 후보 하나만 남긴다.
-    # 해당 경기의 유효 후보가 전부 1.50 미만이면 최유력을 보조 추천으로 남긴다.
+    # 경기별 최종 한 장은 개편된 decision snapshot을 연결한 뒤 고른다. 여기서 먼저
+    # 줄이면 원장이 선택한 다른 마켓을 후보군에서 잃어버린다.
+    return sorted(
+        deduped,
+        key=lambda x: (x["kickoff_at"], x["overround"], -x["odds"]),
+    )
+
+
+def select_event_candidates(candidates: list[dict]) -> list[dict]:
+    """정책 승인 최종확률을 우선해 실제 경기마다 추천 후보 하나만 남긴다."""
     best_by_event: dict[str, dict] = {}
-    for candidate in deduped:
+    for candidate in candidates:
         current = best_by_event.get(candidate["event_key"])
         if current is None or leg_quality(candidate) < leg_quality(current):
             best_by_event[candidate["event_key"]] = candidate
@@ -520,6 +531,77 @@ def _game_context_index() -> dict[tuple[str, str, str, str], dict]:
     return out
 
 
+def _approved_decision(snapshot: dict) -> bool:
+    """원장 계약 검증과 운영 승인을 모두 통과한 최종 판정만 허용한다."""
+    try:
+        validate_decision_snapshot(snapshot)
+    except (TypeError, ValueError):
+        return False
+    model = snapshot.get("model") or {}
+    return bool(
+        model.get("status") == "operational"
+        and model.get("promotion_gate") == "passed"
+        and (model.get("validated_edge") is True
+             or model.get("policy_authorized") is True)
+    )
+
+
+def _matching_decision_option(candidate: dict, game: dict) -> dict | None:
+    snapshot = game.get("decision_snapshot") or {}
+    selection_id = snapshot.get("selection_id")
+    if not selection_id:
+        return None
+    for option in game.get("options") or []:
+        if option.get("selection_id") != selection_id:
+            continue
+        if (str(option.get("market") or "") == str(candidate.get("market") or "")
+                and str(option.get("label") or "") == str(candidate.get("market_label") or "")
+                and str(option.get("선택") or "") == str(candidate.get("sel") or "")):
+            try:
+                same_price = math.isclose(
+                    float(option.get("배당")), float(candidate.get("odds")), abs_tol=0.005
+                )
+                same_market_probability = math.isclose(
+                    float(option.get("시장확률")), float(candidate.get("market_prob")),
+                    abs_tol=0.01,
+                )
+            except (TypeError, ValueError):
+                return None
+            return option if same_price and same_market_probability else None
+    return None
+
+
+def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
+    """개편 원장의 동일 선택 최종확률·근거를 오늘 추천 후보에 연결한다."""
+    snapshot = game.get("decision_snapshot") or {}
+    option = _matching_decision_option(candidate, game)
+    approved = bool(option and _approved_decision(snapshot))
+    probability = snapshot.get("probability") or {}
+    final = probability_of(probability.get("final")) if approved else None
+    candidate.update({
+        "decision_id": snapshot.get("decision_id"),
+        "decision_model": (snapshot.get("model") or {}).get("operating_version"),
+        "decision_pipeline_status": (snapshot.get("model") or {}).get("status"),
+        "decision_pipeline_applied": bool(final is not None),
+    })
+    if final is None:
+        return
+    candidate.update({
+        "predicted_hit_prob": round(final, 4),
+        "probability_source": probability.get("basis") or "approved_decision_pipeline",
+        "has_validated_edge": True,
+        "selection_basis": "approved_decision_pipeline",
+        "decision_evidence_ids": [
+            row.get("id") for row in snapshot.get("evidence") or []
+            if row.get("id")
+        ],
+    })
+    candidate["reason"] = (
+        "개편된 판정 원장에서 동일 선택·동일 배당 revision이 확인됐고, 정책 승인된 "
+        f"{candidate['decision_model']} 최종확률을 추천 순위에 반영했다."
+    )
+
+
 def _candidate_reason(candidate: dict) -> str:
     reason = (
         f"목표 조합에 필요한 {candidate['bin']} 배당 구간의 시작 전 후보 중 "
@@ -547,6 +629,7 @@ def _enrich_candidates(candidates: list[dict]) -> list[dict]:
         game = index.get(key)
         if not game:
             continue
+        _apply_decision_pipeline(candidate, game)
         commentary = str(game.get("근거해설") or game.get("해설") or "").strip()
         if commentary:
             candidate["context_summary"] = (
@@ -563,7 +646,9 @@ def _enrich_candidates(candidates: list[dict]) -> list[dict]:
 
 def build() -> dict:
     live_prices, live_generated_at = _live_prices()
-    cands = _enrich_candidates(legs_today(live_prices=live_prices))
+    cands = select_event_candidates(
+        _enrich_candidates(legs_today(live_prices=live_prices))
+    )
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     combo = json.loads(COMBO.read_text(encoding="utf-8"))
     leg_history = {row["bin"]: row for row in combo["legs"]}
