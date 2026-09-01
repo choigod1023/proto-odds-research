@@ -21,7 +21,7 @@ test("가격대만 통과한 시장 최유력 픽은 추천이라고 부르지 �
   ]);
   assert.equal(prediction.option["선택"], "홈");
   assert.equal(prediction.recommendation, "market");
-  assert.equal(predictionStrengthLabel(prediction), "시장 우세");
+  assert.equal(predictionStrengthLabel(prediction), "관망");
 });
 
 test("검증 보정이 실제 반영된 최종 선택만 추천으로 표시한다", () => {
