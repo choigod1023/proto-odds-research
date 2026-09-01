@@ -91,6 +91,27 @@ const legacyAligned = alignTodayRecommendations(today, [legacy]);
 assert.equal(legacyAligned.candidates[0].recommendation_basis, "market-fallback");
 assert.equal(legacyAligned.alignment.market_fallback_candidates, 1);
 
+const reissuedHome = { ...home, "게임번호": "110", selection_id: "sel_home_new",
+  offer_id: "off_home_new" };
+const reissuedAway = { ...away, "게임번호": "110", selection_id: "sel_away_new",
+  offer_id: "off_away_new" };
+const reissuedGame = {
+  ...game, round: 8, date: "09.02(수) 08:40", home: "홈팀", away: "원정팀",
+  decision_snapshot: undefined, options: [reissuedHome, reissuedAway],
+};
+const supersededToday = { candidates: [{
+  round: 7, game_no: "10", date: "09.02(수) 08:40", home: "홈팀", away: "원정팀",
+  market: "승패", market_label: "", sel: "홈", odds: 1.55,
+  market_prob: .62, predicted_hit_prob: .62, is_market_favorite: true,
+}] };
+const reissuedAligned = alignTodayRecommendations(supersededToday, [
+  { ...reissuedGame, round: 7, options: [home, away] }, reissuedGame,
+]);
+assert.equal(reissuedAligned.candidates.length, 1,
+  "같은 실제 경기가 새 회차로 재발매돼도 추천을 제거하지 않는다");
+assert.equal(reissuedAligned.candidates[0].round, 8);
+assert.equal(reissuedAligned.candidates[0].game_no, "110");
+
 const reversalHome = { ...home, "모델확률": 0.40 };
 const reversalAway = {
   ...away, "배당": 2.05, "시장확률": 0.42, "모델확률": 0.55,

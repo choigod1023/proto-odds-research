@@ -79,6 +79,15 @@ const selectionGroupKey = (selection, round = selection?.round) => {
   return [round, gameNo, selection?.market, label].map(clean).join("|");
 };
 
+const eventMarketKey = (selection) => {
+  const label = selection?.market_label ?? selection?.label ?? "";
+  if (![selection?.date, selection?.home, selection?.away].every((value) => clean(value))) {
+    return selectionGroupKey(selection, selection?.round);
+  }
+  return [selection?.date, selection?.home, selection?.away, selection?.market, label]
+    .map(clean).join("|");
+};
+
 /** 생성 단계에서 하나로 확정한 추천을 현재(실시간 배당 반영) 선택지에 다시 연결한다. */
 export function canonicalOption(game, options = game?.options || []) {
   if (game?._liveOddsChanged || game?._liveStarted) return null;
@@ -101,18 +110,25 @@ export function canonicalPick(game, options, grades) {
 export function alignTodayRecommendations(today, games = []) {
   if (!today) return today;
   const inputCandidates = today.candidates || [];
-  const canonical = new Map((games || []).flatMap((game) => {
+  const canonical = new Map();
+  (games || []).forEach((game) => {
     const option = canonicalOption(game, game?.options || []);
-    return option ? [[selectionGroupKey(option, game.round), {
+    if (!option) return;
+    const eventKey = eventMarketKey({
+      ...option, round: game.round, date: game.date, home: game.home, away: game.away,
+    });
+    const wanted = {
       key: selectionKey(option, game.round),
       basis: game?.decision_snapshot ? "game-decision" : "market-fallback",
       option,
       game,
-    }]] : [];
-  }));
+    };
+    const previous = canonical.get(eventKey);
+    if (!previous || Number(game.round) > Number(previous.game.round)) canonical.set(eventKey, wanted);
+  });
   const candidateGroups = new Map();
   inputCandidates.forEach((candidate) => {
-    const key = selectionGroupKey(candidate, candidate?.round);
+    const key = eventMarketKey(candidate);
     if (!candidateGroups.has(key)) candidateGroups.set(key, candidate);
   });
   const grades = { odds_bins: today.odds_bins || [] };
@@ -147,7 +163,7 @@ export function alignTodayRecommendations(today, games = []) {
     }];
   });
   const candidates = eligibleFinalSelections(repriced).filter((candidate) => {
-    const wanted = canonical.get(selectionGroupKey(candidate, candidate?.round));
+    const wanted = canonical.get(eventMarketKey(candidate));
     return wanted?.key === selectionKey(candidate, candidate?.round);
   });
   const plans = (today.plans || []).map((plan) => {
