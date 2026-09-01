@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
-import BetPreference from "../components/BetPreference.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
 import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD,
@@ -15,7 +14,7 @@ import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
-import { availableToday, nextTodayRefreshDelay, recommendationFromPlans } from "../lib/today-plan.js";
+import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
@@ -226,11 +225,6 @@ const Empty = ({ children }) => (
   <div className="py-7 text-center text-[13px] text-ink3">{children}</div>
 );
 
-const planMetric = (plan, current, legacy) => {
-  const value = Number(plan?.[current] ?? plan?.[legacy]);
-  return Number.isFinite(value) ? value : null;
-};
-
 function useTodayClock(today) {
   const [clock, setClock] = useState(() => Date.now());
   useEffect(() => {
@@ -256,119 +250,6 @@ function useTodayClock(today) {
     };
   }, [today]);
   return clock;
-}
-
-const TodayTab = ({ active, onClick, children }) => (
-  <button type="button" aria-pressed={active} onClick={onClick}
-    className={`flex items-center gap-1.5 rounded-full border px-[13px] py-1.5 text-[12px] leading-none ${
-      active ? "border-ink font-semibold text-ink" : "border-rule text-ink2 hover:border-ink3"
-    }`}>
-    {children}
-  </button>
-);
-
-const TodayLeg = ({ pick, highlighted }) => (
-  <div className={`today-bet-leg ${highlighted ? "is-highlighted" : ""}`}>
-    <span className="tnum text-[11px] text-ink3">{hhmm(pick.date)}</span>
-    <span className="rounded border border-rule px-[5px] py-px text-[10px] text-ink3">
-      {pick.league}
-    </span>
-    <span className="min-w-[180px] flex-1 text-[12.5px]">
-      {pick.match} — <b>{pick.market}{pick.market_label ? ` ${pick.market_label}` : ""} {pick.sel}</b>
-    </span>
-    <span className="tnum text-[11px] text-ink3">{pick.round}회 #{pick.game_no}</span>
-    <b className="tnum text-[12px]">{odds(pick.odds)}</b>
-  </div>
-);
-
-function TodayBetRecommendation({ activeToday }) {
-  const plans = (activeToday?.plans || []).filter((plan) => plan.ok);
-  const derivedRecommendation = recommendationFromPlans(plans);
-  const storedRecommendation = activeToday?.recommendation || null;
-  const recommendation = storedRecommendation?.action ? {
-    ...derivedRecommendation,
-    ...storedRecommendation,
-    target: storedRecommendation.recommended_target ?? storedRecommendation.target
-      ?? derivedRecommendation.target,
-    why: storedRecommendation.why || derivedRecommendation.why,
-  } : derivedRecommendation;
-  const solo = activeToday?.solo || null;
-  const [selected, setSelected] = useState(0);
-  const recommendedPlan = plans.find((plan) => Number(plan.target) === Number(recommendation.target));
-  const periodLabel = activeToday?.window === "next_morning" ? "다음 날 오전" : "오늘";
-  if (!plans.length && !solo) {
-    return <Card className="today-brief today-betting-recommendation">
-      <div className="brief-heading"><h2>오늘의 베팅 추천</h2></div>
-      <Empty>현재 우리 기준을 통과한 추천 픽이 없습니다. 다음 수집 때 자동으로 다시 판정합니다.</Empty>
-    </Card>;
-  }
-  const recommendedIndex = plans.findIndex(
-    (plan) => Number(plan.target) === Number(recommendation.target),
-  );
-  const selectedIndex = selected < 0 ? -1
-    : selected < plans.length ? selected
-      : recommendedIndex >= 0 ? recommendedIndex : 0;
-  const plan = selectedIndex < 0 ? null : plans[selectedIndex];
-  const current = plan || solo;
-  const actionLabel = recommendation.action === "buy" ? "오늘의 추천 픽"
-    : recommendation.action === "challenge" ? "오늘의 추천 픽 · 소액 기준"
-      : "추천 없음 · 관찰만";
-  const highlighted = recommendation.action !== "pass" && recommendation.action !== "none";
-  return (
-    <Card className={`today-brief today-betting-recommendation is-${recommendation.action}`}
-      aria-label="오늘의 베팅 추천">
-      <div className="brief-heading">
-        <div><small>{periodLabel} 기준</small><h2>오늘의 베팅 추천</h2></div>
-        <p>개편된 판정 원장과 우리 실측 기준으로 선택하며, 추천에 포함된 경기만 아래에서 강조합니다.</p>
-      </div>
-
-      <div className="today-bet-verdict">
-        <div><small>현재 판정</small><b>{actionLabel}</b></div>
-        {recommendedPlan && <>
-          <div><small>추천 조합</small><b>{recommendedPlan.legs}폴더 · {recommendedPlan.target}배 목표</b></div>
-          <div><small>실배당</small><b className="tnum">{Number(recommendedPlan.actual_odds).toFixed(2)}배</b></div>
-          <div><small>예상 적중</small><b className="tnum">{
-            planMetric(recommendedPlan, "independent_hit_est", "calibrated_hit_est") != null
-              ? `${(planMetric(recommendedPlan, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"
-          }</b></div>
-        </>}
-      </div>
-      <p className="mt-2 text-[11px] leading-[1.65] text-ink3">{recommendation.why}</p>
-
-      <div className="my-3 flex flex-wrap gap-1.5" aria-label="추천 조합 선택">
-        {solo && <TodayTab active={selectedIndex < 0} onClick={() => setSelected(-1)}>단폴</TodayTab>}
-        {plans.map((item, index) => (
-          <TodayTab key={item.target} active={selectedIndex === index} onClick={() => setSelected(index)}>
-            {item.target}배 · {item.legs}폴
-            {Number(item.target) === Number(recommendation.target) && <small>추천</small>}
-          </TodayTab>
-        ))}
-      </div>
-
-      {current && <div className="grid gap-x-7 gap-y-2 border-y border-rule2 py-3 sm:grid-cols-4">
-        <Stat k="구성" v={`${plan?.legs || 1}폴더`} />
-        <Stat k="실배당" v={`${Number(current.actual_odds || current.odds).toFixed(2)}×`} />
-        <Stat k="예상 적중" v={planMetric(current, "independent_hit_est", "calibrated_hit_est") != null
-          ? `${(planMetric(current, "independent_hit_est", "calibrated_hit_est") * 100).toFixed(1)}%` : "-"} />
-        <Stat k="선택 기준" v={current.selection_basis === "approved_decision_pipeline"
-          ? "승인 판정 원장" : "과거 실측 최소손실"} />
-      </div>}
-
-      <div className="mt-3">
-        {(plan ? plan.picks : [solo]).filter(Boolean).map((pick, index) => (
-          <TodayLeg key={`${pick.round}-${pick.game_no}-${index}`} pick={pick} highlighted={highlighted} />
-        ))}
-      </div>
-
-      <details className="budget-simulator">
-        <summary>추천 금액·예산 시뮬레이터</summary>
-        <BetPreference plans={plans} solo={solo} selectedIndex={selectedIndex}
-          onSelect={setSelected} recommendedTarget={recommendation.target}
-          recommendationAction={recommendation.action}
-          shouldPass={selectedIndex < 0 || recommendation.action !== "buy"} />
-      </details>
-    </Card>
-  );
 }
 
 /* ── 경기별 예측 목록 ─────────────────────────────────────────── */
@@ -537,12 +418,12 @@ function GameList({ data, grades, caps, stale, today }) {
           <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
         </div>
       </div>
-      {stale ? (
+      {stale && (
         <div className="mb-5 rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
           <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 경기 판정을 멈췄습니다. 수집이 복구되면 경기별 픽과 추천 강도가 자동으로 다시 표시됩니다.</p>
         </div>
-      ) : <TodayBetRecommendation activeToday={activeToday} />}
+      )}
       <div className="filter-shell">
         <div className="filter-primary">
           <div className="date-switch" aria-label="경기 날짜">

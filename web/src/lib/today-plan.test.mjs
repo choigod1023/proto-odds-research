@@ -129,6 +129,12 @@ const dailyChallenge = recommendationFromPlans([
 assert.equal(dailyChallenge.action, "challenge");
 assert.equal(dailyChallenge.target, 3);
 assert.equal(dailyChallenge.budget_ratio, 0.1);
+const historicalChallenge = recommendationFromPlans([
+  { ok: true, target: 3, calibrated_hit_est: 0.28,
+    market_reference_roi: -0.25, historical_expected_roi: -0.18 },
+]);
+assert.equal(historicalChallenge.action, "challenge",
+  "브라우저도 생성기와 같이 자체 과거 실측 손실로 오늘 추천을 판정한다");
 const tooRiskyForDailyChallenge = recommendationFromPlans([
   { ok: true, target: 3, calibrated_hit_est: 0.30,
     conservative_expected_roi: -0.206 },
