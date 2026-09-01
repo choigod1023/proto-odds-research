@@ -480,36 +480,14 @@ def daily_recommendation(plans: list[dict]) -> dict:
         action = "buy"
         why = "사전 검증된 독립 확률모델의 기대수익이 양수다"
     else:
-        challenge = [plan for plan in available
-                     if _metric_number(plan, "target", 99.0) <=
-                     DAILY_CHALLENGE_MAX_TARGET
-                     and _selection_loss_metric(plan) >= DAILY_CHALLENGE_MIN_ROI
-                     and _reference_metric(plan, "independent_hit_est",
-                                           "calibrated_hit_est", 0.0) >=
-                     DAILY_CHALLENGE_MIN_HIT.get(
-                         _metric_number(plan, "target", 99.0), float("inf"))]
-        if challenge:
-            best_challenge_roi = max(_selection_loss_metric(plan) for plan in challenge)
-            balanced = [plan for plan in challenge
-                        if _selection_loss_metric(plan) >=
-                        best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
-            best = max(balanced, key=lambda plan: (
-                _metric_number(plan, "target", 0.0),
-                _selection_loss_metric(plan),
-                _reference_metric(plan, "independent_hit_est",
-                                  "calibrated_hit_est", 0.0)))
-            action = "challenge"
-            why = "자체 과거 실측에서 덜 잃은 구성으로 고른 3배 조합이 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
-        else:
-            best = max(available, key=lambda plan: (
-                _selection_loss_metric(plan),
-                _reference_metric(plan, "independent_hit_est",
-                                  "calibrated_hit_est", 0.0)))
-            action = "pass"
-            why = "소액 도전 기준에도 미달했다"
+        best = max(available, key=lambda plan: (
+            _selection_loss_metric(plan),
+            _reference_metric(plan, "independent_hit_est",
+                              "calibrated_hit_est", 0.0)))
+        action = "pass"
+        why = "검증된 기대수익 우위가 확인되지 않아 추천하지 않는다"
     return {"action": action, "recommended_target": best["target"],
-            "budget_ratio": (DAILY_CHALLENGE_BUDGET_RATIO
-                             if action == "challenge" else None),
+            "budget_ratio": None,
             "market_reference_roi": _reference_metric(
                 best, "market_reference_roi", "conservative_expected_roi", -99.0),
             "selection_historical_roi": _selection_loss_metric(best),

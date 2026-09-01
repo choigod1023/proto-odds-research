@@ -217,11 +217,6 @@ export function recommendationFromPlans(plans) {
     why: "현재 선택 가능한 경기로 구성할 조합이 없다" };
   const positive = available.filter((plan) => plan.has_validated_edge === true &&
     referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) > 0);
-  const challenge = available.filter((plan) =>
-    metricNumber(plan, "target", 99) <= DAILY_CHALLENGE_MAX_TARGET &&
-    referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
-    referenceMetric(plan, "independent_hit_est", "calibrated_hit_est", 0) >=
-      (DAILY_CHALLENGE_MIN_HIT[metricNumber(plan, "target", 99)] ?? Number.POSITIVE_INFINITY));
   const byRiskAdjustedQuality = (a, b) =>
     referenceMetric(b, "market_reference_roi", "conservative_expected_roi", -99) -
       referenceMetric(a, "market_reference_roi", "conservative_expected_roi", -99) ||
@@ -236,28 +231,17 @@ export function recommendationFromPlans(plans) {
     best = [...positive].sort((a, b) =>
       kellyGrowth(b) - kellyGrowth(a) || byRiskAdjustedQuality(a, b))[0];
     why = "사전 검증된 독립 확률모델의 기대수익이 양수다";
-  } else if (challenge.length) {
-    action = "challenge";
-    const bestChallengeRoi = Math.max(...challenge.map((plan) =>
-      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99)));
-    const balanced = challenge.filter((plan) =>
-      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >=
-        bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
-    best = [...balanced].sort((a, b) =>
-      metricNumber(b, "target", 0) - metricNumber(a, "target", 0) ||
-        byRiskAdjustedQuality(a, b))[0];
-    why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
-    why = "구매 기준에도 미달했다";
+    why = "검증된 기대수익 우위가 확인되지 않아 추천하지 않는다";
   }
   const index = available.findIndex((plan) => plan.target === best.target);
   return {
     action,
     target: best.target,
     index,
-    budget_ratio: action === "challenge" ? DAILY_CHALLENGE_BUDGET_RATIO : null,
+    budget_ratio: null,
     why,
   };
 }

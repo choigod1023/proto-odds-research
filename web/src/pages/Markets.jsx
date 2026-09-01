@@ -285,7 +285,7 @@ function TodayBetRecommendation({ activeToday }) {
   const plans = (activeToday?.plans || []).filter((plan) => plan.ok);
   const derivedRecommendation = recommendationFromPlans(plans);
   const storedRecommendation = activeToday?.recommendation || null;
-  const recommendation = storedRecommendation?.action ? {
+  const recommendation = storedRecommendation?.action === "buy" ? {
     ...derivedRecommendation,
     ...storedRecommendation,
     target: storedRecommendation.recommended_target ?? storedRecommendation.target
@@ -311,8 +311,7 @@ function TodayBetRecommendation({ activeToday }) {
   const plan = selectedIndex < 0 ? null : plans[selectedIndex];
   const current = plan || solo;
   const actionLabel = recommendation.action === "buy" ? "오늘의 추천 픽"
-    : recommendation.action === "challenge" ? "소액 도전 추천"
-      : "추천 없음 · 관찰만";
+    : "추천 없음 · 관찰만";
   const highlighted = recommendation.action !== "pass" && recommendation.action !== "none";
   return (
     <Card className={`today-brief today-betting-recommendation is-${recommendation.action}`}
@@ -491,7 +490,7 @@ function GameList({ data, grades, caps, stale, today }) {
       : todaySelectionForGame(todayMemberships, g.options || [], g.round);
     const recommendedTarget = activeToday?.recommendation?.recommended_target
       ?? activeToday?.recommendation?.target;
-    const highlightedToday = !["pass", "none"].includes(activeToday?.recommendation?.action) && (
+    const highlightedToday = activeToday?.recommendation?.action === "buy" && (
       activeToday?.recommendation?.action === "solo"
         ? todaySelection.membership?.solo === true
         : todaySelection.membership?.targets?.some(

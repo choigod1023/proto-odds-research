@@ -161,7 +161,7 @@ def test_policy_approved_event_candidate_beats_historical_fallback():
     assert today_combo.select_event_candidates([fallback, approved]) == [approved]
 
 
-def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
+def test_daily_recommendation_requires_validated_positive_edge():
     negative = [
         {"ok": True, "target": 3, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.269},
         {"ok": True, "target": 5, "conservative_expected_roi": -0.12, "calibrated_hit_est": 0.70},
@@ -172,9 +172,9 @@ def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
                   "calibrated_hit_est": 0.282,
                   "conservative_hit_est": 0.282,
                   "conservative_expected_roi": -0.185}]
-    assert daily_recommendation(challenge)["action"] == "challenge"
+    assert daily_recommendation(challenge)["action"] == "pass"
     assert daily_recommendation(challenge)["recommended_target"] == 3
-    assert daily_recommendation(challenge)["budget_ratio"] == 0.1
+    assert daily_recommendation(challenge)["budget_ratio"] is None
     too_risky = [{"ok": True, "target": 3,
                   "calibrated_hit_est": 0.30,
                   "conservative_expected_roi": -0.206}]
