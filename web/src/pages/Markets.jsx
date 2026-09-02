@@ -311,7 +311,8 @@ function GameList({ data, grades, caps, stale, today }) {
     () => stale ? { ...alignedToday, plans: [], solo: null, candidates: [] } : availableToday(alignedToday, clock),
     [alignedToday, clock, stale],
   );
-  const todayMemberships = useMemo(() => buildTodayMemberships(activeToday), [activeToday]);
+  // 조합 재계산은 미래 경기만 사용하되, 사전 추천 표시는 시작·종료 뒤에도 원장에 남긴다.
+  const todayMemberships = useMemo(() => buildTodayMemberships(alignedToday), [alignedToday]);
   const selectedDate = f.dt === "today"
     ? kstMMDD(0, dateClock)
     : f.dt === "tomorrow" ? kstMMDD(1, dateClock) : "";
@@ -369,7 +370,7 @@ function GameList({ data, grades, caps, stale, today }) {
       const lo = Math.min(...opts.map((o) => o["배당"]).filter((x) => x > 0));
       if (!(lo <= cap)) continue;
     }
-    const todaySelection = wait || stale || g._liveStarted || g._liveOddsChanged
+    const todaySelection = wait || stale || g._liveOddsChanged
       ? { option: null, membership: null }
       : todaySelectionForGame(todayMemberships, g.options || [], g.round);
     const highlightedToday = todaySelection.membership?.recommended === true;
