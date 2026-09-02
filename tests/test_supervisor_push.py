@@ -185,3 +185,16 @@ def test_restart_clears_nested_prediction_ledger_lock(tmp_path, monkeypatch):
     supervisor._clear_stale_locks()
 
     assert not nested.exists()
+
+
+def test_heavy_collectors_are_staggered_after_restart():
+    names = {name for name, _ in supervisor.LOOPERS}
+    assert set(supervisor.LOOPER_START_DELAYS) <= names
+    assert supervisor.LOOPER_START_DELAYS["선수·팀 정보"] >= 180
+    assert supervisor.LOOPER_START_DELAYS["공개 픽스터"] > supervisor.LOOPER_START_DELAYS["선수·팀 정보"]
+    assert supervisor.LOOPER_START_DELAYS["무료 날씨"] > supervisor.LOOPER_START_DELAYS["공개 픽스터"]
+
+
+def test_daily_and_publish_pipeline_share_one_memory_gate():
+    assert supervisor._pipeline_lock is not supervisor._anonymous_bets_lock
+    assert hasattr(supervisor._pipeline_lock, "acquire")

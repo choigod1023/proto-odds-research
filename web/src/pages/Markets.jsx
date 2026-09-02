@@ -15,7 +15,7 @@ import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
-import { isDataStale, latestGeneratedAt, waitingLabel } from "../lib/data-freshness.js";
+import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
@@ -37,14 +37,16 @@ const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
 
 /** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
 function usePoll(url, ms) {
-  const [data, setData] = useState(null);
+  const [state, setState] = useState({ data: null, checked: false });
   useEffect(() => {
     let stop = false;
     const load = () =>
       fetch(`${url}?${Date.now()}`)
-        .then((r) => (r.ok ? r.json() : null))
-        .then((d) => { if (!stop && d) setData(d); })
-        .catch(() => {});
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+        .then((d) => { if (!stop) setState({ data: d, checked: true }); })
+        // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
+        // 오래된 정적 fallback인지 실제 장애인지 구분한다.
+        .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
     load();
     const t = setInterval(load, ms);
     const onVisible = () => { if (document.visibilityState === "visible") load(); };
@@ -59,7 +61,7 @@ function usePoll(url, ms) {
       window.removeEventListener("online", load);
     };
   }, [url, ms]);
-  return data;
+  return state;
 }
 
 const useLive = () => usePoll(LIVE_URL, 15000);
@@ -128,11 +130,11 @@ export default function Markets() {
   const { d: staticPicks, grades, today } = data;
   // 판정도 수집 머신에서 직접 받는다. Git push·Pages 배포를 기다리느라 최신 배당은
   // 보이는데 판정만 3시간 넘게 낡는 상태를 막고, 장애 때는 정적 파일로 복귀한다.
-  const livePicks = usePoll(PICKS_URL, 60000);
+  const { data: livePicks } = usePoll(PICKS_URL, 60000);
   const d = livePicks || staticPicks;
-  const liveOdds = useLiveOdds();
-  const liveToday = usePoll(RECOMMENDATION_URL, 120000);
-  const liveFeed = useLive();
+  const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
+  const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
+  const { data: liveFeed } = useLive();
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
@@ -159,8 +161,12 @@ export default function Markets() {
   // 경기 원장의 생성 시각이 낡았더라도 현재 회차 배당을 방금 정상 수집했다면 화면
   // 전체를 중단하지 않는다. 각 경기 선택은 repriceGameOdds가 최신 가격으로 다시
   // 판정하며, 식별자가 어긋나는 경우에는 기존 fail-close 규칙이 그대로 막는다.
-  const latestDataAt = latestGeneratedAt(liveOdds?.generated_at, synchronized.generated_at);
-  const stale = isDataStale(latestDataAt);
+  const freshness = freshnessStatus({
+    staticGeneratedAt: synchronized.generated_at,
+    liveGeneratedAt: liveOdds?.generated_at,
+    liveChecked: liveOddsChecked,
+  });
+  const stale = freshness === "stale";
 
   return (
     <Shell meta={metaLine(d, at)}>
