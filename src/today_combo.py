@@ -45,7 +45,7 @@ from evolutionary_policy import live_snapshot, load_artifact
 from ai_decision import (can_apply_decision_probability,
                          validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
-from runtime_db import persist_artifact
+from runtime_db import load_artifact as load_runtime_artifact, persist_artifact
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     PREFERRED_RECOMMENDATION_ODDS,
@@ -202,12 +202,9 @@ def kickoff_at(date_text: object, year: int, round_no: object = None) -> datetim
 
 
 def _live_prices() -> tuple[dict, str | None]:
-    """현재 배당 스냅샷을 읽는다. 깨진/없는 파일은 정적 today 값으로 복귀한다."""
-    try:
-        payload = json.loads(LIVE_ODDS.read_text(encoding="utf-8"))
-        return payload.get("odds") or {}, payload.get("generated_at")
-    except (OSError, json.JSONDecodeError, TypeError):
-        return {}, None
+    """현재 배당 스냅샷을 운영 DB(또는 개발 fixture)에서 읽는다."""
+    payload = load_runtime_artifact("live_odds", LIVE_ODDS) or {}
+    return payload.get("odds") or {}, payload.get("generated_at")
 
 
 def _reprice_game(game: dict, round_no: object, live: dict) -> tuple[dict, bool]:
@@ -243,7 +240,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
        균형이라 '한 회차가 낡은 것' 이 아니라 진짜 라인 변동이다.
        **차익거래(환급률 100% 초과)는 0개** — 양쪽을 다 사서 확정 수익을 낼 수는 없다.
     """
-    d = json.loads(TODAY.read_text(encoding="utf-8"))
+    d = load_runtime_artifact("today", TODAY) or {}
     now = now or datetime.now(KST)
     if now.tzinfo is None:
         now = now.replace(tzinfo=KST)
@@ -590,10 +587,7 @@ def daily_recommendation(plans: list[dict]) -> dict:
 
 def _game_context_index() -> dict[tuple[str, str, str, str], dict]:
     """전마켓 산출물의 LLM 해설·구조화 근거를 오늘 조합과 잇는다."""
-    try:
-        raw = json.loads(PICKS_V2.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return {}
+    raw = load_runtime_artifact("picks_v2", PICKS_V2) or {}
     out = {}
     for game in [*(raw.get("live") or []), *(raw.get("past") or [])]:
         key = (str(game.get("date") or "")[:5], str(game.get("league") or ""),
@@ -815,16 +809,11 @@ def build() -> dict:
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     # 시작했다고 사전 추천 기록을 지우면 적중 결과를 추적할 수 없다. 직전 생성물이
     # 실제 킥오프 전에 저장한 오늘 후보만 잠그고, 새 조합 계산에는 섞지 않는다.
-    previous = {}
-    if OUT.exists():
-        try:
-            previous = json.loads(OUT.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            previous = {}
+    previous = load_runtime_artifact("today_combo", OUT) or {}
     display_cands = retain_started_candidates(cands, previous, datetime.now(KST))
 
-    grades = json.loads(GRADES.read_text(encoding="utf-8"))
-    today = json.loads(TODAY.read_text(encoding="utf-8"))
+    grades = load_runtime_artifact("loss_grades", GRADES) or {}
+    today = load_runtime_artifact("today", TODAY) or {}
     return {
         "generated_at": datetime.now(KST).isoformat(timespec="seconds"),
         "source_generated_at": today.get("generated_at"),

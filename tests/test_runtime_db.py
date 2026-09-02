@@ -56,7 +56,7 @@ def test_unchanged_migration_source_is_skipped(tmp_path):
     assert db.migration_is_current("odds.csv", "11:21") is False
 
 
-def test_prediction_ledger_restores_jsonl_from_database(tmp_path, monkeypatch):
+def test_prediction_ledger_does_not_export_database_to_jsonl(tmp_path, monkeypatch):
     from prediction_ledger import PredictionLedger
 
     db_path = tmp_path / "runtime.sqlite3"
@@ -67,7 +67,8 @@ def test_prediction_ledger_restores_jsonl_from_database(tmp_path, monkeypatch):
     RuntimeDatabase(db_path).mirror_prediction_records([record])
     export = tmp_path / "pregame.jsonl"
     PredictionLedger(export)
-    assert json.loads(export.read_text(encoding="utf-8")) == record
+    assert not export.exists()
+    assert RuntimeDatabase(db_path).prediction_records() == [record]
 
 
 def test_documents_are_revisioned_and_exported_from_database(tmp_path):
@@ -101,7 +102,7 @@ def test_raw_json_document_is_stored_without_object_assumption(tmp_path):
     assert db.get_document("raw_starters") == [{"team": "KIA"}, {"team": "LG"}]
 
 
-def test_persist_helpers_commit_database_before_compatibility_export(tmp_path, monkeypatch):
+def test_persist_helpers_use_database_without_runtime_file_exports(tmp_path, monkeypatch):
     database_path = tmp_path / "runtime.sqlite3"
     monkeypatch.setenv("PROODD_DB_PATH", str(database_path))
     document_path = tmp_path / "document.json"
@@ -109,9 +110,13 @@ def test_persist_helpers_commit_database_before_compatibility_export(tmp_path, m
 
     persist_document("features", {"games": [1]}, document_path)
     persist_artifact("today", {"generated_at": "now", "games": [2]}, artifact_path)
-    document_path.unlink()
-    artifact_path.unlink()
+    assert not document_path.exists()
+    assert not artifact_path.exists()
     database = RuntimeDatabase(database_path)
+    assert database.get_document("features") == {"games": [1]}
+    assert database.get_artifact("today") == {"generated_at": "now", "games": [2]}
+
+    # Explicit offline exports remain available for diagnostics/migrations.
     database.export_document("features", document_path)
     database.export_artifact("today", artifact_path)
 

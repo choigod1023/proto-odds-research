@@ -62,10 +62,11 @@ def refresh() -> dict:
     db = RuntimeDatabase() if database_enabled() else None
     previous = db.get_artifact("today_combo") if db else None
     if previous is None:
-        try:
-            previous = json.loads(OUT.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            previous = None
+        if db is None:
+            try:
+                previous = json.loads(OUT.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                previous = None
     payload = today_combo.build()
     signature = recommendation_signature(payload)
     digest = hashlib.sha256(json.dumps(signature, sort_keys=True).encode()).hexdigest()
@@ -80,7 +81,6 @@ def refresh() -> dict:
         if db:
             db.append_events("recommendation_revisions", [change],
                              observed_at_key="changed_at")
-            db.export_events("recommendation_revisions", LEDGER)
         else:
             LEDGER.parent.mkdir(parents=True, exist_ok=True)
             with LEDGER.open("a", encoding="utf-8") as handle:
@@ -92,7 +92,6 @@ def refresh() -> dict:
     payload["refreshed_at"] = now
     if db:
         db.store_artifact("today_combo", payload)
-        db.export_artifact("today_combo", OUT)
     else:
         _atomic_json(OUT, payload)
     return {"changed": changed, "revision": digest, "n_candidates": payload["n_candidates"]}

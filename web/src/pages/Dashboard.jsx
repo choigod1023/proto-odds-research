@@ -6,9 +6,9 @@ import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, liv
 import { usePolledData } from "../lib/poll.js";
 import { alignTodayRecommendations, dailyRecommendationDecisions } from "../lib/unified-recommendation.js";
 
-const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
-const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
-const TODAY_URL = "https://proto-odds-collector.fly.dev/today_combo.json";
+const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
+const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
+const TODAY_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
 const pct = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "–";
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 
@@ -152,20 +152,18 @@ export default function Dashboard() {
   const liveData = useLiveScores();
   const { data: pickSources } = usePolledData({
     picks: PICKS_URL,
-    staticPicks: "data/picks_v2.json",
     today: TODAY_URL,
-    staticToday: "data/today_combo.json",
   }, 60000);
-  const picks = pickSources.picks || pickSources.staticPicks;
-  const today = pickSources.today || pickSources.staticToday;
+  const picks = pickSources.picks;
+  const today = pickSources.today;
   const receiptGames = useMemo(() => {
     const seen = new Set();
-    return [pickSources.picks, pickSources.staticPicks].flatMap((source) => source?.live || []).filter((game) => {
+    return [pickSources.picks].flatMap((source) => source?.live || []).filter((game) => {
       const key = `${game.round}|${game.home}|${game.away}|${game.date}`;
       if (seen.has(key)) return false;
       seen.add(key); return true;
     });
-  }, [pickSources.picks, pickSources.staticPicks]);
+  }, [pickSources.picks]);
   const index = useMemo(() => liveIndex(liveData), [liveData]);
   const groups = useMemo(() => groupBetTickets(bets), [bets]);
   const todayDecisions = useMemo(() => {

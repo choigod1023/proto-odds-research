@@ -1,7 +1,7 @@
 """Persistent SQLite store for collector data on the Fly volume.
 
-JSON/CSV files remain compatibility exports.  The database lives outside the
-git checkout in production, so repository synchronisation cannot delete it.
+When ``PROODD_DB_PATH`` is set, runtime state is read and written only through
+SQLite.  Repository files are development fixtures, never production state.
 """
 from __future__ import annotations
 
@@ -491,6 +491,14 @@ class RuntimeDatabase:
             ).fetchone()
         return json.loads(row["payload_json"]) if row is not None else None
 
+    def artifact_metadata(self, name: str) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT name,generated_at,stored_at,length(payload_json) payload_bytes
+                   FROM artifacts WHERE name=?""", (name,)
+            ).fetchone()
+        return dict(row) if row is not None else None
+
     def export_artifact(self, name: str, path: Path, *, indent: int | None = 1) -> None:
         payload = self.get_artifact(name)
         if payload is None:
@@ -531,23 +539,30 @@ def _atomic_json(path: Path, payload: Any, *, indent: int | None = 1) -> None:
     temporary.replace(path)
 
 
+def load_artifact(name: str, path: Path) -> dict[str, Any] | None:
+    """Load runtime state from its only valid source for this environment."""
+    if database_enabled():
+        return RuntimeDatabase().get_artifact(name)
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return value if isinstance(value, dict) else None
+
+
 def persist_document(name: str, payload: Any, path: Path,
                      *, indent: int | None = 1) -> None:
-    """운영에서는 DB를 먼저 확정하고 파일은 호환 export로만 만든다."""
+    """운영에서는 DB에만 저장하고, 개발 환경에서만 파일 fixture를 갱신한다."""
     if database_enabled():
-        database = RuntimeDatabase()
-        database.put_document(name, payload)
-        database.export_document(name, path, indent=indent)
+        RuntimeDatabase().put_document(name, payload)
     else:
         _atomic_json(path, payload, indent=indent)
 
 
 def persist_artifact(name: str, payload: Mapping[str, Any], path: Path,
                      *, indent: int | None = 1) -> None:
-    """사이트 산출물의 운영 정본을 artifacts 테이블로 유지한다."""
+    """운영 산출물은 DB에만 저장한다. ``path``는 로컬 fixture 전용이다."""
     if database_enabled():
-        database = RuntimeDatabase()
-        database.store_artifact(name, payload)
-        database.export_artifact(name, path, indent=indent)
+        RuntimeDatabase().store_artifact(name, payload)
     else:
         _atomic_json(path, payload, indent=indent)

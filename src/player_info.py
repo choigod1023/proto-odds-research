@@ -43,7 +43,8 @@ from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
 from japan_info import collect_npb_games
 
 from player_commentary import with_player_context
-from runtime_db import RuntimeDatabase, database_enabled, persist_artifact
+from runtime_db import (RuntimeDatabase, database_enabled, load_artifact,
+                        persist_artifact)
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 OUT = RAW / "player_info.json"
@@ -424,7 +425,7 @@ def collect() -> dict:
     from runtime_db import RuntimeDatabase, database_enabled
     db = RuntimeDatabase() if database_enabled() else None
     existing = db.get_document("player_info") if db else None
-    if existing is None:
+    if existing is None and db is None:
         try:
             existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
         except (OSError, json.JSONDecodeError):
@@ -468,7 +469,6 @@ def collect() -> dict:
     }
     if db:
         db.put_document("player_info", doc)
-        db.export_document("player_info", OUT)
     else:
         OUT.parent.mkdir(parents=True, exist_ok=True)
         tmp = OUT.with_suffix(".tmp")
@@ -489,10 +489,14 @@ def _mmdd(value: str) -> str | None:
 
 def game_index(doc: dict | None = None) -> dict[tuple, list[dict]]:
     if doc is None:
-        try:
-            doc = json.loads(OUT.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            doc = {"games": announcement_games()}
+        doc = (RuntimeDatabase().get_document("player_info")
+               if database_enabled() else None)
+        if doc is None and not database_enabled():
+            try:
+                doc = json.loads(OUT.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                doc = None
+        doc = doc or {"games": announcement_games()}
     mapping, out = _team_map(), defaultdict(list)
     for rec in doc.get("games", []):
         key = (str(rec.get("league")), _mmdd(rec.get("game_datetime")),
@@ -582,13 +586,8 @@ def enrich_picks(player_doc: dict, picks_path: Path = PICKS) -> int:
     games.csv가 필요한 무거운 생성기는 매시간이지만 선발 변경은 경기 직전에도 난다.
     이 단계는 확률·추천·배당과 기본 해설을 건드리지 않는다.
     """
-    if not picks_path.exists():
-        return 0
-    try:
-        picks = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
-        if picks is None:
-            picks = json.loads(picks_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+    picks = load_artifact("picks_v2", picks_path)
+    if picks is None:
         return 0
     index, changed = game_index(player_doc), 0
     for bucket in ("live", "past"):

@@ -82,6 +82,19 @@ def _append(ledger: PredictionLedger, game: dict, snapshot: dict):
     )
 
 
+def test_production_ledger_reads_and_writes_only_sqlite(tmp_path, monkeypatch):
+    database_path = tmp_path / "runtime.sqlite3"
+    ledger_path = tmp_path / "predictions.jsonl"
+    monkeypatch.setenv("PROODD_DB_PATH", str(database_path))
+
+    ledger = PredictionLedger(ledger_path, clock=lambda: PREGAME_NOW)
+    result = _append(ledger, _game(), _snapshot(_game()))
+
+    assert result.appended is True
+    assert not ledger_path.exists()
+    assert len(PredictionLedger(ledger_path).records()) == 1
+
+
 def test_prediction_record_uses_ai_ids_and_captures_complete_pregame_contract(tmp_path):
     game = _game()
     snapshot = _snapshot(game)

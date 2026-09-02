@@ -327,9 +327,9 @@ def _load_state() -> dict:
     from runtime_db import RuntimeDatabase, database_enabled
     if database_enabled():
         saved = RuntimeDatabase().get_document("pickster_state")
-        if saved is not None:
-            saved.setdefault("picks", {})
-            return saved
+        saved = saved or {"picks": {}, "leaderboard_hash": None, "crowd_hash": None}
+        saved.setdefault("picks", {})
+        return saved
     if not STATE.exists():
         return {"picks": {}, "leaderboard_hash": None, "crowd_hash": None}
     try:
@@ -346,7 +346,6 @@ def _save_state(state: dict) -> None:
         db = RuntimeDatabase()
         db.put_document("pickster_state", state,
                         generated_at=state.get("last_success_at"))
-        db.export_document("pickster_state", STATE, indent=None)
         return
     STATE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE.with_suffix(".tmp")

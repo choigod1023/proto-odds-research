@@ -4,8 +4,9 @@ import { odds } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
 import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
 
-const LIVE_ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
-const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
+const LIVE_ODDS_URL = "https://proto-odds-collector.fly.dev/api/live-odds";
+const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
+const TODAY_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
 
 const stamp = (value) => {
   const date = new Date(value);
@@ -17,13 +18,12 @@ const stamp = (value) => {
 export default function Slip() {
   const { data, at } = usePolledData({
     picks: PICKS_URL,
-    staticPicks: "data/picks_v2.json",
     liveOdds: LIVE_ODDS_URL,
-    today: "data/today_combo.json",
+    today: TODAY_URL,
   }, 60000);
   const [round, setRound] = useState("all");
   const [query, setQuery] = useState("");
-  const picks = data.picks || data.staticPicks;
+  const picks = data.picks;
   const todayPicks = useMemo(() => recommendedTodayPicks(data.today), [data.today]);
   const allRows = useMemo(
     () => slipRows(picks?.live, data.liveOdds, undefined, todayPicks),
