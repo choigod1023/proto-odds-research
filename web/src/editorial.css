@@ -125,6 +125,7 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .live-score-panel em { padding: 0 5px; font-size: 24px; font-style: normal; }
 .live-score-panel i { color: var(--color-ink3); font-style: normal; }
 .live-score-panel small { color: var(--color-ink3); font-size: 9.5px; }
+.live-score-panel small b { color: var(--color-ink); font-size: 11px; }
 .settled-result-panel { padding: 14px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border: 1px solid var(--color-rule); border-radius: 6px; }
 .settled-result-panel.is-hit { border-color: var(--color-signal); background: color-mix(in srgb, var(--color-signal) 7%, var(--color-paper)); }
 .settled-result-panel.is-miss { border-color: var(--color-sev2); background: color-mix(in srgb, var(--color-sev2) 6%, var(--color-paper)); }

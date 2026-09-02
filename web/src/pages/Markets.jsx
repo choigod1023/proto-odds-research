@@ -18,6 +18,7 @@ import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
+import { estimateLiveProbability } from "../lib/bet-ledger.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
@@ -141,15 +142,17 @@ export default function Markets() {
   const synchronized = useMemo(() => {
     if (!d) return null;
     const merge = (games) => (games || []).map((game) => {
-      const repriced = repriceGameOdds(
-        game,
-        liveOdds?.odds?.[String(game.round)],
-        liveOdds?.generated_at || null,
-        liveOdds?.markets?.[String(game.round)],
-      );
+      const liveState = liveOf(liveIndex, game);
+      // 킥오프 뒤에는 사전 배당·선택 revision을 동결한다. 라이브 배당으로 덮어쓰면
+      // 저장한 판정 원장의 selection/offer가 어긋나 사전 픽이 사라진다.
+      const repriced = liveState ? game : repriceGameOdds(
+          game,
+          liveOdds?.odds?.[String(game.round)],
+          liveOdds?.generated_at || null,
+          liveOdds?.markets?.[String(game.round)],
+        );
       const marketHistory = marketHistoryForGame(game, liveOdds);
       const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
-      const liveState = liveOf(liveIndex, withHistory);
       return liveState ? { ...withHistory, _liveState: liveState, _liveStarted: true,
         _liveFeedAt: liveFeed?.generated_at || null } : withHistory;
     });
@@ -590,7 +593,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const done = g.status === "정산";
   const liveClosed = g._liveStarted === true;
   const predictionUnavailable = done || g.prediction_status === "prediction_ledger_required";
-  const prediction = wait || stale || predictionUnavailable || liveClosed || g._liveOddsChanged
+  const prediction = wait || stale || predictionUnavailable || g._liveOddsChanged
     ? null : predictionForGame(opts);
   const displayedOption = todayOption || prediction?.option || null;
   const pick = displayedOption ? {
@@ -615,9 +618,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
-  const fallbackForecast = disruption || (liveClosed
-    ? (finished ? "경기 종료 · 사전 판정 마감" : "경기 시작 · 사전 판정 마감")
-    : g._liveOddsChanged
+  const fallbackForecast = disruption || (g._liveOddsChanged
     ? "배당 변경 · 재계산 대기"
     : stale
     ? "최신 데이터 확인 필요"
@@ -628,6 +629,20 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
       : wait
         ? "배당 발표 전"
         : "분석 자료 확인 중");
+  const openingProbability = Number(
+    decision?.probability?.final ?? pick?.o?.["예상적중확률"] ?? pick?.o?.["시장확률"],
+  );
+  const liveProbability = playing && pick && Number.isFinite(openingProbability)
+    ? estimateLiveProbability({
+        openingProbability,
+        game: { sport: g.sport },
+        selection: {
+          market: pick.o.market,
+          label: pick.o.label || "",
+          choice: pick.o["선택"],
+        },
+      }, lv)
+    : null;
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
   // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
@@ -712,7 +727,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           <div className="live-score-panel" role="status" aria-live="polite">
             <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
             <strong>{g.home} <em>{score[0]}</em><i>:</i><em>{score[1]}</em> {g.away}</strong>
-            <small>새로고침 없이 약 30초마다 자동 갱신됩니다.</small>
+            <small>
+              {Number.isFinite(liveProbability?.probability)
+                ? <>사전 적중 <b>{pct(openingProbability)}</b> → 현재 상황 추정 <b>{pct(liveProbability.probability)}</b><br /></>
+                : null}
+              점수와 남은 시간으로 이동한 상황 추정치이며 검증된 인플레이 구매 추천은 아닙니다.
+            </small>
             {g.sport === "bs" && <BaseballSituation live={lv} />}
           </div>
         )}
