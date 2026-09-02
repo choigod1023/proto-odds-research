@@ -238,6 +238,11 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             existing[key] = game
         pregame = all(row.get("result") in UNPLAYED for row in rows)
         old_options = game.get("options") or []
+        # Kickoff 뒤에는 저장된 사전 가격·선택을 절대 덮어쓰지 않는다. 예전 코드는
+        # 종료/진행 행의 배당으로 options를 교체한 뒤 원장을 제거해 라이브 화면이
+        # 영원히 "재계산 대기"가 됐다. 기존 가격이 전혀 없을 때만 복구용으로 받는다.
+        if not pregame and old_options:
+            continue
         old_signature = [_option_signature(row) for row in old_options]
         new_signature = [_option_signature(row) for row in options]
         old_lines = {

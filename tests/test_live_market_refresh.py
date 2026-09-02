@@ -210,6 +210,37 @@ def test_refresh_recovers_mlb_odds_after_result_without_backfilling_prediction()
     assert "decision_snapshot" not in game
 
 
+def test_post_kickoff_rows_never_replace_existing_pregame_decision():
+    original_options = [{
+        "market": "승패", "label": "", "게임번호": "7583",
+        "선택": "홈", "배당": 1.75, "selection_id": "sel_saved",
+    }]
+    document = {"generated_at": "old", "rounds": [102], "live": [{
+        "year": 2026, "round": 102, "date": "08.30(일) 02:05",
+        "sport": "bs", "league": "MLB", "home": "뉴욕양키", "away": "보스레드",
+        "status": "경기전", "options": original_options,
+        "prediction_record": {"selection_id": "sel_saved", "result": "pending"},
+        "prediction_status": "recorded_pregame",
+    }], "past": []}
+    live_odds = {
+        "generated_at": "2026-08-30T03:00:00+00:00",
+        "markets": {"102": {"7583": {
+            "game_no": "7583", "date": "08.30(일) 02:05", "sport": "bs",
+            "league": "MLB", "home": "뉴욕양키", "away": "보스레드",
+            "market": "승패", "label": "", "odds": [1.63, 1.91], "result": "홈패",
+        }}},
+    }
+
+    refreshed, changed = refresh_document(document, live_odds)
+
+    game = refreshed["live"][0]
+    assert changed == 0
+    assert game["options"] == original_options
+    assert game["prediction_status"] == "recorded_pregame"
+    assert game["prediction_record"]["selection_id"] == "sel_saved"
+    assert "_liveOddsChanged" not in game
+
+
 def test_refresh_does_not_add_finished_game_missing_from_document():
     document = {"generated_at": "old", "rounds": [], "live": [], "past": []}
     live_odds = {
