@@ -25,10 +25,10 @@ test("10분 넘게 갱신되지 않은 시작 상태를 계속 진행 중으로 
   assert.equal(gamePhase(game, live, now), "pending");
 });
 
-test("실시간 매칭이 없어도 시작 후 8시간이 지난 경기는 예정으로 남기지 않는다", () => {
-  const now = new Date("2026-08-30T12:01:00+09:00").getTime();
-  assert.equal(gamePhase({ year: 2026, date: "08.30(일) 03:00", status: "경기전" }, null, now), "pending");
-  assert.equal(gamePhase({ year: 2026, date: "08.30(일) 10:00", status: "경기전" }, null, now), "upcoming");
+test("실시간 매칭이 없으면 시작 15분 뒤 상태 확인 대상으로 전환한다", () => {
+  const game = { year: 2026, date: "08.30(일) 10:00", status: "경기전" };
+  assert.equal(gamePhase(game, null, new Date("2026-08-30T10:15:00+09:00").getTime()), "upcoming");
+  assert.equal(gamePhase(game, null, new Date("2026-08-30T10:16:00+09:00").getTime()), "pending");
 });
 
 test("사전 저장 추천만 적중과 실패로 표시한다", () => {

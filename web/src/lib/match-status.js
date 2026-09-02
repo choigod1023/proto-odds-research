@@ -17,8 +17,9 @@ export function gamePhase(game, live = game?._liveState, now = Date.now()) {
   if (live && live.status !== "BEFORE" && !live.finished && !feedFresh) return "pending";
   if (game?.status === "결과확인") return "pending";
   const start = scheduledAt(game);
-  // 원천 매칭이 일시 실패해도 이미 끝났을 가능성이 큰 경기를 영원히 '예정'으로 두지 않는다.
-  if (start && Number(now) - start > 8 * 60 * 60 * 1000) return "pending";
+  // 원천 매칭이 일시 실패해도 시작 시각이 지난 경기에 배당만 계속 노출하지 않는다.
+  // 중계·프로토 시계의 작은 차이는 허용하되 15분이 지나면 상태 확인 대상으로 돌린다.
+  if (start && Number(now) - start > 15 * 60 * 1000) return "pending";
   return "upcoming";
 }
 
