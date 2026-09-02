@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-02T00:56:42+00:00",
+ "generated_at": "2026-09-02T01:10:48+00:00",
  "rounds": [
   101,
   102,
@@ -243491,10 +243491,10 @@
      "label": "U 8.5",
      "line": 8.5,
      "선택": "언더",
-     "배당": 1.93,
-     "시장확률": 0.4504,
+     "배당": 2.0,
+     "시장확률": 0.4315,
      "모델확률": null,
-     "최종확률": 0.4504,
+     "최종확률": 0.4315,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -243518,10 +243518,10 @@
      "label": "U 8.5",
      "line": 8.5,
      "선택": "오버",
-     "배당": 1.62,
-     "시장확률": 0.5496,
+     "배당": 1.57,
+     "시장확률": 0.5685,
      "모델확률": null,
-     "최종확률": 0.5496,
+     "최종확률": 0.5685,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -243537,8 +243537,8 @@
      "이변후보": false,
      "이변점수": null,
      "이변근거": null,
-     "예상적중확률": 0.5496,
-     "추천점수": 0.5496,
+     "예상적중확률": 0.5685,
+     "추천점수": 0.5685,
      "추천우선순위": "primary",
      "선택근거": "shin_market_hit_probability"
     },
@@ -243798,22 +243798,22 @@
    "선택지수": 18,
    "판단": "실시간 시장 기준",
    "추천": {
-    "market": "전반언더오버",
+    "market": "언더오버",
     "n_way": 2,
-    "label": "h U 4.5",
-    "line": 4.5,
-    "선택": "전반오버",
-    "배당": 1.59,
-    "시장확률": 0.5607,
+    "label": "U 8.5",
+    "line": 8.5,
+    "선택": "오버",
+    "배당": 1.57,
+    "시장확률": 0.5685,
     "모델확률": null,
-    "최종확률": 0.5607,
+    "최종확률": 0.5685,
     "확률근거": "shin_market",
     "AI반영": false,
     "AI잔차": null,
-    "게임번호": "8406",
+    "게임번호": "8402",
     "적중": null,
-    "selection_id": "sel_318cc7d1cf0130ad",
-    "offer_id": "off_79be2f457185580e",
+    "selection_id": "sel_ee37ff60352936d9",
+    "offer_id": "off_32ca6c460a8c0db4",
     "내부확률": null,
     "선수보정": 0.0,
     "내부요인": [],
@@ -243822,8 +243822,8 @@
     "이변후보": false,
     "이변점수": null,
     "이변근거": null,
-    "예상적중확률": 0.5607,
-    "추천점수": 0.5607,
+    "예상적중확률": 0.5685,
+    "추천점수": 0.5685,
     "추천우선순위": "primary",
     "선택근거": "shin_market_hit_probability"
    },
@@ -243843,23 +243843,23 @@
    },
    "decision_snapshot": {
     "schema_version": "decision-snapshot-v2",
-    "decision_id": "dec_2924f2defc943d1c",
+    "decision_id": "dec_7516e4fb111291e8",
     "event_id": "evt_5a1ca18f4ce03c6d",
-    "as_of": "2026-09-01T23:01:31+00:00",
+    "as_of": "2026-09-02T01:10:48+00:00",
     "action": "market_reference",
-    "selection_id": "sel_318cc7d1cf0130ad",
-    "offer_id": "off_79be2f457185580e",
-    "input_revision_hash": "57d7aca6f78b0a20c00fb4dbc43f29b94dc8cda686a4f5d375c4b7493f29f481",
+    "selection_id": "sel_ee37ff60352936d9",
+    "offer_id": "off_32ca6c460a8c0db4",
+    "input_revision_hash": "dfa3ad5aeec45fbd8e222fdf0ce8b6bd8b4ea1b5e3b55c07880444395492cb14",
     "gate_codes": [],
     "probability": {
-     "market": 0.5607,
+     "market": 0.5685,
      "ai_candidate": null,
      "ai_delta_candidate": null,
      "residual_candidate": null,
      "residual_interval": null,
      "residual_delta_candidate": null,
      "ai_delta_applied": 0.0,
-     "final": 0.5607,
+     "final": 0.5685,
      "basis": "shin_market"
     },
     "model": {
@@ -243882,7 +243882,7 @@
       "affects_probability": false
      },
      "availability_ai": {
-      "status": "missing",
+      "status": "context_only",
       "affects_probability": false
      },
      "language_ai": {
@@ -243894,7 +243894,7 @@
      {
       "id": "market_price",
       "available": true,
-      "value": 0.5607,
+      "value": 0.5685,
       "source_ids": [
        "proto_market"
       ],
@@ -243920,31 +243920,41 @@
      },
      {
       "id": "lineup",
-      "available": false,
-      "observed_at": null,
+      "available": true,
+      "observed_at": "2026-09-02T00:49:39+00:00",
       "usage": {
        "market_baseline": "ignored",
-       "ai_residual": "missing",
+       "ai_residual": "context_only",
        "decision_gate": "ignored",
-       "explainer": "missing"
+       "explainer": "context_only"
       },
       "reason_codes": {
-       "decision_gate": "not_in_operating_formula"
-      }
+       "ai_residual": "future_validation_pending",
+       "decision_gate": "not_in_operating_formula",
+       "explainer": "context_not_probability"
+      },
+      "source_ids": [
+       "player_source"
+      ]
      },
      {
       "id": "availability",
-      "available": false,
-      "observed_at": null,
+      "available": true,
+      "observed_at": "2026-09-02T00:49:39+00:00",
       "usage": {
        "market_baseline": "ignored",
-       "ai_residual": "missing",
+       "ai_residual": "context_only",
        "decision_gate": "ignored",
-       "explainer": "missing"
+       "explainer": "context_only"
       },
       "reason_codes": {
-       "decision_gate": "not_in_operating_formula"
-      }
+       "ai_residual": "future_validation_pending",
+       "decision_gate": "not_in_operating_formula",
+       "explainer": "context_not_probability"
+      },
+      "source_ids": [
+       "player_source"
+      ]
      },
      {
       "id": "cross_market",
@@ -243965,19 +243975,27 @@
       "id": "proto_market",
       "name": "프로토 공식 배당",
       "url": null,
-      "collected_at": "2026-09-01T23:01:31+00:00"
+      "collected_at": "2026-09-02T01:10:48+00:00"
+     },
+     {
+      "id": "player_source",
+      "name": "MLB Stats API",
+      "url": "https://www.mlb.com/probable-pitchers",
+      "collected_at": "2026-09-02T00:49:39+00:00"
      }
     ],
     "explanation": {
      "kind": "structured_ui",
      "affects_probability": false,
      "evidence_ids": [
-      "market_price"
+      "market_price",
+      "lineup",
+      "availability"
      ]
     },
     "audit": {
-     "feature_cutoff_at": "2026-09-01T23:01:31+00:00",
-     "built_at": "2026-09-01T23:01:31+00:00",
+     "feature_cutoff_at": "2026-09-02T01:10:48+00:00",
+     "built_at": "2026-09-02T01:10:48+00:00",
      "pre_registered": false
     }
    },
@@ -333680,7 +333698,7 @@
  "context_enriched_at": "2026-08-29T11:50:47+00:00",
  "context_games": 49,
  "live_market_refresh": {
-  "generated_at": "2026-09-02T00:56:42+00:00",
+  "generated_at": "2026-09-02T01:10:48+00:00",
   "games_changed": 29,
   "source": "current_proto_market_rows",
   "duplicate_reissues_removed": 14
