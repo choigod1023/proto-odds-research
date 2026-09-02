@@ -2,7 +2,13 @@ from datetime import datetime, timezone
 
 from src.live_scores import (add_proto_aliases, baseball_situation,
                              deduplicate_games, merge_recent_games, named_soccer_clock,
-                             normalize_named_game)
+                             normalize_named_game, RESULT_STATUSES,
+                             TERMINAL_STATUSES)
+
+
+def test_naver_ended_status_is_treated_as_finished():
+    assert "ENDED" in RESULT_STATUSES
+    assert "ENDED" in TERMINAL_STATUSES
 
 
 def test_baseball_situation_extracts_batter_count_and_runners():
