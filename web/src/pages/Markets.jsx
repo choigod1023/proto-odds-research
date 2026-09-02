@@ -691,7 +691,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}` : forecast?.headline || fallbackForecast}</b>
         </span>
         <span className="flex gap-1.5">
-          {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+          {playing ? <>
+              <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+              {Number.isFinite(liveProbability?.probability) &&
+                <OddsChip label="현재 적중" value={pct(liveProbability.probability)}
+                  title="사전 확률에 현재 점수와 남은 시간을 반영한 상황 추정치" />}
+            </>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
             : phase === "finished" ? <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
             : phase === "pending" ? <OddsChip label="상태" value="확인 중" />
