@@ -381,7 +381,7 @@ def pick_legs(
     bins: list[str],
     target: float | None = None,
 ) -> list[dict] | None:
-    """목표 범위에서 자체 실측 손실이 작은 서로 다른 경기 조합."""
+    """고정 배당칸·목표 범위에서 보수 적중확률이 높은 서로 다른 경기 조합."""
     pools = [candidate_pool(cands, wanted_bin) for wanted_bin in bins]
     if any(not pool for pool in pools):
         return None
@@ -718,11 +718,16 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
 
 
 def _candidate_reason(candidate: dict) -> str:
+    probability = probability_of(candidate.get("predicted_hit_prob"))
+    probability_text = (
+        f"{probability * 100:.1f}%" if probability is not None else "계산 불가"
+    )
     reason = (
-        f"목표 조합에 필요한 {candidate['bin']} 배당 구간의 시작 전 후보 중 "
-        f"자체 과거 실측 손실률 {float(candidate.get('hist_roi') or -1.0) * 100:.1f}%"
-        f"(n={int(candidate.get('hist_n') or 0):,})를 기준으로 고른 선택이다. "
-        "확률 표시는 현재 배당을 사용하지만 추천 순서는 시장 최유력 순서가 아니다."
+        f"같은 경기의 유효 후보 중 최종 적중확률 {probability_text}를 우선해 남긴 "
+        f"{candidate['bin']} 배당 구간 선택이다. 검증된 AI 보정이 없으므로 이 확률은 "
+        "동일 시점 Shin 시장확률이다. "
+        f"배당구간 과거 실측 수익률 {float(candidate.get('hist_roi') or -1.0) * 100:.1f}%"
+        f"(n={int(candidate.get('hist_n') or 0):,})는 진단값이며 선택 순위를 바꾸지 않는다."
     )
     if candidate.get("beats"):
         reason += (
@@ -823,7 +828,7 @@ def build() -> dict:
         if not legs:
             out_plans.append({"target": t, "ok": False,
                               "bins": bins,
-                              "why": "1.50~2.20 미만 자체 실측 우선 선택만으로 목표 배당을 못 만든다"})
+                              "why": "1.50~2.20 미만 최종 적중 우선 선택만으로 목표 배당을 못 만든다"})
             continue
         metrics = ticket_metrics(legs)
         out_plans.append({
@@ -860,9 +865,10 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": today.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "1.50~2.20 미만 후보를 먼저 확보하고 생성기의 최종 예상 "
-                 "적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 "
-                 "동일 시점 Shin 시장확률로 복귀한다.",
+        "basis": "경기별 유효 후보 전체에서 생성기의 최종 예상 적중확률이 가장 "
+                 "높은 선택을 먼저 고른다. 1.50~2.20 미만 경계는 다폴 조합의 "
+                 "배당칸에만 적용하며, 검증된 AI 보정이 없으면 동일 시점 Shin "
+                 "시장확률로 복귀한다.",
         "n_candidates": len(display_cands),
         "n_primary_candidates": sum(
             1 for candidate in display_cands if candidate.get("recommendation_priority") == "primary"
@@ -890,8 +896,9 @@ def build() -> dict:
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
-                "비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배는 기존 "
-                "정배와 나란히 두지 않고 경기별 최종 픽 하나를 완전히 교체한다. "
+                "비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배도 연구 "
+                "진단으로만 남기며, 시간순 외부검증을 통과하기 전에는 시장 최유력 "
+                "방향을 교체하지 않는다. "
                 "다리를 늘리면 마진도 누적되므로 고배당 조합은 여전히 고위험이다. "
                 "단폴은 '한경기' 로 지정된 경기만 구매할 수 있다.",
     }
@@ -933,7 +940,13 @@ def _selftest() -> int:
         print(f"  [통과] 목표 {p['target']}배 - {p['legs']}폴 · 실배당 {p['actual_odds']}배 · "
               f"서로 다른 경기 {len(set(gs))}개")
     now = datetime.now(KST)
-    past = [c for c in d.get("candidates", []) if datetime.fromisoformat(c["kickoff_at"]) <= now]
+    # 시작 전에 저장한 추천은 성적 추적을 위해 ``started_locked``로 남기는 것이
+    # 정상이다. 새 조합 후보인 것처럼 남은 행만 오류로 본다.
+    past = [
+        candidate for candidate in d.get("candidates", [])
+        if candidate.get("recommendation_state") != "started_locked"
+        and datetime.fromisoformat(candidate["kickoff_at"]) <= now
+    ]
     if past:
         bad.append(f"시작한 경기 {len(past)}개가 후보에 남았다")
     if d["solo"] and d["solo"]["bin"] in BANNED:
