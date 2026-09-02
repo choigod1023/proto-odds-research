@@ -188,7 +188,7 @@ def test_restart_clears_nested_prediction_ledger_lock(tmp_path, monkeypatch):
 
 
 def test_heavy_collectors_are_staggered_after_restart():
-    names = {name for name, _ in supervisor.LOOPERS}
+    names = {name for name, _, _ in supervisor.LOOPERS}
     assert set(supervisor.LOOPER_START_DELAYS) <= names
     assert supervisor.LOOPER_START_DELAYS["선수·팀 정보"] >= 180
     assert supervisor.LOOPER_START_DELAYS["공개 픽스터"] > supervisor.LOOPER_START_DELAYS["선수·팀 정보"]
@@ -198,6 +198,17 @@ def test_heavy_collectors_are_staggered_after_restart():
 def test_daily_and_publish_pipeline_share_one_memory_gate():
     assert supervisor._pipeline_lock is not supervisor._anonymous_bets_lock
     assert hasattr(supervisor._pipeline_lock, "acquire")
+
+
+def test_loopers_are_one_shot_so_child_memory_is_reclaimed():
+    for _name, command, interval in supervisor.LOOPERS:
+        assert "--loop" not in command
+        assert interval >= 60
+
+
+def test_large_collectors_share_publish_memory_gate():
+    assert {"선수·팀 정보", "공개 픽스터", "무료 날씨"} <= supervisor.MEMORY_HEAVY_LOOPERS
+    assert hasattr(supervisor._memory_heavy_lock, "acquire")
 
 
 def test_live_server_cors_accepts_frontend_cache_control_header():

@@ -34,32 +34,33 @@ from pathlib import Path
 REPO = Path(os.environ.get("REPO_DIR", "/data/repo"))
 REMOTE = "https://github.com/choigod1023/proto-odds-research.git"
 
-# (이름, 명령) — 전부 `--loop 초` 로 스스로 반복한다
+# (이름, 1회 실행 명령, 주기). 반복은 supervisor가 맡는다. 자식에게 --loop를
+# 주면 한 번 불어난 Python allocator/HTML 파서 메모리가 영구히 남아 다음 산출물
+# 생성과 겹친다. 매회 프로세스를 종료해야 운영체제가 RSS를 확실히 회수한다.
 LOOPERS = [
-    ("배당 스냅샷", [sys.executable, "-u", "src/snapshot.py", "--loop", "900"]),
-    ("선발 예고", [sys.executable, "-u", "src/info_watch.py", "--loop", "1800"]),
+    ("배당 스냅샷", [sys.executable, "-u", "src/snapshot.py"], 900),
+    ("선발 예고", [sys.executable, "-u", "src/info_watch.py"], 1800),
     # MLB 공식 예정 선발·시즌 투수 지표·부상 상태, KBO 최근 12선발 지표,
     # NPB.jp 공식 선발·양대 리그 순위, J.LEAGUE.jp J1/J2 공식 순위,
     # FIBA·Volleyball World·네이버 농구/배구 선수·팀 기록.
     # 선발 변경이 잦은 경기 직전에도 화면이 한 시간 낡지 않도록 예고와 같은 주기다.
-    ("선수·팀 정보", [sys.executable, "-u", "src/player_info.py", "--loop", "1800"]),
+    ("선수·팀 정보", [sys.executable, "-u", "src/player_info.py"], 1800),
     # 무료 공식·공개 원천으로 시즌/상대 성적, K-BB/9, 최근 팀 득실과
     # 실제 타선 공개 여부를 변경 이벤트로 저장한다.
-    ("무료 야구 컨텍스트", [sys.executable, "-u", "src/baseball_context_watch.py",
-                       "--loop", "1800"]),
-    ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py", "--loop", "900"]),
+    ("무료 야구 컨텍스트", [sys.executable, "-u", "src/baseball_context_watch.py"], 1800),
+    ("해외 배당", [sys.executable, "-u", "src/overseas_watch.py"], 900),
     # 공개 HTML만 저빈도로 읽는다. 첫 관측은 baseline으로 두고 이후에 관측한
     # 미결 픽만 전향적으로 검증한다.
-    ("공개 픽스터", [sys.executable, "-u", "src/pickster_watch.py", "--loop", "900"]),
+    ("공개 픽스터", [sys.executable, "-u", "src/pickster_watch.py"], 900),
     # API 키가 필요 없는 Open-Meteo 예보 변경 이력을 보존해 T-24h/T-6h
     # 당시 정보로 백테스트할 수 있게 한다.
     ("무료 날씨", [sys.executable, "-u", "src/weather_watch.py",
-                 "--league", "all", "--loop", "21600"]),
+                 "--league", "all"], 21600),
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
-    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--loop", "60"]),
+    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py"], 60),
     # odds_live가 수집 직후 경량 시장 판정까지 같은 데이터로 연쇄 갱신한다.
-    ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py", "--loop", "300"]),
+    ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py"], 300),
 ]
 
 # 재시작 직후 9개 수집기가 한꺼번에 메모리를 잡으면 1GB 머신에서도 커널 OOM이
@@ -173,6 +174,10 @@ _anonymous_bets_lock = threading.Lock()
 # 전체 재계산과 일일 xG 수집은 각각 메모리를 크게 쓴다. 재시작 15분 뒤 두 작업이
 # 정확히 겹쳐 OOM을 만들지 않도록 서로 한 번에 하나만 실행한다.
 _pipeline_lock = threading.Lock()
+# pandas 전체 데이터, 대형 HTML, 선수 데이터 수집은 1GB 머신에서 동시에 두 개를
+# 허용하지 않는다. live_scores와 HTTP는 이 락 밖에 두어 실시간 화면을 보장한다.
+_memory_heavy_lock = threading.Lock()
+MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨"}
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
@@ -456,22 +461,27 @@ def push_data() -> None:
     sh(["git", "reflog", "expire", "--expire=90.days", "--all"], cwd=REPO)
     # git gc는 서비스 부팅·수집과 분리한다. 여기서 실행하면 push 스레드가 아니라
     # 다음 재시작의 fetch까지 maintenance lock에 묶일 수 있다.
-def run_looper(name: str, cmd: list[str], initial_delay: int = 0) -> None:
-    """죽으면 다시 살린다. 즉시 재시작을 반복하지 않도록 뒤로 물러선다."""
+def run_looper(name: str, cmd: list[str], interval: int,
+               initial_delay: int = 0) -> None:
+    """Run a collector once per interval so its process RSS is reclaimed."""
     if initial_delay:
         log(f"{name} 시작을 {initial_delay}s 분산")
         time.sleep(initial_delay)
-    backoff = 30
     while True:
         log(f"{name} 시작")
         try:
-            rc = subprocess.run(cmd, cwd=REPO).returncode
+            lock = _memory_heavy_lock if name in MEMORY_HEAVY_LOOPERS else None
+            if lock:
+                with lock:
+                    rc = subprocess.run(cmd, cwd=REPO).returncode
+            else:
+                rc = subprocess.run(cmd, cwd=REPO).returncode
         except Exception as e:                        # noqa: BLE001
             log(f"{name} 예외: {type(e).__name__}: {e}")
             rc = -1
-        log(f"{name} 종료(rc={rc}) — {backoff}s 후 재시작")
-        time.sleep(backoff)
-        backoff = min(backoff * 2, 900)
+        delay = interval if rc == 0 else min(60, interval)
+        log(f"{name} 종료(rc={rc}) — {delay}s 후 재시작")
+        time.sleep(delay)
 
 
 def run_daily() -> None:
@@ -486,7 +496,8 @@ def run_daily() -> None:
                     # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
                     time.sleep(300)
                 log(f"{name} 실행")
-                r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
+                with _memory_heavy_lock:
+                    r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
                 tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
                 log(f"{name} 완료 — {tail[0][:120]}")
         time.sleep(DAILY_EVERY)
@@ -497,8 +508,11 @@ def _run_steps(steps: list) -> None:
     for name, cmd, critical, tmo in steps:
         log(f"{name} 실행")
         try:
-            r = subprocess.run(cmd, cwd=REPO, capture_output=True,
-                               text=True, timeout=tmo)
+            # 산출물 생성은 pandas/NumPy 데이터 전체를 메모리에 올린다. 대형 HTML
+            # 및 선수 수집기와 겹치지 않게 해 피크 RSS를 제한한다.
+            with _memory_heavy_lock:
+                r = subprocess.run(cmd, cwd=REPO, capture_output=True,
+                                   text=True, timeout=tmo)
             # ⚠️ 예전엔 마지막 한 줄만 찍었다. 그래서 생성기가 끝에 남기는 요약
             #    (예: LLM 덧씌우기의 호출·캐시적중·누적비용)이 그 뒤에 다른 print 가
             #    한 줄이라도 있으면 통째로 묻혔다 — 로그를 넣어 놓고 못 보고 있었다.
@@ -811,9 +825,9 @@ def main() -> int:
     threading.Thread(target=serve_live, daemon=True).start()
     threading.Thread(target=run_live, daemon=True).start()
 
-    for name, cmd in LOOPERS:
+    for name, cmd, interval in LOOPERS:
         threading.Thread(target=run_looper,
-                         args=(name, cmd, LOOPER_START_DELAYS.get(name, 0)),
+                         args=(name, cmd, interval, LOOPER_START_DELAYS.get(name, 0)),
                          daemon=True).start()
         time.sleep(5)          # 동시에 몰려 나가지 않게 살짝 엇갈려 띄운다
     threading.Thread(target=run_daily, daemon=True).start()
