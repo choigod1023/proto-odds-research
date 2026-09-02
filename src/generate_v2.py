@@ -1004,8 +1004,12 @@ def _attach_prediction_record(game: dict, records: dict[str, dict]) -> None:
         else:
             record["result"] = "pending"
     game["prediction_record"] = record
+    game.pop("_liveOddsChanged", None)
+    game.pop("_liveOddsRecalculated", None)
     if requires_exact:
         game["prediction_revision_id"] = record.get("prediction_snapshot_id")
+        game["prediction_status"] = "recorded_pregame"
+    elif record:
         game["prediction_status"] = "recorded_pregame"
     if record.get("score_forecast"):
         game["score_forecast"] = record["score_forecast"]

@@ -159,7 +159,11 @@ export default function Markets() {
         );
       const marketHistory = marketHistoryForGame(game, liveOdds);
       const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
-      const frozenGame = frozen ? { ...withHistory, _decisionFrozen: true } : withHistory;
+      // 저장 파일에 과거의 재계산 표식이 남아 있어도 T-30 이후에는 사전 결정을
+      // 그대로 고정한다. 라이브 중 "재계산 대기"로 되돌아가면 안 된다.
+      const frozenGame = frozen
+        ? { ...withHistory, _decisionFrozen: true, _liveOddsChanged: false }
+        : withHistory;
       return liveState ? { ...frozenGame, _liveState: liveState, _liveStarted: true,
         _liveFeedAt: liveFeed?.generated_at || null } : frozenGame;
     });
@@ -386,7 +390,7 @@ function GameList({ data, grades, caps, stale, today }) {
       const lo = Math.min(...opts.map((o) => o["배당"]).filter((x) => x > 0));
       if (!(lo <= cap)) continue;
     }
-    const todaySelection = wait || stale || g._liveOddsChanged
+    const todaySelection = wait || stale || (g._liveOddsChanged && !decisionFrozen(g))
       ? { option: null, membership: null }
       : todaySelectionForGame(todayMemberships, g.options || [], g.round);
     const highlightedToday = todaySelection.membership?.recommended === true;
@@ -599,7 +603,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   // 모델 최대확률을 골라 새 추천을 만들지 않는다.
   const done = g.status === "정산";
   const liveClosed = g._liveStarted === true;
-  const predictionUnavailable = done || g.prediction_status === "prediction_ledger_required";
+  const predictionUnavailable = !g.prediction_record
+    && (done || g.prediction_status === "prediction_ledger_required");
   const prediction = wait || stale || predictionUnavailable || g._liveOddsChanged
     ? null : predictionForGame(opts);
   const displayedOption = todayOption || prediction?.option || null;
