@@ -185,3 +185,36 @@ def test_full_generation_aborts_when_pregame_ledger_append_fails():
         _sync_prediction_runtime(
             BrokenRuntime(), [game], observed_at="2026-08-28T08:00:00+00:00",
         )
+
+
+def test_preserved_prediction_uses_snapshot_time_for_market_observation():
+    class Runtime:
+        def __init__(self):
+            self.market_observed_at = None
+
+        def record_pregame(self, game, *, kickoff, market_observed_at):
+            self.market_observed_at = market_observed_at
+            return SimpleNamespace(appended=True, record={
+                "snapshot_id": game["decision_snapshot"]["decision_id"],
+            })
+
+        def ui_records(self):
+            return {"evt_1": {
+                "prediction_snapshot_id": "dec-preserved",
+                "selection_id": "sel_home",
+                "result": "pending",
+            }}
+
+    runtime = Runtime()
+    game = _game("경기전")
+    game["decision_snapshot"] = {
+        "action": "market_reference",
+        "decision_id": "dec-preserved",
+        "as_of": "2026-08-28T07:00:00+00:00",
+    }
+
+    _sync_prediction_runtime(
+        runtime, [game], observed_at="2026-08-28T08:00:00+00:00",
+    )
+
+    assert runtime.market_observed_at == "2026-08-28T07:00:00+00:00"

@@ -1055,10 +1055,12 @@ def _sync_prediction_runtime(
             counts["withheld"] += 1
             continue
         try:
+            snapshot = game.get("decision_snapshot") or {}
+            market_observed_at = snapshot.get("as_of") or observed_at
             result = runtime.record_pregame(
                 game,
                 kickoff=kickoff_at,
-                market_observed_at=observed_at,
+                market_observed_at=market_observed_at,
             )
             counts[
                 "predictions" if result is not None and result.appended else "skipped"
@@ -1071,7 +1073,6 @@ def _sync_prediction_runtime(
             )
             raise
 
-        snapshot = game.get("decision_snapshot") or {}
         exact = result.record if result is not None else next((
             row for row in reversed(runtime.records())
             if row.get("record_type") == "prediction"
