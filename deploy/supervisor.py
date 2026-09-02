@@ -720,6 +720,7 @@ def serve_live() -> None:
                 "/api/live-odds": "live_odds",
                 "/api/today-recommendations": "today_combo",
                 "/api/picks": "picks_v2",
+                "/api/loss-grades": "loss_grades",
                 # Temporary route aliases for older deployed clients. These are
                 # API responses too; no repository JSON file is read.
                 "/live_scores.json": "live_scores",
