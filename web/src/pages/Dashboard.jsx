@@ -16,7 +16,10 @@ function useLiveScores() {
   const [data, setData] = useState(null);
   useEffect(() => {
     let stopped = false;
-    const load = () => fetch(`${LIVE_URL}?${Date.now()}`).then((response) => response.ok ? response.json() : null)
+    const load = () => fetch(`${LIVE_URL}?${Date.now()}`, {
+      cache: "no-store",
+      headers: { "Cache-Control": "no-cache" },
+    }).then((response) => response.ok ? response.json() : null)
       .then((value) => { if (!stopped && value) setData(value); }).catch(() => {});
     load();
     const timer = setInterval(load, 15000);

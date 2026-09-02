@@ -42,7 +42,10 @@ function usePoll(url, ms) {
   useEffect(() => {
     let stop = false;
     const load = () =>
-      fetch(`${url}?${Date.now()}`)
+      fetch(`${url}?${Date.now()}`, {
+        cache: "no-store",
+        headers: { "Cache-Control": "no-cache" },
+      })
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
         .then((d) => { if (!stop) setState({ data: d, checked: true }); })
         // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨

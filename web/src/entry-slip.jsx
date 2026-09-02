@@ -3,6 +3,9 @@ import { createRoot } from "react-dom/client";
 import Slip from "./pages/Slip.jsx";
 import "./theme.css";
 import "./editorial.css";
+import { installCacheGuard } from "./lib/cache-guard.js";
+
+installCacheGuard();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode><Slip /></StrictMode>,

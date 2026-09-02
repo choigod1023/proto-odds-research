@@ -37,7 +37,10 @@ export function usePolledData(sources, everyMs = 300000) {
       let changed = false;
       await Promise.all(entries.map(async ([k, url]) => {
         try {
-          const r = await fetch(bust(url));
+          const r = await fetch(bust(url), {
+            cache: "no-store",
+            headers: { "Cache-Control": "no-cache" },
+          });
           if (!r.ok) throw new Error(String(r.status));
           const text = await r.text();
           if (raw.current[k] !== text) { raw.current[k] = text; changed = true; }
