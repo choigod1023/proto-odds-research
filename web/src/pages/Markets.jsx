@@ -635,7 +635,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     : stale
     ? "최신 데이터 확인 필요"
     : predictionUnavailable
-      ? (g.status === "결과확인" ? "정산 결과 확인 필요" : "사전 원장 도입 전 경기")
+      ? (g.status === "결과확인" ? "정산 결과 확인 필요" : "사전 예측 기록 없음")
       : waitText === "상태 확인 불가"
       ? "경기 상태 확인 필요"
       : wait
