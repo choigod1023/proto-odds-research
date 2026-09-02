@@ -362,7 +362,11 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         eligible.append(option)
     if not eligible:
         return None
-    return max(eligible, key=lambda option: (
+    primary = [
+        option for option in eligible if option.get("추천우선순위") == "primary"
+    ]
+    pool = primary or eligible
+    return max(pool, key=lambda option: (
         hit_probability(option) or 0.0,
         _number(option.get("시장확률")) or 0.0,
         -(_number(option.get("배당")) or 999.0),

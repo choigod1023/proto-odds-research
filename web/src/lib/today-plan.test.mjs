@@ -67,17 +67,15 @@ assert.equal(before.candidates.some((candidate) => candidate.event_key === "past
 assert.equal(before.candidates.some((candidate) => candidate.event_key === "high"), false);
 assert.equal(before.candidates.some((candidate) => candidate.event_key === "reverse"), false);
 assert.equal(before.next.event_key, "same");
-assert.equal(before.plans[0].ok, true);
-assert.notEqual(before.plans[0].picks[0].event_key, before.plans[0].picks[1].event_key);
+assert.deepEqual(before.plans, []);
+assert.equal(before.solo, null);
+assert.equal(before.recommendation.action, "disabled");
 assert.equal(before.evolutionary_selector.profiles.balanced.selected.event_key, "next-a");
 
 const after = availableToday(today, Date.parse("2026-08-19T07:01:00+09:00"));
 assert.equal(after.candidates.some((candidate) => candidate.event_key === "same"), false);
-assert.deepEqual(after.plans[0].picks.map((candidate) => candidate.event_key), ["next-a", "next-b"]);
-assert.equal(after.plans[0].actual_odds, 3.38);
-assert.equal(after.plans[0].hit_est, 0.264);
-assert.equal(after.plans[0].upset_risk, 0.736);
-assert.equal(after.plans[0].expected_roi, -0.107);
+assert.deepEqual(after.plans, []);
+assert.equal(after.solo, null);
 assert.equal(after.evolutionary_selector.profiles.balanced.selected.event_key, "next-a");
 
 const exactKickoff = availableToday(today, Date.parse("2026-08-19T07:00:00+09:00"));

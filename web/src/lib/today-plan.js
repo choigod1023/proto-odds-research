@@ -498,32 +498,12 @@ export function availableToday(today, now = Date.now()) {
   const candidates = activeWindow.candidates
     .sort((a, b) => byNextKickoff(a, b, today.year));
 
-  const plans = (today.plans || []).map((plan) => {
-    const bins = SAFE_TARGET_BINS[Number(plan.target)] ||
-      (plan.bins?.length ? plan.bins : (plan.picks || []).map((pick) => pick.bin));
-    const picks = pickNextLegs(candidates, bins, today.year, plan.target);
-    if (!picks) {
-      return { ...plan, ok: false,
-        why: "1.50~2.20 미만 최종 적중 우선 경기만으로 조합할 수 없다" };
-    }
-    return {
-      ...plan,
-      ...ticketMetrics(picks),
-      ok: true,
-      bins,
-      picks,
-    };
-  });
-
-  const solo = [...candidates]
-    .sort((a, b) => byLegQuality(a, b, today.year))[0] || null;
-  const measuredSolo = solo ? { ...solo, ...ticketMetrics([solo]) } : null;
-
   return {
     ...today,
-    plans,
-    solo: measuredSolo,
-    recommendation: recommendationFromPlans(plans, measuredSolo),
+    plans: [],
+    solo: null,
+    recommendation: { action: "disabled", recommended_target: null,
+      why: "자동 조합 추천을 사용하지 않는다" },
     candidates,
     window: activeWindow.window,
     next: candidates[0] || null,

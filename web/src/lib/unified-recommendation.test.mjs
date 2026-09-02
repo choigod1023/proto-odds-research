@@ -263,11 +263,10 @@ const memberships = buildTodayMemberships({
   ],
 });
 const membership = memberships.get(selectionKey(home, game.round));
-assert.equal(membership.solo, true);
 assert.equal(membership.recommended, true,
   "조합 포함 여부가 아니라 경기별 최종 후보 자체를 추천으로 표시한다");
-assert.deepEqual(membership.targets, [1.4, 2],
-  "경기 카드 하나에 실제로 포함된 오늘 조합만 붙인다");
+assert.equal(membership.display.parts.length, 4,
+  "추천 확률·배당·불확실성·데이터 상태를 복합 표시한다");
 assert.equal(memberships.size, 1, "별도 후보 행이 아니라 같은 판정 키로 통합한다");
 
 const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_, index) => ({
@@ -278,9 +277,14 @@ const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_
   odds: 1.5 + index * 0.01,
   predicted_hit_prob: 0.62 - index * 0.01,
 })));
-assert.equal(rankedHighlights.length, 3, "오늘의 추천은 후보 전체가 아니라 리그별 최고 픽만 남긴다");
+assert.equal(rankedHighlights.length, 5, "오늘의 추천은 리그별 기본 두 픽만 남긴다");
 assert.deepEqual(rankedHighlights.map((row) => Number(row.predicted_hit_prob.toFixed(2))),
-  [0.62, 0.58, 0.55]);
+  [0.62, 0.61, 0.58, 0.57, 0.55]);
+const strongHighlights = dailyHighlightedSelections([0.72, 0.69, 0.66].map((probability, index) => ({
+  ...alignedToday.candidates[0], event_key: `strong-${index}`, game_no: `s-${index}`,
+  league: "MLB", odds: 1.6 + index * 0.01, predicted_hit_prob: probability,
+})));
+assert.equal(strongHighlights.length, 3, "65% 이상 강한 후보는 리그 기본 두 개를 넘어 추가한다");
 assert.equal(dailyHighlightedSelections([{
   ...alignedToday.candidates[0], predicted_hit_prob: 0.549,
 }]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");

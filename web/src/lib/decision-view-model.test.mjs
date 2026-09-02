@@ -287,7 +287,7 @@ test("1.50 미만이어도 시장 최유력 방향을 유지한다", () => {
   assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 저배당");
 });
 
-test("1.50 표시 경계가 더 높은 시장확률을 밀어내지 않는다", () => {
+test("1.50 이상 우선 정책과 다른 구형 스냅샷은 새 원장 기록을 기다린다", () => {
   const lowOption = { ...option, 배당: 1.48 };
   const eligibleOption = {
     ...option,
@@ -302,13 +302,12 @@ test("1.50 표시 경계가 더 높은 시장확률을 밀어내지 않는다", 
   const game = gameFor(snapshot, { options: [lowOption, eligibleOption] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, lowOption);
-  assert.equal(decision.action, "market_reference");
-  assert.equal(decision.probability.final, .62);
-  assert.equal(decision.recommendationEligible, true);
-  assert.equal(decision.policyRecalculated, false);
-  assert.equal(decision.recommendationPriority, "fallback");
-  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 저배당");
+  assert.equal(selected, null);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.probability.final, null);
+  assert.equal(decision.recommendationEligible, null);
+  assert.equal(decision.ledgerRequired, true);
+  assert.equal(decisionLabel(decision), "판정 원장 기록 대기");
 });
 
 test("스냅샷이 없으면 레거시 최종확률을 지우고 시장확률만 설명한다", () => {
@@ -325,9 +324,9 @@ test("스냅샷이 없으면 레거시 최종확률을 지우고 시장확률만
 
   assert.equal(selected, null);
   assert.equal(decision.action, "withhold");
-  assert.equal(decision.probability.market, .60);
+  assert.equal(decision.probability.market, .55);
   assert.equal(decision.probability.final, null);
-  assert.equal(decision.marketReference.selection, marketFavorite["선택"]);
+  assert.equal(decision.marketReference.selection, staleModelFavorite["선택"]);
   assert.equal(decision.ledgerRequired, true);
 });
 

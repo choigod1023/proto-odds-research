@@ -39,7 +39,7 @@ const groupKey = (selection) => {
 /**
  * 자동 추천은 가격을 계산할 수 있는 모든 선택지가 아니라 검증된 안전 구간만 쓴다.
  * 현재는 홀짝, 2.20 이상, 같은 마켓의 현재 최저 배당이 아닌 역배를 제외한다.
- * 1.50 경계는 화면 위험 라벨에만 쓰고 선택 순서는 최종 적중확률로 정한다.
+ * 1.50 이상 후보가 있으면 먼저 쓰고, 없을 때만 저배당 보조 후보를 허용한다.
  * 최저 배당은 실시간 가격이 바뀌면 즉시 다시 계산되며 시장확률 1위와 같은 순서다.
  */
 export function eligibleAutoSelections(selections) {
@@ -127,10 +127,12 @@ export function qualifiedUnderdogSelections(selections) {
 
 /** 경기에서 화면·설명·오늘 조합이 함께 따라야 할 최종 선택 하나를 반환한다. */
 export function finalRecommendedSelection(selections) {
-  // 1.50 경계로 확률이 더 높은 선택을 밀어내지 않는다. 검증 보정까지 끝난
-  // 최종 예상 적중확률을 우선하고, 동률일 때만 시장확률과 낮은 배당을 쓴다.
+  // 의미 있는 수익폭을 확보하기 위해 1.50 이상 후보를 먼저 쓴다. 해당 가격대가
+  // 없을 때만 저배당 최유력을 보조 후보로 허용한다.
   const eligible = eligibleAutoSelections(selections);
-  return [...eligible].sort((a, b) =>
+  const primary = eligible.filter((selection) => recommendationPriority(selection) === 1);
+  const pool = primary.length ? primary : eligible;
+  return [...pool].sort((a, b) =>
     hitProbabilityOf(b) - hitProbabilityOf(a) ||
     probabilityOf(b) - probabilityOf(a) ||
     oddsOf(a) - oddsOf(b) ||

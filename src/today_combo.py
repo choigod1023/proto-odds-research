@@ -813,40 +813,6 @@ def build() -> dict:
         _enrich_candidates(legs_today(live_prices=live_prices))
     )
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
-    combo = json.loads(COMBO.read_text(encoding="utf-8"))
-    leg_history = {row["bin"]: row for row in combo["legs"]}
-
-    out_plans = []
-    for t in TARGETS:
-        bins = SAFE_TARGET_BINS[t]
-        history = [leg_history.get(wanted_bin) for wanted_bin in bins]
-        historical_hit = (round(math.prod(row["hit"] for row in history), 5)
-                          if all(history) else None)
-        historical_roi = (round(math.prod(row["mult"] for row in history) - 1.0, 4)
-                          if all(history) else None)
-        legs = pick_legs(cands, bins, target=t)
-        if not legs:
-            out_plans.append({"target": t, "ok": False,
-                              "bins": bins,
-                              "why": "1.50~2.20 미만 최종 적중 우선 선택만으로 목표 배당을 못 만든다"})
-            continue
-        metrics = ticket_metrics(legs)
-        out_plans.append({
-            "target": t, "ok": True, "legs": len(legs),
-            "bins": bins,
-            **metrics,
-            "historical_bucket_hit_est": historical_hit,
-            "historical_bucket_roi": historical_roi,
-            "picks": legs,
-        })
-
-    # 단폴 — 지정 경기라면 최종 예상 적중확률이 가장 높은 한 장
-    solo = None
-    lo = list(cands)
-    if lo:
-        lo.sort(key=leg_quality)
-        solo = {**lo[0], **ticket_metrics([lo[0]])}
-
     # 시작했다고 사전 추천 기록을 지우면 적중 결과를 추적할 수 없다. 직전 생성물이
     # 실제 킥오프 전에 저장한 오늘 후보만 잠그고, 새 조합 계산에는 섞지 않는다.
     previous = {}
@@ -865,10 +831,10 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": today.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "경기별 유효 후보 전체에서 생성기의 최종 예상 적중확률이 가장 "
-                 "높은 선택을 먼저 고른다. 1.50~2.20 미만 경계는 다폴 조합의 "
-                 "배당칸에만 적용하며, 검증된 AI 보정이 없으면 동일 시점 Shin "
-                 "시장확률로 복귀한다.",
+        "basis": "경기별 1.50~2.20 미만 유효 후보를 우선하고 그 안에서 최종 "
+                 "예상 적중확률이 가장 높은 선택을 고른다. 해당 가격대가 없을 "
+                 "때만 저배당 보조 후보를 허용하며, 검증된 AI 보정이 없으면 "
+                 "동일 시점 Shin 시장확률로 복귀한다.",
         "n_candidates": len(display_cands),
         "n_primary_candidates": sum(
             1 for candidate in display_cands if candidate.get("recommendation_priority") == "primary"
@@ -878,22 +844,21 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "경기별 최종 적중확률 우선 · 조합 배당칸 1.50~2.20 · 검증 보정 없으면 시장값 복귀",
+        "selection_policy": "1.50~2.20 우선 · 없으면 저배당 보조 · 최종 적중확률 순 · 자동 조합 없음",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
-        "solo": solo,
-        "plans": out_plans,
-        # 브라우저가 시간이 지난 직후 다음 경기로 즉시 다시 조합할 때 쓴다.
-        "recommendation": daily_recommendation(out_plans),
+        "solo": None,
+        "plans": [],
+        "recommendation": {
+            "action": "disabled", "recommended_target": None,
+            "why": "자동 조합 추천 정책을 종료하고 경기별 추천만 운영한다",
+        },
         "candidates": display_cands,
         "odds_bins": grades["odds_bins"],
         "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. "
-                "목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 "
-                "나아 유지하지만 사전 검증된 시장 우위는 아니다. "
-                "그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 "
-                "상관 스트레스 손실지표 −20.5% 이내이며 스트레스 적중 추정 27%를 넘으면 "
-                "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
+                "자동 조합 추천과 목표배당 판정은 운영에서 제거하고 경기별 추천만 "
+                "제공한다. 사용자가 저장한 베팅 기록의 결과 추적은 계속 유지한다. "
                 "과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
                 "비극단 가격·시장확률·shadow 모델 괴리 관문을 통과한 역배도 연구 "
