@@ -3,12 +3,34 @@ from types import SimpleNamespace
 
 import pytest
 
+from src import generate_v2
 from src.generate_v2 import (
     _attach_prediction_record,
     _recorded_predictions,
     _sync_prediction_runtime,
 )
 from src.prediction_ledger import PredictionLedgerError
+
+
+def test_empty_source_path_still_records_every_future_prediction(tmp_path, monkeypatch):
+    future = {"event_id": "future", "year": 2099, "date": "09.02(수) 18:00", "status": "경기전"}
+    started = {"event_id": "started", "year": 2000, "date": "09.02(수) 18:00", "status": "경기전"}
+    (tmp_path / "picks_v2.json").write_text(
+        json.dumps({"live": [future, started], "past": []}), encoding="utf-8",
+    )
+    seen = []
+    monkeypatch.setattr(generate_v2, "OUT", tmp_path)
+    monkeypatch.setattr(generate_v2, "database_enabled", lambda: False)
+    monkeypatch.setattr(generate_v2, "enrich_existing", lambda doc, store: (doc, 0))
+    monkeypatch.setattr(generate_v2, "_sync_prediction_runtime",
+                        lambda runtime, games, observed_at: seen.extend(games) or {})
+    monkeypatch.setattr(generate_v2, "_attach_prediction_record", lambda game, records: None)
+    monkeypatch.setattr(generate_v2, "persist_artifact", lambda *args: None)
+    monkeypatch.setattr(generate_v2.commentary_llm, "flush", lambda: None)
+    runtime = SimpleNamespace(ui_records=lambda: {})
+
+    assert generate_v2._enrich_published_only(object(), runtime) == 0
+    assert [game["event_id"] for game in seen] == ["future"]
 
 
 def _game(status="경기전", hit=None):

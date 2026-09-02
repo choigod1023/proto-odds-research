@@ -1,4 +1,4 @@
-function scheduledAt(game) {
+export function scheduledAt(game) {
   const match = String(game?.date || "").match(/(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/);
   if (!match) return null;
   const [, month, day, hour, minute] = match;
@@ -6,6 +6,11 @@ function scheduledAt(game) {
   // 명시적 +09:00: 사용자의 브라우저 시간대와 무관하게 프로토 KST 시각으로 판정한다.
   const value = new Date(`${year}-${month}-${day}T${hour}:${minute}:00+09:00`).getTime();
   return Number.isFinite(value) ? value : null;
+}
+
+export function decisionFrozen(game, now = Date.now()) {
+  const start = scheduledAt(game);
+  return start != null && Number(now) >= start - 30 * 60 * 1000;
 }
 
 export function gamePhase(game, live = game?._liveState, now = Date.now()) {

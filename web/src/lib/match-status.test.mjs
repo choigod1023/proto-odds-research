@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { gamePhase, recommendationOutcome } from "./match-status.js";
+import { decisionFrozen, gamePhase, recommendationOutcome } from "./match-status.js";
+
+test("최종 픽은 경기 시작 30분 전부터 고정한다", () => {
+  const game = { year: 2026, date: "09.02(수) 18:00" };
+  assert.equal(decisionFrozen(game, new Date("2026-09-02T17:29:59+09:00").getTime()), false);
+  assert.equal(decisionFrozen(game, new Date("2026-09-02T17:30:00+09:00").getTime()), true);
+});
 
 test("실시간 피드가 시작 상태면 원본 정산 상태보다 진행 중을 우선한다", () => {
   assert.equal(gamePhase({ status: "결과확인" }, {

@@ -10,7 +10,7 @@ import json
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -110,7 +110,9 @@ def record_live_market_revisions(
         ):
             continue
         kickoff = _game_kickoff(game, observed)
-        if kickoff is None or observed >= _aware_timestamp(kickoff_utc(kickoff)):
+        freeze_at = (_aware_timestamp(kickoff_utc(kickoff)) - timedelta(minutes=30)
+                     if kickoff is not None else None)
+        if freeze_at is None or observed >= freeze_at:
             game["추천"] = None
             game.pop("decision_snapshot", None)
             game.pop("prediction_record", None)

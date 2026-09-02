@@ -34,7 +34,7 @@ import json
 import re
 import sys
 from collections import defaultdict, deque
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -704,13 +704,29 @@ def _published_future_exists(year: int) -> bool:
     return False
 
 
-def _enrich_published_only(store: ContextStore) -> int:
-    """원천 무응답 때 예정 목록은 보존하고 새 근거만 붙인다."""
+def _enrich_published_only(store: ContextStore, runtime: PredictionRuntime) -> int:
+    """원천 무응답 때 목록을 보존하되 시작 전 예측은 반드시 원장에 남긴다."""
     path = OUT / "picks_v2.json"
     doc = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
     if doc is None:
         doc = json.loads(path.read_text(encoding="utf-8"))
     result, matched = enrich_existing(doc, store)
+    observed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    cutoff = datetime.fromisoformat(observed_at)
+    recordable = []
+    for game in [*(result.get("live") or []), *(result.get("past") or [])]:
+        kickoff = _game_datetime(game)
+        if game.get("status") in ("정산", "결과확인"):
+            recordable.append(game)  # 이미 저장된 예측의 공식 결과도 계속 정산한다.
+        elif (game.get("status") in ("경기전", "배당대기")
+              and kickoff is not None
+              and datetime.fromisoformat(kickoff_utc(kickoff)) - timedelta(minutes=30) > cutoff):
+            recordable.append(game)
+    ledger_sync = _sync_prediction_runtime(runtime, recordable, observed_at=observed_at)
+    records = runtime.ui_records()
+    for game in [*(result.get("live") or []), *(result.get("past") or [])]:
+        _attach_prediction_record(game, records)
+    result.setdefault("prediction_pipeline", {})["sync"] = ledger_sync
     persist_artifact("picks_v2", result, path)
     commentary_llm.flush()
     print(f"⚠️ 발매 중 회차 응답 0건 — 기존 예정 경기를 보존하고 컨텍스트 {matched}경기만 갱신")
@@ -1034,8 +1050,8 @@ def _sync_prediction_runtime(
             counts["withheld"] += 1
             continue
         kickoff_at = kickoff_utc(kickoff)
-        if cutoff >= datetime.fromisoformat(kickoff_at):
-            _withhold_unrecorded_prediction(game, "prediction_after_kickoff")
+        if cutoff >= datetime.fromisoformat(kickoff_at) - timedelta(minutes=30):
+            _withhold_unrecorded_prediction(game, "prediction_after_freeze")
             counts["withheld"] += 1
             continue
         try:
@@ -1245,7 +1261,7 @@ def main() -> int:
     live = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
     # 원천의 일시적 빈 응답을 실제 발매 종료로 오인해 예정 경기를 전부 지우지 않는다.
     if not live and _published_future_exists(season):
-        return _enrich_published_only(_CONTEXT_STORE)
+        return _enrich_published_only(_CONTEXT_STORE, prediction_runtime)
     recent = [r for r in have[-3:] if r not in live]
     rounds = sorted(set(live) | set(recent))
     print(f"대상 회차: 발매중 {live} + 최근 {recent}")

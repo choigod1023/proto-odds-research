@@ -16,7 +16,7 @@ import { alignTodayRecommendations, buildTodayMemberships,
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
-import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
+import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { estimateLiveProbability } from "../lib/bet-ledger.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
@@ -148,7 +148,8 @@ export default function Markets() {
       const liveState = liveOf(liveIndex, game);
       // 킥오프 뒤에는 사전 배당·선택 revision을 동결한다. 라이브 배당으로 덮어쓰면
       // 저장한 판정 원장의 selection/offer가 어긋나 사전 픽이 사라진다.
-      const repriced = liveState ? game : repriceGameOdds(
+      const frozen = decisionFrozen(game);
+      const repriced = liveState || frozen ? game : repriceGameOdds(
           game,
           liveOdds?.odds?.[String(game.round)],
           liveOdds?.generated_at || null,
@@ -156,8 +157,9 @@ export default function Markets() {
         );
       const marketHistory = marketHistoryForGame(game, liveOdds);
       const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
-      return liveState ? { ...withHistory, _liveState: liveState, _liveStarted: true,
-        _liveFeedAt: liveFeed?.generated_at || null } : withHistory;
+      const frozenGame = frozen ? { ...withHistory, _decisionFrozen: true } : withHistory;
+      return liveState ? { ...frozenGame, _liveState: liveState, _liveStarted: true,
+        _liveFeedAt: liveFeed?.generated_at || null } : frozenGame;
     });
     return { ...d, live: merge(d.live), past: merge(d.past) };
   }, [d, liveOdds, liveIndex]);
@@ -691,7 +693,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}` : forecast?.headline || fallbackForecast}</b>
         </span>
         <span className="flex gap-1.5">
-          {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+          {playing ? <>
+              <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+              {Number.isFinite(liveProbability?.probability) &&
+                <OddsChip label="현재 적중" value={pct(liveProbability.probability)}
+                  title="사전 확률에 현재 점수와 남은 시간을 반영한 상황 추정치" />}
+            </>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
             : phase === "finished" ? <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
             : phase === "pending" ? <OddsChip label="상태" value="확인 중" />
