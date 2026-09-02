@@ -37,7 +37,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from snapshot import find_live_rounds, _fetch          # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
-from runtime_db import persist_artifact                # noqa: E402
+from runtime_db import load_artifact, persist_artifact  # noqa: E402
 from live_market_refresh import refresh_once           # noqa: E402
 from devig import market_probabilities                  # noqa: E402
 
@@ -166,14 +166,6 @@ def merge_market_history(current: dict, previous: dict | None = None,
     return current
 
 
-def _read_json(path: Path) -> dict:
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return value if isinstance(value, dict) else {}
-
-
 def main(argv: list[str]) -> int:
     loop = 0
     if "--loop" in argv:
@@ -181,12 +173,15 @@ def main(argv: list[str]) -> int:
 
     while True:
         try:
-            data = merge_market_history(collect(), _read_json(OUT), _read_json(PICKS))
+            data = merge_market_history(
+                collect(), load_artifact("live_odds", OUT),
+                load_artifact("picks_v2", PICKS),
+            )
             persist_artifact("live_odds", data, OUT, indent=None)
             # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
             # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
             refresh_once(data)
-            print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} → {OUT}",
+            print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} → runtime artifact live_odds",
                   flush=True)
         except Exception as e:                          # noqa: BLE001
             # 여기서 죽으면 화면이 낡은 값을 쓸 뿐이다. 다음 주기에 다시 한다.

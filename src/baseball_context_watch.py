@@ -246,9 +246,9 @@ def _state() -> dict:
     from runtime_db import RuntimeDatabase, database_enabled
     if database_enabled():
         saved = RuntimeDatabase().get_document("baseball_context_state")
-        if saved is not None:
-            saved.setdefault("games", {})
-            return saved
+        saved = saved or {"games": {}}
+        saved.setdefault("games", {})
+        return saved
     if not STATE.exists():
         return {"games": {}}
     try:
@@ -265,7 +265,6 @@ def _save(state: dict) -> None:
         db = RuntimeDatabase()
         db.put_document("baseball_context_state", state,
                         generated_at=state.get("last_success_at"))
-        db.export_document("baseball_context_state", STATE, indent=None)
         return
     STATE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE.with_suffix(".tmp")

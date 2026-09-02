@@ -60,7 +60,7 @@ from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # no
                                PredictionLedgerError)
 from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
                                 kickoff_utc, tally_prediction_records)
-from runtime_db import (RuntimeDatabase, database_enabled,
+from runtime_db import (RuntimeDatabase, database_enabled, load_artifact,
                         persist_artifact)                            # noqa: E402
 from game_dedup import deduplicate_game_sections                     # noqa: E402
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
@@ -685,10 +685,8 @@ def _published_future_exists(year: int) -> bool:
     """발매 조회가 0건이어도 기존 산출물에 아직 시작 전 경기가 있는가."""
     path = OUT / "picks_v2.json"
     try:
-        doc = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
-        if doc is None:
-            doc = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
+        doc = load_artifact("picks_v2", path) or {}
+    except ValueError:
         return False
     now = datetime.now(ZoneInfo("Asia/Seoul"))
     for game in doc.get("live", []):
@@ -707,9 +705,9 @@ def _published_future_exists(year: int) -> bool:
 def _enrich_published_only(store: ContextStore, runtime: PredictionRuntime) -> int:
     """원천 무응답 때 목록을 보존하되 시작 전 예측은 반드시 원장에 남긴다."""
     path = OUT / "picks_v2.json"
-    doc = RuntimeDatabase().get_artifact("picks_v2") if database_enabled() else None
+    doc = load_artifact("picks_v2", path)
     if doc is None:
-        doc = json.loads(path.read_text(encoding="utf-8"))
+        raise RuntimeError("picks_v2 artifact is missing from the runtime database")
     result, matched = enrich_existing(doc, store)
     observed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     cutoff = datetime.fromisoformat(observed_at)
@@ -934,8 +932,10 @@ def _recorded_predictions(path: Path | None = None) -> dict[str, dict]:
     """직전 산출물에서 경기 전에 실제 표시했던 추천만 보존한다."""
     path = path or (OUT / "picks_v2.json")
     try:
-        document = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError, TypeError):
+        document = load_artifact("picks_v2", path)
+    except (ValueError, TypeError):
+        return {}
+    if document is None:
         return {}
     captured_at = document.get("generated_at")
     records = {}
@@ -1171,7 +1171,9 @@ def _sanitize_prediction_document(doc: dict, as_of: pd.Timestamp | None = None) 
 
 def _sanitize_existing_output() -> int:
     path = OUT / "picks_v2.json"
-    doc = json.loads(path.read_text(encoding="utf-8"))
+    doc = load_artifact("picks_v2", path)
+    if doc is None:
+        raise RuntimeError("picks_v2 artifact is missing from the runtime database")
     as_of = str(doc.get("generated_at") or datetime.now(timezone.utc).isoformat(timespec="seconds"))
     reconstructed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     # 네트워크 재수집 없이도 예전 산출물의 모델 추천을 시장 기준 계약으로 이관한다.
@@ -1553,7 +1555,7 @@ def main() -> int:
     if tally:
         print(f"정산 추천 성적: {tally['wins']}/{tally['n']} "
               f"({tally['hit_rate']:.1%}) · 수익률 {tally['roi']:+.2%}")
-    print(f"저장: {OUT / 'picks_v2.json'}")
+    print("저장: runtime artifact picks_v2")
     for g in live_g[:5]:
         b = g["추천"]
         if b:

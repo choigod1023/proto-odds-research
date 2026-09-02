@@ -22,8 +22,7 @@ from game_dedup import deduplicate_game_sections  # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
                                LedgerLockTimeout, PredictionLedgerError)
 from prediction_runtime import PredictionRuntime, kickoff_utc  # noqa: E402
-from runtime_db import (RuntimeDatabase, database_enabled,
-                        persist_artifact)  # noqa: E402
+from runtime_db import load_artifact, persist_artifact  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
@@ -314,14 +313,11 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
 
 def refresh_once(live_odds: dict | None = None) -> int:
     try:
-        database = RuntimeDatabase() if database_enabled() else None
-        document = database.get_artifact("picks_v2") if database else None
+        document = load_artifact("picks_v2", PICKS)
         if live_odds is None:
-            live_odds = database.get_artifact("live_odds") if database else None
-        if document is None:
-            document = json.loads(PICKS.read_text(encoding="utf-8"))
-        if live_odds is None:
-            live_odds = json.loads(LIVE_ODDS.read_text(encoding="utf-8"))
+            live_odds = load_artifact("live_odds", LIVE_ODDS)
+        if document is None or live_odds is None:
+            raise RuntimeError("required runtime artifact is missing from the database")
     except (OSError, json.JSONDecodeError) as exc:
         print(f"경량 시장 판정 입력 실패: {type(exc).__name__}: {exc}")
         return 1
@@ -344,7 +340,7 @@ def refresh_once(live_odds: dict | None = None) -> int:
         return 1
     document.setdefault("live_market_refresh", {})["ledger_sync"] = ledger_sync
     persist_artifact("picks_v2", document, PICKS)
-    print(f"경량 시장 판정 {changed}경기 → {PICKS}")
+    print(f"경량 시장 판정 {changed}경기 → runtime artifact picks_v2")
     return 0
 
 

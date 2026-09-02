@@ -16,27 +16,22 @@ import { alignTodayRecommendations, buildTodayMemberships,
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
-import { decisionFrozen, gamePhase, liveFeedWithFallback, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
+import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { estimateLiveProbability } from "../lib/bet-ledger.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
 
-// 실시간 점수만 **수집 머신이 직접 서빙**한다.
-// 나머지 산출물(docs/data/*.json)은 git push 로 나르는데 그 주기가 30분이라
-// 실시간이 될 수 없다. 3분마다 커밋하면 하루 300커밋이라 레포가 망가지고,
-// 브라우저가 네이버 API 를 직접 부르는 건 CORS 로 막힌다. 그래서 이 파일만 별도 경로다.
-const LIVE_URL = "https://proto-odds-collector.fly.dev/live_scores.json";
+// 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
+const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
 
-// 배당도 같은 처리다. picks_v2.json 의 배당은 산출물 갱신 때 굳으므로 최대 한 시간
-// 낡는다 — 2026-08-13 실측 231건 중 73건(32%)이 원천과 달랐다. 5분마다 갱신되는
-// 이 파일로 덮어쓴다.
-const ODDS_URL = "https://proto-odds-collector.fly.dev/live_odds.json";
-const RECOMMENDATION_URL = "https://proto-odds-collector.fly.dev/today_combo.json";
-const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
+// 판정과 배당을 각각 DB API에서 받아 동일 화면 revision으로 합친다.
+const ODDS_URL = "https://proto-odds-collector.fly.dev/api/live-odds";
+const RECOMMENDATION_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
+const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
 
-/** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
+/** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
 function usePoll(url, ms) {
   const [state, setState] = useState({ data: null, checked: false });
   useEffect(() => {
@@ -127,20 +122,16 @@ export default function Markets() {
   // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
   //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
   const { data, at } = usePolledData({
-    d: "data/picks_v2.json",
     grades: "data/loss_grades.json",
-    today: "data/today_combo.json",
-    live: "data/live_scores.json",
   }, 300000);   // 5분
-  const { d: staticPicks, grades, today, live: staticLiveFeed } = data;
-  // 판정도 수집 머신에서 직접 받는다. Git push·Pages 배포를 기다리느라 최신 배당은
-  // 보이는데 판정만 3시간 넘게 낡는 상태를 막고, 장애 때는 정적 파일로 복귀한다.
+  const { grades } = data;
+  // Git push·Pages 배포와 분리하여 판정 지연을 막는다.
   const { data: livePicks } = usePoll(PICKS_URL, 60000);
-  const d = livePicks || staticPicks;
+  const d = livePicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
   const { data: directLiveFeed } = useLive();
-  const liveFeed = liveFeedWithFallback(directLiveFeed, staticLiveFeed);
+  const liveFeed = directLiveFeed;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
@@ -185,7 +176,7 @@ export default function Markets() {
   return (
     <Shell meta={metaLine(d, at)}>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday || today} /></section>
+        stale={stale} today={liveToday} /></section>
     </Shell>
   );
 }

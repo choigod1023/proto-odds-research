@@ -77,8 +77,7 @@ def _session() -> requests.Session:
 def _load_state() -> dict:
     if database_enabled():
         stored = RuntimeDatabase().get_document("info_watch_state")
-        if stored is not None:
-            return stored
+        return stored or {}
     if STATE.exists():
         return json.loads(STATE.read_text(encoding="utf-8"))
     return {}
@@ -88,7 +87,6 @@ def _save_state(st: dict) -> None:
     if database_enabled():
         db = RuntimeDatabase()
         db.put_document("info_watch_state", st)
-        db.export_document("info_watch_state", STATE, indent=None)
         return
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(st, ensure_ascii=False), encoding="utf-8")

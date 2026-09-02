@@ -652,18 +652,17 @@ def store_anonymous_bet(value: object, path: Path = ANONYMOUS_BETS_PATH) -> dict
 
 
 def serve_live() -> None:
-    """실시간 점수 JSON 하나만 내보내는 초소형 서버.
+    """SQLite 운영 산출물을 직접 내보내는 초소형 API 서버.
 
     git push(30분)로는 3분 주기 점수를 못 나른다. 그렇다고 3분마다 커밋하면
     하루 300커밋이라 레포가 망가진다. 그래서 이 파일만 직접 서빙한다.
     브라우저가 다른 도메인(사이트)에서 부르므로 CORS 를 열어 준다.
     """
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    sys.path.insert(0, str(REPO / "src"))
+    from runtime_db import RuntimeDatabase
 
-    live_path = REPO / "docs" / "data" / "live_scores.json"
-    odds_path = REPO / "docs" / "data" / "live_odds.json"
-    recommendation_path = REPO / "docs" / "data" / "today_combo.json"
-    picks_path = REPO / "docs" / "data" / "picks_v2.json"
+    database = RuntimeDatabase()
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
@@ -685,31 +684,24 @@ def serve_live() -> None:
                 #    (기존 파일 덮어쓰기는 새 블록이 안 필요해 계속 성공했다.)
                 #    "프로세스가 살아 있나"만 답하는 헬스체크는 이런 죽음을 못 잡는다.
                 #    감시견(.github/workflows/watchdog.yml)이 판단할 수 있게 숫자를 낸다.
-                try:
-                    live_mtime = int(live_path.stat().st_mtime)
-                except OSError:
-                    live_mtime = 0
                 def mtime(path: Path) -> int:
                     try:
                         return int(path.stat().st_mtime)
                     except OSError:
                         return 0
 
-                def generated_at(path: Path) -> str | None:
-                    try:
-                        value = json.loads(path.read_text(encoding="utf-8")).get("generated_at")
-                    except (OSError, json.JSONDecodeError, AttributeError):
-                        return None
-                    return str(value) if value else None
+                live_meta = database.artifact_metadata("live_scores") or {}
+                odds_meta = database.artifact_metadata("live_odds") or {}
+                picks_meta = database.artifact_metadata("picks_v2") or {}
 
                 body = json.dumps({
                     "status": "ok",
                     "disk_free_mb": _free_mb(),
-                    "live_mtime": live_mtime,
-                    "odds_mtime": mtime(odds_path),
-                    "picks_mtime": mtime(picks_path),
-                    "odds_generated_at": generated_at(odds_path),
-                    "picks_generated_at": generated_at(picks_path),
+                    "live_stored_at": live_meta.get("stored_at"),
+                    "odds_stored_at": odds_meta.get("stored_at"),
+                    "picks_stored_at": picks_meta.get("stored_at"),
+                    "odds_generated_at": odds_meta.get("generated_at"),
+                    "picks_generated_at": picks_meta.get("generated_at"),
                     "database_path": os.environ.get("PROODD_DB_PATH"),
                     "database_mtime": mtime(Path(os.environ.get(
                         "PROODD_DB_PATH", "/data/proodd.sqlite3"))),
@@ -724,20 +716,30 @@ def serve_live() -> None:
             # 점수·배당·판정·조합을 직접 서빙한다. git push(30분)와 Pages 배포를
             # 기다리게 하면 수집은 살아 있는데 화면만 낡는 시간이 생긴다.
             served = {
-                "/live_scores.json": live_path,
-                "/live_odds.json": odds_path,
-                "/today_combo.json": recommendation_path,
-                "/picks_v2.json": picks_path,
+                "/api/live-scores": "live_scores",
+                "/api/live-odds": "live_odds",
+                "/api/today-recommendations": "today_combo",
+                "/api/picks": "picks_v2",
+                # Temporary route aliases for older deployed clients. These are
+                # API responses too; no repository JSON file is read.
+                "/live_scores.json": "live_scores",
+                "/live_odds.json": "live_odds",
+                "/today_combo.json": "today_combo",
+                "/picks_v2.json": "picks_v2",
             }
-            target = served.get(self.path.split("?")[0].rstrip("/"))
-            if target is None:
+            artifact_name = served.get(self.path.split("?")[0].rstrip("/"))
+            if artifact_name is None:
                 self.send_response(404)
                 self._cors()
                 self.end_headers()
                 return
             try:
-                body = target.read_bytes()
-            except OSError:
+                payload = database.get_artifact(artifact_name)
+                if payload is None:
+                    raise KeyError(artifact_name)
+                body = json.dumps(payload, ensure_ascii=False,
+                                  separators=(",", ":")).encode("utf-8")
+            except (OSError, KeyError, ValueError):
                 self.send_response(503)
                 self._cors()
                 self.end_headers()

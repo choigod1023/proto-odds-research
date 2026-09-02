@@ -3,8 +3,8 @@
 The ledger is deliberately independent of the prediction implementation.  It
 persists the already validated :mod:`ai_decision` snapshot together with the
 exact feature cutoff and model inputs that were available before kickoff.
-JSONL keeps the artifact easy to inspect while an exclusive lock file and a
-hash chain make concurrent single-host refreshes safe and detectable.
+SQLite is the sole production store. JSONL is available only as a local
+development fixture when no production database is configured.
 """
 from __future__ import annotations
 
@@ -120,7 +120,7 @@ def _immutable_payload(record: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class PredictionLedger:
-    """Single-host append-only JSONL ledger with idempotent identities."""
+    """Append-only prediction ledger with idempotent identities."""
 
     def __init__(
         self,
@@ -141,17 +141,6 @@ class PredictionLedger:
         if os.environ.get("PROODD_DB_PATH"):
             from runtime_db import RuntimeDatabase
             self._database = RuntimeDatabase()
-            database_records = self._database.prediction_records()
-            if database_records:
-                # 운영 DB가 원본이다. checkout 교체나 중단된 파일 쓰기 뒤에도
-                # 기존 분석 코드가 읽는 JSONL export를 자동 복원한다.
-                payload = "".join(_canonical_json(row) + "\n" for row in database_records)
-                self.path.parent.mkdir(parents=True, exist_ok=True)
-                temporary = self.path.with_suffix(self.path.suffix + ".db-export.tmp")
-                temporary.write_text(payload, encoding="utf-8")
-                os.replace(temporary, self.path)
-            elif self.path.exists():
-                self._database.mirror_prediction_records(self._read_verified())
 
     def append_prediction(
         self,
@@ -365,65 +354,70 @@ class PredictionLedger:
             return AppendResult(record=_json_copy(record), appended=True)
 
     def _read_verified(self) -> list[dict[str, Any]]:
-        if not self.path.exists():
-            return []
+        if self._database is not None:
+            source = self._database.prediction_records()
+        elif self.path.exists():
+            with self.path.open("r", encoding="utf-8") as handle:
+                source = []
+                for line_number, raw_line in enumerate(handle, start=1):
+                    if not raw_line.strip():
+                        raise LedgerCorruptionError(f"blank JSONL record at line {line_number}")
+                    try:
+                        source.append(json.loads(raw_line))
+                    except json.JSONDecodeError as exc:
+                        raise LedgerCorruptionError(
+                            f"invalid JSONL record at line {line_number}"
+                        ) from exc
+        else:
+            source = []
         records: list[dict[str, Any]] = []
         previous_hash: str | None = None
         seen_identities: set[tuple[str, str]] = set()
         predictions: dict[str, dict[str, Any]] = {}
-        with self.path.open("r", encoding="utf-8") as handle:
-            for line_number, raw_line in enumerate(handle, start=1):
-                if not raw_line.strip():
-                    raise LedgerCorruptionError(f"blank JSONL record at line {line_number}")
-                try:
-                    record = json.loads(raw_line)
-                except json.JSONDecodeError as exc:
+        for line_number, record in enumerate(source, start=1):
+            if not isinstance(record, dict):
+                raise LedgerCorruptionError(f"non-object record at line {line_number}")
+            if record.get("schema_version") != SCHEMA_VERSION:
+                raise LedgerCorruptionError(
+                    f"unsupported schema at line {line_number}"
+                )
+            if record.get("ledger_sequence") != line_number:
+                raise LedgerCorruptionError(f"invalid sequence at line {line_number}")
+            if record.get("previous_record_hash") != previous_hash:
+                raise LedgerCorruptionError(f"broken hash chain at line {line_number}")
+            claimed_hash = record.get("record_hash")
+            unsigned = {key: value for key, value in record.items() if key != "record_hash"}
+            if claimed_hash != _sha256(unsigned):
+                raise LedgerCorruptionError(f"invalid record hash at line {line_number}")
+            identity = _identity(record)
+            if identity in seen_identities:
+                raise LedgerCorruptionError(
+                    f"duplicate identity at line {line_number}"
+                )
+            seen_identities.add(identity)
+            if record.get("record_type") == "prediction":
+                predictions[record["snapshot_id"]] = record
+            else:
+                prediction = predictions.get(record.get("snapshot_id"))
+                if prediction is None:
                     raise LedgerCorruptionError(
-                        f"invalid JSONL record at line {line_number}"
-                    ) from exc
-                if not isinstance(record, dict):
-                    raise LedgerCorruptionError(f"non-object record at line {line_number}")
-                if record.get("schema_version") != SCHEMA_VERSION:
-                    raise LedgerCorruptionError(
-                        f"unsupported schema at line {line_number}"
+                        f"settlement precedes prediction at line {line_number}"
                     )
-                if record.get("ledger_sequence") != line_number:
-                    raise LedgerCorruptionError(f"invalid sequence at line {line_number}")
-                if record.get("previous_record_hash") != previous_hash:
-                    raise LedgerCorruptionError(f"broken hash chain at line {line_number}")
-                claimed_hash = record.get("record_hash")
-                unsigned = {key: value for key, value in record.items() if key != "record_hash"}
-                if claimed_hash != _sha256(unsigned):
-                    raise LedgerCorruptionError(f"invalid record hash at line {line_number}")
-                identity = _identity(record)
-                if identity in seen_identities:
+                if _parse_time(record["settled_at"], "settled_at") < _parse_time(
+                    prediction["kickoff"], "kickoff"
+                ):
                     raise LedgerCorruptionError(
-                        f"duplicate identity at line {line_number}"
+                        f"settlement predates kickoff at line {line_number}"
                     )
-                seen_identities.add(identity)
-                if record.get("record_type") == "prediction":
-                    predictions[record["snapshot_id"]] = record
-                else:
-                    prediction = predictions.get(record.get("snapshot_id"))
-                    if prediction is None:
-                        raise LedgerCorruptionError(
-                            f"settlement precedes prediction at line {line_number}"
-                        )
-                    if _parse_time(record["settled_at"], "settled_at") < _parse_time(
-                        prediction["kickoff"], "kickoff"
-                    ):
-                        raise LedgerCorruptionError(
-                            f"settlement predates kickoff at line {line_number}"
-                        )
-                records.append(record)
-                previous_hash = claimed_hash
+            records.append(record)
+            previous_hash = claimed_hash
         return records
 
     def _write_line(self, record: Mapping[str, Any]) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        # 볼륨 DB를 먼저 확정하고 JSONL은 호환 export로 기록한다.
         if self._database is not None:
             self._database.mirror_prediction_records([record])
+            return
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         payload = (_canonical_json(record) + "\n").encode("utf-8")
         descriptor = os.open(
             self.path,

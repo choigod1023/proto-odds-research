@@ -32,7 +32,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
-from runtime_db import RuntimeDatabase, database_enabled, persist_artifact
+from runtime_db import load_artifact, persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_scores.json"
@@ -230,10 +230,7 @@ def _team_similarity_with_aliases(proto_name: str, game: dict, side: str) -> flo
 
 
 def _proto_games() -> list[dict]:
-    try:
-        payload = json.loads(PICKS.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return []
+    payload = load_artifact("picks_v2", PICKS) or {}
     return [*payload.get("live", []), *payload.get("past", [])]
 
 
@@ -320,12 +317,7 @@ def fetch_situation(s: requests.Session, game_id: str) -> dict:
 
 def _previous_games() -> list[dict]:
     """DB에 남은 최근 종료 상태를 읽어 다음 관측에서 보존한다."""
-    previous = RuntimeDatabase().get_artifact("live_scores") if database_enabled() else None
-    if previous is None and OUT.exists():
-        try:
-            previous = json.loads(OUT.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            previous = None
+    previous = load_artifact("live_scores", OUT)
     return (previous or {}).get("games") or []
 
 
