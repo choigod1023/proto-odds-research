@@ -677,7 +677,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
             {g.away}
           </span>
           <small className="match-player-inline">
-            {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
+            {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : phase === "pending" ? "결과 확인 중" : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
             {g._liveLineChanged ? " · 기준점 변경 반영" : ""}
             {compactPlayers
               ? ` · ${compactPlayers}`
@@ -685,7 +685,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           </small>
         </span>
         <span className="match-call-inline">
-          <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : todayLabel ? "오늘 추천 픽" : "경기별 픽"}</small>
+          <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : phase === "pending" ? "사전 픽" : todayLabel ? "오늘 추천 픽" : "경기별 픽"}</small>
           <b>{phase === "finished"
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}` : forecast?.headline || fallbackForecast}</b>
@@ -694,6 +694,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
             : phase === "finished" ? <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
+            : phase === "pending" ? <OddsChip label="상태" value="확인 중" />
             : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : pick ? <OddsChip
