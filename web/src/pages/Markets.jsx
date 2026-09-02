@@ -125,7 +125,7 @@ export default function Markets() {
   const { data, at } = usePolledData({ grades: GRADES_URL }, 300000);   // 5분
   const { grades } = data;
   // Git push·Pages 배포와 분리하여 판정 지연을 막는다.
-  const { data: livePicks } = usePoll(PICKS_URL, 60000);
+  const { data: livePicks, checked: picksChecked } = usePoll(PICKS_URL, 60000);
   const d = livePicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
@@ -160,8 +160,8 @@ export default function Markets() {
     return { ...d, live: merge(d.live), past: merge(d.past) };
   }, [d, liveOdds, liveIndex]);
 
-  if (at && !synchronized) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
-  if (!synchronized) return <Shell><Empty>불러오는 중…</Empty></Shell>;
+  if (picksChecked && !synchronized) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
+  if (!synchronized) return <Shell><LoadingMatches /></Shell>;
   // 경기 원장의 생성 시각이 낡았더라도 현재 회차 배당을 방금 정상 수집했다면 화면
   // 전체를 중단하지 않는다. 각 경기 선택은 repriceGameOdds가 최신 가격으로 다시
   // 판정하며, 식별자가 어긋나는 경우에는 기존 fail-close 규칙이 그대로 막는다.
@@ -177,6 +177,38 @@ export default function Markets() {
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
         stale={stale} today={liveToday} /></section>
     </Shell>
+  );
+}
+
+function LoadingMatches() {
+  const [seconds, setSeconds] = useState(0);
+  useEffect(() => {
+    const started = Date.now();
+    const timer = setInterval(() => setSeconds(Math.floor((Date.now() - started) / 1000)), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  const message = seconds >= 12
+    ? "경기 데이터가 많아 정리하는 중입니다. 잠시만 기다려 주세요."
+    : seconds >= 4
+      ? "최신 배당과 저장된 사전 예측을 맞추고 있습니다."
+      : "오늘 경기와 추천 픽을 불러오고 있습니다.";
+  return (
+    <section className="match-loading" role="status" aria-live="polite" aria-busy="true">
+      <div className="match-loading-head">
+        <div><span className="loading-spinner" aria-hidden="true" /><b>경기 데이터 불러오는 중</b></div>
+        <small>{seconds ? `${seconds}초` : "연결 중"}</small>
+      </div>
+      <p>{message}</p>
+      <div className="match-loading-grid" aria-hidden="true">
+        {[0, 1, 2].map((item) => (
+          <div className="match-loading-card" key={item}>
+            <i className="loading-line is-short" /><i className="loading-line is-title" />
+            <div><i className="loading-chip" /><i className="loading-chip" /><i className="loading-chip" /></div>
+            <i className="loading-line" /><i className="loading-line is-medium" />
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 

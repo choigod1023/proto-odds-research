@@ -124,6 +124,18 @@ def test_persist_helpers_use_database_without_runtime_file_exports(tmp_path, mon
     assert json.loads(artifact_path.read_text()) == {"generated_at": "now", "games": [2]}
 
 
+def test_artifact_wire_payload_can_be_served_without_decoding(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    payload = {"generated_at": "now", "games": [{"home": "서울", "away": "부산"}]}
+    db.store_artifact("picks_v2", payload)
+
+    raw, revision = db.get_artifact_json("picks_v2")
+
+    assert json.loads(raw) == payload
+    assert revision
+    assert db.get_artifact_json("missing") is None
+
+
 def test_event_stream_is_idempotent_and_rebuilds_jsonl(tmp_path):
     db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
     rows = [
