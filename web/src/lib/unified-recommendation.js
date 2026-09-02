@@ -89,8 +89,8 @@ const eventMarketKey = (selection) => {
 };
 
 /** 생성 단계에서 하나로 확정한 추천을 현재(실시간 배당 반영) 선택지에 다시 연결한다. */
-export function canonicalOption(game, options = game?.options || []) {
-  if (game?._liveOddsChanged || game?._liveStarted) return null;
+export function canonicalOption(game, options = game?.options || [], { allowStarted = false } = {}) {
+  if (game?._liveOddsChanged || (game?._liveStarted && !allowStarted)) return null;
   const current = resolveDecisionOption(game, options);
   if (!current) return null;
   return finalRecommendedSelection(options) === current ? current : null;
@@ -112,7 +112,9 @@ export function alignTodayRecommendations(today, games = []) {
   const inputCandidates = today.candidates || [];
   const canonical = new Map();
   (games || []).forEach((game) => {
-    const option = canonicalOption(game, game?.options || []);
+    // 이미 저장된 사전 추천을 경기 시작 뒤 결과 추적에 연결할 때만 시작 경기를 허용한다.
+    // canonicalPick의 기본 동작은 계속 시작 후 새 추천 생성을 막는다.
+    const option = canonicalOption(game, game?.options || [], { allowStarted: true });
     if (!option) return;
     const eventKey = eventMarketKey({
       ...option, round: game.round, date: game.date, home: game.home, away: game.away,

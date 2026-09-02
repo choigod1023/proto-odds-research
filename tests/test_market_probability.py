@@ -275,6 +275,40 @@ def test_today_combo_prepares_today_and_next_morning_candidates(monkeypatch, tmp
     assert {candidate["game_no"] for candidate in candidates} == {2, 3}
 
 
+def test_today_combo_keeps_pregame_recommendation_after_kickoff():
+    kickoff = "2026-09-02T08:40:00+09:00"
+    candidate_row = {
+        "event_key": f"{kickoff}|홈|원정", "kickoff_at": kickoff,
+        "date": "09.02(수) 08:40", "home": "홈", "away": "원정",
+        "league": "MLB", "match": "홈 vs 원정", "market": "승패",
+        "market_label": "", "sel": "홈", "odds": 1.55,
+    }
+    previous = {
+        "generated_at": "2026-09-02T08:30:00+09:00",
+        "candidates": [candidate_row],
+    }
+    retained = today_combo.retain_started_candidates(
+        [], previous, datetime(2026, 9, 2, 9, 0, tzinfo=ZoneInfo("Asia/Seoul")),
+    )
+    assert len(retained) == 1
+    assert retained[0]["recommendation_state"] == "started_locked"
+    assert retained[0]["recommended_at"] == "2026-09-02T08:30:00+09:00"
+
+
+def test_today_combo_does_not_create_retroactive_started_recommendation():
+    previous = {
+        "generated_at": "2026-09-02T09:00:00+09:00",
+        "candidates": [{
+            "event_key": "game", "kickoff_at": "2026-09-02T08:40:00+09:00",
+            "market": "승패", "market_label": "", "sel": "홈",
+        }],
+    }
+    retained = today_combo.retain_started_candidates(
+        [], previous, datetime(2026, 9, 2, 9, 5, tzinfo=ZoneInfo("Asia/Seoul")),
+    )
+    assert retained == []
+
+
 def test_today_combo_reprices_entire_market_from_live_snapshot():
     game = {
         "game_no": 7,

@@ -81,7 +81,9 @@ const liveMoved = { ...game, _liveOddsChanged: true };
 assert.equal(canonicalOption(liveMoved), null, "실시간 배당 revision 뒤에는 재계산 전 선택을 숨긴다");
 
 const started = { ...game, _liveStarted: true };
-assert.equal(canonicalOption(started), null, "실시간 중계가 시작되면 오늘 후보에서 제거한다");
+assert.equal(canonicalOption(started), null, "실시간 중계가 시작되면 새 추천 생성은 막는다");
+assert.equal(alignTodayRecommendations(today, [started]).candidates.length, 1,
+  "경기 전에 저장한 오늘 추천은 시작 뒤 결과 추적용으로 유지한다");
 
 const legacy = { ...game, decision_snapshot: undefined, 추천: away };
 assert.equal(canonicalOption(legacy), home,

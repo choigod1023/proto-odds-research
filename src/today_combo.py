@@ -630,6 +630,49 @@ def _enrich_candidates(candidates: list[dict]) -> list[dict]:
     return candidates
 
 
+def retain_started_candidates(current: list[dict], previous: dict,
+                              now: datetime) -> list[dict]:
+    """오늘 시작 전 저장된 추천을 시작·종료 뒤에도 표시 원장에 보존한다."""
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=KST)
+    else:
+        now = now.astimezone(KST)
+    merged = {
+        (row.get("event_key"), row.get("market"), str(row.get("market_label") or ""),
+         row.get("sel")): row
+        for row in current
+    }
+    previous_generated = str(previous.get("generated_at") or "")
+    for original in previous.get("candidates") or []:
+        try:
+            kickoff = datetime.fromisoformat(str(original.get("kickoff_at") or ""))
+            recommended_at = datetime.fromisoformat(
+                str(original.get("recommended_at") or previous_generated)
+            )
+        except (TypeError, ValueError):
+            continue
+        if kickoff.tzinfo is None:
+            kickoff = kickoff.replace(tzinfo=KST)
+        if recommended_at.tzinfo is None:
+            recommended_at = recommended_at.replace(tzinfo=KST)
+        kickoff = kickoff.astimezone(KST)
+        recommended_at = recommended_at.astimezone(KST)
+        if not (kickoff.date() == now.date() and recommended_at < kickoff <= now):
+            continue
+        row = {
+            **original,
+            "recommended_at": recommended_at.isoformat(timespec="seconds"),
+            "recommendation_state": "started_locked",
+        }
+        key = (row.get("event_key"), row.get("market"),
+               str(row.get("market_label") or ""), row.get("sel"))
+        merged.setdefault(key, row)
+    return sorted(merged.values(), key=lambda row: (
+        str(row.get("kickoff_at") or ""), str(row.get("league") or ""),
+        str(row.get("match") or ""),
+    ))
+
+
 def build() -> dict:
     live_prices, live_generated_at = _live_prices()
     cands = select_event_candidates(
@@ -675,6 +718,16 @@ def build() -> dict:
         lo.sort(key=leg_quality)
         solo = {**lo[0], **ticket_metrics([lo[0]])}
 
+    # 시작했다고 사전 추천 기록을 지우면 적중 결과를 추적할 수 없다. 직전 생성물이
+    # 실제 킥오프 전에 저장한 오늘 후보만 잠그고, 새 조합 계산에는 섞지 않는다.
+    previous = {}
+    if OUT.exists():
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            previous = {}
+    display_cands = retain_started_candidates(cands, previous, datetime.now(KST))
+
     grades = json.loads(GRADES.read_text(encoding="utf-8"))
     today = json.loads(TODAY.read_text(encoding="utf-8"))
     return {
@@ -686,12 +739,12 @@ def build() -> dict:
         "basis": "1.50~2.20 미만 후보를 먼저 확보하고 생성기의 최종 예상 "
                  "적중확률이 가장 높은 선택을 고른다. 검증된 AI 보정이 없으면 "
                  "동일 시점 Shin 시장확률로 복귀한다.",
-        "n_candidates": len(cands),
+        "n_candidates": len(display_cands),
         "n_primary_candidates": sum(
-            1 for candidate in cands if candidate.get("recommendation_priority") == "primary"
+            1 for candidate in display_cands if candidate.get("recommendation_priority") == "primary"
         ),
         "n_fallback_candidates": sum(
-            1 for candidate in cands if candidate.get("recommendation_priority") == "fallback"
+            1 for candidate in display_cands if candidate.get("recommendation_priority") == "fallback"
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
@@ -703,7 +756,7 @@ def build() -> dict:
         "plans": out_plans,
         # 브라우저가 시간이 지난 직후 다음 경기로 즉시 다시 조합할 때 쓴다.
         "recommendation": daily_recommendation(out_plans),
-        "candidates": cands,
+        "candidates": display_cands,
         "odds_bins": grades["odds_bins"],
         "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. "
                 "목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 "
