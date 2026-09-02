@@ -491,6 +491,16 @@ class RuntimeDatabase:
             ).fetchone()
         return json.loads(row["payload_json"]) if row is not None else None
 
+    def get_artifact_json(self, name: str) -> tuple[str, str] | None:
+        """Return the stored wire payload and revision without decoding it."""
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT payload_json,stored_at FROM artifacts WHERE name=?", (name,)
+            ).fetchone()
+        if row is None:
+            return None
+        return str(row["payload_json"]), str(row["stored_at"])
+
     def artifact_metadata(self, name: str) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(

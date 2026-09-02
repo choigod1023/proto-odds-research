@@ -21,6 +21,7 @@ fly 머신의 파일시스템은 재시작하면 날아간다. 그래서 **볼�
 from __future__ import annotations
 
 import json
+import gzip
 import os
 import shutil
 import subprocess
@@ -663,6 +664,23 @@ def serve_live() -> None:
     from runtime_db import RuntimeDatabase
 
     database = RuntimeDatabase()
+    response_cache: dict[str, tuple[str, bytes, bytes]] = {}
+    response_cache_lock = threading.Lock()
+
+    def artifact_bytes(name: str) -> tuple[bytes, bytes] | None:
+        stored = database.get_artifact_json(name)
+        if stored is None:
+            return None
+        payload, revision = stored
+        with response_cache_lock:
+            cached = response_cache.get(name)
+            if cached is not None and cached[0] == revision:
+                return cached[1], cached[2]
+        raw = payload.encode("utf-8")
+        compressed = gzip.compress(raw, compresslevel=5)
+        with response_cache_lock:
+            response_cache[name] = (revision, raw, compressed)
+        return raw, compressed
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
@@ -735,11 +753,12 @@ def serve_live() -> None:
                 self.end_headers()
                 return
             try:
-                payload = database.get_artifact(artifact_name)
-                if payload is None:
+                bodies = artifact_bytes(artifact_name)
+                if bodies is None:
                     raise KeyError(artifact_name)
-                body = json.dumps(payload, ensure_ascii=False,
-                                  separators=(",", ":")).encode("utf-8")
+                raw, compressed = bodies
+                accepts_gzip = "gzip" in self.headers.get("Accept-Encoding", "").lower()
+                body = compressed if accepts_gzip else raw
             except (OSError, KeyError, ValueError):
                 self.send_response(503)
                 self._cors()
@@ -748,6 +767,9 @@ def serve_live() -> None:
             self.send_response(200)
             self._cors()
             self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Vary", "Accept-Encoding")
+            if accepts_gzip:
+                self.send_header("Content-Encoding", "gzip")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
