@@ -15,9 +15,10 @@ import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
-import { isDataStale, latestGeneratedAt, waitingLabel } from "../lib/data-freshness.js";
+import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
 import { gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
+import { estimateLiveProbability } from "../lib/bet-ledger.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
@@ -37,14 +38,19 @@ const PICKS_URL = "https://proto-odds-collector.fly.dev/picks_v2.json";
 
 /** 주기적으로 JSON 하나를 받는다. 실패하면 조용히 넘어간다 — 사이트는 그대로 동작. */
 function usePoll(url, ms) {
-  const [data, setData] = useState(null);
+  const [state, setState] = useState({ data: null, checked: false });
   useEffect(() => {
     let stop = false;
     const load = () =>
-      fetch(`${url}?${Date.now()}`)
-        .then((r) => (r.ok ? r.json() : null))
-        .then((d) => { if (!stop && d) setData(d); })
-        .catch(() => {});
+      fetch(`${url}?${Date.now()}`, {
+        cache: "no-store",
+        headers: { "Cache-Control": "no-cache" },
+      })
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+        .then((d) => { if (!stop) setState({ data: d, checked: true }); })
+        // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
+        // 오래된 정적 fallback인지 실제 장애인지 구분한다.
+        .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
     load();
     const t = setInterval(load, ms);
     const onVisible = () => { if (document.visibilityState === "visible") load(); };
@@ -59,7 +65,7 @@ function usePoll(url, ms) {
       window.removeEventListener("online", load);
     };
   }, [url, ms]);
-  return data;
+  return state;
 }
 
 const useLive = () => usePoll(LIVE_URL, 15000);
@@ -128,26 +134,28 @@ export default function Markets() {
   const { d: staticPicks, grades, today } = data;
   // 판정도 수집 머신에서 직접 받는다. Git push·Pages 배포를 기다리느라 최신 배당은
   // 보이는데 판정만 3시간 넘게 낡는 상태를 막고, 장애 때는 정적 파일로 복귀한다.
-  const livePicks = usePoll(PICKS_URL, 60000);
+  const { data: livePicks } = usePoll(PICKS_URL, 60000);
   const d = livePicks || staticPicks;
-  const liveOdds = useLiveOdds();
-  const liveToday = usePoll(RECOMMENDATION_URL, 120000);
-  const liveFeed = useLive();
+  const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
+  const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
+  const { data: liveFeed } = useLive();
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
   const synchronized = useMemo(() => {
     if (!d) return null;
     const merge = (games) => (games || []).map((game) => {
-      const repriced = repriceGameOdds(
-        game,
-        liveOdds?.odds?.[String(game.round)],
-        liveOdds?.generated_at || null,
-        liveOdds?.markets?.[String(game.round)],
-      );
+      const liveState = liveOf(liveIndex, game);
+      // 킥오프 뒤에는 사전 배당·선택 revision을 동결한다. 라이브 배당으로 덮어쓰면
+      // 저장한 판정 원장의 selection/offer가 어긋나 사전 픽이 사라진다.
+      const repriced = liveState ? game : repriceGameOdds(
+          game,
+          liveOdds?.odds?.[String(game.round)],
+          liveOdds?.generated_at || null,
+          liveOdds?.markets?.[String(game.round)],
+        );
       const marketHistory = marketHistoryForGame(game, liveOdds);
       const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
-      const liveState = liveOf(liveIndex, withHistory);
       return liveState ? { ...withHistory, _liveState: liveState, _liveStarted: true,
         _liveFeedAt: liveFeed?.generated_at || null } : withHistory;
     });
@@ -159,8 +167,12 @@ export default function Markets() {
   // 경기 원장의 생성 시각이 낡았더라도 현재 회차 배당을 방금 정상 수집했다면 화면
   // 전체를 중단하지 않는다. 각 경기 선택은 repriceGameOdds가 최신 가격으로 다시
   // 판정하며, 식별자가 어긋나는 경우에는 기존 fail-close 규칙이 그대로 막는다.
-  const latestDataAt = latestGeneratedAt(liveOdds?.generated_at, synchronized.generated_at);
-  const stale = isDataStale(latestDataAt);
+  const freshness = freshnessStatus({
+    staticGeneratedAt: synchronized.generated_at,
+    liveGeneratedAt: liveOdds?.generated_at,
+    liveChecked: liveOddsChecked,
+  });
+  const stale = freshness === "stale";
 
   return (
     <Shell meta={metaLine(d, at)}>
@@ -584,7 +596,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const done = g.status === "정산";
   const liveClosed = g._liveStarted === true;
   const predictionUnavailable = done || g.prediction_status === "prediction_ledger_required";
-  const prediction = wait || stale || predictionUnavailable || liveClosed || g._liveOddsChanged
+  const prediction = wait || stale || predictionUnavailable || g._liveOddsChanged
     ? null : predictionForGame(opts);
   const displayedOption = todayOption || prediction?.option || null;
   const pick = displayedOption ? {
@@ -609,9 +621,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
-  const fallbackForecast = disruption || (liveClosed
-    ? (finished ? "경기 종료 · 사전 판정 마감" : "경기 시작 · 사전 판정 마감")
-    : g._liveOddsChanged
+  const fallbackForecast = disruption || (g._liveOddsChanged
     ? "배당 변경 · 재계산 대기"
     : stale
     ? "최신 데이터 확인 필요"
@@ -622,6 +632,20 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
       : wait
         ? "배당 발표 전"
         : "분석 자료 확인 중");
+  const openingProbability = Number(
+    decision?.probability?.final ?? pick?.o?.["예상적중확률"] ?? pick?.o?.["시장확률"],
+  );
+  const liveProbability = playing && pick && Number.isFinite(openingProbability)
+    ? estimateLiveProbability({
+        openingProbability,
+        game: { sport: g.sport },
+        selection: {
+          market: pick.o.market,
+          label: pick.o.label || "",
+          choice: pick.o["선택"],
+        },
+      }, lv)
+    : null;
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
   // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
@@ -706,7 +730,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           <div className="live-score-panel" role="status" aria-live="polite">
             <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
             <strong>{g.home} <em>{score[0]}</em><i>:</i><em>{score[1]}</em> {g.away}</strong>
-            <small>새로고침 없이 약 30초마다 자동 갱신됩니다.</small>
+            <small>
+              {Number.isFinite(liveProbability?.probability)
+                ? <>사전 적중 <b>{pct(openingProbability)}</b> → 현재 상황 추정 <b>{pct(liveProbability.probability)}</b><br /></>
+                : null}
+              점수와 남은 시간으로 이동한 상황 추정치이며 검증된 인플레이 구매 추천은 아닙니다.
+            </small>
             {g.sport === "bs" && <BaseballSituation live={lv} />}
           </div>
         )}

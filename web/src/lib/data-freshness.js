@@ -20,6 +20,13 @@ export function isDataStale(generatedAt, now = Date.now()) {
   return !Number.isFinite(generated) || now - generated >= STALE_DATA_MS;
 }
 
+/** 실시간 소스의 첫 확인 전에는 오래된 정적 fallback을 장애로 단정하지 않는다. */
+export function freshnessStatus({ staticGeneratedAt, liveGeneratedAt, liveChecked, now = Date.now() }) {
+  const latest = latestGeneratedAt(liveGeneratedAt, staticGeneratedAt);
+  if (!liveChecked && isDataStale(staticGeneratedAt, now)) return "checking";
+  return isDataStale(latest, now) ? "stale" : "fresh";
+}
+
 export function waitingLabel(game, { generatedAt, year, now = Date.now() } = {}) {
   if (isDataStale(generatedAt, now)) return "데이터 갱신 지연";
   const kickoff = kickoffTime(game, year);

@@ -62,6 +62,19 @@ LOOPERS = [
     ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py", "--loop", "300"]),
 ]
 
+# 재시작 직후 9개 수집기가 한꺼번에 메모리를 잡으면 1GB 머신에서도 커널 OOM이
+# generate_v2를 죽인다. 화면 판정에 필요한 가벼운 수집기를 먼저 띄우고, 선수·날씨·
+# 픽스터 보강은 판정 게시 뒤로 분산한다.
+LOOPER_START_DELAYS = {
+    "선발 예고": 30,
+    "실시간 추천": 45,
+    "해외 배당": 90,
+    "무료 야구 컨텍스트": 180,
+    "선수·팀 정보": 240,
+    "공개 픽스터": 300,
+    "무료 날씨": 360,
+}
+
 # 하루 1회짜리 — FootyStats 는 연속 요청을 막으므로 자주 찍을 이유도 없다.
 # 리그를 넷으로 늘린 이유는 판정 시점 때문이다: K리그1 만이면 필요 표본(441경기)에
 # 2027년 8월에나 닿는데, 넷을 합치면 2026년 11월이다. 자세한 계산은 xg_watch.py.
@@ -154,6 +167,9 @@ LIVE_EVERY = 30            # 30초
 LIVE_PORT = 8080
 ANONYMOUS_BETS_PATH = Path(os.environ.get("ANONYMOUS_BETS_PATH", "/data/anonymous_bets.jsonl"))
 _anonymous_bets_lock = threading.Lock()
+# 전체 재계산과 일일 xG 수집은 각각 메모리를 크게 쓴다. 재시작 15분 뒤 두 작업이
+# 정확히 겹쳐 OOM을 만들지 않도록 서로 한 번에 하나만 실행한다.
+_pipeline_lock = threading.Lock()
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
@@ -437,8 +453,11 @@ def push_data() -> None:
     sh(["git", "reflog", "expire", "--expire=90.days", "--all"], cwd=REPO)
     # git gc는 서비스 부팅·수집과 분리한다. 여기서 실행하면 push 스레드가 아니라
     # 다음 재시작의 fetch까지 maintenance lock에 묶일 수 있다.
-def run_looper(name: str, cmd: list[str]) -> None:
+def run_looper(name: str, cmd: list[str], initial_delay: int = 0) -> None:
     """죽으면 다시 살린다. 즉시 재시작을 반복하지 않도록 뒤로 물러선다."""
+    if initial_delay:
+        log(f"{name} 시작을 {initial_delay}s 분산")
+        time.sleep(initial_delay)
     backoff = 30
     while True:
         log(f"{name} 시작")
@@ -457,15 +476,16 @@ def run_daily() -> None:
     # 첫 generate_v2와 겹쳐 판정 한 건을 만드는 데도 7분 넘게 걸렸다.
     time.sleep(900)
     while True:
-        for i, (name, cmd) in enumerate(DAILY):
-            if i:
-                # 리그를 연달아 긁으면 FootyStats 가 429 로 막는다(실제로 겪음).
-                # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
-                time.sleep(300)
-            log(f"{name} 실행")
-            r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
-            tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
-            log(f"{name} 완료 — {tail[0][:120]}")
+        with _pipeline_lock:
+            for i, (name, cmd) in enumerate(DAILY):
+                if i:
+                    # 리그를 연달아 긁으면 FootyStats 가 429 로 막는다(실제로 겪음).
+                    # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
+                    time.sleep(300)
+                log(f"{name} 실행")
+                r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
+                tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
+                log(f"{name} 완료 — {tail[0][:120]}")
         time.sleep(DAILY_EVERY)
 
 
@@ -541,7 +561,8 @@ def run_publish() -> None:
     n = 0
     while True:
         try:
-            _run_publish_cycle(n)
+            with _pipeline_lock:
+                _run_publish_cycle(n)
         except Exception as e:                         # noqa: BLE001
             log(f"publish push 예외: {type(e).__name__}: {e}")
         n += 1
@@ -788,7 +809,9 @@ def main() -> int:
     threading.Thread(target=run_live, daemon=True).start()
 
     for name, cmd in LOOPERS:
-        threading.Thread(target=run_looper, args=(name, cmd), daemon=True).start()
+        threading.Thread(target=run_looper,
+                         args=(name, cmd, LOOPER_START_DELAYS.get(name, 0)),
+                         daemon=True).start()
         time.sleep(5)          # 동시에 몰려 나가지 않게 살짝 엇갈려 띄운다
     threading.Thread(target=run_daily, daemon=True).start()
     threading.Thread(target=run_publish, daemon=True).start()

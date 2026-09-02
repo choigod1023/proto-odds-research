@@ -116,14 +116,14 @@ test("실시간 배당만 바뀌면 이전 확률과 해설 결론을 숨긴다"
   assert.equal(decision.staleReason, "live_price_revision_changed");
 });
 
-test("실시간 중계가 시작되면 사전 선택과 확률을 마감한다", () => {
+test("실시간 중계가 시작돼도 저장된 사전 선택과 확률을 유지한다", () => {
   const decision = buildDecisionViewModel(gameFor(snapshot, {
     _liveStarted: true,
   }), option);
-  assert.equal(decision.action, "closed");
-  assert.equal(decision.option, null);
-  assert.equal(decision.probability.final, null);
-  assert.equal(decisionLabel(decision), "경기 시작 · 사전 판정 마감");
+  assert.equal(decision.action, "market_reference");
+  assert.equal(decision.option, option);
+  assert.equal(decision.probability.final, snapshot.probability.market);
+  assert.equal(decisionLabel(decision), "예상 적중 비교");
 });
 
 test("중복 단계나 근거 id는 조용히 합치지 않고 계약 오류로 보류한다", () => {

@@ -293,18 +293,6 @@ class PredictionLedger:
         target_identity = _identity(core)
         with self._lock():
             records = self._read_verified()
-            if core.get("record_type") == "prediction":
-                as_of_time = _parse_time(core["as_of"], "as_of")
-                prior_event_times = [
-                    _parse_time(row["as_of"], "as_of")
-                    for row in records
-                    if row.get("record_type") == "prediction"
-                    and row.get("event_id") == core.get("event_id")
-                ]
-                if prior_event_times and as_of_time < max(prior_event_times):
-                    raise LedgerConflictError(
-                        "prediction as_of regressed behind existing event revision"
-                    )
             existing = next((row for row in records if _identity(row) == target_identity), None)
             if existing is not None:
                 if _immutable_payload(existing) != _immutable_payload(core):
@@ -325,6 +313,19 @@ class PredictionLedger:
                     return AppendResult(
                         record=_json_copy(duplicate_revision),
                         appended=False,
+                    )
+
+            if core.get("record_type") == "prediction":
+                as_of_time = _parse_time(core["as_of"], "as_of")
+                prior_event_times = [
+                    _parse_time(row["as_of"], "as_of")
+                    for row in records
+                    if row.get("record_type") == "prediction"
+                    and row.get("event_id") == core.get("event_id")
+                ]
+                if prior_event_times and as_of_time < max(prior_event_times):
+                    raise LedgerConflictError(
+                        "prediction as_of regressed behind existing event revision"
                     )
 
             required_prediction = None

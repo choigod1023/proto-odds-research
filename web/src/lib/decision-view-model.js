@@ -431,9 +431,9 @@ export function buildDecisionViewModel(game, option = null) {
     ? reversal ? "reversal"
       : (recommendationPriority(contract.resolved) === 1 ? "primary" : "fallback")
     : null;
-  const action = contractValid && raw.action === "market_reference" && game?._liveStarted
-    ? "closed"
-    : contractValid && raw.action === "market_reference" && liveRevisionChanged
+  // 경기 시작은 저장된 사전 판정을 지우는 사건이 아니다. 구매 가능 여부만 마감하고
+  // 사전 선택·확률은 라이브 상황 확률과 결과 검증의 기준선으로 계속 보존한다.
+  const action = contractValid && raw.action === "market_reference" && liveRevisionChanged
     ? "recalculating"
     : contractValid && raw.action === "market_reference" && selectionMatches
       ? "market_reference" : "withhold";
@@ -536,7 +536,6 @@ export function buildDecisionViewModel(game, option = null) {
 }
 
 export function decisionLabel(decision) {
-  if (decision?.action === "closed") return "경기 시작 · 사전 판정 마감";
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.ledgerRequired) return "판정 원장 기록 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
