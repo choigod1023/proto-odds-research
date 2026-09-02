@@ -169,3 +169,28 @@ def test_add_proto_aliases_matches_abbreviated_names_by_sport_and_date():
     assert add_proto_aliases(named, proto) == 1
     assert named[0]["home_alias"] == ["밀워브루"]
     assert named[0]["away_alias"] == ["애틀브레"]
+
+
+def test_add_proto_aliases_uses_named_short_names_for_final_result_join():
+    named = [
+        {
+            "sport": "sc", "md": "09.02", "start": "2026-09-02T03:45:00+09:00",
+            "home": "셰필드 유나이티드", "away": "볼턴 원더러스",
+            "home_alias": ["셰필드 유나이티드"], "away_alias": ["볼턴 원더러스"],
+        },
+        {
+            "sport": "sc", "md": "09.02", "start": "2026-09-02T18:30:00+09:00",
+            "home": "반라우레", "away": "도치기 시티",
+            "home_alias": ["반라우레 하치노헤"], "away_alias": ["도치기 시티"],
+        },
+    ]
+    proto = [
+        {"sport": "sc", "date": "09.02(수) 03:45", "home": "셰필드U", "away": "볼턴W"},
+        {"sport": "sc", "date": "09.02(수) 18:30", "home": "하치노헤", "away": "도치기시"},
+    ]
+
+    assert add_proto_aliases(named, proto) == 2
+    assert "셰필드U" in named[0]["home_alias"]
+    assert "볼턴W" in named[0]["away_alias"]
+    assert "하치노헤" in named[1]["home_alias"]
+    assert "도치기시" in named[1]["away_alias"]

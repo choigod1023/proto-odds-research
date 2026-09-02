@@ -223,6 +223,12 @@ def _team_similarity(left: str, right: str) -> float:
     return difflib.SequenceMatcher(None, a, b).ratio()
 
 
+def _team_similarity_with_aliases(proto_name: str, game: dict, side: str) -> float:
+    """Compare a Proto label against every NAMED label for the same team."""
+    names = [game.get(side), *(game.get(f"{side}_alias") or [])]
+    return max((_team_similarity(proto_name, name) for name in names), default=0.0)
+
+
 def _proto_games() -> list[dict]:
     try:
         payload = json.loads(PICKS.read_text(encoding="utf-8"))
@@ -242,8 +248,11 @@ def add_proto_aliases(named_games: list[dict], proto_games: list[dict]) -> int:
     for game in named_games:
         ranked = []
         for proto in candidates.get((game.get("sport"), game.get("md")), []):
-            hs = _team_similarity(proto.get("home"), game.get("home"))
-            aws = _team_similarity(proto.get("away"), game.get("away"))
+            # NAMED's canonical name can omit the city used by Proto (for example
+            # 반라우레 vs 하치노헤). shortName is retained as an alias, so score
+            # every supplied label instead of comparing only the canonical name.
+            hs = _team_similarity_with_aliases(proto.get("home"), game, "home")
+            aws = _team_similarity_with_aliases(proto.get("away"), game, "away")
             named_time = str(game.get("start") or "")[11:16]
             match = re.search(r"(\d{2}:\d{2})", str(proto.get("date") or ""))
             same_time = bool(match and named_time == match.group(1))
@@ -251,7 +260,10 @@ def add_proto_aliases(named_games: list[dict], proto_games: list[dict]) -> int:
             # 모두 같으면 문턱을 낮추되 양 팀 중 하나라도 전혀 다르면 거부한다.
             floor = .25 if same_time else .45
             if min(hs, aws) >= floor:
-                ranked.append((hs + aws + (.2 if same_time else 0), min(hs, aws), proto))
+                # Matching date, sport and exact kickoff is strong independent evidence.
+                # A .25 bonus keeps common one-letter Proto abbreviations (U/W) from
+                # missing the otherwise conservative aggregate threshold.
+                ranked.append((hs + aws + (.25 if same_time else 0), min(hs, aws), proto))
         ranked.sort(key=lambda row: (row[0], row[1]), reverse=True)
         if not ranked or ranked[0][0] < 1.15:
             continue
