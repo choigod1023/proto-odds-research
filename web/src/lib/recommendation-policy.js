@@ -39,7 +39,7 @@ const groupKey = (selection) => {
 /**
  * 자동 추천은 가격을 계산할 수 있는 모든 선택지가 아니라 검증된 안전 구간만 쓴다.
  * 현재는 홀짝, 2.20 이상, 같은 마켓의 현재 최저 배당이 아닌 역배를 제외한다.
- * 1.50 미만 최유력은 남기되 1.50 이상 후보보다 뒤에 둔다.
+ * 1.50 경계는 화면 위험 라벨에만 쓰고 선택 순서는 최종 적중확률로 정한다.
  * 최저 배당은 실시간 가격이 바뀌면 즉시 다시 계산되며 시장확률 1위와 같은 순서다.
  */
 export function eligibleAutoSelections(selections) {
@@ -127,17 +127,30 @@ export function qualifiedUnderdogSelections(selections) {
 
 /** 경기에서 화면·설명·오늘 조합이 함께 따라야 할 최종 선택 하나를 반환한다. */
 export function finalRecommendedSelection(selections) {
-  // 1.50~2.20 미만을 먼저 확보한 뒤 검증 보정까지 끝난 최종 예상 적중확률로
-  // 정렬한다. 해당 가격대가 없을 때만 1.50 미만을 보조 선택으로 남긴다.
+  // 1.50 경계로 확률이 더 높은 선택을 밀어내지 않는다. 검증 보정까지 끝난
+  // 최종 예상 적중확률을 우선하고, 동률일 때만 시장확률과 낮은 배당을 쓴다.
   const eligible = eligibleAutoSelections(selections);
-  const primary = eligible.filter((selection) => recommendationPriority(selection) === 1);
-  const pool = primary.length ? primary : eligible;
-  return [...pool].sort((a, b) =>
+  return [...eligible].sort((a, b) =>
     hitProbabilityOf(b) - hitProbabilityOf(a) ||
     probabilityOf(b) - probabilityOf(a) ||
     oddsOf(a) - oddsOf(b) ||
     String(a?.selection_id || "").localeCompare(String(b?.selection_id || ""))
   )[0] || null;
+}
+
+/** 검증 스냅샷이 없을 때 레거시 최종확률을 제거하고 시장값만으로 고른다. */
+export function marketOnlyRecommendedSelection(selections) {
+  const originals = (selections || []).filter(Boolean);
+  const marketOnly = originals.map((selection) => ({
+    ...selection,
+    predicted_hit_prob: undefined,
+    "예상적중확률": undefined,
+    final_probability: undefined,
+    "최종확률": selection?.market_prob ?? selection?.["시장확률"],
+  }));
+  const selected = finalRecommendedSelection(marketOnly);
+  const index = marketOnly.indexOf(selected);
+  return index >= 0 ? originals[index] : null;
 }
 
 /** 완전히 교체된 최종 역배를 오늘 조합 후보로 전달할 때만 쓰는 명시적 표식이다. */

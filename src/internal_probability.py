@@ -35,13 +35,23 @@ def _side(option: dict) -> str | None:
     return None
 
 
-def _pitcher_value(starter: dict | None) -> tuple[float | None, str | None]:
-    stats = (starter or {}).get("stats") or {}
+def _paired_pitcher_values(
+    home_starter: dict | None,
+    away_starter: dict | None,
+) -> tuple[float | None, float | None, str | None]:
+    """Choose one comparable metric that exists for both starters."""
+
+    home_stats = (home_starter or {}).get("stats") or {}
+    away_stats = (away_starter or {}).get("stats") or {}
     for key in ("xfip", "fip", "era"):
-        value = _number(stats.get(key))
-        if value is not None and 0.0 < value < 15.0:
-            return value, key
-    return None, None
+        home = _number(home_stats.get(key))
+        away = _number(away_stats.get(key))
+        if (
+            home is not None and away is not None
+            and 0.0 < home < 15.0 and 0.0 < away < 15.0
+        ):
+            return home, away, key
+    return None, None, None
 
 
 def _lineup_ops(players: list[dict] | None) -> float | None:
@@ -69,10 +79,11 @@ def activation_reason(game: dict, option: dict) -> str | None:
     info = game.get("선발") if isinstance(game.get("선발"), dict) else {}
     if not info.get("source") or not info.get("updated_at"):
         return "player_provenance_missing"
-    home, _ = _pitcher_value(info.get("home_detail"))
-    away, _ = _pitcher_value(info.get("away_detail"))
+    home, away, _ = _paired_pitcher_values(
+        info.get("home_detail"), info.get("away_detail")
+    )
     if home is None or away is None:
-        return "both_starting_pitcher_metrics_required"
+        return "comparable_starting_pitcher_metric_required"
     return None
 
 
@@ -86,17 +97,28 @@ def baseball_player_delta(game: dict, option: dict) -> tuple[float, list[dict]]:
     factors: list[dict] = []
     home_delta = 0.0
 
-    home_pitching, home_metric = _pitcher_value(info.get("home_detail"))
-    away_pitching, away_metric = _pitcher_value(info.get("away_detail"))
+    home_pitching, away_pitching, pitcher_metric = _paired_pitcher_values(
+        info.get("home_detail"), info.get("away_detail")
+    )
     raw = _clip((away_pitching - home_pitching) * 0.025, -0.075, 0.075)
-    confirmed = (info.get("starter_status") or {}).get("state") == "confirmed"
+    starter_status = info.get("starter_status")
+    if starter_status is True:
+        confirmed = True
+    elif isinstance(starter_status, dict):
+        confirmed = (
+            starter_status.get("confirmed") is True
+            or str(starter_status.get("state") or "").lower()
+            in {"confirmed", "official", "official_today"}
+        )
+    else:
+        confirmed = False
     confidence = 1.0 if confirmed else 0.80
     contribution = raw * confidence
     home_delta += contribution
     factors.append({
         "id": "starting_pitcher", "home_value": round(home_pitching, 3),
         "away_value": round(away_pitching, 3),
-        "metric": home_metric if home_metric == away_metric else f"{home_metric}/{away_metric}",
+        "metric": pitcher_metric,
         "confidence": confidence, "home_probability_delta": round(contribution, 4),
     })
 
@@ -119,11 +141,13 @@ def baseball_player_delta(game: dict, option: dict) -> tuple[float, list[dict]]:
     home_out = len(unavailable.get("home") or [])
     away_out = len(unavailable.get("away") or [])
     if home_out or away_out:
-        contribution = _clip((away_out - home_out) * 0.006, -0.024, 0.024)
+        confidence = 0.65
+        raw = _clip((away_out - home_out) * 0.006, -0.024, 0.024)
+        contribution = raw * confidence
         home_delta += contribution
         factors.append({
             "id": "availability", "home_value": home_out, "away_value": away_out,
-            "confidence": 0.65, "home_probability_delta": round(contribution, 4),
+            "confidence": confidence, "home_probability_delta": round(contribution, 4),
         })
 
     return _clip(sign * home_delta, -MAX_PLAYER_DELTA, MAX_PLAYER_DELTA), factors

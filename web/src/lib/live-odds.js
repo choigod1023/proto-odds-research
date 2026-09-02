@@ -116,12 +116,20 @@ const structureSignature = (options) => JSON.stringify((options || []).map((opti
   option?.line ?? null, option?.["선택"] || "",
 ]));
 
+const requireRecordedPredictionRevision = (game, changes) => ({
+  ...game,
+  ...changes,
+  prediction_status: "prediction_ledger_required",
+  prediction_revision_id: null,
+  prediction_record: null,
+  _liveOddsChanged: true,
+});
+
 export function hydrateUnpricedGame(game, roundMarkets, generatedAt = null) {
   if (game?.options?.length || !roundMarkets) return game;
   const options = optionsFromRows(rowsForGame(game, roundMarkets));
   if (!options.length) return game;
-  return {
-    ...game,
+  return requireRecordedPredictionRevision(game, {
     no_odds: false,
     status: "경기전",
     options,
@@ -133,7 +141,7 @@ export function hydrateUnpricedGame(game, roundMarkets, generatedAt = null) {
     _liveOddsHydrated: true,
     _liveOddsRecalculated: true,
     _liveOddsRecalculatedAt: generatedAt,
-  };
+  });
 }
 
 /**
@@ -145,8 +153,7 @@ export function repriceGameOdds(game, roundOdds, generatedAt = null, roundMarket
   if (hydrated !== game) return hydrated;
   const freshOptions = optionsFromRows(rowsForGame(game, roundMarkets));
   if (freshOptions.length && structureSignature(freshOptions) !== structureSignature(game?.options)) {
-    return {
-      ...game,
+    return requireRecordedPredictionRevision(game, {
       options: freshOptions,
       추천: null,
       decision_snapshot: null,
@@ -163,7 +170,7 @@ export function repriceGameOdds(game, roundOdds, generatedAt = null, roundMarket
           label: option?.label || "", line: option?.line ?? null,
         })),
       },
-    };
+    });
   }
   if (!roundOdds || !game?.options?.length) return game;
   const groups = new Map();
@@ -209,14 +216,13 @@ export function repriceGameOdds(game, roundOdds, generatedAt = null, roundMarket
     });
   }
   if (!changed) return game;
-  return {
-    ...game,
+  return requireRecordedPredictionRevision(game, {
     options: game.options.map((option, index) => replacements.get(index) || option),
     추천: null,
     decision_snapshot: null,
     _liveOddsRecalculated: true,
     _liveOddsRecalculatedAt: generatedAt,
-  };
+  });
 }
 
 export function repricePriceGame(game, fresh, generatedAt = null) {

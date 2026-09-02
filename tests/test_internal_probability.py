@@ -29,8 +29,8 @@ def test_confirmed_starter_and_lineup_move_baseball_probability():
     result = internal_probability(_game(), {
         "market": "승패", "선택": "홈", "시장확률": .52, "모델확률": .55})
     assert result["basis"] == "internal-context-blend-v2"
-    assert result["player_delta"] == pytest.approx(.10)
-    assert result["final"] == pytest.approx(.611)
+    assert result["player_delta"] == pytest.approx(.0989)
+    assert result["final"] == pytest.approx(.6102)
 
 
 def test_projected_lineup_is_discounted_and_away_delta_is_symmetric():
@@ -51,6 +51,50 @@ def test_missing_provenance_or_pitcher_metrics_fail_closed():
     assert result["status"] == "ineligible"
     assert result["reason"] == "player_provenance_missing"
     assert result["final"] == .50
+
+
+def test_starter_metrics_must_use_the_same_unit():
+    game = _game()
+    game["선발"]["home_detail"]["stats"] = {"xfip": 2.8}
+    game["선발"]["away_detail"]["stats"] = {"fip": 4.8}
+
+    result = internal_probability(game, {
+        "market": "승패", "선택": "홈", "시장확률": .50, "모델확률": .60})
+
+    assert result["status"] == "ineligible"
+    assert result["reason"] == "comparable_starting_pitcher_metric_required"
+    assert result["final"] == .50
+
+
+def test_availability_confidence_scales_the_probability_delta():
+    game = _game()
+    game["선발"]["lineups"] = {}
+    game["선발"]["home_detail"]["stats"] = {"fip": 3.0}
+    game["선발"]["away_detail"]["stats"] = {"fip": 3.0}
+
+    delta, factors = baseball_player_delta(game, {
+        "market": "승패", "선택": "홈", "시장확률": .50, "모델확률": .50})
+
+    availability = next(row for row in factors if row["id"] == "availability")
+    assert delta == pytest.approx(.0039)
+    assert availability["confidence"] == .65
+    assert availability["home_probability_delta"] == pytest.approx(.0039)
+
+
+@pytest.mark.parametrize("status, expected", [
+    (True, 1.0),
+    ({"state": "confirmed"}, 1.0),
+    ({"state": "announced"}, 0.8),
+])
+def test_starter_status_legacy_and_announced_confidence(status, expected):
+    game = _game()
+    game["선발"]["starter_status"] = status
+
+    _, factors = baseball_player_delta(game, {
+        "market": "승패", "선택": "홈", "시장확률": .50, "모델확률": .50})
+
+    pitcher = next(row for row in factors if row["id"] == "starting_pitcher")
+    assert pitcher["confidence"] == expected
 
 
 @pytest.mark.parametrize("league", ["MLB", "KBO", "NPB"])

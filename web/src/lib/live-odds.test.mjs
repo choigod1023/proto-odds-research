@@ -14,6 +14,9 @@ test("실시간 배당과 시장확률·최종 판정을 한 revision으로 다�
   const game = {
     round: 101,
     추천: { "선택": "원정" },
+    prediction_status: "recorded_pregame",
+    prediction_revision_id: "old-revision",
+    prediction_record: { prediction_snapshot_id: "old-revision" },
     decision_snapshot: { schema_version: "decision-snapshot-v2" },
     options: [
       { market: "승패", label: "", "게임번호": "7010", "선택": "홈", "배당": 3.38,
@@ -25,6 +28,10 @@ test("실시간 배당과 시장확률·최종 판정을 한 revision으로 다�
   const repriced = repriceGameOdds(game, { 7010: [2.92, 1.26] }, "2026-08-27T05:02:24Z");
   assert.equal(repriced._liveOddsRecalculated, true);
   assert.equal(repriced._liveOddsRecalculatedAt, "2026-08-27T05:02:24Z");
+  assert.equal(repriced._liveOddsChanged, true);
+  assert.equal(repriced.prediction_status, "prediction_ledger_required");
+  assert.equal(repriced.prediction_revision_id, null);
+  assert.equal(repriced.prediction_record, null);
   assert.equal(repriced.decision_snapshot, null, "이전 가격의 판정 계약을 재사용하지 않는다");
   assert.equal(repriced.options[0]["시장확률"], 0.2744);
   assert.equal(repriced.options[1]["시장확률"], 0.7256);
@@ -57,6 +64,8 @@ test("기존 판정에 선택지가 없어도 현재 발매 메타데이터로 �
   assert.equal(hydrated.options[2].line, 10.5);
   assert.equal(hydrated.해설, null, "낡은 배당 미발표 문장을 제거한다");
   assert.equal(hydrated._liveOddsHydrated, true);
+  assert.equal(hydrated._liveOddsChanged, true);
+  assert.equal(hydrated.prediction_status, "prediction_ledger_required");
 });
 
 test("언더오버 기준점만 바뀌어도 최신 라인으로 옵션과 확률을 다시 만든다", () => {
@@ -81,6 +90,8 @@ test("언더오버 기준점만 바뀌어도 최신 라인으로 옵션과 확�
     "2026-08-31T08:00:00Z", markets);
 
   assert.equal(revised._liveLineChanged, true);
+  assert.equal(revised._liveOddsChanged, true);
+  assert.equal(revised.prediction_status, "prediction_ledger_required");
   assert.equal(revised.decision_snapshot, null);
   assert.deepEqual(revised.options.map((option) => option.line), [11.5, 11.5]);
   assert.deepEqual(revised.options.map((option) => option.label), ["U 11.5", "U 11.5"]);

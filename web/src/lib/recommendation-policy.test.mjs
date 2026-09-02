@@ -45,8 +45,8 @@ assert.deepEqual(qualifiedUnderdogSelections([favorite, reverse]), [reverse],
   "중간 배당·비극단 모델 괴리 역배만 전환 후보로 남긴다");
 assert.equal(finalRecommendedSelection([favorite, reverse]), favorite,
   "이변 후보는 관찰만 하고 운영 선택은 시장 최유력을 유지한다");
-assert.equal(finalRecommendedSelection([tooLow, favorite]), favorite,
-  "1.50 이상 후보가 있으면 더 낮은 가격의 확률만 보고 보조 후보를 고르지 않는다");
+assert.equal(finalRecommendedSelection([tooLow, favorite]), tooLow,
+  "1.50 표시 경계가 더 높은 최종 적중확률을 밀어내면 안 된다");
 const validatedLower = { ...favorite, event_key: "game-e", market_prob: 0.62,
   predicted_hit_prob: 0.57, has_validated_edge: true };
 const validatedHigher = { ...favorite, event_key: "game-f", odds: 1.70,

@@ -38,7 +38,6 @@ USAGE_CONSUMERS = ("market_baseline", "ai_residual", "decision_gate", "explainer
 USAGE_STATUSES = {"used", "shadow", "context_only", "ignored", "missing"}
 STAGE_IDS = ("market", "structured_ai", "availability_ai", "language_ai")
 PROMOTED_ARTIFACT_HASHES: frozenset[str] = frozenset()
-POLICY_AUTHORIZED_MODELS = frozenset({INTERNAL_OPERATING_VERSION})
 EVIDENCE_MANIFEST = {
     "market_price": {"label": "동일 시점 프로토 배당", "type": "market"},
     "team_performance": {"label": "팀 경기력 기록", "type": "team"},
@@ -46,6 +45,19 @@ EVIDENCE_MANIFEST = {
     "availability": {"label": "결장·출전 상태", "type": "player"},
     "cross_market": {"label": "교차 마켓 진단", "type": "market"},
 }
+
+
+def can_apply_decision_probability(model: dict | None) -> bool:
+    """통계 검증과 코드 리뷰를 모두 통과한 모델만 운영 확률에 허용한다."""
+
+    model = model or {}
+    return bool(
+        model.get("status") == "operational"
+        and model.get("promotion_gate") == "passed"
+        and bool(model.get("operating_version"))
+        and model.get("validated_edge") is True
+        and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES
+    )
 
 
 def _number(value: object) -> float | None:
@@ -240,20 +252,21 @@ def annotate_options(
             option["AI반영"] = reviewed
             pipeline_statuses.append(status)
             pipeline_reasons.append(reason)
-        # 승격된 잔차 artifact가 없을 때만 코드 리뷰된 야구 내부식이 운영 후보가 된다.
-        # 둘을 동시에 더하지 않아 같은 구조 신호가 중복 반영되는 일을 막는다.
+        # 야구 내부식은 입력이 충분해도 미래 외부검증을 통과한 확률 artifact가 아니다.
+        # 진단값은 보존하되 최종확률과 운영 선택에는 절대 반영하지 않는다.
         if not option.get("AI반영"):
             internal = internal_probability(game, option)
             option["내부확률"] = internal.get("internal")
             option["선수보정"] = internal.get("player_delta")
             option["내부요인"] = internal.get("factors")
-            option["내부모델상태"] = internal.get("status")
-            option["내부모델사유"] = internal.get("reason")
             if internal.get("status") == "operational":
-                option["최종확률"] = internal["final"]
-                option["확률근거"] = INTERNAL_OPERATING_VERSION
-                option["AI반영"] = True
-                pipeline_statuses.append("internal_operational")
+                option["내부모델상태"] = "shadow_only"
+                option["내부모델사유"] = "future validation has not promoted this model"
+                pipeline_statuses.append("internal_shadow")
+                pipeline_reasons.append(option["내부모델사유"])
+            else:
+                option["내부모델상태"] = internal.get("status")
+                option["내부모델사유"] = internal.get("reason")
         is_upset = qualified_underdog(
             option.get("market"), option.get("배당"), market,
             favorite_by_market.get(key), model,
@@ -270,35 +283,28 @@ def annotate_options(
     game["probability_pipeline"] = {
         "status": (
             "operational" if "promoted" in pipeline_statuses
-            else "operational" if "internal_operational" in pipeline_statuses
-            else "shadow_only" if "shadow_only" in pipeline_statuses
+            else "shadow_only" if (
+                "shadow_only" in pipeline_statuses
+                or "internal_shadow" in pipeline_statuses
+            )
             else "market_fallback" if probability_artifact is not None
             else "market_baseline"
         ),
         "artifact_hash": digest,
         "allowlisted": bool(digest and digest in PROMOTED_ARTIFACT_HASHES),
         "affects_probability": "promoted" in pipeline_statuses,
-        "reason": (
-            next(iter(dict.fromkeys(pipeline_reasons)), None)
-            if probability_artifact is not None
-            else "probability artifact is absent; Shin market retained"
+        "reason": next(iter(dict.fromkeys(pipeline_reasons)), None) or (
+            "probability artifact is absent; Shin market retained"
         ),
     }
-    if "internal_operational" in pipeline_statuses and "promoted" not in pipeline_statuses:
-        game["probability_pipeline"].update({
-            "operating_version": INTERNAL_OPERATING_VERSION,
-            "policy_authorized": True,
-            "affects_probability": True,
-            "reason": "baseball internal-factor activation gates passed",
-        })
 
 
 def choose_market_reference(options: list[dict]) -> dict | None:
     """가격대 우선선 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다.
 
     이변 후보는 설명용 shadow 신호로만 남긴다. 시간순 외부검증을 통과하지 않은
-    모델 차이로 운영 방향을 뒤집지 않는다. 1.50~2.20 미만 후보가 하나라도 있으면
-    그 후보군을 먼저 쓰고, 없을 때만 1.50 미만 최유력을 보조 선택으로 남긴다.
+    모델 차이로 운영 방향을 뒤집지 않는다. 1.50은 표시용 우선순위 경계일 뿐이며,
+    유효 후보 전체에서 최종 예상 적중확률이 가장 높은 방향을 고른다.
     """
     favorite_by_market: dict[tuple, float] = {}
     for option in options:
@@ -356,11 +362,7 @@ def choose_market_reference(options: list[dict]) -> dict | None:
         eligible.append(option)
     if not eligible:
         return None
-    primary = [
-        option for option in eligible if option.get("추천우선순위") == "primary"
-    ]
-    pool = primary or eligible
-    return max(pool, key=lambda option: (
+    return max(eligible, key=lambda option: (
         hit_probability(option) or 0.0,
         _number(option.get("시장확률")) or 0.0,
         -(_number(option.get("배당")) or 999.0),
@@ -692,17 +694,9 @@ def validate_decision_snapshot(snapshot: dict) -> None:
         raise ValueError("duplicate evidence id")
     probability = snapshot.get("probability") or {}
     model = snapshot.get("model") or {}
-    can_apply = (
-        model.get("status") == "operational"
-        and model.get("promotion_gate") == "passed"
-        and bool(model.get("operating_version"))
-        and (
-            (model.get("validated_edge") is True
-             and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES)
-            or (model.get("policy_authorized") is True
-                and model.get("operating_version") in POLICY_AUTHORIZED_MODELS)
-        )
-    )
+    can_apply = can_apply_decision_probability(model)
+    if model.get("validated_edge") is True and not can_apply:
+        raise ValueError("validated edge artifact is not promoted")
     if not can_apply:
         if probability.get("final") != probability.get("market"):
             raise ValueError("unvalidated AI changed final probability")

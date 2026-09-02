@@ -84,10 +84,13 @@ test("유효한 배당이 없으면 큰 모델확률로 화면 추천을 새로 
   assert.equal(decision.action, "withhold");
   assert.equal(decision.probability.final, null);
   assert.equal(decision.option, null);
-  assert.deepEqual(decision.contractErrors, []);
-  assert.equal(decisionLabel(decision), "비교 후보 보류");
-  assert.equal(decision.withholdReasons[0].title, "배당 또는 시장확률이 불완전함");
-  assert.match(decision.withholdReasons[0].body, /가지 않습니다/);
+  assert.deepEqual(decision.contractErrors, ["prediction_ledger_required"]);
+  assert.deepEqual(decision.gateCodes, [
+    "invalid_decision_contract", "prediction_ledger_required",
+  ]);
+  assert.equal(decisionLabel(decision), "판정 원장 기록 대기");
+  assert.equal(decision.withholdReasons[0].title, "사전 판정 원장 기록 대기");
+  assert.match(decision.withholdReasons[0].body, /구매 후보로 사용하지 않습니다/);
 });
 
 test("shadow AI가 잘못 저장한 final도 시장확률로 fail-close한다", () => {
@@ -167,7 +170,7 @@ test("operational 문자열과 통과 표식만으로는 미승격 artifact가 �
   assert.equal(decisionLabel(decision), "예상 적중 비교");
 });
 
-test("코드에 승인된 내부요인 운영식만 별도 표식으로 확률을 바꾼다", () => {
+test("정책 승인만 받은 내부요인 운영식은 감사 표식만 남기고 시장확률로 복귀한다", () => {
   const internal = {
     ...snapshot,
     model: {
@@ -186,9 +189,9 @@ test("코드에 승인된 내부요인 운영식만 별도 표식으로 확률�
     },
   };
   const decision = buildDecisionViewModel(gameFor(internal), option);
-  assert.equal(decision.probability.final, .65);
-  assert.equal(decision.probability.aiDeltaApplied, .03);
-  assert.equal(decision.probability.basis, "internal-context-blend-v2");
+  assert.equal(decision.probability.final, .62);
+  assert.equal(decision.probability.aiDeltaApplied, 0);
+  assert.equal(decision.probability.basis, "shin_market");
   assert.equal(decision.model.validatedEdge, false);
   assert.equal(decision.model.policyAuthorized, true);
 });
@@ -215,7 +218,7 @@ test("v2 압축 원장의 단계 설명과 자료 사용 상태를 공용 카탈
   assert.equal(decision.evidence[0].display_status, "context_only");
 });
 
-test("스냅샷이 없으면 레거시 모델을 무시하고 현재 시장 최유력으로 복구한다", () => {
+test("스냅샷이 없으면 현재 시장값은 설명만 하고 원장 기록을 기다린다", () => {
   const marketFavorite = {
     ...option, selection_id: undefined, offer_id: undefined,
     배당: 1.55, 시장확률: .60, 모델확률: .10,
@@ -229,16 +232,21 @@ test("스냅샷이 없으면 레거시 모델을 무시하고 현재 시장 최�
     options: [marketFavorite, modelFavorite],
     추천: modelFavorite,
   };
-  assert.equal(resolveDecisionOption(legacy), marketFavorite);
+  assert.equal(resolveDecisionOption(legacy), null);
   const decision = buildDecisionViewModel(legacy, marketFavorite);
-  assert.equal(decision.action, "market_reference");
-  assert.equal(decision.probability.final, .60);
-  assert.equal(decision.contractReconstructed, true);
-  assert.deepEqual(decision.contractErrors, []);
-  assert.equal(decisionLabel(decision), "예상 적중 비교 · 자동 복구");
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.probability.market, .60);
+  assert.equal(decision.probability.final, null);
+  assert.equal(decision.probability.basis, "shin_market_reference_only");
+  assert.equal(decision.ledgerRequired, true);
+  assert.equal(decision.marketReference.selection, marketFavorite["선택"]);
+  assert.equal(decision.marketReference.actionable, false);
+  assert.deepEqual(decision.contractErrors, ["prediction_ledger_required"]);
+  assert.match(decision.withholdReasons[0].body, /구매 후보로 사용하지 않습니다/);
+  assert.equal(decisionLabel(decision), "판정 원장 기록 대기");
 });
 
-test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 표시한다", () => {
+test("실시간 배당만 재계산되고 스냅샷이 없으면 원장 기록을 기다린다", () => {
   const live = {
     event_id: eventId,
     decision_snapshot: null,
@@ -253,14 +261,16 @@ test("실시간 배당 재계산은 대기가 아니라 새 Shin 판정으로 �
   };
   const selected = resolveDecisionOption(live);
   const decision = buildDecisionViewModel(live, selected);
-  assert.equal(decision.action, "market_reference");
-  assert.equal(decision.probability.final, .7256);
-  assert.equal(decision.recommendationEligible, true);
-  assert.equal(decision.recommendationPriority, "fallback");
-  assert.deepEqual(decision.gateCodes, ["lower_odds_fallback"]);
+  assert.equal(selected, null);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.probability.market, .7256);
+  assert.equal(decision.probability.final, null);
+  assert.equal(decision.recommendationEligible, null);
+  assert.equal(decision.recommendationPriority, null);
+  assert.ok(decision.gateCodes.includes("prediction_ledger_required"));
   assert.equal(decision.liveOddsRecalculated, true);
   assert.equal(decision.asOf, "2026-08-27T05:02:24Z");
-  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 보조");
+  assert.equal(decisionLabel(decision), "판정 원장 기록 대기");
 });
 
 test("1.50 미만이어도 시장 최유력 방향을 유지한다", () => {
@@ -274,10 +284,10 @@ test("1.50 미만이어도 시장 최유력 방향을 유지한다", () => {
   assert.equal(decision.recommendationEligible, true);
   assert.equal(decision.recommendationPriority, "fallback");
   assert.deepEqual(decision.gateCodes, ["lower_odds_fallback"]);
-  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 보조");
+  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 저배당");
 });
 
-test("1.50 이상 후보를 저배당 시장확률보다 우선한다", () => {
+test("1.50 표시 경계가 더 높은 시장확률을 밀어내지 않는다", () => {
   const lowOption = { ...option, 배당: 1.48 };
   const eligibleOption = {
     ...option,
@@ -292,16 +302,36 @@ test("1.50 이상 후보를 저배당 시장확률보다 우선한다", () => {
   const game = gameFor(snapshot, { options: [lowOption, eligibleOption] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, eligibleOption);
+  assert.equal(selected, lowOption);
   assert.equal(decision.action, "market_reference");
-  assert.equal(decision.probability.final, .55);
+  assert.equal(decision.probability.final, .62);
   assert.equal(decision.recommendationEligible, true);
-  assert.equal(decision.policyRecalculated, true);
-  assert.equal(decision.recommendationPriority, "primary");
-  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50~2.20 우선");
+  assert.equal(decision.policyRecalculated, false);
+  assert.equal(decision.recommendationPriority, "fallback");
+  assert.equal(decisionLabel(decision), "예상 적중 비교 · 1.50 미만 저배당");
 });
 
-test("이전 정책의 1.50 미만 보류를 보조 추천으로 복구한다", () => {
+test("스냅샷이 없으면 레거시 최종확률을 지우고 시장확률만 설명한다", () => {
+  const staleModelFavorite = {
+    ...option, selection_id: "sel_under", offer_id: "off_under",
+    market: "언더오버", 선택: "언더", 배당: 1.70,
+    시장확률: .55, 최종확률: .90, predicted_hit_prob: .90,
+  };
+  const marketFavorite = { ...option, 배당: 1.48, 시장확률: .60, 최종확률: .60 };
+  const game = gameFor(undefined, { options: [marketFavorite, staleModelFavorite] });
+
+  const selected = resolveDecisionOption(game);
+  const decision = buildDecisionViewModel(game, selected);
+
+  assert.equal(selected, null);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.probability.market, .60);
+  assert.equal(decision.probability.final, null);
+  assert.equal(decision.marketReference.selection, marketFavorite["선택"]);
+  assert.equal(decision.ledgerRequired, true);
+});
+
+test("이전 정책의 1.50 미만 보류도 서버 원장 재판정을 기다린다", () => {
   const lowOption = { ...option, 배당: 1.42 };
   const withheld = {
     ...snapshot,
@@ -317,39 +347,45 @@ test("이전 정책의 1.50 미만 보류를 보조 추천으로 복구한다", 
   const game = gameFor(withheld, { options: [lowOption] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, lowOption);
-  assert.equal(decision.action, "market_reference");
-  assert.equal(decision.recommendationPriority, "fallback");
-  assert.equal(decision.policyRecalculated, true);
+  assert.equal(selected, null);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.recommendationPriority, null);
+  assert.equal(decision.ledgerRequired, true);
+  assert.ok(decision.contractErrors.includes("selection_policy_mismatch"));
+  assert.ok(decision.contractErrors.includes("prediction_ledger_required"));
 });
 
-test("선택 식별자만 깨졌으면 현재 유효 배당으로 자동 복구한다", () => {
+test("선택 식별자가 깨지면 현재 유효 배당이 있어도 보류한다", () => {
   const malformed = { ...snapshot, offer_id: "wrong_offer" };
   const pricedOption = { ...option, 배당: 1.6 };
   const game = gameFor(malformed, { options: [pricedOption] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, pricedOption);
-  assert.equal(decision.action, "market_reference");
-  assert.equal(decision.contractReconstructed, true);
-  assert.equal(decision.policyRecalculated, true);
-  assert.deepEqual(decision.contractErrors, []);
-  assert.deepEqual(decision.contractRecoveredErrors, [
-    "selection_not_unique", "market_probability_mismatch",
+  assert.equal(selected, null);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.contractReconstructed, false);
+  assert.equal(decision.ledgerRequired, true);
+  assert.deepEqual(decision.contractErrors, [
+    "selection_not_unique", "market_probability_mismatch", "prediction_ledger_required",
   ]);
+  assert.equal(decision.marketReference.probability, .62);
+  assert.equal(decision.marketReference.actionable, false);
 });
 
-test("현재 선택의 offer 식별자가 달라져도 시장 기준으로 복구한다", () => {
+test("현재 선택의 offer 식별자가 달라지면 시장값은 설명만 하고 보류한다", () => {
   const changed = { ...option, offer_id: "off_changed", 배당: 1.6 };
   const game = gameFor(snapshot, { options: [changed] });
   const selected = resolveDecisionOption(game);
   const decision = buildDecisionViewModel(game, selected);
-  assert.equal(selected, changed);
-  assert.equal(decision.action, "market_reference");
-  assert.equal(decision.contractReconstructed, true);
-  assert.deepEqual(decision.contractRecoveredErrors, [
-    "selection_not_unique", "market_probability_mismatch",
+  assert.equal(selected, null);
+  assert.equal(decision.action, "withhold");
+  assert.equal(decision.contractReconstructed, false);
+  assert.equal(decision.ledgerRequired, true);
+  assert.deepEqual(decision.contractErrors, [
+    "selection_not_unique", "market_probability_mismatch", "prediction_ledger_required",
   ]);
+  assert.equal(decision.marketReference.odds, 1.6);
+  assert.equal(decision.marketReference.actionable, false);
 });
 
 test("경기 ID나 시각 오류는 현재 배당이 있어도 보류하고 이유를 설명한다", () => {

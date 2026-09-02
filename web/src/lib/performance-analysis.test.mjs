@@ -50,22 +50,25 @@ function withDecision(input, selectedIndex = 0) {
   };
 }
 
-test("스냅샷이 없으면 모델이 아니라 현재 시장 최유력으로 복구한다", () => {
+test("스냅샷이 없으면 시장 최유력은 설명만 하고 판정 원장을 기다린다", () => {
   const game = { home: "서울", away: "부산", options: [
     { market: "승무패", 선택: "승", 배당: 1.65, 모델확률: .03, 시장확률: .54 },
     { market: "승무패", 선택: "무", 배당: 3.2, 모델확률: .03, 시장확률: .25 },
     { market: "승무패", 선택: "패", 배당: 4.1, 모델확률: .94, 시장확률: .21 },
   ] };
-  assert.equal(predictionFor(game).headline, "서울 우세");
-  assert.equal(predictionFor(game).probability, .54);
-  assert.equal(predictionFor(game).decision.contractReconstructed, true);
+  const prediction = predictionFor(game);
+  assert.equal(prediction.headline, "판정 원장 기록 대기");
+  assert.equal(prediction.probability, null);
+  assert.equal(prediction.decision.probability.market, .54);
+  assert.equal(prediction.decision.marketReference.actionable, false);
+  assert.equal(prediction.decision.ledgerRequired, true);
 });
 
 test("미검증 역배 신호가 있어도 시장 최유력 방향을 유지한다", () => {
-  const game = { home: "서울", away: "부산", options: [
+  const game = withDecision({ home: "서울", away: "부산", options: [
     { market: "승패", 선택: "승", 배당: 1.55, 모델확률: .30, 시장확률: .58 },
     { market: "승패", 선택: "패", 배당: 2.05, 모델확률: .55, 시장확률: .42 },
-  ] };
+  ] });
   const analysis = performanceAnalysis(game);
   assert.equal(analysis.prediction.headline, "서울 우세");
   assert.equal(analysis.prediction.probability, .58);

@@ -11,7 +11,7 @@ import math
 
 PREFERRED_RECOMMENDATION_ODDS = 1.5
 # 이전 산출물·브라우저와의 호환용 별칭이다. 이제 1.50은 제외 하한이 아니라
-# 1순위와 보조 추천을 나누는 경계다.
+# 저배당 수익폭을 알리는 화면 등급 경계이며 선택 순서에는 쓰지 않는다.
 MIN_AUTO_RECOMMENDATION_ODDS = PREFERRED_RECOMMENDATION_ODDS
 MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
@@ -73,7 +73,7 @@ def automatic_selection_exclusion_reason(
 
 
 def recommendation_priority(odds: object) -> int:
-    """1.50 이상은 1순위, 그 미만의 유효 배당은 보조 추천으로 분류한다."""
+    """화면에서 1.50 미만 저배당 위험을 구분하는 표시용 등급."""
     try:
         price = float(odds)
     except (TypeError, ValueError):

@@ -1,8 +1,9 @@
 import { gradeOf } from "./fmt.js";
 import { eligibleFinalSelections, finalRecommendedSelection,
-  hitProbabilityOf, qualifiedUnderdogSelections } from "./recommendation-policy.js";
+  hitProbabilityOf, marketOnlyRecommendedSelection,
+  qualifiedUnderdogSelections } from "./recommendation-policy.js";
 import { pickNextLegs, ticketMetrics } from "./today-plan.js";
-import { resolveDecisionOption } from "./decision-view-model.js";
+import { canApplyDecisionProbability, resolveDecisionOption } from "./decision-view-model.js";
 
 const clean = (value) => String(value ?? "").trim();
 
@@ -88,11 +89,85 @@ const eventMarketKey = (selection) => {
     .map(clean).join("|");
 };
 
+const validProbability = (value) => {
+  const probability = Number(value);
+  return Number.isFinite(probability) && probability > 0 && probability < 1
+    ? probability : null;
+};
+
+function snapshotMatchesCurrentOption(game, option) {
+  const snapshot = game?.decision_snapshot;
+  const snapshotMarket = validProbability(snapshot?.probability?.market);
+  const currentMarket = validProbability(option?.["시장확률"]);
+  return Boolean(
+    snapshot && option &&
+    snapshot.selection_id === option.selection_id &&
+    snapshot.offer_id === option.offer_id &&
+    snapshotMarket != null && currentMarket != null &&
+    Math.abs(snapshotMarket - currentMarket) <= 1e-9,
+  );
+}
+
+function snapshotCanAffectProbability(game, option) {
+  const model = game?.decision_snapshot?.model || {};
+  return snapshotMatchesCurrentOption(game, option) &&
+    canApplyDecisionProbability(model) &&
+    validProbability(game?.decision_snapshot?.probability?.final) != null;
+}
+
+/** 현재 선택·가격 revision 하나에서 확률과 승인 메타데이터를 함께 다시 만든다. */
+function currentProbabilityMetadata(game, option) {
+  const market = validProbability(option?.["시장확률"]);
+  const snapshot = snapshotMatchesCurrentOption(game, option)
+    ? game.decision_snapshot : null;
+  const model = snapshot?.model || {};
+  const probability = snapshot?.probability || {};
+  const operational = model.status === "operational" && model.promotion_gate === "passed";
+  const validated = canApplyDecisionProbability(model);
+  const policyAuthorized = operational && model.policy_authorized === true;
+  const currentFinal = validProbability(probability.final);
+  const applied = currentFinal != null && validated;
+  const final = applied ? currentFinal : market;
+  const rawInterval = applied && Array.isArray(probability.residual_interval)
+    ? probability.residual_interval.map(validProbability) : [];
+  const intervalLower = rawInterval.length === 2 && rawInterval.every((value) => value != null) &&
+    final != null && rawInterval[0] <= final
+    ? rawInterval[0] : null;
+  const marketLower = market != null && final != null ? Math.min(market, final) : market;
+
+  return {
+    predicted_hit_prob: final,
+    probability_source: applied
+      ? probability.basis || "validated_final_probability"
+      : "shin_market_fallback",
+    probability_lower_bound: intervalLower ?? marketLower,
+    probability_interval: intervalLower == null ? null : rawInterval,
+    uncertainty_source: intervalLower == null
+      ? "shin_market_fallback" : "validated_residual_interval",
+    validated_uncertainty_available: intervalLower != null,
+    has_validated_edge: applied,
+    // 정책 플래그는 관찰용이다. 검증된 artifact가 아니면 최종확률을 바꾸지 않는다.
+    policy_authorized: policyAuthorized,
+    decision_pipeline_applied: applied,
+    selection_basis: applied ? "validated_decision_pipeline" : "shin_market_fallback",
+    decision_id: snapshot?.decision_id || null,
+    decision_model: snapshot ? model.operating_version || null : null,
+    decision_pipeline_status: snapshot ? model.status || null : "market_fallback",
+    decision_promotion_gate: snapshot ? model.promotion_gate || null : null,
+    decision_artifact_hash: snapshot ? model.artifact_hash || null : null,
+    decision_evidence_ids: snapshot
+      ? (snapshot.evidence || []).map((row) => row?.id).filter(Boolean) : [],
+  };
+}
+
 /** 생성 단계에서 하나로 확정한 추천을 현재(실시간 배당 반영) 선택지에 다시 연결한다. */
 export function canonicalOption(game, options = game?.options || [], { allowStarted = false } = {}) {
   if (game?._liveOddsChanged || (game?._liveStarted && !allowStarted)) return null;
   const current = resolveDecisionOption(game, options);
   if (!current) return null;
+  if (!snapshotCanAffectProbability(game, current)) {
+    return marketOnlyRecommendedSelection(options);
+  }
   return finalRecommendedSelection(options) === current ? current : null;
 }
 
@@ -121,7 +196,7 @@ export function alignTodayRecommendations(today, games = []) {
     });
     const wanted = {
       key: selectionKey(option, game.round),
-      basis: game?.decision_snapshot ? "game-decision" : "market-fallback",
+      basis: snapshotMatchesCurrentOption(game, option) ? "game-decision" : "market-fallback",
       option,
       game,
     };
@@ -143,6 +218,7 @@ export function alignTodayRecommendations(today, games = []) {
     const currentProbability = Number(option?.["시장확률"]);
     const grade = gradeOf(grades, currentOdds);
     const overround = Number(option?._liveOverround ?? candidate.overround);
+    const probabilityMetadata = currentProbabilityMetadata(wanted.game, option);
     return [{
       ...candidate,
       round: wanted.game.round,
@@ -162,6 +238,7 @@ export function alignTodayRecommendations(today, games = []) {
       final_reversal: reversal,
       model_prob: Number(option?.["모델확률"]),
       recommendation_basis: wanted.basis,
+      ...probabilityMetadata,
     }];
   });
   const candidates = eligibleFinalSelections(repriced).filter((candidate) => {

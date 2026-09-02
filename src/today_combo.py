@@ -12,9 +12,9 @@
    목표 배당은 다리 수가 아니라 다리당 배당으로 맞춘다.
 
 2. **그 배당대 안에서 어느 경기를 고를 것인가** — 여기가 이 파일이다.
-   실제 조합배당을 목표의 95~115% 안에 묶고, 자체 과거 실측표에서 손실이 가장
-   작았던 배당·마켓 구성을 우선한다. 확률 표시는 검증 보정값이 없으면 Shin
-   시장확률로 복귀하지만, 추천 순서는 그 시장확률로 정하지 않는다.
+   실제 조합배당을 목표의 95~115% 안에 묶고, 같은 배당칸 안에서는 검증된
+   최종 적중확률을 우선한다. 검증 보정값이 없으면 동일 시점 Shin 시장확률로
+   복귀하며, 과거 배당구간 손익은 설명용 진단값으로만 남긴다.
 
 규정 (https://www.sportstoto.co.kr/proto_rules.php · 2022-03 19회차 한경기구매 도입)
   · **한경기구매(단폴)**: '한경기' 로 지정된 경기만. 단위투표금액 1,000원
@@ -42,7 +42,8 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from evolutionary_policy import live_snapshot, load_artifact
-from ai_decision import validate_decision_snapshot
+from ai_decision import (can_apply_decision_probability,
+                         validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
 from runtime_db import persist_artifact
 from recommendation_policy import (
@@ -78,6 +79,7 @@ DAILY_CHALLENGE_MIN_HIT = {3: 0.27}
 DAILY_CHALLENGE_MAX_TARGET = 3
 DAILY_CHALLENGE_ROI_TOLERANCE = 0.03
 DAILY_CHALLENGE_BUDGET_RATIO = 0.10
+CORRELATION_STRESS_RHO = -0.05
 KST = ZoneInfo("Asia/Seoul")
 DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
@@ -100,16 +102,59 @@ def probability_of(value: object) -> float | None:
     return probability if 0.0 < probability < 1.0 else None
 
 
+def _leg_probability_contract(candidate: dict) -> tuple[
+        float | None, float | None, bool, str]:
+    """검증된 점추정과 추천용 하한을 분리하고 나머지는 시장으로 복귀한다."""
+    market = probability_of(candidate.get("market_prob"))
+    final = probability_of(candidate.get("predicted_hit_prob"))
+    applied = candidate.get("decision_pipeline_applied") is True
+    validated = applied and candidate.get("has_validated_edge") is True
+    estimate = final if final is not None and validated else market
+    interval_lower = probability_of(candidate.get("probability_lower_bound"))
+    has_interval = bool(
+        validated
+        and candidate.get("validated_uncertainty_available") is True
+        and candidate.get("uncertainty_source") == "validated_residual_interval"
+        and interval_lower is not None
+        and estimate is not None
+        and interval_lower <= estimate
+    )
+    if has_interval:
+        return estimate, interval_lower, True, "validated_residual_interval"
+    market_lower = min(market, estimate) if market is not None and estimate is not None else market
+    return estimate, market_lower, False, "shin_market_fallback"
+
+
 def calibrated_leg_probability(candidate: dict) -> tuple[float | None, float | None]:
     """검증된 잔차 계수가 없으면 후보의 동일 시점 시장확률로 정확히 복귀한다.
 
     예전 식은 넓은 배당구간 평균 ROI를 개별 후보 배당으로 나눈 뒤, 실제 승수도 아닌
     그 파생값에 Wilson 하한을 적용했다. 후보별 적중확률이 아니므로 선택에 쓰지 않는다.
     """
-    final = probability_of(candidate.get("predicted_hit_prob"))
-    market = probability_of(candidate.get("market_prob"))
-    estimate = final if final is not None else market
-    return estimate, estimate
+    estimate, lower, _, _ = _leg_probability_contract(candidate)
+    return estimate, lower
+
+
+def _correlation_stress(probabilities: list[float]) -> tuple[float, float, float]:
+    """독립 곱에 pairwise rho=-0.05를 가한 민감도와 엄격한 Fréchet 하한."""
+    independent = math.prod(probabilities)
+    if len(probabilities) < 2:
+        return independent, independent, 0.0
+    adjustment = 0.0
+    for left in range(len(probabilities)):
+        for right in range(left + 1, len(probabilities)):
+            covariance = CORRELATION_STRESS_RHO * math.sqrt(
+                probabilities[left] * (1.0 - probabilities[left])
+                * probabilities[right] * (1.0 - probabilities[right])
+            )
+            other = math.prod(
+                probability for index, probability in enumerate(probabilities)
+                if index not in {left, right}
+            )
+            adjustment += covariance * other
+    frechet = max(0.0, sum(probabilities) - (len(probabilities) - 1.0))
+    stressed = min(independent, max(frechet, independent + adjustment))
+    return stressed, frechet, independent - stressed
 
 
 def historical_leg_score(candidate: dict) -> tuple[float, int]:
@@ -132,18 +177,10 @@ def historical_leg_score(candidate: dict) -> tuple[float, int]:
 
 def leg_quality(candidate: dict) -> tuple:
     calibrated, conservative = calibrated_leg_probability(candidate)
-    probability = probability_of(candidate.get("predicted_hit_prob"))
-    if probability is None:
-        probability = probability_of(candidate.get("market_prob"))
     odds = float(candidate.get("odds") or 0.0)
-    pipeline_applied = candidate.get("decision_pipeline_applied") is True
     return (
-        -recommendation_priority(odds),
-        -int(pipeline_applied),
-        -((conservative or 0.0) * odds) if pipeline_applied else 0.0,
         -(conservative or 0.0),
         -(calibrated or 0.0),
-        -(probability or 0.0),
         -((conservative or 0.0) * odds),
         candidate["overround"],
         candidate["kickoff_at"],
@@ -315,7 +352,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
 
 
 def select_event_candidates(candidates: list[dict]) -> list[dict]:
-    """정책 승인 최종확률을 우선해 실제 경기마다 추천 후보 하나만 남긴다."""
+    """검증된 최종확률을 우선해 실제 경기마다 추천 후보 하나만 남긴다."""
     best_by_event: dict[str, dict] = {}
     for candidate in candidates:
         current = best_by_event.get(candidate["event_key"])
@@ -363,8 +400,9 @@ def pick_legs(
         closeness = -abs(math.log(odds / target)) if target else 0.0
         # DB 이전 직전 계약: 목표 배당 범위 안에서는 생성기가 확정한 최종 예상
         # 적중확률을 먼저 최대화한다. 과거 구간 손실률은 진단용으로만 남긴다.
-        score = (metrics.get("independent_hit_est", 0.0),
-                 metrics.get("market_reference_roi", -99.0),
+        score = (metrics.get("correlation_stress_hit_est", 0.0),
+                 metrics.get("independent_hit_est", 0.0),
+                 metrics.get("correlation_stress_expected_roi", -99.0),
                  metrics.get("hit_est", 0.0), payout, closeness)
         if best is None or score > best[0]:
             best = (score, legs)
@@ -375,11 +413,31 @@ def ticket_metrics(legs: list[dict]) -> dict:
     odds = math.prod(float(candidate["odds"]) for candidate in legs)
     probabilities = [probability_of(candidate.get("market_prob")) for candidate in legs]
     market_hit = math.prod(probabilities) if all(p is not None for p in probabilities) else None
-    calibrated = [calibrated_leg_probability(candidate) for candidate in legs]
-    calibrated_hit = (math.prod(p[0] for p in calibrated)
-                      if all(p[0] is not None for p in calibrated) else None)
-    conservative_hit = (math.prod(p[1] for p in calibrated)
-                         if all(p[1] is not None for p in calibrated) else None)
+    contracts = [_leg_probability_contract(candidate) for candidate in legs]
+    calibrated_hit = (math.prod(contract[0] for contract in contracts)
+                      if all(contract[0] is not None for contract in contracts) else None)
+    independent_lower_hit = (math.prod(contract[1] for contract in contracts)
+                             if all(contract[1] is not None for contract in contracts) else None)
+    stressed_hit = frechet_hit = correlation_sensitivity = None
+    if all(contract[1] is not None for contract in contracts):
+        stressed_hit, frechet_hit, correlation_sensitivity = _correlation_stress(
+            [contract[1] for contract in contracts]
+        )
+    has_validated_edge = bool(legs) and all(
+        candidate.get("decision_pipeline_applied") is True
+        and candidate.get("has_validated_edge") is True
+        and probability_of(candidate.get("predicted_hit_prob")) is not None
+        for candidate in legs
+    )
+    validated_uncertainty = has_validated_edge and all(contract[2] for contract in contracts)
+    has_policy_authorized_shadow = bool(legs) and any(
+        candidate.get("policy_authorized") is True
+        and not (
+            candidate.get("decision_pipeline_applied") is True
+            and candidate.get("has_validated_edge") is True
+        )
+        for candidate in legs
+    )
     out = {
         "actual_odds": round(odds, 2),
         "independent_hit_est": (round(calibrated_hit, 5)
@@ -389,6 +447,15 @@ def ticket_metrics(legs: list[dict]) -> dict:
         "market_reference_roi": (round(market_hit * odds - 1.0, 4)
                                  if market_hit is not None else None),
         "independence_assumption": True,
+        "independence_is_certainty": False,
+        "correlation_stress_rho": CORRELATION_STRESS_RHO,
+        "probability_basis": (
+            "서로 다른 경기의 검증 보정 최종확률 독립 가정(확정값 아님)"
+            if has_validated_edge
+            else "정책 승인 신호는 진단 전용이며 Shin 시장확률로 복귀(확정값 아님)"
+            if has_policy_authorized_shadow
+            else "서로 다른 경기의 Shin 시장확률 독립 가정(확정값 아님)"
+        ),
         "selection_basis": "final_hit_probability",
         "historical_expected_roi": round(
             math.prod(1.0 + historical_leg_score(candidate)[0] for candidate in legs) - 1.0,
@@ -404,18 +471,32 @@ def ticket_metrics(legs: list[dict]) -> dict:
                                if calibrated_hit is not None else None),
         "calibrated_expected_roi": (round(calibrated_hit * odds - 1.0, 4)
                                      if calibrated_hit is not None else None),
-        "conservative_hit_est": (round(conservative_hit, 5)
-                                 if conservative_hit is not None else None),
-        "conservative_expected_roi": (round(conservative_hit * odds - 1.0, 4)
-                                       if conservative_hit is not None else None),
+        "independent_lower_hit_est": (round(independent_lower_hit, 5)
+                                      if independent_lower_hit is not None else None),
+        "correlation_stress_hit_est": (round(stressed_hit, 5)
+                                       if stressed_hit is not None else None),
+        "correlation_stress_expected_roi": (round(stressed_hit * odds - 1.0, 4)
+                                             if stressed_hit is not None else None),
+        "frechet_lower_hit_bound": (round(frechet_hit, 5)
+                                    if frechet_hit is not None else None),
+        "correlation_sensitivity": (round(correlation_sensitivity, 5)
+                                    if correlation_sensitivity is not None else None),
+        "conservative_hit_est": (round(stressed_hit, 5)
+                                  if stressed_hit is not None else None),
+        "conservative_expected_roi": (round(stressed_hit * odds - 1.0, 4)
+                                        if stressed_hit is not None else None),
         "calibration_min_n": None,
-        "has_validated_edge": bool(legs) and all(
-            candidate.get("has_validated_edge") is True for candidate in legs
-        ),
+        "has_validated_edge": has_validated_edge,
+        "has_policy_authorized_probability": False,
+        "has_policy_authorized_shadow": has_policy_authorized_shadow,
+        "validated_uncertainty_available": validated_uncertainty,
         "probability_source": (
             "validated_final_probability"
-            if legs and all(candidate.get("has_validated_edge") is True for candidate in legs)
-            else "shin_market_fallback"
+            if has_validated_edge else "shin_market_fallback"
+        ),
+        "conservative_probability_source": (
+            "validated_interval_correlation_stress"
+            if validated_uncertainty else "shin_market_fallback_correlation_stress"
         ),
     }
     return out
@@ -455,42 +536,42 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 "why": "현재 선택 가능한 경기로 구성할 조합이 없다"}
     positive = [plan for plan in available
                 if plan.get("has_validated_edge") is True
-                and _reference_metric(plan, "market_reference_roi",
-                                      "conservative_expected_roi", -99.0) > 0.0]
+                and plan.get("validated_uncertainty_available") is True
+                and _metric_number(plan, "conservative_expected_roi", -99.0) > 0.0]
     if positive:
-        best = max(positive, key=lambda plan: (_kelly_growth(plan),
-                   _reference_metric(plan, "independent_hit_est",
-                                     "calibrated_hit_est", 0.0)))
+        best = max(positive, key=lambda plan: (
+            _kelly_growth(plan),
+            _metric_number(plan, "correlation_stress_expected_roi", -99.0),
+            _metric_number(plan, "correlation_stress_hit_est", 0.0),
+        ))
         action = "buy"
-        why = "사전 검증된 독립 확률모델의 기대수익이 양수다"
+        why = "사전 검증된 확률 하한에 상관 스트레스를 적용해도 기대수익이 양수다"
     else:
         challenge = [plan for plan in available
                      if _metric_number(plan, "target", 99.0) <= DAILY_CHALLENGE_MAX_TARGET
-                     and _reference_metric(plan, "market_reference_roi",
-                                           "conservative_expected_roi", -99.0) >= DAILY_CHALLENGE_MIN_ROI
-                     and _reference_metric(plan, "independent_hit_est", "calibrated_hit_est", 0.0) >=
+                     and _metric_number(plan, "correlation_stress_expected_roi",
+                                        -99.0) >= DAILY_CHALLENGE_MIN_ROI
+                     and _metric_number(plan, "correlation_stress_hit_est", 0.0) >=
                      DAILY_CHALLENGE_MIN_HIT.get(_metric_number(plan, "target", 99.0), float("inf"))]
         if challenge:
             best_challenge_roi = max(
-                _reference_metric(plan, "market_reference_roi",
-                                  "conservative_expected_roi", -99.0)
+                _metric_number(plan, "correlation_stress_expected_roi", -99.0)
                 for plan in challenge)
             balanced = [plan for plan in challenge
-                        if _reference_metric(plan, "market_reference_roi",
-                                             "conservative_expected_roi", -99.0) >=
+                        if _metric_number(plan, "correlation_stress_expected_roi",
+                                          -99.0) >=
                         best_challenge_roi - DAILY_CHALLENGE_ROI_TOLERANCE]
             best = max(balanced, key=lambda plan: (
                 _metric_number(plan, "target", 0.0),
-                _reference_metric(plan, "market_reference_roi",
-                                  "conservative_expected_roi", -99.0),
-                _reference_metric(plan, "independent_hit_est", "calibrated_hit_est", 0.0)))
+                _metric_number(plan, "correlation_stress_expected_roi", -99.0),
+                _metric_number(plan, "correlation_stress_hit_est", 0.0)))
             action = "challenge"
-            why = "최종 예상 적중확률로 고른 3배 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다"
+            why = "현재 확률에 상관 스트레스를 적용한 3배 조합이 기대손실 −20.5% 이내와 적중 27% 문턱을 충족한다"
         else:
             best = max(available, key=lambda plan: (
-                _reference_metric(plan, "market_reference_roi",
-                                  "conservative_expected_roi", -99.0),
-                _reference_metric(plan, "independent_hit_est", "calibrated_hit_est", 0.0)))
+                _metric_number(plan, "correlation_stress_expected_roi", -99.0),
+                _metric_number(plan, "correlation_stress_hit_est", 0.0),
+            ))
             action = "pass"
             why = "소액 도전 기준에도 미달했다"
     return {"action": action, "recommended_target": best["target"],
@@ -500,7 +581,11 @@ def daily_recommendation(plans: list[dict]) -> dict:
             "selection_historical_roi": _metric_number(
                 best, "historical_expected_roi", -99.0),
             "independent_hit_est": _reference_metric(
-                best, "independent_hit_est", "calibrated_hit_est", 0.0), "why": why}
+                best, "independent_hit_est", "calibrated_hit_est", 0.0),
+            "correlation_stress_hit_est": _metric_number(
+                best, "correlation_stress_hit_est", 0.0),
+            "correlation_stress_expected_roi": _metric_number(
+                best, "correlation_stress_expected_roi", -99.0), "why": why}
 
 
 def _game_context_index() -> dict[tuple[str, str, str, str], dict]:
@@ -524,17 +609,13 @@ def _approved_decision(snapshot: dict) -> bool:
     except (TypeError, ValueError):
         return False
     model = snapshot.get("model") or {}
-    return bool(
-        model.get("status") == "operational"
-        and model.get("promotion_gate") == "passed"
-        and (model.get("validated_edge") is True
-             or model.get("policy_authorized") is True)
-    )
+    return can_apply_decision_probability(model)
 
 
 def _matching_decision_option(candidate: dict, game: dict) -> dict | None:
     snapshot = game.get("decision_snapshot") or {}
     selection_id = snapshot.get("selection_id")
+    snapshot_market = probability_of((snapshot.get("probability") or {}).get("market"))
     if not selection_id:
         return None
     for option in game.get("options") or []:
@@ -549,11 +630,20 @@ def _matching_decision_option(candidate: dict, game: dict) -> dict | None:
                 )
                 same_market_probability = math.isclose(
                     float(option.get("시장확률")), float(candidate.get("market_prob")),
-                    abs_tol=0.01,
+                    abs_tol=0.0001,
+                )
+                same_snapshot_probability = snapshot_market is not None and math.isclose(
+                    snapshot_market, float(candidate.get("market_prob")), abs_tol=0.0001
                 )
             except (TypeError, ValueError):
                 return None
-            return option if same_price and same_market_probability else None
+            snapshot_offer = snapshot.get("offer_id")
+            option_offer = option.get("offer_id")
+            same_offer = bool(
+                snapshot_offer and option_offer and snapshot_offer == option_offer
+            )
+            return option if (same_price and same_market_probability
+                              and same_snapshot_probability and same_offer) else None
     return None
 
 
@@ -561,30 +651,69 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
     """개편 원장의 동일 선택 최종확률·근거를 오늘 추천 후보에 연결한다."""
     snapshot = game.get("decision_snapshot") or {}
     option = _matching_decision_option(candidate, game)
+    matched = option is not None
     approved = bool(option and _approved_decision(snapshot))
     probability = snapshot.get("probability") or {}
+    model = snapshot.get("model") or {}
     final = probability_of(probability.get("final")) if approved else None
+    market = probability_of(candidate.get("market_prob"))
+    validated = bool(final is not None and can_apply_decision_probability(model))
+    policy_authorized = bool(
+        matched
+        and model.get("status") == "operational"
+        and model.get("promotion_gate") == "passed"
+        and model.get("policy_authorized") is True
+    )
+    interval = probability.get("residual_interval") if validated else None
+    interval_lower = (
+        probability_of(interval[0])
+        if isinstance(interval, (list, tuple)) and len(interval) == 2
+        else None
+    )
+    if interval_lower is not None and final is not None and interval_lower > final:
+        interval_lower = None
+    fallback_lower = min(market, final) if market is not None and final is not None else market
     candidate.update({
-        "decision_id": snapshot.get("decision_id"),
-        "decision_model": (snapshot.get("model") or {}).get("operating_version"),
-        "decision_pipeline_status": (snapshot.get("model") or {}).get("status"),
+        "decision_id": snapshot.get("decision_id") if matched else None,
+        "decision_model": model.get("operating_version") if matched else None,
+        "decision_pipeline_status": model.get("status") if matched else "market_fallback",
         "decision_pipeline_applied": bool(final is not None),
-    })
-    if final is None:
-        return
-    candidate.update({
-        "predicted_hit_prob": round(final, 4),
-        "probability_source": probability.get("basis") or "approved_decision_pipeline",
-        "has_validated_edge": True,
-        "selection_basis": "approved_decision_pipeline",
+        "decision_promotion_gate": model.get("promotion_gate") if matched else None,
+        "decision_artifact_hash": model.get("artifact_hash") if matched else None,
+        "predicted_hit_prob": round(final if final is not None else market, 4)
+        if final is not None or market is not None else None,
+        "probability_source": (
+            probability.get("basis") or "approved_decision_pipeline"
+            if final is not None else "shin_market_fallback"
+        ),
+        "has_validated_edge": validated,
+        "policy_authorized": policy_authorized,
+        "probability_lower_bound": round(
+            interval_lower if interval_lower is not None else fallback_lower, 4
+        ) if interval_lower is not None or fallback_lower is not None else None,
+        "probability_interval": list(interval) if interval_lower is not None else None,
+        "uncertainty_source": (
+            "validated_residual_interval"
+            if interval_lower is not None else "shin_market_fallback"
+        ),
+        "validated_uncertainty_available": interval_lower is not None,
+        "selection_basis": (
+            "validated_decision_pipeline" if validated
+            else "shin_market_fallback"
+        ),
         "decision_evidence_ids": [
             row.get("id") for row in snapshot.get("evidence") or []
             if row.get("id")
-        ],
+        ] if matched else [],
     })
+    if final is None:
+        return
     candidate["reason"] = (
-        "개편된 판정 원장에서 동일 선택·동일 배당 revision이 확인됐고, 정책 승인된 "
-        f"{candidate['decision_model']} 최종확률을 추천 순위에 반영했다."
+        "개편된 판정 원장에서 동일 선택·동일 배당 revision이 확인됐고, "
+        f"{candidate['decision_model']} 최종확률을 추천 순위에 반영했다. "
+        + ("통계 검증 하한도 보수 확률에 반영했다."
+           if validated and interval_lower is not None
+           else "통계 검증 하한은 없어 보수 확률은 시장값으로 복귀한다.")
     )
 
 
@@ -701,11 +830,6 @@ def build() -> dict:
             "target": t, "ok": True, "legs": len(legs),
             "bins": bins,
             **metrics,
-            "probability_basis": (
-                "서로 다른 경기의 검증 보정 최종확률 독립 가정"
-                if metrics.get("has_validated_edge")
-                else "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정"
-            ),
             "historical_bucket_hit_est": historical_hit,
             "historical_bucket_roi": historical_roi,
             "picks": legs,
@@ -748,7 +872,7 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "최종 예상 적중확률 우선 · 1.50~2.20 먼저 · 검증 보정 없으면 시장값 복귀",
+        "selection_policy": "경기별 최종 적중확률 우선 · 조합 배당칸 1.50~2.20 · 검증 보정 없으면 시장값 복귀",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
@@ -762,7 +886,7 @@ def build() -> dict:
                 "목표별 고정 배당칸·폴 수는 2026 회고 비교에서 동적 2~4폴보다 "
                 "나아 유지하지만 사전 검증된 시장 우위는 아니다. "
                 "그보다 낮아도 모든 다리가 1.50배 이상인 3배 조합이 시장확률 기준 "
-                "손실지표 −20.5% 이내이며 시장 적중 추정 27%를 넘으면 "
+                "상관 스트레스 손실지표 −20.5% 이내이며 스트레스 적중 추정 27%를 넘으면 "
                 "양의 기대수익이 아닌 소액 도전으로 분리해 하루 예산 10%만 제안한다. "
                 "과거 배당구간 ROI를 개별 후보 적중확률로 바꾸지 않는다. "
                 "자체 득점 모델은 시장보다 부정확해 자동 선택에 쓰지 않는다. "
