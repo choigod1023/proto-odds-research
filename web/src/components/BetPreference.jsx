@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Stat } from "./ui.jsx";
-import { challengeOptions } from "../lib/today-plan.js";
+import { challengeOptions, planSignature } from "../lib/today-plan.js";
 
 const STORAGE_KEY = "proto-bet-preference-v1";
 
@@ -44,10 +44,6 @@ function readPreference() {
     return fallback;
   }
 }
-
-const planSignature = (plan) => [plan?.target, plan?.actual_odds,
-  ...(plan?.picks || []).map((pick) => `${pick.round}-${pick.game_no}`),
-].join("|");
 
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 
@@ -114,9 +110,11 @@ export default function BetPreference({
   const automaticChallenge = recommendationAction === "challenge" && challenge == null &&
     Number(challengeTarget) === Number(recommendedTarget) ? challenges[0] : null;
   const effectiveChallenge = challenge === false ? null : (challenge || automaticChallenge);
-  const effectiveSignature = effectiveChallenge
+  const effectiveSignature = effectiveChallenge?.plan_signature || null;
+  const currentChallengeSignature = effectiveChallenge
     ? planSignature(plans[effectiveChallenge.plan_index]) : null;
   const activeChallenge = shouldPass && effectiveChallenge && selectedIndex >= 0 &&
+    effectiveSignature === currentChallengeSignature &&
     planSignature(selected) === effectiveSignature;
   const unit = selectedIndex < 0 ? 1_000 : 100;
   const stake = shouldPass
@@ -138,7 +136,7 @@ export default function BetPreference({
 
   const chooseChallenge = (option) => {
     const plan = plans[option.plan_index];
-    const signature = planSignature(plan);
+    const signature = option.plan_signature || planSignature(plan);
     if (effectiveChallenge?.stake === option.stake &&
       effectiveSignature === signature && activeChallenge) {
       setChallenge(false);
@@ -230,9 +228,9 @@ export default function BetPreference({
                   </div>
                   <div className="mt-1 text-[10.5px] leading-[1.5] text-ink2">
                     실배당 <b className="tnum text-ink">{option.actual_odds.toFixed(2)}×</b><br />
-                    독립 가정 적중 <b className="tnum text-ink">{((option.independent_hit_est ?? option.calibrated_hit_est) * 100).toFixed(1)}%</b><br />
+                    상관 스트레스 적중 <b className="tnum text-ink">{((option.correlation_stress_hit_est ?? option.independent_hit_est ?? option.calibrated_hit_est ?? 0) * 100).toFixed(1)}%</b><br />
                     적중 시 <b className="tnum text-ink">+{money(option.net_profit)}</b><br />
-                    우리 실측 기준 평균손실 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
+                    스트레스 기준 기대손실 <b className="tnum text-sev3">−{money(option.conservative_loss)}</b>
                   </div>
                 </button>
               );

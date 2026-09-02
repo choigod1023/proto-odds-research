@@ -10,6 +10,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from ai_decision import build_decision_snapshot  # noqa: E402
+from prediction_ledger import LedgerConflictError  # noqa: E402
 from prediction_runtime import (  # noqa: E402
     PredictionRuntime,
     attach_score_forecast,
@@ -227,7 +228,7 @@ def test_latest_pregame_revision_is_settled_idempotently_and_tallied(tmp_path):
     assert runtime.ui_records()[event_id]["result"] == "miss"
 
 
-def test_latest_revision_is_chosen_by_as_of_even_if_older_job_finishes_last(tmp_path):
+def test_older_job_is_rejected_if_it_finishes_after_a_newer_revision(tmp_path):
     current = [datetime(2026, 8, 28, 9, 25, tzinfo=UTC)]
     runtime = PredictionRuntime(
         tmp_path / "pregame.jsonl", clock=lambda: current[0]
@@ -247,11 +248,42 @@ def test_latest_revision_is_chosen_by_as_of_even_if_older_job_finishes_last(tmp_
     attach_score_forecast(older)
     snapshot(older, "2026-08-28T09:10:00+00:00")
     current[0] = datetime(2026, 8, 28, 9, 30, tzinfo=UTC)
-    runtime.record_pregame(
-        older,
-        kickoff="2026-08-28T10:00:00+00:00",
-        market_observed_at="2026-08-28T09:10:00+00:00",
-    )
+    with pytest.raises(LedgerConflictError, match="as_of regressed"):
+        runtime.record_pregame(
+            older,
+            kickoff="2026-08-28T10:00:00+00:00",
+            market_observed_at="2026-08-28T09:10:00+00:00",
+        )
 
     record = runtime.ui_records()[newer["event_id"]]
     assert record["odds"] == 1.60
+
+
+def test_revision_guard_compares_timezone_offsets_by_utc_instant(tmp_path):
+    current = [datetime(2026, 8, 28, 9, 25, tzinfo=UTC)]
+    runtime = PredictionRuntime(
+        tmp_path / "pregame.jsonl", clock=lambda: current[0]
+    )
+    newer = game()
+    newer["options"][0]["배당"] = 1.60
+    newer["options"][0]["시장확률"] = 0.63
+    attach_score_forecast(newer)
+    snapshot(newer, "2026-08-28T09:20:00+00:00")
+    runtime.record_pregame(
+        newer,
+        kickoff="2026-08-28T10:00:00+00:00",
+        market_observed_at="2026-08-28T09:20:00+00:00",
+    )
+
+    older = copy.deepcopy(game())
+    attach_score_forecast(older)
+    snapshot(older, "2026-08-28T17:10:00+09:00")  # 08:10Z
+    current[0] = datetime(2026, 8, 28, 9, 30, tzinfo=UTC)
+    with pytest.raises(LedgerConflictError, match="as_of regressed"):
+        runtime.record_pregame(
+            older,
+            kickoff="2026-08-28T19:00:00+09:00",
+            market_observed_at="2026-08-28T17:10:00+09:00",
+        )
+
+    assert runtime.ui_records()[newer["event_id"]]["odds"] == 1.60

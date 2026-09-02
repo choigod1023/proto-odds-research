@@ -512,6 +512,24 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
     # 경기 정보를 섞기보다 동일 키 안에서 갱신 시각이 가장 늦은 값만 택한다.
     rec = max(candidates, key=lambda x: str(x.get("updated_at") or ""))
     starters = rec.get("starters") or {}
+    raw_starter_status = rec.get("starter_status")
+    if raw_starter_status is True:
+        starter_status = {
+            "state": "confirmed", "confirmed": True, "source": rec.get("source"),
+        }
+    elif isinstance(raw_starter_status, dict):
+        starter_status = dict(raw_starter_status)
+    elif isinstance(raw_starter_status, str) and raw_starter_status.strip():
+        starter_status = {"state": raw_starter_status.strip(), "source": rec.get("source")}
+    else:
+        starter_status = {}
+    if not starter_status and starters:
+        announced = [
+            bool((starters.get(side) or {}).get("announced"))
+            for side in ("home", "away")
+        ]
+        if all(announced):
+            starter_status = {"state": "announced", "source": rec.get("source")}
     team_profiles = build_team_profiles(rec)
     payload = {
         "home": (starters.get("home") or {}).get("name"),
@@ -522,6 +540,7 @@ def match_game(index: dict, league: str, game_date: str, home: str, away: str) -
         "source_url": rec.get("source_url"), "updated_at": rec.get("updated_at"),
         "key_players": rec.get("key_players") or {}, "rosters": rec.get("rosters") or {},
         "benches": rec.get("benches") or {}, "formations": rec.get("formations") or {},
+        "starter_status": starter_status,
         "lineup_status": rec.get("lineup_status") or {},
         "roster_status": rec.get("roster_status") or {},
         "coverage": rec.get("coverage") or {}, "sport": rec.get("sport"),

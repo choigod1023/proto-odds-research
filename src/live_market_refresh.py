@@ -12,24 +12,156 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ai_decision import build_decision_snapshot  # noqa: E402
 from bets import SEL_NAMES  # noqa: E402
 from devig import market_probabilities  # noqa: E402
 from game_dedup import deduplicate_game_sections  # noqa: E402
+from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
+                               LedgerLockTimeout, PredictionLedgerError)
+from prediction_runtime import PredictionRuntime, kickoff_utc  # noqa: E402
 from runtime_db import (RuntimeDatabase, database_enabled,
                         persist_artifact)  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 LIVE_ODDS = ROOT / "docs" / "data" / "live_odds.json"
+PREDICTION_LEDGER = ROOT / "data" / "raw" / "prediction_ledger" / "pregame.jsonl"
 UNPLAYED = {"경기전", "", "-"}
 LINE = re.compile(r"[-+]?\d+(?:\.\d+)?")
+GAME_TIME = re.compile(r"(\d{1,2})\.(\d{1,2}).*?(\d{1,2}):(\d{2})")
+KST = ZoneInfo("Asia/Seoul")
 
 
 def _key(round_no, date, home, away) -> tuple[str, str, str, str]:
     return str(round_no), str(date or ""), str(home or ""), str(away or "")
+
+
+def _aware_timestamp(value: object) -> datetime | None:
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        return None
+    return parsed.astimezone(timezone.utc)
+
+
+def _game_kickoff(game: dict, observed_at: datetime | None = None) -> datetime | None:
+    """Parse the public Proto date as a naive KST kickoff for the ledger."""
+
+    match = GAME_TIME.search(str(game.get("date") or ""))
+    if not match:
+        return None
+    month, day, hour, minute = map(int, match.groups())
+    fallback_year = (
+        observed_at.astimezone(KST).year
+        if observed_at is not None else datetime.now(KST).year
+    )
+    year = int(game.get("year") or fallback_year)
+    if int(game.get("round") or 0) == 1 and month == 12:
+        year -= 1
+    try:
+        return datetime(year, month, day, hour, minute)
+    except ValueError:
+        return None
+
+
+def record_live_market_revisions(
+    document: dict,
+    observed_at: str,
+    runtime: PredictionRuntime,
+) -> dict[str, int]:
+    """Persist every newly published pregame market decision before serving it.
+
+    ``refresh_document`` remains a pure document transform for tests and callers.
+    This operational step is deliberately strict: if a changed pregame decision
+    cannot enter the append-only ledger, the caller must not publish that document.
+    """
+
+    observed = _aware_timestamp(observed_at)
+    if observed is None:
+        raise PredictionLedgerError("live market observed_at must include a timezone")
+    counts = {"predictions": 0, "skipped": 0, "withheld": 0}
+    candidates: list[tuple[dict, dict, str]] = []
+    latest_by_event: dict[str, dict] = {}
+    for record in runtime.records():
+        if record.get("record_type") != "prediction":
+            continue
+        key = str(record.get("event_id") or "")
+        current = latest_by_event.get(key)
+        order = (_aware_timestamp(record.get("as_of")), int(record.get("ledger_sequence") or 0))
+        current_order = (
+            _aware_timestamp(current.get("as_of")), int(current.get("ledger_sequence") or 0)
+        ) if current else (None, 0)
+        if current is None or order > current_order:
+            latest_by_event[key] = record
+
+    # Validate the complete publish set before the first append. Expected stale
+    # or malformed post-kickoff rows are withheld per game; a timestamp rollback
+    # aborts the batch so old prices can never replace a newer published revision.
+    for game in document.get("live") or []:
+        snapshot = game.get("decision_snapshot") or {}
+        if (
+            game.get("status") != "경기전"
+            or snapshot.get("as_of") != observed_at
+        ):
+            continue
+        kickoff = _game_kickoff(game, observed)
+        if kickoff is None or observed >= _aware_timestamp(kickoff_utc(kickoff)):
+            game["추천"] = None
+            game.pop("decision_snapshot", None)
+            game.pop("prediction_record", None)
+            game["prediction_status"] = "withheld_unrecorded_live_revision"
+            game["_liveOddsChanged"] = True
+            counts["withheld"] += 1
+            continue
+        event = str(snapshot.get("event_id") or "")
+        existing = latest_by_event.get(event)
+        if existing is not None and _aware_timestamp(existing.get("as_of")) > observed:
+            raise PredictionLedgerError(
+                "live market timestamp regressed behind the prediction ledger"
+            )
+        candidates.append((game, snapshot, kickoff_utc(kickoff)))
+
+    touched: list[tuple[dict, dict]] = []
+    for game, snapshot, kickoff_at in candidates:
+        result = runtime.record_pregame(
+            game,
+            kickoff=kickoff_at,
+            market_observed_at=observed_at,
+        )
+        counts["predictions" if result is not None and result.appended else "skipped"] += 1
+        record = result.record if result is not None else latest_by_event.get(
+            str(snapshot.get("event_id") or "")
+        )
+        if (
+            record is None
+            or record.get("input_revision_hash") != snapshot.get("input_revision_hash")
+        ):
+            raise PredictionLedgerError("exact live market revision missing after ledger append")
+        latest_by_event[str(snapshot.get("event_id") or "")] = record
+        touched.append((game, record))
+
+    latest_ui = runtime.ui_records()
+    for game, record in touched:
+        snapshot = game.get("decision_snapshot") or {}
+        game["prediction_revision_id"] = record.get("snapshot_id")
+        if snapshot.get("action") == "withhold":
+            game.pop("prediction_record", None)
+            game["prediction_status"] = "recorded_withhold"
+            continue
+        ui_record = latest_ui.get(snapshot.get("event_id"))
+        if (
+            ui_record is None
+            or ui_record.get("prediction_snapshot_id") != record.get("snapshot_id")
+        ):
+            raise PredictionLedgerError("published live decision does not match exact ledger revision")
+        game["prediction_record"] = ui_record
+        game["prediction_status"] = "recorded_pregame"
+    return counts
 
 
 def _options(rows: list[dict]) -> list[dict]:
@@ -94,7 +226,8 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
         if game is None:
             sample = rows[0]
             game = {
-                "year": datetime.now(timezone.utc).year, "round": int(key[0]),
+                "year": (_aware_timestamp(observed_at) or datetime.now(timezone.utc))
+                .astimezone(KST).year, "round": int(key[0]),
                 "date": sample.get("date"), "league": sample.get("league"),
                 "sport": sample.get("sport"), "home": sample.get("home"),
                 "away": sample.get("away"), "no_model": True,
@@ -189,6 +322,20 @@ def refresh_once(live_odds: dict | None = None) -> int:
     if not changed:
         print("경량 시장 판정 변경 없음")
         return 0
+    observed_at = str(live_odds.get("generated_at") or "")
+    try:
+        ledger_sync = record_live_market_revisions(
+            document,
+            observed_at,
+            PredictionRuntime(PREDICTION_LEDGER),
+        )
+    except (LedgerCorruptionError, LedgerConflictError,
+            LedgerLockTimeout, PredictionLedgerError) as exc:
+        # A price can be shown only together with the immutable decision revision
+        # that will later be settled. Retrying is safe because the ledger dedupes.
+        print(f"경량 시장 판정 원장 실패: {type(exc).__name__}: {exc}")
+        return 1
+    document.setdefault("live_market_refresh", {})["ledger_sync"] = ledger_sync
     persist_artifact("picks_v2", document, PICKS)
     print(f"경량 시장 판정 {changed}경기 → {PICKS}")
     return 0

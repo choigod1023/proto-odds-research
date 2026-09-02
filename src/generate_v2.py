@@ -15,10 +15,10 @@
 운영 원칙
 ---------
 검증되지 않은 득점분포 모델이 선택이나 확률을 바꾸지 못하게 한다. 자동 선택은
-홀짝·2.20 이상·시장 역배는 기본 추천에서 제외한다. 1.50 이상 후보를 먼저 고르고,
-없을 때만 1.50 미만 시장 최유력을 보조 추천한다. 다만 역배가 1.50~3.00 미만·
-시장확률 28% 이상·검증 전 모델 50~75%·모델 우위 8~25%p 관문을 모두 통과하면
-기본 추천과 나란히 두지 않고 경기의 최종 픽 하나를 해당 역배로 교체한다.
+홀짝·2.20 이상·시장 역배는 기본 추천에서 제외한다. 1.50 경계는 수익폭을 알리는
+표시 라벨일 뿐 선택 우선순위가 아니며, 유효 후보 중 최종 적중확률을 먼저 본다.
+역배의 가격·시장확률·검증 전 모델 괴리 관문은 연구용 관찰 신호로만 저장하고
+시간순 외부검증을 통과하기 전에는 운영 선택을 뒤집지 않는다.
 모델값은 사이트의 AI 연구 탭에서만 보이며 최종 확률 기여는 항상 0%p다.
 
 용어
@@ -47,6 +47,7 @@ from ai_decision import (build_decision_snapshot, choose_market_reference, # noq
                          annotate_options, decision_manifest, event_id)
 from commentary import josa, make_preview, make_short               # noqa: E402
 import commentary_llm                                               # noqa: E402
+from features import season_key                                     # noqa: E402
 from recommendation_context import (ContextStore,                   # noqa: E402
                                     narrative as context_narrative)
 from enrich_picks_context import enrich as enrich_existing          # noqa: E402
@@ -64,8 +65,10 @@ from runtime_db import (RuntimeDatabase, database_enabled,
 from game_dedup import deduplicate_game_sections                     # noqa: E402
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
-from score_dist import (joint, p_handicap, p_margin_band, p_odd,    # noqa: E402
+from score_dist import (p_handicap, p_margin_band, p_odd,           # noqa: E402
                         p_one_run, p_over, p_win)
+from score_scenarios import (get_sport_contract,                   # noqa: E402
+                             probability_matrix_from_lambdas)
 from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
 from wisetoto import CACHE, _session                                # noqa: E402
 
@@ -301,29 +304,31 @@ def team_lambdas() -> dict:
         [−0.389, +0.055] 로 0 을 포함하고 2026 년엔 부호가 반대라 넣지 않았다.)
     """
     from matches import load_matches
-    m = load_matches().sort_values("date")
+    m = load_matches().sort_values("kickoff")
     gf: dict = defaultdict(lambda: deque(maxlen=W_LONG))
     ga: dict = defaultdict(lambda: deque(maxlen=W_LONG))
     gfT: dict = defaultdict(lambda: deque(maxlen=W_LONG))   # 팀 단위(리그 무관)
     gaT: dict = defaultdict(lambda: deque(maxlen=W_LONG))
     for r in m.itertuples():
-        y = int(r.year)
-        gf[(r.league, r.home_team)].append((y, r.home_score))
-        ga[(r.league, r.home_team)].append((y, r.away_score))
-        gf[(r.league, r.away_team)].append((y, r.away_score))
-        ga[(r.league, r.away_team)].append((y, r.home_score))
-        gfT[r.home_team].append((y, r.home_score)); gaT[r.home_team].append((y, r.away_score))
-        gfT[r.away_team].append((y, r.away_score)); gaT[r.away_team].append((y, r.home_score))
-    return {"gf": gf, "ga": ga, "gfT": gfT, "gaT": gaT,
-            "season": int(m["year"].max())}
+        competition_season = season_key(str(r.league), pd.Timestamp(r.kickoff))
+        gf[(r.league, r.home_team)].append((competition_season, r.home_score))
+        ga[(r.league, r.home_team)].append((competition_season, r.away_score))
+        gf[(r.league, r.away_team)].append((competition_season, r.away_score))
+        ga[(r.league, r.away_team)].append((competition_season, r.home_score))
+        gfT[r.home_team].append((competition_season, r.home_score))
+        gaT[r.home_team].append((competition_season, r.away_score))
+        gfT[r.away_team].append((competition_season, r.away_score))
+        gaT[r.away_team].append((competition_season, r.home_score))
+    return {"gf": gf, "ga": ga, "gfT": gfT, "gaT": gaT}
 
 
-W_LONG = 40                 # 가중 평균에 쓰는 최대 경기 수
-SEASON_BOOST = 2.0          # 이번 시즌 경기에 주는 가중
+W_LONG = 40                 # 평균에 쓰는 최대 경기 수
+# 2배 시즌가중은 축구에서만 시간순 검증됐다. 다른 종목으로 근거를 외삽하지 않는다.
+SEASON_BOOST_BY_SPORT = {"sc": 2.0}
 
 
-def _wmean(rec, season: int) -> float:
-    """이번 시즌 경기에 2배 가중한 평균.
+def _wmean(rec, target_season: int, sport: str) -> float:
+    """종목별 검증 범위 안에서만 실제 대회 시즌을 가중한 평균.
 
     ⚠️ 왜 균등이 아닌가 — 실측으로 정했다. 축구 승무패 8,026건(2025~) 검증:
          균등20(구)      Brier 0.62113
@@ -332,9 +337,15 @@ def _wmean(rec, season: int) -> float:
          지수+시즌 2배    0.62069   (섞으면 오히려 나빠진다)
        그리고 **네 해 모두** 균등20보다 나았다(+3.1 / +1.3 / +1.6 / +1.8, ×1000).
        시장과의 격차를 약 5% 좁힌다 — 여전히 못 이기지만 방향은 확실하다.
+
+       이 근거는 축구에만 있으므로 야구·농구·배구는 같은 40경기 창의 균등평균이다.
     """
     r = list(rec)[-W_LONG:]
-    w = np.array([SEASON_BOOST if y == season else 1.0 for y, _ in r])
+    season_boost = SEASON_BOOST_BY_SPORT.get(sport, 1.0)
+    w = np.array([
+        season_boost if competition_season == target_season else 1.0
+        for competition_season, _ in r
+    ])
     v = np.array([x for _, x in r], dtype=float)
     return float((v * w).sum() / w.sum())
 
@@ -342,7 +353,15 @@ def _wmean(rec, season: int) -> float:
 HOME_MULT = {"bs": 1.03, "sc": 1.12, "bk": 1.02, "vl": 1.05}
 
 
-def lambdas_for(st: dict, league: str, home: str, away: str, sport: str):
+def lambdas_for(
+    st: dict,
+    league: str,
+    home: str,
+    away: str,
+    sport: str,
+    *,
+    game_datetime: pd.Timestamp,
+):
     """(λ홈, λ원정, 출처). 리그 키가 얇으면 **팀 단위 풀링**으로 떨어진다."""
     kh, ka = (league, home), (league, away)
     if len(st["gf"][kh]) >= 8 and len(st["gf"][ka]) >= 8:
@@ -353,16 +372,44 @@ def lambdas_for(st: dict, league: str, home: str, away: str, sport: str):
         src = "풀링"
     else:
         return None
-    yr = st["season"]
+    target_season = season_key(league, pd.Timestamp(game_datetime))
     hm = HOME_MULT.get(sport, 1.05)
-    lh = (_wmean(H[0], yr) + _wmean(A[1], yr)) / 2 * hm
-    la = (_wmean(A[0], yr) + _wmean(H[1], yr)) / 2
+    lh = (_wmean(H[0], target_season, sport)
+          + _wmean(A[1], target_season, sport)) / 2 * hm
+    la = (_wmean(A[0], target_season, sport)
+          + _wmean(H[1], target_season, sport)) / 2
     return float(lh), float(la), src
 
 
 # 선택지 이름은 bets.SEL_NAMES 가 정본이다 (사본을 만들지 말 것).
 
-def market_probs(M, fam: str, nw: int, line: float | None):
+def _market_result_space(M, sport: str):
+    """Return the settlement result space shared by every market formula.
+
+    Baseball, basketball and volleyball primary markets do not settle on a
+    drawn final score.  Removing that mass only inside the win market makes
+    totals, parity and margin bands contradict the displayed win probability.
+    Apply the sport contract once before dispatching to any market formula.
+    """
+
+    contract = get_sport_contract(sport)
+    result = np.asarray(M, dtype=float)
+    if not contract.condition_on_non_draw:
+        return result
+    result = result.copy()
+    np.fill_diagonal(result, 0.0)
+    total = float(result.sum())
+    return result / total if total > 0.0 else None
+
+
+def market_probs(M, sport: str, fam: str, nw: int, line: float | None):
+    # 프로토 배구 언더오버·홀짝은 총 *포인트* 시장이다. 현재 배구 모델의 단위는
+    # 세트이므로 3~5 세트 분포로 120~190 포인트 라인을 가격 매기지 않는다.
+    if sport == "vl" and fam in ("언더오버", "홀짝"):
+        return None
+    M = _market_result_space(M, sport)
+    if M is None:
+        return None
     if fam == "승패" and nw == 2:
         h, _, a = p_win(M)
         s = h + a
@@ -401,16 +448,19 @@ def _selftest() -> int:
     if "is_void" in df.columns:
         df = df[~df["is_void"].astype(str).str.lower().isin(("true", "1"))]
     df = df[df["result"].astype(str) != "취소"]
-    combos = (df.groupby(["market_family", "n_way"]).size()
+    combos = (df.groupby(["sport", "market_family", "n_way"]).size()
                 .sort_values(ascending=False))
-    M = joint(4.5, 4.2, "bb")
+    sample_lambdas = {
+        "bs": (4.5, 4.2), "sc": (1.4, 1.1),
+        "bk": (108.0, 105.0), "vl": (2.8, 2.5),
+    }
     fails = []
     # 배당이 없는 행(n_way=0)과 미분류는 애초에 사이트에 안 올라간다
     SKIP = {"미분류"}
     # 전반 마켓은 **일부러** 모델 확률이 없다. 풀게임 분포로 값을 매기면 가짜 우위가 나온다.
     UNPRICED_OK = "전반"
     print("사이트 렌더 가능성 검사")
-    for (fam, nw), n in combos.items():
+    for (sport, fam, nw), n in combos.items():
         nw = int(nw)
         if nw == 0 or fam in SKIP:
             print(f"  ⏭ {fam:<6} {nw}-way {n:>7,}건 (사이트 대상 아님)")
@@ -425,15 +475,20 @@ def _selftest() -> int:
                 fails.append((fam, nw, n, ["전반인데 이름없음"]))
             continue
         names = SEL_NAMES.get((fam, nw))
-        line = 1.5 if fam in ("언더오버", "핸디캡") else None
-        pm = market_probs(M, fam, nw, line)
+        line = (180.5 if sport == "vl" and fam == "언더오버" else
+                1.5 if fam in ("언더오버", "핸디캡") else None)
+        lambdas = sample_lambdas.get(str(sport), (4.5, 4.2))
+        M = probability_matrix_from_lambdas(str(sport), *lambdas)
+        pm = market_probs(M, str(sport), fam, nw, line)
         bad = []
         if names is None:
             bad.append("이름없음→sel0/sel1 노출")
         elif len(names) != nw:
             bad.append(f"이름 {len(names)}개 ≠ {nw}")
+        unit_mismatch = sport == "vl" and fam in ("언더오버", "홀짝")
         if pm is None:
-            bad.append("모델확률 없음→비교 불가")
+            if not unit_mismatch:
+                bad.append("모델확률 없음→비교 불가")
         elif len(pm) != nw or abs(sum(pm) - 1) > 1e-6:
             bad.append(f"확률 len={len(pm)} 합={sum(pm):.4f}")
         mark = "✅" if not bad else "🔴"
@@ -567,6 +622,58 @@ def _norm_team(n: str) -> str:
             n = n[: -len(s)]
             break
     return n
+
+
+def _fixture_lambdas(
+    st: dict,
+    *,
+    year: int,
+    round_no: int,
+    date_text: str,
+    league: str,
+    home: str,
+    away: str,
+    sport: str,
+    tiers: dict,
+):
+    """배당 유무와 무관하게 한 경기의 최종 λ를 한 경로에서 계산한다."""
+    kickoff = _game_datetime({"year": year, "round": round_no, "date": date_text})
+    if kickoff is None:
+        return None
+    lam = lambdas_for(
+        st,
+        league,
+        home,
+        away,
+        sport,
+        game_datetime=kickoff,
+    )
+    if not lam or sport != "sc":
+        return lam
+
+    # 풀링 λ는 상대 리그 강도를 직접 구분하지 못한다. 기존에 검증된 국내 축구
+    # 이종등급 보정을 배당 공개 여부와 무관하게 동일하게 적용한다.
+    fixture_year = int(kickoff.year)
+    th = tiers.get((fixture_year, _norm_team(home)), 0) \
+        or tiers.get((fixture_year, home), 0)
+    ta = tiers.get((fixture_year, _norm_team(away)), 0) \
+        or tiers.get((fixture_year, away), 0)
+    if not (th and ta and th != ta):
+        return lam
+    up_home = th < ta
+    delta = TIER_EDGE / 2
+    lh = max(0.15, lam[0] + (delta if up_home else -delta))
+    la = max(0.15, lam[1] + (-delta if up_home else delta))
+    return float(lh), float(la), lam[2] + "+등급보정"
+
+
+def _lambda_fields(lam) -> dict:
+    """마켓·홈승률·스코어 전망이 공유할 원본 정밀도의 λ 필드."""
+    return {
+        "lam_home": lam[0] if lam else None,
+        "lam_away": lam[1] if lam else None,
+        "lam_src": lam[2] if lam else None,
+    }
 
 
 _STORY_FAIL: list = []
@@ -837,11 +944,36 @@ def _recorded_predictions(path: Path | None = None) -> dict[str, dict]:
     return records
 
 
+def _withhold_unrecorded_prediction(game: dict, reason: str) -> None:
+    """원장과 정확히 연결되지 않은 사전 선택은 가격만 남기고 공개를 막는다."""
+
+    game["추천"] = None
+    game.pop("decision_snapshot", None)
+    game.pop("prediction_record", None)
+    game["prediction_revision_id"] = None
+    game["prediction_status"] = "prediction_ledger_required"
+    game["prediction_ledger_reason"] = reason
+    game["_liveOddsChanged"] = True
+
+
 def _attach_prediction_record(game: dict, records: dict[str, dict]) -> None:
     record = records.get(game.get("event_id") or event_id(game))
+    snapshot = game.get("decision_snapshot") or {}
+    requires_exact = (
+        game.get("status") in ("경기전", "배당대기")
+        and snapshot.get("action") == "market_reference"
+    )
     if not record:
+        if requires_exact:
+            _withhold_unrecorded_prediction(game, "exact_prediction_revision_missing")
         return
     record = dict(record)
+    if (
+        requires_exact
+        and record.get("prediction_snapshot_id") != snapshot.get("decision_id")
+    ):
+        _withhold_unrecorded_prediction(game, "prediction_revision_mismatch")
+        return
     selected = next((option for option in game.get("options", [])
                      if option.get("selection_id") == record.get("selection_id")), None)
     hit = selected.get("적중") if selected else None
@@ -856,6 +988,9 @@ def _attach_prediction_record(game: dict, records: dict[str, dict]) -> None:
         else:
             record["result"] = "pending"
     game["prediction_record"] = record
+    if requires_exact:
+        game["prediction_revision_id"] = record.get("prediction_snapshot_id")
+        game["prediction_status"] = "recorded_pregame"
     if record.get("score_forecast"):
         game["score_forecast"] = record["score_forecast"]
 
@@ -885,18 +1020,23 @@ def _sync_prediction_runtime(
 ) -> dict[str, int]:
     """Append changed pregame revisions, then settle the latest revision."""
 
-    counts = {"predictions": 0, "settlements": 0, "skipped": 0, "errors": 0}
+    counts = {
+        "predictions": 0, "settlements": 0, "skipped": 0,
+        "withheld": 0, "errors": 0,
+    }
     cutoff = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
     for game in games:
         if game.get("status") not in ("경기전", "배당대기"):
             continue
         kickoff = _game_datetime(game)
         if kickoff is None:
-            counts["errors"] += 1
+            _withhold_unrecorded_prediction(game, "kickoff_parse_failed")
+            counts["withheld"] += 1
             continue
         kickoff_at = kickoff_utc(kickoff)
         if cutoff >= datetime.fromisoformat(kickoff_at):
-            counts["skipped"] += 1
+            _withhold_unrecorded_prediction(game, "prediction_after_kickoff")
+            counts["withheld"] += 1
             continue
         try:
             result = runtime.record_pregame(
@@ -907,16 +1047,48 @@ def _sync_prediction_runtime(
             counts[
                 "predictions" if result is not None and result.appended else "skipped"
             ] += 1
-        except (LedgerCorruptionError, LedgerConflictError):
-            raise
         except PredictionLedgerError as exc:
             counts["errors"] += 1
             print(
-                f"예측 원장 기록 생략 {game.get('league')} "
+                f"예측 원장 기록 실패 {game.get('league')} "
                 f"{game.get('home')}vs{game.get('away')}: {exc}"
             )
+            raise
+
+        snapshot = game.get("decision_snapshot") or {}
+        exact = result.record if result is not None else next((
+            row for row in reversed(runtime.records())
+            if row.get("record_type") == "prediction"
+            and row.get("snapshot_id") == snapshot.get("decision_id")
+        ), None)
+        if exact is None:
+            raise PredictionLedgerError(
+                "exact generated prediction revision missing after ledger append"
+            )
+        game["prediction_revision_id"] = exact.get("snapshot_id")
+        game["prediction_status"] = (
+            "recorded_withhold"
+            if snapshot.get("action") == "withhold"
+            else "ledger_recorded_pending_ui"
+        )
 
     ui_records = runtime.ui_records()
+    for game in games:
+        snapshot = game.get("decision_snapshot") or {}
+        if (
+            game.get("status") not in ("경기전", "배당대기")
+            or snapshot.get("action") != "market_reference"
+        ):
+            continue
+        record = ui_records.get(game.get("event_id") or event_id(game))
+        if (
+            record is None
+            or record.get("prediction_snapshot_id") != snapshot.get("decision_id")
+        ):
+            raise PredictionLedgerError(
+                "published generated decision does not match exact ledger revision"
+            )
+        game["prediction_status"] = "recorded_pregame"
     for game in games:
         # 프로토 결과 수집은 선택지별 적중값을 먼저 채운 뒤 경기 상태를 한동안
         # ``결과확인``으로 남길 수 있다. 이때도 공식 적중값이 있으면 정산 가능하다.
@@ -1091,15 +1263,23 @@ def main() -> int:
             if not r.odds or not r.overround:
                 if r.result in UNPLAYED:
                     ht0, at0 = clean(r.home), clean(r.away)
-                    lam0 = lambdas_for(st, r.league, ht0, at0, r.sport)
+                    lam0 = _fixture_lambdas(
+                        st,
+                        year=season,
+                        round_no=rnd,
+                        date_text=r.date_text,
+                        league=r.league,
+                        home=ht0,
+                        away=at0,
+                        sport=r.sport,
+                        tiers=TIERS,
+                    )
                     k0 = f"{r.league}|{ht0}|{at0}|{r.date_text}"
                     if k0 not in games:
                         games[k0] = {
                             "year": season, "round": rnd, "date": r.date_text, "league": r.league,
                             "sport": r.sport, "home": ht0, "away": at0,
-                            "lam_home": (round(lam0[0], 2) if lam0 else None),
-                            "lam_away": (round(lam0[1], 2) if lam0 else None),
-                            "lam_src": (lam0[2] if lam0 else None),
+                            **_lambda_fields(lam0),
                             "no_model": lam0 is None,
                             "no_odds": True,          # 배당 미발표
                             "status": "배당대기", "options": []}
@@ -1107,20 +1287,17 @@ def main() -> int:
             if not (1.0 <= r.overround <= 1.40):
                 continue
             ht, at = clean(r.home), clean(r.away)
-            lam = lambdas_for(st, r.league, ht, at, r.sport)
-            # ⚠️ 풀링 λ 는 리그 등급 차이를 못 본다. K리그2 팀의 득점은 약한 상대
-            #    기준이라 K리그1 팀과 같은 값처럼 보인다. 그래서 부산아이(2부) vs
-            #    FC서울(1부) 에서 모델이 53% (시장 20%) 를 냈다.
-            #    실측한 등급 우위(+0.50골)를 양쪽에 절반씩 나눠 얹는다.
-            if lam and r.sport == "sc":
-                th = TIERS.get((season, _norm_team(ht)), 0) or TIERS.get((season, ht), 0)
-                ta = TIERS.get((season, _norm_team(at)), 0) or TIERS.get((season, at), 0)
-                if th and ta and th != ta:
-                    up_home = th < ta          # 숫자가 작을수록 상위 등급
-                    d = TIER_EDGE / 2
-                    lh = max(0.15, lam[0] + (d if up_home else -d))
-                    la = max(0.15, lam[1] + (-d if up_home else d))
-                    lam = (lh, la, lam[2] + "+등급보정")
+            lam = _fixture_lambdas(
+                st,
+                year=season,
+                round_no=rnd,
+                date_text=r.date_text,
+                league=r.league,
+                home=ht,
+                away=at,
+                sport=r.sport,
+                tiers=TIERS,
+            )
             # ⚠️ 여기서 continue 하면 **컵대회가 통째로 사라진다.**
             #    λ 키가 (리그, 팀) 이라 한국FA컵·UCL 처럼 경기 수가 적은 대회는
             #    8경기 문턱을 영영 못 넘는다. FC서울은 K리그1 에 20경기가 있는데도
@@ -1137,8 +1314,8 @@ def main() -> int:
                 line = float(m0.group(1))
             pm = None
             if lam:
-                M = joint(lam[0], lam[1], r.sport)
-                pm = _sane(market_probs(M, r.market_family, nw, line))
+                M = probability_matrix_from_lambdas(r.sport, lam[0], lam[1])
+                pm = _sane(market_probs(M, r.sport, r.market_family, nw, line))
             if pm is not None and len(pm) != len(r.odds):
                 pm = None
             if pm is None:
@@ -1154,9 +1331,7 @@ def main() -> int:
             g = games.setdefault(gkey, {
                 "year": season, "round": rnd, "date": r.date_text, "league": r.league,
                 "sport": r.sport, "home": ht, "away": at,
-                "lam_home": (round(lam[0], 2) if lam else None),
-                "lam_away": (round(lam[1], 2) if lam else None),
-                "lam_src": (lam[2] if lam else None),
+                **_lambda_fields(lam),
                 "no_model": lam is None,
                 "status": ("정산" if settled else
                            ("결과확인" if unknown_result else "경기전")),
@@ -1239,7 +1414,10 @@ def main() -> int:
         attach_score_forecast(g)
         if g.get("no_odds") and not g["options"]:
             if not g.get("no_model"):
-                h0, _, a0 = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
+                matrix = probability_matrix_from_lambdas(
+                    g["sport"], g["lam_home"], g["lam_away"]
+                )
+                h0, _, a0 = p_win(matrix)
                 g["홈승률"] = round(h0 / (h0 + a0), 4) if h0 + a0 > 0 else None
             else:
                 g["홈승률"] = None
@@ -1266,7 +1444,10 @@ def main() -> int:
             out.append(g)
             continue
 
-        h, _, a = p_win(joint(g["lam_home"], g["lam_away"], g["sport"]))
+        matrix = probability_matrix_from_lambdas(
+            g["sport"], g["lam_home"], g["lam_away"]
+        )
+        h, _, a = p_win(matrix)
         p_home = h / (h + a) if h + a > 0 else 0.5
         g["홈승률"] = round(p_home, 4)
         g["연구판단"] = ("박빙" if 0.45 <= p_home <= 0.55

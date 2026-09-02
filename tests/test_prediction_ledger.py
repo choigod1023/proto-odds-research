@@ -264,6 +264,36 @@ def test_concurrent_same_revision_is_atomically_deduplicated(tmp_path):
     assert len(PredictionLedger(path).records()) == 1
 
 
+def test_older_event_revision_cannot_append_after_a_newer_revision(tmp_path):
+    path = tmp_path / "monotonic-event-revisions.jsonl"
+    game = _game()
+    newer_as_of = "2026-08-28T18:20:00+09:00"
+    older_as_of = "2026-08-28T18:10:00+09:00"
+    newer = _snapshot(game, newer_as_of)
+    older = _snapshot(game, older_as_of)
+
+    PredictionLedger(path, clock=lambda: PREGAME_NOW).append_prediction(
+        game,
+        newer,
+        kickoff=KICKOFF,
+        market_observed_at=newer_as_of,
+        features=_features(),
+    )
+
+    with pytest.raises(LedgerConflictError, match="as_of regressed"):
+        PredictionLedger(path, clock=lambda: PREGAME_NOW).append_prediction(
+            game,
+            older,
+            kickoff=KICKOFF,
+            market_observed_at=older_as_of,
+            features=_features(),
+        )
+
+    records = PredictionLedger(path).records()
+    assert len(records) == 1
+    assert records[0]["snapshot_id"] == newer["decision_id"]
+
+
 def test_tampered_line_is_detected_before_another_append(tmp_path):
     game = _game()
     ledger = PredictionLedger(tmp_path / "predictions.jsonl", clock=lambda: PREGAME_NOW)

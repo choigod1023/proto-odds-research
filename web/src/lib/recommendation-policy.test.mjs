@@ -46,7 +46,9 @@ assert.deepEqual(qualifiedUnderdogSelections([favorite, reverse]), [reverse],
 assert.equal(finalRecommendedSelection([favorite, reverse]), favorite,
   "이변 후보는 관찰만 하고 운영 선택은 시장 최유력을 유지한다");
 assert.equal(finalRecommendedSelection([tooLow, favorite]), favorite,
-  "1.50 이상 후보가 있으면 더 낮은 가격의 확률만 보고 보조 후보를 고르지 않는다");
+  "1.50 이상 후보가 있으면 저배당 고확률 후보보다 먼저 쓴다");
+assert.equal(finalRecommendedSelection([tooLow]), tooLow,
+  "1.50 이상 후보가 없을 때는 저배당 최유력을 보조 추천으로 남긴다");
 const validatedLower = { ...favorite, event_key: "game-e", market_prob: 0.62,
   predicted_hit_prob: 0.57, has_validated_edge: true };
 const validatedHigher = { ...favorite, event_key: "game-f", odds: 1.70,

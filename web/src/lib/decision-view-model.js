@@ -1,5 +1,5 @@
-import { eligibleAutoSelections, finalRecommendedSelection, qualifiedUnderdogSelections,
-  recommendationPriority } from "./recommendation-policy.js";
+import { finalRecommendedSelection, qualifiedUnderdogSelections,
+  marketOnlyRecommendedSelection, recommendationPriority } from "./recommendation-policy.js";
 
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
@@ -10,7 +10,20 @@ const finite = (value) => {
 export const DECISION_SCHEMA = "decision-snapshot-v2";
 // 검증을 마쳐 배포된 artifact가 생길 때만 해시를 코드 리뷰로 추가한다.
 const PROMOTED_ARTIFACT_HASHES = new Set();
-const POLICY_AUTHORIZED_MODELS = new Set(["internal-context-blend-v2"]);
+
+/** 백엔드와 동일한 운영 승격 계약. 표식만으로는 확률을 바꿀 수 없다. */
+export function canApplyDecisionProbability(model) {
+  return model?.status === "operational"
+    && model?.promotion_gate === "passed"
+    && model?.validated_edge === true
+    && !!model?.operating_version
+    && PROMOTED_ARTIFACT_HASHES.has(model?.artifact_hash);
+}
+
+const recommendedSelectionForModel = (options, model) =>
+  canApplyDecisionProbability(model)
+    ? finalRecommendedSelection(options)
+    : marketOnlyRecommendedSelection(options);
 
 export const AI_STAGE_CATALOG = [
   {
@@ -60,17 +73,21 @@ export const AI_EVIDENCE_CATALOG = {
   cross_market: { label: "교차 마켓 진단", type: "market" },
 };
 
-// 현재 선택지의 유효한 배당·Shin 확률만으로 안전하게 다시 만들 수 있는 오류다.
-// 저장된 추천 포인터나 당시 확률은 버리고 재계산하므로 AI 값이나 과거 방향을
-// 억지로 복원하지 않는다. 아래 목록 밖의 출처·시각·스키마 오류는 계속 보류한다.
-const RECOVERABLE_CONTRACT_ERRORS = new Set([
+// 이 오류들은 현재 options가 있어도 원장에 기록된 동일 revision이 아니다.
+// 시장값은 설명용으로만 다시 계산할 수 있고 구매 가능한 선택으로 복구하면 안 된다.
+const LEDGER_REVISION_ERRORS = new Set([
   "missing_selection_identity",
   "selection_not_unique",
   "market_probability_mismatch",
   "withhold_has_selection",
+  "selection_policy_mismatch",
 ]);
 
 const CONTRACT_ERROR_REASONS = {
+  prediction_ledger_required: {
+    title: "사전 판정 원장 기록 대기",
+    body: "현재 배당의 시장확률은 참고할 수 있지만, 같은 가격 revision의 선택이 사전 원장에 기록되지 않았습니다. 새 원장 기록이 확인될 때까지 구매 후보로 사용하지 않습니다.",
+  },
   unsupported_schema: {
     title: "판정 규격을 확인할 수 없음",
     body: "현재 화면이 이해하지 못하는 스키마라 선택·확률 필드의 의미를 보장할 수 없습니다. 잘못된 필드를 픽으로 읽을 위험 때문에 가지 않습니다.",
@@ -122,6 +139,10 @@ const CONTRACT_ERROR_REASONS = {
   withhold_has_selection: {
     title: "보류 판정에 선택값이 함께 저장됨",
     body: "보류와 추천이 동시에 기록되어 어느 쪽이 최종 판단인지 확정할 수 없습니다. 현재 배당으로도 복구하지 못해 가지 않습니다.",
+  },
+  selection_policy_mismatch: {
+    title: "선택 정책 재계산 필요",
+    body: "저장된 선택과 현재 정책의 시장 최유력 선택이 다릅니다. 브라우저가 새 방향을 만들지 않고 같은 revision의 서버 판정과 원장 기록을 기다립니다.",
   },
 };
 
@@ -202,7 +223,7 @@ const stageRows = (stages) => Array.isArray(stages)
     ? Object.entries(stages).map(([id, value]) => ({ id, ...(value || {}) }))
     : [];
 
-const reconstructMarketContract = (game) => {
+const diagnosticMarketReference = (game) => {
   const valid = (game?.options || [])
     .filter((option) => {
       const probability = finite(option?.["시장확률"]);
@@ -210,40 +231,41 @@ const reconstructMarketContract = (game) => {
       return String(option?.market || "").trim() !== "홀짝" &&
         probability !== null && probability > 0 && probability < 1 && price > 1;
     });
-  const resolved = finalRecommendedSelection(valid);
-  const reversal = qualifiedUnderdogSelections(valid).includes(resolved);
+  const resolved = marketOnlyRecommendedSelection(valid);
   const market = finite(resolved?.["시장확률"]);
-  const shadow = finite(resolved?.["모델확률"]);
+  return { resolved, market };
+};
+
+const missingSnapshotContract = (game) => {
+  const diagnostic = diagnosticMarketReference(game);
   const recalculatedAt = game?._liveOddsRecalculatedAt || null;
   return {
-    reconstructed: true,
-    recommendationRecovered: Boolean(resolved),
-    resolved,
-    errors: [],
+    reconstructed: false,
+    recommendationRecovered: false,
+    resolved: null,
+    diagnosticResolved: diagnostic.resolved,
+    diagnosticMarket: diagnostic.market,
+    ledgerRequired: true,
+    errors: ["prediction_ledger_required"],
     raw: {
-      action: resolved ? "market_reference" : "withhold",
+      action: "withhold",
       selection_id: null,
       offer_id: null,
       as_of: recalculatedAt,
       probability: {
-        market,
-        ai_candidate: shadow,
+        market: diagnostic.market,
+        ai_candidate: null,
         ai_delta_applied: 0,
-        final: market,
+        final: null,
       },
       model: {
-        status: shadow === null ? "unavailable" : "shadow",
+        status: "unavailable",
         validated_edge: false,
         promotion_gate: "not_passed",
         operating_version: "shin-market-anchor-v1",
         artifact_hash: null,
       },
-      gate_codes: resolved
-        ? reversal
-          ? ["qualified_market_reversal"]
-          : [game?._liveOddsRecalculated
-            ? "live_odds_recalculated" : "reconstructed_market_reference"]
-        : ["no_eligible_market_reference"],
+      gate_codes: ["prediction_ledger_required"],
       explanation: { kind: "structured_ui", affects_probability: false },
       audit: recalculatedAt ? {
         feature_cutoff_at: recalculatedAt,
@@ -257,10 +279,9 @@ const reconstructMarketContract = (game) => {
 const snapshotContract = (game) => {
   const raw = game?.decision_snapshot;
   const errors = [];
-  // 수집기가 새 스키마보다 먼저 돌면 문서 전체에서 snapshot이 빠질 수 있다.
-  // 이때 레거시 추천이나 모델확률은 신뢰하지 않고, 현재 options의 Shin 시장확률과
-  // 동일 안전정책만으로 비교 후보를 복구한다. 스냅샷이 있는데 깨진 경우는 그대로 막는다.
-  if (!raw || typeof raw !== "object") return reconstructMarketContract(game);
+  // 스냅샷이 없으면 현재 options의 Shin 시장확률은 설명용으로만 계산한다.
+  // 동일 revision의 원장 기록 없이는 브라우저가 새 구매 후보를 만들지 않는다.
+  if (!raw || typeof raw !== "object") return missingSnapshotContract(game);
   if (raw.schema_version !== DECISION_SCHEMA) errors.push("unsupported_schema");
   if (!raw.event_id || raw.event_id !== game?.event_id) errors.push("event_id_mismatch");
   if (!raw.input_revision_hash || !/^[a-f0-9]{64}$/.test(raw.input_revision_hash)) {
@@ -305,39 +326,32 @@ const snapshotContract = (game) => {
     errors.push("unknown_action");
   }
   const resolvedOdds = finite(resolved?.["배당"]);
-  const eligibleNow = eligibleAutoSelections(game?.options || []);
-  const finalNow = finalRecommendedSelection(game?.options || []);
+  const finalNow = recommendedSelectionForModel(game?.options || [], raw?.model);
   const shouldRebuildSelection = resolved && resolvedOdds !== null && finalNow !== resolved;
   if (!errors.length && shouldRebuildSelection) {
-    const rebuilt = reconstructMarketContract(game);
-    if (rebuilt.recommendationRecovered) {
-      return { ...rebuilt, policyRecalculated: true };
-    }
+    errors.push("selection_policy_mismatch");
   }
-  // 선택 식별자·당시 시장확률만 어긋난 경우에는 현재 유효 배당으로 다시 고른다.
-  // 출처·경기 ID·시각·스키마 오류가 하나라도 섞이면 이 완화 규칙을 적용하지 않는다.
-  const recoverableErrors = errors.length > 0
-    && errors.every((error) => RECOVERABLE_CONTRACT_ERRORS.has(error));
-  if (recoverableErrors) {
-    const rebuilt = reconstructMarketContract(game);
-    if (rebuilt.recommendationRecovered) {
-      return {
-        ...rebuilt,
-        policyRecalculated: true,
-        contractRecoveredErrors: [...errors],
-      };
-    }
-  }
-  // 이전 정책이 1.50 미만을 제외해 남긴 정상 withhold는 새 정책에서 복구한다.
-  if (!errors.length && raw.action === "withhold" && eligibleNow.length &&
+  // 이전 정책의 보류도 브라우저에서 새 선택으로 바꾸지 않는다. 다음 서버 판정이
+  // 같은 revision을 원장에 기록할 때까지 현재 시장값은 설명용으로만 남긴다.
+  if (!errors.length && raw.action === "withhold" &&
       (raw.gate_codes || []).some((code) =>
         ["no_eligible_market_reference", "minimum_recommendation_odds"].includes(code))) {
-    const rebuilt = reconstructMarketContract(game);
-    if (rebuilt.recommendationRecovered) {
-      return { ...rebuilt, policyRecalculated: true };
-    }
+    errors.push("selection_policy_mismatch");
   }
-  return { raw, errors, resolved, reconstructed: false };
+  const ledgerRequired = errors.some((error) => LEDGER_REVISION_ERRORS.has(error));
+  if (ledgerRequired && !errors.includes("prediction_ledger_required")) {
+    errors.push("prediction_ledger_required");
+  }
+  const diagnostic = ledgerRequired ? diagnosticMarketReference(game) : {};
+  return {
+    raw,
+    errors,
+    resolved,
+    reconstructed: false,
+    ledgerRequired,
+    diagnosticResolved: diagnostic.resolved || null,
+    diagnosticMarket: diagnostic.market ?? null,
+  };
 };
 
 const withholdReasonsFor = (game, contract, action) => {
@@ -407,8 +421,9 @@ export function buildDecisionViewModel(game, option = null) {
   );
   const contractValid = contract.errors.length === 0;
   const resolvedOdds = finite(contract.resolved?.["배당"]);
-  const recommendationEligible = contract.resolved && resolvedOdds !== null
-    ? finalRecommendedSelection(game?.options || []) === contract.resolved
+  const recommendationEligible = contractValid && raw.action === "market_reference" &&
+    contract.resolved && resolvedOdds !== null
+    ? recommendedSelectionForModel(game?.options || [], raw?.model) === contract.resolved
     : null;
   const reversal = recommendationEligible
     && qualifiedUnderdogSelections(game?.options || []).includes(contract.resolved);
@@ -423,29 +438,32 @@ export function buildDecisionViewModel(game, option = null) {
     : contractValid && raw.action === "market_reference" && selectionMatches
       ? "market_reference" : "withhold";
 
+  // 원장 revision이 없거나 어긋난 경우에도 현재 시장확률은 설명용으로만 노출한다.
+  // final/option은 비워 구매 후보와 오늘픽 경로에는 절대 들어가지 않는다.
   const market = action === "market_reference"
-    ? finite(raw?.probability?.market) : null;
+    ? finite(raw?.probability?.market)
+    : contract.ledgerRequired ? finite(contract.diagnosticMarket) : null;
   const modelStatus = raw?.model?.status || "unavailable";
-  const validatedEdge = raw?.model?.validated_edge === true
+  const validatedEdge = canApplyDecisionProbability(raw?.model);
+  // 레거시 정책 승인 표식은 감사용으로만 보존한다. 통계 검증을 통과한
+  // 배포 artifact가 아니면 상세 화면에서도 final 확률을 바꿀 수 없다.
+  const policyAuthorized = modelStatus === "operational"
     && raw?.model?.promotion_gate === "passed"
-    && !!raw?.model?.operating_version
-    && PROMOTED_ARTIFACT_HASHES.has(raw?.model?.artifact_hash);
-  const policyAuthorized = raw?.model?.policy_authorized === true
-    && POLICY_AUTHORIZED_MODELS.has(raw?.model?.operating_version);
-  const canApply = modelStatus === "operational"
-    && raw?.model?.promotion_gate === "passed"
-    && (validatedEdge || policyAuthorized);
+    && raw?.model?.policy_authorized === true;
+  const canApply = validatedEdge;
   const aiCandidate = action === "market_reference"
     ? finite(raw?.probability?.ai_candidate) : null;
   // 검증되지 않은 AI가 final을 바꿔 담은 잘못된 JSON도 화면에서 fail-close한다.
-  const finalProbability = canApply
-    ? finite(raw?.probability?.final)
-    : market;
-  const appliedDelta = canApply
+  const finalProbability = action !== "market_reference"
+    ? null
+    : canApply ? finite(raw?.probability?.final) : market;
+  const appliedDelta = action === "market_reference" && canApply
     ? finite(raw?.probability?.ai_delta_applied) : 0;
 
-  const stages = normalizeStages(raw?.stages, contractValid ? option : null);
-  const evidence = uniqueById(raw?.evidence?.length ? raw.evidence : fallbackEvidence(game, option))
+  const contextOption = action === "market_reference" ? option : contract.diagnosticResolved;
+  const stages = normalizeStages(raw?.stages, contextOption);
+  const evidence = uniqueById(raw?.evidence?.length
+    ? raw.evidence : fallbackEvidence(game, contextOption))
     .map((row) => ({
       ...(AI_EVIDENCE_CATALOG[row.id] || {}),
       ...row,
@@ -465,16 +483,16 @@ export function buildDecisionViewModel(game, option = null) {
       aiDeltaCandidate: market !== null && aiCandidate !== null ? aiCandidate - market : null,
       aiDeltaApplied: appliedDelta,
       final: finalProbability,
-      basis: finalProbability !== null
-        ? (validatedEdge ? "validated_ai_residual"
-          : policyAuthorized ? raw?.probability?.basis || "internal-context-blend-v2"
-          : "shin_market")
+      basis: contract.ledgerRequired && market !== null
+        ? "shin_market_reference_only"
+        : finalProbability !== null
+        ? (validatedEdge ? "validated_ai_residual" : "shin_market")
         : "unavailable",
     },
     model: {
       status: modelStatus,
       validatedEdge,
-      policyAuthorized: canApply && policyAuthorized,
+      policyAuthorized,
       operatingVersion: raw?.model?.operating_version || "shin-market-anchor-v1",
       residualVersion: raw?.model?.residual_version || null,
     },
@@ -494,6 +512,15 @@ export function buildDecisionViewModel(game, option = null) {
     recommendationEligible,
     recommendationPriority: recommendationTier,
     contractErrors: contract.errors,
+    ledgerRequired: contract.ledgerRequired === true,
+    marketReference: contract.ledgerRequired && contract.diagnosticResolved ? {
+      market: contract.diagnosticResolved.market || null,
+      label: contract.diagnosticResolved.label || "",
+      selection: contract.diagnosticResolved["선택"] || null,
+      odds: finite(contract.diagnosticResolved["배당"]),
+      probability: market,
+      actionable: false,
+    } : null,
     withholdReasons: withholdReasonsFor(game, contract, action),
     gateCodes: contract.errors.length
       ? ["invalid_decision_contract", ...contract.errors]
@@ -502,20 +529,23 @@ export function buildDecisionViewModel(game, option = null) {
         : recommendationEligible === false
           ? ["not_auto_recommendable"]
         : raw?.gate_codes || (action === "withhold" ? ["no_operating_selection"] : []),
-    staleReason: liveRevisionChanged ? "live_price_revision_changed" : null,
+    staleReason: liveRevisionChanged
+      ? "live_price_revision_changed"
+      : contract.ledgerRequired ? "prediction_ledger_required" : null,
   };
 }
 
 export function decisionLabel(decision) {
   if (decision?.action === "closed") return "경기 시작 · 사전 판정 마감";
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
+  if (decision?.ledgerRequired) return "판정 원장 기록 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
   if (decision?.action !== "market_reference") return "비교 후보 보류";
   if (decision?.recommendationPriority === "reversal") {
     return "이전 이변 판정 · 재계산 필요";
   }
   if (decision?.recommendationPriority === "fallback") {
-    return "예상 적중 비교 · 1.50 미만 보조";
+    return "예상 적중 비교 · 1.50 미만 저배당";
   }
   if (decision?.policyRecalculated && decision?.recommendationEligible) {
     return "예상 적중 비교 · 1.50~2.20 우선";

@@ -6,6 +6,7 @@
 * 종목마다 스코어 단위와 정산 방식을 명시한다.
 * 배구의 스코어는 **세트 수**이며 포인트 총득점으로 사용하지 못하게 한다.
 * 야구처럼 2-way로 정산하는 시장은 무승부 질량을 제외해 승률을 조건화한다.
+* 실제 사용한 분포족과 rho를 메타데이터에 기록한다.
 * 라인업/출전 시나리오는 난수 추출 없이 가중 결합분포로 정확히 혼합한다.
 
 시나리오 구간은 경기 결과 자체의 예측구간이 아니라, 공급된 라인업 시나리오들
@@ -20,7 +21,7 @@ from typing import Iterable, Mapping
 
 import numpy as np
 
-from score_dist import joint as score_joint
+from score_dist import distribution_metadata, joint as score_joint
 
 
 class ScoreForecastError(ValueError):
@@ -38,6 +39,7 @@ class SportForecastContract:
     total_market_unit: str
     primary_result_market: str
     condition_on_non_draw: bool
+    default_distribution_family: str
     volleyball_sets_to_win: int | None = None
 
     def to_dict(self) -> dict:
@@ -49,6 +51,7 @@ class SportForecastContract:
             "total_market_unit": self.total_market_unit,
             "primary_result_market": self.primary_result_market,
             "condition_on_non_draw": self.condition_on_non_draw,
+            "default_distribution_family": self.default_distribution_family,
             "volleyball_sets_to_win": self.volleyball_sets_to_win,
         }
 
@@ -62,6 +65,7 @@ SPORT_CONTRACTS: dict[str, SportForecastContract] = {
         total_market_unit="runs",
         primary_result_market="two_way",
         condition_on_non_draw=True,
+        default_distribution_family="independent_poisson",
     ),
     "sc": SportForecastContract(
         sport="sc",
@@ -71,6 +75,7 @@ SPORT_CONTRACTS: dict[str, SportForecastContract] = {
         total_market_unit="goals",
         primary_result_market="1x2",
         condition_on_non_draw=False,
+        default_distribution_family="independent_poisson",
     ),
     "bk": SportForecastContract(
         sport="bk",
@@ -80,6 +85,7 @@ SPORT_CONTRACTS: dict[str, SportForecastContract] = {
         total_market_unit="points",
         primary_result_market="two_way",
         condition_on_non_draw=True,
+        default_distribution_family="independent_poisson_or_normal_approximation",
     ),
     "vl": SportForecastContract(
         sport="vl",
@@ -89,6 +95,7 @@ SPORT_CONTRACTS: dict[str, SportForecastContract] = {
         total_market_unit="sets",
         primary_result_market="two_way",
         condition_on_non_draw=True,
+        default_distribution_family="conditioned_independent_poisson",
         volleyball_sets_to_win=3,
     ),
 }
@@ -197,6 +204,7 @@ class ScoreForecast:
     expected_home_score: float
     expected_away_score: float
     top_scorelines: tuple[ScorelineProbability, ...]
+    distribution_model: Mapping[str, object] = field(default_factory=dict)
     scenario_contributions: tuple[ScenarioContribution, ...] = ()
     uncertainty: Mapping[str, MetricSummary] = field(default_factory=dict)
 
@@ -207,6 +215,7 @@ class ScoreForecast:
     def to_dict(self, *, include_matrix: bool = False) -> dict:
         result = {
             "contract": self.contract.to_dict(),
+            "distribution_model": dict(self.distribution_model),
             "outcomes_1x2": self.outcomes_1x2.to_dict(),
             "win_probabilities": self.win_probabilities.to_dict(),
             "expected_scores": {
@@ -268,6 +277,16 @@ def _volleyball_mask(shape: tuple[int, int], sets_to_win: int) -> np.ndarray:
     )
 
 
+def _validated_sets_to_win(value: object) -> int:
+    if (
+        isinstance(value, (bool, np.bool_))
+        or not isinstance(value, (int, np.integer))
+        or int(value) < 1
+    ):
+        raise ScoreForecastError("volleyball sets_to_win은 1 이상의 정수여야 한다")
+    return int(value)
+
+
 def normalize_probability_matrix(
     matrix: np.ndarray,
     sport: str,
@@ -291,10 +310,14 @@ def normalize_probability_matrix(
     result[result < 0] = 0.0
 
     if contract.sport == "vl":
-        sets_to_win = volleyball_sets_to_win or contract.volleyball_sets_to_win
+        sets_to_win = (
+            contract.volleyball_sets_to_win
+            if volleyball_sets_to_win is None
+            else volleyball_sets_to_win
+        )
         if sets_to_win is None:
             raise ScoreForecastError("배구 계약에 sets_to_win이 필요하다")
-        result *= _volleyball_mask(result.shape, int(sets_to_win))
+        result *= _volleyball_mask(result.shape, _validated_sets_to_win(sets_to_win))
 
     total = float(result.sum())
     if not isfinite(total) or total <= 0:
@@ -377,6 +400,7 @@ def forecast_from_matrix(
     top_n: int = 5,
     condition_on_non_draw: bool | None = None,
     volleyball_sets_to_win: int | None = None,
+    distribution_model: Mapping[str, object] | None = None,
 ) -> ScoreForecast:
     """검증된 결합분포에서 승무패·승률·예상 스코어를 만든다."""
 
@@ -394,6 +418,9 @@ def forecast_from_matrix(
     )
     wins = _conditioned_wins(outcomes, condition)
     expected_home, expected_away = _expected_scores(matrix)
+    model = dict(distribution_model or {"family": "provided_joint_distribution"})
+    if contract.sport == "vl":
+        model.setdefault("normalization", "valid_best_of_five_scorelines")
     return ScoreForecast(
         contract=contract,
         probability_matrix=matrix,
@@ -402,7 +429,62 @@ def forecast_from_matrix(
         expected_home_score=expected_home,
         expected_away_score=expected_away,
         top_scorelines=_top_scorelines(matrix, contract, top_n),
+        distribution_model=model,
     )
+
+
+def _matrix_from_lambdas(
+    sport: str,
+    lam_home: float,
+    lam_away: float,
+    *,
+    rho: float = 0.0,
+    volleyball_sets_to_win: int | None = None,
+) -> tuple[SportForecastContract, np.ndarray, dict[str, object]]:
+    """λ 입력을 검증하고 종목 계약이 적용된 행렬과 실제 모델 메타를 만든다."""
+
+    contract = get_sport_contract(sport)
+    home = _validate_number(lam_home, "lam_home")
+    away = _validate_number(lam_away, "lam_away")
+    try:
+        correlation = float(rho)
+    except (TypeError, ValueError) as exc:
+        raise ScoreForecastError("rho는 유한한 숫자여야 한다") from exc
+    if not isfinite(correlation):
+        raise ScoreForecastError("rho는 유한한 숫자여야 한다")
+    if contract.sport != "sc" and abs(correlation) > 1e-15:
+        raise ScoreForecastError("Dixon-Coles rho는 축구 분포에만 사용할 수 있다")
+    matrix = normalize_probability_matrix(
+        score_joint(home, away, contract.sport, rho=correlation),
+        contract.sport,
+        volleyball_sets_to_win=volleyball_sets_to_win,
+    )
+    model: dict[str, object] = dict(
+        distribution_metadata(home, away, contract.sport, correlation)
+    )
+    if contract.sport == "vl":
+        model["normalization"] = "valid_best_of_five_scorelines"
+    return contract, matrix, model
+
+
+def probability_matrix_from_lambdas(
+    sport: str,
+    lam_home: float,
+    lam_away: float,
+    *,
+    rho: float = 0.0,
+    volleyball_sets_to_win: int | None = None,
+) -> np.ndarray:
+    """운영 마켓과 스코어 요약이 함께 써야 하는 정규화 결합분포."""
+
+    _, matrix, _ = _matrix_from_lambdas(
+        sport,
+        lam_home,
+        lam_away,
+        rho=rho,
+        volleyball_sets_to_win=volleyball_sets_to_win,
+    )
+    return matrix
 
 
 def forecast_from_lambdas(
@@ -417,24 +499,20 @@ def forecast_from_lambdas(
 ) -> ScoreForecast:
     """``score_dist.joint``로 만든 분포에 종목 계약을 적용한다."""
 
-    contract = get_sport_contract(sport)
-    home = _validate_number(lam_home, "lam_home")
-    away = _validate_number(lam_away, "lam_away")
-    try:
-        correlation = float(rho)
-    except (TypeError, ValueError) as exc:
-        raise ScoreForecastError("rho는 유한한 숫자여야 한다") from exc
-    if not isfinite(correlation):
-        raise ScoreForecastError("rho는 유한한 숫자여야 한다")
-    if contract.sport != "sc" and abs(correlation) > 1e-15:
-        raise ScoreForecastError("Dixon-Coles rho는 축구 분포에만 사용할 수 있다")
-    matrix = score_joint(home, away, contract.sport, rho=correlation)
+    contract, matrix, model = _matrix_from_lambdas(
+        sport,
+        lam_home,
+        lam_away,
+        rho=rho,
+        volleyball_sets_to_win=volleyball_sets_to_win,
+    )
     return forecast_from_matrix(
         contract.sport,
         matrix,
         top_n=top_n,
         condition_on_non_draw=condition_on_non_draw,
         volleyball_sets_to_win=volleyball_sets_to_win,
+        distribution_model=model,
     )
 
 
@@ -689,6 +767,13 @@ def forecast_scenarios(
         key: _metric_summary(points[key], values, weights, mass)
         for key, values in metric_values.items()
     }
+    mixture_model: dict[str, object] = {
+        "family": "deterministic_scenario_mixture",
+        "scenario_count": len(rows),
+        "random_sampling": False,
+    }
+    if contract.sport == "vl":
+        mixture_model["normalization"] = "valid_best_of_five_scorelines"
     return ScoreForecast(
         contract=result.contract,
         probability_matrix=result.probability_matrix,
@@ -697,6 +782,7 @@ def forecast_scenarios(
         expected_home_score=result.expected_home_score,
         expected_away_score=result.expected_away_score,
         top_scorelines=result.top_scorelines,
+        distribution_model=mixture_model,
         scenario_contributions=contributions,
         uncertainty=uncertainty,
     )
@@ -743,5 +829,6 @@ __all__ = [
     "forecast_scenarios",
     "get_sport_contract",
     "normalize_probability_matrix",
+    "probability_matrix_from_lambdas",
     "over_probability",
 ]

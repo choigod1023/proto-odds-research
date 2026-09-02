@@ -633,6 +633,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
     : null;
   const todayLabel = todayMembership?.recommended ? "오늘의 추천 픽" : null;
+  const recommendationDetail = todayMembership?.display?.text || null;
   return (
     <Card as="details" className={`match-card is-${phase} result-${outcome.state}`}>
       <summary className="match-row">
@@ -679,12 +680,18 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                       : prediction.recommendation === "weak" ? "방향은 제시하되 구매 우위가 약한 픽"
                         : prediction.recommendation === "market" ? "시장 최유력 방향이며 구매 추천은 아님"
                           : "시장 최유력 방향은 제시하되 구매 추천은 관망"
-                  } · 배당 기반 시장확률`} />
+                  }${recommendationDetail ? ` · ${recommendationDetail}` : " · 배당 기반 시장확률"}`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
       </summary>
       <div className="match-detail">
         <MarketHistory rows={g._marketHistory} />
+        {highlightedToday && recommendationDetail && (
+          <div className="today-pick-signals" role="note">
+            <b>오늘의 추천 기준</b>
+            <span>{recommendationDetail}</span>
+          </div>
+        )}
         {g._liveLineChanged && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
             <b>핸디캡·언더오버 기준점 변경 반영</b>

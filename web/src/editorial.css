@@ -77,6 +77,9 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .odds-chip.is-today-highlighted > span { color: white; }
 .show-model tr.is-today-pick > td { background: color-mix(in srgb, var(--color-signal) 10%, var(--color-paper)); border-color: var(--color-signal); }
 .show-model tr.is-today-pick > td:first-child { box-shadow: inset 4px 0 0 var(--color-signal); }
+.today-pick-signals { margin: 0 0 12px; padding: 9px 11px; display: flex; flex-wrap: wrap; gap: 5px 10px; border-left: 3px solid var(--color-signal); background: color-mix(in srgb, var(--color-signal) 8%, transparent); font-size: 11px; line-height: 1.6; }
+.today-pick-signals b { color: var(--color-signal); }
+.today-pick-signals span { color: var(--color-ink2); }
 .match-card.is-live.card { border-left: 3px solid var(--color-sev2); }
 .match-card.result-hit.card { border-left: 3px solid var(--color-signal); }
 .match-card.result-miss.card { border-left: 3px solid var(--color-sev2); }

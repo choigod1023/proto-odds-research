@@ -28,7 +28,9 @@
 
 모델
 ----
-독립 포아송 + **Dixon-Coles 저득점 보정**.
+기본값은 **독립 포아송**이다. 축구에서 검증된 ``rho``를 명시적으로 넘긴
+경우에만 Dixon-Coles 저득점 보정을 적용한다. ``rho=0``인 운영 기본값을
+Dixon-Coles 모델이라고 부르지 않는다. 고득점 종목은 독립 정규근사를 쓴다.
 λ 는 walk-forward 로 추정한다(그 경기 이전 기록만):
 
     λ_home = (홈팀 최근 평균득점 + 원정팀 최근 평균실점) / 2 × 홈보정
@@ -79,8 +81,34 @@ def dixon_coles_tau(i: int, j: int, li: float, lj: float, rho: float) -> float:
     return 1.0
 
 
+def distribution_metadata(
+    lh: float,
+    la: float,
+    sport: str,
+    rho: float = 0.0,
+) -> dict[str, float | str]:
+    """``joint``가 실제로 사용한 분포족을 감사 가능한 형태로 반환한다."""
+    if max(lh, la) > 30:
+        return {
+            "family": "independent_normal_approximation",
+            "rho": 0.0,
+        }
+    if sport == "sc" and rho:
+        return {
+            "family": "dixon_coles_adjusted_poisson",
+            "rho": float(rho),
+        }
+    return {
+        "family": "independent_poisson",
+        "rho": 0.0,
+    }
+
+
 def joint(lh: float, la: float, sport: str, rho: float = 0.0) -> np.ndarray:
     """P(홈=i, 원정=j) 행렬.
+
+    기본값 ``rho=0``은 독립 포아송이다. 축구에서 비영 ``rho``가 주어진
+    경우에만 Dixon-Coles 보정이 켜진다.
 
     ⚠️ 농구처럼 λ 가 크면(≈105) 포아송 격자가 비효율적이고 분산도 실제와 안 맞는다.
        λ 가 30 을 넘으면 **정규근사**로 평균 주변만 격자를 만든다.

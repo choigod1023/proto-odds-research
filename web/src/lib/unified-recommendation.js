@@ -1,33 +1,62 @@
 import { gradeOf } from "./fmt.js";
 import { eligibleFinalSelections, finalRecommendedSelection,
-  hitProbabilityOf, qualifiedUnderdogSelections } from "./recommendation-policy.js";
-import { pickNextLegs, ticketMetrics } from "./today-plan.js";
-import { resolveDecisionOption } from "./decision-view-model.js";
+  hitProbabilityOf, marketOnlyRecommendedSelection,
+  qualifiedUnderdogSelections, recommendationPriority } from "./recommendation-policy.js";
+import { canApplyDecisionProbability, resolveDecisionOption } from "./decision-view-model.js";
 
 const clean = (value) => String(value ?? "").trim();
 
 export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
-export const DAILY_HIGHLIGHT_PER_LEAGUE = 1;
+export const DAILY_HIGHLIGHT_BASE_PER_LEAGUE = 2;
+export const DAILY_HIGHLIGHT_STRONG_MIN_HIT = 0.65;
 
-/** 조합을 만들지 않고 각 리그의 경기별 최종 후보 가운데 최고 픽만 고른다. */
+const recommendationRank = (a, b) =>
+  hitProbabilityOf(b) - hitProbabilityOf(a) ||
+  Number(b?.probability_lower_bound ?? hitProbabilityOf(b)) -
+    Number(a?.probability_lower_bound ?? hitProbabilityOf(a)) ||
+  Number(a?.odds ?? a?.["배당"] ?? Infinity) -
+    Number(b?.odds ?? b?.["배당"] ?? Infinity) ||
+  String(a?.kickoff_at || a?.date || "").localeCompare(
+    String(b?.kickoff_at || b?.date || ""),
+  ) || selectionKey(a, a?.round).localeCompare(selectionKey(b, b?.round));
+
+export function recommendationDisplay(selection) {
+  if (!selection) return null;
+  const hit = hitProbabilityOf(selection);
+  const lower = Number(selection?.probability_lower_bound);
+  const odds = Number(selection?.odds ?? selection?.["배당"]);
+  const preferred = recommendationPriority(selection) === 1;
+  const live = selection?.price_source === "live_odds" || selection?._live === true;
+  const validated = selection?.has_validated_edge === true;
+  const parts = [
+    `적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}`,
+    `배당 ${Number.isFinite(odds) ? odds.toFixed(2) : "확인 불가"}${preferred ? " · 우선구간" : " · 저배당 보조"}`,
+    validated && Number.isFinite(lower)
+      ? `검증 하한 ${(lower * 100).toFixed(1)}%`
+      : "Shin 시장 기준",
+    live ? "실시간 배당" : "발매 스냅샷",
+  ];
+  return { parts, text: parts.join(" · "), preferred, validated, live };
+}
+
+/** 리그별 기본 2개와 65% 이상 강한 추가 후보를 고른다. 기준 미달은 채우지 않는다. */
 export function dailyHighlightedSelections(candidates = []) {
-  const ranked = [...eligibleFinalSelections(candidates)]
+  const byLeague = new Map();
+  eligibleFinalSelections(candidates)
     .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT)
-    .sort((a, b) =>
-      hitProbabilityOf(b) - hitProbabilityOf(a) ||
-      Number(a?.odds ?? a?.["배당"] ?? Infinity) -
-        Number(b?.odds ?? b?.["배당"] ?? Infinity) ||
-      String(a?.kickoff_at || a?.date || "").localeCompare(
-        String(b?.kickoff_at || b?.date || ""),
-      ) || selectionKey(a, a?.round).localeCompare(selectionKey(b, b?.round)))
-  const leagueCounts = new Map();
-  return ranked.filter((selection) => {
-    const league = clean(selection?.league) || "리그 미분류";
-    const count = leagueCounts.get(league) || 0;
-    if (count >= DAILY_HIGHLIGHT_PER_LEAGUE) return false;
-    leagueCounts.set(league, count + 1);
-    return true;
-  });
+    .forEach((selection) => {
+      const league = clean(selection?.league) || "리그 미분류";
+      if (!byLeague.has(league)) byLeague.set(league, []);
+      byLeague.get(league).push(selection);
+    });
+  return [...byLeague.values()].flatMap((rows) => {
+    const primary = rows.filter((selection) => recommendationPriority(selection) === 1);
+    const pool = (primary.length ? primary : rows).sort(recommendationRank);
+    const base = pool.slice(0, DAILY_HIGHLIGHT_BASE_PER_LEAGUE);
+    const strong = pool.slice(DAILY_HIGHLIGHT_BASE_PER_LEAGUE)
+      .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_STRONG_MIN_HIT);
+    return [...base, ...strong];
+  }).sort(recommendationRank);
 }
 
 export function selectionKey(selection, round = selection?.round) {
@@ -47,28 +76,18 @@ export function buildTodayMemberships(today) {
     if (!selection) return null;
     const key = selectionKey(selection, selection?.round);
     if (!memberships.has(key)) {
-      memberships.set(key, { selection, recommended: false, solo: false, targets: [] });
+      memberships.set(key, { selection, recommended: false, display: null });
     }
     return memberships.get(key);
   };
 
-  // 하이라이트의 기준은 조합 포함 여부가 아니라 생성기가 확정한 경기별 후보다.
-  // plans/solo 정보는 기존 데이터 호환과 설명용으로만 보존한다.
+  // 하이라이트의 기준은 자동 조합이 아니라 생성기가 확정한 경기별 후보다.
   dailyHighlightedSelections(today?.candidates || []).forEach((selection) => {
     const membership = ensure(selection);
-    if (membership) membership.recommended = true;
-  });
-
-  if (today?.solo) {
-    const membership = ensure(today.solo);
-    if (membership) membership.solo = true;
-  }
-  (today?.plans || []).filter((plan) => plan?.ok).forEach((plan) => {
-    (plan.picks || []).forEach((selection) => {
-      const membership = ensure(selection);
-      if (!membership || membership.targets.some((target) => Number(target) === Number(plan.target))) return;
-      membership.targets.push(plan.target);
-    });
+    if (membership) {
+      membership.recommended = true;
+      membership.display = recommendationDisplay(selection);
+    }
   });
   return memberships;
 }
@@ -88,11 +107,85 @@ const eventMarketKey = (selection) => {
     .map(clean).join("|");
 };
 
+const validProbability = (value) => {
+  const probability = Number(value);
+  return Number.isFinite(probability) && probability > 0 && probability < 1
+    ? probability : null;
+};
+
+function snapshotMatchesCurrentOption(game, option) {
+  const snapshot = game?.decision_snapshot;
+  const snapshotMarket = validProbability(snapshot?.probability?.market);
+  const currentMarket = validProbability(option?.["시장확률"]);
+  return Boolean(
+    snapshot && option &&
+    snapshot.selection_id === option.selection_id &&
+    snapshot.offer_id === option.offer_id &&
+    snapshotMarket != null && currentMarket != null &&
+    Math.abs(snapshotMarket - currentMarket) <= 1e-9,
+  );
+}
+
+function snapshotCanAffectProbability(game, option) {
+  const model = game?.decision_snapshot?.model || {};
+  return snapshotMatchesCurrentOption(game, option) &&
+    canApplyDecisionProbability(model) &&
+    validProbability(game?.decision_snapshot?.probability?.final) != null;
+}
+
+/** 현재 선택·가격 revision 하나에서 확률과 승인 메타데이터를 함께 다시 만든다. */
+function currentProbabilityMetadata(game, option) {
+  const market = validProbability(option?.["시장확률"]);
+  const snapshot = snapshotMatchesCurrentOption(game, option)
+    ? game.decision_snapshot : null;
+  const model = snapshot?.model || {};
+  const probability = snapshot?.probability || {};
+  const operational = model.status === "operational" && model.promotion_gate === "passed";
+  const validated = canApplyDecisionProbability(model);
+  const policyAuthorized = operational && model.policy_authorized === true;
+  const currentFinal = validProbability(probability.final);
+  const applied = currentFinal != null && validated;
+  const final = applied ? currentFinal : market;
+  const rawInterval = applied && Array.isArray(probability.residual_interval)
+    ? probability.residual_interval.map(validProbability) : [];
+  const intervalLower = rawInterval.length === 2 && rawInterval.every((value) => value != null) &&
+    final != null && rawInterval[0] <= final
+    ? rawInterval[0] : null;
+  const marketLower = market != null && final != null ? Math.min(market, final) : market;
+
+  return {
+    predicted_hit_prob: final,
+    probability_source: applied
+      ? probability.basis || "validated_final_probability"
+      : "shin_market_fallback",
+    probability_lower_bound: intervalLower ?? marketLower,
+    probability_interval: intervalLower == null ? null : rawInterval,
+    uncertainty_source: intervalLower == null
+      ? "shin_market_fallback" : "validated_residual_interval",
+    validated_uncertainty_available: intervalLower != null,
+    has_validated_edge: applied,
+    // 정책 플래그는 관찰용이다. 검증된 artifact가 아니면 최종확률을 바꾸지 않는다.
+    policy_authorized: policyAuthorized,
+    decision_pipeline_applied: applied,
+    selection_basis: applied ? "validated_decision_pipeline" : "shin_market_fallback",
+    decision_id: snapshot?.decision_id || null,
+    decision_model: snapshot ? model.operating_version || null : null,
+    decision_pipeline_status: snapshot ? model.status || null : "market_fallback",
+    decision_promotion_gate: snapshot ? model.promotion_gate || null : null,
+    decision_artifact_hash: snapshot ? model.artifact_hash || null : null,
+    decision_evidence_ids: snapshot
+      ? (snapshot.evidence || []).map((row) => row?.id).filter(Boolean) : [],
+  };
+}
+
 /** 생성 단계에서 하나로 확정한 추천을 현재(실시간 배당 반영) 선택지에 다시 연결한다. */
 export function canonicalOption(game, options = game?.options || [], { allowStarted = false } = {}) {
   if (game?._liveOddsChanged || (game?._liveStarted && !allowStarted)) return null;
   const current = resolveDecisionOption(game, options);
   if (!current) return null;
+  if (!snapshotCanAffectProbability(game, current)) {
+    return marketOnlyRecommendedSelection(options);
+  }
   return finalRecommendedSelection(options) === current ? current : null;
 }
 
@@ -121,7 +214,7 @@ export function alignTodayRecommendations(today, games = []) {
     });
     const wanted = {
       key: selectionKey(option, game.round),
-      basis: game?.decision_snapshot ? "game-decision" : "market-fallback",
+      basis: snapshotMatchesCurrentOption(game, option) ? "game-decision" : "market-fallback",
       option,
       game,
     };
@@ -143,6 +236,7 @@ export function alignTodayRecommendations(today, games = []) {
     const currentProbability = Number(option?.["시장확률"]);
     const grade = gradeOf(grades, currentOdds);
     const overround = Number(option?._liveOverround ?? candidate.overround);
+    const probabilityMetadata = currentProbabilityMetadata(wanted.game, option);
     return [{
       ...candidate,
       round: wanted.game.round,
@@ -162,34 +256,13 @@ export function alignTodayRecommendations(today, games = []) {
       final_reversal: reversal,
       model_prob: Number(option?.["모델확률"]),
       recommendation_basis: wanted.basis,
+      ...probabilityMetadata,
     }];
   });
   const candidates = eligibleFinalSelections(repriced).filter((candidate) => {
     const wanted = canonical.get(eventMarketKey(candidate));
     return wanted?.key === selectionKey(candidate, candidate?.round);
   });
-  const plans = (today.plans || []).map((plan) => {
-    const bins = plan.bins || [];
-    const picks = bins.length
-      ? pickNextLegs(candidates, bins, today.year, Number(plan.target)) : null;
-    if (!picks) return {
-      ...plan, ok: false, picks: [],
-      why: "최종 픽 전환 뒤 목표 배당을 구성할 수 없다",
-    };
-    return {
-      ...plan,
-      ok: true,
-      picks,
-      legs: picks.length,
-      ...ticketMetrics(picks),
-      why: "경기별 최종 픽 하나로 다시 계산했다",
-    };
-  });
-  const solo = today.solo
-    ? candidates.find((candidate) =>
-      selectionGroupKey(candidate, candidate?.round) ===
-      selectionGroupKey(today.solo, today.solo?.round)) || null
-    : null;
   const gameModelCandidates = candidates.filter(
     (candidate) => candidate.recommendation_basis === "game-decision",
   ).length;
@@ -199,8 +272,10 @@ export function alignTodayRecommendations(today, games = []) {
   return {
     ...today,
     candidates,
-    plans,
-    solo,
+    plans: [],
+    solo: null,
+    recommendation: { action: "disabled", recommended_target: null,
+      why: "자동 조합 추천을 사용하지 않는다" },
     alignment: {
       input_candidates: inputCandidates.length,
       safe_candidates: candidates.length,

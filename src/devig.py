@@ -19,9 +19,27 @@ _TOL = 1e-12
 _MAX_ITER = 200
 
 
+def _validated_odds(odds: list[float]) -> list[float]:
+    """Return finite decimal odds or reject the whole market atomically."""
+
+    try:
+        raw_values = list(odds)
+    except TypeError as exc:
+        raise ValueError("odds must be a market-sized iterable") from exc
+    if len(raw_values) < 2:
+        raise ValueError("a market requires at least two prices")
+    try:
+        values = [float(value) for value in raw_values]
+    except (TypeError, ValueError) as exc:
+        raise ValueError("odds must be finite numbers greater than 1") from exc
+    if any(not math.isfinite(value) or value <= 1.0 for value in values):
+        raise ValueError("odds must be finite numbers greater than 1")
+    return values
+
+
 def implied(odds: list[float]) -> list[float]:
     """배당 → 원시 내재확률(합이 1을 넘는다)"""
-    return [1.0 / o for o in odds]
+    return [1.0 / value for value in _validated_odds(odds)]
 
 
 def overround(odds: list[float]) -> float:
@@ -134,14 +152,19 @@ def devig(odds: list[float], method: str = "multiplicative") -> list[float]:
 def market_probabilities(odds: list[float]) -> list[float]:
     """사이트 전역에서 쓰는 일관된 시장 기준 확률.
 
-    Shin 계산이 극단적인 입력에서 실패하더라도 화면 생성을 중단하지 않고
-    multiplicative로 보수적으로 되돌아간다.
+    유한한 1 초과 배당만 허용한다. 정상 입력에서 Shin solver만 실패하면
+    multiplicative로 되돌아가되, 깨진 시장을 확률처럼 게시하지는 않는다.
     """
+    odds = _validated_odds(odds)
     try:
         probability = devig(odds, MARKET_PROBABILITY_METHOD)
-    except (ArithmeticError, ValueError, ZeroDivisionError):
+    except ArithmeticError:
         probability = multiplicative(odds)
-    if len(probability) != len(odds) or any(not (0.0 < p < 1.0) for p in probability):
+    if (
+        len(probability) != len(odds)
+        or any(not (0.0 < p < 1.0) for p in probability)
+        or not math.isclose(sum(probability), 1.0, rel_tol=0.0, abs_tol=1e-9)
+    ):
         return multiplicative(odds)
     return probability
 

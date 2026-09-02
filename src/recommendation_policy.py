@@ -11,7 +11,7 @@ import math
 
 PREFERRED_RECOMMENDATION_ODDS = 1.5
 # 이전 산출물·브라우저와의 호환용 별칭이다. 이제 1.50은 제외 하한이 아니라
-# 1순위와 보조 추천을 나누는 경계다.
+# 1.50 이상 후보를 먼저 쓰고, 없을 때만 저배당 보조 후보를 허용하는 경계다.
 MIN_AUTO_RECOMMENDATION_ODDS = PREFERRED_RECOMMENDATION_ODDS
 MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 

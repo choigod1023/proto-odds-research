@@ -91,22 +91,51 @@ def test_ticket_metrics_use_selected_games_not_historical_bin_average():
     assert metrics["upset_risk"] == 0.736
     assert metrics["expected_roi"] == -0.107
     assert metrics["calibrated_expected_roi"] == metrics["expected_roi"]
-    assert metrics["conservative_expected_roi"] == metrics["expected_roi"]
-    assert metrics["conservative_hit_est"] == metrics["calibrated_hit_est"]
+    assert metrics["independent_lower_hit_est"] == 0.264
+    assert metrics["correlation_stress_hit_est"] == 0.25184
+    assert metrics["correlation_sensitivity"] == 0.01216
+    assert metrics["frechet_lower_hit_bound"] == 0.04
+    assert metrics["conservative_hit_est"] == metrics["correlation_stress_hit_est"]
+    assert metrics["conservative_expected_roi"] == -0.1481
     assert metrics["independent_hit_est"] == metrics["hit_est"]
     assert metrics["market_reference_roi"] == metrics["expected_roi"]
     assert metrics["independence_assumption"] is True
+    assert metrics["independence_is_certainty"] is False
     assert metrics["selection_basis"] == "final_hit_probability"
     assert metrics["historical_expected_roi"] == -0.19
     assert metrics["calibration_min_n"] is None
 
+    validated_first = candidate("validated-a", 0.60, 1.65)
+    validated_first.update({
+        "predicted_hit_prob": 0.68, "probability_lower_bound": 0.58,
+        "decision_pipeline_applied": True, "has_validated_edge": True,
+        "policy_authorized": False, "validated_uncertainty_available": True,
+        "uncertainty_source": "validated_residual_interval",
+    })
+    validated_second = candidate("validated-b", 0.44, 2.05)
+    validated_second.update({
+        "predicted_hit_prob": 0.60, "probability_lower_bound": 0.52,
+        "decision_pipeline_applied": True, "has_validated_edge": True,
+        "policy_authorized": False, "validated_uncertainty_available": True,
+        "uncertainty_source": "validated_residual_interval",
+    })
+    validated_metrics = ticket_metrics([validated_first, validated_second])
+    assert validated_metrics["independent_hit_est"] == 0.408
+    assert validated_metrics["independent_lower_hit_est"] == 0.3016
+    assert validated_metrics["has_validated_edge"] is True
+    assert validated_metrics["validated_uncertainty_available"] is True
+    assert validated_metrics["probability_source"] == "validated_final_probability"
+    assert validated_metrics["conservative_probability_source"] == \
+        "validated_interval_correlation_stress"
 
-def test_today_combo_consumes_policy_approved_refactor_decision(monkeypatch):
+
+def test_today_combo_keeps_policy_approved_decision_diagnostic_only(monkeypatch):
     row = candidate("approved", 0.55, 1.65)
     row.update({"market": "승패", "market_label": "", "sel": "홈"})
     snapshot = {
         "decision_id": "dec-approved",
         "selection_id": "sel-approved",
+        "offer_id": "off-approved",
         "probability": {"market": 0.55, "final": 0.63,
                         "basis": "internal-context-blend-v2"},
         "model": {"status": "operational", "promotion_gate": "passed",
@@ -115,18 +144,130 @@ def test_today_combo_consumes_policy_approved_refactor_decision(monkeypatch):
         "evidence": [{"id": "team_performance"}, {"id": "lineup"}],
     }
     game = {"decision_snapshot": snapshot, "options": [{
-        "selection_id": "sel-approved", "market": "승패", "label": "", "선택": "홈",
+        "selection_id": "sel-approved", "offer_id": "off-approved",
+        "market": "승패", "label": "", "선택": "홈",
         "배당": 1.65, "시장확률": 0.55,
     }]}
     monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
 
     today_combo._apply_decision_pipeline(row, game)
 
-    assert row["predicted_hit_prob"] == 0.63
-    assert row["probability_source"] == "internal-context-blend-v2"
-    assert row["decision_pipeline_applied"] is True
-    assert row["has_validated_edge"] is True
+    assert row["predicted_hit_prob"] == 0.55
+    assert row["probability_source"] == "shin_market_fallback"
+    assert row["decision_pipeline_applied"] is False
+    assert row["has_validated_edge"] is False
+    assert row["policy_authorized"] is True
+    assert row["probability_lower_bound"] == 0.55
+    assert row["validated_uncertainty_available"] is False
+    assert row["uncertainty_source"] == "shin_market_fallback"
     assert row["decision_evidence_ids"] == ["team_performance", "lineup"]
+
+
+def test_today_combo_transfers_only_validated_residual_uncertainty(monkeypatch):
+    row = candidate("validated", 0.55, 1.65)
+    row.update({"market": "승패", "market_label": "", "sel": "홈"})
+    snapshot = {
+        "decision_id": "dec-validated",
+        "selection_id": "sel-validated",
+        "offer_id": "off-validated",
+        "probability": {"market": 0.55, "final": 0.64,
+                        "basis": "validated_market_residual",
+                        "residual_interval": [0.58, 0.70]},
+        "model": {"status": "operational", "promotion_gate": "passed",
+                  "policy_authorized": False, "validated_edge": True,
+                  "operating_version": "residual-v1", "artifact_hash": "abc"},
+        "evidence": [{"id": "market_price"}],
+    }
+    game = {"decision_snapshot": snapshot, "options": [{
+        "selection_id": "sel-validated", "offer_id": "off-validated",
+        "market": "승패", "label": "", "선택": "홈",
+        "배당": 1.65, "시장확률": 0.55,
+    }]}
+    monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
+    monkeypatch.setattr(
+        today_combo, "can_apply_decision_probability", lambda model: True
+    )
+
+    today_combo._apply_decision_pipeline(row, game)
+
+    assert row["predicted_hit_prob"] == 0.64
+    assert row["probability_lower_bound"] == 0.58
+    assert row["probability_interval"] == [0.58, 0.70]
+    assert row["has_validated_edge"] is True
+    assert row["policy_authorized"] is False
+    assert row["validated_uncertainty_available"] is True
+    assert row["uncertainty_source"] == "validated_residual_interval"
+
+    no_interval = candidate("validated-no-interval", 0.55, 1.65)
+    no_interval.update({"market": "승패", "market_label": "", "sel": "홈"})
+    snapshot["probability"] = {"market": 0.55, "final": 0.64,
+                               "basis": "validated_market_residual",
+                               "residual_interval": None}
+    today_combo._apply_decision_pipeline(no_interval, game)
+    assert no_interval["has_validated_edge"] is True
+    assert no_interval["probability_lower_bound"] == 0.55
+    assert no_interval["validated_uncertainty_available"] is False
+    assert no_interval["uncertainty_source"] == "shin_market_fallback"
+
+
+def test_today_combo_requires_exact_offer_revision_for_validated_probability(monkeypatch):
+    row = candidate("missing-offer", 0.55, 1.65)
+    row.update({"market": "승패", "market_label": "", "sel": "홈"})
+    snapshot = {
+        "decision_id": "dec-missing-offer",
+        "selection_id": "sel-missing-offer",
+        "probability": {"market": 0.55, "final": 0.64,
+                        "basis": "validated_market_residual",
+                        "residual_interval": [0.58, 0.70]},
+        "model": {"status": "operational", "promotion_gate": "passed",
+                  "policy_authorized": False, "validated_edge": True,
+                  "operating_version": "residual-v1", "artifact_hash": "abc"},
+        "evidence": [{"id": "market_price"}],
+    }
+    game = {"decision_snapshot": snapshot, "options": [{
+        "selection_id": "sel-missing-offer", "offer_id": "off-current",
+        "market": "승패", "label": "", "선택": "홈",
+        "배당": 1.65, "시장확률": 0.55,
+    }]}
+    monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
+    monkeypatch.setattr(
+        today_combo, "can_apply_decision_probability", lambda model: True
+    )
+
+    today_combo._apply_decision_pipeline(row, game)
+
+    assert row["predicted_hit_prob"] == 0.55
+    assert row["decision_pipeline_applied"] is False
+    assert row["has_validated_edge"] is False
+
+
+def test_today_combo_rejects_unallowlisted_validated_edge_claim(monkeypatch):
+    row = candidate("unallowlisted", 0.55, 1.65)
+    row.update({"market": "승패", "market_label": "", "sel": "홈"})
+    snapshot = {
+        "decision_id": "dec-unallowlisted",
+        "selection_id": "sel-unallowlisted",
+        "probability": {"market": 0.55, "final": 0.55,
+                        "basis": "validated_market_residual",
+                        "residual_interval": [0.52, 0.60]},
+        "model": {"status": "operational", "promotion_gate": "passed",
+                  "validated_edge": True, "operating_version": "residual-v1",
+                  "artifact_hash": "not-allowlisted"},
+        "evidence": [{"id": "market_price"}],
+    }
+    game = {"decision_snapshot": snapshot, "options": [{
+        "selection_id": "sel-unallowlisted", "market": "승패", "label": "",
+        "선택": "홈", "배당": 1.65, "시장확률": 0.55,
+    }]}
+    monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
+
+    today_combo._apply_decision_pipeline(row, game)
+
+    assert row["predicted_hit_prob"] == 0.55
+    assert row["decision_pipeline_applied"] is False
+    assert row["has_validated_edge"] is False
+    assert row["validated_uncertainty_available"] is False
+    assert row["probability_source"] == "shin_market_fallback"
 
 
 def test_today_combo_rejects_shadow_or_different_selection(monkeypatch):
@@ -151,14 +292,46 @@ def test_today_combo_rejects_shadow_or_different_selection(monkeypatch):
     assert row["decision_pipeline_applied"] is False
 
 
-def test_policy_approved_event_candidate_beats_historical_fallback():
+def test_today_combo_rejects_stale_probability_revision(monkeypatch):
+    row = candidate("stale-revision", 0.55, 1.65)
+    row.update({"market": "승패", "market_label": "", "sel": "홈"})
+    snapshot = {
+        "selection_id": "sel-home", "offer_id": "off-home",
+        "probability": {"market": 0.54, "final": 0.64,
+                        "basis": "validated_market_residual"},
+        "model": {"status": "operational", "promotion_gate": "passed",
+                  "policy_authorized": False, "validated_edge": True},
+    }
+    game = {"decision_snapshot": snapshot, "options": [{
+        "selection_id": "sel-home", "offer_id": "off-home",
+        "market": "승패", "label": "", "선택": "홈",
+        "배당": 1.65, "시장확률": 0.55,
+    }]}
+    monkeypatch.setattr(today_combo, "validate_decision_snapshot", lambda value: None)
+
+    today_combo._apply_decision_pipeline(row, game)
+
+    assert row["predicted_hit_prob"] == 0.55
+    assert row["decision_pipeline_applied"] is False
+    assert row["decision_id"] is None
+
+
+def test_policy_approved_event_candidate_cannot_beat_higher_market_fallback():
     approved = candidate("same", 0.55, 1.65)
     approved.update({"decision_pipeline_applied": True, "predicted_hit_prob": 0.63,
+                     "policy_authorized": True, "has_validated_edge": False,
+                     "probability_lower_bound": 0.55,
+                     "uncertainty_source": "shin_market_fallback",
                      "hist_roi": -0.20})
     fallback = candidate("same", 0.60, 1.70)
     fallback.update({"decision_pipeline_applied": False, "hist_roi": -0.04})
 
-    assert today_combo.select_event_candidates([fallback, approved]) == [approved]
+    assert today_combo.select_event_candidates([fallback, approved]) == [fallback]
+    policy_metrics = ticket_metrics([approved])
+    assert policy_metrics["hit_est"] == 0.55
+    assert policy_metrics["probability_source"] == "shin_market_fallback"
+    assert policy_metrics["has_policy_authorized_probability"] is False
+    assert policy_metrics["has_policy_authorized_shadow"] is True
 
 
 def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
@@ -170,23 +343,67 @@ def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     assert daily_recommendation(negative)["recommended_target"] == 3
     challenge = [{"ok": True, "target": 3, "actual_odds": 2.89,
                   "calibrated_hit_est": 0.282,
-                  "conservative_hit_est": 0.282,
-                  "conservative_expected_roi": -0.185}]
+                  "conservative_hit_est": 0.277,
+                  "correlation_stress_hit_est": 0.277,
+                  "market_reference_roi": -0.50,
+                  "correlation_stress_expected_roi": -0.1995,
+                  "conservative_expected_roi": -0.1995}]
     assert daily_recommendation(challenge)["action"] == "challenge"
     assert daily_recommendation(challenge)["recommended_target"] == 3
     assert daily_recommendation(challenge)["budget_ratio"] == 0.1
     too_risky = [{"ok": True, "target": 3,
                   "calibrated_hit_est": 0.30,
+                  "correlation_stress_hit_est": 0.28,
+                  "market_reference_roi": -0.10,
+                  "correlation_stress_expected_roi": -0.206,
                   "conservative_expected_roi": -0.206}]
     assert daily_recommendation(too_risky)["action"] == "pass"
     malformed = [{"ok": True, "target": 3,
                   "calibrated_hit_est": 0.30,
+                  "correlation_stress_hit_est": 0.30,
+                  "correlation_stress_expected_roi": None,
                   "conservative_expected_roi": None}]
     assert daily_recommendation(malformed)["action"] == "pass"
     positive = [{"ok": True, "target": 3, "actual_odds": 3.0,
-                 "conservative_hit_est": 0.35, "conservative_expected_roi": 0.05}]
-    positive[0]["has_validated_edge"] = True
+                 "conservative_hit_est": 0.35, "conservative_expected_roi": 0.05,
+                 "market_reference_roi": -0.15, "has_validated_edge": True,
+                 "validated_uncertainty_available": True}]
     assert daily_recommendation(positive)["action"] == "buy"
+    policy_only = [{"ok": True, "target": 3, "actual_odds": 3.0,
+                    "conservative_hit_est": 0.38, "conservative_expected_roi": 0.14,
+                    "correlation_stress_hit_est": 0.26, "market_reference_roi": -0.15,
+                    "has_validated_edge": False,
+                    "has_policy_authorized_probability": True}]
+    assert daily_recommendation(policy_only)["action"] != "buy"
+    no_interval = [{"ok": True, "target": 3, "actual_odds": 3.0,
+                    "conservative_hit_est": 0.38, "conservative_expected_roi": 0.14,
+                    "correlation_stress_hit_est": 0.26, "market_reference_roi": -0.15,
+                    "has_validated_edge": True,
+                    "validated_uncertainty_available": False}]
+    assert daily_recommendation(no_interval)["action"] != "buy"
+    independence_only = [{"ok": True, "target": 3,
+                          "independent_hit_est": 0.30,
+                          "correlation_stress_hit_est": 0.26,
+                          "market_reference_roi": -0.18,
+                          "correlation_stress_expected_roi": -0.22,
+                          "conservative_expected_roi": -0.22}]
+    assert daily_recommendation(independence_only)["action"] == "pass"
+
+
+def test_pass_target_uses_same_correlation_stress_order_as_browser():
+    plans = [
+        {"ok": True, "target": 5, "market_reference_roi": -0.10,
+         "correlation_stress_expected_roi": -0.30,
+         "correlation_stress_hit_est": 0.18},
+        {"ok": True, "target": 8, "market_reference_roi": -0.20,
+         "correlation_stress_expected_roi": -0.25,
+         "correlation_stress_hit_est": 0.20},
+    ]
+
+    recommendation = daily_recommendation(plans)
+
+    assert recommendation["action"] == "pass"
+    assert recommendation["recommended_target"] == 8
 
 
 def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():

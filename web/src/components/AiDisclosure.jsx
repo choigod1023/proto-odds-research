@@ -21,7 +21,7 @@ const reasonText = {
 
 const gateText = {
   no_eligible_market_reference: "유효한 배당·시장확률을 갖춘 자동 비교 후보가 없습니다.",
-  lower_odds_fallback: "1.50~2.20 후보가 없어 1.50 미만 최종 적중 1순위를 보조로 표시합니다.",
+  lower_odds_fallback: "최종 적중확률은 가장 높지만 1.50 미만 저배당이라 적중 시 수익폭이 작습니다.",
   qualified_market_reversal: "이전 역배 전환 판정입니다. 현재 정책에서는 시장 최유력으로 다시 계산합니다.",
   not_auto_recommendable: "시장 분석은 유지하지만 자동 투입 안전조건을 통과하지 못했습니다.",
   no_operating_selection: "운영 판정이 없어 선택을 보류합니다.",
@@ -53,7 +53,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
         ))}
       </ol>
       <p className="ai-method-foot">
-        1.50~2.20 후보를 먼저 확보한 뒤 최종 예상 적중확률이 높은 선택을 고릅니다. 검증된 AI 보정이 없으면 배당 기반 시장확률을 사용합니다.
+        경기별 방향은 2.20 미만 유효 후보의 최종 적중확률로 고릅니다. 1.50 경계는 저배당 수익폭 표시이며, 다폴 조합의 배당칸은 별도로 1.50~2.20을 사용합니다. 검증된 AI 보정이 없으면 배당 기반 시장확률로 복귀합니다.
       </p>
     </section>
   );

@@ -1,5 +1,4 @@
-import { eligibleFinalSelections, hitProbabilityOf,
-  recommendationPriority } from "./recommendation-policy.js";
+import { eligibleFinalSelections } from "./recommendation-policy.js";
 import { refreshEvolutionarySelector } from "./evolutionary-selector.js";
 
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -19,6 +18,7 @@ export const DAILY_CHALLENGE_MIN_HIT = { 3: 0.27 };
 export const DAILY_CHALLENGE_MAX_TARGET = 3;
 export const DAILY_CHALLENGE_ROI_TOLERANCE = 0.03;
 export const DAILY_CHALLENGE_BUDGET_RATIO = 0.10;
+export const CORRELATION_STRESS_RHO = -0.05;
 
 export function kickoffTime(candidate, year) {
   const iso = Date.parse(candidate?.kickoff_at || "");
@@ -37,6 +37,31 @@ const eventKey = (candidate, year) =>
   candidate?.event_key ||
   `${kickoffTime(candidate, year)}|${candidate?.home || ""}|${candidate?.away || candidate?.match || ""}`;
 
+const signaturePart = (value) => String(value ?? "").trim();
+
+/** 저장한 투입액이 가격·방향·오퍼 revision이 달라진 새 조합으로 넘어가지 않게 한다. */
+export function planSignature(plan) {
+  const planRevision = plan?.input_revision_hash ?? plan?.revision ??
+    plan?.updated_at ?? plan?.as_of;
+  const pickSignatures = (plan?.picks || []).map((pick) => [
+    pick?.event_key ?? pick?.event_id,
+    pick?.round,
+    pick?.game_no ?? pick?.["게임번호"],
+    pick?.market,
+    pick?.market_label ?? pick?.label,
+    pick?.line,
+    pick?.selection_id,
+    pick?.offer_id,
+    pick?.sel ?? pick?.["선택"],
+    pick?.odds ?? pick?.["배당"],
+    pick?.market_prob ?? pick?.["시장확률"],
+    pick?.input_revision_hash ?? pick?.revision ?? pick?.decision_id ??
+      pick?.decision_artifact_hash ?? pick?.updated_at,
+  ].map(signaturePart).join("~"));
+  return [plan?.target, plan?.actual_odds, planRevision, ...pickSignatures]
+    .map(signaturePart).join("|");
+}
+
 function byNextKickoff(a, b, year) {
   return (
     kickoffTime(a, year) - kickoffTime(b, year) ||
@@ -46,21 +71,15 @@ function byNextKickoff(a, b, year) {
 }
 
 function byLegQuality(a, b, year) {
-  const priorityOrder = recommendationPriority(b) - recommendationPriority(a);
   const aCalibrated = calibratedLegProbability(a);
   const bCalibrated = calibratedLegProbability(b);
   const aOdds = Number(a?.odds || 0);
   const bOdds = Number(b?.odds || 0);
   const conservativeOrder = (bCalibrated.lower ?? 0) - (aCalibrated.lower ?? 0);
   const calibratedOrder = (bCalibrated.estimate ?? 0) - (aCalibrated.estimate ?? 0);
-  const aProbability = hitProbabilityOf(a);
-  const bProbability = hitProbabilityOf(b);
-  const probabilityOrder =
-    (Number.isFinite(bProbability) ? bProbability : 0) -
-    (Number.isFinite(aProbability) ? aProbability : 0);
   const returnOrder = (bCalibrated.lower ?? 0) * bOdds -
     (aCalibrated.lower ?? 0) * aOdds;
-  return priorityOrder || conservativeOrder || calibratedOrder || probabilityOrder || returnOrder ||
+  return conservativeOrder || calibratedOrder || returnOrder ||
     Number(a.overround || 99) - Number(b.overround || 99) ||
     byNextKickoff(a, b, year);
 }
@@ -92,8 +111,50 @@ const validProbability = (value) => {
 };
 
 export function calibratedLegProbability(candidate) {
-  const finalProbability = validProbability(hitProbabilityOf(candidate));
-  return { estimate: finalProbability, lower: finalProbability, n: null };
+  const market = validProbability(candidate?.market_prob ?? candidate?.["시장확률"]);
+  const finalProbability = validProbability(candidate?.predicted_hit_prob);
+  const applied = candidate?.decision_pipeline_applied === true;
+  const validated = applied && candidate?.has_validated_edge === true;
+  const estimate = finalProbability != null && validated
+    ? finalProbability : market;
+  const statedLower = validProbability(candidate?.probability_lower_bound);
+  const hasValidatedInterval = validated &&
+    candidate?.validated_uncertainty_available === true &&
+    candidate?.uncertainty_source === "validated_residual_interval" &&
+    statedLower != null && estimate != null && statedLower <= estimate;
+  const marketLower = market != null && estimate != null ? Math.min(market, estimate) : market;
+  return {
+    estimate,
+    lower: hasValidatedInterval ? statedLower : marketLower,
+    n: null,
+    hasValidatedInterval,
+    source: hasValidatedInterval ? "validated_residual_interval" : "shin_market_fallback",
+  };
+}
+
+function correlationStress(probabilities) {
+  const independent = probabilities.reduce((total, probability) => total * probability, 1);
+  if (probabilities.length < 2) {
+    return { stressed: independent, frechet: independent, sensitivity: 0 };
+  }
+  let adjustment = 0;
+  probabilities.forEach((leftProbability, left) => {
+    for (let right = left + 1; right < probabilities.length; right += 1) {
+      const rightProbability = probabilities[right];
+      const covariance = CORRELATION_STRESS_RHO * Math.sqrt(
+        leftProbability * (1 - leftProbability) *
+        rightProbability * (1 - rightProbability),
+      );
+      const other = probabilities.reduce((total, probability, index) =>
+        index === left || index === right ? total : total * probability, 1);
+      adjustment += covariance * other;
+    }
+  });
+  const frechet = Math.max(0,
+    probabilities.reduce((total, probability) => total + probability, 0) -
+    (probabilities.length - 1));
+  const stressed = Math.min(independent, Math.max(frechet, independent + adjustment));
+  return { stressed, frechet, sensitivity: independent - stressed };
 }
 
 export function pickNextLegs(candidates, bins, year, target = null) {
@@ -111,8 +172,9 @@ export function pickNextLegs(candidates, bins, year, target = null) {
       const closeness = target ? -Math.abs(Math.log(actualOdds / Number(target))) : 0;
       const metrics = ticketMetrics(picks);
       const score = [
+        metrics.correlation_stress_hit_est ?? 0,
         metrics.independent_hit_est ?? 0,
-        metrics.market_reference_roi ?? Number.NEGATIVE_INFINITY,
+        metrics.correlation_stress_expected_roi ?? Number.NEGATIVE_INFINITY,
         hitEstimate,
         payout,
         closeness,
@@ -123,7 +185,7 @@ export function pickNextLegs(candidates, bins, year, target = null) {
     for (const candidate of pools[index]) {
       const key = eventKey(candidate, year);
       if (used.has(key)) continue;
-      const probability = hitProbabilityOf(candidate);
+      const probability = calibratedLegProbability(candidate).estimate;
       const nextHit = Number.isFinite(probability) && probability > 0 && probability < 1
         ? hitEstimate * probability : 0;
       used.add(key);
@@ -144,45 +206,69 @@ export function ticketMetrics(picks) {
   const probabilities = picks.map((pick) => validProbability(pick.market_prob));
   const marketHit = probabilities.every((probability) => probability != null)
     ? probabilities.reduce((total, probability) => total * probability, 1) : null;
-  const finalProbabilities = picks.map((pick) => validProbability(hitProbabilityOf(pick)));
-  const finalHit = finalProbabilities.every((probability) => probability != null)
-    ? finalProbabilities.reduce((total, probability) => total * probability, 1) : null;
   const calibrated = picks.map(calibratedLegProbability);
   const calibratedHit = calibrated.every(({ estimate }) => estimate != null)
     ? calibrated.reduce((total, { estimate }) => total * estimate, 1) : null;
-  const conservativeHit = calibrated.every(({ lower }) => lower != null)
+  const independentLowerHit = calibrated.every(({ lower }) => lower != null)
     ? calibrated.reduce((total, { lower }) => total * lower, 1) : null;
+  const correlation = independentLowerHit == null ? null
+    : correlationStress(calibrated.map(({ lower }) => lower));
   const samples = calibrated.map(({ n }) => n).filter((n) => Number.isFinite(n) && n > 0);
+  const isValidatedPick = (pick) => pick?.decision_pipeline_applied === true &&
+    pick?.has_validated_edge === true && validProbability(pick?.predicted_hit_prob) != null;
+  const hasValidatedEdge = picks.length > 0 && picks.every(isValidatedPick);
+  const validatedUncertainty = hasValidatedEdge &&
+    calibrated.every(({ hasValidatedInterval }) => hasValidatedInterval);
+  const hasPolicyAuthorizedShadow = picks.length > 0 && picks.some((pick) =>
+    pick?.policy_authorized === true && !isValidatedPick(pick));
   const result = {
     actual_odds: Number(actualOdds.toFixed(2)),
-    probability_basis: picks.every((pick) => pick?.has_validated_edge === true)
-      ? "서로 다른 경기의 검증 보정 최종확률 독립 가정"
-      : "서로 다른 경기의 Shin 시장확률 복귀값 독립 가정",
+    probability_basis: hasValidatedEdge
+      ? "서로 다른 경기의 검증 보정 최종확률 독립 가정(확정값 아님)"
+      : hasPolicyAuthorizedShadow
+        ? "정책 승인 신호는 진단 전용이며 Shin 시장확률로 복귀(확정값 아님)"
+        : "서로 다른 경기의 Shin 시장확률 독립 가정(확정값 아님)",
     independence_assumption: true,
+    independence_is_certainty: false,
+    correlation_stress_rho: CORRELATION_STRESS_RHO,
   };
   if (marketHit != null) {
     result.market_reference_hit_est = Number(marketHit.toFixed(5));
     result.market_reference_roi = Number((marketHit * actualOdds - 1).toFixed(4));
   }
-  if (finalHit != null) {
-    result.independent_hit_est = Number(finalHit.toFixed(5));
-    result.hit_est = Number(finalHit.toFixed(5));
-    result.upset_risk = Number((1 - finalHit).toFixed(5));
-    result.expected_roi = Number((finalHit * actualOdds - 1).toFixed(4));
+  if (calibratedHit != null) {
+    result.independent_hit_est = Number(calibratedHit.toFixed(5));
+    result.hit_est = Number(calibratedHit.toFixed(5));
+    result.upset_risk = Number((1 - calibratedHit).toFixed(5));
+    result.expected_roi = Number((calibratedHit * actualOdds - 1).toFixed(4));
   }
   if (calibratedHit != null) {
     result.calibrated_hit_est = Number(calibratedHit.toFixed(5));
     result.calibrated_expected_roi = Number((calibratedHit * actualOdds - 1).toFixed(4));
   }
-  if (conservativeHit != null) {
-    result.conservative_hit_est = Number(conservativeHit.toFixed(5));
-    result.conservative_expected_roi = Number((conservativeHit * actualOdds - 1).toFixed(4));
+  if (independentLowerHit != null) {
+    result.independent_lower_hit_est = Number(independentLowerHit.toFixed(5));
+  }
+  if (correlation != null) {
+    result.correlation_stress_hit_est = Number(correlation.stressed.toFixed(5));
+    result.correlation_stress_expected_roi = Number(
+      (correlation.stressed * actualOdds - 1).toFixed(4),
+    );
+    result.frechet_lower_hit_bound = Number(correlation.frechet.toFixed(5));
+    result.correlation_sensitivity = Number(correlation.sensitivity.toFixed(5));
+    result.conservative_hit_est = result.correlation_stress_hit_est;
+    result.conservative_expected_roi = result.correlation_stress_expected_roi;
   }
   result.calibration_min_n = samples.length ? Math.min(...samples) : null;
-  result.has_validated_edge = picks.length > 0 &&
-    picks.every((pick) => pick?.has_validated_edge === true);
-  result.probability_source = result.has_validated_edge
+  result.has_validated_edge = hasValidatedEdge;
+  result.has_policy_authorized_probability = false;
+  result.has_policy_authorized_shadow = hasPolicyAuthorizedShadow;
+  result.validated_uncertainty_available = validatedUncertainty;
+  result.probability_source = hasValidatedEdge
     ? "validated_final_probability" : "shin_market_fallback";
+  result.conservative_probability_source = validatedUncertainty
+    ? "validated_interval_correlation_stress"
+    : "shin_market_fallback_correlation_stress";
   return result;
 }
 
@@ -216,17 +302,18 @@ export function recommendationFromPlans(plans) {
   if (!available.length) return { action: "none", target: null, index: -1,
     why: "현재 선택 가능한 경기로 구성할 조합이 없다" };
   const positive = available.filter((plan) => plan.has_validated_edge === true &&
-    referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) > 0);
+    plan.validated_uncertainty_available === true &&
+    metricNumber(plan, "conservative_expected_roi", -99) > 0);
   const challenge = available.filter((plan) =>
     metricNumber(plan, "target", 99) <= DAILY_CHALLENGE_MAX_TARGET &&
-    referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
-    referenceMetric(plan, "independent_hit_est", "calibrated_hit_est", 0) >=
+    metricNumber(plan, "correlation_stress_expected_roi", -99) >= DAILY_CHALLENGE_MIN_ROI &&
+    metricNumber(plan, "correlation_stress_hit_est", 0) >=
       (DAILY_CHALLENGE_MIN_HIT[metricNumber(plan, "target", 99)] ?? Number.POSITIVE_INFINITY));
   const byRiskAdjustedQuality = (a, b) =>
-    referenceMetric(b, "market_reference_roi", "conservative_expected_roi", -99) -
-      referenceMetric(a, "market_reference_roi", "conservative_expected_roi", -99) ||
-    referenceMetric(b, "independent_hit_est", "calibrated_hit_est", 0) -
-      referenceMetric(a, "independent_hit_est", "calibrated_hit_est", 0);
+    metricNumber(b, "correlation_stress_expected_roi", -99) -
+      metricNumber(a, "correlation_stress_expected_roi", -99) ||
+    metricNumber(b, "correlation_stress_hit_est", 0) -
+      metricNumber(a, "correlation_stress_hit_est", 0);
 
   let action;
   let best;
@@ -235,23 +322,24 @@ export function recommendationFromPlans(plans) {
     action = "buy";
     best = [...positive].sort((a, b) =>
       kellyGrowth(b) - kellyGrowth(a) || byRiskAdjustedQuality(a, b))[0];
-    why = "사전 검증된 독립 확률모델의 기대수익이 양수다";
+    why = "사전 검증된 확률 하한에 상관 스트레스를 적용해도 기대수익이 양수다";
   } else if (challenge.length) {
     action = "challenge";
     const bestChallengeRoi = Math.max(...challenge.map((plan) =>
-      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99)));
+      metricNumber(plan, "correlation_stress_expected_roi", -99)));
     const balanced = challenge.filter((plan) =>
-      referenceMetric(plan, "market_reference_roi", "conservative_expected_roi", -99) >=
+      metricNumber(plan, "correlation_stress_expected_roi", -99) >=
         bestChallengeRoi - DAILY_CHALLENGE_ROI_TOLERANCE);
     best = [...balanced].sort((a, b) =>
       metricNumber(b, "target", 0) - metricNumber(a, "target", 0) || byRiskAdjustedQuality(a, b))[0];
-    why = "최종 예상 적중확률로 고른 조합이 시장 기준 손실 −20.5% 이내와 독립 가정 적중 27% 문턱을 충족한다";
+    why = "현재 확률에 상관 스트레스를 적용한 조합이 기대손실 −20.5% 이내와 적중 27% 문턱을 충족한다";
   } else {
     action = "pass";
     best = [...available].sort(byRiskAdjustedQuality)[0];
     why = "구매 기준에도 미달했다";
   }
-  const index = available.findIndex((plan) => plan.target === best.target);
+  // target은 같은데 구성·확률이 다른 plan이 있을 수 있으므로 best 객체의 원본 index를 보존한다.
+  const index = (plans || []).findIndex((plan) => plan === best);
   return {
     action,
     target: best.target,
@@ -263,15 +351,18 @@ export function recommendationFromPlans(plans) {
 
 /** 헤더의 자동 판정과 처음 펼쳐지는 티켓이 같은 조합을 가리키게 한다. */
 export function ticketIndexForRecommendation(recommendation, plans, solo = null) {
-  const available = (plans || []).filter((plan) => plan?.ok);
+  const rows = plans || [];
+  const firstAvailable = rows.findIndex((plan) => plan?.ok);
   if (recommendation?.action === "solo" && solo) return -1;
   const stated = Number(recommendation?.index);
-  if (Number.isInteger(stated) && stated >= 0 && stated < available.length) return stated;
-  const byTarget = available.findIndex((plan) =>
+  if (Number.isInteger(stated) && stated >= 0 && stated < rows.length && rows[stated]?.ok) {
+    return stated;
+  }
+  const byTarget = rows.findIndex((plan) => plan?.ok &&
     Number(plan.target) === Number(recommendation?.target));
   if (byTarget >= 0) return byTarget;
-  if (!available.length && solo) return -1;
-  return 0;
+  if (firstAvailable < 0 && solo) return -1;
+  return firstAvailable;
 }
 
 /**
@@ -292,23 +383,16 @@ export function challengeOptions(plans, budget, desiredTarget = 3) {
   if (!available.length) return [];
 
   const probabilityOfPlan = (plan) => {
-    const independent = Number(plan?.independent_hit_est);
-    if (plan?.independent_hit_est != null && Number.isFinite(independent) &&
-      independent > 0 && independent < 1) return independent;
-    const calibrated = Number(plan?.calibrated_hit_est);
-    if (plan?.calibrated_hit_est != null && Number.isFinite(calibrated) &&
-      calibrated > 0 && calibrated < 1) return calibrated;
-    const market = Number(plan?.hit_est);
-    return Number.isFinite(market) && market > 0 && market < 1 ? market : 0;
+    const stressed = Number(plan?.correlation_stress_hit_est);
+    if (plan?.correlation_stress_hit_est != null && Number.isFinite(stressed) &&
+      stressed > 0 && stressed < 1) return stressed;
+    return null;
   };
   const conservativeRoiOf = (plan) => {
-    const reference = Number(plan?.market_reference_roi);
-    if (plan?.market_reference_roi != null && Number.isFinite(reference)) return reference;
-    const conservative = Number(plan?.conservative_expected_roi);
-    if (plan?.conservative_expected_roi != null && Number.isFinite(conservative))
-      return conservative;
-    const calibrated = Number(plan?.calibrated_expected_roi);
-    return Number.isFinite(calibrated) ? calibrated : -1;
+    const stressed = Number(plan?.correlation_stress_expected_roi);
+    if (plan?.correlation_stress_expected_roi != null && Number.isFinite(stressed))
+      return stressed;
+    return null;
   };
 
   const enriched = available.map(({ plan, index }) => ({
@@ -317,14 +401,19 @@ export function challengeOptions(plans, budget, desiredTarget = 3) {
     target: Number(plan.target),
     hit: probabilityOfPlan(plan),
     roi: conservativeRoiOf(plan),
-  })).filter((row) => Number.isFinite(row.target));
+  })).filter((row) => Number.isFinite(row.target) && row.hit != null && row.roi != null);
   if (!enriched.length) return [];
 
   const atOrAbove = enriched.filter((row) => row.target >= requestedTarget);
   const best = [...(atOrAbove.length ? atOrAbove : enriched)].sort((a, b) =>
     atOrAbove.length
-      ? a.target - b.target || b.hit - a.hit || b.roi - a.roi
-      : b.target - a.target || b.hit - a.hit || b.roi - a.roi)[0];
+      ? a.target - b.target || b.roi - a.roi || b.hit - a.hit
+      : b.target - a.target || b.roi - a.roi || b.hit - a.hit)[0];
+
+  const referenceRoi = best.plan.market_reference_roi;
+  const marketReferenceRoi = referenceRoi != null && referenceRoi !== "" &&
+    Number.isFinite(Number(referenceRoi)) ? Number(referenceRoi) : null;
+  const signature = planSignature(best.plan);
 
   return stakes.map((stake) => {
     const net = stake * (Number(best.plan.actual_odds) - 1);
@@ -333,11 +422,12 @@ export function challengeOptions(plans, budget, desiredTarget = 3) {
       budget_share: stake / dayBudget,
       requested_target: requestedTarget,
       plan_index: best.index,
+      plan_signature: signature,
       target: best.plan.target,
       actual_odds: Number(best.plan.actual_odds),
-      independent_hit_est: best.hit,
-      market_reference_roi: best.roi,
-      calibrated_hit_est: best.hit,
+      correlation_stress_hit_est: best.hit,
+      correlation_stress_expected_roi: best.roi,
+      market_reference_roi: marketReferenceRoi,
       conservative_expected_roi: best.roi,
       net_profit: Math.round(net),
       conservative_loss: Math.round(Math.max(0, -best.roi * stake)),
@@ -408,32 +498,12 @@ export function availableToday(today, now = Date.now()) {
   const candidates = activeWindow.candidates
     .sort((a, b) => byNextKickoff(a, b, today.year));
 
-  const plans = (today.plans || []).map((plan) => {
-    const bins = SAFE_TARGET_BINS[Number(plan.target)] ||
-      (plan.bins?.length ? plan.bins : (plan.picks || []).map((pick) => pick.bin));
-    const picks = pickNextLegs(candidates, bins, today.year, plan.target);
-    if (!picks) {
-      return { ...plan, ok: false,
-        why: "1.50~2.20 미만 최종 적중 우선 경기만으로 조합할 수 없다" };
-    }
-    return {
-      ...plan,
-      ...ticketMetrics(picks),
-      ok: true,
-      bins,
-      picks,
-    };
-  });
-
-  const solo = [...candidates]
-    .sort((a, b) => byLegQuality(a, b, today.year))[0] || null;
-  const measuredSolo = solo ? { ...solo, ...ticketMetrics([solo]) } : null;
-
   return {
     ...today,
-    plans,
-    solo: measuredSolo,
-    recommendation: recommendationFromPlans(plans, measuredSolo),
+    plans: [],
+    solo: null,
+    recommendation: { action: "disabled", recommended_target: null,
+      why: "자동 조합 추천을 사용하지 않는다" },
     candidates,
     window: activeWindow.window,
     next: candidates[0] || null,

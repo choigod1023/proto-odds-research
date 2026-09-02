@@ -1,11 +1,14 @@
 import json
 from types import SimpleNamespace
 
+import pytest
+
 from src.generate_v2 import (
     _attach_prediction_record,
     _recorded_predictions,
     _sync_prediction_runtime,
 )
+from src.prediction_ledger import PredictionLedgerError
 
 
 def _game(status="경기전", hit=None):
@@ -122,3 +125,41 @@ def test_no_pregame_snapshot_does_not_invent_past_pick(tmp_path):
     path.write_text(json.dumps({"live": [_game("정산", True)], "past": []},
                                ensure_ascii=False), encoding="utf-8")
     assert _recorded_predictions(path) == {}
+
+
+def test_live_record_must_match_exact_decision_revision():
+    game = _game("경기전")
+    game["추천"] = game["options"][0]
+    game["decision_snapshot"] = {
+        "action": "market_reference", "decision_id": "dec-new",
+    }
+    records = {"evt_1": {
+        "prediction_snapshot_id": "dec-old", "selection_id": "sel_home",
+        "result": "pending",
+    }}
+
+    _attach_prediction_record(game, records)
+
+    assert game["prediction_status"] == "prediction_ledger_required"
+    assert game["prediction_ledger_reason"] == "prediction_revision_mismatch"
+    assert game["추천"] is None
+    assert "decision_snapshot" not in game
+    assert "prediction_record" not in game
+
+
+def test_full_generation_aborts_when_pregame_ledger_append_fails():
+    class BrokenRuntime:
+        def record_pregame(self, *args, **kwargs):
+            raise PredictionLedgerError("write failed")
+
+    game = _game("경기전")
+    game.update({
+        "year": 2026, "round": 90, "league": "KBO",
+        "home": "홈", "away": "원정",
+        "decision_snapshot": {"action": "market_reference", "decision_id": "dec-new"},
+    })
+
+    with pytest.raises(PredictionLedgerError, match="write failed"):
+        _sync_prediction_runtime(
+            BrokenRuntime(), [game], observed_at="2026-08-28T08:00:00+00:00",
+        )
