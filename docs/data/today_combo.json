@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-09-02T17:56:12+09:00",
+ "generated_at": "2026-09-02T18:27:10+09:00",
  "source_generated_at": "2026-09-02T02:44:30+00:00",
- "live_odds_at": "2026-09-02T08:55:06+00:00",
+ "live_odds_at": "2026-09-02T09:26:09+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "경기별 1.50~2.20 미만 유효 후보를 우선하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 해당 가격대가 없을 때만 저배당 보조 후보를 허용하며, 검증된 AI 보정이 없으면 동일 시점 Shin 시장확률로 복귀한다.",
@@ -9,7 +9,7 @@
  "n_primary_candidates": 21,
  "n_fallback_candidates": 12,
  "n_better_round": 2,
- "next_kickoff_at": "2026-09-02T18:00:00+09:00",
+ "next_kickoff_at": "2026-09-02T18:30:00+09:00",
  "selection_policy": "1.50~2.20 우선 · 없으면 저배당 보조 · 최종 적중확률 순 · 자동 조합 없음",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -698,7 +698,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T17:56:12+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T18:00:00+09:00|라쿠텐|오릭스",
@@ -744,7 +746,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T17:56:12+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T18:00:00+09:00|야쿠르트|한신",
@@ -790,7 +794,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T17:56:12+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T18:00:00+09:00|요미우리|요코베이",
@@ -836,7 +842,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T17:56:12+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T18:00:00+09:00|주니치|히로카프",
@@ -882,7 +890,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T17:56:12+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T18:30:00+09:00|KT|한화",
@@ -2233,5 +2243,5 @@
   }
  },
  "recommendation_revision": "1d5660861fae7321a2cd2656d0fd005d17807c83e7ce6fd8aa4310693311f589",
- "refreshed_at": "2026-09-02T08:56:12+00:00"
+ "refreshed_at": "2026-09-02T09:27:10+00:00"
 }
