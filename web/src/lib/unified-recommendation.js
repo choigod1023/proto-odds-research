@@ -39,6 +39,61 @@ export function recommendationDisplay(selection) {
   return { parts, text: parts.join(" · "), preferred, validated, live };
 }
 
+const selectionName = (selection) =>
+  `${selection?.market || "마켓"}${selection?.market_label || selection?.label ?
+    ` ${selection?.market_label || selection?.label}` : ""} ${selection?.sel || selection?.["선택"] || ""}`.trim();
+
+/** 오늘 후보 전체에 채택 이유 또는 첫 번째 탈락 이유를 같은 정책으로 부여한다. */
+export function dailyRecommendationDecisions(candidates = []) {
+  const eligible = eligibleFinalSelections(candidates);
+  const eligibleSet = new Set(eligible);
+  const selected = new Set(dailyHighlightedSelections(candidates));
+  const leagueRows = new Map();
+  eligible.forEach((selection) => {
+    const league = clean(selection?.league) || "리그 미분류";
+    if (!leagueRows.has(league)) leagueRows.set(league, []);
+    leagueRows.get(league).push(selection);
+  });
+  const rankBySelection = new Map();
+  leagueRows.forEach((rows) => {
+    const primary = rows.filter((selection) => recommendationPriority(selection) === 1);
+    const pool = (primary.length ? primary : rows).sort(recommendationRank);
+    pool.forEach((selection, index) => rankBySelection.set(selection, index + 1));
+  });
+  return candidates.map((selection) => {
+    const hit = hitProbabilityOf(selection);
+    const league = clean(selection?.league) || "리그 미분류";
+    const rows = leagueRows.get(league) || [];
+    const hasPrimary = rows.some((row) => recommendationPriority(row) === 1);
+    const preferred = recommendationPriority(selection) === 1;
+    const rank = rankBySelection.get(selection) || null;
+    let reason;
+    if (!eligibleSet.has(selection)) {
+      reason = "자동 추천 안전조건을 통과하지 못했다.";
+    } else if (!(hit >= DAILY_HIGHLIGHT_MIN_HIT)) {
+      reason = `예상 적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}로 55% 기준에 미달했다.`;
+    } else if (!preferred && hasPrimary) {
+      reason = "같은 리그에 1.50~2.20 우선 배당 후보가 있어 저배당 보조 후보에서 제외했다.";
+    } else if (!selected.has(selection)) {
+      reason = `리그 내 ${rank || 3}순위이며 추가 추천 기준 65%에 미달했다.`;
+    } else if (rank && rank <= DAILY_HIGHLIGHT_BASE_PER_LEAGUE) {
+      reason = `55% 기준을 통과했고 ${league} 유효 후보 중 ${rank}위라 기본 추천 2개에 포함했다.`;
+    } else {
+      reason = `리그 기본 2개 밖이지만 예상 적중 ${(hit * 100).toFixed(1)}%로 강한 추가 기준 65%를 통과했다.`;
+    }
+    return {
+      selection,
+      recommended: selected.has(selection),
+      reason,
+      counterReason: selected.has(selection)
+        ? "양의 기대수익이 검증된 것은 아니며 배당 변동·라인업 변경 시 추천에서 빠질 수 있다."
+        : `${selectionName(selection)} 방향 자체는 경기 비교값으로 남기지만 오늘의 형광 추천에는 넣지 않는다.`,
+      display: recommendationDisplay(selection),
+      leagueRank: rank,
+    };
+  });
+}
+
 /** 리그별 기본 2개와 65% 이상 강한 추가 후보를 고른다. 기준 미달은 채우지 않는다. */
 export function dailyHighlightedSelections(candidates = []) {
   const byLeague = new Map();
@@ -82,11 +137,13 @@ export function buildTodayMemberships(today) {
   };
 
   // 하이라이트의 기준은 자동 조합이 아니라 생성기가 확정한 경기별 후보다.
-  dailyHighlightedSelections(today?.candidates || []).forEach((selection) => {
-    const membership = ensure(selection);
+  dailyRecommendationDecisions(today?.candidates || []).forEach((decision) => {
+    const membership = ensure(decision.selection);
     if (membership) {
-      membership.recommended = true;
-      membership.display = recommendationDisplay(selection);
+      membership.recommended = decision.recommended;
+      membership.display = decision.display;
+      membership.reason = decision.reason;
+      membership.counterReason = decision.counterReason;
     }
   });
   return memberships;
