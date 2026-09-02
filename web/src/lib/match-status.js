@@ -32,6 +32,11 @@ export const PHASE_LABEL = {
 
 export function recommendationOutcome(game) {
   const record = game?.prediction_record;
+  // 발매처 공백 때문에 새 산출물을 만들지 못하고 경기 전 artifact를 보존한 경우다.
+  // 추천 식별자가 실제로 남아 있는데도 "사전 기록 전"이라고 단정하지 않는다.
+  if (!record && game?.추천?.selection_id) {
+    return { state: "pending", label: "공식 정산 대기", record: null };
+  }
   if (!record) return { state: "unrecorded", label: "사전 기록 전 경기", record: null };
   if (record.result === "hit") return { state: "hit", label: "적중", record };
   if (record.result === "miss") return { state: "miss", label: "적중 실패", record };

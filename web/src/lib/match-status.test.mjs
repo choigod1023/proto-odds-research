@@ -37,3 +37,9 @@ test("사전 저장 추천만 적중과 실패로 표시한다", () => {
   assert.equal(recommendationOutcome({}).state, "unrecorded");
   assert.equal(recommendationOutcome({}).label, "사전 기록 전 경기");
 });
+
+test("보존된 사전 추천은 원장 누락을 사전 기록 전으로 오표시하지 않는다", () => {
+  const outcome = recommendationOutcome({ 추천: { selection_id: "sel_before_kickoff" } });
+  assert.equal(outcome.state, "pending");
+  assert.equal(outcome.label, "공식 정산 대기");
+});
