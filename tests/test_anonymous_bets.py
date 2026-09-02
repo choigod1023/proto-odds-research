@@ -18,7 +18,7 @@ def test_only_anonymous_fields_are_stored(tmp_path):
     assert "purchase_number" not in stored
     assert "image" not in stored
     assert "ip" not in stored
-    assert json.loads((tmp_path / "bets.jsonl").read_text())["legs"][0]["game_no"] == "7830"
+    assert json.loads((tmp_path / "bets.jsonl").read_text(encoding="utf-8"))["legs"][0]["game_no"] == "7830"
 
 
 def test_invalid_values_are_rejected():
