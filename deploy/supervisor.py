@@ -165,6 +165,9 @@ PUBLISH_ENRICH = [
 LIVE = [sys.executable, "-u", "src/live_scores.py"]
 LIVE_EVERY = 30            # 30초
 LIVE_PORT = 8080
+# 프론트의 no-cache JSON 요청은 교차 출처에서 Cache-Control 헤더를 보내므로
+# OPTIONS 응답에도 반드시 허용해야 한다. 빠지면 모든 실시간 요청이 브라우저에서 막힌다.
+CORS_REQUEST_HEADERS = "Content-Type, Cache-Control"
 ANONYMOUS_BETS_PATH = Path(os.environ.get("ANONYMOUS_BETS_PATH", "/data/anonymous_bets.jsonl"))
 _anonymous_bets_lock = threading.Lock()
 # 전체 재계산과 일일 xG 수집은 각각 메모리를 크게 쓴다. 재시작 15분 뒤 두 작업이
@@ -652,7 +655,7 @@ def serve_live() -> None:
         def _cors(self):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Access-Control-Allow-Headers", CORS_REQUEST_HEADERS)
             # 30초마다 바뀌므로 브라우저·프록시 캐시를 짧게 유지한다
             self.send_header("Cache-Control", "public, max-age=5")
 

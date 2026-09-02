@@ -198,3 +198,8 @@ def test_heavy_collectors_are_staggered_after_restart():
 def test_daily_and_publish_pipeline_share_one_memory_gate():
     assert supervisor._pipeline_lock is not supervisor._anonymous_bets_lock
     assert hasattr(supervisor._pipeline_lock, "acquire")
+
+
+def test_live_server_cors_accepts_frontend_cache_control_header():
+    allowed = {value.strip().lower() for value in supervisor.CORS_REQUEST_HEADERS.split(",")}
+    assert "cache-control" in allowed
