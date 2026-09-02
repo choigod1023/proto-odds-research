@@ -3041,8 +3041,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "한신",
-      "context_observed_at": "2026-08-31T09:08:37+00:00",
-      "event_type": "first_observed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:00:00",
       "game_id": "20260902HSYA0",
       "home": "야쿠르트",
@@ -3159,8 +3159,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "소프트뱅크",
-      "context_observed_at": "2026-08-31T09:08:37+00:00",
-      "event_type": "first_observed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:00:00",
       "game_id": "20260902SFNH0",
       "home": "닛폰햄",
@@ -3277,8 +3277,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "한화",
-      "context_observed_at": "2026-09-02T07:46:57+00:00",
-      "event_type": "lineup_confirmed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:30:00",
       "game_id": "20260902HHKT02026",
       "home": "KT",
@@ -3324,8 +3324,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "KIA",
-      "context_observed_at": "2026-09-02T07:46:57+00:00",
-      "event_type": "lineup_confirmed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:30:00",
       "game_id": "20260902HTNC02026",
       "home": "NC",
@@ -3371,8 +3371,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "LG",
-      "context_observed_at": "2026-09-02T07:46:57+00:00",
-      "event_type": "lineup_confirmed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:30:00",
       "game_id": "20260902LGOB02026",
       "home": "두산",
@@ -3418,8 +3418,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "롯데",
-      "context_observed_at": "2026-09-02T07:46:57+00:00",
-      "event_type": "lineup_confirmed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:30:00",
       "game_id": "20260902LTSS02026",
       "home": "삼성",
@@ -3465,8 +3465,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "SSG",
-      "context_observed_at": "2026-09-02T07:46:57+00:00",
-      "event_type": "lineup_confirmed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-02T18:30:00",
       "game_id": "20260902SKWO02026",
       "home": "키움",
@@ -3578,8 +3578,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "애틀랜타",
-      "context_observed_at": "2026-09-02T04:03:24+00:00",
-      "event_type": "context_changed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "home_starter_changed",
       "game_datetime": "2026-09-03T02:05:00",
       "game_id": "20260903ATMO0",
       "home": "워싱턴",
@@ -3608,16 +3608,15 @@
         "away_lineup_confirmed": false,
         "away_starter_innings": 128.66666666666666,
         "home_lineup_confirmed": false,
-        "home_recent_run_margin_edge": 0.6667,
+        "home_recent_run_margin_edge": 3.3333,
         "home_season_win_rate_edge": -0.115,
-        "home_starter_era_edge": -1.88,
+        "home_starter_era_edge": -0.04,
         "home_starter_hr9_edge": null,
-        "home_starter_innings": 19.333333333333332,
-        "home_starter_kbb9_edge": -2.427,
+        "home_starter_innings": 69.66666666666667,
+        "home_starter_kbb9_edge": 1.293,
         "home_starter_whip_edge": null
       },
       "warnings": [
-        "home_starter_small_sample_lt_20ip",
         "lineup_not_confirmed"
       ],
       "weather": {
@@ -4375,8 +4374,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "뉴욕양키스",
-      "context_observed_at": "2026-09-01T15:13:01+00:00",
-      "event_type": "away_starter_changed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-03T10:38:00",
       "game_id": "20260903NYAN0",
       "home": "LA에인절스",
@@ -4405,8 +4404,8 @@
         "away_lineup_confirmed": false,
         "away_starter_innings": 163.66666666666666,
         "home_lineup_confirmed": false,
-        "home_recent_run_margin_edge": -3.0,
-        "home_season_win_rate_edge": -0.181,
+        "home_recent_run_margin_edge": -2.6667,
+        "home_season_win_rate_edge": -0.187,
         "home_starter_era_edge": -1.51,
         "home_starter_hr9_edge": null,
         "home_starter_innings": 155.0,
@@ -4441,8 +4440,8 @@
     {
       "adjustment_status": "계수 미학습 — 원시 feature만 제공",
       "away": "세인트루이스",
-      "context_observed_at": "2026-09-01T15:20:51+00:00",
-      "event_type": "home_starter_changed",
+      "context_observed_at": "2026-09-02T08:17:25+00:00",
+      "event_type": "context_changed",
       "game_datetime": "2026-09-03T11:10:00",
       "game_id": "20260903SLLA0",
       "home": "LA다저스",
@@ -4472,8 +4471,8 @@
         "away_lineup_confirmed": false,
         "away_starter_innings": 0.0,
         "home_lineup_confirmed": false,
-        "home_recent_run_margin_edge": 2.3333,
-        "home_season_win_rate_edge": 0.106,
+        "home_recent_run_margin_edge": -0.3333,
+        "home_season_win_rate_edge": 0.098,
         "home_starter_era_edge": -2.56,
         "home_starter_hr9_edge": null,
         "home_starter_innings": 158.0,
@@ -5390,5 +5389,5 @@
       }
     }
   ],
-  "generated_at": "2026-09-02T08:02:33+00:00"
+  "generated_at": "2026-09-02T08:27:13+00:00"
 }
