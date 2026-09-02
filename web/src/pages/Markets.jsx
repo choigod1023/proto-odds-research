@@ -30,6 +30,7 @@ const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
 const ODDS_URL = "https://proto-odds-collector.fly.dev/api/live-odds";
 const RECOMMENDATION_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
 const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
+const GRADES_URL = "https://proto-odds-collector.fly.dev/api/loss-grades";
 
 /** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
 function usePoll(url, ms) {
@@ -121,9 +122,7 @@ function marketHistoryForGame(game, liveOdds) {
 export default function Markets() {
   // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
   //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
-  const { data, at } = usePolledData({
-    grades: "data/loss_grades.json",
-  }, 300000);   // 5분
+  const { data, at } = usePolledData({ grades: GRADES_URL }, 300000);   // 5분
   const { grades } = data;
   // Git push·Pages 배포와 분리하여 판정 지연을 막는다.
   const { data: livePicks } = usePoll(PICKS_URL, 60000);
