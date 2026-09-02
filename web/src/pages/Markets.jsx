@@ -634,6 +634,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     : null;
   const todayLabel = todayMembership?.recommended ? "오늘의 추천 픽" : null;
   const recommendationDetail = todayMembership?.display?.text || null;
+  const recommendationReason = todayMembership?.reason || null;
+  const recommendationCounterReason = todayMembership?.counterReason || null;
   return (
     <Card as="details" className={`match-card is-${phase} result-${outcome.state}`}>
       <summary className="match-row">
@@ -686,10 +688,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
       </summary>
       <div className="match-detail">
         <MarketHistory rows={g._marketHistory} />
-        {highlightedToday && recommendationDetail && (
-          <div className="today-pick-signals" role="note">
-            <b>오늘의 추천 기준</b>
-            <span>{recommendationDetail}</span>
+        {todayMembership && recommendationReason && (
+          <div className={`today-pick-signals ${highlightedToday ? "is-recommended" : "is-excluded"}`} role="note">
+            <b>{highlightedToday ? "오늘 추천한 이유" : "오늘 추천하지 않은 이유"}</b>
+            <span>{recommendationReason}</span>
+            {recommendationDetail && <small>{recommendationDetail}</small>}
+            {recommendationCounterReason && <small>{recommendationCounterReason}</small>}
           </div>
         )}
         {g._liveLineChanged && (

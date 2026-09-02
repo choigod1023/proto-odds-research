@@ -77,9 +77,32 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .odds-chip.is-today-highlighted > span { color: white; }
 .show-model tr.is-today-pick > td { background: color-mix(in srgb, var(--color-signal) 10%, var(--color-paper)); border-color: var(--color-signal); }
 .show-model tr.is-today-pick > td:first-child { box-shadow: inset 4px 0 0 var(--color-signal); }
-.today-pick-signals { margin: 0 0 12px; padding: 9px 11px; display: flex; flex-wrap: wrap; gap: 5px 10px; border-left: 3px solid var(--color-signal); background: color-mix(in srgb, var(--color-signal) 8%, transparent); font-size: 11px; line-height: 1.6; }
+.today-pick-signals { margin: 0 0 12px; padding: 9px 11px; display: grid; grid-template-columns: max-content 1fr; gap: 3px 10px; border-left: 3px solid var(--color-rule); background: var(--color-panel); font-size: 11px; line-height: 1.6; }
+.today-pick-signals.is-recommended { border-color: var(--color-signal); background: color-mix(in srgb, var(--color-signal) 8%, transparent); }
+.today-pick-signals.is-excluded { border-color: var(--color-ink3); }
 .today-pick-signals b { color: var(--color-signal); }
 .today-pick-signals span { color: var(--color-ink2); }
+.today-pick-signals small { grid-column: 2; color: var(--color-ink3); }
+.dashboard-recommendations { margin: 24px 0 30px; }
+.dashboard-recommendations > header { margin-bottom: 12px; display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+.dashboard-recommendations > header h2 { font-size: 18px; font-weight: 750; }
+.dashboard-recommendations > header p, .dashboard-recommendations > header strong { color: var(--color-ink3); font-size: 11px; }
+.dashboard-recommendation-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.dashboard-recommendation-card { padding: 13px 14px; border: 1px solid var(--color-rule); border-left: 3px solid var(--color-ink3); background: var(--color-panel); }
+.dashboard-recommendation-card.is-recommended { border-left-color: var(--color-signal); background: color-mix(in srgb, var(--color-signal) 6%, var(--color-panel)); }
+.dashboard-recommendation-card header, .dashboard-recommendation-pick { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dashboard-recommendation-card h3 { margin-top: 2px; font-size: 13px; font-weight: 700; }
+.dashboard-recommendation-card header small, .dashboard-recommendation-card > small { color: var(--color-ink3); font-size: 10px; }
+.dashboard-recommendation-card header strong { color: var(--color-signal); font-size: 10px; }
+.dashboard-recommendation-card.is-excluded header strong { color: var(--color-ink3); }
+.dashboard-recommendation-pick { margin: 9px 0; padding: 7px 0; border-block: 1px solid var(--color-rule2); font-size: 12px; }
+.dashboard-recommendation-card p { margin-top: 6px; color: var(--color-ink2); font-size: 11px; line-height: 1.65; }
+.dashboard-recommendation-card p b { margin-right: 7px; color: var(--color-ink); }
+.dashboard-recommendation-card p.is-counter { color: var(--color-ink3); }
+.dashboard-excluded-list { margin-top: 12px; }
+.dashboard-excluded-list > summary { padding: 10px 0; color: var(--color-ink2); font-size: 11px; cursor: pointer; }
+.dashboard-excluded-list[open] > summary { margin-bottom: 8px; }
+@media (max-width: 760px) { .dashboard-recommendation-grid { grid-template-columns: 1fr; } .dashboard-recommendations > header { align-items: start; flex-direction: column; } }
 .match-card.is-live.card { border-left: 3px solid var(--color-sev2); }
 .match-card.result-hit.card { border-left: 3px solid var(--color-signal); }
 .match-card.result-miss.card { border-left: 3px solid var(--color-sev2); }

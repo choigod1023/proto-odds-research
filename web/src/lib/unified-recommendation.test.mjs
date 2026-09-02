@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { alignTodayRecommendations, buildTodayMemberships, canonicalOption, canonicalPick,
   dailyHighlightedSelections,
+  dailyRecommendationDecisions,
   selectionKey, todaySelectionForGame } from "./unified-recommendation.js";
 
 const home = {
@@ -288,6 +289,25 @@ assert.equal(strongHighlights.length, 3, "65% 이상 강한 후보는 리그 기
 assert.equal(dailyHighlightedSelections([{
   ...alignedToday.candidates[0], predicted_hit_prob: 0.549,
 }]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
+const explained = dailyRecommendationDecisions([
+  ...strongHighlights,
+  { ...alignedToday.candidates[0], event_key: "weak", game_no: "weak",
+    league: "MLB", odds: 1.7, predicted_hit_prob: 0.54 },
+  { ...alignedToday.candidates[0], event_key: "third", game_no: "third",
+    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.60 },
+  { ...alignedToday.candidates[0], event_key: "j1-a", game_no: "j1-a",
+    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.64 },
+  { ...alignedToday.candidates[0], event_key: "j1-b", game_no: "j1-b",
+    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.62 },
+]);
+assert.match(explained.find((row) => row.selection.event_key === "strong-2").reason,
+  /강한 추가 기준 65%/);
+assert.match(explained.find((row) => row.selection.event_key === "weak").reason,
+  /55% 기준에 미달/);
+assert.match(explained.find((row) => row.selection.event_key === "third").reason,
+  /리그 내 3순위/);
+assert.match(explained.find((row) => row.recommended).counterReason,
+  /양의 기대수익이 검증된 것은 아니며/);
 
 const nonDefaultMarket = {
   ...away, selection_id: "sel_total", offer_id: "off_total",
