@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { decisionFrozen, gamePhase, recommendationOutcome } from "./match-status.js";
+import { decisionFrozen, gamePhase, liveFeedWithFallback, recommendationOutcome } from "./match-status.js";
+
+test("static live feed is used while the collector endpoint is unavailable", () => {
+  const fallback = { generated_at: "2026-09-02T13:16:30Z", games: [{ status: "RESULT" }] };
+  assert.equal(liveFeedWithFallback(null, fallback), fallback);
+});
 
 test("최종 픽은 경기 시작 30분 전부터 고정한다", () => {
   const game = { year: 2026, date: "09.02(수) 18:00" };

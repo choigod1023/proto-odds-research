@@ -13,6 +13,10 @@ export function decisionFrozen(game, now = Date.now()) {
   return start != null && Number(now) >= start - 30 * 60 * 1000;
 }
 
+export function liveFeedWithFallback(direct, fallback) {
+  return direct || fallback || null;
+}
+
 export function gamePhase(game, live = game?._liveState, now = Date.now()) {
   if (live?.cancelled || live?.postponed) return "pending";
   const observed = new Date(game?._liveFeedAt || live?.observed_at || 0).getTime();

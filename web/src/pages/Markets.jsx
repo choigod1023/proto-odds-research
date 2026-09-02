@@ -16,7 +16,7 @@ import { alignTodayRecommendations, buildTodayMemberships,
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
-import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
+import { decisionFrozen, gamePhase, liveFeedWithFallback, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { estimateLiveProbability } from "../lib/bet-ledger.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
@@ -130,15 +130,17 @@ export default function Markets() {
     d: "data/picks_v2.json",
     grades: "data/loss_grades.json",
     today: "data/today_combo.json",
+    live: "data/live_scores.json",
   }, 300000);   // 5분
-  const { d: staticPicks, grades, today } = data;
+  const { d: staticPicks, grades, today, live: staticLiveFeed } = data;
   // 판정도 수집 머신에서 직접 받는다. Git push·Pages 배포를 기다리느라 최신 배당은
   // 보이는데 판정만 3시간 넘게 낡는 상태를 막고, 장애 때는 정적 파일로 복귀한다.
   const { data: livePicks } = usePoll(PICKS_URL, 60000);
   const d = livePicks || staticPicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
-  const { data: liveFeed } = useLive();
+  const { data: directLiveFeed } = useLive();
+  const liveFeed = liveFeedWithFallback(directLiveFeed, staticLiveFeed);
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
