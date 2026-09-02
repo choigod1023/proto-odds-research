@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-09-02T18:58:03+09:00",
+ "generated_at": "2026-09-02T19:34:05+09:00",
  "source_generated_at": "2026-09-02T02:44:30+00:00",
- "live_odds_at": "2026-09-02T09:57:30+00:00",
+ "live_odds_at": "2026-09-02T10:32:58+00:00",
  "year": 2026,
  "probability_method": "shin",
  "basis": "경기별 1.50~2.20 미만 유효 후보를 우선하고 그 안에서 최종 예상 적중확률이 가장 높은 선택을 고른다. 해당 가격대가 없을 때만 저배당 보조 후보를 허용하며, 검증된 AI 보정이 없으면 동일 시점 Shin 시장확률로 복귀한다.",
  "n_candidates": 33,
  "n_primary_candidates": 21,
  "n_fallback_candidates": 12,
- "n_better_round": 2,
- "next_kickoff_at": "2026-09-02T19:00:00+09:00",
+ "n_better_round": 0,
+ "next_kickoff_at": "2026-09-02T22:00:00+09:00",
  "selection_policy": "1.50~2.20 우선 · 없으면 저배당 보조 · 최종 적중확률 순 · 자동 조합 없음",
  "preferred_leg_odds_inclusive": 1.5,
  "evolutionary_selector": {
@@ -1242,7 +1242,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|V바렌나|G오사카",
@@ -1294,7 +1296,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|도쿄베르|비셀고베",
@@ -1340,7 +1344,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|마치다Z|가와사키",
@@ -1392,7 +1398,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|미토홀리|가시마A",
@@ -1444,7 +1452,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|산프히로|나고야G",
@@ -1490,7 +1500,9 @@
    "uncertainty_source": "shin_market_fallback",
    "validated_uncertainty_available": false,
    "selection_basis": "shin_market_fallback",
-   "decision_evidence_ids": []
+   "decision_evidence_ids": [],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|시미즈S|FC도쿄",
@@ -1542,7 +1554,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|요코마리|교토상가",
@@ -1594,7 +1608,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|제프유나|오카야마",
@@ -1650,7 +1666,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|후쿠오카|우라와R",
@@ -1702,7 +1720,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T19:00:00+09:00|미야자키|K도야마",
@@ -1754,7 +1774,9 @@
     "lineup",
     "availability",
     "cross_market"
-   ]
+   ],
+   "recommended_at": "2026-09-02T18:58:03+09:00",
+   "recommendation_state": "started_locked"
   },
   {
    "event_key": "2026-09-02T22:00:00+09:00|사수올로|프로시노",
@@ -2255,5 +2277,5 @@
   }
  },
  "recommendation_revision": "1d5660861fae7321a2cd2656d0fd005d17807c83e7ce6fd8aa4310693311f589",
- "refreshed_at": "2026-09-02T09:58:03+00:00"
+ "refreshed_at": "2026-09-02T10:34:05+00:00"
 }
