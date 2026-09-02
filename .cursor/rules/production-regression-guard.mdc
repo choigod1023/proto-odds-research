@@ -1,0 +1,19 @@
+---
+description: Preserve the production contracts for game status, frozen picks, prediction history, recommendations, cache, and deployment
+alwaysApply: true
+---
+
+# Production Regression Guard
+
+- Before changing collection, prediction, recommendation, status, caching, or frontend code, read `docs/PRODUCTION_CONTRACT.md` completely.
+- Diagnose user-visible bugs against the deployed page and current JSON/API payloads. A merged commit or passing unit test is not proof that the issue is fixed.
+- Keep game status separate from prediction-ledger status. “확인 중” on a match card is driven by live/result state, not by whether a prediction record exists.
+- Never convert every started game to `pending` merely because one live endpoint failed. Preserve the last valid feed and use the published static fallback.
+- Treat upstream terminal aliases such as `RESULT`, `END`, and `ENDED` consistently and cover every new alias with a regression test.
+- Preserve every pregame prediction revision in the append-only ledger. Never reconstruct a past prediction from post-kickoff odds.
+- Freeze the final pick at kickoff minus 30 minutes. After that point, odds refreshes may update live context but must not change or erase the stored pick.
+- “오늘의 추천 픽” is a qualified subset of individual game picks and is shown by fluorescent highlighting. Do not restore a recommendation-combination UI or highlight every game.
+- Keep live probability beside `LIVE`; keep final hit/miss tied to the exact stored pregame revision.
+- For user-facing changes, test backend, frontend, production build, deployed data, and rendered browser state. Record before/after counts for the reported symptom.
+- After merging, verify `origin/main` contains the commit, Pages deployment succeeded, the Fly collector loaded the new commit when affected, and the real page reflects the intended state.
+- Do not run a second heavy generation process on the 1 GB collector while its scheduled generation is active; it can cause OOM and transient 502 errors.
