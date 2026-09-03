@@ -7,7 +7,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from runtime_db import RuntimeDatabase, persist_artifact, persist_document  # noqa: E402
+from runtime_db import (RuntimeDatabase, export_site_artifacts,  # noqa: E402
+                        persist_artifact, persist_document)
 
 
 def odds_row(ts="2026-08-29T01:00:00+00:00", odds="1.80,2.00"):
@@ -115,6 +116,18 @@ def test_persist_helpers_use_database_without_runtime_file_exports(tmp_path, mon
     database = RuntimeDatabase(database_path)
     assert database.get_document("features") == {"games": [1]}
     assert database.get_artifact("today") == {"generated_at": "now", "games": [2]}
+
+    # 정적 사이트가 읽는 산출물은 명시적 내보내기 단계로 docs/data 에 되살린다.
+    site_dir = tmp_path / "docs" / "data"
+    site_dir.mkdir(parents=True)
+    database.store_artifact("picks_v2", {"generated_at": "now", "rounds": [104]})
+    database.store_artifact("live_odds", {"generated_at": "now", "n": 0})
+    written = export_site_artifacts(tmp_path)
+    assert set(written) >= {"today", "picks_v2", "live_odds"}
+    assert json.loads((site_dir / "picks_v2.json").read_text(encoding="utf-8"))["rounds"] == [104]
+    assert (site_dir / "today.json").exists()
+    # DB 에 없는 이름은 파일을 만들지 않는다.
+    assert not (site_dir / "combo.json").exists()
 
     # Explicit offline exports remain available for diagnostics/migrations.
     database.export_document("features", document_path)

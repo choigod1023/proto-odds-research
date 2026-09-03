@@ -576,3 +576,33 @@ def persist_artifact(name: str, payload: Mapping[str, Any], path: Path,
         RuntimeDatabase().store_artifact(name, payload)
     else:
         _atomic_json(path, payload, indent=indent)
+
+
+# GitHub Pages 로 배포되는 정적 사이트가 직접 읽는 산출물. 운영에서 생성기는
+# DB(artifacts 테이블)에만 쓰므로, git push 직전에 이 목록을 docs/data/*.json 으로
+# 내보내지 않으면 사이트가 마이그레이션 시점 값에서 영구히 멈춘다.
+SITE_ARTIFACTS = ("live_odds", "picks", "picks_v2", "today", "today_combo",
+                  "live_scores", "loss_grades", "combo", "info_lag")
+# 폴링마다 바뀌는 실시간 산출물은 압축(indent 없음)으로 내보낸다.
+_COMPACT_SITE_ARTIFACTS = {"live_odds", "live_scores"}
+
+
+def export_site_artifacts(root: Path | None = None) -> list[str]:
+    """DB 정본 산출물을 사이트가 읽는 ``docs/data/*.json`` 으로 내보낸다.
+
+    운영(``PROODD_DB_PATH`` 설정)에서만 동작한다. DB에 없는 이름은 조용히 건너뛴다.
+    실제로 내보낸 산출물 이름 목록을 돌려준다.
+    """
+    if not database_enabled():
+        return []
+    base = (root or ROOT) / "docs" / "data"
+    database = RuntimeDatabase()
+    written: list[str] = []
+    for name in SITE_ARTIFACTS:
+        indent = None if name in _COMPACT_SITE_ARTIFACTS else 1
+        try:
+            database.export_artifact(name, base / f"{name}.json", indent=indent)
+        except KeyError:
+            continue
+        written.append(name)
+    return written

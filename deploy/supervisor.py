@@ -431,8 +431,26 @@ def _push_remote_main():
     return sh(push, cwd=REPO)
 
 
+def _export_site_artifacts() -> None:
+    """DB 정본 산출물을 정적 사이트(docs/data/*.json)로 내보낸다.
+
+    운영에서 generate_v2·today_combo·loss_filter 등은 DB에만 쓰므로, 이 단계가
+    없으면 GitHub Pages 사이트가 마이그레이션 시점 값에서 멈춘다. push 직전에 부른다.
+    실패해도 push 자체는 진행한다.
+    """
+    try:
+        sys.path.insert(0, str(REPO / "src"))
+        from runtime_db import export_site_artifacts
+        written = export_site_artifacts(REPO)
+        if written:
+            log(f"DB 산출물 → docs/data 내보냄: {', '.join(written)}")
+    except Exception as e:                             # noqa: BLE001
+        log(f"산출물 내보내기 예외: {type(e).__name__}: {e}")
+
+
 def push_data() -> None:
     """수집 결과와 사이트 데이터만 커밋해 원격 main에 보낸다."""
+    _export_site_artifacts()
     r = sh(["git", "status", "--porcelain", *TRACKED], cwd=REPO)
     if not r.stdout.strip():
         return

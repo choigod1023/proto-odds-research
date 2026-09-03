@@ -8,6 +8,25 @@ def result(code=0, stdout=""):
     return SimpleNamespace(returncode=code, stdout=stdout, stderr="")
 
 
+def test_push_data_exports_db_artifacts_to_site_before_commit(monkeypatch):
+    """DB 정본을 docs/data 로 내보낸 뒤에야 git status 를 확인해야 사이트가 갱신된다."""
+    order = []
+    monkeypatch.setattr(supervisor, "_export_site_artifacts",
+                        lambda: order.append("export"))
+
+    def fake_sh(args, cwd=None, check=False):
+        order.append(" ".join(args[:2]))
+        return result(0, "")            # git status --porcelain: 변경 없음 → 조기 종료
+
+    monkeypatch.setattr(supervisor, "sh", fake_sh)
+    monkeypatch.setattr(supervisor, "REPO", "/repo")
+
+    supervisor.push_data()
+
+    assert order[0] == "export"
+    assert order[1].startswith("git status")
+
+
 def test_push_remote_main_rebases_explicit_remote_branch(monkeypatch):
     calls = []
     results = iter([result(1), result(stdout="abc123\n"), result(), result(), result()])
