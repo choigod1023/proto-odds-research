@@ -48,6 +48,34 @@ def test_main_refreshes_picks_immediately_after_persist(monkeypatch):
     assert calls == [("persist", collected), ("refresh", collected)]
 
 
+def test_main_keeps_last_prices_and_still_refreshes_on_empty_poll(monkeypatch):
+    """빈 폴링이 와도 raise 로 멈추지 않고 직전 배당을 유지하며 하위 갱신을 돌린다."""
+    empty = {"generated_at": "2026-09-03T02:30:00+00:00", "n": 0,
+             "rounds": [], "markets": {}, "odds": {}, "history": {}}
+    previous_odds = {"generated_at": "2026-09-03T02:00:00+00:00", "n": 1,
+                     "rounds": [104],
+                     "odds": {"104": {"9001": [1.8, 2.0], "9002": [1.5, 2.6]}},
+                     "markets": {"104": {"9001": {"market": "승패"}}}}
+    calls = []
+    monkeypatch.setattr(odds_live, "collect", lambda _picks=None: empty)
+    monkeypatch.setattr(odds_live, "load_artifact",
+                        lambda name, path: previous_odds if name == "live_odds" else {})
+    monkeypatch.setattr(odds_live, "merge_market_history",
+                        lambda current, previous, picks: current)
+    monkeypatch.setattr(odds_live, "persist_artifact",
+                        lambda *args, **kwargs: calls.append(("persist", args[1])))
+    monkeypatch.setattr(odds_live, "refresh_once",
+                        lambda data: calls.append(("refresh", data)) or 0)
+
+    assert odds_live.main(["odds_live.py"]) == 0
+    assert [name for name, _ in calls] == ["persist", "refresh"]
+    persisted = calls[0][1]
+    assert persisted["odds"] == {"104": {"9001": [1.8, 2.0], "9002": [1.5, 2.6]}}
+    assert persisted["rounds"] == [104] and persisted["n"] == 2  # 실경기 2건으로 재계산
+    # 생성시각은 이번 폴링의 새 값이어야 화면 신선도가 진행된다.
+    assert persisted["generated_at"] == "2026-09-03T02:30:00+00:00"
+
+
 def test_market_history_records_price_and_line_changes_with_probabilities():
     previous = {
         "history": {"103": {"8071": [{

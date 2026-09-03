@@ -35,7 +35,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from snapshot import find_live_rounds, _fetch          # noqa: E402
+from snapshot import find_live_rounds, _fetch, UNPLAYED  # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
 from runtime_db import load_artifact, persist_artifact  # noqa: E402
 from live_market_refresh import refresh_once           # noqa: E402
@@ -72,6 +72,24 @@ def collect(previous_picks: dict | None = None) -> dict:
         # 볼륨에 일부 옛 캐시만 남아 있는 경우도 DB 회차보다 뒤로 물러나지 않는다.
         hint = max(hint, max(1, max(known_rounds) - 3))
     rounds = find_live_rounds(sess, season, hint)
+
+    # find_live_rounds 는 master_seq 가 빠진 회차에서 스캔을 멈춘다. 정산이 끝나
+    # 목록에서 빠진 옛 회차가 사이에 끼면 그 뒤의 실제 발매 회차를 통째로 놓친다.
+    # picks_v2 가 알려 준 현재 회차는 간격과 무관하게 직접 확인해 스캔 공백을 메운다.
+    for known in sorted(set(known_rounds) - set(rounds)):
+        try:
+            rows = _fetch(sess, season, known)
+        except Exception as e:                          # noqa: BLE001
+            print(f"  [{season}-{known}] 회차 확인 오류 {type(e).__name__}: {e}",
+                  flush=True)
+            continue
+        if rows and any(r.result in UNPLAYED for r in rows):
+            rounds.append(known)
+            print(f"  발매중(직접 확인): {season}-{known}회차", flush=True)
+    rounds = sorted(set(rounds))
+    if not rounds:
+        print(f"  [{season}] 발매 회차를 찾지 못함 — hint={hint} "
+              f"· known={known_rounds}", flush=True)
 
     odds: dict[str, dict[str, list[float]]] = {}
     markets: dict[str, dict[str, dict]] = {}
@@ -174,6 +192,27 @@ def merge_market_history(current: dict, previous: dict | None = None,
     return current
 
 
+def _carry_forward_prices(current: dict, previous: dict | None) -> dict:
+    """이번 폴링이 비었을 때 직전 배당·마켓·회차를 유지한다.
+
+    ``current`` 의 새 생성시각과 병합된 변경 이력(history)은 그대로 두고,
+    비어 있는 ``odds``·``markets``·``rounds``·``n`` 만 직전 문서에서 되살린다.
+    프론트가 배당 오버레이를 잃지 않고, 하위 갱신도 마지막 가격으로 계속 돈다.
+    """
+    if not previous:
+        return current
+    if not current.get("odds") and previous.get("odds"):
+        current["odds"] = previous["odds"]
+    if not current.get("markets") and previous.get("markets"):
+        current["markets"] = previous["markets"]
+    if not current.get("rounds") and previous.get("rounds"):
+        current["rounds"] = previous["rounds"]
+    if not current.get("n"):
+        current["n"] = sum(len(bucket) for bucket in
+                           (current.get("odds") or {}).values())
+    return current
+
+
 def main(argv: list[str]) -> int:
     loop = 0
     if "--loop" in argv:
@@ -182,18 +221,29 @@ def main(argv: list[str]) -> int:
     while True:
         try:
             previous_picks = load_artifact("picks_v2", PICKS)
+            previous_odds = load_artifact("live_odds", OUT)
             data = merge_market_history(
-                collect(previous_picks), load_artifact("live_odds", OUT),
-                previous_picks,
+                collect(previous_picks), previous_odds, previous_picks,
             )
             if not data.get("rounds") or not data.get("n"):
-                raise RuntimeError("no published rounds or priced markets discovered")
-            persist_artifact("live_odds", data, OUT, indent=None)
-            # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
-            # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
-            refresh_once(data)
-            print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} → runtime artifact live_odds",
-                  flush=True)
+                # ⚠️ 한 번의 빈 응답(원천 일시 장애·회차 사이 공백)을 영구 정지로
+                #    만들지 않는다. 직전 배당을 유지한 채 생성시각만 새로 찍고,
+                #    하위 갱신(refresh_once)도 계속 돌려 picks_v2·추천이 함께
+                #    얼어붙지 않게 한다. 2026-09-03 실측: raise 로 바꾼 뒤
+                #    live_odds 가 02:02 UTC 에 멈췄고 추천·예측이 같이 멈췄다.
+                data = _carry_forward_prices(data, previous_odds)
+                persist_artifact("live_odds", data, OUT, indent=None)
+                refresh_once(data)
+                print("실시간 배당: 이번 폴링에서 발매 회차를 찾지 못해 직전 값을 유지 "
+                      f"(회차 {data.get('rounds')}) → runtime artifact live_odds",
+                      flush=True)
+            else:
+                persist_artifact("live_odds", data, OUT, indent=None)
+                # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
+                # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
+                refresh_once(data)
+                print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} "
+                      "→ runtime artifact live_odds", flush=True)
         except Exception as e:                          # noqa: BLE001
             # 여기서 죽으면 화면이 낡은 값을 쓸 뿐이다. 다음 주기에 다시 한다.
             print(f"실시간 배당 실패: {type(e).__name__}: {e}", flush=True)
