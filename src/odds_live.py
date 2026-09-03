@@ -60,10 +60,17 @@ def _start_hint(season: int) -> int:
     return max(1, (max(have) - 3) if have else 1)
 
 
-def collect() -> dict:
+def collect(previous_picks: dict | None = None) -> dict:
     sess = _session()
     season = datetime.now(timezone.utc).year
-    rounds = find_live_rounds(sess, season, _start_hint(season))
+    hint = _start_hint(season)
+    # 운영에서는 회차 HTML 캐시를 쓰지 않는다. 캐시가 비었다고 1회차부터
+    # 12개만 훑으면 100회차대의 현재 발매에 영원히 도달하지 못한다.
+    known_rounds = [int(value) for value in (previous_picks or {}).get("rounds", [])
+                    if str(value).isdigit()]
+    if hint == 1 and known_rounds:
+        hint = max(1, max(known_rounds) - 3)
+    rounds = find_live_rounds(sess, season, hint)
 
     odds: dict[str, dict[str, list[float]]] = {}
     markets: dict[str, dict[str, dict]] = {}
@@ -173,10 +180,13 @@ def main(argv: list[str]) -> int:
 
     while True:
         try:
+            previous_picks = load_artifact("picks_v2", PICKS)
             data = merge_market_history(
-                collect(), load_artifact("live_odds", OUT),
-                load_artifact("picks_v2", PICKS),
+                collect(previous_picks), load_artifact("live_odds", OUT),
+                previous_picks,
             )
+            if not data.get("rounds") or not data.get("n"):
+                raise RuntimeError("no published rounds or priced markets discovered")
             persist_artifact("live_odds", data, OUT, indent=None)
             # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
             # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.

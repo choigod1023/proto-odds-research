@@ -1,11 +1,28 @@
 from src import odds_live
 
 
+def test_collect_uses_persisted_rounds_when_file_cache_is_empty(monkeypatch):
+    monkeypatch.setattr(odds_live, "_session", lambda: object())
+    monkeypatch.setattr(odds_live, "_start_hint", lambda season: 1)
+    seen = {}
+
+    def find(_session, year, hint):
+        seen.update(year=year, hint=hint)
+        return []
+
+    monkeypatch.setattr(odds_live, "find_live_rounds", find)
+    result = odds_live.collect({"rounds": [101, 102, 104]})
+
+    assert seen["hint"] == 101
+    assert result["rounds"] == []
+
+
 def test_main_refreshes_picks_immediately_after_persist(monkeypatch):
     collected = {"generated_at": "2026-08-31T00:00:00+00:00", "n": 1,
                  "rounds": [104], "markets": {}, "odds": {}}
     calls = []
-    monkeypatch.setattr(odds_live, "collect", lambda: collected)
+    monkeypatch.setattr(odds_live, "collect", lambda _picks=None: collected)
+    monkeypatch.setattr(odds_live, "load_artifact", lambda name, path: {})
     monkeypatch.setattr(odds_live, "merge_market_history",
                         lambda current, previous, picks: current)
     monkeypatch.setattr(odds_live, "persist_artifact",
