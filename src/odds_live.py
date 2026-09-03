@@ -68,8 +68,9 @@ def collect(previous_picks: dict | None = None) -> dict:
     # 12개만 훑으면 100회차대의 현재 발매에 영원히 도달하지 못한다.
     known_rounds = [int(value) for value in (previous_picks or {}).get("rounds", [])
                     if str(value).isdigit()]
-    if hint == 1 and known_rounds:
-        hint = max(1, max(known_rounds) - 3)
+    if known_rounds:
+        # 볼륨에 일부 옛 캐시만 남아 있는 경우도 DB 회차보다 뒤로 물러나지 않는다.
+        hint = max(hint, max(1, max(known_rounds) - 3))
     rounds = find_live_rounds(sess, season, hint)
 
     odds: dict[str, dict[str, list[float]]] = {}

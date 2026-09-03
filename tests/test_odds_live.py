@@ -17,6 +17,20 @@ def test_collect_uses_persisted_rounds_when_file_cache_is_empty(monkeypatch):
     assert result["rounds"] == []
 
 
+def test_collect_does_not_let_stale_file_cache_override_database_rounds(monkeypatch):
+    monkeypatch.setattr(odds_live, "_session", lambda: object())
+    monkeypatch.setattr(odds_live, "_start_hint", lambda season: 70)
+    seen = {}
+    monkeypatch.setattr(
+        odds_live, "find_live_rounds",
+        lambda _session, _year, hint: seen.setdefault("hint", hint) and [],
+    )
+
+    odds_live.collect({"rounds": [101, 102, 104]})
+
+    assert seen["hint"] == 101
+
+
 def test_main_refreshes_picks_immediately_after_persist(monkeypatch):
     collected = {"generated_at": "2026-08-31T00:00:00+00:00", "n": 1,
                  "rounds": [104], "markets": {}, "odds": {}}
