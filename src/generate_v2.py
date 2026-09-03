@@ -69,7 +69,8 @@ from score_dist import (p_handicap, p_margin_band, p_odd,           # noqa: E402
                         p_one_run, p_over, p_win)
 from score_scenarios import (get_sport_contract,                   # noqa: E402
                              probability_matrix_from_lambdas)
-from snapshot import UNPLAYED, _fetch, find_live_rounds             # noqa: E402
+from snapshot import (UNPLAYED, _fetch, find_live_rounds,
+                      probe_latest_round)                           # noqa: E402
 from wisetoto import CACHE, _session                                # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -1265,7 +1266,15 @@ def main() -> int:
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
-    live = find_live_rounds(sess, season, (max(have) - 3) if have else 1)
+    if have:
+        live_hint = max(have) - 3
+    else:
+        published = load_artifact("picks_v2", OUT / "picks_v2.json") or {}
+        known_rounds = [int(value) for value in published.get("rounds", [])
+                        if str(value).isdigit()]
+        live_hint = (max(known_rounds) - 3 if known_rounds
+                     else probe_latest_round(sess, season) - 3)
+    live = find_live_rounds(sess, season, max(1, live_hint))
     # 원천의 일시적 빈 응답을 실제 발매 종료로 오인해 예정 경기를 전부 지우지 않는다.
     if not live and _published_future_exists(season):
         return _enrich_published_only(_CONTEXT_STORE, prediction_runtime)
