@@ -45,7 +45,8 @@ from evolutionary_policy import live_snapshot, load_artifact
 from ai_decision import (can_apply_decision_probability,
                          validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
-from runtime_db import load_artifact as load_runtime_artifact, persist_artifact
+from runtime_db import (export_site_artifacts,
+                        load_artifact as load_runtime_artifact, persist_artifact)
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     PREFERRED_RECOMMENDATION_ODDS,
@@ -919,6 +920,14 @@ def _selftest() -> int:
 def main() -> int:
     d = build()
     persist_artifact("today_combo", d, OUT)
+    # DB 정본 산출물을 정적 사이트가 읽는 docs/data/*.json 으로 내보낸다. 운영에서
+    # 생성기는 DB 에만 쓰므로, 이 단계가 없으면 배포 사이트가 이관 시점 값에서 멈춘다.
+    try:
+        written = export_site_artifacts()
+        if written:
+            print(f"사이트 파일 갱신: {', '.join(written)}")
+    except Exception as exc:                             # noqa: BLE001
+        print(f"사이트 파일 내보내기 실패: {type(exc).__name__}: {exc}")
 
     print(f"다리 후보 {d['n_candidates']:,}개 "
           f"(1순위 {d['n_primary_candidates']:,} · 1.50 미만 보조 {d['n_fallback_candidates']:,})\n")

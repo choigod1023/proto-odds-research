@@ -43,9 +43,12 @@ def test_main_refreshes_picks_immediately_after_persist(monkeypatch):
                         lambda *args, **kwargs: calls.append(("persist", args[1])))
     monkeypatch.setattr(odds_live, "refresh_once",
                         lambda data: calls.append(("refresh", data)) or 0)
+    monkeypatch.setattr(odds_live, "export_site_artifacts",
+                        lambda: calls.append(("export", None)) or [])
 
     assert odds_live.main(["odds_live.py"]) == 0
-    assert calls == [("persist", collected), ("refresh", collected)]
+    assert calls == [("persist", collected), ("refresh", collected),
+                     ("export", None)]
 
 
 def test_main_keeps_last_prices_and_still_refreshes_on_empty_poll(monkeypatch):
@@ -66,9 +69,11 @@ def test_main_keeps_last_prices_and_still_refreshes_on_empty_poll(monkeypatch):
                         lambda *args, **kwargs: calls.append(("persist", args[1])))
     monkeypatch.setattr(odds_live, "refresh_once",
                         lambda data: calls.append(("refresh", data)) or 0)
+    monkeypatch.setattr(odds_live, "export_site_artifacts",
+                        lambda: calls.append(("export", None)) or [])
 
     assert odds_live.main(["odds_live.py"]) == 0
-    assert [name for name, _ in calls] == ["persist", "refresh"]
+    assert [name for name, _ in calls] == ["persist", "refresh", "export"]
     persisted = calls[0][1]
     assert persisted["odds"] == {"104": {"9001": [1.8, 2.0], "9002": [1.5, 2.6]}}
     assert persisted["rounds"] == [104] and persisted["n"] == 2  # 실경기 2건으로 재계산
