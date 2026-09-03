@@ -643,6 +643,12 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const finished = phase === "finished";
   const disruption = lv?.cancelled ? "경기 취소" : lv?.postponed ? "경기 연기" : null;
   const outcome = recommendationOutcome(g);
+  // 첫 게시값으로 고정된 사전 픽이, 지금 시장 기준으로는 반대쪽이 유리해진 경우.
+  // 픽은 바꾸지 않고 "조건이 바뀌었다"만 알린다(이미 배팅한 사용자를 위해).
+  const drift = (!playing && !finished && !done && g.pick_drift
+    && g.pick_drift.market_selection
+    && g.pick_drift.market_selection !== g.pick_drift.pinned_selection)
+    ? g.pick_drift : null;
   const waitText = wait ? waitingLabel(g, { generatedAt, year }) : null;
   // 정산 점수가 있으면 그걸 쓰고(확정), 없으면 실시간 점수로 채운다.
   const score = (done && g.score)
@@ -710,6 +716,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           <small className="match-player-inline">
             {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : phase === "pending" ? "결과 확인 중" : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
             {g._liveLineChanged ? " · 기준점 변경 반영" : ""}
+            {drift ? " · 라인 변동" : ""}
             {compactPlayers
               ? ` · ${compactPlayers}`
               : ""}
@@ -761,6 +768,19 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
             <b>핸디캡·언더오버 기준점 변경 반영</b>
             <p>이전 기준점의 예측과 구조 모델 수치는 폐기했습니다. 현재 기준점과 배당으로 확률 및 추천을 다시 계산했습니다.</p>
+          </div>
+        )}
+        {drift && (
+          <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
+            <b>라인 변동 · 픽은 처음 게시값으로 고정</b>
+            <p>
+              이 경기의 픽은 <b>{drift.pinned_market} {drift.pinned_selection}</b>
+              {drift.pinned_odds != null ? ` (배당 ${odds(drift.pinned_odds)})` : ""}로
+              고정되어 킥오프까지 바뀌지 않습니다. 지금 시장 기준으로는{" "}
+              <b>{drift.market_selection}</b>
+              {drift.market_odds != null ? ` (배당 ${odds(drift.market_odds)})` : ""}가
+              더 유력합니다. 이미 배팅하셨다면 조건이 바뀐 점만 참고하세요.
+            </p>
           </div>
         )}
         {playing && score && (

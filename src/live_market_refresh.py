@@ -191,6 +191,41 @@ def _options(rows: list[dict]) -> list[dict]:
     return options
 
 
+def _pick_drift(record: dict | None, options: list[dict],
+                observed_at: str) -> dict | None:
+    """고정된 사전 픽이 지금 시장 기준으로는 더 이상 유리한 쪽이 아닌지 본다.
+
+    같은 마켓(같은 기준선)의 선택지 중 시장확률이 가장 높은 쪽이 고정 픽과
+    다르면 드리프트로 본다. 이미 배팅한 사용자에게 "조건이 바뀌었다"만 알린다.
+    """
+    if not isinstance(record, dict) or not record.get("selection"):
+        return None
+    market = record.get("market")
+    label = record.get("label") or ""
+    pinned_selection = record.get("selection")
+    same_market = [
+        o for o in options
+        if o.get("market") == market and (o.get("label") or "") == label
+    ]
+    if len(same_market) < 2 or not any(
+        o.get("선택") == pinned_selection for o in same_market
+    ):
+        return None
+    favored = max(same_market, key=lambda o: o.get("시장확률") or 0.0)
+    if favored.get("선택") == pinned_selection:
+        return None
+    return {
+        "pinned_selection": pinned_selection,
+        "pinned_market": market,
+        "pinned_label": label,
+        "pinned_odds": record.get("odds"),
+        "market_selection": favored.get("선택"),
+        "market_odds": favored.get("배당"),
+        "market_probability": round(favored.get("시장확률") or 0.0, 4),
+        "observed_at": observed_at,
+    }
+
+
 def _option_signature(option: dict) -> tuple:
     """가격뿐 아니라 시장 종류와 기준점 변경도 하나의 revision으로 본다."""
     return (
@@ -278,7 +313,26 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
                     for key_, value in sorted(new_lines.items())
                 ],
             }
-        if pregame:
+        pinned_snapshot = game.get("decision_snapshot") or {}
+        pinned_record = game.get("prediction_record")
+        already_pinned = bool(
+            pregame
+            and game.get("prediction_status") == "recorded_pregame"
+            and isinstance(pinned_record, dict)
+            and pinned_record.get("selection")
+            and str(pinned_snapshot.get("as_of") or "") < observed_at
+        )
+        if already_pinned:
+            # 첫 게시 때 원장에 고정된 사전 픽은 킥오프까지 바꾸지 않는다. 이미
+            # 판매점에서 배팅한 사용자의 화면·정산 대상이 흔들리면 안 되기 때문이다.
+            # 배당 숫자만 화면용으로 갱신하고, "지금 시장 기준이면 반대쪽이 유리"
+            # 상황이면 pick_drift 로만 알린다.
+            drift = _pick_drift(pinned_record, options, observed_at)
+            if drift:
+                game["pick_drift"] = drift
+            else:
+                game.pop("pick_drift", None)
+        elif pregame:
             game.update({
                 "판단": "실시간 시장 기준", "추천": None,
                 "해설": None, "해설기본": None,
@@ -288,6 +342,7 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
                 game, as_of=observed_at, built_at=observed_at,
                 explanation_kind="structured_ui",
             )
+            game.pop("pick_drift", None)
         else:
             # 경기 후 복구한 가격으로 사전 추천을 소급 생성하지 않는다.
             game.pop("decision_snapshot", None)

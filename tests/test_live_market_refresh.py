@@ -283,3 +283,70 @@ def test_refresh_recalculates_when_total_line_changes_without_price_change():
     assert game["market_line_revision"]["before"][0]["line"] == 10.5
     assert game["market_line_revision"]["after"][0]["line"] == 11.5
     assert game["decision_snapshot"]["action"] == "market_reference"
+
+
+def _pinned_pregame_game():
+    """첫 게시 때 원장에 고정된 사전 픽이 붙은 live 경기."""
+    return {
+        "year": 2026, "round": 102, "date": "08.30(일) 18:00",
+        "sport": "bs", "league": "KBO", "home": "KIA", "away": "SSG",
+        "status": "경기전",
+        "prediction_status": "recorded_pregame",
+        "decision_snapshot": {
+            "action": "market_reference", "selection_id": "sel_pinned",
+            "as_of": "2026-08-29T00:00:00+00:00",
+        },
+        "추천": {"market": "승패", "선택": "원정", "label": "", "배당": 2.05,
+                "selection_id": "sel_pinned"},
+        "prediction_record": {
+            "prediction_snapshot_id": "dec_pinned", "selection_id": "sel_pinned",
+            "market": "승패", "label": "", "selection": "원정", "odds": 2.05,
+            "result": "pending",
+        },
+        "options": [
+            {"market": "승패", "n_way": 2, "label": "", "line": None, "선택": "홈",
+             "배당": 2.00, "시장확률": 0.48, "모델확률": None, "최종확률": 0.48,
+             "게임번호": "7100", "적중": None},
+            {"market": "승패", "n_way": 2, "label": "", "line": None, "선택": "원정",
+             "배당": 1.80, "시장확률": 0.52, "모델확률": None, "최종확률": 0.52,
+             "게임번호": "7100", "적중": None},
+        ],
+    }
+
+
+def test_pinned_pregame_pick_is_not_re_decided_when_live_odds_move():
+    document = {"generated_at": "2026-08-29T00:00:00+00:00", "rounds": [102],
+                "live": [_pinned_pregame_game()], "past": []}
+
+    refreshed, changed = refresh_document(document, _live_odds())
+    game = refreshed["live"][0]
+
+    # 픽·판정 스냅샷은 그대로. 배당 숫자만 화면용으로 갱신된다.
+    assert game["추천"]["선택"] == "원정"
+    assert game["decision_snapshot"]["as_of"] == "2026-08-29T00:00:00+00:00"
+    assert game["decision_snapshot"]["selection_id"] == "sel_pinned"
+    assert game["prediction_status"] == "recorded_pregame"
+    # 지금 시장 기준으로는 홈이 유리해졌으므로 드리프트 배지가 붙는다.
+    assert game["pick_drift"]["pinned_selection"] == "원정"
+    assert game["pick_drift"]["market_selection"] == "홈"
+
+
+def test_pick_drift_clears_when_market_returns_to_the_pinned_side():
+    document = {"generated_at": "2026-08-29T00:00:00+00:00", "rounds": [102],
+                "live": [_pinned_pregame_game()], "past": []}
+    document["live"][0]["pick_drift"] = {"stale": True}
+
+    market_favors_away = {
+        "generated_at": "2026-08-30T01:00:00+00:00",
+        "markets": {"102": {"7100": {
+            "game_no": "7100", "date": "08.30(일) 18:00", "sport": "bs",
+            "league": "KBO", "home": "KIA", "away": "SSG",
+            "market": "승패", "label": "", "n_way": 2,
+            "odds": [2.10, 1.60], "result": "경기전",
+        }}},
+    }
+    refreshed, _ = refresh_document(document, market_favors_away)
+    game = refreshed["live"][0]
+
+    assert game["추천"]["선택"] == "원정"
+    assert "pick_drift" not in game
