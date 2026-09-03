@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-03T08:26:48+00:00",
+ "generated_at": "2026-09-03T09:01:06+00:00",
  "rounds": [
   101,
   102,
@@ -259906,10 +259906,10 @@
      "label": "",
      "line": null,
      "선택": "홈",
-     "배당": 1.82,
-     "시장확률": 0.4806,
+     "배당": 1.77,
+     "시장확률": 0.4968,
      "모델확률": null,
-     "최종확률": 0.4806,
+     "최종확률": 0.4968,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -259933,10 +259933,10 @@
      "label": "",
      "line": null,
      "선택": "원정",
-     "배당": 1.7,
-     "시장확률": 0.5194,
+     "배당": 1.75,
+     "시장확률": 0.5032,
      "모델확률": null,
-     "최종확률": 0.5194,
+     "최종확률": 0.5032,
      "확률근거": "shin_market",
      "AI반영": false,
      "AI잔차": null,
@@ -259952,8 +259952,8 @@
      "이변후보": false,
      "이변점수": null,
      "이변근거": null,
-     "예상적중확률": 0.5194,
-     "추천점수": 0.5194,
+     "예상적중확률": 0.5032,
+     "추천점수": 0.5032,
      "추천우선순위": "primary",
      "선택근거": "shin_market_hit_probability"
     },
@@ -260209,36 +260209,7 @@
    ],
    "선택지수": 11,
    "판단": "실시간 시장 기준",
-   "추천": {
-    "market": "승패",
-    "n_way": 2,
-    "label": "",
-    "line": null,
-    "선택": "원정",
-    "배당": 1.7,
-    "시장확률": 0.5194,
-    "모델확률": null,
-    "최종확률": 0.5194,
-    "확률근거": "shin_market",
-    "AI반영": false,
-    "AI잔차": null,
-    "게임번호": "8635",
-    "적중": null,
-    "selection_id": "sel_4b1f65fdfd51bfef",
-    "offer_id": "off_7424d41f36bd2dac",
-    "내부확률": null,
-    "선수보정": 0.0,
-    "내부요인": [],
-    "내부모델상태": "ineligible",
-    "내부모델사유": "score_model_probability_missing",
-    "이변후보": false,
-    "이변점수": null,
-    "이변근거": null,
-    "예상적중확률": 0.5194,
-    "추천점수": 0.5194,
-    "추천우선순위": "primary",
-    "선택근거": "shin_market_hit_probability"
-   },
+   "추천": null,
    "해설": null,
    "해설기본": null,
    "설명메타": {
@@ -260253,161 +260224,8 @@
     "affects_probability": false,
     "reason": "probability artifact is absent; Shin market retained"
    },
-   "decision_snapshot": {
-    "schema_version": "decision-snapshot-v2",
-    "decision_id": "dec_a8fc6cd4b222cc51",
-    "event_id": "evt_62138cdf3b96d06f",
-    "as_of": "2026-09-03T07:24:02+00:00",
-    "action": "market_reference",
-    "selection_id": "sel_4b1f65fdfd51bfef",
-    "offer_id": "off_7424d41f36bd2dac",
-    "input_revision_hash": "7222b0c916bd1f3091003e284f3cfd3057cd8e58158c9b664412efb08155be08",
-    "gate_codes": [],
-    "probability": {
-     "market": 0.5194,
-     "ai_candidate": null,
-     "ai_delta_candidate": null,
-     "residual_candidate": null,
-     "residual_interval": null,
-     "residual_delta_candidate": null,
-     "ai_delta_applied": 0.0,
-     "final": 0.5194,
-     "basis": "shin_market"
-    },
-    "model": {
-     "operating_version": "shin-market-anchor-v1",
-     "residual_version": "score-distribution-shadow-v1",
-     "probability_pipeline_version": "market-logit-residual-v1",
-     "status": "unavailable",
-     "validated_edge": false,
-     "policy_authorized": false,
-     "promotion_gate": "not_passed",
-     "artifact_hash": null
-    },
-    "stages": {
-     "market": {
-      "status": "used",
-      "affects_probability": true
-     },
-     "structured_ai": {
-      "status": "missing",
-      "affects_probability": false
-     },
-     "availability_ai": {
-      "status": "missing",
-      "affects_probability": false
-     },
-     "language_ai": {
-      "status": "template",
-      "affects_probability": false
-     }
-    },
-    "evidence": [
-     {
-      "id": "market_price",
-      "available": true,
-      "value": 0.5194,
-      "source_ids": [
-       "proto_market"
-      ],
-      "usage": {
-       "market_baseline": "used",
-       "ai_residual": "used",
-       "decision_gate": "used",
-       "explainer": "used"
-      }
-     },
-     {
-      "id": "team_performance",
-      "available": false,
-      "usage": {
-       "market_baseline": "ignored",
-       "ai_residual": "missing",
-       "decision_gate": "ignored",
-       "explainer": "missing"
-      },
-      "reason_codes": {
-       "decision_gate": "market_anchor_policy"
-      }
-     },
-     {
-      "id": "lineup",
-      "available": false,
-      "observed_at": null,
-      "usage": {
-       "market_baseline": "ignored",
-       "ai_residual": "missing",
-       "decision_gate": "ignored",
-       "explainer": "missing"
-      },
-      "reason_codes": {
-       "decision_gate": "not_in_operating_formula"
-      }
-     },
-     {
-      "id": "availability",
-      "available": false,
-      "observed_at": null,
-      "usage": {
-       "market_baseline": "ignored",
-       "ai_residual": "missing",
-       "decision_gate": "ignored",
-       "explainer": "missing"
-      },
-      "reason_codes": {
-       "decision_gate": "not_in_operating_formula"
-      }
-     },
-     {
-      "id": "cross_market",
-      "available": false,
-      "usage": {
-       "market_baseline": "ignored",
-       "ai_residual": "missing",
-       "decision_gate": "ignored",
-       "explainer": "missing"
-      },
-      "reason_codes": {
-       "decision_gate": "diagnostic_only"
-      }
-     }
-    ],
-    "sources": [
-     {
-      "id": "proto_market",
-      "name": "프로토 공식 배당",
-      "url": null,
-      "collected_at": "2026-09-03T07:24:02+00:00"
-     }
-    ],
-    "explanation": {
-     "kind": "structured_ui",
-     "affects_probability": false,
-     "evidence_ids": [
-      "market_price"
-     ]
-    },
-    "audit": {
-     "feature_cutoff_at": "2026-09-03T07:24:02+00:00",
-     "built_at": "2026-09-03T07:24:02+00:00",
-     "pre_registered": false
-    }
-   },
    "prediction_revision_id": "dec_2133c10ef3ecbed0",
-   "prediction_record": {
-    "prediction_snapshot_id": "dec_2133c10ef3ecbed0",
-    "selection_id": "sel_4b1f65fdfd51bfef",
-    "offer_id": "off_7424d41f36bd2dac",
-    "market": "승패",
-    "label": "",
-    "selection": "원정",
-    "odds": 1.7,
-    "probability": 0.5194,
-    "captured_at": "2026-09-03T07:12:39.027901Z",
-    "result": "pending",
-    "score_forecast": null
-   },
-   "prediction_status": "recorded_pregame",
+   "prediction_status": "withheld_unrecorded_live_revision",
    "선발": {
     "home": null,
     "away": null,
@@ -261339,7 +261157,8 @@
      "model_adjustment": 0,
      "model_note": "과거 결장 백테스트 전에는 확률을 직접 보정하지 않고 불확실성 설명에만 사용"
     }
-   }
+   },
+   "_liveOddsChanged": true
   },
   {
    "year": 2026,
@@ -342607,14 +342426,14 @@
  "context_enriched_at": "2026-09-02T14:07:57+00:00",
  "context_games": 95,
  "live_market_refresh": {
-  "generated_at": "2026-09-03T08:26:48+00:00",
+  "generated_at": "2026-09-03T09:01:06+00:00",
   "games_changed": 1,
   "source": "current_proto_market_rows",
   "duplicate_reissues_removed": 0,
   "ledger_sync": {
-   "predictions": 1,
+   "predictions": 0,
    "skipped": 0,
-   "withheld": 0
+   "withheld": 1
   }
  }
 }
