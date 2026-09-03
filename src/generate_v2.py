@@ -1266,14 +1266,13 @@ def main() -> int:
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(season)).glob("*.html.gz")) \
         if (CACHE / str(season)).exists() else []
-    if have:
-        live_hint = max(have) - 3
-    else:
-        published = load_artifact("picks_v2", OUT / "picks_v2.json") or {}
-        known_rounds = [int(value) for value in published.get("rounds", [])
-                        if str(value).isdigit()]
-        live_hint = (max(known_rounds) - 3 if known_rounds
-                     else probe_latest_round(sess, season) - 3)
+    published = load_artifact("picks_v2", OUT / "picks_v2.json") or {}
+    known_rounds = [int(value) for value in published.get("rounds", [])
+                    if str(value).isdigit()]
+    hints = [max(have) - 3] if have else []
+    if known_rounds:
+        hints.append(max(known_rounds) - 3)
+    live_hint = max(hints) if hints else probe_latest_round(sess, season) - 3
     live = find_live_rounds(sess, season, max(1, live_hint))
     # 원천의 일시적 빈 응답을 실제 발매 종료로 오인해 예정 경기를 전부 지우지 않는다.
     if not live and _published_future_exists(season):
