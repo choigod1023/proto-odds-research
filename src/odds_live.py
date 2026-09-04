@@ -61,7 +61,30 @@ def _start_hint(season: int) -> int:
     return max(1, (max(have) - 3) if have else 1)
 
 
-def collect(previous_picks: dict | None = None) -> dict:
+FULL_SCAN_EVERY = 720          # 초. 12개 회차 전체 스캔은 이 간격으로만.
+
+
+def _recent_scan_rounds(previous_odds: dict | None) -> list[int] | None:
+    """직전 산출물의 회차 목록이 아직 신선하면 재사용한다.
+
+    odds_live 는 60초마다 도는데 매번 12개 회차를 훑으면 분당 20건이 넘는
+    요청이 wisetoto 로 나가 IP 가 차단된다(2026-09-04 장애). 회차 구성은
+    자주 바뀌지 않으므로 전체 스캔은 FULL_SCAN_EVERY 간격으로만 한다.
+    """
+    if not previous_odds:
+        return None
+    try:
+        stamp = datetime.fromisoformat(
+            str(previous_odds.get("generated_at") or "").replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    age = (datetime.now(timezone.utc) - stamp).total_seconds()
+    cached = [int(v) for v in previous_odds.get("rounds", []) if str(v).isdigit()]
+    return cached if (0 <= age < FULL_SCAN_EVERY and cached) else None
+
+
+def collect(previous_picks: dict | None = None,
+            previous_odds: dict | None = None) -> dict:
     sess = _session()
     season = datetime.now(timezone.utc).year
     hint = _start_hint(season)
@@ -72,12 +95,23 @@ def collect(previous_picks: dict | None = None) -> dict:
     if known_rounds:
         # 볼륨에 일부 옛 캐시만 남아 있는 경우도 DB 회차보다 뒤로 물러나지 않는다.
         hint = max(hint, max(1, max(known_rounds) - 3))
-    rounds = find_live_rounds(sess, season, hint)
 
-    # find_live_rounds 는 master_seq 가 빠진 회차에서 스캔을 멈춘다. 정산이 끝나
-    # 목록에서 빠진 옛 회차가 사이에 끼면 그 뒤의 실제 발매 회차를 통째로 놓친다.
-    # picks_v2 가 알려 준 현재 회차는 간격과 무관하게 직접 확인해 스캔 공백을 메운다.
-    for known in sorted(set(known_rounds) - set(rounds)):
+    cached = _recent_scan_rounds(previous_odds)
+    if cached is not None:
+        rounds = list(cached)
+        print(f"  회차 스캔 생략 — 직전 {cached} 재사용", flush=True)
+    else:
+        rounds = find_live_rounds(sess, season, hint)
+
+    # 발매 감지가 놓치거나 스캔을 건너뛴 회차를 직접 확인한다. picks_v2 가 아는
+    # 회차뿐 아니라 그 **바로 다음 두 회차**도 확인해, 갓 열린 회차(오늘 저녁 경기가
+    # 여기 있을 수 있다)를 wisetoto 제한 중에도 요청 몇 건으로 잡는다.
+    probe = set(known_rounds)
+    if known_rounds:
+        probe |= {max(known_rounds) + 1, max(known_rounds) + 2}
+    if rounds:
+        probe |= {max(rounds) + 1}
+    for known in sorted(probe - set(rounds)):
         try:
             rows = _fetch(sess, season, known)
         except Exception as e:                          # noqa: BLE001
@@ -224,7 +258,8 @@ def main(argv: list[str]) -> int:
             previous_picks = load_artifact("picks_v2", PICKS)
             previous_odds = load_artifact("live_odds", OUT)
             data = merge_market_history(
-                collect(previous_picks), previous_odds, previous_picks,
+                collect(previous_picks, previous_odds), previous_odds,
+                previous_picks,
             )
             if not data.get("rounds") or not data.get("n"):
                 # ⚠️ 한 번의 빈 응답(원천 일시 장애·회차 사이 공백)을 영구 정지로

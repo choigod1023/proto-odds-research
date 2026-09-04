@@ -35,7 +35,7 @@ def test_main_refreshes_picks_immediately_after_persist(monkeypatch):
     collected = {"generated_at": "2026-08-31T00:00:00+00:00", "n": 1,
                  "rounds": [104], "markets": {}, "odds": {}}
     calls = []
-    monkeypatch.setattr(odds_live, "collect", lambda _picks=None: collected)
+    monkeypatch.setattr(odds_live, "collect", lambda _picks=None, _odds=None: collected)
     monkeypatch.setattr(odds_live, "load_artifact", lambda name, path: {})
     monkeypatch.setattr(odds_live, "merge_market_history",
                         lambda current, previous, picks: current)
@@ -60,7 +60,7 @@ def test_main_keeps_last_prices_and_still_refreshes_on_empty_poll(monkeypatch):
                      "odds": {"104": {"9001": [1.8, 2.0], "9002": [1.5, 2.6]}},
                      "markets": {"104": {"9001": {"market": "승패"}}}}
     calls = []
-    monkeypatch.setattr(odds_live, "collect", lambda _picks=None: empty)
+    monkeypatch.setattr(odds_live, "collect", lambda _picks=None, _odds=None: empty)
     monkeypatch.setattr(odds_live, "load_artifact",
                         lambda name, path: previous_odds if name == "live_odds" else {})
     monkeypatch.setattr(odds_live, "merge_market_history",
@@ -122,3 +122,37 @@ def test_market_history_seeds_old_line_from_picks_before_first_live_revision():
     merged = odds_live.merge_market_history(current, {}, picks)
 
     assert [entry["line"] for entry in merged["history"]["103"]["8071"]] == [-29.5, -31.5]
+
+
+def test_collect_skips_full_scan_when_previous_rounds_are_fresh(monkeypatch):
+    """60초마다 12개 회차를 훑지 않도록, 직전 산출물이 신선하면 스캔을 건너뛴다."""
+    from datetime import datetime, timezone
+    monkeypatch.setattr(odds_live, "_session", lambda: object())
+    monkeypatch.setattr(odds_live, "_start_hint", lambda season: 1)
+    scanned = []
+    monkeypatch.setattr(odds_live, "find_live_rounds",
+                        lambda *_a: scanned.append(True) or [999])
+    monkeypatch.setattr(odds_live, "_fetch",
+                        lambda *_a, **_k: (_ for _ in ()).throw(RuntimeError("no net")))
+
+    fresh = {"generated_at": datetime.now(timezone.utc).isoformat(),
+             "rounds": [104, 105]}
+    result = odds_live.collect({"rounds": [104]}, fresh)
+
+    assert scanned == []                      # 전체 스캔 안 함
+    assert set(result["rounds"]) >= {104, 105}
+
+
+def test_collect_still_scans_when_previous_rounds_are_stale(monkeypatch):
+    monkeypatch.setattr(odds_live, "_session", lambda: object())
+    monkeypatch.setattr(odds_live, "_start_hint", lambda season: 1)
+    scanned = []
+    monkeypatch.setattr(odds_live, "find_live_rounds",
+                        lambda *_a: scanned.append(True) or [])
+    monkeypatch.setattr(odds_live, "_fetch",
+                        lambda *_a, **_k: (_ for _ in ()).throw(RuntimeError("no net")))
+
+    stale = {"generated_at": "2026-09-04T00:00:00+00:00", "rounds": [104]}
+    odds_live.collect({"rounds": [104]}, stale)
+
+    assert scanned == [True]
