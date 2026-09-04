@@ -204,6 +204,11 @@ TIER = {"K리그1": 1, "K리그2": 2}
 # (동일등급 홈 이점 +0.125골과 비교하면 4배다)
 TIER_EDGE = 0.50
 
+# 한 회차에 며칠 뒤 경기까지 1,000건 넘게 들어 있으면(예: 회차 105 = 4일치 1,076경기)
+# 매 주기 그걸 전부 처리하다 발행이 못 끝난다. 오늘·내일 위주로만 만든다.
+# (그보다 뒤 경기는 다음 주기에 날짜가 가까워지면 들어온다.)
+PUBLISH_HORIZON_DAYS = 3
+
 # KBO 선발투수 xFIP 보정 — findings/박빙과xFIP.md 에서 검증된 신호를 λ에 반영한다.
 # 상대 선발의 xFIP(9이닝 기준)가 리그 중앙값보다 나쁠수록 그 팀이 낼 점수의 λ를
 # 올린다. 선발이 경기의 약 60%만 던지고 회귀가 있어 계수는 1 미만이다.
@@ -1380,8 +1385,14 @@ def main() -> int:
     print(f"대상 회차: 발매중 {live} + 최근 {recent} + 알려진 {known_rounds}")
 
     games: dict = {}
+    _now = pd.Timestamp.now()
     for rnd in rounds:
         for r in (_fetch(sess, season, rnd) or []):
+            # 며칠 뒤 경기는 이번 주기에 건너뛴다. 날짜가 가까워지면 다음 주기에
+            # 들어온다. 이게 없으면 회차 105(4일치) 하나로 발행이 15분을 넘긴다.
+            _kx = _game_datetime({"year": season, "round": rnd, "date": r.date_text})
+            if _kx is not None and (_kx - _now).total_seconds() > PUBLISH_HORIZON_DAYS * 86400:
+                continue
             # ⚠️ 배당이 아직 안 나온 회차를 통째로 버리고 있었다.
             #    프로토는 **경기 목록을 먼저 열고 배당을 나중에 붙인다.**
             #    실측 2026-07-29: 회차 90 의 697행이 전부 odds=[] · n_way=0 이라
