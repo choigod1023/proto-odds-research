@@ -209,6 +209,27 @@ def get_master_seq(year: int, rnd: int, sess: requests.Session | None = None) ->
     return seq if seq and seq != "0" else None
 
 
+def get_current_round(year: int, sess: requests.Session | None = None) -> tuple[int, str] | None:
+    """회차를 지정하지 않은 기본 프로토 페이지에서 **현재 발매 회차와 seq**를 읽는다.
+
+    `index.htm` 을 `game_round` 없이 요청하면 wisetoto 가 현재 발매 중인 회차의
+    `get_gameinfo_body('proto','pt1','<연도>','<회차>','','','<seq>',...)` 호출을
+    본문에 심어 준다. 요청 한 번으로 회차를 알 수 있어, 존재 여부를 이분 탐색으로
+    찾던 `probe_latest_round`(요청 십수 회)를 대체한다. 탐지 실패는 그대로 두므로
+    호출부는 반환이 None 이면 기존 방식으로 되돌아가면 된다.
+    """
+    s = sess or _session()
+    url = (f"{BASE}/index.htm?tab_type=proto&game_type=pt&game_category=pt1"
+           f"&game_year={year}")
+    m = _SEQ_RE.search(s.get(url, timeout=25).text)
+    if not m:
+        return None
+    rnd, seq = int(m.group(2)), m.group(3)
+    if rnd <= 0 or not seq or seq == "0":
+        return None
+    return rnd, seq
+
+
 def _cache_path(year: int, rnd: int) -> Path:
     return CACHE / str(year) / f"{rnd:04d}.html.gz"
 

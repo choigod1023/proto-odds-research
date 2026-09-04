@@ -27,7 +27,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from wisetoto import BASE, _session, get_master_seq, parse_rows  # noqa: E402
+from wisetoto import (BASE, _session, get_current_round, get_master_seq,  # noqa: E402
+                      parse_rows)
 from runtime_db import RuntimeDatabase, database_enabled  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
@@ -253,9 +254,32 @@ def main(argv: list[str]) -> int:
     # 캐시가 비어 있으면(새 서버 첫 부팅 등) 1회차부터 훑게 되는데, SCAN_RANGE 가
     # 12 라 7월의 60번대 회차엔 영영 못 닿는다. fly.io 로 옮기고 나서 실제로
     # "발매 중인 회차를 찾지 못했습니다" 로 죽었다(캐시 *.html.gz 는 gitignore).
-    # → 캐시가 없으면 서버에 직접 물어 최신 회차를 찾는다.
-    hint = (max(have) - 3) if have else max(1, probe_latest_round(sess, year) - 3)
+    # → 회차를 지정하지 않은 기본 페이지가 현재 발매 회차를 직접 알려 준다.
+    #   요청 한 번이라 이분 탐색(probe_latest_round)보다 레이트리밋에 덜 노출된다.
+    #   기본 페이지가 회차를 안 줄 때만 캐시·이분 탐색으로 되돌아간다.
+    current = get_current_round(year, sess)
+    if current:
+        print(f"  기본 페이지가 알려 준 현재 회차: {year}-{current[0]}회차", flush=True)
+        hint = max(1, current[0] - 3)
+    else:
+        hint = (max(have) - 3) if have else max(1, probe_latest_round(sess, year) - 3)
     rounds = find_live_rounds(sess, year, hint)
+    if not rounds and current:
+        # find_live_rounds 는 회차별 get_master_seq 가 한 번이라도 비면 스캔을 멈춘다
+        # (레이트리밋·일시 오류). 기본 페이지가 현재 회차를 확정해 줬으면 그 회차와
+        # 직전 회차만이라도 직접 받아 본다. odds_live.py 가 쓰는 것과 같은 보강이다.
+        for probe in (current[0] - 1, current[0]):
+            if probe < 1:
+                continue
+            try:
+                rows = _fetch(sess, year, probe)
+            except Exception as e:                    # noqa: BLE001
+                print(f"  [{year}-{probe}] 직접 확인 오류 {type(e).__name__}: {e}", flush=True)
+                continue
+            if rows and any(r.result in UNPLAYED for r in rows):
+                rounds.append(probe)
+                print(f"  직접 확인: {year}-{probe}회차", flush=True)
+        rounds = sorted(set(rounds))
     if not rounds:
         print("발매 중인 회차를 찾지 못했습니다.")
         return 1

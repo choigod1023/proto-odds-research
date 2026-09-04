@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from wisetoto import get_master_seq  # noqa: E402
+from wisetoto import get_current_round, get_master_seq  # noqa: E402
 
 
 class _Resp:
@@ -34,3 +34,15 @@ def test_get_master_seq_rejects_placeholder_zero_seq():
 
 def test_get_master_seq_returns_none_when_pattern_absent():
     assert get_master_seq(2026, 999, _Session("<html>no call here</html>")) is None
+
+
+def test_get_current_round_reads_round_and_seq_from_default_page():
+    # 회차 미지정 기본 페이지는 현재 발매 회차의 get_gameinfo_body 호출을 심어 준다.
+    html = "get_gameinfo_body('proto','pt1','2026','105','','','31436',now_sports,now_sort)"
+    assert get_current_round(2026, _Session(html)) == (105, "31436")
+
+
+def test_get_current_round_rejects_placeholder_and_missing():
+    assert get_current_round(2026, _Session(
+        "get_gameinfo_body('proto','pt1','2026','0','','','0','','')")) is None
+    assert get_current_round(2026, _Session("<html>no call</html>")) is None
