@@ -111,15 +111,46 @@ def probe_latest_round(sess, year: int) -> int:
     return lo
 
 
-def find_live_rounds(sess, year: int, start_hint: int) -> list[int]:
-    """미정산 게임행이 남아 있는 회차를 찾는다."""
-    live = []
-    for rnd in range(max(1, start_hint), start_hint + SCAN_RANGE):
+def _seq_with_retry(year: int, rnd: int, sess) -> str | None:
+    """회차 페이지의 master_seq. wisetoto 가 순간적으로 빈 페이지(봇 차단 등)를
+    돌려줄 때 '회차가 없다'로 오인하지 않도록 몇 번 재시도한다."""
+    for attempt in range(3):
         seq = get_master_seq(year, rnd, sess)
         time.sleep(REQUEST_GAP)
+        if seq:
+            return seq
+        if attempt < 2:
+            time.sleep(6)
+    return None
+
+
+def _fetch_with_retry(sess, year: int, rnd: int, seq: str):
+    for attempt in range(3):
+        try:
+            rows = _fetch(sess, year, rnd, seq)
+        except Exception:                       # noqa: BLE001 — 429·타임아웃 등
+            rows = None
+        if rows is not None:
+            return rows
+        if attempt < 2:
+            time.sleep(6)
+    return None
+
+
+def find_live_rounds(sess, year: int, start_hint: int) -> list[int]:
+    """미정산 게임행이 남아 있는 회차를 찾는다.
+
+    ⚠️ 예전에는 한 회차에서 seq/목록을 못 받으면 즉시 스캔을 중단해, wisetoto 가
+       fly 머신을 순간 제한하면 발매 중인 회차를 통째로 놓쳤다(2026-09-04 장애로
+       picks_v2 가 24시간 정지). 이제는 회차마다 재시도하고, 재시도 후에도 빈
+       응답이면 그때서야 '더 이상 회차 없음'으로 본다.
+    """
+    live = []
+    for rnd in range(max(1, start_hint), start_hint + SCAN_RANGE):
+        seq = _seq_with_retry(year, rnd, sess)
         if not seq:
             break
-        rows = _fetch(sess, year, rnd, seq)
+        rows = _fetch_with_retry(sess, year, rnd, seq)
         if rows is None:
             break
         pending = sum(1 for r in rows if r.result in UNPLAYED)

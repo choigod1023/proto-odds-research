@@ -33,6 +33,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+import time
 from collections import defaultdict, deque
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -1347,11 +1348,19 @@ def main() -> int:
     live_hint = max(hints) if hints else probe_latest_round(sess, season) - 3
     live = find_live_rounds(sess, season, max(1, live_hint))
     # 원천의 일시적 빈 응답을 실제 발매 종료로 오인해 예정 경기를 전부 지우지 않는다.
+    # find_live_rounds 자체가 재시도를 하지만, 그래도 비면 한 번 더 크게 쉬고
+    # 재시도한다. 여기서 빈 목록을 그대로 받아들이면 24시간 넘게 낡은 예정 경기가
+    # 사이트에 남는다(2026-09-04 장애).
+    if not live:
+        time.sleep(30)
+        live = find_live_rounds(sess, season, max(1, live_hint))
     if not live and _published_future_exists(season):
         return _enrich_published_only(_CONTEXT_STORE, prediction_runtime)
     recent = [r for r in have[-3:] if r not in live]
-    rounds = sorted(set(live) | set(recent))
-    print(f"대상 회차: 발매중 {live} + 최근 {recent}")
+    # 알려진 열린 회차(DB·직전 산출물)를 항상 대상에 포함해, 발매 감지가 부분적으로
+    # 실패해도 그 회차의 경기는 갱신되게 한다.
+    rounds = sorted(set(live) | set(recent) | set(known_rounds))
+    print(f"대상 회차: 발매중 {live} + 최근 {recent} + 알려진 {known_rounds}")
 
     games: dict = {}
     for rnd in rounds:
