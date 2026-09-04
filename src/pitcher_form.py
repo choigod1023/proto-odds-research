@@ -105,6 +105,7 @@ class StarterForm:
     _apps: dict[str, list[_App]] = field(default_factory=lambda: defaultdict(list))
     _name_pcodes: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))
     _starter_apps: list[_App] = field(default_factory=list)
+    _lg_cache: dict[str, float | None] = field(default_factory=dict)
 
     # ---- 구성 ---------------------------------------------------------------
     def add_appearance(self, pcode: str | None, name: str, app: _App) -> None:
@@ -184,6 +185,17 @@ class StarterForm:
     def xfip_by_name(self, name: str, as_of: str) -> float | None:
         return self.xfip(self._key_for_name(name, _as_date(as_of)), _as_date(as_of))
 
+    def league_xfip(self, as_of: str) -> float | None:
+        """그 시점 기준 유효 xFIP 를 낸 선발들의 중앙값 — 리그 평균 대용."""
+        day = _as_date(as_of)
+        if day in self._lg_cache:
+            return self._lg_cache[day]
+        vals = sorted(v for key in self._apps
+                      if (v := self.xfip(key, day)) is not None and 2.0 <= v <= 9.0)
+        result = vals[len(vals) // 2] if vals else None
+        self._lg_cache[day] = result
+        return result
+
     def matchup_delta(self, home_starter: str, away_starter: str,
                       as_of: str) -> dict | None:
         """홈·원정 선발 xFIP 와 그 차이.
@@ -196,10 +208,12 @@ class StarterForm:
         ax = self.xfip_by_name(away_starter, day)
         if hx is None or ax is None:
             return None
+        lg = self.league_xfip(day)
         return {
             "home_xfip": round(hx, 4),
             "away_xfip": round(ax, 4),
             "xfip_diff": round(ax - hx, 4),
+            "league_xfip": round(lg, 4) if lg is not None else None,
             "as_of": day,
         }
 
@@ -240,6 +254,24 @@ class StarterForm:
             form._apps[k].sort(key=lambda a: a.date)
         form._starter_apps.sort(key=lambda a: a.date)
         return form
+
+
+def apply_xfip_lambda_adjust(lam, delta: dict, k: float):
+    """검증된 선발 xFIP 신호로 야구 λ(3-튜플: λ홈, λ원정, 출처)를 보정한다.
+
+    각 팀의 λ는 **상대 선발**의 xFIP 로 움직인다. 상대 선발이 리그 중앙값보다
+    1점(9이닝) 나쁘면 그 팀의 λ를 ``k/9`` 만큼 올린다. 보정이 없으면 ``None``.
+    """
+    if not lam or not k:
+        return None
+    lg = (delta or {}).get("league_xfip")
+    if lg is None:
+        return None
+    lh = max(0.15, lam[0] + k * (delta["away_xfip"] - lg) / 9.0)
+    la = max(0.15, lam[1] + k * (delta["home_xfip"] - lg) / 9.0)
+    if abs(lh - lam[0]) < 1e-9 and abs(la - lam[1]) < 1e-9:
+        return None
+    return float(lh), float(la), f"{lam[2]}+선발"
 
 
 def write_artifact(path: Path = ARTIFACT, detail: Path = DETAIL) -> Path:

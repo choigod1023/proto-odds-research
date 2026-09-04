@@ -74,3 +74,26 @@ def test_artifact_round_trip_preserves_xfip():
     rebuilt._starter_apps.sort(key=lambda a: a.date)
 
     assert rebuilt.xfip("H1", "2026-04-06") == form.xfip("H1", "2026-04-06")
+
+
+def test_apply_starter_xfip_shifts_lambdas_toward_the_worse_opposing_starter():
+    from pitcher_form import apply_xfip_lambda_adjust
+
+    lam = (4.80, 4.50, "리그")
+    # 원정 선발이 리그 중앙값보다 1.0 나쁨 → 홈 λ 상승. 홈 선발은 평균 → 원정 λ 그대로.
+    delta = {"home_xfip": 4.50, "away_xfip": 5.50, "league_xfip": 4.50}
+    out = apply_xfip_lambda_adjust(lam, delta, k=0.9)
+    assert out is not None
+    assert out[0] > lam[0]          # 홈이 낼 점수 λ 상승
+    assert abs(out[1] - lam[1]) < 1e-9   # 홈 선발이 평균이라 원정 λ 불변
+    assert out[2].endswith("+선발")
+
+
+def test_apply_starter_xfip_is_a_noop_when_k_is_zero_or_baseline_missing():
+    from pitcher_form import apply_xfip_lambda_adjust
+
+    lam = (4.8, 4.5, "리그")
+    good = {"home_xfip": 3.0, "away_xfip": 6.0, "league_xfip": 4.5}
+    assert apply_xfip_lambda_adjust(lam, good, k=0.0) is None
+    assert apply_xfip_lambda_adjust(lam, {"home_xfip": 3.0, "away_xfip": 6.0,
+                                     "league_xfip": None}, k=0.5) is None

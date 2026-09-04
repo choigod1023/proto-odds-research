@@ -55,6 +55,9 @@ from player_commentary import with_player_context                    # noqa: E40
 from devig import market_probabilities                              # noqa: E402
 from player_info import (collect as collect_player_info, game_index, # noqa: E402
                          match_game)
+from pitcher_form import (ARTIFACT as STARTER_XFIP_ARTIFACT,        # noqa: E402
+                          StarterForm, apply_xfip_lambda_adjust,
+                          load_starter_boxscores)
 from player_name_localizer import localize_player_names             # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
                                PredictionLedgerError)
@@ -199,6 +202,14 @@ TIER = {"K리그1": 1, "K리그2": 2}
 # 실측 42경기: +0.500골 · 95%CI [+0.167, +0.857] · p(≤0)=0.002 · 3년 모두 양수.
 # (동일등급 홈 이점 +0.125골과 비교하면 4배다)
 TIER_EDGE = 0.50
+
+# KBO 선발투수 xFIP 보정 — findings/박빙과xFIP.md 에서 검증된 신호를 λ에 반영한다.
+# 상대 선발의 xFIP(9이닝 기준)가 리그 중앙값보다 나쁠수록 그 팀이 낼 점수의 λ를
+# 올린다. 선발이 경기의 약 60%만 던지고 회귀가 있어 계수는 1 미만이다.
+# ⚠️ 0 = 보정 없음(기존 동작). pitcher_backtest.py 가 채택 기준(검증 Brier 개선
+#    AND ROI 비악화)을 통과시킨 계수로만 올린다. 배선·조회기는 항상 살아 있으므로
+#    검증 결과만 확인되면 이 상수 하나만 바꾸면 된다.
+STARTER_XFIP_LAMBDA_K = 0.0
 
 
 def team_tiers() -> dict:
@@ -625,6 +636,18 @@ def _norm_team(n: str) -> str:
     return n
 
 
+def _load_starter_form() -> "StarterForm | None":
+    """선발 xFIP 조회기. 아티팩트 우선, 없으면 박스스코어에서 직접 만든다."""
+    try:
+        return StarterForm.from_artifact(STARTER_XFIP_ARTIFACT)
+    except (OSError, ValueError, KeyError):
+        pass
+    try:
+        return StarterForm.from_boxscores(load_starter_boxscores())
+    except (OSError, ValueError):
+        return None
+
+
 def _fixture_lambdas(
     st: dict,
     *,
@@ -636,6 +659,8 @@ def _fixture_lambdas(
     away: str,
     sport: str,
     tiers: dict,
+    starters: dict | None = None,
+    starter_form: "StarterForm | None" = None,
 ):
     """배당 유무와 무관하게 한 경기의 최종 λ를 한 경로에서 계산한다."""
     kickoff = _game_datetime({"year": year, "round": round_no, "date": date_text})
@@ -649,7 +674,25 @@ def _fixture_lambdas(
         sport,
         game_datetime=kickoff,
     )
-    if not lam or sport != "sc":
+    if not lam:
+        return lam
+
+    # KBO — 예고된 양 선발이 확보되면 검증된 xFIP 보정을 적용한다.
+    if (STARTER_XFIP_LAMBDA_K and sport == "bs" and league == "KBO"
+            and starter_form is not None and starters):
+        matched = match_game(starters, league, date_text, home, away) or {}
+        home_sp, away_sp = matched.get("home"), matched.get("away")
+        if home_sp and away_sp:
+            delta = starter_form.matchup_delta(
+                home_sp, away_sp, kickoff.date().isoformat())
+            if delta is not None:
+                adjusted = apply_xfip_lambda_adjust(
+                    lam, delta, STARTER_XFIP_LAMBDA_K)
+                if adjusted is not None:
+                    return adjusted
+        return lam
+
+    if sport != "sc":
         return lam
 
     # 풀링 λ는 상대 리그 강도를 직접 구분하지 못한다. 기존에 검증된 국내 축구
@@ -1243,6 +1286,11 @@ def main() -> int:
     now_for_forms = pd.Timestamp.now(tz="Asia/Seoul").tz_localize(None)
     FORMS, H2H = build_forms(hist, season=season, as_of=now_for_forms)
     STARTERS = starters(refresh=True)
+    STARTER_FORM = _load_starter_form()
+    if STARTER_FORM is not None:
+        print(f"KBO 선발 xFIP 조회기 로드 — 투수 {len(STARTER_FORM._apps):,}명")
+    else:
+        print("KBO 선발 xFIP 조회기 없음 — 팀 λ 만 사용")
     LINEUPS = lineup_profiles()
     TIERS = team_tiers()
     SHOTFORM = shot_form()
@@ -1304,6 +1352,8 @@ def main() -> int:
                         away=at0,
                         sport=r.sport,
                         tiers=TIERS,
+                        starters=STARTERS,
+                        starter_form=STARTER_FORM,
                     )
                     k0 = f"{r.league}|{ht0}|{at0}|{r.date_text}"
                     if k0 not in games:
@@ -1328,6 +1378,8 @@ def main() -> int:
                 away=at,
                 sport=r.sport,
                 tiers=TIERS,
+                starters=STARTERS,
+                starter_form=STARTER_FORM,
             )
             # ⚠️ 여기서 continue 하면 **컵대회가 통째로 사라진다.**
             #    λ 키가 (리그, 팀) 이라 한국FA컵·UCL 처럼 경기 수가 적은 대회는
