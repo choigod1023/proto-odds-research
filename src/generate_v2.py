@@ -1376,7 +1376,15 @@ def main() -> int:
     if not live:
         time.sleep(30)
         live = find_live_rounds(sess, season, max(1, live_hint))
-    if not live and _published_future_exists(season):
+    # ⚠️ wisetoto 가 이 프로세스만 계속 제한하면 find_live_rounds 가 비어 온다.
+    #    그때도 odds_live 가 60초마다 유지하는 live_odds 산출물의 회차 목록을 믿는다
+    #    (odds_live 는 다음 회차까지 직접 확인하므로 오늘 새로 열린 회차를 잡는다).
+    live_odds_rounds = [
+        int(v) for v in (load_artifact("live_odds", OUT / "live_odds.json") or {})
+        .get("rounds", []) if str(v).isdigit()
+    ]
+    live = sorted(set(live) | set(live_odds_rounds))
+    if not live and not known_rounds and _published_future_exists(season):
         return _enrich_published_only(_CONTEXT_STORE, prediction_runtime)
     recent = [r for r in have[-3:] if r not in live]
     # 알려진 열린 회차(DB·직전 산출물)를 항상 대상에 포함해, 발매 감지가 부분적으로
@@ -1534,6 +1542,12 @@ def main() -> int:
                     "게임번호": r.game_no,
                     "적중": (None if not settled else _hit(nw, r.result, i)),
                 })
+
+    # 회차 대상은 있었는데 한 경기도 못 받았다면 wisetoto 전면 장애다. 빈 목록을
+    # 발행해 사이트를 통째로 비우지 말고, 기존 예정 경기를 보존한다.
+    if not games and _published_future_exists(season):
+        print("⚠️ 대상 회차에서 경기를 하나도 받지 못함 — 기존 산출물 보존")
+        return _enrich_published_only(_CONTEXT_STORE, prediction_runtime)
 
     # ---- 경기별 운영 선택 하나 고르기
     # 구조 모델은 연구값일 뿐이다. 운영 선택은 오직 Shin 시장확률과 안전 정책으로
