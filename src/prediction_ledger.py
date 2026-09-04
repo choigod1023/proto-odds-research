@@ -17,7 +17,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Iterator, Mapping
+from typing import Any, Callable, Iterable, Iterator, Mapping
 
 from ai_decision import event_id as decision_event_id
 from ai_decision import validate_decision_snapshot
@@ -226,6 +226,48 @@ class PredictionLedger:
             record["deduplication_key"] = deduplication_key
         return self._append(record, must_capture_before=kickoff_time)
 
+    def append_predictions(
+        self,
+        entries: Iterable[Mapping[str, Any]],
+    ) -> list[AppendResult]:
+        """Append several predictions after one hash-chain verification.
+
+        A live round can publish more than one hundred games at once. Calling
+        :meth:`append_prediction` for each game used to reread and rehash the
+        complete ledger and open a SQLite transaction every time. The batch
+        keeps the same lock, validation and append-only semantics, but verifies
+        the existing chain once and persists all new rows in one write,
+        avoiding the repeated I/O and full-chain hashing that dominated runtime.
+        """
+        requests = list(entries)
+        if not requests:
+            return []
+        with self._lock():
+            records = self._read_verified()
+            added: list[dict[str, Any]] = []
+            self._batch_records = records
+            self._batch_added = added
+            try:
+                results = [
+                    self.append_prediction(
+                        entry["game"],
+                        entry["decision_snapshot"],
+                        kickoff=entry["kickoff"],
+                        market_observed_at=entry["market_observed_at"],
+                        features=entry["features"],
+                        predictions=entry.get("predictions"),
+                        model=entry.get("model"),
+                        as_of=entry.get("as_of"),
+                        deduplication_key=entry.get("deduplication_key"),
+                    )
+                    for entry in requests
+                ]
+                self._write_records(added)
+                return results
+            finally:
+                del self._batch_records
+                del self._batch_added
+
     def append_settlement(
         self,
         snapshot_id: str,
@@ -279,79 +321,105 @@ class PredictionLedger:
         must_capture_before: datetime | None = None,
         required_prediction_id: str | None = None,
     ) -> AppendResult:
-        target_identity = _identity(core)
+        batch_records = getattr(self, "_batch_records", None)
+        if batch_records is not None:
+            return self._append_to_records(
+                batch_records,
+                core,
+                must_capture_before=must_capture_before,
+                required_prediction_id=required_prediction_id,
+            )
         with self._lock():
             records = self._read_verified()
-            existing = next((row for row in records if _identity(row) == target_identity), None)
-            if existing is not None:
-                if _immutable_payload(existing) != _immutable_payload(core):
-                    raise LedgerConflictError(
-                        f"conflicting rewrite for {target_identity[0]} {target_identity[1]}"
-                    )
-                return AppendResult(record=_json_copy(existing), appended=False)
+            result = self._append_to_records(
+                records,
+                core,
+                must_capture_before=must_capture_before,
+                required_prediction_id=required_prediction_id,
+            )
+            if result.appended:
+                self._write_records([result.record])
+            return result
 
-            deduplication_key = core.get("deduplication_key")
-            if core.get("record_type") == "prediction" and deduplication_key:
-                duplicate_revision = next((
-                    row for row in records
-                    if row.get("record_type") == "prediction"
-                    and row.get("event_id") == core.get("event_id")
-                    and row.get("deduplication_key") == deduplication_key
-                ), None)
-                if duplicate_revision is not None:
-                    return AppendResult(
-                        record=_json_copy(duplicate_revision),
-                        appended=False,
-                    )
+    def _append_to_records(
+        self,
+        records: list[dict[str, Any]],
+        core: dict[str, Any],
+        *,
+        must_capture_before: datetime | None = None,
+        required_prediction_id: str | None = None,
+    ) -> AppendResult:
+        """Validate against an already verified chain and extend it in memory."""
+        target_identity = _identity(core)
+        existing = next((row for row in records if _identity(row) == target_identity), None)
+        if existing is not None:
+            if _immutable_payload(existing) != _immutable_payload(core):
+                raise LedgerConflictError(
+                    f"conflicting rewrite for {target_identity[0]} {target_identity[1]}"
+                )
+            return AppendResult(record=_json_copy(existing), appended=False)
 
-            if core.get("record_type") == "prediction":
-                as_of_time = _parse_time(core["as_of"], "as_of")
-                prior_event_times = [
-                    _parse_time(row["as_of"], "as_of")
-                    for row in records
-                    if row.get("record_type") == "prediction"
-                    and row.get("event_id") == core.get("event_id")
-                ]
-                if prior_event_times and as_of_time < max(prior_event_times):
-                    raise LedgerConflictError(
-                        "prediction as_of regressed behind existing event revision"
-                    )
+        deduplication_key = core.get("deduplication_key")
+        if core.get("record_type") == "prediction" and deduplication_key:
+            duplicate_revision = next((
+                row for row in records
+                if row.get("record_type") == "prediction"
+                and row.get("event_id") == core.get("event_id")
+                and row.get("deduplication_key") == deduplication_key
+            ), None)
+            if duplicate_revision is not None:
+                return AppendResult(record=_json_copy(duplicate_revision), appended=False)
 
-            required_prediction = None
-            if required_prediction_id is not None:
-                required_prediction = next((
-                    row for row in records
-                    if row.get("record_type") == "prediction"
-                    and row.get("snapshot_id") == required_prediction_id
-                ), None)
-                if required_prediction is None:
-                    raise PredictionLedgerError(
-                        f"cannot settle unknown prediction snapshot: {required_prediction_id}"
-                    )
+        as_of_time = None
+        if core.get("record_type") == "prediction":
+            as_of_time = _parse_time(core["as_of"], "as_of")
+            prior_event_times = [
+                _parse_time(row["as_of"], "as_of")
+                for row in records
+                if row.get("record_type") == "prediction"
+                and row.get("event_id") == core.get("event_id")
+            ]
+            if prior_event_times and as_of_time < max(prior_event_times):
+                raise LedgerConflictError(
+                    "prediction as_of regressed behind existing event revision"
+                )
 
-            captured = self._clock()
-            captured_time = _parse_time(captured, "clock")
-            if must_capture_before is not None and captured_time >= must_capture_before:
-                raise PredictionLedgerError("prediction cannot be captured at or after kickoff")
-            if core.get("record_type") == "prediction":
-                if as_of_time > captured_time:
-                    raise PredictionLedgerError("prediction as_of cannot be after capture time")
-            if core.get("record_type") == "settlement":
-                settled_time = _parse_time(core["settled_at"], "settled_at")
-                if settled_time > captured_time:
-                    raise PredictionLedgerError("settled_at cannot be after capture time")
-                kickoff_time = _parse_time(required_prediction["kickoff"], "kickoff")
-                if settled_time < kickoff_time:
-                    raise PredictionLedgerError("settled_at cannot be before kickoff")
-            record = {
-                **core,
-                "captured_at": _format_time(captured_time, "captured_at"),
-                "ledger_sequence": len(records) + 1,
-                "previous_record_hash": records[-1]["record_hash"] if records else None,
-            }
-            record["record_hash"] = _sha256(record)
-            self._write_line(record)
-            return AppendResult(record=_json_copy(record), appended=True)
+        required_prediction = None
+        if required_prediction_id is not None:
+            required_prediction = next((
+                row for row in records
+                if row.get("record_type") == "prediction"
+                and row.get("snapshot_id") == required_prediction_id
+            ), None)
+            if required_prediction is None:
+                raise PredictionLedgerError(
+                    f"cannot settle unknown prediction snapshot: {required_prediction_id}"
+                )
+
+        captured_time = _parse_time(self._clock(), "clock")
+        if must_capture_before is not None and captured_time >= must_capture_before:
+            raise PredictionLedgerError("prediction cannot be captured at or after kickoff")
+        if as_of_time is not None and as_of_time > captured_time:
+            raise PredictionLedgerError("prediction as_of cannot be after capture time")
+        if core.get("record_type") == "settlement":
+            settled_time = _parse_time(core["settled_at"], "settled_at")
+            if settled_time > captured_time:
+                raise PredictionLedgerError("settled_at cannot be after capture time")
+            kickoff_time = _parse_time(required_prediction["kickoff"], "kickoff")
+            if settled_time < kickoff_time:
+                raise PredictionLedgerError("settled_at cannot be before kickoff")
+        record = {
+            **core,
+            "captured_at": _format_time(captured_time, "captured_at"),
+            "ledger_sequence": len(records) + 1,
+            "previous_record_hash": records[-1]["record_hash"] if records else None,
+        }
+        record["record_hash"] = _sha256(record)
+        records.append(record)
+        batch_added = getattr(self, "_batch_added", None)
+        if batch_added is not None:
+            batch_added.append(record)
+        return AppendResult(record=_json_copy(record), appended=True)
 
     def _read_verified(self) -> list[dict[str, Any]]:
         if self._database is not None:
@@ -414,11 +482,19 @@ class PredictionLedger:
         return records
 
     def _write_line(self, record: Mapping[str, Any]) -> None:
+        self._write_records([record])
+
+    def _write_records(self, records: Iterable[Mapping[str, Any]]) -> None:
+        records = list(records)
+        if not records:
+            return
         if self._database is not None:
-            self._database.mirror_prediction_records([record])
+            self._database.mirror_prediction_records(records)
             return
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        payload = (_canonical_json(record) + "\n").encode("utf-8")
+        payload = "".join(
+            _canonical_json(record) + "\n" for record in records
+        ).encode("utf-8")
         descriptor = os.open(
             self.path,
             os.O_APPEND | os.O_CREAT | os.O_WRONLY | getattr(os, "O_BINARY", 0),

@@ -128,12 +128,15 @@ def record_live_market_revisions(
         candidates.append((game, snapshot, kickoff_utc(kickoff)))
 
     touched: list[tuple[dict, dict]] = []
-    for game, snapshot, kickoff_at in candidates:
-        result = runtime.record_pregame(
-            game,
-            kickoff=kickoff_at,
-            market_observed_at=observed_at,
-        )
+    batch_results = runtime.record_pregame_batch([
+        {
+            "game": game,
+            "kickoff": kickoff_at,
+            "market_observed_at": observed_at,
+        }
+        for game, _snapshot, kickoff_at in candidates
+    ])
+    for (game, snapshot, _kickoff_at), result in zip(candidates, batch_results):
         counts["predictions" if result is not None and result.appended else "skipped"] += 1
         record = result.record if result is not None else latest_by_event.get(
             str(snapshot.get("event_id") or "")

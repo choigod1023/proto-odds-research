@@ -309,6 +309,59 @@ class PredictionRuntime:
         self._remember(result)
         return result
 
+    def record_pregame_batch(
+        self,
+        entries: list[Mapping[str, Any]],
+    ) -> list[AppendResult | None]:
+        """Record a live refresh batch with one ledger verification/write.
+
+        Results are aligned with ``entries``; an unchanged observable revision
+        remains ``None`` just like :meth:`record_pregame`.
+        """
+        results: list[AppendResult | None] = [None] * len(entries)
+        pending: list[dict[str, Any]] = []
+        indexes: list[int] = []
+        latest = self._cached_latest()
+        for index, entry in enumerate(entries):
+            game = entry["game"]
+            snapshot = game.get("decision_snapshot") or {}
+            predictions = prediction_payload(game)
+            features = ledger_features(game)
+            new_signature = _revision_signature(
+                event_id=str(snapshot.get("event_id") or ""),
+                input_revision_hash=snapshot.get("input_revision_hash"),
+                predictions=predictions,
+                model=snapshot.get("model") or {},
+                features=features,
+            )
+            existing = latest.get(snapshot.get("event_id"))
+            if existing is not None:
+                old_signature = _revision_signature(
+                    event_id=existing["event_id"],
+                    input_revision_hash=existing.get("input_revision_hash"),
+                    predictions=existing.get("predictions") or {},
+                    model=existing.get("model") or {},
+                    features=existing.get("features") or {},
+                )
+                if old_signature == new_signature:
+                    continue
+            pending.append({
+                "game": game,
+                "decision_snapshot": snapshot,
+                "kickoff": entry["kickoff"],
+                "market_observed_at": entry["market_observed_at"],
+                "features": features,
+                "predictions": predictions,
+                "deduplication_key": new_signature,
+            })
+            indexes.append(index)
+
+        appended = self.ledger.append_predictions(pending)
+        for index, result in zip(indexes, appended):
+            results[index] = result
+            self._remember(result)
+        return results
+
     def settle_latest(
         self,
         event_id: str,

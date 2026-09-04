@@ -145,6 +145,72 @@ def test_identical_retry_is_idempotent_but_same_snapshot_with_new_content_confli
         )
 
 
+def test_prediction_batch_verifies_once_and_writes_once(tmp_path, monkeypatch):
+    ledger = PredictionLedger(tmp_path / "batch.jsonl", clock=lambda: PREGAME_NOW)
+    reads = 0
+    writes = 0
+    original_read = ledger._read_verified
+    original_write = ledger._write_records
+
+    def counted_read():
+        nonlocal reads
+        reads += 1
+        return original_read()
+
+    def counted_write(records):
+        nonlocal writes
+        writes += 1
+        return original_write(records)
+
+    monkeypatch.setattr(ledger, "_read_verified", counted_read)
+    monkeypatch.setattr(ledger, "_write_records", counted_write)
+    entries = []
+    for index in range(25):
+        game = _game(f"kbo-20260828-batch-{index:02d}")
+        snapshot = _snapshot(game)
+        entries.append({
+            "game": game,
+            "decision_snapshot": snapshot,
+            "kickoff": KICKOFF,
+            "market_observed_at": MARKET_AT,
+            "features": _features(game["source_event_id"]),
+        })
+
+    results = ledger.append_predictions(entries)
+
+    assert reads == 1
+    assert writes == 1
+    assert len(results) == 25
+    assert all(result.appended for result in results)
+    rows = (tmp_path / "batch.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(rows) == 25
+    assert [json.loads(row)["ledger_sequence"] for row in rows] == list(range(1, 26))
+
+
+def test_prediction_batch_writes_nothing_when_any_entry_is_invalid(tmp_path):
+    path = tmp_path / "atomic-batch.jsonl"
+    ledger = PredictionLedger(path, clock=lambda: PREGAME_NOW)
+    first = _game("kbo-20260828-valid")
+    late = _game("kbo-20260828-late")
+    entries = [
+        {
+            "game": first, "decision_snapshot": _snapshot(first),
+            "kickoff": KICKOFF, "market_observed_at": MARKET_AT,
+            "features": _features(first["source_event_id"]),
+        },
+        {
+            "game": late, "decision_snapshot": _snapshot(late),
+            "kickoff": AS_OF, "market_observed_at": MARKET_AT,
+            "features": _features(late["source_event_id"]),
+        },
+    ]
+
+    with pytest.raises(PredictionLedgerError, match="before kickoff"):
+        ledger.append_predictions(entries)
+
+    assert not path.exists()
+
+
 def test_rejects_late_capture_and_invalid_information_times(tmp_path):
     game = _game()
     snapshot = _snapshot(game)
