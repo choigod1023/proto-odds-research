@@ -106,6 +106,8 @@ class StarterForm:
     _name_pcodes: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))
     _starter_apps: list[_App] = field(default_factory=list)
     _lg_cache: dict[str, float | None] = field(default_factory=dict)
+    _baseline_cache: dict[str, tuple[float, float]] = field(default_factory=dict)
+    _starter_dates: list[str] = field(default_factory=list)
 
     # ---- 구성 ---------------------------------------------------------------
     def add_appearance(self, pcode: str | None, name: str, app: _App) -> None:
@@ -132,15 +134,27 @@ class StarterForm:
 
     # ---- 조회 ---------------------------------------------------------------
     def _baseline(self, as_of: str) -> tuple[float, float]:
-        """그 경기 직전 ``baseline_days`` 일치 선발 등판에서 FIP 상수·리그 HR/9."""
+        """그 경기 직전 ``baseline_days`` 일치 선발 등판에서 FIP 상수·리그 HR/9.
+
+        ``as_of`` 에만 의존하므로 날짜 단위로 메모이즈한다. `_starter_apps` 는
+        날짜순이므로 이분 탐색으로 구간을 자른다.
+        """
+        cached = self._baseline_cache.get(as_of)
+        if cached is not None:
+            return cached
+        if not self._starter_dates:
+            self._starter_dates = [a.date for a in self._starter_apps]
+        import bisect
+        hi = bisect.bisect_left(self._starter_dates, as_of)
         try:
             floor = (datetime.fromisoformat(as_of) - timedelta(days=self.baseline_days)
                      ).date().isoformat()
         except ValueError:
             floor = ""
-        window = [a for a in self._starter_apps if floor <= a.date < as_of]
+        lo = bisect.bisect_left(self._starter_dates, floor, 0, hi)
+        window = self._starter_apps[lo:hi]
         if sum(a.ip for a in window) < 300:      # 너무 얇으면 이전 전체로 확장
-            window = [a for a in self._starter_apps if a.date < as_of]
+            window = self._starter_apps[:hi]
         if not window:
             window = self._starter_apps
         ip = sum(a.ip for a in window) or 1.0
@@ -148,9 +162,9 @@ class StarterForm:
         hr = sum(a.hr for a in window)
         bb = sum(a.bb for a in window)
         kk = sum(a.kk for a in window)
-        fip_c = er / ip * 9 - (13 * hr + 3 * bb - 2 * kk) / ip
-        lg_hr9 = hr / ip * 9
-        return fip_c, lg_hr9
+        result = (er / ip * 9 - (13 * hr + 3 * bb - 2 * kk) / ip, hr / ip * 9)
+        self._baseline_cache[as_of] = result
+        return result
 
     def _key_for_name(self, name: str, as_of: str) -> str | None:
         keys = self._name_pcodes.get((name or "").strip())

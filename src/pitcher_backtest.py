@@ -194,12 +194,13 @@ def run(k_values=K_GRID) -> int:
     if not games:
         print("정산된 KBO 승패 경기가 없다 — build_dataset 산출물이 필요하다")
         return 1
-    print(f"데이터 출처: {source}")
+    print(f"데이터 출처: {source} · 후보 {len(games)}경기", flush=True)
     form = StarterForm.from_boxscores(load_starter_boxscores())
     team_form = _TeamForm()
+    print("조회기 준비 완료 — 경기별 λ·xFIP 계산 시작", flush=True)
 
     rows = []
-    for g in games:
+    for i, g in enumerate(games, 1):
         lam = team_form.lambdas(g["home"], g["away"], g["date"])
         if lam is None:
             continue
@@ -207,6 +208,8 @@ def run(k_values=K_GRID) -> int:
             _detail_starter(g, "home"), _detail_starter(g, "away"), g["date"])
         p_mkt = multiplicative([g["o_home"], g["o_away"]])[0]
         rows.append({**g, "lam": lam, "delta": delta, "p_mkt": p_mkt})
+        if i % 400 == 0:
+            print(f"  ... {i}/{len(games)}", flush=True)
 
     n_total = len(rows)
     n_delta = sum(1 for r in rows if r["delta"] is not None)
