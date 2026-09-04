@@ -1157,13 +1157,6 @@ def _sync_prediction_runtime(
             )
             _withhold_unrecorded_prediction(game, "ledger_conflict")
             continue
-        except PredictionLedgerError as exc:
-            counts["errors"] += 1
-            print(
-                f"예측 원장 기록 실패 {game.get('league')} "
-                f"{game.get('home')}vs{game.get('away')}: {exc}"
-            )
-            raise
         except ValueError as exc:
             # ai_decision.validate_decision_snapshot 이 스냅샷 구조를 거부한 경우
             # (옛 스키마·잘못된 stage id 등). 한 경기 때문에 나머지 발행을 막지 않는다.
@@ -1175,6 +1168,24 @@ def _sync_prediction_runtime(
             )
             _withhold_unrecorded_prediction(game, "invalid_decision_snapshot")
             continue
+        except Exception as exc:  # noqa: BLE001
+            # ⚠️ 최종 안전망. 그동안은 새 경기가 올라올 때마다 서로 다른 예외
+            #    (LedgerConflictError·ValueError·ScoreForecastError·
+            #    PredictionLedgerError 등)가 하나씩 최상위로 전파되어 발행
+            #    전체가 rc=1 로 죽었고, 그때마다 예외 유형을 하나씩 잡는 패치를
+            #    배포하는 일을 반복했다(2026-09-04). 이제는 경기 하나의 기록이
+            #    어떤 이유로 실패하든 그 경기만 가격만 남기고 건너뛴 뒤 나머지
+            #    경기는 정상적으로 발행한다. 실패 유형이 새로 생겨도 발행이
+            #    멈추지 않는다.
+            counts["errors"] += 1
+            counts["withheld"] += 1
+            print(
+                f"예측 기록 실패 — 이 경기만 건너뜀 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}: "
+                f"{type(exc).__name__}: {exc}"
+            )
+            _withhold_unrecorded_prediction(game, "record_pregame_failed")
+            continue
 
         exact = result.record if result is not None else next((
             row for row in reversed(runtime.records())
@@ -1182,9 +1193,16 @@ def _sync_prediction_runtime(
             and row.get("snapshot_id") == snapshot.get("decision_id")
         ), None)
         if exact is None:
-            raise PredictionLedgerError(
-                "exact generated prediction revision missing after ledger append"
+            # 원장에 방금 기록한 개정본을 되찾지 못하면, 예전에는 예외를 던져
+            # 발행 전체를 멈췄다. 이제는 그 경기만 보류하고 넘어간다.
+            counts["errors"] += 1
+            counts["withheld"] += 1
+            print(
+                f"기록 후 개정본 확인 실패 — 이 경기만 건너뜀 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}"
             )
+            _withhold_unrecorded_prediction(game, "revision_missing_after_append")
+            continue
         game["prediction_revision_id"] = exact.get("snapshot_id")
         game["prediction_status"] = (
             "recorded_withhold"
@@ -1205,9 +1223,17 @@ def _sync_prediction_runtime(
             record is None
             or record.get("prediction_snapshot_id") != snapshot.get("decision_id")
         ):
-            raise PredictionLedgerError(
-                "published generated decision does not match exact ledger revision"
+            # 게시된 결정이 원장의 정확한 개정본과 일치하지 않는 경우. 예전에는
+            # 예외를 던져 발행 전체를 멈췄지만, 그 경기 하나만 보류하고 나머지는
+            # 정상적으로 발행한다(2026-09-04).
+            counts["errors"] += 1
+            counts["withheld"] += 1
+            print(
+                f"게시 결정 불일치 — 이 경기만 건너뜀 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}"
             )
+            _withhold_unrecorded_prediction(game, "published_decision_mismatch")
+            continue
         game["prediction_status"] = "recorded_pregame"
     for game in games:
         # 프로토 결과 수집은 선택지별 적중값을 먼저 채운 뒤 경기 상태를 한동안
@@ -1585,6 +1611,7 @@ def main() -> int:
 
     out = []
     for g in games.values():
+      try:
         annotate_options(g)
         attach_score_forecast(g)
         if g.get("no_odds") and not g["options"]:
@@ -1647,6 +1674,15 @@ def main() -> int:
                           H2H_ANY, LINEUPS, SHOTFORM, narrative=False)
         g["decision_snapshot"] = _snapshot(g)
         out.append(g)
+      except Exception as exc:  # noqa: BLE001
+        # ⚠️ 경기 하나의 후보·해설·구조 처리가 어떤 이유로든 실패해도 발행
+        #    전체를 멈추지 않는다. 그 경기만 결과 목록에서 빼고 나머지는
+        #    정상적으로 발행한다(2026-09-04). 새 실패 유형이 생겨도 여기서
+        #    흡수되므로, 예외 유형마다 패치를 배포하던 반복이 끝난다.
+        print(f"경기 처리 실패 — 이 경기만 제외 {g.get('league')} "
+              f"{g.get('home')}vs{g.get('away')}: "
+              f"{type(exc).__name__}: {exc}", flush=True)
+        continue
 
     # 시간순 정렬
     if _STORY_FAIL:

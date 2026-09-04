@@ -169,11 +169,22 @@ def test_live_record_must_match_exact_decision_revision():
     assert "prediction_record" not in game
 
 
-def test_full_generation_aborts_when_pregame_ledger_append_fails():
+def test_pregame_ledger_append_failure_withholds_only_that_game():
+    """사전 원장 기록이 실패해도 발행 전체를 중단하지 않는다 (2026-09-04 장애).
+
+    예전에는 한 경기의 PredictionLedgerError 가 최상위까지 전파되어 picks_v2
+    발행 전체가 rc=1 로 죽었다. 이제는 그 경기만 보류하고 나머지는 발행한다.
+    """
     class BrokenRuntime:
         def record_pregame(self, *args, **kwargs):
             # generate_v2 가 실제로 잡는 클래스로 던진다(테스트 환경 모듈 이중 로드 회피).
             raise generate_v2.PredictionLedgerError("write failed")
+
+        def records(self):
+            return []
+
+        def ui_records(self):
+            return {}
 
     game = _game("경기전")
     game.update({
@@ -182,10 +193,12 @@ def test_full_generation_aborts_when_pregame_ledger_append_fails():
         "decision_snapshot": {"action": "market_reference", "decision_id": "dec-new"},
     })
 
-    with pytest.raises(generate_v2.PredictionLedgerError, match="write failed"):
-        _sync_prediction_runtime(
-            BrokenRuntime(), [game], observed_at="2026-08-28T08:00:00+00:00",
-        )
+    # 예외가 전파되지 않고, 그 경기만 보류로 집계된다.
+    counts = _sync_prediction_runtime(
+        BrokenRuntime(), [game], observed_at="2026-08-28T08:00:00+00:00",
+    )
+    assert counts["withheld"] >= 1
+    assert counts["errors"] >= 1
 
 
 def test_ledger_conflict_withholds_only_that_game_and_keeps_publishing():
