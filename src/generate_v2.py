@@ -1123,6 +1123,20 @@ def _sync_prediction_runtime(
             counts[
                 "predictions" if result is not None and result.appended else "skipped"
             ] += 1
+        except LedgerConflictError as exc:
+            # 한 경기의 사전 결정이 원장의 기존 기록과 같은 id·다른 내용이면
+            # append-only 원장이 재기록을 거부한다. 예전에는 여기서 예외를 다시
+            # 던져 **발행 전체가 중단**됐고, 그 한 경기 때문에 picks_v2 가
+            # 24시간 넘게 멈췄다(2026-09-04). 이제는 그 경기만 가격만 남기고
+            # 건너뛴 뒤 나머지 경기는 정상적으로 발행한다.
+            counts["errors"] += 1
+            counts["withheld"] += 1
+            print(
+                f"예측 원장 충돌 — 이 경기만 건너뜀 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}: {exc}"
+            )
+            _withhold_unrecorded_prediction(game, "ledger_conflict")
+            continue
         except PredictionLedgerError as exc:
             counts["errors"] += 1
             print(

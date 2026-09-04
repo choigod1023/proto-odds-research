@@ -187,6 +187,49 @@ def test_full_generation_aborts_when_pregame_ledger_append_fails():
         )
 
 
+def test_ledger_conflict_withholds_only_that_game_and_keeps_publishing():
+    """한 경기의 원장 충돌이 발행 전체를 중단시키지 않는다 (2026-09-04 장애)."""
+    class Runtime:
+        def record_pregame(self, game, *, kickoff, market_observed_at):
+            if game["home"] == "충돌홈":
+                # generate_v2 가 실제로 잡는 클래스 참조로 던진다(모듈 이중 로드 회피).
+                raise generate_v2.LedgerConflictError(
+                    "conflicting rewrite for prediction dec_685b5e08bd5466b9")
+            return SimpleNamespace(appended=True, record={
+                "snapshot_id": game["decision_snapshot"]["decision_id"]})
+
+        def records(self):
+            return [{"record_type": "prediction", "snapshot_id": "dec-ok"}]
+
+        def ui_records(self):
+            return {"evt_ok": {"prediction_snapshot_id": "dec-ok",
+                               "selection_id": "sel_home", "result": "pending"}}
+
+    bad = _game("경기전")
+    bad.update({"event_id": "evt_bad", "year": 2026, "round": 90, "league": "KBO",
+                "home": "충돌홈", "away": "원정",
+                "decision_snapshot": {"action": "market_reference",
+                                      "decision_id": "dec_685b5e08bd5466b9",
+                                      "as_of": "2026-08-28T07:00:00+00:00"}})
+    ok = _game("경기전")
+    ok.update({"event_id": "evt_ok", "year": 2026, "round": 90, "league": "KBO",
+               "home": "정상홈", "away": "정상원정",
+               "decision_snapshot": {"action": "market_reference",
+                                     "decision_id": "dec-ok",
+                                     "as_of": "2026-08-28T07:00:00+00:00"}})
+
+    counts = _sync_prediction_runtime(
+        Runtime(), [bad, ok], observed_at="2026-08-28T08:00:00+00:00")
+
+    # 충돌 경기는 가격만 남고 사전 픽은 보류된다.
+    assert "decision_snapshot" not in bad
+    assert bad["prediction_status"] == "prediction_ledger_required"
+    assert bad["prediction_ledger_reason"] == "ledger_conflict"
+    assert counts["withheld"] >= 1
+    # 정상 경기는 그대로 기록되어 발행이 계속된다.
+    assert ok["prediction_status"] == "recorded_pregame"
+
+
 def test_preserved_prediction_uses_snapshot_time_for_market_observation():
     class Runtime:
         def __init__(self):
