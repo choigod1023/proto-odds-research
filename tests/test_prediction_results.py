@@ -172,7 +172,8 @@ def test_live_record_must_match_exact_decision_revision():
 def test_full_generation_aborts_when_pregame_ledger_append_fails():
     class BrokenRuntime:
         def record_pregame(self, *args, **kwargs):
-            raise PredictionLedgerError("write failed")
+            # generate_v2 가 실제로 잡는 클래스로 던진다(테스트 환경 모듈 이중 로드 회피).
+            raise generate_v2.PredictionLedgerError("write failed")
 
     game = _game("경기전")
     game.update({
@@ -181,7 +182,7 @@ def test_full_generation_aborts_when_pregame_ledger_append_fails():
         "decision_snapshot": {"action": "market_reference", "decision_id": "dec-new"},
     })
 
-    with pytest.raises(PredictionLedgerError, match="write failed"):
+    with pytest.raises(generate_v2.PredictionLedgerError, match="write failed"):
         _sync_prediction_runtime(
             BrokenRuntime(), [game], observed_at="2026-08-28T08:00:00+00:00",
         )
@@ -261,3 +262,37 @@ def test_preserved_prediction_uses_snapshot_time_for_market_observation():
     )
 
     assert runtime.market_observed_at == "2026-08-28T07:00:00+00:00"
+
+
+def test_empty_decision_snapshot_withholds_only_that_game():
+    """스냅샷 생성 실패로 빈 {} 가 들어와도 발행 전체가 멈추지 않는다 (2026-09-04)."""
+    class Runtime:
+        def record_pregame(self, game, *, kickoff, market_observed_at):
+            return SimpleNamespace(appended=True, record={
+                "snapshot_id": game["decision_snapshot"]["decision_id"]})
+
+        def records(self):
+            return [{"record_type": "prediction", "snapshot_id": "dec-ok"}]
+
+        def ui_records(self):
+            return {"evt_ok": {"prediction_snapshot_id": "dec-ok",
+                               "selection_id": "sel_home", "result": "pending"}}
+
+    broken = _game("경기전")
+    broken.update({"event_id": "evt_broken", "year": 2026, "round": 90,
+                   "league": "KBO", "home": "빈스냅홈", "away": "원정",
+                   "decision_snapshot": {}})
+    ok = _game("경기전")
+    ok.update({"event_id": "evt_ok", "year": 2026, "round": 90, "league": "KBO",
+               "home": "정상홈", "away": "정상원정",
+               "decision_snapshot": {"action": "market_reference",
+                                     "decision_id": "dec-ok",
+                                     "as_of": "2026-08-28T07:00:00+00:00"}})
+
+    counts = _sync_prediction_runtime(
+        Runtime(), [broken, ok], observed_at="2026-08-28T08:00:00+00:00")
+
+    assert broken["prediction_status"] == "prediction_ledger_required"
+    assert broken["prediction_ledger_reason"] == "invalid_decision_snapshot"
+    assert counts["withheld"] >= 1
+    assert ok["prediction_status"] == "recorded_pregame"

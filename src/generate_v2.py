@@ -1113,8 +1113,14 @@ def _sync_prediction_runtime(
             _withhold_unrecorded_prediction(game, "prediction_after_freeze")
             counts["withheld"] += 1
             continue
+        snapshot = game.get("decision_snapshot") or {}
+        if not snapshot.get("decision_id"):
+            # 스냅샷 생성이 실패해 빈 {} 가 들어오면, 원장 검증이 ValueError
+            # (AI stage id)로 터져 발행 전체가 멈춘다(2026-09-04). 그 경기만 보류한다.
+            _withhold_unrecorded_prediction(game, "invalid_decision_snapshot")
+            counts["withheld"] += 1
+            continue
         try:
-            snapshot = game.get("decision_snapshot") or {}
             market_observed_at = snapshot.get("as_of") or observed_at
             result = runtime.record_pregame(
                 game,
@@ -1145,6 +1151,17 @@ def _sync_prediction_runtime(
                 f"{game.get('home')}vs{game.get('away')}: {exc}"
             )
             raise
+        except ValueError as exc:
+            # ai_decision.validate_decision_snapshot 이 스냅샷 구조를 거부한 경우
+            # (옛 스키마·잘못된 stage id 등). 한 경기 때문에 나머지 발행을 막지 않는다.
+            counts["errors"] += 1
+            counts["withheld"] += 1
+            print(
+                f"결정 스냅샷 검증 실패 — 이 경기만 건너뜀 {game.get('league')} "
+                f"{game.get('home')}vs{game.get('away')}: {exc}"
+            )
+            _withhold_unrecorded_prediction(game, "invalid_decision_snapshot")
+            continue
 
         exact = result.record if result is not None else next((
             row for row in reversed(runtime.records())
@@ -1515,14 +1532,23 @@ def main() -> int:
     feature_cutoff_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     def _snapshot(game: dict) -> dict:
-        return build_decision_snapshot(
-            game,
-            as_of=feature_cutoff_at,
-            built_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            pre_registered=False,
-            explanation_kind=(game.get("설명메타") or {}).get("kind", "deterministic"),
-            probability_artifact=probability_artifact,
-        )
+        try:
+            return build_decision_snapshot(
+                game,
+                as_of=feature_cutoff_at,
+                built_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                pre_registered=False,
+                explanation_kind=(game.get("설명메타") or {}).get("kind", "deterministic"),
+                probability_artifact=probability_artifact,
+            )
+        except Exception as exc:                        # noqa: BLE001
+            # 한 경기의 스냅샷 생성이 실패해도 전체 발행을 멈추지 않는다.
+            # 빈 스냅샷을 남기면 _sync_prediction_runtime 이 그 경기를 보류한다.
+            print(f"결정 스냅샷 생성 실패 — 이 경기만 보류 {game.get('league')} "
+                  f"{game.get('home')}vs{game.get('away')}: "
+                  f"{type(exc).__name__}: {exc}", flush=True)
+            game["추천"] = None
+            return {}
 
     out = []
     for g in games.values():
