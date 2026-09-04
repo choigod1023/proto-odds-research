@@ -639,14 +639,18 @@ def _norm_team(n: str) -> str:
 
 
 def _load_starter_form() -> "StarterForm | None":
-    """선발 xFIP 조회기. 아티팩트 우선, 없으면 박스스코어에서 직접 만든다."""
-    try:
-        return StarterForm.from_artifact(STARTER_XFIP_ARTIFACT)
-    except (OSError, ValueError, KeyError):
-        pass
+    """선발 xFIP 조회기. 매 산출물 주기 최신 박스스코어에서 새로 만든다(약 0.5초).
+
+    수집기가 KBO 박스스코어를 계속 갱신하므로, 리포지토리에 커밋된 아티팩트보다
+    현재 파일이 항상 최신이다. 아티팩트는 박스스코어를 못 읽을 때의 대비책이다.
+    """
     try:
         return StarterForm.from_boxscores(load_starter_boxscores())
     except (OSError, ValueError):
+        pass
+    try:
+        return StarterForm.from_artifact(STARTER_XFIP_ARTIFACT)
+    except (OSError, ValueError, KeyError):
         return None
 
 
