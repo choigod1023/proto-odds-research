@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
-from src.live_scores import (add_proto_aliases, baseball_situation,
+from src import live_scores as ls
+from src.live_scores import (add_proto_aliases, baseball_situation, build_document,
                              deduplicate_games, merge_recent_games, named_soccer_clock,
                              normalize_named_game, RESULT_STATUSES,
                              TERMINAL_STATUSES)
@@ -9,6 +10,50 @@ from src.live_scores import (add_proto_aliases, baseball_situation,
 def test_naver_ended_status_is_treated_as_finished():
     assert "ENDED" in RESULT_STATUSES
     assert "ENDED" in TERMINAL_STATUSES
+
+
+def test_build_document_counts_live_and_flags_partial_only_when_asked():
+    now = datetime(2026, 9, 4, tzinfo=timezone.utc)
+    games = [
+        {"game_id": "a", "start": "2026-09-04T18:00:00+09:00", "status": "STARTED",
+         "finished": False},
+        {"game_id": "b", "start": "2026-09-04T18:00:00+09:00", "status": "BEFORE",
+         "finished": False},
+    ]
+    full = build_document(games, [], now)
+    assert full["n_games"] == 2 and full["n_live"] == 1
+    assert "partial" not in full
+    assert build_document(games, [], now, partial=True)["partial"] is True
+
+
+def test_build_document_keeps_recent_terminal_history_from_previous():
+    now = datetime(2026, 9, 4, tzinfo=timezone.utc)
+    previous = [{"game_id": "done", "start": "2026-09-01T18:00:00+09:00",
+                 "status": "RESULT"}]
+    current = [{"game_id": "live", "start": "2026-09-04T18:00:00+09:00",
+                "status": "STARTED", "finished": False}]
+    ids = {g["game_id"] for g in build_document(current, previous, now)["games"]}
+    assert ids == {"live", "done"}
+
+
+def test_main_saves_and_skips_named_when_fetch_budget_is_exhausted(monkeypatch):
+    saved = []
+    monkeypatch.setattr(ls, "persist_artifact",
+                        lambda name, document, path, indent=None: saved.append(document))
+    monkeypatch.setattr(ls, "_session", lambda: None)
+    monkeypatch.setattr(ls, "_aliases", lambda: {})
+    monkeypatch.setattr(ls, "_previous_games", lambda: [])
+    monkeypatch.setattr(ls, "_proto_games", lambda: [])
+    named_days = []
+    monkeypatch.setattr(ls, "fetch_named", lambda s, day: named_days.append(day) or {})
+    monkeypatch.setattr(ls, "fetch", lambda s, league, day: [])
+    # 예산을 음수로 만들면 첫 마감 검사에서 바로 중단된다.
+    monkeypatch.setattr(ls, "FETCH_BUDGET_SECONDS", -1)
+
+    assert ls.main() == 0
+    assert saved, "예산이 끝나도 최소 한 번은 파일을 써야 피드가 얼지 않는다"
+    assert saved[-1].get("partial") is True
+    assert named_days == [], "예산이 끝났으면 NAMED 요청은 건너뛴다"
 
 
 def test_baseball_situation_extracts_batter_count_and_runners():
