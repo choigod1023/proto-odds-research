@@ -210,8 +210,12 @@ TIER_EDGE = 0.50
 # pitcher_backtest.py (2023-04~2026-07 KBO 승패 2,557경기): 어떤 k 도 검증 Brier 를
 # 단조 개선했고 ROI 는 악화되지 않았다(채택 기준 통과). 판정은 findings/선발_람다반영.md.
 # 문헌·물리(≈60% 이닝 점유 × ≈0.6 회귀)에 맞춰 그리드 최댓값(0.75) 대신 보수적으로
-# 0.35 를 채택한다. 0 으로 두면 보정이 완전히 꺼진다.
-STARTER_XFIP_LAMBDA_K = 0.35
+# 0.35 가 검증됐다.
+# ⚠️ 2026-09-04: 0.35 배포 후 generate_v2 가 LedgerConflictError 로 실패했다.
+#    이미 원장에 기록된 사전 결정과 같은 decision_id 로 xFIP 보정된 확률을 다시
+#    쓰려다 충돌한다. 원장 재기록 경로가 보정을 받아들이게 만들기 전까지 0 으로 둔다
+#    (배선·조회기·백테스트는 그대로. 상수만 되돌린 것). findings/선발_람다반영.md.
+STARTER_XFIP_LAMBDA_K = 0.0
 
 
 def team_tiers() -> dict:
