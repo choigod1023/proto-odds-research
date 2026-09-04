@@ -28,6 +28,7 @@ import difflib
 import json
 import re
 import sys
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -55,6 +56,14 @@ CATS = {
 TERMINAL_STATUSES = {"RESULT", "END", "ENDED", "CANCEL", "CANCELED", "CANCELLED", "POSTPONED"}
 RESULT_STATUSES = {"RESULT", "END", "ENDED"}
 HISTORY_DAYS = 45
+
+# supervisor(run_live)가 이 스크립트를 180초에 강제 종료한다. 강제 종료되면
+# 파일이 한 줄도 새로 안 써져 피드가 마지막 성공 시점에 그대로 얼어붙는다.
+# 그 한도보다 넉넉히 앞에서 스스로 수집을 멈추고, 받은 데까지 즉시 저장한다.
+FETCH_BUDGET_SECONDS = 150
+# 진행 중 야구 경기의 타석·주자 상세는 경기당 요청이 한 번 더 나간다.
+# 예산을 지키려고 한 회 실행에서 조회할 경기 수를 제한한다.
+SITUATION_LIMIT = 12
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36")
@@ -114,7 +123,7 @@ def fetch(s: requests.Session, league: str, day: str) -> list[dict]:
         r = s.get(API, params={
             "fields": "basic,statusNum", "upperCategoryId": up,
             "categoryId": cid, "fromDate": day, "toDate": day, "size": 200,
-        }, timeout=20)
+        }, timeout=10)
         r.raise_for_status()
         return r.json().get("result", {}).get("games", []) or []
     except Exception as e:                            # noqa: BLE001
@@ -126,7 +135,7 @@ def fetch_named(s: requests.Session, day: str) -> dict:
     """NAMED의 날짜별 인기 경기 목록. 종목별 배열을 그대로 돌려준다."""
     try:
         r = s.get(NAMED_API, params={"date": day, "tomorrow-game-flag": "true"},
-                  timeout=20)
+                  timeout=10)
         r.raise_for_status()
         return r.json() or {}
     except Exception as e:                            # noqa: BLE001
@@ -307,7 +316,7 @@ def baseball_situation(payload: dict) -> dict:
 
 def fetch_situation(s: requests.Session, game_id: str) -> dict:
     try:
-        r = s.get(POLLING_API.format(game_id=game_id), timeout=12)
+        r = s.get(POLLING_API.format(game_id=game_id), timeout=8)
         r.raise_for_status()
         return baseball_situation(r.json())
     except Exception as e:                            # noqa: BLE001
@@ -391,18 +400,57 @@ def deduplicate_games(games: list[dict]) -> list[dict]:
     return unique
 
 
+def build_document(games: list[dict], previous: list[dict], now: datetime,
+                   *, partial: bool = False) -> dict:
+    """수집한 경기 목록을 프론트가 읽는 live_scores 문서로 만든다.
+
+    소스 ID가 다른 같은 경기를 합치고, 조회 범위 밖의 최근 종료 기록은 보존한다.
+    `partial` 은 수집 예산이 다 되어 일부 소스만 반영한 저장임을 표시한다.
+    그래도 `generated_at` 은 새로 찍으므로 프론트는 이 값을 최신으로 취급한다.
+    """
+    uniq = deduplicate_games(games)
+    uniq = merge_recent_games(uniq, previous, now)
+    document = {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "n_games": len(uniq),
+        "n_live": sum(1 for g in uniq if g.get("status") == "STARTED"),
+        "games": uniq,
+    }
+    if partial:
+        document["partial"] = True
+    return document
+
+
+def _save(games: list[dict], previous: list[dict], now: datetime,
+          *, partial: bool = False) -> dict:
+    document = build_document(games, previous, now, partial=partial)
+    persist_artifact("live_scores", document, OUT, indent=None)
+    return document
+
+
 def main() -> int:
     s = _session()
     alias = _aliases()
     now = datetime.now(KST)
-    # 최근 3일을 다시 확인해 마지막 요청 실패·우천 연기처럼 경계에서 바뀐 상태도 회수한다.
-    days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-3, -2, -1, 0, 1)]
+    started = time.monotonic()
+    deadline = started + FETCH_BUDGET_SECONDS
+    # 직전 저장본은 한 번만 읽어 두 번의 저장에 함께 쓴다. 첫 저장으로 파일이
+    # 바뀌어도 보존 기준(45일 내 종료 경기)은 그대로 유지된다.
+    previous = _previous_games()
+    # 최근 며칠을 다시 확인해 마지막 요청 실패·우천 연기처럼 경계에서 바뀐 상태도
+    # 회수한다. -3일은 이미 종료돼 previous 로 보존되므로 조회 범위에서 뺀다.
+    days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-2, -1, 0, 1)]
 
-    games = []
+    games: list[dict] = []
+    budget_hit = False
+    situation_calls = 0
     # 네이버는 보조 원천이다. 뒤에서 NAMED를 추가해 같은 프론트 키가 겹칠 때
     # 더 넓은 종목을 커버하는 NAMED 관측이 우선되게 한다.
     for league in CATS:
         for day in days:
+            if time.monotonic() >= deadline:
+                budget_hit = True
+                break
             for g in fetch(s, league, day):
                 st = g.get("statusCode") or ""
                 if g.get("cancel") and st not in TERMINAL_STATUSES:
@@ -433,15 +481,29 @@ def main() -> int:
                     "cancelled": st in {"CANCEL", "CANCELED", "CANCELLED"},
                     "postponed": st == "POSTPONED",
                 }
-                if st == "STARTED" and league in ("KBO", "MLB", "NPB") and rec["game_id"]:
+                if (st == "STARTED" and league in ("KBO", "MLB", "NPB")
+                        and rec["game_id"] and situation_calls < SITUATION_LIMIT
+                        and time.monotonic() < deadline):
                     rec.update(fetch_situation(s, str(g.get("gameId"))))
+                    situation_calls += 1
                 # 경기 전이면 0-0 이 찍혀 나온다 — 점수처럼 보이면 안 된다
                 if st == "BEFORE":
                     rec["home_score"] = rec["away_score"] = None
                 games.append(rec)
+        if budget_hit:
+            break
 
-    named_games = []
+    # 네이버 단계가 예산의 절반을 넘겨 걸렸으면, 뒤의 NAMED 요청이 강제 종료를
+    # 부르기 전에 여기까지의 결과를 먼저 저장한다. 빠르게 끝난 평상시에는
+    # 저장을 마지막에 한 번만 한다.
+    if budget_hit or time.monotonic() - started > FETCH_BUDGET_SECONDS / 2:
+        _save(games, previous, now, partial=True)
+
+    named_games: list[dict] = []
     for day in days:
+        if time.monotonic() >= deadline:
+            budget_hit = True
+            break
         payload = fetch_named(s, day)
         for sport in NAMED_SPORTS:
             for raw in payload.get(sport) or []:
@@ -452,21 +514,15 @@ def main() -> int:
     alias_n = add_proto_aliases(named_games, _proto_games())
     games.extend(named_games)
 
-    # 날짜 경계뿐 아니라 네이버·NAMED의 서로 다른 ID도 실제 경기 기준으로 합친다.
-    uniq = deduplicate_games(games)
-    uniq = merge_recent_games(uniq, _previous_games(), now)
-    live_n = sum(1 for g in uniq if g.get("status") == "STARTED")
-
-    document = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "n_games": len(uniq), "n_live": live_n, "games": uniq,
-    }
-    persist_artifact("live_scores", document, OUT, indent=None)
+    document = _save(games, previous, now, partial=budget_hit)
+    uniq = document["games"]
+    live_n = document["n_live"]
 
     done = sum(1 for g in uniq if g["finished"])
     named_n = sum(1 for g in uniq if g.get("source") == "named")
+    budget_note = " · 예산 소진(부분 저장)" if budget_hit else ""
     print(f"경기 {len(uniq)}건(NAMED {named_n}) · 프로토 매칭 {alias_n}"
-          f" · 진행중 {live_n} · 종료 {done} → {OUT}")
+          f" · 진행중 {live_n} · 종료 {done}{budget_note} → {OUT}")
     for g in uniq:
         if not g["finished"] and g["status"] != "BEFORE":
             print(f"  [{g['league']}] {g['away']} {g['away_score']}"
