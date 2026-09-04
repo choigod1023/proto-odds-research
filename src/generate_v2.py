@@ -71,8 +71,16 @@ from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
 from score_dist import (p_handicap, p_margin_band, p_odd,           # noqa: E402
                         p_one_run, p_over, p_win)
-from score_scenarios import (get_sport_contract,                   # noqa: E402
+from score_scenarios import (ScoreForecastError, get_sport_contract,  # noqa: E402
                              probability_matrix_from_lambdas)
+
+
+def _safe_matrix(sport, lam_home, lam_away):
+    """스코어 확률 행렬. λ가 이상해 질량이 안 나오면 None(모델 없음으로 처리)."""
+    try:
+        return probability_matrix_from_lambdas(sport, lam_home, lam_away)
+    except (ScoreForecastError, TypeError, ValueError):
+        return None
 from snapshot import (UNPLAYED, _fetch, find_live_rounds,
                       probe_latest_round)                           # noqa: E402
 from wisetoto import CACHE, _session                                # noqa: E402
@@ -1465,8 +1473,8 @@ def main() -> int:
                     continue
                 line = float(m0.group(1))
             pm = None
-            if lam:
-                M = probability_matrix_from_lambdas(r.sport, lam[0], lam[1])
+            M = _safe_matrix(r.sport, lam[0], lam[1]) if lam else None
+            if M is not None:
                 pm = _sane(market_probs(M, r.sport, r.market_family, nw, line))
             if pm is not None and len(pm) != len(r.odds):
                 pm = None
@@ -1580,10 +1588,9 @@ def main() -> int:
         annotate_options(g)
         attach_score_forecast(g)
         if g.get("no_odds") and not g["options"]:
-            if not g.get("no_model"):
-                matrix = probability_matrix_from_lambdas(
-                    g["sport"], g["lam_home"], g["lam_away"]
-                )
+            matrix = (None if g.get("no_model")
+                      else _safe_matrix(g["sport"], g["lam_home"], g["lam_away"]))
+            if matrix is not None:
                 h0, _, a0 = p_win(matrix)
                 g["홈승률"] = round(h0 / (h0 + a0), 4) if h0 + a0 > 0 else None
             else:
@@ -1611,9 +1618,20 @@ def main() -> int:
             out.append(g)
             continue
 
-        matrix = probability_matrix_from_lambdas(
-            g["sport"], g["lam_home"], g["lam_away"]
-        )
+        matrix = _safe_matrix(g["sport"], g["lam_home"], g["lam_away"])
+        if matrix is None:
+            # λ가 이상해 구조 모델을 못 만든다. 배당·해설은 그대로 내보낸다.
+            g["홈승률"] = None
+            g["연구판단"] = "구조 모델 없음"
+            g["판단"] = "시장 기준"
+            g["추천"] = choose_market_reference(g["options"])
+            g["선택지수"] = len(g["options"])
+            if g["status"] not in ("정산", "결과확인"):
+                _attach_story(g, FORMS, H2H, STARTERS, FORM_BY_TEAM,
+                              H2H_ANY, LINEUPS, SHOTFORM, narrative=False)
+            g["decision_snapshot"] = _snapshot(g)
+            out.append(g)
+            continue
         h, _, a = p_win(matrix)
         p_home = h / (h + a) if h + a > 0 else 0.5
         g["홈승률"] = round(p_home, 4)
