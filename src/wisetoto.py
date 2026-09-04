@@ -197,7 +197,16 @@ def get_master_seq(year: int, rnd: int, sess: requests.Session | None = None) ->
            f"&game_year={year}&game_round={rnd}")
     html = s.get(url, timeout=25).text
     m = _SEQ_RE.search(html)
-    return m.group(3) if m else None
+    if not m:
+        return None
+    seq = m.group(3)
+    # ⚠️ 아직 발매되지 않은 회차를 요청하면 wisetoto 는 요청한 회차 번호를 그대로
+    #    되돌리되 seq 자리에 '0' 을 넣은 껍데기 페이지를 준다(게임행 0건).
+    #    이걸 유효한 seq 로 받으면 probe_latest_round 의 이분 탐색이 "이 회차도
+    #    존재한다"고 오판해 실제 최신 회차(예: 105)를 한참 지나친 번호로 올라가고,
+    #    find_live_rounds 가 빈 회차만 훑어 "발매 중인 회차를 찾지 못했습니다"로 끝난다.
+    #    (2026-09-04 실측: 105회차가 발매 중인데 탐지가 511회차까지 올라갔다.)
+    return seq if seq and seq != "0" else None
 
 
 def _cache_path(year: int, rnd: int) -> Path:
