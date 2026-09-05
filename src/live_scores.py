@@ -28,6 +28,8 @@ import difflib
 import json
 import re
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -55,6 +57,11 @@ CATS = {
 TERMINAL_STATUSES = {"RESULT", "END", "ENDED", "CANCEL", "CANCELED", "CANCELLED", "POSTPONED"}
 RESULT_STATUSES = {"RESULT", "END", "ENDED"}
 HISTORY_DAYS = 45
+FETCH_WORKERS = 5
+SCHEDULE_TIMEOUT = (3, 8)
+SITUATION_TIMEOUT = (3, 6)
+FETCH_BUDGET_SECONDS = 120  # leave time to persist before supervisor's 180s limit
+SITUATION_LIMIT = 12
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36")
@@ -112,24 +119,24 @@ def fetch(s: requests.Session, league: str, day: str) -> list[dict]:
         r = s.get(API, params={
             "fields": "basic,statusNum", "upperCategoryId": up,
             "categoryId": cid, "fromDate": day, "toDate": day, "size": 200,
-        }, timeout=20)
+        }, timeout=SCHEDULE_TIMEOUT)
         r.raise_for_status()
         return r.json().get("result", {}).get("games", []) or []
     except Exception as e:                            # noqa: BLE001
         print(f"  {league} {day} 실패: {type(e).__name__}", flush=True)
-        return []
+        raise
 
 
 def fetch_named(s: requests.Session, day: str) -> dict:
     """NAMED의 날짜별 인기 경기 목록. 종목별 배열을 그대로 돌려준다."""
     try:
         r = s.get(NAMED_API, params={"date": day, "tomorrow-game-flag": "true"},
-                  timeout=20)
+                  timeout=SCHEDULE_TIMEOUT)
         r.raise_for_status()
         return r.json() or {}
     except Exception as e:                            # noqa: BLE001
         print(f"  NAMED {day} 실패: {type(e).__name__}", flush=True)
-        return {}
+        raise
 
 
 def _score(team: dict) -> int | float | None:
@@ -218,6 +225,20 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
     }
     if clock:
         rec["clock"] = clock
+    if sport == "baseball" and status == "STARTED":
+        period = raw.get("period")
+        division = str(raw.get("inningDivision") or "").upper()
+        if type(period) is int and period > 0 and division in ("TOP", "BOTTOM"):
+            rec["inning"] = period
+            rec["batting_side"] = "away" if division == "TOP" else "home"
+            rec["status_text"] = f"{period}회{'초' if division == 'TOP' else '말'}"
+        # The public broadcast provides a current total while periodData can
+        # omit the in-progress inning. Never infer current pitcher from starter.
+        score = (raw.get("broadcast") or {}).get("score") or {}
+        for side in ("home", "away"):
+            value = score.get(side)
+            if type(value) is int and value >= 0:
+                rec[f"{side}_score"] = value
     if sport == "soccer" and finished:
         regular_time_score = [_regulation_score(home), _regulation_score(away)]
         if all(score is not None for score in regular_time_score):
@@ -326,7 +347,7 @@ def baseball_situation(payload: dict) -> dict:
 
 def fetch_situation(s: requests.Session, game_id: str) -> dict:
     try:
-        r = s.get(POLLING_API.format(game_id=game_id), timeout=12)
+        r = s.get(POLLING_API.format(game_id=game_id), timeout=SITUATION_TIMEOUT)
         r.raise_for_status()
         return baseball_situation(r.json())
     except Exception as e:                            # noqa: BLE001
@@ -336,8 +357,15 @@ def fetch_situation(s: requests.Session, game_id: str) -> dict:
 
 def _previous_games() -> list[dict]:
     """DB에 남은 최근 종료 상태를 읽어 다음 관측에서 보존한다."""
-    previous = load_artifact("live_scores", OUT)
-    return (previous or {}).get("games") or []
+    previous = load_artifact("live_scores", OUT) or {}
+    games = []
+    for game in previous.get("games") or []:
+        game = dict(game)
+        # Legacy rows were last observed no later than the old document. Never
+        # stamp retained rows with this run's generated_at.
+        game.setdefault("observed_at", previous.get("generated_at"))
+        games.append(game)
+    return games
 
 
 def merge_recent_games(current: list[dict], previous: list[dict], now: datetime) -> list[dict]:
@@ -385,9 +413,29 @@ def _same_physical_game(left: dict, right: dict) -> bool:
 
 def _merge_duplicate(preferred: dict, other: dict) -> dict:
     """실시간 야구 상황이 풍부한 네이버 값을 우선하고 별칭은 합친다."""
-    if preferred.get("source") != "naver" and other.get("source") == "naver":
-        preferred, other = other, preferred
+    if bool(preferred.get("stale")) != bool(other.get("stale")):
+        if preferred.get("stale"):
+            preferred, other = other, preferred
+    else:
+        def phase(game):
+            if game.get("status") in TERMINAL_STATUSES:
+                return 2
+            return 1 if game.get("status") == "STARTED" else 0
+        if phase(other) > phase(preferred):
+            preferred, other = other, preferred
+        elif (phase(other) == phase(preferred)
+              and preferred.get("source") != "naver" and other.get("source") == "naver"):
+            preferred, other = other, preferred
     merged = {**other, **preferred}
+    merged["stale"] = bool(preferred.get("stale"))
+    # A failed-source row must not donate its outdated batter/runner state to a
+    # successful source which only supplied scores.
+    if (other.get("stale") and not preferred.get("stale")
+            or preferred.get("status") != "STARTED" or other.get("status") != "STARTED"):
+        for key in ("batting_side", "batter", "batter_id", "pitcher", "balls", "strikes",
+                    "outs", "bases", "next_batter", "on_deck", "situation_observed_at"):
+            if key not in preferred:
+                merged.pop(key, None)
     for side in ("home", "away"):
         aliases = [*preferred.get(f"{side}_alias", []), other.get(side),
                    *other.get(f"{side}_alias", [])]
@@ -400,96 +448,183 @@ def _merge_duplicate(preferred: dict, other: dict) -> dict:
 def deduplicate_games(games: list[dict]) -> list[dict]:
     """소스 ID가 다른 동일 경기를 하나로 합치고 실제 더블헤더는 유지한다."""
     unique: list[dict] = []
+    by_id: dict[str, set[int]] = {}
+    by_start: dict[tuple[str, str], set[int]] = {}
+
+    def keys(game):
+        return (re.sub(r"^(?:naver|named):", "", str(game.get("game_id") or "")),
+                (_identity_text(game.get("league")), str(game.get("start") or "")[:16]))
+
+    def index(game, position):
+        game_id, start = keys(game)
+        if game_id:
+            by_id.setdefault(game_id, set()).add(position)
+        by_start.setdefault(start, set()).add(position)
+
     for game in games:
-        duplicate_at = next((index for index, saved in enumerate(unique)
-                             if _same_physical_game(saved, game)), None)
+        game_id, start = keys(game)
+        # Identity equality or equal league/kickoff are necessary conditions in
+        # _same_physical_game. Do not compare all 45 days of unrelated history.
+        candidates = by_id.get(game_id, set()) | by_start.get(start, set())
+        duplicate_at = next((i for i in sorted(candidates)
+                             if _same_physical_game(unique[i], game)), None)
         if duplicate_at is None:
+            index(game, len(unique))
             unique.append(game)
         else:
             unique[duplicate_at] = _merge_duplicate(unique[duplicate_at], game)
+            index(unique[duplicate_at], duplicate_at)
     return unique
 
 
-def main() -> int:
-    s = _session()
-    alias = _aliases()
-    now = datetime.now(KST)
-    # 최근 3일을 다시 확인해 마지막 요청 실패·우천 연기처럼 경계에서 바뀐 상태도 회수한다.
-    days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-3, -2, -1, 0, 1)]
+def _schedule_job(job: tuple[str, str], deadline: float | None = None) -> dict:
+    league, day = job
+    # requests.Session is not shared between worker threads.
+    result = {"source": "named" if league == "named" else "naver", "league": league, "day": day}
+    if deadline is not None and time.monotonic() >= deadline:
+        return {**result, "payload": None, "observed_at": None, "error": "budget_exhausted"}
+    try:
+        with _session() as session:
+            payload = fetch_named(session, day) if league == "named" else fetch(session, league, day)
+        # Retrieval time only: these responses expose no verified provider
+        # update timestamp, so this is not a claim about upstream freshness.
+        result.update(payload=payload, observed_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                      error=None)
+    except Exception as exc:  # One source failure must not erase other sources.
+        result.update(payload=None, observed_at=None, error=f"{type(exc).__name__}: {exc}")
+    return result
 
-    games = []
-    # 네이버는 보조 원천이다. 뒤에서 NAMED를 추가해 같은 프론트 키가 겹칠 때
-    # 더 넓은 종목을 커버하는 NAMED 관측이 우선되게 한다.
-    for league in CATS:
-        for day in days:
-            for g in fetch(s, league, day):
-                st = g.get("statusCode") or ""
-                if g.get("cancel") and st not in TERMINAL_STATUSES:
-                    st = "CANCEL"
-                home, away = g.get("homeTeamName"), g.get("awayTeamName")
-                start = g.get("gameDateTime") or ""
-                rec = {
-                    "source": "naver",
-                    "sport": "sc" if league == "K리그" else "bs",
-                    "league": league,
-                    "game_id": f"naver:{g.get('gameId')}",
-                    "start": start,
-                    # ⚠️ 팀 조합만으로는 경기를 못 가린다. MLB 는 같은 팀끼리
-                    #    3~4연전을 하므로 어제/오늘 경기가 뭉개진다(실제로 정산
-                    #    경기 55건 중 37건이 어긋났다). 날짜를 키에 넣어야 한다.
-                    #    네이버 gameDateTime 은 이미 KST 다.
-                    "md": start[5:10].replace("-", "."),      # '07.31'
-                    "home": home, "away": away,
-                    # 프론트가 프로토 표기로도 찾을 수 있게 별칭을 같이 준다
-                    "home_alias": alias.get(home, []),
-                    "away_alias": alias.get(away, []),
-                    "home_score": g.get("homeTeamScore"),
-                    "away_score": g.get("awayTeamScore"),
-                    "status": st,                     # BEFORE / STARTED / RESULT ...
-                    "status_text": g.get("statusInfo"),
-                    "finished": st in RESULT_STATUSES,
-                    "terminal": st in TERMINAL_STATUSES,
-                    "cancelled": st in {"CANCEL", "CANCELED", "CANCELLED"},
-                    "postponed": st == "POSTPONED",
-                }
-                if st == "STARTED" and league in ("KBO", "MLB", "NPB") and rec["game_id"]:
-                    rec.update(fetch_situation(s, str(g.get("gameId"))))
-                # 경기 전이면 0-0 이 찍혀 나온다 — 점수처럼 보이면 안 된다
-                if st == "BEFORE":
-                    rec["home_score"] = rec["away_score"] = None
-                games.append(rec)
 
-    named_games = []
-    for day in days:
-        payload = fetch_named(s, day)
-        for sport in NAMED_SPORTS:
-            for raw in payload.get(sport) or []:
-                named_games.append(normalize_named_game(raw, sport))
+def collect_schedules(days: list[str], deadline: float | None = None) -> list[dict]:
+    """Bound network fan-out while preserving deterministic provider/day order."""
+    jobs = [(league, day) for day in days for league in (*CATS, "named")]
+    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as pool:
+        return list(pool.map(lambda job: _schedule_job(job, deadline), jobs))
 
-    # tomorrow-game-flag 때문에 이웃 날짜 응답이 겹칠 수 있다.
-    named_games = list({g["game_id"]: g for g in named_games}.values())
-    alias_n = add_proto_aliases(named_games, _proto_games())
-    games.extend(named_games)
 
-    # 날짜 경계뿐 아니라 네이버·NAMED의 서로 다른 ID도 실제 경기 기준으로 합친다.
-    uniq = deduplicate_games(games)
-    uniq = merge_recent_games(uniq, _previous_games(), now)
-    live_n = sum(1 for g in uniq if g.get("status") == "STARTED")
+def _situation_job(game_id: str, deadline: float | None = None) -> dict:
+    if deadline is not None and time.monotonic() >= deadline:
+        return {}
+    with _session() as session:
+        situation = fetch_situation(session, game_id)
+    if situation:
+        situation["situation_observed_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return situation
 
-    document = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "n_games": len(uniq), "n_live": live_n, "games": uniq,
+
+def enrich_situations(games: list[dict], deadline: float | None = None) -> None:
+    live = [game for game in games if game.get("source") == "naver"
+            and not game.get("stale") and game.get("status") == "STARTED"
+            and game.get("league") in ("KBO", "MLB", "NPB")][:SITUATION_LIMIT]
+    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as pool:
+        situations = pool.map(lambda game_id: _situation_job(game_id, deadline),
+                              [game["game_id"].split(":", 1)[1] for game in live])
+        for game, situation in zip(live, situations):
+            game.update(situation)
+
+
+def normalize_naver_game(g: dict, league: str, alias: dict, observed_at: str) -> dict:
+    st = g.get("statusCode") or ""
+    if g.get("cancel") and st not in TERMINAL_STATUSES:
+        st = "CANCEL"
+    home, away = g.get("homeTeamName"), g.get("awayTeamName")
+    start = g.get("gameDateTime") or ""
+    return {
+        "source": "naver", "sport": "sc" if league == "K리그" else "bs", "league": league,
+        "game_id": f"naver:{g.get('gameId')}", "start": start,
+        "md": start[5:10].replace("-", "."),
+        "home": home, "away": away, "home_alias": alias.get(home, []), "away_alias": alias.get(away, []),
+        "home_score": None if st == "BEFORE" else g.get("homeTeamScore"),
+        "away_score": None if st == "BEFORE" else g.get("awayTeamScore"),
+        "status": st, "status_text": "경기 전" if st == "BEFORE" else g.get("statusInfo"),
+        "finished": st in RESULT_STATUSES, "terminal": st in TERMINAL_STATUSES,
+        "cancelled": st in {"CANCEL", "CANCELED", "CANCELLED"}, "postponed": st == "POSTPONED",
+        "observed_at": observed_at, "stale": False,
     }
-    persist_artifact("live_scores", document, OUT, indent=None)
 
-    done = sum(1 for g in uniq if g["finished"])
-    named_n = sum(1 for g in uniq if g.get("source") == "named")
-    print(f"경기 {len(uniq)}건(NAMED {named_n}) · 프로토 매칭 {alias_n}"
-          f" · 진행중 {live_n} · 종료 {done} → {OUT}")
-    for g in uniq:
-        if not g["finished"] and g["status"] != "BEFORE":
-            print(f"  [{g['league']}] {g['away']} {g['away_score']}"
-                  f" : {g['home_score']} {g['home']} ({g['status_text']})")
+
+def retained_failed_games(previous: list[dict], results: list[dict]) -> list[dict]:
+    failed = {(r["source"], r["league"], r["day"]) for r in results if r["error"]}
+    return [{**g, "stale": True} for g in previous
+            if (g.get("source"), "named" if g.get("source") == "named" else g.get("league"),
+                str(g.get("start") or "")[:10]) in failed]
+
+
+def schedule_games(results: list[dict], alias: dict) -> list[dict]:
+    games = []
+    # Overlapping NAMED dates can repeat one ID: retain the latest observation.
+    for result in sorted(results, key=lambda r: r["observed_at"] or ""):
+        if result["error"]:
+            continue
+        if result["source"] == "naver":
+            games.extend(normalize_naver_game(g, result["league"], alias, result["observed_at"])
+                         for g in result["payload"])
+        else:
+            for sport in NAMED_SPORTS:
+                for raw in result["payload"].get(sport) or []:
+                    game = {**normalize_named_game(raw, sport),
+                            "observed_at": result["observed_at"], "stale": False}
+                    # Exact known aliases are cheap and available before the
+                    # checkpoint; fuzzy Proto matching remains optional later.
+                    for side in ("home", "away"):
+                        known = [game.get(side), *game[f"{side}_alias"]]
+                        game[f"{side}_alias"] = list(dict.fromkeys([
+                            *game[f"{side}_alias"],
+                            *(name for key in known for name in alias.get(key, [])),
+                        ]))
+                    games.append(game)
+    return list({g["game_id"]: g for g in games}.values())
+
+
+def build_document(games: list[dict], previous: list[dict], now: datetime,
+                   results: list[dict], *, partial: bool = False) -> dict:
+    """generated_at is assembly time; only row observed_at describes freshness."""
+    retained = retained_failed_games(previous, results)
+    uniq = merge_recent_games([*games, *retained], previous, now)
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "n_games": len(uniq), "n_live": sum(g.get("status") == "STARTED" and not g.get("stale") for g in uniq),
+        "games": uniq, "partial": partial or any(r["error"] for r in results),
+        "source_status": [{k: v for k, v in result.items() if k != "payload"} for result in results],
+    }
+
+
+def main() -> int:
+    started = time.monotonic()
+    deadline = started + FETCH_BUDGET_SECONDS
+    alias = _aliases()
+    previous = _previous_games()
+    now = datetime.now(KST)
+    today = now.strftime("%Y-%m-%d")
+    other_days = [(now + timedelta(days=d)).strftime("%Y-%m-%d") for d in (-1, 1, -2, -3)]
+    # Same deadline/checkpoint principle as PR #169, with today first and row
+    # timestamps preserved. No historical scan or optional relay can block the
+    # first successful score publication.
+    results = collect_schedules([today], deadline)
+    if not any(r["error"] is None for r in results):
+        raise RuntimeError("all current-day score sources failed; previous artifact unchanged")
+    pending = [{"source": "named" if league == "named" else "naver", "league": league,
+                "day": day, "error": "not_yet_refreshed", "observed_at": None}
+               for day in other_days for league in (*CATS, "named")]
+    games = schedule_games(results, alias)
+    checkpoint = build_document(games, previous, now, [*results, *pending], partial=True)
+    persist_artifact("live_scores", checkpoint, OUT, indent=None)
+    print(f"실시간 점수 현재일 저장 · {len(games)}건 · {time.monotonic() - started:.1f}s", flush=True)
+
+    results.extend(collect_schedules(other_days, deadline))
+    games = schedule_games(results, alias)
+    if time.monotonic() < deadline:
+        named = [g for g in games if g.get("source") == "named"]
+        add_proto_aliases(named, _proto_games())
+    document = build_document(games, previous, now, results)
+    # Persist all scores before optional pitch-by-pitch requests. A killed relay
+    # phase leaves correct score timestamps in the already stored artifact.
+    persist_artifact("live_scores", document, OUT, indent=None)
+    enrich_situations(document["games"], deadline)
+    document["generated_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    persist_artifact("live_scores", document, OUT, indent=None)
+    print(f"경기 {document['n_games']}건 · 진행중 {document['n_live']}"
+          f" · 부분={document['partial']} · {time.monotonic() - started:.1f}s → {OUT}", flush=True)
     return 0
 
 
