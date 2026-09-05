@@ -3,6 +3,8 @@ import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
+import PickProbabilities from "../components/PickProbabilities.jsx";
+import { ESTIMATE_MESSAGE, PROBABILITY_EXPLANATION } from "../lib/probability-copy.js";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
@@ -486,7 +488,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       {liveDelayed && (
         <div role="status" className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
           <b>실시간 점수 갱신 지연</b>
-          <p>경기와 저장된 사전 픽은 유지합니다. 최신 점수가 확인될 때까지 현재 추정 확률은 표시하지 않습니다.</p>
+          <p>경기 전 픽과 확률은 그대로 보관합니다. 현재 적중 확률은 최신 점수가 확인되면 다시 계산합니다.</p>
           {Number.isFinite(liveObserved) && <small>마지막 수집: {new Date(liveObserved).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} (KST)</small>}
         </div>
       )}
@@ -706,6 +708,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         : "분석 자료 확인 중");
   const openingProbability = saved?.openingProbability ?? null;
   const liveProbability = playing ? saved?.estimate : null;
+  const probabilityMessage = ESTIMATE_MESSAGE[saved?.estimateStatus || "missing_opening"];
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
   // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
@@ -755,21 +758,18 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}` : forecast?.headline || fallbackForecast}</b>
         </span>
-        <span className="flex gap-1.5">
-          {playing ? <>
-              <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
-              {Number.isFinite(openingProbability) &&
-                <OddsChip label="사전 확률" value={pct(openingProbability)} title="경기 시작 전에 저장된 픽의 고정 확률" />}
-              {Number.isFinite(liveProbability?.probability) &&
-                <OddsChip label="현재 추정" value={pct(liveProbability.probability)}
-                  title="사전 확률에 현재 점수와 남은 시간을 반영한 상황 추정치" />}
+        <span className="flex flex-wrap items-start gap-1.5">
+          {playing || phase === "pending" ? <>
+              {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+                : <OddsChip label="경기 상태" value="확인 중" />}
+              <PickProbabilities openingProbability={openingProbability} estimate={liveProbability}
+                phase={phase} message={probabilityMessage} compact />
             </>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
             : phase === "finished" ? <span className="flex flex-col items-end gap-1">
                 <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
                 {Number(outcome.record?.odds) > 1 && <small className="tnum text-[11px] text-ink3">당시 배당 {odds(outcome.record.odds)}배</small>}
               </span>
-            : phase === "pending" ? <OddsChip label="상태" value="확인 중" />
             : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
             : pick ? <OddsChip
@@ -790,9 +790,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         {locked && saved && !finished && (
           <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
             <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>
-            <p>사전 확률 {Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음"} · 당시 배당 {odds(saved.option.배당)}</p>
-            {playing && !liveProbability && <small>현재 추정 확률은 {saved.estimateStatus === "unsupported_market"
-              ? "이 마켓에서 제공하지 않습니다." : "사전 확률과 최신 점수 자료가 모두 확인되어야 표시됩니다."}</small>}
+            <p>경기 전 적중 확률 {Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음"} · 당시 배당 {odds(saved.option.배당)}</p>
+            {playing && !liveProbability && <small>{probabilityMessage}</small>}
           </div>
         )}
         <MarketHistory rows={g._marketHistory} />
@@ -828,10 +827,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
             <strong>{g.home} <em>{score[0]}</em><i>:</i><em>{score[1]}</em> {g.away}</strong>
             <small>
-              {Number.isFinite(liveProbability?.probability)
-                ? <>사전 적중 <b>{pct(openingProbability)}</b> → 현재 상황 추정 <b>{pct(liveProbability.probability)}</b><br /></>
-                : null}
-              점수와 남은 시간으로 이동한 상황 추정치이며 검증된 인플레이 구매 추천은 아닙니다.
+              {PROBABILITY_EXPLANATION}
             </small>
             {g.sport === "bs" && <BaseballSituation live={lv} />}
           </div>

@@ -40,7 +40,7 @@ test("record persists through live, pending feed and final result with original 
   assert.equal(track([ended])[0].outcome.state, "hit");
   assert.equal(track([ended])[0].estimate, null);
   assert.equal(track([stalled])[0].estimate, null);
-  assert.match(track([stalled])[0].estimateMessage, /갱신이 늦어/);
+  assert.match(track([stalled])[0].estimateMessage, /업데이트가 늦어/);
 });
 
 test("postgame/current prices cannot fabricate missing or late pregame records", () => {

@@ -33,7 +33,8 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
     assert.match(html, /1.59배/);
     assert.match(html, /1.52배/);
     assert.match(html, /사전 픽 · 추천 이력 미확인/);
-    assert.match(html, /현재 추정/);
+    assert.match(html, /현재 적중 확률/);
+    assert.match(html, /경기 전 적중 확률/);
     assert.match(html, /grid-cols-1.*sm:grid-cols-2.*xl:grid-cols-3/);
     assert.doesNotMatch(html, /NaN|55% 기준|60% 기준/);
     const ended = render([{ ...base, _liveState: { ...base._liveState, finished: true } }]);
@@ -42,7 +43,8 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
     assert.ok(ended.indexOf("적중") < ended.lastIndexOf("당시 배당"));
     assert.match(ended, /1.59배/);
     const stale = render([{ ...base, _liveFeedAt: "2026-09-05T05:00:00Z" }]);
-    assert.match(stale, /중계 갱신이 늦어/);
+    assert.match(stale, /실시간 점수 업데이트가 늦어/);
+    assert.match(stale, /확인 중/);
     assert.match(stale, /56.1%/);
     const unsupported = render([{ ...base, prediction_record: { ...base.prediction_record,
       market: "핸디캡", label: "H -1.5", selection: "핸디홈" } }]);

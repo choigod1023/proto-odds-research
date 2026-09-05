@@ -129,6 +129,16 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-row { padding: 15px 0 !important; display: grid !important; grid-template-columns: 52px minmax(210px, 1.1fr) minmax(150px, .8fr) auto !important; gap: 14px !important; align-items: center; }
 .match-row:hover { background: color-mix(in srgb, var(--color-panel) 58%, transparent); }
 .game-info-trigger { width: 100%; text-align: left; color: inherit; cursor: pointer; font: inherit; }
+.pick-probabilities { display: block; min-width: 0; margin: 10px 0; }
+.pick-probability-values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pick-probability-values > span { display: grid; gap: 4px; padding: 8px; border: 1px solid var(--color-rule); border-radius: 6px; }
+.pick-probability-values > span > span { font-size: 11px; color: var(--color-ink2); }
+.pick-probability-values b { font-size: 19px; font-variant-numeric: tabular-nums; color: var(--color-ink); }
+.pick-probability-note { display: block; margin-top: 6px; font-size: 11px; line-height: 1.5; color: var(--color-ink2); }
+.pick-probability-note:empty { display: none; }
+.pick-probabilities.is-compact { width: 240px; max-width: 100%; margin: 0; }
+.pick-probabilities.is-compact .pick-probability-values { gap: 6px; }
+.pick-probabilities.is-compact .pick-probability-values b { font-size: 15px; }
 .game-info-trigger:focus-visible, .today-pick-open:focus-visible { outline: 2px solid var(--color-signal); outline-offset: -2px; }
 .today-pick-card { position: relative; padding-bottom: 42px !important; }
 .today-pick-open { position: absolute; inset: 0; z-index: 1; width: 100%; border-radius: inherit; cursor: pointer; }
