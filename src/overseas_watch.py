@@ -98,7 +98,6 @@ def _append(rows: list[dict]) -> None:
     if database_enabled():
         db = RuntimeDatabase()
         db.append_events("overseas_live_odds", rows)
-        db.export_events_csv("overseas_live_odds", LOG, FIELDS)
         return
     new = not LOG.exists()
     LOG.parent.mkdir(parents=True, exist_ok=True)

@@ -6,7 +6,6 @@
 """
 from __future__ import annotations
 
-import json
 import os
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -15,6 +14,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
+from runtime_db import load_artifact
 from bs4 import BeautifulSoup
 
 from soccer_info import _naver_start, _proto_start, team_similarity
@@ -94,10 +94,7 @@ def _fresh(row: dict, now: datetime) -> bool:
 
 
 def _load_games(picks_path: Path, now: datetime) -> list[dict]:
-    try:
-        data = json.loads(picks_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return []
+    data = load_artifact("picks_v2", picks_path) or {}
     out = []
     for game in data.get("live", []):
         if game.get("sport") not in COURT_SPORTS:

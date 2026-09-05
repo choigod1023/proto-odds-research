@@ -279,7 +279,6 @@ def _append(rows: list[dict]) -> int:
     if database_enabled():
         db = RuntimeDatabase()
         inserted = db.append_events("baseball_context_events", rows)
-        db.export_events("baseball_context_events", LOG)
         return inserted
     LOG.parent.mkdir(parents=True, exist_ok=True)
     with LOG.open("a", encoding="utf-8") as f:

@@ -314,7 +314,6 @@ def _append_jsonl(path: Path, rows: Iterable[dict]) -> int:
         stream = streams.get(path, "pickster:" + path.name)
         db = RuntimeDatabase()
         inserted = db.append_events(stream, rows)
-        db.export_events(stream, path)
         return inserted
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as f:

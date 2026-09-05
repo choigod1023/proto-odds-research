@@ -53,7 +53,7 @@ import time
 from pathlib import Path
 
 import requests
-from runtime_db import RuntimeDatabase, database_enabled, persist_document
+from runtime_db import load_document, persist_document
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "commentary.json"
@@ -84,10 +84,7 @@ def _today() -> str:
 def _budget_load() -> dict:
     """오늘 쓴 호출 수. 날짜가 바뀌면 0 부터 다시 센다."""
     try:
-        b = (RuntimeDatabase().get_document("llm_budget")
-             if database_enabled() else None)
-        if b is None:
-            b = json.loads(BUDGET_PATH.read_text(encoding="utf-8"))
+        b = load_document("llm_budget", BUDGET_PATH) or {}
         if b.get("date") == _today():
             return b
     except (OSError, ValueError):
@@ -139,10 +136,7 @@ SYSTEM = """너는 스포츠 프리뷰 문장을 다듬는 편집자다. 기자�
 
 def _load() -> dict:
     try:
-        stored = (RuntimeDatabase().get_document("llm_commentary_cache")
-                  if database_enabled() else None)
-        return stored if stored is not None else json.loads(
-            CACHE_PATH.read_text(encoding="utf-8"))
+        return load_document("llm_commentary_cache", CACHE_PATH) or {}
     except (OSError, ValueError):
         return {}
 

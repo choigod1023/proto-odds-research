@@ -10,6 +10,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from runtime_db import RuntimeDatabase, database_enabled
 
 ROOT = Path(__file__).resolve().parent.parent
 SNAPSHOTS = ROOT / "data" / "raw" / "weather" / "forecast_snapshots.jsonl"
@@ -32,6 +33,8 @@ def _aware(value: datetime | str, zone: str | None = None) -> datetime:
 
 
 def load_snapshots(path: Path = SNAPSHOTS) -> list[dict]:
+    if database_enabled():
+        return RuntimeDatabase().events("weather_forecasts")
     if not path.exists():
         return []
     out = []

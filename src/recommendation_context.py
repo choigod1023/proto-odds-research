@@ -17,6 +17,7 @@ import re
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from runtime_db import RuntimeDatabase, database_enabled, load_document
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTEXT = ROOT / "data" / "raw" / "baseball_context" / "events.jsonl"
@@ -26,14 +27,9 @@ KST = ZoneInfo("Asia/Seoul")
 DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 
-def _json(path: Path, default):
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return default
-
-
 def _jsonl(path: Path) -> list[dict]:
+    if database_enabled():
+        return RuntimeDatabase().events("baseball_context_events")
     try:
         lines = path.read_text(encoding="utf-8").splitlines()
     except OSError:
@@ -105,9 +101,9 @@ class ContextStore:
                  context_path: Path = CONTEXT, feature_path: Path = FEATURES,
                  team_map_path: Path = TEAM_MAP):
         self.year = year or datetime.now(KST).year
-        self.team_map = _json(team_map_path, {})
+        self.team_map = load_document("processed_team_map", team_map_path) or {}
         self.rows = _jsonl(context_path)
-        features = _json(feature_path, {})
+        features = load_document("processed_live_baseball_features", feature_path) or {}
         self.features = {r.get("game_id"): r for r in features.get("games", [])
                          if r.get("game_id")}
         self.coefficient_status = features.get("coefficient_status") or "not_fitted"
