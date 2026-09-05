@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
+import GameInfoModal from "../components/GameInfoModal.jsx";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
@@ -307,6 +308,7 @@ const STATUS = [
 ];
 
 export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false }) {
+  const [openedGame, setOpenedGame] = useState(null);
   const [betDraft, setBetDraft] = useState(null);
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
@@ -360,6 +362,14 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   );
   // 조합 재계산은 미래 경기만 사용하되, 사전 추천 표시는 시작·종료 뒤에도 원장에 남긴다.
   const todayMemberships = useMemo(() => buildTodayMemberships(alignedToday), [alignedToday]);
+  const modalGame = openedGame && (pool.find((game) =>
+    String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
+    game.home === openedGame.home && game.away === openedGame.away &&
+    game.league === openedGame.league) || openedGame);
+  const modalSelection = modalGame && !stale &&
+    !(modalGame._liveOddsChanged && !decisionFrozen(modalGame))
+    ? todaySelectionForGame(todayMemberships, modalGame.options || [], modalGame.round)
+    : { option: null, membership: null };
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
@@ -441,13 +451,22 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
       year={data.year} todayMembership={todaySelection.membership}
       todayOption={todaySelection.option} highlightedToday={highlightedToday}
+      onOpen={setOpenedGame}
       onSaveBet={(game, option) => setBetDraft({ game, option })} />);
   }
 
     const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
-      <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} />
+      <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} onOpenGame={setOpenedGame} />
+      {modalGame && <GameInfoModal title={`${modalGame.home} vs ${modalGame.away}`} onClose={() => setOpenedGame(null)}>
+        <Game g={modalGame} opts={modalGame.options || []} wait={modalGame.status === "배당대기"}
+          grades={grades} lv={modalGame._liveState || null} stale={stale}
+          generatedAt={data.generated_at} year={data.year} detailOnly
+          todayMembership={modalSelection.membership} todayOption={modalSelection.option}
+          highlightedToday={modalSelection.membership?.recommended === true}
+          onSaveBet={(game, option) => { setOpenedGame(null); setBetDraft({ game, option }); }} />
+      </GameInfoModal>}
       <div className="match-section-title">
         <h2>경기 목록</h2>
         <div className="match-phase-counts" aria-label="경기 상태 필터">
@@ -619,7 +638,7 @@ function MarketHistory({ rows }) {
 }
 
 export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, highlightedToday, onSaveBet }) {
+  todayOption, highlightedToday, onSaveBet, onOpen, detailOnly = false }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -701,9 +720,13 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const recommendationDetail = todayMembership?.display?.text || null;
   const recommendationReason = todayMembership?.reason || null;
   const recommendationCounterReason = todayMembership?.counterReason || null;
+  const Row = detailOnly ? "div" : "button";
   return (
-    <Card as="details" className={`match-card is-${phase} result-${outcome.state}`}>
-      <summary className="match-row">
+    <Card className={`match-card is-${phase} result-${outcome.state}`}>
+      <Row type={detailOnly ? undefined : "button"} className={`match-row ${detailOnly ? "" : "game-info-trigger"}`}
+        aria-haspopup={detailOnly ? undefined : "dialog"}
+        aria-label={detailOnly ? undefined : `${g.home} 대 ${g.away} 경기정보 열기`}
+        onClick={detailOnly ? undefined : () => onOpen?.(g)}>
         <span className="tnum text-[11.5px] text-ink3">{hhmm(g.date)}</span>
         <span className="min-w-0 text-[13.5px] font-semibold">
           <span>
@@ -762,8 +785,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                   }${recommendationDetail ? ` · ${recommendationDetail}` : " · 배당 기반 시장확률"}`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
-      </summary>
-      <div className="match-detail">
+      </Row>
+      {detailOnly && <div className="match-detail">
         {locked && saved && !finished && (
           <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
             <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>
@@ -862,7 +885,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           recalculating={g._liveOddsChanged === true} showPrices={!wait}
           onSaveBet={onSaveBet}
           />
-      </div>
+      </div>}
     </Card>
   );
 }
