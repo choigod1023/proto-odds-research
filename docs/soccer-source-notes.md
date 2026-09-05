@@ -53,7 +53,7 @@ local `kick_off` as `source_kickoff`. No next-day timestamp is fabricated.
 The main runner owns `observed_at`, raw bodies, append-only event versions,
 end-of-date UTC ordering for date-only records, and exclusion of versions observed
 after `as_of`. The agreed query is
-`recent_team_games(provider, league, team_id, as_of, limit)`, using native source
+`SportsHistoryStore.team_form(provider, league, team_id, as_of=..., limit=...)`, using native source
 IDs. This adapter does not implement that query or automatically join data into
 production models. Example query identity: StatsBomb / `'43'` / `'779'`.
 
