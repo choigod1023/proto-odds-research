@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import sqlite3
 from typing import Any, Iterable, Iterator, Mapping
+from runtime_datasets import DatasetStore, RESULT_SCHEMA
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,14 +30,22 @@ def database_enabled() -> bool:
     return bool(os.environ.get("PROODD_DB_PATH"))
 
 
-class RuntimeDatabase:
+class _Connection(sqlite3.Connection):
+    def __exit__(self, *args):
+        try:
+            return super().__exit__(*args)
+        finally:
+            self.close()
+
+
+class RuntimeDatabase(DatasetStore):
     def __init__(self, path: str | Path | None = None) -> None:
         self.path = Path(path) if path is not None else configured_path()
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._initialize()
 
     def connect(self) -> sqlite3.Connection:
-        connection = sqlite3.connect(self.path, timeout=30)
+        connection = sqlite3.connect(self.path, timeout=30, factory=_Connection)
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("PRAGMA synchronous=NORMAL")
@@ -59,6 +68,7 @@ class RuntimeDatabase:
 
     def _initialize(self) -> None:
         with self.connect() as connection:
+            connection.executescript(RESULT_SCHEMA)
             connection.executescript(
                 """
                 CREATE TABLE IF NOT EXISTS odds_snapshots (
@@ -289,57 +299,13 @@ class RuntimeDatabase:
         temporary.replace(path)
 
     def replace_dataset_csv(self, name: str, source: Path) -> int:
-        """완성된 CSV를 한 트랜잭션으로 교체해 잘린 데이터셋을 노출하지 않는다."""
-        digest = hashlib.sha256()
-        with source.open("rb") as raw:
-            for chunk in iter(lambda: raw.read(1024 * 1024), b""):
-                digest.update(chunk)
-        content_hash = digest.hexdigest()
-        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        with source.open(newline="", encoding="utf-8") as handle:
+        """Explicit legacy import only; normal producers call replace_dataset_rows."""
+        with source.open(newline="", encoding="utf-8-sig") as handle:
             reader = csv.DictReader(handle)
             fields = list(reader.fieldnames or [])
             if not fields:
                 raise ValueError(f"CSV header missing: {source}")
-            with self.transaction() as connection:
-                current = connection.execute(
-                    "SELECT revision,content_hash FROM dataset_revisions WHERE name=?",
-                    (name,),
-                ).fetchone()
-                if current is not None and current["content_hash"] == content_hash:
-                    return int(current["revision"])
-                revision = 1 if current is None else int(current["revision"]) + 1
-                connection.execute(
-                    """INSERT INTO dataset_revisions
-                       (name,revision,fieldnames_json,row_count,content_hash,generated_at)
-                       VALUES (?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET
-                       revision=excluded.revision,fieldnames_json=excluded.fieldnames_json,
-                       row_count=excluded.row_count,content_hash=excluded.content_hash,
-                       generated_at=excluded.generated_at""",
-                    (name, revision, json.dumps(fields), 0, content_hash, now),
-                )
-                connection.execute("DELETE FROM dataset_rows WHERE dataset=?", (name,))
-                batch: list[tuple[str, int, str]] = []
-                row_count = 0
-                for row_count, row in enumerate(reader, 1):
-                    batch.append((name, row_count, json.dumps(
-                        row, ensure_ascii=False, separators=(",", ":"))))
-                    if len(batch) >= 5000:
-                        connection.executemany(
-                            "INSERT INTO dataset_rows(dataset,ordinal,payload_json) VALUES (?,?,?)",
-                            batch,
-                        )
-                        batch.clear()
-                if batch:
-                    connection.executemany(
-                        "INSERT INTO dataset_rows(dataset,ordinal,payload_json) VALUES (?,?,?)",
-                        batch,
-                    )
-                connection.execute(
-                    "UPDATE dataset_revisions SET row_count=? WHERE name=?",
-                    (row_count, name),
-                )
-        return revision
+            return self.replace_dataset_rows(name, reader, fields)
 
     def export_dataset_csv(self, name: str, path: Path) -> None:
         with self.connect() as connection:
@@ -558,6 +524,31 @@ def load_artifact(name: str, path: Path) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return value if isinstance(value, dict) else None
+
+
+def load_document(name: str, path: Path) -> Any | None:
+    """DB misses remain misses; old exported files must never re-enter production."""
+    if database_enabled():
+        return RuntimeDatabase().get_document(name)
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def read_frame(name: str, path: Path, **kwargs):
+    """Read typed tabular inputs directly from DB; path is a dev fixture only."""
+    from runtime_frames import read_frame as read
+    return read(name, path, **kwargs)
+
+
+def persist_frame(name: str, frame, path: Path) -> None:
+    if database_enabled():
+        from runtime_frames import frame_rows
+        RuntimeDatabase().replace_dataset_rows(name, frame_rows(frame), list(frame.columns))
+    else:
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        frame.to_csv(path, index=False)
 
 
 def persist_document(name: str, payload: Any, path: Path,
