@@ -1,7 +1,7 @@
 """와이즈토토 프로토 회차 아카이브 수집·파싱.
 
 배당과 경기 결과가 같은 응답에 들어 있어, 한 번 수집하면 Q0·Q1·Q4·Q5를 전부 커버한다.
-원본 응답은 gzip 캐시로 보관하고, 파서를 고쳐도 재수집하지 않는다(재현성 + 서버 부담 최소화).
+원본 응답은 운영 DB에 보관하고, 개발 환경에서만 gzip 캐시를 사용한다.
 
 DOM 구조 (2026-07-26 확인):
     div.gameinfo ul                 = 게임행 1개
@@ -21,10 +21,12 @@ import re
 import sys
 import time
 from dataclasses import dataclass, asdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+from runtime_db import RuntimeDatabase, database_enabled
 
 BASE = "https://www.wisetoto.com"
 CACHE = Path(__file__).resolve().parent.parent / "data" / "raw" / "wisetoto"
@@ -234,6 +236,54 @@ def _cache_path(year: int, rnd: int) -> Path:
     return CACHE / str(year) / f"{rnd:04d}.html.gz"
 
 
+def archive_name(year: int, rnd: int) -> str:
+    return f"archive:{year}:{rnd}"
+
+
+def archive_cached(year: int, rnd: int) -> bool:
+    """Production cache checks never inspect development fixtures."""
+    if database_enabled():
+        return RuntimeDatabase().document_metadata(archive_name(year, rnd)) is not None
+    return _cache_path(year, rnd).exists()
+
+
+def store_archive(year: int, rnd: int, html: str) -> None:
+    """Keep the decoded source, timestamped so migration can preserve live data."""
+    if database_enabled():
+        RuntimeDatabase().put_document(
+            archive_name(year, rnd), html,
+            generated_at=datetime.now(timezone.utc).isoformat(timespec="microseconds"),
+        )
+    else:
+        path = _cache_path(year, rnd)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with gzip.open(path, "wt", encoding="utf-8") as handle:
+            handle.write(html)
+
+
+def record_archive_matches(rows: list[GameRow]) -> None:
+    """Refresh final-score history after parsing, outside any fetch transaction."""
+    if database_enabled():
+        RuntimeDatabase().record_match_rows(
+            ({**asdict(row), "market_family": row.market_family} for row in rows),
+            source="proto",
+        )
+
+
+def latest_archived_round(year: int) -> int | None:
+    if database_enabled():
+        database = RuntimeDatabase()
+        connection = database.connect()
+        try:
+            names = connection.execute(
+                "SELECT name FROM documents WHERE name GLOB ?", (f"archive:{year}:*",))
+            return max((int(row["name"].rsplit(":", 1)[1]) for row in names), default=None)
+        finally:
+            connection.close()
+    return max((int(p.name.split(".", 1)[0])
+                for p in (CACHE / str(year)).glob("*.html.gz")), default=None)
+
+
 # 한글이 한 글자도 없으면 디코딩이 틀린 것이다.
 _HANGUL = re.compile(r"[가-힣]")
 # 잘못 디코딩된 흔적 — 키릴/라틴확장이 본문에 섞인다.
@@ -292,9 +342,14 @@ def repair_mojibake(s: str) -> str:
 def fetch_round(year: int, rnd: int, sess: requests.Session | None = None,
                 use_cache: bool = True) -> str | None:
     """한 회차의 전 종목 게임 목록 HTML을 반환. 캐시가 있으면 요청하지 않는다(멱등)."""
-    path = _cache_path(year, rnd)
-    if use_cache and path.exists():
-        with gzip.open(path, "rt", encoding="utf-8") as f:
+    if use_cache and database_enabled():
+        html = RuntimeDatabase().get_document(archive_name(year, rnd))
+        if html is not None:
+            if not isinstance(html, str):
+                raise ValueError(f"Invalid archive document: {archive_name(year, rnd)}")
+            return repair_mojibake(html)
+    elif use_cache and _cache_path(year, rnd).exists():
+        with gzip.open(_cache_path(year, rnd), "rt", encoding="utf-8") as f:
             # 이미 깨진 채로 저장된 회차가 10개 있다 — 읽을 때 되돌린다.
             # (다시 긁으면 되지만 아카이브는 멱등이 원칙이라 캐시를 건드리지 않는다)
             return repair_mojibake(f.read())
@@ -313,9 +368,9 @@ def fetch_round(year: int, rnd: int, sess: requests.Session | None = None,
     r.raise_for_status()
     html = _decode(r)
 
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with gzip.open(path, "wt", encoding="utf-8") as f:
-        f.write(html)
+    if database_enabled():
+        record_archive_matches(parse_rows(html, year, rnd))
+    store_archive(year, rnd, html)
     return html
 
 

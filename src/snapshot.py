@@ -6,10 +6,10 @@
 동작
 ----
 1. 아직 정산되지 않은('경기전'이 남아 있는) 회차를 자동 탐지
-2. 각 회차의 전 게임행 배당을 타임스탬프와 함께 CSV에 누적
+2. 각 회차의 전 게임행 배당을 타임스탬프와 함께 DB에 누적
 3. 직전 스냅샷과 배당이 달라진 행만 골라 변동 로그에 기록
 
-산출물
+개발 환경 산출물 (운영에서는 DB만 사용)
 ------
     data/raw/snapshots/odds_timeseries.csv   모든 스냅샷 (append)
     data/raw/snapshots/changes.csv           변동이 감지된 건만
@@ -21,6 +21,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import sys
 import time
 from datetime import datetime, timedelta, timezone
@@ -28,7 +29,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from wisetoto import (BASE, _session, get_current_round, get_master_seq,  # noqa: E402
-                      parse_rows)
+                      _decode, latest_archived_round, parse_rows,
+                      record_archive_matches, store_archive)
 from runtime_db import RuntimeDatabase, database_enabled  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
@@ -66,6 +68,19 @@ def ts_files() -> list[Path]:
 def load_timeseries():
     """모든 샤드를 이어 붙인다. 읽는 쪽은 파일 경로를 직접 알 필요가 없다."""
     import pandas as pd                      # 수집 루프에는 필요 없는 무거운 의존이다
+    if database_enabled():
+        connection = RuntimeDatabase().connect()
+        try:
+            frame = pd.read_sql_query(
+                """SELECT observed_at AS ts,season AS year,round,game_no,sport,
+                   league,market_family,n_way,market_label,home,away,date_text,
+                   odds_json AS odds,result FROM odds_snapshots
+                   ORDER BY observed_at,season,round,game_no""", connection)
+            frame["odds"] = frame["odds"].map(
+                lambda value: ",".join(f"{float(o):.2f}" for o in json.loads(value)))
+            return frame
+        finally:
+            connection.close()
     fs = ts_files()
     if not fs:
         return pd.DataFrame()
@@ -171,16 +186,32 @@ def _fetch(sess, year: int, rnd: int, seq: str | None = None):
         "sports": "", "sort": "", "tab_type": "proto",
     }, timeout=40)
     r.raise_for_status()
-    return parse_rows(r.text, year, rnd)
+    html = _decode(r)
+    rows = parse_rows(html, year, rnd)
+    if database_enabled():
+        record_archive_matches(rows)
+        store_archive(year, rnd, html)
+    return rows
 
 
-def _load_last() -> dict[tuple, str]:
+def _load_last(year: int | None = None, rnd: int | None = None) -> dict[tuple, str]:
     """직전 스냅샷의 (회차,경기번호) → 배당문자열"""
     last: dict[tuple, str] = {}
     if database_enabled():
-        for row in RuntimeDatabase().latest_odds():
-            odds = ",".join(f"{float(value):.2f}" for value in row.get("odds") or [])
-            last[(str(row["season"]), str(row["round"]), str(row["game_no"]))] = odds
+        connection = RuntimeDatabase().connect()
+        try:
+            where = "WHERE season=? AND round=?" if year is not None and rnd is not None else ""
+            params = (year, rnd) if where else ()
+            rows = connection.execute(
+                f"""SELECT o.season,o.round,o.game_no,o.odds_json FROM odds_snapshots o
+                    JOIN (SELECT season,round,game_no,MAX(observed_at) observed_at
+                          FROM odds_snapshots {where} GROUP BY season,round,game_no) latest
+                    USING (season,round,game_no,observed_at)""", params)
+            for row in rows:
+                odds = ",".join(f"{float(value):.2f}" for value in json.loads(row["odds_json"]))
+                last[(str(row["season"]), str(row["round"]), str(row["game_no"]))] = odds
+        finally:
+            connection.close()
         return last
     # ⚠️ 오늘·어제 샤드만 읽는다. 배당 변동은 **직전 스냅샷과의 비교**라서
     #    최신 값만 있으면 되고, 전 기간을 읽으면 15분마다 130MB 를 훑게 된다.
@@ -197,13 +228,17 @@ def _load_last() -> dict[tuple, str]:
 
 
 def snap(year: int, rounds: list[int]) -> int:
-    OUT.mkdir(parents=True, exist_ok=True)
+    production = database_enabled()
+    if not production:
+        OUT.mkdir(parents=True, exist_ok=True)
     sess = _session()
-    last = _load_last()
     ts = _now()
+    database = RuntimeDatabase() if production else None
 
-    new_rows, changes = [], []
+    n_rows = n_changes = 0
+    preview = []
     for rnd in rounds:
+        last = _load_last(year, rnd)
         try:
             rows = _fetch(sess, year, rnd)
         except Exception as e:                       # noqa: BLE001
@@ -220,6 +255,7 @@ def snap(year: int, rounds: list[int]) -> int:
             print(f"  [{year}-{rnd}] 배당 미공개 {unpriced}행 제외 "
                   f"(배당 있는 행 {len(priced)})", flush=True)
 
+        new_rows, changes = [], []
         for r in priced:
             odds_s = ",".join(f"{o:.2f}" for o in r.odds)
             key = (str(year), str(rnd), r.game_no)
@@ -232,29 +268,24 @@ def snap(year: int, rounds: list[int]) -> int:
             prev = last.get(key)
             if prev is not None and prev != odds_s:
                 changes.append({**rec, "prev_odds": prev})
+        if database is not None:
+            database.insert_odds(new_rows)
+            if changes:
+                database.append_events("odds_changes", changes, observed_at_key="ts")
+        else:
+            _append(ts_file(), FIELDS, new_rows)
+            _append(CH_FILE, FIELDS + ["prev_odds"], changes)
+        n_rows += len(new_rows)
+        n_changes += len(changes)
+        preview.extend(changes[:max(0, 15 - len(preview))])
         time.sleep(REQUEST_GAP)
 
-    # DB가 운영 원본이다. CSV는 기존 분석 코드용 호환 export다.
-    database = RuntimeDatabase()
-    database.insert_odds(new_rows)
-    if database_enabled():
-        database.export_odds_csv(ts_file(), day=ts[:10])
-    else:
-        _append(ts_file(), FIELDS, new_rows)
-    if changes:
-        if database_enabled():
-            database.append_events("odds_changes", changes)
-            database.export_events_csv("odds_changes", CH_FILE,
-                                       FIELDS + ["prev_odds"])
-        else:
-            _append(CH_FILE, FIELDS + ["prev_odds"], changes)
-
-    print(f"[{ts}] 스냅샷 {len(new_rows)}행 · 배당변동 {len(changes)}건", flush=True)
-    for c in changes[:15]:
+    print(f"[{ts}] 스냅샷 {n_rows}행 · 배당변동 {n_changes}건", flush=True)
+    for c in preview:
         print(f"    변동 {c['round']}-{c['game_no']} {c['league']} "
               f"{c['home']}/{c['away']} {c['market_family']}: "
               f"{c['prev_odds']} → {c['odds']}", flush=True)
-    return len(changes)
+    return n_changes
 
 
 def _append(path: Path, fields: list[str], rows: list[dict]) -> None:
@@ -277,9 +308,7 @@ def main(argv: list[str]) -> int:
     sess = _session()
     print(f"발매 중인 회차 탐지 ({year}년)...", flush=True)
     # 캐시에 있는 최신 회차 다음부터 훑는다
-    from wisetoto import CACHE
-    have = sorted(int(p.stem.replace(".html", ""))
-                  for p in (CACHE / str(year)).glob("*.html.gz")) if (CACHE / str(year)).exists() else []
+    latest = latest_archived_round(year)
     # 캐시 최신 회차보다 조금 앞에서부터 훑는다.
     # 캐시에 있어도 그 시점엔 미정산이었을 수 있으므로(수집 당시 '경기전') 뒤로 물러선다.
     # 캐시가 비어 있으면(새 서버 첫 부팅 등) 1회차부터 훑게 되는데, SCAN_RANGE 가
@@ -293,7 +322,7 @@ def main(argv: list[str]) -> int:
         print(f"  기본 페이지가 알려 준 현재 회차: {year}-{current[0]}회차", flush=True)
         hint = max(1, current[0] - 3)
     else:
-        hint = (max(have) - 3) if have else max(1, probe_latest_round(sess, year) - 3)
+        hint = max(1, (latest or probe_latest_round(sess, year)) - 3)
     rounds = find_live_rounds(sess, year, hint)
     if not rounds and current:
         # find_live_rounds 는 회차별 get_master_seq 가 한 번이라도 비면 스캔을 멈춘다
