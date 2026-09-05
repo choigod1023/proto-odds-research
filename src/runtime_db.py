@@ -298,14 +298,48 @@ class RuntimeDatabase(DatasetStore):
             writer.writerows(rows)
         temporary.replace(path)
 
-    def replace_dataset_csv(self, name: str, source: Path) -> int:
+    def replace_dataset_csv(self, name: str, source: Path, *, insert_only=False) -> int:
         """Explicit legacy import only; normal producers call replace_dataset_rows."""
         with source.open(newline="", encoding="utf-8-sig") as handle:
             reader = csv.DictReader(handle)
             fields = list(reader.fieldnames or [])
             if not fields:
                 raise ValueError(f"CSV header missing: {source}")
-            return self.replace_dataset_rows(name, reader, fields)
+            return self.replace_dataset_rows(name, reader, fields, insert_only=insert_only)
+
+    def put_document_if_absent(self, name: str, payload: Any) -> bool:
+        body = self._canonical(payload)
+        return self.import_document_json(name, body, insert_only=True)
+
+    def import_document_json(self, name: str, body: str, *, insert_only=False) -> bool:
+        # Atomic bootstrap condition: a concurrent live writer always wins over
+        # an old/missing-timestamp legacy document.
+        try:
+            with self.connect() as connection:
+                stamp = connection.execute("SELECT json_extract(?, '$.generated_at')", (body,)).fetchone()[0]
+        except sqlite3.OperationalError:
+            raise ValueError(f"invalid JSON document: {name}") from None
+        digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+        now = datetime.now(timezone.utc).isoformat(timespec="microseconds")
+        conflict = "DO NOTHING" if insert_only else """DO UPDATE SET
+          revision=documents.revision+1,generated_at=excluded.generated_at,
+          content_hash=excluded.content_hash,payload_json=excluded.payload_json,
+          stored_at=excluded.stored_at
+          WHERE julianday(excluded.generated_at)>julianday(documents.generated_at)"""
+        with self.transaction() as connection:
+            cursor = connection.execute(f"""INSERT INTO documents VALUES (?,?,?,?,?,?)
+                ON CONFLICT(name) {conflict}""", (name, 1, stamp, digest, body, now))
+            return cursor.rowcount > 0
+
+    def import_artifact(self, name: str, payload: Mapping[str, Any]) -> bool:
+        now = datetime.now(timezone.utc).isoformat(timespec="microseconds")
+        with self.transaction() as connection:
+            cursor = connection.execute("""INSERT INTO artifacts VALUES (?,?,?,?)
+                ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
+                payload_json=excluded.payload_json,stored_at=excluded.stored_at
+                WHERE julianday(excluded.generated_at)>julianday(artifacts.generated_at)""",
+                (name, payload.get("generated_at"), self._canonical(payload), now))
+            return cursor.rowcount > 0
 
     def export_dataset_csv(self, name: str, path: Path) -> None:
         with self.connect() as connection:
@@ -569,9 +603,8 @@ def persist_artifact(name: str, payload: Mapping[str, Any], path: Path,
         _atomic_json(path, payload, indent=indent)
 
 
-# GitHub Pages 로 배포되는 정적 사이트가 직접 읽는 산출물. 운영에서 생성기는
-# DB(artifacts 테이블)에만 쓰므로, git push 직전에 이 목록을 docs/data/*.json 으로
-# 내보내지 않으면 사이트가 마이그레이션 시점 값에서 영구히 멈춘다.
+# Explicit legacy/offline JSON export set. The production site reads the DB API;
+# collectors and supervisor never invoke this exporter in DB-native mode.
 SITE_ARTIFACTS = ("live_odds", "picks", "picks_v2", "today", "today_combo",
                   "live_scores", "loss_grades", "combo", "info_lag")
 # 폴링마다 바뀌는 실시간 산출물은 압축(indent 없음)으로 내보낸다.

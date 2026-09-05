@@ -255,6 +255,7 @@ def test_real_database_dedup_conflicts_and_lightweight_consumer(monkeypatch, tmp
     monkeypatch.setattr(pd, "read_csv", lambda *a, **kw: pytest.fail("CSV fallback"))
     db = runtime_db.RuntimeDatabase()
     base = dict(year=2026, round=100, game_no="1", date_text="08.29(토) 14:00",
+                ts="2026-08-29T23:00:00+09:00",
                 league="KBO", sport="bs", home="KIA 3", away="0 SSG",
                 market_family="승패", result="홈승", is_void=False)
     db.record_match_rows([
@@ -288,6 +289,7 @@ def test_real_db_rollover_uses_actual_game_year(monkeypatch, tmp_path):
     monkeypatch.setenv("PROODD_DB_PATH", str(tmp_path / "runtime.sqlite3"))
     runtime_db.RuntimeDatabase().record_match_rows([
         dict(year=2026, round=1, game_no="1", date_text="12.31(수) 18:00",
+             ts="2025-12-31T23:00:00+09:00",
              league="NBA", sport="bk", home="A 110", away="100 B",
              market_family="승패", result="홈승", is_void=False),
     ])

@@ -14,9 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY deploy/supervisor.py /app/supervisor.py
 
-# 실제 코드·데이터는 볼륨(/data/repo)의 git 클론에서 돌린다.
-# 이미지에 굽지 않는 이유: 코드를 고치면 git push 만으로 반영되고,
-# 데이터는 재시작에도 살아남아야 하기 때문.
+# 코드는 볼륨의 release checkout, 데이터는 /data/proodd.sqlite3 에 둔다.
+# git push 자체는 실행 중 checkout을 갱신하지 않는다. 배포 시 코드와 supervisor
+# 이미지 반영을 따로 검증한다. DB는 git과 독립적으로 백업해야 한다.
 ENV REPO_DIR=/data/repo \
     PYTHONUNBUFFERED=1 \
     TZ=Asia/Seoul

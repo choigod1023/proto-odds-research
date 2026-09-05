@@ -45,6 +45,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from runtime_db import read_frame
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import _WINNER                               # noqa: E402
@@ -67,7 +68,7 @@ SEL = {(2, 0): "홈/언더", (2, 1): "원정/오버",
 
 
 def build() -> pd.DataFrame:
-    g = pd.read_csv(PROC / "games.csv")
+    g = read_frame("processed_games", PROC / "games.csv")
     g = g[~g["is_void"].astype(bool)].copy()
 
     # --- 팀명·날짜 (초대면 계산용)

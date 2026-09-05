@@ -262,9 +262,11 @@ def main(argv: list[str]) -> int:
              "batters_indiv": parse_baseball_batters_indiv,
              "lineup": parse_soccer, "shots": parse_soccer_shots}[kind]
 
-    RAW.mkdir(parents=True, exist_ok=True)
+    from runtime_db import load_document, persist_document
     out_file = RAW / f"{league}_{kind}_{y0}_{y1}.json"
-    cache = json.loads(out_file.read_text(encoding="utf-8")) if out_file.exists() else {}
+    detail_kind = "soccer" if kind == "lineup" else kind
+    document_name = f"detail_{league}_{detail_kind}"
+    cache = load_document(document_name, out_file) or {}
     print(f"{league.upper()} {kind} {y0}~{y1} · 기존 캐시 {len(cache)}경기")
 
     sess = _session()
@@ -293,12 +295,11 @@ def main(argv: list[str]) -> int:
             print(f"  {gid} 오류 {type(e).__name__}", flush=True)
             time.sleep(2)
         if i % 100 == 0:
-            out_file.write_text(json.dumps(cache, ensure_ascii=False),
-                                encoding="utf-8")
+            persist_document(document_name, cache, out_file)
             print(f"  {i}/{len(todo)} · 확보 {got}", flush=True)
         time.sleep(GAP)
 
-    out_file.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+    persist_document(document_name, cache, out_file)
     print(f"\n완료 · 총 {len(cache)}경기 (신규 {got}) → {out_file}")
     return 0
 

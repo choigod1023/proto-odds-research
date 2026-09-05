@@ -180,13 +180,14 @@ from free_context import exp_workload, haversine_km  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 VENUES = ROOT / "data" / "static" / "venues.csv"
+from runtime_db import read_frame, persist_frame, database_enabled, RuntimeDatabase
 VENUE_OVERRIDES = ROOT / "data" / "static" / "venue_overrides.csv"
 SCHEDULE_OUT = ROOT / "data" / "processed" / "schedule_context.csv"
 LINEUP_OUT = ROOT / "data" / "processed" / "lineup_workload.csv"
 
 
 def load_team_venues() -> dict[tuple[str, str], dict]:
-    df = pd.read_csv(VENUES)
+    df = read_frame("static_venues", VENUES)
     required = {"league", "team", "venue_id", "latitude", "longitude", "roof"}
     if not required.issubset(df.columns):
         raise ValueError(f"경기장 필드 부족: {sorted(required - set(df.columns))}")
@@ -194,9 +195,10 @@ def load_team_venues() -> dict[tuple[str, str], dict]:
 
 
 def load_venue_overrides() -> list[dict]:
-    if not VENUE_OVERRIDES.exists():
+    if (RuntimeDatabase().dataset_metadata("static_venue_overrides") is None
+            if database_enabled() else not VENUE_OVERRIDES.exists()):
         return []
-    df = pd.read_csv(VENUE_OVERRIDES, parse_dates=["valid_from", "valid_to"])
+    df = read_frame("static_venue_overrides", VENUE_OVERRIDES, parse_dates=["valid_from", "valid_to"])
     return df.to_dict("records")
 
 
@@ -391,12 +393,12 @@ def main(argv: list[str] | None = None) -> int:
     matches = matches[matches["league"] == args.league]
     schedule = build_schedule_context(matches)
     SCHEDULE_OUT.parent.mkdir(parents=True, exist_ok=True)
-    schedule.to_csv(SCHEDULE_OUT, index=False)
+    persist_frame("processed_schedule_context", schedule, SCHEDULE_OUT)
     print(f"일정·이동 피처 {len(schedule):,}행 → {SCHEDULE_OUT}")
 
     if args.league == "K리그1":
         workload = build_lineup_workload(load_lineups())
-        workload.to_csv(LINEUP_OUT, index=False)
+        persist_frame("processed_lineup_workload", workload, LINEUP_OUT)
         print(f"선수 workload {len(workload):,}행 → {LINEUP_OUT}")
     return 0
 

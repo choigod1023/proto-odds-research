@@ -40,7 +40,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-from runtime_db import RuntimeDatabase, database_enabled, persist_artifact
+from runtime_db import RuntimeDatabase, database_enabled, persist_artifact, persist_frame, load_document
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -72,10 +72,7 @@ def _team_map() -> dict:
        KBO 만 우연히 양쪽 표기가 같아 붙는다.
     """
     p = ROOT / "data" / "processed" / "team_map.json"
-    if not p.exists():
-        return {}
-    import json
-    return json.loads(p.read_text(encoding="utf-8"))
+    return load_document("processed_team_map", p) or {}
 
 
 def load_odds() -> pd.DataFrame:
@@ -103,7 +100,11 @@ def load_odds() -> pd.DataFrame:
 
 def load_ann() -> pd.DataFrame:
     """경기별 선발 예고 시각. 홈·원정 중 **늦은 쪽**(둘 다 나와야 정보가 완성된다)."""
-    a = pd.read_csv(ANN)
+    a = (pd.DataFrame(RuntimeDatabase().events("starter_announcements"))
+         if database_enabled() else pd.read_csv(ANN))
+    if not a.empty:
+        a["is_baseline"] = a["is_baseline"].map(
+            lambda value: value is True or str(value).lower() in ("true", "1"))
     a["observed_at"] = pd.to_datetime(a["observed_at"], utc=True)
     a["mmdd"] = a["gameId"].astype(str).str[4:8]
     # gameId = YYYYMMDD + 원정2 + 홈2 + ...  (네이버 규약)
@@ -128,7 +129,12 @@ def load_ann() -> pd.DataFrame:
 
 
 def main() -> int:
-    if not ts_files() or not ANN.exists():
+    if database_enabled():
+        db = RuntimeDatabase()
+        missing = db.counts()["odds_snapshots"] == 0 or not db.events("starter_announcements")
+    else:
+        missing = not ts_files() or not ANN.exists()
+    if missing:
         print("수집 파일이 없다. snapshot.py / info_watch.py 를 먼저 돌릴 것.")
         return 1
 
@@ -190,15 +196,7 @@ def _save(m: pd.DataFrame, ok: pd.DataFrame) -> None:
 
     out = ROOT / "data" / "processed" / "info_lag.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
-    if database_enabled():
-        stage = out.with_suffix(out.suffix + ".db-stage.tmp")
-        m.to_csv(stage, index=False)
-        database = RuntimeDatabase()
-        database.replace_dataset_csv("processed_info_lag", stage)
-        database.export_dataset_csv("processed_info_lag", out)
-        stage.unlink(missing_ok=True)
-    else:
-        m.to_csv(out, index=False)
+    persist_frame("processed_info_lag", m, out)
 
     summary = {
         "joined": int(len(m)),

@@ -32,6 +32,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from runtime_db import load_document, persist_frame
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "raw" / "detail" / "kleague_soccer_2023_2026.json"
@@ -40,7 +41,7 @@ OUT = ROOT / "data" / "processed" / "lineup_soccer.csv"
 
 def load() -> pd.DataFrame:
     """경기 × 팀 단위로 편다. 한 행이 '이 팀이 이 경기에 낸 XI'."""
-    raw = json.loads(SRC.read_text(encoding="utf-8"))
+    raw = load_document("detail_kleague_soccer", SRC) or {}
     rows = []
     for g in raw.values():
         d = g.get("data") or {}
@@ -164,7 +165,7 @@ def _selftest() -> int:
 def main() -> int:
     df = load()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    df.drop(columns=["xi"]).to_csv(OUT, index=False)
+    persist_frame("processed_lineup_soccer", df.drop(columns=["xi"]), OUT)
 
     print(f"K리그1 라인업 {len(df):,}행 (경기 {len(df)//2:,})\n")
     print("=== 팀별 로테이션 성향 ===")
