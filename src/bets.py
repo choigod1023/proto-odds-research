@@ -137,14 +137,14 @@ def _selftest() -> None:
     → 데이터에 실재하는 (n_way, result) 조합을 세어 매핑 커버리지를 본다.
     """
     import collections
-    import pandas as pd
+    from runtime_db import read_frame
 
     path = Path(__file__).resolve().parent.parent / "data" / "processed" / "games.csv"
-    if not path.exists():
-        print("bets 커버리지 검사: games.csv 없음 — build_dataset.py 먼저")
+    try:
+        g = read_frame("processed_games", path)
+    except (FileNotFoundError, KeyError):
+        print("bets 커버리지 검사: processed_games 없음 — build_dataset.py 먼저")
         return
-
-    g = pd.read_csv(path)
     g = g[~g["is_void"].astype(bool)]
     # 정산된 것으로 보이는 결과만 (경기전·인코딩깨짐 제외)
     SKIP = {"경기전", "하프타임", "취소", "연기", "중단", "무효", "nan"}
