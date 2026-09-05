@@ -1,6 +1,7 @@
 import { Card } from "./ui.jsx";
 import { PHASE_LABEL } from "../lib/match-status.js";
 import { trackTodayPicks } from "../lib/today-pick-tracking.js";
+import { isOvernightGame } from "../lib/game-date-filter.js";
 
 const percent = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "기록 없음";
 const SOURCE_LABEL = { highlight: "오늘 추천 · 사전 기록", recorded: "사전 픽 · 추천 이력 미확인",
@@ -18,7 +19,7 @@ export function TodayPicksBoard({ games = [], today = null, currentToday = null,
         <p className="m-0 text-[12px] text-ink3">오늘 추천과 저장된 사전 픽을 함께 추적합니다. 추천 이력 미확인 픽은 구분해 표시합니다.</p>
       </div>
       {!picks.length && <Card className="p-4 text-[13px] text-ink3">오늘 확인된 추천·사전 픽이 없습니다.</Card>}
-      <PickCards picks={active} />
+      <PickCards picks={active} now={now} />
       {finished.length > 0 && <details className="mt-3 rounded border border-rule p-3">
         <summary className="cursor-pointer text-[13px] font-semibold">종료된 사전 픽 {finished.length}개 · 적중 {finished.filter((pick) => pick.outcome.state === "hit").length} · 적중실패 {finished.filter((pick) => pick.outcome.state === "miss").length} · 결과와 당시 배당 보기</summary>
         <div className="mt-3"><PickCards picks={finished} /></div>
@@ -27,7 +28,7 @@ export function TodayPicksBoard({ games = [], today = null, currentToday = null,
   );
 }
 
-function PickCards({ picks }) {
+function PickCards({ picks, now }) {
   return <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {picks.map((pick) => (
             <Card as="article" key={pick.key} className="min-w-0 p-3 sm:p-4" aria-label={`${pick.game.home} 대 ${pick.game.away} 사전 픽`}>
@@ -36,6 +37,7 @@ function PickCards({ picks }) {
                 <span className={pick.phase === "live" ? "live-score-badge" : ""}>{PHASE_LABEL[pick.phase]}</span>
               </div>
               <h3 className="my-2 break-words text-[15px] font-semibold">{pick.game.home} <span className="font-normal text-ink3">vs</span> {pick.game.away}</h3>
+              {isOvernightGame(pick.game, now) && <p className="m-0 text-[11px] text-ink3">전날 시작 · 저장된 사전 픽 계속 추적</p>}
               {pick.phase === "live" && <p className="tnum my-2 text-[16px] font-bold">
                 {pick.game._liveState?.home_score ?? "—"} : {pick.game._liveState?.away_score ?? "—"}
                 <small className="ml-2 text-[12px] font-normal">{pick.game._liveState?.status_text || "진행 중"}</small>
