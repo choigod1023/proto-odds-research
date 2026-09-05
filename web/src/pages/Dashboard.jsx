@@ -141,7 +141,7 @@ function TodayDecisionCard({ decision }) {
       <strong>{decision.recommended ? "오늘의 추천" : "추천 제외"}</strong>
     </header>
     <div className="dashboard-recommendation-pick"><b>{pick}</b><span>{Number(row.odds).toFixed(2)}배</span></div>
-    <p><b>{decision.recommended ? "추천한 이유" : "추천하지 않은 이유"}</b>{decision.reason}</p>
+    <p><b>경기 기록으로 본 선택</b>{decision.reason}</p>
     {decision.display?.text && <small>{decision.display.text}</small>}
     <p className="is-counter"><b>{decision.recommended ? "추천해도 주의할 점" : "그래도 남기는 정보"}</b>{decision.counterReason}</p>
   </article>;

@@ -302,14 +302,31 @@ const explained = dailyRecommendationDecisions([
   { ...alignedToday.candidates[0], event_key: "j1-c", game_no: "j1-c",
     league: "J1리그", odds: 1.7, predicted_hit_prob: 0.61 },
 ]);
-assert.match(explained.find((row) => row.selection.event_key === "strong-3").reason,
+assert.match(explained.find((row) => row.selection.event_key === "strong-3").policyReason,
   /추가 기준 60%/);
-assert.match(explained.find((row) => row.selection.event_key === "weak").reason,
+assert.match(explained.find((row) => row.selection.event_key === "weak").policyReason,
   /55% 기준에 미달/);
-assert.match(explained.find((row) => row.selection.event_key === "third").reason,
+assert.match(explained.find((row) => row.selection.event_key === "third").policyReason,
   /리그 내 4순위/);
 assert.match(explained.find((row) => row.recommended).counterReason,
-  /양의 기대수익이 검증된 것은 아니며/);
+  /경기 기록을 확인/);
+assert.ok(explained.every((row) => !/55%|60%|기본 추천|리그 내/.test(row.reason)));
+
+const contextGame = { ...game, status: "경기전", year: 2026, date: "09.05(토) 18:00",
+  home: "요미우리", away: "한신", league: "NPB", sport: "bs",
+  form_home: { last10: "7승 3패" }, form_away: { last10: "4승 6패" } };
+const contextCandidate = { ...today.candidates[0], date: contextGame.date,
+  home: contextGame.home, away: contextGame.away, league: "NPB",
+  match_reason: { reason: "캐시에 남은 반대 방향 설명" } };
+const contextAligned = alignTodayRecommendations({ ...today, candidates: [contextCandidate] },
+  [contextGame], Date.parse("2026-09-05T03:00:00Z"));
+const contextDecision = dailyRecommendationDecisions(contextAligned.candidates)[0];
+assert.equal(contextDecision.selection.sel, "홈");
+assert.equal(contextDecision.selection.predicted_hit_prob, 0.62);
+assert.match(contextDecision.reason, /요미우리 최근 10경기 7승 3패/);
+assert.doesNotMatch(contextDecision.reason, /캐시에 남은|55%|기본 추천/);
+const contextMember = buildTodayMemberships(contextAligned).get(selectionKey(contextDecision.selection));
+assert.equal(contextMember.reason, contextDecision.reason, "Dashboard와 경기 카드는 동일한 경기 근거를 쓴다");
 
 const nonDefaultMarket = {
   ...away, selection_id: "sel_total", offer_id: "off_total",
