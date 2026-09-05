@@ -6,7 +6,7 @@ const percent = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}
 const SOURCE_LABEL = { highlight: "오늘 추천 · 사전 기록", recorded: "사전 픽 · 추천 이력 미확인",
   current: "오늘 추천 · 경기 전" };
 
-export function TodayPicksBoard({ games = [], today = null, currentToday = null, now = Date.now() }) {
+export function TodayPicksBoard({ games = [], today = null, currentToday = null, now = Date.now(), onOpenGame }) {
   const picks = trackTodayPicks({ games, today, currentToday, now });
   const active = picks.filter((pick) => pick.phase !== "finished");
   const finished = picks.filter((pick) => pick.phase === "finished");
@@ -18,19 +18,22 @@ export function TodayPicksBoard({ games = [], today = null, currentToday = null,
         <p className="m-0 text-[12px] text-ink3">오늘 추천과 저장된 사전 픽을 함께 추적합니다. 추천 이력 미확인 픽은 구분해 표시합니다.</p>
       </div>
       {!picks.length && <Card className="p-4 text-[13px] text-ink3">오늘 확인된 추천·사전 픽이 없습니다.</Card>}
-      <PickCards picks={active} />
+      <PickCards picks={active} onOpenGame={onOpenGame} />
       {finished.length > 0 && <details className="mt-3 rounded border border-rule p-3">
         <summary className="cursor-pointer text-[13px] font-semibold">종료된 사전 픽 {finished.length}개 · 적중 {finished.filter((pick) => pick.outcome.state === "hit").length} · 적중실패 {finished.filter((pick) => pick.outcome.state === "miss").length} · 결과와 당시 배당 보기</summary>
-        <div className="mt-3"><PickCards picks={finished} /></div>
+        <div className="mt-3"><PickCards picks={finished} onOpenGame={onOpenGame} /></div>
       </details>}
     </section>
   );
 }
 
-function PickCards({ picks }) {
+function PickCards({ picks, onOpenGame }) {
   return <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {picks.map((pick) => (
-            <Card as="article" key={pick.key} className="min-w-0 p-3 sm:p-4" aria-label={`${pick.game.home} 대 ${pick.game.away} 사전 픽`}>
+            <Card as="article" key={pick.key} className="today-pick-card min-w-0 p-3 sm:p-4" aria-label={`${pick.game.home} 대 ${pick.game.away} 사전 픽`}>
+              {onOpenGame && <button type="button" className="today-pick-open" aria-haspopup="dialog"
+                aria-label={`${pick.game.home} 대 ${pick.game.away} 추천 픽 경기정보 열기`}
+                onClick={() => onOpenGame(pick.game)}><span>경기정보 보기 ↗</span></button>}
               <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] text-ink3">
                 <span>{pick.game.league} · <time dateTime={new Date(pick.kickoff).toISOString()}>{new Date(pick.kickoff + 9 * 3600000).toISOString().slice(11, 16)}</time></span>
                 <span className={pick.phase === "live" ? "live-score-badge" : ""}>{PHASE_LABEL[pick.phase]}</span>

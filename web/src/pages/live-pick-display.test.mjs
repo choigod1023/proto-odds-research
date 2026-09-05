@@ -21,7 +21,10 @@ test("live card renders the saved pick and prior even with no current options", 
       _liveStarted: true, _liveFeedAt: new Date(now).toISOString(),
       prediction_record: { selection_id: "saved", market: "승패", selection: "홈", label: "",
         odds: 1.8, probability: .57, captured_at: "2026-09-05T08:00:00Z" } };
-    const props = { g, opts: [], lv, wait: true, stale: true, grades: { odds_bins: [] }, year: 2026 };
+    const props = { g, opts: [], lv, wait: true, stale: true, grades: { odds_bins: [] }, year: 2026, detailOnly: true };
+    const row = renderToStaticMarkup(createElement(Game, { ...props, detailOnly: false }));
+    assert.match(row, /aria-haspopup="dialog"/);
+    assert.doesNotMatch(row, /match-detail|<summary/);
     const html = renderToStaticMarkup(createElement(Game, props));
     assert.match(html, /경기 전 예측 픽/);
     assert.match(html, /57.0%/);
@@ -48,14 +51,15 @@ test("live card renders the saved pick and prior even with no current options", 
       liveChecked: true, liveGeneratedAt: "2026-09-05T10:00:00Z",
     }));
     assert.match(list, /홈팀/);
-    assert.match(list, /경기 전 예측 픽/);
+    assert.match(list, /경기정보 열기/);
+    assert.doesNotMatch(list, /match-detail/);
     assert.match(list, /실시간 점수 갱신 지연/);
     assert.ok(list.indexOf("오늘의 추천 픽") < list.indexOf("경기 목록"));
     for (const [home_score, away_score, result] of [[4, 1, "적중"], [1, 4, "적중실패"]]) {
       const finished = renderToStaticMarkup(createElement(Game, { ...props,
-        g: { ...g, options: [{ selection_id: "saved", market: "승패", 선택: "홈", 배당: 9.9 }] },
+        detailOnly: false, g: { ...g, options: [{ selection_id: "saved", market: "승패", 선택: "홈", 배당: 9.9 }] },
         lv: { status: "RESULT", finished: true, home_score, away_score } }));
-      const summary = finished.split("</summary>")[0];
+      const summary = finished.split("</button>")[0];
       assert.match(summary, new RegExp(result));
       assert.match(summary, /당시 배당 1.80배/);
       assert.doesNotMatch(summary, /9.90/);

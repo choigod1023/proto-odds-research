@@ -128,6 +128,24 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .match-card.result-miss.card { border-left: 3px solid var(--color-sev2); }
 .match-row { padding: 15px 0 !important; display: grid !important; grid-template-columns: 52px minmax(210px, 1.1fr) minmax(150px, .8fr) auto !important; gap: 14px !important; align-items: center; }
 .match-row:hover { background: color-mix(in srgb, var(--color-panel) 58%, transparent); }
+.game-info-trigger { width: 100%; text-align: left; color: inherit; cursor: pointer; font: inherit; }
+.game-info-trigger:focus-visible, .today-pick-open:focus-visible { outline: 2px solid var(--color-signal); outline-offset: -2px; }
+.today-pick-card { position: relative; padding-bottom: 42px !important; }
+.today-pick-open { position: absolute; inset: 0; z-index: 1; width: 100%; border-radius: inherit; cursor: pointer; }
+.today-pick-open span { position: absolute; bottom: 12px; right: 16px; font-size: 12px; color: var(--color-signal); }
+.today-pick-open:hover { box-shadow: inset 0 0 0 1px var(--color-signal); }
+.game-info-modal { width: min(960px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid var(--color-rule); border-radius: 12px; background: var(--color-panel); color: var(--color-ink); overflow: auto; overscroll-behavior: contain; box-shadow: 0 20px 70px #0005; }
+.game-info-modal::backdrop { background: #0009; }
+.game-info-modal-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; border-bottom: 1px solid var(--color-rule); background: var(--color-panel); }
+.game-info-modal-header h2 { margin: 0; font-size: 17px; overflow-wrap: anywhere; }
+.game-info-modal-header button { flex-shrink: 0; padding: 8px 12px; border: 1px solid var(--color-rule); border-radius: 6px; cursor: pointer; }
+.game-info-modal-body { padding: 16px; }
+.game-info-modal .match-detail { padding: 0; }
+@media (max-width: 600px) {
+  .game-info-modal { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  .game-info-modal-header { padding: 12px; }
+  .game-info-modal-body { padding: 12px; }
+}
 .match-call-inline { display: flex; flex-direction: column; min-width: 0; padding-left: 13px; border-left: 1px solid var(--color-rule2); }
 .match-call-inline small { color: var(--color-ink3); font-size: 9.5px; }
 .match-call-inline b { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
