@@ -48,14 +48,7 @@ const pregameStamp = (candidate, today, kickoff, now) => {
 };
 const safe = (candidate) => eligibleFinalSelections([candidate]).length === 1;
 
-const ESTIMATE_MESSAGE = {
-  missing_opening: "사전 확률 기록이 없어 현재 추정을 제공하지 않습니다.",
-  waiting_live: "최신 경기 중계가 확인되면 현재 추정을 표시합니다.",
-  stale_live: "중계 갱신이 늦어 현재 추정을 보류합니다.",
-  missing_score: "현재 점수 자료가 없어 추정을 보류합니다.",
-  unsupported_market: "이 마켓의 현재 추정은 지원하지 않습니다.",
-  closed: "경기 종료·중단 후에는 현재 추정을 표시하지 않습니다.",
-};
+import { ESTIMATE_MESSAGE } from "./probability-copy.js";
 
 /** Pure display tracking. A missing candidate must never erase a saved pregame pick. */
 export function trackTodayPicks({ games = [], today = null, currentToday = null, now = Date.now() } = {}) {

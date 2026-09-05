@@ -28,23 +28,36 @@ test("live card renders the saved pick and prior even with no current options", 
     const html = renderToStaticMarkup(createElement(Game, props));
     assert.match(html, /경기 전 예측 픽/);
     assert.match(html, /57.0%/);
-    assert.match(html, /현재 추정/);
-    assert.match(html, /사전 확률/);
+    assert.match(html, /현재 적중 확률/);
+    assert.match(html, /경기 전 적중 확률/);
     assert.doesNotMatch(html, /NaN/);
     const missingProbability = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, prediction_record: { ...g.prediction_record, probability: null } } }));
     assert.match(missingProbability, /경기 전 예측 픽/);
-    assert.match(missingProbability, /사전 확률 기록 없음/);
+    assert.match(missingProbability, /경기 전 적중 확률 기록 없음/);
+    assert.match(missingProbability, /계산 불가/);
     assert.doesNotMatch(missingProbability, /0.0%/);
     const unrecorded = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, prediction_record: null },
       todayOption: { market: "승패", 선택: "원정", 시장확률: .9 } }));
     assert.match(unrecorded, /사전 예측 기록 없음/);
     assert.doesNotMatch(unrecorded, /경기 전 예측 픽|90.0%/);
+    assert.match(unrecorded, /경기 전 적중 확률/);
+    assert.match(unrecorded, /현재 적중 확률/);
+    assert.match(unrecorded, /계산 불가/);
     const stale = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, _liveFeedAt: "2026-09-05T10:00:00Z" } }));
     assert.match(stale, /57.0%/);
-    assert.doesNotMatch(stale, /현재 추정/);
+    assert.match(stale, /현재 적중 확률/);
+    assert.match(stale, /확인 중/);
+    assert.match(stale, /실시간 점수 업데이트가 늦어/);
+    const unsupported = renderToStaticMarkup(createElement(Game, { ...props, detailOnly: false,
+      g: { ...g, prediction_record: { ...g.prediction_record, market: "핸디캡", label: "H -1.5", selection: "핸디홈" } } }));
+    assert.match(unsupported, /경기 전 적중 확률/);
+    assert.match(unsupported, /57.0%/);
+    assert.match(unsupported, /현재 적중 확률/);
+    assert.match(unsupported, /계산 불가/);
+    assert.match(unsupported, /아직 지원하지 않습니다/);
     const list = renderToStaticMarkup(createElement(GameList, {
       data: { live: [{ ...g, league: "NPB", _liveState: lv }], past: [], year: 2026 },
       grades: { odds_bins: [] }, today: null,

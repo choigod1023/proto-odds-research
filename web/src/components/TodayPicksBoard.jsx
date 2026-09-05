@@ -1,9 +1,9 @@
 import { Card } from "./ui.jsx";
+import PickProbabilities from "./PickProbabilities.jsx";
 import { PHASE_LABEL } from "../lib/match-status.js";
 import { trackTodayPicks } from "../lib/today-pick-tracking.js";
 import { isOvernightGame } from "../lib/game-date-filter.js";
 
-const percent = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "기록 없음";
 const SOURCE_LABEL = { highlight: "오늘 추천 · 사전 기록", recorded: "사전 픽 · 추천 이력 미확인",
   current: "오늘 추천 · 경기 전" };
 
@@ -47,11 +47,8 @@ function PickCards({ picks, now, onOpenGame }) {
               </p>}
               <p className="m-0 text-[11px] text-ink3">{SOURCE_LABEL[pick.source]}</p>
               <p className="mt-1 mb-3 break-words text-[14px] font-bold">{pick.option.market}{pick.option.label ? ` ${pick.option.label}` : ""} · {pick.option.선택}</p>
-              <dl className="m-0 grid grid-cols-2 gap-3 border-t border-rule pt-3">
-                <div><dt className="text-[11px] text-ink3">사전 확률</dt><dd className="tnum m-0 text-[19px] font-semibold">{percent(pick.openingProbability)}</dd></div>
-                <div><dt className="text-[11px] text-ink3">현재 추정</dt><dd className="tnum m-0 text-[19px] font-semibold">{pick.estimate ? percent(pick.estimate.probability) : "—"}</dd></div>
-              </dl>
-              <p className="mt-2 mb-3 text-[11px] text-ink3">{pick.estimate ? "사전 확률에 현재 점수·경기 진행을 반영한 추정" : pick.estimateMessage}</p>
+              <PickProbabilities openingProbability={pick.openingProbability} estimate={pick.estimate}
+                phase={pick.phase} message={pick.estimateMessage} />
               <div className="border-t border-rule pt-2">
                 <div className="flex items-center justify-between gap-2 text-[12px]"><span className="text-ink3">결과</span><b className={`result-badge is-${pick.outcome.state}`}>{pick.phase === "upcoming" ? "경기 전" : pick.phase === "live" ? "진행 중" : pick.outcome.label}</b></div>
                 <div className="mt-1 flex items-center justify-between gap-2 text-[12px]"><span className="text-ink3">당시 배당</span><b className="tnum">{pick.originalOdds == null ? "기록 없음" : `${pick.originalOdds.toFixed(2)}배`}</b></div>
