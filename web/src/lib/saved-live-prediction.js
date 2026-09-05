@@ -25,7 +25,8 @@ export function savedLivePrediction(game, live = null, now = Date.now()) {
     estimateStatus: openingProbability === null ? "missing_opening" : "waiting_live" };
   if (openingProbability === null || !live || live.status === "BEFORE") return result;
   if (live.finished || live.cancelled || live.postponed) return { ...result, estimateStatus: "closed" };
-  const observed = Date.parse(game._liveFeedAt || live.observed_at || "");
+  // A freshly published document may carry an older cached league/game row.
+  const observed = Date.parse(live.observed_at || game._liveFeedAt || "");
   if (!Number.isFinite(observed) || now - observed > 10 * 60 * 1000 || observed > now + 5000) {
     return { ...result, estimateStatus: "stale_live" };
   }

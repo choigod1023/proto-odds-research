@@ -625,8 +625,16 @@ def run_live() -> None:
                 err = (r.stderr or "").strip().splitlines()[-1:] or [""]
                 log(f"실시간 점수 실패(rc={r.returncode}) — {err[0][:120]}")
             else:
-                head = (r.stdout or "").strip().splitlines()[:1] or [""]
+                head = (r.stdout or "").strip().splitlines()[-1:] or [""]
                 log(f"실시간 점수 — {head[0][:110]}")
+        except subprocess.TimeoutExpired as e:
+            # Preserve the last flushed checkpoint instead of discarding all
+            # captured progress when the worker exceeds its process deadline.
+            output = e.stdout or ""
+            if isinstance(output, bytes):
+                output = output.decode("utf-8", errors="replace")
+            tail = output.strip().splitlines()[-1:] or ["저장 체크포인트 없음"]
+            log(f"실시간 점수 제한시간 초과({e.timeout}s) — 마지막 진행: {tail[0][:180]}")
         except Exception as e:                        # noqa: BLE001
             log(f"실시간 점수 예외: {type(e).__name__}: {e}")
         time.sleep(LIVE_EVERY)

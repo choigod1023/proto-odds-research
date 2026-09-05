@@ -8,6 +8,23 @@ def result(code=0, stdout=""):
     return SimpleNamespace(returncode=code, stdout=stdout, stderr="")
 
 
+def test_live_timeout_reports_last_successful_checkpoint(monkeypatch):
+    import pytest
+    messages = []
+    def timeout(*args, **kwargs):
+        raise subprocess.TimeoutExpired(supervisor.LIVE, 180,
+                                        output="older line\ncurrent-day checkpoint saved\n".encode())
+    def stop_loop(seconds):
+        raise StopIteration
+    monkeypatch.setattr(supervisor.subprocess, "run", timeout)
+    monkeypatch.setattr(supervisor.time, "sleep", stop_loop)
+    monkeypatch.setattr(supervisor, "log", messages.append)
+    with pytest.raises(StopIteration):
+        supervisor.run_live()
+    assert "current-day checkpoint saved" in messages[0]
+    assert "180s" in messages[0]
+
+
 def test_push_data_exports_db_artifacts_to_site_before_commit(monkeypatch):
     """DB 정본을 docs/data 로 내보낸 뒤에야 git status 를 확인해야 사이트가 갱신된다."""
     order = []
