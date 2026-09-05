@@ -119,7 +119,7 @@ def test_invalid_required_numbers_have_complete_json_null_contract(field, value)
     {"probability_interval": [0.65, float("nan")]},
     {"probability_interval": [float("inf"), 0.75]},
     {"probability_lower_bound": None}, {"probability_lower_bound": 0.6},
-    {"probability_lower_bound": 0.650000002},
+    {"probability_lower_bound": 0.65006},
 ])
 def test_interval_requires_full_validated_array_and_matching_bound(changes):
     result = daily_value_metrics(validated(**changes))
@@ -329,7 +329,8 @@ def test_build_annotates_after_retention_and_main_persists_same_artifact(monkeyp
     assert persisted == [("today_combo", payload, today_combo.OUT)]
 
 
-def test_javascript_parity_when_frontend_is_available():
+@pytest.mark.parametrize("browser_timezone", ["Asia/Seoul", "UTC", "America/Los_Angeles"])
+def test_javascript_parity_when_frontend_is_available(browser_timezone):
     """Runs after cherry-pick, or against main's helper via DAILY_VALUE_JS_PATH."""
     module = Path(os.environ.get("DAILY_VALUE_JS_PATH", ROOT / "web/src/lib/daily-value.js"))
     node = shutil.which("node")
@@ -339,11 +340,14 @@ def test_javascript_parity_when_frontend_is_available():
     for field in ["odds", "market_prob", "predicted_hit_prob", "probability_lower_bound"]:
         fixtures.extend(validated(**{field: value}) for value in [
             None, "", "bad", True, False, 0, 1, "0.61", "NaN", "Infinity", 0.5,
+            [], [1.7], [0.61], {}, "0_5", "0x1",
         ])
     for interval in [None, [], [0.65], [0.65, 0.75, 0.8], [0.65, 1],
-                     [0.72, 0.75], [0.65, 0.69], [0.65, True], [0.65, 0.75]]:
+                     [0.72, 0.75], [0.65, 0.69], [0.65, True], [0.65, 0.75],
+                     [[0.65], 0.75], [{}, 0.75]]:
         fixtures.append(validated(probability_interval=interval))
     fixtures += [pick(odds=None, 배당=1.6, market_prob=None, 시장확률=0.6),
+                 validated(probability_lower_bound=.5833, probability_interval=[.583333, .75]),
                  pick(market_prob=0.5, odds=1.7 - 1e-12),
                  pick(market_prob=0.5 - 1e-13), pick(market="홀짝"),
                  pick(final_reversal=True), pick(최종전환=True), pick(is_market_favorite=False)]
@@ -356,6 +360,11 @@ def test_javascript_parity_when_frontend_is_available():
                                     ("2026-09-06T00:00:00+09:00", {}),
                                     (None, {}), (None, {"year": 2026})]
                 for i in range(4)]]
+    groups += [[pick(str(i), kickoff_at=stamp, date="09.05(토) 18:00")
+                for i, stamp in enumerate([None, None, None, "2026-09-05T09:00:00Z"])],
+               [pick(str(i), kickoff_at=stamp, date="09.05(토) 00:30")
+                for i, stamp in enumerate(["2026-09-05T00:30:00", "2026-09-04T15:30:00Z",
+                                         "2026-09-05T00:30:00+09:00", None])]]
     script = """
         import { pathToFileURL } from 'node:url';
         import { readFileSync } from 'node:fs';
@@ -369,7 +378,7 @@ def test_javascript_parity_when_frontend_is_available():
         [node, "--input-type=module", "-e", script, str(module)],
         input=json.dumps({"fixtures": fixtures, "groups": groups}, allow_nan=False),
         text=True, encoding="utf-8", capture_output=True, check=True,
-        env={**os.environ, "TZ": "Asia/Seoul"},
+        env={**os.environ, "TZ": browser_timezone},
     )
     actual = json.loads(result.stdout)
     assert actual["metrics"] == [daily_value_metrics(row) for row in fixtures]

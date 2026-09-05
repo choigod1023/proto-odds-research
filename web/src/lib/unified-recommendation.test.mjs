@@ -266,8 +266,8 @@ const memberships = buildTodayMemberships({
 const membership = memberships.get(selectionKey(home, game.round));
 assert.equal(membership.recommended, true,
   "조합 포함 여부가 아니라 경기별 최종 후보 자체를 추천으로 표시한다");
-assert.equal(membership.display.parts.length, 4,
-  "추천 확률·배당·불확실성·데이터 상태를 복합 표시한다");
+assert.equal(membership.display.parts.length, 5,
+  "적중·손익분기 확률, 배당, 기대수익, 불확실성, 데이터 상태를 표시한다");
 assert.equal(memberships.size, 1, "별도 후보 행이 아니라 같은 판정 키로 통합한다");
 
 const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_, index) => ({
@@ -276,38 +276,40 @@ const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_
   game_no: String(index),
   league: index < 4 ? "MLB" : index < 7 ? "J1리그" : "EFL챔",
   odds: 1.5 + index * 0.01,
+  market_prob: 0.62 - index * 0.01,
   predicted_hit_prob: 0.62 - index * 0.01,
 })));
 assert.equal(rankedHighlights.length, 7, "오늘의 추천은 날짜별 리그 기본 세 픽을 남긴다");
 assert.deepEqual(rankedHighlights.map((row) => Number(row.predicted_hit_prob.toFixed(2))),
   [0.62, 0.61, 0.60, 0.58, 0.57, 0.56, 0.55]);
-const strongHighlights = dailyHighlightedSelections([0.72, 0.69, 0.66, 0.60].map((probability, index) => ({
+const strongCandidates = [0.72, 0.69, 0.66, 0.60].map((probability, index) => ({
   ...alignedToday.candidates[0], event_key: `strong-${index}`, game_no: `s-${index}`,
-  league: "MLB", odds: 1.6 + index * 0.01, predicted_hit_prob: probability,
-})));
-assert.equal(strongHighlights.length, 4, "60% 이상 후보는 리그 기본 세 개를 넘어 추가한다");
+  league: "MLB", odds: 1.6 + index * 0.01, market_prob: probability, predicted_hit_prob: probability,
+}));
+const strongHighlights = dailyHighlightedSelections(strongCandidates);
+assert.equal(strongHighlights.length, 3, "60% 이상이라는 이유만으로 추가하지 않는다");
 assert.equal(dailyHighlightedSelections([{
-  ...alignedToday.candidates[0], predicted_hit_prob: 0.549,
-}]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
+  ...alignedToday.candidates[0], market_prob: 0.499, predicted_hit_prob: 0.99,
+}]).length, 0, "시장확률 50% 미만은 미검증 최종확률로 문턱을 넘을 수 없다");
 const explained = dailyRecommendationDecisions([
-  ...strongHighlights,
+  ...strongCandidates,
   { ...alignedToday.candidates[0], event_key: "weak", game_no: "weak",
-    league: "MLB", odds: 1.7, predicted_hit_prob: 0.54 },
+    league: "MLB", odds: 1.7, market_prob: 0.49 },
   { ...alignedToday.candidates[0], event_key: "third", game_no: "third",
-    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.59 },
+    league: "J1리그", odds: 1.7, market_prob: 0.59 },
   { ...alignedToday.candidates[0], event_key: "j1-a", game_no: "j1-a",
-    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.64 },
+    league: "J1리그", odds: 1.7, market_prob: 0.64 },
   { ...alignedToday.candidates[0], event_key: "j1-b", game_no: "j1-b",
-    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.62 },
+    league: "J1리그", odds: 1.7, market_prob: 0.62 },
   { ...alignedToday.candidates[0], event_key: "j1-c", game_no: "j1-c",
-    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.61 },
+    league: "J1리그", odds: 1.7, market_prob: 0.61 },
 ]);
 assert.match(explained.find((row) => row.selection.event_key === "strong-3").reason,
-  /추가 기준 60%/);
+  /검증된 확률 하한 기준 기대수익이 양수/);
 assert.match(explained.find((row) => row.selection.event_key === "weak").reason,
-  /55% 기준에 미달/);
+  /50.0% 위험 하한에 미달/);
 assert.match(explained.find((row) => row.selection.event_key === "third").reason,
-  /리그 내 4순위/);
+  /리그 내 기대가치 4순위/);
 assert.match(explained.find((row) => row.recommended).counterReason,
   /양의 기대수익이 검증된 것은 아니며/);
 
@@ -328,6 +330,7 @@ const datedCandidates = ["09.05(토) 18:00", "09.06(일) 02:00"].flatMap((date, 
   [0.59, 0.58, 0.57, 0.56].map((p, index) => ({
     ...alignedToday.candidates[0], league: "MLB", date, year: 2026,
     event_key: `${dayIndex}-${index}`, game_no: `${dayIndex}-${index}`,
+    market_prob: p,
     predicted_hit_prob: p,
   })));
 const datedHighlights = dailyHighlightedSelections(datedCandidates);

@@ -22,6 +22,10 @@ def _finite(value: object) -> float | None:
     # Accept numeric strings from older artifacts, but not booleans/containers.
     if isinstance(value, bool) or not isinstance(value, (int, float, str)):
         return None
+    if isinstance(value, str) and not re.fullmatch(
+        r"[+-]?(?:[0-9]+\.?[0-9]*|\.[0-9]+)(?:[eE][+-]?[0-9]+)?", value.strip()
+    ):
+        return None
     try:
         number = float(value)
     except (ValueError, OverflowError):
@@ -80,7 +84,9 @@ def daily_value_metrics(candidate: dict | None) -> dict:
         trusted_interval = (
             lower is not None and upper is not None and bound is not None
             and lower <= estimate <= upper
-            and abs(bound - lower) <= 1e-9
+            # The producer serializes the stated bound to four decimals while
+            # retaining full precision for the interval endpoints.
+            and abs(bound - lower) <= 5.0001e-5
         )
         if trusted_interval:
             comparison = lower
@@ -105,22 +111,24 @@ def _clean(value: object) -> str:
     return "" if value is None else str(value).strip()
 
 
-def _day_league(candidate: dict) -> tuple[str, str]:
-    """ISO kickoff -> KST; legacy MM.DD uses only the row's explicit year.
-
-    Missing years and missing dates use 'undated'. Neither
-    fallback reads the clock, so replaying an artifact cannot change its groups.
-    Naive ISO timestamps are interpreted as KST, matching backend kickoff data.
-    """
+def _date_parts(candidate: dict) -> tuple[str, str | None]:
+    """ISO kickoff -> KST; never read the clock to infer a missing year."""
     try:
         kickoff = datetime.fromisoformat(_clean(candidate.get("kickoff_at")))
         if kickoff.tzinfo is None:
             kickoff = kickoff.replace(tzinfo=KST)
         day = kickoff.astimezone(KST).date().isoformat()
+        return day[:4], day[5:]
     except (ValueError, OverflowError):
         match = re.match(r"^(\d{2})\.(\d{2})", _clean(candidate.get("date")))
-        year = candidate.get("year") or "undated"
-        day = f"{year}-{match[1]}-{match[2]}" if match else "undated"
+        return _clean(candidate.get("year")), f"{match[1]}-{match[2]}" if match else None
+
+
+def _day_league(candidate: dict, known_years: dict[str, set[str]]) -> tuple[str, str]:
+    year, month_day = _date_parts(candidate)
+    known = known_years.get(month_day, set())
+    inferred = next(iter(known)) if len(known) == 1 else "undated"
+    day = f"{year or inferred}-{month_day}" if month_day else "undated"
     return day, _clean(candidate.get("league")) or "리그 미분류"
 
 
@@ -154,6 +162,11 @@ def annotate_daily_values(candidates: list[dict]) -> list[dict]:
     """
     annotated = []
     groups: dict[tuple[str, str], list[dict]] = {}
+    known_years: dict[str, set[str]] = {}
+    for original in candidates:
+        year, month_day = _date_parts(original or {})
+        if year and month_day:
+            known_years.setdefault(month_day, set()).add(year)
     for original in candidates:
         candidate = dict(original or {})
         metrics = daily_value_metrics(candidate)
@@ -179,7 +192,7 @@ def annotate_daily_values(candidates: list[dict]) -> list[dict]:
         elif not metrics["qualifies"]:
             decision["reason_code"] = "return_floor"
         else:
-            groups.setdefault(_day_league(candidate), []).append(candidate)
+            groups.setdefault(_day_league(candidate, known_years), []).append(candidate)
 
     for rows in groups.values():
         primary = [row for row in rows if _finite(_alias(row, "odds", "배당")) >= 1.5]
