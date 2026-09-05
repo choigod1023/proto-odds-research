@@ -148,7 +148,8 @@ export default function Markets() {
           liveOdds?.markets?.[String(game.round)],
         );
       const marketHistory = marketHistoryForGame(game, liveOdds);
-      const withHistory = marketHistory.length ? { ...repriced, _marketHistory: marketHistory } : repriced;
+      const withHistory = { ...repriced, _marketHistory: marketHistory,
+        _officialMarkets: liveOdds?.markets?.[String(game.round)] };
       // 저장 파일에 과거의 재계산 표식이 남아 있어도 T-30 이후에는 사전 결정을
       // 그대로 고정한다. 라이브 중 "재계산 대기"로 되돌아가면 안 된다.
       const frozenGame = frozen
@@ -629,7 +630,14 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     && (done || g.prediction_status === "prediction_ledger_required");
   const prediction = wait || stale || predictionUnavailable || g._liveOddsChanged
     ? null : predictionForGame(opts);
-  const displayedOption = todayOption || prediction?.option || null;
+  const savedPick = g.prediction_record;
+  const savedOption = savedPick && {
+    ...(opts.find((o) => o.selection_id === savedPick.selection_id) || {}),
+    selection_id: savedPick.selection_id, market: savedPick.market,
+    label: savedPick.label || "", 선택: savedPick.selection, 배당: savedPick.odds,
+  };
+  const displayedOption = (decisionFrozen(g) && savedOption)
+    || todayOption || prediction?.option || null;
   const pick = displayedOption ? {
     o: displayedOption,
     g: gradeOf(grades, displayedOption["배당"]),
@@ -642,7 +650,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const playing = phase === "live";
   const finished = phase === "finished";
   const disruption = lv?.cancelled ? "경기 취소" : lv?.postponed ? "경기 연기" : null;
-  const outcome = recommendationOutcome(g);
+  const outcome = recommendationOutcome(g, lv);
   // 첫 게시값으로 고정된 사전 픽이, 지금 시장 기준으로는 반대쪽이 유리해진 경우.
   // 픽은 바꾸지 않고 "조건이 바뀌었다"만 알린다(이미 배팅한 사용자를 위해).
   const drift = (!playing && !finished && !done && g.pick_drift
@@ -652,6 +660,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   const waitText = wait ? waitingLabel(g, { generatedAt, year }) : null;
   // 정산 점수가 있으면 그걸 쓰고(확정), 없으면 실시간 점수로 채운다.
   const score = (done && g.score)
+    || (outcome.source === "score" && g.sport === "sc" && lv?.regular_time_score)
     || (lv && lv.home_score != null && lv.away_score != null
         ? [lv.home_score, lv.away_score] : null);
   const analysis = wait || stale || predictionUnavailable || liveClosed
@@ -746,9 +755,9 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
                   highlighted={highlightedToday}
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
-                    prediction.recommendation === "recommend" ? "검증 보정이 실제 반영된 추천"
-                      : prediction.recommendation === "weak" ? "방향은 제시하되 구매 우위가 약한 픽"
-                        : prediction.recommendation === "market" ? "시장 최유력 방향이며 구매 추천은 아님"
+                    prediction?.recommendation === "recommend" ? "검증 보정이 실제 반영된 추천"
+                      : prediction?.recommendation === "weak" ? "방향은 제시하되 구매 우위가 약한 픽"
+                        : prediction?.recommendation === "market" ? "시장 최유력 방향이며 구매 추천은 아님"
                           : "시장 최유력 방향은 제시하되 구매 추천은 관망"
                   }${recommendationDetail ? ` · ${recommendationDetail}` : " · 배당 기반 시장확률"}`} />
               : <OddsChip label="판정" value={pendingLabel} />}
@@ -799,17 +808,18 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         {phase === "finished" && (
           <div className={`settled-result-panel is-${outcome.state}`}>
             <div>
-              <span>최종 결과</span>
+              <span>최종 결과{outcome.source === "score" && g.sport === "sc" ? " · 정규시간" : ""}</span>
               <strong>{g.home} {score ? `${score[0]} : ${score[1]}` : "– : –"} {g.away}</strong>
             </div>
             <div>
-              <span>사전 추천 판정</span>
+              <span>사전 추천 판정{outcome.source === "score" ? " · 종료 점수 기준" : ""}</span>
               <strong>{outcome.label}</strong>
               {resultHeadline && <small>{resultHeadline} · 배당 {odds(outcome.record.odds)}</small>}
             </div>
             {outcome.state === "unrecorded" && (
-              <p>사전 추천 원장 도입 전에 끝난 경기입니다. 현재 결과를 보고 과거 픽을 새로 만들지 않습니다.</p>
+              <p>이 경기의 사전 픽이 저장되어 있지 않아 적중 여부를 판정할 수 없습니다.</p>
             )}
+            {outcome.source === "score" && <p>경기 종료 점수와 저장된 픽의 기준점으로 판정했습니다. 공식 정산이 들어오면 그 결과를 우선합니다.</p>}
           </div>
         )}
         {pick && decision.recommendationPriority === "reversal" && (

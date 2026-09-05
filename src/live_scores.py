@@ -143,6 +143,23 @@ def _score(team: dict) -> int | float | None:
     return value if value not in (None, "") else None
 
 
+def _regulation_score(team: dict) -> int | None:
+    """Soccer settlement uses periods 1+2, excluding extra time and shootouts."""
+    periods = team.get("periodData") or []
+    scores = []
+    for period in (1, 2):
+        rows = [row for row in periods if row.get("period") == period]
+        if len(rows) != 1:
+            return None
+        score = rows[0].get("score")
+        if isinstance(score, bool) or not isinstance(score, (int, float)):
+            return None
+        if score < 0 or not float(score).is_integer():
+            return None
+        scores.append(int(score))
+    return sum(scores)
+
+
 def named_soccer_clock(raw: dict) -> dict:
     """NAMED 축구 중계의 최신 이벤트 시각을 전·후반 경과 분으로 바꾼다.
 
@@ -203,6 +220,10 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
     }
     if clock:
         rec["clock"] = clock
+    if sport == "soccer" and finished:
+        regular_time_score = [_regulation_score(home), _regulation_score(away)]
+        if all(score is not None for score in regular_time_score):
+            rec["regular_time_score"] = regular_time_score
     if status == "BEFORE":
         rec["home_score"] = rec["away_score"] = None
     return rec

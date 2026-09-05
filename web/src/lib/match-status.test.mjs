@@ -44,7 +44,7 @@ test("실시간 매칭이 없으면 시작 15분 뒤 상태 확인 대상으로 
 
 test("사전 저장 추천만 적중과 실패로 표시한다", () => {
   assert.equal(recommendationOutcome({ prediction_record: { result: "hit" } }).label, "적중");
-  assert.equal(recommendationOutcome({ prediction_record: { result: "miss" } }).label, "적중 실패");
+  assert.equal(recommendationOutcome({ prediction_record: { result: "miss" } }).label, "적중실패");
   assert.equal(recommendationOutcome({}).state, "unrecorded");
   assert.equal(recommendationOutcome({}).label, "사전 예측 기록 없음");
 });

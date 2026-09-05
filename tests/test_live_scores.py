@@ -114,6 +114,29 @@ def test_normalize_named_final_game_includes_score_and_kst():
     assert game["start"].endswith("+09:00")
 
 
+def test_soccer_regulation_score_excludes_extra_time_and_shootout():
+    raw = {
+        "gameStatus": "FINAL", "teams": {
+            "home": {"periodData": [
+                {"period": 2, "score": 1}, {"period": 1, "score": 0},
+                {"period": 3, "score": 1}, {"period": 5, "score": 5},
+            ]},
+            "away": {"periodData": [
+                {"period": 1, "score": 1}, {"period": 2, "score": 0},
+                {"period": 3, "score": 1}, {"period": 5, "score": 4},
+            ]},
+        },
+    }
+    assert normalize_named_game(raw, "soccer")["regular_time_score"] == [1, 1]
+    raw["gameStatus"] = "IN_PROGRESS"
+    assert "regular_time_score" not in normalize_named_game(raw, "soccer")
+    raw["gameStatus"] = "FINAL"
+    raw["teams"]["away"]["periodData"][1]["score"] = None
+    assert "regular_time_score" not in normalize_named_game(raw, "soccer")
+    raw["teams"]["away"]["periodData"] = [{"score": 1}, {"score": 0}]
+    assert "regular_time_score" not in normalize_named_game(raw, "soccer")
+
+
 def test_normalize_named_ready_hides_zero_score():
     raw = {
         "id": 124, "gameStatus": "READY", "startDatetime": "2026-08-31T19:00:00",
