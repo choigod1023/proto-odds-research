@@ -289,6 +289,7 @@ def test_mlb_observed_schedule_and_actual_batting_metrics():
         "runs": 5, "hits": 5, "atBats": 26, "baseOnBalls": 7, "strikeOuts": 6, "homeRuns": 0,
     }
     assert rec["metric_status"] == "available"
+    assert rec["detail_fetch_status"] == "fetched"
     assert rec["source_url"] == fetch.urls[1]
     assert fetch.urls[1].endswith("/game/823337/boxscore")
     assert parse_qs(urlparse(fetch.urls[0]).query) == {
@@ -305,6 +306,7 @@ def test_mlb_does_not_misread_abstract_final(code):
     if code in {"C", "D"}:
         assert rows[0]["status"] == "cancelled"
         assert rows[0]["home_score"] is None
+        assert rows[0]["detail_fetch_status"] == "not_applicable"
     else:
         assert rows == []
     assert len(fetch.urls) == 1
@@ -320,6 +322,9 @@ def test_mlb_boxscores_have_small_fixed_budget_and_latest_order():
     assert len(fetch.urls) == 1 + MLB_MAX_BOXSCORES
     assert rows[-1]["metric_status"] == "not_available"
     assert rows[-1]["metrics"] == {"home": {}, "away": {}}
+    assert all(row["detail_fetch_status"] == "fetched" for row in rows[:MLB_MAX_BOXSCORES])
+    assert all(row["detail_fetch_status"] == "not_requested_budget"
+               for row in rows[MLB_MAX_BOXSCORES:])
 
 
 def test_mlb_output_limit_raises_before_boxscore():
@@ -329,6 +334,12 @@ def test_mlb_output_limit_raises_before_boxscore():
     assert err.value.reason == "output_limit"
     assert len(err.value.partial_results) == 1
     assert len(fetch.urls) == 1
+    [row] = err.value.partial_results
+    assert row["detail_fetch_status"] == "not_requested_budget"
+    assert row["status"] == "final"
+    assert row["home_score"] == 5 and row["away_score"] == 2
+    assert row["metrics"] == {"home": {}, "away": {}}
+    assert row["source_url"] == fetch.urls[0]
 
 
 @pytest.mark.parametrize("payload", [{}, {"totalGames": 0}, {"totalGames": 0, "dates": None},
@@ -375,6 +386,93 @@ def test_mlb_absent_batting_stats_are_not_invented():
     [rec] = run_mlb(TextFetch(mlb_payload([MLB_GAME]), box))
     assert rec["metrics"] == {"home": {}, "away": {}}
     assert rec["metric_status"] == "not_available"
+    assert rec["detail_fetch_status"] == "fetched"
+    assert rec["source_url"].endswith("/game/823337/boxscore")
+
+
+def test_mlb_repeat_poll_distinguishes_budget_skip_from_vanished_stats():
+    [first] = run_mlb(TextFetch(mlb_payload([MLB_GAME]), MLB_BOX))
+    newer = [{**copy.deepcopy(MLB_GAME), "gamePk": 900000 + i,
+              "gameDate": f"2026-09-03T{18+i:02d}:00:00Z"} for i in range(5)]
+    later = run_mlb(TextFetch(mlb_payload([MLB_GAME, *newer]), *[MLB_BOX] * 5))
+    skipped = next(row for row in later if row["event_id"] == first["event_id"])
+    for key in ("provider", "league", "event_id", "home_id", "away_id", "home_score", "away_score"):
+        assert skipped[key] == first[key]
+    assert first["metrics"]["home"]["hits"] == 5
+    assert first["detail_fetch_status"] == "fetched"
+    assert skipped["metrics"] == {"home": {}, "away": {}}
+    assert skipped["detail_fetch_status"] == "not_requested_budget"
+    # Stateless adapter does not pretend to preserve the prior metrics/provenance.
+    assert first["source_url"].endswith("/boxscore")
+    assert "/schedule?" in skipped["source_url"]
+
+
+@pytest.mark.parametrize("batting", [{}, {"hits": None, "runs": None}, {"avg": ".253"}])
+def test_fetched_boxscore_with_absent_actual_counts_is_not_budget_skip(batting):
+    box = copy.deepcopy(MLB_BOX)
+    for entry in box["teams"].values():
+        entry["teamStats"]["batting"] = batting
+    [row] = run_mlb(TextFetch(mlb_payload([MLB_GAME]), box))
+    assert row["detail_fetch_status"] == "fetched"
+    assert row["metric_status"] == "not_available"
+    assert row["metrics"] == {"home": {}, "away": {}}
+    assert row["source_url"].endswith("/boxscore")
+
+
+def test_fetched_partial_actual_metrics_do_not_invent_other_side():
+    box = copy.deepcopy(MLB_BOX)
+    box["teams"]["away"]["teamStats"]["batting"] = {}
+    [row] = run_mlb(TextFetch(mlb_payload([MLB_GAME]), box))
+    assert row["detail_fetch_status"] == "fetched"
+    assert row["metric_status"] == "available"
+    assert row["metrics"]["home"]["hits"] == 5
+    assert row["metrics"]["away"] == {}
+
+
+@pytest.mark.parametrize("source", ["mlb", "naver"])
+def test_output_limit_keeps_valid_current_date_cancellation(source):
+    # Cancelled kickoff can be later than receipt on the same provider date.
+    # Core owns comparison with observed_at; the adapter keeps the invalidation.
+    if source == "mlb":
+        cancelled = copy.deepcopy(MLB_GAME)
+        cancelled.update(gamePk=900001, gameDate="2026-09-03T23:00:00Z")
+        cancelled["status"]["codedGameState"] = "D"
+        fetch = TextFetch(mlb_payload([MLB_GAME, cancelled]))
+        collect = run_mlb
+    else:
+        cancelled = naver_game()
+        cancelled.update(gameId="synthetic-cancelled", cancel=True, statusCode="BEFORE",
+                         gameDateTime="2026-09-04T23:00:00")
+        fetch = TextFetch(naver_payload([naver_game(), cancelled]))
+        collect = run_naver
+    with pytest.raises(PartialResultsError) as err:
+        collect(fetch, limit=1)
+    assert err.value.reason == "output_limit"
+    [row] = err.value.partial_results
+    assert row["status"] == "cancelled"
+    assert row["home_score"] is None and row["away_score"] is None
+    assert not any(row["metrics"].values())
+    assert row.get("detail_fetch_status") != "not_requested_budget"
+    assert datetime.fromisoformat(row["kickoff_at"]).utcoffset() == timedelta(0)
+    assert row["home_id"] != row["away_id"]
+    assert len(fetch.urls) == 1
+
+
+@pytest.mark.parametrize("source", ["mlb", "naver"])
+def test_malformed_tail_is_not_persistable_output_limit(source):
+    if source == "mlb":
+        tail = copy.deepcopy(MLB_GAME)
+        tail["gamePk"] = 900001
+        tail["teams"]["home"]["score"] = None
+        fetch = TextFetch(mlb_payload([MLB_GAME, tail]))
+        collect = run_mlb
+    else:
+        tail = {**naver_game(), "gameId": "synthetic-broken", "homeTeamScore": None}
+        fetch = TextFetch(naver_payload([naver_game(), tail]))
+        collect = run_naver
+    with pytest.raises(ResultsSourceError) as err:
+        collect(fetch, limit=1)
+    assert not isinstance(err.value, PartialResultsError)
 
 
 @pytest.mark.parametrize("since,until,limit", [

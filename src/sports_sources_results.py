@@ -56,7 +56,10 @@ class PartialResultsError(ResultsSourceError):
 
     ``reason`` is output_limit, pagination, changed_total, or duplicate_event.
     These records must not be treated as a complete range or a no-games result.
-    MLB output_limit partials contain schedule scores only, without boxscores.
+    Only output_limit partials come from a fully validated schedule and may be
+    persisted as an explicitly incomplete sample. Other reasons must be discarded.
+    MLB output_limit partials contain schedule scores only, without boxscores;
+    their finals have detail_fetch_status='not_requested_budget'.
     """
 
     status = "partial"
@@ -280,6 +283,9 @@ def _mlb_game(raw: dict, schedule_url: str) -> dict | None:
         "status": "cancelled" if cancelled else "final", "score_unit": "runs",
         "source_url": schedule_url, "metrics": {"home": {}, "away": {}},
         "metric_status": "not_available",
+        # A skipped request is not evidence that earlier batting stats vanished.
+        # This includes the output-limit short circuit, which makes no detail calls.
+        "detail_fetch_status": "not_applicable" if cancelled else "not_requested_budget",
     }
     for side in ("home", "away"):
         entry = _object(teams.get(side), f"MLB {side}")
@@ -306,15 +312,22 @@ def _mlb_boxscore(fetch: Fetch, rec: dict) -> None:
         if "runs" in metrics and metrics["runs"] != rec[f"{side}_score"]:
             raise ResultsSourceError("MLB boxscore runs disagree with final score")
         rec["metrics"][side] = metrics
-    if any(rec["metrics"].values()):
-        rec["metric_status"] = "available"
-        rec["source_url"] = url
+    # Mark fetched only after BOTH teams and all returned counts validate. Empty
+    # or omitted batting objects / missing or null counts mean actual absence,
+    # not a budget skip. Malformed structures and HTTP failures still raise.
+    rec["detail_fetch_status"] = "fetched"
+    rec["source_url"] = url
+    rec["metric_status"] = "available" if any(rec["metrics"].values()) else "not_available"
 
 
 def collect_mlb(fetch: Fetch, since: date, until: date, limit: int) -> list[dict]:
     """One schedule request plus up to five boxscores for the newest finals.
 
-    Remaining records retain final scores with metric_status='not_available'.
+    Remaining finals retain scores with metric_status='not_available' and
+    detail_fetch_status='not_requested_budget'. A validated boxscore, even one
+    without batting stats, has detail_fetch_status='fetched'; only a budget skip
+    permits the store to consider carrying previously observed metrics forward.
+    Cancelled records are 'not_applicable' and must invalidate any earlier stats.
     Missing stats are never zeros. Output overflow raises before boxscore calls.
     No hydration, roster, Statscast, authentication, or persistence is performed.
     """

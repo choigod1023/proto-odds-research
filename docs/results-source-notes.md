@@ -73,7 +73,9 @@ HTTP failure. `ResultsSourceError` reports malformed/inconsistent source data.
 `PartialResultsError` exposes `status='partial'`, `reason`, `partial_results`,
 and `source_url`: output overflow, repeated pages/IDs, changed totals, missing
 pages, or the page budget. Partials are bounded by limit and must not be
-mistaken for a complete range. Normal return values are sorted newest kickoff
+mistaken for a complete range. Only reason=output_limit is a persistable sample
+from a fully validated schedule; the runner must report partial/incomplete
+coverage. Other partial reasons must be discarded. Normal return values are sorted newest kickoff
 first, breaking ties by native event ID. A limit that is too small raises with
 explicit partials rather than silently returning an incomplete range.
 
@@ -108,14 +110,28 @@ Only actual `teams.{home,away}.teamStats.batting` counts are copied: runs, hits,
 atBats, baseOnBalls, strikeOuts, homeRuns. Rates such as avg/obp/slg/ops in this
 endpoint can be cumulative and are not copied as game ratios. No xG, expected
 stats, Statcast, predictions, or fabricated zero metrics. Records beyond the
-five-boxscore budget keep scores and have empty metrics/not_available. Truly
-absent batting stats likewise remain unavailable; a broken boxscore response
+five-boxscore budget keep scores and have empty metrics/not_available. They
+explicitly carry `detail_fetch_status=not_requested_budget`, as do score-only
+finals in output_limit partials (that short circuit makes no detail requests).
+These markers distinguish skipped detail collection from actual missing stats.
+The store may carry earlier metrics ONLY for this explicit budget marker with
+unchanged provider/league/event, teams and scores, retaining the original metric
+source and observation time. The stateless adapter itself does not carry data.
+
+A successfully validated boxscore sets `detail_fetch_status=fetched` even if
+batting stats are absent: omitted/empty batting objects and missing/null count
+fields yield empty metrics/not_available. A fetched response with counts on only
+one side preserves just that side. Fetched absence must not retain earlier
+metrics. Malformed structures (for example batting=null instead of an object)
+still raise. Cancelled MLB rows have `detail_fetch_status=not_applicable`, clear
+scores/metrics, and must never trigger carry-forward. A broken boxscore response
 or denied HTTP request raises. Output-limit errors occur before enrichment,
 so their partial records contain schedule scores only.
 
 Naver source_url points to the native game page. Official MLB source_url points
-to the schedule request for score-only records and the actual boxscore endpoint
-for enriched records. Raw request/response provenance still belongs to the runner.
+to the schedule request for unrequested records and the actual boxscore endpoint
+for every successfully fetched detail, including fetched absence. Raw
+request/response provenance still belongs to the runner.
 
 ## Actual probes and smoke verification (2026-09-05)
 
@@ -164,8 +180,14 @@ Source URLs used for the schema evidence and bounded probes:
 - [Official MLB observed boxscore](https://statsapi.mlb.com/api/v1/game/823337/boxscore)
 - [Official MLB status vocabulary](https://statsapi.mlb.com/api/v1/gameStatus)
 
-Validation: `python -m pytest tests/test_sports_sources_results.py -q` — 85 passed.
+Validation after the detail-fetch-status follow-up:
+`python -m pytest tests/test_sports_sources_results.py -q` — 94 passed.
 Fixture projections retain observed field names, types and values for all eight
 Naver leagues, a real cancellation, and official MLB schedule/boxscore. Synthetic
 cases are restricted to error/status/budget/ordering scenarios. No raw artifact
-files or observed_at columns were added to the adapter.
+files or observed_at columns were added to the adapter. Follow-up regressions
+cover a repeat poll moving outside five boxscores, fetched-but-absent counts,
+one-sided actual stats, valid output-limit cancellation records (including
+later-today kickoff), and malformed trailing records rejected before output-limit
+partials can be persisted. The 23 live smoke counts above describe the initial
+endpoint verification; the follow-up changes metadata without changing requests.
