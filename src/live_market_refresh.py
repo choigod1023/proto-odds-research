@@ -1,8 +1,8 @@
 """현재 발매 행만으로 picks_v2의 빈·낡은 시장 선택지를 경량 갱신한다.
 
 전체 generate_v2는 과거 데이터와 선수 자료를 함께 읽어 운영 머신의 다른 수집기와
-겹치면 OOM으로 종료될 수 있다. 이 경로는 live_odds의 작은 발매 메타데이터만 읽고
-시장 확률·판정 계약을 갱신한다. 구조 모델/LLM 값은 새로 만들지 않는다.
+겹치면 OOM으로 종료될 수 있다. 이 경로는 live_odds의 발매 메타데이터와 DB의
+확정 경기 기록으로 시장 판정·최근 폼을 갱신한다. 구조 모델/LLM 값은 새로 만들지 않는다.
 """
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ from game_dedup import deduplicate_game_sections  # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
                                LedgerLockTimeout, PredictionLedgerError)
 from prediction_runtime import PredictionRuntime, kickoff_utc  # noqa: E402
-from runtime_db import load_artifact, persist_artifact  # noqa: E402
+from runtime_db import database_enabled, load_artifact, persist_artifact  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
@@ -75,7 +75,8 @@ def record_live_market_revisions(
 ) -> dict[str, int]:
     """Persist every newly published pregame market decision before serving it.
 
-    ``refresh_document`` remains a pure document transform for tests and callers.
+    ``refresh_document`` remains a fileless document transform with DB disabled;
+    in DB mode it reads confirmed history before building new decision snapshots.
     This operational step is deliberately strict: if a changed pregame decision
     cannot enter the append-only ledger, the caller must not publish that document.
     """
@@ -103,6 +104,10 @@ def record_live_market_revisions(
     # aborts the batch so old prices can never replace a newer published revision.
     for game in document.get("live") or []:
         snapshot = game.get("decision_snapshot") or {}
+        if (game.get("prediction_status") == "withheld_unrecorded_live_revision"
+                and game.get("live_revision_withheld_at") == observed_at):
+            counts["withheld"] += 1
+            continue
         if (
             game.get("status") != "경기전"
             or snapshot.get("as_of") != observed_at
@@ -238,10 +243,20 @@ def _option_signature(option: dict) -> tuple:
     )
 
 
-def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
+def refresh_document(document: dict, live_odds: dict, *,
+                     now: datetime | None = None) -> tuple[dict, int]:
     observed_at = str(live_odds.get("generated_at") or "")
     if not observed_at or not isinstance(live_odds.get("markets"), dict):
         return document, 0
+    observed = _aware_timestamp(observed_at)
+    use_database = database_enabled()
+    # DB-off callers retain deterministic, fileless replay at the feed's clock.
+    # Operational DB refreshes additionally reject feeds stale across kickoff.
+    clock = now or (datetime.now(timezone.utc) if use_database else observed)
+    if clock is not None and clock.tzinfo is None:
+        clock = clock.replace(tzinfo=KST)
+    decision_clock = max(observed, clock) if observed and clock else None
+    form_provider = None
     existing = {
         _key(game.get("round"), game.get("date"), game.get("home"), game.get("away")): game
         for game in document.get("live") or []
@@ -274,11 +289,14 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             document.setdefault("live", []).append(game)
             existing[key] = game
         pregame = all(row.get("result") in UNPLAYED for row in rows)
+        kickoff = _game_kickoff(game, observed)
+        can_predict = bool(pregame and kickoff is not None and decision_clock is not None
+                           and decision_clock < kickoff.replace(tzinfo=KST))
         old_options = game.get("options") or []
         # Kickoff 뒤에는 저장된 사전 가격·선택을 절대 덮어쓰지 않는다. 예전 코드는
         # 종료/진행 행의 배당으로 options를 교체한 뒤 원장을 제거해 라이브 화면이
         # 영원히 "재계산 대기"가 됐다. 기존 가격이 전혀 없을 때만 복구용으로 받는다.
-        if not pregame and old_options:
+        if not can_predict and old_options:
             continue
         old_signature = [_option_signature(row) for row in old_options]
         new_signature = [_option_signature(row) for row in options]
@@ -297,7 +315,22 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
             game.get("status") if game.get("status") not in {"", "경기전", "배당대기"}
             else "결과확인"
         )
+        form_payload = None
+        display_changed = False
+        if use_database and can_predict:
+            if form_provider is None:
+                from team_form import DatabaseTeamForms
+
+                sports = tuple(sorted({row.get("sport") for values in grouped.values()
+                                       for row in values if row.get("sport")})) or None
+                form_provider = DatabaseTeamForms(observed, clock, sports=sports)
+            form_payload = form_provider.for_game(game, kickoff)
+            # Display context is excluded from ledger_features and decision input
+            # hashes. Never edit a saved revision's canonical form fields here.
+            display_changed = game.get("team_form_display") != form_payload
+            game["team_form_display"] = form_payload
         if old_signature == new_signature and game.get("status") == target_status:
+            changed += int(display_changed)
             continue
         game.update({
             "status": target_status, "no_odds": False, "options": options,
@@ -335,7 +368,9 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
                 game["pick_drift"] = drift
             else:
                 game.pop("pick_drift", None)
-        elif pregame:
+        elif can_predict:
+            if form_payload is not None:
+                game.update(form_payload)
             game.update({
                 "판단": "실시간 시장 기준", "추천": None,
                 "해설": None, "해설기본": None,
@@ -349,7 +384,12 @@ def refresh_document(document: dict, live_odds: dict) -> tuple[dict, int]:
         else:
             # 경기 후 복구한 가격으로 사전 추천을 소급 생성하지 않는다.
             game.pop("decision_snapshot", None)
-            game["prediction_status"] = "prediction_ledger_required"
+            game["추천"] = None
+            game["prediction_status"] = (
+                "withheld_unrecorded_live_revision" if pregame else "prediction_ledger_required")
+            if pregame:
+                game["live_revision_withheld_at"] = observed_at
+                game["_liveOddsChanged"] = True
             game["odds_recovered_after_start"] = True
         changed += 1
 

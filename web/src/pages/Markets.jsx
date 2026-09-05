@@ -1242,7 +1242,12 @@ function OfficialRecord({ record, sport }) {
   </div>;
 }
 
-function TeamFormCard({ team, form, record, sport }) {
+function TeamFormCard({ team, form, status, record, sport }) {
+  const missingText = {
+    missing_db_history: "조회 시점 이전에 확인된 경기 결과가 DB에 없다.",
+    team_unmapped: "DB 경기 기록에서 이 팀을 연결하지 못했다.",
+    no_season_sample: "이 팀의 해당 리그·시즌 경기 기록이 없다.",
+  }[status] || "최근 경기 기록이 아직 제공되지 않았다.";
   return (
     <div className="rounded-[7px] border border-rule2 px-2.5 py-2">
       <div className="text-[11px] text-ink3">{team}</div>
@@ -1254,25 +1259,26 @@ function TeamFormCard({ team, form, record, sport }) {
           {form.home ? ` · 홈 ${form.home}` : ""}{form.away ? ` · 원정 ${form.away}` : ""}
           {form.avg_scored != null ? ` · 평균 ${form.avg_scored}득점/${form.avg_conceded}실점` : ""}
         </div>
-      </> : <p className="mt-1 text-[11.5px] text-ink3">저장된 최근 경기 표본이 부족하다.</p>}
+      </> : <p className="mt-1 text-[11.5px] text-ink3">{missingText}</p>}
       {record && Object.keys(record).length > 0 && <OfficialRecord record={record} sport={sport} />}
     </div>
   );
 }
 function TeamsPanel({ g }) {
   const profiles = g["선발"]?.team_profiles || {};
+  const forms = g.team_form_display || g;
   return <>
     <div className="grid gap-2 sm:grid-cols-2">
-      {[['home', g.home, g.form_home], ['away', g.away, g.form_away]].map(([side, team, form]) =>
+      {[['home', g.home, forms.form_home], ['away', g.away, forms.form_away]].map(([side, team, form]) =>
         <div key={side}>
-          <TeamFormCard team={team} form={form} record={teamRecordFor(g, side)} sport={g.sport} />
+          <TeamFormCard team={team} form={form} status={forms[`form_${side}_status`]} record={teamRecordFor(g, side)} sport={g.sport} />
           {!!profiles[side]?.characteristics?.length && <div className="mt-1 rounded-[7px] border border-rule2 bg-paper2 px-2.5 py-2 text-[10.5px] leading-[1.7] text-ink2">
             <b className="text-ink">{team} 특징</b> · {profiles[side].characteristics.join(" · ")}
           </div>}
         </div>)}
     </div>
-    {g["h2h"] && <div className="mt-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] text-ink2">
-      <span className="mr-1 text-[10.5px] text-ink3">맞대결</span>{g["h2h"]}
+    {forms.h2h && <div className="mt-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] text-ink2">
+      <span className="mr-1 text-[10.5px] text-ink3">맞대결</span>{forms.h2h}
     </div>}
   </>;
 }

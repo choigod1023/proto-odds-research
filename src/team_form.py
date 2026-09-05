@@ -83,26 +83,31 @@ class Form:
         return self.close_games / len(self.last10) if self.last10 else None
 
 
-def load_history() -> pd.DataFrame:
+def load_history(sports: tuple[str, ...] | None = None,
+                 before: str | None = None) -> pd.DataFrame:
     """실제 경기 단위 테이블 (중복 제거 + 날짜순). matches.py 참조."""
     from matches import load_matches
-    return load_matches()
+    return load_matches(sports=sports, before=before)
 
 
 def build_forms(g: pd.DataFrame, season: int | None = None,
-                as_of: pd.Timestamp | None = None) -> tuple[dict, dict]:
+                as_of: pd.Timestamp | None = None,
+                season_as_of: pd.Timestamp | None = None) -> tuple[dict, dict]:
     """(리그, 팀) → Form, (리그, 팀A, 팀B) → 상대전적.
 
     as_of 를 주면 그 시점까지의 경기만 사용한다(누수 방지).
+    season_as_of 는 결과 조회 상한과 별개로 대상 경기의 리그 시즌을 지정한다.
     """
     from features import season_key
 
+    if g.empty:
+        return {}, {}
     g = g.copy()
     source_time = g["kickoff"] if "kickoff" in g.columns else g["date"]
     g["event_time"] = pd.to_datetime(source_time, errors="coerce")
     anchor = pd.Timestamp(as_of) if as_of is not None else None
     if anchor is not None and anchor.tzinfo is not None:
-        anchor = anchor.tz_localize(None)
+        anchor = anchor.tz_convert("Asia/Seoul").tz_localize(None)
     cutoff = anchor
     if anchor is None:
         # 호출자가 기준시점을 생략한 운영 경로에서는 실제로 관측된 가장 최근
@@ -120,7 +125,8 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
     if season is not None:
         # ``year == season``은 해넘이 리그를 1월에 끊고, 8월 새 시즌에는 같은
         # 해 상반기 기록을 섞는다. 기준일이 있으면 그 날짜가 속한 대회 시즌만 쓴다.
-        target = {str(league): season_key(str(league), anchor)
+        season_anchor = season_as_of if season_as_of is not None else anchor
+        target = {str(league): season_key(str(league), season_anchor)
                   for league in g["league"].dropna().unique()}
         row_seasons = pd.Series(
             [season_key(league, date)
@@ -145,7 +151,7 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
             forms[k] = Form(team=t, league=lg)
         return forms[k]
 
-    for r in g.itertuples():
+    for r in g.sort_values("event_time", kind="stable").itertuples():
         lg, ht, at = r.league, r.home_team, r.away_team
         fh, fa = get(lg, ht), get(lg, at)
         hs, as_ = int(r.home_score), int(r.away_score)
@@ -236,6 +242,74 @@ def build_forms(g: pd.DataFrame, season: int | None = None,
     return forms, dict(h2h)
 
 
+def form_dict(form: Form | None) -> dict | None:
+    """Public form data, without importing the model-generation pipeline."""
+    if form is None:
+        return None
+    return {
+        "w": form.w, "l": form.l, "d": form.d, "last10": form.last10_str,
+        "streak": f"{form.streak_n}{form.streak_kind}" if form.streak_n >= 2 else "",
+        "home": f"{form.home_w}-{form.home_l}", "away": f"{form.away_w}-{form.away_l}",
+        "avg_scored": round(form.avg_scored, 1) if form.avg_scored is not None else None,
+        "avg_conceded": round(form.avg_conceded, 1) if form.avg_conceded is not None else None,
+        "rest_days": form.rest_days, "trend": form.trend,
+        "recent_games": [{**row, "date": row["date"].isoformat()}
+                         for row in form.recent_games],
+    }
+
+
+class DatabaseTeamForms:
+    """One DB history read per refresh, one build per cutoff/league-season set.
+
+    The observation bound is capped by wall time; scheduled future games cannot
+    contribute results. Season membership still follows the target kickoff, so a
+    future season opener does not inherit the outgoing season's sample.
+    """
+
+    def __init__(self, observed_at, now, sports: tuple[str, ...] | None = None):
+        from runtime_db import database_enabled
+
+        if not database_enabled():
+            raise RuntimeError("DB team forms require database mode")
+        self.before = min(self._kst(observed_at), self._kst(now))
+        self.history = load_history(sports=sports, before=self.before.isoformat())
+        self.leagues = tuple(sorted(self.history["league"].dropna().unique()))
+        self._cache: dict = {}
+
+    @staticmethod
+    def _kst(value) -> pd.Timestamp:
+        stamp = pd.Timestamp(value)
+        return stamp.tz_convert("Asia/Seoul").tz_localize(None) \
+            if stamp.tzinfo is not None else stamp
+
+    def for_game(self, game: dict, kickoff) -> dict:
+        from features import season_key
+        from matches import clean_team
+
+        target = self._kst(kickoff)
+        cutoff = min(target, self.before)
+        seasons = tuple((league, season_key(league, target)) for league in self.leagues)
+        key = (cutoff, seasons)
+        if key not in self._cache:
+            eligible = self.history[self.history["kickoff"] < cutoff]
+            forms, h2h = build_forms(eligible, season=target.year, as_of=cutoff,
+                                    season_as_of=target)
+            teams = set(eligible["home_team"]) | set(eligible["away_team"])
+            self._cache[key] = forms, h2h, teams, eligible.empty
+        forms, h2h, teams, empty = self._cache[key]
+        league = game.get("league")
+        home, away = clean_team(game.get("home") or ""), clean_team(game.get("away") or "")
+        payload = {"form_src": "database", "form_before": cutoff.isoformat()}
+        for side, team in (("home", home), ("away", away)):
+            form = form_for_game(forms.get((league, team)), target)
+            payload[f"form_{side}"] = form_dict(form)
+            payload[f"form_{side}_status"] = (
+                "available" if form else "missing_db_history" if empty
+                else "team_unmapped" if team not in teams else "no_season_sample")
+        payload["h2h"] = h2h_text(h2h, league, home, away)
+        return payload
+
+
 def set_rest_days(forms: dict, game_date: pd.Timestamp) -> None:
     """경기 예정일 기준 휴식일을 채운다.
 
@@ -288,5 +362,6 @@ def h2h_text(h2h: dict, league: str, a: str, b: str) -> str | None:
     gs = rec.get("games", [])[-2:]
     if gs:
         sc = ", ".join(f"{g['hs']}-{g['as']}" for g in gs)
-        base += f". 최근 두 번의 맞대결은 {sc}였다"
+        count = "두 번의 맞대결은" if len(gs) == 2 else "맞대결은"
+        base += f". 최근 {count} {sc}였다"
     return base

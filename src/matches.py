@@ -75,8 +75,28 @@ def actual_game_year(year, round_no, month):
 
 
 def load_matches(sports: tuple[str, ...] | None = None,
-                 path: Path = GAMES) -> pd.DataFrame:
+                 path: Path = GAMES, before: str | None = None) -> pd.DataFrame:
     """정산 완료 경기. 시각으로 더블헤더를 보존하고 재발매만 합친다."""
+    from runtime_db import RuntimeDatabase, database_enabled
+
+    cutoff = pd.Timestamp(before) if before is not None else None
+    if cutoff is not None and cutoff.tzinfo is not None:
+        cutoff = cutoff.tz_convert("Asia/Seoul").tz_localize(None)
+    if database_enabled():
+        # The normalized DB query owns confirmation, score-conflict exclusion and
+        # physical-event deduplication. Even an explicit fixture path cannot
+        # override the production source of truth.
+        columns = ["date", "kickoff", "year", "league", "sport", "home_team",
+                   "away_team", "home_score", "away_score", "outcome"]
+        rows = RuntimeDatabase().match_history(
+            sports=sports, before=cutoff.isoformat() if cutoff is not None else None)
+        g = pd.DataFrame(rows, columns=columns)
+        g["kickoff"] = pd.to_datetime(g["kickoff"], errors="coerce")
+        g = g.dropna(subset=["kickoff"])
+        g["date"] = g["kickoff"].dt.normalize()
+        g["year"] = g["kickoff"].dt.year.astype(int)
+        return g.sort_values(["kickoff", "league", "home_team"]).reset_index(drop=True)
+
     g = pd.read_csv(path)
     g = g[(~g["is_void"].astype(bool))
           & (g["market_family"].isin(["승패", "승무패"]))
@@ -103,6 +123,8 @@ def load_matches(sports: tuple[str, ...] | None = None,
              hour=g["_hh"].astype(int), minute=g["_minute"].astype(int)),
         errors="coerce")
     g = g.dropna(subset=["kickoff"])
+    if cutoff is not None:
+        g = g[g["kickoff"] < cutoff]
     # 기존 선수·라인업·과정지표는 자정으로 정규화된 ``date``에 조인한다.
     # 그 계약을 깨지 않으면서 더블헤더를 보존하도록 정확한 시각은 별도 열로 둔다.
     g["date"] = g["kickoff"].dt.normalize()
