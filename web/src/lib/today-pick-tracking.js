@@ -2,6 +2,7 @@ import { savedLivePrediction } from "./saved-live-prediction.js";
 import { gamePhase, recommendationOutcome, scheduledAt } from "./match-status.js";
 import { dailyHighlightedSelections, DAILY_HIGHLIGHT_MIN_HIT } from "./unified-recommendation.js";
 import { eligibleFinalSelections } from "./recommendation-policy.js";
+import { isOvernightGame } from "./game-date-filter.js";
 
 const clean = (value) => String(value ?? "").trim();
 const number = (value) => typeof value === "number" || (typeof value === "string" && value.trim())
@@ -76,7 +77,7 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
     if (!original) continue;
     const game = { ...original, year: original.year || today?.year || year };
     const kickoff = scheduledAt(game);
-    if (kickoff == null || kstDay(kickoff) !== day || !game.home || !game.away) continue;
+    if (kickoff == null || (kstDay(kickoff) !== day && !isOvernightGame(game, now)) || !game.home || !game.away) continue;
     const live = game._liveState;
     const phase = gamePhase(game, live, now);
     const started = kickoff <= now || game._liveStarted === true || phase !== "upcoming";

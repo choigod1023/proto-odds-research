@@ -1,0 +1,11 @@
+---
+description: Fix confirmed reported bugs instead of stopping after diagnosis
+alwaysApply: true
+---
+
+# Bug reports include implementation
+
+- Follow the repository `AGENTS.md`: reported broken/missing behavior includes investigation, code correction, regression tests, relevant build/browser verification, and an isolated commit/push/PR.
+- Example: "새벽 경기 라이브가 왜 안 나오니?" means trace ingestion, matching and date filtering, then fix the confirmed defect; do not end with "코드는 아직 변경하지 않았습니다".
+- Explicit explanation-only/no-change requests take precedence. Do not make unnecessary edits when no defect is confirmed.
+- Preserve separate authorization for merge/deployment/restarts, paid changes and destructive actions, and preserve other tasks' work.

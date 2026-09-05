@@ -70,12 +70,13 @@ test("current reranking never rewrites a recovered record or claims old membersh
   assert.equal(row.originalOdds, 1.59);
 });
 
-test("actual KST today excludes yesterday, tomorrow and a same date in another year", () => {
+test("actual KST today excludes old dates but retains last night's unclosed live prior", () => {
   const games = [game(), game({ date: "09.04(금) 14:00" }), game({ date: "09.06(일) 14:00" }), game({ year: 2025 })];
   assert.equal(track(games).length, 1);
   const nextDay = track(games, null, Date.parse("2026-09-05T15:01:00Z"));
-  assert.equal(nextDay.length, 1);
-  assert.equal(nextDay[0].game.date, "09.06(일) 14:00");
+  assert.equal(nextDay.length, 2);
+  assert.equal(nextDay.find(row => row.game.date === "09.05(토) 14:00").phase, "pending");
+  assert.ok(nextDay.some(row => row.game.date === "09.06(일) 14:00"));
 });
 
 test("future generic priors are not promoted into the current recommendation roster", () => {
