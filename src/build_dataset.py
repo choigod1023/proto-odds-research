@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import csv
 import gzip
-import json
 import sys
 import time
 from dataclasses import asdict
@@ -64,76 +63,67 @@ class _IncompleteArchive(ValueError):
     pass
 
 
-def _database_records(connection, *, bets: bool, stats: dict):
-    """Stream one round at a time; both passes use the same SQLite read snapshot.
+def _archive_key(name: str) -> tuple[int, int]:
+    parts = name.split(":")
+    if (len(parts) != 3 or parts[0] != "archive" or len(parts[1]) != 4
+            or not parts[1].isdigit() or not parts[2].isdigit()
+            or int(parts[2]) < 1):
+        raise _IncompleteArchive(f"Invalid archive name: {name}")
+    return int(parts[1]), int(parts[2])
 
-    The paired writer must consume/stage these generators before acquiring the
-    live DB write lock. A failed parse or latest-year guard aborts both datasets.
+
+def _database_records(database, names, *, stats: dict):
+    """Read and parse one archive once, then emit both datasets from those rows.
+
+    Only the document-name list spans the build. Each HTML read completes before
+    parsing, so collectors and WAL checkpoints can proceed during conversion.
+    The writer stages this stream before atomically publishing both datasets.
     """
     years_seen = set()
     latest_year = None
-    count = 0
+    n_games = n_bets = 0
     started = time.time()
-    cursor = connection.execute(
-        """SELECT name,payload_json FROM documents WHERE name GLOB 'archive:*'
-           ORDER BY CAST(substr(name,9,4) AS INTEGER),
-                    CAST(substr(name,14) AS INTEGER),name""")
-    try:
-        for index, document in enumerate(cursor, 1):
-            parts = document["name"].split(":")
-            if (len(parts) != 3 or len(parts[1]) != 4
-                    or not parts[1].isdigit() or not parts[2].isdigit()
-                    or int(parts[2]) < 1):
-                raise _IncompleteArchive(f"Invalid archive name: {document['name']}")
-            year, rnd = int(parts[1]), int(parts[2])
-            latest_year = max(latest_year or year, year)
-            html = json.loads(document["payload_json"])
-            if not isinstance(html, str):
-                raise _IncompleteArchive(f"Invalid archive payload: {document['name']}")
-            rows = parse_rows(repair_mojibake(html), year, rnd)
-            if rows:
-                years_seen.add(year)
-            records = (_bet_record(b) for b in to_bets(rows)) if bets else (
-                _game_record(row) for row in rows)
-            for record in records:
-                count += 1
-                yield record
-            if index % 50 == 0:
-                print(f"  DB {'bets' if bets else 'games'}: {index} 회차 처리 "
-                      f"({time.time()-started:.0f}초)", flush=True)
-        if latest_year not in years_seen:
-            raise _IncompleteArchive(
-                f"최신 연도({latest_year}) 행이 0건 — 두 데이터셋을 교체하지 않습니다.")
-        stats["bets" if bets else "games"] = count
-        stats["years"] = sorted(years_seen)
-    finally:
-        cursor.close()
+    for index, name in enumerate(names, 1):
+        year, rnd = _archive_key(name)
+        latest_year = max(latest_year or year, year)
+        html = database.get_document(name)
+        if not isinstance(html, str):
+            raise _IncompleteArchive(f"Invalid or missing archive payload: {name}")
+        rows = parse_rows(repair_mojibake(html), year, rnd)
+        if rows:
+            years_seen.add(year)
+        for row in rows:
+            n_games += 1
+            yield "processed_games", _game_record(row)
+        for bet in to_bets(rows):
+            n_bets += 1
+            yield "processed_bets", _bet_record(bet)
+        if index % 50 == 0:
+            print(f"  DB: {index}/{len(names)} 회차 처리 "
+                  f"({time.time()-started:.0f}초)", flush=True)
+    if latest_year not in years_seen:
+        raise _IncompleteArchive(
+            f"최신 연도({latest_year}) 행이 0건 — 두 데이터셋을 교체하지 않습니다.")
+    stats.update(games=n_games, bets=n_bets, years=sorted(years_seen))
 
 
 def _build_database() -> int:
     database = RuntimeDatabase()
-    connection = database.connect()
     started = time.time()
     stats = {}
     try:
-        # Pin inputs across both passes even while live collectors update archives.
-        connection.execute("BEGIN")
-        rounds = connection.execute(
-            "SELECT COUNT(*) FROM documents WHERE name GLOB 'archive:*'").fetchone()[0]
-        if not rounds:
+        names = sorted(database.document_names("archive:"), key=_archive_key)
+        if not names:
             print("DB 캐시가 비어 있습니다. 먼저 python src/collect.py 를 실행하세요.")
             return 1
-        database.replace_datasets_rows({
-            "processed_games": (_database_records(connection, bets=False, stats=stats), GAME_FIELDS),
-            "processed_bets": (_database_records(connection, bets=True, stats=stats), BET_FIELDS),
-        })
+        database.replace_datasets_records(
+            {"processed_games": GAME_FIELDS, "processed_bets": BET_FIELDS},
+            _database_records(database, names, stats=stats),
+        )
     except _IncompleteArchive as error:
         print(error)
         return 1
-    finally:
-        connection.rollback()
-        connection.close()
-    print(f"\n완료 — 회차 {rounds} · 게임행 {stats['games']:,} · 베팅레코드 {stats['bets']:,}")
+    print(f"\n완료 — 회차 {len(names)} · 게임행 {stats['games']:,} · 베팅레코드 {stats['bets']:,}")
     print(f"소요 {time.time()-started:.0f}초 · 연도 {stats['years']}")
     print("  DB: processed_games, processed_bets")
     return 0

@@ -209,8 +209,9 @@ def test_second_dataset_failure_rolls_back_both(database, monkeypatch):
     no_files()
 
 
-def test_build_uses_one_source_snapshot_and_allows_writes_during_parse(database, monkeypatch):
-    database.put_document("archive:2026:1", html())
+def test_build_parses_once_per_source_without_pinning_wal(database, monkeypatch):
+    for rnd in (1, 2, 3):
+        database.put_document(f"archive:2026:{rnd}", html())
     original = build_dataset.parse_rows
     observed = []
 
@@ -222,16 +223,26 @@ def test_build_uses_one_source_snapshot_and_allows_writes_during_parse(database,
             connection.rollback()
         finally:
             connection.close()
-        observed.append(body)
-        if len(observed) == 1:
-            database.put_document("archive:2026:1", html(odds="1.75"))
+        observed.append((rnd, body))
+        # A concurrent collector changes this document after it was read, and
+        # another document before it is read. Games/bets must agree per source.
+        database.put_document(f"archive:2026:{rnd}", html(odds="1.75"))
+        if rnd == 1:
+            database.put_document("archive:2026:2", html(odds="1.75"))
+        connection = sqlite3.connect(database.path, timeout=0)
+        try:
+            assert connection.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone() == (0, 0, 0)
+        finally:
+            connection.close()
         return original(body, year, rnd)
 
     monkeypatch.setattr(build_dataset, "parse_rows", parse)
     assert build_dataset.main() == 0
-    assert observed == [html(), html()]
-    assert list(database.iter_dataset("processed_games"))[0]["odds"] == "1.80,2.00"
-    assert float(list(database.iter_dataset("processed_bets"))[0]["odds"]) == 1.8
+    assert observed == [(1, html()), (2, html(odds="1.75")), (3, html())]
+    games = list(database.iter_dataset("processed_games"))
+    bets = list(database.iter_dataset("processed_bets"))
+    assert [row["odds"] for row in games] == ["1.80,2.00", "1.75,2.00", "1.80,2.00"]
+    assert [float(row["odds"]) for row in bets if int(row["sel_index"]) == 0] == [1.8, 1.75, 1.8]
     no_files()
 
 
@@ -246,16 +257,18 @@ def test_archive_generator_does_not_parse_ahead(database, monkeypatch):
         return original(body, year, rnd)
 
     monkeypatch.setattr(build_dataset, "parse_rows", parse)
-    connection = database.connect()
-    records = build_dataset._database_records(connection, bets=False, stats={})
+    names = sorted(database.document_names("archive:"), key=build_dataset._archive_key)
+    records = build_dataset._database_records(database, names, stats={})
     try:
-        assert next(records)["game_no"] == "001"
+        assert next(records)[0] == "processed_games"
         assert parsed == [1]
-        assert next(records)["game_no"] == "001"
+        assert next(records)[0] == "processed_bets"
+        assert next(records)[0] == "processed_bets"
+        assert parsed == [1]
+        assert next(records)[0] == "processed_games"
         assert parsed == [1, 2]
     finally:
         records.close()
-        connection.close()
 
 
 def test_development_gzip_and_csv_fallback(database, monkeypatch):
