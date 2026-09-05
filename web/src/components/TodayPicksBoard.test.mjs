@@ -10,7 +10,7 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
   const server = await createServer({ configFile: false,
     root: fileURLToPath(new URL("../../", import.meta.url)),
     esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] },
-    server: { middlewareMode: true, watch: null }, appType: "custom" });
+    server: { middlewareMode: true, watch: null, hmr: false }, appType: "custom" });
   try {
     const { TodayPicksBoard } = await server.ssrLoadModule("/src/components/TodayPicksBoard.jsx");
     const base = { year: 2026, date: "09.05(토) 14:00", round: 105,
@@ -32,6 +32,8 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
     assert.match(html, /1.52배/);
     assert.match(html, /사전 픽 · 추천 이력 미확인/);
     assert.match(html, /현재 추정/);
+    assert.match(html, /경기 진행 약 55%/);
+    assert.equal((html.match(/role="progressbar"/g) || []).length, 2);
     assert.match(html, /grid-cols-1.*sm:grid-cols-2.*xl:grid-cols-3/);
     assert.doesNotMatch(html, /NaN|55% 기준|60% 기준/);
     const ended = render([{ ...base, _liveState: { ...base._liveState, finished: true } }]);
@@ -39,13 +41,17 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
     assert.match(ended, /56.1%/);
     assert.ok(ended.indexOf("적중") < ended.lastIndexOf("당시 배당"));
     assert.match(ended, /1.59배/);
+    assert.doesNotMatch(ended, /role="progressbar"/);
     const stale = render([{ ...base, _liveFeedAt: "2026-09-05T05:00:00Z" }]);
     assert.match(stale, /중계 갱신이 늦어/);
     assert.match(stale, /56.1%/);
+    assert.match(stale, /중계 갱신 지연/);
+    assert.doesNotMatch(stale, /role="progressbar"/);
     const unsupported = render([{ ...base, prediction_record: { ...base.prediction_record,
       market: "핸디캡", label: "H -1.5", selection: "핸디홈" } }]);
     assert.match(unsupported, /지원하지 않습니다/);
     assert.match(unsupported, /핸디홈/);
+    assert.match(unsupported, /경기 진행 약 55%/);
     const missing = render([{ ...base, prediction_record: null }]);
     assert.match(missing, /오늘 확인된 추천·사전 픽이 없습니다/);
     assert.doesNotMatch(missing, /56.1%|1.59배/);
