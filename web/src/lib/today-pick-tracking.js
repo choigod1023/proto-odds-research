@@ -102,7 +102,7 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
         && safe({ market: option.market, odds: originalOdds, market_prob: openingProbability,
           is_market_favorite: game.prediction_record.is_market_favorite,
           final_reversal: game.prediction_record.final_reversal });
-      if (!knownHighlight && (explicitlyExcluded || !eligiblePrior)) continue;
+      if (!knownHighlight && (!started || explicitlyExcluded || !eligiblePrior)) continue;
       source = knownHighlight ? "highlight" : "recorded";
       outcome = recommendationOutcome(game, live);
       if (phase === "live" && saved.estimateStatus === "available"
@@ -150,6 +150,7 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
       result.set(key, item);
     }
   }
-  return [...result.values()].sort((a, b) => a.kickoff - b.kickoff
+  const order = { live: 0, pending: 1, upcoming: 2, finished: 3 };
+  return [...result.values()].sort((a, b) => order[a.phase] - order[b.phase] || a.kickoff - b.kickoff
     || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
 }

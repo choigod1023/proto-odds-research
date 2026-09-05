@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import PredictionPanel from "../components/PredictionPanel.jsx";
+import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
 import { displayCommentary } from "../lib/commentary.js";
@@ -378,7 +379,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)))
       .sort((a, b) => {
-        const order = { live: 0, upcoming: 1, pending: 2, finished: 3 };
+        const order = { live: 0, pending: 1, upcoming: 2, finished: 3 };
         return order[gamePhase(a)] - order[gamePhase(b)]
           || String(a.date).localeCompare(String(b.date));
       });
@@ -447,10 +448,12 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
+      <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={alignedToday} now={clock} />
       <div className="match-section-title">
         <h2>경기 목록</h2>
         <div className="match-phase-counts" aria-label="경기 상태 필터">
           <button type="button" className="is-live" aria-pressed={f.st === "live"} onClick={() => selectPhase("live")}>진행 중 {phaseCounts.live || 0}</button>
+          <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>결과 확인 중 {phaseCounts.pending || 0}</button>
           <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
           <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
           <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>

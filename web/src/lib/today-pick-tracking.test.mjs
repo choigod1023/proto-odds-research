@@ -78,6 +78,10 @@ test("actual KST today excludes yesterday, tomorrow and a same date in another y
   assert.equal(nextDay[0].game.date, "09.06(일) 14:00");
 });
 
+test("future generic priors are not promoted into the current recommendation roster", () => {
+  assert.deepEqual(track([game({ date: "09.05(토) 18:00", _liveState: null })]), []);
+});
+
 test("raw rounds deduplicate exact event/selection using oldest saved prior, not new prices", () => {
   const old = game({ round: 104 });
   const newer = game({ round: 105, prediction_record: { ...record, odds: 1.8,
