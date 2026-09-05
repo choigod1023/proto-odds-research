@@ -3,12 +3,22 @@ import { eligibleFinalSelections, finalRecommendedSelection,
   hitProbabilityOf, marketOnlyRecommendedSelection,
   qualifiedUnderdogSelections, recommendationPriority } from "./recommendation-policy.js";
 import { canApplyDecisionProbability, resolveDecisionOption } from "./decision-view-model.js";
+import { scheduledAt } from "./match-status.js";
 
 const clean = (value) => String(value ?? "").trim();
 
 export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
-export const DAILY_HIGHLIGHT_BASE_PER_LEAGUE = 2;
-export const DAILY_HIGHLIGHT_STRONG_MIN_HIT = 0.65;
+export const DAILY_HIGHLIGHT_BASE_PER_LEAGUE = 3;
+export const DAILY_HIGHLIGHT_STRONG_MIN_HIT = 0.60;
+
+const dailyLeagueKey = (selection) => {
+  const kickoff = Date.parse(selection?.kickoff_at || "");
+  const date = String(selection?.date || "").match(/^(\d{2})\.(\d{2})/);
+  const day = Number.isFinite(kickoff)
+    ? new Date(kickoff + 9 * 3600000).toISOString().slice(0, 10)
+    : date ? `${selection?.year || new Date().getFullYear()}-${date[1]}-${date[2]}` : "undated";
+  return `${day}|${clean(selection?.league) || "리그 미분류"}`;
+};
 
 const recommendationRank = (a, b) =>
   hitProbabilityOf(b) - hitProbabilityOf(a) ||
@@ -50,7 +60,8 @@ export function dailyRecommendationDecisions(candidates = []) {
   const selected = new Set(dailyHighlightedSelections(candidates));
   const leagueRows = new Map();
   eligible.forEach((selection) => {
-    const league = clean(selection?.league) || "리그 미분류";
+    if (hitProbabilityOf(selection) < DAILY_HIGHLIGHT_MIN_HIT) return;
+    const league = dailyLeagueKey(selection);
     if (!leagueRows.has(league)) leagueRows.set(league, []);
     leagueRows.get(league).push(selection);
   });
@@ -63,7 +74,7 @@ export function dailyRecommendationDecisions(candidates = []) {
   return candidates.map((selection) => {
     const hit = hitProbabilityOf(selection);
     const league = clean(selection?.league) || "리그 미분류";
-    const rows = leagueRows.get(league) || [];
+    const rows = leagueRows.get(dailyLeagueKey(selection)) || [];
     const hasPrimary = rows.some((row) => recommendationPriority(row) === 1);
     const preferred = recommendationPriority(selection) === 1;
     const rank = rankBySelection.get(selection) || null;
@@ -75,11 +86,11 @@ export function dailyRecommendationDecisions(candidates = []) {
     } else if (!preferred && hasPrimary) {
       reason = "같은 리그에 1.50~2.20 우선 배당 후보가 있어 저배당 보조 후보에서 제외했다.";
     } else if (!selected.has(selection)) {
-      reason = `리그 내 ${rank || 3}순위이며 추가 추천 기준 65%에 미달했다.`;
+      reason = `해당 날짜 리그 내 ${rank || 4}순위이며 추가 추천 기준 60%에 미달했다.`;
     } else if (rank && rank <= DAILY_HIGHLIGHT_BASE_PER_LEAGUE) {
-      reason = `55% 기준을 통과했고 ${league} 유효 후보 중 ${rank}위라 기본 추천 2개에 포함했다.`;
+      reason = `55% 기준을 통과했고 해당 날짜 ${league} 유효 후보 중 ${rank}위라 기본 추천 3개에 포함했다.`;
     } else {
-      reason = `리그 기본 2개 밖이지만 예상 적중 ${(hit * 100).toFixed(1)}%로 강한 추가 기준 65%를 통과했다.`;
+      reason = `해당 날짜 리그 기본 3개 밖이지만 예상 적중 ${(hit * 100).toFixed(1)}%로 추가 기준 60%를 통과했다.`;
     }
     return {
       selection,
@@ -94,13 +105,13 @@ export function dailyRecommendationDecisions(candidates = []) {
   });
 }
 
-/** 리그별 기본 2개와 65% 이상 강한 추가 후보를 고른다. 기준 미달은 채우지 않는다. */
+/** 날짜별 리그 기본 3개와 60% 이상 추가 후보를 고른다. 기준 미달은 채우지 않는다. */
 export function dailyHighlightedSelections(candidates = []) {
   const byLeague = new Map();
   eligibleFinalSelections(candidates)
     .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT)
     .forEach((selection) => {
-      const league = clean(selection?.league) || "리그 미분류";
+      const league = dailyLeagueKey(selection);
       if (!byLeague.has(league)) byLeague.set(league, []);
       byLeague.get(league).push(selection);
     });
@@ -257,8 +268,8 @@ export function canonicalPick(game, options, grades) {
 }
 
 /** 오늘 후보도 경기 카드의 v2 판정과 정확히 같은 선택만 남긴다. */
-export function alignTodayRecommendations(today, games = []) {
-  if (!today) return today;
+export function alignTodayRecommendations(today, games = [], now = Date.now()) {
+  today = today || { candidates: [], odds_bins: [] };
   const inputCandidates = today.candidates || [];
   const canonical = new Map();
   (games || []).forEach((game) => {
@@ -282,6 +293,37 @@ export function alignTodayRecommendations(today, games = []) {
   inputCandidates.forEach((candidate) => {
     const key = eventMarketKey(candidate);
     if (!candidateGroups.has(key)) candidateGroups.set(key, candidate);
+  });
+  // The recommendation API can lag behind picks_v2. Recover only already
+  // recorded pregame decisions in today's / next morning's candidate window.
+  // Never invent a historical recommendation after kickoff.
+  let recovered = 0;
+  const todayDay = Math.floor((now + 9 * 3600000) / 86400000);
+  canonical.forEach(({ game, option }, key) => {
+    if (candidateGroups.has(key)) return;
+    const record = game.prediction_record;
+    const kickoff = scheduledAt(game);
+    const captured = Date.parse(record?.captured_at || "");
+    const kickoffDay = Math.floor((kickoff + 9 * 3600000) / 86400000);
+    const hour = new Date(kickoff + 9 * 3600000).getUTCHours();
+    if (!record || record.selection_id !== option.selection_id
+        || record.prediction_snapshot_id !== game.decision_snapshot?.decision_id
+        || !snapshotMatchesCurrentOption(game, option)
+        || Number(record.odds) !== Number(option["배당"])
+        || game._liveStarted || !["경기전", "배당대기"].includes(game.status)
+        || !Number.isFinite(captured) || captured > now || captured >= kickoff
+        || !Number.isFinite(kickoff) || kickoff <= now
+        || !(kickoffDay === todayDay || (kickoffDay === todayDay + 1 && hour < 12))) return;
+    candidateGroups.set(key, {
+      date: game.date, year: game.year, home: game.home, away: game.away,
+      league: game.league, sport: game.sport, round: game.round,
+      market: option.market, market_label: option.label || "",
+      kickoff_at: new Date(kickoff).toISOString(),
+      event_key: `${kickoff}|${game.home}|${game.away}`,
+      recommended_at: record.captured_at,
+      price_source: "recorded_picks_v2",
+    });
+    recovered += 1;
   });
   const grades = { odds_bins: today.odds_bins || [] };
   const repriced = [...candidateGroups.entries()].flatMap(([groupKey, candidate]) => {
@@ -338,7 +380,8 @@ export function alignTodayRecommendations(today, games = []) {
       safe_candidates: candidates.length,
       game_model_candidates: gameModelCandidates,
       market_fallback_candidates: marketFallbackCandidates,
-      dropped_by_safety: inputCandidates.length - candidates.length,
+      dropped_by_safety: inputCandidates.length + recovered - candidates.length,
+      ...(recovered ? { recovered_from_picks: recovered } : {}),
     },
   };
 }
