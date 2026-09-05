@@ -4,6 +4,7 @@ import { eligibleFinalSelections, finalRecommendedSelection,
   qualifiedUnderdogSelections, recommendationPriority } from "./recommendation-policy.js";
 import { canApplyDecisionProbability, resolveDecisionOption } from "./decision-view-model.js";
 import { scheduledAt } from "./match-status.js";
+import { pickMatchReason } from "./pick-match-reason.js";
 
 const clean = (value) => String(value ?? "").trim();
 
@@ -49,11 +50,7 @@ export function recommendationDisplay(selection) {
   return { parts, text: parts.join(" · "), preferred, validated, live };
 }
 
-const selectionName = (selection) =>
-  `${selection?.market || "마켓"}${selection?.market_label || selection?.label ?
-    ` ${selection?.market_label || selection?.label}` : ""} ${selection?.sel || selection?.["선택"] || ""}`.trim();
-
-/** 오늘 후보 전체에 채택 이유 또는 첫 번째 탈락 이유를 같은 정책으로 부여한다. */
+/** Selection policy stays separate from the match evidence shown to the user. */
 export function dailyRecommendationDecisions(candidates = []) {
   const eligible = eligibleFinalSelections(candidates);
   const eligibleSet = new Set(eligible);
@@ -92,13 +89,15 @@ export function dailyRecommendationDecisions(candidates = []) {
     } else {
       reason = `해당 날짜 리그 기본 3개 밖이지만 예상 적중 ${(hit * 100).toFixed(1)}%로 추가 기준 60%를 통과했다.`;
     }
+    const matchReason = selection.match_reason || pickMatchReason(null, null);
     return {
       selection,
       recommended: selected.has(selection),
-      reason,
-      counterReason: selected.has(selection)
-        ? "양의 기대수익이 검증된 것은 아니며 배당 변동·라인업 변경 시 추천에서 빠질 수 있다."
-        : `${selectionName(selection)} 방향 자체는 경기 비교값으로 남기지만 오늘의 형광 추천에는 넣지 않는다.`,
+      reason: matchReason.reason,
+      counterReason: matchReason.counterReason,
+      evidence: matchReason.evidence,
+      reasonStatus: matchReason.status,
+      policyReason: reason,
       display: recommendationDisplay(selection),
       leagueRank: rank,
     };
@@ -355,6 +354,8 @@ export function alignTodayRecommendations(today, games = [], now = Date.now()) {
       final_reversal: reversal,
       model_prob: Number(option?.["모델확률"]),
       recommendation_basis: wanted.basis,
+      // Rebuild from this exact game's structured context, never old candidate prose.
+      match_reason: pickMatchReason(wanted.game, option, now),
       ...probabilityMetadata,
     }];
   });

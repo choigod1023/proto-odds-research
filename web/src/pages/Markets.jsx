@@ -767,7 +767,7 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         <MarketHistory rows={g._marketHistory} />
         {todayMembership && recommendationReason && (
           <div className={`today-pick-signals ${highlightedToday ? "is-recommended" : "is-excluded"}`} role="note">
-            <b>{highlightedToday ? "오늘 추천한 이유" : "오늘 추천하지 않은 이유"}</b>
+            <b>경기 기록으로 본 선택</b>
             <span>{recommendationReason}</span>
             {recommendationDetail && <small>{recommendationDetail}</small>}
             {recommendationCounterReason && <small>{recommendationCounterReason}</small>}
