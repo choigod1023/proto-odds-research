@@ -264,7 +264,7 @@ def _collect(league: str, limit: int | None) -> int:
             done.add((league, rec["away_team"]))
             rec.update(league=league, snapshot_at=stamp, snapshot_date=day, url=href)
             if db:
-                db.append_events("xg_snapshots", [rec])
+                db.append_events("xg_snapshots", [rec], observed_at_key="snapshot_at")
             else:
                 fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
                 fh.flush()          # 중간에 죽어도 지금까지 건 남는다
@@ -274,8 +274,6 @@ def _collect(league: str, limit: int | None) -> int:
     finally:
         if fh:
             fh.close()
-    if db:
-        db.export_events("xg_snapshots", OUT)
 
     print(f"\n적재 {ok}경기 · 팀 {len({t for _, t in done})} · 실패 {fail}  →  {OUT}")
     return 0

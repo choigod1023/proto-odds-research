@@ -7,13 +7,13 @@
 from __future__ import annotations
 
 import difflib
-import json
 import re
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
+from runtime_db import load_artifact
 
 from japan_info import (JLEAGUE_STANDINGS_URL, collect_jleague_standings,
                         jleague_record_for)
@@ -128,10 +128,7 @@ def team_similarity(left: str, right: str) -> float:
 
 
 def _load_proto_games(picks_path: Path, now: datetime) -> list[dict]:
-    try:
-        picks = json.loads(picks_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return []
+    picks = load_artifact("picks_v2", picks_path) or {}
     out = []
     for game in picks.get("live", []):
         if game.get("sport") != "sc" or game.get("league") not in SOCCER_CATS:

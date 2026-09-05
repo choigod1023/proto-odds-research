@@ -20,7 +20,6 @@ xFIP 근사 (`pitcher_xfip.py` 와 동일한 식)
 """
 from __future__ import annotations
 
-import json
 import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -29,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pitcher_er import _inn                              # noqa: E402
+from runtime_db import load_document, persist_document   # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 DETAIL = ROOT / "data" / "raw" / "detail" / "kbo_baseball_2023_2026.json"
@@ -73,7 +73,11 @@ def _pitcher_row(raw: dict) -> dict:
 
 def load_starter_boxscores(path: Path = DETAIL) -> list[dict]:
     """박스스코어에서 선발(각 팀 첫 투수)만 뽑아 날짜순으로 돌려준다."""
-    raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    raw = load_document("detail_kbo_baseball", Path(path))
+    if raw is None:
+        raise FileNotFoundError("detail_kbo_baseball is unavailable")
+    if not isinstance(raw, dict):
+        raise ValueError("detail_kbo_baseball must be an object")
     rows: list[dict] = []
     for game in raw.values():
         data = game.get("data") or {}
@@ -250,7 +254,11 @@ class StarterForm:
 
     @classmethod
     def from_artifact(cls, path: Path = ARTIFACT) -> "StarterForm":
-        raw = json.loads(Path(path).read_text(encoding="utf-8"))
+        raw = load_document("processed_kbo_starter_xfip", Path(path))
+        if raw is None:
+            raise FileNotFoundError("processed_kbo_starter_xfip is unavailable")
+        if not isinstance(raw, dict):
+            raise ValueError("processed_kbo_starter_xfip must be an object")
         params = raw.get("params") or {}
         form = cls(window=int(params.get("window", WINDOW)),
                    min_ip=float(params.get("min_ip", MIN_IP)),
@@ -290,11 +298,8 @@ def apply_xfip_lambda_adjust(lam, delta: dict, k: float):
 
 def write_artifact(path: Path = ARTIFACT, detail: Path = DETAIL) -> Path:
     form = StarterForm.from_boxscores(load_starter_boxscores(detail))
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(form.to_artifact(), ensure_ascii=False,
-                              separators=(",", ":")), encoding="utf-8")
-    tmp.replace(path)
+    persist_document("processed_kbo_starter_xfip", form.to_artifact(), path,
+                     indent=None)
     return path
 
 

@@ -11,13 +11,12 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import math
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from runtime_db import persist_document
+from runtime_db import RuntimeDatabase, database_enabled, persist_document, read_frame
 from zoneinfo import ZoneInfo
 
 from weather_features import load_snapshots, select_asof_forecast
@@ -55,7 +54,9 @@ VENUE_ALIAS = {
 }
 
 
-def _jsonl(path: Path) -> list[dict]:
+def _jsonl(path: Path, stream: str) -> list[dict]:
+    if database_enabled():
+        return RuntimeDatabase().events(stream)
     if not path.exists():
         return []
     out = []
@@ -70,14 +71,14 @@ def _jsonl(path: Path) -> list[dict]:
 
 def _latest_context() -> list[dict]:
     latest = {}
-    for row in _jsonl(CONTEXT):
+    for row in _jsonl(CONTEXT, "baseball_context_events"):
         if row.get("game_id"):
             latest[row["game_id"]] = row
     return list(latest.values())
 
 
 def _latest_crowd() -> list[dict]:
-    rows = _jsonl(CROWD)
+    rows = _jsonl(CROWD, "pickster_crowd")
     return rows[-1].get("games", []) if rows else []
 
 
@@ -106,10 +107,8 @@ def _run_margin(team: dict) -> float | None:
 
 
 def _venue_map() -> dict[tuple[str, str], dict]:
-    if not VENUES.exists():
-        return {}
-    with VENUES.open(encoding="utf-8", newline="") as f:
-        return {(r["league"], r["team"]): r for r in csv.DictReader(f)}
+    rows = read_frame("static_venues", VENUES, dtype=str, keep_default_na=False)
+    return {(r["league"], r["team"]): r for r in rows.to_dict("records")}
 
 
 def _aware_game_time(text: str | None) -> datetime | None:

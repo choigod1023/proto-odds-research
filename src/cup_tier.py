@@ -40,6 +40,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bets import _WINNER                               # noqa: E402
 from matches import load_matches                       # noqa: E402
+from runtime_db import read_frame                       # noqa: E402
 
 PROC = Path(__file__).resolve().parent.parent / "data" / "processed"
 
@@ -90,7 +91,7 @@ def main() -> int:
     tiers = build_tiers(m)
     print(f"등급 복원: {len(tiers):,} (연도·나라·팀)")
 
-    g = pd.read_csv(PROC / "games.csv")
+    g = read_frame("processed_games", PROC / "games.csv")
     g = g[(~g["is_void"].astype(bool)) & g["league"].isin(CUP)
           & g["result"].isin(["홈승", "홈패", "무승부"])].copy()
     g["home_team"] = [clean(x, True) for x in g["home"]]

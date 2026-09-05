@@ -65,7 +65,7 @@ from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # no
 from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
                                 kickoff_utc, tally_prediction_records)
 from runtime_db import (RuntimeDatabase, database_enabled, load_artifact,
-                        persist_artifact)                            # noqa: E402
+                        load_document, persist_artifact, read_frame) # noqa: E402
 from game_dedup import deduplicate_game_sections                     # noqa: E402
 from team_form import (build_forms, form_for_game, h2h_text,        # noqa: E402
                        load_history)
@@ -130,7 +130,7 @@ def _load_probability_artifact(path: Path | None = None) -> dict | None:
 
     path = path or PROBABILITY_ARTIFACT
     try:
-        artifact = json.loads(path.read_text(encoding="utf-8"))
+        artifact = load_document("model_probability_pipeline_v1", path)
     except FileNotFoundError:
         return None
     except (OSError, json.JSONDecodeError, TypeError) as exc:
@@ -174,11 +174,11 @@ def shot_form() -> dict:
        (유효슈팅 0.24545 < 득실차 0.25423). 경기 내용으로는 쓸 값이다.
     """
     f = ROOT / "data" / "raw" / "detail" / "kleague_shots_2023_2026.json"
-    if not f.exists():
-        return {}
     try:
-        raw = json.loads(f.read_text(encoding="utf-8"))
+        raw = load_document("detail_kleague_shots", f)
     except Exception:
+        return {}
+    if not isinstance(raw, dict):
         return {}
     from collections import deque as _dq
     sf: dict = defaultdict(lambda: _dq(maxlen=10))
@@ -260,11 +260,11 @@ def lineup_profiles() -> dict:
        '이번 경기 예측에 늦다' 는 뜻이지 '과거를 못 본다' 는 뜻이 아니다.
     """
     f = ROOT / "data" / "processed" / "lineup_soccer.csv"
-    if not f.exists():
-        return {}
     try:
-        d = pd.read_csv(f)
+        d = read_frame("processed_lineup_soccer", f)
     except Exception:
+        return {}
+    if d.empty:
         return {}
     d = d.dropna(subset=["churn"])
     out = {}
@@ -474,7 +474,7 @@ def _selftest() -> int:
     실제로 승⑤패·홀짝이 그랬다 — 분석 코드만 고치고 생성기를 안 고쳤다.
     """
     import numpy as _np
-    df = pd.read_csv(ROOT / "data/processed/games.csv")
+    df = read_frame("processed_games", ROOT / "data/processed/games.csv")
     # 취소 경기는 배당이 1.00/1.00 이고 사이트에 올라가지 않는다.
     # (승①패인데 n_way=2 인 29건이 전부 이것이었다 — 진짜 구멍이 아니다)
     if "is_void" in df.columns:
@@ -659,8 +659,8 @@ def _norm_team(n: str) -> str:
 def _load_starter_form() -> "StarterForm | None":
     """선발 xFIP 조회기. 매 산출물 주기 최신 박스스코어에서 새로 만든다(약 0.5초).
 
-    수집기가 KBO 박스스코어를 계속 갱신하므로, 리포지토리에 커밋된 아티팩트보다
-    현재 파일이 항상 최신이다. 아티팩트는 박스스코어를 못 읽을 때의 대비책이다.
+    수집기가 갱신한 박스스코어를 먼저 사용하고, 읽을 수 없을 때 저장된 xFIP를
+    사용한다. 운영에서는 두 입력 모두 DB에서만 읽는다.
     """
     try:
         return StarterForm.from_boxscores(load_starter_boxscores())
@@ -670,6 +670,18 @@ def _load_starter_form() -> "StarterForm | None":
         return StarterForm.from_artifact(STARTER_XFIP_ARTIFACT)
     except (OSError, ValueError, KeyError):
         return None
+
+
+def _archive_rounds(season: int) -> list[int]:
+    """Find round hints in the active store without requiring archive exports."""
+    if database_enabled():
+        prefix = f"archive:{season}:"
+        return sorted({int(name[len(prefix):])
+                       for name in RuntimeDatabase().document_names(prefix)
+                       if name.startswith(prefix) and name[len(prefix):].isdigit()})
+    return sorted(int(p.name.removesuffix(".html.gz"))
+                  for p in (CACHE / str(season)).glob("*.html.gz")
+                  if p.name.removesuffix(".html.gz").isdigit())
 
 
 def _fixture_lambdas(
@@ -1392,9 +1404,7 @@ def main() -> int:
     for k_, v_ in H2H.items():
         if len(k_) == 3:
             H2H_ANY.setdefault((k_[1], k_[2]), (k_[0], v_))
-    have = sorted(int(p.stem.replace(".html", ""))
-                  for p in (CACHE / str(season)).glob("*.html.gz")) \
-        if (CACHE / str(season)).exists() else []
+    have = _archive_rounds(season)
     published = load_artifact("picks_v2", OUT / "picks_v2.json") or {}
     known_rounds = [int(value) for value in published.get("rounds", [])
                     if str(value).isdigit()]

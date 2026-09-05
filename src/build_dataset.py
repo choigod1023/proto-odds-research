@@ -1,7 +1,8 @@
-"""원본 HTML 캐시 → 분석용 데이터셋(CSV) 1회 변환.
+"""원본 HTML 캐시 → 분석용 데이터셋 1회 변환.
 
 553개 회차를 BeautifulSoup으로 매번 다시 파싱하면 분석 한 번에 수 분이 걸린다.
-한 번 펼쳐 CSV로 저장해두면 Q0·Q1·Q4·Q5가 전부 초 단위로 돌아간다.
+운영에서는 DB 문서를 읽고 두 데이터셋을 DB에 원자적으로 교체한다.
+개발 환경에서는 gzip fixture를 읽고 CSV를 생성한다.
 
 산출물
     data/processed/games.csv   게임행 단위 (Q1 마진 분석용)
@@ -36,7 +37,101 @@ BET_FIELDS = ["year", "round", "game_no", "sport", "league", "market_family",
               "odds", "won", "profit"]
 
 
+def _game_record(row) -> dict:
+    record = asdict(row)
+    record.update(
+        odds=",".join(f"{o:.2f}" for o in row.odds),
+        overround=f"{row.overround:.6f}" if row.overround else "",
+        market_family=row.market_family, booking_class=row.booking_class,
+        market_type=row.market_type, n_way=row.n_way,
+    )
+    return {key: record.get(key, "") for key in GAME_FIELDS}
+
+
+def _bet_record(bet) -> dict:
+    return {
+        "year": bet.year, "round": bet.round, "game_no": bet.game_no,
+        "sport": bet.sport, "league": bet.league,
+        "market_family": bet.market_family, "booking_class": bet.booking_class,
+        "n_way": bet.n_way, "overround": f"{bet.overround:.6f}",
+        "selection": bet.selection, "sel_index": bet.sel_index,
+        "odds": f"{bet.odds:.2f}", "won": int(bet.won), "profit": f"{bet.profit:.4f}",
+    }
+
+
+class _IncompleteArchive(ValueError):
+    pass
+
+
+def _archive_key(name: str) -> tuple[int, int]:
+    parts = name.split(":")
+    if (len(parts) != 3 or parts[0] != "archive" or len(parts[1]) != 4
+            or not parts[1].isdigit() or not parts[2].isdigit()
+            or int(parts[2]) < 1):
+        raise _IncompleteArchive(f"Invalid archive name: {name}")
+    return int(parts[1]), int(parts[2])
+
+
+def _database_records(database, names, *, stats: dict):
+    """Read and parse one archive once, then emit both datasets from those rows.
+
+    Only the document-name list spans the build. Each HTML read completes before
+    parsing, so collectors and WAL checkpoints can proceed during conversion.
+    The writer stages this stream before atomically publishing both datasets.
+    """
+    years_seen = set()
+    latest_year = None
+    n_games = n_bets = 0
+    started = time.time()
+    for index, name in enumerate(names, 1):
+        year, rnd = _archive_key(name)
+        latest_year = max(latest_year or year, year)
+        html = database.get_document(name)
+        if not isinstance(html, str):
+            raise _IncompleteArchive(f"Invalid or missing archive payload: {name}")
+        rows = parse_rows(repair_mojibake(html), year, rnd)
+        if rows:
+            years_seen.add(year)
+        for row in rows:
+            n_games += 1
+            yield "processed_games", _game_record(row)
+        for bet in to_bets(rows):
+            n_bets += 1
+            yield "processed_bets", _bet_record(bet)
+        if index % 50 == 0:
+            print(f"  DB: {index}/{len(names)} 회차 처리 "
+                  f"({time.time()-started:.0f}초)", flush=True)
+    if latest_year not in years_seen:
+        raise _IncompleteArchive(
+            f"최신 연도({latest_year}) 행이 0건 — 두 데이터셋을 교체하지 않습니다.")
+    stats.update(games=n_games, bets=n_bets, years=sorted(years_seen))
+
+
+def _build_database() -> int:
+    database = RuntimeDatabase()
+    started = time.time()
+    stats = {}
+    try:
+        names = sorted(database.document_names("archive:"), key=_archive_key)
+        if not names:
+            print("DB 캐시가 비어 있습니다. 먼저 python src/collect.py 를 실행하세요.")
+            return 1
+        database.replace_datasets_records(
+            {"processed_games": GAME_FIELDS, "processed_bets": BET_FIELDS},
+            _database_records(database, names, stats=stats),
+        )
+    except _IncompleteArchive as error:
+        print(error)
+        return 1
+    print(f"\n완료 — 회차 {len(names)} · 게임행 {stats['games']:,} · 베팅레코드 {stats['bets']:,}")
+    print(f"소요 {time.time()-started:.0f}초 · 연도 {stats['years']}")
+    print("  DB: processed_games, processed_bets")
+    return 0
+
+
 def main() -> int:
+    if database_enabled():
+        return _build_database()
     files = sorted(CACHE.glob("*/*.html.gz"))
     if not files:
         print("캐시가 비어 있습니다. 먼저 python src/collect.py 를 실행하세요.")
@@ -76,28 +171,13 @@ def main() -> int:
                 rows = parse_rows(repair_mojibake(f.read()), year, rnd)
 
             for r in rows:
-                d = asdict(r)
-                d["odds"] = ",".join(f"{o:.2f}" for o in r.odds)
-                d["overround"] = f"{r.overround:.6f}" if r.overround else ""
-                d["market_family"] = r.market_family
-                d["booking_class"] = r.booking_class
-                d["market_type"] = r.market_type
-                d["n_way"] = r.n_way
-                gw.writerow({k: d.get(k, "") for k in GAME_FIELDS})
+                gw.writerow(_game_record(r))
             n_games += len(rows)
             if rows:
                 years_seen.add(year)
 
             for b in to_bets(rows):
-                bw.writerow({
-                    "year": b.year, "round": b.round, "game_no": b.game_no,
-                    "sport": b.sport, "league": b.league,
-                    "market_family": b.market_family,
-                    "booking_class": b.booking_class, "n_way": b.n_way,
-                    "overround": f"{b.overround:.6f}", "selection": b.selection,
-                    "sel_index": b.sel_index, "odds": f"{b.odds:.2f}",
-                    "won": int(b.won), "profit": f"{b.profit:.4f}",
-                })
+                bw.writerow(_bet_record(b))
                 n_bets += 1
 
             if i % 50 == 0:
@@ -116,19 +196,8 @@ def main() -> int:
         tmp_b.unlink(missing_ok=True)
         return 1
 
-    # 운영에서는 DB가 정본이다. 두 임시 CSV가 모두 완주한 뒤 DB 트랜잭션으로
-    # 각각 교체하고, 호환 CSV는 DB에서 다시 만든다.
-    if database_enabled():
-        db = RuntimeDatabase()
-        db.replace_dataset_csv("processed_games", tmp_g)
-        db.replace_dataset_csv("processed_bets", tmp_b)
-        db.export_dataset_csv("processed_games", OUT / "games.csv")
-        db.export_dataset_csv("processed_bets", OUT / "bets.csv")
-        tmp_g.unlink(missing_ok=True)
-        tmp_b.unlink(missing_ok=True)
-    else:
-        tmp_g.replace(OUT / "games.csv")
-        tmp_b.replace(OUT / "bets.csv")
+    tmp_g.replace(OUT / "games.csv")
+    tmp_b.replace(OUT / "bets.csv")
 
     print(f"\n완료 — 회차 {len(files)} · 게임행 {n_games:,} · 베팅레코드 {n_bets:,}")
     print(f"소요 {time.time()-t0:.0f}초 · 연도 {sorted(years_seen)}")

@@ -32,7 +32,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
-from runtime_db import load_artifact, persist_artifact
+from runtime_db import load_artifact, load_document, persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_scores.json"
@@ -97,9 +97,7 @@ def _session() -> requests.Session:
 
 def _aliases() -> dict[str, list[str]]:
     """네이버 팀명 → 그 팀을 가리키는 모든 이름(프로토 표기 포함)."""
-    if not TEAM_MAP.exists():
-        return {}
-    raw = json.loads(TEAM_MAP.read_text(encoding="utf-8"))
+    raw = load_document("processed_team_map", TEAM_MAP) or {}
     out: dict[str, list[str]] = {}
     for league in raw.values():
         # team_map 은 {프로토명: 네이버명} 형태다

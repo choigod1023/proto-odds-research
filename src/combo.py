@@ -41,7 +41,7 @@ from math import comb
 from pathlib import Path
 
 import pandas as pd
-from runtime_db import persist_artifact
+from runtime_db import persist_artifact, read_frame
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "processed" / "bets.csv"
@@ -56,7 +56,7 @@ TARGETS = [1.4, 2, 3, 5, 8, 12, 20, 50]
 
 def legs() -> list[dict]:
     """배당대별 다리 하나의 실측. 2-way 만 쓴다(환급률이 가장 좋다)."""
-    b = pd.read_csv(SRC)
+    b = read_frame("processed_bets", SRC)
     b = b[(b["booking_class"] == "2-way") & (b["odds"] > 1.0)]
     b["bin"] = pd.cut(b["odds"], BINS, labels=LABELS)
     out = []
@@ -120,7 +120,7 @@ def build() -> dict:
                 (min(c["roi"] for c in cands) - best["roi"]) / max(1, len(cands) - 1), 4),
         })
 
-    b = pd.read_csv(SRC)
+    b = read_frame("processed_bets", SRC)
     b = b[b["odds"] > 1.0]
     any_roi = float(b["profit"].mean())
     tw = b[b["booking_class"] == "2-way"]

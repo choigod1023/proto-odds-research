@@ -15,9 +15,9 @@ from pathlib import Path
 import requests
 
 try:  # 패키지 테스트와 src/ 직접 실행을 모두 지원한다.
-    from .runtime_db import RuntimeDatabase, database_enabled, persist_document
+    from .runtime_db import load_document, persist_document
 except ImportError:  # pragma: no cover - generate_v2.py의 직접 실행 경로
-    from runtime_db import RuntimeDatabase, database_enabled, persist_document
+    from runtime_db import load_document, persist_document
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE_PATH = ROOT / "data" / "raw" / "llm_cache" / "player_names_ko.json"
@@ -32,9 +32,7 @@ _FOREIGN = re.compile(r"[A-Za-zぁ-んァ-ヶ一-龯]")
 
 def _load() -> dict[str, str]:
     try:
-        stored = (RuntimeDatabase().get_document("player_names_ko")
-                  if database_enabled() else None)
-        value = stored if stored is not None else json.loads(CACHE_PATH.read_text(encoding="utf-8"))
+        value = load_document("player_names_ko", CACHE_PATH) or {}
         return {str(k): str(v) for k, v in value.items() if _valid(str(k), str(v))}
     except (OSError, ValueError, TypeError):
         return {}

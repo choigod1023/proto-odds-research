@@ -1,6 +1,6 @@
 """과거 회차 일괄 수집 (설계서 S2).
 
-한 번 긁어 gzip 캐시에 넣어두면 Q0·Q1·Q4·Q5가 전부 이 캐시를 재파싱해서 돌아간다.
+한 번 수집해 운영 DB(개발 환경은 gzip)에 넣으면 분석에서 다시 사용할 수 있다.
 멱등: 캐시가 있는 회차는 요청하지 않으므로 중단 후 재실행해도 안전하다.
 
 사용:
@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from wisetoto import _cache_path, _session, fetch_round, parse_rows  # noqa: E402
+from wisetoto import archive_cached, _session, fetch_round, parse_rows  # noqa: E402
 
 MAX_ROUND = 175          # 상한 (프로토는 연 150회차 내외)
 MISS_STREAK_STOP = 8     # 연속 실패가 이만큼이면 그 해는 끝난 것으로 간주
@@ -26,7 +26,7 @@ def collect_year(year: int) -> tuple[int, int]:
     streak = 0
 
     for rnd in range(1, MAX_ROUND + 1):
-        if _cache_path(year, rnd).exists():
+        if archive_cached(year, rnd):
             cached += 1
             streak = 0
             continue

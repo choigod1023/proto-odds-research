@@ -47,8 +47,7 @@ def test_main_refreshes_picks_immediately_after_persist(monkeypatch):
                         lambda: calls.append(("export", None)) or [])
 
     assert odds_live.main(["odds_live.py"]) == 0
-    assert calls == [("persist", collected), ("refresh", collected),
-                     ("export", None)]
+    assert calls == [("persist", collected), ("refresh", collected)]
 
 
 def test_main_keeps_last_prices_and_still_refreshes_on_empty_poll(monkeypatch):
@@ -73,7 +72,7 @@ def test_main_keeps_last_prices_and_still_refreshes_on_empty_poll(monkeypatch):
                         lambda: calls.append(("export", None)) or [])
 
     assert odds_live.main(["odds_live.py"]) == 0
-    assert [name for name, _ in calls] == ["persist", "refresh", "export"]
+    assert [name for name, _ in calls] == ["persist", "refresh"]
     persisted = calls[0][1]
     assert persisted["odds"] == {"104": {"9001": [1.8, 2.0], "9002": [1.5, 2.6]}}
     assert persisted["rounds"] == [104] and persisted["n"] == 2  # 실경기 2건으로 재계산

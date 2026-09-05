@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import sqlite3
 from typing import Any, Iterable, Iterator, Mapping
+from runtime_datasets import DatasetStore, RESULT_SCHEMA
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,14 +30,22 @@ def database_enabled() -> bool:
     return bool(os.environ.get("PROODD_DB_PATH"))
 
 
-class RuntimeDatabase:
+class _Connection(sqlite3.Connection):
+    def __exit__(self, *args):
+        try:
+            return super().__exit__(*args)
+        finally:
+            self.close()
+
+
+class RuntimeDatabase(DatasetStore):
     def __init__(self, path: str | Path | None = None) -> None:
         self.path = Path(path) if path is not None else configured_path()
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._initialize()
 
     def connect(self) -> sqlite3.Connection:
-        connection = sqlite3.connect(self.path, timeout=30)
+        connection = sqlite3.connect(self.path, timeout=30, factory=_Connection)
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("PRAGMA synchronous=NORMAL")
@@ -59,6 +68,7 @@ class RuntimeDatabase:
 
     def _initialize(self) -> None:
         with self.connect() as connection:
+            connection.executescript(RESULT_SCHEMA)
             connection.executescript(
                 """
                 CREATE TABLE IF NOT EXISTS odds_snapshots (
@@ -288,58 +298,48 @@ class RuntimeDatabase:
             writer.writerows(rows)
         temporary.replace(path)
 
-    def replace_dataset_csv(self, name: str, source: Path) -> int:
-        """완성된 CSV를 한 트랜잭션으로 교체해 잘린 데이터셋을 노출하지 않는다."""
-        digest = hashlib.sha256()
-        with source.open("rb") as raw:
-            for chunk in iter(lambda: raw.read(1024 * 1024), b""):
-                digest.update(chunk)
-        content_hash = digest.hexdigest()
-        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        with source.open(newline="", encoding="utf-8") as handle:
+    def replace_dataset_csv(self, name: str, source: Path, *, insert_only=False) -> int:
+        """Explicit legacy import only; normal producers call replace_dataset_rows."""
+        with source.open(newline="", encoding="utf-8-sig") as handle:
             reader = csv.DictReader(handle)
             fields = list(reader.fieldnames or [])
             if not fields:
                 raise ValueError(f"CSV header missing: {source}")
-            with self.transaction() as connection:
-                current = connection.execute(
-                    "SELECT revision,content_hash FROM dataset_revisions WHERE name=?",
-                    (name,),
-                ).fetchone()
-                if current is not None and current["content_hash"] == content_hash:
-                    return int(current["revision"])
-                revision = 1 if current is None else int(current["revision"]) + 1
-                connection.execute(
-                    """INSERT INTO dataset_revisions
-                       (name,revision,fieldnames_json,row_count,content_hash,generated_at)
-                       VALUES (?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET
-                       revision=excluded.revision,fieldnames_json=excluded.fieldnames_json,
-                       row_count=excluded.row_count,content_hash=excluded.content_hash,
-                       generated_at=excluded.generated_at""",
-                    (name, revision, json.dumps(fields), 0, content_hash, now),
-                )
-                connection.execute("DELETE FROM dataset_rows WHERE dataset=?", (name,))
-                batch: list[tuple[str, int, str]] = []
-                row_count = 0
-                for row_count, row in enumerate(reader, 1):
-                    batch.append((name, row_count, json.dumps(
-                        row, ensure_ascii=False, separators=(",", ":"))))
-                    if len(batch) >= 5000:
-                        connection.executemany(
-                            "INSERT INTO dataset_rows(dataset,ordinal,payload_json) VALUES (?,?,?)",
-                            batch,
-                        )
-                        batch.clear()
-                if batch:
-                    connection.executemany(
-                        "INSERT INTO dataset_rows(dataset,ordinal,payload_json) VALUES (?,?,?)",
-                        batch,
-                    )
-                connection.execute(
-                    "UPDATE dataset_revisions SET row_count=? WHERE name=?",
-                    (row_count, name),
-                )
-        return revision
+            return self.replace_dataset_rows(name, reader, fields, insert_only=insert_only)
+
+    def put_document_if_absent(self, name: str, payload: Any) -> bool:
+        body = self._canonical(payload)
+        return self.import_document_json(name, body, insert_only=True)
+
+    def import_document_json(self, name: str, body: str, *, insert_only=False) -> bool:
+        # Atomic bootstrap condition: a concurrent live writer always wins over
+        # an old/missing-timestamp legacy document.
+        try:
+            with self.connect() as connection:
+                stamp = connection.execute("SELECT json_extract(?, '$.generated_at')", (body,)).fetchone()[0]
+        except sqlite3.OperationalError:
+            raise ValueError(f"invalid JSON document: {name}") from None
+        digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+        now = datetime.now(timezone.utc).isoformat(timespec="microseconds")
+        conflict = "DO NOTHING" if insert_only else """DO UPDATE SET
+          revision=documents.revision+1,generated_at=excluded.generated_at,
+          content_hash=excluded.content_hash,payload_json=excluded.payload_json,
+          stored_at=excluded.stored_at
+          WHERE julianday(excluded.generated_at)>julianday(documents.generated_at)"""
+        with self.transaction() as connection:
+            cursor = connection.execute(f"""INSERT INTO documents VALUES (?,?,?,?,?,?)
+                ON CONFLICT(name) {conflict}""", (name, 1, stamp, digest, body, now))
+            return cursor.rowcount > 0
+
+    def import_artifact(self, name: str, payload: Mapping[str, Any]) -> bool:
+        now = datetime.now(timezone.utc).isoformat(timespec="microseconds")
+        with self.transaction() as connection:
+            cursor = connection.execute("""INSERT INTO artifacts VALUES (?,?,?,?)
+                ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
+                payload_json=excluded.payload_json,stored_at=excluded.stored_at
+                WHERE julianday(excluded.generated_at)>julianday(artifacts.generated_at)""",
+                (name, payload.get("generated_at"), self._canonical(payload), now))
+            return cursor.rowcount > 0
 
     def export_dataset_csv(self, name: str, path: Path) -> None:
         with self.connect() as connection:
@@ -560,6 +560,31 @@ def load_artifact(name: str, path: Path) -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
+def load_document(name: str, path: Path) -> Any | None:
+    """DB misses remain misses; old exported files must never re-enter production."""
+    if database_enabled():
+        return RuntimeDatabase().get_document(name)
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def read_frame(name: str, path: Path, **kwargs):
+    """Read typed tabular inputs directly from DB; path is a dev fixture only."""
+    from runtime_frames import read_frame as read
+    return read(name, path, **kwargs)
+
+
+def persist_frame(name: str, frame, path: Path) -> None:
+    if database_enabled():
+        from runtime_frames import frame_rows
+        RuntimeDatabase().replace_dataset_rows(name, frame_rows(frame), list(frame.columns))
+    else:
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        frame.to_csv(path, index=False)
+
+
 def persist_document(name: str, payload: Any, path: Path,
                      *, indent: int | None = 1) -> None:
     """운영에서는 DB에만 저장하고, 개발 환경에서만 파일 fixture를 갱신한다."""
@@ -578,9 +603,8 @@ def persist_artifact(name: str, payload: Mapping[str, Any], path: Path,
         _atomic_json(path, payload, indent=indent)
 
 
-# GitHub Pages 로 배포되는 정적 사이트가 직접 읽는 산출물. 운영에서 생성기는
-# DB(artifacts 테이블)에만 쓰므로, git push 직전에 이 목록을 docs/data/*.json 으로
-# 내보내지 않으면 사이트가 마이그레이션 시점 값에서 영구히 멈춘다.
+# Explicit legacy/offline JSON export set. The production site reads the DB API;
+# collectors and supervisor never invoke this exporter in DB-native mode.
 SITE_ARTIFACTS = ("live_odds", "picks", "picks_v2", "today", "today_combo",
                   "live_scores", "loss_grades", "combo", "info_lag")
 # 폴링마다 바뀌는 실시간 산출물은 압축(indent 없음)으로 내보낸다.

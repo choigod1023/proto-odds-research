@@ -16,7 +16,7 @@ import statistics
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from runtime_db import persist_document
+from runtime_db import RuntimeDatabase, database_enabled, load_document, persist_document
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw" / "picksters"
@@ -28,6 +28,10 @@ FINDING = ROOT / "findings" / "픽스터_공개픽_전향검증.md"
 
 
 def _jsonl(path: Path) -> list[dict]:
+    if database_enabled():
+        stream = {LEADERBOARD_LOG: "pickster_leaderboard",
+                  PICK_LOG: "pickster_pick_events"}[path]
+        return RuntimeDatabase().events(stream)
     if not path.exists():
         return []
     out = []
@@ -215,11 +219,12 @@ def _latest_picks() -> dict[str, dict]:
 def _slate_profiles(latest: dict[str, dict]) -> dict:
     """현재 화면에 보인 선택 성향. baseline도 허용하지만 성과 주장에는 안 쓴다."""
     current_ids = None
-    if STATE.exists():
-        try:
-            current_ids = set(json.loads(STATE.read_text(encoding="utf-8")).get("current_pick_ids") or [])
-        except (OSError, json.JSONDecodeError):
-            current_ids = None
+    state = load_document("pickster_state", STATE)
+    if state is not None:
+        current_ids = set(state.get("current_pick_ids") or [])
+    elif database_enabled():
+        # Without a current slate, historical picks are not evidence of visibility.
+        current_ids = set()
     visible = [r for pid, r in latest.items() if current_ids is None or pid in current_ids]
     straight = [r for r in visible if not r.get("is_parlay_leg")]
     markets = Counter(r.get("market_type") or "other" for r in straight)
@@ -393,8 +398,14 @@ def write_outputs(result: dict) -> None:
         "독립 픽스터 수, 의견 엔트로피, 고표본군과 전체군의 일치, 공개 뒤 CLV다. 개선이 없으면 "
         "픽스터 쏠림은 예측 신호가 아니라 ‘이미 가격에 반영된 서사’로만 표시한다.", "",
     ]
-    FINDING.parent.mkdir(parents=True, exist_ok=True)
-    FINDING.write_text("\n".join(lines), encoding="utf-8")
+    report = "\n".join(lines)
+    if database_enabled():
+        RuntimeDatabase().put_document("pickster_eval_report", {
+            "generated_at": result.get("generated_at"), "markdown": report,
+        })
+    else:
+        FINDING.parent.mkdir(parents=True, exist_ok=True)
+        FINDING.write_text(report, encoding="utf-8")
 
 
 def _selftest() -> None:

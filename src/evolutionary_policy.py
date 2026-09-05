@@ -13,6 +13,8 @@ from typing import Iterable
 
 import numpy as np
 
+from runtime_db import load_document
+
 PROFILE_CONFIGS = {
     "safe": {
         "label": "안정형",
@@ -177,8 +179,10 @@ def canonical_hash(payload: dict) -> str:
 
 def load_artifact(path: Path) -> dict | None:
     try:
-        artifact = json.loads(path.read_text(encoding="utf-8"))
+        artifact = load_document("model_evolutionary_selector", path)
     except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(artifact, dict):
         return None
     expected = artifact.get("artifact_sha256")
     if not isinstance(expected, str) or expected != canonical_hash(artifact):

@@ -43,7 +43,7 @@ from soccer_info import (SOCCER_CATS, collect as collect_soccer_info,
 from japan_info import collect_npb_games
 
 from player_commentary import with_player_context
-from runtime_db import (RuntimeDatabase, database_enabled, load_artifact,
+from runtime_db import (RuntimeDatabase, database_enabled, load_artifact, load_document,
                         persist_artifact)
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -79,10 +79,7 @@ EXTRA_ALIAS = {
 
 
 def _team_map() -> dict:
-    try:
-        return json.loads(TEAM_MAP.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
+    return load_document("processed_team_map", TEAM_MAP) or {}
 
 
 def canonical_team(league: str, name: str, mapping: dict | None = None) -> str:
@@ -126,12 +123,7 @@ def _num(value) -> float:
 
 def kbo_pitcher_stats(path: Path = KBO_DETAIL) -> dict[str, dict]:
     """저장된 완료 경기에서 투수별 최근 12선발 과정·결과 지표를 만든다."""
-    if not path.exists():
-        return {}
-    try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
+    raw = load_document("detail_kbo_baseball", path) or {}
 
     starts: dict[str, deque] = defaultdict(lambda: deque(maxlen=WINDOW))
     all_lines = []
@@ -186,12 +178,14 @@ def kbo_pitcher_stats(path: Path = KBO_DETAIL) -> dict[str, dict]:
 
 def announcement_games() -> list[dict]:
     """필드별 최신 관측을 경기 하나로 합친다. 날짜와 팀 별칭은 여기서 보존한다."""
-    if not ANNOUNCEMENTS.exists():
-        return []
     mapping, games = _team_map(), {}
     try:
-        with ANNOUNCEMENTS.open(newline="", encoding="utf-8") as f:
-            rows = csv.DictReader(f)
+        if database_enabled():
+            rows = RuntimeDatabase().events("starter_announcements")
+        else:
+            with ANNOUNCEMENTS.open(newline="", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+        if rows:
             for row in rows:
                 if row.get("field") not in ("homeStarterName", "awayStarterName"):
                     continue
@@ -207,7 +201,7 @@ def announcement_games() -> list[dict]:
                     "updated_at": row.get("observed_at"),
                 })
                 side = "home" if row["field"] == "homeStarterName" else "away"
-                # CSV가 관측 시각순으로 쌓이므로 마지막 값이 최신 예고다.
+                # DB 이벤트와 로컬 fixture는 관측 시각순이며 마지막 값이 최신 예고다.
                 rec["starters"][side] = {"name": row.get("value"), "announced": True}
                 if str(row.get("observed_at")) > str(rec.get("updated_at")):
                     rec["updated_at"] = row.get("observed_at")
@@ -424,12 +418,7 @@ def collect() -> dict:
     """야구·축구·농구·배구 선수 자료를 합치고, 외부 장애 때 직전 캐시를 유지한다."""
     from runtime_db import RuntimeDatabase, database_enabled
     db = RuntimeDatabase() if database_enabled() else None
-    existing = db.get_document("player_info") if db else None
-    if existing is None and db is None:
-        try:
-            existing = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
-        except (OSError, json.JSONDecodeError):
-            existing = {}
+    existing = load_document("player_info", OUT) or {}
     announcements = announcement_games()
     games = announcements
     npb_name_cache = existing.get("npb_name_cache") or {}
@@ -489,13 +478,7 @@ def _mmdd(value: str) -> str | None:
 
 def game_index(doc: dict | None = None) -> dict[tuple, list[dict]]:
     if doc is None:
-        doc = (RuntimeDatabase().get_document("player_info")
-               if database_enabled() else None)
-        if doc is None and not database_enabled():
-            try:
-                doc = json.loads(OUT.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
-                doc = None
+        doc = load_document("player_info", OUT)
         doc = doc or {"games": announcement_games()}
     mapping, out = _team_map(), defaultdict(list)
     for rec in doc.get("games", []):

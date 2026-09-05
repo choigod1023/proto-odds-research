@@ -6,7 +6,6 @@
 """
 from __future__ import annotations
 
-import json
 import re
 import unicodedata
 from datetime import datetime
@@ -14,6 +13,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
+from runtime_db import load_artifact
 from bs4 import BeautifulSoup
 try:
     from .npb_lineups import (collect_npb_official_lineups, collect_npb_pitcher_stats,
@@ -410,10 +410,7 @@ def jleague_record_for(table: dict[str, dict], proto_team: str) -> dict | None:
 
 
 def _load_npb_proto_games(picks_path: Path, now: datetime) -> list[dict]:
-    try:
-        doc = json.loads(picks_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return []
+    doc = load_artifact("picks_v2", picks_path) or {}
     out, seen = [], set()
     for game in doc.get("live", []):
         if game.get("sport") != "bs" or game.get("league") != "NPB":

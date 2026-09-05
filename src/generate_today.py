@@ -26,7 +26,7 @@ from bets import SEL_NAMES                                 # noqa: E402
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities  # noqa: E402
 from snapshot import UNPLAYED, find_live_rounds, _fetch    # noqa: E402
 from wisetoto import CACHE, _session                       # noqa: E402
-from runtime_db import persist_artifact                    # noqa: E402
+from runtime_db import persist_artifact, read_frame, database_enabled, RuntimeDatabase  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 BETS = ROOT / "data" / "processed" / "bets.csv"
@@ -99,7 +99,7 @@ def make_comment(r, sels: list[dict], grade: str, warns: list[str],
 
 def build_lookup() -> dict:
     """과거 553회차에서 (booking구조 × 배당구간)별 실측 ROI 표를 만든다."""
-    b = pd.read_csv(BETS)
+    b = read_frame("processed_bets", BETS)
     b["bucket"] = b["odds"].map(bucket_of)
     g = b.groupby(["booking_class", "bucket"]).agg(
         n=("profit", "size"), roi=("profit", "mean")).reset_index()
@@ -108,7 +108,8 @@ def build_lookup() -> dict:
 
 
 def main() -> int:
-    if not BETS.exists():
+    if (RuntimeDatabase().dataset_metadata("processed_bets") is None
+            if database_enabled() else not BETS.exists()):
         print("먼저 python src/build_dataset.py 를 실행하세요.")
         return 1
     lookup = build_lookup()
@@ -119,6 +120,9 @@ def main() -> int:
     have = sorted(int(p.stem.replace(".html", ""))
                   for p in (CACHE / str(year)).glob("*.html.gz")) \
         if (CACHE / str(year)).exists() else []
+    if database_enabled():
+        have = [int(name.rsplit(":", 1)[1]) for name in
+                RuntimeDatabase().document_names(f"archive:{year}:")]
     hint = (max(have) - 3) if have else 1
     rounds = find_live_rounds(sess, year, hint)
     if not rounds:

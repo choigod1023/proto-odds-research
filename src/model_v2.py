@@ -21,6 +21,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from features import build_features                    # noqa: E402
 from matches import load_matches                       # noqa: E402
+from runtime_db import read_frame                       # noqa: E402
 from variable_impact import _brier, _fit               # noqa: E402
 
 TRAIN_END = 2024
@@ -48,7 +49,7 @@ def design(d: pd.DataFrame, cols: list[str]) -> np.ndarray:
 def attach_odds(df: pd.DataFrame, games_path: Path | None = None) -> pd.DataFrame:
     """승패 2-way 배당 결합. 충돌하는 재발매 가격은 임의 선택하지 않는다."""
     from matches import GAMES, _DATETIME_RE, _away, _home, actual_game_year
-    raw = pd.read_csv(games_path or GAMES)
+    raw = read_frame("processed_games", games_path or GAMES)
     raw = raw[(~raw["is_void"].astype(bool)) & (raw["market_family"] == "승패")
               & (raw["n_way"] == 2) & (raw["result"].isin(["홈승", "홈패"]))]
     parts = raw["odds"].str.split(",", expand=True)

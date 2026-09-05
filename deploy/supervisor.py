@@ -450,6 +450,10 @@ def _export_site_artifacts() -> None:
 
 def push_data() -> None:
     """수집 결과와 사이트 데이터만 커밋해 원격 main에 보낸다."""
+    # In DB-native operation no exported data is pushed back into the code repo.
+    # Source deployment and data retention are separate responsibilities.
+    if os.environ.get("PROODD_DB_PATH"):
+        return
     _export_site_artifacts()
     r = sh(["git", "status", "--porcelain", *TRACKED], cwd=REPO)
     if not r.stdout.strip():
@@ -563,10 +567,16 @@ def _run_steps(steps: list) -> None:
 
 def _run_publish_cycle(n: int) -> None:
     """한 번의 산출물 갱신 주기를 실행한다."""
-    missing = not (REPO / "data" / "processed" / "games.csv").exists()
+    if os.environ.get("PROODD_DB_PATH"):
+        sys.path.insert(0, str(REPO / "src"))
+        from runtime_db import RuntimeDatabase
+        meta = RuntimeDatabase().dataset_metadata("processed_games")
+        missing = meta is None or not meta["row_count"]
+    else:
+        missing = not (REPO / "data" / "processed" / "games.csv").exists()
     heavy = (n % HEAVY_EVERY_N == 0) or missing
     if missing and n:
-        log("games.csv 가 없다 — 무거운 단계를 앞당겨 실행한다")
+        log("경기 데이터셋이 없다 — 무거운 단계를 앞당겨 실행한다")
 
     log(f"=== 산출물 갱신 시작 ({'전체' if heavy else '가벼운 단계만'})")
     # 재시작 첫 주기는 전체 재계산이어서 길게는 수십 분 걸린다. 기존
@@ -662,6 +672,11 @@ def validate_anonymous_bet(value: object) -> dict:
 
 def store_anonymous_bet(value: object, path: Path = ANONYMOUS_BETS_PATH) -> dict:
     clean = validate_anonymous_bet(value)
+    if os.environ.get("PROODD_DB_PATH"):
+        sys.path.insert(0, str(REPO / "src"))
+        from runtime_db import RuntimeDatabase
+        RuntimeDatabase().append_events("anonymous_bets", [clean])
+        return clean
     line = json.dumps(clean, ensure_ascii=False, separators=(",", ":")) + "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     with _anonymous_bets_lock:

@@ -16,7 +16,6 @@ Open-Meteo 무료 endpoint는 비상업 용도와 출처표시 조건이다. 상
 from __future__ import annotations
 
 import argparse
-import csv
 import sys
 import time
 from datetime import timezone
@@ -26,6 +25,7 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from free_context import append_jsonl, utc_now  # noqa: E402
+from runtime_db import read_frame  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 VENUES = ROOT / "data" / "static" / "venues.csv"
@@ -44,8 +44,8 @@ HOURLY = [
 
 
 def load_venues(league: str | None = None, team: str | None = None) -> list[dict]:
-    with VENUES.open(encoding="utf-8", newline="") as f:
-        rows = list(csv.DictReader(f))
+    rows = read_frame("static_venues", VENUES, dtype=str,
+                      keep_default_na=False).to_dict("records")
     if league:
         rows = [r for r in rows if r["league"] == league]
     if team:

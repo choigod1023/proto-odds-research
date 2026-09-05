@@ -19,7 +19,7 @@ primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국
   TZ = "Asia/Seoul"
 
 # 볼륨 — 재시작해도 살아남는 디스크. 여기에 레포를 클론해 두고 돌린다.
-# (진짜 백업은 git push. 볼륨은 이 머신에만 붙어 있다.)
+# DB 데이터는 git에 push하지 않는다. SQLite/볼륨 백업을 별도로 운영한다.
 [mounts]
   source = "collector_data"
   destination = "/data"

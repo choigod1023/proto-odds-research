@@ -98,7 +98,6 @@ def _append(rows: list[dict]) -> None:
     if database_enabled():
         db = RuntimeDatabase()
         db.append_events("starter_announcements", rows)
-        db.export_events_csv("starter_announcements", LOG, FIELDS)
         return
     new = not LOG.exists()
     LOG.parent.mkdir(parents=True, exist_ok=True)
@@ -116,7 +115,6 @@ def _append_changes(rows: list[dict]) -> None:
     if database_enabled():
         db = RuntimeDatabase()
         db.append_events("starter_changes", rows)
-        db.export_events("starter_changes", CHANGE_LOG)
         return
     CHANGE_LOG.parent.mkdir(parents=True, exist_ok=True)
     with CHANGE_LOG.open("a", encoding="utf-8") as f:
@@ -225,12 +223,18 @@ def poll(sess: requests.Session, days_ahead: int = 5) -> int:
 
 def summarise() -> None:
     """지금까지 관측된 공개 시각 분포."""
-    if not LOG.exists():
+    if database_enabled():
+        rows = RuntimeDatabase().events("starter_announcements")
+    elif LOG.exists():
+        with LOG.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+    else:
+        rows = []
+    if not rows:
         print("아직 관측 기록이 없습니다.")
         return
     import statistics as stx
-    rows = list(csv.DictReader(LOG.open(encoding="utf-8")))
-    real = [r for r in rows if r.get("is_baseline") != "1"]
+    real = [r for r in rows if str(r.get("is_baseline")).lower() not in {"1", "true"}]
     n_base = len(rows) - len(real)
     hrs = [float(r["hours_before_game"]) for r in real
            if r.get("hours_before_game") not in (None, "", "None")]

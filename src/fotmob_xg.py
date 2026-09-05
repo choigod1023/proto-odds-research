@@ -265,9 +265,6 @@ def _collect(league: str, season: str | None, limit: int | None) -> int:
     finally:
         if fh:
             fh.close()
-    if db:
-        db.export_events("fotmob_xg", OUT)
-
     cov = ok / max(ok + noxg, 1)
     print(f"\n적재 {ok} · xG없음 {noxg} (커버리지 {cov:.0%}) · 실패 {fail}  →  {OUT}")
     return 0

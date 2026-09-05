@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import csv
+import gzip
+import argparse
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -11,6 +13,9 @@ from runtime_db import ROOT, RuntimeDatabase
 
 
 DOCUMENT_SOURCES = {
+    "model_probability_pipeline_v1": "data/models/probability_pipeline_v1.json",
+    "model_evolutionary_selector": "findings/evolutionary_selector.json",
+    "processed_kbo_starter_xfip": "data/processed/kbo_starter_xfip.json",
     "player_info": "data/raw/player_info.json",
     "baseball_context_state": "data/raw/baseball_context/_state.json",
     "pickster_state": "data/raw/picksters/_state.json",
@@ -53,29 +58,13 @@ def _generated_at(payload: object) -> datetime | None:
 
 
 def _import_artifact_if_newer(db: RuntimeDatabase, name: str, payload: dict) -> bool:
-    """부팅 이관이 운영 DB의 더 최신 산출물을 되돌리지 않게 한다."""
-    current = db.get_artifact(name)
-    if current is not None:
-        incoming_at = _generated_at(payload)
-        current_at = _generated_at(current)
-        # 어느 쪽이 최신인지 증명할 수 없으면 지속 중인 운영 DB를 보존한다.
-        if incoming_at is None or current_at is None or incoming_at <= current_at:
-            return False
-    db.store_artifact(name, payload)
-    return True
+    """Atomically import only a provably newer legacy artifact."""
+    return db.import_artifact(name, payload)
 
 
 def _import_document_if_newer(db: RuntimeDatabase, name: str, raw: str) -> bool:
-    """호환 JSON 문서도 운영 DB보다 오래됐거나 시각 불명이면 덮지 않는다."""
-    current = db.get_document(name)
-    if current is not None:
-        incoming = json.loads(raw)
-        incoming_at = _generated_at(incoming)
-        current_at = _generated_at(current)
-        if incoming_at is None or current_at is None or incoming_at <= current_at:
-            return False
-    db.put_document_json(name, raw)
-    return True
+    """Check source freshness inside the same transaction as the import."""
+    return db.import_document_json(name, raw)
 
 EVENT_SOURCES = {
     "baseball_context_events": "data/raw/baseball_context/events.jsonl",
@@ -96,6 +85,11 @@ CSV_EVENT_SOURCES = {
 }
 
 DATASET_SOURCES = {
+    "static_venues": "data/static/venues.csv",
+    "static_venue_overrides": "data/static/venue_overrides.csv",
+    "processed_lineup_soccer": "data/processed/lineup_soccer.csv",
+    "processed_schedule_context": "data/processed/schedule_context.csv",
+    "processed_lineup_workload": "data/processed/lineup_workload.csv",
     "processed_games": "data/processed/games.csv",
     "processed_bets": "data/processed/bets.csv",
     "processed_info_lag": "data/processed/info_lag.csv",
@@ -167,7 +161,10 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase, *,
             events += db.append_events(stream, batch)
         db.mark_migrated(source, fingerprint, seen)
 
-    for name, relative in DATASET_SOURCES.items() if include_datasets else ():
+    # Small static reference tables are required even on a fast bootstrap.
+    dataset_sources = DATASET_SOURCES.items() if include_datasets else (
+        (name, relative) for name, relative in DATASET_SOURCES.items() if name.startswith("static_"))
+    for name, relative in dataset_sources:
         path = root / relative
         if not path.exists():
             continue
@@ -175,12 +172,89 @@ def _migrate_runtime_sources(root: Path, db: RuntimeDatabase, *,
         source = f"dataset:{relative}"
         if db.migration_is_current(source, fingerprint):
             continue
-        db.replace_dataset_csv(name, path)
+        # A legacy file is a bootstrap source, never a newer runtime revision.
+        # In particular startup must not overwrite a live DB dataset with an old export.
+        if db.dataset_metadata(name) is not None:
+            continue
+        db.replace_dataset_csv(name, path, insert_only=True)
         with path.open(encoding="utf-8") as handle:
             row_count = max(sum(1 for _ in handle) - 1, 0)
         db.mark_migrated(source, fingerprint, row_count)
         datasets += 1
     return documents, events, datasets
+
+
+def migrate_archives(root: Path, db: RuntimeDatabase) -> int:
+    imported = 0
+    for path in sorted((root / "data/raw/wisetoto").glob("*/*.html.gz")):
+        name = f"archive:{int(path.parent.name)}:{int(path.name.split('.')[0])}"
+        if db.document_metadata(name) is not None:
+            continue
+        with gzip.open(path, "rt", encoding="utf-8") as handle:
+            imported += int(db.put_document_if_absent(name, handle.read()))
+    return imported
+
+
+def backfill_match_history(db: RuntimeDatabase) -> None:
+    meta = db.dataset_metadata("processed_games")
+    if meta is None or db.migration_is_current("match-results-v1", meta["content_hash"]):
+        return
+    # Stage from the existing DB, not the legacy file. Atomic publication also
+    # creates the normalized history index needed by form/prediction queries.
+    try:
+        db.replace_dataset_rows("processed_games", db.iter_dataset("processed_games"),
+                                json.loads(meta["fieldnames_json"]),
+                                expected_revisions={"processed_games": meta["revision"]})
+    except RuntimeError as error:
+        if "Dataset changed during staging" not in str(error):
+            raise
+        return  # a newer paired build won; retry its history next migration
+    current = db.dataset_metadata("processed_games")
+    db.mark_migrated("match-results-v1", current["content_hash"], current["row_count"])
+
+
+def migrate_extra_sources(root: Path, db: RuntimeDatabase) -> dict[str, int]:
+    """Explicit archival import for non-operational/research structured inputs.
+
+    They remain queryable/exportable under legacy/<relative path>. This does not
+    promote a research model into operational prediction or trust an old export.
+    """
+    known = set(DOCUMENT_SOURCES.values()) | set(EVENT_SOURCES.values()) | set(CSV_EVENT_SOURCES.values()) | set(DATASET_SOURCES.values())
+    counts = {"extra_documents": 0, "extra_datasets": 0, "extra_events": 0}
+    for path in sorted((root / "data").rglob("*")):
+        if not path.is_file() or path.suffix not in (".json", ".jsonl", ".csv"):
+            continue
+        relative = path.relative_to(root).as_posix()
+        if relative in known or relative.startswith(("data/runtime/", "data/raw/snapshots/odds_timeseries", "data/raw/prediction_ledger/")):
+            continue
+        name = f"legacy/{relative}"
+        fingerprint = _fingerprint(path)
+        if db.migration_is_current(name, fingerprint):
+            continue
+        count = 0
+        if path.suffix == ".csv":
+            if db.dataset_metadata(name) is None:
+                db.replace_dataset_csv(name, path, insert_only=True)
+                count = db.dataset_metadata(name)["row_count"]
+                counts["extra_datasets"] += 1
+        elif path.suffix == ".json":
+            if db.document_metadata(name) is None:
+                db.import_document_json(name, path.read_text(encoding="utf-8-sig"), insert_only=True)
+                count = 1
+                counts["extra_documents"] += 1
+        else:
+            batch = []
+            with path.open(encoding="utf-8-sig") as handle:
+                for line in handle:
+                    if line.strip():
+                        batch.append(json.loads(line))
+                        count += 1
+                    if len(batch) >= 1000:
+                        counts["extra_events"] += db.append_events(name, batch)
+                        batch.clear()
+                counts["extra_events"] += db.append_events(name, batch)
+        db.mark_migrated(name, fingerprint, count)
+    return counts
 
 
 def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
@@ -227,13 +301,33 @@ def migrate(root: Path = ROOT, database: RuntimeDatabase | None = None,
     if include_runtime_sources:
         documents, events, datasets = _migrate_runtime_sources(
             root, db, include_datasets=include_datasets)
-    return {"odds_imported": odds, "predictions_imported": predictions,
+    archives = 0
+    if include_datasets:
+        archives = migrate_archives(root, db)
+        backfill_match_history(db)
+    return {"archives_imported": archives, "odds_imported": odds, "predictions_imported": predictions,
             "artifacts_imported": artifacts, "documents_imported": documents,
             "events_imported": events, "datasets_imported": datasets, **db.counts()}
 
 
 if __name__ == "__main__":
-    critical = "--critical" in sys.argv
-    print(json.dumps(migrate(include_odds=not critical,
-                             include_runtime_sources=True,
-                             include_datasets=not critical), ensure_ascii=False))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--critical", action="store_true", help="Small bootstrap inputs only")
+    parser.add_argument("--all-sources", action="store_true", help="Also archive all remaining data CSV/JSON/JSONL")
+    parser.add_argument("--inventory", action="store_true", help="Report file sizes without writing a DB")
+    args = parser.parse_args()
+    if args.inventory:
+        sizes = {}
+        for path in (ROOT / "data").rglob("*"):
+            if path.is_file() and path.suffix in (".csv", ".json", ".jsonl", ".gz"):
+                sizes[path.suffix] = sizes.get(path.suffix, 0) + path.stat().st_size
+        print(json.dumps({"source_bytes_by_extension": sizes,
+                          "note": "DB indexes, uncompressed HTML, WAL, backup and staging need additional space"}))
+    else:
+        if args.critical and args.all_sources:
+            parser.error("--critical and --all-sources cannot be combined")
+        result = migrate(include_odds=not args.critical, include_runtime_sources=True,
+                         include_datasets=not args.critical)
+        if args.all_sources:
+            result.update(migrate_extra_sources(ROOT, RuntimeDatabase()))
+        print(json.dumps(result, ensure_ascii=False))

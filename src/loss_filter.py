@@ -42,7 +42,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from runtime_db import persist_artifact
+from runtime_db import persist_artifact, read_frame
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stack_filter import WIN_IDX, build                  # noqa: E402
@@ -117,7 +117,7 @@ def odds_caps() -> list[dict]:
        (유령 26,367개). 그래서 정본 `matches.clean_team` 하나만 쓴다.
     """
     import re as _re
-    g = pd.read_csv(ROOT / "data" / "processed" / "games.csv")
+    g = read_frame("processed_games", ROOT / "data" / "processed" / "games.csv")
     g = g[(~g["is_void"].astype(bool)) & (g["n_way"] > 0)].copy()
     g["ht"] = [clean_team(x) for x in g["home"]]
     g["at"] = [clean_team(x) for x in g["away"]]
@@ -174,7 +174,7 @@ def pick_modes(odds_rows, mkt_rows) -> dict:
     cell = {(r["fam"], r["bin"]): r for r in mkt_rows}
 
     import re as _re
-    g = pd.read_csv(ROOT / "data" / "processed" / "games.csv")
+    g = read_frame("processed_games", ROOT / "data" / "processed" / "games.csv")
     g = g[(~g["is_void"].astype(bool)) & (g["n_way"] > 0)].copy()
     g["ht"] = [clean_team(x) for x in g["home"]]
     g["at"] = [clean_team(x) for x in g["away"]]

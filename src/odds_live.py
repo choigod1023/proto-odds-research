@@ -38,7 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from snapshot import find_live_rounds, _fetch, UNPLAYED  # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
 from runtime_db import (export_site_artifacts, load_artifact,  # noqa: E402
-                        persist_artifact)
+                        persist_artifact, database_enabled, RuntimeDatabase)
 from live_market_refresh import refresh_once           # noqa: E402
 from devig import market_probabilities                  # noqa: E402
 
@@ -55,6 +55,10 @@ def _clean_team(value: str) -> str:
 
 def _start_hint(season: int) -> int:
     """훑기 시작할 회차. 아카이브에 있는 최신 회차에서 조금 앞으로 물러선다."""
+    if database_enabled():
+        have = [int(name.rsplit(":", 1)[1]) for name in
+                RuntimeDatabase().document_names(f"archive:{season}:")]
+        return max(1, max(have) - 3) if have else 1
     d = CACHE / str(season)
     have = sorted(int(p.stem.replace(".html", "")) for p in d.glob("*.html.gz")) \
         if d.exists() else []
@@ -280,16 +284,7 @@ def main(argv: list[str]) -> int:
                 refresh_once(data)
                 print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} "
                       "→ runtime artifact live_odds", flush=True)
-            # 정적 사이트(GitHub Pages)가 읽는 docs/data/*.json 을 DB 정본에서 다시
-            # 써 준다. 이게 없으면 fly serve_live 엔드포인트만 최신이고 배포 사이트는
-            # 이관 시점 값에서 멈춘다(2026-09-03 실측). 60초 주기라 사실상 실시간이다.
-            try:
-                written = export_site_artifacts()
-                if written:
-                    print(f"사이트 파일 갱신: {', '.join(written)}", flush=True)
-            except Exception as exc:                     # noqa: BLE001
-                print(f"사이트 파일 내보내기 실패: {type(exc).__name__}: {exc}",
-                      flush=True)
+            # The site polls the database API. File exports are explicit only.
         except Exception as e:                          # noqa: BLE001
             # 여기서 죽으면 화면이 낡은 값을 쓸 뿐이다. 다음 주기에 다시 한다.
             print(f"실시간 배당 실패: {type(e).__name__}: {e}", flush=True)
