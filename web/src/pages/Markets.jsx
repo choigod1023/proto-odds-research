@@ -22,6 +22,7 @@ import { savedLivePrediction } from "../lib/saved-live-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
+import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
 const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
@@ -129,7 +130,7 @@ export default function Markets() {
   const d = livePicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
-  const { data: directLiveFeed } = useLive();
+  const { data: directLiveFeed, checked: liveChecked } = useLive();
   const liveFeed = directLiveFeed;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
@@ -176,7 +177,7 @@ export default function Markets() {
   return (
     <Shell meta={metaLine(d, at)}>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday} /></section>
+        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} /></section>
     </Shell>
   );
 }
@@ -303,7 +304,7 @@ const STATUS = [
   ["finished", "종료"], ["pending", "결과 확인 중"],
 ];
 
-function GameList({ data, grades, caps, stale, today }) {
+export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false }) {
   const [betDraft, setBetDraft] = useState(null);
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
@@ -363,7 +364,7 @@ function GameList({ data, grades, caps, stale, today }) {
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
   const markets = useMemo(
-    () => uniq(pool.flatMap((g) => (g.options || []).map((o) => o.market))).sort(), [pool]);
+    () => uniq(pool.flatMap((g) => [...(g.options || []).map((o) => o.market), g.prediction_record?.market])).sort(), [pool]);
   const rounds = useMemo(() => uniq(pool.map((g) => g.round)).sort((a, b) => b - a), [pool]);
 
   const games = useMemo(() => {
@@ -381,14 +382,21 @@ function GameList({ data, grades, caps, stale, today }) {
         return order[gamePhase(a)] - order[gamePhase(b)]
           || String(a.date).localeCompare(String(b.date));
       });
-  }, [pool, f, selectedDate]);
+  }, [pool, f, selectedDate, clock]);
+
+  const liveObserved = Date.parse(liveGeneratedAt);
+  const liveDelayed = liveChecked && (!Number.isFinite(liveObserved)
+    || clock - liveObserved > 10 * 60 * 1000 || liveObserved > clock + 5000)
+    && pool.some((game) => String(game.date || "").slice(0, 5) === kstMMDD(0, clock)
+      && scheduledAt(game) != null && scheduledAt(game) <= clock && gamePhase(game) !== "finished");
 
   const phaseCounts = pool.filter((g) => {
     const q = f.q.trim().toLowerCase();
     return (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
       (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
-      (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q));
+      (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)) &&
+      matchesGameMarketFilters(g, f.mk, cap);
   }).reduce((counts, game) => {
     const phase = gamePhase(game);
     counts[phase] = (counts[phase] || 0) + 1;
@@ -404,15 +412,7 @@ function GameList({ data, grades, caps, stale, today }) {
   for (const g of games) {
     const opts = (g.options || []).filter((o) => !f.mk || o.market === f.mk);
     const wait = g.status === "배당대기";
-    if (!opts.length && !wait) continue;
-    if (wait && f.mk) continue;
-    if (cap && wait) continue;      // 배당이 없으면 상한을 적용할 수 없다
-    // 최저배당 상한 — 강한 favorite 이 없는 경기는 버린다
-    // ⚠️ n++ 를 이 필터 **앞**에 두면 헤더의 '몇 경기' 가 버린 경기까지 센다.
-    if (cap) {
-      const lo = Math.min(...opts.map((o) => o["배당"]).filter((x) => x > 0));
-      if (!(lo <= cap)) continue;
-    }
+    if (!matchesGameMarketFilters(g, f.mk, cap)) continue;
     const todaySelection = wait || stale || (g._liveOddsChanged && !decisionFrozen(g))
       ? { option: null, membership: null }
       : todaySelectionForGame(todayMemberships, g.options || [], g.round);
@@ -460,6 +460,13 @@ function GameList({ data, grades, caps, stale, today }) {
         <div className="mb-5 rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
           <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 경기 판정을 멈췄습니다. 수집이 복구되면 경기별 픽과 추천 강도가 자동으로 다시 표시됩니다.</p>
+        </div>
+      )}
+      {liveDelayed && (
+        <div role="status" className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
+          <b>실시간 점수 갱신 지연</b>
+          <p>경기와 저장된 사전 픽은 유지합니다. 최신 점수가 확인될 때까지 현재 추정 확률은 표시하지 않습니다.</p>
+          {Number.isFinite(liveObserved) && <small>마지막 수집: {new Date(liveObserved).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} (KST)</small>}
         </div>
       )}
       <div className="filter-shell">
@@ -733,7 +740,10 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                   title="사전 확률에 현재 점수와 남은 시간을 반영한 상황 추정치" />}
             </>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
-            : phase === "finished" ? <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
+            : phase === "finished" ? <span className="flex flex-col items-end gap-1">
+                <span className={`result-badge is-${outcome.state}`}>{outcome.label}</span>
+                {Number(outcome.record?.odds) > 1 && <small className="tnum text-[11px] text-ink3">당시 배당 {odds(outcome.record.odds)}배</small>}
+              </span>
             : phase === "pending" ? <OddsChip label="상태" value="확인 중" />
             : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />

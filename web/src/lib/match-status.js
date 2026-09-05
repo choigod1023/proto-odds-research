@@ -24,7 +24,7 @@ export function gamePhase(game, live = game?._liveState, now = Date.now()) {
   const outcome = recommendationOutcome(game, live);
   if (["hit", "miss", "void"].includes(outcome.state)) return "finished";
   if (live?.cancelled || live?.postponed) return "pending";
-  const observed = new Date(game?._liveFeedAt || live?.observed_at || 0).getTime();
+  const observed = new Date(live?.observed_at || game?._liveFeedAt || 0).getTime();
   const feedFresh = !observed || Number(now) - observed <= 10 * 60 * 1000;
   if (live && live.status !== "BEFORE" && !live.finished && feedFresh) return "live";
   if (game?.status === "정산" || live?.finished) return "finished";

@@ -14,7 +14,7 @@ test("live card renders the saved pick and prior even with no current options", 
     esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] },
     server: { middlewareMode: true, watch: null }, appType: "custom" });
   try {
-    const { Game } = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const { Game, GameList } = await server.ssrLoadModule("/src/pages/Markets.jsx");
     const lv = { status: "STARTED", status_text: "6회초", home_score: 4, away_score: 1 };
     const g = { year: 2026, round: 105, date: "09.05(토) 18:00", sport: "bs",
       home: "홈팀", away: "원정팀", status: "경기전", options: [],
@@ -42,6 +42,23 @@ test("live card renders the saved pick and prior even with no current options", 
       g: { ...g, _liveFeedAt: "2026-09-05T10:00:00Z" } }));
     assert.match(stale, /57.0%/);
     assert.doesNotMatch(stale, /현재 추정/);
+    const list = renderToStaticMarkup(createElement(GameList, {
+      data: { live: [{ ...g, league: "NPB", _liveState: lv }], past: [], year: 2026 },
+      grades: { odds_bins: [] }, today: null,
+      liveChecked: true, liveGeneratedAt: "2026-09-05T10:00:00Z",
+    }));
+    assert.match(list, /홈팀/);
+    assert.match(list, /경기 전 예측 픽/);
+    assert.match(list, /실시간 점수 갱신 지연/);
+    for (const [home_score, away_score, result] of [[4, 1, "적중"], [1, 4, "적중실패"]]) {
+      const finished = renderToStaticMarkup(createElement(Game, { ...props,
+        g: { ...g, options: [{ selection_id: "saved", market: "승패", 선택: "홈", 배당: 9.9 }] },
+        lv: { status: "RESULT", finished: true, home_score, away_score } }));
+      const summary = finished.split("</summary>")[0];
+      assert.match(summary, new RegExp(result));
+      assert.match(summary, /당시 배당 1.80배/);
+      assert.doesNotMatch(summary, /9.90/);
+    }
   } finally {
     await server.close();
     Date.now = originalNow;

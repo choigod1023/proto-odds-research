@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { savedLivePrediction } from "./saved-live-prediction.js";
+import { gamePhase } from "./match-status.js";
 
 const now = Date.parse("2026-09-05T11:00:00Z");
 const record = { selection_id: "saved", offer_id: "old-offer", market: "승패", label: "",
@@ -45,6 +46,12 @@ test("missing/stale scores preserve the fixed prior, not a current estimate", ()
   assert.equal(stale.openingProbability, .57);
   assert.equal(stale.estimate, null);
   assert.equal(stale.estimateStatus, "stale_live");
+});
+
+test("republishing an old league row does not make its score current", () => {
+  const cached = { ...live, observed_at: "2026-09-05T10:00:00Z" };
+  assert.equal(savedLivePrediction(game, cached, now).estimateStatus, "stale_live");
+  assert.equal(gamePhase(game, cached, now), "pending");
 });
 test("totals always estimate against the saved line, never current lines", () => {
   const result = savedLivePrediction({ ...game, prediction_record: { ...record, market: "언더오버", label: "U/O 7.5", selection: "언더" },
