@@ -16,9 +16,9 @@ import { alignTodayRecommendations, buildTodayMemberships,
 import { usePolledData } from "../lib/poll.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
-import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome } from "../lib/match-status.js";
+import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
-import { estimateLiveProbability } from "../lib/bet-ledger.js";
+import { savedLivePrediction } from "../lib/saved-live-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
@@ -609,7 +609,7 @@ function MarketHistory({ rows }) {
   </details>;
 }
 
-function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
+export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
   todayOption, highlightedToday, onSaveBet }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
@@ -626,25 +626,23 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
   // 모델 최대확률을 골라 새 추천을 만들지 않는다.
   const done = g.status === "정산";
   const liveClosed = g._liveStarted === true;
+  const phase = gamePhase(g, lv);
+  const kickoff = scheduledAt(g);
+  const started = liveClosed || phase !== "upcoming" || (kickoff != null && kickoff <= Date.now());
+  const locked = started || decisionFrozen(g);
+  const saved = savedLivePrediction(g, lv);
   const predictionUnavailable = !g.prediction_record
     && (done || g.prediction_status === "prediction_ledger_required");
   const prediction = wait || stale || predictionUnavailable || g._liveOddsChanged
     ? null : predictionForGame(opts);
-  const savedPick = g.prediction_record;
-  const savedOption = savedPick && {
-    ...(opts.find((o) => o.selection_id === savedPick.selection_id) || {}),
-    selection_id: savedPick.selection_id, market: savedPick.market,
-    label: savedPick.label || "", 선택: savedPick.selection, 배당: savedPick.odds,
-  };
-  const displayedOption = (decisionFrozen(g) && savedOption)
-    || todayOption || prediction?.option || null;
+  const displayedOption = (locked && saved?.option)
+    || (!started ? todayOption || prediction?.option : null) || null;
   const pick = displayedOption ? {
     o: displayedOption,
     g: gradeOf(grades, displayedOption["배당"]),
     tie: false,
   } : null;
   // 프로토 정산은 경기가 끝나고도 한참 뒤다. 그 사이를 실시간 점수가 메운다.
-  const phase = gamePhase(g, lv);
   // 필터 집계와 카드 본문이 반드시 같은 상태 판정을 사용해야 한다. 단순히
   // finished=false만 보면 갱신이 끊긴 중계 스냅샷이 카드에 영원히 LIVE로 남는다.
   const playing = phase === "live";
@@ -663,11 +661,11 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
     || (outcome.source === "score" && g.sport === "sc" && lv?.regular_time_score)
     || (lv && lv.home_score != null && lv.away_score != null
         ? [lv.home_score, lv.away_score] : null);
-  const analysis = wait || stale || predictionUnavailable || liveClosed
+  const analysis = wait || stale || predictionUnavailable || started
     ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
   const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
   const forecast = analysis?.prediction;
-  const fallbackForecast = disruption || (g._liveOddsChanged
+  const fallbackForecast = disruption || (started && !saved ? "사전 예측 기록 없음" : g._liveOddsChanged
     ? "배당 변경 · 재계산 대기"
     : stale
     ? "최신 데이터 확인 필요"
@@ -678,20 +676,8 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
       : wait
         ? "배당 발표 전"
         : "분석 자료 확인 중");
-  const openingProbability = Number(
-    decision?.probability?.final ?? pick?.o?.["예상적중확률"] ?? pick?.o?.["시장확률"],
-  );
-  const liveProbability = playing && pick && Number.isFinite(openingProbability)
-    ? estimateLiveProbability({
-        openingProbability,
-        game: { sport: g.sport },
-        selection: {
-          market: pick.o.market,
-          label: pick.o.label || "",
-          choice: pick.o["선택"],
-        },
-      }, lv)
-    : null;
+  const openingProbability = saved?.openingProbability ?? null;
+  const liveProbability = playing ? saved?.estimate : null;
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
   // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
@@ -740,8 +726,10 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         <span className="flex gap-1.5">
           {playing ? <>
               <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
+              {Number.isFinite(openingProbability) &&
+                <OddsChip label="사전 확률" value={pct(openingProbability)} title="경기 시작 전에 저장된 픽의 고정 확률" />}
               {Number.isFinite(liveProbability?.probability) &&
-                <OddsChip label="현재 적중" value={pct(liveProbability.probability)}
+                <OddsChip label="현재 추정" value={pct(liveProbability.probability)}
                   title="사전 확률에 현재 점수와 남은 시간을 반영한 상황 추정치" />}
             </>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />
@@ -764,6 +752,14 @@ function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMember
         </span>
       </summary>
       <div className="match-detail">
+        {locked && saved && !finished && (
+          <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
+            <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>
+            <p>사전 확률 {Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음"} · 당시 배당 {odds(saved.option.배당)}</p>
+            {playing && !liveProbability && <small>현재 추정 확률은 {saved.estimateStatus === "unsupported_market"
+              ? "이 마켓에서 제공하지 않습니다." : "사전 확률과 최신 점수 자료가 모두 확인되어야 표시됩니다."}</small>}
+          </div>
+        )}
         <MarketHistory rows={g._marketHistory} />
         {todayMembership && recommendationReason && (
           <div className={`today-pick-signals ${highlightedToday ? "is-recommended" : "is-excluded"}`} role="note">

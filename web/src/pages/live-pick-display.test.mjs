@@ -1,0 +1,49 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createServer } from "vite";
+
+test("live card renders the saved pick and prior even with no current options", async () => {
+  const now = Date.parse("2026-09-05T11:00:00Z");
+  const originalNow = Date.now;
+  Date.now = () => now;
+  const server = await createServer({ configFile: false,
+    root: fileURLToPath(new URL("../../", import.meta.url)),
+    esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] },
+    server: { middlewareMode: true, watch: null }, appType: "custom" });
+  try {
+    const { Game } = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const lv = { status: "STARTED", status_text: "6회초", home_score: 4, away_score: 1 };
+    const g = { year: 2026, round: 105, date: "09.05(토) 18:00", sport: "bs",
+      home: "홈팀", away: "원정팀", status: "경기전", options: [],
+      _liveStarted: true, _liveFeedAt: new Date(now).toISOString(),
+      prediction_record: { selection_id: "saved", market: "승패", selection: "홈", label: "",
+        odds: 1.8, probability: .57, captured_at: "2026-09-05T08:00:00Z" } };
+    const props = { g, opts: [], lv, wait: true, stale: true, grades: { odds_bins: [] }, year: 2026 };
+    const html = renderToStaticMarkup(createElement(Game, props));
+    assert.match(html, /경기 전 예측 픽/);
+    assert.match(html, /57.0%/);
+    assert.match(html, /현재 추정/);
+    assert.match(html, /사전 확률/);
+    assert.doesNotMatch(html, /NaN/);
+    const missingProbability = renderToStaticMarkup(createElement(Game, { ...props,
+      g: { ...g, prediction_record: { ...g.prediction_record, probability: null } } }));
+    assert.match(missingProbability, /경기 전 예측 픽/);
+    assert.match(missingProbability, /사전 확률 기록 없음/);
+    assert.doesNotMatch(missingProbability, /0.0%/);
+    const unrecorded = renderToStaticMarkup(createElement(Game, { ...props,
+      g: { ...g, prediction_record: null },
+      todayOption: { market: "승패", 선택: "원정", 시장확률: .9 } }));
+    assert.match(unrecorded, /사전 예측 기록 없음/);
+    assert.doesNotMatch(unrecorded, /경기 전 예측 픽|90.0%/);
+    const stale = renderToStaticMarkup(createElement(Game, { ...props,
+      g: { ...g, _liveFeedAt: "2026-09-05T10:00:00Z" } }));
+    assert.match(stale, /57.0%/);
+    assert.doesNotMatch(stale, /현재 추정/);
+  } finally {
+    await server.close();
+    Date.now = originalNow;
+  }
+});
