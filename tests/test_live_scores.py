@@ -333,6 +333,129 @@ def test_known_named_aliases_are_present_before_optional_fuzzy_pass():
     assert "소프트뱅" in game["home_alias"] and "FUK" in game["home_alias"]
 
 
+def _lens_game():
+    return {
+        "source": "named", "game_id": "named:123", "sport": "sc", "league": "리그1",
+        "start": "2026-09-06T00:00:00+09:00", "md": "09.06",
+        "home": "RC 랑스", "away": "올랭피크 리옹", "home_alias": ["RCL"], "away_alias": [],
+        "status": "STARTED", "home_score": 1, "away_score": 0,
+        "observed_at": "2026-09-05T15:30:00+00:00", "stale": False,
+    }
+
+
+@pytest.mark.parametrize("partial", [True, False])
+@pytest.mark.parametrize("source", ["named", "naver"])
+def test_checkpoint_and_full_merge_carry_only_verified_aliases(partial, source):
+    current = {**_lens_game(), "source": source, "game_id": f"{source}:123"}
+    previous = {**current, "home_alias": ["RC랑스", "RCL", "RC 랑스"],
+                "away_alias": ["리옹"], "status": "BEFORE", "status_text": "경기 전",
+                "home_score": None, "away_score": None, "stale": True,
+                "observed_at": "2026-09-05T14:00:00Z", "clock": {"label": "old"},
+                "situation_observed_at": "2026-09-05T14:00:00Z"}
+    original_current, original_previous = deepcopy(current), deepcopy(previous)
+    doc = ls.build_document([current], [previous], datetime(2026, 9, 6, tzinfo=ls.KST), [],
+                            partial=partial)
+    game, = doc["games"]
+    assert game == {**current, "home_alias": ["RCL", "RC랑스"], "away_alias": ["리옹"]}
+    assert doc["partial"] is partial
+    assert current == original_current and previous == original_previous
+    game["home_alias"].append("output-only")
+    assert current == original_current and previous == original_previous
+
+
+@pytest.mark.parametrize("changes", [
+    {"game_id": "named:124"},
+    {"source": "naver"},
+    {"source": "naver", "game_id": "naver:123"},
+    {"start": "2026-09-05T00:00:00+09:00", "md": "09.05"},
+    {"start": "2025-09-06T00:00:00+09:00"},
+    {"start": "2026-09-06T01:00:00+09:00"},
+    {"start": "2026-09-06T00:00:30+09:00"},
+    {"start": "2026-09-06T00:00:00+00:00"},
+    {"md": "09.05"},
+    {"home": "RC ランス"},
+    {"away": "파리 생제르맹"},
+    {"home": "올랭피크 리옹", "away": "RC 랑스"},
+    {"sport": "bs"},
+    {"league": "다른 리그"},
+])
+@pytest.mark.parametrize("partial", [True, False])
+def test_alias_carryover_rejects_different_event_day_kickoff_or_side(changes, partial):
+    current = _lens_game()
+    previous = {**current, "home_alias": ["RC랑스"], "away_alias": ["리옹"], **changes}
+    doc = ls.build_document([current], [previous], datetime(2026, 9, 6, tzinfo=ls.KST), [],
+                            partial=partial)
+    assert doc["games"] == [current]
+
+
+@pytest.mark.parametrize("missing", [
+    {"source": None}, {"game_id": None}, {"game_id": "named:None"},
+    {"game_id": "named:"}, {"start": None}, {"start": "invalid"},
+    {"start": "2026-09-06"}, {"home": None}, {"away": ""},
+])
+def test_alias_carryover_requires_complete_event_identity_on_both_rows(missing):
+    current = {**_lens_game(), **missing}
+    previous = {**current, "home_alias": ["RC랑스"], "away_alias": ["리옹"]}
+    games = merge_recent_games([current], [previous], datetime(2026, 9, 6, tzinfo=ls.KST))
+    assert all("RC랑스" not in g["home_alias"] and "리옹" not in g["away_alias"] for g in games)
+
+
+def test_partial_to_full_refresh_unions_verified_aliases_without_old_live_state():
+    now = datetime(2026, 9, 6, tzinfo=ls.KST)
+    current = _lens_game()
+    previous = {**current, "home_alias": ["RC랑스"], "away_alias": ["리옹"]}
+    checkpoint = ls.build_document([current], [previous], now, [], partial=True)
+    fresh = {**current, "home_alias": ["Lens"], "status": "RESULT", "home_score": 3,
+             "observed_at": "2026-09-05T17:00:00Z"}
+    full = ls.build_document([fresh], checkpoint["games"], now, [])
+    game, = full["games"]
+    assert game == {**fresh, "home_alias": ["Lens", "RCL", "RC랑스"], "away_alias": ["리옹"]}
+    assert ls.build_document([game], full["games"], now, [])["games"] == full["games"]
+
+
+def test_verified_aliases_survive_current_source_deduplication():
+    named = _lens_game()
+    previous = {**named, "home_alias": ["RC랑스"], "away_alias": ["리옹"]}
+    naver = {**named, "source": "naver", "game_id": "naver:456"}
+    game, = merge_recent_games([named, naver], [previous], datetime(2026, 9, 6, tzinfo=ls.KST))
+    assert game["game_id"] == "naver:456"
+    assert game["home_alias"] == ["RCL", "RC랑스"] and game["away_alias"] == ["리옹"]
+
+
+@pytest.mark.parametrize("skip_fuzzy", [True, False])
+def test_main_preserves_lens_alias_at_every_save_before_optional_fuzzy_matching(monkeypatch, skip_fuzzy):
+    order, saved = [], []
+    current = _lens_game()
+    previous = {**current, "home_alias": ["RC랑스"], "away_alias": ["리옹"]}
+    monkeypatch.setattr(ls, "_aliases", lambda: {})
+    monkeypatch.setattr(ls, "_previous_games", lambda: [previous])
+    monkeypatch.setattr(ls, "_proto_games", lambda: [])
+    raw = {"id": 123, "gameStatus": "IN_PROGRESS", "startDatetime": current["start"],
+           "league": {"shortName": current["league"]},
+           "teams": {"home": {"name": current["home"], "shortName": "RCL", "score": 2},
+                     "away": {"name": current["away"], "score": 1}}}
+    def schedules(days, deadline):
+        order.append("today" if len(days) == 1 else "history")
+        return [{"source": "named", "league": "named", "day": "2026-09-06", "error": None,
+                 "observed_at": "2026-09-05T16:00:00Z", "payload": {"soccer": [raw]}}]
+    monkeypatch.setattr(ls, "collect_schedules", schedules)
+    monkeypatch.setattr(ls, "add_proto_aliases", lambda *args: order.append("fuzzy"))
+    monkeypatch.setattr(ls, "FETCH_BUDGET_SECONDS", -1 if skip_fuzzy else 120)
+    def save(name, document, path, indent=None):
+        order.append("save")
+        saved.append(deepcopy(document))
+        game, = document["games"]
+        assert "RC랑스" in game["home_alias"] and "리옹" in game["away_alias"]
+        assert (game["home_score"], game["away_score"]) == (2, 1)
+        assert game["observed_at"] == "2026-09-05T16:00:00Z"
+    monkeypatch.setattr(ls, "persist_artifact", save)
+    monkeypatch.setattr(ls, "enrich_situations", lambda *args: order.append("relay"))
+    assert ls.main() == 0
+    assert order == ["today", "save", "history", *([] if skip_fuzzy else ["fuzzy"]),
+                     "save", "relay", "save"]
+    assert saved[0]["partial"] is True and saved[-1]["partial"] is False
+
+
 def test_dedup_compares_only_possible_matches_in_large_history(monkeypatch):
     comparisons = []
     original = ls._same_physical_game

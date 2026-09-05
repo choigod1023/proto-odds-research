@@ -25,6 +25,7 @@ import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
+import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
 const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
@@ -352,7 +353,8 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   const pool = useMemo(
     () => deduplicateGameCards([...(data.live || []), ...(data.past || [])]),
     [data]);
-  const clock = useTodayClock(today);
+  const recommendationClock = useTodayClock(today);
+  const clock = Math.max(recommendationClock, dateClock);
   const alignedToday = useMemo(() => alignTodayRecommendations(today, pool), [today, pool]);
   const activeToday = useMemo(
     () => stale ? { ...alignedToday, plans: [], solo: null, candidates: [] } : availableToday(alignedToday, clock),
@@ -368,9 +370,6 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     !(modalGame._liveOddsChanged && !decisionFrozen(modalGame))
     ? todaySelectionForGame(todayMemberships, modalGame.options || [], modalGame.round)
     : { option: null, membership: null };
-  const selectedDate = f.dt === "today"
-    ? kstMMDD(0, dateClock)
-    : f.dt === "tomorrow" ? kstMMDD(1, dateClock) : "";
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
   const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
@@ -386,14 +385,14 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       (!f.rd || String(g.round) === f.rd) &&
       // 날짜 — 회차는 여러 날에 걸쳐 있어서(93회차만 08.07~08.10) 회차 필터로는
       // '오늘 살 수 있는 것'을 못 고른다. 경기일로 직접 거른다.
-      (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
+      matchesGameDate(g, f.dt, clock) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)))
       .sort((a, b) => {
         const order = { live: 0, pending: 1, upcoming: 2, finished: 3 };
         return order[gamePhase(a)] - order[gamePhase(b)]
           || String(a.date).localeCompare(String(b.date));
       });
-  }, [pool, f, selectedDate, clock]);
+  }, [pool, f, clock]);
 
   const liveObserved = Date.parse(liveGeneratedAt);
   const liveDelayed = liveChecked && (!Number.isFinite(liveObserved)
@@ -405,7 +404,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     const q = f.q.trim().toLowerCase();
     return (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
-      (!selectedDate || String(g.date ?? "").slice(0, 5) === selectedDate) &&
+      matchesGameDate(g, f.dt, clock) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)) &&
       matchesGameMarketFilters(g, f.mk, cap);
   }).reduce((counts, game) => {
@@ -435,7 +434,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       cur = key;
       // '오늘/내일' 을 헤더에 박아 둔다. 전체 보기에서도 눈으로 갈리게 —
       // 필터를 걸어야만 구분되면 목록을 훑는 사람에게는 없는 기능이다.
-      const tag = dayTag(g.date);
+      const tag = isOvernightGame(g, clock) ? "전날 시작 · 계속 추적" : dayTag(g.date);
       rows.push(
         <div key={`h${key}${n}`} className="mt-[18px] mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold tracking-[.03em] text-ink3">
           {tag && (
