@@ -80,6 +80,44 @@ class FotmobTests(unittest.TestCase):
     def collect(self, fetch, limit=1):
         return collect_fotmob(fetch, since=START, until=END, limit=limit)
 
+    def test_listing_missing_error_or_malformed_container_raises(self):
+        malformed = [
+            {}, {"error": "unavailable"}, {"error": "unavailable", "fixtures": []},
+            {"errors": ["failed"], "matches": []}, {"notFound": True, "fixtures": []},
+            {"statusCode": 503, "fixtures": []},
+            {"overview": {"matches": [fixture()]}},
+            {"fixtures": None}, {"fixtures": {}}, {"fixtures": "unavailable"},
+            {"fixtures": {"allMatches": None}}, {"fixtures": {"allMatches": {}}},
+            {"matches": None}, {"matches": {}}, {"matches": {"allMatches": "bad"}},
+            {"fixtures": {}, "matches": [fixture()]},
+            {"fixtures": [None]}, {"fixtures": [{}]},
+        ]
+        for props in malformed:
+            with self.subTest(props=props):
+                fetch = Fetch(html(props))
+                with self.assertRaisesRegex(ValueError, "FotMob listing"):
+                    self.collect(fetch)
+                self.assertEqual(fetch.urls, [LEAGUE_URL])
+
+    def test_explicit_empty_fixture_lists_are_success_and_ignore_unrelated_rows(self):
+        for key in ("fixtures", "matches"):
+            for container in ([], {"allMatches": []}):
+                with self.subTest(key=key, container=container):
+                    fetch = Fetch(html({key: container, "overview": {"matches": [fixture()]}}))
+                    self.assertEqual(self.collect(fetch), [])
+                    self.assertEqual(fetch.urls, [LEAGUE_URL])
+
+    def test_current_allmatches_container_ignores_overview_and_fallback(self):
+        for key in ("fixtures", "matches"):
+            with self.subTest(key=key):
+                props = {key: {"allMatches": [fixture()], "firstUnplayedMatch": {}},
+                         "overview": {"leagueOverviewMatches": [fixture(99)]},
+                         "fallback": {"cachedMatches": [fixture(98)]}}
+                fetch = Fetch(html(props), html(fotmob_match()))
+                record, = self.collect(fetch)
+                self.assertEqual(record["event_id"], "10")
+                self.assertEqual(len(fetch.urls), 2)
+
     def test_japanese_registry_uses_verified_public_league_ids(self):
         for league, league_id, slug in (("j1", 223, "j-league"), ("j2", 8974, "j-league-2")):
             with self.subTest(league=league):

@@ -135,12 +135,38 @@ def _match_url(page_url: str) -> str:
     return FOTMOB + path
 
 
+def _fixture_rows(props: dict) -> list[dict]:
+    """Require an explicit fixture list; unrelated page data is not a fallback."""
+    if any(props.get(key) for key in ("error", "errors", "errorMessage", "notFound")):
+        raise ValueError("FotMob listing reports an error")
+    status_code = props.get("statusCode")
+    if isinstance(status_code, int) and status_code >= 400:
+        raise ValueError("FotMob listing reports an error status")
+    # Current league HTML uses fixtures.allMatches. Flat fixtures/matches lists
+    # and matches.allMatches are supported explicitly, never via a page-wide walk.
+    key = "fixtures" if "fixtures" in props else "matches"
+    if key not in props:
+        raise ValueError("FotMob listing missing recognized fixtures container")
+    rows = props[key]
+    if isinstance(rows, dict):
+        if "allMatches" not in rows:
+            raise ValueError(f"FotMob listing {key}.allMatches missing")
+        rows = rows["allMatches"]
+    if not isinstance(rows, list):
+        raise ValueError(f"FotMob listing {key} must contain a fixtures list")
+    for row in rows:
+        if (not isinstance(row, dict) or "id" not in row
+                or not isinstance(row.get("status"), dict)
+                or not isinstance(row.get("pageUrl"), str)
+                or not row["pageUrl"].startswith("/matches/")):
+            raise ValueError("FotMob listing contains an invalid fixture row")
+    return rows
+
+
 def parse_fotmob_fixtures(html: str, since: date, until: date) -> list[dict]:
-    """Parse/deduplicate final fixtures, latest UTC kickoff first; no I/O."""
+    """Validate listing, then deduplicate final fixtures latest first; no I/O."""
     fixtures: dict[str, dict] = {}
-    for item in _walk(_page_props(html)):
-        if not str(item.get("pageUrl", "")).startswith("/matches/"):
-            continue
+    for item in _fixture_rows(_page_props(html)):
         status = item.get("status") or {}
         if not _final(status):
             continue

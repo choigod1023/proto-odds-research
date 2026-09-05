@@ -192,3 +192,19 @@ and listing parser, not match-level J2 xG coverage.
 
 The offline regression test exercises both corrected registry URLs through the
 collector, including the parent league identity check and measured metric output.
+
+## Listing schema validation follow-up (2026-09-05)
+
+Listing parsing now requires an explicit `pageProps.fixtures` or `pageProps.matches`
+list, or that container's `allMatches` list. The live K1 HTML was rechecked with
+one bounded public GET (HTTP 200, 847,893 bytes): its primary container is
+`fixtures.allMatches`, containing 198 rows. The page also contains overview and
+fallback copies, which are no longer scanned for fixtures.
+
+The primary `fixtures` container takes precedence when present. Missing, null,
+wrong-type or incomplete containers raise `ValueError`, as do invalid rows and
+explicit page error indicators. A malformed primary container cannot fall back
+to matches elsewhere on the page. An explicit recognized empty list is a valid
+empty result and triggers no match requests. Offline tests cover error/missing
+containers, all supported empty-list forms, the actual nested shape, and ignoring
+unrelated overview/fallback match data.
