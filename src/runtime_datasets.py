@@ -86,8 +86,22 @@ class DatasetStore:
         return self.replace_datasets_rows({name: (rows, fieldnames)})[name]
 
     def replace_datasets_rows(self, datasets):
-        """Bounded-memory staging followed by all-or-nothing live publication."""
+        def records():
+            for name, (rows, _fields) in datasets.items():
+                for row in rows:
+                    yield name, row
+        return self.replace_datasets_records(
+            {name: fields for name, (_rows, fields) in datasets.items()}, records())
+
+    def replace_datasets_records(self, fieldnames, records):
+        """One-pass multi-dataset staging; parsing holds no live DB transaction."""
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        fields = {name: list(value) for name, value in fieldnames.items()}
+        for name, value in fields.items():
+            if not value or len(value) != len(set(value)):
+                raise ValueError(f"invalid fields: {name}")
+        counts = {name: 0 for name in fields}
+        digests = {name: hashlib.sha256(json.dumps(value).encode()) for name, value in fields.items()}
         with tempfile.TemporaryDirectory(prefix="proodd-stage-", dir=self.path.parent) as directory:
             stage = Path(directory) / "datasets.sqlite3"
             with closing(sqlite3.connect(stage)) as staged:
@@ -97,25 +111,21 @@ class DatasetStore:
                   CREATE TABLE dataset_rows(dataset TEXT,ordinal INTEGER,payload_json TEXT,
                     PRIMARY KEY(dataset,ordinal));
                 """ + RESULT_SCHEMA)
-                for name, (rows, fieldnames) in datasets.items():
-                    fields = list(fieldnames)
-                    if not fields or len(fields) != len(set(fields)):
-                        raise ValueError(f"invalid fields: {name}")
-                    digest = hashlib.sha256(json.dumps(fields).encode())
-                    count = 0
-                    for count, original in enumerate(rows, 1):
-                        row = {key: original.get(key) for key in fields}
-                        body = self._canonical(row)
-                        digest.update(body.encode("utf-8") + b"\n")
-                        staged.execute("INSERT INTO dataset_rows VALUES (?,?,?)", (name, count, body))
-                        if name == "processed_games":
-                            result = result_row(row, "dataset", now)
-                            if result:
-                                staged.execute(RESULT_INSERT, result)
+                for name, original in records:
+                    row = {key: original.get(key) for key in fields[name]}
+                    body = self._canonical(row)
+                    counts[name] += 1
+                    digests[name].update(body.encode("utf-8") + b"\\n")
+                    staged.execute("INSERT INTO dataset_rows VALUES (?,?,?)", (name, counts[name], body))
+                    if name == "processed_games":
+                        result = result_row(row, "dataset", now)
+                        if result:
+                            staged.execute(RESULT_INSERT, result)
+                for name, value in fields.items():
                     staged.execute("INSERT INTO dataset_revisions VALUES (?,?,?,?,?,?)",
-                                   (name, 1, json.dumps(fields), count, digest.hexdigest(), now))
+                                   (name, 1, json.dumps(value), counts[name], digests[name].hexdigest(), now))
                 staged.commit()
-            return self.publish_datasets_from(stage, list(datasets))
+            return self.publish_datasets_from(stage, list(fields))
 
     def publish_datasets_from(self, staged_path, names):
         revisions = {}
@@ -129,6 +139,9 @@ class DatasetStore:
                         raise KeyError(name)
                     old = connection.execute("SELECT * FROM dataset_revisions WHERE name=?", (name,)).fetchone()
                     if old is not None and old["content_hash"] == new["content_hash"]:
+                        if name == "processed_games":
+                            connection.execute("DELETE FROM match_results WHERE source='dataset'")
+                            connection.execute("INSERT INTO match_results SELECT * FROM staged.match_results WHERE source='dataset'")
                         revisions[name] = int(old["revision"])
                         continue
                     revision = 1 if old is None else int(old["revision"]) + 1
