@@ -278,14 +278,14 @@ const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_
   odds: 1.5 + index * 0.01,
   predicted_hit_prob: 0.62 - index * 0.01,
 })));
-assert.equal(rankedHighlights.length, 5, "오늘의 추천은 리그별 기본 두 픽만 남긴다");
+assert.equal(rankedHighlights.length, 7, "오늘의 추천은 날짜별 리그 기본 세 픽을 남긴다");
 assert.deepEqual(rankedHighlights.map((row) => Number(row.predicted_hit_prob.toFixed(2))),
-  [0.62, 0.61, 0.58, 0.57, 0.55]);
-const strongHighlights = dailyHighlightedSelections([0.72, 0.69, 0.66].map((probability, index) => ({
+  [0.62, 0.61, 0.60, 0.58, 0.57, 0.56, 0.55]);
+const strongHighlights = dailyHighlightedSelections([0.72, 0.69, 0.66, 0.60].map((probability, index) => ({
   ...alignedToday.candidates[0], event_key: `strong-${index}`, game_no: `s-${index}`,
   league: "MLB", odds: 1.6 + index * 0.01, predicted_hit_prob: probability,
 })));
-assert.equal(strongHighlights.length, 3, "65% 이상 강한 후보는 리그 기본 두 개를 넘어 추가한다");
+assert.equal(strongHighlights.length, 4, "60% 이상 후보는 리그 기본 세 개를 넘어 추가한다");
 assert.equal(dailyHighlightedSelections([{
   ...alignedToday.candidates[0], predicted_hit_prob: 0.549,
 }]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
@@ -294,18 +294,20 @@ const explained = dailyRecommendationDecisions([
   { ...alignedToday.candidates[0], event_key: "weak", game_no: "weak",
     league: "MLB", odds: 1.7, predicted_hit_prob: 0.54 },
   { ...alignedToday.candidates[0], event_key: "third", game_no: "third",
-    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.60 },
+    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.59 },
   { ...alignedToday.candidates[0], event_key: "j1-a", game_no: "j1-a",
     league: "J1리그", odds: 1.7, predicted_hit_prob: 0.64 },
   { ...alignedToday.candidates[0], event_key: "j1-b", game_no: "j1-b",
     league: "J1리그", odds: 1.7, predicted_hit_prob: 0.62 },
+  { ...alignedToday.candidates[0], event_key: "j1-c", game_no: "j1-c",
+    league: "J1리그", odds: 1.7, predicted_hit_prob: 0.61 },
 ]);
-assert.match(explained.find((row) => row.selection.event_key === "strong-2").reason,
-  /강한 추가 기준 65%/);
+assert.match(explained.find((row) => row.selection.event_key === "strong-3").reason,
+  /추가 기준 60%/);
 assert.match(explained.find((row) => row.selection.event_key === "weak").reason,
   /55% 기준에 미달/);
 assert.match(explained.find((row) => row.selection.event_key === "third").reason,
-  /리그 내 3순위/);
+  /리그 내 4순위/);
 assert.match(explained.find((row) => row.recommended).counterReason,
   /양의 기대수익이 검증된 것은 아니며/);
 
@@ -321,5 +323,49 @@ assert.equal(
   nonDefaultMarket,
   "기본 경기 예측과 다른 시장의 오늘 추천도 카드에서 찾아 강조한다",
 );
+
+const datedCandidates = ["09.05(토) 18:00", "09.06(일) 02:00"].flatMap((date, dayIndex) =>
+  [0.59, 0.58, 0.57, 0.56].map((p, index) => ({
+    ...alignedToday.candidates[0], league: "MLB", date, year: 2026,
+    event_key: `${dayIndex}-${index}`, game_no: `${dayIndex}-${index}`,
+    predicted_hit_prob: p,
+  })));
+const datedHighlights = dailyHighlightedSelections(datedCandidates);
+assert.equal(datedHighlights.length, 6, "오늘 3개와 내일 3개는 같은 리그 순위를 뺏지 않는다");
+assert.equal(datedHighlights.filter((row) => row.date.startsWith("09.05")).length, 3);
+datedCandidates[1].kickoff_at = "2026-09-05T09:00:00Z";
+assert.equal(dailyHighlightedSelections(datedCandidates).length, 6,
+  "ISO 킥오프와 프로토 날짜가 같은 날이면 같은 리그 슬롯을 공유한다");
+
+const recoveryNow = Date.parse("2026-09-05T10:00:00+09:00");
+const recordedGame = {
+  ...game, date: "09.05(토) 18:00", year: 2026, status: "경기전",
+  home: "홈팀", away: "원정팀", league: "KBO",
+  decision_snapshot: { ...game.decision_snapshot, decision_id: "saved-revision" },
+  prediction_record: { selection_id: home.selection_id, prediction_snapshot_id: "saved-revision",
+    captured_at: "2026-09-05T09:00:00+09:00", odds: home.배당 },
+};
+const recoveredToday = alignTodayRecommendations({ candidates: [] }, [recordedGame], recoveryNow);
+assert.equal(recoveredToday.candidates.length, 1, "오래된 today API가 비어도 최신 저장 픽은 후보로 연결한다");
+assert.equal(recoveredToday.alignment.recovered_from_picks, 1);
+assert.equal(recoveredToday.candidates[0].sel, "홈");
+assert.equal(buildTodayMemberships(recoveredToday).size, 1);
+for (const changed of [
+  { prediction_record: null },
+  { _liveOddsChanged: true },
+  { _liveStarted: true },
+  { status: "정산" },
+  { date: "09.05(토) 09:00" },
+  { date: "09.06(일) 12:00" },
+  { prediction_record: { ...recordedGame.prediction_record, prediction_snapshot_id: "other" } },
+  { prediction_record: { ...recordedGame.prediction_record, odds: 1.9 } },
+  { prediction_record: { ...recordedGame.prediction_record, captured_at: "invalid" } },
+]) {
+  assert.equal(alignTodayRecommendations({ candidates: [] }, [{ ...recordedGame, ...changed }], recoveryNow)
+    .candidates.length, 0, "미기록·다른 revision·시작한 경기를 새 추천으로 복구하지 않는다");
+}
+assert.equal(alignTodayRecommendations({ candidates: [] }, [
+  { ...recordedGame, date: "09.06(일) 02:00" },
+], recoveryNow).candidates.length, 1, "다음 날 오전 후보도 준비한다");
 
 console.log("unified recommendation tests passed");

@@ -334,6 +334,13 @@ def test_policy_approved_event_candidate_cannot_beat_higher_market_fallback():
     assert policy_metrics["has_policy_authorized_shadow"] is True
 
 
+def test_daily_candidate_prefers_primary_price_band_like_game_card():
+    low_price = candidate("same", 0.75, 1.20)
+    primary = candidate("same", 0.58, 1.60)
+    assert today_combo.select_event_candidates([low_price, primary]) == [primary]
+    assert today_combo.select_event_candidates([low_price]) == [low_price]
+
+
 def test_daily_recommendation_has_buy_challenge_and_pass_tiers():
     negative = [
         {"ok": True, "target": 3, "conservative_expected_roi": -0.05, "calibrated_hit_est": 0.269},
@@ -482,7 +489,8 @@ def test_today_combo_prepares_today_and_next_morning_candidates(monkeypatch, tmp
     monkeypatch.setattr(today_combo, "TODAY", today)
 
     candidates = today_combo.legs_today(
-        datetime(2026, 8, 20, 12, 0, tzinfo=ZoneInfo("Asia/Seoul"))
+        datetime(2026, 8, 20, 12, 0, tzinfo=ZoneInfo("Asia/Seoul")),
+        source={"year": 2026, "rounds": [{"round": 99, "games": games}]},
     )
 
     assert len(candidates) == 2

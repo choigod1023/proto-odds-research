@@ -45,6 +45,7 @@ from evolutionary_policy import live_snapshot, load_artifact
 from ai_decision import (can_apply_decision_probability,
                          validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
+from bets import SEL_NAMES
 from runtime_db import (export_site_artifacts,
                         load_artifact as load_runtime_artifact, persist_artifact)
 from recommendation_policy import (
@@ -208,6 +209,72 @@ def _live_prices() -> tuple[dict, str | None]:
     return payload.get("odds") or {}, payload.get("generated_at")
 
 
+def _candidate_source() -> dict:
+    """Build candidate markets from the live feed, not the slow today publisher.
+
+    Prices alone cannot add a newly opened round or update a handicap line.
+    Read market metadata and its complete price vector from the same snapshot.
+    Older collectors without market metadata can use picks_v2 as a fallback.
+    """
+    live = load_runtime_artifact("live_odds", LIVE_ODDS) or {}
+    picks = (load_runtime_artifact("picks_v2", PICKS_V2) or {}) if not isinstance(live.get("markets"), dict) else {}
+    stamp = live.get("generated_at") if isinstance(live.get("markets"), dict) else picks.get("generated_at")
+    try:
+        year = datetime.fromisoformat(str(stamp).replace("Z", "+00:00")).astimezone(KST).year
+    except (ValueError, TypeError):
+        year = datetime.now(KST).year
+    rounds: dict[str, list[dict]] = {}
+
+    def add(round_no: object, row: dict) -> None:
+        if row.get("result") not in (None, "", "-", "경기전"):
+            return
+        try:
+            prices = [float(value) for value in row.get("odds") or []]
+            names = SEL_NAMES.get((row.get("market"), len(prices)))
+            if not names or any(not math.isfinite(p) or p <= 1 for p in prices):
+                return
+            probabilities = market_probabilities(prices)
+        except (TypeError, ValueError, ArithmeticError):
+            return
+        overround = sum(1 / price for price in prices)
+        rounds.setdefault(str(round_no), []).append({
+            **row, "market_label": row.get("label") or "",
+            "overround": overround, "payout": 100 / overround,
+            "selections": [{"name": name, "odds": price, "prob": probability}
+                           for name, price, probability in zip(names, prices, probabilities)],
+        })
+
+    if isinstance(live.get("markets"), dict):
+        for round_no, markets in live["markets"].items():
+            for game_no, row in markets.items():
+                add(round_no, {**row, "game_no": str(game_no)})
+        source = "live_odds"
+    else:
+        for game in picks.get("live") or []:
+            if game.get("status") not in ("경기전", "배당대기"):
+                continue
+            groups: dict[str, list[dict]] = {}
+            for option in game.get("options") or []:
+                groups.setdefault(str(option.get("게임번호") or ""), []).append(option)
+            for game_no, options in groups.items():
+                first = options[0]
+                names = SEL_NAMES.get((first.get("market"), len(options)))
+                by_name = {option.get("선택"): option for option in options}
+                if not game_no or not names or any(name not in by_name for name in names):
+                    continue
+                add(game.get("round"), {
+                    "game_no": game_no, "date": game.get("date"),
+                    "home": game.get("home"), "away": game.get("away"),
+                    "league": game.get("league"), "sport": game.get("sport"),
+                    "market": first.get("market"), "label": first.get("label"),
+                    "odds": [by_name[name].get("배당") for name in names],
+                })
+        source = "picks_v2"
+    return {"year": year, "generated_at": stamp, "candidate_source": source,
+            "rounds": [{"round": int(round_no), "games": games}
+                       for round_no, games in rounds.items()]}
+
+
 def _reprice_game(game: dict, round_no: object, live: dict) -> tuple[dict, bool]:
     fresh = (live.get(str(round_no)) or {}).get(str(game.get("game_no")))
     selections = game.get("selections") or []
@@ -230,7 +297,8 @@ def _reprice_game(game: dict, round_no: object, live: dict) -> tuple[dict, bool]
     return repriced, True
 
 
-def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> list[dict]:
+def legs_today(now: datetime | None = None, live_prices: dict | None = None,
+               source: dict | None = None) -> list[dict]:
     """KST 오늘과, 오늘 후보 소진 시 쓸 다음 날 오전 선택지를 함께 준비한다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
@@ -241,14 +309,16 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
        균형이라 '한 회차가 낡은 것' 이 아니라 진짜 라인 변동이다.
        **차익거래(환급률 100% 초과)는 0개** — 양쪽을 다 사서 확정 수익을 낼 수는 없다.
     """
-    d = load_runtime_artifact("today", TODAY) or {}
+    d = _candidate_source() if source is None else source
     now = now or datetime.now(KST)
     if now.tzinfo is None:
         now = now.replace(tzinfo=KST)
     else:
         now = now.astimezone(KST)
     source_year = int(d.get("year") or now.year)
-    live_prices = _live_prices()[0] if live_prices is None else live_prices
+    # Source metadata already includes its own prices. Do not overlay a second
+    # snapshot with a changed line; explicit overrides remain for legacy tests.
+    live_prices = {} if live_prices is None else live_prices
     out = []
     for rnd in d.get("rounds", []):
         for original in rnd.get("games", []):
@@ -316,7 +386,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
                     "recommendation_priority": (
                         "primary" if recommendation_priority(o) == 1 else "fallback"
                     ),
-                    "price_source": "live_odds" if live_repriced else "published_snapshot",
+                    "price_source": "live_odds" if live_repriced or d.get("candidate_source") == "live_odds" else "published_snapshot",
                 })
 
     # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
@@ -350,11 +420,14 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None) -> 
 
 
 def select_event_candidates(candidates: list[dict]) -> list[dict]:
-    """검증된 최종확률을 우선해 실제 경기마다 추천 후보 하나만 남긴다."""
+    """화면과 같이 우선 배당 구간 안에서 경기별 후보 하나를 남긴다."""
+    def rank(candidate: dict) -> tuple:
+        return (-recommendation_priority(candidate.get("odds")), *leg_quality(candidate))
+
     best_by_event: dict[str, dict] = {}
     for candidate in candidates:
         current = best_by_event.get(candidate["event_key"])
-        if current is None or leg_quality(candidate) < leg_quality(current):
+        if current is None or rank(candidate) < rank(current):
             best_by_event[candidate["event_key"]] = candidate
     return sorted(
         best_by_event.values(),
@@ -721,9 +794,10 @@ def _candidate_reason(candidate: dict) -> str:
         f"같은 경기의 유효 후보 중 최종 적중확률 {probability_text}를 우선해 남긴 "
         f"{candidate['bin']} 배당 구간 선택이다. 검증된 AI 보정이 없으므로 이 확률은 "
         "동일 시점 Shin 시장확률이다. "
-        f"배당구간 과거 실측 수익률 {float(candidate.get('hist_roi') or -1.0) * 100:.1f}%"
-        f"(n={int(candidate.get('hist_n') or 0):,})는 진단값이며 선택 순위를 바꾸지 않는다."
     )
+    if candidate.get("hist_roi") is not None and candidate.get("hist_n"):
+        reason += (f"배당구간 과거 실측 수익률 {float(candidate['hist_roi']) * 100:.1f}%"
+                   f"(n={int(candidate['hist_n']):,})는 진단값이며 선택 순위를 바꾸지 않는다.")
     if candidate.get("beats"):
         reason += (
             f" 같은 경기의 {candidate['beats']['round']}회차 "
@@ -803,9 +877,10 @@ def retain_started_candidates(current: list[dict], previous: dict,
 
 
 def build() -> dict:
-    live_prices, live_generated_at = _live_prices()
+    source = _candidate_source()
+    live_generated_at = source.get("generated_at") if source["candidate_source"] == "live_odds" else None
     cands = select_event_candidates(
-        _enrich_candidates(legs_today(live_prices=live_prices))
+        _enrich_candidates(legs_today(source=source))
     )
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     # 시작했다고 사전 추천 기록을 지우면 적중 결과를 추적할 수 없다. 직전 생성물이
@@ -814,12 +889,12 @@ def build() -> dict:
     display_cands = retain_started_candidates(cands, previous, datetime.now(KST))
 
     grades = load_runtime_artifact("loss_grades", GRADES) or {}
-    today = load_runtime_artifact("today", TODAY) or {}
     return {
         "generated_at": datetime.now(KST).isoformat(timespec="seconds"),
-        "source_generated_at": today.get("generated_at"),
+        "source_generated_at": source.get("generated_at"),
+        "candidate_source": source["candidate_source"],
         "live_odds_at": live_generated_at,
-        "year": today.get("year"),
+        "year": source.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
         "basis": "경기별 1.50~2.20 미만 유효 후보를 우선하고 그 안에서 최종 "
                  "예상 적중확률이 가장 높은 선택을 고른다. 해당 가격대가 없을 "
