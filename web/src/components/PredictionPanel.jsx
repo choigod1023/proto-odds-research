@@ -86,7 +86,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
   const summary = signalSummary?.narrative || (
     decision?.action === "market_reference"
       ? "추천 방향과 함께 최근 경기력·선수 정보·반대 신호를 비교해 확인하세요."
-      : "아래 위험이 해소되지 않아 이 픽은 추천하지 않습니다."
+      : "경기 자료와 현재 판정 상태를 함께 확인하세요."
   );
   return (
     <section className="prediction-card" aria-label="경기 모델 판정과 경기력 해석">
@@ -110,18 +110,6 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
           </ul>
         </div>
       </div>
-      {decision?.action === "withhold" && !!decision.withholdReasons?.length && (
-        <div className="prediction-caution">
-          <b>이 픽을 가지 말아야 하는 이유</b>
-          <ul className="mt-1 list-disc space-y-1 pl-4">
-            {decision.withholdReasons.map((reason) => (
-              <li key={`${reason.title}-${reason.body}`}>
-                <strong>{reason.title}</strong> · {reason.body}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
       {commentary && <div className="prediction-commentary">
         <b>해설 정리</b>
         <p>{commentary}</p>
