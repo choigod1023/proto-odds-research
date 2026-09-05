@@ -69,6 +69,14 @@ test("small samples and measured zero are not inflated or removed", () => {
   assert.match(result.reason, /0.0실점/);
   assert.doesNotMatch(result.reason, /최근 10경기/);
 });
+test("backend TeamForm.last10_str win-loss-draw ordering retains all evidence", () => {
+  const game = { ...base, sport: "sc",
+    form_home: { last10: "1승 0패 1무", avg_scored: 1, avg_conceded: 0 },
+    form_away: { last10: "0승 1패 1무", avg_scored: 0, avg_conceded: 1 } };
+  const result = pickMatchReason(game, home, now);
+  assert.match(result.reason, /최근 2경기 1승 1무 0패/);
+  assert.ok(result.evidence.some((row) => row.kind === "recent_balance"));
+});
 test("totals discuss the actual line but not a fabricated expected score", () => {
   const result = pickMatchReason(base, { market: "언더오버", 선택: "언더", line: 7.5 }, now);
   assert.match(result.reason, /9.0점.*7.5점 언더/);

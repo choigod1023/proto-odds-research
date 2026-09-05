@@ -8,9 +8,9 @@ const missing = (reason = "양 팀의 비교 가능한 경기 기록이 부족�
   status: "missing", reason, counterReason: "선발·최근 경기 기록을 확인한 뒤 판단해야 합니다.", evidence: [],
 });
 const record = (form) => {
-  const match = String(form?.last10 || "").match(/^(\d+)승\s*(?:(\d+)무\s*)?(\d+)패$/);
-  if (!match) return null;
-  const w = Number(match[1]), d = Number(match[2] || 0), l = Number(match[3]);
+  const match = String(form?.last10 || "").trim().match(/^(\d+)승\s*(?:(\d+)무\s*)?(\d+)패(?:\s*(\d+)무)?$/);
+  if (!match || (match[2] !== undefined && match[4] !== undefined)) return null;
+  const w = Number(match[1]), d = Number(match[2] || match[4] || 0), l = Number(match[3]);
   const n = w + d + l;
   return n > 0 && n <= 10 ? { n, text: `${w}승${d ? ` ${d}무` : ""} ${l}패`, rate: (w + d / 2) / n } : null;
 };
