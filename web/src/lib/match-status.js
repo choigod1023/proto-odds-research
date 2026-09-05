@@ -1,3 +1,6 @@
+import { recommendationOutcome } from "./pick-result.js";
+export { recommendationOutcome } from "./pick-result.js";
+
 export function scheduledAt(game) {
   const match = String(game?.date || "").match(/(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})/);
   if (!match) return null;
@@ -18,6 +21,8 @@ export function liveFeedWithFallback(direct, fallback) {
 }
 
 export function gamePhase(game, live = game?._liveState, now = Date.now()) {
+  const outcome = recommendationOutcome(game, live);
+  if (["hit", "miss", "void"].includes(outcome.state)) return "finished";
   if (live?.cancelled || live?.postponed) return "pending";
   const observed = new Date(game?._liveFeedAt || live?.observed_at || 0).getTime();
   const feedFresh = !observed || Number(now) - observed <= 10 * 60 * 1000;
@@ -38,12 +43,3 @@ export const PHASE_LABEL = {
   pending: "결과 확인 중",
   finished: "종료",
 };
-
-export function recommendationOutcome(game) {
-  const record = game?.prediction_record;
-  if (!record) return { state: "unrecorded", label: "사전 예측 기록 없음", record: null };
-  if (record.result === "hit") return { state: "hit", label: "적중", record };
-  if (record.result === "miss") return { state: "miss", label: "적중 실패", record };
-  if (record.result === "void") return { state: "void", label: "무효", record };
-  return { state: "pending", label: "판정 대기", record };
-}
