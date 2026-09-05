@@ -368,9 +368,56 @@ def _previous_games() -> list[dict]:
     return games
 
 
+def _alias_event_key(game: dict) -> tuple | None:
+    """Strict provider identity; aliases themselves must never prove a match."""
+    fields = ("source", "game_id", "start", "home", "away")
+    values = tuple(game.get(field) for field in fields)
+    if any(not isinstance(value, str) or not value.strip() for value in values):
+        return None
+    # Normalizers can emit 'named:None' for an upstream row without an ID.
+    if values[1].rsplit(":", 1)[-1].lower() in ("", "none", "null"):
+        return None
+    try:
+        datetime.fromisoformat(values[2])
+    except ValueError:
+        return None
+    if len(values[2]) < 16:  # A date alone cannot distinguish doubleheaders.
+        return None
+    # Keep the full kickoff (including year, seconds and offset), canonical
+    # side names and competition exact. Uncertain identities can wait for the
+    # optional matching pass; no fuzzy comparison belongs before first save.
+    return (*values, game.get("sport"), game.get("league"), game.get("md"))
+
+
+def _carry_verified_aliases(current: list[dict], previous: list[dict]) -> list[dict]:
+    """Carry only alias lists, never old scores, status, clocks or timestamps."""
+    by_event: dict[tuple, dict[str, list]] = {}
+    for game in previous:
+        key = _alias_event_key(game)
+        if key is not None:
+            aliases = by_event.setdefault(key, {"home": [], "away": []})
+            for side in aliases:
+                aliases[side].extend(game.get(f"{side}_alias") or [])
+    games = []
+    for game in current:
+        saved = by_event.get(_alias_event_key(game))
+        if saved is not None:
+            game = dict(game)
+            for side in saved:
+                game[f"{side}_alias"] = list(dict.fromkeys(
+                    name for name in [*(game.get(f"{side}_alias") or []), *saved[side]]
+                    if isinstance(name, str) and name.strip() and name != game.get(side)
+                ))
+        games.append(game)
+    return games
+
+
 def merge_recent_games(current: list[dict], previous: list[dict], now: datetime) -> list[dict]:
     """최신 관측을 우선하되 조회 범위 밖의 최근 종료·취소 기록은 보존한다."""
     cutoff = (now - timedelta(days=HISTORY_DAYS)).date()
+    # Both today-first checkpoints and full documents pass here. Restore
+    # verified aliases before cross-source deduplication can change the ID.
+    current = _carry_verified_aliases(current, previous)
     merged = {str(g.get("game_id")): g for g in deduplicate_games(current) if g.get("game_id")}
     for game in previous:
         game_id = str(game.get("game_id") or "")
