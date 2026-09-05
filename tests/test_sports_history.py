@@ -260,3 +260,30 @@ def test_explicit_missing_details_do_not_reuse_stale_metrics(store):
     store.record_games([game()], observed_at="2026-09-01T12:00:00Z")
     store.record_games([game(metrics={}, detail_fetch_status="fetched")], observed_at="2026-09-02T00:00:00Z")
     assert store.team_form("test", "K1", "h")["metrics"] == []
+
+
+def test_real_mlb_adapter_two_polls_keep_metrics_outside_boxscore_budget(store):
+    from datetime import date
+    from sports_sources_results import collect_mlb
+    teams = {"home": {"team": {"id": 134, "name": "Pittsburgh Pirates"}, "score": 5},
+             "away": {"team": {"id": 137, "name": "San Francisco Giants"}, "score": 2}}
+    box = {"teams": {side: {"team": item["team"], "teamStats": {
+        "batting": {"runs": item["score"], "hits": item["score"], "homeRuns": 0}}}
+        for side, item in teams.items()}}
+    def fetch_for(count):
+        games = [{"gamePk": i, "gameDate": "2026-09-01T16:35:00Z", "officialDate": "2026-09-01",
+            "status": {"abstractGameState": "Final", "codedGameState": "F"}, "teams": teams}
+            for i in range(1, count + 1)]
+        schedule = {"totalGames": count, "dates": [{"date": "2026-09-01", "totalGames": count, "games": games}]}
+        return lambda url: json.dumps(box if url.endswith("/boxscore") else schedule)
+    first = collect_mlb(fetch_for(1), date(2026, 9, 1), date(2026, 9, 1), 10)
+    store.record_games(first, observed_at="2026-09-02T00:00:00Z")
+    second = collect_mlb(fetch_for(6), date(2026, 9, 1), date(2026, 9, 1), 10)
+    skipped = next(row for row in second if row["event_id"] == "1")
+    assert skipped["detail_fetch_status"] == "not_requested_budget"
+    assert not any(skipped["metrics"].values())
+    store.record_games(second, observed_at="2026-09-02T01:00:00Z")
+    old = next(row for row in store.team_form("mlb", "MLB", "134")["recent_games"] if row["event_id"] == "1")
+    assert old["metrics"]["home"]["hits"] == 5
+    assert old["metrics_observed_at"] == "2026-09-02T00:00:00.000000+00:00"
+    assert old["metrics_source_url"].endswith("/game/1/boxscore")

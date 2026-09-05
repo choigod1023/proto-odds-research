@@ -115,7 +115,8 @@ python src/export_runtime.py --db data/runtime/sports-smoke.sqlite3 --kind event
 
 2026-09-05 KST, 격리된 `data/runtime/sports-smoke.sqlite3`에 저장·조회했다.
 
-- 9월 4일 일정: KBO 5, NPB 5, MLB 13경기. MLB 중 5경기는 박스스코어 보강.
+- 9월 4일 일정: KBO 5, NPB 5, MLB 최초 13경기. 13:30 KST 재조회에서는
+  새로 종료된 1경기를 포함해 MLB 14경기를 확인했다. 요청당 5경기는 박스스코어 보강.
 - 8월 29일~9월 5일 범위: K리그1 3, J1 3경기 모두 xG 수집.
   J1 기존 등록 주소의 404를 발견해 `223/j-league`로 수정했다.
 - 9월 4일 NBA/KBL/WKBL/V리그 남녀는 정상 응답의 종료 경기 0건.
@@ -123,7 +124,7 @@ python src/export_runtime.py --db data/runtime/sports-smoke.sqlite3 --kind event
 - **2022 월드컵 과거 연구 표본** 1경기를 별도로 저장했다.
 - 시즌 스냅샷은 MLB 선수 1개, NBA 팀 3개, V리그 남녀 각 3개: 총 10개.
   KOVO `022`는 과거 시즌이며 최신 기록이라고 주장하지 않는다.
-- 경기 총 42개. 전 리그 전체 수집 수가 아니라 요청 범위를 제한한 검증 결과다.
+- 최종 고유 경기 총 43개(최초 42개). 전 리그 전체 수집 수가 아니라 요청 범위를 제한한 검증 결과다.
 - 강원 `164734` 조회: 저장된 1경기 0승 1무 0패, xG/npxG 각 0.81, 표본 1.
   최근 10경기를 요청했다고 표본 10개를 만들어내지 않는다.
 - Bryce Elder 시즌 기대 피타율 0.252, 기대 피장타율 0.401, 기대 피wOBA 0.313;
