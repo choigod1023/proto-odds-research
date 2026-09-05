@@ -57,15 +57,19 @@ const ESTIMATE_MESSAGE = {
 };
 
 /** Pure display tracking. A missing candidate must never erase a saved pregame pick. */
-export function trackTodayPicks({ games = [], today = null, now = Date.now() } = {}) {
+export function trackTodayPicks({ games = [], today = null, currentToday = null, now = Date.now() } = {}) {
   now = Number(now);
   const day = kstDay(now);
   if (!day) return [];
   const year = Number(day.slice(0, 4));
   const candidates = (today?.candidates || []).filter(Boolean);
   const highlighted = new Set(dailyHighlightedSelections(candidates));
+  const currentCandidates = (currentToday || today)?.candidates || [];
+  const currentHighlighted = new Set(dailyHighlightedSelections(currentCandidates));
   const roster = (candidate) => typeof candidate.daily_recommendation?.recommended === "boolean"
     ? candidate.daily_recommendation.recommended : highlighted.has(candidate);
+  const currentRoster = (candidate) => typeof candidate.daily_recommendation?.recommended === "boolean"
+    ? candidate.daily_recommendation.recommended : currentHighlighted.has(candidate);
   const result = new Map();
 
   for (const original of games || []) {
@@ -78,6 +82,7 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
     const started = kickoff <= now || game._liveStarted === true || phase !== "upcoming";
     const saved = savedLivePrediction(game, live, now);
     const matched = candidates.filter((row) => matchesGame(row, game, kickoff, game.year));
+    const currentMatched = currentCandidates.filter((row) => matchesGame(row, game, kickoff, game.year));
     let option, openingProbability, originalOdds, capturedAt, source, outcome, estimate = null;
     let estimateMessage;
 
@@ -94,6 +99,12 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
       const published = isoTime(today?.generated_at);
       const rosterWasPregame = Number.isFinite(published) && published < kickoff && published <= now;
       const knownHighlight = rosterWasPregame && prior.some(roster);
+      // Aligned candidates describe a current decision, not the old published
+      // roster. They may label a future pick only, never a started-game history.
+      const currentHighlight = !started && !game._liveOddsChanged && currentMatched.some((row) =>
+        currentRoster(row) && safe(row) && selectionKey(row) === selectionKey(option)
+        && number(row.odds ?? row.배당) === originalOdds
+        && pregameStamp(row, currentToday || today, kickoff, now));
       const explicitlyExcluded = rosterWasPregame
         && prior.some((row) => row.daily_recommendation?.recommended === false);
       // Recovery uses only recorded pregame inputs. It is not a reconstructed
@@ -102,8 +113,8 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
         && safe({ market: option.market, odds: originalOdds, market_prob: openingProbability,
           is_market_favorite: game.prediction_record.is_market_favorite,
           final_reversal: game.prediction_record.final_reversal });
-      if (!knownHighlight && (!started || explicitlyExcluded || !eligiblePrior)) continue;
-      source = knownHighlight ? "highlight" : "recorded";
+      if (!knownHighlight && !currentHighlight && (!started || explicitlyExcluded || !eligiblePrior)) continue;
+      source = knownHighlight ? "highlight" : currentHighlight ? "current" : "recorded";
       outcome = recommendationOutcome(game, live);
       if (phase === "live" && saved.estimateStatus === "available"
           && Number.isFinite(saved.estimate?.probability)) estimate = saved.estimate;
@@ -113,8 +124,8 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
       // Before kickoff only: require both a verified candidate snapshot and the
       // identical current option. Do not create a prediction_record for display.
       if (started || game._liveOddsChanged) continue;
-      const current = matched.find((row) => roster(row) && safe(row)
-        && pregameStamp(row, today, kickoff, now)
+      const current = currentMatched.find((row) => currentRoster(row) && safe(row)
+        && pregameStamp(row, currentToday || today, kickoff, now)
         && probability(row.market_prob) != null
         && (game.options || []).some((o) => selectionKey(o) === selectionKey(row)
           && number(o.배당) === number(row.odds)
@@ -128,7 +139,7 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
         ? probability(current.predicted_hit_prob) ?? probability(current.market_prob)
         : probability(current.market_prob);
       originalOdds = number(current.odds);
-      capturedAt = current.recommended_at || today.generated_at;
+      capturedAt = current.recommended_at || (currentToday || today).generated_at;
       source = "current";
       outcome = { state: "pending", label: "경기 전", record: null };
       estimateMessage = "경기 시작 전입니다.";
@@ -137,20 +148,43 @@ export function trackTodayPicks({ games = [], today = null, now = Date.now() } =
     const key = `${eventKey(game, kickoff)}|${selectionKey(option)}`;
     const item = { key, game, kickoff, phase, source, option, openingProbability,
       originalOdds: Number.isFinite(originalOdds) && originalOdds > 1 ? originalOdds : null,
-      capturedAt, outcome, estimate, estimateMessage };
+      capturedAt, outcome, estimate, estimateMessage, savedPrior: Boolean(saved) };
     const previous = result.get(key);
     // Exact cross-round duplicate: a saved prior beats a current candidate,
     // then the earliest capture wins, regardless of price or latest round.
-    const savedPrior = source !== "current";
-    const previousSaved = previous?.source !== "current";
+    const savedPrior = item.savedPrior;
+    const previousSaved = previous?.savedPrior;
     if (!previous || (savedPrior && !previousSaved)
         || (savedPrior === previousSaved && isoTime(capturedAt) < isoTime(previous.capturedAt))
         || (savedPrior === previousSaved && capturedAt === previous.capturedAt
           && source === "highlight" && previous.source !== "highlight")) {
-      result.set(key, item);
+      result.set(key, previous ? mergeObservation(item, previous, now) : item);
+    } else {
+      result.set(key, mergeObservation(previous, item, now));
     }
   }
   const order = { live: 0, pending: 1, upcoming: 2, finished: 3 };
   return [...result.values()].sort((a, b) => order[a.phase] - order[b.phase] || a.kickoff - b.kickoff
     || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
+}
+
+function mergeObservation(prior, other, now) {
+  const closed = (item) => ["hit", "miss", "void"].includes(item.outcome.state);
+  if (closed(prior) && closed(other) && prior.outcome.state !== other.outcome.state) {
+    return { ...prior, phase: "pending", estimate: null,
+      outcome: { ...prior.outcome, state: "pending", label: "정산 결과 충돌 · 확인 중" } };
+  }
+  const at = (item) => Date.parse(item.game._liveState?.observed_at || item.game._liveFeedAt || "") || 0;
+  const observation = closed(other) && !closed(prior) ? other
+    : closed(prior) ? prior
+    : other.phase === "finished" && prior.phase !== "finished" ? other
+    : prior.phase === "finished" ? prior : at(other) > at(prior) ? other : prior;
+  if (observation === prior) return prior;
+  const game = { ...prior.game, status: observation.game.status, score: observation.game.score,
+    _liveState: observation.game._liveState, _liveFeedAt: observation.game._liveFeedAt,
+    _liveStarted: observation.game._liveStarted };
+  const estimate = observation.phase === "live" ? savedLivePrediction(game, game._liveState, now)?.estimate : null;
+  return { ...prior, game, phase: observation.phase, estimate,
+    estimateMessage: observation.estimateMessage,
+    outcome: { ...observation.outcome, record: prior.outcome.record } };
 }

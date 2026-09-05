@@ -6,8 +6,8 @@ const percent = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}
 const SOURCE_LABEL = { highlight: "오늘 추천 · 사전 기록", recorded: "사전 픽 · 추천 이력 미확인",
   current: "오늘 추천 · 경기 전" };
 
-export function TodayPicksBoard({ games = [], today = null, now = Date.now() }) {
-  const picks = trackTodayPicks({ games, today, now });
+export function TodayPicksBoard({ games = [], today = null, currentToday = null, now = Date.now() }) {
+  const picks = trackTodayPicks({ games, today, currentToday, now });
   const active = picks.filter((pick) => pick.phase !== "finished");
   const finished = picks.filter((pick) => pick.phase === "finished");
   const recommendations = picks.filter((pick) => pick.source !== "recorded").length;

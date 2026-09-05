@@ -448,7 +448,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
-      <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={alignedToday} now={clock} />
+      <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} />
       <div className="match-section-title">
         <h2>경기 목록</h2>
         <div className="match-phase-counts" aria-label="경기 상태 필터">

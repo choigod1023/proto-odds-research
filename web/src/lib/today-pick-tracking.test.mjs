@@ -82,6 +82,39 @@ test("future generic priors are not promoted into the current recommendation ros
   assert.deepEqual(track([game({ date: "09.05(토) 18:00", _liveState: null })]), []);
 });
 
+test("aligned current candidates cannot prove historical recommendation membership", () => {
+  const published = { generated_at: "2026-09-05T04:00:00Z", candidates: [candidate({
+    sel: "원정", daily_recommendation: { recommended: true } })] };
+  const aligned = { ...published, candidates: [candidate({ daily_recommendation: { recommended: true } })] };
+  const [row] = trackTodayPicks({ games: [game()], today: published, currentToday: aligned, now });
+  assert.equal(row.source, "recorded");
+});
+
+test("cross-round final results survive while preserving the earliest prior and price", () => {
+  const old = game({ round: 104, _liveState: null, _liveFeedAt: null });
+  const ended = game({ round: 105, status: "정산", score: [4, 1],
+    prediction_record: { ...record, odds: 1.8, probability: .61,
+      captured_at: "2026-09-05T04:00:00Z", result: "hit" } });
+  for (const games of [[old, ended], [ended, old]]) {
+    const [row] = track(games);
+    assert.equal(row.phase, "finished");
+    assert.equal(row.outcome.state, "hit");
+    assert.equal(row.originalOdds, 1.59);
+    assert.equal(row.openingProbability, .5607);
+  }
+});
+
+test("game completion survives deduplication even before official draw settlement", () => {
+  const old = game({ round: 104, _liveState: null, _liveFeedAt: null });
+  const ended = { ...old, round: 105, status: "정산", score: [2, 2] };
+  for (const games of [[old, ended], [ended, old]]) {
+    const [row] = track(games);
+    assert.equal(row.phase, "finished");
+    assert.equal(row.outcome.state, "pending");
+    assert.equal(row.originalOdds, 1.59);
+  }
+});
+
 test("raw rounds deduplicate exact event/selection using oldest saved prior, not new prices", () => {
   const old = game({ round: 104 });
   const newer = game({ round: 105, prediction_record: { ...record, odds: 1.8,
