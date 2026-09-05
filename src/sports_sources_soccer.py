@@ -21,8 +21,8 @@ STATSBOMB = "https://raw.githubusercontent.com/hudl/open-data/master/data"
 LEAGUES = {
     "kleague1": (9080, "k-league-1"),
     "kleague2": (9081, "k-league-2"),
-    "j1": (9074, "j1-league"),
-    "j2": (9075, "j2-league"),
+    "j1": (223, "j-league"),
+    "j2": (8974, "j-league-2"),
 }
 
 

@@ -148,3 +148,47 @@ Run offline tests with:
 ```console
 python -m unittest discover -s tests -p test_sports_sources_soccer.py -v
 ```
+
+## Japanese registry correction and collector smoke (2026-09-05)
+
+The initial Japanese IDs copied from the legacy module were incorrect: J1 used
+9074 and J2 used 9075. The integrated runner reported HTTP 404 for the old J1
+listing. The adapter registry now uses the following verified public HTML URLs:
+
+- [J1 / J. League](https://www.fotmob.com/leagues/223/matches/j-league):
+  ID **223**, slug **j-league**.
+- [J2 / J. League 2](https://www.fotmob.com/leagues/8974/matches/j-league-2):
+  ID **8974**, slug **j-league-2**.
+
+FotMob public search results identified these league IDs. Direct HTML requests
+then confirmed each URL's canonical link and embedded `details.id`, `name`,
+`country='JPN'`, `seopath`, and `selectedSeason='2026/2027'`. The legacy module
+remains unchanged; only this adapter's registry was corrected. The earlier K1
+success did not validate the original Japanese registry entries.
+
+Actual corrected J1 collector call:
+
+```python
+collect_fotmob(fetch, 'j1', since=date(2026, 1, 1),
+               until=date(2026, 9, 5), limit=1)
+```
+
+Exactly two requests, both HTTP 200, with a callback-enforced two-request budget,
+20-second socket timeout and 8,000,000-byte response cap. Redirects and proxies
+were disabled; no retries or API fallback were used.
+
+- J1 listing above: 1,130,711 bytes; 1.468 seconds.
+- [Yokohama F.Marinos vs Kyoto Sanga FC](https://www.fotmob.com/matches/yokohama-fmarinos-vs-kyoto-sanga-fc/1w3bfg):
+  1,036,049 bytes; 1.140 seconds. The collector returned one final record,
+  event `5803567`, kickoff `2026-09-02T10:00:00+00:00`, native home/away IDs
+  `6581` / `8542`, score 1-1, xG **1.72 / 1.35**, npxG **0.93 / 1.35**, and
+  `metric_status='available'`. Fixture/detail IDs and league validation passed.
+
+A separate single J2 listing GET returned HTTP 200, 975,511 bytes in 0.953 seconds.
+Its parsed current listing contained 40 distinct final fixtures in the requested
+2025-01-01 through 2026-09-05 window; latest fixture `5836246` at
+`2026-08-29T10:00:00+00:00`. No J2 detail was fetched, so this confirms its registry
+and listing parser, not match-level J2 xG coverage.
+
+The offline regression test exercises both corrected registry URLs through the
+collector, including the parent league identity check and measured metric output.

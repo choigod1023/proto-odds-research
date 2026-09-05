@@ -80,6 +80,18 @@ class FotmobTests(unittest.TestCase):
     def collect(self, fetch, limit=1):
         return collect_fotmob(fetch, since=START, until=END, limit=limit)
 
+    def test_japanese_registry_uses_verified_public_league_ids(self):
+        for league, league_id, slug in (("j1", 223, "j-league"), ("j2", 8974, "j-league-2")):
+            with self.subTest(league=league):
+                match = fotmob_match()
+                match["general"]["parentLeagueId"] = league_id
+                fetch = Fetch(html({"matches": [fixture()]}), html(match))
+                record, = collect_fotmob(fetch, league, since=START, until=END, limit=1)
+                self.assertEqual(fetch.urls, [f"{FOTMOB}/leagues/{league_id}/matches/{slug}",
+                                              f"{FOTMOB}/matches/home-vs-away/code10"])
+                self.assertEqual(record["league"], league)
+                self.assertEqual(record["metrics"]["home"]["xg"], .81)
+
     def test_common_record_uses_all_period_provider_metrics_and_native_ids(self):
         fetch = Fetch(html({"matches": [fixture()]}), html(fotmob_match()))
         record, = self.collect(fetch)
