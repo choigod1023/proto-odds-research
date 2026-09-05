@@ -45,6 +45,8 @@ from evolutionary_policy import live_snapshot, load_artifact
 from ai_decision import (can_apply_decision_probability,
                          validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
+from daily_value import (BASE_PER_LEAGUE, MIN_HIT, MIN_RETURN, POLICY_VERSION,
+                         annotate_daily_values)
 from bets import SEL_NAMES
 from runtime_db import (export_site_artifacts,
                         load_artifact as load_runtime_artifact, persist_artifact)
@@ -887,6 +889,9 @@ def build() -> dict:
     # 실제 킥오프 전에 저장한 오늘 후보만 잠그고, 새 조합 계산에는 섞지 않는다.
     previous = load_runtime_artifact("today_combo", OUT) or {}
     display_cands = retain_started_candidates(cands, previous, datetime.now(KST))
+    # Rank the complete display pool after canonical direction selection and
+    # started-row retention. Persist these annotations through the same artifact.
+    display_cands = annotate_daily_values(display_cands)
 
     grades = load_runtime_artifact("loss_grades", GRADES) or {}
     return {
@@ -909,7 +914,21 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "1.50~2.20 우선 · 없으면 저배당 보조 · 최종 적중확률 순 · 자동 조합 없음",
+        "selection_policy": "경기별 방향: 1.50~2.20 우선 · 없으면 저배당 보조 · 최종 적중확률 순. "
+                            "일일 하이라이트: KST 날짜·리그별 적중 50% 및 보수 기대수익 -15% "
+                            "이상 · 보수 기대수익 순 기본 3개 · 검증 구간의 보수 기대수익이 "
+                            "양수인 후보만 추가. 경험적 최적화 모델이 아닌 휴리스틱 위험 제한 · 자동 조합 없음",
+        "daily_recommendation_policy": {
+            "policy_version": POLICY_VERSION,
+            "min_hit": MIN_HIT,
+            "min_return": MIN_RETURN,
+            "base_per_league": BASE_PER_LEAGUE,
+            "kind": "heuristic_risk_limit",
+            "scope": "stored_canonical_picks",
+            "group_by": "KST_day_and_league",
+            "ranking": ["comparison_return", "expected_return", "probability"],
+            "extra_requires": "validated_interval_and_positive_comparison_return",
+        },
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
