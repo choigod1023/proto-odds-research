@@ -12,7 +12,7 @@ test("live card renders the saved pick and prior even with no current options", 
   const server = await createServer({ configFile: false,
     root: fileURLToPath(new URL("../../", import.meta.url)),
     esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] },
-    server: { middlewareMode: true, watch: null }, appType: "custom" });
+    server: { middlewareMode: true, watch: null, hmr: false }, appType: "custom" });
   try {
     const { Game, GameList } = await server.ssrLoadModule("/src/pages/Markets.jsx");
     const lv = { status: "STARTED", status_text: "6회초", home_score: 4, away_score: 1 };
@@ -27,6 +27,9 @@ test("live card renders the saved pick and prior even with no current options", 
     assert.match(html, /57.0%/);
     assert.match(html, /현재 추정/);
     assert.match(html, /사전 확률/);
+    assert.match(html.split("</summary>")[0], /경기 진행 약 55%/);
+    assert.match(html.split("</summary>")[1], /경기 진행 약 55%/);
+    assert.match(html, /role="progressbar"/);
     assert.doesNotMatch(html, /NaN/);
     const missingProbability = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, prediction_record: { ...g.prediction_record, probability: null } } }));
@@ -38,10 +41,17 @@ test("live card renders the saved pick and prior even with no current options", 
       todayOption: { market: "승패", 선택: "원정", 시장확률: .9 } }));
     assert.match(unrecorded, /사전 예측 기록 없음/);
     assert.doesNotMatch(unrecorded, /경기 전 예측 픽|90.0%/);
+    assert.match(unrecorded.split("</summary>")[0], /경기 진행 약 55%/);
+    const noScore = renderToStaticMarkup(createElement(Game, { ...props,
+      lv: { ...lv, home_score: null, away_score: null } }));
+    assert.match(noScore.split("</summary>")[0], /경기 진행 약 55%/);
+    assert.match(noScore.split("</summary>")[1], /경기 진행 약 55%/);
     const stale = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, _liveFeedAt: "2026-09-05T10:00:00Z" } }));
     assert.match(stale, /57.0%/);
     assert.doesNotMatch(stale, /현재 추정/);
+    assert.match(stale, /중계 갱신 지연/);
+    assert.doesNotMatch(stale, /role="progressbar"/);
     const list = renderToStaticMarkup(createElement(GameList, {
       data: { live: [{ ...g, league: "NPB", _liveState: lv }], past: [], year: 2026 },
       grades: { odds_bins: [] }, today: null,
@@ -59,6 +69,7 @@ test("live card renders the saved pick and prior even with no current options", 
       assert.match(summary, new RegExp(result));
       assert.match(summary, /당시 배당 1.80배/);
       assert.doesNotMatch(summary, /9.90/);
+      assert.doesNotMatch(finished, /role="progressbar"/);
     }
   } finally {
     await server.close();

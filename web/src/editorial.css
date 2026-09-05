@@ -156,6 +156,15 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .settled-result-panel.is-miss > div:last-of-type strong { color: var(--color-sev2); }
 .settled-result-panel p { grid-column: 1 / -1; margin: 0; color: var(--color-ink3); font-size: 10.5px; }
 @keyframes live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.match-progress { display: block; min-width: 0; margin: 8px 0 12px; color: var(--color-ink2); font-size: 11px; font-weight: 500; }
+.match-progress-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 3px 10px; }
+.match-progress-track { display: block; height: 5px; margin-top: 5px; overflow: hidden; border-radius: 3px; background: var(--color-rule2); }
+.match-progress-track > span { display: block; height: 100%; background: var(--color-ink); transition: width .3s ease; }
+.match-progress-note { display: block; margin-top: 4px; color: var(--color-ink3); font-size: 10px; font-weight: 400; }
+.match-progress.is-compact { max-width: 300px; margin: 6px 0 0; font-size: 10px; }
+.match-progress.is-compact .match-progress-track { height: 4px; }
+.match-progress.is-stale, .match-progress.is-interrupted { color: var(--color-sev2); }
+@media (prefers-reduced-motion: reduce) { .match-progress-track > span { transition: none; } }
 .match-detail { padding: 22px 18px 24px !important; background: var(--color-panel); }
 .match-detail > * + * { margin-top: 16px; }
 

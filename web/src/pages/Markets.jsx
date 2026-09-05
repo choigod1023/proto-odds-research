@@ -24,6 +24,7 @@ import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
+import { LiveProgress } from "../components/LiveProgress.jsx";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
 const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
@@ -726,6 +727,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               ? ` · ${compactPlayers}`
               : ""}
           </small>
+          {!finished && <LiveProgress game={g} live={lv} compact />}
         </span>
         <span className="match-call-inline">
           <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : phase === "pending" ? "사전 픽" : todayLabel ? "오늘 추천 픽" : "경기별 픽"}</small>
@@ -765,6 +767,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         </span>
       </summary>
       <div className="match-detail">
+        {!finished && <LiveProgress game={g} live={lv} />}
         {locked && saved && !finished && (
           <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
             <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>
