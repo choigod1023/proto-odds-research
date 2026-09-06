@@ -183,8 +183,8 @@ export default function Markets() {
   const stale = freshness === "stale";
 
   return (
-    <Shell meta={metaLine(d, at)}>
-      <OverallAccuracy data={synchronized} checkedAt={liveFeed?.generated_at} />
+    <Shell>
+      <OverallAccuracy data={synchronized} />
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
         stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} /></section>
     </Shell>
@@ -252,24 +252,16 @@ function kstStamp(value) {
 
 // `갱신` 은 데이터가 만들어진 시각, `확인` 은 브라우저가 마지막으로 받아 본 시각이다.
 // 둘을 나눠 적어야 "화면이 멈춘 건지, 서버가 안 만든 건지"가 구분된다.
-const metaLine = (d, at) =>
-  // ⚠️ '승부식' 을 못박아 적는다. 수집기가 game_category=pt1 을 하드코딩하고 있어
-  //    이 사이트의 모든 숫자는 **승부식 전용**이다. 기록식(pt2)은 한 건도 수집한 적이 없다.
-  //    안 적으면 보는 사람이 기록식 배당도 여기 있다고 착각한다.
-  `${(d.live || []).length + (d.past || []).length}경기 · 회차 ${(d.rounds || []).join(", ")} · 승부식` +
-  ` · 갱신 ${kstStamp(d.generated_at)} KST` +
-  (at ? ` · 확인 ${kstStamp(at)} KST` : "");
-
-function Shell({ children, meta }) {
+function Shell({ children }) {
   return (
     <div className="explorer-page mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="markets.html" />
       <header className="market-header">
         <div>
           <h1>오늘의 경기</h1>
-          <p>경기와 추천을 살펴보고, 근거를 확인하세요.</p>
+
         </div>
-        {meta && <div className="market-meta">{meta}</div>}
+
       </header>
       {children}
     </div>
@@ -546,9 +538,9 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
         </div>
         <div className="favorite-filter-row"><button type="button" className="favorite-filter" aria-pressed={f.fav} onClick={() => setF({ ...f, fav: !f.fav })}>☆ 즐겨찾기만</button>
           <button type="button" className="favorite-filter" aria-pressed={f.rec} onClick={() => setF({ ...f, rec: !f.rec })}>추천만 보기</button>
-          <span>즐겨찾기는 경기 상세에서 등록</span></div>
+          </div>
         <details className="favorite-manager"><summary>즐겨찾기 관리 · {favorites.length}개</summary>
-          <p>팀은 같은 종목·리그에서만 추적합니다. 팀 또는 리그 중 하나라도 일치하면 표시합니다. 날짜·종목 조건은 함께 적용됩니다.</p>
+
           {favorites.length ? <div className="favorite-controls">{favorites.map((key) => {
             const [sport, league, type, name] = JSON.parse(key);
             return <button type="button" key={key} onClick={() => toggleFavorite(key)} aria-label={name + " 즐겨찾기 제거"}>{SPORTS.find(([code]) => code === sport)?.[1] || sport} · {league} · {type === "team" ? name : "리그 전체"} ×</button>;
@@ -592,23 +584,14 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
         </div>
       </div>
 
-      <div className="state-legend" aria-label="표시 안내"><span className="recommendation-badge">추천</span> 서비스 추천 <span className="selection-badge">✓ 선택</span> 내가 담은 픽 <span className="result-badge">결과</span> 종료 후 판정</div>
+
       <details className="recommendation-overview"><summary>오늘의 추천 픽 · 사전 기록과 결과 보기</summary>
-        <p className="review-note">이 영역은 목록 필터와 별도로 오늘 추천과 전날부터 진행 중인 사전 픽을 보여줍니다.</p>
+
         <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} onOpenGame={setOpenedGame} />
       </details>
-      {capRow && (
-        <p className="mt-2 text-[11.5px] leading-[1.7] text-ink3">
-          최저배당 ≤{capRow.cap} 인 경기만 산 과거 실측 —
-          적중 <b className="tnum text-ink">{(capRow.hit * 100).toFixed(1)}%</b> ·
-          ROI <b className="tnum">{(capRow.roi * 100).toFixed(2)}%</b> ·
-          <span className="opacity-70">
-            {" "}(전체 경기의 {(capRow.share * 100).toFixed(0)}% · n={capRow.n.toLocaleString()})
-          </span>
-        </p>
-      )}
+
       <div className="league-list" aria-label="리그별 경기">
-        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기 <span>리그를 선택해 경기를 펼치세요.</span></p>
+        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기 </p>
         {leagueGroups.map((group, index) => {
           const open = openLeague === group.key || (openLeague === null && index === 0);
           const liveCount = group.games.filter((game) => gamePhase(game) === "live").length;
@@ -701,7 +684,7 @@ function MarketHistory({ rows }) {
           })}
         </ol>
       </div>)}
-      <p className="text-[10.5px] leading-5 text-ink3">예상 적중은 해당 시점 배당에서 마진을 제거한 값입니다. 기준점이 바뀌면 판정 대상 자체가 달라지므로 확률 숫자만 단순 비교하지 않습니다.</p>
+
     </div>
   </details>;
 }
@@ -880,7 +863,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         {g._liveLineChanged && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
             <b>핸디캡·언더오버 기준점 변경 반영</b>
-            <p>이전 기준점의 예측과 구조 모델 수치는 폐기했습니다. 현재 기준점과 배당으로 확률 및 추천을 다시 계산했습니다.</p>
+
           </div>
         )}
         {drift && (
@@ -902,7 +885,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             {" · "}<span className="tnum">{odds(pick.o["배당"])}</span>
             {" · 시장 "}<span className="tnum">{pct(pick.o["시장확률"])}</span>
             {" · 구조 모델 차이 "}<span className="tnum">{sgn(Number(pick.o["모델확률"]) - Number(pick.o["시장확률"]))}p</span>
-            <p className="text-[10.5px] leading-5 text-ink3">전환 관문을 통과해 기존 정배를 제거하고 이 선택 하나로 교체했습니다. 표시 확률은 해당 배당에서 마진을 제거한 시장확률입니다.</p>
+
           </div>
         )}
         {wait && (
