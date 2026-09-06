@@ -84,6 +84,13 @@ function BetCard({ bet, live, onRemove }) {
         <div><small>변화</small><b className={change < 0 ? "text-sev3" : ""}>{change == null ? "–" : `${change >= 0 ? "+" : ""}${(change * 100).toFixed(1)}%p`}</b></div>
       </div>
       {Number.isFinite(estimate.probability) && <ProbabilityTrack bet={bet} estimate={estimate} />}
+      {bet.selectionSnapshot && <details className="saved-snapshot"><summary>선택 당시 기록 보기</summary>
+        <p>선택 시각 {new Date(bet.selectionSnapshot.selectedAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} KST</p>
+        <p>선택 당시 배당 {Number(bet.selectionSnapshot.option?.배당).toFixed(2)}배 · 구매 기록 배당 {Number(bet.purchaseOdds).toFixed(2)}배</p>
+        <p>당시 확률 {pct(bet.openingProbability)} · 배당 기준 또는 보존된 사전 확률</p>
+        {(bet.selectionSnapshot.performance?.facts || []).map((fact) => <p key={fact}>{fact}</p>)}
+        <p>당시 기록과 이후 경기 결과를 구분합니다.</p>
+      </details>}
       <footer>
         <span>{estimate.basis === "score_time_estimate" ? "점수·남은 시간 기반 상황 추정치"
           : estimate.basis === "final_score" ? "최종 점수 기준"

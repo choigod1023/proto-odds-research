@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Nav, SectionTitle, ThemeToggle } from "../components/ui.jsx";
+import { Card, Nav, SectionTitle } from "../components/ui.jsx";
 import { usePolledData } from "../lib/poll.js";
 
 const signed = (value, digits = 5) => value == null ? "—" : `${Number(value) >= 0 ? "+" : ""}${Number(value).toFixed(digits)}`;
@@ -151,7 +151,7 @@ export default function Lotto() {
 }
 
 function Shell({ children }) {
-  return <div className="mx-auto max-w-[900px] px-5 pb-20"><Nav current="lotto.html" />{children}<ThemeToggle /></div>;
+  return <div className="mx-auto max-w-[900px] px-5 pb-20"><Nav current="lotto.html" />{children}</div>;
 }
 
 function Metric({ label, value }) {

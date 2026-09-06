@@ -1,4 +1,4 @@
-import { Card, Nav, ThemeToggle } from "../components/ui.jsx";
+import { Card, Nav } from "../components/ui.jsx";
 import { AiMethodology } from "../components/AiDisclosure.jsx";
 
 /* 정적 문서다. 데이터는 안 읽는다 — 여기 적힌 숫자는 findings/ 문서의 확정값이다. */
@@ -293,7 +293,7 @@ export default function Research() {
           <a className="text-signal" href="https://github.com/choigod1023/proto-odds-research">소스·방법론·재현 코드</a>
         </p>
       </footer>
-      <ThemeToggle />
+
     </div>
   );
 }

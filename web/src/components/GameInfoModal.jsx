@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 
-export default function GameInfoModal({ title, onClose, children }) {
+export default function GameInfoModal({ title, onClose, children, suffix = "경기정보" }) {
   const dialog = useRef(null);
   const heading = useId();
   useEffect(() => {
@@ -26,8 +26,8 @@ export default function GameInfoModal({ title, onClose, children }) {
             event.clientY < rect.top || event.clientY > rect.bottom) onClose();
       }}>
       <header className="game-info-modal-header">
-        <h2 id={heading}>{title} · 경기정보</h2>
-        <button type="button" autoFocus onClick={onClose} aria-label="경기정보 닫기">닫기 ✕</button>
+        <h2 id={heading}>{title}{suffix ? ` · ${suffix}` : ""}</h2>
+        <button type="button" autoFocus onClick={onClose} aria-label={suffix ? `${suffix} 닫기` : `${title} 닫기`}>닫기 ✕</button>
       </header>
       <div className="game-info-modal-body">{children}</div>
     </dialog>, document.body,

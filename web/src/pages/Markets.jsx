@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
+import FavoriteControls from "../components/FavoriteControls.jsx";
+import SelectionReview from "../components/SelectionReview.jsx";
+import { FAVORITES_KEY, SPORTS, readFavorites, isFavoriteGame, addSelection, selectionKey } from "../lib/explorer-preferences.js";
+import { matchEvidence } from "../lib/match-evidence.js";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
@@ -253,12 +257,12 @@ const metaLine = (d, at) =>
 
 function Shell({ children, meta }) {
   return (
-    <div className="mx-auto max-w-[1180px] px-5 pb-20">
+    <div className="explorer-page mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="markets.html" />
       <header className="market-header">
         <div>
-          <h1>오늘 경기·배당 분석</h1>
-          <p>오늘의 판단을 먼저 보고, 필요한 경기만 열어 흐름·선수·반대 근거를 확인합니다.</p>
+          <h1>오늘의 경기</h1>
+          <p>경기와 추천을 살펴보고, 근거를 확인하세요.</p>
         </div>
         {meta && <div className="market-meta">{meta}</div>}
       </header>
@@ -307,6 +311,28 @@ const STATUS = [
 export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false }) {
   const [openedGame, setOpenedGame] = useState(null);
   const [betDraft, setBetDraft] = useState(null);
+  const [favorites, setFavorites] = useState(readFavorites);
+  const [storageNotice, setStorageNotice] = useState("");
+  const [selections, setSelections] = useState([]);
+  const [openLeague, setOpenLeague] = useState(null);
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [notice, setNotice] = useState("");
+  const toggleFavorite = (key) => {
+    const next = favorites.includes(key) ? favorites.filter((value) => value !== key) : [...favorites, key];
+    setFavorites(next);
+    try { localStorage.setItem(FAVORITES_KEY, JSON.stringify(next)); setStorageNotice(""); }
+    catch { setStorageNotice("기기 저장 공간을 사용할 수 없어 즐겨찾기를 이 화면에서만 유지합니다."); }
+  };
+  useEffect(() => {
+    const sync = (event) => { if (event.key === FAVORITES_KEY || event.key === null) setFavorites(readFavorites()); };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, []);
+  const selectOption = (game, option) => {
+    setSelections((items) => addSelection(items, game, option));
+    setNotice("내 선택 목록에 담았습니다. 목록 확인 후 기록으로 저장하세요.");
+    setOpenedGame(null);
+  };
   // ⚠️ 날짜 기본값은 **오늘**이다. 전체로 두면 목록이 미래 경기로 뒤덮인다 —
   //    2026-08-13 실측: 예정 189건 중 165건(87%)이 아직 배당도 안 나온 8/14 이후
   //    경기였고, 정작 오늘 살 수 있는 6건이 그 속에 묻혔다. 스크롤하면
@@ -315,7 +341,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   // 날짜는 실제 MM.DD 대신 상대값으로 보관한다. 페이지를 자정 너머 계속 열어
   // 두어도 "오늘"이 어제 날짜에 고정되지 않고 새 KST 날짜를 따라간다.
   const [f, setF] = useState({ st: "", lg: "", mk: "", rd: "", q: "",
-                               dt: "today" });
+                               dt: "today", sp: "", fav: false, rec: false });
   const [dateClock, setDateClock] = useState(() => Date.now());
 
   useEffect(() => {
@@ -374,10 +400,15 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     () => uniq(pool.flatMap((g) => [...(g.options || []).map((o) => o.market), g.prediction_record?.market])).sort(), [pool]);
   const rounds = useMemo(() => uniq(pool.map((g) => g.round)).sort((a, b) => b - a), [pool]);
 
+  const isRecommended = (game) => !stale && !(game._liveOddsChanged && !decisionFrozen(game))
+    && todaySelectionForGame(todayMemberships, game.options || [], game.round).membership?.recommended === true;
   const games = useMemo(() => {
     const q = f.q.trim().toLowerCase();
     return pool.filter((g) =>
       (!f.st || gamePhase(g) === f.st) &&
+      (!f.sp || g.sport === f.sp) &&
+      (!f.fav || isFavoriteGame(g, favorites)) &&
+      (!f.rec || isRecommended(g)) &&
       (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
       // 날짜 — 회차는 여러 날에 걸쳐 있어서(93회차만 08.07~08.10) 회차 필터로는
@@ -387,9 +418,11 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       .sort((a, b) => {
         const order = { live: 0, pending: 1, upcoming: 2, finished: 3 };
         return order[gamePhase(a)] - order[gamePhase(b)]
+          || day(a.date).localeCompare(day(b.date))
+          || String(a.league).localeCompare(String(b.league))
           || String(a.date).localeCompare(String(b.date));
       });
-  }, [pool, f, clock]);
+  }, [pool, f, clock, favorites, todayMemberships, stale]);
 
   const liveObserved = Date.parse(liveGeneratedAt);
   const liveDelayed = liveChecked && (!Number.isFinite(liveObserved)
@@ -399,7 +432,8 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
 
   const phaseCounts = pool.filter((g) => {
     const q = f.q.trim().toLowerCase();
-    return (!f.lg || g.league === f.lg) &&
+    return (!f.sp || g.sport === f.sp) && (!f.fav || isFavoriteGame(g, favorites)) && (!f.rec || isRecommended(g)) &&
+      (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
       matchesGameDate(g, f.dt, clock) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)) &&
@@ -414,9 +448,19 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     setF((current) => ({ ...current, st: current.st === phase ? "" : phase }));
   };
 
+  const filteredGames = games.filter((game) => matchesGameMarketFilters(game, f.mk, cap));
+  const leagueGroups = [];
+  for (const game of filteredGames) {
+    const key = JSON.stringify([game.sport || "", game.league || "기타 리그"]);
+    let group = leagueGroups.find((entry) => entry.key === key);
+    if (!group) { group = { key, sport: game.sport, league: game.league || "기타 리그", games: [] }; leagueGroups.push(group); }
+    group.games.push(game);
+  }
+  useEffect(() => { setOpenLeague(null); }, [f, cap]);
+  const renderLeagueGames = (leagueGames) => {
   const rows = [];
   let cur = null, n = 0;
-  for (const g of games) {
+  for (const g of leagueGames) {
     const opts = (g.options || []).filter((o) => !f.mk || o.market === f.mk);
     const wait = g.status === "배당대기";
     if (!matchesGameMarketFilters(g, f.mk, cap)) continue;
@@ -448,32 +492,26 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
       year={data.year} todayMembership={todaySelection.membership}
       todayOption={todaySelection.option} highlightedToday={highlightedToday}
-      onOpen={setOpenedGame}
-      onSaveBet={(game, option) => setBetDraft({ game, option })} />);
+      onOpen={setOpenedGame} selections={selections} onSaveBet={selectOption} />);
   }
 
-    const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
+    return rows;
+  };
+
+  const capRow = cap ? (caps || []).find((c) => c.cap === cap) : null;
   return (
     <>
-      <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} onOpenGame={setOpenedGame} />
+
       {modalGame && <GameInfoModal title={`${modalGame.home} vs ${modalGame.away}`} onClose={() => setOpenedGame(null)}>
+        <FavoriteControls game={modalGame} favorites={favorites} onToggle={toggleFavorite} />
+        <p className="review-note">팀은 같은 종목·리그의 해당 팀 경기를, 리그는 소속 경기 전체를 모아봅니다. 이 기기에 저장됩니다.</p>
         <Game g={modalGame} opts={modalGame.options || []} wait={modalGame.status === "배당대기"}
           grades={grades} lv={modalGame._liveState || null} stale={stale}
           generatedAt={data.generated_at} year={data.year} detailOnly
           todayMembership={modalSelection.membership} todayOption={modalSelection.option}
           highlightedToday={modalSelection.membership?.recommended === true}
-          onSaveBet={(game, option) => { setOpenedGame(null); setBetDraft({ game, option }); }} />
+          selections={selections} onSaveBet={selectOption} />
       </GameInfoModal>}
-      <div className="match-section-title">
-        <h2>경기 목록</h2>
-        <div className="match-phase-counts" aria-label="경기 상태 필터">
-          <button type="button" className="is-live" aria-pressed={f.st === "live"} onClick={() => selectPhase("live")}>진행 중 {phaseCounts.live || 0}</button>
-          <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>상태 확인 중 {phaseCounts.pending || 0}</button>
-          <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
-          <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
-          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
-        </div>
-      </div>
       {stale && (
         <div className="mb-5 rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
           <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
@@ -488,17 +526,31 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
         </div>
       )}
       <div className="filter-shell">
+        <div className="sport-switch" aria-label="종목 필터">{SPORTS.map(([value, label]) =>
+          <button type="button" key={label} aria-pressed={f.sp === value} onClick={() => setF({ ...f, sp: value, lg: "" })}>{label}</button>)}</div>
         <div className="filter-primary">
           <div className="date-switch" aria-label="경기 날짜">
+            <button type="button" aria-pressed={f.dt === "yesterday"} onClick={() => setF({ ...f, dt: "yesterday" })}>어제</button>
             <button type="button" aria-pressed={f.dt === "today"} onClick={() => setF({ ...f, dt: "today" })}>오늘</button>
             <button type="button" aria-pressed={f.dt === "tomorrow"} onClick={() => setF({ ...f, dt: "tomorrow" })}>내일</button>
             <button type="button" aria-pressed={!f.dt} onClick={() => setF({ ...f, dt: "" })}>전체</button>
           </div>
           <div className="team-search">
-            <input type="search" placeholder="팀 또는 리그 검색" value={f.q}
+            <input aria-label="팀 또는 리그 검색" type="search" placeholder="팀 또는 리그 검색" value={f.q}
               onChange={(e) => setF({ ...f, q: e.target.value })} />
           </div>
         </div>
+        <div className="favorite-filter-row"><button type="button" className="favorite-filter" aria-pressed={f.fav} onClick={() => setF({ ...f, fav: !f.fav })}>☆ 즐겨찾기만</button>
+          <button type="button" className="favorite-filter" aria-pressed={f.rec} onClick={() => setF({ ...f, rec: !f.rec })}>추천만 보기</button>
+          <span>즐겨찾기는 경기 상세에서 등록</span></div>
+        <details className="favorite-manager"><summary>즐겨찾기 관리 · {favorites.length}개</summary>
+          <p>팀은 같은 종목·리그에서만 추적합니다. 팀 또는 리그 중 하나라도 일치하면 표시합니다. 날짜·종목 조건은 함께 적용됩니다.</p>
+          {favorites.length ? <div className="favorite-controls">{favorites.map((key) => {
+            const [sport, league, type, name] = JSON.parse(key);
+            return <button type="button" key={key} onClick={() => toggleFavorite(key)} aria-label={name + " 즐겨찾기 제거"}>{SPORTS.find(([code]) => code === sport)?.[1] || sport} · {league} · {type === "team" ? name : "리그 전체"} ×</button>;
+          })}</div> : <p>등록한 즐겨찾기가 없습니다. 경기 상세에서 팀이나 리그를 선택하세요.</p>}
+          {storageNotice && <p role="status">{storageNotice}</p>}
+        </details>
         <details className="advanced-filters">
           <summary><span>상세 조건</span><small>상태 · 리그 · 마켓 · 회차 · 배당 기준</small></summary>
           <div className="filter-grid">
@@ -521,10 +573,26 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
 
           </div>
           <div className="filter-actions">
-            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today" }); setCap(0); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
+      <div className="match-section-title" id="match-results">
+        <h2>경기 목록</h2>
+        <div className="match-phase-counts" aria-label="경기 상태 필터">
+          <button type="button" className="is-live" aria-pressed={f.st === "live"} onClick={() => selectPhase("live")}>진행 중 {phaseCounts.live || 0}</button>
+          <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>상태 확인 중 {phaseCounts.pending || 0}</button>
+          <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
+          <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
+          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
+        </div>
+      </div>
+
+      <div className="state-legend" aria-label="표시 안내"><span className="recommendation-badge">추천</span> 서비스 추천 <span className="selection-badge">✓ 선택</span> 내가 담은 픽 <span className="result-badge">결과</span> 종료 후 판정</div>
+      <details className="recommendation-overview"><summary>오늘의 추천 픽 · 사전 기록과 결과 보기</summary>
+        <p className="review-note">이 영역은 목록 필터와 별도로 오늘 추천과 전날부터 진행 중인 사전 픽을 보여줍니다.</p>
+        <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} onOpenGame={setOpenedGame} />
+      </details>
       {capRow && (
         <p className="mt-2 text-[11.5px] leading-[1.7] text-ink3">
           최저배당 ≤{capRow.cap} 인 경기만 산 과거 실측 —
@@ -535,20 +603,40 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
           </span>
         </p>
       )}
-      <div>
-        {rows.length ? rows : (
-          // 날짜 기본값이 '오늘' 이라 심야·비수기엔 빈 화면이 될 수 있다.
-          // 그때 '고장' 으로 보이지 않게 다음 행동을 바로 알려 준다.
-          <Empty>
-            조건에 맞는 경기가 없다
-            {f.dt && (
-              <> — <button className="underline underline-offset-2"
-                onClick={() => setF({ ...f, dt: "" })}>모든 날짜 보기</button></>
-            )}
-          </Empty>
-        )}
+      <div className="league-list" aria-label="리그별 경기">
+        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기 <span>리그를 선택해 경기를 펼치세요.</span></p>
+        {leagueGroups.map((group, index) => {
+          const open = openLeague === group.key || (openLeague === null && index === 0);
+          const liveCount = group.games.filter((game) => gamePhase(game) === "live").length;
+          const recommendedCount = group.games.filter(isRecommended).length;
+          const sportName = SPORTS.find(([value]) => value === group.sport)?.[1] || group.sport;
+          return <section className={"league-group" + (open ? " is-open" : "")} key={group.key}>
+            <h3><button type="button" className="league-heading" aria-expanded={open}
+              aria-controls={"league-games-" + index} onClick={(event) => {
+                setOpenLeague(open ? "" : group.key);
+                const target = event.currentTarget;
+                requestAnimationFrame(() => target.scrollIntoView({ block: "nearest", behavior: "auto" }));
+              }}>
+              <span className="league-sport">{sportName}</span><span className="league-name">{group.league}<small>{group.games.length}경기{liveCount ? " · 진행 중 " + liveCount : ""}</small></span>
+              {recommendedCount > 0 && <span className="recommendation-badge">추천 {recommendedCount}</span>}
+              <span aria-hidden="true" className="league-chevron">{open ? "−" : "+"}</span>
+            </button></h3>
+            <div id={"league-games-" + index} hidden={!open} className="league-games">{open && renderLeagueGames(group.games)}</div>
+          </section>;
+        })}
+        {!leagueGroups.length && <Empty>
+          {f.fav ? "즐겨찾기와 현재 조건에 맞는 경기가 없습니다." : "조건에 맞는 경기가 없습니다."}
+          <button className="empty-reset" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>전체 경기로 돌아가기</button>
+        </Empty>}
       </div>
-      {betDraft && <BetSaveDialog draft={betDraft} onClose={() => setBetDraft(null)} />}
+      {notice && <p className="selection-notice" role="status">{notice} <a href="dashboard.html">내 기록 →</a></p>}
+      {selections.length > 0 && <div className="selection-dock"><span><b>✓ 내 선택 {selections.length}</b><small>아직 기록에 저장되지 않았습니다</small></span>
+        <button type="button" onClick={() => setReviewOpen(true)}>목록 확인 →</button></div>}
+      {reviewOpen && !betDraft && <SelectionReview items={selections} onClose={() => setReviewOpen(false)}
+        onRemove={(key) => setSelections((items) => items.filter((item) => item.key !== key))}
+        onSave={(item) => { setReviewOpen(false); setBetDraft(item); }} />}
+      {betDraft && <BetSaveDialog draft={betDraft} onClose={() => { setBetDraft(null); setReviewOpen(true); }}
+        onSaved={() => { setSelections((items) => items.filter((item) => item.key !== betDraft.key)); setNotice("내 기록에 저장했습니다. 선택 당시 정보와 이후 결과를 추적할 수 있습니다."); }} />}
     </>
   );
 }
@@ -635,7 +723,7 @@ function MarketHistory({ rows }) {
 }
 
 export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, highlightedToday, onSaveBet, onOpen, detailOnly = false }) {
+  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -718,6 +806,9 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const recommendationDetail = todayMembership?.display?.text || null;
   const recommendationReason = todayMembership?.reason || null;
   const recommendationCounterReason = todayMembership?.counterReason || null;
+  const evidence = stale || g._liveOddsChanged ? { frozen: false, facts: [], summary: "최신 경기력 자료 확인 중" } : matchEvidence(g);
+  const selectedForGame = selections.filter((item) => ["sport", "league", "round", "date", "home", "away"].every((key) => String(item.game[key]) === String(g[key])));
+  const selected = pick && selections.some((item) => item.key === selectionKey(g, pick.o));
   const Row = detailOnly ? "div" : "button";
   return (
     <Card className={`match-card is-${phase} result-${outcome.state}`}>
@@ -748,6 +839,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           </small>
         </span>
         <span className="match-call-inline">
+          {highlightedToday && <span className="recommendation-badge">오늘의 추천 픽</span>}
+          {selectedForGame.length > 0 && <span className="selection-badge">✓ 내 선택 {selectedForGame.map((item) => item.option.선택).join(" · ")}</span>}
           <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : phase === "pending" ? "사전 픽" : todayLabel ? "오늘 추천 픽" : "경기별 픽"}</small>
           <b>{phase === "finished"
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
@@ -780,6 +873,9 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                   }${recommendationDetail ? ` · ${recommendationDetail}` : " · 배당 기반 시장확률"}`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
+        {!detailOnly && highlightedToday && recommendationReason && <span className="match-reason-preview"><b>추천 이유</b> {recommendationReason}</span>}
+        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">배당 기준 확률 {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(pick.o["시장확률"])} · {locked ? "사전 고정" : "현재 배당 기준"}</span>}
+        {!detailOnly && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
       {detailOnly && <div className="match-detail">
         {phase === "pending" && lv && !lv.finished && !disruption && <p role="status" className="text-[12px] text-ink2">
@@ -790,9 +886,17 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
             <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>
             <p>경기 전 적중 확률 {Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음"} · 당시 배당 {odds(saved.option.배당)}</p>
+            {saved.capturedAt && <small>사전 기록 시각 {kstStamp(saved.capturedAt)} KST</small>}
             {playing && !liveProbability && <small>{probabilityMessage}</small>}
           </div>
         )}
+        <section className="performance-evidence" aria-label="경기력 근거">
+          <h3>{evidence.frozen ? "당시 판단" : "경기력 확인"}</h3>
+          {evidence.facts.length ? <ul>{evidence.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>{evidence.summary}</p>}
+          {!evidence.frozen && <p className="review-note">경기력 참고 자료입니다. 이 수치만으로 추천이나 적중을 보장하지 않습니다. 출처와 반대 근거는 아래 상세에서 확인하세요.</p>}
+        </section>
+        {pick && onSaveBet && <button type="button" className="pick-select-action" disabled={selected || stale || g._liveOddsChanged}
+          onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
         <MarketHistory rows={g._marketHistory} />
         {todayMembership && recommendationReason && (
           <div className={`today-pick-signals ${highlightedToday ? "is-recommended" : "is-excluded"}`} role="note">
@@ -950,7 +1054,7 @@ function OptTable({ g, opts, grades, tie, pick, highlightedToday = false,
               </td>
               <td className={`${td} text-right`}>
                 <button type="button" className="bet-record-button" disabled={recalculating}
-                  onClick={() => onSaveBet?.(g, o)}>베팅 기록</button>
+                  onClick={() => onSaveBet?.(g, o)}>선택 목록에 담기</button>
               </td>
             </tr>
           );
