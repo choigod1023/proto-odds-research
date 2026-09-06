@@ -15,6 +15,20 @@ test("live card renders the saved pick and prior even with no current options", 
     server: { middlewareMode: true, watch: null }, appType: "custom" });
   try {
     const { Game, GameList } = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const { default: BaseballSituation } = await server.ssrLoadModule("/src/components/BaseballSituation.jsx");
+    const field = (live) => renderToStaticMarkup(createElement(BaseballSituation, { live }));
+    assert.match(field({}), /주자 정보 확인 중/);
+    assert.doesNotMatch(field({}), /주자 없음/);
+    for (let mask = 0; mask < 8; mask++) {
+      const bases = Object.fromEntries(["first", "second", "third"].map((key, i) => [key,
+        { occupied: !!(mask & (1 << i)), runner: `선수${i + 1}` }]));
+      const markup = field({ bases, balls: 2, strikes: 1, outs: 0, pitcher: "투수명", batter: "타자명" });
+      assert.equal((markup.match(/class="field-base [^"]+ is-occupied"/g) || []).length,
+        [0, 1, 2].filter(i => mask & (1 << i)).length);
+      assert.match(markup, /투수명/);
+      assert.match(markup, /aria-label="B 2"/);
+    }
+    assert.match(field({bases: {first: {occupied:true}}}), /주자 있음 · 이름 미제공/);
     const lv = { status: "STARTED", status_text: "6회초", home_score: 4, away_score: 1 };
     const g = { year: 2026, round: 105, date: "09.05(토) 18:00", sport: "bs",
       home: "홈팀", away: "원정팀", status: "경기전", options: [],
