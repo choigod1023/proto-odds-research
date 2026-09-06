@@ -15,6 +15,24 @@ test("live card renders the saved pick and prior even with no current options", 
     server: { middlewareMode: true, watch: null }, appType: "custom" });
   try {
     const { Game, GameList } = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const { default: MatchProgress } = await server.ssrLoadModule("/src/components/MatchProgress.jsx");
+    const progress = (sport, live, phase="finished") => renderToStaticMarkup(createElement(MatchProgress,
+      {game:{sport,home:"홈팀",away:"원정팀"},live,phase}));
+    const board = progress("bs",{home_score:4,away_score:3,period_scores:[{period:1,home:0,away:1},{period:10,home:2,away:null}]});
+    assert.match(board, /이닝별 스코어보드/);
+    assert.match(board, />10<\/th>/);
+    assert.match(board, />0<\/td>/);
+    assert.match(board, />—<\/td>/);
+    assert.ok(board.indexOf("원정팀") < board.indexOf("홈팀"));
+    for (const [sport,label] of [["sc","전반"],["bk","1쿼터"],["vl","1세트"]]) {
+      const html = progress(sport,{period_scores:[{period:1,home:2,away:1}],timeline:[{period:1,type:"GOAL",text:"선수 득점",time:"14′",side:"home"}]});
+      assert.match(html,new RegExp(label));
+      assert.match(html,/선수 득점/);
+      assert.match(html,/14′/);
+      assert.doesNotMatch(html,/이닝별 스코어보드/);
+    }
+    assert.match(progress("sc",{}),/상세 이벤트 기록이 아직 제공되지 않았습니다/);
+    assert.match(progress("bk",{},"upcoming"),/경기가 시작되면/);
     const { default: BaseballSituation } = await server.ssrLoadModule("/src/components/BaseballSituation.jsx");
     const field = (live) => renderToStaticMarkup(createElement(BaseballSituation, { live }));
     assert.match(field({}), /주자 정보 확인 중/);

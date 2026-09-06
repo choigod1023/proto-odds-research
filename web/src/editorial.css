@@ -657,3 +657,30 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .field-counts .count-strikes { background:#d9a52a; }
 .field-counts .count-outs { background:#e46464; }
 .field-next { text-align:center; margin:10px 0 0; font-size:12px; color:var(--color-ink3); }
+.match-progress { margin:16px 0; padding:14px 0; border-top:1px solid var(--color-rule); }
+.match-progress h3 { margin:0 0 12px; font-size:14px; font-weight:750; }
+.progress-heading { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+.progress-heading > span,.progress-note { font-size:11px; color:var(--color-ink3); }
+.progress-note { margin:8px 0; }
+.innings-scroll { overflow-x:auto; border:1px solid var(--color-rule); border-radius:10px; }
+.innings-table { width:100%; border-collapse:separate; border-spacing:0; font-size:12px; font-variant-numeric:tabular-nums; text-align:center; }
+.innings-table th,.innings-table td { padding:10px 8px; min-width:29px; border-bottom:1px solid var(--color-rule); }
+.innings-table th:first-child { position:sticky; left:0; z-index:1; background:var(--color-paper); min-width:78px; max-width:100px; overflow-wrap:anywhere; }
+.innings-table th small { display:block; font-size:10px; font-weight:400; color:var(--color-ink3); }
+.innings-table thead th { color:var(--color-ink3); font-size:11px; }
+.innings-table .current-inning { background:color-mix(in srgb,var(--color-sev2) 12%,transparent); }
+.innings-total { font-weight:850; background:color-mix(in srgb,var(--color-ink) 6%,transparent); }
+.period-flow { display:flex; list-style:none; gap:8px; overflow-x:auto; padding:0 0 4px; margin:0; }
+.period-flow li { display:grid; gap:6px; text-align:center; min-width:74px; flex:1; border:1px solid var(--color-rule); border-radius:9px; padding:10px; }
+.period-flow b { font-size:11px; color:var(--color-ink3); white-space:nowrap; }
+.period-flow strong { font-size:15px; white-space:nowrap; }
+.period-flow .is-current { border-color:var(--color-sev2); }
+.event-timeline { list-style:none; padding:0; margin:12px 0 0; max-height:340px; overflow-y:auto; }
+.event-timeline li { display:grid; grid-template-columns:80px minmax(0,1fr); gap:12px; padding:0 0 17px; position:relative; }
+.event-time { display:flex; gap:8px; align-items:flex-start; justify-content:flex-end; font-size:11px; color:var(--color-ink3); }
+.event-time i { font-style:normal; width:21px; text-align:center; color:var(--color-ink); }
+.event-timeline li:not(:last-child)::after { content:""; position:absolute; top:22px; bottom:3px; left:69px; border-left:1px solid var(--color-rule); }
+.event-timeline small { font-size:10px; color:var(--color-ink3); }
+.event-timeline p { margin:3px 0 0; font-size:12px; line-height:1.5; overflow-wrap:anywhere; }
+.timeline-expand { padding:9px 12px; border:1px solid var(--color-rule); border-radius:7px; font-size:12px; }
+.progress-empty { margin:12px 0 0; font-size:12px; color:var(--color-ink3); }
