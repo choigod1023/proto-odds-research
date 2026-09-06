@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "../components/ui.jsx";
 import ReceiptOcr from "../components/ReceiptOcr.jsx";
+import GameInfoModal from "../components/GameInfoModal.jsx";
+import RecordMatchDetails from "../components/RecordMatchDetails.jsx";
 import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, liveKey,
   readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
@@ -51,7 +53,7 @@ function ProbabilityTrack({ bet, estimate }) {
   );
 }
 
-function BetCard({ bet, live, onRemove }) {
+export function BetCard({ bet, live, onRemove, onOpen }) {
   const estimate = estimateLiveProbability(bet, live);
   const change = Number.isFinite(estimate.probability) && Number.isFinite(bet.openingProbability)
     ? estimate.probability - bet.openingProbability : null;
@@ -92,6 +94,7 @@ function BetCard({ bet, live, onRemove }) {
         <p>당시 기록과 이후 경기 결과를 구분합니다.</p>
       </details>}
       <footer>
+        <button type="button" aria-haspopup="dialog" aria-label={`${bet.game.home} 대 ${bet.game.away} 경기정보 열기`} onClick={() => onOpen(bet.id)}>경기 상세 보기</button>
         <span>{estimate.basis === "score_time_estimate" ? "점수·남은 시간 기반 상황 추정치"
           : estimate.basis === "final_score" ? "최종 점수 기준"
             : estimate.basis === "live_score_missing" ? "진행 시간 부족 · 구매 당시 확률 유지" : "구매 당시 시장확률"}</span>
@@ -101,7 +104,7 @@ function BetCard({ bet, live, onRemove }) {
   );
 }
 
-function ComboCard({ group, index, onRemove }) {
+export function ComboCard({ group, index, onRemove, onOpen }) {
   const rows = group.bets.map((bet) => {
     const live = index.get(liveKey(bet.game));
     return { bet, live, estimate: estimateLiveProbability(bet, live), outcome: settleBet(bet, live) };
@@ -131,6 +134,7 @@ function ComboCard({ group, index, onRemove }) {
         <span><b>{bet.game.home} vs {bet.game.away}</b><small>{bet.selection.market}{bet.selection.label ? ` ${bet.selection.label}` : ""} · {bet.selection.choice} · {Number(bet.purchaseOdds).toFixed(2)}배</small></span>
         <span className="ticket-leg-live"><b>{live ? `${live.home_score ?? "–"}:${live.away_score ?? "–"}` : "경기 전"}</b><small>{live?.status_text || ""}</small></span>
         <span className="ticket-leg-probability"><b>{pct(estimate.probability)}</b><small>{legOutcome === "hit" ? "적중" : legOutcome === "miss" ? "실패" : "현재 추정"}</small></span>
+        <button type="button" className="record-detail-button" aria-haspopup="dialog" aria-label={`${bet.game.home} 대 ${bet.game.away} 경기정보 열기`} onClick={() => onOpen(bet.id)}>경기 상세</button>
       </div>)}</div>
       <footer><span>구매 당시 {pct(openingProbability)} · 현재 확률은 개별 상황 추정치의 단순 곱</span>
         <button type="button" onClick={() => onRemove(group.id)}>티켓 삭제</button></footer>
@@ -156,6 +160,8 @@ function TodayDecisionCard({ decision }) {
 
 export default function Dashboard() {
   const [bets, setBets] = useState(() => readBetLedger());
+  const [openedBetId, setOpenedBetId] = useState(null);
+  const openedBet = bets.find((bet) => bet.id === openedBetId);
   const liveData = useLiveScores();
   const { data: pickSources } = usePolledData({
     picks: PICKS_URL,
@@ -243,15 +249,18 @@ export default function Dashboard() {
       </section>
       <section className="dashboard-bet-list">
         {groups.map((group) => group.bets.length > 1
-          ? <ComboCard key={group.id} group={group} index={index} onRemove={(id) => { removeTicket(id); setBets(readBetLedger()); }} />
+          ? <ComboCard key={group.id} group={group} index={index} onOpen={setOpenedBetId} onRemove={(id) => { removeTicket(id); setBets(readBetLedger()); }} />
           : <BetCard key={group.id} bet={group.bets[0]} live={index.get(liveKey(group.bets[0].game))}
-              onRemove={(id) => { removeBet(id); setBets(readBetLedger()); }} />)}
+              onOpen={setOpenedBetId} onRemove={(id) => { removeBet(id); setBets(readBetLedger()); }} />)}
         {!bets.length && <div className="dashboard-empty">
           <b>저장한 베팅이 없습니다</b>
           <p>경기 분석에서 실제로 구매한 선택지의 ‘베팅 기록’ 버튼을 눌러 추가하세요.</p>
           <a href="markets.html">경기 분석으로 이동</a>
         </div>}
       </section>
+      {openedBet && <GameInfoModal title={`${openedBet.game.home} vs ${openedBet.game.away}`} onClose={() => setOpenedBetId(null)}>
+        <RecordMatchDetails bet={openedBet} live={index.get(liveKey(openedBet.game))} />
+      </GameInfoModal>}
     </main>
   );
 }
