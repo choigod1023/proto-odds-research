@@ -1,3 +1,4 @@
+import BaseballSituation from "../components/BaseballSituation.jsx";
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import FavoriteControls from "../components/FavoriteControls.jsx";
@@ -649,26 +650,6 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
     </select>
   </label>
 );
-
-function BaseballSituation({ live }) {
-  const bases = live?.bases || {};
-  const countKnown = [live?.balls, live?.strikes, live?.outs].every((value) => value != null);
-  const occupied = [bases.first, bases.second, bases.third].filter((base) => base?.occupied);
-  return (
-    <div className="live-baseball-situation" aria-label="현재 야구 경기 상황">
-      <div className="base-state" aria-label={occupied.length ? `주자 ${occupied.length}명` : "주자 없음"}>
-        {[['third', '3루'], ['second', '2루'], ['first', '1루']].map(([key, label]) => (
-          <span key={key} className={bases[key]?.occupied ? "is-occupied" : ""}
-            title={bases[key]?.runner || `${label} 주자 없음`}>{label}</span>
-        ))}
-      </div>
-      <div><small>현재 타자</small><b>{live?.batter || "확인 중"}</b>
-        {countKnown && <span>B {live.balls} · S {live.strikes} · O {live.outs}</span>}</div>
-      <div><small>현재 투수</small><b>{live?.pitcher || "확인 중"}</b>
-        {live?.next_batter && <span>다음 {live.next_batter}</span>}</div>
-    </div>
-  );
-}
 
 const historyTime = (value) => {
   const stamp = new Date(value);

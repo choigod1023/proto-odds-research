@@ -630,3 +630,30 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .detail-pick > span { display: block; font-size: 14px; color: var(--color-ink2); margin-top: 6px; }
 .detail-record-time { display: block; margin-top: 12px; font-size: 12px; color: var(--color-ink2); }
 @media (max-width: 420px) { .detail-scoreline { gap: 8px; } .detail-scoreline strong { font-size: 16px; } .detail-score { font-size: 26px; } }
+
+/* Detail field: fixed spatial positions, readable names, explicit unknown states. */
+.baseball-field-panel { margin: 12px 0 0; padding: 14px; border: 1px solid var(--color-rule); border-radius: 14px; background: var(--color-paper); }
+.field-caption { display:flex; justify-content:space-between; gap:8px; font-size:12px; }
+.field-caption span { color:var(--color-ink3); }
+.baseball-field { position:relative; width:100%; max-width:380px; height:310px; margin:8px auto; }
+.field-drawing { position:absolute; width:100%; height:100%; }
+.field-base { position:absolute; display:flex; flex-direction:column; align-items:center; gap:3px; width:32%; text-align:center; font-size:11px; }
+.field-base i { width:13px; height:13px; transform:rotate(45deg); background:#fff4d9; border:2px solid #5c4b35; }
+.field-base.is-occupied i { background:#ffd65e; border-color:#fff5bf; box-shadow:0 0 0 3px #ffd65e44; }
+.field-base.is-unknown i { background:#9aaba0; border-style:dashed; }
+.field-base b,.field-base span,.field-pitcher,.field-batter { background:#132b24ed; color:#f5f8f6; border-radius:5px; padding:2px 5px; overflow-wrap:anywhere; max-width:100%; }
+.field-base span { font-size:11px; }
+.field-second { top:36px; left:34%; }
+.field-third { top:139px; left:0; }
+.field-first { top:139px; right:0; }
+.field-pitcher,.field-batter { position:absolute; left:34%; width:32%; text-align:center; font-size:12px; }
+.field-pitcher { top:149px; }
+.field-batter { bottom:6px; }
+.field-pitcher small,.field-batter small { display:block; color:#c1d8ca; font-size:10px; }
+.field-counts { display:flex; justify-content:center; gap:22px; padding-top:10px; border-top:1px solid var(--color-rule); }
+.field-counts > span { display:flex; align-items:center; gap:5px; font-size:12px; }
+.field-counts i { width:8px; height:8px; border-radius:50%; background:var(--color-rule); }
+.field-counts .count-balls { background:#33a97a; }
+.field-counts .count-strikes { background:#d9a52a; }
+.field-counts .count-outs { background:#e46464; }
+.field-next { text-align:center; margin:10px 0 0; font-size:12px; color:var(--color-ink3); }
