@@ -4,12 +4,14 @@ export function overallAccuracy(data) {
   if(!data) return null;
   const index=data.prediction_performance;
   const canonical=index?.scope==='all_ledger_predictions' && index.records && typeof index.records==='object';
-  const games=new Map(), identities=new Map(), records=new Map();
+  const games=new Map(), identities=new Map(), events=new Map(), records=new Map();
   for(const game of [...(data.live||[]),...(data.past||[])]) {
     const record=game.prediction_record, id=record?.prediction_snapshot_id;
     if(!id) continue;
     const event=[game.year||new Date(record.captured_at).getUTCFullYear(),game.sport,game.league,game.date,game.home,game.away].join('|');
     identities.set(id,event);
+    const eventId=game.decision_snapshot?.event_id || game.event_id;
+    if(eventId) events.set(eventId,event);
     const items=games.get(id)||[];items.push(game);games.set(id,items);
     const captured=Date.parse(record.captured_at), kickoff=scheduledAt(game);
     if(!Number.isFinite(captured) || kickoff==null || captured>=kickoff) continue;
@@ -17,7 +19,7 @@ export function overallAccuracy(data) {
     if(!previous || captured>Date.parse(previous.captured_at)) records.set(event,record);
   }
   if(canonical) for(const [event,record] of Object.entries(index.records)) {
-    if(record?.prediction_snapshot_id) records.set(identities.get(record.prediction_snapshot_id)||`ledger:${event}`,record);
+    if(record?.prediction_snapshot_id) records.set(identities.get(record.prediction_snapshot_id)||events.get(event)||`ledger:${event}`,record);
   }
   const result={hit:0,miss:0,void:0,pending:0,provisional:0,total:0,from:null,scope:canonical?'ledger_and_saved':'saved_predictions'};
   const seen=new Set();

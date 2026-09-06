@@ -27,3 +27,7 @@ test('existing pregame records display results before canonical feed and survive
  assert.equal(next.total,2);assert.equal(next.hit,1);assert.equal(next.miss,1);
  assert.equal(overallAccuracy({live:[{...g,prediction_record:{...r,captured_at:'2026-09-01T04:00:00Z'}}]}).total,0);
 });
+test('new canonical revision replaces old saved revision for the same event',()=>{
+ const g={year:2026,sport:'bs',league:'MLB',home:'홈',away:'원정',date:'09.01 12:00',decision_snapshot:{event_id:'event'},prediction_record:{...record('old','hit'),captured_at:'2026-09-01T00:00:00Z'}};
+ const s=overallAccuracy({...data({event:record('new','miss')}),live:[g]});assert.equal(s.total,1);assert.equal(s.miss,1);
+});
