@@ -1,4 +1,5 @@
 import BaseballSituation from "../components/BaseballSituation.jsx";
+import MatchProgress from "../components/MatchProgress.jsx";
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import FavoriteControls from "../components/FavoriteControls.jsx";
@@ -796,6 +797,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         openingProbability={locked ? openingProbability : pick?.o?.["시장확률"]}
         estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}
         recommended={highlightedToday} outcome={outcome} selected={selectedForGame.length > 0}>
+        <MatchProgress game={g} live={lv} phase={phase} score={score} />
         {playing && g.sport === "bs" && <BaseballSituation live={lv} />}
       </MatchDetailHeader>}
       {!detailOnly && <>

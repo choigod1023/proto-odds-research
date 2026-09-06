@@ -34,6 +34,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+from match_progress import named_match_progress
 from runtime_db import load_artifact, load_document, persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -225,6 +226,7 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
     }
     if clock:
         rec["clock"] = clock
+    rec.update(named_match_progress(raw, sport))
     if sport == "baseball" and status == "STARTED":
         period = raw.get("period")
         division = str(raw.get("inningDivision") or "").upper()
@@ -481,6 +483,10 @@ def _merge_duplicate(preferred: dict, other: dict) -> dict:
             preferred, other = other, preferred
     merged = {**other, **preferred}
     merged["stale"] = bool(preferred.get("stale"))
+    if other.get("stale") and not preferred.get("stale") or other.get("status") != preferred.get("status"):
+        for key in ("period_scores", "current_period", "timeline", "timeline_scope"):
+            if key not in preferred:
+                merged.pop(key, None)
     # A failed-source row must not donate its outdated batter/runner state to a
     # successful source which only supplied scores.
     if (other.get("stale") and not preferred.get("stale")
