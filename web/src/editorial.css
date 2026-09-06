@@ -687,3 +687,22 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .record-detail-button { padding:8px 12px; border:1px solid var(--color-rule); border-radius:6px; font-size:12px; min-height:40px; }
 .dashboard-ticket-legs .record-detail-button { grid-column:2 / -1; justify-self:end; }
 .dashboard-bet-card footer { flex-wrap:wrap; gap:10px; }
+
+/* Keep every selection visible on narrow screens, including the third outcome. */
+@media screen and (max-width: 800px) {
+  .slip-page .slip-search { min-width:0; flex-basis:180px; }
+  .slip-page .slip-table-card { padding:0; overflow:visible; border:0; background:transparent; }
+  .slip-page .slip-table { display:block; width:100%; min-width:0; }
+  .slip-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .slip-table tbody { display:grid; gap:10px; }
+  .slip-table tr { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border:1px solid var(--color-rule); border-radius:10px; padding:10px; background:var(--color-panel); }
+  .slip-table td { min-width:0; border:0; padding:5px; overflow-wrap:anywhere; white-space:normal; }
+  .slip-table td:nth-child(1) { text-align:left; }
+  .slip-table td:nth-child(1)::before { content:"번호 "; font-size:11px; font-weight:400; color:var(--color-ink3); }
+  .slip-table td:nth-child(2) { text-align:right; font-size:11px; }
+  .slip-table td:nth-child(3) { align-self:center; }
+  .slip-table td:nth-child(4) { text-align:right; font-size:12px; }
+  .slip-table td:nth-child(5) { grid-column:1 / -1; padding-top:10px; }
+  .slip-table td:nth-child(5) > div { display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:6px; }
+  .slip-table td:nth-child(5) > div > span { min-width:0; gap:4px; padding:8px; font-size:12px; }
+}
