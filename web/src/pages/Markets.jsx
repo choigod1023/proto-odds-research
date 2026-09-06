@@ -28,6 +28,8 @@ import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
+import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
+import { gameStatusLabel } from "../lib/match-status.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
 const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
@@ -49,7 +51,9 @@ function usePoll(url, ms) {
         headers: { "Cache-Control": "no-cache" },
       })
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((d) => { if (!stop) setState({ data: d, checked: true }); })
+        .then((d) => { if (!stop) setState((old) => ({
+          data: url === LIVE_URL ? mergeLiveFeed(old.data, d) : d, checked: true,
+        })); })
         // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
         // 오래된 정적 fallback인지 실제 장애인지 구분한다.
         .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
@@ -106,15 +110,6 @@ function scoreForecastForView(game) {
  *
  * ⚠️ 키에 **날짜(MM.DD)를 반드시 포함**한다. 팀 조합만으로 잡으면 MLB 3~4연전에서
  *    어제 경기와 오늘 경기가 뭉개진다 — 정산 경기 55건 중 37건이 어긋났었다. */
-function buildLiveIndex(live) {
-  const m = new Map();
-  (live?.games || []).forEach((g) => {
-    const hs = [g.home, ...(g.home_alias || [])].filter(Boolean);
-    const as = [g.away, ...(g.away_alias || [])].filter(Boolean);
-    hs.forEach((h) => as.forEach((a) => m.set(`${h}|${a}|${g.md}`, g)));
-  });
-  return m;
-}
 
 function marketHistoryForGame(game, liveOdds) {
   const rows = Object.values(liveOdds?.markets?.[String(game?.round)] || {}).filter((row) =>
@@ -306,7 +301,7 @@ function useTodayClock(today) {
 /* ── 경기별 예측 목록 ─────────────────────────────────────────── */
 const STATUS = [
   ["", "전체"], ["live", "진행 중"], ["upcoming", "예정"],
-  ["finished", "종료"], ["pending", "결과 확인 중"],
+  ["finished", "종료"], ["pending", "상태 확인 중"],
 ];
 
 export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false }) {
@@ -473,7 +468,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
         <h2>경기 목록</h2>
         <div className="match-phase-counts" aria-label="경기 상태 필터">
           <button type="button" className="is-live" aria-pressed={f.st === "live"} onClick={() => selectPhase("live")}>진행 중 {phaseCounts.live || 0}</button>
-          <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>결과 확인 중 {phaseCounts.pending || 0}</button>
+          <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>상태 확인 중 {phaseCounts.pending || 0}</button>
           <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
           <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
           <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
@@ -744,7 +739,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             {g.away}
           </span>
           <small className="match-player-inline">
-            {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : phase === "pending" ? "결과 확인 중" : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
+            {disruption || (playing ? `LIVE · ${lv.status_text || "진행 중"}` : done || finished ? `종료 · ${outcome.label}` : phase === "pending" ? gameStatusLabel(g, lv) : wait ? waitText : stale ? "데이터 갱신 지연" : "예정")} · {g.round}회차
             {g._liveLineChanged ? " · 기준점 변경 반영" : ""}
             {drift ? " · 라인 변동" : ""}
             {compactPlayers
@@ -787,6 +782,10 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         </span>
       </Row>
       {detailOnly && <div className="match-detail">
+        {phase === "pending" && lv && !lv.finished && !disruption && <p role="status" className="text-[12px] text-ink2">
+          중계 업데이트가 늦어지고 있습니다. 표시된 점수는 마지막 확인 값이며, 경기 종료를 뜻하지 않습니다.
+          {lv.observed_at && ` · 마지막 확인 ${new Date(lv.observed_at).toLocaleTimeString("ko-KR", { timeZone: "Asia/Seoul" })} (한국 시간)`}
+        </p>}
         {locked && saved && !finished && (
           <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
             <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>

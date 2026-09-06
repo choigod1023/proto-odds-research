@@ -277,8 +277,14 @@ def _proto_games() -> list[dict]:
 def add_proto_aliases(named_games: list[dict], proto_games: list[dict]) -> int:
     """NAMED 정식 팀명에 프로토 축약명을 붙여 프론트의 정확 키 조인을 살린다."""
     candidates: dict[tuple[str, str], list[dict]] = {}
+    seen = set()
     for game in proto_games:
         md = str(game.get("date") or "")[:5]
+        # Reissued rounds repeat the same event, not competing match candidates.
+        event = (game.get("sport"), game.get("date"), game.get("home"), game.get("away"))
+        if event in seen:
+            continue
+        seen.add(event)
         candidates.setdefault((str(game.get("sport") or ""), md), []).append(game)
 
     matched = 0
@@ -654,15 +660,17 @@ def main() -> int:
                 "day": day, "error": "not_yet_refreshed", "observed_at": None}
                for day in other_days for league in (*CATS, "named")]
     games = schedule_games(results, alias)
+    proto_games = _proto_games()
+    add_proto_aliases([g for g in games if g.get("source") == "named"], proto_games)
     checkpoint = build_document(games, previous, now, [*results, *pending], partial=True)
     persist_artifact("live_scores", checkpoint, OUT, indent=None)
     print(f"실시간 점수 현재일 저장 · {len(games)}건 · {time.monotonic() - started:.1f}s", flush=True)
 
     results.extend(collect_schedules(other_days, deadline))
     games = schedule_games(results, alias)
-    if time.monotonic() < deadline:
-        named = [g for g in games if g.get("source") == "named"]
-        add_proto_aliases(named, _proto_games())
+    # Local identity matching is required even when the network budget expires.
+    named = [g for g in games if g.get("source") == "named"]
+    add_proto_aliases(named, proto_games)
     document = build_document(games, previous, now, results)
     # Persist all scores before optional pitch-by-pitch requests. A killed relay
     # phase leaves correct score timestamps in the already stored artifact.

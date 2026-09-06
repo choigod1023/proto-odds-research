@@ -12,9 +12,43 @@ from src.live_scores import (add_proto_aliases, baseball_situation,
                              TERMINAL_STATUSES)
 
 
+def test_charlotte_aliases_match_once_even_when_proto_rounds_repeat():
+    game = {"source": "named", "sport": "sc", "md": "09.06",
+            "start": "2026-09-06T08:30:00+09:00", "home": "샬럿",
+            "away": "휴스턴 다이너모", "home_alias": ["샬럿 FC"],
+            "away_alias": ["휴스턴 다이너모 FC"]}
+    proto = {"sport": "sc", "date": "09.06(일) 08:30", "home": "샬럿FC", "away": "휴스다이"}
+    assert add_proto_aliases([game], [{**proto, "round": 105}, {**proto, "round": 106}]) == 1
+    assert "샬럿FC" in game["home_alias"]
+    assert "휴스다이" in game["away_alias"]
+
+
 def test_naver_ended_status_is_treated_as_finished():
     assert "ENDED" in RESULT_STATUSES
     assert "ENDED" in TERMINAL_STATUSES
+
+
+def test_new_charlotte_event_has_proto_aliases_at_first_checkpoint(monkeypatch):
+    game = {"source": "named", "sport": "sc", "md": "09.06", "league": "MLS",
+            "game_id": "named:11868439", "start": "2026-09-06T08:30:00+09:00",
+            "home": "샬럿", "away": "휴스턴 다이너모", "home_alias": ["샬럿 FC"],
+            "away_alias": ["휴스턴 다이너모 FC"], "status": "STARTED",
+            "observed_at": "2026-09-06T00:30:00Z"}
+    monkeypatch.setattr(ls, "_aliases", lambda: {})
+    monkeypatch.setattr(ls, "_previous_games", lambda: [])
+    monkeypatch.setattr(ls, "_proto_games", lambda: [{"sport": "sc", "date": "09.06(일) 08:30",
+                                                     "home": "샬럿FC", "away": "휴스다이"}])
+    monkeypatch.setattr(ls, "collect_schedules", lambda *args: [{"error": None}])
+    monkeypatch.setattr(ls, "schedule_games", lambda *args: [deepcopy(game)])
+    monkeypatch.setattr(ls, "enrich_situations", lambda *args: None)
+    saved = []
+    monkeypatch.setattr(ls, "persist_artifact", lambda name, document, *args, **kwargs: saved.append(deepcopy(document)))
+    assert ls.main() == 0
+    assert saved[0]["partial"] is True
+    for document in saved:
+        assert "샬럿FC" in document["games"][0]["home_alias"]
+        assert "휴스다이" in document["games"][0]["away_alias"]
+        assert document["games"][0]["observed_at"] == game["observed_at"]
 
 
 def test_baseball_situation_extracts_batter_count_and_runners():
@@ -451,7 +485,7 @@ def test_main_preserves_lens_alias_at_every_save_before_optional_fuzzy_matching(
     monkeypatch.setattr(ls, "persist_artifact", save)
     monkeypatch.setattr(ls, "enrich_situations", lambda *args: order.append("relay"))
     assert ls.main() == 0
-    assert order == ["today", "save", "history", *([] if skip_fuzzy else ["fuzzy"]),
+    assert order == ["today", "fuzzy", "save", "history", "fuzzy",
                      "save", "relay", "save"]
     assert saved[0]["partial"] is True and saved[-1]["partial"] is False
 
