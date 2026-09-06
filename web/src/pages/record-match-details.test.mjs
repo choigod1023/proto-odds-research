@@ -8,7 +8,10 @@ test('record detail preserves purchased pick while showing updated game informat
  const server=await createServer({configFile:false,root:fileURLToPath(new URL('../../',import.meta.url)),esbuild:{jsx:'automatic'},optimizeDeps:{noDiscovery:true,include:[]},server:{middlewareMode:true,watch:null},appType:'custom'});
  try {
   const {default:Detail}=await server.ssrLoadModule('/src/components/RecordMatchDetails.jsx');
-  const {BetCard,ComboCard}=await server.ssrLoadModule('/src/pages/Dashboard.jsx');
+  const {default:Dashboard,BetCard,ComboCard}=await server.ssrLoadModule('/src/pages/Dashboard.jsx');
+  const dashboard=renderToStaticMarkup(createElement(Dashboard));
+  assert.doesNotMatch(dashboard,/dashboard-recommendations|오늘의 추천 판정|추천하지 않은 후보/);
+  assert.match(dashboard,/dashboard-bet-list/);
   const bet={id:'saved',createdAt:'2026-09-06T01:00:00Z',game:{sport:'bs',league:'MLB',home:'홈',away:'원정',date:'09.06 10:00',year:2026},selection:{market:'승패',choice:'홈'},purchaseOdds:1.8,stake:1000,openingProbability:.57};
   const before=JSON.stringify(bet);
   const live={status:'STARTED',observed_at:new Date().toISOString(),home_score:2,away_score:1,status_text:'3회초',bases:{first:{occupied:true,runner:'주자 이름'}},period_scores:[{period:1,home:2,away:1}]};

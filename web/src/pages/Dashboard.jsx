@@ -6,11 +6,9 @@ import RecordMatchDetails from "../components/RecordMatchDetails.jsx";
 import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, liveKey,
   readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
-import { alignTodayRecommendations, dailyRecommendationDecisions } from "../lib/unified-recommendation.js";
 
 const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
 const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
-const TODAY_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
 const pct = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "–";
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 
@@ -140,22 +138,6 @@ export function ComboCard({ group, index, onRemove, onOpen }) {
   );
 }
 
-function TodayDecisionCard({ decision }) {
-  const row = decision.selection;
-  const title = `${row.home || ""} vs ${row.away || ""}`;
-  const pick = `${row.market || ""}${row.market_label ? ` ${row.market_label}` : ""} · ${row.sel || ""}`;
-  return <article className={`dashboard-recommendation-card ${decision.recommended ? "is-recommended" : "is-excluded"}`}>
-    <header>
-      <div><small>{row.league} · {row.date}</small><h3>{title}</h3></div>
-      <strong>{decision.recommended ? "오늘의 추천" : "추천 제외"}</strong>
-    </header>
-    <div className="dashboard-recommendation-pick"><b>{pick}</b><span>{Number(row.odds).toFixed(2)}배</span></div>
-    <p><b>{decision.recommended ? "추천한 이유" : "추천하지 않은 이유"}</b>{decision.reason}</p>
-    {decision.display?.text && <small>{decision.display.text}</small>}
-    <p className="is-counter"><b>{decision.recommended ? "추천해도 주의할 점" : "그래도 남기는 정보"}</b>{decision.counterReason}</p>
-  </article>;
-}
-
 export default function Dashboard() {
   const [bets, setBets] = useState(() => readBetLedger());
   const [openedBetId, setOpenedBetId] = useState(null);
@@ -163,10 +145,7 @@ export default function Dashboard() {
   const liveData = useLiveScores();
   const { data: pickSources } = usePolledData({
     picks: PICKS_URL,
-    today: TODAY_URL,
   }, 60000);
-  const picks = pickSources.picks;
-  const today = pickSources.today;
   const receiptGames = useMemo(() => {
     const seen = new Set();
     return [pickSources.picks].flatMap((source) => source?.live || []).filter((game) => {
@@ -177,13 +156,6 @@ export default function Dashboard() {
   }, [pickSources.picks]);
   const index = useMemo(() => liveIndex(liveData), [liveData]);
   const groups = useMemo(() => groupBetTickets(bets), [bets]);
-  const todayDecisions = useMemo(() => {
-    const games = [...(picks?.live || []), ...(picks?.past || [])];
-    const aligned = alignTodayRecommendations(today, games);
-    return dailyRecommendationDecisions(aligned?.candidates || []);
-  }, [picks, today]);
-  const recommendedToday = todayDecisions.filter((decision) => decision.recommended);
-  const excludedToday = todayDecisions.filter((decision) => !decision.recommended);
   useEffect(() => {
     const refresh = () => setBets(readBetLedger());
     window.addEventListener("storage", refresh);
@@ -228,20 +200,6 @@ export default function Dashboard() {
         <div><small>확정 손익</small><b className={totals.profit < 0 ? "text-sev3" : ""}>{totals.profit >= 0 ? "+" : ""}{money(totals.profit)}</b></div>
       </section>
 
-      <section className="dashboard-recommendations">
-        <header><div><h2>오늘의 추천 판정</h2></div>
-          <strong>{recommendedToday.length}개 추천 · {excludedToday.length}개 제외</strong></header>
-        <div className="dashboard-recommendation-grid">
-          {recommendedToday.map((decision) => <TodayDecisionCard key={`yes-${decision.selection.event_key}-${decision.selection.market}-${decision.selection.sel || decision.selection["선택"]}`} decision={decision} />)}
-        </div>
-        {!!excludedToday.length && <details className="dashboard-excluded-list">
-          <summary>추천하지 않은 후보 {excludedToday.length}개와 이유 보기</summary>
-          <div className="dashboard-recommendation-grid">
-            {excludedToday.map((decision) => <TodayDecisionCard key={`no-${decision.selection.event_key}-${decision.selection.market}-${decision.selection.sel || decision.selection["선택"]}`} decision={decision} />)}
-          </div>
-        </details>}
-        {!todayDecisions.length && <div className="dashboard-empty"><b>현재 설명할 오늘 후보가 없습니다</b></div>}
-      </section>
       <section className="dashboard-bet-list">
         {groups.map((group) => group.bets.length > 1
           ? <ComboCard key={group.id} group={group} index={index} onOpen={setOpenedBetId} onRemove={(id) => { removeTicket(id); setBets(readBetLedger()); }} />
