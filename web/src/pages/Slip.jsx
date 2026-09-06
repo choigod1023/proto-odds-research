@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Card, Nav } from "../components/ui.jsx";
 import { odds } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
-import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
+import { currentSlipGames, recommendedTodayPicks, slipRows } from "../lib/slip.js";
 
 const LIVE_ODDS_URL = "https://proto-odds-collector.fly.dev/api/live-odds";
 const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
@@ -24,10 +24,13 @@ export default function Slip() {
   const [round, setRound] = useState("all");
   const [query, setQuery] = useState("");
   const picks = data.picks;
-  const todayPicks = useMemo(() => recommendedTodayPicks(data.today), [data.today]);
+  const currentGames = useMemo(() => currentSlipGames(picks?.live, data.liveOdds),
+    [picks, data.liveOdds]);
+  const todayPicks = useMemo(() => recommendedTodayPicks(data.today, currentGames),
+    [data.today, currentGames]);
   const allRows = useMemo(
-    () => slipRows(picks?.live, data.liveOdds, undefined, todayPicks),
-    [picks, data.liveOdds, todayPicks],
+    () => slipRows(currentGames, null, undefined, todayPicks),
+    [currentGames, todayPicks],
   );
   const rounds = [...new Set(allRows.map((row) => String(row.round)))];
   const normalized = query.trim().toLowerCase();

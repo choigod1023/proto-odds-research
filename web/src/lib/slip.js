@@ -1,5 +1,5 @@
 import { repriceGameOdds } from "./live-odds.js";
-import { dailyHighlightedSelections } from "./unified-recommendation.js";
+import { alignTodayRecommendations, dailyHighlightedSelections } from "./unified-recommendation.js";
 
 const KST_DATE = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit",
@@ -27,23 +27,27 @@ const sameProtoSelection = (left, right, round) => !!left && !!right &&
   String(left.sel ?? left["선택"] ?? "") === String(right.sel ?? right["선택"] ?? "");
 
 /** 조합 구성과 무관하게 오늘의 경기별 최종 추천을 형광 표시 대상으로 만든다. */
-export function recommendedTodayPicks(today) {
-  return dailyHighlightedSelections(today?.candidates || []);
+export function recommendedTodayPicks(today, currentGames = null, now = Date.now()) {
+  const aligned = currentGames == null ? today : alignTodayRecommendations(today, currentGames, now);
+  return dailyHighlightedSelections(aligned?.candidates || []);
 }
 
-export function slipRows(games, liveOdds, now = new Date(), todayPicks = null) {
-  const groups = new Map();
+export function currentSlipGames(games, liveOdds, now = new Date()) {
   const activeRounds = new Set((liveOdds?.rounds || []).map(String));
-  (games || []).forEach((game) => {
-    if (activeRounds.size && !activeRounds.has(String(game.round))) return;
-    if (!isCurrentSlipDate(game.date, now)) return;
-    const current = repriceGameOdds(
+  return (games || []).filter((game) =>
+    (!activeRounds.size || activeRounds.has(String(game.round))) &&
+      isCurrentSlipDate(game.date, now)).map((game) => repriceGameOdds(
       game,
       liveOdds?.odds?.[String(game.round)],
       liveOdds?.generated_at || null,
       liveOdds?.markets?.[String(game.round)],
-    );
-    const recommended = current["추천"] || game["추천"] || null;
+    ));
+}
+
+export function slipRows(games, liveOdds, now = new Date(), todayPicks = null) {
+  const groups = new Map();
+  currentSlipGames(games, liveOdds, now).forEach((current) => {
+    const recommended = current["추천"] || null;
     const isRecommended = (option) => Array.isArray(todayPicks)
       ? todayPicks.some((pick) => sameProtoSelection(pick, option, current.round))
       : !!recommended && (

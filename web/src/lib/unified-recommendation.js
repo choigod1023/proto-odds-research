@@ -1,52 +1,37 @@
 import { gradeOf } from "./fmt.js";
 import { eligibleFinalSelections, finalRecommendedSelection,
-  hitProbabilityOf, marketOnlyRecommendedSelection,
+  marketOnlyRecommendedSelection,
   qualifiedUnderdogSelections, recommendationPriority } from "./recommendation-policy.js";
 import { canApplyDecisionProbability, resolveDecisionOption } from "./decision-view-model.js";
 import { scheduledAt } from "./match-status.js";
+import { BASE_PER_LEAGUE, MIN_HIT, MIN_RETURN, compareDailyValue,
+  dailyValueDecisions, dailyValueMetrics } from "./daily-value.js";
 
 const clean = (value) => String(value ?? "").trim();
 
-export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
-export const DAILY_HIGHLIGHT_BASE_PER_LEAGUE = 3;
-export const DAILY_HIGHLIGHT_STRONG_MIN_HIT = 0.60;
-
-const dailyLeagueKey = (selection) => {
-  const kickoff = Date.parse(selection?.kickoff_at || "");
-  const date = String(selection?.date || "").match(/^(\d{2})\.(\d{2})/);
-  const day = Number.isFinite(kickoff)
-    ? new Date(kickoff + 9 * 3600000).toISOString().slice(0, 10)
-    : date ? `${selection?.year || new Date().getFullYear()}-${date[1]}-${date[2]}` : "undated";
-  return `${day}|${clean(selection?.league) || "리그 미분류"}`;
-};
-
-const recommendationRank = (a, b) =>
-  hitProbabilityOf(b) - hitProbabilityOf(a) ||
-  Number(b?.probability_lower_bound ?? hitProbabilityOf(b)) -
-    Number(a?.probability_lower_bound ?? hitProbabilityOf(a)) ||
-  Number(a?.odds ?? a?.["배당"] ?? Infinity) -
-    Number(b?.odds ?? b?.["배당"] ?? Infinity) ||
-  String(a?.kickoff_at || a?.date || "").localeCompare(
-    String(b?.kickoff_at || b?.date || ""),
-  ) || selectionKey(a, a?.round).localeCompare(selectionKey(b, b?.round));
+export const DAILY_HIGHLIGHT_MIN_HIT = MIN_HIT;
+export const DAILY_HIGHLIGHT_BASE_PER_LEAGUE = BASE_PER_LEAGUE;
+const percent = (value) => value == null ? "계산 불가" : `${(value * 100).toFixed(1)}%`;
+const signedPercent = (value) => value == null ? "계산 불가"
+  : `${value >= 0 ? "+" : ""}${percent(value)}`;
 
 export function recommendationDisplay(selection) {
   if (!selection) return null;
-  const hit = hitProbabilityOf(selection);
-  const lower = Number(selection?.probability_lower_bound);
+  const value = dailyValueMetrics(selection);
   const odds = Number(selection?.odds ?? selection?.["배당"]);
   const preferred = recommendationPriority(selection) === 1;
   const live = selection?.price_source === "live_odds" || selection?._live === true;
-  const validated = selection?.has_validated_edge === true;
+  const validated = value.validated_probability;
   const parts = [
-    `적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}`,
+    `예상 적중 ${percent(value.probability)} · 손익분기 ${percent(value.break_even_probability)}`,
     `배당 ${Number.isFinite(odds) ? odds.toFixed(2) : "확인 불가"}${preferred ? " · 우선구간" : " · 저배당 보조"}`,
-    validated && Number.isFinite(lower)
-      ? `검증 하한 ${(lower * 100).toFixed(1)}%`
-      : "Shin 시장 기준",
+    `추정 기대수익 ${signedPercent(value.expected_return)}`,
+    value.validated_interval
+      ? `검증 하한 기준 ${signedPercent(value.comparison_return)}`
+      : `시장 기준 비교값 ${signedPercent(value.comparison_return)} · 수익 우위 미검증`,
     live ? "실시간 배당" : "발매 스냅샷",
   ];
-  return { parts, text: parts.join(" · "), preferred, validated, live };
+  return { parts, text: parts.join(" · "), preferred, validated, live, value };
 }
 
 const selectionName = (selection) =>
@@ -55,74 +40,39 @@ const selectionName = (selection) =>
 
 /** 오늘 후보 전체에 채택 이유 또는 첫 번째 탈락 이유를 같은 정책으로 부여한다. */
 export function dailyRecommendationDecisions(candidates = []) {
-  const eligible = eligibleFinalSelections(candidates);
-  const eligibleSet = new Set(eligible);
-  const selected = new Set(dailyHighlightedSelections(candidates));
-  const leagueRows = new Map();
-  eligible.forEach((selection) => {
-    if (hitProbabilityOf(selection) < DAILY_HIGHLIGHT_MIN_HIT) return;
-    const league = dailyLeagueKey(selection);
-    if (!leagueRows.has(league)) leagueRows.set(league, []);
-    leagueRows.get(league).push(selection);
-  });
-  const rankBySelection = new Map();
-  leagueRows.forEach((rows) => {
-    const primary = rows.filter((selection) => recommendationPriority(selection) === 1);
-    const pool = (primary.length ? primary : rows).sort(recommendationRank);
-    pool.forEach((selection, index) => rankBySelection.set(selection, index + 1));
-  });
-  return candidates.map((selection) => {
-    const hit = hitProbabilityOf(selection);
+  return dailyValueDecisions(candidates).map((decision) => {
+    const { selection, league_rank: rank, reason_code: code } = decision;
     const league = clean(selection?.league) || "리그 미분류";
-    const rows = leagueRows.get(dailyLeagueKey(selection)) || [];
-    const hasPrimary = rows.some((row) => recommendationPriority(row) === 1);
-    const preferred = recommendationPriority(selection) === 1;
-    const rank = rankBySelection.get(selection) || null;
-    let reason;
-    if (!eligibleSet.has(selection)) {
-      reason = "자동 추천 안전조건을 통과하지 못했다.";
-    } else if (!(hit >= DAILY_HIGHLIGHT_MIN_HIT)) {
-      reason = `예상 적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}로 55% 기준에 미달했다.`;
-    } else if (!preferred && hasPrimary) {
-      reason = "같은 리그에 1.50~2.20 우선 배당 후보가 있어 저배당 보조 후보에서 제외했다.";
-    } else if (!selected.has(selection)) {
-      reason = `해당 날짜 리그 내 ${rank || 4}순위이며 추가 추천 기준 60%에 미달했다.`;
-    } else if (rank && rank <= DAILY_HIGHLIGHT_BASE_PER_LEAGUE) {
-      reason = `55% 기준을 통과했고 해당 날짜 ${league} 유효 후보 중 ${rank}위라 기본 추천 3개에 포함했다.`;
-    } else {
-      reason = `해당 날짜 리그 기본 3개 밖이지만 예상 적중 ${(hit * 100).toFixed(1)}%로 추가 기준 60%를 통과했다.`;
-    }
+    const reason = {
+      safety: "자동 추천 안전조건을 통과하지 못했다.",
+      invalid: "현재 배당 또는 같은 시점 시장확률이 없어 기대가치를 계산할 수 없다.",
+      hit_floor: `예상 적중 ${percent(decision.probability)}로 ${percent(MIN_HIT)} 위험 하한에 미달했다.`,
+      return_floor: `배당 대비 비교 기대수익 ${signedPercent(decision.comparison_return)}로 ${signedPercent(MIN_RETURN)} 손실 제한에 미달했다.`,
+      fallback: "같은 날짜·리그에 기준을 통과한 1.50 이상 후보가 있어 저배당 보조 후보를 제외했다.",
+      rank: `해당 날짜 리그 내 기대가치 ${rank}순위다. 기본 3개 밖에서는 검증된 확률 하한 기준 기대수익이 양수여야 추가한다.`,
+      base: `적중확률만이 아니라 배당 대비 비교 기대수익 ${signedPercent(decision.comparison_return)}를 우선했다. 해당 날짜 ${league} 유효 후보 중 ${rank}위로 기본 추천에 포함했다.`,
+      validated_extra: `기본 3개 밖이지만 검증된 확률 하한 기준 기대수익 ${signedPercent(decision.comparison_return)}가 양수여서 추가했다.`,
+    }[code];
     return {
       selection,
-      recommended: selected.has(selection),
+      recommended: decision.recommended,
       reason,
-      counterReason: selected.has(selection)
-        ? "양의 기대수익이 검증된 것은 아니며 배당 변동·라인업 변경 시 추천에서 빠질 수 있다."
+      counterReason: decision.recommended
+        ? decision.validated_interval && decision.comparison_return > 0
+          ? "검증 하한을 사용한 추정치도 수익을 보장하지 않는다. 배당 변동·라인업 변경 시 다시 판정한다."
+          : "양의 기대수익이 검증된 것은 아니며 기대손실이 있는 비교 후보일 수 있다. 배당 변동·라인업 변경 시 추천에서 빠질 수 있다."
         : `${selectionName(selection)} 방향 자체는 경기 비교값으로 남기지만 오늘의 형광 추천에는 넣지 않는다.`,
       display: recommendationDisplay(selection),
       leagueRank: rank,
+      value: decision,
     };
   });
 }
 
-/** 날짜별 리그 기본 3개와 60% 이상 추가 후보를 고른다. 기준 미달은 채우지 않는다. */
+/** 배당 대비 기대가치 순. 적중확률이 높다는 이유만으로 추천 수를 늘리지 않는다. */
 export function dailyHighlightedSelections(candidates = []) {
-  const byLeague = new Map();
-  eligibleFinalSelections(candidates)
-    .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT)
-    .forEach((selection) => {
-      const league = dailyLeagueKey(selection);
-      if (!byLeague.has(league)) byLeague.set(league, []);
-      byLeague.get(league).push(selection);
-    });
-  return [...byLeague.values()].flatMap((rows) => {
-    const primary = rows.filter((selection) => recommendationPriority(selection) === 1);
-    const pool = (primary.length ? primary : rows).sort(recommendationRank);
-    const base = pool.slice(0, DAILY_HIGHLIGHT_BASE_PER_LEAGUE);
-    const strong = pool.slice(DAILY_HIGHLIGHT_BASE_PER_LEAGUE)
-      .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_STRONG_MIN_HIT);
-    return [...base, ...strong];
-  }).sort(recommendationRank);
+  return dailyValueDecisions(candidates).filter((row) => row.recommended)
+    .map((row) => row.selection).sort(compareDailyValue);
 }
 
 export function selectionKey(selection, round = selection?.round) {

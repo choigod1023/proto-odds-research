@@ -33,10 +33,28 @@ def recommendation_signature(payload: dict) -> dict:
         plans.append({"target": plan.get("target"),
                       "picks": [_selection_key(row) for row in plan.get("picks") or []]})
     recommendation = payload.get("recommendation") or {}
+    # Combo selection is disabled; its constant action cannot identify changes
+    # to the actual daily highlights. Keep their value inputs in the DB audit.
+    daily = []
+    for candidate in payload.get("candidates") or []:
+        value = candidate.get("daily_recommendation") or {}
+        if not value.get("recommended"):
+            continue
+        daily.append({
+            "selection": _selection_key(candidate),
+            "odds": candidate.get("odds"),
+            "probability": value.get("probability"),
+            "comparison_return": value.get("comparison_return"),
+            "validated_interval": value.get("validated_interval"),
+            "league_rank": value.get("league_rank"),
+        })
+    daily.sort(key=lambda row: row["selection"])
     return {"action": recommendation.get("action"),
             "recommended_target": recommendation.get("recommended_target"),
             "solo": _selection_key(payload["solo"]) if payload.get("solo") else None,
-            "plans": plans}
+            "plans": plans,
+            "daily_policy": payload.get("daily_recommendation_policy"),
+            "daily": daily}
 
 
 def _reason(previous: dict | None, current: dict) -> str:
@@ -46,6 +64,10 @@ def _reason(previous: dict | None, current: dict) -> str:
     new = recommendation_signature(current)
     if old["action"] != new["action"]:
         return "recommendation_status_changed"
+    if old["daily_policy"] != new["daily_policy"]:
+        return "daily_policy_changed"
+    if old["daily"] != new["daily"]:
+        return "daily_value_changed"
     if old["plans"] != new["plans"] or old["solo"] != new["solo"]:
         return "live_market_pick_changed"
     return "prices_recalculated"
