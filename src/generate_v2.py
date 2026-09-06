@@ -62,6 +62,7 @@ from pitcher_form import (ARTIFACT as STARTER_XFIP_ARTIFACT,        # noqa: E402
 from player_name_localizer import localize_player_names             # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
                                PredictionLedgerError)
+from prediction_performance import performance_index
 from prediction_runtime import (PredictionRuntime, attach_score_forecast,  # noqa: E402
                                 kickoff_utc, tally_prediction_records)
 from runtime_db import (RuntimeDatabase, database_enabled, load_artifact,
@@ -1736,6 +1737,7 @@ def main() -> int:
         "generated_at": generated_at,
         "rounds": rounds, "live": live_g, "past": past_g, "tally": tally,
         "tally_status": tally_status,
+        "prediction_performance": performance_index(ledger_predictions),
         "prediction_pipeline": {
             "ledger_schema": "pregame-prediction-ledger-v1",
             "ledger_records": ledger_record_count,
