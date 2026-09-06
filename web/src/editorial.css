@@ -706,3 +706,11 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
   .slip-table td:nth-child(5) > div { display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:6px; }
   .slip-table td:nth-child(5) > div > span { min-width:0; gap:4px; padding:8px; font-size:12px; }
 }
+.pick-method-steps { list-style:none; margin:20px 0; padding:0; display:grid; gap:12px; }
+.pick-method-steps li { display:flex; align-items:flex-start; gap:16px; padding:20px; border:1px solid var(--color-rule); border-radius:12px; background:var(--color-panel); }
+.pick-method-steps li > span { color:var(--color-ink3); font-size:18px; font-weight:750; }
+.pick-method-page h2 { font-size:16px; font-weight:750; margin:0 0 8px; }
+.pick-method-page p { font-size:13px; line-height:1.8; color:var(--color-ink2); margin:0; }
+.pick-method-notes { padding:20px 0; border-top:1px solid var(--color-rule); }
+.pick-method-notes a { display:inline-block; margin-top:12px; font-size:13px; }
+@media (max-width:440px) { .pick-method-steps li { padding:16px; gap:12px; } }

@@ -1,3 +1,4 @@
+import { SHOW_PICK_METHOD } from "../lib/feature-flags.js";
 import { AI_STAGE_CATALOG, AI_STATUS_LABELS, evidenceUsageRows } from "../lib/decision-view-model.js";
 
 const isNumeric = (value) => value !== null && value !== undefined && value !== ""
@@ -38,7 +39,7 @@ export function AiMethodology({ id = "ai-method", showLink = true }) {
           <p>현재 AI 사용 범위</p>
           <h2 id={`${id}-title`}>최종 추천은 예상 적중확률로 고르고, 검증된 AI만 확률에 반영합니다</h2>
         </div>
-        {showLink && <a href="research.html#ai-model">검증 방법 보기</a>}
+        {showLink && SHOW_PICK_METHOD && <a href="research.html#ai-model">픽 선택 방식 보기</a>}
       </div>
       <ol className="ai-stage-grid">
         {AI_STAGE_CATALOG.map((stage, index) => (

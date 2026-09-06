@@ -1,3 +1,4 @@
+import { SHOW_PICK_METHOD } from "../lib/feature-flags.js";
 import { useEffect, useState } from "react";
 import { readTheme, THEME_KEY } from "../lib/explorer-preferences.js";
 // 공용 조각들. 네 페이지가 같은 네비·카드·배지를 쓴다.
@@ -11,7 +12,7 @@ export const NAV = [
   { href: "markets.html", label: "경기 분석" },
   { href: "dashboard.html", label: "내 기록" },
   { href: "slip.html", label: "프로토 배당표" },
-  { href: "research.html", label: "모델 검증" },
+  ...(SHOW_PICK_METHOD ? [{ href: "research.html", label: "픽 선택 방식" }] : []),
 ];
 
 export function Nav({ current }) {
