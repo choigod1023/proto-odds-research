@@ -1,6 +1,6 @@
 import { Card } from "./ui.jsx";
 import PickProbabilities from "./PickProbabilities.jsx";
-import { PHASE_LABEL } from "../lib/match-status.js";
+import { gameStatusLabel } from "../lib/match-status.js";
 import { trackTodayPicks } from "../lib/today-pick-tracking.js";
 import { isOvernightGame } from "../lib/game-date-filter.js";
 
@@ -37,7 +37,7 @@ function PickCards({ picks, now, onOpenGame }) {
                 onClick={() => onOpenGame(pick.game)}><span>경기정보 보기 ↗</span></button>}
               <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] text-ink3">
                 <span>{pick.game.league} · <time dateTime={new Date(pick.kickoff).toISOString()}>{new Date(pick.kickoff + 9 * 3600000).toISOString().slice(11, 16)}</time></span>
-                <span className={pick.phase === "live" ? "live-score-badge" : ""}>{PHASE_LABEL[pick.phase]}</span>
+                <span className={pick.phase === "live" ? "live-score-badge" : ""}>{gameStatusLabel(pick.game, pick.game._liveState, now)}</span>
               </div>
               <h3 className="my-2 break-words text-[15px] font-semibold">{pick.game.home} <span className="font-normal text-ink3">vs</span> {pick.game.away}</h3>
               {isOvernightGame(pick.game, now) && <p className="m-0 text-[11px] text-ink3">전날 시작 · 저장된 사전 픽 계속 추적</p>}

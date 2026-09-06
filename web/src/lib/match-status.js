@@ -40,6 +40,15 @@ export function gamePhase(game, live = game?._liveState, now = Date.now()) {
 export const PHASE_LABEL = {
   live: "진행 중",
   upcoming: "예정",
-  pending: "결과 확인 중",
+  pending: "상태 확인 중",
   finished: "종료",
 };
+
+export function gameStatusLabel(game, live = game?._liveState, now = Date.now()) {
+  const phase = gamePhase(game, live, now);
+  if (phase !== "pending") return PHASE_LABEL[phase];
+  if (live?.cancelled) return "경기 취소";
+  if (live?.postponed) return "경기 연기";
+  if (live && live.status !== "BEFORE" && !live.finished) return "중계 갱신 지연";
+  return "경기 상태 확인 중";
+}
