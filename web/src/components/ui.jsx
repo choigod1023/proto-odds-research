@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { readTheme, THEME_KEY } from "../lib/explorer-preferences.js";
 // 공용 조각들. 네 페이지가 같은 네비·카드·배지를 쓴다.
 // (예전엔 nav/card/badge 마크업이 3개 HTML 에 복붙돼 있었다)
 //
@@ -7,7 +9,7 @@
 
 export const NAV = [
   { href: "markets.html", label: "경기 분석" },
-  { href: "dashboard.html", label: "내 베팅" },
+  { href: "dashboard.html", label: "내 기록" },
   { href: "slip.html", label: "프로토 배당표" },
   { href: "research.html", label: "모델 검증" },
 ];
@@ -16,6 +18,7 @@ export function Nav({ current }) {
   return (
     <nav className="site-nav" aria-label="주요 메뉴">
       <a className="site-brand" href="markets.html">PROODD</a>
+      <ThemeToggle />
       <div className="site-nav-links">
         {NAV.map((n) => (
           <a key={n.href} href={n.href}
@@ -103,23 +106,23 @@ export function OddsChip({ label, value, grade = "U", title, highlighted = false
 /** 테마 토글 — 시스템 설정을 기본으로 두고 사용자가 뒤집을 수 있다.
  *  data-theme 이 미디어쿼리를 양방향으로 이겨야 하므로 root 에 스탬프한다. */
 export function ThemeToggle() {
-  const flip = () => {
-    const r = document.documentElement;
-    const cur =
-      r.getAttribute("data-theme") ||
-      (matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
-    r.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
-  };
-  return (
-    <button
-      onClick={flip}
-      aria-label="밝기 전환"
-      title="밝기 전환"
-      className="fixed bottom-5 right-5 z-20 h-9 w-9 rounded-full border border-rule bg-panel text-[15px] text-ink2 hover:text-ink"
-    >
-      ◐
-    </button>
-  );
+  const [theme, setTheme] = useState(readTheme);
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "system") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", theme);
+    try { localStorage.setItem(THEME_KEY, theme); } catch { /* The current page still switches. */ }
+  }, [theme]);
+  useEffect(() => {
+    const sync = (event) => { if (event.key === THEME_KEY || event.key === null) setTheme(readTheme()); };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, []);
+  return <label className="theme-control"><span className="sr-only">화면 테마</span>
+    <select aria-label="화면 테마" value={theme} onChange={(event) => setTheme(event.target.value)}>
+      <option value="system">테마 · 자동</option><option value="light">테마 · 밝게</option><option value="dark">테마 · 어둡게</option>
+    </select>
+  </label>;
 }
 
 export function Stat({ k, v, tone }) {

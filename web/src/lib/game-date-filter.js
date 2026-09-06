@@ -23,6 +23,7 @@ export function matchesGameDate(game, filter = "today", now = Date.now()) {
   if (!filter || filter === "all") return true;
   const kickoff = kickoffOf(game, now);
   if (kickoff == null) return false;
+  if (filter === "yesterday") return kstDay(kickoff) === kstDay(now) - 1;
   if (filter === "tomorrow") return kstDay(kickoff) === kstDay(now) + 1;
   return kstDay(kickoff) === kstDay(now) || isOvernightGame(game, now);
 }

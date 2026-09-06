@@ -16,13 +16,13 @@
    ------------------------------------------------------------------ */
 @theme {
   /* 지면 — 중립색을 signal 쪽으로 살짝 기울여 '고른 색' 으로 읽히게 한다 */
-  --color-paper: #faf9f6;
+  --color-paper: #f5f7fb;
   --color-panel: #ffffff;
-  --color-rule: #e3e2dd;
-  --color-rule2: #efeeea;
+  --color-rule: #dfe4ec;
+  --color-rule2: #edf0f5;
   --color-ink: #1b1b1f;
   --color-ink2: #55555f;
-  --color-ink3: #8b8b92;
+  --color-ink3: #626b7b;
 
   /* 심각도 램프 — 값에는 이것만 쓴다 */
   --color-sev0: #3f4a5a; /* 덜 나쁨 (A) */
@@ -49,7 +49,7 @@
     --color-rule2: #27272c;
     --color-ink: #ececed;
     --color-ink2: #a4a4ad;
-    --color-ink3: #74747d;
+    --color-ink3: #9aa3b3;
     --color-sev0: #8ea3c4;
     --color-sev1: #a99cc4;
     --color-sev2: #d6a55f;
@@ -64,7 +64,7 @@
   --color-rule2: #27272c;
   --color-ink: #ececed;
   --color-ink2: #a4a4ad;
-  --color-ink3: #74747d;
+  --color-ink3: #9aa3b3;
   --color-sev0: #8ea3c4;
   --color-sev1: #a99cc4;
   --color-sev2: #d6a55f;
@@ -72,13 +72,13 @@
   --color-signal: #8fb0e8;
 }
 :root[data-theme="light"] {
-  --color-paper: #faf9f6;
+  --color-paper: #f5f7fb;
   --color-panel: #ffffff;
-  --color-rule: #e3e2dd;
-  --color-rule2: #efeeea;
+  --color-rule: #dfe4ec;
+  --color-rule2: #edf0f5;
   --color-ink: #1b1b1f;
   --color-ink2: #55555f;
-  --color-ink3: #8b8b92;
+  --color-ink3: #626b7b;
   --color-sev0: #3f4a5a;
   --color-sev1: #6b6480;
   --color-sev2: #9a6a3c;

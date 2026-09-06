@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Card, Nav, ThemeToggle } from "../components/ui.jsx";
+import { Card, Nav } from "../components/ui.jsx";
 import { odds } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
 import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
@@ -86,7 +86,7 @@ export default function Slip() {
           </table>}
       </Card>
       <p className="mt-3 text-[11px] text-ink3">승부식 전용 · 실제 구매 전 지류와 판매점 단말의 번호·배당을 마지막으로 대조하세요.</p>
-      <ThemeToggle />
+
     </div>
   );
 }
