@@ -1,11 +1,34 @@
 import { Nav } from '../components/ui.jsx';
-const SECTIONS=[
- ['서비스의 범위','PROODD는 스포츠 경기 정보, 예측과 기록 확인 기능을 제공합니다. 화면의 추천은 정보 비교를 위한 선택이며, 적중이나 수익을 약속하지 않습니다.'],
- ['추천과 확률의 해석','적중확률은 해당 시점의 자료와 계산 방식에 따른 추정치입니다. 높은 확률도 실패할 수 있으며, 과거 적중률이 이후 경기의 성과를 보장하지 않습니다. 배당과 적중률은 수익률과 다릅니다.'],
- ['실시간 경기 정보','점수, 출전 선수, 주자와 경기 이벤트는 외부 원천의 갱신 주기에 따라 지연되거나 수정될 수 있습니다. 자료가 부족하거나 오래된 경우 표시되는 확인 중·갱신 지연 상태를 함께 확인해야 합니다.'],
- ['예측 기록과 결과','경기 전에 저장한 픽과 이후 경기 결과를 구분합니다. 종료 점수로 계산한 임시 판정은 공식 정산에 따라 변경될 수 있습니다. 누적 적중률에서는 미판정과 무효 기록을 제외하며, 중복 경기와 예측 변경 기록을 정리해 집계합니다.'],
- ['이용자의 선택','실제 구매 여부와 금액은 이용자가 결정합니다. 구매 전 공식 판매처의 경기번호, 선택지, 배당과 발매 상태를 확인해야 합니다. 무리한 구매나 손실을 만회하기 위한 반복 구매를 권장하지 않습니다.'],
- ['내 기록과 입력 정보','내 기록은 현재 이용 중인 브라우저에 보관되므로 저장소를 지우거나 기기를 바꾸면 보이지 않을 수 있습니다. 영수증 인식 결과는 원본과 다를 수 있으므로 저장 전에 선택과 금액을 확인해야 합니다.'],
- ['오류 및 책임','정보 오류가 확인되면 정정된 데이터와 판정이 반영될 수 있습니다. 이 안내는 서비스 제공자가 관련 법령에 따라 부담하는 책임이나 이용자의 권리를 제한하지 않습니다.'],
-];
-export default function Terms(){return <main className="terms-page mx-auto max-w-[900px] px-5 pb-24"><Nav current="terms.html"/><header className="market-header"><h1>이용약관·유의사항</h1></header><p className="terms-intro">현재 정보 제공 서비스의 이용 유의사항입니다.</p>{SECTIONS.map(([title,body],i)=><section key={title}><h2>{i+1}. {title}</h2><p>{body}</p></section>)}</main>}
+import { TERMS_ARTICLES, TERMS_META } from '../lib/service-terms.js';
+
+export default function Terms() {
+  return <main className="terms-page mx-auto max-w-[900px] px-5 pb-24" id="terms-top">
+    <Nav current="terms.html" />
+    <header className="terms-header">
+      <p className="terms-eyebrow">PROODD · 서비스 정책</p>
+      <h1>서비스 이용약관</h1>
+      <p>서비스 이용에 관한 권리와 의무, 정보의 이용 조건을 안내합니다.</p>
+      <div className="terms-meta"><span>버전 {TERMS_META.version}</span><span>작성일 <time dateTime={TERMS_META.revisedAt}>{TERMS_META.revisedAt}</time></span><span>{TERMS_META.status}</span></div>
+    </header>
+    <aside className="terms-publication" aria-label="약관 적용 상태">
+      <strong>정식 적용 전 확인 안내</strong>
+      <p>이 문서는 검토본입니다. 운영자 정보, 문의처 및 시행일을 확정한 후 정식 적용할 예정이며, 현재 페이지는 동의를 수집하지 않습니다.</p>
+    </aside>
+    <nav className="terms-contents" aria-label="약관 목차">
+      <h2>목차</h2>
+      <ol>{TERMS_ARTICLES.map(({ title }, index) => <li key={title}><a href={`#article-${index + 1}`}>제{index + 1}조 · {title}</a></li>)}</ol>
+    </nav>
+    <article aria-label="이용약관 본문">
+      {TERMS_ARTICLES.map(({ title, clauses, important }, index) => <section key={title} id={`article-${index + 1}`} className={important ? 'terms-important' : undefined} aria-labelledby={`heading-${index + 1}`}>
+        <h2 id={`heading-${index + 1}`}>제{index + 1}조 ({title})</h2>
+        <ol>{clauses.map(clause => <li key={clause}>{clause}</li>)}</ol>
+      </section>)}
+      <section id="terms-addendum" aria-labelledby="terms-addendum-title">
+        <h2 id="terms-addendum-title">부칙</h2>
+        <p>시행일: {TERMS_META.effectiveAt || '정식 적용 시 별도 공지'}</p>
+        <p>운영자: {TERMS_META.operator || '정식 적용 전 확인 예정'}<br />문의처: {TERMS_META.contact || '정식 적용 전 확인 예정'}</p>
+      </section>
+    </article>
+    <a className="terms-back-top" href="#terms-top">맨 위로 이동 ↑</a>
+  </main>;
+}
