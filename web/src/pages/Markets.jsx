@@ -1,4 +1,5 @@
 import OverallAccuracy from "../components/OverallAccuracy.jsx";
+import RecommendationResults from "../components/RecommendationResults.jsx";
 import BaseballSituation from "../components/BaseballSituation.jsx";
 import MatchProgress from "../components/MatchProgress.jsx";
 import { useEffect, useMemo, useState } from "react";
@@ -184,7 +185,8 @@ export default function Markets() {
 
   return (
     <Shell>
-      <OverallAccuracy data={synchronized} />
+      <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
+      <details className="overall-accuracy-secondary"><summary>전체 사전 픽 성적 보기</summary><OverallAccuracy data={synchronized} /></details>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
         stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} /></section>
     </Shell>

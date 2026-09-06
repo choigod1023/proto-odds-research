@@ -473,9 +473,19 @@ class RuntimeDatabase(DatasetStore):
 
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"),
-                          allow_nan=False)
         with self.transaction() as connection:
+            if name == "today_combo":
+                from recommendation_history import capture_history, settle_history, stamp
+                old = connection.execute("SELECT payload_json FROM artifacts WHERE name=?", (name,)).fetchone()
+                previous = json.loads(old["payload_json"]) if old else {}
+                incoming_at, old_at = stamp(payload.get("generated_at")), stamp(previous.get("generated_at"))
+                if old_at and (not incoming_at or incoming_at < old_at):
+                    return
+                prices = connection.execute("SELECT payload_json FROM artifacts WHERE name='live_odds'").fetchone()
+                history = capture_history(payload, previous, datetime.fromisoformat(now))
+                payload = {**payload, "recommendation_history": settle_history(
+                    history, json.loads(prices["payload_json"]) if prices else {}, datetime.fromisoformat(now))}
+            body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
             connection.execute(
                 """INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
                    VALUES (?,?,?,?) ON CONFLICT(name) DO UPDATE SET
