@@ -114,18 +114,6 @@ export function AiDecisionPath({ decision }) {
             : "판정 원장이 늦게 갱신되어 현재 배당의 시장 최유력 후보를 안전 규칙으로 다시 계산했습니다. 구조 AI와 레거시 추천값은 반영하지 않았습니다."}
         </p>
       )}
-      {decision.action === "withhold" && !!decision.withholdReasons?.length && (
-        <div className="ai-revision-warning" role="status">
-          <b>이 픽을 가지 말아야 하는 이유</b>
-          <ul className="mt-1 list-disc space-y-1 pl-4">
-            {decision.withholdReasons.map((reason) => (
-              <li key={`${reason.title}-${reason.body}`}>
-                <strong>{reason.title}</strong> · {reason.body}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
       {(decision.action !== "withhold" && ["lower_odds_fallback", "qualified_market_reversal"].includes(visibleGate)) && visibleGate && (
         <p className="ai-revision-warning" role="status">{gateText[visibleGate]}</p>
       )}
