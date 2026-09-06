@@ -58,5 +58,5 @@ export function decidedMarket(sport, selection, live, { now = Date.now(), feedAt
   } else return null;
   const state = hit ? "hit" : "miss";
   return { state, label: labels[state], source: "live_condition", inPlay: true,
-    note: `${half ? "전반 종료 점수" : "현재 점수·기준점 돌파"} 기준 · 공식 정산 전 (정정·취소 시 변경 가능)` };
+    note: `${half ? `전반 종료 점수 ${home}:${away}` : `현재 합계 ${home + away}점·기준점 돌파`} 기준 · 공식 정산 전 (정정·취소 시 변경 가능)` };
 }
