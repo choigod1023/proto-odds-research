@@ -24,7 +24,7 @@ export default function RecordMatchDetails({ bet, live }) {
       <p>저장 시각 {new Date(bet.selectionSnapshot?.selectedAt || bet.createdAt).toLocaleString("ko-KR",{timeZone:"Asia/Seoul"})} KST</p>
       {(bet.selectionSnapshot?.performance?.facts || []).map((fact,i)=><p key={i}>{fact}</p>)}
       {!bet.selectionSnapshot?.performance?.facts?.length && <p>당시 경기력 근거가 저장되지 않은 기록입니다.</p>}
-      <p>저장한 픽·배당은 당시 기록이며, 위 경기 상황은 이후 확인된 정보입니다.</p>
+
     </section>
   </div>;
 }

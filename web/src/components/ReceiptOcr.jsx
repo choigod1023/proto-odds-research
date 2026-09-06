@@ -110,7 +110,7 @@ export default function ReceiptOcr({ games = [], onImported }) {
             onChange={(event) => scan(event.target.files?.[0])} />
         </label>
       </div>
-      <p>한 사진의 선택 경기를 하나의 티켓으로 묶습니다. 조합배당·공통 투입금·예상적중금을 확인한 뒤 저장하세요.</p>
+
       {busy && <div className="receipt-ocr-progress"><i style={{ width: `${progress}%` }} /><span>문자 인식 {progress}%</span></div>}
       {error && <div className="receipt-ocr-error">{error}</div>}
       {!busy && text && !matches.length && <div className="receipt-ocr-error">일치하는 발매 선택지를 찾지 못했습니다. 사진의 게임번호와 선택 영역을 더 크게 촬영해 주세요.</div>}
@@ -133,8 +133,8 @@ export default function ReceiptOcr({ games = [], onImported }) {
         </div>
         <button type="button" disabled={!confirmed.length || matches.some((row) => row.selected && (!row.option || !Number(row.purchaseOdds)))} onClick={importSelected}>{confirmed.length > 1 ? `${confirmed.length}폴더 조합으로 저장` : "단폴로 저장"}</button>
       </div>}
-      <small className="receipt-ocr-privacy">사진은 이 브라우저에서 문자 인식하며 서버에 저장하지 않습니다. 최초 실행 시 한국어 OCR 모델을 내려받습니다.</small>
-      <small className="receipt-ocr-privacy">저장 시 경기번호·픽·배당·금액구간·폴더 수만 익명 통계로 전송합니다. 이미지·구매번호·IP·쿠키는 통계에 저장하지 않습니다.{shareStatus ? ` · ${shareStatus}` : ""}</small>
+
+
     </section>
   );
 }

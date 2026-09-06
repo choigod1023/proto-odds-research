@@ -41,9 +41,9 @@ export default function Slip() {
       <header className="market-header">
         <div>
           <h1>프로토 번호·배당표</h1>
-          <p>승부식 용지에 옮길 게임번호와 현재 배당, 추천 선택을 한 표에서 대조합니다.</p>
+
         </div>
-        <div className="market-meta">{allRows.length}개 게임번호 · 배당 갱신 {stamp(data.liveOdds?.generated_at)} KST</div>
+
       </header>
 
       <Card className="mb-3 flex flex-wrap items-end gap-3 p-4 print:hidden">
@@ -85,7 +85,7 @@ export default function Slip() {
             </tr>)}</tbody>
           </table>}
       </Card>
-      <p className="mt-3 text-[11px] text-ink3">승부식 전용 · 실제 구매 전 지류와 판매점 단말의 번호·배당을 마지막으로 대조하세요.</p>
+
 
     </div>
   );

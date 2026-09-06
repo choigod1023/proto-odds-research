@@ -91,13 +91,11 @@ export function BetCard({ bet, live, onRemove, onOpen }) {
         <p>선택 당시 배당 {Number(bet.selectionSnapshot.option?.배당).toFixed(2)}배 · 구매 기록 배당 {Number(bet.purchaseOdds).toFixed(2)}배</p>
         <p>당시 확률 {pct(bet.openingProbability)} · 배당 기준 또는 보존된 사전 확률</p>
         {(bet.selectionSnapshot.performance?.facts || []).map((fact) => <p key={fact}>{fact}</p>)}
-        <p>당시 기록과 이후 경기 결과를 구분합니다.</p>
+
       </details>}
       <footer>
         <button type="button" aria-haspopup="dialog" aria-label={`${bet.game.home} 대 ${bet.game.away} 경기정보 열기`} onClick={() => onOpen(bet.id)}>경기 상세 보기</button>
-        <span>{estimate.basis === "score_time_estimate" ? "점수·남은 시간 기반 상황 추정치"
-          : estimate.basis === "final_score" ? "최종 점수 기준"
-            : estimate.basis === "live_score_missing" ? "진행 시간 부족 · 구매 당시 확률 유지" : "구매 당시 시장확률"}</span>
+
         <button type="button" onClick={() => onRemove(bet.id)}>기록 삭제</button>
       </footer>
     </article>
@@ -136,7 +134,7 @@ export function ComboCard({ group, index, onRemove, onOpen }) {
         <span className="ticket-leg-probability"><b>{pct(estimate.probability)}</b><small>{legOutcome === "hit" ? "적중" : legOutcome === "miss" ? "실패" : "현재 추정"}</small></span>
         <button type="button" className="record-detail-button" aria-haspopup="dialog" aria-label={`${bet.game.home} 대 ${bet.game.away} 경기정보 열기`} onClick={() => onOpen(bet.id)}>경기 상세</button>
       </div>)}</div>
-      <footer><span>구매 당시 {pct(openingProbability)} · 현재 확률은 개별 상황 추정치의 단순 곱</span>
+      <footer>
         <button type="button" onClick={() => onRemove(group.id)}>티켓 삭제</button></footer>
     </article>
   );
@@ -219,8 +217,8 @@ export default function Dashboard() {
     <main className="mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="dashboard.html" />
       <header className="market-header">
-        <div><h1>내 베팅 대시보드</h1><p>내가 구매한 단일 경기의 확률 변화와 실시간 진행, 확정 손익을 추적합니다.</p></div>
-        <div className="market-meta">15초마다 실시간 점수 확인 · 이 브라우저에 저장</div>
+        <div><h1>내 베팅 대시보드</h1></div>
+
       </header>
       <ReceiptOcr games={receiptGames} onImported={() => setBets(readBetLedger())} />
       <section className="dashboard-summary">
@@ -229,12 +227,9 @@ export default function Dashboard() {
         <div><small>정산 완료</small><b>{totals.settled}건</b></div>
         <div><small>확정 손익</small><b className={totals.profit < 0 ? "text-sev3" : ""}>{totals.profit >= 0 ? "+" : ""}{money(totals.profit)}</b></div>
       </section>
-      <div className="dashboard-notice">
-        현재 확률은 구매 당시 시장확률을 실시간 점수와 남은 시간으로 이동시킨 <b>상황 추정치</b>입니다.
-        검증된 인플레이 베팅 모델이나 실시간 구매 추천이 아닙니다.
-      </div>
+
       <section className="dashboard-recommendations">
-        <header><div><h2>오늘의 추천 판정</h2><p>추천된 이유와 같은 후보가 제외된 이유를 동일한 기준으로 설명합니다.</p></div>
+        <header><div><h2>오늘의 추천 판정</h2></div>
           <strong>{recommendedToday.length}개 추천 · {excludedToday.length}개 제외</strong></header>
         <div className="dashboard-recommendation-grid">
           {recommendedToday.map((decision) => <TodayDecisionCard key={`yes-${decision.selection.event_key}-${decision.selection.market}-${decision.selection.sel || decision.selection["선택"]}`} decision={decision} />)}
@@ -245,7 +240,7 @@ export default function Dashboard() {
             {excludedToday.map((decision) => <TodayDecisionCard key={`no-${decision.selection.event_key}-${decision.selection.market}-${decision.selection.sel || decision.selection["선택"]}`} decision={decision} />)}
           </div>
         </details>}
-        {!todayDecisions.length && <div className="dashboard-empty"><b>현재 설명할 오늘 후보가 없습니다</b><p>새 배당과 판정 원장이 들어오면 추천·제외 이유가 함께 표시됩니다.</p></div>}
+        {!todayDecisions.length && <div className="dashboard-empty"><b>현재 설명할 오늘 후보가 없습니다</b></div>}
       </section>
       <section className="dashboard-bet-list">
         {groups.map((group) => group.bets.length > 1
@@ -254,7 +249,7 @@ export default function Dashboard() {
               onOpen={setOpenedBetId} onRemove={(id) => { removeBet(id); setBets(readBetLedger()); }} />)}
         {!bets.length && <div className="dashboard-empty">
           <b>저장한 베팅이 없습니다</b>
-          <p>경기 분석에서 실제로 구매한 선택지의 ‘베팅 기록’ 버튼을 눌러 추가하세요.</p>
+
           <a href="markets.html">경기 분석으로 이동</a>
         </div>}
       </section>

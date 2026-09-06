@@ -1,4 +1,4 @@
-import { PROBABILITY_EXPLANATION } from "../lib/probability-copy.js";
+
 
 const percent = (value) => Number.isFinite(value) && value >= 0 && value <= 1
   ? `${(value * 100).toFixed(1)}%` : null;
@@ -13,6 +13,6 @@ export default function PickProbabilities({ openingProbability, estimate, phase 
       <span><span>현재 적중 확률(추정)</span><b>{current ?? unavailable}</b></span>
     </span>
     <span className="pick-probability-note">{!current && (message || "경기 전 기록과 최신 점수가 필요합니다.")}</span>
-    {!compact && <span className="pick-probability-note">{PROBABILITY_EXPLANATION}</span>}
+
   </span>;
 }
