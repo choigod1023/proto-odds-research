@@ -714,3 +714,10 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .pick-method-notes { padding:20px 0; border-top:1px solid var(--color-rule); }
 .pick-method-notes a { display:inline-block; margin-top:12px; font-size:13px; }
 @media (max-width:440px) { .pick-method-steps li { padding:16px; gap:12px; } }
+.overall-accuracy { display:flex; justify-content:space-between; align-items:center; gap:24px; margin:8px 0 24px; padding:24px; border:1px solid var(--color-rule); border-radius:16px; background:var(--color-panel); }
+.accuracy-kicker { margin:0 0 4px; font-size:14px; font-weight:700; }
+.accuracy-value { font-size:64px; line-height:1.15; font-weight:850; letter-spacing:-3px; font-variant-numeric:tabular-nums; }
+.accuracy-value > span { display:block; font-size:14px; letter-spacing:0; font-weight:500; margin-top:6px; }
+.accuracy-context { max-width:350px; font-size:12px; line-height:1.7; color:var(--color-ink3); }
+.accuracy-context p { margin:4px 0; }
+@media(max-width:650px) { .overall-accuracy { flex-direction:column; align-items:flex-start; gap:16px; padding:20px; } .accuracy-value { font-size:60px; } }

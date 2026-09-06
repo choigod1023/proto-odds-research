@@ -1,3 +1,4 @@
+import OverallAccuracy from "../components/OverallAccuracy.jsx";
 import BaseballSituation from "../components/BaseballSituation.jsx";
 import MatchProgress from "../components/MatchProgress.jsx";
 import { useEffect, useMemo, useState } from "react";
@@ -183,6 +184,7 @@ export default function Markets() {
 
   return (
     <Shell meta={metaLine(d, at)}>
+      <OverallAccuracy data={synchronized} checkedAt={liveFeed?.generated_at} />
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
         stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} /></section>
     </Shell>

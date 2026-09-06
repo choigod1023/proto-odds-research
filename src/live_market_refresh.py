@@ -21,6 +21,7 @@ from devig import market_probabilities  # noqa: E402
 from game_dedup import deduplicate_game_sections  # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
                                LedgerLockTimeout, PredictionLedgerError)
+from prediction_performance import performance_index
 from prediction_runtime import PredictionRuntime, kickoff_utc  # noqa: E402
 from runtime_db import database_enabled, load_artifact, persist_artifact  # noqa: E402
 
@@ -155,6 +156,7 @@ def record_live_market_revisions(
         touched.append((game, record))
 
     latest_ui = runtime.ui_records()
+    document["prediction_performance"] = performance_index(latest_ui)
     for game, record in touched:
         snapshot = game.get("decision_snapshot") or {}
         game["prediction_revision_id"] = record.get("snapshot_id")
