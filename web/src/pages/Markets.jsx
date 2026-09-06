@@ -6,6 +6,7 @@ import { FAVORITES_KEY, SPORTS, readFavorites, isFavoriteGame, addSelection, sel
 import { matchEvidence } from "../lib/match-evidence.js";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
+import MatchDetailHeader from "../components/MatchDetailHeader.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import PickProbabilities from "../components/PickProbabilities.jsx";
 import { ESTIMATE_MESSAGE, PROBABILITY_EXPLANATION } from "../lib/probability-copy.js";
@@ -503,8 +504,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     <>
 
       {modalGame && <GameInfoModal title={`${modalGame.home} vs ${modalGame.away}`} onClose={() => setOpenedGame(null)}>
-        <FavoriteControls game={modalGame} favorites={favorites} onToggle={toggleFavorite} />
-        <p className="review-note">팀은 같은 종목·리그의 해당 팀 경기를, 리그는 소속 경기 전체를 모아봅니다. 이 기기에 저장됩니다.</p>
+<details className="detail-favorites"><summary>팀·리그 즐겨찾기</summary><FavoriteControls game={modalGame} favorites={favorites} onToggle={toggleFavorite} /></details>
         <Game g={modalGame} opts={modalGame.options || []} wait={modalGame.status === "배당대기"}
           grades={grades} lv={modalGame._liveState || null} stale={stale}
           generatedAt={data.generated_at} year={data.year} detailOnly
@@ -806,9 +806,18 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const evidence = stale || g._liveOddsChanged ? { frozen: false, facts: [], summary: "" } : matchEvidence(g, pick?.o);
   const selectedForGame = selections.filter((item) => ["sport", "league", "round", "date", "home", "away"].every((key) => String(item.game[key]) === String(g[key])));
   const selected = pick && selections.some((item) => item.key === selectionKey(g, pick.o));
-  const Row = detailOnly ? "div" : "button";
+  const Row = "button";
+  const Surface = detailOnly ? "div" : Card;
   return (
-    <Card className={`match-card is-${phase} result-${outcome.state}`}>
+    <Surface className={detailOnly ? "match-detail-view" : `match-card is-${phase} result-${outcome.state}`}>
+      {detailOnly && <MatchDetailHeader game={g} score={score} phase={phase}
+        status={disruption || (playing ? `LIVE · ${lv?.status_text || "진행 중"}` : gameStatusLabel(g, lv))} option={pick?.o}
+        openingProbability={locked ? openingProbability : pick?.o?.["시장확률"]}
+        estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}
+        recommended={highlightedToday} outcome={outcome} selected={selectedForGame.length > 0}>
+        {playing && g.sport === "bs" && <BaseballSituation live={lv} />}
+      </MatchDetailHeader>}
+      {!detailOnly && <>
       <Row type={detailOnly ? undefined : "button"} className={detailOnly ? "match-detail-summary" : "match-row game-info-trigger"}
         aria-haspopup={detailOnly ? undefined : "dialog"}
         aria-label={detailOnly ? undefined : `${g.home} 대 ${g.away} 경기정보 열기`}
@@ -869,19 +878,12 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">배당 기준 확률 {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(pick.o["시장확률"])} · {locked ? "경기 전 예상" : "현재 배당 기준"}</span>}
         {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
+      </>}
       {detailOnly && <div className="match-detail">
         {phase === "pending" && lv && !lv.finished && !disruption && <p role="status" className="text-[12px] text-ink2">
           중계 업데이트가 늦어지고 있습니다. 표시된 점수는 마지막 확인 값이며, 경기 종료를 뜻하지 않습니다.
           {lv.observed_at && ` · 마지막 확인 ${new Date(lv.observed_at).toLocaleTimeString("ko-KR", { timeZone: "Asia/Seoul" })} (한국 시간)`}
         </p>}
-        {locked && saved && !finished && (
-          <div className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]" aria-label="저장된 사전 예측">
-            <b>경기 전 예측 픽 · {saved.option.market} {saved.option.label} {saved.option.선택}</b>
-            <p>경기 전 적중 확률 {Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음"} · 당시 배당 {odds(saved.option.배당)}</p>
-            {saved.capturedAt && <small>사전 기록 시각 {kstStamp(saved.capturedAt)} KST</small>}
-            {playing && !liveProbability && <small>{probabilityMessage}</small>}
-          </div>
-        )}
         {evidence.facts.length > 0 && <section className="performance-evidence" aria-label="경기력 근거">
           <h3>{highlightedToday ? "추천 경기의 경기력 비교" : "경기력 비교"}</h3>
           {evidence.facts.length ? <ul>{evidence.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>{evidence.summary}</p>}
@@ -902,38 +904,11 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             <p>
               이 경기의 픽은 <b>{drift.pinned_market} {drift.pinned_selection}</b>
               {drift.pinned_odds != null ? ` (배당 ${odds(drift.pinned_odds)})` : ""}로
-              로 안내됐습니다. 지금 배당 기준으로는{" "}
+              안내됐습니다. 지금 배당 기준으로는{" "}
               <b>{drift.market_selection}</b>
               {drift.market_odds != null ? ` (배당 ${odds(drift.market_odds)})` : ""}가
               더 유력합니다. 이미 배팅하셨다면 조건이 바뀐 점만 참고하세요.
             </p>
-          </div>
-        )}
-        {playing && score && (
-          <div className="live-score-panel" role="status" aria-live="polite">
-            <div><span>LIVE</span><b>{lv.status_text || "진행 중"}</b></div>
-            <strong>{g.home} <em>{score[0]}</em><i>:</i><em>{score[1]}</em> {g.away}</strong>
-            <small>
-              {PROBABILITY_EXPLANATION}
-            </small>
-            {g.sport === "bs" && <BaseballSituation live={lv} />}
-          </div>
-        )}
-        {phase === "finished" && (
-          <div className={`settled-result-panel is-${outcome.state}`}>
-            <div>
-              <span>최종 결과{outcome.source === "score" && g.sport === "sc" ? " · 정규시간" : ""}</span>
-              <strong>{g.home} {score ? `${score[0]} : ${score[1]}` : "– : –"} {g.away}</strong>
-            </div>
-            <div>
-              <span>사전 추천 판정{outcome.source === "score" ? " · 종료 점수 기준" : ""}</span>
-              <strong>{outcome.label}</strong>
-              {resultHeadline && <small>{resultHeadline} · 배당 {odds(outcome.record.odds)}</small>}
-            </div>
-            {outcome.state === "unrecorded" && (
-              <p>이 경기의 사전 픽이 저장되어 있지 않아 적중 여부를 판정할 수 없습니다.</p>
-            )}
-            {outcome.source === "score" && <p>경기 종료 점수와 저장된 픽의 기준점으로 판정했습니다. 공식 정산이 들어오면 그 결과를 우선합니다.</p>}
           </div>
         )}
         {pick && decision.recommendationPriority === "reversal" && (
@@ -969,7 +944,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           onSaveBet={onSaveBet}
           />
       </div>}
-    </Card>
+    </Surface>
   );
 }
 
