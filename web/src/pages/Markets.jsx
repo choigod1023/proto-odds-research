@@ -809,7 +809,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const Row = detailOnly ? "div" : "button";
   return (
     <Card className={`match-card is-${phase} result-${outcome.state}`}>
-      <Row type={detailOnly ? undefined : "button"} className={`match-row ${detailOnly ? "" : "game-info-trigger"}`}
+      <Row type={detailOnly ? undefined : "button"} className={detailOnly ? "match-detail-summary" : "match-row game-info-trigger"}
         aria-haspopup={detailOnly ? undefined : "dialog"}
         aria-label={detailOnly ? undefined : `${g.home} 대 ${g.away} 경기정보 열기`}
         onClick={detailOnly ? undefined : () => onOpen?.(g)}>

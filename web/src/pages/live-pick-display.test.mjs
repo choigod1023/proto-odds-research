@@ -26,6 +26,8 @@ test("live card renders the saved pick and prior even with no current options", 
     assert.match(row, /aria-haspopup="dialog"/);
     assert.doesNotMatch(row, /match-detail|<summary/);
     const html = renderToStaticMarkup(createElement(Game, props));
+    assert.match(html, /class="match-detail-summary"/);
+    assert.doesNotMatch(html, /class="match-row/);
     assert.match(html, /경기 전 예측 픽/);
     assert.match(html, /57.0%/);
     assert.match(html, /현재 적중 확률/);
