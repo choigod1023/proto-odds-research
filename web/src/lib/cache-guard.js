@@ -15,6 +15,9 @@ const freshUrl = () => {
 
 /** 모바일 BFCache와 GitHub Pages의 오래된 진입 HTML을 새 배포 자산으로 교체한다. */
 export function installCacheGuard({ minimumIntervalMs = 30000 } = {}) {
+  // Compare the entry HTML, before lazy imports add runtime preload/style links.
+  // Reading the live DOM after fetch mistakes those links for a new deployment.
+  const current = assetSignatureFromHtml(document.documentElement.outerHTML);
   let lastChecked = 0;
   let checking = false;
   const check = async () => {
@@ -29,7 +32,6 @@ export function installCacheGuard({ minimumIntervalMs = 30000 } = {}) {
       });
       if (!response.ok) return false;
       const latest = assetSignatureFromHtml(await response.text());
-      const current = assetSignatureFromHtml(document.documentElement.outerHTML);
       if (latest && current && latest !== current) {
         const reload = freshUrl();
         reload.searchParams.set("_build", latest.slice(0, 80));
