@@ -19,6 +19,7 @@ export function Nav({ current }) {
   return (
     <nav className="site-nav" aria-label="주요 메뉴">
       <a className="site-brand" href="markets.html">PROODD</a>
+      <a className="site-terms-link" href="terms.html" aria-current={current === "terms.html" ? "page" : undefined}>이용약관</a>
       <ThemeToggle />
       <div className="site-nav-links">
         {NAV.map((n) => (

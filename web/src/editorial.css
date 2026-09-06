@@ -721,3 +721,8 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .accuracy-context { max-width:350px; font-size:12px; line-height:1.7; color:var(--color-ink3); }
 .accuracy-context p { margin:4px 0; }
 @media(max-width:650px) { .overall-accuracy { flex-direction:column; align-items:flex-start; gap:16px; padding:20px; } .accuracy-value { font-size:60px; } }
+.site-terms-link { margin-left:auto; font-size:11px; color:var(--color-ink3); padding:10px 0; white-space:nowrap; }
+.terms-page section { padding:18px 0; border-bottom:1px solid var(--color-rule); }
+.terms-page h2 { font-size:16px; font-weight:700; margin:0 0 8px; }
+.terms-page p { font-size:13px; line-height:1.8; color:var(--color-ink2); }
+@media(max-width:400px) { .site-terms-link { font-size:10px; } .site-nav { column-gap:10px; } }

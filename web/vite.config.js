@@ -27,6 +27,7 @@ export default defineConfig({
         dashboard: resolve(__dirname, "dashboard.html"),
         slip: resolve(__dirname, "slip.html"),
         research: resolve(__dirname, "research.html"),
+        terms: resolve(__dirname, "terms.html"),
         lotto: resolve(__dirname, "lotto.html"),
       },
     },
