@@ -42,6 +42,13 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
     assert.match(ended, /56.1%/);
     assert.ok(ended.indexOf("적중") < ended.lastIndexOf("당시 배당"));
     assert.match(ended, /1.59배/);
+    assert.doesNotMatch(ended, /<details/);
+    const mixed = render([base, { ...base, home: "종료팀",
+      _liveState: { ...base._liveState, finished: true, home_score: 0, away_score: 2 } }]);
+    assert.equal((mixed.match(/<article/g) || []).length, 2);
+    assert.match(mixed, /종료팀/);
+    assert.match(mixed, /적중실패/);
+    assert.doesNotMatch(mixed, /<details/);
     const stale = render([{ ...base, _liveFeedAt: "2026-09-05T05:00:00Z" }]);
     assert.match(stale, /실시간 점수 업데이트가 늦어/);
     assert.match(stale, /확인 중/);
