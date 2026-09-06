@@ -36,7 +36,7 @@ export default function Slip() {
     (!normalized || `${row.number} ${row.home} ${row.away} ${row.market} ${row.label}`.toLowerCase().includes(normalized)));
 
   return (
-    <div className="mx-auto max-w-[1180px] px-5 pb-20">
+    <div className="slip-page mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="slip.html" />
       <header className="market-header">
         <div>
@@ -53,17 +53,17 @@ export default function Slip() {
             {rounds.map((value) => <option key={value} value={value}>{value}회</option>)}
           </select>
         </label>
-        <label className="min-w-[220px] flex-1 text-[12px] text-ink3">번호·팀·마켓 검색
+        <label className="slip-search min-w-[220px] flex-1 text-[12px] text-ink3">번호·팀·마켓 검색
           <input className="mt-1 block w-full rounded-md border border-rule bg-panel px-3 py-2 text-ink" value={query}
             onChange={(e) => setQuery(e.target.value)} placeholder="예: 102, 두산, 승무패" />
         </label>
         <button type="button" className="rounded-md border border-rule bg-panel px-4 py-2 text-[13px] text-ink" onClick={() => window.print()}>인쇄</button>
       </Card>
 
-      <Card className="overflow-x-auto p-4">
+      <Card className="slip-table-card overflow-x-auto p-4">
         {!at ? <p className="py-7 text-center text-ink3">불러오는 중…</p> : rows.length === 0 ?
           <p className="py-7 text-center text-ink3">조건에 맞는 발매 경기 배당이 없습니다.</p> :
-          <table className="w-full min-w-[760px] border-collapse text-[12.5px]">
+          <table className="slip-table w-full min-w-[760px] border-collapse text-[12.5px]">
             <caption className="sr-only">프로토 승부식 게임번호와 최신 배당</caption>
             <thead><tr className="text-left text-[11px] text-ink3">
               <th className="border-b border-rule2 p-2 text-right">번호</th>
