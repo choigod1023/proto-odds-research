@@ -218,7 +218,8 @@ export function receiptSaveIssue(rows, ticket) {
         !Number.isFinite(Number(row.purchaseOdds)) ||
         !(Number(row.purchaseOdds) > 1) ||
         (/언더오버|핸디/.test(row.market) &&
-          (row.line === "" || !Number.isFinite(Number(row.line)))),
+          (!/^[+-]?\d+(?:\.\d+)?$/.test(String(row.line)) ||
+            !Number.isFinite(Number(row.line)))),
     )
   )
     return "누락된 경기 날짜·팀·번호·마켓·선택·배당·기준점을 확인해 주세요.";

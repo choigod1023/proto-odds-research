@@ -15,7 +15,7 @@ test("receipt UI offers independent album, camera, scoped paste and local-only O
     appType: "custom",
   });
   try {
-    const { default: Ocr } = await server.ssrLoadModule(
+    const { default: Ocr, ReceiptLineInput } = await server.ssrLoadModule(
       "/src/components/ReceiptOcr.jsx",
     );
     const html = renderToStaticMarkup(createElement(Ocr));
@@ -32,6 +32,18 @@ test("receipt UI offers independent album, camera, scoped paste and local-only O
       html,
       /class="receipt-image-input-camera"[^>]*capture="environment"/,
     );
+    for (const value of ["+1.0", "-1.0", "0", "182.5", ""]) {
+      const line = renderToStaticMarkup(
+        createElement(ReceiptLineInput, {
+          label: "3번 기준점",
+          value,
+          onChange: () => {},
+        }),
+      );
+      assert.match(line, /type="text"/);
+      assert.match(line, /inputMode="text"/);
+      assert.ok(line.includes(`value="${value}"`));
+    }
   } finally {
     await server.close();
   }

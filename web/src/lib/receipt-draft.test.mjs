@@ -189,3 +189,28 @@ test("historical receipt never picks up another year's live result with same tea
   assert.equal(recordLive(index, past), undefined);
   assert.equal(recordLive(index, game), live);
 });
+
+test("signed handicap survives review and invalid numeric text cannot be saved", () => {
+  const signed = {
+    ...row,
+    market: "핸디캡",
+    line: receiptDrafts({ rows: [{ text: "축구 핸디캡 H+1.0" }] })[0].line,
+    reviewed: true,
+  };
+  const ticket = {
+    ...scannedTicketSummary(scan),
+    legCount: 1,
+    reviewed: true,
+    purchasedAt: "2026-09-06",
+  };
+  assert.equal(signed.line, "+1.0");
+  assert.equal(receiptRecordRows([signed])[0].option.label, "H +1.0");
+  for (const line of ["+1.0", "-1.0", "0", "2.5"]) {
+    assert.equal(receiptSaveIssue([{ ...signed, line }], ticket), "");
+  }
+  for (const line of [
+    "", " ", "+", "--1", "0x10", "1e2", "Infinity", "1,5", "1.0abc",
+  ]) {
+    assert.ok(receiptSaveIssue([{ ...signed, line }], ticket), line);
+  }
+});

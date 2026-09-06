@@ -51,10 +51,28 @@ September 6, 2026 acceptance checks:
   selections/prices, handicap line and ticket totals passed. Some team strings
   still need correction. The site's winning label was verified visually, not
   promoted to an official settlement from OCR.
-- Responsive input UI checked in Chrome at 390px without horizontal overflow.
-  Browser file injection was blocked by the extension's file-URL permission.
-  Real clipboard paste, real phone camera/album and on-device OCR remain manual
-  acceptance checks, not claimed as completed end-to-end tests.
+
+September 7, 2026 browser follow-up after the user enabled extension file-URL access:
+
+- Chrome file chooser accepted the supplied screenshot and completed local OCR.
+  Actual Ctrl+V and the explicit clipboard button both completed with the other
+  supplied screenshot, preserving both selections, team names, prices and totals.
+- The previously captured winning ticket also completed OCR in Chrome at 390px;
+  all three game numbers/selections/prices and ticket totals matched. This is a
+  desktop narrow-viewport check, not a physical phone camera/album test.
+- The supplied old compact screenshot completed file-upload OCR at 390px too:
+  both game numbers, selections, prices, U/O 182.5 and ticket totals matched.
+- Browser acceptance exposed a display defect not found by the Node OCR check:
+  OCR retained `+1.0`, but `input[type=number]` silently displayed it as blank.
+  The review field now preserves signed decimal text and validates it before
+  saving. Chrome re-upload confirmed the printed `+1.0` is visible. Regression
+  tests cover signed/zero lines and invalid text, hexadecimal and exponent input.
+- Small mixed Latin/Korean team names on the compact/winning images still need
+  manual correction. Enlarged isolated crops did not reliably resolve them; no
+  dictionary substitution or guessed historical match was added.
+- No receipt was saved or uploaded. The temporary test clipboard image was
+  removed after the input tests. Real phone camera/album and on-device OCR remain
+  manual acceptance checks.
 
 ## Limits
 

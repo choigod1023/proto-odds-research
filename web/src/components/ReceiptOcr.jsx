@@ -19,6 +19,21 @@ import {
 } from "../lib/receipt-draft.js";
 import ReceiptImageInput from "./ReceiptImageInput.jsx";
 
+export function ReceiptLineInput({ label, value, onChange }) {
+  // HTML number inputs silently erase a leading '+'. Keep the printed sign,
+  // and allow both signs on phone keyboards; receiptSaveIssue validates decimals.
+  return (
+    <input
+      aria-label={label}
+      type="text"
+      inputMode="text"
+      placeholder="예: +1.0, -1.0, 2.5"
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+
 export default function ReceiptOcr({ games = [], onImported }) {
   const [busy, setBusy] = useState(false),
     [progress, setProgress] = useState(0);
@@ -250,10 +265,8 @@ export default function ReceiptOcr({ games = [], onImported }) {
                 </label>
                 <label>
                   기준점
-                  <input
-                    aria-label={`${index + 1}번 기준점`}
-                    type="number"
-                    step="0.1"
+                  <ReceiptLineInput
+                    label={`${index + 1}번 기준점`}
                     value={row.line}
                     onChange={(event) =>
                       update(row.key, { line: event.target.value })
