@@ -714,6 +714,19 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .pick-method-notes { padding:20px 0; border-top:1px solid var(--color-rule); }
 .pick-method-notes a { display:inline-block; margin-top:12px; font-size:13px; }
 @media (max-width:440px) { .pick-method-steps li { padding:16px; gap:12px; } }
+.recommendation-results { margin:8px 0 16px; padding:24px; border:1px solid var(--color-rule); border-radius:16px; background:var(--color-panel); }
+.recommendation-results h2 { margin:0 0 6px; font-size:clamp(20px,4vw,28px); line-height:1.4; }
+.recommendation-results h2 strong { color:var(--color-signal); }
+.recommendation-result-scope { margin:0 0 6px; color:var(--color-ink3); font-size:12px; }
+.recommendation-result-rules { color:var(--color-ink3); font-size:12px; line-height:1.6; }
+.recommendation-result-tiles { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:8px; margin:18px 0 10px; }
+.recommendation-result-tile { display:flex; flex-direction:column; gap:6px; align-items:center; padding:12px 4px; border:1px solid var(--color-rule); border-radius:8px; background:var(--color-panel); color:var(--color-ink3); cursor:pointer; }
+.recommendation-result-tile.is-hit { color:var(--color-signal); border-color:var(--color-signal); background:color-mix(in srgb,var(--color-signal) 9%,var(--color-panel)); }
+.recommendation-result-tile small { font-size:11px; }
+.recommendation-result-tile:focus-visible { outline:2px solid var(--color-ink); outline-offset:3px; }
+.overall-accuracy-secondary { margin-bottom:24px; font-size:13px; color:var(--color-ink3); }
+.overall-accuracy-secondary summary { cursor:pointer; }
+@media(max-width:650px) { .recommendation-results { padding:18px; } .recommendation-result-tiles { grid-template-columns:repeat(5,minmax(0,1fr)); } }
 .overall-accuracy { display:flex; justify-content:space-between; align-items:center; gap:24px; margin:8px 0 24px; padding:24px; border:1px solid var(--color-rule); border-radius:16px; background:var(--color-panel); }
 .accuracy-kicker { margin:0 0 4px; font-size:14px; font-weight:700; }
 .accuracy-value { font-size:64px; line-height:1.15; font-weight:850; letter-spacing:-3px; font-variant-numeric:tabular-nums; }
