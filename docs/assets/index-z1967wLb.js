@@ -1,0 +1,1 @@
+import{i as r,c as o,j as t,r as e}from"./cache-guard-ClCRrZAu.js";import{M as i}from"./Markets-BmyQkgK7.js";import"./match-status-BuKKGC5_.js";import"./BaseballSituation-D_FtiklD.js";import"./ui-NcrXgHbj.js";import"./live-odds-CQojQx5Q.js";import"./poll-BRiEKUpr.js";r();o.createRoot(document.getElementById("root")).render(t.jsx(e.StrictMode,{children:t.jsx(i,{})}));

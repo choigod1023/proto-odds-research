@@ -33,6 +33,7 @@ data/raw/snapshots/*.bak
 # 사이트 소스 빌드 (산출물은 docs/ 에 커밋한다)
 web/node_modules/
 web/.vite/
+*.traineddata
 
 # git worktree 작업 폴더 — 커밋되면 gitlink(서브모듈)로 잡혀
 # GitHub Pages 배포가 "No url found for submodule path" 로 통째로 실패한다

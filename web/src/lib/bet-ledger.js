@@ -90,6 +90,15 @@ export function liveKey(game) {
   return `${game?.home}|${game?.away}|${String(game?.date || "").slice(0, 5)}`;
 }
 
+export function recordLive(index, game, now = new Date()) {
+  const live = index.get(liveKey(game));
+  if (!live || !game?.year) return live;
+  const isoDate = String(live.date || live.start_time || "");
+  const year = Number(live.year) || Number(isoDate.match(/^(\d{4})-/)?.[1])
+    || Number(new Intl.DateTimeFormat("en", {year:"numeric",timeZone:"Asia/Seoul"}).format(now));
+  return Number(game.year)===year ? live : undefined;
+}
+
 function selectedSide(bet) {
   const choice = String(bet?.selection?.choice || "");
   if (/무/.test(choice) && !/승무패/.test(choice)) return "draw";
