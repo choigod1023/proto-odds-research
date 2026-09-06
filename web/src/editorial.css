@@ -606,3 +606,27 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .explorer-page .match-section-title { min-width: 0; }
 .explorer-page .match-phase-counts { display: flex; flex-wrap: nowrap; max-width: 100%; min-width: 0; overflow-x: auto; justify-content: flex-start; white-space: nowrap; padding-bottom: 4px; }
 .explorer-page .match-phase-counts button { flex: 0 0 auto; }
+/* Dialogs are portaled outside .explorer-page. Never reuse list grid placement here. */
+.game-info-modal .match-detail-summary { display: flex; flex-direction: column; align-items: stretch; gap: 10px; min-width: 0; padding: 16px; }
+.match-detail-summary > span { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.match-detail-summary > span:nth-child(2) { font-size: 16px; line-height: 1.6; }
+.match-detail-summary .match-call-inline { border-left: 0; padding: 0; gap: 4px; }
+.match-detail-summary .match-call-inline b { white-space: normal; overflow: visible; text-overflow: clip; }
+.match-detail-summary .match-player-inline { white-space: normal; overflow: visible; text-overflow: clip; }
+.match-detail-summary .pick-probabilities { min-width: 0; max-width: 100%; }
+.match-detail-view { min-width: 0; }
+.game-info-modal .match-detail-summary { padding: 0; gap: 0; }
+.detail-favorites { margin-bottom: 12px; font-size: 14px; color: var(--color-ink2); }
+.detail-favorites summary { min-height: 44px; cursor: pointer; padding: 10px 0; }
+.detail-scoreboard { padding: 16px 0 20px; border-bottom: 1px solid var(--color-rule); }
+.detail-match-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; color: var(--color-ink2); font-size: 13px; }
+.detail-scoreline { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 16px; padding: 24px 0; text-align: center; }
+.detail-scoreline strong { min-width: 0; font-size: 18px; overflow-wrap: anywhere; }
+.detail-score { font-size: 30px; font-weight: 750; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.detail-prediction { padding: 20px 0; }
+.detail-prediction-labels { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.detail-prediction h3 { margin: 0; font-size: 16px; }
+.detail-pick { margin: 12px 0; font-size: 18px; }
+.detail-pick > span { display: block; font-size: 14px; color: var(--color-ink2); margin-top: 6px; }
+.detail-record-time { display: block; margin-top: 12px; font-size: 12px; color: var(--color-ink2); }
+@media (max-width: 420px) { .detail-scoreline { gap: 8px; } .detail-scoreline strong { font-size: 16px; } .detail-score { font-size: 26px; } }

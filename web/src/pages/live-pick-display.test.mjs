@@ -26,6 +26,13 @@ test("live card renders the saved pick and prior even with no current options", 
     assert.match(row, /aria-haspopup="dialog"/);
     assert.doesNotMatch(row, /match-detail|<summary/);
     const html = renderToStaticMarkup(createElement(Game, props));
+    assert.equal((html.match(/aria-label="경기 점수판"/g) || []).length, 1);
+    assert.equal((html.match(/4 : 1/g) || []).length, 1);
+    assert.match(html, /LIVE · 6회초/);
+    assert.equal((html.match(/class="pick-probabilities"/g) || []).length, 1);
+    assert.doesNotMatch(html, /live-score-panel|settled-result-panel/);
+    assert.match(html, /class="match-detail-summary"/);
+    assert.doesNotMatch(html, /class="match-row/);
     assert.match(html, /경기 전 예측 픽/);
     assert.match(html, /57.0%/);
     assert.match(html, /현재 적중 확률/);
@@ -34,7 +41,7 @@ test("live card renders the saved pick and prior even with no current options", 
     const missingProbability = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, prediction_record: { ...g.prediction_record, probability: null } } }));
     assert.match(missingProbability, /경기 전 예측 픽/);
-    assert.match(missingProbability, /경기 전 적중 확률 기록 없음/);
+    assert.match(missingProbability.replace(/<[^>]+>/g, " "), /경기 전 적중 확률\s+기록 없음/);
     assert.match(missingProbability, /계산 불가/);
     assert.doesNotMatch(missingProbability, /0.0%/);
     const unrecorded = renderToStaticMarkup(createElement(Game, { ...props,
@@ -77,6 +84,12 @@ test("live card renders the saved pick and prior even with no current options", 
       assert.match(summary, new RegExp(result));
       assert.match(summary, /당시 배당 1.80배/);
       assert.doesNotMatch(summary, /9.90/);
+      const detail = renderToStaticMarkup(createElement(Game, { ...props,
+        lv: { status: "RESULT", finished: true, home_score, away_score } }));
+      assert.equal((detail.match(/aria-label="경기 점수판"/g) || []).length, 1);
+      assert.equal(detail.split(`${home_score} : ${away_score}`).length - 1, 1);
+      assert.match(detail, new RegExp(result));
+      assert.doesNotMatch(detail, /현재 적중 확률|live-score-panel|settled-result-panel/);
     }
   } finally {
     await server.close();
