@@ -1,41 +1,38 @@
 const blue = (data, index) => {
   const r = data[index]; const g = data[index + 1]; const b = data[index + 2];
-  return b > 135 && b - r > 22 && b - g > 4;
+  return b > 135 && b - r > 60 && b - g > 4;
 };
 
 export function blueButtonRects(imageData, width, height) {
-  const runs = [];
-  const minWidth = width * 0.07;
-  for (let y = 0; y < height; y += 1) {
-    let first = -1; let last = -1; let count = 0;
-    for (let x = 0; x < width; x += 1) {
-      if (!blue(imageData, (y * width + x) * 4)) continue;
-      if (first < 0) first = x;
-      last = x; count += 1;
-    }
-    if (count >= minWidth && last - first >= minWidth && last - first <= width * 0.62) runs.push({ y, left: first, right: last });
-  }
+  // Connected blue borders/fills, not global image fractions: padding and long
+  // mobile captures must not change which cells count as selected.
+  const visited = new Uint8Array(width * height);
+  const queue = new Int32Array(width * height);
   const rects = [];
-  for (let topIndex = 0; topIndex < runs.length; topIndex += 1) {
-    const top = runs[topIndex];
-    const bottom = runs.slice(topIndex + 1).find((row) => row.y - top.y >= height * 0.018
-      && row.y - top.y <= height * 0.09 && Math.abs(row.left - top.left) < width * 0.03
-      && Math.abs(row.right - top.right) < width * 0.03);
-    if (!bottom) continue;
-    const rect = { left: Math.min(top.left, bottom.left), top: top.y,
-      width: Math.max(top.right, bottom.right) - Math.min(top.left, bottom.left) + 1,
-      height: bottom.y - top.y + 1 };
-    if (!rects.some((other) => Math.abs(other.top - rect.top) < height * 0.02)) rects.push(rect);
+  for (let start = 0; start < width * height; start++) {
+    if (visited[start] || !blue(imageData,start * 4)) continue;
+    let head = 0, tail = 1, left = width, right = 0, top = height, bottom = 0;
+    queue[0] = start; visited[start] = 1;
+    while (head < tail) {
+      const p = queue[head++], x = p % width, y = Math.floor(p / width);
+      left = Math.min(left,x); right = Math.max(right,x); top = Math.min(top,y); bottom = Math.max(bottom,y);
+      for (const next of [x ? p-1 : -1,x+1 < width ? p+1 : -1,y ? p-width : -1,y+1 < height ? p+width : -1]) {
+        if (next < 0 || visited[next] || !blue(imageData,next*4)) continue;
+        visited[next] = 1; queue[tail++] = next;
+      }
+    }
+    const w = right-left+1, h = bottom-top+1;
+    if (w < 24 || h < 14 || w/h < 1.15 || w/h > 7 || tail < 2*(w+h)*.65) continue;
+    const edge=(horizontal,fixed,from,to)=> {
+      let hits=0;
+      for(let moving=from;moving<=to;moving++) if(blue(imageData,((horizontal ? fixed*width+moving : moving*width+fixed))*4)) hits++;
+      return hits/(to-from+1);
+    };
+    const borderCoverage=(horizontal,start,step,from,to)=>Math.max(...[0,1,2,3].map(offset=>edge(horizontal,start+step*offset,from,to)));
+    if(borderCoverage(true,top,1,left,right)<.6 || borderCoverage(true,bottom,-1,left,right)<.6 || borderCoverage(false,left,1,top,bottom)<.6 || borderCoverage(false,right,-1,top,bottom)<.6) continue;
+    rects.push({left,top,width:w,height:h});
   }
-  return rects.sort((a, b) => a.top - b.top).reduce((merged, rect) => {
-    const previous = merged.at(-1);
-    const sameColumn = previous && Math.abs(previous.left - rect.left) < width * 0.03
-      && Math.abs(previous.width - rect.width) < width * 0.05;
-    if (sameColumn && rect.top <= previous.top + previous.height + height * 0.015) {
-      previous.height = Math.max(previous.top + previous.height, rect.top + rect.height) - previous.top;
-    } else merged.push({ ...rect });
-    return merged;
-  }, []);
+  return rects.sort((a,b) => a.top-b.top || a.left-b.left);
 }
 
 export async function selectedButtonRects(file) {
@@ -66,15 +63,16 @@ export function buttonChoiceIndex(text, options = []) {
   const value = String(text || "").replace(/\s+/g, "").toLowerCase();
   const aliases = (choice) => {
     const selected = String(choice || "");
-    if (/오버/.test(selected)) return ["오버", "over"];
-    if (/언더/.test(selected)) return ["언더", "under"];
+    if (/오버/.test(selected)) return ["오버", "over", "o"];
+    if (/언더/.test(selected)) return ["언더", "under", "u"];
     if (/무/.test(selected)) return ["무", "draw"];
     if (/원정|패/.test(selected)) return ["패", "원정", "away"];
     if (/홈|승/.test(selected)) return ["승", "홈", "home"];
     return [selected];
   };
   const candidates = options.map((option, index) => ({ index,
-    hit: aliases(option?.["선택"]).some((alias) => alias && value.includes(alias.toLowerCase())) }))
+    hit: aliases(option?.["선택"]).some((alias) => alias && (alias.length === 1 && /[ou]/i.test(alias)
+      ? new RegExp(`^${alias}(?=[0-9.]|$)`, "i").test(value) : value.includes(alias.toLowerCase()))) }))
     .filter((row) => row.hit);
   return candidates.length === 1 ? candidates[0].index : null;
 }

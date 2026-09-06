@@ -382,6 +382,17 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 .dashboard-notice { margin-bottom: 16px; border-left: 3px solid var(--color-ink3); padding: 8px 12px; color: var(--color-ink3); font-size: 11.5px; line-height: 1.7; }
 .dashboard-bet-list { display: grid; gap: 12px; }
 .receipt-ocr { margin-bottom: 14px; border: 1px solid var(--color-rule); border-radius: 10px; padding: 16px; background: var(--color-panel); }
+.receipt-draft-results { display: grid; gap: 14px; min-width: 0; }
+.receipt-draft-row { min-width: 0; border: 1px solid var(--color-rule); padding: 12px; display: grid; gap: 10px; }
+.receipt-draft-row legend { font-weight: 700; font-size: 14px; }
+.receipt-draft-fields { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,170px),1fr)); gap: 10px; }
+.receipt-draft-fields label { display: grid; gap: 4px; font-size: 12px; min-width: 0; }
+.receipt-draft-fields input,.receipt-draft-fields select { width: 100%; min-width: 0; padding: 9px; font-size: 16px; border: 1px solid var(--color-rule); border-radius: 6px; background: var(--color-paper); color: var(--color-ink); }
+.receipt-ocr button { border: 1px solid var(--color-rule); border-radius: 6px; padding: 10px 12px; min-height: 44px; cursor: pointer; }
+.receipt-ocr button:disabled { opacity: .5; cursor: not-allowed; }
+.receipt-image-input-help,.receipt-image-input-status { margin: 8px 0; font-size: 12px; }
+.receipt-image-input-dropzone:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 3px; }
+.receipt-ocr pre { max-height: 240px; overflow: auto; font-size: 11px; }
 .receipt-ocr-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .receipt-ocr-head small, .receipt-ocr-privacy { color: var(--color-ink3); font-size: 10px; }
 .receipt-ocr-head h2 { margin: 2px 0 0; font-size: 16px; }

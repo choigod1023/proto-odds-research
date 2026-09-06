@@ -3,7 +3,7 @@ import { Nav } from "../components/ui.jsx";
 import ReceiptOcr from "../components/ReceiptOcr.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import RecordMatchDetails from "../components/RecordMatchDetails.jsx";
-import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, liveKey,
+import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, recordLive,
   readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
 
@@ -102,7 +102,7 @@ export function BetCard({ bet, live, onRemove, onOpen }) {
 
 export function ComboCard({ group, index, onRemove, onOpen }) {
   const rows = group.bets.map((bet) => {
-    const live = index.get(liveKey(bet.game));
+    const live = recordLive(index, bet.game);
     return { bet, live, estimate: estimateLiveProbability(bet, live), outcome: settleBet(bet, live) };
   });
   const currentProbability = rows.every((row) => Number.isFinite(row.estimate.probability))
@@ -165,7 +165,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!liveData || !bets.length) return;
     const next = bets.map((bet) => {
-      const live = index.get(liveKey(bet.game));
+      const live = recordLive(index, bet.game);
       return appendProbabilityHistory(bet, estimateLiveProbability(bet, live), live);
     });
     if (JSON.stringify(next) !== JSON.stringify(bets)) {
@@ -176,7 +176,7 @@ export default function Dashboard() {
 
   const totals = groups.reduce((result, group) => {
     result.stake += Number(group.ticket.stake) || 0;
-    const outcomes = group.bets.map((bet) => settleBet(bet, index.get(liveKey(bet.game))));
+    const outcomes = group.bets.map((bet) => settleBet(bet, recordLive(index, bet.game)));
     const outcome = outcomes.includes("miss") ? "miss"
       : outcomes.length && outcomes.every((value) => value === "hit" || value === "void") ? "hit" : null;
     if (outcome) result.settled += 1;
@@ -203,7 +203,7 @@ export default function Dashboard() {
       <section className="dashboard-bet-list">
         {groups.map((group) => group.bets.length > 1
           ? <ComboCard key={group.id} group={group} index={index} onOpen={setOpenedBetId} onRemove={(id) => { removeTicket(id); setBets(readBetLedger()); }} />
-          : <BetCard key={group.id} bet={group.bets[0]} live={index.get(liveKey(group.bets[0].game))}
+          : <BetCard key={group.id} bet={group.bets[0]} live={recordLive(index, group.bets[0].game)}
               onOpen={setOpenedBetId} onRemove={(id) => { removeBet(id); setBets(readBetLedger()); }} />)}
         {!bets.length && <div className="dashboard-empty">
           <b>저장한 베팅이 없습니다</b>
@@ -212,7 +212,7 @@ export default function Dashboard() {
         </div>}
       </section>
       {openedBet && <GameInfoModal title={`${openedBet.game.home} vs ${openedBet.game.away}`} onClose={() => setOpenedBetId(null)}>
-        <RecordMatchDetails bet={openedBet} live={index.get(liveKey(openedBet.game))} />
+        <RecordMatchDetails bet={openedBet} live={recordLive(index, openedBet.game)} />
       </GameInfoModal>}
     </main>
   );
