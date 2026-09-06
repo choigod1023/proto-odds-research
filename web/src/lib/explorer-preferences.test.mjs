@@ -46,3 +46,12 @@ test("yesterday filter uses Korean calendar dates", () => {
   assert.ok(matchesGameDate(game, "yesterday", now));
   assert.ok(!matchesGameDate(game, "today", now));
 });
+
+test("evidence does not echo policy prose and totals explain scoring instead of win records", () => {
+  assert.equal(matchEvidence({ ...game, 경기근거: { internal: [{ text: "55% 기준 통과" }] } }).summary, "");
+  const evidence = matchEvidence({ ...game, form_home: { last10: "7승 3패", avg_scored: 4.5, avg_conceded: 3.2 }, form_away: { last10: "4승 6패", avg_scored: 3.1, avg_conceded: 4.2 } }, { market: "언더오버", 선택: "언더" });
+  assert.match(evidence.summary, /4.5득점/);
+  assert.match(evidence.summary, /4.2실점/);
+  assert.doesNotMatch(evidence.summary, /7승|55%/);
+  assert.equal(matchEvidence({ ...game, status: "정산" }).summary, "");
+});

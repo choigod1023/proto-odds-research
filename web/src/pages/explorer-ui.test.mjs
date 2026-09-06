@@ -30,6 +30,16 @@ test("explorer groups by sport and league and renders only the first league with
     assert.match(row, /경기력/);
     assert.match(row, /7승 3패/);
     assert.match(row, /상세 근거/);
+    const recommendationProps = { g: { ...games[0], form_home: { last10: "7승 3패" }, form_away: { last10: "4승 6패" } },
+      opts: [], wait: false, highlightedToday: true,
+      todayOption: { market: "승패", 선택: "홈", 배당: 1.8, 시장확률: .6 },
+      todayMembership: { recommended: true, reason: "55% 기준을 통과했다", display: { text: "설정 55%" }, counterReason: "정책 통과" } };
+    for (const detailOnly of [false, true]) {
+      const rendered = renderToStaticMarkup(createElement(Game, { ...recommendationProps, detailOnly }));
+      assert.match(rendered, /7승 3패/);
+      assert.match(rendered, /4승 6패/);
+      assert.doesNotMatch(rendered, /55%|정책 통과|사전 픽은 고정/);
+    }
     const { Nav } = await server.ssrLoadModule("/src/components/ui.jsx");
     const nav = renderToStaticMarkup(createElement(Nav, { current: "markets.html" }));
     assert.equal((nav.match(/aria-label="화면 테마"/g) || []).length, 1);

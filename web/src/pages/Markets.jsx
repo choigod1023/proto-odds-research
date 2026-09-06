@@ -803,10 +803,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
     ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
     : null;
   const todayLabel = todayMembership?.recommended ? "오늘의 추천 픽" : null;
-  const recommendationDetail = todayMembership?.display?.text || null;
-  const recommendationReason = todayMembership?.reason || null;
-  const recommendationCounterReason = todayMembership?.counterReason || null;
-  const evidence = stale || g._liveOddsChanged ? { frozen: false, facts: [], summary: "최신 경기력 자료 확인 중" } : matchEvidence(g);
+  const evidence = stale || g._liveOddsChanged ? { frozen: false, facts: [], summary: "" } : matchEvidence(g, pick?.o);
   const selectedForGame = selections.filter((item) => ["sport", "league", "round", "date", "home", "away"].every((key) => String(item.game[key]) === String(g[key])));
   const selected = pick && selections.some((item) => item.key === selectionKey(g, pick.o));
   const Row = detailOnly ? "div" : "button";
@@ -865,17 +862,12 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                   value={odds(pick.o["배당"])}
                   grade={pick.g ? gcls(pick.g.grade) : "U"}
                   highlighted={highlightedToday}
-                  title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${
-                    prediction?.recommendation === "recommend" ? "검증 보정이 실제 반영된 추천"
-                      : prediction?.recommendation === "weak" ? "방향은 제시하되 구매 우위가 약한 픽"
-                        : prediction?.recommendation === "market" ? "시장 최유력 방향이며 구매 추천은 아님"
-                          : "시장 최유력 방향은 제시하되 구매 추천은 관망"
-                  }${recommendationDetail ? ` · ${recommendationDetail}` : " · 배당 기반 시장확률"}`} />
+                  title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${pick.o.선택} 배당`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
-        {!detailOnly && highlightedToday && recommendationReason && <span className="match-reason-preview"><b>추천 이유</b> {recommendationReason}</span>}
-        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">배당 기준 확률 {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(pick.o["시장확률"])} · {locked ? "사전 고정" : "현재 배당 기준"}</span>}
-        {!detailOnly && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
+        {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
+        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">배당 기준 확률 {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(pick.o["시장확률"])} · {locked ? "경기 전 예상" : "현재 배당 기준"}</span>}
+        {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
       {detailOnly && <div className="match-detail">
         {phase === "pending" && lv && !lv.finished && !disruption && <p role="status" className="text-[12px] text-ink2">
@@ -890,22 +882,14 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             {playing && !liveProbability && <small>{probabilityMessage}</small>}
           </div>
         )}
-        <section className="performance-evidence" aria-label="경기력 근거">
-          <h3>{evidence.frozen ? "당시 판단" : "경기력 확인"}</h3>
+        {evidence.facts.length > 0 && <section className="performance-evidence" aria-label="경기력 근거">
+          <h3>{highlightedToday ? "추천 경기의 경기력 비교" : "경기력 비교"}</h3>
           {evidence.facts.length ? <ul>{evidence.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>{evidence.summary}</p>}
-          {!evidence.frozen && <p className="review-note">경기력 참고 자료입니다. 이 수치만으로 추천이나 적중을 보장하지 않습니다. 출처와 반대 근거는 아래 상세에서 확인하세요.</p>}
-        </section>
+          <SourceStamp source={sourceFor(g)} />
+        </section>}
         {pick && onSaveBet && <button type="button" className="pick-select-action" disabled={selected || stale || g._liveOddsChanged}
           onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
         <MarketHistory rows={g._marketHistory} />
-        {todayMembership && recommendationReason && (
-          <div className={`today-pick-signals ${highlightedToday ? "is-recommended" : "is-excluded"}`} role="note">
-            <b>{highlightedToday ? "오늘 추천한 이유" : "오늘 추천하지 않은 이유"}</b>
-            <span>{recommendationReason}</span>
-            {recommendationDetail && <small>{recommendationDetail}</small>}
-            {recommendationCounterReason && <small>{recommendationCounterReason}</small>}
-          </div>
-        )}
         {g._liveLineChanged && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
             <b>핸디캡·언더오버 기준점 변경 반영</b>
@@ -914,11 +898,11 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         )}
         {drift && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
-            <b>라인 변동 · 픽은 처음 게시값으로 고정</b>
+            <b>배당 변화 · 경기 전 추천과 현재 배당 비교</b>
             <p>
               이 경기의 픽은 <b>{drift.pinned_market} {drift.pinned_selection}</b>
               {drift.pinned_odds != null ? ` (배당 ${odds(drift.pinned_odds)})` : ""}로
-              고정되어 킥오프까지 바뀌지 않습니다. 지금 시장 기준으로는{" "}
+              로 안내됐습니다. 지금 배당 기준으로는{" "}
               <b>{drift.market_selection}</b>
               {drift.market_odds != null ? ` (배당 ${odds(drift.market_odds)})` : ""}가
               더 유력합니다. 이미 배팅하셨다면 조건이 바뀐 점만 참고하세요.

@@ -601,3 +601,8 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .league-group.is-open .league-heading { border-bottom: 1px solid var(--color-rule); }
 .saved-snapshot { padding: 12px 0; font-size: 14px; border-top: 1px solid var(--color-rule); }
 .saved-snapshot summary { min-height: 44px; cursor: pointer; padding: 10px 0; }
+
+/* One horizontal status strip at every viewport; overflow stays within the strip. */
+.explorer-page .match-section-title { min-width: 0; }
+.explorer-page .match-phase-counts { display: flex; flex-wrap: nowrap; max-width: 100%; min-width: 0; overflow-x: auto; justify-content: flex-start; white-space: nowrap; padding-bottom: 4px; }
+.explorer-page .match-phase-counts button { flex: 0 0 auto; }

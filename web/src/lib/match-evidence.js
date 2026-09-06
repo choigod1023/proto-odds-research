@@ -1,11 +1,11 @@
-import { gamePhase, decisionFrozen } from "./match-status.js";
+import { gamePhase } from "./match-status.js";
 
 const present = (value) => value !== null && value !== undefined && value !== "" && Number.isFinite(Number(value));
 
 // These are observed match facts, not post-hoc claims that they caused the model's pick.
-export function matchEvidence(game) {
-  const frozen = decisionFrozen(game) || gamePhase(game) !== "upcoming";
-  if (frozen) return { frozen: true, facts: [], summary: "사전 픽은 고정되어 있습니다. 당시 근거와 결과를 구분해 확인하세요." };
+export function matchEvidence(game, option = null) {
+  const frozen = gamePhase(game) !== "upcoming";
+  if (frozen) return { frozen: true, facts: [], summary: "" };
   const facts = [];
   for (const side of ["home", "away"]) {
     const form = game[`form_${side}`];
@@ -19,7 +19,16 @@ export function matchEvidence(game) {
       facts.push(`${game[side]} 선발 ${starter.name} · 평균자책점 ${Number(era).toFixed(2)}`);
     }
   }
-  const internal = (game["경기근거"]?.internal || []).filter((row) => typeof row.text === "string" && row.text.trim());
-  if (!facts.length) facts.push(...internal.slice(0, 2).map((row) => row.text));
-  return { frozen: false, facts, summary: facts[0] || "경기력 자료 확인 중 · 추천 여부와 별도로 확인합니다." };
+  // Backend eligibility prose is not sporting evidence. Use structured facts only.
+  const choice = String(option?.선택 || "");
+  const awayFirst = /원정|패$/.test(choice) || choice === game.away;
+  const sides = awayFirst ? ["away", "home"] : ["home", "away"];
+  const recent = sides.filter((side) => game[`form_${side}`]?.last10)
+    .map((side) => `${game[side]} ${game[`form_${side}`].last10}`);
+  let summary = recent.length ? `최근 10경기 ${recent.join(" · ")}` : facts[0] || "";
+  if (String(option?.market || "").includes("언더오버") && sides.every((side) =>
+    present(game[`form_${side}`]?.avg_scored) && present(game[`form_${side}`]?.avg_conceded))) {
+    summary = sides.map((side) => `${game[side]} 최근 경기당 ${Number(game[`form_${side}`].avg_scored).toFixed(1)}득점·${Number(game[`form_${side}`].avg_conceded).toFixed(1)}실점`).join(" / ");
+  }
+  return { frozen: false, facts, summary };
 }
