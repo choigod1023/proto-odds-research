@@ -44,6 +44,7 @@ TEAM_MAP = ROOT / "data" / "processed" / "team_map.json"
 API = "https://api-gw.sports.naver.com/schedule/games"
 POLLING_API = API + "/{game_id}/game-polling"
 NAMED_API = "https://sports-api.named.com/v1.0/popular-games"
+NAMED_DETAIL_API = "https://sports-api.named.com/v1.0/sports/baseball/games/{game_id}"
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 KST = timezone(timedelta(hours=9))
 
@@ -211,6 +212,7 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
         "sport": NAMED_SPORTS[sport][0],
         "league": league.get("shortName") or league.get("name") or NAMED_SPORTS[sport][1],
         "game_id": f"named:{raw.get('id')}",
+        "named_game_id": str(raw.get("id") or ""),
         "start": start,
         "md": start[5:10].replace("-", "."),
         "home": home.get("name"), "away": away.get("name"),
@@ -492,7 +494,8 @@ def _merge_duplicate(preferred: dict, other: dict) -> dict:
     if (other.get("stale") and not preferred.get("stale")
             or preferred.get("status") != "STARTED" or other.get("status") != "STARTED"):
         for key in ("batting_side", "batter", "batter_id", "pitcher", "balls", "strikes",
-                    "outs", "bases", "next_batter", "on_deck", "situation_observed_at"):
+                    "outs", "bases", "next_batter", "on_deck", "situation_observed_at",
+                    "situation_inning", "situation_half"):
             if key not in preferred:
                 merged.pop(key, None)
     for side in ("home", "away"):
@@ -561,6 +564,60 @@ def collect_schedules(days: list[str], deadline: float | None = None) -> list[di
         return list(pool.map(lambda job: _schedule_job(job, deadline), jobs))
 
 
+def named_baseball_situation(raw: dict) -> dict:
+    """Read current occupants, never starters or an earlier play's runners."""
+    if raw.get("gameStatus") != "IN_PROGRESS":
+        return {}
+    def player(value):
+        if not isinstance(value, dict):
+            return None
+        name = value.get("name")
+        return name.strip() if isinstance(name, str) and name.strip() else None
+    result = {}
+    bases = {}
+    for key in ("first", "second", "third"):
+        occupied = raw.get(f"{key}BaseOccupied")
+        if type(occupied) is not bool:
+            continue
+        runner = raw.get(f"{key}BaseOccupiedBatter")
+        bases[key] = {"occupied": occupied, "runner": player(runner) if occupied else None,
+                      "runner_id": runner.get("id") if occupied and isinstance(runner, dict) else None}
+    if bases:
+        result["bases"] = bases
+    for key, source, maximum in (("balls", "ball", 3), ("strikes", "strike", 2), ("outs", "out", 3)):
+        value = raw.get(source)
+        if type(value) is int and 0 <= value <= maximum:
+            result[key] = value
+    for key, source in (("batter", "currentBatter"), ("pitcher", "currentPitcher")):
+        if source in raw:
+            result[key] = player(raw[source])
+    if result:
+        result["situation_inning"] = raw.get("period")
+        result["situation_half"] = raw.get("inningDivision")
+    return result
+
+
+def _named_situation_job(game: dict, deadline: float | None = None) -> dict:
+    if deadline is not None and time.monotonic() >= deadline:
+        return {}
+    game_id = str(game.get("named_game_id") or game.get("game_id") or "").removeprefix("named:")
+    if not game_id.isdigit():
+        return {}
+    try:
+        with _session() as session:
+            response = session.get(NAMED_DETAIL_API.format(game_id=game_id), timeout=SITUATION_TIMEOUT)
+            response.raise_for_status()
+            raw = response.json()
+        if str(raw.get("id")) != game_id:
+            return {}
+        situation = named_baseball_situation(raw)
+        if situation:
+            situation["situation_observed_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        return situation
+    except (requests.RequestException, ValueError, TypeError, AttributeError):
+        return {}
+
+
 def _situation_job(game_id: str, deadline: float | None = None) -> dict:
     if deadline is not None and time.monotonic() >= deadline:
         return {}
@@ -572,12 +629,18 @@ def _situation_job(game_id: str, deadline: float | None = None) -> dict:
 
 
 def enrich_situations(games: list[dict], deadline: float | None = None) -> None:
-    live = [game for game in games if game.get("source") == "naver"
+    live = [game for game in games if game.get("source") in ("naver", "named")
             and not game.get("stale") and game.get("status") == "STARTED"
             and game.get("league") in ("KBO", "MLB", "NPB")][:SITUATION_LIMIT]
     with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as pool:
-        situations = pool.map(lambda game_id: _situation_job(game_id, deadline),
-                              [game["game_id"].split(":", 1)[1] for game in live])
+        def fetch(game):
+            if game.get("source") == "named":
+                return _named_situation_job(game, deadline)
+            situation = _situation_job(game["game_id"].split(":", 1)[1], deadline)
+            if not situation and game.get("named_game_id"):
+                return _named_situation_job(game, deadline)
+            return situation
+        situations = pool.map(fetch, live)
         for game, situation in zip(live, situations):
             game.update(situation)
 

@@ -7,6 +7,7 @@ export default function BaseballSituation({ live }) {
   const occupied = positions.filter(([key]) => bases[key]?.occupied).length;
   return <section className="baseball-field-panel" aria-label="현재 야구 경기 상황">
     <div className="field-caption"><b>그라운드 상황</b><span>{known ? occupied ? `주자 ${occupied}명` : "주자 없음" : "주자 정보 확인 중"}</span></div>
+    {live?.situation_observed_at && <p className="progress-note">{Number.isInteger(live.situation_inning) && ["TOP","BOTTOM"].includes(live.situation_half) ? `${live.situation_inning}회${live.situation_half === "TOP" ? "초" : "말"} · ` : ""}주자 확인 {new Date(live.situation_observed_at).toLocaleTimeString("ko-KR", {timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",second:"2-digit"})}</p>}
     <div className="baseball-field">
       <svg className="field-drawing" viewBox="0 0 320 290" aria-hidden="true">
         <path d="M160 265 L18 123 Q160 -35 302 123 Z" fill="#235b43" />
