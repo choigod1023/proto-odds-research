@@ -47,10 +47,10 @@ function PickCards({ picks, now, onOpenGame }) {
               </p>}
               <p className="m-0 text-[11px] text-ink3">{SOURCE_LABEL[pick.source]}</p>
               <p className="mt-1 mb-3 break-words text-[14px] font-bold">{pick.option.market}{pick.option.label ? ` ${pick.option.label}` : ""} · {pick.option.선택}</p>
-              <PickProbabilities openingProbability={pick.openingProbability} estimate={pick.estimate}
+              <PickProbabilities openingProbability={pick.openingProbability} estimate={pick.estimate} outcome={pick.outcome}
                 phase={pick.phase} message={pick.estimateMessage} />
               <div className="border-t border-rule pt-2">
-                <div className="flex items-center justify-between gap-2 text-[12px]"><span className="text-ink3">결과</span><b className={`result-badge is-${pick.outcome.state}`}>{pick.phase === "upcoming" ? "경기 전" : pick.phase === "live" ? "진행 중" : pick.outcome.label}</b></div>
+                <div className="flex items-center justify-between gap-2 text-[12px]"><span className="text-ink3">결과</span><b className={`result-badge is-${pick.outcome.state}`}>{["hit", "miss", "void"].includes(pick.outcome.state) ? pick.outcome.label : pick.phase === "upcoming" ? "경기 전" : pick.phase === "live" ? "진행 중" : pick.outcome.label}</b></div>
                 <div className="mt-1 flex items-center justify-between gap-2 text-[12px]"><span className="text-ink3">당시 배당</span><b className="tnum">{pick.originalOdds == null ? "기록 없음" : `${pick.originalOdds.toFixed(2)}배`}</b></div>
               </div>
             </Card>

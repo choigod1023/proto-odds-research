@@ -10,12 +10,13 @@ export default function RecordMatchDetails({ bet, live }) {
   const score = live?.status !== "BEFORE" && Number.isFinite(live?.home_score) && Number.isFinite(live?.away_score)
     ? [live.home_score, live.away_score] : null;
   const result = settleBet(bet, live);
+  const estimate = estimateLiveProbability(bet, live);
   const option = {market:bet.selection.market,label:bet.selection.label,선택:bet.selection.choice,배당:bet.purchaseOdds};
-  const outcome = {state:result || "pending",label:{hit:"적중",miss:"적중실패",void:"취소 · 무효"}[result] || "판정 확인 중",source:"score"};
+  const outcome = estimate.outcome || {state:result || "pending",label:{hit:"적중",miss:"적중실패",void:"취소 · 무효"}[result] || "판정 확인 중",source:"score"};
   return <div className="match-detail-view">
     <MatchDetailHeader game={game} score={score} phase={phase} status={phase === "live" ? `LIVE · ${live?.status_text || "진행 중"}` : gameStatusLabel(game,live)}
       option={option} predictionTitle="내가 저장한 픽" openingProbability={bet.openingProbability}
-      estimate={estimateLiveProbability(bet,live)} outcome={outcome} message="최신 경기 정보가 확인되면 현재 확률을 표시합니다.">
+      estimate={estimate} outcome={outcome} message="최신 경기 정보가 확인되면 현재 확률을 표시합니다.">
       <MatchProgress game={game} live={live} phase={phase} score={score} />
       {phase === "live" && game.sport === "bs" && <BaseballSituation live={live} />}
     </MatchDetailHeader>

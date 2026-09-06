@@ -824,7 +824,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           {playing || phase === "pending" ? <>
               {playing ? <span className="live-score-badge"><i />LIVE <b>{lv.status_text || "진행 중"}</b></span>
                 : <OddsChip label="경기 상태" value="확인 중" />}
-              <PickProbabilities openingProbability={openingProbability} estimate={liveProbability}
+              <PickProbabilities openingProbability={openingProbability} estimate={liveProbability} outcome={outcome}
                 phase={phase} message={probabilityMessage} compact />
             </>
             : disruption ? <OddsChip label="상태" value={disruption.replace("경기 ", "")} />

@@ -109,7 +109,7 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
           final_reversal: game.prediction_record.final_reversal });
       if (!knownHighlight && !currentHighlight && (!started || explicitlyExcluded || !eligiblePrior)) continue;
       source = knownHighlight ? "highlight" : currentHighlight ? "current" : "recorded";
-      outcome = recommendationOutcome(game, live);
+      outcome = recommendationOutcome(game, live, now);
       if (phase === "live" && saved.estimateStatus === "available"
           && Number.isFinite(saved.estimate?.probability)) estimate = saved.estimate;
       estimateMessage = phase === "finished" ? "경기 종료 · 결과를 확인하세요."
@@ -163,7 +163,7 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
 }
 
 function mergeObservation(prior, other, now) {
-  const closed = (item) => ["hit", "miss", "void"].includes(item.outcome.state);
+  const closed = (item) => !item.outcome.inPlay && ["hit", "miss", "void"].includes(item.outcome.state);
   if (closed(prior) && closed(other) && prior.outcome.state !== other.outcome.state) {
     return { ...prior, phase: "pending", estimate: null,
       outcome: { ...prior.outcome, state: "pending", label: "정산 결과 충돌 · 확인 중" } };

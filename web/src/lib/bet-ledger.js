@@ -1,3 +1,4 @@
+import { decidedMarket } from "./decided-market.js";
 export const BET_LEDGER_KEY = "proodd-single-bet-ledger-v1";
 
 const clamp = (value, lo = .01, hi = .99) => Math.min(hi, Math.max(lo, value));
@@ -111,6 +112,10 @@ function progressOf(live, sport) {
 
 export function settleBet(bet, live) {
   if (!live?.finished) return live?.cancelled ? "void" : null;
+  // A full-time total can never settle a first-half ticket.
+  if (String(bet?.selection?.market || "").startsWith("전반")) {
+    return decidedMarket(bet?.game?.sport, bet.selection, live)?.state || null;
+  }
   const home = Number(live.home_score), away = Number(live.away_score);
   if (!Number.isFinite(home) || !Number.isFinite(away)) return null;
   const market = String(bet?.selection?.market || "");
@@ -140,6 +145,8 @@ export function settleBet(bet, live) {
 
 /** 검증 모델이 아니라 구매 당시 확률을 점수와 남은 시간으로 이동시킨 상황 추정치. */
 export function estimateLiveProbability(bet, live) {
+  const outcome = decidedMarket(bet?.game?.sport, bet?.selection, live);
+  if (outcome) return { probability: null, basis: "decided_market", outcome };
   const opening = Number(bet?.openingProbability);
   if (!(opening > 0 && opening < 1)) return { probability: null, basis: "missing_opening" };
   if (!live || live.status === "BEFORE") return { probability: opening, basis: "pregame", progress: 0 };

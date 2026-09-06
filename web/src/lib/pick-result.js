@@ -1,10 +1,11 @@
+import { decidedMarket } from "./decided-market.js";
 const LABELS = { hit: "적중", miss: "적중실패", void: "무효" };
 const finalOutcome = (state, record, source) => ({ state, label: LABELS[state], record, source });
 const validScore = (value) => ["string", "number"].includes(typeof value)
   && String(value).trim() !== "" && Number.isInteger(Number(value)) && Number(value) >= 0;
 
 /** Evaluate the saved selection, never choose a new pick from postgame prices. */
-export function recommendationOutcome(game, live = game?._liveState) {
+export function recommendationOutcome(game, live = game?._liveState, now = Date.now()) {
   const record = game?.prediction_record;
   if (!record) return { state: "unrecorded", label: "사전 예측 기록 없음", record: null };
   if (Object.hasOwn(LABELS, record.result)) return finalOutcome(record.result, record, "ledger");
@@ -24,12 +25,13 @@ export function recommendationOutcome(game, live = game?._liveState) {
     if (["취소", "연기", "중단", "무효"].includes(row.result)) {
       return finalOutcome("void", record, "official");
     }
+    const half = record.market.startsWith("전반");
     const names = {
       "승패": ["홈", "원정"], "승무패": ["홈", "무", "원정"],
       "핸디캡": row.n_way === 3 ? ["핸디홈", "핸디무", "핸디원정"] : ["핸디홈", "핸디원정"],
       "언더오버": ["언더", "오버"], "승①패": ["홈2+", "1점차", "원정2+"],
       "승⑤패": ["홈6+", "5점차이내", "원정6+"], "홀짝": ["홀", "짝"],
-    }[record.market];
+    }[half ? record.market.slice(2) : record.market]?.map((name) => half ? `전반${name}` : name);
     const winners = row.n_way === 3
       ? { 홈승: 0, 핸디승: 0, 무승부: 1, 핸디무: 1, "①": 1, "⑤": 1, 홈패: 2, 핸디패: 2 }
       : { 홈승: 0, 핸디승: 0, 언더: 0, 홀: 0, 홈패: 1, 핸디패: 1, 오버: 1, 짝: 1 };
@@ -39,6 +41,9 @@ export function recommendationOutcome(game, live = game?._liveState) {
     }
   }
 
+  const decided = decidedMarket(game.sport, { ...record, n_way: selected?.n_way }, live,
+    { now, feedAt: game._liveFeedAt });
+  if (decided) return { ...decided, record };
   const pending = { state: "pending", label: "정산 결과 확인 중", record };
   // Cancellation/postponement is not necessarily the bookmaker's void decision.
   if (live?.cancelled || live?.postponed) return pending;
