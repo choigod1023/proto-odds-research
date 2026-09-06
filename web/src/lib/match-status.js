@@ -21,8 +21,10 @@ export function liveFeedWithFallback(direct, fallback) {
 }
 
 export function gamePhase(game, live = game?._liveState, now = Date.now()) {
-  const outcome = recommendationOutcome(game, live);
-  if (["hit", "miss", "void"].includes(outcome.state)) return "finished";
+  const outcome = recommendationOutcome(game, live, now);
+  // A decided total/first-half pick does not end the physical match.
+  if (["hit", "miss", "void"].includes(outcome.state) && !outcome.inPlay
+      && !String(outcome.record?.market || "").startsWith("전반")) return "finished";
   if (live?.cancelled || live?.postponed) return "pending";
   const observed = new Date(live?.observed_at || game?._liveFeedAt || 0).getTime();
   const feedFresh = !observed || Number(now) - observed <= 10 * 60 * 1000;

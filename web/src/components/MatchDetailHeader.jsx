@@ -22,7 +22,7 @@ export default function MatchDetailHeader({ game, score, status, phase, option, 
         <p><span className={`result-badge is-${outcome.state}`}>{outcome.label}</span></p>
         <p>경기 전 적중 확률 {Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음"}</p>
         {outcome.source === "score" && <p className="review-note">종료 점수 기준 판정이며 공식 정산이 확인되면 반영됩니다.</p>}
-      </> : <PickProbabilities openingProbability={openingProbability} estimate={estimate} phase={phase} message={message} />}
+      </> : <PickProbabilities openingProbability={openingProbability} estimate={estimate} outcome={outcome} phase={phase} message={message} />}
       {capturedAt && <small className="detail-record-time">예측 시각 {new Date(capturedAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} KST</small>}
     </section>
   </div>;

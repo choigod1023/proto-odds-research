@@ -145,6 +145,11 @@ def _score(team: dict) -> int | float | None:
     periods = team.get("periodData") or []
     values = [p.get("score") for p in periods if p.get("score") is not None]
     if values:
+        # Bad provider values must not crash normalization before period
+        # evidence can fail closed (in particular strings, bools and NaN).
+        if any(type(value) not in (int, float) or value < 0
+               or (type(value) is float and not value.is_integer()) for value in values):
+            return None
         return sum(values)
     value = team.get("score")
     return value if value not in (None, "") else None
@@ -167,6 +172,45 @@ def _regulation_score(team: dict) -> int | None:
     return sum(scores)
 
 
+def _named_first_half_evidence(raw: dict, sport: str) -> dict:
+    """Display evidence only, from one unmerged NAMED schedule observation.
+
+    Soccer: period 1; baseball: innings 1-5; basketball: quarters 1-2.
+    Raw phase proves completion, and both teams must supply every period.
+    A current total, relay outs/clock or normalized STARTED cannot prove it.
+    Naver schedule/polling adapters do not supply this period evidence.
+    """
+    count = {"soccer": 1, "baseball": 5, "basketball": 2}.get(sport)
+    if count is None:
+        return {}
+    status = str(raw.get("gameStatus") or "").upper()
+    period = raw.get("period")
+    complete = (status == "FINAL"
+                or (sport == "soccer" and status == "BREAK_TIME")
+                or (status == "IN_PROGRESS" and type(period) is int and period > count))
+    if not complete:
+        return {}
+    teams = raw.get("teams") or {}
+    scores = []
+    for side in ("home", "away"):
+        rows = (teams.get(side) or {}).get("periodData")
+        if not isinstance(rows, list):
+            return {}
+        by_period = {}
+        for row in rows:
+            if not isinstance(row, dict):
+                return {}
+            number = row.get("period")
+            if type(number) is not int or number <= 0 or number in by_period:
+                return {}
+            by_period[number] = row.get("score")
+        values = [by_period.get(number) for number in range(1, count + 1)]
+        if any(type(value) is not int or value < 0 for value in values):
+            return {}
+        scores.append(sum(values))
+    return {"first_half_score": scores, "first_half_complete": True}
+
+
 def named_soccer_clock(raw: dict) -> dict:
     """NAMED 축구 중계의 최신 이벤트 시각을 전·후반 경과 분으로 바꾼다.
 
@@ -174,7 +218,8 @@ def named_soccer_clock(raw: dict) -> dict:
     예: 01:23 = 83분 = 후반 38분.
     """
     status = str(raw.get("gameStatus") or "").upper()
-    period = int(raw.get("period") or 0)
+    period = raw.get("period")
+    period = period if type(period) is int and period > 0 else 0
     if status == "BREAK_TIME":
         return {"period": period or 2, "elapsed_minute": 45,
                 "phase": "halftime", "label": "하프타임"}
@@ -229,6 +274,7 @@ def normalize_named_game(raw: dict, sport: str) -> dict:
     if clock:
         rec["clock"] = clock
     rec.update(named_match_progress(raw, sport))
+    rec.update(_named_first_half_evidence(raw, sport))
     if sport == "baseball" and status == "STARTED":
         period = raw.get("period")
         division = str(raw.get("inningDivision") or "").upper()
@@ -485,10 +531,17 @@ def _merge_duplicate(preferred: dict, other: dict) -> dict:
             preferred, other = other, preferred
     merged = {**other, **preferred}
     merged["stale"] = bool(preferred.get("stale"))
-    if other.get("stale") and not preferred.get("stale") or other.get("status") != preferred.get("status"):
-        for key in ("period_scores", "current_period", "timeline", "timeline_scope"):
-            if key not in preferred:
-                merged.pop(key, None)
+    # Scores and phase/period evidence belong to the preferred observation.
+    # Even two STARTED rows can describe opposite sides of halftime; never
+    # borrow an old clock/inning or half-score from the other provider/refresh.
+    for key in ("clock", "inning", "period_scores", "current_period", "timeline", "timeline_scope",
+                "first_half_score", "first_half_complete"):
+        if key not in preferred:
+            merged.pop(key, None)
+    if (preferred.get("first_half_complete") is not True
+            or "first_half_score" not in preferred):
+        merged.pop("first_half_score", None)
+        merged.pop("first_half_complete", None)
     # A failed-source row must not donate its outdated batter/runner state to a
     # successful source which only supplied scores.
     if (other.get("stale") and not preferred.get("stale")

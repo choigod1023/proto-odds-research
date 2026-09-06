@@ -1,5 +1,6 @@
 import { scheduledAt } from "./match-status.js";
 import { estimateLiveProbability } from "./bet-ledger.js";
+import { recommendationOutcome } from "./pick-result.js";
 
 const numeric = (value) => typeof value === "number" || (typeof value === "string" && value.trim())
   ? Number(value) : NaN;
@@ -23,6 +24,9 @@ export function savedLivePrediction(game, live = null, now = Date.now()) {
   const openingProbability = probability(record.probability);
   const result = { option, openingProbability, capturedAt: record.captured_at, estimate: null,
     estimateStatus: openingProbability === null ? "missing_opening" : "waiting_live" };
+  const outcome = recommendationOutcome(game, live, now);
+  if (["hit", "miss", "void"].includes(outcome.state)) return { ...result, outcome,
+    estimateStatus: live?.finished ? "closed" : "decided_market" };
   if (openingProbability === null || !live || live.status === "BEFORE") return result;
   if (live.finished || live.cancelled || live.postponed) return { ...result, estimateStatus: "closed" };
   // A freshly published document may carry an older cached league/game row.

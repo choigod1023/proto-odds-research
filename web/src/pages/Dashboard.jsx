@@ -80,9 +80,10 @@ export function BetCard({ bet, live, onRemove, onOpen }) {
       </div>}
       <div className="dashboard-probability">
         <div><small>구매 당시</small><b>{pct(bet.openingProbability)}</b></div>
-        <div><small>현재 상황 추정</small><b>{pct(estimate.probability)}</b></div>
+        <div><small>{estimate.outcome ? "픽 판정" : "현재 상황 추정"}</small><b>{estimate.outcome?.label || pct(estimate.probability)}</b></div>
         <div><small>변화</small><b className={change < 0 ? "text-sev3" : ""}>{change == null ? "–" : `${change >= 0 ? "+" : ""}${(change * 100).toFixed(1)}%p`}</b></div>
       </div>
+      {estimate.outcome && <p className="review-note">{estimate.outcome.note}</p>}
       {Number.isFinite(estimate.probability) && <ProbabilityTrack bet={bet} estimate={estimate} />}
       {bet.selectionSnapshot && <details className="saved-snapshot"><summary>선택 당시 기록 보기</summary>
         <p>선택 시각 {new Date(bet.selectionSnapshot.selectedAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} KST</p>
@@ -129,7 +130,7 @@ export function ComboCard({ group, index, onRemove, onOpen }) {
         <span className="ticket-leg-number">{position + 1}</span>
         <span><b>{bet.game.home} vs {bet.game.away}</b><small>{bet.selection.market}{bet.selection.label ? ` ${bet.selection.label}` : ""} · {bet.selection.choice} · {Number(bet.purchaseOdds).toFixed(2)}배</small></span>
         <span className="ticket-leg-live"><b>{live ? `${live.home_score ?? "–"}:${live.away_score ?? "–"}` : "경기 전"}</b><small>{live?.status_text || ""}</small></span>
-        <span className="ticket-leg-probability"><b>{pct(estimate.probability)}</b><small>{legOutcome === "hit" ? "적중" : legOutcome === "miss" ? "실패" : "현재 추정"}</small></span>
+        <span className="ticket-leg-probability"><b>{estimate.outcome?.label || pct(estimate.probability)}</b><small>{estimate.outcome?.note || (legOutcome === "hit" ? "적중" : legOutcome === "miss" ? "실패" : "현재 추정")}</small></span>
         <button type="button" className="record-detail-button" aria-haspopup="dialog" aria-label={`${bet.game.home} 대 ${bet.game.away} 경기정보 열기`} onClick={() => onOpen(bet.id)}>경기 상세</button>
       </div>)}</div>
       <footer>
