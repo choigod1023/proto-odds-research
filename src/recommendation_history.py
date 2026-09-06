@@ -49,7 +49,10 @@ def highlights(candidates):
         primary = [r for r in rows if number(r.get("odds")) >= 1.5]
         pool = sorted(primary or rows, key=lambda r: (
             -probability(r), -number(r.get("probability_lower_bound"), probability(r)),
-            number(r.get("odds")), str(r.get("kickoff_at") or r.get("date") or ""), selection_key(r)))
+            number(r.get("odds")), str(r.get("kickoff_at") or r.get("date") or ""),
+            # Intl localeCompare orders a field boundary before a following
+            # digit: game 1 precedes 10. Raw ASCII on the joined key does not.
+            tuple(selection_key(r).split("|"))))
         result.update(selection_key(r) for i, r in enumerate(pool) if i < 3 or probability(r) >= .6)
     return result
 

@@ -78,6 +78,7 @@ def test_highlight_policy_matches_browser():
              candidate(22, final_reversal=True, predicted_hit_prob=.9),
              candidate(23, is_market_favorite=False, predicted_hit_prob=.9),
              candidate(24, league="other", odds=1.3, predicted_hit_prob=.8)]
+    rows += [candidate(i, league="tied", predicted_hit_prob=.56) for i in (2, 1, 11, 10)]
     script = "import {dailyHighlightedSelections,selectionKey} from './web/src/lib/unified-recommendation.js';let input='';for await(const c of process.stdin) input+=c;console.log(JSON.stringify(dailyHighlightedSelections(JSON.parse(input)).map(r=>selectionKey(r))));"
     actual = subprocess.run(["node", "--input-type=module", "-e", script], input=json.dumps(rows),
                             text=True, encoding="utf-8", capture_output=True, cwd=ROOT, check=True)
