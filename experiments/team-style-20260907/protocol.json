@@ -1,0 +1,35 @@
+{
+  "schema": "team-style-ablation-v1",
+  "production_allowed": false,
+  "training_start": "2023-01-01",
+  "evaluation_start": "2025-01-01",
+  "evaluation_end": "2026-08-25",
+  "refit": "quarterly",
+  "embargo_days": 7,
+  "minimum_training_markets": 300,
+  "ridge": 100.0,
+  "block_calendar_weeks": 4,
+  "bootstrap_repeats": 10000,
+  "seed": 20260907,
+  "candidates": {
+    "control": [],
+    "scoring": ["scoring"],
+    "full": ["scoring", "variance", "opponent", "matchup"],
+    "no_variance": ["scoring", "opponent", "matchup"],
+    "no_opponent": ["scoring", "variance", "matchup"],
+    "no_matchup": ["scoring", "variance", "opponent"],
+    "no_scoring": ["variance", "opponent", "matchup"]
+  },
+  "limitations": [
+    "Exploratory retrospective archive already inspected in previous experiments; not pristine holdout.",
+    "Odds observed_at and result available_at missing; next-day result availability is an assumption, not verified historical T-30 replay.",
+    "Score histories cover bookmaker-listed confirmed games, not guaranteed complete league schedules.",
+    "No historical as-of xG, possession counts, starters, bullpen, injuries or lineups; no synthetic substitutions.",
+    "Volleyball archived scores may be set counts rather than rally points; no point-total interpretation.",
+    "Strong/weak means then-known league-centered Elo +/-50, not final standings; small samples shrink toward zero.",
+    "All matched markets evaluated, not deployed historical highlights; multiple markets per event and flat-stake ROI are correlated diagnostics.",
+    "Holm covers all leagues, seven paired comparisons and both losses; block-bootstrap p-values are approximate and assume limited dependence.",
+    "No-scoring ablation was added after first-run results were inspected. Other model definitions and ridge were not selected using those results.",
+    "Frozen ridge and feature definitions are hypotheses, not optimized league weights; no operating promotion allowed."
+  ]
+}
