@@ -1,0 +1,30 @@
+{
+  "schema": "retrospective-calibration-protocol-v1",
+  "train_start": "2026-09-04",
+  "evaluation_start": "2026-09-06",
+  "evaluation_end": "2026-09-07",
+  "freeze_minutes": 30,
+  "candidates": [
+    {"name": "global", "levels": ["global"], "half_life_days": null},
+    {"name": "sport", "levels": ["global", "sport"], "half_life_days": null},
+    {"name": "league_market", "levels": ["global", "sport", "league", "market"], "half_life_days": null},
+    {"name": "recent_league_market", "levels": ["global", "sport", "league", "market"], "half_life_days": 3}
+  ],
+  "ridge": {"global": 5, "sport": 10, "league": 20, "market": 20},
+  "max_iterations": 500,
+  "tolerance": 1e-9,
+  "primary_metrics": ["brier", "log_loss"],
+  "alpha": 0.05,
+  "outcomes_previously_inspected": true,
+  "historical_label_availability_verified": false,
+  "classification": "exploratory_retrospective_date_split",
+  "operating_changes_allowed": false,
+  "notes": [
+    "Fixed before this experiment's candidate metrics, but NOT preregistered before the games.",
+    "Ridge penalties and three-day half life are exploratory settings, not validated operating weights.",
+    "Train by earlier kickoff day; result availability at historical prediction time is unknown.",
+    "Keep picks and odds fixed: calibration cannot change their hit rate or flat-stake ROI.",
+    "Use official-market-derived hit/miss labels only; exclude score-derived, void, pending and future rows.",
+    "No hyperparameter search, winner-based threshold changes, automatic promotion or production imports."
+  ]
+}
