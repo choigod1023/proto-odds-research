@@ -80,11 +80,16 @@ def design(rows, columns, state=None):
     return x, state
 
 
-def fit(rows, cutoff, name, ridge):
+def fit(rows, cutoff, name, ridge, *, columns=None):
     scopes = {scope(r) for r in rows}
     if len(scopes) != 1 or max(r["day"] for r in rows) >= cutoff:
         raise ValueError("training must be strictly past and same league/market")
-    columns = feature_columns(CANDIDATES[name])
+    if columns is None:
+        columns = feature_columns(CANDIDATES[name])
+    else:
+        allowed = set(feature_columns(list(GROUPS)))
+        if len(set(columns)) != len(columns) or not set(columns) <= allowed:
+            raise ValueError("unique known team-style columns required")
     x, state = design(rows, columns)
     q = np.asarray([r["q"] for r in rows])
     offset = np.log(np.clip(q, 1e-12, 1))
@@ -101,8 +106,25 @@ def fit(rows, cutoff, name, ridge):
                 (x.T @ error[:, :-1]+ridge*beta).ravel())
     fitted = minimize(objective, np.zeros(x.shape[1]*(k-1)), jac=True, method="L-BFGS-B",
                       options={"maxiter": 250, "ftol": 1e-10, "gtol": 1e-6})
+    if not fitted.success:
+        # High penalties can exhaust L-BFGS line search at a nearly stationary
+        # point. Solve the SAME strictly convex objective with an exact Hessian;
+        # never omit a failed candidate from model selection.
+        def hessian(flat):
+            beta = flat.reshape(x.shape[1], k-1)
+            logits = offset.copy()
+            logits[:, :-1] += x @ beta
+            prob = np.exp(logits-logsumexp(logits, axis=1)[:, None])
+            h = np.zeros((x.shape[1], k-1, x.shape[1], k-1))
+            for a in range(k-1):
+                for b in range(k-1):
+                    weight = prob[:, a]*((1. if a == b else 0.)-prob[:, b])
+                    h[:, a, :, b] = (x.T*weight) @ x
+            return h.reshape(len(flat), len(flat))+ridge*np.eye(len(flat))
+        fitted = minimize(objective, np.zeros_like(fitted.x), jac=True, hess=hessian, method="trust-exact",
+                          options={"maxiter": 100, "gtol": 1e-5})
     if not fitted.success or not np.isfinite(fitted.fun):
-        raise ValueError("fit failed: "+str(fitted.message))
+        raise ValueError(f"fit failed for {next(iter(scopes))}, cutoff={cutoff}, ridge={ridge}: {fitted.message}")
     return {"scope": list(next(iter(scopes))), "cutoff": cutoff, "training_n": len(rows),
             "columns": columns, "state": state,
             "beta": fitted.x.reshape(x.shape[1], k-1).tolist()}
