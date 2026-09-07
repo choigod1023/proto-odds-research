@@ -39,7 +39,7 @@ def file_hash(path):
     return h.hexdigest()
 
 
-def normalize(raw, protocol):
+def normalize(raw, protocol, *, include_void=False):
     """Reject ambiguous reissued prices/results; retain exact match times."""
     counts, scopes = Counter(), Counter()
     frame = raw.fillna("").copy()
@@ -71,11 +71,12 @@ def normalize(raw, protocol):
         if void_flag not in ("true", "1", "false", "0"):
             counts["invalid_void_flag"] += 1
             continue
-        if void_flag in ("true", "1"):
+        is_void = void_flag in ("true", "1")
+        if is_void and not include_void:
             counts["void"] += 1
             continue
         result = str(values["result"]).strip()
-        if result not in SUPPORTED[(market, n)]:
+        if not is_void and result not in SUPPORTED[(market, n)]:
             counts["unknown_or_unsettled:"+market+":"+result] += 1
             continue
         try:
@@ -102,7 +103,7 @@ def normalize(raw, protocol):
             counts["unsupported_period_or_booking"] += 1
             continue
         offer = (*event, market, str(values["booking_class"]), label, n)
-        winner = winner_index(n, result)
+        winner = None if is_void else winner_index(n, result)
         previous = records.get(offer)
         if previous is not None:
             if previous["odds"] != odds or previous["winner"] != winner:
@@ -113,7 +114,8 @@ def normalize(raw, protocol):
         records[offer] = {"event": digest(event), "offer": digest(offer), "day": day,
                           "kickoff": kickoff.isoformat(), "sport": sport, "league": league,
                           "home_team": home, "away_team": away,
-                          "market": market, "n_way": n, "odds": odds, "winner": winner}
+                          "market": market, "n_way": n, "odds": odds, "winner": winner,
+                          "market_label": label, "is_void": is_void}
     clean = [r for key, r in records.items() if key not in conflicts]
     for row in clean:
         row["q"] = market_probabilities(list(row["odds"]))
