@@ -12,6 +12,30 @@ const finalScore = (home, away) => ({
   status: "RESULT", finished: true, home_score: home, away_score: away,
 });
 
+test("official first-half markets settle without borrowing the full-time score", () => {
+  for (const [market, choice, label, n, result, state] of [
+    ["전반핸디캡", "전반핸디원정", "h H -1.5", 2, "핸디패", "hit"],
+    ["전반언더오버", "전반언더", "h U 5.5", 2, "언더", "hit"],
+    ["전반언더오버", "전반오버", "h U 5.5", 2, "언더", "miss"],
+    ["전반승무패", "전반무", "h(전반)", 3, "무승부", "hit"],
+    ["전반승패", "전반원정", "h(전반)", 2, "홈패", "hit"],
+    ["전반핸디캡", "전반핸디무", "h H -1", 3, "핸디무", "hit"],
+  ]) {
+    const g = game(market, choice, label);
+    const row = {home:g.home,away:g.away,date:g.date,market,label,n_way:n,result,game_no:"9915"};
+    g.options = [{selection_id:"saved-pick",게임번호:"9915"}];
+    g._officialMarkets = {9915:row};
+    assert.equal(recommendationOutcome(g).state, state);
+    assert.equal(recommendationOutcome(g).source, "official");
+    assert.equal(gamePhase(g,{status:"STARTED",finished:false}),"live");
+    assert.equal(gamePhase(g,finalScore(20,0)),"finished");
+    for (const changed of [{label:"other"},{date:"09.05(토) 18:00"},{game_no:"9999"},{market:"승패"},{result:"경기전"}]) {
+      g._officialMarkets = {9915:{...row,...changed}};
+      assert.equal(recommendationOutcome(g, finalScore(20,0)).state, "pending");
+    }
+  }
+});
+
 test("final live score resolves the saved pick before the slow publisher settles it", () => {
   const g = game();
   assert.equal(recommendationOutcome(g, finalScore(5, 2)).label, "적중");

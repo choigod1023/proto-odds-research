@@ -22,7 +22,9 @@ export function liveFeedWithFallback(direct, fallback) {
 
 export function gamePhase(game, live = game?._liveState, now = Date.now()) {
   const outcome = recommendationOutcome(game, live);
-  if (["hit", "miss", "void"].includes(outcome.state)) return "finished";
+  // An official first-half settlement finishes the pick, not the whole game.
+  const partialMarket = String(game?.prediction_record?.market || "").startsWith("전반");
+  if (!partialMarket && ["hit", "miss", "void"].includes(outcome.state)) return "finished";
   if (live?.cancelled || live?.postponed) return "pending";
   const observed = new Date(live?.observed_at || game?._liveFeedAt || 0).getTime();
   const feedFresh = !observed || Number(now) - observed <= 10 * 60 * 1000;

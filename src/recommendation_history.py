@@ -107,7 +107,14 @@ def settle_history(history, odds, now):
             names = {"승패": ["홈", "원정"], "승무패": ["홈", "무", "원정"],
                      "핸디캡": ["핸디홈", "핸디무", "핸디원정"] if three else ["핸디홈", "핸디원정"],
                      "언더오버": ["언더", "오버"], "승①패": ["홈2+", "1점차", "원정2+"],
-                     "승⑤패": ["홈6+", "5점차이내", "원정6+"], "홀짝": ["홀", "짝"]}.get(entry.get("market"))
+                     "승⑤패": ["홈6+", "5점차이내", "원정6+"], "홀짝": ["홀", "짝"],
+                     # The exact period/line/game-number match above is required.
+                     # Never derive these settlements from a full-time score.
+                     "전반승패": ["전반홈", "전반원정"],
+                     "전반승무패": ["전반홈", "전반무", "전반원정"],
+                     "전반핸디캡": (["전반핸디홈", "전반핸디무", "전반핸디원정"]
+                                 if three else ["전반핸디홈", "전반핸디원정"]),
+                     "전반언더오버": ["전반언더", "전반오버"]}.get(entry.get("market"))
             winners = ({"홈승": 0, "핸디승": 0, "무승부": 1, "핸디무": 1, "①": 1, "⑤": 1, "홈패": 2, "핸디패": 2}
                        if three else {"홈승": 0, "핸디승": 0, "언더": 0, "홀": 0, "홈패": 1, "핸디패": 1, "오버": 1, "짝": 1})
             if not names or len(names) != row.get("n_way") or entry.get("sel") not in names or outcome not in winners:

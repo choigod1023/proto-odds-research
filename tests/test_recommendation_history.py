@@ -83,3 +83,25 @@ def test_highlight_policy_matches_browser():
     actual = subprocess.run(["node", "--input-type=module", "-e", script], input=json.dumps(rows),
                             text=True, encoding="utf-8", capture_output=True, cwd=ROOT, check=True)
     assert highlights(rows) == set(json.loads(actual.stdout))
+
+
+@pytest.mark.parametrize("market,choice,label,n,result,expected", [
+    ("전반핸디캡", "전반핸디원정", "h H -1.5", 2, "핸디패", "hit"),
+    ("전반언더오버", "전반언더", "h U 5.5", 2, "언더", "hit"),
+    ("전반언더오버", "전반오버", "h U 5.5", 2, "언더", "miss"),
+    ("전반승무패", "전반무", "h(전반)", 3, "무승부", "hit"),
+    ("전반승패", "전반원정", "h(전반)", 2, "홈패", "hit"),
+    ("전반핸디캡", "전반핸디무", "h H -1", 3, "핸디무", "hit"),
+])
+def test_official_first_half_settlement_is_exact(market, choice, label, n, result, expected):
+    row = candidate(market=market, sel=choice, market_label=label, n_way=n)
+    history = capture_history(payload([row]), {}, NOW)
+    key = next(iter(history))
+    official = {**row, "label": label, "result": result}
+    later = NOW + timedelta(hours=5)
+    for changed in ({"label": "other"}, {"date": "09.07(월) 12:00"}, {"game_no": 999}, {"market": "승패"}):
+        settle_history(history, {"markets": {"1": {"1": {**official, **changed}}}}, later)
+        assert "result" not in history[key]
+    settle_history(history, {"markets": {"1": {"1": official}}}, later)
+    assert history[key]["result"] == expected
+    assert history[key]["result_source"] == "official"
