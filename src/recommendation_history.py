@@ -1,10 +1,26 @@
 """Archive the existing daily highlight policy, freezing exact offers at T-30."""
 from datetime import datetime, timedelta, timezone
+from copy import deepcopy
 import hashlib
 import math
 
 KST = timezone(timedelta(hours=9))
 POLICY = "daily-league-3-plus-60-v1"
+
+# Optional evidence only: never infer observation time from publication time or
+# synthesize model approval. Candidate-specific values take precedence, including None.
+SOURCE_PROVENANCE_FIELDS = (
+    "source_generated_at", "observed_at", "candidate_source", "probability_method",
+    "live_odds_at", "recommendation_revision",
+)
+CANDIDATE_PROVENANCE_FIELDS = SOURCE_PROVENANCE_FIELDS + (
+    "market_prob", "predicted_hit_prob", "final_probability", "probability_source",
+    "price_source", "selection_id", "offer_id", "decision_id", "decision_model",
+    "decision_pipeline_status", "decision_promotion_gate", "decision_artifact_hash",
+    "decision_pipeline_applied", "has_validated_edge", "policy_authorized",
+    "selection_basis", "probability_lower_bound", "probability_interval",
+    "uncertainty_source", "validated_uncertainty_available", "decision_evidence_ids",
+)
 
 
 def stamp(value):
@@ -24,8 +40,13 @@ def number(value, default=0):
 
 
 def probability(row):
-    p = number(row.get("predicted_hit_prob", row.get("final_probability")))
-    return p if 0 < p < 1 else number(row.get("market_prob"))
+    """Use the final estimate or a valid market fallback; missing is not zero."""
+    for value in (row.get("predicted_hit_prob", row.get("final_probability")),
+                  row.get("market_prob")):
+        p = number(value)
+        if 0 < p < 1:
+            return p
+    return None
 
 
 def selection_key(row):
@@ -38,9 +59,10 @@ def highlights(candidates):
     groups = {}
     for row in candidates:
         kickoff = stamp(row.get("kickoff_at"))
+        p = probability(row)
         if (not kickoff or row.get("market") == "홀짝" or row.get("final_reversal") is True
                 or row.get("is_market_favorite") is False
-                or not 1 < number(row.get("odds")) < 2.2 or probability(row) < .55):
+                or not 1 < number(row.get("odds")) < 2.2 or p is None or p < .55):
             continue
         group = (kickoff.astimezone(KST).date(), row.get("league") or "리그 미분류")
         groups.setdefault(group, []).append(row)
@@ -76,7 +98,11 @@ def capture_history(payload, previous, now):
         key = hashlib.sha256(event.encode()).hexdigest()[:24]
         fields = ("home", "away", "sport", "league", "date", "round", "game_no", "market",
                   "market_label", "sel", "odds", "kickoff_at", "n_way")
-        history[key] = {**{k: row.get(k) for k in fields}, "id": key,
+        provenance = {k: payload[k] for k in SOURCE_PROVENANCE_FIELDS if k in payload}
+        provenance.update({k: row[k] for k in CANDIDATE_PROVENANCE_FIELDS if k in row})
+        # Keep nested evidence independent of later candidate updates. This is
+        # inside the existing T-30 guard; frozen/legacy history is never backfilled.
+        history[key] = {**{k: row.get(k) for k in fields}, **deepcopy(provenance), "id": key,
                         "published_at": published.isoformat(), "recorded_at": now.isoformat(),
                         "recommended": selection_key(row) in chosen, "policy": POLICY,
                         "probability": probability(row)}
