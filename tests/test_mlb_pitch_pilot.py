@@ -13,7 +13,8 @@ from src.mlb_pitch_pilot import Collector, bullpen, create_db, extract, run
 def fixture():
     return {'gamePk': 1, 'gameData': {'datetime': {'officialDate': '2025-06-02'},
             'status': {'abstractGameState': 'Final'}, 'teams': {'home': {'id': 10}, 'away': {'id': 20}}},
-            'liveData': {'boxscore': {'teams': {'home': {'pitchers': [100, 101]}}},
+            'liveData': {'boxscore': {'teams': {'home': {'pitchers': [100, 101],
+                          'players': {f'ID{pid}': {'stats': {'pitching': {'numberOfPitches': 1}}} for pid in (100, 101)}}}},
                          'plays': {'allPlays': [
                              {'about': {'isTopInning': True, 'atBatIndex': i},
                               'matchup': {'pitcher': {'id': pitcher}},
@@ -67,6 +68,39 @@ class PilotTests(unittest.TestCase):
                 collector.get('feed', 'https://statsapi.mlb.com')
             collector.opener.open.assert_not_called()
             db.close()
+
+    def assert_incomplete_bullpen(self, feed):
+        g = extract(feed)
+        schedule = [dict(game_id=1, date='2025-06-02', teams=[10, 20])]
+        result = bullpen('2025-06-03', 10, [g], schedule, '2025-05-30')
+        self.assertFalse(result['coverage_complete'])
+        self.assertIsNone(result['bullpen_pitches'])
+        self.assertFalse(g['reconciliation'][0]['complete'])
+
+    def test_truncated_final_cannot_impute_zero_bullpen(self):
+        f = fixture()
+        f['liveData']['plays']['allPlays'].pop()
+        self.assert_incomplete_bullpen(f)
+
+    def test_missing_boxscore_counts_are_unknown(self):
+        for pid in (100, 101):
+            f = fixture()
+            f['liveData']['boxscore']['teams']['home']['players'][f'ID{pid}']['stats']['pitching'] = {}
+            self.assert_incomplete_bullpen(f)
+
+    def test_fallback_official_count(self):
+        f = fixture()
+        f['liveData']['boxscore']['teams']['home']['players']['ID101']['stats']['pitching'] = {'pitchesThrown': 1}
+        self.assertTrue(extract(f)['reconciliation'][0]['complete'])
+
+    def test_unknown_pitcher_retained_and_incomplete(self):
+        f = fixture()
+        f['liveData']['plays']['allPlays'][1]['matchup'] = {}
+        self.assert_incomplete_bullpen(f)
+        g = extract(f)
+        self.assertIsNone(g['pitches'][1]['pitcher_id'])
+        self.assertEqual(g['people'][1]['pitch_count'], 1)
+        self.assertIsNone(g['people'][1]['pitcher_id'])
 
     def test_http_denial_no_retry(self):
         for status in (403, 429):

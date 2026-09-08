@@ -52,9 +52,33 @@ def extract(feed):
         if key not in people:
             people[key] = dict(team_id=key[0], pitcher_id=key[1], is_starter=p['is_starter'], pitch_count=0)
         people[key]['pitch_count'] += 1
+    reconciliation = []
+    for side in ('home', 'away'):
+        team_id = data.get('teams', {}).get(side, {}).get('id')
+        team_box = box.get(side, {})
+        listed = team_box.get('pitchers') or []
+        observed = {pid: p['pitch_count'] for (tid, pid), p in people.items() if tid == team_id}
+        issues = []
+        if not listed or team_id is None:
+            issues.append('missing pitcher list or team ID')
+        if None in observed or any(p['team_id'] is None for p in pitches):
+            issues.append('unknown pitcher/team ID')
+        for pid in set(listed) | set(observed):
+            stats = team_box.get('players', {}).get(f'ID{pid}', {}).get('stats', {}).get('pitching', {})
+            expected = stats.get('numberOfPitches')
+            if expected is None:
+                expected = stats.get('pitchesThrown')
+            if type(expected) is not int or expected < 0:
+                issues.append(f'pitcher {pid}: missing/invalid official pitch count')
+            elif observed.get(pid, 0) != expected:
+                issues.append(f'pitcher {pid}: extracted {observed.get(pid, 0)} != official {expected}')
+            if pid not in listed:
+                issues.append(f'pitcher {pid}: absent from pitcher list')
+        reconciliation.append(dict(team_id=team_id, complete=not issues, issues=issues))
     return dict(game_id=feed['gamePk'], date=data['datetime']['officialDate'],
                 final=data.get('status', {}).get('abstractGameState') == 'Final',
-                pitches=pitches, people=list(people.values()), duplicates=duplicates)
+                pitches=pitches, people=list(people.values()), duplicates=duplicates,
+                reconciliation=reconciliation)
 
 
 def bullpen(target_date, team_id, games, schedule, start_date, days=3):
@@ -71,6 +95,8 @@ def bullpen(target_date, team_id, games, schedule, start_date, days=3):
             complete = False
             continue
         rows = [p for p in g['people'] if p['team_id'] == team_id]
+        if not any(r['team_id'] == team_id and r['complete'] for r in g.get('reconciliation', [])):
+            complete = False
         if not rows or any(p['is_starter'] is None for p in rows) or any(p['team_id'] is None for p in g['pitches']):
             complete = False
         count += sum(p['pitch_count'] for p in rows if p['is_starter'] is False)
@@ -163,10 +189,13 @@ def run(args):
                 for g in schedule for team in g['teams']]
     summary = dict(start=args.start, end=args.end, selection='chronological prefix (date, gamePk)',
                    scheduled_games=len(schedule), selected_games=len(selected), collected_games=len(games),
-                   incomplete=bool(errors) or len(games) < len(schedule), final_games=sum(g['final'] for g in games),
+                   incomplete=bool(errors) or len(games) < len(schedule) or any(not r['complete'] for g in games for r in g['reconciliation']), final_games=sum(g['final'] for g in games),
                    scheduled_date_coverage=dict(Counter(g['date'] for g in schedule)),
                    collected_date_coverage=dict(Counter(g['date'] for g in games)),
                    pitches=len(pitches), pitcher_id_present=sum(p['pitcher_id'] is not None for p in pitches),
+                   unknown_pitcher_pitches=sum(p['pitcher_id'] is None for p in pitches),
+                   reconciled_team_games=sum(r['complete'] for g in games for r in g['reconciliation']),
+                   reconciliation_issues=[dict(game_id=g['game_id'], **r) for g in games for r in g['reconciliation'] if not r['complete']],
                    speed_present=sum(p['speed'] is not None for p in pitches),
                    person_game_rows=sum(len(g['people']) for g in games),
                    games_with_pitches=sum(bool(g['pitches']) for g in games),
