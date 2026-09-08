@@ -23,7 +23,9 @@ export const hitProbabilityOf = (selection) => {
   if (Number.isFinite(finalProbability) && finalProbability > 0 && finalProbability < 1) {
     return finalProbability;
   }
-  return probabilityOf(selection);
+  const marketProbability = probabilityOf(selection);
+  return Number.isFinite(marketProbability) && marketProbability > 0 && marketProbability < 1
+    ? marketProbability : null;
 };
 const modelProbabilityOf = (selection) => Number(
   selection?.model_prob ?? selection?.["모델확률"],
@@ -64,6 +66,9 @@ export function eligibleAutoSelections(selections) {
     if (EXCLUDED_MARKETS.has(String(selection.market || "").trim())) return false;
     const odds = oddsOf(selection);
     if (!Number.isFinite(odds) || odds <= 1 || odds >= MAX_AUTO_ODDS) return false;
+    // Reject missing/invalid estimates before price priority or ranking can
+    // select them. NaN subtraction and null coercion are not eligibility checks.
+    if (!Number.isFinite(hitProbabilityOf(selection))) return false;
     if (selection.is_market_favorite === false) return false;
     const key = groupKey(selection);
     const probability = probabilityOf(selection);

@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 import shutil
@@ -8,7 +9,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from recommendation_history import capture_history, highlights, selection_key, settle_history
+from recommendation_history import capture_history, highlights, probability, selection_key, settle_history
 from runtime_db import RuntimeDatabase
 
 NOW = datetime(2026, 9, 6, 0, tzinfo=timezone.utc)
@@ -23,6 +24,96 @@ def candidate(i=1, **kw):
 
 def payload(rows, now=NOW):
     return {"generated_at": now.isoformat(), "candidates": rows}
+
+
+INVALID_PROBABILITIES = [None, "", "bad", 0, -0.1, 1, 1.2,
+                         float("nan"), float("inf"), -float("inf"), "NaN", "Infinity"]
+
+
+@pytest.mark.parametrize("invalid", INVALID_PROBABILITIES)
+def test_invalid_final_falls_back_only_to_valid_market(invalid):
+    row = candidate(predicted_hit_prob=invalid, market_prob="0.56")
+    assert probability(row) == .56
+    assert highlights([row]) == {selection_key(row)}
+
+
+@pytest.mark.parametrize("invalid", INVALID_PROBABILITIES)
+def test_invalid_market_fallback_is_missing_and_never_highlighted(invalid):
+    row = candidate(predicted_hit_prob=1.2, market_prob=invalid)
+    assert probability(row) is None
+    assert highlights([row]) == set()
+    entry = next(iter(capture_history(payload([row]), {}, NOW).values()))
+    assert entry["probability"] is None
+    assert entry["recommended"] is False
+
+
+def test_legacy_final_probability_and_valid_final_remain_supported():
+    row = candidate(final_probability="0.61")
+    del row["predicted_hit_prob"]
+    assert probability(row) == .61
+    assert probability(candidate(predicted_hit_prob=.62, market_prob=1.2)) == .62
+
+
+def test_capture_copies_available_provenance_without_substituting_publication_time():
+    metadata = {
+        "observed_at": "2026-09-05T23:50:00+00:00",
+        "market_prob": .56, "predicted_hit_prob": .56,
+        "price_source": "live_odds", "probability_source": "shin_market_fallback",
+        "decision_id": "decision-original", "decision_model": "shin-market-anchor-v1",
+        "decision_pipeline_status": "market_fallback", "decision_promotion_gate": None,
+        "decision_artifact_hash": None, "decision_pipeline_applied": False,
+        "has_validated_edge": False, "policy_authorized": False,
+        "validated_uncertainty_available": False, "uncertainty_source": "shin_market_fallback",
+        "probability_lower_bound": .56, "probability_interval": None,
+        "selection_basis": "shin_market_fallback", "decision_evidence_ids": ["price-original"],
+    }
+    source = {
+        "source_generated_at": "2026-09-05T23:55:00+00:00",
+        "observed_at": "2026-09-05T23:54:00+00:00",
+        "candidate_source": "live_odds", "probability_method": "shin",
+        "live_odds_at": "2026-09-05T23:55:00+00:00",
+        "recommendation_revision": "revision-original",
+    }
+    row = candidate(**deepcopy(metadata))
+    current = {**payload([row]), **source}
+    entry = next(iter(capture_history(current, {}, NOW).values()))
+    for field, value in {**source, **metadata}.items():
+        assert entry[field] == value
+    assert entry["published_at"] == entry["recorded_at"] == NOW.isoformat()
+    assert entry["probability"] == .56
+    row["decision_evidence_ids"].append("later-price")
+    assert entry["decision_evidence_ids"] == ["price-original"]
+
+
+def test_missing_provenance_stays_missing_and_explicit_unknown_stays_unknown():
+    row = candidate(observed_at=None, decision_artifact_hash=None)
+    current = {**payload([row]), "observed_at": "2026-09-05T23:50:00+00:00"}
+    entry = next(iter(capture_history(current, {}, NOW).values()))
+    assert entry["observed_at"] is None
+    assert entry["decision_artifact_hash"] is None
+    assert entry["market_prob"] == .56
+    for field in ("source_generated_at", "candidate_source", "probability_source",
+                  "decision_model", "has_validated_edge", "validated_uncertainty_available"):
+        assert field not in entry
+
+
+@pytest.mark.parametrize("legacy", [False, True])
+def test_t30_freezes_provenance_with_the_exact_offer_and_preserves_legacy_entries(legacy):
+    row = candidate(decision_id="original", decision_evidence_ids=["original"])
+    current = {**payload([row]), "source_generated_at": "2026-09-05T23:50:00+00:00"}
+    history = capture_history(current, {}, NOW)
+    if legacy:
+        for entry in history.values():
+            for field in ("decision_id", "decision_evidence_ids", "source_generated_at",
+                          "market_prob", "predicted_hit_prob"):
+                entry.pop(field, None)
+    before = deepcopy(history)
+    freeze = NOW + timedelta(hours=2, minutes=30)
+    replacement = candidate(sel="원정", odds=1.8, predicted_hit_prob=.8,
+                            decision_id="replacement", decision_evidence_ids=["replacement"])
+    later = {**payload([replacement], freeze), "source_generated_at": freeze.isoformat()}
+    assert capture_history(later, {"recommendation_history": history}, freeze) == before
+    assert history == before
 
 
 def test_freeze_dedup_partial_and_no_postgame_backfill():

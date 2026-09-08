@@ -6,6 +6,7 @@ import { eligibleAutoSelections, eligibleFinalSelections, finalRecommendedSelect
   UPSET_MIN_MARKET_PROBABILITY, UPSET_MIN_MODEL_GAP, UPSET_MIN_MODEL_PROBABILITY,
   UPSET_MIN_ODDS } from "./recommendation-policy.js";
 import { lessBadPick } from "./fmt.js";
+import { dailyHighlightedSelections, dailyRecommendationDecisions } from "./unified-recommendation.js";
 
 const choice = (sel, odds, probability, market = "승패") => ({
   event_key: "game-a",
@@ -21,6 +22,32 @@ const reverse = { ...choice("원정", 2.05, 0.42), model_prob: 0.55 };
 const high = { ...choice("홈", 2.2, 0.52), event_key: "game-b" };
 const oddEven = { ...choice("홀", 1.7, 0.55, "홀짝"), event_key: "game-c" };
 const tooLow = { ...choice("홈", 1.49, 0.68), event_key: "game-d" };
+
+const invalidProbabilities = [undefined, null, "", "bad", 0, -0.1, 1, 1.2,
+  NaN, Infinity, -Infinity, "NaN", "Infinity"];
+for (const finalField of ["predicted_hit_prob", "예상적중확률", "final_probability", "최종확률"]) {
+  for (const invalid of invalidProbabilities) {
+    const fallback = { ...favorite, [finalField]: invalid, market_prob: "0.58" };
+    assert.equal(hitProbabilityOf(fallback), 0.58, "invalid final uses the valid market baseline");
+    assert.equal(finalRecommendedSelection([fallback]), fallback);
+  }
+}
+for (const marketField of ["market_prob", "시장확률"]) {
+  for (const invalid of invalidProbabilities) {
+    const row = { ...favorite, market_prob: undefined, [marketField]: invalid,
+      predicted_hit_prob: 1.2, kickoff_at: "2026-09-08T19:30:00+09:00", league: "K리그1" };
+    assert.equal(hitProbabilityOf(row), null, "invalid market fallback is unavailable");
+    assert.deepEqual(eligibleAutoSelections([row]), []);
+    assert.deepEqual(eligibleFinalSelections([row]), []);
+    assert.equal(finalRecommendedSelection([row]), null);
+    assert.equal(finalRecommendedSelection([row, tooLow]), tooLow,
+      "an invalid preferred-price row cannot suppress a valid fallback");
+    assert.deepEqual(dailyHighlightedSelections([row]), []);
+    assert.equal(dailyRecommendationDecisions([row])[0].recommended, false);
+  }
+}
+assert.equal(hitProbabilityOf({ ...favorite, predicted_hit_prob: .62, market_prob: 1.2 }), .62);
+assert.equal(hitProbabilityOf({ "최종확률": "bad", "시장확률": "0.58" }), .58);
 
 assert.equal(MIN_AUTO_ODDS, 1.5);
 assert.equal(PREFERRED_AUTO_ODDS, 1.5);
