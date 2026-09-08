@@ -88,6 +88,7 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
     audit = {
         "class_order": ["H", "D", "A"], "feature_names": FEATURE_NAMES,
         "policy": {"decision_minutes_before_kickoff": 30,
+                   "maximum_odds_age_minutes": 35,
                    "snapshot_availability_lag_hours": 24, "maximum_snapshot_age_days": 7,
                    "target_source": "explicit archive result label only",
                    "odds_source": "timestamped snapshots only; no archive-odds fallback"},
@@ -133,6 +134,8 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
                     counts["unsupported_league_snapshots"] += 1
                     continue
                 home, away = raw["home_team"], raw["away_team"]
+                if not all(isinstance(v, str) and v.strip() for v in (home, away)):
+                    raise ValueError('Invalid team identity')
                 if home not in K1_ALIASES or away not in K1_ALIASES:
                     for name in (home, away):
                         if name not in K1_ALIASES:
@@ -158,6 +161,9 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
     conflicts = set()
     for row in csv_rows(games_path):
         counts["archive_rows"] += 1
+        if any(not isinstance(row.get(k), str) for k in ('home','away','is_void','date_text','year','round')):
+            counts['malformed_archive_rows'] += 1
+            continue
         if not three_way(row):
             continue
         if row.get("is_void", "").lower() not in ("false", "0"):
@@ -193,6 +199,7 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
     counts["conflicting_result_fixtures"] = len(conflicts)
     counts["settled_fixtures_in_window"] = len(events)
     markets = {}
+    latest_closed = {}
     ambiguous_markets = set()
     for path in odds_paths:
         if not path.is_file():
@@ -209,9 +216,13 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
                 if at > key[0] - timedelta(minutes=30):
                     counts["odds_after_t30"] += 1
                     continue
+                if key[0] - timedelta(minutes=30) - at > timedelta(minutes=35):
+                    counts['stale_odds_before_t30'] += 1
+                    continue
                 # A recorded final/cancelled market is not an executable pregame quote.
                 if row.get("result") not in ("", "경기전"):
                     counts["odds_not_pregame_state"] += 1
+                    latest_closed[key] = max(at, latest_closed.get(key, at))
                     continue
                 odds = valid_odds(row["odds"])
             except (KeyError, ValueError, TypeError):
@@ -234,6 +245,8 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
             reason = "missing_xg_with_24h_lag_by_t30"
         elif key not in markets:
             reason = "missing_timestamped_pregame_odds_by_t30"
+        elif key in latest_closed and latest_closed[key] >= markets[key]['at']:
+            reason = 'latest_market_closed'
         elif key in ambiguous_markets:
             reason = "conflicting_latest_odds"
         if reason is None:
@@ -249,6 +262,8 @@ def build_rows(games_path, xg_path, odds_paths, *, since, until):
         snap, market = chosen[0], markets[key]
         event_id = "kleague1|" + "|".join([kick.isoformat(), home, away])
         rows.append({"event_id": event_id, "league": "kleague1", "kickoff": kick.isoformat(),
+                     "feature_availability_verified": False,
+                     "feature_provenance": "batch_start_plus_assumed_24h_lag",
                      "feature_as_of": snap["available"].isoformat(), "features": snap["features"],
                      "target": target, "odds": market["odds"], "odds_as_of": market["at"].isoformat()})
         audit["provenance"].append({"event_id": event_id, "decision_at": decision.isoformat(),
@@ -274,18 +289,21 @@ def fixed_probe(rows):
     scores = defaultdict(list)
     for row in rows:
         hf, ha, af, aa = row["features"]
+        rates = (hf/2+aa/2, af/2+ha/2)
+        if any(not math.isfinite(v) or not 0 <= v <= 50 for v in rates):
+            return {'n': len(rows), 'status': 'poisson_numerical_range_exceeded'}
         def pmf(rate):
             p = [math.exp(-rate)]
             for k in range(1, 100):
                 p.append(p[-1] * rate / k)
             return p
-        h, a = pmf((hf + aa) / 2), pmf((af + ha) / 2)
+        h, a = pmf(rates[0]), pmf(rates[1])
         xg = [0., 0., 0.]
         for i, hi in enumerate(h):
             for j, aj in enumerate(a):
                 xg[0 if i > j else 1 if i == j else 2] += hi * aj
         total = sum(xg)
-        if total == 0:
+        if not math.isfinite(total) or total <= 0:
             return {"n": len(rows), "status": "poisson_numerical_range_exceeded"}
         xg = [v / total for v in xg]
         inv = [1 / o for o in row["odds"]]

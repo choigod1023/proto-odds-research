@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from soccer_context_pilot import build_rows, fixture
+from soccer_context_pilot import build_rows, fixture, fixed_probe
 
 
 class SoccerContextPilotTests(unittest.TestCase):
@@ -46,7 +46,9 @@ class SoccerContextPilotTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["target"], 1)  # Display says 9-0; explicit label owns target.
         self.assertEqual(set(rows[0]), {"event_id", "league", "kickoff", "feature_as_of",
-                                        "features", "target", "odds", "odds_as_of"})
+                                        "features", "target", "odds", "odds_as_of",
+                                        'feature_availability_verified', 'feature_provenance'})
+        self.assertFalse(rows[0]['feature_availability_verified'])
         self.assertEqual(rows[0]["feature_as_of"], "2026-08-01T10:00:00+00:00")
         self.assertTrue(audit["insufficient_sample"])
         self.assertFalse(audit["model_fitted"])
@@ -80,6 +82,28 @@ class SoccerContextPilotTests(unittest.TestCase):
         rows, audit = self.run_adapter(odds=[self.odds, dict(self.odds, odds="3,3,3")])
         self.assertFalse(rows)
         self.assertEqual(audit["counts"]["conflicting_latest_odds"], 1)
+
+    def test_stale_odds_rejected(self):
+        rows, audit = self.run_adapter(odds=[dict(self.odds, ts='2026-08-01T09:24:59Z')])
+        self.assertFalse(rows)
+        self.assertEqual(audit['counts']['stale_odds_before_t30'],1)
+
+    def test_latest_cancellation_does_not_revive_old_price(self):
+        rows, audit = self.run_adapter(odds=[dict(self.odds,ts='2026-08-01T09:59:00Z'),dict(self.odds,result='취소')])
+        self.assertFalse(rows)
+        self.assertEqual(audit['counts']['latest_market_closed'],1)
+
+    def test_bad_identity_and_truncated_source_do_not_crash(self):
+        rows, audit = self.run_adapter(snapshots=[dict(self.xg,home_team=None),dict(self.xg,home_team='Unknown')])
+        self.assertFalse(rows)
+        self.assertEqual(audit['counts']['invalid_snapshot_fields'],1)
+        rows, audit = self.run_adapter(games=[dict(self.game,is_void=None)])
+        self.assertFalse(rows)
+
+    def test_numerical_overflow_is_a_status_not_nan(self):
+        result=fixed_probe([dict(features=[1e308]*4,target=0,odds=[2,3,4])])
+        self.assertEqual(result['status'],'poisson_numerical_range_exceeded')
+        json.dumps(result,allow_nan=False)
 
     def test_no_opponent_reversal_or_same_year_pair_join(self):
         rows, _ = self.run_adapter(snapshots=[dict(self.xg, home_team="Jeonbuk Motors", away_team="FC Seoul")])
