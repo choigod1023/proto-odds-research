@@ -29,6 +29,13 @@ export function recommendationOutcome(game, live = game?._liveState) {
       "핸디캡": row.n_way === 3 ? ["핸디홈", "핸디무", "핸디원정"] : ["핸디홈", "핸디원정"],
       "언더오버": ["언더", "오버"], "승①패": ["홈2+", "1점차", "원정2+"],
       "승⑤패": ["홈6+", "5점차이내", "원정6+"], "홀짝": ["홀", "짝"],
+      // Only an exact official period market may settle a first-half pick.
+      // The full-time score fallback below deliberately remains unsupported.
+      "전반승패": ["전반홈", "전반원정"],
+      "전반승무패": ["전반홈", "전반무", "전반원정"],
+      "전반핸디캡": row.n_way === 3
+        ? ["전반핸디홈", "전반핸디무", "전반핸디원정"] : ["전반핸디홈", "전반핸디원정"],
+      "전반언더오버": ["전반언더", "전반오버"],
     }[record.market];
     const winners = row.n_way === 3
       ? { 홈승: 0, 핸디승: 0, 무승부: 1, 핸디무: 1, "①": 1, "⑤": 1, 홈패: 2, 핸디패: 2 }
