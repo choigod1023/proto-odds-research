@@ -1,0 +1,38 @@
+name: nonlinear-research-tests
+
+on:
+  pull_request:
+    paths:
+      - "src/nonlinear_*.py"
+      - "tests/test_nonlinear_*.py"
+      - "scripts/nonlinear_policy_bridge.mjs"
+      - "requirements-research.txt"
+      - "experiments/nonlinear-accuracy-20260908/protocol.json"
+      - ".github/workflows/nonlinear-research-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  research-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-research.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated research dependencies
+        run: python -m pip install -r requirements-research.txt
+      - name: Test causal archive, real CatBoost offset and production selector
+        env:
+          OPENBLAS_NUM_THREADS: "1"
+          OMP_NUM_THREADS: "1"
+        run: python -m pytest tests/test_nonlinear_features.py tests/test_nonlinear_accuracy_lab.py -q
