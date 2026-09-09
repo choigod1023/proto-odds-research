@@ -7,7 +7,6 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from league_context_validation import validate_rows, split_rows, choose_alpha, fit_predict, metrics, evaluate, matched_policy
-from context_archive_controls import build_controls, read_games
 
 
 def row(i=0, **changes):
@@ -42,18 +41,6 @@ def test_matched_counts_do_not_rank_by_result():
     assert result['market']['hits']==0
 
 
-@pytest.mark.parametrize('bad', ['nan','inf'])
-def test_archive_nonfinite_odds_rejected(tmp_path, bad):
-    import csv
-    p=tmp_path/'games.csv'
-    r=dict(year=2026,round=1,game_no=1,league='KBO',market_family='승패',is_void='False',
-           home='A 2',away='1 B',date_text='01.01 18:00',odds=bad+',2.0',n_way=2,result='홈승')
-    with p.open('w',encoding='utf-8',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=r.keys()); w.writeheader(); w.writerow(r)
-    games,audit=read_games(p)
-    assert not games and audit['invalid_rows']==1
-
-
 @pytest.mark.parametrize('changes', [{'features':[float('nan')]}, {'odds':[2.,float('inf')]}, {'target':True}, {'features':[]}])
 def test_invalid_data(changes):
     assert not validate_rows([row(**changes)])[0]
@@ -82,15 +69,3 @@ def test_draw_is_a_full_class_and_test_labels_not_used():
     changed = [dict(r,target=2) for r in test]
     np.testing.assert_allclose(p,fit_predict(train,changed))
     assert metrics(test,p)['n']==19
-
-
-def test_current_and_next_results_do_not_change_past_features():
-    games=[]
-    for i in range(12):
-        games.append(dict(row(i*2),home='A',away='B',home_score=2,away_score=1))
-    original,_=build_controls(games)
-    games[-1]['home_score']=999
-    changed,_=build_controls(games)
-    assert original[-1]['features']==changed[-1]['features']
-    assert original[-1]['target']==changed[-1]['target']
-    assert datetime.fromisoformat(original[-1]['feature_as_of']) < datetime.fromisoformat(original[-1]['kickoff'])

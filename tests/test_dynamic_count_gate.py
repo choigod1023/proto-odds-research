@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 import copy
 import unittest
+from unittest.mock import patch
 import numpy as np
 from scipy.optimize._numdiff import approx_derivative
 
@@ -59,6 +60,33 @@ class DynamicTests(unittest.TestCase):
              "kickoff":"2024-06-01T19:00:00+09:00","odds":[2,3,4]}
         with self.assertRaisesRegex(ValueError,"duplicate"):
             outcome.build_rows({},[row,row])
+
+    def test_favorite_probability_and_test_label_invariance(self):
+        rows = [{'features':[2+i%3/10,2.1+i%4/10],'odds':[1.8,3.4,4.1],'target':i%3}
+                for i in range(200)]
+        test = rows[:10]
+        before = outcome.fit_favorite(rows,test)
+        after = outcome.fit_favorite(rows,[{**r,'target':(r['target']+1)%3} for r in test])
+        np.testing.assert_allclose(before,after)
+        np.testing.assert_allclose(before.sum(axis=1),1)
+        self.assertTrue(np.all(before>0))
+
+    def test_rolling_refit_respects_two_day_cutoff(self):
+        rows = [{'kickoff':str(date(2024,1,1)+timedelta(days=i))+'T19:00:00+09:00',
+                 'features':[2,2], 'odds':[2,3,4], 'target':i%3} for i in range(202)]
+        seen = []
+        def predictor(train,test):
+            seen.append((train,test))
+            return np.tile([.5,.3,.2],(len(test),1))
+        _,_,audit = outcome.rolling_probabilities(rows,rows[-2:],predictor)
+        self.assertEqual(len(audit),2)
+        for train,test in seen:
+            cutoff = datetime_from_day(test[0]['kickoff'])-timedelta(days=2)
+            self.assertTrue(all(datetime_from_day(r['kickoff']) <= cutoff for r in train))
+
+
+def datetime_from_day(stamp):
+    return date.fromisoformat(stamp[:10])
 
 
 if __name__ == "__main__":
