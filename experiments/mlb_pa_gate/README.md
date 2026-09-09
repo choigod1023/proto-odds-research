@@ -2,7 +2,9 @@
 
 Standalone Python standard-library experiment. No production imports, networking,
 collection, model selection, or game-win predictions. Read the aggregate report for
-the restrictive five-category population and acquisition limitations.
+the six-category population and acquisition limitations. The tracked report dated
+20260909 describes the earlier five-class run; use the newly generated private
+report for reconciliation results.
 
 From the repository root:
 
@@ -22,7 +24,16 @@ Parameters: symmetric league pseudocount 1 per category, player prior strength
 100 per batter/pitcher, equal pooling. The first official date warms history;
 all games on each subsequent date are scored before any same-date update.
 Only those later dates enter aggregate scores. Probability order is
-K, BB-HBP, HR, otherhit, otherout. Brier uses the sum of five squared errors.
+K, BB-HBP, HR, otherhit, otherout, residualreach. Brier sums six squared errors.
+Residualreach covers field_error, catcher_interf and fielders_choice; unseen
+event types still fail closed into audited exclusions. This covers every observed
+PA event in the bounded cache, not a promise to accept every future API event.
+
+Actual cached team boxscore plateAppearances are compared separately for home and
+away. Batter PA differences and full affected play records are stored privately;
+missing counts/half-inning attribution stay explicit and never trigger imputation.
+Input and both implementation-file hashes are stored in SQLite and Markdown.
+Evaluation scores include distinct game counts and sparse-history diagnostics.
 
 Tests use synthetic feeds and cover event guards, unknown labels, duplicate
 identity, date isolation, future invariance, exact smoothing, unseen players,

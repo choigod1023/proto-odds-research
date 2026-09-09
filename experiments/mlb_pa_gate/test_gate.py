@@ -9,6 +9,7 @@ import tempfile
 import unittest
 
 from gate import CATEGORIES, LABELS, evaluate, extract, load, open_source, run, sha256, summarize
+from reconcile import reconcile
 
 
 def feed(labels=('strikeout',), day='2025-06-01', game=1):
@@ -34,12 +35,15 @@ def cache(path, feeds):
 class GateTests(unittest.TestCase):
     def test_mapping_and_exclusions(self):
         rows, audit = extract(feed(tuple(LABELS) + ('caught_stealing_2b', 'pickoff_2b',
-            'field_error', 'catcher_interf', 'new_unknown_label')))
+            'new_unknown_label')))
         self.assertEqual([r['outcome'] for r in rows], list(LABELS.values()))
         self.assertEqual(audit['accepted'], len(LABELS))
         self.assertEqual(audit['non_pa:caught_stealing_2b'], 1)
         self.assertEqual(audit['non_pa:pickoff_2b'], 1)
-        self.assertEqual(sum(v for k, v in audit.items() if k.startswith('unmapped:')), 3)
+        self.assertEqual(sum(v for k, v in audit.items() if k.startswith('unmapped:')), 1)
+        self.assertEqual(len(CATEGORIES), 6)
+        for label in ('field_error', 'catcher_interf', 'fielders_choice'):
+            self.assertEqual(LABELS[label], 'residualreach')
 
     def test_incomplete_nonatbat_missing_identity_and_duplicate(self):
         f = feed(('strikeout',) * 4)
@@ -64,7 +68,7 @@ class GateTests(unittest.TestCase):
         today = [p for p in pred if p['day'] == '2025-06-02']
         self.assertTrue(all(p['prior_pa'] == 2 and p['batter_history'] == 2 for p in today))
         candidate = next(p for p in today if p['model'] == 'batter_pitcher')
-        self.assertAlmostEqual(candidate['probabilities'][0], (2 + 100 * (3 / 7)) / 102)
+        self.assertAlmostEqual(candidate['probabilities'][0], (2 + 100 * (3 / 8)) / 102)
         self.assertAlmostEqual(sum(candidate['probabilities']), 1)
         changed = copy.deepcopy(rows)
         changed[2]['outcome'] = 'otherhit'
@@ -78,9 +82,9 @@ class GateTests(unittest.TestCase):
         rows = extract(feed())[0] + extract(feed(('single',), '2025-06-02', 2))[0]
         rows[1]['batter'], rows[1]['pitcher'] = 99, 88
         pred = evaluate(rows)
-        self.assertEqual(pred[0]['probabilities'], [0.2] * 5)
-        self.assertAlmostEqual(pred[0]['log_loss'], math.log(5))
-        self.assertAlmostEqual(pred[0]['brier'], 0.8)
+        self.assertEqual(pred[0]['probabilities'], [1 / 6] * 6)
+        self.assertAlmostEqual(pred[0]['log_loss'], math.log(6))
+        self.assertAlmostEqual(pred[0]['brier'], 5 / 6)
         for left, right in zip(pred[2]['probabilities'], pred[3]['probabilities']):
             self.assertAlmostEqual(left, right)
         scores = [s for s in summarize(pred) if s['day'] == 'ALL_EVALUATION']
@@ -121,6 +125,28 @@ class GateTests(unittest.TestCase):
         f = feed()
         f['gameData']['status']['abstractGameState'] = 'Live'
         self.assertEqual(extract(f)[1]['nonfinal_game'], 1)
+
+    def test_residuals_and_actual_team_boxscore(self):
+        f = feed(('field_error', 'catcher_interf', 'fielders_choice'))
+        for p in f['liveData']['plays']['allPlays']:
+            p['about']['halfInning'] = 'top'
+        f['liveData']['boxscore'] = {'teams': {'away': {
+            'teamStats': {'batting': {'plateAppearances': 3}},
+            'players': {'ID10': {'person': {'id': 10}, 'stats': {'batting': {'plateAppearances': 2}}},
+                        'ID11': {'person': {'id': 11}, 'stats': {'batting': {'plateAppearances': 1}}}}},
+            'home': {'teamStats': {'batting': {'plateAppearances': 0}}, 'players': {}}}}
+        rows = extract(f)[0]
+        result = reconcile(f, rows)
+        self.assertEqual(result[0]['delta'], 0)
+        self.assertEqual([r['delta'] for r in result[0]['player_differences']], [1, -1])
+        self.assertEqual(len(result[0]['evidence']), 3)
+        f['liveData']['boxscore']['teams']['away']['teamStats']['batting']['plateAppearances'] = 4
+        self.assertEqual(reconcile(f, rows)[0]['delta'], -1)
+        self.assertEqual(len(rows), 3)  # Never invent a PA to match a boxscore.
+        del f['liveData']['boxscore']
+        self.assertEqual(reconcile(f, rows)[0]['status'], 'missing')
+        f['liveData']['plays']['allPlays'][0]['about'].pop('halfInning')
+        self.assertEqual(reconcile(f, rows)[-1]['status'], 'unattributed')
 
 
 if __name__ == '__main__':

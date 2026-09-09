@@ -9,8 +9,9 @@ import json
 import math
 from pathlib import Path
 import sqlite3
+from reconcile import reconcile
 
-CATEGORIES = ('K', 'BB-HBP', 'HR', 'otherhit', 'otherout')
+CATEGORIES = ('K', 'BB-HBP', 'HR', 'otherhit', 'otherout', 'residualreach')
 # Fixed before evaluation: symmetric league pseudo-count 1/category;
 # each batter/pitcher gets 100 PA of league shrinkage, then equal pooling.
 LEAGUE_ALPHA = 1.0
@@ -21,7 +22,8 @@ LABELS = {
     'home_run': 'HR', 'single': 'otherhit', 'double': 'otherhit', 'triple': 'otherhit',
     'field_out': 'otherout', 'force_out': 'otherout',
     'grounded_into_double_play': 'otherout', 'double_play': 'otherout',
-    'triple_play': 'otherout', 'fielders_choice': 'otherout',
+    'triple_play': 'otherout', 'fielders_choice': 'residualreach',
+    'field_error': 'residualreach', 'catcher_interf': 'residualreach',
     'fielders_choice_out': 'otherout', 'sac_fly': 'otherout',
     'sac_bunt': 'otherout', 'sac_fly_double_play': 'otherout',
     'sac_bunt_double_play': 'otherout',
@@ -102,7 +104,8 @@ def load(path):
             accepted, counts = extract(feed)
             rows.extend(accepted)
             audit.update(counts)
-            games.append(dict(game=game, day=day, accepted=len(accepted), audit=dict(counts)))
+            games.append(dict(game=game, day=day, accepted=len(accepted), audit=dict(counts),
+                              reconciliation=reconcile(feed, accepted)))
             raw_hashes.append(actual)
     if not games or not rows:
         raise ValueError('Empty experiment')
@@ -116,7 +119,7 @@ def evaluate(rows):
     for day, batch in groupby(ordered, key=lambda r: r['day']):
         batch = list(batch)
         prior_n = league.total()
-        prior = [(league[k] + LEAGUE_ALPHA) / (prior_n + 5 * LEAGUE_ALPHA) for k in CATEGORIES]
+        prior = [(league[k] + LEAGUE_ALPHA) / (prior_n + len(CATEGORIES) * LEAGUE_ALPHA) for k in CATEGORIES]
         for row in batch:
             bc, pc = batters[row['batter']], pitchers[row['pitcher']]
             candidate = [0.5 * ((bc[k] + PLAYER_STRENGTH * prior[i]) / (bc.total() + PLAYER_STRENGTH)
@@ -143,7 +146,7 @@ def summarize(predictions):
         groups[(row['day'], row['phase'], row['model'])].append(row)
         if row['phase'] == 'evaluation':
             groups[('ALL_EVALUATION', 'evaluation', row['model'])].append(row)
-    return [dict(day=day, phase=phase, model=model, n=len(rs),
+    return [dict(day=day, phase=phase, model=model, n=len(rs), games=len({r['game'] for r in rs}),
                  log_loss=sum(r['log_loss'] for r in rs) / len(rs),
                  brier=sum(r['brier'] for r in rs) / len(rs))
             for (day, phase, model), rs in sorted(groups.items())]
@@ -156,13 +159,13 @@ def markdown(meta):
         f"Input SQLite SHA-256: `{meta['input_sha256']}`.",
         f"Final cached games: {meta['games']}; dates: {meta['dates']}; accepted PAs: {meta['accepted_pa']}.",
         'Cache is a bounded acquisition sample, not established complete MLB coverage. '
-        'Only three dates (two evaluation dates) and 30 games; PA rows are clustered within games/players.', '',
+        'PA rows are clustered within games/players; see date/game counts below.', '',
         '## Fixed protocol', '',
-        'Categories in probability order: K, BB-HBP, HR, otherhit, otherout. '
-        'Intentional walks are included. Otherout includes sacrifice and fielder-choice outcomes '
-        '(a fielder choice need not retire the batter). Errors and catcher interference are excluded '
-        'as unmapped rather than mislabeled as outs; this restricts the diagnostic population.',
-        'League prior: (past category count + 1) / (past PA count + 5). '
+        'Categories: K, BB-HBP, HR, otherhit, otherout, residualreach. '
+        'Residualreach includes field_error, catcher_interf and fielders_choice. '
+        'Otherout includes sacrifices and force/fielder-choice-out events: it is an event category, '
+        'not a guarantee the batter was retired. Unknown events remain audited exclusions.',
+        'League prior: (past category count + 1) / (past PA count + 6). '
         'Candidate: equal average of batter and pitcher distributions, each shrunk with 100 '
         'pseudo-PAs distributed according to that league prior. Parameters fixed before running; '
         'one candidate, no handedness variant or tuning.',
@@ -173,7 +176,7 @@ def markdown(meta):
         'They are NOT preannounced lineups or pregame-available matchups. Historical feeds were '
         'retrieved retrospectively; point-in-time availability/revisions are not established. '
         'Official-date ordering is a day-batched diagnostic, not a timestamp-safe production replay.',
-        'Metrics are mean natural-log loss and multiclass Brier (sum across five classes); lower is better. '
+        'Metrics are mean natural-log loss and multiclass Brier (sum across six classes); lower is better. '
         'No win hit rate is calculated from PA rows.', '', '## Coverage and exclusions', '']
     for day, counts in meta['coverage'].items():
         lines.append(f"- {day}: {counts['games']} games; {counts['pa']} accepted PAs.")
@@ -184,12 +187,21 @@ def markdown(meta):
     lines.extend(['', '## Scores', ''])
     for score in meta['scores']:
         lines.append(f"- {score['day']} / {score['phase']} / {score['model']}: "
-                     f"n={score['n']}, log loss={score['log_loss']:.6f}, Brier={score['brier']:.6f}.")
+                     f"n={score['n']}, games={score['games']}, log loss={score['log_loss']:.6f}, Brier={score['brier']:.6f}.")
+    lines.extend(['', '## Reconciliation and provenance', '',
+                  f"Code hashes: `{json.dumps(meta['code_sha256'], sort_keys=True)}`.",
+                  f"Evaluation history coverage: `{json.dumps(meta['history_coverage'], sort_keys=True)}`.",
+                  'Actual cached teamStats.batting.plateAppearances is the comparator. '
+                  'Player differences are retained without forced reassignment; affected full play records are in private SQLite.'])
+    for r in meta['reconciliation']:
+        lines.append(f"- Game {r['game']} / {r['side']}: accepted={r['accepted']}, "
+                     f"boxscore={r['boxscore_pa']}, delta={r['delta']}, {r['status']}; "
+                     f"player differences={json.dumps(r['player_differences'])}.")
     lines.extend(['', '## Acquisition gate', '',
         'Smoke implementation gate passes if integrity checks and tests pass. Evidence gate remains '
         'insufficient: acquire a materially longer, representative chronological cache with adequate '
         'player history, independent game/date evaluation units, and documented coverage before '
-        'assessing improvement. Resolve residual PA taxonomy and reconcile PA totals with box scores. '
+        'assessing improvement. Team total matches alone do not prove correct player attribution. '
         'Pregame work additionally needs timestamped lineup/roster availability and matchup generation. '
         'No further collection was performed in this run.', '',
         'Private results.sqlite stores accepted rows, probabilities, per-game audits, and provenance. '
@@ -210,7 +222,19 @@ def run(source, output):
         counts = coverage.setdefault(game['day'], dict(games=0, pa=0))
         counts['games'] += 1
         counts['pa'] += game['accepted']
-    meta = dict(input_sha256=before, raw_body_sha256=raw_hashes, games=len(games),
+    reconciliation = [r for g in games for r in g['reconciliation']]
+    evaluation = [r for r in predictions if r['model'] == 'league' and r['phase'] == 'evaluation']
+    history = dict(pa=len(evaluation), games=len({r['game'] for r in evaluation}),
+                   dates=len({r['day'] for r in evaluation}),
+                   zero_batter_history=sum(r['batter_history'] == 0 for r in evaluation),
+                   zero_pitcher_history=sum(r['pitcher_history'] == 0 for r in evaluation),
+                   max_batter_history=max((r['batter_history'] for r in evaluation), default=0),
+                   max_pitcher_history=max((r['pitcher_history'] for r in evaluation), default=0))
+    meta = dict(input_sha256=before,
+        history_coverage=history,
+        code_sha256={p.name: sha256(p) for p in (Path(__file__), Path(__file__).with_name('reconcile.py'))},
+        reconciliation=[{k: v for k, v in r.items() if k != 'evidence'} for r in reconciliation],
+        raw_body_sha256=raw_hashes, games=len(games),
         dates=len(coverage), accepted_pa=len(rows), coverage=coverage, audit=dict(audit),
         outcomes={k: sum(r['outcome'] == k for r in rows) for k in CATEGORIES},
         league_alpha=LEAGUE_ALPHA, player_strength=PLAYER_STRENGTH, scores=summarize(predictions))
@@ -225,6 +249,9 @@ def run(source, output):
                 batter_history INTEGER,pitcher_history INTEGER,phase TEXT,log_loss REAL,brier REAL,
                 PRIMARY KEY(game,pa,model));''')
         conn.executemany('INSERT INTO metadata VALUES(?,?)', [(k, json.dumps(v)) for k, v in meta.items()])
+        conn.execute('CREATE TABLE reconciliation(game INTEGER,side TEXT,detail TEXT,PRIMARY KEY(game,side))')
+        conn.executemany('INSERT INTO reconciliation VALUES(?,?,?)',
+                         [(r['game'], r['side'], json.dumps(r)) for r in reconciliation])
         conn.executemany('INSERT INTO games VALUES(?,?,?,?)',
                          [(g['game'], g['day'], g['accepted'], json.dumps(g['audit'])) for g in games])
         for row in predictions:
