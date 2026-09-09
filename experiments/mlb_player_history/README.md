@@ -33,3 +33,20 @@ two categories cannot safely be separated from these aggregate fields. Consequen
 this pilot measures history coverage and does not rerun the six-class scoring diagnostic.
 Dates are validated using sampled independently dated game logs, not response-echoed
 range metadata. Current retrieval of historical stats does not prove point-in-time data.
+
+## Offline five-class follow-up
+
+The separately authorized follow-up safely combines otherout and residualreach into
+otherPA. It preserves all corrected rows and compares seeded league vs strength-100
+batter/pitcher pooling, with same-class cold baselines. June 1 remains warmup;
+June 2–3 use the identical 1,177 PA. Every date updates only after the whole day's
+predictions. No network calls or hyperparameter sweeps. See five-class-report-20260909.md.
+
+```powershell
+python experiments/mlb_player_history/five_class.py --source ../mlb-pitch-pilot-20260909/outputs/pilot-20260909/pilot.sqlite --history experiments/mlb_player_history/private/run-20260909/history.sqlite --gate-dir ../mlb-pa-reconcile-20260909/experiments/mlb_pa_gate --output experiments/mlb_player_history/private/NEW-FIVE-CLASS-RUN
+```
+
+The output directory must be new. It contains results.sqlite with 8,988 prediction
+records, summary.json and report.md. Both input SQLite files stay read-only and are
+hashed before/after. Source history is reconstructed from validated raw bulk receipts;
+full-season game-log validation responses never become model features.
