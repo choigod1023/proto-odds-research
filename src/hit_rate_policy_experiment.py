@@ -48,9 +48,11 @@ def bucket(row):
     return row['league'], stamp(row['kickoff_at']).astimezone(KST).date().isoformat()
 
 
-def validate(data, report):
+def validate(data, report, metadata=None):
     rows, test = data['rows'], data['test_rows']
-    if report['training_mode'] != 'frozen_through2024':
+    # ac488416 predates training_mode; its inspected source uses frozen training.
+    legacy_frozen = (metadata or {}).get('code_hashes', {}).get('process_outcome_gate.py') == 'fb1eb802f082a8b07d5d5a0602581c07b0f687cdc2711f18a9a2ef895ee206d1'
+    if report.get('training_mode') != 'frozen_through2024' and not (report.get('training_mode') is None and legacy_frozen):
         raise ValueError('primary cache must use frozen training')
     train = [r for r in rows if r['kickoff'][:10] <= '2024-12-30']
     if not train or not test or max(stamp(r['kickoff']) for r in train) >= min(stamp(r['kickoff']) for r in test):
@@ -180,7 +182,7 @@ def run(cache_root, output, report_path, node='node'):
             raise ValueError('incomplete cache')
         caches[name] = tuple(json.loads(v) for v in records[0][1:])
     meta, prior, data = caches['outcome']
-    train = validate(data, prior)
+    train = validate(data, prior, meta)
     if any(other[2]['test_rows'] != data['test_rows'] for other in caches.values()):
         raise ValueError('prior caches use different evaluation rows')
     proc = subprocess.run([node, str(ROOT/'scripts/hit_rate_policy_bridge.mjs')],

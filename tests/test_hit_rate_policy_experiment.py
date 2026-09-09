@@ -57,6 +57,14 @@ class HitRatePolicyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'alignment'):
             experiment.validate(data, report)
 
+    def test_legacy_cache_requires_exact_inspected_producer_hash(self):
+        data, report = fixture()
+        del report['training_mode']
+        with self.assertRaisesRegex(ValueError, 'frozen'):
+            experiment.validate(data, report)
+        metadata = {'code_hashes': {'process_outcome_gate.py': 'fb1eb802f082a8b07d5d5a0602581c07b0f687cdc2711f18a9a2ef895ee206d1'}}
+        self.assertEqual(len(experiment.validate(data, report, metadata)), 1)
+
     def test_valid_unknown_odds_timing_is_not_claimed_verified(self):
         data, report = fixture()
         self.assertEqual(len(experiment.validate(data, report)), 1)
