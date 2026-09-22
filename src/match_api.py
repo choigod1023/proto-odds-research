@@ -9,6 +9,53 @@ import gzip
 KST = timezone(timedelta(hours=9))
 
 
+class PreparedMatchResponses:
+    """Publish immutable responses; HTTP readers never join a DB/cache rebuild.
+
+    Only the warmer calls refresh(). Failed refreshes retain the original body,
+    including its generated_at and revision. Never relabel old data as current.
+    """
+    def __init__(self, views):
+        self.views = views
+        self.lock = threading.Lock()
+        self.requested = {'recent'}
+        self.ready = {}
+
+    def refresh(self):
+        with self.lock:
+            scopes = sorted(self.requested, key=lambda scope: scope != 'recent')
+        for scope in scopes:
+            day = datetime.now(KST).date().isoformat()
+            body = self.views.get_bytes(scope)
+            with self.lock:
+                self.ready[scope] = (day, body)
+
+    def get_bytes(self, scope='recent', key=None, revision=None, compressed=True):
+        if scope == 'detail':
+            # Details must match the published revision. Do not rebuild all games
+            # or wait behind the warmer just to open one game's detail.
+            if not self.views.lock.acquire(blocking=False):
+                raise KeyError('details refreshing')
+            try:
+                if revision != self.views.revision:
+                    raise ValueError('revision changed')
+                if key not in self.views.games:
+                    raise KeyError('game unavailable')
+                raw = json.dumps({'game': json.loads(zlib.decompress(self.views.games[key])),
+                                  'revision': revision}, ensure_ascii=False).encode()
+                return gzip.compress(raw, compresslevel=3) if compressed else raw
+            finally:
+                self.views.lock.release()
+        if scope not in ('recent', 'all'):
+            raise ValueError('invalid scope')
+        with self.lock:
+            self.requested.add(scope)
+            cached = self.ready.get(scope)
+        if cached is None or cached[0] != datetime.now(KST).date().isoformat():
+            raise KeyError('view preparing')
+        return cached[1] if compressed else gzip.decompress(cached[1])
+
+
 def game_key(game):
     identity = [str(game.get(k, '')) for k in ('year', 'round', 'sport', 'league', 'date', 'home', 'away')]
     return hashlib.sha256(json.dumps(identity, ensure_ascii=False).encode()).hexdigest()[:32]

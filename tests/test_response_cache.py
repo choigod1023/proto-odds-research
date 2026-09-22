@@ -78,7 +78,7 @@ def test_prewarming_skips_memory_pressure(monkeypatch, memory, called):
     calls = []
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: memory)
     monkeypatch.setattr(stop, 'wait', lambda seconds: stop.set())
-    supervisor.warm_match_views(SimpleNamespace(get_bytes=lambda scope: calls.append(scope)), stop)
+    supervisor.warm_match_views(SimpleNamespace(refresh=lambda: calls.append('recent')), stop)
     assert calls == (['recent'] if called else [])
 
 
@@ -88,7 +88,7 @@ def test_prewarming_survives_refresh_failure(monkeypatch):
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
     monkeypatch.setattr(supervisor, 'log', messages.append)
     monkeypatch.setattr(stop, 'wait', lambda seconds: stop.set())
-    def fail(scope):
+    def fail():
         raise OSError('unavailable')
-    supervisor.warm_match_views(SimpleNamespace(get_bytes=fail), stop)
+    supervisor.warm_match_views(SimpleNamespace(refresh=fail), stop)
     assert len(messages) == 1

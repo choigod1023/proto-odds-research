@@ -176,7 +176,10 @@ export default function Markets() {
     return { ...d, live: merge(d.live), past: merge(d.past) };
   }, [d, liveOdds, liveIndex]);
 
-  if (picksChecked && !synchronized) return <Shell><Empty>데이터를 불러오지 못했습니다</Empty></Shell>;
+  if (picksChecked && !synchronized) return <Shell><Empty>
+    <p role="alert">경기 데이터를 불러오지 못했습니다. 서버가 응답하지 않거나 목록을 준비 중입니다.</p>
+    <button type="button" onClick={retryPicks} className="mt-3 underline">다시 시도</button>
+  </Empty></Shell>;
   if (!synchronized) return <Shell><LoadingMatches /></Shell>;
   // 경기 원장의 생성 시각이 낡았더라도 현재 회차 배당을 방금 정상 수집했다면 화면
   // 전체를 중단하지 않는다. 각 경기 선택은 repriceGameOdds가 최신 가격으로 다시

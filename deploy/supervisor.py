@@ -735,14 +735,14 @@ def store_anonymous_bet(value: object, path: Path = ANONYMOUS_BETS_PATH) -> dict
 def warm_match_views(views, stop) -> None:
     """Prepare the common response without waiting for the first visitor.
 
-    Do not speculate on the larger 'all' view or prime under memory pressure.
-    A foreground request and this single worker share the view's rebuild lock.
+    Refresh only requested scopes, outside HTTP requests, under a memory gate.
+    Readers keep the last successful response while this worker is busy.
     """
     while not stop.is_set():
         try:
             available = _available_memory_mb()
             if available is not None and available >= 256:
-                views.get_bytes('recent')
+                views.refresh()
         except Exception as exc:
             log(f"경기 응답 사전 준비 실패: {type(exc).__name__}")
         stop.wait(30)
@@ -760,13 +760,20 @@ def serve_live() -> None:
     from runtime_db import RuntimeDatabase
 
     database = RuntimeDatabase()
-    from match_api import MatchViews
+    from match_api import MatchViews, PreparedMatchResponses
     from urllib.parse import urlsplit, parse_qs
-    match_views = MatchViews(database)
+    match_views = PreparedMatchResponses(MatchViews(database))
     response_cache: dict[str, tuple[str, bytes, bytes]] = {}
     response_cache_lock = threading.Lock()
 
     def artifact_bytes(name: str) -> tuple[bytes, bytes] | None:
+        metadata = database.artifact_metadata(name, include_size=False)
+        if metadata is None:
+            return None
+        with response_cache_lock:
+            cached = response_cache.get(name)
+            if cached is not None and cached[0] == metadata['stored_at']:
+                return cached[1], cached[2]
         stored = database.get_artifact_json(name)
         if stored is None:
             return None
