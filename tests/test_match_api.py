@@ -49,3 +49,30 @@ def test_detail_revision_and_cache(tmp_path, monkeypatch):
     with pytest.raises(ValueError): views.get('detail',game_key(current),'stale')
     with pytest.raises(KeyError): views.get('detail','bad',result['view']['revision'])
     with pytest.raises(ValueError): views.get('bad')
+
+
+def test_compressed_cache_preserves_views_and_invalidates_revision(tmp_path):
+    db = RuntimeDatabase(tmp_path/'cache.sqlite3')
+    original = game()
+    payload = {'live': [original], 'past': [game('08.01(토) 18:00')],
+               'prediction_performance': {'records': {'large': ['x'] * 1000}}}
+    db.store_artifact('picks_v2', payload)
+    views = MatchViews(db)
+    first = views.get('all')
+    revision = first['view']['revision']
+    assert first == summary(payload, revision, 'all')
+    assert 'prediction_performance' not in views.payload
+    assert 'history' not in views.payload['live'][0]['선발']['home_detail']
+    assert all(isinstance(value, bytes) for value in views.games.values())
+    detail = views.get('detail', game_key(original), revision)
+    assert detail['game'] == original
+    detail['game']['options'].clear()
+    assert views.get('detail', game_key(original), revision)['game'] == original
+    updated = game(); updated['options'][0]['배당'] = 2.0
+    db.store_artifact('picks_v2', {'live': [updated]})
+    # Guarantee a different revision even on platforms with coarse clock resolution.
+    with db.connect() as connection:
+        connection.execute("UPDATE artifacts SET stored_at='next' WHERE name='picks_v2'")
+    assert views.get('all') == summary({'live': [updated]}, 'next', 'all')
+    with pytest.raises(ValueError): views.get('detail', game_key(original), revision)
+    assert views.get('detail', game_key(updated), 'next')['game'] == updated

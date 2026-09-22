@@ -1,6 +1,29 @@
 from src import odds_live
 
 
+def test_main_releases_collection_snapshot_before_refresh(monkeypatch):
+    import weakref
+
+    class Snapshot(dict):
+        pass
+
+    references = []
+    def load(name, path):
+        if name != 'picks_v2': return {}
+        value = Snapshot(live=[], rounds=[104])
+        references.append(weakref.ref(value))
+        return value
+
+    monkeypatch.setattr(odds_live, 'load_artifact', load)
+    monkeypatch.setattr(odds_live, 'collect', lambda *args: {'n': 1, 'rounds': [104]})
+    monkeypatch.setattr(odds_live, 'persist_artifact', lambda *args, **kwargs: None)
+    def refresh(data):
+        assert references[0]() is None
+        return 0
+    monkeypatch.setattr(odds_live, 'refresh_once', refresh)
+    assert odds_live.main(['odds_live.py']) == 0
+
+
 def test_collect_uses_persisted_rounds_when_file_cache_is_empty(monkeypatch):
     monkeypatch.setattr(odds_live, "_session", lambda: object())
     monkeypatch.setattr(odds_live, "_start_hint", lambda season: 1)

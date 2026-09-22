@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import threading
+import zlib
 
 KST = timezone(timedelta(hours=9))
 
@@ -78,12 +79,24 @@ class MatchViews:
                 if stored is None: raise KeyError('picks unavailable')
                 body, stamp = stored
                 payload = json.loads(body)
-                self.games = {game_key(g): g for section in ('live', 'past') for g in payload.get(section, [])}
+                del body, stored
+                # Keep detail records compressed, not as thousands of nested Python
+                # objects. Decode only the requested game, never the entire archive.
+                # Build off to the side so a failed refresh preserves the old view.
+                games = {}
+                payload.pop('prediction_performance', None)
+                for section in ('live', 'past'):
+                    rows = payload.get(section, [])
+                    for index, game in enumerate(rows):
+                        games[game_key(game)] = zlib.compress(
+                            json.dumps(game, ensure_ascii=False, separators=(',', ':')).encode(), 1)
+                        rows[index] = card_game(game)
+                self.games = games
                 self.payload, self.revision, self.cache = payload, stamp, {}
             if scope == 'detail':
                 if revision != self.revision: raise ValueError('revision changed')
                 if key not in self.games: raise KeyError('game unavailable')
-                return {'game': self.games[key], 'revision': self.revision}
+                return {'game': json.loads(zlib.decompress(self.games[key])), 'revision': self.revision}
             day = datetime.now(KST).date().isoformat()
             cache_key = (scope, day)
             if cache_key not in self.cache:
