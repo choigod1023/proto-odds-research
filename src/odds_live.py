@@ -265,6 +265,10 @@ def main(argv: list[str]) -> int:
                 collect(previous_picks, previous_odds), previous_odds,
                 previous_picks,
             )
+            # refresh_once reads the latest DB revision again. Release the collection
+            # snapshot first rather than retaining two full picks documents at once.
+            # Do not pass it to refresh_once: another publisher may have updated it.
+            del previous_picks
             if not data.get("rounds") or not data.get("n"):
                 # ⚠️ 한 번의 빈 응답(원천 일시 장애·회차 사이 공백)을 영구 정지로
                 #    만들지 않는다. 직전 배당을 유지한 채 생성시각만 새로 찍고,
