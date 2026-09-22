@@ -10,6 +10,7 @@ import { FAVORITES_KEY, SPORTS, readFavorites, isFavoriteGame, addSelection, sel
 import { matchEvidence } from "../lib/match-evidence.js";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
+import TodayProbabilityRanking from "../components/TodayProbabilityRanking.jsx";
 import MatchDetailHeader from "../components/MatchDetailHeader.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import PickProbabilities from "../components/PickProbabilities.jsx";
@@ -527,6 +528,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
           highlightedToday={modalSelection.membership?.recommended === true}
           selections={selections} onSaveBet={selectOption} />
       </GameInfoModal>}
+      <TodayProbabilityRanking games={pool} memberships={todayMemberships} now={clock} stale={stale} onOpen={setOpenedGame} />
       {stale && (
         <div className="mb-5 rounded-lg border border-amber-300 bg-amber-50 px-5 py-4 text-amber-950">
           <b className="text-[15px]">데이터 갱신이 지연되고 있습니다</b>
