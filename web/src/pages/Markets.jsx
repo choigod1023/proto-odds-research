@@ -27,6 +27,8 @@ import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
+import { useMatchData } from "../lib/use-match-data.js";
+import { mergeMatchDetail } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
@@ -135,7 +137,10 @@ export default function Markets() {
   const { data, at } = usePolledData({ grades: GRADES_URL }, 300000);   // 5분
   const { grades } = data;
   // Git push·Pages 배포와 분리하여 판정 지연을 막는다.
-  const { data: livePicks, checked: picksChecked } = usePoll(PICKS_URL, 60000);
+  const [allMatches, setAllMatches] = useState(false);
+  const [accuracyOpen, setAccuracyOpen] = useState(false);
+  const { data: livePicks, checked: picksChecked, error: picksError, retry: retryPicks } = useMatchData(`/api/matches?scope=${allMatches ? 'all' : 'recent'}`);
+  const { data: accuracyData, error: accuracyError, retry: retryAccuracy } = useMatchData(accuracyOpen ? '/api/picks' : null);
   const d = livePicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
@@ -185,10 +190,14 @@ export default function Markets() {
 
   return (
     <Shell>
+      {allMatches && !picksChecked && <p role="status">과거·전체 경기 목록을 불러오는 중입니다.</p>}
+      {picksError && <p role="status">경기 목록 갱신에 실패했습니다. 마지막 정상 목록을 유지합니다. <button onClick={retryPicks}>다시 시도</button></p>}
       <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
-      <details className="overall-accuracy-secondary"><summary>전체 사전 픽 성적 보기</summary><OverallAccuracy data={synchronized} /></details>
+      <details className="overall-accuracy-secondary" onToggle={event => setAccuracyOpen(event.currentTarget.open)}><summary>전체 사전 픽 성적 보기</summary>
+        {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
+      </details>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} /></section>
+        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRequestAll={() => setAllMatches(true)} /></section>
     </Shell>
   );
 }
@@ -307,8 +316,11 @@ const STATUS = [
   ["finished", "종료"], ["pending", "상태 확인 중"],
 ];
 
-export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false }) {
+export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false, onRequestAll }) {
   const [openedGame, setOpenedGame] = useState(null);
+  const detailPath = openedGame?._detail_key && data.view?.revision
+    ? `/api/match-detail?key=${encodeURIComponent(openedGame._detail_key)}&revision=${encodeURIComponent(data.view.revision)}` : null;
+  const detail = useMatchData(detailPath, 0);
   const [betDraft, setBetDraft] = useState(null);
   const [favorites, setFavorites] = useState(readFavorites);
   const [storageNotice, setStorageNotice] = useState("");
@@ -384,10 +396,11 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   );
   // 조합 재계산은 미래 경기만 사용하되, 사전 추천 표시는 시작·종료 뒤에도 원장에 남긴다.
   const todayMemberships = useMemo(() => buildTodayMemberships(alignedToday), [alignedToday]);
-  const modalGame = openedGame && (pool.find((game) =>
+  const modalSummary = openedGame && (pool.find((game) =>
     String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
     game.home === openedGame.home && game.away === openedGame.away &&
     game.league === openedGame.league) || openedGame);
+  const modalGame = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
   const modalSelection = modalGame && !stale &&
     !(modalGame._liveOddsChanged && !decisionFrozen(modalGame))
     ? todaySelectionForGame(todayMemberships, modalGame.options || [], modalGame.round)
@@ -501,6 +514,10 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   return (
     <>
 
+      {modalSummary && !modalGame && <GameInfoModal title={`${modalSummary.home} vs ${modalSummary.away}`} onClose={() => setOpenedGame(null)}>
+        <p role="status">{detail.error ? '상세 정보를 불러오지 못했거나 경기 데이터가 갱신됐습니다. 목록 갱신 후 다시 시도해 주세요.' : '경기 상세 정보를 불러오는 중입니다.'}</p>
+        {detail.error && <button onClick={detail.retry}>다시 시도</button>}
+      </GameInfoModal>}
       {modalGame && <GameInfoModal title={`${modalGame.home} vs ${modalGame.away}`} onClose={() => setOpenedGame(null)}>
 <details className="detail-favorites"><summary>팀·리그 즐겨찾기</summary><FavoriteControls game={modalGame} favorites={favorites} onToggle={toggleFavorite} /></details>
         <Game g={modalGame} opts={modalGame.options || []} wait={modalGame.status === "배당대기"}
@@ -531,7 +548,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
             <button type="button" aria-pressed={f.dt === "yesterday"} onClick={() => setF({ ...f, dt: "yesterday" })}>어제</button>
             <button type="button" aria-pressed={f.dt === "today"} onClick={() => setF({ ...f, dt: "today" })}>오늘</button>
             <button type="button" aria-pressed={f.dt === "tomorrow"} onClick={() => setF({ ...f, dt: "tomorrow" })}>내일</button>
-            <button type="button" aria-pressed={!f.dt} onClick={() => setF({ ...f, dt: "" })}>전체</button>
+            <button type="button" aria-pressed={!f.dt} onClick={() => { onRequestAll?.(); setF({ ...f, dt: "" }); }}>전체</button>
           </div>
           <div className="team-search">
             <input aria-label="팀 또는 리그 검색" type="search" placeholder="팀 또는 리그 검색" value={f.q}
