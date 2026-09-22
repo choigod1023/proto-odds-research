@@ -16,6 +16,7 @@ import statistics
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Iterator
 from runtime_db import RuntimeDatabase, database_enabled, load_document, persist_document
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,21 +28,21 @@ OUT = ROOT / "data" / "processed" / "pickster_eval.json"
 FINDING = ROOT / "findings" / "픽스터_공개픽_전향검증.md"
 
 
-def _jsonl(path: Path) -> list[dict]:
+def _jsonl(path: Path) -> Iterator[dict]:
     if database_enabled():
         stream = {LEADERBOARD_LOG: "pickster_leaderboard",
                   PICK_LOG: "pickster_pick_events"}[path]
-        return RuntimeDatabase().events(stream)
+        yield from RuntimeDatabase().iter_events(stream)
+        return
     if not path.exists():
-        return []
-    out = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            try:
-                out.append(json.loads(line))
-            except json.JSONDecodeError:
-                continue
-    return out
+        return
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                try:
+                    yield json.loads(line)
+                except json.JSONDecodeError:
+                    continue
 
 
 def _median(values: list[float]) -> float | None:
@@ -90,10 +91,14 @@ def _corr(x: list[float], y: list[float]) -> float | None:
 
 
 def _leaderboard() -> dict:
-    snapshots = _jsonl(LEADERBOARD_LOG)
-    if not snapshots:
+    if database_enabled():
+        snap = RuntimeDatabase().latest_event("pickster_leaderboard")
+    else:
+        snap = None
+        for snapshot in _jsonl(LEADERBOARD_LOG):
+            snap = snapshot
+    if snap is None:
         return {"available": False, "reason": "leaderboard snapshot 없음"}
-    snap = snapshots[-1]
     rows = [r for r in snap.get("rows", []) if r.get("n_picks") and r.get("roi_pct") is not None]
     if not rows:
         return {"available": False, "reason": "유효 행 없음"}

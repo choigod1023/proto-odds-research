@@ -257,6 +257,10 @@ class RuntimeDatabase(DatasetStore):
             return connection.total_changes - before
 
     def events(self, stream: str, *, through: str | None = None) -> list[dict[str, Any]]:
+        return list(self.iter_events(stream, through=through))
+
+    def iter_events(self, stream: str, *, through: str | None = None) -> Iterator[dict[str, Any]]:
+        """Decode rows incrementally; never retain both all SQL rows and decoded history."""
         sql = "SELECT payload_json FROM event_records WHERE stream=?"
         params: list[Any] = [stream]
         if through is not None:
@@ -264,8 +268,17 @@ class RuntimeDatabase(DatasetStore):
             params.append(through)
         sql += " ORDER BY observed_at,id"
         with self.connect() as connection:
-            rows = connection.execute(sql, params).fetchall()
-        return [json.loads(row["payload_json"]) for row in rows]
+            for row in connection.execute(sql, params):
+                yield json.loads(row["payload_json"])
+
+    def latest_event(self, stream: str) -> dict[str, Any] | None:
+        """Exactly the last row of events(), including observed_at/id tie breaking."""
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT payload_json FROM event_records WHERE stream=? "
+                "ORDER BY observed_at DESC,id DESC LIMIT 1", (stream,),
+            ).fetchone()
+        return json.loads(row["payload_json"]) if row is not None else None
 
     def export_document(self, name: str, path: Path, *, indent: int | None = 1) -> None:
         payload = self.get_document(name)
