@@ -4,6 +4,7 @@ import hashlib
 import json
 import threading
 import zlib
+import gzip
 
 KST = timezone(timedelta(hours=9))
 
@@ -62,11 +63,12 @@ def summary(payload, revision, scope='recent', now=None):
 class MatchViews:
     def __init__(self, database):
         self.database = database
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
         self.revision = None
         self.payload = None
         self.games = {}
         self.cache = {}
+        self.wire_cache = {}
 
     def get(self, scope='recent', key=None, revision=None):
         if scope not in ('recent', 'all', 'detail'): raise ValueError('invalid scope')
@@ -93,6 +95,7 @@ class MatchViews:
                         rows[index] = card_game(game)
                 self.games = games
                 self.payload, self.revision, self.cache = payload, stamp, {}
+                self.wire_cache = {}
             if scope == 'detail':
                 if revision != self.revision: raise ValueError('revision changed')
                 if key not in self.games: raise KeyError('game unavailable')
@@ -104,3 +107,22 @@ class MatchViews:
                 self.cache = {k:v for k,v in self.cache.items() if k[1] == day}
                 self.cache[cache_key] = summary(self.payload, self.revision, scope)
             return self.cache[cache_key]
+
+    def get_bytes(self, scope='recent', key=None, revision=None, compressed=True):
+        """Cache only compressed list responses; detail requests stay uncached.
+
+        The lock coalesces concurrent rebuilds. get() still checks the DB revision
+        on every request, so prewarming never extends the lifetime of stale data.
+        """
+        with self.lock:
+            payload = self.get(scope, key, revision)
+            if scope == 'detail':
+                raw = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode()
+                return gzip.compress(raw, compresslevel=3) if compressed else raw
+            cache_key = (scope, payload['view']['day'])
+            self.wire_cache = {k: v for k, v in self.wire_cache.items() if k[1] == cache_key[1]}
+            if cache_key not in self.wire_cache:
+                raw = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode()
+                self.wire_cache[cache_key] = gzip.compress(raw, compresslevel=3)
+            body = self.wire_cache[cache_key]
+            return body if compressed else gzip.decompress(body)

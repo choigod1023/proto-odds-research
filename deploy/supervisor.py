@@ -732,6 +732,22 @@ def store_anonymous_bet(value: object, path: Path = ANONYMOUS_BETS_PATH) -> dict
     return clean
 
 
+def warm_match_views(views, stop) -> None:
+    """Prepare the common response without waiting for the first visitor.
+
+    Do not speculate on the larger 'all' view or prime under memory pressure.
+    A foreground request and this single worker share the view's rebuild lock.
+    """
+    while not stop.is_set():
+        try:
+            available = _available_memory_mb()
+            if available is not None and available >= 256:
+                views.get_bytes('recent')
+        except Exception as exc:
+            log(f"경기 응답 사전 준비 실패: {type(exc).__name__}")
+        stop.wait(30)
+
+
 def serve_live() -> None:
     """SQLite 운영 산출물을 직접 내보내는 초소형 API 서버.
 
@@ -783,12 +799,11 @@ def serve_live() -> None:
             if route.path in ('/api/matches', '/api/match-detail'):
                 query = parse_qs(route.query)
                 try:
-                    payload = match_views.get(
-                        scope='detail' if route.path.endswith('match-detail') else query.get('scope', ['recent'])[0],
-                        key=query.get('key', [None])[0], revision=query.get('revision', [None])[0])
-                    body = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode()
                     compressed = 'gzip' in self.headers.get('Accept-Encoding', '').lower()
-                    if compressed: body = gzip.compress(body, compresslevel=3)
+                    body = match_views.get_bytes(
+                        scope='detail' if route.path.endswith('match-detail') else query.get('scope', ['recent'])[0],
+                        key=query.get('key', [None])[0], revision=query.get('revision', [None])[0],
+                        compressed=compressed)
                 except ValueError:
                     self.send_response(409); self._cors(); self.end_headers(); return
                 except (KeyError, OSError):
@@ -811,9 +826,9 @@ def serve_live() -> None:
                     except OSError:
                         return 0
 
-                live_meta = database.artifact_metadata("live_scores") or {}
-                odds_meta = database.artifact_metadata("live_odds") or {}
-                picks_meta = database.artifact_metadata("picks_v2") or {}
+                live_meta = database.artifact_metadata("live_scores", include_size=False) or {}
+                odds_meta = database.artifact_metadata("live_odds", include_size=False) or {}
+                picks_meta = database.artifact_metadata("picks_v2", include_size=False) or {}
 
                 body = json.dumps({
                     "status": "ok",
@@ -899,10 +914,15 @@ def serve_live() -> None:
         def log_message(self, *a):                     # 접근 로그로 로그를 덮지 않는다
             pass
 
+    stop_warming = threading.Event()
     try:
-        ThreadingHTTPServer(("0.0.0.0", LIVE_PORT), H).serve_forever()
+        with ThreadingHTTPServer(("0.0.0.0", LIVE_PORT), H) as server:
+            threading.Thread(target=warm_match_views, args=(match_views, stop_warming), daemon=True).start()
+            server.serve_forever()
     except Exception as e:                             # noqa: BLE001
         log(f"실시간 서버 종료: {type(e).__name__}: {e}")
+    finally:
+        stop_warming.set()
 
 
 def run_push() -> None:
