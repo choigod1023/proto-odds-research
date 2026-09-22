@@ -54,19 +54,19 @@ VENUE_ALIAS = {
 }
 
 
-def _jsonl(path: Path, stream: str) -> list[dict]:
+def _jsonl(path: Path, stream: str):
     if database_enabled():
-        return RuntimeDatabase().events(stream)
+        yield from RuntimeDatabase().iter_events(stream)
+        return
     if not path.exists():
-        return []
-    out = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            try:
-                out.append(json.loads(line))
-            except json.JSONDecodeError:
-                pass
-    return out
+        return
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                try:
+                    yield json.loads(line)
+                except json.JSONDecodeError:
+                    pass
 
 
 def _latest_context() -> list[dict]:
@@ -78,8 +78,13 @@ def _latest_context() -> list[dict]:
 
 
 def _latest_crowd() -> list[dict]:
-    rows = _jsonl(CROWD, "pickster_crowd")
-    return rows[-1].get("games", []) if rows else []
+    if database_enabled():
+        latest = RuntimeDatabase().latest_event("pickster_crowd")
+    else:
+        latest = None
+        for row in _jsonl(CROWD, "pickster_crowd"):
+            latest = row
+    return latest.get("games", []) if latest else []
 
 
 def _diff(a, b) -> float | None:
