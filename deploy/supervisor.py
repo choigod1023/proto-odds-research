@@ -29,6 +29,7 @@ import sys
 import tempfile
 import threading
 import time
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -178,7 +179,10 @@ _pipeline_lock = threading.Lock()
 # pandas 전체 데이터, 대형 HTML, 선수 데이터 수집은 1GB 머신에서 동시에 두 개를
 # 허용하지 않는다. live_scores와 HTTP는 이 락 밖에 두어 실시간 화면을 보장한다.
 _memory_heavy_lock = threading.Lock()
-MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨"}
+MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트", "실시간 추천"}
+# Admission headroom, not a hard memory limit: workers can still grow after launch.
+# Keep realtime scores, odds collection and HTTP outside this background gate.
+BACKGROUND_MIN_AVAILABLE_MB = int(os.environ.get("BACKGROUND_MIN_AVAILABLE_MB", "512"))
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
@@ -188,6 +192,41 @@ HEAVY_EVERY_N = 12         # 무거운 단계는 12번에 한 번 (= 6시간)
 
 def log(msg: str) -> None:
     print(f"[{datetime.now(timezone.utc):%m-%d %H:%M:%S}] {msg}", flush=True)
+
+
+def _available_memory_mb() -> int | None:
+    try:
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            if line.startswith("MemAvailable:"):
+                return int(line.split()[1]) // 1024
+    except (OSError, ValueError, IndexError):
+        pass
+    return None
+
+
+@contextmanager
+def _background_slot(name: str):
+    """Serialize background jobs and defer admission while realtime headroom is low.
+
+    Never kill/pause an active worker: it may hold a SQLite transaction. Missing
+    measurements fail closed for background work, not for HTTP or score ingestion.
+    Release the lock between checks; no child or accumulated retry queue is created.
+    """
+    started = time.monotonic()
+    next_notice = started
+    while True:
+        with _memory_heavy_lock:
+            available = _available_memory_mb()
+            if available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
+                log(f"{name} 실제 실행 — 여유 {available}MB, 대기 {int(time.monotonic()-started)}s")
+                yield
+                return
+        now = time.monotonic()
+        if now >= next_notice:
+            log(f"{name} 메모리 대기 — 여유 {available}MB / 필요 {BACKGROUND_MIN_AVAILABLE_MB}MB, "
+                f"대기 {int(now-started)}s; 실시간 수집 유지")
+            next_notice = now + 300
+        time.sleep(30)
 
 
 def _clear_stale_locks() -> None:
@@ -495,7 +534,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
         try:
             lock = _memory_heavy_lock if name in MEMORY_HEAVY_LOOPERS else None
             if lock:
-                with lock:
+                with _background_slot(name):
                     rc = subprocess.run(cmd, cwd=REPO).returncode
             else:
                 rc = subprocess.run(cmd, cwd=REPO).returncode
@@ -519,7 +558,7 @@ def run_daily() -> None:
                     # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
                     time.sleep(300)
                 log(f"{name} 실행")
-                with _memory_heavy_lock:
+                with _background_slot(name):
                     r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
                 tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
                 log(f"{name} 완료 — {tail[0][:120]}")
@@ -533,7 +572,7 @@ def _run_steps(steps: list) -> None:
         try:
             # 산출물 생성은 pandas/NumPy 데이터 전체를 메모리에 올린다. 대형 HTML
             # 및 선수 수집기와 겹치지 않게 해 피크 RSS를 제한한다.
-            with _memory_heavy_lock:
+            with _background_slot(name):
                 r = subprocess.run(cmd, cwd=REPO, capture_output=True,
                                    text=True, timeout=tmo)
             # ⚠️ 예전엔 마지막 한 줄만 찍었다. 그래서 생성기가 끝에 남기는 요약
@@ -880,7 +919,8 @@ def run_push() -> None:
 
 def run_database_migration() -> None:
     """Import 267만 historical odds rows without blocking HTTP/collectors."""
-    result = sh(DATABASE_MIGRATE, cwd=REPO)
+    with _background_slot("과거 배당 DB 이관"):
+        result = sh(DATABASE_MIGRATE, cwd=REPO)
     if result.returncode:
         log(f"과거 배당 DB 이관 실패: {(result.stderr or result.stdout)[-220:]}")
     else:
