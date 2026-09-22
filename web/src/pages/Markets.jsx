@@ -27,6 +27,7 @@ import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
+import { createJsonPoll } from "../lib/poll-request.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
@@ -53,19 +54,14 @@ const GRADES_URL = "https://proto-odds-collector.fly.dev/api/loss-grades";
 function usePoll(url, ms) {
   const [state, setState] = useState({ data: null, checked: false });
   useEffect(() => {
-    let stop = false;
-    const load = () =>
-      fetch(`${url}?${Date.now()}`, {
-        cache: "no-store",
-        headers: { "Cache-Control": "no-cache" },
-      })
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((d) => { if (!stop) setState((old) => ({
+    const poll = createJsonPoll(url,
+        (d) => setState((old) => ({
           data: url === LIVE_URL ? mergeLiveFeed(old.data, d) : d, checked: true,
-        })); })
+        })),
         // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
         // 오래된 정적 fallback인지 실제 장애인지 구분한다.
-        .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
+        () => setState((old) => ({ ...old, checked: true })));
+    const load = poll.load;
     load();
     const t = setInterval(load, ms);
     const onVisible = () => { if (document.visibilityState === "visible") load(); };
@@ -73,7 +69,7 @@ function usePoll(url, ms) {
     window.addEventListener("focus", load);
     window.addEventListener("online", load);
     return () => {
-      stop = true;
+      poll.stop();
       clearInterval(t);
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("focus", load);
@@ -201,9 +197,9 @@ function LoadingMatches() {
     return () => clearInterval(timer);
   }, []);
   const message = seconds >= 12
-    ? "경기 데이터가 많아 정리하는 중입니다. 잠시만 기다려 주세요."
+    ? "서버 응답이 지연되고 있습니다. 연결 상태를 확인하고 있습니다."
     : seconds >= 4
-      ? "최신 배당과 저장된 사전 예측을 맞추고 있습니다."
+      ? "서버에서 경기 데이터를 내려받고 있습니다."
       : "오늘 경기와 추천 픽을 불러오고 있습니다.";
   return (
     <section className="match-loading" role="status" aria-live="polite" aria-busy="true">

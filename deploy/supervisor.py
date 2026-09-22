@@ -709,6 +709,13 @@ def serve_live() -> None:
     response_cache_lock = threading.Lock()
 
     def artifact_bytes(name: str) -> tuple[bytes, bytes] | None:
+        revision = database.artifact_revision(name)
+        if revision is None:
+            return None
+        with response_cache_lock:
+            cached = response_cache.get(name)
+            if cached is not None and cached[0] == revision:
+                return cached[1], cached[2]
         stored = database.get_artifact_json(name)
         if stored is None:
             return None

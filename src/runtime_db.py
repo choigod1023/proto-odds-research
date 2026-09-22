@@ -511,6 +511,14 @@ class RuntimeDatabase(DatasetStore):
             return None
         return str(row["payload_json"]), str(row["stored_at"])
 
+    def artifact_revision(self, name: str) -> str | None:
+        """Check freshness without reading or measuring the large JSON payload."""
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT stored_at FROM artifacts WHERE name=?", (name,)
+            ).fetchone()
+        return str(row["stored_at"]) if row is not None else None
+
     def artifact_metadata(self, name: str) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(
