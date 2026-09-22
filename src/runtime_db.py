@@ -524,11 +524,13 @@ class RuntimeDatabase(DatasetStore):
             return None
         return str(row["payload_json"]), str(row["stored_at"])
 
-    def artifact_metadata(self, name: str) -> dict[str, Any] | None:
+    def artifact_metadata(self, name: str, *, include_size: bool = True) -> dict[str, Any] | None:
+        columns = "name,generated_at,stored_at"
+        if include_size:
+            columns += ",length(payload_json) payload_bytes"
         with self.connect() as connection:
             row = connection.execute(
-                """SELECT name,generated_at,stored_at,length(payload_json) payload_bytes
-                   FROM artifacts WHERE name=?""", (name,)
+                f"SELECT {columns} FROM artifacts WHERE name=?", (name,)
             ).fetchone()
         return dict(row) if row is not None else None
 
