@@ -9,7 +9,7 @@ export function recommendationResults(today, data, odds, now = Date.now()) {
     if (entry.recommended !== true || !entry.id || !Number.isFinite(kickoff)
         || !Number.isFinite(published) || !Number.isFinite(recorded)
         || Math.max(published, recorded) >= kickoff - 30*60000 || published > now || recorded > now) continue;
-    const game = [...(data?.live || []), ...(data?.past || [])].find(g =>
+    const game = (data?.result_games || [...(data?.live || []), ...(data?.past || [])]).find(g =>
       g.home === entry.home && g.away === entry.away && g.sport === entry.sport
       && g.league === entry.league && g.date === entry.date && String(g.round) === String(entry.round));
     const record = {prediction_snapshot_id:entry.id,selection_id:entry.id,

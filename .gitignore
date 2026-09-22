@@ -41,3 +41,6 @@ web/.vite/
 
 # 스냅샷 마이그레이션 잔재 — 쪼갠 뒤 남는 원본 백업(100MB 초과라 push 불가)
 data/raw/snapshots/odds_timeseries.csv.bak
+# Isolated verification output and database
+/.local-build/
+/.local-test/

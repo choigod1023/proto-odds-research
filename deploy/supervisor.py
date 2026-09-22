@@ -705,6 +705,9 @@ def serve_live() -> None:
     from runtime_db import RuntimeDatabase
 
     database = RuntimeDatabase()
+    from match_api import MatchViews
+    from urllib.parse import urlsplit, parse_qs
+    match_views = MatchViews(database)
     response_cache: dict[str, tuple[str, bytes, bytes]] = {}
     response_cache_lock = threading.Lock()
 
@@ -737,6 +740,26 @@ def serve_live() -> None:
             self.end_headers()
 
         def do_GET(self):                              # noqa: N802
+            route = urlsplit(self.path)
+            if route.path in ('/api/matches', '/api/match-detail'):
+                query = parse_qs(route.query)
+                try:
+                    payload = match_views.get(
+                        scope='detail' if route.path.endswith('match-detail') else query.get('scope', ['recent'])[0],
+                        key=query.get('key', [None])[0], revision=query.get('revision', [None])[0])
+                    body = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode()
+                    compressed = 'gzip' in self.headers.get('Accept-Encoding', '').lower()
+                    if compressed: body = gzip.compress(body, compresslevel=3)
+                except ValueError:
+                    self.send_response(409); self._cors(); self.end_headers(); return
+                except (KeyError, OSError):
+                    self.send_response(503); self._cors(); self.end_headers(); return
+                self.send_response(200); self._cors()
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Vary', 'Accept-Encoding')
+                if compressed: self.send_header('Content-Encoding', 'gzip')
+                self.send_header('Content-Length', str(len(body)))
+                self.end_headers(); self.wfile.write(body); return
             if self.path.rstrip("/") in ("", "/health"):
                 # ⚠️ "ok" 만 뱉으면 안 된다. 2026-08-06 에 볼륨이 꽉 차 수집이
                 #    전부 멈췄는데도 이 엔드포인트는 39시간 내내 200 "ok" 였다.
