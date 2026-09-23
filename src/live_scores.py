@@ -35,7 +35,7 @@ from pathlib import Path
 
 import requests
 from match_progress import named_match_progress
-from runtime_db import load_artifact, load_document, persist_artifact
+from runtime_db import RuntimeDatabase, database_enabled, load_artifact, load_document, persist_artifact
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_scores.json"
@@ -274,6 +274,8 @@ def _team_similarity_with_aliases(proto_name: str, game: dict, side: str) -> flo
 
 
 def _proto_games() -> list[dict]:
+    if database_enabled():
+        return RuntimeDatabase().proto_team_labels()
     payload = load_artifact("picks_v2", PICKS) or {}
     return [*payload.get("live", []), *payload.get("past", [])]
 

@@ -732,7 +732,7 @@ def store_anonymous_bet(value: object, path: Path = ANONYMOUS_BETS_PATH) -> dict
     return clean
 
 
-def warm_match_views(views, stop) -> None:
+def warm_match_views(views, stop, rebuild_lock=None) -> None:
     """Prepare the common response without waiting for the first visitor.
 
     Refresh only requested scopes, outside HTTP requests, under a memory gate.
@@ -742,7 +742,13 @@ def warm_match_views(views, stop) -> None:
         try:
             available = _available_memory_mb()
             if available is not None and available >= 256:
-                views.refresh()
+                if rebuild_lock is None:
+                    views.refresh()
+                elif rebuild_lock.acquire(blocking=False):
+                    try:
+                        views.refresh()
+                    finally:
+                        rebuild_lock.release()
         except Exception as exc:
             log(f"경기 응답 사전 준비 실패: {type(exc).__name__}")
         stop.wait(30)
@@ -763,30 +769,8 @@ def serve_live() -> None:
     from match_api import MatchViews, PreparedMatchResponses
     from urllib.parse import urlsplit, parse_qs
     match_views = PreparedMatchResponses(MatchViews(database))
-    response_cache: dict[str, tuple[str, bytes, bytes]] = {}
-    response_cache_lock = threading.Lock()
-
-    def artifact_bytes(name: str) -> tuple[bytes, bytes] | None:
-        metadata = database.artifact_metadata(name, include_size=False)
-        if metadata is None:
-            return None
-        with response_cache_lock:
-            cached = response_cache.get(name)
-            if cached is not None and cached[0] == metadata['stored_at']:
-                return cached[1], cached[2]
-        stored = database.get_artifact_json(name)
-        if stored is None:
-            return None
-        payload, revision = stored
-        with response_cache_lock:
-            cached = response_cache.get(name)
-            if cached is not None and cached[0] == revision:
-                return cached[1], cached[2]
-        raw = payload.encode("utf-8")
-        compressed = gzip.compress(raw, compresslevel=5)
-        with response_cache_lock:
-            response_cache[name] = (revision, raw, compressed)
-        return raw, compressed
+    from artifact_responses import ArtifactResponses
+    artifact_responses = ArtifactResponses(database)
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
@@ -878,12 +862,8 @@ def serve_live() -> None:
                 self.end_headers()
                 return
             try:
-                bodies = artifact_bytes(artifact_name)
-                if bodies is None:
-                    raise KeyError(artifact_name)
-                raw, compressed = bodies
                 accepts_gzip = "gzip" in self.headers.get("Accept-Encoding", "").lower()
-                body = compressed if accepts_gzip else raw
+                body = artifact_responses.get_bytes(artifact_name, compressed=accepts_gzip)
             except (OSError, KeyError, ValueError):
                 self.send_response(503)
                 self._cors()
@@ -924,7 +904,8 @@ def serve_live() -> None:
     stop_warming = threading.Event()
     try:
         with ThreadingHTTPServer(("0.0.0.0", LIVE_PORT), H) as server:
-            threading.Thread(target=warm_match_views, args=(match_views, stop_warming), daemon=True).start()
+            threading.Thread(target=warm_match_views,
+                             args=(match_views, stop_warming, artifact_responses.rebuild), daemon=True).start()
             server.serve_forever()
     except Exception as e:                             # noqa: BLE001
         log(f"실시간 서버 종료: {type(e).__name__}: {e}")

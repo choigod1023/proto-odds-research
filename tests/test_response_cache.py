@@ -92,3 +92,19 @@ def test_prewarming_survives_refresh_failure(monkeypatch):
         raise OSError('unavailable')
     supervisor.warm_match_views(SimpleNamespace(refresh=fail), stop)
     assert len(messages) == 1
+
+
+def test_warmer_does_not_overlap_artifact_rebuild(monkeypatch):
+    stop = threading.Event()
+    lock = threading.Lock()
+    calls = []
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
+    monkeypatch.setattr(stop, 'wait', lambda seconds: stop.set())
+    with lock:
+        supervisor.warm_match_views(SimpleNamespace(refresh=lambda: calls.append(1)), stop, lock)
+    assert calls == []
+    stop.clear()
+    supervisor.warm_match_views(SimpleNamespace(refresh=lambda: calls.append(1)), stop, lock)
+    assert calls == [1]
+    assert lock.acquire(blocking=False)
+    lock.release()

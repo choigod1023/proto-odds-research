@@ -524,6 +524,27 @@ class RuntimeDatabase(DatasetStore):
             return None
         return str(row["payload_json"]), str(row["stored_at"])
 
+    def proto_team_labels(self) -> list[dict[str, Any]]:
+        """Read only alias-matching fields, not the full prediction object graph.
+
+        SQLite still parses the document, but Python never materializes player
+        histories, options or the prediction ledger for a team-name lookup.
+        Both sections are read from one consistent statement/snapshot.
+        """
+        with self.connect() as connection:
+            rows = connection.execute("""
+                SELECT json_extract(g.value, '$.sport') AS sport,
+                       json_extract(g.value, '$.date') AS date,
+                       json_extract(g.value, '$.home') AS home,
+                       json_extract(g.value, '$.away') AS away
+                FROM artifacts a, json_each(a.payload_json) section,
+                     json_each(CASE WHEN section.key IN ('live', 'past')
+                                    AND section.type='array' THEN section.value ELSE '[]' END) g
+                WHERE a.name='picks_v2' AND section.key IN ('live', 'past')
+                  AND g.type='object'
+            """)
+            return [dict(row) for row in rows]
+
     def artifact_metadata(self, name: str, *, include_size: bool = True) -> dict[str, Any] | None:
         columns = "name,generated_at,stored_at"
         if include_size:
