@@ -88,3 +88,22 @@ py scripts/audit_recommendation_roi.py audit-inputs/recommendations.json audit-i
 28일 규칙을 미리 고정하고 미정산·데이터 공백·선택 비율과 함께 평가해야 한다.
 대시보드에 추가하는 경우에도 실제 검증이 끝나기 전에는 가상/탐색적 결과로만
 표시하고 정식 추천과 분리해야 한다.
+
+## #231 배포 후 초기 확인
+
+- main 병합 커밋 `e10a6fb6a09ce0a00907e72a8b253c1ebbd2135e` 포함 확인.
+- Fly 이미지 `deployment-01M3CBW56JGD2DBSBX4K6M8M19`, 머신 RAM 1024MB 유지,
+  2026-09-25 13:26:26 UTC 새 프로세스 시작. SSH로 checkout 및 supervisor
+  `_refresh_recommendation_after_odds` 적용 확인. Pages도 동일 커밋 built.
+- 13:30:19 UTC 배당 프로세스 rc=0 종료 뒤 여유 549MB에서 추천 후속 실행,
+  13:31:21 후보 39개 출력, 13:31:22 rc=0 정상 종료.
+- 추천 API generated_at/refreshed_at은 **09-25 22:31:16 KST**, 원천은
+  22:28:22 KST로 갱신됐다. 수신·파싱 포함 약 0.438초, 최근 목록 약 0.452초.
+- 아카이브는 기존 976개 ID가 모두 유지됐고 총 1001개로 증가했다.
+- 추천 종료 후 순간 MemAvailable 492232KB(약 481MiB), CPU PSI some avg60
+  63.55였다. PSI는 CPU 사용률이 아니다. 이 순간 여유나 API 한 번의 성공은
+  최대 메모리/장기 무장애의 증거가 아니다.
+- 13:26:24의 OOM 문자열은 배포에 따른 구 프로세스 종료 및 새 프로세스 시작 전
+  구간에 있다. 이번 새 버전의 배포 후 OOM으로 세지 않았다.
+- 추천 갱신의 첫 회복은 확인했지만 장기 안정화와 다음 반복 주기 검증은 별개다.
+  실험 PR #232와 대시보드 변경은 이 배포에 포함하지 않았다.
