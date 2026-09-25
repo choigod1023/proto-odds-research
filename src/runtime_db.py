@@ -514,6 +514,20 @@ class RuntimeDatabase(DatasetStore):
             ).fetchone()
         return json.loads(row["payload_json"]) if row is not None else None
 
+    def iter_recommendation_context(self):
+        """Project only recommendation inputs, avoiding a full picks Python tree."""
+        fields = ("date", "sport", "league", "home", "away", "decision_snapshot", "options",
+                  "근거해설", "해설", "근거해설방식", "해설방식", "경기근거")
+        projection = ",".join(f"'{key}',json_extract(g.value, '$.{key}')" for key in fields)
+        with self.connect() as connection:
+            for section in ("live", "past"):
+                for row in connection.execute(
+                    f"SELECT json_object({projection}) FROM artifacts a, "
+                    "json_each(a.payload_json, ?) g WHERE a.name='picks_v2'",
+                    (f"$.{section}",),
+                ):
+                    yield json.loads(row[0])
+
     def get_artifact_json(self, name: str) -> tuple[str, str] | None:
         """Return the stored wire payload and revision without decoding it."""
         with self.connect() as connection:

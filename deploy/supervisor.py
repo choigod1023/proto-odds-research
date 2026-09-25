@@ -62,7 +62,7 @@ LOOPERS = [
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
     ("실시간 배당", [sys.executable, "-u", "src/odds_live.py"], 60),
     # odds_live가 수집 직후 경량 시장 판정까지 같은 데이터로 연쇄 갱신한다.
-    ("실시간 추천", [sys.executable, "-u", "src/recommendation_refresh.py"], 300),
+    # Recommendations run as a bounded handoff after this odds process exits.
 ]
 
 # 재시작 직후 9개 수집기가 한꺼번에 메모리를 잡으면 1GB 머신에서도 커널 OOM이
@@ -70,7 +70,6 @@ LOOPERS = [
 # 픽스터 보강은 판정 게시 뒤로 분산한다.
 LOOPER_START_DELAYS = {
     "선발 예고": 30,
-    "실시간 추천": 45,
     "해외 배당": 90,
     "무료 야구 컨텍스트": 180,
     "선수·팀 정보": 240,
@@ -179,7 +178,7 @@ _pipeline_lock = threading.Lock()
 # pandas 전체 데이터, 대형 HTML, 선수 데이터 수집은 1GB 머신에서 동시에 두 개를
 # 허용하지 않는다. live_scores와 HTTP는 이 락 밖에 두어 실시간 화면을 보장한다.
 _memory_heavy_lock = threading.Lock()
-MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트", "실시간 추천"}
+MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
 # Admission headroom, not a hard memory limit: workers can still grow after launch.
 # Keep realtime scores, odds collection and HTTP outside this background gate.
 BACKGROUND_MIN_AVAILABLE_MB = int(os.environ.get("BACKGROUND_MIN_AVAILABLE_MB", "512"))
@@ -529,6 +528,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
     if initial_delay:
         log(f"{name} 시작을 {initial_delay}s 분산")
         time.sleep(initial_delay)
+    next_recommendation = 0.0
     while True:
         log(f"{name} 시작")
         try:
@@ -543,7 +543,40 @@ def run_looper(name: str, cmd: list[str], interval: int,
             rc = -1
         delay = interval if rc == 0 else min(60, interval)
         log(f"{name} 종료(rc={rc}) — {delay}s 후 재시작")
+        if name == "실시간 배당" and rc == 0 and time.monotonic() >= next_recommendation:
+            if _refresh_recommendation_after_odds():
+                next_recommendation = time.monotonic() + 300
         time.sleep(delay)
+
+
+def _refresh_recommendation_after_odds() -> bool:
+    """No odds/recommendation overlap or unbounded gate wait; scores stay live.
+
+    The projected recommendation reader needs no full picks document. Reserve
+    256MB after the odds child has exited; this is admission, not OOM immunity.
+    Other background jobs still require 512MB and share this lock.
+    """
+    if not _memory_heavy_lock.acquire(blocking=False):
+        log("추천 후속 갱신 보류 — 보조 작업 실행 중; 다음 배당 주기에 재시도")
+        return False
+    try:
+        available = _available_memory_mb()
+        if available is None or available < 256:
+            log(f"추천 후속 갱신 보류 — 여유 {available}MB / 필요 256MB")
+            return False
+        log(f"추천 후속 갱신 실행 — 배당 프로세스 종료 후, 여유 {available}MB")
+        result = subprocess.run([sys.executable, "-u", "src/recommendation_refresh.py"],
+                                cwd=REPO, timeout=90)
+        log(f"추천 후속 갱신 종료(rc={result.returncode})")
+        return result.returncode == 0
+    except subprocess.TimeoutExpired:
+        log("추천 후속 갱신 타임아웃(90s) — 다음 배당 주기에 재시도")
+        return False
+    except Exception as exc:
+        log(f"추천 후속 갱신 실패: {type(exc).__name__}: {exc}")
+        return False
+    finally:
+        _memory_heavy_lock.release()
 
 
 def run_daily() -> None:

@@ -47,7 +47,8 @@ from ai_decision import (can_apply_decision_probability,
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
 from bets import SEL_NAMES
 from runtime_db import (export_site_artifacts,
-                        load_artifact as load_runtime_artifact, persist_artifact)
+                        load_artifact as load_runtime_artifact, persist_artifact,
+                        RuntimeDatabase, database_enabled)
 from recommendation_policy import (
     MAX_AUTO_RECOMMENDATION_ODDS,
     PREFERRED_RECOMMENDATION_ODDS,
@@ -659,14 +660,19 @@ def daily_recommendation(plans: list[dict]) -> dict:
                 best, "correlation_stress_expected_roi", -99.0), "why": why}
 
 
-def _game_context_index() -> dict[tuple[str, str, str, str], dict]:
+def _game_context_index(wanted=None) -> dict[tuple[str, str, str, str], dict]:
     """전마켓 산출물의 LLM 해설·구조화 근거를 오늘 조합과 잇는다."""
-    raw = load_runtime_artifact("picks_v2", PICKS_V2) or {}
+    if database_enabled():
+        games = RuntimeDatabase().iter_recommendation_context()
+    else:
+        raw = load_runtime_artifact("picks_v2", PICKS_V2) or {}
+        games = itertools.chain(raw.get("live") or [], raw.get("past") or [])
     out = {}
-    for game in [*(raw.get("live") or []), *(raw.get("past") or [])]:
+    for game in games:
         key = (str(game.get("date") or "")[:5], str(game.get("league") or ""),
                str(game.get("home") or ""), str(game.get("away") or ""))
-        out[key] = game
+        if wanted is None or key in wanted:
+            out[key] = game
     return out
 
 
@@ -808,7 +814,9 @@ def _candidate_reason(candidate: dict) -> str:
 
 
 def _enrich_candidates(candidates: list[dict]) -> list[dict]:
-    index = _game_context_index()
+    wanted = {(str(c.get("date") or "")[:5], str(c.get("league") or ""),
+               str(c.get("home") or ""), str(c.get("away") or "")) for c in candidates}
+    index = _game_context_index(wanted)
     for candidate in candidates:
         candidate["reason"] = _candidate_reason(candidate)
         key = (str(candidate.get("date") or "")[:5],
