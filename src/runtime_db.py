@@ -496,8 +496,12 @@ class RuntimeDatabase(DatasetStore):
                     return
                 prices = connection.execute("SELECT payload_json FROM artifacts WHERE name='live_odds'").fetchone()
                 history = capture_history(payload, previous, datetime.fromisoformat(now))
+                from per_event_shadow import capture as capture_event_shadow
+                price_payload = json.loads(prices["payload_json"]) if prices else {}
                 payload = {**payload, "recommendation_history": settle_history(
-                    history, json.loads(prices["payload_json"]) if prices else {}, datetime.fromisoformat(now))}
+                    history, price_payload, datetime.fromisoformat(now)),
+                    "per_event_shadow": capture_event_shadow(
+                        payload, previous, price_payload, datetime.fromisoformat(now))}
             body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
             connection.execute(
                 """INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
