@@ -299,7 +299,7 @@ def _reprice_game(game: dict, round_no: object, live: dict) -> tuple[dict, bool]
 
 
 def legs_today(now: datetime | None = None, live_prices: dict | None = None,
-               source: dict | None = None) -> list[dict]:
+               source: dict | None = None, research: bool = False) -> list[dict]:
     """KST 오늘과, 오늘 후보 소진 시 쓸 다음 날 오전 선택지를 함께 준비한다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
@@ -358,10 +358,10 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None,
                 o = s.get("odds")
                 policy_reason = automatic_selection_exclusion_reason(
                     g.get("market"), o, market_prob, favorite_probability)
-                if policy_reason:
+                if policy_reason and not research:
                     continue
                 b = bin_of(o) if o else None
-                if not b or b in BANNED:
+                if not b or (b in BANNED and not research) or o <= 1:
                     continue
                 out.append({
                     "event_key": f"{kickoff.isoformat()}|{g.get('home')}|{g.get('away')}",
@@ -383,7 +383,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None,
                     "market_gap": round(market_gap, 4),
                     "n_way": len(selections),
                     "failure_prob": round(1.0 - market_prob, 4),
-                    "is_market_favorite": True,
+                    "is_market_favorite": (market_prob >= favorite_probability - 1e-9) if research else True,
                     "recommendation_priority": (
                         "primary" if recommendation_priority(o) == 1 else "fallback"
                     ),
@@ -409,7 +409,7 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None,
         key = (candidate["event_key"], candidate["market"], str(candidate["market_label"]))
         favorite_by_market[key] = max(
             favorite_by_market.get(key, 0.0), float(candidate["market_prob"]))
-    deduped = [candidate for candidate in deduped if float(candidate["market_prob"]) >=
+    deduped = [candidate for candidate in deduped if research or float(candidate["market_prob"]) >=
                favorite_by_market[(candidate["event_key"], candidate["market"],
                                    str(candidate["market_label"]))] - 1e-9]
     # 경기별 최종 한 장은 개편된 decision snapshot을 연결한 뒤 고른다. 여기서 먼저
@@ -887,9 +887,12 @@ def retain_started_candidates(current: list[dict], previous: dict,
 def build() -> dict:
     source = _candidate_source()
     live_generated_at = source.get("generated_at") if source["candidate_source"] == "live_odds" else None
-    cands = select_event_candidates(
-        _enrich_candidates(legs_today(source=source))
-    )
+    operational = legs_today(source=source)
+    research = legs_today(source=source, research=True)
+    enriched = _enrich_candidates(operational + research)
+    cands = select_event_candidates(enriched[:len(operational)])
+    from per_event_shadow import proposals
+    comparison = proposals(enriched[len(operational):], cands)
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
     # 시작했다고 사전 추천 기록을 지우면 적중 결과를 추적할 수 없다. 직전 생성물이
     # 실제 킥오프 전에 저장한 오늘 후보만 잠그고, 새 조합 계산에는 섞지 않는다.
@@ -928,6 +931,7 @@ def build() -> dict:
             "why": "자동 조합 추천 정책을 종료하고 경기별 추천만 운영한다",
         },
         "candidates": display_cands,
+        "per_event_shadow_proposals": comparison,
         "odds_bins": grades["odds_bins"],
         "note": "검증된 시장 잔차가 없어 추천확률은 Shin 시장확률로 복귀한다. "
                 "자동 조합 추천과 목표배당 판정은 운영에서 제거하고 경기별 추천만 "
