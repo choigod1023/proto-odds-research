@@ -106,6 +106,8 @@ def main(argv: list[str]) -> int:
                   f"{'변경' if result['changed'] else '유지'} · {result['revision'][:10]}", flush=True)
         except Exception as exc:  # noqa: BLE001
             print(f"추천 재계산 실패: {type(exc).__name__}: {exc}", flush=True)
+            if not loop:
+                return 1
         if not loop:
             return 0
         time.sleep(loop)

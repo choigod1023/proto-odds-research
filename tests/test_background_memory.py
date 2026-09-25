@@ -48,6 +48,7 @@ def test_background_releases_slot_after_failure(gate, monkeypatch):
 @pytest.mark.parametrize('name', ['실시간 배당', '배당 스냅샷'])
 def test_realtime_collectors_bypass_background_gate(gate, monkeypatch, name):
     calls = []
+    monkeypatch.setattr(supervisor, '_refresh_recommendation_after_odds', lambda: True)
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: pytest.fail('realtime gated'))
     monkeypatch.setattr(supervisor.subprocess, 'run',
                         lambda *a, **k: calls.append(a) or SimpleNamespace(returncode=0))
@@ -85,3 +86,41 @@ def test_publish_steps_wait_and_preserve_order(gate, monkeypatch):
     monkeypatch.setattr(supervisor.subprocess, 'run', run)
     supervisor._run_steps([('first', ['a'], True, 10), ('second', ['b'], False, 10)])
     assert calls == ['wait', 'a', 'wait', 'b']
+
+
+def test_recommendation_handoff_between_odds_runs(gate, monkeypatch):
+    calls = []
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 300)
+    def run(cmd, **kwargs):
+        calls.append(cmd[-1])
+        if cmd[-1] == 'src/recommendation_refresh.py':
+            assert gate.locked()
+            assert kwargs['timeout'] == 90
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(supervisor.subprocess, 'run', run)
+    monkeypatch.setattr(supervisor.time, 'sleep', lambda n: (_ for _ in ()).throw(StopIteration()))
+    with pytest.raises((StopIteration, RuntimeError)):
+        supervisor.run_looper('실시간 배당', ['odds'], 60)
+    assert calls == ['odds', 'src/recommendation_refresh.py']
+    assert not gate.locked()
+    assert all(name != '실시간 추천' for name, _, _ in supervisor.LOOPERS)
+
+
+@pytest.mark.parametrize('available', [None, 0, 255])
+def test_handoff_skips_low_memory_without_waiting(gate, monkeypatch, available):
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: available)
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **k: pytest.fail('launched'))
+    assert supervisor._refresh_recommendation_after_odds() is False
+    assert not gate.locked()
+
+
+def test_handoff_busy_and_timeout_release(gate, monkeypatch):
+    gate.acquire()
+    assert supervisor._refresh_recommendation_after_odds() is False
+    gate.release()
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 300)
+    def timeout(*a, **kw):
+        raise supervisor.subprocess.TimeoutExpired('recommendation', 90)
+    monkeypatch.setattr(supervisor.subprocess, 'run', timeout)
+    assert supervisor._refresh_recommendation_after_odds() is False
+    assert not gate.locked()
