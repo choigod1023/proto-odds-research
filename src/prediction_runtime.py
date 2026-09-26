@@ -157,6 +157,8 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
             "lineup_note": game.get("라인업메모"),
         },
         "options": options,
+        **({"validation_shadow": game["validation_shadow"]}
+           if "validation_shadow" in game else {}),
     })
 
 
@@ -178,6 +180,9 @@ def prediction_payload(game: Mapping[str, Any]) -> dict[str, Any]:
         "probability_detail": snapshot.get("probability") or {},
         "gate_codes": snapshot.get("gate_codes") or [],
         "score_forecast": game.get("score_forecast"),
+        **({"validation_shadow": {k: v for k, v in game["validation_shadow"].items()
+                                   if k != "inputs"}}
+           if "validation_shadow" in game else {}),
     })
 
 
