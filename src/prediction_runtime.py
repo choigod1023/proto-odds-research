@@ -139,6 +139,8 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         for row in game.get("options", [])
     ]
     return _safe_json({
+        **({"research_player_inputs": game["research_player_inputs"]}
+           if "research_player_inputs" in game else {}),
         "score_inputs": {
             "home": game.get("lam_home"),
             "away": game.get("lam_away"),
