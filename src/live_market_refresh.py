@@ -382,6 +382,11 @@ def refresh_document(document: dict, live_odds: dict, *,
                 game, as_of=observed_at, built_at=observed_at,
                 explanation_kind="structured_ui",
             )
+            from form_probability_shadow import candidate
+            # A separate prospective baseline, never fed back into pick ranking.
+            shadow_clock = datetime.now(timezone.utc) if use_database and now is None else decision_clock
+            game["validation_shadow"] = candidate(
+                game, observed_at=shadow_clock.isoformat(), kickoff=kickoff_utc(kickoff))
             game.pop("pick_drift", None)
         else:
             # 경기 후 복구한 가격으로 사전 추천을 소급 생성하지 않는다.
