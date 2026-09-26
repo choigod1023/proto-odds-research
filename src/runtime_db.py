@@ -518,6 +518,38 @@ class RuntimeDatabase(DatasetStore):
             ).fetchone()
         return json.loads(row["payload_json"]) if row is not None else None
 
+    def odds_collection_context(self) -> dict[str, Any] | None:
+        """Read collection hints/seeds without decoding the full picks tree in Python.
+
+        SQLite still parses the JSON artifact. A read transaction keeps metadata
+        and seeds on the same revision; it does not reserve the writer lock.
+        """
+        with self.connect() as connection:
+            connection.execute("BEGIN")
+            row = connection.execute("""
+                SELECT generated_at, json_extract(payload_json, '$.rounds') AS rounds
+                FROM artifacts WHERE name='picks_v2'
+            """).fetchone()
+            if row is None:
+                return None
+            result = {"generated_at": row["generated_at"],
+                      "rounds": json.loads(row["rounds"]) if row["rounds"] else [], "live": []}
+            for game in connection.execute("""
+                SELECT json_extract(g.value, '$.round') AS round,
+                       (SELECT json_group_array(json_object(
+                           '게임번호',json_extract(o.value, '$.게임번호'),
+                           'market',json_extract(o.value, '$.market'),
+                           'label',json_extract(o.value, '$.label'),
+                           '배당',json_extract(o.value, '$.배당')))
+                        FROM json_each(CASE WHEN json_type(g.value, '$.options')='array'
+                            THEN json_extract(g.value, '$.options') ELSE '[]' END) o) AS options
+                FROM artifacts a, json_each(a.payload_json, '$.live') g
+                WHERE a.name='picks_v2' AND g.type='object'
+            """):
+                result["live"].append({"round": game["round"],
+                                       "options": json.loads(game["options"])})
+            return result
+
     def iter_recommendation_context(self):
         """Project only recommendation inputs, avoiding a full picks Python tree."""
         fields = ("date", "sport", "league", "home", "away", "decision_snapshot", "options",
