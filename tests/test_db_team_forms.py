@@ -41,7 +41,8 @@ def history_db(monkeypatch):
 
     monkeypatch.setenv("PROODD_DB_PATH", "unused-contract-db")
     monkeypatch.setattr(runtime_db, "RuntimeDatabase", lambda: SimpleNamespace(
-        match_history=query, get_document=lambda name: None))
+        match_history=query, get_document=lambda name: None,
+        player_fixture_document=lambda *args: {"games": []}))
     monkeypatch.setattr(pd, "read_csv", lambda *a, **kw: pytest.fail("CSV read in DB consumer"))
     return rows, calls
 

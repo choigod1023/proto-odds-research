@@ -24,7 +24,7 @@ from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # no
                                LedgerLockTimeout, PredictionLedgerError)
 from prediction_performance import performance_index
 from prediction_runtime import PredictionRuntime, kickoff_utc  # noqa: E402
-from runtime_db import database_enabled, load_artifact, load_document, persist_artifact  # noqa: E402
+from runtime_db import database_enabled, load_artifact, persist_artifact  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
@@ -260,7 +260,7 @@ def refresh_document(document: dict, live_odds: dict, *,
         clock = clock.replace(tzinfo=KST)
     decision_clock = max(observed, clock) if observed and clock else None
     form_provider = None
-    player_loaded = player_document is not None
+    player_db = None
     existing = {
         _key(game.get("round"), game.get("date"), game.get("home"), game.get("away")): game
         for game in document.get("live") or []
@@ -374,17 +374,21 @@ def refresh_document(document: dict, live_odds: dict, *,
                 game.pop("pick_drift", None)
         elif can_predict:
             # Only new/unpinned decisions capture context; never rewrite frozen inputs.
-            if use_database and not player_loaded:
+            fixture_document = player_document
+            if use_database and player_document is None:
                 try:
-                    player_document = load_document("player_info", ROOT / "data" / "raw" / "player_info.json")
+                    if player_db is None:
+                        from runtime_db import RuntimeDatabase
+                        player_db = RuntimeDatabase()
+                    fixture_document = player_db.player_fixture_document(
+                        game.get("league"), game.get("home"), game.get("away"), kickoff_utc(kickoff))
                 except (OSError, ValueError, sqlite3.Error):
-                    player_document = None
-                player_loaded = True
+                    fixture_document = None
             if use_database or player_document is not None:
                 from pregame_player_capture import capture
                 capture_clock = datetime.now(timezone.utc) if use_database and now is None else decision_clock
                 game["research_player_inputs"] = capture(
-                    game, player_document, observed_at=capture_clock.isoformat(),
+                    game, fixture_document, observed_at=capture_clock.isoformat(),
                     kickoff=kickoff_utc(kickoff))
             if form_payload is not None:
                 game.update(form_payload)

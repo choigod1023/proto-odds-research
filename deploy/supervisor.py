@@ -178,6 +178,7 @@ _pipeline_lock = threading.Lock()
 # pandas 전체 데이터, 대형 HTML, 선수 데이터 수집은 1GB 머신에서 동시에 두 개를
 # 허용하지 않는다. live_scores와 HTTP는 이 락 밖에 두어 실시간 화면을 보장한다.
 _memory_heavy_lock = threading.Lock()
+_player_memory_opportunity = threading.Event()
 MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
 # Admission headroom, not a hard memory limit: workers can still grow after launch.
 # Keep realtime scores, odds collection and HTTP outside this background gate.
@@ -225,7 +226,13 @@ def _background_slot(name: str):
             log(f"{name} 메모리 대기 — 여유 {available}MB / 필요 {BACKGROUND_MIN_AVAILABLE_MB}MB, "
                 f"대기 {int(now-started)}s; 실시간 수집 유지")
             next_notice = now + 300
-        time.sleep(30)
+        if name == "선수·팀 정보":
+            # Wake on released odds/recommendation memory, not only a timer.
+            # Still recheck the same gate under the shared lock; never force admission.
+            _player_memory_opportunity.wait(timeout=30)
+            _player_memory_opportunity.clear()
+        else:
+            time.sleep(30)
 
 
 def _clear_stale_locks() -> None:
@@ -546,6 +553,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
         if name == "실시간 배당" and rc == 0 and time.monotonic() >= next_recommendation:
             if _refresh_recommendation_after_odds():
                 next_recommendation = time.monotonic() + 300
+        if name == "실시간 배당":
+            _player_memory_opportunity.set()
         time.sleep(delay)
 
 

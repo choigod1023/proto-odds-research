@@ -215,6 +215,24 @@ class RuntimeDatabase(DatasetStore):
             ).fetchone()
         return json.loads(row["payload_json"]) if row is not None else None
 
+    def player_fixture_document(self, league: str, home: str, away: str,
+                                kickoff: str) -> dict:
+        """Project at most two exact fixtures; two preserves ambiguity rejection.
+
+        SQLite still parses the source JSON. Avoid transferring/decoding all cached
+        leagues into Python; do not claim this eliminates SQLite scan memory.
+        """
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT j.value FROM documents d, json_each(d.payload_json,'$.games') j
+                   WHERE d.name='player_info'
+                     AND json_extract(j.value,'$.league')=?
+                     AND json_extract(j.value,'$.home_team')=?
+                     AND json_extract(j.value,'$.away_team')=?
+                     AND julianday(json_extract(j.value,'$.game_datetime'))=julianday(?)
+                   LIMIT 2""", (league, home, away, kickoff)).fetchall()
+        return {"games": [json.loads(row[0]) for row in rows]}
+
     def document_metadata(self, name: str) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(
