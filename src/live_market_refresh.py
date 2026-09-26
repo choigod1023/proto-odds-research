@@ -15,8 +15,8 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ai_decision import build_decision_snapshot  # noqa: E402
-from bets import SEL_NAMES  # noqa: E402
+from ai_decision import build_decision_snapshot, event_id, selection_id, offer_id  # noqa: E402
+from bets import SEL_NAMES, winner_index  # noqa: E402
 from devig import market_probabilities  # noqa: E402
 from game_dedup import deduplicate_game_sections  # noqa: E402
 from prediction_ledger import (LedgerConflictError, LedgerCorruptionError,  # noqa: E402
@@ -411,6 +411,66 @@ def refresh_document(document: dict, live_odds: dict, *,
     return document, changed
 
 
+def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> int:
+    """Append exact-offer official outcomes without editing frozen predictions.
+
+    Works even when a finished game has left picks_v2. No fuzzy matching, new
+    predictions or price replacement; ambiguous duplicate result rows are skipped.
+    """
+    observed = _aware_timestamp(live_odds.get("generated_at"))
+    if observed is None:
+        raise PredictionLedgerError("settlement feed timestamp must include a timezone")
+    candidates = {}
+    for round_no, markets in (live_odds.get("markets") or {}).items():
+        for row in markets.values():
+            if row.get("result") in UNPLAYED:
+                continue
+            game = {**row, "round": int(round_no), "year": observed.astimezone(KST).year}
+            kickoff = _game_kickoff(game, observed)
+            if kickoff is None or kickoff.replace(tzinfo=KST) > observed:
+                continue
+            # Prevent a stale yearless feed from matching another year's fixture.
+            if observed - kickoff.replace(tzinfo=KST) > timedelta(days=90):
+                continue
+            names = SEL_NAMES.get((row.get("market"), row.get("n_way")))
+            if not names or len(names) != row.get("n_way"):
+                continue
+            void = row.get("result") in {"취소", "연기", "중단", "무효"}
+            winner = winner_index(row.get("n_way"), row.get("result"))
+            if not void and winner is None:
+                continue
+            line = None
+            if row.get("market") in {"핸디캡", "언더오버", "전반핸디캡", "전반언더오버"}:
+                match = LINE.search(str(row.get("label") or ""))
+                if match is None:
+                    continue
+                line = float(match.group())
+            for index, name in enumerate(names):
+                option = {"market": row.get("market"), "label": row.get("label") or "",
+                          "line": line, "선택": name, "게임번호": str(row.get("game_no"))}
+                key = (event_id(game), selection_id(game, option), offer_id(game, option))
+                candidates.setdefault(key, []).append((
+                    "void" if void else "hit" if index == winner else "miss", row, round_no))
+    count = 0
+    for event, record in runtime.ui_records().items():
+        key = (event, record.get("selection_id"), record.get("offer_id"))
+        matches = candidates.get(key, [])
+        if len(matches) != 1:
+            continue
+        result, row, round_no = matches[0]
+        if record.get("result") == result:
+            continue  # Full generator may already have settled with extra score metadata.
+        appended = runtime.settle_latest(
+            event, outcome={"result": result, "selection_id": record["selection_id"],
+                            "official_result": row.get("result")},
+            settled_at=observed.isoformat(),
+            source={"name": "proto_official", "round": round_no,
+                    "game_no": row.get("game_no"), "game_date": row.get("date"),
+                    "path": "live_odds"})
+        count += int(appended is not None)
+    return count
+
+
 def refresh_once(live_odds: dict | None = None) -> int:
     try:
         document = load_artifact("picks_v2", PICKS)
@@ -422,16 +482,27 @@ def refresh_once(live_odds: dict | None = None) -> int:
         print(f"경량 시장 판정 입력 실패: {type(exc).__name__}: {exc}")
         return 1
     document, changed = refresh_document(document, live_odds)
-    if not changed:
-        print("경량 시장 판정 변경 없음")
-        return 0
     observed_at = str(live_odds.get("generated_at") or "")
     try:
+        runtime = PredictionRuntime(PREDICTION_LEDGER)
+        settled = settle_live_market_results(live_odds, runtime)
         ledger_sync = record_live_market_revisions(
             document,
             observed_at,
-            PredictionRuntime(PREDICTION_LEDGER),
-        )
+            runtime,
+        ) if changed else {"predictions": 0, "skipped": 0, "withheld": 0}
+        ledger_sync["settlements"] = settled
+        records = runtime.ui_records()
+        attached = 0
+        for game in [*(document.get("live") or []), *(document.get("past") or [])]:
+            record = records.get(game.get("event_id") or event_id(game))
+            if (record and record.get("result") != "pending"
+                    and game.get("prediction_record") != record):
+                game["prediction_record"] = record
+                attached += 1
+        if not changed and not settled and not attached:
+            print("경량 시장 판정 변경 없음")
+            return 0
     except (LedgerCorruptionError, LedgerConflictError,
             LedgerLockTimeout, PredictionLedgerError) as exc:
         # A price can be shown only together with the immutable decision revision
