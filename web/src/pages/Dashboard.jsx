@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "../components/ui.jsx";
 import ReceiptOcr from "../components/ReceiptOcr.jsx";
+import PerEventShadow from "../components/PerEventShadow.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import RecordMatchDetails from "../components/RecordMatchDetails.jsx";
 import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, recordLive,
@@ -192,6 +193,7 @@ export default function Dashboard() {
         <div><h1>내 베팅 대시보드</h1></div>
 
       </header>
+      <PerEventShadow />
       <ReceiptOcr games={receiptGames} onImported={() => setBets(readBetLedger())} />
       <section className="dashboard-summary">
         <div><small>저장한 티켓</small><b>{groups.length}장 · {bets.length}픽</b></div>
