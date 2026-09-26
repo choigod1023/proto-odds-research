@@ -196,6 +196,7 @@ export default function Markets() {
       {allMatches && !picksChecked && <p role="status">과거·전체 경기 목록을 불러오는 중입니다.</p>}
       {picksError && <p role="status">경기 목록 갱신에 실패했습니다. 마지막 정상 목록을 유지합니다. <button onClick={retryPicks}>다시 시도</button></p>}
       <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
+      <p><a href="./dashboard.html#per-event-shadow">경기별 새 픽 가상 비교 · 선택/보류 사유와 정산 성적 보기</a></p>
       <details className="overall-accuracy-secondary" onToggle={event => setAccuracyOpen(event.currentTarget.open)}><summary>전체 사전 픽 성적 보기</summary>
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
       </details>

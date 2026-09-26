@@ -728,6 +728,12 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .recommendation-results { margin:8px 0 16px; padding:24px; border:1px solid var(--color-rule); border-radius:16px; background:var(--color-panel); }
 .recommendation-results h2 { margin:0 0 6px; font-size:clamp(20px,4vw,28px); line-height:1.4; }
 .recommendation-results h2 strong { color:var(--color-signal); }
+.per-event-shadow .dashboard-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.per-event-shadow .dashboard-summary span { display:block; margin-top:6px; font-size:13px; }
+.per-event-shadow p, .per-event-shadow small { overflow-wrap:anywhere; }
+.per-event-shadow [role="alert"] { border-left:3px solid var(--color-signal); padding-left:10px; }
+.per-event-shadow summary { cursor:pointer; padding:12px 0; }
+@media(max-width:650px) { .per-event-shadow .dashboard-summary { grid-template-columns:1fr; } }
 .recommendation-result-scope { margin:0 0 6px; color:var(--color-ink3); font-size:12px; }
 .recommendation-result-rules { color:var(--color-ink3); font-size:12px; line-height:1.6; }
 .recommendation-result-tiles { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:8px; margin:18px 0 10px; }
