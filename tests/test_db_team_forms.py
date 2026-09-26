@@ -40,7 +40,8 @@ def history_db(monkeypatch):
                 and (before is None or pd.Timestamp(row["kickoff"]) < pd.Timestamp(before))]
 
     monkeypatch.setenv("PROODD_DB_PATH", "unused-contract-db")
-    monkeypatch.setattr(runtime_db, "RuntimeDatabase", lambda: SimpleNamespace(match_history=query))
+    monkeypatch.setattr(runtime_db, "RuntimeDatabase", lambda: SimpleNamespace(
+        match_history=query, get_document=lambda name: None))
     monkeypatch.setattr(pd, "read_csv", lambda *a, **kw: pytest.fail("CSV read in DB consumer"))
     return rows, calls
 
