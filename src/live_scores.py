@@ -257,7 +257,11 @@ def _team_key(value: str) -> str:
 
 
 def _team_similarity(left: str, right: str) -> float:
-    a, b = _team_key(left), _team_key(right)
+    return _team_key_similarity(_team_key(left), _team_key(right))
+
+
+def _team_key_similarity(a: str, b: str) -> float:
+    """Score already-normalized names without changing comparison direction."""
     if not a or not b:
         return 0.0
     if a == b:
@@ -273,6 +277,13 @@ def _team_similarity_with_aliases(proto_name: str, game: dict, side: str) -> flo
     return max((_team_similarity(proto_name, name) for name in names), default=0.0)
 
 
+def _best_team_key_similarity(proto_key: str, named_keys: tuple[str, ...]) -> float:
+    # Exact matches are the maximum possible score; no fuzzy comparisons needed.
+    if proto_key and proto_key in named_keys:
+        return 1.0
+    return max((_team_key_similarity(proto_key, key) for key in named_keys), default=0.0)
+
+
 def _proto_games() -> list[dict]:
     if database_enabled():
         return RuntimeDatabase().proto_team_labels()
@@ -282,7 +293,7 @@ def _proto_games() -> list[dict]:
 
 def add_proto_aliases(named_games: list[dict], proto_games: list[dict]) -> int:
     """NAMED 정식 팀명에 프로토 축약명을 붙여 프론트의 정확 키 조인을 살린다."""
-    candidates: dict[tuple[str, str], list[dict]] = {}
+    candidates: dict[tuple[str, str], list[tuple]] = {}
     seen = set()
     for game in proto_games:
         md = str(game.get("date") or "")[:5]
@@ -291,20 +302,31 @@ def add_proto_aliases(named_games: list[dict], proto_games: list[dict]) -> int:
         if event in seen:
             continue
         seen.add(event)
-        candidates.setdefault((str(game.get("sport") or ""), md), []).append(game)
+        match = re.search(r"(\d{2}:\d{2})", str(game.get("date") or ""))
+        candidates.setdefault((str(game.get("sport") or ""), md), []).append(
+            (game, _team_key(game.get("home")), _team_key(game.get("away")),
+             match.group(1) if match else None)
+        )
 
     matched = 0
     for game in named_games:
         ranked = []
-        for proto in candidates.get((game.get("sport"), game.get("md")), []):
+        choices = candidates.get((game.get("sport"), game.get("md")), [])
+        if not choices:
+            continue
+        keys = {
+            side: tuple(dict.fromkeys(_team_key(name) for name in
+                        [game.get(side), *(game.get(f"{side}_alias") or [])]))
+            for side in ("home", "away")
+        }
+        named_time = str(game.get("start") or "")[11:16]
+        for proto, home_key, away_key, kickoff in choices:
             # NAMED's canonical name can omit the city used by Proto (for example
             # 반라우레 vs 하치노헤). shortName is retained as an alias, so score
             # every supplied label instead of comparing only the canonical name.
-            hs = _team_similarity_with_aliases(proto.get("home"), game, "home")
-            aws = _team_similarity_with_aliases(proto.get("away"), game, "away")
-            named_time = str(game.get("start") or "")[11:16]
-            match = re.search(r"(\d{2}:\d{2})", str(proto.get("date") or ""))
-            same_time = bool(match and named_time == match.group(1))
+            hs = _best_team_key_similarity(home_key, keys["home"])
+            aws = _best_team_key_similarity(away_key, keys["away"])
+            same_time = kickoff is not None and named_time == kickoff
             # 축약이 심한 프로토 팀명은 문자열 점수만 낮을 수 있다. 날짜와 킥오프가
             # 모두 같으면 문턱을 낮추되 양 팀 중 하나라도 전혀 다르면 거부한다.
             floor = .25 if same_time else .45
