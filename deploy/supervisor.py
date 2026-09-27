@@ -178,6 +178,8 @@ _pipeline_lock = threading.Lock()
 # pandas 전체 데이터, 대형 HTML, 선수 데이터 수집은 1GB 머신에서 동시에 두 개를
 # 허용하지 않는다. live_scores와 HTTP는 이 락 밖에 두어 실시간 화면을 보장한다.
 _memory_heavy_lock = threading.Lock()
+_odds_recommendation_lock = threading.Lock()
+_next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
 MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
 # Admission headroom, not a hard memory limit: workers can still grow after launch.
@@ -543,6 +545,11 @@ def run_looper(name: str, cmd: list[str], interval: int,
             if lock:
                 with _background_slot(name):
                     rc = subprocess.run(cmd, cwd=REPO).returncode
+            elif name == "실시간 배당":
+                # The independent recommendation worker must not race a new
+                # odds child between checking headroom and starting its process.
+                with _odds_recommendation_lock:
+                    rc = subprocess.run(cmd, cwd=REPO).returncode
             else:
                 rc = subprocess.run(cmd, cwd=REPO).returncode
         except Exception as e:                        # noqa: BLE001
@@ -559,6 +566,35 @@ def run_looper(name: str, cmd: list[str], interval: int,
 
 
 def _refresh_recommendation_after_odds() -> bool:
+    """Shared bounded admission for startup, periodic retry and odds handoff."""
+    global _next_recommendation_refresh
+    if not _odds_recommendation_lock.acquire(blocking=False):
+        return False
+    try:
+        if time.monotonic() < _next_recommendation_refresh:
+            return True
+        refreshed = _refresh_recommendation_in_slot()
+        if refreshed:
+            _next_recommendation_refresh = time.monotonic() + 300
+        return refreshed
+    finally:
+        _odds_recommendation_lock.release()
+
+
+def run_recommendation_refresh(stop=None) -> None:
+    """Retry independently of optional publish steps and odds success.
+
+    No permanent child, queued retries, or extra HTTP/DB polling. A failed
+    admission costs only a lock/headroom check; successful runs are shared
+    with the odds handoff and limited to once per five minutes.
+    """
+    stop = stop if stop is not None else threading.Event()
+    while not stop.is_set():
+        _refresh_recommendation_after_odds()
+        stop.wait(30)
+
+
+def _refresh_recommendation_in_slot() -> bool:
     """No odds/recommendation overlap or unbounded gate wait; scores stay live.
 
     The projected recommendation reader needs no full picks document. Reserve
@@ -566,20 +602,20 @@ def _refresh_recommendation_after_odds() -> bool:
     Other background jobs still require 512MB and share this lock.
     """
     if not _memory_heavy_lock.acquire(blocking=False):
-        log("추천 후속 갱신 보류 — 보조 작업 실행 중; 다음 배당 주기에 재시도")
+        log("추천 후속 갱신 보류 — 보조 작업 실행 중; 독립 주기에서 재시도")
         return False
     try:
         available = _available_memory_mb()
         if available is None or available < 256:
             log(f"추천 후속 갱신 보류 — 여유 {available}MB / 필요 256MB")
             return False
-        log(f"추천 후속 갱신 실행 — 배당 프로세스 종료 후, 여유 {available}MB")
+        log(f"추천 후속 갱신 실행 — 배당 프로세스 없음, 여유 {available}MB")
         result = subprocess.run([sys.executable, "-u", "src/recommendation_refresh.py"],
                                 cwd=REPO, timeout=90)
         log(f"추천 후속 갱신 종료(rc={result.returncode})")
         return result.returncode == 0
     except subprocess.TimeoutExpired:
-        log("추천 후속 갱신 타임아웃(90s) — 다음 배당 주기에 재시도")
+        log("추천 후속 갱신 타임아웃(90s) — 독립 주기에서 재시도")
         return False
     except Exception as exc:
         log(f"추천 후속 갱신 실패: {type(exc).__name__}: {exc}")
@@ -1003,6 +1039,9 @@ def main() -> int:
     # 있으므로 서버는 즉시 응답하고 새 점수는 백그라운드에서 교체하면 된다.
     threading.Thread(target=serve_live, daemon=True).start()
     threading.Thread(target=run_live, daemon=True).start()
+    # Do not wait behind pickster/feature memory gates or the first successful
+    # odds cycle. Uses existing DB inputs and preserves their source timestamps.
+    threading.Thread(target=run_recommendation_refresh, daemon=True).start()
 
     for name, cmd, interval in LOOPERS:
         threading.Thread(target=run_looper,

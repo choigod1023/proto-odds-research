@@ -9,6 +9,8 @@ from deploy import supervisor
 def gate(monkeypatch):
     lock = threading.Lock()
     monkeypatch.setattr(supervisor, '_memory_heavy_lock', lock)
+    monkeypatch.setattr(supervisor, '_odds_recommendation_lock', threading.Lock())
+    monkeypatch.setattr(supervisor, '_next_recommendation_refresh', 0.0)
     monkeypatch.setattr(supervisor, 'BACKGROUND_MIN_AVAILABLE_MB', 512)
     monkeypatch.setattr(supervisor, 'log', lambda message: None)
     return lock
@@ -93,6 +95,7 @@ def test_recommendation_handoff_between_odds_runs(gate, monkeypatch):
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 300)
     def run(cmd, **kwargs):
         calls.append(cmd[-1])
+        assert supervisor._odds_recommendation_lock.locked()
         if cmd[-1] == 'src/recommendation_refresh.py':
             assert gate.locked()
             assert kwargs['timeout'] == 90
@@ -124,3 +127,44 @@ def test_handoff_busy_and_timeout_release(gate, monkeypatch):
     monkeypatch.setattr(supervisor.subprocess, 'run', timeout)
     assert supervisor._refresh_recommendation_after_odds() is False
     assert not gate.locked()
+
+
+def test_independent_refresh_runs_while_optional_publish_waits(gate, monkeypatch):
+    calls = []
+    # This is insufficient for pickster's 512MB gate, but sufficient for the
+    # projected recommendation reader. No odds completion signal is required.
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 300)
+    def run(cmd, **kwargs):
+        assert gate.locked()
+        assert supervisor._odds_recommendation_lock.locked()
+        assert kwargs['timeout'] == 90
+        calls.append(cmd[-1])
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(supervisor.subprocess, 'run', run)
+    stop = threading.Event()
+    monkeypatch.setattr(stop, 'wait', lambda seconds: stop.set())
+    supervisor.run_recommendation_refresh(stop)
+    assert calls == ['src/recommendation_refresh.py']
+    # Odds callback and periodic worker share the successful-run cooldown.
+    assert supervisor._refresh_recommendation_after_odds()
+    assert len(calls) == 1
+    assert not gate.locked()
+    assert not supervisor._odds_recommendation_lock.locked()
+
+
+def test_independent_refresh_never_overlaps_odds(gate, monkeypatch):
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **k: pytest.fail('overlap'))
+    with supervisor._odds_recommendation_lock:
+        assert supervisor._refresh_recommendation_after_odds() is False
+    assert supervisor._next_recommendation_refresh == 0
+
+
+def test_failure_is_retried_without_successful_odds(gate, monkeypatch):
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 300)
+    results = iter([1, 0])
+    monkeypatch.setattr(supervisor.subprocess, 'run',
+                        lambda *a, **k: SimpleNamespace(returncode=next(results)))
+    assert not supervisor._refresh_recommendation_after_odds()
+    assert supervisor._next_recommendation_refresh == 0
+    assert supervisor._refresh_recommendation_after_odds()
+    assert supervisor._next_recommendation_refresh > 0
