@@ -8,7 +8,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from recommendation_history import capture_history, highlights, selection_key, settle_history
+from recommendation_history import POLICY, capture_history, highlights, selection_key, settle_history
 from runtime_db import RuntimeDatabase
 
 NOW = datetime(2026, 9, 6, 0, tzinfo=timezone.utc)
@@ -64,6 +64,7 @@ def test_database_keeps_archive_and_rejects_stale_writer(tmp_path):
     db.store_artifact("today_combo", payload([row], now))
     saved = db.get_artifact("today_combo")
     assert len(saved["recommendation_history"]) == 1
+    assert saved["recommendation_policy"] == POLICY
     db.store_artifact("today_combo", payload([], now-timedelta(hours=1)))
     assert db.get_artifact("today_combo") == saved
     db.store_artifact("today_combo", payload([], now))
@@ -83,3 +84,25 @@ def test_highlight_policy_matches_browser():
     actual = subprocess.run(["node", "--input-type=module", "-e", script], input=json.dumps(rows),
                             text=True, encoding="utf-8", capture_output=True, cwd=ROOT, check=True)
     assert highlights(rows) == set(json.loads(actual.stdout))
+
+
+@pytest.mark.parametrize("p,odds,expected", [
+    (.5999, 1.6, False), (.60, 1.49, False), (.60, 1.50, True),
+    (.60, 2.1999, True), (.60, 2.20, False), (1., 1.6, False),
+])
+def test_operating_policy_boundaries(p, odds, expected):
+    row = candidate(predicted_hit_prob=p, odds=odds)
+    assert bool(highlights([row])) is expected
+    history = capture_history(payload([row]), {}, NOW)
+    saved = next(iter(history.values()))
+    assert saved["recommended"] is expected
+    assert saved["policy"] == POLICY
+
+
+def test_legacy_frozen_recommendation_is_not_rewritten():
+    history = capture_history(payload([candidate()]), {}, NOW)
+    saved = next(iter(history.values()))
+    saved.update(policy="daily-league-3-plus-60-v1", recommended=True)
+    later = NOW + timedelta(hours=3)
+    assert capture_history(payload([candidate()], later),
+                           {"recommendation_history": history}, later) == history

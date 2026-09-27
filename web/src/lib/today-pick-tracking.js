@@ -1,6 +1,6 @@
 import { savedLivePrediction } from "./saved-live-prediction.js";
 import { gamePhase, recommendationOutcome, scheduledAt } from "./match-status.js";
-import { dailyHighlightedSelections, DAILY_HIGHLIGHT_MIN_HIT } from "./unified-recommendation.js";
+import { dailyHighlightedSelections, legacyDailyHighlightedSelections, DAILY_RECOMMENDATION_POLICY } from "./unified-recommendation.js";
 import { eligibleFinalSelections } from "./recommendation-policy.js";
 import { isOvernightGame } from "./game-date-filter.js";
 
@@ -57,13 +57,15 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
   if (!day) return [];
   const year = Number(day.slice(0, 4));
   const candidates = (today?.candidates || []).filter(Boolean);
-  const highlighted = new Set(dailyHighlightedSelections(candidates));
+  const archivedRecommendations = Object.values(today?.recommendation_history || {});
+  const legacy = today?.recommendation_policy !== DAILY_RECOMMENDATION_POLICY;
+  const highlighted = new Set((legacy ? legacyDailyHighlightedSelections : dailyHighlightedSelections)(candidates));
   const currentCandidates = (currentToday || today)?.candidates || [];
   const currentHighlighted = new Set(dailyHighlightedSelections(currentCandidates));
   const roster = (candidate) => typeof candidate.daily_recommendation?.recommended === "boolean"
     ? candidate.daily_recommendation.recommended : highlighted.has(candidate);
-  const currentRoster = (candidate) => typeof candidate.daily_recommendation?.recommended === "boolean"
-    ? candidate.daily_recommendation.recommended : currentHighlighted.has(candidate);
+  const currentRoster = (candidate) => currentHighlighted.has(candidate)
+    && candidate.daily_recommendation?.recommended !== false;
   const result = new Map();
 
   for (const original of games || []) {
@@ -92,7 +94,7 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
       // artifact's recomputed daily membership existed before kickoff.
       const published = isoTime(today?.generated_at);
       const rosterWasPregame = Number.isFinite(published) && published < kickoff && published <= now;
-      const knownHighlight = rosterWasPregame && prior.some(roster);
+      const knownHighlight = started && rosterWasPregame && prior.some(roster);
       // Aligned candidates describe a current decision, not the old published
       // roster. They may label a future pick only, never a started-game history.
       const currentHighlight = !started && !game._liveOddsChanged && currentMatched.some((row) =>
@@ -103,7 +105,14 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
         && prior.some((row) => row.daily_recommendation?.recommended === false);
       // Recovery uses only recorded pregame inputs. It is not a reconstructed
       // league ranking, and never implies that membership in the old roster is known.
-      const eligiblePrior = openingProbability != null && openingProbability >= DAILY_HIGHLIGHT_MIN_HIT
+      const archived = archivedRecommendations.find((row) =>
+        matchesGame(row, game, kickoff, game.year) && selectionKey(row) === selectionKey(option)
+        && number(row.odds) === originalOdds && isoTime(row.recorded_at) < kickoff
+        && isoTime(row.recorded_at) <= now);
+      const legacyPrior = archived ? archived.policy !== DAILY_RECOMMENDATION_POLICY : legacy;
+      const eligiblePrior = archived?.recommended !== false
+        && openingProbability != null && openingProbability >= (legacyPrior ? .55 : .60)
+        && (legacyPrior || originalOdds >= 1.5)
         && safe({ market: option.market, odds: originalOdds, market_prob: openingProbability,
           is_market_favorite: game.prediction_record.is_market_favorite,
           final_reversal: game.prediction_record.final_reversal });

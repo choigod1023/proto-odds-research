@@ -43,7 +43,7 @@ export function slipRows(games, liveOdds, now = new Date(), todayPicks = null) {
       liveOdds?.generated_at || null,
       liveOdds?.markets?.[String(game.round)],
     );
-    const recommended = current["추천"] || game["추천"] || null;
+    const recommended = dailyHighlightedSelections([current["추천"] || game["추천"]].filter(Boolean))[0] || null;
     const isRecommended = (option) => Array.isArray(todayPicks)
       ? todayPicks.some((pick) => sameProtoSelection(pick, option, current.round))
       : !!recommended && (

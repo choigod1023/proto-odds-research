@@ -13,9 +13,10 @@ test('count headline, small scope, labeled tiles and honest empty state',async()
       result:i<7?'hit':'miss',result_source:'official',home:'H',away:'A'}]));
     const html=renderToStaticMarkup(createElement(View,{today:{recommendation_history:history},now}));
     assert.match(html,/최근 추천 10건 중/);assert.match(html,/7건 적중/);
-    assert.match(html,/class="recommendation-result-scope">오늘의 추천픽 기준/);
+    assert.match(html,/class="recommendation-result-scope">당시 추천 정책 기준/);
+    assert.match(html,/현재 60%·배당 1.50 이상 정책만의 성적이 아닙니다/);
     assert.equal((html.match(/aria-haspopup="dialog"/g)||[]).length,10);
-    assert.doesNotMatch(html,/%/);
+    assert.doesNotMatch(html.match(/<h2>.*?<\/h2>/)[0],/%/);
     const empty=renderToStaticMarkup(createElement(View,{now}));
     assert.match(empty,/추천 결과를 기다리고/);assert.doesNotMatch(empty,/0건 적중/);
   } finally {await server.close();}

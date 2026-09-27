@@ -7,9 +7,8 @@ import { scheduledAt } from "./match-status.js";
 
 const clean = (value) => String(value ?? "").trim();
 
-export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
-export const DAILY_HIGHLIGHT_BASE_PER_LEAGUE = 3;
-export const DAILY_HIGHLIGHT_STRONG_MIN_HIT = 0.60;
+export const DAILY_RECOMMENDATION_POLICY = "daily-p60-o150-v2";
+export const DAILY_HIGHLIGHT_MIN_HIT = 0.60;
 
 const dailyLeagueKey = (selection) => {
   const kickoff = Date.parse(selection?.kickoff_at || "");
@@ -60,7 +59,7 @@ export function dailyRecommendationDecisions(candidates = []) {
   const selected = new Set(dailyHighlightedSelections(candidates));
   const leagueRows = new Map();
   eligible.forEach((selection) => {
-    if (hitProbabilityOf(selection) < DAILY_HIGHLIGHT_MIN_HIT) return;
+    if (!selected.has(selection)) return;
     const league = dailyLeagueKey(selection);
     if (!leagueRows.has(league)) leagueRows.set(league, []);
     leagueRows.get(league).push(selection);
@@ -73,24 +72,17 @@ export function dailyRecommendationDecisions(candidates = []) {
   });
   return candidates.map((selection) => {
     const hit = hitProbabilityOf(selection);
-    const league = clean(selection?.league) || "리그 미분류";
-    const rows = leagueRows.get(dailyLeagueKey(selection)) || [];
-    const hasPrimary = rows.some((row) => recommendationPriority(row) === 1);
     const preferred = recommendationPriority(selection) === 1;
     const rank = rankBySelection.get(selection) || null;
     let reason;
     if (!eligibleSet.has(selection)) {
       reason = "자동 추천 안전조건을 통과하지 못했다.";
     } else if (!(hit >= DAILY_HIGHLIGHT_MIN_HIT)) {
-      reason = `예상 적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}로 55% 기준에 미달했다.`;
-    } else if (!preferred && hasPrimary) {
-      reason = "같은 리그에 1.50~2.20 우선 배당 후보가 있어 저배당 보조 후보에서 제외했다.";
-    } else if (!selected.has(selection)) {
-      reason = `해당 날짜 리그 내 ${rank || 4}순위이며 추가 추천 기준 60%에 미달했다.`;
-    } else if (rank && rank <= DAILY_HIGHLIGHT_BASE_PER_LEAGUE) {
-      reason = `55% 기준을 통과했고 해당 날짜 ${league} 유효 후보 중 ${rank}위라 기본 추천 3개에 포함했다.`;
+      reason = `예상 적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}로 60% 기준에 미달했다.`;
+    } else if (!preferred) {
+      reason = "배당 1.50 이상·2.20 미만 기준에 미달해 추천에서 제외했다.";
     } else {
-      reason = `해당 날짜 리그 기본 3개 밖이지만 예상 적중 ${(hit * 100).toFixed(1)}%로 추가 기준 60%를 통과했다.`;
+      reason = "예상 적중 60% 이상·배당 1.50 이상~2.20 미만 조건을 통과했다.";
     }
     return {
       selection,
@@ -105,11 +97,18 @@ export function dailyRecommendationDecisions(candidates = []) {
   });
 }
 
-/** 날짜별 리그 기본 3개와 60% 이상 추가 후보를 고른다. 기준 미달은 채우지 않는다. */
+/** 실제 운영 추천: 60%/1.50~2.20 미만. 리그별 최소 개수와 저배당 보충 없음. */
 export function dailyHighlightedSelections(candidates = []) {
+  return eligibleFinalSelections(candidates).filter((selection) =>
+    hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT && hitProbabilityOf(selection) < 1
+    && recommendationPriority(selection) === 1).sort(recommendationRank);
+}
+
+/** 정책 전환 이전에 게시된 사전 픽의 이력 복원 전용. 새 추천에는 사용 금지. */
+export function legacyDailyHighlightedSelections(candidates = []) {
   const byLeague = new Map();
   eligibleFinalSelections(candidates)
-    .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT)
+    .filter((selection) => hitProbabilityOf(selection) >= .55)
     .forEach((selection) => {
       const league = dailyLeagueKey(selection);
       if (!byLeague.has(league)) byLeague.set(league, []);
@@ -118,9 +117,9 @@ export function dailyHighlightedSelections(candidates = []) {
   return [...byLeague.values()].flatMap((rows) => {
     const primary = rows.filter((selection) => recommendationPriority(selection) === 1);
     const pool = (primary.length ? primary : rows).sort(recommendationRank);
-    const base = pool.slice(0, DAILY_HIGHLIGHT_BASE_PER_LEAGUE);
-    const strong = pool.slice(DAILY_HIGHLIGHT_BASE_PER_LEAGUE)
-      .filter((selection) => hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_STRONG_MIN_HIT);
+    const base = pool.slice(0, 3);
+    const strong = pool.slice(3)
+      .filter((selection) => hitProbabilityOf(selection) >= .60);
     return [...base, ...strong];
   }).sort(recommendationRank);
 }

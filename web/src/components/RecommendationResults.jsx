@@ -9,7 +9,7 @@ export default function RecommendationResults({today,data,odds,now=Date.now()}) 
   const date = r => new Date(r.kickoff).toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric'});
   return <section className="recommendation-results" aria-label="최근 추천 결과">
     <h2>{result.settled.length ? <>최근 추천 {result.settled.length}건 중 <strong>{result.hit}건 적중</strong></> : '추천 결과를 기다리고 있어요'}</h2>
-    <p className="recommendation-result-scope">오늘의 추천픽 기준</p>
+    <p className="recommendation-result-scope">당시 추천 정책 기준 · 이전 정책 기록 포함. 현재 60%·배당 1.50 이상 정책만의 성적이 아닙니다.</p>
     <p className="recommendation-result-rules">최근 90일 사전 보존 기록 · 공식 결과 확정된 최근 최대 10건 · 진행 중·무효 제외</p>
     {result.settled.length ? <>
       <div className="recommendation-result-tiles">
