@@ -12,6 +12,25 @@ function raster(rects, width = 600, height = 1000) {
       }
   return { data, width, height };
 }
+
+test("table-level layout evidence keeps a misread row's team crop above its button", async () => {
+  const images = [];
+  const texts = ["조합 한경기", "승 1.65", "SNORE 야구 승패", "MLB", "4911", "북부 구단 vs 남부 구단"];
+  const result = await scanReceiptImage(null, {
+    decode: async () => raster([{ x: 380, y: 100 }], 600, 200),
+    encode: (image) => image,
+    worker: {
+      setParameters: async () => {},
+      recognize: async (image) => {
+        images.push(image);
+        return { data: { text: texts[images.length - 1] || "" } };
+      },
+    },
+  });
+  assert.equal(result.rows[0].teamText, "북부 구단 vs 남부 구단");
+  // 61% of the 600px table, scaled 4x, plus 24px OCR padding.
+  assert.equal(images[5].width, 1488);
+});
 test("excessive candidate boxes stop before OCR calls", async () => {
   let calls = 0;
   await assert.rejects(

@@ -28,6 +28,35 @@ const scan = {
     },
   ],
 };
+
+test("recovers teams from sparse row text when the team crop is numeric noise", () => {
+  const [row] = receiptDrafts({ rows: [{
+    text: "09.27 (일)\n북부 파드리스 os 남부 다이아몬드백스\n야구 승패",
+    detailText: "MLB\n\n북부 파드리스 ㆍ\n\n. 남부 다이아몬드백스\n\n05:40",
+    teamText: "2",
+    numberText: "4911",
+    buttonText: "승\n1.65",
+    purchaseOdds: 1.65,
+  }] });
+  assert.equal(row.home, "북부 파드리스");
+  assert.equal(row.away, "남부 다이아몬드백스");
+  assert.equal(row.purchaseOdds, 1.65);
+  assert.equal(row.reviewed, false);
+  assert.equal(row.game, null);
+});
+
+test("middle-dot team separators work inline without merging unrelated lines", () => {
+  for (const separator of ["·", "ㆍ", "vs", "＊:"]) {
+    const [row] = receiptDrafts({ rows: [{ text: `북부 구단 ${separator} 남부 구단` }] });
+    assert.equal(row.home, "북부 구단");
+    assert.equal(row.away, "남부 구단");
+  }
+  for (const teamText of ["2", "1.65", "", undefined]) {
+    const [row] = receiptDrafts({ rows: [{ teamText, detailText: "북부 구단\n남부 구단" }] });
+    assert.equal(row.home, "");
+    assert.equal(row.away, "");
+  }
+});
 test("receipt drafts do not depend on current feed, retain printed choice/price/line", () => {
   const rows = receiptDrafts(scan);
   assert.deepEqual(

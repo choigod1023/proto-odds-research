@@ -70,19 +70,21 @@ export function receiptDrafts(scan) {
       if (cropped) line = cropped;
     }
     // Prefer a readable complete row; targeted crops remain evidence, never a dictionary guess.
-    const teamLines = [
-      ...String(row.text).split(/\n/),
-      String(row.teamText),
-      ...String(row.detailText).split(/\n/),
-    ];
+    const teamLines = [row.text, row.teamText, row.detailText].flatMap((value) =>
+      String(value || "")
+        // Sparse OCR can put the away team on the next line after a middle dot.
+        // Join only an explicit separator, never arbitrary neighboring lines.
+        .replace(/[ \t]+[ㆍ·][ \t]*\n\s*(?:[.ㆍ·][ \t]*)?/g, " vs ")
+        .split(/\n/),
+    );
     const teamCandidates = teamLines
       .filter(
         (value) =>
-          /[가-힣A-Za-z]{2,}.*(?:\s[vV][sS]\s|\s[:*＊=~«»<>xX]+\s).*?[가-힣A-Za-z]{2,}/.test(
+          /[가-힣A-Za-z]{2,}.*(?:\s[vV][sS]\s|\s[:*＊=~«»<>xXㆍ·]+\s).*?[가-힣A-Za-z]{2,}/.test(
             value,
           ) && !/원정팀|홈팀|대상경기/.test(value),
       )
-      .map((value) => value.trim().split(/\s+(?:[vV][sS]|[:*＊=~«»<>xX]+)\s+/))
+      .map((value) => value.trim().split(/\s+(?:[vV][sS]|[:*＊=~«»<>xXㆍ·]+)\s+/))
       .map((parts) => [
         parts[0].split(/\s{2,}/).at(-1),
         parts[1]?.split(/\s{2,}/)[0],
@@ -92,7 +94,10 @@ export function receiptDrafts(scan) {
           (b.join("").match(/[가-힣]/g)?.length || 0) -
           (a.join("").match(/[가-힣]/g)?.length || 0),
       );
-    const teamParts = teamCandidates[0] || [row.teamText || "", ""];
+    const teamParts = teamCandidates[0] || [
+      /[가-힣A-Za-z]{2,}/.test(row.teamText || "") ? row.teamText : "",
+      "",
+    ];
     const cleanTeam = (value) => String(value || "").trim();
     return {
       key: `receipt-${index}`,
