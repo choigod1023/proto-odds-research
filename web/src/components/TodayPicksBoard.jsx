@@ -18,6 +18,7 @@ export function TodayPicksBoard({ games = [], today = null, currentToday = null,
         <h2 className="m-0 text-[17px] font-bold tracking-tight">오늘의 추천 픽 <span className="tnum text-ink3">{recommendations}</span></h2>
         <p className="m-0 text-[12px] text-ink3">오늘 추천과 저장된 사전 픽을 함께 추적합니다. 추천 이력 미확인 픽은 구분해 표시합니다.</p>
       </div>
+      <p className="mb-3 text-[12px] text-ink3">현재 추천: 예상 적중 60% 이상 · 배당 1.50 이상~2.20 미만. 조건 미달 경기는 채우지 않습니다. 수익을 보장하지 않으며 이전 기준의 사전 기록은 유지합니다.</p>
       {!picks.length && <Card className="p-4 text-[13px] text-ink3">오늘 확인된 추천·사전 픽이 없습니다.</Card>}
       <PickCards picks={active} now={now} onOpenGame={onOpenGame} />
       {finished.length > 0 && <details className="mt-3 rounded border border-rule p-3">

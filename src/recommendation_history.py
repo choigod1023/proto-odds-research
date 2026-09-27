@@ -4,7 +4,7 @@ import hashlib
 import math
 
 KST = timezone(timedelta(hours=9))
-POLICY = "daily-league-3-plus-60-v1"
+POLICY = "daily-p60-o150-v2"
 
 
 def stamp(value):
@@ -35,25 +35,14 @@ def selection_key(row):
 
 def highlights(candidates):
     """Parity-tested against the browser's dailyHighlightedSelections."""
-    groups = {}
+    result = set()
     for row in candidates:
         kickoff = stamp(row.get("kickoff_at"))
         if (not kickoff or row.get("market") == "홀짝" or row.get("final_reversal") is True
                 or row.get("is_market_favorite") is False
-                or not 1 < number(row.get("odds")) < 2.2 or probability(row) < .55):
+                or not 1.5 <= number(row.get("odds")) < 2.2 or not .60 <= probability(row) < 1):
             continue
-        group = (kickoff.astimezone(KST).date(), row.get("league") or "리그 미분류")
-        groups.setdefault(group, []).append(row)
-    result = set()
-    for rows in groups.values():
-        primary = [r for r in rows if number(r.get("odds")) >= 1.5]
-        pool = sorted(primary or rows, key=lambda r: (
-            -probability(r), -number(r.get("probability_lower_bound"), probability(r)),
-            number(r.get("odds")), str(r.get("kickoff_at") or r.get("date") or ""),
-            # Intl localeCompare orders a field boundary before a following
-            # digit: game 1 precedes 10. Raw ASCII on the joined key does not.
-            tuple(selection_key(r).split("|"))))
-        result.update(selection_key(r) for i, r in enumerate(pool) if i < 3 or probability(r) >= .6)
+        result.add(selection_key(row))
     return result
 
 
