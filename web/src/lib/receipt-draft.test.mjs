@@ -7,7 +7,7 @@ import {
   receiptSaveIssue,
   receiptRecordRows,
 } from "./receipt-draft.js";
-import { recordLive, liveKey } from "./bet-ledger.js";
+import { recordLive, liveKey, createBetRecord, settleBet, estimateLiveProbability } from "./bet-ledger.js";
 
 // Synthetic clubs/numbers; private receipt images and ticket identifiers stay local.
 const scan = {
@@ -149,6 +149,23 @@ test("unknown/ambiguous selected button is not inferred from screen position", (
   assert.equal(row.gameNo, "");
 });
 const row = { ...receiptDrafts(scan)[0], year: "2026" };
+
+test("partial-game scope survives OCR and saving and never settles against full-game totals", () => {
+  const [draft] = receiptDrafts({ rows: [{
+    text: "09.27 북부 구단 vs 남부 구단\n야구 전반 언더오버 U/O 5.5",
+    numberText: "4911", buttonText: "언더 1.57", purchaseOdds: 1.57,
+  }] });
+  assert.equal(draft.period, "전반");
+  const [saved] = receiptRecordRows([{...draft, year:"2026"}]);
+  const record = createBetRecord(saved.game, saved.option, {purchaseOdds:saved.purchaseOdds});
+  assert.equal(record.selection.period, "전반");
+  assert.equal(record.selection.label, "전반 U/O 5.5");
+  const live = {finished:true, home_score:8, away_score:5};
+  assert.equal(settleBet(record, live), null);
+  assert.equal(estimateLiveProbability(record, live).probability, null);
+  const candidates = [{...saved.game, options:[{...saved.option, period:"", label:"U/O 5.5", line:5.5}]}];
+  assert.equal(linkReceiptDraft({...draft, year:"2026"}, candidates).game, null);
+});
 const game = {
   date: "09.06(일) 17:00",
   year: 2026,

@@ -1,4 +1,4 @@
-import { blueButtonRects, buttonChoiceIndex, buttonOdds } from "./receipt-image.js";
+import { blueButtonRects, buttonChoiceIndex, buttonOdds, receiptInkRect, normalizeReceiptRaster } from "./receipt-image.js";
 
 const choiceOptions = ["홈", "무", "원정", "언더", "오버"].map((선택) => ({ 선택 }));
 
@@ -7,11 +7,20 @@ export async function scanReceiptImage(
   file,
   { worker, decode, encode, onProgress = () => {} },
 ) {
-  const original = await decode(file);
-  const { width, height, data } = original;
-  if (!width || !height || width * height > 24000000)
+  let original = await decode(file);
+  if (!original.width || !original.height || original.width * original.height > 24000000)
     throw new Error("이미지는 2,400만 화소 이하로 잘라서 넣어 주세요.");
-  const rects = blueButtonRects(data, width, height);
+  let rects = blueButtonRects(original.data, original.width, original.height);
+  const normalized = normalizeReceiptRaster(original, rects);
+  if (normalized !== original) {
+    const normalizedRects = blueButtonRects(normalized.data, normalized.width, normalized.height);
+    // Thin, non-scaled borders can disappear on resampling. Preserve the source then.
+    if (normalizedRects.length === rects.length) {
+      original = normalized;
+      rects = normalizedRects;
+    }
+  }
+  const { width, height, data } = original;
   if (rects.length > 40)
     throw new Error("선택 영역이 너무 많습니다. 한 투표지만 잘라 넣어 주세요.");
   if (
@@ -156,22 +165,21 @@ export async function scanReceiptImage(
     let buttonText = button.data.text;
     // Retry only unreadable labels. Conflicting readable choices stay unresolved.
     if (!choiceOptions.some((option) => buttonChoiceIndex(buttonText, [option]) === 0)) {
-      // Keep strokes close to the border that the initial 3px inset can clip.
-      const retryRect = { ...buttonRect, top: rect.top + 1, height: rect.height - 2 };
-      const retryScale = Math.min(8, 1200 / retryRect.width, 360 / retryRect.height);
-      await worker.setParameters({ tessedit_pageseg_mode: "7" });
-      const label = await worker.recognize(await prepare({
-        ...retryRect,
-        // The stacked button label sits above the odds; exclude that second line.
-        height: Math.max(1, Math.round(rect.height * 0.5) - 1),
-      }, inverted, true, retryScale));
-      await worker.setParameters({ tessedit_pageseg_mode: "11" });
-      const sparse = await worker.recognize(await prepare(retryRect, inverted, true, retryScale));
-      const labelChoice = buttonChoiceIndex(label.data.text, choiceOptions);
-      if (labelChoice !== null &&
-          labelChoice === buttonChoiceIndex(sparse.data.text, choiceOptions)) {
-        // Keep the original evidence and require agreement of both OCR retries.
-        buttonText += `\n${label.data.text}\n${sparse.data.text}`;
+      const ink = receiptInkRect(original, {
+        ...buttonRect, top: rect.top + 2,
+        height: Math.max(1, Math.floor(rect.height / 2) - 2),
+      }, inverted);
+      if (ink) {
+        const retryScale = Math.min(8, 1000 / ink.width, 48 / ink.height);
+        await worker.setParameters({ tessedit_pageseg_mode: "7" });
+        const label = await worker.recognize(await prepare(ink, inverted, false, retryScale));
+        const secondScale = Math.min(8, 1000 / ink.width, 64 / ink.height);
+        const second = await worker.recognize(await prepare(ink, inverted, false, secondScale));
+        const labelChoice = buttonChoiceIndex(label.data.text, choiceOptions);
+        if (labelChoice !== null && label.data.confidence >= 70 && second.data.confidence >= 70 &&
+            labelChoice === buttonChoiceIndex(second.data.text, choiceOptions)) {
+          buttonText += `\n${label.data.text}\n${second.data.text}`;
+        }
       }
     }
     // A row crop associates the selected box with its own game, never another OCR row.

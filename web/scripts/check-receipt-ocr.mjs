@@ -52,12 +52,13 @@ try {
         encode: (image) => PNG.sync.write(image),
       });
       const drafts = receiptDrafts(result).map(
-        ({ gameNo, home, away, md, market, line, choice, purchaseOdds }) => ({
+        ({ gameNo, home, away, md, market, period, line, choice, purchaseOdds }) => ({
           gameNo,
           home,
           away,
           md,
           market,
+          period,
           line,
           choice,
           purchaseOdds,

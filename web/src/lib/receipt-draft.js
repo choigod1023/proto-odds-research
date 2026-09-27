@@ -11,6 +11,7 @@ export const RECEIPT_CHOICES = choices;
 export function receiptDrafts(scan) {
   return (scan.rows || []).map((row, index) => {
     const text = `${row.text}\n${row.detailText}`;
+    const period = text.match(/전반|후반|[1-9]\s*(?:쿼터|세트|이닝)/)?.[0]?.replace(/\s/g, "") || "";
     const isolated = [
       ...String(row.numberText || "").matchAll(/^\s*(\d{1,4})\s*$/gm),
     ].map((match) => match[1]);
@@ -109,6 +110,7 @@ export function receiptDrafts(scan) {
       home: cleanTeam(teamParts[0]),
       away: cleanTeam(teamParts[1]),
       market,
+      period,
       line: line ?? "",
       choice,
       purchaseOdds: row.purchaseOdds || "",
@@ -144,6 +146,7 @@ export function linkReceiptDraft(row, games = []) {
     (option) =>
       String(option["게임번호"]) === row.gameNo &&
       option.market === row.market &&
+      (option.period || String(option.label || "").match(/전반|후반|[1-9]\s*(?:쿼터|세트|이닝)/)?.[0]?.replace(/\s/g, "") || "") === (row.period || "") &&
       buttonChoiceIndex(row.choice, [option]) === 0 &&
       (!/핸디|언더오버/.test(row.market) ||
         (row.line !== "" && Number(option.line) === Number(row.line))),
@@ -266,10 +269,11 @@ export function receiptRecordRows(rows) {
       option: {
         게임번호: row.gameNo,
         market: row.market,
+        ...(row.period ? { period: row.period } : {}),
         label:
-          row.line !== ""
+          (row.period ? `${row.period} ` : "") + (row.line !== ""
             ? `${row.market === "언더오버" ? "U/O" : "H"} ${row.line}`
-            : "",
+            : ""),
         선택: row.choice,
       },
       purchaseOdds: Number(row.purchaseOdds),
