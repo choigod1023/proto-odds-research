@@ -1,4 +1,6 @@
-import { blueButtonRects, buttonOdds } from "./receipt-image.js";
+import { blueButtonRects, buttonChoiceIndex, buttonOdds } from "./receipt-image.js";
+
+const choiceOptions = ["홈", "무", "원정", "언더", "오버"].map((선택) => ({ 선택 }));
 
 // All recognition runs locally. Image adapters keep the same pipeline testable in Node.
 export async function scanReceiptImage(
@@ -79,14 +81,14 @@ export async function scanReceiptImage(
     4200 / Math.max(table.width, contentHeight),
     Math.sqrt(6000000 / (table.width * contentHeight)),
   );
-  const prepare = (rect, invert = false, contrast = false) => {
-    const w = Math.max(1, Math.round(rect.width * scale)),
-      h = Math.max(1, Math.round(rect.height * scale));
+  const prepare = (rect, invert = false, contrast = false, cropScale = scale) => {
+    const w = Math.max(1, Math.round(rect.width * cropScale)),
+      h = Math.max(1, Math.round(rect.height * cropScale));
     const pixels = new Uint8ClampedArray((w + 24) * (h + 24) * 4).fill(255);
     for (let y = 0; y < h; y++)
       for (let x = 0; x < w; x++) {
-        const sx = rect.left + x / scale,
-          sy = rect.top + y / scale;
+        const sx = rect.left + x / cropScale,
+          sy = rect.top + y / cropScale;
         const ix = Math.floor(sx),
           iy = Math.floor(sy),
           fx = sx - ix,
@@ -142,17 +144,36 @@ export async function scanReceiptImage(
         if (data[p] < 80 && data[p + 2] > 100) dark++;
       }
     await worker.setParameters({ tessedit_pageseg_mode: "6" });
-    const button = await worker.recognize(
-      await prepare(
-        {
-          left: rect.left + Math.round(rect.width * 0.18),
-          top: rect.top + 3,
-          width: Math.round(rect.width * 0.64),
-          height: rect.height - 6,
-        },
-        dark > total * 0.45,
-      ),
-    );
+    const buttonRect = {
+      left: rect.left + Math.round(rect.width * 0.18),
+      top: rect.top + 3,
+      width: Math.round(rect.width * 0.64),
+      height: rect.height - 6,
+    };
+    const inverted = dark > total * 0.45;
+    const buttonImage = await prepare(buttonRect, inverted);
+    const button = await worker.recognize(buttonImage);
+    let buttonText = button.data.text;
+    // Retry only unreadable labels. Conflicting readable choices stay unresolved.
+    if (!choiceOptions.some((option) => buttonChoiceIndex(buttonText, [option]) === 0)) {
+      // Keep strokes close to the border that the initial 3px inset can clip.
+      const retryRect = { ...buttonRect, top: rect.top + 1, height: rect.height - 2 };
+      const retryScale = Math.min(8, 1200 / retryRect.width, 360 / retryRect.height);
+      await worker.setParameters({ tessedit_pageseg_mode: "7" });
+      const label = await worker.recognize(await prepare({
+        ...retryRect,
+        // The stacked button label sits above the odds; exclude that second line.
+        height: Math.max(1, Math.round(rect.height * 0.5) - 1),
+      }, inverted, true, retryScale));
+      await worker.setParameters({ tessedit_pageseg_mode: "11" });
+      const sparse = await worker.recognize(await prepare(retryRect, inverted, true, retryScale));
+      const labelChoice = buttonChoiceIndex(label.data.text, choiceOptions);
+      if (labelChoice !== null &&
+          labelChoice === buttonChoiceIndex(sparse.data.text, choiceOptions)) {
+        // Keep the original evidence and require agreement of both OCR retries.
+        buttonText += `\n${label.data.text}\n${sparse.data.text}`;
+      }
+    }
     // A row crop associates the selected box with its own game, never another OCR row.
     const previousBottom = i ? rects[i - 1].top + rects[i - 1].height : 0;
     const top = Math.max(
@@ -261,7 +282,7 @@ export async function scanReceiptImage(
       numberText: number.data.text,
       teamText: teams.data.text,
       lineText,
-      buttonText: button.data.text,
+      buttonText,
       purchaseOdds: buttonOdds(button.data.text),
       rect,
     });

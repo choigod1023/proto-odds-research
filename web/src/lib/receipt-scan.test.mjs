@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { scanReceiptImage } from "./receipt-scan.js";
+import { receiptDrafts } from "./receipt-draft.js";
 
 function raster(rects, width = 600, height = 1000) {
   const data = new Uint8ClampedArray(width * height * 4).fill(255);
@@ -30,6 +31,66 @@ test("table-level layout evidence keeps a misread row's team crop above its butt
   assert.equal(result.rows[0].teamText, "북부 구단 vs 남부 구단");
   // 61% of the 600px table, scaled 4x, plus 24px OCR padding.
   assert.equal(images[5].width, 1488);
+});
+
+test("unreadable selection retries the label and sparse button without changing odds", async () => {
+  for (const [label, choice] of [["승", "홈"], ["패", "원정"], ["무", "무"], ["언더", "언더"], ["오버", "오버"]]) {
+    const modes = [], images = [];
+    const texts = ["조합", "스\n[=]\n1.65", label, `${label}\n1.85`, "야구 승패", "", "4911", "북부 구단 vs 남부 구단"];
+    const result = await scanReceiptImage(null, {
+      decode: async () => raster([{ x: 380, y: 100 }], 600, 200),
+      encode: (image) => image,
+      worker: {
+        setParameters: async (params) => modes.push(params.tessedit_pageseg_mode),
+        recognize: async (image) => {
+          images.push(image);
+          return { data: { text: texts.shift() || "" } };
+        },
+      },
+    });
+    const [draft] = receiptDrafts(result);
+    assert.equal(draft.choice, choice);
+    assert.equal(draft.purchaseOdds, 1.65);
+    assert.equal(draft.reviewed, false);
+    assert.ok(draft.buttonText.startsWith("스\n[=]\n1.65"));
+    assert.ok(images[2].height < images[3].height);
+    assert.ok(images[3].height > images[1].height);
+    assert.ok(images[3].width <= 1224 && images[3].height <= 384);
+    assert.deepEqual(modes.slice(0, 5), ["6", "6", "7", "11", "6"]);
+  }
+});
+
+test("retry disagreement or missing labels never guesses a selection from row text", async () => {
+  for (const retries of [["승", "패"], ["승", "스"], ["", "승"], ["승 패", "승"]]) {
+    const texts = ["조합", "스\n[=]\n1.65", ...retries, "승 1.65 패 2.10", "", "4911", "북부 구단 vs 남부 구단"];
+    const result = await scanReceiptImage(null, {
+      decode: async () => raster([{ x: 380, y: 100 }], 600, 200),
+      encode: (image) => image,
+      worker: {
+        setParameters: async () => {},
+        recognize: async () => ({ data: { text: texts.shift() || "" } }),
+      },
+    });
+    assert.equal(receiptDrafts(result)[0].choice, "");
+    assert.equal(result.rows[0].buttonText, "스\n[=]\n1.65");
+  }
+});
+
+test("readable and conflicting choices do not trigger label retries", async () => {
+  for (const [button, expected] of [["승 1.65", "홈"], ["패 1.65", "원정"], ["승 패 1.65", ""]]) {
+    const texts = ["조합", button, "야구 승패", "", "4911", "북부 구단 vs 남부 구단"];
+    let calls = 0;
+    const result = await scanReceiptImage(null, {
+      decode: async () => raster([{ x: 380, y: 100 }], 600, 200),
+      encode: (image) => image,
+      worker: {
+        setParameters: async () => {},
+        recognize: async () => { calls++; return { data: { text: texts.shift() || "" } }; },
+      },
+    });
+    assert.equal(calls, 6);
+    assert.equal(receiptDrafts(result)[0].choice, expected);
+  }
 });
 test("excessive candidate boxes stop before OCR calls", async () => {
   let calls = 0;
