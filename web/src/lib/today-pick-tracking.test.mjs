@@ -16,6 +16,17 @@ const candidate = (changes = {}) => ({ year: 2026, date: "09.05(토) 14:00", rou
   market_prob: .5607, predicted_hit_prob: .5607, odds: 1.59, ...changes });
 const track = (games, today = { candidates: [] }, time = now) => trackTodayPicks({ games, today, now: time });
 
+test("current artifact preserves frozen old-policy picks but not rejected new-policy records", () => {
+  const archive = { ...candidate(), policy: "daily-league-3-plus-60-v1", recommended: true,
+    recorded_at: record.captured_at };
+  const today = { recommendation_policy: "daily-p60-o150-v2", candidates: [],
+    recommendation_history: { prior: archive } };
+  assert.equal(track([game()], today).length, 1);
+  assert.deepEqual(track([game()], { ...today, recommendation_history: {
+    prior: { ...archive, policy: "daily-p60-o150-v2", recommended: false },
+  } }), []);
+});
+
 test("missing started NPB candidates recover original Orix and Softbank records", () => {
   const games = [game(), game({ home: "소프트뱅크", prediction_record: {
     ...record, selection_id: "softbank", probability: .5897, odds: 1.52,
@@ -132,14 +143,20 @@ test("raw rounds deduplicate exact event/selection using oldest saved prior, not
 
 test("prestart without record requires exact current option, valid source snapshot and roster", () => {
   const early = Date.parse("2026-09-05T04:00:00Z");
-  const option = { market: "승패", label: "", 선택: "홈", 배당: 1.59, 시장확률: .5607 };
+  const option = { market: "승패", label: "", 선택: "홈", 배당: 1.59, 시장확률: .6007 };
   const g = game({ prediction_record: null, _liveState: null, options: [option] });
-  const today = { generated_at: "2026-09-05T03:00:00Z", candidates: [candidate()] };
+  const today = { generated_at: "2026-09-05T03:00:00Z", candidates: [candidate({ market_prob: .6007, predicted_hit_prob: .6007 })] };
   const [row] = track([g], today, early);
   assert.equal(row.source, "current");
   assert.equal(row.originalOdds, 1.59);
-  assert.equal(row.openingProbability, .5607);
-  assert.equal(track([{ ...g, options: [{ ...option, 시장확률: .560733 }] }], today, early).length, 1);
+  assert.equal(row.openingProbability, .6007);
+  assert.equal(track([{ ...g, options: [{ ...option, 시장확률: .600733 }] }], today, early).length, 1);
+  for (const changes of [{ predicted_hit_prob: .59 }, { odds: 1.49 }]) {
+    assert.deepEqual(track([g], { ...today, candidates: [candidate({
+      market_prob: .6007, predicted_hit_prob: .6007, ...changes,
+      daily_recommendation: { recommended: true },
+    })] }, early), [], "기존 추천 플래그도 현재 기준 미달 후보를 승격하지 않는다");
+  }
   assert.deepEqual(track([{ ...g, options: [{ ...option, 시장확률: .61 }] }], today, early), []);
   assert.deepEqual(track([{ ...g, options: [{ ...option, 배당: 1.7 }] }], today, early), []);
   assert.deepEqual(track([{ ...g, _liveOddsChanged: true }], today, early), []);

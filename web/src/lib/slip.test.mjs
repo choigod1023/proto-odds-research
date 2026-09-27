@@ -32,7 +32,7 @@ test("hides expired games from the paper slip table", () => {
 });
 
 test("marks the generated Proto recommendation on its exact slip selection", () => {
-  const home = { market: "승패", label: "", selection_id: "home", "게임번호": "17", "선택": "홈", "배당": 1.7 };
+  const home = { market: "승패", label: "", selection_id: "home", "게임번호": "17", "선택": "홈", "배당": 1.7, "예상적중확률": .60 };
   const away = { market: "승패", label: "", selection_id: "away", "게임번호": "17", "선택": "원정", "배당": 2.1 };
   const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
     options: [home, away], "추천": home }];
@@ -48,7 +48,7 @@ test("highlights every individual daily pick without using a target combination"
     options: [home, away], "추천": away }];
   const today = {
     candidates: [{ round: 102, game_no: "17", market: "승패", sel: "홈",
-      odds: 1.7, market_prob: 0.56, predicted_hit_prob: 0.56 }],
+      odds: 1.7, market_prob: 0.60, predicted_hit_prob: 0.60 }],
   };
   const picks = recommendedTodayPicks(today);
   const selections = slipRows(games, null, NOW, picks)[0].selections;
@@ -61,7 +61,16 @@ test("combo pass does not erase qualified individual daily picks", () => {
   assert.deepEqual(recommendedTodayPicks({
     recommendation: { action: "pass", recommended_target: 3 },
     candidates: [{ round: 102, game_no: "17", market: "승패", sel: "홈",
-      odds: 1.7, market_prob: 0.56, predicted_hit_prob: 0.56 }],
+      odds: 1.7, market_prob: 0.60, predicted_hit_prob: 0.60 }],
   }).map((row) => row.game_no), ["17"]);
+});
+
+test("no below-threshold fallback on the slip while recommendations are unavailable", () => {
+  for (const [p, odds] of [[.59, 1.7], [.70, 1.49]]) {
+    const option = { market: "승패", 선택: "홈", 게임번호: "17", 배당: odds, 예상적중확률: p };
+    const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
+      options: [option], 추천: option }];
+    assert.equal(slipRows(games, null, NOW)[0].selections[0].recommended, false);
+  }
 });
 
