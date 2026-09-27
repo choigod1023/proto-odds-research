@@ -182,7 +182,10 @@ export async function scanReceiptImage(
         true,
       ),
     );
-    const modern = /조합|한경기/.test(row.data.text + detail.data.text);
+    // The layout belongs to the table, even when one row's label is misread.
+    const modern = /조합|한경기/.test(
+      `${full.data.text}\n${row.data.text}\n${detail.data.text}`,
+    );
     const teamLeft =
       table.left + Math.round(table.width * (modern ? 0.29 : 0.34));
     const teamRect = modern
