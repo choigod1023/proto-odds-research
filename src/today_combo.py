@@ -33,6 +33,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 import copy
+import hashlib
 import itertools
 import json
 import math
@@ -45,6 +46,11 @@ from evolutionary_policy import live_snapshot, load_artifact
 from ai_decision import (can_apply_decision_probability,
                          validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
+import devig as _devig_module
+
+# Identify the actual market probability implementation, not a claimed AI model.
+MARKET_PROBABILITY_VERSION = "shin:" + hashlib.sha256(
+    Path(_devig_module.__file__).read_bytes()).hexdigest()
 from bets import SEL_NAMES
 from runtime_db import (export_site_artifacts,
                         load_artifact as load_runtime_artifact, persist_artifact,
@@ -379,6 +385,8 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None,
                     "market_prob": round(market_prob, 4),
                     "predicted_hit_prob": round(market_prob, 4),
                     "probability_source": "shin_market_fallback",
+                    "probability_method": MARKET_PROBABILITY_METHOD,
+                    "probability_version": MARKET_PROBABILITY_VERSION,
                     "has_validated_edge": False,
                     "market_gap": round(market_gap, 4),
                     "n_way": len(selections),
@@ -754,6 +762,8 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
         "decision_pipeline_applied": bool(final is not None),
         "decision_promotion_gate": model.get("promotion_gate") if matched else None,
         "decision_artifact_hash": model.get("artifact_hash") if matched else None,
+        "probability_method": "decision_pipeline" if final is not None else MARKET_PROBABILITY_METHOD,
+        "probability_version": model.get("operating_version") if final is not None else MARKET_PROBABILITY_VERSION,
         "predicted_hit_prob": round(final if final is not None else market, 4)
         if final is not None or market is not None else None,
         "probability_source": (
