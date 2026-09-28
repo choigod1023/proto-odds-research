@@ -38,7 +38,7 @@ def payout(a, b):
         Decimal('.01'), rounding=ROUND_DOWN).quantize(Decimal('.1'), rounding=ROUND_CEILING))
 
 
-def download():
+def download(last_season='2024-25'):
     tables, hashes = {}, {}
     for name in ('results.csv', 'results_with_odds.csv'):
         raw = urllib.request.urlopen(BASE+name, timeout=60).read()
@@ -49,7 +49,7 @@ def download():
     assert tables['results.csv'].keys() == tables['results_with_odds.csv'].keys()
     merged = []
     for key, result in tables['results.csv'].items():
-        if not '2016-17' <= result['season'] <= '2024-25':
+        if not '2016-17' <= result['season'] <= last_season:
             continue
         odds = tables['results_with_odds.csv'][key]
         assert all(result[k] == odds[k] for k in ('date', 'season', 'home_team', 'away_team'))

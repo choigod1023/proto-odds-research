@@ -1,0 +1,879 @@
+{
+  "source_commit": "d69530c645c10c7844ee416a6af56a4b392e37be",
+  "source_hashes": {
+    "results.csv": "e3f80563eef122aa52cf5d9558ad41bae92e9a509abb00717864343795459d50",
+    "results_with_odds.csv": "82337c0e7fb8de9bd39a75fcaf711b4895035edac8a94d2c791fbd0576441cee"
+  },
+  "season_counts": {
+    "2016-17": 380,
+    "2017-18": 380,
+    "2018-19": 380,
+    "2019-20": 380,
+    "2020-21": 380,
+    "2021-22": 380,
+    "2022-23": 380,
+    "2023-24": 380,
+    "2024-25": 380,
+    "2025-26": 380
+  },
+  "split_counts": {
+    "train": 1520,
+    "calibration": 380,
+    "selection": 380,
+    "test": 380
+  },
+  "protocol_commit": "1b7cd36d",
+  "selected_before_test": "market_residual",
+  "validation_2024_25": {
+    "shin_market": {
+      "logloss": 0.9707797428095689,
+      "brier": 0.5789944208243643,
+      "winner_accuracy": 0.5394736842105263
+    },
+    "old_temperature": {
+      "logloss": 0.9757480360352795,
+      "brier": 0.582970721071305,
+      "winner_accuracy": 0.5421052631578948
+    },
+    "half_market_blend": {
+      "logloss": 0.9723557393108341,
+      "brier": 0.580459327102928,
+      "winner_accuracy": 0.5421052631578948
+    },
+    "market_residual": {
+      "logloss": 0.9705453858309342,
+      "brier": 0.5784289536895671,
+      "winner_accuracy": 0.5447368421052632
+    },
+    "market_bias_calibration": {
+      "logloss": 0.9744532533250178,
+      "brier": 0.5819515968592888,
+      "winner_accuracy": 0.5394736842105263
+    }
+  },
+  "test_2025_26": {
+    "shin_market": {
+      "probabilities": {
+        "logloss": 1.019358511232513,
+        "brier": 0.6123372139371932,
+        "winner_accuracy": 0.48947368421052634,
+        "logloss_delta_vs_market_ci95_week": [
+          0.0,
+          0.0
+        ]
+      },
+      "policies": {
+        "p60_range": {
+          "tickets": 5,
+          "wins": 2,
+          "hit_rate": 0.4,
+          "roi_raw": -0.03259999999999987,
+          "roi_rounded": 0.0,
+          "roi_raw_ci95_week_cluster": [
+            -1.0,
+            1.3873333333333335
+          ],
+          "profit_raw_units": -0.16299999999999937,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": -0.0014298245614035032,
+          "max_drawdown_raw_units": 2.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.7,
+          "expected_roi_raw_independence_assumption": -0.06916121462885627,
+          "selection_sha256": "0b937fb5420f6ec9d3eb95c445664c25990b7544cfc7cdf8a8f72d08d2fc3a83",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.004028947368421055,
+            "ci95_week_cluster": [
+              -0.08621054470938896,
+              0.07796660418715173
+            ]
+          }
+        },
+        "p60_low": {
+          "tickets": 27,
+          "wins": 15,
+          "hit_rate": 0.5555555555555556,
+          "roi_raw": 0.10028888888888889,
+          "roi_rounded": 0.12592592592592597,
+          "roi_raw_ci95_week_cluster": [
+            -0.26114889846743294,
+            0.4735663166666661
+          ],
+          "profit_raw_units": 2.7077999999999998,
+          "profit_rounded_units": 3.400000000000001,
+          "budget_days": 114,
+          "budget_return_raw": 0.023752631578947365,
+          "max_drawdown_raw_units": 3.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 36,
+          "selected_leg_hit_rate": 0.7222222222222222,
+          "expected_roi_raw_independence_assumption": -0.06639061363888815,
+          "selection_sha256": "c99c2cd590723fc268ad73bb4941df60ae642051de432d63fc5a64c358f1dd7d",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.02115350877192982,
+            "ci95_week_cluster": [
+              -0.07881141475972542,
+              0.11687827594123039
+            ]
+          }
+        },
+        "ev03_all": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "ev03_nonfavorite": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "nonfavorite_control": {
+          "tickets": 74,
+          "wins": 4,
+          "hit_rate": 0.05405405405405406,
+          "roi_raw": -0.46724324324324323,
+          "roi_rounded": -0.46486486486486484,
+          "roi_raw_ci95_week_cluster": [
+            -0.8992957746478873,
+            0.05766666666666666
+          ],
+          "profit_raw_units": -34.576,
+          "profit_rounded_units": -34.4,
+          "budget_days": 114,
+          "budget_return_raw": -0.30329824561403507,
+          "max_drawdown_raw_units": 40.976,
+          "nonfavorite_legs": 148,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.31756756756756754,
+          "expected_roi_raw_independence_assumption": -0.11256377294747932,
+          "selection_sha256": "8b6e4a4eaf0295c8cc0948d5f3d20a23c01e7cd54051988fd315c72d6ef45575",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.30589736842105264,
+            "ci95_week_cluster": [
+              -0.5912611573226544,
+              0.027018918361332044
+            ]
+          }
+        }
+      },
+      "ev_diagnostics": {
+        "max_ev_any_outcome": -0.024432285865215064,
+        "max_ev_nonfavorite": -0.039471194266819665,
+        "events_with_ev03_any": 0,
+        "events_with_ev03_nonfavorite": 0
+      }
+    },
+    "old_temperature": {
+      "probabilities": {
+        "logloss": 1.0242480445966347,
+        "brier": 0.6169016315280167,
+        "winner_accuracy": 0.48947368421052634,
+        "logloss_delta_vs_market_ci95_week": [
+          -0.0026164643484654377,
+          0.012212346153963013
+        ]
+      },
+      "policies": {
+        "p60_range": {
+          "tickets": 20,
+          "wins": 8,
+          "hit_rate": 0.4,
+          "roi_raw": 0.014815000000000045,
+          "roi_rounded": 0.030000000000000006,
+          "roi_raw_ci95_week_cluster": [
+            -0.5052930803571428,
+            0.6208685714285713
+          ],
+          "profit_raw_units": 0.2963000000000009,
+          "profit_rounded_units": 0.6000000000000001,
+          "budget_days": 114,
+          "budget_return_raw": 0.002599122807017552,
+          "max_drawdown_raw_units": 6.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.625,
+          "expected_roi_raw_independence_assumption": 0.07967513088045036,
+          "selection_sha256": "60933c94887cb777af162332e83295d38cbc760e5ef4bfe44ed0d824071078fa",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.0,
+            "ci95_week_cluster": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "p60_low": {
+          "tickets": 42,
+          "wins": 20,
+          "hit_rate": 0.47619047619047616,
+          "roi_raw": 0.03944523809523809,
+          "roi_rounded": 0.054761904761904776,
+          "roi_raw_ci95_week_cluster": [
+            -0.2719445586080586,
+            0.35552522321428565
+          ],
+          "profit_raw_units": 1.6566999999999998,
+          "profit_rounded_units": 2.3000000000000007,
+          "budget_days": 114,
+          "budget_return_raw": 0.014532456140350876,
+          "max_drawdown_raw_units": 4.5991,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 37,
+          "selected_leg_hit_rate": 0.6666666666666666,
+          "expected_roi_raw_independence_assumption": 0.06618187378755734,
+          "selection_sha256": "d62d071d1578683cf36fe69fa31efe42cca44d9016afde51ab13e133786f02d5",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.011933333333333324,
+            "ci95_week_cluster": [
+              -0.06913858762699564,
+              0.09576391891891885
+            ]
+          }
+        },
+        "ev03_all": {
+          "tickets": 48,
+          "wins": 15,
+          "hit_rate": 0.3125,
+          "roi_raw": 0.07033958333333336,
+          "roi_rounded": 0.07916666666666666,
+          "roi_raw_ci95_week_cluster": [
+            -0.41175334429400384,
+            0.5982083891304346
+          ],
+          "profit_raw_units": 3.376300000000001,
+          "profit_rounded_units": 3.8,
+          "budget_days": 114,
+          "budget_return_raw": 0.029616666666666677,
+          "max_drawdown_raw_units": 14.5456,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 10,
+          "selected_leg_hit_rate": 0.46875,
+          "expected_roi_raw_independence_assumption": 0.11053359583552647,
+          "selection_sha256": "d5c8c03a56b3145bad6d2c1d4f741f6677c948be870892424392a20e972cb04f",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.027017543859649124,
+            "ci95_week_cluster": [
+              -0.1866549242360995,
+              0.2707923022181845
+            ]
+          }
+        },
+        "ev03_nonfavorite": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "nonfavorite_control": {
+          "tickets": 74,
+          "wins": 4,
+          "hit_rate": 0.05405405405405406,
+          "roi_raw": -0.4831216216216217,
+          "roi_rounded": -0.4797297297297297,
+          "roi_raw_ci95_week_cluster": [
+            -0.8948910379369139,
+            0.025623376623376586
+          ],
+          "profit_raw_units": -35.751000000000005,
+          "profit_rounded_units": -35.5,
+          "budget_days": 114,
+          "budget_return_raw": -0.3136052631578948,
+          "max_drawdown_raw_units": 42.150999999999996,
+          "nonfavorite_legs": 148,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.30405405405405406,
+          "expected_roi_raw_independence_assumption": -0.11887780941532823,
+          "selection_sha256": "b14d02b889dd476f9e9e6cf1601cc5c3f80de763ce276496de619b5dd6388a38",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.3162043859649123,
+            "ci95_week_cluster": [
+              -0.5871086953509852,
+              -9.980978260890377e-05
+            ]
+          }
+        }
+      },
+      "ev_diagnostics": {
+        "max_ev_any_outcome": 0.1096699687916276,
+        "max_ev_nonfavorite": 0.03216017902327617,
+        "events_with_ev03_any": 152,
+        "events_with_ev03_nonfavorite": 1
+      }
+    },
+    "half_market_blend": {
+      "probabilities": {
+        "logloss": 1.0207856593675553,
+        "brier": 0.6139240291813978,
+        "winner_accuracy": 0.48947368421052634,
+        "logloss_delta_vs_market_ci95_week": [
+          -0.00227524173726672,
+          0.004997886036468626
+        ]
+      },
+      "policies": {
+        "p60_range": {
+          "tickets": 12,
+          "wins": 7,
+          "hit_rate": 0.5833333333333334,
+          "roi_raw": 0.4826083333333335,
+          "roi_rounded": 0.5083333333333333,
+          "roi_raw_ci95_week_cluster": [
+            -0.2457823214285714,
+            1.2158376587301576
+          ],
+          "profit_raw_units": 5.7913000000000014,
+          "profit_rounded_units": 6.1,
+          "budget_days": 114,
+          "budget_return_raw": 0.05080087719298247,
+          "max_drawdown_raw_units": 2.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.7916666666666666,
+          "expected_roi_raw_independence_assumption": 0.0022203634680867668,
+          "selection_sha256": "6b134a224b756c3391f56ad83d38dd924bd991218164d19ba36eaf283bdb157e",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.04820175438596491,
+            "ci95_week_cluster": [
+              -0.0046818181818181785,
+              0.107150033377837
+            ]
+          }
+        },
+        "p60_low": {
+          "tickets": 37,
+          "wins": 19,
+          "hit_rate": 0.5135135135135135,
+          "roi_raw": 0.11774594594594595,
+          "roi_rounded": 0.13513513513513514,
+          "roi_raw_ci95_week_cluster": [
+            -0.22939914215686277,
+            0.4647714393939394
+          ],
+          "profit_raw_units": 4.3566,
+          "profit_rounded_units": 5.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.03821578947368421,
+          "max_drawdown_raw_units": 4.231,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 39,
+          "selected_leg_hit_rate": 0.7027027027027027,
+          "expected_roi_raw_independence_assumption": -0.00441058667684014,
+          "selection_sha256": "67920423f49375acf08540260d0864b413bb8a7ce83b6b69f217fafa702f0776",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.035616666666666665,
+            "ci95_week_cluster": [
+              -0.06014574786324786,
+              0.1377901255530973
+            ]
+          }
+        },
+        "ev03_all": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "ev03_nonfavorite": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "nonfavorite_control": {
+          "tickets": 74,
+          "wins": 5,
+          "hit_rate": 0.06756756756756757,
+          "roi_raw": -0.2977837837837838,
+          "roi_rounded": -0.2945945945945946,
+          "roi_raw_ci95_week_cluster": [
+            -0.8992957746478873,
+            0.47002597402597396
+          ],
+          "profit_raw_units": -22.036,
+          "profit_rounded_units": -21.8,
+          "budget_days": 114,
+          "budget_return_raw": -0.1932982456140351,
+          "max_drawdown_raw_units": 32.1,
+          "nonfavorite_legs": 148,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.31756756756756754,
+          "expected_roi_raw_independence_assumption": -0.12465977150350134,
+          "selection_sha256": "a0a1169944417ae7737cdb0fe01ea968e6b2821e42654a35f3830aa66973b19b",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.19589736842105265,
+            "ci95_week_cluster": [
+              -0.5871270402711325,
+              0.30404680434782533
+            ]
+          }
+        }
+      },
+      "ev_diagnostics": {
+        "max_ev_any_outcome": 0.03387525284629045,
+        "max_ev_nonfavorite": -0.007657122065326538,
+        "events_with_ev03_any": 4,
+        "events_with_ev03_nonfavorite": 0
+      }
+    },
+    "market_residual": {
+      "probabilities": {
+        "logloss": 1.0196335387359603,
+        "brier": 0.6120867431562812,
+        "winner_accuracy": 0.49473684210526314,
+        "logloss_delta_vs_market_ci95_week": [
+          -0.0020890471004346442,
+          0.0025992037580366877
+        ]
+      },
+      "policies": {
+        "p60_range": {
+          "tickets": 3,
+          "wins": 2,
+          "hit_rate": 0.6666666666666666,
+          "roi_raw": 0.6123333333333335,
+          "roi_rounded": 0.6666666666666666,
+          "roi_raw_ci95_week_cluster": [
+            -1.0,
+            1.5120000000000005
+          ],
+          "profit_raw_units": 1.8370000000000006,
+          "profit_rounded_units": 2.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.016114035087719303,
+          "max_drawdown_raw_units": 1.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.8333333333333334,
+          "expected_roi_raw_independence_assumption": -0.08715400222775704,
+          "selection_sha256": "1625f789de58e2ae89fd409c2b4b3cab8d164d8da7e8f426a6c056f601e3707c",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.013514912280701752,
+            "ci95_week_cluster": [
+              -0.07231666515426498,
+              0.10189469987336428
+            ]
+          }
+        },
+        "p60_low": {
+          "tickets": 26,
+          "wins": 15,
+          "hit_rate": 0.5769230769230769,
+          "roi_raw": 0.15126153846153848,
+          "roi_rounded": 0.17692307692307693,
+          "roi_raw_ci95_week_cluster": [
+            -0.23063024444444447,
+            0.534201064311594
+          ],
+          "profit_raw_units": 3.9328000000000003,
+          "profit_rounded_units": 4.6000000000000005,
+          "budget_days": 114,
+          "budget_return_raw": 0.03449824561403509,
+          "max_drawdown_raw_units": 3.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 35,
+          "selected_leg_hit_rate": 0.75,
+          "expected_roi_raw_independence_assumption": -0.08209990045482395,
+          "selection_sha256": "8375882a21e2de0acf3f54205a9f3ab15f83b279329fda5e1fc4ca4a90593389",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.03189912280701754,
+            "ci95_week_cluster": [
+              -0.06954391137040716,
+              0.13031141633514645
+            ]
+          }
+        },
+        "ev03_all": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "ev03_nonfavorite": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "nonfavorite_control": {
+          "tickets": 74,
+          "wins": 5,
+          "hit_rate": 0.06756756756756757,
+          "roi_raw": -0.2977837837837838,
+          "roi_rounded": -0.2945945945945946,
+          "roi_raw_ci95_week_cluster": [
+            -0.8992957746478873,
+            0.47002597402597396
+          ],
+          "profit_raw_units": -22.036,
+          "profit_rounded_units": -21.8,
+          "budget_days": 114,
+          "budget_return_raw": -0.1932982456140351,
+          "max_drawdown_raw_units": 32.1,
+          "nonfavorite_legs": 148,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.3108108108108108,
+          "expected_roi_raw_independence_assumption": -0.09903820106233534,
+          "selection_sha256": "c8ac35034864fa37191d302fd5b88ad29e78960910022fc71dc55cc0e62740f5",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.19589736842105265,
+            "ci95_week_cluster": [
+              -0.5871270402711325,
+              0.30404680434782533
+            ]
+          }
+        }
+      },
+      "ev_diagnostics": {
+        "max_ev_any_outcome": 0.013376540686513838,
+        "max_ev_nonfavorite": 0.013376540686513838,
+        "events_with_ev03_any": 0,
+        "events_with_ev03_nonfavorite": 0
+      }
+    },
+    "market_bias_calibration": {
+      "probabilities": {
+        "logloss": 1.0247462248542472,
+        "brier": 0.6165417268763737,
+        "winner_accuracy": 0.48947368421052634,
+        "logloss_delta_vs_market_ci95_week": [
+          -0.0009774866891043427,
+          0.011898491064102179
+        ]
+      },
+      "policies": {
+        "p60_range": {
+          "tickets": 14,
+          "wins": 8,
+          "hit_rate": 0.5714285714285714,
+          "roi_raw": 0.45545,
+          "roi_rounded": 0.4714285714285714,
+          "roi_raw_ci95_week_cluster": [
+            -0.1778831249999999,
+            1.092204375
+          ],
+          "profit_raw_units": 6.3763000000000005,
+          "profit_rounded_units": 6.6,
+          "budget_days": 114,
+          "budget_return_raw": 0.05593245614035088,
+          "max_drawdown_raw_units": 2.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.7857142857142857,
+          "expected_roi_raw_independence_assumption": 0.04119065143012822,
+          "selection_sha256": "44c713765d4badc72235e984525d5dc8a36bc9a670253067b40ad69d91c63be5",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.05333333333333334,
+            "ci95_week_cluster": [
+              0.016666666666666666,
+              0.1055405815423512
+            ]
+          }
+        },
+        "p60_low": {
+          "tickets": 40,
+          "wins": 20,
+          "hit_rate": 0.5,
+          "roi_raw": 0.087795,
+          "roi_rounded": 0.10250000000000004,
+          "roi_raw_ci95_week_cluster": [
+            -0.22161988636363633,
+            0.42136184946574434
+          ],
+          "profit_raw_units": 3.5118,
+          "profit_rounded_units": 4.100000000000001,
+          "budget_days": 114,
+          "budget_return_raw": 0.03080526315789474,
+          "max_drawdown_raw_units": 3.1083999999999996,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 42,
+          "selected_leg_hit_rate": 0.7,
+          "expected_roi_raw_independence_assumption": 0.0447685180852133,
+          "selection_sha256": "91d87f8790e3d18502e7deebbe06a301879bc8ab140edb2ef85b31cbfa5103a5",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": 0.02820614035087719,
+            "ci95_week_cluster": [
+              -0.04444822717331875,
+              0.10126904056047188
+            ]
+          }
+        },
+        "ev03_all": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "ev03_nonfavorite": {
+          "tickets": 0,
+          "wins": 0,
+          "hit_rate": null,
+          "roi_raw": null,
+          "roi_rounded": null,
+          "roi_raw_ci95_week_cluster": null,
+          "profit_raw_units": 0.0,
+          "profit_rounded_units": 0.0,
+          "budget_days": 114,
+          "budget_return_raw": 0.0,
+          "max_drawdown_raw_units": 0.0,
+          "nonfavorite_legs": 0,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": null,
+          "expected_roi_raw_independence_assumption": null,
+          "selection_sha256": "0593246c927596f42f08bc3172b804fd8bcd2985287c4ab6bf35ed4e6ec1d965",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.002599122807017552,
+            "ci95_week_cluster": [
+              -0.09762637860373095,
+              0.09395263829249803
+            ]
+          }
+        },
+        "nonfavorite_control": {
+          "tickets": 74,
+          "wins": 3,
+          "hit_rate": 0.04054054054054054,
+          "roi_raw": -0.628054054054054,
+          "roi_rounded": -0.6256756756756756,
+          "roi_raw_ci95_week_cluster": [
+            -1.0,
+            -0.1987594936708861
+          ],
+          "profit_raw_units": -46.476,
+          "profit_rounded_units": -46.3,
+          "budget_days": 114,
+          "budget_return_raw": -0.40768421052631576,
+          "max_drawdown_raw_units": 52.876,
+          "nonfavorite_legs": 148,
+          "low_odds_legs": 0,
+          "selected_leg_hit_rate": 0.30405405405405406,
+          "expected_roi_raw_independence_assumption": -0.1477275117850301,
+          "selection_sha256": "a0b39640b0b0d91ee88e9ddcf13d3e205425601c3b72ace5045a5a016d2385a8",
+          "vs_old_temperature_p60_range": {
+            "budget_return_difference": -0.41028333333333333,
+            "ci95_week_cluster": [
+              -0.6492040173547681,
+              -0.12456051427554587
+            ]
+          }
+        }
+      },
+      "ev_diagnostics": {
+        "max_ev_any_outcome": 0.030309560753261078,
+        "max_ev_nonfavorite": -0.03060667172530729,
+        "events_with_ev03_any": 2,
+        "events_with_ev03_nonfavorite": 0
+      }
+    }
+  },
+  "parameters": {
+    "weights": [
+      [
+        0.12368614273344149,
+        -0.20552178313715994,
+        0.08183564040371928
+      ],
+      [
+        0.08557623296556656,
+        -0.02848673060259818,
+        -0.05708950236296858
+      ],
+      [
+        -0.036904797627462814,
+        0.02824844359350036,
+        0.008656354033962529
+      ],
+      [
+        0.4380286732027102,
+        -0.08568254110486213,
+        -0.3523461320978486
+      ],
+      [
+        0.013768343292405779,
+        0.11608404397605003,
+        -0.12985238726845577
+      ]
+    ],
+    "temperature": 0.7938939513230815,
+    "residual_weights": [
+      [
+        -0.0017924533520351157,
+        -0.023345980463571125,
+        0.025138433815605914
+      ],
+      [
+        -0.02574549075463614,
+        -0.011321764387575706,
+        0.03706725514221182
+      ],
+      [
+        -0.03829438031171243,
+        0.004275288560472589,
+        0.034019091751240016
+      ]
+    ],
+    "market_bias": [
+      0.8627635659539753,
+      -0.014226879205909168,
+      0.03317272728793823,
+      -0.01894555930703343
+    ]
+  },
+  "independent_validation_candidates": [],
+  "production_policy_changed": false
+}
