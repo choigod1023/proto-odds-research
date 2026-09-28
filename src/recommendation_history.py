@@ -64,7 +64,11 @@ def capture_history(payload, previous, now):
                           row["home"], row["away"]])
         key = hashlib.sha256(event.encode()).hexdigest()[:24]
         fields = ("home", "away", "sport", "league", "date", "round", "game_no", "market",
-                  "market_label", "sel", "odds", "kickoff_at", "n_way")
+                  "market_label", "sel", "odds", "kickoff_at", "n_way",
+                  "market_prob", "predicted_hit_prob", "probability_source",
+                  "decision_id", "decision_model", "decision_artifact_hash",
+                  "decision_pipeline_applied", "has_validated_edge",
+                  "probability_method", "probability_version", "is_market_favorite", "price_source")
         history[key] = {**{k: row.get(k) for k in fields}, "id": key,
                         "published_at": published.isoformat(), "recorded_at": now.isoformat(),
                         "recommended": selection_key(row) in chosen, "policy": POLICY,
