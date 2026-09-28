@@ -249,6 +249,15 @@ export default function ReceiptOcr({ games = [], onImported }) {
                   </label>
                 ))}
                 <label>
+                  경기 구간
+                  <input
+                    aria-label={`${index + 1}번 경기 구간`}
+                    placeholder="전체 경기"
+                    value={row.period || ""}
+                    onChange={(event) => update(row.key, { period: event.target.value.trim() })}
+                  />
+                </label>
+                <label>
                   마켓
                   <select
                     aria-label={`${index + 1}번 마켓`}
@@ -314,6 +323,7 @@ export default function ReceiptOcr({ games = [], onImported }) {
                 날짜·팀·번호로 경기 연결 확인
               </button>
               <small>{row.matchStatus}</small>
+              {row.period && <p>{row.period} 경기 기록입니다. 해당 구간의 결과가 없어 자동 정산하지 않습니다.</p>}
               <details>
                 <summary>이 영역의 인식 원문</summary>
                 <pre
