@@ -27,7 +27,7 @@ git push(30분)로는 3분 주기를 못 나르니 머신이 그 파일만 직�
 """
 from __future__ import annotations
 
-import json
+from copy import deepcopy
 import re
 import sys
 import time
@@ -198,7 +198,8 @@ def _entry_signature(entry: dict) -> tuple:
 def merge_market_history(current: dict, previous: dict | None = None,
                          picks: dict | None = None) -> dict:
     """현재 발매 변경만 보존한다. 매 폴링 중복은 넣지 않고 마켓별 최근 50건을 둔다."""
-    history = json.loads(json.dumps((previous or {}).get("history") or {}))
+    # Preserve input isolation without allocating an intermediate JSON string.
+    history = deepcopy((previous or {}).get("history") or {})
     pick_rows: dict[tuple[str, str], list[dict]] = {}
     for game in (picks or {}).get("live") or []:
         round_no = str(game.get("round") or "")
@@ -259,7 +260,8 @@ def main(argv: list[str]) -> int:
 
     while True:
         try:
-            previous_picks = load_artifact("picks_v2", PICKS)
+            previous_picks = (RuntimeDatabase().odds_collection_context()
+                              if database_enabled() else load_artifact("picks_v2", PICKS))
             previous_odds = load_artifact("live_odds", OUT)
             data = merge_market_history(
                 collect(previous_picks, previous_odds), previous_odds,
@@ -276,12 +278,14 @@ def main(argv: list[str]) -> int:
                 #    얼어붙지 않게 한다. 2026-09-03 실측: raise 로 바꾼 뒤
                 #    live_odds 가 02:02 UTC 에 멈췄고 추천·예측이 같이 멈췄다.
                 data = _carry_forward_prices(data, previous_odds)
+                del previous_odds
                 persist_artifact("live_odds", data, OUT, indent=None)
                 refresh_once(data)
                 print("실시간 배당: 이번 폴링에서 발매 회차를 찾지 못해 직전 값을 유지 "
                       f"(회차 {data.get('rounds')}) → runtime artifact live_odds",
                       flush=True)
             else:
+                del previous_odds
                 persist_artifact("live_odds", data, OUT, indent=None)
                 # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
                 # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
