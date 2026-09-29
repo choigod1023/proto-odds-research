@@ -1,6 +1,7 @@
 """Conservative research-only capture from an already collected document."""
 from copy import deepcopy
 from datetime import datetime, timedelta
+from player_fixture_time import fixture_time
 
 
 def timestamp(value):
@@ -28,7 +29,7 @@ def capture(game, document, *, observed_at, kickoff):
                and r.get("league") == game.get("league")
                and r.get("home_team") == game.get("home")
                and r.get("away_team") == game.get("away")
-               and timestamp(r.get("game_datetime")) == start]
+               and fixture_time(r.get("game_datetime"), r.get("league"), r.get("source")) == start]
     if len(matches) != 1:
         return reject("missing_or_ambiguous_fixture")
     row = matches[0]

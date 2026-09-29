@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 import csv
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import os
@@ -222,14 +222,26 @@ class RuntimeDatabase(DatasetStore):
         SQLite still parses the source JSON. Avoid transferring/decoding all cached
         leagues into Python; do not claim this eliminates SQLite scan memory.
         """
+        from player_fixture_time import fixture_time
+
+        def instant(value, league, source):
+            parsed = fixture_time(value, league, source)
+            return parsed.isoformat() if parsed is not None else None
+
         with self.connect() as connection:
+            # Interpret only the documented legacy KBO local-time contract.
+            # Reuse capture's parser so SQL and Python cannot disagree on timezone.
+            connection.create_function("player_fixture_time", 3, instant, deterministic=True)
             rows = connection.execute(
                 """SELECT j.value FROM documents d, json_each(d.payload_json,'$.games') j
                    WHERE d.name='player_info'
                      AND json_extract(j.value,'$.league')=?
                      AND json_extract(j.value,'$.home_team')=?
                      AND json_extract(j.value,'$.away_team')=?
-                     AND julianday(json_extract(j.value,'$.game_datetime'))=julianday(?)
+                     AND julianday(player_fixture_time(
+                         json_extract(j.value,'$.game_datetime'),
+                         json_extract(j.value,'$.league'),
+                         json_extract(j.value,'$.source')))=julianday(?)
                    LIMIT 2""", (league, home, away, kickoff)).fetchall()
         return {"games": [json.loads(row[0]) for row in rows]}
 
@@ -363,8 +375,8 @@ class RuntimeDatabase(DatasetStore):
             return cursor.rowcount > 0
 
     def import_artifact(self, name: str, payload: Mapping[str, Any]) -> bool:
-        now = datetime.now(timezone.utc).isoformat(timespec="microseconds")
         with self.transaction() as connection:
+            now = self._next_artifact_stamp(connection, name)
             cursor = connection.execute("""INSERT INTO artifacts VALUES (?,?,?,?)
                 ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
                 payload_json=excluded.payload_json,stored_at=excluded.stored_at
@@ -502,9 +514,25 @@ class RuntimeDatabase(DatasetStore):
             ).fetchall()
         return [json.loads(row["record_json"]) for row in rows]
 
+    @staticmethod
+    def _next_artifact_stamp(connection, name: str) -> str:
+        # Call inside the write transaction: stored_at is the HTTP cache revision.
+        # Same-second writes or a clock rollback cannot reuse a published revision.
+        # Never change source generated_at to make stale data appear fresh.
+        stored_clock = datetime.now(timezone.utc)
+        previous = connection.execute(
+            "SELECT stored_at FROM artifacts WHERE name=?", (name,)).fetchone()
+        if previous:
+            prior = datetime.fromisoformat(previous["stored_at"].replace("Z", "+00:00"))
+            if prior.tzinfo is None:
+                prior = prior.replace(tzinfo=timezone.utc)
+            if stored_clock <= prior:
+                stored_clock = prior + timedelta(microseconds=1)
+        return stored_clock.isoformat(timespec="microseconds")
+
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
-        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         with self.transaction() as connection:
+            now = self._next_artifact_stamp(connection, name)
             if name == "today_combo":
                 from recommendation_history import POLICY, capture_history, settle_history, stamp
                 old = connection.execute("SELECT payload_json FROM artifacts WHERE name=?", (name,)).fetchone()
