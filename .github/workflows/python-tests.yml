@@ -26,6 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Research regression tests verify pre-run protocol commits.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:

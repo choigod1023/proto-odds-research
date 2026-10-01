@@ -11,6 +11,18 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULT = ROOT / 'docs/research/2026-10-01-score-tournament-results.json'
 
 
+def evidence_path(name):
+    """Recorded paths may originate from Windows; interpret them portably."""
+    return ROOT.joinpath(*name.replace('\\', '/').split('/'))
+
+
+@pytest.mark.parametrize('name', ['scripts/local_score_model_tournament.py',
+                                  r'scripts\local_score_model_tournament.py'])
+def test_evidence_path_platform_independent(name):
+    assert evidence_path(name) == ROOT / 'scripts' / 'local_score_model_tournament.py'
+    assert evidence_path(name).is_file()
+
+
 def test_score_artifact_provenance_and_inner_selection():
     data = json.loads(RESULT.read_text(encoding='utf-8'))
     assert data['trial_count'] == len(data['trials']) == 60
@@ -18,7 +30,7 @@ def test_score_artifact_provenance_and_inner_selection():
     assert sum(s['matches'] for s in data['sources']) == 4116
     for name, digest in data['code_sha256'].items():
         # Preserve recorded execution-byte hashes across Git LF/CRLF checkout.
-        lf = (ROOT / name).read_bytes().replace(b'\r\n', b'\n')
+        lf = evidence_path(name).read_bytes().replace(b'\r\n', b'\n')
         assert digest in {hashlib.sha256(b).hexdigest() for b in (lf, lf.replace(b'\n', b'\r\n'))}
     for fold in data['folds']:
         trials = [t for t in data['trials'] if t['inner_year'] == fold['inner_year']]
