@@ -28,6 +28,8 @@ def test_score_artifact_provenance_and_inner_selection():
     assert data['trial_count'] == len(data['trials']) == 60
     assert data['actual_league_fits'] == 32
     assert sum(s['matches'] for s in data['sources']) == 4116
+    protocol = ROOT / 'docs/research/2026-10-01-score-tournament-protocol.md'
+    assert hashlib.sha256(protocol.read_bytes()).hexdigest() == data['protocol_sha256']
     for name, digest in data['code_sha256'].items():
         # Preserve recorded execution-byte hashes across Git LF/CRLF checkout.
         lf = evidence_path(name).read_bytes().replace(b'\r\n', b'\n')
