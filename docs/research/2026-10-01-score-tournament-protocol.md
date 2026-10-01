@@ -5,6 +5,11 @@ Date: 2026-10-01. These datasets have already been exposed in earlier research:
 this is exploratory retrospective comparison, NOT a new untouched holdout.
 No production data, recommendations, configuration, or betting are changed.
 
+Pre-run correction after initial freeze `1f65f701`: p60range upper bound is
+strictly odds<2.2, matching the historical comparator and sibling tournament.
+Added Maher as the directly relevant independent-Poisson source. This correction
+is committed before data loading or trial execution; no results informed it.
+
 ## Data and nesting
 
 Use only D1 and SP1 season-start years 2019 through 2024 (2019/20 through
@@ -71,7 +76,7 @@ has budget 1; place at most one two-leg ticket from two distinct matches, stake
 match legs. Eligibility applies to each leg:
 
 - highest probability: no odds range or EV floor; rank pairs by product p.
-- p60range: p>=.60, 1.5<=odds<=2.2; rank product p.
+- p60range: p>=.60, 1.5<=odds<2.2; rank product p.
 - p60low: p>=.60, odds<2.2 (including <1.5); rank product p.
 - ev02: p*odds-1>=.02; rank pair EV = product(p*odds)-1.
 - ev05: p*odds-1>=.05; rank the same pair EV.
@@ -102,6 +107,9 @@ unseen team priors, distinct-game/day budgets, empty cash days, return ledger
 reconciliation, and deterministic paired bootstrap. Run locally only.
 
 Primary literature:
+- Maher (1982), [Modelling association football scores](https://doi.org/10.1111/j.1467-9574.1982.tb00782.x).
+  Team attack/defense independent Poisson is the tested family's rationale;
+  systematic residual differences and no guaranteed betting profit remain.
 - Dixon & Coles (1997), [Modelling Association Football Scores and Inefficiencies
   in the Football Betting Market](https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/1467-9876.00065).
 - Hvattum & Arntzen (2010), [Using ELO ratings for match result prediction in
