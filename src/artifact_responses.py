@@ -4,6 +4,7 @@ Keep the previous wire payload during refresh/failure. Concurrent requests do
 not allocate another copy of a large artifact or wait behind its compression.
 """
 import gzip
+import io
 import threading
 
 
@@ -21,13 +22,14 @@ class ArtifactResponses:
             try:
                 metadata = self.database.artifact_metadata(name, include_size=False)
                 if metadata is not None and (cached is None or cached[0] != metadata['stored_at']):
-                    stored = self.database.get_artifact_json(name)
-                    if stored is not None:
-                        payload, revision = stored
-                        body = gzip.compress(payload.encode('utf-8'), compresslevel=3)
-                        cached = (revision, body)
-                        with self.lock:
-                            self.ready[name] = cached
+                    with self.database.open_artifact_json(name) as (stream, revision):
+                        output = io.BytesIO()
+                        with gzip.GzipFile(fileobj=output, mode='wb', compresslevel=3, mtime=0) as zipper:
+                            while chunk := stream.read(65536):
+                                zipper.write(chunk)
+                        cached = (revision, output.getvalue())
+                    with self.lock:
+                        self.ready[name] = cached
             except Exception:
                 if cached is None:
                     raise

@@ -550,6 +550,23 @@ class RuntimeDatabase(DatasetStore):
                 ):
                     yield json.loads(row[0])
 
+    @contextmanager
+    def open_artifact_json(self, name: str):
+        """Read UTF-8 bytes incrementally from one consistent WAL snapshot.
+
+        blobopen also supports SQLite TEXT columns. Never materialize the full
+        text/UTF-8 copy in Python just to parse or compress a response.
+        """
+        with self.connect() as connection:
+            connection.execute("BEGIN")
+            row = connection.execute(
+                "SELECT rowid,stored_at FROM artifacts WHERE name=?", (name,)
+            ).fetchone()
+            if row is None:
+                raise KeyError(name)
+            with connection.blobopen('artifacts', 'payload_json', row['rowid'], readonly=True) as stream:
+                yield stream, str(row['stored_at'])
+
     def get_artifact_json(self, name: str) -> tuple[str, str] | None:
         """Return the stored wire payload and revision without decoding it."""
         with self.connect() as connection:

@@ -17,10 +17,10 @@ def test_compressed_only_and_revision_refresh(tmp_path, monkeypatch):
     assert len(cache.ready['sample']) == 2
     assert len(first) < len(gzip.decompress(first)) / 10
     assert cache.get_bytes('sample', compressed=False) == gzip.decompress(first)
-    original = db.get_artifact_json
-    monkeypatch.setattr(db, 'get_artifact_json', lambda _: (_ for _ in ()).throw(AssertionError('reread')))
+    original = db.open_artifact_json
+    monkeypatch.setattr(db, 'open_artifact_json', lambda _: (_ for _ in ()).throw(AssertionError('reread')))
     assert cache.get_bytes('sample') == first
-    monkeypatch.setattr(db, 'get_artifact_json', original)
+    monkeypatch.setattr(db, 'open_artifact_json', original)
     db.store_artifact('sample', {'generated_at': 'new'})
     with db.connect() as c:
         c.execute("UPDATE artifacts SET stored_at='next' WHERE name='sample'")
@@ -42,7 +42,7 @@ def test_single_flight_stale_and_cold_requests(tmp_path, monkeypatch):
         entered.set()
         assert release.wait(5)
         raise OSError('read failure')
-    monkeypatch.setattr(db, 'get_artifact_json', blocked)
+    monkeypatch.setattr(db, 'open_artifact_json', blocked)
     with ThreadPoolExecutor(max_workers=2) as pool:
         future = pool.submit(cache.get_bytes, 'sample')
         try:
