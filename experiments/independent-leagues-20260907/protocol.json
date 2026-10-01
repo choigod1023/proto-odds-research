@@ -1,0 +1,35 @@
+{
+  "schema": "independent-league-archive-protocol-v1",
+  "training_start": "2023-01-01",
+  "evaluation_start": "2025-01-01",
+  "evaluation_end": "2026-08-25",
+  "embargo_days": 7,
+  "minimum_training_markets": 200,
+  "minimum_evaluation_markets": 300,
+  "minimum_evaluation_events": 150,
+  "minimum_evaluation_weeks": 26,
+  "refit": "quarterly",
+  "candidates": [
+    {"name": "independent", "half_life_days": null},
+    {"name": "independent_recent180", "half_life_days": 180}
+  ],
+  "ridge": 10.0,
+  "bootstrap_repeats": 10000,
+  "block_calendar_weeks": 4,
+  "seed": 20260907,
+  "alpha": 0.05,
+  "production_allowed": false,
+  "historical_odds_observation_times_verified": false,
+  "historical_result_availability_verified": false,
+  "pristine_future": false,
+  "notes": [
+    "Every sport+league+fulltime market family+n_way model is independently trained; no cross-league coefficients, hyperparameter fitting or calibration data.",
+    "Fixed candidates and settings; no selecting a winner on evaluation results.",
+    "All archived offers are evaluated, not the service's past stored picks or today highlights.",
+    "Quarter-start training excludes the preceding 7 calendar days; this does not prove historical settlement availability.",
+    "Multiclass Brier is sum of squared class errors, not the selected-pick binary Brier used in the short experiment.",
+    "Four-calendar-week block bootstrap, two-sided centered bootstrap diagnostics, Holm adjustment across leagues, candidates and both loss metrics.",
+    "League-level historical improvement additionally requires adequate events/weeks and positive Brier and log-loss gains in both evaluation years.",
+    "No operating artifact, database writes, service restart, merge or deployment."
+  ]
+}
