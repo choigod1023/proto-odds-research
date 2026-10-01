@@ -5,6 +5,7 @@ import json
 import threading
 import zlib
 import gzip
+from match_projection import read_projection
 
 KST = timezone(timedelta(hours=9))
 
@@ -121,25 +122,15 @@ class MatchViews:
         if scope not in ('recent', 'all', 'detail'): raise ValueError('invalid scope')
         with self.lock:
             with self.database.connect() as connection:
+                # Revision, cards and details must come from one WAL snapshot.
+                connection.execute('BEGIN')
                 row = connection.execute("SELECT stored_at FROM artifacts WHERE name='picks_v2'").fetchone()
-            if row is None: raise KeyError('picks unavailable')
-            if self.revision != row['stored_at']:
-                stored = self.database.get_artifact_json('picks_v2')
-                if stored is None: raise KeyError('picks unavailable')
-                body, stamp = stored
-                payload = json.loads(body)
-                del body, stored
-                # Keep detail records compressed, not as thousands of nested Python
-                # objects. Decode only the requested game, never the entire archive.
-                # Build off to the side so a failed refresh preserves the old view.
-                games = {}
-                payload.pop('prediction_performance', None)
-                for section in ('live', 'past'):
-                    rows = payload.get(section, [])
-                    for index, game in enumerate(rows):
-                        games[game_key(game)] = zlib.compress(
-                            json.dumps(game, ensure_ascii=False, separators=(',', ':')).encode(), 1)
-                        rows[index] = card_game(game)
+                if row is None: raise KeyError('picks unavailable')
+                stamp = row['stored_at']
+                changed = self.revision != stamp
+                if changed:
+                    payload, games = read_projection(connection, stamp)
+            if changed:
                 self.games = games
                 self.payload, self.revision, self.cache = payload, stamp, {}
                 self.wire_cache = {}
