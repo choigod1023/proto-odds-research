@@ -139,8 +139,18 @@ def test_fit_guard_seven_days_and_invalid_fold_dates():
 
 
 def test_frozen_protocol_required_before_loading(monkeypatch, tmp_path):
-    assert m.verify_protocol().startswith('626a3db7')
+    # Unit-test the history guard independently of shallow/squash checkout.
+    # Actual protocol bytes are separately pinned by the saved artifact hash.
     original = m.PROTOCOL
+    frozen = original.read_bytes()
+    def git_output(command, **kwargs):
+        if command[1] == 'show':
+            assert command[2].startswith('626a3db7:')
+            return frozen
+        assert command[1:] == ['rev-parse', '626a3db7']
+        return '626a3db73813550e9c7351b84110e3199e1896ea\n'
+    monkeypatch.setattr(m.subprocess, 'check_output', git_output)
+    assert m.verify_protocol().startswith('626a3db7')
     monkeypatch.setattr(Path, 'read_bytes', lambda path: b'changed' if path == original else b'')
     with pytest.raises(ValueError, match='Frozen protocol'):
         m.verify_protocol()
