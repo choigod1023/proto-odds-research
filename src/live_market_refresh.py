@@ -297,6 +297,12 @@ def refresh_document(document: dict, live_odds: dict, *,
         can_predict = bool(pregame and kickoff is not None and decision_clock is not None
                            and decision_clock < kickoff.replace(tzinfo=KST))
         old_options = game.get("options") or []
+        # A recorded decision and its option vector are one revision. After
+        # T-30 preserve both; before T-30 publish a new, ledger-backed revision.
+        frozen = bool(kickoff and decision_clock and
+                      decision_clock >= kickoff.replace(tzinfo=KST) - timedelta(minutes=30))
+        if frozen and old_options:
+            continue
         # Kickoff 뒤에는 저장된 사전 가격·선택을 절대 덮어쓰지 않는다. 예전 코드는
         # 종료/진행 행의 배당으로 options를 교체한 뒤 원장을 제거해 라이브 화면이
         # 영원히 "재계산 대기"가 됐다. 기존 가격이 전혀 없을 때만 복구용으로 받는다.
@@ -333,7 +339,16 @@ def refresh_document(document: dict, live_odds: dict, *,
             # hashes. Never edit a saved revision's canonical form fields here.
             display_changed = game.get("team_form_display") != form_payload
             game["team_form_display"] = form_payload
-        if old_signature == new_signature and game.get("status") == target_status:
+        snapshot = game.get("decision_snapshot") or {}
+        selected = [row for row in old_options
+                    if row.get("selection_id") == snapshot.get("selection_id")
+                    and row.get("offer_id") == snapshot.get("offer_id")]
+        broken_revision = (snapshot.get("action") == "market_reference" and
+                           (not snapshot.get("selection_id") or len(selected) != 1 or
+                            selected[0].get("시장확률") !=
+                            (snapshot.get("probability") or {}).get("market")))
+        if (old_signature == new_signature and game.get("status") == target_status
+                and not broken_revision):
             changed += int(display_changed)
             continue
         game.update({
@@ -353,26 +368,7 @@ def refresh_document(document: dict, live_odds: dict, *,
                     for key_, value in sorted(new_lines.items())
                 ],
             }
-        pinned_snapshot = game.get("decision_snapshot") or {}
-        pinned_record = game.get("prediction_record")
-        already_pinned = bool(
-            pregame
-            and game.get("prediction_status") == "recorded_pregame"
-            and isinstance(pinned_record, dict)
-            and pinned_record.get("selection")
-            and str(pinned_snapshot.get("as_of") or "") < observed_at
-        )
-        if already_pinned:
-            # 첫 게시 때 원장에 고정된 사전 픽은 킥오프까지 바꾸지 않는다. 이미
-            # 판매점에서 배팅한 사용자의 화면·정산 대상이 흔들리면 안 되기 때문이다.
-            # 배당 숫자만 화면용으로 갱신하고, "지금 시장 기준이면 반대쪽이 유리"
-            # 상황이면 pick_drift 로만 알린다.
-            drift = _pick_drift(pinned_record, options, observed_at)
-            if drift:
-                game["pick_drift"] = drift
-            else:
-                game.pop("pick_drift", None)
-        elif can_predict:
+        if can_predict:
             # Only new/unpinned decisions capture context; never rewrite frozen inputs.
             fixture_document = player_document
             if use_database and player_document is None:
@@ -402,6 +398,7 @@ def refresh_document(document: dict, live_odds: dict, *,
                 explanation_kind="structured_ui",
             )
             game.pop("pick_drift", None)
+            game.pop("_liveOddsChanged", None)
         else:
             # 경기 후 복구한 가격으로 사전 추천을 소급 생성하지 않는다.
             game.pop("decision_snapshot", None)

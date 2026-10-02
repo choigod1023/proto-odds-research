@@ -314,21 +314,20 @@ def _pinned_pregame_game():
     }
 
 
-def test_pinned_pregame_pick_is_not_re_decided_when_live_odds_move():
+def test_recorded_pick_gets_a_consistent_new_revision_before_freeze():
     document = {"generated_at": "2026-08-29T00:00:00+00:00", "rounds": [102],
                 "live": [_pinned_pregame_game()], "past": []}
 
     refreshed, changed = refresh_document(document, _live_odds())
     game = refreshed["live"][0]
 
-    # 픽·판정 스냅샷은 그대로. 배당 숫자만 화면용으로 갱신된다.
-    assert game["추천"]["선택"] == "원정"
-    assert game["decision_snapshot"]["as_of"] == "2026-08-29T00:00:00+00:00"
-    assert game["decision_snapshot"]["selection_id"] == "sel_pinned"
-    assert game["prediction_status"] == "recorded_pregame"
-    # 지금 시장 기준으로는 홈이 유리해졌으므로 드리프트 배지가 붙는다.
-    assert game["pick_drift"]["pinned_selection"] == "원정"
-    assert game["pick_drift"]["market_selection"] == "홈"
+    snapshot = game["decision_snapshot"]
+    assert changed == 1
+    assert snapshot["as_of"] == _live_odds()["generated_at"]
+    selected = [o for o in game["options"] if o["selection_id"] == snapshot["selection_id"]
+                and o["offer_id"] == snapshot["offer_id"]]
+    assert len(selected) == 1
+    assert selected[0]["시장확률"] == snapshot["probability"]["market"]
 
 
 def test_pick_drift_clears_when_market_returns_to_the_pinned_side():
@@ -348,5 +347,52 @@ def test_pick_drift_clears_when_market_returns_to_the_pinned_side():
     refreshed, _ = refresh_document(document, market_favors_away)
     game = refreshed["live"][0]
 
-    assert game["추천"]["선택"] == "원정"
+    assert game["decision_snapshot"]["as_of"] == market_favors_away["generated_at"]
     assert "pick_drift" not in game
+
+
+def test_freeze_preserves_entire_option_revision():
+    from copy import deepcopy
+    game = _pinned_pregame_game()
+    before = deepcopy(game)
+    document = {"live": [game], "past": []}
+    feed = _live_odds()
+    feed["generated_at"] = "2026-08-30T08:30:00+00:00"
+    _, changed = refresh_document(document, feed)
+    assert changed == 0
+    assert game == before
+
+
+def test_unchanged_prices_repair_missing_option_ids_before_freeze(tmp_path):
+    document = {"live": [_pinned_pregame_game()], "past": []}
+    refresh_document(document, _live_odds())
+    for option in document["live"][0]["options"]:
+        option.pop("selection_id", None)
+        option.pop("offer_id", None)
+    _, changed = refresh_document(document, _live_odds())
+    assert changed == 1
+    runtime = PredictionRuntime(tmp_path / "pregame.jsonl",
+                                clock=lambda: datetime(2026, 8, 30, 1, 5, tzinfo=UTC))
+    counts = record_live_market_revisions(document, _live_odds()["generated_at"], runtime)
+    assert counts["predictions"] == 1
+    game = document["live"][0]
+    assert game["prediction_record"]["prediction_snapshot_id"] == game["decision_snapshot"]["decision_id"]
+
+
+def test_repricing_appends_revision_without_rewriting_prior_prediction(tmp_path):
+    from copy import deepcopy
+    runtime = PredictionRuntime(tmp_path / "pregame.jsonl",
+                                clock=lambda: datetime(2026, 8, 30, 2, 5, tzinfo=UTC))
+    document, _ = refresh_document({"live": [], "past": []}, _live_odds())
+    record_live_market_revisions(document, _live_odds()["generated_at"], runtime)
+    original = deepcopy(runtime.records()[0])
+    feed = _live_odds()
+    feed["generated_at"] = "2026-08-30T02:00:00+00:00"
+    feed["markets"]["102"]["7100"]["odds"] = [1.65, 1.95]
+    refresh_document(document, feed)
+    counts = record_live_market_revisions(document, feed["generated_at"], runtime)
+    assert counts["predictions"] == 1
+    assert runtime.records()[0] == original
+    game = document["live"][0]
+    assert game["prediction_record"]["prediction_snapshot_id"] == game["decision_snapshot"]["decision_id"]
+    assert game["decision_snapshot"]["input_revision_hash"] != original["input_revision_hash"]
