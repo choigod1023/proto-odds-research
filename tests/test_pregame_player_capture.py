@@ -57,7 +57,7 @@ def test_refresh_preserves_operating_decision_and_pinned_capture():
     game["prediction_status"] = "recorded_pregame"
     game["prediction_record"] = {"selection": "홈"}
     odds = _live_odds()
-    odds["generated_at"] = "2026-08-30T01:10:00+00:00"
+    odds["generated_at"] = "2026-08-30T08:30:00+00:00"
     odds["markets"]["102"]["7100"]["odds"] = [1.6, 2.0]
     players["games"][0]["starters"]["home"]["name"] = "new"
     refresh_document(doc, odds, player_document=players)

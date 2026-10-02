@@ -211,7 +211,7 @@ def test_unchanged_prices_only_update_display_and_preserve_saved_inputs(history_
     assert refresh.refresh_document(refreshed, live_odds(), now=NOW)[1] == 0
 
 
-def test_changed_pinned_prices_do_not_replace_canonical_forms(history_db):
+def test_changed_prices_before_freeze_capture_new_revision_forms(history_db):
     rows, _ = history_db
     refreshed, _ = refresh.refresh_document(document(), live_odds(), now=NOW)
     game = refreshed["live"][0]
@@ -222,9 +222,10 @@ def test_changed_pinned_prices_do_not_replace_canonical_forms(history_db):
     feed = live_odds(observed="2026-08-30T02:00:00+00:00")
     feed["markets"]["102"]["7100"]["odds"] = [1.6, 2.0]
     refresh.refresh_document(refreshed, feed, now=datetime(2026, 8, 30, 2, tzinfo=UTC))
-    assert game["form_home"] is None
+    assert game["form_home"]["w"] == 1
     assert game["team_form_display"]["form_home"]["w"] == 1
-    assert game["decision_snapshot"] == saved
+    assert game["decision_snapshot"]["as_of"] == feed["generated_at"]
+    assert game["decision_snapshot"]["input_revision_hash"] != saved["input_revision_hash"]
 
 
 @pytest.mark.parametrize("clock,observed", [
