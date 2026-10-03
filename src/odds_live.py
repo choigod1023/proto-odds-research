@@ -258,6 +258,7 @@ def main(argv: list[str]) -> int:
         loop = int(argv[argv.index("--loop") + 1])
 
     while True:
+        exit_code = 0
         try:
             previous_picks = load_artifact("picks_v2", PICKS)
             previous_odds = load_artifact("live_odds", OUT)
@@ -277,7 +278,8 @@ def main(argv: list[str]) -> int:
                 #    live_odds 가 02:02 UTC 에 멈췄고 추천·예측이 같이 멈췄다.
                 data = _carry_forward_prices(data, previous_odds)
                 persist_artifact("live_odds", data, OUT, indent=None)
-                refresh_once(data)
+                if refresh_once(data) != 0:
+                    raise RuntimeError("live odds saved but picks_v2 revision refresh failed")
                 print("실시간 배당: 이번 폴링에서 발매 회차를 찾지 못해 직전 값을 유지 "
                       f"(회차 {data.get('rounds')}) → runtime artifact live_odds",
                       flush=True)
@@ -285,15 +287,17 @@ def main(argv: list[str]) -> int:
                 persist_artifact("live_odds", data, OUT, indent=None)
                 # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
                 # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
-                refresh_once(data)
+                if refresh_once(data) != 0:
+                    raise RuntimeError("live odds saved but picks_v2 revision refresh failed")
                 print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} "
                       "→ runtime artifact live_odds", flush=True)
             # The site polls the database API. File exports are explicit only.
         except Exception as e:                          # noqa: BLE001
             # 여기서 죽으면 화면이 낡은 값을 쓸 뿐이다. 다음 주기에 다시 한다.
             print(f"실시간 배당 실패: {type(e).__name__}: {e}", flush=True)
+            exit_code = 1
         if not loop:
-            return 0
+            return exit_code
         time.sleep(loop)
 
 
