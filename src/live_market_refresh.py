@@ -488,6 +488,12 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
 
 
 def refresh_once(live_odds: dict | None = None) -> int:
+    started = time.monotonic()
+
+    def stage(name: str) -> None:
+        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s", flush=True)
+
+    stage("load")
     try:
         document = load_artifact("picks_v2", PICKS)
         if live_odds is None:
@@ -497,11 +503,14 @@ def refresh_once(live_odds: dict | None = None) -> int:
     except (OSError, json.JSONDecodeError) as exc:
         print(f"경량 시장 판정 입력 실패: {type(exc).__name__}: {exc}")
         return 1
+    stage("decision")
     document, changed = refresh_document(document, live_odds)
     observed_at = str(live_odds.get("generated_at") or "")
     try:
         runtime = PredictionRuntime(PREDICTION_LEDGER)
+        stage("settlement")
         settled = settle_live_market_results(live_odds, runtime)
+        stage("ledger")
         ledger_sync = record_live_market_revisions(
             document,
             observed_at,
@@ -526,7 +535,9 @@ def refresh_once(live_odds: dict | None = None) -> int:
         print(f"경량 시장 판정 원장 실패: {type(exc).__name__}: {exc}")
         return 1
     document.setdefault("live_market_refresh", {})["ledger_sync"] = ledger_sync
+    stage("persist")
     persist_artifact("picks_v2", document, PICKS)
+    stage("complete")
     print(f"경량 시장 판정 {changed}경기 → runtime artifact picks_v2")
     return 0
 
@@ -534,9 +545,9 @@ def refresh_once(live_odds: dict | None = None) -> int:
 def main(argv: list[str]) -> int:
     loop = int(argv[argv.index("--loop") + 1]) if "--loop" in argv else 0
     while True:
-        refresh_once()
+        result = refresh_once()
         if not loop:
-            return 0
+            return result
         time.sleep(loop)
 
 
