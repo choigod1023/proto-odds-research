@@ -136,7 +136,10 @@ export function finalRecommendedSelection(selections) {
     hitProbabilityOf(b) - hitProbabilityOf(a) ||
     probabilityOf(b) - probabilityOf(a) ||
     oddsOf(a) - oddsOf(b) ||
-    String(a?.selection_id || "").localeCompare(String(b?.selection_id || ""))
+    // Python uses max(..., selection_id): keep identical ties on the server
+    // and browser without changing an already recorded pick.
+    (String(a?.selection_id || "") < String(b?.selection_id || "") ? 1 :
+      String(a?.selection_id || "") > String(b?.selection_id || "") ? -1 : 0)
   )[0] || null;
 }
 

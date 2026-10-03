@@ -398,6 +398,33 @@ class PredictionRuntime:
         self._remember(result)
         return result
 
+    def settle_latest_batch(self, entries: list[Mapping[str, Any]]) -> list[AppendResult]:
+        """Resolve exact latest revisions, then verify/write the ledger only once."""
+        latest = self._cached_latest()
+        known = {(row.get("snapshot_id"), row.get("settlement_version"))
+                 for row in self._cached_records()
+                 if row.get("record_type") == "settlement"}
+        pending = []
+        for entry in entries:
+            prediction = latest.get(entry["event_id"])
+            if prediction is None:
+                continue
+            outcome = _safe_json(entry["outcome"])
+            version = "official-" + hashlib.sha256(
+                _canonical_json(outcome).encode("utf-8")).hexdigest()[:16]
+            identity = (prediction["snapshot_id"], version)
+            if identity in known:
+                continue
+            known.add(identity)
+            pending.append({"snapshot_id": prediction["snapshot_id"],
+                            "outcome": outcome, "settled_at": entry["settled_at"],
+                            "source": _safe_json(entry["source"]),
+                            "settlement_version": version})
+        results = self.ledger.append_settlements(pending)
+        for result in results:
+            self._remember(result)
+        return results
+
     def ui_records(self) -> dict[str, dict[str, Any]]:
         records = self.records()
         latest = _latest_predictions(records)
