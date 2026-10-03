@@ -610,6 +610,19 @@ def _refresh_recommendation_in_slot() -> bool:
             log(f"추천 후속 갱신 보류 — 여유 {available}MB / 필요 256MB")
             return False
         log(f"추천 후속 갱신 실행 — 배당 프로세스 없음, 여유 {available}MB")
+        # Odds may have saved prices and then died before publishing picks_v2.
+        # Repair that artifact first, in a fresh process without scraper memory.
+        # A failed repair must not earn the successful recommendation cooldown.
+        log("경기별 판정 독립 복구 실행")
+        repaired = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
+                                  cwd=REPO, timeout=90)
+        if repaired.returncode != 0:
+            log(f"경기별 판정 독립 복구 실패(rc={repaired.returncode}) — 재시도")
+            return False
+        available = _available_memory_mb()
+        if available is None or available < 256:
+            log(f"판정 복구 후 추천 보류 — 여유 {available}MB; 재시도")
+            return False
         result = subprocess.run([sys.executable, "-u", "src/recommendation_refresh.py"],
                                 cwd=REPO, timeout=90)
         log(f"추천 후속 갱신 종료(rc={result.returncode})")
