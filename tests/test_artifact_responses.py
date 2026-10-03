@@ -17,10 +17,10 @@ def test_compressed_only_and_revision_refresh(tmp_path, monkeypatch):
     assert len(cache.ready['sample']) == 2
     assert len(first) < len(gzip.decompress(first)) / 10
     assert cache.get_bytes('sample', compressed=False) == gzip.decompress(first)
-    original = db.get_artifact_json
-    monkeypatch.setattr(db, 'get_artifact_json', lambda _: (_ for _ in ()).throw(AssertionError('reread')))
+    original = db.open_artifact_json
+    monkeypatch.setattr(db, 'open_artifact_json', lambda _: (_ for _ in ()).throw(AssertionError('reread')))
     assert cache.get_bytes('sample') == first
-    monkeypatch.setattr(db, 'get_artifact_json', original)
+    monkeypatch.setattr(db, 'open_artifact_json', original)
     db.store_artifact('sample', {'generated_at': 'new'})
     with db.connect() as c:
         c.execute("UPDATE artifacts SET stored_at='next' WHERE name='sample'")
@@ -42,7 +42,7 @@ def test_single_flight_stale_and_cold_requests(tmp_path, monkeypatch):
         entered.set()
         assert release.wait(5)
         raise OSError('read failure')
-    monkeypatch.setattr(db, 'get_artifact_json', blocked)
+    monkeypatch.setattr(db, 'open_artifact_json', blocked)
     with ThreadPoolExecutor(max_workers=2) as pool:
         future = pool.submit(cache.get_bytes, 'sample')
         try:
@@ -68,3 +68,31 @@ def test_proto_labels_skip_prediction_objects(tmp_path, monkeypatch):
     monkeypatch.setattr(live_scores, 'load_artifact', lambda *a: (_ for _ in ()).throw(AssertionError('full load')))
     assert live_scores._proto_games() == [expected, expected]
     assert RuntimeDatabase(tmp_path / 'empty.db').proto_team_labels() == []
+
+
+def test_blob_reader_keeps_revision_and_bytes_in_one_snapshot(tmp_path):
+    import pytest
+    import sqlite3
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    db.store_artifact('sample', {'generated_at': 'old', 'text': '한글'})
+    with db.connect() as connection:
+        connection.execute("UPDATE artifacts SET stored_at='old-revision' WHERE name='sample'")
+    with db.open_artifact_json('sample') as (stream, revision):
+        db.store_artifact('sample', {'generated_at': 'new'})
+        assert revision == 'old-revision'
+        assert json.loads(stream.read()) == {'generated_at': 'old', 'text': '한글'}
+    with pytest.raises(sqlite3.ProgrammingError):
+        stream.read(1)
+    with pytest.raises(KeyError):
+        with db.open_artifact_json('missing'):
+            pass
+
+
+def test_compression_does_not_use_full_text_loader(tmp_path, monkeypatch):
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    payload = {'generated_at': 'old', 'text': '한글' * 100000}
+    db.store_artifact('sample', payload)
+    def fail(*args):
+        raise AssertionError('Full artifact text allocation')
+    monkeypatch.setattr(db, 'get_artifact_json', fail)
+    assert json.loads(gzip.decompress(ArtifactResponses(db).get_bytes('sample'))) == payload

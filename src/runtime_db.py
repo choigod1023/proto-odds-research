@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 import csv
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import os
@@ -15,6 +15,7 @@ from pathlib import Path
 import sqlite3
 from typing import Any, Iterable, Iterator, Mapping
 from runtime_datasets import DatasetStore, RESULT_SCHEMA
+from match_projection import SCHEMA as MATCH_SCHEMA, write_projection
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -158,6 +159,7 @@ class RuntimeDatabase(DatasetStore):
                 );
                 """
             )
+            connection.executescript(MATCH_SCHEMA)
 
     @staticmethod
     def _canonical(value: Any) -> str:
@@ -365,12 +367,17 @@ class RuntimeDatabase(DatasetStore):
     def import_artifact(self, name: str, payload: Mapping[str, Any]) -> bool:
         now = datetime.now(timezone.utc).isoformat(timespec="microseconds")
         with self.transaction() as connection:
+            if name == 'picks_v2':
+                now = self._match_revision(connection)
             cursor = connection.execute("""INSERT INTO artifacts VALUES (?,?,?,?)
                 ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
                 payload_json=excluded.payload_json,stored_at=excluded.stored_at
                 WHERE julianday(excluded.generated_at)>julianday(artifacts.generated_at)""",
                 (name, payload.get("generated_at"), self._canonical(payload), now))
-            return cursor.rowcount > 0
+            changed = cursor.rowcount > 0
+            if changed and name == 'picks_v2':
+                write_projection(connection, payload, now)
+            return changed
 
     def export_dataset_csv(self, name: str, path: Path) -> None:
         with self.connect() as connection:
@@ -502,9 +509,23 @@ class RuntimeDatabase(DatasetStore):
             ).fetchall()
         return [json.loads(row["record_json"]) for row in rows]
 
+    @staticmethod
+    def _match_revision(connection) -> str:
+        now = datetime.now(timezone.utc)
+        old = connection.execute("SELECT stored_at FROM artifacts WHERE name='picks_v2'").fetchone()
+        if old:
+            try:
+                previous = datetime.fromisoformat(old[0]).astimezone(timezone.utc)
+                now = max(now, previous + timedelta(microseconds=1))
+            except ValueError:
+                pass  # Legacy opaque revisions remain readable.
+        return now.isoformat(timespec='microseconds')
+
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         with self.transaction() as connection:
+            if name == 'picks_v2':
+                now = self._match_revision(connection)
             if name == "today_combo":
                 from recommendation_history import POLICY, capture_history, settle_history, stamp
                 old = connection.execute("SELECT payload_json FROM artifacts WHERE name=?", (name,)).fetchone()
@@ -528,6 +549,9 @@ class RuntimeDatabase(DatasetStore):
                    payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
                 (name, payload.get("generated_at"), body, now),
             )
+            if name == 'picks_v2':
+                del body
+                write_projection(connection, payload, now)
 
     def get_artifact(self, name: str) -> dict[str, Any] | None:
         with self.connect() as connection:
@@ -549,6 +573,23 @@ class RuntimeDatabase(DatasetStore):
                     (f"$.{section}",),
                 ):
                     yield json.loads(row[0])
+
+    @contextmanager
+    def open_artifact_json(self, name: str):
+        """Read UTF-8 bytes incrementally from one consistent WAL snapshot.
+
+        blobopen also supports SQLite TEXT columns. Never materialize the full
+        text/UTF-8 copy in Python just to parse or compress a response.
+        """
+        with self.connect() as connection:
+            connection.execute("BEGIN")
+            row = connection.execute(
+                "SELECT rowid,stored_at FROM artifacts WHERE name=?", (name,)
+            ).fetchone()
+            if row is None:
+                raise KeyError(name)
+            with connection.blobopen('artifacts', 'payload_json', row['rowid'], readonly=True) as stream:
+                yield stream, str(row['stored_at'])
 
     def get_artifact_json(self, name: str) -> tuple[str, str] | None:
         """Return the stored wire payload and revision without decoding it."""

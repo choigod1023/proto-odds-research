@@ -852,8 +852,9 @@ def serve_live() -> None:
     하루 300커밋이라 레포가 망가진다. 그래서 이 파일만 직접 서빙한다.
     브라우저가 다른 도메인(사이트)에서 부르므로 CORS 를 열어 준다.
     """
-    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    from http.server import BaseHTTPRequestHandler
     sys.path.insert(0, str(REPO / "src"))
+    from bounded_http import BoundedHTTPServer
     from runtime_db import RuntimeDatabase
 
     database = RuntimeDatabase()
@@ -994,7 +995,7 @@ def serve_live() -> None:
 
     stop_warming = threading.Event()
     try:
-        with ThreadingHTTPServer(("0.0.0.0", LIVE_PORT), H) as server:
+        with BoundedHTTPServer(("0.0.0.0", LIVE_PORT), H) as server:
             threading.Thread(target=warm_match_views,
                              args=(match_views, stop_warming, artifact_responses.rebuild), daemon=True).start()
             server.serve_forever()

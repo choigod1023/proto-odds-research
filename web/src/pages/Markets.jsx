@@ -2,6 +2,8 @@ import OverallAccuracy from "../components/OverallAccuracy.jsx";
 import RecommendationResults from "../components/RecommendationResults.jsx";
 import BaseballSituation from "../components/BaseballSituation.jsx";
 import MatchProgress from "../components/MatchProgress.jsx";
+import SnapshotFreshness from "../components/SnapshotFreshness.jsx";
+import { singleFlightPoll } from "../lib/single-flight-poll.js";
 import { useEffect, useMemo, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import FavoriteControls from "../components/FavoriteControls.jsx";
@@ -53,21 +55,26 @@ const GRADES_URL = "https://proto-odds-collector.fly.dev/api/loss-grades";
 
 /** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
 function usePoll(url, ms) {
-  const [state, setState] = useState({ data: null, checked: false });
+  const [state, setState] = useState({ data: null, checked: false, error: false });
   useEffect(() => {
-    let stop = false;
-    const load = () =>
-      fetch(`${url}?${Date.now()}`, {
+    const poll = singleFlightPoll({
+      read: async signal => {
+        const response = await fetch(`${url}?${Date.now()}`, {
+        signal,
         cache: "no-store",
         headers: { "Cache-Control": "no-cache" },
-      })
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((d) => { if (!stop) setState((old) => ({
-          data: url === LIVE_URL ? mergeLiveFeed(old.data, d) : d, checked: true,
-        })); })
-        // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
-        // 오래된 정적 fallback인지 실제 장애인지 구분한다.
-        .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid source payload');
+        return data;
+      },
+      success: d => setState(old => ({
+        data: url === LIVE_URL ? mergeLiveFeed(old.data, d) : d, checked: true, error: false,
+      })),
+      failure: () => setState(old => ({ ...old, checked: true, error: true })),
+    });
+    const load = poll.load;
     load();
     const t = setInterval(load, ms);
     const onVisible = () => { if (document.visibilityState === "visible") load(); };
@@ -75,7 +82,7 @@ function usePoll(url, ms) {
     window.addEventListener("focus", load);
     window.addEventListener("online", load);
     return () => {
-      stop = true;
+      poll.stop();
       clearInterval(t);
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("focus", load);
@@ -142,9 +149,9 @@ export default function Markets() {
   const { data: livePicks, checked: picksChecked, error: picksError, retry: retryPicks } = useMatchData(`/api/matches?scope=${allMatches ? 'all' : 'recent'}`);
   const { data: accuracyData, error: accuracyError, retry: retryAccuracy } = useMatchData(accuracyOpen ? '/api/picks' : null);
   const d = livePicks;
-  const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
-  const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
-  const { data: directLiveFeed, checked: liveChecked } = useLive();
+  const { data: liveOdds, checked: liveOddsChecked, error: oddsError } = useLiveOdds();
+  const { data: liveToday, checked: todayChecked, error: todayError } = usePoll(RECOMMENDATION_URL, 120000);
+  const { data: directLiveFeed, checked: liveChecked, error: scoresError } = useLive();
   const liveFeed = directLiveFeed;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
@@ -195,6 +202,12 @@ export default function Markets() {
     <Shell>
       {allMatches && !picksChecked && <p role="status">과거·전체 경기 목록을 불러오는 중입니다.</p>}
       {picksError && <p role="status">경기 목록 갱신에 실패했습니다. 마지막 정상 목록을 유지합니다. <button onClick={retryPicks}>다시 시도</button></p>}
+      <SnapshotFreshness sources={[
+        { name: '경기 분석', generatedAt: d?.generated_at, checked: picksChecked, error: picksError },
+        { name: '배당', generatedAt: liveOdds?.generated_at, checked: liveOddsChecked, error: oddsError },
+        { name: '추천', generatedAt: liveToday?.generated_at, checked: todayChecked, error: todayError },
+        { name: '점수', generatedAt: liveFeed?.generated_at, checked: liveChecked, error: scoresError },
+      ]} />
       <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
       <p><a href="./dashboard.html#per-event-shadow">경기별 새 픽 가상 비교 · 선택/보류 사유와 정산 성적 보기</a></p>
       <details className="overall-accuracy-secondary" onToggle={event => setAccuracyOpen(event.currentTarget.open)}><summary>전체 사전 픽 성적 보기</summary>
