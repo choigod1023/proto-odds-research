@@ -14,8 +14,8 @@ export function useMatchData(path, everyMs=60000) {
       try {
         const data=await readMatchJson(path,controller.signal);
         if (!stopped) setState({path,data,checked:true,error:false});
-      } catch {
-        if (!stopped) setState(old=>({path,data:old.path===path || (path.startsWith('/api/matches?') && old.path?.startsWith('/api/matches?'))?old.data:null,checked:true,error:true}));
+      } catch (error) {
+        if (!stopped) setState(old=>({path,data:old.path===path || (path.startsWith('/api/matches?') && old.path?.startsWith('/api/matches?'))?old.data:null,checked:true,error:true,errorStatus:error.status ?? null}));
       } finally {clearTimeout(timer); active=null;}
     };
     load();

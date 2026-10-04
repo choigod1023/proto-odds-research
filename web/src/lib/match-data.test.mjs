@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mergeMatchDetail,readMatchJson} from './match-data.js';
+import {mergeMatchDetail,readMatchJson,shouldRefreshDetailList} from './match-data.js';
 import {recommendationResults} from './recommendation-results.js';
 
 test('detail never overwrites repriced options or frozen revision',()=>{
@@ -21,6 +21,18 @@ test('old collector route fallback only for 404, not errors',async t=>{
   assert.match(urls[1],/\/api\/picks\?/);
   t.mock.method(globalThis,'fetch',async()=>({status:503}));
   await assert.rejects(readMatchJson('/api/matches?scope=recent'),/503/);
+});
+
+test('stale detail revision refreshes list once per path without bypassing revision checks',async t=>{
+  t.mock.method(globalThis,'fetch',async()=>({status:409,ok:false}));
+  const path='/api/match-detail?key=k&revision=old';
+  await assert.rejects(readMatchJson(path),error=>error.status===409);
+  assert.equal(shouldRefreshDetailList(path,409,null),true);
+  assert.equal(shouldRefreshDetailList(path,409,path),false);
+  assert.equal(shouldRefreshDetailList(path,503,null),false);
+  assert.equal(shouldRefreshDetailList(null,409,null),false);
+  assert.equal(shouldRefreshDetailList('/api/matches?scope=recent',409,null),false);
+  assert.equal(shouldRefreshDetailList(path.replace('old','new'),409,path),true);
 });
 
 test('recent result settlement uses compact history even when list is today-only',()=>{

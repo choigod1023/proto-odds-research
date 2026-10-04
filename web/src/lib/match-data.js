@@ -6,8 +6,16 @@ export async function readMatchJson(path, signal) {
   // Pages and collector deploy independently. Only unsupported routes use the old API.
   if (response.status === 404 && path.startsWith('/api/matches?'))
     return readMatchJson('/api/picks', signal);
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  if (!response.ok) {
+    const error = new Error(`HTTP ${response.status}`);
+    error.status = response.status;
+    throw error;
+  }
   return response.json();
+}
+
+export function shouldRefreshDetailList(path, status, previousPath) {
+  return Boolean(path?.startsWith('/api/match-detail?') && status === 409 && path !== previousPath);
 }
 
 export function mergeMatchDetail(summary, response, revision) {
