@@ -467,7 +467,7 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
                 key = (event_id(game), selection_id(game, option), offer_id(game, option))
                 candidates.setdefault(key, []).append((
                     "void" if void else "hit" if index == winner else "miss", row, round_no))
-    count = 0
+    pending = []
     for event, record in runtime.ui_records().items():
         key = (event, record.get("selection_id"), record.get("offer_id"))
         matches = candidates.get(key, [])
@@ -476,15 +476,14 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
         result, row, round_no = matches[0]
         if record.get("result") == result:
             continue  # Full generator may already have settled with extra score metadata.
-        appended = runtime.settle_latest(
-            event, outcome={"result": result, "selection_id": record["selection_id"],
+        pending.append(dict(
+            event_id=event, outcome={"result": result, "selection_id": record["selection_id"],
                             "official_result": row.get("result")},
             settled_at=observed.isoformat(),
             source={"name": "proto_official", "round": round_no,
                     "game_no": row.get("game_no"), "game_date": row.get("date"),
-                    "path": "live_odds"})
-        count += int(appended is not None)
-    return count
+                    "path": "live_odds"}))
+    return sum(result.appended for result in runtime.settle_latest_batch(pending))
 
 
 def refresh_once(live_odds: dict | None = None) -> int:

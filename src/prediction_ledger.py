@@ -268,6 +268,24 @@ class PredictionLedger:
                 del self._batch_records
                 del self._batch_added
 
+    def append_settlements(self, entries: Iterable[Mapping[str, Any]]) -> list[AppendResult]:
+        """Validate the chain once and atomically append a settlement batch."""
+        requests = list(entries)
+        if not requests:
+            return []
+        with self._lock():
+            records = self._read_verified()
+            added: list[dict[str, Any]] = []
+            self._batch_records = records
+            self._batch_added = added
+            try:
+                results = [self.append_settlement(**entry) for entry in requests]
+                self._write_records(added)
+                return results
+            finally:
+                del self._batch_records
+                del self._batch_added
+
     def append_settlement(
         self,
         snapshot_id: str,

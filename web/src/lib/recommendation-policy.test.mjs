@@ -16,6 +16,14 @@ const choice = (sel, odds, probability, market = "승패") => ({
   market_prob: probability,
 });
 
+// Production tied options: Python max() chooses the larger stable identity.
+const tied = [
+  { ...choice("언더", 1.76, 0.5, "언더오버"), selection_id: "sel_8dc230c59a5a1f79" },
+  { ...choice("오버", 1.76, 0.5, "언더오버"), selection_id: "sel_61510840b4baf9ae" },
+];
+assert.equal(finalRecommendedSelection(tied), tied[0]);
+assert.equal(finalRecommendedSelection([...tied].reverse()), tied[0]);
+
 const favorite = choice("홈", 1.65, 0.58);
 const reverse = { ...choice("원정", 2.05, 0.42), model_prob: 0.55 };
 const high = { ...choice("홈", 2.2, 0.52), event_key: "game-b" };
