@@ -2,7 +2,7 @@ import OverallAccuracy from "../components/OverallAccuracy.jsx";
 import RecommendationResults from "../components/RecommendationResults.jsx";
 import BaseballSituation from "../components/BaseballSituation.jsx";
 import MatchProgress from "../components/MatchProgress.jsx";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import FavoriteControls from "../components/FavoriteControls.jsx";
 import SelectionReview from "../components/SelectionReview.jsx";
@@ -28,7 +28,7 @@ import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
-import { mergeMatchDetail } from "../lib/match-data.js";
+import { mergeMatchDetail, shouldRefreshDetailList } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
@@ -201,7 +201,7 @@ export default function Markets() {
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
       </details>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRequestAll={() => setAllMatches(true)} /></section>
+        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
     </Shell>
   );
 }
@@ -320,11 +320,19 @@ const STATUS = [
   ["finished", "종료"], ["pending", "상태 확인 중"],
 ];
 
-export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false, onRequestAll }) {
+export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
   const [openedGame, setOpenedGame] = useState(null);
   const detailPath = openedGame?._detail_key && data.view?.revision
     ? `/api/match-detail?key=${encodeURIComponent(openedGame._detail_key)}&revision=${encodeURIComponent(data.view.revision)}` : null;
   const detail = useMatchData(detailPath, 0);
+  const recoveredPath = useRef(null);
+  useEffect(() => {
+    if (!detailPath) { recoveredPath.current = null; return; }
+    if (shouldRefreshDetailList(detailPath, detail.errorStatus, recoveredPath.current)) {
+      recoveredPath.current = detailPath;
+      onRefreshList?.();
+    }
+  }, [detailPath, detail.errorStatus, onRefreshList]);
   const [betDraft, setBetDraft] = useState(null);
   const [favorites, setFavorites] = useState(readFavorites);
   const [storageNotice, setStorageNotice] = useState("");
@@ -520,7 +528,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
 
       {modalSummary && !modalGame && <GameInfoModal title={`${modalSummary.home} vs ${modalSummary.away}`} onClose={() => setOpenedGame(null)}>
         <p role="status">{detail.error ? '상세 정보를 불러오지 못했거나 경기 데이터가 갱신됐습니다. 목록 갱신 후 다시 시도해 주세요.' : '경기 상세 정보를 불러오는 중입니다.'}</p>
-        {detail.error && <button onClick={detail.retry}>다시 시도</button>}
+        {detail.error && <button onClick={() => { onRefreshList?.(); detail.retry(); }}>다시 시도</button>}
       </GameInfoModal>}
       {modalGame && <GameInfoModal title={`${modalGame.home} vs ${modalGame.away}`} onClose={() => setOpenedGame(null)}>
 <details className="detail-favorites"><summary>팀·리그 즐겨찾기</summary><FavoriteControls game={modalGame} favorites={favorites} onToggle={toggleFavorite} /></details>
