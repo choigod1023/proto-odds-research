@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import math
 
-from recommendation_policy import MAX_AUTO_RECOMMENDATION_ODDS
+# Research protocol remains frozen; this is not the daily recommendation policy.
+MAX_AUTO_RECOMMENDATION_ODDS = 2.2
 
 ODDS_LOG_BUCKET = 0.002
 

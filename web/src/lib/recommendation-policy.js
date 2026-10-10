@@ -1,7 +1,7 @@
 export const PREFERRED_AUTO_ODDS = 1.5;
 // 호환용 별칭. 1.50은 더 이상 제외 하한이 아니라 1순위 경계다.
 export const MIN_AUTO_ODDS = 1.5;
-export const MAX_AUTO_ODDS = 2.2;
+export const MAX_AUTO_ODDS = null;
 export const UPSET_MIN_ODDS = 1.5;
 export const UPSET_MAX_ODDS = 3.0;
 export const UPSET_MIN_MARKET_PROBABILITY = 0.28;
@@ -38,7 +38,7 @@ const groupKey = (selection) => {
 
 /**
  * 자동 추천은 가격을 계산할 수 있는 모든 선택지가 아니라 검증된 안전 구간만 쓴다.
- * 현재는 홀짝, 2.20 이상, 같은 마켓의 현재 최저 배당이 아닌 역배를 제외한다.
+ * 홀짝과 같은 마켓의 현재 최저 배당이 아닌 역배를 제외한다. 배당 상한은 없다.
  * 1.50 이상 후보가 있으면 먼저 쓰고, 없을 때만 저배당 보조 후보를 허용한다.
  * 최저 배당은 실시간 가격이 바뀌면 즉시 다시 계산되며 시장확률 1위와 같은 순서다.
  */
@@ -63,7 +63,7 @@ export function eligibleAutoSelections(selections) {
   return rows.filter((selection) => {
     if (EXCLUDED_MARKETS.has(String(selection.market || "").trim())) return false;
     const odds = oddsOf(selection);
-    if (!Number.isFinite(odds) || odds <= 1 || odds >= MAX_AUTO_ODDS) return false;
+    if (!Number.isFinite(odds) || odds <= 1) return false;
     if (selection.is_market_favorite === false) return false;
     const key = groupKey(selection);
     const probability = probabilityOf(selection);
@@ -78,7 +78,7 @@ export function eligibleAutoSelections(selections) {
 
 export function recommendationPriority(selection) {
   const odds = oddsOf(selection);
-  if (!Number.isFinite(odds) || odds <= 1 || odds >= MAX_AUTO_ODDS) return -1;
+  if (!Number.isFinite(odds) || odds <= 1) return -1;
   return odds >= PREFERRED_AUTO_ODDS ? 1 : 0;
 }
 

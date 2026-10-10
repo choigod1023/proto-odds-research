@@ -31,12 +31,17 @@ def _js_number(source: str, name: str) -> float:
 
 
 def test_browser_and_generator_recommendation_thresholds_stay_in_sync():
+    from src.recommendation_history import MIN_HIT, POLICY
+    unified = (ROOT / "web/src/lib/unified-recommendation.js").read_text(encoding="utf-8")
+    assert _js_number(unified, "DAILY_HIGHLIGHT_MIN_HIT") == MIN_HIT
+    assert f'export const DAILY_RECOMMENDATION_POLICY = "{POLICY}";' in unified
     plan_js = (ROOT / "web/src/lib/today-plan.js").read_text(encoding="utf-8")
     policy_js = (ROOT / "web/src/lib/recommendation-policy.js").read_text(encoding="utf-8")
 
     assert _js_number(policy_js, "MIN_AUTO_ODDS") == MIN_AUTO_RECOMMENDATION_ODDS
     assert _js_number(policy_js, "PREFERRED_AUTO_ODDS") == PREFERRED_RECOMMENDATION_ODDS
-    assert _js_number(policy_js, "MAX_AUTO_ODDS") == MAX_AUTO_RECOMMENDATION_ODDS
+    assert MAX_AUTO_RECOMMENDATION_ODDS is None
+    assert "export const MAX_AUTO_ODDS = null;" in policy_js
     assert _js_number(policy_js, "UPSET_MIN_ODDS") == UPSET_MIN_ODDS
     assert _js_number(policy_js, "UPSET_MAX_ODDS") == UPSET_MAX_ODDS
     assert _js_number(policy_js, "UPSET_MIN_MARKET_PROBABILITY") == UPSET_MIN_MARKET_PROBABILITY

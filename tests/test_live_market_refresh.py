@@ -75,7 +75,7 @@ def test_changed_live_decision_is_recorded_before_publish(tmp_path):
     assert game["prediction_record"]["prediction_snapshot_id"] == records[0]["snapshot_id"]
 
 
-def test_withhold_revision_is_recorded_without_ui_prediction(tmp_path):
+def test_high_price_reference_is_recorded_without_price_only_withhold(tmp_path):
     live_odds = _live_odds()
     live_odds["markets"]["102"] = {
         "7100": {**live_odds["markets"]["102"]["7100"], "odds": [2.20, 2.20]},
@@ -97,10 +97,10 @@ def test_withhold_revision_is_recorded_without_ui_prediction(tmp_path):
 
     game = refreshed["live"][0]
     assert counts == {"predictions": 1, "skipped": 0, "withheld": 0}
-    assert runtime.records()[0]["predictions"]["action"] == "withhold"
-    assert game["prediction_status"] == "recorded_withhold"
+    assert runtime.records()[0]["predictions"]["action"] == "market_reference"
+    assert game["prediction_status"] == "recorded_pregame"
     assert game["prediction_revision_id"] == runtime.records()[0]["snapshot_id"]
-    assert "prediction_record" not in game
+    assert game["prediction_record"]["odds"] == 2.20
 
 
 def test_older_live_feed_cannot_replace_newer_ledger_revision(tmp_path):

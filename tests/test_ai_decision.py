@@ -101,7 +101,7 @@ def test_hit_probability_ranker_prefers_meaningful_odds_band():
     assert selected["예상적중확률"] == 0.55
     assert "제외" not in game["options"][0]
     assert game["options"][0]["추천우선순위"] == "fallback"
-    assert game["options"][1]["제외"].startswith("배당 2.20 이상")
+    assert "역배" in game["options"][1]["제외"]
     assert game["options"][2]["추천우선순위"] == "primary"
     assert selected["선택근거"] == "shin_market_hit_probability"
 

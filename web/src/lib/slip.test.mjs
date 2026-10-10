@@ -66,7 +66,7 @@ test("combo pass does not erase qualified individual daily picks", () => {
 });
 
 test("no below-threshold fallback on the slip while recommendations are unavailable", () => {
-  for (const [p, odds] of [[.59, 1.7], [.70, 1.49]]) {
+  for (const [p, odds] of [[.5499, 1.7], [.70, 1.49]]) {
     const option = { market: "승패", 선택: "홈", 게임번호: "17", 배당: odds, 예상적중확률: p };
     const games = [{ round: 102, date: "08.30(일) 19:00", home: "홈", away: "원정",
       options: [option], 추천: option }];

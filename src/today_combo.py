@@ -69,7 +69,7 @@ PICKS_V2 = ROOT / "docs" / "data" / "picks_v2.json"
 # combo.py 가 쓰는 것과 같은 경계
 BINS = [(1.0, 1.3), (1.3, 1.5), (1.5, 1.8), (1.8, 2.2), (2.2, 3.0), (3.0, 5.0), (5.0, 999)]
 LABELS = ["1.0-1.3", "1.3-1.5", "1.5-1.8", "1.8-2.2", "2.2-3.0", "3.0-5.0", "5.0+"]
-BANNED = {"2.2-3.0", "3.0-5.0", "5.0+"}
+BANNED = set()  # Prices alone no longer disqualify daily candidates.
 TARGETS = [3, 5, 8, 12]
 SAFE_TARGET_BINS = {
     3: ["1.5-1.8", "1.5-1.8"],
@@ -88,6 +88,10 @@ DATE_TIME = re.compile(r"(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})")
 
 
 def bin_of(o: float) -> str | None:
+    if not math.isfinite(float(o)):
+        return None
+    if o > 5:
+        return "5.0+"
     # 과거 구간은 오른쪽 닫힘이지만 운영 우선선 1.50은 상위 구간에 포함한다.
     if math.isclose(float(o), PREFERRED_RECOMMENDATION_ODDS, abs_tol=1e-9):
         return "1.5-1.8"
@@ -907,11 +911,11 @@ def build() -> dict:
         "live_odds_at": live_generated_at,
         "year": source.get("year"),
         "probability_method": MARKET_PROBABILITY_METHOD,
-        "basis": "비교 후보는 경기별 1.50~2.20 미만 유효 후보를 우선하고 그 안에서 최종 "
+        "basis": "비교 후보는 경기별 1.50 이상 유효 후보를 우선하고 그 안에서 최종 "
                  "예상 적중확률이 가장 높은 선택을 고른다. 해당 가격대가 없을 "
                  "때만 저배당 보조 후보를 허용하며, 검증된 AI 보정이 없으면 "
                  "동일 시점 Shin 시장확률로 복귀한다. 실제 추천은 이 후보 중 "
-                 "60% 이상·배당 1.50 이상~2.20 미만만 채택하며 저배당 보조 후보는 추천하지 않는다.",
+                 "55% 이상·배당 1.50 이상 · 상한 없음만 채택하며 저배당 보조 후보는 추천하지 않는다.",
         "n_candidates": len(display_cands),
         "n_primary_candidates": sum(
             1 for candidate in display_cands if candidate.get("recommendation_priority") == "primary"
@@ -921,8 +925,8 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "실제 추천: 예상 적중 60% 이상 · 배당 1.50 이상~2.20 미만 · 개수 보충 없음 · 자동 조합 없음",
-        "recommendation_policy": "daily-p60-o150-v2",
+        "selection_policy": "실제 추천: 예상 적중 55% 이상 · 배당 1.50 이상 · 상한 없음 · 개수 보충 없음 · 자동 조합 없음",
+        "recommendation_policy": "daily-p55-o150-unbounded-v4",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,
@@ -964,8 +968,6 @@ def _selftest() -> int:
             bad.append(f"목표 {p['target']}× : 금지 배당대가 섞였다")
         if any(float(c["odds"]) < PREFERRED_RECOMMENDATION_ODDS for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 1순위 조합에 1.50 미만 보조 선택지가 섞였다")
-        if any(float(c["odds"]) >= MAX_AUTO_RECOMMENDATION_ODDS for c in p["picks"]):
-            bad.append(f"목표 {p['target']}× : 2.20 이상 선택지가 섞였다")
         if any(not c.get("is_market_favorite") for c in p["picks"]):
             bad.append(f"목표 {p['target']}× : 시장 최유력 아닌 역배가 섞였다")
         probabilities = [probability_of(c.get("market_prob")) for c in p["picks"]]

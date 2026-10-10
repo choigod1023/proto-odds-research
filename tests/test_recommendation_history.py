@@ -87,16 +87,26 @@ def test_highlight_policy_matches_browser():
 
 
 @pytest.mark.parametrize("p,odds,expected", [
-    (.5999, 1.6, False), (.60, 1.49, False), (.60, 1.50, True),
-    (.60, 2.1999, True), (.60, 2.20, False), (1., 1.6, False),
+    (.5499, 1.6, False), (.55, 1.50, True), (.5999, 1.6, True), (.60, 1.49, False), (.60, 1.50, True),
+    (.60, 2.1999, True), (.60, 2.20, True), (.55, 3.50, True),
+    (.40, 3.50, False), (.60, float('inf'), False), (1., 1.6, False),
 ])
 def test_operating_policy_boundaries(p, odds, expected):
-    row = candidate(predicted_hit_prob=p, odds=odds)
+    row = candidate(predicted_hit_prob=p, market_prob=p, odds=odds)
     assert bool(highlights([row])) is expected
     history = capture_history(payload([row]), {}, NOW)
     saved = next(iter(history.values()))
     assert saved["recommended"] is expected
     assert saved["policy"] == POLICY
+
+
+def test_old_p60_rejection_remains_frozen_under_p55():
+    old = capture_history(payload([candidate()]), {}, NOW)
+    entry = next(iter(old.values()))
+    entry.update(policy="daily-p60-o150-v2", recommended=False)
+    later = NOW + timedelta(hours=2, minutes=30)
+    assert capture_history(payload([candidate()], later),
+                           {"recommendation_history": old}, later) == old
 
 
 def test_legacy_frozen_recommendation_is_not_rewritten():
