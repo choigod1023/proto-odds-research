@@ -151,7 +151,7 @@ test("prestart without record requires exact current option, valid source snapsh
   assert.equal(row.originalOdds, 1.59);
   assert.equal(row.openingProbability, .6007);
   assert.equal(track([{ ...g, options: [{ ...option, 시장확률: .600733 }] }], today, early).length, 1);
-  for (const changes of [{ predicted_hit_prob: .59 }, { odds: 1.49 }]) {
+  for (const changes of [{ predicted_hit_prob: .5499 }, { odds: 1.49 }]) {
     assert.deepEqual(track([g], { ...today, candidates: [candidate({
       market_prob: .6007, predicted_hit_prob: .6007, ...changes,
       daily_recommendation: { recommended: true },

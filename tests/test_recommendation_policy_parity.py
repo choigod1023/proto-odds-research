@@ -31,6 +31,10 @@ def _js_number(source: str, name: str) -> float:
 
 
 def test_browser_and_generator_recommendation_thresholds_stay_in_sync():
+    from src.recommendation_history import MIN_HIT, POLICY
+    unified = (ROOT / "web/src/lib/unified-recommendation.js").read_text(encoding="utf-8")
+    assert _js_number(unified, "DAILY_HIGHLIGHT_MIN_HIT") == MIN_HIT
+    assert f'export const DAILY_RECOMMENDATION_POLICY = "{POLICY}";' in unified
     plan_js = (ROOT / "web/src/lib/today-plan.js").read_text(encoding="utf-8")
     policy_js = (ROOT / "web/src/lib/recommendation-policy.js").read_text(encoding="utf-8")
 
