@@ -911,7 +911,7 @@ def build() -> dict:
                  "예상 적중확률이 가장 높은 선택을 고른다. 해당 가격대가 없을 "
                  "때만 저배당 보조 후보를 허용하며, 검증된 AI 보정이 없으면 "
                  "동일 시점 Shin 시장확률로 복귀한다. 실제 추천은 이 후보 중 "
-                 "60% 이상·배당 1.50 이상~2.20 미만만 채택하며 저배당 보조 후보는 추천하지 않는다.",
+                 "55% 이상·배당 1.50 이상~2.20 미만만 채택하며 저배당 보조 후보는 추천하지 않는다.",
         "n_candidates": len(display_cands),
         "n_primary_candidates": sum(
             1 for candidate in display_cands if candidate.get("recommendation_priority") == "primary"
@@ -921,8 +921,8 @@ def build() -> dict:
         ),
         "n_better_round": sum(1 for c in cands if c.get("beats")),
         "next_kickoff_at": min((c["kickoff_at"] for c in cands), default=None),
-        "selection_policy": "실제 추천: 예상 적중 60% 이상 · 배당 1.50 이상~2.20 미만 · 개수 보충 없음 · 자동 조합 없음",
-        "recommendation_policy": "daily-p60-o150-v2",
+        "selection_policy": "실제 추천: 예상 적중 55% 이상 · 배당 1.50 이상~2.20 미만 · 개수 보충 없음 · 자동 조합 없음",
+        "recommendation_policy": "daily-p55-o150-v3",
         "preferred_leg_odds_inclusive": PREFERRED_RECOMMENDATION_ODDS,
         "evolutionary_selector": evolutionary,
         "max_leg_odds_exclusive": MAX_AUTO_RECOMMENDATION_ODDS,

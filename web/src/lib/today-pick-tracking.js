@@ -1,6 +1,6 @@
 import { savedLivePrediction } from "./saved-live-prediction.js";
 import { gamePhase, recommendationOutcome, scheduledAt } from "./match-status.js";
-import { dailyHighlightedSelections, legacyDailyHighlightedSelections, DAILY_RECOMMENDATION_POLICY } from "./unified-recommendation.js";
+import { dailyHighlightedSelections, historicalHighlightedSelections, DAILY_RECOMMENDATION_POLICY } from "./unified-recommendation.js";
 import { eligibleFinalSelections } from "./recommendation-policy.js";
 import { isOvernightGame } from "./game-date-filter.js";
 
@@ -58,8 +58,7 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
   const year = Number(day.slice(0, 4));
   const candidates = (today?.candidates || []).filter(Boolean);
   const archivedRecommendations = Object.values(today?.recommendation_history || {});
-  const legacy = today?.recommendation_policy !== DAILY_RECOMMENDATION_POLICY;
-  const highlighted = new Set((legacy ? legacyDailyHighlightedSelections : dailyHighlightedSelections)(candidates));
+  const highlighted = new Set(historicalHighlightedSelections(candidates, today?.recommendation_policy));
   const currentCandidates = (currentToday || today)?.candidates || [];
   const currentHighlighted = new Set(dailyHighlightedSelections(currentCandidates));
   const roster = (candidate) => typeof candidate.daily_recommendation?.recommended === "boolean"
@@ -109,9 +108,11 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
         matchesGame(row, game, kickoff, game.year) && selectionKey(row) === selectionKey(option)
         && number(row.odds) === originalOdds && isoTime(row.recorded_at) < kickoff
         && isoTime(row.recorded_at) <= now);
-      const legacyPrior = archived ? archived.policy !== DAILY_RECOMMENDATION_POLICY : legacy;
+      const priorPolicy = archived?.policy ?? today?.recommendation_policy;
+      const legacyPrior = ![DAILY_RECOMMENDATION_POLICY, "daily-p60-o150-v2"].includes(priorPolicy);
+      const priorMinHit = priorPolicy === "daily-p60-o150-v2" ? .60 : .55;
       const eligiblePrior = archived?.recommended !== false
-        && openingProbability != null && openingProbability >= (legacyPrior ? .55 : .60)
+        && openingProbability != null && openingProbability >= priorMinHit
         && (legacyPrior || originalOdds >= 1.5)
         && safe({ market: option.market, odds: originalOdds, market_prob: openingProbability,
           is_market_favorite: game.prediction_record.is_market_favorite,

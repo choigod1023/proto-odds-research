@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { alignTodayRecommendations, buildTodayMemberships, canonicalOption, canonicalPick,
-  dailyHighlightedSelections,
+  dailyHighlightedSelections, historicalHighlightedSelections,
   dailyRecommendationDecisions,
   selectionKey, todaySelectionForGame } from "./unified-recommendation.js";
 
@@ -278,17 +278,20 @@ const rankedHighlights = dailyHighlightedSelections(Array.from({ length: 8 }, (_
   odds: 1.5 + index * 0.01,
   predicted_hit_prob: 0.62 - index * 0.01,
 })));
-assert.equal(rankedHighlights.length, 3, "리그별 개수 보충 없이 60% 이상만 남긴다");
+assert.equal(historicalHighlightedSelections(rankedHighlights, "daily-p60-o150-v2").length, 3,
+  "이전 60% 정책의 게시물을 55% 기준으로 소급 추천하지 않는다");
+assert.equal(historicalHighlightedSelections(rankedHighlights, "daily-p55-o150-v3").length, 8);
+assert.equal(rankedHighlights.length, 8, "리그별 개수 보충 없이 55% 이상만 남긴다");
 assert.deepEqual(rankedHighlights.map((row) => Number(row.predicted_hit_prob.toFixed(2))),
-  [0.62, 0.61, 0.60]);
+  [0.62, 0.61, 0.60, 0.59, 0.58, 0.57, 0.56, 0.55]);
 const strongHighlights = dailyHighlightedSelections([0.72, 0.69, 0.66, 0.60].map((probability, index) => ({
   ...alignedToday.candidates[0], event_key: `strong-${index}`, game_no: `s-${index}`,
   league: "MLB", odds: 1.6 + index * 0.01, predicted_hit_prob: probability,
 })));
 assert.equal(strongHighlights.length, 4, "조건을 통과하면 개수 제한 없이 추천한다");
 assert.equal(dailyHighlightedSelections([{
-  ...alignedToday.candidates[0], predicted_hit_prob: 0.5999,
-}]).length, 0, "최종 예상 적중확률 60% 미만은 하이라이트하지 않는다");
+  ...alignedToday.candidates[0], predicted_hit_prob: 0.5499,
+}]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
 for (const [odds, count] of [[1.49, 0], [1.5, 1], [2.1999, 1], [2.2, 0]]) {
   assert.equal(dailyHighlightedSelections([{
     ...alignedToday.candidates[0], predicted_hit_prob: .60, odds,
@@ -308,11 +311,11 @@ const explained = dailyRecommendationDecisions([
     league: "J1리그", odds: 1.7, predicted_hit_prob: 0.61 },
 ]);
 assert.match(explained.find((row) => row.selection.event_key === "strong-3").reason,
-  /60% 이상.*조건을 통과/);
+  /55% 이상.*조건을 통과/);
 assert.match(explained.find((row) => row.selection.event_key === "weak").reason,
-  /60% 기준에 미달/);
+  /55% 기준에 미달/);
 assert.match(explained.find((row) => row.selection.event_key === "third").reason,
-  /60% 기준에 미달/);
+  /55% 이상.*조건을 통과/);
 assert.match(explained.find((row) => row.recommended).counterReason,
   /양의 기대수익이 검증된 것은 아니며/);
 
@@ -336,10 +339,10 @@ const datedCandidates = ["09.05(토) 18:00", "09.06(일) 02:00"].flatMap((date, 
     predicted_hit_prob: p,
   })));
 const datedHighlights = dailyHighlightedSelections(datedCandidates);
-assert.equal(datedHighlights.length, 6, "각 날짜에서 조건을 통과한 후보만 추천한다");
-assert.equal(datedHighlights.filter((row) => row.date.startsWith("09.05")).length, 3);
+assert.equal(datedHighlights.length, 8, "각 날짜에서 조건을 통과한 후보만 추천한다");
+assert.equal(datedHighlights.filter((row) => row.date.startsWith("09.05")).length, 4);
 datedCandidates[1].kickoff_at = "2026-09-05T09:00:00Z";
-assert.equal(dailyHighlightedSelections(datedCandidates).length, 6,
+assert.equal(dailyHighlightedSelections(datedCandidates).length, 8,
   "킥오프 표현과 관계없이 동일 조건을 적용한다");
 
 const recoveryNow = Date.parse("2026-09-05T10:00:00+09:00");
