@@ -253,6 +253,7 @@ def _carry_forward_prices(current: dict, previous: dict | None) -> dict:
 
 
 def main(argv: list[str]) -> int:
+    collect_only = "--collect-only" in argv
     loop = 0
     if "--loop" in argv:
         loop = int(argv[argv.index("--loop") + 1])
@@ -277,17 +278,20 @@ def main(argv: list[str]) -> int:
                 #    얼어붙지 않게 한다. 2026-09-03 실측: raise 로 바꾼 뒤
                 #    live_odds 가 02:02 UTC 에 멈췄고 추천·예측이 같이 멈췄다.
                 data = _carry_forward_prices(data, previous_odds)
+                del previous_odds
                 persist_artifact("live_odds", data, OUT, indent=None)
-                if refresh_once(data) != 0:
+                if not collect_only and refresh_once(data) != 0:
                     raise RuntimeError("live odds saved but picks_v2 revision refresh failed")
                 print("실시간 배당: 이번 폴링에서 발매 회차를 찾지 못해 직전 값을 유지 "
                       f"(회차 {data.get('rounds')}) → runtime artifact live_odds",
                       flush=True)
             else:
+                del previous_odds
                 persist_artifact("live_odds", data, OUT, indent=None)
-                # 같은 수집 결과로 즉시 picks_v2까지 갱신한다. 독립 5분 루프에 맡기면
-                # 두 주기가 엇갈릴 때 발표된 배당이 화면에 늦게 나타난다.
-                if refresh_once(data) != 0:
+                # Standalone mode keeps the immediate refresh contract. The
+                # supervisor uses --collect-only and a fresh child under the same
+                # odds lock, so the scraper heap is gone before refreshing picks.
+                if not collect_only and refresh_once(data) != 0:
                     raise RuntimeError("live odds saved but picks_v2 revision refresh failed")
                 print(f"실시간 배당 {data['n']}건 · 회차 {data['rounds']} "
                       "→ runtime artifact live_odds", flush=True)

@@ -242,6 +242,36 @@ class RuntimeDatabase(DatasetStore):
             ).fetchone()
         return dict(row) if row is not None else None
 
+    def player_fixtures_document(self, fixtures: Iterable[tuple]) -> dict:
+        """Scan the player JSON once per refresh, not once per upcoming game.
+
+        Only requested fixtures cross into Python. Keep two matches per fixture
+        so the capture layer still rejects ambiguous source records.
+        """
+        requested = list(dict.fromkeys(fixtures))
+        if not requested:
+            return {"games": []}
+        with self.connect() as connection:
+            rows = connection.execute("""
+                WITH matched AS (
+                  SELECT j.value, ROW_NUMBER() OVER (
+                    PARTITION BY json_extract(j.value,'$.league'),
+                      json_extract(j.value,'$.home_team'),
+                      json_extract(j.value,'$.away_team'),
+                      julianday(json_extract(j.value,'$.game_datetime'))
+                    ORDER BY CAST(j.key AS INTEGER)) AS occurrence
+                  FROM documents d, json_each(d.payload_json,'$.games') j
+                  WHERE d.name='player_info' AND EXISTS (
+                    SELECT 1 FROM json_each(?) r
+                    WHERE json_extract(r.value,'$[0]')=json_extract(j.value,'$.league')
+                      AND json_extract(r.value,'$[1]')=json_extract(j.value,'$.home_team')
+                      AND json_extract(r.value,'$[2]')=json_extract(j.value,'$.away_team')
+                      AND julianday(json_extract(r.value,'$[3]'))=
+                          julianday(json_extract(j.value,'$.game_datetime'))))
+                SELECT value FROM matched WHERE occurrence<=2
+                """, (json.dumps(requested),))
+            return {"games": [json.loads(row[0]) for row in rows]}
+
     def append_events(self, stream: str, rows: Iterable[Mapping[str, Any]],
                       *, identity_keys: tuple[str, ...] = (),
                       observed_at_key: str = "observed_at") -> int:
@@ -496,11 +526,15 @@ class RuntimeDatabase(DatasetStore):
             return connection.total_changes - before
 
     def prediction_records(self) -> list[dict[str, Any]]:
+        return list(self.iter_prediction_records())
+
+    def iter_prediction_records(self) -> Iterator[dict[str, Any]]:
+        """Do not keep the entire serialized ledger beside its decoded copy."""
         with self.connect() as connection:
-            rows = connection.execute(
+            for row in connection.execute(
                 "SELECT record_json FROM prediction_records ORDER BY ledger_sequence"
-            ).fetchall()
-        return [json.loads(row["record_json"]) for row in rows]
+            ):
+                yield json.loads(row["record_json"])
 
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
