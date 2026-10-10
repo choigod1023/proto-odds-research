@@ -7,7 +7,7 @@ import { scheduledAt } from "./match-status.js";
 
 const clean = (value) => String(value ?? "").trim();
 
-export const DAILY_RECOMMENDATION_POLICY = "daily-p55-o150-v3";
+export const DAILY_RECOMMENDATION_POLICY = "daily-p55-o150-unbounded-v4";
 export const DAILY_HIGHLIGHT_MIN_HIT = 0.55;
 
 const dailyLeagueKey = (selection) => {
@@ -80,9 +80,9 @@ export function dailyRecommendationDecisions(candidates = []) {
     } else if (!(hit >= DAILY_HIGHLIGHT_MIN_HIT)) {
       reason = `예상 적중 ${Number.isFinite(hit) ? `${(hit * 100).toFixed(1)}%` : "계산 불가"}로 55% 기준에 미달했다.`;
     } else if (!preferred) {
-      reason = "배당 1.50 이상·2.20 미만 기준에 미달해 추천에서 제외했다.";
+      reason = "배당 1.50 이상 기준에 미달해 추천에서 제외했다.";
     } else {
-      reason = "예상 적중 55% 이상·배당 1.50 이상~2.20 미만 조건을 통과했다.";
+      reason = "예상 적중 55% 이상·배당 1.50 이상 · 상한 없음 조건을 통과했다.";
     }
     return {
       selection,
@@ -97,7 +97,7 @@ export function dailyRecommendationDecisions(candidates = []) {
   });
 }
 
-/** 실제 운영 추천: 55%/1.50~2.20 미만. 리그별 최소 개수와 저배당 보충 없음. */
+/** 실제 운영 추천: 55%/1.50 이상. 리그별 최소 개수와 저배당 보충 없음. */
 export function dailyHighlightedSelections(candidates = []) {
   return eligibleFinalSelections(candidates).filter((selection) =>
     hitProbabilityOf(selection) >= DAILY_HIGHLIGHT_MIN_HIT && hitProbabilityOf(selection) < 1
@@ -108,9 +108,13 @@ export function dailyHighlightedSelections(candidates = []) {
 export function historicalHighlightedSelections(candidates, policy) {
   if (policy === DAILY_RECOMMENDATION_POLICY) return dailyHighlightedSelections(candidates);
   if (policy === "daily-p60-o150-v2") {
-    return dailyHighlightedSelections(candidates).filter((row) => hitProbabilityOf(row) >= .60);
+    return dailyHighlightedSelections(candidates).filter((row) => hitProbabilityOf(row) >= .60
+      && Number(row.odds ?? row["배당"]) < 2.2);
   }
-  return legacyDailyHighlightedSelections(candidates);
+  if (policy === "daily-p55-o150-v3") {
+    return dailyHighlightedSelections(candidates).filter((row) => Number(row.odds ?? row["배당"]) < 2.2);
+  }
+  return legacyDailyHighlightedSelections(candidates.filter((row) => Number(row.odds ?? row["배당"]) < 2.2));
 }
 
 /** 정책 전환 이전에 게시된 사전 픽의 이력 복원 전용. 새 추천에는 사용 금지. */

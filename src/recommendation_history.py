@@ -4,7 +4,7 @@ import hashlib
 import math
 
 KST = timezone(timedelta(hours=9))
-POLICY = "daily-p55-o150-v3"
+POLICY = "daily-p55-o150-unbounded-v4"
 MIN_HIT = .55
 
 
@@ -41,7 +41,7 @@ def highlights(candidates):
         kickoff = stamp(row.get("kickoff_at"))
         if (not kickoff or row.get("market") == "홀짝" or row.get("final_reversal") is True
                 or row.get("is_market_favorite") is False
-                or not 1.5 <= number(row.get("odds")) < 2.2 or not MIN_HIT <= probability(row) < 1):
+                or not 1.5 <= number(row.get("odds")) or not MIN_HIT <= probability(row) < 1):
             continue
         result.add(selection_key(row))
     return result

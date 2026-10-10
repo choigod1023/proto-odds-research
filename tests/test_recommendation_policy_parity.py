@@ -40,7 +40,8 @@ def test_browser_and_generator_recommendation_thresholds_stay_in_sync():
 
     assert _js_number(policy_js, "MIN_AUTO_ODDS") == MIN_AUTO_RECOMMENDATION_ODDS
     assert _js_number(policy_js, "PREFERRED_AUTO_ODDS") == PREFERRED_RECOMMENDATION_ODDS
-    assert _js_number(policy_js, "MAX_AUTO_ODDS") == MAX_AUTO_RECOMMENDATION_ODDS
+    assert MAX_AUTO_RECOMMENDATION_ODDS is None
+    assert "export const MAX_AUTO_ODDS = null;" in policy_js
     assert _js_number(policy_js, "UPSET_MIN_ODDS") == UPSET_MIN_ODDS
     assert _js_number(policy_js, "UPSET_MAX_ODDS") == UPSET_MAX_ODDS
     assert _js_number(policy_js, "UPSET_MIN_MARKET_PROBABILITY") == UPSET_MIN_MARKET_PROBABILITY

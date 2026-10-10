@@ -32,14 +32,14 @@ const tooLow = { ...choice("홈", 1.49, 0.68), event_key: "game-d" };
 
 assert.equal(MIN_AUTO_ODDS, 1.5);
 assert.equal(PREFERRED_AUTO_ODDS, 1.5);
-assert.equal(MAX_AUTO_ODDS, 2.2);
+assert.equal(MAX_AUTO_ODDS, null);
 assert.deepEqual(
   [UPSET_MIN_ODDS, UPSET_MAX_ODDS, UPSET_MIN_MARKET_PROBABILITY,
     UPSET_MIN_MODEL_PROBABILITY, UPSET_MAX_MODEL_PROBABILITY,
     UPSET_MIN_MODEL_GAP, UPSET_MAX_MODEL_GAP],
   [1.5, 3.0, 0.28, 0.50, 0.75, 0.08, 0.25],
 );
-assert.deepEqual(eligibleAutoSelections([favorite, reverse, high, oddEven, tooLow]), [favorite, tooLow]);
+assert.deepEqual(eligibleAutoSelections([favorite, reverse, high, oddEven, tooLow]), [favorite, high, tooLow]);
 assert.equal(recommendationPriority(favorite), 1);
 assert.equal(recommendationPriority(tooLow), 0);
 assert.equal(eligibleAutoSelections([{ ...tooLow, odds: 1.5 }]).length, 1,

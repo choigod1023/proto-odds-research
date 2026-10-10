@@ -1,5 +1,6 @@
 import { finalRecommendedSelection, hitProbabilityOf,
   recommendationPriority } from "./recommendation-policy.js";
+import { DAILY_HIGHLIGHT_MIN_HIT } from "./unified-recommendation.js";
 
 const finiteProbability = (option) => {
   const value = Number(option?.["시장확률"]);
@@ -34,7 +35,7 @@ export function predictionForGame(options = []) {
   return {
     option,
     probability: hitProbabilityOf(option),
-    recommendation: recommended
+    recommendation: recommended && hitProbabilityOf(option) >= DAILY_HIGHLIGHT_MIN_HIT
       ? (priority === 1 ? "recommend" : "weak")
       : "watch",
   };

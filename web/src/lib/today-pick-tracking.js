@@ -109,9 +109,10 @@ export function trackTodayPicks({ games = [], today = null, currentToday = null,
         && number(row.odds) === originalOdds && isoTime(row.recorded_at) < kickoff
         && isoTime(row.recorded_at) <= now);
       const priorPolicy = archived?.policy ?? today?.recommendation_policy;
-      const legacyPrior = ![DAILY_RECOMMENDATION_POLICY, "daily-p60-o150-v2"].includes(priorPolicy);
+      const legacyPrior = ![DAILY_RECOMMENDATION_POLICY, "daily-p60-o150-v2", "daily-p55-o150-v3"].includes(priorPolicy);
       const priorMinHit = priorPolicy === "daily-p60-o150-v2" ? .60 : .55;
       const eligiblePrior = archived?.recommended !== false
+        && (priorPolicy === DAILY_RECOMMENDATION_POLICY || originalOdds < 2.2)
         && openingProbability != null && openingProbability >= priorMinHit
         && (legacyPrior || originalOdds >= 1.5)
         && safe({ market: option.market, odds: originalOdds, market_prob: openingProbability,

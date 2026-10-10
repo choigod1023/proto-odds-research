@@ -421,13 +421,15 @@ def test_odd_even_is_visible_but_not_eligible_for_auto_recommendation():
 
 def test_low_odds_are_fallback_while_high_odds_and_underdogs_are_excluded():
     assert MIN_AUTO_RECOMMENDATION_ODDS == 1.5
-    assert MAX_AUTO_RECOMMENDATION_ODDS == 2.2
+    assert MAX_AUTO_RECOMMENDATION_ODDS is None
     assert automatic_selection_exclusion_reason("승패", 1.49, 0.68, 0.68) is None
     assert recommendation_priority(1.49) == 0
     assert recommendation_priority(1.50) == 1
     assert today_combo.bin_of(1.50) == "1.5-1.8"
     assert automatic_selection_exclusion_reason("승패", 1.5, 0.60, 0.60) is None
-    assert "2.20 이상" in automatic_selection_exclusion_reason("승패", 2.2, 0.48, 0.52)
+    assert "역배" in automatic_selection_exclusion_reason("승패", 2.2, 0.48, 0.52)
+    assert automatic_selection_exclusion_reason("승무패", 2.5, 0.38, 0.38) is None
+    assert recommendation_priority(2.5) == 1
     assert "역배" in automatic_selection_exclusion_reason("승패", 2.05, 0.42, 0.58)
     assert automatic_selection_exclusion_reason("승무패", 1.95, 0.45, 0.45) is None
     assert "유효한 배당" in automatic_selection_exclusion_reason("승패", None, 0.60, 0.60)

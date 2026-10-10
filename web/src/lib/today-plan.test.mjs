@@ -64,7 +64,7 @@ const today = {
 
 const before = availableToday(today, Date.parse("2026-08-19T06:59:00+09:00"));
 assert.equal(before.candidates.some((candidate) => candidate.event_key === "past"), false);
-assert.equal(before.candidates.some((candidate) => candidate.event_key === "high"), false);
+assert.equal(before.candidates.some((candidate) => candidate.event_key === "high"), true);
 assert.equal(before.candidates.some((candidate) => candidate.event_key === "reverse"), false);
 assert.equal(before.next.event_key, "same");
 assert.deepEqual(before.plans, []);

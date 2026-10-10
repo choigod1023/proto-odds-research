@@ -13,7 +13,7 @@ PREFERRED_RECOMMENDATION_ODDS = 1.5
 # 이전 산출물·브라우저와의 호환용 별칭이다. 이제 1.50은 제외 하한이 아니라
 # 1.50 이상 후보를 먼저 쓰고, 없을 때만 저배당 보조 후보를 허용하는 경계다.
 MIN_AUTO_RECOMMENDATION_ODDS = PREFERRED_RECOMMENDATION_ODDS
-MAX_AUTO_RECOMMENDATION_ODDS = 2.2
+MAX_AUTO_RECOMMENDATION_ODDS = None  # No price-only upper exclusion.
 
 # 역배 조건은 연구·설명용 관찰 신호다. 시간순 외부검증을 통과하기 전에는
 # 경기의 운영 선택이나 확률을 바꾸지 않는다.
@@ -52,8 +52,6 @@ def automatic_selection_exclusion_reason(
         price = None
     if price is None or not math.isfinite(price) or price <= 1.0:
         return "유효한 배당이 없어 자동 추천 제외"
-    if price >= MAX_AUTO_RECOMMENDATION_ODDS:
-        return "배당 2.20 이상 — 과거 손실이 급증한 구간이라 자동 추천 제외"
 
     try:
         probability = float(market_probability)
@@ -78,7 +76,7 @@ def recommendation_priority(odds: object) -> int:
         price = float(odds)
     except (TypeError, ValueError):
         return -1
-    if not math.isfinite(price) or price <= 1.0 or price >= MAX_AUTO_RECOMMENDATION_ODDS:
+    if not math.isfinite(price) or price <= 1.0:
         return -1
     return 1 if price >= PREFERRED_RECOMMENDATION_ODDS else 0
 

@@ -88,7 +88,8 @@ def test_highlight_policy_matches_browser():
 
 @pytest.mark.parametrize("p,odds,expected", [
     (.5499, 1.6, False), (.55, 1.50, True), (.5999, 1.6, True), (.60, 1.49, False), (.60, 1.50, True),
-    (.60, 2.1999, True), (.60, 2.20, False), (1., 1.6, False),
+    (.60, 2.1999, True), (.60, 2.20, True), (.55, 3.50, True),
+    (.40, 3.50, False), (.60, float('inf'), False), (1., 1.6, False),
 ])
 def test_operating_policy_boundaries(p, odds, expected):
     row = candidate(predicted_hit_prob=p, market_prob=p, odds=odds)

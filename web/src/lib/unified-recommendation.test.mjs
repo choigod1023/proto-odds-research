@@ -80,7 +80,7 @@ assert.equal(alignTodayRecommendations(unmatched, []).candidates.length, 0,
   "경기 판정 원장이 없으면 브라우저가 새 방향을 만들지 않는다");
 
 const moved = { ...game, options: [{ ...home, "배당": 2.2 }, away] };
-assert.equal(canonicalOption(moved), null, "안전 배당 범위를 벗어나면 예전 추천을 유지하지 않는다");
+assert.ok(canonicalOption(moved), "2.20 이상이라는 이유만으로 경기별 비교 방향을 제외하지 않는다");
 
 const liveMoved = { ...game, _liveOddsChanged: true };
 assert.equal(canonicalOption(liveMoved), null, "실시간 배당 revision 뒤에는 재계산 전 선택을 숨긴다");
@@ -292,11 +292,16 @@ assert.equal(strongHighlights.length, 4, "조건을 통과하면 개수 제한 �
 assert.equal(dailyHighlightedSelections([{
   ...alignedToday.candidates[0], predicted_hit_prob: 0.5499,
 }]).length, 0, "최종 예상 적중확률 55% 미만은 하이라이트하지 않는다");
-for (const [odds, count] of [[1.49, 0], [1.5, 1], [2.1999, 1], [2.2, 0]]) {
+for (const [odds, count] of [[1.49, 0], [1.5, 1], [2.1999, 1], [2.2, 1], [3.5, 1], [Infinity, 0]]) {
   assert.equal(dailyHighlightedSelections([{
     ...alignedToday.candidates[0], predicted_hit_prob: .60, odds,
   }]).length, count, `추천 배당 경계 ${odds}`);
 }
+const highPrice = { ...alignedToday.candidates[0], odds: 3.5, predicted_hit_prob: .55 };
+assert.equal(dailyHighlightedSelections([highPrice]).length, 1);
+assert.equal(dailyHighlightedSelections([{ ...highPrice, predicted_hit_prob: .40 }]).length, 0);
+assert.equal(historicalHighlightedSelections([highPrice], "daily-p60-o150-v2").length, 0);
+assert.equal(historicalHighlightedSelections([highPrice], "daily-p55-o150-v3").length, 0);
 const explained = dailyRecommendationDecisions([
   ...strongHighlights,
   { ...alignedToday.candidates[0], event_key: "weak", game_no: "weak",
