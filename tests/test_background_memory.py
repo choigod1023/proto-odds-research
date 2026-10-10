@@ -50,7 +50,8 @@ def test_background_releases_slot_after_failure(gate, monkeypatch):
 @pytest.mark.parametrize('name', ['실시간 배당', '배당 스냅샷'])
 def test_realtime_collectors_bypass_background_gate(gate, monkeypatch, name):
     calls = []
-    monkeypatch.setattr(supervisor, '_refresh_recommendation_after_odds', lambda: True)
+    monkeypatch.setattr(supervisor, '_refresh_recommendation_after_odds', lambda **kw: True)
+    monkeypatch.setattr(supervisor, '_refresh_market_after_collection', lambda: 0)
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: pytest.fail('realtime gated'))
     monkeypatch.setattr(supervisor.subprocess, 'run',
                         lambda *a, **k: calls.append(a) or SimpleNamespace(returncode=0))
@@ -107,6 +108,27 @@ def test_recommendation_handoff_between_odds_runs(gate, monkeypatch):
     assert calls == ['odds', 'src/live_market_refresh.py', 'src/recommendation_refresh.py']
     assert not gate.locked()
     assert all(name != '실시간 추천' for name, _, _ in supervisor.LOOPERS)
+
+
+@pytest.mark.parametrize('available', [None, 0, 255])
+def test_market_handoff_requires_headroom(gate, monkeypatch, available):
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: available)
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **kw: pytest.fail('not admitted'))
+    assert supervisor._refresh_market_after_collection() == 1
+    assert not gate.locked()
+
+
+def test_market_handoff_does_not_overlap_heavy_worker(gate, monkeypatch):
+    with gate:
+        assert supervisor._refresh_market_after_collection() == 1
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 512)
+    def timeout(*a, **kw):
+        assert gate.locked()
+        raise supervisor.subprocess.TimeoutExpired(a[0], 90)
+    monkeypatch.setattr(supervisor.subprocess, 'run', timeout)
+    with pytest.raises(supervisor.subprocess.TimeoutExpired):
+        supervisor._refresh_market_after_collection()
+    assert not gate.locked()
 
 
 @pytest.mark.parametrize('available', [None, 0, 255])

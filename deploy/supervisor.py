@@ -60,9 +60,9 @@ LOOPERS = [
                  "--league", "all"], 21600),
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
-    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py"], 60),
-    # odds_live가 수집 직후 경량 시장 판정까지 같은 데이터로 연쇄 갱신한다.
-    # Recommendations run as a bounded handoff after this odds process exits.
+    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--collect-only"], 60),
+    # Reclaim the collector's heap before starting decision refresh in a fresh
+    # process. Both stages share the odds/recommendation lock.
 ]
 
 # 재시작 직후 9개 수집기가 한꺼번에 메모리를 잡으면 1GB 머신에서도 커널 OOM이
@@ -550,6 +550,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
                 # odds child between checking headroom and starting its process.
                 with _odds_recommendation_lock:
                     rc = subprocess.run(cmd, cwd=REPO).returncode
+                    if rc == 0:
+                        rc = _refresh_market_after_collection()
             else:
                 rc = subprocess.run(cmd, cwd=REPO).returncode
         except Exception as e:                        # noqa: BLE001
@@ -558,14 +560,33 @@ def run_looper(name: str, cmd: list[str], interval: int,
         delay = interval if rc == 0 else min(60, interval)
         log(f"{name} 종료(rc={rc}) — {delay}s 후 재시작")
         if name == "실시간 배당" and rc == 0 and time.monotonic() >= next_recommendation:
-            if _refresh_recommendation_after_odds():
+            if _refresh_recommendation_after_odds(repair=False):
                 next_recommendation = time.monotonic() + 300
         if name == "실시간 배당":
             _player_memory_opportunity.set()
         time.sleep(delay)
 
 
-def _refresh_recommendation_after_odds() -> bool:
+def _refresh_market_after_collection() -> int:
+    """The scraper has exited; do not overlap prediction with a heavy worker."""
+    if not _memory_heavy_lock.acquire(blocking=False):
+        log("배당 저장 완료, 시장 판정 보류 — 보조 작업 실행 중; 다음 주기 재시도")
+        return 1
+    try:
+        available = _available_memory_mb()
+        if available is None or available < 256:
+            log(f"배당 저장 완료, 시장 판정 보류 — 여유 {available}MB / 필요 256MB")
+            return 1
+        log("배당 수집 종료 — 별도 프로세스로 시장 판정 시작")
+        rc = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
+                            cwd=REPO, timeout=90).returncode
+        log(f"배당 후속 시장 판정 종료(rc={rc})")
+        return rc
+    finally:
+        _memory_heavy_lock.release()
+
+
+def _refresh_recommendation_after_odds(*, repair: bool = True) -> bool:
     """Shared bounded admission for startup, periodic retry and odds handoff."""
     global _next_recommendation_refresh
     if not _odds_recommendation_lock.acquire(blocking=False):
@@ -573,7 +594,7 @@ def _refresh_recommendation_after_odds() -> bool:
     try:
         if time.monotonic() < _next_recommendation_refresh:
             return True
-        refreshed = _refresh_recommendation_in_slot()
+        refreshed = _refresh_recommendation_in_slot(repair=repair)
         if refreshed:
             _next_recommendation_refresh = time.monotonic() + 300
         return refreshed
@@ -594,7 +615,7 @@ def run_recommendation_refresh(stop=None) -> None:
         stop.wait(30)
 
 
-def _refresh_recommendation_in_slot() -> bool:
+def _refresh_recommendation_in_slot(*, repair: bool = True) -> bool:
     """No odds/recommendation overlap or unbounded gate wait; scores stay live.
 
     The projected recommendation reader needs no full picks document. Reserve
@@ -613,12 +634,13 @@ def _refresh_recommendation_in_slot() -> bool:
         # Odds may have saved prices and then died before publishing picks_v2.
         # Repair that artifact first, in a fresh process without scraper memory.
         # A failed repair must not earn the successful recommendation cooldown.
-        log("경기별 판정 독립 복구 실행")
-        repaired = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
-                                  cwd=REPO, timeout=90)
-        if repaired.returncode != 0:
-            log(f"경기별 판정 독립 복구 실패(rc={repaired.returncode}) — 재시도")
-            return False
+        if repair:
+            log("경기별 판정 독립 복구 실행")
+            repaired = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
+                                      cwd=REPO, timeout=90)
+            if repaired.returncode != 0:
+                log(f"경기별 판정 독립 복구 실패(rc={repaired.returncode}) — 재시도")
+                return False
         available = _available_memory_mb()
         if available is None or available < 256:
             log(f"판정 복구 후 추천 보류 — 여유 {available}MB; 재시도")

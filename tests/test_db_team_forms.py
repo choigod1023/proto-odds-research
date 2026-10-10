@@ -42,7 +42,7 @@ def history_db(monkeypatch):
     monkeypatch.setenv("PROODD_DB_PATH", "unused-contract-db")
     monkeypatch.setattr(runtime_db, "RuntimeDatabase", lambda: SimpleNamespace(
         match_history=query, get_document=lambda name: None,
-        player_fixture_document=lambda *args: {"games": []}))
+        player_fixtures_document=lambda *args: {"games": []}))
     monkeypatch.setattr(pd, "read_csv", lambda *a, **kw: pytest.fail("CSV read in DB consumer"))
     return rows, calls
 
@@ -314,3 +314,44 @@ def test_after_start_preserves_existing_prediction_and_form_inputs(history_db):
     assert changed == 0
     assert game == saved
     assert len(calls) == 1
+
+
+def test_refresh_scans_player_source_once_for_multiple_games(history_db, monkeypatch):
+    rows, _ = history_db
+    rows.append(result())
+    original = runtime_db.RuntimeDatabase
+    calls = []
+    def database():
+        db = original()
+        def fixtures(requested):
+            calls.append(requested)
+            return {"games": []}
+        db.player_fixtures_document = fixtures
+        return db
+    monkeypatch.setattr(runtime_db, "RuntimeDatabase", database)
+    refreshed, changed = refresh.refresh_document(document(), live_odds(
+        dates=("08.30(일) 18:00", "08.30(일) 20:00", "09.02(수) 18:00")), now=NOW)
+    assert changed == 3
+    assert len(calls) == 1
+    assert len(calls[0]) == 3
+    assert calls[0][0] == ("KBO", "KIA", "SSG", "2026-08-30T09:00:00+00:00")
+
+
+def test_bulk_player_keys_keep_round_one_december_rollover(history_db, monkeypatch):
+    original = runtime_db.RuntimeDatabase
+    calls = []
+    def database():
+        db = original()
+        db.player_fixtures_document = lambda keys: calls.extend(keys) or {"games": []}
+        return db
+    monkeypatch.setattr(runtime_db, "RuntimeDatabase", database)
+    clock = datetime(2025, 12, 31, 1, tzinfo=UTC)
+    feed = live_odds(dates=("12.31(수) 18:00",), observed=clock.isoformat())
+    feed["markets"]["1"] = feed["markets"].pop("102")
+    # Existing sale-year metadata must be used instead of inferring the year
+    # from the raw market row, which has neither year nor round.
+    doc = document()
+    doc["live"] = [dict(year=2026, round=1, date="12.31(수) 18:00", league="KBO",
+                        home="KIA", away="SSG", sport="bs")]
+    refresh.refresh_document(doc, feed, now=clock)
+    assert calls == [("KBO", "KIA", "SSG", "2025-12-31T09:00:00+00:00")]

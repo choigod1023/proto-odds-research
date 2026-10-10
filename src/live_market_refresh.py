@@ -260,7 +260,8 @@ def refresh_document(document: dict, live_odds: dict, *,
         clock = clock.replace(tzinfo=KST)
     decision_clock = max(observed, clock) if observed and clock else None
     form_provider = None
-    player_db = None
+    fixture_document = player_document
+    fixtures_loaded = player_document is not None
     existing = {
         _key(game.get("round"), game.get("date"), game.get("home"), game.get("away")): game
         for game in document.get("live") or []
@@ -370,14 +371,22 @@ def refresh_document(document: dict, live_odds: dict, *,
             }
         if can_predict:
             # Only new/unpinned decisions capture context; never rewrite frozen inputs.
-            fixture_document = player_document
-            if use_database and player_document is None:
+            if use_database and not fixtures_loaded:
+                fixtures_loaded = True
                 try:
-                    if player_db is None:
-                        from runtime_db import RuntimeDatabase
-                        player_db = RuntimeDatabase()
-                    fixture_document = player_db.player_fixture_document(
-                        game.get("league"), game.get("home"), game.get("away"), kickoff_utc(kickoff))
+                    from runtime_db import RuntimeDatabase
+                    fixtures = []
+                    for fixture_key, values in grouped.items():
+                        sample = existing.get(fixture_key) or {
+                            **values[0], "round": fixture_key[0],
+                            "year": observed.astimezone(KST).year,
+                        }
+                        stamp = _game_kickoff(sample, observed)
+                        if (stamp is not None and decision_clock < stamp.replace(tzinfo=KST)
+                                and all(row.get("result") in UNPLAYED for row in values)):
+                            fixtures.append((sample.get("league"), sample.get("home"),
+                                             sample.get("away"), kickoff_utc(stamp)))
+                    fixture_document = RuntimeDatabase().player_fixtures_document(fixtures)
                 except (OSError, ValueError, sqlite3.Error):
                     fixture_document = None
             if use_database or player_document is not None:
@@ -490,7 +499,13 @@ def refresh_once(live_odds: dict | None = None) -> int:
     started = time.monotonic()
 
     def stage(name: str) -> None:
-        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s", flush=True)
+        memory = ""
+        # Linux ru_maxrss is KiB; do not mislabel macOS bytes or process peak as
+        # total machine memory. This is diagnostic only, never an admission gate.
+        if sys.platform.startswith("linux"):
+            import resource
+            memory = f" peak_rss_kib={resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}"
+        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s{memory}", flush=True)
 
     stage("load")
     try:
