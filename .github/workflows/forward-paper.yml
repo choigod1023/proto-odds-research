@@ -1,0 +1,30 @@
+name: forward-paper
+on:
+  schedule:
+    - cron: "7,37 * * * *"
+  workflow_dispatch:
+    inputs:
+      initialize:
+        description: "First run only: create a new paper journal"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: forward-paper
+  cancel-in-progress: false
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Observe, freeze, settle and report paper accounts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAPER_INITIALIZE: ${{ inputs.initialize == true && 'true' || 'false' }}
+        run: python -m scripts.run_forward_paper
