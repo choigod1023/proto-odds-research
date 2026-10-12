@@ -562,6 +562,7 @@ def build_decision_snapshot(
     built_at: str | None = None,
     pre_registered: bool = False,
     reconstructed_at: str | None = None,
+    market_observed_at: str | None = None,
     probability_artifact: Mapping | None = None,
 ) -> dict:
     """한 경기의 수치·근거·AI 역할을 단일 화면 계약으로 고정한다."""
@@ -579,7 +580,7 @@ def build_decision_snapshot(
     action = "market_reference" if selected and market is not None else "withhold"
     reversed_pick = selected and selected.get("추천우선순위") == "reversal"
     built_at = built_at or as_of
-    evidence, sources = _evidence(game, selected, market_observed_at=as_of)
+    evidence, sources = _evidence(game, selected, market_observed_at=market_observed_at or as_of)
     input_hash = _input_revision_hash(game, evidence)
     explanation_status = "wording_only" if explanation_kind == "llm_assisted" else "template"
 
