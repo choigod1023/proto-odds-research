@@ -567,6 +567,9 @@ def run_looper(name: str, cmd: list[str], interval: int,
         time.sleep(delay)
 
 
+MARKET_REFRESH_TIMEOUT = 300
+
+
 def _refresh_market_after_collection() -> int:
     """The scraper has exited; do not overlap prediction with a heavy worker."""
     if not _memory_heavy_lock.acquire(blocking=False):
@@ -579,7 +582,7 @@ def _refresh_market_after_collection() -> int:
             return 1
         log("배당 수집 종료 — 별도 프로세스로 시장 판정 시작")
         rc = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
-                            cwd=REPO, timeout=90).returncode
+                            cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT).returncode
         log(f"배당 후속 시장 판정 종료(rc={rc})")
         return rc
     finally:
@@ -637,7 +640,7 @@ def _refresh_recommendation_in_slot(*, repair: bool = True) -> bool:
         if repair:
             log("경기별 판정 독립 복구 실행")
             repaired = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
-                                      cwd=REPO, timeout=90)
+                                      cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT)
             if repaired.returncode != 0:
                 log(f"경기별 판정 독립 복구 실패(rc={repaired.returncode}) — 재시도")
                 return False
@@ -649,8 +652,8 @@ def _refresh_recommendation_in_slot(*, repair: bool = True) -> bool:
                                 cwd=REPO, timeout=90)
         log(f"추천 후속 갱신 종료(rc={result.returncode})")
         return result.returncode == 0
-    except subprocess.TimeoutExpired:
-        log("추천 후속 갱신 타임아웃(90s) — 독립 주기에서 재시도")
+    except subprocess.TimeoutExpired as exc:
+        log(f"추천 후속 갱신 타임아웃({exc.timeout}s) — 독립 주기에서 재시도")
         return False
     except Exception as exc:
         log(f"추천 후속 갱신 실패: {type(exc).__name__}: {exc}")
