@@ -2,6 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { infoTabs, pitcherMetrics, starterFor, unavailableFor } from "./game-info.js";
 
+test("현재 선발 표시가 동결된 사전 선발 기록을 덮어쓰지 않는다", () => {
+  const game = { 선발: { home: "동결 선발" }, baseball_current: { home: "변경 선발" } };
+  assert.equal(starterFor(game, "home").name, "변경 선발");
+  assert.equal(game.선발.home, "동결 선발");
+});
+
 test("상세 선발 구조와 레거시 문자열을 모두 읽는다", () => {
   assert.equal(starterFor({ 선발: { home: "곽빈" } }, "home").name, "곽빈");
   const game = { 선발: { home: "곽빈", home_detail: { name: "곽빈", stats: { era: 2.91 } } } };

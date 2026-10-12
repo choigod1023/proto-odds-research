@@ -1233,7 +1233,8 @@ function CourtPlayersPanel({ g }) {
 
 function PlayersPanel({ g }) {
   if (g.sport === "bs") {
-    const info = g["선발"] || {};
+    const info = g.baseball_current || g["선발"] || {};
+    const displayGame = { ...g, "선발": info };
     const lineups = info.lineups || {};
     const status = info.lineup_status || {};
     const sideStates = status.side_states || {};
@@ -1241,9 +1242,10 @@ function PlayersPanel({ g }) {
     const references = status.reference_dates || {};
     return <>
       <div className="grid gap-2 sm:grid-cols-2">
-        <PitcherCard team={g.home} pitcher={starterFor(g, "home")} />
-        <PitcherCard team={g.away} pitcher={starterFor(g, "away")} />
+        <PitcherCard team={g.home} pitcher={starterFor(displayGame, "home")} />
+        <PitcherCard team={g.away} pitcher={starterFor(displayGame, "away")} />
       </div>
+      {g.baseball_current && <p className="mt-2 text-[10.5px] text-ink3">현재 수집 정보 · 동결된 사전 픽과 별도이며 확률 가산은 검증 전입니다.</p>}
       {(lineups.home?.length || lineups.away?.length) ? <>
         <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">{status.label || (projected ? "최근 공식 경기 기반 예상 타순" : "오늘 공식 선발 타순")}</div>
         <div className="grid gap-2 sm:grid-cols-2">
@@ -1259,7 +1261,7 @@ function PlayersPanel({ g }) {
         {projected && <p className="mt-1.5 text-[9.5px] leading-[1.55] text-ink3">
           {status.caveat || "오늘 실제 발표 라인업이 아니며, 선발 발표 시 교체될 수 있다."}
         </p>}
-      </> : <p className="mt-2 text-[10.5px] text-ink3">타자 선발 명단은 아직 발표되지 않았다.</p>}
+      </> : <p className="mt-2 text-[10.5px] text-ink3">{status.caveat || "타자 선발 명단의 발표·수집 상태를 확인 중입니다."}</p>}
     </>;
   }
   if (["bk", "vl"].includes(g.sport)) return <CourtPlayersPanel g={g} />;

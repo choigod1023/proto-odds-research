@@ -40,6 +40,8 @@ REMOTE = "https://github.com/choigod1023/proto-odds-research.git"
 # 주면 한 번 불어난 Python allocator/HTML 파서 메모리가 영구히 남아 다음 산출물
 # 생성과 겹친다. 매회 프로세스를 종료해야 운영체제가 RSS를 확실히 회수한다.
 LOOPERS = [
+    # Small current-day JSON only; independent of the 512MB historical-data gate.
+    ("KBO 선발·타순", [sys.executable, "-u", "src/kbo_pregame.py"], 300),
     ("배당 스냅샷", [sys.executable, "-u", "src/snapshot.py"], 900),
     ("선발 예고", [sys.executable, "-u", "src/info_watch.py"], 1800),
     # MLB 공식 예정 선발·시즌 투수 지표·부상 상태, KBO 최근 12선발 지표,
