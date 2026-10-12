@@ -4,6 +4,33 @@ from types import SimpleNamespace
 from deploy import supervisor
 
 
+def test_warmer_cannot_overlap_heavy_worker_and_retries(monkeypatch):
+    import threading
+    slot = threading.Lock()
+    rebuild = threading.Lock()
+    monkeypatch.setattr(supervisor, '_memory_heavy_lock', slot)
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 700)
+    calls = []
+    class Views:
+        def refresh(self):
+            assert slot.locked() and rebuild.locked()
+            calls.append('refresh')
+            raise OSError('retryable')
+    class Stop:
+        n = 0
+        def is_set(self):
+            return self.n == 2
+        def wait(self, seconds):
+            if self.n == 0:
+                assert calls == []
+                slot.release()
+            self.n += 1
+    slot.acquire()
+    supervisor.warm_match_views(Views(), Stop(), rebuild)
+    assert calls == ['refresh']
+    assert not slot.locked() and not rebuild.locked()
+
+
 def result(code=0, stdout=""):
     return SimpleNamespace(returncode=code, stdout=stdout, stderr="")
 
