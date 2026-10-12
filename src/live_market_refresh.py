@@ -113,13 +113,14 @@ def record_live_market_revisions(
             continue
         if (
             game.get("status") != "경기전"
-            or snapshot.get("as_of") != observed_at
+            or game.get("live_market_observed_at", snapshot.get("as_of")) != observed_at
         ):
             continue
         kickoff = _game_kickoff(game, observed)
         freeze_at = (_aware_timestamp(kickoff_utc(kickoff)) - timedelta(minutes=30)
                      if kickoff is not None else None)
-        if freeze_at is None or observed >= freeze_at:
+        revision_time = _aware_timestamp(snapshot.get("as_of"))
+        if freeze_at is None or revision_time is None or revision_time >= freeze_at:
             game["추천"] = None
             game.pop("decision_snapshot", None)
             game.pop("prediction_record", None)
@@ -129,7 +130,10 @@ def record_live_market_revisions(
             continue
         event = str(snapshot.get("event_id") or "")
         existing = latest_by_event.get(event)
-        if existing is not None and _aware_timestamp(existing.get("as_of")) > observed:
+        if existing is not None and (
+            _aware_timestamp(existing.get("as_of")) > revision_time
+            or _aware_timestamp(existing.get("market_observed_at") or existing.get("as_of")) > observed
+        ):
             raise PredictionLedgerError(
                 "live market timestamp regressed behind the prediction ledger"
             )
@@ -421,8 +425,15 @@ def refresh_document(document: dict, live_odds: dict, *,
                 "해설": None, "해설기본": None,
                 "설명메타": {"kind": "structured_ui", "affects_probability": False},
             })
+            # A later lineup is a NEW decision, not evidence backdated into the
+            # older odds snapshot. Keep the actual market clock in provenance.
+            player_clock = _aware_timestamp((game.get("선발") or {}).get("updated_at"))
+            revision_time = max(observed, player_clock) if player_clock else observed
+            revision_stamp = revision_time.isoformat() if revision_time != observed else observed_at
+            game["live_market_observed_at"] = observed_at
             game["decision_snapshot"] = build_decision_snapshot(
-                game, as_of=observed_at, built_at=observed_at,
+                game, as_of=revision_stamp, built_at=decision_clock.isoformat(),
+                market_observed_at=observed_at,
                 explanation_kind="structured_ui",
             )
             game.pop("pick_drift", None)

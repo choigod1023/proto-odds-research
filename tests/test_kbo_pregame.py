@@ -9,6 +9,8 @@ from kbo_pregame import collect, matching_record
 from baseball_context_watch import normalize_lineup
 from test_live_market_refresh import _live_odds
 from live_market_refresh import refresh_document
+from live_market_refresh import record_live_market_revisions
+from prediction_runtime import PredictionRuntime
 
 NOW = datetime(2026, 8, 30, 1, tzinfo=timezone.utc)
 GAME = {"gameId": "test", "statusCode": "BEFORE", "homeTeamName": "KIA",
@@ -95,6 +97,23 @@ def test_display_rejects_wrong_day_and_doubleheader():
     assert not matching_record(dict(game, date='08.31(월) 18:00'), doc, NOW)
     doc['games'].append(deepcopy(doc['games'][0]))
     assert not matching_record(game, doc, NOW)
+
+
+def test_lineup_after_odds_gets_new_decision_clock_and_original_market_clock(tmp_path):
+    from datetime import timedelta
+    later = NOW + timedelta(minutes=5)
+    doc = collect(Session(announced=True), later, {})
+    result, changed = refresh_document({'live': []}, _live_odds(), now=later, player_document=doc)
+    assert changed == 1
+    snapshot = result['live'][0]['decision_snapshot']
+    assert snapshot['as_of'] == later.isoformat()
+    assert next(s for s in snapshot['sources'] if s['id'] == 'proto_market')['collected_at'] == _live_odds()['generated_at']
+    runtime = PredictionRuntime(tmp_path/'ledger.jsonl', clock=lambda: later)
+    counts = record_live_market_revisions(result, _live_odds()['generated_at'], runtime)
+    assert counts['predictions'] == 1
+    record = runtime.records()[0]
+    assert datetime.fromisoformat(record['as_of']) == later
+    assert datetime.fromisoformat(record['market_observed_at']) == NOW
 
 
 def test_view_lineup_revision_changes_without_mutating_frozen_artifact(tmp_path, monkeypatch):
