@@ -123,7 +123,13 @@ class MatchViews:
             with self.database.connect() as connection:
                 row = connection.execute("SELECT stored_at FROM artifacts WHERE name='picks_v2'").fetchone()
             if row is None: raise KeyError('picks unavailable')
-            if self.revision != row['stored_at']:
+            # Display-only current lineup can update after T-30 without changing
+            # the frozen prediction. Include its revision in the HTTP view key.
+            kbo = self.database.get_document('kbo_pregame') or {}
+            view_stamp = row['stored_at']
+            if kbo.get('generated_at'):
+                view_stamp += '|kbo:' + kbo['generated_at']
+            if self.revision != view_stamp:
                 stored = self.database.get_artifact_json('picks_v2')
                 if stored is None: raise KeyError('picks unavailable')
                 body, stamp = stored
@@ -137,11 +143,15 @@ class MatchViews:
                 for section in ('live', 'past'):
                     rows = payload.get(section, [])
                     for index, game in enumerate(rows):
+                        from kbo_pregame import matching_record, display_info
+                        current = matching_record(game, kbo)
+                        if current:
+                            game['baseball_current'] = display_info(current)
                         games[game_key(game)] = zlib.compress(
                             json.dumps(game, ensure_ascii=False, separators=(',', ':')).encode(), 1)
                         rows[index] = card_game(game)
                 self.games = games
-                self.payload, self.revision, self.cache = payload, stamp, {}
+                self.payload, self.revision, self.cache = payload, view_stamp, {}
                 self.wire_cache = {}
             if scope == 'detail':
                 if revision != self.revision: raise ValueError('revision changed')

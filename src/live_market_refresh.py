@@ -263,6 +263,11 @@ def refresh_document(document: dict, live_odds: dict, *,
     form_provider = None
     fixture_document = player_document
     fixtures_loaded = player_document is not None
+    # Tiny independent KBO feed: do not wait for the all-sports player job.
+    from kbo_pregame import current_document, display_info
+    kbo_document = current_document() if use_database else {"games": []}
+    if player_document is not None:
+        kbo_document = player_document
     existing = {
         _key(game.get("round"), game.get("date"), game.get("home"), game.get("away")): game
         for game in document.get("live") or []
@@ -310,6 +315,19 @@ def refresh_document(document: dict, live_odds: dict, *,
         # 영원히 "재계산 대기"가 됐다. 기존 가격이 전혀 없을 때만 복구용으로 받는다.
         if not can_predict and old_options:
             continue
+        player_changed = False
+        if can_predict and game.get("league") == "KBO":
+            from pregame_player_capture import capture
+            player_capture = capture(game, kbo_document,
+                observed_at=decision_clock.isoformat(), kickoff=kickoff_utc(kickoff))
+            if player_capture.get("status") == "captured":
+                records = [r for r in kbo_document.get("games", [])
+                           if r.get("game_id") == player_capture.get("source_game_id")]
+                if len(records) == 1:
+                    info = display_info(records[0])
+                    player_changed = game.get("선발") != info
+                    game["선발"] = info
+                    game["research_player_inputs"] = player_capture
         old_signature = [_option_signature(row) for row in old_options]
         new_signature = [_option_signature(row) for row in options]
         old_lines = {
@@ -350,7 +368,7 @@ def refresh_document(document: dict, live_odds: dict, *,
                             selected[0].get("시장확률") !=
                             (snapshot.get("probability") or {}).get("market")))
         if (old_signature == new_signature and game.get("status") == target_status
-                and not broken_revision):
+                and not broken_revision and not player_changed):
             changed += int(display_changed)
             continue
         game.update({
@@ -390,7 +408,7 @@ def refresh_document(document: dict, live_odds: dict, *,
                     fixture_document = RuntimeDatabase().player_fixtures_document(fixtures)
                 except (OSError, ValueError, sqlite3.Error):
                     fixture_document = None
-            if use_database or player_document is not None:
+            if (use_database or player_document is not None) and not player_changed:
                 from pregame_player_capture import capture
                 capture_clock = datetime.now(timezone.utc) if use_database and now is None else decision_clock
                 game["research_player_inputs"] = capture(

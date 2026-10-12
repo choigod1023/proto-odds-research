@@ -123,7 +123,7 @@ def _walk_players(value, out: list[dict]) -> None:
         out.append({
             "player_code": code, "name": name,
             "position": value.get("positionName") or value.get("position"),
-            "batting_order": value.get("batOrder") or value.get("battingOrder") or value.get("order"),
+            "batting_order": value.get("batOrder") or value.get("batorder") or value.get("battingOrder") or value.get("order"),
             "throws_bats": value.get("batsThrows") or value.get("hitType"),
         })
         return
@@ -133,6 +133,11 @@ def _walk_players(value, out: list[dict]) -> None:
 
 
 def normalize_lineup(data: object) -> dict:
+    # Bullpen and candidate rosters are NOT today's batting order.
+    if isinstance(data, dict) and "fullLineUp" in data:
+        data = data["fullLineUp"]
+    elif isinstance(data, dict):
+        data = {k: v for k, v in data.items() if k not in {"batterCandidate", "pitcherBullpen", "bench"}}
     players: list[dict] = []
     _walk_players(data, players)
     unique = []
@@ -145,7 +150,8 @@ def normalize_lineup(data: object) -> dict:
         unique.append(p)
     batters = [p for p in unique if "투수" not in str(p.get("position") or "") and p.get("position") != "P"]
     ordered = [p for p in batters if p.get("batting_order") not in (None, "", 0, "0")]
-    confirmed = len(ordered) >= 9 or len(batters) >= 9
+    orders = {str(p.get("batting_order")) for p in ordered}
+    confirmed = set(map(str, range(1, 10))).issubset(orders)
     return {
         "confirmed": confirmed, "player_count": len(unique), "batter_count": len(batters),
         "players": unique[:30],

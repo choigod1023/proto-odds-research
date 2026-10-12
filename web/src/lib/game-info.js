@@ -1,6 +1,6 @@
 /** 경기 설명 패널의 자료형을 한곳에서 정리한다. 레거시 선발 문자열도 계속 읽는다. */
 export function starterFor(game, side) {
-  const starters = game?.["선발"];
+  const starters = game?.baseball_current || game?.["선발"];
   if (!starters) return null;
   const detail = starters[`${side}_detail`];
   if (detail) return detail;
@@ -18,7 +18,7 @@ export function unavailableFor(game, side) {
 }
 
 export function sourceFor(game) {
-  const s = game?.["선발"];
+  const s = game?.baseball_current || game?.["선발"];
   if (!s?.source) return null;
   return { name: s.source, url: s.source_url || null, updatedAt: s.updated_at || null };
 }
