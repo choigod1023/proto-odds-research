@@ -42,7 +42,7 @@ def test_detail_revision_and_cache(tmp_path, monkeypatch):
     current=game(); db.store_artifact('picks_v2',{'live':[current]})
     views=MatchViews(db)
     result=views.get('all')
-    monkeypatch.setattr(db,'get_artifact_json',lambda *args: pytest.fail('unchanged payload reread'))
+    monkeypatch.setattr(db,'open_artifact_json',lambda *args: pytest.fail('unchanged payload reread'))
     assert views.get('all') is result
     detail=views.get('detail',game_key(current),result['view']['revision'])
     assert detail['game']==current

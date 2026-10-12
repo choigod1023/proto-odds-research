@@ -5,6 +5,7 @@ import json
 import threading
 import zlib
 import gzip
+from streamed_match_payload import projected_payload
 
 KST = timezone(timedelta(hours=9))
 
@@ -124,22 +125,16 @@ class MatchViews:
                 row = connection.execute("SELECT stored_at FROM artifacts WHERE name='picks_v2'").fetchone()
             if row is None: raise KeyError('picks unavailable')
             if self.revision != row['stored_at']:
-                stored = self.database.get_artifact_json('picks_v2')
-                if stored is None: raise KeyError('picks unavailable')
-                body, stamp = stored
-                payload = json.loads(body)
-                del body, stored
                 # Keep detail records compressed, not as thousands of nested Python
                 # objects. Decode only the requested game, never the entire archive.
                 # Build off to the side so a failed refresh preserves the old view.
                 games = {}
-                payload.pop('prediction_performance', None)
-                for section in ('live', 'past'):
-                    rows = payload.get(section, [])
-                    for index, game in enumerate(rows):
-                        games[game_key(game)] = zlib.compress(
-                            json.dumps(game, ensure_ascii=False, separators=(',', ':')).encode(), 1)
-                        rows[index] = card_game(game)
+                def prepare_game(game):
+                    games[game_key(game)] = zlib.compress(
+                        json.dumps(game, ensure_ascii=False, separators=(',', ':')).encode(), 1)
+                    return card_game(game)
+                with self.database.open_artifact_json('picks_v2') as (stream, stamp):
+                    payload = projected_payload(stream, prepare_game)
                 self.games = games
                 self.payload, self.revision, self.cache = payload, stamp, {}
                 self.wire_cache = {}
