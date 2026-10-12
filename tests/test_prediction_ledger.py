@@ -24,6 +24,74 @@ AS_OF = "2026-08-28T18:00:00+09:00"
 MARKET_AT = "2026-08-28T17:59:00+09:00"
 
 
+@pytest.mark.parametrize("database", [False, True])
+def test_verified_session_reads_once_and_reverifies_after_unlock(tmp_path, monkeypatch, database):
+    if database:
+        monkeypatch.setenv("PROODD_DB_PATH", str(tmp_path / "runtime.sqlite3"))
+    else:
+        monkeypatch.delenv("PROODD_DB_PATH", raising=False)
+    ledger = PredictionLedger(tmp_path / "ledger.jsonl", clock=lambda: PREGAME_NOW)
+    original = ledger._read_verified_storage
+    calls = []
+
+    def read():
+        calls.append(1)
+        return original()
+
+    monkeypatch.setattr(ledger, "_read_verified_storage", read)
+    with ledger.verified_session():
+        with ledger.verified_session():
+            first = _game("first")
+            _append(ledger, first, _snapshot(first))
+        assert len(ledger.records()) == 1
+        second = _game("second")
+        _append(ledger, second, _snapshot(second))
+        assert len(ledger.records()) == 2
+        assert len(calls) == 1
+    assert len(ledger.records()) == 2
+    assert len(calls) == 2
+    with pytest.raises(RuntimeError):
+        with ledger.verified_session():
+            raise RuntimeError("abort")
+    assert not hasattr(ledger._session, "records")
+    assert len(ledger.records()) == 2
+    assert len(calls) == 4
+
+
+def test_verified_session_does_not_cache_failed_write(tmp_path, monkeypatch):
+    monkeypatch.delenv("PROODD_DB_PATH", raising=False)
+    ledger = PredictionLedger(tmp_path / "ledger.jsonl", clock=lambda: PREGAME_NOW)
+    with ledger.verified_session():
+        original = ledger._write_records
+        def fail(records):
+            raise OSError("disk unavailable")
+        monkeypatch.setattr(ledger, "_write_records", fail)
+        game = _game()
+        with pytest.raises(OSError):
+            _append(ledger, game, _snapshot(game))
+        assert ledger.records() == []
+        monkeypatch.setattr(ledger, "_write_records", original)
+        assert _append(ledger, game, _snapshot(game)).appended
+        assert len(ledger.records()) == 1
+    assert len(ledger.records()) == 1
+
+
+def test_verified_session_rejects_corruption_after_unlock(tmp_path, monkeypatch):
+    monkeypatch.delenv("PROODD_DB_PATH", raising=False)
+    path = tmp_path / "ledger.jsonl"
+    ledger = PredictionLedger(path, clock=lambda: PREGAME_NOW)
+    with ledger.verified_session():
+        game = _game()
+        _append(ledger, game, _snapshot(game))
+    record = json.loads(path.read_text(encoding="utf-8"))
+    record["record_hash"] = "tampered"
+    path.write_text(json.dumps(record) + "\n", encoding="utf-8")
+    with pytest.raises(LedgerCorruptionError):
+        with ledger.verified_session():
+            pytest.fail("corrupted ledger was accepted")
+    assert not hasattr(ledger._session, "records")
+
+
 def _game(source_id: str = "kbo-20260828-01") -> dict:
     return {
         "source_event_id": source_id,

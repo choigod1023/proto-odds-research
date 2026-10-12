@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+import gc
 import re
 import sqlite3
 import sys
@@ -523,15 +524,16 @@ def refresh_once(live_odds: dict | None = None) -> int:
     try:
         runtime = PredictionRuntime(PREDICTION_LEDGER)
         stage("settlement")
-        settled = settle_live_market_results(live_odds, runtime)
-        stage("ledger")
-        ledger_sync = record_live_market_revisions(
-            document,
-            observed_at,
-            runtime,
-        ) if changed else {"predictions": 0, "skipped": 0, "withheld": 0}
-        ledger_sync["settlements"] = settled
-        records = runtime.ui_records()
+        with runtime.ledger.verified_session():
+            settled = settle_live_market_results(live_odds, runtime)
+            stage("ledger")
+            ledger_sync = record_live_market_revisions(
+                document,
+                observed_at,
+                runtime,
+            ) if changed else {"predictions": 0, "skipped": 0, "withheld": 0}
+            ledger_sync["settlements"] = settled
+            records = runtime.ui_records()
         attached = 0
         for game in [*(document.get("live") or []), *(document.get("past") or [])]:
             record = records.get(game.get("event_id") or event_id(game))
@@ -549,6 +551,11 @@ def refresh_once(live_odds: dict | None = None) -> int:
         print(f"경량 시장 판정 원장 실패: {type(exc).__name__}: {exc}")
         return 1
     document.setdefault("live_market_refresh", {})["ledger_sync"] = ledger_sync
+    # The immutable ledger is no longer needed during large JSON serialization.
+    # Keep only the UI records already attached to the document, not its full
+    # feature history alongside the document and the new serialized payload.
+    del runtime, records
+    gc.collect()
     stage("persist")
     persist_artifact("picks_v2", document, PICKS)
     stage("complete")

@@ -379,6 +379,33 @@ def test_unchanged_prices_repair_missing_option_ids_before_freeze(tmp_path):
     assert game["prediction_record"]["prediction_snapshot_id"] == game["decision_snapshot"]["decision_id"]
 
 
+def test_refresh_releases_runtime_before_persist(tmp_path, monkeypatch):
+    import weakref
+    import live_market_refresh as module
+    document = {"live": [], "past": []}
+    references = []
+
+    def runtime_factory(path):
+        runtime = PredictionRuntime(tmp_path / "release.jsonl")
+        references.append(weakref.ref(runtime))
+        return runtime
+
+    monkeypatch.setattr(module, "load_artifact", lambda *args: document)
+    monkeypatch.setattr(module, "refresh_document", lambda *args: (document, 1))
+    monkeypatch.setattr(module, "PredictionRuntime", runtime_factory)
+    monkeypatch.setattr(module, "settle_live_market_results", lambda *args: 0)
+    monkeypatch.setattr(module, "record_live_market_revisions", lambda *args: {"predictions": 0})
+    persisted = []
+
+    def persist(*args):
+        assert references[0]() is None
+        persisted.append(args)
+
+    monkeypatch.setattr(module, "persist_artifact", persist)
+    assert module.refresh_once({"generated_at": "2026-08-30T02:00:00+00:00"}) == 0
+    assert len(persisted) == 1
+
+
 def test_repricing_appends_revision_without_rewriting_prior_prediction(tmp_path):
     from copy import deepcopy
     runtime = PredictionRuntime(tmp_path / "pregame.jsonl",

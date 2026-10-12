@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import time
+import threading
 import uuid
 try:
     import fcntl
@@ -142,6 +143,7 @@ class PredictionLedger:
         if self.lock_timeout < 0 or self.stale_lock_after <= 0:
             raise ValueError("lock timeouts must be positive")
         self._database = None
+        self._session = threading.local()
         if os.environ.get("PROODD_DB_PATH"):
             from runtime_db import RuntimeDatabase
             self._database = RuntimeDatabase()
@@ -443,7 +445,29 @@ class PredictionLedger:
             batch_added.append(record)
         return AppendResult(record=_json_copy(record), appended=True)
 
+    @contextmanager
+    def verified_session(self):
+        """Share one verified object graph while exclusively owning the ledger.
+
+        Never reuse verification across unlocks. Batch staging uses a shallow
+        list copy; only successfully persisted rows enter the shared chain.
+        """
+        if hasattr(self._session, "records"):
+            yield
+            return
+        with self._lock():
+            self._session.records = self._read_verified()
+            try:
+                yield
+            finally:
+                del self._session.records
+
     def _read_verified(self) -> list[dict[str, Any]]:
+        if hasattr(self._session, "records"):
+            return list(self._session.records)
+        return self._read_verified_storage()
+
+    def _read_verified_storage(self) -> list[dict[str, Any]]:
         if self._database is not None:
             source = self._database.prediction_records()
         elif self.path.exists():
@@ -512,6 +536,8 @@ class PredictionLedger:
             return
         if self._database is not None:
             self._database.mirror_prediction_records(records)
+            if hasattr(self._session, "records"):
+                self._session.records.extend(records)
             return
         self.path.parent.mkdir(parents=True, exist_ok=True)
         payload = "".join(
@@ -530,11 +556,16 @@ class PredictionLedger:
                     raise OSError("failed to append prediction ledger record")
                 written += count
             os.fsync(descriptor)
+            if hasattr(self._session, "records"):
+                self._session.records.extend(records)
         finally:
             os.close(descriptor)
 
     @contextmanager
     def _lock(self) -> Iterator[None]:
+        if hasattr(self._session, "records"):
+            yield
+            return
         self.path.parent.mkdir(parents=True, exist_ok=True)
         if fcntl is not None:
             # Never unlink the inode: waiters must all contend on the same file.
