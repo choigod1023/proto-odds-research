@@ -4,8 +4,8 @@ import { gameStatusLabel } from "../lib/match-status.js";
 import { trackTodayPicks } from "../lib/today-pick-tracking.js";
 import { isOvernightGame } from "../lib/game-date-filter.js";
 
-const SOURCE_LABEL = { highlight: "오늘 추천 · 사전 기록", recorded: "사전 픽 · 추천 이력 미확인",
-  current: "오늘 추천 · 경기 전" };
+const SOURCE_LABEL = { highlight: "관심 픽 · 당시 추천 기록 보존", recorded: "사전 픽 · 추천 이력 미확인",
+  current: "관심 픽 · 경기 전 · 수익성 미검증" };
 
 export function TodayPicksBoard({ games = [], today = null, currentToday = null, now = Date.now(), onOpenGame }) {
   const picks = trackTodayPicks({ games, today, currentToday, now });
@@ -13,12 +13,18 @@ export function TodayPicksBoard({ games = [], today = null, currentToday = null,
   const finished = picks.filter((pick) => pick.phase === "finished");
   const recommendations = picks.filter((pick) => pick.source !== "recorded").length;
   return (
-    <section className="mb-5 min-w-0" aria-label="오늘의 추천 픽">
+    <section className="mb-5 min-w-0" aria-label="관심 픽과 검증된 추천">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="m-0 text-[17px] font-bold tracking-tight">오늘의 추천 픽 <span className="tnum text-ink3">{recommendations}</span></h2>
-        <p className="m-0 text-[12px] text-ink3">오늘 추천과 저장된 사전 픽을 함께 추적합니다. 추천 이력 미확인 픽은 구분해 표시합니다.</p>
+        <h2 className="m-0 text-[17px] font-bold tracking-tight">관심 픽 <span className="tnum text-ink3">{recommendations}</span></h2>
+        <p className="m-0 text-[12px] text-ink3">관심 픽은 기존 자격 기준을 통과한 후보이며 수익성이 검증된 추천이 아닙니다. 당시 추천 기록은 변경하지 않습니다.</p>
       </div>
-      <p className="mb-3 text-[12px] text-ink3">현재 추천: 예상 적중 55% 이상 · 배당 1.50 이상 · 상한 없음. 조건 미달 경기는 채우지 않습니다. 수익을 보장하지 않으며 이전 기준의 사전 기록은 유지합니다.</p>
+      <p className="mb-3 text-[12px] text-ink3">관심 기준: 예상 적중 55% 이상 · 배당 1.50 이상 · 상한 없음. 조건 미달 경기는 채우지 않습니다.</p>
+      <Card className="mb-3 p-4 text-[13px]" aria-label="검증된 추천">
+        <h3 className="m-0 font-semibold">검증된 추천 0개 · 검증 대기</h3>
+        <p>현재 수익성과 안정성 검증을 통과한 정책은 없습니다. 높은 확률이나 과거 적중만으로 승격하지 않습니다.</p>
+        <p>모의 운용 기준: 2폴 · 회당 1만 원 · 주 최대 2회/3회 비교 · 월 손실 한도 5만 원. 미정산 금액도 한도에 포함하며 실매수는 하지 않습니다.</p>
+        <a href="research.html">검증 방식과 모의 운용 한계 보기 →</a>
+      </Card>
       {!picks.length && <Card className="p-4 text-[13px] text-ink3">오늘 확인된 추천·사전 픽이 없습니다.</Card>}
       <PickCards picks={active} now={now} onOpenGame={onOpenGame} />
       {finished.length > 0 && <details className="mt-3 rounded border border-rule p-3">
@@ -34,7 +40,7 @@ function PickCards({ picks, now, onOpenGame }) {
           {picks.map((pick) => (
             <Card as="article" key={pick.key} className="today-pick-card min-w-0 p-3 sm:p-4" aria-label={`${pick.game.home} 대 ${pick.game.away} 사전 픽`}>
               {onOpenGame && <button type="button" className="today-pick-open" aria-haspopup="dialog"
-                aria-label={`${pick.game.home} 대 ${pick.game.away} 추천 픽 경기정보 열기`}
+                aria-label={`${pick.game.home} 대 ${pick.game.away} 관심 픽 경기정보 열기`}
                 onClick={() => onOpenGame(pick.game)}><span>경기정보 보기 ↗</span></button>}
               <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] text-ink3">
                 <span>{pick.game.league} · <time dateTime={new Date(pick.kickoff).toISOString()}>{new Date(pick.kickoff + 9 * 3600000).toISOString().slice(11, 16)}</time></span>

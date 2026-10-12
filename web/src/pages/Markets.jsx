@@ -217,7 +217,7 @@ function LoadingMatches() {
     ? "경기 데이터가 많아 정리하는 중입니다. 잠시만 기다려 주세요."
     : seconds >= 4
       ? "최신 배당과 저장된 사전 예측을 맞추고 있습니다."
-      : "오늘 경기와 추천 픽을 불러오고 있습니다.";
+      : "오늘 경기와 관심 픽을 불러오고 있습니다.";
   return (
     <section className="match-loading" role="status" aria-live="polite" aria-busy="true">
       <div className="match-loading-head">
@@ -616,7 +616,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       </div>
 
 
-      <details className="recommendation-overview"><summary>오늘의 추천 픽 · 사전 기록과 결과 보기</summary>
+      <details className="recommendation-overview"><summary>관심 픽과 검증된 추천 · 사전 기록과 결과 보기</summary>
 
         <TodayPicksBoard games={[...(data.live || []), ...(data.past || [])]} today={today} currentToday={alignedToday} now={clock} onOpenGame={setOpenedGame} />
       </details>
@@ -800,7 +800,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const resultHeadline = outcome.record
     ? `${outcome.record.market}${outcome.record.label ? ` ${outcome.record.label}` : ""} ${outcome.record.selection}`
     : null;
-  const todayLabel = todayMembership?.recommended ? "오늘의 추천 픽" : null;
+  const todayLabel = todayMembership?.recommended ? "관심 픽 · 수익성 미검증" : null;
   const evidence = stale || g._liveOddsChanged ? { frozen: false, facts: [], summary: "" } : matchEvidence(g, pick?.o);
   const selectedForGame = selections.filter((item) => ["sport", "league", "round", "date", "home", "away"].every((key) => String(item.game[key]) === String(g[key])));
   const selected = pick && selections.some((item) => item.key === selectionKey(g, pick.o));
@@ -844,9 +844,9 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           </small>
         </span>
         <span className="match-call-inline">
-          {highlightedToday && <span className="recommendation-badge">오늘의 추천 픽</span>}
+          {highlightedToday && <span className="recommendation-badge">관심 픽 · 수익성 미검증</span>}
           {selectedForGame.length > 0 && <span className="selection-badge">✓ 내 선택 {selectedForGame.map((item) => item.option.선택).join(" · ")}</span>}
-          <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : phase === "pending" ? "사전 픽" : todayLabel ? "오늘 추천 픽" : "경기별 픽"}</small>
+          <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : phase === "pending" ? "사전 픽" : todayLabel ? "관심 픽" : "경기별 픽"}</small>
           <b>{phase === "finished"
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}` : forecast?.headline || fallbackForecast}</b>
