@@ -856,15 +856,21 @@ def warm_match_views(views, stop, rebuild_lock=None) -> None:
     """
     while not stop.is_set():
         try:
-            available = _available_memory_mb()
-            if available is not None and available >= 256:
-                if rebuild_lock is None:
-                    views.refresh()
-                elif rebuild_lock.acquire(blocking=False):
-                    try:
-                        views.refresh()
-                    finally:
-                        rebuild_lock.release()
+            # API preparation allocates the entire picks tree too. It must share
+            # admission with collectors/recalculation, not only other requests.
+            if _memory_heavy_lock.acquire(blocking=False):
+                try:
+                    available = _available_memory_mb()
+                    if available is not None and available >= 256:
+                        if rebuild_lock is None:
+                            views.refresh()
+                        elif rebuild_lock.acquire(blocking=False):
+                            try:
+                                views.refresh()
+                            finally:
+                                rebuild_lock.release()
+                finally:
+                    _memory_heavy_lock.release()
         except Exception as exc:
             log(f"경기 응답 사전 준비 실패: {type(exc).__name__}")
         stop.wait(30)
@@ -886,7 +892,7 @@ def serve_live() -> None:
     from urllib.parse import urlsplit, parse_qs
     match_views = PreparedMatchResponses(MatchViews(database))
     from artifact_responses import ArtifactResponses
-    artifact_responses = ArtifactResponses(database)
+    artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):

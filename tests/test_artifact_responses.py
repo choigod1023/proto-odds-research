@@ -9,6 +9,47 @@ from src.artifact_responses import ArtifactResponses
 from src.runtime_db import RuntimeDatabase
 
 
+def test_large_rebuild_waits_for_worker_but_small_feeds_remain_available(tmp_path, monkeypatch):
+    import pytest
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    db.store_artifact('picks_v2', {'generated_at': 'old'})
+    db.store_artifact('live_scores', {'generated_at': 'current'})
+    slot = threading.Lock()
+    cache = ArtifactResponses(db, memory_lock=slot)
+    with slot:
+        with pytest.raises(KeyError):
+            cache.get_bytes('picks_v2')
+        assert json.loads(gzip.decompress(cache.get_bytes('live_scores')))['generated_at'] == 'current'
+    first = cache.get_bytes('picks_v2')
+    db.store_artifact('picks_v2', {'generated_at': 'new'})
+    with db.connect() as connection:
+        connection.execute("UPDATE artifacts SET stored_at='next' WHERE name='picks_v2'")
+    original = db.get_artifact_json
+    def guarded(name):
+        assert slot.locked()
+        return original(name)
+    monkeypatch.setattr(db, 'get_artifact_json', guarded)
+    with slot:
+        assert cache.get_bytes('picks_v2') == first
+    assert json.loads(gzip.decompress(cache.get_bytes('picks_v2')))['generated_at'] == 'new'
+    assert not slot.locked()
+
+
+def test_large_rebuild_failure_releases_memory_slot(tmp_path, monkeypatch):
+    import pytest
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    db.store_artifact('picks_v2', {'generated_at': 'old'})
+    slot = threading.Lock()
+    cache = ArtifactResponses(db, memory_lock=slot)
+    def fail(name):
+        raise OSError('unavailable')
+    monkeypatch.setattr(db, 'get_artifact_json', fail)
+    with pytest.raises(OSError):
+        cache.get_bytes('picks_v2')
+    assert not slot.locked()
+    assert not cache.rebuild.locked()
+
+
 def test_compressed_only_and_revision_refresh(tmp_path, monkeypatch):
     db = RuntimeDatabase(tmp_path / 'runtime.db')
     db.store_artifact('sample', {'generated_at': 'old', 'history': ['abc'] * 10000})
