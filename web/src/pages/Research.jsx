@@ -12,7 +12,8 @@ export default function Research() {
     <Nav current="research.html" />
     <header className="market-header"><div><h1>우리는 이렇게 픽을 선택합니다</h1><p>무엇을 비교하고, 어떤 근거를 보여주며, 결과를 어떻게 확인하는지 안내합니다.</p></div></header>
     <ol className="pick-method-steps">{STEPS.map(([title,body],i)=><li key={title}><span aria-hidden="true">{String(i+1).padStart(2,"0")}</span><div><h2>{title}</h2><p>{body}</p></div></li>)}</ol>
-    <section id="ai-model" className="pick-method-notes"><h2>새로운 분석은 검증 후 반영합니다</h2><p>AI나 선수 분석으로 만든 수치도 검증 없이 추천 확률에 더하지 않습니다. 과거에 맞춘 결과뿐 아니라, 이후 경기에서도 같은 방식이 통하는지 확인합니다.</p></section>
+    <section id="ai-model" className="pick-method-notes"><h2>관심 픽과 검증된 추천을 구분합니다</h2><p>기존 확률·배당 조건을 통과한 선택은 관심 픽입니다. 현재 수익성과 안정성을 검증한 정책은 없으므로 검증된 추천은 0개입니다. 이는 수집 장애로 후보가 사라졌다는 뜻이 아닙니다. 과거 추천 여부와 경기 전 확률은 그대로 보존합니다.</p></section>
+    <section className="pick-method-notes"><h2>실매수 없이 모의 운용합니다</h2><p>2폴·회당 1만 원, 주 최대 2회와 3회를 따로 비교합니다. 월 손실 한도는 5만 원이며 다음 베팅과 모든 미정산 금액을 포함해 한도를 확인합니다. 과거 기록 재생은 미래 성과를 보장하지 않습니다. 로컬 검증 도구를 준비한 상태이며, 이 화면이 자동으로 모의 거래를 실행하거나 실시간 손익을 집계하지는 않습니다.</p><p>같은 사전 기록으로 기존 정책의 모의 손익과 검증 대기 중인 무베팅 기준을 비교합니다. 무베팅의 손익 0원은 수익성 개선을 입증한 결과가 아닙니다. 별도 기간의 확률 오차·ROI·월별 손익·최대 낙폭을 검토한 뒤에만 정책 승격을 판단합니다.</p></section>
     <section className="pick-method-notes"><h2>적중률만으로 평가하지 않습니다</h2><p>예측을 남긴 경기 수, 예상 확률과 실제 결과의 차이, 배당을 고려한 성과를 함께 봅니다. 경기 이후에 알게 된 정보는 당시 예측의 근거로 사용하지 않습니다.</p><a href="dashboard.html">내 기록에서 선택과 결과 확인하기 →</a></section>
   </main>;
 }

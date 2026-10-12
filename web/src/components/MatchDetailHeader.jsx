@@ -14,7 +14,7 @@ export default function MatchDetailHeader({ game, score, status, phase, option, 
     </header>
     <section className="detail-prediction" aria-label="경기 예측">
       <div className="detail-prediction-labels"><h3>{predictionTitle || (option ? "경기 전 예측 픽" : "예측 정보")}</h3>
-        {recommended && <span className="recommendation-badge">오늘의 추천 픽</span>}
+        {recommended && <span className="recommendation-badge">관심 픽 · 수익성 미검증</span>}
         {selected && <span className="selection-badge">✓ 내 선택</span>}</div>
       {option ? <p className="detail-pick">{option.market} {option.label} · <b>{option.선택}</b> <span>배당 {odds(option.배당)}</span></p>
         : <p>사전 예측 기록 없음</p>}

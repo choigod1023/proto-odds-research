@@ -23,9 +23,12 @@ test("board SSR shows original NPB picks, evolving estimate and final result abo
       createElement(TodayPicksBoard, { games, today, now, onOpenGame: () => {} }));
     const html = render([base, { ...base, home: "소프트뱅크", prediction_record: {
       ...base.prediction_record, probability: .5897, odds: 1.52 } }]);
-    assert.match(html, /오늘의 추천 픽/);
+    assert.match(html, /관심 픽/);
+    assert.match(html, /검증된 추천 0개/);
+    assert.match(html, /미정산 금액도 한도에 포함/);
+    assert.doesNotMatch(html, /오늘의 추천 픽/);
     assert.match(html, /aria-haspopup="dialog"/);
-    assert.match(html, /오릭스 대 상대팀 추천 픽 경기정보 열기/);
+    assert.match(html, /오릭스 대 상대팀 관심 픽 경기정보 열기/);
     assert.match(html, /오릭스/);
     assert.match(html, /소프트뱅크/);
     assert.match(html, /56.1%/);
