@@ -97,6 +97,9 @@ def test_recommendation_handoff_between_odds_runs(gate, monkeypatch):
     def run(cmd, **kwargs):
         calls.append(cmd[-1])
         assert supervisor._odds_recommendation_lock.locked()
+        if cmd[-1] == 'src/live_market_refresh.py':
+            # Production failed at 90s during verified ledger settlement.
+            assert kwargs['timeout'] == 300
         if cmd[-1] == 'src/recommendation_refresh.py':
             assert gate.locked()
             assert kwargs['timeout'] == 90
@@ -159,7 +162,7 @@ def test_independent_refresh_runs_while_optional_publish_waits(gate, monkeypatch
     def run(cmd, **kwargs):
         assert gate.locked()
         assert supervisor._odds_recommendation_lock.locked()
-        assert kwargs['timeout'] == 90
+        assert kwargs['timeout'] == (300 if cmd[-1] == 'src/live_market_refresh.py' else 90)
         calls.append(cmd[-1])
         return SimpleNamespace(returncode=0)
     monkeypatch.setattr(supervisor.subprocess, 'run', run)

@@ -13,6 +13,10 @@ import json
 import os
 import time
 import uuid
+try:
+    import fcntl
+except ImportError:  # Windows development fixtures retain the portable lock.
+    fcntl = None
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -532,6 +536,30 @@ class PredictionLedger:
     @contextmanager
     def _lock(self) -> Iterator[None]:
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        if fcntl is not None:
+            # Never unlink the inode: waiters must all contend on the same file.
+            # Kernel ownership survives long verification, but is released on
+            # SIGKILL/timeout. Age-only lock files did neither safely. All old
+            # writers must stop during the image rollout before using this lock.
+            guard = self.lock_path.with_name(self.lock_path.name + ".guard")
+            descriptor = os.open(guard, os.O_CREAT | os.O_RDWR, 0o600)
+            deadline = time.monotonic() + self.lock_timeout
+            try:
+                while True:
+                    try:
+                        fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        break
+                    except BlockingIOError:
+                        if time.monotonic() >= deadline:
+                            raise LedgerLockTimeout(f"timed out locking {self.path}")
+                        time.sleep(0.01)
+                try:
+                    yield
+                finally:
+                    fcntl.flock(descriptor, fcntl.LOCK_UN)
+            finally:
+                os.close(descriptor)
+            return
         token = f"{os.getpid()}:{uuid.uuid4().hex}"
         deadline = time.monotonic() + self.lock_timeout
         while True:
