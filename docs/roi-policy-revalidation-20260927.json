@@ -1,0 +1,274 @@
+{
+  "train_snapshot_at": "2026-09-25T13:27:49+00:00",
+  "audit_at": "2026-09-27T01:45:00+00:00",
+  "current_artifact_generated_at": "2026-09-27T10:20:47+09:00",
+  "training": {
+    "all": {
+      "selected": 383,
+      "settled": 354,
+      "hits": 201,
+      "void": 2,
+      "pending": 27,
+      "profit_units": -43.879999999999995,
+      "roi": -0.12395480225988699,
+      "roi_including_void_stakes": -0.12325842696629212,
+      "mean_saved_ev": -0.09808756497175139
+    },
+    "p58_o150": {
+      "selected": 238,
+      "settled": 217,
+      "hits": 134,
+      "void": 0,
+      "pending": 21,
+      "profit_units": -13.219999999999997,
+      "roi": -0.0609216589861751,
+      "roi_including_void_stakes": -0.0609216589861751,
+      "mean_saved_ev": -0.09662199539170505
+    },
+    "p60_o150": {
+      "selected": 46,
+      "settled": 41,
+      "hits": 33,
+      "void": 0,
+      "pending": 5,
+      "profit_units": 8.67,
+      "roi": 0.21146341463414633,
+      "roi_including_void_stakes": 0.21146341463414633,
+      "mean_saved_ev": -0.08872697560975608
+    },
+    "sport_market_wilson_value_v1": {
+      "selected": 0,
+      "settled": 0,
+      "hits": 0,
+      "void": 0,
+      "pending": 0,
+      "profit_units": 0,
+      "roi": null,
+      "roi_including_void_stakes": null,
+      "mean_saved_ev": null
+    },
+    "partial_pooling_value_v1": {
+      "selected": 47,
+      "settled": 42,
+      "hits": 33,
+      "void": 0,
+      "pending": 5,
+      "profit_units": 7.67,
+      "roi": 0.18261904761904763,
+      "roi_including_void_stakes": 0.18261904761904763,
+      "mean_saved_ev": -0.0886562380952381
+    }
+  },
+  "later_unseen_events": {
+    "all": {
+      "selected": 45,
+      "settled": 23,
+      "hits": 11,
+      "void": 0,
+      "pending": 22,
+      "profit_units": -5.9799999999999995,
+      "roi": -0.25999999999999995,
+      "roi_including_void_stakes": -0.25999999999999995,
+      "mean_saved_ev": -0.1010940869565217
+    },
+    "p58_o150": {
+      "selected": 23,
+      "settled": 13,
+      "hits": 6,
+      "void": 0,
+      "pending": 10,
+      "profit_units": -3.8499999999999996,
+      "roi": -0.2961538461538461,
+      "roi_including_void_stakes": -0.2961538461538461,
+      "mean_saved_ev": -0.09775630769230768
+    },
+    "p60_o150": {
+      "selected": 8,
+      "settled": 4,
+      "hits": 3,
+      "void": 0,
+      "pending": 4,
+      "profit_units": 0.51,
+      "roi": 0.1275,
+      "roi_including_void_stakes": 0.1275,
+      "mean_saved_ev": -0.08945525000000001
+    },
+    "sport_market_wilson_value_v1": {
+      "selected": 0,
+      "settled": 0,
+      "hits": 0,
+      "void": 0,
+      "pending": 0,
+      "profit_units": 0,
+      "roi": null,
+      "roi_including_void_stakes": null,
+      "mean_saved_ev": null
+    },
+    "partial_pooling_value_v1": {
+      "selected": 8,
+      "settled": 4,
+      "hits": 3,
+      "void": 0,
+      "pending": 4,
+      "profit_units": 0.51,
+      "roi": 0.1275,
+      "roi_including_void_stakes": 0.1275,
+      "mean_saved_ev": -0.08945525000000001
+    }
+  },
+  "later_kickoff_dates_as_recorded": [
+    "2026-09-26",
+    "2026-09-27",
+    "2026-09-28"
+  ],
+  "later_calibration_same_rows": {
+    "n": 23,
+    "raw_brier": 0.25901178391304347,
+    "pooled_brier": 0.2694166277602352
+  },
+  "evaluation_rows_excluded_as_previously_observed": 383,
+  "trained_bins": [
+    {
+      "sport": "bk",
+      "market": "승패",
+      "probability_bin_lower": 0.55,
+      "n": 1,
+      "hits": 1,
+      "wilson_lower": 0.20654931437723742
+    },
+    {
+      "sport": "bk",
+      "market": "핸디캡",
+      "probability_bin_lower": 0.55,
+      "n": 1,
+      "hits": 0,
+      "wilson_lower": 0
+    },
+    {
+      "sport": "bs",
+      "market": "승①패",
+      "probability_bin_lower": 0.55,
+      "n": 9,
+      "hits": 6,
+      "wilson_lower": 0.35420213558039626
+    },
+    {
+      "sport": "bs",
+      "market": "승①패",
+      "probability_bin_lower": 0.6,
+      "n": 3,
+      "hits": 3,
+      "wilson_lower": 0.4385029682449545
+    },
+    {
+      "sport": "bs",
+      "market": "승패",
+      "probability_bin_lower": 0.55,
+      "n": 73,
+      "hits": 38,
+      "wilson_lower": 0.40781596889792504
+    },
+    {
+      "sport": "bs",
+      "market": "언더오버",
+      "probability_bin_lower": 0.55,
+      "n": 5,
+      "hits": 2,
+      "wilson_lower": 0.11762077423264786
+    },
+    {
+      "sport": "bs",
+      "market": "핸디캡",
+      "probability_bin_lower": 0.55,
+      "n": 11,
+      "hits": 4,
+      "wilson_lower": 0.15166471095367573
+    },
+    {
+      "sport": "sc",
+      "market": "승무패",
+      "probability_bin_lower": 0.55,
+      "n": 27,
+      "hits": 10,
+      "wilson_lower": 0.215325129609656
+    },
+    {
+      "sport": "sc",
+      "market": "승무패",
+      "probability_bin_lower": 0.6,
+      "n": 9,
+      "hits": 6,
+      "wilson_lower": 0.35420213558039626
+    },
+    {
+      "sport": "sc",
+      "market": "언더오버",
+      "probability_bin_lower": 0.55,
+      "n": 114,
+      "hits": 68,
+      "wilson_lower": 0.5047115802156263
+    },
+    {
+      "sport": "sc",
+      "market": "언더오버",
+      "probability_bin_lower": 0.6,
+      "n": 4,
+      "hits": 4,
+      "wilson_lower": 0.5101091635454027
+    },
+    {
+      "sport": "sc",
+      "market": "언더오버",
+      "probability_bin_lower": 0.65,
+      "n": 1,
+      "hits": 0,
+      "wilson_lower": 0
+    },
+    {
+      "sport": "sc",
+      "market": "핸디캡",
+      "probability_bin_lower": 0.55,
+      "n": 65,
+      "hits": 35,
+      "wilson_lower": 0.4185339926647454
+    },
+    {
+      "sport": "sc",
+      "market": "핸디캡",
+      "probability_bin_lower": 0.6,
+      "n": 26,
+      "hits": 20,
+      "wilson_lower": 0.5794844592105631
+    },
+    {
+      "sport": "vl",
+      "market": "언더오버",
+      "probability_bin_lower": 0.55,
+      "n": 1,
+      "hits": 1,
+      "wilson_lower": 0.20654931437723742
+    },
+    {
+      "sport": "vl",
+      "market": "핸디캡",
+      "probability_bin_lower": 0.55,
+      "n": 4,
+      "hits": 3,
+      "wilson_lower": 0.3006418425824019
+    }
+  ],
+  "promotion": "NOT_MET: exploratory challenger; later cohort small; no prospective validation",
+  "combo_roi": null,
+  "limitations": [
+    "Saved final T30 picks do not prove simultaneous fresh prices for two legs.",
+    "Training statistics are descriptive, not cross-validation.",
+    "Wilson bounds assume independent trials; no guarantee for correlated bets.",
+    "Realized ROI is not future expected ROI. No production change."
+  ],
+  "input_sha256": {
+    "training_recommendations": "2d7c66b40c664cc81449aa6176585ce3a2a444b230352b98591e2a9301480b31",
+    "training_odds": "4077200a69d001f47e9573205b8360a45029dd8257e75ad99ae19019de1855b0",
+    "recommendations": "81288f9b2fe3c5e8f6c356aeae7ae811d11e889032143992b5d52282f486b416",
+    "odds": "3df7f256c784675c3c550db975b510c089c9e0e67f4d4b516b0375539c9c1b1e"
+  }
+}

@@ -1,0 +1,426 @@
+{
+  "schema": "model-review-v1",
+  "as_of": "2026-10-02",
+  "champion": "shin",
+  "policy": "highestprob",
+  "evidence_type": "retrospective_research",
+  "production_action": "none",
+  "approval_required": true,
+  "recommendation": "keep_production_configuration; not a profitability endorsement",
+  "baseline": {
+    "budgets": 482,
+    "tickets": 306,
+    "wins": 115,
+    "profit": -26.509800000000002,
+    "roi": -0.08663333333333334,
+    "coverage": 0.6348547717842323,
+    "max_drawdown_units": 37.74920000000001,
+    "longest_losing_active_days": 9
+  },
+  "candidates": {
+    "old_gap": {
+      "metrics": {
+        "budgets": 482,
+        "tickets": 306,
+        "wins": 118,
+        "profit": -17.6381,
+        "roi": -0.05764084967320262,
+        "coverage": 0.6348547717842323,
+        "max_drawdown_units": 29.141300000000015,
+        "longest_losing_active_days": 9
+      },
+      "bounds": {
+        "weeks": 73,
+        "roi_lower": -0.23985840909090897,
+        "improvement_lower": -0.01627231270358306,
+        "valid_replicates": 10000,
+        "tail": 0.008333333333333333
+      },
+      "strata": {
+        "D1:2023": {
+          "candidate": {
+            "budgets": 99,
+            "tickets": 67,
+            "wins": 27,
+            "profit": -12.3092,
+            "roi": -0.18371940298507464,
+            "coverage": 0.6767676767676768,
+            "max_drawdown_units": 18.861500000000003,
+            "longest_losing_active_days": 5
+          },
+          "champion": {
+            "budgets": 99,
+            "tickets": 67,
+            "wins": 27,
+            "profit": -12.9095,
+            "roi": -0.19267910447761194,
+            "coverage": 0.6767676767676768,
+            "max_drawdown_units": 19.4618,
+            "longest_losing_active_days": 5
+          }
+        },
+        "D1:2024": {
+          "candidate": {
+            "budgets": 98,
+            "tickets": 67,
+            "wins": 19,
+            "profit": -17.7217,
+            "roi": -0.26450298507462683,
+            "coverage": 0.6836734693877551,
+            "max_drawdown_units": 19.9347,
+            "longest_losing_active_days": 9
+          },
+          "champion": {
+            "budgets": 98,
+            "tickets": 67,
+            "wins": 19,
+            "profit": -17.7217,
+            "roi": -0.26450298507462683,
+            "coverage": 0.6836734693877551,
+            "max_drawdown_units": 19.9347,
+            "longest_losing_active_days": 9
+          }
+        },
+        "SP1:2023": {
+          "candidate": {
+            "budgets": 143,
+            "tickets": 88,
+            "wins": 33,
+            "profit": -2.187599999999999,
+            "roi": -0.024859090909090897,
+            "coverage": 0.6153846153846154,
+            "max_drawdown_units": 12.4153,
+            "longest_losing_active_days": 9
+          },
+          "champion": {
+            "budgets": 143,
+            "tickets": 88,
+            "wins": 33,
+            "profit": -2.187599999999999,
+            "roi": -0.024859090909090897,
+            "coverage": 0.6153846153846154,
+            "max_drawdown_units": 12.4153,
+            "longest_losing_active_days": 9
+          }
+        },
+        "SP1:2024": {
+          "candidate": {
+            "budgets": 142,
+            "tickets": 84,
+            "wins": 39,
+            "profit": 14.580399999999997,
+            "roi": 0.17357619047619044,
+            "coverage": 0.5915492957746479,
+            "max_drawdown_units": 12.0,
+            "longest_losing_active_days": 12
+          },
+          "champion": {
+            "budgets": 142,
+            "tickets": 84,
+            "wins": 36,
+            "profit": 6.308999999999997,
+            "roi": 0.07510714285714282,
+            "coverage": 0.5915492957746479,
+            "max_drawdown_units": 12.0,
+            "longest_losing_active_days": 12
+          }
+        }
+      },
+      "checks": {
+        "minimum_sample": true,
+        "minimum_weeks": true,
+        "multiple_seasons": true,
+        "positive_roi_lower": false,
+        "positive_improvement_lower": false,
+        "coverage_preserved": true,
+        "drawdown_not_worse": true,
+        "losing_run_not_worse": true,
+        "strata_stable": false
+      },
+      "historical_screen_passed": false,
+      "status": "hold",
+      "blockers": [
+        "positive_roi_lower",
+        "positive_improvement_lower",
+        "strata_stable",
+        "prospective_probability_and_provenance_review_required"
+      ]
+    },
+    "fixed_prior_constant": {
+      "metrics": {
+        "budgets": 482,
+        "tickets": 306,
+        "wins": 119,
+        "profit": -14.178100000000002,
+        "roi": -0.04633366013071896,
+        "coverage": 0.6348547717842323,
+        "max_drawdown_units": 25.681300000000004,
+        "longest_losing_active_days": 9
+      },
+      "bounds": {
+        "weeks": 73,
+        "roi_lower": -0.22930635084925685,
+        "improvement_lower": -0.008757665104071126,
+        "valid_replicates": 10000,
+        "tail": 0.008333333333333333
+      },
+      "strata": {
+        "D1:2023": {
+          "candidate": {
+            "budgets": 99,
+            "tickets": 67,
+            "wins": 28,
+            "profit": -8.8492,
+            "roi": -0.13207761194029852,
+            "coverage": 0.6767676767676768,
+            "max_drawdown_units": 15.4015,
+            "longest_losing_active_days": 4
+          },
+          "champion": {
+            "budgets": 99,
+            "tickets": 67,
+            "wins": 27,
+            "profit": -12.9095,
+            "roi": -0.19267910447761194,
+            "coverage": 0.6767676767676768,
+            "max_drawdown_units": 19.4618,
+            "longest_losing_active_days": 5
+          }
+        },
+        "D1:2024": {
+          "candidate": {
+            "budgets": 98,
+            "tickets": 67,
+            "wins": 19,
+            "profit": -17.7217,
+            "roi": -0.26450298507462683,
+            "coverage": 0.6836734693877551,
+            "max_drawdown_units": 19.9347,
+            "longest_losing_active_days": 9
+          },
+          "champion": {
+            "budgets": 98,
+            "tickets": 67,
+            "wins": 19,
+            "profit": -17.7217,
+            "roi": -0.26450298507462683,
+            "coverage": 0.6836734693877551,
+            "max_drawdown_units": 19.9347,
+            "longest_losing_active_days": 9
+          }
+        },
+        "SP1:2023": {
+          "candidate": {
+            "budgets": 143,
+            "tickets": 88,
+            "wins": 33,
+            "profit": -2.187599999999999,
+            "roi": -0.024859090909090897,
+            "coverage": 0.6153846153846154,
+            "max_drawdown_units": 12.4153,
+            "longest_losing_active_days": 9
+          },
+          "champion": {
+            "budgets": 143,
+            "tickets": 88,
+            "wins": 33,
+            "profit": -2.187599999999999,
+            "roi": -0.024859090909090897,
+            "coverage": 0.6153846153846154,
+            "max_drawdown_units": 12.4153,
+            "longest_losing_active_days": 9
+          }
+        },
+        "SP1:2024": {
+          "candidate": {
+            "budgets": 142,
+            "tickets": 84,
+            "wins": 39,
+            "profit": 14.580399999999997,
+            "roi": 0.17357619047619044,
+            "coverage": 0.5915492957746479,
+            "max_drawdown_units": 12.0,
+            "longest_losing_active_days": 12
+          },
+          "champion": {
+            "budgets": 142,
+            "tickets": 84,
+            "wins": 36,
+            "profit": 6.308999999999997,
+            "roi": 0.07510714285714282,
+            "coverage": 0.5915492957746479,
+            "max_drawdown_units": 12.0,
+            "longest_losing_active_days": 12
+          }
+        }
+      },
+      "checks": {
+        "minimum_sample": true,
+        "minimum_weeks": true,
+        "multiple_seasons": true,
+        "positive_roi_lower": false,
+        "positive_improvement_lower": false,
+        "coverage_preserved": true,
+        "drawdown_not_worse": true,
+        "losing_run_not_worse": true,
+        "strata_stable": false
+      },
+      "historical_screen_passed": false,
+      "status": "hold",
+      "blockers": [
+        "positive_roi_lower",
+        "positive_improvement_lower",
+        "strata_stable",
+        "prospective_probability_and_provenance_review_required"
+      ]
+    },
+    "inner_selected": {
+      "metrics": {
+        "budgets": 482,
+        "tickets": 306,
+        "wins": 115,
+        "profit": -24.966800000000003,
+        "roi": -0.08159084967320263,
+        "coverage": 0.6348547717842323,
+        "max_drawdown_units": 36.47000000000001,
+        "longest_losing_active_days": 9
+      },
+      "bounds": {
+        "weeks": 73,
+        "roi_lower": -0.258493027502624,
+        "improvement_lower": -0.03528867100638977,
+        "valid_replicates": 10000,
+        "tail": 0.008333333333333333
+      },
+      "strata": {
+        "D1:2023": {
+          "candidate": {
+            "budgets": 99,
+            "tickets": 67,
+            "wins": 27,
+            "profit": -12.3092,
+            "roi": -0.18371940298507464,
+            "coverage": 0.6767676767676768,
+            "max_drawdown_units": 18.861500000000003,
+            "longest_losing_active_days": 5
+          },
+          "champion": {
+            "budgets": 99,
+            "tickets": 67,
+            "wins": 27,
+            "profit": -12.9095,
+            "roi": -0.19267910447761194,
+            "coverage": 0.6767676767676768,
+            "max_drawdown_units": 19.4618,
+            "longest_losing_active_days": 5
+          }
+        },
+        "D1:2024": {
+          "candidate": {
+            "budgets": 98,
+            "tickets": 67,
+            "wins": 18,
+            "profit": -19.6342,
+            "roi": -0.29304776119402987,
+            "coverage": 0.6836734693877551,
+            "max_drawdown_units": 21.8472,
+            "longest_losing_active_days": 11
+          },
+          "champion": {
+            "budgets": 98,
+            "tickets": 67,
+            "wins": 19,
+            "profit": -17.7217,
+            "roi": -0.26450298507462683,
+            "coverage": 0.6836734693877551,
+            "max_drawdown_units": 19.9347,
+            "longest_losing_active_days": 9
+          }
+        },
+        "SP1:2023": {
+          "candidate": {
+            "budgets": 143,
+            "tickets": 88,
+            "wins": 33,
+            "profit": -2.187599999999999,
+            "roi": -0.024859090909090897,
+            "coverage": 0.6153846153846154,
+            "max_drawdown_units": 12.4153,
+            "longest_losing_active_days": 9
+          },
+          "champion": {
+            "budgets": 143,
+            "tickets": 88,
+            "wins": 33,
+            "profit": -2.187599999999999,
+            "roi": -0.024859090909090897,
+            "coverage": 0.6153846153846154,
+            "max_drawdown_units": 12.4153,
+            "longest_losing_active_days": 9
+          }
+        },
+        "SP1:2024": {
+          "candidate": {
+            "budgets": 142,
+            "tickets": 84,
+            "wins": 37,
+            "profit": 9.164199999999997,
+            "roi": 0.10909761904761901,
+            "coverage": 0.5915492957746479,
+            "max_drawdown_units": 12.0,
+            "longest_losing_active_days": 12
+          },
+          "champion": {
+            "budgets": 142,
+            "tickets": 84,
+            "wins": 36,
+            "profit": 6.308999999999997,
+            "roi": 0.07510714285714282,
+            "coverage": 0.5915492957746479,
+            "max_drawdown_units": 12.0,
+            "longest_losing_active_days": 12
+          }
+        }
+      },
+      "checks": {
+        "minimum_sample": true,
+        "minimum_weeks": true,
+        "multiple_seasons": true,
+        "positive_roi_lower": false,
+        "positive_improvement_lower": false,
+        "coverage_preserved": true,
+        "drawdown_not_worse": true,
+        "losing_run_not_worse": true,
+        "strata_stable": false
+      },
+      "historical_screen_passed": false,
+      "status": "hold",
+      "blockers": [
+        "positive_roi_lower",
+        "positive_improvement_lower",
+        "strata_stable",
+        "prospective_probability_and_provenance_review_required"
+      ]
+    }
+  },
+  "screen_policy": {
+    "minimum_tickets": 300,
+    "minimum_weeks": 26,
+    "minimum_stratum_tickets": 30,
+    "planned_looks": 1,
+    "registered_candidates": [
+      "old_gap",
+      "fixed_prior_constant",
+      "inner_selected"
+    ],
+    "reps": 10000,
+    "seed": 20261002
+  },
+  "limitations": [
+    "Thresholds are engineering screening defaults, not validated profitability guarantees.",
+    "Correction covers only this registered candidate/look family, not past experiments.",
+    "Date+7 is a retrospective availability assumption, not certified recording timestamps.",
+    "No automatic training, production certification, approval or deployment."
+  ],
+  "input_sha256": "1ac4f6cbcdf738810c1c51efc4f267614b6e0519130496df9235ae055fc5191f"
+}

@@ -42,6 +42,20 @@ def test_freeze_dedup_partial_and_no_postgame_backfill():
     assert changed[key]["recommended"] is False
 
 
+def test_probability_provenance_saved_only_for_new_observation():
+    row = candidate(predicted_hit_prob=.62, probability_source="shin_market_fallback",
+                    decision_pipeline_applied=False, decision_id=None)
+    history = capture_history(payload([row]), {}, NOW)
+    saved = next(iter(history.values()))
+    assert saved['probability_source'] == 'shin_market_fallback'
+    assert saved['probability'] == .62
+    assert saved['market_prob'] == .56
+    legacy = {saved['id']: {k:v for k,v in saved.items() if k != 'probability_source'}}
+    late = NOW+timedelta(hours=3)
+    result = capture_history(payload([row],late), {'recommendation_history':legacy},late)
+    assert 'probability_source' not in next(iter(result.values()))
+
+
 def test_official_result_exact_line_persists_when_feed_expires():
     h = capture_history(payload([candidate()]), {}, NOW)
     key = next(iter(h))
