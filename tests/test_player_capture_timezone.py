@@ -72,7 +72,8 @@ def test_project_capture_freeze_and_settle_end_to_end(tmp_path):
     assert before["features"]["research_player_inputs"]["status"] == "captured"
     assert not before["features"]["research_player_inputs"]["training_eligible"]
     players["games"][0]["starters"]["home"]["name"] = "changed later"
-    odds["generated_at"] = "2026-08-30T01:10:00Z"
+    # Current policy freezes at T-30, not at the first morning observation.
+    odds["generated_at"] = "2026-08-30T08:40:00Z"
     odds["markets"]["102"]["7100"]["odds"] = [1.6, 2.0]
     refresh_document(doc, odds, player_document=players)
     assert doc["live"][0]["research_player_inputs"] == before["features"]["research_player_inputs"]
