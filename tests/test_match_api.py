@@ -15,6 +15,32 @@ def game(date='09.22(화) 18:00', year=2026):
                 선발={'home':'투수', 'home_detail':{'name':'투수','history':['x']*1000}})
 
 
+def test_release_expanded_cache_preserves_published_list_and_details(tmp_path, monkeypatch):
+    from match_api import PreparedMatchResponses
+    db = RuntimeDatabase(tmp_path / 'release.sqlite3')
+    current = game()
+    db.store_artifact('picks_v2', {'generated_at': '2026-09-22T00:00:00Z', 'live': [current]})
+    views = MatchViews(db)
+    prepared = PreparedMatchResponses(views)
+    prepared.refresh()
+    body = prepared.get_bytes()
+    revision = views.revision
+    detail = prepared.get_bytes('detail', key=game_key(current), revision=revision, compressed=False)
+    views.release_working_set()
+    assert views.payload is None and views.cache == {} and views.wire_cache == {}
+    assert prepared.get_bytes() == body
+    assert prepared.get_bytes('detail', key=game_key(current), revision=revision, compressed=False) == detail
+    with monkeypatch.context() as patch:
+        patch.setattr(db, 'get_artifact_json', lambda *a: (_ for _ in ()).throw(RuntimeError('busy')))
+        with pytest.raises(RuntimeError):
+            prepared.refresh()
+        assert prepared.get_bytes() == body
+        assert prepared.get_bytes('detail', key=game_key(current), revision=revision, compressed=False) == detail
+    prepared.refresh()
+    assert views.payload is not None
+    assert prepared.get_bytes() == body
+
+
 def test_summary_preserves_decision_and_separates_detail_history():
     current=game(); old=game('08.01(토) 18:00'); overnight=game('09.21(월) 23:00')
     payload={'live':[current,overnight], 'past':[old], 'prediction_performance':{'records':{'old':{}}}}
