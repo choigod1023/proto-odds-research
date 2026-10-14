@@ -576,6 +576,9 @@ class RuntimeDatabase(DatasetStore):
                   "근거해설", "해설", "근거해설방식", "해설방식", "경기근거")
         projection = ",".join(f"'{key}',json_extract(g.value, '$.{key}')" for key in fields)
         with self.connect() as connection:
+            # Both sections must belong to one revision, even if a writer
+            # publishes new picks while the consumer yields between rows.
+            connection.execute("BEGIN")
             for section in ("live", "past"):
                 for row in connection.execute(
                     f"SELECT json_object({projection}) FROM artifacts a, "
@@ -618,7 +621,7 @@ class RuntimeDatabase(DatasetStore):
     def artifact_metadata(self, name: str, *, include_size: bool = True) -> dict[str, Any] | None:
         columns = "name,generated_at,stored_at"
         if include_size:
-            columns += ",length(payload_json) payload_bytes"
+            columns += ",length(CAST(payload_json AS BLOB)) payload_bytes"
         with self.connect() as connection:
             row = connection.execute(
                 f"SELECT {columns} FROM artifacts WHERE name=?", (name,)

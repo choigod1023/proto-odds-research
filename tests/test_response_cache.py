@@ -72,6 +72,13 @@ def test_metadata_can_skip_payload_length(tmp_path):
     assert db.artifact_metadata('missing', include_size=False) is None
 
 
+def test_metadata_reports_utf8_bytes_not_character_count(tmp_path):
+    db = RuntimeDatabase(tmp_path/'unicode.sqlite3')
+    db.store_artifact('sample', {'message': '한글 경기 정보 ⚾'})
+    body, _ = db.get_artifact_json('sample')
+    assert db.artifact_metadata('sample')['payload_bytes'] == len(body.encode('utf-8'))
+
+
 @pytest.mark.parametrize('memory,called', [(100, False), (None, False), (256, True)])
 def test_prewarming_skips_memory_pressure(monkeypatch, memory, called):
     stop = threading.Event()
