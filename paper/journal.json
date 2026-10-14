@@ -489,5 +489,112 @@
     "protocol": "forward-paper-v1",
     "at": "2026-10-14T10:03:13.145225+09:00",
     "through": 21
+  },
+  {
+    "type": "source",
+    "protocol": "forward-paper-v1",
+    "at": "2026-10-15T00:57:16.713679+09:00",
+    "status": "fresh",
+    "generated_at": "2026-10-15T00:51:47+09:00"
+  },
+  {
+    "type": "bet",
+    "protocol": "forward-paper-v1",
+    "at": "2026-10-15T00:57:16.713679+09:00",
+    "ticket": "probability-weekly3:2026-10-15",
+    "account": "probability-weekly3",
+    "month": "2026-10",
+    "stake": 10000,
+    "source_sha256": "7e15a534514d44c9c97d25085e54317b66475520ab3a1f873954f5046ef3541d",
+    "generated_at": "2026-10-15T00:51:47+09:00",
+    "legs": [
+      {
+        "id": "56eb52f87edc82d27df1c1fe",
+        "recorded_at": "2026-10-14T15:51:47+00:00",
+        "published_at": "2026-10-15T00:51:47+09:00",
+        "kickoff_at": "2026-10-15T03:45:00+09:00",
+        "sport": "sc",
+        "league": "EFL챔",
+        "home": "노리치C",
+        "away": "사우샘프",
+        "round": 122,
+        "market": "핸디캡",
+        "market_label": "H -1.0",
+        "n_way": 3,
+        "sel": "핸디원정",
+        "odds": 1.51,
+        "probability": 0.6024,
+        "policy": "daily-p55-o150-unbounded-v4"
+      },
+      {
+        "id": "822404af4d65692d341336c6",
+        "recorded_at": "2026-10-14T15:51:47+00:00",
+        "published_at": "2026-10-15T00:51:47+09:00",
+        "kickoff_at": "2026-10-15T08:30:00+09:00",
+        "sport": "sc",
+        "league": "MLS",
+        "home": "CF몽레알",
+        "away": "애틀유나",
+        "round": 122,
+        "market": "핸디캡",
+        "market_label": "H -1.0",
+        "n_way": 3,
+        "sel": "핸디원정",
+        "odds": 1.5,
+        "probability": 0.6071,
+        "policy": "daily-p55-o150-unbounded-v4"
+      }
+    ],
+    "expected_roi_independence_assumption": -0.15885080799999995
+  },
+  {
+    "type": "bet",
+    "protocol": "forward-paper-v1",
+    "at": "2026-10-15T00:57:16.713679+09:00",
+    "ticket": "ev_rank-weekly3:2026-10-15",
+    "account": "ev_rank-weekly3",
+    "month": "2026-10",
+    "stake": 10000,
+    "source_sha256": "7e15a534514d44c9c97d25085e54317b66475520ab3a1f873954f5046ef3541d",
+    "generated_at": "2026-10-15T00:51:47+09:00",
+    "legs": [
+      {
+        "id": "56eb52f87edc82d27df1c1fe",
+        "recorded_at": "2026-10-14T15:51:47+00:00",
+        "published_at": "2026-10-15T00:51:47+09:00",
+        "kickoff_at": "2026-10-15T03:45:00+09:00",
+        "sport": "sc",
+        "league": "EFL챔",
+        "home": "노리치C",
+        "away": "사우샘프",
+        "round": 122,
+        "market": "핸디캡",
+        "market_label": "H -1.0",
+        "n_way": 3,
+        "sel": "핸디원정",
+        "odds": 1.51,
+        "probability": 0.6024,
+        "policy": "daily-p55-o150-unbounded-v4"
+      },
+      {
+        "id": "b532ecce3131692dec18bba7",
+        "recorded_at": "2026-10-14T15:51:47+00:00",
+        "published_at": "2026-10-15T00:51:47+09:00",
+        "kickoff_at": "2026-10-15T03:45:00+09:00",
+        "sport": "sc",
+        "league": "EFL챔",
+        "home": "포츠머스",
+        "away": "셰필드U",
+        "round": 122,
+        "market": "핸디캡",
+        "market_label": "H -1.0",
+        "n_way": 3,
+        "sel": "핸디원정",
+        "odds": 1.53,
+        "probability": 0.5942,
+        "policy": "daily-p55-o150-unbounded-v4"
+      }
+    ],
+    "expected_roi_independence_assumption": -0.14092940799999998
   }
 ]
