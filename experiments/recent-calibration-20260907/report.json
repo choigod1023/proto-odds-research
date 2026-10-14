@@ -1,0 +1,3492 @@
+{
+  "schema": "recent-calibration-report-v1",
+  "classification": "exploratory_retrospective",
+  "promotion_allowed": false,
+  "pristine_future": false,
+  "conclusion": "not_established_requires_preregistered_future_validation",
+  "protocol_hash": "2fc879522b1105b859bb7a13bfcd9fc2aa9adebbefb1bdbf57cb138977a4de6a",
+  "dataset_hash": "1d01b09cab08412ee74ebc1f0cb1a829b422cb158627ba8cf92dae5955748562",
+  "source_provenance": {
+    "analysis_sha256": "0276c24e1060dcbcab3cc4779016366716282aaf2d7d915fc50ec20ade5486f7",
+    "snapshot_hashes": {
+      "picks": "9e2d2fc69bae1ef6bc93dc8e4ae4d975ec11ea1d6b0e69c03e9e55b3a407605c",
+      "live-scores": "d8f1b7c3ee02f91a706f35bc6bca49013ea903c834ba2c3e8b4224d30fabccc0",
+      "live-odds": "9d39496ea25b60c99b4545b9bacb0ca4830a194c02a4516fde834ae1afd0ed74",
+      "today-recommendations": "a215ecef225deb02f27ec4ad7074d7062d8905542b1991a86b9c1a28ef047b73",
+      "db-snapshot": "ea6b1df115c5f735333d604c8ad1c3cb12897eea1962785edc21df0b0523434f"
+    },
+    "source_times": {
+      "picks": "2026-09-07T00:52:07+00:00",
+      "scores": "2026-09-07T01:02:36+00:00",
+      "odds": "2026-09-07T01:03:33+00:00",
+      "today": "2026-09-07T09:58:40+09:00",
+      "db": "2026-09-07T01:10:03.816676+00:00"
+    },
+    "audit_checks": {
+      "gameRows": 707,
+      "withoutRecord": 297,
+      "invalidCapture": 0,
+      "notPregame": 0,
+      "duplicateRows": 0,
+      "supersededRevisions": 0,
+      "conflictingOutcomes": [],
+      "ledgerOfficialDisagreements": []
+    },
+    "scope": "All saved event picks with official-market-derived hit/miss; not today-highlight-only. Labels reconciled on Sep 7, historical availability unknown.",
+    "original_audit_rows": 410,
+    "minimized_rows": 179
+  },
+  "cutoff": "2026-09-07T01:02:36+00:00",
+  "train": {
+    "n": 76,
+    "days": {
+      "2026-09-04": 3,
+      "2026-09-05": 73
+    }
+  },
+  "evaluation": {
+    "n": 103,
+    "days": {
+      "2026-09-06": 79,
+      "2026-09-07": 24
+    },
+    "db_verified": 103,
+    "fixed_pick_hit": 57,
+    "fixed_pick_hit_rate": 0.5533980582524272,
+    "fixed_pick_roi": -0.10844660194174757
+  },
+  "exclusions": {},
+  "baseline": {
+    "n": 103,
+    "brier": 0.24463961194174758,
+    "log_loss": 0.6823599826026044,
+    "mean_probability": 0.5538300970873786
+  },
+  "candidates": {
+    "global": {
+      "model": {
+        "coefficients": [
+          {
+            "key": [
+              "global"
+            ],
+            "value": -0.06911995640173338
+          }
+        ],
+        "levels": [
+          "global"
+        ],
+        "half_life_days": null,
+        "iterations": 3,
+        "train_n": 76,
+        "train_hash": "9d9127a79415d6d819e0916aec79e518032db44d5e1bed797b87267403f6711e"
+      },
+      "metrics": {
+        "n": 103,
+        "brier": 0.2449057415934135,
+        "log_loss": 0.6829197899695794,
+        "mean_probability": 0.5367501684441315
+      },
+      "paired": {
+        "clusters": 2,
+        "method": "two_sided_exact_KST_day_sign_flip",
+        "assumptions": "independent symmetric day-cluster contrasts; diagnostic only",
+        "by_day": [
+          {
+            "day": "2026-09-06",
+            "n": 79,
+            "brier_gain": 0.000968429407082472,
+            "log_loss_gain": 0.0019338939696024113
+          },
+          {
+            "day": "2026-09-07",
+            "n": 24,
+            "brier_gain": -0.004329886553379411,
+            "log_loss_gain": -0.00876824093320863
+          }
+        ],
+        "brier_gain": -0.00026612965166592786,
+        "brier_p": 1.0,
+        "log_loss_gain": -0.0005598073669749187,
+        "log_loss_p": 1.0,
+        "holm_adjusted_p": {
+          "brier": 1.0,
+          "log_loss": 1.0
+        }
+      }
+    },
+    "sport": {
+      "model": {
+        "coefficients": [
+          {
+            "key": [
+              "global"
+            ],
+            "value": 0.039929390718421616
+          },
+          {
+            "key": [
+              "sport",
+              "bk"
+            ],
+            "value": 0.15916753534600303
+          },
+          {
+            "key": [
+              "sport",
+              "bs"
+            ],
+            "value": 0.17913924564472705
+          },
+          {
+            "key": [
+              "sport",
+              "sc"
+            ],
+            "value": -0.3183420850567094
+          }
+        ],
+        "levels": [
+          "global",
+          "sport"
+        ],
+        "half_life_days": null,
+        "iterations": 20,
+        "train_n": 76,
+        "train_hash": "9d9127a79415d6d819e0916aec79e518032db44d5e1bed797b87267403f6711e"
+      },
+      "metrics": {
+        "n": 103,
+        "brier": 0.24267464817898457,
+        "log_loss": 0.6783610706584127,
+        "mean_probability": 0.5321956569352804
+      },
+      "paired": {
+        "clusters": 2,
+        "method": "two_sided_exact_KST_day_sign_flip",
+        "assumptions": "independent symmetric day-cluster contrasts; diagnostic only",
+        "by_day": [
+          {
+            "day": "2026-09-06",
+            "n": 79,
+            "brier_gain": 0.003933996809462479,
+            "log_loss_gain": 0.008017168289430523
+          },
+          {
+            "day": "2026-09-07",
+            "n": 24,
+            "brier_gain": -0.004516436682622835,
+            "log_loss_gain": -0.009227848525552529
+          }
+        ],
+        "brier_gain": 0.0019649637627629883,
+        "brier_p": 1.0,
+        "log_loss_gain": 0.003998911944191753,
+        "log_loss_p": 1.0,
+        "holm_adjusted_p": {
+          "brier": 1.0,
+          "log_loss": 1.0
+        }
+      }
+    },
+    "league_market": {
+      "model": {
+        "coefficients": [
+          {
+            "key": [
+              "global"
+            ],
+            "value": 0.01986433758550347
+          },
+          {
+            "key": [
+              "league",
+              "bk",
+              "여농월드"
+            ],
+            "value": 0.07357724031472368
+          },
+          {
+            "key": [
+              "league",
+              "bs",
+              "KBO"
+            ],
+            "value": -0.05800265259995579
+          },
+          {
+            "key": [
+              "league",
+              "bs",
+              "MLB"
+            ],
+            "value": 0.11364837935682828
+          },
+          {
+            "key": [
+              "league",
+              "bs",
+              "NPB"
+            ],
+            "value": 0.01979884335618506
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "EFL챔"
+            ],
+            "value": -0.031778056294008775
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "EPL"
+            ],
+            "value": 0.02103906180029958
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "J1리그"
+            ],
+            "value": 0.02484915333000166
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "J2리그"
+            ],
+            "value": -0.07080812415611015
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "K리그1"
+            ],
+            "value": 0.05155252984816854
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "K리그2"
+            ],
+            "value": -0.04755341159945658
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "MLS"
+            ],
+            "value": -0.023322478331372676
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "라리가"
+            ],
+            "value": 0.04976007627928439
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "분데스리"
+            ],
+            "value": -0.1334634514852347
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "세리에A"
+            ],
+            "value": 0.05092547400558966
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "에레디비"
+            ],
+            "value": -0.04471183501094081
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "프리그1"
+            ],
+            "value": 0.009455335575042604
+          },
+          {
+            "key": [
+              "market",
+              "bk",
+              "여농월드",
+              "승패"
+            ],
+            "value": -0.03137769644176559
+          },
+          {
+            "key": [
+              "market",
+              "bk",
+              "여농월드",
+              "언더오버"
+            ],
+            "value": 0.06276455384479965
+          },
+          {
+            "key": [
+              "market",
+              "bk",
+              "여농월드",
+              "핸디캡"
+            ],
+            "value": 0.04219038291214702
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "KBO",
+              "승패"
+            ],
+            "value": -0.030258587088276976
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "KBO",
+              "언더오버"
+            ],
+            "value": -0.027744065511676793
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "MLB",
+              "승패"
+            ],
+            "value": 0.03120289370896683
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "MLB",
+              "언더오버"
+            ],
+            "value": 0.0650456887489281
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "MLB",
+              "핸디캡"
+            ],
+            "value": 0.01739979689900219
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "NPB",
+              "승패"
+            ],
+            "value": 0.026966386520425083
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "NPB",
+              "언더오버"
+            ],
+            "value": -0.007167543164221945
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EFL챔",
+              "승무패"
+            ],
+            "value": 0.027644600643333135
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EFL챔",
+              "언더오버"
+            ],
+            "value": -0.010143686612128883
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EFL챔",
+              "핸디캡"
+            ],
+            "value": -0.04927897032691147
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EPL",
+              "승무패"
+            ],
+            "value": -0.02604549667186571
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EPL",
+              "언더오버"
+            ],
+            "value": 0.0004310370472693668
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EPL",
+              "핸디캡"
+            ],
+            "value": 0.04665352142419527
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "J1리그",
+              "언더오버"
+            ],
+            "value": 0.024849153329964575
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "J2리그",
+              "언더오버"
+            ],
+            "value": -0.04598945381211906
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "J2리그",
+              "핸디캡"
+            ],
+            "value": -0.024818670344440855
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그1",
+              "언더오버"
+            ],
+            "value": 0.02775033828627913
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그1",
+              "핸디캡"
+            ],
+            "value": 0.02380219156153955
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그2",
+              "승무패"
+            ],
+            "value": -0.026179329238632115
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그2",
+              "언더오버"
+            ],
+            "value": -0.07278040034934398
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그2",
+              "핸디캡"
+            ],
+            "value": 0.05140631798803956
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "MLS",
+              "언더오버"
+            ],
+            "value": -0.023322478331409435
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "라리가",
+              "언더오버"
+            ],
+            "value": 0.027072890110712046
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "라리가",
+              "핸디캡"
+            ],
+            "value": 0.022687186168500146
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "분데스리",
+              "승무패"
+            ],
+            "value": -0.020449443804296006
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "분데스리",
+              "언더오버"
+            ],
+            "value": -0.06707608369848417
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "분데스리",
+              "핸디캡"
+            ],
+            "value": -0.04593792398292555
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "세리에A",
+              "승무패"
+            ],
+            "value": 0.02443720142109358
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "세리에A",
+              "핸디캡"
+            ],
+            "value": 0.026488272584423076
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "에레디비",
+              "승무패"
+            ],
+            "value": -0.021120611035769257
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "에레디비",
+              "핸디캡"
+            ],
+            "value": -0.02359122397524292
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "프리그1",
+              "언더오버"
+            ],
+            "value": -0.021674013604811387
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "프리그1",
+              "핸디캡"
+            ],
+            "value": 0.031129349179786155
+          },
+          {
+            "key": [
+              "sport",
+              "bk"
+            ],
+            "value": 0.14715448063679595
+          },
+          {
+            "key": [
+              "sport",
+              "bs"
+            ],
+            "value": 0.15088914029220116
+          },
+          {
+            "key": [
+              "sport",
+              "sc"
+            ],
+            "value": -0.2881114518319171
+          }
+        ],
+        "levels": [
+          "global",
+          "sport",
+          "league",
+          "market"
+        ],
+        "half_life_days": null,
+        "iterations": 20,
+        "train_n": 76,
+        "train_hash": "9d9127a79415d6d819e0916aec79e518032db44d5e1bed797b87267403f6711e"
+      },
+      "metrics": {
+        "n": 103,
+        "brier": 0.24128135506542028,
+        "log_loss": 0.6755045167467302,
+        "mean_probability": 0.5382055616624903
+      },
+      "paired": {
+        "clusters": 2,
+        "method": "two_sided_exact_KST_day_sign_flip",
+        "assumptions": "independent symmetric day-cluster contrasts; diagnostic only",
+        "by_day": [
+          {
+            "day": "2026-09-06",
+            "n": 79,
+            "brier_gain": 0.0043706313407944454,
+            "log_loss_gain": 0.00894650601456522
+          },
+          {
+            "day": "2026-09-07",
+            "n": 24,
+            "brier_gain": 2.5857597456221727e-05,
+            "log_loss_gain": -2.754133314997187e-05
+          }
+        ],
+        "brier_gain": 0.003358256876327287,
+        "brier_p": 0.5,
+        "log_loss_gain": 0.006855465855874302,
+        "log_loss_p": 1.0,
+        "holm_adjusted_p": {
+          "brier": 1.0,
+          "log_loss": 1.0
+        }
+      }
+    },
+    "recent_league_market": {
+      "model": {
+        "coefficients": [
+          {
+            "key": [
+              "global"
+            ],
+            "value": 0.021591555024933932
+          },
+          {
+            "key": [
+              "league",
+              "bk",
+              "여농월드"
+            ],
+            "value": 0.07036194051286358
+          },
+          {
+            "key": [
+              "league",
+              "bs",
+              "KBO"
+            ],
+            "value": -0.05850476525952523
+          },
+          {
+            "key": [
+              "league",
+              "bs",
+              "MLB"
+            ],
+            "value": 0.11416574282988223
+          },
+          {
+            "key": [
+              "league",
+              "bs",
+              "NPB"
+            ],
+            "value": 0.019825105996866547
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "EFL챔"
+            ],
+            "value": -0.032938092812605554
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "EPL"
+            ],
+            "value": 0.02048733775230337
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "J1리그"
+            ],
+            "value": 0.024938285552969876
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "J2리그"
+            ],
+            "value": -0.0718528293449132
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "K리그1"
+            ],
+            "value": 0.05153012253779082
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "K리그2"
+            ],
+            "value": -0.03902728474035241
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "MLS"
+            ],
+            "value": -0.02361869809736851
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "라리가"
+            ],
+            "value": 0.04993837994513538
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "분데스리"
+            ],
+            "value": -0.1350602616068905
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "세리에A"
+            ],
+            "value": 0.05111170255562042
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "에레디비"
+            ],
+            "value": -0.04528004678777546
+          },
+          {
+            "key": [
+              "league",
+              "sc",
+              "프리그1"
+            ],
+            "value": 0.009321249715011784
+          },
+          {
+            "key": [
+              "market",
+              "bk",
+              "여농월드",
+              "승패"
+            ],
+            "value": -0.03154000390857771
+          },
+          {
+            "key": [
+              "market",
+              "bk",
+              "여농월드",
+              "언더오버"
+            ],
+            "value": 0.0635427920483091
+          },
+          {
+            "key": [
+              "market",
+              "bk",
+              "여농월드",
+              "핸디캡"
+            ],
+            "value": 0.03835915237356898
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "KBO",
+              "승패"
+            ],
+            "value": -0.030519628790322627
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "KBO",
+              "언더오버"
+            ],
+            "value": -0.027985136469201075
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "MLB",
+              "승패"
+            ],
+            "value": 0.031262093525739346
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "MLB",
+              "언더오버"
+            ],
+            "value": 0.06538892262662849
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "MLB",
+              "핸디캡"
+            ],
+            "value": 0.017514726677566542
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "NPB",
+              "승패"
+            ],
+            "value": 0.027094231052945835
+          },
+          {
+            "key": [
+              "market",
+              "bs",
+              "NPB",
+              "언더오버"
+            ],
+            "value": -0.007269125056065604
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EFL챔",
+              "승무패"
+            ],
+            "value": 0.027772998391290223
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EFL챔",
+              "언더오버"
+            ],
+            "value": -0.01084655366126523
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EFL챔",
+              "핸디캡"
+            ],
+            "value": -0.04986453754431647
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EPL",
+              "승무패"
+            ],
+            "value": -0.026360861104903297
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EPL",
+              "언더오버"
+            ],
+            "value": 0.00022990986678492144
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "EPL",
+              "핸디캡"
+            ],
+            "value": 0.04661828898972702
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "J1리그",
+              "언더오버"
+            ],
+            "value": 0.024938285552933065
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "J2리그",
+              "언더오버"
+            ],
+            "value": -0.04655037023425719
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "J2리그",
+              "핸디캡"
+            ],
+            "value": -0.025302459111102415
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그1",
+              "언더오버"
+            ],
+            "value": 0.027645625520666097
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그1",
+              "핸디캡"
+            ],
+            "value": 0.02388449701677743
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그2",
+              "승무패"
+            ],
+            "value": -0.021173282932310102
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그2",
+              "언더오버"
+            ],
+            "value": -0.06924448024178745
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "K리그2",
+              "핸디캡"
+            ],
+            "value": 0.05139047843331942
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "MLS",
+              "언더오버"
+            ],
+            "value": -0.023618698097405032
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "라리가",
+              "언더오버"
+            ],
+            "value": 0.02717968112054893
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "라리가",
+              "핸디캡"
+            ],
+            "value": 0.0227586988245148
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "분데스리",
+              "승무패"
+            ],
+            "value": -0.0207037534656462
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "분데스리",
+              "언더오버"
+            ],
+            "value": -0.06787129142285274
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "분데스리",
+              "핸디캡"
+            ],
+            "value": -0.04648521671885946
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "세리에A",
+              "승무패"
+            ],
+            "value": 0.024521847799282417
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "세리에A",
+              "핸디캡"
+            ],
+            "value": 0.02658985475626553
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "에레디비",
+              "승무패"
+            ],
+            "value": -0.02139366674261202
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "에레디비",
+              "핸디캡"
+            ],
+            "value": -0.023886380045234384
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "프리그1",
+              "언더오버"
+            ],
+            "value": -0.02195750614602484
+          },
+          {
+            "key": [
+              "market",
+              "sc",
+              "프리그1",
+              "핸디캡"
+            ],
+            "value": 0.03127875586096908
+          },
+          {
+            "key": [
+              "sport",
+              "bk"
+            ],
+            "value": 0.1407238810326114
+          },
+          {
+            "key": [
+              "sport",
+              "bs"
+            ],
+            "value": 0.15097216720003015
+          },
+          {
+            "key": [
+              "sport",
+              "sc"
+            ],
+            "value": -0.28090027042163646
+          }
+        ],
+        "levels": [
+          "global",
+          "sport",
+          "league",
+          "market"
+        ],
+        "half_life_days": 3,
+        "iterations": 20,
+        "train_n": 76,
+        "train_hash": "9d9127a79415d6d819e0916aec79e518032db44d5e1bed797b87267403f6711e"
+      },
+      "metrics": {
+        "n": 103,
+        "brier": 0.24126860190708715,
+        "log_loss": 0.6754798652534341,
+        "mean_probability": 0.5396032646484533
+      },
+      "paired": {
+        "clusters": 2,
+        "method": "two_sided_exact_KST_day_sign_flip",
+        "assumptions": "independent symmetric day-cluster contrasts; diagnostic only",
+        "by_day": [
+          {
+            "day": "2026-09-06",
+            "n": 79,
+            "brier_gain": 0.004305281322202198,
+            "log_loss_gain": 0.008815842172808612
+          },
+          {
+            "day": "2026-09-07",
+            "n": 24,
+            "brier_gain": 0.00029570037983539407,
+            "log_loss_gain": 0.0005083564713608176
+          }
+        ],
+        "brier_gain": 0.0033710100346604184,
+        "brier_p": 0.5,
+        "log_loss_gain": 0.006880117349170291,
+        "log_loss_p": 0.5,
+        "holm_adjusted_p": {
+          "brier": 1.0,
+          "log_loss": 1.0
+        }
+      }
+    }
+  },
+  "groups": {
+    "day": {
+      "2026-09-06": {
+        "baseline": {
+          "n": 79,
+          "brier": 0.24782522316455696,
+          "log_loss": 0.6887780893136828,
+          "mean_probability": 0.5554924050632911
+        },
+        "candidates": {
+          "global": {
+            "n": 79,
+            "brier": 0.2468567937574745,
+            "log_loss": 0.6868441953440804,
+            "mean_probability": 0.5384215361294001
+          },
+          "sport": {
+            "n": 79,
+            "brier": 0.24389122635509447,
+            "log_loss": 0.6807609210242522,
+            "mean_probability": 0.5265628298960483
+          },
+          "league_market": {
+            "n": 79,
+            "brier": 0.2434545918237625,
+            "log_loss": 0.6798315832991175,
+            "mean_probability": 0.5289228089461524
+          },
+          "recent_league_market": {
+            "n": 79,
+            "brier": 0.2435199418423548,
+            "log_loss": 0.6799622471408742,
+            "mean_probability": 0.5304100418973333
+          }
+        }
+      },
+      "2026-09-07": {
+        "baseline": {
+          "n": 24,
+          "brier": 0.23415364166666666,
+          "log_loss": 0.6612337146786383,
+          "mean_probability": 0.5483583333333334
+        },
+        "candidates": {
+          "global": {
+            "n": 24,
+            "brier": 0.23848352822004606,
+            "log_loss": 0.6700019556118469,
+            "mean_probability": 0.5312485831467889
+          },
+          "sport": {
+            "n": 24,
+            "brier": 0.23867007834928947,
+            "log_loss": 0.6704615632041908,
+            "mean_probability": 0.5507370459394193
+          },
+          "league_market": {
+            "n": 24,
+            "brier": 0.23412778406921042,
+            "log_loss": 0.6612612560117882,
+            "mean_probability": 0.5687612893537694
+          },
+          "recent_league_market": {
+            "n": 24,
+            "brier": 0.23385794128683127,
+            "log_loss": 0.6607253582072775,
+            "mean_probability": 0.569864289537557
+          }
+        }
+      }
+    },
+    "sport": {
+      "bk": {
+        "baseline": {
+          "n": 5,
+          "brier": 0.255293426,
+          "log_loss": 0.703738535605142,
+          "mean_probability": 0.50778
+        },
+        "candidates": {
+          "global": {
+            "n": 5,
+            "brier": 0.25877814830923546,
+            "log_loss": 0.7107097982539845,
+            "mean_probability": 0.4905054382393007
+          },
+          "sport": {
+            "n": 5,
+            "brier": 0.24852186576444701,
+            "log_loss": 0.690317277782807,
+            "mean_probability": 0.5572916503859631
+          },
+          "league_market": {
+            "n": 5,
+            "brier": 0.24711254396984111,
+            "log_loss": 0.6876038534989393,
+            "mean_probability": 0.5778246366025583
+          },
+          "recent_league_market": {
+            "n": 5,
+            "brier": 0.24726013178482042,
+            "log_loss": 0.6878812582334234,
+            "mean_probability": 0.574956326819834
+          }
+        }
+      },
+      "bs": {
+        "baseline": {
+          "n": 35,
+          "brier": 0.24004357085714284,
+          "log_loss": 0.6731349062454843,
+          "mean_probability": 0.5417428571428571
+        },
+        "candidates": {
+          "global": {
+            "n": 35,
+            "brier": 0.24232549567137945,
+            "log_loss": 0.6777543688291193,
+            "mean_probability": 0.5245790020995963
+          },
+          "sport": {
+            "n": 35,
+            "brier": 0.236754188047899,
+            "log_loss": 0.6662689889820536,
+            "mean_probability": 0.5953071370102307
+          },
+          "league_market": {
+            "n": 35,
+            "brier": 0.23744901271303895,
+            "log_loss": 0.667504312637598,
+            "mean_probability": 0.6134437721681423
+          },
+          "recent_league_market": {
+            "n": 35,
+            "brier": 0.23747304426863103,
+            "log_loss": 0.6675502182229957,
+            "mean_probability": 0.6139935645604684
+          }
+        }
+      },
+      "sc": {
+        "baseline": {
+          "n": 63,
+          "brier": 0.2463474273015873,
+          "log_loss": 0.6857883144674698,
+          "mean_probability": 0.5642
+        },
+        "candidates": {
+          "global": {
+            "n": 63,
+            "brier": 0.24523822689011318,
+            "log_loss": 0.683583912167898,
+            "mean_probability": 0.547182144207352
+          },
+          "sport": {
+            "n": 63,
+            "brier": 0.24549972780851922,
+            "log_loss": 0.6841299884846127,
+            "mean_probability": 0.495141978048349
+          },
+          "league_market": {
+            "n": 63,
+            "brier": 0.24294764137988445,
+            "log_loss": 0.6789888097635329,
+            "mean_probability": 0.49326218479902745
+          },
+          "recent_league_market": {
+            "n": 63,
+            "brier": 0.2429017267952982,
+            "log_loss": 0.6789009871766946,
+            "mean_probability": 0.49546952166785935
+          }
+        }
+      }
+    },
+    "league": {
+      "EFL챔": {
+        "baseline": {
+          "n": 2,
+          "brier": 0.17271341,
+          "log_loss": 0.5368575216789524,
+          "mean_probability": 0.585
+        },
+        "candidates": {
+          "global": {
+            "n": 2,
+            "brier": 0.186983531758141,
+            "log_loss": 0.5661232261241524,
+            "mean_probability": 0.5681612935857905
+          },
+          "sport": {
+            "n": 2,
+            "brier": 0.23441794056567633,
+            "log_loss": 0.6619080992181268,
+            "mean_probability": 0.5163667946316186
+          },
+          "league_market": {
+            "n": 2,
+            "brier": 0.25183319989844677,
+            "log_loss": 0.6968201367906274,
+            "mean_probability": 0.498686493181086
+          },
+          "recent_league_market": {
+            "n": 2,
+            "brier": 0.25003724219991125,
+            "log_loss": 0.6932207450691923,
+            "mean_probability": 0.5004809631085303
+          }
+        }
+      },
+      "EPL": {
+        "baseline": {
+          "n": 3,
+          "brier": 0.21291176666666667,
+          "log_loss": 0.6185399215349076,
+          "mean_probability": 0.5457333333333333
+        },
+        "candidates": {
+          "global": {
+            "n": 3,
+            "brier": 0.21725971846885128,
+            "log_loss": 0.6274905120058234,
+            "mean_probability": 0.5285982306913363
+          },
+          "sport": {
+            "n": 3,
+            "brier": 0.23443718681009038,
+            "log_loss": 0.6618414044883238,
+            "mean_probability": 0.4764688463152325
+          },
+          "league_market": {
+            "n": 3,
+            "brier": 0.23174672981071542,
+            "log_loss": 0.6564709975298515,
+            "mean_probability": 0.4799586744137197
+          },
+          "recent_league_market": {
+            "n": 3,
+            "brier": 0.2309800585642318,
+            "log_loss": 0.6549533759953191,
+            "mean_probability": 0.4819766928379449
+          }
+        }
+      },
+      "J1리그": {
+        "baseline": {
+          "n": 9,
+          "brier": 0.2409138622222222,
+          "log_loss": 0.6747468943210486,
+          "mean_probability": 0.5598
+        },
+        "candidates": {
+          "global": {
+            "n": 9,
+            "brier": 0.24101439251069204,
+            "log_loss": 0.675042654943451,
+            "mean_probability": 0.542733117301859
+          },
+          "sport": {
+            "n": 9,
+            "brier": 0.24501012675044365,
+            "log_loss": 0.6831747779604034,
+            "mean_probability": 0.4906069097421864
+          },
+          "league_market": {
+            "n": 9,
+            "brier": 0.24256339248644604,
+            "log_loss": 0.6782654447066508,
+            "mean_probability": 0.5007200255395889
+          },
+          "recent_league_market": {
+            "n": 9,
+            "brier": 0.24231716430262193,
+            "log_loss": 0.6777706902032936,
+            "mean_probability": 0.5029779884877208
+          }
+        }
+      },
+      "J2리그": {
+        "baseline": {
+          "n": 5,
+          "brier": 0.20977643599999998,
+          "log_loss": 0.6117179529854135,
+          "mean_probability": 0.56124
+        },
+        "candidates": {
+          "global": {
+            "n": 5,
+            "brier": 0.21118928578330287,
+            "log_loss": 0.6149840699584904,
+            "mean_probability": 0.5442337438390121
+          },
+          "sport": {
+            "n": 5,
+            "brier": 0.2195372991972339,
+            "log_loss": 0.6320861846880156,
+            "mean_probability": 0.4922726976407275
+          },
+          "league_market": {
+            "n": 5,
+            "brier": 0.2239908124548823,
+            "log_loss": 0.6407133618583416,
+            "mean_probability": 0.4679088030404658
+          },
+          "recent_league_market": {
+            "n": 5,
+            "brier": 0.22348835980435097,
+            "log_loss": 0.6397359985631058,
+            "mean_probability": 0.46973318911037226
+          }
+        }
+      },
+      "KBO": {
+        "baseline": {
+          "n": 3,
+          "brier": 0.19613529,
+          "log_loss": 0.5847285503277283,
+          "mean_probability": 0.5577666666666666
+        },
+        "candidates": {
+          "global": {
+            "n": 3,
+            "brier": 0.21153320567131603,
+            "log_loss": 0.6158850198285378,
+            "mean_probability": 0.5406952684651153
+          },
+          "sport": {
+            "n": 3,
+            "brier": 0.15200204342318924,
+            "log_loss": 0.49369375467550397,
+            "mean_probability": 0.6108003515813475
+          },
+          "league_market": {
+            "n": 3,
+            "brier": 0.17867005161771998,
+            "log_loss": 0.5490822047571023,
+            "mean_probability": 0.5779606667343814
+          },
+          "recent_league_market": {
+            "n": 3,
+            "brier": 0.17845486214196496,
+            "log_loss": 0.5486404250051863,
+            "mean_probability": 0.5782154755402255
+          }
+        }
+      },
+      "K리그1": {
+        "baseline": {
+          "n": 2,
+          "brier": 0.33335649999999994,
+          "log_loss": 0.8616653624154366,
+          "mean_probability": 0.5769
+        },
+        "candidates": {
+          "global": {
+            "n": 2,
+            "brier": 0.3141347363145054,
+            "log_loss": 0.8223737769617147,
+            "mean_probability": 0.5599834582332566
+          },
+          "sport": {
+            "n": 2,
+            "brier": 0.25870276739154874,
+            "log_loss": 0.7105931730676402,
+            "mean_probability": 0.5080683897953245
+          },
+          "league_market": {
+            "n": 2,
+            "brier": 0.2775537689138155,
+            "log_loss": 0.7484064843340771,
+            "mean_probability": 0.5264214521161387
+          },
+          "recent_league_market": {
+            "n": 2,
+            "brier": 0.2799043022254536,
+            "log_loss": 0.7531308420960114,
+            "mean_probability": 0.5286501045539777
+          }
+        }
+      },
+      "K리그2": {
+        "baseline": {
+          "n": 2,
+          "brier": 0.30814129999999995,
+          "log_loss": 0.8099191042532177,
+          "mean_probability": 0.5550999999999999
+        },
+        "candidates": {
+          "global": {
+            "n": 2,
+            "brier": 0.28941903078142917,
+            "log_loss": 0.7721419314489432,
+            "mean_probability": 0.5379718136349523
+          },
+          "sport": {
+            "n": 2,
+            "brier": 0.23593602812352438,
+            "log_loss": 0.6650110527641617,
+            "mean_probability": 0.48572689454995455
+          },
+          "league_market": {
+            "n": 2,
+            "brier": 0.21002479437616936,
+            "log_loss": 0.6130128892853759,
+            "mean_probability": 0.4582787893152891
+          },
+          "recent_league_market": {
+            "n": 2,
+            "brier": 0.2148344740585553,
+            "log_loss": 0.6226917214871865,
+            "mean_probability": 0.4634966136082904
+          }
+        }
+      },
+      "MLB": {
+        "baseline": {
+          "n": 27,
+          "brier": 0.2363769914814815,
+          "log_loss": 0.6657883902113874,
+          "mean_probability": 0.5371074074074074
+        },
+        "candidates": {
+          "global": {
+            "n": 27,
+            "brier": 0.23983507250629993,
+            "log_loss": 0.6727770027895876,
+            "mean_probability": 0.5199236974642836
+          },
+          "sport": {
+            "n": 27,
+            "brier": 0.22945205771445934,
+            "log_loss": 0.6514287419757557,
+            "mean_probability": 0.5908046549976284
+          },
+          "league_market": {
+            "n": 27,
+            "brier": 0.2275742158905773,
+            "log_loss": 0.6472563467197211,
+            "mean_probability": 0.6186369305725966
+          },
+          "recent_league_market": {
+            "n": 27,
+            "brier": 0.22755956972093447,
+            "log_loss": 0.6472186185796742,
+            "mean_probability": 0.6192386305273684
+          }
+        }
+      },
+      "MLS": {
+        "baseline": {
+          "n": 12,
+          "brier": 0.22992885,
+          "log_loss": 0.6527200163979686,
+          "mean_probability": 0.5626
+        },
+        "candidates": {
+          "global": {
+            "n": 12,
+            "brier": 0.23374881824529403,
+            "log_loss": 0.660501491111502,
+            "mean_probability": 0.5455536063529541
+          },
+          "sport": {
+            "n": 12,
+            "brier": 0.2490678417668443,
+            "log_loss": 0.6912947053999071,
+            "mean_probability": 0.4934491873157973
+          },
+          "league_market": {
+            "n": 12,
+            "brier": 0.252286747508966,
+            "log_loss": 0.6977452139078696,
+            "mean_probability": 0.4862912418550269
+          },
+          "recent_league_market": {
+            "n": 12,
+            "brier": 0.2515395675510192,
+            "log_loss": 0.6962485530355784,
+            "mean_probability": 0.48839706063771504
+          }
+        }
+      },
+      "NPB": {
+        "baseline": {
+          "n": 5,
+          "brier": 0.28618806799999996,
+          "log_loss": 0.7658499063802617,
+          "mean_probability": 0.55716
+        },
+        "candidates": {
+          "global": {
+            "n": 5,
+            "brier": 0.27424915476284695,
+            "log_loss": 0.7417537548429399,
+            "mean_probability": 0.5400478873109738
+          },
+          "sport": {
+            "n": 5,
+            "brier": 0.3270369786232993,
+            "log_loss": 0.8499514633999917,
+            "mean_probability": 0.6103246111356139
+          },
+          "league_market": {
+            "n": 5,
+            "brier": 0.3260402922115232,
+            "log_loss": 0.8478965933224307,
+            "mean_probability": 0.6066905800443452
+          },
+          "recent_league_market": {
+            "n": 5,
+            "brier": 0.32641671610219214,
+            "log_loss": 0.8486867322276168,
+            "mean_probability": 0.6071370617513538
+          }
+        }
+      },
+      "라리가": {
+        "baseline": {
+          "n": 6,
+          "brier": 0.2433579433333333,
+          "log_loss": 0.6795900484628669,
+          "mean_probability": 0.5683333333333334
+        },
+        "candidates": {
+          "global": {
+            "n": 6,
+            "brier": 0.24125280356950837,
+            "log_loss": 0.6754524887424087,
+            "mean_probability": 0.551364537245989
+          },
+          "sport": {
+            "n": 6,
+            "brier": 0.23853999788919214,
+            "log_loss": 0.6701290721559094,
+            "mean_probability": 0.49941424318593935
+          },
+          "league_market": {
+            "n": 6,
+            "brier": 0.2389286307902425,
+            "log_loss": 0.6709068122181142,
+            "mean_probability": 0.5203459007285806
+          },
+          "recent_league_market": {
+            "n": 6,
+            "brier": 0.23902932046259417,
+            "log_loss": 0.6711040946272696,
+            "mean_probability": 0.5226335037095992
+          }
+        }
+      },
+      "리그스컵": {
+        "baseline": {
+          "n": 1,
+          "brier": 0.18740240999999996,
+          "log_loss": 0.5672196239621546,
+          "mean_probability": 0.5671
+        },
+        "candidates": {
+          "global": {
+            "n": 1,
+            "brier": 0.2024469342096637,
+            "log_loss": 0.5977297958612441,
+            "mean_probability": 0.5500589658525645
+          },
+          "sport": {
+            "n": 1,
+            "brier": 0.2521003291133856,
+            "log_loss": 0.6973478634170736,
+            "mean_probability": 0.497904063835022
+          },
+          "league_market": {
+            "n": 1,
+            "brier": 0.2495547519589923,
+            "log_loss": 0.6922566842423896,
+            "mean_probability": 0.5004454464635596
+          },
+          "recent_league_market": {
+            "n": 1,
+            "brier": 0.24732716188287296,
+            "log_loss": 0.6878014531997602,
+            "mean_probability": 0.5026800206276919
+          }
+        }
+      },
+      "분데스리": {
+        "baseline": {
+          "n": 3,
+          "brier": 0.33959037999999997,
+          "log_loss": 0.8744131993483227,
+          "mean_probability": 0.5823333333333333
+        },
+        "candidates": {
+          "global": {
+            "n": 3,
+            "brier": 0.32023893099527284,
+            "log_loss": 0.8347442909014906,
+            "mean_probability": 0.5654659815227393
+          },
+          "sport": {
+            "n": 3,
+            "brier": 0.26430790580367153,
+            "log_loss": 0.7218067237699938,
+            "mean_probability": 0.5136218870587713
+          },
+          "league_market": {
+            "n": 3,
+            "brier": 0.21950953413736973,
+            "log_loss": 0.6319367100538528,
+            "mean_probability": 0.467937568662024
+          },
+          "recent_league_market": {
+            "n": 3,
+            "brier": 0.2210551218864254,
+            "log_loss": 0.6350454621629007,
+            "mean_probability": 0.46958484948366847
+          }
+        }
+      },
+      "세리에A": {
+        "baseline": {
+          "n": 6,
+          "brier": 0.20929358333333334,
+          "log_loss": 0.6110455038190997,
+          "mean_probability": 0.5547333333333333
+        },
+        "candidates": {
+          "global": {
+            "n": 6,
+            "brier": 0.2190515420802631,
+            "log_loss": 0.6308917386981464,
+            "mean_probability": 0.5376604391494636
+          },
+          "sport": {
+            "n": 6,
+            "brier": 0.25250543545735776,
+            "log_loss": 0.6982184404254314,
+            "mean_probability": 0.48559072725315616
+          },
+          "league_market": {
+            "n": 6,
+            "brier": 0.24021236077170713,
+            "log_loss": 0.6735465206146841,
+            "mean_probability": 0.5028384244664573
+          },
+          "recent_league_market": {
+            "n": 6,
+            "brier": 0.23871001763099556,
+            "log_loss": 0.6705279123555733,
+            "mean_probability": 0.5051179370741999
+          }
+        }
+      },
+      "에레디비": {
+        "baseline": {
+          "n": 6,
+          "brier": 0.28646837166666667,
+          "log_loss": 0.7668942993080788,
+          "mean_probability": 0.56885
+        },
+        "candidates": {
+          "global": {
+            "n": 6,
+            "brier": 0.27882080522457575,
+            "log_loss": 0.7512014651110666,
+            "mean_probability": 0.5518685108411597
+          },
+          "sport": {
+            "n": 6,
+            "brier": 0.2588527337041778,
+            "log_loss": 0.7108951159960011,
+            "mean_probability": 0.4998717729130446
+          },
+          "league_market": {
+            "n": 6,
+            "brier": 0.25520532413633434,
+            "log_loss": 0.70362769596544,
+            "mean_probability": 0.4884258464145528
+          },
+          "recent_league_market": {
+            "n": 6,
+            "brier": 0.2558506473794479,
+            "log_loss": 0.7049131318750126,
+            "mean_probability": 0.4904761668539211
+          }
+        }
+      },
+      "여농월드": {
+        "baseline": {
+          "n": 5,
+          "brier": 0.255293426,
+          "log_loss": 0.703738535605142,
+          "mean_probability": 0.50778
+        },
+        "candidates": {
+          "global": {
+            "n": 5,
+            "brier": 0.25877814830923546,
+            "log_loss": 0.7107097982539845,
+            "mean_probability": 0.4905054382393007
+          },
+          "sport": {
+            "n": 5,
+            "brier": 0.24852186576444701,
+            "log_loss": 0.690317277782807,
+            "mean_probability": 0.5572916503859631
+          },
+          "league_market": {
+            "n": 5,
+            "brier": 0.24711254396984111,
+            "log_loss": 0.6876038534989393,
+            "mean_probability": 0.5778246366025583
+          },
+          "recent_league_market": {
+            "n": 5,
+            "brier": 0.24726013178482042,
+            "log_loss": 0.6878812582334234,
+            "mean_probability": 0.574956326819834
+          }
+        }
+      },
+      "프리그1": {
+        "baseline": {
+          "n": 6,
+          "brier": 0.2725973533333333,
+          "log_loss": 0.7387616213351894,
+          "mean_probability": 0.5687
+        },
+        "candidates": {
+          "global": {
+            "n": 6,
+            "brier": 0.26486302134409834,
+            "log_loss": 0.7230796833322509,
+            "mean_probability": 0.5517032295155778
+          },
+          "sport": {
+            "n": 6,
+            "brier": 0.24484217209564677,
+            "log_loss": 0.6828127024820114,
+            "mean_probability": 0.49966130189157215
+          },
+          "league_market": {
+            "n": 6,
+            "brier": 0.24783514630048123,
+            "log_loss": 0.688825272658914,
+            "mean_probability": 0.5022383034077358
+          },
+          "recent_league_market": {
+            "n": 6,
+            "brier": 0.24858550778421581,
+            "log_loss": 0.6903346554888848,
+            "mean_probability": 0.5043936065867932
+          }
+        }
+      }
+    },
+    "market": {
+      "승무패": {
+        "baseline": {
+          "n": 12,
+          "brier": 0.25662770416666664,
+          "log_loss": 0.706634862881768,
+          "mean_probability": 0.5614750000000001
+        },
+        "candidates": {
+          "global": {
+            "n": 12,
+            "brier": 0.2519655010862844,
+            "log_loss": 0.697213658162851,
+            "mean_probability": 0.5444421366097477
+          },
+          "sport": {
+            "n": 12,
+            "brier": 0.24141310014531484,
+            "log_loss": 0.6759106462882984,
+            "mean_probability": 0.4923959626685599
+          },
+          "league_market": {
+            "n": 12,
+            "brier": 0.23917976274115363,
+            "log_loss": 0.6714610297731308,
+            "mean_probability": 0.5003343693384383
+          },
+          "recent_league_market": {
+            "n": 12,
+            "brier": 0.2395268492825258,
+            "log_loss": 0.6721633568940969,
+            "mean_probability": 0.5025248519990887
+          }
+        }
+      },
+      "승패": {
+        "baseline": {
+          "n": 17,
+          "brier": 0.24465431529411763,
+          "log_loss": 0.682350833322602,
+          "mean_probability": 0.5517647058823529
+        },
+        "candidates": {
+          "global": {
+            "n": 17,
+            "brier": 0.24415378803391086,
+            "log_loss": 0.6813963943421812,
+            "mean_probability": 0.5346587584348157
+          },
+          "sport": {
+            "n": 17,
+            "brier": 0.250022898987553,
+            "log_loss": 0.6931116601059837,
+            "mean_probability": 0.6049967550832288
+          },
+          "league_market": {
+            "n": 17,
+            "brier": 0.25674764628834157,
+            "log_loss": 0.7069420736351661,
+            "mean_probability": 0.6139079172974556
+          },
+          "recent_league_market": {
+            "n": 17,
+            "brier": 0.25687035982722584,
+            "log_loss": 0.7071984947321007,
+            "mean_probability": 0.6143962519896925
+          }
+        }
+      },
+      "언더오버": {
+        "baseline": {
+          "n": 49,
+          "brier": 0.23916126122448977,
+          "log_loss": 0.6713128222040075,
+          "mean_probability": 0.5478163265306123
+        },
+        "candidates": {
+          "global": {
+            "n": 49,
+            "brier": 0.24094071723016777,
+            "log_loss": 0.6749468610605694,
+            "mean_probability": 0.5306900855430344
+          },
+          "sport": {
+            "n": 49,
+            "brier": 0.23718610728153963,
+            "log_loss": 0.6672660332731363,
+            "mean_probability": 0.5238459325843154
+          },
+          "league_market": {
+            "n": 49,
+            "brier": 0.23114948935638477,
+            "log_loss": 0.6548949387622067,
+            "mean_probability": 0.5298797911171726
+          },
+          "recent_league_market": {
+            "n": 49,
+            "brier": 0.23103174654693082,
+            "log_loss": 0.6546585524450161,
+            "mean_probability": 0.5315479179723357
+          }
+        }
+      },
+      "핸디캡": {
+        "baseline": {
+          "n": 25,
+          "brier": 0.2496128968,
+          "log_loss": 0.6923666959602577,
+          "mean_probability": 0.563352
+        },
+        "candidates": {
+          "global": {
+            "n": 25,
+            "brier": 0.2497998332092589,
+            "log_loss": 0.692721582925099,
+            "mean_probability": 0.5463579450171209
+          },
+          "sport": {
+            "n": 25,
+            "brier": 0.24904092084431162,
+            "log_loss": 0.691253146806861,
+            "mean_probability": 0.5181602231705924
+          },
+          "league_market": {
+            "n": 25,
+            "brier": 0.2516314981391914,
+            "log_loss": 0.6964626246595874,
+            "mean_probability": 0.5212246424150814
+          },
+          "recent_league_market": {
+            "n": 25,
+            "brier": 0.2515596842870887,
+            "log_loss": 0.6963128943249218,
+            "mean_probability": 0.5223301508132965
+          }
+        }
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": "dec_5a79376ef8251d6e",
+      "event": "2026|sc|프리그1|09.06(일) 00:15|RC랑스|로리앙",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5808,
+      "candidates": {
+        "global": 0.563883527964915,
+        "sport": 0.511909156205381,
+        "league_market": 0.511396160544799,
+        "recent_league_market": 0.5135250394323814
+      }
+    },
+    {
+      "id": "dec_149024196c50636f",
+      "event": "2026|sc|세리에A|09.06(일) 01:00|인테르|나폴리",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.586,
+      "candidates": {
+        "global": 0.5691377001186234,
+        "sport": 0.5172534274389123,
+        "league_market": 0.5385655916861349,
+        "recent_league_market": 0.5408533844288916
+      }
+    },
+    {
+      "id": "dec_c9c1aadd1d11cb81",
+      "event": "2026|bk|여농월드|09.06(일) 01:00|독일W|일본W",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5162,
+      "candidates": {
+        "global": 0.49892568482995014,
+        "sport": 0.5655995747507561,
+        "league_market": 0.5860376794898455,
+        "recent_league_market": 0.5831843281573192
+      }
+    },
+    {
+      "id": "dec_0293ca05aa0658f8",
+      "event": "2026|sc|분데스리|09.06(일) 01:30|샬케04|바이뮌헨",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.6007,
+      "candidates": {
+        "global": 0.5840114058887157,
+        "sport": 0.5324468214107361,
+        "league_market": 0.48490358443290704,
+        "recent_league_market": 0.4865388435196946
+      }
+    },
+    {
+      "id": "dec_414b70725cace057",
+      "event": "2026|sc|라리가|09.06(일) 01:30|라요바예|라싱산탄",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5739,
+      "candidates": {
+        "global": 0.5569175042209668,
+        "sport": 0.5048419512029123,
+        "league_market": 0.5254732398469691,
+        "recent_league_market": 0.5277637793125685
+      }
+    },
+    {
+      "id": "dec_985ce03a07a6dee2",
+      "event": "2026|sc|EPL|09.06(일) 01:30|헐시티|A빌라",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5088,
+      "candidates": {
+        "global": 0.49152173240673247,
+        "sport": 0.4394956807429396,
+        "league_market": 0.4407669746055952,
+        "recent_league_market": 0.44275742439590426
+      }
+    },
+    {
+      "id": "dec_eb19e59ff7085123",
+      "event": "2026|sc|에레디비|09.06(일) 03:00|아약스|PSV",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5947,
+      "candidates": {
+        "global": 0.577936832295511,
+        "sport": 0.5262301099666767,
+        "league_market": 0.5117176965656441,
+        "recent_league_market": 0.5137351437241048
+      }
+    },
+    {
+      "id": "dec_0bce8d15b866a5c2",
+      "event": "2026|sc|세리에A|09.06(일) 03:45|AS로마|아탈란타",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5597,
+      "candidates": {
+        "global": 0.542602615399138,
+        "sport": 0.49038416545735647,
+        "league_market": 0.5117628727621055,
+        "recent_league_market": 0.5140636514652943
+      }
+    },
+    {
+      "id": "dec_4d81e2ae4e95e43a",
+      "event": "2026|sc|프리그1|09.06(일) 03:45|르아브르|브레스투",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5528,
+      "candidates": {
+        "global": 0.5356569668259259,
+        "sport": 0.483400516596636,
+        "league_market": 0.4828878254814102,
+        "recent_league_market": 0.48501583288041106
+      }
+    },
+    {
+      "id": "dec_6f0f160db6360c35",
+      "event": "2026|bk|여농월드|09.06(일) 03:45|프랑스W|한국W",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5,
+      "candidates": {
+        "global": 0.48272688730845165,
+        "sport": 0.5496104615022734,
+        "league_market": 0.5702292243853475,
+        "recent_league_market": 0.5673473535919588
+      }
+    },
+    {
+      "id": "dec_f3129e3ea276bc67",
+      "event": "2026|sc|프리그1|09.06(일) 03:45|OGC니스|르망FC",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5306,
+      "candidates": {
+        "global": 0.5133551230969141,
+        "sport": 0.4611138033903048,
+        "league_market": 0.4659929289676814,
+        "recent_league_market": 0.46818446720493756
+      }
+    },
+    {
+      "id": "dec_329bc3854cff1b45",
+      "event": "2026|sc|라리가|09.06(일) 04:00|비야레알|데포아코",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5516,
+      "candidates": {
+        "global": 0.5344497063839915,
+        "sport": 0.482188729798901,
+        "league_market": 0.5039307457358223,
+        "recent_league_market": 0.5062363766705166
+      }
+    },
+    {
+      "id": "dec_d1c72b720af2da8a",
+      "event": "2026|sc|EFL챔|09.06(일) 04:00|스완지C|렉섬",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5629,
+      "candidates": {
+        "global": 0.5458260434048958,
+        "sport": 0.4936321683804272,
+        "league_market": 0.4759275876852268,
+        "recent_league_market": 0.47772192132444546
+      }
+    },
+    {
+      "id": "dec_ed84a3f3eef8bbbe",
+      "event": "2026|sc|에레디비|09.06(일) 04:00|빌럼II|엑셀시오",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5853,
+      "candidates": {
+        "global": 0.5684301865010375,
+        "sport": 0.5165330891142537,
+        "league_market": 0.5079018969892583,
+        "recent_league_market": 0.5099937705528884
+      }
+    },
+    {
+      "id": "dec_37d3723c7c930e56",
+      "event": "2026|bs|MLB|09.06(일) 05:10|뉴욕메츠|샌프자이",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5417,
+      "candidates": {
+        "global": 0.5244974683166042,
+        "sport": 0.5953813214484185,
+        "league_market": 0.6263607906712159,
+        "recent_league_market": 0.626985644381221
+      }
+    },
+    {
+      "id": "dec_ad7c4a6ec1234643",
+      "event": "2026|bs|MLB|09.06(일) 05:10|마이말린|시카컵스",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5496,
+      "candidates": {
+        "global": 0.5324380520443373,
+        "sport": 0.6030340850453568,
+        "league_market": 0.6258981133291873,
+        "recent_league_market": 0.6264568153857982
+      }
+    },
+    {
+      "id": "dec_dc039acc01fb40ff",
+      "event": "2026|bs|MLB|09.06(일) 07:05|필라필리|애틀브레",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5897,
+      "candidates": {
+        "global": 0.5728785589430897,
+        "sport": 0.6414800942403007,
+        "league_market": 0.6633658877165604,
+        "recent_league_market": 0.6638986815157524
+      }
+    },
+    {
+      "id": "dec_dd6687908e040e14",
+      "event": "2026|bs|MLB|09.06(일) 07:10|클리가디|디트타이",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5417,
+      "candidates": {
+        "global": 0.5244974683166042,
+        "sport": 0.5953813214484185,
+        "league_market": 0.6263607906712159,
+        "recent_league_market": 0.626985644381221
+      }
+    },
+    {
+      "id": "dec_817b80738919991e",
+      "event": "2026|bs|MLB|09.06(일) 07:40|신시레즈|밀워브루",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5306,
+      "candidates": {
+        "global": 0.5133551230969141,
+        "sport": 0.5845844223765256,
+        "league_market": 0.6158571868112567,
+        "recent_league_market": 0.6164888509922277
+      }
+    },
+    {
+      "id": "dec_e200da5f59c0dc39",
+      "event": "2026|bs|MLB|09.06(일) 07:40|피츠파이|LA에인절",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5162,
+      "candidates": {
+        "global": 0.49892568482995014,
+        "sport": 0.5704999749074624,
+        "league_market": 0.6021113577576566,
+        "recent_league_market": 0.6027510452006353
+      }
+    },
+    {
+      "id": "dec_1584c1fb62d8cee5",
+      "event": "2026|bs|MLB|09.06(일) 08:05|볼티오리|보스레드",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5685,
+      "candidates": {
+        "global": 0.5514704885287808,
+        "sport": 0.6212371098996172,
+        "league_market": 0.6436722130757396,
+        "recent_league_market": 0.6442194592859891
+      }
+    },
+    {
+      "id": "dec_d9c731e53c600a66",
+      "event": "2026|bs|MLB|09.06(일) 08:05|텍사레인|탬파레이",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5496,
+      "candidates": {
+        "global": 0.5324380520443373,
+        "sport": 0.6030340850453568,
+        "league_market": 0.6337880225342551,
+        "recent_league_market": 0.6344077051381624
+      }
+    },
+    {
+      "id": "dec_0be3c697c99158df",
+      "event": "2026|bs|MLB|09.06(일) 08:10|시카화이|미네트윈",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5273,
+      "candidates": {
+        "global": 0.5100458360044782,
+        "sport": 0.5813645076093236,
+        "league_market": 0.6046583977305919,
+        "recent_league_market": 0.6052288132680206
+      }
+    },
+    {
+      "id": "dec_b37df9aa4ae2be0e",
+      "event": "2026|bs|MLB|09.06(일) 08:10|캔자로얄|토론블루",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5194,
+      "candidates": {
+        "global": 0.5021297420008818,
+        "sport": 0.5736374686855501,
+        "league_market": 0.6051777425924545,
+        "recent_league_market": 0.6058157276135698
+      }
+    },
+    {
+      "id": "dec_82d2342ad226b519",
+      "event": "2026|bs|MLB|09.06(일) 08:15|샌디파드|뉴욕양키",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5338,
+      "candidates": {
+        "global": 0.5165655733032075,
+        "sport": 0.5877023680388717,
+        "league_market": 0.6108796434682755,
+        "recent_league_market": 0.6114468508797501
+      }
+    },
+    {
+      "id": "dec_ccbad72e08ba476f",
+      "event": "2026|bs|MLB|09.06(일) 08:15|휴스애스|애리다이",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5065,
+      "candidates": {
+        "global": 0.4892220469196999,
+        "sport": 0.5609627151653697,
+        "league_market": 0.5845806391083083,
+        "recent_league_market": 0.5851601488061828
+      }
+    },
+    {
+      "id": "dec_0f0d93ef283eae04",
+      "event": "2026|sc|MLS|09.06(일) 08:30|필라유니|CF몽레알",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5685,
+      "candidates": {
+        "global": 0.5514704885287808,
+        "sport": 0.49933027748272485,
+        "league_market": 0.4902116836667096,
+        "recent_league_market": 0.4922975321518079
+      }
+    },
+    {
+      "id": "dec_4c117735a3266c35",
+      "event": "2026|sc|MLS|09.06(일) 08:30|샬럿FC|휴스다이",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5706,
+      "candidates": {
+        "global": 0.5535882870620866,
+        "sport": 0.5014717104989196,
+        "league_market": 0.4981824981943326,
+        "recent_league_market": 0.5003430349063407
+      }
+    },
+    {
+      "id": "dec_8b1ea3095ab20dad",
+      "event": "2026|sc|MLS|09.06(일) 08:30|콜럼크루|콜로래피",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5385,
+      "candidates": {
+        "global": 0.5212835026888756,
+        "sport": 0.46901295032553286,
+        "league_market": 0.4599393964117075,
+        "recent_league_market": 0.4620131735298497
+      }
+    },
+    {
+      "id": "dec_957da726d050f277",
+      "event": "2026|sc|MLS|09.06(일) 08:30|올랜시티|샌디에FC",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5448,
+      "candidates": {
+        "global": 0.5276123569910859,
+        "sport": 0.4753373250183374,
+        "league_market": 0.47205721477024853,
+        "recent_league_market": 0.47421151856142335
+      }
+    },
+    {
+      "id": "dec_d4b6f9ca0a15465e",
+      "event": "2026|sc|MLS|09.06(일) 08:30|토론토FC|시카파이",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5781,
+      "candidates": {
+        "global": 0.5611568972898138,
+        "sport": 0.5091404442330361,
+        "league_market": 0.5058519708677411,
+        "recent_league_market": 0.5080120969921625
+      }
+    },
+    {
+      "id": "dec_f3523cb7dca52927",
+      "event": "2026|sc|MLS|09.06(일) 08:30|인터마이|애틀유나",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5853,
+      "candidates": {
+        "global": 0.5684301865010375,
+        "sport": 0.5165330891142537,
+        "league_market": 0.5074187300502985,
+        "recent_league_market": 0.5095046192800267
+      }
+    },
+    {
+      "id": "dec_576a3ac7b37e8800",
+      "event": "2026|bs|MLB|09.06(일) 09:10|콜로로키|세인카디",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5417,
+      "candidates": {
+        "global": 0.5244974683166042,
+        "sport": 0.5953813214484185,
+        "league_market": 0.6263607906712159,
+        "recent_league_market": 0.626985644381221
+      }
+    },
+    {
+      "id": "dec_05f12f631919253b",
+      "event": "2026|sc|MLS|09.06(일) 09:30|시애사운|뉴욕레드",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5273,
+      "candidates": {
+        "global": 0.5100458360044782,
+        "sport": 0.45782446059696297,
+        "league_market": 0.44878441602203956,
+        "recent_league_market": 0.45084988498081385
+      }
+    },
+    {
+      "id": "dec_30dd68bc32f662d0",
+      "event": "2026|sc|MLS|09.06(일) 09:30|FC댈러스|스포캔자",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5607,
+      "candidates": {
+        "global": 0.5436097828898301,
+        "sport": 0.49139853811032336,
+        "league_market": 0.4822852630242864,
+        "recent_league_market": 0.4843694298313161
+      }
+    },
+    {
+      "id": "dec_51edaa760e089dd3",
+      "event": "2026|sc|MLS|09.06(일) 09:30|오스틴FC|새너어스",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5685,
+      "candidates": {
+        "global": 0.5514704885287808,
+        "sport": 0.49933027748272485,
+        "league_market": 0.4902116836667096,
+        "recent_league_market": 0.4922975321518079
+      }
+    },
+    {
+      "id": "dec_054aae30aeeaea0c",
+      "event": "2026|bs|MLB|09.06(일) 10:10|LA다저스|워싱내셔",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5065,
+      "candidates": {
+        "global": 0.4892220469196999,
+        "sport": 0.5609627151653697,
+        "league_market": 0.5927749924418201,
+        "recent_league_market": 0.5934195543023224
+      }
+    },
+    {
+      "id": "dec_028d43871d5562d3",
+      "event": "2026|sc|MLS|09.06(일) 10:30|LA갤럭시|뉴잉레벌",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5853,
+      "candidates": {
+        "global": 0.5684301865010375,
+        "sport": 0.5165330891142537,
+        "league_market": 0.5074187300502985,
+        "recent_league_market": 0.5095046192800267
+      }
+    },
+    {
+      "id": "dec_497dbc864ed31b98",
+      "event": "2026|sc|MLS|09.06(일) 11:30|포틀팀버|미네유나",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5898,
+      "candidates": {
+        "global": 0.5729796899464347,
+        "sport": 0.5211688272687933,
+        "league_market": 0.5178846312422515,
+        "recent_league_market": 0.520042064840109
+      }
+    },
+    {
+      "id": "dec_7d6452f77924bec4",
+      "event": "2026|sc|MLS|09.06(일) 11:30|밴쿠화이|세인시티",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5338,
+      "candidates": {
+        "global": 0.5165655733032075,
+        "sport": 0.46430925854370453,
+        "league_market": 0.4552486842936999,
+        "recent_league_market": 0.4573192211468962
+      }
+    },
+    {
+      "id": "dec_10aceb44c085f10d",
+      "event": "2026|bs|NPB|09.06(일) 13:00|소프트뱅|세이부",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5607,
+      "candidates": {
+        "global": 0.5436097828898301,
+        "sport": 0.6137427074144804,
+        "league_market": 0.6133752126008426,
+        "recent_league_market": 0.6138409469537837
+      }
+    },
+    {
+      "id": "dec_7349879ff3e544c0",
+      "event": "2026|bs|NPB|09.06(일) 13:00|오릭스|지바롯데",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5496,
+      "candidates": {
+        "global": 0.5324380520443373,
+        "sport": 0.6030340850453568,
+        "league_market": 0.6026629977837449,
+        "recent_league_market": 0.6031332870129218
+      }
+    },
+    {
+      "id": "dec_fed513dcf41e6496",
+      "event": "2026|sc|J2리그|09.06(일) 13:00|C삿포로|도치기시",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5897,
+      "candidates": {
+        "global": 0.5728785589430897,
+        "sport": 0.5210656822870424,
+        "league_market": 0.4944203919592278,
+        "recent_league_market": 0.49625342476800627
+      }
+    },
+    {
+      "id": "dec_7053fcb7c902e316",
+      "event": "2026|bs|NPB|09.06(일) 16:00|라쿠텐|닛폰햄",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5607,
+      "candidates": {
+        "global": 0.5436097828898301,
+        "sport": 0.6137427074144804,
+        "league_market": 0.6052498297761473,
+        "recent_league_market": 0.6056642665908003
+      }
+    },
+    {
+      "id": "dec_a456f44bd6d9bf75",
+      "event": "2026|bs|KBO|09.06(일) 17:00|SSG|두산",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5853,
+      "candidates": {
+        "global": 0.5684301865010375,
+        "sport": 0.6372938397202387,
+        "league_market": 0.6051717417352652,
+        "recent_league_market": 0.6054219046977278
+      }
+    },
+    {
+      "id": "dec_c88a48f1ba26dcad",
+      "event": "2026|bs|KBO|09.06(일) 17:00|롯데|한화",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5273,
+      "candidates": {
+        "global": 0.5100458360044782,
+        "sport": 0.5813645076093236,
+        "league_market": 0.5478037776389689,
+        "recent_league_market": 0.5480631443178744
+      }
+    },
+    {
+      "id": "dec_eb5ec7a73e5c655f",
+      "event": "2026|bs|KBO|09.06(일) 17:00|LG|삼성",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5607,
+      "candidates": {
+        "global": 0.5436097828898301,
+        "sport": 0.6137427074144804,
+        "league_market": 0.5809064808289099,
+        "recent_league_market": 0.5811613776050739
+      }
+    },
+    {
+      "id": "dec_4fb5f667d61c7b1e",
+      "event": "2026|bs|NPB|09.06(일) 18:00|한신|요코베이",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5652,
+      "candidates": {
+        "global": 0.5481437666865343,
+        "sport": 0.6180694707583951,
+        "league_market": 0.6177035283369184,
+        "recent_league_market": 0.6181672944771933
+      }
+    },
+    {
+      "id": "dec_93c63cff45fd7527",
+      "event": "2026|sc|J1리그|09.06(일) 18:00|가시마A|우라와R",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5377,
+      "candidates": {
+        "global": 0.5204802339226365,
+        "sport": 0.46821144907648204,
+        "league_market": 0.47693857187688,
+        "recent_league_market": 0.4791911071905324
+      }
+    },
+    {
+      "id": "dec_b7624de74a0f7f39",
+      "event": "2026|sc|J2리그|09.06(일) 18:00|B아키타|RB오미야",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5822,
+      "candidates": {
+        "global": 0.5652977392530463,
+        "sport": 0.5133464507759125,
+        "league_market": 0.4919850049789784,
+        "recent_league_market": 0.49383710671175524
+      }
+    },
+    {
+      "id": "dec_c1d458d438ef5aef",
+      "event": "2026|sc|J2리그|09.06(일) 18:00|요코FC|A니가타",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5162,
+      "candidates": {
+        "global": 0.49892568482995014,
+        "sport": 0.44680457940908574,
+        "league_market": 0.42062164494607696,
+        "recent_league_market": 0.4224096687213023
+      }
+    },
+    {
+      "id": "dec_c9141242204b08b5",
+      "event": "2026|sc|J1리그|09.06(일) 18:00|제프유나|G오사카",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5741,
+      "candidates": {
+        "global": 0.5571193240018832,
+        "sport": 0.5050464101151709,
+        "league_market": 0.5137967616017459,
+        "recent_league_market": 0.5160516298146811
+      }
+    },
+    {
+      "id": "dec_d27d6e4060db4724",
+      "event": "2026|sc|J1리그|09.06(일) 18:00|나고야G|마치다Z",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5632,
+      "candidates": {
+        "global": 0.5461283131791503,
+        "sport": 0.4939369687171224,
+        "league_market": 0.5026903289107304,
+        "recent_league_market": 0.5049470762027608
+      }
+    },
+    {
+      "id": "dec_df3090f63c7b975e",
+      "event": "2026|bs|NPB|09.06(일) 18:00|히로카프|요미우리",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5496,
+      "candidates": {
+        "global": 0.5324380520443373,
+        "sport": 0.6030340850453568,
+        "league_market": 0.5944613317240727,
+        "recent_league_market": 0.5948795137220705
+      }
+    },
+    {
+      "id": "dec_e0e44822dc616038",
+      "event": "2026|sc|J1리그|09.06(일) 18:00|오카야마|산프히로",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5241,
+      "candidates": {
+        "global": 0.5068382739102452,
+        "sport": 0.45464056863341135,
+        "league_market": 0.46951933022459114,
+        "recent_league_market": 0.47179064144406085
+      }
+    },
+    {
+      "id": "dec_d880a84fae4a2e90",
+      "event": "2026|bk|여농월드|09.06(일) 18:30|튀르키W|호주W",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5065,
+      "candidates": {
+        "global": 0.4892220469196999,
+        "sport": 0.5560381794237564,
+        "league_market": 0.5765893752624057,
+        "recent_league_market": 0.5737182706006141
+      }
+    },
+    {
+      "id": "dec_0185868f076ff6a1",
+      "event": "2026|sc|J1리그|09.06(일) 19:00|가와사키|시미즈S",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5808,
+      "candidates": {
+        "global": 0.563883527964915,
+        "sport": 0.511909156205381,
+        "league_market": 0.526851522552984,
+        "recent_league_market": 0.5291235433052531
+      }
+    },
+    {
+      "id": "dec_032d728b62528c2a",
+      "event": "2026|sc|K리그2|09.06(일) 19:00|김포FC|성남FC",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5528,
+      "candidates": {
+        "global": 0.5356569668259259,
+        "sport": 0.483400516596636,
+        "league_market": 0.4559667253278027,
+        "recent_league_market": 0.4611807482835321
+      }
+    },
+    {
+      "id": "dec_0add4c61defdbf0b",
+      "event": "2026|sc|K리그1|09.06(일) 19:00|김천상무|광주FC",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.6002,
+      "candidates": {
+        "global": 0.5835049977157811,
+        "sport": 0.5319279514496155,
+        "league_market": 0.5472594862305036,
+        "recent_league_market": 0.5494676255524561
+      }
+    },
+    {
+      "id": "dec_1ac8c0f261ffd5bc",
+      "event": "2026|sc|J1리그|09.06(일) 19:00|C오사카|도쿄베르",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5346,
+      "candidates": {
+        "global": 0.5173684082042018,
+        "sport": 0.4651090148271991,
+        "league_market": 0.4738298351484856,
+        "recent_league_market": 0.47608105172905263
+      }
+    },
+    {
+      "id": "dec_4b95988e899c86be",
+      "event": "2026|sc|J1리그|09.06(일) 19:00|가시와R|요코마리",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5747,
+      "candidates": {
+        "global": 0.55772481698439,
+        "sport": 0.5056599254579238,
+        "league_market": 0.5144098590999641,
+        "recent_league_market": 0.5166645587390426
+      }
+    },
+    {
+      "id": "dec_5087a195a3bc2d68",
+      "event": "2026|sc|J2리그|09.06(일) 19:00|오이타T|이마바리",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.594,
+      "candidates": {
+        "global": 0.5772284622587295,
+        "sport": 0.5255062070981854,
+        "league_market": 0.5041629665555925,
+        "recent_league_market": 0.5060152487504395
+      }
+    },
+    {
+      "id": "dec_62306116a7280836",
+      "event": "2026|sc|J1리그|09.06(일) 19:00|비셀고베|V바렌나",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5664,
+      "candidates": {
+        "global": 0.5493533073882535,
+        "sport": 0.49719137902002625,
+        "league_market": 0.5059447526932371,
+        "recent_league_market": 0.508201180009086
+      }
+    },
+    {
+      "id": "dec_ab9a93e3eb6d2def",
+      "event": "2026|sc|J2리그|09.06(일) 19:00|J이와타|K도야마",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5241,
+      "candidates": {
+        "global": 0.5068382739102452,
+        "sport": 0.45464056863341135,
+        "league_market": 0.42835400676245333,
+        "recent_league_market": 0.43015049660035803
+      }
+    },
+    {
+      "id": "dec_b077161875b38b1f",
+      "event": "2026|sc|K리그2|09.06(일) 19:00|수원삼성|충남아산",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5574,
+      "candidates": {
+        "global": 0.5402866604439788,
+        "sport": 0.4880532725032731,
+        "league_market": 0.4605908533027755,
+        "recent_league_market": 0.4658124789330487
+      }
+    },
+    {
+      "id": "dec_f83e6faa3fd1ddc5",
+      "event": "2026|sc|K리그1|09.06(일) 19:00|FC안양|강원FC",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5536,
+      "candidates": {
+        "global": 0.536461918750732,
+        "sport": 0.48420882814103366,
+        "league_market": 0.5055834180017738,
+        "recent_league_market": 0.5078325835554992
+      }
+    },
+    {
+      "id": "dec_8accb56867ecc95b",
+      "event": "2026|sc|에레디비|09.06(일) 19:15|흐로닝언|트벤테",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.528,
+      "candidates": {
+        "global": 0.5107476796472041,
+        "sport": 0.458521694222722,
+        "league_market": 0.4441261157351582,
+        "recent_league_market": 0.4461205531392236
+      }
+    },
+    {
+      "id": "dec_4b10d5e20a8e2878",
+      "event": "2026|sc|J1리그|09.06(일) 19:30|FC도쿄|교토상가",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5826,
+      "candidates": {
+        "global": 0.5657018501610552,
+        "sport": 0.513757315626961,
+        "league_market": 0.5224992677476815,
+        "recent_league_market": 0.5247511079550173
+      }
+    },
+    {
+      "id": "dec_a490d1ae8d54209d",
+      "event": "2026|sc|EFL챔|09.06(일) 20:00|버밍엄C|울버햄튼",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.6071,
+      "candidates": {
+        "global": 0.5904965437666851,
+        "sport": 0.53910142088281,
+        "league_market": 0.5214453986769452,
+        "recent_league_market": 0.523240004892615
+      }
+    },
+    {
+      "id": "dec_117b45cf59a8383e",
+      "event": "2026|sc|에레디비|09.06(일) 21:30|헤이렌베|알크마르",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5652,
+      "candidates": {
+        "global": 0.5481437666865343,
+        "sport": 0.49597028755874784,
+        "league_market": 0.4873363454149224,
+        "recent_league_market": 0.4894277593453165
+      }
+    },
+    {
+      "id": "dec_19cce6a1c290478b",
+      "event": "2026|bk|여농월드|09.06(일) 21:30|중국W|체코W",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5162,
+      "candidates": {
+        "global": 0.49892568482995014,
+        "sport": 0.5655995747507561,
+        "league_market": 0.5860376794898455,
+        "recent_league_market": 0.5831843281573192
+      }
+    },
+    {
+      "id": "dec_da7cc72eceb79828",
+      "event": "2026|sc|에레디비|09.06(일) 21:30|텔스타|캄뷔르",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5949,
+      "candidates": {
+        "global": 0.578139236403005,
+        "sport": 0.5264369922392668,
+        "league_market": 0.512542321721969,
+        "recent_league_market": 0.514565114324913
+      }
+    },
+    {
+      "id": "dec_3f39116c7217b4a5",
+      "event": "2026|sc|EPL|09.06(일) 22:00|에버턴|맨체스U",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5669,
+      "candidates": {
+        "global": 0.5498573421510353,
+        "sport": 0.4977004109070265,
+        "league_market": 0.5056090791145416,
+        "recent_league_market": 0.5076551031239931
+      }
+    },
+    {
+      "id": "dec_56146ac3a9e5bb50",
+      "event": "2026|sc|세리에A|09.06(일) 22:00|프로시노|베네치아",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5129,
+      "candidates": {
+        "global": 0.49562298610829475,
+        "sport": 0.4435414957394016,
+        "league_market": 0.4586669933116649,
+        "recent_league_market": 0.46093340053575316
+      }
+    },
+    {
+      "id": "dec_65967342b6bfb10d",
+      "event": "2026|sc|프리그1|09.06(일) 22:00|트루아AC|RC스트라",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5942,
+      "candidates": {
+        "global": 0.5774308466601449,
+        "sport": 0.5257130071163615,
+        "league_market": 0.5383478199258239,
+        "recent_league_market": 0.5405723042532468
+      }
+    },
+    {
+      "id": "dec_94a393254ce8eae4",
+      "event": "2026|sc|세리에A|09.06(일) 22:00|파르마|AC몬차",
+      "day": "2026-09-06",
+      "state": "hit",
+      "baseline": 0.5942,
+      "candidates": {
+        "global": 0.5774308466601449,
+        "sport": 0.5257130071163615,
+        "league_market": 0.5409167689359855,
+        "recent_league_market": 0.543181788138405
+      }
+    },
+    {
+      "id": "dec_650b89cdeb69892a",
+      "event": "2026|sc|분데스리|09.06(일) 22:30|함부르크|마인츠05",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5947,
+      "candidates": {
+        "global": 0.577936832295511,
+        "sport": 0.5262301099666767,
+        "league_market": 0.4839507786420299,
+        "recent_league_market": 0.485647781100608
+      }
+    },
+    {
+      "id": "dec_bf24f302bd54c63f",
+      "event": "2026|sc|라리가|09.06(일) 23:15|발렌시아|바르셀로",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.5126,
+      "candidates": {
+        "global": 0.49532281551590407,
+        "sport": 0.44324514821894695,
+        "league_market": 0.46480742008919956,
+        "recent_league_market": 0.4671025987509432
+      }
+    },
+    {
+      "id": "dec_123cdd1388352bae",
+      "event": "2026|sc|에레디비|09.06(일) 23:45|덴하흐|F시타르",
+      "day": "2026-09-06",
+      "state": "miss",
+      "baseline": 0.545,
+      "candidates": {
+        "global": 0.5278133635136661,
+        "sport": 0.47553846437660047,
+        "league_market": 0.4669307020603648,
+        "recent_league_market": 0.4690146600370802
+      }
+    },
+    {
+      "id": "dec_16b2e94934a201b5",
+      "event": "2026|sc|프리그1|09.07(월) 00:15|앙제SCO|스타드렌",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.573,
+      "candidates": {
+        "global": 0.5560093845806522,
+        "sport": 0.5039221718353686,
+        "league_market": 0.5034089249819012,
+        "recent_league_market": 0.5055389563174011
+      }
+    },
+    {
+      "id": "dec_be16e10da65e548a",
+      "event": "2026|sc|EPL|09.07(월) 00:30|아스널|첼시",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5615,
+      "candidates": {
+        "global": 0.5444156175162408,
+        "sport": 0.49221044729573143,
+        "league_market": 0.4934999695210224,
+        "recent_league_market": 0.49551755099393735
+      }
+    },
+    {
+      "id": "dec_eda47dd4888eddb1",
+      "event": "2026|sc|분데스리|09.07(월) 00:30|프랑크푸|아우크스",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5516,
+      "candidates": {
+        "global": 0.5344497063839915,
+        "sport": 0.482188729798901,
+        "league_market": 0.4349583429111353,
+        "recent_league_market": 0.43656792383070275
+      }
+    },
+    {
+      "id": "dec_d4d55c287ab4f9a4",
+      "event": "2026|sc|세리에A|09.07(월) 01:00|볼로냐|사수올로",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5306,
+      "candidates": {
+        "global": 0.5133551230969141,
+        "sport": 0.4611138033903048,
+        "league_market": 0.4763255953074852,
+        "recent_league_market": 0.47860211398847907
+      }
+    },
+    {
+      "id": "dec_61ac14dd19386cff",
+      "event": "2026|bs|MLB|09.07(월) 01:10|신시레즈|밀워브루",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.545,
+      "candidates": {
+        "global": 0.5278133635136661,
+        "sport": 0.5985812228519192,
+        "league_market": 0.6294681665962576,
+        "recent_league_market": 0.6300908926537756
+      }
+    },
+    {
+      "id": "dec_3ef55ae320e56eec",
+      "event": "2026|sc|라리가|09.07(월) 01:30|말라가|레반테",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.6074,
+      "candidates": {
+        "global": 0.5908006763800253,
+        "sport": 0.5394139510772745,
+        "league_market": 0.5598606221081607,
+        "recent_league_market": 0.562123491298314
+      }
+    },
+    {
+      "id": "dec_770925580f598706",
+      "event": "2026|sc|라리가|09.07(월) 01:30|알라베스|오사수나",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5819,
+      "candidates": {
+        "global": 0.5649946708139912,
+        "sport": 0.5130383631906402,
+        "league_market": 0.5336436173634048,
+        "recent_league_market": 0.5359295483598802
+      }
+    },
+    {
+      "id": "dec_22f143f96e9446f7",
+      "event": "2026|bs|MLB|09.07(월) 02:10|필라필리|애틀브레",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5417,
+      "candidates": {
+        "global": 0.5244974683166042,
+        "sport": 0.5953813214484185,
+        "league_market": 0.6263607906712159,
+        "recent_league_market": 0.626985644381221
+      }
+    },
+    {
+      "id": "dec_005cc887ebc69334",
+      "event": "2026|bs|MLB|09.07(월) 02:35|볼티오리|보스레드",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5652,
+      "candidates": {
+        "global": 0.5481437666865343,
+        "sport": 0.6180694707583951,
+        "league_market": 0.6405836496332104,
+        "recent_league_market": 0.641132994651715
+      }
+    },
+    {
+      "id": "dec_c6fe413a3df97caf",
+      "event": "2026|bs|MLB|09.07(월) 02:35|피츠파이|LA에인절",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5241,
+      "candidates": {
+        "global": 0.5068382739102452,
+        "sport": 0.5782377608314405,
+        "league_market": 0.6096692888598229,
+        "recent_league_market": 0.610304689636117
+      }
+    },
+    {
+      "id": "dec_bb56ece38a4eb88e",
+      "event": "2026|bs|MLB|09.07(월) 02:40|뉴욕메츠|샌프자이",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5065,
+      "candidates": {
+        "global": 0.4892220469196999,
+        "sport": 0.5609627151653697,
+        "league_market": 0.5927749924418201,
+        "recent_league_market": 0.5934195543023224
+      }
+    },
+    {
+      "id": "dec_eba3bb45a12eec26",
+      "event": "2026|bs|MLB|09.07(월) 02:40|클리가디|디트타이",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5162,
+      "candidates": {
+        "global": 0.49892568482995014,
+        "sport": 0.5704999749074624,
+        "league_market": 0.6021113577576566,
+        "recent_league_market": 0.6027510452006353
+      }
+    },
+    {
+      "id": "dec_f74cdeedf22f9f07",
+      "event": "2026|bs|MLB|09.07(월) 02:40|마이말린|시카컵스",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5897,
+      "candidates": {
+        "global": 0.5728785589430897,
+        "sport": 0.6414800942403007,
+        "league_market": 0.6633658877165604,
+        "recent_league_market": 0.6638986815157524
+      }
+    },
+    {
+      "id": "dec_15ac5bfb5bf9e6ee",
+      "event": "2026|bs|MLB|09.07(월) 03:10|휴스애스|애리다이",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5129,
+      "candidates": {
+        "global": 0.49562298610829475,
+        "sport": 0.5672598584312759,
+        "league_market": 0.5907861444317674,
+        "recent_league_market": 0.5913630486937582
+      }
+    },
+    {
+      "id": "dec_652225489115b7c5",
+      "event": "2026|bs|MLB|09.07(월) 03:10|캔자로얄|토론블루",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5273,
+      "candidates": {
+        "global": 0.5100458360044782,
+        "sport": 0.5813645076093236,
+        "league_market": 0.6046583977305919,
+        "recent_league_market": 0.6052288132680206
+      }
+    },
+    {
+      "id": "dec_c5269c468c0c3cd6",
+      "event": "2026|bs|MLB|09.07(월) 03:35|텍사레인|탬파레이",
+      "day": "2026-09-07",
+      "state": "miss",
+      "baseline": 0.5162,
+      "candidates": {
+        "global": 0.49892568482995014,
+        "sport": 0.5704999749074624,
+        "league_market": 0.6021113577576566,
+        "recent_league_market": 0.6027510452006353
+      }
+    },
+    {
+      "id": "dec_78aa414226b3b662",
+      "event": "2026|sc|프리그1|09.07(월) 03:45|마르세유|파리FC",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5808,
+      "candidates": {
+        "global": 0.563883527964915,
+        "sport": 0.511909156205381,
+        "league_market": 0.511396160544799,
+        "recent_league_market": 0.5135250394323814
+      }
+    },
+    {
+      "id": "dec_d88e60dae5a97274",
+      "event": "2026|sc|세리에A|09.07(월) 03:45|유벤투스|AC밀란",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.545,
+      "candidates": {
+        "global": 0.5278133635136661,
+        "sport": 0.47553846437660047,
+        "league_market": 0.4907927247953683,
+        "recent_league_market": 0.4930732838883766
+      }
+    },
+    {
+      "id": "dec_e94111ceeedacde2",
+      "event": "2026|bk|여농월드|09.07(월) 03:45|이탈리W|미국W",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5,
+      "candidates": {
+        "global": 0.48272688730845165,
+        "sport": 0.5496104615022734,
+        "league_market": 0.5702292243853475,
+        "recent_league_market": 0.5673473535919588
+      }
+    },
+    {
+      "id": "dec_3ca29aca587ba543",
+      "event": "2026|sc|라리가|09.07(월) 04:00|에스파뇰|세비야",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5826,
+      "candidates": {
+        "global": 0.5657018501610552,
+        "sport": 0.513757315626961,
+        "league_market": 0.5343597592279267,
+        "recent_league_market": 0.5366452278653729
+      }
+    },
+    {
+      "id": "dec_f3a9fba667b360cf",
+      "event": "2026|bs|MLB|09.07(월) 04:10|콜로로키|세인카디",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5607,
+      "candidates": {
+        "global": 0.5436097828898301,
+        "sport": 0.6137427074144804,
+        "league_market": 0.6363618811913017,
+        "recent_league_market": 0.6369140214894585
+      }
+    },
+    {
+      "id": "dec_8f040e66974538a8",
+      "event": "2026|bs|MLB|09.07(월) 05:10|시애매리|애슬레틱",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5129,
+      "candidates": {
+        "global": 0.49562298610829475,
+        "sport": 0.5672598584312759,
+        "league_market": 0.5989420695258119,
+        "recent_league_market": 0.5995834637818209
+      }
+    },
+    {
+      "id": "dec_c9282f2aae2dfe78",
+      "event": "2026|bs|MLB|09.07(월) 05:10|샌디파드|뉴욕양키",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5607,
+      "candidates": {
+        "global": 0.5436097828898301,
+        "sport": 0.6137427074144804,
+        "league_market": 0.6441565725666815,
+        "recent_league_market": 0.6447685439316392
+      }
+    },
+    {
+      "id": "dec_48304db32ab8d2b0",
+      "event": "2026|sc|리그스컵|09.07(월) 07:00|레온|아메리카",
+      "day": "2026-09-07",
+      "state": "hit",
+      "baseline": 0.5671,
+      "candidates": {
+        "global": 0.5500589658525645,
+        "sport": 0.497904063835022,
+        "league_market": 0.5004454464635596,
+        "recent_league_market": 0.5026800206276919
+      }
+    }
+  ],
+  "limitations": [
+    "Evaluation outcomes were inspected before experiment design; not pristine.",
+    "Historical result availability is unverified; date split is not an as-of replay.",
+    "Only two evaluation dates in the captured sample; day-cluster inference is weak.",
+    "Official-result coverage is incomplete and nonrandom; all recorded picks, not daily highlights.",
+    "Fixed selected-pick calibration only; no new choices, ROI gains, xG or starter effects tested.",
+    "No hyperparameter selection or operational promotion from this experiment."
+  ]
+}
