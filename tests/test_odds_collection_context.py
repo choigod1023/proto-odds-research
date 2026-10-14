@@ -54,5 +54,6 @@ def test_database_main_uses_projection_and_releases_old_odds(monkeypatch):
     monkeypatch.setattr(odds_live, 'persist_artifact', lambda *args, **kw: None)
     def refresh(data):
         assert refs[0]() is None
+        return 0
     monkeypatch.setattr(odds_live, 'refresh_once', refresh)
     assert odds_live.main([]) == 0

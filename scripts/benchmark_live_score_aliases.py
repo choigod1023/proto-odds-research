@@ -17,7 +17,7 @@ import live_scores
 
 def main():
     source = subprocess.check_output(
-        ["git", "show", "84ae6c54:src/live_scores.py"], cwd=ROOT, encoding="utf-8")
+        ["git", "show", "9ad2993fb27b34fa25d70023abad80f5234789f3:src/live_scores.py"], cwd=ROOT, encoding="utf-8")
     functions = {"_team_key", "_team_similarity", "_team_similarity_with_aliases", "add_proto_aliases"}
     tree = ast.parse(source)
     tree.body = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in functions]
