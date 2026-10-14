@@ -1,0 +1,131 @@
+{
+  "training_n": 354,
+  "later_n": 23,
+  "model": {
+    "a": 1.2758911462308922,
+    "b": -0.15535998114425137,
+    "status": "fitted"
+  },
+  "later_raw": {
+    "n": 23,
+    "brier": 0.25901178391304347,
+    "log_loss": 0.7113639308627566
+  },
+  "later_sigmoid": {
+    "n": 23,
+    "brier": 0.25573271464051944,
+    "log_loss": 0.7046797812959411
+  },
+  "later_p60": {
+    "settled": 4,
+    "hits": 3,
+    "profit_units": 0.51,
+    "roi": 0.1275
+  },
+  "later_calibrated_value_3pct": {
+    "settled": 0,
+    "hits": 0,
+    "profit_units": 0,
+    "roi": null
+  },
+  "inner_temporal_checks": [
+    {
+      "boundary": "2026-09-15T00:00:00+00:00",
+      "status": "exploratory_overlapping_windows",
+      "raw": {
+        "n": 185,
+        "brier": 0.2441130944864865,
+        "log_loss": 0.6813475995004004
+      },
+      "sigmoid": {
+        "n": 185,
+        "brier": 0.2458035053213666,
+        "log_loss": 0.6849210799538142
+      }
+    },
+    {
+      "boundary": "2026-09-19T00:00:00+00:00",
+      "status": "exploratory_overlapping_windows",
+      "raw": {
+        "n": 107,
+        "brier": 0.2401669237383178,
+        "log_loss": 0.6732935645756738
+      },
+      "sigmoid": {
+        "n": 107,
+        "brier": 0.24093829173624123,
+        "log_loss": 0.6749173487509975
+      }
+    }
+  ],
+  "roster_replay": {
+    "policy": "paper-max-saved-ev-price150-220-v1",
+    "eligible_same_events": 0,
+    "different_picks": 0,
+    "singles": {
+      "baseline": {
+        "selected": 0,
+        "settled": 0,
+        "pending": 0,
+        "profit_units": 0,
+        "roi": null
+      },
+      "challenger": {
+        "selected": 0,
+        "settled": 0,
+        "pending": 0,
+        "profit_units": 0,
+        "roi": null
+      },
+      "common_settled": 0,
+      "common_roi_difference": null
+    },
+    "pairs": {
+      "baseline": {
+        "selected": 0,
+        "settled": 0,
+        "pending": 0,
+        "profit_units": 0,
+        "roi": null
+      },
+      "challenger": {
+        "selected": 0,
+        "settled": 0,
+        "pending": 0,
+        "profit_units": 0,
+        "roi": null
+      },
+      "common_settled": 0,
+      "common_roi_difference": null
+    },
+    "exclusions": {
+      "missing_complete_roster": 125
+    },
+    "promotion": "NOT_MET: paper comparator only, no validated advantage",
+    "pair_rule": "earliest kickoff/id; disjoint two-event pairs inside exact first-observation batch; no forced cross-batch pairing"
+  },
+  "provenance": {
+    "history": {
+      "unknown": 1101
+    },
+    "current_candidates": {
+      "shin_market_fallback": 71
+    },
+    "complete_rosters": 0
+  },
+  "promotion": "NOT_MET: exploratory, small later cohort, selected-pick training only",
+  "limitations": [
+    "No provenance backfill from current candidates.",
+    "Selected-pick calibration cannot validate unselected alternative markets.",
+    "No retrospective two-leg ROI without complete simultaneous rosters.",
+    "Historical settlement refresh cannot reconstruct earlier result availability."
+  ],
+  "train_at": "2026-09-25T13:27:49Z",
+  "audit_at": "2026-09-27T01:45:00Z",
+  "sha256": [
+    "2d7c66b40c664cc81449aa6176585ce3a2a444b230352b98591e2a9301480b31",
+    "4077200a69d001f47e9573205b8360a45029dd8257e75ad99ae19019de1855b0",
+    "81288f9b2fe3c5e8f6c356aeae7ae811d11e889032143992b5d52282f486b416",
+    "3df7f256c784675c3c550db975b510c089c9e0e67f4d4b516b0375539c9c1b1e"
+  ]
+}

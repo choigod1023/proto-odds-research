@@ -79,6 +79,10 @@ def test_database_ignores_incoming_archive(tmp_path):
     result = db.get_artifact("today_combo")["per_event_shadow"]
     assert result["policy"] != "forged"
     assert result["observed_events"] == 1
+    assert result['roster_complete_events'] == 1
+    saved = next(iter(result['records'].values()))
+    assert saved['candidate_roster'][0]['decision_id'] == 'd1'
+    assert saved['observation_batch_id']
 
 
 def test_research_pool_does_not_change_operational_selection(monkeypatch):
@@ -101,3 +105,53 @@ def test_closed_window_never_registers_new_event():
     closed = capture(payload([row], now=later), {"per_event_shadow": state}, {}, later)
     assert closed["observed_events"] == 1
     assert closed["status"] == "closed_settling"
+
+
+def test_complete_roster_batch_and_official_settlement():
+    first = candidate(probability_source='shin_market_fallback')
+    other = candidate(sel='원정', odds=2.4, predicted_hit_prob=.4)
+    second = candidate(2,home='H2')
+    data = payload([first, other, second], [first,second])
+    state = capture(data, {}, {}, NOW)
+    records = list(state['records'].values())
+    assert state['roster_complete_events'] == 2
+    assert len({r['observation_batch_id'] for r in records}) == 1
+    assert sorted(len(r['candidate_roster']) for r in records) == [1,2]
+    odds = {'markets':{'1':{'1':{**candidate(),'label':'','result':'홈승'}}}}
+    state = capture({}, {'per_event_shadow':state},odds,NOW+timedelta(hours=5))
+    options = next(r['candidate_roster'] for r in state['records'].values() if len(r['candidate_roster'])==2)
+    assert [r['result'] for r in options] == ['hit','miss']
+    assert all('result' not in r for p in data['per_event_shadow_proposals'] for r in p['candidate_roster'])
+
+
+def test_roster_capacity_does_not_truncate_or_erase_old_outcomes(monkeypatch):
+    import per_event_shadow as m
+    data = payload([candidate()])
+    monkeypatch.setattr(m,'ROSTER_BUDGET',1)
+    state = capture(data,{}, {},NOW)
+    saved = next(iter(state['records'].values()))
+    assert saved['roster_status'] == 'archive_budget_exhausted'
+    assert 'candidate_roster' not in saved
+    assert saved['baseline']  # operational comparator unchanged
+    monkeypatch.setattr(m,'ROSTER_BUDGET',256*1024)
+    again = capture(data,{'per_event_shadow':state},{},NOW)
+    assert again['roster_complete_events'] == 0  # never retrofit first observation
+
+
+def test_too_many_options_and_duplicate_roster_fail_closed():
+    many = [candidate(i,home='H1',away='A1') for i in range(25)]
+    assert proposals(many,many)[0]['roster_status'] == 'too_many_options'
+    state = capture(payload([candidate(),candidate()]),{},{},NOW)
+    assert next(iter(state['records'].values()))['roster_status'] == 'invalid_roster'
+
+
+def test_new_batch_differs_and_legacy_record_not_backfilled():
+    state = capture(payload([candidate()]),{},{},NOW)
+    key = next(iter(state['records']))
+    for field in ('candidate_roster','roster_status','observation_batch_id','roster_reserved_bytes'):
+        state['records'][key].pop(field,None)
+    later = NOW+timedelta(minutes=1)
+    new = candidate(2,home='new')
+    result = capture(payload([candidate(),new],now=later),{'per_event_shadow':state},{},later)
+    assert 'candidate_roster' not in result['records'][key]
+    assert result['roster_complete_events'] == 1
