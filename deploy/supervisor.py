@@ -180,6 +180,9 @@ _pipeline_lock = threading.Lock()
 # pandas 전체 데이터, 대형 HTML, 선수 데이터 수집은 1GB 머신에서 동시에 두 개를
 # 허용하지 않는다. live_scores와 HTTP는 이 락 밖에 두어 실시간 화면을 보장한다.
 _memory_heavy_lock = threading.Lock()
+# Scores also consume ~200MiB. Exclude them during bounded ledger publication,
+# not during slow network scraping. No running score process is terminated.
+_score_refresh_lock = threading.Lock()
 _odds_recommendation_lock = threading.Lock()
 _next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
@@ -572,6 +575,16 @@ def run_looper(name: str, cmd: list[str], interval: int,
 MARKET_REFRESH_TIMEOUT = 300
 
 
+def _run_market_refresh():
+    with _score_refresh_lock:
+        available = _available_memory_mb()
+        if available is None or available < 512:
+            log(f"판정 실행 보류 — 점수 종료 후 여유 {available}MB / 필요 512MB")
+            return subprocess.CompletedProcess([], 1)
+        return subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
+                              cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT)
+
+
 def _refresh_market_after_collection() -> int:
     """The scraper has exited; do not overlap prediction with a heavy worker."""
     if not _memory_heavy_lock.acquire(blocking=False):
@@ -583,8 +596,7 @@ def _refresh_market_after_collection() -> int:
             log(f"배당 저장 완료, 시장 판정 보류 — 여유 {available}MB / 필요 256MB")
             return 1
         log("배당 수집 종료 — 별도 프로세스로 시장 판정 시작")
-        rc = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
-                            cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT).returncode
+        rc = _run_market_refresh().returncode
         log(f"배당 후속 시장 판정 종료(rc={rc})")
         return rc
     finally:
@@ -641,8 +653,7 @@ def _refresh_recommendation_in_slot(*, repair: bool = True) -> bool:
         # A failed repair must not earn the successful recommendation cooldown.
         if repair:
             log("경기별 판정 독립 복구 실행")
-            repaired = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
-                                      cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT)
+            repaired = _run_market_refresh()
             if repaired.returncode != 0:
                 log(f"경기별 판정 독립 복구 실패(rc={repaired.returncode}) — 재시도")
                 return False
@@ -776,8 +787,9 @@ def run_live() -> None:
     """30초마다 실시간 점수와 야구 상황을 갱신한다. 실패해도 다음 주기에 다시 한다."""
     while True:
         try:
-            r = subprocess.run(LIVE, cwd=REPO, capture_output=True,
-                               text=True, timeout=180)
+            with _score_refresh_lock:
+                r = subprocess.run(LIVE, cwd=REPO, capture_output=True,
+                                   text=True, timeout=180)
             if r.returncode:
                 err = (r.stderr or "").strip().splitlines()[-1:] or [""]
                 log(f"실시간 점수 실패(rc={r.returncode}) — {err[0][:120]}")
