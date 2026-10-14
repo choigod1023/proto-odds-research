@@ -40,3 +40,39 @@ def test_release_precedes_admission(monkeypatch):
     monkeypatch.setattr(supervisor, '_available_memory_mb', available)
     assert supervisor._run_market_refresh().returncode == 1
     assert calls == ['drop', 'release', 'measure']
+
+
+def test_publish_finishes_before_score_and_background_slots_are_released(monkeypatch):
+    import threading
+    score = threading.Lock()
+    heavy = threading.Lock()
+    calls = []
+    monkeypatch.setattr(supervisor, '_score_refresh_lock', score)
+    monkeypatch.setattr(supervisor, '_memory_heavy_lock', heavy)
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
+    monkeypatch.setattr(supervisor, 'release_unused_heap', lambda: None)
+    monkeypatch.setattr(supervisor, '_release_match_working_set', lambda: None)
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **k:
+                        calls.append('prediction') or SimpleNamespace(returncode=0))
+    def publish():
+        assert score.locked() and heavy.locked()
+        assert calls == ['prediction']
+        calls.append('published')
+    monkeypatch.setattr(supervisor, '_publish_match_responses', publish)
+    assert supervisor._refresh_market_after_collection() == 0
+    assert calls == ['prediction', 'published']
+    assert not score.locked() and not heavy.locked()
+
+
+def test_failed_prediction_does_not_publish_and_failed_publish_retries(monkeypatch):
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
+    monkeypatch.setattr(supervisor, 'release_unused_heap', lambda: None)
+    monkeypatch.setattr(supervisor, '_publish_match_responses', lambda: pytest.fail('must not publish'))
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **k: SimpleNamespace(returncode=1))
+    assert supervisor._run_market_refresh().returncode == 1
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **k: SimpleNamespace(returncode=0))
+    def failed_publish():
+        raise RuntimeError('rebuild failed')
+    monkeypatch.setattr(supervisor, '_publish_match_responses', failed_publish)
+    assert supervisor._run_market_refresh().returncode == 1
+    assert not supervisor._score_refresh_lock.locked()
