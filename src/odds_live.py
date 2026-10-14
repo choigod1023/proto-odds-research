@@ -27,7 +27,7 @@ git push(30분)로는 3분 주기를 못 나르니 머신이 그 파일만 직�
 """
 from __future__ import annotations
 
-import json
+from copy import deepcopy
 import re
 import sys
 import time
@@ -198,7 +198,8 @@ def _entry_signature(entry: dict) -> tuple:
 def merge_market_history(current: dict, previous: dict | None = None,
                          picks: dict | None = None) -> dict:
     """현재 발매 변경만 보존한다. 매 폴링 중복은 넣지 않고 마켓별 최근 50건을 둔다."""
-    history = json.loads(json.dumps((previous or {}).get("history") or {}))
+    # Preserve input isolation without allocating an intermediate JSON string.
+    history = deepcopy((previous or {}).get("history") or {})
     pick_rows: dict[tuple[str, str], list[dict]] = {}
     for game in (picks or {}).get("live") or []:
         round_no = str(game.get("round") or "")
@@ -261,7 +262,8 @@ def main(argv: list[str]) -> int:
     while True:
         exit_code = 0
         try:
-            previous_picks = load_artifact("picks_v2", PICKS)
+            previous_picks = (RuntimeDatabase().odds_collection_context()
+                              if database_enabled() else load_artifact("picks_v2", PICKS))
             previous_odds = load_artifact("live_odds", OUT)
             data = merge_market_history(
                 collect(previous_picks, previous_odds), previous_odds,
