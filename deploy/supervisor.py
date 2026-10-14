@@ -575,8 +575,27 @@ def run_looper(name: str, cmd: list[str], interval: int,
 MARKET_REFRESH_TIMEOUT = 300
 
 
+def release_unused_heap():
+    """Release freed JSON arenas, never live caches; optional on non-glibc hosts."""
+    import gc
+    gc.collect()
+    if not sys.platform.startswith('linux'):
+        return False
+    import ctypes
+    try:
+        trim = ctypes.CDLL(None).malloc_trim
+        trim.argtypes = [ctypes.c_size_t]
+        trim.restype = ctypes.c_int
+        return bool(trim(0))
+    except (AttributeError, OSError):
+        return False
+
+
 def _run_market_refresh():
     with _score_refresh_lock:
+        # The API retains compressed views, but glibc can retain freed temporary
+        # JSON arenas in this long-lived parent. Release those before admission.
+        release_unused_heap()
         available = _available_memory_mb()
         if available is None or available < 512:
             log(f"판정 실행 보류 — 점수 종료 후 여유 {available}MB / 필요 512MB")
