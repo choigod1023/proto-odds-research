@@ -2,6 +2,13 @@ import { kickoffTime } from "./today-plan.js";
 
 export const STALE_DATA_MS = 3 * 60 * 60 * 1000;
 
+// Check against the receipt/render clock, not the 30-minute recommendation clock.
+export function isLiveFeedDelayed(generatedAt, now = Date.now()) {
+  const observed = Date.parse(generatedAt || "");
+  return !Number.isFinite(observed) || now - observed > 10 * 60 * 1000
+    || observed > now + 5000;
+}
+
 export function latestGeneratedAt(...values) {
   let latest = null;
   let latestTime = -Infinity;

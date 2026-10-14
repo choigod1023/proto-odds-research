@@ -1,6 +1,27 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { freshnessStatus, isDataStale, latestGeneratedAt, waitingLabel } from "./data-freshness.js";
+import { freshnessStatus, isDataStale, isLiveFeedDelayed, latestGeneratedAt, waitingLabel } from "./data-freshness.js";
+
+test("new score polling does not compare against an old recommendation clock", t => {
+  const mounted = Date.parse("2026-10-15T01:00:00+09:00");
+  const received = mounted + 12 * 60 * 1000;
+  const generated = new Date(received - 30000).toISOString();
+  t.mock.method(Date, "now", () => received);
+  assert.equal(isLiveFeedDelayed(generated, mounted), true); // previous false alarm
+  assert.equal(isLiveFeedDelayed(generated), false);
+  t.mock.method(Date, "now", () => received + 11 * 60 * 1000);
+  assert.equal(isLiveFeedDelayed(generated), true); // actual outage still warns
+});
+
+test("live freshness keeps invalid, future, and ten-minute boundaries", () => {
+  const now = Date.parse("2026-10-15T01:12:00+09:00");
+  assert.equal(isLiveFeedDelayed(null, now), true);
+  assert.equal(isLiveFeedDelayed("invalid", now), true);
+  assert.equal(isLiveFeedDelayed(new Date(now + 5001).toISOString(), now), true);
+  assert.equal(isLiveFeedDelayed(new Date(now + 5000).toISOString(), now), false);
+  assert.equal(isLiveFeedDelayed(new Date(now - 600000).toISOString(), now), false);
+  assert.equal(isLiveFeedDelayed(new Date(now - 600001).toISOString(), now), true);
+});
 
 const now = Date.parse("2026-08-24T10:00:00+09:00");
 
