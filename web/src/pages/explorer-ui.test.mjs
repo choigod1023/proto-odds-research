@@ -25,7 +25,8 @@ test("explorer groups by sport and league and renders only the first league with
     assert.match(html, /aria-expanded="false"/);
     assert.doesNotMatch(html, /경기 목록 페이지|pagination/);
     assert.ok(html.indexOf("종목 필터") < html.indexOf("리그별 경기"));
-    assert.match(html, /추천만 보기/);
+    assert.match(html, /관심 픽만 보기/);
+    assert.doesNotMatch(html, /추천만 보기/);
     const row = renderToStaticMarkup(createElement(Game, { g: { ...games[0], form_home: { last10: "7승 3패" } }, opts: [], wait: false }));
     assert.match(row, /경기력/);
     assert.match(row, /7승 3패/);

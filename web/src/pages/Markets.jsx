@@ -567,7 +567,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
           </div>
         </div>
         <div className="favorite-filter-row"><button type="button" className="favorite-filter" aria-pressed={f.fav} onClick={() => setF({ ...f, fav: !f.fav })}>☆ 즐겨찾기만</button>
-          <button type="button" className="favorite-filter" aria-pressed={f.rec} onClick={() => setF({ ...f, rec: !f.rec })}>추천만 보기</button>
+          <button type="button" className="favorite-filter" aria-pressed={f.rec} onClick={() => setF({ ...f, rec: !f.rec })}>관심 픽만 보기</button>
           </div>
         <details className="favorite-manager"><summary>즐겨찾기 관리 · {favorites.length}개</summary>
 
@@ -635,7 +635,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
                 requestAnimationFrame(() => target.scrollIntoView({ block: "nearest", behavior: "auto" }));
               }}>
               <span className="league-sport">{sportName}</span><span className="league-name">{group.league}<small>{group.games.length}경기{liveCount ? " · 진행 중 " + liveCount : ""}</small></span>
-              {recommendedCount > 0 && <span className="recommendation-badge">추천 {recommendedCount}</span>}
+              {recommendedCount > 0 && <span className="recommendation-badge" title="기준을 통과한 후보 · 수익성 미검증">관심 픽 {recommendedCount}</span>}
               <span aria-hidden="true" className="league-chevron">{open ? "−" : "+"}</span>
             </button></h3>
             <div id={"league-games-" + index} hidden={!open} className="league-games">{open && renderLeagueGames(group.games)}</div>
