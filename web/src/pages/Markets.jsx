@@ -30,7 +30,7 @@ import { usePolledData } from "../lib/poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
 import { mergeMatchDetail, shouldRefreshDetailList } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
-import { freshnessStatus, waitingLabel } from "../lib/data-freshness.js";
+import { freshnessStatus, isLiveFeedDelayed, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { savedLivePrediction } from "../lib/saved-live-prediction.js";
@@ -449,8 +449,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   }, [pool, f, clock, favorites, todayMemberships, stale]);
 
   const liveObserved = Date.parse(liveGeneratedAt);
-  const liveDelayed = liveChecked && (!Number.isFinite(liveObserved)
-    || clock - liveObserved > 10 * 60 * 1000 || liveObserved > clock + 5000)
+  const liveDelayed = liveChecked && isLiveFeedDelayed(liveGeneratedAt)
     && pool.some((game) => String(game.date || "").slice(0, 5) === kstMMDD(0, clock)
       && scheduledAt(game) != null && scheduledAt(game) <= clock && gamePhase(game) !== "finished");
 
