@@ -155,3 +155,44 @@ def test_new_batch_differs_and_legacy_record_not_backfilled():
     result = capture(payload([candidate(),new],now=later),{'per_event_shadow':state},{},later)
     assert 'candidate_roster' not in result['records'][key]
     assert result['roster_complete_events'] == 1
+
+
+def test_low_and_underdog_capture_provenance_and_previous_immutability():
+    rows = [candidate(odds=1.3, probability_source='shin_market_fallback',
+                      probability_method='shin', probability_version='shin:abc',
+                      is_market_favorite=True, price_source='live_odds'),
+            candidate(sel='원정', odds=3.2, predicted_hit_prob=.3,
+                      is_market_favorite=False)]
+    data = payload(rows, [rows[0]])
+    state = capture(data, {}, {}, NOW)
+    saved = next(iter(state['records'].values()))
+    assert [r['odds'] for r in saved['candidate_roster']] == [1.3, 3.2]
+    assert saved['candidate_roster'][0]['probability_version'] == 'shin:abc'
+    assert saved['candidate_roster'][1]['is_market_favorite'] is False
+    assert saved['capture_version'] == 'bounded-roster-v2'
+    before = deepcopy(state)
+    odds = {'markets': {'1': {'1': {**candidate(), 'label': '', 'result': '홈승'}}}}
+    settled = capture({}, {'per_event_shadow': state}, odds, NOW+timedelta(hours=5))
+    assert state == before
+    assert next(iter(settled['records'].values()))['candidate_roster'][0]['result'] == 'hit'
+
+
+def test_incomplete_and_nonfinite_rosters_never_claim_complete():
+    data = payload([candidate()])
+    data['per_event_shadow_proposals'][0]['candidate_count'] = 2
+    result = capture(data, {}, {}, NOW)
+    assert result['roster_status_counts'] == {'invalid_roster': 1}
+    data = payload([candidate(predicted_hit_prob=float('nan'))])
+    result = capture(data, {}, {}, NOW)
+    assert result['roster_complete_events'] == 0
+
+
+def test_live_candidate_probability_implementation_version(monkeypatch):
+    from test_daily_candidates import loader, feed, NOW as feed_now
+    from src import today_combo
+    loader(monkeypatch, feed())
+    rows = today_combo.legs_today(feed_now, source=today_combo._candidate_source(), research=True)
+    assert rows
+    assert all(r['probability_version'] == today_combo.MARKET_PROBABILITY_VERSION for r in rows)
+    assert all(r['probability_method'] == 'shin' for r in rows)
+    assert len(today_combo.MARKET_PROBABILITY_VERSION) == 69

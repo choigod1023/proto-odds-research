@@ -13,6 +13,8 @@ FIELDS = ("home", "away", "sport", "league", "date", "round", "game_no", "market
           "market_prob", "probability_source", "probability_lower_bound", "decision_id",
           "decision_model", "decision_artifact_hash", "validated_uncertainty_available",
           "decision_pipeline_applied", "has_validated_edge")
+FIELDS += ("probability_method", "probability_version", "is_market_favorite", "price_source")
+CAPTURE_VERSION = "bounded-roster-v2"
 
 # Serialized research data budget, NOT a promise about process RSS.
 # Reserve settlement fields too; never drop old outcomes to admit new ones.
@@ -21,7 +23,10 @@ MAX_EVENT_OPTIONS = 24
 
 
 def roster_cost(rows):
-    return len(json.dumps(rows, ensure_ascii=True, separators=(",", ":"), allow_nan=False).encode()) + 256*len(rows)
+    try:
+        return len(json.dumps(rows, ensure_ascii=True, separators=(",", ":"), allow_nan=False).encode()) + 256*len(rows)
+    except (TypeError, ValueError):
+        return ROSTER_BUDGET + 1
 
 
 def event_key(row):
@@ -95,7 +100,8 @@ def capture(payload, previous, odds, now):
             return {"status": "awaiting_fresh_source"}
         state = {"policy": POLICY, "started_at": now.isoformat(),
                  "ends_at": (now+timedelta(days=28)).isoformat(), "records": {}}
-    records = dict(state.get("records") or {})
+    # Settlement mutates picks; keep the caller's prior snapshot immutable.
+    records = deepcopy(state.get("records") or {})
     used = sum(r.get("roster_reserved_bytes", 0) for r in records.values())
     accepting = fresh and now < stamp(state["ends_at"])
     if accepting:
@@ -110,6 +116,7 @@ def capture(payload, previous, odds, now):
             cost = roster_cost(roster)
             if (entry.get("roster_status") == "complete" and roster
                     and len(roster) <= MAX_EVENT_OPTIONS and cost + used <= ROSTER_BUDGET
+                    and len(roster) == entry.get("candidate_count")
                     and len({selection_key(r) for r in roster}) == len(roster)
                     and all(event_key(r) == key for r in roster)):
                 entry.update(candidate_roster=deepcopy(roster), roster_reserved_bytes=cost)
@@ -122,6 +129,9 @@ def capture(payload, previous, odds, now):
             batch = [payload[k] for k in ("generated_at", "source_generated_at", "live_odds_at")]
             batch.append(now.isoformat())
             entry["observation_batch_id"] = hashlib.sha256("|".join(batch).encode()).hexdigest()[:24]
+            entry.update(capture_version=CAPTURE_VERSION,
+                         roster_scope="supported_research_markets_after_source_filters",
+                         recommendation_policy=payload.get("recommendation_policy"))
             records[key] = {**entry, "recorded_at": now.isoformat(),
                             "generated_at": payload["generated_at"],
                             "source_generated_at": payload["source_generated_at"],
@@ -159,5 +169,7 @@ def capture(payload, previous, odds, now):
                  source_status="fresh" if fresh else "stale_or_partial",
                  capacity_reached=len(records) >= 2000)
     state.update(roster_reserved_bytes=used, roster_budget_bytes=ROSTER_BUDGET,
-                 roster_complete_events=sum(r.get("roster_status") == "complete" for r in records.values()))
+                 roster_complete_events=sum(r.get("roster_status") == "complete" for r in records.values()),
+                 roster_status_counts=dict(Counter(r.get("roster_status", "legacy_missing")
+                                                    for r in records.values())))
     return state
