@@ -184,6 +184,7 @@ _memory_heavy_lock = threading.Lock()
 # not during slow network scraping. No running score process is terminated.
 _score_refresh_lock = threading.Lock()
 _release_match_working_set = lambda: None
+_publish_match_responses = lambda: None
 _odds_recommendation_lock = threading.Lock()
 _next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
@@ -604,8 +605,18 @@ def _run_market_refresh():
         if available is None or available < 512:
             log(f"판정 실행 보류 — 점수 종료 후 여유 {available}MB / 필요 512MB")
             return subprocess.CompletedProcess([], 1)
-        return subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
-                              cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT)
+        result = subprocess.run([sys.executable, "-u", "src/live_market_refresh.py"],
+                                cwd=REPO, timeout=MARKET_REFRESH_TIMEOUT)
+        if result.returncode == 0:
+            # Publish before optional background work can take the heavy slot.
+            # Scores stay paused until this allocation-heavy rebuild also exits.
+            try:
+                _publish_match_responses()
+                log("판정 후 웹 응답 갱신 완료")
+            except Exception as exc:
+                log(f"판정 후 웹 응답 갱신 실패: {type(exc).__name__}; 재시도")
+                return subprocess.CompletedProcess([], 1)
+        return result
 
 
 def _refresh_market_after_collection() -> int:
@@ -927,11 +938,19 @@ def serve_live() -> None:
     database = RuntimeDatabase()
     from match_api import MatchViews, PreparedMatchResponses
     from urllib.parse import urlsplit, parse_qs
-    global _release_match_working_set
+    global _release_match_working_set, _publish_match_responses
     match_views = PreparedMatchResponses(MatchViews(database))
     _release_match_working_set = match_views.views.release_working_set
     from artifact_responses import ArtifactResponses
     artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
+
+    def publish_match_responses():
+        # Artifact handlers acquire the heavy slot non-blockingly, so this order
+        # cannot deadlock with a request currently holding the rebuild slot.
+        with artifact_responses.rebuild:
+            match_views.refresh()
+
+    _publish_match_responses = publish_match_responses
 
     class H(BaseHTTPRequestHandler):
         def _cors(self):
