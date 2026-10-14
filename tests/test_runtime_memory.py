@@ -31,11 +31,12 @@ def test_non_glibc_linux_is_safe(monkeypatch):
 
 def test_release_precedes_admission(monkeypatch):
     calls = []
+    monkeypatch.setattr(supervisor, '_release_match_working_set', lambda: calls.append('drop'))
     monkeypatch.setattr(supervisor, 'release_unused_heap', lambda: calls.append('release'))
     def available():
-        assert calls == ['release']
+        assert calls == ['drop', 'release']
         calls.append('measure')
         return 511
     monkeypatch.setattr(supervisor, '_available_memory_mb', available)
     assert supervisor._run_market_refresh().returncode == 1
-    assert calls == ['release', 'measure']
+    assert calls == ['drop', 'release', 'measure']

@@ -117,6 +117,13 @@ class MatchViews:
         self.cache = {}
         self.wire_cache = {}
 
+    def release_working_set(self):
+        """Drop rebuildable expanded trees, preserving compressed HTTP/details."""
+        with self.lock:
+            self.payload = None
+            self.cache = {}
+            self.wire_cache = {}
+
     def get(self, scope='recent', key=None, revision=None):
         if scope not in ('recent', 'all', 'detail'): raise ValueError('invalid scope')
         with self.lock:
@@ -129,7 +136,7 @@ class MatchViews:
             view_stamp = row['stored_at']
             if kbo.get('generated_at'):
                 view_stamp += '|kbo:' + kbo['generated_at']
-            if self.revision != view_stamp:
+            if self.revision != view_stamp or self.payload is None:
                 stored = self.database.get_artifact_json('picks_v2')
                 if stored is None: raise KeyError('picks unavailable')
                 body, stamp = stored

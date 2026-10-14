@@ -183,6 +183,7 @@ _memory_heavy_lock = threading.Lock()
 # Scores also consume ~200MiB. Exclude them during bounded ledger publication,
 # not during slow network scraping. No running score process is terminated.
 _score_refresh_lock = threading.Lock()
+_release_match_working_set = lambda: None
 _odds_recommendation_lock = threading.Lock()
 _next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
@@ -593,6 +594,9 @@ def release_unused_heap():
 
 def _run_market_refresh():
     with _score_refresh_lock:
+        # Caller holds the heavy lock, so the warmer cannot recreate these trees.
+        # Published gzip responses and compressed detail records remain available.
+        _release_match_working_set()
         # The API retains compressed views, but glibc can retain freed temporary
         # JSON arenas in this long-lived parent. Release those before admission.
         release_unused_heap()
@@ -923,7 +927,9 @@ def serve_live() -> None:
     database = RuntimeDatabase()
     from match_api import MatchViews, PreparedMatchResponses
     from urllib.parse import urlsplit, parse_qs
+    global _release_match_working_set
     match_views = PreparedMatchResponses(MatchViews(database))
+    _release_match_working_set = match_views.views.release_working_set
     from artifact_responses import ArtifactResponses
     artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
 
