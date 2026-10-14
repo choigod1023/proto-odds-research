@@ -1,0 +1,5369 @@
+{
+  "schema": "shadow-selector-replay-v1",
+  "production_action": "none",
+  "approval_required": true,
+  "warning": "Exposed retrospective counterfactual; not prospective strategy validation.",
+  "decisions": [
+    {
+      "as_of": "2024-08-01",
+      "shadow_model": "shin",
+      "review": {
+        "schema": "model-review-v1",
+        "as_of": "2024-08-01",
+        "champion": "shin",
+        "policy": "highestprob",
+        "evidence_type": "retrospective_research",
+        "production_action": "none",
+        "approval_required": true,
+        "recommendation": "keep_production_configuration; not a profitability endorsement",
+        "baseline": {
+          "budgets": 242,
+          "tickets": 155,
+          "wins": 60,
+          "profit": -15.0971,
+          "roi": -0.09740064516129032,
+          "coverage": 0.640495867768595,
+          "max_drawdown_units": 30.568400000000004,
+          "longest_losing_active_days": 9
+        },
+        "candidates": {
+          "old_gap": {
+            "metrics": {
+              "budgets": 242,
+              "tickets": 155,
+              "wins": 60,
+              "profit": -14.496799999999999,
+              "roi": -0.09352774193548387,
+              "coverage": 0.640495867768595,
+              "max_drawdown_units": 27.4319,
+              "longest_losing_active_days": 7
+            },
+            "bounds": {
+              "weeks": 37,
+              "roi_lower": -0.36766128034715745,
+              "improvement_lower": -0.06836026490066227,
+              "valid_replicates": 10000,
+              "tail": 0.004166666666666667
+            },
+            "strata": {
+              "D1:2023": {
+                "candidate": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.3092,
+                  "roi": -0.18371940298507464,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 18.861500000000003,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.9095,
+                  "roi": -0.19267910447761194,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 19.4618,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "SP1:2023": {
+                "candidate": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                },
+                "champion": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                }
+              }
+            },
+            "checks": {
+              "minimum_sample": false,
+              "minimum_weeks": true,
+              "multiple_seasons": false,
+              "positive_roi_lower": false,
+              "positive_improvement_lower": false,
+              "coverage_preserved": true,
+              "drawdown_not_worse": true,
+              "losing_run_not_worse": true,
+              "strata_stable": false
+            },
+            "historical_screen_passed": false,
+            "status": "hold",
+            "blockers": [
+              "minimum_sample",
+              "multiple_seasons",
+              "positive_roi_lower",
+              "positive_improvement_lower",
+              "strata_stable",
+              "prospective_probability_and_provenance_review_required"
+            ]
+          },
+          "fixed_prior_constant": {
+            "metrics": {
+              "budgets": 242,
+              "tickets": 155,
+              "wins": 61,
+              "profit": -11.0368,
+              "roi": -0.07120516129032257,
+              "coverage": 0.640495867768595,
+              "max_drawdown_units": 23.971899999999998,
+              "longest_losing_active_days": 7
+            },
+            "bounds": {
+              "weeks": 37,
+              "roi_lower": -0.34196466063941294,
+              "improvement_lower": -0.05393835616438354,
+              "valid_replicates": 10000,
+              "tail": 0.004166666666666667
+            },
+            "strata": {
+              "D1:2023": {
+                "candidate": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 28,
+                  "profit": -8.8492,
+                  "roi": -0.13207761194029852,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 15.4015,
+                  "longest_losing_active_days": 4
+                },
+                "champion": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.9095,
+                  "roi": -0.19267910447761194,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 19.4618,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "SP1:2023": {
+                "candidate": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                },
+                "champion": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                }
+              }
+            },
+            "checks": {
+              "minimum_sample": false,
+              "minimum_weeks": true,
+              "multiple_seasons": false,
+              "positive_roi_lower": false,
+              "positive_improvement_lower": false,
+              "coverage_preserved": true,
+              "drawdown_not_worse": true,
+              "losing_run_not_worse": true,
+              "strata_stable": false
+            },
+            "historical_screen_passed": false,
+            "status": "hold",
+            "blockers": [
+              "minimum_sample",
+              "multiple_seasons",
+              "positive_roi_lower",
+              "positive_improvement_lower",
+              "strata_stable",
+              "prospective_probability_and_provenance_review_required"
+            ]
+          },
+          "inner_selected": {
+            "metrics": {
+              "budgets": 242,
+              "tickets": 155,
+              "wins": 60,
+              "profit": -14.496799999999999,
+              "roi": -0.09352774193548387,
+              "coverage": 0.640495867768595,
+              "max_drawdown_units": 27.4319,
+              "longest_losing_active_days": 7
+            },
+            "bounds": {
+              "weeks": 37,
+              "roi_lower": -0.36766128034715745,
+              "improvement_lower": -0.06836026490066227,
+              "valid_replicates": 10000,
+              "tail": 0.004166666666666667
+            },
+            "strata": {
+              "D1:2023": {
+                "candidate": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.3092,
+                  "roi": -0.18371940298507464,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 18.861500000000003,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.9095,
+                  "roi": -0.19267910447761194,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 19.4618,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "SP1:2023": {
+                "candidate": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                },
+                "champion": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                }
+              }
+            },
+            "checks": {
+              "minimum_sample": false,
+              "minimum_weeks": true,
+              "multiple_seasons": false,
+              "positive_roi_lower": false,
+              "positive_improvement_lower": false,
+              "coverage_preserved": true,
+              "drawdown_not_worse": true,
+              "losing_run_not_worse": true,
+              "strata_stable": false
+            },
+            "historical_screen_passed": false,
+            "status": "hold",
+            "blockers": [
+              "minimum_sample",
+              "multiple_seasons",
+              "positive_roi_lower",
+              "positive_improvement_lower",
+              "strata_stable",
+              "prospective_probability_and_provenance_review_required"
+            ]
+          }
+        },
+        "screen_policy": {
+          "minimum_tickets": 300,
+          "minimum_weeks": 26,
+          "minimum_stratum_tickets": 30,
+          "planned_looks": 2,
+          "registered_candidates": [
+            "old_gap",
+            "fixed_prior_constant",
+            "inner_selected"
+          ],
+          "reps": 10000,
+          "seed": 20261002
+        },
+        "limitations": [
+          "Thresholds are engineering screening defaults, not validated profitability guarantees.",
+          "Correction covers only this registered candidate/look family, not past experiments.",
+          "Date+7 is a retrospective availability assumption, not certified recording timestamps.",
+          "No automatic training, production certification, approval or deployment."
+        ]
+      }
+    },
+    {
+      "as_of": "2025-01-01",
+      "shadow_model": "shin",
+      "review": {
+        "schema": "model-review-v1",
+        "as_of": "2025-01-01",
+        "champion": "shin",
+        "policy": "highestprob",
+        "evidence_type": "retrospective_research",
+        "production_action": "none",
+        "approval_required": true,
+        "recommendation": "keep_production_configuration; not a profitability endorsement",
+        "baseline": {
+          "budgets": 357,
+          "tickets": 228,
+          "wins": 87,
+          "profit": -17.7218,
+          "roi": -0.07772719298245614,
+          "coverage": 0.6386554621848739,
+          "max_drawdown_units": 30.568400000000004,
+          "longest_losing_active_days": 9
+        },
+        "candidates": {
+          "old_gap": {
+            "metrics": {
+              "budgets": 357,
+              "tickets": 228,
+              "wins": 89,
+              "profit": -11.650100000000002,
+              "roi": -0.05109692982456141,
+              "coverage": 0.6386554621848739,
+              "max_drawdown_units": 27.4319,
+              "longest_losing_active_days": 9
+            },
+            "bounds": {
+              "weeks": 53,
+              "roi_lower": -0.281491659947716,
+              "improvement_lower": -0.034554685406698586,
+              "valid_replicates": 10000,
+              "tail": 0.004166666666666667
+            },
+            "strata": {
+              "D1:2023": {
+                "candidate": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.3092,
+                  "roi": -0.18371940298507464,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 18.861500000000003,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.9095,
+                  "roi": -0.19267910447761194,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 19.4618,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "D1:2024": {
+                "candidate": {
+                  "budgets": 45,
+                  "tickets": 30,
+                  "wins": 10,
+                  "profit": -2.9557000000000007,
+                  "roi": -0.09852333333333335,
+                  "coverage": 0.6666666666666666,
+                  "max_drawdown_units": 10.2362,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 45,
+                  "tickets": 30,
+                  "wins": 10,
+                  "profit": -2.9557000000000007,
+                  "roi": -0.09852333333333335,
+                  "coverage": 0.6666666666666666,
+                  "max_drawdown_units": 10.2362,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "SP1:2023": {
+                "candidate": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                },
+                "champion": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                }
+              },
+              "SP1:2024": {
+                "candidate": {
+                  "budgets": 70,
+                  "tickets": 43,
+                  "wins": 19,
+                  "profit": 5.802399999999998,
+                  "roi": 0.13493953488372087,
+                  "coverage": 0.6142857142857143,
+                  "max_drawdown_units": 6.0,
+                  "longest_losing_active_days": 6
+                },
+                "champion": {
+                  "budgets": 70,
+                  "tickets": 43,
+                  "wins": 17,
+                  "profit": 0.33099999999999796,
+                  "roi": 0.007697674418604604,
+                  "coverage": 0.6142857142857143,
+                  "max_drawdown_units": 6.0,
+                  "longest_losing_active_days": 6
+                }
+              }
+            },
+            "checks": {
+              "minimum_sample": false,
+              "minimum_weeks": true,
+              "multiple_seasons": true,
+              "positive_roi_lower": false,
+              "positive_improvement_lower": false,
+              "coverage_preserved": true,
+              "drawdown_not_worse": true,
+              "losing_run_not_worse": true,
+              "strata_stable": false
+            },
+            "historical_screen_passed": false,
+            "status": "hold",
+            "blockers": [
+              "minimum_sample",
+              "positive_roi_lower",
+              "positive_improvement_lower",
+              "strata_stable",
+              "prospective_probability_and_provenance_review_required"
+            ]
+          },
+          "fixed_prior_constant": {
+            "metrics": {
+              "budgets": 357,
+              "tickets": 228,
+              "wins": 90,
+              "profit": -8.190100000000001,
+              "roi": -0.03592149122807018,
+              "coverage": 0.6386554621848739,
+              "max_drawdown_units": 23.971899999999998,
+              "longest_losing_active_days": 9
+            },
+            "bounds": {
+              "weeks": 53,
+              "roi_lower": -0.26505167768595034,
+              "improvement_lower": -0.02623764772727272,
+              "valid_replicates": 10000,
+              "tail": 0.004166666666666667
+            },
+            "strata": {
+              "D1:2023": {
+                "candidate": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 28,
+                  "profit": -8.8492,
+                  "roi": -0.13207761194029852,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 15.4015,
+                  "longest_losing_active_days": 4
+                },
+                "champion": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.9095,
+                  "roi": -0.19267910447761194,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 19.4618,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "D1:2024": {
+                "candidate": {
+                  "budgets": 45,
+                  "tickets": 30,
+                  "wins": 10,
+                  "profit": -2.9557000000000007,
+                  "roi": -0.09852333333333335,
+                  "coverage": 0.6666666666666666,
+                  "max_drawdown_units": 10.2362,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 45,
+                  "tickets": 30,
+                  "wins": 10,
+                  "profit": -2.9557000000000007,
+                  "roi": -0.09852333333333335,
+                  "coverage": 0.6666666666666666,
+                  "max_drawdown_units": 10.2362,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "SP1:2023": {
+                "candidate": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                },
+                "champion": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                }
+              },
+              "SP1:2024": {
+                "candidate": {
+                  "budgets": 70,
+                  "tickets": 43,
+                  "wins": 19,
+                  "profit": 5.802399999999998,
+                  "roi": 0.13493953488372087,
+                  "coverage": 0.6142857142857143,
+                  "max_drawdown_units": 6.0,
+                  "longest_losing_active_days": 6
+                },
+                "champion": {
+                  "budgets": 70,
+                  "tickets": 43,
+                  "wins": 17,
+                  "profit": 0.33099999999999796,
+                  "roi": 0.007697674418604604,
+                  "coverage": 0.6142857142857143,
+                  "max_drawdown_units": 6.0,
+                  "longest_losing_active_days": 6
+                }
+              }
+            },
+            "checks": {
+              "minimum_sample": false,
+              "minimum_weeks": true,
+              "multiple_seasons": true,
+              "positive_roi_lower": false,
+              "positive_improvement_lower": false,
+              "coverage_preserved": true,
+              "drawdown_not_worse": true,
+              "losing_run_not_worse": true,
+              "strata_stable": false
+            },
+            "historical_screen_passed": false,
+            "status": "hold",
+            "blockers": [
+              "minimum_sample",
+              "positive_roi_lower",
+              "positive_improvement_lower",
+              "strata_stable",
+              "prospective_probability_and_provenance_review_required"
+            ]
+          },
+          "inner_selected": {
+            "metrics": {
+              "budgets": 357,
+              "tickets": 228,
+              "wins": 87,
+              "profit": -17.066300000000002,
+              "roi": -0.07485219298245614,
+              "coverage": 0.6386554621848739,
+              "max_drawdown_units": 27.4319,
+              "longest_losing_active_days": 9
+            },
+            "bounds": {
+              "weeks": 53,
+              "roi_lower": -0.2915302884841363,
+              "improvement_lower": -0.04598571428571434,
+              "valid_replicates": 10000,
+              "tail": 0.004166666666666667
+            },
+            "strata": {
+              "D1:2023": {
+                "candidate": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.3092,
+                  "roi": -0.18371940298507464,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 18.861500000000003,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 99,
+                  "tickets": 67,
+                  "wins": 27,
+                  "profit": -12.9095,
+                  "roi": -0.19267910447761194,
+                  "coverage": 0.6767676767676768,
+                  "max_drawdown_units": 19.4618,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "D1:2024": {
+                "candidate": {
+                  "budgets": 45,
+                  "tickets": 30,
+                  "wins": 10,
+                  "profit": -2.9557000000000007,
+                  "roi": -0.09852333333333335,
+                  "coverage": 0.6666666666666666,
+                  "max_drawdown_units": 10.2362,
+                  "longest_losing_active_days": 5
+                },
+                "champion": {
+                  "budgets": 45,
+                  "tickets": 30,
+                  "wins": 10,
+                  "profit": -2.9557000000000007,
+                  "roi": -0.09852333333333335,
+                  "coverage": 0.6666666666666666,
+                  "max_drawdown_units": 10.2362,
+                  "longest_losing_active_days": 5
+                }
+              },
+              "SP1:2023": {
+                "candidate": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                },
+                "champion": {
+                  "budgets": 143,
+                  "tickets": 88,
+                  "wins": 33,
+                  "profit": -2.187599999999999,
+                  "roi": -0.024859090909090897,
+                  "coverage": 0.6153846153846154,
+                  "max_drawdown_units": 12.4153,
+                  "longest_losing_active_days": 9
+                }
+              },
+              "SP1:2024": {
+                "candidate": {
+                  "budgets": 70,
+                  "tickets": 43,
+                  "wins": 17,
+                  "profit": 0.3861999999999981,
+                  "roi": 0.008981395348837165,
+                  "coverage": 0.6142857142857143,
+                  "max_drawdown_units": 6.0,
+                  "longest_losing_active_days": 6
+                },
+                "champion": {
+                  "budgets": 70,
+                  "tickets": 43,
+                  "wins": 17,
+                  "profit": 0.33099999999999796,
+                  "roi": 0.007697674418604604,
+                  "coverage": 0.6142857142857143,
+                  "max_drawdown_units": 6.0,
+                  "longest_losing_active_days": 6
+                }
+              }
+            },
+            "checks": {
+              "minimum_sample": false,
+              "minimum_weeks": true,
+              "multiple_seasons": true,
+              "positive_roi_lower": false,
+              "positive_improvement_lower": false,
+              "coverage_preserved": true,
+              "drawdown_not_worse": true,
+              "losing_run_not_worse": true,
+              "strata_stable": false
+            },
+            "historical_screen_passed": false,
+            "status": "hold",
+            "blockers": [
+              "minimum_sample",
+              "positive_roi_lower",
+              "positive_improvement_lower",
+              "strata_stable",
+              "prospective_probability_and_provenance_review_required"
+            ]
+          }
+        },
+        "screen_policy": {
+          "minimum_tickets": 300,
+          "minimum_weeks": 26,
+          "minimum_stratum_tickets": 30,
+          "planned_looks": 2,
+          "registered_candidates": [
+            "old_gap",
+            "fixed_prior_constant",
+            "inner_selected"
+          ],
+          "reps": 10000,
+          "seed": 20261002
+        },
+        "limitations": [
+          "Thresholds are engineering screening defaults, not validated profitability guarantees.",
+          "Correction covers only this registered candidate/look family, not past experiments.",
+          "Date+7 is a retrospective availability assumption, not certified recording timestamps.",
+          "No automatic training, production certification, approval or deployment."
+        ]
+      }
+    }
+  ],
+  "selected_metrics": {
+    "budgets": 240,
+    "tickets": 151,
+    "wins": 55,
+    "profit": -11.412700000000005,
+    "roi": -0.07558079470198678,
+    "coverage": 0.6291666666666667,
+    "max_drawdown_units": 20.3322,
+    "longest_losing_active_days": 7
+  },
+  "fixed_metrics": {
+    "budgets": 240,
+    "tickets": 151,
+    "wins": 55,
+    "profit": -11.412700000000005,
+    "roi": -0.07558079470198678,
+    "coverage": 0.6291666666666667,
+    "max_drawdown_units": 20.3322,
+    "longest_losing_active_days": 7
+  },
+  "ledger": [
+    {
+      "league": "SP1",
+      "date": "2024-08-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-15:Ath Bilbao:Getafe",
+          "outcome": 0,
+          "probability": 0.6547451940432287,
+          "odds": 1.48
+        },
+        {
+          "match_id": "SP1:2024-08-15:Betis:Girona",
+          "outcome": 0,
+          "probability": 0.40690079031424703,
+          "odds": 2.35
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-16",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-16:Celta:Alaves",
+          "outcome": 0,
+          "probability": 0.47915868247384746,
+          "odds": 2.0
+        },
+        {
+          "match_id": "SP1:2024-08-16:Las Palmas:Sevilla",
+          "outcome": 2,
+          "probability": 0.36485197509273953,
+          "odds": 2.63
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-17",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-17:Osasuna:Leganes",
+          "outcome": 0,
+          "probability": 0.515641106945243,
+          "odds": 1.85
+        },
+        {
+          "match_id": "SP1:2024-08-17:Valencia:Barcelona",
+          "outcome": 2,
+          "probability": 0.5579215830924328,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-18",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-18:Mallorca:Real Madrid",
+          "outcome": 2,
+          "probability": 0.6677049978781453,
+          "odds": 1.45
+        },
+        {
+          "match_id": "SP1:2024-08-18:Sociedad:Vallecano",
+          "outcome": 0,
+          "probability": 0.6181691110823783,
+          "odds": 1.57
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-19:Valladolid:Espanol",
+          "outcome": 0,
+          "probability": 0.40346332117285333,
+          "odds": 2.38
+        },
+        {
+          "match_id": "SP1:2024-08-19:Villarreal:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.4581597109438225,
+          "odds": 2.1
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-08-23",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-23",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-23:Celta:Valencia",
+          "outcome": 0,
+          "probability": 0.4586657159613082,
+          "odds": 2.1
+        },
+        {
+          "match_id": "SP1:2024-08-23:Sevilla:Villarreal",
+          "outcome": 0,
+          "probability": 0.3986298813403845,
+          "odds": 2.4
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-08-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.0625,
+      "legs": [
+        {
+          "match_id": "D1:2024-08-24:Hoffenheim:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.5860719529347164,
+          "odds": 1.65
+        },
+        {
+          "match_id": "D1:2024-08-24:RB Leipzig:Bochum",
+          "outcome": 0,
+          "probability": 0.776132401821292,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 2.3209999999999997,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-24:Barcelona:Ath Bilbao",
+          "outcome": 0,
+          "probability": 0.59524408991595,
+          "odds": 1.62
+        },
+        {
+          "match_id": "SP1:2024-08-24:Espanol:Sociedad",
+          "outcome": 2,
+          "probability": 0.46701876511506374,
+          "odds": 2.05
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-08-25",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-08-25:St Pauli:Heidenheim",
+          "outcome": 0,
+          "probability": 0.45581470103200555,
+          "odds": 2.1
+        },
+        {
+          "match_id": "D1:2024-08-25:Wolfsburg:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.6646849872195896,
+          "odds": 1.45
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-25",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.8879999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-25:Ath Madrid:Girona",
+          "outcome": 0,
+          "probability": 0.604690875209062,
+          "odds": 1.6
+        },
+        {
+          "match_id": "SP1:2024-08-25:Real Madrid:Valladolid",
+          "outcome": 0,
+          "probability": 0.825864763798032,
+          "odds": 1.18
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-26",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-27",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-27:Mallorca:Sevilla",
+          "outcome": 0,
+          "probability": 0.40248632523114514,
+          "odds": 2.38
+        },
+        {
+          "match_id": "SP1:2024-08-27:Vallecano:Barcelona",
+          "outcome": 2,
+          "probability": 0.5891740288154372,
+          "odds": 1.62
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-28",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-28:Ath Bilbao:Valencia",
+          "outcome": 0,
+          "probability": 0.5982916960134171,
+          "odds": 1.62
+        },
+        {
+          "match_id": "SP1:2024-08-28:Ath Madrid:Espanol",
+          "outcome": 0,
+          "probability": 0.7471763402248477,
+          "odds": 1.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-29",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-29:Girona:Osasuna",
+          "outcome": 0,
+          "probability": 0.5612902933473698,
+          "odds": 1.7
+        },
+        {
+          "match_id": "SP1:2024-08-29:Las Palmas:Real Madrid",
+          "outcome": 2,
+          "probability": 0.7035532207119584,
+          "odds": 1.38
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-08-30",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-08-31",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-08-31:Leverkusen:RB Leipzig",
+          "outcome": 0,
+          "probability": 0.5507488228288188,
+          "odds": 1.75
+        },
+        {
+          "match_id": "D1:2024-08-31:Stuttgart:Mainz",
+          "outcome": 0,
+          "probability": 0.6018071957019292,
+          "odds": 1.62
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-08-31",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.9749999999999996,
+      "legs": [
+        {
+          "match_id": "SP1:2024-08-31:Ath Bilbao:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.4003809112980055,
+          "odds": 2.38
+        },
+        {
+          "match_id": "SP1:2024-08-31:Barcelona:Valladolid",
+          "outcome": 0,
+          "probability": 0.7735044817471792,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.8559999999999999,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-01:Bayern Munich:Freiburg",
+          "outcome": 0,
+          "probability": 0.8111254164191638,
+          "odds": 1.2
+        },
+        {
+          "match_id": "D1:2024-09-01:Heidenheim:Augsburg",
+          "outcome": 0,
+          "probability": 0.4023918907681435,
+          "odds": 2.38
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.5154999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-01:Alaves:Las Palmas",
+          "outcome": 0,
+          "probability": 0.4916088766055182,
+          "odds": 1.95
+        },
+        {
+          "match_id": "SP1:2024-09-01:Real Madrid:Betis",
+          "outcome": 0,
+          "probability": 0.7514667261405448,
+          "odds": 1.29
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-13",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-13",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-14",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-14:Holstein Kiel:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.795774618109445,
+          "odds": 1.22
+        },
+        {
+          "match_id": "D1:2024-09-14:RB Leipzig:Union Berlin",
+          "outcome": 0,
+          "probability": 0.6543261176679401,
+          "odds": 1.48
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-14",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 2.674,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-14:Sevilla:Getafe",
+          "outcome": 0,
+          "probability": 0.4337112887398625,
+          "odds": 2.2
+        },
+        {
+          "match_id": "SP1:2024-09-14:Sociedad:Real Madrid",
+          "outcome": 2,
+          "probability": 0.5730054003870155,
+          "odds": 1.67
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-15:Augsburg:St Pauli",
+          "outcome": 0,
+          "probability": 0.4586657159613082,
+          "odds": 2.1
+        },
+        {
+          "match_id": "D1:2024-09-15:Mainz:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.4793138314023481,
+          "odds": 2.0
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.2210999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-15:Ath Madrid:Valencia",
+          "outcome": 0,
+          "probability": 0.7239176415874987,
+          "odds": 1.33
+        },
+        {
+          "match_id": "SP1:2024-09-15:Celta:Valladolid",
+          "outcome": 0,
+          "probability": 0.5801485189923735,
+          "odds": 1.67
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-16",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-17",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-18",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-19",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-20",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-20",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-21",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.3800000000000003,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-21:Ein Frankfurt:M'gladbach",
+          "outcome": 0,
+          "probability": 0.5511495394322871,
+          "odds": 1.75
+        },
+        {
+          "match_id": "D1:2024-09-21:Werder Bremen:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.7172600780372779,
+          "odds": 1.36
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-21",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.2229999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-21:Osasuna:Las Palmas",
+          "outcome": 0,
+          "probability": 0.504328275633739,
+          "odds": 1.9
+        },
+        {
+          "match_id": "SP1:2024-09-21:Real Madrid:Espanol",
+          "outcome": 0,
+          "probability": 0.8317695913649034,
+          "odds": 1.17
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-22:Leverkusen:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.7397224435815472,
+          "odds": 1.3
+        },
+        {
+          "match_id": "D1:2024-09-22:St Pauli:RB Leipzig",
+          "outcome": 2,
+          "probability": 0.5982916960134171,
+          "odds": 1.62
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-22:Ath Bilbao:Celta",
+          "outcome": 0,
+          "probability": 0.5690484031656828,
+          "odds": 1.7
+        },
+        {
+          "match_id": "SP1:2024-09-22:Vallecano:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.5364944661281948,
+          "odds": 1.8
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-23",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.9799999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-24:Real Madrid:Alaves",
+          "outcome": 0,
+          "probability": 0.8045297365471958,
+          "odds": 1.2
+        },
+        {
+          "match_id": "SP1:2024-09-24:Sevilla:Valladolid",
+          "outcome": 0,
+          "probability": 0.5858587018155299,
+          "odds": 1.65
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-25",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-25:Barcelona:Getafe",
+          "outcome": 0,
+          "probability": 0.7735044817471792,
+          "odds": 1.25
+        },
+        {
+          "match_id": "SP1:2024-09-25:Girona:Vallecano",
+          "outcome": 0,
+          "probability": 0.5507457285252331,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-26",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 3.1064999999999996,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-26:Celta:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.5021831267910035,
+          "odds": 1.91
+        },
+        {
+          "match_id": "SP1:2024-09-26:Espanol:Villarreal",
+          "outcome": 2,
+          "probability": 0.44400180725133204,
+          "odds": 2.15
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-27",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-27",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-28",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-28:Freiburg:St Pauli",
+          "outcome": 0,
+          "probability": 0.597705318627727,
+          "odds": 1.62
+        },
+        {
+          "match_id": "D1:2024-09-28:RB Leipzig:Augsburg",
+          "outcome": 0,
+          "probability": 0.6896117609515136,
+          "odds": 1.4
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-28",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-28:Osasuna:Barcelona",
+          "outcome": 2,
+          "probability": 0.6669032690197638,
+          "odds": 1.45
+        },
+        {
+          "match_id": "SP1:2024-09-28:Sociedad:Valencia",
+          "outcome": 0,
+          "probability": 0.5182598859473562,
+          "odds": 1.85
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-09-29",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-09-29:Hoffenheim:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.4013551302916823,
+          "odds": 2.38
+        },
+        {
+          "match_id": "D1:2024-09-29:Holstein Kiel:Ein Frankfurt",
+          "outcome": 2,
+          "probability": 0.5569635271023461,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-29",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-09-29:Ath Bilbao:Sevilla",
+          "outcome": 0,
+          "probability": 0.5653780108716122,
+          "odds": 1.7
+        },
+        {
+          "match_id": "SP1:2024-09-29:Betis:Espanol",
+          "outcome": 0,
+          "probability": 0.5769007823107216,
+          "odds": 1.65
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-09-30",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-04",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-04",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-05",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-10-05:Leverkusen:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.8910967885245684,
+          "odds": 1.09
+        },
+        {
+          "match_id": "D1:2024-10-05:Union Berlin:Dortmund",
+          "outcome": 2,
+          "probability": 0.4456609908186403,
+          "odds": 2.15
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-05",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-10-05:Getafe:Osasuna",
+          "outcome": 0,
+          "probability": 0.43454491100382175,
+          "odds": 2.2
+        },
+        {
+          "match_id": "SP1:2024-10-05:Real Madrid:Villarreal",
+          "outcome": 0,
+          "probability": 0.7589257519084341,
+          "odds": 1.27
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-06",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-10-06:Ein Frankfurt:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.6301661778951126,
+          "odds": 1.53
+        },
+        {
+          "match_id": "D1:2024-10-06:Stuttgart:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.7428046967895443,
+          "odds": 1.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-06",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-10-06:Alaves:Barcelona",
+          "outcome": 2,
+          "probability": 0.6169187039962644,
+          "odds": 1.57
+        },
+        {
+          "match_id": "SP1:2024-10-06:Sociedad:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.4169653626467523,
+          "odds": 2.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-18",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-18",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.9584000000000001,
+      "legs": [
+        {
+          "match_id": "D1:2024-10-19:Bayern Munich:Stuttgart",
+          "outcome": 0,
+          "probability": 0.7101118367151047,
+          "odds": 1.36
+        },
+        {
+          "match_id": "D1:2024-10-19:Leverkusen:Ein Frankfurt",
+          "outcome": 0,
+          "probability": 0.669961746448488,
+          "odds": 1.44
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.3199999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2024-10-19:Ath Bilbao:Espanol",
+          "outcome": 0,
+          "probability": 0.664300482448118,
+          "odds": 1.45
+        },
+        {
+          "match_id": "SP1:2024-10-19:Celta:Real Madrid",
+          "outcome": 2,
+          "probability": 0.6019262441767016,
+          "odds": 1.6
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-20",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-10-20:Holstein Kiel:Union Berlin",
+          "outcome": 2,
+          "probability": 0.4456609908186403,
+          "odds": 2.15
+        },
+        {
+          "match_id": "D1:2024-10-20:Wolfsburg:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.455464466533669,
+          "odds": 2.1
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-20",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.7290000000000001,
+      "legs": [
+        {
+          "match_id": "SP1:2024-10-20:Ath Madrid:Leganes",
+          "outcome": 0,
+          "probability": 0.7250379950505365,
+          "odds": 1.33
+        },
+        {
+          "match_id": "SP1:2024-10-20:Barcelona:Sevilla",
+          "outcome": 0,
+          "probability": 0.7397224435815472,
+          "odds": 1.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-21",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-25",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-25",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-26",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-10-26:Stuttgart:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.7936621847856942,
+          "odds": 1.22
+        },
+        {
+          "match_id": "D1:2024-10-26:Werder Bremen:Leverkusen",
+          "outcome": 2,
+          "probability": 0.6432569400624132,
+          "odds": 1.5
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-26",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-10-26:Real Madrid:Barcelona",
+          "outcome": 0,
+          "probability": 0.48091205704195455,
+          "odds": 2.0
+        },
+        {
+          "match_id": "SP1:2024-10-26:Valladolid:Villarreal",
+          "outcome": 2,
+          "probability": 0.4806272673491886,
+          "odds": 2.0
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-10-27",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-10-27:Bochum:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.8349142072260884,
+          "odds": 1.17
+        },
+        {
+          "match_id": "D1:2024-10-27:Heidenheim:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.4256542252613854,
+          "odds": 2.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-27",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-10-27:Getafe:Valencia",
+          "outcome": 0,
+          "probability": 0.45369768078207184,
+          "odds": 2.1
+        },
+        {
+          "match_id": "SP1:2024-10-27:Sociedad:Osasuna",
+          "outcome": 0,
+          "probability": 0.5523562169656239,
+          "odds": 1.75
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-10-28",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-01",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-01",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-02",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.5693999999999999,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-02:Bayern Munich:Union Berlin",
+          "outcome": 0,
+          "probability": 0.8212907272198335,
+          "odds": 1.18
+        },
+        {
+          "match_id": "D1:2024-11-02:Ein Frankfurt:Bochum",
+          "outcome": 0,
+          "probability": 0.7264557308945653,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-02",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.7200000000000002,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-02:Girona:Leganes",
+          "outcome": 0,
+          "probability": 0.5664257371207104,
+          "odds": 1.7
+        },
+        {
+          "match_id": "SP1:2024-11-02:Osasuna:Valladolid",
+          "outcome": 0,
+          "probability": 0.6028873131783749,
+          "odds": 1.6
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-03",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-03:Freiburg:Mainz",
+          "outcome": 0,
+          "probability": 0.566663704839781,
+          "odds": 1.7
+        },
+        {
+          "match_id": "D1:2024-11-03:M'gladbach:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.4573115245649697,
+          "odds": 2.1
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-03",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.4350999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-03:Ath Madrid:Las Palmas",
+          "outcome": 0,
+          "probability": 0.7613761107038612,
+          "odds": 1.27
+        },
+        {
+          "match_id": "SP1:2024-11-03:Barcelona:Espanol",
+          "outcome": 0,
+          "probability": 0.8623613717036603,
+          "odds": 1.13
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-04",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-08",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-08",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-09",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-09:Bochum:Leverkusen",
+          "outcome": 2,
+          "probability": 0.7669228874444859,
+          "odds": 1.27
+        },
+        {
+          "match_id": "D1:2024-11-09:St Pauli:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.776132401821292,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-09",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.944,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-09:Real Madrid:Osasuna",
+          "outcome": 0,
+          "probability": 0.8093945801306941,
+          "odds": 1.2
+        },
+        {
+          "match_id": "SP1:2024-11-09:Villarreal:Alaves",
+          "outcome": 0,
+          "probability": 0.597705318627727,
+          "odds": 1.62
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-10",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-10:Augsburg:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.46505443977927446,
+          "odds": 2.05
+        },
+        {
+          "match_id": "D1:2024-11-10:Stuttgart:Ein Frankfurt",
+          "outcome": 0,
+          "probability": 0.5087615045035196,
+          "odds": 1.9
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-10",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-10:Sociedad:Barcelona",
+          "outcome": 2,
+          "probability": 0.5821850463210166,
+          "odds": 1.65
+        },
+        {
+          "match_id": "SP1:2024-11-10:Valladolid:Ath Bilbao",
+          "outcome": 2,
+          "probability": 0.5189653195942389,
+          "odds": 1.85
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-22",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-22",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-23",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.548,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-23:Leverkusen:Heidenheim",
+          "outcome": 0,
+          "probability": 0.8090520791396121,
+          "odds": 1.2
+        },
+        {
+          "match_id": "D1:2024-11-23:Stuttgart:Bochum",
+          "outcome": 0,
+          "probability": 0.7520716451649005,
+          "odds": 1.29
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-23",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-23:Ath Madrid:Alaves",
+          "outcome": 0,
+          "probability": 0.7110057836827667,
+          "odds": 1.36
+        },
+        {
+          "match_id": "SP1:2024-11-23:Celta:Barcelona",
+          "outcome": 2,
+          "probability": 0.5872320406984342,
+          "odds": 1.65
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 3.1399999999999997,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-24:Holstein Kiel:Mainz",
+          "outcome": 2,
+          "probability": 0.41655675517432755,
+          "odds": 2.3
+        },
+        {
+          "match_id": "D1:2024-11-24:M'gladbach:St Pauli",
+          "outcome": 0,
+          "probability": 0.5338042537356792,
+          "odds": 1.8
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 2.195,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-24:Ath Bilbao:Sociedad",
+          "outcome": 0,
+          "probability": 0.42466389603708626,
+          "odds": 2.25
+        },
+        {
+          "match_id": "SP1:2024-11-24:Leganes:Real Madrid",
+          "outcome": 2,
+          "probability": 0.6791977560161123,
+          "odds": 1.42
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-29",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-29",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-11-30",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-11-30:Dortmund:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.5778432470705616,
+          "odds": 1.67
+        },
+        {
+          "match_id": "D1:2024-11-30:RB Leipzig:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.5691371096741127,
+          "odds": 1.7
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-11-30",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-11-30:Barcelona:Las Palmas",
+          "outcome": 0,
+          "probability": 0.832222535273748,
+          "odds": 1.17
+        },
+        {
+          "match_id": "SP1:2024-11-30:Valladolid:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.6298728130724472,
+          "odds": 1.53
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 3.0949999999999998,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-01:Heidenheim:Ein Frankfurt",
+          "outcome": 2,
+          "probability": 0.49292427291670493,
+          "odds": 1.95
+        },
+        {
+          "match_id": "D1:2024-12-01:Mainz:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.45581470103200555,
+          "odds": 2.1
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.4480000000000004,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-01:Real Madrid:Getafe",
+          "outcome": 0,
+          "probability": 0.7107463234149137,
+          "odds": 1.36
+        },
+        {
+          "match_id": "SP1:2024-12-01:Sociedad:Betis",
+          "outcome": 0,
+          "probability": 0.5342749722138778,
+          "odds": 1.8
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-02",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-03",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-04",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-06",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-06",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-07",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.375,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-07:Bayern Munich:Heidenheim",
+          "outcome": 0,
+          "probability": 0.8844088805206722,
+          "odds": 1.1
+        },
+        {
+          "match_id": "D1:2024-12-07:Leverkusen:St Pauli",
+          "outcome": 0,
+          "probability": 0.7761793378393742,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-07",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-07:Betis:Barcelona",
+          "outcome": 2,
+          "probability": 0.613141612856057,
+          "odds": 1.57
+        },
+        {
+          "match_id": "SP1:2024-12-07:Girona:Real Madrid",
+          "outcome": 2,
+          "probability": 0.5560281074711294,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-08",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-08:Hoffenheim:Freiburg",
+          "outcome": 2,
+          "probability": 0.372716545344609,
+          "odds": 2.55
+        },
+        {
+          "match_id": "D1:2024-12-08:Wolfsburg:Mainz",
+          "outcome": 0,
+          "probability": 0.4456609908186403,
+          "odds": 2.15
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-08",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.6357999999999997,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-08:Ath Madrid:Sevilla",
+          "outcome": 0,
+          "probability": 0.7022202457477194,
+          "odds": 1.38
+        },
+        {
+          "match_id": "SP1:2024-12-08:Leganes:Sociedad",
+          "outcome": 2,
+          "probability": 0.5022923255346227,
+          "odds": 1.91
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-09",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-13",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-13",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-14",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-14:M'gladbach:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.669961746448488,
+          "odds": 1.44
+        },
+        {
+          "match_id": "D1:2024-12-14:Mainz:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.6543261176679401,
+          "odds": 1.48
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-14",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-14:Sevilla:Celta",
+          "outcome": 0,
+          "probability": 0.431205000746804,
+          "odds": 2.2
+        },
+        {
+          "match_id": "SP1:2024-12-14:Vallecano:Real Madrid",
+          "outcome": 2,
+          "probability": 0.6101255736089167,
+          "odds": 1.57
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-15:Dortmund:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.6690276099256558,
+          "odds": 1.44
+        },
+        {
+          "match_id": "D1:2024-12-15:Heidenheim:Stuttgart",
+          "outcome": 2,
+          "probability": 0.5342774549481196,
+          "odds": 1.8
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-15:Ath Madrid:Getafe",
+          "outcome": 0,
+          "probability": 0.6905220117536843,
+          "odds": 1.4
+        },
+        {
+          "match_id": "SP1:2024-12-15:Barcelona:Leganes",
+          "outcome": 0,
+          "probability": 0.8560241526486104,
+          "odds": 1.13
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-18",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-18:Espanol:Valencia",
+          "outcome": 0,
+          "probability": 0.36708968756552435,
+          "odds": 2.6
+        },
+        {
+          "match_id": "SP1:2024-12-18:Villarreal:Vallecano",
+          "outcome": 0,
+          "probability": 0.5342749722138778,
+          "odds": 1.8
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-20",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-20",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-21",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-21:Leverkusen:Freiburg",
+          "outcome": 0,
+          "probability": 0.7000762153830741,
+          "odds": 1.38
+        },
+        {
+          "match_id": "D1:2024-12-21:Stuttgart:St Pauli",
+          "outcome": 0,
+          "probability": 0.6671973679566694,
+          "odds": 1.45
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-21",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-21:Barcelona:Ath Madrid",
+          "outcome": 0,
+          "probability": 0.5090230491731452,
+          "odds": 1.9
+        },
+        {
+          "match_id": "SP1:2024-12-21:Osasuna:Ath Bilbao",
+          "outcome": 2,
+          "probability": 0.4561137604368463,
+          "odds": 2.1
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2024-12-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 4.06,
+      "legs": [
+        {
+          "match_id": "D1:2024-12-22:Bochum:Heidenheim",
+          "outcome": 0,
+          "probability": 0.41573549532004195,
+          "odds": 2.3
+        },
+        {
+          "match_id": "D1:2024-12-22:Wolfsburg:Dortmund",
+          "outcome": 2,
+          "probability": 0.4348591006041053,
+          "odds": 2.2
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2024-12-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2024-12-22:Betis:Vallecano",
+          "outcome": 0,
+          "probability": 0.5356933111509691,
+          "odds": 1.8
+        },
+        {
+          "match_id": "SP1:2024-12-22:Real Madrid:Sevilla",
+          "outcome": 0,
+          "probability": 0.7325225411483636,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-03",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-10",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-10",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-11",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.9599999999999997,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-11:Freiburg:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.6897938802642961,
+          "odds": 1.4
+        },
+        {
+          "match_id": "D1:2025-01-11:M'gladbach:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.6902145367439456,
+          "odds": 1.4
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-11",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-01-11:Sevilla:Valencia",
+          "outcome": 0,
+          "probability": 0.4803889455143783,
+          "odds": 2.0
+        },
+        {
+          "match_id": "SP1:2025-01-11:Valladolid:Betis",
+          "outcome": 2,
+          "probability": 0.5257289644533986,
+          "odds": 1.83
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-12",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 2.5,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-12:Augsburg:Stuttgart",
+          "outcome": 2,
+          "probability": 0.4794702278753079,
+          "odds": 2.0
+        },
+        {
+          "match_id": "D1:2025-01-12:RB Leipzig:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.5484263758795797,
+          "odds": 1.75
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-12",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-01-12:Ath Madrid:Osasuna",
+          "outcome": 0,
+          "probability": 0.7295035250266436,
+          "odds": 1.33
+        },
+        {
+          "match_id": "SP1:2025-01-12:Las Palmas:Getafe",
+          "outcome": 0,
+          "probability": 0.3887163540679184,
+          "odds": 2.45
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-13",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-14",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-14:Holstein Kiel:Dortmund",
+          "outcome": 2,
+          "probability": 0.6217614317190036,
+          "odds": 1.55
+        },
+        {
+          "match_id": "D1:2025-01-14:Leverkusen:Mainz",
+          "outcome": 0,
+          "probability": 0.7101118367151047,
+          "odds": 1.36
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-15:Bayern Munich:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.859545894286431,
+          "odds": 1.13
+        },
+        {
+          "match_id": "D1:2025-01-15:Werder Bremen:Heidenheim",
+          "outcome": 0,
+          "probability": 0.5957119185624825,
+          "odds": 1.6
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-17",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-17",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-18",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.4859,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-18:Bayern Munich:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.829771492026812,
+          "odds": 1.17
+        },
+        {
+          "match_id": "D1:2025-01-18:Leverkusen:M'gladbach",
+          "outcome": 0,
+          "probability": 0.7644343997258061,
+          "odds": 1.27
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-18",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-01-18:Getafe:Barcelona",
+          "outcome": 2,
+          "probability": 0.6426559863819948,
+          "odds": 1.5
+        },
+        {
+          "match_id": "SP1:2025-01-18:Leganes:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.6422795621516825,
+          "odds": 1.5
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-19:Union Berlin:Mainz",
+          "outcome": 0,
+          "probability": 0.37433321430202277,
+          "odds": 2.55
+        },
+        {
+          "match_id": "D1:2025-01-19:Werder Bremen:Augsburg",
+          "outcome": 0,
+          "probability": 0.5201588806419755,
+          "odds": 1.85
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-01-19:Osasuna:Vallecano",
+          "outcome": 0,
+          "probability": 0.4429031078431345,
+          "odds": 2.15
+        },
+        {
+          "match_id": "SP1:2025-01-19:Real Madrid:Las Palmas",
+          "outcome": 0,
+          "probability": 0.8453348688429584,
+          "odds": 1.14
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-20",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-24",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-24",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-25",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-25:Dortmund:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.5939227868818305,
+          "odds": 1.62
+        },
+        {
+          "match_id": "D1:2025-01-25:Freiburg:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.7264557308945653,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-25",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-01-25:Ath Madrid:Villarreal",
+          "outcome": 0,
+          "probability": 0.5691371096741127,
+          "odds": 1.7
+        },
+        {
+          "match_id": "SP1:2025-01-25:Valladolid:Real Madrid",
+          "outcome": 2,
+          "probability": 0.7636445295490883,
+          "odds": 1.27
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-26",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-01-26:Hoffenheim:Ein Frankfurt",
+          "outcome": 2,
+          "probability": 0.4348591006041053,
+          "odds": 2.2
+        },
+        {
+          "match_id": "D1:2025-01-26:St Pauli:Union Berlin",
+          "outcome": 0,
+          "probability": 0.3756264224033795,
+          "odds": 2.55
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-26",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-01-26:Ath Bilbao:Leganes",
+          "outcome": 0,
+          "probability": 0.7000762153830741,
+          "odds": 1.38
+        },
+        {
+          "match_id": "SP1:2025-01-26:Barcelona:Valencia",
+          "outcome": 0,
+          "probability": 0.795971031766497,
+          "odds": 1.22
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-27",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-01-31",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-01-31",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-01:Bayern Munich:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.9285537180331328,
+          "odds": 1.05
+        },
+        {
+          "match_id": "D1:2025-02-01:Stuttgart:M'gladbach",
+          "outcome": 0,
+          "probability": 0.613141612856057,
+          "odds": 1.57
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-01:Espanol:Real Madrid",
+          "outcome": 2,
+          "probability": 0.7456337250826102,
+          "odds": 1.3
+        },
+        {
+          "match_id": "SP1:2025-02-01:Villarreal:Valladolid",
+          "outcome": 0,
+          "probability": 0.7917926049257712,
+          "odds": 1.22
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-02",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-02:Ein Frankfurt:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.4927788709168657,
+          "odds": 1.95
+        },
+        {
+          "match_id": "D1:2025-02-02:Leverkusen:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.7786785776828075,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-02",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.7599999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-02:Barcelona:Alaves",
+          "outcome": 0,
+          "probability": 0.8136324993164497,
+          "odds": 1.2
+        },
+        {
+          "match_id": "SP1:2025-02-02:Valencia:Celta",
+          "outcome": 0,
+          "probability": 0.41182902034790414,
+          "odds": 2.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-03",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-07",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-07",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-08",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-08:Freiburg:Heidenheim",
+          "outcome": 0,
+          "probability": 0.5627230996183958,
+          "odds": 1.7
+        },
+        {
+          "match_id": "D1:2025-02-08:Mainz:Augsburg",
+          "outcome": 0,
+          "probability": 0.5493256600735191,
+          "odds": 1.75
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-08",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.8049999999999997,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-08:Ath Bilbao:Girona",
+          "outcome": 0,
+          "probability": 0.583904750043833,
+          "odds": 1.65
+        },
+        {
+          "match_id": "SP1:2025-02-08:Las Palmas:Villarreal",
+          "outcome": 2,
+          "probability": 0.566663704839781,
+          "odds": 1.7
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-09",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-09:Holstein Kiel:Bochum",
+          "outcome": 0,
+          "probability": 0.42188326718977764,
+          "odds": 2.25
+        },
+        {
+          "match_id": "D1:2025-02-09:RB Leipzig:St Pauli",
+          "outcome": 0,
+          "probability": 0.6106314313048989,
+          "odds": 1.57
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-09",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.4800000000000004,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-09:Sevilla:Barcelona",
+          "outcome": 2,
+          "probability": 0.6217614317190036,
+          "odds": 1.55
+        },
+        {
+          "match_id": "SP1:2025-02-09:Sociedad:Espanol",
+          "outcome": 0,
+          "probability": 0.6028728359517752,
+          "odds": 1.6
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-10",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-14",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-14",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-15:Bochum:Dortmund",
+          "outcome": 2,
+          "probability": 0.5770728747290216,
+          "odds": 1.67
+        },
+        {
+          "match_id": "D1:2025-02-15:Stuttgart:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.5569635271023461,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-15:Ath Madrid:Celta",
+          "outcome": 0,
+          "probability": 0.691328256416529,
+          "odds": 1.39
+        },
+        {
+          "match_id": "SP1:2025-02-15:Villarreal:Valencia",
+          "outcome": 0,
+          "probability": 0.6378087011381973,
+          "odds": 1.5
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-16",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-16:Ein Frankfurt:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.7264557308945653,
+          "odds": 1.33
+        },
+        {
+          "match_id": "D1:2025-02-16:Werder Bremen:Hoffenheim",
+          "outcome": 0,
+          "probability": 0.5177645180572267,
+          "odds": 1.85
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-16",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-16:Espanol:Ath Bilbao",
+          "outcome": 2,
+          "probability": 0.5570499294266865,
+          "odds": 1.73
+        },
+        {
+          "match_id": "SP1:2025-02-16:Mallorca:Las Palmas",
+          "outcome": 0,
+          "probability": 0.5569556144849819,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-17",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-21",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-21",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.9125000000000001,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-22:Dortmund:Union Berlin",
+          "outcome": 0,
+          "probability": 0.6301661778951126,
+          "odds": 1.53
+        },
+        {
+          "match_id": "D1:2025-02-22:Holstein Kiel:Leverkusen",
+          "outcome": 2,
+          "probability": 0.7745475652170658,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-22:Alaves:Espanol",
+          "outcome": 0,
+          "probability": 0.5349579509769039,
+          "odds": 1.8
+        },
+        {
+          "match_id": "SP1:2025-02-22:Las Palmas:Barcelona",
+          "outcome": 2,
+          "probability": 0.7732976314707715,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-23",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-02-23:Bayern Munich:Ein Frankfurt",
+          "outcome": 0,
+          "probability": 0.7447219495813674,
+          "odds": 1.3
+        },
+        {
+          "match_id": "D1:2025-02-23:RB Leipzig:Heidenheim",
+          "outcome": 0,
+          "probability": 0.7220581885170029,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-23",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.5092999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2025-02-23:Ath Bilbao:Valladolid",
+          "outcome": 0,
+          "probability": 0.8317695913649034,
+          "odds": 1.17
+        },
+        {
+          "match_id": "SP1:2025-02-23:Real Madrid:Girona",
+          "outcome": 0,
+          "probability": 0.7521311441363828,
+          "odds": 1.29
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-24",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-02-28",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-02-28",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 2.1659,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-01:Ein Frankfurt:Leverkusen",
+          "outcome": 2,
+          "probability": 0.5565770403900171,
+          "odds": 1.73
+        },
+        {
+          "match_id": "D1:2025-03-01:St Pauli:Dortmund",
+          "outcome": 2,
+          "probability": 0.5260607183656012,
+          "odds": 1.83
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-01",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-01:Ath Madrid:Ath Bilbao",
+          "outcome": 0,
+          "probability": 0.4689801800091441,
+          "odds": 2.05
+        },
+        {
+          "match_id": "SP1:2025-03-01:Betis:Real Madrid",
+          "outcome": 2,
+          "probability": 0.5551443986119604,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-02",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-02:Augsburg:Freiburg",
+          "outcome": 0,
+          "probability": 0.36040242933290173,
+          "odds": 2.63
+        },
+        {
+          "match_id": "D1:2025-03-02:Union Berlin:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.6134563837415505,
+          "odds": 1.57
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-02",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-02:Barcelona:Sociedad",
+          "outcome": 0,
+          "probability": 0.7746800429610494,
+          "odds": 1.25
+        },
+        {
+          "match_id": "SP1:2025-03-02:Mallorca:Alaves",
+          "outcome": 0,
+          "probability": 0.4256542252613854,
+          "odds": 2.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-07",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-08",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-08:Bayern Munich:Bochum",
+          "outcome": 0,
+          "probability": 0.8734856982230692,
+          "odds": 1.11
+        },
+        {
+          "match_id": "D1:2025-03-08:Leverkusen:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.7644343997258061,
+          "odds": 1.27
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-08",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.1389999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-08:Celta:Leganes",
+          "outcome": 0,
+          "probability": 0.6244097452369185,
+          "odds": 1.55
+        },
+        {
+          "match_id": "SP1:2025-03-08:Valencia:Valladolid",
+          "outcome": 0,
+          "probability": 0.7000574130523826,
+          "odds": 1.38
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-09",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-09:Ein Frankfurt:Union Berlin",
+          "outcome": 0,
+          "probability": 0.5584838880060059,
+          "odds": 1.73
+        },
+        {
+          "match_id": "D1:2025-03-09:Hoffenheim:Heidenheim",
+          "outcome": 0,
+          "probability": 0.5511495394322871,
+          "odds": 1.75
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-09",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.8317999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-09:Betis:Las Palmas",
+          "outcome": 0,
+          "probability": 0.6791977560161123,
+          "odds": 1.42
+        },
+        {
+          "match_id": "SP1:2025-03-09:Real Madrid:Vallecano",
+          "outcome": 0,
+          "probability": 0.7514667261405448,
+          "odds": 1.29
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-10",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-14",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-14",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-15:Mainz:Freiburg",
+          "outcome": 0,
+          "probability": 0.49057512675259496,
+          "odds": 1.95
+        },
+        {
+          "match_id": "D1:2025-03-15:Union Berlin:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.7126889209031632,
+          "odds": 1.36
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.8851,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-15:Mallorca:Espanol",
+          "outcome": 0,
+          "probability": 0.5388453955249763,
+          "odds": 1.77
+        },
+        {
+          "match_id": "SP1:2025-03-15:Valladolid:Celta",
+          "outcome": 2,
+          "probability": 0.5832320395117936,
+          "odds": 1.63
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-16",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 3.4000000000000004,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-16:Bochum:Ein Frankfurt",
+          "outcome": 2,
+          "probability": 0.4348591006041053,
+          "odds": 2.2
+        },
+        {
+          "match_id": "D1:2025-03-16:Heidenheim:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.4806272673491886,
+          "odds": 2.0
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-16",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 3.51,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-16:Ath Madrid:Barcelona",
+          "outcome": 2,
+          "probability": 0.4348591006041053,
+          "odds": 2.2
+        },
+        {
+          "match_id": "SP1:2025-03-16:Leganes:Betis",
+          "outcome": 2,
+          "probability": 0.4680035871178533,
+          "odds": 2.05
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-27",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-28",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-29",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-29:Bayern Munich:St Pauli",
+          "outcome": 0,
+          "probability": 0.8455820673551611,
+          "odds": 1.14
+        },
+        {
+          "match_id": "D1:2025-03-29:Wolfsburg:Heidenheim",
+          "outcome": 0,
+          "probability": 0.573106349035316,
+          "odds": 1.67
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-29",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.5162,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-29:Real Madrid:Leganes",
+          "outcome": 0,
+          "probability": 0.8491023250169433,
+          "odds": 1.14
+        },
+        {
+          "match_id": "SP1:2025-03-29:Sociedad:Valladolid",
+          "outcome": 0,
+          "probability": 0.728881803280702,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-03-30",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-03-30:Dortmund:Mainz",
+          "outcome": 0,
+          "probability": 0.5880992980352421,
+          "odds": 1.62
+        },
+        {
+          "match_id": "D1:2025-03-30:Freiburg:Union Berlin",
+          "outcome": 0,
+          "probability": 0.4793138314023481,
+          "odds": 2.0
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-30",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-03-30:Ath Bilbao:Osasuna",
+          "outcome": 0,
+          "probability": 0.6580745699762682,
+          "odds": 1.45
+        },
+        {
+          "match_id": "SP1:2025-03-30:Barcelona:Girona",
+          "outcome": 0,
+          "probability": 0.7761793378393742,
+          "odds": 1.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-03-31",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-04",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-04",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-05",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-05:Heidenheim:Leverkusen",
+          "outcome": 2,
+          "probability": 0.669961746448488,
+          "odds": 1.44
+        },
+        {
+          "match_id": "D1:2025-04-05:Mainz:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.6669032690197638,
+          "odds": 1.45
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-05",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-05:Barcelona:Betis",
+          "outcome": 0,
+          "probability": 0.7097536619138645,
+          "odds": 1.36
+        },
+        {
+          "match_id": "SP1:2025-04-05:Real Madrid:Valencia",
+          "outcome": 0,
+          "probability": 0.7428456297070896,
+          "odds": 1.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-06",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-06:St Pauli:M'gladbach",
+          "outcome": 0,
+          "probability": 0.3770497518404177,
+          "odds": 2.5
+        },
+        {
+          "match_id": "D1:2025-04-06:Union Berlin:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.38789695960571385,
+          "odds": 2.45
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-06",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 3.1799999999999997,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-06:Sevilla:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.43561835072987243,
+          "odds": 2.2
+        },
+        {
+          "match_id": "SP1:2025-04-06:Valladolid:Getafe",
+          "outcome": 2,
+          "probability": 0.503989609393901,
+          "odds": 1.9
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-07",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-11",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-11",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-12",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-12:Bayern Munich:Dortmund",
+          "outcome": 0,
+          "probability": 0.6729297367119602,
+          "odds": 1.44
+        },
+        {
+          "match_id": "D1:2025-04-12:Leverkusen:Union Berlin",
+          "outcome": 0,
+          "probability": 0.7228228331732506,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-12",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-12:Celta:Espanol",
+          "outcome": 0,
+          "probability": 0.595688211522,
+          "odds": 1.62
+        },
+        {
+          "match_id": "SP1:2025-04-12:Leganes:Barcelona",
+          "outcome": 2,
+          "probability": 0.7459416888238375,
+          "odds": 1.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-13",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-13:Ein Frankfurt:Heidenheim",
+          "outcome": 0,
+          "probability": 0.5569635271023461,
+          "odds": 1.73
+        },
+        {
+          "match_id": "D1:2025-04-13:Stuttgart:Werder Bremen",
+          "outcome": 0,
+          "probability": 0.58267531666458,
+          "odds": 1.65
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-13",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.835,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-13:Alaves:Real Madrid",
+          "outcome": 2,
+          "probability": 0.5967006715162807,
+          "odds": 1.62
+        },
+        {
+          "match_id": "SP1:2025-04-13:Ath Bilbao:Vallecano",
+          "outcome": 0,
+          "probability": 0.5530565329014091,
+          "odds": 1.75
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-14",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-18",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-19:Heidenheim:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.7520716451649005,
+          "odds": 1.29
+        },
+        {
+          "match_id": "D1:2025-04-19:RB Leipzig:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.7264557308945653,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-19",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-19:Barcelona:Celta",
+          "outcome": 0,
+          "probability": 0.7397224435815472,
+          "odds": 1.3
+        },
+        {
+          "match_id": "SP1:2025-04-19:Las Palmas:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.6220320027994615,
+          "odds": 1.55
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-20",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-20:Dortmund:M'gladbach",
+          "outcome": 0,
+          "probability": 0.683844173917948,
+          "odds": 1.42
+        },
+        {
+          "match_id": "D1:2025-04-20:St Pauli:Leverkusen",
+          "outcome": 2,
+          "probability": 0.5781479125662505,
+          "odds": 1.67
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-20",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-20:Real Madrid:Ath Bilbao",
+          "outcome": 0,
+          "probability": 0.5851156145779641,
+          "odds": 1.65
+        },
+        {
+          "match_id": "SP1:2025-04-20:Villarreal:Sociedad",
+          "outcome": 0,
+          "probability": 0.5653780108716122,
+          "odds": 1.7
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-21",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-22",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-22:Barcelona:Mallorca",
+          "outcome": 0,
+          "probability": 0.8093945801306941,
+          "odds": 1.2
+        },
+        {
+          "match_id": "SP1:2025-04-22:Valencia:Espanol",
+          "outcome": 0,
+          "probability": 0.49057512675259496,
+          "odds": 1.95
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-23",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.3800000000000003,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-23:Ath Bilbao:Las Palmas",
+          "outcome": 0,
+          "probability": 0.706138997184652,
+          "odds": 1.36
+        },
+        {
+          "match_id": "SP1:2025-04-23:Getafe:Real Madrid",
+          "outcome": 2,
+          "probability": 0.5483426414143505,
+          "odds": 1.75
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.8359999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2025-04-24:Ath Madrid:Vallecano",
+          "outcome": 0,
+          "probability": 0.6302330443552654,
+          "odds": 1.53
+        },
+        {
+          "match_id": "SP1:2025-04-24:Betis:Valladolid",
+          "outcome": 0,
+          "probability": 0.8093945801306941,
+          "odds": 1.2
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-25",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-26",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.6592,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-26:Bayern Munich:Mainz",
+          "outcome": 0,
+          "probability": 0.795774618109445,
+          "odds": 1.22
+        },
+        {
+          "match_id": "D1:2025-04-26:Leverkusen:Augsburg",
+          "outcome": 0,
+          "probability": 0.7126889209031632,
+          "odds": 1.36
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-04-27",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-04-27:Bochum:Union Berlin",
+          "outcome": 0,
+          "probability": 0.4227062933782402,
+          "odds": 2.25
+        },
+        {
+          "match_id": "D1:2025-04-27:Werder Bremen:St Pauli",
+          "outcome": 0,
+          "probability": 0.5147087048070342,
+          "odds": 1.85
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-04-27",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-02",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-02",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-03",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-05-03:Dortmund:Wolfsburg",
+          "outcome": 0,
+          "probability": 0.7264557308945653,
+          "odds": 1.33
+        },
+        {
+          "match_id": "D1:2025-05-03:RB Leipzig:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.589363268033467,
+          "odds": 1.62
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-03",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.7442,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-03:Valladolid:Barcelona",
+          "outcome": 2,
+          "probability": 0.8455820673551611,
+          "odds": 1.14
+        },
+        {
+          "match_id": "SP1:2025-05-03:Villarreal:Osasuna",
+          "outcome": 0,
+          "probability": 0.6298728130724472,
+          "odds": 1.53
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-04",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-05-04:Augsburg:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.5263051555044416,
+          "odds": 1.83
+        },
+        {
+          "match_id": "D1:2025-05-04:Freiburg:Leverkusen",
+          "outcome": 2,
+          "probability": 0.42624462488059517,
+          "odds": 2.25
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-04",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-04:Real Madrid:Celta",
+          "outcome": 0,
+          "probability": 0.7224468116836177,
+          "odds": 1.33
+        },
+        {
+          "match_id": "SP1:2025-05-04:Sevilla:Leganes",
+          "outcome": 0,
+          "probability": 0.5414175700564419,
+          "odds": 1.77
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-05",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-09",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-09",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-10",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.5154999999999998,
+      "legs": [
+        {
+          "match_id": "D1:2025-05-10:Bayern Munich:M'gladbach",
+          "outcome": 0,
+          "probability": 0.8315107284919077,
+          "odds": 1.17
+        },
+        {
+          "match_id": "D1:2025-05-10:Holstein Kiel:Freiburg",
+          "outcome": 2,
+          "probability": 0.44548035083760507,
+          "odds": 2.15
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-10",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.2210999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-10:Ath Madrid:Sociedad",
+          "outcome": 0,
+          "probability": 0.5717175151671928,
+          "odds": 1.67
+        },
+        {
+          "match_id": "SP1:2025-05-10:Mallorca:Valladolid",
+          "outcome": 0,
+          "probability": 0.7288390851801471,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-11",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "D1:2025-05-11:Ein Frankfurt:St Pauli",
+          "outcome": 0,
+          "probability": 0.6298362799303994,
+          "odds": 1.53
+        },
+        {
+          "match_id": "D1:2025-05-11:Stuttgart:Augsburg",
+          "outcome": 0,
+          "probability": 0.6248842552264974,
+          "odds": 1.55
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-11",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-11:Ath Bilbao:Alaves",
+          "outcome": 0,
+          "probability": 0.509357772317099,
+          "odds": 1.8
+        },
+        {
+          "match_id": "SP1:2025-05-11:Betis:Osasuna",
+          "outcome": 0,
+          "probability": 0.5942626921920624,
+          "odds": 1.62
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-13",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.8891,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-13:Sevilla:Las Palmas",
+          "outcome": 0,
+          "probability": 0.575390357938666,
+          "odds": 1.67
+        },
+        {
+          "match_id": "SP1:2025-05-13:Valladolid:Girona",
+          "outcome": 2,
+          "probability": 0.5605140592566324,
+          "odds": 1.73
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-14",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.8353999999999999,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-14:Real Madrid:Mallorca",
+          "outcome": 0,
+          "probability": 0.7000808758580848,
+          "odds": 1.38
+        },
+        {
+          "match_id": "SP1:2025-05-14:Villarreal:Leganes",
+          "outcome": 0,
+          "probability": 0.7299824402500634,
+          "odds": 1.33
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-15",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-15:Espanol:Barcelona",
+          "outcome": 2,
+          "probability": 0.7456337250826102,
+          "odds": 1.3
+        },
+        {
+          "match_id": "SP1:2025-05-15:Osasuna:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.455464466533669,
+          "odds": 2.1
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "D1",
+      "date": "2025-05-17",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.6350000000000002,
+      "legs": [
+        {
+          "match_id": "D1:2025-05-17:Dortmund:Holstein Kiel",
+          "outcome": 0,
+          "probability": 0.8922943202970299,
+          "odds": 1.09
+        },
+        {
+          "match_id": "D1:2025-05-17:Hoffenheim:Bayern Munich",
+          "outcome": 2,
+          "probability": 0.6432569400624132,
+          "odds": 1.5
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-18",
+      "budget": 1,
+      "stake": 1,
+      "won": 0,
+      "profit": -1.0,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-18:Celta:Vallecano",
+          "outcome": 0,
+          "probability": 0.5487066189492005,
+          "odds": 1.75
+        },
+        {
+          "match_id": "SP1:2025-05-18:Valladolid:Alaves",
+          "outcome": 2,
+          "probability": 0.6016840669506406,
+          "odds": 1.6
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-23",
+      "budget": 1,
+      "stake": 0,
+      "won": 0,
+      "profit": 0.0,
+      "legs": [],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-24",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 0.7939999999999998,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-24:Espanol:Las Palmas",
+          "outcome": 0,
+          "probability": 0.6991565805317665,
+          "odds": 1.38
+        },
+        {
+          "match_id": "SP1:2025-05-24:Leganes:Valladolid",
+          "outcome": 0,
+          "probability": 0.744748571888082,
+          "odds": 1.3
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    },
+    {
+      "league": "SP1",
+      "date": "2025-05-25",
+      "budget": 1,
+      "stake": 1,
+      "won": 1,
+      "profit": 1.8268,
+      "legs": [
+        {
+          "match_id": "SP1:2025-05-25:Girona:Ath Madrid",
+          "outcome": 2,
+          "probability": 0.503516012629166,
+          "odds": 1.91
+        },
+        {
+          "match_id": "SP1:2025-05-25:Villarreal:Sevilla",
+          "outcome": 0,
+          "probability": 0.6581611610184511,
+          "odds": 1.48
+        }
+      ],
+      "season": 2024,
+      "selected_model": "shin"
+    }
+  ],
+  "input_sha256": "1ac4f6cbcdf738810c1c51efc4f267614b6e0519130496df9235ae055fc5191f"
+}
