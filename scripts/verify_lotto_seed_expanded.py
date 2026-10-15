@@ -1,8 +1,13 @@
+import argparse
 import json, math
 from pathlib import Path
-p=Path('data/lotto/reports/seed-expanded')
+parser = argparse.ArgumentParser(description='Independent scalar verification of saved seed experiments')
+parser.add_argument('--report', type=Path, default=Path('data/lotto/reports/seed-expanded'))
+parser.add_argument('--data', type=Path, default=Path('data/lotto/draws.jsonl'))
+args = parser.parse_args()
+p=args.report
 r=json.loads((p/'experiment.json').read_text())
-draws=[json.loads(line) for line in Path('data/lotto/draws.jsonl').read_text().splitlines()]
+draws=[json.loads(line) for line in args.data.read_text().splitlines()]
 mask=(1<<64)-1
 
 def ticket(seed, number):

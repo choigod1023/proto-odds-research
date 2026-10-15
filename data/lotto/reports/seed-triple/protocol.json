@@ -1,0 +1,29 @@
+{
+  "executable": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-seed-triple-20261015\\.local-build\\lotto_seed_scan.exe",
+  "data": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-seed-triple-20261015\\data\\lotto\\draws.jsonl",
+  "output": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-seed-triple-20261015\\data\\lotto\\reports\\seed-triple",
+  "candidate_count": 1000000000,
+  "batch_size": 100000000,
+  "offset": 20261015,
+  "stride": 1000003,
+  "workers": 8,
+  "train_end": 740,
+  "validation_end": 990,
+  "baseline_repeats": 10000,
+  "control_seed": 64520261015,
+  "version": "splitmix64-combinadic-v1",
+  "min_wins": 3,
+  "anchor_draw": 1,
+  "last_draw": 1238,
+  "population": 2264776941325,
+  "python": "3.14.3",
+  "numpy": "2.5.1",
+  "training_hash": "13323d50362018813966da8d6046a4ea1e0cf855aab2f8896cdc49619e634280",
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "executable_sha256": "86204e0cd1e57740d8057ea3ac6b985a20d2f4ff0abf0f6b7235beefdedc13dd",
+  "source_hashes": {
+    "lotto_seed_scan.cpp": "2d715384922100ac563d21390eaad6f939d2da2c01c4a56177a2059e8c560730",
+    "lotto_seed_triple.py": "d1a7a4ebf04d0838e8a52a80c94b20996edfffbea7dd5b6a00b7682ac80a5667",
+    "lotto_seed_expanded.py": "f66d0dda0027bd576c53253e240c2549e608e325a805dbba1494e79ef21e1c3d"
+  }
+}
