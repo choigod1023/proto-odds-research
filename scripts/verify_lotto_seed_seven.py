@@ -14,6 +14,12 @@ N=math.comb(45,6)
 STEP=0x9E3779B97F4A7C15
 
 
+def matches_digest(raw, expected):
+    # Git may convert LF/CRLF on checkout; preserve the original run hashes.
+    lf=raw.replace(b'\r\n',b'\n')
+    return any(hashlib.sha256(v).hexdigest()==expected for v in (raw,lf,lf.replace(b'\n',b'\r\n')))
+
+
 def mix(x):
     x=((x^(x>>30))*0xBF58476D1CE4E5B9)&MASK
     x=((x^(x>>27))*0x94D049BB133111EB)&MASK
@@ -34,7 +40,7 @@ def main():
     result=json.loads((a.report/'experiment.json').read_text())
     draws=load_draws_jsonl(root/'data/lotto/draws.jsonl')
     assert data_hash(draws)==protocol['ledger_hash']
-    assert hashlib.sha256((root/'src/lotto_seed_seven.py').read_bytes()).hexdigest()==protocol['source_sha256']
+    assert matches_digest((root/'src/lotto_seed_seven.py').read_bytes(),protocol['source_sha256'])
     summary={}
     for label,parity in [('odd',1),('even',0)]:
         training=[d for d in draws if d.draw_no<=protocol['train_end'] and d.draw_no%2==parity]
@@ -47,7 +53,7 @@ def main():
         inverse=pow(protocol['stride'],-1,population)
         for entry in half['manifest']:
             raw=(a.report/entry['file']).read_bytes()
-            assert hashlib.sha256(raw).hexdigest()==entry['sha256']
+            assert matches_digest(raw,entry['sha256'])
             batch=json.loads(raw)
             assert batch['start']==cursor and sum(batch['histogram'])==batch['count']
             assert len(batch['histogram'])==len(hist) and all(v>=0 for v in batch['histogram'])

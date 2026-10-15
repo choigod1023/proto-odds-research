@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -13,6 +14,17 @@ from lotto645 import DrawRecord
 from lotto_seed_expanded import MASK, N, STEP, combo_rank, ranks, unmix
 from lotto_seed_128 import encode_seed, save, ticket
 from lotto_seed_seven import check_batch, extend_half, groups_for_seven
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+from verify_lotto_seed_seven import matches_digest
+
+
+def test_verification_survives_git_newlines_but_rejects_changed_content():
+    lf=b'{"result": 0}\n'
+    crlf=lf.replace(b'\n',b'\r\n')
+    for raw in (lf,crlf):
+        for recorded in (lf,crlf):
+            assert matches_digest(raw,hashlib.sha256(recorded).hexdigest())
+        assert not matches_digest(raw.replace(b'0',b'1'),hashlib.sha256(lf).hexdigest())
 
 
 def row(n,numbers):
