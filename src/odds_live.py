@@ -98,7 +98,9 @@ def collect(previous_picks: dict | None = None,
                     if str(value).isdigit()]
     if known_rounds:
         # 볼륨에 일부 옛 캐시만 남아 있는 경우도 DB 회차보다 뒤로 물러나지 않는다.
-        hint = max(hint, max(1, max(known_rounds) - 3))
+        # Research archives can contain future rounds (production had 175 while
+        # current sales were 122/123). They are not a live discovery watermark.
+        hint = max(1, max(known_rounds) - 3)
 
     cached = _recent_scan_rounds(previous_odds)
     if cached is not None:
@@ -110,7 +112,13 @@ def collect(previous_picks: dict | None = None,
     # 발매 감지가 놓치거나 스캔을 건너뛴 회차를 직접 확인한다. picks_v2 가 아는
     # 회차뿐 아니라 그 **바로 다음 두 회차**도 확인해, 갓 열린 회차(오늘 저녁 경기가
     # 여기 있을 수 있다)를 wisetoto 제한 중에도 요청 몇 건으로 잡는다.
-    probe = set(known_rounds)
+    # picks retains historical rounds for frozen predictions. Re-fetching all
+    # of them on every poll made 101..122 take over ten minutes on the worker.
+    # Keep the latest neighbours plus every explicitly active previous round;
+    # historical settlement has its own collector and is not discarded here.
+    probe = set(sorted(set(known_rounds))[-3:])
+    probe.update(int(value) for value in (previous_odds or {}).get("rounds", [])
+                 if str(value).isdigit())
     if known_rounds:
         probe |= {max(known_rounds) + 1, max(known_rounds) + 2}
     if rounds:
