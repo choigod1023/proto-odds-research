@@ -20,15 +20,22 @@ class PreparedMatchResponses:
         self.lock = threading.Lock()
         self.requested = {'recent'}
         self.ready = {}
+        self.published_revisions = {}
 
     def refresh(self):
+        revision = self.views.current_revision()
         with self.lock:
             scopes = sorted(self.requested, key=lambda scope: scope != 'recent')
         for scope in scopes:
             day = datetime.now(KST).date().isoformat()
+            with self.lock:
+                if (revision == self.published_revisions.get(scope) and scope in self.ready
+                        and self.ready[scope][0] == day):
+                    continue
             body = self.views.get_bytes(scope)
             with self.lock:
                 self.ready[scope] = (day, body)
+                self.published_revisions[scope] = self.views.revision
 
     def get_bytes(self, scope='recent', key=None, revision=None, compressed=True):
         if scope == 'detail':
@@ -117,6 +124,20 @@ class MatchViews:
         self.cache = {}
         self.wire_cache = {}
 
+    def current_revision(self):
+        metadata = self.database.artifact_metadata('picks_v2', include_size=False)
+        if metadata is None:
+            raise KeyError('picks unavailable')
+        kbo = self.database.get_document('kbo_pregame') or {}
+        return self._view_revision(metadata['stored_at'], kbo)
+
+    @staticmethod
+    def _view_revision(stamp, kbo):
+        # An empty schedule's polling timestamp changes no displayed lineup.
+        if kbo.get('games') and kbo.get('generated_at'):
+            return stamp + '|kbo:' + kbo['generated_at']
+        return stamp
+
     def release_working_set(self):
         """Drop rebuildable expanded trees, preserving compressed HTTP/details."""
         with self.lock:
@@ -133,13 +154,12 @@ class MatchViews:
             # Display-only current lineup can update after T-30 without changing
             # the frozen prediction. Include its revision in the HTTP view key.
             kbo = self.database.get_document('kbo_pregame') or {}
-            view_stamp = row['stored_at']
-            if kbo.get('generated_at'):
-                view_stamp += '|kbo:' + kbo['generated_at']
+            view_stamp = self._view_revision(row['stored_at'], kbo)
             if self.revision != view_stamp or self.payload is None:
                 stored = self.database.get_artifact_json('picks_v2')
                 if stored is None: raise KeyError('picks unavailable')
                 body, stamp = stored
+                view_stamp = self._view_revision(stamp, kbo)
                 payload = json.loads(body)
                 del body, stored
                 # Keep detail records compressed, not as thousands of nested Python

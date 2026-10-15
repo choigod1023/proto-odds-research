@@ -14,6 +14,8 @@ def test_http_reads_do_not_wait_for_blocked_refresh():
     old = gzip.compress(b'{"generated_at":"original","live":[]}')
     new = gzip.compress(b'{"generated_at":"next","live":[]}')
     views = SimpleNamespace(get_bytes=lambda scope: old)
+    views.revision = 'old'
+    views.current_revision = lambda: views.revision
     cache = match_api.PreparedMatchResponses(views)
     cache.refresh()
 
@@ -23,6 +25,7 @@ def test_http_reads_do_not_wait_for_blocked_refresh():
         return new
 
     views.get_bytes = blocked
+    views.revision = 'new'
     worker = threading.Thread(target=cache.refresh)
     worker.start()
     try:
@@ -49,16 +52,19 @@ def test_cold_scope_failure_and_midnight_never_relabel_old_response(monkeypatch)
     calls = []
     body = gzip.compress(b'{"generated_at":"original"}')
     views = SimpleNamespace(get_bytes=lambda scope: calls.append(scope) or body)
+    views.revision = 'old'
+    views.current_revision = lambda: views.revision
     cache = match_api.PreparedMatchResponses(views)
     with pytest.raises(KeyError): cache.get_bytes()
     assert calls == []  # cold requests do not trigger synchronous work
     cache.refresh()
     with pytest.raises(KeyError): cache.get_bytes('all')
     cache.refresh()
-    assert calls == ['recent', 'recent', 'all']
+    assert calls == ['recent', 'all']
     assert cache.get_bytes('all') is body
     def fail(scope): raise OSError('DB busy')
     views.get_bytes = fail
+    views.revision = 'new'
     with pytest.raises(OSError): cache.refresh()
     assert cache.get_bytes() is body
     Clock.offset = 1
