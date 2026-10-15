@@ -185,6 +185,7 @@ _memory_heavy_lock = threading.Lock()
 _score_refresh_lock = threading.Lock()
 _release_match_working_set = lambda: None
 _publish_match_responses = lambda: None
+_initial_views_ready = threading.Event()
 _odds_recommendation_lock = threading.Lock()
 _next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
@@ -559,8 +560,16 @@ def run_looper(name: str, cmd: list[str], interval: int,
                     rc = subprocess.run(cmd, cwd=REPO).returncode
                     if rc == 0:
                         rc = _refresh_market_after_collection()
+            elif name == "배당 스냅샷":
+                # Same source as live odds; do not retain its scraper heap while
+                # the odds handoff waits for decision headroom.
+                with _odds_recommendation_lock:
+                    rc = subprocess.run(cmd, cwd=REPO, timeout=600).returncode
             else:
-                rc = subprocess.run(cmd, cwd=REPO).returncode
+                # Drain these small collectors too before measuring decision
+                # headroom. No score/lineup/source worker overlaps publication.
+                with _score_refresh_lock:
+                    rc = subprocess.run(cmd, cwd=REPO, timeout=180).returncode
         except Exception as e:                        # noqa: BLE001
             log(f"{name} 예외: {type(e).__name__}: {e}")
             rc = -1
@@ -912,9 +921,15 @@ def warm_match_views(views, stop, rebuild_lock=None) -> None:
                     if available is not None and available >= 256:
                         if rebuild_lock is None:
                             views.refresh()
+                            _release_match_working_set()
+                            release_unused_heap()
+                            _initial_views_ready.set()
                         elif rebuild_lock.acquire(blocking=False):
                             try:
                                 views.refresh()
+                                _release_match_working_set()
+                                release_unused_heap()
+                                _initial_views_ready.set()
                             finally:
                                 rebuild_lock.release()
                 finally:
@@ -949,6 +964,8 @@ def serve_live() -> None:
         # cannot deadlock with a request currently holding the rebuild slot.
         with artifact_responses.rebuild:
             match_views.refresh()
+            match_views.views.release_working_set()
+        release_unused_heap()
 
     _publish_match_responses = publish_match_responses
 
@@ -1139,11 +1156,7 @@ def main() -> int:
     # HTTP와 실시간 점수를 먼저 연다. LOOPERS는 각 5초씩 순차 기동하므로 서버를
     # 뒤에 두면 정상 부팅이어도 1분 넘게 503이 난다. DB artifact의 직전 값은 이미
     # 있으므로 서버는 즉시 응답하고 새 점수는 백그라운드에서 교체하면 된다.
-    threading.Thread(target=serve_live, daemon=True).start()
-    threading.Thread(target=run_live, daemon=True).start()
-    # Do not wait behind pickster/feature memory gates or the first successful
-    # odds cycle. Uses existing DB inputs and preserves their source timestamps.
-    threading.Thread(target=run_recommendation_refresh, daemon=True).start()
+    start_realtime_workers()
 
     for name, cmd, interval in LOOPERS:
         threading.Thread(target=run_looper,
@@ -1157,6 +1170,21 @@ def main() -> int:
     while True:                # 메인 스레드는 살아만 있으면 된다
         time.sleep(3600)
         log("생존 신호")
+
+
+def start_realtime_workers():
+    threading.Thread(target=serve_live, daemon=True).start()
+    # Give the first stored response the only heavy slot before collectors and
+    # repair can take it. Bound failure waiting; the warmer continues retrying.
+    if not _initial_views_ready.wait(90):
+        log("첫 웹 응답 준비 지연 — 90초 상한, 백그라운드 재시도 유지")
+    else:
+        log("첫 웹 응답 준비 완료 — 수집 시작")
+    threading.Thread(target=run_live, daemon=True).start()
+    # Do not wait behind pickster/feature memory gates or the first successful
+    # odds cycle. Uses existing DB inputs and preserves their source timestamps.
+    threading.Thread(target=run_recommendation_refresh, daemon=True).start()
+
 
 
 if __name__ == "__main__":

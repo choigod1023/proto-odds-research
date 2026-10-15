@@ -30,6 +30,10 @@ def test_release_expanded_cache_preserves_published_list_and_details(tmp_path, m
     assert views.payload is None and views.cache == {} and views.wire_cache == {}
     assert prepared.get_bytes() == body
     assert prepared.get_bytes('detail', key=game_key(current), revision=revision, compressed=False) == detail
+    # An unchanged revision must not recreate the released expanded tree.
+    prepared.refresh()
+    assert views.payload is None
+    db.store_artifact('picks_v2', {'generated_at': '2026-09-22T00:01:00Z', 'live': [current]})
     with monkeypatch.context() as patch:
         patch.setattr(db, 'get_artifact_json', lambda *a: (_ for _ in ()).throw(RuntimeError('busy')))
         with pytest.raises(RuntimeError):
@@ -38,7 +42,7 @@ def test_release_expanded_cache_preserves_published_list_and_details(tmp_path, m
         assert prepared.get_bytes('detail', key=game_key(current), revision=revision, compressed=False) == detail
     prepared.refresh()
     assert views.payload is not None
-    assert prepared.get_bytes() == body
+    assert json.loads(prepared.get_bytes(compressed=False))['generated_at'] == '2026-09-22T00:01:00Z'
 
 
 def test_summary_preserves_decision_and_separates_detail_history():
