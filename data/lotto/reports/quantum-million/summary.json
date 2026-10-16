@@ -1,0 +1,56 @@
+{
+  "complete": true,
+  "total_null_histories": 999999,
+  "reused_prefix_histories": 99999,
+  "new_histories": 900000,
+  "fit_success_count": 999999,
+  "resumed_count": 100999,
+  "wall_seconds_this_launch": 33062.23118,
+  "worker_cpu_seconds_all_new_blocks": 50290.140625,
+  "max_worker_memory_mib": 113.65234375,
+  "coordinator_peak_memory_mib": 109.9140625,
+  "comparisons": {
+    "validation": {
+      "observed": -0.0025357664010134937,
+      "exceedances": 568844,
+      "null_histories": 999999,
+      "p_upper_plus_one": 0.568845,
+      "tail_probability_ci95": [
+        0.567873221983015,
+        0.5698155169194281
+      ],
+      "null_interval_95": [
+        -0.010685413920673303,
+        0.005726695387779483
+      ]
+    },
+    "final": {
+      "observed": 0.00295607881356895,
+      "exceedances": 102114,
+      "null_histories": 999999,
+      "p_upper_plus_one": 0.102115,
+      "tail_probability_ci95": [
+        0.10152128099331807,
+        0.10270922901515168
+      ],
+      "null_interval_95": [
+        -0.010728036407706974,
+        0.005733771790556738
+      ]
+    },
+    "seen_extension": {
+      "observed": 0.0014530650075181611,
+      "exceedances": 442795,
+      "null_histories": 999999,
+      "p_upper_plus_one": 0.442796,
+      "tail_probability_ci95": [
+        0.44182156200444955,
+        0.44376965494692344
+      ],
+      "null_interval_95": [
+        -0.051254368521114625,
+        0.04530408935228097
+      ]
+    }
+  }
+}
