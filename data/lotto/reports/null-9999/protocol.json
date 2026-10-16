@@ -1,0 +1,93 @@
+{
+  "total_fake_histories": 9999,
+  "reused_fake_histories": 999,
+  "new_fake_histories": 9000,
+  "candidates_per_half": 1000000,
+  "controls_per_history": 199,
+  "training": [
+    1,
+    740
+  ],
+  "validation": [
+    741,
+    990
+  ],
+  "final": [
+    991,
+    1238
+  ],
+  "history_seed": "645000+index",
+  "generator": "splitmix64-paired128-v1",
+  "selection": "same 2+2 threshold, two constructed anchors",
+  "workers": 8,
+  "fixed_stopping_budget": 9999,
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "original_protocol": {
+    "executable": ".local-build\\scan-two.exe",
+    "output": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-bias-null-20261015\\data\\lotto\\reports\\bias-null",
+    "bias_repeats": 1999,
+    "fake_histories": 99,
+    "candidates": 1000000,
+    "controls": 199,
+    "training": [
+      1,
+      740
+    ],
+    "validation": [
+      741,
+      990
+    ],
+    "final": [
+      991,
+      1238
+    ],
+    "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "generator": "splitmix64-paired128-v1",
+    "threshold": "2+2 training hits, including two constructed anchors",
+    "bias_seed": 20261015,
+    "history_seed": "645000+index",
+    "workers": 4,
+    "caveat": "retrospective, previously inspected holdouts; reduced-budget full selection null, not a repeat of the seven-hit budget",
+    "bias_tests": "4 audit statistics plus 4 fixed prediction models x 2 splits; Holm correction over all 12",
+    "seed_tests": "matched-sharing control z compared with synthetic-history z; Bonferroni over 2 splits",
+    "source_hash": "4a822b961181ddc4b0f0b9db8a6266cd00bacde51d9b87667d84631677c2c2e6",
+    "executable_hash": "0d25bdabb735f4ebab134bb92f5a61f218fa142e79684d668f6b0995d3f853c2"
+  },
+  "prefix_commit": "e3ab171b",
+  "prefix_archive_sha256": "8a56e4f256a6e57c3f6cf9b4d545d8d9c87cb5ea742f8b53acfbbd96781ef71d",
+  "frozen_source_lf_sha256": {
+    "src/lotto_bias_null.py": "4a822b961181ddc4b0f0b9db8a6266cd00bacde51d9b87667d84631677c2c2e6",
+    "src/lotto_seed_scan.cpp": "bc2df535dde5b81b9b06754344f4f0166b8eb794e75e0ea64398d83751a06a94",
+    "src/lotto_seed_expanded.py": "b10a8a081e690598697f969269f6773edbd9a29f3f7872ab1ff7dfe6d13977b0",
+    "src/lotto_seed_128.py": "ebf2780204ca34abc18973c12c154190a4e6d7cc206b20db1b60c3fdf64b3f62"
+  },
+  "optimized_source_lf_sha256": "4577200f239811cc443b0823756be6f8d0fb01e2e23692af0d42caf392de9c20",
+  "runner_source_lf_sha256": "4f5a352638838614f14c94c3d54cbacabeab43439fc328dc5925a2c87bb4d01c",
+  "executable_sha256": "e5d82accc76297137b4484a9ffb68a743472f48ce236c1004004e272f3ffa35e",
+  "reference_executable_sha256": "54e89a2c5ea743e4e383345ec54ad2707cbd817d4cca8375f75a87e1b7610cf1",
+  "arithmetic_equivalence_checks": [
+    {
+      "history_index": 0,
+      "canonical_sha256": "1486f4e3859977eca130a921cb0d30d0696fe0d02979759d68483e184d4eff60",
+      "identical": true
+    },
+    {
+      "history_index": 1,
+      "canonical_sha256": "ec3725ab35ff36ec7f27e8648c53433272060fae549baea0fc9b97455e6d7e9c",
+      "identical": true
+    },
+    {
+      "history_index": 623,
+      "canonical_sha256": "63d70d1e534b0c188b09f687526b583eb16f7cdd2821a8436a18e7991425a063",
+      "identical": true
+    },
+    {
+      "history_index": 999,
+      "canonical_sha256": "cce2d58613a17915432002d091ffa3150885c90ed9f85b23fac539f5caab0084",
+      "identical": true
+    }
+  ],
+  "primary_comparison": "same standardized mean match statistic and Bonferroni across original two splits",
+  "new_rounds": "no new outcomes added; prior 1239-1245 evaluation retained unchanged",
+  "caveat": "increased Monte Carlo precision on already inspected historical outcomes, not new predictive evidence"
+}
