@@ -1,0 +1,99 @@
+{
+  "actual": {
+    "selected": 3,
+    "nonuniform_diagnostic": 3,
+    "training_mean_log_gain": [
+      0.0,
+      -0.05458047227516112,
+      -0.0011201881911097162,
+      0.00019457769112529803,
+      -0.0412102336274058,
+      -0.006046555005476651,
+      -4.863152834763335e-05,
+      -0.03672783873840882,
+      -0.010150231436230065,
+      -0.00028316767047870654
+    ],
+    "splits": {
+      "validation": {
+        "n": 250,
+        "mean_log_gain": 0.0001804092851365553,
+        "diagnostic_mean_log_gain": 0.0001804092851365553
+      },
+      "final": {
+        "n": 248,
+        "mean_log_gain": -0.0003584227228586688,
+        "diagnostic_mean_log_gain": -0.0003584227228586688
+      },
+      "previously_seen_extension": {
+        "n": 7,
+        "mean_log_gain": 0.0001880469913095238,
+        "diagnostic_mean_log_gain": 0.0001880469913095238
+      }
+    }
+  },
+  "null_selected_uniform": 90,
+  "comparisons": {
+    "validation": {
+      "mean_log_gain": {
+        "observed": 0.0001804092851365553,
+        "geometric_probability_ratio": 1.0001804255598703,
+        "null_interval_95": [
+          -0.010415797511902051,
+          0.004120827178907655
+        ],
+        "p_upper_plus_one": 0.205
+      },
+      "diagnostic_mean_log_gain": {
+        "observed": 0.0001804092851365553,
+        "geometric_probability_ratio": 1.0001804255598703,
+        "null_interval_95": [
+          -0.010415797511902051,
+          0.004120827178907655
+        ],
+        "p_upper_plus_one": 0.32
+      }
+    },
+    "final": {
+      "mean_log_gain": {
+        "observed": -0.0003584227228586688,
+        "geometric_probability_ratio": 0.9996416415028919,
+        "null_interval_95": [
+          -0.007248659403127593,
+          0.0026178052703537355
+        ],
+        "p_upper_plus_one": 0.665
+      },
+      "diagnostic_mean_log_gain": {
+        "observed": -0.0003584227228586688,
+        "geometric_probability_ratio": 0.9996416415028919,
+        "null_interval_95": [
+          -0.007248659403127593,
+          0.00272210559015428
+        ],
+        "p_upper_plus_one": 0.47
+      }
+    },
+    "previously_seen_extension": {
+      "mean_log_gain": {
+        "observed": 0.0001880469913095238,
+        "geometric_probability_ratio": 1.0001880646732533,
+        "null_interval_95": [
+          -0.04305593241514866,
+          0.02104123069840179
+        ],
+        "p_upper_plus_one": 0.23
+      },
+      "diagnostic_mean_log_gain": {
+        "observed": 0.0001880469913095238,
+        "geometric_probability_ratio": 1.0001880646732533,
+        "null_interval_95": [
+          -0.04305593241514866,
+          0.02104123069840179
+        ],
+        "p_upper_plus_one": 0.43
+      }
+    }
+  },
+  "elapsed_seconds": 17.418529000000035
+}
