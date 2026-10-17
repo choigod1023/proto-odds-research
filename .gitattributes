@@ -9,3 +9,12 @@ docs/research/2026-10-01-score-tournament-protocol.md text eol=lf
 
 # Research evidence hashes the exact script bytes, including line endings.
 scripts/evaluate_draw_calibration_holdout.py text eol=lf
+
+# Preserve the bytes recorded by this power study's protocol and audit.
+data/lotto/dependence-power/** -text whitespace=cr-at-eol
+scripts/lotto_dependence_power.py -text
+scripts/curveball_power.cpp -text
+scripts/lotto_combination_dependence.py -text
+scripts/lotto_coverage_resources.py -text
+scripts/audit_lotto_dependence_power.py -text
+scripts/lotto_dependence_oracle_diagnostic.py -text

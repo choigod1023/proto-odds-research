@@ -1,0 +1,46 @@
+{
+  "jobs": 510,
+  "repeats_per_alternative": 30,
+  "null_repeats": 60,
+  "levels": {
+    "pair": [
+      1.25,
+      1.5,
+      2,
+      3,
+      4
+    ],
+    "pure_triple": [
+      1.5,
+      2,
+      3,
+      5,
+      8
+    ],
+    "diffuse": [
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ]
+  },
+  "histories_per_dataset": 1000,
+  "block_size": 200,
+  "spokes": 999,
+  "steps": 20000,
+  "test": "unchanged Python analyze(): pair/triple dispersion,15180-feature maxT,Bonferroni3; local gate<=.05",
+  "primary_power": "local gate used to promote the prior prediction rule",
+  "secondary_power": "any global adjusted p<=.05 and injected target identification",
+  "alternative": "iid draws; pair keeps singles; pure_triple keeps singles and all pairs; diffuse keeps singles",
+  "seed_base": 202610174001,
+  "interval": "Clopper-Pearson exact95% pointwise; not simultaneous; no effect exclusion confidence bound",
+  "resources": "one CPU BelowNormal; >=50% rest after native batches and Python analysis;384MiB/1800s per invocation guards",
+  "native": "same reversible kernel law, different PRNG draws from prior Python run; compiled single-thread C++",
+  "sha256": {
+    "scripts\\lotto_dependence_power.py": "3c38d9be426f661784fa1a3036dfda1f5b47cfece0797aba36c41f90f9d84e02",
+    "scripts\\curveball_power.cpp": "8b2d3dbcb62e4021840c46f56e72666e624dc8388540965b1d31d7b1dfa1ae3d",
+    "scripts\\lotto_combination_dependence.py": "3f0f1871a659217da2a78dd134d70f1ae8bc2607f8f3c93af9bfe82aa14a8c46",
+    "scripts\\lotto_coverage_resources.py": "44fcc26079de4bed0d43aefcee1b97da0a9200399440ace24881f4c2f3df79a6"
+  }
+}

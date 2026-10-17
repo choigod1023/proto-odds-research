@@ -1,0 +1,19 @@
+{
+  "role": "secondary exploratory diagnostic, not part of primary fixed grid",
+  "selected_cases": [
+    [
+      "pair",
+      2
+    ],
+    [
+      "pure_triple",
+      3
+    ]
+  ],
+  "replicates_each": 30,
+  "alpha": 0.05,
+  "null": "same exact-margin conditional sampler; same999spokes,20000steps",
+  "statistic": "absolute target count minus symmetric mean; target supplied by generator before observed counts",
+  "limitation": "known target requires external prior information; cannot use on a target selected from actual data",
+  "source_sha256": "bf7d190754fac302996ebda03163fd505317c1155160167611de17dd4fb48712"
+}

@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "cells": [
+    {
+      "kind": "pair",
+      "strength": 2,
+      "n": 30,
+      "known_target_count": 29,
+      "known_target_rate": 0.9666666666666667,
+      "ci95_pointwise": [
+        0.8278305443665873,
+        0.9991564290733695
+      ],
+      "original_target_count": 1
+    },
+    {
+      "kind": "pure_triple",
+      "strength": 3,
+      "n": 30,
+      "known_target_count": 18,
+      "known_target_rate": 0.6,
+      "ci95_pointwise": [
+        0.4060349300518187,
+        0.7734423511714064
+      ],
+      "original_target_count": 0
+    }
+  ],
+  "wall_seconds": 67.07602829999814,
+  "cpu_seconds": 43.765625,
+  "peak_mib": 167.59375
+}
