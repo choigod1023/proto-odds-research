@@ -1,0 +1,20 @@
+{
+  "total": 8145060,
+  "batch": 25000,
+  "family_weights": "six equal; within-family average model ranks",
+  "selection": "maximize minimum family percentile, then average; exact ties use lexicographic numbers",
+  "midrank": "(count strictly lower + 0.5 * count equal) / total",
+  "resources": "one CPU, BelowNormal, disk-backed float64 scores, 50% rest per batch, 384 MiB peak guard, 30 minute budget",
+  "source_sha256": "fe918bc8506dd5b55ae5db01036d1427c438d0b644a16df2e09c62cc2eb6168a",
+  "input_hashes": {
+    "base.jsonl": "30321eef31fe7494a7ada3e2224ca548967fefcb85e2558c771b1e88971224b2",
+    "consensus.json": "ab42530538ff192b2c557d4d8f894381508c5ef0d1f01e8c52404ac423da8115",
+    "extra.jsonl": "0d7e5c56ca52b8b362896d0c00eaa450fad607b04cfe5ae9fa644900b891455e",
+    "protocol.json": "26739403cface6ee81ea5161034371cdeb363f1d718ff394fc6a6ce6e18e20c5",
+    "quantum-actual.json": "f1391ccafa06a0b8c43737b644f4362aa24664e5d5dd176451db52afbac9636f",
+    "results.json": "803e0a245a144d17d1fb57dee5c2da435394f64578434bbc2d98183bfbec8037"
+  },
+  "data_through": 1245,
+  "target_draw": 1246,
+  "models_refitted": false
+}
