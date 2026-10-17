@@ -12,6 +12,8 @@ scripts/evaluate_draw_calibration_holdout.py text eol=lf
 
 # Exact-byte evidence for the split-screen study.
 scripts/lotto_split_screen.py -text
+scripts/lotto_split_screen_followup.py -text
+scripts/audit_lotto_split_screen.py -text
 scripts/split_screen_kernel.cpp -text
 scripts/curveball_power.cpp -text
 scripts/lotto_dependence_power.py -text

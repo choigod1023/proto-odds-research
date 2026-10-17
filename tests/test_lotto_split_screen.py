@@ -1,4 +1,5 @@
 import sys
+import json
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import numpy as np
@@ -55,6 +56,7 @@ def test_fixed_gate_requires_improvement_not_just_good_power():
     for r in rows:
         if (r['kind'],r['strength']) in s.WEAK:r['full_target']=False
     assert s.gate(rows)['passed']
+    assert json.loads(json.dumps(s.gate(rows)))['passed']
 
 def test_partition_sampler_reproducible(native):
     rows,_=s.prior.generate('null',1,123,n=20)

@@ -27,3 +27,15 @@ def test_completed_followup_is_not_overwritten(tmp_path,monkeypatch):
     before=(tmp_path/'actual-results.json').read_bytes()
     f.run(None)
     assert (tmp_path/'actual-results.json').read_bytes()==before
+
+def test_completed_study_does_not_restart_or_replace_resource_times(tmp_path,monkeypatch):
+    monkeypatch.setattr(s,'OUT',tmp_path)
+    monkeypatch.setattr(s.prior.old.resources,'constrain',lambda:None)
+    monkeypatch.setattr(s,'protocol',lambda:{'frozen':True})
+    def forbidden():raise AssertionError('completed study must not create sampler')
+    monkeypatch.setattr(s,'Native',forbidden)
+    s.save('protocol.json',{'frozen':True})
+    s.save('results.json',{'status':'completed','resources_this_invocation':{'wall_seconds':123.45}})
+    before=(tmp_path/'results.json').read_bytes()
+    s.run()
+    assert (tmp_path/'results.json').read_bytes()==before

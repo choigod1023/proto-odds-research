@@ -122,7 +122,7 @@ def gate(records):
     upper=1. if n==len(controls) else float(beta.ppf(.95,n+1,len(controls)-n))
     wins=sum(r['split_target'] and not r['full_target'] for r in weak)
     losses=sum(r['full_target'] and not r['split_target'] for r in weak)
-    p=binomtest(wins,wins+losses,.5,alternative='greater').pvalue if wins+losses else 1.
+    p=float(binomtest(wins,wins+losses,.5,alternative='greater').pvalue) if wins+losses else 1.
     improvement=(wins-losses)/len(weak)
     strong=[r for r in records if r['kind']=='pair' and r['strength']==3]
     strong_rate=sum(r['split_target'] for r in strong)/len(strong)
