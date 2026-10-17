@@ -1,0 +1,29 @@
+{
+  "reason": "scipy binomtest returned NumPy scalar, resulting comparison was not JSON serializable",
+  "records_sha256_before_repair": "a9b5b7eaea8376b862d9a9d703c05b64909b4789f440d572debf021be9400c93",
+  "original_protocol_sha256": "c8d8f77bfc723ba006fcac1f8390eff27ae633715d9c2beeeab894d1b670da9f",
+  "original_source_sha256": "b370622a7a355626b24f85028a8ad7813ec49c3168b74a34a74a083b37b3f99e",
+  "numerical_gate_before_fix": {
+    "passed": true,
+    "checks": {
+      "null_upper95_le_012": true,
+      "weak_gain_at_least_005": true,
+      "paired_one_sided_p_le_005": true,
+      "pair3_power_at_least_half": true
+    },
+    "null_hits": 4,
+    "null_n": 100,
+    "null_one_sided_upper95": 0.08919625015887987,
+    "weak_n": 120,
+    "split_only": 11,
+    "full_only": 3,
+    "weak_gain": 0.06666666666666667,
+    "paired_one_sided_p": 0.0286865234375,
+    "pair3_split_rate": 1.0
+  },
+  "recomputed_histories": 0,
+  "status": "applied",
+  "fixed_source_sha256": "a45ec8669dfc803c1cf7c5a4771bf1e9df6c12c3806461bf410b0d6ae30ba86d",
+  "fixed_protocol_sha256": "bac823a440a4d614213e702d69ba8ecf0155c868fd0c5845a2464a153a1a08ce",
+  "numerical_results_unchanged": true
+}
