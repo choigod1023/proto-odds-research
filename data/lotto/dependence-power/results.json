@@ -1,0 +1,561 @@
+{
+  "status": "completed",
+  "records": 510,
+  "cells": [
+    {
+      "kind": "null",
+      "strength": 1,
+      "n": 60,
+      "effect": {
+        "description": "no dependence; false-positive check"
+      },
+      "global_detected": {
+        "count": 2,
+        "rate": 0.03333333333333333,
+        "ci95_pointwise": [
+          0.004062624642093496,
+          0.1152810444192517
+        ]
+      },
+      "local_gate": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.05962949228616691
+        ]
+      }
+    },
+    {
+      "kind": "pair",
+      "strength": 1.25,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 1.25,
+        "expected_target_count_per_1000": 18.93939393939394,
+        "null_expected_target_count_per_1000": 15.151515151515152,
+        "target_category_probabilities": [
+          0.7522727272727273,
+          0.2287878787878788,
+          0.01893939393939394
+        ]
+      },
+      "global_detected": {
+        "count": 2,
+        "rate": 0.06666666666666667,
+        "ci95_pointwise": [
+          0.008178134460656307,
+          0.22073540152296187
+        ]
+      },
+      "local_gate": {
+        "count": 1,
+        "rate": 0.03333333333333333,
+        "ci95_pointwise": [
+          0.0008435709266304789,
+          0.17216945563341265
+        ]
+      },
+      "target_identified": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      }
+    },
+    {
+      "kind": "pair",
+      "strength": 1.5,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 1.5,
+        "expected_target_count_per_1000": 22.727272727272727,
+        "null_expected_target_count_per_1000": 15.151515151515152,
+        "target_category_probabilities": [
+          0.7560606060606061,
+          0.2212121212121212,
+          0.022727272727272728
+        ]
+      },
+      "global_detected": {
+        "count": 4,
+        "rate": 0.13333333333333333,
+        "ci95_pointwise": [
+          0.037553496338363315,
+          0.30721835027612676
+        ]
+      },
+      "local_gate": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      },
+      "target_identified": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      }
+    },
+    {
+      "kind": "pair",
+      "strength": 2,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 2,
+        "expected_target_count_per_1000": 30.303030303030305,
+        "null_expected_target_count_per_1000": 15.151515151515152,
+        "target_category_probabilities": [
+          0.7636363636363637,
+          0.20606060606060606,
+          0.030303030303030304
+        ]
+      },
+      "global_detected": {
+        "count": 4,
+        "rate": 0.13333333333333333,
+        "ci95_pointwise": [
+          0.037553496338363315,
+          0.30721835027612676
+        ]
+      },
+      "local_gate": {
+        "count": 2,
+        "rate": 0.06666666666666667,
+        "ci95_pointwise": [
+          0.008178134460656307,
+          0.22073540152296187
+        ]
+      },
+      "target_identified": {
+        "count": 1,
+        "rate": 0.03333333333333333,
+        "ci95_pointwise": [
+          0.0008435709266304789,
+          0.17216945563341265
+        ]
+      }
+    },
+    {
+      "kind": "pair",
+      "strength": 3,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 3,
+        "expected_target_count_per_1000": 45.45454545454545,
+        "null_expected_target_count_per_1000": 15.151515151515152,
+        "target_category_probabilities": [
+          0.7787878787878788,
+          0.17575757575757575,
+          0.045454545454545456
+        ]
+      },
+      "global_detected": {
+        "count": 27,
+        "rate": 0.9,
+        "ci95_pointwise": [
+          0.7347115495257919,
+          0.9788828629702774
+        ]
+      },
+      "local_gate": {
+        "count": 27,
+        "rate": 0.9,
+        "ci95_pointwise": [
+          0.7347115495257919,
+          0.9788828629702774
+        ]
+      },
+      "target_identified": {
+        "count": 27,
+        "rate": 0.9,
+        "ci95_pointwise": [
+          0.7347115495257919,
+          0.9788828629702774
+        ]
+      }
+    },
+    {
+      "kind": "pair",
+      "strength": 4,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 4,
+        "expected_target_count_per_1000": 60.60606060606061,
+        "null_expected_target_count_per_1000": 15.151515151515152,
+        "target_category_probabilities": [
+          0.793939393939394,
+          0.14545454545454545,
+          0.06060606060606061
+        ]
+      },
+      "global_detected": {
+        "count": 30,
+        "rate": 1.0,
+        "ci95_pointwise": [
+          0.8842966917779722,
+          1.0
+        ]
+      },
+      "local_gate": {
+        "count": 30,
+        "rate": 1.0,
+        "ci95_pointwise": [
+          0.8842966917779722,
+          1.0
+        ]
+      },
+      "target_identified": {
+        "count": 30,
+        "rate": 1.0,
+        "ci95_pointwise": [
+          0.8842966917779722,
+          1.0
+        ]
+      }
+    },
+    {
+      "kind": "pure_triple",
+      "strength": 1.5,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 1.5,
+        "expected_target_count_per_1000": 2.1141649048625792,
+        "null_expected_target_count_per_1000": 1.4094432699083863,
+        "target_category_probabilities": [
+          0.6433403805496829,
+          0.31543340380549684,
+          0.039112050739957716,
+          0.0021141649048625794
+        ]
+      },
+      "global_detected": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      },
+      "local_gate": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      },
+      "target_identified": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      }
+    },
+    {
+      "kind": "pure_triple",
+      "strength": 2,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 2,
+        "expected_target_count_per_1000": 2.8188865398167726,
+        "null_expected_target_count_per_1000": 1.4094432699083863,
+        "target_category_probabilities": [
+          0.6426356589147286,
+          0.3175475687103594,
+          0.03699788583509514,
+          0.0028188865398167725
+        ]
+      },
+      "global_detected": {
+        "count": 1,
+        "rate": 0.03333333333333333,
+        "ci95_pointwise": [
+          0.0008435709266304789,
+          0.17216945563341265
+        ]
+      },
+      "local_gate": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      },
+      "target_identified": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      }
+    },
+    {
+      "kind": "pure_triple",
+      "strength": 3,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 3,
+        "expected_target_count_per_1000": 4.2283298097251585,
+        "null_expected_target_count_per_1000": 1.4094432699083863,
+        "target_category_probabilities": [
+          0.6412262156448203,
+          0.32177589852008454,
+          0.03276955602536998,
+          0.004228329809725159
+        ]
+      },
+      "global_detected": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      },
+      "local_gate": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      },
+      "target_identified": {
+        "count": 0,
+        "rate": 0.0,
+        "ci95_pointwise": [
+          0.0,
+          0.11570330822202779
+        ]
+      }
+    },
+    {
+      "kind": "pure_triple",
+      "strength": 5,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 5,
+        "expected_target_count_per_1000": 7.047216349541931,
+        "null_expected_target_count_per_1000": 1.4094432699083863,
+        "target_category_probabilities": [
+          0.6384073291050035,
+          0.3302325581395349,
+          0.024312896405919663,
+          0.007047216349541931
+        ]
+      },
+      "global_detected": {
+        "count": 4,
+        "rate": 0.13333333333333333,
+        "ci95_pointwise": [
+          0.037553496338363315,
+          0.30721835027612676
+        ]
+      },
+      "local_gate": {
+        "count": 4,
+        "rate": 0.13333333333333333,
+        "ci95_pointwise": [
+          0.037553496338363315,
+          0.30721835027612676
+        ]
+      },
+      "target_identified": {
+        "count": 4,
+        "rate": 0.13333333333333333,
+        "ci95_pointwise": [
+          0.037553496338363315,
+          0.30721835027612676
+        ]
+      }
+    },
+    {
+      "kind": "pure_triple",
+      "strength": 8,
+      "n": 30,
+      "effect": {
+        "target_multiplier": 8,
+        "expected_target_count_per_1000": 11.27554615926709,
+        "null_expected_target_count_per_1000": 1.4094432699083863,
+        "target_category_probabilities": [
+          0.6341789992952783,
+          0.34291754756871035,
+          0.01162790697674419,
+          0.01127554615926709
+        ]
+      },
+      "global_detected": {
+        "count": 21,
+        "rate": 0.7,
+        "ci95_pointwise": [
+          0.5060409585374464,
+          0.8526548152452988
+        ]
+      },
+      "local_gate": {
+        "count": 20,
+        "rate": 0.6666666666666666,
+        "ci95_pointwise": [
+          0.47187995521011944,
+          0.8271257784739607
+        ]
+      },
+      "target_identified": {
+        "count": 20,
+        "rate": 0.6666666666666666,
+        "ci95_pointwise": [
+          0.47187995521011944,
+          0.8271257784739607
+        ]
+      }
+    },
+    {
+      "kind": "diffuse",
+      "strength": 0.005,
+      "n": 30,
+      "effect": {
+        "mixture_fraction": 0.005,
+        "within_group_pair_multiplier": 1.0225,
+        "within_group_triple_multiplier": 1.1639285714285714
+      },
+      "global_detected": {
+        "count": 2,
+        "rate": 0.06666666666666667,
+        "ci95_pointwise": [
+          0.008178134460656307,
+          0.22073540152296187
+        ]
+      },
+      "local_gate": {
+        "count": 1,
+        "rate": 0.03333333333333333,
+        "ci95_pointwise": [
+          0.0008435709266304789,
+          0.17216945563341265
+        ]
+      }
+    },
+    {
+      "kind": "diffuse",
+      "strength": 0.01,
+      "n": 30,
+      "effect": {
+        "mixture_fraction": 0.01,
+        "within_group_pair_multiplier": 1.045,
+        "within_group_triple_multiplier": 1.3278571428571428
+      },
+      "global_detected": {
+        "count": 3,
+        "rate": 0.1,
+        "ci95_pointwise": [
+          0.02111713702972257,
+          0.2652884504742081
+        ]
+      },
+      "local_gate": {
+        "count": 2,
+        "rate": 0.06666666666666667,
+        "ci95_pointwise": [
+          0.008178134460656307,
+          0.22073540152296187
+        ]
+      }
+    },
+    {
+      "kind": "diffuse",
+      "strength": 0.02,
+      "n": 30,
+      "effect": {
+        "mixture_fraction": 0.02,
+        "within_group_pair_multiplier": 1.0899999999999999,
+        "within_group_triple_multiplier": 1.6557142857142857
+      },
+      "global_detected": {
+        "count": 8,
+        "rate": 0.26666666666666666,
+        "ci95_pointwise": [
+          0.12279480987235482,
+          0.45889365139475125
+        ]
+      },
+      "local_gate": {
+        "count": 1,
+        "rate": 0.03333333333333333,
+        "ci95_pointwise": [
+          0.0008435709266304789,
+          0.17216945563341265
+        ]
+      }
+    },
+    {
+      "kind": "diffuse",
+      "strength": 0.05,
+      "n": 30,
+      "effect": {
+        "mixture_fraction": 0.05,
+        "within_group_pair_multiplier": 1.2249999999999999,
+        "within_group_triple_multiplier": 2.6392857142857142
+      },
+      "global_detected": {
+        "count": 30,
+        "rate": 1.0,
+        "ci95_pointwise": [
+          0.8842966917779722,
+          1.0
+        ]
+      },
+      "local_gate": {
+        "count": 19,
+        "rate": 0.6333333333333333,
+        "ci95_pointwise": [
+          0.43855984901195755,
+          0.8007013749879655
+        ]
+      }
+    },
+    {
+      "kind": "diffuse",
+      "strength": 0.1,
+      "n": 30,
+      "effect": {
+        "mixture_fraction": 0.1,
+        "within_group_pair_multiplier": 1.4500000000000002,
+        "within_group_triple_multiplier": 4.2785714285714285
+      },
+      "global_detected": {
+        "count": 30,
+        "rate": 1.0,
+        "ci95_pointwise": [
+          0.8842966917779722,
+          1.0
+        ]
+      },
+      "local_gate": {
+        "count": 30,
+        "rate": 1.0,
+        "ci95_pointwise": [
+          0.8842966917779722,
+          1.0
+        ]
+      }
+    }
+  ],
+  "resources_this_invocation": {
+    "wall_seconds": 750.8759303000115,
+    "cpu_seconds": 480.625,
+    "peak_mib": 361.67578125,
+    "records_at_start": 0
+  }
+}
