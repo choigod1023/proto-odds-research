@@ -27,6 +27,37 @@ def test_known_kbo_local_time_projects_and_captures(tmp_path):
     assert result["training_eligible"] is False
 
 
+def test_batch_uses_same_kbo_timezone_and_ambiguity_guard(tmp_path):
+    db = RuntimeDatabase(tmp_path / "batch.sqlite3")
+    row = sample()
+    key = ("KBO", "KIA", "LG", "2026-09-27T08:00:00Z")
+    db.put_document("player_info", {"games": [row]})
+    assert db.player_fixtures_document([key]) == db.player_fixture_document(*key)
+    duplicate = dict(row, game_datetime="2026-09-27T08:00:00Z")
+    db.put_document("player_info", {"games": [row, duplicate, duplicate]})
+    assert len(db.player_fixtures_document([key])["games"]) == 2
+    db.put_document("player_info", {"games": [dict(row, source="unknown")]})
+    assert db.player_fixtures_document([key]) == {"games": []}
+
+
+def test_curated_team_aliases_connect_without_fuzzy_dates(tmp_path):
+    db = RuntimeDatabase(tmp_path / 'aliases.sqlite3')
+    row = dict(sample(), league='MLB', home_team='클리블랜드', away_team='탬파베이',
+               game_datetime='2026-09-27T08:00:00Z', source='MLB Stats API')
+    key = ('MLB', '클리가디', '탬파레이', '2026-09-27T08:00:00Z')
+    db.put_document('player_info', {'games': [row]})
+    document = db.player_fixtures_document([key])
+    assert document['games'] == [row]
+    assert document == db.player_fixture_document(*key)
+    game = dict(league=key[0], home=key[1], away=key[2])
+    assert capture(game, document, observed_at='2026-09-27T01:00:00Z',
+                   kickoff=key[3])['status'] == 'captured'
+    assert db.player_fixtures_document([(*key[:3], '2026-09-27T09:00:00Z')])['games'] == []
+    db.put_document('player_info', {'games': [row, dict(row, home_team='클리가디')]})
+    assert capture(game, db.player_fixtures_document([key]), observed_at='2026-09-27T01:00:00Z',
+                   kickoff=key[3])['status'] == 'unavailable'
+
+
 def test_known_local_time_does_not_relax_freshness_or_ambiguity(tmp_path):
     db = RuntimeDatabase(tmp_path / "db.sqlite3")
     row = sample()

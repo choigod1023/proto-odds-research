@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
 from player_fixture_time import fixture_time
+from player_info import canonical_team, _team_map
 
 
 def timestamp(value):
@@ -24,11 +25,14 @@ def capture(game, document, *, observed_at, kickoff):
         return reject("missing_player_document")
     if not isinstance(document.get("games"), list):
         return reject("invalid_player_document")
-    # Exact names and full kickoff only. Do not guess aliases, dates or doubleheaders.
+    # Use only the existing curated aliases; retain exact league/full kickoff.
+    mapping = _team_map()
+    def team(name):
+        return canonical_team(game.get('league'), name, mapping)
     matches = [r for r in document.get("games", []) if isinstance(r, dict)
                and r.get("league") == game.get("league")
-               and r.get("home_team") == game.get("home")
-               and r.get("away_team") == game.get("away")
+               and team(r.get("home_team")) == team(game.get("home"))
+               and team(r.get("away_team")) == team(game.get("away"))
                and fixture_time(r.get("game_datetime"), r.get("league"), r.get("source")) == start]
     if len(matches) != 1:
         return reject("missing_or_ambiguous_fixture")

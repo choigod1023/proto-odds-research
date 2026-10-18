@@ -24,6 +24,17 @@ def settlement():
 
 
 class AuditTests(unittest.TestCase):
+    def test_operating_lineage_does_not_require_ai(self):
+        row = prediction()
+        row['predictions']['probability_detail']['ai_candidate'] = None
+        row['predictions']['odds'] = 1.6
+        self.assertEqual(audit([row, settlement()])['exact_settled_probability_pairs'], 0)
+        result = audit([row, settlement()], require_candidate=False)
+        self.assertEqual(result['operating_descriptive']['exact_settled_operating_predictions'], 1)
+        self.assertEqual(result['operating_descriptive']['with_valid_saved_odds'], 1)
+        self.assertIsNone(result['roi'])
+        self.assertFalse(result['promotion_allowed'])
+
     def test_pending_is_not_a_loss_or_zero_roi(self):
         result = audit([prediction()])
         self.assertEqual(result['exact_settled_probability_pairs'], 0)

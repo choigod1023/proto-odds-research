@@ -139,6 +139,9 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         for row in game.get("options", [])
     ]
     return _safe_json({
+        "fixture": {key: game.get(key) for key in (
+            "sport", "league", "home", "away", "year", "round", "date",
+            "source_event_id", "match_id")},
         **({"research_player_inputs": game["research_player_inputs"]}
            if "research_player_inputs" in game else {}),
         "score_inputs": {

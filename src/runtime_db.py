@@ -224,6 +224,11 @@ class RuntimeDatabase(DatasetStore):
         """
         from player_fixture_time import fixture_time
 
+        from player_info import canonical_team, _team_map
+        from functools import lru_cache
+        mapping = _team_map()
+        normalize = lru_cache(maxsize=4096)(lambda league, name: canonical_team(league, name, mapping))
+
         def instant(value, league, source):
             parsed = fixture_time(value, league, source)
             return parsed.isoformat() if parsed is not None else None
@@ -232,17 +237,20 @@ class RuntimeDatabase(DatasetStore):
             # Interpret only the documented legacy KBO local-time contract.
             # Reuse capture's parser so SQL and Python cannot disagree on timezone.
             connection.create_function("player_fixture_time", 3, instant, deterministic=True)
+            connection.create_function("player_team", 2,
+                normalize, deterministic=True)
             rows = connection.execute(
                 """SELECT j.value FROM documents d, json_each(d.payload_json,'$.games') j
                    WHERE d.name='player_info'
                      AND json_extract(j.value,'$.league')=?
-                     AND json_extract(j.value,'$.home_team')=?
-                     AND json_extract(j.value,'$.away_team')=?
+                     AND player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.home_team'))=?
+                     AND player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.away_team'))=?
                      AND julianday(player_fixture_time(
                          json_extract(j.value,'$.game_datetime'),
                          json_extract(j.value,'$.league'),
                          json_extract(j.value,'$.source')))=julianday(?)
-                   LIMIT 2""", (league, home, away, kickoff)).fetchall()
+                   LIMIT 2""", (league, canonical_team(league, home, mapping),
+                                canonical_team(league, away, mapping), kickoff)).fetchall()
         return {"games": [json.loads(row[0]) for row in rows]}
 
     def document_metadata(self, name: str) -> dict[str, Any] | None:
@@ -263,23 +271,40 @@ class RuntimeDatabase(DatasetStore):
         requested = list(dict.fromkeys(fixtures))
         if not requested:
             return {"games": []}
+        from player_fixture_time import fixture_time
+        from player_info import canonical_team, _team_map
+        from functools import lru_cache
+        mapping = _team_map()
+        normalize = lru_cache(maxsize=4096)(lambda league, name: canonical_team(league, name, mapping))
+
+        def instant(value, league, source):
+            parsed = fixture_time(value, league, source)
+            return parsed.isoformat() if parsed is not None else None
+
         with self.connect() as connection:
+            connection.create_function("player_fixture_time", 3, instant, deterministic=True)
+            connection.create_function("player_team", 2,
+                normalize, deterministic=True)
             rows = connection.execute("""
                 WITH matched AS (
                   SELECT j.value, ROW_NUMBER() OVER (
                     PARTITION BY json_extract(j.value,'$.league'),
-                      json_extract(j.value,'$.home_team'),
-                      json_extract(j.value,'$.away_team'),
-                      julianday(json_extract(j.value,'$.game_datetime'))
+                      player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.home_team')),
+                      player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.away_team')),
+                      julianday(player_fixture_time(json_extract(j.value,'$.game_datetime'),
+                        json_extract(j.value,'$.league'),json_extract(j.value,'$.source')))
                     ORDER BY CAST(j.key AS INTEGER)) AS occurrence
                   FROM documents d, json_each(d.payload_json,'$.games') j
                   WHERE d.name='player_info' AND EXISTS (
                     SELECT 1 FROM json_each(?) r
                     WHERE json_extract(r.value,'$[0]')=json_extract(j.value,'$.league')
-                      AND json_extract(r.value,'$[1]')=json_extract(j.value,'$.home_team')
-                      AND json_extract(r.value,'$[2]')=json_extract(j.value,'$.away_team')
+                      AND player_team(json_extract(r.value,'$[0]'),json_extract(r.value,'$[1]'))=
+                          player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.home_team'))
+                      AND player_team(json_extract(r.value,'$[0]'),json_extract(r.value,'$[2]'))=
+                          player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.away_team'))
                       AND julianday(json_extract(r.value,'$[3]'))=
-                          julianday(json_extract(j.value,'$.game_datetime'))))
+                          julianday(player_fixture_time(json_extract(j.value,'$.game_datetime'),
+                            json_extract(j.value,'$.league'),json_extract(j.value,'$.source')))))
                 SELECT value FROM matched WHERE occurrence<=2
                 """, (json.dumps(requested),))
             return {"games": [json.loads(row[0]) for row in rows]}
