@@ -6,6 +6,34 @@ from match_api import MatchViews, PreparedMatchResponses
 from runtime_db import RuntimeDatabase
 
 
+def test_http_binds_before_bootstrap_while_heavy_workers_are_blocked(monkeypatch):
+    events = []
+    lock = threading.Lock()
+    monkeypatch.setattr(supervisor, '_memory_heavy_lock', lock)
+    monkeypatch.setattr(supervisor.threading, 'Thread', lambda target, daemon:
+                        SimpleNamespace(start=lambda: events.append('http')))
+    def wait(timeout):
+        assert events == ['http'] and timeout == 30 and lock.locked()
+        events.append('bound')
+        return True
+    monkeypatch.setattr(supervisor, '_http_ready', SimpleNamespace(wait=wait))
+    def migrate(*args, **kwargs):
+        assert events == ['http', 'bound'] and lock.locked()
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(supervisor, 'sh', migrate)
+    assert supervisor.bootstrap_with_http().returncode == 0
+    assert not lock.locked()
+
+
+def test_collectors_do_not_start_duplicate_http_after_bootstrap(monkeypatch):
+    started = []
+    monkeypatch.setattr(supervisor.threading, 'Thread', lambda target, daemon:
+                        SimpleNamespace(start=lambda: started.append(target)))
+    monkeypatch.setattr(supervisor, '_initial_views_ready', SimpleNamespace(wait=lambda timeout: True))
+    supervisor.start_realtime_workers(start_http=False)
+    assert started == [supervisor.run_live, supervisor.run_recommendation_refresh]
+
+
 @pytest.mark.parametrize('ready', [True, False])
 def test_initial_api_preparation_precedes_collectors_with_bounded_failure(monkeypatch, ready):
     started = []

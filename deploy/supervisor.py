@@ -186,6 +186,7 @@ _score_refresh_lock = threading.Lock()
 _release_match_working_set = lambda: None
 _publish_match_responses = lambda: None
 _initial_views_ready = threading.Event()
+_http_ready = threading.Event()
 _odds_recommendation_lock = threading.Lock()
 _market_cycle_pending = threading.Event()
 _next_recommendation_refresh = 0.0
@@ -984,7 +985,11 @@ def serve_live() -> None:
     from isolated_match_responses import IsolatedMatchResponses
     from urllib.parse import urlsplit, parse_qs
     global _release_match_working_set, _publish_match_responses
-    match_views = IsolatedMatchResponses(MatchViews(database))
+    match_views = IsolatedMatchResponses(MatchViews(database),
+                                       snapshot_path=database.path.with_suffix('.responses.zip'))
+    if 'recent' in match_views.ready:
+        _initial_views_ready.set()
+        log('재시작 응답 복원 — 원래 생성 시각과 revision 유지')
     _release_match_working_set = match_views.views.release_working_set
     from artifact_responses import ArtifactResponses
     artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
@@ -1131,6 +1136,7 @@ def serve_live() -> None:
     stop_warming = threading.Event()
     try:
         with ThreadingHTTPServer(("0.0.0.0", LIVE_PORT), H) as server:
+            _http_ready.set()
             threading.Thread(target=warm_match_views,
                              args=(match_views, stop_warming, artifact_responses.rebuild), daemon=True).start()
             server.serve_forever()
@@ -1172,7 +1178,7 @@ def main() -> int:
         log("레포 준비 실패 — 60초 후 재시도하도록 종료")
         return 1
 
-    migration = sh(DATABASE_BOOTSTRAP, cwd=REPO)
+    migration = bootstrap_with_http()
     if migration.returncode:
         log(f"DB 이관 실패: {(migration.stderr or migration.stdout)[-220:]}")
         return 1
@@ -1186,7 +1192,7 @@ def main() -> int:
     # HTTP와 실시간 점수를 먼저 연다. LOOPERS는 각 5초씩 순차 기동하므로 서버를
     # 뒤에 두면 정상 부팅이어도 1분 넘게 503이 난다. DB artifact의 직전 값은 이미
     # 있으므로 서버는 즉시 응답하고 새 점수는 백그라운드에서 교체하면 된다.
-    start_realtime_workers()
+    start_realtime_workers(start_http=False)
 
     for name, cmd, interval in LOOPERS:
         threading.Thread(target=run_looper,
@@ -1202,8 +1208,19 @@ def main() -> int:
         log("생존 신호")
 
 
-def start_realtime_workers():
-    threading.Thread(target=serve_live, daemon=True).start()
+def bootstrap_with_http():
+    # Bind HTTP and restore compressed last-good bodies before the expensive
+    # import. Block warmers/collectors during import, not cached HTTP readers.
+    with _memory_heavy_lock:
+        threading.Thread(target=serve_live, daemon=True).start()
+        if not _http_ready.wait(30):
+            log('HTTP 기동 지연 — DB 준비 후 응답 준비 재시도')
+        return sh(DATABASE_BOOTSTRAP, cwd=REPO)
+
+
+def start_realtime_workers(start_http=True):
+    if start_http:
+        threading.Thread(target=serve_live, daemon=True).start()
     # Give the first stored response the only heavy slot before collectors and
     # repair can take it. Bound failure waiting; the warmer continues retrying.
     if not _initial_views_ready.wait(90):
