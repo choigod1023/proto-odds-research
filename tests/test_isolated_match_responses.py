@@ -120,3 +120,67 @@ def test_worker_rejects_mixed_scope_revisions(tmp_path, monkeypatch):
     with pytest.raises(RuntimeError, match='revision changed'):
         build(database.path, output, ['recent', 'all'])
     assert not output.exists()
+
+
+def test_restart_serves_original_list_and_details_without_db_or_child(tmp_path, monkeypatch):
+    database, document = fixture(tmp_path)
+    path = tmp_path / 'responses.zip'
+    before = IsolatedMatchResponses(MatchViews(database), path)
+    before.requested.add('all')
+    before.refresh()
+    monkeypatch.setattr(database, 'artifact_metadata', lambda *a, **k: pytest.fail('DB not ready'))
+    monkeypatch.setattr(subprocess, 'run', lambda *a, **k: pytest.fail('no child during restore'))
+    after = IsolatedMatchResponses(MatchViews(database), path)
+    for scope in ('recent', 'all'):
+        assert before.get_bytes(scope) == after.get_bytes(scope)
+    key = game_key(document['live'][0])
+    assert before.get_bytes('detail', key=key, revision=before.views.revision) == after.get_bytes(
+        'detail', key=key, revision=after.views.revision)
+    assert after.views.payload is None
+
+
+@pytest.mark.parametrize('invalid', ['corrupt', 'yesterday', 'version', 'mixed'])
+def test_invalid_restart_cache_is_not_served(tmp_path, invalid):
+    from match_response_snapshot import save
+    database, _ = fixture(tmp_path)
+    path = tmp_path / 'responses.zip'
+    before = IsolatedMatchResponses(MatchViews(database), path)
+    before.refresh()
+    if invalid == 'corrupt':
+        path.write_bytes(b'broken zip')
+    elif invalid == 'yesterday':
+        ready = {k: ('2000-01-01', v[1]) for k, v in before.ready.items()}
+        save(path, ready, before.published_revisions, before.views.revision, before.views.games)
+    elif invalid == 'mixed':
+        save(path, before.ready, {'recent': 'other'}, before.views.revision, before.views.games)
+    else:
+        import match_response_snapshot
+        old = match_response_snapshot.VERSION
+        try:
+            match_response_snapshot.VERSION = -1
+            save(path, before.ready, before.published_revisions, before.views.revision, before.views.games)
+        finally:
+            match_response_snapshot.VERSION = old
+    restored = IsolatedMatchResponses(MatchViews(database), path)
+    with pytest.raises(KeyError):
+        restored.get_bytes()
+    restored.refresh()
+    assert restored.get_bytes()
+
+
+def test_disk_failure_does_not_break_live_publish_or_last_snapshot(tmp_path, monkeypatch):
+    import match_response_snapshot
+    database, document = fixture(tmp_path)
+    path = tmp_path / 'responses.zip'
+    prepared = IsolatedMatchResponses(MatchViews(database), path)
+    prepared.refresh()
+    previous = path.read_bytes()
+    document['generated_at'] = '2026-10-18T11:04:00Z'
+    database.store_artifact('picks_v2', document)
+    def fail(*args):
+        raise OSError('disk full')
+    monkeypatch.setattr(match_response_snapshot.os, 'replace', fail)
+    prepared.refresh()
+    assert json.loads(prepared.get_bytes(compressed=False))['generated_at'] == document['generated_at']
+    assert path.read_bytes() == previous
+    assert list(tmp_path.glob('responses.zip*')) == [path]

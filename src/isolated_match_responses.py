@@ -6,14 +6,27 @@ import subprocess
 import sys
 import tempfile
 import threading
+import logging
+import zipfile
+from match_response_snapshot import load, save
 
 from match_api import KST, PreparedMatchResponses
 
 
 class IsolatedMatchResponses(PreparedMatchResponses):
-    def __init__(self, views):
+    def __init__(self, views, snapshot_path=None):
         super().__init__(views)
         self.refresh_lock = threading.Lock()
+        self.snapshot_path = snapshot_path
+        if snapshot_path is not None:
+            try:
+                ready, revisions, revision, games = load(snapshot_path, datetime.now(KST).date().isoformat())
+                self.ready, self.published_revisions = ready, revisions
+                self.views.revision, self.views.games = revision, games
+                self.requested.update(ready)
+            except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile):
+                # Missing/corrupt/incompatible cache must not prevent startup.
+                logging.getLogger(__name__).info('No compatible restart response cache')
 
     def refresh(self):
         with self.refresh_lock:
@@ -42,3 +55,9 @@ class IsolatedMatchResponses(PreparedMatchResponses):
                     self.views.revision = actual_revision
                     self.ready = ready
                     self.published_revisions = revisions
+            if self.snapshot_path is not None:
+                try:
+                    save(self.snapshot_path, ready, revisions, actual_revision, games)
+                except OSError:
+                    # Disk failure must not undo a successfully published response.
+                    logging.getLogger(__name__).warning('Restart response cache save failed')
