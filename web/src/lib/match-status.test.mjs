@@ -29,6 +29,16 @@ test("취소와 연기는 진행 중으로 오인하지 않는다", () => {
   assert.equal(gamePhase({}, { status: "POSTPONED", postponed: true }), "pending");
 });
 
+test("공식 종료 복구는 사전 예측 적중 기록을 만들지 않는다", () => {
+  const game = { status: "결과확인", official_event_status: "RESULT",
+    official_event_status_source: "current_proto_full_game_result" };
+  assert.equal(gamePhase(game, null), "finished");
+  assert.equal(gamePhase(game, { status: "STARTED", finished: false }), "finished");
+  assert.equal(recommendationOutcome(game).state, "unrecorded");
+  assert.equal(gamePhase(game, { cancelled: true }), "pending");
+  assert.equal(gamePhase({ ...game, official_event_status_source: null }), "pending");
+});
+
 test("10분 넘게 갱신되지 않은 시작 상태를 계속 진행 중으로 표시하지 않는다", () => {
   const now = new Date("2026-09-01T20:30:00+09:00").getTime();
   const game = { status: "경기전", _liveFeedAt: "2026-09-01T11:00:00Z" };
