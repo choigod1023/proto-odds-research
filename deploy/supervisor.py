@@ -187,6 +187,7 @@ _release_match_working_set = lambda: None
 _publish_match_responses = lambda: None
 _initial_views_ready = threading.Event()
 _odds_recommendation_lock = threading.Lock()
+_market_cycle_pending = threading.Event()
 _next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
 MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
@@ -227,13 +228,15 @@ def _background_slot(name: str):
     while True:
         with _memory_heavy_lock:
             available = _available_memory_mb()
-            if available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
+            priority_pending = _market_cycle_pending.is_set()
+            if not priority_pending and available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
                 log(f"{name} 실제 실행 — 여유 {available}MB, 대기 {int(time.monotonic()-started)}s")
                 yield
                 return
         now = time.monotonic()
         if now >= next_notice:
-            log(f"{name} 메모리 대기 — 여유 {available}MB / 필요 {BACKGROUND_MIN_AVAILABLE_MB}MB, "
+            reason = "배당·판정 우선 대기" if priority_pending else "메모리 대기"
+            log(f"{name} {reason} — 여유 {available}MB / 필요 {BACKGROUND_MIN_AVAILABLE_MB}MB, "
                 f"대기 {int(now-started)}s; 실시간 수집 유지")
             next_notice = now + 300
         if name == "선수·팀 정보":
@@ -546,6 +549,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
         log(f"{name} 시작을 {initial_delay}s 분산")
         time.sleep(initial_delay)
     next_recommendation = 0.0
+    market_retry = False
     while True:
         log(f"{name} 시작")
         try:
@@ -556,10 +560,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
             elif name == "실시간 배당":
                 # The independent recommendation worker must not race a new
                 # odds child between checking headroom and starting its process.
-                with _odds_recommendation_lock:
-                    rc = subprocess.run(cmd, cwd=REPO).returncode
-                    if rc == 0:
-                        rc = _refresh_market_after_collection()
+                rc, market_retry = _run_odds_cycle(cmd, market_retry)
             elif name == "배당 스냅샷":
                 # Same source as live odds; do not retain its scraper heap while
                 # the odds handoff waits for decision headroom.
@@ -584,6 +585,34 @@ def run_looper(name: str, cmd: list[str], interval: int,
 
 
 MARKET_REFRESH_TIMEOUT = 300
+
+
+def _run_odds_cycle(cmd, market_retry=False):
+    """Reserve admission before waiting for snapshots; retry saved prices first.
+
+    Existing background children finish normally (no transaction interruption).
+    New optional work cannot repeatedly overtake the pending publication.
+    """
+    _market_cycle_pending.set()
+    try:
+        with _odds_recommendation_lock:
+            if not market_retry:
+                rc = subprocess.run(cmd, cwd=REPO).returncode
+                if rc != 0:
+                    return rc, False
+                market_retry = True
+            else:
+                log("저장된 배당 판정 우선 재시도 — 원천 재수집 생략")
+            try:
+                rc = _refresh_market_after_collection()
+            except Exception as exc:
+                log(f"배당 후속 판정 실패: {type(exc).__name__}; 저장된 배당으로 재시도")
+                rc = 1
+            market_retry = rc != 0
+            return rc, market_retry
+    finally:
+        if not market_retry:
+            _market_cycle_pending.clear()
 
 
 def release_unused_heap():
