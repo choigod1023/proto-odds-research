@@ -17,7 +17,7 @@ def probability(value):
             and math.isfinite(value) and 0 < value < 1)
 
 
-def audit(records):
+def audit(records, *, require_candidate=True):
     counts = Counter()
     rejected = Counter()
     versions = Counter()
@@ -56,7 +56,7 @@ def audit(records):
         if not pred.get('selection_id') or not pred.get('offer_id'):
             rejected['selected_missing_selection_or_offer'] += 1
             continue
-        if not probability(detail.get('market')) or not probability(detail.get('ai_candidate')):
+        if not probability(detail.get('market')) or (require_candidate and not probability(detail.get('ai_candidate'))):
             rejected['selected_missing_probability_pair'] += 1
             continue
         versions[str((row.get('model') or {}).get('residual_version') or 'unknown')] += 1
@@ -89,12 +89,34 @@ def audit(records):
     return {
         'record_counts': dict(counts), 'selected_pre_t30_events': len(latest),
         'exclusions': dict(rejected), 'probability_pair_model_versions': dict(versions),
-        'exact_settled_probability_pairs': len(usable), 'distinct_utc_kickoff_days': len(days),
+        'exact_settled_probability_pairs': sum(probability(
+            (r['predictions'].get('probability_detail') or {}).get('ai_candidate')) for r, _ in usable),
+        'distinct_utc_kickoff_days': len(days),
         'day_from': days[0] if days else None, 'day_to': days[-1] if days else None,
         'status': 'requires_temporal_split_and_provenance_review' if usable else 'blocked_no_labeled_pairs',
         'roi': None, 'promotion_allowed': False,
+        'audit_mode': 'paired_model' if require_candidate else 'operating_lineage',
+        'operating_descriptive': operating_metrics(usable) if not require_candidate else None,
         'limitations': ['Does not verify source authenticity or ledger hash chain.',
                        'event_id deduplication does not prove physical-event deduplication across reissues.',
                        'Selected-offer audit only; not a full alternative-market or combination backtest.',
                        'Training labels must be available before each subsequent split boundary.'],
     }
+
+
+def operating_metrics(usable):
+    """Unit-stake description, not recommendation-policy or bankroll replay."""
+    priced = []
+    coverage = Counter()
+    for row, _ in usable:
+        pred = row['predictions']
+        odds = pred.get('odds')
+        player = (row.get('features') or {}).get('research_player_inputs') or {}
+        coverage[player.get('reason') or player.get('status') or 'not_recorded'] += 1
+        if (isinstance(odds, (int, float)) and not isinstance(odds, bool)
+                and math.isfinite(odds) and odds > 1):
+            priced.append(row)
+    return {'exact_settled_operating_predictions': len(usable),
+            'with_valid_saved_odds': len(priced),
+            'player_capture_reasons': dict(coverage),
+            'note': 'Lineage coverage only; no bets or model promotion. AI absence does not exclude operating picks.'}
