@@ -452,6 +452,8 @@ class PredictionRuntime:
                 "odds": payload.get("odds"),
                 "probability": payload.get("probability"),
                 "captured_at": prediction.get("captured_at"),
+                "kickoff": prediction.get("kickoff"),
+                "fixture": (prediction.get("features") or {}).get("fixture") or {},
                 "result": outcome.get("result") or "pending",
                 "score_forecast": payload.get("score_forecast"),
                 **({"settled_at": settlement.get("settled_at")} if settlement else {}),

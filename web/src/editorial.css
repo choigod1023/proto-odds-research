@@ -750,6 +750,23 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .accuracy-value > span { display:block; font-size:14px; letter-spacing:0; font-weight:500; margin-top:6px; }
 .accuracy-context { max-width:350px; font-size:12px; line-height:1.7; color:var(--color-ink3); }
 .accuracy-context p { margin:4px 0; }
+.overall-accuracy { flex-wrap:wrap; }
+.accuracy-note { flex-basis:100%; margin:0; font-size:13px; line-height:1.7; color:var(--color-ink3); }
+.accuracy-sports { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; width:100%; }
+.accuracy-sports button { display:flex; flex-direction:column; gap:5px; padding:14px; text-align:left; border:1px solid var(--color-rule); border-radius:10px; background:var(--color-panel); color:inherit; cursor:pointer; }
+.accuracy-sports button[aria-pressed="true"] { outline:2px solid currentColor; }
+.accuracy-sports b { font-size:24px; }
+.accuracy-sports span { font-size:12px; }
+.accuracy-history { width:100%; min-width:0; }
+.accuracy-history summary { cursor:pointer; font-weight:700; padding:12px 0; }
+.accuracy-filters { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin:12px 0; }
+.accuracy-filters select,.accuracy-filters button { padding:8px; border:1px solid var(--color-rule); border-radius:6px; background:var(--color-panel); color:inherit; }
+.accuracy-records { list-style:none; padding:0; margin:0; display:grid; gap:12px; }
+.accuracy-records li { border-top:1px solid var(--color-rule); padding:14px 0; overflow-wrap:anywhere; }
+.accuracy-records strong { display:block; margin:8px 0; }
+.accuracy-records p { font-size:13px; margin:5px 0; }
+.accuracy-records small { color:var(--color-ink3); }
+.accuracy-outcome { font-weight:700; }
 @media(max-width:650px) { .overall-accuracy { flex-direction:column; align-items:flex-start; gap:16px; padding:20px; } .accuracy-value { font-size:60px; } }
 .site-terms-link { margin-left:auto; font-size:11px; color:var(--color-ink3); padding:10px 0; white-space:nowrap; }
 .terms-page section { padding:18px 0; border-bottom:1px solid var(--color-rule); }
