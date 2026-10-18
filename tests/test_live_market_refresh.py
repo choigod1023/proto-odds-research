@@ -241,7 +241,7 @@ def test_post_kickoff_rows_never_replace_existing_pregame_decision():
     assert "_liveOddsChanged" not in game
 
 
-def test_refresh_does_not_add_finished_game_missing_from_document():
+def test_refresh_does_not_resurrect_old_finished_game_missing_from_document():
     document = {"generated_at": "old", "rounds": [], "live": [], "past": []}
     live_odds = {
         "generated_at": "2026-08-30T03:00:00+00:00",
@@ -252,10 +252,51 @@ def test_refresh_does_not_add_finished_game_missing_from_document():
         }}},
     }
 
-    refreshed, changed = refresh_document(document, live_odds)
+    refreshed, changed = refresh_document(document, live_odds,
+                                          now=datetime(2026, 9, 2, tzinfo=UTC))
 
     assert changed == 0
     assert refreshed["live"] == []
+
+
+@pytest.mark.parametrize('sport', ['bs', 'bk', 'vl'])
+def test_outage_recovers_today_finished_sports_without_pregame_prediction(tmp_path, sport):
+    document = {'live': [], 'past': []}
+    row = dict(game_no='1', date='10.18(일) 14:00', sport=sport, league='test',
+               home='홈', away='원정', market='승패', label='', n_way=2,
+               odds=[1.63, 1.91], result='홈패')
+    feed = {'generated_at': '2026-10-18T11:00:00Z', 'markets': {'124': {'1': row}}}
+    refreshed, changed = refresh_document(document, feed)
+    assert changed == 1
+    game = refreshed['live'][0]
+    assert game['sport'] == sport and game['status'] == '결과확인'
+    assert game['추천'] is None
+    assert game['prediction_status'] == 'prediction_ledger_required'
+    assert 'decision_snapshot' not in game and 'prediction_record' not in game
+    runtime = PredictionRuntime(tmp_path / 'ledger.jsonl')
+    assert record_live_market_revisions(refreshed, feed['generated_at'], runtime)['predictions'] == 0
+    assert list(runtime.records()) == []
+    assert refresh_document(refreshed, feed)[1] == 0
+    assert len(refreshed['live']) == 1
+
+
+def test_finished_recovery_preserves_archived_game_and_kst_window():
+    import copy
+    row = dict(game_no='1', date='10.18(일) 14:00', sport='bs', league='KBO',
+               home='홈', away='원정', market='승패', n_way=2,
+               odds=[1.63, 1.91], result='홈패')
+    feed = {'generated_at': '2026-10-18T15:10:00Z', 'markets': {'124': {'1': row}}}
+    # KST midnight: yesterday remains visible, but dates older than yesterday do not.
+    recovered, changed = refresh_document({'live': [], 'past': []}, feed)
+    assert changed == 1
+    archived = copy.deepcopy(recovered['live'][0])
+    archived['prediction_record'] = {'snapshot_id': 'frozen', 'result': 'hit'}
+    document = {'live': [], 'past': [archived]}
+    baseline = copy.deepcopy(document)
+    assert refresh_document(document, feed)[1] == 0
+    assert document == baseline
+    row['date'] = '10.17(토) 14:00'
+    assert refresh_document({'live': [], 'past': []}, feed)[1] == 0
 
 
 def test_refresh_recalculates_when_total_line_changes_without_price_change():
