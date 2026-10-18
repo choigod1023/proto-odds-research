@@ -5,6 +5,21 @@ const now=Date.parse('2026-09-06T15:00:00+09:00');
 const row=(id='1',extra={})=>({id,home:'H',away:'A',sport:'bs',league:'MLB',date:'09.06(일) 12:00',round:1,game_no:id,
   kickoff_at:'2026-09-06T12:00:00+09:00',published_at:'2026-09-06T09:00:00+09:00',recorded_at:'2026-09-06T09:00:00+09:00',
   market:'승패',market_label:'',sel:'홈',odds:1.6,recommended:true,result:'hit',result_source:'official',...extra});
+
+test('sport filter precedes latest-ten limit and scopes pending/void counts',()=>{
+  const entries=Array.from({length:12},(_,i)=>row(`sc${i}`,{sport:'sc',kickoff_at:'2026-09-06T14:00:00+09:00'}));
+  entries.push(...Array.from({length:12},(_,i)=>row(`bs${i}`,{kickoff_at:`2026-09-06T12:${String(i).padStart(2,'0')}:00+09:00`,result:i<7?'hit':'miss'})));
+  entries.push(row('pending',{result:'pending'}),row('void',{result:'void'}),row('future',{kickoff_at:'2026-09-06T20:00:00+09:00'}),row('unknown',{sport:null}),row('bad',{recommended:false}));
+  const today={recommendation_history:Object.fromEntries(entries.map(r=>[r.id,r]))};
+  assert.ok(recommendationResults(today,null,null,now).settled.every(r=>r.sport==='sc'));
+  const bs=recommendationResults(today,null,null,now,'bs');
+  assert.equal(bs.settled.length,10);assert.equal(bs.hit,5);assert.equal(bs.settled[0].id,'bs11');
+  assert.ok(bs.settled.every(r=>r.sport==='bs'));
+  assert.equal(bs.pending,1);assert.equal(bs.void,1);assert.equal(bs.upcoming,1);
+  const bk=recommendationResults(today,null,null,now,'bk');
+  assert.equal(bk.settled.length,0);assert.equal(bk.pending,0);assert.equal(bk.void,0);
+  assert.deepEqual(recommendationResults(today,null,null,now,'unknown').settled.map(r=>r.id),['unknown']);
+});
 test('unknown membership and post-freeze captures never enter denominator',()=>{
   assert.equal(recommendationResults(null,{live:[{prediction_record:{result:'hit'}}]},null,now).settled.length,0);
   const history={a:row('a'),b:row('b',{recommended:false}),c:row('c',{recorded_at:'2026-09-06T11:30:00+09:00'})};

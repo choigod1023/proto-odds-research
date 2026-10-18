@@ -13,6 +13,9 @@ test('count headline, small scope, labeled tiles and honest empty state',async()
       result:i<7?'hit':'miss',result_source:'official',home:'H',away:'A'}]));
     const html=renderToStaticMarkup(createElement(View,{today:{recommendation_history:history},now}));
     assert.match(html,/최근 추천 10건 중/);assert.match(html,/7건 적중/);
+    assert.match(html,/aria-label="최근 추천 결과 종목 선택"/);
+    assert.match(html,/aria-pressed="true">전체/);
+    for (const label of ['축구','야구','농구','배구','아이스하키']) assert.ok(html.includes(`>${label}</button>`));
     assert.match(html,/class="recommendation-result-scope">당시 추천 정책 기준/);
     assert.match(html,/현재 55%·배당 1.50 이상 정책만의 성적이 아닙니다/);
     assert.equal((html.match(/aria-haspopup="dialog"/g)||[]).length,10);

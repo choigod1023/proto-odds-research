@@ -1,7 +1,9 @@
 import { recommendationOutcome } from './pick-result.js';
+export const RECOMMENDATION_SPORTS = ['sc','bs','bk','vl','ih'];
+const sportKey = row => RECOMMENDATION_SPORTS.includes(row.sport) ? row.sport : 'unknown';
 
 /** Only archived pre-T30 roster entries count. Never infer old membership. */
-export function recommendationResults(today, data, odds, now = Date.now()) {
+export function recommendationResults(today, data, odds, now = Date.now(), sport = 'all') {
   const all = [];
   for (const entry of Object.values(today?.recommendation_history || {})) {
     const kickoff = Date.parse(entry.kickoff_at), published = Date.parse(entry.published_at);
@@ -33,10 +35,12 @@ export function recommendationResults(today, data, odds, now = Date.now()) {
     if (outcome.source !== 'official' || kickoff > now) outcome = {state:'pending'};
     all.push({...entry,game, outcome, kickoff});
   }
-  const unique = [...new Map(all.map(r=>[r.id,r])).values()];
+  const archived = [...new Map(all.map(r=>[r.id,r])).values()];
+  // Filter the entire eligible archive BEFORE selecting the latest ten.
+  const unique = archived.filter(r => sport === 'all' || sportKey(r) === sport);
   const settled = unique.filter(r=>['hit','miss'].includes(r.outcome.state))
     .sort((a,b)=>b.kickoff-a.kickoff || a.id.localeCompare(b.id)).slice(0,10);
-  return {settled,hit:settled.filter(r=>r.outcome.state==='hit').length,
+  return {settled,hasUnknownSport:archived.some(r=>sportKey(r)==='unknown'),hit:settled.filter(r=>r.outcome.state==='hit').length,
     upcoming:unique.filter(r=>r.outcome.state==='pending'&&r.kickoff>now).length,
     pending:unique.filter(r=>r.outcome.state==='pending'&&r.kickoff<=now).length,
     void:unique.filter(r=>r.outcome.state==='void').length};
