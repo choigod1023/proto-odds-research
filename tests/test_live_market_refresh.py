@@ -270,6 +270,7 @@ def test_outage_recovers_today_finished_sports_without_pregame_prediction(tmp_pa
     assert changed == 1
     game = refreshed['live'][0]
     assert game['sport'] == sport and game['status'] == '결과확인'
+    assert game['official_event_status'] == 'RESULT'
     assert game['추천'] is None
     assert game['prediction_status'] == 'prediction_ledger_required'
     assert 'decision_snapshot' not in game and 'prediction_record' not in game
@@ -278,6 +279,34 @@ def test_outage_recovers_today_finished_sports_without_pregame_prediction(tmp_pa
     assert list(runtime.records()) == []
     assert refresh_document(refreshed, feed)[1] == 0
     assert len(refreshed['live']) == 1
+
+
+@pytest.mark.parametrize('market,result,finished', [
+    ('승패', '홈패', True), ('승⑤패', '⑤', True),
+    ('전반승패', '홈승', False), ('언더오버', '오버', False),
+    ('승패', '취소', False), ('승패', '알수없음', False),
+])
+def test_recovered_display_result_does_not_rewrite_frozen_options(market, result, finished):
+    import copy
+    row = dict(game_no='1', date='10.18(일) 14:00', sport='bk', league='KBL',
+               home='홈', away='원정', market='승패', n_way=2,
+               odds=[1.63, 1.91], result='홈패')
+    feed = {'generated_at': '2026-10-18T11:00:00Z', 'markets': {'124': {'1': row}}}
+    document, _ = refresh_document({'live': [], 'past': []}, feed)
+    game = document['live'][0]
+    game.pop('official_event_status')
+    game.pop('official_event_status_source')
+    before = copy.deepcopy(game)
+    row.update(market=market, result=result, odds=[2.0, 1.5])
+    if market == '승⑤패':
+        row.update(n_way=3, odds=[2.0, 2.5, 3.0])
+    _, changed = refresh_document(document, feed)
+    assert changed == int(finished)
+    assert (game.get('official_event_status') == 'RESULT') == finished
+    assert game['options'] == before['options']
+    assert game['추천'] is None and 'prediction_record' not in game
+    assert 'decision_snapshot' not in game
+    assert refresh_document(document, feed)[1] == 0
 
 
 def test_finished_recovery_preserves_archived_game_and_kst_window():

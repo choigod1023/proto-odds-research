@@ -319,16 +319,34 @@ def refresh_document(document: dict, live_odds: dict, *,
         can_predict = bool(pregame and kickoff is not None and decision_clock is not None
                            and decision_clock < kickoff.replace(tzinfo=KST))
         old_options = game.get("options") or []
+        # Official full-game results can restore display state, never a missing
+        # pregame prediction. Half/handicap/total settlement is not game completion.
+        result_labels = {"승패": {"홈승", "홈패"},
+                         "승무패": {"홈승", "무승부", "홈패"},
+                         "승①패": {"홈승", "①", "홈패"},
+                         "승⑤패": {"홈승", "⑤", "홈패"}}
+        recovered_result = bool(
+            not can_predict and kickoff and decision_clock
+            and decision_clock >= kickoff.replace(tzinfo=KST)
+            and (game.get("odds_recovered_after_start") or not old_options)
+            and any(row.get("result") in result_labels.get(row.get("market"), set())
+                    for row in rows))
+        result_changed = recovered_result and game.get("official_event_status") != "RESULT"
+        if result_changed:
+            game["official_event_status"] = "RESULT"
+            game["official_event_status_source"] = "current_proto_full_game_result"
         # A recorded decision and its option vector are one revision. After
         # T-30 preserve both; before T-30 publish a new, ledger-backed revision.
         frozen = bool(kickoff and decision_clock and
                       decision_clock >= kickoff.replace(tzinfo=KST) - timedelta(minutes=30))
         if frozen and old_options:
+            changed += int(result_changed)
             continue
         # Kickoff 뒤에는 저장된 사전 가격·선택을 절대 덮어쓰지 않는다. 예전 코드는
         # 종료/진행 행의 배당으로 options를 교체한 뒤 원장을 제거해 라이브 화면이
         # 영원히 "재계산 대기"가 됐다. 기존 가격이 전혀 없을 때만 복구용으로 받는다.
         if not can_predict and old_options:
+            changed += int(result_changed)
             continue
         player_changed = False
         if can_predict and game.get("league") == "KBO":
