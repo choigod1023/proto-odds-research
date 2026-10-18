@@ -951,10 +951,11 @@ def serve_live() -> None:
     from runtime_db import RuntimeDatabase
 
     database = RuntimeDatabase()
-    from match_api import MatchViews, PreparedMatchResponses
+    from match_api import MatchViews
+    from isolated_match_responses import IsolatedMatchResponses
     from urllib.parse import urlsplit, parse_qs
     global _release_match_working_set, _publish_match_responses
-    match_views = PreparedMatchResponses(MatchViews(database))
+    match_views = IsolatedMatchResponses(MatchViews(database))
     _release_match_working_set = match_views.views.release_working_set
     from artifact_responses import ArtifactResponses
     artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
