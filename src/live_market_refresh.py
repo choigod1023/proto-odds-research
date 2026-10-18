@@ -276,14 +276,25 @@ def refresh_document(document: dict, live_odds: dict, *,
         _key(game.get("round"), game.get("date"), game.get("home"), game.get("away")): game
         for game in document.get("live") or []
     }
+    archived = {_key(game.get("round"), game.get("date"), game.get("home"), game.get("away"))
+                for game in document.get("past") or []}
     grouped: dict[tuple, list[dict]] = {}
     for round_no, markets in live_odds["markets"].items():
         for row in (markets or {}).values():
             key = _key(round_no, row.get("date"), row.get("home"), row.get("away"))
-            # 이미 목록에 있던 경기는 시작·종료 후 수집된 발매 행도 받아 둔다.
-            # 과거 경기까지 새로 live에 되살리는 것은 막고, 기존의 빈 배당만 복구한다.
+            if key not in existing and key in archived:
+                continue  # Never resurrect an archived game or replace its frozen record.
+            # An outage can miss an entire day's non-football fixtures. Recover
+            # recent identities even after they finish, but never invent a
+            # pregame prediction from their final prices (can_predict below).
+            # Keep historical rounds out: only today/yesterday in the real KST clock.
             if row.get("result") not in UNPLAYED and key not in existing:
-                continue
+                kickoff = _game_kickoff({**row, "round": round_no}, observed)
+                if kickoff is None or decision_clock is None:
+                    continue
+                age_days = (decision_clock.astimezone(KST).date() - kickoff.date()).days
+                if age_days not in (0, 1):
+                    continue
             grouped.setdefault(key, []).append(row)
 
     changed = 0
@@ -346,7 +357,7 @@ def refresh_document(document: dict, live_odds: dict, *,
         }
         line_changed = bool(old_options) and old_lines != new_lines
         target_status = "경기전" if pregame else (
-            game.get("status") if game.get("status") not in {"", "경기전", "배당대기"}
+            game.get("status") if game.get("status") not in {None, "", "경기전", "배당대기"}
             else "결과확인"
         )
         form_payload = None
