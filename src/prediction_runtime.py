@@ -139,6 +139,9 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         for row in game.get("options", [])
     ]
     return _safe_json({
+        "fixture": {key: game.get(key) for key in (
+            "sport", "league", "home", "away", "year", "round", "date",
+            "source_event_id", "match_id")},
         **({"research_player_inputs": game["research_player_inputs"]}
            if "research_player_inputs" in game else {}),
         "score_inputs": {
@@ -449,6 +452,8 @@ class PredictionRuntime:
                 "odds": payload.get("odds"),
                 "probability": payload.get("probability"),
                 "captured_at": prediction.get("captured_at"),
+                "kickoff": prediction.get("kickoff"),
+                "fixture": (prediction.get("features") or {}).get("fixture") or {},
                 "result": outcome.get("result") or "pending",
                 "score_forecast": payload.get("score_forecast"),
                 **({"settled_at": settlement.get("settled_at")} if settlement else {}),
