@@ -10,6 +10,7 @@ def gate(monkeypatch):
     lock = threading.Lock()
     monkeypatch.setattr(supervisor, '_memory_heavy_lock', lock)
     monkeypatch.setattr(supervisor, '_odds_recommendation_lock', threading.Lock())
+    monkeypatch.setattr(supervisor, '_market_cycle_pending', threading.Event())
     monkeypatch.setattr(supervisor, '_next_recommendation_refresh', 0.0)
     monkeypatch.setattr(supervisor, 'BACKGROUND_MIN_AVAILABLE_MB', 512)
     monkeypatch.setattr(supervisor, 'log', lambda message: None)
