@@ -27,6 +27,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('database')
     parser.add_argument('output')
-    parser.add_argument('scopes', nargs='+', choices=['recent', 'all'])
+    parser.add_argument('scopes', nargs='+', choices=['recent', 'all', 'performance'])
     args = parser.parse_args()
     build(args.database, args.output, args.scopes)

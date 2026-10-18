@@ -140,7 +140,7 @@ export default function Markets() {
   const [allMatches, setAllMatches] = useState(false);
   const [accuracyOpen, setAccuracyOpen] = useState(false);
   const { data: livePicks, checked: picksChecked, error: picksError, retry: retryPicks } = useMatchData(`/api/matches?scope=${allMatches ? 'all' : 'recent'}`);
-  const { data: accuracyData, error: accuracyError, retry: retryAccuracy } = useMatchData(accuracyOpen ? '/api/picks' : null);
+  const { data: accuracyData, error: accuracyError, retry: retryAccuracy } = useMatchData(accuracyOpen ? '/api/matches?scope=performance' : null);
   const d = livePicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
@@ -195,6 +195,7 @@ export default function Markets() {
     <Shell>
       {allMatches && !picksChecked && <p role="status">과거·전체 경기 목록을 불러오는 중입니다.</p>}
       {picksError && <p role="status">경기 목록 갱신에 실패했습니다. 마지막 정상 목록을 유지합니다. <button onClick={retryPicks}>다시 시도</button></p>}
+      {livePicks?.view?.day && livePicks.view.day !== new Intl.DateTimeFormat('sv-SE', {timeZone:'Asia/Seoul'}).format(new Date()) && <p role="status">날짜 변경 후 목록 갱신 대기 중입니다. {livePicks.view.day}에 준비한 마지막 정상 목록이며 새 경기가 아직 빠져 있을 수 있습니다.</p>}
       <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
       <p><a href="./dashboard.html#per-event-shadow">경기별 새 픽 가상 비교 · 선택/보류 사유와 정산 성적 보기</a></p>
       <details className="overall-accuracy-secondary" onToggle={event => setAccuracyOpen(event.currentTarget.open)}><summary>전체 사전 픽 성적 보기</summary>

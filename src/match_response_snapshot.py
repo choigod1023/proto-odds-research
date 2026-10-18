@@ -43,12 +43,14 @@ def load(path, day):
         if sum(item.file_size for item in archive.infolist()) > MAX_BYTES:
             raise ValueError('restart cache expands beyond limit')
         meta = json.loads(archive.read('metadata'))
-        if meta['version'] != VERSION or set(meta['days']) - {'recent', 'all'}:
+        if meta['version'] != VERSION or set(meta['days']) - {'recent', 'all', 'performance'}:
             raise ValueError('incompatible restart cache')
-        if not meta['days'] or any(d != day for d in meta['days'].values()):
-            raise ValueError('restart cache is from another KST day')
+        from datetime import date
+        if not meta['days'] or any(not 0 <= (date.fromisoformat(day) - date.fromisoformat(d)).days <= 1
+                                   for d in meta['days'].values()):
+            raise ValueError('restart cache is outside the last-good day window')
         if set(meta['revisions']) != set(meta['days']) or set(meta['revisions'].values()) != {meta['revision']}:
             raise ValueError('mixed restart revisions')
-        ready = {k: (day, archive.read('list/' + k)) for k in meta['days']}
+        ready = {k: (d, archive.read('list/' + k)) for k, d in meta['days'].items()}
         games = {k: archive.read('detail/' + k) for k in meta['keys']}
     return ready, meta['revisions'], meta['revision'], games
