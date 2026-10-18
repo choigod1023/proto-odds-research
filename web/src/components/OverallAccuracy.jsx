@@ -9,6 +9,7 @@ export default function OverallAccuracy({data}) {
   return <section className="overall-accuracy" aria-label="전체 예측 적중률">
     <div><p className="accuracy-kicker">누적 예측 적중률</p><div className="accuracy-value">{stats?.rate != null ? `${(stats.rate*100).toFixed(1)}%` : '—'}<span>{stats?.settled ? `${stats.settled.toLocaleString()}경기 중 ${stats.hit.toLocaleString()}경기 적중` : '집계 대기'}</span></div></div>
     <p className="accuracy-note">전체 저장 사전 픽 기준이며 관심 픽만의 성적은 아닙니다. 적중률 = 적중 ÷ (적중 + 실패). 무효·미판정은 분모에서 제외합니다. 적중률은 수익률이 아닙니다.</p>
+    <p className="accuracy-note">집계 데이터 생성: {accuracyTime(data?.generated_at)} (KST). 갱신 중에는 마지막 정상 집계를 유지합니다.</p>
     <p className="accuracy-note">전체 {stats?.total||0} · 무효 {stats?.void||0} · 미판정 {stats?.pending||0} · 점수 기반 임시 판정 {stats?.provisional||0} (적중·실패에 포함, 공식 결과로 변경될 수 있음)</p>
     <p className="accuracy-note">인기 경기 여부: 조회수·관심 등록 집계가 연결되지 않아 확인할 수 없습니다. 경기 시각·기록 시각은 모두 한국 시간(KST)입니다.</p>
     <div className="accuracy-sports" aria-label="종목별 적중률">

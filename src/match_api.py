@@ -18,7 +18,7 @@ class PreparedMatchResponses:
     def __init__(self, views):
         self.views = views
         self.lock = threading.Lock()
-        self.requested = {'recent'}
+        self.requested = {'recent', 'performance'}
         self.ready = {}
         self.published_revisions = {}
 
@@ -53,12 +53,12 @@ class PreparedMatchResponses:
                 return gzip.compress(raw, compresslevel=3) if compressed else raw
             finally:
                 self.views.lock.release()
-        if scope not in ('recent', 'all'):
+        if scope not in ('recent', 'all', 'performance'):
             raise ValueError('invalid scope')
         with self.lock:
             self.requested.add(scope)
             cached = self.ready.get(scope)
-        if cached is None or cached[0] != datetime.now(KST).date().isoformat():
+        if cached is None or not 0 <= (datetime.now(KST).date() - datetime.fromisoformat(cached[0]).date()).days <= 1:
             raise KeyError('view preparing')
         return cached[1] if compressed else gzip.decompress(cached[1])
 
@@ -114,6 +114,26 @@ def summary(payload, revision, scope='recent', now=None):
     return result
 
 
+def performance_payload(payload):
+    """Preserve outcome inputs, excluding player trees and unrelated markets."""
+    result = {'generated_at': payload.get('generated_at'),
+              'prediction_performance': payload.get('prediction_performance')}
+    fields = ('year', 'round', 'sport', 'league', 'date', 'home', 'away',
+              'prediction_record', 'event_id', 'status', 'score', '_liveState', '_officialMarkets')
+    option_fields = ('selection_id', '적중', 'market', 'label', 'n_way', '선택', '게임번호')
+    for section in ('live', 'past'):
+        result[section] = []
+        for game in payload.get(section, []):
+            if not game.get('prediction_record'):
+                continue
+            row = {k: game[k] for k in fields if k in game}
+            row['decision_snapshot'] = {'event_id': (game.get('decision_snapshot') or {}).get('event_id')}
+            row['options'] = [{k: option[k] for k in option_fields if k in option}
+                              for option in game.get('options', [])]
+            result[section].append(row)
+    return result
+
+
 class MatchViews:
     def __init__(self, database):
         self.database = database
@@ -142,11 +162,12 @@ class MatchViews:
         """Drop rebuildable expanded trees, preserving compressed HTTP/details."""
         with self.lock:
             self.payload = None
+            self.performance = None
             self.cache = {}
             self.wire_cache = {}
 
     def get(self, scope='recent', key=None, revision=None):
-        if scope not in ('recent', 'all', 'detail'): raise ValueError('invalid scope')
+        if scope not in ('recent', 'all', 'detail', 'performance'): raise ValueError('invalid scope')
         with self.lock:
             with self.database.connect() as connection:
                 row = connection.execute("SELECT stored_at FROM artifacts WHERE name='picks_v2'").fetchone()
@@ -166,6 +187,7 @@ class MatchViews:
                 # objects. Decode only the requested game, never the entire archive.
                 # Build off to the side so a failed refresh preserves the old view.
                 games = {}
+                performance = performance_payload(payload)
                 payload.pop('prediction_performance', None)
                 for section in ('live', 'past'):
                     rows = payload.get(section, [])
@@ -180,6 +202,7 @@ class MatchViews:
                 self.games = games
                 self.payload, self.revision, self.cache = payload, view_stamp, {}
                 self.wire_cache = {}
+                self.performance = performance
             if scope == 'detail':
                 if revision != self.revision: raise ValueError('revision changed')
                 if key not in self.games: raise KeyError('game unavailable')
@@ -189,7 +212,9 @@ class MatchViews:
             if cache_key not in self.cache:
                 # Bound cache even across many midnights with an unchanged artifact.
                 self.cache = {k:v for k,v in self.cache.items() if k[1] == day}
-                self.cache[cache_key] = summary(self.payload, self.revision, scope)
+                self.cache[cache_key] = (dict(self.performance, view={'scope': scope,
+                    'revision': self.revision, 'day': day}) if scope == 'performance'
+                    else summary(self.payload, self.revision, scope))
             return self.cache[cache_key]
 
     def get_bytes(self, scope='recent', key=None, revision=None, compressed=True):

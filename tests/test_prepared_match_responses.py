@@ -60,7 +60,7 @@ def test_cold_scope_failure_and_midnight_never_relabel_old_response(monkeypatch)
     cache.refresh()
     with pytest.raises(KeyError): cache.get_bytes('all')
     cache.refresh()
-    assert calls == ['recent', 'all']
+    assert calls == ['recent', 'performance', 'all']
     assert cache.get_bytes('all') is body
     def fail(scope): raise OSError('DB busy')
     views.get_bytes = fail
@@ -68,6 +68,9 @@ def test_cold_scope_failure_and_midnight_never_relabel_old_response(monkeypatch)
     with pytest.raises(OSError): cache.refresh()
     assert cache.get_bytes() is body
     Clock.offset = 1
+    assert cache.get_bytes() is body  # preserve original timestamps across midnight
+    assert cache.ready['recent'][0] == '2026-09-22'
+    Clock.offset = 2
     with pytest.raises(KeyError): cache.get_bytes()
     with pytest.raises(ValueError): cache.get_bytes('invalid')
 

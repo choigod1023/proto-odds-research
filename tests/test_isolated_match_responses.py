@@ -131,12 +131,55 @@ def test_restart_serves_original_list_and_details_without_db_or_child(tmp_path, 
     monkeypatch.setattr(database, 'artifact_metadata', lambda *a, **k: pytest.fail('DB not ready'))
     monkeypatch.setattr(subprocess, 'run', lambda *a, **k: pytest.fail('no child during restore'))
     after = IsolatedMatchResponses(MatchViews(database), path)
-    for scope in ('recent', 'all'):
+    for scope in ('recent', 'all', 'performance'):
         assert before.get_bytes(scope) == after.get_bytes(scope)
     key = game_key(document['live'][0])
     assert before.get_bytes('detail', key=key, revision=before.views.revision) == after.get_bytes(
         'detail', key=key, revision=after.views.revision)
     assert after.views.payload is None
+
+
+def test_midnight_last_good_survives_restart_and_failed_refresh(tmp_path, monkeypatch):
+    import match_api
+    import isolated_match_responses
+    from datetime import timedelta
+    database, _ = fixture(tmp_path)
+    path = tmp_path / 'responses.zip'
+    before = IsolatedMatchResponses(MatchViews(database), path)
+    before.refresh()
+    original = before.get_bytes()
+    now = datetime.now(KST)
+    class Tomorrow(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return now + timedelta(days=1)
+    monkeypatch.setattr(match_api, 'datetime', Tomorrow)
+    monkeypatch.setattr(isolated_match_responses, 'datetime', Tomorrow)
+    assert before.get_bytes() == original
+    after = IsolatedMatchResponses(MatchViews(database), path)
+    assert after.get_bytes() == original
+    monkeypatch.setattr(subprocess, 'run', lambda *a, **k: (_ for _ in ()).throw(OSError('busy')))
+    with pytest.raises(OSError):
+        after.refresh()
+    assert after.get_bytes() == original
+    assert json.loads(after.get_bytes(compressed=False))['view']['day'] == now.date().isoformat()
+
+
+def test_performance_is_prepared_without_player_trees_or_request_db_reads(tmp_path, monkeypatch):
+    database, document = fixture(tmp_path)
+    index = {'scope': 'all_ledger_predictions', 'records': {'event': {
+        'prediction_snapshot_id': 'frozen-bs', 'result': 'hit', 'kickoff': '2026-10-18T08:00:00Z'}}}
+    document['prediction_performance'] = index
+    database.store_artifact('picks_v2', document)
+    prepared = IsolatedMatchResponses(MatchViews(database))
+    prepared.refresh()
+    monkeypatch.setattr(database, 'artifact_metadata', lambda *a, **k: pytest.fail('request DB read'))
+    output = json.loads(prepared.get_bytes('performance', compressed=False))
+    assert output['prediction_performance'] == index
+    assert len(output['live']) == 4
+    assert all('선발' not in row for row in output['live'])
+    assert output['generated_at'] == document['generated_at']
+    assert prepared.views.payload is None
 
 
 @pytest.mark.parametrize('invalid', ['corrupt', 'yesterday', 'version', 'mixed'])
