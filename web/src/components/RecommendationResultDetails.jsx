@@ -1,6 +1,7 @@
 import MatchDetailHeader from './MatchDetailHeader.jsx';
 import { SPORT_NAMES, accuracyTime } from '../lib/overall-accuracy.js';
 import { pct } from '../lib/fmt.js';
+import { officialScore, resultExplanation } from '../lib/recommendation-result-details.js';
 
 const probability = value => Number.isFinite(value) && value >= 0 && value <= 1 ? value : null;
 const time = value => `${accuracyTime(value)}${Number.isFinite(Date.parse(value)) ? ' KST' : ''}`;
@@ -10,11 +11,7 @@ export default function RecommendationResultDetails({entry}) {
   const p = probability(entry.probability);
   const marketP = probability(entry.market_prob);
   const game = {...entry, date:time(entry.kickoff_at)};
-  const matched = entry.game;
-  const year = new Date(entry.kickoff + 9*3600000).getUTCFullYear();
-  const score = matched?.status === '정산' && Number(matched.year) === year
-    && Array.isArray(matched.score) && matched.score.length === 2
-    && matched.score.every(v=>Number.isFinite(v) && v>=0) ? matched.score : null;
+  const score = officialScore(entry);
   const option = {market:entry.market,label:entry.market_label || '',선택:entry.sel,
     배당:Number.isFinite(entry.odds) && entry.odds>1 ? entry.odds : null};
   return <div className="match-detail-view">
@@ -24,6 +21,11 @@ export default function RecommendationResultDetails({entry}) {
       predictionTitle="당시 보존된 추천 픽"
       outcome={{...entry.outcome,label:entry.outcome.state==='hit'?'적중':'실패'}} />
     {!score && <p className="review-note">연결된 최종 점수 기록이 없습니다. 적중·실패는 해당 픽의 공식 정산 결과입니다.</p>}
+    <section className="saved-snapshot" aria-label="적중·실패 판정 근거">
+      <h3>왜 {entry.outcome.state==='hit'?'적중':'실패'}했나요?</h3>
+      <p>{resultExplanation(entry)}</p>
+      {score && <small>프로토 일반 승패·승무패 정산 점수 · 확인 시각 {time(entry.official_score.observed_at)}. 핸디캡 보정 전 점수이며 축구는 정산 대상 시간 기준입니다.</small>}
+    </section>
     <section className="saved-snapshot" aria-label="추천 당시 기록 상세">
       <h3>추천 당시 기록</h3>
       <p>당시 시장 확률 {marketP===null?'기록 없음':pct(marketP)}</p>

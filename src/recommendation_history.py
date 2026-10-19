@@ -107,5 +107,36 @@ def settle_history(history, odds, now):
             if not names or len(names) != row.get("n_way") or entry.get("sel") not in names or outcome not in winners:
                 continue
             result = "hit" if names[winners[outcome]] == entry["sel"] else "miss"
-        entry.update(result=result, result_source="official", settled_at=now.isoformat())
+        entry.update(result=result, result_source="official", settled_at=now.isoformat(),
+                     official_market_result=outcome)
+    return history
+
+
+def attach_official_scores(history, connection):
+    """Join indexed physical results, never handicap-adjusted or live scores.
+
+    Look up only archived event keys, not the full results dataset. A later
+    invalidation of an offer must also suppress its formerly confirmed score.
+    """
+    cache = {}
+    for entry in history.values():
+        entry.pop("official_score", None)
+        kickoff = stamp(entry.get("kickoff_at"))
+        if not kickoff or entry.get("result_source") != "official" or entry.get("result") not in ("hit", "miss"):
+            continue
+        key = (kickoff.astimezone(KST).replace(tzinfo=None).isoformat(),
+               entry.get("league"), entry.get("sport"), entry.get("home"), entry.get("away"), entry.get("round"))
+        if key not in cache:
+            rows = connection.execute("""SELECT r.home_score,r.away_score,r.observed_at
+                FROM match_results r WHERE r.source='proto' AND r.kickoff=?
+                AND r.league=? AND r.sport=? AND r.home_team=? AND r.away_team=? AND r.round=?
+                AND r.result_state='confirmed' AND NOT EXISTS (
+                  SELECT 1 FROM match_results n WHERE n.source=r.source AND n.season=r.season
+                  AND n.round=r.round AND n.game_no=r.game_no AND n.observed_at>r.observed_at)
+                """, key).fetchall()
+            scores = {(r[0], r[1]) for r in rows}
+            cache[key] = {"score": list(next(iter(scores))), "source": "proto_full_game_result",
+                          "observed_at": max(r[2] for r in rows), "kickoff_at": entry["kickoff_at"]} if len(scores) == 1 else None
+        if cache[key]:
+            entry["official_score"] = dict(cache[key])
     return history
