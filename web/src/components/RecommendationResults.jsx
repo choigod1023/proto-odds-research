@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { recommendationResults } from '../lib/recommendation-results.js';
+import { recommendationResults, RECOMMENDATION_SPORTS } from '../lib/recommendation-results.js';
 import GameInfoModal from './GameInfoModal.jsx';
 import { SPORT_NAMES, accuracyTime } from '../lib/overall-accuracy.js';
 
 export default function RecommendationResults({today,data,odds,now=Date.now()}) {
-  const result = recommendationResults(today,data,odds,now);
+  const [sport,setSport] = useState('all');
+  const result = recommendationResults(today,data,odds,now,sport);
   const [opened,setOpened] = useState(null);
   const selected = result.settled.find(r=>r.id===opened);
   const date = r => accuracyTime(new Date(r.kickoff).toISOString());
@@ -14,9 +15,15 @@ export default function RecommendationResults({today,data,odds,now=Date.now()}) 
     return {name, total:rows.length, hit:rows.filter(r => r.outcome.state === 'hit').length};
   });
   return <section className="recommendation-results" aria-label="최근 추천 결과">
-    <h2>{result.settled.length ? <>최근 추천 {result.settled.length}건 중 <strong>{result.hit}건 적중</strong></> : '추천 결과를 기다리고 있어요'}</h2>
+    <div className="recommendation-result-filters" role="group" aria-label="최근 추천 결과 종목 선택">
+      {['all',...RECOMMENDATION_SPORTS,...(result.hasUnknownSport?['unknown']:[])].map(key =>
+        <button type="button" key={key} aria-pressed={sport===key} onClick={()=>{setSport(key);setOpened(null);}}>
+          {key==='all'?'전체':SPORT_NAMES[key]}
+        </button>)}
+    </div>
+    <h2>{sport!=='all' && `${SPORT_NAMES[sport]} · `}{result.settled.length ? <>최근 추천 {result.settled.length}건 중 <strong>{result.hit}건 적중</strong></> : '추천 결과를 기다리고 있어요'}</h2>
     <p className="recommendation-result-scope">당시 추천 정책 기준 · 이전 정책 기록 포함. 현재 55%·배당 1.50 이상 정책만의 성적이 아닙니다.</p>
-    <p className="recommendation-result-rules">최근 90일 사전 보존 기록 · 공식 결과 확정된 최근 최대 10건 · 진행 중·무효 제외</p>
+    <p className="recommendation-result-rules">최근 90일 사전 보존 기록 · {sport==='all'?'전체 종목':'선택한 종목'}에서 공식 결과 확정된 최근 최대 10건 · 진행 중·무효 제외</p>
     {result.settled.length ? <>
       <ul className="recommendation-result-sports" aria-label="최근 추천 내 종목별 적중">
         {sports.map(s => <li key={s.name}>{s.name} · {s.total}건 중 {s.hit}건 적중</li>)}
@@ -32,7 +39,7 @@ export default function RecommendationResults({today,data,odds,now=Date.now()}) 
         </button>)}
       </div>
       <p className="recommendation-result-rules">최근 경기부터 표시 · 칸을 누르면 경기와 당시 추천을 확인할 수 있어요.</p>
-    </> : <p>확인되지 않은 과거 추천은 넣지 않고, 새로 보존한 추천부터 결과를 쌓습니다.</p>}
+    </> : <p>{sport!=='all' && '이 종목은 보존 기록에 공식 결과가 확정된 추천이 아직 없습니다. '}확인되지 않은 과거 추천은 넣지 않고, 새로 보존한 추천부터 결과를 쌓습니다.</p>}
     {(result.upcoming>0 || result.pending>0 || result.void>0) && <p className="recommendation-result-rules">경기 전 {result.upcoming}건 · 진행 중·결과 확인 중 {result.pending}건 · 무효 {result.void}건</p>}
     {selected && <GameInfoModal title={`${selected.home} vs ${selected.away}`} onClose={()=>setOpened(null)}>
       <p>{sportName(selected)} · {selected.league} · {date(selected)} KST</p>
