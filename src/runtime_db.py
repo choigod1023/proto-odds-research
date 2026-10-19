@@ -593,7 +593,7 @@ class RuntimeDatabase(DatasetStore):
         with self.transaction() as connection:
             now = self._next_artifact_stamp(connection, name)
             if name == "today_combo":
-                from recommendation_history import POLICY, capture_history, settle_history, stamp
+                from recommendation_history import POLICY, capture_history, settle_history, stamp, attach_official_scores
                 old = connection.execute("SELECT payload_json FROM artifacts WHERE name=?", (name,)).fetchone()
                 previous = json.loads(old["payload_json"]) if old else {}
                 incoming_at, old_at = stamp(payload.get("generated_at")), stamp(previous.get("generated_at"))
@@ -603,8 +603,8 @@ class RuntimeDatabase(DatasetStore):
                 history = capture_history(payload, previous, datetime.fromisoformat(now))
                 from per_event_shadow import capture as capture_event_shadow
                 price_payload = json.loads(prices["payload_json"]) if prices else {}
-                payload = {**payload, "recommendation_policy": POLICY, "recommendation_history": settle_history(
-                    history, price_payload, datetime.fromisoformat(now)),
+                payload = {**payload, "recommendation_policy": POLICY, "recommendation_history": attach_official_scores(settle_history(
+                    history, price_payload, datetime.fromisoformat(now)), connection),
                     "per_event_shadow": capture_event_shadow(
                         payload, previous, price_payload, datetime.fromisoformat(now))}
             body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
