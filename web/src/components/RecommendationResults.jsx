@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { recommendationResults, RECOMMENDATION_SPORTS } from '../lib/recommendation-results.js';
 import GameInfoModal from './GameInfoModal.jsx';
+import RecommendationResultDetails from './RecommendationResultDetails.jsx';
 import { SPORT_NAMES, accuracyTime } from '../lib/overall-accuracy.js';
 
 export default function RecommendationResults({today,data,odds,now=Date.now()}) {
@@ -42,12 +43,7 @@ export default function RecommendationResults({today,data,odds,now=Date.now()}) 
     </> : <p>{sport!=='all' && '이 종목은 보존 기록에 공식 결과가 확정된 추천이 아직 없습니다. '}확인되지 않은 과거 추천은 넣지 않고, 새로 보존한 추천부터 결과를 쌓습니다.</p>}
     {(result.upcoming>0 || result.pending>0 || result.void>0) && <p className="recommendation-result-rules">경기 전 {result.upcoming}건 · 진행 중·결과 확인 중 {result.pending}건 · 무효 {result.void}건</p>}
     {selected && <GameInfoModal title={`${selected.home} vs ${selected.away}`} onClose={()=>setOpened(null)}>
-      <p>{sportName(selected)} · {selected.league} · {date(selected)} KST</p>
-      <h3>{selected.market} {selected.market_label} · {selected.sel}</h3>
-      <p>당시 배당 {Number(selected.odds).toFixed(2)}배</p>
-      <p>공식 결과: {selected.outcome.state==='hit'?'적중':'실패'}</p>
-      <p>추천 기록 시각: {new Date(selected.recorded_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})}</p>
-      <small>경기 시작 30분 전 보존된 오늘의 추천픽 기준</small>
+      <RecommendationResultDetails entry={selected} />
     </GameInfoModal>}
   </section>;
 }

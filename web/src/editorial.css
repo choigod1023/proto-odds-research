@@ -745,6 +745,7 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .recommendation-result-tile { display:flex; flex-direction:column; gap:8px; align-items:stretch; text-align:left; padding:14px; min-width:0; border:1px solid var(--color-rule); border-radius:8px; background:var(--color-panel); color:var(--color-ink3); cursor:pointer; }
 .recommendation-result-card-heading { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
 .recommendation-result-match { color:var(--color-ink); font-weight:600; overflow-wrap:anywhere; }
+.recommendation-result-record-id { overflow-wrap:anywhere; }
 .recommendation-result-tile time { color:var(--color-ink3); font-size:12px; }
 .recommendation-result-tile.is-hit { color:var(--color-signal); border-color:var(--color-signal); background:color-mix(in srgb,var(--color-signal) 9%,var(--color-panel)); }
 .recommendation-result-tile small { font-size:11px; }
