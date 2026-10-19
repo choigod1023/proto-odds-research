@@ -26,10 +26,14 @@ export function resultExplanation(entry) {
       const lineMatch=String(entry.market_label || '').match(/^(?:H|U)\s*([-+]?\d+(?:\.\d+)?)$/i);
       const line=lineMatch?Number(lineMatch[1]):null;
       // Explain arithmetic only when it agrees with the official settled choice.
-      if(entry.market==='언더오버' && line!==null && sum!==line && winner===(sum<line?'언더':'오버'))
-        calculation=`합계 ${h} + ${a} = ${sum}, 기준 ${line}${sum<line?' 미만':' 초과'}`;
+      if(entry.market==='언더오버' && line!==null && sum!==line) {
+        const calculated=sum<line?'언더':'오버';
+        if(!result) winner=calculated;
+        if(winner===calculated) calculation=`합계 ${h} + ${a} = ${sum}, 기준 ${line}${sum<line?' 미만':' 초과'}`;
+      }
       if(entry.market==='핸디캡' && line!==null){
         const adjusted=diff+line, calculated=adjusted>0?'핸디홈':adjusted<0?'핸디원정':'핸디무';
+        if(!result && names.includes(calculated)) winner=calculated;
         if(winner===calculated) calculation=`홈 ${h}에 핸디캡 ${line>=0?'+':''}${line} 적용 → ${h+line} : ${a}`;
       }
     }

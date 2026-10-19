@@ -15,3 +15,12 @@ test('rejects malformed, adjusted or wrong-event score evidence',()=>{
   for(const evidence of [null,{source:'live',score:[5,1]}, {...row().official_score,score:[null,1]}, {...row().official_score,score:[-1,1]}, {...row().official_score,kickoff_at:'2026-10-18T14:00:00+09:00'}])
     assert.equal(officialScore(row({official_score:evidence})),null);
 });
+
+test('legacy official settlements explain arithmetic only when the saved outcome agrees',()=>{
+  const over=row({market:'언더오버',market_label:'U 4.5',sel:'오버',outcome:{state:'miss'},
+    official_score:{...row().official_score,score:[0,1]}});
+  assert.match(resultExplanation(over),/합계 0 \+ 1 = 1, 기준 4.5 미만.*실패/);
+  assert.match(resultExplanation({...over,outcome:{state:'hit'}}),/점수만으로 판정 사유를 확정할 수 없어/);
+  assert.doesNotMatch(resultExplanation({...over,sport:'vl'}),/합계/);
+  assert.match(resultExplanation(row({market:'핸디캡',market_label:'H -2.5',sel:'핸디홈',n_way:2})),/2.5 : 1.*적중/);
+});
