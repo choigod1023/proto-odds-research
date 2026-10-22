@@ -1,0 +1,16 @@
+---
+description: Keep actual recommended-pick hit rate as the final prediction research objective
+alwaysApply: true
+---
+
+# Final objective: actual recommendation hit rate
+
+- Always follow the prediction research objective in root `AGENTS.md`.
+- Optimize actual settled recommended picks, not merely Brier/log loss, xG, PA outcomes, or data volume.
+- Show hits/settled picks, recommendation count/coverage, pushes/voids/unsettled, dates, leagues and sports.
+- Compare unchanged selection rules and matched counts on the same games; disclose odds mix and added/removed picks.
+- Distinguish current production, market and research baselines. Never substitute a proxy baseline silently.
+- No future-data leakage, post-kickoff pick revisions, or selecting a winner on a repeatedly reused test set and calling it confirmed.
+- Execute bounded experiments when asked, record failures too, and reserve untouched chronological validation.
+- Save research outputs as private SQLite and Markdown. No scheduled continuation or visual app unless requested.
+- No guarantee of higher accuracy, and no unverified production adoption.
