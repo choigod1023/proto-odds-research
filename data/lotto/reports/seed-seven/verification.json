@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "halves": {
+    "odd": {
+      "candidates": 4000000000,
+      "maximum_hits": 3,
+      "survival_counts": {
+        "1": 4000000000,
+        "2": 180574,
+        "3": 4,
+        "4": 0
+      },
+      "verified_survivor_hit_draws": {
+        "10796522787573961961": [
+          1,
+          517,
+          569
+        ],
+        "18312488190086753215": [
+          1,
+          43,
+          277
+        ],
+        "15585017975376459500": [
+          1,
+          389,
+          561
+        ],
+        "10740072022764307767": [
+          1,
+          239,
+          613
+        ]
+      }
+    },
+    "even": {
+      "candidates": 4000000000,
+      "maximum_hits": 3,
+      "survival_counts": {
+        "1": 4000000000,
+        "2": 181515,
+        "3": 3,
+        "4": 0
+      },
+      "verified_survivor_hit_draws": {
+        "17213145854109393052": [
+          2,
+          366,
+          464
+        ],
+        "14564002283113611599": [
+          2,
+          452,
+          600
+        ],
+        "17415019903778667210": [
+          2,
+          336,
+          582
+        ]
+      }
+    }
+  },
+  "maximum_pair_hits": 6,
+  "limitation": "Non-survivor histogram counts are native scan outputs, not an independent rerun of 8 billion halves."
+}
