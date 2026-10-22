@@ -59,6 +59,40 @@ export function buttonOdds(text) {
   return squeezed ? Number(`${squeezed[0]}.${squeezed.slice(1)}`) : null;
 }
 
+// Find the actual printed strokes, rather than sending a mostly empty cell to OCR.
+export function receiptInkRect({ data, width, height }, rect, inverted = false) {
+  let left = width, top = height, right = -1, bottom = -1;
+  for (let y = Math.max(0, Math.ceil(rect.top)); y < Math.min(height, rect.top + rect.height); y++) {
+    for (let x = Math.max(0, Math.ceil(rect.left)); x < Math.min(width, rect.left + rect.width); x++) {
+      const p = (y * width + x) * 4;
+      const alpha = data[p + 3] / 255;
+      const light = (0.299 * data[p] + 0.587 * data[p + 1] + 0.114 * data[p + 2]) * alpha + 255 * (1 - alpha);
+      if (inverted ? light <= 195 : light >= 185) continue;
+      left = Math.min(left, x); right = Math.max(right, x);
+      top = Math.min(top, y); bottom = Math.max(bottom, y);
+    }
+  }
+  return right >= left && bottom >= top
+    ? { left, top, width: right - left + 1, height: bottom - top + 1 }
+    : null;
+}
+
+export function normalizeReceiptRaster(image, rects) {
+  const buttonHeight = rects.map((rect) => rect.height).sort((a, b) => a - b)[Math.floor(rects.length / 2)];
+  if (!buttonHeight || buttonHeight <= 48) return image;
+  const ratio = 40 / buttonHeight;
+  const width = Math.max(1, Math.round(image.width * ratio));
+  const height = Math.max(1, Math.round(image.height * ratio));
+  const data = new Uint8ClampedArray(width * height * 4);
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const sx = Math.min(image.width - 1, Math.floor((x + 0.5) / ratio));
+    const sy = Math.min(image.height - 1, Math.floor((y + 0.5) / ratio));
+    const p = (sy * image.width + sx) * 4;
+    data.set(image.data.subarray(p, p + 4), (y * width + x) * 4);
+  }
+  return { data, width, height };
+}
+
 export function buttonChoiceIndex(text, options = []) {
   const value = String(text || "").replace(/\s+/g, "").toLowerCase();
   const aliases = (choice) => {
