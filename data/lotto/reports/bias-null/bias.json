@@ -1,0 +1,223 @@
+{
+  "detail": {
+    "frequency_persistence_signed": -0.06184437667037075,
+    "predictions": {
+      "hot_100_validation": {
+        "ticket": [
+          33,
+          11,
+          7,
+          15,
+          44,
+          4
+        ],
+        "mean": 0.744,
+        "jackpots": 0,
+        "draws": 250
+      },
+      "hot_100_final": {
+        "ticket": [
+          33,
+          11,
+          7,
+          15,
+          44,
+          4
+        ],
+        "mean": 0.8266129032258065,
+        "jackpots": 0,
+        "draws": 248
+      },
+      "cold_100_validation": {
+        "ticket": [
+          22,
+          9,
+          14,
+          20,
+          26,
+          32
+        ],
+        "mean": 0.688,
+        "jackpots": 0,
+        "draws": 250
+      },
+      "cold_100_final": {
+        "ticket": [
+          22,
+          9,
+          14,
+          20,
+          26,
+          32
+        ],
+        "mean": 0.7983870967741935,
+        "jackpots": 0,
+        "draws": 248
+      },
+      "hot_740_validation": {
+        "ticket": [
+          20,
+          27,
+          40,
+          34,
+          37,
+          1
+        ],
+        "mean": 0.688,
+        "jackpots": 0,
+        "draws": 250
+      },
+      "hot_740_final": {
+        "ticket": [
+          20,
+          27,
+          40,
+          34,
+          37,
+          1
+        ],
+        "mean": 0.8225806451612904,
+        "jackpots": 0,
+        "draws": 248
+      },
+      "cold_740_validation": {
+        "ticket": [
+          9,
+          22,
+          28,
+          30,
+          32,
+          41
+        ],
+        "mean": 0.764,
+        "jackpots": 0,
+        "draws": 250
+      },
+      "cold_740_final": {
+        "ticket": [
+          9,
+          22,
+          28,
+          30,
+          32,
+          41
+        ],
+        "mean": 0.7862903225806451,
+        "jackpots": 0,
+        "draws": 248
+      }
+    }
+  },
+  "tests": {
+    "number_dispersion": {
+      "observed": 4858.800000000001,
+      "p_mc": 0.893,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        4002.7,
+        9251.3
+      ]
+    },
+    "pair_dispersion": {
+      "observed": 17625.818181818184,
+      "p_mc": 0.726,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        16443.118181818183,
+        20398.21818181818
+      ]
+    },
+    "serial_overlap_deviation": {
+      "observed": 0.02457558609539201,
+      "p_mc": 0.273,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.00048504446240904553,
+        0.04963621665319318
+      ]
+    },
+    "frequency_persistence_abs": {
+      "observed": 0.06184437667037075,
+      "p_mc": 0.6895,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.0056643766781402545,
+        0.3305246472915777
+      ]
+    },
+    "hot_100_validation": {
+      "observed": 0.744,
+      "p_mc": 0.879,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.704,
+        0.9
+      ]
+    },
+    "hot_100_final": {
+      "observed": 0.8266129032258065,
+      "p_mc": 0.314,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.6975806451612904,
+        0.8991935483870968
+      ]
+    },
+    "cold_100_validation": {
+      "observed": 0.688,
+      "p_mc": 0.9925,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.708,
+        0.9001999999999999
+      ]
+    },
+    "cold_100_final": {
+      "observed": 0.7983870967741935,
+      "p_mc": 0.546,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.713508064516129,
+        0.8991935483870968
+      ]
+    },
+    "hot_740_validation": {
+      "observed": 0.688,
+      "p_mc": 0.9835,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.7,
+        0.892
+      ]
+    },
+    "hot_740_final": {
+      "observed": 0.8225806451612904,
+      "p_mc": 0.342,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.7056451612903226,
+        0.8991935483870968
+      ]
+    },
+    "cold_740_validation": {
+      "observed": 0.764,
+      "p_mc": 0.796,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.704,
+        0.896
+      ]
+    },
+    "cold_740_final": {
+      "observed": 0.7862903225806451,
+      "p_mc": 0.6265,
+      "p_holm": 1.0,
+      "null_interval_95": [
+        0.7016129032258065,
+        0.8951612903225806
+      ]
+    }
+  },
+  "null_repeats": 1999,
+  "multiplicity_family_size": 12
+}
