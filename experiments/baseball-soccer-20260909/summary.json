@@ -1,0 +1,932 @@
+{
+  "production_allowed": false,
+  "rejected": {
+    "exact_duplicates": 0
+  },
+  "leagues": {
+    "EPL": {
+      "input_n": 1280,
+      "train_n": 767,
+      "validation_n": 246,
+      "test_n": 257,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 1.0,
+      "test_start": "2025-11-30T00:00:00+09:00",
+      "test_end": "2026-08-25T04:00:00+09:00",
+      "market": {
+        "n": 257,
+        "hits": 124,
+        "hit_rate": 0.48249027237354086,
+        "brier_multiclass_sum": 0.6223954038351424,
+        "log_loss": 1.0274994827567672
+      },
+      "candidate": {
+        "n": 257,
+        "hits": 118,
+        "hit_rate": 0.4591439688715953,
+        "brier_multiclass_sum": 0.6246257292766219,
+        "log_loss": 1.0316885078403963
+      },
+      "selected": {
+        "n": 257,
+        "hits": 118,
+        "hit_rate": 0.4591439688715953,
+        "brier_multiclass_sum": 0.6246257292766219,
+        "log_loss": 1.0316885078403963
+      },
+      "paired": {
+        "brier_gain": -0.0022303254414795166,
+        "ci95_unadjusted": [
+          -0.00877550458169321,
+          0.0044071543707185955
+        ],
+        "date_blocks": 79,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 80,
+        "hits": 47,
+        "hit_rate": 0.5875,
+        "mean_odds": 1.44425,
+        "unit_roi": -0.16425
+      },
+      "selected_policy": {
+        "n": 75,
+        "hits": 40,
+        "hit_rate": 0.5333333333333333,
+        "mean_odds": 1.4831999999999999,
+        "unit_roi": -0.22053333333333333
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 61,
+          "hits": 33,
+          "hit_rate": 0.5409836065573771,
+          "mean_odds": 1.4447540983606557
+        },
+        "selected": {
+          "n": 61,
+          "hits": 34,
+          "hit_rate": 0.5573770491803278,
+          "mean_odds": 1.4457377049180327
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.0022303254414795166,
+        "ci95_unadjusted": [
+          -0.00877550458169321,
+          0.0044071543707185955
+        ],
+        "date_blocks": 79,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 257,
+        "market": 0.2457506839507367,
+        "selected": 0.24593267970954705
+      }
+    },
+    "J1리그": {
+      "input_n": 1014,
+      "train_n": 588,
+      "validation_n": 204,
+      "test_n": 205,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-06-15T14:00:00+09:00",
+      "test_end": "2026-08-23T19:30:00+09:00",
+      "market": {
+        "n": 205,
+        "hits": 107,
+        "hit_rate": 0.5219512195121951,
+        "brier_multiclass_sum": 0.589612184617623,
+        "log_loss": 0.9886336860210083
+      },
+      "candidate": {
+        "n": 205,
+        "hits": 101,
+        "hit_rate": 0.4926829268292683,
+        "brier_multiclass_sum": 0.6067046133885456,
+        "log_loss": 1.011866855330283
+      },
+      "selected": {
+        "n": 205,
+        "hits": 107,
+        "hit_rate": 0.5219512195121951,
+        "brier_multiclass_sum": 0.589612184617623,
+        "log_loss": 0.9886336860210083
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 48,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 32,
+        "hits": 24,
+        "hit_rate": 0.75,
+        "mean_odds": 1.5475,
+        "unit_roi": 0.16843750000000002
+      },
+      "selected_policy": {
+        "n": 32,
+        "hits": 24,
+        "hit_rate": 0.75,
+        "mean_odds": 1.5475,
+        "unit_roi": 0.16843750000000002
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 32,
+          "hits": 24,
+          "hit_rate": 0.75,
+          "mean_odds": 1.5475
+        },
+        "selected": {
+          "n": 32,
+          "hits": 24,
+          "hit_rate": 0.75,
+          "mean_odds": 1.5475
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.017092428770922524,
+        "ci95_unadjusted": [
+          -0.02824353406190478,
+          -0.0056620323006457765
+        ],
+        "date_blocks": 48,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 205,
+        "market": 0.236968087726878,
+        "selected": 0.236968087726878
+      }
+    },
+    "KBO": {
+      "input_n": 2598,
+      "train_n": 1509,
+      "validation_n": 513,
+      "test_n": 535,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-10-06T14:00:00+09:00",
+      "test_end": "2026-08-25T18:30:00+09:00",
+      "market": {
+        "n": 535,
+        "hits": 313,
+        "hit_rate": 0.5850467289719626,
+        "brier_multiclass_sum": 0.48655217931022876,
+        "log_loss": 0.6797221204201233
+      },
+      "candidate": {
+        "n": 535,
+        "hits": 305,
+        "hit_rate": 0.5700934579439252,
+        "brier_multiclass_sum": 0.48774793695382695,
+        "log_loss": 0.6809281854251791
+      },
+      "selected": {
+        "n": 535,
+        "hits": 313,
+        "hit_rate": 0.5850467289719626,
+        "brier_multiclass_sum": 0.48655217931022876,
+        "log_loss": 0.6797221204201233
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 128,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 220,
+        "hits": 123,
+        "hit_rate": 0.5590909090909091,
+        "mean_odds": 1.5194545454545456,
+        "unit_roi": -0.14899999999999997
+      },
+      "selected_policy": {
+        "n": 220,
+        "hits": 123,
+        "hit_rate": 0.5590909090909091,
+        "mean_odds": 1.5194545454545456,
+        "unit_roi": -0.14899999999999997
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 220,
+          "hits": 123,
+          "hit_rate": 0.5590909090909091,
+          "mean_odds": 1.5194545454545456
+        },
+        "selected": {
+          "n": 220,
+          "hits": 123,
+          "hit_rate": 0.5590909090909091,
+          "mean_odds": 1.5194545454545456
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.0011957576435982031,
+        "ci95_unadjusted": [
+          -0.006399183394785166,
+          0.004131134715653483
+        ],
+        "date_blocks": 128,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 535,
+        "market": 0.24327608965511438,
+        "selected": 0.24327608965511438
+      }
+    },
+    "K리그1": {
+      "input_n": 777,
+      "train_n": 449,
+      "validation_n": 138,
+      "test_n": 175,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-10-04T14:00:00+09:00",
+      "test_end": "2026-08-25T19:30:00+09:00",
+      "market": {
+        "n": 175,
+        "hits": 76,
+        "hit_rate": 0.4342857142857143,
+        "brier_multiclass_sum": 0.6508997494983628,
+        "log_loss": 1.0745913871056594
+      },
+      "candidate": {
+        "n": 175,
+        "hits": 75,
+        "hit_rate": 0.42857142857142855,
+        "brier_multiclass_sum": 0.653075515023921,
+        "log_loss": 1.080575782612204
+      },
+      "selected": {
+        "n": 175,
+        "hits": 76,
+        "hit_rate": 0.4342857142857143,
+        "brier_multiclass_sum": 0.6508997494983628,
+        "log_loss": 1.0745913871056594
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 58,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 26,
+        "hits": 14,
+        "hit_rate": 0.5384615384615384,
+        "mean_odds": 1.508076923076923,
+        "unit_roi": -0.19846153846153847
+      },
+      "selected_policy": {
+        "n": 26,
+        "hits": 14,
+        "hit_rate": 0.5384615384615384,
+        "mean_odds": 1.508076923076923,
+        "unit_roi": -0.19846153846153847
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 26,
+          "hits": 14,
+          "hit_rate": 0.5384615384615384,
+          "mean_odds": 1.508076923076923
+        },
+        "selected": {
+          "n": 26,
+          "hits": 14,
+          "hit_rate": 0.5384615384615384,
+          "mean_odds": 1.508076923076923
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.0021757655255583083,
+        "ci95_unadjusted": [
+          -0.011701363034788952,
+          0.006890283861771518
+        ],
+        "date_blocks": 58,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 175,
+        "market": 0.24597339393104736,
+        "selected": 0.24597339393104736
+      }
+    },
+    "MLB": {
+      "input_n": 8990,
+      "train_n": 5243,
+      "validation_n": 1791,
+      "test_n": 1858,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-10-18T09:38:00+09:00",
+      "test_end": "2026-08-25T10:45:00+09:00",
+      "market": {
+        "n": 1858,
+        "hits": 1045,
+        "hit_rate": 0.56243272335845,
+        "brier_multiclass_sum": 0.49040152039992835,
+        "log_loss": 0.6834697383599534
+      },
+      "candidate": {
+        "n": 1858,
+        "hits": 1048,
+        "hit_rate": 0.5640473627556513,
+        "brier_multiclass_sum": 0.49051602001820743,
+        "log_loss": 0.6835832493027434
+      },
+      "selected": {
+        "n": 1858,
+        "hits": 1045,
+        "hit_rate": 0.56243272335845,
+        "brier_multiclass_sum": 0.49040152039992835,
+        "log_loss": 0.6834697383599534
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 152,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 393,
+        "hits": 226,
+        "hit_rate": 0.5750636132315522,
+        "mean_odds": 1.5354707379134862,
+        "unit_roi": -0.11572519083969462
+      },
+      "selected_policy": {
+        "n": 393,
+        "hits": 226,
+        "hit_rate": 0.5750636132315522,
+        "mean_odds": 1.5354707379134862,
+        "unit_roi": -0.11572519083969462
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 393,
+          "hits": 226,
+          "hit_rate": 0.5750636132315522,
+          "mean_odds": 1.5354707379134862
+        },
+        "selected": {
+          "n": 393,
+          "hits": 226,
+          "hit_rate": 0.5750636132315522,
+          "mean_odds": 1.5354707379134862
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.00011449961827913785,
+        "ci95_unadjusted": [
+          -0.001787031768937258,
+          0.0015321897437446403
+        ],
+        "date_blocks": 152,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 1858,
+        "market": 0.2452007601999642,
+        "selected": 0.2452007601999642
+      }
+    },
+    "NPB": {
+      "input_n": 3136,
+      "train_n": 1809,
+      "validation_n": 638,
+      "test_n": 645,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-10-17T18:00:00+09:00",
+      "test_end": "2026-08-25T18:00:00+09:00",
+      "market": {
+        "n": 645,
+        "hits": 368,
+        "hit_rate": 0.5705426356589147,
+        "brier_multiclass_sum": 0.4831288139514722,
+        "log_loss": 0.6759622201873515
+      },
+      "candidate": {
+        "n": 645,
+        "hits": 355,
+        "hit_rate": 0.5503875968992248,
+        "brier_multiclass_sum": 0.484717575303628,
+        "log_loss": 0.6775791446319446
+      },
+      "selected": {
+        "n": 645,
+        "hits": 368,
+        "hit_rate": 0.5705426356589147,
+        "brier_multiclass_sum": 0.4831288139514722,
+        "log_loss": 0.6759622201873515
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 132,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 234,
+        "hits": 131,
+        "hit_rate": 0.5598290598290598,
+        "mean_odds": 1.5212393162393163,
+        "unit_roi": -0.15465811965811965
+      },
+      "selected_policy": {
+        "n": 234,
+        "hits": 131,
+        "hit_rate": 0.5598290598290598,
+        "mean_odds": 1.5212393162393163,
+        "unit_roi": -0.15465811965811965
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 234,
+          "hits": 131,
+          "hit_rate": 0.5598290598290598,
+          "mean_odds": 1.5212393162393163
+        },
+        "selected": {
+          "n": 234,
+          "hits": 131,
+          "hit_rate": 0.5598290598290598,
+          "mean_odds": 1.5212393162393163
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.0015887613521558099,
+        "ci95_unadjusted": [
+          -0.0061031845973589785,
+          0.0029259279141226778
+        ],
+        "date_blocks": 132,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 645,
+        "market": 0.2415644069757361,
+        "selected": 0.2415644069757361
+      }
+    },
+    "라리가": {
+      "input_n": 1300,
+      "train_n": 769,
+      "validation_n": 259,
+      "test_n": 252,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-12-02T05:00:00+09:00",
+      "test_end": "2026-08-26T04:00:00+09:00",
+      "market": {
+        "n": 252,
+        "hits": 136,
+        "hit_rate": 0.5396825396825397,
+        "brier_multiclass_sum": 0.5766236015579996,
+        "log_loss": 0.9745212496947999
+      },
+      "candidate": {
+        "n": 252,
+        "hits": 130,
+        "hit_rate": 0.5158730158730159,
+        "brier_multiclass_sum": 0.5759641720863086,
+        "log_loss": 0.9725055886705283
+      },
+      "selected": {
+        "n": 252,
+        "hits": 136,
+        "hit_rate": 0.5396825396825397,
+        "brier_multiclass_sum": 0.5766236015579996,
+        "log_loss": 0.9745212496947999
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 99,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 64,
+        "hits": 48,
+        "hit_rate": 0.75,
+        "mean_odds": 1.4234375,
+        "unit_roi": 0.044687500000000005
+      },
+      "selected_policy": {
+        "n": 64,
+        "hits": 48,
+        "hit_rate": 0.75,
+        "mean_odds": 1.4234375,
+        "unit_roi": 0.044687500000000005
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 64,
+          "hits": 48,
+          "hit_rate": 0.75,
+          "mean_odds": 1.4234375
+        },
+        "selected": {
+          "n": 64,
+          "hits": 48,
+          "hit_rate": 0.75,
+          "mean_odds": 1.4234375
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": 0.000659429471691081,
+        "ci95_unadjusted": [
+          -0.006510005454998293,
+          0.007960671590444654
+        ],
+        "date_blocks": 99,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 252,
+        "market": 0.22799248668990368,
+        "selected": 0.22799248668990368
+      }
+    },
+    "분데스리": {
+      "input_n": 1010,
+      "train_n": 592,
+      "validation_n": 202,
+      "test_n": 206,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-11-22T23:30:00+09:00",
+      "test_end": "2026-05-16T22:30:00+09:00",
+      "market": {
+        "n": 206,
+        "hits": 110,
+        "hit_rate": 0.5339805825242718,
+        "brier_multiclass_sum": 0.5701999550574353,
+        "log_loss": 0.9636843188705503
+      },
+      "candidate": {
+        "n": 206,
+        "hits": 116,
+        "hit_rate": 0.5631067961165048,
+        "brier_multiclass_sum": 0.5712024625916824,
+        "log_loss": 0.9634980814882864
+      },
+      "selected": {
+        "n": 206,
+        "hits": 110,
+        "hit_rate": 0.5339805825242718,
+        "brier_multiclass_sum": 0.5701999550574353,
+        "log_loss": 0.9636843188705503
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 66,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 61,
+        "hits": 44,
+        "hit_rate": 0.7213114754098361,
+        "mean_odds": 1.4121311475409837,
+        "unit_roi": 0.007540983606557402
+      },
+      "selected_policy": {
+        "n": 61,
+        "hits": 44,
+        "hit_rate": 0.7213114754098361,
+        "mean_odds": 1.4121311475409837,
+        "unit_roi": 0.007540983606557402
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 61,
+          "hits": 44,
+          "hit_rate": 0.7213114754098361,
+          "mean_odds": 1.4121311475409837
+        },
+        "selected": {
+          "n": 61,
+          "hits": 44,
+          "hit_rate": 0.7213114754098361,
+          "mean_odds": 1.4121311475409837
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.0010025075342470755,
+        "ci95_unadjusted": [
+          -0.01195173090204228,
+          0.009992846302958767
+        ],
+        "date_blocks": 66,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 206,
+        "market": 0.22487335056300822,
+        "selected": 0.22487335056300822
+      }
+    },
+    "세리에A": {
+      "input_n": 1279,
+      "train_n": 742,
+      "validation_n": 257,
+      "test_n": 258,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-11-29T23:00:00+09:00",
+      "test_end": "2026-08-25T03:45:00+09:00",
+      "market": {
+        "n": 258,
+        "hits": 147,
+        "hit_rate": 0.5697674418604651,
+        "brier_multiclass_sum": 0.5594374297276428,
+        "log_loss": 0.9455745197790418
+      },
+      "candidate": {
+        "n": 258,
+        "hits": 140,
+        "hit_rate": 0.5426356589147286,
+        "brier_multiclass_sum": 0.5755537426184367,
+        "log_loss": 0.9696291354369367
+      },
+      "selected": {
+        "n": 258,
+        "hits": 147,
+        "hit_rate": 0.5697674418604651,
+        "brier_multiclass_sum": 0.5594374297276428,
+        "log_loss": 0.9455745197790418
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 92,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 98,
+        "hits": 65,
+        "hit_rate": 0.6632653061224489,
+        "mean_odds": 1.385612244897959,
+        "unit_roi": -0.09459183673469387
+      },
+      "selected_policy": {
+        "n": 98,
+        "hits": 65,
+        "hit_rate": 0.6632653061224489,
+        "mean_odds": 1.385612244897959,
+        "unit_roi": -0.09459183673469387
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 98,
+          "hits": 65,
+          "hit_rate": 0.6632653061224489,
+          "mean_odds": 1.385612244897959
+        },
+        "selected": {
+          "n": 98,
+          "hits": 65,
+          "hit_rate": 0.6632653061224489,
+          "mean_odds": 1.385612244897959
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": -0.016116312890793932,
+        "ci95_unadjusted": [
+          -0.025872186584914747,
+          -0.006022003793030406
+        ],
+        "date_blocks": 92,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 258,
+        "market": 0.2305311806573641,
+        "selected": 0.2305311806573641
+      }
+    },
+    "프리그1": {
+      "input_n": 1064,
+      "train_n": 624,
+      "validation_n": 200,
+      "test_n": 214,
+      "known_odds_time_n": 0,
+      "status": "evaluated",
+      "alpha": 0.0,
+      "test_start": "2025-11-02T01:00:00+09:00",
+      "test_end": "2026-08-24T03:45:00+09:00",
+      "market": {
+        "n": 214,
+        "hits": 120,
+        "hit_rate": 0.5607476635514018,
+        "brier_multiclass_sum": 0.5772011249916958,
+        "log_loss": 0.9675095357171365
+      },
+      "candidate": {
+        "n": 214,
+        "hits": 120,
+        "hit_rate": 0.5607476635514018,
+        "brier_multiclass_sum": 0.576632687571303,
+        "log_loss": 0.967954004486565
+      },
+      "selected": {
+        "n": 214,
+        "hits": 120,
+        "hit_rate": 0.5607476635514018,
+        "brier_multiclass_sum": 0.5772011249916958,
+        "log_loss": 0.9675095357171365
+      },
+      "paired": {
+        "brier_gain": 0.0,
+        "ci95_unadjusted": [
+          0.0,
+          0.0
+        ],
+        "date_blocks": 69,
+        "bootstrap_draws": 5000
+      },
+      "market_policy": {
+        "n": 70,
+        "hits": 42,
+        "hit_rate": 0.6,
+        "mean_odds": 1.4105714285714286,
+        "unit_roi": -0.18214285714285713
+      },
+      "selected_policy": {
+        "n": 70,
+        "hits": 42,
+        "hit_rate": 0.6,
+        "mean_odds": 1.4105714285714286,
+        "unit_roi": -0.18214285714285713
+      },
+      "t30_proof": false,
+      "matched_policy": {
+        "method": "same KST date and 0.1 odds bin; diagnostic not deployable selector",
+        "market": {
+          "n": 70,
+          "hits": 42,
+          "hit_rate": 0.6,
+          "mean_odds": 1.4105714285714286
+        },
+        "selected": {
+          "n": 70,
+          "hits": 42,
+          "hit_rate": 0.6,
+          "mean_odds": 1.4105714285714286
+        }
+      },
+      "candidate_paired": {
+        "brier_gain": 0.0005684374203928828,
+        "ci95_unadjusted": [
+          -0.00583233430147585,
+          0.006705883154781083
+        ],
+        "date_blocks": 69,
+        "bootstrap_draws": 5000
+      },
+      "same_favorite_probability_brier": {
+        "n": 214,
+        "market": 0.2417544704745503,
+        "selected": 0.2417544704745503
+      }
+    }
+  },
+  "scope": "winner-market subset only; not full-site recommendation replay",
+  "inference": "exploratory; reused historical data; no multiple-testing promotion",
+  "input_sha256": "98b5917c15143e3a97a93e30c168af1b93b8d0be8682a7d1911cd4b26cd8ee8c",
+  "soccer_fixed_probe": {
+    "n": 20,
+    "status": "descriptive_only_no_fit_no_uplift_claim",
+    "metrics": {
+      "market": {
+        "brier_sum": 0.6726569572024006,
+        "log_loss": 1.1164986507049988,
+        "accuracy": 0.4
+      },
+      "xg_poisson": {
+        "brier_sum": 0.6585095388961254,
+        "log_loss": 1.0912166569190713,
+        "accuracy": 0.45
+      },
+      "fixed_half_blend": {
+        "brier_sum": 0.6621659651653399,
+        "log_loss": 1.0980431783298485,
+        "accuracy": 0.4
+      }
+    }
+  },
+  "mlb_pilot": {
+    "start": "2025-06-01",
+    "end": "2025-06-14",
+    "selection": "chronological prefix (date, gamePk)",
+    "scheduled_games": 186,
+    "selected_games": 30,
+    "collected_games": 30,
+    "incomplete": true,
+    "final_games": 30,
+    "scheduled_date_coverage": {
+      "2025-06-01": 15,
+      "2025-06-02": 7,
+      "2025-06-03": 15,
+      "2025-06-04": 14,
+      "2025-06-05": 13,
+      "2025-06-06": 14,
+      "2025-06-07": 16,
+      "2025-06-08": 15,
+      "2025-06-09": 9,
+      "2025-06-10": 15,
+      "2025-06-11": 15,
+      "2025-06-12": 8,
+      "2025-06-13": 15,
+      "2025-06-14": 15
+    },
+    "collected_date_coverage": {
+      "2025-06-01": 15,
+      "2025-06-02": 7,
+      "2025-06-03": 8
+    },
+    "pitches": 8768,
+    "pitcher_id_present": 8768,
+    "speed_present": 8766,
+    "person_game_rows": 262,
+    "games_with_pitches": 30,
+    "duplicate_events": 0,
+    "requests": {
+      "schedule": 1,
+      "feed": 30
+    },
+    "budgets": {
+      "schedule": 1,
+      "feed": 30,
+      "total": 31
+    },
+    "errors": [],
+    "usable_bullpen_rows": 18,
+    "sample_unit": "game; pitches are dependent observations",
+    "limitation": "Coverage pilot only; no accuracy lift tested. Modern historical snapshots do not prove past availability."
+  }
+}
