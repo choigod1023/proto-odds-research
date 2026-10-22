@@ -1,0 +1,55 @@
+{
+  "complete": true,
+  "total_null_histories": 99999,
+  "reused_prefix_histories": 9999,
+  "new_histories": 90000,
+  "fit_success_count": 99999,
+  "resumed_at": 10099,
+  "wall_seconds_this_launch": 8337.2857349,
+  "cpu_seconds_this_launch": 3429.78125,
+  "peak_memory_mib": 123.4140625,
+  "comparisons": {
+    "validation": {
+      "observed": -0.0025357664010134937,
+      "exceedances": 57108,
+      "null_histories": 99999,
+      "p_upper_plus_one": 0.57109,
+      "tail_probability_ci95": [
+        0.5680111745241614,
+        0.5741561234376963
+      ],
+      "null_interval_95": [
+        -0.01071987660189237,
+        0.00572400846752431
+      ]
+    },
+    "final": {
+      "observed": 0.00295607881356895,
+      "exceedances": 9969,
+      "null_histories": 99999,
+      "p_upper_plus_one": 0.0997,
+      "tail_probability_ci95": [
+        0.09784078736991803,
+        0.10156446137866158
+      ],
+      "null_interval_95": [
+        -0.010676605456588982,
+        0.005694294803327705
+      ]
+    },
+    "seen_extension": {
+      "observed": 0.0014530650075181611,
+      "exceedances": 44314,
+      "null_histories": 99999,
+      "p_upper_plus_one": 0.44315,
+      "tail_probability_ci95": [
+        0.4400622275044479,
+        0.44622993360565116
+      ],
+      "null_interval_95": [
+        -0.051282955840498454,
+        0.04528234760915788
+      ]
+    }
+  }
+}
