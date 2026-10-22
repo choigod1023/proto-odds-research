@@ -1,0 +1,150 @@
+{
+  "status": "completed",
+  "enumerated_each_pass": 8145060,
+  "passes": 2,
+  "unique_combinations": 8145060,
+  "data_through_draw": 1245,
+  "target_draw": 1246,
+  "families": [
+    "quantum",
+    "classical",
+    "shrinkage",
+    "temporal",
+    "nonlinear",
+    "entropy_regime"
+  ],
+  "games": [
+    {
+      "numbers": [
+        13,
+        20,
+        21,
+        22,
+        32,
+        42
+      ],
+      "minimum_percentile": 67.21981636722136,
+      "mean_percentile": 74.3499105763357,
+      "family_percentiles": [
+        76.0433379250736,
+        72.31281905842314,
+        77.73583620010166,
+        73.35477884754685,
+        67.21981636722136,
+        79.43287505964761
+      ],
+      "lexicographic_index": 7173259
+    },
+    {
+      "numbers": [
+        15,
+        19,
+        20,
+        22,
+        32,
+        42
+      ],
+      "minimum_percentile": 67.21981636722136,
+      "mean_percentile": 74.33391314967463,
+      "family_percentiles": [
+        76.0433379250736,
+        72.31281905842314,
+        77.63985164013525,
+        73.35477884754685,
+        67.21981636722136,
+        79.43287505964761
+      ],
+      "lexicographic_index": 7471002
+    },
+    {
+      "numbers": [
+        18,
+        19,
+        21,
+        22,
+        28,
+        42
+      ],
+      "minimum_percentile": 67.21981636722136,
+      "mean_percentile": 73.95334505072877,
+      "family_percentiles": [
+        76.0433379250736,
+        72.31281905842314,
+        75.35644304646006,
+        73.35477884754685,
+        67.21981636722136,
+        79.43287505964761
+      ],
+      "lexicographic_index": 7770733
+    },
+    {
+      "numbers": [
+        16,
+        19,
+        20,
+        21,
+        32,
+        42
+      ],
+      "minimum_percentile": 67.21981636722136,
+      "mean_percentile": 73.9120930525851,
+      "family_percentiles": [
+        76.0433379250736,
+        72.31281905842314,
+        75.1089310575981,
+        73.35477884754685,
+        67.21981636722136,
+        79.43287505964761
+      ],
+      "lexicographic_index": 7589504
+    },
+    {
+      "numbers": [
+        18,
+        19,
+        20,
+        21,
+        32,
+        42
+      ],
+      "minimum_percentile": 67.21981636722136,
+      "mean_percentile": 72.74213850344735,
+      "family_percentiles": [
+        76.0433379250736,
+        72.31281905842314,
+        68.08920376277155,
+        73.35477884754685,
+        67.21981636722136,
+        79.43287505964761
+      ],
+      "lexicographic_index": 7768514
+    }
+  ],
+  "category_counts_match_exact": true,
+  "overlap_counts_match_exact": true,
+  "feature_counts": [
+    [
+      4071760,
+      4073300
+    ],
+    [
+      4071760,
+      4073300
+    ],
+    [
+      831637,
+      1392484,
+      3037490,
+      1656942,
+      1226507
+    ],
+    [
+      3838380,
+      4306680
+    ]
+  ],
+  "wall_seconds": 17.420049699998344,
+  "cpu_seconds": 9.921875,
+  "peak_working_set_mib": 246.9921875,
+  "validated_probability_advantage": false
+}
