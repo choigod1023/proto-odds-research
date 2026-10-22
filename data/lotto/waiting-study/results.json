@@ -1,0 +1,95 @@
+{
+  "status": "completed",
+  "primary_p_lower": 0.1992,
+  "observed_log_ratio": -0.14258647318621698,
+  "geometric_wait_ratio": 0.8671125690635402,
+  "selected_seeds": [
+    202610171004,
+    202610171001,
+    202610171010,
+    202610171016,
+    202610171013,
+    202610171026,
+    202610171003,
+    202610171012
+  ],
+  "selected_training_waits": [
+    122264,
+    652344,
+    653915,
+    882081,
+    1299675,
+    1450533,
+    1903368,
+    2170940
+  ],
+  "selected_test_arithmetic_mean": 7223851.225,
+  "other_test_arithmetic_mean": 8629641.875,
+  "selected_test_geometric_mean": 4412180.552303109,
+  "other_test_geometric_mean": 5088359.585270634,
+  "all_training_mean": 8542563.53125,
+  "all_training_min": 122264,
+  "total_generated_ranks": 769500000,
+  "unique_seeds": 32,
+  "targets_per_seed": 11,
+  "null_ratio_interval95": [
+    0.7167914155630591,
+    1.3836359046112947
+  ],
+  "test_rounds_selected_faster": 8,
+  "per_test_round": [
+    {
+      "draw": 1235,
+      "selected_mean": 4648734.625,
+      "other_mean": 9183756.958333334
+    },
+    {
+      "draw": 1236,
+      "selected_mean": 5502872.25,
+      "other_mean": 9248550.5
+    },
+    {
+      "draw": 1237,
+      "selected_mean": 4668775.875,
+      "other_mean": 9719620.625
+    },
+    {
+      "draw": 1238,
+      "selected_mean": 7528198.5,
+      "other_mean": 8133835.291666667
+    },
+    {
+      "draw": 1239,
+      "selected_mean": 5220255.5,
+      "other_mean": 9579121.375
+    },
+    {
+      "draw": 1240,
+      "selected_mean": 8776713.125,
+      "other_mean": 9571858.958333334
+    },
+    {
+      "draw": 1241,
+      "selected_mean": 8114995.375,
+      "other_mean": 8443122.041666666
+    },
+    {
+      "draw": 1242,
+      "selected_mean": 5377413.875,
+      "other_mean": 7060165.0
+    },
+    {
+      "draw": 1243,
+      "selected_mean": 11657459.625,
+      "other_mean": 7853609.583333333
+    },
+    {
+      "draw": 1244,
+      "selected_mean": 10743093.5,
+      "other_mean": 7502778.416666667
+    }
+  ],
+  "wall_seconds": 12.101327299998957,
+  "cpu_seconds": 3.09375,
+  "peak_working_set_mib": 118.0390625
+}
