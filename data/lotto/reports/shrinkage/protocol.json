@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "configs_half_life_prior_strength": [
+    [
+      null,
+      null
+    ],
+    [
+      50,
+      45
+    ],
+    [
+      50,
+      450
+    ],
+    [
+      50,
+      4500
+    ],
+    [
+      200,
+      45
+    ],
+    [
+      200,
+      450
+    ],
+    [
+      200,
+      4500
+    ],
+    [
+      null,
+      45
+    ],
+    [
+      null,
+      450
+    ],
+    [
+      null,
+      4500
+    ]
+  ],
+  "train_scoring_rounds": [
+    201,
+    740
+  ],
+  "splits_zero_based": {
+    "validation": [
+      740,
+      990
+    ],
+    "final": [
+      990,
+      1238
+    ],
+    "previously_seen_extension": [
+      1238,
+      1245
+    ]
+  },
+  "null_histories": 199,
+  "null_seed_start": 2026101600,
+  "workers": 1,
+  "blas_threads": 1,
+  "base_data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "extra_data_hash": "f05dadcf25dcb307f5c7b5bbc15053b3ff1255973cc9c783284a013b119db935",
+  "source_sha256": "be9538a6852c5327055a07bc8620ee559f48c774035387bbbff9ad19a6d3f890",
+  "selection": "max mean training log score; uniform first; hyperparameters frozen after 740",
+  "primary_endpoint": "final mean log gain; upper-tail plus-one null p",
+  "secondary": "validation and previously seen extension; descriptive; no fresh holdout",
+  "null": "uniform six-subset histories; rerun entire training selection",
+  "model": "Beta pseudo-count means -> odds -> exact size-six conditional plug-in distribution"
+}
