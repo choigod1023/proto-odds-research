@@ -555,6 +555,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
         time.sleep(initial_delay)
     next_recommendation = 0.0
     market_retry = False
+    retry_window = MarketRetryWindow()
     while True:
         log(f"{name} 시작")
         try:
@@ -565,7 +566,15 @@ def run_looper(name: str, cmd: list[str], interval: int,
             elif name == "실시간 배당":
                 # The independent recommendation worker must not race a new
                 # odds child between checking headroom and starting its process.
+                if market_retry and retry_window.expired(time.monotonic()):
+                    log("판정 재시도 기한/횟수 초과 — 최신 배당 재수집 후 재판정")
+                    market_retry = False
+                    retry_window.reset()
                 rc, market_retry = _run_odds_cycle(cmd, market_retry)
+                if market_retry:
+                    retry_window.failed(time.monotonic())
+                else:
+                    retry_window.reset()
             elif name == "배당 스냅샷":
                 # Same source as live odds; do not retain its scraper heap while
                 # the odds handoff waits for decision headroom.
@@ -580,6 +589,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
             log(f"{name} 예외: {type(e).__name__}: {e}")
             rc = -1
         delay = interval if rc == 0 else min(60, interval)
+        if name == "실시간 배당" and market_retry:
+            delay = retry_window.delay
         log(f"{name} 종료(rc={rc}) — {delay}s 후 재시작")
         if name == "실시간 배당" and rc == 0 and time.monotonic() >= next_recommendation:
             if _refresh_recommendation_after_odds(repair=False):
@@ -594,6 +605,36 @@ MARKET_REFRESH_TIMEOUT = 300
 # read timeouts are not an overall deadline. Never hold the shared decision
 # lock indefinitely. Allow a full scan substantially longer than a normal poll.
 ODDS_COLLECTION_TIMEOUT = 900
+
+
+class MarketRetryWindow:
+    """Bound reuse of a failed source snapshot, without overlapping children.
+
+    Expiry is checked between attempts, never by interrupting a DB transaction.
+    A new collection starts a new window; the existing last-good view survives.
+    """
+    ttl = 600
+    max_attempts = 3
+
+    def __init__(self):
+        self.reset()
+
+    def reset(self):
+        self.started = None
+        self.attempts = 0
+
+    def failed(self, now):
+        if self.started is None:
+            self.started = now
+        self.attempts += 1
+
+    def expired(self, now):
+        return self.started is not None and (
+            self.attempts >= self.max_attempts or now - self.started >= self.ttl)
+
+    @property
+    def delay(self):
+        return min(180, 60 * 2 ** min(max(self.attempts - 1, 0), 2))
 
 
 def _run_odds_cycle(cmd, market_retry=False):
