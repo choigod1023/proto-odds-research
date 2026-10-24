@@ -314,6 +314,7 @@ def _mlb_injuries(session: requests.Session, team_ids: set[int]) -> dict[str, li
                             timeout=25)
             r.raise_for_status()
             injured = []
+            observed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
             for row in r.json().get("roster", []):
                 status = row.get("status") or {}
                 if not str(status.get("code") or "").startswith("D"):
@@ -324,6 +325,8 @@ def _mlb_injuries(session: requests.Session, team_ids: set[int]) -> dict[str, li
                     "position": (row.get("position") or {}).get("abbreviation"),
                     "reason_code": "injury", "availability_status": "out",
                     "source_type": "official_roster",
+                    "observed_at": observed_at,
+                    "source_url": f"https://statsapi.mlb.com/api/v1/teams/{team_id}/roster",
                 })
             out[str(team_id)] = injured
         except requests.RequestException:
@@ -385,6 +388,7 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
             "updated_at": now.isoformat(timespec="seconds"),
         }
         raw_lineups = game.get("lineups") or {}
+        lineup_states = {}
         for side in ("home", "away"):
             players = raw_lineups.get(f"{side}Players") or []
             if players:
@@ -393,6 +397,15 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
                     "position": (p.get("primaryPosition") or {}).get("abbreviation"),
                     "order": i + 1,
                 } for i, p in enumerate(players) if p.get("fullName")]
+                if rec["lineups"][side]:
+                    lineup_states[side] = "official_today"
+        if lineup_states:
+            rec["lineup_status"] = {
+                "state": "official_today" if len(lineup_states) == 2 else "partial",
+                "side_states": {side: lineup_states.get(side, "pending") for side in ("home", "away")},
+                "observed_at": now.isoformat(timespec="seconds"),
+                "source": "MLB Stats API schedule.lineups",
+            }
         for side in ("home", "away"):
             side_row, team = teams[side], teams[side]["team"]
             pid = int((side_row.get("probablePitcher") or {}).get("id") or 0)
@@ -463,6 +476,9 @@ def collect() -> dict:
         tmp = OUT.with_suffix(".tmp")
         tmp.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
         tmp.replace(OUT)
+    # Research preservation is opt-in and fail-open; never changes published picks.
+    from pregame_research_capture import safe_capture
+    safe_capture()
     return doc
 
 

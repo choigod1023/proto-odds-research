@@ -137,6 +137,8 @@ def matching_record(game, document, now=None):
 def main():
     doc = collect()
     persist_document("kbo_pregame", doc, OUT)
+    from pregame_research_capture import safe_capture
+    safe_capture()
     print(json.dumps({"kbo_games": len(doc["games"]), "errors": doc["errors"], "generated_at": doc["generated_at"]}), flush=True)
     return 1 if doc['errors'] else 0
 

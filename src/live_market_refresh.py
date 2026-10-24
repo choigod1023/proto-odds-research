@@ -627,6 +627,11 @@ def refresh_once(live_odds: dict | None = None) -> int:
                 game["prediction_record"] = record
                 attached += 1
         if not changed and not settled and not attached:
+            # Source observations may have changed even when the pick did not.
+            del runtime, records
+            gc.collect()
+            from pregame_research_capture import safe_capture
+            safe_capture()
             print("경량 시장 판정 변경 없음")
             return 0
     except (LedgerCorruptionError, LedgerConflictError,
@@ -643,6 +648,8 @@ def refresh_once(live_odds: dict | None = None) -> int:
     gc.collect()
     stage("persist")
     persist_artifact("picks_v2", document, PICKS)
+    from pregame_research_capture import safe_capture
+    safe_capture()
     stage("complete")
     print(f"경량 시장 판정 {changed}경기 → runtime artifact picks_v2")
     return 0
