@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import re
 import sqlite3
-import tempfile
+from temporary_workspace import workspace
 from zoneinfo import ZoneInfo
 
 
@@ -130,7 +130,7 @@ class DatasetStore:
                 raise ValueError(f"invalid fields: {name}")
         counts = {name: 0 for name in fields}
         digests = {name: hashlib.sha256(json.dumps(value).encode()) for name, value in fields.items()}
-        with tempfile.TemporaryDirectory(prefix="proodd-stage-", dir=self.path.parent) as directory:
+        with workspace(self.path.parent, "stage") as directory:
             stage = Path(directory) / "datasets.sqlite3"
             with closing(sqlite3.connect(stage)) as staged:
                 staged.executescript("""
