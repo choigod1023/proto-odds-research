@@ -1,4 +1,6 @@
 from types import SimpleNamespace
+import subprocess
+import sys
 import threading
 import pytest
 from deploy import supervisor
@@ -68,3 +70,36 @@ def test_priority_reserved_before_waiting_for_snapshot_lock(monkeypatch):
     monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0))
     monkeypatch.setattr(supervisor, '_refresh_market_after_collection', lambda: 0)
     assert supervisor._run_odds_cycle(['odds']) == (0, False)
+
+
+def test_hung_collection_is_reaped_and_releases_decision_lock(monkeypatch, tmp_path):
+    # Exercise an actual child: a mocked TimeoutExpired would not prove the
+    # caller supplied a deadline or that subprocess.run reaped the child.
+    monkeypatch.setattr(supervisor, 'ODDS_COLLECTION_TIMEOUT', 0.2, raising=False)
+    monkeypatch.setattr(supervisor, 'REPO', tmp_path)
+    monkeypatch.setattr(supervisor, '_refresh_market_after_collection',
+                        lambda: pytest.fail('failed collection must not publish'))
+    with pytest.raises(subprocess.TimeoutExpired):
+        supervisor._run_odds_cycle([sys.executable, '-c', 'import time; time.sleep(1)'])
+    assert not supervisor._market_cycle_pending.is_set()
+    assert supervisor._odds_recommendation_lock.acquire(blocking=False)
+    supervisor._odds_recommendation_lock.release()
+
+
+def test_collection_timeout_retries_instead_of_ending_looper(monkeypatch):
+    deadlines = []
+    def timed_out(*args, **kwargs):
+        deadlines.append(kwargs.get('timeout'))
+        raise subprocess.TimeoutExpired(args[0], kwargs.get('timeout'))
+    monkeypatch.setattr(supervisor.subprocess, 'run', timed_out)
+    sleeps = []
+    def stop(seconds):
+        sleeps.append(seconds)
+        raise StopIteration
+    monkeypatch.setattr(supervisor.time, 'sleep', stop)
+    with pytest.raises(StopIteration):
+        supervisor.run_looper('실시간 배당', ['odds'], 60)
+    assert deadlines == [900]
+    assert sleeps == [60]
+    assert not supervisor._market_cycle_pending.is_set()
+    assert not supervisor._odds_recommendation_lock.locked()

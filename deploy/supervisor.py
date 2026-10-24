@@ -586,6 +586,10 @@ def run_looper(name: str, cmd: list[str], interval: int,
 
 
 MARKET_REFRESH_TIMEOUT = 300
+# A source can keep a socket alive without finishing its response; per-request
+# read timeouts are not an overall deadline. Never hold the shared decision
+# lock indefinitely. Allow a full scan substantially longer than a normal poll.
+ODDS_COLLECTION_TIMEOUT = 900
 
 
 def _run_odds_cycle(cmd, market_retry=False):
@@ -598,7 +602,8 @@ def _run_odds_cycle(cmd, market_retry=False):
     try:
         with _odds_recommendation_lock:
             if not market_retry:
-                rc = subprocess.run(cmd, cwd=REPO).returncode
+                rc = subprocess.run(cmd, cwd=REPO,
+                                    timeout=ODDS_COLLECTION_TIMEOUT).returncode
                 if rc != 0:
                     return rc, False
                 market_retry = True
