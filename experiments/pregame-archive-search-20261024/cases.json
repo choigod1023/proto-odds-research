@@ -1,0 +1,107 @@
+{
+  "records": [
+    {
+      "id": "2025-04-19:MIL@IND:absence",
+      "event_id": null,
+      "event_key_candidate": "2025-04-19:MIL@IND",
+      "sport": "bk",
+      "kind": "absence",
+      "subject": "Damian Lillard",
+      "claim_status": "Out",
+      "summary": "Damian Lillard Out in archived report.",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "source_report_at": "2025-04-18T17:30:00-04:00",
+      "published_at": null,
+      "publication_note": "report header time; not independently measured first publication",
+      "source_creation_metadata": "D:20250418173002-04'00'",
+      "source_http_last_modified": "Fri, 18 Apr 2025 21:30:03 GMT",
+      "third_party_archive_at": "2025-04-18T22:39:59+00:00",
+      "archive_url": "https://web.archive.org/web/20250418223959id_/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "archive_sha256": "8f951c82fc0c896364aa0dfb038d5cb3506d90f4f51f953e12d84bbb7374d18e",
+      "archive_cdx_digest": "MIBVK76UX7EWSCFQB773J5WZ7HFE2HE5",
+      "observed_at": "2026-10-24T11:38:29.413970+00:00",
+      "kickoff_at": "2025-04-19T13:00:00-04:00",
+      "kickoff_type": "scheduled_not_actual_tipoff",
+      "kickoff_source_url": "https://www.nba.com/news/starting-5-april-19-playoffs-time-go-inside-todays-4-games",
+      "archive_lead_seconds": 66001,
+      "evidence_level": "third_party_pre_scheduled_start_capture_payload_verified",
+      "verification": {
+        "source_url": "https://web.archive.org/web/20250418223959id_/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+        "observed_at": "2026-10-24T11:38:29.413970+00:00",
+        "confirmed": true
+      },
+      "eligible_at_or_after": "2025-04-18T22:39:59+00:00",
+      "model_efficacy_roi": null,
+      "limits": [
+        "not final gameday status",
+        "local event ID and odds cutoff not matched",
+        "availability as of archive time only",
+        "one shared snapshot, not independent cases"
+      ]
+    },
+    {
+      "id": "2025-04-19:DET@NYK:absence",
+      "event_id": null,
+      "event_key_candidate": "2025-04-19:DET@NYK",
+      "sport": "bk",
+      "kind": "absence",
+      "subject": "Jaden Ivey",
+      "claim_status": "Out",
+      "summary": "Jaden Ivey Out in archived report.",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "source_report_at": "2025-04-18T17:30:00-04:00",
+      "published_at": null,
+      "publication_note": "report header time; not independently measured first publication",
+      "source_creation_metadata": "D:20250418173002-04'00'",
+      "source_http_last_modified": "Fri, 18 Apr 2025 21:30:03 GMT",
+      "third_party_archive_at": "2025-04-18T22:39:59+00:00",
+      "archive_url": "https://web.archive.org/web/20250418223959id_/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "archive_sha256": "8f951c82fc0c896364aa0dfb038d5cb3506d90f4f51f953e12d84bbb7374d18e",
+      "archive_cdx_digest": "MIBVK76UX7EWSCFQB773J5WZ7HFE2HE5",
+      "observed_at": "2026-10-24T11:38:29.413970+00:00",
+      "kickoff_at": "2025-04-19T18:00:00-04:00",
+      "kickoff_type": "scheduled_not_actual_tipoff",
+      "kickoff_source_url": "https://www.nba.com/news/starting-5-april-19-playoffs-time-go-inside-todays-4-games",
+      "archive_lead_seconds": 84001,
+      "evidence_level": "third_party_pre_scheduled_start_capture_payload_verified",
+      "verification": {
+        "source_url": "https://web.archive.org/web/20250418223959id_/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+        "observed_at": "2026-10-24T11:38:29.413970+00:00",
+        "confirmed": true
+      },
+      "eligible_at_or_after": "2025-04-18T22:39:59+00:00",
+      "model_efficacy_roi": null,
+      "limits": [
+        "not final gameday status",
+        "local event ID and odds cutoff not matched",
+        "availability as of archive time only",
+        "one shared snapshot, not independent cases"
+      ]
+    }
+  ],
+  "negative_controls": [
+    {
+      "id": "nba_same_day_report",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+      "report_header": "Injury Report: 04/19/25 12:30 PM",
+      "archive_at": "2025-04-20T08:32:29+00:00",
+      "kickoff_at": "2025-04-19T13:00:00-04:00",
+      "eligible": false,
+      "reason": "nearest archive is after scheduled start; exact-URL earlier CDX empty"
+    },
+    {
+      "id": "mlb_faq",
+      "source_url": "https://www.mlb.com/news/mlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs",
+      "source_datePublished": "2025-03-18T16:58:00Z",
+      "source_dateModified": "2025-03-19T01:31:45.049Z",
+      "observed_at": "2026-10-24T11:38:25.839361+00:00",
+      "archive_at": "2025-03-19T20:02:07+00:00",
+      "kickoff_at": "2025-03-19T06:10:00-04:00",
+      "eligible": false,
+      "reason": "nearest capture after start; publisher timestamps alone insufficient"
+    }
+  ],
+  "roi": null,
+  "verified_snapshot_count": 1,
+  "candidate_event_count": 2
+}
