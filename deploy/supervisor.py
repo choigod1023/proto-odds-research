@@ -26,7 +26,6 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 import threading
 import time
 from contextlib import contextmanager
@@ -430,9 +429,13 @@ def _publish_snapshot_on_remote(snapshot: str):
     수집 저장소를 reset 하면 동시에 쓰이는 새 스냅샷을 잃을 수 있으므로, 임시
     worktree에서 origin/main + 수집 데이터만 합친다.
     """
-    parent = Path(REPO).parent
-    target = Path(tempfile.mkdtemp(prefix="collector-publish-", dir=parent))
-    shutil.rmtree(target)
+    sys.path.insert(0, str(REPO / "src"))
+    from temporary_workspace import workspace
+    with workspace(Path(REPO).parent, "publish") as directory:
+        return _publish_snapshot_in_workspace(snapshot, directory / "checkout")
+
+
+def _publish_snapshot_in_workspace(snapshot: str, target: Path):
     added = False
     try:
         delta_paths, delta_result = _snapshot_delta_paths(snapshot, "origin/main", REPO)
@@ -463,7 +466,8 @@ def _publish_snapshot_on_remote(snapshot: str):
     finally:
         if added:
             sh(["git", "worktree", "remove", "--force", str(target)], cwd=REPO)
-        shutil.rmtree(target, ignore_errors=True)
+        # The enclosing owned workspace handles partial worktree-add failures.
+        # Git metadata pruning is deliberately not global (other tasks may use it).
 
 
 def _push_remote_main():
