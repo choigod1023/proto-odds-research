@@ -75,6 +75,17 @@ def main():
          'archive_at': mlb_capture.isoformat(), 'kickoff_at': mlb_start,
          'eligible': False, 'reason': 'nearest capture after start; publisher timestamps alone insufficient'},
     ]
+    local_path = ROOT / 'local_join_audit.json'
+    if local_path.exists():
+        local = json.loads(local_path.read_text(encoding='utf8'))
+        joins = {r['event_key_candidate']: r for r in local['events']}
+        for record in records:
+            record['local_join'] = joins[record['event_key_candidate']]
+            assert record['local_join']['roi'] is None
+            assert record['local_join']['eligible_full_join_count'] == 0
+            assert len(record['local_join']['historical_rows']) >= 3
+            assert all(x['odds_observed_at'] is None for x in record['local_join']['historical_rows'])
+            record['limits'][1] = 'historical market rows matched; pregame odds and frozen predictions unproven'
     report = {'records': records, 'negative_controls': negative, 'roi': None,
               'verified_snapshot_count': 1, 'candidate_event_count': 2}
     (ROOT / 'cases.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf8')
