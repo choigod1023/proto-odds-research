@@ -103,3 +103,65 @@ def test_collection_timeout_retries_instead_of_ending_looper(monkeypatch):
     assert sleeps == [60]
     assert not supervisor._market_cycle_pending.is_set()
     assert not supervisor._odds_recommendation_lock.locked()
+
+
+def test_retry_window_deadline_backoff_and_reset():
+    window = supervisor.MarketRetryWindow()
+    assert not window.expired(9999)
+    window.failed(0)
+    assert window.delay == 60
+    assert not window.expired(599)
+    assert window.expired(600)
+    window.failed(10)
+    assert window.delay == 120
+    window.failed(20)
+    assert window.delay == 180
+    assert window.expired(20)
+    window.reset()
+    assert not window.expired(10000)
+    window.failed(10000)
+    assert window.delay == 60
+    assert not window.expired(10001)
+
+
+@pytest.mark.parametrize('elapsed, expected_sleeps', [
+    (0, [60, 120, 180, 60]),  # bounded attempts even when the clock is fixed
+    (600, [60, 60, 60, 60]),  # TTL independently forces a fresh collection
+])
+def test_persistent_judgement_failure_cannot_starve_collection(
+        monkeypatch, elapsed, expected_sleeps):
+    collected, sleeps = [], []
+    clock = [0]
+    monkeypatch.setattr(supervisor.time, 'monotonic', lambda: clock[0])
+    monkeypatch.setattr(supervisor.subprocess, 'run',
+        lambda *a, **kw: collected.append(a) or SimpleNamespace(returncode=0))
+    monkeypatch.setattr(supervisor, '_refresh_market_after_collection', lambda: 1)
+    def step(seconds):
+        sleeps.append(seconds)
+        clock[0] += elapsed
+        assert not supervisor._odds_recommendation_lock.locked()
+        if len(sleeps) == 4:
+            raise StopIteration
+    monkeypatch.setattr(supervisor.time, 'sleep', step)
+    with pytest.raises(StopIteration):
+        supervisor.run_looper('실시간 배당', ['odds'], 60)
+    assert sleeps == expected_sleeps
+    assert len(collected) == (2 if elapsed == 0 else 4)
+
+
+def test_success_resets_retry_backoff(monkeypatch):
+    outcomes = iter([1, 0, 1])
+    sleeps, collected = [], []
+    monkeypatch.setattr(supervisor.subprocess, 'run',
+        lambda *a, **kw: collected.append(a) or SimpleNamespace(returncode=0))
+    monkeypatch.setattr(supervisor, '_refresh_market_after_collection', lambda: next(outcomes))
+    monkeypatch.setattr(supervisor, '_refresh_recommendation_after_odds', lambda **kw: True)
+    def step(seconds):
+        sleeps.append(seconds)
+        if len(sleeps) == 3:
+            raise StopIteration
+    monkeypatch.setattr(supervisor.time, 'sleep', step)
+    with pytest.raises(StopIteration):
+        supervisor.run_looper('실시간 배당', ['odds'], 60)
+    assert sleeps == [60, 60, 60]
+    assert len(collected) == 2
