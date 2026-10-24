@@ -18,6 +18,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.audit_recommendation_shadow import replay, stamp
+from src.pregame_research_store import FACT_TYPES
 
 MAX_ROWS = 2000  # replay enumerates pairs; deliberately bounded local batch
 MAX_LINE = 262144
@@ -63,6 +64,62 @@ def pair_hash(pair):
     if "evidence_refs" in pair:
         payload["evidence_refs"] = pair["evidence_refs"]
     return sha(payload)
+
+
+def evidence_available_at(record, pair):
+    """Fail closed for evidence-added forecasts; baseline audit stays independent."""
+    refs, rows = pair.get("evidence_refs"), record.get("evidence")
+    if (not isinstance(refs, list) or not 1 <= len(refs) <= 256
+            or not isinstance(rows, list) or not 1 <= len(rows) <= 256):
+        raise ValueError("missing_referenced_evidence")
+    if any(("conflict" in flag and "evidence" in flag)
+           or flag in ("invalid_evidence_reference", "missing_pregame_evidence")
+           for flag in record.get("incomplete_flags", [])):
+        # Result-only flags must NOT exclude a prediction: keep those pending.
+        raise ValueError("conflicting_or_incomplete_evidence")
+    try:
+        indexed = {r["id"]: r for r in rows}
+        if len(indexed) != len(rows) or len({r["id"] for r in refs}) != len(refs):
+            raise ValueError("duplicate_evidence_identity")
+        if set(indexed) != {r["id"] for r in refs}:
+            raise ValueError("evidence_reference_set_mismatch")
+        available, claims = [], {}
+        for ref in refs:
+            evidence = indexed[ref["id"]]
+            if (type(ref["id"]) is not int or ref["id"] <= 0
+                    or evidence.get("kind") != "evidence" or evidence["event_id"] != pair["event_id"]):
+                raise ValueError("evidence_identity_mismatch")
+            body = {k: evidence[k] for k in ("source", "typed_facts")}
+            if sha(body) != ref["datahash"] or evidence["datahash"] != ref["datahash"]:
+                raise ValueError("evidence_hash_mismatch")
+            observed, captured = stamp(evidence["observed_at"]), stamp(evidence["captured_at"])
+            if not (observed <= captured <= stamp(pair["captured_at"])
+                    and observed <= stamp(pair["observed_at"])):
+                raise ValueError("evidence_unavailable_at_pair")
+            if evidence.get("source_updated_at") is not None and stamp(evidence["source_updated_at"]) > observed:
+                raise ValueError("future_evidence_source_update")
+            source = evidence["source"]
+            name = source.get("name") if isinstance(source, dict) else source
+            if not isinstance(name, str) or not name or evidence.get("source_name", name) != name:
+                raise ValueError("invalid_evidence_source")
+            facts = evidence["typed_facts"]
+            if not isinstance(facts, list) or not facts:
+                raise ValueError("empty_typed_facts")
+            for fact in facts:
+                if (set(fact) != {"type", "subject", "value"} or fact["type"] not in FACT_TYPES
+                        or not isinstance(fact["subject"], str) or not fact["subject"]):
+                    raise ValueError("invalid_typed_fact")
+                kind = {"starter": "starters", "lineup": "lineups", "absence": "unavailable"}.get(
+                    fact["type"], fact["type"])
+                key = kind, fact["subject"]
+                value = canonical(fact["value"])
+                if key in claims and claims[key] != value:
+                    raise ValueError("conflicting_typed_facts")
+                claims[key] = value
+            available.append(max(observed, captured))
+        return max(available)
+    except (KeyError, TypeError, AttributeError):
+        raise ValueError("malformed_referenced_evidence") from None
 
 
 def official_result(record, pair, cutoff, official_sources):
@@ -146,7 +203,7 @@ def compare(records, challengers=(), *, as_of, official_sources=("proto_official
                 latest[key] = (rank, record)
         except (ValueError, KeyError, TypeError, AttributeError):
             excluded["invalid_or_unavailable_pair"] += 1
-    rows, pairs = [], {}
+    rows, pairs, pair_records = [], {}, {}
     # No result-based fallback to an older pair, even if the latest pair is pending.
     for _rank, record in (latest[key] for key in sorted(latest)):
         pair = record["pair"]
@@ -166,6 +223,7 @@ def compare(records, challengers=(), *, as_of, official_sources=("proto_official
                    "policy": "latest-captured-research-scenario"}
             rows.append(row)
             pairs[pair["id"]] = pair, row
+            pair_records[pair["id"]] = record
         except (ValueError, KeyError, TypeError, AttributeError):
             excluded["unsupported_baseline_schema"] += 1
     # Missing round cannot be assumed compatible for two-leg placement.
@@ -184,9 +242,10 @@ def compare(records, challengers=(), *, as_of, official_sources=("proto_official
                 raise RuntimeError("multiple challenger forecasts for same model/pair; ranking forbidden")
             model_keys.add(key)
             probability = finite(prediction["probability"], 0, 1)
+            evidence_available = evidence_available_at(pair_records[pair["id"]], pair)
             training, predicted, features = (stamp(prediction[k]) for k in
                                              ("training_cutoff", "predicted_at", "features_as_of"))
-            if not (training < stamp(pair["observed_at"]) and features <= stamp(pair["observed_at"])
+            if not (training < stamp(pair["observed_at"]) and evidence_available <= features <= row["t"]
                     and max(training, features, row["t"]) <= predicted <= cutoff
                     and predicted < row["k"] - timedelta(minutes=30)):
                 raise ValueError("temporal_provenance_failed")
@@ -217,6 +276,7 @@ def compare(records, challengers=(), *, as_of, official_sources=("proto_official
             "matched_baseline_by_sport": by_sport(baseline), "challenger_by_sport": by_sport(challenger),
             "matched_baseline_wallets": bw, "challenger_wallets": cw, "roi_delta": deltas}
     return {"as_of": cutoff.isoformat(), "mode": "descriptive_latest_snapshot_replay_not_verified_profit",
+            "monthly_loss_limit_krw": 50000, "stake": 10000,
             "selected_pairs": len(rows), "excluded": dict(excluded), "warnings": dict(warnings),
             "selected_pair_refs": [{"id": p["id"], "datahash": p["datahash"],
                                     "event_id": p["event_id"], "selection_id": p["selection_id"]}

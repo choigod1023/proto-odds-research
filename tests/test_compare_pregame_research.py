@@ -7,7 +7,7 @@ import sys
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts.compare_pregame_research import compare, pair_hash, read_jsonl
+from scripts.compare_pregame_research import compare, pair_hash, read_jsonl, sha
 
 DAY = datetime(2026, 10, 1, tzinfo=timezone.utc)
 AS_OF = "2026-10-31T23:00:00+09:00"
@@ -19,6 +19,13 @@ def record(i, *, day=DAY, probability=.6, result="hit", sport="bs", event=None):
             "observed_at": day.isoformat(), "captured_at": day.isoformat(),
             "source": {"name": "runtime_prediction_ledger"}, "odds": {"decimal": 2.0},
             "baseline_decision": {"sport": sport, "round": 100, "probability": probability}}
+    facts = {"id": 10000 + i, "event_id": pair["event_id"], "kind": "evidence",
+             "source": {"name": "official_roster"},
+             "typed_facts": [{"type": "starters", "subject": "home", "value": ["p1"]}],
+             "observed_at": (day - timedelta(seconds=1)).isoformat(),
+             "captured_at": (day - timedelta(seconds=1)).isoformat()}
+    facts["datahash"] = sha({k: facts[k] for k in ("source", "typed_facts")})
+    pair["evidence_refs"] = [{"id": facts["id"], "datahash": facts["datahash"]}]
     pair["datahash"] = pair_hash(pair)
     results = []
     if result:
@@ -27,8 +34,8 @@ def record(i, *, day=DAY, probability=.6, result="hit", sport="bs", event=None):
                     "outcome": {"result": result, "selection_id": "home"},
                     "observed_at": (day + timedelta(hours=5)).isoformat(),
                     "captured_at": (day + timedelta(hours=5)).isoformat()}]
-    return {"pair": pair, "evidence": [], "results": results, "complete": False,
-            "incomplete_flags": ["missing_pregame_evidence"], "official_outcome": None}
+    return {"pair": pair, "evidence": [facts], "results": results, "complete": False,
+            "incomplete_flags": [], "official_outcome": None}
 
 
 def forecast(record, p=.8, model="test-model"):
@@ -45,6 +52,7 @@ def forecast(record, p=.8, model="test-model"):
 def test_baseline_only_no_invented_challenger_or_improvement():
     report = compare([record(1), record(2, result=None)], as_of=AS_OF)
     assert report["models"] == {} and report["improvement_roi"] is None
+    assert report["monthly_loss_limit_krw"] == 50000 and report["stake"] == 10000
     assert report["baseline_by_sport"]["bs"]["opportunities"] == 2
     assert report["baseline_by_sport"]["bs"]["pending"] == 1
     for wallet in report["baseline_wallets"].values():
@@ -167,3 +175,74 @@ def test_real_sqlite_export_consumed_without_adapting_hash_or_schema(tmp_path):
     assert report["selected_pair_refs"][0]["datahash"] == saved["datahash"]
     assert report["baseline_by_sport"]["bs"]["hit_rate"] == 1
     assert report["improvement_roi"] is None
+
+
+@pytest.mark.parametrize("defect", ["missing", "empty_refs", "unknown_ref", "hash", "event",
+                                   "future_observation", "future_capture", "empty_facts", "duplicate",
+                                   "conflicting_facts", "conflict_flag"])
+def test_evidence_added_forecasts_require_valid_exact_context(defect):
+    r = record(1)
+    fact = r["evidence"][0]
+    if defect == "missing":
+        r["evidence"] = []
+    elif defect == "empty_refs":
+        r["pair"]["evidence_refs"] = []
+    elif defect == "unknown_ref":
+        r["pair"]["evidence_refs"][0]["id"] = 999
+    elif defect == "hash":
+        fact["typed_facts"][0]["value"] = ["modified"]  # claimed hash is unchanged
+    elif defect == "event":
+        fact["event_id"] = "different-event"
+    elif defect == "future_observation":
+        fact["observed_at"] = (DAY + timedelta(seconds=1)).isoformat()
+    elif defect == "future_capture":
+        fact["captured_at"] = (DAY + timedelta(seconds=1)).isoformat()
+    elif defect == "empty_facts":
+        fact["typed_facts"] = []
+        fact["datahash"] = sha({k: fact[k] for k in ("source", "typed_facts")})
+        r["pair"]["evidence_refs"][0]["datahash"] = fact["datahash"]
+    elif defect == "duplicate":
+        r["evidence"].append(deepcopy(fact))
+    elif defect == "conflicting_facts":
+        other = deepcopy(fact)
+        other["id"] += 1
+        other["source"] = "another-roster"
+        other["typed_facts"][0].update(type="starter", value=["different"])
+        other["datahash"] = sha({k: other[k] for k in ("source", "typed_facts")})
+        r["evidence"].append(other)
+        r["pair"]["evidence_refs"].append({"id": other["id"], "datahash": other["datahash"]})
+    else:
+        r["incomplete_flags"] = ["conflicting_evidence"]
+    r["pair"]["datahash"] = pair_hash(r["pair"])
+    report = compare([r], [forecast(r)], as_of=AS_OF)
+    model = report["models"]["test-model"]
+    assert model["accepted"] == 0 and model["rejected"]
+    assert model["roi_delta"] == {"2": None, "3": None}
+    assert report["selected_pairs"] == 1  # baseline audit is not discarded
+
+
+def test_features_clock_must_cover_actual_fact_capture_not_just_old_observation():
+    r = record(1)
+    # Fact observed before pair observation but physically archived just after it.
+    r["evidence"][0]["captured_at"] = (DAY + timedelta(microseconds=1)).isoformat()
+    r["pair"]["captured_at"] = (DAY + timedelta(microseconds=2)).isoformat()
+    f = forecast(r)
+    rejected = compare([r], [f], as_of=AS_OF)["models"]["test-model"]
+    assert rejected["accepted"] == 0
+    assert rejected["rejected"] == {"temporal_provenance_failed": 1}
+    f["features_as_of"] = r["pair"]["captured_at"]
+    accepted = compare([r], [f], as_of=AS_OF)["models"]["test-model"]
+    assert accepted["accepted"] == 1
+    assert accepted["provenance_status"] == "self_reported_not_independently_verified"
+
+
+def test_pending_and_result_conflict_flags_do_not_filter_challenger_opportunities():
+    records = [record(1, result=None), record(2, result=None)]
+    records[0]["incomplete_flags"] = ["missing_official_result"]
+    records[1]["incomplete_flags"] = ["conflicting_official_results"]
+    report = compare(records, [forecast(r) for r in records], as_of=AS_OF)
+    model = report["models"]["test-model"]
+    assert model["accepted"] == 2
+    assert model["challenger_wallets"]["2"]["pending_stake"] == 10000
+    assert model["matched_baseline_wallets"]["2"]["pending_stake"] == 10000
+    assert model["roi_delta"]["2"] is None
