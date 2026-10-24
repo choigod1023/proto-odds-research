@@ -4,8 +4,9 @@
 추가 지표 효과와 모델 구조 효과를 분리한다. 운영 변경 없음.
 기준선: 시장 offset 다항 logistic. 후보: 리그별 전문가(리그 학습 300건 이상,
 전역 모델과 50:50 혼합), 무승부/비무승부 조건부 홈승 2단계 모델,
-비선형 histogram gradient boosting(max_iter100,leaf7,min_leaf50,l2=10,
-learning_rate.05,early_stoppingFalse,seed20261024).
+비선형 quadratic logistic(기존 피처의 제곱 및 모든 2개 피처 곱, 기존 ridge .01).
+실행 전 변경: 현재 Python에 sklearn이 없어 추가 환경 설치 대신 기존 scipy
+학습기를 사용하는 비선형 대안을 고정한다. 결과 확인 전 변경이다.
 후보마다 시장 혼합비 0,.25,.5,.75,1 중 직전 시즌 logloss로 선택.
 모든 후보와 기준선을 함께 보고, 후보+혼합비 선택도 직전 시즌에서만 한다.
 최종 평가 2023/24~2025/26 각 시즌. 선택용 직전 시즌보다 앞선 자료로
