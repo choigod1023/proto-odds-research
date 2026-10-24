@@ -80,8 +80,8 @@ def record_live_market_revisions(
 
     ``refresh_document`` remains a fileless document transform with DB disabled;
     in DB mode it reads confirmed history before building new decision snapshots.
-    This operational step is deliberately strict: if a changed pregame decision
-    cannot enter the append-only ledger, the caller must not publish that document.
+    A conflicting game's unrecorded decision is withheld, never published as a
+    valid prediction. Corruption, lock and timestamp failures still fail closed.
     """
 
     observed = _aware_timestamp(observed_at)
@@ -140,15 +140,42 @@ def record_live_market_revisions(
         candidates.append((game, snapshot, kickoff_utc(kickoff)))
 
     touched: list[tuple[dict, dict]] = []
-    batch_results = runtime.record_pregame_batch([
+    entries = [
         {
             "game": game,
             "kickoff": kickoff_at,
             "market_observed_at": observed_at,
         }
         for game, _snapshot, kickoff_at in candidates
-    ])
+    ]
+    try:
+        batch_results = runtime.record_pregame_batch(entries)
+    except LedgerConflictError:
+        # The batch is atomic: no predictions were committed on conflict.
+        # Isolate only conflicting games, like the full generator, while
+        # retaining chain verification and strict immutable append checks.
+        # Reuse one verified chain rather than re-reading it for every game.
+        batch_results = []
+        with runtime.ledger.verified_session():
+            for entry in entries:
+                try:
+                    batch_results.append(runtime.record_pregame(**entry))
+                except LedgerConflictError as exc:
+                    batch_results.append(exc)
     for (game, snapshot, _kickoff_at), result in zip(candidates, batch_results):
+        if isinstance(result, LedgerConflictError):
+            game["추천"] = None
+            game.pop("decision_snapshot", None)
+            game.pop("prediction_record", None)
+            game["prediction_revision_id"] = None
+            game["prediction_status"] = "withheld_unrecorded_live_revision"
+            game["prediction_ledger_reason"] = "ledger_conflict"
+            game["live_revision_withheld_at"] = observed_at
+            game["_liveOddsChanged"] = True
+            counts["withheld"] += 1
+            counts["conflicts"] = counts.get("conflicts", 0) + 1
+            print(f"경량 시장 판정 원장 충돌 격리: {snapshot.get('decision_id')}: {result}", flush=True)
+            continue
         counts["predictions" if result is not None and result.appended else "skipped"] += 1
         record = result.record if result is not None else latest_by_event.get(
             str(snapshot.get("event_id") or "")
