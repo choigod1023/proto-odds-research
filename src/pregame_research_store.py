@@ -125,14 +125,26 @@ class PregameResearchStore:
                             {"typed_facts": typed_facts}, source_updated_at)
 
     def append_pair(self, *, event_id, kickoff, observed_at, source, snapshot_id,
-                    selection_id, odds, baseline_decision, source_updated_at=None):
+                    selection_id, odds, baseline_decision, source_updated_at=None,
+                    evidence_refs=None):
         for name, value in (("odds", odds), ("baseline_decision", baseline_decision)):
             if not isinstance(value, (dict, list)) or not value:
                 raise ValueError(f"{name} must be a nonempty JSON object or list")
         self._check_embedded(baseline_decision, event_id, snapshot_id, selection_id)
+        payload = {"odds": odds, "baseline_decision": baseline_decision}
+        if evidence_refs is not None:
+            if not isinstance(evidence_refs, list) or len(evidence_refs) > 256:
+                raise ValueError("evidence_refs must be a bounded list")
+            for ref in evidence_refs:
+                if (not isinstance(ref, dict) or set(ref) != {"id", "datahash"}
+                        or type(ref["id"]) is not int or ref["id"] <= 0
+                        or not isinstance(ref["datahash"], str) or len(ref["datahash"]) != 64):
+                    raise ValueError("evidence reference requires id/datahash")
+            if len({ref["id"] for ref in evidence_refs}) != len(evidence_refs):
+                raise ValueError("duplicate evidence reference")
+            payload["evidence_refs"] = sorted(evidence_refs, key=lambda ref: ref["id"])
         return self._append("pair", event_id, kickoff, observed_at, source, snapshot_id,
-                            selection_id, {"odds": odds, "baseline_decision": baseline_decision},
-                            source_updated_at)
+                            selection_id, payload, source_updated_at)
 
     def append_result(self, *, event_id, kickoff, settled_observed_at, source,
                       snapshot_id, selection_id, outcome, source_updated_at=None):
@@ -194,17 +206,22 @@ class PregameResearchStore:
                     return self._decode(previous)
                 if _stamp(observed) == previous["observed_at"]:
                     raise ResearchConflict("different content at identical observation time")
-                if kind == "pair":
-                    raise ResearchConflict("immutable pair identity; use a new snapshot_id")
             if kind == "pair":
                 if observed >= cutoff or now >= cutoff:
                     raise ValueError("pair must be captured strictly before T-30")
                 for other in db.execute("""SELECT payload_json FROM observations WHERE event_id=?
-                    AND kind='pair' AND snapshot_id=? AND selection_id=?""",
+                    AND kind='pair' AND snapshot_id=? AND selection_id=? ORDER BY id LIMIT 1""",
                     (event_id, snapshot_id, selection_id)):
                     other_payload = json.loads(other[0])
-                    if any(other_payload[name] != payload[name] for name in payload):
+                    if any(other_payload[name] != payload[name] for name in ("odds", "baseline_decision")):
                         raise ResearchConflict("pair identity conflicts across sources")
+                for ref in payload.get("evidence_refs", []):
+                    fact = db.execute("SELECT * FROM observations WHERE id=?", (ref["id"],)).fetchone()
+                    if (fact is None or fact["kind"] != "evidence" or fact["event_id"] != event_id
+                            or fact["datahash"] != ref["datahash"]
+                            or fact["observed_at"] > _stamp(observed)
+                            or fact["captured_at"] > _stamp(now)):
+                        raise ResearchConflict("evidence reference unavailable or mismatched")
             if not event:
                 db.execute("INSERT INTO events VALUES (?,?)", (event_id, _stamp(start)))
             cursor = db.execute("""INSERT INTO observations(event_id,kind,source_name,snapshot_id,
@@ -264,6 +281,18 @@ class PregameResearchStore:
                     if row["source_name"] not in seen:
                         evidence.append(self._decode(row))
                         seen.add(row["source_name"])
+                if "evidence_refs" in pair:
+                    # Explicit context versions, never a newer fact from the same source.
+                    evidence = []
+                    for ref in pair["evidence_refs"]:
+                        row = db.execute("SELECT * FROM observations WHERE id=?", (ref["id"],)).fetchone()
+                        if (row is None or row["kind"] != "evidence" or row["event_id"] != pair["event_id"]
+                                or row["datahash"] != ref["datahash"]
+                                or row["observed_at"] > pair["observed_at"]
+                                or row["captured_at"] > pair["captured_at"]):
+                            flags.append("invalid_evidence_reference")
+                        else:
+                            evidence.append(self._decode(row))
                 if not evidence:
                     flags.append("missing_pregame_evidence")
                 results, seen = [], set()

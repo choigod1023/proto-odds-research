@@ -270,3 +270,60 @@ def test_read_only_checks_schema_not_just_application_id(tmp_path):
     with pytest.raises(ResearchConflict, match="columns"):
         PregameResearchStore(wrong, official_sources={"proto_official"}, read_only=True)
     assert before == wrong.read_bytes()
+
+
+def test_new_lineup_creates_research_revision_without_changing_operational_snapshot(setup):
+    store, clock = setup
+    initial = pair(store, clock, evidence_refs=[])
+    clock[0] += timedelta(minutes=1)
+    facts = evidence(store, clock)
+    refs = [{"id": facts["id"], "datahash": facts["datahash"]}]
+    updated = pair(store, clock, evidence_refs=refs)
+    assert updated["id"] != initial["id"] and updated["revision"] == 2
+    assert updated["snapshot_id"] == initial["snapshot_id"]
+    assert updated["baseline_decision"] == initial["baseline_decision"]
+    assert updated["odds"] == initial["odds"]
+    clock[0] += timedelta(minutes=1)
+    assert pair(store, clock, evidence_refs=refs) == updated
+    clock[0] = START + timedelta(hours=3)
+    result(store, clock)
+    exports = list(store.export_paired())
+    assert exports[0]["evidence"] == [] and not exports[0]["complete"]
+    assert exports[1]["evidence"][0]["id"] == facts["id"] and exports[1]["complete"]
+    assert exports[0]["official_outcome"] == exports[1]["official_outcome"]
+
+
+def test_refs_pin_exact_revision_not_latest_source(setup):
+    store, clock = setup
+    first = evidence(store, clock)
+    clock[0] += timedelta(minutes=1)
+    evidence(store, clock, typed_facts=[{"type": "lineups", "subject": "home", "value": ["new"]}])
+    pair(store, clock, evidence_refs=[{"id": first["id"], "datahash": first["datahash"]}])
+    exported = list(store.export_paired())[0]
+    assert exported["evidence"][0]["typed_facts"] == FACTS
+
+
+def test_refs_reject_other_event_wrong_hash_and_future_context(setup):
+    store, clock = setup
+    other = evidence(store, clock, event_id="other")
+    with pytest.raises(ResearchConflict):
+        pair(store, clock, evidence_refs=[{"id": other["id"], "datahash": other["datahash"]}])
+    same = evidence(store, clock)
+    with pytest.raises(ResearchConflict):
+        pair(store, clock, evidence_refs=[{"id": same["id"], "datahash": "f" * 64}])
+    with pytest.raises(ResearchConflict):
+        pair(store, clock, observed_at=clock[0] - timedelta(seconds=1),
+             evidence_refs=[{"id": same["id"], "datahash": same["datahash"]}])
+
+
+def test_context_change_still_rejects_baseline_changes_and_after_t30(setup):
+    store, clock = setup
+    pair(store, clock, evidence_refs=[])
+    clock[0] += timedelta(minutes=1)
+    fact = evidence(store, clock)
+    refs = [{"id": fact["id"], "datahash": fact["datahash"]}]
+    with pytest.raises(ResearchConflict):
+        pair(store, clock, evidence_refs=refs, odds={"decimal": 99})
+    clock[0] = START - timedelta(minutes=30)
+    with pytest.raises(ValueError):
+        pair(store, clock, evidence_refs=refs)
