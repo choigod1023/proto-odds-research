@@ -218,6 +218,19 @@ def _revision_signature(
     model: Mapping[str, Any],
     features: Mapping[str, Any],
 ) -> str:
+    # Research capture records when THIS process inspected an already collected
+    # document. A retry at another wall clock is not a new observable input.
+    # Keep the first capture verbatim in the ledger; ignore only this audit clock
+    # for revision comparison, never source_updated_at/status/content changes.
+    signature_features = dict(features)
+    capture = features.get("research_player_inputs")
+    if (isinstance(capture, Mapping)
+            and capture.get("version") == "pregame-player-capture-v1"
+            and capture.get("affects_probability") is False
+            and capture.get("training_eligible") is False):
+        signature_features["research_player_inputs"] = {
+            key: value for key, value in capture.items() if key != "observed_at"
+        }
     probability = predictions.get("probability_detail") or predictions.get("probability") or {}
     if not isinstance(probability, Mapping):
         probability = {"final": probability}
@@ -230,7 +243,7 @@ def _revision_signature(
         "final_probability": probability.get("final"),
         "artifact_hash": model.get("artifact_hash"),
         "features_hash": hashlib.sha256(
-            _canonical_json(features).encode("utf-8")
+            _canonical_json(signature_features).encode("utf-8")
         ).hexdigest(),
     }
     return hashlib.sha256(_canonical_json(payload).encode("utf-8")).hexdigest()

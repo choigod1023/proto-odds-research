@@ -76,6 +76,48 @@ def snapshot(value: dict, as_of: str) -> None:
     )
 
 
+@pytest.mark.parametrize('batch', [False, True])
+@pytest.mark.parametrize('captured', [False, True])
+def test_retry_capture_clock_does_not_rewrite_same_decision(tmp_path, batch, captured):
+    value = game()
+    value['research_player_inputs'] = {
+        'version': 'pregame-player-capture-v1', 'affects_probability': False,
+        'training_eligible': False, 'status': 'unavailable',
+        'reason': 'missing_player_document', 'observed_at': '2026-08-28T09:00:01Z',
+    }
+    if captured:
+        value['research_player_inputs'].update(
+            status='captured', reason='requires_feature_provenance_review',
+            source_updated_at='2026-08-28T08:40:31Z', source='official',
+            starters={'home': {'name': 'A'}, 'away': {'name': 'B'}})
+    snapshot(value, '2026-08-28T09:00:00Z')
+    path = tmp_path / 'retry.jsonl'
+    def record(runtime, row):
+        entry = dict(game=row, kickoff='2026-08-28T10:00:00Z',
+                     market_observed_at='2026-08-28T09:00:00Z')
+        return runtime.record_pregame_batch([entry])[0] if batch else runtime.record_pregame(**entry)
+    clock = lambda: datetime(2026, 8, 28, 9, 5, tzinfo=UTC)
+    assert record(PredictionRuntime(path, clock=clock), value).appended
+    original = path.read_bytes()
+    retry = copy.deepcopy(value)
+    retry['research_player_inputs']['observed_at'] = '2026-08-28T09:04:01Z'
+    # Audit build time is also different, while decision ID stays the same.
+    retry['decision_snapshot']['audit']['built_at'] = '2026-08-28T09:04:01Z'
+    assert record(PredictionRuntime(path, clock=clock), retry) is None
+    assert path.read_bytes() == original
+    # A real context change must still be rejected under the old ID.
+    retry['research_player_inputs']['reason'] = 'stale_player_context'
+    with pytest.raises(LedgerConflictError):
+        record(PredictionRuntime(path, clock=clock), retry)
+    assert path.read_bytes() == original
+    if captured:
+        retry = copy.deepcopy(value)
+        retry['research_player_inputs']['source_updated_at'] = '2026-08-28T09:02:00Z'
+        with pytest.raises(LedgerConflictError):
+            record(PredictionRuntime(path, clock=clock), retry)
+        assert path.read_bytes() == original
+
+
 def test_naive_generator_kickoff_is_localized_as_kst():
     naive = pd.Timestamp("2026-08-28 19:00")
     assert kickoff_utc(naive) == "2026-08-28T10:00:00+00:00"

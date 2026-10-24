@@ -8,6 +8,65 @@ from src.prediction_runtime import PredictionRuntime
 from prediction_ledger import PredictionLedgerError
 
 
+@pytest.mark.parametrize('database', [False, True])
+def test_conflicting_game_does_not_block_healthy_revision_or_rewrite_ledger(tmp_path, monkeypatch, database):
+    import copy
+    if database:
+        monkeypatch.setenv('PROODD_DB_PATH', str(tmp_path / 'runtime.sqlite3'))
+    else:
+        monkeypatch.delenv('PROODD_DB_PATH', raising=False)
+    # Build deterministic pregame inputs without invoking production providers.
+    import src.live_market_refresh as module
+    monkeypatch.setattr(module, 'database_enabled', lambda: False)
+    odds = _live_odds()
+    original, _ = refresh_document({'live': [], 'past': []}, odds)
+    clock = lambda: datetime(2026, 8, 30, 1, 5, tzinfo=UTC)
+    path = tmp_path / 'ledger.jsonl'
+    first = PredictionRuntime(path, clock=clock)
+    record_live_market_revisions(original, odds['generated_at'], first)
+    preserved = copy.deepcopy(first.records())
+    other_odds = copy.deepcopy(odds)
+    for row in other_odds['markets']['102'].values():
+        row['home'] = 'LG'
+        row['away'] = 'KT'
+    healthy, _ = refresh_document({'live': [], 'past': []}, other_odds)
+    conflicting = copy.deepcopy(original['live'][0])
+    conflicting['lam_home'] = 99  # real feature change under the same decision ID
+    document = {'live': [healthy['live'][0], conflicting], 'past': []}
+    runtime = PredictionRuntime(path, clock=clock)
+    with runtime.ledger.verified_session():
+        counts = record_live_market_revisions(document, odds['generated_at'], runtime)
+    assert counts == {'predictions': 1, 'skipped': 0, 'withheld': 1, 'conflicts': 1}
+    records = PredictionRuntime(path, clock=clock).records()
+    assert records[:len(preserved)] == preserved
+    assert len(records) == len(preserved) + 1
+    assert document['live'][0]['prediction_status'] == 'recorded_pregame'
+    assert conflicting['추천'] is None
+    assert 'decision_snapshot' not in conflicting
+    assert 'prediction_record' not in conflicting
+    assert conflicting['prediction_ledger_reason'] == 'ledger_conflict'
+    assert conflicting['prediction_revision_id'] is None
+    # After the quarantine is published, a repeated sync stays idempotent.
+    retry = record_live_market_revisions(document, odds['generated_at'],
+                                        PredictionRuntime(path, clock=clock))
+    assert retry['predictions'] == 0
+    assert PredictionRuntime(path, clock=clock).records() == records
+    # The real refresh orchestration must reach persist/rc0 despite this one
+    # genuine collision; it must not report the withheld game as a new pick.
+    retry_document = copy.deepcopy(original)
+    retry_document['live'][0]['lam_home'] = 99
+    monkeypatch.setattr(module, 'load_artifact', lambda *args: retry_document)
+    monkeypatch.setattr(module, 'refresh_document', lambda *args: (retry_document, 1))
+    monkeypatch.setattr(module, 'PredictionRuntime',
+                        lambda *args: PredictionRuntime(path, clock=clock))
+    published = []
+    monkeypatch.setattr(module, 'persist_artifact', lambda name, doc, path: published.append(doc))
+    assert module.refresh_once(odds) == 0
+    assert published[0]['live_market_refresh']['ledger_sync']['conflicts'] == 1
+    assert published[0]['live'][0]['추천'] is None
+    assert PredictionRuntime(path, clock=clock).records() == records
+
+
 def _live_odds():
     return {
         "generated_at": "2026-08-30T01:00:00+00:00",
