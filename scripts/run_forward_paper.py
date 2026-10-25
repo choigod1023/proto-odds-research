@@ -23,6 +23,33 @@ IDENTITY = ("id", "recorded_at", "published_at", "kickoff_at", "sport", "league"
 def identity(row):
     return {k: row.get(k) for k in IDENTITY}
 
+def settlement_row(leg, history, now):
+    """Allow timestamp-only republication, never changed betting/probability terms.
+
+    Preserve the original journal revision. A fresh publication timestamp is not
+    a new outcome when event, market, selection, price AND probability agree.
+    Conflicting/duplicate identities remain unresolved.
+    """
+    candidates = [r for r in history if r.get("id") == leg.get("id")
+                  and r.get("kickoff_at") == leg.get("kickoff_at")]
+    if len(candidates) != 1:
+        return None
+    row = candidates[0]
+    if identity(row) == leg:
+        return row
+    stable = [k for k in IDENTITY if k not in ("recorded_at", "published_at")]
+    if any(row.get(k) != leg.get(k) for k in stable):
+        return None
+    try:
+        kickoff = stamp(leg["kickoff_at"])
+        for field in ("recorded_at", "published_at"):
+            original, current = stamp(leg[field]), stamp(row[field])
+            if not original <= kickoff-timedelta(minutes=30) or not original <= current <= now:
+                return None
+    except (KeyError, TypeError, ValueError):
+        return None
+    return row
+
 def ticket_summary(events, account):
     bets = [e for e in events if e["type"] == "bet" and e["account"] == account]
     settlements = {e["ticket"]: e for e in events if e["type"] == "settlement"}
@@ -67,13 +94,12 @@ def advance(journal, doc, now, digest=None):
     if doc is None:
         return events, added
     history = list(doc["recommendation_history"].values())
-    # Settlement may proceed from an old source, but never from a different revision.
+    # Preserve frozen terms; accept timestamp-only republication, not new prices/probabilities.
     settled = {e["ticket"] for e in events if e["type"] == "settlement"}
     for bet in [e for e in events if e["type"] == "bet" and e["ticket"] not in settled]:
         results = []
         for leg in bet["legs"]:
-            matches = [r for r in history if identity(r) == leg]
-            row = matches[0] if len(matches) == 1 else None
+            row = settlement_row(leg, history, now)
             valid = row and row.get("result_source") == "official" and row.get("result") in ("hit","miss","void")
             if valid:
                 try:
