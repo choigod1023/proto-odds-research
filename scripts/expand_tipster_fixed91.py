@@ -115,7 +115,8 @@ def input_changes(rows, previous):
         if r['id'] not in old: continue
         p=old[r['id']];counts['previous_events']+=1
         for field in ('model','odds','tipster','snapshot_id'):
-            counts[field+'_changed']+=r[field]!=p[field]
+            changed = r[field]!=p[field] if field=='snapshot_id' else any(not math.isclose(a,b,rel_tol=0,abs_tol=1e-12) for a,b in zip(r[field],p[field]))
+            counts[field+'_changed']+=changed
         def side(x): return max(range(2),key=lambda i:.9*x['model'][i]+.1*x['tipster'][i])
         counts['hybrid91_side_changed']+=side(r)!=side(p)
     return dict(counts)

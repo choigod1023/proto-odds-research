@@ -4,7 +4,7 @@ import sys
 import pytest
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from expand_tipster_fixed91 import decision, link, compare_fixed, validate_official_timing, frozen_budget_tickets
+from expand_tipster_fixed91 import decision, link, compare_fixed, validate_official_timing, frozen_budget_tickets, input_changes
 from matched_tipster_source import stamp
 
 
@@ -66,3 +66,10 @@ def test_outcomes_cannot_change_budget_and_monthly_limit():
     assert before['monthly_stakes']=={'2026-09':50000}
     for r in recs: r.update(y=None,settled_at=None)
     assert frozen_budget_tickets(recs,3,cutoff)==before
+
+
+def test_float_representation_is_not_new_tipster_information():
+    r,t=sample();rows,_=link([r],[t],'t30')
+    old=dict(rows[0],tipster=[2/3,1/3])
+    new=dict(old,tipster=[2/3,1-2/3])
+    assert input_changes([new],[old])['tipster_changed']==0
