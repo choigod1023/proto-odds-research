@@ -18,6 +18,28 @@ def source(now=NOW):
     return doc
 
 class ForwardTests(unittest.TestCase):
+    def test_republication_preserves_frozen_bet(self):
+        doc=source(); events,_=advance([],doc,NOW); old=copy.deepcopy(events)
+        for r in doc['recommendation_history'].values():
+            r.update(recorded_at=(NOW+timedelta(hours=1)).isoformat(),
+                     published_at=(NOW+timedelta(hours=1)).isoformat(),
+                     result='hit', result_source='official',
+                     settled_at=(NOW+timedelta(hours=6)).isoformat())
+        done,_=advance(events,doc,NOW+timedelta(hours=7))
+        self.assertEqual(done[:len(old)],old)
+        self.assertEqual(ticket_summary(done,'probability-weekly2')['net'],23000)
+        self.assertEqual(advance(done,doc,NOW+timedelta(hours=7))[1],[])
+
+    def test_republication_does_not_relax_other_identity_fields(self):
+        from scripts.run_forward_paper import settlement_row, identity
+        r=next(iter(source()['recommendation_history'].values())); leg=identity(r)
+        for key,value in [('odds',9),('probability',.9),('sel','other'),('market_label','other'),
+                          ('kickoff_at',(NOW+timedelta(days=1)).isoformat()),('policy','other')]:
+            changed=dict(r, published_at=NOW.isoformat()); changed[key]=value
+            self.assertIsNone(settlement_row(leg,[changed],NOW+timedelta(days=2)))
+        self.assertIsNone(settlement_row(leg,[r,r],NOW))
+        self.assertIsNone(settlement_row(leg,[dict(r,published_at=(NOW+timedelta(days=2)).isoformat())],NOW))
+
     def test_future_only_idempotent(self):
         doc = source()
         events, added = advance([], doc, NOW, "hash")
