@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from broaden_tipster_fixed91 import fixtures_by_id,recover_ledger,read_verified,paired_day_delta,historical_round,_stable_id
+from broaden_tipster_fixed91 import fixtures_by_id,recover_ledger,read_verified,paired_day_delta,historical_round,_stable_id,pair_offer_proven
 from export_tipster_research import remote_source
 
 def fixture():
@@ -63,6 +63,7 @@ def test_saved_expansion_is_unique_frozen_and_budget_safe():
     byid={x['id']:x for x in r['expanded_ledger']}
     assert len(byid)==len(r['expanded_ledger'])==173
     assert all(byid[x['id']]==x for x in old)
+    assert not pair_offer_proven(byid['evt_6e14584db3266c79'])
     assert r['new_events']==r['later_events']==109
     for name,weight in [('operating',1.),('hybrid91',.9),('tipster',0.)]:
         profit=0;hits=0

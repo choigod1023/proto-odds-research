@@ -9,10 +9,12 @@ from pathlib import Path
 import re
 import random
 import sys
+import subprocess
+from functools import lru_cache
 import requests
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
-from ai_decision import event_id,_stable_id
+from ai_decision import event_id,_stable_id,offer_id,selection_id
 from matches import clean_team
 from matched_tipster_source import prepare,stamp,ET,KST
 from expand_tipster_fixed91 import (TEAMS,link,compare_fixed,validate_official_timing,
@@ -98,6 +100,23 @@ def recover_ledger(predictions,fixtures):
                      usable_snapshots=len(rows),exclusions=dict(excluded))
 
 
+@lru_cache(maxsize=64)
+def saved_git_snapshot(sha):
+    if not re.fullmatch(r'[a-f0-9]{40}',sha): return {}
+    return json.loads(subprocess.check_output(['git','show',sha+':docs/data/picks_v2.json']))
+
+
+def pair_offer_proven(row):
+    if row.get('round_provenance')=='archived_offer_id_exact_hash': return True
+    for game in saved_git_snapshot(row['snapshot_id']).get('live',[]):
+        if game.get('event_id')!=row['id']: continue
+        options=[o for o in game.get('options',[]) if o.get('market')=='승패' and not o.get('label')]
+        return (len(options)==2 and {o.get('선택') for o in options}=={'홈','원정'}
+                and all(o.get('selection_id')==selection_id(game,o) and o.get('offer_id')==offer_id(game,o) for o in options)
+                and f"{game.get('year')}:{game.get('round')}"==row['round_key'])
+    return False
+
+
 def evaluate(rows):
     result=compare_fixed(rows)
     for name,w in [('operating',1.),('hybrid91',.9),('tipster',0.)]:
@@ -105,7 +124,7 @@ def evaluate(rows):
         if rows:
             result[name]['brier_home']=sum((r['model'][0]-int(r['y']==0))**2 for r in b)/len(b)
             result[name]['log_loss']=sum(-math.log(max(1e-15,r['model'][r['y']])) for r in b)/len(b)
-        recs=[r for r in recommend(b,'model','probability') if r['round_key'] is not None]
+        recs=[r for r in recommend(b,'model','probability') if r['round_key'] is not None and pair_offer_proven(r)]
         simulations={name:dict(policies={'probability':dict(paper={str(n):frozen_budget_tickets(recs,n,stamp('2026-10-01T00:00:00Z')) for n in (2,3)})})}
         result[name]['conservative_paper']=final_tickets(simulations,rows)[name]['probability']
         result[name]['paper_budget_basis']='Purchase-month total stakes <=50000 KRW; no profit recycling. Not settlement-month loss or exact net-loss-stop replay.'
