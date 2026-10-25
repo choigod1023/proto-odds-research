@@ -2,7 +2,8 @@ import { gradeOf } from "./fmt.js";
 import { eligibleFinalSelections, finalRecommendedSelection,
   hitProbabilityOf, marketOnlyRecommendedSelection,
   qualifiedUnderdogSelections, recommendationPriority } from "./recommendation-policy.js";
-import { canApplyDecisionProbability, resolveDecisionOption } from "./decision-view-model.js";
+import { canApplyDecisionProbability, resolveDecisionOption, isAuthorizedTipsterPolicy,
+  recommendedSelectionForModel, FIXED_TIPSTER_VERSION } from "./decision-view-model.js";
 import { scheduledAt } from "./match-status.js";
 
 const clean = (value) => String(value ?? "").trim();
@@ -221,10 +222,10 @@ function currentProbabilityMetadata(game, option) {
   const model = snapshot?.model || {};
   const probability = snapshot?.probability || {};
   const operational = model.status === "operational" && model.promotion_gate === "passed";
-  const validated = canApplyDecisionProbability(model);
-  const policyAuthorized = operational && model.policy_authorized === true;
+  const validated = canApplyDecisionProbability(model) && model.validated_edge === true;
+  const policyAuthorized = isAuthorizedTipsterPolicy(model) || (operational && model.policy_authorized === true);
   const currentFinal = validProbability(probability.final);
-  const applied = currentFinal != null && validated;
+  const applied = currentFinal != null && canApplyDecisionProbability(model);
   const final = applied ? currentFinal : market;
   const rawInterval = applied && Array.isArray(probability.residual_interval)
     ? probability.residual_interval.map(validProbability) : [];
@@ -243,11 +244,12 @@ function currentProbabilityMetadata(game, option) {
     uncertainty_source: intervalLower == null
       ? "shin_market_fallback" : "validated_residual_interval",
     validated_uncertainty_available: intervalLower != null,
-    has_validated_edge: applied,
+    has_validated_edge: applied && validated,
     // 정책 플래그는 관찰용이다. 검증된 artifact가 아니면 최종확률을 바꾸지 않는다.
     policy_authorized: policyAuthorized,
     decision_pipeline_applied: applied,
-    selection_basis: applied ? "validated_decision_pipeline" : "shin_market_fallback",
+    selection_basis: isAuthorizedTipsterPolicy(model) ? "user_authorized_single_moneyline"
+      : applied ? "validated_decision_pipeline" : "shin_market_fallback",
     decision_id: snapshot?.decision_id || null,
     decision_model: snapshot ? model.operating_version || null : null,
     decision_pipeline_status: snapshot ? model.status || null : "market_fallback",
@@ -263,6 +265,9 @@ export function canonicalOption(game, options = game?.options || [], { allowStar
   if (game?._liveOddsChanged || (game?._liveStarted && !allowStarted)) return null;
   const current = resolveDecisionOption(game, options);
   if (!current) return null;
+  if (game?.decision_snapshot?.model?.selection_policy === FIXED_TIPSTER_VERSION) {
+    return recommendedSelectionForModel(options, game.decision_snapshot.model) === current ? current : null;
+  }
   if (!snapshotCanAffectProbability(game, current)) {
     return marketOnlyRecommendedSelection(options);
   }

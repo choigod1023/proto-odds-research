@@ -291,6 +291,8 @@ def refresh_document(document: dict, live_odds: dict, *,
     if clock is not None and clock.tzinfo is None:
         clock = clock.replace(tzinfo=KST)
     decision_clock = max(observed, clock) if observed and clock else None
+    from fixed_tipster_hybrid import load_votes, context as tipster_context
+    tipster_votes = None  # Lazy batch read only for an unfrozen MLB decision.
     form_provider = None
     fixture_document = player_document
     fixtures_loaded = player_document is not None
@@ -427,8 +429,15 @@ def refresh_document(document: dict, live_odds: dict, *,
                            (not snapshot.get("selection_id") or len(selected) != 1 or
                             selected[0].get("시장확률") !=
                             (snapshot.get("probability") or {}).get("market")))
+        tipster_changed = False
+        if can_predict and use_database and game.get("league") == "MLB" and tipster_votes is None:
+            tipster_votes = load_votes(decision_clock.isoformat())
+        if can_predict and tipster_votes is not None and game.get("league") == "MLB":
+            info = tipster_context(game, tipster_votes, decision_clock.isoformat(), decision_clock.isoformat())
+            prior = snapshot.get("tipster_hybrid") or {}
+            tipster_changed = (info.get("status"), info.get("evidence_hash")) != (prior.get("status"), prior.get("evidence_hash"))
         if (old_signature == new_signature and game.get("status") == target_status
-                and not broken_revision and not player_changed):
+                and not broken_revision and not player_changed and not tipster_changed):
             changed += int(display_changed)
             continue
         game.update({
@@ -485,10 +494,13 @@ def refresh_document(document: dict, live_odds: dict, *,
             # older odds snapshot. Keep the actual market clock in provenance.
             player_clock = _aware_timestamp((game.get("선발") or {}).get("updated_at"))
             revision_time = max(observed, player_clock) if player_clock else observed
+            if tipster_votes is not None and game.get("league") == "MLB":
+                revision_time = max(revision_time, decision_clock)
             revision_stamp = revision_time.isoformat() if revision_time != observed else observed_at
             game["live_market_observed_at"] = observed_at
             game["decision_snapshot"] = build_decision_snapshot(
                 game, as_of=revision_stamp, built_at=decision_clock.isoformat(),
+                tipster_votes=tipster_votes,
                 market_observed_at=observed_at,
                 explanation_kind="structured_ui",
             )

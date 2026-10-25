@@ -142,6 +142,7 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         "fixture": {key: game.get(key) for key in (
             "sport", "league", "home", "away", "year", "round", "date",
             "source_event_id", "match_id")},
+        **({"tipster_hybrid": game["tipster_hybrid"]} if game.get("tipster_hybrid") else {}),
         **({"research_player_inputs": game["research_player_inputs"]}
            if "research_player_inputs" in game else {}),
         "score_inputs": {

@@ -743,11 +743,12 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
     model = snapshot.get("model") or {}
     final = probability_of(probability.get("final")) if approved else None
     market = probability_of(candidate.get("market_prob"))
-    validated = bool(final is not None and can_apply_decision_probability(model))
+    validated = bool(final is not None and can_apply_decision_probability(model)
+                     and model.get("validated_edge") is True)
     policy_authorized = bool(
         matched
         and model.get("status") == "operational"
-        and model.get("promotion_gate") == "passed"
+        and model.get("promotion_gate") in ("passed", "user_authorized_unvalidated")
         and model.get("policy_authorized") is True
     )
     interval = probability.get("residual_interval") if validated else None

@@ -1600,12 +1600,15 @@ def main() -> int:
     # 모든 배당·팀·선수 자료를 읽은 뒤 확률 입력 컷오프를 고정한다. 생성기 시작 시각을
     # 쓰면 나중에 읽은 자료가 과거에 이미 관측된 것처럼 보이는 시간 누수가 생긴다.
     feature_cutoff_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    from fixed_tipster_hybrid import load_votes
+    tipster_votes = load_votes(feature_cutoff_at) if any(g.get("league") == "MLB" for g in games.values()) else None
 
     def _snapshot(game: dict) -> dict:
         try:
             return build_decision_snapshot(
                 game,
                 as_of=feature_cutoff_at,
+                tipster_votes=tipster_votes,
                 built_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 pre_registered=False,
                 explanation_kind=(game.get("설명메타") or {}).get("kind", "deterministic"),
@@ -1749,9 +1752,9 @@ def main() -> int:
             ),
             "minimum_pristine_predictions_for_promotion": 300,
         },
-        "note": ("전 마켓(승패·언더오버·핸디캡·승①패)을 스코어 분포에서 계산해 "
-                 "경기마다 하나만 골라 보여줍니다."),
-        "warning": ("경기별 선택은 검증된 AI 우위가 아니라 Shin 시장확률 기준의 비교 후보입니다. "
+        "note": ("MLB는 경기별 승패 최유력 픽을 선택합니다. 경기 전 유효 픽스터 투표가 있으면 "
+                 "시장 90%·투표 10%를 적용하고, 없으면 시장 확률을 유지합니다. 다른 종목은 기존 정책을 유지합니다."),
+        "warning": ("MLB 9:1 혼합은 사용자 승인 운영 정책이며 수익성은 미검증입니다. 그 밖의 선택은 Shin 시장확률 비교 후보입니다. "
                     "구조 모델과 선수 정보 AI는 연구·설명 단계로 분리되어 최종 확률을 바꾸지 않습니다. "
                     "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다. "
                     "스코어 전망은 아직 추천 확률을 바꾸지 않는 연구값입니다."),

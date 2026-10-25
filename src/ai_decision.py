@@ -48,9 +48,15 @@ EVIDENCE_MANIFEST = {
 
 
 def can_apply_decision_probability(model: dict | None) -> bool:
-    """통계 검증과 코드 리뷰를 모두 통과한 모델만 운영 확률에 허용한다."""
+    """검증 artifact 또는 명시적으로 승인한 고정 정책만 확률에 허용한다."""
 
     model = model or {}
+    from fixed_tipster_hybrid import VERSION
+    if (model.get("status") == "operational" and model.get("operating_version") == VERSION
+            and model.get("policy_authorized") is True
+            and model.get("promotion_gate") == "user_authorized_unvalidated"
+            and model.get("validated_edge") is False):
+        return True
     return bool(
         model.get("status") == "operational"
         and model.get("promotion_gate") == "passed"
@@ -522,6 +528,7 @@ def _evidence(
 
 def _input_revision_hash(game: dict, evidence: list[dict]) -> str:
     payload = {
+        **({"tipster_hybrid": game["tipster_hybrid"]} if game.get("tipster_hybrid") else {}),
         "event_id": event_id(game),
         "options": sorted((
             option.get("selection_id"), option.get("offer_id"),
@@ -564,12 +571,21 @@ def build_decision_snapshot(
     reconstructed_at: str | None = None,
     market_observed_at: str | None = None,
     probability_artifact: Mapping | None = None,
+    tipster_votes: list[dict] | None = None,
 ) -> dict:
     """한 경기의 수치·근거·AI 역할을 단일 화면 계약으로 고정한다."""
     annotate_options(game, probability_artifact=probability_artifact)
     # 호출자가 예전 모델 추천을 넣어 둔 경우에도 그것을 신뢰하지 않는다. 운영 선택은
     # 이 함수 안에서 다시 계산해야 구조 AI/LLM이 우회 경로로 최종 판정을 바꿀 수 없다.
     selected = choose_market_reference(game.get("options", []))
+    # Only explicitly captured current input may change a new revision. Saved
+    # output/sanitization must never replay stale attached votes as new evidence.
+    game.pop("tipster_hybrid", None)
+    if tipster_votes is not None and reconstructed_at is None:
+        from fixed_tipster_hybrid import context, apply
+        info = context(game, tipster_votes, as_of, built_at or as_of)
+        if info is not None:
+            selected = apply(game, info)
     game["추천"] = selected
     market = _number(selected.get("시장확률")) if selected else None
     shadow = _number(selected.get("모델확률")) if selected else None
@@ -581,6 +597,14 @@ def build_decision_snapshot(
     reversed_pick = selected and selected.get("추천우선순위") == "reversal"
     built_at = built_at or as_of
     evidence, sources = _evidence(game, selected, market_observed_at=market_observed_at or as_of)
+    hybrid = game.get("tipster_hybrid") or {}
+    if hybrid:
+        used = hybrid.get("status") == "applied"
+        evidence.append({"id": "tipster_votes", "label": "경기 전 픽스터 승패 투표 (10%)",
+            "available": used, "observed_at": hybrid.get("latest_observed_at"),
+            "summary": "운영 정책 적용 · 수익성 미검증" if used else "유효 투표 없음 · 시장 확률 유지",
+            **_all_usage(market="ignored", residual="used" if used else "missing",
+                         gate="used" if used else "missing", explainer="context_only" if used else "missing")})
     input_hash = _input_revision_hash(game, evidence)
     explanation_status = "wording_only" if explanation_kind == "llm_assisted" else "template"
 
@@ -627,6 +651,7 @@ def build_decision_snapshot(
             ),
         },
         "model": {
+            **({"selection_policy": pipeline["selection_policy"]} if pipeline.get("selection_policy") else {}),
             "operating_version": pipeline.get("operating_version") or OPERATING_MODEL_VERSION,
             "residual_version": SHADOW_MODEL_VERSION,
             "probability_pipeline_version": "market-logit-residual-v1",
@@ -637,7 +662,8 @@ def build_decision_snapshot(
             ),
             "validated_edge": bool(applied and pipeline.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES),
             "policy_authorized": bool(applied and pipeline.get("policy_authorized")),
-            "promotion_gate": "passed" if applied else "not_passed",
+            "promotion_gate": ("user_authorized_unvalidated" if pipeline.get("policy_authorized")
+                               else "passed" if applied else "not_passed"),
             "artifact_hash": pipeline.get("artifact_hash"),
         },
         # label/summary는 전 경기 공통 카탈로그다. 스냅샷에는 경기마다 달라지는 상태만
@@ -661,6 +687,7 @@ def build_decision_snapshot(
             "language_ai": _stage(explanation_status),
         },
         "evidence": evidence,
+        **({"tipster_hybrid": hybrid} if hybrid else {}),
         "sources": sources,
         "explanation": {
             "kind": explanation_kind,

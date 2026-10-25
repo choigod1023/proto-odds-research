@@ -10,9 +10,17 @@ const finite = (value) => {
 export const DECISION_SCHEMA = "decision-snapshot-v2";
 // 검증을 마쳐 배포된 artifact가 생길 때만 해시를 코드 리뷰로 추가한다.
 const PROMOTED_ARTIFACT_HASHES = new Set();
+export const FIXED_TIPSTER_VERSION = "mlb-market90-tipster10-v1";
+export function isAuthorizedTipsterPolicy(model) {
+  return model?.operating_version === FIXED_TIPSTER_VERSION
+    && model?.status === "operational" && model?.policy_authorized === true
+    && model?.promotion_gate === "user_authorized_unvalidated"
+    && model?.validated_edge === false;
+}
 
 /** 백엔드와 동일한 운영 승격 계약. 표식만으로는 확률을 바꿀 수 없다. */
 export function canApplyDecisionProbability(model) {
+  if (isAuthorizedTipsterPolicy(model)) return true;
   return model?.status === "operational"
     && model?.promotion_gate === "passed"
     && model?.validated_edge === true
@@ -20,10 +28,19 @@ export function canApplyDecisionProbability(model) {
     && PROMOTED_ARTIFACT_HASHES.has(model?.artifact_hash);
 }
 
-const recommendedSelectionForModel = (options, model) =>
-  canApplyDecisionProbability(model)
+export const recommendedSelectionForModel = (options, model) => {
+  if (model?.selection_policy === FIXED_TIPSTER_VERSION) {
+    const rows = options.filter(o => o?.market === "승패" && !o?.label);
+    if (rows.length !== 2 || !["홈", "원정"].every(s => rows.some(o => o["선택"] === s))) return null;
+    const field = isAuthorizedTipsterPolicy(model) ? "최종확률" : "시장확률";
+    if (!rows.every(o => finite(o[field]) > 0 && finite(o[field]) < 1 && finite(o["배당"]) > 1)) return null;
+    return rows.find(o => o["선택"] === "홈")[field] >= rows.find(o => o["선택"] === "원정")[field]
+      ? rows.find(o => o["선택"] === "홈") : rows.find(o => o["선택"] === "원정");
+  }
+  return canApplyDecisionProbability(model)
     ? finalRecommendedSelection(options)
     : marketOnlyRecommendedSelection(options);
+};
 
 export const AI_STAGE_CATALOG = [
   {
@@ -444,13 +461,13 @@ export function buildDecisionViewModel(game, option = null) {
     ? finite(raw?.probability?.market)
     : contract.ledgerRequired ? finite(contract.diagnosticMarket) : null;
   const modelStatus = raw?.model?.status || "unavailable";
-  const validatedEdge = canApplyDecisionProbability(raw?.model);
+  const validatedEdge = canApplyDecisionProbability(raw?.model) && raw?.model?.validated_edge === true;
   // 레거시 정책 승인 표식은 감사용으로만 보존한다. 통계 검증을 통과한
   // 배포 artifact가 아니면 상세 화면에서도 final 확률을 바꿀 수 없다.
-  const policyAuthorized = modelStatus === "operational"
+  const policyAuthorized = isAuthorizedTipsterPolicy(raw?.model) || (modelStatus === "operational"
     && raw?.model?.promotion_gate === "passed"
-    && raw?.model?.policy_authorized === true;
-  const canApply = validatedEdge;
+    && raw?.model?.policy_authorized === true);
+  const canApply = canApplyDecisionProbability(raw?.model);
   const aiCandidate = action === "market_reference"
     ? finite(raw?.probability?.ai_candidate) : null;
   // 검증되지 않은 AI가 final을 바꿔 담은 잘못된 JSON도 화면에서 fail-close한다.
@@ -486,7 +503,7 @@ export function buildDecisionViewModel(game, option = null) {
       basis: contract.ledgerRequired && market !== null
         ? "shin_market_reference_only"
         : finalProbability !== null
-        ? (validatedEdge ? "validated_ai_residual" : "shin_market")
+        ? (isAuthorizedTipsterPolicy(raw?.model) ? FIXED_TIPSTER_VERSION : validatedEdge ? "validated_ai_residual" : "shin_market")
         : "unavailable",
     },
     model: {
