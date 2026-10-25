@@ -233,6 +233,9 @@ def _parse_pick_row(row: Tag, header: str, team_a: str | None,
     result_m = re.search(r"\s([WLPV])(?=\s|$)", clean)
     result = result_m.group(1) if result_m else None
     selection = clean[:result_m.start()].strip() if result_m else clean.strip()
+    # Pregame rows include the stake ("NYY ML -115 5u"), graded rows do not.
+    # Keep raw_text intact, but stake is not part of the market/selection identity.
+    selection = re.sub(r"\s+\d+(?:\.\d+)?u$", "", selection, flags=re.I).strip()
     tail = clean[result_m.end():].strip() if result_m else ""
     parlay_m = re.search(r"in\s+(\d+)\s*-?leg", tail, re.I)
     net_m = re.search(rf"({_NUM})u\b", tail)
@@ -242,11 +245,11 @@ def _parse_pick_row(row: Tag, header: str, team_a: str | None,
     # 점수/FINAL/TOP/BOT가 바뀌어도 같은 픽이어야 결과 이벤트가 최초 관측에 붙는다.
     # MLB는 같은 대진이 연속되므로 동부 날짜까지 포함한다.
     matchup = "-".join(sorted(x for x in (team_a, team_b) if x))
-    key_text = "|".join((slate_date, matchup, slug,
+    key_text = "|".join(("v3", slate_date, matchup, slug,
                          re.sub(r"\s+", " ", selection).lower()))
     pick_id = hashlib.sha256(key_text.encode()).hexdigest()[:24]
     return {
-        "pick_id": pick_id, "identity_version": 2,
+        "pick_id": pick_id, "identity_version": 3,
         "observed_at": observed_at, "source": SOURCE,
         "slate_date": slate_date, "game_header": header, "team_a": team_a, "team_b": team_b,
         "game_started": _game_started(header),
@@ -371,12 +374,12 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
     picks, crowd = parse_slate(slate_html, observed_at)
     state = _load_state()
     first_run = not state.get("initialized_at")
-    # v1은 변하는 점수 header를 ID에 넣어 pregame→FINAL 연결이 끊겼다. 아직 전향
-    # 판정 완료 표본이 없을 때 발견했으므로 상태만 v2로 교체하고, 로그의 v1은 분석에서
-    # 제외한다. baseline 원본은 감사 목적으로 그대로 둔다.
-    if state.get("pick_identity_version") != 2:
-        state["picks"] = {}
-        state["pick_identity_version"] = 2
+    # Preserve old state and immutable logs. Versioned IDs cannot inherit a
+    # different v2 pick's eligibility. The first v3 snapshot is baseline only.
+    if state.get("pick_identity_version") != 3:
+        first_run = True
+        state.setdefault("picks", {})
+        state["pick_identity_version"] = 3
 
     # observed_at은 내용 해시에서 제외해야 변화가 없을 때 로그가 불어나지 않는다.
     leaderboard_content = [{k: v for k, v in r.items() if k != "observed_at"} for r in leaderboard]
@@ -475,7 +478,7 @@ def _selftest() -> None:
     assert picks[0]["american_odds"] == -110 and picks[0]["net_units"] == .91
     assert picks[0]["slate_date"] == "2025-12-31"
     assert picks[0]["game_started"] is True
-    assert picks[0]["identity_version"] == 2
+    assert picks[0]["identity_version"] == 3
     pregame = slate.replace("NYY 3 FINAL BAL 1", "NYY 7:05 PM BAL").replace(" W +0.91u", "")
     pre_picks, _ = parse_slate(pregame, "2026-01-01T00:00:00+00:00")
     assert pre_picks[0]["pick_id"] == picks[0]["pick_id"]

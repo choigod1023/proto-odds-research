@@ -1,0 +1,33 @@
+{
+  "schema": "frozen-tipster-audit-v1",
+  "unique_pick_ids": 27483,
+  "excluded": {
+    "not_first_unsettled_pregame_single": 17335,
+    "unsettled": 5001,
+    "missing_or_invalid_first_odds": 5147,
+    "duplicate_identity": 0
+  },
+  "overall": {
+    "n": 0,
+    "decisive": 0,
+    "wins": 0,
+    "hit_rate_pct": null,
+    "roi_pct": null
+  },
+  "by_market": {},
+  "by_day": {},
+  "official_verified_n": 0,
+  "paired_three_arm_n": 0,
+  "incremental_roi_pct": null,
+  "monthly_loss_limit_krw": 50000,
+  "monthly_two_leg_simulation": "not_run",
+  "limitations": [
+    "Publisher results only; no official event/result link.",
+    "Pregame status is collector assertion, not verified official kickoff.",
+    "No sport field; do not infer sport from team abbreviations.",
+    "No frozen facts/challenger predictions; not a comparison to our model.",
+    "Multiple correlated picks; short selected-source window; no independence claim.",
+    "Flat single stakes including voids in turnover; not user monthly returns."
+  ],
+  "input_sha256": "68a45cce93eb7f3213c6803f2a56b1c293c181276af7f74965c8f4d66d6d717d"
+}

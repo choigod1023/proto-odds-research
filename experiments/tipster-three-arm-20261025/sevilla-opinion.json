@@ -1,0 +1,37 @@
+{
+  "schema": "tipster-opinion-capture-v1",
+  "source": "sportsmole",
+  "source_url": "https://www.sportsmole.co.uk/football/sevilla/preview/sevilla-vs-osasuna-prediction-team-news-lineups_607645.html",
+  "title": "Preview: Sevilla vs Osasuna - prediction, team news, lineups",
+  "observed_at": "2026-10-25T07:16:27.411770+00:00",
+  "published_at": "2026-10-24T22:46:00Z",
+  "modified_at": "2026-10-25T01:49:29Z",
+  "document_sha256": "94686d73b87010459186cda968a5a26e72c99fb23e7df93fce959ad094b3166a",
+  "forecasts": [
+    {
+      "home_name": "Sevilla",
+      "away_name": "Osasuna",
+      "predicted_home_score": 1,
+      "predicted_away_score": 1,
+      "outcome": "draw",
+      "probability": null,
+      "market": "football_90min_1x2"
+    }
+  ],
+  "status": "captured_unlinked",
+  "official_event_id": null,
+  "official_kickoff_at": null,
+  "temporal_eligibility": "unverified",
+  "frozen_baseline_probability": null,
+  "frozen_context_probability": null,
+  "official_result": null,
+  "contemporaneous_odds": null,
+  "incremental_roi_pct": null,
+  "monthly_loss_limit_krw": 50000,
+  "affects_production": false,
+  "blockers": [
+    "official fixture mapping and kickoff verification",
+    "same-time odds and frozen baseline/context/challenger predictions",
+    "official result after match; no retrospective probability reconstruction"
+  ]
+}

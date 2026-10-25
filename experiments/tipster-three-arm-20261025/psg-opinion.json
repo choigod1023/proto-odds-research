@@ -1,0 +1,37 @@
+{
+  "schema": "tipster-opinion-capture-v1",
+  "source": "sportsmole",
+  "source_url": "https://www.sportsmole.co.uk/football/psg/preview/psg-vs-lyon-prediction-team-news-lineups_607509.html",
+  "title": "Preview: Paris Saint-Germain vs Lyon - prediction, team news, lineups",
+  "observed_at": "2026-10-25T07:16:47.706038+00:00",
+  "published_at": "2026-10-23T01:02:00Z",
+  "modified_at": "2026-10-23T19:18:28Z",
+  "document_sha256": "8ca51f6e5aff5c9a58782185e88fcc5c53238c0fa39397acd094d15c18cff369",
+  "forecasts": [
+    {
+      "home_name": "Paris Saint-Germain",
+      "away_name": "Lyon",
+      "predicted_home_score": 2,
+      "predicted_away_score": 1,
+      "outcome": "home",
+      "probability": null,
+      "market": "football_90min_1x2"
+    }
+  ],
+  "status": "captured_unlinked",
+  "official_event_id": null,
+  "official_kickoff_at": null,
+  "temporal_eligibility": "unverified",
+  "frozen_baseline_probability": null,
+  "frozen_context_probability": null,
+  "official_result": null,
+  "contemporaneous_odds": null,
+  "incremental_roi_pct": null,
+  "monthly_loss_limit_krw": 50000,
+  "affects_production": false,
+  "blockers": [
+    "official fixture mapping and kickoff verification",
+    "same-time odds and frozen baseline/context/challenger predictions",
+    "official result after match; no retrospective probability reconstruction"
+  ]
+}
