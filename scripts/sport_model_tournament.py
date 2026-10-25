@@ -10,6 +10,8 @@ for name in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS'):
 import argparse
 import hashlib
 import json
+import importlib.metadata
+import platform
 from pathlib import Path
 import sys
 
@@ -22,6 +24,7 @@ from scipy.optimize import minimize
 from scipy.special import softmax, logsumexp
 from accuracy_formula_lab import fit_design, apply_design, date_block_interval
 from sport_hybrid_validation import load_data, KEY, brier
+from model_v2 import SPORT_FEATURES
 
 SEED = 20261025
 RULES = ('probability', 'positive_edge', 'wide_edge', 'high_confidence')
@@ -158,8 +161,14 @@ def run(cache, sport, output):
     output = Path(output); output.mkdir(parents=True, exist_ok=True)
     (output / f'{sport}-selection.json').write_text(json.dumps(chosen, indent=2), encoding='utf-8')
     tp = predictions(pd.concat([train, val], ignore_index=True), test)
+    # Fixed existing research reference, outside the newly searched catalog.
+    reference_spec = dict(name='existing_research_reference',
+                          cols=list(dict.fromkeys(['elo_diff', *SPORT_FEATURES[sport]])),
+                          offset=True, ridge=.01)
+    vm['existing_research_reference'] = metrics(val, fit_predict(train, val, reference_spec))
+    tp['existing_research_reference'] = fit_predict(pd.concat([train, val], ignore_index=True), test, reference_spec)
     tm = {n: metrics(test, p) for n, p in tp.items()}
-    selected_names = set(['market', chosen['accuracy'], chosen['calibration']])
+    selected_names = set(['market', 'existing_research_reference', chosen['accuracy'], chosen['calibration']])
     if chosen['profit']:
         selected_names.add(chosen['profit'].split('|')[0])
     selected = {}
@@ -174,6 +183,11 @@ def run(cache, sport, output):
                           leagues={str(l): metrics(test.iloc[idx], p[idx])
                                    for l, idx in test.groupby('league').indices.items()})
     result = dict(sport=sport, counts=dict(train=len(train), validation=len(val), test=len(test)),
+                  source=json.loads((Path(cache) / 'source.json').read_text(encoding='utf-8')),
+                  runtime=dict(python=platform.python_version(), packages={n: importlib.metadata.version(n)
+                               for n in ('numpy', 'pandas', 'scipy', 'scikit-learn')}),
+                  protocol_sha256=hashlib.sha256((ROOT / 'docs/research/2026-10-25-sport-tournament-protocol.md').read_bytes()).hexdigest(),
+                  harness_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   model_count=len(vp), policy_config_count=len(vpaper), chosen=chosen,
                   validation_metrics=vm, validation_paper=vpaper, test_metrics=tm,
                   selected=selected, new_test_league_games=int((~test.league.isin(pd.concat([train, val]).league)).sum()),
