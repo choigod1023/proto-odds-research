@@ -344,10 +344,14 @@ class RuntimeDatabase(DatasetStore):
     def events(self, stream: str, *, through: str | None = None) -> list[dict[str, Any]]:
         return list(self.iter_events(stream, through=through))
 
-    def iter_events(self, stream: str, *, through: str | None = None) -> Iterator[dict[str, Any]]:
+    def iter_events(self, stream: str, *, through: str | None = None,
+                    since: str | None = None) -> Iterator[dict[str, Any]]:
         """Decode rows incrementally; never retain both all SQL rows and decoded history."""
         sql = "SELECT payload_json FROM event_records WHERE stream=?"
         params: list[Any] = [stream]
+        if since is not None:
+            sql += " AND observed_at>=?"
+            params.append(since)
         if through is not None:
             sql += " AND observed_at<=?"
             params.append(through)
