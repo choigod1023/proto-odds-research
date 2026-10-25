@@ -1,0 +1,3 @@
+-r requirements.txt
+# Offline tournament only; production does not import this dependency.
+scikit-learn>=1.7,<2
