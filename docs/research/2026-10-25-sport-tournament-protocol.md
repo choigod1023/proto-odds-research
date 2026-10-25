@@ -63,3 +63,19 @@
 시장이 최고이거나 후보가 전부 손실이면 그대로 보고한다. 코드·데이터 해시와 실행 산출물을 남긴다.
 수익 결론은 2024에서 선택한 모델·규칙·주간 횟수 전체 조합으로 한정한다. 선택이 없으면 없음으로 보고한다.
 적중률/Brier 신뢰구간을 수익률의 신뢰구간으로 설명하지 않는다.
+
+## 재현 명령
+
+운영 서버가 아닌 로컬 환경에서 실행한다. `PROODD_DB_PATH`가 설정되어 있으면 준비 단계가 거부된다.
+아래 `SOURCE.csv`에는 기존 `games.csv` 아카이브 경로를 지정한다.
+
+```sh
+python -m pip install -r requirements-research.txt
+python scripts/sport_model_tournament.py --prepare SOURCE.csv --cache .local-test/sport-tournament
+python scripts/sport_model_tournament.py --cache .local-test/sport-tournament --sport bs --output experiments/sport-tournament-20261025/bs
+python -m pytest -q
+```
+
+`--sport`는 bs/sc/bk/vl이며 각기 다른 출력 폴더를 사용한다. 결과 파일에는 소스·코드·프로토콜 해시와 라이브러리 버전이 포함된다.
+`*-selection.json`은 평가 연도 예측을 계산하기 전에 기록하며, `*.json`에 같은 선택을 보존한다.
+기존 실행 파일의 프로토콜 해시는 재현 명령을 덧붙이기 전 문서의 해시다. 모델과 선택 규칙은 동일하다.
