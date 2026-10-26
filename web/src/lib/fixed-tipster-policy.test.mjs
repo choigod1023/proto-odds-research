@@ -27,6 +27,32 @@ function fixture(applied = true) {
     } };
 }
 
+test("upcoming card and detail header use the authorized hybrid probability", async () => {
+  const { createServer } = await import("vite");
+  const { fileURLToPath } = await import("node:url");
+  const { createElement } = await import("react");
+  const { renderToStaticMarkup } = await import("react-dom/server");
+  const server = await createServer({ configFile: false, root: fileURLToPath(new URL("../../", import.meta.url)),
+    esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] },
+    server: { middlewareMode: true, watch: null }, appType: "custom" });
+  const originalNow = Date.now;
+  Date.now = () => Date.parse("2026-10-25T22:00:00Z");
+  try {
+    const { Game } = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const g = fixture();
+    g.sport = "bs";
+    g.decision_snapshot.tipster_hybrid = {status: "applied", authors: 1, evidence: []};
+    const props = {g, opts:g.options, todayOption:g.options[1], grades:{odds_bins:[]}, year:2026};
+    const row = renderToStaticMarkup(createElement(Game, props));
+    assert.match(row, /혼합 모델 확률 53.2%/);
+    const detail = renderToStaticMarkup(createElement(Game, {...props, detailOnly:true}));
+    assert.match(detail.replace(/<[^>]+>/g, " "), /경기 전 적중 확률\s+53.2%/);
+    g.decision_snapshot.model.policy_authorized = false;
+    const rejected = renderToStaticMarkup(createElement(Game, {...props, detailOnly:true}));
+    assert.doesNotMatch(rejected.replace(/<[^>]+>/g, " "), /경기 전 적중 확률\s+53.2%/);
+  } finally { Date.now = originalNow; await server.close(); }
+});
+
 test("authorized fixed91 reversal survives frontend contract without claiming verified edge", () => {
   const g = fixture();
   assert.equal(canonicalOption(g), g.options[1]);

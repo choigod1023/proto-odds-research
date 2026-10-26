@@ -788,6 +788,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         ? "배당 발표 전"
         : "분석 자료 확인 중");
   const openingProbability = saved?.openingProbability ?? null;
+  const currentProbability = decision.probability.final ?? pick?.o?.["시장확률"];
+  const hybridApplied = Boolean(decision.tipster && decision.probability.final != null);
   const liveProbability = playing ? saved?.estimate : null;
   const probabilityMessage = ESTIMATE_MESSAGE[saved?.estimateStatus || "missing_opening"];
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
@@ -810,7 +812,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
     <Surface className={detailOnly ? "match-detail-view" : `match-card is-${phase} result-${outcome.state}`}>
       {detailOnly && <MatchDetailHeader game={g} score={score} phase={phase}
         status={disruption || (playing ? `LIVE · ${lv?.status_text || "진행 중"}` : gameStatusLabel(g, lv))} option={pick?.o}
-        openingProbability={locked ? openingProbability : pick?.o?.["시장확률"]}
+        openingProbability={locked ? openingProbability : currentProbability}
         estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}
         recommended={highlightedToday} outcome={outcome} selected={selectedForGame.length > 0}>
         <MatchProgress game={g} live={lv} phase={phase} score={score} />
@@ -874,7 +876,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
         {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
-        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">배당 기준 확률 {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(pick.o["시장확률"])} · {locked ? "경기 전 예상" : "현재 배당 기준"}</span>}
+        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
         {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
       </>}
