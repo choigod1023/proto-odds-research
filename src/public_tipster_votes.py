@@ -74,7 +74,7 @@ def parse_page(url, html, observed_at):
     if not safe_url(url):
         raise ValueError("untrusted_url")
     observed = stamp(observed_at)
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
     if urlsplit(url).netloc == "pick79.com":
         nodes = []
         for script in soup.select('script[type="application/ld+json"]'):
@@ -225,7 +225,12 @@ def fetch(session, url):
 
 def collect(db, session):
     from bs4 import BeautifulSoup, SoupStrainer
+    started = time.monotonic()
+    def progress(stage):
+        print(f"public_tipster_intake stage={stage} elapsed={time.monotonic()-started:.1f}s", flush=True)
+    progress("fixtures_start")
     fixtures = read_fixtures(db)
+    progress(f"fixtures_ready:{len(fixtures)}")
     now = datetime.now(timezone.utc)
     summary = {"observed_at": now.isoformat(), "source": SOURCE, "written": 0, "parsed": 0,
                "sports": {}, "errors": {}, "rejected": {}}
@@ -235,8 +240,9 @@ def collect(db, session):
     groups = []
     for category in ("soccer", "baseball", "basketball", "volleyball"):
         url = f"https://pick79.com/posts/{category}/"
+        progress(f"listing:{category}")
         try:
-            soup = BeautifulSoup(fetch(session, url), "html.parser", parse_only=SoupStrainer("a"))
+            soup = BeautifulSoup(fetch(session, url), "lxml", parse_only=SoupStrainer("a"))
             found = list(dict.fromkeys(urljoin(url, a["href"]).rstrip("/")+"/"
                          for a in soup.select('a[href*="/posts/detail/"]')))
             groups.append(found[:12])
@@ -247,8 +253,9 @@ def collect(db, session):
     for i in range(12):
         links.extend(g[i] for g in groups if len(g) > i)
     try:
+        progress("listing:goli")
         url = "https://www.goli.tv/board/analysis"
-        soup = BeautifulSoup(fetch(session, url), "html.parser", parse_only=SoupStrainer("a"))
+        soup = BeautifulSoup(fetch(session, url), "lxml", parse_only=SoupStrainer("a"))
         links.extend(dict.fromkeys(urljoin(url, a["href"]).split("?")[0]
                      for a in soup.select('a[href*="/board/analysis/"]')))
     except (requests.RequestException, ValueError, UnicodeError) as exc:
@@ -258,7 +265,8 @@ def collect(db, session):
     links = list(dict.fromkeys(u for u in links if safe_url(u)))
     cursor = int(state.get("cursor", 0)) % max(1, len(links))
     candidates = (links[cursor:]+links[:cursor])[:16]
-    for url in candidates:
+    for index, url in enumerate(candidates):
+        progress(f"article:{index+1}/{len(candidates)}")
         try:
             html = fetch(session, url)
             # Timestamp AFTER receiving bytes, never before a slow HTTP request.
@@ -267,6 +275,7 @@ def collect(db, session):
             event = match_vote(row, fixtures)
             summary["written"] += db.append_events("public_tipster_votes", [event], identity_keys=("source", "pick_id"))
             sports[event["sport"]] += 1
+            progress(f"matched:{event['sport']}")
         except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError) as exc:
             rejects[str(exc) if isinstance(exc, ValueError) else type(exc).__name__] += 1
         time.sleep(.25)
@@ -275,6 +284,7 @@ def collect(db, session):
                    rejected=dict(rejects), sports=dict(sports))
     summary["status"] = "matched" if sports else "no_eligible_votes"
     db.put_document("public_tipster_intake", summary, generated_at=summary["observed_at"])
+    progress("complete")
     return summary
 
 
