@@ -17,12 +17,24 @@ from runtime_db import load_document, persist_document
 OUT = Path(__file__).resolve().parent.parent / "data/raw/kbo_pregame.json"
 
 
+def source_session():
+    """Use the same public-source headers as the other Naver collectors."""
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (compatible; proto-odds-research/1.0)",
+        "Accept": "application/json", "Referer": "https://m.sports.naver.com/",
+    })
+    return session
+
+
 def collect(session=None, now=None, existing=None):
+    if session is None:
+        with source_session() as owned_session:
+            return collect(owned_session, now, existing)
     now = now or datetime.now(timezone.utc)
     stamp = now.isoformat(timespec="seconds")
     existing = existing if existing is not None else load_document("kbo_pregame", OUT) or {}
     previous = {r["game_id"]: r for r in existing.get("games", [])}
-    session = session or requests.Session()
     day = now.astimezone(KST).date()
     response = session.get(API, params={
         "fields": "basic,statusNum,homeStarterName,awayStarterName",
@@ -135,7 +147,14 @@ def matching_record(game, document, now=None):
 
 
 def main():
-    doc = collect()
+    try:
+        doc = collect()
+    except (requests.RequestException, ValueError, TypeError) as exc:
+        # Do not publish an empty/successful document or advance observation time.
+        # The supervisor owns the bounded-interval retry; no recursive retries.
+        print(json.dumps({"status": "fetch_failed", "endpoint": "schedule",
+                          "error_type": type(exc).__name__, "preserved_previous": True}), flush=True)
+        return 1
     persist_document("kbo_pregame", doc, OUT)
     print(json.dumps({"kbo_games": len(doc["games"]), "errors": doc["errors"], "generated_at": doc["generated_at"]}), flush=True)
     return 1 if doc['errors'] else 0
