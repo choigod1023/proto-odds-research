@@ -17,6 +17,8 @@ primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국
 [env]
   REPO_DIR = "/data/repo"
   TZ = "Asia/Seoul"
+  # Separate append-only research history. No wagering or model promotion.
+  PROODD_RESEARCH_DB_PATH = "/data/pregame-research.sqlite3"
 
 # 볼륨 — 재시작해도 살아남는 디스크. 여기에 레포를 클론해 두고 돌린다.
 # DB 데이터는 git에 push하지 않는다. SQLite/볼륨 백업을 별도로 운영한다.

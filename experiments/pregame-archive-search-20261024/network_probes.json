@@ -1,0 +1,242 @@
+[
+  {
+    "name": "early_available",
+    "url": "https://archive.org/wayback/available",
+    "params": {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "timestamp": "20250419165959"
+    },
+    "request_started_at": "2026-10-24T11:38:22.194111+00:00",
+    "status": 200,
+    "final_url": "https://archive.org/wayback/available?url=https%3A%2F%2Fak-static.cms.nba.com%2Freferee%2Finjury%2FInjury-Report_2025-04-18_05PM.pdf&timestamp=20250419165959",
+    "observed_at": "2026-10-24T11:38:22.988143+00:00",
+    "content_type": "application/json",
+    "sha256": "486cfb2ab974536f7ca2fea335ae17fa0a2f20431f2c2cbf1eb729a83fd49369",
+    "sha1_base32": "W4KFJC2FL6HCQVV74C3QW6ICH7GSNJN7",
+    "last_modified": null,
+    "etag": null,
+    "archive_response": {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "archived_snapshots": {
+        "closest": {
+          "status": "200",
+          "available": true,
+          "url": "http://web.archive.org/web/20250418223959/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+          "timestamp": "20250418223959"
+        }
+      },
+      "timestamp": "20250419165959"
+    }
+  },
+  {
+    "name": "early_cdx_before_start",
+    "url": "https://web.archive.org/cdx/search/cdx",
+    "params": {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+      "output": "json",
+      "to": "20250419165959",
+      "filter": "statuscode:200",
+      "fl": "timestamp,original,digest,statuscode",
+      "limit": "5"
+    },
+    "request_started_at": "2026-10-24T11:38:22.194368+00:00",
+    "status": 200,
+    "final_url": "https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Fak-static.cms.nba.com%2Freferee%2Finjury%2FInjury-Report_2025-04-18_05PM.pdf&output=json&to=20250419165959&filter=statuscode%3A200&fl=timestamp%2Coriginal%2Cdigest%2Cstatuscode&limit=5",
+    "observed_at": "2026-10-24T11:38:23.312386+00:00",
+    "content_type": "application/json",
+    "sha256": "8228a857a198003a11aed97c03c98f45b06ed72a45b896aa10bda4c5980d9846",
+    "sha1_base32": "K35BQ5N2F3365CCXBA4BDKESRYWSZ3SJ",
+    "last_modified": null,
+    "etag": null,
+    "archive_response": [
+      [
+        "timestamp",
+        "original",
+        "digest",
+        "statuscode"
+      ],
+      [
+        "20250418223959",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+        "MIBVK76UX7EWSCFQB773J5WZ7HFE2HE5",
+        "200"
+      ]
+    ]
+  },
+  {
+    "name": "early_origin",
+    "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+    "params": {},
+    "request_started_at": "2026-10-24T11:38:22.194605+00:00",
+    "status": 200,
+    "final_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+    "observed_at": "2026-10-24T11:38:22.886914+00:00",
+    "content_type": "application/pdf",
+    "sha256": "8f951c82fc0c896364aa0dfb038d5cb3506d90f4f51f953e12d84bbb7374d18e",
+    "sha1_base32": "MIBVK76UX7EWSCFQB773J5WZ7HFE2HE5",
+    "last_modified": "Fri, 18 Apr 2025 21:30:03 GMT",
+    "etag": "\"a58b4ba36930764aaf2c1bde2d96fc1b\"",
+    "pdf_header": "Injury Report: 04/18/25 05:30 PM",
+    "contains_lillard_out": true,
+    "contains_sheppard_probable": true,
+    "contains_mil_ind": true,
+    "contains_ivey_out": true,
+    "contains_det_nyk": true,
+    "pdf_metadata": {
+      "creationDate": "D:20250418173002-04'00'",
+      "modDate": ""
+    }
+  },
+  {
+    "name": "early_archive",
+    "url": "https://web.archive.org/web/20250418223959id_/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+    "params": {},
+    "request_started_at": "2026-10-24T11:38:22.942251+00:00",
+    "status": 200,
+    "final_url": "https://web.archive.org/web/20250418223959id_/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-18_05PM.pdf",
+    "observed_at": "2026-10-24T11:38:29.413970+00:00",
+    "content_type": "application/pdf",
+    "sha256": "8f951c82fc0c896364aa0dfb038d5cb3506d90f4f51f953e12d84bbb7374d18e",
+    "sha1_base32": "MIBVK76UX7EWSCFQB773J5WZ7HFE2HE5",
+    "last_modified": null,
+    "etag": null,
+    "pdf_header": "Injury Report: 04/18/25 05:30 PM",
+    "contains_lillard_out": true,
+    "contains_sheppard_probable": true,
+    "contains_mil_ind": true,
+    "contains_ivey_out": true,
+    "contains_det_nyk": true,
+    "pdf_metadata": {
+      "creationDate": "D:20250418173002-04'00'",
+      "modDate": ""
+    }
+  },
+  {
+    "name": "nba_available",
+    "url": "https://archive.org/wayback/available",
+    "params": {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+      "timestamp": "20250419165959"
+    },
+    "request_started_at": "2026-10-24T11:38:22.988926+00:00",
+    "status": 200,
+    "final_url": "https://archive.org/wayback/available?url=https%3A%2F%2Fak-static.cms.nba.com%2Freferee%2Finjury%2FInjury-Report_2025-04-19_12PM.pdf&timestamp=20250419165959",
+    "observed_at": "2026-10-24T11:38:23.766507+00:00",
+    "content_type": "application/json",
+    "sha256": "60cd6a837c643b41215cbe35b824d630a9663b2c4eaafc0bf21397e3e63324e3",
+    "sha1_base32": "UUYPZDJM4MTG46OJ4Z7S7N5VJHSY7KYS",
+    "last_modified": null,
+    "etag": null,
+    "archive_response": {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+      "archived_snapshots": {
+        "closest": {
+          "status": "200",
+          "available": true,
+          "url": "http://web.archive.org/web/20250420083229/https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+          "timestamp": "20250420083229"
+        }
+      },
+      "timestamp": "20250419165959"
+    }
+  },
+  {
+    "name": "mlb_available",
+    "url": "https://archive.org/wayback/available",
+    "params": {
+      "url": "https://www.mlb.com/news/mlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs",
+      "timestamp": "20250319100959"
+    },
+    "request_started_at": "2026-10-24T11:38:23.313384+00:00",
+    "status": 200,
+    "final_url": "https://archive.org/wayback/available?url=https%3A%2F%2Fwww.mlb.com%2Fnews%2Fmlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs&timestamp=20250319100959",
+    "observed_at": "2026-10-24T11:38:24.051370+00:00",
+    "content_type": "application/json",
+    "sha256": "9fef9f631885f6ad0b4702537361c7b7794b8fd22e06e06660129142bb4b616a",
+    "sha1_base32": "LG7KHWMVSEUHDMLYREJCTIDYIDV5NIIA",
+    "last_modified": null,
+    "etag": null,
+    "archive_response": {
+      "url": "https://www.mlb.com/news/mlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs",
+      "archived_snapshots": {
+        "closest": {
+          "status": "200",
+          "available": true,
+          "url": "http://web.archive.org/web/20250319200207/https://www.mlb.com/news/mlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs",
+          "timestamp": "20250319200207"
+        }
+      },
+      "timestamp": "20250319100959"
+    }
+  },
+  {
+    "name": "nba_cdx_before_start",
+    "url": "https://web.archive.org/cdx/search/cdx",
+    "params": {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+      "output": "json",
+      "to": "20250419165959",
+      "filter": "statuscode:200",
+      "fl": "timestamp,original,digest,statuscode",
+      "limit": "5"
+    },
+    "request_started_at": "2026-10-24T11:38:23.767241+00:00",
+    "status": 200,
+    "final_url": "https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Fak-static.cms.nba.com%2Freferee%2Finjury%2FInjury-Report_2025-04-19_12PM.pdf&output=json&to=20250419165959&filter=statuscode%3A200&fl=timestamp%2Coriginal%2Cdigest%2Cstatuscode&limit=5",
+    "observed_at": "2026-10-24T11:38:24.665111+00:00",
+    "content_type": "application/json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "sha1_base32": "ZUGUZQZDIZ2QICHX2T26PDWJU3S3PGQN",
+    "last_modified": null,
+    "etag": null,
+    "archive_response": []
+  },
+  {
+    "name": "nba_origin",
+    "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+    "params": {},
+    "request_started_at": "2026-10-24T11:38:24.052159+00:00",
+    "status": 200,
+    "final_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2025-04-19_12PM.pdf",
+    "observed_at": "2026-10-24T11:38:24.565870+00:00",
+    "content_type": "application/pdf",
+    "sha256": "1691bf2aa39b57bf7a1270ee6f0cbcfb589f618db71635455177b5285cdfb09f",
+    "sha1_base32": "N4E5GNR5HL237NELT6INNEJ4324W5MYB",
+    "last_modified": "Sat, 19 Apr 2025 16:30:06 GMT",
+    "etag": "\"45eb72ad05bc3940188613cdead5904e\"",
+    "pdf_header": "Injury Report: 04/19/25 12:30 PM",
+    "contains_lillard_out": true,
+    "contains_sheppard_probable": false,
+    "contains_mil_ind": true,
+    "contains_ivey_out": true,
+    "contains_det_nyk": true,
+    "pdf_metadata": {
+      "creationDate": "D:20250419123003-04'00'",
+      "modDate": ""
+    }
+  },
+  {
+    "name": "mlb_origin",
+    "url": "https://www.mlb.com/news/mlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs",
+    "params": {},
+    "request_started_at": "2026-10-24T11:38:24.569358+00:00",
+    "status": 200,
+    "final_url": "https://www.mlb.com/news/mlb-tokyo-series-2025-game-2-faq-dodgers-vs-cubs",
+    "observed_at": "2026-10-24T11:38:25.839361+00:00",
+    "content_type": "text/html; charset=utf-8",
+    "sha256": "77237183913809109864057c0eb6cfd361aac43d33d48417eca273eb6524c7f7",
+    "sha1_base32": "UBBROF43SK4VTEZ3SX3U22V4P7NZ76LZ",
+    "last_modified": null,
+    "etag": null,
+    "date_metadata": [
+      [
+        "dateModified",
+        "2025-03-19T01:31:45.049Z"
+      ],
+      [
+        "datePublished",
+        "2025-03-18T16:58:00Z"
+      ]
+    ]
+  }
+]
