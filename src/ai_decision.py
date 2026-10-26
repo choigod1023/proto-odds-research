@@ -51,8 +51,8 @@ def can_apply_decision_probability(model: dict | None) -> bool:
     """검증 artifact 또는 명시적으로 승인한 고정 정책만 확률에 허용한다."""
 
     model = model or {}
-    from fixed_tipster_hybrid import VERSION
-    if (model.get("status") == "operational" and model.get("operating_version") == VERSION
+    from fixed_tipster_hybrid import VERSION, LEGACY_VERSION
+    if (model.get("status") == "operational" and model.get("operating_version") in {VERSION, LEGACY_VERSION}
             and model.get("policy_authorized") is True
             and model.get("promotion_gate") == "user_authorized_unvalidated"
             and model.get("validated_edge") is False):

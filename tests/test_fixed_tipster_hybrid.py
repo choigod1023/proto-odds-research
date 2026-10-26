@@ -85,11 +85,28 @@ def test_late_build_and_reconstruction_do_not_apply_new_votes():
     assert s.get("tipster_hybrid") is None
 
 
-def test_other_leagues_are_unchanged():
+@pytest.mark.parametrize("sport,league", [("bs", "KBO"), ("bk", "KBL"), ("vl", "KOVO"), ("sc", "EPL")])
+def test_other_leagues_use_explicit_market_fallback(sport, league):
     g = game(); g["league"] = "KBO"
+    g.update(sport=sport, league=league)
     _, s = decide(g)
-    assert s.get("tipster_hybrid") is None
-    assert s["model"].get("selection_policy") is None
+    assert s["tipster_hybrid"]["reason"] == "no_verified_tipster_adapter"
+    assert s["model"]["selection_policy"] == VERSION
+    assert s["probability"]["final"] == .52
+    assert g["추천"]["market"] == "승패"
+
+
+def test_three_way_draw_can_win_and_missing_side_is_withheld():
+    g = game()
+    g.update(sport="sc", league="EPL")
+    g["options"] = [dict(market="승무패", label="", 선택=s, 배당=3.0, 시장확률=p)
+                    for s, p in [("홈", .30), ("무", .40), ("원정", .30)]]
+    _, s = decide(g)
+    assert g["추천"]["선택"] == "무"
+    assert s["probability"]["final"] == .4
+    g["options"].pop()
+    _, s = decide(g)
+    assert s["action"] == "withhold"
 
 
 def test_invalid_or_duplicate_moneyline_withheld():

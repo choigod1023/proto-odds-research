@@ -411,7 +411,10 @@ def test_refresh_recalculates_when_total_line_changes_without_price_change():
     assert game["market_line_changed"] is True
     assert game["market_line_revision"]["before"][0]["line"] == 10.5
     assert game["market_line_revision"]["after"][0]["line"] == 11.5
-    assert game["decision_snapshot"]["action"] == "market_reference"
+    # Full-game policy still refreshes totals, but cannot invent a winner
+    # when this feed supplies no complete moneyline market.
+    assert game["decision_snapshot"]["action"] == "withhold"
+    assert game["decision_snapshot"]["tipster_hybrid"]["reason"] == "invalid_full_game_moneyline"
 
 
 def _pinned_pregame_game():

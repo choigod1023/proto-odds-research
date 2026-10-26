@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildDecisionViewModel, canApplyDecisionProbability, FIXED_TIPSTER_VERSION } from "./decision-view-model.js";
+import { buildDecisionViewModel, canApplyDecisionProbability, FIXED_TIPSTER_VERSION, recommendedSelectionForModel } from "./decision-view-model.js";
 import { canonicalOption } from "./unified-recommendation.js";
 
 function fixture(applied = true) {
@@ -52,4 +52,21 @@ test("generic legacy policy flags cannot authorize an arbitrary model", () => {
   assert.equal(canApplyDecisionProbability(model), true);
   assert.equal(canApplyDecisionProbability({ ...model, operating_version: "other" }), false);
   assert.equal(canApplyDecisionProbability({ ...model, validated_edge: true }), false);
+});
+
+test("old frozen MLB policy remains readable without relabelling history", () => {
+  const g = fixture();
+  g.decision_snapshot.model.operating_version = "mlb-market90-tipster10-v1";
+  g.decision_snapshot.model.selection_policy = "mlb-market90-tipster10-v1";
+  g.decision_snapshot.probability.basis = "mlb-market90-tipster10-v1";
+  assert.equal(canonicalOption(g), g.options[1]);
+  assert.equal(buildDecisionViewModel(g, g.options[1]).probability.basis, "mlb-market90-tipster10-v1");
+});
+
+test("three-way fallback includes draw and rejects missing or duplicate sides", () => {
+  const model = fixture(false).decision_snapshot.model;
+  const options = ["홈", "무", "원정"].map((side, i) => ({market: "승무패", 선택: side, 배당: 3, 시장확률: [.3,.4,.3][i]}));
+  assert.equal(recommendedSelectionForModel(options, model), options[1]);
+  assert.equal(recommendedSelectionForModel(options.slice(0, 2), model), null);
+  assert.equal(recommendedSelectionForModel([...options, options[0]], model), null);
 });
