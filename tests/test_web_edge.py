@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import socket
+import ssl
 import subprocess
 import tempfile
 import threading
@@ -26,6 +27,55 @@ def free_port():
 
 @unittest.skipUnless(NGINX, 'NGINX_BIN required (mandatory in edge CI job)')
 class EdgeIntegration(unittest.TestCase):
+    @unittest.skipUnless(os.environ.get('EDGE_TLS_SMOKE'), 'opt-in read-only real upstream TLS check')
+    def test_real_collector_tls_chain(self):
+        # Explicit opt-in: one real health GET per variant, never generation/writes.
+        for depth, expected in ((1, 502), (3, 200)):
+            with self.subTest(depth=depth), tempfile.TemporaryDirectory(prefix='edge-tls-') as directory:
+                base = Path(directory)
+                (base / 'logs').mkdir()
+                (base / 'temp').mkdir()
+                (base / 'cache/responses').mkdir(parents=True)
+                bundle = base / 'ca.pem'
+                bundle.write_text(''.join(ssl.DER_cert_to_PEM_cert(c) for c in
+                                         ssl.create_default_context().get_ca_certs(binary_form=True)))
+                port = free_port()
+                config = (ROOT / 'deploy/web/nginx.conf').read_text(encoding='utf-8')
+                config = config.replace('/dev/stderr', 'logs/error.log').replace('/tmp/nginx.pid', 'logs/nginx.pid')
+                config = config.replace('/var/cache/nginx/', base.as_posix() + '/cache/')
+                config = config.replace('/etc/ssl/certs/ca-certificates.crt', bundle.as_posix())
+                config = config.replace('listen 8080;', f'listen 127.0.0.1:{port};')
+                config = config.replace('proxy_ssl_verify_depth 3;', f'proxy_ssl_verify_depth {depth};')
+                (base / 'nginx.conf').write_text(config, encoding='utf-8')
+                args = [NGINX, '-p', base.as_posix() + '/', '-c', 'nginx.conf']
+                child = subprocess.Popen([*args, '-g', 'daemon off;'], stdout=subprocess.DEVNULL,
+                                         stderr=subprocess.DEVNULL)
+                try:
+                    for _ in range(50):
+                        try:
+                            with urlopen(f'http://127.0.0.1:{port}/readyz', timeout=2):
+                                break
+                        except OSError:
+                            time.sleep(.1)
+                    try:
+                        response = urlopen(f'http://127.0.0.1:{port}/health', timeout=10)
+                    except HTTPError as error:
+                        response = error
+                    with response:
+                        self.assertEqual(response.status, expected)
+                    print(f'real upstream TLS depth={depth}: HTTP {expected}')
+                finally:
+                    subprocess.run([*args, '-s', 'quit'], capture_output=True, timeout=10)
+                    child.wait(timeout=15)
+
+    def test_tls_identity_and_chain_validation_remain_enabled(self):
+        config = (ROOT / 'deploy/web/nginx.conf').read_text(encoding='utf-8')
+        self.assertIn('proxy_ssl_verify on;', config)
+        self.assertIn('proxy_ssl_verify_depth 3;', config)
+        self.assertIn('proxy_ssl_server_name on;', config)
+        self.assertIn('proxy_ssl_name proto-odds-collector.fly.dev;', config)
+        self.assertIn('proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;', config)
+
     def test_real_cache_failure_recovery_and_revision_isolation(self):
         state = {'status': 200, 'revision': 'first', 'requests': 0, 'posts': 0}
 
