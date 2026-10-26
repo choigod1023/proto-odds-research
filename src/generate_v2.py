@@ -1601,7 +1601,7 @@ def main() -> int:
     # 쓰면 나중에 읽은 자료가 과거에 이미 관측된 것처럼 보이는 시간 누수가 생긴다.
     feature_cutoff_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     from fixed_tipster_hybrid import load_votes
-    tipster_votes = load_votes(feature_cutoff_at) if any(g.get("league") == "MLB" for g in games.values()) else None
+    tipster_votes = load_votes(feature_cutoff_at) if any(g.get("league") == "MLB" for g in games.values()) else []
 
     def _snapshot(game: dict) -> dict:
         try:

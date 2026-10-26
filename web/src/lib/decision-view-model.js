@@ -10,9 +10,10 @@ const finite = (value) => {
 export const DECISION_SCHEMA = "decision-snapshot-v2";
 // 검증을 마쳐 배포된 artifact가 생길 때만 해시를 코드 리뷰로 추가한다.
 const PROMOTED_ARTIFACT_HASHES = new Set();
-export const FIXED_TIPSTER_VERSION = "mlb-market90-tipster10-v1";
+export const FIXED_TIPSTER_VERSION = "market90-tipster10-v2";
+export const isFixedTipsterVersion = version => [FIXED_TIPSTER_VERSION, "mlb-market90-tipster10-v1"].includes(version);
 export function isAuthorizedTipsterPolicy(model) {
-  return model?.operating_version === FIXED_TIPSTER_VERSION
+  return isFixedTipsterVersion(model?.operating_version)
     && model?.status === "operational" && model?.policy_authorized === true
     && model?.promotion_gate === "user_authorized_unvalidated"
     && model?.validated_edge === false;
@@ -29,13 +30,13 @@ export function canApplyDecisionProbability(model) {
 }
 
 export const recommendedSelectionForModel = (options, model) => {
-  if (model?.selection_policy === FIXED_TIPSTER_VERSION) {
-    const rows = options.filter(o => o?.market === "승패" && !o?.label);
-    if (rows.length !== 2 || !["홈", "원정"].every(s => rows.some(o => o["선택"] === s))) return null;
+  if (isFixedTipsterVersion(model?.selection_policy)) {
+    const rows = options.filter(o => ["승패", "승무패"].includes(o?.market) && !o?.label);
+    const order = rows.some(o => o["선택"] === "무") ? ["홈", "무", "원정"] : ["홈", "원정"];
+    if (rows.length !== order.length || new Set(rows.map(o => o.market)).size !== 1 || !order.every(s => rows.some(o => o["선택"] === s))) return null;
     const field = isAuthorizedTipsterPolicy(model) ? "최종확률" : "시장확률";
     if (!rows.every(o => finite(o[field]) > 0 && finite(o[field]) < 1 && finite(o["배당"]) > 1)) return null;
-    return rows.find(o => o["선택"] === "홈")[field] >= rows.find(o => o["선택"] === "원정")[field]
-      ? rows.find(o => o["선택"] === "홈") : rows.find(o => o["선택"] === "원정");
+    return order.map(s => rows.find(o => o["선택"] === s)).reduce((best, row) => Number(row[field]) > Number(best[field]) ? row : best);
   }
   return canApplyDecisionProbability(model)
     ? finalRecommendedSelection(options)
@@ -503,7 +504,7 @@ export function buildDecisionViewModel(game, option = null) {
       basis: contract.ledgerRequired && market !== null
         ? "shin_market_reference_only"
         : finalProbability !== null
-        ? (isAuthorizedTipsterPolicy(raw?.model) ? FIXED_TIPSTER_VERSION : validatedEdge ? "validated_ai_residual" : "shin_market")
+        ? (isAuthorizedTipsterPolicy(raw?.model) ? raw.model.operating_version : validatedEdge ? "validated_ai_residual" : "shin_market")
         : "unavailable",
     },
     model: {

@@ -1,4 +1,4 @@
-import { decisionLabel } from "../lib/decision-view-model.js";
+import { decisionLabel, isFixedTipsterVersion } from "../lib/decision-view-model.js";
 
 const reasonParts = (reason) => {
   const [title, ...body] = String(reason).split(" — ");
@@ -96,7 +96,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
           <p>{summary}</p>
         </div>
-        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{decision?.probability?.basis === "mlb-market90-tipster10-v1" ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률"}</span></div>}
+        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{isFixedTipsterVersion(decision?.probability?.basis) ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률 · 픽스터 미반영"}</span></div>}
       </header>
       <div className="prediction-body">
         <div>

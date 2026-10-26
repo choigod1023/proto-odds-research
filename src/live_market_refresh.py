@@ -432,10 +432,10 @@ def refresh_document(document: dict, live_odds: dict, *,
         tipster_changed = False
         if can_predict and use_database and game.get("league") == "MLB" and tipster_votes is None:
             tipster_votes = load_votes(decision_clock.isoformat())
-        if can_predict and tipster_votes is not None and game.get("league") == "MLB":
-            info = tipster_context(game, tipster_votes, decision_clock.isoformat(), decision_clock.isoformat())
+        if can_predict and game.get("sport") in {"bs", "bk", "sc", "vl"}:
+            info = tipster_context(game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat())
             prior = snapshot.get("tipster_hybrid") or {}
-            tipster_changed = (info.get("status"), info.get("evidence_hash")) != (prior.get("status"), prior.get("evidence_hash"))
+            tipster_changed = (info.get("version"), info.get("status"), info.get("evidence_hash")) != (prior.get("version"), prior.get("status"), prior.get("evidence_hash"))
         if (old_signature == new_signature and game.get("status") == target_status
                 and not broken_revision and not player_changed and not tipster_changed):
             changed += int(display_changed)
@@ -500,7 +500,7 @@ def refresh_document(document: dict, live_odds: dict, *,
             game["live_market_observed_at"] = observed_at
             game["decision_snapshot"] = build_decision_snapshot(
                 game, as_of=revision_stamp, built_at=decision_clock.isoformat(),
-                tipster_votes=tipster_votes,
+                tipster_votes=tipster_votes or [],
                 market_observed_at=observed_at,
                 explanation_kind="structured_ui",
             )
