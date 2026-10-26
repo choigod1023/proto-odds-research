@@ -12,6 +12,7 @@ def gate(monkeypatch):
     monkeypatch.setattr(supervisor, '_odds_recommendation_lock', threading.Lock())
     monkeypatch.setattr(supervisor, '_market_cycle_pending', threading.Event())
     monkeypatch.setattr(supervisor, '_next_recommendation_refresh', 0.0)
+    monkeypatch.setattr(supervisor, '_tipster_wait_started', None)
     monkeypatch.setattr(supervisor, 'BACKGROUND_MIN_AVAILABLE_MB', 512)
     monkeypatch.setattr(supervisor, 'log', lambda message: None)
     return lock
@@ -46,6 +47,52 @@ def test_background_releases_slot_after_failure(gate, monkeypatch):
         with supervisor._background_slot('test'):
             raise RuntimeError('worker failure')
     assert not gate.locked()
+
+
+def test_overdue_tipster_gets_next_optional_slot(gate, monkeypatch):
+    monkeypatch.setattr(supervisor, '_tipster_wait_started', 0.0)
+    monkeypatch.setattr(supervisor.time, 'monotonic', lambda: 121.0)
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
+    waits = []
+    def release(seconds):
+        assert not gate.locked()
+        waits.append(seconds)
+        supervisor._tipster_wait_started = None
+    monkeypatch.setattr(supervisor.time, 'sleep', release)
+    assert supervisor._refresh_recommendation_after_odds() is False
+    with supervisor._background_slot('optional'):
+        assert waits == [30]
+
+
+def test_overdue_tipster_still_waits_for_market_and_memory(gate, monkeypatch):
+    monkeypatch.setattr(supervisor, '_tipster_wait_started', 0.0)
+    monkeypatch.setattr(supervisor.time, 'monotonic', lambda: 121.0)
+    readings = iter([600, 511, 512])
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: next(readings))
+    supervisor._market_cycle_pending.set()
+    waits = []
+    def release(seconds):
+        assert not gate.locked()
+        waits.append(seconds)
+        supervisor._market_cycle_pending.clear()
+    monkeypatch.setattr(supervisor.time, 'sleep', release)
+    with supervisor._background_slot('다종목 픽스터'):
+        assert waits == [30, 30]
+
+
+def test_tipster_failure_clears_reservation(gate, monkeypatch):
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
+    def fail(*args, **kwargs):
+        assert supervisor._tipster_wait_started is not None
+        raise TimeoutError()
+    monkeypatch.setattr(supervisor.subprocess, 'run', fail)
+    def stop(seconds):
+        assert supervisor._tipster_wait_started is None
+        assert seconds == 900
+        raise StopIteration()
+    monkeypatch.setattr(supervisor.time, 'sleep', stop)
+    with pytest.raises(StopIteration):
+        supervisor.run_looper('다종목 픽스터', ['collector'], 900)
 
 
 @pytest.mark.parametrize('name', ['실시간 배당', '배당 스냅샷'])
