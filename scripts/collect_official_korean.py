@@ -124,11 +124,9 @@ def collect(fetch, year):
                         try:
                             row = normalize_kovo(x, url, year, gcode)
                         except (ValueError, KeyError) as exc:
-                            # Cup forfeits can have no kickoff and conflicting set data.
-                            # Preserve evidence, never invent a kickoff or a team alias.
-                            if gcode != '002':
-                                raise
-                            excluded['KOVO cup invalid score/time or unmapped team'] += 1
+                            # Historical regular-season rows can also lack a set score.
+                            # Quarantine the row with raw evidence; never repair it by guessing.
+                            excluded['KOVO invalid score/time or unmapped team'] += 1
                             rejected.append({'source_url': url, 'reason': str(exc), 'raw': x})
                             continue
                         if row:

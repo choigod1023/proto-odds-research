@@ -44,6 +44,11 @@ class Responses:
 
 
 class OfficialResultsTest(unittest.TestCase):
+    def test_2024_relegated_team_aliases(self):
+        r = result_row('EPL', 'old', datetime.fromisoformat('2024-02-10T15:00:00+00:00'),
+                       'Luton Town', 'Sheffield United', 1, 3, 'official', NAMES)
+        self.assertEqual((r['home'], r['away']), ('루턴타운', '셰필드U'))
+
     def test_doubleheader_keeps_two_official_ids_even_at_same_time(self):
         rows = normalize(mlb(), mlb(2, 2))
         self.assertEqual(len(rows), 2)

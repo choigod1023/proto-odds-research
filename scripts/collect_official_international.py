@@ -81,6 +81,7 @@ ALIASES = {
         "토트넘", "웨스트햄", "울버햄튼",
     ], strict=True)),
 }
+ALIASES['EPL'].update({'Luton Town': '루턴타운', 'Sheffield United': '셰필드U'})
 
 
 def json_bytes(value):
