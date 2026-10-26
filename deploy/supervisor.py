@@ -76,7 +76,7 @@ LOOPER_START_DELAYS = {
     "무료 야구 컨텍스트": 180,
     "선수·팀 정보": 240,
     "공개 픽스터": 300,
-    "다종목 픽스터": 150,
+    "다종목 픽스터": 0,
     "무료 날씨": 360,
 }
 
@@ -191,6 +191,14 @@ _http_ready = threading.Event()
 _odds_recommendation_lock = threading.Lock()
 _market_cycle_pending = threading.Event()
 _next_recommendation_refresh = 0.0
+_tipster_wait_started = None
+
+
+def _tipster_overdue():
+    return (_tipster_wait_started is not None
+            and time.monotonic() - _tipster_wait_started >= 120)
+
+
 _player_memory_opportunity = threading.Event()
 MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "다종목 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
 # Admission headroom, not a hard memory limit: workers can still grow after launch.
@@ -230,7 +238,8 @@ def _background_slot(name: str):
     while True:
         with _memory_heavy_lock:
             available = _available_memory_mb()
-            priority_pending = _market_cycle_pending.is_set()
+            priority_pending = (_market_cycle_pending.is_set()
+                                or (name != "다종목 픽스터" and _tipster_overdue()))
             if not priority_pending and available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
                 log(f"{name} 실제 실행 — 여유 {available}MB, 대기 {int(time.monotonic()-started)}s")
                 yield
@@ -563,8 +572,15 @@ def run_looper(name: str, cmd: list[str], interval: int,
         try:
             lock = _memory_heavy_lock if name in MEMORY_HEAVY_LOOPERS else None
             if lock:
-                with _background_slot(name):
-                    rc = subprocess.run(cmd, cwd=REPO, **({"timeout": 600} if name == "다종목 픽스터" else {})).returncode
+                global _tipster_wait_started
+                if name == "다종목 픽스터":
+                    _tipster_wait_started = time.monotonic()
+                try:
+                    with _background_slot(name):
+                        rc = subprocess.run(cmd, cwd=REPO, **({"timeout": 600} if name == "다종목 픽스터" else {})).returncode
+                finally:
+                    if name == "다종목 픽스터":
+                        _tipster_wait_started = None
             elif name == "실시간 배당":
                 # The independent recommendation worker must not race a new
                 # odds child between checking headroom and starting its process.
@@ -733,6 +749,10 @@ def _refresh_market_after_collection() -> int:
 def _refresh_recommendation_after_odds(*, repair: bool = True) -> bool:
     """Shared bounded admission for startup, periodic retry and odds handoff."""
     global _next_recommendation_refresh
+    if _tipster_overdue():
+        # Yield optional recommendation enrichment, never live market publication.
+        # The intake still needs the same heavy lock and 512MiB admission gate.
+        return False
     if not _odds_recommendation_lock.acquire(blocking=False):
         return False
     try:
