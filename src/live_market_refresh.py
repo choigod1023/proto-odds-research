@@ -292,7 +292,7 @@ def refresh_document(document: dict, live_odds: dict, *,
         clock = clock.replace(tzinfo=KST)
     decision_clock = max(observed, clock) if observed and clock else None
     from fixed_tipster_hybrid import load_votes, context as tipster_context
-    tipster_votes = None  # Lazy batch read only for an unfrozen MLB decision.
+    tipster_votes = None  # One bounded batch for all unfrozen supported sports.
     form_provider = None
     fixture_document = player_document
     fixtures_loaded = player_document is not None
@@ -430,7 +430,7 @@ def refresh_document(document: dict, live_odds: dict, *,
                             selected[0].get("시장확률") !=
                             (snapshot.get("probability") or {}).get("market")))
         tipster_changed = False
-        if can_predict and use_database and game.get("league") == "MLB" and tipster_votes is None:
+        if can_predict and use_database and game.get("sport") in {"bs", "bk", "sc", "vl"} and tipster_votes is None:
             tipster_votes = load_votes(decision_clock.isoformat())
         if can_predict and game.get("sport") in {"bs", "bk", "sc", "vl"}:
             info = tipster_context(game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat())
@@ -494,7 +494,7 @@ def refresh_document(document: dict, live_odds: dict, *,
             # older odds snapshot. Keep the actual market clock in provenance.
             player_clock = _aware_timestamp((game.get("선발") or {}).get("updated_at"))
             revision_time = max(observed, player_clock) if player_clock else observed
-            if tipster_votes is not None and game.get("league") == "MLB":
+            if tipster_votes is not None and game.get("sport") in {"bs", "bk", "sc", "vl"}:
                 revision_time = max(revision_time, decision_clock)
             revision_stamp = revision_time.isoformat() if revision_time != observed else observed_at
             game["live_market_observed_at"] = observed_at

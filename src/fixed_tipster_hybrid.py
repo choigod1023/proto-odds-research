@@ -2,8 +2,8 @@
 
 Only first-observed, full-game pregame moneyline votes are admissible. No
 network requests, result lookups or fitted parameters in the decision path.
-Only MLB currently has a verified vote adapter; other sports use an explicitly
-labelled market-only fallback, never fabricated or retrospective tipster votes.
+Public full-game adapters supplement MLB votes with live-observed multi-sport
+evidence. Missing evidence remains an explicitly labelled market-only fallback.
 """
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -39,11 +39,15 @@ def load_votes(as_of):
         since = (cutoff - timedelta(days=3)).date().isoformat()
         through = (cutoff + timedelta(days=1)).date().isoformat()
         rows = []
-        for row in RuntimeDatabase().iter_events("pickster_pick_events", since=since, through=through):
-            if len(rows) >= 20000:
-                return []  # Never use a silently truncated electorate.
-            if row.get("event_type") == "first_observed":
-                rows.append(row)
+        db = RuntimeDatabase()
+        scanned = 0
+        for stream in ("pickster_pick_events", "public_tipster_votes"):
+            for row in db.iter_events(stream, since=since, through=through):
+                scanned += 1
+                if scanned > 20000:
+                    return []  # Never use a silently truncated electorate.
+                if row.get("event_type") == "first_observed":
+                    rows.append(row)
         return rows
     except (OSError, ValueError, TypeError, sqlite3.Error):
         return []
@@ -53,20 +57,41 @@ def context(game, rows, as_of, built_at):
     if game.get("sport") not in {"bs", "bk", "sc", "vl"}:
         return None
     fallback = {"version": VERSION, "status": "market_fallback", "reason": "no_eligible_pregame_votes"}
-    if game.get("league") != "MLB":
-        return dict(fallback, reason="no_verified_tipster_adapter")
     try:
         match = re.fullmatch(r"(\d{2})\.(\d{2})\([^)]*\) (\d{2}):(\d{2})", game.get("date", ""))
         kickoff = datetime(int(game["year"]), *map(int, match.groups()), tzinfo=KST)
         cutoff = stamp(as_of)
         if max(cutoff, stamp(built_at)) > kickoff - timedelta(minutes=30):
             return dict(fallback, reason="after_t30")
-        home, away = TEAMS[game["home"]], TEAMS[game["away"]]
+        home, away = TEAMS.get(game["home"]), TEAMS.get(game["away"])
     except (KeyError, TypeError, ValueError, AttributeError):
         return dict(fallback, reason="unknown_fixture")
     votes = {}
+    from public_tipster_votes import SOURCE, fixture_key, safe_url
     for row in rows or []:
         try:
+            if row.get("source") == SOURCE:
+                observed = stamp(row["observed_at"])
+                if not (row.get("event_type") == "first_observed"
+                        and row.get("eligible_pre_event") is True
+                        and row.get("provenance") == "live_http_observation"
+                        and row.get("market_type") == "full_game_winner"
+                        and row.get("fixture") == fixture_key(game)
+                        and row.get("side") in {"홈", "무", "원정"}
+                        and row.get("voter") and row.get("pick_id")
+                        and safe_url(row.get("source_url", ""))
+                        and kickoff-timedelta(days=3) <= observed <= min(cutoff, kickoff-timedelta(minutes=30))):
+                    continue
+                entry = {"id": row["pick_id"], "author": row["voter"], "side": row["side"],
+                         "observed_at": observed.isoformat(), "source_url": row["source_url"],
+                         "content_hash": row["content_hash"], "published_at": row.get("published_at"),
+                         "publication_time_quality": row.get("publication_time_quality")}
+                old = votes.get(row["voter"])
+                if old is None or (observed, entry["id"]) < (stamp(old["observed_at"]), old["id"]):
+                    votes[row["voter"]] = entry
+                continue
+            if game.get("league") != "MLB" or not home or not away:
+                continue
             if not (row.get("source") == "tailslips_public_html"
                     and row.get("event_type") == "first_observed" and row.get("identity_version") == 2
                     and row.get("eligible_pre_event") is True and row.get("game_started") is False
@@ -87,7 +112,7 @@ def context(game, rows, as_of, built_at):
                 continue
             if observed < kickoff-timedelta(days=3):
                 continue
-            entry = {"id": row["pick_id"], "author": row["slug"], "side": pick[1], "observed_at": observed.isoformat()}
+            entry = {"id": row["pick_id"], "author": row["slug"], "side": "홈" if pick[1] == home else "원정", "observed_at": observed.isoformat()}
             old = votes.get(row["slug"])
             if old is None or (observed, entry["id"]) < (stamp(old["observed_at"]), old["id"]):
                 votes[row["slug"]] = entry
@@ -98,7 +123,8 @@ def context(game, rows, as_of, built_at):
     evidence = sorted(votes.values(), key=lambda x: (x["author"], x["id"]))
     digest = hashlib.sha256(json.dumps(evidence, sort_keys=True).encode()).hexdigest()
     return {"version": VERSION, "status": "applied", "reason": "user_authorized_unvalidated",
-            "home_vote_share": sum(v["side"] == home for v in evidence)/len(evidence),
+            "home_vote_share": sum(v["side"] == "홈" for v in evidence)/len(evidence),
+            "vote_shares": {s: sum(v["side"] == s for v in evidence)/len(evidence) for s in ("홈", "무", "원정")},
             "authors": len(evidence), "evidence": evidence, "evidence_hash": digest,
             "latest_observed_at": max(stamp(v["observed_at"]) for v in evidence).isoformat()}
 
@@ -113,8 +139,11 @@ def apply(game, info):
     try:
         p = [float(sides[s]["시장확률"]) for s in order]
         prices = [float(sides[s]["배당"]) for s in order]
-        if len(options) != len(order) or set(sides) != set(order) or len({o.get("market") for o in options}) != 1 or not all(math.isfinite(x) for x in p+prices) or min(p) <= 0 or max(p) >= 1 or abs(sum(p)-1) > .01 or min(prices) <= 1 or (info["status"] == "applied" and len(order) != 2):
+        if len(options) != len(order) or set(sides) != set(order) or len({o.get("market") for o in options}) != 1 or not all(math.isfinite(x) for x in p+prices) or min(p) <= 0 or max(p) >= 1 or abs(sum(p)-1) > .01 or min(prices) <= 1:
             raise ValueError("invalid binary market")
+        shares = info.get("vote_shares") or {"홈": info.get("home_vote_share", 0), "원정": 1-info.get("home_vote_share", 0), "무": 0}
+        if info["status"] == "applied" and (not all(math.isfinite(shares[s]) and 0 <= shares[s] <= 1 for s in order) or abs(sum(shares[s] for s in order)-1) > 1e-8):
+            raise ValueError("invalid vote vector")
     except (KeyError, TypeError, ValueError):
         game["tipster_hybrid"] = dict(info, status="withheld", reason="invalid_full_game_moneyline")
         return None
@@ -126,7 +155,7 @@ def apply(game, info):
         probability = p[i]
         if applied:
             probability /= sum(p)
-            vote = info["home_vote_share"] if i == 0 else 1-info["home_vote_share"]
+            vote = shares[side]
             probability = .9*probability + .1*vote
         option.update({"최종확률": round(probability, 4), "AI반영": applied,
                        "확률근거": VERSION if applied else "shin_market",
