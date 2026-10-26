@@ -90,7 +90,7 @@ def test_other_leagues_use_explicit_market_fallback(sport, league):
     g = game(); g["league"] = "KBO"
     g.update(sport=sport, league=league)
     _, s = decide(g)
-    assert s["tipster_hybrid"]["reason"] == "no_verified_tipster_adapter"
+    assert s["tipster_hybrid"]["reason"] == "no_eligible_pregame_votes"
     assert s["model"]["selection_policy"] == VERSION
     assert s["probability"]["final"] == .52
     assert g["추천"]["market"] == "승패"
@@ -121,10 +121,12 @@ def test_loader_uses_time_bounds_and_fails_closed(monkeypatch):
     calls = []
     def iterator(self, stream, **kwargs):
         calls.append((stream, kwargs))
-        yield vote()
+        if stream == "pickster_pick_events":
+            yield vote()
     monkeypatch.setattr(runtime_db.RuntimeDatabase, "iter_events", iterator)
     assert load_votes(AT) == [vote()]
-    assert calls == [("pickster_pick_events", {"since": "2026-10-22", "through": "2026-10-26"})]
+    assert calls == [(stream, {"since": "2026-10-22", "through": "2026-10-26"})
+                     for stream in ("pickster_pick_events", "public_tipster_votes")]
 
 
 def test_new_votes_refresh_unchanged_odds_but_never_frozen_pick(tmp_path, monkeypatch):

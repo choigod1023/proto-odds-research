@@ -98,6 +98,17 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
         </div>
         {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{isFixedTipsterVersion(decision?.probability?.basis) ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률 · 픽스터 미반영"}</span></div>}
       </header>
+      {decision?.tipster?.evidence?.length > 0 && <div className="px-4 py-3 text-[11px] border-b border-rule2" aria-label="실제 반영된 픽스터 원문">
+        <b>실제 반영한 픽스터 · {decision.tipster.authors}명/발행처</b>
+        <p>시장확률 90% + 아래 작성자별 승패 투표 10%. 적중률이나 수익성을 검증한 가중치는 아닙니다.</p>
+        <ul className="mt-2 space-y-1">{decision.tipster.evidence.map(row => {
+          const allowed = /^https:\/\/(pick79\.com\/posts\/detail\/[a-zA-Z0-9_-]+\/?|www\.goli\.tv\/board\/analysis\/\d+)$/.test(row.source_url || "");
+          return <li key={row.id}>{allowed ? <a href={row.source_url} target="_blank" rel="noopener noreferrer" className="underline">{row.author}</a> : row.author}
+            {" · "}{row.side}{" · 수집 "}{new Date(row.observed_at).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} KST
+          </li>;
+        })}</ul>
+        <p className="mt-1 text-ink3">게시 시각이 불확실한 원문은 실제 경기 전 수집 시각으로 확인하며, 과거 검증 표본으로 소급하지 않습니다.</p>
+      </div>}
       <div className="prediction-body">
         <div>
           <h4>판정과 구분된 경기 자료</h4>

@@ -70,3 +70,16 @@ test("three-way fallback includes draw and rejects missing or duplicate sides", 
   assert.equal(recommendedSelectionForModel(options.slice(0, 2), model), null);
   assert.equal(recommendedSelectionForModel([...options, options[0]], model), null);
 });
+
+test("actual tipster provenance is exposed only for a valid applied revision", () => {
+  const g = fixture();
+  g.decision_snapshot.tipster_hybrid = { status: "applied", authors: 1, evidence: [{
+    id: "v1", author: "pick79.com:픽천국", side: "원정", observed_at: g.decision_snapshot.as_of,
+    source_url: "https://pick79.com/posts/detail/example" }] };
+  assert.equal(buildDecisionViewModel(g, g.options[1]).tipster.evidence[0].author, "pick79.com:픽천국");
+  g.decision_snapshot.tipster_hybrid.status = "market_fallback";
+  assert.equal(buildDecisionViewModel(g, g.options[1]).tipster, null);
+  g.decision_snapshot.tipster_hybrid.status = "applied";
+  g.decision_snapshot.selection_id = "missing";
+  assert.equal(buildDecisionViewModel(g, g.options[1]).tipster, null);
+});

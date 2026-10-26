@@ -55,6 +55,7 @@ LOOPERS = [
     # 공개 HTML만 저빈도로 읽는다. 첫 관측은 baseline으로 두고 이후에 관측한
     # 미결 픽만 전향적으로 검증한다.
     ("공개 픽스터", [sys.executable, "-u", "src/pickster_watch.py"], 900),
+    ("다종목 픽스터", [sys.executable, "-u", "src/public_tipster_votes.py"], 900),
     # API 키가 필요 없는 Open-Meteo 예보 변경 이력을 보존해 T-24h/T-6h
     # 당시 정보로 백테스트할 수 있게 한다.
     ("무료 날씨", [sys.executable, "-u", "src/weather_watch.py",
@@ -75,6 +76,7 @@ LOOPER_START_DELAYS = {
     "무료 야구 컨텍스트": 180,
     "선수·팀 정보": 240,
     "공개 픽스터": 300,
+    "다종목 픽스터": 150,
     "무료 날씨": 360,
 }
 
@@ -190,7 +192,7 @@ _odds_recommendation_lock = threading.Lock()
 _market_cycle_pending = threading.Event()
 _next_recommendation_refresh = 0.0
 _player_memory_opportunity = threading.Event()
-MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
+MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "다종목 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
 # Admission headroom, not a hard memory limit: workers can still grow after launch.
 # Keep realtime scores, odds collection and HTTP outside this background gate.
 BACKGROUND_MIN_AVAILABLE_MB = int(os.environ.get("BACKGROUND_MIN_AVAILABLE_MB", "512"))
@@ -562,7 +564,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
             lock = _memory_heavy_lock if name in MEMORY_HEAVY_LOOPERS else None
             if lock:
                 with _background_slot(name):
-                    rc = subprocess.run(cmd, cwd=REPO).returncode
+                    rc = subprocess.run(cmd, cwd=REPO, **({"timeout": 600} if name == "다종목 픽스터" else {})).returncode
             elif name == "실시간 배당":
                 # The independent recommendation worker must not race a new
                 # odds child between checking headroom and starting its process.
@@ -589,6 +591,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
             log(f"{name} 예외: {type(e).__name__}: {e}")
             rc = -1
         delay = interval if rc == 0 else min(60, interval)
+        if name == "다종목 픽스터":
+            delay = interval  # Do not hammer public publishers during outages.
         if name == "실시간 배당" and market_retry:
             delay = retry_window.delay
         log(f"{name} 종료(rc={rc}) — {delay}s 후 재시작")

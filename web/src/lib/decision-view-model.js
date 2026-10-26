@@ -517,6 +517,8 @@ export function buildDecisionViewModel(game, option = null) {
     stages,
     evidence,
     evidenceCounts: counts,
+    tipster: contractValid && policyAuthorized && raw?.tipster_hybrid?.status === "applied"
+      ? raw.tipster_hybrid : null,
     explanation: {
       kind: raw?.explanation?.kind || game?.["설명메타"]?.kind || "deterministic",
       affectsProbability: false,
