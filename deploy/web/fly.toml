@@ -1,0 +1,20 @@
+# Candidate only: creating/deploying this app requires paid-resource approval.
+app = "proto-odds-web"
+primary_region = "nrt"
+[build]
+  dockerfile = "Dockerfile"
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/readyz"
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

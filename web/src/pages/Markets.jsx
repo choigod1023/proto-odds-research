@@ -43,13 +43,14 @@ import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
 import { gameStatusLabel } from "../lib/match-status.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
-const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
+import { apiUrl } from '../lib/api-origin.js';
+const LIVE_URL = apiUrl('/api/live-scores');
 
 // 판정과 배당을 각각 DB API에서 받아 동일 화면 revision으로 합친다.
-const ODDS_URL = "https://proto-odds-collector.fly.dev/api/live-odds";
-const RECOMMENDATION_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
-const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
-const GRADES_URL = "https://proto-odds-collector.fly.dev/api/loss-grades";
+const ODDS_URL = apiUrl('/api/live-odds');
+const RECOMMENDATION_URL = apiUrl('/api/today-recommendations');
+const PICKS_URL = apiUrl('/api/picks');
+const GRADES_URL = apiUrl('/api/loss-grades');
 
 /** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
 function usePoll(url, ms) {

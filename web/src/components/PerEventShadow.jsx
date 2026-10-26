@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const URL = 'https://proto-odds-collector.fly.dev/api/today-recommendations';
+import { apiUrl } from '../lib/api-origin.js';
+const URL = apiUrl('/api/today-recommendations');
 const number = value => Number.isFinite(value) ? value.toLocaleString('ko-KR') : '—';
 const pct = value => Number.isFinite(value) ? `${(value * 100).toFixed(2)}%` : '산정 전';
 const date = value => value && Number.isFinite(Date.parse(value))

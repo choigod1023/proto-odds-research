@@ -1,4 +1,5 @@
-export const API = import.meta.env?.VITE_MATCH_API_ORIGIN || 'https://proto-odds-collector.fly.dev';
+import { API_ORIGIN } from './api-origin.js';
+export const API = API_ORIGIN;
 
 export async function readMatchJson(path, signal) {
   const response = await fetch(`${API}${path}${path.includes('?') ? '&' : '?'}_=${Date.now()}`,

@@ -4,9 +4,10 @@ import { odds } from "../lib/fmt.js";
 import { usePolledData } from "../lib/poll.js";
 import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
 
-const LIVE_ODDS_URL = "https://proto-odds-collector.fly.dev/api/live-odds";
-const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
-const TODAY_URL = "https://proto-odds-collector.fly.dev/api/today-recommendations";
+import { apiUrl } from '../lib/api-origin.js';
+const LIVE_ODDS_URL = apiUrl('/api/live-odds');
+const PICKS_URL = apiUrl('/api/picks');
+const TODAY_URL = apiUrl('/api/today-recommendations');
 
 const stamp = (value) => {
   const date = new Date(value);
