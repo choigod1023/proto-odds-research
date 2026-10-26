@@ -1,0 +1,23 @@
+name: web-edge
+on:
+  pull_request:
+    paths: ['deploy/web/**', 'tests/test_web_edge.py', '.github/workflows/web-edge.yml']
+  push:
+    branches: [main]
+    paths: ['deploy/web/**', 'tests/test_web_edge.py', '.github/workflows/web-edge.yml']
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y nginx
+      - run: python tests/test_web_edge.py -v
+        env:
+          NGINX_BIN: /usr/sbin/nginx
+      - run: docker build -f deploy/web/Dockerfile -t sportstoto-edge .
+      - run: docker run --rm sportstoto-edge nginx -t

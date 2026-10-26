@@ -8,8 +8,9 @@ import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, rec
   readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
 
-const LIVE_URL = "https://proto-odds-collector.fly.dev/api/live-scores";
-const PICKS_URL = "https://proto-odds-collector.fly.dev/api/picks";
+import { apiUrl } from '../lib/api-origin.js';
+const LIVE_URL = apiUrl('/api/live-scores');
+const PICKS_URL = apiUrl('/api/picks');
 const pct = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "–";
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 

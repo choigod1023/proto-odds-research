@@ -47,6 +47,8 @@ jobs:
 
       - name: 빌드
         working-directory: web
+        env:
+          VITE_MATCH_API_ORIGIN: ${{ vars.VITE_MATCH_API_ORIGIN }}
         run: npm test && npm run build
 
       - name: 산출물 되커밋

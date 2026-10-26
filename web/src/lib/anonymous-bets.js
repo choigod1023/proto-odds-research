@@ -1,4 +1,5 @@
-export const ANONYMOUS_BETS_URL = "https://proto-odds-collector.fly.dev/anonymous-bets";
+import { apiUrl } from './api-origin.js';
+export const ANONYMOUS_BETS_URL = apiUrl('/anonymous-bets');
 
 export function stakeBand(value) {
   const amount = Math.max(0, Number(value) || 0);
