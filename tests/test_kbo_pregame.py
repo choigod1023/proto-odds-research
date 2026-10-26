@@ -43,6 +43,40 @@ class Session:
         return Response({"result": {"games": [GAME]}})
 
 
+def test_default_session_sends_source_headers_and_closes(monkeypatch):
+    import kbo_pregame
+    class HeaderSession(Session):
+        def __init__(self):
+            super().__init__()
+            self.headers = {}
+            self.closed = False
+        def __enter__(self): return self
+        def __exit__(self, *args): self.closed = True
+        def get(self, url, **kwargs):
+            assert self.headers['Referer'] == 'https://m.sports.naver.com/'
+            assert self.headers['Accept'] == 'application/json'
+            assert self.headers['User-Agent'].startswith('Mozilla/5.0')
+            assert kwargs['timeout'] == 15
+            return super().get(url, **kwargs)
+    session = HeaderSession()
+    monkeypatch.setattr(kbo_pregame.requests, 'Session', lambda: session)
+    assert collect(now=NOW, existing={})['games']
+    assert len(session.calls) == 3
+    assert session.closed
+
+
+def test_schedule_failure_does_not_persist_or_claim_success(monkeypatch, capsys):
+    import kbo_pregame
+    for error in (requests.ReadTimeout(), requests.ConnectionError(), ValueError()):
+        def fail(): raise error
+        monkeypatch.setattr(kbo_pregame, 'collect', fail)
+        def forbidden(*args): raise AssertionError('must preserve previous document')
+        monkeypatch.setattr(kbo_pregame, 'persist_document', forbidden)
+        assert kbo_pregame.main() == 1
+        output = capsys.readouterr().out
+        assert 'fetch_failed' in output and 'preserved_previous' in output
+
+
 def test_candidates_are_not_announced_batting_order():
     assert normalize_lineup({"fullLineUp": [dict(p, batOrder=None, batorder=p['batOrder']) for p in BATTERS]})['confirmed']
     assert not normalize_lineup({"batterCandidate": BATTERS, "fullLineUp": []})['confirmed']
