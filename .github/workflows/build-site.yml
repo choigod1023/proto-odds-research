@@ -33,6 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Re-runs of an old push must build current main, not stale assets.
+          ref: ${{ github.event_name == 'pull_request' && github.ref || 'main' }}
 
       - uses: actions/setup-node@v4
         with:
@@ -52,7 +55,7 @@ jobs:
         run: npm test && npm run build
 
       - name: 산출물 되커밋
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
           git config user.name  "site-builder"
