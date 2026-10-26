@@ -2,8 +2,16 @@
 import copy
 import json
 import unittest
+import tempfile
+from datetime import date
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
-from scripts.collect_pickdawgz_corpus import Excluded, join_article, parse_article, parse_pick, copy_check, shingles
+from scripts.collect_pickdawgz_corpus import (
+    Excluded, join_article, parse_article, parse_pick, copy_check, shingles,
+    parse_windows, in_windows, url_game_date, run, BASE, recover_existing, load_odds, sha,
+)
 
 URL = "https://pickdawgz.com/mlb-picks/synthetic-2025/"
 TEAMS = ["Oakland Athletics", "Cleveland Guardians"]
@@ -106,6 +114,90 @@ class PickDawgzTest(unittest.TestCase):
         row = {"body": "This is a synthetic copied article with a sufficiently long phrase."}
         with self.assertRaisesRegex(Excluded, "possible_wstv_copy"):
             copy_check(row, [({"url": "https://example.test"}, shingles(row["body"]))])
+
+    def test_fixed_windows_and_url_padding(self):
+        windows = parse_windows(["2025-08-01:2025-08-14", "2025-09-01:2025-09-14"])
+        self.assertTrue(in_windows(date(2025, 8, 1), windows))
+        self.assertTrue(in_windows(date(2025, 9, 14), windows))
+        self.assertFalse(in_windows(date(2025, 8, 15), windows))
+        self.assertFalse(in_windows(date(2025, 7, 31), windows))
+        self.assertTrue(in_windows(date(2025, 7, 31), windows, padding=1))
+        self.assertEqual(url_game_date(BASE + "/mlb-picks/a-prediction-8-1-2025-picks/"), date(2025, 8, 1))
+        self.assertIsNone(url_game_date(BASE + "/mlb-picks/undated/"))
+
+    def test_request_cap_counts_excluded_articles(self):
+        namespace = "http://www.sitemaps.org/schemas/sitemap/0.9"
+        sitemap = BASE + "/free-pick-sitemap1.xml"
+        urls = [BASE + f"/mlb-picks/team{i}-prediction-9-5-2025-picks/" for i in range(3)]
+        invalid_url = BASE + "/mlb-picks/0-invalid-prediction-9-31-2025-picks/"
+        calls = []
+
+        class FakeFetcher:
+            def __init__(self, *args):
+                self.sources = {}
+
+            def get(self, url):
+                calls.append(url)
+                if url.endswith("robots.txt"):
+                    return b"", {}
+                if url.endswith("sitemap_index.xml"):
+                    return f'<sitemapindex xmlns="{namespace}"><sitemap><loc>{sitemap}</loc></sitemap></sitemapindex>'.encode(), {}
+                if url == sitemap:
+                    items = "".join(f"<url><loc>{u}</loc></url>" for u in [invalid_url] + urls)
+                    return f'<urlset xmlns="{namespace}">{items}</urlset>'.encode(), {}
+                return b"synthetic", {"sha256": "hash"}
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "official.json").write_text("[]")
+            (root / "reference.json").write_text("[]")
+            (root / "games.csv").write_text("year,league,market_family,n_way\n")
+            args = SimpleNamespace(out=root / "out", official=root / "official.json",
+                                   comparison=root / "reference.json", games_csv=root / "games.csv",
+                                   year=2025, windows=["2025-09-01:2025-09-14"], target=0,
+                                   start_sitemap=1, end_sitemap=1, max_articles=2, offline=True)
+            with patch("scripts.collect_pickdawgz_corpus.Fetcher", FakeFetcher), \
+                 patch("scripts.collect_pickdawgz_corpus.parse_article", side_effect=Excluded("test_rejection")), \
+                 patch("builtins.print"):
+                run(args)
+            summary = json.loads((args.out / "summary.json").read_bytes())
+            self.assertEqual(summary["accepted"], 0)
+            self.assertEqual(summary["discovered"], 2)
+            self.assertEqual(summary["excluded"], {"test_rejection": 2})
+            self.assertTrue(summary["cap_reached"])
+            self.assertEqual(summary["next_unprocessed_url"], urls[2])
+            self.assertNotIn(urls[2], calls)
+            self.assertNotIn(invalid_url, calls)
+            self.assertEqual(summary["listing_excluded"], {"invalid_url_calendar_date": 1})
+
+    def test_offline_recovery_preserves_original_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            cache = root / "cache"
+            cache.mkdir()
+            raw = fixture()
+            (cache / "sample.html").write_bytes(raw)
+            (cache / "sample.json").write_text(json.dumps({
+                "cache_file": "sample.html", "url": URL, "sha256": sha(raw),
+                "observed_at": "2026-10-26T00:00:00+00:00"}))
+            (root / "official.json").write_text(json.dumps([official()]))
+            (root / "reference.json").write_text("[]")
+            csv_path = root / "games.csv"
+            csv_path.write_text('year,league,market_family,n_way,is_void,date_text,home,away,odds,round,game_no,result\n'
+                                '2025,MLB,승패,2,False,07.19(토) 08:10,클리가디,애슬레틱,"1.6,2.2",1,1,홈패\n', encoding="utf-8")
+            row = join_article(parse_article(raw, URL), [official()], load_odds(csv_path, 2025), 2025)
+            original = (json.dumps([row], ensure_ascii=False) + "\n\n").encode()
+            (root / "articles.json").write_bytes(original)
+            args = SimpleNamespace(out=root, official=root / "official.json", comparison=root / "reference.json",
+                                   games_csv=csv_path, year=2025)
+            with patch("urllib.request.urlopen", side_effect=AssertionError("No network allowed")), patch("builtins.print"):
+                recover_existing(args)
+            self.assertEqual((root / "articles.json").read_bytes(), original)
+            summary = json.loads((root / "recovered-metadata" / "summary.json").read_bytes())
+            self.assertEqual(summary["original_rows_revalidated"], 1)
+            self.assertEqual(summary["original_articles_sha256"], sha(original))
+            self.assertFalse(summary["original_file_written"])
+            self.assertEqual(summary["network_requests"], 0)
 
 
 if __name__ == "__main__":

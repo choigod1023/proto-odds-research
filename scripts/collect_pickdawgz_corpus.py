@@ -21,11 +21,13 @@ import csv
 import hashlib
 import json
 import re
+import os
+import tempfile
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -44,7 +46,37 @@ def sha(data):
 
 
 def save(path, value):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    data = json.dumps(value, ensure_ascii=False, indent=2) + "\n"
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent, delete=False) as stream:
+        temporary = Path(stream.name)
+        stream.write(data)
+    try:
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def parse_windows(values):
+    windows = []
+    for value in values:
+        start, end = (date.fromisoformat(x) for x in value.split(":"))
+        if start > end:
+            raise ValueError("Reversed date window")
+        windows.append((start, end))
+    return windows
+
+
+def in_windows(value, windows, padding=0):
+    return not windows or any(start - timedelta(days=padding) <= value <= end for start, end in windows)
+
+
+def url_game_date(url):
+    match = re.search(r"prediction-(\d{1,2})-(\d{1,2})-(20\d{2})(?:-|/)", url)
+    if match:
+        month, day, year = map(int, match.groups())
+        return date(year, month, day)
+    # URLs without a recognized date must be fetched, not silently assumed outside.
+    return None
 
 
 class Fetcher:
@@ -247,16 +279,120 @@ def copy_check(row, comparisons):
         raise Excluded("possible_wstv_copy")
 
 
+def recover_existing(args):
+    """Rebuild interrupted-run metadata without ever writing its articles.json."""
+    original_path = args.out / "articles.json"
+    original_bytes = original_path.read_bytes()
+    original_hash = sha(original_bytes)
+    original = json.loads(original_bytes)
+    retained = {row["url"]: row for row in original}
+    if len(retained) != len(original):
+        raise ValueError("Original snapshot has duplicate URLs")
+    cache = args.out / "cache"
+    destination = args.out / "recovered-metadata"
+    destination.mkdir(exist_ok=True)
+    official = json.loads(args.official.read_bytes())
+    odds = load_odds(args.games_csv, args.year)
+    reference = json.loads(args.comparison.read_bytes())
+    comparisons = [(r, shingles(r.get("body", ""))) for r in reference]
+    sources, listings = {}, defaultdict(list)
+    for meta_path in sorted(cache.glob("*.json")):
+        meta = json.loads(meta_path.read_bytes())
+        raw = (cache / meta["cache_file"]).read_bytes()
+        if sha(raw) != meta["sha256"]:
+            raise ValueError("Raw cache hash mismatch")
+        sources[meta["url"]] = meta
+        if re.search(r"/free-pick-sitemap\d+\.xml$", meta["url"]):
+            for loc in ET.fromstring(raw).findall("s:url/s:loc", NS):
+                listings[loc.text].append(meta["url"])
+    urls = sorted(u for u in sources if "/mlb-picks/" in u)
+    extra, excluded, discovered, validated = [], [], [], set()
+    games = {r["official_id"] for r in original}
+    bodies = {r["body_sha256"] for r in original}
+    core = ("native_title", "body", "body_sha256", "native_pick", "author", "published_at",
+            "modified_at", "official_id", "pick", "proto_odds")
+    for url in urls:
+        meta = sources[url]
+        entry = {"url": url, "cached_listings": sorted(listings[url]), "observed_at": meta["observed_at"],
+                 "raw_html_sha256": meta["sha256"]}
+        try:
+            row = join_article(parse_article((cache / meta["cache_file"]).read_bytes(), url), official, odds, args.year)
+            if url in retained:
+                if any(row[key] != retained[url][key] for key in core):
+                    raise RuntimeError(f"Original snapshot replay differs: {url}")
+                validated.add(url)
+                entry["status"] = "retained_original_snapshot"
+            else:
+                if row["official_id"] in games or row["body_sha256"] in bodies:
+                    raise Excluded("duplicate_original_or_extra_game_or_body")
+                copy_check(row, comparisons)
+                row.update(observed_at=meta["observed_at"], raw_html_sha256=meta["sha256"],
+                           raw_cache_file=meta["cache_file"], listing=sorted(listings[url])[0] if listings[url] else None)
+                extra.append(row)
+                games.add(row["official_id"])
+                bodies.add(row["body_sha256"])
+                entry["status"] = "eligible_extra_snapshot"
+        except (Excluded, KeyError, ValueError) as error:
+            if url in retained:
+                raise RuntimeError(f"Retained row failed offline replay: {url}: {error}") from error
+            entry["status"] = "excluded"
+            entry["reason"] = str(error)
+            excluded.append(dict(entry))
+        discovered.append(entry)
+    if validated != set(retained):
+        raise ValueError("Original snapshot contains URLs missing from cache")
+    if original_path.read_bytes() != original_bytes:
+        raise RuntimeError("Original articles.json changed during recovery")
+    summary = {"mode": "offline_cache_recovery", "original_articles": len(original),
+               "original_articles_sha256": original_hash, "original_bytes": len(original_bytes),
+               "original_rows_revalidated": len(validated), "extra_eligible_articles": len(extra),
+               "cached_article_pages": len(urls), "cached_sources": len(sources),
+               "excluded": dict(Counter(r["reason"] for r in excluded)),
+               "network_requests": 0, "original_file_written": False,
+               "official_sha256": sha(args.official.read_bytes()), "games_csv_sha256": sha(args.games_csv.read_bytes()),
+               "comparison_sha256": sha(args.comparison.read_bytes()),
+               "limitation": "Reconstructed from retained raw cache, not an original execution log; uncached attempts cannot be recovered."}
+    save(destination / "articles.extra-snapshot.json", extra)
+    save(destination / "excluded.json", excluded)
+    save(destination / "discovered.json", discovered)
+    save(destination / "sources.json", list(sources.values()))
+    save(destination / "summary.json", summary)
+    if sha(original_path.read_bytes()) != original_hash:
+        raise RuntimeError("Original hash changed after recovery")
+    print(json.dumps(summary, ensure_ascii=False), flush=True)
+
+
 def run(args):
     args.out.mkdir(parents=True, exist_ok=True)
+    windows = parse_windows(args.windows)
+    if windows and args.target:
+        raise ValueError("Fixed windows require --target 0: do not stop at a desired sample count")
+    protocol = {"source": BASE, "year": args.year, "windows_kst": args.windows,
+                "start_sitemap": args.start_sitemap, "end_sitemap": args.end_sitemap,
+                "maximum_article_requests": args.max_articles,
+                "target": args.target, "order": "sitemap number then URL lexicographic",
+                "selection": "full-game team pick; pregame declared timestamps; unambiguous official/odds join; no outcome filtering"}
+    protocol_path = args.out / "protocol.json"
+    if protocol_path.exists():
+        previous = json.loads(protocol_path.read_bytes())
+        if previous != protocol:
+            # User-added request cap refines the existing fixed windows/order only.
+            before_cap = {k: v for k, v in protocol.items() if k != "maximum_article_requests"}
+            if previous != before_cap:
+                raise ValueError("Existing output has a different collection protocol; use a new directory")
+            save(args.out / "protocol.before-cap.json", previous)
+    save(protocol_path, protocol)
     fetch = Fetcher(args.out, args.offline)
     official = json.loads(args.official.read_bytes())
     odds = load_odds(args.games_csv, args.year)
     reference = json.loads(args.comparison.read_bytes())
     comparisons = [(r, shingles(r.get("body", ""))) for r in reference]
-    accepted, excluded, discovered = [], [], []
+    accepted, excluded, discovered, listing_skipped = [], [], [], []
     seen, games, bodies = set(), set(), set()
     fatal = None
+    scan_complete = False
+    cap_reached = False
+    next_unprocessed_url = None
     try:
         # Preserve public discovery provenance; no fabricated/unadvertised endpoints.
         fetch.get(BASE + "/robots.txt")
@@ -272,11 +408,29 @@ def run(args):
             for url in urls:
                 if url in seen:
                     continue
+                try:
+                    url_date = url_game_date(url)
+                except ValueError:
+                    listing_skipped.append({"url": url, "reason": "invalid_url_calendar_date", "sitemap": sitemap})
+                    continue
+                if url_date and not in_windows(url_date, windows, padding=1):
+                    listing_skipped.append({"url": url, "reason": "URL_date_outside_padded_windows", "sitemap": sitemap})
+                    continue
+                if args.max_articles and len(discovered) >= args.max_articles:
+                    cap_reached = True
+                    next_unprocessed_url = url
+                    break
                 seen.add(url)
                 discovered.append({"url": url, "sitemap": sitemap})
                 raw, meta = fetch.get(url)
                 try:
-                    row = join_article(parse_article(raw, url), official, odds, args.year)
+                    parsed = parse_article(raw, url)
+                    native_day = datetime.fromisoformat(parsed["native_kickoff"]).astimezone(KST).date()
+                    if not in_windows(native_day, windows):
+                        raise Excluded("outside_fixed_windows")
+                    row = join_article(parsed, official, odds, args.year)
+                    if not in_windows(date.fromisoformat(row["date"]), windows):
+                        raise Excluded("official_date_outside_fixed_windows")
                     if row["official_id"] in games or row["body_sha256"] in bodies:
                         raise Excluded("duplicate_game_or_body")
                     copy_check(row, comparisons)
@@ -290,19 +444,27 @@ def run(args):
                 if len(seen) % 20 == 0:
                     save(args.out / "articles.json", accepted)
                     print(f"pages={len(seen)} accepted={len(accepted)} excluded={len(excluded)}", flush=True)
-                if len(accepted) >= args.target:
+                if args.target and len(accepted) >= args.target:
                     break
-            if len(accepted) >= args.target:
+            if cap_reached or (args.target and len(accepted) >= args.target):
                 break
+        else:
+            scan_complete = True
     except Exception as error:
         fatal = f"{type(error).__name__}: {error}"
     save(args.out / "articles.json", accepted)
     save(args.out / "excluded.json", excluded)
     save(args.out / "discovered.json", discovered)
     save(args.out / "sources.json", list(fetch.sources.values()))
+    save(args.out / "listing-skipped.json", listing_skipped)
     summary = {"accepted": len(accepted), "distinct_official_games": len(games), "target": args.target,
                "discovered": len(discovered), "excluded": dict(Counter(r["reason"] for r in excluded)),
+               "listing_excluded": dict(Counter(r["reason"] for r in listing_skipped)),
                "authors": dict(Counter(r["author"] for r in accepted)), "fatal": fatal,
+               "windows_kst": args.windows, "bounded_sitemap_scan_complete": scan_complete,
+               "article_request_cap": args.max_articles, "cap_reached": cap_reached,
+               "next_unprocessed_url": next_unprocessed_url,
+               "per_date": dict(sorted(Counter(r["date"] for r in accepted).items())),
                "date_range": [min((r["date"] for r in accepted), default=None), max((r["date"] for r in accepted), default=None)],
                "wstv_reference_articles": len(reference), "wstv_reference_sha256": sha(args.comparison.read_bytes()),
                "official_sha256": sha(args.official.read_bytes()), "games_csv_sha256": sha(args.games_csv.read_bytes()),
@@ -326,4 +488,11 @@ if __name__ == "__main__":
     parser.add_argument("--start-sitemap", type=int, default=300)
     parser.add_argument("--end-sitemap", type=int, default=320)
     parser.add_argument("--offline", action="store_true")
-    run(parser.parse_args())
+    parser.add_argument("--windows", nargs="*", default=[], help="Inclusive KST start:end pairs; requires --target 0")
+    parser.add_argument("--max-articles", type=int, default=200, help="Cap candidate article requests, regardless of acceptance or outcome")
+    parser.add_argument("--recover-existing", action="store_true", help="Offline metadata recovery; never write existing articles.json")
+    args = parser.parse_args()
+    if args.recover_existing:
+        recover_existing(args)
+    else:
+        run(args)
