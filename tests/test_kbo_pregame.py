@@ -69,7 +69,7 @@ def test_schedule_failure_does_not_persist_or_claim_success(monkeypatch, capsys)
     import kbo_pregame
     for error in (requests.ReadTimeout(), requests.ConnectionError(), ValueError()):
         def fail(): raise error
-        monkeypatch.setattr(kbo_pregame, 'collect', fail)
+        monkeypatch.setattr(kbo_pregame, 'collect_available', fail)
         def forbidden(*args): raise AssertionError('must preserve previous document')
         monkeypatch.setattr(kbo_pregame, 'persist_document', forbidden)
         assert kbo_pregame.main() == 1

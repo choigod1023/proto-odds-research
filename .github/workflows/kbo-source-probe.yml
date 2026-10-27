@@ -1,0 +1,30 @@
+name: kbo-source-probe
+on:
+  push:
+    branches: [codex/kbo-actions-route-20261027]
+    paths: ['.github/workflows/kbo-source-probe.yml', 'src/kbo_official.py']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - name: Read public KBO source without production writes
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          import json, time
+          from kbo_official import collect_official
+          start = time.monotonic()
+          doc = collect_official(existing={})
+          print(json.dumps({'elapsed': round(time.monotonic()-start, 2), 'document': doc}, ensure_ascii=False))
+          assert not doc['errors'], 'Partial source failure'
+          PY
