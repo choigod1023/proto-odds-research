@@ -1,0 +1,79 @@
+{
+  "python": "3.14.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "logical_cpu_count": 16,
+  "candidates_per_half": 1000000,
+  "baseline_repeats": 10000,
+  "runs": [
+    {
+      "workers": 1,
+      "wall_seconds": 39.817376100007095,
+      "stage_seconds": {
+        "selection": 10.89280270000745,
+        "evaluation": 28.385851800005184,
+        "computation_total": 39.56878359999973
+      },
+      "scientific_result_sha256": "1f8ce2adf80c6c337baf8ce5f990b1f7a35f9d87f107153cd5897e0608bb621a",
+      "selection_hash": "d3ef9dc50b10186310c6146c5a77537e50f67ebe4f404907607e8b1a04d3b5ba",
+      "pairs": 3008,
+      "source_hashes": {
+        "lotto_seed_128.py": "058532d953ba0f8cbd99c54cef66cfca72fdb5b0e144d2fc9b82c60064bebe17",
+        "lotto_seed_expanded.py": "f66d0dda0027bd576c53253e240c2549e608e325a805dbba1494e79ef21e1c3d"
+      }
+    },
+    {
+      "workers": 2,
+      "wall_seconds": 25.19546149999951,
+      "stage_seconds": {
+        "selection": 6.641631899998174,
+        "evaluation": 18.04237579999608,
+        "computation_total": 24.955022299996926
+      },
+      "scientific_result_sha256": "1f8ce2adf80c6c337baf8ce5f990b1f7a35f9d87f107153cd5897e0608bb621a",
+      "selection_hash": "d3ef9dc50b10186310c6146c5a77537e50f67ebe4f404907607e8b1a04d3b5ba",
+      "pairs": 3008,
+      "source_hashes": {
+        "lotto_seed_128.py": "058532d953ba0f8cbd99c54cef66cfca72fdb5b0e144d2fc9b82c60064bebe17",
+        "lotto_seed_expanded.py": "f66d0dda0027bd576c53253e240c2549e608e325a805dbba1494e79ef21e1c3d"
+      }
+    },
+    {
+      "workers": 2,
+      "wall_seconds": 22.64659620000748,
+      "stage_seconds": {
+        "selection": 6.623165600001812,
+        "evaluation": 15.505662800002028,
+        "computation_total": 22.403869700006908
+      },
+      "scientific_result_sha256": "1f8ce2adf80c6c337baf8ce5f990b1f7a35f9d87f107153cd5897e0608bb621a",
+      "selection_hash": "d3ef9dc50b10186310c6146c5a77537e50f67ebe4f404907607e8b1a04d3b5ba",
+      "pairs": 3008,
+      "source_hashes": {
+        "lotto_seed_128.py": "058532d953ba0f8cbd99c54cef66cfca72fdb5b0e144d2fc9b82c60064bebe17",
+        "lotto_seed_expanded.py": "f66d0dda0027bd576c53253e240c2549e608e325a805dbba1494e79ef21e1c3d"
+      }
+    },
+    {
+      "workers": 1,
+      "wall_seconds": 40.37389570000232,
+      "stage_seconds": {
+        "selection": 10.88844209999661,
+        "evaluation": 28.962877500001923,
+        "computation_total": 40.13353969999298
+      },
+      "scientific_result_sha256": "1f8ce2adf80c6c337baf8ce5f990b1f7a35f9d87f107153cd5897e0608bb621a",
+      "selection_hash": "d3ef9dc50b10186310c6146c5a77537e50f67ebe4f404907607e8b1a04d3b5ba",
+      "pairs": 3008,
+      "source_hashes": {
+        "lotto_seed_128.py": "058532d953ba0f8cbd99c54cef66cfca72fdb5b0e144d2fc9b82c60064bebe17",
+        "lotto_seed_expanded.py": "f66d0dda0027bd576c53253e240c2549e608e325a805dbba1494e79ef21e1c3d"
+      }
+    }
+  ],
+  "serial_median_seconds": 40.09563590000471,
+  "parallel_median_seconds": 23.921028850003495,
+  "speedup": 1.6761668635334994,
+  "time_reduction_percent": 40.34006865569955,
+  "all_scientific_results_identical": true,
+  "limitations": "Local alternating-order microbenchmark, two independent processes; not a hardware-independent speed guarantee."
+}
