@@ -1,0 +1,27 @@
+{
+  "trigger": "No Holm-significant bias tests and seed null comparison not significant at .05",
+  "features": [
+    "numbers_at_most_31",
+    "adjacent_pairs",
+    "multiples_of_five",
+    "span"
+  ],
+  "train": [
+    201,
+    740
+  ],
+  "validation": [
+    741,
+    990
+  ],
+  "final": [
+    991,
+    1238
+  ],
+  "model": "Poisson mean regression with log-sales offset; standardized training features; ridge=1",
+  "baseline": "same training rows, intercept and log-sales offset only",
+  "metrics": "heldout mean Poisson deviance, MAE; positive baseline-minus-model deviance gain is better",
+  "uncertainty": "4999 circular block bootstraps, block length 10; descriptive fixed-model intervals",
+  "limitations": "post-fallback exploratory analysis, not a profit estimate or a ticket-selection validation",
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15"
+}
