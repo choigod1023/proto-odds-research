@@ -1,0 +1,1003 @@
+{
+  "status": "exploratory_only_no_promotion",
+  "fixed_tipster_weight": 0.25,
+  "baseline": "reconstructed market-residual research model, NOT frozen production",
+  "vote_encoding": "single-author one-hot; NOT a calibrated probability or the MLB multi-author cohort",
+  "monthly_loss_limit_krw": 50000,
+  "strict_eligible": 0,
+  "two_leg": {
+    "roi_pct": null,
+    "reason": "Pregame availability/price timestamps and settlement timestamps unproven; no fictitious replay"
+  },
+  "quality": {
+    "input_rows": 184473,
+    "valid_unique_market_rows": 174620,
+    "invalid_rows": 3448,
+    "conflicting_reissues_excluded": 584,
+    "score_conflicts": 0,
+    "joined_primary_events": 45184
+  },
+  "volleyball_training": {
+    "n": 1103,
+    "end": "2024-12-31 00:00:00"
+  },
+  "hashes": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\public-tipster-comparison-20261024\\experiments\\public-tipsters-20261024\\results.json": "edaade55922f20136c0b518c1be69d4169d9ff46a6863abc9d43f25ccdf96165",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\accuracy-formula-lab\\data\\processed\\games.csv": "dfe95c2ace14ee42142ea0c86912b68359bc8ebee9ad3cb566812815bdec0eb0",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\multisport-hybrid-20261025\\scripts\\compare_multisport_fixed_hybrid.py": "228e708e7fc051ad6e4fa912116f4d550e856315b54ce211b3286301a8a84f11"
+  },
+  "sports": {
+    "bs": {
+      "scores": {
+        "baseline": {
+          "n": 10,
+          "hits": 3,
+          "hit_rate_pct": 30.0,
+          "roi_pct": -53.3,
+          "net_units": -5.33
+        },
+        "tipster": {
+          "n": 10,
+          "hits": 3,
+          "hit_rate_pct": 30.0,
+          "roi_pct": -51.10000000000001,
+          "net_units": -5.11
+        },
+        "hybrid75_25": {
+          "n": 10,
+          "hits": 3,
+          "hit_rate_pct": 30.0,
+          "roi_pct": -51.10000000000001,
+          "net_units": -5.11
+        }
+      },
+      "leave_one_date_out": {
+        "2025-04-18": {
+          "baseline": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -48.111111111111114,
+            "net_units": -4.33
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-06-12": {
+          "baseline": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -48.111111111111114,
+            "net_units": -4.33
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-07-06": {
+          "baseline": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -48.111111111111114,
+            "net_units": -4.33
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-07-20": {
+          "baseline": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -48.111111111111114,
+            "net_units": -4.33
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-08-19": {
+          "baseline": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -48.111111111111114,
+            "net_units": -4.33
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-08-23": {
+          "baseline": {
+            "n": 8,
+            "hits": 2,
+            "hit_rate_pct": 25.0,
+            "roi_pct": -61.375,
+            "net_units": -4.91
+          },
+          "tipster": {
+            "n": 8,
+            "hits": 1,
+            "hit_rate_pct": 12.5,
+            "roi_pct": -81.625,
+            "net_units": -6.53
+          },
+          "hybrid75_25": {
+            "n": 8,
+            "hits": 1,
+            "hit_rate_pct": 12.5,
+            "roi_pct": -81.625,
+            "net_units": -6.53
+          }
+        },
+        "2025-08-26": {
+          "baseline": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -48.111111111111114,
+            "net_units": -4.33
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-08-31": {
+          "baseline": {
+            "n": 9,
+            "hits": 2,
+            "hit_rate_pct": 22.22222222222222,
+            "roi_pct": -66.11111111111111,
+            "net_units": -5.95
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 3,
+            "hit_rate_pct": 33.333333333333336,
+            "roi_pct": -45.66666666666667,
+            "net_units": -4.11
+          }
+        },
+        "2025-09-21": {
+          "baseline": {
+            "n": 9,
+            "hits": 2,
+            "hit_rate_pct": 22.22222222222222,
+            "roi_pct": -64.44444444444444,
+            "net_units": -5.8
+          },
+          "tipster": {
+            "n": 9,
+            "hits": 2,
+            "hit_rate_pct": 22.22222222222222,
+            "roi_pct": -62.0,
+            "net_units": -5.58
+          },
+          "hybrid75_25": {
+            "n": 9,
+            "hits": 2,
+            "hit_rate_pct": 22.22222222222222,
+            "roi_pct": -62.0,
+            "net_units": -5.58
+          }
+        }
+      }
+    },
+    "bk": {
+      "scores": {
+        "baseline": {
+          "n": 3,
+          "hits": 2,
+          "hit_rate_pct": 66.66666666666667,
+          "roi_pct": -1.3333333333333346,
+          "net_units": -0.040000000000000036
+        },
+        "tipster": {
+          "n": 3,
+          "hits": 1,
+          "hit_rate_pct": 33.333333333333336,
+          "roi_pct": -56.666666666666664,
+          "net_units": -1.7
+        },
+        "hybrid75_25": {
+          "n": 3,
+          "hits": 1,
+          "hit_rate_pct": 33.333333333333336,
+          "roi_pct": -56.666666666666664,
+          "net_units": -1.7
+        }
+      },
+      "leave_one_date_out": {
+        "2025-05-05": {
+          "baseline": {
+            "n": 2,
+            "hits": 2,
+            "hit_rate_pct": 100.0,
+            "roi_pct": 48.0,
+            "net_units": 0.96
+          },
+          "tipster": {
+            "n": 2,
+            "hits": 1,
+            "hit_rate_pct": 50.0,
+            "roi_pct": -35.0,
+            "net_units": -0.7
+          },
+          "hybrid75_25": {
+            "n": 2,
+            "hits": 1,
+            "hit_rate_pct": 50.0,
+            "roi_pct": -35.0,
+            "net_units": -0.7
+          }
+        },
+        "2025-10-09": {
+          "baseline": {
+            "n": 2,
+            "hits": 1,
+            "hit_rate_pct": 50.0,
+            "roi_pct": -17.000000000000004,
+            "net_units": -0.3400000000000001
+          },
+          "tipster": {
+            "n": 2,
+            "hits": 0,
+            "hit_rate_pct": 0.0,
+            "roi_pct": -100.0,
+            "net_units": -2.0
+          },
+          "hybrid75_25": {
+            "n": 2,
+            "hits": 0,
+            "hit_rate_pct": 0.0,
+            "roi_pct": -100.0,
+            "net_units": -2.0
+          }
+        },
+        "2025-10-26": {
+          "baseline": {
+            "n": 2,
+            "hits": 1,
+            "hit_rate_pct": 50.0,
+            "roi_pct": -35.0,
+            "net_units": -0.7
+          },
+          "tipster": {
+            "n": 2,
+            "hits": 1,
+            "hit_rate_pct": 50.0,
+            "roi_pct": -35.0,
+            "net_units": -0.7
+          },
+          "hybrid75_25": {
+            "n": 2,
+            "hits": 1,
+            "hit_rate_pct": 50.0,
+            "roi_pct": -35.0,
+            "net_units": -0.7
+          }
+        }
+      }
+    },
+    "sc": {
+      "scores": {
+        "baseline": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate_pct": 50.0,
+          "roi_pct": -30.500000000000004,
+          "net_units": -0.6100000000000001
+        },
+        "tipster": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate_pct": 50.0,
+          "roi_pct": -30.500000000000004,
+          "net_units": -0.6100000000000001
+        },
+        "hybrid75_25": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate_pct": 50.0,
+          "roi_pct": -30.500000000000004,
+          "net_units": -0.6100000000000001
+        }
+      },
+      "leave_one_date_out": {
+        "2025-10-19": {
+          "baseline": {
+            "n": 1,
+            "hits": 0,
+            "hit_rate_pct": 0.0,
+            "roi_pct": -100.0,
+            "net_units": -1.0
+          },
+          "tipster": {
+            "n": 1,
+            "hits": 0,
+            "hit_rate_pct": 0.0,
+            "roi_pct": -100.0,
+            "net_units": -1.0
+          },
+          "hybrid75_25": {
+            "n": 1,
+            "hits": 0,
+            "hit_rate_pct": 0.0,
+            "roi_pct": -100.0,
+            "net_units": -1.0
+          }
+        },
+        "2025-11-22": {
+          "baseline": {
+            "n": 1,
+            "hits": 1,
+            "hit_rate_pct": 100.0,
+            "roi_pct": 38.99999999999999,
+            "net_units": 0.3899999999999999
+          },
+          "tipster": {
+            "n": 1,
+            "hits": 1,
+            "hit_rate_pct": 100.0,
+            "roi_pct": 38.99999999999999,
+            "net_units": 0.3899999999999999
+          },
+          "hybrid75_25": {
+            "n": 1,
+            "hits": 1,
+            "hit_rate_pct": 100.0,
+            "roi_pct": 38.99999999999999,
+            "net_units": 0.3899999999999999
+          }
+        }
+      }
+    },
+    "vl": {
+      "scores": {
+        "baseline": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate_pct": 100.0,
+          "roi_pct": 54.0,
+          "net_units": 0.54
+        },
+        "tipster": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate_pct": 100.0,
+          "roi_pct": 54.0,
+          "net_units": 0.54
+        },
+        "hybrid75_25": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate_pct": 100.0,
+          "roi_pct": 54.0,
+          "net_units": 0.54
+        }
+      },
+      "leave_one_date_out": {
+        "2025-04-05": {
+          "baseline": {
+            "n": 0,
+            "hit_rate_pct": null,
+            "roi_pct": null
+          },
+          "tipster": {
+            "n": 0,
+            "hit_rate_pct": null,
+            "roi_pct": null
+          },
+          "hybrid75_25": {
+            "n": 0,
+            "hit_rate_pct": null,
+            "roi_pct": null
+          }
+        }
+      }
+    }
+  },
+  "ledger": [
+    {
+      "url": "https://www.attv24.com/sports_analysis/19714",
+      "sport": "bs",
+      "date": "2025-08-31",
+      "home": "KT",
+      "away": "KIA",
+      "odds": [
+        1.62,
+        1.93
+      ],
+      "y": 0,
+      "probability": [
+        0.5465933797077698,
+        0.45340662029223017
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 1,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-08-31 18:00:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19024",
+      "sport": "bs",
+      "date": "2025-08-19",
+      "home": "한화",
+      "away": "두산",
+      "odds": [
+        1.45,
+        2.24
+      ],
+      "y": 1,
+      "probability": [
+        0.6154177792824992,
+        0.3845822207175008
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-08-19 18:30:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/14377",
+      "sport": "bs",
+      "date": "2025-04-18",
+      "home": "키움",
+      "away": "KT",
+      "odds": [
+        2.72,
+        1.3
+      ],
+      "y": 0,
+      "probability": [
+        0.31532734876801227,
+        0.6846726512319876
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-04-18 18:30:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 1,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19403",
+      "sport": "bs",
+      "date": "2025-08-26",
+      "home": "NC",
+      "away": "LG",
+      "odds": [
+        1.85,
+        1.68
+      ],
+      "y": 0,
+      "probability": [
+        0.4946386633734509,
+        0.5053613366265491
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-08-26 18:30:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 1,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19270",
+      "sport": "bs",
+      "date": "2025-08-23",
+      "home": "KIA",
+      "away": "LG",
+      "odds": [
+        1.69,
+        1.84
+      ],
+      "y": 1,
+      "probability": [
+        0.5444786299159924,
+        0.4555213700840076
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 1,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-08-23 18:00:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/17962",
+      "sport": "bs",
+      "date": "2025-07-20",
+      "home": "SSG",
+      "away": "두산",
+      "odds": [
+        1.63,
+        1.91
+      ],
+      "y": 1,
+      "probability": [
+        0.5414160887050993,
+        0.4585839112949007
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-07-20 18:00:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19266",
+      "sport": "bs",
+      "date": "2025-08-23",
+      "home": "두산",
+      "away": "KT",
+      "odds": [
+        1.99,
+        1.58
+      ],
+      "y": 1,
+      "probability": [
+        0.42915642767710466,
+        0.5708435723228954
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-08-23 18:00:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 1,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/20781",
+      "sport": "bs",
+      "date": "2025-09-21",
+      "home": "SSG",
+      "away": "두산",
+      "odds": [
+        1.47,
+        2.13
+      ],
+      "y": 0,
+      "probability": [
+        0.5929699272706325,
+        0.40703007272936753
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-09-21 14:00:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/16589",
+      "sport": "bs",
+      "date": "2025-06-12",
+      "home": "KT",
+      "away": "롯데",
+      "odds": [
+        1.5,
+        2.13
+      ],
+      "y": 1,
+      "probability": [
+        0.5904555144743753,
+        0.4095444855256248
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-06-12 18:30:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/17521",
+      "sport": "bs",
+      "date": "2025-07-06",
+      "home": "두산",
+      "away": "KT",
+      "odds": [
+        2.15,
+        1.49
+      ],
+      "y": 0,
+      "probability": [
+        0.40921584116316917,
+        0.5907841588368309
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-07-06 18:00:00",
+      "league": "KBO",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 1,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/21424",
+      "sport": "bk",
+      "date": "2025-10-09",
+      "home": "KT소닉붐",
+      "away": "서울삼성",
+      "odds": [
+        1.3,
+        2.63
+      ],
+      "y": 0,
+      "probability": [
+        0.662787889717383,
+        0.3372121102826169
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-10-09 14:00:00",
+      "league": "KBL",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/15082",
+      "sport": "bk",
+      "date": "2025-05-05",
+      "home": "서울SK",
+      "away": "창원LG",
+      "odds": [
+        1.5,
+        2.13
+      ],
+      "y": 1,
+      "probability": [
+        0.5864431482807588,
+        0.41355685171924117
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-05-05 14:00:00",
+      "league": "KBL",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/22020",
+      "sport": "bk",
+      "date": "2025-10-26",
+      "home": "서울삼성",
+      "away": "고양소노",
+      "odds": [
+        1.66,
+        1.83
+      ],
+      "y": 0,
+      "probability": [
+        0.500073077266376,
+        0.49992692273362394
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      },
+      "kickoff_local": "2025-10-26 16:30:00",
+      "league": "KBL",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/21671",
+      "sport": "sc",
+      "date": "2025-10-19",
+      "home": "풀럼",
+      "away": "아스널",
+      "odds": [
+        5.8,
+        3.7,
+        1.39
+      ],
+      "y": 2,
+      "probability": [
+        0.12389951786859829,
+        0.2286158472756895,
+        0.6474846348557123
+      ],
+      "choices": {
+        "baseline": 2,
+        "tipster_only": 2,
+        "logit_signal_0.1": 2,
+        "logit_signal_0.25": 2,
+        "logit_signal_0.5": 2
+      },
+      "kickoff_local": "2025-10-19 01:30:00",
+      "league": "EPL",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 2,
+        "tipster": 2,
+        "hybrid75_25": 2
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/22836",
+      "sport": "sc",
+      "date": "2025-11-22",
+      "home": "FC서울",
+      "away": "김천상무",
+      "odds": [
+        1.63,
+        3.5,
+        3.8
+      ],
+      "y": 2,
+      "probability": [
+        0.5412087380590047,
+        0.25009074639163126,
+        0.20870051554936409
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      },
+      "kickoff_local": "2025-11-22 14:00:00",
+      "league": "K리그1",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 0,
+        "tipster": 0,
+        "hybrid75_25": 0
+      }
+    },
+    {
+      "sport": "vl",
+      "date": "2025-04-05",
+      "home": "대한항공",
+      "away": "현대캐피",
+      "url": "https://allstv24.com/sports_analysis/10549",
+      "displayed_publication": "2025-04-04 21:11 (site timezone unverified)",
+      "author": "올스분석2",
+      "observed_date_kst": "2026-10-25",
+      "retrieval": "search-index full article; direct page unavailable",
+      "choices": {
+        "tipster_only": 1
+      },
+      "probability": [
+        0.42360522403647594,
+        0.5763947759635241
+      ],
+      "odds": [
+        2.05,
+        1.54
+      ],
+      "y": 1,
+      "kickoff_local": "2025-04-05 14:00:00",
+      "league": "KOVO남",
+      "timing_status": "postevent_backfill_not_pregame_certified",
+      "result_status": "local_score_consistent_not_independently_official_verified",
+      "decisions": {
+        "baseline": 1,
+        "tipster": 1,
+        "hybrid75_25": 1
+      }
+    }
+  ],
+  "limitations": [
+    "Tiny convenience sample; selected historical articles can have hindsight edits.",
+    "No independent final holdout; no monthly income or future ROI inference.",
+    "No betting, production change, or promotion; monthly loss cap unchanged.",
+    "New volleyball article outcome was already visible during source retrieval.",
+    "One author per event differs from MLB crowd: isolate sport, period and source effects."
+  ]
+}
