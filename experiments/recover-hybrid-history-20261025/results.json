@@ -1,0 +1,3506 @@
+{
+  "commits_scanned": 306,
+  "recovered_snapshots": 2056,
+  "model_events": 97,
+  "extraction_exclusions": {
+    "not_pregame": 13804,
+    "missing_two_way_options": 2439
+  },
+  "pairing_exclusions": {
+    "fewer_than_three_pre_snapshot_authors": 64,
+    "missing_valid_frozen_probabilities": 30,
+    "no_snapshot_before_noon_or_game_already_started": 3
+  },
+  "paired_n": 0,
+  "paired_rows": [],
+  "guarded_search": {
+    "candidate_count": 230,
+    "paired_n": 0,
+    "day_count": 0,
+    "partitions": {
+      "train": 0,
+      "validation": 0,
+      "test": 0
+    },
+    "status": "blocked_insufficient_paired_data",
+    "monthly_loss_limit_krw": 50000,
+    "paper_policy_changed": false,
+    "selection_rule": "validation Brier ascending; ROI descending tie-break; name ascending",
+    "selected": null,
+    "evaluation": null,
+    "limitations": [
+      "Single-pick equal-stake diagnostic; not two-leg monthly paper profit.",
+      "Minimum counts are a screening guard, not proof of statistical significance.",
+      "Model/tipster overlap is required; never substitute a market proxy.",
+      "Hundreds of candidates require independent forward confirmation.",
+      "No sport-specific weights fit without sufficient per-sport data."
+    ]
+  },
+  "exploratory_IN_SAMPLE_ranking": [
+    {
+      "spec": {
+        "name": "linear-w10-s0-g0",
+        "weight": 0.1,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w10-s0-g1",
+        "weight": 0.1,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w10-s20-g0",
+        "weight": 0.1,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w10-s20-g1",
+        "weight": 0.1,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w10-s5-g0",
+        "weight": 0.1,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w10-s5-g1",
+        "weight": 0.1,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w15-s0-g0",
+        "weight": 0.15,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w15-s0-g1",
+        "weight": 0.15,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w15-s20-g0",
+        "weight": 0.15,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w15-s20-g1",
+        "weight": 0.15,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w15-s5-g0",
+        "weight": 0.15,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w15-s5-g1",
+        "weight": 0.15,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w20-s0-g0",
+        "weight": 0.2,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w20-s0-g1",
+        "weight": 0.2,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w20-s20-g0",
+        "weight": 0.2,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w20-s20-g1",
+        "weight": 0.2,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w20-s5-g0",
+        "weight": 0.2,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w20-s5-g1",
+        "weight": 0.2,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w25-s0-g0",
+        "weight": 0.25,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w25-s0-g1",
+        "weight": 0.25,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w25-s20-g0",
+        "weight": 0.25,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w25-s20-g1",
+        "weight": 0.25,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w25-s5-g0",
+        "weight": 0.25,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w25-s5-g1",
+        "weight": 0.25,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w30-s0-g0",
+        "weight": 0.3,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w30-s0-g1",
+        "weight": 0.3,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w30-s20-g0",
+        "weight": 0.3,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w30-s20-g1",
+        "weight": 0.3,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w30-s5-g0",
+        "weight": 0.3,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w30-s5-g1",
+        "weight": 0.3,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w35-s0-g0",
+        "weight": 0.35,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w35-s0-g1",
+        "weight": 0.35,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w35-s20-g0",
+        "weight": 0.35,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w35-s20-g1",
+        "weight": 0.35,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w35-s5-g0",
+        "weight": 0.35,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w35-s5-g1",
+        "weight": 0.35,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w40-s0-g0",
+        "weight": 0.4,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w40-s0-g1",
+        "weight": 0.4,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w40-s20-g0",
+        "weight": 0.4,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w40-s20-g1",
+        "weight": 0.4,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w40-s5-g0",
+        "weight": 0.4,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w40-s5-g1",
+        "weight": 0.4,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w45-s0-g0",
+        "weight": 0.45,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w45-s0-g1",
+        "weight": 0.45,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w45-s20-g0",
+        "weight": 0.45,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w45-s20-g1",
+        "weight": 0.45,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w45-s5-g0",
+        "weight": 0.45,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w45-s5-g1",
+        "weight": 0.45,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w5-s0-g0",
+        "weight": 0.05,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w5-s0-g1",
+        "weight": 0.05,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w5-s20-g0",
+        "weight": 0.05,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w5-s20-g1",
+        "weight": 0.05,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w5-s5-g0",
+        "weight": 0.05,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w5-s5-g1",
+        "weight": 0.05,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w50-s0-g0",
+        "weight": 0.5,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w50-s0-g1",
+        "weight": 0.5,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w50-s20-g0",
+        "weight": 0.5,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w50-s20-g1",
+        "weight": 0.5,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w50-s5-g0",
+        "weight": 0.5,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w50-s5-g1",
+        "weight": 0.5,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w55-s0-g0",
+        "weight": 0.55,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w55-s0-g1",
+        "weight": 0.55,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w55-s20-g0",
+        "weight": 0.55,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w55-s20-g1",
+        "weight": 0.55,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w55-s5-g0",
+        "weight": 0.55,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w55-s5-g1",
+        "weight": 0.55,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w60-s0-g0",
+        "weight": 0.6,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w60-s0-g1",
+        "weight": 0.6,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w60-s20-g0",
+        "weight": 0.6,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w60-s20-g1",
+        "weight": 0.6,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w60-s5-g0",
+        "weight": 0.6,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w60-s5-g1",
+        "weight": 0.6,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w65-s0-g0",
+        "weight": 0.65,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w65-s0-g1",
+        "weight": 0.65,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w65-s20-g0",
+        "weight": 0.65,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w65-s20-g1",
+        "weight": 0.65,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w65-s5-g0",
+        "weight": 0.65,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w65-s5-g1",
+        "weight": 0.65,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w70-s0-g0",
+        "weight": 0.7,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w70-s0-g1",
+        "weight": 0.7,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w70-s20-g0",
+        "weight": 0.7,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w70-s20-g1",
+        "weight": 0.7,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w70-s5-g0",
+        "weight": 0.7,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w70-s5-g1",
+        "weight": 0.7,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w75-s0-g0",
+        "weight": 0.75,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w75-s0-g1",
+        "weight": 0.75,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w75-s20-g0",
+        "weight": 0.75,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w75-s20-g1",
+        "weight": 0.75,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w75-s5-g0",
+        "weight": 0.75,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w75-s5-g1",
+        "weight": 0.75,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w80-s0-g0",
+        "weight": 0.8,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w80-s0-g1",
+        "weight": 0.8,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w80-s20-g0",
+        "weight": 0.8,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w80-s20-g1",
+        "weight": 0.8,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w80-s5-g0",
+        "weight": 0.8,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w80-s5-g1",
+        "weight": 0.8,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w85-s0-g0",
+        "weight": 0.85,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w85-s0-g1",
+        "weight": 0.85,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w85-s20-g0",
+        "weight": 0.85,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w85-s20-g1",
+        "weight": 0.85,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w85-s5-g0",
+        "weight": 0.85,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w85-s5-g1",
+        "weight": 0.85,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w90-s0-g0",
+        "weight": 0.9,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w90-s0-g1",
+        "weight": 0.9,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w90-s20-g0",
+        "weight": 0.9,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w90-s20-g1",
+        "weight": 0.9,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w90-s5-g0",
+        "weight": 0.9,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w90-s5-g1",
+        "weight": 0.9,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w95-s0-g0",
+        "weight": 0.95,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w95-s0-g1",
+        "weight": 0.95,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w95-s20-g0",
+        "weight": 0.95,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w95-s20-g1",
+        "weight": 0.95,
+        "kind": "linear",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w95-s5-g0",
+        "weight": 0.95,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "linear-w95-s5-g1",
+        "weight": 0.95,
+        "kind": "linear",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w10-s0-g0",
+        "weight": 0.1,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w10-s0-g1",
+        "weight": 0.1,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w10-s20-g0",
+        "weight": 0.1,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w10-s20-g1",
+        "weight": 0.1,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w10-s5-g0",
+        "weight": 0.1,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w10-s5-g1",
+        "weight": 0.1,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w15-s0-g0",
+        "weight": 0.15,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w15-s0-g1",
+        "weight": 0.15,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w15-s20-g0",
+        "weight": 0.15,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w15-s20-g1",
+        "weight": 0.15,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w15-s5-g0",
+        "weight": 0.15,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w15-s5-g1",
+        "weight": 0.15,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w20-s0-g0",
+        "weight": 0.2,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w20-s0-g1",
+        "weight": 0.2,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w20-s20-g0",
+        "weight": 0.2,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w20-s20-g1",
+        "weight": 0.2,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w20-s5-g0",
+        "weight": 0.2,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w20-s5-g1",
+        "weight": 0.2,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w25-s0-g0",
+        "weight": 0.25,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w25-s0-g1",
+        "weight": 0.25,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w25-s20-g0",
+        "weight": 0.25,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w25-s20-g1",
+        "weight": 0.25,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w25-s5-g0",
+        "weight": 0.25,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w25-s5-g1",
+        "weight": 0.25,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w30-s0-g0",
+        "weight": 0.3,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w30-s0-g1",
+        "weight": 0.3,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w30-s20-g0",
+        "weight": 0.3,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w30-s20-g1",
+        "weight": 0.3,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w30-s5-g0",
+        "weight": 0.3,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w30-s5-g1",
+        "weight": 0.3,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w35-s0-g0",
+        "weight": 0.35,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w35-s0-g1",
+        "weight": 0.35,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w35-s20-g0",
+        "weight": 0.35,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w35-s20-g1",
+        "weight": 0.35,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w35-s5-g0",
+        "weight": 0.35,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w35-s5-g1",
+        "weight": 0.35,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w40-s0-g0",
+        "weight": 0.4,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w40-s0-g1",
+        "weight": 0.4,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w40-s20-g0",
+        "weight": 0.4,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w40-s20-g1",
+        "weight": 0.4,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w40-s5-g0",
+        "weight": 0.4,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w40-s5-g1",
+        "weight": 0.4,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w45-s0-g0",
+        "weight": 0.45,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w45-s0-g1",
+        "weight": 0.45,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w45-s20-g0",
+        "weight": 0.45,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w45-s20-g1",
+        "weight": 0.45,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w45-s5-g0",
+        "weight": 0.45,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w45-s5-g1",
+        "weight": 0.45,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w5-s0-g0",
+        "weight": 0.05,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w5-s0-g1",
+        "weight": 0.05,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w5-s20-g0",
+        "weight": 0.05,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w5-s20-g1",
+        "weight": 0.05,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w5-s5-g0",
+        "weight": 0.05,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w5-s5-g1",
+        "weight": 0.05,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w50-s0-g0",
+        "weight": 0.5,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w50-s0-g1",
+        "weight": 0.5,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w50-s20-g0",
+        "weight": 0.5,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w50-s20-g1",
+        "weight": 0.5,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w50-s5-g0",
+        "weight": 0.5,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w50-s5-g1",
+        "weight": 0.5,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w55-s0-g0",
+        "weight": 0.55,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w55-s0-g1",
+        "weight": 0.55,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w55-s20-g0",
+        "weight": 0.55,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w55-s20-g1",
+        "weight": 0.55,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w55-s5-g0",
+        "weight": 0.55,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w55-s5-g1",
+        "weight": 0.55,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w60-s0-g0",
+        "weight": 0.6,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w60-s0-g1",
+        "weight": 0.6,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w60-s20-g0",
+        "weight": 0.6,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w60-s20-g1",
+        "weight": 0.6,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w60-s5-g0",
+        "weight": 0.6,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w60-s5-g1",
+        "weight": 0.6,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w65-s0-g0",
+        "weight": 0.65,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w65-s0-g1",
+        "weight": 0.65,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w65-s20-g0",
+        "weight": 0.65,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w65-s20-g1",
+        "weight": 0.65,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w65-s5-g0",
+        "weight": 0.65,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w65-s5-g1",
+        "weight": 0.65,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w70-s0-g0",
+        "weight": 0.7,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w70-s0-g1",
+        "weight": 0.7,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w70-s20-g0",
+        "weight": 0.7,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w70-s20-g1",
+        "weight": 0.7,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w70-s5-g0",
+        "weight": 0.7,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w70-s5-g1",
+        "weight": 0.7,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w75-s0-g0",
+        "weight": 0.75,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w75-s0-g1",
+        "weight": 0.75,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w75-s20-g0",
+        "weight": 0.75,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w75-s20-g1",
+        "weight": 0.75,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w75-s5-g0",
+        "weight": 0.75,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w75-s5-g1",
+        "weight": 0.75,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w80-s0-g0",
+        "weight": 0.8,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w80-s0-g1",
+        "weight": 0.8,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w80-s20-g0",
+        "weight": 0.8,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w80-s20-g1",
+        "weight": 0.8,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w80-s5-g0",
+        "weight": 0.8,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w80-s5-g1",
+        "weight": 0.8,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w85-s0-g0",
+        "weight": 0.85,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w85-s0-g1",
+        "weight": 0.85,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w85-s20-g0",
+        "weight": 0.85,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w85-s20-g1",
+        "weight": 0.85,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w85-s5-g0",
+        "weight": 0.85,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w85-s5-g1",
+        "weight": 0.85,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w90-s0-g0",
+        "weight": 0.9,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w90-s0-g1",
+        "weight": 0.9,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w90-s20-g0",
+        "weight": 0.9,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w90-s20-g1",
+        "weight": 0.9,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w90-s5-g0",
+        "weight": 0.9,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w90-s5-g1",
+        "weight": 0.9,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w95-s0-g0",
+        "weight": 0.95,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w95-s0-g1",
+        "weight": 0.95,
+        "kind": "logit",
+        "shrink": 0,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w95-s20-g0",
+        "weight": 0.95,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w95-s20-g1",
+        "weight": 0.95,
+        "kind": "logit",
+        "shrink": 20,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w95-s5-g0",
+        "weight": 0.95,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "logit-w95-s5-g1",
+        "weight": 0.95,
+        "kind": "logit",
+        "shrink": 5,
+        "gate": true
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "production",
+        "weight": 0,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    },
+    {
+      "spec": {
+        "name": "tipster",
+        "weight": 1,
+        "kind": "linear",
+        "shrink": 0,
+        "gate": false
+      },
+      "metrics": {
+        "n": 0,
+        "hit_pct": null,
+        "roi_pct": null,
+        "brier": null
+      }
+    }
+  ],
+  "exploratory_fixed_two_leg": {},
+  "hashes": {
+    "..\\tipster-replay-20261025\\scripts\\replay_tipster_opinions.py": "24f6d82c92a3396234a077be600bee938141fb6d3914c458eb7006d98a152df2",
+    "..\\model-tournament-history-20261025\\scripts\\compare_saved_tipster_models.py": "c47ac5ccac85cf7173cf51dc91c591ded4dec6a417ec54ffce5d972d1ed937a1",
+    "..\\hybrid-search-20261025\\scripts\\search_tipster_hybrids.py": "45ddacc865d377f3b8d4018208bcd80bf5c64426651f03ad923df6dddb25055a",
+    "data\\raw\\picksters\\tailslips_pick_events.jsonl": "68a45cce93eb7f3213c6803f2a56b1c293c181276af7f74965c8f4d66d6d717d"
+  },
+  "limitations": [
+    "Git commit timestamps are repository evidence, not independent timestamp certification.",
+    "Conservative capture=max(commit timestamp, artifact generated_at). All snapshots pregame.",
+    "Noon quote availability is not proven; publisher outcomes not independently official verified.",
+    "Resolved paired subset has missingness bias; no population or future ROI claim.",
+    "In-sample ranking is retrospective exploration, NOT a deployable winner.",
+    "Monthly loss limit remains 50000 KRW; no production changes."
+  ]
+}
