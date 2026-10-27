@@ -2037,5 +2037,105 @@
       }
     ],
     "expected_roi_independence_assumption": -0.14714919999999998
+  },
+  {
+    "type": "bet",
+    "protocol": "forward-paper-v1",
+    "at": "2026-10-28T00:49:13.016764+09:00",
+    "ticket": "probability-weekly3:2026-10-28",
+    "account": "probability-weekly3",
+    "month": "2026-10",
+    "stake": 10000,
+    "source_sha256": "6aba4590177c7bf67f19ca4c2776871d093aeb2ca489491fd5aa7d75a3898dac",
+    "generated_at": "2026-10-27T23:11:58+09:00",
+    "legs": [
+      {
+        "id": "b4e0a949e59e62be410dd241",
+        "recorded_at": "2026-10-27T14:11:59.064171+00:00",
+        "published_at": "2026-10-27T23:11:58+09:00",
+        "kickoff_at": "2026-10-28T04:45:00+09:00",
+        "sport": "sc",
+        "league": "세리에A",
+        "home": "AS로마",
+        "away": "칼리아리",
+        "round": 127,
+        "market": "언더오버",
+        "market_label": "U 2.5",
+        "n_way": 2,
+        "sel": "오버",
+        "odds": 1.51,
+        "probability": 0.5872,
+        "policy": "daily-p55-o150-unbounded-v4"
+      },
+      {
+        "id": "6f3f35ccadd968352c3e2c26",
+        "recorded_at": "2026-10-27T14:11:59.064171+00:00",
+        "published_at": "2026-10-27T23:11:58+09:00",
+        "kickoff_at": "2026-10-28T04:45:00+09:00",
+        "sport": "sc",
+        "league": "세리에A",
+        "home": "토리노",
+        "away": "코모1907",
+        "round": 127,
+        "market": "언더오버",
+        "market_label": "U 2.5",
+        "n_way": 2,
+        "sel": "오버",
+        "odds": 1.53,
+        "probability": 0.5793,
+        "policy": "daily-p55-o150-unbounded-v4"
+      }
+    ],
+    "expected_roi_independence_assumption": -0.18360409599999983
+  },
+  {
+    "type": "bet",
+    "protocol": "forward-paper-v1",
+    "at": "2026-10-28T00:49:13.016764+09:00",
+    "ticket": "ev_rank-weekly3:2026-10-28",
+    "account": "ev_rank-weekly3",
+    "month": "2026-10",
+    "stake": 10000,
+    "source_sha256": "6aba4590177c7bf67f19ca4c2776871d093aeb2ca489491fd5aa7d75a3898dac",
+    "generated_at": "2026-10-27T23:11:58+09:00",
+    "legs": [
+      {
+        "id": "b4e0a949e59e62be410dd241",
+        "recorded_at": "2026-10-27T14:11:59.064171+00:00",
+        "published_at": "2026-10-27T23:11:58+09:00",
+        "kickoff_at": "2026-10-28T04:45:00+09:00",
+        "sport": "sc",
+        "league": "세리에A",
+        "home": "AS로마",
+        "away": "칼리아리",
+        "round": 127,
+        "market": "언더오버",
+        "market_label": "U 2.5",
+        "n_way": 2,
+        "sel": "오버",
+        "odds": 1.51,
+        "probability": 0.5872,
+        "policy": "daily-p55-o150-unbounded-v4"
+      },
+      {
+        "id": "6f3f35ccadd968352c3e2c26",
+        "recorded_at": "2026-10-27T14:11:59.064171+00:00",
+        "published_at": "2026-10-27T23:11:58+09:00",
+        "kickoff_at": "2026-10-28T04:45:00+09:00",
+        "sport": "sc",
+        "league": "세리에A",
+        "home": "토리노",
+        "away": "코모1907",
+        "round": 127,
+        "market": "언더오버",
+        "market_label": "U 2.5",
+        "n_way": 2,
+        "sel": "오버",
+        "odds": 1.53,
+        "probability": 0.5793,
+        "policy": "daily-p55-o150-unbounded-v4"
+      }
+    ],
+    "expected_roi_independence_assumption": -0.18360409599999983
   }
 ]
