@@ -208,7 +208,7 @@ def _latest_picks() -> dict[str, dict]:
     eligibility: dict[str, bool] = {}
     for event in _jsonl(PICK_LOG):
         # v1은 score/status가 바뀔 때 pick_id도 바뀌어 전향 결과 연결에 쓸 수 없다.
-        if event.get("identity_version") not in {2, 3}:
+        if event.get("identity_version") not in {2, 3, 4}:
             continue
         pid = event.get("pick_id")
         if not pid:

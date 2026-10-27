@@ -44,7 +44,7 @@ def test_migration_preserves_old_state_and_no_backfill(monkeypatch):
 
 
 def test_new_pregame_pick_receives_graded_event(monkeypatch):
-    state = {'initialized_at':'old', 'pick_identity_version':3, 'picks':{}}
+    state = {'initialized_at':'old', 'pick_identity_version':4, 'picks':{}}
     logged = []
     monkeypatch.setattr(watch, '_load_state', lambda: state)
     monkeypatch.setattr(watch, '_save_state', lambda value: None)

@@ -45,7 +45,7 @@ def audit(events):
         rows.sort(key=lambda r: timestamp(r['observed_at']))
         first = rows[0]
         if not (first.get('event_type') == 'first_observed'
-                and first.get('identity_version') in (2, 3)
+                and first.get('identity_version') in (2, 3, 4)
                 and first.get('eligible_pre_event') is True
                 and first.get('game_started') is False
                 and not first.get('is_baseline')
