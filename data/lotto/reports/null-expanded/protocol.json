@@ -1,0 +1,58 @@
+{
+  "prior_protocol": {
+    "executable": ".local-build\\scan-two.exe",
+    "output": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-bias-null-20261015\\data\\lotto\\reports\\bias-null",
+    "bias_repeats": 1999,
+    "fake_histories": 99,
+    "candidates": 1000000,
+    "controls": 199,
+    "training": [
+      1,
+      740
+    ],
+    "validation": [
+      741,
+      990
+    ],
+    "final": [
+      991,
+      1238
+    ],
+    "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+    "generator": "splitmix64-paired128-v1",
+    "threshold": "2+2 training hits, including two constructed anchors",
+    "bias_seed": 20261015,
+    "history_seed": "645000+index",
+    "workers": 4,
+    "caveat": "retrospective, previously inspected holdouts; reduced-budget full selection null, not a repeat of the seven-hit budget",
+    "bias_tests": "4 audit statistics plus 4 fixed prediction models x 2 splits; Holm correction over all 12",
+    "seed_tests": "matched-sharing control z compared with synthetic-history z; Bonferroni over 2 splits",
+    "source_hash": "4a822b961181ddc4b0f0b9db8a6266cd00bacde51d9b87667d84631677c2c2e6",
+    "executable_hash": "0d25bdabb735f4ebab134bb92f5a61f218fa142e79684d668f6b0995d3f853c2"
+  },
+  "total_fake_histories": 999,
+  "reused_fake_histories": 99,
+  "new_fake_histories": 900,
+  "workers": 4,
+  "frozen_source_lf_sha256": {
+    "src/lotto_bias_null.py": "4a822b961181ddc4b0f0b9db8a6266cd00bacde51d9b87667d84631677c2c2e6",
+    "src/lotto_seed_scan.cpp": "bc2df535dde5b81b9b06754344f4f0166b8eb794e75e0ea64398d83751a06a94",
+    "src/lotto_seed_expanded.py": "b10a8a081e690598697f969269f6773edbd9a29f3f7872ab1ff7dfe6d13977b0",
+    "src/lotto_seed_128.py": "ebf2780204ca34abc18973c12c154190a4e6d7cc206b20db1b60c3fdf64b3f62"
+  },
+  "extension_source_lf_sha256": "3742c113f36059b0f411d6490710d0d282a7a1358043249f4abe9cfbb74872d6",
+  "executable_sha256": "31c55d87ed867ce7086269ef9e6869ae50f308b16cddf884bd3704632b661d1f",
+  "primary_endpoints": "original validation and final standardized mean matches; same Bonferroni correction for two splits",
+  "new_rounds_plan": {
+    "first": 1239,
+    "last_cap": 1245,
+    "selection": "unchanged original actual survivors",
+    "controls": 9999,
+    "odd_control_seed": 12820261015,
+    "even_control_seed": 12820261016,
+    "metric": "mean matches, one upper-tail matched-sharing test across all available new rounds",
+    "caveat": "previously unused by this experiment, already published; not prospective, only up to seven draws"
+  },
+  "no_optional_stopping": true,
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15"
+}
