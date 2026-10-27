@@ -146,9 +146,23 @@ def matching_record(game, document, now=None):
         return None
 
 
+def collect_available(now=None, existing=None):
+    """Prefer the official route verified from Tokyo; retain Naver as fallback."""
+    from kbo_official import collect_official
+    existing = existing if existing is not None else current_document()
+    try:
+        return collect_official(now=now, existing=existing)
+    except (requests.RequestException, ValueError, TypeError, KeyError, IndexError) as exc:
+        print(json.dumps({'route': 'kbo_official', 'status': 'fallback',
+                          'error_type': type(exc).__name__}), flush=True)
+        doc = collect(now=now, existing=existing)
+        doc['route'] = 'naver_fallback'
+        return doc
+
+
 def main():
     try:
-        doc = collect()
+        doc = collect_available()
     except (requests.RequestException, ValueError, TypeError) as exc:
         # Do not publish an empty/successful document or advance observation time.
         # The supervisor owns the bounded-interval retry; no recursive retries.
@@ -156,7 +170,7 @@ def main():
                           "error_type": type(exc).__name__, "preserved_previous": True}), flush=True)
         return 1
     persist_document("kbo_pregame", doc, OUT)
-    print(json.dumps({"kbo_games": len(doc["games"]), "errors": doc["errors"], "generated_at": doc["generated_at"]}), flush=True)
+    print(json.dumps({"kbo_games": len(doc["games"]), "errors": doc["errors"], "generated_at": doc["generated_at"], "route": doc.get('route')}), flush=True)
     return 1 if doc['errors'] else 0
 
 

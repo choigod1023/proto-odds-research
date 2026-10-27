@@ -2,7 +2,7 @@ name: kbo-source-probe
 on:
   push:
     branches: [codex/kbo-actions-route-20261027]
-    paths: ['.github/workflows/kbo-source-probe.yml']
+    paths: ['.github/workflows/kbo-source-probe.yml', 'src/kbo_official.py']
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,9 +22,9 @@ jobs:
         run: |
           python - <<'PY'
           import json, time
-          from kbo_pregame import collect
+          from kbo_official import collect_official
           start = time.monotonic()
-          doc = collect(existing={})
+          doc = collect_official(existing={})
           print(json.dumps({'elapsed': round(time.monotonic()-start, 2), 'document': doc}, ensure_ascii=False))
           assert not doc['errors'], 'Partial source failure'
           PY
