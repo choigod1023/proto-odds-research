@@ -1,0 +1,79 @@
+{
+  "n": 1245,
+  "split": [
+    800,
+    445
+  ],
+  "screen": "top absolute standardized pair and top absolute standardized triple; lexicographic tie; freeze sign",
+  "discovery_spokes": 199,
+  "validation_spokes": 999,
+  "full_spokes": 999,
+  "steps_per_path": "20*draw_count",
+  "blocks": {
+    "discovery": [
+      200,
+      400,
+      600,
+      800
+    ],
+    "validation": [
+      445
+    ],
+    "full": [
+      200,
+      400,
+      600,
+      800,
+      1245
+    ]
+  },
+  "validation": "one-sided in training direction; Bonferroni2; adjusted p<=.05",
+  "baseline": "all1245 draws, two-sided maxT across15180; alpha.05; no old three-family Bonferroni penalty",
+  "generation": "same singles-preserving pair and singles/pairs-preserving triple as prior study; independent histories and draws",
+  "levels": {
+    "pair": [
+      1.5,
+      2,
+      3
+    ],
+    "pure_triple": [
+      3,
+      5,
+      8
+    ]
+  },
+  "null_repeats": 100,
+  "repeats_per_alternative": 30,
+  "jobs": 280,
+  "seed": 202610175001,
+  "real_gate": "ALL: null one-sided95% upper<=.12; weak pooled exact-target gain>=.05; paired exact binomial one-sided p<=.05; pair3 target power>=.5",
+  "weak_pool": [
+    [
+      "pair",
+      1.5
+    ],
+    [
+      "pair",
+      2
+    ],
+    [
+      "pure_triple",
+      3
+    ],
+    [
+      "pure_triple",
+      5
+    ]
+  ],
+  "gate_scope": "operational feasibility rule, not a universal optimality claim; no changing rule on failure",
+  "actual_if_pass": "historical rounds1..800 screen,801..1245 confirm; freeze candidates before validation; retrospective because this history was examined in other studies",
+  "resources": "single CPU BelowNormal; >=50% rest;384MiB peak/1800s per invocation guard; checkpoint; exclusive OS lock",
+  "sha256": {
+    "scripts/lotto_split_screen.py": "a45ec8669dfc803c1cf7c5a4771bf1e9df6c12c3806461bf410b0d6ae30ba86d",
+    "scripts/split_screen_kernel.cpp": "f17a65cd447ebec56ca4d165521d6784f610a90f7677ffdfe9099d70b66cff84",
+    "scripts/curveball_power.cpp": "8b2d3dbcb62e4021840c46f56e72666e624dc8388540965b1d31d7b1dfa1ae3d",
+    "scripts/lotto_dependence_power.py": "3c38d9be426f661784fa1a3036dfda1f5b47cfece0797aba36c41f90f9d84e02",
+    "scripts/lotto_combination_dependence.py": "3f0f1871a659217da2a78dd134d70f1ae8bc2607f8f3c93af9bfe82aa14a8c46",
+    "scripts/lotto_coverage_resources.py": "44fcc26079de4bed0d43aefcee1b97da0a9200399440ace24881f4c2f3df79a6"
+  }
+}

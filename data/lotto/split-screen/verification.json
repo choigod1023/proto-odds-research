@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "records": 280,
+  "replayed_indices": [
+    0,
+    100,
+    130,
+    160,
+    190,
+    220,
+    250
+  ],
+  "all_protocol_source_hashes_passed": true,
+  "gate_recomputed": true,
+  "actual_status": "completed",
+  "native_sha256": "22cbe7e47446dfd47327af64f907cf7634f5c3f4e449179c24808ff8bb50b367",
+  "compiler": "g++.EXE (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r5) 15.2.0",
+  "numpy_version": "2.5.1",
+  "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "audit_and_followup_sha256": {
+    "scripts/audit_lotto_split_screen.py": "3287c6e1ffbed6701e740ac9d8b696982b1e9201e7b7e8fcf0261a4228d696e2",
+    "scripts/lotto_split_screen_followup.py": "73c4cc1eae6e4d75ea6932c77f44462f6bf7a845149069d84e5d337e30b3521a"
+  },
+  "wall_seconds": 20.535091900004772,
+  "peak_mib": 248.3515625,
+  "sha256": {
+    "data/lotto/split-screen/actual-draws.json": "dabdf2bf6d9a5671bea08ca1d566531d28b5f2c7a447b9b7e24eee910fd172d4",
+    "data/lotto/split-screen/actual-frozen-candidates.json": "87f1ede3547d9262913977a2e27efd3f20153cb80b75558e9ccaee887f40a8ad",
+    "data/lotto/split-screen/actual-results.json": "d7adeea01b6a1838a44f979053151fd2a53d4aace203f16f71baf1ba2780770d",
+    "data/lotto/split-screen/checkpoint-at-summary-error.json": "1f2dff26a935fa3ea42c176fac0847a6f46e2d4287a74b27750ec9e3850107d6",
+    "data/lotto/split-screen/progress.json": "aaf773ff72826320c5e35ec4d214e30f5c549e1f385069732ed37acaf5fbd95e",
+    "data/lotto/split-screen/protocol-before-json-repair.json": "c8d8f77bfc723ba006fcac1f8390eff27ae633715d9c2beeeab894d1b670da9f",
+    "data/lotto/split-screen/protocol.json": "bac823a440a4d614213e702d69ba8ecf0155c868fd0c5845a2464a153a1a08ce",
+    "data/lotto/split-screen/records.json": "a9b5b7eaea8376b862d9a9d703c05b64909b4789f440d572debf021be9400c93",
+    "data/lotto/split-screen/resource-spot-check.json": "7a81359e26e748950255526f9359140818c32ef742a8d77841d5f710f20ded7b",
+    "data/lotto/split-screen/results.json": "e883ba6dd06f331176e72940b2f9f42935a5d3366d691fe0e5dc6f56a9dc1bf3",
+    "data/lotto/split-screen/serialization-repair.json": "c12b9833946fa12d399f3f3f5fc8a495e269d9ac580c5fb3b1c19217d939effc",
+    "data/lotto/split-screen/frozen-original-source.py": "b370622a7a355626b24f85028a8ad7813ec49c3168b74a34a74a083b37b3f99e"
+  }
+}
