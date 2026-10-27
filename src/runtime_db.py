@@ -285,6 +285,15 @@ class RuntimeDatabase(DatasetStore):
             connection.create_function("player_fixture_time", 3, instant, deterministic=True)
             connection.create_function("player_team", 2,
                 normalize, deterministic=True)
+            # A connection-local index avoids scanning the request JSON for every
+            # source row. It never changes persistent schemas or source records.
+            connection.execute("""CREATE TEMP TABLE requested_fixtures (
+                league TEXT, home TEXT, away TEXT, kickoff REAL,
+                PRIMARY KEY(league,home,away,kickoff)) WITHOUT ROWID""")
+            connection.executemany("""INSERT OR IGNORE INTO requested_fixtures
+                SELECT ?,?,?,julianday(?) WHERE julianday(?) IS NOT NULL""",
+                [(league, normalize(league, home), normalize(league, away), kickoff, kickoff)
+                 for league, home, away, kickoff in requested])
             rows = connection.execute("""
                 WITH matched AS (
                   SELECT j.value, ROW_NUMBER() OVER (
@@ -296,17 +305,17 @@ class RuntimeDatabase(DatasetStore):
                     ORDER BY CAST(j.key AS INTEGER)) AS occurrence
                   FROM documents d, json_each(d.payload_json,'$.games') j
                   WHERE d.name='player_info' AND EXISTS (
-                    SELECT 1 FROM json_each(?) r
-                    WHERE json_extract(r.value,'$[0]')=json_extract(j.value,'$.league')
-                      AND player_team(json_extract(r.value,'$[0]'),json_extract(r.value,'$[1]'))=
+                    SELECT 1 FROM requested_fixtures r
+                    WHERE r.league=json_extract(j.value,'$.league')
+                      AND r.home=
                           player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.home_team'))
-                      AND player_team(json_extract(r.value,'$[0]'),json_extract(r.value,'$[2]'))=
+                      AND r.away=
                           player_team(json_extract(j.value,'$.league'),json_extract(j.value,'$.away_team'))
-                      AND julianday(json_extract(r.value,'$[3]'))=
+                      AND r.kickoff=
                           julianday(player_fixture_time(json_extract(j.value,'$.game_datetime'),
                             json_extract(j.value,'$.league'),json_extract(j.value,'$.source')))))
                 SELECT value FROM matched WHERE occurrence<=2
-                """, (json.dumps(requested),))
+                """)
             return {"games": [json.loads(row[0]) for row in rows]}
 
     def append_events(self, stream: str, rows: Iterable[Mapping[str, Any]],
@@ -594,6 +603,10 @@ class RuntimeDatabase(DatasetStore):
         return stored_clock.isoformat(timespec="microseconds")
 
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
+        # Encode independent artifacts before reserving SQLite's sole writer.
+        # today_combo depends on prior committed state and stays inside the lock.
+        body = (json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                if name != "today_combo" else None)
         with self.transaction() as connection:
             now = self._next_artifact_stamp(connection, name)
             if name == "today_combo":
@@ -611,7 +624,8 @@ class RuntimeDatabase(DatasetStore):
                     history, price_payload, datetime.fromisoformat(now)), connection),
                     "per_event_shadow": capture_event_shadow(
                         payload, previous, price_payload, datetime.fromisoformat(now))}
-            body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+            if body is None:
+                body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
             connection.execute(
                 """INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
                    VALUES (?,?,?,?) ON CONFLICT(name) DO UPDATE SET

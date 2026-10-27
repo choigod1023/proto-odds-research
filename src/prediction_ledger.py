@@ -109,6 +109,25 @@ def _identity(record: Mapping[str, Any]) -> tuple[str, str]:
     return kind, identity
 
 
+class _AppendIndex:
+    """References into one verified/staged batch; discarded before unlocking."""
+    def __init__(self, records):
+        self.identities = {}
+        self.revisions = {}
+        self.events = {}
+        for record in records:
+            self.add(record)
+
+    def add(self, record):
+        self.identities[_identity(record)] = record
+        if record.get("record_type") == "prediction":
+            event = record.get("event_id")
+            self.events.setdefault(event, []).append(record)
+            key = record.get("deduplication_key")
+            if key:
+                self.revisions.setdefault((event, key), record)
+
+
 def _immutable_payload(record: Mapping[str, Any]) -> dict[str, Any]:
     """Content used to decide whether a retry is identical.
 
@@ -253,6 +272,7 @@ class PredictionLedger:
             added: list[dict[str, Any]] = []
             self._batch_records = records
             self._batch_added = added
+            self._batch_index = _AppendIndex(records)
             try:
                 results = [
                     self.append_prediction(
@@ -273,6 +293,7 @@ class PredictionLedger:
             finally:
                 del self._batch_records
                 del self._batch_added
+                del self._batch_index
 
     def append_settlements(self, entries: Iterable[Mapping[str, Any]]) -> list[AppendResult]:
         """Validate the chain once and atomically append a settlement batch."""
@@ -284,6 +305,7 @@ class PredictionLedger:
             added: list[dict[str, Any]] = []
             self._batch_records = records
             self._batch_added = added
+            self._batch_index = _AppendIndex(records)
             try:
                 results = [self.append_settlement(**entry) for entry in requests]
                 self._write_records(added)
@@ -291,6 +313,7 @@ class PredictionLedger:
             finally:
                 del self._batch_records
                 del self._batch_added
+                del self._batch_index
 
     def append_settlement(
         self,
@@ -375,7 +398,9 @@ class PredictionLedger:
     ) -> AppendResult:
         """Validate against an already verified chain and extend it in memory."""
         target_identity = _identity(core)
-        existing = next((row for row in records if _identity(row) == target_identity), None)
+        index = getattr(self, "_batch_index", None)
+        existing = (index.identities.get(target_identity) if index is not None else
+                    next((row for row in records if _identity(row) == target_identity), None))
         if existing is not None:
             if _immutable_payload(existing) != _immutable_payload(core):
                 raise LedgerConflictError(
@@ -385,12 +410,13 @@ class PredictionLedger:
 
         deduplication_key = core.get("deduplication_key")
         if core.get("record_type") == "prediction" and deduplication_key:
-            duplicate_revision = next((
+            duplicate_revision = (index.revisions.get((core.get("event_id"), deduplication_key))
+                                  if index is not None else next((
                 row for row in records
                 if row.get("record_type") == "prediction"
                 and row.get("event_id") == core.get("event_id")
                 and row.get("deduplication_key") == deduplication_key
-            ), None)
+            ), None))
             if duplicate_revision is not None:
                 return AppendResult(record=_json_copy(duplicate_revision), appended=False)
 
@@ -399,7 +425,7 @@ class PredictionLedger:
             as_of_time = _parse_time(core["as_of"], "as_of")
             prior_event_times = [
                 _parse_time(row["as_of"], "as_of")
-                for row in records
+                for row in (index.events.get(core.get("event_id"), []) if index is not None else records)
                 if row.get("record_type") == "prediction"
                 and row.get("event_id") == core.get("event_id")
             ]
@@ -410,11 +436,12 @@ class PredictionLedger:
 
         required_prediction = None
         if required_prediction_id is not None:
-            required_prediction = next((
+            required_prediction = (index.identities.get(("prediction", required_prediction_id))
+                                   if index is not None else next((
                 row for row in records
                 if row.get("record_type") == "prediction"
                 and row.get("snapshot_id") == required_prediction_id
-            ), None)
+            ), None))
             if required_prediction is None:
                 raise PredictionLedgerError(
                     f"cannot settle unknown prediction snapshot: {required_prediction_id}"
@@ -440,6 +467,8 @@ class PredictionLedger:
         }
         record["record_hash"] = _sha256(record)
         records.append(record)
+        if index is not None:
+            index.add(record)
         batch_added = getattr(self, "_batch_added", None)
         if batch_added is not None:
             batch_added.append(record)
