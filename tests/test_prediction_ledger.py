@@ -452,3 +452,19 @@ def test_tampered_line_is_detected_before_another_append(tmp_path):
 
     with pytest.raises(LedgerCorruptionError, match="record hash"):
         ledger.records()
+
+def test_batch_index_keeps_same_batch_deduplication_and_conflicts(tmp_path):
+    ledger = PredictionLedger(tmp_path / 'indexed.jsonl', clock=lambda: PREGAME_NOW)
+    game = _game('indexed')
+    entry = dict(game=game, decision_snapshot=_snapshot(game), kickoff=KICKOFF,
+                 market_observed_at=MARKET_AT, features=_features('indexed'))
+    results = ledger.append_predictions([entry, entry])
+    assert [row.appended for row in results] == [True, False]
+    assert results[0].record == results[1].record
+    assert not hasattr(ledger, '_batch_index')
+    bad = dict(entry, features={'changed': True})
+    with pytest.raises(LedgerConflictError):
+        ledger.append_predictions([entry, bad])
+    assert not hasattr(ledger, '_batch_index')
+    assert len(ledger.records()) == 1
+    assert not ledger.append_predictions([entry])[0].appended

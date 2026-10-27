@@ -65,3 +65,42 @@ def test_collect_only_never_starts_decision_in_scraper_process(monkeypatch, empt
     monkeypatch.setattr(odds_live, "refresh_once", lambda *a: pytest.fail("shared scraper heap"))
     assert odds_live.main(["odds", "--collect-only"]) == 0
     assert saved == ["live_odds"]
+
+def test_artifact_encoding_does_not_hold_writer_lock(tmp_path, monkeypatch):
+    import runtime_db
+    from contextlib import contextmanager
+    db = RuntimeDatabase(tmp_path / 'encode.sqlite3')
+    original_transaction = db.transaction
+    original_dumps = runtime_db.json.dumps
+    inside = False
+    @contextmanager
+    def transaction():
+        nonlocal inside
+        with original_transaction() as connection:
+            inside = True
+            try:
+                yield connection
+            finally:
+                inside = False
+    payload = {'generated_at': '2026-10-27T00:00:00Z', 'live': []}
+    def dumps(value, *args, **kwargs):
+        if value is payload:
+            assert not inside
+        return original_dumps(value, *args, **kwargs)
+    monkeypatch.setattr(db, 'transaction', transaction)
+    monkeypatch.setattr(runtime_db.json, 'dumps', dumps)
+    db.store_artifact('picks_v2', payload)
+    assert db.get_artifact('picks_v2') == payload
+
+
+def test_fixture_index_coalesces_same_instant_without_duplicate_results(tmp_path):
+    db = RuntimeDatabase(tmp_path / 'instant.sqlite3')
+    source = dict(league='NBA', home_team='H', away_team='A', source='fixture',
+                  game_datetime='2026-10-10T18:00:00+09:00')
+    db.put_document('player_info', {'games': [source]})
+    requests = [('NBA', 'H', 'A', t) for t in (
+        '2026-10-10T09:00:00Z', '2026-10-10T18:00:00+09:00', 'invalid')]
+    assert db.player_fixtures_document(requests) == {'games': [source]}
+    # Temporary index leaves no persistent schema or records behind.
+    with db.connect() as conn:
+        assert not conn.execute("SELECT 1 FROM sqlite_master WHERE name='requested_fixtures'").fetchone()
