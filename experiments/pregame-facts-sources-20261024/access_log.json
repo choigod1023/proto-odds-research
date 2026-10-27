@@ -1,0 +1,206 @@
+{
+  "observed_interval_utc": {
+    "start": "2026-10-24T11:25:48Z",
+    "end": "2026-10-24T11:26:32Z"
+  },
+  "observation_timestamp_policy": "observed_at is batch completion upper bound for our web-tool read, not publisher time or fresh-origin snapshot. Cached indexed content may be returned.",
+  "sources": [
+    {
+      "id": "a19403",
+      "url": "https://www.attv24.com/sports_analysis/19403",
+      "sport": "bs",
+      "published_display_raw": "08-26 18:30",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2025-08-26",
+      "home_claimed": "NC",
+      "away_claimed": "LG",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "1.1 years ago",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "a19714",
+      "url": "https://www.attv24.com/sports_analysis/19714",
+      "sport": "bs",
+      "published_display_raw": "08-31 18:00",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2025-08-31",
+      "home_claimed": "KT",
+      "away_claimed": "KIA",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "1.1 years ago",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "a14759",
+      "url": "https://www.attv24.com/sports_analysis/14759",
+      "sport": "sc",
+      "published_display_raw": "04-27 14:00",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2025-04-27",
+      "home_claimed": "포항",
+      "away_claimed": "FC서울",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "2 months ago",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "a22836",
+      "url": "https://www.attv24.com/sports_analysis/22836",
+      "sport": "sc",
+      "published_display_raw": "11-22 14:00",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2025-11-22",
+      "home_claimed": "FC서울",
+      "away_claimed": "김천상무",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "5 months ago",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "g297856",
+      "url": "https://www.goli.tv/board/analysis/297856?page=1",
+      "sport": "bk",
+      "published_display_raw": "2026-10-24 02:07",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2026-10-24",
+      "home_claimed": "고양소노",
+      "away_claimed": "부산KCC",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "today",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "g297854",
+      "url": "https://www.goli.tv/board/analysis/297854?page=1",
+      "sport": "bk",
+      "published_display_raw": "2026-10-24 02:05",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2026-10-24",
+      "home_claimed": "서울SK",
+      "away_claimed": "창원LG",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "today",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "g297857",
+      "url": "https://www.goli.tv/board/analysis/297857?page=1",
+      "sport": "vl",
+      "published_display_raw": "2026-10-24 02:08",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2026-10-24",
+      "home_claimed": "한국전력",
+      "away_claimed": "현대캐피탈",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "today",
+      "origin_freshness_verified": false
+    },
+    {
+      "id": "g297853",
+      "url": "https://www.goli.tv/board/analysis/297853?page=1",
+      "sport": "vl",
+      "published_display_raw": "2026-10-24 02:04",
+      "published_at": null,
+      "published_timezone": null,
+      "event_date_claimed": "2026-10-24",
+      "home_claimed": "대한항공",
+      "away_claimed": "우리카드",
+      "observed_at": "2026-10-24T11:26:32Z",
+      "access": "web_tool_readable",
+      "crawl_metadata_raw": "today",
+      "origin_freshness_verified": false
+    }
+  ],
+  "attempts": [
+    {
+      "url": "https://www.goli.tv/board/analysis",
+      "status": "readable_index"
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis",
+      "status": "zero_readable_lines"
+    },
+    {
+      "url": "https://xn--950bo4em5v.co/#/community/analysis",
+      "status": "iframe_only_no_analysis"
+    },
+    {
+      "url": "https://named.com/bbs/board.php?bo_table=analysis",
+      "status": "tool_inaccessible",
+      "note": "candidate route; correct board route not verified"
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/21671",
+      "sport": "sc",
+      "status": "bot_verification_no_content"
+    },
+    {
+      "url": "https://www.kbl.or.kr/",
+      "status": "zero_readable_lines"
+    },
+    {
+      "url": "https://www.kovo.co.kr/",
+      "status": "redirect_to_kovo.co.kr_zero_readable_lines"
+    },
+    {
+      "url": "https://www.koreabaseball.com/MediaNews/News/Preview/View.aspx?bdSe=59980",
+      "status": "readable_official_host_preview",
+      "published_at": null,
+      "summary": "NC 로건·LG 손주영 선발 서술 일치. 당시 원본 보존 및 게시시각은 검증하지 못함."
+    },
+    {
+      "url": "https://www.kleague.com/record/playerDetail.do?playerId=20160099",
+      "status": "search_result_only_not_event_specific",
+      "summary": "선수 시즌 기록은 특정 경기 부상 증거가 아니므로 채택하지 않음."
+    }
+  ],
+  "searches": [
+    {
+      "query": "site:koreabaseball.com \"2025\" \"31일 프리뷰\" \"양현종\"",
+      "result": "empty"
+    },
+    {
+      "query": "site:koreabaseball.com \"양현종\" \"오원석\" \"31일\" \"2025\"",
+      "result": "empty"
+    },
+    {
+      "query": "site:kbl.or.kr \"마레이\" \"눈\"",
+      "result": "empty"
+    },
+    {
+      "query": "site:kovo.co.kr \"헤난\" \"수술\"",
+      "result": "empty"
+    },
+    {
+      "query": "site:named.com \"분석\" \"10월24일\"",
+      "result": "empty"
+    },
+    {
+      "query": "site:kleague.com \"2025\" \"정승원\" \"서울\"",
+      "result": "non_event_specific_results_no_injury_confirmation"
+    }
+  ],
+  "limits": [
+    "No full article saved.",
+    "No final selections extracted.",
+    "No ROI estimated.",
+    "No proof of current or historical pregame availability.",
+    "Empty results do not prove source absence.",
+    "No access restriction bypass."
+  ]
+}
