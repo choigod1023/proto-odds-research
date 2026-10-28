@@ -393,9 +393,22 @@ def _stable_hash(value: object) -> str:
 
 
 def _fetch(session: requests.Session, url: str) -> str:
-    r = session.get(url, timeout=30)
-    r.raise_for_status()
-    return r.text
+    # A transient read failure otherwise loses the whole 15-minute poll. Retry
+    # once only; HTTP rejection/parse errors are not hammered or hidden.
+    for attempt in range(2):
+        response = None
+        try:
+            response = session.get(url, timeout=(5, 30))
+            response.raise_for_status()
+            return response.text
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            if attempt:
+                raise
+            print(f"[pickster_watch] {url}: {type(exc).__name__}; 1초 후 1회 재시도", flush=True)
+            time.sleep(1)
+        finally:
+            if response is not None:
+                response.close()
 
 
 # 동부 자정 뒤에도 TailSlips가 전날 슬레이트를 보여 주는 시간대(동부 시각). 이 구간에서
