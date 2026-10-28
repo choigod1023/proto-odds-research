@@ -101,3 +101,33 @@ def test_unstarted_candidate_is_not_graded_by_next_day_row(monkeypatch):
     events = pick_events(logged)
     assert len({r['pick_id'] for r in events}) == 2
     assert events[-1]['eligible_pre_event'] is False
+
+
+def test_existing_alias_does_not_consume_next_day_pregame_pick(monkeypatch):
+    logged = []
+    run = _collector(monkeypatch, _state(), logged)
+    run('2026-08-29T10:08:28Z', 'NYY ML -115 5u')
+    run('2026-08-29T23:30:00Z', 'NYY ML -115 5u', True)
+    run('2026-08-30T05:10:00Z', 'NYY ML -115 W +4.35u', True)
+    yesterday = pick_events(logged)[-1]['pick_id']
+    run('2026-08-30T12:00:00Z', 'NYY ML -115 5u')
+    today = pick_events(logged)[-1]
+    assert today['pick_id'] != yesterday
+    assert today['event_type'] == 'first_observed'
+    assert today['slate_date'] == '2026-08-30'
+    assert today['eligible_pre_event'] is True
+    run('2026-08-30T23:30:00Z', 'NYY ML -115 L -5u', True)
+    assert pick_events(logged)[-1]['pick_id'] == today['pick_id']
+
+
+def test_ambiguous_rollover_candidates_are_not_joined(monkeypatch):
+    state, logged = _state(), []
+    run = _collector(monkeypatch, state, logged)
+    run('2026-08-29T10:08:28Z', 'NYY ML -115 5u')
+    run('2026-08-29T23:30:00Z', 'NYY ML -115 5u', True)
+    original = next(iter(state['picks']))
+    state['picks']['ambiguous'] = dict(state['picks'][original])
+    run('2026-08-30T05:10:00Z', 'NYY ML -115 W +4.35u', True)
+    event = pick_events(logged)[-1]
+    assert event['pick_id'] not in {original, 'ambiguous'}
+    assert event['eligible_pre_event'] is False

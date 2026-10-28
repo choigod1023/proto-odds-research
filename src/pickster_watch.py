@@ -396,24 +396,33 @@ def _resolve_rollover(state: dict, pick: dict, observed_at: str) -> None:
     """
     pid = pick["pick_id"]
     aliases = state.setdefault("pick_aliases", {})
+    # A new scheduled slate can reuse this date/team/selection ID. It must
+    # supersede the alias before any started/graded observations arrive.
+    if not (pick["game_started"] or pick["result"]):
+        aliases.pop(pid, None)
+        return
+    if pid in state["picks"]:
+        return
     if pid in aliases:
         pick["pick_id"] = aliases[pid]["pick_id"]
         pick["slate_date"] = aliases[pid]["slate_date"]
-        return
-    if pid in state["picks"] or not (pick["game_started"] or pick["result"]):
         return
     now = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
     if now.astimezone(ZoneInfo("America/New_York")).hour >= _ROLLOVER_END_HOUR_ET:
         return
     prev = (date.fromisoformat(pick["slate_date"]) - timedelta(days=1)).isoformat()
     key = _identity_key(pick)
+    candidates = []
     for cand_id, cand in state["picks"].items():
         if (cand.get("key") == key and cand.get("slate_date") == prev
                 and cand.get("last_result") is None and cand.get("started")
-                and now - datetime.fromisoformat(cand["first_seen"]) <= _ROLLOVER_MAX_AGE):
-            aliases[pid] = {"pick_id": cand_id, "slate_date": prev, "created": observed_at}
-            pick["pick_id"], pick["slate_date"] = cand_id, prev
-            return
+                and timedelta(0) <= now - datetime.fromisoformat(cand["first_seen"]) <= _ROLLOVER_MAX_AGE):
+            candidates.append(cand_id)
+    # An ambiguous history cannot prove which event was graded.
+    if len(candidates) == 1:
+        cand_id = candidates[0]
+        aliases[pid] = {"pick_id": cand_id, "slate_date": prev, "created": observed_at}
+        pick["pick_id"], pick["slate_date"] = cand_id, prev
 
 
 def _prune_aliases(state: dict, observed_at: str) -> None:
@@ -433,7 +442,7 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
     state = _load_state()
     first_run = not state.get("initialized_at")
     # Preserve old state and immutable logs. Versioned IDs cannot inherit a
-    # different v2 pick's eligibility. The first v3 snapshot is baseline only.
+    # different version's eligibility. The first v4 snapshot is baseline only.
     if state.get("pick_identity_version") != 4:
         first_run = True
         state.setdefault("picks", {})
@@ -452,6 +461,7 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
 
     events: list[dict] = []
     seen: set[str] = set()
+    _prune_aliases(state, observed_at)
     for pick in picks:
         _resolve_rollover(state, pick, observed_at)
         pid = pick["pick_id"]
