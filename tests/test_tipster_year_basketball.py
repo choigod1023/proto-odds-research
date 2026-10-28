@@ -5,6 +5,7 @@ import importlib.util
 import json
 import unittest
 from pathlib import Path
+from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location("year_basketball", Path(__file__).resolve().parents[1] / "scripts/research_collect_year_basketball.py")
 m = importlib.util.module_from_spec(SPEC)
@@ -87,7 +88,11 @@ class BasketballArchiveTests(unittest.TestCase):
         self.assertEqual(len({e["url"] for e in entries}), len(entries))
         for entry in entries:
             if entry.get("raw_path"):
-                self.assertEqual(hashlib.sha256(m.body(entry)).hexdigest(), entry["sha256"])
+                self.assertRegex(entry["sha256"], r"^[0-9a-f]{64}$")
+                self.assertTrue(entry["url"].startswith("https://"))
+                self.assertTrue(entry["observed_at"])
+                if (m.ROOT / entry["raw_path"]).is_file():
+                    self.assertEqual(hashlib.sha256(m.body(entry)).hexdigest(), entry["sha256"])
         rows = [json.loads(line) for line in (m.OUT / "candidates.jsonl").read_text(encoding="utf-8").splitlines()]
         self.assertGreaterEqual(len(rows), 500)
         self.assertEqual(len(rows), len({r["candidate_id"] for r in rows}))
@@ -101,9 +106,13 @@ class BasketballArchiveTests(unittest.TestCase):
     def test_captured_betblog_metadata_and_full_dataset(self):
         entries = m.ledger()
         found = False
+        observations = [json.loads(line) for line in (m.OUT / "source-observations.jsonl").read_text(encoding="utf-8").splitlines()]
         for meta in entries:
             if meta.get("status") == 200 and "betblog.com/tipster/kentukyo/basketball/nba/" in meta["url"]:
-                rows, _ = m.parse_betblog(m.body(meta), meta)
+                if (m.ROOT / meta["raw_path"]).is_file():
+                    rows, _ = m.parse_betblog(m.body(meta), meta)
+                else:
+                    rows = [row for row in observations if any(e["url"] == meta["url"] for e in row["evidence"])]
                 if rows:
                     found = True
                     self.assertTrue(rows[0]["published_at_claim"])
@@ -113,6 +122,16 @@ class BasketballArchiveTests(unittest.TestCase):
                     self.assertIsNone(rows[0]["source_reported_score"])
                     break
         self.assertTrue(found)
+
+    def test_metadata_checks_without_local_raw_cache(self):
+        original_is_file = Path.is_file
+
+        def cacheless_is_file(path):
+            return False if "raw" in path.parts else original_is_file(path)
+
+        with mock.patch.object(Path, "is_file", cacheless_is_file), mock.patch.object(m, "body", side_effect=AssertionError("Raw cache must not be required")):
+            self.test_snapshot_hashes_and_real_artifact_invariants()
+            self.test_captured_betblog_metadata_and_full_dataset()
 
 
 if __name__ == "__main__":

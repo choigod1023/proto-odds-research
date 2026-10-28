@@ -55,7 +55,7 @@ NBA 공식 CDN 일정과 nba.com 일정·경기 페이지는 이 실행에서 40
 - `official-kbl-results.jsonl`: 383개 공식 경기. `is_ended`와 null 점수를 반드시 구분한다.
 - `summary.json`: 전체·월·리그·출처·작성자별 픽 수, 경기 수, 시장·결과·공식 검증 상태, 페이지별 제외 사유, 네트워크 실패.
 - `requests.json`, `discovery.json`: URL·수집 시각·원본 해시·응답 상태·추가 작성자 선택 근거. Python HTTP 시도는 63회이며 재시도는 없다.
-- `raw/`: 원본 응답의 무손실 gzip 스냅샷. SHA-256은 압축 전 HTTP 응답을 대상으로 한다.
+- `raw/`: 원본 응답의 무손실 gzip 로컬 캐시. 전체 페이지를 재배포하지 않도록 Git 추적에서 제외했다. 메타데이터의 SHA-256은 압축 전 HTTP 응답을 대상으로 하며, URL·해시·파싱 데이터는 Git에 보존한다. 새 체크아웃에는 이 캐시가 없다.
 
 각 후보는 `published_at_claim`, `observed_at`, `source_url`, `reported_decimal_odds`, `market_raw`, `side_raw`, `market`, `side`, `line`, `market_scope`, `team_side`, `canonical_teams`, `fixture_group_key`를 포함한다. 팀 득점 픽은 `side=over/under`, `team_side=home/away`다. 홈·원정 코드와 원문 팀명을 함께 남겨 연결 규칙을 확인할 수 있다.
 
@@ -67,4 +67,6 @@ python scripts/research_collect_year_basketball.py --build
 python -m unittest discover -s tests -p test_tipster_year_basketball.py -v
 ```
 
-`--build`와 테스트는 저장된 원본으로 오프라인 실행한다. 날짜 경계·패배 보존·게시 시각 부재·선수/전반 시장 오분류 방지·팀 별칭·홈원정·중복 및 모호한 공식 연결·미종료 경기·쿼터 라인 정산 보류·원본 해시·실제 후보 무결성을 확인하는 테스트 9개를 통과했다. 파서 변경 뒤 픽 수는 동일한 583개이고 NBA 미분류는 316개에서 282개로 줄었다. KBL은 별칭 정리 뒤 30개 모두 공식 점수를 연결했다.
+`--build`는 로컬 원본 캐시가 있어야 오프라인으로 다시 파싱할 수 있다. 테스트는 캐시 없이도 파싱 데이터와 메타데이터를 검증하며, 캐시가 있는 응답에만 실제 본문 해시 대조와 재파싱을 추가한다. 캐시 부재 상황도 별도 모의 검증한다. 날짜 경계·패배 보존·게시 시각 부재·선수/전반 시장 오분류 방지·팀 별칭·홈원정·중복 및 모호한 공식 연결·미종료 경기·쿼터 라인 정산 보류·원본 해시·실제 후보 무결성을 확인하는 테스트 10개를 통과했다. 파서 변경 뒤 픽 수는 동일한 583개이고 NBA 미분류는 316개에서 282개로 줄었다. KBL은 별칭 정리 뒤 30개 모두 공식 점수를 연결했다.
+
+Git 추적 제외는 현재 PR의 파일 목록에서 원문을 제거하는 변경이다. 기존 커밋 기록을 다시 쓰지는 않았다. 상위 작업의 NBA 공식 결과 추가·통합 검증은 이 하위 작업의 숫자에 반영하지 않았다.
