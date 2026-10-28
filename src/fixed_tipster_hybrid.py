@@ -1,9 +1,9 @@
-"""User-authorized full-game 90:10 policy. Not a validated profitable model.
+"""User-authorized full-game author plurality. Not a profitable-model claim.
 
 Only first-observed, full-game pregame moneyline votes are admissible. No
 network requests, result lookups or fitted parameters in the decision path.
 Public full-game adapters supplement MLB votes with live-observed multi-sport
-evidence. Missing evidence remains an explicitly labelled market-only fallback.
+evidence. Missing or tied votes withhold selection; vote share is not probability.
 """
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -13,7 +13,8 @@ import re
 import sqlite3
 from zoneinfo import ZoneInfo
 
-VERSION = "market90-tipster10-v2"
+VERSION = "tipster-vote-v1"
+HYBRID_VERSION = "market90-tipster10-v2"
 LEGACY_VERSION = "mlb-market90-tipster10-v1"
 TEAMS = dict(zip(
     "LA다저스 LA에인절 뉴욕메츠 뉴욕양키 디트타이 마이말린 미네트윈 밀워브루 보스레드 볼티오리 샌디파드 샌프자이 세인카디 시애매리 시카컵스 시카화이 신시레즈 애리다이 애슬레틱 애틀브레 워싱내셔 캔자로얄 콜로로키 클리가디 탬파레이 텍사레인 토론블루 피츠파이 필라필리 휴스애스".split(),
@@ -56,7 +57,8 @@ def load_votes(as_of):
 def context(game, rows, as_of, built_at):
     if game.get("sport") not in {"bs", "bk", "sc", "vl"}:
         return None
-    fallback = {"version": VERSION, "status": "market_fallback", "reason": "no_eligible_pregame_votes"}
+    fallback = {"version": VERSION, "status": "withheld", "input_status": "withheld",
+                "reason": "no_eligible_pregame_votes", "authors": 0}
     try:
         match = re.fullmatch(r"(\d{2})\.(\d{2})\([^)]*\) (\d{2}):(\d{2})", game.get("date", ""))
         kickoff = datetime(int(game["year"]), *map(int, match.groups()), tzinfo=KST)
@@ -66,7 +68,7 @@ def context(game, rows, as_of, built_at):
         home, away = TEAMS.get(game["home"]), TEAMS.get(game["away"])
     except (KeyError, TypeError, ValueError, AttributeError):
         return dict(fallback, reason="unknown_fixture")
-    votes = {}
+    candidates = {}
     from public_tipster_votes import SOURCE, fixture_key, safe_url
     for row in rows or []:
         try:
@@ -86,9 +88,7 @@ def context(game, rows, as_of, built_at):
                          "observed_at": observed.isoformat(), "source_url": row["source_url"],
                          "content_hash": row["content_hash"], "published_at": row.get("published_at"),
                          "publication_time_quality": row.get("publication_time_quality")}
-                old = votes.get(row["voter"])
-                if old is None or (observed, entry["id"]) < (stamp(old["observed_at"]), old["id"]):
-                    votes[row["voter"]] = entry
+                candidates.setdefault(row["voter"], []).append(entry)
                 continue
             if game.get("league") != "MLB" or not home or not away:
                 continue
@@ -113,16 +113,27 @@ def context(game, rows, as_of, built_at):
             if observed < kickoff-timedelta(days=3):
                 continue
             entry = {"id": row["pick_id"], "author": row["slug"], "side": "홈" if pick[1] == home else "원정", "observed_at": observed.isoformat()}
-            old = votes.get(row["slug"])
-            if old is None or (observed, entry["id"]) < (stamp(old["observed_at"]), old["id"]):
-                votes[row["slug"]] = entry
+            candidates.setdefault(row["slug"], []).append(entry)
         except (KeyError, ValueError, TypeError, AttributeError):
             continue
+    votes = {}
+    for author, entries in candidates.items():
+        earliest = min(stamp(e['observed_at']) for e in entries)
+        first = [e for e in entries if stamp(e['observed_at']) == earliest]
+        if len({e['side'] for e in first}) == 1:
+            votes[author] = min(first, key=lambda e:e['id'])
     if not votes:
         return fallback
     evidence = sorted(votes.values(), key=lambda x: (x["author"], x["id"]))
     digest = hashlib.sha256(json.dumps(evidence, sort_keys=True).encode()).hexdigest()
-    return {"version": VERSION, "status": "applied", "reason": "user_authorized_unvalidated",
+    counts = {s:sum(v['side']==s for v in evidence) for s in ('홈','무','원정')}
+    leaders = [s for s,n in counts.items() if n == max(counts.values())]
+    selected = leaders[0] if len(leaders)==1 else None
+    status = 'applied' if selected else 'withheld'
+    return {"version": VERSION, "status": status, "input_status": status,
+            "reason": "user_authorized_unvalidated" if selected else "tied_tipster_votes",
+            "selected_side": selected, "vote_counts": counts,
+            "probability_interpretation": "market_reference_not_vote_share",
             "home_vote_share": sum(v["side"] == "홈" for v in evidence)/len(evidence),
             "vote_shares": {s: sum(v["side"] == s for v in evidence)/len(evidence) for s in ("홈", "무", "원정")},
             "authors": len(evidence), "evidence": evidence, "evidence_hash": digest,
@@ -130,7 +141,7 @@ def context(game, rows, as_of, built_at):
 
 
 def apply(game, info):
-    """Return full-game winner; ignore legacy odds priority and favorite gate."""
+    """Select the unique plurality; keep diagnostic market probabilities intact."""
     if info is None:
         return None
     options = [o for o in game.get("options", []) if o.get("market") in {"승패", "승무패"} and not o.get("label")]
@@ -149,21 +160,24 @@ def apply(game, info):
         return None
     game["tipster_hybrid"] = info
     game["probability_pipeline"]["selection_policy"] = VERSION
-    applied = info["status"] == "applied"
+    if info['status'] != 'applied':
+        return None
+    leaders = [s for s in order if shares[s] == max(shares[x] for x in order)]
+    if len(leaders) != 1:
+        game['tipster_hybrid'] = dict(info,status='withheld',reason='tied_tipster_votes',selected_side=None)
+        return None
+    selected = leaders[0]
+    game['tipster_hybrid'] = dict(info,selected_side=selected)
     for i, side in enumerate(order):
         option = sides[side]
         probability = p[i]
-        if applied:
-            probability /= sum(p)
-            vote = shares[side]
-            probability = .9*probability + .1*vote
-        option.update({"최종확률": round(probability, 4), "AI반영": applied,
-                       "확률근거": VERSION if applied else "shin_market",
+        option.update({"최종확률": probability, "AI반영": False,
+                       "확률근거": "shin_market",
                        "예상적중확률": round(probability, 4), "추천점수": round(probability, 4),
-                       "선택근거": "user_authorized_single_moneyline", "추천우선순위": "single"})
+                       "픽스터지지율": shares[side],
+                       "선택근거": VERSION, "추천우선순위": "tipster_vote"})
         option.pop("제외", None)
-    if applied:
-        game["probability_pipeline"].update(operating_version=VERSION, policy_authorized=True,
-            status="operational", affects_probability=True, reason="user_authorized_unvalidated",
-            artifact_hash=None, allowlisted=False)
-    return max((sides[s] for s in order), key=lambda o: o["최종확률"])
+    game["probability_pipeline"].update(operating_version=VERSION, policy_authorized=True,
+        status="operational", affects_probability=False, affects_selection=True,
+        reason="user_authorized_unvalidated", artifact_hash=None, allowlisted=False)
+    return sides[selected]

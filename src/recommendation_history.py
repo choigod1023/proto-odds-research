@@ -52,7 +52,7 @@ def capture_history(payload, previous, now):
     history = dict((previous or {}).get("recommendation_history") or {})
     if not published or published > now:
         return history
-    candidates = payload.get("candidates") or []
+    candidates = list(payload.get("candidates") or []) + list(payload.get('selection_withholds') or [])
     chosen = highlights(candidates)
     for row in candidates:
         kickoff = stamp(row.get("kickoff_at"))
@@ -64,12 +64,22 @@ def capture_history(payload, previous, now):
         event = "|".join([kickoff.astimezone(timezone.utc).isoformat(), str(row.get("sport")), str(row.get("league")),
                           row["home"], row["away"]])
         key = hashlib.sha256(event.encode()).hexdigest()[:24]
+        if row.get('selection_policy') == 'tipster-vote-v1':
+            # Keep each pregame revision for exact-price settlement. A newer
+            # withhold revision supersedes admission without deleting old bets.
+            revision = row.get('selection_revision') or row.get('decision_id')
+            if not revision:
+                continue
+            key = hashlib.sha256((event+'|'+revision).encode()).hexdigest()[:24]
+            if key in history:
+                continue
         fields = ("home", "away", "sport", "league", "date", "round", "game_no", "market",
                   "market_label", "sel", "odds", "kickoff_at", "n_way",
                   "market_prob", "predicted_hit_prob", "probability_source",
                   "decision_id", "decision_model", "decision_artifact_hash",
                   "decision_pipeline_applied", "has_validated_edge",
-                  "probability_method", "probability_version", "is_market_favorite", "price_source")
+                  "probability_method", "probability_version", "is_market_favorite", "price_source",
+                  "selection_policy", "selection_policy_applied", "selection_revision", "tipster_selection")
         history[key] = {**{k: row.get(k) for k in fields}, "id": key,
                         "published_at": published.isoformat(), "recorded_at": now.isoformat(),
                         "recommended": selection_key(row) in chosen, "policy": POLICY,

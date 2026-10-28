@@ -48,7 +48,7 @@ def test_all_sports_actual_vote_vector(sport, league, home, away, source_sport):
     info = context(g, [e], AT, AT)
     assert info["status"] == "applied"
     picked = apply(g, info)
-    assert picked["선택"] == "원정" and picked["최종확률"] == .505
+    assert picked["선택"] == "원정" and picked["최종확률"] == .45
     assert sum(o["최종확률"] for o in g["options"]) == 1
 
 
@@ -59,7 +59,7 @@ def test_three_way_draw_is_independent_share():
     e = event(g, markup("Soccer", "EPL", "첼시", "토트넘", "무승부", ""))
     info = context(g, [e], AT, AT)
     assert apply(g, info)["선택"] == "무"
-    assert [o["최종확률"] for o in g["options"]] == [.315, .37, .315]
+    assert [o["최종확률"] for o in g["options"]] == [.35, .3, .35]
 
 
 def test_claimed_publication_is_not_fabricated_provenance():
@@ -81,7 +81,7 @@ def test_earliest_vote_per_publisher_and_no_future_evidence():
     later = dict(e, side="원정", pick_id="second", observed_at="2026-10-26T04:01:00Z")
     info = context(g, [later, e, e], "2026-10-26T04:02:00Z", "2026-10-26T04:02:00Z")
     assert info["authors"] == 1 and info["home_vote_share"] == 1
-    assert context(g, [later], AT, AT)["status"] == "market_fallback"
+    assert context(g, [later], AT, AT)["status"] == "withheld"
     assert context(g, [e], AT, "2026-10-26T09:31:00Z")["reason"] == "after_t30"
 
 
@@ -89,7 +89,7 @@ def test_earliest_vote_per_publisher_and_no_future_evidence():
     dict(source_url="https://evil.example/pick"), dict(provenance="historical_download"),
     dict(eligible_pre_event=False), dict(event_type="changed"), dict(side="오버")])
 def test_invalid_event_cannot_affect_probability(change):
-    assert context(game(), [dict(event(), **change)], AT, AT)["status"] == "market_fallback"
+    assert context(game(), [dict(event(), **change)], AT, AT)["status"] == "withheld"
 
 
 def test_fixture_mismatch_and_doubleheader_are_rejected():
@@ -115,7 +115,7 @@ def test_kbl_db_alias_matches_actual_scheduled_fixture():
     assert e["fixture"] == fixture_key(g)
     info = context(g, [e], AT, AT)
     assert info["status"] == "applied"
-    assert apply(g, info)["최종확률"] == .505
+    assert apply(g, info)["최종확률"] == .45
     with pytest.raises(ValueError, match="ambiguous"):
         match_vote(parse_page(URL, markup(home="한국가스공사", away="DB", choice="DB"), AT), [g, g])
     with pytest.raises(ValueError, match="unmatched"):
@@ -210,7 +210,7 @@ def test_non_mlb_votes_refresh_unchanged_prices_and_freeze_at_t30(tmp_path, monk
         sport=g["sport"], league=g["league"], home=g["home"], away=g["away"],
         market="승패", label="", n_way=2, odds=[1.8, 1.9], result="경기전")}})
     doc, _ = refresh.refresh_document({"live": [], "past": []}, feed, now=datetime.fromisoformat(AT))
-    assert doc["live"][0]["추천"]["선택"] == "홈"
+    assert doc["live"][0]["추천"] is None
     votes.append(event(html=markup(choice="LG")))
     doc, n = refresh.refresh_document(doc, feed, now=datetime.fromisoformat("2026-10-26T04:01:00Z"))
     assert n == 1 and doc["live"][0]["추천"]["선택"] == "원정"

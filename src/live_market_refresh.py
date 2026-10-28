@@ -435,7 +435,7 @@ def refresh_document(document: dict, live_odds: dict, *,
         if can_predict and game.get("sport") in {"bs", "bk", "sc", "vl"}:
             info = tipster_context(game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat())
             prior = snapshot.get("tipster_hybrid") or {}
-            tipster_changed = (info.get("version"), info.get("status"), info.get("evidence_hash")) != (prior.get("version"), prior.get("status"), prior.get("evidence_hash"))
+            tipster_changed = (info.get("version"), info.get("status"), info.get("evidence_hash")) != (prior.get("version"), prior.get("input_status", prior.get("status")), prior.get("evidence_hash"))
         if (old_signature == new_signature and game.get("status") == target_status
                 and not broken_revision and not player_changed and not tipster_changed):
             changed += int(display_changed)
