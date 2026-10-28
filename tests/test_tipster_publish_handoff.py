@@ -1,0 +1,102 @@
+from types import SimpleNamespace
+import threading
+import pytest
+from deploy import supervisor as s
+
+
+@pytest.fixture(autouse=True)
+def isolated(monkeypatch):
+    monkeypatch.setattr(s, '_memory_heavy_lock', threading.Lock())
+    monkeypatch.setattr(s, '_odds_recommendation_lock', threading.Lock())
+    monkeypatch.setattr(s, '_market_cycle_pending', threading.Event())
+    monkeypatch.setattr(s, '_tipster_publish_pending', threading.Event())
+    monkeypatch.setattr(s, '_tipster_wait_started', None)
+    monkeypatch.setattr(s, '_tailslips_wait_started', None)
+    monkeypatch.setattr(s, '_available_memory_mb', lambda: 700)
+
+
+@pytest.mark.parametrize('name', ['공개 픽스터', '다종목 픽스터'])
+def test_changed_evidence_publishes_inside_same_admission(monkeypatch, name):
+    revisions = iter([None, ('new', '2026-10-28T07:00:00Z', 'first_observed')])
+    monkeypatch.setattr(s, '_tipster_revision', lambda n: next(revisions))
+    order = []
+    def collect(cmd, **kw):
+        assert s._memory_heavy_lock.locked()
+        assert kw['timeout'] == 600
+        order.append('collector_exit')
+        return SimpleNamespace(returncode=0)
+    def publish():
+        assert order == ['collector_exit']
+        assert s._memory_heavy_lock.locked()
+        assert s._tipster_publish_pending.is_set()
+        order.append('publish')
+        s._tipster_publish_pending.clear()
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(s.subprocess, 'run', collect)
+    monkeypatch.setattr(s, '_run_market_refresh', publish)
+    with s._memory_heavy_lock:
+        assert s._collect_tipster_and_publish(name, ['collector']) == 0
+    assert order == ['collector_exit', 'publish']
+
+
+def test_unchanged_evidence_does_not_add_expensive_refresh(monkeypatch):
+    monkeypatch.setattr(s, '_tipster_revision', lambda n: ('same', 'time', 'first_observed'))
+    monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0))
+    monkeypatch.setattr(s, '_run_market_refresh', lambda: pytest.fail('no changed input'))
+    assert s._collect_tipster_and_publish('공개 픽스터', ['collector']) == 0
+
+
+def test_failed_handoff_retains_signal_and_bypasses_old_cooldown(monkeypatch):
+    revisions = iter([None, ('new', 'time', 'first_observed')])
+    monkeypatch.setattr(s, '_tipster_revision', lambda n: next(revisions))
+    monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0))
+    monkeypatch.setattr(s, '_run_market_refresh', lambda: SimpleNamespace(returncode=1))
+    assert s._collect_tipster_and_publish('공개 픽스터', ['collector']) == 0
+    assert s._tipster_publish_pending.is_set()
+    monkeypatch.setattr(s, '_next_recommendation_refresh', float('inf'))
+    calls = []
+    monkeypatch.setattr(s, '_refresh_recommendation_in_slot', lambda **kw: calls.append(kw) or True)
+    assert s._refresh_recommendation_after_odds()
+    assert calls == [{'repair': True}]
+
+
+def test_oldest_collector_wins_and_new_odds_yields_but_retry_does_not(monkeypatch):
+    monkeypatch.setattr(s.time, 'monotonic', lambda: 200.)
+    monkeypatch.setattr(s, '_tailslips_wait_started', 0.)
+    monkeypatch.setattr(s, '_tipster_wait_started', 30.)
+    assert s._preferred_tipster() == '공개 픽스터'
+    monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: pytest.fail('new collection must yield'))
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    assert not s._market_cycle_pending.is_set()
+    monkeypatch.setattr(s, '_refresh_market_after_collection', lambda: 0)
+    assert s._run_odds_cycle(['odds'], market_retry=True) == (0, False)
+
+
+def test_tailslips_gets_the_reserved_slot_and_clears_it_on_failure(monkeypatch):
+    monkeypatch.setattr(s.time, 'monotonic', lambda: 200.)
+    monkeypatch.setattr(s, '_tailslips_wait_started', 0.)
+    with s._background_slot('공개 픽스터'):
+        assert s._memory_heavy_lock.locked()
+    monkeypatch.setattr(s, '_collect_tipster_and_publish', lambda *a: (_ for _ in ()).throw(TimeoutError()))
+    def stop(seconds):
+        assert seconds == 900
+        assert s._tailslips_wait_started is None
+        raise StopIteration
+    monkeypatch.setattr(s.time, 'sleep', stop)
+    with pytest.raises(StopIteration):
+        s.run_looper('공개 픽스터', ['collector'], 900)
+
+
+def test_only_successful_publication_acknowledges_changed_inputs(monkeypatch):
+    monkeypatch.setattr(s, '_score_refresh_lock', threading.Lock())
+    monkeypatch.setattr(s, 'release_unused_heap', lambda: True)
+    monkeypatch.setattr(s, '_release_match_working_set', lambda: None)
+    monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0))
+    s._tipster_publish_pending.set()
+    def fail(): raise RuntimeError('publication failed')
+    monkeypatch.setattr(s, '_publish_match_responses', fail)
+    assert s._run_market_refresh().returncode == 1
+    assert s._tipster_publish_pending.is_set()
+    monkeypatch.setattr(s, '_publish_match_responses', lambda: None)
+    assert s._run_market_refresh().returncode == 0
+    assert not s._tipster_publish_pending.is_set()

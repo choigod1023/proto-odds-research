@@ -254,8 +254,11 @@ def test_heavy_collectors_are_staggered_after_restart():
     names = {name for name, _, _ in supervisor.LOOPERS}
     assert set(supervisor.LOOPER_START_DELAYS) <= names
     assert supervisor.LOOPER_START_DELAYS["선수·팀 정보"] >= 180
-    assert supervisor.LOOPER_START_DELAYS["공개 픽스터"] > supervisor.LOOPER_START_DELAYS["선수·팀 정보"]
-    assert supervisor.LOOPER_START_DELAYS["무료 날씨"] > supervisor.LOOPER_START_DELAYS["공개 픽스터"]
+    # Fresh T-30 evidence must not wait behind optional enrichment. Both
+    # tipster children still share the heavy lock and the 512MB admission gate.
+    assert supervisor.LOOPER_START_DELAYS["공개 픽스터"] == 0
+    assert supervisor.TIPSTER_LOOPERS <= supervisor.MEMORY_HEAVY_LOOPERS
+    assert supervisor.LOOPER_START_DELAYS["무료 날씨"] > supervisor.LOOPER_START_DELAYS["선수·팀 정보"]
 
 
 def test_daily_and_publish_pipeline_share_one_memory_gate():

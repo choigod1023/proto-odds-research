@@ -75,7 +75,7 @@ LOOPER_START_DELAYS = {
     "해외 배당": 90,
     "무료 야구 컨텍스트": 180,
     "선수·팀 정보": 240,
-    "공개 픽스터": 300,
+    "공개 픽스터": 0,
     "다종목 픽스터": 0,
     "무료 날씨": 360,
 }
@@ -192,11 +192,22 @@ _odds_recommendation_lock = threading.Lock()
 _market_cycle_pending = threading.Event()
 _next_recommendation_refresh = 0.0
 _tipster_wait_started = None
+_tailslips_wait_started = None
+_tipster_publish_pending = threading.Event()
+TIPSTER_LOOPERS = {"공개 픽스터", "다종목 픽스터"}
+
+
+def _preferred_tipster():
+    now = time.monotonic()
+    waiting = [(started, name) for started, name in (
+        (_tipster_wait_started, "다종목 픽스터"),
+        (_tailslips_wait_started, "공개 픽스터"))
+        if started is not None and now - started >= 120]
+    return min(waiting)[1] if waiting else None
 
 
 def _tipster_overdue():
-    return (_tipster_wait_started is not None
-            and time.monotonic() - _tipster_wait_started >= 120)
+    return _preferred_tipster() is not None
 
 
 _player_memory_opportunity = threading.Event()
@@ -238,8 +249,9 @@ def _background_slot(name: str):
     while True:
         with _memory_heavy_lock:
             available = _available_memory_mb()
+            preferred = _preferred_tipster()
             priority_pending = (_market_cycle_pending.is_set()
-                                or (name != "다종목 픽스터" and _tipster_overdue()))
+                                or (preferred is not None and name != preferred))
             if not priority_pending and available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
                 log(f"{name} 실제 실행 — 여유 {available}MB, 대기 {int(time.monotonic()-started)}s")
                 yield
@@ -558,6 +570,36 @@ def push_data() -> None:
     sh(["git", "reflog", "expire", "--expire=90.days", "--all"], cwd=REPO)
     # git gc는 서비스 부팅·수집과 분리한다. 여기서 실행하면 push 스레드가 아니라
     # 다음 재시작의 fetch까지 maintenance lock에 묶일 수 있다.
+def _tipster_revision(name):
+    """One indexed last-event read; no history scan or large artifact decoding."""
+    if not os.environ.get("PROODD_DB_PATH"):
+        return None
+    from runtime_db import RuntimeDatabase
+    stream = "pickster_pick_events" if name == "공개 픽스터" else "public_tipster_votes"
+    row = RuntimeDatabase().latest_event(stream)
+    return (row.get("pick_id"), row.get("observed_at"), row.get("event_type")) if row else None
+
+
+def _collect_tipster_and_publish(name, cmd):
+    """Caller holds the heavy slot; child exits before a fresh decision child.
+
+    Publish changed evidence before releasing admission to another collector.
+    If admission/publication fails, the existing retry worker retains the signal.
+    """
+    before = _tipster_revision(name)
+    try:
+        result = subprocess.run(cmd, cwd=REPO, timeout=600)
+    finally:
+        after = _tipster_revision(name)
+        if after is not None and after != before:
+            _tipster_publish_pending.set()
+    if result.returncode == 0 and _tipster_publish_pending.is_set():
+        log(f"{name} 새 관측 저장 — 배당 재수집 없이 판정·웹 갱신 시작")
+        published = _run_market_refresh()
+        log(f"{name} 후속 판정 종료(rc={published.returncode})")
+    return result.returncode
+
+
 def run_looper(name: str, cmd: list[str], interval: int,
                initial_delay: int = 0) -> None:
     """Run a collector once per interval so its process RSS is reclaimed."""
@@ -572,15 +614,22 @@ def run_looper(name: str, cmd: list[str], interval: int,
         try:
             lock = _memory_heavy_lock if name in MEMORY_HEAVY_LOOPERS else None
             if lock:
-                global _tipster_wait_started
+                global _tipster_wait_started, _tailslips_wait_started
                 if name == "다종목 픽스터":
                     _tipster_wait_started = time.monotonic()
+                elif name == "공개 픽스터":
+                    _tailslips_wait_started = time.monotonic()
                 try:
                     with _background_slot(name):
-                        rc = subprocess.run(cmd, cwd=REPO, **({"timeout": 600} if name == "다종목 픽스터" else {})).returncode
+                        if name in TIPSTER_LOOPERS:
+                            rc = _collect_tipster_and_publish(name, cmd)
+                        else:
+                            rc = subprocess.run(cmd, cwd=REPO).returncode
                 finally:
                     if name == "다종목 픽스터":
                         _tipster_wait_started = None
+                    elif name == "공개 픽스터":
+                        _tailslips_wait_started = None
             elif name == "실시간 배당":
                 # The independent recommendation worker must not race a new
                 # odds child between checking headroom and starting its process.
@@ -607,7 +656,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
             log(f"{name} 예외: {type(e).__name__}: {e}")
             rc = -1
         delay = interval if rc == 0 else min(60, interval)
-        if name == "다종목 픽스터":
+        if name in TIPSTER_LOOPERS:
             delay = interval  # Do not hammer public publishers during outages.
         if name == "실시간 배당" and market_retry:
             delay = retry_window.delay
@@ -663,6 +712,9 @@ def _run_odds_cycle(cmd, market_retry=False):
     Existing background children finish normally (no transaction interruption).
     New optional work cannot repeatedly overtake the pending publication.
     """
+    if not market_retry and _tipster_overdue():
+        log("새 배당 수집 한 주기 양보 — 오래 기다린 픽스터 자동 수집 우선")
+        return 0, False
     _market_cycle_pending.set()
     try:
         with _odds_recommendation_lock:
@@ -721,6 +773,7 @@ def _run_market_refresh():
             # Scores stay paused until this allocation-heavy rebuild also exits.
             try:
                 _publish_match_responses()
+                _tipster_publish_pending.clear()
                 log("판정 후 웹 응답 갱신 완료")
             except Exception as exc:
                 log(f"판정 후 웹 응답 갱신 실패: {type(exc).__name__}; 재시도")
@@ -749,14 +802,14 @@ def _refresh_market_after_collection() -> int:
 def _refresh_recommendation_after_odds(*, repair: bool = True) -> bool:
     """Shared bounded admission for startup, periodic retry and odds handoff."""
     global _next_recommendation_refresh
-    if _tipster_overdue():
+    if _tipster_overdue() and not _tipster_publish_pending.is_set():
         # Yield optional recommendation enrichment, never live market publication.
         # The intake still needs the same heavy lock and 512MiB admission gate.
         return False
     if not _odds_recommendation_lock.acquire(blocking=False):
         return False
     try:
-        if time.monotonic() < _next_recommendation_refresh:
+        if time.monotonic() < _next_recommendation_refresh and not _tipster_publish_pending.is_set():
             return True
         refreshed = _refresh_recommendation_in_slot(repair=repair)
         if refreshed:
