@@ -20,7 +20,7 @@ LEAGUES = {"프리미어리그": "EPL", "리그앙": "프리그1", "리그1": "�
            "J리그1": "J1리그", "J리그2": "J2리그", "AFC 챔피언스리그": "ACLE"}
 # Explicit league-scoped aliases only. Unknown names remain unmatched.
 ALIASES = {
-    "KBL": {"LG": "창원LG", "안양정관장": "안양정관", "KT": "KT소닉붐",
+    "KBL": {"DB": "원주DB", "LG": "창원LG", "안양정관장": "안양정관", "KT": "KT소닉붐",
             "수원KT": "KT소닉붐", "한국가스공사": "한국가스", "대구한국가스공사": "한국가스",
             "현대모비스": "울산모비", "울산현대모비스": "울산모비", "부산KCC": "부산KCC"},
     "KBO": {"삼성라이온즈": "삼성", "삼성라이온스": "삼성", "KIA타이거즈": "KIA", "기아": "KIA",
@@ -238,6 +238,7 @@ def collect(db, session):
     links = []
     # Interleave sports so a busy NBA day cannot starve volleyball/baseball.
     groups = []
+    latest_links = []
     for category in ("soccer", "baseball", "basketball", "volleyball"):
         url = f"https://pick79.com/posts/{category}/"
         progress(f"listing:{category}")
@@ -246,6 +247,7 @@ def collect(db, session):
             found = list(dict.fromkeys(urljoin(url, a["href"]).rstrip("/")+"/"
                          for a in soup.select('a[href*="/posts/detail/"]')))
             groups.append(found[:12])
+            latest_links.extend(found[:1])
             if not found:
                 counts[category+":empty_listing"] += 1
         except (requests.RequestException, ValueError, UnicodeError) as exc:
@@ -256,15 +258,24 @@ def collect(db, session):
         progress("listing:goli")
         url = "https://www.goli.tv/board/analysis"
         soup = BeautifulSoup(fetch(session, url), "lxml", parse_only=SoupStrainer("a"))
-        links.extend(dict.fromkeys(urljoin(url, a["href"]).split("?")[0]
+        found = list(dict.fromkeys(urljoin(url, a["href"]).split("?")[0]
                      for a in soup.select('a[href*="/board/analysis/"]')))
+        links.extend(found)
+        latest_links.extend(found[:1])
     except (requests.RequestException, ValueError, UnicodeError) as exc:
         counts["goli:"+type(exc).__name__] += 1
     # A rotating cursor prevents permanent starvation with a bounded workload.
     state = db.get_document("public_tipster_intake") or {}
     links = list(dict.fromkeys(u for u in links if safe_url(u)))
-    cursor = int(state.get("cursor", 0)) % max(1, len(links))
-    candidates = (links[cursor:]+links[:cursor])[:16]
+    # Check each listing's latest article on every poll, still within the same
+    # 16-body request budget. Rotate the remainder so older evidence also gets
+    # checked; a cursor near the end must not delay today's first article.
+    latest_links = list(dict.fromkeys(u for u in latest_links if safe_url(u)))
+    latest_set = set(latest_links)
+    rotating = [u for u in links if u not in latest_set]
+    cursor = int(state.get("cursor", 0)) % max(1, len(rotating))
+    rotated = (rotating[cursor:]+rotating[:cursor])[:16-len(latest_links)]
+    candidates = latest_links + rotated
     for index, url in enumerate(candidates):
         progress(f"article:{index+1}/{len(candidates)}")
         try:
@@ -279,7 +290,7 @@ def collect(db, session):
         except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError) as exc:
             rejects[str(exc) if isinstance(exc, ValueError) else type(exc).__name__] += 1
         time.sleep(.25)
-    summary.update(cursor=(cursor+len(candidates)) % max(1, len(links)),
+    summary.update(cursor=(cursor+len(rotated)) % max(1, len(rotating)),
                    candidates=len(candidates), discovered=len(links), errors=dict(counts),
                    rejected=dict(rejects), sports=dict(sports))
     summary["status"] = "matched" if sports else "no_eligible_votes"
