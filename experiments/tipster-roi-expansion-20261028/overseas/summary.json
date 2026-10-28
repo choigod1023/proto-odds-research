@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-10-28T09:20:06.964661+00:00",
+  "candidate_rows": 47,
+  "by_source": {
+    "TonysPicks": 11,
+    "Covers": 6,
+    "Pickswise": 30
+  },
+  "by_league": {
+    "NPB": 11,
+    "MLB": 18,
+    "NBA": 18
+  },
+  "by_market": {
+    "moneyline": 24,
+    "player_prop": 10,
+    "total": 5,
+    "spread": 8
+  },
+  "candidate_status": {
+    "candidate": 34,
+    "excluded": 13
+  },
+  "priced_nonduplicate_full_game_candidates": 34,
+  "full_game_candidates_with_official_result": 22,
+  "official_matched_all_rows": 27,
+  "cutoff_proven_rows": 0,
+  "python_http_requests": 48,
+  "external_web_operations": 11,
+  "exclusions": {
+    "polymarket_price_not_sportsbook_decimal_odds": 1,
+    "player_prop_requires_player_stat_result_not_full_game_score": 10,
+    "incomplete_match_team_identity_in_saved_heading": 5,
+    "same_source_author_game_market_selection_duplicate": 1,
+    "original_recommendation_price_not_extracted": 1
+  },
+  "aggregation_owner": "parent task; no Proto odds join or final ROI claim in this collector"
+}

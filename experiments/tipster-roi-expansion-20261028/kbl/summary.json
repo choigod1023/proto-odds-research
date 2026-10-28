@@ -1,0 +1,443 @@
+{
+  "built_at": "2026-10-28T09:36:14.712576+00:00",
+  "request_attempts_python": 25,
+  "initial_web_tool_reads": 2,
+  "total_task_request_attempts": 27,
+  "request_cap": 30,
+  "network_errors": [
+    {
+      "url": "https://api-gw.sports.naver.com/schedule/games?fields=all&superCategoryId=basketball&categoryId=kbl&fromDate=2026-03-01&toDate=2026-03-31&size=100&page=1",
+      "observed_at": "2026-10-28T09:08:09.117783+00:00",
+      "automatic_retries": 0,
+      "error": "ReadTimeout: HTTPSConnectionPool(host='api-gw.sports.naver.com', port=443): Read timed out. (read timeout=12)",
+      "git_retained": true
+    },
+    {
+      "url": "https://api.kbl.or.kr/match/list?fromDate=20260301&toDate=20261028&tcodeList=all",
+      "observed_at": "2026-10-28T09:08:47.010240+00:00",
+      "automatic_retries": 0,
+      "status": 400,
+      "content_type": "application/json;charset=UTF-8",
+      "error": "HTTPError: 400 Client Error:  for url: https://api.kbl.or.kr/match/list?fromDate=20260301&toDate=20261028&tcodeList=all",
+      "git_retained": true
+    },
+    {
+      "url": "https://api.kbl.or.kr/match/list?fromDate=20261001&toDate=20261028&tcodeList=all",
+      "observed_at": "2026-10-28T09:09:01.465464+00:00",
+      "automatic_retries": 0,
+      "status": 400,
+      "content_type": "application/json;charset=UTF-8",
+      "raw_path": "experiments/tipster-roi-expansion-20261028/kbl/raw/official-kbl-2026-10.json",
+      "sha256": "75aff668d2f973cc8544d792486c421e566ee971516cc97f2c71656665d9fdf2",
+      "bytes": 111,
+      "error": "HTTPError: 400 Client Error:  for url: https://api.kbl.or.kr/match/list?fromDate=20261001&toDate=20261028&tcodeList=all",
+      "git_retained": true
+    }
+  ],
+  "source_observations": 142,
+  "deduplicated_candidates": 120,
+  "duplicate_observations_removed": 22,
+  "source_observation_conflicts": [],
+  "page_audits": [
+    {
+      "url": "https://miky938-oddsparser.com/league/south-korea-kbl/",
+      "raw_rows": 19,
+      "matching_rows": 19,
+      "exclusions": {}
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-10-25/",
+      "raw_rows": 60,
+      "matching_rows": 4,
+      "exclusions": {
+        "other_league:Brazil · Serie A": 1,
+        "other_league:USA · AHL": 1,
+        "other_league:Japan · WTA Tokyo (hard)": 1,
+        "other_league:Mexico · Liga MX": 1,
+        "other_league:Australia · NBL": 2,
+        "other_league:Japan · WTA Osaka (hard)": 1,
+        "other_league:World · Super Featherweight - IBF/WBC/WBO Titles Men": 3,
+        "other_league:World · Tri-Nation Series": 1,
+        "other_league:France · ATP Lyon Doubles (hard)": 1,
+        "other_league:Spain · ACB": 1,
+        "other_league:Spain · Primera FEB": 1,
+        "other_league:Indonesia · Super League": 1,
+        "other_league:Austria · ATP Vienna (hard)": 3,
+        "other_league:Switzerland · ATP Basel (hard)": 1,
+        "other_league:Switzerland · Super League": 1,
+        "other_league:Germany · DEL": 1,
+        "other_league:Sweden · Handbollsligan": 1,
+        "other_league:Belgium · ATP Brussels Doubles (hard)": 1,
+        "other_league:Netherlands · Eredivisie": 3,
+        "other_league:France · Ligue 1": 3,
+        "other_league:England · Premier League": 2,
+        "other_league:Germany · Bundesliga": 3,
+        "other_league:Turkey · TBL": 1,
+        "other_league:Belgium · ATP Brussels (hard)": 1,
+        "other_league:Germany · DEL2": 1,
+        "other_league:Italy · Serie A": 2,
+        "other_league:Spain · LaLiga": 2,
+        "other_league:Greece · Super League": 1,
+        "other_league:Portugal · Liga 3": 1,
+        "other_league:Morocco · Botola Pro": 1,
+        "other_league:France · LNB": 1,
+        "other_league:Peru · Liga 1": 2,
+        "other_league:Italy · Serie A2": 1,
+        "other_league:Argentina · Primera Nacional": 1,
+        "other_league:Ecuador · Liga Pro": 1,
+        "other_league:Venezuela · Liga FUTVE": 1,
+        "other_league:Argentina · Liga Profesional": 1,
+        "other_league:Uruguay · Liga AUF Uruguaya": 1,
+        "other_league:USA · NHL": 1,
+        "other_league:Guatemala · Liga Nacional": 1,
+        "other_league:Bolivia · Division Profesional": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/league/usa-nba/",
+      "raw_rows": 100,
+      "matching_rows": 100,
+      "exclusions": {}
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-05/",
+      "raw_rows": 7,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:USA · ATP Indian Wells (hard)": 2,
+        "other_league:Greece · Challenger Men - Singles Hersonissos (hard)": 1,
+        "other_league:England · Premier League": 2,
+        "other_league:Brazil · NBB": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-06/",
+      "raw_rows": 10,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:USA · ATP Indian Wells (hard)": 2,
+        "other_league:Europe · AdmiralBet ABA League": 1,
+        "other_league:France · Elite 2": 2,
+        "other_league:Europe · Euroleague": 3,
+        "other_league:France · Pro D2": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-14/",
+      "raw_rows": 18,
+      "matching_rows": 3,
+      "exclusions": {
+        "other_league:Japan · B.League": 2,
+        "other_league:China · CBA": 3,
+        "other_league:Turkey · TBL": 1,
+        "other_league:Croatia · Prva NL": 2,
+        "other_league:Finland · Korisliiga": 1,
+        "other_league:France · LNB": 1,
+        "other_league:Portugal · Andebol 1": 1,
+        "other_league:Colombia · Primera A": 1,
+        "other_league:Argentina · Liga Profesional": 1,
+        "other_league:Brazil · NBB": 1,
+        "other_league:Argentina · Primera Nacional": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-15/",
+      "raw_rows": 17,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Rwanda · Challenger Men - Singles Kigali 2 (clay)": 1,
+        "other_league:Spain · Tercera RFEF - Group 3": 3,
+        "other_league:Spain · ACB": 1,
+        "other_league:England · Premier League": 2,
+        "other_league:Europe · BNXT League": 2,
+        "other_league:Austria · Superliga": 1,
+        "other_league:Dominican Republic · Challenger Men - Singles Cap Cana (hard)": 1,
+        "other_league:USA · WTA Miami (hard)": 2,
+        "other_league:Croatia · Premijer liga": 1,
+        "other_league:USA · MLS": 1,
+        "other_league:Brazil · Serie A Betano": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-16/",
+      "raw_rows": 10,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Croatia · Challenger Men - Singles Zadar (clay)": 1,
+        "other_league:Spain · Challenger Men - Singles Murcia (clay)": 2,
+        "other_league:USA · ATP Miami (hard)": 3,
+        "other_league:Ireland · Premier Division": 1,
+        "other_league:England · Premier League": 2
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-24/",
+      "raw_rows": 20,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Mexico · Challenger Men - Singles Morelia (hard)": 2,
+        "other_league:Saudi Arabia · Division 2": 3,
+        "other_league:Finland · Korisliiga": 1,
+        "other_league:Europe · Euroleague": 2,
+        "other_league:Sweden · Handbollsligan Women": 1,
+        "other_league:USA · WTA Miami (hard)": 2,
+        "other_league:Netherlands · Eerste Divisie": 1,
+        "other_league:England · League One": 1,
+        "other_league:Scotland · League Two": 1,
+        "other_league:Scotland · Championship": 1,
+        "other_league:USA · ATP Miami (hard)": 2,
+        "other_league:Colombia · Primera A": 1,
+        "other_league:Colombia · Challenger Men - Singles Bucaramanga 2 (clay)": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-28/",
+      "raw_rows": 30,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Argentina · Primera Nacional": 1,
+        "other_league:Japan · B.League": 2,
+        "other_league:Taiwan · SBL": 1,
+        "other_league:Spain · Challenger Men - Singles Alicante (clay)": 2,
+        "other_league:Turkey · TBL": 1,
+        "other_league:World · FIFA Series": 1,
+        "other_league:Norway · BLNO": 1,
+        "other_league:Scotland · Championship": 1,
+        "other_league:Italy · Serie C - Group C": 1,
+        "other_league:World · Friendly International": 1,
+        "other_league:Greece · Basket League": 1,
+        "other_league:USA · ATP Houston (clay)": 1,
+        "other_league:USA · WTA Miami (hard)": 1,
+        "other_league:Poland · Basket Liga": 1,
+        "other_league:Czech Republic · NBL": 1,
+        "other_league:Europe · Euro Cup": 1,
+        "other_league:Argentina · Primera B": 1,
+        "other_league:France · LNB": 1,
+        "other_league:Lithuania · LKL": 1,
+        "other_league:Brazil · Challenger Men - Singles Sao Paulo (clay)": 1,
+        "other_league:France · Top 14": 3,
+        "other_league:Spain · LaLiga2": 3,
+        "other_league:Uruguay · Segunda Division": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-30/",
+      "raw_rows": 19,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Europe · Euro U19 2027": 1,
+        "other_league:World · FIFA Series": 1,
+        "other_league:Finland · Korisliiga": 1,
+        "other_league:World · Friendly International": 2,
+        "other_league:Italy · Serie C - Group C": 2,
+        "other_league:USA · ATP Houston (clay)": 1,
+        "other_league:Venezuela · Superliga": 10
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-03-31/",
+      "raw_rows": 7,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Romania · ATP Bucharest (clay)": 1,
+        "other_league:Morocco · ATP Marrakech (clay)": 2,
+        "other_league:Italy · Challenger Men - Singles Barletta (clay)": 1,
+        "other_league:Spain · Challenger Men - Singles Menorca (clay)": 1,
+        "other_league:World · World Cup 2026": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-04-05/",
+      "raw_rows": 13,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Kazakhstan · Premier League": 1,
+        "other_league:Italy · Challenger Men - Singles Monza (clay)": 2,
+        "other_league:Spain · ACB": 1,
+        "other_league:Singapore · Premier League": 1,
+        "other_league:Philippines · PBA Commissioner's Cup": 1,
+        "other_league:Monaco · ATP Monte Carlo (clay)": 1,
+        "other_league:Austria · WTA Linz (hard)": 1,
+        "other_league:Austria · WTA Linz (clay)": 1,
+        "other_league:France · LNB": 1,
+        "other_league:Argentina · Liga Profesional": 1,
+        "other_league:Spain · LaLiga": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-04-08/",
+      "raw_rows": 16,
+      "matching_rows": 2,
+      "exclusions": {
+        "other_league:South America · Copa Sudamericana": 3,
+        "other_league:South America · Copa Libertadores": 1,
+        "other_league:Japan · B.League": 1,
+        "other_league:Germany · 3. Liga": 3,
+        "other_league:Turkey · Super Lig": 1,
+        "other_league:Europe · Champions League": 5
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-04-26/",
+      "raw_rows": 16,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Japan · B.League": 3,
+        "other_league:Spain · WTA Madrid (clay)": 2,
+        "other_league:Philippines · PBA Commissioner's Cup": 1,
+        "other_league:Denmark · Superliga": 1,
+        "other_league:France · Ligue 1": 1,
+        "other_league:Brazil · NBB": 1,
+        "other_league:Spain · ATP Madrid (clay)": 2,
+        "other_league:Serbia · Mozzart Bet Super Liga": 1,
+        "other_league:Brazil · Serie A Betano": 1,
+        "other_league:Brazil · Serie B": 2
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-10-06/",
+      "raw_rows": 49,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:Colombia · Primera A": 1,
+        "other_league:China · Challenger Men - Singles Wuning 3 (hard)": 8,
+        "other_league:China · Challenger Women - Singles Suzhou (hard)": 5,
+        "other_league:China · WTA Beijing Doubles (hard)": 2,
+        "other_league:China · WTA Beijing (hard)": 2,
+        "other_league:China · ATP Shanghai (hard)": 7,
+        "other_league:Japan · ATP Tokyo Doubles (hard)": 1,
+        "other_league:Chile · Challenger Men - Singles Antofagasta (clay)": 5,
+        "other_league:Finland · Korisliiga": 1,
+        "other_league:Europe · Champions League": 1,
+        "other_league:Europe · Eurocup": 2,
+        "other_league:Argentina · Primera C": 2,
+        "other_league:Europe · BNXT League": 1,
+        "other_league:Argentina · Reserve League": 1,
+        "other_league:Europe · UEFA Nations League": 5,
+        "other_league:Peru · Liga 2": 1,
+        "other_league:Paraguay · Copa de Primera": 1,
+        "other_league:Brazil · Serie B": 2
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-10-12/",
+      "raw_rows": 25,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:China · Challenger Men - Singles Jinan (hard)": 2,
+        "other_league:China · ATP Shanghai Doubles (hard)": 1,
+        "other_league:China · ATP Shanghai (hard)": 4,
+        "other_league:China · WTA Wuhan (hard)": 1,
+        "other_league:Cyprus · Division A": 1,
+        "other_league:Italy · Challenger Women - Singles Rovereto (hard)": 1,
+        "other_league:Argentina · Primera B": 1,
+        "other_league:France · Challenger Men - Singles Roanne (hard)": 1,
+        "other_league:Italy · Serie A": 1,
+        "other_league:England · Premier League": 1,
+        "other_league:Spain · LaLiga": 1,
+        "other_league:Brazil · Serie A": 1,
+        "other_league:Argentina · Liga Profesional": 1,
+        "other_league:Bolivia · Challenger Men - Singles Santa Cruz 2 (clay)": 5,
+        "other_league:Paraguay · Copa de Primera": 1,
+        "other_league:Argentina · Primera Nacional": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-10-14/",
+      "raw_rows": 12,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:China · ITF Men - Singles M25 Qian Daohu (hard)": 1,
+        "other_league:China · Challenger Men - Doubles Jinan (hard)": 2,
+        "other_league:Europe · Eurocup": 2,
+        "other_league:Europe · Latvian-Estonian League": 1,
+        "other_league:Europe · FIBA Europe Cup": 3,
+        "other_league:Europe · Champions League": 1,
+        "other_league:Bolivia · Challenger Men - Singles Santa Cruz 2 (clay)": 1
+      }
+    },
+    {
+      "url": "https://miky938-oddsparser.com/tips/2026-10-28/",
+      "raw_rows": 28,
+      "matching_rows": 1,
+      "exclusions": {
+        "other_league:USA · NHL": 4,
+        "other_league:USA · NCAA": 5,
+        "other_league:Japan · WTA Tokyo (hard)": 2,
+        "other_league:Japan · WTA Tokyo Doubles (hard)": 1,
+        "other_league:Japan · J.League Cup": 1,
+        "other_league:Moldova · Moldovan Cup": 1,
+        "other_league:Asia · AFC Champions League 2": 2,
+        "other_league:China · WTA Guangzhou Doubles (hard)": 2,
+        "other_league:Greece · Greek Cup": 1,
+        "other_league:Switzerland · ATP Basel (hard)": 1,
+        "other_league:Czech Republic · Maxa liga": 1,
+        "other_league:Azerbaijan · Azerbaijan Cup": 1,
+        "other_league:Cyprus · Cyprus Cup": 1,
+        "other_league:Czech Republic · NBL": 1,
+        "other_league:Europe · Eurocup": 1,
+        "other_league:Europe · FIBA Europe Cup": 1,
+        "other_league:Romania · Romanian Cup": 1
+      }
+    }
+  ],
+  "official_kbl_match_rows": 138,
+  "official_kbl_ended_rows": 135,
+  "kbl_official_validation": {
+    "verified_score_and_outcome": 17,
+    "publisher_official_disagreement": 1,
+    "official_not_ended": 1
+  },
+  "leagues": {
+    "KBL": {
+      "label": "publisher_only_unverified_flat_one_unit_descriptive_not_validated_ROI",
+      "rows": 19,
+      "settled_rows": 18,
+      "distinct_fixture_count": 19,
+      "market_family_counts": {
+        "moneyline": 19
+      },
+      "results": {
+        "Won": 12,
+        "Lost": 6,
+        "Pending": 1
+      },
+      "match_date_min": "2026-03-05",
+      "match_date_max": "2026-10-28",
+      "settled_match_date_max": "2026-10-25",
+      "source_reported_profit_sum_units": 10.29,
+      "publisher_only_profit_per_settled_stake_pct": 57.166667,
+      "internal_profit_arithmetic_errors": [],
+      "pregame_cutoff_proven_rows": 0
+    },
+    "NBA": {
+      "label": "publisher_only_unverified_flat_one_unit_descriptive_not_validated_ROI",
+      "rows": 101,
+      "settled_rows": 101,
+      "distinct_fixture_count": 15,
+      "market_family_counts": {
+        "moneyline": 9,
+        "totals": 92
+      },
+      "results": {
+        "Won": 82,
+        "Lost": 19
+      },
+      "match_date_min": "2026-04-08",
+      "match_date_max": "2026-10-25",
+      "settled_match_date_max": "2026-10-25",
+      "source_reported_profit_sum_units": 17.09,
+      "publisher_only_profit_per_settled_stake_pct": 16.920792,
+      "internal_profit_arithmetic_errors": [],
+      "pregame_cutoff_proven_rows": 0
+    }
+  },
+  "omissions": [
+    "No publication timestamps or historical pregame cutoff proof",
+    "No proto odds join, operational model replay, hybrid evaluation, or adoption decision",
+    "NBA official scores not independently collected in this subtask",
+    "NBA league page renders 100 rows although publisher summary says 162; extra day-page rows are opportunistic",
+    "KBL league page renders only 18 settled rows; 100+ KBL target unavailable on exposed archive",
+    "Other leagues excluded by explicit league link, irrespective of outcome"
+  ]
+}

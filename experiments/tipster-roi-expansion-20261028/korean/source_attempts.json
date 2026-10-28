@@ -1,0 +1,48 @@
+[
+  {
+    "source": "fixtv24.com",
+    "direct_transport": "connection reset 10054 on initial seed",
+    "fallback": "2 public articles and listing readable through web tool",
+    "pagination": "listing has 18,776 claimed rows but no usable pagination link in returned page; not endpoint-guessed",
+    "included_fixture_count": 2,
+    "included_pick_rows": 4,
+    "exclusions": [
+      "future NBA rows on current listing not used as historical results",
+      "same article and game detail not counted separately"
+    ],
+    "odds": "4 primary price fields plus alternatives (6 scope-specific prices); all dynamic and observed postgame"
+  },
+  {
+    "source": "happytoto25.com",
+    "direct_transport": "connection reset 10054 on initial seed",
+    "fallback": "3 public articles, listing, page 2 link readable; repeated direct page 2 opens failed",
+    "pagination": "page 2 attempted 3 times across ordinary open/click (2 inaccessible, 1 readable); previous/popular article links expanded archive",
+    "included_fixture_count": 31,
+    "included_pick_rows": 31,
+    "exclusions": [
+      "2026-08-29 Nippon-Ham vs Chiba Lotte explicitly in-play, excluded",
+      "odds absent, left null",
+      "happytoto24.com body alias not independent source"
+    ],
+    "unknowns": [
+      "article timestamps timezone not stated; null",
+      "team order preserved, not assigned home/away"
+    ]
+  },
+  {
+    "source": "sportsanalysis1.com",
+    "direct_transport": "public listing/article HTML accessible",
+    "pagination": "initial pages 1-5; stored discovery pages 1,2,3,6,7; total 7 distinct listing pages inspected",
+    "included_fixture_count": 12,
+    "included_pick_rows": 13,
+    "exclusions": [
+      "J1/J2, international competitions outside requested priority leagues",
+      "K2 links discovered but article requests allocated to K1/NPB",
+      "1X2 odds in Ulsan-Daegu article cannot price spread/total"
+    ],
+    "unknowns": [
+      "3 per-article author bylines not captured; author null rather than inferred",
+      "source probabilities and simulated scores are not official results"
+    ]
+  }
+]
