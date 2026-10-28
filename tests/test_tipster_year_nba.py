@@ -31,3 +31,10 @@ def test_page_date_echo_and_final_score_validation_prevent_wrong_day_join():
         parse_page(page(gameTimeEastern='2025-11-02T17:00:00Z'),'2025-11-01','now')
     with pytest.raises(ValueError,match='invalid final'):
         parse_page(page(homeTeam=dict(teamTricode='MIL',teamName='Bucks',score=135)), '2025-11-01','now')
+
+
+def test_official_exhibition_guest_does_not_discard_all_other_games():
+    excluded=[]
+    assert parse_page(page(awayTeam=dict(teamTricode='LON',teamName='London Lions',score=99)),
+                      '2025-11-01','now',excluded)==[]
+    assert excluded[0]['reason']=='non_NBA_opponent_in_official_exhibition'

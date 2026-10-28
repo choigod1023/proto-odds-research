@@ -24,7 +24,7 @@ NAMES = {
 }
 
 
-def parse_page(content, day, observed_at):
+def parse_page(content, day, observed_at, diagnostics=None):
     node = BeautifulSoup(content, 'html.parser').find('script', id='__NEXT_DATA__')
     if node is None:
         raise ValueError('official SSR data absent')
@@ -44,6 +44,11 @@ def parse_page(content, day, observed_at):
             if g['gameTimeEastern'][:10] != day:
                 raise ValueError('game card date mismatch')
             h, a = g['homeTeam'], g['awayTeam']
+            if h['teamTricode'] not in NAMES or a['teamTricode'] not in NAMES:
+                if diagnostics is not None:
+                    diagnostics.append(dict(game_id=g['gameId'], reason='non_NBA_opponent_in_official_exhibition',
+                        home=h['teamTricode'], away=a['teamTricode']))
+                continue
             if type(h['score']) is not int or type(a['score']) is not int or h['score']==a['score']:
                 raise ValueError('invalid final score')
             kst = utc.astimezone(timezone(timedelta(hours=9)))
@@ -84,7 +89,7 @@ def collect(paths, out):
     session = requests.Session()
     session.headers.update({'User-Agent':'sportstoto-research/1.0','Referer':'https://www.nba.com/'})
     for day in days:
-        if any(r['date']==day for r in log):
+        if any(r['date']==day and not str(r.get('error','')).startswith("KeyError: 'LON'") for r in log):
             continue
         url = 'https://www.nba.com/games?date='+day
         item = dict(date=day,url=url,observed_at=datetime.now(timezone.utc).isoformat())
@@ -94,7 +99,8 @@ def collect(paths, out):
             response.raise_for_status()
             if response.status_code!=200:
                 raise ValueError('unexpected redirect')
-            batch = parse_page(response.content,day,item['observed_at'])
+            item['excluded_games'] = []
+            batch = parse_page(response.content,day,item['observed_at'],item['excluded_games'])
             rows.extend(batch)
             item['official_finals'] = len(batch)
         except (requests.RequestException,ValueError,KeyError,TypeError) as exc:

@@ -45,7 +45,13 @@ def build(candidate_paths, fixture_paths, offer_paths, out):
         r = dict(row)
         r['source_url'] = r.get('source_url') or r.get('url')
         r['period'] = r.get('period') or r.get('market_scope')
+        if r.get('league') in {'MLB','NPB','KBO'} and r['period']=='full_game':
+            r['period'] = 'full_game_including_overtime'
+            r['period_normalization_basis'] = 'full_baseball_game_includes_extra_innings_audit_convention'
         r['odds_time_quality'] = r.get('odds_time_quality') or r.get('price_evidence_tier')
+        if (r.get('source') in {'Miky938 Tips','Betblog'} and r.get('reported_decimal_odds')
+                and not r['odds_time_quality']):
+            r['odds_time_quality'] = 'retrospective_listed_price_claim'
         r['reported_decimal_odds'] = r.get('reported_decimal_odds') or r.get('original_decimal_odds')
         if r.get('market')=='total' and not r.get('side'):
             r['side'] = r.get('selection')
@@ -70,7 +76,18 @@ def build(candidate_paths, fixture_paths, offer_paths, out):
         finals.append(r)
     joined = join(normalized, finals, offers)
     result = evaluate(joined)
+    # Keep strict primary results; this named convention is a separate analysis.
+    convention = []
+    for row in joined:
+        r = dict(row)
+        if (r.get('league') in {'NBA','KBL'} and r.get('market') in {'moneyline','spread','total'}
+                and r.get('period') in {'full_game','unverified_overtime_rule'}):
+            r['period'] = 'full_game_including_overtime'
+            r['settlement_scope_assumption'] = 'standard_full_game_includes_overtime_not_verified_per_original_bookmaker'
+        convention.append(r)
+    convention_result = evaluate(convention)
     result['inputs'] = manifest
+    result['official_result_inputs_by_league'] = dict(Counter(r.get('league') for r in finals))
     result['raw_source_counts'] = dict(Counter(r.get('source') for r in candidates))
     result['raw_league_counts'] = dict(Counter(r.get('league') for r in candidates))
     result['raw_source_dates'] = {}
@@ -81,8 +98,11 @@ def build(candidate_paths, fixture_paths, offer_paths, out):
             last=dates[-1] if dates else None, dates=len(dates),
             target_window_records=sum(START<=r.get('match_date','')<=END for r in batch),
             claimed_authors=len({r['author'] for r in batch if r.get('author')}))
+    for key in ('inputs','official_result_inputs_by_league','raw_source_counts','raw_league_counts','raw_source_dates'):
+        convention_result[key] = result[key]
     out.mkdir(parents=True, exist_ok=True)
-    for name, value in [('joined.json', joined), ('results.json', result)]:
+    for name, value in [('joined.json', joined), ('results.json', result),
+                        ('joined-standard-ot.json', convention), ('results-standard-ot.json', convention_result)]:
         (out/name).write_text(json.dumps(value, ensure_ascii=False, indent=2)+'\n', encoding='utf8')
     return result
 

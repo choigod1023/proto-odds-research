@@ -1,0 +1,36 @@
+[
+  {
+    "url": "https://www.nba.com/games?date=2025-11-01",
+    "observed_at": "2026-10-28T09:57:27.239687+00:00",
+    "status": 200,
+    "bytes": 447197,
+    "sha256": "582d91a7868e9fc25d7dad9692a535bd2bcbddc99b8d896896784066c1b7b296",
+    "next_data": true,
+    "keys": [
+      "props",
+      "page",
+      "query",
+      "buildId",
+      "isFallback",
+      "isExperimentalCompile",
+      "gssp",
+      "appGip",
+      "locale",
+      "locales",
+      "defaultLocale",
+      "scriptLoader"
+    ]
+  },
+  {
+    "url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+    "observed_at": "2026-10-28T09:57:28.456645+00:00",
+    "status": 403,
+    "bytes": 431,
+    "sha256": "fff7eca8953bd5da9d54ba15052650700c17170bc497e801eff787bc26dab86b"
+  },
+  {
+    "url": "https://stats.nba.com/stats/scheduleleaguev2?LeagueID=00&Season=2025-26",
+    "observed_at": "2026-10-28T09:57:28.849836+00:00",
+    "error": "ReadTimeout"
+  }
+]
