@@ -107,6 +107,21 @@ def test_reverse_source_home_away_does_not_reverse_selection():
         match_vote(dict(row, published_at="2025-10-26T10:00:00+09:00"), [game()])
 
 
+def test_kbl_db_alias_matches_actual_scheduled_fixture():
+    # Observed on pick79's 2026-10-28 KBL page; only identity and pick markup.
+    g = game(home="한국가스", away="원주DB")
+    e = event(g, markup(home="한국가스공사", away="DB", choice="DB"))
+    assert e["side"] == "원정"
+    assert e["fixture"] == fixture_key(g)
+    info = context(g, [e], AT, AT)
+    assert info["status"] == "applied"
+    assert apply(g, info)["최종확률"] == .505
+    with pytest.raises(ValueError, match="ambiguous"):
+        match_vote(parse_page(URL, markup(home="한국가스공사", away="DB", choice="DB"), AT), [g, g])
+    with pytest.raises(ValueError, match="unmatched"):
+        match_vote(parse_page(URL, markup(home="한국가스공사", away="DB", choice="DB"), AT), [dict(g, league="WKBL")])
+
+
 def test_first_observation_is_immutable_and_fixture_projection(tmp_path):
     from runtime_db import RuntimeDatabase
     db = RuntimeDatabase(tmp_path / "votes.sqlite3")
@@ -205,3 +220,36 @@ def test_non_mlb_votes_refresh_unchanged_prices_and_freeze_at_t30(tmp_path, monk
     doc, _ = refresh.refresh_document(doc, feed, now=datetime.fromisoformat("2026-10-26T09:31:00Z"))
     assert doc["live"][0]["decision_snapshot"] == snapshot
     assert len(calls) == count
+
+
+def test_latest_article_per_listing_is_checked_while_history_rotates(tmp_path, monkeypatch):
+    import public_tipster_votes as mod
+    from runtime_db import RuntimeDatabase
+    db = RuntimeDatabase(tmp_path / "rotation.sqlite3")
+    db.store_artifact("picks_v2", {"live": []})
+    db.put_document("public_tipster_intake", {"cursor": 35})
+    monkeypatch.setattr(mod.time, "sleep", lambda n: None)
+    categories = ("soccer", "baseball", "basketball", "volleyball")
+    listings = {f"https://pick79.com/posts/{c}/":
+                [f"https://pick79.com/posts/detail/{c}-{i}/" for i in range(12)]
+                for c in categories}
+    listings["https://www.goli.tv/board/analysis"] = [f"https://www.goli.tv/board/analysis/{i}" for i in range(12)]
+    articles = []
+
+    def http(session, url):
+        if url in listings:
+            return ''.join(f'<a href="{u}">article</a>' for u in listings[url])
+        articles.append(url)
+        raise ValueError("missing_explicit_pick")
+
+    monkeypatch.setattr(mod, "fetch", http)
+    latest = {links[0] for links in listings.values()}
+    seen = set()
+    for _ in range(6):
+        articles.clear()
+        summary = mod.collect(db, object())
+        assert latest <= set(articles)
+        assert len(articles) == len(set(articles)) <= 16
+        assert summary["candidates"] == len(articles)
+        seen.update(articles)
+    assert seen == {u for links in listings.values() for u in links}
