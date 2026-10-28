@@ -187,8 +187,8 @@ def test_collector_runs_bounded_and_retains_original_observation(tmp_path, monke
     monkeypatch.setattr(mod, "fetch", http)
     result = mod.collect(db, object())
     assert result["written"] == 1 and result["sports"] == {"bk": 1}
-    assert result["errors"] == {"goli:ValueError": 1}
-    assert len(calls) == 6
+    assert result["errors"] == {"goli:ValueError": 1, "golfmaster:empty_listing": 1}
+    assert len(calls) == 7
     assert mod.collect(db, object())["written"] == 0
     assert len(db.events("public_tipster_votes")) == 1
 
@@ -234,6 +234,8 @@ def test_latest_article_per_listing_is_checked_while_history_rotates(tmp_path, m
                 [f"https://pick79.com/posts/detail/{c}-{i}/" for i in range(12)]
                 for c in categories}
     listings["https://www.goli.tv/board/analysis"] = [f"https://www.goli.tv/board/analysis/{i}" for i in range(12)]
+    listings['https://golfmasterj.tistory.com/'] = [
+        f'https://golfmasterj.tistory.com/entry/article-{i}' for i in range(12)]
     articles = []
 
     def http(session, url):
@@ -245,11 +247,11 @@ def test_latest_article_per_listing_is_checked_while_history_rotates(tmp_path, m
     monkeypatch.setattr(mod, "fetch", http)
     latest = {links[0] for links in listings.values()}
     seen = set()
-    for _ in range(6):
+    for _ in range(8):
         articles.clear()
         summary = mod.collect(db, object())
         assert latest <= set(articles)
-        assert len(articles) == len(set(articles)) <= 16
+        assert len(articles) == len(set(articles)) <= 15
         assert summary["candidates"] == len(articles)
         seen.update(articles)
     assert seen == {u for links in listings.values() for u in links}
