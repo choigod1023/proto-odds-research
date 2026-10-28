@@ -88,6 +88,10 @@ def context(game, rows, as_of, built_at):
                          "observed_at": observed.isoformat(), "source_url": row["source_url"],
                          "content_hash": row["content_hash"], "published_at": row.get("published_at"),
                          "publication_time_quality": row.get("publication_time_quality")}
+                if (re.fullmatch(r'[0-9a-f]{64}', str(row.get('analysis_hash', '')))
+                        and isinstance(row.get('analysis_characters'), int)
+                        and row['analysis_characters'] >= 200):
+                    entry['analysis_hash'] = row['analysis_hash']
                 candidates.setdefault(row["voter"], []).append(entry)
                 continue
             if game.get("league") != "MLB" or not home or not away:
@@ -124,7 +128,23 @@ def context(game, rows, as_of, built_at):
             votes[author] = min(first, key=lambda e:e['id'])
     if not votes:
         return fallback
-    evidence = sorted(votes.values(), key=lambda x: (x["author"], x["id"]))
+    raw_authors = len(votes)
+    copies, independent = {}, []
+    for row in votes.values():
+        if row.get('analysis_hash'):
+            copies.setdefault(row['analysis_hash'], []).append(row)
+        else:
+            independent.append(row)
+    conflicts = 0
+    for rows in copies.values():
+        if len({row['side'] for row in rows}) != 1:
+            conflicts += len(rows)
+            continue  # Identical analysis cannot justify conflicting directions.
+        independent.append(min(rows, key=lambda x: (stamp(x['observed_at']), x['author'], x['id'])))
+    if not independent:
+        return dict(fallback, reason='conflicting_duplicate_analysis', raw_authors=raw_authors,
+                    conflicting_analysis_count=conflicts)
+    evidence = sorted(independent, key=lambda x: (x["author"], x["id"]))
     digest = hashlib.sha256(json.dumps(evidence, sort_keys=True).encode()).hexdigest()
     counts = {s:sum(v['side']==s for v in evidence) for s in ('홈','무','원정')}
     leaders = [s for s,n in counts.items() if n == max(counts.values())]
@@ -137,6 +157,9 @@ def context(game, rows, as_of, built_at):
             "home_vote_share": sum(v["side"] == "홈" for v in evidence)/len(evidence),
             "vote_shares": {s: sum(v["side"] == s for v in evidence)/len(evidence) for s in ("홈", "무", "원정")},
             "authors": len(evidence), "evidence": evidence, "evidence_hash": digest,
+            "raw_authors": raw_authors,
+            "duplicate_analysis_count": raw_authors-len(evidence)-conflicts,
+            "conflicting_analysis_count": conflicts,
             "latest_observed_at": max(stamp(v["observed_at"]) for v in evidence).isoformat()}
 
 

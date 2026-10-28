@@ -102,7 +102,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
       </header>
       {decision?.tipster?.evidence?.length > 0 && <div className="px-4 py-3 text-[11px] border-b border-rule2" aria-label="실제 반영된 픽스터 원문">
         <b>{vote ? vote.text : `실제 반영한 픽스터 · ${decision.tipster.authors}명/발행처`}</b>
-        <p>{vote ? `${vote.share !== null ? `투표 ${(vote.share * 100).toFixed(1)}% · ` : ""}작성자별 첫 투표의 최다 득표 방향을 선택합니다. 동률·유효 투표 없음은 보류합니다. 투표 비율은 지지율이며 예상 적중률이 아닙니다.` : "시장확률 90% + 아래 작성자별 승패 투표 10%. 적중률이나 수익성을 검증한 가중치는 아닙니다."}</p>
+        <p>{vote ? `${vote.share !== null ? `투표 ${(vote.share * 100).toFixed(1)}% · ` : ""}작성자별 첫 투표에서 동일 분석의 중복을 제외하고 최다 득표 방향을 선택합니다. 동률·유효 투표 없음은 보류합니다. 투표 비율은 지지율이며 예상 적중률이 아닙니다.` : "시장확률 90% + 아래 작성자별 승패 투표 10%. 적중률이나 수익성을 검증한 가중치는 아닙니다."}</p>
         <ul className="mt-2 space-y-1">{decision.tipster.evidence.map(row => {
           const allowed = /^https:\/\/(pick79\.com\/posts\/detail\/[a-zA-Z0-9_-]+\/?|www\.goli\.tv\/board\/analysis\/\d+)$/.test(row.source_url || "");
           return <li key={row.id}>{allowed ? <a href={row.source_url} target="_blank" rel="noopener noreferrer" className="underline">{row.author}</a> : row.author}

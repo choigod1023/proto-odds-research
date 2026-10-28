@@ -1,0 +1,1676 @@
+{
+  "environment": "local SQLite; production read-only",
+  "intake": {
+    "observed_at": "2026-10-28T14:50:10.417873+00:00",
+    "source": "public_fullgame_vote_v1",
+    "written": 4,
+    "parsed": 14,
+    "sports": {
+      "sc": 4
+    },
+    "errors": {
+      "volleyball:empty_listing": 1,
+      "goli:ConnectionError": 1
+    },
+    "rejected": {
+      "unmatched_or_ambiguous_fixture": 5,
+      "outside_pregame_window": 5,
+      "missing_home_away": 1
+    },
+    "cursor": 11,
+    "candidates": 15,
+    "discovered": 43,
+    "leagues": {
+      "세리에A": 4
+    },
+    "authors": 2,
+    "by_source": {
+      "pick79.com": {
+        "attempted": 12,
+        "parsed": 12,
+        "rejected": 9,
+        "matched": 3,
+        "written": 3
+      },
+      "golfmasterj.tistory.com": {
+        "attempted": 3,
+        "rejected": 2,
+        "parsed": 2,
+        "matched": 1,
+        "written": 1
+      }
+    },
+    "deferred": 0,
+    "elapsed_seconds": 18.423,
+    "status": "matched"
+  },
+  "new_first_observations": [
+    {
+      "analysis_characters": 2260,
+      "analysis_hash": "269676b22a993b770db244a14c19ab7e432c5a7d4c1262c70ac8ec33e94f291f",
+      "author": "픽천국",
+      "away": "볼로냐",
+      "content_hash": "aaf0e17d4305b242c6707f47c0c6a0b3eeb991f550e885b92a9903d3860c9740",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "AC밀란",
+        "볼로냐",
+        "2026-10-29T02:30:00+09:00"
+      ],
+      "home": "AC 밀란",
+      "kickoff": "2026-10-28T17:30:00+00:00",
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-28T14:50:22.522762+00:00",
+      "pick_id": "905436d9d537554fdfc1ca6565638e23f32b5b63ca64d22e1a6b2333cdf1cf60",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-28T17:30:00.000Z",
+      "selected": "home",
+      "selection_text": "AC 밀란 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-fotmob-5749720-2026-10-29-milan",
+      "sport": "sc",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "analysis_characters": 2145,
+      "analysis_hash": "c90d28887b1580458a6f62a85000020b36bc68539183cc5fefa88401a79dcd6b",
+      "author": "픽천국",
+      "away": "우디네세",
+      "content_hash": "b56c8a8be5a24ef6916cf62d41fccfc293bafaf9841395cfa2f1b7b4ab36bebf",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "파르마",
+        "우디네세",
+        "2026-10-29T02:30:00+09:00"
+      ],
+      "home": "파르마",
+      "kickoff": "2026-10-28T17:30:00+00:00",
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-28T14:50:24.896211+00:00",
+      "pick_id": "507c4b6bceb41d796b9058f4c06b5d9d875d84f0e9a012a8dedfc0d2e347107f",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-28T17:30:00.000Z",
+      "selected": "draw",
+      "selection_text": "무승부",
+      "side": "무",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-fotmob-5749726-2026-10-29-parma",
+      "sport": "sc",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "analysis_characters": 2673,
+      "analysis_hash": "f18cbd00e34f35335178631eede956e18e42b92076923bab9fa6912a6051d62d",
+      "author": "마스터제이",
+      "away": "인테르나치오날레",
+      "content_hash": "c2c25b75236abd92a119ad72bc75821c5a830187e6b1ed1814e46b76854d0e9c",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "베네치아",
+        "인테르",
+        "2026-10-29T02:30:00+09:00"
+      ],
+      "home": "베네치아 FC",
+      "kickoff": "2026-10-29T02:30:00+09:00",
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-28T14:50:26.522643+00:00",
+      "pick_id": "6c27ca1e609906b9c57f8a6503eb2bf978b0c09891172b67c6cf8d3455520c4f",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "source_claim",
+      "published_at": "2026-10-27T23:29:55+09:00",
+      "selected": "away",
+      "selection_text": "인테르나치오날레 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://golfmasterj.tistory.com/entry/%EC%84%B8%EB%A6%AC%EC%97%90-A-9R-%ED%94%84%EB%A6%AC%EB%B7%B0-%EB%B2%A0%EB%84%A4%EC%B9%98%EC%95%84-FC-vs-%EC%9D%B8%ED%85%8C%EB%A5%B4%EB%82%98%EC%B9%98%EC%98%A4%EB%82%A0%EB%A0%88-%EC%A0%95%EB%B0%80-%EC%A0%84%EC%88%A0-%EB%B6%84%EC%84%9D-%EB%B0%8F-%EB%B0%B0%EB%8B%B9%C2%B7%EC%8A%B9%EB%B6%80%EC%B2%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A6%AC%ED%8F%AC%ED%8A%B8",
+      "sport": "sc",
+      "voter": "golfmasterj.tistory.com:마스터제이"
+    },
+    {
+      "analysis_characters": 2169,
+      "analysis_hash": "89f4d238edcc2d643ec3973c5e237da21ccccf470c38a77b3ec7aa7b74af0945",
+      "author": "픽천국",
+      "away": "인테르",
+      "content_hash": "4d31c5c56938598dac686704641c26e7d0998b93c4ee4262cb4410a202c9179f",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "베네치아",
+        "인테르",
+        "2026-10-29T02:30:00+09:00"
+      ],
+      "home": "베네치아",
+      "kickoff": "2026-10-28T17:30:00+00:00",
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-28T14:50:27.151502+00:00",
+      "pick_id": "0af3be6fa9095ae5f86e1f3754fadfbe433e6b99416184e1cce21970003c3445",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-28T17:30:00.000Z",
+      "selected": "away",
+      "selection_text": "인테르 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-fotmob-5749729-2026-10-29-venezia",
+      "sport": "sc",
+      "voter": "pick79.com:픽천국"
+    }
+  ],
+  "final_parser_live_confirmation": {
+    "source": "public_fullgame_vote_v1",
+    "source_url": "https://golfmasterj.tistory.com/entry/%EC%84%B8%EB%A6%AC%EC%97%90-A-9R-%ED%94%84%EB%A6%AC%EB%B7%B0-%EB%B2%A0%EB%84%A4%EC%B9%98%EC%95%84-FC-vs-%EC%9D%B8%ED%85%8C%EB%A5%B4%EB%82%98%EC%B9%98%EC%98%A4%EB%82%A0%EB%A0%88-%EC%A0%95%EB%B0%80-%EC%A0%84%EC%88%A0-%EB%B6%84%EC%84%9D-%EB%B0%8F-%EB%B0%B0%EB%8B%B9%C2%B7%EC%8A%B9%EB%B6%80%EC%B2%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A6%AC%ED%8F%AC%ED%8A%B8",
+    "author": "마스터제이",
+    "sport": "sc",
+    "league": "세리에A",
+    "home": "베네치아 FC",
+    "away": "인테르나치오날레",
+    "selected": "away",
+    "selection_text": "인테르나치오날레 승",
+    "kickoff": "2026-10-29T02:30:00+09:00",
+    "observed_at": "2026-10-28T14:56:07.765517+00:00",
+    "published_at": "2026-10-27T23:29:55+09:00",
+    "publication_time_quality": "source_claim",
+    "content_hash": "956845e691755838dd8136c4a2fbafdfeecd1cfc167525981f93b0658d1fa874",
+    "analysis_hash": "f18cbd00e34f35335178631eede956e18e42b92076923bab9fa6912a6051d62d",
+    "analysis_characters": 2673,
+    "fixture": [
+      "sc",
+      "세리에A",
+      "베네치아",
+      "인테르",
+      "2026-10-29T02:30:00+09:00"
+    ],
+    "side": "원정",
+    "voter": "golfmasterj.tistory.com:마스터제이",
+    "pick_id": "6c27ca1e609906b9c57f8a6503eb2bf978b0c09891172b67c6cf8d3455520c4f",
+    "event_type": "first_observed",
+    "eligible_pre_event": true,
+    "market_type": "full_game_winner",
+    "provenance": "live_http_observation"
+  },
+  "public_votes_only_comparison": {
+    "as_of": "2026-10-28T14:51:52.082729+00:00",
+    "existing_public_rows": 20,
+    "new_rows": 4,
+    "applied_before": 1,
+    "applied_after": 2,
+    "changes": [
+      {
+        "home": "AC밀란",
+        "away": "볼로냐",
+        "kickoff": "10.29(목) 02:30",
+        "before_side": null,
+        "before_authors": 0,
+        "after_side": "홈",
+        "after_authors": 1,
+        "votes": {
+          "홈": 1,
+          "무": 0,
+          "원정": 0
+        }
+      },
+      {
+        "home": "파르마",
+        "away": "우디네세",
+        "kickoff": "10.29(목) 02:30",
+        "before_side": "원정",
+        "before_authors": 1,
+        "after_side": null,
+        "after_authors": 2,
+        "votes": {
+          "홈": 0,
+          "무": 1,
+          "원정": 1
+        }
+      },
+      {
+        "home": "베네치아",
+        "away": "인테르",
+        "kickoff": "10.29(목) 02:30",
+        "before_side": null,
+        "before_authors": 0,
+        "after_side": "원정",
+        "after_authors": 2,
+        "votes": {
+          "홈": 0,
+          "무": 0,
+          "원정": 2
+        }
+      }
+    ],
+    "scope": "public sources only; TailSlips MLB omitted from this comparison; future outcomes pending"
+  },
+  "profitability_status": "future outcomes pending; hit rate and ROI not measured",
+  "existing_public_observations": [
+    {
+      "author": "픽천국",
+      "away": "KIA 타이거즈",
+      "content_hash": "2b07510b262ea6a894cfd01517e54e21218a6b34a764da76b8935fec82d91c35",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bs",
+        "KBO",
+        "삼성",
+        "KIA",
+        "2026-10-26T18:30:00+09:00"
+      ],
+      "home": "삼성 라이온스",
+      "kickoff": "2026-10-26T09:30:00+00:00",
+      "league": "KBO",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:53:58.047951+00:00",
+      "pick_id": "a6bd40536da2eae41a10ab32be3bf38496f0172cba35a4d9907bddd396b1e866",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T09:30:00.000Z",
+      "selected": "away",
+      "selection_text": "KIA 타이거즈 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-kbo-55551026HTSS02026-2026-10-26-samsung-lions",
+      "sport": "bs",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "LG",
+      "content_hash": "d37213e66359189c2836ce04a3f23860854a975898fbbd3b7187ecb40400bc90",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "KBL",
+        "고양소노",
+        "창원LG",
+        "2026-10-26T19:00:00+09:00"
+      ],
+      "home": "고양 소노",
+      "kickoff": "2026-10-26T10:00:00+00:00",
+      "league": "KBL",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:00.123226+00:00",
+      "pick_id": "71d2eee17c85056a2839d4346acb9feb8737492e01af98cc0fadb6295f0d65f0",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T10:00:00.000Z",
+      "selected": "home",
+      "selection_text": "고양 소노 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-kbl-202610266650490140-2026-10-26-goyang-sono",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "알가라파",
+      "content_hash": "6254710acf1599e8aedafd4899e3b274a18f724f83d673cf4634abc672a0d5a3",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "ACLE",
+        "알아흘사",
+        "알가라파",
+        "2026-10-27T01:00:00+09:00"
+      ],
+      "home": "알아흘리",
+      "kickoff": "2026-10-26T16:00:00+00:00",
+      "league": "ACLE",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:02.692956+00:00",
+      "pick_id": "278a85ef04c552770fc63a9587da279e4eb3d921547f98b2606c2e26f97efc2c",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T16:00:00.000Z",
+      "selected": "home",
+      "selection_text": "알아흘리 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-fotmob-6050081-2026-10-27-al-ahli",
+      "sport": "sc",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "밀워키 브루어스",
+      "content_hash": "c2c260438337de9a23ea0a63d6da4d35f3a86cfeb09a955a832cd9a0c067f2d6",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bs",
+        "MLB",
+        "탬파레이",
+        "밀워브루",
+        "2026-10-27T09:00:00+09:00"
+      ],
+      "home": "탬파베이 레이스",
+      "kickoff": "2026-10-27T00:00:00+00:00",
+      "league": "MLB",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:06.283419+00:00",
+      "pick_id": "a78f495e8a560090e14c54fd341e654150773227df3b81c7028fe512c09ab5d9",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T00:00:00.000Z",
+      "selected": "away",
+      "selection_text": "밀워키 브루어스 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-mlb-20261027MITB0-2026-10-27-tampa-bay-rays",
+      "sport": "bs",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "미네소타 팀버울브스",
+      "content_hash": "3cde5c6f1fb43ec875861d42cddbc7e75042a0824451b639b9779679a3ca16e4",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "클리캐벌",
+        "미네울브",
+        "2026-10-27T08:00:00+09:00"
+      ],
+      "home": "클리블랜드 캐벌리어스",
+      "kickoff": "2026-10-26T23:00:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:09.483178+00:00",
+      "pick_id": "d293c4ec0ed073aaa2f2c7892932bb05a7ffdf21f3285ecea7a946ae13da707c",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T23:00:00.000Z",
+      "selected": "away",
+      "selection_text": "미네소타 팀버울브스 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102605-2026-10-27-cleveland-cavaliers",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "트락토르",
+      "content_hash": "b12a22622046d18c334accbc75a2186be05276e5ee01ae1fc68778284e9a3fcc",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "ACLE",
+        "알아인",
+        "트락토르",
+        "2026-10-27T01:00:00+09:00"
+      ],
+      "home": "알아인",
+      "kickoff": "2026-10-26T16:00:00+00:00",
+      "league": "ACLE",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:13.809092+00:00",
+      "pick_id": "0d4ac44aa5360be0334fafe8658bd2506ea47ece899cdbe5899386d944cbcada",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T16:00:00.000Z",
+      "selected": "home",
+      "selection_text": "알아인 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-fotmob-6050082-2026-10-27-al-ain",
+      "sport": "sc",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "워싱턴 위저즈",
+      "content_hash": "477ee7ebb190d701614f58d25e849cc79a8105c916acc8d115227726848b14bf",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "샬럿호네",
+        "워싱위저",
+        "2026-10-27T08:00:00+09:00"
+      ],
+      "home": "샬럿 호네츠",
+      "kickoff": "2026-10-26T23:00:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:18.524289+00:00",
+      "pick_id": "66eb10f886bf6c876422bf8a871b59ee0173acb6638596da8d3a5a359e29c415",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T23:00:00.000Z",
+      "selected": "away",
+      "selection_text": "워싱턴 위저즈 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102630-2026-10-27-charlotte-hornets",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "시카고 불스",
+      "content_hash": "6de327286da456e38fa94435549150eb2b002932e46df28c6bc76709910ca7e8",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "보스셀틱",
+        "시카불스",
+        "2026-10-27T08:30:00+09:00"
+      ],
+      "home": "보스턴 셀틱스",
+      "kickoff": "2026-10-26T23:30:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T05:54:25.083633+00:00",
+      "pick_id": "9e5ab9ec5a34b31b5703ba1772d6aa573b1a5a6331d3eab73ec57569915a20ba",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T23:30:00.000Z",
+      "selected": "home",
+      "selection_text": "보스턴 셀틱스 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102602-2026-10-27-boston-celtics",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "댈러스 매버릭스",
+      "content_hash": "c003c02bfc2ed6cb09ca1dd1759489ed180ac9b21c93b2c95c4ae819afe07061",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "마이히트",
+        "댈러매버",
+        "2026-10-27T08:30:00+09:00"
+      ],
+      "home": "마이애미 히트",
+      "kickoff": "2026-10-26T23:30:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T06:16:56.363206+00:00",
+      "pick_id": "5dd51755c0c9b94a5611b9d9b7302e1b244ecc41d3e325c348eaa911c194ea62",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T23:30:00.000Z",
+      "selected": "away",
+      "selection_text": "댈러스 매버릭스 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102614-2026-10-27-miami-heat",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "인디애나 페이서스",
+      "content_hash": "ef4e4929cadb79c1b9023de361316d5913fba99297bba4e2982195abeca1957d",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "밀워벅스",
+        "인디페이",
+        "2026-10-27T09:00:00+09:00"
+      ],
+      "home": "밀워키 벅스",
+      "kickoff": "2026-10-27T00:00:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T06:17:02.843387+00:00",
+      "pick_id": "8f61fd31b7ba3ea6c3e78a3d187432f13330702b5c6328a94720e2dc6f820e5f",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T00:00:00.000Z",
+      "selected": "away",
+      "selection_text": "인디애나 페이서스 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102615-2026-10-27-milwaukee-bucks",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "피닉스 선즈",
+      "content_hash": "33c924393763b2c08f2e5685d5ce0763e51e3fe08c6b0070cc132e125207cf92",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "오클썬더",
+        "피닉선즈",
+        "2026-10-27T09:00:00+09:00"
+      ],
+      "home": "오클라호마시티 썬더",
+      "kickoff": "2026-10-27T00:00:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T06:17:09.963099+00:00",
+      "pick_id": "fb8a3a2a05034feaa984d5e578eebfb9e41831e2097fed1a31c471ef6125dc9a",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T00:00:00.000Z",
+      "selected": "home",
+      "selection_text": "오클라호마시티 썬더 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102625-2026-10-27-oklahoma-city-thunder",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "오사수나",
+      "content_hash": "f515e475b2a07885378cf016df07244055d852b2dbf2fe48f32199352300224c",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "라리가",
+        "세비야",
+        "오사수나",
+        "2026-10-27T05:00:00+09:00"
+      ],
+      "home": "세비야",
+      "kickoff": "2026-10-26T20:00:00+00:00",
+      "league": "라리가",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T06:17:14.443616+00:00",
+      "pick_id": "02d0ec78ad92dc2e5f80790d6b02faebe174975116fe28b8bc9e27f91304bab5",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-26T20:00:00.000Z",
+      "selected": "draw",
+      "selection_text": "무승부",
+      "side": "무",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-fotmob-5868109-2026-10-27-sevilla",
+      "sport": "sc",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "애틀랜타 호크스",
+      "content_hash": "9321822ffb70df4da2dfc5236b3a538903c0a80abcce54ced2e2331f81e712a2",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "휴스로케",
+        "애틀호크",
+        "2026-10-27T09:30:00+09:00"
+      ],
+      "home": "휴스턴 로키츠",
+      "kickoff": "2026-10-27T00:30:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T06:17:23.163229+00:00",
+      "pick_id": "9d89018eb6bf484e85fd897ced67e4a047de03736e6609465f42b9c588a72924",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T00:30:00.000Z",
+      "selected": "home",
+      "selection_text": "휴스턴 로키츠 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102610-2026-10-27-houston-rockets",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "골든스테이트 워리어스",
+      "content_hash": "417d7a1ab31b52c9da362bea164fe841a474418129929ba1e77eaab504f6f457",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "덴버너게",
+        "골든워리",
+        "2026-10-27T11:00:00+09:00"
+      ],
+      "home": "덴버 너기츠",
+      "kickoff": "2026-10-27T02:00:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T06:39:16.523710+00:00",
+      "pick_id": "085bfb522ba45d895841a5a9e60667b121f759a314dc6f34a6565b7978a966bc",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T02:00:00.000Z",
+      "selected": "home",
+      "selection_text": "덴버 너기츠 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102607-2026-10-27-denver-nuggets",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "KIA 타이거즈",
+      "content_hash": "091f51938958fbf07c1aac72d6bb342e784914eee996d48eca533e1ecc2e59d4",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bs",
+        "KBO",
+        "삼성",
+        "KIA",
+        "2026-10-27T18:30:00+09:00"
+      ],
+      "home": "삼성 라이온스",
+      "kickoff": "2026-10-27T09:30:00+00:00",
+      "league": "KBO",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-26T22:35:26.950859+00:00",
+      "pick_id": "83d4c9008a639225a2882d878545676133e9817260bbb4e8bd7ba7fd502c3746",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T09:30:00.000Z",
+      "selected": "away",
+      "selection_text": "KIA 타이거즈 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-kbo-55551027HTSS02026-2026-10-27-samsung-lions",
+      "sport": "bs",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "호나우두",
+      "away": "칼리아리",
+      "content_hash": "c3112380aa502dbd9122e9ee30abd137df2d0034760419870a528d8dc94a6b2f",
+      "day": 28,
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "AS로마",
+        "칼리아리",
+        "2026-10-28T04:45:00+09:00"
+      ],
+      "home": "AS로마",
+      "kickoff": null,
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "month": 10,
+      "observed_at": "2026-10-27T04:03:51.584903+00:00",
+      "pick_id": "0173d523d66838aa12d819f0591861d20a12083f6924beed9f462af6bdef5139",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "source_claim",
+      "published_at": "2026-10-27T12:12:00+09:00",
+      "selected": "home",
+      "selection_text": "AS로마 승",
+      "side": "홈",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://www.goli.tv/board/analysis/298108",
+      "sport": "sc",
+      "voter": "www.goli.tv:호나우두"
+    },
+    {
+      "author": "호나우두",
+      "away": "라치오",
+      "content_hash": "095712e9acca566b327170684c63a7d47eec30442c8677616b8c617208860348",
+      "day": 28,
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "사수올로",
+        "라치오",
+        "2026-10-28T02:30:00+09:00"
+      ],
+      "home": "사수올로",
+      "kickoff": null,
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "month": 10,
+      "observed_at": "2026-10-27T04:03:54.873509+00:00",
+      "pick_id": "de26963a8c017624f96cf24cdf5eada3e1d0224e4dacb6a11ba2acc236e5a108",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "source_claim",
+      "published_at": "2026-10-27T12:09:00+09:00",
+      "selected": "away",
+      "selection_text": "사수올로 패",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://www.goli.tv/board/analysis/298105",
+      "sport": "sc",
+      "voter": "www.goli.tv:호나우두"
+    },
+    {
+      "author": "픽천국",
+      "away": "브루클린 네츠",
+      "content_hash": "5f1358144639a8371c5c7eae9eef9d14e4a004a1ea0d8807936fc99fea4898ec",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "NBA",
+        "보스셀틱",
+        "브루네츠",
+        "2026-10-28T08:30:00+09:00"
+      ],
+      "home": "보스턴 셀틱스",
+      "kickoff": "2026-10-27T23:30:00+00:00",
+      "league": "NBA",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-27T06:15:28.344679+00:00",
+      "pick_id": "02ea3a1e822a377e74743aa9ff71dc0a93fbfb81d33d90cdddeca0e91c5b9451",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-27T23:30:00.000Z",
+      "selected": "away",
+      "selection_text": "브루클린 네츠 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-nba-2026102702-2026-10-28-boston-celtics",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "픽천국",
+      "away": "DB",
+      "content_hash": "d54afab2dc0f221a8f7260962ed5969cff28ff35bbbcb39a6081a877835ff491",
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "bk",
+        "KBL",
+        "한국가스",
+        "원주DB",
+        "2026-10-28T19:00:00+09:00"
+      ],
+      "home": "한국가스공사",
+      "kickoff": "2026-10-28T10:00:00+00:00",
+      "league": "KBL",
+      "market_type": "full_game_winner",
+      "observed_at": "2026-10-28T07:43:25.040607+00:00",
+      "pick_id": "c6381b7f382ca64b110195d10b71533d27692fe3e944fc67f1eb0b34d4ddc533",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "unverified_source_claim",
+      "published_at": null,
+      "reported_published_at": "2026-10-28T10:00:00.000Z",
+      "selected": "away",
+      "selection_text": "DB 승",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://pick79.com/posts/detail/analyze-naver-kbl-202610286416490142-2026-10-28-daegu-kogas",
+      "sport": "bk",
+      "voter": "pick79.com:픽천국"
+    },
+    {
+      "author": "호나우두",
+      "away": "우디네세",
+      "content_hash": "33c5a14d6e2ebff5307b6462fe66691046ceca75d9ebd2193b9b490ee1cf4aa2",
+      "day": 29,
+      "eligible_pre_event": true,
+      "event_type": "first_observed",
+      "fixture": [
+        "sc",
+        "세리에A",
+        "파르마",
+        "우디네세",
+        "2026-10-29T02:30:00+09:00"
+      ],
+      "home": "파르마",
+      "kickoff": null,
+      "league": "세리에A",
+      "market_type": "full_game_winner",
+      "month": 10,
+      "observed_at": "2026-10-28T08:18:33.084573+00:00",
+      "pick_id": "68b3ceb14dc7afa03d2d8c63242c6925db18a6421dcdbc774827ae834bbb7133",
+      "provenance": "live_http_observation",
+      "publication_time_quality": "source_claim",
+      "published_at": "2026-10-28T16:02:00+09:00",
+      "selected": "away",
+      "selection_text": "파르마 패",
+      "side": "원정",
+      "source": "public_fullgame_vote_v1",
+      "source_url": "https://www.goli.tv/board/analysis/298179",
+      "sport": "sc",
+      "voter": "www.goli.tv:호나우두"
+    }
+  ],
+  "input_fixture_identities": [
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "알아인",
+      "away": "트락토르",
+      "year": 2026,
+      "date": "10.27(화) 01:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "알아흘사",
+      "away": "알가라파",
+      "year": 2026,
+      "date": "10.27(화) 01:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "알카디시",
+      "away": "알사드SC",
+      "year": 2026,
+      "date": "10.27(화) 03:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "에어알쿠",
+      "away": "파흐타코",
+      "year": 2026,
+      "date": "10.27(화) 03:15"
+    },
+    {
+      "sport": "sc",
+      "league": "라리가",
+      "home": "세비야",
+      "away": "오사수나",
+      "year": 2026,
+      "date": "10.27(화) 05:00"
+    },
+    {
+      "sport": "sc",
+      "league": "독일FA컵",
+      "home": "함부르크",
+      "away": "프랑크푸",
+      "year": 2026,
+      "date": "10.28(수) 02:00"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "사수올로",
+      "away": "라치오",
+      "year": 2026,
+      "date": "10.28(수) 02:30"
+    },
+    {
+      "sport": "sc",
+      "league": "독일FA컵",
+      "home": "쾰른",
+      "away": "U베를린",
+      "year": 2026,
+      "date": "10.28(수) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "독일FA컵",
+      "home": "도르트문",
+      "away": "브레멘",
+      "year": 2026,
+      "date": "10.28(수) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "AS로마",
+      "away": "칼리아리",
+      "year": 2026,
+      "date": "10.28(수) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "토리노",
+      "away": "코모1907",
+      "year": 2026,
+      "date": "10.28(수) 04:45"
+    },
+    {
+      "sport": "bs",
+      "league": "MLB",
+      "home": "탬파레이",
+      "away": "밀워브루",
+      "year": 2026,
+      "date": "10.27(화) 09:00"
+    },
+    {
+      "sport": "sc",
+      "league": "프리그1",
+      "home": "PSG",
+      "away": "리옹",
+      "year": 2026,
+      "date": "10.27(화) 04:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "샬럿호네",
+      "away": "워싱위저",
+      "year": 2026,
+      "date": "10.27(화) 08:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "클리캐벌",
+      "away": "미네울브",
+      "year": 2026,
+      "date": "10.27(화) 08:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "보스셀틱",
+      "away": "시카불스",
+      "year": 2026,
+      "date": "10.27(화) 08:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "마이히트",
+      "away": "댈러매버",
+      "year": 2026,
+      "date": "10.27(화) 08:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "밀워벅스",
+      "away": "인디페이",
+      "year": 2026,
+      "date": "10.27(화) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "오클썬더",
+      "away": "피닉선즈",
+      "year": 2026,
+      "date": "10.27(화) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "휴스로케",
+      "away": "애틀호크",
+      "year": 2026,
+      "date": "10.27(화) 09:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "유타재즈",
+      "away": "멤피그리",
+      "year": 2026,
+      "date": "10.27(화) 10:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "덴버너게",
+      "away": "골든워리",
+      "year": 2026,
+      "date": "10.27(화) 11:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "대전하나",
+      "away": "비셀고베",
+      "year": 2026,
+      "date": "10.27(화) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "교토상가",
+      "away": "뉴캐제츠",
+      "year": 2026,
+      "date": "10.27(화) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "조호르다",
+      "away": "포트FC",
+      "year": 2026,
+      "date": "10.27(화) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "상하하이",
+      "away": "꽁안하노",
+      "year": 2026,
+      "date": "10.27(화) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "랏차부리",
+      "away": "가시와R",
+      "year": 2026,
+      "date": "10.27(화) 21:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "베이궈안",
+      "away": "전북현대",
+      "year": 2026,
+      "date": "10.27(화) 21:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "알시브",
+      "away": "E벵골",
+      "year": 2026,
+      "date": "10.28(수) 01:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "샤바브두",
+      "away": "에스테헤",
+      "year": 2026,
+      "date": "10.28(수) 01:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "알쇼르타",
+      "away": "J알후세",
+      "year": 2026,
+      "date": "10.28(수) 03:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "알샤말SC",
+      "away": "알힐랄",
+      "year": 2026,
+      "date": "10.28(수) 03:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "G오사카",
+      "away": "부리람U",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACLE",
+      "home": "가시마A",
+      "away": "포항스틸",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "bs",
+      "league": "NPB",
+      "home": "소프트뱅",
+      "away": "요코베이",
+      "year": 2026,
+      "date": "10.27(화) 18:00"
+    },
+    {
+      "sport": "bs",
+      "league": "KBO",
+      "home": "삼성",
+      "away": "KIA",
+      "year": 2026,
+      "date": "10.27(화) 18:30"
+    },
+    {
+      "sport": "bk",
+      "league": "KBL",
+      "home": "서울SK",
+      "away": "부산KCC",
+      "year": 2026,
+      "date": "10.27(화) 19:00"
+    },
+    {
+      "sport": "bs",
+      "league": "MLB",
+      "home": "탬파레이",
+      "away": "밀워브루",
+      "year": 2026,
+      "date": "10.28(수) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "보스셀틱",
+      "away": "브루네츠",
+      "year": 2026,
+      "date": "10.28(수) 08:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "뉴욕닉스",
+      "away": "디트피스",
+      "year": 2026,
+      "date": "10.28(수) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "샌안스퍼",
+      "away": "새크킹스",
+      "year": 2026,
+      "date": "10.28(수) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "LA레이커",
+      "away": "포틀트레",
+      "year": 2026,
+      "date": "10.28(수) 12:00"
+    },
+    {
+      "sport": "sc",
+      "league": "일리그컵",
+      "home": "미토홀리",
+      "away": "C오사카",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "일리그컵",
+      "home": "요코마리",
+      "away": "산프히로",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "일리그컵",
+      "home": "나고야G",
+      "away": "우라와R",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "sc",
+      "league": "일리그컵",
+      "home": "사간도스",
+      "away": "가와사키",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "bk",
+      "league": "KBL",
+      "home": "한국가스",
+      "away": "원주DB",
+      "year": 2026,
+      "date": "10.28(수) 19:00"
+    },
+    {
+      "sport": "bk",
+      "league": "남농EASL",
+      "home": "타오위파",
+      "away": "류큐골든",
+      "year": 2026,
+      "date": "10.28(수) 20:10"
+    },
+    {
+      "sport": "bk",
+      "league": "남농EASL",
+      "home": "호우촌",
+      "away": "나가벨카",
+      "year": 2026,
+      "date": "10.28(수) 21:10"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "페르반둥",
+      "away": "멜버빅토",
+      "year": 2026,
+      "date": "10.28(수) 21:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "테꽁비엣",
+      "away": "FC서울",
+      "year": 2026,
+      "date": "10.28(수) 21:15"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "나사프",
+      "away": "쿠웨이SC",
+      "year": 2026,
+      "date": "10.28(수) 22:45"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "골고하르",
+      "away": "아르카다",
+      "year": 2026,
+      "date": "10.28(수) 22:45"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "U알자지",
+      "away": "무하라크",
+      "year": 2026,
+      "date": "10.29(목) 01:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "O알나흐",
+      "away": "알라이얀",
+      "year": 2026,
+      "date": "10.29(목) 01:00"
+    },
+    {
+      "sport": "sc",
+      "league": "독일FA컵",
+      "home": "파더보른",
+      "away": "슈투트가",
+      "year": 2026,
+      "date": "10.29(목) 02:00"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "AC밀란",
+      "away": "볼로냐",
+      "year": 2026,
+      "date": "10.29(목) 02:30"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "파르마",
+      "away": "우디네세",
+      "year": 2026,
+      "date": "10.29(목) 02:30"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "베네치아",
+      "away": "인테르",
+      "year": 2026,
+      "date": "10.29(목) 02:30"
+    },
+    {
+      "sport": "sc",
+      "league": "네덜FA컵",
+      "home": "스파로테",
+      "away": "F시타르",
+      "year": 2026,
+      "date": "10.29(목) 02:45"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "알칼디야",
+      "away": "U알와흐",
+      "year": 2026,
+      "date": "10.29(목) 03:15"
+    },
+    {
+      "sport": "sc",
+      "league": "잉리그컵",
+      "home": "맨체스C",
+      "away": "브라이턴",
+      "year": 2026,
+      "date": "10.29(목) 04:30"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "제노아",
+      "away": "유벤투스",
+      "year": 2026,
+      "date": "10.29(목) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "세리에A",
+      "home": "AC몬차",
+      "away": "나폴리",
+      "year": 2026,
+      "date": "10.29(목) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "잉리그컵",
+      "home": "본머스",
+      "away": "A빌라",
+      "year": 2026,
+      "date": "10.29(목) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "잉리그컵",
+      "home": "풀럼",
+      "away": "크리스털",
+      "year": 2026,
+      "date": "10.29(목) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "잉리그컵",
+      "home": "선덜랜드",
+      "away": "브렌트퍼",
+      "year": 2026,
+      "date": "10.29(목) 04:45"
+    },
+    {
+      "sport": "sc",
+      "league": "잉리그컵",
+      "home": "리버풀",
+      "away": "첼시",
+      "year": 2026,
+      "date": "10.29(목) 05:00"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "샬럿FC",
+      "away": "CF몽레알",
+      "year": 2026,
+      "date": "10.29(목) 08:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "인터마이",
+      "away": "FC신시내",
+      "year": 2026,
+      "date": "10.29(목) 08:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "뉴잉레벌",
+      "away": "뉴욕레드",
+      "year": 2026,
+      "date": "10.29(목) 08:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "뉴욕시티",
+      "away": "애틀유나",
+      "year": 2026,
+      "date": "10.29(목) 08:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "토론토FC",
+      "away": "DC유나이",
+      "year": 2026,
+      "date": "10.29(목) 08:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "오스틴FC",
+      "away": "레알솔트",
+      "year": 2026,
+      "date": "10.29(목) 09:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "시카파이",
+      "away": "올랜시티",
+      "year": 2026,
+      "date": "10.29(목) 09:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "FC댈러스",
+      "away": "콜럼크루",
+      "year": 2026,
+      "date": "10.29(목) 09:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "미네유나",
+      "away": "스포캔자",
+      "year": 2026,
+      "date": "10.29(목) 09:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "내슈빌SC",
+      "away": "필라유니",
+      "year": 2026,
+      "date": "10.29(목) 09:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "세인시티",
+      "away": "포틀팀버",
+      "year": 2026,
+      "date": "10.29(목) 09:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "새너어스",
+      "away": "콜로래피",
+      "year": 2026,
+      "date": "10.29(목) 11:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "시애사운",
+      "away": "휴스다이",
+      "year": 2026,
+      "date": "10.29(목) 11:30"
+    },
+    {
+      "sport": "sc",
+      "league": "MLS",
+      "home": "밴쿠화이",
+      "away": "샌디에FC",
+      "year": 2026,
+      "date": "10.29(목) 11:30"
+    },
+    {
+      "sport": "bs",
+      "league": "NPB",
+      "home": "소프트뱅",
+      "away": "요코베이",
+      "year": 2026,
+      "date": "10.28(수) 18:00"
+    },
+    {
+      "sport": "sc",
+      "league": "ACL2",
+      "home": "J알파이",
+      "away": "알타아원",
+      "year": 2026,
+      "date": "10.29(목) 03:15"
+    },
+    {
+      "sport": "bs",
+      "league": "KBO",
+      "home": "KIA",
+      "away": "삼성",
+      "year": 2026,
+      "date": "10.29(목) 18:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "애틀호크",
+      "away": "마이히트",
+      "year": 2026,
+      "date": "10.29(목) 08:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "클리캐벌",
+      "away": "워싱위저",
+      "year": 2026,
+      "date": "10.29(목) 08:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "디트피스",
+      "away": "샬럿호네",
+      "year": 2026,
+      "date": "10.29(목) 08:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "인디페이",
+      "away": "필라76s",
+      "year": 2026,
+      "date": "10.29(목) 08:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "토론랩터",
+      "away": "올랜매직",
+      "year": 2026,
+      "date": "10.29(목) 08:30"
+    },
+    {
+      "sport": "bs",
+      "league": "MLB",
+      "home": "탬파레이",
+      "away": "밀워브루",
+      "year": 2026,
+      "date": "10.29(목) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "시카불스",
+      "away": "뉴욕닉스",
+      "year": 2026,
+      "date": "10.29(목) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "밀워벅스",
+      "away": "휴스로케",
+      "year": 2026,
+      "date": "10.29(목) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "미네울브",
+      "away": "골든워리",
+      "year": 2026,
+      "date": "10.29(목) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "뉴올펠리",
+      "away": "덴버너게",
+      "year": 2026,
+      "date": "10.29(목) 09:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "유타재즈",
+      "away": "샌안스퍼",
+      "year": 2026,
+      "date": "10.29(목) 10:00"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "댈러매버",
+      "away": "오클썬더",
+      "year": 2026,
+      "date": "10.29(목) 10:30"
+    },
+    {
+      "sport": "bk",
+      "league": "NBA",
+      "home": "LA클리퍼",
+      "away": "LA레이커",
+      "year": 2026,
+      "date": "10.29(목) 11:30"
+    }
+  ]
+}
