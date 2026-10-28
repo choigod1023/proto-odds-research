@@ -1,0 +1,626 @@
+[
+  {
+    "url": "https://miky938-oddsparser.com/results/",
+    "observed_at": "2026-10-28T09:50:00.238633+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-0.html.gz",
+    "status": 200,
+    "sha256": "849cc810563a495e5ace1e56cb70f00535c4b16251a2dc094237d095a575d935",
+    "final_url": "https://miky938-oddsparser.com/results/",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://miky938-oddsparser.com/league/usa-nba/",
+    "observed_at": "2026-10-28T09:50:01.657507+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-1.html.gz",
+    "status": 200,
+    "sha256": "135fe31519ae66507ad5c212383fc4500c19404e237a534496a71c35a16366cc",
+    "final_url": "https://miky938-oddsparser.com/league/usa-nba/",
+    "diagnostic_stdout_error": "'cp949' codec can't encode character '\\U0001f3c0' in position 587: illegal multibyte sequence",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://miky938-oddsparser.com/league/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:50:03.151606+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-2.html.gz",
+    "status": 200,
+    "sha256": "12733928b07bc8b7e051d507cb108aa2725477773aa13c9f467920c64d8c1af0",
+    "final_url": "https://miky938-oddsparser.com/league/south-korea-kbl/",
+    "diagnostic_stdout_error": "'cp949' codec can't encode character '\\U0001f3c0' in position 333: illegal multibyte sequence",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://www.betblog.com/basketball/",
+    "observed_at": "2026-10-28T09:50:04.692421+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-3.html.gz",
+    "status": 200,
+    "sha256": "1ade7cbe31f07fc08afbcb869fbc80b04e88f66987f4b32009dbb0e029a5e8ca",
+    "final_url": "https://www.betblog.com/basketball/",
+    "diagnostic_stdout_error": "'cp949' codec can't encode character '\\u2705' in position 40: illegal multibyte sequence",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://www.betblog.com/tipster/kentukyo/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:50:05.901629+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-4.html.gz",
+    "status": 200,
+    "sha256": "7d563ff5937f4c56d93d618330ce09e6d408ad8224f95bc63b1025bb65862d71",
+    "final_url": "https://www.betblog.com/tipster/kentukyo/basketball/south-korea-kbl/",
+    "diagnostic_stdout_error": "'cp949' codec can't encode character '\\u2705' in position 47: illegal multibyte sequence",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://thetipzy.com/leagues/korea-basketball",
+    "observed_at": "2026-10-28T09:50:07.409740+00:00",
+    "error": "HTTPSConnectionPool(host='thetipzy.com', port=443): Read timed out. (read timeout=12)",
+    "attempted_raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-5.html"
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-03/",
+    "observed_at": "2026-10-28T09:50:42.293948+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/miky-month.html.gz",
+    "status": 200,
+    "sha256": "270678ff384504e502d4f5f2982f5055a99e85455f565947f01b662dadd3c43c",
+    "final_url": "https://miky938-oddsparser.com/results/2026-03/",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://www.betblog.com/basketball/nba/",
+    "observed_at": "2026-10-28T09:50:44.082003+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/bb-nba.html.gz",
+    "status": 200,
+    "sha256": "41f8916a7fede2a71b66a7f071525563b14b2a5c3f8e55ef9abc3cbca23458c4",
+    "final_url": "https://www.betblog.com/basketball/nba/",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://www.betblog.com/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:50:45.141793+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/bb-kbl.html.gz",
+    "status": 200,
+    "sha256": "baa26523c733bcd8b062ea7afb5000305393bd0191176d36bcd9882df4815d96",
+    "final_url": "https://www.betblog.com/basketball/south-korea-kbl/",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://www.betblog.com/tipster/kentukyo/basketball/nba/",
+    "observed_at": "2026-10-28T09:50:46.327828+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/bb-kent-nba.html.gz",
+    "status": 200,
+    "sha256": "da4945d21392979ee1722a8428f00e54b0f251820cd83160c064b656d11f0daa",
+    "final_url": "https://www.betblog.com/tipster/kentukyo/basketball/nba/",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+    "observed_at": "2026-10-28T09:50:47.654342+00:00",
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/nba-official.html.gz",
+    "status": 403,
+    "sha256": "375a1230da1eb12a65624959d4aa4637618d5bceb9e51005e876957788651442",
+    "final_url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+    "raw_encoding": "gzip"
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-02/",
+    "observed_at": "2026-10-28T09:52:54.843253+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/1a6490caab2441581af1.gz",
+    "raw_encoding": "gzip",
+    "sha256": "8d65a3f1a8904b6c12b0ff97d6ab8e05f94f1b5e32aae7de133d4a54d922cd9d",
+    "bytes": 23404
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-04/",
+    "observed_at": "2026-10-28T09:52:56.520502+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/3148318146dacf74ada9.gz",
+    "raw_encoding": "gzip",
+    "sha256": "ee87fefb4244a11be59625214e3abef8f4f7b29c31793eb698f17c8c7139e904",
+    "bytes": 165255
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-05/",
+    "observed_at": "2026-10-28T09:52:57.504660+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/66daf82c3df54d508cf8.gz",
+    "raw_encoding": "gzip",
+    "sha256": "7763fe050b18a6849496b70bf43a700fc51c6a8130e20f0c4a68e084a1168e5c",
+    "bytes": 333766
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-06/",
+    "observed_at": "2026-10-28T09:52:58.550716+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/b15b88c273474d3c82f0.gz",
+    "raw_encoding": "gzip",
+    "sha256": "5b813bd06a415fe8ca812d8abde9b2b6333f6a372b24cb004da6f70f4852aa58",
+    "bytes": 223861
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-07/",
+    "observed_at": "2026-10-28T09:53:00.354165+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/8efdaeded5025c6da246.gz",
+    "raw_encoding": "gzip",
+    "sha256": "b8cafdbe1876983d597125d840b17e02c7b589f0b39333c04ad89dbfbeafd436",
+    "bytes": 441517
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-08/",
+    "observed_at": "2026-10-28T09:53:01.367460+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/1fedcf04b4c46785622f.gz",
+    "raw_encoding": "gzip",
+    "sha256": "64f1cbb6d9ea37045254154547430b27ad138a4b3e51fdc75e13b17f9ec34412",
+    "bytes": 83359
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-09/",
+    "observed_at": "2026-10-28T09:53:02.097564+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/92fa214a11d5a1a050a1.gz",
+    "raw_encoding": "gzip",
+    "sha256": "c6a7ccee80e56d16b03e0ccedf83141aff0a13cbfd41b2be324fc454adadfd3d",
+    "bytes": 82206
+  },
+  {
+    "url": "https://miky938-oddsparser.com/results/2026-10/",
+    "observed_at": "2026-10-28T09:53:02.792733+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/618fb80b0feea5c9eafd.gz",
+    "raw_encoding": "gzip",
+    "sha256": "cfe190c023b724ed8f535126ba0f5ebb33ff638f18087f94f60d012e159a5ea3",
+    "bytes": 284505
+  },
+  {
+    "url": "https://www.betblog.com/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:03.766974+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/b9d516379f538d29cc25.gz",
+    "raw_encoding": "gzip",
+    "sha256": "5442ab480f8eb19df186034e850bd141faf2c440e4ac051fec72916db771a8fb",
+    "bytes": 181819
+  },
+  {
+    "url": "https://www.betblog.com/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:04.700294+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/b91a37ac9aa0912ad684.gz",
+    "raw_encoding": "gzip",
+    "sha256": "d0132e7ca8054800790ed9580eda23a73be23ca5515d35cdb2c7c1c5752876ed",
+    "bytes": 148018
+  },
+  {
+    "url": "https://www.betblog.com/tipster/cashking/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:05.952783+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/b71eb8eab5908cabcb6a.gz",
+    "raw_encoding": "gzip",
+    "sha256": "f565fc61428ca8e1fb4f37d7fc1a744d55740d1c3a32e59808b6e1025af83a10",
+    "bytes": 136096
+  },
+  {
+    "url": "https://www.betblog.com/tipster/cashking/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:53:07.118988+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/1a89cec5a3bafe1bf4f6.gz",
+    "raw_encoding": "gzip",
+    "sha256": "6e23ba7595225b70f1636c7fd65d9a7921888341e2f5e77252e12424203b0d88",
+    "bytes": 99205
+  },
+  {
+    "url": "https://www.betblog.com/tipster/grynakraujis/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:08.105547+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/5e1dd06f15d6ac10ace6.gz",
+    "raw_encoding": "gzip",
+    "sha256": "6a5b3a714136bace7b7f5dd4002b6a215a982ab74e3c150334e61fa9bf0b231b",
+    "bytes": 171211
+  },
+  {
+    "url": "https://www.betblog.com/tipster/grynakraujis/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:09.222951+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/bd955bca228b2ddc964c.gz",
+    "raw_encoding": "gzip",
+    "sha256": "f2d292482f095a0bb022e626dfca65f1a904aa7326d9665a2c5d7bf78bcb75b8",
+    "bytes": 170912
+  },
+  {
+    "url": "https://www.betblog.com/tipster/grynakraujis/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:10.622323+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/81d396af85233fa364ec.gz",
+    "raw_encoding": "gzip",
+    "sha256": "6c76e1b95e4d77251752118a2c8587e64147662d06ee780d07dfc44aed56d953",
+    "bytes": 170593
+  },
+  {
+    "url": "https://www.betblog.com/tipster/guro/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:11.745156+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/426d4c52baf01214d6cd.gz",
+    "raw_encoding": "gzip",
+    "sha256": "d2818d509d0af3918192d5263c369d5687a63362dca71af0875a80d383b4bfbe",
+    "bytes": 166431
+  },
+  {
+    "url": "https://www.betblog.com/tipster/guro/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:13.090846+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/38dd8a57d7fc02254d20.gz",
+    "raw_encoding": "gzip",
+    "sha256": "c5914a05722829f54462d10b9649a8680da2e70a0e61994d2471d2acd843420a",
+    "bytes": 166677
+  },
+  {
+    "url": "https://www.betblog.com/tipster/guro/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:14.254858+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/4516aed4083e2531313f.gz",
+    "raw_encoding": "gzip",
+    "sha256": "f1688851e29ce9bbded770bb301a2be442430f86a0cc91bbe03f9759682f1b80",
+    "bytes": 155988
+  },
+  {
+    "url": "https://www.betblog.com/tipster/kentukyo/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:16.063556+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/d0df19ed167831c1711f.gz",
+    "raw_encoding": "gzip",
+    "sha256": "2a9460ffe55422f35249e57e7247f07f2686fcbea0d8b79ad0f2e133892b24e5",
+    "bytes": 176502
+  },
+  {
+    "url": "https://www.betblog.com/tipster/kentukyo/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:17.270885+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/06e3877bed1d180fe2c5.gz",
+    "raw_encoding": "gzip",
+    "sha256": "736e65bdf2a6c24fbb90c05162a6dce9a0c11fe8f88b86ca40674c349ce201f2",
+    "bytes": 176856
+  },
+  {
+    "url": "https://www.betblog.com/tipster/kentukyo/basketball/nba/4",
+    "observed_at": "2026-10-28T09:53:18.582879+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/d072527c12c0df5b3ab6.gz",
+    "raw_encoding": "gzip",
+    "sha256": "d304bc7cce69616ff5376154828755bdb470010182813a25ec7201b11960bcf0",
+    "bytes": 177248
+  },
+  {
+    "url": "https://www.betblog.com/tipster/kentukyo/basketball/nba/5",
+    "observed_at": "2026-10-28T09:53:26.613896+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/416d15c6ba3d9cdd2d9d.gz",
+    "raw_encoding": "gzip",
+    "sha256": "57db01e1157aeedfee30da06ff1d268d66ab458bec423c0a75e5d6201fdbbcd4",
+    "bytes": 178758
+  },
+  {
+    "url": "https://www.betblog.com/tipster/lukas2824/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:28.285417+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/94af1dff03bfb354e062.gz",
+    "raw_encoding": "gzip",
+    "sha256": "7d12d12c7e44de24487cd79b9f8ebf8d6e0e7e6ddd43e5321bc31f3712a5e583",
+    "bytes": 172821
+  },
+  {
+    "url": "https://www.betblog.com/tipster/lukas2824/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:29.814580+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/23a7a27c94de86da554e.gz",
+    "raw_encoding": "gzip",
+    "sha256": "0d0561e333462c72dd049097dbc6a41bb50be295754faac2a047a5f9b72c5f26",
+    "bytes": 172890
+  },
+  {
+    "url": "https://www.betblog.com/tipster/lukas2824/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:31.251788+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/76f0489fe71a057492a9.gz",
+    "raw_encoding": "gzip",
+    "sha256": "1e26e143a077cf154f688d159f516dfc6fdc1f7d6212de9b860ba6957121eb1e",
+    "bytes": 173188
+  },
+  {
+    "url": "https://www.betblog.com/tipster/lukas2824/basketball/nba/4",
+    "observed_at": "2026-10-28T09:53:32.605298+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/a06ae643d997b3555ee3.gz",
+    "raw_encoding": "gzip",
+    "sha256": "58027ef879cb9fbd98e425033f6523085f46b8bb5a64dec66e64a89286c866f4",
+    "bytes": 172872
+  },
+  {
+    "url": "https://www.betblog.com/tipster/lukas2824/basketball/nba/5",
+    "observed_at": "2026-10-28T09:53:33.760041+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/da08b8f9b3e44a12971f.gz",
+    "raw_encoding": "gzip",
+    "sha256": "c6ab34cfbd6560b7b60c830cd8e72b1be5fcab4ac38c05ac7175a44f0640a5cd",
+    "bytes": 173565
+  },
+  {
+    "url": "https://www.betblog.com/tipster/lukas2824/basketball/nba/6",
+    "observed_at": "2026-10-28T09:53:34.933014+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/7ffd8f900edca4176f72.gz",
+    "raw_encoding": "gzip",
+    "sha256": "e09659524f6adf215e382028e7c4154994eeec53b17161b1d939e7f7928a695d",
+    "bytes": 173134
+  },
+  {
+    "url": "https://www.betblog.com/tipster/martisqt/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:36.069108+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/03a9bd20819710e224c1.gz",
+    "raw_encoding": "gzip",
+    "sha256": "1ed7667a366570beea1319c6ea524788dfc23845b804ac3f0117ee46580ba740",
+    "bytes": 79290
+  },
+  {
+    "url": "https://www.betblog.com/tipster/olbg/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:37.041155+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/ae9ec0c06c4e4c473653.gz",
+    "raw_encoding": "gzip",
+    "sha256": "1d4a127fadbd8a327e1e660cb8def9c88e87d4f0977996d03b27fd30e56d51ca",
+    "bytes": 167038
+  },
+  {
+    "url": "https://www.betblog.com/tipster/olbg/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:38.274065+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/0d1a96d49efa971a9d06.gz",
+    "raw_encoding": "gzip",
+    "sha256": "4bc236da8521345bb022c496fe5f16e48bec6d88011d5c20c9bfd8b9ad429388",
+    "bytes": 167427
+  },
+  {
+    "url": "https://www.betblog.com/tipster/palaima/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:39.890578+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/4b7425a2ecc274b245d9.gz",
+    "raw_encoding": "gzip",
+    "sha256": "a22fad6532abbaeabbec42dfe6e4cd30560f0e698430da06642fcaac9e7eb366",
+    "bytes": 191662
+  },
+  {
+    "url": "https://www.betblog.com/tipster/palaima/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:41.806433+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/18e24c9d4356f2379b3d.gz",
+    "raw_encoding": "gzip",
+    "sha256": "c979eb9bb029c5d37001217653086a1564d4f216dc6247ce38b26d051de8d33d",
+    "bytes": 191946
+  },
+  {
+    "url": "https://www.betblog.com/tipster/palaima/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:43.005862+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/07b3cfd69f623b745fcc.gz",
+    "raw_encoding": "gzip",
+    "sha256": "a506e6c2912b7781d27caf47c76bfe2f2b1855af755c97ea047ca87f54407c6d",
+    "bytes": 192005
+  },
+  {
+    "url": "https://www.betblog.com/tipster/palaima/basketball/nba/4",
+    "observed_at": "2026-10-28T09:53:44.409053+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/09e5636d15b7e95af516.gz",
+    "raw_encoding": "gzip",
+    "sha256": "190a01ac17ac65239e0ccfb6f0c993a7dfdacf0241553e3413b7852bce35d69d",
+    "bytes": 191979
+  },
+  {
+    "url": "https://www.betblog.com/tipster/palaima/basketball/nba/5",
+    "observed_at": "2026-10-28T09:53:45.685963+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/aca18f1b1d697c6f1a13.gz",
+    "raw_encoding": "gzip",
+    "sha256": "f444f96d4879237f23c0d3dce66e6487c98d05f098469416f9e534473174bfe6",
+    "bytes": 193306
+  },
+  {
+    "url": "https://www.betblog.com/tipster/palaima/basketball/nba/6",
+    "observed_at": "2026-10-28T09:53:46.863230+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/9e0f7e4b3e6918a52911.gz",
+    "raw_encoding": "gzip",
+    "sha256": "9963b934bf03620cdd05a5646ea799d7fa5481124f2f05bcbecf87733149c535",
+    "bytes": 193181
+  },
+  {
+    "url": "https://www.betblog.com/tipster/valueistas/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:48.084935+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/fe587042f287139a075c.gz",
+    "raw_encoding": "gzip",
+    "sha256": "2a827db8026e68f46579cf0b2d06df8fc02c3101ffc2ac0b886abf38c1f1930e",
+    "bytes": 103136
+  },
+  {
+    "url": "https://www.betblog.com/tipster/zedtea/basketball/nba/",
+    "observed_at": "2026-10-28T09:53:49.071343+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/66f7cf91210a5c9e6023.gz",
+    "raw_encoding": "gzip",
+    "sha256": "fa1e932d2362356e4b99f31ff1187583b5d940a6cd4c87c076ea2f100f261a08",
+    "bytes": 164452
+  },
+  {
+    "url": "https://www.betblog.com/tipster/zedtea/basketball/nba/2",
+    "observed_at": "2026-10-28T09:53:50.272689+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/70376ffb81292f1bf304.gz",
+    "raw_encoding": "gzip",
+    "sha256": "5124f340ef814a84e58b2eb9cdd7c44b8ebdbb046c9946d0e12f5d6dc13ad405",
+    "bytes": 164612
+  },
+  {
+    "url": "https://www.betblog.com/tipster/zedtea/basketball/nba/3",
+    "observed_at": "2026-10-28T09:53:51.405204+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/0216204a2ddd2026f829.gz",
+    "raw_encoding": "gzip",
+    "sha256": "894f7a8c51a9d8d6b557374d450100ebcfcf5888645c969c0ed6d925e831dfe0",
+    "bytes": 164854
+  },
+  {
+    "url": "https://www.betblog.com/tipster/zedtea/basketball/nba/4",
+    "observed_at": "2026-10-28T09:53:52.524533+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/340b8a54c3109e13b871.gz",
+    "raw_encoding": "gzip",
+    "sha256": "6a29056a65ca9fdcffb796c8cbb6d2a97c7e730e6d0a5d1c82e0a5131e4793e9",
+    "bytes": 164680
+  },
+  {
+    "url": "https://www.betblog.com/tipster/zedtea/basketball/nba/5",
+    "observed_at": "2026-10-28T09:53:53.599842+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/d21cfcfcf2edeff16110.gz",
+    "raw_encoding": "gzip",
+    "sha256": "8cda6dbb8ba12578a53ce33b60096821796e6799ebf8a9d2f7f0f4c277d5d1be",
+    "bytes": 164752
+  },
+  {
+    "url": "https://api.kbl.or.kr/match/list?fromDate=20251028&toDate=20261027&tcodeList=all",
+    "observed_at": "2026-10-28T09:53:54.959525+00:00",
+    "automatic_retries": 0,
+    "public_request_headers": {
+      "Channel": "WEB",
+      "TeamCode": "XX",
+      "lang": "ko",
+      "X-Requested-With": "XMLHttpRequest"
+    },
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/683b624694b077265bd6.gz",
+    "raw_encoding": "gzip",
+    "sha256": "0997a4ebe2d81a201c67cb4edfb334f11058982e0ef36b29ce94b81c6995091b",
+    "bytes": 279077
+  },
+  {
+    "url": "https://stats.nba.com/stats/leaguegamefinder?LeagueID=00&Season=2025-26&SeasonType=Regular%20Season",
+    "observed_at": "2026-10-28T09:53:55.464402+00:00",
+    "automatic_retries": 0,
+    "error": "ReadTimeout: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=10)"
+  },
+  {
+    "url": "https://www.nba.com/schedule",
+    "observed_at": "2026-10-28T09:55:18.328565+00:00",
+    "automatic_retries": 0,
+    "status": 403,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/9b0aa61c9419c2b5fc87.gz",
+    "raw_encoding": "gzip",
+    "sha256": "5fc082d06191c7ebb0d9c82f8f47ca81976db12f95120a29415b9a8a22fc2e35",
+    "bytes": 371,
+    "error": "HTTP 403; not retried or bypassed"
+  },
+  {
+    "url": "https://www.nba.com/games?date=2026-05-21",
+    "observed_at": "2026-10-28T09:55:18.664172+00:00",
+    "automatic_retries": 0,
+    "status": 403,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/c1acaefa81573888a876.gz",
+    "raw_encoding": "gzip",
+    "sha256": "505328aba27955d3eeab250ef0f82ad653d2e617f48b6e655f3744d1826410f3",
+    "bytes": 375,
+    "error": "HTTP 403; not retried or bypassed"
+  },
+  {
+    "url": "https://www.betblog.com/tipster/faster/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:55:19.104104+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/e44edb8a4a7ae661e08c.gz",
+    "raw_encoding": "gzip",
+    "sha256": "c231ee0cebacc7d1f86e5e49e6e025f1f0f974587a9916940b659775c5d2a726",
+    "bytes": 113784
+  },
+  {
+    "url": "https://www.betblog.com/tipster/nelaime/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:55:20.248833+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/0c6ca346b26c125a06fa.gz",
+    "raw_encoding": "gzip",
+    "sha256": "c40c2da38dca2492a0a95ad9071290c1b9f0e9e650db3507b758c925119d84f0",
+    "bytes": 179283
+  },
+  {
+    "url": "https://www.betblog.com/tipster/str1ke/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:56:53.565340+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/ab3a27a64b537ee4753b.gz",
+    "raw_encoding": "gzip",
+    "sha256": "56293b4a9e58c6dd928f6eb65f1ace622ae6f362d68b86863e364e29fc86833e",
+    "bytes": 125474
+  },
+  {
+    "url": "https://www.betblog.com/tipster/thunder/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:56:58.392402+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/692dbf9d72212f6b7346.gz",
+    "raw_encoding": "gzip",
+    "sha256": "d33bf754a2a7d56dc96fa4f39fd47bd4a9d0d006923e4b5de14a8dea420a11d4",
+    "bytes": 161477
+  },
+  {
+    "url": "https://www.betblog.com/tipster/haris333/basketball/south-korea-kbl/",
+    "observed_at": "2026-10-28T09:57:04.432259+00:00",
+    "automatic_retries": 0,
+    "status": 200,
+    "raw_path": "experiments/tipster-year-20261028/basketball/raw/0bae7a42be5abb3c69d9.gz",
+    "raw_encoding": "gzip",
+    "sha256": "67074052e06c4052cbce3d6d148097a8d44e404aec25e2267c3d8225bfa7f0f7",
+    "bytes": 112852
+  }
+]
