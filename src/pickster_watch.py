@@ -37,7 +37,9 @@ PICK_LOG = OUT / "tailslips_pick_events.jsonl"
 CROWD_LOG = OUT / "tailslips_crowd.jsonl"
 
 BASE_URL = "https://tailslips.com/"
-SLATE_URL = "https://tailslips.com/slate"
+# The unqualified route now defaults to NBA. This collector's identity and
+# operating adapter are MLB-only; use the public MLB selector's HTML route.
+SLATE_URL = "https://tailslips.com/slate?sport=mlb"
 SOURCE = "tailslips_public_html"
 
 _NUM = r"[+\-\N{MINUS SIGN}]?\d+(?:\.\d+)?"
@@ -190,6 +192,26 @@ def _game_header(section: Tag) -> str:
     return section.get_text(" ", strip=True)[:160]
 
 
+def _resolve_streamed_rows(soup: BeautifulSoup) -> None:
+    """Restore literal React streamed HTML placeholders without running scripts.
+
+    Current public rows contain P:* templates; their visible children arrive
+    later in S:* containers. Only exact $RS("S:hex","P:hex") moves are read.
+    Arbitrary JavaScript and embedded RSC data are never evaluated.
+    """
+    nodes = {tag["id"]: tag for tag in soup.find_all(id=True)}
+    move = re.compile(r'\$RS\("(S:[0-9a-f]+)","(P:[0-9a-f]+)"\)')
+    for script in soup.find_all("script"):
+        for source_id, target_id in move.findall(script.string or ""):
+            source, target = nodes.get(source_id), nodes.get(target_id)
+            if (source is None or target is None or target.name != "template"
+                    or source.parent is None or target.parent is None
+                    or source in target.parents):
+                continue
+            target.replace_with(*list(source.contents))
+            source.decompose()
+
+
 def _teams(header: str) -> tuple[str | None, str | None]:
     # 헤더의 투수 이름 이니셜(C., J.)은 제외하고 첫 두 구단 약어만 쓴다.
     left = header.split(" vs ", 1)[0]
@@ -276,6 +298,7 @@ def parse_slate(html: str, observed_at: str | None = None) -> tuple[list[dict], 
     observed_at = observed_at or _now()
     slate_date = _slate_date(observed_at)
     soup = BeautifulSoup(html, "html.parser")
+    _resolve_streamed_rows(soup)
     picks: list[dict] = []
     games: list[dict] = []
     sections = [s for s in soup.find_all("section") if "scroll-mt" in " ".join(s.get("class", []))]
@@ -285,7 +308,7 @@ def parse_slate(html: str, observed_at: str | None = None) -> tuple[list[dict], 
         game_picks: list[dict] = []
         for div in section.find_all("div"):
             classes = div.get("class", [])
-            if "grid-cols-[auto_1fr]" not in classes:
+            if not {"grid-cols-[auto_1fr]", "grid-cols-[auto_minmax(0,1fr)]"}.intersection(classes):
                 continue
             parsed = _parse_pick_row(div, header, team_a, team_b, observed_at)
             if parsed:
@@ -308,6 +331,8 @@ def parse_slate(html: str, observed_at: str | None = None) -> tuple[list[dict], 
         })
     if html.strip() and not sections:
         raise ValueError("TailSlips 슬레이트 경기 section을 찾지 못함")
+    if not picks and any(s.select_one('a[href^="/cappers/"]') for s in sections):
+        raise ValueError("TailSlips 픽 행 구조 변경 의심: 작성자 링크가 있지만 픽 0건")
     return picks, games
 
 
@@ -434,9 +459,11 @@ def _prune_aliases(state: dict, observed_at: str) -> None:
 
 def collect_once(session: requests.Session, leaderboard_html: str | None = None,
                  slate_html: str | None = None) -> dict:
-    observed_at = _now()
     leaderboard_html = leaderboard_html if leaderboard_html is not None else _fetch(session, BASE_URL)
     slate_html = slate_html if slate_html is not None else _fetch(session, SLATE_URL)
+    # T-30 eligibility must use completed receipt, not the beginning of two
+    # potentially slow public HTTP requests.
+    observed_at = _now()
     leaderboard = parse_leaderboard(leaderboard_html, observed_at)
     picks, crowd = parse_slate(slate_html, observed_at)
     state = _load_state()
