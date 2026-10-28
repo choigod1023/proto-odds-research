@@ -1,0 +1,5 @@
+Collect Korean free tipster recommendations across March–October 2026, expanding the earlier handful of dates to 670 source picks / 589 distinct league-date-team fixtures over 73 match dates. Preserve displayed authors, claimed publication dates, observation timestamps, original evidence, exclusions, 74 unassigned historical odds rows, and 88 pending URLs at the user-requested freeze.
+
+Capture 729 KBO and 596 NPB official final results and uniquely join 572 picks. Include overseas NPB dates and 3 explicit KBL picks from already-fetched mixed-sport articles. No provider scores are presented as official; multiple official games for the same date/teams remain unmatched, and settlement rules are not guessed.
+
+Validation: offline parser regressions, KBO away/home orientation golden check, official-source/numeric-score/ambiguous-join assertions, deterministic JSONL replay, Python compilation, and git diff --check. Publication timestamps are unverified source claims, historical price-to-selection mapping remains unresolved, and October 2025–February 2026 has no captured picks. Research only; no production change, merge, or deployment.
