@@ -65,6 +65,8 @@ def test_oldest_collector_wins_and_new_odds_yields_but_retry_does_not(monkeypatc
     monkeypatch.setattr(s, '_tailslips_wait_started', 0.)
     monkeypatch.setattr(s, '_tipster_wait_started', 30.)
     assert s._preferred_tipster() == '공개 픽스터'
+    # A retry window may have expired immediately before yielding a new poll.
+    s._market_cycle_pending.set()
     monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: pytest.fail('new collection must yield'))
     assert s._run_odds_cycle(['odds']) == (0, False)
     assert not s._market_cycle_pending.is_set()

@@ -713,6 +713,8 @@ def _run_odds_cycle(cmd, market_retry=False):
     New optional work cannot repeatedly overtake the pending publication.
     """
     if not market_retry and _tipster_overdue():
+        # An expired retry window may still hold the previous reservation.
+        _market_cycle_pending.clear()
         log("새 배당 수집 한 주기 양보 — 오래 기다린 픽스터 자동 수집 우선")
         return 0, False
     _market_cycle_pending.set()
