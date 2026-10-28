@@ -2165,5 +2165,22 @@
     "protocol": "forward-paper-v1",
     "at": "2026-10-28T08:57:12.734865+09:00",
     "through": 117
+  },
+  {
+    "type": "transition",
+    "protocol": "forward-paper-tipster-vote-v1",
+    "at": "2026-10-28T22:48:07.672663+09:00",
+    "account": "tipster-vote-single-v1",
+    "selection_policy": "tipster-vote-v1",
+    "stake": 10000,
+    "retired_accounts": [
+      "ev_rank-weekly2",
+      "ev_rank-weekly3",
+      "probability-weekly2",
+      "probability-weekly3"
+    ],
+    "budget_scope": "all_accounts_all_leagues_including_legacy",
+    "monthly_loss_limit": 50000,
+    "legacy_mode": "settlement_only"
   }
 ]
