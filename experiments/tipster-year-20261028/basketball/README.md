@@ -55,7 +55,7 @@ NBA 공식 CDN 일정과 nba.com 일정·경기 페이지는 이 실행에서 40
 - `official-kbl-results.jsonl`: 383개 공식 경기. `is_ended`와 null 점수를 반드시 구분한다.
 - `summary.json`: 전체·월·리그·출처·작성자별 픽 수, 경기 수, 시장·결과·공식 검증 상태, 페이지별 제외 사유, 네트워크 실패.
 - `requests.json`, `discovery.json`: URL·수집 시각·원본 해시·응답 상태·추가 작성자 선택 근거. Python HTTP 시도는 63회이며 재시도는 없다.
-- `raw/`: 원본 응답의 무손실 gzip 스냅샷. SHA-256은 압축 전 HTTP 응답을 대상으로 한다.
+- `raw/`: 로컬에서만 보관하는 원본 응답 gzip 캐시이며 저장소에 재배포하지 않는다. SHA-256은 압축 전 HTTP 응답을 대상으로 한다. 저장소의 후보·공식 결과·요청 해시로 통합 수익률 계산은 재실행할 수 있으나, 원문 재파싱에는 별도의 로컬 캐시 또는 재수집이 필요하다.
 
 각 후보는 `published_at_claim`, `observed_at`, `source_url`, `reported_decimal_odds`, `market_raw`, `side_raw`, `market`, `side`, `line`, `market_scope`, `team_side`, `canonical_teams`, `fixture_group_key`를 포함한다. 팀 득점 픽은 `side=over/under`, `team_side=home/away`다. 홈·원정 코드와 원문 팀명을 함께 남겨 연결 규칙을 확인할 수 있다.
 

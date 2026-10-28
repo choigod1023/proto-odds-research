@@ -87,7 +87,10 @@ class BasketballArchiveTests(unittest.TestCase):
         self.assertEqual(len({e["url"] for e in entries}), len(entries))
         for entry in entries:
             if entry.get("raw_path"):
-                self.assertEqual(hashlib.sha256(m.body(entry)).hexdigest(), entry["sha256"])
+                self.assertEqual(len(entry["sha256"]), 64)
+                # Complete publisher pages are a local cache, not redistributed.
+                if (m.ROOT / entry["raw_path"]).exists():
+                    self.assertEqual(hashlib.sha256(m.body(entry)).hexdigest(), entry["sha256"])
         rows = [json.loads(line) for line in (m.OUT / "candidates.jsonl").read_text(encoding="utf-8").splitlines()]
         self.assertGreaterEqual(len(rows), 500)
         self.assertEqual(len(rows), len({r["candidate_id"] for r in rows}))
