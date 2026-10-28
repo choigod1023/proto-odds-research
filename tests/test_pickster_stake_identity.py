@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 import pickster_watch as watch
+import pytest
 
 
 def html(selection, final=False):
@@ -27,8 +28,9 @@ def test_distinct_markets_and_odds_stay_distinct():
     assert len(set(ids)) == 3
 
 
-def test_migration_preserves_old_state_and_no_backfill(monkeypatch):
-    state = {'initialized_at':'old', 'pick_identity_version':2,
+@pytest.mark.parametrize('previous_version', [2, 3])
+def test_migration_preserves_old_state_and_no_backfill(monkeypatch, previous_version):
+    state = {'initialized_at':'old', 'pick_identity_version':previous_version,
              'picks':{'old-id':{'eligible_pre_event':True}}}
     saved, logged = [], []
     monkeypatch.setattr(watch, '_load_state', lambda: state)

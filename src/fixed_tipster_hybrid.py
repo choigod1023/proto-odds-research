@@ -93,7 +93,7 @@ def context(game, rows, as_of, built_at):
             if game.get("league") != "MLB" or not home or not away:
                 continue
             if not (row.get("source") == "tailslips_public_html"
-                    and row.get("event_type") == "first_observed" and row.get("identity_version") == 2
+                    and row.get("event_type") == "first_observed" and row.get("identity_version") in {2, 3, 4}
                     and row.get("eligible_pre_event") is True and row.get("game_started") is False
                     and row.get("result") is None and not row.get("is_parlay_leg")
                     and not row.get("is_baseline") and row.get("market_type") == "moneyline"

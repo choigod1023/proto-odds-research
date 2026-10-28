@@ -43,6 +43,25 @@ def test_reverses_market_favorite_without_selecting_high_probability_total():
     assert s["tipster_hybrid"]["authors"] == 1
 
 
+@pytest.mark.parametrize("version", [2, 3, 4])
+def test_supported_collector_versions_reach_operating_policy(version):
+    _, s = decide(rows=[vote(identity_version=version)])
+    assert s["tipster_hybrid"]["status"] == "applied"
+    assert s["probability"]["final"] == .532
+
+
+def test_v4_parsed_slate_reaches_policy_but_parlay_is_excluded():
+    from pickster_watch import parse_slate
+    html = '''<section class="scroll-mt-10"><div></div><div>NYY BOS 7:10 PM ET</div>
+    <div class="grid-cols-[auto_1fr]"><a href="/cappers/alpha">@alpha</a>
+    @alpha 5h BOS ML +110 1u{suffix}</div></section>'''
+    for suffix, expected in [("", "applied"), (" in 5 -leg", "market_fallback")]:
+        rows, _ = parse_slate(html.format(suffix=suffix), AT)
+        rows[0].update(event_type="first_observed", eligible_pre_event=True, is_baseline=False)
+        _, snapshot = decide(rows=rows)
+        assert snapshot["tipster_hybrid"]["status"] == expected
+
+
 def test_idempotent_and_evidence_changes_revision():
     g, s = decide()
     _, repeated = decide(g)
