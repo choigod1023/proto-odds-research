@@ -42,9 +42,12 @@ class IsolatedMatchResponses(PreparedMatchResponses):
             # writes this pickle; never deserialize network/DB/user-provided data.
             with tempfile.TemporaryDirectory(prefix='match-views-') as directory:
                 output = Path(directory) / 'responses.pickle'
-                subprocess.run([sys.executable, '-u', str(Path(__file__).with_name(
+                command = [sys.executable, '-u', str(Path(__file__).with_name(
                     'match_response_worker.py')), str(self.views.database.path.resolve()),
-                    str(output), *scopes], check=True, timeout=180)
+                    str(output), *scopes]
+                if self.snapshot_path is not None and Path(self.snapshot_path).is_file():
+                    command.extend(['--previous', str(Path(self.snapshot_path).resolve())])
+                subprocess.run(command, check=True, timeout=180)
                 with output.open('rb') as stream:
                     ready, revisions, actual_revision, games = pickle.load(stream)
             # Publish only after a complete successful child exit. Failure keeps
