@@ -3,8 +3,10 @@ import copy
 import hashlib
 import importlib.util
 import json
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location("year_basketball", Path(__file__).resolve().parents[1] / "scripts/research_collect_year_basketball.py")
 m = importlib.util.module_from_spec(SPEC)
@@ -102,20 +104,78 @@ class BasketballArchiveTests(unittest.TestCase):
         self.assertTrue(any(r["source_reported_result"] == "Lost" for r in rows))
 
     def test_captured_betblog_metadata_and_full_dataset(self):
-        entries = m.ledger()
-        found = False
-        for meta in entries:
-            if meta.get("status") == 200 and "betblog.com/tipster/kentukyo/basketball/nba/" in meta["url"]:
-                rows, _ = m.parse_betblog(m.body(meta), meta)
-                if rows:
-                    found = True
-                    self.assertTrue(rows[0]["published_at_claim"])
-                    self.assertEqual(rows[0]["source_reported_game_time_utc"][-6:], "+00:00")
-                    self.assertFalse(rows[0]["cutoff_proven"])
-                    self.assertIn("/picks/", rows[0]["source_url"])
-                    self.assertIsNone(rows[0]["source_reported_score"])
-                    break
-        self.assertTrue(found)
+        entries = {meta["url"]: meta for meta in m.ledger()
+                   if meta.get("status") == 200 and "betblog.com/tipster/kentukyo/basketball/nba/" in meta["url"]}
+        candidates = [json.loads(line) for line in (m.OUT / "candidates.jsonl").read_text(encoding="utf-8").splitlines()]
+        rows = [row for row in candidates if row["source"] == "Betblog"
+                and any(e["url"] in entries for e in row["evidence"])]
+        # Persisted facts must always be checked, even on clean CI checkouts.
+        self.assertTrue(entries)
+        self.assertTrue(rows)
+        for row in rows:
+            self.assertEqual(row["author"].lower(), "kentukyo")
+            self.assertEqual(row["league"], "NBA")
+            self.assertTrue(row["published_at_claim"])
+            self.assertEqual(row["source_reported_game_time_utc"][-6:], "+00:00")
+            self.assertFalse(row["cutoff_proven"])
+            self.assertTrue(row["source_url"].startswith(m.BETBLOG + "/picks/"))
+            self.assertIsNone(row["source_reported_score"])
+            for evidence in row["evidence"]:
+                if evidence["url"] in entries:
+                    meta = entries[evidence["url"]]
+                    for field in ("sha256", "raw_path", "observed_at"):
+                        self.assertEqual(evidence[field], meta[field])
+        # Complete publisher bodies stay local; when present, verify them too.
+        for meta in entries.values():
+            if (m.ROOT / meta["raw_path"]).is_file():
+                data = m.body(meta)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), meta["sha256"])
+                parsed, _ = m.parse_betblog(data, meta)
+                by_id = {row["candidate_id"]: row for row in parsed}
+                captured = [row for row in rows if any(e["url"] == meta["url"] for e in row["evidence"])]
+                for row in captured:
+                    self.assertIn(row["candidate_id"], by_id)
+                    for field in ("published_at_claim", "source_reported_game_time_utc", "source_url",
+                                  "source_reported_score", "cutoff_proven", "market", "side", "reported_decimal_odds"):
+                        self.assertEqual(by_id[row["candidate_id"]][field], row[field])
+
+    def test_minimal_betblog_dom_parses_metadata_without_publisher_cache(self):
+        # Synthetic DOM: only parser inputs, no copied publisher page or prose.
+        data = b'''<ul><li itemtype="http://schema.org/SportsEvent">
+          <meta itemprop="name" content="Boston Celtics - New York Knicks">
+          <meta itemprop="startDate" content="2026-03-05GMT00:30:00+00:00">
+          <meta itemprop="validFrom" content="2026-03-04GMT18:00:00+00:00">
+          <div itemprop="location"><meta itemprop="url" content="https://www.betblog.com/basketball/nba/"></div>
+          <div itemprop="performer"><meta itemprop="name" content="synthetic-author">
+            <meta itemprop="url" content="https://www.betblog.com/tipster/synthetic-author"></div>
+          <div itemprop="offers"><meta itemprop="url" content="https://example.test/bookmaker"></div>
+          <div class="match"><a href="/picks/123456-synthetic-fixture">fixture</a></div>
+          <div class="hover"><span>Pick @ 1.85 Pick: (Boston Celtics) Units: 1</span></div>
+          <span class="units">-1.00</span>
+        </li></ul>'''
+        rows, excluded = m.parse_betblog(data, META)
+        self.assertEqual(excluded, {})
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertEqual(row["candidate_id"], "betblog-123456")
+        self.assertEqual(row["author"], "synthetic-author")
+        self.assertEqual(row["league"], "NBA")
+        self.assertEqual(row["teams"], {"home": "Boston Celtics", "away": "New York Knicks"})
+        self.assertEqual(row["published_at_claim"], "2026-03-04T18:00:00+00:00")
+        self.assertEqual(row["source_reported_game_time_utc"], "2026-03-05T00:30:00+00:00")
+        self.assertTrue(row["published_before_game_claim"])
+        self.assertFalse(row["cutoff_proven"])
+        self.assertEqual((row["market"], row["side"], row["reported_decimal_odds"]), ("moneyline", "home", 1.85))
+        self.assertEqual(row["source_url"], m.BETBLOG + "/picks/123456-synthetic-fixture")
+        self.assertEqual(row["source_reported_result"], "Lost")
+        self.assertIsNone(row["source_reported_score"])
+        self.assertEqual(row["evidence"][0]["sha256"], META["sha256"])
+
+    def test_metadata_checks_without_local_raw_cache(self):
+        with tempfile.TemporaryDirectory() as root, mock.patch.object(m, "ROOT", Path(root)), \
+                mock.patch.object(m, "body", side_effect=AssertionError("Local raw cache must be optional")):
+            self.test_snapshot_hashes_and_real_artifact_invariants()
+            self.test_captured_betblog_metadata_and_full_dataset()
 
 
 if __name__ == "__main__":
