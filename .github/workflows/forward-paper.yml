@@ -10,7 +10,6 @@ on:
         default: false
 permissions:
   contents: write
-  issues: write
 concurrency:
   group: forward-paper
   cancel-in-progress: false
@@ -23,8 +22,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Observe, freeze, settle and report paper accounts
+      - name: Observe and settle primary tipster singles; preserve legacy accounts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAPER_SUMMARY_PATH: paper-summary.json
           PAPER_INITIALIZE: ${{ inputs.initialize == true && 'true' || 'false' }}
         run: python -m scripts.run_forward_paper
+      - name: Preserve paper summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forward-paper-summary
+          path: paper-summary.json
+          if-no-files-found: ignore
