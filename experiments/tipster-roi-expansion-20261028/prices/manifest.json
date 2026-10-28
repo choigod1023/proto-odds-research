@@ -1,0 +1,263 @@
+{
+  "schema": "tipster-primary-prices-v1",
+  "started_at_utc": "2026-10-28T09:11:14.877965+00:00",
+  "request_limit": 25,
+  "round_limit": 10,
+  "minimum_interval_seconds": 2.5,
+  "retries": 0,
+  "redirects": false,
+  "database_access": false,
+  "env_file_access": false,
+  "quote_quality": "retrospective_archive_not_pregame_certified",
+  "requests": [
+    {
+      "request_id": 1,
+      "url": "https://www.wisetoto.com/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2025&game_round=85",
+      "purpose": "resolve 2025/85 master sequence",
+      "method": "GET",
+      "started_at_utc": "2026-10-28T09:11:14.878376+00:00",
+      "started_unix": 1793178674.8783817,
+      "status": 200,
+      "response_headers": {
+        "Date": "Wed, 28 Oct 2026 09:11:15 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "23695",
+        "Connection": "keep-alive",
+        "P3P": "CP=\"ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC OTC\"",
+        "Expires": "Mon, 26 Jul 1997 05:00:00 GMT",
+        "Cache-Control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+        "Pragma": "no-cache",
+        "Set-Cookie": "PHPSESSID=79ba432381f14b633e90f793d058d548; path=/; domain=.wisetoto.com",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
+        "Last-Modified": "Wed, 28 Oct 2026 09:11:15 GMT",
+        "Vary": "Accept-Encoding",
+        "Content-Encoding": "gzip",
+        "X-Request-Id": "a31cfd55a6e6a891bc7d58f952722bc6"
+      },
+      "sha256": "a40b708d774585fed5ba2a749f56d986d4d46fd4061a824e1a80fc486cabe113",
+      "bytes": 114263,
+      "body_file": "source-01.bin",
+      "finished_at_utc": "2026-10-28T09:11:15.232268+00:00",
+      "decoded_encoding": "utf-8"
+    },
+    {
+      "request_id": 2,
+      "url": "https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2025&game_round=85&game_month=&game_day=&game_info_master_seq=29277&sports=&sort=&tab_type=proto",
+      "purpose": "archive 2025/85 full market rows",
+      "method": "GET",
+      "started_at_utc": "2026-10-28T09:11:17.378853+00:00",
+      "started_unix": 1793178677.3788714,
+      "status": 403,
+      "response_headers": {
+        "Date": "Wed, 28 Oct 2026 09:11:17 GMT",
+        "Content-Type": "application/x-javascript",
+        "Transfer-Encoding": "chunked",
+        "Connection": "keep-alive",
+        "P3P": "CP=\"ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC OTC\"",
+        "Expires": "Thu, 19 Nov 1981 08:52:00 GMT",
+        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
+        "X-Request-Id": "594784a2441c3305ffacb759b1e68c1e"
+      },
+      "sha256": "bc2213521e58ba4c2ee7ed08273859ba495b226e5661c9b3bc60e9a2f855ef4c",
+      "bytes": 43,
+      "body_file": "source-02.bin",
+      "finished_at_utc": "2026-10-28T09:11:17.393710+00:00",
+      "error": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2025&game_round=85&game_month=&game_day=&game_info_master_seq=29277&sports=&sort=&tab_type=proto",
+      "decoded_encoding": "utf-8"
+    },
+    {
+      "request_id": 3,
+      "url": "https://www.wisetoto.com/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104",
+      "purpose": "resolve 2026/104 master sequence",
+      "method": "GET",
+      "started_at_utc": "2026-10-28T09:11:19.878954+00:00",
+      "started_unix": 1793178679.8789773,
+      "status": 200,
+      "response_headers": {
+        "Date": "Wed, 28 Oct 2026 09:11:20 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "23460",
+        "Connection": "keep-alive",
+        "P3P": "CP=\"ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC OTC\"",
+        "Expires": "Mon, 26 Jul 1997 05:00:00 GMT",
+        "Cache-Control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+        "Pragma": "no-cache",
+        "Set-Cookie": "PHPSESSID=980ea07af9be382f2f7b04ac4d3f2798; path=/; domain=.wisetoto.com",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
+        "Last-Modified": "Wed, 28 Oct 2026 09:11:20 GMT",
+        "Vary": "Accept-Encoding",
+        "Content-Encoding": "gzip",
+        "X-Request-Id": "8fb3c0153fc6b50036b33eecb4ac3d32"
+      },
+      "sha256": "03428cd76b7e3f6972ed3ef67e9ab54002e5bb06a76bd00eba37d4c67481a21e",
+      "bytes": 111383,
+      "body_file": "source-03.bin",
+      "finished_at_utc": "2026-10-28T09:11:20.224014+00:00",
+      "decoded_encoding": "utf-8"
+    },
+    {
+      "request_id": 4,
+      "url": "https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2026&game_round=104&game_month=&game_day=&game_info_master_seq=31427&sports=&sort=&tab_type=proto",
+      "purpose": "archive 2026/104 full market rows",
+      "method": "GET",
+      "started_at_utc": "2026-10-28T09:11:22.379455+00:00",
+      "started_unix": 1793178682.3794737,
+      "status": 403,
+      "response_headers": {
+        "Date": "Wed, 28 Oct 2026 09:11:22 GMT",
+        "Content-Type": "application/x-javascript",
+        "Transfer-Encoding": "chunked",
+        "Connection": "keep-alive",
+        "P3P": "CP=\"ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC OTC\"",
+        "Expires": "Thu, 19 Nov 1981 08:52:00 GMT",
+        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
+        "X-Request-Id": "eec6af03784f077df7059f97bd7f6a48"
+      },
+      "sha256": "bc2213521e58ba4c2ee7ed08273859ba495b226e5661c9b3bc60e9a2f855ef4c",
+      "bytes": 43,
+      "body_file": "source-04.bin",
+      "finished_at_utc": "2026-10-28T09:11:22.393184+00:00",
+      "error": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2026&game_round=104&game_month=&game_day=&game_info_master_seq=31427&sports=&sort=&tab_type=proto",
+      "decoded_encoding": "utf-8"
+    },
+    {
+      "request_id": 5,
+      "url": "https://www.koreabaseball.com/Schedule/Schedule.aspx",
+      "purpose": "official KBO result discovery",
+      "method": "GET",
+      "started_at_utc": "2026-10-28T09:11:33.612244+00:00",
+      "started_unix": 1793178693.6122508,
+      "status": 200,
+      "response_headers": {
+        "Cache-Control": "private",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Encoding": "gzip",
+        "Vary": "Accept-Encoding",
+        "Server": "",
+        "Set-Cookie": "ASP.NET_SessionId=xznxqqngttjq5ukly15qpa4y; path=/; secure; HttpOnly; SameSite=Lax",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Content-Type-Options": "nosniff",
+        "X-XSS-Protection": "1; mode=block",
+        "Date": "Wed, 28 Oct 2026 09:12:09 GMT",
+        "Content-Length": "13899"
+      },
+      "sha256": "8ef5bbcc3fccf11427b54cbdb5daba0e804cad15cbbe3343a730343a2b99b2e8",
+      "bytes": 50989,
+      "body_file": "source-05.bin",
+      "finished_at_utc": "2026-10-28T09:11:33.938688+00:00",
+      "decoded_encoding": "utf-8"
+    },
+    {
+      "request_id": 6,
+      "url": "https://www.koreabaseball.com/ws/Schedule.asmx/GetScheduleList",
+      "purpose": "official September 2026 regular-season results; parameters from source-05 inline JS",
+      "method": "POST",
+      "form_data": {
+        "leId": "1",
+        "srIdList": "0,9,6",
+        "seasonId": "2026",
+        "gameMonth": "09",
+        "teamId": ""
+      },
+      "started_at_utc": "2026-10-28T09:12:42.465710+00:00",
+      "started_unix": 1793178762.4657197,
+      "status": 200,
+      "response_headers": {
+        "Content-Type": "text/html",
+        "Content-Encoding": "gzip",
+        "Last-Modified": "Wed, 18 Dec 2024 23:02:36 GMT",
+        "Accept-Ranges": "bytes",
+        "ETag": "\"0ce92eda051db1:0\"",
+        "Vary": "Accept-Encoding",
+        "Server": "Microsoft-IIS/10.0",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Content-Type-Options": "nosniff",
+        "X-XSS-Protection": "1; mode=block",
+        "Date": "Wed, 28 Oct 2026 09:12:49 GMT",
+        "Content-Length": "1288"
+      },
+      "sha256": "5f0a6c5e5345456410fcbc723872f67c673463b7446516ba35cfccdcd7b7c277",
+      "bytes": 3533,
+      "body_file": "source-06.bin",
+      "finished_at_utc": "2026-10-28T09:12:42.787209+00:00",
+      "decoded_encoding": "utf-8"
+    },
+    {
+      "request_id": 7,
+      "url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+      "purpose": "official 2026-09-02 results; public GameCenter endpoint from src/kbo_official.py",
+      "method": "POST",
+      "form_data": {
+        "leId": "1",
+        "srId": "0,1,3,4,5,6,7,8,9",
+        "date": "20260902"
+      },
+      "started_at_utc": "2026-10-28T09:13:13.338392+00:00",
+      "started_unix": 1793178793.3383985,
+      "request_headers": {
+        "User-Agent": "PublicHistoricalOddsResearch/1.0",
+        "Accept-Encoding": "gzip, deflate, zstd",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "Referer": "https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx"
+      },
+      "status": 200,
+      "response_headers": {
+        "Cache-Control": "private, max-age=0",
+        "Transfer-Encoding": "chunked",
+        "Content-Type": "text/plain; charset=UTF-8",
+        "Content-Encoding": "gzip",
+        "Vary": "Accept-Encoding",
+        "Server": "",
+        "Set-Cookie": "ASP.NET_SessionId=523lvu5ihblhwe1dwvhvyty3; path=/; secure; HttpOnly; SameSite=Lax",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Content-Type-Options": "nosniff",
+        "X-XSS-Protection": "1; mode=block",
+        "Date": "Wed, 28 Oct 2026 09:13:49 GMT"
+      },
+      "sha256": "d2005e330589398d5353c3b5a4878254de1139204b38bc2e4d5a43a8197ce80a",
+      "bytes": 8801,
+      "body_file": "source-07.bin",
+      "finished_at_utc": "2026-10-28T09:13:13.673605+00:00",
+      "decoded_encoding": "utf-8"
+    }
+  ],
+  "rounds": [
+    {
+      "year": 2025,
+      "round": 85,
+      "master_seq": "29277",
+      "index_request_id": 1,
+      "error": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2025&game_round=85&game_month=&game_day=&game_info_master_seq=29277&sports=&sort=&tab_type=proto",
+      "index_sales_startKST": [
+        "2025-07-21 14:10"
+      ],
+      "game_dates_verified": false
+    },
+    {
+      "year": 2026,
+      "round": 104,
+      "master_seq": "31427",
+      "index_request_id": 3,
+      "error": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2026&game_round=104&game_month=&game_day=&game_info_master_seq=31427&sports=&sort=&tab_type=proto",
+      "index_sales_startKST": [
+        "2026-09-02 08:00"
+      ],
+      "game_dates_verified": false
+    }
+  ],
+  "request_count": 7,
+  "initial_collector_limitations": [
+    "Requests 1-6 preceded request-header logging and omitted X-Requested-With: XMLHttpRequest.",
+    "Wisetoto requests 2 and 4 returned 403 with exact UTF-8 body: 잘못된 접근입니다.[code:gproto_xrw]",
+    "The existing src/wisetoto.py client includes X-Requested-With; its omission is the likely cause, not confirmed by a corrected request.",
+    "Two different round attempts were issued before the persistent host-stop guard was added; no identical request was repeated.",
+    "Request 6 inherited the Wisetoto index Referer and returned an HTTP-200 HTML KBO error page; cause unverified.",
+    "Request 7 used the KBO GameCenter Referer and succeeded on a distinct public endpoint.",
+    "Final collector restores standard AJAX header but refuses any further Wisetoto call in this run; no corrected request was made."
+  ]
+}
