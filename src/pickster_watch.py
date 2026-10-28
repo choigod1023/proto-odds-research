@@ -21,7 +21,7 @@ import json
 import math
 import re
 import time
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 from zoneinfo import ZoneInfo
@@ -41,6 +41,8 @@ SLATE_URL = "https://tailslips.com/slate"
 SOURCE = "tailslips_public_html"
 
 _NUM = r"[+\-\N{MINUS SIGN}]?\d+(?:\.\d+)?"
+_AGE_PREFIX = re.compile(r"^\d+\s*[mhdw]\b\s*")
+_PARLAY_LEG = re.compile(r"\s*\bin\s+(\d+)\s*-?\s*leg\b", re.I)
 
 
 def _now() -> str:
@@ -233,11 +235,17 @@ def _parse_pick_row(row: Tag, header: str, team_a: str | None,
     result_m = re.search(r"\s([WLPV])(?=\s|$)", clean)
     result = result_m.group(1) if result_m else None
     selection = clean[:result_m.start()].strip() if result_m else clean.strip()
+    # 게시 후 경과 시간("5h")은 시간이 지나면 바뀌므로 identity에서 뺀다. 대문자 "1H"
+    # (전반 베팅)와 구분하려고 소문자만 경과 시간으로 본다.
+    selection = _AGE_PREFIX.sub("", selection)
+    # 파라레이 표시("in 5 -leg")는 경기 전에도 선택 텍스트 끝에 붙는다. 결과 뒤 tail에만
+    # 있다고 가정하면 경기 전 leg가 직선 픽으로 분류돼 전향 표본에 섞인다.
+    parlay_m = _PARLAY_LEG.search(clean)
+    selection = _PARLAY_LEG.sub("", selection).strip()
     # Pregame rows include the stake ("NYY ML -115 5u"), graded rows do not.
     # Keep raw_text intact, but stake is not part of the market/selection identity.
     selection = re.sub(r"\s+\d+(?:\.\d+)?u$", "", selection, flags=re.I).strip()
     tail = clean[result_m.end():].strip() if result_m else ""
-    parlay_m = re.search(r"in\s+(\d+)\s*-?leg", tail, re.I)
     net_m = re.search(rf"({_NUM})u\b", tail)
     odds_all = re.findall(r"(?<![\d.])([+\-]\d{3,4})(?![\d.])", selection)
     american_odds = int(odds_all[-1]) if odds_all else None
@@ -245,11 +253,11 @@ def _parse_pick_row(row: Tag, header: str, team_a: str | None,
     # 점수/FINAL/TOP/BOT가 바뀌어도 같은 픽이어야 결과 이벤트가 최초 관측에 붙는다.
     # MLB는 같은 대진이 연속되므로 동부 날짜까지 포함한다.
     matchup = "-".join(sorted(x for x in (team_a, team_b) if x))
-    key_text = "|".join(("v3", slate_date, matchup, slug,
+    key_text = "|".join(("v4", slate_date, matchup, slug,
                          re.sub(r"\s+", " ", selection).lower()))
     pick_id = hashlib.sha256(key_text.encode()).hexdigest()[:24]
     return {
-        "pick_id": pick_id, "identity_version": 3,
+        "pick_id": pick_id, "identity_version": 4,
         "observed_at": observed_at, "source": SOURCE,
         "slate_date": slate_date, "game_header": header, "team_a": team_a, "team_b": team_b,
         "game_started": _game_started(header),
@@ -365,6 +373,56 @@ def _fetch(session: requests.Session, url: str) -> str:
     return r.text
 
 
+# 동부 자정 뒤에도 TailSlips가 전날 슬레이트를 보여 주는 시간대(동부 시각). 이 구간에서
+# 처음 보인 경기 중/종료 픽만 전날 미채점 픽에 이어 붙인다.
+_ROLLOVER_END_HOUR_ET = 10
+_ROLLOVER_MAX_AGE = timedelta(hours=36)
+_ALIAS_TTL = timedelta(days=7)
+
+
+def _identity_key(pick: dict) -> str:
+    """slate_date를 뺀 픽 동일성 키. 전날/다음날 같은 선택을 비교할 때 쓴다."""
+    matchup = "-".join(sorted(x for x in (pick["team_a"], pick["team_b"]) if x))
+    return "|".join((matchup, pick["slug"], re.sub(r"\s+", " ", pick["selection"]).lower()))
+
+
+def _resolve_rollover(state: dict, pick: dict, observed_at: str) -> None:
+    """slate_date가 하루 밀려 계산된 채점 관측을 전날 미채점 픽에 연결한다.
+
+    slate_date는 관측 시각의 동부 날짜인데, 자정 뒤에도 전날 슬레이트가 남아 있으면
+    같은 픽이 다른 날짜의 id로 갈라진다. 이미 상태에 없는 id이고, 이른 아침에
+    경기 중/종료로 처음 보였고, 전날 같은 키의 미채점 픽이 경기 시작까지 관측된 경우에만
+    그 픽의 id와 slate_date를 쓴다. 경기 전 관측은 절대 옮기지 않는다.
+    """
+    pid = pick["pick_id"]
+    aliases = state.setdefault("pick_aliases", {})
+    if pid in aliases:
+        pick["pick_id"] = aliases[pid]["pick_id"]
+        pick["slate_date"] = aliases[pid]["slate_date"]
+        return
+    if pid in state["picks"] or not (pick["game_started"] or pick["result"]):
+        return
+    now = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
+    if now.astimezone(ZoneInfo("America/New_York")).hour >= _ROLLOVER_END_HOUR_ET:
+        return
+    prev = (date.fromisoformat(pick["slate_date"]) - timedelta(days=1)).isoformat()
+    key = _identity_key(pick)
+    for cand_id, cand in state["picks"].items():
+        if (cand.get("key") == key and cand.get("slate_date") == prev
+                and cand.get("last_result") is None and cand.get("started")
+                and now - datetime.fromisoformat(cand["first_seen"]) <= _ROLLOVER_MAX_AGE):
+            aliases[pid] = {"pick_id": cand_id, "slate_date": prev, "created": observed_at}
+            pick["pick_id"], pick["slate_date"] = cand_id, prev
+            return
+
+
+def _prune_aliases(state: dict, observed_at: str) -> None:
+    now = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
+    aliases = state.get("pick_aliases") or {}
+    state["pick_aliases"] = {k: v for k, v in aliases.items()
+                             if now - datetime.fromisoformat(v["created"]) <= _ALIAS_TTL}
+
+
 def collect_once(session: requests.Session, leaderboard_html: str | None = None,
                  slate_html: str | None = None) -> dict:
     observed_at = _now()
@@ -376,10 +434,10 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
     first_run = not state.get("initialized_at")
     # Preserve old state and immutable logs. Versioned IDs cannot inherit a
     # different v2 pick's eligibility. The first v3 snapshot is baseline only.
-    if state.get("pick_identity_version") != 3:
+    if state.get("pick_identity_version") != 4:
         first_run = True
         state.setdefault("picks", {})
-        state["pick_identity_version"] = 3
+        state["pick_identity_version"] = 4
 
     # observed_at은 내용 해시에서 제외해야 변화가 없을 때 로그가 불어나지 않는다.
     leaderboard_content = [{k: v for k, v in r.items() if k != "observed_at"} for r in leaderboard]
@@ -395,6 +453,7 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
     events: list[dict] = []
     seen: set[str] = set()
     for pick in picks:
+        _resolve_rollover(state, pick, observed_at)
         pid = pick["pick_id"]
         seen.add(pid)
         old = state["picks"].get(pid)
@@ -411,9 +470,12 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
                 "first_seen": observed_at, "last_seen": observed_at,
                 "first_result": pick["result"], "last_result": pick["result"],
                 "eligible_pre_event": event["eligible_pre_event"], "fingerprint": fingerprint,
+                "key": _identity_key(pick), "slate_date": pick["slate_date"],
+                "started": bool(pick["game_started"]),
             }
         else:
             old["last_seen"] = observed_at
+            old["started"] = bool(old.get("started") or pick["game_started"])
             if fingerprint != old.get("fingerprint"):
                 if old.get("last_result") is None and pick["result"] is not None:
                     event_type = "graded"
@@ -442,6 +504,7 @@ def collect_once(session: requests.Session, leaderboard_html: str | None = None,
     state["last_success_at"] = observed_at
     state["last_seen_pick_count"] = len(seen)
     state["current_pick_ids"] = sorted(seen)
+    _prune_aliases(state, observed_at)
     _save_state(state)
     return {
         "observed_at": observed_at, "leaderboard_cappers": len(leaderboard),
@@ -478,7 +541,7 @@ def _selftest() -> None:
     assert picks[0]["american_odds"] == -110 and picks[0]["net_units"] == .91
     assert picks[0]["slate_date"] == "2025-12-31"
     assert picks[0]["game_started"] is True
-    assert picks[0]["identity_version"] == 3
+    assert picks[0]["identity_version"] == 4
     pregame = slate.replace("NYY 3 FINAL BAL 1", "NYY 7:05 PM BAL").replace(" W +0.91u", "")
     pre_picks, _ = parse_slate(pregame, "2026-01-01T00:00:00+00:00")
     assert pre_picks[0]["pick_id"] == picks[0]["pick_id"]
