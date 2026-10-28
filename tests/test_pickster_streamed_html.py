@@ -40,3 +40,21 @@ def test_streamed_parlay_is_still_excluded():
 def test_unknown_rows_fail_instead_of_silently_collecting_zero():
     with pytest.raises(ValueError, match='0건'):
         w.parse_slate(streamed().replace('grid-cols-[auto_minmax(0,1fr)]', 'unknown-row'), '2026-10-28T14:00:00Z')
+
+
+def test_observation_clock_is_after_receiving_public_html(monkeypatch):
+    clock = [0]
+    state = {'initialized_at': 'old', 'pick_identity_version': 4, 'picks': {}}
+    events = []
+    monkeypatch.setattr(w, '_now', lambda: f'2026-10-28T14:00:{clock[0]:02d}+00:00')
+    def fetch(session, url):
+        clock[0] += 20
+        return streamed() if url == w.SLATE_URL else ''
+    monkeypatch.setattr(w, '_fetch', fetch)
+    monkeypatch.setattr(w, 'parse_leaderboard', lambda *a: [])
+    monkeypatch.setattr(w, '_load_state', lambda: state)
+    monkeypatch.setattr(w, '_save_state', lambda value: None)
+    monkeypatch.setattr(w, '_append_jsonl', lambda p, rows: events.extend(rows) or len(rows))
+    result = w.collect_once(object())
+    assert result['observed_at'] == '2026-10-28T14:00:40+00:00'
+    assert all(e['observed_at'] == result['observed_at'] for e in events)

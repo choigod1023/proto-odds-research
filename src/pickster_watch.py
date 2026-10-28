@@ -459,9 +459,11 @@ def _prune_aliases(state: dict, observed_at: str) -> None:
 
 def collect_once(session: requests.Session, leaderboard_html: str | None = None,
                  slate_html: str | None = None) -> dict:
-    observed_at = _now()
     leaderboard_html = leaderboard_html if leaderboard_html is not None else _fetch(session, BASE_URL)
     slate_html = slate_html if slate_html is not None else _fetch(session, SLATE_URL)
+    # T-30 eligibility must use completed receipt, not the beginning of two
+    # potentially slow public HTTP requests.
+    observed_at = _now()
     leaderboard = parse_leaderboard(leaderboard_html, observed_at)
     picks, crowd = parse_slate(slate_html, observed_at)
     state = _load_state()
