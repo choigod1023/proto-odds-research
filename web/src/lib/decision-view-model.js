@@ -1,5 +1,6 @@
 import { finalRecommendedSelection, qualifiedUnderdogSelections,
   marketOnlyRecommendedSelection, recommendationPriority } from "./recommendation-policy.js";
+import { isTipsterVoteVersion, tipsterPolicyInfo, usesTipsterVote, tipsterWithholdLabel } from "./fixed-tipster-policy.js";
 
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
@@ -13,7 +14,7 @@ const PROMOTED_ARTIFACT_HASHES = new Set();
 export const FIXED_TIPSTER_VERSION = "market90-tipster10-v2";
 export const isFixedTipsterVersion = version => [FIXED_TIPSTER_VERSION, "mlb-market90-tipster10-v1"].includes(version);
 export function isAuthorizedTipsterPolicy(model) {
-  return isFixedTipsterVersion(model?.operating_version)
+  return (isFixedTipsterVersion(model?.operating_version) || isTipsterVoteVersion(model?.operating_version))
     && model?.status === "operational" && model?.policy_authorized === true
     && model?.promotion_gate === "user_authorized_unvalidated"
     && model?.validated_edge === false;
@@ -21,6 +22,7 @@ export function isAuthorizedTipsterPolicy(model) {
 
 /** 백엔드와 동일한 운영 승격 계약. 표식만으로는 확률을 바꿀 수 없다. */
 export function canApplyDecisionProbability(model) {
+  if (isTipsterVoteVersion(model?.operating_version) || isTipsterVoteVersion(model?.selection_policy)) return false;
   if (isAuthorizedTipsterPolicy(model)) return true;
   return model?.status === "operational"
     && model?.promotion_gate === "passed"
@@ -29,7 +31,17 @@ export function canApplyDecisionProbability(model) {
     && PROMOTED_ARTIFACT_HASHES.has(model?.artifact_hash);
 }
 
-export const recommendedSelectionForModel = (options, model) => {
+export const recommendedSelectionForModel = (options, model, info = null) => {
+  if (isTipsterVoteVersion(model?.selection_policy) || isTipsterVoteVersion(model?.operating_version)) {
+    if (!isAuthorizedTipsterPolicy(model) || !isTipsterVoteVersion(info?.version)
+        || info.status !== "applied" || !info.selected_side) return null;
+    const rows = options.filter(o => ["승패", "승무패"].includes(o?.market) && !o?.label);
+    const order = rows.some(o => o["선택"] === "무") ? ["홈", "무", "원정"] : ["홈", "원정"];
+    if (rows.length !== order.length || new Set(rows.map(o => o.market)).size !== 1
+        || !order.every(side => rows.filter(o => o["선택"] === side).length === 1)
+        || !rows.every(o => finite(o["시장확률"]) > 0 && finite(o["시장확률"]) < 1 && finite(o["배당"]) > 1)) return null;
+    return rows.find(o => o["선택"] === info.selected_side) || null;
+  }
   if (isFixedTipsterVersion(model?.selection_policy)) {
     const rows = options.filter(o => ["승패", "승무패"].includes(o?.market) && !o?.label);
     const order = rows.some(o => o["선택"] === "무") ? ["홈", "무", "원정"] : ["홈", "원정"];
@@ -344,7 +356,7 @@ const snapshotContract = (game) => {
     errors.push("unknown_action");
   }
   const resolvedOdds = finite(resolved?.["배당"]);
-  const finalNow = recommendedSelectionForModel(game?.options || [], raw?.model);
+  const finalNow = recommendedSelectionForModel(game?.options || [], raw?.model, tipsterPolicyInfo(game));
   const shouldRebuildSelection = resolved && resolvedOdds !== null && finalNow !== resolved;
   if (!errors.length && shouldRebuildSelection) {
     errors.push("selection_policy_mismatch");
@@ -441,7 +453,7 @@ export function buildDecisionViewModel(game, option = null) {
   const resolvedOdds = finite(contract.resolved?.["배당"]);
   const recommendationEligible = contractValid && raw.action === "market_reference" &&
     contract.resolved && resolvedOdds !== null
-    ? recommendedSelectionForModel(game?.options || [], raw?.model) === contract.resolved
+    ? recommendedSelectionForModel(game?.options || [], raw?.model, tipsterPolicyInfo(game)) === contract.resolved
     : null;
   const reversal = recommendationEligible
     && qualifiedUnderdogSelections(game?.options || []).includes(contract.resolved);
@@ -517,8 +529,9 @@ export function buildDecisionViewModel(game, option = null) {
     stages,
     evidence,
     evidenceCounts: counts,
-    tipster: contractValid && policyAuthorized && raw?.tipster_hybrid?.status === "applied"
-      ? raw.tipster_hybrid : null,
+    tipster: contractValid && (usesTipsterVote(game) || (policyAuthorized && raw?.tipster_hybrid?.status === "applied"))
+      ? tipsterPolicyInfo(game) : null,
+    tipsterVote: usesTipsterVote(game),
     explanation: {
       kind: raw?.explanation?.kind || game?.["설명메타"]?.kind || "deterministic",
       affectsProbability: false,
@@ -559,6 +572,7 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.ledgerRequired) return "판정 원장 기록 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
+  if (decision?.tipsterVote) return decision.action === "market_reference" ? "픽스터 투표" : tipsterWithholdLabel(decision.tipster);
   if (decision?.action !== "market_reference") return "비교 후보 보류";
   if (decision?.recommendationPriority === "reversal") {
     return "이전 이변 판정 · 재계산 필요";

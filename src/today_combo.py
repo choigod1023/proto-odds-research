@@ -43,7 +43,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from evolutionary_policy import live_snapshot, load_artifact
-from ai_decision import (can_apply_decision_probability,
+from ai_decision import (can_apply_decision_probability, can_apply_decision_selection,
                          validate_decision_snapshot)
 from devig import MARKET_PROBABILITY_METHOD, market_probabilities
 import devig as _devig_module
@@ -309,7 +309,8 @@ def _reprice_game(game: dict, round_no: object, live: dict) -> tuple[dict, bool]
 
 
 def legs_today(now: datetime | None = None, live_prices: dict | None = None,
-               source: dict | None = None, research: bool = False) -> list[dict]:
+               source: dict | None = None, research: bool = False,
+               preserve_offers: bool = False) -> list[dict]:
     """KST 오늘과, 오늘 후보 소진 시 쓸 다음 날 오전 선택지를 함께 준비한다.
 
     ⚠️ 프로토는 회차를 겹쳐서 발매한다. **같은 경기(game_no)가 두 회차에 서로 다른
@@ -405,7 +406,8 @@ def legs_today(now: datetime | None = None, live_prices: dict | None = None,
     # 같은 실제 경기·마켓·선택이 여러 회차에 있으면 **배당이 높은 회차**만 남긴다.
     best: dict = {}
     for x in out:
-        k = (x["event_key"], x["market"], str(x["market_label"]), x["sel"])
+        k = (x["event_key"], x["market"], str(x["market_label"]), x["sel"],
+             *((x['round'],x['game_no']) if preserve_offers else ()))
         cur = best.get(k)
         if cur is None or x["odds"] > cur["odds"]:
             if cur is not None:
@@ -695,7 +697,7 @@ def _approved_decision(snapshot: dict) -> bool:
     except (TypeError, ValueError):
         return False
     model = snapshot.get("model") or {}
-    return can_apply_decision_probability(model)
+    return can_apply_decision_probability(model) or can_apply_decision_selection(model)
 
 
 def _matching_decision_option(candidate: dict, game: dict) -> dict | None:
@@ -751,6 +753,14 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
         and model.get("promotion_gate") in ("passed", "user_authorized_unvalidated")
         and model.get("policy_authorized") is True
     )
+    from fixed_tipster_hybrid import VERSION as TIPSTER_VOTE_VERSION
+    vote_policy = model.get('selection_policy') == TIPSTER_VOTE_VERSION
+    vote_applied = bool(vote_policy and matched and can_apply_decision_selection(model))
+    if vote_policy:
+        candidate.update(selection_policy=TIPSTER_VOTE_VERSION,
+                         selection_policy_applied=vote_applied,
+                         selection_revision=snapshot.get('decision_id'),
+                         tipster_selection=snapshot.get('tipster_hybrid'))
     interval = probability.get("residual_interval") if validated else None
     interval_lower = (
         probability_of(interval[0])
@@ -764,11 +774,11 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
         "decision_id": snapshot.get("decision_id") if matched else None,
         "decision_model": model.get("operating_version") if matched else None,
         "decision_pipeline_status": model.get("status") if matched else "market_fallback",
-        "decision_pipeline_applied": bool(final is not None),
+        "decision_pipeline_applied": bool(final is not None and not vote_policy),
         "decision_promotion_gate": model.get("promotion_gate") if matched else None,
         "decision_artifact_hash": model.get("artifact_hash") if matched else None,
-        "probability_method": "decision_pipeline" if final is not None else MARKET_PROBABILITY_METHOD,
-        "probability_version": model.get("operating_version") if final is not None else MARKET_PROBABILITY_VERSION,
+        "probability_method": "decision_pipeline" if final is not None and not vote_policy else MARKET_PROBABILITY_METHOD,
+        "probability_version": model.get("operating_version") if final is not None and not vote_policy else MARKET_PROBABILITY_VERSION,
         "predicted_hit_prob": round(final if final is not None else market, 4)
         if final is not None or market is not None else None,
         "probability_source": (
@@ -787,7 +797,7 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
         ),
         "validated_uncertainty_available": interval_lower is not None,
         "selection_basis": (
-            "validated_decision_pipeline" if validated
+            "tipster_vote" if vote_applied else "validated_decision_pipeline" if validated
             else "shin_market_fallback"
         ),
         "decision_evidence_ids": [
@@ -795,6 +805,9 @@ def _apply_decision_pipeline(candidate: dict, game: dict) -> None:
             if row.get("id")
         ] if matched else [],
     })
+    if vote_applied:
+        candidate['reason'] = '경기 전 작성자별 최다 득표 선택. 지지율은 적중확률이 아니며 확률은 시장 기준값이다. 수익성 미검증.'
+        return
     if final is None:
         return
     candidate["reason"] = (
@@ -903,9 +916,12 @@ def build() -> dict:
     source = _candidate_source()
     live_generated_at = source.get("generated_at") if source["candidate_source"] == "live_odds" else None
     operational = legs_today(source=source)
-    research = legs_today(source=source, research=True)
+    research = legs_today(source=source, research=True, preserve_offers=True)
     enriched = _enrich_candidates(operational + research)
-    cands = select_event_candidates(enriched[:len(operational)])
+    from fixed_tipster_hybrid import VERSION as TIPSTER_VOTE_VERSION
+    legacy = [c for c in enriched[:len(operational)] if c.get('selection_policy') != TIPSTER_VOTE_VERSION]
+    voting = [c for c in enriched[len(operational):] if c.get('selection_policy_applied') is True]
+    cands = select_event_candidates(legacy + voting)
     from per_event_shadow import proposals
     comparison = proposals(enriched[len(operational):], cands)
     evolutionary = live_snapshot(cands, load_artifact(EVOLUTION_ARTIFACT))
@@ -913,9 +929,18 @@ def build() -> dict:
     # 실제 킥오프 전에 저장한 오늘 후보만 잠그고, 새 조합 계산에는 섞지 않는다.
     previous = load_runtime_artifact("today_combo", OUT) or {}
     display_cands = retain_started_candidates(cands, previous, datetime.now(KST))
+    withholds = {}
+    for c in enriched:
+        if (c.get('selection_policy') == TIPSTER_VOTE_VERSION
+                and (c.get('tipster_selection') or {}).get('status') == 'withheld'):
+            key = c['event_key']
+            withholds[key] = {**c, 'market':'승무패' if c.get('n_way')==3 else '승패',
+                             'market_label':'', 'sel':None, 'odds':None,
+                             'predicted_hit_prob':None, 'market_prob':None}
 
     grades = load_runtime_artifact("loss_grades", GRADES) or {}
     return {
+        'selection_withholds': list(withholds.values()),
         "generated_at": datetime.now(KST).isoformat(timespec="seconds"),
         "source_generated_at": source.get("generated_at"),
         "candidate_source": source["candidate_source"],

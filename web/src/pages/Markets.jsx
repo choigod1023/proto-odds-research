@@ -22,7 +22,8 @@ import { day, dayTag, formLine, gcls, gradeOf, hhmm, kstMMDD,
 import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
-import { buildDecisionViewModel } from "../lib/decision-view-model.js";
+import { buildDecisionViewModel, resolveDecisionOption } from "../lib/decision-view-model.js";
+import { usesTipsterVote, tipsterPolicyInfo, tipsterVoteSummary, tipsterWithholdLabel } from "../lib/fixed-tipster-policy.js";
 import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
@@ -747,8 +748,11 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
     && (done || g.prediction_status === "prediction_ledger_required");
   const prediction = wait || stale || predictionUnavailable || g._liveOddsChanged
     ? null : predictionForGame(opts);
-  const displayedOption = (locked && saved?.option)
-    || (!started ? todayOption || prediction?.option : null) || null;
+  const votePolicy = usesTipsterVote(g);
+  const voteInfo = tipsterPolicyInfo(g);
+  const voteWithheld = votePolicy && (voteInfo?.status !== "applied" || g.decision_snapshot?.action === "withhold");
+  const displayedOption = voteWithheld ? null : (locked && saved?.option)
+    || (!started ? (votePolicy ? resolveDecisionOption(g) : todayOption || prediction?.option) : null) || null;
   const pick = displayedOption ? {
     o: displayedOption,
     g: gradeOf(grades, displayedOption["배당"]),
@@ -790,7 +794,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         : "분석 자료 확인 중");
   const openingProbability = saved?.openingProbability ?? null;
   const currentProbability = decision.probability.final ?? pick?.o?.["시장확률"];
-  const hybridApplied = Boolean(decision.tipster && decision.probability.final != null);
+  const hybridApplied = !votePolicy && Boolean(decision.tipster && decision.probability.final != null);
+  const voteSummary = tipsterVoteSummary(voteInfo);
   const liveProbability = playing ? saved?.estimate : null;
   const probabilityMessage = ESTIMATE_MESSAGE[saved?.estimateStatus || "missing_opening"];
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
@@ -812,8 +817,10 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   return (
     <Surface className={detailOnly ? "match-detail-view" : `match-card is-${phase} result-${outcome.state}`}>
       {detailOnly && <MatchDetailHeader game={g} score={score} phase={phase}
+        probabilityLabel={votePolicy ? "배당 기반 시장확률" : undefined}
+        predictionTitle={votePolicy ? (voteWithheld ? tipsterWithholdLabel(voteInfo) : "픽스터 투표") : undefined}
         status={disruption || (playing ? `LIVE · ${lv?.status_text || "진행 중"}` : gameStatusLabel(g, lv))} option={pick?.o}
-        openingProbability={locked ? openingProbability : currentProbability}
+        openingProbability={voteWithheld ? null : locked ? openingProbability : currentProbability}
         estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}
         recommended={highlightedToday} outcome={outcome} selected={selectedForGame.length > 0}>
         <MatchProgress game={g} live={lv} phase={phase} score={score} />
@@ -877,7 +884,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
         {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
-        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
+        {votePolicy && !stale && !g._liveOddsChanged && <span className="pregame-probability">{voteSummary.text}{voteWithheld ? ` · ${tipsterWithholdLabel(voteInfo)}` : voteSummary.share !== null ? ` · 투표 ${(voteSummary.share * 100).toFixed(1)}% (지지율 · 예상 적중률 아님)` : ""}</span>}
+        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{votePolicy ? "배당 기반 시장확률" : locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
         {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
       </>}

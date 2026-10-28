@@ -8,6 +8,30 @@ from src.prediction_runtime import PredictionRuntime
 from prediction_ledger import PredictionLedgerError
 
 
+@pytest.fixture(autouse=True)
+def admissible_votes_for_offer_ledger_regressions(monkeypatch):
+    """These tests exercise offer/ledger refresh with an actual admissible pick.
+
+    Missing/tied votes are covered by the selection policy regression suite.
+    Keep full provenance checks by calling the real context with synthetic data.
+    """
+    from datetime import timedelta
+    import fixed_tipster_hybrid as policy
+    from public_tipster_votes import SOURCE, fixture_key
+    real = policy.context
+    def seeded(g, rows, as_of, built_at):
+        if rows:
+            return real(g, rows, as_of, built_at)
+        obs = (policy.stamp(as_of)-timedelta(days=1)).isoformat()
+        e=dict(source=SOURCE,event_type='first_observed',eligible_pre_event=True,
+               provenance='live_http_observation',market_type='full_game_winner',fixture=fixture_key(g),
+               side='홈',voter='refresh-fixture-author',pick_id='refresh-fixture',
+               source_url='https://pick79.com/posts/detail/refresh-fixture/',
+               observed_at=obs,content_hash='synthetic-refresh-evidence')
+        return real(g,[e],as_of,built_at)
+    monkeypatch.setattr(policy,'context',seeded)
+
+
 @pytest.mark.parametrize('database', [False, True])
 def test_conflicting_game_does_not_block_healthy_revision_or_rewrite_ledger(tmp_path, monkeypatch, database):
     import copy

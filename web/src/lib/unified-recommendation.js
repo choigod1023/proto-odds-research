@@ -5,6 +5,7 @@ import { eligibleFinalSelections, finalRecommendedSelection,
 import { canApplyDecisionProbability, resolveDecisionOption, isAuthorizedTipsterPolicy,
   recommendedSelectionForModel, isFixedTipsterVersion } from "./decision-view-model.js";
 import { scheduledAt } from "./match-status.js";
+import { usesTipsterVote, tipsterPolicyInfo } from "./fixed-tipster-policy.js";
 
 const clean = (value) => String(value ?? "").trim();
 
@@ -265,6 +266,9 @@ export function canonicalOption(game, options = game?.options || [], { allowStar
   if (game?._liveOddsChanged || (game?._liveStarted && !allowStarted)) return null;
   const current = resolveDecisionOption(game, options);
   if (!current) return null;
+  if (usesTipsterVote(game)) {
+    return recommendedSelectionForModel(options, game.decision_snapshot?.model, tipsterPolicyInfo(game)) === current ? current : null;
+  }
   if (isFixedTipsterVersion(game?.decision_snapshot?.model?.selection_policy)) {
     return recommendedSelectionForModel(options, game.decision_snapshot.model) === current ? current : null;
   }

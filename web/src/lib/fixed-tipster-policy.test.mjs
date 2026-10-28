@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { buildDecisionViewModel, canApplyDecisionProbability, FIXED_TIPSTER_VERSION, recommendedSelectionForModel } from "./decision-view-model.js";
 import { canonicalOption } from "./unified-recommendation.js";
+import { TIPSTER_VOTE_VERSION, tipsterVoteSummary } from "./fixed-tipster-policy.js";
 
 function fixture(applied = true) {
   const options = [
@@ -108,4 +109,115 @@ test("actual tipster provenance is exposed only for a valid applied revision", (
   g.decision_snapshot.tipster_hybrid.status = "applied";
   g.decision_snapshot.selection_id = "missing";
   assert.equal(buildDecisionViewModel(g, g.options[1]).tipster, null);
+});
+
+function voteFixture() {
+  const g = fixture();
+  const raw = g.decision_snapshot;
+  Object.assign(raw.model, { operating_version: TIPSTER_VOTE_VERSION, selection_policy: TIPSTER_VOTE_VERSION,
+    affects_selection: true, affects_probability: false });
+  Object.assign(raw.probability, { market: .48, final: .48, ai_delta_applied: 0, basis: "shin_market" });
+  g.options.forEach(row => { row.최종확률 = row.시장확률; row.AI반영 = false; });
+  raw.tipster_hybrid = { version: TIPSTER_VOTE_VERSION, status: "applied", selected_side: "원정", authors: 3,
+    vote_counts: {홈: 1, 무: 0, 원정: 2}, vote_shares: {홈: 1/3, 무: 0, 원정: 2/3},
+    evidence: ["홈", "원정", "원정"].map((side, i) => ({id: `vote-${i}`, author: `author-${i}`, side, observed_at: raw.as_of})) };
+  return g;
+}
+
+test("plurality can select the market nonfavorite without authorizing a probability override", () => {
+  const g = voteFixture();
+  assert.equal(canonicalOption(g), g.options[1]);
+  assert.equal(canApplyDecisionProbability(g.decision_snapshot.model), false);
+  g.decision_snapshot.probability.final = .999; // A malformed vote share must never become a probability.
+  const view = buildDecisionViewModel(g, g.options[1]);
+  assert.equal(view.action, "market_reference");
+  assert.equal(view.probability.final, .48);
+  assert.equal(view.probability.aiDeltaApplied, 0);
+  assert.equal(view.tipsterVote, true);
+  assert.equal(tipsterVoteSummary(view.tipster).share, 2/3);
+});
+
+test("new frozen snapshot vote is preserved against newer game metadata", () => {
+  const g = voteFixture();
+  g.tipster_hybrid = {...g.decision_snapshot.tipster_hybrid, selected_side: "홈"};
+  assert.equal(canonicalOption(g), g.options[1]);
+  assert.equal(buildDecisionViewModel(g, g.options[1]).tipster.selected_side, "원정");
+});
+
+test("new game-level metadata is supported but never relabels historical hybrid snapshots", () => {
+  const g = voteFixture();
+  g.tipster_hybrid = g.decision_snapshot.tipster_hybrid;
+  delete g.decision_snapshot.tipster_hybrid;
+  assert.equal(canonicalOption(g), g.options[1]);
+  const old = fixture();
+  old.tipster_hybrid = g.tipster_hybrid;
+  const view = buildDecisionViewModel(old, old.options[1]);
+  assert.equal(view.tipsterVote, false);
+  assert.equal(view.probability.final, .532);
+});
+
+test("withheld, missing, invalid, or unauthorized votes never fall back to a market pick", () => {
+  for (const reason of ["tied_votes", "no_eligible_pregame_votes"]) {
+    const g = voteFixture();
+    Object.assign(g.decision_snapshot, {action: "withhold", selection_id: null, offer_id: null});
+    Object.assign(g.decision_snapshot.tipster_hybrid, {status: "withheld", selected_side: null, reason});
+    assert.equal(canonicalOption(g), null);
+    assert.equal(buildDecisionViewModel(g).action, "withhold");
+  }
+  const g = voteFixture();
+  g.decision_snapshot.tipster_hybrid.selected_side = "무";
+  assert.equal(canonicalOption(g), null);
+  g.decision_snapshot.tipster_hybrid.selected_side = "원정";
+  g.decision_snapshot.model.policy_authorized = false;
+  assert.equal(canonicalOption(g), null);
+});
+
+test("three-way vote chooses draw by plurality rather than the market maximum", () => {
+  const g = voteFixture();
+  g.options = ["홈", "무", "원정"].map((side, i) => ({ selection_id: side, offer_id: `offer-${side}`,
+    market: "승무패", label: "", 선택: side, 배당: 3, 시장확률: [.5,.2,.3][i], 최종확률: [.5,.2,.3][i] }));
+  Object.assign(g.decision_snapshot, {selection_id: "무", offer_id: "offer-무"});
+  Object.assign(g.decision_snapshot.probability, {market: .2, final: .2});
+  g.decision_snapshot.tipster_hybrid.selected_side = "무";
+  assert.equal(canonicalOption(g), g.options[1]);
+});
+
+test("rendered vote card, detail and evidence distinguish support from market probability and suppress withheld fallback", async () => {
+  const { createServer } = await import("vite");
+  const { fileURLToPath } = await import("node:url");
+  const { createElement } = await import("react");
+  const { renderToStaticMarkup } = await import("react-dom/server");
+  const server = await createServer({ configFile: false, root: fileURLToPath(new URL("../../", import.meta.url)),
+    esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] },
+    server: { middlewareMode: true, watch: null }, appType: "custom" });
+  const originalNow = Date.now;
+  Date.now = () => Date.parse("2026-10-25T22:00:00Z");
+  try {
+    const { Game } = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const { default: PredictionPanel } = await server.ssrLoadModule("/src/components/PredictionPanel.jsx");
+    const g = voteFixture();
+    g.sport = "bs";
+    const props = {g, opts: g.options, todayOption: g.options[0], grades: {odds_bins: []}, year: 2026};
+    const render = extra => renderToStaticMarkup(createElement(Game, {...props, ...extra})).replace(/<[^>]+>/g, " ");
+    const row = render();
+    assert.match(row, /픽스터 투표/);
+    assert.match(row, /3명\/발행처/);
+    assert.match(row, /원정 2표/);
+    assert.match(row, /투표 66.7% \(지지율 · 예상 적중률 아님\)/);
+    assert.match(row, /배당 기반 시장확률 48.0%/);
+    assert.doesNotMatch(row, /혼합 모델 확률|시장 90%/);
+    const detail = render({detailOnly: true});
+    assert.match(detail, /배당 기반 시장확률\s+48.0%/);
+    const decision = buildDecisionViewModel(g, g.options[1]);
+    const panel = renderToStaticMarkup(createElement(PredictionPanel, {analysis: {decision,
+      prediction: {probability: .48}, reasons: [], cautions: []}})).replace(/<[^>]+>/g, " ");
+    assert.match(panel, /author-0/);
+    assert.match(panel, /투표 66.7%/);
+    assert.doesNotMatch(panel, /시장확률 90%|픽스터 미반영/);
+    Object.assign(g.decision_snapshot, {action: "withhold", selection_id: null, offer_id: null});
+    Object.assign(g.decision_snapshot.tipster_hybrid, {status: "withheld", selected_side: null, reason: "tied_votes"});
+    const withheld = render({detailOnly: true});
+    assert.match(withheld, /픽스터 투표 동률 · 보류/);
+    assert.doesNotMatch(withheld, /detail-pick|배당 1.49|48.0%|52.0%/);
+  } finally { Date.now = originalNow; await server.close(); }
 });

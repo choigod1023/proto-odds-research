@@ -98,3 +98,4 @@ def test_retry_repairs_ui_after_ledger_already_committed(tmp_path, monkeypatch):
     assert module.refresh_once(odds) == 0
     assert published[0]["live"][0]["prediction_record"]["result"] == "hit"
     assert len(runtime.records()) == 2
+from tests.test_live_market_refresh import admissible_votes_for_offer_ledger_regressions

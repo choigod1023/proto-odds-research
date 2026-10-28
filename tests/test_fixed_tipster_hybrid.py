@@ -35,7 +35,7 @@ def decide(g=None, rows=None, at=AT, **kwargs):
 def test_reverses_market_favorite_without_selecting_high_probability_total():
     g, s = decide()
     assert g["추천"]["선택"] == "원정"
-    assert s["probability"]["final"] == .532
+    assert s["probability"]["final"] == .48
     assert s["model"]["operating_version"] == VERSION
     assert s["model"]["policy_authorized"] is True
     assert s["model"]["validated_edge"] is False
@@ -47,7 +47,7 @@ def test_reverses_market_favorite_without_selecting_high_probability_total():
 def test_supported_collector_versions_reach_operating_policy(version):
     _, s = decide(rows=[vote(identity_version=version)])
     assert s["tipster_hybrid"]["status"] == "applied"
-    assert s["probability"]["final"] == .532
+    assert s["probability"]["final"] == .48
 
 
 def test_v4_parsed_slate_reaches_policy_but_parlay_is_excluded():
@@ -55,7 +55,7 @@ def test_v4_parsed_slate_reaches_policy_but_parlay_is_excluded():
     html = '''<section class="scroll-mt-10"><div></div><div>NYY BOS 7:10 PM ET</div>
     <div class="grid-cols-[auto_1fr]"><a href="/cappers/alpha">@alpha</a>
     @alpha 5h BOS ML +110 1u{suffix}</div></section>'''
-    for suffix, expected in [("", "applied"), (" in 5 -leg", "market_fallback")]:
+    for suffix, expected in [("", "applied"), (" in 5 -leg", "withheld")]:
         rows, _ = parse_slate(html.format(suffix=suffix), AT)
         rows[0].update(event_type="first_observed", eligible_pre_event=True, is_baseline=False)
         _, snapshot = decide(rows=rows)
@@ -70,12 +70,11 @@ def test_idempotent_and_evidence_changes_revision():
     assert s["decision_id"] != other["decision_id"]
 
 
-def test_fallback_keeps_low_odds_moneyline_and_not_total():
+def test_missing_votes_withholds_without_falling_back_to_market_or_total():
     g, s = decide(rows=[])
-    assert g["추천"]["선택"] == "홈"
-    assert g["추천"]["배당"] == 1.49
-    assert s["probability"]["final"] == .52
-    assert s["tipster_hybrid"]["status"] == "market_fallback"
+    assert g['추천'] is None and s['action']=='withhold'
+    assert s["probability"]["final"] is None
+    assert s["tipster_hybrid"]["status"] == "withheld"
 
 
 @pytest.mark.parametrize("change", [dict(result="W"), dict(game_started=True), dict(is_baseline=True),
@@ -86,7 +85,7 @@ def test_fallback_keeps_low_odds_moneyline_and_not_total():
     dict(slate_date="2026-10-24"), dict(selection="BOS ML NaN")])
 def test_invalid_inputs_cannot_change_probability(change):
     _, s = decide(rows=[vote(**change)])
-    assert s["probability"]["final"] == .52
+    assert s["probability"]["final"] is None
     assert not s["model"]["policy_authorized"]
 
 
@@ -111,8 +110,8 @@ def test_other_leagues_use_explicit_market_fallback(sport, league):
     _, s = decide(g)
     assert s["tipster_hybrid"]["reason"] == "no_eligible_pregame_votes"
     assert s["model"]["selection_policy"] == VERSION
-    assert s["probability"]["final"] == .52
-    assert g["추천"]["market"] == "승패"
+    assert s["probability"]["final"] is None
+    assert g['추천'] is None
 
 
 def test_three_way_draw_can_win_and_missing_side_is_withheld():
@@ -120,7 +119,12 @@ def test_three_way_draw_can_win_and_missing_side_is_withheld():
     g.update(sport="sc", league="EPL")
     g["options"] = [dict(market="승무패", label="", 선택=s, 배당=3.0, 시장확률=p)
                     for s, p in [("홈", .30), ("무", .40), ("원정", .30)]]
-    _, s = decide(g)
+    from public_tipster_votes import SOURCE, fixture_key
+    e = dict(source=SOURCE,event_type='first_observed',eligible_pre_event=True,
+        provenance='live_http_observation',market_type='full_game_winner',fixture=fixture_key(g),
+        side='무',voter='publisher',pick_id='draw',source_url='https://pick79.com/posts/detail/test/',
+        observed_at=AT,content_hash='draw-hash')
+    _, s = decide(g, rows=[e])
     assert g["추천"]["선택"] == "무"
     assert s["probability"]["final"] == .4
     g["options"].pop()
@@ -166,7 +170,7 @@ def test_new_votes_refresh_unchanged_odds_but_never_frozen_pick(tmp_path, monkey
         game_no="10", date=g["date"], sport="bs", league="MLB", home=g["home"], away=g["away"],
         market="승패", label="", n_way=2, odds=[1.8, 1.9], result="경기전")}})
     doc, n = refresh.refresh_document({"live": [], "past": []}, feed, now=datetime.fromisoformat(AT))
-    assert n == 1 and doc["live"][0]["추천"]["선택"] == "홈"
+    assert n == 1 and doc["live"][0]["추천"] is None
     rows.append(vote())
     doc, n = refresh.refresh_document(doc, feed, now=datetime.fromisoformat("2026-10-25T22:01:00+00:00"))
     current = doc["live"][0]
@@ -195,8 +199,9 @@ def test_today_metadata_does_not_turn_authorization_into_validated_profit():
     candidate = dict(market="승패", market_label="", sel="원정", odds=option["배당"],
                      market_prob=option["시장확률"])
     _apply_decision_pipeline(candidate, g)
-    assert candidate["predicted_hit_prob"] == .532
-    assert candidate["decision_pipeline_applied"] is True
+    assert candidate["predicted_hit_prob"] == .48
+    assert candidate["decision_pipeline_applied"] is False
+    assert candidate['selection_policy_applied'] is True
     assert candidate["policy_authorized"] is True
     assert candidate["has_validated_edge"] is False
     assert candidate["validated_uncertainty_available"] is False

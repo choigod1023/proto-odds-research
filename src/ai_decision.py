@@ -51,8 +51,8 @@ def can_apply_decision_probability(model: dict | None) -> bool:
     """검증 artifact 또는 명시적으로 승인한 고정 정책만 확률에 허용한다."""
 
     model = model or {}
-    from fixed_tipster_hybrid import VERSION, LEGACY_VERSION
-    if (model.get("status") == "operational" and model.get("operating_version") in {VERSION, LEGACY_VERSION}
+    from fixed_tipster_hybrid import HYBRID_VERSION, LEGACY_VERSION
+    if (model.get("status") == "operational" and model.get("operating_version") in {HYBRID_VERSION, LEGACY_VERSION}
             and model.get("policy_authorized") is True
             and model.get("promotion_gate") == "user_authorized_unvalidated"
             and model.get("validated_edge") is False):
@@ -64,6 +64,17 @@ def can_apply_decision_probability(model: dict | None) -> bool:
         and model.get("validated_edge") is True
         and model.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES
     )
+
+
+def can_apply_decision_selection(model: dict | None) -> bool:
+    """Voting authorizes a direction, never a replacement probability."""
+    from fixed_tipster_hybrid import VERSION
+    m = model or {}
+    return bool(m.get('selection_policy') == VERSION and m.get('operating_version') == VERSION
+                and m.get('status') == 'operational' and m.get('policy_authorized') is True
+                and m.get('promotion_gate') == 'user_authorized_unvalidated'
+                and m.get('validated_edge') is False and m.get('affects_selection') is True
+                and m.get('affects_probability') is False)
 
 
 def _number(value: object) -> float | None:
@@ -598,12 +609,17 @@ def build_decision_snapshot(
     built_at = built_at or as_of
     evidence, sources = _evidence(game, selected, market_observed_at=market_observed_at or as_of)
     hybrid = game.get("tipster_hybrid") or {}
+    from fixed_tipster_hybrid import VERSION as TIPSTER_VOTE_VERSION
+    vote_policy = hybrid.get('version') == TIPSTER_VOTE_VERSION
+    vote_applied = bool(vote_policy and selected and hybrid.get('status') == 'applied')
     if hybrid:
         used = hybrid.get("status") == "applied"
-        evidence.append({"id": "tipster_votes", "label": "경기 전 픽스터 승패 투표 (10%)",
+        evidence.append({"id": "tipster_votes", "label": "경기 전 픽스터 승패 투표" if vote_policy else "경기 전 픽스터 승패 투표 (10%)",
             "available": used, "observed_at": hybrid.get("latest_observed_at"),
-            "summary": "운영 정책 적용 · 수익성 미검증" if used else "유효 투표 없음 · 시장 확률 유지",
-            **_all_usage(market="ignored", residual="used" if used else "missing",
+            "summary": ("최다 득표 선택 · 지지율은 적중확률이 아님 · 수익성 미검증" if vote_policy and used
+                        else "유효 투표 없음 또는 동률 · 선택 보류" if vote_policy
+                        else "운영 정책 적용 · 수익성 미검증" if used else "유효 투표 없음 · 시장 확률 유지"),
+            **_all_usage(market="ignored", residual="used" if used and not vote_policy else "missing",
                          gate="used" if used else "missing", explainer="context_only" if used else "missing")})
     input_hash = _input_revision_hash(game, evidence)
     explanation_status = "wording_only" if explanation_kind == "llm_assisted" else "template"
@@ -624,6 +640,7 @@ def build_decision_snapshot(
         "gate_codes": (
             ["qualified_market_reversal"] if reversed_pick
             else [] if action == "market_reference"
+            else [hybrid.get('reason') or 'no_eligible_tipster_votes'] if vote_policy
             else ["no_eligible_market_reference"]
         ),
         "probability": {
@@ -656,12 +673,13 @@ def build_decision_snapshot(
             "residual_version": SHADOW_MODEL_VERSION,
             "probability_pipeline_version": "market-logit-residual-v1",
             "status": (
-                "operational" if applied
+                "operational" if applied or vote_applied
                 else "shadow" if shadow is not None or residual_shadow is not None
                 else "unavailable"
             ),
             "validated_edge": bool(applied and pipeline.get("artifact_hash") in PROMOTED_ARTIFACT_HASHES),
-            "policy_authorized": bool(applied and pipeline.get("policy_authorized")),
+            "policy_authorized": bool((applied or vote_applied) and pipeline.get("policy_authorized")),
+            **({'affects_selection': vote_applied, 'affects_probability': False} if vote_policy else {}),
             "promotion_gate": ("user_authorized_unvalidated" if pipeline.get("policy_authorized")
                                else "passed" if applied else "not_passed"),
             "artifact_hash": pipeline.get("artifact_hash"),
@@ -673,7 +691,7 @@ def build_decision_snapshot(
             "structured_ai": _stage(
                 (
                     "used" if applied
-                    else "selection_gate" if reversed_pick
+                    else "selection_gate" if reversed_pick or vote_applied
                     else "shadow" if shadow is not None
                     else "missing"
                 ),
