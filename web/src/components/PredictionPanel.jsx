@@ -1,4 +1,5 @@
 import { decisionLabel, isFixedTipsterVersion } from "../lib/decision-view-model.js";
+import { tipsterVoteSummary } from "../lib/fixed-tipster-policy.js";
 
 const reasonParts = (reason) => {
   const [title, ...body] = String(reason).split(" — ");
@@ -83,6 +84,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
   const { prediction, reasons, cautions, signalSummary, decision, commentary } = analysis;
   const probability = prediction?.probability == null ? null : Math.round(prediction.probability * 100);
   const label = decisionLabel(decision);
+  const vote = decision?.tipsterVote ? tipsterVoteSummary(decision.tipster) : null;
   const summary = signalSummary?.narrative || (
     decision?.action === "market_reference"
       ? "추천 방향과 함께 최근 경기력·선수 정보·반대 신호를 비교해 확인하세요."
@@ -96,11 +98,11 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
           <p>{summary}</p>
         </div>
-        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{isFixedTipsterVersion(decision?.probability?.basis) ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률 · 픽스터 미반영"}</span></div>}
+        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{vote ? "배당 기반 시장확률 · 투표 지지율과 별개" : isFixedTipsterVersion(decision?.probability?.basis) ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률 · 픽스터 미반영"}</span></div>}
       </header>
       {decision?.tipster?.evidence?.length > 0 && <div className="px-4 py-3 text-[11px] border-b border-rule2" aria-label="실제 반영된 픽스터 원문">
-        <b>실제 반영한 픽스터 · {decision.tipster.authors}명/발행처</b>
-        <p>시장확률 90% + 아래 작성자별 승패 투표 10%. 적중률이나 수익성을 검증한 가중치는 아닙니다.</p>
+        <b>{vote ? vote.text : `실제 반영한 픽스터 · ${decision.tipster.authors}명/발행처`}</b>
+        <p>{vote ? `${vote.share !== null ? `투표 ${(vote.share * 100).toFixed(1)}% · ` : ""}작성자별 첫 투표의 최다 득표 방향을 선택합니다. 동률·유효 투표 없음은 보류합니다. 투표 비율은 지지율이며 예상 적중률이 아닙니다.` : "시장확률 90% + 아래 작성자별 승패 투표 10%. 적중률이나 수익성을 검증한 가중치는 아닙니다."}</p>
         <ul className="mt-2 space-y-1">{decision.tipster.evidence.map(row => {
           const allowed = /^https:\/\/(pick79\.com\/posts\/detail\/[a-zA-Z0-9_-]+\/?|www\.goli\.tv\/board\/analysis\/\d+)$/.test(row.source_url || "");
           return <li key={row.id}>{allowed ? <a href={row.source_url} target="_blank" rel="noopener noreferrer" className="underline">{row.author}</a> : row.author}

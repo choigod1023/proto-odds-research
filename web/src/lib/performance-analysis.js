@@ -98,7 +98,8 @@ export function predictionFor(game, recommended = null) {
   else if (firstHalfTeamMarket) {
     headline = draw ? `${basisLabel}전반 무승부` : `${basisLabel}전반 ${outcomeSide} 우세`;
   } else if (teamMarket) {
-    headline = draw ? `${basisLabel}팽팽함` : `${basisLabel}${side} 우세`;
+    headline = decision.tipsterVote ? `픽스터 투표 · ${draw ? "무승부" : side} 최다 득표`
+      : draw ? `${basisLabel}팽팽함` : `${basisLabel}${side} 우세`;
   } else {
     headline = `${basisLabel}${[market, best?.label, outcome].filter(Boolean).join(" ")}`;
   }
@@ -366,6 +367,9 @@ function playerSentence(players) {
 }
 
 function expectedFlowSentence(game, prediction) {
+  if (prediction?.decision?.tipsterVote) return prediction.side
+    ? `경기 전 작성자별 첫 투표에서 ${prediction.side} 방향이 가장 많은 표를 받았다. 투표 지지율은 예상 적중률이 아니며 시장확률은 별도로 표시한다.`
+    : "투표가 동률이거나 유효한 투표가 없어 선택을 보류한다.";
   const marketName = String(prediction?.market || "");
   const reversal = prediction?.decision?.recommendationPriority === "reversal";
   const chosen = reversal ? "전환 최종 픽으로 정했다" : "최종 예상 적중 후보로 정했다";
