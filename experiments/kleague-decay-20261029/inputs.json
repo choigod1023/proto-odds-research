@@ -1,0 +1,44 @@
+{
+  "sources": [
+    {
+      "name": "csv",
+      "sha256_lf": "4d42dae9a71fb372cf001a279599741ffcf57ed08ce1105a02cce24bcc29f063",
+      "archive_path": "data/processed/games.csv.tmp"
+    },
+    {
+      "name": "detail",
+      "sha256_lf": "23380355d10e7a9b078a2c170611e89796b95549be19d1d783b2c7d480ac2daa",
+      "archive_path": "data/raw/detail/kleague_soccer_2023_2026.json"
+    },
+    {
+      "name": "official",
+      "sha256_lf": "e13b4f94de9018ad30bd6e015acdf158af26933d637dd42f9df38d21531ef303",
+      "archive_path": "experiments/tipster-year-20261028/official/kleague-results.json",
+      "upstream_pr": "https://github.com/choigod1023/proto-odds-research/pull/398"
+    },
+    {
+      "name": "cohort",
+      "sha256_lf": "5d433838cf654ff6227bc617efbe43907a572850f6a883f6969967f414b23e76",
+      "archive_path": "experiments/year-model-hit-20261029/strict-results.json",
+      "upstream_pr": "https://github.com/choigod1023/proto-odds-research/pull/402",
+      "commit": "0f63dbd60fccca301571e8fc5638b0ba9a1a044e"
+    }
+  ],
+  "history": 1615,
+  "targets": 30,
+  "exclusions": {
+    "detail_outside_k1_members": 12
+  },
+  "by_league_year": {
+    "K리그1:2023": 228,
+    "K리그1:2024": 228,
+    "K리그1:2025": 228,
+    "K리그1:2026": 198,
+    "K리그2:2023": 236,
+    "K리그2:2024": 234,
+    "K리그2:2025": 23,
+    "K리그2:2026": 240
+  },
+  "live_pregame_lineup_versions_proven": false,
+  "base_main_commit": "b8871280b0e08d1aedb48de492b0081df425145f"
+}
