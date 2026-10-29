@@ -2182,5 +2182,101 @@
     "budget_scope": "all_accounts_all_leagues_including_legacy",
     "monthly_loss_limit": 50000,
     "legacy_mode": "settlement_only"
+  },
+  {
+    "type": "attention",
+    "protocol": "forward-paper-tipster-vote-v1",
+    "at": "2026-10-30T00:28:48.657218+09:00",
+    "ticket": "probability-weekly2:2026-10-26",
+    "reason": "official_revision_unsettled_72h"
+  },
+  {
+    "type": "attention",
+    "protocol": "forward-paper-tipster-vote-v1",
+    "at": "2026-10-30T00:28:48.657218+09:00",
+    "ticket": "ev_rank-weekly2:2026-10-26",
+    "reason": "official_revision_unsettled_72h"
+  },
+  {
+    "type": "attention",
+    "protocol": "forward-paper-tipster-vote-v1",
+    "at": "2026-10-30T00:28:48.657218+09:00",
+    "ticket": "probability-weekly3:2026-10-26",
+    "reason": "official_revision_unsettled_72h"
+  },
+  {
+    "type": "attention",
+    "protocol": "forward-paper-tipster-vote-v1",
+    "at": "2026-10-30T00:28:48.657218+09:00",
+    "ticket": "ev_rank-weekly3:2026-10-26",
+    "reason": "official_revision_unsettled_72h"
+  },
+  {
+    "type": "bet",
+    "protocol": "forward-paper-tipster-vote-v1",
+    "at": "2026-10-30T00:28:48.657218+09:00",
+    "ticket": "tipster-vote-single-v1:c75644f63da11cc5596437fb",
+    "account": "tipster-vote-single-v1",
+    "month": "2026-10",
+    "stake": 10000,
+    "source_sha256": "5a489122fe738ade11f3f9e97036a80f8500e966a9e4e1d6ed087bc40a0cf237",
+    "generated_at": "2026-10-29T23:51:37+09:00",
+    "selection_policy": "tipster-vote-v1",
+    "legs": [
+      {
+        "id": "aae8d8c937009c87df5c2aff",
+        "recorded_at": "2026-10-29T14:35:07.588836+00:00",
+        "published_at": "2026-10-29T23:35:07+09:00",
+        "kickoff_at": "2026-10-30T02:30:00+09:00",
+        "sport": "sc",
+        "league": "세리에A",
+        "home": "프로시노",
+        "away": "US레체",
+        "round": 128,
+        "market": "승무패",
+        "market_label": "",
+        "n_way": 3,
+        "sel": "홈",
+        "odds": 1.58,
+        "probability": 0.5745,
+        "policy": "daily-p55-o150-unbounded-v4",
+        "selection_policy": "tipster-vote-v1",
+        "tipster_selection": {
+          "version": "tipster-vote-v1",
+          "status": "applied",
+          "input_status": "applied",
+          "reason": "user_authorized_unvalidated",
+          "selected_side": "홈",
+          "vote_counts": {
+            "홈": 1,
+            "무": 0,
+            "원정": 0
+          },
+          "probability_interpretation": "market_reference_not_vote_share",
+          "home_vote_share": 1.0,
+          "vote_shares": {
+            "홈": 1.0,
+            "무": 0.0,
+            "원정": 0.0
+          },
+          "authors": 1,
+          "evidence": [
+            {
+              "id": "9bae2f9d7956657872abb7dab6557aaeab15e2e0b4b7729ab9ea3e9ab81b28ce",
+              "author": "www.goli.tv:호나우두",
+              "side": "홈",
+              "observed_at": "2026-10-29T09:52:48.062033+00:00",
+              "source_url": "https://www.goli.tv/board/analysis/298262",
+              "content_hash": "c1d78974a1a47ea3b3c92ebc56b2b6ac8e00e042e9a73be943ee2b0cb80e144f",
+              "published_at": "2026-10-29T14:04:00+09:00",
+              "publication_time_quality": "source_claim"
+            }
+          ],
+          "evidence_hash": "8c8a8df100a60be2e50b81c1ac8e6983045796b6a947ed1c140a9bb80b7ec74a",
+          "latest_observed_at": "2026-10-29T09:52:48.062033+00:00"
+        }
+      }
+    ],
+    "available_loss_budget_before": 15000
   }
 ]
