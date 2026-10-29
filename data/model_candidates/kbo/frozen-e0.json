@@ -1,0 +1,62 @@
+{
+  "version": "kbo-frozen-e0-bridge-v1",
+  "candidate": "e0:residual:0.03",
+  "final_fit": {
+    "kind": "residual",
+    "state": "e0",
+    "ridge": 0.03,
+    "training_n": 1422,
+    "training_years": [
+      "2023",
+      "2024"
+    ],
+    "scale": [
+      0.28102288647783685
+    ],
+    "beta": [
+      -0.06637396467535583
+    ],
+    "gradient_max": 7.790209449742846e-15,
+    "objective": 0.6763590765669387,
+    "settled_training_n": 1422
+  },
+  "selection_fit": {
+    "kind": "residual",
+    "state": "e0",
+    "ridge": 0.03,
+    "training_n": 710,
+    "training_years": [
+      "2023"
+    ],
+    "scale": [
+      0.3034738474034072
+    ],
+    "beta": [
+      -0.04499373652751718
+    ],
+    "gradient_max": 3.2380782083452075e-15,
+    "objective": 0.6768056462577333,
+    "settled_training_n": 710
+  },
+  "state": {
+    "family": "elo",
+    "k": 0.08,
+    "half_life": 120,
+    "season_keep": 0.35
+  },
+  "archive_sources": {
+    "frozen-selection.json": "45eb474e77fa48d6a1cabecef391b0eca2c5870a2465659bb46988219b5e2dbf",
+    "games.jsonl.gz": "58aa3a8a33d5fcb954adcc9c06a912f1ebc04009bf9605bc82c4373719e61081",
+    "features.jsonl.gz": "8b74aa9319c7a304d6c4da5d2a0a838d748e4144eb6101bb545b071239d9ea29",
+    "daily-state-snapshots.jsonl.gz": "f2584a3070522a161eb8ef965d139711f60637a4a4890011f9ae890426bcff7e",
+    "evaluation-ledger.jsonl.gz": "616a7d826c51e6fee2c2507a77592388ca9b45bf0cff93767baf333ff660fa77",
+    "validation-ledger.jsonl.gz": "00720f6ba5577422a8573a928843dad99751347ee8d02e26744be23f73d0fcf1",
+    "source-audit.json": "9b1c3081a3b26551ad5ee92a1f1dc36c407fdeacb4f4d3eb971c46331044e048",
+    "input-manifest.json": "3afbfe91c778a55be1ad305dec5819bf35b91c9c2bfa2902094259c6a7d0a3e1",
+    "code/kbo_opponent_dynamic_research.py": "8f6e528ab495cceb7c57299020a8de4720527724faf351e7be2c0edef6274495"
+  },
+  "training_features_hash": "ceaaa23dd25bf07ffb469e22ff0cfd7b48d7de7938e96a84fc8a2f8b6084d61d",
+  "historical_availability": "unproven",
+  "source_worktree": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-information-stepchange-20261029",
+  "objective": "loss_and_drawdown_comparison; no promotion"
+}

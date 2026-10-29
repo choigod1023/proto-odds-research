@@ -1,0 +1,44 @@
+{
+  "source_directory": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-information-stepchange-20261029\\experiments\\baseball-information-stepchange-20261029\\kbo",
+  "sources": {
+    "frozen-selection.json": "45eb474e77fa48d6a1cabecef391b0eca2c5870a2465659bb46988219b5e2dbf",
+    "games.jsonl.gz": "58aa3a8a33d5fcb954adcc9c06a912f1ebc04009bf9605bc82c4373719e61081",
+    "features.jsonl.gz": "8b74aa9319c7a304d6c4da5d2a0a838d748e4144eb6101bb545b071239d9ea29",
+    "daily-state-snapshots.jsonl.gz": "f2584a3070522a161eb8ef965d139711f60637a4a4890011f9ae890426bcff7e",
+    "evaluation-ledger.jsonl.gz": "616a7d826c51e6fee2c2507a77592388ca9b45bf0cff93767baf333ff660fa77",
+    "validation-ledger.jsonl.gz": "00720f6ba5577422a8573a928843dad99751347ee8d02e26744be23f73d0fcf1",
+    "source-audit.json": "9b1c3081a3b26551ad5ee92a1f1dc36c407fdeacb4f4d3eb971c46331044e048",
+    "input-manifest.json": "3afbfe91c778a55be1ad305dec5819bf35b91c9c2bfa2902094259c6a7d0a3e1",
+    "code/kbo_opponent_dynamic_research.py": "8f6e528ab495cceb7c57299020a8de4720527724faf351e7be2c0edef6274495"
+  },
+  "bundled": {
+    "archived-e0-snapshots.jsonl.gz": {
+      "sha256": "55065ac4ffcc0f719a2720a0257708d63d62aae0fbf7aa88cfaa4706597e62f0",
+      "bytes": 81703
+    },
+    "archived-games.jsonl.gz": {
+      "sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "bytes": 28812
+    },
+    "archived-reproduction.jsonl.gz": {
+      "sha256": "4f5bc713a6487585ea5d42aff6371043b55cdaacdef3690c97ea67e54e2c1773",
+      "bytes": 101653
+    },
+    "end-history-seed.json": {
+      "sha256": "3aff5ce8b1d448ffd0cfbe0530eb8f9524ad73dac6bfd4cdf1ca78dbded19497",
+      "bytes": 1333
+    },
+    "frozen-e0.json": {
+      "sha256": "7518bb8a36e3cae6149993d0c73f7bf69d367047a6e82437378131ccd69536f2",
+      "bytes": 2152
+    }
+  },
+  "partitions": {
+    "validation": 712,
+    "evaluation": 198
+  },
+  "seed_through": "2026-10-27",
+  "seed_games": 2913,
+  "availability_policy": "historical_prior_day_midnight_kst_assumption",
+  "contemporary_availability_proven": false
+}
