@@ -296,6 +296,8 @@ def refresh_document(document: dict, live_odds: dict, *,
     form_provider = None
     fixture_document = player_document
     fixtures_loaded = player_document is not None
+    kbo_model_document = None
+    kbo_model_document_loaded = False
     # Tiny independent KBO feed: do not wait for the all-sports player job.
     from kbo_pregame import current_document, display_info
     kbo_document = current_document() if use_database else {"games": []}
@@ -325,6 +327,27 @@ def refresh_document(document: dict, live_odds: dict, *,
                 if age_days not in (0, 1):
                     continue
             grouped.setdefault(key, []).append(row)
+
+    def available_fixture_document():
+        nonlocal fixtures_loaded, fixture_document
+        if use_database and not fixtures_loaded:
+            fixtures_loaded = True
+            try:
+                from runtime_db import RuntimeDatabase
+                fixtures = []
+                for fixture_key, values in grouped.items():
+                    sample = existing.get(fixture_key) or {
+                        **values[0], 'round': fixture_key[0],
+                        'year': observed.astimezone(KST).year,
+                    }
+                    start = _game_kickoff(sample, observed)
+                    if (start is not None and decision_clock < start.replace(tzinfo=KST)
+                            and all(row.get('result') in UNPLAYED for row in values)):
+                        fixtures.append((sample.get('league'),sample.get('home'),sample.get('away'),kickoff_utc(start)))
+                fixture_document = RuntimeDatabase().player_fixtures_document(fixtures)
+            except (OSError, ValueError, sqlite3.Error):
+                fixture_document = None
+        return fixture_document
 
     changed = 0
     for key, rows in grouped.items():
@@ -378,6 +401,8 @@ def refresh_document(document: dict, live_odds: dict, *,
             changed += int(result_changed)
             continue
         player_changed = False
+        player_capture = None
+        new_kbo_daily_state = None
         if can_predict and game.get("league") == "KBO":
             from pregame_player_capture import capture
             player_capture = capture(game, kbo_document,
@@ -389,7 +414,25 @@ def refresh_document(document: dict, live_odds: dict, *,
                     info = display_info(records[0])
                     player_changed = game.get("선발") != info
                     game["선발"] = info
-                    game["research_player_inputs"] = player_capture
+            if use_database and not kbo_model_document_loaded:
+                kbo_model_document_loaded=True
+                from runtime_db import load_document
+                kbo_model_document=load_document('kbo_model_candidate_state',ROOT/'data/raw/kbo_model_candidate_state.json') or {}
+            if kbo_model_document:
+                target_day=kickoff.date().isoformat()
+                state=(kbo_model_document.get('daily_states') or {}).get(target_day)
+                if isinstance(state,dict) and state.get('status')=='available':
+                    new_kbo_daily_state=state
+                    old_state=game.get('research_kbo_daily_state') or {}
+                    player_changed=player_changed or state.get('daily_state_hash')!=old_state.get('daily_state_hash')
+        elif can_predict and game.get('league')=='MLB' and (use_database or player_document is not None):
+            from pregame_player_capture import capture
+            player_capture = capture(game,available_fixture_document(),
+                observed_at=decision_clock.isoformat(),kickoff=kickoff_utc(kickoff))
+            candidate_input=player_capture.get('candidate_input') or {}
+            prior_input=(game.get('research_player_inputs') or {}).get('candidate_input') or {}
+            player_changed=(candidate_input.get('status')=='captured' and
+                            candidate_input.get('response_sha256')!=prior_input.get('response_sha256'))
         old_signature = [_option_signature(row) for row in old_options]
         new_signature = [_option_signature(row) for row in options]
         old_lines = {
@@ -459,25 +502,12 @@ def refresh_document(document: dict, live_odds: dict, *,
             }
         if can_predict:
             # Only new/unpinned decisions capture context; never rewrite frozen inputs.
-            if use_database and not fixtures_loaded:
-                fixtures_loaded = True
-                try:
-                    from runtime_db import RuntimeDatabase
-                    fixtures = []
-                    for fixture_key, values in grouped.items():
-                        sample = existing.get(fixture_key) or {
-                            **values[0], "round": fixture_key[0],
-                            "year": observed.astimezone(KST).year,
-                        }
-                        stamp = _game_kickoff(sample, observed)
-                        if (stamp is not None and decision_clock < stamp.replace(tzinfo=KST)
-                                and all(row.get("result") in UNPLAYED for row in values)):
-                            fixtures.append((sample.get("league"), sample.get("home"),
-                                             sample.get("away"), kickoff_utc(stamp)))
-                    fixture_document = RuntimeDatabase().player_fixtures_document(fixtures)
-                except (OSError, ValueError, sqlite3.Error):
-                    fixture_document = None
-            if (use_database or player_document is not None) and not player_changed:
+            fixture_document = available_fixture_document()
+            if new_kbo_daily_state is not None:
+                game['research_kbo_daily_state']=new_kbo_daily_state
+            if isinstance(player_capture,dict) and player_capture.get('status')=='captured':
+                game['research_player_inputs']=player_capture
+            elif (use_database or player_document is not None) and not player_changed:
                 from pregame_player_capture import capture
                 capture_clock = datetime.now(timezone.utc) if use_database and now is None else decision_clock
                 game["research_player_inputs"] = capture(
@@ -496,10 +526,19 @@ def refresh_document(document: dict, live_odds: dict, *,
             revision_time = max(observed, player_clock) if player_clock else observed
             if tipster_votes is not None and game.get("sport") in {"bs", "bk", "sc", "vl"}:
                 revision_time = max(revision_time, decision_clock)
+            # Capturing a source can finish after the refresh started. It is a
+            # new decision clock, never evidence backdated to an older snapshot.
+            player_input=game.get('research_player_inputs') or {}
+            available=_aware_timestamp(player_input.get('observed_at')) if player_input.get('status')=='captured' else None
+            if available is not None:
+                revision_time=max(revision_time,available)
+            state_available=_aware_timestamp((game.get('research_kbo_daily_state') or {}).get('available_at'))
+            if state_available is not None:
+                revision_time=max(revision_time,state_available)
             revision_stamp = revision_time.isoformat() if revision_time != observed else observed_at
             game["live_market_observed_at"] = observed_at
             game["decision_snapshot"] = build_decision_snapshot(
-                game, as_of=revision_stamp, built_at=decision_clock.isoformat(),
+                game, as_of=revision_stamp, built_at=max(decision_clock,revision_time).isoformat(),
                 tipster_votes=tipster_votes or [],
                 market_observed_at=observed_at,
                 explanation_kind="structured_ui",
@@ -559,6 +598,7 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
             if not names or len(names) != row.get("n_way"):
                 continue
             void = row.get("result") in {"취소", "연기", "중단", "무효"}
+            void = void or (row.get('market')=='승패' and row.get('n_way')==2 and row.get('result')=='무승부')
             winner = winner_index(row.get("n_way"), row.get("result"))
             if not void and winner is None:
                 continue
@@ -590,6 +630,42 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
             source={"name": "proto_official", "round": round_no,
                     "game_no": row.get("game_no"), "game_date": row.get("date"),
                     "path": "live_odds"}))
+    # Research arms also exist when the operating policy abstains. Settle their
+    # exact saved offers without inventing an operating bet or touching wallets.
+    from decimal import Decimal,ROUND_HALF_UP
+    import math
+    indexed={entry['event_id']:entry for entry in pending}
+    for event,record in runtime.candidate_records().items():
+        outcomes={};official=None;source=None
+        for name,arm in record['arms'].items():
+            matches=candidates.get((event,arm.get('selection_id'),arm.get('offer_id')),[])
+            if len(matches)!=1:
+                continue
+            status,row,round_no=matches[0]
+            odds=arm.get('odds')
+            if not isinstance(odds,(int,float)) or not math.isfinite(odds) or not odds>1:
+                continue
+            profit=(int((Decimal(str(odds))*10000).quantize(Decimal(1),rounding=ROUND_HALF_UP))-10000
+                    if status=='hit' else -10000 if status=='miss' else 0)
+            outcomes[name]=dict(result=status,selection_id=arm['selection_id'],offer_id=arm['offer_id'],
+                                model_artifact_hash=arm.get('model_artifact_hash'),
+                                hypothetical_stake_won=10000,hypothetical_net_won=profit,
+                                paper_wallet_affected=False,monthly_cap_applied=False)
+            official=row.get('result')
+            source={'name':'proto_official','round':round_no,'game_no':row.get('game_no'),
+                    'game_date':row.get('date'),'path':'live_odds'}
+        if not outcomes:
+            continue
+        if event not in indexed:
+            # If operating selected, retain its official grade too. Unsupported
+            # markets/ambiguous matches remain pending rather than guessed.
+            pred=record['predictions'];grade='not_selected' if pred.get('action')=='withhold' else 'pending'
+            matches=candidates.get((event,pred.get('selection_id'),pred.get('offer_id')),[])
+            if len(matches)==1:grade=matches[0][0]
+            entry=dict(event_id=event,outcome={'result':grade,'selection_id':pred.get('selection_id'),
+                                             'official_result':official},settled_at=observed.isoformat(),source=source)
+            indexed[event]=entry;pending.append(entry)
+        indexed[event]['outcome']['research_candidate_results']=outcomes
     return sum(result.appended for result in runtime.settle_latest_batch(pending))
 
 

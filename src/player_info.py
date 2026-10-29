@@ -360,6 +360,10 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
                     pitcher_ids.add(int(p["id"]))
             raw_games.append(game)
     stats = _mlb_pitcher_stats(session, pitcher_ids, season)
+    # Research candidate sources share this collector's bounded background job.
+    # Current schedule hydration alone does not certify announced batting order.
+    from mlb_candidate_feed import collect as collect_candidate_feeds
+    candidate_inputs = collect_candidate_feeds(raw_games, now=now)
 
     injuries, cached = _cached_injuries(existing, now)
     if not cached:
@@ -384,6 +388,8 @@ def mlb_games(existing: dict | None = None, session: requests.Session | None = N
             "source": "MLB Stats API", "source_url": "https://www.mlb.com/probable-pitchers",
             "updated_at": now.isoformat(timespec="seconds"),
         }
+        if rec['game_id'] in candidate_inputs:
+            rec['research_candidate_input'] = candidate_inputs[rec['game_id']]
         raw_lineups = game.get("lineups") or {}
         for side in ("home", "away"):
             players = raw_lineups.get(f"{side}Players") or []
@@ -419,6 +425,29 @@ def collect() -> dict:
     from runtime_db import RuntimeDatabase, database_enabled
     db = RuntimeDatabase() if database_enabled() else None
     existing = load_document("player_info", OUT) or {}
+    state_doc={}
+    # A compact separate document is read by future KBO shadow inference; the
+    # larger incremental source cache stays off the prediction/HTTP path.
+    try:
+        from kbo_candidate_source import collect as collect_kbo_candidate_source
+        cache_path=RAW/'kbo_candidate_calendar_cache.json'
+        previous=load_document('kbo_candidate_calendar_cache',cache_path) or {}
+        source=collect_kbo_candidate_source(previous)
+        state_doc={k:v for k,v in source.items() if k!='calendar_cache'}
+        cache_doc={k:v for k,v in source.items() if k!='daily_states'}
+        if db:
+            db.put_document('kbo_candidate_calendar_cache',cache_doc)
+            db.put_document('kbo_model_candidate_state',state_doc)
+        else:
+            RAW.mkdir(parents=True,exist_ok=True)
+            for name,value in [('kbo_candidate_calendar_cache',cache_doc),('kbo_model_candidate_state',state_doc)]:
+                tmp=RAW/(name+'.tmp')
+                tmp.write_text(json.dumps(value,ensure_ascii=False),encoding='utf8')
+                tmp.replace(RAW/(name+'.json'))
+    except Exception as exc:
+        # Optional research intake must not discard normal multi-sport data.
+        print(f'KBO 연구 상태 수집 불가: {type(exc).__name__}',flush=True)
+        state_doc={'status':'unavailable','reason':type(exc).__name__,'daily_states':{}}
     announcements = announcement_games()
     games = announcements
     npb_name_cache = existing.get("npb_name_cache") or {}
@@ -455,6 +484,14 @@ def collect() -> dict:
         "injuries_refreshed_at": injury_stamp, "team_injuries": injuries,
         "npb_name_cache": npb_name_cache, "soccer_team_cache": soccer_cache,
         "court_team_cache": court_cache, "games": games,
+        'model_candidate_intake':{
+            'mlb_requested':sum('research_candidate_input' in g for g in mlb),
+            'mlb_captured':sum((g.get('research_candidate_input') or {}).get('status')=='captured' for g in mlb),
+            'mlb_reasons':sorted({str((g.get('research_candidate_input') or {}).get('reason')) for g in mlb
+                                  if (g.get('research_candidate_input') or {}).get('status')=='unavailable'}),
+            'kbo_state_observed_at':state_doc.get('observed_at'),
+            'kbo_states':{d:{k:s.get(k) for k in ('status','reason')} for d,s in state_doc.get('daily_states',{}).items()},
+        },
     }
     if db:
         db.put_document("player_info", doc)

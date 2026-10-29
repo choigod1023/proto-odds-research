@@ -20,7 +20,8 @@ ABSTENTION_REASONS = {
     'no_operating_selection', 'selection_offer_mismatch', 'vote_policy_not_applied',
 }
 ARM_NAMES = ('operating', 'market_reference', 'fixed91_same_electorate',
-             'saved_score_reference', 'home_always')
+             'saved_score_reference', 'home_always',
+             'mlb_frozen_linear_l2_10','kbo_frozen_e0_residual')
 
 
 def _time(value):
@@ -110,6 +111,35 @@ def replay_arms(obs):
                 k:matches[0].get(k) for k in ('selection_id','offer_id','market','selection','odds')})
     if not abstained and arms['operating']['status']!='selected':
         return None, 'operating_not_same_full_game_market_or_missing_probability'
+    # Learned candidates are evaluated from their immutable recorded forecast,
+    # never silently recomputed after a coefficient/feature-engine change.
+    learned=(saved or {}).get('learned_candidates') or {}
+    for name in ARM_NAMES[5:]:
+        arm=learned.get(name)
+        arms[name]={'status':'unavailable','reason':'no_saved_prospective_candidate'}
+        if not isinstance(arm,dict) or arm.get('status')!='available':
+            if isinstance(arm,dict):arms[name]['reason']=arm.get('reason')
+            continue
+        matches=[o for o in offers if o['selection_id']==arm.get('selection_id') and o['offer_id']==arm.get('offer_id')]
+        if (len(matches)!=1 or any(arm.get(k)!=matches[0].get(k) for k in ('odds','selection','market'))
+                or not _number(arm.get('probability')) or not 0<=arm['probability']<=1
+                or not isinstance(arm.get('model_artifact_hash'),str) or len(arm['model_artifact_hash'])!=64
+                or arm.get('promoted') is not False or arm.get('affects_selection') is not False):
+            arms[name]['reason']='saved_candidate_identity_or_price_mismatch'
+            continue
+        try:
+            if name=='mlb_frozen_linear_l2_10':
+                from mlb_frozen_candidate import load_mlb_artifacts
+                expected_artifact=load_mlb_artifacts(_time(obs['kickoff']).year)[0]['sha256']
+            else:
+                from kbo_frozen_candidate import MODEL_HASH
+                expected_artifact=MODEL_HASH
+            if arm['model_artifact_hash']!=expected_artifact:
+                raise ValueError('unknown_frozen_artifact')
+        except (ValueError,KeyError,TypeError,OSError):
+            arms[name]['reason']='unsupported_saved_candidate_artifact'
+            continue
+        arms[name]={**arm,'status':'selected','probability_kind':'unvalidated_frozen_model_probability'}
     return arms, None
 
 
@@ -163,6 +193,8 @@ def summarize(events, name, stake):
     settled = [e for e in selected if e['label_status'] == 'settled']
     daily, batches = defaultdict(int), defaultdict(int)
     hits = misses = voids = net = 0
+    probability_errors=[]
+    log_losses=[]
     for e in settled:
         arm = e['arms'][name]
         winner = e['official']['winner']
@@ -176,6 +208,12 @@ def summarize(events, name, stake):
             misses += 1
             profit = -stake
         net += profit
+        probability=arm.get('probability')
+        if not (winner=='무' and arm['market']=='승패') and _number(probability) and 0<=probability<=1:
+            target=float(arm['selection']==winner)
+            probability_errors.append((probability-target)**2)
+            clipped=max(1e-15,min(1-1e-15,probability))
+            log_losses.append(-target*math.log(clipped)-(1-target)*math.log1p(-clipped))
         day = _time(e['kickoff']).astimezone(KST).date().isoformat()
         daily[day] += profit
         batches[e['official']['observed_at']] += profit
@@ -193,6 +231,9 @@ def summarize(events, name, stake):
                 net_won=net, settled_turnover_won=turnover,
                 roi=net/turnover if turnover else None,
                 result_batch_close_drawdown_won=drawdown, kickoff_day_net_won=dict(sorted(daily.items())),
+                probability_observations=len(probability_errors),
+                selected_event_brier=sum(probability_errors)/len(probability_errors) if probability_errors else None,
+                selected_event_logloss=sum(log_losses)/len(log_losses) if log_losses else None,
                 loss_days=sum(p<0 for p in daily.values()), days=len(daily),
                 selection_rate=len(selected)/len(events) if events else None)
 
@@ -258,6 +299,10 @@ def compare(records, official_rows, *, evaluated_at, stake=10000, cutoff_minutes
             opportunities=len(group), settled_opportunities=sum(e['label_status']=='settled' for e in group),
             all_opportunities={n:summarize(group,n,stake) for n in ARM_NAMES},
             selected_three_arm_intersection={n:summarize(paired,n,stake) for n in ARM_NAMES[:3]},
+            learned_candidate_intersections={name:{n:summarize(
+                [e for e in group if e['arms'][name]['status']=='selected'
+                 and e['arms']['operating']['status']=='selected'],n,stake)
+                for n in ('operating','market_reference','fixed91_same_electorate',name)} for name in ARM_NAMES[5:]},
             league={league:{n:summarize([e for e in group if e['fixture']['league']==league],n,stake)
                             for n in ARM_NAMES} for league in sorted({e['fixture']['league'] for e in group})},
             operating_market_pick_differences=sum(e['arms']['operating']['status']=='selected' and
