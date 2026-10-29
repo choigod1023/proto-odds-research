@@ -1,0 +1,31 @@
+{
+  "cohort_counts": {
+    "train": 710,
+    "validation": 712,
+    "evaluation": 198
+  },
+  "pitching_games": 2656,
+  "score_anchors": 2879,
+  "merged_score_games": 2913,
+  "batter_games_used": 2656,
+  "raw_batter_games": 2896,
+  "doubleheader_extra_games": 14,
+  "non_club_allstar_games_not_in_league_environment": 4,
+  "naver_synthetic_year_ids": 50,
+  "pitching_by_year": {
+    "2023": 724,
+    "2024": 728,
+    "2025": 733,
+    "2026": 471
+  },
+  "score_by_year": {
+    "2023": 723,
+    "2024": 728,
+    "2025": 736,
+    "2026": 726
+  },
+  "excluded_original_eval": 5,
+  "original_eval": 203,
+  "source_guard": "all fixed cohort rows passed, missing pitching is never rest zero",
+  "team_mapping": "raw batter gameId -> normalized pitching id, with date and scores checked"
+}
