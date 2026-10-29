@@ -146,6 +146,64 @@ def test_goli_only_fullgame_section():
         parse_page("https://www.goli.tv/board/analysis/123", html.replace("베팅 요약 및 추천", "전반전"), AT)
 
 
+@pytest.mark.parametrize("sport,league,home,away,title,summary,expected", [
+    ("sc", "ACL2", "강원FC", "쿠칭시티", "강원FC 대 쿠칭시티 AFC챔피언스리그2",
+     "승/무/패 강원FC 승", "홈"),
+    ("sc", "ACL2", "타이포FC", "BG빠툼유", "타이포FC 대 빠툼 AFC챔피언스리그2",
+     "[승/무/패] 타이포FC 패", "원정"),
+    ("sc", "ACL2", "상하선화", "마치다Z", "상하이 대 마치다 AFC챔피언스리그2",
+     "[승/무/패] 상하이 선화 패", "원정"),
+    ("sc", "ACL2", "애들유나", "라이언시", "애들레이드 대 라이언시티 AFC챔피언스리그2",
+     "애들레이드 유나이티드 승\n핸디 승\n오버", "홈"),
+    ("bs", "KBO", "KIA", "삼성", "KIA 대 삼성 KBO",
+     "예상 승리팀 : KIA 타이거즈\n승1패 : KIA 승리\n핸디 : 삼성 승리", "홈"),
+    ("bk", "KBL", "울산모비", "부산KCC", "울산모비스 대 부산KCC KBL",
+     "✔️ 승부 예측\n모비스 패(4순위 추천)\n승5패 패(3순위 추천)\n핸디 패", "원정"),
+    ("sc", "잉리그컵", "에버턴", "뉴캐슬U", "에버턴 대 뉴캐슬 잉글랜드캐피털원컵",
+     "승/무/패 에버튼 승", "홈"),
+    ("sc", "세리에A", "피오렌티", "아탈란타", "아탈란타 대 피오렌티나 세리에A",
+     "[승/무/패] 피오렌티나 승", "홈"),
+])
+def test_observed_goli_formats_match_specific_fixtures(sport, league, home, away, title, summary, expected):
+    # Minimal, representative structures from the 2026-10-29 public pages;
+    # actual observation timestamps are supplied by the caller, never backfilled.
+    g = dict(game(sport, league, home, away), date="10.29(목) 19:00")
+    html = (f'<h1 id="page-heading">{title} 10월29일 맞대결</h1>'
+            '<div class="writer_box"><a class="_userView">writer</a></div>'
+            '<div class="view_stat">2026-10-29 14:00</div>'
+            f'<div id="partner_content">베팅 요약 및 추천<br>{summary.replace(chr(10), "<br>")}'
+            '<br>전반전 예측<br>[승/무/패] 무승부</div>')
+    at = "2026-10-29T06:00:00Z"
+    row = parse_page("https://www.goli.tv/board/analysis/123", html, at)
+    vote = match_vote(row, [g])
+    assert vote["side"] == expected
+    assert context(g, [vote], at, at)["status"] == "applied"
+    with pytest.raises(ValueError, match="unmatched"):
+        match_vote(row, [dict(g, league="other")])
+    with pytest.raises(ValueError, match="ambiguous"):
+        match_vote(row, [g, g])
+    with pytest.raises(ValueError, match="outside_pregame"):
+        match_vote(dict(row, observed_at="2026-10-29T09:31:00Z"), [g])
+
+
+def test_goli_ambiguous_or_non_winner_market_stays_withheld():
+    from public_tipster_votes import goli_fullgame_choice
+    with pytest.raises(ValueError, match="ambiguous_pick"):
+        goli_fullgame_choice("[승/무/패] 강원FC 승\n승/무/패 쿠칭시티 승", "ACL2")
+    for section in ("[핸디] 강원FC 승\n[언더오버] 오버", "승1패 : KIA 승리",
+                    "승부 예측\n핸디 패"):
+        if "승부 예측" not in section:
+            with pytest.raises(ValueError, match="ambiguous_pick"):
+                goli_fullgame_choice(section, "KBO")
+        else:
+            html = ("<h1 id='page-heading'>울산모비스 대 부산KCC KBL 10월29일 맞대결</h1>"
+                    "<div class='writer_box'><a class='_userView'>writer</a></div>"
+                    "<div class='view_stat'>2026-10-29 14:00</div>"
+                    f"<div id='partner_content'>베팅 요약 및 추천<br>{section.replace(chr(10), '<br>')}</div>")
+            with pytest.raises(ValueError, match="unknown_selection_team"):
+                parse_page("https://www.goli.tv/board/analysis/123", html, "2026-10-29T06:00:00Z")
+
+
 def test_http_redirect_and_oversized_body_fail_closed():
     class Response:
         status_code = 302
@@ -253,3 +311,38 @@ def test_latest_article_per_listing_is_checked_while_history_rotates(tmp_path, m
         assert summary["candidates"] == len(articles)
         seen.update(articles)
     assert seen == {u for links in listings.values() for u in links}
+
+
+def test_upcoming_goli_articles_are_prioritized_without_starving_rotation(tmp_path, monkeypatch):
+    import public_tipster_votes as mod
+    from datetime import datetime
+    from runtime_db import RuntimeDatabase
+    db = RuntimeDatabase(tmp_path / "priority.sqlite3")
+    g = dict(game("sc", "ACL2", "강원FC", "쿠칭시티"), date="10.26(월) 19:00")
+    db.store_artifact("picks_v2", {"live": [g]})
+    class Clock(datetime):
+        @staticmethod
+        def now(tz): return datetime.fromisoformat(AT.replace("Z", "+00:00"))
+    monkeypatch.setattr(mod, "datetime", Clock)
+    monkeypatch.setattr(mod.time, "sleep", lambda n: None)
+    calls = []
+    target = "https://www.goli.tv/board/analysis/999"
+    latest = "https://www.goli.tv/board/analysis/1000"
+    def http(session, url):
+        if "/posts/detail/" in url or url.startswith("https://www.goli.tv/board/analysis/"):
+            calls.append(url)
+            raise ValueError("unavailable")
+        if "goli" in url:
+            return (f'<a href="{latest}">unrelated</a>' +
+                    ''.join(f'<a href="/board/analysis/{i}">unrelated</a>' for i in range(50)) +
+                    f'<a href="{target}">강원FC 대 쿠칭시티 AFC챔피언스리그2 10월26일 맞대결</a>')
+        return ''.join(f'<a href="/posts/detail/{url.split("/")[-2]}-{i}/">test</a>' for i in range(12))
+    monkeypatch.setattr(mod, "fetch", http)
+    summary = mod.collect(db, object())
+    assert target in calls and latest in calls
+    assert len(calls) == summary["candidates"] == 16
+    assert len(set(calls)) == 16
+    start = mod.upcoming_goli_fixture("강원FC 대 쿠칭시티 AFC챔피언스리그2 10월26일 맞대결", [g], mod.stamp(AT))
+    assert start is not None
+    assert mod.upcoming_goli_fixture("강원FC 대 쿠칭시티 AFC챔피언스리그2 10월26일 맞대결", [g, g], mod.stamp(AT)) is None
+    assert mod.upcoming_goli_fixture("강원FC 대 쿠칭시티 AFC챔피언스리그2 10월26일 맞대결", [g], mod.stamp("2026-10-26T09:31:00Z")) is None
