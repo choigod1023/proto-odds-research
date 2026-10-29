@@ -17,6 +17,26 @@ spec.loader.exec_module(k)
 
 
 class KboResearchTests(unittest.TestCase):
+    def assert_numeric_replay(self, actual, expected):
+        """Allow only cross-platform float noise; metadata and integers stay exact."""
+        if isinstance(expected, dict):
+            self.assertEqual(actual.keys(), expected.keys())
+            for name in expected:
+                self.assert_numeric_replay(actual[name], expected[name])
+        elif isinstance(expected, list):
+            self.assertEqual(len(actual), len(expected))
+            for a, e in zip(actual, expected):
+                self.assert_numeric_replay(a, e)
+        elif isinstance(expected, float):
+            np.testing.assert_allclose(actual, expected, rtol=0, atol=1e-12)
+        else:
+            self.assertEqual(actual, expected)
+
+    def assert_forecast_replay(self, actual, expected):
+        np.testing.assert_allclose(actual, expected, rtol=0, atol=1e-12)
+        # Even a tiny difference must not change a bet near the 0.5 boundary.
+        np.testing.assert_array_equal(np.asarray(actual) >= .5, np.asarray(expected) >= .5)
+
     @classmethod
     def setUpClass(cls):
         cls.rows, cls.games, cls.pitching, cls.batting, cls.audit = k.load_facts(k.DEFAULT)
@@ -162,9 +182,9 @@ class KboResearchTests(unittest.TestCase):
         final_poison = [r for r in mixed if r['role'] in {'train', 'validation'}]
         for name in ['logistic:full:ridge0.1', 'nb:s20:season:w0.1', 'pyth:s60:e2:w0.3']:
             spec = k.candidate_specs()[name]
-            self.assertEqual(k.fit(train, spec), self.frozen['candidates'][name]['selection_fit'])
+            self.assert_numeric_replay(k.fit(train, spec), self.frozen['candidates'][name]['selection_fit'])
             self.assertEqual(k.fit(final, spec), k.fit(final_poison, spec))
-            self.assertEqual(k.fit(final, spec), self.frozen['candidates'][name]['final_fit'])
+            self.assert_numeric_replay(k.fit(final, spec), self.frozen['candidates'][name]['final_fit'])
 
     def test_all_validation_probabilities_and_metrics_replay(self):
         ledger = k.read(k.DEFAULT/'validation_predictions.jsonl')
@@ -172,8 +192,18 @@ class KboResearchTests(unittest.TestCase):
         self.assertEqual(len(ledger), 712)
         for name, candidate in self.frozen['candidates'].items():
             probabilities = np.array([r['candidate_probabilities'][name] for r in ledger])
-            np.testing.assert_allclose(probabilities, k.predict(candidate['selection_fit'], val), rtol=0, atol=0)
-            self.assertEqual(candidate['validation'], k.metrics(val, probabilities))
+            replay = k.predict(candidate['selection_fit'], val)
+            self.assert_forecast_replay(replay, probabilities)
+            self.assert_numeric_replay(k.metrics(val, replay), candidate['validation'])
+
+    def test_replay_tolerance_cannot_hide_model_or_pick_changes(self):
+        self.assert_numeric_replay({'beta': [.1+1e-16], 'wins': 12}, {'beta': [.1], 'wins': 12})
+        with self.assertRaises(AssertionError):
+            self.assert_numeric_replay({'beta': [.1+1e-8]}, {'beta': [.1]})
+        with self.assertRaises(AssertionError):
+            self.assert_numeric_replay({'wins': 13}, {'wins': 12})
+        with self.assertRaises(AssertionError):
+            self.assert_forecast_replay([np.nextafter(.5, 0)], [.5])
 
     def test_source_guard_rejects_gap_and_score_corruption(self):
         for kind in ['gap', 'runs']:
