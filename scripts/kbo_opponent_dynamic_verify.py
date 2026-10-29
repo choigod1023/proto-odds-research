@@ -68,6 +68,8 @@ def verify(folder):
         raise ValueError('verification_tests_failed_or_skipped')
     output = dict(status='passed', tests_run=result.testsRun, failures=len(result.failures), errors=len(result.errors),
                   skipped=len(result.skipped), float_tolerance=dict(atol=1e-12, rtol=0),
+                  optimizer_refit_tolerance=dict(atol=1e-8, rtol=0,
+                      exact_checks=['all validation/evaluation directions and integer settlements', 'selected heads']),
                   exact_checks=['decisions', 'integer profit', 'cohort identity', 'source game IDs'],
                   protocol_commit=frozen['protocol_commit'], freeze_commit='7d3ee091',
                   frozen_selection_sha256=m.normalized_hash(folder/'frozen-selection.json'),

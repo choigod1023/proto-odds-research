@@ -203,13 +203,28 @@ class RealSourceTests(unittest.TestCase):
             for stage in ['selection_fit', 'final_fit']:
                 for field in ['beta', 'scale']:
                     if field in c[stage]:
-                        np.testing.assert_allclose(c[stage][field], stored[stage][field], atol=1e-12, rtol=0)
+                        # Refitting an optimizer is less numerically exact than
+                        # evaluating the SAME saved coefficients across platforms.
+                        np.testing.assert_allclose(c[stage][field], stored[stage][field],
+                                                   atol=1e-8 if field == 'beta' else 1e-12, rtol=0)
         val = [r for r in self.rows if r['role'] == 'validation']
         recorded = m.read(m.DEFAULT/'validation-ledger.jsonl.gz')
         for name, p in vp.items():
             actual = [r['candidates'][name] for r in recorded]
-            np.testing.assert_allclose(p, [r['probability'] for r in actual], atol=1e-12, rtol=0)
+            np.testing.assert_allclose(p, [r['probability'] for r in actual], atol=1e-8, rtol=0)
+            np.testing.assert_array_equal(np.asarray(p) >= .5, np.array([r['probability'] for r in actual]) >= .5)
             self.assertEqual([m.settlement(r, z) for r, z in zip(val, p)],
+                             [(r['hit'], r['profit_krw'], r['settled']) for r in actual])
+        # Verify every freshly refitted final model also keeps all evaluation
+        # decisions and integer settlements, rather than only checking betas.
+        evaluation = [r for r in self.rows if r['role'] == 'evaluation']
+        recorded = m.read(m.DEFAULT/'evaluation-ledger.jsonl.gz')
+        for name, candidate in fresh['candidates'].items():
+            p = m.predict(candidate['final_fit'], evaluation)
+            actual = [r['candidates'][name] for r in recorded]
+            np.testing.assert_allclose(p, [r['probability'] for r in actual], atol=1e-8, rtol=0)
+            np.testing.assert_array_equal(np.asarray(p) >= .5, np.array([r['probability'] for r in actual]) >= .5)
+            self.assertEqual([m.settlement(r, z) for r, z in zip(evaluation, p)],
                              [(r['hit'], r['profit_krw'], r['settled']) for r in actual])
 
     def test_evaluation_ledger_exact_coverage_and_new_state_changes(self):
