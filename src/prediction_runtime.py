@@ -17,6 +17,7 @@ from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
 from prediction_ledger import AppendResult, PredictionLedger
+from operating_model_capture import capture as capture_model_comparison
 from score_scenarios import ScoreForecastError, forecast_from_lambdas
 
 
@@ -138,7 +139,7 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         }
         for row in game.get("options", [])
     ]
-    return _safe_json({
+    features = _safe_json({
         "fixture": {key: game.get(key) for key in (
             "sport", "league", "home", "away", "year", "round", "date",
             "source_event_id", "match_id")},
@@ -164,6 +165,8 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         },
         "options": options,
     })
+    features["model_comparison"] = capture_model_comparison(game.get("decision_snapshot"), features)
+    return features
 
 
 def prediction_payload(game: Mapping[str, Any]) -> dict[str, Any]:
@@ -224,6 +227,9 @@ def _revision_signature(
     # Keep the first capture verbatim in the ledger; ignore only this audit clock
     # for revision comparison, never source_updated_at/status/content changes.
     signature_features = dict(features)
+    # Derived controls and their source clocks do not create a new observable
+    # revision. Their actual inputs already live in the original features.
+    signature_features.pop("model_comparison", None)
     capture = features.get("research_player_inputs")
     if (isinstance(capture, Mapping)
             and capture.get("version") == "pregame-player-capture-v1"
