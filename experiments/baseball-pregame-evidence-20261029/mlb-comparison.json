@@ -1,0 +1,2440 @@
+{
+  "train_n": 296,
+  "validation_n": 300,
+  "evaluation_n": 116,
+  "selected": "lineup-ridge1",
+  "candidates": {
+    "starter-ridge0.1": {
+      "validation": {
+        "n": 300,
+        "wins": 168,
+        "losses": 132,
+        "pushes": 0,
+        "accuracy": 0.56,
+        "brier": 0.2475240674968004
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.2570715804801948,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "starter-ridge1": {
+      "validation": {
+        "n": 300,
+        "wins": 168,
+        "losses": 132,
+        "pushes": 0,
+        "accuracy": 0.56,
+        "brier": 0.2472034486241492
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.25697505737302945,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "starter-ridge10": {
+      "validation": {
+        "n": 300,
+        "wins": 168,
+        "losses": 132,
+        "pushes": 0,
+        "accuracy": 0.56,
+        "brier": 0.24710090253540065
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.256947781618659,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "lineup-ridge0.1": {
+      "validation": {
+        "n": 300,
+        "wins": 164,
+        "losses": 136,
+        "pushes": 0,
+        "accuracy": 0.5466666666666666,
+        "brier": 0.24785109709163403
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 51,
+        "losses": 65,
+        "pushes": 0,
+        "accuracy": 0.4396551724137931,
+        "brier": 0.25960117350494843,
+        "roi": -0.2649137931034483,
+        "net_krw": -307300,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -13.919999999999998,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -2.06,
+          "2026-08": -4.029999999999999,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "lineup-ridge1": {
+      "validation": {
+        "n": 300,
+        "wins": 171,
+        "losses": 129,
+        "pushes": 0,
+        "accuracy": 0.57,
+        "brier": 0.24656270659642643
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.257585923894476,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "lineup-ridge10": {
+      "validation": {
+        "n": 300,
+        "wins": 168,
+        "losses": 132,
+        "pushes": 0,
+        "accuracy": 0.56,
+        "brier": 0.24696349284458233
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.2570152187074207,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "statcast-ridge0.1": {
+      "validation": {
+        "n": 300,
+        "wins": 145,
+        "losses": 155,
+        "pushes": 0,
+        "accuracy": 0.48333333333333334,
+        "brier": 0.25653925765422464
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 54,
+        "losses": 62,
+        "pushes": 0,
+        "accuracy": 0.46551724137931033,
+        "brier": 0.2581936466478104,
+        "roi": -0.22086206896551724,
+        "net_krw": -256200,
+        "monthly_units": {
+          "2025-11": 0.5,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -4.23,
+          "2026-05": -10.459999999999999,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -3.9699999999999998,
+          "2026-08": -0.21999999999999997,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "statcast-ridge1": {
+      "validation": {
+        "n": 300,
+        "wins": 166,
+        "losses": 134,
+        "pushes": 0,
+        "accuracy": 0.5533333333333333,
+        "brier": 0.2483395644566423
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.2571545999865998,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    },
+    "statcast-ridge10": {
+      "validation": {
+        "n": 300,
+        "wins": 168,
+        "losses": 132,
+        "pushes": 0,
+        "accuracy": 0.56,
+        "brier": 0.24712519569010774
+      },
+      "evaluation": {
+        "n": 116,
+        "wins": 52,
+        "losses": 64,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655,
+        "brier": 0.256950750376046,
+        "roi": -0.24396551724137935,
+        "net_krw": -283000,
+        "monthly_units": {
+          "2025-11": -1.0,
+          "2026-03": 0.3599999999999999,
+          "2026-04": -2.4800000000000004,
+          "2026-05": -10.240000000000002,
+          "2026-06": -1.8900000000000001,
+          "2026-07": -5.68,
+          "2026-08": -1.66,
+          "2026-09": -3.7600000000000002,
+          "2026-10": -1.95
+        }
+      }
+    }
+  },
+  "policies": {
+    "market": {
+      "n": 116,
+      "wins": 63,
+      "losses": 53,
+      "pushes": 0,
+      "accuracy": 0.5431034482758621,
+      "brier": 0.2500109845093805,
+      "roi": -0.14431034482758623,
+      "net_krw": -167400,
+      "monthly_units": {
+        "2025-11": 0.5,
+        "2026-03": 1.8599999999999999,
+        "2026-04": -0.5500000000000007,
+        "2026-05": -6.259999999999999,
+        "2026-06": -2.34,
+        "2026-07": -4.17,
+        "2026-08": -0.9100000000000001,
+        "2026-09": -2.58,
+        "2026-10": -2.29
+      }
+    },
+    "market90_vote10": {
+      "n": 116,
+      "wins": 63,
+      "losses": 53,
+      "pushes": 0,
+      "accuracy": 0.5431034482758621,
+      "brier": 0.2507875045179867,
+      "roi": -0.13344827586206898,
+      "net_krw": -154800,
+      "monthly_units": {
+        "2025-11": 0.5,
+        "2026-03": 0.1299999999999999,
+        "2026-04": -8.719999999999999,
+        "2026-05": 6.499999999999999,
+        "2026-06": -2.34,
+        "2026-07": -4.0600000000000005,
+        "2026-08": -0.9100000000000001,
+        "2026-09": -2.58,
+        "2026-10": -4.0
+      }
+    },
+    "tipster_vote": {
+      "n": 116,
+      "wins": 61,
+      "losses": 55,
+      "pushes": 0,
+      "accuracy": 0.5258620689655172,
+      "brier": 0.47413793103448276,
+      "roi": -0.09758620689655173,
+      "net_krw": -113200,
+      "monthly_units": {
+        "2025-11": -1.0,
+        "2026-03": 0.1299999999999999,
+        "2026-04": -4.200000000000001,
+        "2026-05": 3.59,
+        "2026-06": -0.2500000000000002,
+        "2026-07": -4.0600000000000005,
+        "2026-08": -0.9100000000000001,
+        "2026-09": -2.58,
+        "2026-10": -2.04
+      }
+    },
+    "selected_pure": {
+      "n": 116,
+      "wins": 52,
+      "losses": 64,
+      "pushes": 0,
+      "accuracy": 0.4482758620689655,
+      "brier": 0.257585923894476,
+      "roi": -0.24396551724137935,
+      "net_krw": -283000,
+      "monthly_units": {
+        "2025-11": -1.0,
+        "2026-03": 0.3599999999999999,
+        "2026-04": -2.4800000000000004,
+        "2026-05": -10.240000000000002,
+        "2026-06": -1.8900000000000001,
+        "2026-07": -5.68,
+        "2026-08": -1.66,
+        "2026-09": -3.7600000000000002,
+        "2026-10": -1.95
+      }
+    },
+    "market90_new10": {
+      "n": 116,
+      "wins": 63,
+      "losses": 53,
+      "pushes": 0,
+      "accuracy": 0.5431034482758621,
+      "brier": 0.25018787470980025,
+      "roi": -0.14431034482758623,
+      "net_krw": -167400,
+      "monthly_units": {
+        "2025-11": 0.5,
+        "2026-03": 1.8599999999999999,
+        "2026-04": -0.5500000000000007,
+        "2026-05": -6.259999999999999,
+        "2026-06": -2.34,
+        "2026-07": -4.17,
+        "2026-08": -0.9100000000000001,
+        "2026-09": -2.58,
+        "2026-10": -2.29
+      }
+    },
+    "existing91_90_new10": {
+      "n": 116,
+      "wins": 63,
+      "losses": 53,
+      "pushes": 0,
+      "accuracy": 0.5431034482758621,
+      "brier": 0.25075359973156985,
+      "roi": -0.13344827586206898,
+      "net_krw": -154800,
+      "monthly_units": {
+        "2025-11": 0.5,
+        "2026-03": 0.1299999999999999,
+        "2026-04": -8.719999999999999,
+        "2026-05": 6.499999999999999,
+        "2026-06": -2.34,
+        "2026-07": -4.0600000000000005,
+        "2026-08": -0.9100000000000001,
+        "2026-09": -2.58,
+        "2026-10": -4.0
+      }
+    },
+    "home_only": {
+      "n": 116,
+      "wins": 52,
+      "losses": 64,
+      "pushes": 0,
+      "accuracy": 0.4482758620689655,
+      "brier": 0.5517241379310345,
+      "roi": -0.24396551724137935,
+      "net_krw": -283000,
+      "monthly_units": {
+        "2025-11": -1.0,
+        "2026-03": 0.3599999999999999,
+        "2026-04": -2.4800000000000004,
+        "2026-05": -10.240000000000002,
+        "2026-06": -1.8900000000000001,
+        "2026-07": -5.68,
+        "2026-08": -1.66,
+        "2026-09": -3.7600000000000002,
+        "2026-10": -1.95
+      }
+    },
+    "away_only": {
+      "n": 116,
+      "wins": 64,
+      "losses": 52,
+      "pushes": 0,
+      "accuracy": 0.5517241379310345,
+      "brier": 0.4482758620689655,
+      "roi": 0.0052586206896551675,
+      "net_krw": 6100,
+      "monthly_units": {
+        "2025-11": 0.5,
+        "2026-03": -1.5,
+        "2026-04": -3.87,
+        "2026-05": -2.749999999999999,
+        "2026-06": 1.7099999999999997,
+        "2026-07": 4.16,
+        "2026-08": 0.03000000000000025,
+        "2026-09": 1.7699999999999996,
+        "2026-10": 0.5599999999999996
+      }
+    }
+  },
+  "models": {
+    "starter-ridge0.1": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705
+        ],
+        "beta": [
+          0.1353929008572782,
+          -0.02204948502443307,
+          -0.025718826538602503
+        ],
+        "ridge": 0.1
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862
+        ],
+        "beta": [
+          0.188479235741979,
+          -0.002885093250583497,
+          0.00973903109408488
+        ],
+        "ridge": 0.1
+      },
+      "size": 2
+    },
+    "starter-ridge1": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705
+        ],
+        "beta": [
+          0.13534674239574676,
+          -0.007316757747126287,
+          -0.008154472046377195
+        ],
+        "ridge": 1.0
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862
+        ],
+        "beta": [
+          0.1884760586415657,
+          -0.0002481957818803625,
+          0.0025116549901381398
+        ],
+        "ridge": 1.0
+      },
+      "size": 2
+    },
+    "starter-ridge10": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705
+        ],
+        "beta": [
+          0.13534143737666182,
+          -0.0009487814479407257,
+          -0.0010448901481723638
+        ],
+        "ridge": 10.0
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862
+        ],
+        "beta": [
+          0.18847542168607556,
+          -9.519492845536197e-06,
+          0.00030358340996218574
+        ],
+        "ridge": 10.0
+      },
+      "size": 2
+    },
+    "lineup-ridge0.1": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629,
+          0.00035414002738852723,
+          -0.0004309056789089388
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705,
+          0.012065535244457776,
+          0.02324903798836134
+        ],
+        "beta": [
+          0.13782807612599277,
+          -0.020184930383908353,
+          -0.030185776926552593,
+          0.04751639966082698,
+          0.2208319257952863
+        ],
+        "ridge": 0.1
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623,
+          0.00018963606008729188,
+          -0.0003532261027978873
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862,
+          0.011414774971254829,
+          0.02280398352961386
+        ],
+        "beta": [
+          0.1898424554104399,
+          -0.000520719297224891,
+          0.004307312062204141,
+          0.034146059432311596,
+          0.1462235622413829
+        ],
+        "ridge": 0.1
+      },
+      "size": 4
+    },
+    "lineup-ridge1": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629,
+          0.00035414002738852723,
+          -0.0004309056789089388
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705,
+          0.012065535244457776,
+          0.02324903798836134
+        ],
+        "beta": [
+          0.13564883034874803,
+          -0.007210552389891167,
+          -0.008581498888387419,
+          0.03608286533678545,
+          0.06248677867103633
+        ],
+        "ridge": 1.0
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623,
+          0.00018963606008729188,
+          -0.0003532261027978873
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862,
+          0.011414774971254829,
+          0.02280398352961386
+        ],
+        "beta": [
+          0.18865293847309872,
+          -0.00025699601005994225,
+          0.0018103407656527267,
+          0.023965973688052117,
+          0.04195185284351747
+        ],
+        "ridge": 1.0
+      },
+      "size": 4
+    },
+    "lineup-ridge10": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629,
+          0.00035414002738852723,
+          -0.0004309056789089388
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705,
+          0.012065535244457776,
+          0.02324903798836134
+        ],
+        "beta": [
+          0.1353469284783318,
+          -0.0009475445026813804,
+          -0.0010518908526851094,
+          0.005373856082579122,
+          0.008165478063491228
+        ],
+        "ridge": 10.0
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623,
+          0.00018963606008729188,
+          -0.0003532261027978873
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862,
+          0.011414774971254829,
+          0.02280398352961386
+        ],
+        "beta": [
+          0.1884787123102749,
+          -1.0903282594947148e-05,
+          0.0002913279313418134,
+          0.0035426392915192543,
+          0.005455934833242571
+        ],
+        "ridge": 10.0
+      },
+      "size": 4
+    },
+    "statcast-ridge0.1": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629,
+          0.00035414002738852723,
+          -0.0004309056789089388,
+          0.002459190119634987,
+          0.07185261122745293,
+          -0.0002873458310632102
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705,
+          0.012065535244457776,
+          0.02324903798836134,
+          0.028094735937586733,
+          0.861213408483191,
+          0.013541267502143307
+        ],
+        "beta": [
+          0.14038791799029346,
+          -0.034370205735985794,
+          -0.029021192846167936,
+          -0.01264712829937715,
+          0.18570981723520447,
+          -0.001529079539112453,
+          -0.0282374961557895,
+          0.2644328943532019
+        ],
+        "ridge": 0.1
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623,
+          0.00018963606008729188,
+          -0.0003532261027978873,
+          0.0024621816757649786,
+          0.07396140366206581,
+          -0.00039458903393999967
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862,
+          0.011414774971254829,
+          0.02280398352961386,
+          0.02735999649297555,
+          0.8075304020813706,
+          0.0128749952671706
+        ],
+        "beta": [
+          0.19010726354838817,
+          -0.007476103516738269,
+          -0.002173110694201328,
+          0.019231492149707523,
+          0.13543898206571034,
+          0.028812488355871642,
+          9.89658056421522e-05,
+          0.06225294629412608
+        ],
+        "ridge": 0.1
+      },
+      "size": 7
+    },
+    "statcast-ridge1": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629,
+          0.00035414002738852723,
+          -0.0004309056789089388,
+          0.002459190119634987,
+          0.07185261122745293,
+          -0.0002873458310632102
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705,
+          0.012065535244457776,
+          0.02324903798836134,
+          0.028094735937586733,
+          0.861213408483191,
+          0.013541267502143307
+        ],
+        "beta": [
+          0.13598560152020034,
+          -0.008385898329884924,
+          -0.008977934300650222,
+          0.03014790376738014,
+          0.057728386287987946,
+          -0.0011787511108847888,
+          -0.0033632087326240607,
+          0.07578783310899442
+        ],
+        "ridge": 1.0
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623,
+          0.00018963606008729188,
+          -0.0003532261027978873,
+          0.0024621816757649786,
+          0.07396140366206581,
+          -0.00039458903393999967
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862,
+          0.011414774971254829,
+          0.02280398352961386,
+          0.02735999649297555,
+          0.8075304020813706,
+          0.0128749952671706
+        ],
+        "beta": [
+          0.18873732736730167,
+          -0.0012332731870875323,
+          0.0007533375660898755,
+          0.021840422041579967,
+          0.040183755931799466,
+          0.007850868910766444,
+          0.005323955956992574,
+          0.024843282977316195
+        ],
+        "ridge": 1.0
+      },
+      "size": 7
+    },
+    "statcast-ridge10": {
+      "before2025": {
+        "center": [
+          0.005883533725745268,
+          0.0009048558907634629,
+          0.00035414002738852723,
+          -0.0004309056789089388,
+          0.002459190119634987,
+          0.07185261122745293,
+          -0.0002873458310632102
+        ],
+        "scale": [
+          0.18664658026620015,
+          0.053695004745573705,
+          0.012065535244457776,
+          0.02324903798836134,
+          0.028094735937586733,
+          0.861213408483191,
+          0.013541267502143307
+        ],
+        "beta": [
+          0.13535371136548527,
+          -0.0009685040639065579,
+          -0.0010642514755565206,
+          0.005266675578694912,
+          0.008076078088831356,
+          7.890273620829218e-05,
+          -0.00010762841165951505,
+          0.00990484799105465
+        ],
+        "ridge": 10.0
+      },
+      "before2026": {
+        "center": [
+          0.0012220825609604502,
+          0.003068228617728623,
+          0.00018963606008729188,
+          -0.0003532261027978873,
+          0.0024621816757649786,
+          0.07396140366206581,
+          -0.00039458903393999967
+        ],
+        "scale": [
+          0.20097708941423212,
+          0.0524432232097862,
+          0.011414774971254829,
+          0.02280398352961386,
+          0.02735999649297555,
+          0.8075304020813706,
+          0.0128749952671706
+        ],
+        "beta": [
+          0.1884809429010776,
+          -3.085857616848352e-05,
+          0.0002685901312725483,
+          0.003500188064609164,
+          0.005419955996818985,
+          0.0011907254090340281,
+          0.0009606523090542997,
+          0.0035907441097842883
+        ],
+        "ridge": 10.0
+      },
+      "size": 7
+    }
+  },
+  "selected_vs91": {
+    "observed_weeks": 23,
+    "accuracy_delta95": [
+      -0.19047619047619047,
+      0.014495398286258341
+    ],
+    "roi_delta95": [
+      -0.28239770220588234,
+      0.08975478468899527
+    ]
+  },
+  "mixture_vs91": {
+    "observed_weeks": 23,
+    "accuracy_delta95": [
+      0.0,
+      0.0
+    ],
+    "roi_delta95": [
+      0.0,
+      0.0
+    ]
+  },
+  "coverage": [
+    {
+      "gamePk": 813025,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 95.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 111.0
+      }
+    },
+    {
+      "gamePk": 824541,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      }
+    },
+    {
+      "gamePk": 824539,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      }
+    },
+    {
+      "gamePk": 823159,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      }
+    },
+    {
+      "gamePk": 824458,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 18.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 22.0
+      }
+    },
+    {
+      "gamePk": 824529,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 114.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 127.0
+      }
+    },
+    {
+      "gamePk": 824854,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 18.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 92.0
+      }
+    },
+    {
+      "gamePk": 822827,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 68.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 115.0
+      }
+    },
+    {
+      "gamePk": 822992,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 74.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 118.0
+      }
+    },
+    {
+      "gamePk": 823638,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 112.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 115.0
+      }
+    },
+    {
+      "gamePk": 824932,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 107.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 8,
+        "starter_bf": 80.0
+      }
+    },
+    {
+      "gamePk": 823800,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 94.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 88.0
+      }
+    },
+    {
+      "gamePk": 824124,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 89.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 111.0
+      }
+    },
+    {
+      "gamePk": 824204,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 86.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 105.0
+      }
+    },
+    {
+      "gamePk": 823069,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 91.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 129.0
+      }
+    },
+    {
+      "gamePk": 823232,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 101.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 140.0
+      }
+    },
+    {
+      "gamePk": 825093,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 110.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 79.0
+      }
+    },
+    {
+      "gamePk": 824446,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 113.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 102.0
+      }
+    },
+    {
+      "gamePk": 823395,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 51.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 106.0
+      }
+    },
+    {
+      "gamePk": 822825,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 111.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 107.0
+      }
+    },
+    {
+      "gamePk": 823719,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 17.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 109.0
+      }
+    },
+    {
+      "gamePk": 824609,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 7,
+        "starter_bf": 100.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 122.0
+      }
+    },
+    {
+      "gamePk": 823311,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 114.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 56.0
+      }
+    },
+    {
+      "gamePk": 824849,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 126.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 64.0
+      }
+    },
+    {
+      "gamePk": 824526,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 111.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 67.0
+      }
+    },
+    {
+      "gamePk": 823636,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 120.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 117.0
+      }
+    },
+    {
+      "gamePk": 824931,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 91.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 117.0
+      }
+    },
+    {
+      "gamePk": 825017,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 112.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 113.0
+      }
+    },
+    {
+      "gamePk": 823714,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 133.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 138.0
+      }
+    },
+    {
+      "gamePk": 824686,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 117.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 120.0
+      }
+    },
+    {
+      "gamePk": 824287,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 122.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 133.0
+      }
+    },
+    {
+      "gamePk": 822744,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 129.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 137.0
+      }
+    },
+    {
+      "gamePk": 823389,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 137.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 134.0
+      }
+    },
+    {
+      "gamePk": 822990,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 101.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 135.0
+      }
+    },
+    {
+      "gamePk": 823877,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 136.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 20.0
+      }
+    },
+    {
+      "gamePk": 824772,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 143.0
+      }
+    },
+    {
+      "gamePk": 824366,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 82.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 135.0
+      }
+    },
+    {
+      "gamePk": 824041,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 60.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 8,
+        "starter_bf": 10.0
+      }
+    },
+    {
+      "gamePk": 823309,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 105.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 7,
+        "starter_bf": 63.0
+      }
+    },
+    {
+      "gamePk": 825012,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 100.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 125.0
+      }
+    },
+    {
+      "gamePk": 823146,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 141.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 115.0
+      }
+    },
+    {
+      "gamePk": 824283,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 65.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 42.0
+      }
+    },
+    {
+      "gamePk": 822984,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 147.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 122.0
+      }
+    },
+    {
+      "gamePk": 824120,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 148.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 153.0
+      }
+    },
+    {
+      "gamePk": 824039,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 163.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 144.0
+      }
+    },
+    {
+      "gamePk": 823143,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 160.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 51.0
+      }
+    },
+    {
+      "gamePk": 823228,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 137.0
+      }
+    },
+    {
+      "gamePk": 823873,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 193.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 135.0
+      }
+    },
+    {
+      "gamePk": 822743,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 143.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 174.0
+      }
+    },
+    {
+      "gamePk": 823553,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 20.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 123.0
+      }
+    },
+    {
+      "gamePk": 825092,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 143.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 130.0
+      }
+    },
+    {
+      "gamePk": 823063,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 138.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 115.0
+      }
+    },
+    {
+      "gamePk": 824361,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 164.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 164.0
+      }
+    },
+    {
+      "gamePk": 824767,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 20.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 62.0
+      }
+    },
+    {
+      "gamePk": 823306,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 159.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 158.0
+      }
+    },
+    {
+      "gamePk": 824522,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 169.0
+      }
+    },
+    {
+      "gamePk": 822822,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 166.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 168.0
+      }
+    },
+    {
+      "gamePk": 824768,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 151.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 94.0
+      }
+    },
+    {
+      "gamePk": 824443,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 156.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 56.0
+      }
+    },
+    {
+      "gamePk": 823794,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 155.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 201.0
+      }
+    },
+    {
+      "gamePk": 824116,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 163.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 133.0
+      }
+    },
+    {
+      "gamePk": 825088,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 143.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 153.0
+      }
+    },
+    {
+      "gamePk": 824765,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 67.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 168.0
+      }
+    },
+    {
+      "gamePk": 824441,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 164.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 91.0
+      }
+    },
+    {
+      "gamePk": 822818,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 185.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 147.0
+      }
+    },
+    {
+      "gamePk": 824199,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 8,
+        "starter_bf": 93.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 204.0
+      }
+    },
+    {
+      "gamePk": 824521,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 178.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 146.0
+      }
+    },
+    {
+      "gamePk": 824764,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 91.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 68.0
+      }
+    },
+    {
+      "gamePk": 824927,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 160.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 166.0
+      }
+    },
+    {
+      "gamePk": 823712,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 180.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 182.0
+      }
+    },
+    {
+      "gamePk": 824604,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 155.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 22.0
+      }
+    },
+    {
+      "gamePk": 823384,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 191.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 183.0
+      }
+    },
+    {
+      "gamePk": 824280,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 33.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 57.0
+      }
+    },
+    {
+      "gamePk": 822983,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 84.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 181.0
+      }
+    },
+    {
+      "gamePk": 824439,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 194.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 203.0
+      }
+    },
+    {
+      "gamePk": 824925,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 40.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 177.0
+      }
+    },
+    {
+      "gamePk": 824601,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 179.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 192.0
+      }
+    },
+    {
+      "gamePk": 824194,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 125.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 187.0
+      }
+    },
+    {
+      "gamePk": 823061,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 179.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 201.0
+      }
+    },
+    {
+      "gamePk": 823140,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 185.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 181.0
+      }
+    },
+    {
+      "gamePk": 823538,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 259.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 206.0
+      }
+    },
+    {
+      "gamePk": 824591,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 59.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 269.0
+      }
+    },
+    {
+      "gamePk": 823370,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 322.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 374.0
+      }
+    },
+    {
+      "gamePk": 822889,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 335.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 332.0
+      }
+    },
+    {
+      "gamePk": 823120,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 339.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 349.0
+      }
+    },
+    {
+      "gamePk": 822958,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 248.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 414.0
+      }
+    },
+    {
+      "gamePk": 823845,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 517.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 423.0
+      }
+    },
+    {
+      "gamePk": 823524,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 9,
+        "starter_bf": 207.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 352.0
+      }
+    },
+    {
+      "gamePk": 822789,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 7,
+        "starter_bf": 243.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 6,
+        "starter_bf": 403.0
+      }
+    },
+    {
+      "gamePk": 824090,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 450.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 443.0
+      }
+    },
+    {
+      "gamePk": 823441,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 463.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 329.0
+      }
+    },
+    {
+      "gamePk": 822788,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 401.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 428.0
+      }
+    },
+    {
+      "gamePk": 822874,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 401.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 390.0
+      }
+    },
+    {
+      "gamePk": 824403,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 492.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 401.0
+      }
+    },
+    {
+      "gamePk": 824566,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 7,
+        "starter_bf": 286.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 516.0
+      }
+    },
+    {
+      "gamePk": 822780,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 346.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 484.0
+      }
+    },
+    {
+      "gamePk": 822697,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 268.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 533.0
+      }
+    },
+    {
+      "gamePk": 823185,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 522.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 509.0
+      }
+    },
+    {
+      "gamePk": 824641,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 554.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 484.0
+      }
+    },
+    {
+      "gamePk": 823749,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 384.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 331.0
+      }
+    },
+    {
+      "gamePk": 824471,
+      "home": {
+        "starter_statcast": false,
+        "lineup_statcast": 7,
+        "starter_bf": 499.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 8,
+        "starter_bf": 466.0
+      }
+    },
+    {
+      "gamePk": 823820,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 556.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 47.0
+      }
+    },
+    {
+      "gamePk": 823175,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 621.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 608.0
+      }
+    },
+    {
+      "gamePk": 823092,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 397.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 393.0
+      }
+    },
+    {
+      "gamePk": 822767,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 272.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 388.0
+      }
+    },
+    {
+      "gamePk": 823659,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 675.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 663.0
+      }
+    },
+    {
+      "gamePk": 822765,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 681.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 5,
+        "starter_bf": 434.0
+      }
+    },
+    {
+      "gamePk": 824629,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 599.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 329.0
+      }
+    },
+    {
+      "gamePk": 822847,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 609.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 668.0
+      }
+    },
+    {
+      "gamePk": 849834,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 6,
+        "starter_bf": 9.0
+      }
+    },
+    {
+      "gamePk": 849839,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 22.0
+      }
+    },
+    {
+      "gamePk": 849819,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 30.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      }
+    },
+    {
+      "gamePk": 849833,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 6,
+        "starter_bf": 372.0
+      },
+      "away": {
+        "starter_statcast": false,
+        "lineup_statcast": 7,
+        "starter_bf": 65.0
+      }
+    },
+    {
+      "gamePk": 849838,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 22.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 0.0
+      }
+    },
+    {
+      "gamePk": 849818,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 7,
+        "starter_bf": 46.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 8.0
+      }
+    },
+    {
+      "gamePk": 849805,
+      "home": {
+        "starter_statcast": true,
+        "lineup_statcast": 8,
+        "starter_bf": 37.0
+      },
+      "away": {
+        "starter_statcast": true,
+        "lineup_statcast": 9,
+        "starter_bf": 34.0
+      }
+    }
+  ],
+  "diagnostics": {
+    "selected_probability_min": 0.5227858159853405,
+    "selected_probability_max": 0.5701978168467686,
+    "selected_home_picks": 116,
+    "training_home_win_rate": 0.5337837837837838,
+    "validation_home_win_rate": 0.56,
+    "evaluation_home_win_rate": 0.4482758620689655
+  }
+}
