@@ -26,7 +26,7 @@ bullpen 3개: 과거28일 선발 평균 outs를 5경기×15outs로 수축한 값
 2. negative_binomial 8개: s={20,60} × window={season,28days} × blend={0.1,0.3}. `mu_h=O_h*D_a/L*exp(H)`, `mu_a=O_a*D_h/L*exp(-H)`. H=`0.5*log((train_home_runs+20*4.5)/(train_away_runs+20*4.5))`. r=`clip(mean²/max(var-mean,1e-6),.5,100)`를 학습 양 팀 점수로 추정, Var=mu+mu²/r. 0..200 정수 PMF로 홈승/원정승/동점 질량을 계산하고 `P(home | non-draw)`를 반환한다. 남은 tail >1e-8이면 실패. 경기 종료 점수 모형의 근사이며 정확한 이닝·연장·홈말 종료 과정을 모델링하지 않는다.
 3. pythagorean 8개: s={20,60} × exponent={1.5,2} × blend={0.1,0.3}. 같은 시즌 mu에 `p=logistic(exponent*log(mu_h/mu_a))`. MLB에서 추정한 지수를 KBO의 사실로 주장하지 않으며 후보 가설로만 비교한다.
 4. 위 분포형 후보의 최종 p는 `logistic((1-blend)*logit(reference)+blend*logit(model))`.
-5. reference baseline은 train/validation에서 픽스터 없음으로 devig 시장만, evaluation에서 **비교용 시장90%+픽스터 투표10%**. 시장은 양방향 역배당을 합1 정규화한다. 운영투표모형 재현을 뜻하지 않는다. `market_null`은 전 기간 순수 시장확률이다. 검증에서 baseline과 동률이어도 이름 tie 규칙을 그대로 적용한다. 평가에서 reference 가용성이 달라지는 한계를 밝힌다.
+5. reference baseline은 train/validation에서 픽스터 없음으로 devig 시장만, evaluation에서 **비교용 시장90%+픽스터 투표10%**. 시장은 선행 연구의 `src/devig.py`와 같은 Shin 역산(underround 또는 solver 이상일 때 multiplicative fallback)으로 계산한다. 운영투표모형 재현을 뜻하지 않는다. `market_null`은 전 기간 순수 시장확률이다. 검증에서 baseline과 동률이어도 이름 tie 규칙을 그대로 적용한다. 평가에서 reference 가용성이 달라지는 한계를 밝힌다.
 
 ## 동결 선택과 정산
 
@@ -42,3 +42,5 @@ bullpen 3개: 과거28일 선발 평균 outs를 5경기×15outs로 수축한 값
 - [Steven J. Miller, A Derivation of the Pythagorean Won-Loss Formula in Baseball](https://arxiv.org/abs/math/0509698): 득실점 비율의 이론적 근거와 독립성·분포 가정을 검토했다. KBO 적합성의 증명이 아니다.
 
 작성 시점에는 입력 스키마와 선행 코드만 확인했으며 이번 후보의 validation/evaluation 성적은 아직 계산하지 않았다.
+
+사전 정정: 최초 문구의 시장 정규화를 선행9:1 대조와 일치하는 Shin으로 바로잡았다. `src/devig.py`를 읽어 확인했으며 후보 성적은 아직 계산하지 않았다. 독립 재현 코드에 해당 solver를 보존한다.
