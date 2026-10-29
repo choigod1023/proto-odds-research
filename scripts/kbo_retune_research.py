@@ -525,6 +525,10 @@ def evaluate(folder):
     for name, c in candidates.items():
         c['evaluation'] = metrics(ev, probabilities[name])
         c['evaluation_changes_vs_baseline'] = int(np.sum((probabilities[name] >= .5) != (baseline >= .5)))
+        c['evaluation_periods'] = {
+            period: metrics([ev[i] for i in ix], probabilities[name][ix])
+            for period, ix in {'before_july': [i for i, r in enumerate(ev) if r['date'] < '2026-07-01'],
+                               'july_onward': [i for i, r in enumerate(ev) if r['date'] >= '2026-07-01']}.items()}
     periods = {}
     for period, indexes in {'all': list(range(len(ev))),
                              'before_july': [i for i, r in enumerate(ev) if r['date'] < '2026-07-01'],
@@ -549,8 +553,11 @@ def evaluate(folder):
         ledger.append(r)
     result = {'league': 'KBO', 'candidate_count': len(candidates), 'concrete_research_candidates': 28,
               'heads': frozen['heads'], 'selection_rule': frozen['selection_rule'],
+              'selection_rules': {'primary': 'hit>=market and ROI>=market, then min logloss/Brier/name; baseline included',
+                                  'hit_leader': 'max validation hit, then min Brier/name',
+                                  'profit_leader': 'max validation ROI, then min logloss/name'},
               'candidates': candidates, 'periods': periods, 'input_sha256': input_hashes(folder),
-              'frozen_selection_sha256': digest(folder/'frozen-selection.json'),
+              'frozen_selection_sha256': hashlib.sha256((folder/'frozen-selection.json').read_bytes().replace(b'\r\n', b'\n')).hexdigest(),
               'executable_sha256': hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n', b'\n')).hexdigest(),
               'source_audit': audit, 'versions': frozen['versions'],
               'limitations': ['previously seen retrospective evaluation set', 'calendar-date causal, purchase-time unverified',

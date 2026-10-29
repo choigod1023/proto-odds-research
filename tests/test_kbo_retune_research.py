@@ -76,6 +76,38 @@ class KboResearchTests(unittest.TestCase):
         after = k.build_features(target, self.games, pitching, self.batting)
         self.assertNotEqual(before['features']['starter_innings'], after['features']['starter_innings'])
 
+    def test_original_raw_batter_and_pitcher_today_future_poison(self):
+        target = next(r for r in self.rows if r['role'] == 'evaluation' and r['date'] >= '2026-07-01')
+        expected = k.build_features(target, self.games, self.pitching, self.batting)
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            shutil.copytree(k.DEFAULT/'sources', folder/'sources')
+            manifest = deepcopy(json.loads((k.DEFAULT/'input-manifest.json').read_text(encoding='utf8')))
+            for name in ['batters', 'pitching']:
+                path = folder/'sources'/(name+'.jsonl.gz')
+                rows = k.read(path)
+                changed = 0
+                for row in rows:
+                    if name == 'batters' and row['raw']['date'] >= target['date']:
+                        changed += 1
+                        for side in ['home', 'away']:
+                            for p in row['raw']['data'][side]:
+                                p['ab'] = float(p.get('ab') or 0)+1
+                                p['bb'] = float(p.get('bb') or 0)+1
+                                p['order'] = 99
+                    elif name == 'pitching' and row['date'] >= target['date']:
+                        changed += 1
+                        for side in row['pitchers']:
+                            for p in side:
+                                p['outs'] += 1
+                                p['k'] += 1
+                self.assertGreater(changed, 0)
+                k.write_rows(path, rows)
+                manifest['committed_inputs'][path.name] = k.digest(path)
+            k.write_json(folder/'input-manifest.json', manifest)
+            _, games, pitching, batting, _ = k.load_facts(folder)
+            self.assertEqual(expected, k.build_features(target, games, pitching, batting))
+
     def test_shin_matches_committed_main_implementation(self):
         devig_spec = importlib.util.spec_from_file_location('devig_test', ROOT/'src/devig.py')
         devig = importlib.util.module_from_spec(devig_spec)
