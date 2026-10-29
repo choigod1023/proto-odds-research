@@ -1,0 +1,250 @@
+{
+  "export": {
+    "at": "2026-10-29T12:47:48.916985+00:00",
+    "start_after": 6999,
+    "anchor_record_hash": "f67c58acf8c1d2735b57cac4292ebae38e344979bfc83eff776317f7bf082883",
+    "maximum_sequence": 8674,
+    "exported_rows": 1675,
+    "raw_sha256": "b15792a85de36d0ea0480833cac9c961c13f8c1fc783142d221d2aba987b6793",
+    "gzip_bytes": 2013385,
+    "mode": "read_only"
+  },
+  "prefix_sha256": "b75c64cc9d6504d38815245634c3bfc3318f144aaefecbf2298433d720f3fb5f",
+  "full_raw_sha256": "93802efccb27dbbd750f91dc31a862a78d666e8f5636f69265964fe03e3f82fc",
+  "prefix_join_newline_inserted": true,
+  "hash_chain_verified": true,
+  "counts": {
+    "prediction": 7454,
+    "settlement": 1220
+  },
+  "versions": {
+    "internal-context-blend-v2": {
+      "predictions": 10,
+      "events": 10,
+      "captured_from": "2026-08-29T07:54:07.331418Z",
+      "captured_to": "2026-08-30T01:25:41.971401Z",
+      "audit": {
+        "record_counts": {
+          "prediction": 10
+        },
+        "selected_pre_t30_events": 10,
+        "exclusions": {
+          "selected_missing_exact_settlement": 10
+        },
+        "probability_pair_model_versions": {
+          "score-distribution-shadow-v1": 10
+        },
+        "exact_settled_probability_pairs": 0,
+        "distinct_utc_kickoff_days": 0,
+        "day_from": null,
+        "day_to": null,
+        "status": "blocked_no_labeled_pairs",
+        "roi": null,
+        "promotion_allowed": false,
+        "audit_mode": "operating_lineage",
+        "operating_descriptive": {
+          "exact_settled_operating_predictions": 0,
+          "with_valid_saved_odds": 0,
+          "player_capture_reasons": {},
+          "note": "Lineage coverage only; no bets or model promotion. AI absence does not exclude operating picks."
+        },
+        "limitations": [
+          "Does not verify source authenticity or ledger hash chain.",
+          "event_id deduplication does not prove physical-event deduplication across reissues.",
+          "Selected-offer audit only; not a full alternative-market or combination backtest.",
+          "Training labels must be available before each subsequent split boundary."
+        ]
+      },
+      "league_counts": {
+        "None": 10
+      }
+    },
+    "market90-tipster10-v2": {
+      "predictions": 72,
+      "events": 20,
+      "captured_from": "2026-10-26T05:57:06.523199Z",
+      "captured_to": "2026-10-28T13:18:11.767730Z",
+      "audit": {
+        "record_counts": {
+          "prediction": 72,
+          "settlement": 19
+        },
+        "selected_pre_t30_events": 20,
+        "exclusions": {
+          "not_before_t30": 1,
+          "selected_missing_exact_settlement": 2
+        },
+        "probability_pair_model_versions": {
+          "score-distribution-shadow-v1": 20
+        },
+        "exact_settled_probability_pairs": 0,
+        "distinct_utc_kickoff_days": 3,
+        "day_from": "2026-10-26",
+        "day_to": "2026-10-28",
+        "status": "requires_temporal_split_and_provenance_review",
+        "roi": null,
+        "promotion_allowed": false,
+        "audit_mode": "operating_lineage",
+        "operating_descriptive": {
+          "exact_settled_operating_predictions": 18,
+          "with_valid_saved_odds": 18,
+          "player_capture_reasons": {
+            "stale_player_context": 1,
+            "requires_feature_provenance_review": 4,
+            "missing_or_ambiguous_fixture": 5,
+            "missing_or_future_provenance": 8
+          },
+          "note": "Lineage coverage only; no bets or model promotion. AI absence does not exclude operating picks."
+        },
+        "limitations": [
+          "Does not verify source authenticity or ledger hash chain.",
+          "event_id deduplication does not prove physical-event deduplication across reissues.",
+          "Selected-offer audit only; not a full alternative-market or combination backtest.",
+          "Training labels must be available before each subsequent split boundary."
+        ]
+      },
+      "league_counts": {
+        "KBO": 33,
+        "KBL": 4,
+        "ACLE": 2,
+        "MLB": 1,
+        "NBA": 21,
+        "라리가": 3,
+        "세리에A": 8
+      }
+    },
+    "shin-market-anchor-v1": {
+      "predictions": 7356,
+      "events": 2640,
+      "captured_from": "2026-08-28T12:12:58.964003Z",
+      "captured_to": "2026-10-29T09:37:21.142912Z",
+      "audit": {
+        "record_counts": {
+          "prediction": 7356,
+          "settlement": 1197
+        },
+        "selected_pre_t30_events": 2639,
+        "exclusions": {
+          "not_before_t30": 39,
+          "selected_missing_exact_settlement": 1349,
+          "selected_missing_selection_or_offer": 105,
+          "void_or_nonbinary_result": 11
+        },
+        "probability_pair_model_versions": {
+          "score-distribution-shadow-v1": 2534
+        },
+        "exact_settled_probability_pairs": 0,
+        "distinct_utc_kickoff_days": 34,
+        "day_from": "2026-09-25",
+        "day_to": "2026-10-28",
+        "status": "requires_temporal_split_and_provenance_review",
+        "roi": null,
+        "promotion_allowed": false,
+        "audit_mode": "operating_lineage",
+        "operating_descriptive": {
+          "exact_settled_operating_predictions": 1174,
+          "with_valid_saved_odds": 1174,
+          "player_capture_reasons": {
+            "not_recorded": 128,
+            "missing_or_ambiguous_fixture": 880,
+            "requires_feature_provenance_review": 111,
+            "missing_or_future_provenance": 35,
+            "stale_player_context": 20
+          },
+          "note": "Lineage coverage only; no bets or model promotion. AI absence does not exclude operating picks."
+        },
+        "limitations": [
+          "Does not verify source authenticity or ledger hash chain.",
+          "event_id deduplication does not prove physical-event deduplication across reissues.",
+          "Selected-offer audit only; not a full alternative-market or combination backtest.",
+          "Training labels must be available before each subsequent split boundary."
+        ]
+      },
+      "league_counts": {
+        "None": 6135,
+        "KOVO컵남": 52,
+        "KBL": 39,
+        "세리에A": 60,
+        "EPL": 29,
+        "라리가": 25,
+        "UCL": 57,
+        "EFL챔": 16,
+        "J1리그": 56,
+        "MLB": 18,
+        "KBO": 283,
+        "NBA": 139,
+        "J2리그": 30,
+        "남농EASL": 10,
+        "MLS": 59,
+        "미국FA컵": 1,
+        "코파리베": 9,
+        "UECL": 46,
+        "UEL": 43,
+        "A리그": 12,
+        "에레디비": 11,
+        "분데스리": 17,
+        "프리그1": 18,
+        "K리그1": 8,
+        "K리그2": 12,
+        "CSL": 11,
+        "ACLE": 59,
+        "NPB": 8,
+        "독일FA컵": 11,
+        "ACL2": 46,
+        "일리그컵": 14,
+        "네덜FA컵": 3,
+        "잉리그컵": 19
+      }
+    },
+    "tipster-vote-v1": {
+      "predictions": 16,
+      "events": 10,
+      "captured_from": "2026-10-28T13:48:23.725473Z",
+      "captured_to": "2026-10-29T11:14:54.260469Z",
+      "audit": {
+        "record_counts": {
+          "prediction": 16,
+          "settlement": 4
+        },
+        "selected_pre_t30_events": 10,
+        "exclusions": {
+          "selected_missing_exact_settlement": 6
+        },
+        "probability_pair_model_versions": {
+          "score-distribution-shadow-v1": 10
+        },
+        "exact_settled_probability_pairs": 0,
+        "distinct_utc_kickoff_days": 2,
+        "day_from": "2026-10-28",
+        "day_to": "2026-10-29",
+        "status": "requires_temporal_split_and_provenance_review",
+        "roi": null,
+        "promotion_allowed": false,
+        "audit_mode": "operating_lineage",
+        "operating_descriptive": {
+          "exact_settled_operating_predictions": 4,
+          "with_valid_saved_odds": 4,
+          "player_capture_reasons": {
+            "missing_or_ambiguous_fixture": 3,
+            "missing_or_future_provenance": 1
+          },
+          "note": "Lineage coverage only; no bets or model promotion. AI absence does not exclude operating picks."
+        },
+        "limitations": [
+          "Does not verify source authenticity or ledger hash chain.",
+          "event_id deduplication does not prove physical-event deduplication across reissues.",
+          "Selected-offer audit only; not a full alternative-market or combination backtest.",
+          "Training labels must be available before each subsequent split boundary."
+        ]
+      },
+      "league_counts": {
+        "세리에A": 4,
+        "MLB": 1,
+        "MLS": 2,
+        "ACL2": 6,
+        "KBL": 1,
+        "잉리그컵": 2
+      }
+    }
+  }
+}

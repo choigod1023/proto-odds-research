@@ -10,7 +10,8 @@ from datetime import datetime
 import hashlib
 import json
 import math
-from types import CodeType, MappingProxyType
+from pathlib import Path
+from types import MappingProxyType
 
 
 VERSION = "operating-model-comparison-v1"
@@ -303,6 +304,8 @@ def capture(snapshot, features, *, capture_kind="prospective_same_snapshot"):
                    implementation_hash=IMPLEMENTATION_HASH,
                    arms={name: _arm(name) for name in RECIPES})
     try:
+        if IMPLEMENTATION_HASH is None:
+            raise ValueError('implementation_source_unavailable')
         if kind == "unsupported":
             raise ValueError("unsupported_capture_kind")
         payload = _capture(snapshot, features, payload)
@@ -321,20 +324,18 @@ def capture(snapshot, features, *, capture_kind="prospective_same_snapshot"):
         return _unavailable(fallback, reason)
 
 
-def _code_artifact(code):
-    """Path/line independent function artifact; interpreter bytecode specific."""
-    return dict(bytecode=code.co_code.hex(), names=code.co_names, variables=code.co_varnames,
-                constants=[_code_artifact(v) if isinstance(v, CodeType)
-                           else sorted(v) if isinstance(v, frozenset)
-                           else v if v is None or isinstance(v, (str, int, float, tuple))
-                           else type(v).__name__ for v in code.co_consts])
+def _source_artifact():
+    """Hash source once at import, portable across Python versions and CRLF.
+
+    Linux production and Windows replay use different Python bytecode. That is
+    not a different recipe. If source isn't shipped, comparison is unavailable
+    but the operating recommendation still proceeds normally.
+    """
+    try:
+        source = Path(__file__).read_text(encoding='utf-8').replace('\r\n','\n')
+        return hashlib.sha256(source.encode('utf-8')).hexdigest()
+    except (OSError, UnicodeError):
+        return None
 
 
-IMPLEMENTATION_HASH = _hash({
-    "version": VERSION,
-    "functions": {f.__name__: _code_artifact(f.__code__) for f in (
-        _json, _hash, recipe, _number, _text, _time, _input_number, _arm, _unavailable, _select,
-        _roster, _vector, _argmax, _capture, capture)},
-    "recipes": {name: recipe(name) for name in RECIPES}, "sides": dict(_SIDES),
-    "max_bytes": MAX_BYTES,
-})
+IMPLEMENTATION_HASH = _source_artifact()

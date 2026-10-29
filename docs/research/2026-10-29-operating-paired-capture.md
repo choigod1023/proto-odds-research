@@ -93,9 +93,10 @@ arm 공통 필드는 `status = available | abstain | unavailable`, `reason`,
 
 `recipe(arm)`은 수정해도 원본 catalog에 영향이 없는 frozen recipe 사본을 준다.
 recipe_hash는 UTF-8, ensure_ascii=False, sort_keys=True, separators=(',', ':'),
-allow_nan=False로 직렬화한 recipe의 SHA-256이다. 구현 hash는 함수 bytecode,
-중첩 함수·상수·이름, recipe와 상한에서 계산한다. 경로나 코드 행 번호는 제외하며,
-Python bytecode 버전에 따라 달라질 수 있다. 학습 artifact hash로 주장하지 않는다.
+allow_nan=False로 직렬화한 recipe의 SHA-256이다. 구현 hash는 모듈 import 시 한 번 읽은
+모듈 소스의 SHA-256이다(CRLF는 LF로 정규화). Linux 운영 Python과 Windows 로컬
+Python의 bytecode 차이를 모델 변경으로 오인하지 않도록 했다. 소스를 읽을 수 없으면
+부가 비교만 unavailable로 반환한다. 경기별 파일 조회는 없으며 학습 artifact hash로 주장하지 않는다.
 
 price_roster_hash는 selection_id 정렬 순서의 전체 경기 선택·오퍼·시장·label·방향·가격을
 묶는다. input_batch_hash는 이 roster와 저장 시장·스코어 확률, compact fixture,
@@ -157,6 +158,11 @@ build_decision_snapshot의 선택·확률·decision_id 불변, 단건/배치 app
 계약을 읽어 호환성을 확인했다. worker는 독립 모듈이라 normalizer를 import하지
 않으며, 부모 evaluator와 recipe 정렬 및 source_generated_at 적격 판정은
 부모 통합에서 확인해야 한다. push·PR·merge·배포는 부모가 맡는다.
+
+부모 통합에서는 DB를 제외하지 않은 전체 테스트와 실제 원장 입력 감사까지 실행했다.
+최종 로컬 결과는 1,690 passed, 5 skipped, 93 subtests passed다. 구현 식별자는
+bytecode 대신 줄바꿈을 정규화한 소스 해시로 보완했고, 비교기는 과거 replay와 미래
+저장 arm을 구분하며 레시피 변경 시 미래 선택을 소급 재계산하지 않는다.
 
 참조: `docs/PRODUCTION_CONTRACT.md`,
 `docs/research/2026-10-25-research-scope-correction.md`,

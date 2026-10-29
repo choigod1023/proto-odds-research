@@ -386,3 +386,24 @@ def test_oversized_metadata_and_absent_snapshot_do_not_fail_runtime():
     assert comparison.capture(None, f)["reason"] == "invalid_snapshot_or_features"
     del g["decision_snapshot"]
     assert ledger_features(g)["model_comparison"]["status"] == "unavailable"
+
+
+def test_source_artifact_is_portable_across_checkout_line_endings(tmp_path):
+    import importlib.util
+    source = Path(comparison.__file__).read_text(encoding='utf-8').replace('\r\n','\n')
+    hashes=[]
+    for name, text in [('lf',source),('crlf',source.replace('\n','\r\n'))]:
+        path=tmp_path/f'{name}.py'
+        path.write_bytes(text.encode('utf-8'))
+        spec=importlib.util.spec_from_file_location(name,path)
+        module=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        hashes.append(module.IMPLEMENTATION_HASH)
+    assert hashes[0]==hashes[1]==comparison.IMPLEMENTATION_HASH
+
+
+def test_missing_source_disables_only_optional_capture(monkeypatch):
+    _,s,f=inputs()
+    monkeypatch.setattr(comparison,'IMPLEMENTATION_HASH',None)
+    p=comparison.capture(s,f)
+    assert p['status']=='unavailable' and p['reason']=='implementation_source_unavailable'
