@@ -1,6 +1,7 @@
 """Causal replay, real-source accounting, and frozen model regression tests."""
 import copy
 from datetime import date
+from decimal import Decimal
 import importlib.util
 import json
 from pathlib import Path
@@ -232,6 +233,76 @@ class RealSourceTests(unittest.TestCase):
         for r in records:
             self.assertEqual(set(r['candidates']), set(m.candidate_specs()))
             self.assertEqual({v['stake_krw'] for v in r['candidates'].values()}, {10000})
+
+    def test_independent_every_row_price_settlement_and_daily_drawdown(self):
+        path = m.DEFAULT/'evaluation-ledger.jsonl.gz'
+        if not path.exists():
+            self.skipTest('requires evaluation artifact')
+        records = m.read(path)
+        result = json.loads((m.DEFAULT/'results.json').read_text(encoding='utf8'))
+        for name in m.candidate_specs():
+            wins = net = peak = balance = drawdown = 0
+            by_day = {}
+            for row in records:
+                p = row['candidates'][name]
+                side = 'home' if p['probability'] >= .5 else 'away'
+                self.assertEqual(side, p['side'])
+                prices, order = m.prices_order(row)
+                price = prices[order.index(side)]
+                self.assertEqual(p['price'], price)
+                draw = row['hg'] == row['ag']
+                hit = not draw and ((side == 'home') == (row['hg'] > row['ag']))
+                profit = 0 if draw else int((Decimal(str(price))-1)*10000) if hit else -10000
+                self.assertEqual((int(hit), profit), (p['hit'], p['profit_krw']))
+                wins += hit
+                net += profit
+                by_day[row['date']] = by_day.get(row['date'], 0)+profit
+            for day in sorted(by_day):
+                balance += by_day[day]
+                peak = max(peak, balance)
+                drawdown = max(drawdown, peak-balance)
+            expected = result['candidates'][name]['evaluation']
+            self.assertEqual((wins, net, drawdown),
+                             (expected['wins'], expected['net_krw'], expected['daily_close_max_drawdown_krw']))
+            self.assertEqual(net/1980000, expected['roi'])
+
+    def test_frozen_choice_is_validation_only_and_all_heads_agree(self):
+        path = m.DEFAULT/'frozen-selection.json'
+        if not path.exists():
+            self.skipTest('requires frozen artifact')
+        frozen = json.loads(path.read_text(encoding='utf8'))
+        candidates = frozen['candidates']
+        vm = lambda n: candidates[n]['validation']
+        market = vm('market_null')
+        eligible = [n for n in candidates if vm(n)['wins'] >= market['wins'] and vm(n)['net_krw'] >= market['net_krw']]
+        self.assertEqual(frozen['heads']['primary'], min(eligible, key=lambda n: (vm(n)['logloss'], vm(n)['brier'], n)))
+        for n in candidates:
+            self.assertNotIn('evaluation', candidates[n])
+            self.assertEqual(candidates[n]['selection_fit']['training_years'], ['2023'])
+            self.assertEqual(candidates[n]['final_fit']['training_years'], ['2023', '2024'])
+
+    def test_actual_2025_state_affects_2026_without_calibration(self):
+        changed = [dict(g, hg=25, ag=0) if g['date'][:4] == '2025' else dict(g) for g in self.games]
+        rows, _ = m.replay(self.cohorts, changed)
+        before = next(r for r in self.rows if r['role'] == 'evaluation')
+        after = next(r for r in rows if r['role'] == 'evaluation')
+        self.assertTrue(all(before['dynamic'][s]['x'] != after['dynamic'][s]['x'] for s in m.state_specs()))
+        for a, b in zip(self.rows, rows):
+            if a['role'] != 'evaluation':
+                self.assertEqual(a, b)
+
+    def test_all_daily_state_snapshots_reproduce(self):
+        path = m.DEFAULT/'daily-state-snapshots.jsonl.gz'
+        if not path.exists():
+            self.skipTest('requires frozen artifact')
+        _, actual = m.replay(self.cohorts, self.games, True)
+        expected = m.read(path)
+        self.assertEqual(len(actual), len(expected))
+        for a, b in zip(actual, expected):
+            for name in ['date', 'state', 'counts', 'latest_observation', 'total_observations', 'teams']:
+                self.assertEqual(a[name], b[name])
+            for name in ['mean', 'variance']:
+                np.testing.assert_allclose(a[name], b[name], atol=1e-12, rtol=0)
 
 
 if __name__ == '__main__':
