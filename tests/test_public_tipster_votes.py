@@ -204,6 +204,22 @@ def test_goli_ambiguous_or_non_winner_market_stays_withheld():
                 parse_page("https://www.goli.tv/board/analysis/123", html, "2026-10-29T06:00:00Z")
 
 
+def test_goli_ambiguous_calcio_title_requires_article_team_headings():
+    html = ("<h1 id='page-heading'>프로시노네 대 칼초 세리에A 10월30일 맞대결</h1>"
+            "<div class='writer_box'><a class='_userView'>writer</a></div>"
+            "<div class='view_stat'>2026-10-29 14:04</div>"
+            "<div id='partner_content'><p>프로시노네</p><p>본문</p><p>레체</p>"
+            "<p>본문</p><p>결과 예측</p><p>베팅 요약 및 추천<br>[승/무/패] 프로시노네 승</p></div>")
+    g = dict(game("sc", "세리에A", "프로시노", "US레체"), date="10.30(금) 02:30")
+    url, at = "https://www.goli.tv/board/analysis/123", "2026-10-29T08:01:00Z"
+    assert match_vote(parse_page(url, html, at), [g])["side"] == "홈"
+    for bad in (html.replace("<p>레체</p>", "<p>칼초</p>"),
+                html.replace("<p>레체</p>", "<p>레체</p><p>레체</p>"),
+                html.replace("<p>결과 예측</p>", "<p>다른 구간</p>")):
+        with pytest.raises(ValueError, match="unmatched"):
+            match_vote(parse_page(url, bad, at), [g])
+
+
 def test_http_redirect_and_oversized_body_fail_closed():
     class Response:
         status_code = 302

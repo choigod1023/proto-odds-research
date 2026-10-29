@@ -38,7 +38,7 @@ ALIASES = {
              "빠툼": "BG빠툼유", "애들레이드": "애들유나", "애들레이드유나이티드": "애들유나",
              "라이언시티": "라이언시"},
     "잉리그컵": {"에버튼": "에버턴", "뉴캐슬": "뉴캐슬U"},
-    "세리에A": {"피오렌티나": "피오렌티", "프로시노네": "프로시노"},
+    "세리에A": {"피오렌티나": "피오렌티", "프로시노네": "프로시노", "레체": "US레체"},
     "MLB": {"탬파베이레이스": "탬파레이", "밀워키브루어스": "밀워브루"},
     "KOVO컵남": {"현대캐피탈": "현대캐피", "KB손해보험": "KB손보", "OK저축은행": "OK금융"},
     "KOVO컵여": {"흥국생명": "흥국생명", "IBK기업은행": "IBK기업", "한국도로공사": "도로공사"},
@@ -180,6 +180,17 @@ def parse_page(url, html, observed_at):
             raise ValueError("future_publication")
         publication = {"published_at": published.isoformat(), "publication_time_quality": "source_claim"}
         body = soup.select_one("#partner_content")
+        # "칼초" alone is not a team identity. One observed source title uses
+        # it for Lecce; accept that title only when the same article has both
+        # exact, separate team headings before its result section.
+        if league == "세리에A" and home == "프로시노네" and away == "칼초" and body:
+            headings = [p.get_text(" ", strip=True) for p in body.select("p")]
+            try:
+                first, second, result = (headings.index(name) for name in ("프로시노네", "레체", "결과 예측"))
+                if first < second < result and headings.count("레체") == 1:
+                    away = "레체"
+            except ValueError:
+                pass
         text = body.get_text("\n", strip=True) if body else ""
         # Never mix first-half and full-game recommendations.
         section = text.split("베팅 요약 및 추천")
