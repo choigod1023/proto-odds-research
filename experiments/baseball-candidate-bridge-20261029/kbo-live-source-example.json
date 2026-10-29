@@ -1,0 +1,203 @@
+{
+  "version": "kbo-candidate-calendar-v1",
+  "status": "collected",
+  "observed_at": "2026-10-29T14:04:51.297221+00:00",
+  "seed_hash": "7a4a25a7e165ffb638292d6517237c4787f01b27f8b9bff99d91178695a513a6",
+  "seed_observed_at": "2026-10-29T14:04:50.922920+00:00",
+  "calendar_cache": {
+    "2026-10-28": {
+      "manifest": {
+        "date": "2026-10-28",
+        "league": "KBO",
+        "source": "kbo_official_calendar",
+        "complete": true,
+        "observed_at": "2026-10-29T14:04:51.278559+00:00",
+        "source_sha256": "b4a2a268814ae0195c393e7012091616475cc74d6524a67f1793f721b5e367ef",
+        "games": []
+      },
+      "results": [],
+      "source_url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList"
+    },
+    "2026-10-29": {
+      "manifest": {
+        "date": "2026-10-29",
+        "league": "KBO",
+        "source": "kbo_official_calendar",
+        "complete": true,
+        "observed_at": "2026-10-29T14:04:51.295246+00:00",
+        "source_sha256": "8bea87074725c992dc12414c97372655ffa77d13a4efac5ece7901baaaa967d0",
+        "games": [
+          {
+            "source_fixture_id": "kbo:20261029SSHT0",
+            "home": "KIA",
+            "away": "삼성",
+            "status": "final",
+            "hg": 4,
+            "ag": 6
+          }
+        ]
+      },
+      "results": [
+        {
+          "source_fixture_id": "kbo:20261029SSHT0",
+          "league": "KBO",
+          "date": "2026-10-29",
+          "home": "KIA",
+          "away": "삼성",
+          "hg": 4,
+          "ag": 6,
+          "available_at": "2026-10-29T14:04:51.295246+00:00",
+          "availability_basis": "official_final_observed_at"
+        }
+      ],
+      "source_url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList"
+    }
+  },
+  "daily_states": {
+    "2026-10-29": {
+      "version": "kbo-frozen-e0-bridge-v1",
+      "candidate": "e0:residual:0.03",
+      "artifact_hash": "bf5dd1f56b29eefabdf4a4a67c6ecb252ba5ffb9f80da9cb10f1e62ec7297df6",
+      "status": "available",
+      "reason": null,
+      "affects_selection": false,
+      "affects_probability": false,
+      "promoted": false,
+      "league": "KBO",
+      "state_date": "2026-10-29",
+      "available_at": "2026-10-29T14:04:51.297221+00:00",
+      "e0": {
+        "through_date": "2026-10-29",
+        "mean": {
+          "KIA": 0.39893667026110896,
+          "KT": 0.5949983858142208,
+          "LG": -0.13118095304007749,
+          "NC": -0.3177109623331067,
+          "SSG": 0.08086795260350932,
+          "두산": 0.11339542129563088,
+          "롯데": -0.03804595571822498,
+          "삼성": 0.09823566724556712,
+          "키움": -0.39751409664351606,
+          "한화": -0.40198212948511197
+        },
+        "counts": {
+          "KIA": 580,
+          "KT": 589,
+          "LG": 594,
+          "NC": 585,
+          "SSG": 580,
+          "두산": 576,
+          "롯데": 573,
+          "삼성": 593,
+          "키움": 574,
+          "한화": 582
+        },
+        "team_latest": {
+          "KIA": "2026-10-27",
+          "KT": "2026-10-12",
+          "LG": "2026-10-20",
+          "NC": "2026-10-10",
+          "SSG": "2026-10-10",
+          "두산": "2026-10-14",
+          "롯데": "2026-10-12",
+          "삼성": "2026-10-27",
+          "키움": "2026-10-07",
+          "한화": "2026-10-10"
+        },
+        "latest_observation": "2026-10-27",
+        "total_observations": 2913
+      },
+      "latest_input_available_at": "2026-10-29T14:04:51.297221+00:00",
+      "source_signature": {
+        "source_id": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+        "records_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "coverage_from": "2026-10-28",
+        "complete_through": "2026-10-28",
+        "coverage_verified": true,
+        "coverage_available_at": "2026-10-29T14:04:51.297221+00:00",
+        "coverage_evidence_hash": "eda4268442c3da531cb228cff05a6707616864138a0b4d5470b8f7063f561ddf",
+        "seed_hash": "7a4a25a7e165ffb638292d6517237c4787f01b27f8b9bff99d91178695a513a6",
+        "seed_observed_at": "2026-10-29T14:04:50.922920+00:00",
+        "seed_history_unchanged": true
+      },
+      "availability_basis": "explicit_observation_with_caller_attested_coverage",
+      "seed_historical_availability": "unproven",
+      "daily_state_hash": "98bfc61e5f862b191c94209a4c38ef645d7bcfffb8f078cbbd997253588c6e12"
+    },
+    "2026-10-30": {
+      "version": "kbo-frozen-e0-bridge-v1",
+      "candidate": "e0:residual:0.03",
+      "artifact_hash": "bf5dd1f56b29eefabdf4a4a67c6ecb252ba5ffb9f80da9cb10f1e62ec7297df6",
+      "status": "available",
+      "reason": null,
+      "affects_selection": false,
+      "affects_probability": false,
+      "promoted": false,
+      "league": "KBO",
+      "state_date": "2026-10-30",
+      "available_at": "2026-10-29T14:04:51.297221+00:00",
+      "e0": {
+        "through_date": "2026-10-30",
+        "mean": {
+          "KIA": 0.358588819590107,
+          "KT": 0.5915714472826874,
+          "LG": -0.13042540634735642,
+          "NC": -0.3158810818415488,
+          "SSG": 0.08040218746977043,
+          "두산": 0.11274231172793737,
+          "롯데": -0.03782682713783164,
+          "삼성": 0.13572001596289127,
+          "키움": -0.39522458392029886,
+          "한화": -0.3996668827863579
+        },
+        "counts": {
+          "KIA": 581,
+          "KT": 589,
+          "LG": 594,
+          "NC": 585,
+          "SSG": 580,
+          "두산": 576,
+          "롯데": 573,
+          "삼성": 594,
+          "키움": 574,
+          "한화": 582
+        },
+        "team_latest": {
+          "KIA": "2026-10-29",
+          "KT": "2026-10-12",
+          "LG": "2026-10-20",
+          "NC": "2026-10-10",
+          "SSG": "2026-10-10",
+          "두산": "2026-10-14",
+          "롯데": "2026-10-12",
+          "삼성": "2026-10-29",
+          "키움": "2026-10-07",
+          "한화": "2026-10-10"
+        },
+        "latest_observation": "2026-10-29",
+        "total_observations": 2914
+      },
+      "latest_input_available_at": "2026-10-29T14:04:51.297221+00:00",
+      "source_signature": {
+        "source_id": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+        "records_hash": "b0e6e24e59db898ad17da782bb16b430765cf059acccd860e647b38b48384442",
+        "coverage_from": "2026-10-28",
+        "complete_through": "2026-10-29",
+        "coverage_verified": true,
+        "coverage_available_at": "2026-10-29T14:04:51.297221+00:00",
+        "coverage_evidence_hash": "776e0eb932b88e6075f0212750074bc392e74518d7332fda8d5008ba497ceace",
+        "seed_hash": "7a4a25a7e165ffb638292d6517237c4787f01b27f8b9bff99d91178695a513a6",
+        "seed_observed_at": "2026-10-29T14:04:50.922920+00:00",
+        "seed_history_unchanged": true
+      },
+      "availability_basis": "explicit_observation_with_caller_attested_coverage",
+      "seed_historical_availability": "unproven",
+      "daily_state_hash": "cec8c400c928548f918ae75dedf8f15850c0f6adc9b977bc7f3bec697b9785fa"
+    }
+  },
+  "errors": {},
+  "limitations": [
+    "Seed history is a fixed research archive; historical availability and later corrections are unproven.",
+    "Calendar coverage authenticates only the increment after the seed, not the entire historical archive."
+  ]
+}

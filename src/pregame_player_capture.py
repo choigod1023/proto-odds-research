@@ -48,7 +48,7 @@ def capture(game, document, *, observed_at, kickoff):
     if (not isinstance(starters, dict) or not isinstance(lineups, dict)
             or any(not isinstance(starters.get(s, {}), dict) for s in ("home", "away"))):
         return reject("invalid_player_context")
-    return {**base, "status": "captured", "reason": "requires_feature_provenance_review",
+    result = {**base, "status": "captured", "reason": "requires_feature_provenance_review",
             "source": row["source"], "source_url": row.get("source_url"),
             "source_game_id": row["game_id"], "source_updated_at": row["updated_at"],
             "kickoff": kickoff, "starters": deepcopy(starters),
@@ -59,3 +59,16 @@ def capture(game, document, *, observed_at, kickoff):
                          "both_lineups_present": all(bool(lineups.get(s)) for s in ("home", "away"))},
             "limitations": ["Presence is not confirmed lineup status.",
                             "Document update time does not certify each statistic's as-of time."]}
+    candidate = row.get('research_candidate_input')
+    if isinstance(candidate,dict):
+        available=timestamp(candidate.get('observed_at'))
+        candidate_start=timestamp(candidate.get('start_at'))
+        if (candidate.get('status')=='captured' and available is not None and available<=now
+                and candidate_start==start and str(candidate.get('gamePk'))==str(row['game_id'])):
+            result['candidate_input']=deepcopy(candidate)
+        else:
+            result['candidate_input_status']='unavailable_or_invalid_provenance'
+            reason=candidate.get('reason')
+            if isinstance(reason,str) and len(reason)<=128:
+                result['candidate_input_reason']=reason
+    return result

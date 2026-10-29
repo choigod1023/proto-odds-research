@@ -8,7 +8,7 @@ the one shown and settled.
 from __future__ import annotations
 
 from collections.abc import Mapping
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import math
@@ -165,7 +165,20 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
         },
         "options": options,
     })
+    if game.get('research_kbo_daily_state') is not None:
+        # Frozen state has a canonical content hash. Six-decimal UI rounding
+        # would invalidate it and silently disable every KBO candidate.
+        try:
+            body=json.dumps(game['research_kbo_daily_state'],ensure_ascii=False,allow_nan=False)
+            if len(body.encode('utf8'))<=16384:
+                features['research_kbo_daily_state']=json.loads(body)
+        except (ValueError,TypeError):
+            pass
+    features['candidate_market_observed_at']=(game.get('live_market_observed_at')
+        or (game.get('decision_snapshot') or {}).get('market_observed_at'))
     features["model_comparison"] = capture_model_comparison(game.get("decision_snapshot"), features)
+    from baseball_candidate_runtime import capture as capture_baseball_candidates
+    features['model_comparison']['learned_candidates']=capture_baseball_candidates(game.get('decision_snapshot') or {},features)
     return features
 
 
@@ -230,6 +243,7 @@ def _revision_signature(
     # Derived controls and their source clocks do not create a new observable
     # revision. Their actual inputs already live in the original features.
     signature_features.pop("model_comparison", None)
+    signature_features.pop('candidate_market_observed_at',None)
     capture = features.get("research_player_inputs")
     if (isinstance(capture, Mapping)
             and capture.get("version") == "pregame-player-capture-v1"
@@ -419,6 +433,30 @@ class PredictionRuntime:
             settlement_version=settlement_version,
         )
         self._remember(result)
+        return result
+
+    def candidate_records(self) -> dict[str, dict[str, Any]]:
+        """Tiny projection from the already verified cache, including abstains.
+
+        Only timely prospective learned forecasts qualify. No second ledger
+        load, result lookup, historical feature rebuild or wallet write occurs.
+        """
+        result={}
+        for event,prediction in self._cached_latest().items():
+            comp=(prediction.get('features') or {}).get('model_comparison') or {}
+            arms={n:a for n,a in (comp.get('learned_candidates') or {}).items()
+                  if isinstance(a,Mapping) and a.get('status')=='available'}
+            if not arms or comp.get('capture_kind')!='prospective_same_snapshot':
+                continue
+            try:
+                start=datetime.fromisoformat(prediction['kickoff'].replace('Z','+00:00'))
+                times=[datetime.fromisoformat(prediction[k].replace('Z','+00:00')) for k in ('as_of','captured_at')]
+                if any(t.utcoffset() is None or t>=start-timedelta(minutes=30) for t in times):
+                    continue
+            except (KeyError,ValueError,TypeError):
+                continue
+            result[event]={'snapshot_id':prediction['snapshot_id'],
+                           'predictions':prediction.get('predictions') or {},'arms':arms}
         return result
 
     def settle_latest_batch(self, entries: list[Mapping[str, Any]]) -> list[AppendResult]:
