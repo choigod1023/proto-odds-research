@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "independent_group_policy_checks": 204,
+  "verified_games": 906,
+  "evaluation_games": 346,
+  "candidate_count": 12,
+  "socket_blocked_offline_replay": true,
+  "canonical_output_sha256": {
+    "inputs.jsonl.gz": "d449d2c8e0549abfda7480c54b5f349452fa996a002e4a4761e361f41e33c21c",
+    "validation-predictions.jsonl": "72dc4cae76984ef11903d3ff9625eb015e1811d9c393fa20a1be348dda4197df",
+    "predictions.jsonl": "e35b46b41514790875f57aafa04018c8f9bf79f6098db9572c43b0a663b93a85",
+    "frozen-selection.json": "de2d146a868f815c6a175d279bd0edc9a9a11dfc6efc8d200981bae0d84eadca",
+    "results.json": "5f517ec907d4bb4afce347e8e748aa71a20624c76eae786de8f7178613fbdf53"
+  },
+  "independent_savant_eb": true,
+  "replay_canonical_sha256": {
+    "inputs.jsonl.gz": "d449d2c8e0549abfda7480c54b5f349452fa996a002e4a4761e361f41e33c21c",
+    "validation-predictions.jsonl": "72dc4cae76984ef11903d3ff9625eb015e1811d9c393fa20a1be348dda4197df",
+    "predictions.jsonl": "e35b46b41514790875f57aafa04018c8f9bf79f6098db9572c43b0a663b93a85",
+    "frozen-selection.json": "de2d146a868f815c6a175d279bd0edc9a9a11dfc6efc8d200981bae0d84eadca",
+    "results.json": "5f517ec907d4bb4afce347e8e748aa71a20624c76eae786de8f7178613fbdf53"
+  },
+  "replay_max_float_absolute_delta": {
+    "inputs.jsonl.gz": 0.0,
+    "validation-predictions.jsonl": 0.0,
+    "predictions.jsonl": 0.0,
+    "frozen-selection.json": 0.0,
+    "results.json": 0.0
+  },
+  "all_346_evaluation_outcomes_flipped_invariance_passed": true,
+  "home_constant_diagnostic_picks_and_integer_profit_match": true,
+  "floating_tolerance": {
+    "atol": 1e-12,
+    "rtol": 0
+  },
+  "integer_pick_profit_comparison": "exact"
+}

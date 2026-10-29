@@ -1,0 +1,174 @@
+"""Render the preserved experiment as a Korean Markdown research report."""
+import json
+from pathlib import Path
+
+from mlb_lineup_nonlinear_collect import OUT
+
+
+def report():
+    load=lambda name:json.loads((OUT/name).read_text(encoding='utf8'))
+    r=load('results.json');f=load('frozen-selection.json');d=load('diagnostics.json');v=load('verification.json')
+    pct=lambda x:f'{100*x:.6f}'
+    lines=['# MLB 실제 발표 라인업·선수 특성 비선형 비교 — 2026-10-29','',
+    '실제 판단 시각 이전 양 팀 선발·9인 타순을 외부230 중194경기에서 추가 확보했지만, **큰 폭의 적중 개선을 확인하지 못했습니다.** '
+    '사전 규칙으로 선택한 primary와 적중 우선 head는 모두 `linear:l2=10`입니다. 비선형 두 family도 실제 학습·검증·평가했으나 검증에서 선택되지 않았습니다. '
+    '새230 전체의 적중은 시장과 같은124회이고 손실은 줄었지만 후반 적중은 악화했습니다. 기존116은63회에서52회로 악화했습니다. 운영 채택 근거로 삼지 않습니다.','',
+    '## 자료와 시점 증명','',
+    '- 기존 선행 자료716회 중712개 적합 파싱본을 그대로 복사했습니다: 2024학습296, 2025검증300, 평가116(2025년1·2026년115). '
+    '기존4개 학습 제외 사유도 보존했습니다. 평가2025 경기813025는2025-11-01로 검증9월30일까지와 겹치지 않습니다. 검증 중복 제거0개, '
+    '외부230과 기존 학습·검증·평가 gamePk 교집합도0개입니다.',
+    '- 외부230은2026-07-30~08-23 KST 경기일의 보존 quote `decision_at`을 사용했습니다. 그 시각을 초 단위로 내림한 '
+    '공식 `feed/live?timecode=` 응답을 요청했습니다. 응답timestamp≤판단시각<가격 자료의 예정시작 및 역사 feed의 예정시작, '
+    'scheduled/warmup 코드, 실제 투구0, 양 팀 probable pitcher, 중복 없는 타순9인을 모두 요구했습니다.',
+    '- 230건 모두 HTTP 성공. 적합194/230(84.347826%), 부적합36건은 반환timestamp가 판단시각보다 늦었습니다. '
+    '그36건을 선발·라인업 미발표로 단정하거나 사후 박스로 채우지 않았습니다. 시점 부적합으로만 분류했습니다. '
+    '전체230에서는36건 모두 원래 시장확률로 fallback했습니다.',
+    '- 공식 MLB 2023/24/25 정규시즌 타자·투수 시즌표6개도 추가 수집했습니다. 자동 수집236회(230 feed+6 stats), '
+    'HTTP 실패·재시도0회, 동시성최대4, 요청timeout25초. 별도 선행 스키마 확인 stats요청1회를 포함하면 직접 Python HTTP총237회입니다. '
+    '공식 웹 근거 조회는 별도이며 feed URL의 웹 도구 조회는 접근 불가였습니다.',
+    '- 230개 외부 응답 전체를 gzip으로 보존했습니다. `sources/feed/`, `external-snapshots.jsonl.gz`, `collection-audit.json`, '
+    '`stats-collection-audit.json`에 원문·URL·요청/응답시각·SHA256·실패/배제사유가 있습니다. '
+    '기존712는 선행 수집기의 압축 파싱본과 URL/응답해시를 계승했으며, 기존 전체 raw response를 새로 보존했다고 주장하지 않습니다.',
+    '- 모두 지금 조회한 공식 historical replay/완료시즌 자료입니다. 당시 직접 캡처한 불변 원본은 아니며 후일 공식 정정 가능성이 남습니다. '
+    '당시 발표 probable starter를 사후 실제 등판자로 교체하지 않습니다. 기존116의 발표cutoff는 시작10분 전이며 실제 배당 매수시각 인증과는 별개입니다.',
+    '', '## 입력·모형·선택','',
+    '최초 평가 전 `f1896a92`에서 PROTOCOL.md를 커밋했습니다. 2024학습→2025검증으로 후보를 선택했고, '
+    '2025 평가1경기는2024계수, 2026평가는2024+2025의596경기로 재적합한 계수를 적용했습니다. '
+    '학습/검증/평가 ID와 순서 검사를 통과했습니다. 검증 배당이 없어 ROI선택은 하지 않았습니다.','',
+    '타자 입력은 이전 완료시즌 xwOBA·xSLG, 당시 seasonStats의 OBP·SLG·K%·BB%와 누락 표시입니다. '
+    '선발 입력은 이전시즌 피허용xwOBA·xERA, 당시K%·BB%·K−BB%, ERA·표본 신뢰도와 누락 표시입니다. '
+    '전년도 개인비율은 전년도 PA/BF가중 리그평균으로 EB수축(타자150PA·투수300BF)했습니다. '
+    '현재 응답의 과거 통계는 그 개인별 전년도 수축값으로150PA/100BF/ERA30IP 수축했습니다. '
+    'OBP는H+BB+HBP와AB+BB+HBP+SF, ERA는실제outs, K/BB는실제BF를 사용했습니다. '
+    '현재연도 최종Savant나 결과로 보정한 xwOBA를 쓰지 않았습니다. 포스트시즌 응답 seasonStats 범위는 정규시즌 누적과 다를 수 있습니다.','',
+    '실제 발표 9인을 타순별 `[1.12,1.09,1.06,1.03,1,.97,.94,.91,.88]`로 가중하고 합이 1이 되게 정규화했습니다. '
+    '상위 3인·하위 3인의 xwOBA, 가중 표준편차와 xwOBA<.300 비중도 계산했습니다. 명단 없는 경기는 팀평균으로 채우지 않았습니다. '
+    '기존 자료에는 과거 플래툰split/손잡이 정보가 없어 이번 공통 모형에는 넣지 않았습니다. 외부 raw의 개인 정보를 기존 학습 자료까지 갖춘 플래툰효과로 부르지 않습니다.','',
+    '후보 12개는 linear / matchup / hinge 각각 L2 .01/.1/1/10입니다. linear는 타선·선발·타순 분포의 홈−원정 차이 23변수를 씁니다. '
+    'matchup은 타선 xwOBA×상대 선발 피허용 xwOBA, K/BB 교차항, 장타×피허용 xwOBA, 상·하위 타순 교차항, 표준편차×삼진, '
+    'tanh matchup의 8개 상호작용을 더합니다. hinge는 그 31변수에 표준화한 23개 선형변수의 양/음 부분제곱 46개를 더합니다. '
+    '고정 비선형 기저이며 교차항의 비가산성 테스트를 통과했습니다. NumPy Newton logistic으로 학습했고 sklearn·운영 requirements는 변경하지 않았습니다.','',
+    '`평균 logloss + λ/2·Σβ²`에서 절편은 규제하지 않았습니다. 중심·표준편차는 학습 자료에서만 계산하고 z는 ±6으로 제한했습니다. '
+    '검증 logloss→Brier→이름으로 primary, 적중수 최대→logloss→이름으로 hit를 동결했습니다. 평가 성적으로 다시 고르지 않았습니다. '
+    '두 head 모두 linear:l2=10입니다. 보조 blend10은 기준 90%+선택 pure 10%로 사전 고정한 별도 결과입니다.','',
+    '| 후보 | 검증적중/300 | logloss | Brier |','|---|---:|---:|---:|']
+    for name,s in f['validation'].items():
+        lines.append(f"| {name} | {s['correct']} | {s['logloss']:.12f} | {s['brier']:.12f} |")
+    lines+=['',f"검증 홈팀 상수는 {d['validation_home_wins']}/300입니다. 선택된 모형은 171/300으로 검증 홈팀 상수 168/300보다 3회 높았지만, "
+            '강한 규제가 선택되어 평가에서는 확보한 모든 경기에서 홈팀을 골랐습니다. '
+            '따라서 외부 ROI 차이를 선수 상호작용의 예측력 확보로 해석하면 안 됩니다.','',
+            '| 자료 | 타자인측 | 이전시즌누락 | 선발인측 | 이전시즌누락 |',
+            '|---|---:|---:|---:|---:|']
+    for role,s in d['coverage'].items():
+        lines.append(f"| {role} | {s['batter_slots']} | {s['batter_prior_missing']} | {s['pitcher_slots']} | {s['pitcher_prior_missing']} |")
+    lines+=['','이번 자료에서 Savant 누락 수도 위 이전 시즌 누락 수와 같습니다. 누락 선수는 전년도 리그평균으로 수축하고 별도 표시했습니다.','',
+            '## 같은 경기 정산','',
+            '외부 230경기의 기준은 픽스터 없는 시장 단독입니다. 기존 116경기의 기준은 보존 시장 90%+동결 투표 10%의 연구 9:1입니다. '
+            '둘을 섞어 9:1 개선이라고 부르지 않습니다. 어느 쪽도 운영 모델 재생이 아닙니다. 기존 116경기의 시장 단독은 63/116·ROI -14.431034%입니다.','',
+            '모든 경기에 단폴 1만 원을 걸고 월 손실 cap은 적용하지 않았습니다. 배당 순서는 home/away, p≥.5면 home을 선택했습니다. '
+            '무승부는 환불하며 실제 무승부는 0건입니다. Decimal 정산을 사용했고 세금·수수료는 추가하지 않았습니다. '
+            '아래 전후 기간의 기준은 외부 2026-08-10, 기존 2026-07-01입니다. '
+            '시점 검증을 통과한 동일 194경기와 36건의 시장 fallback을 포함한 전체 230경기를 구분합니다. '
+            '모든 원장에서 예정 시각/gamePk 순으로 낙폭을 계산했습니다.','',
+            '| 집합/기간 | 정책 | 적중/경기 | ROI% | 순손익원 | 최대낙폭원 | 기준대비픽변경 |',
+            '|---|---|---:|---:|---:|---:|---:|']
+    for cohort,scope in [('old116','full_fallback'),('external230','verified'),('external230','full_fallback')]:
+        for period in ['all','before_split','split_onward']:
+            group=r['groups'][f'{cohort}/{scope}/{period}']
+            for policy in ['baseline','primary','primary_blend10']:
+                s=group[policy]
+                lines.append(f"| {cohort}/{scope}/{period} | {policy} | {s['correct']}/{s['n']} | {pct(s['roi'])} | {s['net_krw']:,} | {s['max_drawdown_krw']:,} | {s['changed_picks']} |")
+    lines+=['','hit는 primary와 같은 후보이므로 모든 수치가 같습니다. 기존 116경기의 verified/full_fallback도 동일합니다. '
+            '기간별 coverage·월별 수치·Wilson 적중률 95%·logloss/Brier와 모든 CI는 results.json에 있습니다. '
+            '외부 verified는 전반 77/100(77%)·후반 117/130(90%)로 확보율이 달라, 전체 230경기와 같은 표본으로 취급하면 안 됩니다.','',
+            '| 집합 | primary logloss | 기준 logloss | primary Brier | 기준 Brier |',
+            '|---|---:|---:|---:|---:|']
+    for cohort,scope in [('old116','full_fallback'),('external230','verified'),('external230','full_fallback')]:
+        g=r['groups'][f'{cohort}/{scope}/all'];a,b=g['primary'],g['baseline']
+        lines.append(f"| {cohort}/{scope} | {a['logloss']:.12f} | {b['logloss']:.12f} | {a['brier']:.12f} | {b['brier']:.12f} |")
+    lines+=['','확보한 기존 116경기의 primary 홈 확률 범위는 '
+            f"{d['selected_probability_ranges']['old116']['min']:.9f}~{d['selected_probability_ranges']['old116']['max']:.9f}, "
+            '외부 194경기는 '
+            f"{d['selected_probability_ranges']['external230']['min']:.9f}~{d['selected_probability_ranges']['external230']['max']:.9f}입니다. "
+            '각각 116/116·194/194가 홈픽입니다. 입력이나 계수가 미반영된 상수 확률은 아니지만 선수 효과가 픽 경계를 넘지 못했습니다.','',
+            '부모의 요청에 따라 평가 후 진단으로 동일 경기 홈상수 대조를 추가했습니다. 확보된 경기에서는 항상 홈팀을 고르고, '
+            '미확보 36경기는 primary와 동일한 시장 fallback을 적용했습니다. '
+            '**홈상수 대조와 primary의 픽·적중·ROI·정수 손익·최대 낙폭은 모든 전체/전후 집합에서 정확히 같았습니다.** '
+            '따라서 외부 194경기의 ROI -13.128866%→-7.010309%를 선수 정보의 효과로 주장하지 않습니다. '
+            '순수 홈상수와 같은 방향으로 수렴한 결과입니다. 확률 자체가 다르므로 logloss/Brier까지 같다는 뜻은 아닙니다. '
+            '이 진단은 diagnostics.json의 home_constant_control에 보존했으며 선택·계수·12후보·평가 원장은 바꾸지 않았습니다.','',
+            '## 비선형 family의 실제 결과','',
+            '아래는 검증에서 각 family의 logloss가 가장 낮은 고정 후보에 대한 진단표입니다. '
+            '추가 head를 채택하거나 평가 승자를 고른 것이 아닙니다. 전체 12후보의 검증/평가 수치는 diagnostics.json에 보존했습니다.','',
+            '| 후보 | 검증 logloss | 기존116 적중·ROI% | 외부230 전체 적중·ROI% |',
+            '|---|---:|---:|---:|']
+    for n in ['linear:l2=10','matchup:l2=10','hinge:l2=10']:
+        s=d['candidate_scores'][n];a=s['evaluation']['old116/full_fallback'];b=s['evaluation']['external230/full_fallback']
+        lines.append(f"| {n} | {s['validation']['logloss']:.12f} | {a['correct']}/{a['n']} · {pct(a['roi'])} | {b['correct']}/{b['n']} · {pct(b['roi'])} |")
+    lines+=['','상호작용이나 곡률을 추가해도 이번 학습 296경기에서는 검증 logloss를 낮추지 못했습니다. '
+            '약한 규제의 비선형 후보는 검증 logloss가 더 나빴습니다. 전년도 선수 자료·라인업을 넣었다는 사실만으로 실전 향상을 주장하지 않습니다.','',
+            '## 불확실성','',
+            '달력 주 단위로 동일 경기를 paired bootstrap 5,000회(seed 20261029) 재표본했습니다. '
+            '단위는 %p이며 다중 후보·head·기간 비교를 보정하지 않았습니다.','',
+            '| 집합 | 정책 | 주수 | Δ적중률95% | ΔROI95% |',
+            '|---|---|---:|---:|---:|']
+    for cohort,scope in [('old116','full_fallback'),('external230','verified'),('external230','full_fallback')]:
+        for policy in ['primary','primary_blend10']:
+            s=r['groups'][f'{cohort}/{scope}/all'][policy]['paired95'];a=s['hit_delta95'];b=s['roi_delta95']
+            lines.append(f"| {cohort}/{scope} | {policy} | {s['weeks']} | [{pct(a[0])}, {pct(a[1])}] | [{pct(b[0])}, {pct(b[1])}] |")
+    lines+=['','외부는 단 4주, 전후는 각 2주뿐입니다. 특히 blend10의 ROI 구간 하한이 약간 양수여도 '
+            '이 매우 작은 블록 수와 반복 연구의 선택 편향 때문에 확증적 유의성이나 미래 수익 근거로 해석하지 않습니다. '
+            '전체 순손익은 여전히 음수이고, 후반 primary 적중은 시장 72/130보다 낮은 68/130입니다. '
+            '확보한 194경기 중 전반의 작은 흑자를 전체 230경기의 흑자나 지속 가능한 수익으로 바꾸어 말하지 않습니다.','',
+            '## 선택된 계수와 재현','',
+            '아래 β는 학습 자료로 표준화한 23변수와 절편에 대한 linear:l2=10의 계수입니다. '
+            '모든 12후보의 변환·중심·척도·계수·최적화 진단·학습 ID는 frozen-selection.json에 있습니다.','',
+            '| 변수 | 2024학습 β | 2024+25재학습 β |','|---|---:|---:|']
+    selected=f['models'][f['heads']['primary']]
+    for i,name in enumerate(['intercept']+selected['before2025']['feature_names']):
+        lines.append(f"| {name} | {selected['before2025']['beta'][i]:.12f} | {selected['before2026']['beta'][i]:.12f} |")
+    lines+=['',f"런타임은 Python {r['runtime']['python']} / NumPy {r['runtime']['numpy']}입니다. 저장소 루트에서 다음 명령으로 재현합니다. "
+            'run/검증/보고서는 선행 worktree나 네트워크를 사용하지 않습니다. collect는 원천을 새로 확보할 때만 필요합니다.','',
+            '```powershell','python scripts/mlb_lineup_nonlinear.py',
+            'python -m unittest discover -s tests -p test_mlb_lineup_nonlinear.py -v',
+            'python scripts/mlb_lineup_nonlinear_verify.py','python scripts/mlb_lineup_nonlinear_report.py','```','',
+            f"20개 회귀 테스트를 통과했습니다. 독립 Decimal 정산으로 {v['independent_group_policy_checks']}개 집합/정책 조합을 재계산했고, "
+            '906개 입력의 전 시즌 Savant 수축을 원천에서 독립 검산했습니다. 346개 평가 결과를 모두 뒤집어도 모형 선택·계수·특징·확률·픽이 유지됐습니다. '
+            'socket을 막고 별도 임시 디렉터리의 복사 원천만으로 재실행했으며, 5개 정규화 산출물 해시가 정확히 같았습니다. '
+            '수치 검사는 atol1e-12/rtol0, 픽·정수 손익은 정확 비교입니다. 홈상수 대조의 픽·정수 손익 일치도 검사했습니다.','',
+            '최초 실행에서 NumPy bool label의 음수 연산을 float 변환으로 고쳤고, 사전 protocol과 달랐던 이전 시즌 ERA의 수축 노출을 '
+            '100IP에서 300BF로 정정한 뒤 재계산했습니다. 정정 전에 초기 평가 수치를 이미 봤으므로 이를 숨기지 않고 '
+            'execution-notes.json에 이전 head·요약·해시를 보존했습니다. 후보·split·선택 규칙은 그대로이며 선택 head·픽·정수 손익도 같았습니다. '
+            '초기 검증기의 BLAS 초기화 순서에 따른 2.7e-12급 차이는 NumPy import 전 동일 thread 설정으로 해결했고 허용오차를 넓히지 않았습니다.','',
+            '- `sources/manifest.json`: 원천 파일 SHA256(텍스트 CRLF 정규화). 원본 URL/요청 로그는 각 수집 audit와 복사본에 있습니다.',
+            '- `inputs.jsonl.gz`: 경기별 시각·원천·순서·개별 선수 통계/노출·수축 결과·최종 특징 906경기.',
+            '- `validation-predictions.jsonl`: 검증 300경기의 모든 12후보 확률과 정답.',
+            '- `predictions.jsonl`: 전체 346경기의 원배당·정답·발표 적합 여부·fallback·선택명·확률·픽·정수 손익·전후 학습 단계.',
+            '- `results.json`, `diagnostics.json`: 전체/월별/기간별 동결 head와 보조 혼합, 12후보 진단, coverage·CI·낙폭·홈상수 대조.',
+            '- `verification.json`, `tests.log`, `offline-replay.log`, `execution-notes.json`: 실제 검사와 재현 근거.','',
+            '## 공식 출처와 한계','',
+            '- [MLB historical feed 실제 조회 예시](https://statsapi.mlb.com/api/v1.1/game/822696/feed/live?timecode=20260813_194502): '
+            '외부 822696의 판단 시각입니다. 모든 경기의 정확한 URL은 외부 snapshot 원장에 보존했습니다.',
+            '- [MLB 공식 이전시즌 투수 통계 API](https://statsapi.mlb.com/api/v1/stats?stats=season&group=pitching&season=2023&sportIds=1&gameType=R&playerPool=ALL&limit=10000): '
+            '2023~25 각 타자/투수의 6개 표를 보존했습니다.',
+            '- [Baseball Savant 공식 Expected Statistics 설명](https://baseballsavant.mlb.com/leaderboard/expected_statistics): '
+            'xwOBA는 타구 예상 결과와 실제 삼진·볼넷·HBP를 결합하고, xERA는 xwOBA의 ERA 척도 변환입니다. '
+            '이 리더보드 설명이 시장 초과수익을 증명한다고 주장하지 않습니다.','',
+            '이 자료는 이미 본 데이터를 쓴 회고 연구입니다. 296개 학습 표본은 77개 hinge 변수를 충분히 추정하기 어렵고, '
+            '균등 추출한 정규시즌 검증과 후반 평가의 홈 승률·선수 분포도 다릅니다. 전년도 선수 기록은 이적·부상·당해 성장과 '
+            '최신 타구 폼·구장·날씨·실제 플래툰 split·불펜 전력 변화를 완전히 반영하지 않습니다. '
+            '부모의 평가/마진/픽 선별 진단과 별개인 독립 sidecar이며, 선행 득점 모형을 단순 재실행하지 않았습니다. '
+            '글로벌 최적·큰 폭 개선·미래 흑자를 주장하지 않고 운영 src·DB·배포·requirements는 변경하지 않았습니다. '
+            'push/PR/merge는 부모 작업으로 남깁니다.','']
+    # Keep generated Korean prose readable without changing numbers or source facts.
+    text='\n'.join(lines)
+    replacements={'판단시각':'판단 시각','선택된모형':'선택된 모형','전년도선수':'전년도 선수','이전시즌':'이전 시즌',
+                  '선택head':'선택 head','원천에서독립검산':'원천에서 독립 검산','정수손익':'정수 손익',
+                  '기간별coverage':'기간별 coverage','원천파일':'원천 파일','최초실행':'최초 실행'}
+    for old,new in replacements.items():text=text.replace(old,new)
+    target=Path(__file__).resolve().parents[1]/'docs/research/2026-10-29-mlb-lineup-nonlinear.md'
+    target.parent.mkdir(parents=True,exist_ok=True);target.write_text(text,encoding='utf8',newline='\n')
+    print(target)
+
+
+if __name__=='__main__':report()
