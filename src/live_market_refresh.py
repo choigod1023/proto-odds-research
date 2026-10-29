@@ -298,6 +298,8 @@ def refresh_document(document: dict, live_odds: dict, *,
     fixtures_loaded = player_document is not None
     kbo_model_document = None
     kbo_model_document_loaded = False
+    mlb_model_document = None
+    mlb_model_document_loaded = False
     # Tiny independent KBO feed: do not wait for the all-sports player job.
     from kbo_pregame import current_document, display_info
     kbo_document = current_document() if use_database else {"games": []}
@@ -429,6 +431,19 @@ def refresh_document(document: dict, live_odds: dict, *,
             from pregame_player_capture import capture
             player_capture = capture(game,available_fixture_document(),
                 observed_at=decision_clock.isoformat(),kickoff=kickoff_utc(kickoff))
+            if use_database and not mlb_model_document_loaded:
+                mlb_model_document_loaded=True
+                from runtime_db import load_document
+                mlb_model_document=load_document('mlb_model_candidate_inputs',ROOT/'data/raw/mlb_model_candidate_inputs.json') or {}
+            if mlb_model_document:
+                lightweight=capture(game,mlb_model_document,observed_at=decision_clock.isoformat(),kickoff=kickoff_utc(kickoff))
+                new_input=lightweight.get('candidate_input') or {}
+                prior_input=player_capture.get('candidate_input') or {}
+                new_at=_aware_timestamp(new_input.get('observed_at'))
+                prior_at=_aware_timestamp(prior_input.get('observed_at'))
+                if (new_input.get('status')=='captured' and
+                        new_at is not None and (prior_at is None or new_at>prior_at)):
+                    player_capture=lightweight
             candidate_input=player_capture.get('candidate_input') or {}
             prior_input=(game.get('research_player_inputs') or {}).get('candidate_input') or {}
             player_changed=(candidate_input.get('status')=='captured' and

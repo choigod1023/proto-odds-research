@@ -59,7 +59,8 @@ def day_manifest(body, *, day, observed_at, source_sha256):
     return dict(manifest=manifest,results=results,source_url=URL)
 
 
-def collect(existing=None, *, session=None, clock=None):
+def collect(existing=None, *, session=None, clock=None, request_timeout=(3,10),
+            request_limit=4,budget_seconds=30):
     from kbo_frozen_candidate import (historical_seed,SEED_HASH,signature,
                                       verify_increment_coverage,build_daily_state)
     clock=clock or (lambda:datetime.now(timezone.utc))
@@ -69,7 +70,8 @@ def collect(existing=None, *, session=None, clock=None):
     if session is None:
         with requests.Session() as owned:
             owned.headers.update({'User-Agent':'Mozilla/5.0','Referer':'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx'})
-            return collect(existing,session=owned,clock=clock)
+            return collect(existing,session=owned,clock=clock,request_timeout=request_timeout,
+                           request_limit=request_limit,budget_seconds=budget_seconds)
     old=existing if isinstance(existing,dict) and existing.get('seed_hash')==SEED_HASH else {}
     seed=historical_seed()
     seed_seen=old.get('seed_observed_at') or clock().astimezone(timezone.utc).isoformat()
@@ -79,9 +81,9 @@ def collect(existing=None, *, session=None, clock=None):
         return dict(version=VERSION,status='unavailable',reason='seed_history_window_requires_review',daily_states={})
     days=[(first+timedelta(days=i)).isoformat() for i in range((today-first).days+1)]
     cache={d:deepcopy(v) for d,v in (old.get('calendar_cache') or {}).items() if d in days}
-    wanted=list(dict.fromkeys([d for d in days if d not in cache]+days[-2:]))[:4]
+    wanted=list(dict.fromkeys([d for d in days if d not in cache]+days[-2:]))[:request_limit]
     errors={}
-    deadline=time.monotonic()+30
+    deadline=time.monotonic()+budget_seconds
     for day in wanted:
         if time.monotonic()>=deadline:
             errors[day]='collection_time_limit'
@@ -90,7 +92,7 @@ def collect(existing=None, *, session=None, clock=None):
         response=None
         try:
             response=session.post(URL,data={'leId':'1','srId':'0,1,3,4,5,6,7,8,9','date':day.replace('-','')},
-                                  timeout=(3,10),stream=True)
+                                  timeout=request_timeout,stream=True)
             response.raise_for_status()
             parts=[];size=0
             for chunk in response.iter_content(chunk_size=65536):

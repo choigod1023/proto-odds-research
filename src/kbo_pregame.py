@@ -161,6 +161,14 @@ def collect_available(now=None, existing=None):
 
 
 def main():
+    # The heavy multi-sport job may wait hours for its memory gate. Candidate
+    # sources are small and bounded; reuse this existing job instead of a daemon.
+    def refresh_candidate_sources():
+        try:
+            from baseball_candidate_watch import run_once
+            print(json.dumps({'candidate_source_watch':run_once()}),flush=True)
+        except Exception as exc:
+            print(json.dumps({'candidate_source_watch':'failed','error_type':type(exc).__name__}),flush=True)
     try:
         doc = collect_available()
     except (requests.RequestException, ValueError, TypeError) as exc:
@@ -168,9 +176,11 @@ def main():
         # The supervisor owns the bounded-interval retry; no recursive retries.
         print(json.dumps({"status": "fetch_failed", "endpoint": "schedule",
                           "error_type": type(exc).__name__, "preserved_previous": True}), flush=True)
+        refresh_candidate_sources()
         return 1
     persist_document("kbo_pregame", doc, OUT)
     print(json.dumps({"kbo_games": len(doc["games"]), "errors": doc["errors"], "generated_at": doc["generated_at"], "route": doc.get('route')}), flush=True)
+    refresh_candidate_sources()
     return 1 if doc['errors'] else 0
 
 
