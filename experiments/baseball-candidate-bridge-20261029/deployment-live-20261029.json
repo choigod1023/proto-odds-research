@@ -1,0 +1,376 @@
+{
+  "at": "2026-10-29T14:52:55.026340+00:00",
+  "checkout": "a39ba845a60359d97a812a67d71474275f61ab53",
+  "python": "3.11.18",
+  "watch_module_present": true,
+  "mlb_version": "mlb-frozen-linear-l2-10-v1",
+  "kbo_version": "kbo-frozen-e0-bridge-v1",
+  "player_info_stored_at": "2026-10-29T10:38:48+00:00",
+  "documents": {
+    "baseball_candidate_watch": {
+      "stored_at": "2026-10-29T14:51:02+00:00",
+      "data": {
+        "checked_at": "2026-10-29T14:51:02.310279+00:00",
+        "kbo_error": null,
+        "kbo_states": {
+          "2026-10-29": {
+            "reason": null,
+            "status": "available"
+          },
+          "2026-10-30": {
+            "reason": null,
+            "status": "available"
+          }
+        },
+        "mlb_captured": 0,
+        "mlb_eligible_fixtures": 0,
+        "mlb_reasons": [],
+        "mlb_requested": 0,
+        "status": "checked"
+      }
+    },
+    "kbo_model_candidate_state": {
+      "stored_at": "2026-10-29T14:51:02+00:00",
+      "data": {
+        "status": "collected",
+        "observed_at": "2026-10-29T14:51:02.146686+00:00",
+        "seed_observed_at": "2026-10-29T14:51:00.947424+00:00",
+        "errors": {},
+        "daily_states": {
+          "2026-10-29": {
+            "status": "available",
+            "reason": null,
+            "available_at": "2026-10-29T14:51:02.146686+00:00",
+            "state_date": "2026-10-29",
+            "daily_state_hash": "ce5de125126284a6f69e08ee0905e2e140dc1ba7c96c7e64b60f92ab87c9c686"
+          },
+          "2026-10-30": {
+            "status": "available",
+            "reason": null,
+            "available_at": "2026-10-29T14:51:02.146686+00:00",
+            "state_date": "2026-10-30",
+            "daily_state_hash": "17b1dece40625a149c62039fe9cc7900f7c28e28af8c2cdea2ed9e0559b565bf"
+          }
+        }
+      }
+    }
+  },
+  "recent": [
+    {
+      "sequence": 8680,
+      "kind": "settlement",
+      "captured_at": "2026-10-29T14:16:23.041705Z",
+      "snapshot_id": "dec_e7dfe3676a8d4146",
+      "fixture": null,
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8679,
+      "kind": "settlement",
+      "captured_at": "2026-10-29T14:16:23.041586Z",
+      "snapshot_id": "dec_ac4e9e1dbf81051b",
+      "fixture": null,
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8678,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T13:53:28.477990Z",
+      "snapshot_id": "dec_d0047903108fad6c",
+      "fixture": {
+        "away": "뉴캐슬U",
+        "date": "10.30(금) 04:45",
+        "home": "에버턴",
+        "league": "잉리그컵",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": "captured",
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8677,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T13:53:28.476484Z",
+      "snapshot_id": "dec_60ea78c02157c6eb",
+      "fixture": {
+        "away": "아탈란타",
+        "date": "10.30(금) 04:45",
+        "home": "피오렌티",
+        "league": "세리에A",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": "captured",
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8676,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T13:53:28.474976Z",
+      "snapshot_id": "dec_83f3dd0fd94f7359",
+      "fixture": {
+        "away": "US레체",
+        "date": "10.30(금) 02:30",
+        "home": "프로시노",
+        "league": "세리에A",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": "captured",
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8675,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T13:17:24.505189Z",
+      "snapshot_id": "dec_d0f7804e8737f4c7",
+      "fixture": {
+        "away": "뉴캐슬U",
+        "date": "10.30(금) 04:45",
+        "home": "에버턴",
+        "league": "잉리그컵",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8674,
+      "kind": "settlement",
+      "captured_at": "2026-10-29T12:07:22.826051Z",
+      "snapshot_id": "dec_5ea8356f170a7295",
+      "fixture": null,
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8673,
+      "kind": "settlement",
+      "captured_at": "2026-10-29T12:07:22.825938Z",
+      "snapshot_id": "dec_7a6943be63daa985",
+      "fixture": null,
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8672,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T11:14:54.260469Z",
+      "snapshot_id": "dec_ac4e9e1dbf81051b",
+      "fixture": {
+        "away": "BG빠툼유",
+        "date": "10.29(목) 21:15",
+        "home": "타이포FC",
+        "league": "ACL2",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8671,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T10:53:40.022918Z",
+      "snapshot_id": "dec_e7dfe3676a8d4146",
+      "fixture": {
+        "away": "마치다Z",
+        "date": "10.29(목) 21:15",
+        "home": "상하선화",
+        "league": "ACL2",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8670,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T10:53:40.021394Z",
+      "snapshot_id": "dec_00aa379af7ab3d70",
+      "fixture": {
+        "away": "뉴캐슬U",
+        "date": "10.30(금) 04:45",
+        "home": "에버턴",
+        "league": "잉리그컵",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8669,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T09:55:05.539404Z",
+      "snapshot_id": "dec_bb2c88eefb522e0c",
+      "fixture": {
+        "away": "뉴캐슬U",
+        "date": "10.30(금) 04:45",
+        "home": "에버턴",
+        "league": "잉리그컵",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8668,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T09:55:05.462896Z",
+      "snapshot_id": "dec_575d4d7e6bfd923c",
+      "fixture": {
+        "away": "US레체",
+        "date": "10.30(금) 02:30",
+        "home": "프로시노",
+        "league": "세리에A",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8667,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T09:37:21.144190Z",
+      "snapshot_id": "dec_22c48a394c1f415c",
+      "fixture": {
+        "away": "마치다Z",
+        "date": "10.29(목) 21:15",
+        "home": "상하선화",
+        "league": "ACL2",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8666,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T09:37:21.142912Z",
+      "snapshot_id": "dec_6b21fdc445fcb1de",
+      "fixture": {
+        "away": "뉴캐슬U",
+        "date": "10.30(금) 04:45",
+        "home": "에버턴",
+        "league": "잉리그컵",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    },
+    {
+      "sequence": 8665,
+      "kind": "prediction",
+      "captured_at": "2026-10-29T09:37:21.141682Z",
+      "snapshot_id": "dec_f7e5cb84713b87df",
+      "fixture": {
+        "away": "아탈란타",
+        "date": "10.30(금) 04:45",
+        "home": "피오렌티",
+        "league": "세리에A",
+        "match_id": null,
+        "round": 128,
+        "source_event_id": null,
+        "sport": "sc",
+        "year": 2026
+      },
+      "comparison": null,
+      "learned": {},
+      "candidate_results": null
+    }
+  ],
+  "mem_available": [
+    "MemAvailable:     431452 kB"
+  ],
+  "http_observations": [
+    {
+      "at": "2026-10-29T14:52:56.726173+00:00",
+      "path": "/health",
+      "status": 200,
+      "seconds": 0.9425027999095619,
+      "bytes": 373,
+      "generated_at": null,
+      "revision": null,
+      "health": {
+        "status": "ok",
+        "disk_free_mb": 2968,
+        "live_stored_at": "2026-10-29T14:48:08.708583+00:00",
+        "odds_stored_at": "2026-10-29T14:44:49.819793+00:00",
+        "picks_stored_at": "2026-10-29T14:49:56.472906+00:00",
+        "odds_generated_at": "2026-10-29T14:44:42+00:00",
+        "picks_generated_at": "2026-10-29T14:44:42+00:00",
+        "database_path": "/data/proodd.sqlite3",
+        "database_mtime": 1793285503
+      }
+    },
+    {
+      "at": "2026-10-29T14:52:57.146206+00:00",
+      "path": "/api/matches?scope=recent",
+      "status": 200,
+      "seconds": 0.4199052001349628,
+      "bytes": 2599308,
+      "generated_at": "2026-10-29T14:44:42+00:00",
+      "revision": null,
+      "health": null
+    }
+  ],
+  "verification_scope": "Automatic source-watch execution and daily-state storage; live learned forecasts and realized ROI pending eligible fixtures"
+}
