@@ -26,6 +26,24 @@
       "2023": 2464,
       "2024": 2469
     },
+    "date_ranges": {
+      "train2023": [
+        "2023-03-31",
+        "2023-11-02"
+      ],
+      "validation2024": [
+        "2024-03-20",
+        "2024-10-31"
+      ],
+      "external230": [
+        "2026-07-30",
+        "2026-08-23"
+      ],
+      "secondary116": [
+        "2025-11-01",
+        "2026-10-24"
+      ]
+    },
     "secondary_years": {
       "2025": 1,
       "2026": 115
@@ -557,6 +575,33 @@
         "2024-10": -7.249999999999998
       }
     }
+  },
+  "validation_pick_changes": {
+    "poisson:h45:pure": 731,
+    "poisson:h45:market75_score25": 92,
+    "poisson:h45:market50_score50": 251,
+    "poisson:h45:residual": 117,
+    "negbin:h45:pure": 731,
+    "negbin:h45:market75_score25": 63,
+    "negbin:h45:market50_score50": 181,
+    "negbin:h45:residual": 106,
+    "pyth:h45:pure": 731,
+    "pyth:h45:market75_score25": 70,
+    "pyth:h45:market50_score50": 192,
+    "pyth:h45:residual": 110,
+    "poisson:h180:pure": 631,
+    "poisson:h180:market75_score25": 84,
+    "poisson:h180:market50_score50": 215,
+    "poisson:h180:residual": 114,
+    "negbin:h180:pure": 631,
+    "negbin:h180:market75_score25": 57,
+    "negbin:h180:market50_score50": 158,
+    "negbin:h180:residual": 103,
+    "pyth:h180:pure": 631,
+    "pyth:h180:market75_score25": 61,
+    "pyth:h180:market50_score50": 173,
+    "pyth:h180:residual": 107,
+    "market_null": 0
   },
   "evaluation": {
     "external230": {
