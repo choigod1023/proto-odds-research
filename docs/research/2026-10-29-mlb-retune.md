@@ -118,7 +118,7 @@ python scripts/mlb_retune_research_verify.py
 python scripts/mlb_retune_research_report.py
 ```
 
-커밋 `3f0dd93fcc013d8febdb2aec80d6c9d9c60bd419`에서 코드·PROTOCOL·sources만 git archive로 꺼내 별도 디렉터리에서 실행했고 socket을 막아 네트워크 접근을 금지했습니다. 12개 회귀 검사가 통과했습니다. predictions/validation_predictions/frozen-selection/feature-facts의 정규화SHA256이 원실행과 모두 일치했고, 전체 validation/evaluation/기간별 수치와 계수도 정확히 같았습니다. 상세는 verification.json, tests.log, clean-replay.log에 있습니다.
+커밋 `ad26585156f361ea26706be607a110b32ad979ce`에서 코드·PROTOCOL·sources만 git archive로 꺼내 별도 디렉터리에서 실행했고 socket을 막아 네트워크 접근을 금지했습니다. 12개 회귀 검사가 통과했습니다. predictions/validation_predictions/frozen-selection/feature-facts의 정규화SHA256이 원실행과 모두 일치했고, 전체 validation/evaluation/기간별 수치와 계수도 정확히 같았습니다. 상세는 verification.json, tests.log, clean-replay.log에 있습니다.
 
 검사는 모든 후보/기간의 독립 정산, 원장 확률과 동결 계수 일치, 선택 규칙과 coverage, 모든 과거 source ID의 종료/날짜 경계, 미래·현재 결과 변조 불변성, 원자료에서 일정/득점/환경 변수 독립 재계산, 득점분포 대칭·단조성, 무승부 환불·가격 순서를 포함합니다. 원자료 해시는 sources/manifest.json과 results.json에 있습니다. 텍스트 해시는 Git CRLF 차이를 정규화합니다.
 

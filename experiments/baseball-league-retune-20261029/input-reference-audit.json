@@ -1,0 +1,45 @@
+{
+  "source_rows": {
+    "KBO:train": 710,
+    "KBO:validation": 712,
+    "NPB:train": 819,
+    "NPB:validation": 809,
+    "KBO:evaluation": 198,
+    "NPB:evaluation": 115
+  },
+  "mlb_external_n": 230,
+  "full_original_91": {
+    "KBO": {
+      "n": 203,
+      "wins": 121,
+      "pushes": 0,
+      "accuracy": 0.5960591133004927,
+      "roi": -0.08024630541871922,
+      "net_krw": -162900
+    },
+    "NPB": {
+      "n": 115,
+      "wins": 67,
+      "pushes": 0,
+      "accuracy": 0.5826086956521739,
+      "roi": -0.09973913043478261,
+      "net_krw": -114700
+    },
+    "MLB": {
+      "n": 116,
+      "wins": 63,
+      "pushes": 0,
+      "accuracy": 0.5431034482758621,
+      "roi": -0.13344827586206898,
+      "net_krw": -154800
+    }
+  },
+  "archive_rounding_pick_differences": [],
+  "input_sha256": {
+    "asian-cohort-inputs.jsonl": "98272521305f1a3d3edcb7f837e4157128e385556b36d1f1f7a167a7e9ca2cca",
+    "mlb-external-features.jsonl": "32a0ffc6df0548bca68dadc9efa085ea20ea1ca6381ffa78c9341fa969462ee6",
+    "targets.jsonl": "fbc4e3de832678aba27d2ed9281a5f8db964817b33b7e33a2050b8f2a726f2f4"
+  },
+  "reference_definition": "unrounded market90_vote10 research formula; not frozen production model",
+  "runtime_pr409_scope": "live public_tipster_votes intake; historical compare_year_model_accuracy reads frozen strict rows and imports devig only; no historical reparse asserted"
+}
