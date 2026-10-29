@@ -81,7 +81,8 @@ def extract(feed, *, game_pk, scheduled_at, received_at, source_url, response_sh
                 affects_selection=False,affects_probability=False)
 
 
-def collect(games, session=None, *, now=None, clock=None):
+def collect(games, session=None, *, now=None, clock=None, request_limit=MAX_GAMES,
+            slot_seconds=1800, request_timeout=(5,10), budget_seconds=35):
     """At most three feeds, streamed <=2MiB each, one attempt, bounded timeout.
 
     Returns a detached fixture-keyed capture map; failures never discard normal
@@ -96,7 +97,8 @@ def collect(games, session=None, *, now=None, clock=None):
         try:
             start=stamp(game['gameDate'])
             if (now+timedelta(minutes=30)<start<=now+timedelta(hours=6)
-                    and (game.get('status') or {}).get('codedGameState') in {'S','P'}
+                    and ((game.get('status') or {}).get('codedGameState') in {'S','P'}
+                         or game.get('request_eligibility')=='cached_future_fixture')
                     and type(game.get('gamePk')) is int):
                 upcoming.append((start,game['gamePk'],game))
         except (KeyError,TypeError,ValueError):
@@ -106,14 +108,15 @@ def collect(games, session=None, *, now=None, clock=None):
         # source has a separate zero-retry budget and must not inherit that.
         with requests.Session() as bounded:
             bounded.headers.update({'User-Agent':'proto-odds-research/1.0','Accept':'application/json'})
-            return collect(games,bounded,now=now,clock=clock)
+            return collect(games,bounded,now=now,clock=clock,request_limit=request_limit,
+                           slot_seconds=slot_seconds,request_timeout=request_timeout,budget_seconds=budget_seconds)
     captures={}
-    deadline=time.monotonic()+35
+    deadline=time.monotonic()+budget_seconds
     ordered=sorted(upcoming,key=lambda r:(r[0],r[1]))
     if ordered:
-        cursor=(int(now.timestamp())//1800*MAX_GAMES)%len(ordered)
+        cursor=(int(now.timestamp())//slot_seconds*request_limit)%len(ordered)
         ordered=ordered[cursor:]+ordered[:cursor]
-    for start,pk,game in ordered[:MAX_GAMES]:
+    for start,pk,game in ordered[:request_limit]:
         if time.monotonic()>=deadline:
             break
         url=f'https://statsapi.mlb.com/api/v1.1/game/{pk}/feed/live'
@@ -121,7 +124,7 @@ def collect(games, session=None, *, now=None, clock=None):
                     source_url=url,gamePk=pk,affects_selection=False,affects_probability=False)
         response=None
         try:
-            response=session.get(url,timeout=(5,10),stream=True)
+            response=session.get(url,timeout=request_timeout,stream=True)
             response.raise_for_status()
             chunks=[]
             size=0
