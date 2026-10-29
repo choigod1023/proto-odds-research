@@ -1,0 +1,46 @@
+{
+  "history_by_league_year": {
+    "KBO:2023": 724,
+    "KBO:2024": 728,
+    "KBO:2025": 733,
+    "KBO:2026": 471,
+    "NPB:2023": 876,
+    "NPB:2024": 877,
+    "NPB:2026": 777
+  },
+  "feature_counts": {
+    "KBO:train": 710,
+    "KBO:validation": 712,
+    "NPB:train": 819,
+    "NPB:validation": 809,
+    "KBO:evaluation": 198,
+    "NPB:evaluation": 115
+  },
+  "excluded": {
+    "historical_price_fixture_missing_or_ambiguous": 2,
+    "KBO:validation:incomplete_past_28days": 1,
+    "NPB:train:incomplete_past_28days": 39,
+    "NPB:validation:incomplete_past_28days": 38,
+    "KBO:evaluation:incomplete_past_28days": 5
+  },
+  "kbo_excluded": {
+    "before_regular_season_opening": 208,
+    "history_without_unique_curated_score_anchor": 38,
+    "curated_score_mismatch": 20
+  },
+  "npb_old_excluded": {},
+  "new_npb_source_status": {
+    "npb-2024-boxes.jsonl:accepted": 877,
+    "npb-2024-boxes.jsonl:no_official_final_status": 30,
+    "npb-2026-boxes.jsonl:accepted": 777,
+    "npb-2026-boxes.jsonl:no_official_final_status": 39
+  },
+  "source_sha256": {
+    "kbo_baseball_2023_2026.json": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+    "history.jsonl": "5f02efaa86a95d4b9dae7830d64115c2d2b36abc973a5e8ed6d6f63a2881dc5f",
+    "npb-2023-restored.jsonl": "e0fc755ccdabbe63b10c4eb7e242a03fa256207c7b42781752d44aa58a9a1ab1",
+    "other-period-price-facts.jsonl": "15bedc1cf9b88040401a6c9d8a0a3247446855a2ae6f299517a24b3dce7e0f70",
+    "targets.jsonl": "fbc4e3de832678aba27d2ed9281a5f8db964817b33b7e33a2050b8f2a726f2f4"
+  },
+  "timing": "strict prior calendar dates; not a certified timestamped or executable-price backtest"
+}
