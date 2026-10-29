@@ -2,6 +2,7 @@ import importlib.util
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 spec = importlib.util.spec_from_file_location('objective', Path(__file__).resolve().parents[1]/'scripts/baseball_objective_diagnostics.py')
@@ -80,7 +81,12 @@ def test_fixed_9to1_can_be_structurally_unable_to_clear_both_prices():
 
 
 def test_future_results_cannot_change_frozen_calibration_or_policy(tmp_path):
-    original = json.loads((d.DEFAULT/'frozen-policy.json').read_text(encoding='utf8'))
+    # Compare before/after in the SAME environment; a Windows-vs-Linux fit
+    # difference does not establish leakage from evaluation outcomes.
+    for league in ('mlb', 'kbo'):
+        d.write(tmp_path/(league+'-inputs.jsonl'), d.read(d.DEFAULT/(league+'-inputs.jsonl')), lines=True)
+    d.run(tmp_path)
+    original = json.loads((tmp_path/'frozen-policy.json').read_text(encoding='utf8'))
     for league in ('mlb', 'kbo'):
         records = d.read(d.DEFAULT/(league+'-inputs.jsonl'))
         for r in records:
@@ -89,3 +95,26 @@ def test_future_results_cannot_change_frozen_calibration_or_policy(tmp_path):
         d.write(tmp_path/(league+'-inputs.jsonl'), records, lines=True)
     d.run(tmp_path)
     assert json.loads((tmp_path/'frozen-policy.json').read_text(encoding='utf8')) == original
+
+
+def test_platform_refit_preserves_every_betting_decision_and_selection():
+    saved = json.loads((d.DEFAULT/'frozen-policy.json').read_text(encoding='utf8'))
+    for league in ('mlb', 'kbo'):
+        records = d.read(d.DEFAULT/(league+'-inputs.jsonl'))
+        early = [r for r in records if r['role'] == 'validation' and r['date'] < d.SPLIT]
+        fresh = d.fit_calibrator(early)
+        old = saved[league]['calibrator']
+        # A fresh optimizer's stopping point varies slightly by SciPy/BLAS.
+        np.testing.assert_allclose(fresh['beta'], old['beta'], atol=1e-8, rtol=0)
+        for r in records:
+            p, q = d.probability(r, 'calibrated', fresh), d.probability(r, 'calibrated', old)
+            assert abs(p-q) <= 1e-8
+            for policy in d.POLICIES:
+                assert d.decide(r, p, policy) == d.decide(r, q, policy)
+        late = [r for r in records if r['role'] == 'validation' and r['date'] >= d.SPLIT]
+        metrics, _ = d.policies(late, fresh)
+        assert d.choose_validation(metrics, len(late)) == saved[league]['selection']
+        for name, new in metrics.items():
+            old_metric = saved[league]['validation'][name]
+            for field in ('bets', 'wins', 'pushes', 'net_krw', 'roi', 'monthly_net_krw', 'daily_close_max_drawdown_krw'):
+                assert new[field] == old_metric[field]
