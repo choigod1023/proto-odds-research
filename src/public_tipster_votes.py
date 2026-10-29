@@ -17,12 +17,14 @@ SOURCE = "public_fullgame_vote_v1"
 KST = timezone(timedelta(hours=9))
 HOSTS = {"pick79.com", "www.goli.tv"}
 LEAGUES = {"프리미어리그": "EPL", "리그앙": "프리그1", "리그1": "프리그1",
-           "J리그1": "J1리그", "J리그2": "J2리그", "AFC 챔피언스리그": "ACLE"}
+           "J리그1": "J1리그", "J리그2": "J2리그", "AFC 챔피언스리그": "ACLE",
+           "AFC챔피언스리그2": "ACL2", "잉글랜드캐피털원컵": "잉리그컵"}
 # Explicit league-scoped aliases only. Unknown names remain unmatched.
 ALIASES = {
     "KBL": {"DB": "원주DB", "LG": "창원LG", "안양정관장": "안양정관", "KT": "KT소닉붐",
             "수원KT": "KT소닉붐", "한국가스공사": "한국가스", "대구한국가스공사": "한국가스",
-            "현대모비스": "울산모비", "울산현대모비스": "울산모비", "부산KCC": "부산KCC"},
+            "현대모비스": "울산모비", "울산현대모비스": "울산모비", "울산모비스": "울산모비",
+            "모비스": "울산모비", "부산KCC": "부산KCC"},
     "KBO": {"삼성라이온즈": "삼성", "삼성라이온스": "삼성", "KIA타이거즈": "KIA", "기아": "KIA",
             "LG트윈스": "LG", "SSG랜더스": "SSG", "두산베어스": "두산",
             "롯데자이언츠": "롯데", "한화이글스": "한화", "KT위즈": "KT",
@@ -32,6 +34,11 @@ ALIASES = {
         "샬럿호네 워싱위저 클리캐벌 미네울브 보스셀틱 시카불스 마이히트 댈러매버 밀워벅스 인디페이 오클썬더 피닉선즈 휴스로케 애틀호크 유타재즈 멤피그리 덴버너게 골든워리 LA레이커 LA클리퍼 브루네츠 뉴욕닉스 올랜매직 토론랩터 필라76s 디트피스 새크킹스".split())),
     "프리그1": {"파리생제르맹": "PSG", "올랭피크리옹": "리옹"},
     "ACLE": {"알아흘리": "알아흘사", "알사드": "알사드SC"},
+    "ACL2": {"상하이": "상하선화", "상하이선화": "상하선화", "마치다": "마치다Z",
+             "빠툼": "BG빠툼유", "애들레이드": "애들유나", "애들레이드유나이티드": "애들유나",
+             "라이언시티": "라이언시"},
+    "잉리그컵": {"에버튼": "에버턴", "뉴캐슬": "뉴캐슬U"},
+    "세리에A": {"피오렌티나": "피오렌티", "프로시노네": "프로시노", "레체": "US레체"},
     "MLB": {"탬파베이레이스": "탬파레이", "밀워키브루어스": "밀워브루"},
     "KOVO컵남": {"현대캐피탈": "현대캐피", "KB손해보험": "KB손보", "OK저축은행": "OK금융"},
     "KOVO컵여": {"흥국생명": "흥국생명", "IBK기업은행": "IBK기업", "한국도로공사": "도로공사"},
@@ -62,11 +69,61 @@ def fixture_key(game):
     return [game["sport"], game["league"], game["home"], game["away"], kickoff(game).isoformat()]
 
 
+def upcoming_goli_fixture(title, fixtures, now):
+    """Prioritize only an unambiguous listed fixture still before T-30."""
+    title = re.sub(r"^\[스포츠분석\]\s*", "", title.strip())
+    m = re.fullmatch(r"(.+?) 대 (.+?) (\S+) (\d{1,2})월\s*(\d{1,2})일 맞대결", title)
+    if not m:
+        return None
+    league = LEAGUES.get(m[3], m[3])
+    source = {team(m[1], league), team(m[2], league)}
+    if len(source) != 2:
+        return None
+    matches = []
+    for game in fixtures:
+        try:
+            start = kickoff(game)
+            if (game["league"] == league and (start.month, start.day) == (int(m[4]), int(m[5]))
+                    and {team(game["home"], league), team(game["away"], league)} == source):
+                matches.append(start)
+        except (KeyError, TypeError, ValueError, AttributeError):
+            continue
+    if len(matches) != 1 or not now + timedelta(minutes=30) < matches[0] <= now + timedelta(days=3):
+        return None
+    return matches[0]
+
+
 def safe_url(url):
     p = urlsplit(url)
     return p.scheme == "https" and p.netloc in HOSTS and bool(
         re.fullmatch(r"/posts/detail/[a-zA-Z0-9_-]+/?", p.path) if p.netloc == "pick79.com"
         else re.fullmatch(r"/board/analysis/\d+", p.path))
+
+
+def goli_fullgame_choice(section, league, home=None, away=None):
+    """Read only explicitly labelled full-game picks, rejecting ambiguity."""
+    lines = [line.strip() for line in section.splitlines() if line.strip()]
+    picks = []
+    # Some pages put an unlabelled team selection first in the summary.
+    # Accept it only when the whole line identifies a title team and result.
+    if lines and home and away:
+        first = re.fullmatch(r"(.+?)\s*(승리|승|패배|패)", lines[0])
+        if first and team(first[1], league) in {team(home, league), team(away, league)}:
+            picks.append(lines[0])
+    for index, line in enumerate(lines):
+        m = re.fullmatch(r"(?:\[승/무/패\]|승/무/패)\s*[:：]?\s*(.+)", line)
+        if m:
+            picks.append(m[1])
+        if league in {"KBO", "MLB", "NPB"}:
+            m = re.fullmatch(r"예상 승리팀\s*[:：]\s*(.+)", line)
+            if m:
+                picks.append(m[1] + " 승")
+        if league in {"KBL", "WKBL", "NBA"} and re.fullmatch(r"(?:✔️?\s*)?승부 예측", line):
+            if index + 1 < len(lines):
+                picks.append(re.sub(r"\s*\(\d+순위 추천\)\s*$", "", lines[index + 1]))
+    if len(picks) != 1:
+        raise ValueError("ambiguous_pick")
+    return picks[0]
 
 
 def parse_page(url, html, observed_at):
@@ -123,16 +180,24 @@ def parse_page(url, html, observed_at):
             raise ValueError("future_publication")
         publication = {"published_at": published.isoformat(), "publication_time_quality": "source_claim"}
         body = soup.select_one("#partner_content")
+        # "칼초" alone is not a team identity. One observed source title uses
+        # it for Lecce; accept that title only when the same article has both
+        # exact, separate team headings before its result section.
+        if league == "세리에A" and home == "프로시노네" and away == "칼초" and body:
+            headings = [p.get_text(" ", strip=True) for p in body.select("p")]
+            try:
+                first, second, result = (headings.index(name) for name in ("프로시노네", "레체", "결과 예측"))
+                if first < second < result and headings.count("레체") == 1:
+                    away = "레체"
+            except ValueError:
+                pass
         text = body.get_text("\n", strip=True) if body else ""
         # Never mix first-half and full-game recommendations.
         section = text.split("베팅 요약 및 추천")
         if len(section) != 2:
             raise ValueError("missing_fullgame_section")
         section = re.split("전반전|글로벌 주요", section[1])[0]
-        picks = re.findall(r"\[승/무/패\]\s*([^\n]+)", section)
-        if len(picks) != 1:
-            raise ValueError("ambiguous_pick")
-        choice = picks[0]
+        choice = goli_fullgame_choice(section, league, home, away)
         scheduled = None
         sport = "bs" if league in {"MLB", "KBO", "NPB"} else "bk" if league in {"NBA", "KBL", "WKBL"} else "vl" if "KOVO" in league or "V리그" in league else "sc"
         publication.update(month=int(m[4]), day=int(m[5]))
@@ -239,6 +304,7 @@ def collect(db, session):
     # Interleave sports so a busy NBA day cannot starve volleyball/baseball.
     groups = []
     latest_links = []
+    goli_titles = {}
     for category in ("soccer", "baseball", "basketball", "volleyball"):
         url = f"https://pick79.com/posts/{category}/"
         progress(f"listing:{category}")
@@ -260,6 +326,12 @@ def collect(db, session):
         soup = BeautifulSoup(fetch(session, url), "lxml", parse_only=SoupStrainer("a"))
         found = list(dict.fromkeys(urljoin(url, a["href"]).split("?")[0]
                      for a in soup.select('a[href*="/board/analysis/"]')))
+        for a in soup.select('a[href*="/board/analysis/"]'):
+            link = urljoin(url, a["href"]).split("?")[0]
+            title = a.get_text(" ", strip=True)
+            start = upcoming_goli_fixture(title, fixtures, now)
+            if start is not None:
+                goli_titles[link] = start
         links.extend(found)
         latest_links.extend(found[:1])
     except (requests.RequestException, ValueError, UnicodeError) as exc:
@@ -272,10 +344,14 @@ def collect(db, session):
     # checked; a cursor near the end must not delay today's first article.
     latest_links = list(dict.fromkeys(u for u in latest_links if safe_url(u)))
     latest_set = set(latest_links)
-    rotating = [u for u in links if u not in latest_set]
+    # Reserve at most four slots for uniquely identified upcoming fixtures.
+    # Keep latest checks and a rotating share so no source is permanently starved.
+    priority = sorted((u for u in links if u not in latest_set and u in goli_titles),
+                      key=lambda u: (goli_titles[u], u))[:4]
+    rotating = [u for u in links if u not in latest_set and u not in priority]
     cursor = int(state.get("cursor", 0)) % max(1, len(rotating))
-    rotated = (rotating[cursor:]+rotating[:cursor])[:16-len(latest_links)]
-    candidates = latest_links + rotated
+    rotated = (rotating[cursor:]+rotating[:cursor])[:16-len(latest_links)-len(priority)]
+    candidates = latest_links + priority + rotated
     for index, url in enumerate(candidates):
         progress(f"article:{index+1}/{len(candidates)}")
         try:
