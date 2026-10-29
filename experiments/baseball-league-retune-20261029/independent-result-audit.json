@@ -1,0 +1,961 @@
+{
+  "ok": true,
+  "settlement": "single fixed KRW10000; decimal payout truncation; no monthly cap",
+  "leagues": {
+    "mlb": {
+      "selected": {
+        "primary": "pyth:h45:residual",
+        "hit_leader": "pyth:h45:market50_score50",
+        "profit_leader": "poisson:h45:pure"
+      },
+      "validation_rows": 2251,
+      "candidate_count": 25,
+      "evaluation_rows": 346,
+      "all_saved_candidate_metrics_match": true,
+      "market_and_frozen_vote_reference_match": true,
+      "input_hashes": {
+        "results.json": "0f59b211835f35ec9009080a65e701224cf51705ed0a3da56f375e0cd1c67bae",
+        "frozen-selection.json": "567334096b22ce26c8091cec5dbb5c99a329cc908a07c872fc59c7045d7b991e",
+        "predictions.jsonl": "ba572d58b2ee4cb60f6740e2d892f5ebecc74e2e7adb7bd5caca73f3d4cd3b76",
+        "validation_predictions.jsonl": "a58a982803f460b406e8cba5adcea955092324c86f07246dcd12aa32d6ab9c71"
+      },
+      "panels": {
+        "external230": {
+          "all": {
+            "primary": {
+              "baseline": {
+                "n": 230,
+                "wins": 124,
+                "pushes": 0,
+                "accuracy": 0.5391304347826087,
+                "roi": -0.16852173913043478,
+                "net_krw": -387600,
+                "brier": 0.24666303945888143,
+                "logloss": 0.6862337100979342,
+                "daily_close_max_drawdown_krw": 446200
+              },
+              "candidate": {
+                "n": 230,
+                "wins": 122,
+                "pushes": 0,
+                "accuracy": 0.5304347826086957,
+                "roi": -0.18334782608695652,
+                "net_krw": -421700,
+                "brier": 0.2467654051067179,
+                "logloss": 0.686519121146492,
+                "daily_close_max_drawdown_krw": 445600
+              },
+              "pick_changes": 6,
+              "decomposition": {
+                "gained_wins": 2,
+                "lost_wins": 4,
+                "gained_payout_krw": 35400,
+                "lost_payout_krw": 69500,
+                "net_improvement_krw": -34100,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 230,
+                "wins": 124,
+                "pushes": 0,
+                "accuracy": 0.5391304347826087,
+                "roi": -0.16852173913043478,
+                "net_krw": -387600,
+                "brier": 0.24666303945888143,
+                "logloss": 0.6862337100979342,
+                "daily_close_max_drawdown_krw": 446200
+              },
+              "candidate": {
+                "n": 230,
+                "wins": 126,
+                "pushes": 0,
+                "accuracy": 0.5478260869565217,
+                "roi": -0.14678260869565218,
+                "net_krw": -337600,
+                "brier": 0.24684095904401726,
+                "logloss": 0.6867654469735816,
+                "daily_close_max_drawdown_krw": 344600
+              },
+              "pick_changes": 20,
+              "decomposition": {
+                "gained_wins": 11,
+                "lost_wins": 9,
+                "gained_payout_krw": 203200,
+                "lost_payout_krw": 153200,
+                "net_improvement_krw": 50000,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 230,
+                "wins": 124,
+                "pushes": 0,
+                "accuracy": 0.5391304347826087,
+                "roi": -0.16852173913043478,
+                "net_krw": -387600,
+                "brier": 0.24666303945888143,
+                "logloss": 0.6862337100979342,
+                "daily_close_max_drawdown_krw": 446200
+              },
+              "candidate": {
+                "n": 230,
+                "wins": 116,
+                "pushes": 0,
+                "accuracy": 0.5043478260869565,
+                "roi": -0.16252173913043477,
+                "net_krw": -373800,
+                "brier": 0.25163228176973124,
+                "logloss": 0.6964426156020802,
+                "daily_close_max_drawdown_krw": 373800
+              },
+              "pick_changes": 78,
+              "decomposition": {
+                "gained_wins": 35,
+                "lost_wins": 43,
+                "gained_payout_krw": 689300,
+                "lost_payout_krw": 675500,
+                "net_improvement_krw": 13800,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          },
+          "before_split": {
+            "primary": {
+              "baseline": {
+                "n": 100,
+                "wins": 52,
+                "pushes": 0,
+                "accuracy": 0.52,
+                "roi": -0.1919,
+                "net_krw": -191900,
+                "brier": 0.25131091550387635,
+                "logloss": 0.6962848196373046,
+                "daily_close_max_drawdown_krw": 191900
+              },
+              "candidate": {
+                "n": 100,
+                "wins": 52,
+                "pushes": 0,
+                "accuracy": 0.52,
+                "roi": -0.1919,
+                "net_krw": -191900,
+                "brier": 0.251042301796545,
+                "logloss": 0.6956123947862765,
+                "daily_close_max_drawdown_krw": 191900
+              },
+              "pick_changes": 0,
+              "decomposition": {
+                "gained_wins": 0,
+                "lost_wins": 0,
+                "gained_payout_krw": 0,
+                "lost_payout_krw": 0,
+                "net_improvement_krw": 0,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 100,
+                "wins": 52,
+                "pushes": 0,
+                "accuracy": 0.52,
+                "roi": -0.1919,
+                "net_krw": -191900,
+                "brier": 0.25131091550387635,
+                "logloss": 0.6962848196373046,
+                "daily_close_max_drawdown_krw": 191900
+              },
+              "candidate": {
+                "n": 100,
+                "wins": 56,
+                "pushes": 0,
+                "accuracy": 0.56,
+                "roi": -0.113,
+                "net_krw": -113000,
+                "brier": 0.24910948814176714,
+                "logloss": 0.6914610590439665,
+                "daily_close_max_drawdown_krw": 113000
+              },
+              "pick_changes": 8,
+              "decomposition": {
+                "gained_wins": 6,
+                "lost_wins": 2,
+                "gained_payout_krw": 112600,
+                "lost_payout_krw": 33700,
+                "net_improvement_krw": 78900,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 100,
+                "wins": 52,
+                "pushes": 0,
+                "accuracy": 0.52,
+                "roi": -0.1919,
+                "net_krw": -191900,
+                "brier": 0.25131091550387635,
+                "logloss": 0.6962848196373046,
+                "daily_close_max_drawdown_krw": 191900
+              },
+              "candidate": {
+                "n": 100,
+                "wins": 52,
+                "pushes": 0,
+                "accuracy": 0.52,
+                "roi": -0.1019,
+                "net_krw": -101900,
+                "brier": 0.2513529908268202,
+                "logloss": 0.6958815889020147,
+                "daily_close_max_drawdown_krw": 107700
+              },
+              "pick_changes": 42,
+              "decomposition": {
+                "gained_wins": 21,
+                "lost_wins": 21,
+                "gained_payout_krw": 417700,
+                "lost_payout_krw": 327700,
+                "net_improvement_krw": 90000,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          },
+          "split_onward": {
+            "primary": {
+              "baseline": {
+                "n": 130,
+                "wins": 72,
+                "pushes": 0,
+                "accuracy": 0.5538461538461539,
+                "roi": -0.15053846153846154,
+                "net_krw": -195700,
+                "brier": 0.24308775019350082,
+                "logloss": 0.6785020873753418,
+                "daily_close_max_drawdown_krw": 254300
+              },
+              "candidate": {
+                "n": 130,
+                "wins": 70,
+                "pushes": 0,
+                "accuracy": 0.5384615384615384,
+                "roi": -0.17676923076923076,
+                "net_krw": -229800,
+                "brier": 0.2434754845760815,
+                "logloss": 0.6795242952697347,
+                "daily_close_max_drawdown_krw": 253700
+              },
+              "pick_changes": 6,
+              "decomposition": {
+                "gained_wins": 2,
+                "lost_wins": 4,
+                "gained_payout_krw": 35400,
+                "lost_payout_krw": 69500,
+                "net_improvement_krw": -34100,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 130,
+                "wins": 72,
+                "pushes": 0,
+                "accuracy": 0.5538461538461539,
+                "roi": -0.15053846153846154,
+                "net_krw": -195700,
+                "brier": 0.24308775019350082,
+                "logloss": 0.6785020873753418,
+                "daily_close_max_drawdown_krw": 254300
+              },
+              "candidate": {
+                "n": 130,
+                "wins": 70,
+                "pushes": 0,
+                "accuracy": 0.5384615384615384,
+                "roi": -0.17276923076923076,
+                "net_krw": -224600,
+                "brier": 0.24509593666113286,
+                "logloss": 0.6831534376886703,
+                "daily_close_max_drawdown_krw": 242600
+              },
+              "pick_changes": 12,
+              "decomposition": {
+                "gained_wins": 5,
+                "lost_wins": 7,
+                "gained_payout_krw": 90600,
+                "lost_payout_krw": 119500,
+                "net_improvement_krw": -28900,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 130,
+                "wins": 72,
+                "pushes": 0,
+                "accuracy": 0.5538461538461539,
+                "roi": -0.15053846153846154,
+                "net_krw": -195700,
+                "brier": 0.24308775019350082,
+                "logloss": 0.6785020873753418,
+                "daily_close_max_drawdown_krw": 254300
+              },
+              "candidate": {
+                "n": 130,
+                "wins": 64,
+                "pushes": 0,
+                "accuracy": 0.49230769230769234,
+                "roi": -0.20915384615384616,
+                "net_krw": -271900,
+                "brier": 0.2518471209565861,
+                "logloss": 0.6968741746021303,
+                "daily_close_max_drawdown_krw": 323700
+              },
+              "pick_changes": 36,
+              "decomposition": {
+                "gained_wins": 14,
+                "lost_wins": 22,
+                "gained_payout_krw": 271600,
+                "lost_payout_krw": 347800,
+                "net_improvement_krw": -76200,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          }
+        },
+        "secondary116": {
+          "all": {
+            "primary": {
+              "baseline": {
+                "n": 116,
+                "wins": 63,
+                "pushes": 0,
+                "accuracy": 0.5431034482758621,
+                "roi": -0.13344827586206898,
+                "net_krw": -154800,
+                "brier": 0.2507875045179849,
+                "logloss": 0.6949799014399356,
+                "daily_close_max_drawdown_krw": 174800
+              },
+              "candidate": {
+                "n": 116,
+                "wins": 65,
+                "pushes": 0,
+                "accuracy": 0.5603448275862069,
+                "roi": -0.10172413793103448,
+                "net_krw": -118000,
+                "brier": 0.24859074103684625,
+                "logloss": 0.6904169504027556,
+                "daily_close_max_drawdown_krw": 138000
+              },
+              "pick_changes": 6,
+              "decomposition": {
+                "gained_wins": 4,
+                "lost_wins": 2,
+                "gained_payout_krw": 71300,
+                "lost_payout_krw": 34500,
+                "net_improvement_krw": 36800,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 116,
+                "wins": 63,
+                "pushes": 0,
+                "accuracy": 0.5431034482758621,
+                "roi": -0.13344827586206898,
+                "net_krw": -154800,
+                "brier": 0.2507875045179849,
+                "logloss": 0.6949799014399356,
+                "daily_close_max_drawdown_krw": 174800
+              },
+              "candidate": {
+                "n": 116,
+                "wins": 64,
+                "pushes": 0,
+                "accuracy": 0.5517241379310345,
+                "roi": -0.11456896551724138,
+                "net_krw": -132900,
+                "brier": 0.24689005777974096,
+                "logloss": 0.686848417263931,
+                "daily_close_max_drawdown_krw": 152900
+              },
+              "pick_changes": 7,
+              "decomposition": {
+                "gained_wins": 4,
+                "lost_wins": 3,
+                "gained_payout_krw": 71300,
+                "lost_payout_krw": 49400,
+                "net_improvement_krw": 21900,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 116,
+                "wins": 63,
+                "pushes": 0,
+                "accuracy": 0.5431034482758621,
+                "roi": -0.13344827586206898,
+                "net_krw": -154800,
+                "brier": 0.2507875045179849,
+                "logloss": 0.6949799014399356,
+                "daily_close_max_drawdown_krw": 174800
+              },
+              "candidate": {
+                "n": 116,
+                "wins": 64,
+                "pushes": 0,
+                "accuracy": 0.5517241379310345,
+                "roi": -0.05603448275862069,
+                "net_krw": -65000,
+                "brier": 0.24627537125843807,
+                "logloss": 0.6855822353965554,
+                "daily_close_max_drawdown_krw": 107600
+              },
+              "pick_changes": 47,
+              "decomposition": {
+                "gained_wins": 24,
+                "lost_wins": 23,
+                "gained_payout_krw": 469600,
+                "lost_payout_krw": 379800,
+                "net_improvement_krw": 89800,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          },
+          "before_split": {
+            "primary": {
+              "baseline": {
+                "n": 84,
+                "wins": 50,
+                "pushes": 0,
+                "accuracy": 0.5952380952380952,
+                "roi": -0.046785714285714285,
+                "net_krw": -39300,
+                "brier": 0.24348919294993954,
+                "logloss": 0.6802818566703193,
+                "daily_close_max_drawdown_krw": 100900
+              },
+              "candidate": {
+                "n": 84,
+                "wins": 51,
+                "pushes": 0,
+                "accuracy": 0.6071428571428571,
+                "roi": -0.02630952380952381,
+                "net_krw": -22100,
+                "brier": 0.2430273861451509,
+                "logloss": 0.6792428830878808,
+                "daily_close_max_drawdown_krw": 49200
+              },
+              "pick_changes": 5,
+              "decomposition": {
+                "gained_wins": 3,
+                "lost_wins": 2,
+                "gained_payout_krw": 51700,
+                "lost_payout_krw": 34500,
+                "net_improvement_krw": 17200,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 84,
+                "wins": 50,
+                "pushes": 0,
+                "accuracy": 0.5952380952380952,
+                "roi": -0.046785714285714285,
+                "net_krw": -39300,
+                "brier": 0.24348919294993954,
+                "logloss": 0.6802818566703193,
+                "daily_close_max_drawdown_krw": 100900
+              },
+              "candidate": {
+                "n": 84,
+                "wins": 50,
+                "pushes": 0,
+                "accuracy": 0.5952380952380952,
+                "roi": -0.04404761904761905,
+                "net_krw": -37000,
+                "brier": 0.2445160210327728,
+                "logloss": 0.6821048648114298,
+                "daily_close_max_drawdown_krw": 58500
+              },
+              "pick_changes": 6,
+              "decomposition": {
+                "gained_wins": 3,
+                "lost_wins": 3,
+                "gained_payout_krw": 51700,
+                "lost_payout_krw": 49400,
+                "net_improvement_krw": 2300,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 84,
+                "wins": 50,
+                "pushes": 0,
+                "accuracy": 0.5952380952380952,
+                "roi": -0.046785714285714285,
+                "net_krw": -39300,
+                "brier": 0.24348919294993954,
+                "logloss": 0.6802818566703193,
+                "daily_close_max_drawdown_krw": 100900
+              },
+              "candidate": {
+                "n": 84,
+                "wins": 46,
+                "pushes": 0,
+                "accuracy": 0.5476190476190477,
+                "roi": -0.07095238095238095,
+                "net_krw": -59600,
+                "brier": 0.24880598976858478,
+                "logloss": 0.6906726113438023,
+                "daily_close_max_drawdown_krw": 87700
+              },
+              "pick_changes": 32,
+              "decomposition": {
+                "gained_wins": 14,
+                "lost_wins": 18,
+                "gained_payout_krw": 274900,
+                "lost_payout_krw": 295200,
+                "net_improvement_krw": -20300,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          },
+          "split_onward": {
+            "primary": {
+              "baseline": {
+                "n": 32,
+                "wins": 13,
+                "pushes": 0,
+                "accuracy": 0.40625,
+                "roi": -0.3609375,
+                "net_krw": -115500,
+                "brier": 0.2699455723841038,
+                "logloss": 0.7335622689601786,
+                "daily_close_max_drawdown_krw": 140300
+              },
+              "candidate": {
+                "n": 32,
+                "wins": 14,
+                "pushes": 0,
+                "accuracy": 0.4375,
+                "roi": -0.2996875,
+                "net_krw": -95900,
+                "brier": 0.26319454762754657,
+                "logloss": 0.7197488771043021,
+                "daily_close_max_drawdown_krw": 120700
+              },
+              "pick_changes": 1,
+              "decomposition": {
+                "gained_wins": 1,
+                "lost_wins": 0,
+                "gained_payout_krw": 19600,
+                "lost_payout_krw": 0,
+                "net_improvement_krw": 19600,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 32,
+                "wins": 13,
+                "pushes": 0,
+                "accuracy": 0.40625,
+                "roi": -0.3609375,
+                "net_krw": -115500,
+                "brier": 0.2699455723841038,
+                "logloss": 0.7335622689601786,
+                "daily_close_max_drawdown_krw": 140300
+              },
+              "candidate": {
+                "n": 32,
+                "wins": 14,
+                "pushes": 0,
+                "accuracy": 0.4375,
+                "roi": -0.2996875,
+                "net_krw": -95900,
+                "brier": 0.25312190424053244,
+                "logloss": 0.6993002424517458,
+                "daily_close_max_drawdown_krw": 120700
+              },
+              "pick_changes": 1,
+              "decomposition": {
+                "gained_wins": 1,
+                "lost_wins": 0,
+                "gained_payout_krw": 19600,
+                "lost_payout_krw": 0,
+                "net_improvement_krw": 19600,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 32,
+                "wins": 13,
+                "pushes": 0,
+                "accuracy": 0.40625,
+                "roi": -0.3609375,
+                "net_krw": -115500,
+                "brier": 0.2699455723841038,
+                "logloss": 0.7335622689601786,
+                "daily_close_max_drawdown_krw": 140300
+              },
+              "candidate": {
+                "n": 32,
+                "wins": 18,
+                "pushes": 0,
+                "accuracy": 0.5625,
+                "roi": -0.016875,
+                "net_krw": -5400,
+                "brier": 0.23963249766930292,
+                "logloss": 0.672219998535033,
+                "daily_close_max_drawdown_krw": 30800
+              },
+              "pick_changes": 15,
+              "decomposition": {
+                "gained_wins": 10,
+                "lost_wins": 5,
+                "gained_payout_krw": 194700,
+                "lost_payout_krw": 84600,
+                "net_improvement_krw": 110100,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          }
+        }
+      }
+    },
+    "kbo": {
+      "selected": {
+        "primary": "logistic:full:ridge0.1",
+        "hit_leader": "logistic:strength:ridge0.01",
+        "profit_leader": "logistic:strength:ridge0.01"
+      },
+      "validation_rows": 712,
+      "candidate_count": 30,
+      "evaluation_rows": 198,
+      "all_saved_candidate_metrics_match": true,
+      "market_and_frozen_vote_reference_match": true,
+      "input_hashes": {
+        "results.json": "3aa49a6a2dfdb7d5a9b2ab3435ac9b54d71dcd814c630fdf04e8e3537eced8c4",
+        "frozen-selection.json": "1616399dba6ed63b82c36462e70d48c072ffa5e6d8af2d3e29f07f705a2b63c1",
+        "predictions.jsonl": "b8cfb34fec207d862cffb6e828594b5b8db8a58c20e9f38e8325718f16bfcbeb",
+        "validation_predictions.jsonl": "c1a3ad476c4dbfcdb53a0897cf0f4b763670f44bcec1c026b25ee294b7071343"
+      },
+      "panels": {
+        "kbo198": {
+          "all": {
+            "primary": {
+              "baseline": {
+                "n": 198,
+                "wins": 119,
+                "pushes": 0,
+                "accuracy": 0.601010101010101,
+                "roi": -0.07404040404040405,
+                "net_krw": -146600,
+                "brier": 0.23460470849197543,
+                "logloss": 0.661282209176174,
+                "daily_close_max_drawdown_krw": 157700
+              },
+              "candidate": {
+                "n": 198,
+                "wins": 119,
+                "pushes": 0,
+                "accuracy": 0.601010101010101,
+                "roi": -0.07136363636363637,
+                "net_krw": -141300,
+                "brier": 0.23550197011536939,
+                "logloss": 0.6632616299916956,
+                "daily_close_max_drawdown_krw": 210200
+              },
+              "pick_changes": 14,
+              "decomposition": {
+                "gained_wins": 7,
+                "lost_wins": 7,
+                "gained_payout_krw": 129200,
+                "lost_payout_krw": 123900,
+                "net_improvement_krw": 5300,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 198,
+                "wins": 119,
+                "pushes": 0,
+                "accuracy": 0.601010101010101,
+                "roi": -0.07404040404040405,
+                "net_krw": -146600,
+                "brier": 0.23460470849197543,
+                "logloss": 0.661282209176174,
+                "daily_close_max_drawdown_krw": 157700
+              },
+              "candidate": {
+                "n": 198,
+                "wins": 118,
+                "pushes": 0,
+                "accuracy": 0.5959595959595959,
+                "roi": -0.07853535353535354,
+                "net_krw": -155500,
+                "brier": 0.23597411540791322,
+                "logloss": 0.6641160540470359,
+                "daily_close_max_drawdown_krw": 208800
+              },
+              "pick_changes": 19,
+              "decomposition": {
+                "gained_wins": 9,
+                "lost_wins": 10,
+                "gained_payout_krw": 161800,
+                "lost_payout_krw": 170700,
+                "net_improvement_krw": -8900,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 198,
+                "wins": 119,
+                "pushes": 0,
+                "accuracy": 0.601010101010101,
+                "roi": -0.07404040404040405,
+                "net_krw": -146600,
+                "brier": 0.23460470849197543,
+                "logloss": 0.661282209176174,
+                "daily_close_max_drawdown_krw": 157700
+              },
+              "candidate": {
+                "n": 198,
+                "wins": 118,
+                "pushes": 0,
+                "accuracy": 0.5959595959595959,
+                "roi": -0.07853535353535354,
+                "net_krw": -155500,
+                "brier": 0.23597411540791322,
+                "logloss": 0.6641160540470359,
+                "daily_close_max_drawdown_krw": 208800
+              },
+              "pick_changes": 19,
+              "decomposition": {
+                "gained_wins": 9,
+                "lost_wins": 10,
+                "gained_payout_krw": 161800,
+                "lost_payout_krw": 170700,
+                "net_improvement_krw": -8900,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          },
+          "before_split": {
+            "primary": {
+              "baseline": {
+                "n": 152,
+                "wins": 92,
+                "pushes": 0,
+                "accuracy": 0.6052631578947368,
+                "roi": -0.06901315789473685,
+                "net_krw": -104900,
+                "brier": 0.23188913136893277,
+                "logloss": 0.655264220030794,
+                "daily_close_max_drawdown_krw": 157700
+              },
+              "candidate": {
+                "n": 152,
+                "wins": 91,
+                "pushes": 0,
+                "accuracy": 0.5986842105263158,
+                "roi": -0.07480263157894737,
+                "net_krw": -113700,
+                "brier": 0.23125961487339064,
+                "logloss": 0.6540786668373377,
+                "daily_close_max_drawdown_krw": 210200
+              },
+              "pick_changes": 11,
+              "decomposition": {
+                "gained_wins": 5,
+                "lost_wins": 6,
+                "gained_payout_krw": 96000,
+                "lost_payout_krw": 104800,
+                "net_improvement_krw": -8800,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 152,
+                "wins": 92,
+                "pushes": 0,
+                "accuracy": 0.6052631578947368,
+                "roi": -0.06901315789473685,
+                "net_krw": -104900,
+                "brier": 0.23188913136893277,
+                "logloss": 0.655264220030794,
+                "daily_close_max_drawdown_krw": 157700
+              },
+              "candidate": {
+                "n": 152,
+                "wins": 90,
+                "pushes": 0,
+                "accuracy": 0.5921052631578947,
+                "roi": -0.08703947368421053,
+                "net_krw": -132300,
+                "brier": 0.23170240290315935,
+                "logloss": 0.6549245500879117,
+                "daily_close_max_drawdown_krw": 208800
+              },
+              "pick_changes": 14,
+              "decomposition": {
+                "gained_wins": 6,
+                "lost_wins": 8,
+                "gained_payout_krw": 109300,
+                "lost_payout_krw": 136700,
+                "net_improvement_krw": -27400,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 152,
+                "wins": 92,
+                "pushes": 0,
+                "accuracy": 0.6052631578947368,
+                "roi": -0.06901315789473685,
+                "net_krw": -104900,
+                "brier": 0.23188913136893277,
+                "logloss": 0.655264220030794,
+                "daily_close_max_drawdown_krw": 157700
+              },
+              "candidate": {
+                "n": 152,
+                "wins": 90,
+                "pushes": 0,
+                "accuracy": 0.5921052631578947,
+                "roi": -0.08703947368421053,
+                "net_krw": -132300,
+                "brier": 0.23170240290315935,
+                "logloss": 0.6549245500879117,
+                "daily_close_max_drawdown_krw": 208800
+              },
+              "pick_changes": 14,
+              "decomposition": {
+                "gained_wins": 6,
+                "lost_wins": 8,
+                "gained_payout_krw": 109300,
+                "lost_payout_krw": 136700,
+                "net_improvement_krw": -27400,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          },
+          "split_onward": {
+            "primary": {
+              "baseline": {
+                "n": 46,
+                "wins": 27,
+                "pushes": 0,
+                "accuracy": 0.5869565217391305,
+                "roi": -0.09065217391304348,
+                "net_krw": -41700,
+                "brier": 0.24357791985507263,
+                "logloss": 0.6811677385261258,
+                "daily_close_max_drawdown_krw": 59600
+              },
+              "candidate": {
+                "n": 46,
+                "wins": 28,
+                "pushes": 0,
+                "accuracy": 0.6086956521739131,
+                "roi": -0.06,
+                "net_krw": -27600,
+                "brier": 0.2495201874366902,
+                "logloss": 0.6936053343278353,
+                "daily_close_max_drawdown_krw": 45500
+              },
+              "pick_changes": 3,
+              "decomposition": {
+                "gained_wins": 2,
+                "lost_wins": 1,
+                "gained_payout_krw": 33200,
+                "lost_payout_krw": 19100,
+                "net_improvement_krw": 14100,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "hit_leader": {
+              "baseline": {
+                "n": 46,
+                "wins": 27,
+                "pushes": 0,
+                "accuracy": 0.5869565217391305,
+                "roi": -0.09065217391304348,
+                "net_krw": -41700,
+                "brier": 0.24357791985507263,
+                "logloss": 0.6811677385261258,
+                "daily_close_max_drawdown_krw": 59600
+              },
+              "candidate": {
+                "n": 46,
+                "wins": 28,
+                "pushes": 0,
+                "accuracy": 0.6086956521739131,
+                "roi": -0.050434782608695654,
+                "net_krw": -23200,
+                "brier": 0.2500893393366644,
+                "logloss": 0.6944879801728362,
+                "daily_close_max_drawdown_krw": 41100
+              },
+              "pick_changes": 5,
+              "decomposition": {
+                "gained_wins": 3,
+                "lost_wins": 2,
+                "gained_payout_krw": 52500,
+                "lost_payout_krw": 34000,
+                "net_improvement_krw": 18500,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            },
+            "profit_leader": {
+              "baseline": {
+                "n": 46,
+                "wins": 27,
+                "pushes": 0,
+                "accuracy": 0.5869565217391305,
+                "roi": -0.09065217391304348,
+                "net_krw": -41700,
+                "brier": 0.24357791985507263,
+                "logloss": 0.6811677385261258,
+                "daily_close_max_drawdown_krw": 59600
+              },
+              "candidate": {
+                "n": 46,
+                "wins": 28,
+                "pushes": 0,
+                "accuracy": 0.6086956521739131,
+                "roi": -0.050434782608695654,
+                "net_krw": -23200,
+                "brier": 0.2500893393366644,
+                "logloss": 0.6944879801728362,
+                "daily_close_max_drawdown_krw": 41100
+              },
+              "pick_changes": 5,
+              "decomposition": {
+                "gained_wins": 3,
+                "lost_wins": 2,
+                "gained_payout_krw": 52500,
+                "lost_payout_krw": 34000,
+                "net_improvement_krw": 18500,
+                "interpretation": "ROI difference equals new-only winning payouts minus baseline-only winning payouts; same-game fixed stake"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
