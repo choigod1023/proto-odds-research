@@ -11,6 +11,7 @@ def isolated(monkeypatch):
     monkeypatch.setattr(s, '_market_cycle_pending', threading.Event())
     monkeypatch.setattr(s, '_tipster_publish_pending', threading.Event())
     monkeypatch.setattr(s, '_tipster_wait_started', None)
+    monkeypatch.setattr(s, '_odds_yielded_tipster_waits', set())
     monkeypatch.setattr(s, '_tailslips_wait_started', None)
     monkeypatch.setattr(s, '_available_memory_mb', lambda: 700)
 
@@ -102,3 +103,23 @@ def test_only_successful_publication_acknowledges_changed_inputs(monkeypatch):
     monkeypatch.setattr(s, '_publish_match_responses', lambda: None)
     assert s._run_market_refresh().returncode == 0
     assert not s._tipster_publish_pending.is_set()
+
+
+def test_low_memory_wait_yields_once_then_odds_continue_and_next_wait_gets_a_turn(monkeypatch):
+    monkeypatch.setattr(s.time, 'monotonic', lambda: 500.)
+    monkeypatch.setattr(s, '_available_memory_mb', lambda: 300)
+    monkeypatch.setattr(s, '_tipster_wait_started', 100.)
+    calls = []
+    monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: calls.append('odds') or SimpleNamespace(returncode=0))
+    monkeypatch.setattr(s, '_refresh_market_after_collection', lambda: 0)
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    assert calls == []
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    assert calls == ['odds', 'odds']
+    # A new waiting episode is entitled to one opportunity again.
+    s._tipster_wait_started = 200.
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    assert calls == ['odds', 'odds']
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    assert calls == ['odds', 'odds', 'odds']
