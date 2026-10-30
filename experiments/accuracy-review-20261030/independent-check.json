@@ -1,0 +1,87 @@
+{
+  "input_sha256": {
+    "predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+    "results.json": "fc780df6f4fede73f81948dfd1bafe3325acf95803da6573ddd02975603f6d07",
+    "targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0"
+  },
+  "target_rows": 710,
+  "prediction_rows": 5544,
+  "independent_settlements": 23752,
+  "summary_values_checked": 1400,
+  "max_summary_absolute_difference": 0.0,
+  "errors": [],
+  "selected_actual_vote_metrics": {
+    "K리그1": {
+      "frozen": {
+        "opportunities": 15,
+        "bets": 15,
+        "wins": 7,
+        "coverage": 1.0,
+        "accuracy": 0.4666666666666667,
+        "roi": 0.048
+      },
+      "prequential": {
+        "opportunities": 15,
+        "bets": 15,
+        "wins": 6,
+        "coverage": 1.0,
+        "accuracy": 0.4,
+        "roi": -0.22533333333333333
+      }
+    },
+    "KBO": {
+      "frozen": {
+        "opportunities": 199,
+        "bets": 199,
+        "wins": 108,
+        "coverage": 1.0,
+        "accuracy": 0.542713567839196,
+        "roi": -0.12170854271356783
+      },
+      "prequential": {
+        "opportunities": 199,
+        "bets": 199,
+        "wins": 112,
+        "coverage": 1.0,
+        "accuracy": 0.5628140703517588,
+        "roi": -0.11879396984924623
+      }
+    },
+    "NPB": {
+      "frozen": {
+        "opportunities": 110,
+        "bets": 110,
+        "wins": 66,
+        "coverage": 1.0,
+        "accuracy": 0.6,
+        "roi": -0.03418181818181818
+      },
+      "prequential": {
+        "opportunities": 110,
+        "bets": 110,
+        "wins": 57,
+        "coverage": 1.0,
+        "accuracy": 0.5181818181818182,
+        "roi": -0.15227272727272728
+      }
+    },
+    "MLB": {
+      "frozen": {
+        "opportunities": 112,
+        "bets": 112,
+        "wins": 52,
+        "coverage": 1.0,
+        "accuracy": 0.4642857142857143,
+        "roi": -0.2330357142857143
+      },
+      "prequential": {
+        "opportunities": 112,
+        "bets": 112,
+        "wins": 49,
+        "coverage": 1.0,
+        "accuracy": 0.4375,
+        "roi": -0.2749107142857143
+      }
+    }
+  }
+}
