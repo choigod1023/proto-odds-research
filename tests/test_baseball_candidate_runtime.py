@@ -28,7 +28,7 @@ def mlb_game():
               live_market_observed_at='2026-10-29T13:00:00Z',
               options=[dict(market='승패',label='',선택=s,배당=o,시장확률=p,게임번호='1')
                        for s,o,p in [('홈',1.8,.52),('원정',1.9,.48)]])
-    snapshot=build_decision_snapshot(game,as_of='2026-10-29T13:01:00Z',tipster_votes=[])
+    snapshot=build_decision_snapshot(game,as_of='2026-10-29T13:01:00Z',tipster_votes=[{'_tipster_load_error': True}])
     game['decision_snapshot']=snapshot
     game['research_player_inputs']=dict(status='captured',observed_at='2026-10-29T13:00:00Z',candidate_input=source)
     return game
@@ -128,3 +128,17 @@ def test_real_runtime_automatically_settles_candidate_when_operating_abstains(tm
     assert settle_live_market_results(feed,runtime)==1
     result=runtime.records()[-1]['outcome']['research_candidate_results']['mlb_frozen_linear_l2_10']
     assert result['result']=='void' and result['hypothetical_net_won']==0
+
+
+def test_market_fallback_is_accepted_as_market_evidence_in_operating_ledger():
+    game=mlb_game()
+    snapshot=build_decision_snapshot(game,as_of='2026-10-29T13:01:00Z',tipster_votes=[])
+    game['decision_snapshot']=snapshot
+    record=dict(record_type='prediction',snapshot_id=snapshot['decision_id'],event_id=snapshot['event_id'],
+                decision_id=snapshot['decision_id'],as_of=snapshot['as_of'],captured_at='2026-10-29T13:02:00Z',
+                kickoff='2026-10-29T15:00:00Z',market_observed_at='2026-10-29T13:00:00Z',
+                model=snapshot['model'],features=ledger_features(game),predictions=prediction_payload(game),
+                input_revision_hash=snapshot['input_revision_hash'],ledger_sequence=1)
+    normalized=normalize_operating_prediction(record)
+    assert normalized['roi_input_eligible'], normalized['exclusion_reasons']
+    assert normalized['model_identity']['selection_source']=='market_fallback'

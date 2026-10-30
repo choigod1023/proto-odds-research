@@ -613,10 +613,12 @@ def build_decision_snapshot(
     vote_policy = hybrid.get('version') == TIPSTER_VOTE_VERSION
     vote_applied = bool(vote_policy and selected and hybrid.get('status') == 'applied')
     if hybrid:
-        used = hybrid.get("status") == "applied"
+        market_fallback = hybrid.get("selection_source") == "market_fallback"
+        used = hybrid.get("status") == "applied" and not market_fallback
         evidence.append({"id": "tipster_votes", "label": "경기 전 픽스터 승패 투표" if vote_policy else "경기 전 픽스터 승패 투표 (10%)",
             "available": used, "observed_at": hybrid.get("latest_observed_at"),
-            "summary": ("최다 득표 선택 · 지지율은 적중확률이 아님 · 수익성 미검증" if vote_policy and used
+            "summary": ("유효 투표 없음 · 배당 기반 시장확률 최고 선택" if vote_policy and market_fallback
+                        else "최다 득표 선택 · 지지율은 적중확률이 아님 · 수익성 미검증" if vote_policy and used
                         else "유효 투표 없음 또는 동률 · 선택 보류" if vote_policy
                         else "운영 정책 적용 · 수익성 미검증" if used else "유효 투표 없음 · 시장 확률 유지"),
             **_all_usage(market="ignored", residual="used" if used and not vote_policy else "missing",

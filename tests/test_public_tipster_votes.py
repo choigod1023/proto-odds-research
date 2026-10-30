@@ -284,7 +284,7 @@ def test_non_mlb_votes_refresh_unchanged_prices_and_freeze_at_t30(tmp_path, monk
         sport=g["sport"], league=g["league"], home=g["home"], away=g["away"],
         market="승패", label="", n_way=2, odds=[1.8, 1.9], result="경기전")}})
     doc, _ = refresh.refresh_document({"live": [], "past": []}, feed, now=datetime.fromisoformat(AT))
-    assert doc["live"][0]["추천"] is None
+    assert doc["live"][0]["tipster_hybrid"]["selection_source"] == "market_fallback"
     votes.append(event(html=markup(choice="LG")))
     doc, n = refresh.refresh_document(doc, feed, now=datetime.fromisoformat("2026-10-26T04:01:00Z"))
     assert n == 1 and doc["live"][0]["추천"]["선택"] == "원정"

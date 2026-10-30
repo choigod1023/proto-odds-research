@@ -3,7 +3,7 @@
 Only first-observed, full-game pregame moneyline votes are admissible. No
 network requests, result lookups or fitted parameters in the decision path.
 Public full-game adapters supplement MLB votes with live-observed multi-sport
-evidence. Missing or tied votes withhold selection; vote share is not probability.
+evidence. Missing votes use a market fallback; ties withhold. Vote share is not probability.
 """
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -33,7 +33,7 @@ def load_votes(as_of):
     """Bound SQL history and Python memory; any failure retains baseline."""
     from runtime_db import RuntimeDatabase, database_enabled
     if not database_enabled():
-        return []
+        return [{"_tipster_load_error": True}]
     try:
         cutoff = stamp(as_of)
         # Date bounds accommodate both Z and +00:00 serialized timestamps.
@@ -46,12 +46,12 @@ def load_votes(as_of):
             for row in db.iter_events(stream, since=since, through=through):
                 scanned += 1
                 if scanned > 20000:
-                    return []  # Never use a silently truncated electorate.
+                    return [{"_tipster_load_error": True}]  # Never use a silently truncated electorate.
                 if row.get("event_type") == "first_observed":
                     rows.append(row)
         return rows
     except (OSError, ValueError, TypeError, sqlite3.Error):
-        return []
+        return [{"_tipster_load_error": True}]
 
 
 def context(game, rows, as_of, built_at):
@@ -59,6 +59,8 @@ def context(game, rows, as_of, built_at):
         return None
     fallback = {"version": VERSION, "status": "withheld", "input_status": "withheld",
                 "reason": "no_eligible_pregame_votes", "authors": 0}
+    if any(isinstance(row, dict) and row.get("_tipster_load_error") for row in rows or []):
+        return dict(fallback, reason="tipster_input_unavailable")
     try:
         match = re.fullmatch(r"(\d{2})\.(\d{2})\([^)]*\) (\d{2}):(\d{2})", game.get("date", ""))
         kickoff = datetime(int(game["year"]), *map(int, match.groups()), tzinfo=KST)
@@ -123,6 +125,9 @@ def context(game, rows, as_of, built_at):
         if len({e['side'] for e in first}) == 1:
             votes[author] = min(first, key=lambda e:e['id'])
     if not votes:
+        # Simultaneous conflicting votes are not evidence of an empty intake.
+        if candidates:
+            return dict(fallback, reason="ambiguous_author_votes")
         return fallback
     evidence = sorted(votes.values(), key=lambda x: (x["author"], x["id"]))
     digest = hashlib.sha256(json.dumps(evidence, sort_keys=True).encode()).hexdigest()
@@ -150,32 +155,42 @@ def apply(game, info):
     try:
         p = [float(sides[s]["시장확률"]) for s in order]
         prices = [float(sides[s]["배당"]) for s in order]
-        if len(options) != len(order) or set(sides) != set(order) or len({o.get("market") for o in options}) != 1 or not all(math.isfinite(x) for x in p+prices) or min(p) <= 0 or max(p) >= 1 or abs(sum(p)-1) > .01 or min(prices) <= 1:
+        expected_market = "승무패" if len(order) == 3 else "승패"
+        if len(options) != len(order) or set(sides) != set(order) or {o.get("market") for o in options} != {expected_market} or not all(math.isfinite(x) for x in p+prices) or min(p) <= 0 or max(p) >= 1 or abs(sum(p)-1) > .01 or min(prices) <= 1:
             raise ValueError("invalid binary market")
         shares = info.get("vote_shares") or {"홈": info.get("home_vote_share", 0), "원정": 1-info.get("home_vote_share", 0), "무": 0}
         if info["status"] == "applied" and (not all(math.isfinite(shares[s]) and 0 <= shares[s] <= 1 for s in order) or abs(sum(shares[s] for s in order)-1) > 1e-8):
             raise ValueError("invalid vote vector")
     except (KeyError, TypeError, ValueError):
-        game["tipster_hybrid"] = dict(info, status="withheld", reason="invalid_full_game_moneyline")
+        game["tipster_hybrid"] = dict(info, status="withheld", reason="invalid_full_game_moneyline", input_reason=info.get("reason"))
         return None
     game["tipster_hybrid"] = info
     game["probability_pipeline"]["selection_policy"] = VERSION
-    if info['status'] != 'applied':
+    market_fallback = (info.get('status') == 'withheld'
+                       and info.get('reason') == 'no_eligible_pregame_votes')
+    if info['status'] != 'applied' and not market_fallback:
         return None
-    leaders = [s for s in order if shares[s] == max(shares[x] for x in order)]
+    leaders = ([s for i, s in enumerate(order) if p[i] == max(p)] if market_fallback
+               else [s for s in order if shares[s] == max(shares[x] for x in order)])
     if len(leaders) != 1:
-        game['tipster_hybrid'] = dict(info,status='withheld',reason='tied_tipster_votes',selected_side=None)
+        game['tipster_hybrid'] = dict(info,status='withheld',reason=('tied_market_probabilities' if market_fallback else 'tied_tipster_votes'),input_reason=info.get('reason'),selected_side=None)
         return None
     selected = leaders[0]
-    game['tipster_hybrid'] = dict(info,selected_side=selected)
+    game['tipster_hybrid'] = (dict(info, status='applied', input_status='withheld',
+                                     reason='market_fallback_no_votes', input_reason=info.get('reason'), selection_source='market_fallback',
+                                     selected_side=selected) if market_fallback else dict(info, selected_side=selected))
     for i, side in enumerate(order):
         option = sides[side]
         probability = p[i]
         option.update({"최종확률": probability, "AI반영": False,
                        "확률근거": "shin_market",
                        "예상적중확률": round(probability, 4), "추천점수": round(probability, 4),
-                       "픽스터지지율": shares[side],
-                       "선택근거": VERSION, "추천우선순위": "tipster_vote"})
+                       "선택근거": "market_fallback" if market_fallback else VERSION,
+                       "추천우선순위": "market_fallback" if market_fallback else "tipster_vote"})
+        if market_fallback:
+            option.pop("픽스터지지율", None)
+        else:
+            option["픽스터지지율"] = shares[side]
         option.pop("제외", None)
     game["probability_pipeline"].update(operating_version=VERSION, policy_authorized=True,
         status="operational", affects_probability=False, affects_selection=True,
