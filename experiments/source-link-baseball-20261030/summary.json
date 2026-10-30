@@ -1,0 +1,64 @@
+{
+  "http_attempts": 95,
+  "selected_primary": {
+    "KBO": 20,
+    "NPB": 11
+  },
+  "parsed_games": {
+    "KBO": 35,
+    "NPB": 63
+  },
+  "parsed_pitcher_rows": {
+    "KBO": 384,
+    "NPB": 506
+  },
+  "parsed_pitch_counts": {
+    "KBO": 70,
+    "NPB": 506
+  },
+  "parsed_nine_player_lineups": {
+    "NPB": 126
+  },
+  "matched_primary": {
+    "KBO": 20,
+    "NPB": 11
+  },
+  "primary_feature_rows": {
+    "KBO": 17,
+    "NPB": 11
+  },
+  "auxiliary_feature_rows": {
+    "NPB": 50,
+    "KBO": 25
+  },
+  "matched_auxiliary": {
+    "NPB": 62,
+    "KBO": 35
+  },
+  "primary_coverage_reasons": {
+    "no_verified_prior_history": 3,
+    "features_available": 28,
+    "outside_frozen_first6_target_dates": 283
+  },
+  "auxiliary_candidates": {
+    "NPB": 65,
+    "KBO": 35
+  },
+  "unmatched_reasons": {
+    "kickoff_difference_over30m": 1,
+    "official_target_fixture_not_collected": 2
+  },
+  "negative_probe_reasons": {
+    "npb_not_final": 1,
+    "official_http200_error_page": 3
+  },
+  "field_limitations": {
+    "KBO_relief_pitch_count": "unavailable in Summary; never substitute BF or entry inning",
+    "KBO_batting_order": "unavailable in Summary; detailed official endpoint returned error page",
+    "KBO_player_identity": "team-scoped display names only; repeat-appearance counts can collide for homonyms",
+    "all_target_lineups": "diagnostic_only_unproven_pregame_publication",
+    "workload": "observed subset, not complete window; empty/missing source dates not zero-filled"
+  },
+  "roi_inspected": false,
+  "model_fitted": false
+}

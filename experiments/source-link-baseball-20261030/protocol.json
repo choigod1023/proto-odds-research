@@ -1,0 +1,49 @@
+{
+  "frozen_at": "2026-10-30T05:21:24.639489+00:00",
+  "input_sha256": "978fbd314188187627fc80c0fb23ae67c6f059e36236c6a9488d5430556e9842",
+  "selection": "first six distinct local target dates per league; every strict claimed-time case on those dates; no label/odds/outcome selection",
+  "dates": {
+    "KBO": [
+      "2026-03-29",
+      "2026-03-31",
+      "2026-04-01",
+      "2026-04-02",
+      "2026-04-03",
+      "2026-04-04"
+    ],
+    "NPB": [
+      "2026-03-31",
+      "2026-04-01",
+      "2026-04-02",
+      "2026-04-03",
+      "2026-04-07",
+      "2026-04-08"
+    ]
+  },
+  "primary_counts": {
+    "KBO": 204,
+    "NPB": 110
+  },
+  "selected_counts": {
+    "KBO": 20,
+    "NPB": 11
+  },
+  "max_http_attempts_including_failures": 160,
+  "allocation": "at most 80 attempts per league; cache reuse; no redirect/retry",
+  "history": "target local date minus 4,3,2 days; fixed three source-calendar dates; source-calendar-end plus 24h must precede decision",
+  "features": [
+    "relief_pitch_count_prior3_calendar_days",
+    "relief_appearances_prior3_calendar_days",
+    "relievers_ge30_pitches_prior3_calendar_days",
+    "relievers_ge2_appearances_prior3_calendar_days"
+  ],
+  "source_timezones": {
+    "KBO": "Asia/Seoul",
+    "NPB": "Asia/Tokyo"
+  },
+  "tier": "retrospective_date_lagged",
+  "lineups": "prior nine batting starters parsed; target postgame lineups diagnostic only; no confirmed pregame XI claim",
+  "source_cardinality": "daily schedule URL -> exact dated first-team box links -> only teams present in selected targets; all cardinalities saved before aggregation",
+  "target_labels_in_features": false,
+  "roi_inspected": false
+}

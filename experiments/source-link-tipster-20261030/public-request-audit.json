@@ -1,0 +1,67 @@
+{
+  "research_stopped": true,
+  "budget": 90,
+  "count_scope": "Explicit target page/search operations. Browser subresource requests were not metered; no claim that full browser wire traffic is <=90.",
+  "requests_python_including_one_direct_diagnostic": 7,
+  "curl_robots_attempts": 1,
+  "node_robots_attempts": 1,
+  "web_tool_page_opens": 3,
+  "web_tool_search_queries": 4,
+  "browser_navigation_attempts_including_policy_prevented": 34,
+  "browser_policy_prevented_without_wire_request": 4,
+  "explicit_operations_upper_bound_including_prevented": 50,
+  "explicit_target_request_estimate_excluding_prevented": 46,
+  "automatic_browser_subresource_count": null,
+  "new_article_observation_range_utc": [
+    "2026-10-30T05:26:14.542Z",
+    "2026-10-30T05:29:41.741Z"
+  ],
+  "negative_probes": [
+    {
+      "url": "https://www.goli.tv/robots.txt",
+      "transport": "curl",
+      "result": "connection_reset",
+      "fetch_started_at": null,
+      "note": "Attempt happened in this tool session; precise original timestamp not logged."
+    },
+    {
+      "url": "https://www.goli.tv/robots.txt",
+      "transport": "node_fetch",
+      "result": "ECONNRESET",
+      "fetch_started_at": "2026-10-30T05:22:59.821Z"
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis",
+      "transport": "browser",
+      "result": "ERR_CONNECTION_RESET",
+      "fetch_started_at": null,
+      "note": "Attempt happened immediately after final article capture; precise timestamp not logged."
+    },
+    {
+      "url": "https://www.goli.tv/board/analysis?search_field=bo_subject&keyword=KBO+9%EC%9B%94",
+      "transport": "browser",
+      "result": "no_posts_found",
+      "fetch_started_at": null
+    },
+    {
+      "url": "https://www.goli.tv/board/analysis?search_field=bo_subject&keyword=9%EC%9B%948%EC%9D%BC",
+      "transport": "browser",
+      "result": "2023_or_older_only; padded_date_search_required",
+      "fetch_started_at": null
+    }
+  ],
+  "web_tool_only_probes": [
+    {
+      "url": "https://www.goli.tv/board/analysis",
+      "result": "readable_extracted_listing"
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis",
+      "result": "zero_readable_lines"
+    },
+    {
+      "url": "https://xn--950bo4em5v.co/",
+      "result": "one_iframe_link_no_analysis_text"
+    }
+  ]
+}

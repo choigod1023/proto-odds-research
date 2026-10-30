@@ -1,0 +1,15 @@
+{
+  "version": "tipster-canonical-dedup-v2",
+  "frozen_at": "2026-10-30T05:45:54.307814+00:00",
+  "frozen_before_ROI": true,
+  "supersedes_for_identity_only": "tipster-independent-v1; original dedup-rules.json remains unchanged",
+  "trigger": "User requires canonical Goli article IDs, transitive URL OR hash components, reject conflicting directions in a component.",
+  "canonical_url": "For goli.tv/www.goli.tv /board/analysis/ID, normalize to https://www.goli.tv/board/analysis/ID, ignore query and fragment. Other URLs retain semantic queries.",
+  "components": "Per exact frozen fixture, connect rows by canonical URL OR nonempty document SHA OR article-body SHA; transitive closure includes bridge rows even if they will not be retained. Site-scoped normalized author is an additional one-voter constraint.",
+  "conflicts": "Reject all rows of any connected component with more than one direction. Never retain the first direction of a conflicting same-URL article.",
+  "representative": "For consistent components, earliest input row, with old inputs placed before new inputs.",
+  "author_aliases": "Normalize Unicode and whitespace within a site only. Cross-site display names are not identity evidence. No unproven aliases are merged.",
+  "content_comparison": "Use existing local parsed units/nodes only: normalized full-projection SHA, exact shared prose units >=80 characters, 5-token shingle counts. These are diagnostics; incomplete projections or no matches do not establish independent human authorship.",
+  "new_record_status": "New to electorate means no existing canonical URL/hash/verified identity component in supplied old vote inputs, not verified independent human opinion.",
+  "new_http_requests": 0
+}

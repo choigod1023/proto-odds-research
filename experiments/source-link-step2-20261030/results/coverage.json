@@ -1,0 +1,232 @@
+[
+  {
+    "feature_set": "kleague_player_value",
+    "evidence_view": "captured_pregame",
+    "audit": {
+      "no_admissible_features": 757,
+      "field:missing_or_naive_fact_time": 8065,
+      "no_feature_row": 6644,
+      "accepted_events": 0
+    },
+    "groups": []
+  },
+  {
+    "feature_set": "kleague_player_value",
+    "evidence_view": "retrospective_lagged",
+    "audit": {
+      "no_admissible_features": 757,
+      "field:missing_or_naive_fact_time": 8065,
+      "no_feature_row": 6644,
+      "accepted_events": 0
+    },
+    "groups": []
+  },
+  {
+    "feature_set": "kleague_player_value",
+    "evidence_view": "retrospective_date_lagged",
+    "audit": {
+      "no_admissible_features": 35,
+      "field:calendar_end_plus24h_assumption_not_actual_timestamp": 8065,
+      "no_feature_row": 6644,
+      "accepted_events": 722
+    },
+    "groups": [
+      {
+        "cohort": "historical_market_proxy",
+        "league": "K리그1",
+        "accepted": 709,
+        "both_sides": 705
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "league": "K리그1",
+        "accepted": 12,
+        "both_sides": 9
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "league": "K리그2",
+        "accepted": 1,
+        "both_sides": 0
+      }
+    ]
+  },
+  {
+    "feature_set": "official_baseball",
+    "evidence_view": "captured_pregame",
+    "audit": {
+      "no_feature_row": 6919,
+      "field:not_captured_pregame": 1930,
+      "no_admissible_features": 482,
+      "field:missing_or_naive_fact_time": 2192,
+      "accepted_events": 0
+    },
+    "groups": []
+  },
+  {
+    "feature_set": "official_baseball",
+    "evidence_view": "retrospective_lagged",
+    "audit": {
+      "no_feature_row": 6919,
+      "field:structural_past_only_not_receipt_certified": 1930,
+      "field:missing_or_naive_fact_time": 2192,
+      "no_admissible_features": 274,
+      "accepted_events": 208
+    },
+    "groups": [
+      {
+        "cohort": "historical_market_proxy",
+        "league": "NPB",
+        "accepted": 149,
+        "both_sides": 119
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "league": "NPB",
+        "accepted": 59,
+        "both_sides": 59
+      }
+    ]
+  },
+  {
+    "feature_set": "official_baseball",
+    "evidence_view": "retrospective_date_lagged",
+    "audit": {
+      "no_feature_row": 6919,
+      "field:structural_past_only_not_receipt_certified": 1930,
+      "field:calendar_end_plus24h_assumption_not_actual_timestamp": 2192,
+      "accepted_events": 482
+    },
+    "groups": [
+      {
+        "cohort": "historical_market_proxy",
+        "league": "KBO",
+        "accepted": 160,
+        "both_sides": 160
+      },
+      {
+        "cohort": "historical_market_proxy",
+        "league": "NPB",
+        "accepted": 149,
+        "both_sides": 119
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "league": "KBO",
+        "accepted": 114,
+        "both_sides": 114
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "league": "NPB",
+        "accepted": 59,
+        "both_sides": 59
+      }
+    ]
+  },
+  {
+    "feature_set": "quote_movement",
+    "evidence_view": "captured_pregame",
+    "audit": {
+      "no_feature_row": 7333,
+      "field:not_captured_pregame": 408,
+      "no_admissible_features": 68,
+      "accepted_events": 0
+    },
+    "groups": []
+  },
+  {
+    "feature_set": "quote_movement",
+    "evidence_view": "retrospective_lagged",
+    "audit": {
+      "no_feature_row": 7333,
+      "field:structural_past_only_not_receipt_certified": 408,
+      "accepted_events": 68
+    },
+    "groups": [
+      {
+        "cohort": "historical_market_proxy",
+        "league": "KBL",
+        "accepted": 1,
+        "both_sides": 1
+      },
+      {
+        "cohort": "historical_market_proxy",
+        "league": "MLB",
+        "accepted": 26,
+        "both_sides": 26
+      },
+      {
+        "cohort": "historical_market_proxy",
+        "league": "NBA",
+        "accepted": 5,
+        "both_sides": 5
+      },
+      {
+        "cohort": "saved_pregame",
+        "league": "KBO",
+        "accepted": 5,
+        "both_sides": 5
+      },
+      {
+        "cohort": "saved_pregame",
+        "league": "MLB",
+        "accepted": 26,
+        "both_sides": 26
+      },
+      {
+        "cohort": "saved_pregame",
+        "league": "NPB",
+        "accepted": 5,
+        "both_sides": 5
+      }
+    ]
+  },
+  {
+    "feature_set": "quote_movement",
+    "evidence_view": "retrospective_date_lagged",
+    "audit": {
+      "no_feature_row": 7333,
+      "field:structural_past_only_not_receipt_certified": 408,
+      "accepted_events": 68
+    },
+    "groups": [
+      {
+        "cohort": "historical_market_proxy",
+        "league": "KBL",
+        "accepted": 1,
+        "both_sides": 1
+      },
+      {
+        "cohort": "historical_market_proxy",
+        "league": "MLB",
+        "accepted": 26,
+        "both_sides": 26
+      },
+      {
+        "cohort": "historical_market_proxy",
+        "league": "NBA",
+        "accepted": 5,
+        "both_sides": 5
+      },
+      {
+        "cohort": "saved_pregame",
+        "league": "KBO",
+        "accepted": 5,
+        "both_sides": 5
+      },
+      {
+        "cohort": "saved_pregame",
+        "league": "MLB",
+        "accepted": 26,
+        "both_sides": 26
+      },
+      {
+        "cohort": "saved_pregame",
+        "league": "NPB",
+        "accepted": 5,
+        "both_sides": 5
+      }
+    ]
+  }
+]

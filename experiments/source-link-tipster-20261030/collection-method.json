@@ -1,0 +1,19 @@
+{
+  "capture_kind": "article_dom_utf8",
+  "selectors": [
+    "#page-heading",
+    ".writer_box",
+    ".view_stat",
+    "#partner_content"
+  ],
+  "serialization": "<html><body> + selector.outerHTML in listed order + </body></html>, UTF-8",
+  "document_sha256": "SHA256 of exact locally saved selected-article DOM bytes",
+  "article_body_sha256": "SHA256 of BeautifulSoup #partner_content text with whitespace collapsed; no prose committed",
+  "http_response_sha256": null,
+  "limitation": "The browser exposes rendered DOM, not origin HTTP response bytes or HTTP headers. Never equate these hashes. Actual observed_at is recorded immediately before extracting the DOM.",
+  "original_local_cache": "C:/Users/user/AppData/Local/Temp/rd-tipster-independent-20261030",
+  "capture_log": "browser-captures.jsonl",
+  "http_replay_adapter": "scripts/rd_tipster_source_links.py PublicCache.fetch + parse_article; tested with synthetic response; live direct HTTP failed",
+  "no_authentication": "No login, cookie import, credentials, paid access or challenge bypass; environment proxy tested only if it had no credentials.",
+  "new_human_independence": "One site-scoped pseudonym; provenance-distinct candidate from prior inputs, not verified independent human. Old article bodies were not available for cross-site body-hash comparison."
+}

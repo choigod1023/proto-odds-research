@@ -1,0 +1,34 @@
+{
+  "version": "kleague-player-strength-v1",
+  "frozen_before_ROI": true,
+  "outcomes_read": false,
+  "fit_models": false,
+  "research_loss_cap": null,
+  "selection": "same-season, source calendar-end+24h <= decision; exclude exact target fixture",
+  "player_identity": "Naver playerId, same team and same season only; no name joins or transfers inferred",
+  "reference_xi": "latest eligible historical XI, never target announced XI",
+  "valuation": "player goal/assist per nonmissing observed START, from games strictly before reference XI date",
+  "features": {
+    "xi_goal_known_mean": "mean historical goal/start over reference XI players with >=1 recorded goal field",
+    "xi_assist_known_mean": "mean historical assist/start over reference XI players with >=1 recorded assist field",
+    "xi_goal_known_share": "fraction of reference XI with observed historical goal/start",
+    "xi_assist_known_share": "fraction of reference XI with observed historical assist/start",
+    "attack_goal_known_mean": "same goal/start mean restricted to reference XI FW/MF; absent group omitted",
+    "rotation_goal_net": "sum entrant goal/start minus sum leaver goal/start, previous -> reference historical XI",
+    "rotation_assist_net": "same assist/start; ALL entrants/leavers must have nonmissing history; no rotation omitted"
+  },
+  "missing": "missing stats remain null; known-subset means carry explicit coverage; no minutes/per90 inference",
+  "freshness": "omit entire strength bundle when reference XI >30 local calendar days old",
+  "publication": "unknown historical publication/availability stays retrospective; actual ingestion/fetch time separate",
+  "tier": "retrospective_lagged (date-only; eligible only under retrospective_date_lagged gate)",
+  "network": {
+    "max_requests": 60,
+    "timeout_seconds": 10,
+    "max_bytes": 4000000,
+    "deadline_seconds": 240,
+    "gap_seconds": 0.35,
+    "redirects": false,
+    "auth": false,
+    "robots": "respect explicit disallow; no inaccessible-site bypass"
+  }
+}

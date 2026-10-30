@@ -1,0 +1,39 @@
+{
+  "observed_at": "2026-10-30T05:38:11.464759+00:00",
+  "tests": {
+    "command": "python -m pytest tests/test_rd_kleague_strength.py tests/test_rd_soccer_features.py tests/test_rd_asof_evidence.py -q -p no:cacheprovider",
+    "passed": 42,
+    "subtests_passed": 8,
+    "new_tests": 19
+  },
+  "offline_replay_identical": true,
+  "identical_output_sha256": {
+    "features.jsonl.gz": "0be00914b0ed2a6caaca96aff089ef500640aff3c512ed5c4412fc1de67ce9bc",
+    "archive-features.jsonl.gz": "f4fa2adfd82e3c8d62f5f62e086855f796c63c0f8af389aa068ff56208049ce7",
+    "raw-stats.jsonl.gz": "d2d8e542c92edae489e6ced3df6e624864924ea07aed491b5c1b17cdb7c5fbfa",
+    "parsed-player-history.jsonl.gz": "b13794179bb3eb91454125ab8050578cca12335e7b5b70818fecfbdd40e4342e",
+    "input-identities.jsonl.gz": "2e566e752940a224e0422d809355d6f7a4cb126f393607fcd0e2f668d9f690d3",
+    "audit.jsonl.gz": "c980c89ec2d68c8929c7d7c8b82828f92db395b863c32786f32277e20ffff2e9",
+    "summary.json": "14c92e3eeb6f1f71476fa7e64133f15d3094957b5a55ca6693332e2d4e4528ce"
+  },
+  "parent_gate": {
+    "date_lagged_fields_accepted": 8065
+  },
+  "captured_pregame_fields": 0,
+  "original_cached_http_hashes_verified": 46,
+  "http_requests": 49,
+  "http_status_counts": {
+    "None": 3,
+    "404": 1,
+    "200": 45
+  },
+  "source_and_artifact_scope_only": true,
+  "ROI_inspected": false,
+  "models_fit": false,
+  "production_changed": false,
+  "code_sha256": {
+    "scripts/rd_kleague_strength.py": "4d182eeef0d2486a88f4cf926e709421161f9a93f58cd4200ce6d3949318db88",
+    "tests/test_rd_kleague_strength.py": "05dbd707afa8fea4331f03e02e075c897f5fabad9c2f1801b1571cb8adde8415"
+  },
+  "generated_metadata_line_endings": "LF; original HTTP bytes untouched"
+}

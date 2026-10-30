@@ -1,0 +1,116 @@
+{
+  "model_refit": false,
+  "events": 40,
+  "dates": 10,
+  "first_date": "2026-05-29",
+  "last_date": "2026-07-01",
+  "audit": {
+    "no_feature_row": 7361,
+    "field:calendar_end_plus24h_assumption_not_actual_timestamp": 320,
+    "accepted_events": 40
+  },
+  "excluded": {},
+  "frozen_model_sha256": "85a1236cafeef997e9182ac1e3635cd181d6248ecfa1c64ac6213aa61a8e53ec",
+  "strict_asof_training_certified": false,
+  "status": "later_chronological_research_not_pristine_blind_trial",
+  "metrics": {
+    "n": 40,
+    "graded": 40,
+    "accuracy_pct": 60.0,
+    "brier": 0.4768821744518502,
+    "logloss": 0.6691734196705839,
+    "roi_pct": -8.475,
+    "net_krw": -40680.0,
+    "daily_close_drawdown_krw": 48360.0,
+    "pick_counts": {
+      "home": 20,
+      "away": 20
+    }
+  },
+  "baselines": {
+    "original_market": {
+      "n": 40,
+      "graded": 40,
+      "accuracy_pct": 60.0,
+      "brier": 0.45079664938045727,
+      "logloss": 0.6419487630791896,
+      "roi_pct": -11.0,
+      "net_krw": -52800.0,
+      "daily_close_drawdown_krw": 60120.0,
+      "pick_counts": {
+        "home": 20,
+        "away": 20
+      }
+    },
+    "original_actual91": {
+      "n": 40,
+      "graded": 40,
+      "accuracy_pct": 65.0,
+      "brier": 0.4343849533361671,
+      "logloss": 0.6245251993515523,
+      "roi_pct": -0.9,
+      "net_krw": -4320.0,
+      "daily_close_drawdown_krw": 60000.0,
+      "pick_counts": {
+        "home": 22,
+        "away": 18
+      }
+    },
+    "original_vote_direction": {
+      "n": 40,
+      "graded": 40,
+      "accuracy_pct": 67.5,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 7.75,
+      "net_krw": 37200.0,
+      "daily_close_drawdown_krw": 27480.0,
+      "pick_counts": {
+        "home": 23,
+        "away": 17
+      }
+    }
+  },
+  "delta_vs_actual91": {
+    "n": 40,
+    "graded": 40,
+    "dates": 10,
+    "accuracy_delta_pp": -5.0,
+    "roi_delta_pp": -7.575,
+    "ci95": {
+      "accuracy_delta_pp": [
+        -18.42105263157895,
+        11.11111111111111
+      ],
+      "roi_delta_pp": [
+        -30.57894736842105,
+        20.444444444444443
+      ]
+    }
+  },
+  "eligible_single": {
+    "available": 40,
+    "selected": 5,
+    "n": 5,
+    "graded": 5,
+    "accuracy_pct": 40.0,
+    "brier": 0.5592692159763016,
+    "logloss": 0.753410155762767,
+    "roi_pct": -34.0,
+    "net_krw": -20400.0,
+    "daily_close_drawdown_krw": 24000.0,
+    "pick_counts": {
+      "home": 4,
+      "away": 1
+    }
+  },
+  "two_leg": {
+    "opportunities": 9,
+    "tickets": 0,
+    "settled": 0,
+    "roi_pct": null,
+    "component_single_roi_pct": null,
+    "net_krw": 0,
+    "details": []
+  }
+}

@@ -1,0 +1,6035 @@
+{
+  "audit": {
+    "new_rows_matching_preexisting_article_or_hash": 0,
+    "missing_or_naive_source_time": 198,
+    "missing_old_electorate": 207,
+    "missing_document_hash": 19,
+    "publication_claim_only_receipt_not_historically_certified": 354,
+    "copied_document_rows_omitted": 0,
+    "later_or_duplicate_author_rows_omitted": 0,
+    "dependent_author_alias_votes_omitted": 0,
+    "extended_vote_tie_no_selection": 4
+  },
+  "matched_cases": 327,
+  "results": [
+    {
+      "league": "KBO",
+      "model": "market_reference",
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 58.12807881773399,
+        "brier": 0.4723938054273066,
+        "logloss": 0.6647759770421242,
+        "roi_pct": -11.714285714285714,
+        "net_krw": -285360.0,
+        "daily_close_drawdown_krw": 307320.0,
+        "pick_counts": {
+          "home": 109,
+          "away": 94
+        }
+      },
+      "added_document_cases": 2,
+      "previously_unseen_document_cases": 2,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 203,
+        "graded": 203,
+        "dates": 53,
+        "accuracy_delta_pp": -1.477832512315271,
+        "roi_delta_pp": -4.000000000000001,
+        "ci95": {
+          "accuracy_delta_pp": [
+            -6.914893617021277,
+            3.827751196172249
+          ],
+          "roi_delta_pp": [
+            -13.588235294117647,
+            5.137614678899083
+          ]
+        }
+      }
+    },
+    {
+      "league": "KBO",
+      "model": "old_fixed91",
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 59.60591133004926,
+        "brier": 0.4732338698911096,
+        "logloss": 0.6654808932296445,
+        "roi_pct": -7.714285714285714,
+        "net_krw": -187920.0,
+        "daily_close_drawdown_krw": 212880.0,
+        "pick_counts": {
+          "home": 104,
+          "away": 99
+        }
+      },
+      "added_document_cases": 2,
+      "previously_unseen_document_cases": 2,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 203,
+        "graded": 203,
+        "dates": 53,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": {
+          "accuracy_delta_pp": [
+            0.0,
+            0.0
+          ],
+          "roi_delta_pp": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "league": "KBO",
+      "model": "expanded_fixed91",
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 59.60591133004926,
+        "brier": 0.4732338698911096,
+        "logloss": 0.6654808932296445,
+        "roi_pct": -7.714285714285714,
+        "net_krw": -187920.0,
+        "daily_close_drawdown_krw": 212880.0,
+        "pick_counts": {
+          "home": 104,
+          "away": 99
+        }
+      },
+      "added_document_cases": 2,
+      "previously_unseen_document_cases": 2,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 203,
+        "graded": 203,
+        "dates": 53,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": {
+          "accuracy_delta_pp": [
+            0.0,
+            0.0
+          ],
+          "roi_delta_pp": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "league": "KBO",
+      "model": "old_vote_direction_only",
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 56.65024630541872,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -8.650246305418719,
+        "net_krw": -210720.0,
+        "daily_close_drawdown_krw": 278520.0,
+        "pick_counts": {
+          "away": 107,
+          "home": 96
+        }
+      },
+      "added_document_cases": 2,
+      "previously_unseen_document_cases": 2,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 203,
+        "graded": 203,
+        "dates": 53,
+        "accuracy_delta_pp": -2.955665024630542,
+        "roi_delta_pp": -0.9359605911330052,
+        "ci95": {
+          "accuracy_delta_pp": [
+            -9.35960591133005,
+            3.0303030303030303
+          ],
+          "roi_delta_pp": [
+            -12.177272727272728,
+            9.58793969849246
+          ]
+        }
+      }
+    },
+    {
+      "league": "KBO",
+      "model": "new_vote_direction_only",
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 56.65024630541872,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -8.650246305418719,
+        "net_krw": -210720.0,
+        "daily_close_drawdown_krw": 278520.0,
+        "pick_counts": {
+          "away": 107,
+          "home": 96
+        }
+      },
+      "added_document_cases": 2,
+      "previously_unseen_document_cases": 2,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 203,
+        "graded": 203,
+        "dates": 53,
+        "accuracy_delta_pp": -2.955665024630542,
+        "roi_delta_pp": -0.9359605911330052,
+        "ci95": {
+          "accuracy_delta_pp": [
+            -9.35960591133005,
+            3.0303030303030303
+          ],
+          "roi_delta_pp": [
+            -12.177272727272728,
+            9.58793969849246
+          ]
+        }
+      }
+    },
+    {
+      "league": "K리그1",
+      "model": "market_reference",
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 50.0,
+        "brier": 0.6408019032729213,
+        "logloss": 1.0555932371121832,
+        "roi_pct": -0.07142857142857142,
+        "net_krw": -120.0,
+        "daily_close_drawdown_krw": 51240.0,
+        "pick_counts": {
+          "home": 10,
+          "away": 4
+        }
+      },
+      "added_document_cases": 1,
+      "previously_unseen_document_cases": 1,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 14,
+        "graded": 14,
+        "dates": 7,
+        "accuracy_delta_pp": 14.285714285714286,
+        "roi_delta_pp": 34.28571428571429,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그1",
+      "model": "old_fixed91",
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 35.714285714285715,
+        "brier": 0.6851432186789149,
+        "logloss": 1.115786974950892,
+        "roi_pct": -34.357142857142854,
+        "net_krw": -57720.0,
+        "daily_close_drawdown_krw": 79680.0,
+        "pick_counts": {
+          "draw": 2,
+          "home": 9,
+          "away": 3
+        }
+      },
+      "added_document_cases": 1,
+      "previously_unseen_document_cases": 1,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 14,
+        "graded": 14,
+        "dates": 7,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그1",
+      "model": "expanded_fixed91",
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 35.714285714285715,
+        "brier": 0.6851432186789149,
+        "logloss": 1.115786974950892,
+        "roi_pct": -34.357142857142854,
+        "net_krw": -57720.0,
+        "daily_close_drawdown_krw": 79680.0,
+        "pick_counts": {
+          "draw": 2,
+          "home": 9,
+          "away": 3
+        }
+      },
+      "added_document_cases": 1,
+      "previously_unseen_document_cases": 1,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 14,
+        "graded": 14,
+        "dates": 7,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그1",
+      "model": "old_vote_direction_only",
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 21.428571428571427,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -59.57142857142857,
+        "net_krw": -100080.0,
+        "daily_close_drawdown_krw": 100080.0,
+        "pick_counts": {
+          "draw": 4,
+          "home": 7,
+          "away": 3
+        }
+      },
+      "added_document_cases": 1,
+      "previously_unseen_document_cases": 1,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 14,
+        "graded": 14,
+        "dates": 7,
+        "accuracy_delta_pp": -14.285714285714286,
+        "roi_delta_pp": -25.214285714285715,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그1",
+      "model": "new_vote_direction_only",
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 21.428571428571427,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -59.57142857142857,
+        "net_krw": -100080.0,
+        "daily_close_drawdown_krw": 100080.0,
+        "pick_counts": {
+          "draw": 4,
+          "home": 7,
+          "away": 3
+        }
+      },
+      "added_document_cases": 1,
+      "previously_unseen_document_cases": 1,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 14,
+        "graded": 14,
+        "dates": 7,
+        "accuracy_delta_pp": -14.285714285714286,
+        "roi_delta_pp": -25.214285714285715,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그2",
+      "model": "market_reference",
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 100.0,
+        "brier": 0.4272035222592849,
+        "logloss": 0.7628363503294955,
+        "roi_pct": 94.28571428571429,
+        "net_krw": 79200.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 3,
+          "away": 4
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 7,
+        "graded": 7,
+        "dates": 5,
+        "accuracy_delta_pp": 14.285714285714286,
+        "roi_delta_pp": 34.142857142857146,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그2",
+      "model": "old_fixed91",
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 85.71428571428571,
+        "brier": 0.37456316384776267,
+        "logloss": 0.6888526399802257,
+        "roi_pct": 60.142857142857146,
+        "net_krw": 50520.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 7,
+        "graded": 7,
+        "dates": 5,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그2",
+      "model": "expanded_fixed91",
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 85.71428571428571,
+        "brier": 0.37456316384776267,
+        "logloss": 0.6888526399802257,
+        "roi_pct": 60.142857142857146,
+        "net_krw": 50520.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 7,
+        "graded": 7,
+        "dates": 5,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그2",
+      "model": "old_vote_direction_only",
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 85.71428571428571,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": 60.142857142857146,
+        "net_krw": 50520.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 7,
+        "graded": 7,
+        "dates": 5,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": null
+      }
+    },
+    {
+      "league": "K리그2",
+      "model": "new_vote_direction_only",
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 85.71428571428571,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": 60.142857142857146,
+        "net_krw": 50520.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 7,
+        "graded": 7,
+        "dates": 5,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": null
+      }
+    },
+    {
+      "league": "NPB",
+      "model": "market_reference",
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 61.16504854368932,
+        "brier": 0.46410790325970197,
+        "logloss": 0.6563315769519305,
+        "roi_pct": -6.660194174757281,
+        "net_krw": -82320.0,
+        "daily_close_drawdown_krw": 122400.0,
+        "pick_counts": {
+          "home": 58,
+          "away": 45
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 103,
+        "graded": 103,
+        "dates": 53,
+        "accuracy_delta_pp": 2.912621359223301,
+        "roi_delta_pp": 3.883495145631068,
+        "ci95": {
+          "accuracy_delta_pp": [
+            -3.6363636363636362,
+            9.90990990990991
+          ],
+          "roi_delta_pp": [
+            -7.736363636363636,
+            15.961165048543691
+          ]
+        }
+      }
+    },
+    {
+      "league": "NPB",
+      "model": "old_fixed91",
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 58.25242718446602,
+        "brier": 0.47092497695481456,
+        "logloss": 0.662885245591966,
+        "roi_pct": -10.54368932038835,
+        "net_krw": -130320.0,
+        "daily_close_drawdown_krw": 183240.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 103,
+        "graded": 103,
+        "dates": 53,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": {
+          "accuracy_delta_pp": [
+            0.0,
+            0.0
+          ],
+          "roi_delta_pp": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "league": "NPB",
+      "model": "expanded_fixed91",
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 58.25242718446602,
+        "brier": 0.47092497695481456,
+        "logloss": 0.662885245591966,
+        "roi_pct": -10.54368932038835,
+        "net_krw": -130320.0,
+        "daily_close_drawdown_krw": 183240.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 103,
+        "graded": 103,
+        "dates": 53,
+        "accuracy_delta_pp": 0.0,
+        "roi_delta_pp": 0.0,
+        "ci95": {
+          "accuracy_delta_pp": [
+            0.0,
+            0.0
+          ],
+          "roi_delta_pp": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "league": "NPB",
+      "model": "old_vote_direction_only",
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 52.42718446601942,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -13.941747572815533,
+        "net_krw": -172320.0,
+        "daily_close_drawdown_krw": 224160.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 103,
+        "graded": 103,
+        "dates": 53,
+        "accuracy_delta_pp": -5.825242718446602,
+        "roi_delta_pp": -3.3980582524271843,
+        "ci95": {
+          "accuracy_delta_pp": [
+            -15.151515151515152,
+            3.0
+          ],
+          "roi_delta_pp": [
+            -19.866071428571427,
+            11.720430107526882
+          ]
+        }
+      }
+    },
+    {
+      "league": "NPB",
+      "model": "new_vote_direction_only",
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 52.42718446601942,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -13.941747572815533,
+        "net_krw": -172320.0,
+        "daily_close_drawdown_krw": 224160.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "added_document_cases": 0,
+      "previously_unseen_document_cases": 0,
+      "changed_vote_directions": 0,
+      "status": "retrospective_claimed_times_no_new_model_selection",
+      "delta_vs_old91": {
+        "n": 103,
+        "graded": 103,
+        "dates": 53,
+        "accuracy_delta_pp": -5.825242718446602,
+        "roi_delta_pp": -3.3980582524271843,
+        "ci95": {
+          "accuracy_delta_pp": [
+            -15.151515151515152,
+            3.0
+          ],
+          "roi_delta_pp": [
+            -19.866071428571427,
+            11.720430107526882
+          ]
+        }
+      }
+    }
+  ],
+  "policy_results": [
+    {
+      "league": "KBO",
+      "model": "old_vote_direction_only",
+      "opportunities": 204,
+      "placed": 204,
+      "abstained": 0,
+      "metrics": {
+        "n": 204,
+        "graded": 204,
+        "accuracy_pct": 56.86274509803921,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -8.318627450980392,
+        "net_krw": -203640.0,
+        "daily_close_drawdown_krw": 271440.0,
+        "pick_counts": {
+          "away": 107,
+          "home": 97
+        }
+      },
+      "opportunity_budget_roi_pct": -8.318627450980392,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "KBO",
+      "model": "new_vote_direction_only",
+      "opportunities": 204,
+      "placed": 203,
+      "abstained": 1,
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 56.65024630541872,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -8.650246305418719,
+        "net_krw": -210720.0,
+        "daily_close_drawdown_krw": 278520.0,
+        "pick_counts": {
+          "away": 107,
+          "home": 96
+        }
+      },
+      "opportunity_budget_roi_pct": -8.607843137254902,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "KBO",
+      "model": "old_fixed91",
+      "opportunities": 204,
+      "placed": 204,
+      "abstained": 0,
+      "metrics": {
+        "n": 204,
+        "graded": 204,
+        "accuracy_pct": 59.80392156862745,
+        "brier": 0.4724469108544925,
+        "logloss": 0.6646854018311945,
+        "roi_pct": -7.387254901960785,
+        "net_krw": -180840.0,
+        "daily_close_drawdown_krw": 205800.0,
+        "pick_counts": {
+          "home": 105,
+          "away": 99
+        }
+      },
+      "opportunity_budget_roi_pct": -7.387254901960785,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "KBO",
+      "model": "expanded_fixed91",
+      "opportunities": 204,
+      "placed": 203,
+      "abstained": 1,
+      "metrics": {
+        "n": 203,
+        "graded": 203,
+        "accuracy_pct": 59.60591133004926,
+        "brier": 0.4732338698911096,
+        "logloss": 0.6654808932296445,
+        "roi_pct": -7.714285714285714,
+        "net_krw": -187920.0,
+        "daily_close_drawdown_krw": 212880.0,
+        "pick_counts": {
+          "home": 104,
+          "away": 99
+        }
+      },
+      "opportunity_budget_roi_pct": -7.676470588235294,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그1",
+      "model": "old_vote_direction_only",
+      "opportunities": 15,
+      "placed": 15,
+      "abstained": 0,
+      "metrics": {
+        "n": 15,
+        "graded": 15,
+        "accuracy_pct": 26.666666666666668,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -42.266666666666666,
+        "net_krw": -76080.0,
+        "daily_close_drawdown_krw": 80400.0,
+        "pick_counts": {
+          "draw": 5,
+          "home": 7,
+          "away": 3
+        }
+      },
+      "opportunity_budget_roi_pct": -42.266666666666666,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그1",
+      "model": "new_vote_direction_only",
+      "opportunities": 15,
+      "placed": 14,
+      "abstained": 1,
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 21.428571428571427,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -59.57142857142857,
+        "net_krw": -100080.0,
+        "daily_close_drawdown_krw": 100080.0,
+        "pick_counts": {
+          "draw": 4,
+          "home": 7,
+          "away": 3
+        }
+      },
+      "opportunity_budget_roi_pct": -55.6,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그1",
+      "model": "old_fixed91",
+      "opportunities": 15,
+      "placed": 15,
+      "abstained": 0,
+      "metrics": {
+        "n": 15,
+        "graded": 15,
+        "accuracy_pct": 40.0,
+        "brier": 0.6799846975267533,
+        "logloss": 1.108781872749994,
+        "roi_pct": -18.733333333333334,
+        "net_krw": -33720.0,
+        "daily_close_drawdown_krw": 60000.0,
+        "pick_counts": {
+          "draw": 3,
+          "home": 9,
+          "away": 3
+        }
+      },
+      "opportunity_budget_roi_pct": -18.733333333333334,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그1",
+      "model": "expanded_fixed91",
+      "opportunities": 15,
+      "placed": 14,
+      "abstained": 1,
+      "metrics": {
+        "n": 14,
+        "graded": 14,
+        "accuracy_pct": 35.714285714285715,
+        "brier": 0.6851432186789149,
+        "logloss": 1.115786974950892,
+        "roi_pct": -34.357142857142854,
+        "net_krw": -57720.0,
+        "daily_close_drawdown_krw": 79680.0,
+        "pick_counts": {
+          "draw": 2,
+          "home": 9,
+          "away": 3
+        }
+      },
+      "opportunity_budget_roi_pct": -32.06666666666667,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그2",
+      "model": "old_vote_direction_only",
+      "opportunities": 9,
+      "placed": 9,
+      "abstained": 0,
+      "metrics": {
+        "n": 9,
+        "graded": 9,
+        "accuracy_pct": 77.77777777777777,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": 56.22222222222222,
+        "net_krw": 60720.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5,
+          "draw": 2
+        }
+      },
+      "opportunity_budget_roi_pct": 56.22222222222222,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그2",
+      "model": "new_vote_direction_only",
+      "opportunities": 9,
+      "placed": 7,
+      "abstained": 2,
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 85.71428571428571,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": 60.142857142857146,
+        "net_krw": 50520.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5
+        }
+      },
+      "opportunity_budget_roi_pct": 46.77777777777778,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그2",
+      "model": "old_fixed91",
+      "opportunities": 9,
+      "placed": 9,
+      "abstained": 0,
+      "metrics": {
+        "n": 9,
+        "graded": 9,
+        "accuracy_pct": 88.88888888888889,
+        "brier": 0.41556206785045713,
+        "logloss": 0.7440548696777696,
+        "roi_pct": 77.88888888888889,
+        "net_krw": 84120.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 6,
+          "draw": 1
+        }
+      },
+      "opportunity_budget_roi_pct": 77.88888888888889,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "K리그2",
+      "model": "expanded_fixed91",
+      "opportunities": 9,
+      "placed": 7,
+      "abstained": 2,
+      "metrics": {
+        "n": 7,
+        "graded": 7,
+        "accuracy_pct": 85.71428571428571,
+        "brier": 0.37456316384776267,
+        "logloss": 0.6888526399802257,
+        "roi_pct": 60.142857142857146,
+        "net_krw": 50520.0,
+        "daily_close_drawdown_krw": 0,
+        "pick_counts": {
+          "home": 2,
+          "away": 5
+        }
+      },
+      "opportunity_budget_roi_pct": 46.77777777777778,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "NPB",
+      "model": "old_vote_direction_only",
+      "opportunities": 103,
+      "placed": 103,
+      "abstained": 0,
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 52.42718446601942,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -13.941747572815533,
+        "net_krw": -172320.0,
+        "daily_close_drawdown_krw": 224160.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "opportunity_budget_roi_pct": -13.941747572815533,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "NPB",
+      "model": "new_vote_direction_only",
+      "opportunities": 103,
+      "placed": 103,
+      "abstained": 0,
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 52.42718446601942,
+        "brier": null,
+        "logloss": null,
+        "roi_pct": -13.941747572815533,
+        "net_krw": -172320.0,
+        "daily_close_drawdown_krw": 224160.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "opportunity_budget_roi_pct": -13.941747572815533,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "NPB",
+      "model": "old_fixed91",
+      "opportunities": 103,
+      "placed": 103,
+      "abstained": 0,
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 58.25242718446602,
+        "brier": 0.47092497695481456,
+        "logloss": 0.662885245591966,
+        "roi_pct": -10.54368932038835,
+        "net_krw": -130320.0,
+        "daily_close_drawdown_krw": 183240.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "opportunity_budget_roi_pct": -10.54368932038835,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    },
+    {
+      "league": "NPB",
+      "model": "expanded_fixed91",
+      "opportunities": 103,
+      "placed": 103,
+      "abstained": 0,
+      "metrics": {
+        "n": 103,
+        "graded": 103,
+        "accuracy_pct": 58.25242718446602,
+        "brier": 0.47092497695481456,
+        "logloss": 0.662885245591966,
+        "roi_pct": -10.54368932038835,
+        "net_krw": -130320.0,
+        "daily_close_drawdown_krw": 183240.0,
+        "pick_counts": {
+          "away": 46,
+          "home": 57
+        }
+      },
+      "opportunity_budget_roi_pct": -10.54368932038835,
+      "semantics": "Same opportunity universe; tie abstention is zero exposure, not a fabricated win/refund"
+    }
+  ],
+  "cases": [
+    {
+      "event_id": "kleague:2026:2:9",
+      "league": "K리그2",
+      "kickoff": "2026-03-07T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:9",
+      "league": "K리그1",
+      "kickoff": "2026-03-07T16:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260329KTLG0",
+      "league": "KBO",
+      "kickoff": "2026-03-29T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260329LTSS0",
+      "league": "KBO",
+      "kickoff": "2026-03-29T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260329WOHH0",
+      "league": "KBO",
+      "kickoff": "2026-03-29T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0331/d-g-01/",
+      "league": "NPB",
+      "kickoff": "2026-03-31T18:15:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260331HTLG0",
+      "league": "KBO",
+      "kickoff": "2026-03-31T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260331WOSK0",
+      "league": "KBO",
+      "kickoff": "2026-03-31T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260331KTHH0",
+      "league": "KBO",
+      "kickoff": "2026-03-31T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0331/f-m-01/",
+      "league": "NPB",
+      "kickoff": "2026-03-31T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260401HTLG0",
+      "league": "KBO",
+      "kickoff": "2026-04-01T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260401WOSK0",
+      "league": "KBO",
+      "kickoff": "2026-04-01T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260401OBSS0",
+      "league": "KBO",
+      "kickoff": "2026-04-01T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260401LTNC0",
+      "league": "KBO",
+      "kickoff": "2026-04-01T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260401KTHH0",
+      "league": "KBO",
+      "kickoff": "2026-04-01T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0401/f-m-02/",
+      "league": "NPB",
+      "kickoff": "2026-04-01T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0402/d-g-03/",
+      "league": "NPB",
+      "kickoff": "2026-04-02T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0402/f-m-03/",
+      "league": "NPB",
+      "kickoff": "2026-04-02T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260402HTLG0",
+      "league": "KBO",
+      "kickoff": "2026-04-02T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260402WOSK0",
+      "league": "KBO",
+      "kickoff": "2026-04-02T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0403/f-b-01/",
+      "league": "NPB",
+      "kickoff": "2026-04-03T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260403HHOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-03T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260403SKLT0",
+      "league": "KBO",
+      "kickoff": "2026-04-03T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260403NCHT0",
+      "league": "KBO",
+      "kickoff": "2026-04-03T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260403LGWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-03T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:32",
+      "league": "K리그1",
+      "kickoff": "2026-04-04T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:2:42",
+      "league": "K리그2",
+      "kickoff": "2026-04-04T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260404HHOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-04T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:33",
+      "league": "K리그1",
+      "kickoff": "2026-04-04T16:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:34",
+      "league": "K리그1",
+      "kickoff": "2026-04-04T16:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:2:43",
+      "league": "K리그2",
+      "kickoff": "2026-04-04T16:30:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:2:44",
+      "league": "K리그2",
+      "kickoff": "2026-04-04T16:30:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260404NCHT0",
+      "league": "KBO",
+      "kickoff": "2026-04-04T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260404LGWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-04T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:35",
+      "league": "K리그1",
+      "kickoff": "2026-04-05T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:2:48",
+      "league": "K리그2",
+      "kickoff": "2026-04-05T16:30:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0407/t-s-01/",
+      "league": "NPB",
+      "kickoff": "2026-04-07T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0407/e-f-01/",
+      "league": "NPB",
+      "kickoff": "2026-04-07T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0407/b-m-01/",
+      "league": "NPB",
+      "kickoff": "2026-04-07T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260407WOOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260407KTLT0",
+      "league": "KBO",
+      "kickoff": "2026-04-07T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260407SSHT0",
+      "league": "KBO",
+      "kickoff": "2026-04-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0408/e-f-02/",
+      "league": "NPB",
+      "kickoff": "2026-04-08T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0408/b-m-02/",
+      "league": "NPB",
+      "kickoff": "2026-04-08T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260408WOOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-08T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260408LGNC0",
+      "league": "KBO",
+      "kickoff": "2026-04-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0409/t-s-03/",
+      "league": "NPB",
+      "kickoff": "2026-04-09T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0409/e-f-03/",
+      "league": "NPB",
+      "kickoff": "2026-04-09T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0409/b-m-03/",
+      "league": "NPB",
+      "kickoff": "2026-04-09T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0412/e-b-05/",
+      "league": "NPB",
+      "kickoff": "2026-04-12T13:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0412/d-t-03/",
+      "league": "NPB",
+      "kickoff": "2026-04-12T13:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260412SKLG0",
+      "league": "KBO",
+      "kickoff": "2026-04-12T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260412NCSS0",
+      "league": "KBO",
+      "kickoff": "2026-04-12T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260412OBKT0",
+      "league": "KBO",
+      "kickoff": "2026-04-12T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260412LTWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-12T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260412HTHH0",
+      "league": "KBO",
+      "kickoff": "2026-04-12T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0422/f-e-05/",
+      "league": "NPB",
+      "kickoff": "2026-04-22T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0422/m-b-05/",
+      "league": "NPB",
+      "kickoff": "2026-04-22T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260422HHLG0",
+      "league": "KBO",
+      "kickoff": "2026-04-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260422OBLT0",
+      "league": "KBO",
+      "kickoff": "2026-04-22T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260422SKSS0",
+      "league": "KBO",
+      "kickoff": "2026-04-22T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260422HTKT0",
+      "league": "KBO",
+      "kickoff": "2026-04-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260422NCWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-22T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0423/f-e-06/",
+      "league": "NPB",
+      "kickoff": "2026-04-23T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260423HHLG0",
+      "league": "KBO",
+      "kickoff": "2026-04-23T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260423OBLT0",
+      "league": "KBO",
+      "kickoff": "2026-04-23T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260423SKSS0",
+      "league": "KBO",
+      "kickoff": "2026-04-23T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260423HTKT0",
+      "league": "KBO",
+      "kickoff": "2026-04-23T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260423NCWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-23T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0424/d-s-04/",
+      "league": "NPB",
+      "kickoff": "2026-04-24T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0424/b-f-04/",
+      "league": "NPB",
+      "kickoff": "2026-04-24T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260424LGOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-24T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260424KTSK0",
+      "league": "KBO",
+      "kickoff": "2026-04-24T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260424LTHT0",
+      "league": "KBO",
+      "kickoff": "2026-04-24T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260424SSWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-24T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260424NCHH0",
+      "league": "KBO",
+      "kickoff": "2026-04-24T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260425LGOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-25T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0425/d-s-05/",
+      "league": "NPB",
+      "kickoff": "2026-04-25T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0425/b-f-05/",
+      "league": "NPB",
+      "kickoff": "2026-04-25T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0426/b-f-06/",
+      "league": "NPB",
+      "kickoff": "2026-04-26T13:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0426/d-s-06/",
+      "league": "NPB",
+      "kickoff": "2026-04-26T13:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260426LGOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-26T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260426KTSK0",
+      "league": "KBO",
+      "kickoff": "2026-04-26T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260426SSWO0",
+      "league": "KBO",
+      "kickoff": "2026-04-26T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260426NCHH0",
+      "league": "KBO",
+      "kickoff": "2026-04-26T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0428/s-t-04/",
+      "league": "NPB",
+      "kickoff": "2026-04-28T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0428/m-e-04/",
+      "league": "NPB",
+      "kickoff": "2026-04-28T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260428SSOB0",
+      "league": "KBO",
+      "kickoff": "2026-04-28T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260428WOLT0",
+      "league": "KBO",
+      "kickoff": "2026-04-28T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260428HTNC0",
+      "league": "KBO",
+      "kickoff": "2026-04-28T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260428LGKT0",
+      "league": "KBO",
+      "kickoff": "2026-04-28T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260428SKHH0",
+      "league": "KBO",
+      "kickoff": "2026-04-28T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0501/t-g-06/",
+      "league": "NPB",
+      "kickoff": "2026-05-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0501/f-b-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-01T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0504/d-t-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-04T14:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0504/g-s-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-04T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0504/b-m-06/",
+      "league": "NPB",
+      "kickoff": "2026-05-04T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260505HHHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-05T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0505/d-t-08/",
+      "league": "NPB",
+      "kickoff": "2026-05-05T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0506/b-m-08/",
+      "league": "NPB",
+      "kickoff": "2026-05-06T13:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0506/g-s-09/",
+      "league": "NPB",
+      "kickoff": "2026-05-06T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0506/e-f-09/",
+      "league": "NPB",
+      "kickoff": "2026-05-06T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260507NCSK0",
+      "league": "KBO",
+      "kickoff": "2026-05-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260507WOSS0",
+      "league": "KBO",
+      "kickoff": "2026-05-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0508/d-g-06/",
+      "league": "NPB",
+      "kickoff": "2026-05-08T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0508/b-f-10/",
+      "league": "NPB",
+      "kickoff": "2026-05-08T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260508SKOB0",
+      "league": "KBO",
+      "kickoff": "2026-05-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260508HTLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260508SSNC0",
+      "league": "KBO",
+      "kickoff": "2026-05-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260508KTWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260508LGHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260509LGHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-09T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0509/b-f-11/",
+      "league": "NPB",
+      "kickoff": "2026-05-09T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260509SKOB0",
+      "league": "KBO",
+      "kickoff": "2026-05-09T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260509HTLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-09T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260509SSNC0",
+      "league": "KBO",
+      "kickoff": "2026-05-09T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0510/b-f-12/",
+      "league": "NPB",
+      "kickoff": "2026-05-10T13:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0512/s-t-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-12T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0512/e-b-06/",
+      "league": "NPB",
+      "kickoff": "2026-05-12T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0512/m-f-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-12T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260512SSLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260512NCLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260512SKKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260512OBHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260512HHWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-12T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0513/s-t-08/",
+      "league": "NPB",
+      "kickoff": "2026-05-13T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0513/m-f-08/",
+      "league": "NPB",
+      "kickoff": "2026-05-13T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260513SSLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-13T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260513NCLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-13T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260513SKKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-13T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260513OBHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-13T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260513HHWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-13T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0514/m-f-09/",
+      "league": "NPB",
+      "kickoff": "2026-05-14T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260514SSLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-14T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260514NCLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-14T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260514SKKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-14T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260514OBHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-14T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260514HHWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-14T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0515/d-s-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-15T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0515/m-b-09/",
+      "league": "NPB",
+      "kickoff": "2026-05-15T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260515LTOB0",
+      "league": "KBO",
+      "kickoff": "2026-05-15T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260515LGSK0",
+      "league": "KBO",
+      "kickoff": "2026-05-15T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260515HTSS0",
+      "league": "KBO",
+      "kickoff": "2026-05-15T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260515WONC0",
+      "league": "KBO",
+      "kickoff": "2026-05-15T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260515HHKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-15T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260516HHKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-16T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0516/d-s-08/",
+      "league": "NPB",
+      "kickoff": "2026-05-16T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0516/m-b-10/",
+      "league": "NPB",
+      "kickoff": "2026-05-16T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260516LTOB0",
+      "league": "KBO",
+      "kickoff": "2026-05-16T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260516LGSK0",
+      "league": "KBO",
+      "kickoff": "2026-05-16T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260516HTSS0",
+      "league": "KBO",
+      "kickoff": "2026-05-16T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0519/s-g-10/",
+      "league": "NPB",
+      "kickoff": "2026-05-19T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0519/t-d-10/",
+      "league": "NPB",
+      "kickoff": "2026-05-19T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0519/f-e-10/",
+      "league": "NPB",
+      "kickoff": "2026-05-19T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260519NCOB0",
+      "league": "KBO",
+      "kickoff": "2026-05-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260519LGHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260519SKWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260519LTHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260519KTSS0",
+      "league": "KBO",
+      "kickoff": "2026-05-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0520/t-d-11/",
+      "league": "NPB",
+      "kickoff": "2026-05-20T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0520/f-e-11/",
+      "league": "NPB",
+      "kickoff": "2026-05-20T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260520SKWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-20T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0521/s-g-11/",
+      "league": "NPB",
+      "kickoff": "2026-05-21T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260521NCOB0",
+      "league": "KBO",
+      "kickoff": "2026-05-21T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260521LGHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-21T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260521SKWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-21T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260521LTHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-21T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260521KTSS0",
+      "league": "KBO",
+      "kickoff": "2026-05-21T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0522/g-t-09/",
+      "league": "NPB",
+      "kickoff": "2026-05-22T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0522/e-m-06/",
+      "league": "NPB",
+      "kickoff": "2026-05-22T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260522WOLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260522SSLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260522NCKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260522SKHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-22T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260522OBHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-22T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260523WOLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-23T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0523/e-m-07/",
+      "league": "NPB",
+      "kickoff": "2026-05-23T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260523SSLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-23T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260523NCKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-23T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260523SKHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-23T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260523OBHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-23T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0524/e-m-08/",
+      "league": "NPB",
+      "kickoff": "2026-05-24T13:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260524WOLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-24T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260524SSLT0",
+      "league": "KBO",
+      "kickoff": "2026-05-24T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260524NCKT0",
+      "league": "KBO",
+      "kickoff": "2026-05-24T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260524SKHT0",
+      "league": "KBO",
+      "kickoff": "2026-05-24T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260524OBHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-24T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0524/g-t-11/",
+      "league": "NPB",
+      "kickoff": "2026-05-24T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0529/f-g-01/",
+      "league": "NPB",
+      "kickoff": "2026-05-29T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0529/e-s-01/",
+      "league": "NPB",
+      "kickoff": "2026-05-29T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0529/m-t-01/",
+      "league": "NPB",
+      "kickoff": "2026-05-29T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0529/b-d-01/",
+      "league": "NPB",
+      "kickoff": "2026-05-29T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260529HTLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-29T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260529OBSS0",
+      "league": "KBO",
+      "kickoff": "2026-05-29T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260529KTWO0",
+      "league": "KBO",
+      "kickoff": "2026-05-29T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260529SKHH0",
+      "league": "KBO",
+      "kickoff": "2026-05-29T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0530/f-g-02/",
+      "league": "NPB",
+      "kickoff": "2026-05-30T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0530/m-t-02/",
+      "league": "NPB",
+      "kickoff": "2026-05-30T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260530HTLG0",
+      "league": "KBO",
+      "kickoff": "2026-05-30T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0605/g-m-01/",
+      "league": "NPB",
+      "kickoff": "2026-06-05T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0605/s-f-01/",
+      "league": "NPB",
+      "kickoff": "2026-06-05T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0605/t-e-01/",
+      "league": "NPB",
+      "kickoff": "2026-06-05T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260605WOOB0",
+      "league": "KBO",
+      "kickoff": "2026-06-05T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260605HHLT0",
+      "league": "KBO",
+      "kickoff": "2026-06-05T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260605KTSK0",
+      "league": "KBO",
+      "kickoff": "2026-06-05T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260605SSHT0",
+      "league": "KBO",
+      "kickoff": "2026-06-05T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260605LGNC0",
+      "league": "KBO",
+      "kickoff": "2026-06-05T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0610/e-g-02/",
+      "league": "NPB",
+      "kickoff": "2026-06-10T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0610/m-d-02/",
+      "league": "NPB",
+      "kickoff": "2026-06-10T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0610/b-s-02/",
+      "league": "NPB",
+      "kickoff": "2026-06-10T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260610SKLG0",
+      "league": "KBO",
+      "kickoff": "2026-06-10T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260610OBLT0",
+      "league": "KBO",
+      "kickoff": "2026-06-10T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260610SSKT0",
+      "league": "KBO",
+      "kickoff": "2026-06-10T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260610HTHH0",
+      "league": "KBO",
+      "kickoff": "2026-06-10T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260610NCWO0",
+      "league": "KBO",
+      "kickoff": "2026-06-10T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0611/e-g-03/",
+      "league": "NPB",
+      "kickoff": "2026-06-11T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0611/m-d-03/",
+      "league": "NPB",
+      "kickoff": "2026-06-11T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0611/b-s-03/",
+      "league": "NPB",
+      "kickoff": "2026-06-11T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260611SKLG0",
+      "league": "KBO",
+      "kickoff": "2026-06-11T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260611OBLT0",
+      "league": "KBO",
+      "kickoff": "2026-06-11T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260611SSKT0",
+      "league": "KBO",
+      "kickoff": "2026-06-11T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260611HTHH0",
+      "league": "KBO",
+      "kickoff": "2026-06-11T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260611NCWO0",
+      "league": "KBO",
+      "kickoff": "2026-06-11T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0612/f-d-01/",
+      "league": "NPB",
+      "kickoff": "2026-06-12T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0612/b-t-01/",
+      "league": "NPB",
+      "kickoff": "2026-06-12T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260612LTLG0",
+      "league": "KBO",
+      "kickoff": "2026-06-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260612SKSS0",
+      "league": "KBO",
+      "kickoff": "2026-06-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260612OBHT0",
+      "league": "KBO",
+      "kickoff": "2026-06-12T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260612NCKT0",
+      "league": "KBO",
+      "kickoff": "2026-06-12T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260612HHWO0",
+      "league": "KBO",
+      "kickoff": "2026-06-12T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0613/f-d-02/",
+      "league": "NPB",
+      "kickoff": "2026-06-13T14:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0613/b-t-02/",
+      "league": "NPB",
+      "kickoff": "2026-06-13T15:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260613LTLG0",
+      "league": "KBO",
+      "kickoff": "2026-06-13T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260613SKSS0",
+      "league": "KBO",
+      "kickoff": "2026-06-13T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260613NCKT0",
+      "league": "KBO",
+      "kickoff": "2026-06-13T17:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260616KTOB0",
+      "league": "KBO",
+      "kickoff": "2026-06-16T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260616WOSS0",
+      "league": "KBO",
+      "kickoff": "2026-06-16T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260616LGHT0",
+      "league": "KBO",
+      "kickoff": "2026-06-16T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260616HHNC0",
+      "league": "KBO",
+      "kickoff": "2026-06-16T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0619/g-d-09/",
+      "league": "NPB",
+      "kickoff": "2026-06-19T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0619/m-e-09/",
+      "league": "NPB",
+      "kickoff": "2026-06-19T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260619OBLG0",
+      "league": "KBO",
+      "kickoff": "2026-06-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260619HTKT0",
+      "league": "KBO",
+      "kickoff": "2026-06-19T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260619SKNC0",
+      "league": "KBO",
+      "kickoff": "2026-06-19T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260619LTWO0",
+      "league": "KBO",
+      "kickoff": "2026-06-19T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0701/g-s-13/",
+      "league": "NPB",
+      "kickoff": "2026-07-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0701/f-b-14/",
+      "league": "NPB",
+      "kickoff": "2026-07-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0701/e-m-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260701LTOB0",
+      "league": "KBO",
+      "kickoff": "2026-07-01T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260701SSNC0",
+      "league": "KBO",
+      "kickoff": "2026-07-01T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260701KTHH0",
+      "league": "KBO",
+      "kickoff": "2026-07-01T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260701LGWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-01T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0702/f-b-15/",
+      "league": "NPB",
+      "kickoff": "2026-07-02T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260702LTOB0",
+      "league": "KBO",
+      "kickoff": "2026-07-02T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260702SKHT0",
+      "league": "KBO",
+      "kickoff": "2026-07-02T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260702SSNC0",
+      "league": "KBO",
+      "kickoff": "2026-07-02T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260702KTHH0",
+      "league": "KBO",
+      "kickoff": "2026-07-02T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260702LGWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-02T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0703/d-g-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-03T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0703/e-f-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-03T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260703HHLG0",
+      "league": "KBO",
+      "kickoff": "2026-07-03T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260703SSSK0",
+      "league": "KBO",
+      "kickoff": "2026-07-03T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260703NCHT0",
+      "league": "KBO",
+      "kickoff": "2026-07-03T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260703LTKT0",
+      "league": "KBO",
+      "kickoff": "2026-07-03T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260703OBWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-03T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260704HHLG0",
+      "league": "KBO",
+      "kickoff": "2026-07-04T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260704SSSK0",
+      "league": "KBO",
+      "kickoff": "2026-07-04T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260704NCHT0",
+      "league": "KBO",
+      "kickoff": "2026-07-04T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260704LTKT0",
+      "league": "KBO",
+      "kickoff": "2026-07-04T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260704OBWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-04T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:91",
+      "league": "K리그1",
+      "kickoff": "2026-07-04T19:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:93",
+      "league": "K리그1",
+      "kickoff": "2026-07-04T19:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:2:122",
+      "league": "K리그2",
+      "kickoff": "2026-07-04T19:30:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0705/d-g-14/",
+      "league": "NPB",
+      "kickoff": "2026-07-05T13:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260705OBWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-05T14:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0705/e-f-14/",
+      "league": "NPB",
+      "kickoff": "2026-07-05T17:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260705SSSK0",
+      "league": "KBO",
+      "kickoff": "2026-07-05T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260705LTKT0",
+      "league": "KBO",
+      "kickoff": "2026-07-05T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0707/g-t-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-07T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "NPB:/scores/2026/0707/m-f-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-07T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260707SKOB0",
+      "league": "KBO",
+      "kickoff": "2026-07-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260707LGSS0",
+      "league": "KBO",
+      "kickoff": "2026-07-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260707HTLT0",
+      "league": "KBO",
+      "kickoff": "2026-07-07T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260707WOKT0",
+      "league": "KBO",
+      "kickoff": "2026-07-07T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260707NCHH0",
+      "league": "KBO",
+      "kickoff": "2026-07-07T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0708/g-t-13/",
+      "league": "NPB",
+      "kickoff": "2026-07-08T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0708/m-f-13/",
+      "league": "NPB",
+      "kickoff": "2026-07-08T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260708SKOB0",
+      "league": "KBO",
+      "kickoff": "2026-07-08T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260708LGSS0",
+      "league": "KBO",
+      "kickoff": "2026-07-08T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260708HTLT0",
+      "league": "KBO",
+      "kickoff": "2026-07-08T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260708WOKT0",
+      "league": "KBO",
+      "kickoff": "2026-07-08T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0709/g-t-14/",
+      "league": "NPB",
+      "kickoff": "2026-07-09T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260709SKOB0",
+      "league": "KBO",
+      "kickoff": "2026-07-09T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260709LGSS0",
+      "league": "KBO",
+      "kickoff": "2026-07-09T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260709HTLT0",
+      "league": "KBO",
+      "kickoff": "2026-07-09T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0710/t-s-10/",
+      "league": "NPB",
+      "kickoff": "2026-07-10T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0710/m-b-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-10T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0711/t-s-11/",
+      "league": "NPB",
+      "kickoff": "2026-07-11T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0711/m-b-13/",
+      "league": "NPB",
+      "kickoff": "2026-07-11T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0712/t-s-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-12T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260719KTLG0",
+      "league": "KBO",
+      "kickoff": "2026-07-19T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260719LTSS0",
+      "league": "KBO",
+      "kickoff": "2026-07-19T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260719HTSK0",
+      "league": "KBO",
+      "kickoff": "2026-07-19T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260719OBNC0",
+      "league": "KBO",
+      "kickoff": "2026-07-19T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0721/s-d-12/",
+      "league": "NPB",
+      "kickoff": "2026-07-21T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260721SKLT0",
+      "league": "KBO",
+      "kickoff": "2026-07-21T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260722SKLT0",
+      "league": "KBO",
+      "kickoff": "2026-07-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260722HHHT0",
+      "league": "KBO",
+      "kickoff": "2026-07-22T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260722SSWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-22T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0723/m-e-14/",
+      "league": "NPB",
+      "kickoff": "2026-07-23T18:00:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260723NCLG0",
+      "league": "KBO",
+      "kickoff": "2026-07-23T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260723SKLT0",
+      "league": "KBO",
+      "kickoff": "2026-07-23T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260723HHHT0",
+      "league": "KBO",
+      "kickoff": "2026-07-23T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260723SSWO0",
+      "league": "KBO",
+      "kickoff": "2026-07-23T18:30:00+09:00",
+      "old_vote": [
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:125",
+      "league": "K리그1",
+      "kickoff": "2026-08-02T19:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:126",
+      "league": "K리그1",
+      "kickoff": "2026-08-02T19:30:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260801HHKT0",
+      "league": "KBO",
+      "kickoff": "2026-08-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260801SKWO0",
+      "league": "KBO",
+      "kickoff": "2026-08-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "/scores/2026/0801/s-t-14/",
+      "league": "NPB",
+      "kickoff": "2026-08-01T18:00:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:122",
+      "league": "K리그1",
+      "kickoff": "2026-08-01T19:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:123",
+      "league": "K리그1",
+      "kickoff": "2026-08-01T19:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:2:153",
+      "league": "K리그2",
+      "kickoff": "2026-08-01T19:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:124",
+      "league": "K리그1",
+      "kickoff": "2026-08-02T19:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "20260908WOLG0",
+      "league": "KBO",
+      "kickoff": "2026-09-08T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 1,
+      "previously_unseen_documents": 1
+    },
+    {
+      "event_id": "20260908LTNC0",
+      "league": "KBO",
+      "kickoff": "2026-09-08T18:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0
+      ],
+      "added_documents": 1,
+      "previously_unseen_documents": 1
+    },
+    {
+      "event_id": "kleague:2026:1:178",
+      "league": "K리그1",
+      "kickoff": "2026-09-20T16:30:00+09:00",
+      "old_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "new_vote": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "added_documents": 0,
+      "previously_unseen_documents": 0
+    },
+    {
+      "event_id": "kleague:2026:1:180",
+      "league": "K리그1",
+      "kickoff": "2026-09-20T19:00:00+09:00",
+      "old_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_vote": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "added_documents": 1,
+      "previously_unseen_documents": 1
+    }
+  ]
+}

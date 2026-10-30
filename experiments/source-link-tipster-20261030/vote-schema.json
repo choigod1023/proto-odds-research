@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tipster source-link normalized vote v1",
+  "type": "object",
+  "required": [
+    "event_id",
+    "league",
+    "kickoff",
+    "selection",
+    "market",
+    "author",
+    "source_site",
+    "source_url",
+    "published_at_claim",
+    "observed_at",
+    "document_sha256",
+    "join_evidence",
+    "availability_tier"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "league": {
+      "type": "string"
+    },
+    "kickoff": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "selection": {
+      "enum": [
+        "home",
+        "draw",
+        "away"
+      ]
+    },
+    "market": {
+      "enum": [
+        "full_game_moneyline",
+        "승무패"
+      ]
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_site": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "published_at_claim": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Original claim preserved, including unparseable/naive original values; availability tier separately audits validity."
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "document_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "join_evidence": {
+      "type": "object"
+    },
+    "availability_tier": {
+      "type": "string"
+    },
+    "eligible_for_union": {
+      "type": "boolean",
+      "description": "Old-vector-agreement gate only; does not certify independence or temporal/hash quality."
+    },
+    "canonical_article_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Goli article ID normalized independently of page query, host spelling, scheme, trailing slash and fragment. Other semantic query parameters preserved."
+    }
+  },
+  "additionalProperties": true
+}

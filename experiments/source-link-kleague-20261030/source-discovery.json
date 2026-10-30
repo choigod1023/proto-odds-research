@@ -1,0 +1,112 @@
+{
+  "http_requests": 49,
+  "official_team_rows": 22,
+  "rejected": [
+    {
+      "identity": {
+        "year": 2026,
+        "leagueId": 2,
+        "gameId": 4,
+        "meetSeq": 2,
+        "roundId": 1,
+        "gameDate": "2026.03.01",
+        "gameTime": "14:00",
+        "homeTeam": "K17",
+        "awayTeam": "K39",
+        "homeTeamName": "대구",
+        "awayTeamName": "화성"
+      },
+      "reason": "XI missing player stats:20260155"
+    },
+    {
+      "identity": {
+        "year": 2026,
+        "leagueId": 2,
+        "gameId": 6,
+        "meetSeq": 2,
+        "roundId": 1,
+        "gameDate": "2026.03.01",
+        "gameTime": "16:30",
+        "homeTeam": "K20",
+        "awayTeam": "K07",
+        "homeTeamName": "경남",
+        "awayTeamName": "전남"
+      },
+      "reason": "XI missing player stats:20260218"
+    },
+    {
+      "identity": {
+        "year": 2026,
+        "leagueId": 2,
+        "gameId": 8,
+        "meetSeq": 2,
+        "roundId": 1,
+        "gameDate": "2026.03.02",
+        "gameTime": "16:30",
+        "homeTeam": "K06",
+        "awayTeam": "K08",
+        "homeTeamName": "부산",
+        "awayTeamName": "성남"
+      },
+      "reason": "not exactly eleven ground starters"
+    },
+    {
+      "identity": {
+        "year": 2026,
+        "leagueId": 2,
+        "gameId": 11,
+        "meetSeq": 2,
+        "roundId": 2,
+        "gameDate": "2026.03.07",
+        "gameTime": "16:30",
+        "homeTeam": "K17",
+        "awayTeam": "K07",
+        "homeTeamName": "대구",
+        "awayTeamName": "전남"
+      },
+      "reason": "not exactly eleven ground starters"
+    },
+    {
+      "identity": {
+        "year": 2026,
+        "leagueId": 2,
+        "gameId": 13,
+        "meetSeq": 2,
+        "roundId": 2,
+        "gameDate": "2026.03.08",
+        "gameTime": "14:00",
+        "homeTeam": "K32",
+        "awayTeam": "K06",
+        "homeTeamName": "안산",
+        "awayTeamName": "부산"
+      },
+      "reason": "XI missing player stats:20110247"
+    },
+    {
+      "identity": {
+        "year": 2026,
+        "leagueId": 1,
+        "gameId": 171,
+        "meetSeq": 1,
+        "roundId": 29,
+        "gameDate": "2026.09.12",
+        "gameTime": "16:30",
+        "homeTeam": "K26",
+        "awayTeam": "K04",
+        "homeTeamName": "부천",
+        "awayTeamName": "제주"
+      },
+      "reason": "not exactly eleven ground starters"
+    }
+  ],
+  "negative_probes": [
+    "data.kleague.com robots Disallow:/; no further requests",
+    "Naver robots/known lineup/record transport failure; no retries/bypass",
+    "official season/career player page is aggregate, never used for past decisions",
+    "no authenticated target-XI publication time; no target-XI feature"
+  ],
+  "route_evidence": {
+    "schedule": "/schedule.do frontend onChangedNew/getScheduleList.do JSON POST",
+    "stats": "match.do frontend getMatchRecordAllData form POST"
+  }
+}

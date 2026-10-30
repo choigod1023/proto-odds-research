@@ -1,0 +1,21 @@
+{
+  "valid": true,
+  "verified_at": "2026-10-30T06:00:52.299690+00:00",
+  "network_disabled_replay_byte_identical": true,
+  "total_http_attempts": 27,
+  "raw_response_hashes_verified": 27,
+  "feature_rows": 40,
+  "feature_fields": 320,
+  "field_gate_reasons": {
+    "calendar_end_plus24h_assumption_not_actual_timestamp": 320
+  },
+  "regression_command": "python -m pytest tests/test_rd_kbo_npb_sources.py tests/test_npb_lineups.py -q --disable-warnings",
+  "observed_regression_result": "39 passed in 0.48s",
+  "roi_inspected": false,
+  "models_fitted": false,
+  "previous_phase_artifacts_unchanged": 637,
+  "NPB_new_requests": 0,
+  "exact_phase2_KBO_feature_names": true,
+  "primary_later_period_rows": 40,
+  "models_or_coefficients_read": false
+}

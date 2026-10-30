@@ -1,0 +1,20 @@
+{
+  "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\experiments\\single-parlay-20261030\\inputs\\TIMED\\events.jsonl.gz",
+  "source_sha256": "e62634c3db0ea87e643f976b378c09742b8879190809c155b24306f5e411d997",
+  "projection_sha256": "b8abda979800032a89494b1954eecf9271cd530fda0b0fc8806f0eb0fad9df18",
+  "source_scope": "internal_saved_time_only_not_external_execution_certification",
+  "raw_frames": 7458,
+  "output_events": 68,
+  "audit": {
+    "source_frame_missing_fixture": 313,
+    "fewer_than_two_distinct_quote_times": 7312,
+    "inconsistent_or_post_decision_quote_clocks": 21,
+    "accepted_events": 68,
+    "events_with_actual_price_change": 11,
+    "final_quote_does_not_match_frozen_case_price": 1,
+    "missing_or_ambiguous_exact_issued_product": 120,
+    "stale_final_quote_over120min": 20
+  },
+  "feature_definitions": "side normalized inverse-price change_pp, log_price_ratio, changed_quote_count, history_hours",
+  "production_changed": false
+}

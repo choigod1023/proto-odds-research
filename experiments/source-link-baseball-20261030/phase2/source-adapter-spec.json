@@ -1,0 +1,27 @@
+{
+  "frozen_at": "2026-10-30T05:43:30.355618+00:00",
+  "frozen_before_parent_evaluation": true,
+  "reason": "Source inspection resolves available scalar fields; original selection protocol remains intact. Planned KBO reliever pitch counts unavailable, so distinct starter-pitch/relief-appearance bundle is declared.",
+  "KBO_features": [
+    "observed_starter_pitch_count_prior3_source_dates",
+    "observed_relief_appearances_prior3_source_dates",
+    "observed_relievers_ge2_appearances_prior3_source_dates",
+    "observed_historical_team_games"
+  ],
+  "NPB_features": [
+    "observed_relief_pitch_count_prior3_source_dates",
+    "observed_relief_appearances_prior3_source_dates",
+    "observed_relievers_ge30_pitches_prior3_source_dates",
+    "observed_relievers_ge2_appearances_prior3_source_dates",
+    "observed_historical_team_games"
+  ],
+  "window": "D-4,D-3,D-2 local calendar dates; observed games only, no empty-window zeros",
+  "identity": "exact league/date/home/away; primary exact official id; auxiliary unique fixture plus actual start within30m",
+  "clocks": "NPB official actual end HH:MM on verified source date (next-day if end<start). KBO calendar date only + end-of-day +24h.",
+  "fact_date_timezone": {
+    "KBO": "Asia/Seoul",
+    "NPB": "Asia/Tokyo"
+  },
+  "roi_inspected": false,
+  "model_fitted": false
+}

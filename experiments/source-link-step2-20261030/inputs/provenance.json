@@ -1,0 +1,28 @@
+{
+  "base_source": {
+    "path": "experiments\\pregame-feature-rd-20261030\\inputs\\cases.jsonl.gz",
+    "sha256": "978fbd314188187627fc80c0fb23ae67c6f059e36236c6a9488d5430556e9842"
+  },
+  "archive_sources": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\experiments\\single-parlay-20261030\\inputs\\ARCHIVE\\events.jsonl.gz",
+      "sha256": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3"
+    }
+  ],
+  "joins_source": {
+    "path": "experiments\\source-link-baseball-20261030\\phase2\\fixture-joins.jsonl.gz",
+    "sha256": "2414e12c1f66c10017b2bfb6c9f8646db2409668ee123e9defe218c0d8b72608"
+  },
+  "aux_normalization_audit": {
+    "aux_no_canonical_full_moneyline": 7,
+    "duplicate_full_match_rosters_omitted": 0
+  },
+  "physical_case_audit": {
+    "duplicate_full_match_rosters_omitted": 733
+  },
+  "base_cases": 7092,
+  "extended_cases": 7401,
+  "verified_official_ids": 485,
+  "verified_official_alias_groups": 0,
+  "source_scope": "Frozen raw case construction; no label-based joins or source selection"
+}
