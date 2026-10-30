@@ -1,0 +1,118 @@
+{
+  "schema_version": "v1.2",
+  "games": [
+    {
+      "canonical_game_id": "g1",
+      "league": "KBO",
+      "home_team_id": "h",
+      "away_team_id": "a",
+      "kickoff_at": "2026-10-30T10:00:00+00:00",
+      "doubleheader_game_number": 1,
+      "status": "scheduled"
+    }
+  ],
+  "aliases": [
+    {
+      "canonical_game_id": "g1",
+      "authority": "official",
+      "official_id": "game-1"
+    }
+  ],
+  "products": [
+    {
+      "canonical_game_id": "g1",
+      "identity": {
+        "product_id": "p1",
+        "market": "win",
+        "period": "full",
+        "line": null
+      },
+      "reissue_of": null,
+      "outcomes": [
+        "home",
+        "away"
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "o1",
+      "evidence": {
+        "source_url": "https://example.org/source",
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "published_at_claim": null,
+        "first_received_at": "2026-10-30T09:00:00+00:00",
+        "revision_received_at": "2026-10-30T09:00:00+00:00",
+        "availability_tier": "observed",
+        "external_receipt_verified": false
+      }
+    }
+  ],
+  "quotes": [
+    {
+      "revision_id": "q1",
+      "canonical_game_id": "g1",
+      "identity": {
+        "product_id": "p1",
+        "market": "win",
+        "period": "full",
+        "line": null
+      },
+      "observation_id": "o1",
+      "quote_observed_at": "2026-10-30T09:00:00+00:00",
+      "odds": {
+        "home": 1.8,
+        "away": 2.2
+      }
+    }
+  ],
+  "lineups": [
+    {
+      "revision_id": "l1",
+      "canonical_game_id": "g1",
+      "team_id": "h",
+      "observation_id": "o1",
+      "players": [
+        {
+          "player_id": "player-1",
+          "role": "starter",
+          "order": null,
+          "announcement_status": "probable",
+          "expected_minutes_or_innings": null
+        }
+      ]
+    }
+  ],
+  "freezes": [
+    {
+      "canonical_game_id": "g1",
+      "identity": {
+        "product_id": "p1",
+        "market": "win",
+        "period": "full",
+        "line": null
+      },
+      "decision_at": "2026-10-30T09:30:00+00:00",
+      "model_id": "example",
+      "model_version": "1",
+      "quote_revision_id": "q1",
+      "lineup_revision_ids": [
+        "l1"
+      ],
+      "probabilities": {
+        "home": 0.6,
+        "away": 0.4
+      },
+      "selection": "home",
+      "freeze_hash": "12b8b96ed08e1993dc1e346964a5378b1049234f4b39f25b0a05feb654f7f447",
+      "input_content_sha256": "df0500934e0a5a48a87fc7f1c8b653e8d83574d3c0d9ca6902865eb298607471",
+      "identity_aliases": [
+        {
+          "authority": "official",
+          "official_id": "game-1"
+        }
+      ]
+    }
+  ],
+  "settlements": []
+}
