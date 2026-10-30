@@ -25,7 +25,7 @@ def fixture():
     ident={'league':g['league'],'canonical_game_id':'g1','official_game_id':'game-1','product_id':'p1','home_team_id':'h','away_team_id':'a','kickoff_at':g['kickoff_at']}
     product=dict(q['identity']); product['outcomes']=p['outcomes']
     quote={'product_id':'p1','observed_at':q['quote_observed_at'],'first_received_at':e['first_received_at'],'revision_received_at':e['revision_received_at'],'availability_tier':e['availability_tier'],'odds':q['odds'],'source_url':e['source_url'],'source_sha256':e['source_sha256'],'published_at_claim':e['published_at_claim'],'external_receipt_verified':e['external_receipt_verified']}
-    contract={'identity':ident,'product':product,'team_mapping':{'h':'Home Name','a':'Away Name'},'state_sha256':hashlib.sha256(_canonical(state.export()).encode()).hexdigest(),'state_available_through':'2026-10-05T00:00:00+00:00','quote':quote}
+    contract={'decision_at':'2026-10-30T09:30:00+00:00','identity':ident,'product':product,'team_mapping':{'h':'Home Name','a':'Away Name'},'state_sha256':hashlib.sha256(_canonical(state.export()).encode()).hexdigest(),'state_available_through':'2026-10-05T00:00:00+00:00','quote':quote}
     # A synthetic pinned contract models the verifier interface; it is not real
     # authentication or evidence of external receipt or training provenance.
     trusted=copy.deepcopy(contract); trusted_state=copy.deepcopy(state.export())
@@ -127,3 +127,35 @@ def test_bad_lineups_are_discarded(mutate):
     assert result['availability_reason']['code']=='lineup_invalid'
     assert result['input_revision'] is None
     assert result['probability_vector']==run(s,d,c,v)['probability_vector']
+
+
+def test_decision_is_bound_to_contract_and_received_by_verifier():
+    state,doc,contract,verify=fixture()
+    seen = []
+    def check(candidate, snapshot):
+        seen.append(candidate['decision_at'])
+        return verify(candidate, snapshot)
+    expected = run(state,doc,contract,check)
+    assert seen == ['2026-10-30T09:30:00+00:00']
+    # Equal aware instants with different offsets are accepted.
+    assert run(state,doc,contract,check,decision='2026-10-30T18:30:00+09:00')['probability_vector'] == expected['probability_vector']
+    for decision in ('2026-10-30T09:29:00+00:00', '2026-10-30T09:30:00'):
+        with pytest.raises(ValueError):
+            run(state,doc,contract,check,decision=decision)
+    for bad in (None, '2026-10-30T09:30:00'):
+        c=copy.deepcopy(contract); c['decision_at']=bad
+        with pytest.raises(ValueError): run(state,doc,c,check)
+    c=copy.deepcopy(contract); del c['decision_at']
+    with pytest.raises(ValueError): run(state,doc,c,check)
+
+
+def test_real_v12_freeze_none_core_projection():
+    state, doc, contract, verify = fixture()
+    assert doc['schema_version'] == 'v1.2' and validator.validate(doc) is True
+    doc['freezes'] = []
+    assert run(state,doc,contract,verify,['l1'])['availability_reason']['code'] == 'lineup_invalid'
+    assert run(state,doc,contract,verify)['availability_reason']['code'] == 'lineup_unavailable'
+    bad=copy.deepcopy(doc); bad['games'][0]['kickoff_at']='2026-10-30T11:00:00+00:00'
+    with pytest.raises(ValueError): run(state,bad,contract,verify)
+    bad=copy.deepcopy(doc); bad['aliases'][0]['official_id']='different'
+    with pytest.raises(ValueError): run(state,bad,contract,verify)

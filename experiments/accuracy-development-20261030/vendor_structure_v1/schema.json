@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:accuracy-structure:v1",
+  "$id": "urn:accuracy-structure:v1.2",
   "type": "object",
   "properties": {
     "schema_version": {
-      "const": "v1"
+      "const": "v1.2"
     },
     "games": {
       "type": "array",
@@ -445,6 +445,32 @@
           "freeze_hash": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$"
+          },
+          "input_content_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "identity_aliases": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "authority": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "official_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "authority",
+                "official_id"
+              ],
+              "additionalProperties": false
+            }
           }
         },
         "required": [
@@ -457,7 +483,9 @@
           "lineup_revision_ids",
           "probabilities",
           "selection",
-          "freeze_hash"
+          "freeze_hash",
+          "input_content_sha256",
+          "identity_aliases"
         ],
         "additionalProperties": false
       },

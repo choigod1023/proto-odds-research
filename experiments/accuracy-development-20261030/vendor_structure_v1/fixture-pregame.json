@@ -1,5 +1,5 @@
 {
-  "schema_version": "v1",
+  "schema_version": "v1.2",
   "games": [
     {
       "canonical_game_id": "g1",
@@ -104,7 +104,14 @@
         "away": 0.4
       },
       "selection": "home",
-      "freeze_hash": "229fc841479b038fc4517f095ebb4b1e313e6ac1e3e75d428bbc4fa5c462ed24"
+      "freeze_hash": "12b8b96ed08e1993dc1e346964a5378b1049234f4b39f25b0a05feb654f7f447",
+      "input_content_sha256": "df0500934e0a5a48a87fc7f1c8b653e8d83574d3c0d9ca6902865eb298607471",
+      "identity_aliases": [
+        {
+          "authority": "official",
+          "official_id": "game-1"
+        }
+      ]
     }
   ],
   "settlements": []
