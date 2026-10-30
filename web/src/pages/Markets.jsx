@@ -23,7 +23,7 @@ import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
   unavailableFor } from "../lib/game-info.js";
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { buildDecisionViewModel, resolveDecisionOption } from "../lib/decision-view-model.js";
-import { usesTipsterVote, tipsterPolicyInfo, tipsterVoteSummary, tipsterWithholdLabel } from "../lib/fixed-tipster-policy.js";
+import { usesTipsterVote, tipsterPolicyInfo, tipsterVoteSummary, tipsterWithholdLabel, isMarketFallback } from "../lib/fixed-tipster-policy.js";
 import { repriceGameOdds } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
@@ -818,7 +818,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
     <Surface className={detailOnly ? "match-detail-view" : `match-card is-${phase} result-${outcome.state}`}>
       {detailOnly && <MatchDetailHeader game={g} score={score} phase={phase}
         probabilityLabel={votePolicy ? "배당 기반 시장확률" : undefined}
-        predictionTitle={votePolicy ? (voteWithheld ? tipsterWithholdLabel(voteInfo) : "픽스터 투표") : undefined}
+        predictionTitle={votePolicy ? (voteWithheld ? tipsterWithholdLabel(voteInfo) : isMarketFallback(voteInfo) ? "시장 확률 기준 · 픽스터 없음" : "픽스터 투표") : undefined}
         status={disruption || (playing ? `LIVE · ${lv?.status_text || "진행 중"}` : gameStatusLabel(g, lv))} option={pick?.o}
         openingProbability={voteWithheld ? null : locked ? openingProbability : currentProbability}
         estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}

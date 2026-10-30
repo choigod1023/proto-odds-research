@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildDecisionViewModel, canApplyDecisionProbability, FIXED_TIPSTER_VERSION, recommendedSelectionForModel } from "./decision-view-model.js";
+import { buildDecisionViewModel, decisionLabel, canApplyDecisionProbability, FIXED_TIPSTER_VERSION, recommendedSelectionForModel } from "./decision-view-model.js";
 import { canonicalOption } from "./unified-recommendation.js";
 import { TIPSTER_VOTE_VERSION, tipsterVoteSummary } from "./fixed-tipster-policy.js";
 
@@ -214,10 +214,34 @@ test("rendered vote card, detail and evidence distinguish support from market pr
     assert.match(panel, /author-0/);
     assert.match(panel, /투표 66.7%/);
     assert.doesNotMatch(panel, /시장확률 90%|픽스터 미반영/);
+    Object.assign(g.decision_snapshot, {selection_id: "h", offer_id: "oh"});
+    Object.assign(g.decision_snapshot.probability, {market: .52, final: .52});
+    g.decision_snapshot.tipster_hybrid = {version: TIPSTER_VOTE_VERSION, status: "applied",
+      reason: "market_fallback_no_votes", selection_source: "market_fallback", selected_side: "홈", authors: 0};
+    for (const fallback of [render(), render({detailOnly: true})]) {
+      assert.match(fallback, /시장 확률 기준 · 픽스터 없음/);
+      assert.doesNotMatch(fallback, /최다 득표|픽스터 투표 · 0명/);
+    }
     Object.assign(g.decision_snapshot, {action: "withhold", selection_id: null, offer_id: null});
     Object.assign(g.decision_snapshot.tipster_hybrid, {status: "withheld", selected_side: null, reason: "tied_votes"});
     const withheld = render({detailOnly: true});
     assert.match(withheld, /픽스터 투표 동률 · 보류/);
     assert.doesNotMatch(withheld, /detail-pick|배당 1.49|48.0%|52.0%/);
   } finally { Date.now = originalNow; await server.close(); }
+});
+
+
+test("market fallback keeps the selected market side and is labelled without tipster votes", () => {
+  const g = voteFixture();
+  const raw = g.decision_snapshot;
+  Object.assign(raw, {selection_id: "h", offer_id: "oh"});
+  Object.assign(raw.probability, {market: .52, final: .52});
+  raw.tipster_hybrid = {version: TIPSTER_VOTE_VERSION, status: "applied", reason: "market_fallback_no_votes",
+    selection_source: "market_fallback", selected_side: "홈", authors: 0};
+  assert.equal(canonicalOption(g), g.options[0]);
+  const view = buildDecisionViewModel(g, g.options[0]);
+  assert.equal(view.action, "market_reference");
+  assert.equal(decisionLabel(view), "시장 확률 기준 · 픽스터 없음");
+  assert.equal(tipsterVoteSummary(view.tipster).text, "시장 확률 기준 · 픽스터 없음");
+  assert.equal(tipsterVoteSummary(view.tipster).share, null);
 });

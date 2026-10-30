@@ -1,3 +1,4 @@
+import { isMarketFallback } from "./fixed-tipster-policy.js";
 import { playerSummaryFor } from "./player-summary.js";
 import { teamPreviewsFor, teamPreviewSentence } from "./team-preview.js";
 import { buildDecisionViewModel, decisionLabel, resolveDecisionOption } from "./decision-view-model.js";
@@ -98,7 +99,7 @@ export function predictionFor(game, recommended = null) {
   else if (firstHalfTeamMarket) {
     headline = draw ? `${basisLabel}전반 무승부` : `${basisLabel}전반 ${outcomeSide} 우세`;
   } else if (teamMarket) {
-    headline = decision.tipsterVote ? `픽스터 투표 · ${draw ? "무승부" : side} 최다 득표`
+    headline = decision.tipsterVote ? (isMarketFallback(decision.tipster) ? `시장 확률 기준 · ${draw ? "무승부" : side} 선택` : `픽스터 투표 · ${draw ? "무승부" : side} 최다 득표`)
       : draw ? `${basisLabel}팽팽함` : `${basisLabel}${side} 우세`;
   } else {
     headline = `${basisLabel}${[market, best?.label, outcome].filter(Boolean).join(" ")}`;
@@ -367,6 +368,7 @@ function playerSentence(players) {
 }
 
 function expectedFlowSentence(game, prediction) {
+  if (isMarketFallback(prediction?.decision?.tipster)) return "유효한 픽스터 투표가 없어 배당 기반 시장확률이 가장 높은 방향을 선택했다. 수익성은 검증되지 않았다.";
   if (prediction?.decision?.tipsterVote) return prediction.side
     ? `경기 전 작성자별 첫 투표에서 ${prediction.side} 방향이 가장 많은 표를 받았다. 투표 지지율은 예상 적중률이 아니며 시장확률은 별도로 표시한다.`
     : "투표가 동률이거나 유효한 투표가 없어 선택을 보류한다.";

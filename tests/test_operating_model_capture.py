@@ -123,10 +123,11 @@ def test_no_backfill_or_clock_only_revision(tmp_path):
 def test_no_votes_abstains_even_with_anchor_version():
     _, s, f = inputs(rows=[])
     p = f["model_comparison"]; arms = p["arms"]
-    assert s["action"] == "withhold"
-    assert arms["operating"]["status"] == "abstain"
+    assert s["action"] == "market_reference"
+    assert arms["operating"]["status"] == "available"
     assert arms["operating"]["meta"]["selection_policy"] == "tipster-vote-v1"
-    assert arms["operating"]["meta"]["operating_version"] == "shin-market-anchor-v1"
+    assert arms["operating"]["meta"]["operating_version"] == "tipster-vote-v1"
+    assert s["tipster_hybrid"]["selection_source"] == "market_fallback"
     assert arms["fixed91_same_electorate"]["reason"] == "no_valid_votes"
     assert arms["market_reference"]["status"] == "available"
     assert arms["home_always"]["status"] == "available"
@@ -290,7 +291,7 @@ def test_evaluator_replay_is_explicitly_retrospective_with_identical_arm_computa
     assert comparison.capture(s, f)["reason"] == "retrospective_snapshot_unsupported"
     replay = comparison.capture(s, f, capture_kind="retrospective_same_snapshot_control")
     assert replay["status"] == "captured"
-    assert replay["arms"]["operating"]["status"] == "abstain"
+    assert replay["arms"]["operating"]["status"] == "available"
     assert "captured_at" not in replay
     assert comparison.capture(s, f, capture_kind="typo")["reason"] == "unsupported_capture_kind"
 

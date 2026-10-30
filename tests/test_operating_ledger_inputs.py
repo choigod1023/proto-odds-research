@@ -193,7 +193,7 @@ def test_latest_changed_selection_and_price_is_not_replaced_by_earlier_favorite(
 def test_latest_actual_withheld_snapshot_does_not_fall_back_to_earlier_vote_pick():
     old, game = operating_record()
     at = "2026-10-25T22:10:00Z"
-    snapshot = build_decision_snapshot(game, as_of=at, tipster_votes=[])
+    snapshot = build_decision_snapshot(game, as_of=at, tipster_votes=[{"_tipster_load_error": True}])
     game["decision_snapshot"] = snapshot
     new = deepcopy(old)
     new.update(snapshot_id=snapshot["decision_id"], decision_id=snapshot["decision_id"],

@@ -193,6 +193,7 @@ def normalize_operating_prediction(record: Mapping) -> dict:
                 "model_hash": hashes[0] if hashes else None,
                 "feature_policy_version": hybrid.get("version"),
                 "feature_policy_status": hybrid.get("status"),
+                "selection_source": hybrid.get("selection_source") or "tipster_votes",
                 "residual_version": model.get("residual_version"),
                 "probability_pipeline_version": model.get("probability_pipeline_version")}
     if identity["model_hash"] is None:
@@ -245,14 +246,26 @@ def normalize_operating_prediction(record: Mapping) -> dict:
             reasons.append("policy_selection_mismatch")
         if market not in {"승패", "승무패"} or label or line is not None:
             reasons.append("vote_policy_market_mismatch")
-        counts = _mapping(hybrid.get("vote_counts"))
-        values = {side: _number(counts.get(side)) for side in sides}
-        if not values or any(v is None or v < 0 or not v.is_integer() for v in values.values()):
-            reasons.append("invalid_saved_vote_counts")
+        if hybrid.get("selection_source") == "market_fallback":
+            probabilities = {o.get("selection"): _number(o.get("market_probability")) for o in roster}
+            if (hybrid.get("reason") != "market_fallback_no_votes" or hybrid.get("authors") != 0
+                    or hybrid.get("vote_counts") is not None or hybrid.get("vote_shares") is not None
+                    or any(v is None or not 0 < v < 1 for v in probabilities.values())
+                    or abs(sum(probabilities.values()) - 1) > .01):
+                reasons.append("invalid_market_fallback_evidence")
+            else:
+                leaders = [side for side, value in probabilities.items() if value == max(probabilities.values())]
+                if len(leaders) != 1 or leaders[0] != selected.get("selection"):
+                    reasons.append("policy_market_selection_mismatch")
         else:
-            leaders = [side for side, count in values.items() if count == max(values.values())]
-            if len(leaders) != 1 or leaders[0] != selected.get("selection"):
-                reasons.append("policy_vote_selection_mismatch")
+            counts = _mapping(hybrid.get("vote_counts"))
+            values = {side: _number(counts.get(side)) for side in sides}
+            if not values or any(v is None or v < 0 or not v.is_integer() for v in values.values()):
+                reasons.append("invalid_saved_vote_counts")
+            else:
+                leaders = [side for side, count in values.items() if count == max(values.values())]
+                if len(leaders) != 1 or leaders[0] != selected.get("selection"):
+                    reasons.append("policy_vote_selection_mismatch")
 
     raw_probability = pred.get("probability")
     detail = _mapping(raw_probability) if isinstance(raw_probability, Mapping) else _mapping(pred.get("probability_detail"))

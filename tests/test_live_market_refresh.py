@@ -20,7 +20,9 @@ def admissible_votes_for_offer_ledger_regressions(monkeypatch):
     from public_tipster_votes import SOURCE, fixture_key
     real = policy.context
     def seeded(g, rows, as_of, built_at):
-        if rows:
+        # These fileless ledger tests inject a healthy synthetic electorate;
+        # DB-unavailable behavior is covered separately without this fixture.
+        if rows and not any(r.get('_tipster_load_error') for r in rows):
             return real(g, rows, as_of, built_at)
         obs = (policy.stamp(as_of)-timedelta(days=1)).isoformat()
         e=dict(source=SOURCE,event_type='first_observed',eligible_pre_event=True,

@@ -1,6 +1,6 @@
 import { finalRecommendedSelection, qualifiedUnderdogSelections,
   marketOnlyRecommendedSelection, recommendationPriority } from "./recommendation-policy.js";
-import { isTipsterVoteVersion, tipsterPolicyInfo, usesTipsterVote, tipsterWithholdLabel } from "./fixed-tipster-policy.js";
+import { isTipsterVoteVersion, tipsterPolicyInfo, usesTipsterVote, tipsterWithholdLabel, isMarketFallback } from "./fixed-tipster-policy.js";
 
 const finite = (value) => {
   if (value === null || value === undefined || value === "") return null;
@@ -572,7 +572,7 @@ export function decisionLabel(decision) {
   if (decision?.action === "recalculating") return "배당 변경 · 재계산 대기";
   if (decision?.ledgerRequired) return "판정 원장 기록 대기";
   if (decision?.contractErrors?.length) return "판정 계약 오류 · 보류";
-  if (decision?.tipsterVote) return decision.action === "market_reference" ? "픽스터 투표" : tipsterWithholdLabel(decision.tipster);
+  if (decision?.tipsterVote) return decision.action === "market_reference" ? (isMarketFallback(decision.tipster) ? "시장 확률 기준 · 픽스터 없음" : "픽스터 투표") : tipsterWithholdLabel(decision.tipster);
   if (decision?.action !== "market_reference") return "비교 후보 보류";
   if (decision?.recommendationPriority === "reversal") {
     return "이전 이변 판정 · 재계산 필요";
