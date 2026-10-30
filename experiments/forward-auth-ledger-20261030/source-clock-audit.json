@@ -1,0 +1,70 @@
+{
+  "kind": "read-only source audit, not a live production/server audit",
+  "base_commit": "421544799673a38eb7cb32f70397476bc1f507c2",
+  "externally_authenticated_sources": 0,
+  "files": [
+    {
+      "source": "src/prediction_ledger.py",
+      "lines": [159, 444, 461, 464, 468, 529],
+      "observed": "captured_at uses process UTC clock at append; market_observed_at/as_of and kickoff guards; sequence and previous_record_hash detect local chain breaks; settlement is separate",
+      "missing": "independent witness signature/time and pinned external trust roots; a locally recomputed whole chain can still validate"
+    },
+    {
+      "source": "src/snapshot.py",
+      "lines": [233, 235, 243, 263, 274],
+      "observed": "ts=_now() occurs once BEFORE per-round _fetch; same ts marks snapshot and odds_changes. Price history exists but timestamp is not per-response receipt completion",
+      "missing": "first successful per-response receipt-completed UTC clock, raw response SHA256/version, externally witnessed checkpoint and purchase receipt; current result column must never be prediction feature input"
+    },
+    {
+      "source": "src/public_tipster_votes.py",
+      "lines": [133, 161, 223, 251, 253, 263, 360],
+      "observed": "observed_at process clock after download; content_hash hashes decoded HTML; published_at claimed source time; first_observed and T-30 filters exist",
+      "missing": "external independent timestamp/signature, immutable raw-byte version history and complete author-identity receipt bridges. Comment calling fresh download independent proof is only internal operational evidence"
+    },
+    {
+      "source": "scripts/capture_tipster_forecasts.py",
+      "lines": [72, 95],
+      "observed": "document_sha256 uses response bytes and observed_at is process UTC clock after receipt",
+      "missing": "external receipt authentication and pinned witness; later page retrieval cannot certify the historical version"
+    },
+    {
+      "source": "src/pregame_player_capture.py",
+      "lines": [16, 21, 40, 51, 64],
+      "observed": "caller observed_at, source_updated_at, kickoff and six-hour freshness guard; training_eligible=False; explicitly warns row update cannot certify statistic as-of",
+      "missing": "first receipt for each lineup/starter fact, original response hash for legacy document, signed independent checkpoint; starter/lineup presence is not confirmed announcement status"
+    },
+    {
+      "source": "src/mlb_candidate_feed.py",
+      "lines": [33, 43, 75, 140, 141, 143],
+      "observed": "response_sha256 of joined response bytes; receipt clock after response stream completes, separate source snapshot time; pre-T30/state gates",
+      "missing": "external trusted time signature and retained witnessed raw version; first seen by this process does not prove first public availability or purchasable odds"
+    },
+    {
+      "source": "src/kbo_candidate_source.py",
+      "lines": [25, 51, 77, 104, 105, 138],
+      "observed": "raw source_sha256, receipt clock after response; seed first observed time preserved; result manifest availability is official final observed_at",
+      "missing": "external checkpoint; seed observed_at cannot backdate historical availability; final result manifests belong in settlement/prior history and never current-game feature capture"
+    },
+    {
+      "source": "src/baseball_candidate_watch.py",
+      "lines": [53, 69, 84, 99],
+      "observed": "checked_at/generated_at and freshness checks from local process clock",
+      "missing": "independent raw receipt evidence; job completion/status is not a lineup receipt or forecast performance result"
+    },
+    {
+      "source": "src/operating_model_capture.py",
+      "lines": [4, 200, 221, 298, 304],
+      "observed": "same-snapshot price/input/implementation hashes; timing delegates to enclosing ledger; does not query actual receipt clock",
+      "missing": "external witness for the enclosing frozen record and actual raw response history; compact model comparison cannot authenticate missing source clocks"
+    }
+  ],
+  "minimum_future_receipt": [
+    "event/product/offer identities, odds and complete probability vectors, explicit source-linked votes",
+    "raw response bytes and SHA256, UTC request start and receipt completion; source published/updated times kept separately as claims",
+    "first observed receipt and append-only every revision, no latest-value overwrite",
+    "freeze by kickoff minus30 minutes; external signed checkpoint covering freeze by cutoff with verifier-pinned independent trust/key validity and witness clock policy",
+    "separate official final result receipt, source hash and frozen-record reference; never rewrite frozen inputs",
+    "actual purchase/executable quote evidence required separately for real profit claims"
+  ],
+  "runtime_change": "none; no recurring capture enabled"
+}
