@@ -1,0 +1,67 @@
+{
+  "role": "connection",
+  "status": "draft_pr_open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-connection-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": null,
+  "commit": "ac2d0b3c",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/440",
+  "changed_paths": [
+    "experiments/accuracy-connection-20261030/",
+    "tests/test_accuracy_connection.py",
+    "docs/research/2026-10-30-accuracy-connection.md"
+  ],
+  "inputs_and_sha": [
+    {
+      "path": "prior kleague-decay history.jsonl",
+      "sha256": "dcbf7ac3d1641750c12cd5f5f4278a6dc9d911e51b6d7d6660e69c7c35e83586"
+    },
+    {
+      "path": "data/processed/games.csv.tmp",
+      "sha256": "daf3ac6779f1b955d6abe8c08bd18d6f2d9b5967f62f5c59724695a845bfc74c"
+    },
+    {
+      "path": "data/raw/detail/kleague_soccer_2023_2026.json",
+      "sha256": "23380355d10e7a9b078a2c170611e89796b95549be19d1d783b2c7d480ac2daa"
+    },
+    {
+      "path": "prior official/kleague-results.json",
+      "sha256": "72d2cd4981deef8ad226936b6f828fb30ed230fb8edb9dbf971aaebb1444d343"
+    }
+  ],
+  "tests": {
+    "targeted": "4 passed; prior and official result poisoning and duplicate candidate ambiguity",
+    "full": "1864 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "k2_2025_finals": 275,
+    "unique_official_ids": 275,
+    "prior_history_rows": 23,
+    "additional_result_candidates": 252,
+    "official_lineup_player_rows": 0,
+    "pregame_lineup_receipts": 0,
+    "externally_certified_receipts": 0,
+    "scheduled_k1": 24,
+    "scheduled_k2": 32,
+    "scheduled_kbo": 1,
+    "direct_http_requests": 24,
+    "unique_date_team_identity_matches": 23,
+    "ambiguous_or_unmatched": 0,
+    "post_match_score_agreements": 23
+  },
+  "limitations": [
+    "Past history lacks official ID and kickoff time; identity uses league, date and teams only, then score reconciliation; no independent ID or exact timestamp check.",
+    "No historical pregame receipt, product, price or independent settlement established.",
+    "K1 and K2 lineup PDF route returned HTML; KBO lineup unavailable at sample time.",
+    "No performance candidate tested; protocol commit not applicable."
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator decides whether to integrate the historical results; collect new confirmed player identities and independent receipts before prospective use.",
+  "commit_note": "Initial implementation commit; consult PR head for later handoff and review-fix commits.",
+  "derived_inputs_sha256_lf": {
+    "prior_derived_lf_bytes": "2d2e9a6a6ee10fa2ced174b33674f33faa77f6948a73679eeb6d54507a24eef9",
+    "official_derived_lf_bytes": "0092305a7d59473c37b9f9f71b7e52d2cef92d37348e1f1bd9db74890295315a"
+  },
+  "source_hash_note": "raw_sha256 is HTTP response bytes, unavailable to rehash because bodies were not retained; derived JSON hashes use LF-normalized bytes."
+}
