@@ -1,0 +1,30 @@
+{
+  "protocol": "proto-all-pick-v1",
+  "monthly_cap_applied": false,
+  "stake_won": 10000,
+  "source_sha256": {
+    "experiments\\proto-all-picks-20261030\\inputs\\combined-games.jsonl.gz": "6d0892bae58aaecd2f140ee20347f650032492b08a5901f4db7dfa0f12d3f432"
+  },
+  "audit": {
+    "distinct_physical_events": 44396,
+    "identical_reissue_rows_collapsed": 954,
+    "input_rows": 174633,
+    "market_excluded:conflicting_price_result_or_state_reissues": 587,
+    "market_excluded:invalid_quoted_price": 230,
+    "market_excluded:unpriced_void": 2876,
+    "market_excluded:unrecognized_or_unsettled_result": 512,
+    "parsed_rows": 172274,
+    "physical_market_groups": 170668,
+    "quoted_selections": 389203,
+    "raw_status:invalid_quoted_price": 231,
+    "raw_status:settled": 168589,
+    "raw_status:unpriced_void": 2920,
+    "raw_status:unrecognized_or_unsettled_result": 534,
+    "shape_excluded:invalid_selection_count": 2332,
+    "shape_excluded:unsupported_market": 27,
+    "usable_markets": 166463
+  },
+  "source_proven_purchase_timestamps": false,
+  "independently_officially_verified_results": false,
+  "result_basis": "archived product-specific settlement labels; independent official cross-check separate"
+}

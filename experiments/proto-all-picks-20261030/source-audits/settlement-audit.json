@@ -1,0 +1,814 @@
+{
+  "kind": "read-only synthetic contract audit; no ingestion or ROI population",
+  "head": "421544799673a38eb7cb32f70397476bc1f507c2",
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "functions": {
+    "wisetoto.parse_rows": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\wisetoto.py",
+      "line": 385,
+      "signature": "(html: 'str', year: 'int', rnd: 'int') -> 'list[GameRow]'",
+      "file_sha256": "3734e77e592141c6222ded1454de4f93f0dd7d7c5fbcc24bcfd79ca70dc30f1c"
+    },
+    "wisetoto.GameRow.is_first_half": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\wisetoto.py",
+      "line": 86,
+      "signature": "(self) -> 'bool'",
+      "file_sha256": "3734e77e592141c6222ded1454de4f93f0dd7d7c5fbcc24bcfd79ca70dc30f1c"
+    },
+    "wisetoto.GameRow.market_family": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\wisetoto.py",
+      "line": 105,
+      "signature": "(self) -> 'str'",
+      "file_sha256": "3734e77e592141c6222ded1454de4f93f0dd7d7c5fbcc24bcfd79ca70dc30f1c"
+    },
+    "wisetoto.GameRow._base_family": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\wisetoto.py",
+      "line": 120,
+      "signature": "(self) -> 'str'",
+      "file_sha256": "3734e77e592141c6222ded1454de4f93f0dd7d7c5fbcc24bcfd79ca70dc30f1c"
+    },
+    "wisetoto.GameRow.overround": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\wisetoto.py",
+      "line": 75,
+      "signature": "(self) -> 'float | None'",
+      "file_sha256": "3734e77e592141c6222ded1454de4f93f0dd7d7c5fbcc24bcfd79ca70dc30f1c"
+    },
+    "bets.winner_index": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\bets.py",
+      "line": 98,
+      "signature": "(n_way: 'int', result: 'str') -> 'int | None'",
+      "file_sha256": "c8ec071e63df0f159738ce7f894ab889014561c220e94610b7df8a761baaaf82"
+    },
+    "bets.to_bets": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\bets.py",
+      "line": 102,
+      "signature": "(rows) -> 'list[Bet]'",
+      "file_sha256": "c8ec071e63df0f159738ce7f894ab889014561c220e94610b7df8a761baaaf82"
+    },
+    "matches.actual_game_year": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\matches.py",
+      "line": 69,
+      "signature": "(year, round_no, month)",
+      "file_sha256": "2305a784c1d45863724bb82d237e754cb4fac37d444a03eab49404370a75e8c3"
+    },
+    "matches.load_matches": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\matches.py",
+      "line": 77,
+      "signature": "(sports: 'tuple[str, ...] | None' = None, path: 'Path' = WindowsPath('C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/proto-all-pick-profitability-20261030/data/processed/games.csv'), before: 'str | None' = None) -> 'pd.DataFrame'",
+      "file_sha256": "2305a784c1d45863724bb82d237e754cb4fac37d444a03eab49404370a75e8c3"
+    },
+    "ai_decision.event_id": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\ai_decision.py",
+      "line": 121,
+      "signature": "(game: 'dict') -> 'str'",
+      "file_sha256": "35600afca391cf15f22e110d41a583f3c7ef889a2e831d99424e21fe4152b7b1"
+    },
+    "ai_decision.selection_id": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\ai_decision.py",
+      "line": 133,
+      "signature": "(game: 'dict', option: 'dict') -> 'str'",
+      "file_sha256": "35600afca391cf15f22e110d41a583f3c7ef889a2e831d99424e21fe4152b7b1"
+    },
+    "ai_decision.offer_id": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\ai_decision.py",
+      "line": 141,
+      "signature": "(game: 'dict', option: 'dict') -> 'str'",
+      "file_sha256": "35600afca391cf15f22e110d41a583f3c7ef889a2e831d99424e21fe4152b7b1"
+    },
+    "live_market_refresh.settle_live_market_results": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\live_market_refresh.py",
+      "line": 591,
+      "signature": "(live_odds: 'dict', runtime: 'PredictionRuntime') -> 'int'",
+      "file_sha256": "1347373168044eeb8c29fdd7cfee6b02d5922ee729e3df0168eabc5abc985b15"
+    },
+    "recommendation_history.settle_history": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\recommendation_history.py",
+      "line": 92,
+      "signature": "(history, odds, now)",
+      "file_sha256": "629b6cef81edd08a41fb15ab81825e55f8725487ce43a8719211532e882658ad"
+    },
+    "prediction_runtime.PredictionRuntime.settle_latest": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\prediction_runtime.py",
+      "line": 404,
+      "signature": "(self, event_id: 'str', *, outcome: 'Mapping[str, Any]', settled_at: 'str | datetime', source: 'Mapping[str, Any] | str') -> 'AppendResult | None'",
+      "file_sha256": "2c60f267360cdc28405bc42c0f75fd407aaef5a8e9eaf362eb5dfbfc63639f8a"
+    },
+    "prediction_runtime.PredictionRuntime.settle_latest_batch": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\prediction_runtime.py",
+      "line": 462,
+      "signature": "(self, entries: 'list[Mapping[str, Any]]') -> 'list[AppendResult]'",
+      "file_sha256": "2c60f267360cdc28405bc42c0f75fd407aaef5a8e9eaf362eb5dfbfc63639f8a"
+    },
+    "prediction_runtime.PredictionRuntime.ui_records": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\prediction_runtime.py",
+      "line": 489,
+      "signature": "(self) -> 'dict[str, dict[str, Any]]'",
+      "file_sha256": "2c60f267360cdc28405bc42c0f75fd407aaef5a8e9eaf362eb5dfbfc63639f8a"
+    },
+    "prediction_ledger.PredictionLedger.append_settlement": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\prediction_ledger.py",
+      "line": 318,
+      "signature": "(self, snapshot_id: 'str', *, outcome: 'Mapping[str, Any]', settled_at: 'str | datetime', source: 'Mapping[str, Any] | str', settlement_version: 'str' = 'official-v1') -> 'AppendResult'",
+      "file_sha256": "d246fa772c1977c71f8035f96f69c771119149d90cfe4718448cf5f97ff30425"
+    },
+    "runtime_datasets.result_row": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\runtime_datasets.py",
+      "line": 54,
+      "signature": "(row, source, observed_at)",
+      "file_sha256": "91cf79b4365595e5f2d5c253edd5bba9d90bf4c7707b22c600cfb531acce2038"
+    },
+    "runtime_datasets.DatasetStore.match_history": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\runtime_datasets.py",
+      "line": 217,
+      "signature": "(self, sports=None, before=None)",
+      "file_sha256": "91cf79b4365595e5f2d5c253edd5bba9d90bf4c7707b22c600cfb531acce2038"
+    },
+    "score_dist.p_margin_band": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\score_dist.py",
+      "line": 186,
+      "signature": "(M: 'np.ndarray', band: 'int') -> 'tuple[float, float, float]'",
+      "file_sha256": "abd62898d21dba8067f7b65c4cf7fe7097259acdac490f279dfdeb8da37199dd"
+    }
+  },
+  "examples": {
+    "global_lookup_is_not_family_validation": [
+      {
+        "family": "언더오버",
+        "n_way": 2,
+        "result": "홈승",
+        "global_index": 0,
+        "family_guard_accepts": false
+      },
+      {
+        "family": "홀짝",
+        "n_way": 2,
+        "result": "핸디승",
+        "global_index": 0,
+        "family_guard_accepts": false
+      },
+      {
+        "family": "승①패",
+        "n_way": 3,
+        "result": "무승부",
+        "global_index": 1,
+        "family_guard_accepts": false
+      },
+      {
+        "family": "승⑤패",
+        "n_way": 3,
+        "result": "①",
+        "global_index": 1,
+        "family_guard_accepts": false
+      },
+      {
+        "family": "승무패",
+        "n_way": 3,
+        "result": "핸디無",
+        "global_index": null,
+        "family_guard_accepts": false
+      },
+      {
+        "family": "핸디캡",
+        "n_way": 3,
+        "result": "핸디무",
+        "global_index": 1,
+        "family_guard_accepts": true
+      },
+      {
+        "family": "핸디캡",
+        "n_way": 2,
+        "result": "핸디무",
+        "global_index": null,
+        "family_guard_accepts": false
+      }
+    ],
+    "parse_and_expand": [
+      {
+        "name": "three_way_draw",
+        "family": "승무패",
+        "n_way": 3,
+        "result": "무승부",
+        "is_void": false,
+        "names": [
+          "홈",
+          "무",
+          "원정"
+        ],
+        "expanded": [
+          {
+            "selection": "홈",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "무",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "원정",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "handicap_three_way_draw",
+        "family": "핸디캡",
+        "n_way": 3,
+        "result": "핸디무",
+        "is_void": false,
+        "names": [
+          "핸디홈",
+          "핸디무",
+          "핸디원정"
+        ],
+        "expanded": [
+          {
+            "selection": "핸디홈",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "핸디무",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "핸디원정",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "under_first",
+        "family": "언더오버",
+        "n_way": 2,
+        "result": "언더",
+        "is_void": false,
+        "names": [
+          "언더",
+          "오버"
+        ],
+        "expanded": [
+          {
+            "selection": "언더",
+            "won": true,
+            "profit": 0.8
+          },
+          {
+            "selection": "오버",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "parity_even",
+        "family": "홀짝",
+        "n_way": 2,
+        "result": "짝",
+        "is_void": false,
+        "names": [
+          "홀",
+          "짝"
+        ],
+        "expanded": [
+          {
+            "selection": "홀",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "짝",
+            "won": true,
+            "profit": 0.8
+          }
+        ]
+      },
+      {
+        "name": "half_1x2",
+        "family": "전반승무패",
+        "n_way": 3,
+        "result": "무승부",
+        "is_void": false,
+        "names": [
+          "전반홈",
+          "전반무",
+          "전반원정"
+        ],
+        "expanded": [
+          {
+            "selection": "전반홈",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "전반무",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "전반원정",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "half_handicap",
+        "family": "전반핸디캡",
+        "n_way": 3,
+        "result": "핸디무",
+        "is_void": false,
+        "names": [
+          "전반핸디홈",
+          "전반핸디무",
+          "전반핸디원정"
+        ],
+        "expanded": [
+          {
+            "selection": "전반핸디홈",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "전반핸디무",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "전반핸디원정",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "half_under",
+        "family": "전반언더오버",
+        "n_way": 2,
+        "result": "언더",
+        "is_void": false,
+        "names": [
+          "전반언더",
+          "전반오버"
+        ],
+        "expanded": [
+          {
+            "selection": "전반언더",
+            "won": true,
+            "profit": 0.8
+          },
+          {
+            "selection": "전반오버",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "half_one_run_names_missing",
+        "family": "전반승①패",
+        "n_way": 3,
+        "result": "①",
+        "is_void": false,
+        "names": null,
+        "expanded": [
+          {
+            "selection": "sel0",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "sel1",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "sel2",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "one_run_draw_label",
+        "family": "승①패",
+        "n_way": 3,
+        "result": "①",
+        "is_void": false,
+        "names": [
+          "홈2+",
+          "1점차",
+          "원정2+"
+        ],
+        "expanded": [
+          {
+            "selection": "홈2+",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "1점차",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "원정2+",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "five_margin",
+        "family": "승⑤패",
+        "n_way": 3,
+        "result": "⑤",
+        "is_void": false,
+        "names": [
+          "홈6+",
+          "5점차이내",
+          "원정6+"
+        ],
+        "expanded": [
+          {
+            "selection": "홈6+",
+            "won": false,
+            "profit": -1.0
+          },
+          {
+            "selection": "5점차이내",
+            "won": true,
+            "profit": 2.0
+          },
+          {
+            "selection": "원정6+",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      },
+      {
+        "name": "invalid_family_label",
+        "family": "언더오버",
+        "n_way": 2,
+        "result": "홈승",
+        "is_void": false,
+        "names": [
+          "언더",
+          "오버"
+        ],
+        "expanded": [
+          {
+            "selection": "언더",
+            "won": true,
+            "profit": 0.8
+          },
+          {
+            "selection": "오버",
+            "won": false,
+            "profit": -1.0
+          }
+        ]
+      }
+    ],
+    "is_void": [
+      {
+        "result": "취소",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": true,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      },
+      {
+        "result": "연기",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": true,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      },
+      {
+        "result": "중단",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": true,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      },
+      {
+        "result": "무효",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": true,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      },
+      {
+        "result": "홈승",
+        "odds": [
+          1.0,
+          1.0
+        ],
+        "is_void": true,
+        "n_way": 2,
+        "overround": null,
+        "to_bets_count": 0
+      },
+      {
+        "result": "무승부",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": false,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      },
+      {
+        "result": "경기전",
+        "odds": [],
+        "is_void": false,
+        "n_way": 0,
+        "overround": null,
+        "to_bets_count": 0
+      },
+      {
+        "result": "미확인",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": false,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      },
+      {
+        "result": "적중특례",
+        "odds": [
+          1.8,
+          1.8
+        ],
+        "is_void": false,
+        "n_way": 2,
+        "overround": 1.1111111111111112,
+        "to_bets_count": 0
+      }
+    ],
+    "runtime_no_write_grades": [
+      {
+        "market": "승無敗",
+        "n_way": 3,
+        "official_label": "홈승",
+        "selection": "미지원",
+        "label": "",
+        "duplicate": false,
+        "appended": 0,
+        "grade": "pending"
+      },
+      {
+        "market": "승무패",
+        "n_way": 3,
+        "official_label": "무승부",
+        "selection": "무",
+        "label": "",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "핸디캡",
+        "n_way": 3,
+        "official_label": "핸디무",
+        "selection": "핸디무",
+        "label": "H -1.0",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "핸디캡",
+        "n_way": 3,
+        "official_label": "핸디무",
+        "selection": "핸디홈",
+        "label": "H -1.0",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "miss"
+      },
+      {
+        "market": "핸디캡",
+        "n_way": 2,
+        "official_label": "핸디패",
+        "selection": "핸디원정",
+        "label": "H -1.5",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "승패",
+        "n_way": 2,
+        "official_label": "무승부",
+        "selection": "홈",
+        "label": "",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "void"
+      },
+      {
+        "market": "전반승패",
+        "n_way": 2,
+        "official_label": "무승부",
+        "selection": "전반홈",
+        "label": "",
+        "duplicate": false,
+        "appended": 0,
+        "grade": "pending"
+      },
+      {
+        "market": "전반승무패",
+        "n_way": 3,
+        "official_label": "무승부",
+        "selection": "전반무",
+        "label": "",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "전반핸디캡",
+        "n_way": 3,
+        "official_label": "핸디무",
+        "selection": "전반핸디무",
+        "label": "h H -1.0",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "언더오버",
+        "n_way": 2,
+        "official_label": "언더",
+        "selection": "언더",
+        "label": "U 2.5",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "홀짝",
+        "n_way": 2,
+        "official_label": "짝",
+        "selection": "짝",
+        "label": "",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "언더오버",
+        "n_way": 2,
+        "official_label": "홈승",
+        "selection": "언더",
+        "label": "U 2.5",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "hit"
+      },
+      {
+        "market": "승패",
+        "n_way": 2,
+        "official_label": "취소",
+        "selection": "홈",
+        "label": "",
+        "duplicate": false,
+        "appended": 1,
+        "grade": "void"
+      },
+      {
+        "market": "승패",
+        "n_way": 2,
+        "official_label": "적중특례",
+        "selection": "홈",
+        "label": "",
+        "duplicate": false,
+        "appended": 0,
+        "grade": "pending"
+      },
+      {
+        "market": "승패",
+        "n_way": 2,
+        "official_label": "홈승",
+        "selection": "홈",
+        "label": "",
+        "duplicate": true,
+        "appended": 0,
+        "grade": "pending"
+      }
+    ],
+    "settle_history_two_way_draw": {
+      "x": {
+        "home": "H",
+        "away": "A",
+        "date": "08.30(일) 18:00",
+        "market": "승패",
+        "market_label": "",
+        "game_no": "0001",
+        "round": 102,
+        "sel": "홈",
+        "kickoff_at": "2026-08-30T18:00:00+09:00"
+      }
+    },
+    "physical_year": [
+      2025,
+      2026,
+      2026,
+      2023
+    ],
+    "reissue_identity": {
+      "event_same": true,
+      "selection_same": true,
+      "offer_same": false,
+      "event": "evt_588db806add871b4",
+      "selection": "sel_1077029c1f4bd78c",
+      "offer_original": "off_f37c6fccf36758f3",
+      "offer_reissue": "off_e5b98809ba44083f",
+      "round_int_vs_string_same": false
+    }
+  },
+  "family_result_whitelist_specification": {
+    "승패|2": [
+      "홈승",
+      "홈패"
+    ],
+    "승무패|3": [
+      "홈승",
+      "무승부",
+      "홈패"
+    ],
+    "핸디캡|2": [
+      "핸디승",
+      "핸디패"
+    ],
+    "핸디캡|3": [
+      "핸디승",
+      "핸디무",
+      "핸디패"
+    ],
+    "언더오버|2": [
+      "언더",
+      "오버"
+    ],
+    "홀짝|2": [
+      "홀",
+      "짝"
+    ],
+    "승①패|3": [
+      "홈승",
+      "①",
+      "홈패"
+    ],
+    "승⑤패|3": [
+      "홈승",
+      "⑤",
+      "홈패"
+    ]
+  },
+  "tracked_status_after": "",
+  "executed_assertions": [
+    "three_way_draw_middle",
+    "handicap_draw_middle_not_refund",
+    "under_is_first",
+    "even_is_second",
+    "half_uses_unprefixed_result",
+    "half_special_names_missing",
+    "bad_family_label_reproduces_false_hit",
+    "void_labels_skipped",
+    "odds_100_alone_sets_is_void",
+    "two_way_draw_not_is_void_in_parser",
+    "unknown_is_not_automatically_void",
+    "runtime_two_way_draw_void",
+    "runtime_same_duplicate_stays_pending",
+    "history_two_way_draw_stays_pending",
+    "physical_year_only_round1_december"
+  ]
+}

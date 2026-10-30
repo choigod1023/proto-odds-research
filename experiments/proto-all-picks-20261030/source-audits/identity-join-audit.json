@@ -1,0 +1,25 @@
+{
+  "bridge": {
+    "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\offer-identity-bridge.jsonl.gz",
+    "rows": 39250,
+    "bytes": 1756693,
+    "sha256": "f4393ca9b77e734822db616778c4104dba22535c511667857176ab98852a5d50"
+  },
+  "counts": {
+    "observed_options": 248964,
+    "identity_failures": 0
+  },
+  "contract_file": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\ai_decision.py",
+  "contract_lines": {
+    "stable_id": 110,
+    "event_id": 121,
+    "selection_id": 133,
+    "offer_id": 141
+  },
+  "contract_sha256": "35600afca391cf15f22e110d41a583f3c7ef889a2e831d99424e21fe4152b7b1",
+  "notes": [
+    "IDs are deterministic joins over saved identity fields, never inferred from scores/results.",
+    "The fixture bridge and offer bridge provide identity only. A postgame artifact cannot certify historical model probabilities.",
+    "Offer ID includes selection ID, round and game number. Selection ID includes event ID, market, label, line and side. Prices are NOT part of offer ID; same-price joining needs snapshot/quote timing from parent."
+  ]
+}
