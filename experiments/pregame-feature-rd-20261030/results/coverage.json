@@ -1,0 +1,102 @@
+[
+  {
+    "feature_set": "baseball_calendar",
+    "evidence_view": "captured_pregame",
+    "no_feature_row": 1423,
+    "field:missing_or_naive_fact_time": 11338,
+    "no_admissible_features": 5669,
+    "accepted_events": 0
+  },
+  {
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_lagged",
+    "no_feature_row": 1423,
+    "field:missing_or_naive_fact_time": 11338,
+    "no_admissible_features": 5669,
+    "accepted_events": 0
+  },
+  {
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "no_feature_row": 1423,
+    "field:date_history_not_lagged_full_intervening_day": 7182,
+    "no_admissible_features": 3385,
+    "field:calendar_end_plus24h_assumption_not_actual_timestamp": 4156,
+    "accepted_events": 2284
+  },
+  {
+    "feature_set": "baseball_exact",
+    "evidence_view": "captured_pregame",
+    "no_feature_row": 7087,
+    "field:not_captured_pregame": 32,
+    "no_admissible_features": 5,
+    "field:missing_or_naive_fact_time": 8,
+    "accepted_events": 0
+  },
+  {
+    "feature_set": "baseball_exact",
+    "evidence_view": "retrospective_lagged",
+    "no_feature_row": 7087,
+    "field:structural_past_only_not_receipt_certified": 32,
+    "field:missing_or_naive_fact_time": 8,
+    "no_admissible_features": 1,
+    "accepted_events": 4
+  },
+  {
+    "feature_set": "baseball_exact",
+    "evidence_view": "retrospective_date_lagged",
+    "no_feature_row": 7087,
+    "field:structural_past_only_not_receipt_certified": 32,
+    "field:missing_fact_date_or_timezone": 8,
+    "no_admissible_features": 1,
+    "accepted_events": 4
+  },
+  {
+    "feature_set": "basketball_minutes",
+    "evidence_view": "captured_pregame",
+    "no_feature_row": 6755,
+    "field:not_captured_pregame": 1936,
+    "no_admissible_features": 337,
+    "accepted_events": 0
+  },
+  {
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "no_feature_row": 6755,
+    "field:structural_past_only_not_receipt_certified": 1936,
+    "no_admissible_features": 11,
+    "accepted_events": 326
+  },
+  {
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "no_feature_row": 6755,
+    "field:structural_past_only_not_receipt_certified": 1936,
+    "no_admissible_features": 11,
+    "accepted_events": 326
+  },
+  {
+    "feature_set": "soccer_prior",
+    "evidence_view": "captured_pregame",
+    "field:missing_or_naive_fact_time": 10332,
+    "no_admissible_features": 757,
+    "no_feature_row": 6335,
+    "accepted_events": 0
+  },
+  {
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_lagged",
+    "field:missing_or_naive_fact_time": 10332,
+    "no_admissible_features": 757,
+    "no_feature_row": 6335,
+    "accepted_events": 0
+  },
+  {
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "field:calendar_end_plus24h_assumption_not_actual_timestamp": 10332,
+    "no_feature_row": 6335,
+    "no_admissible_features": 9,
+    "accepted_events": 748
+  }
+]

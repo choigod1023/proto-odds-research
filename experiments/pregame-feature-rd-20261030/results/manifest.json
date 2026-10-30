@@ -1,0 +1,54 @@
+{
+  "protocol": "pregame-feature-rd-v1",
+  "production_changed": false,
+  "research_monthly_loss_cap": null,
+  "case_sources": [
+    {
+      "path": "experiments\\pregame-feature-rd-20261030\\inputs\\cases.jsonl.gz",
+      "sha256": "978fbd314188187627fc80c0fb23ae67c6f059e36236c6a9488d5430556e9842"
+    }
+  ],
+  "feature_sources": [
+    {
+      "feature_set": "soccer_prior",
+      "path": "experiments\\pregame-rd-soccer-20261030\\features.jsonl.gz",
+      "sha256": "2d55e742b3bfc7faca80597bbfe2c3464cee8df106c50ad3fd83bcf582dd85b2"
+    },
+    {
+      "feature_set": "soccer_prior",
+      "path": "experiments\\pregame-rd-soccer-20261030\\archive-features-AUXILIARY.jsonl.gz",
+      "sha256": "cc62e5c6ba4b854b885ffc205a449de45abb4dd9d921a63bfb72b153194fac4a"
+    },
+    {
+      "feature_set": "baseball_exact",
+      "path": "experiments\\pregame-rd-baseball-20261030\\features.jsonl.gz",
+      "sha256": "b5d6b0c012552f7c71ca4f24458b0c131b3d0f3a36d1422fe12aa79a714ff1ff"
+    },
+    {
+      "feature_set": "baseball_calendar",
+      "path": "experiments\\pregame-rd-baseball-20261030\\calendar-features.jsonl.gz",
+      "sha256": "6b8442493ca059946a92b50ba9d74f2188d8bdb25fffe54a3d73e57ff31f63c1"
+    },
+    {
+      "feature_set": "basketball_minutes",
+      "path": "experiments\\pregame-rd-basketball-20261030\\features.jsonl.gz",
+      "sha256": "50f4f69268b831f879cde9966e5be7d8ae252d0ca5ff2274f3d151ef916bb722"
+    },
+    {
+      "feature_set": "basketball_minutes",
+      "path": "experiments\\pregame-rd-basketball-20261030\\archive-features.jsonl.gz",
+      "sha256": "58da738c0993c4cac94c8e4ff480e85e5bec10e33daa9bb7e097997bf0be4a86"
+    }
+  ],
+  "case_audit": {
+    "frozen_cases_replayed": 7092,
+    "duplicate_full_match_rosters_omitted": 0
+  },
+  "team_alias_source": {
+    "path": "experiments\\pregame-feature-rd-20261030\\inputs\\team-aliases.json",
+    "sha256": "eeb25139d8a27122c1c9de2a63c6e78d5ff0261553d47963980bf5c2b84a5939"
+  },
+  "cases": 7092,
+  "result_rows": 107,
+  "source_sha256": "317647820aab7ecb255baa401b4a87b3d66b4d59229974937b9d0b0564a00d86"
+}

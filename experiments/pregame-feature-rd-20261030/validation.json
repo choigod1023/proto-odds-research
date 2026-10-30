@@ -1,0 +1,28 @@
+{
+  "replay_semantic_equality": {
+    "coverage.json": true,
+    "results.json": true,
+    "fits.json": true,
+    "manifest.json": true,
+    "cases.jsonl.gz": true,
+    "predictions.jsonl.gz": true
+  },
+  "input_hashes_match": true,
+  "hardening_does_not_change_observed_metrics": true,
+  "actual_mlb_heldout_label_perturbation": {
+    "changed_dates": 88,
+    "attached_events": 2162,
+    "fits_identical": true,
+    "predictions_identical_excluding_labels": true,
+    "metrics_change": true
+  },
+  "future_schedule_journal_verified_records": 7,
+  "production_changed": false,
+  "local_full_suite": {
+    "passed": 1909,
+    "skipped": 6,
+    "subtests_passed": 98,
+    "seconds": 30.73
+  },
+  "normalized_line_endings_ast_unchanged": true
+}
