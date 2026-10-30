@@ -1,0 +1,68 @@
+{
+  "study": "new generative dynamic score and uncertainty-aware outcome models",
+  "version": 1,
+  "base": "421544799673a38eb7cb32f70397476bc1f507c2",
+  "hypothesis": "A causal latent-strength model without market/vote feature inputs may outperform market oractual9:1; prediction uncertainty and separate attack/defense may reduce overconfidence. Negative result valid.",
+  "leagues": [
+    "K리그1",
+    "K리그2",
+    "KBO",
+    "NPB",
+    "MLB"
+  ],
+  "novelty": "Not another market residual/weight search. Model estimates latent team states and covariance from previous official/historical scores. Original Laplace assumed-density approximation inspired bypapers, NOT exact Glicko or full bivariatePoisson importance-sampler reproduction.",
+  "prior_failures": "PR404static/DC recency,405scores+pitcherproxies,411homeconstant,424425playerfeatures and430offsetresidual failed;432synthesis no statisticallyconfirmedcandidate. Preserve counterevidence.",
+  "source_contract": "Freeze originalbaseballhistory15722,kleaguehistory1615(no targetplayerrows allowed), exact officialtarget identitybridges,597rawactualvoteframes and7401canonicalcases. Unknown publication or any postkickoff rawvote publication excludes frame from actualvotebenchmark. All retrospectivelycollected and receipts/pricesuncertified. No newnetworkcollection exceptreadingprimarypapers.",
+  "model_equations": {
+    "score": "latent attack/defense perteam+home/away league intercept; loglambda_h=mu_h+a_h+d_a; loglambda_a=mu_a+a_a+d_h. Conditional independentPoisson; priorGaussian teamstate evolves with mean reversion, processvariance. Joint2-observation MAP Newton/Laplace covariance update. Integrate predictive2Dnormal log-intensities by7x7GaussHermite then exactPoissondifference probabilities (Skellam); binaryconditiononnondraw. Correlated latent uncertainty is NOT explicit sharedPoisson term.",
+    "outcome": "latent teamstrength+homeadvantage+drawlogit (soccer only); softmax logits[d/2,lognu,-d/2], binary sigmoid(d). Laplacejoint3/1dimstate observation update, Gaussian quadrature predictive integration. No score-margin likelihood used.",
+    "priors": "team0mean/variance.10 score,.5 outcome; scoreintercepts log1.4soccer/log4.3baseball variance.03; outcome homeintercept.15variance.15,drawlogit−.4variance.25; unseen teams useprior, do not learn from future roster/outcome",
+    "evolution": "teammean revert exp(−days/730), variance transformed plus q*days capped365 for process noise; interceptparameters fixed dynamics; calendar year transition teammeans*.7 plusvariance .05 score/.25 outcome. Exactstateserialized.",
+    "score_observation": "scores nonnegative integer and familyfullgame; outcome ties allowed forlearning, binarybet void. Newton convex objective, convergencechecked; no targetlineup/finalodds infeatures"
+  },
+  "candidate_count": 4,
+  "candidates": [
+    {
+      "id": "score-static",
+      "kind": "score",
+      "q": 0.0
+    },
+    {
+      "id": "score-dynamic",
+      "kind": "score",
+      "q": 0.0003
+    },
+    {
+      "id": "outcome-static",
+      "kind": "outcome",
+      "q": 0.0
+    },
+    {
+      "id": "outcome-dynamic",
+      "kind": "outcome",
+      "q": 0.002
+    }
+  ],
+  "time_split": "History2023-24 warm/train,2025 validation,2026evaluation; allow dates<=2026-10-28 currentarchivebound. Updates only after sourcecalendar date+4days UTC (explicit proxy, NOT certified settlement time). Prediction beforeupdate ofsamefixture/current/futurelabels. Never use backward smoother forforecast.",
+  "selection": "Perleague min100trainingfixtures and min50validationnonvoidfixtures; choose2025causalprequential minimumlogloss, tiecandidate listedorder; no2026tuning. Replay2023-25 then freeze initialization/hyperparameters for2026.",
+  "primary_test": "2026 FROZENtrainingstate, no2026result updates; full2026labelsflipped leaves fittedstate/selection/ALLforecastsexactlyunchanged. Forecast prioruncertainty maypropagatewithtime.",
+  "secondary_test": "2026causalPREQUENTIAL usingfrozenhyperparameters and onlyearlierresults whose+4dayproxy passed. It intentionally updates afterpasttestresults; all-testlabel-flip invariance doesNOTapply. Current/futurelabelperturb cannot changecurrent/earlierprediction. Reportseparately, notindependentadditionalholdout.",
+  "comparators": [
+    "sameexactpricesmarket(savedShinwhereactual)",
+    "originalfixed9:1actualvotes",
+    "tipsterplurality (tiesabstain)",
+    "homeconstant negativecontrol",
+    "historicalmarketproxy separately notservice/tipster"
+  ],
+  "metrics": [
+    "all2026historyaccuracy,logloss,Brier noROIwhenpricesabsent",
+    "exactpricedactualvotesprimary n,coverage,accuracy,flatunitROI,voids,home/away/drawshares,homeconstantagreement",
+    "archiveproxyseparate2026sameproductprice ROI",
+    "pairedweeklybootstrap2000 accuracyandROIvsmarket/9:1,exactdiscordancebinomial withHolm all4candidates*5leagues*2baselines*2testmodes=80, alpha.05",
+    "dailyclosedrawdown and monthlypositive/negative counts descriptive withflatunit no realwalletchanges"
+  ],
+  "feature_identity": "Use exactIDverifiedaliasbridges only; no fuzzyteams. In ambiguoussameleague/date/teamsduplicatehistory rejectall or explicitdeclaredpreviousdedup limitation. No final-score-dependentfixturematching.",
+  "independent_checks": "Second Decimal payout/metrics replay, fullsavedpredictionandstate hashes, offlineexecution, source/code/output SHA, scoreprobtailnormalization, finitePSDCov, season/unseenstate tests, futurelabel/currentlabel leakage tests. Fullpythonpytest.",
+  "limitations": "Previouslyseenretrospectivedata, unavailablecertifiedXI/starter/receipt/clocks, conservativeavailabilityproxy notproof, date/teamnormalizedhistorymaymissdoubleheaders, conditionalbinarytieassumption. No modeladoption or profitguarantee.",
+  "output_scope": "Ownexperiments folder, uniquelynamedtests, report/protocol; no production/sharedDB/server/budget/schedulerchanges; draftPRonly,no merge/deploy"
+}
