@@ -1,0 +1,21 @@
+{
+  "version": "tipster-independent-v1",
+  "frozen_before_ROI": true,
+  "fixture": "league + explicit teams + full source date; require unique physical event; source kickoff if present must agree exactly; never use scores",
+  "no_year": "never infer year from observed_at; allow title month/day only with explicit source publication year and <=3 day publication-to-fixture distance",
+  "selection": "explicit labelled full-game winner/1X2 only; no prose sentiment, handicap, totals, first-half or inferred scoreline",
+  "identity": "site-scoped author, never merge names across sites; missing author excluded",
+  "duplicates": "per fixture one identical raw document SHA or normalized article-body SHA; then one vote per site-scoped author; conflicting directions excluded; equal author names across sites do not prove either identity or independence",
+  "independence": "cross-site copies excluded by body hash; remaining provenance-distinct authors are candidates, not verified independent human opinions",
+  "availability": "captured_pregame only if actual observed_at <= kickoff-30m; retrospective_claimed_pregame only if explicit published claim <= kickoff-30m and observed after that; other rows diagnostic only",
+  "request_limit": 90,
+  "timeouts_seconds": [
+    5,
+    12
+  ],
+  "response_limit_bytes": 2000000,
+  "no_redirect_follow": true,
+  "raw_cache": "external local directory only; no full third-party pages in git",
+  "frozen_at": "2026-10-30T05:20:41.775956+00:00",
+  "parent_protocol_sha256": "b00d60b1e1778e7bf75e65284326b97ad1060342da1fc575baa149d005f636be"
+}

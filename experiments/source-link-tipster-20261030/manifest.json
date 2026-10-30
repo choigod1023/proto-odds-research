@@ -1,0 +1,110 @@
+{
+  "schema": "tipster-source-link-build-v1",
+  "outcomes_or_ROI_read": false,
+  "models_fit": false,
+  "raw_cache_dir": "C:\\Users\\user\\AppData\\Local\\Temp\\rd-tipster-independent-20261030",
+  "raw_http_successes": 0,
+  "browser_article_captures": 11,
+  "http_response_hash_available_for_new_articles": false,
+  "document_hash_kind": "article_dom_utf8 (selected article DOM, not raw HTTP response)",
+  "old_original_frames": 597,
+  "old_original_votes": 635,
+  "old_raw_matched_votes": 560,
+  "old_deduplicated_votes": 560,
+  "old_claimed_cases": 538,
+  "old_vector_agree_cases": 534,
+  "old_vector_mismatch_cases": 4,
+  "old_union_eligible_votes": 552,
+  "old_availability_tiers": {
+    "diagnostic_no_pregame_publication_claim": 193,
+    "retrospective_claimed_pregame": 362,
+    "diagnostic_unparseable_original_publication": 5
+  },
+  "old_missing_hash_votes": 19,
+  "old_missing_publication_votes": 193,
+  "new_raw_matched_votes": 11,
+  "new_deduplicated_votes": 11,
+  "new_unique_matched_cases": 11,
+  "new_by_league": {
+    "KBO": 3,
+    "K리그2": 2,
+    "K리그1": 2,
+    "NPB": 4
+  },
+  "new_by_availability": {
+    "retrospective_claimed_pregame": 11
+  },
+  "nojoin_count": 0,
+  "ambiguous_fixture_count": 0,
+  "nojoin_reasons": {},
+  "forward_unmatched_count": 0,
+  "union_raw_records": 571,
+  "union_deduplicated_records_including_mismatch_cases": 571,
+  "union_duplicates": 0,
+  "eligible_union_records": 563,
+  "eligible_union_records_semantics": "old-vector agreement gate only; not certification of missing historical publication/hash or proven independent authors",
+  "inputs": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\rd-tipster-independent-20261030\\experiments\\pregame-feature-rd-20261030\\inputs\\cases.jsonl.gz",
+      "sha256": "978fbd314188187627fc80c0fb23ae67c6f059e36236c6a9488d5430556e9842"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\inputs\\votes.jsonl.gz",
+      "sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+    }
+  ],
+  "artifacts": {
+    "old-votes-raw.jsonl.gz": {
+      "rows": 560,
+      "sha256": "32c75a980cb746953d0d3943969ed65929d3f9910e6798e6b00d74a11deab38f"
+    },
+    "old-votes-normalized.jsonl.gz": {
+      "rows": 560,
+      "sha256": "32c75a980cb746953d0d3943969ed65929d3f9910e6798e6b00d74a11deab38f"
+    },
+    "old-votes-union-eligible.jsonl.gz": {
+      "rows": 552,
+      "sha256": "7cac1ca99915cfe8fb95a414eef9d2463ec69b30a03dfb13fedb6628865dc471"
+    },
+    "old-rejected.jsonl.gz": {
+      "rows": 0,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "old-dedup-audit.jsonl.gz": {
+      "rows": 560,
+      "sha256": "2bb21227d3412579a1520cf597af057adad426c96d7dc37f92d84ae1a5b6cb6e"
+    },
+    "old-vector-audit.jsonl.gz": {
+      "rows": 538,
+      "sha256": "b978f5c969dbd779f65737cf41575431cd10a09d53f6ac6669fcd2d2213e8ff9"
+    },
+    "new-votes-raw.jsonl.gz": {
+      "rows": 11,
+      "sha256": "7feb3d75f3cbe861e02fe5b7bf089adfaaa20ffbbfe910fee9206f25e8082b35"
+    },
+    "new-votes.jsonl.gz": {
+      "rows": 11,
+      "sha256": "7feb3d75f3cbe861e02fe5b7bf089adfaaa20ffbbfe910fee9206f25e8082b35"
+    },
+    "new-dedup-audit.jsonl.gz": {
+      "rows": 11,
+      "sha256": "2d1765d4ed3022078d5f886bb477780e9f208eae8998aae4eaff851ced2f7a1d"
+    },
+    "union-dedup-audit.jsonl.gz": {
+      "rows": 571,
+      "sha256": "267eee9b69b360e6a042751cb11676f6abe09be813540a0e11a4eb587d4ec89b"
+    },
+    "document-inventory.jsonl.gz": {
+      "rows": 11,
+      "sha256": "c9c6f5b89561b8e9d62a9ca8d987eac89fd3806a1cc9a227bf54a0232c288ff9"
+    },
+    "nojoin.jsonl.gz": {
+      "rows": 0,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "forward-unmatched.jsonl.gz": {
+      "rows": 0,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  }
+}
