@@ -1,0 +1,30 @@
+{
+  "semantic_replay_equality": {
+    "coverage.json": true,
+    "feature-results.json": true,
+    "fits.json": true,
+    "later-period-fixed-model.json": true,
+    "later-predictions.jsonl.gz": true,
+    "manifest.json": true,
+    "paper-source-audit.json": true,
+    "predictions.jsonl.gz": true,
+    "vote-comparison.json": true
+  },
+  "frozen_KBO_sha256_unchanged": true,
+  "production_changed": false,
+  "input_and_script_hashes_match": true,
+  "independent_later_settlement": {
+    "n": 40,
+    "hit": 24,
+    "net_krw": -40680.0,
+    "roi_pct": -8.475
+  },
+  "frozen_model_equals_original_pilot_fit": true,
+  "local_full_suite": {
+    "passed": 2022,
+    "skipped": 6,
+    "subtests_passed": 101,
+    "seconds": 28.17
+  },
+  "normalized_code_line_endings_ast_unchanged": true
+}

@@ -1,0 +1,92 @@
+{
+  "version": "source-link-step2-v1",
+  "production_changed": false,
+  "research_monthly_loss_cap": null,
+  "cases": 7401,
+  "case_audit": {
+    "duplicate_full_match_rosters_omitted": 0
+  },
+  "feature_sources": [
+    {
+      "feature_set": "kleague_player_value",
+      "path": "experiments\\source-link-kleague-20261030\\features.jsonl.gz",
+      "sha256": "0be00914b0ed2a6caaca96aff089ef500640aff3c512ed5c4412fc1de67ce9bc"
+    },
+    {
+      "feature_set": "kleague_player_value",
+      "path": "experiments\\source-link-kleague-20261030\\archive-features.jsonl.gz",
+      "sha256": "f4fa2adfd82e3c8d62f5f62e086855f796c63c0f8af389aa068ff56208049ce7"
+    },
+    {
+      "feature_set": "official_baseball",
+      "path": "experiments\\source-link-baseball-20261030\\phase2\\features.jsonl.gz",
+      "sha256": "348c2bb57ffd2bb3ff1b54198062f96faa0bb5a215e512fbc5054698f367df98"
+    },
+    {
+      "feature_set": "official_baseball",
+      "path": "experiments\\source-link-baseball-20261030\\phase2\\auxiliary-features.jsonl.gz",
+      "sha256": "b4aae8da770cf4227904d23d639c8c16745690b11ddad5bc9f3d5368d5697665"
+    },
+    {
+      "feature_set": "quote_movement",
+      "path": "experiments\\source-link-step2-20261030\\quotes\\features.jsonl.gz",
+      "sha256": "738ca07e5bbb45f3f463268b1d8f1f4c1ecf82a3b2aa5e0459ae47339d94a25b"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "experiments\\source-link-step2-20261030\\inputs\\cases.jsonl.gz",
+      "sha256": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d"
+    },
+    {
+      "path": "experiments\\source-link-kleague-20261030\\features.jsonl.gz",
+      "sha256": "0be00914b0ed2a6caaca96aff089ef500640aff3c512ed5c4412fc1de67ce9bc"
+    },
+    {
+      "path": "experiments\\source-link-kleague-20261030\\archive-features.jsonl.gz",
+      "sha256": "f4fa2adfd82e3c8d62f5f62e086855f796c63c0f8af389aa068ff56208049ce7"
+    },
+    {
+      "path": "experiments\\source-link-baseball-20261030\\phase2\\features.jsonl.gz",
+      "sha256": "348c2bb57ffd2bb3ff1b54198062f96faa0bb5a215e512fbc5054698f367df98"
+    },
+    {
+      "path": "experiments\\source-link-baseball-20261030\\phase2\\auxiliary-features.jsonl.gz",
+      "sha256": "b4aae8da770cf4227904d23d639c8c16745690b11ddad5bc9f3d5368d5697665"
+    },
+    {
+      "path": "experiments\\source-link-step2-20261030\\quotes\\features.jsonl.gz",
+      "sha256": "738ca07e5bbb45f3f463268b1d8f1f4c1ecf82a3b2aa5e0459ae47339d94a25b"
+    },
+    {
+      "path": "experiments\\source-link-tipster-20261030\\old-votes-raw.jsonl.gz",
+      "sha256": "11f3a5ff16aed2d6ad9283397b91942680a6c7ed86f2067895effd87e08b1ec0"
+    },
+    {
+      "path": "experiments\\source-link-tipster-20261030\\new-votes-raw.jsonl.gz",
+      "sha256": "67efc21b49b68de4160adb7528a706d32d5ab8e814a76f19347b590256c049b6"
+    },
+    {
+      "path": "experiments\\source-link-step2-20261030\\observed-paper-journal.json",
+      "sha256": "f68350ac57dd0918926af0223c40951b207752e3166d00126ee61d4056f1ec34"
+    },
+    {
+      "path": "experiments\\source-link-baseball-20261030\\phase3\\features.jsonl.gz",
+      "sha256": "f085554b0572b63e7fb63ecf692b239527fa8f6cc60c8edb843b6cddf386be07"
+    },
+    {
+      "path": "experiments\\source-link-step2-20261030\\frozen-KBO-later-period-model.json",
+      "sha256": "85a1236cafeef997e9182ac1e3635cd181d6248ecfa1c64ac6213aa61a8e53ec"
+    }
+  ],
+  "scripts": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\scripts\\rd_source_link_step2.py": "ff3bf76d7f028adc5d9edec20cfd34403513bafe702b3a70b00d702337badb2e",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\scripts\\pregame_rd_compare.py": "317647820aab7ecb255baa401b4a87b3d66b4d59229974937b9d0b0564a00d86"
+  },
+  "runtime": {
+    "python": "3.14.3",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0"
+  },
+  "result_rows": 125
+}
