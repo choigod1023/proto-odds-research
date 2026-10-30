@@ -1,5 +1,6 @@
 {
   "schema": "tipster-source-link-build-v1",
+  "dedup_identity_rules_version": "tipster-canonical-dedup-v2",
   "outcomes_or_ROI_read": false,
   "models_fit": false,
   "raw_cache_dir": "C:\\Users\\user\\AppData\\Local\\Temp\\rd-tipster-independent-20261030",
@@ -41,6 +42,35 @@
   "union_raw_records": 571,
   "union_deduplicated_records_including_mismatch_cases": 571,
   "union_duplicates": 0,
+  "union_conflict_rows": 0,
+  "canonical_novelty_audit": {
+    "all_original_raw_votes_checked": 635,
+    "all_original_unique_canonical_urls": 403,
+    "frozen_old_votes_checked": 560,
+    "new_candidate_rows_checked": 11,
+    "canonical_url_recrawls_all_original": 0,
+    "document_hash_recrawls_all_original": 0,
+    "new_document_records_on_available_identity_evidence": 11,
+    "verified_independent_human_opinions": 0,
+    "verified_cross_site_author_alias_matches": 0,
+    "same_site_author_key_matches": 0,
+    "same_case_content_pairs_checked": 11,
+    "identical_parsed_projection_pairs": 0,
+    "shared_long_prose_units": 0,
+    "old_document_metadata_inputs": [
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\korean\\documents.json",
+        "sha256": "d616f5841c78ea5296022a429a0a3015b926574325d0ceeda206cee244aaf814",
+        "documents": 725
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\overseas\\documents.json",
+        "sha256": "234a36a5c236b044bc4e7847bdd21f20dcfaea05e7d8357ffb80edff70b95af8",
+        "documents": 679
+      }
+    ],
+    "additional_network_requests": 0
+  },
   "eligible_union_records": 563,
   "eligible_union_records_semantics": "old-vector agreement gate only; not certification of missing historical publication/hash or proven independent authors",
   "inputs": [
@@ -56,15 +86,15 @@
   "artifacts": {
     "old-votes-raw.jsonl.gz": {
       "rows": 560,
-      "sha256": "32c75a980cb746953d0d3943969ed65929d3f9910e6798e6b00d74a11deab38f"
+      "sha256": "11f3a5ff16aed2d6ad9283397b91942680a6c7ed86f2067895effd87e08b1ec0"
     },
     "old-votes-normalized.jsonl.gz": {
       "rows": 560,
-      "sha256": "32c75a980cb746953d0d3943969ed65929d3f9910e6798e6b00d74a11deab38f"
+      "sha256": "11f3a5ff16aed2d6ad9283397b91942680a6c7ed86f2067895effd87e08b1ec0"
     },
     "old-votes-union-eligible.jsonl.gz": {
       "rows": 552,
-      "sha256": "7cac1ca99915cfe8fb95a414eef9d2463ec69b30a03dfb13fedb6628865dc471"
+      "sha256": "338f0725f8d85452eba2406d6b82b0d068f837bdb4f8264d08ee7db93029c8bc"
     },
     "old-rejected.jsonl.gz": {
       "rows": 0,
@@ -72,7 +102,7 @@
     },
     "old-dedup-audit.jsonl.gz": {
       "rows": 560,
-      "sha256": "2bb21227d3412579a1520cf597af057adad426c96d7dc37f92d84ae1a5b6cb6e"
+      "sha256": "660ef5a18d0f8b439e0b610e99ea26a727a7f04ebf054055703164655d859efb"
     },
     "old-vector-audit.jsonl.gz": {
       "rows": 538,
@@ -80,19 +110,27 @@
     },
     "new-votes-raw.jsonl.gz": {
       "rows": 11,
-      "sha256": "7feb3d75f3cbe861e02fe5b7bf089adfaaa20ffbbfe910fee9206f25e8082b35"
+      "sha256": "67efc21b49b68de4160adb7528a706d32d5ab8e814a76f19347b590256c049b6"
     },
     "new-votes.jsonl.gz": {
       "rows": 11,
-      "sha256": "7feb3d75f3cbe861e02fe5b7bf089adfaaa20ffbbfe910fee9206f25e8082b35"
+      "sha256": "67efc21b49b68de4160adb7528a706d32d5ab8e814a76f19347b590256c049b6"
     },
     "new-dedup-audit.jsonl.gz": {
       "rows": 11,
-      "sha256": "2d1765d4ed3022078d5f886bb477780e9f208eae8998aae4eaff851ced2f7a1d"
+      "sha256": "2606d2c4c8b8526f11ebc56b1b32c32f8deffb95342c0fcd090f7a5b03b3a86a"
     },
     "union-dedup-audit.jsonl.gz": {
       "rows": 571,
-      "sha256": "267eee9b69b360e6a042751cb11676f6abe09be813540a0e11a4eb587d4ec89b"
+      "sha256": "04cf011184947dbd1fee5f2d400afde2cdee21caecb485ca2eee6bba98ae2acb"
+    },
+    "union-votes-normalized.jsonl.gz": {
+      "rows": 571,
+      "sha256": "97ab7c4fea8eef201805363f3cff818405f48844aa87cc0c099c11b71a9c2457"
+    },
+    "canonical-novelty-audit.jsonl.gz": {
+      "rows": 11,
+      "sha256": "7d223fb6bb006c0a577ee50d0df0e898eeed3a3ea5a7cd6a0b0d86468ec46233"
     },
     "document-inventory.jsonl.gz": {
       "rows": 11,

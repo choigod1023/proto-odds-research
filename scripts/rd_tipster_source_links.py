@@ -15,6 +15,8 @@ from pathlib import Path
 import re
 import time
 from urllib.parse import urljoin, urlsplit
+from urllib.parse import urlunsplit
+import unicodedata
 
 import requests
 from bs4 import BeautifulSoup
@@ -132,6 +134,23 @@ def compact(value):
     return re.sub(r"\s+", "", str(value)).casefold()
 
 
+def canonical_article_url(url):
+    """Goli article identity is its ID, regardless of page query/wrapper."""
+    if not url:
+        return None
+    p = urlsplit(url)
+    host = (p.hostname or "").lower()
+    article = re.fullmatch(r"/board/analysis/(\d+)/?", p.path)
+    if host in {"goli.tv", "www.goli.tv"} and article:
+        return "https://www.goli.tv/board/analysis/" + article[1]
+    return urlunsplit((p.scheme.lower(), p.netloc.lower(), p.path, p.query, ""))
+
+
+def author_key(row):
+    # Display-name normalization is only a SAME-SITE one-voter constraint.
+    return (row["source_site"].lower(), " ".join(unicodedata.normalize("NFC", row["author"]).split()).casefold())
+
+
 # Explicit aliases only; no fuzzy matching, transliteration or inferred teams.
 GROUPS = {
     "KBO": ["LG|LG트윈스", "KT|KT위즈", "KIA|기아|KIA타이거즈", "SSG|SSG랜더스",
@@ -233,7 +252,7 @@ def parse_article(raw, url, observed_at, hash_kind="http_response_bytes"):
         raise ValueError("ambiguous_or_unsupported_selection")
     return dict(league=league, home=home, away=away, source_date=source_date.isoformat(),
                 source_kickoff=None, selection=choices[0], author=author,
-                source_site=urlsplit(url).hostname, source_url=url,
+                source_site=urlsplit(url).hostname, source_url=url, canonical_article_url=canonical_article_url(url),
                 published_at_claim=published.isoformat(), observed_at=observed_at,
                 document_sha256=sha(raw), document_hash_kind=hash_kind,
                 http_response_sha256=sha(raw) if hash_kind == "http_response_bytes" else None,
@@ -288,32 +307,67 @@ def join_article(article, cases):
 
 
 def deduplicate(rows):
-    """Preserve raw rows separately; return accepted rows and per-row decisions."""
+    """Transitive identity graph, including bridge rows that will be discarded.
+
+    URL OR document/body hash first identifies recrawls despite changed wrappers
+    or display names. One site-scoped author cannot cast multiple fixture votes.
+    Any direction conflict rejects the entire connected component.
+    """
+    parent = list(range(len(rows)))
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    def connect(a, b):
+        a, b = find(a), find(b)
+        parent[max(a, b)] = min(a, b)
+    owners = {}
+    for i, row in enumerate(rows):
+        keys = [("author", author_key(row))]
+        url = canonical_article_url(row.get("source_url"))
+        if url:
+            keys.append(("canonical_url", url))
+        for field in ("document_sha256", "article_body_sha256"):
+            if row.get(field):
+                keys.append((field, row[field]))
+        keys = [(row["event_id"], kind, value) for kind, value in keys]
+        for key in keys:
+            if key in owners:
+                connect(i, owners[key])
+            else:
+                owners[key] = i
     groups = {}
+    for i in range(len(rows)):
+        groups.setdefault(find(i), []).append(i)
+    accepted, audit = [], []
     for i, row in enumerate(rows):
-        groups.setdefault((row["event_id"], row["source_site"], row["author"]), []).append(i)
-    conflicts = {i for ids in groups.values() if len({rows[i]["selection"] for i in ids}) > 1 for i in ids}
-    seen_hash, seen_body, seen_author, accepted, audit = set(), set(), set(), [], []
-    for i, row in enumerate(rows):
-        rawkey = (row["event_id"], row.get("document_sha256"))
-        bodykey = (row["event_id"], row.get("article_body_sha256"))
-        authkey = (row["event_id"], row["source_site"], row["author"])
+        root = find(i)
+        members = groups[root]
+        conflicting = len({rows[j]["selection"] for j in members}) > 1
+        representative = rows[root]
         reason = "accepted"
-        if i in conflicts:
-            reason = "conflicting_site_author"
-        elif row.get("document_sha256") and rawkey in seen_hash:
-            reason = "identical_document_hash"
-        elif row.get("article_body_sha256") and bodykey in seen_body:
-            reason = "identical_article_body_hash"
-        elif authkey in seen_author:
-            reason = "duplicate_site_author"
+        if conflicting:
+            same_authors = len({author_key(rows[j]) for j in members}) == 1
+            reason = "conflicting_site_author" if same_authors else "conflicting_canonical_url_or_hash_component"
+        elif i != root:
+            if canonical_article_url(row.get("source_url")) == canonical_article_url(representative.get("source_url")):
+                reason = "same_canonical_article_url"
+            elif row.get("document_sha256") and row["document_sha256"] == representative.get("document_sha256"):
+                reason = "identical_document_hash"
+            elif row.get("article_body_sha256") and row["article_body_sha256"] == representative.get("article_body_sha256"):
+                reason = "identical_article_body_hash"
+            elif author_key(row) == author_key(representative):
+                reason = "duplicate_site_author"
+            else:
+                reason = "transitive_identity_duplicate"
         if reason == "accepted":
             accepted.append(row)
-            seen_hash.add(rawkey)
-            seen_body.add(bodykey)
-            seen_author.add(authkey)
         audit.append({"row_index_0based": i, "event_id": row["event_id"], "source_url": row["source_url"],
-                      "author": row["author"], "document_sha256": row.get("document_sha256"), "decision": reason})
+                      "canonical_article_url": canonical_article_url(row.get("source_url")),
+                      "author": row["author"], "document_sha256": row.get("document_sha256"), "decision": reason,
+                      "component_id": root, "component_row_indices": members,
+                      "component_conflicting_directions": conflicting})
     return accepted, audit
 
 
@@ -362,6 +416,7 @@ def normalize_old(path, cases):
                     market="승무패" if "draw" in case["sides"] else "full_game_moneyline",
                     market_evidence="frozen_primary_direction_schema; raw_forecasts.side; no ancillary market inferred",
                     author=f["author"], source_site=urlsplit(f["source_url"]).hostname, source_url=f["source_url"],
+                    canonical_article_url=canonical_article_url(f["source_url"]),
                     published_at_claim=pub, observed_at=f["observed_at"],
                     document_sha256=f.get("document_sha256") or f.get("source_sha256"),
                     document_hash_kind="original_input_document_sha256" if f.get("document_sha256") else "original_input_source_sha256",
@@ -393,7 +448,99 @@ def audit_vectors(rows, cases):
     return audit
 
 
-def build(cache_dir, cases_path, old_path, output=OUT):
+def text_projection(texts):
+    """Content diagnostics only; export hashes/counts, never article prose."""
+    units = [" ".join(unicodedata.normalize("NFKC", t).split()).casefold() for t in texts if t.strip()]
+    words = " ".join(units).split()
+    return dict(sha256=sha("\n".join(units).encode()), unit_count=len(units),
+                long_prose_hashes={sha(t.encode()) for t in units if len(t) >= 80},
+                five_token_shingles={sha(" ".join(words[i:i+5]).encode()) for i in range(max(0, len(words)-4))})
+
+
+def audit_novelty(old, new, old_input, cache_dir, document_paths=()):
+    """Audit ALL original URLs/hashes; compare available same-case local prose."""
+    all_old = []
+    with gzip.open(old_input, "rt", encoding="utf-8") as handle:
+        for line in handle:
+            frame = json.loads(line)
+            for f in frame.get("raw_forecasts", []):
+                all_old.append(dict(event_id=frame["event_id"], source_url=f.get("source_url"),
+                                    author=f.get("author"), document_sha256=f.get("document_sha256"),
+                                    source_sha256=f.get("source_sha256")))
+    projections, inputs = {}, []
+    for path in document_paths:
+        path = Path(path)
+        data = json.loads(path.read_text(encoding="utf-8"))
+        documents = data if isinstance(data, list) else [dict(v, source_url=k) for k, v in data.items()]
+        inputs.append({"path": str(path.resolve()), "sha256": sha(path.read_bytes()), "documents": len(documents)})
+        for doc in documents:
+            url = doc.get("source_url") or doc.get("url")
+            units = doc.get("units", doc.get("nodes", []))
+            texts = [u["text"] for u in units if isinstance(u, dict) and isinstance(u.get("text"), str)]
+            if url and texts:
+                projections[canonical_article_url(url)] = text_projection(texts)
+    captures = {}
+    log = Path(cache_dir) / "browser-captures.jsonl"
+    for line in log.read_text(encoding="utf-8").splitlines() if log.exists() else []:
+        capture = json.loads(line)
+        captures[canonical_article_url(capture["url"])] = capture
+    all_urls = {canonical_article_url(r["source_url"]) for r in all_old if r["source_url"]}
+    all_hashes = {r[k] for r in all_old for k in ("document_sha256", "source_sha256") if r.get(k)}
+    frozen_urls = {canonical_article_url(r["source_url"]) for r in old}
+    results = []
+    for row in new:
+        url = canonical_article_url(row["source_url"])
+        comparisons = []
+        capture = captures.get(url)
+        new_projection = None
+        if capture:
+            soup = BeautifulSoup((Path(cache_dir)/capture["capture_path"]).read_bytes(), "html.parser")
+            body = soup.select_one("#partner_content")
+            new_projection = text_projection([n.get_text(" ", strip=True) for n in body.select("h1,h2,h3,h4,p,li,tr")]) if body else None
+        for previous in [r for r in old if r["event_id"] == row["event_id"]]:
+            projection = projections.get(canonical_article_url(previous["source_url"]))
+            item = {"old_source_url": previous["source_url"], "old_author": previous["author"],
+                    "same_site_author_key": author_key(row) == author_key(previous),
+                    "same_display_name": row["author"] == previous["author"],
+                    "verified_cross_site_author_alias": False,
+                    "alias_evidence": "no public account/alias link in available inputs; independence unverified",
+                    "old_parsed_projection_available": projection is not None,
+                    "original_old_HTTP_body_available": False}
+            if projection and new_projection:
+                item.update(old_projection_sha256=projection["sha256"], new_projection_sha256=new_projection["sha256"],
+                            identical_available_projection=projection["sha256"] == new_projection["sha256"],
+                            shared_long_prose_units=len(projection["long_prose_hashes"] & new_projection["long_prose_hashes"]),
+                            shared_five_token_shingles=len(projection["five_token_shingles"] & new_projection["five_token_shingles"]),
+                            old_five_token_shingles=len(projection["five_token_shingles"]),
+                            new_five_token_shingles=len(new_projection["five_token_shingles"]))
+            comparisons.append(item)
+        prior_url = url in all_urls
+        prior_hash = row.get("document_sha256") in all_hashes
+        results.append({"event_id": row["event_id"], "canonical_article_url": url,
+                        "source_url": row["source_url"], "document_sha256": row["document_sha256"],
+                        "author": row["author"], "canonical_url_in_frozen_old": url in frozen_urls,
+                        "canonical_url_in_all_original_input": prior_url,
+                        "document_hash_in_all_original_input": prior_hash,
+                        "record_status": "existing_prior_document" if prior_url or prior_hash else "new_document_record_on_available_identity_evidence",
+                        "independent_human_opinion_verified": False,
+                        "same_fixture_old_content_author_comparisons": comparisons,
+                        "content_limitation": "Parsed units/nodes can omit text or change boundaries; no exact match does not exclude copying, translation or author aliases."})
+    summary = {"all_original_raw_votes_checked": len(all_old), "all_original_unique_canonical_urls": len(all_urls),
+               "frozen_old_votes_checked": len(old), "new_candidate_rows_checked": len(new),
+               "canonical_url_recrawls_all_original": sum(r["canonical_url_in_all_original_input"] for r in results),
+               "document_hash_recrawls_all_original": sum(r["document_hash_in_all_original_input"] for r in results),
+               "new_document_records_on_available_identity_evidence": sum(r["record_status"] == "new_document_record_on_available_identity_evidence" for r in results),
+               "verified_independent_human_opinions": 0,
+               "verified_cross_site_author_alias_matches": 0,
+               "same_site_author_key_matches": sum(x["same_site_author_key"] for r in results for x in r["same_fixture_old_content_author_comparisons"]),
+               "same_case_content_pairs_checked": sum(x["old_parsed_projection_available"] for r in results for x in r["same_fixture_old_content_author_comparisons"]),
+               "identical_parsed_projection_pairs": sum(x.get("identical_available_projection", False) for r in results for x in r["same_fixture_old_content_author_comparisons"]),
+               "shared_long_prose_units": sum(x.get("shared_long_prose_units", 0) for r in results for x in r["same_fixture_old_content_author_comparisons"]),
+               "old_document_metadata_inputs": inputs, "additional_network_requests": 0}
+    return results, summary
+
+
+def build(cache_dir, cases_path, old_path, output=OUT, old_document_paths=()):
     cache_dir, output = Path(cache_dir), Path(output)
     cases = read_cases(cases_path)
     old_raw, rejected = normalize_old(old_path, cases)
@@ -433,8 +580,13 @@ def build(cache_dir, cases_path, old_path, output=OUT):
             meta["parse_status"] = str(exc)
             nojoin.append(dict(meta, reason=str(exc), event_id=None, kickoff=None))
         captures.append(meta)
-    new, new_audit = deduplicate(new_raw)
-    union, union_audit = deduplicate(old + new)
+    candidates, new_audit = deduplicate(new_raw)
+    # Do not drop bridge rows before old/new closure. A discarded new row can
+    # link another new URL to an existing old article via a shared body/hash.
+    union, union_audit = deduplicate(old_raw + new_raw)
+    candidate_ids = {id(r) for r in new_raw}
+    new = [r for r in union if id(r) in candidate_ids]
+    novelty_rows, novelty_summary = audit_novelty(old_raw, new_raw, old_path, cache_dir, old_document_paths)
     files = {
         "old-votes-raw.jsonl.gz": old_raw,
         "old-votes-normalized.jsonl.gz": old,
@@ -446,12 +598,15 @@ def build(cache_dir, cases_path, old_path, output=OUT):
         "new-votes.jsonl.gz": new,
         "new-dedup-audit.jsonl.gz": new_audit,
         "union-dedup-audit.jsonl.gz": union_audit,
+        "union-votes-normalized.jsonl.gz": union,
+        "canonical-novelty-audit.jsonl.gz": novelty_rows,
         "document-inventory.jsonl.gz": captures,
         "nojoin.jsonl.gz": nojoin,
         "forward-unmatched.jsonl.gz": forward,
     }
     for filename, rows in files.items():
         write_jsonl(output / filename, rows)
+    dump(output / "canonical-novelty-summary.json", novelty_summary)
     # All original author/document metadata; no outcome, odds or model evaluation.
     source_counts = Counter()
     original_frames = 0
@@ -489,7 +644,7 @@ def build(cache_dir, cases_path, old_path, output=OUT):
         "new_authors": sorted({r["source_site"] + ":" + r["author"] for r in new}),
         "probes": probes, "public_searches": searches,
         "independence_caveat": RULES["independence"]})
-    result = {"schema": "tipster-source-link-build-v1", "outcomes_or_ROI_read": False,
+    result = {"schema": "tipster-source-link-build-v1", "dedup_identity_rules_version": "tipster-canonical-dedup-v2", "outcomes_or_ROI_read": False,
         "models_fit": False, "raw_cache_dir": str(cache_dir.resolve()),
         "raw_http_successes": sum(p.get("status") == 200 for p in probes),
         "browser_article_captures": len(captures), "http_response_hash_available_for_new_articles": False,
@@ -509,8 +664,10 @@ def build(cache_dir, cases_path, old_path, output=OUT):
         "nojoin_count": len(nojoin), "ambiguous_fixture_count": sum(r["reason"] == "ambiguous_fixture" for r in nojoin),
         "nojoin_reasons": dict(Counter(r["reason"] for r in nojoin)),
         "forward_unmatched_count": len(forward),
-        "union_raw_records": len(old)+len(new), "union_deduplicated_records_including_mismatch_cases": len(union),
-        "union_duplicates": len(old)+len(new)-len(union),
+        "union_raw_records": len(old_raw)+len(new_raw), "union_deduplicated_records_including_mismatch_cases": len(union),
+        "union_duplicates": sum(r["decision"] != "accepted" and not r["component_conflicting_directions"] for r in union_audit),
+        "union_conflict_rows": sum(r["component_conflicting_directions"] for r in union_audit),
+        "canonical_novelty_audit": novelty_summary,
         "eligible_union_records": sum(r["eligible_for_union"] for r in union),
         "eligible_union_records_semantics": "old-vector agreement gate only; not certification of missing historical publication/hash or proven independent authors",
         "inputs": [{"path": str(Path(p).resolve()), "sha256": sha(Path(p).read_bytes())}
@@ -529,13 +686,14 @@ def main():
     parser.add_argument("--build", action="store_true")
     parser.add_argument("--cases", type=Path, default=ROOT / "experiments/pregame-feature-rd-20261030/inputs/cases.jsonl.gz")
     parser.add_argument("--old-input", type=Path)
+    parser.add_argument("--old-document-metadata", type=Path, action="append", default=[])
     args = parser.parse_args()
     freeze()
     cache = PublicCache(args.cache_dir)
     if args.build:
         if not args.old_input:
             parser.error("--old-input required for --build")
-        result = build(args.cache_dir, args.cases, args.old_input)
+        result = build(args.cache_dir, args.cases, args.old_input, old_document_paths=args.old_document_metadata)
         print(json.dumps({k: v for k, v in result.items() if k not in {"inputs", "artifacts"}}, ensure_ascii=False))
     for url in args.probe:
         meta, raw = cache.fetch(url)

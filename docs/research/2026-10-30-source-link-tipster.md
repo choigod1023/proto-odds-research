@@ -57,10 +57,26 @@ Python 직접 HTTP 및 자격 증명이 없는 설정 프록시 요청은 연결
 전용 작업 트리에서 실행:
 
 ```powershell
-python scripts/rd_tipster_source_links.py --cache-dir C:/Users/user/AppData/Local/Temp/rd-tipster-independent-20261030 --build --old-input C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/two-leg-model-literature-20261030/experiments/two-leg-literature-20261030/inputs/votes.jsonl.gz
+python scripts/rd_tipster_source_links.py --cache-dir C:/Users/user/AppData/Local/Temp/rd-tipster-independent-20261030 --build --old-input C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/two-leg-model-literature-20261030/experiments/two-leg-literature-20261030/inputs/votes.jsonl.gz --old-document-metadata C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/experiments/tipster-year-20261028/korean/documents.json --old-document-metadata C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/experiments/tipster-year-20261028/overseas/documents.json
 python -m pytest tests/test_rd_tipster_source_links.py tests/test_public_tipster_votes.py -q
 ```
 
-결과: **67 passed**. 실제 캐시에서 신규 11행을 파싱·연결했고, 기존 560행을 다시 집계해 534개 벡터 일치와 4개 불일치를 확인했다. 파서, 사이트별 작성자 구분, 복제 본문, 중복 문서, 작성자 의견 충돌, 전반전 혼입, 누락 연도·작성자·해시, 실제 관측/게시 주장 구분, 더블헤더 모호성, 엄격한 킥오프 비교, 자격 증명 거부, 영속 요청 예산과 캐시 재사용을 검사했다. 전방 HTTP 수집 어댑터의 캐시 테스트에는 합성 응답만 사용했으며 실제 전방 수집 성공으로 세지 않았다.
+결과: **73 passed**. 실제 캐시에서 신규 11행을 파싱·연결했고, 기존 560행을 다시 집계해 534개 벡터 일치와 4개 불일치를 확인했다. 파서, 사이트별 작성자 구분, 복제 본문, 중복 문서, 작성자 의견 충돌, 전반전 혼입, 누락 연도·작성자·해시, 실제 관측/게시 주장 구분, 더블헤더 모호성, 엄격한 킥오프 비교, 자격 증명 거부, 영속 요청 예산과 캐시 재사용을 검사했다. 전방 HTTP 수집 어댑터의 캐시 테스트에는 합성 응답만 사용했으며 실제 전방 수집 성공으로 세지 않았다.
 
 결과 파일과 입력의 SHA256은 `manifest.json`에 있다. `*-raw.jsonl.gz`는 중복 제거 전 행, `*-dedup-audit.jsonl.gz`는 행별 판단을 보존한다. 원문 전체나 이미지, 기사 분석 문장은 커밋하지 않는다. 연구 월 손실 제한 OFF 요청을 바꾸지 않았고, 이번 하위 작업은 어떤 수익 평가도 수행하지 않았다.
+
+## 후속 감사: canonical URL·본문·작성자 별칭
+
+사용자의 추가 지시에 따라 ROI 확인 전에 `dedup-amendment.json`으로 동일 문서 판정 규칙을 보강했다. 원래 동결 규칙과 부모 프로토콜은 그대로 보존했다. **추가 네트워크 요청은 0회다.**
+
+고리 URL의 `http/https`, `www` 유무, 마지막 슬래시, `?page=1/2` 및 fragment 차이를 없애고 `https://www.goli.tv/board/analysis/ID`로 비교했다. 기존 동결 560투표뿐 아니라 범위 밖 자료를 포함한 원 입력 **635투표·403개 canonical URL**과 대조했다. 신규 11개 기사 ID는 모두 이 집합에 없었고, 신규 문서 해시와 원 입력의 `document_sha256` 또는 `source_sha256`이 같은 사례도 0건이다. 따라서 확인 가능한 원 입력 기준으로 **기존 기사 재수집은 0건, 새 문서 투표 기록은 11건**이다. 새로 검증된 독립적 사람의 의견이 11개라는 뜻은 아니다.
+
+동일 경기의 기존 출처는 KBO·K리그의 `golfmasterj.tistory.com / 마스터제이`, NPB의 `www.tonyspicks.com / Ron Crawford`다. 기존 수집의 로컬 `korean/documents.json`(725문서)과 `overseas/documents.json`(679문서)에 있는 `units/nodes`를 읽어 11쌍의 본문을 비교했다. 유니코드·공백을 정규화한 전체 추출 텍스트 해시 일치 0쌍, 80자 이상 문단의 정확한 일치 0건이다. 5단어 구간의 일치 건수도 원문 없이 해시·건수로 기록했다. 이 자료는 원 HTTP HTML 전체가 아니므로 일부 복제·번역·구간 누락을 배제하는 검증으로 해석하면 안 된다.
+
+새 작성자 `호나우두`와 기존 작성자 사이의 공개 계정 ID·별칭 연결 근거는 입력에서 확인하지 못했다. 사이트가 다르거나 표시명이 다르다는 이유로 독립성을 확정하지 않는다. `canonical-novelty-summary.json`의 `verified_independent_human_opinions=0`은 독립성이 검증되지 않았다는 뜻이며, 복제라고 판정했다는 뜻도 아니다.
+
+`deduplicate`는 canonical URL 또는 문서/본문 해시로 연결되는 행을 전이적으로 묶으며, 같은 사이트 작성자는 추가로 한 표만 허용한다. **새 행을 먼저 제거해 연결 고리를 잃지 않도록 기존·신규의 중복 제거 전 원 행 전체로 합집합을 구성한다.** 연결된 성분에서 방향이 충돌하면 모든 행을 제외한다. 같은 URL인데 작성자 표시명이나 래퍼 해시가 달라진 경우도 예외가 아니다. 원래 기존 비교군은 별도로 보존하며, 합집합에서의 기권을 이유로 기존 비교군의 투표나 스테이크를 소급 삭제하지 않는다.
+
+현재 실자료에서는 canonical URL 중복, 해시 중복, 같은 URL의 방향 충돌, 전이적 중복이 모두 0건으로 기존 560행+신규 11행=571행이 유지된다. `new-votes.jsonl.gz`는 이 전체 합집합에서 살아남은 신규 행이며, 전체 합집합은 `union-votes-normalized.jsonl.gz`에 있다. 원 행은 `old-votes-raw.jsonl.gz`, `new-votes-raw.jsonl.gz`에 그대로 남아 있다. 부모가 중복 판정을 다시 수행할 때도 이 원 행을 사용해야 중간 연결 고리를 보존할 수 있다. 실제 후기 수집의 11건 모두 회고 주장 tier인 점과 기존 벡터 불일치·시각/해시 누락은 바뀌지 않았다.
+
+행별 근거는 `canonical-novelty-audit.jsonl.gz`, 요약은 `canonical-novelty-summary.json`, 전체 연결 성분과 충돌 결정은 `union-dedup-audit.jsonl.gz`에 있다. 새 테스트는 쿼리·호스트·래퍼 변경, 같은 URL의 방향 충돌, URL→해시의 전이적 연결, 제거될 행이 연결 고리인 통합 시나리오, 하나의 문서가 여러 경기를 다루는 경우를 검증한다.

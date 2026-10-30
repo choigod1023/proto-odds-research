@@ -125,14 +125,14 @@ def test_identical_documents_across_sites_count_once():
 
 def test_copied_body_different_page_hash_counts_once():
     first = vote()
-    second = dict(first, source_site="other.example", document_sha256="b"*64)
+    second = dict(first, source_site="other.example", source_url="https://other.example/copy", document_sha256="b"*64)
     kept, audit = m.deduplicate([first, second])
     assert len(kept) == 1 and audit[1]["decision"] == "identical_article_body_hash"
 
 
 def test_same_display_name_other_site_is_not_identity_equivalence():
     first = vote()
-    second = dict(first, source_site="other.example", document_sha256="b"*64, article_body_sha256="c"*64)
+    second = dict(first, source_site="other.example", source_url="https://other.example/other", document_sha256="b"*64, article_body_sha256="c"*64)
     assert len(m.deduplicate([first, second])[0]) == 2  # candidates, NOT certified independent humans
 
 
@@ -145,7 +145,7 @@ def test_same_site_author_conflicts_are_excluded():
 
 def test_missing_hash_not_a_shared_document_identity():
     first = vote(document_sha256=None, article_body_sha256=None)
-    second = dict(first, author="다른이름")
+    second = dict(first, author="다른이름", source_url="https://www.goli.tv/board/analysis/456")
     assert len(m.deduplicate([first, second])[0]) == 2
 
 
@@ -213,6 +213,79 @@ def test_old_export_preserves_original_metadata_and_nulls(tmp_path):
     assert set(rows[0]["metadata_missing_reasons"]) == {"original_document_hash_missing", "original_publication_claim_missing"}
 
 
+def test_canonical_goli_id_ignores_page_fragment_host_and_wrapper():
+    assert m.canonical_article_url("http://goli.tv/board/analysis/123/?page=2#text") == URL
+    first = vote(source_url=URL+"?page=1")
+    second = vote(source_url=URL+"?page=2", author="별칭", document_sha256="b"*64, article_body_sha256="c"*64)
+    kept, audit = m.deduplicate([first, second])
+    assert len(kept) == 1 and audit[1]["decision"] == "same_canonical_article_url"
+    assert m.canonical_article_url("https://other.example/article?id=1") != m.canonical_article_url("https://other.example/article?id=2")
+
+
+def test_same_canonical_url_conflicting_directions_rejects_both():
+    first = vote(source_url=URL+"?page=1")
+    second = vote(source_url=URL+"?page=2", selection="away", author="별칭", document_sha256="b"*64, article_body_sha256="c"*64)
+    kept, audit = m.deduplicate([first, second])
+    assert not kept and all(r["component_conflicting_directions"] for r in audit)
+
+
+def test_transitive_url_hash_bridge_is_retained_for_identity_closure():
+    first = vote(source_url=URL, document_sha256="a"*64, article_body_sha256=None)
+    bridge = vote(source_url=URL+"?page=2", author="별칭B", document_sha256="b"*64, article_body_sha256=None)
+    third = vote(source_url="https://other.example/article", source_site="other.example", author="별칭C",
+                 document_sha256="b"*64, article_body_sha256=None)
+    kept, audit = m.deduplicate([first, bridge, third])
+    assert len(kept) == 1 and audit[2]["decision"] == "transitive_identity_duplicate"
+    assert all(r["component_row_indices"] == [0, 1, 2] for r in audit)
+    third["selection"] = "away"
+    assert not m.deduplicate([first, bridge, third])[0]
+
+
+def test_one_document_can_have_multiple_fixture_votes():
+    first = vote()
+    second = dict(first, event_id="different-physical-fixture", selection="away")
+    assert len(m.deduplicate([first, second])[0]) == 2
+
+
+def test_build_uses_raw_bridge_rows_before_old_new_union(tmp_path):
+    cases, oldfile, cache, out = (tmp_path/n for n in ("cases.gz", "old.gz", "cache", "out"))
+    cache.mkdir()
+    m.write_jsonl(cases, [dict(case(), auxiliary=False)])
+    frame = dict(case(), raw_forecasts=[dict(author="과거작성자", source_url=URL, side="home",
+                 published_at_claim="2026-09-08T02:09:00+09:00", observed_at=OBS, document_sha256="a"*64)])
+    m.write_jsonl(oldfile, [frame])
+    # New B/C share a body; C also recrawls the old URL with a changed wrapper.
+    captures = []
+    for i, (url, author) in enumerate([(URL+"4", "작성자B"), (URL+"?page=2", "작성자C")]):
+        raw = html(author=author)
+        name = str(i)+".html"
+        (cache/name).write_bytes(raw)
+        captures.append(dict(url=url, observed_at=OBS, capture_path=name,
+                             document_sha256=m.sha(raw), document_hash_kind="article_dom_utf8"))
+    (cache/"browser-captures.jsonl").write_text("".join(json.dumps(r)+"\n" for r in captures), encoding="utf-8")
+    result = m.build(cache, cases, oldfile, output=out)
+    assert result["new_raw_matched_votes"] == 2 and result["new_deduplicated_votes"] == 0
+    assert result["union_raw_records"] == 3 and result["union_deduplicated_records_including_mismatch_cases"] == 1
+    assert result["union_duplicates"] == 2 and result["union_conflict_rows"] == 0
+    # A changed same-URL direction rejects old+new in the union, while the
+    # original old counterfactual is preserved for abstention/stake handling.
+    raw = html(author="현재별칭", body="예상 승리팀 : 키움")
+    (cache/"conflict.html").write_bytes(raw)
+    capture = dict(url=URL+"?page=2", observed_at=OBS, capture_path="conflict.html",
+                   document_sha256=m.sha(raw), document_hash_kind="article_dom_utf8")
+    (cache/"browser-captures.jsonl").write_text(json.dumps(capture)+"\n", encoding="utf-8")
+    result = m.build(cache, cases, oldfile, output=out)
+    assert result["union_conflict_rows"] == 2 and result["union_deduplicated_records_including_mismatch_cases"] == 0
+    assert result["old_deduplicated_votes"] == 1 and result["old_vector_agree_cases"] == 1
+    assert result["canonical_novelty_audit"]["canonical_url_recrawls_all_original"] == 1
+
+
+def test_local_content_comparison_hashes_counts_without_claiming_independence():
+    a = m.text_projection(["같은 문장 "*30])
+    b = m.text_projection(["같은  문장 "*30])
+    assert a["sha256"] == b["sha256"] and len(a["long_prose_hashes"] & b["long_prose_hashes"]) == 1
+
+
 def test_real_artifact_contract_and_vector_gate():
     out = m.OUT
     if not (out / "manifest.json").exists():
@@ -235,3 +308,8 @@ def test_real_artifact_contract_and_vector_gate():
     assert m.audit_vectors(old, cases) == vectors
     assert len(read("new-votes.jsonl.gz")) == 11
     assert all(r["document_hash_kind"] == "article_dom_utf8" for r in read("new-votes.jsonl.gz"))
+    novelty = json.loads((out/"canonical-novelty-summary.json").read_text(encoding="utf-8"))
+    assert novelty["all_original_raw_votes_checked"] == 635
+    assert novelty["canonical_url_recrawls_all_original"] == novelty["document_hash_recrawls_all_original"] == 0
+    assert novelty["new_document_records_on_available_identity_evidence"] == 11
+    assert novelty["verified_independent_human_opinions"] == 0

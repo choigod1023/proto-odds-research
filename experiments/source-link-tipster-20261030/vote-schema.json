@@ -84,6 +84,11 @@
     "eligible_for_union": {
       "type": "boolean",
       "description": "Old-vector-agreement gate only; does not certify independence or temporal/hash quality."
+    },
+    "canonical_article_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Goli article ID normalized independently of page query, host spelling, scheme, trailing slash and fragment. Other semantic query parameters preserved."
     }
   },
   "additionalProperties": true

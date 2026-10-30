@@ -3,7 +3,10 @@
   "dependency_commit": "8bb66e8bccd4ac68fe46a2b59e75147a84de9679",
   "changed_paths": [
     "docs/research/2026-10-30-source-link-tipster.md",
+    "experiments/source-link-tipster-20261030/canonical-novelty-audit.jsonl.gz",
+    "experiments/source-link-tipster-20261030/canonical-novelty-summary.json",
     "experiments/source-link-tipster-20261030/collection-method.json",
+    "experiments/source-link-tipster-20261030/dedup-amendment.json",
     "experiments/source-link-tipster-20261030/dedup-rules.json",
     "experiments/source-link-tipster-20261030/document-inventory.jsonl.gz",
     "experiments/source-link-tipster-20261030/forward-unmatched.jsonl.gz",
@@ -22,6 +25,7 @@
     "experiments/source-link-tipster-20261030/public-request-audit.json",
     "experiments/source-link-tipster-20261030/source-inventory.json",
     "experiments/source-link-tipster-20261030/union-dedup-audit.jsonl.gz",
+    "experiments/source-link-tipster-20261030/union-votes-normalized.jsonl.gz",
     "experiments/source-link-tipster-20261030/vote-schema.json",
     "scripts/rd_tipster_source_links.py",
     "tests/test_rd_tipster_source_links.py"
@@ -41,7 +45,7 @@
   ],
   "tests": {
     "command": "python -m pytest tests/test_rd_tipster_source_links.py tests/test_public_tipster_votes.py -q",
-    "passed": 67,
+    "passed": 73,
     "stdlib_vote_contract_checks": 1142,
     "jsonschema_library_validation": "not run; package unavailable; standard-library contract checks performed"
   },
@@ -75,7 +79,10 @@
     "old-vector-audit.jsonl.gz",
     "new-votes.jsonl.gz",
     "union-dedup-audit.jsonl.gz",
-    "vote-schema.json"
+    "vote-schema.json",
+    "canonical-novelty-audit.jsonl.gz",
+    "canonical-novelty-summary.json",
+    "union-votes-normalized.jsonl.gz"
   ],
   "limitations": [
     "New hashes are article DOM hashes, not origin HTTP response hashes.",
@@ -86,5 +93,55 @@
   ],
   "no_ROI_or_model_fit": true,
   "push": false,
-  "individual_PR": false
+  "individual_PR": false,
+  "canonical_audit_base_commit": "c20bf8c19b4833dd2cdb90719b11473c8c8e2194",
+  "canonical_audit_changed_paths": [
+    "docs/research/2026-10-30-source-link-tipster.md",
+    "experiments/source-link-tipster-20261030/canonical-novelty-audit.jsonl.gz",
+    "experiments/source-link-tipster-20261030/canonical-novelty-summary.json",
+    "experiments/source-link-tipster-20261030/dedup-amendment.json",
+    "experiments/source-link-tipster-20261030/handoff.json",
+    "experiments/source-link-tipster-20261030/manifest.json",
+    "experiments/source-link-tipster-20261030/new-dedup-audit.jsonl.gz",
+    "experiments/source-link-tipster-20261030/new-votes-raw.jsonl.gz",
+    "experiments/source-link-tipster-20261030/new-votes.jsonl.gz",
+    "experiments/source-link-tipster-20261030/old-dedup-audit.jsonl.gz",
+    "experiments/source-link-tipster-20261030/old-votes-normalized.jsonl.gz",
+    "experiments/source-link-tipster-20261030/old-votes-raw.jsonl.gz",
+    "experiments/source-link-tipster-20261030/old-votes-union-eligible.jsonl.gz",
+    "experiments/source-link-tipster-20261030/union-dedup-audit.jsonl.gz",
+    "experiments/source-link-tipster-20261030/union-votes-normalized.jsonl.gz",
+    "experiments/source-link-tipster-20261030/vote-schema.json",
+    "scripts/rd_tipster_source_links.py",
+    "tests/test_rd_tipster_source_links.py"
+  ],
+  "canonical_novelty_summary": {
+    "all_original_raw_votes_checked": 635,
+    "all_original_unique_canonical_urls": 403,
+    "frozen_old_votes_checked": 560,
+    "new_candidate_rows_checked": 11,
+    "canonical_url_recrawls_all_original": 0,
+    "document_hash_recrawls_all_original": 0,
+    "new_document_records_on_available_identity_evidence": 11,
+    "verified_independent_human_opinions": 0,
+    "verified_cross_site_author_alias_matches": 0,
+    "same_site_author_key_matches": 0,
+    "same_case_content_pairs_checked": 11,
+    "identical_parsed_projection_pairs": 0,
+    "shared_long_prose_units": 0,
+    "old_document_metadata_inputs": [
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\korean\\documents.json",
+        "sha256": "d616f5841c78ea5296022a429a0a3015b926574325d0ceeda206cee244aaf814",
+        "documents": 725
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\overseas\\documents.json",
+        "sha256": "234a36a5c236b044bc4e7847bdd21f20dcfaea05e7d8357ffb80edff70b95af8",
+        "documents": 679
+      }
+    ],
+    "additional_network_requests": 0
+  },
+  "additional_network_requests_canonical_audit": 0
 }
