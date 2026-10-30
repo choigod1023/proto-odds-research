@@ -12,6 +12,7 @@ import gzip
 import hashlib
 import json
 from pathlib import Path
+from typing import TypedDict
 from urllib.parse import urlparse
 from urllib.request import Request, build_opener, HTTPRedirectHandler
 from zoneinfo import ZoneInfo
@@ -108,7 +109,8 @@ def extract(rosters, history, source_hash, archive_league=None):
             continue
         seen.add(key)
         base = {k: r[k] for k in ("cohort", "event_id", "league", "kickoff")}
-        base.update(decision_at=decision, features={}, feature_evidence={}, source_ids=[])
+        base.update(decision_at=decision, features={}, feature_evidence={}, source_ids=[],
+                    source_meta={"source_game_dates": {}, "fact_dates": []})
         if stamp(decision) >= stamp(r["kickoff"]):
             audit.append({**base, "reason": "decision_not_before_kickoff"})
             continue
@@ -127,10 +129,12 @@ def extract(rosters, history, source_hash, archive_league=None):
                 base["features"][name] = value
                 base["feature_evidence"][name] = {
                     "max_fact_time": None, "observed_at": None,
+                    "max_fact_date": h[-1]["date"], "latest_source_game_date": h[-1]["date"],
                     "source_sha256": [source_hash], "availability_tier": "retrospective_lagged",
                     "note": "Date-only structural lag; last fact date=" + h[-1]["date"]
                     + "; partial observed XI archive, not complete schedule; no authenticated capture."}
             base["source_ids"].extend(g["source_id"] for g in h)
+            base["source_meta"]["source_game_dates"].update({g["source_id"]: g["date"] for g in h})
             # Optional ex-post diagnostic is emitted separately, never into model rows.
             targets = [g for g in history if g["team"] == team
                        and g["date"] == stamp(r["kickoff"]).astimezone(KST).date().isoformat()
@@ -147,9 +151,14 @@ def extract(rosters, history, source_hash, archive_league=None):
                     "features": {"soccer_retrospective_current_xi_" + side + "_" + k: v for k, v in vals.items()},
                     "feature_evidence": {"soccer_retrospective_current_xi_" + side + "_" + k: {
                         "max_fact_time": None, "observed_at": None, "source_sha256": [source_hash],
+                        "max_fact_date": max(g["date"] for g in h + targets),
+                        "latest_source_game_date": max(g["date"] for g in h + targets),
                         "availability_tier": "unverified", "note": "TARGET XI EX POST; never eligible pregame without capture proof"} for k in vals},
-                    "source_ids": sorted({g["source_id"] for g in h + targets})})
+                    "source_ids": sorted({g["source_id"] for g in h + targets}),
+                    "source_meta": {"source_game_dates": {g["source_id"]: g["date"] for g in h + targets},
+                                    "fact_dates": sorted({g["date"] for g in h + targets})}})
         base["source_ids"] = sorted(set(base["source_ids"]))
+        base["source_meta"]["fact_dates"] = sorted(set(base["source_meta"]["source_game_dates"].values()))
         rows.append(base)
         audit.append({"cohort": r["cohort"], "event_id": r["event_id"], "decision_at": decision,
                       "feature_count": len(base["features"]), "reasons": reasons,
@@ -160,6 +169,61 @@ def extract(rosters, history, source_hash, archive_league=None):
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         raise ValueError("redirect blocked; supply canonical official URL")
+
+
+class FixtureIdentity(TypedDict):
+    event_id: str
+    source_fixture_id: str
+    league: str
+    kickoff: str
+    home: str
+    away: str
+
+
+class CaptureClock(TypedDict):
+    url: str
+    request_started_at: str
+    observed_at: str
+    source_sha256: str
+
+
+def parse_xi_intake(payload: bytes, clock: CaptureClock,
+                    expected: FixtureIdentity, decision_at: str) -> dict:
+    """Pure typed NORMALIZED intake contract, NOT a discovered official endpoint.
+
+    Body schema: {fixture: FixtureIdentity, starters: {home: [player_id]*11,
+    away: [player_id]*11}}. Caller must map a verified official response to this
+    schema. Caller-provided clock is checked, not authenticated: tier stays
+    unverified. No publication time is inferred and no model rows are produced.
+    """
+    u = urlparse(clock["url"])
+    if u.scheme != "https" or u.hostname not in ("kleague.com", "www.kleague.com") or u.username or u.password or u.port not in (None, 443):
+        raise ValueError("official HTTPS source required")
+    if len(payload) > 1_000_000 or sha(payload) != clock["source_sha256"]:
+        raise ValueError("payload size/hash mismatch")
+    required = set(FixtureIdentity.__annotations__)
+    if set(expected) != required or any(not isinstance(expected[k], str) or not expected[k].strip() for k in required):
+        raise ValueError("complete explicit fixture identity required")
+    start, observed = stamp(clock["request_started_at"]), stamp(clock["observed_at"])
+    if not start <= observed <= stamp(decision_at) < stamp(expected["kickoff"]):
+        raise ValueError("capture clock must precede decision and kickoff")
+    body = json.loads(payload)
+    if body.get("fixture") != expected:
+        raise ValueError("fixture identity mismatch")
+    starters = body.get("starters")
+    if not isinstance(starters, dict) or set(starters) != {"home", "away"}:
+        raise ValueError("both starting XIs required")
+    for side in ("home", "away"):
+        xi = starters[side]
+        if not isinstance(xi, list) or len(xi) != 11 or any(not isinstance(p, str) or not p.strip() for p in xi) or len(set(xi)) != 11:
+            raise ValueError("exactly 11 unique nonempty player IDs per side required")
+    if set(starters["home"]) & set(starters["away"]):
+        raise ValueError("player cannot start for both sides")
+    return {"fixture": dict(expected), "starters": starters, "capture": dict(clock),
+            "observed_at": clock["observed_at"], "max_fact_time": None,
+            "publication_at": None, "availability_tier": "unverified",
+            "status": "normalized_intake_validated_clock_not_authenticated",
+            "note": "Capture-only tooling; official XI endpoint/parser not established"}
 
 
 def capture(url, output, event_id=None, kickoff=None):
@@ -175,6 +239,7 @@ def capture(url, output, event_id=None, kickoff=None):
     if kickoff and stamp(kickoff) <= started:
         raise ValueError("forward intake requires future kickoff")
     record = {"url": url, "request_started_at": started.isoformat(), "event_id": event_id,
+              "capability": "capture_only_no_official_xi_parser",
               "kickoff": kickoff, "availability_tier": "unverified", "normalized_xi": None}
     try:
         req = Request(url, headers={"User-Agent": "PregameResearch/1.0"})
@@ -193,7 +258,7 @@ def capture(url, output, event_id=None, kickoff=None):
         record.update(observed_at=None, error=type(exc).__name__ + ": " + str(exc),
                       attempt_ended_at=datetime.now(timezone.utc).isoformat())
     token = started.strftime("%Y%m%dT%H%M%S%fZ")
-    (output / ("capture-attempt-" + token + ".json")).write_text(json.dumps(record, indent=2), encoding="utf-8")
+    (output / ("capture-attempt-" + token + ".json")).write_text(json.dumps(record, indent=2), encoding="utf-8", newline="\n")
     return record
 
 
@@ -216,7 +281,7 @@ def main():
     # Freeze definitions without reading outcomes or any evaluation artifact.
     protocol = json.dumps(FEATURE_PROTOCOL, indent=2).encode()
     (args.output / "protocol.json").write_bytes(protocol)
-    (args.output / "team-aliases.json").write_text(json.dumps(TEAM_ALIASES, ensure_ascii=False, indent=2), encoding="utf-8")
+    (args.output / "team-aliases.json").write_text(json.dumps(TEAM_ALIASES, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     raw_bytes = args.raw.read_bytes()
     raw_hash = sha(raw_bytes)
     history, rejected = adapt(json.loads(raw_bytes))
@@ -256,7 +321,7 @@ def main():
                            "feature_counts": dict(Counter(len(r["features"]) for r in kept)),
                            "label": "AUXILIARY settled-only historical_market_proxy, not service or actual tipster",
                            "years": dict(Counter(r["kickoff"][:4] for r in kept))}
-        (args.output / "archive-summary.json").write_text(json.dumps(archive_summary, indent=2), encoding="utf-8")
+        (args.output / "archive-summary.json").write_text(json.dumps(archive_summary, indent=2), encoding="utf-8", newline="\n")
         print(json.dumps(archive_summary))
     dump_gz(args.output / "features.jsonl.gz", rows)
     dump_gz(args.output / "current-xi-DIAGNOSTIC-DO-NOT-FIT.jsonl.gz", diagnostics)
@@ -275,9 +340,9 @@ def main():
             for c in sorted({r["cohort"] for r in rows})},
         "reasons": dict(Counter(s for a in audit for s in a.get("reasons", []))),
         "protocol_sha256": sha(protocol), "roi": "parent evaluator; no local ROI examined"}
-    (args.output / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (args.output / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8", newline="\n")
     outputs = [{"path": f.name, "sha256": sha(f.read_bytes())} for f in sorted(args.output.iterdir()) if f.is_file() and f.name != "manifest.json"]
-    (args.output / "manifest.json").write_text(json.dumps({"inputs": manifest, "outputs": outputs}, indent=2), encoding="utf-8")
+    (args.output / "manifest.json").write_text(json.dumps({"inputs": manifest, "outputs": outputs}, indent=2), encoding="utf-8", newline="\n")
     print(json.dumps(summary))
 
 

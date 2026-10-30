@@ -1,4 +1,6 @@
 import importlib.util
+import json
+from datetime import date, timedelta
 from pathlib import Path
 import unittest
 
@@ -50,6 +52,15 @@ class SoccerFeaturesTest(unittest.TestCase):
             self.assertIsNone(e["observed_at"])
             self.assertIsNone(e["max_fact_time"])
             self.assertEqual(e["availability_tier"], "retrospective_lagged")
+            self.assertEqual(e["max_fact_date"], "2026-03-05")
+            self.assertEqual(e["latest_source_game_date"], "2026-03-05")
+        self.assertEqual(rows[0]["source_meta"]["fact_dates"], ["2026-03-01", "2026-03-05"])
+        self.assertEqual(rows[0]["source_meta"]["source_game_dates"]["2026-03-05"], "2026-03-05")
+        # Parent's separate date-only view: March 5 + 3 days misses March 7.
+        latest = date.fromisoformat(next(iter(rows[0]["feature_evidence"].values()))["max_fact_date"])
+        self.assertGreater(latest + timedelta(days=3), date(2026, 3, 7))
+        self.assertEqual(latest + timedelta(days=3), date(2026, 3, 8))
+        self.assertEqual(next(iter(diagnostic[0]["feature_evidence"].values()))["max_fact_date"], "2026-03-08")
         self.assertNotIn("target", rows[0])
         self.assertNotIn("odds", rows[0])
 
@@ -87,6 +98,45 @@ class SoccerFeaturesTest(unittest.TestCase):
         self.assertEqual(h, rd.adapt(raw)[0])
         raw["id"]["data"]["home"]["players"] = [players[0]] * 11
         self.assertTrue(rd.adapt(raw)[1])
+
+    def intake(self, change=None):
+        expected = {"event_id": "kleague:2026:1:200", "source_fixture_id": "200",
+                    "league": "K1", "kickoff": "2026-10-31T15:00:00+09:00", "home": "A", "away": "B"}
+        body = {"fixture": dict(expected), "starters": {"home": [str(i) for i in range(11)],
+                "away": [str(i) for i in range(11, 22)]}}
+        if change:
+            change(body)
+        payload = json.dumps(body).encode()
+        clock = {"url": "https://www.kleague.com/match.do?gameId=200",
+                 "request_started_at": "2026-10-31T13:59:59+09:00",
+                 "observed_at": "2026-10-31T14:00:00+09:00", "source_sha256": rd.sha(payload)}
+        return payload, clock, expected
+
+    def test_typed_intake_validates_without_inferred_publication(self):
+        payload, clock, expected = self.intake()
+        r = rd.parse_xi_intake(payload, clock, expected, "2026-10-31T14:30:00+09:00")
+        self.assertEqual(r["availability_tier"], "unverified")
+        self.assertIsNone(r["publication_at"])
+        self.assertIsNone(r["max_fact_time"])
+        self.assertEqual(r["observed_at"], clock["observed_at"])
+
+    def test_typed_intake_rejects_identity_and_xi_errors(self):
+        changes = [lambda b: b["fixture"].update(event_id="wrong"),
+                   lambda b: b["starters"]["home"].pop(),
+                   lambda b: b["starters"]["home"].__setitem__(1, "0"),
+                   lambda b: b["starters"].pop("away"),
+                   lambda b: b["starters"]["away"].__setitem__(0, "0")]
+        for change in changes:
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                rd.parse_xi_intake(*self.intake(change), "2026-10-31T14:30:00+09:00")
+
+    def test_typed_intake_rejects_tampered_hash_and_late_clock(self):
+        payload, clock, expected = self.intake()
+        with self.assertRaises(ValueError):
+            rd.parse_xi_intake(payload + b" ", clock, expected, "2026-10-31T14:30:00+09:00")
+        clock["observed_at"] = "2026-10-31T14:31:00+09:00"
+        with self.assertRaises(ValueError):
+            rd.parse_xi_intake(payload, clock, expected, "2026-10-31T14:30:00+09:00")
 
 
 if __name__ == "__main__":
