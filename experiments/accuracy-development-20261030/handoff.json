@@ -1,11 +1,11 @@
 {
   "role": "development",
-  "status": "implementation_complete_evaluation_not_performed",
+  "status": "review_revision_complete_evaluation_not_performed",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-accuracy-development-20261030",
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
   "protocol_sha": null,
-  "commit": "90c361e (implementation; handoff metadata is a later commit)",
+  "commit": "See git HEAD; implementation revision follows 90c361e",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/436",
   "changed_paths": [
     "experiments/accuracy-development-20261030/",
@@ -16,11 +16,23 @@
     {
       "path": "PR433 0ed675a0e7ee53d75691d071b41739099edb1a65:experiments/dynamic-score-state-model-20261030/model.py",
       "sha256": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1"
+    },
+    {
+      "path": "PR442 b151ad0c73d3909b08ee80e7564e91c70d346755 vendor/structure/fixture-pregame.json",
+      "sha256": "9d9714c1ebf3e81a8c911fb55ef76ea5867213989e4593d3604a0a12a4d55e73"
+    },
+    {
+      "path": "PR442 b151ad0c73d3909b08ee80e7564e91c70d346755 vendor/structure/schema.json",
+      "sha256": "8f0fc6ca031b776a0f01dc3c8e90bfae5c9ed63549906f570c6ffc75ba315307"
+    },
+    {
+      "path": "PR442 b151ad0c73d3909b08ee80e7564e91c70d346755 vendor/structure/validator.py",
+      "sha256": "d999a996b4958b8e483d72d1e0f049f4fb707c5be01eb874c43af422eb797294"
     }
   ],
   "tests": {
-    "targeted": "15 passed",
-    "full": "1875 passed, 6 skipped, 93 subtests passed"
+    "targeted": "20 passed",
+    "full": "1880 passed, 6 skipped, 93 subtests passed"
   },
   "metrics": {
     "new_model_accuracy": null,
@@ -28,12 +40,12 @@
     "certified_player_sample_count": "not measured"
   },
   "limitations": [
-    "No player effects, training or performance evaluation; synthetic inputs only.",
-    "External receipt verifier absent; true claims rejected.",
-    "Historical state provenance, product identity mapping and source truth require independent verification.",
-    "commit is null because a file cannot contain its own commit hash; use git HEAD.",
+    "No player coefficients, training, real-data performance or ROI evaluation.",
+    "Independent trust verifier and verified state training provenance are not implemented; caller must authenticate the entire contract and all historical result availability including team evidence.",
+    "Initial v1 shape projection is not full v1 validation; no freeze-content hash authentication or external receipt verifier.",
+    "Different-observation lineup revisions are unsupported and fall back without using them.",
     "No protocol required for interface-only validation; no performance hypothesis evaluated."
   ],
   "blockers": [],
-  "next_dependency": "Coordinator decision on structure v1 compatibility; independently verified player inputs and a precommitted evaluation protocol before training or performance measurement."
+  "next_dependency": "Independent authenticated core and baseline provenance verifier, verified team/product mappings, and coordinator decision on v1; structure reference-content hash changes not yet integrated."
 }
