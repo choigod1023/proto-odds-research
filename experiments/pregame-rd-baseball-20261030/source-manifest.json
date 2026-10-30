@@ -1,0 +1,358 @@
+{
+  "inputs": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\results\\forecast-rosters.jsonl.gz",
+      "sha256": "a0d576db17ebc66ba4537b743c8dfbdb8523d5dd24dbda0a9b75b4329f298239"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\claimed-time-results\\forecast-rosters.jsonl.gz",
+      "sha256": "e729ca6e799e768dc42832eccd34f370fbf7df368c67f54918c475f2d0f0f955"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=813025",
+      "observed_at": "2026-10-30T04:03:25.016630+00:00",
+      "sha256": "65c082a34073b9116cbba90355c756827c760e612eb05a4ab3590fc6f865ced7",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\8ebd8ffac9d32bf3ef8eacc551e32a4f920a6e221b044d945dcc0e4b221de6ef.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=141,119&startDate=2025-10-27&endDate=2025-10-31",
+      "observed_at": "2026-10-30T04:03:25.682730+00:00",
+      "sha256": "e82d105ec34afcd606bfd2b55b8e9ed3dc45b26b8edcaacd615bfa0d586b87b3",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\92b752417220af156c1ba711c297776c97019079194fd0bf7e66e63d51bceb91.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/813032/feed/live",
+      "observed_at": "2026-10-30T04:03:27.478982+00:00",
+      "sha256": "415b138091fe05c183218fffa7a1c088aa13a706a6be06f46cceffa872b21bdf",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\a1bf5678c219ed4a6339e5a297e8aadf3178f150eee99711e900f829a738f3a8.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/813023/feed/live",
+      "observed_at": "2026-10-30T04:03:28.936501+00:00",
+      "sha256": "82b5132f1f884d1a1f49b4bda328459df76cbb77a1ab8ccb832357084df0a934",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\4a2c6f6b21f2c554a8e57d8417e785af59c313a3d2b5181d25011111b91fd4ed.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/813022/feed/live",
+      "observed_at": "2026-10-30T04:03:30.306109+00:00",
+      "sha256": "94f27d0bc75038a54047bd7e43b6ec9b8e9f266c67e7b74690afd17dcb932880",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\4854f54171db4892e9c5e82c73e2a4d37b9f0d4e27571adb7a0c641a3e20c494.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=824541",
+      "observed_at": "2026-10-30T04:03:30.988595+00:00",
+      "sha256": "fd70bc7ed92f47bcb9d55adae0b9cf4adb73811c01c95a78fb9a2a1b460364af",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\9e94683b455fb2e27a8a9098fd10fe5ed7d77ce65f9755c919b5fec0b26de4b7.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=113,111&startDate=2026-03-22&endDate=2026-03-26",
+      "observed_at": "2026-10-30T04:04:32.208153+00:00",
+      "sha256": "ca4e5632e6cf1bed6f614946c369b4ee387018f98c5ed476240ce3d8e9fc807b",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\2e21f4d71e77b9baa99a3741ec10f8475d77a3bdd3ab697b5fbd15d1cdeee7cf.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=824539",
+      "observed_at": "2026-10-30T04:03:38.407376+00:00",
+      "sha256": "e336fa958243f755b8878e73fd19547e327d98f47d30a795fd9e7491fdc6d1a2",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\39872123336d7d67cb72daba45d7b33b4a0d87a573f4457189df300405fa744f.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=113,134&startDate=2026-03-26&endDate=2026-03-30",
+      "observed_at": "2026-10-30T04:04:32.930821+00:00",
+      "sha256": "bdc1d0e81ab6931e1fa4153bd6b9249a52eb72c96e9c0323aa527b533651d141",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\df91539438b69a065f3341c1d4435cd48b865b66a7fb349133c93d2a80ed1d7b.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823649/feed/live",
+      "observed_at": "2026-10-30T04:04:34.168931+00:00",
+      "sha256": "cf762436a5e2e45207c723fee885eb36362b4f3646f87bbdc1026381029a5b5d",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\b57834f1e861d2d50d9e4c993a28d6edd90c401782bbe1e2788efff3f0941d6d.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824541/feed/live",
+      "observed_at": "2026-10-30T04:04:35.418968+00:00",
+      "sha256": "ee5217d3d8f70c647a790111262535e07c9d0bf7a28e52e32513688d0bd589a5",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\19573b899435120108301e53066e67d9eda343ac84be67fcb937d38c7cbc6e2d.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824540/feed/live",
+      "observed_at": "2026-10-30T04:03:40.484849+00:00",
+      "sha256": "844fa5ab7345dbcde5b29a02724fae0b3e9e23687b4ead85727c52f01f5ca102",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\e4b2a8ba8746f2d2b3a9de469f46d9f5eaf66cd187fc2bc0dc88d18b36d7ddb9.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823651/feed/live",
+      "observed_at": "2026-10-30T04:03:41.977809+00:00",
+      "sha256": "059c753890e53cd7fd8e9c384e9ca5dad0d496b4e07c95bb5b5615dca45e2139",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\2cb240e7fd7a6bcc5d8b3697ef833aef3e2b4a2d58195091e046583b93ce2e95.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824538/feed/live",
+      "observed_at": "2026-10-30T04:03:43.512857+00:00",
+      "sha256": "76d0f11747ed321497300057f2a5d20c7771eb3f9f07f6b8a88bcfe84f1fed66",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\0ceb5b04406e81afef8c9fd406012866670e3e1c151fd25111dbcdeffc29bc91.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823647/feed/live",
+      "observed_at": "2026-10-30T04:03:45.138091+00:00",
+      "sha256": "02dff22e368577fd419461e3aabf6899e2d78bde81d2077baff2f24e837d86b7",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\09dec030fc3c0110731efa81e196d6cb9eb6be0a6d53142025d2d1c334cf29ce.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=823159",
+      "observed_at": "2026-10-30T04:03:45.823844+00:00",
+      "sha256": "216bc0bc2b29368fd2026a84ba9819c850c85f72079af3c6d717b03f61880460",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\fd2d5c3bdb4c20983360fcbab4e74d4d5ec138bcb14eca9e9a904d4a30a469bc.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=136,147&startDate=2026-03-26&endDate=2026-03-30",
+      "observed_at": "2026-10-30T04:04:36.189377+00:00",
+      "sha256": "6626582c1080746b2d87a46275e01d1347996bd5d933a7e75cc3eb520c103b6b",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\e32b7ec002cf7e533b419d6867f386e50f48b1d9fb53ffbc175deaa011cfd9a1.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823163/feed/live",
+      "observed_at": "2026-10-30T04:04:37.605306+00:00",
+      "sha256": "c5446438056dfffffdde0cde81b2da48d666720fa1ef7ea369a2934417104b3a",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\dc2797444dc70c3fa7e243ef738c35dca5f8b9fe4f7696dcf12a3d5ffb88415d.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823243/feed/live",
+      "observed_at": "2026-10-30T04:03:47.810506+00:00",
+      "sha256": "7038c2ff1b4a49850f6dcec13ac5686b3dc88359af43b009ce505fb1d236edd2",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\fad9c0a1d3ebacd4c6dc6fb9bbb2620102f37c6cf48c5affe1585d64504466ad.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823162/feed/live",
+      "observed_at": "2026-10-30T04:03:49.239321+00:00",
+      "sha256": "4496549a54be079fa0867c0615aefeb431168f45ae71ec35a64ed21540f36f5b",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\2809032faf98f86c5df8000fe4b3fe61d18eae91712ea853c327b21d3cffa0ba.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823241/feed/live",
+      "observed_at": "2026-10-30T04:03:50.687661+00:00",
+      "sha256": "139de7a852289454ddbdb487cb1df3439fd8eb3f9746924b9a015266f415b69e",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\d6bec26bd29d3bddb17b8289decbd70bb92b0b03cc2ed2aac08f2227b1c58a95.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823161/feed/live",
+      "observed_at": "2026-10-30T04:03:52.039320+00:00",
+      "sha256": "f5e0f3c07ace517cc570cae5269f6b71b23a6dcfb181c7297698ded39cc9df94",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\795260295ac1e9ba4d84665118fdb4b93cfaa90718d5398a2b72dff8cbe1c36f.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823160/feed/live",
+      "observed_at": "2026-10-30T04:03:53.516806+00:00",
+      "sha256": "85e3fa21340572f90286cf622626d400361731063498b766de4655897975ab83",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\6d42e16420bb9caa3b1f2de16f6c06bc991faa99730ca24714c4a2b38d7ee86b.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=824458",
+      "observed_at": "2026-10-30T04:03:54.263370+00:00",
+      "sha256": "a379b717603c84bf841c707e77dbee220f8a6791a6243ba281e53a957f7e2762",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\c88ff444c656b907df39749d4b37a54005d4ed151b65e627e2be3f99fee5f1b4.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=114,112&startDate=2026-03-30&endDate=2026-04-03",
+      "observed_at": "2026-10-30T04:04:38.409476+00:00",
+      "sha256": "aabae3519b6ff41bbbf6f32ee1def19d93292f370c9837ea5fa5eaa88866fe0e",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\6e9edc0796aa8fe021f64e569c7ca6a7c72aa7e27ab0a6b7270160ff46b38523.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824702/feed/live",
+      "observed_at": "2026-10-30T04:04:39.875880+00:00",
+      "sha256": "99448a23456c481ec99944897a3a46e0f3ba99071a892dfaa0d48243479f3abd",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\78539412036ac8e334d239136b51dab19f7a7b92c0b1707fbf2bcb429212ab5d.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823972/feed/live",
+      "observed_at": "2026-10-30T04:04:41.122329+00:00",
+      "sha256": "a1d993acf0a18b53e3ac70373ff9bf776dacc0570b07eaf0f44d1c19f74fb5ba",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\a0ac0d5859dfcee0a1f60a8c1630830029dd31c4f636f767558d370047292ab7.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824699/feed/live",
+      "observed_at": "2026-10-30T04:03:56.264252+00:00",
+      "sha256": "5d076d7c55a97604f113f00f626f118b4a3d4078da7cf116f1cc696ea8e597a7",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\bbcb163d990f0ab2c87b05089a864a6e28c6cfd648d5e1e156d570334f034bf5.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823969/feed/live",
+      "observed_at": "2026-10-30T04:03:57.604382+00:00",
+      "sha256": "6ab64a57d7101875bd0529eef572bbf6d91b431583a8b6048328c7633c61092f",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\fa319e30b1a765f42e906829544201ce5e18b254011f303d0138190a70eaa06e.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824698/feed/live",
+      "observed_at": "2026-10-30T04:03:58.996213+00:00",
+      "sha256": "3ab44822a0d681e8b5d3d894dae2b0cbbf460809b0617a53b389dcdadbd81906",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\e2e964f8f694bafdb236dc34fb88b206f703e078fdf3e9eff7f215e837e6008b.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823970/feed/live",
+      "observed_at": "2026-10-30T04:04:00.281295+00:00",
+      "sha256": "b630a1f8c3b521d9e99f7d6066228628f29b073e336fd20fb9b3d01c04f24aaa",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\8468e8598b6de90ab6e440325f0b251b0fe18b36d61c1d2a102fb2c26a2718b5.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=813025",
+      "observed_at": "2026-10-30T04:03:25.016630+00:00",
+      "sha256": "65c082a34073b9116cbba90355c756827c760e612eb05a4ab3590fc6f865ced7",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\8ebd8ffac9d32bf3ef8eacc551e32a4f920a6e221b044d945dcc0e4b221de6ef.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=141,119&startDate=2025-10-27&endDate=2025-10-31",
+      "observed_at": "2026-10-30T04:03:25.682730+00:00",
+      "sha256": "e82d105ec34afcd606bfd2b55b8e9ed3dc45b26b8edcaacd615bfa0d586b87b3",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\92b752417220af156c1ba711c297776c97019079194fd0bf7e66e63d51bceb91.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/813032/feed/live",
+      "observed_at": "2026-10-30T04:03:27.478982+00:00",
+      "sha256": "415b138091fe05c183218fffa7a1c088aa13a706a6be06f46cceffa872b21bdf",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\a1bf5678c219ed4a6339e5a297e8aadf3178f150eee99711e900f829a738f3a8.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/813023/feed/live",
+      "observed_at": "2026-10-30T04:03:28.936501+00:00",
+      "sha256": "82b5132f1f884d1a1f49b4bda328459df76cbb77a1ab8ccb832357084df0a934",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\4a2c6f6b21f2c554a8e57d8417e785af59c313a3d2b5181d25011111b91fd4ed.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/813022/feed/live",
+      "observed_at": "2026-10-30T04:03:30.306109+00:00",
+      "sha256": "94f27d0bc75038a54047bd7e43b6ec9b8e9f266c67e7b74690afd17dcb932880",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\4854f54171db4892e9c5e82c73e2a4d37b9f0d4e27571adb7a0c641a3e20c494.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=824541",
+      "observed_at": "2026-10-30T04:03:30.988595+00:00",
+      "sha256": "fd70bc7ed92f47bcb9d55adae0b9cf4adb73811c01c95a78fb9a2a1b460364af",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\9e94683b455fb2e27a8a9098fd10fe5ed7d77ce65f9755c919b5fec0b26de4b7.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=113,111&startDate=2026-03-23&endDate=2026-03-27",
+      "observed_at": "2026-10-30T04:03:31.666781+00:00",
+      "sha256": "82d40f7cc07170bdd0e7e7b9014b30d38b5aea85af045d9ee3eaffe05bb238f2",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\dbef59f8f0153a5e182dc527cef89dd4e049e17d0e472f41df8c9d1dd28b825e.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=824539",
+      "observed_at": "2026-10-30T04:03:38.407376+00:00",
+      "sha256": "e336fa958243f755b8878e73fd19547e327d98f47d30a795fd9e7491fdc6d1a2",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\39872123336d7d67cb72daba45d7b33b4a0d87a573f4457189df300405fa744f.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=113,134&startDate=2026-03-27&endDate=2026-03-31",
+      "observed_at": "2026-10-30T04:03:39.071424+00:00",
+      "sha256": "3d12189e68129b74e5c4ffc5d7d4306d4e3975ae16eaacaa5460f527e20a78dc",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\c744dd80104786ba49700aa70420ac27c0b537d36c57969fdd04f9157d69af86.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824540/feed/live",
+      "observed_at": "2026-10-30T04:03:40.484849+00:00",
+      "sha256": "844fa5ab7345dbcde5b29a02724fae0b3e9e23687b4ead85727c52f01f5ca102",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\e4b2a8ba8746f2d2b3a9de469f46d9f5eaf66cd187fc2bc0dc88d18b36d7ddb9.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823651/feed/live",
+      "observed_at": "2026-10-30T04:03:41.977809+00:00",
+      "sha256": "059c753890e53cd7fd8e9c384e9ca5dad0d496b4e07c95bb5b5615dca45e2139",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\2cb240e7fd7a6bcc5d8b3697ef833aef3e2b4a2d58195091e046583b93ce2e95.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824538/feed/live",
+      "observed_at": "2026-10-30T04:03:43.512857+00:00",
+      "sha256": "76d0f11747ed321497300057f2a5d20c7771eb3f9f07f6b8a88bcfe84f1fed66",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\0ceb5b04406e81afef8c9fd406012866670e3e1c151fd25111dbcdeffc29bc91.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823647/feed/live",
+      "observed_at": "2026-10-30T04:03:45.138091+00:00",
+      "sha256": "02dff22e368577fd419461e3aabf6899e2d78bde81d2077baff2f24e837d86b7",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\09dec030fc3c0110731efa81e196d6cb9eb6be0a6d53142025d2d1c334cf29ce.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=823159",
+      "observed_at": "2026-10-30T04:03:45.823844+00:00",
+      "sha256": "216bc0bc2b29368fd2026a84ba9819c850c85f72079af3c6d717b03f61880460",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\fd2d5c3bdb4c20983360fcbab4e74d4d5ec138bcb14eca9e9a904d4a30a469bc.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=136,147&startDate=2026-03-27&endDate=2026-03-31",
+      "observed_at": "2026-10-30T04:03:46.501682+00:00",
+      "sha256": "bdf4f17c0a80490a430909980e1f68c484a65c1b70664cddd1071adb2f7574cf",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\f8f9f3d51749c6eb52c143a1fe17c38c0bd62ff4ffb8a550a859cc6b4abd76ff.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823243/feed/live",
+      "observed_at": "2026-10-30T04:03:47.810506+00:00",
+      "sha256": "7038c2ff1b4a49850f6dcec13ac5686b3dc88359af43b009ce505fb1d236edd2",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\fad9c0a1d3ebacd4c6dc6fb9bbb2620102f37c6cf48c5affe1585d64504466ad.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823162/feed/live",
+      "observed_at": "2026-10-30T04:03:49.239321+00:00",
+      "sha256": "4496549a54be079fa0867c0615aefeb431168f45ae71ec35a64ed21540f36f5b",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\2809032faf98f86c5df8000fe4b3fe61d18eae91712ea853c327b21d3cffa0ba.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823241/feed/live",
+      "observed_at": "2026-10-30T04:03:50.687661+00:00",
+      "sha256": "139de7a852289454ddbdb487cb1df3439fd8eb3f9746924b9a015266f415b69e",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\d6bec26bd29d3bddb17b8289decbd70bb92b0b03cc2ed2aac08f2227b1c58a95.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823161/feed/live",
+      "observed_at": "2026-10-30T04:03:52.039320+00:00",
+      "sha256": "f5e0f3c07ace517cc570cae5269f6b71b23a6dcfb181c7297698ded39cc9df94",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\795260295ac1e9ba4d84665118fdb4b93cfaa90718d5398a2b72dff8cbe1c36f.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823160/feed/live",
+      "observed_at": "2026-10-30T04:03:53.516806+00:00",
+      "sha256": "85e3fa21340572f90286cf622626d400361731063498b766de4655897975ab83",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\6d42e16420bb9caa3b1f2de16f6c06bc991faa99730ca24714c4a2b38d7ee86b.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?gamePk=824458",
+      "observed_at": "2026-10-30T04:03:54.263370+00:00",
+      "sha256": "a379b717603c84bf841c707e77dbee220f8a6791a6243ba281e53a957f7e2762",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\c88ff444c656b907df39749d4b37a54005d4ed151b65e627e2be3f99fee5f1b4.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=114,112&startDate=2026-03-31&endDate=2026-04-04",
+      "observed_at": "2026-10-30T04:03:54.950709+00:00",
+      "sha256": "579f132374a0a50ac6d91db580b012fbddb6db77809553b2e328ae09c4c2f9e2",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\ed515bec8d4b5d5f0c4f3b7f958e89d7dc8a778ea7a68797c8b112ae1860f486.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824699/feed/live",
+      "observed_at": "2026-10-30T04:03:56.264252+00:00",
+      "sha256": "5d076d7c55a97604f113f00f626f118b4a3d4078da7cf116f1cc696ea8e597a7",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\bbcb163d990f0ab2c87b05089a864a6e28c6cfd648d5e1e156d570334f034bf5.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823969/feed/live",
+      "observed_at": "2026-10-30T04:03:57.604382+00:00",
+      "sha256": "6ab64a57d7101875bd0529eef572bbf6d91b431583a8b6048328c7633c61092f",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\fa319e30b1a765f42e906829544201ce5e18b254011f303d0138190a70eaa06e.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824698/feed/live",
+      "observed_at": "2026-10-30T04:03:58.996213+00:00",
+      "sha256": "3ab44822a0d681e8b5d3d894dae2b0cbbf460809b0617a53b389dcdadbd81906",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\e2e964f8f694bafdb236dc34fb88b206f703e078fdf3e9eff7f215e837e6008b.json.gz"
+    },
+    {
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823970/feed/live",
+      "observed_at": "2026-10-30T04:04:00.281295+00:00",
+      "sha256": "b630a1f8c3b521d9e99f7d6066228628f29b073e336fd20fb9b3d01c04f24aaa",
+      "path": "experiments\\pregame-rd-baseball-20261030\\raw\\8468e8598b6de90ab6e440325f0b251b0fe18b36d61c1d2a102fb2c26a2718b5.json.gz"
+    }
+  ],
+  "network_requests_this_run": 0,
+  "total_cached_sources": 39
+}
