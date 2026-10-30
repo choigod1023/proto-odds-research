@@ -1,0 +1,54 @@
+{
+  "role": "adapter_independent_review",
+  "status": "draft_pr_pending",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-adapter-review-20261030",
+  "base_sha": "90b374348c42478675ac48aadb8815f6c093d858",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": null,
+  "changed_paths": [
+    "experiments/accuracy-adapter-review-20261030/**",
+    "tests/test_accuracy_adapter_review.py",
+    "docs/research/2026-10-30-accuracy-adapter-review.md"
+  ],
+  "inputs_and_sha": {
+    "pr436_head": "45a2197abebf7a0c577c981e7020419c965b02c6",
+    "pr438_head": "a079e5136fc2b75a0f72b4dec36af3f47e825790",
+    "source_files": {
+      "development/__init__.py": "3de692bb6e616207ebb36ecb8d9dae27c188161ea338885b1e246e23ad1c008c",
+      "development/adapter.py": "7fecbac6c463791b950bc6dc36cd054092465929753d0beb47b1e2c816bb1354",
+      "development/bridge.py": "e020939a6a452cf15edb80a83bf26ca382b23858d908c432ecaa7d72b703322a",
+      "development/baseline_model.py": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1",
+      "development/vendor_structure_v1/schema.json": "8f0fc6ca031b776a0f01dc3c8e90bfae5c9ed63549906f570c6ffc75ba315307",
+      "development/vendor_structure_v1/validator.py": "d999a996b4958b8e483d72d1e0f049f4fb707c5be01eb874c43af422eb797294",
+      "development/vendor_structure_v1/fixture-pregame.json": "9d9714c1ebf3e81a8c911fb55ef76ea5867213989e4593d3604a0a12a4d55e73",
+      "structure/schema.json": "e794db58efee825bfb3040354f5fac7eacab33820a478eca2aba25a9572a64d9",
+      "structure/validator.py": "6c91e5a32f3f29ecd51dda3f880d9079cd7745303772c887b0d009be5473636a",
+      "structure/fixture-pregame.json": "1d7f6d213db0aa41cb8055797d65335bf0a14f1aca524fc8d006f55f224d2760",
+      "development/original-tests.txt": "dc2f6147ade05a95fa684f5b701a7f6a02e555e6b7a57aa638178e826467915c"
+    }
+  },
+  "tests": {
+    "targeted": "12 passed",
+    "full": "1889 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "accuracy": "not evaluated",
+    "roi": "not evaluated",
+    "independent_certification": "not performed"
+  },
+  "limitations": [
+    "synthetic tests only",
+    "external verifier not implemented in source",
+    "official identity and historical training provenance not checked",
+    "no production deployment inspected"
+  ],
+  "blockers": [
+    "decision_at excluded from contract passed to verifier",
+    "always-true verifier accepts swapped state team mapping and unverified state availability claim",
+    "old bundled v1 shape rejects current structure v1.1",
+    "official identities remain dependent on trusted bridge and verifier"
+  ],
+  "next_dependency": "bind decision time and provenance to trusted verification; independent mapping and state history evidence; decide and test latest structure compatibility"
+}
