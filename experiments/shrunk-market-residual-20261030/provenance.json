@@ -1,0 +1,86 @@
+[
+  {
+    "name": "cases",
+    "upstream_worktree": "link-new-source-evidence-20261030",
+    "upstream_commit": "8b7a49ca8bab4d1d1fb4836a500dc97f8bbb5bd7",
+    "path": "experiments/source-link-step2-20261030/inputs/cases.jsonl.gz",
+    "source_sha256": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
+    "git_blob": "f6d5e246403c50239d2e226012f47a31e7987583",
+    "projection": false,
+    "rows": 7401,
+    "input_path": "inputs/cases.jsonl.gz",
+    "sha256": "cbaea95e017e09eb49d782e77e09e7e20a90a2e2614c1eb741c7be8a5e19a02f"
+  },
+  {
+    "name": "history",
+    "upstream_worktree": "baseball-league-fit-20261029",
+    "upstream_commit": "f32417e0aa12ee7d0466dcb1f199944bde64af0a",
+    "path": "experiments/baseball-league-fit-20261029/history.jsonl",
+    "source_sha256": "5f02efaa86a95d4b9dae7830d64115c2d2b36abc973a5e8ed6d6f63a2881dc5f",
+    "git_blob": "30699cc2ed98180c438add8c15452a3d366f0f87",
+    "projection": true,
+    "rows": 15722,
+    "input_path": "inputs/history.jsonl.gz",
+    "sha256": "07348651fc1a2a49820f81f8bf063a40304cfb4b4816351f6cefee11c6bc4a28"
+  },
+  {
+    "name": "canonical_targets",
+    "upstream_worktree": "baseball-league-fit-20261029",
+    "upstream_commit": "f32417e0aa12ee7d0466dcb1f199944bde64af0a",
+    "path": "experiments/baseball-league-fit-20261029/targets.jsonl",
+    "source_sha256": "fbc4e3de832678aba27d2ed9281a5f8db964817b33b7e33a2050b8f2a726f2f4",
+    "git_blob": "eaa89185d98b1b86be979052498c29eb0f2bb028",
+    "projection": true,
+    "rows": 434,
+    "input_path": "inputs/canonical_targets.jsonl.gz",
+    "sha256": "d9f418e66c25633953b1a04765d923ae26209187ee816b7d27bfc1918d78e5df"
+  },
+  {
+    "name": "official_phase2",
+    "upstream_worktree": "link-new-source-evidence-20261030",
+    "upstream_commit": "8b7a49ca8bab4d1d1fb4836a500dc97f8bbb5bd7",
+    "path": "experiments/source-link-baseball-20261030/phase2/features.jsonl.gz",
+    "source_sha256": "348c2bb57ffd2bb3ff1b54198062f96faa0bb5a215e512fbc5054698f367df98",
+    "git_blob": "48b1a0d4bcb95624beb27c328e7a9e6725db8f1a",
+    "projection": false,
+    "rows": 173,
+    "input_path": "inputs/official_phase2.jsonl.gz",
+    "sha256": "32620301336ab93545cd054cdb6b6675143ffd7a59360f04d8e40cf8b22b5e14"
+  },
+  {
+    "name": "official_phase3",
+    "upstream_worktree": "link-new-source-evidence-20261030",
+    "upstream_commit": "8b7a49ca8bab4d1d1fb4836a500dc97f8bbb5bd7",
+    "path": "experiments/source-link-baseball-20261030/phase3/features.jsonl.gz",
+    "source_sha256": "f085554b0572b63e7fb63ecf692b239527fa8f6cc60c8edb843b6cddf386be07",
+    "git_blob": "8a57e47ea701e67deb262e1d0b733a89b4a23b59",
+    "projection": false,
+    "rows": 40,
+    "input_path": "inputs/official_phase3.jsonl.gz",
+    "sha256": "f643c4cb1acbaffc004079070fd1176b96dc3315eaec89e359438169f4642f37"
+  },
+  {
+    "name": "mlb_calendar",
+    "upstream_worktree": "pregame-feature-rd-20261030",
+    "upstream_commit": "8bb66e8bccd4ac68fe46a2b59e75147a84de9679",
+    "path": "experiments/pregame-rd-baseball-20261030/calendar-features.jsonl.gz",
+    "source_sha256": "6b8442493ca059946a92b50ba9d74f2188d8bdb25fffe54a3d73e57ff31f63c1",
+    "git_blob": "5ed34900a72d8d1afb9f332d3aa550bfc1c40f23",
+    "projection": false,
+    "rows": 5800,
+    "input_path": "inputs/mlb_calendar.jsonl.gz",
+    "sha256": "be6d4fc3a2844874d697dd4e00b8f634b9bdfe0fd4b1dc9b93ed0491f44ee477"
+  },
+  {
+    "name": "mlb_exact",
+    "upstream_worktree": "pregame-feature-rd-20261030",
+    "upstream_commit": "8bb66e8bccd4ac68fe46a2b59e75147a84de9679",
+    "path": "experiments/pregame-rd-baseball-20261030/features.jsonl.gz",
+    "source_sha256": "b5d6b0c012552f7c71ca4f24458b0c131b3d0f3a36d1422fe12aa79a714ff1ff",
+    "git_blob": "8a237bd48f9f8f24907d667b1960ec9c9d2b6c51",
+    "projection": false,
+    "rows": 10,
+    "input_path": "inputs/mlb_exact.jsonl.gz",
+    "sha256": "ca7d721fc840b2d4b45c5174c5f6c007e44c18471c7ace72347f5e122b1f6eb4"
+  }
+]
