@@ -31,14 +31,13 @@
     }
   ],
   "tests": {
-    "targeted": "2 passed",
-    "full": "1862 passed, 6 skipped, 93 subtests passed"
+    "targeted": "4 passed; prior and official result poisoning and duplicate candidate ambiguity",
+    "full": "1864 passed, 6 skipped, 93 subtests passed"
   },
   "metrics": {
     "k2_2025_finals": 275,
     "unique_official_ids": 275,
     "prior_history_rows": 23,
-    "exact_date_team_score_matches": 23,
     "additional_result_candidates": 252,
     "official_lineup_player_rows": 0,
     "pregame_lineup_receipts": 0,
@@ -46,15 +45,23 @@
     "scheduled_k1": 24,
     "scheduled_k2": 32,
     "scheduled_kbo": 1,
-    "direct_http_requests": 24
+    "direct_http_requests": 24,
+    "unique_date_team_identity_matches": 23,
+    "ambiguous_or_unmatched": 0,
+    "post_match_score_agreements": 23
   },
   "limitations": [
-    "Past history lacks official ID and kickoff time; match is date, teams and score, not direct ID or exact timestamp.",
+    "Past history lacks official ID and kickoff time; identity uses league, date and teams only, then score reconciliation; no independent ID or exact timestamp check.",
     "No historical pregame receipt, product, price or independent settlement established.",
     "K1 and K2 lineup PDF route returned HTML; KBO lineup unavailable at sample time.",
     "No performance candidate tested; protocol commit not applicable."
   ],
   "blockers": [],
   "next_dependency": "Coordinator decides whether to integrate the historical results; collect new confirmed player identities and independent receipts before prospective use.",
-  "commit_note": "Implementation commit; handoff update is a subsequent commit."
+  "commit_note": "Initial implementation commit; consult PR head for later handoff and review-fix commits.",
+  "derived_inputs_sha256_lf": {
+    "prior_derived_lf_bytes": "2d2e9a6a6ee10fa2ced174b33674f33faa77f6948a73679eeb6d54507a24eef9",
+    "official_derived_lf_bytes": "0092305a7d59473c37b9f9f71b7e52d2cef92d37348e1f1bd9db74890295315a"
+  },
+  "source_hash_note": "raw_sha256 is HTTP response bytes, unavailable to rehash because bodies were not retained; derived JSON hashes use LF-normalized bytes."
 }
