@@ -31,8 +31,8 @@
     }
   ],
   "tests": {
-    "targeted": "4 passed; prior and official result poisoning and duplicate candidate ambiguity",
-    "full": "1864 passed, 6 skipped, 93 subtests passed"
+    "targeted": "6 passed including duplicate ID across keys with poisoned scores and missing ID",
+    "full": "1883 passed, 6 skipped, 93 subtests passed"
   },
   "metrics": {
     "k2_2025_finals": 275,
@@ -48,7 +48,8 @@
     "direct_http_requests": 24,
     "unique_date_team_identity_matches": 23,
     "ambiguous_or_unmatched": 0,
-    "post_match_score_agreements": 23
+    "post_match_score_agreements": 23,
+    "duplicate_official_ids": 0
   },
   "limitations": [
     "Past history lacks official ID and kickoff time; identity uses league, date and teams only, then score reconciliation; no independent ID or exact timestamp check.",
@@ -58,10 +59,12 @@
   ],
   "blockers": [],
   "next_dependency": "Coordinator decides whether to integrate the historical results; collect new confirmed player identities and independent receipts before prospective use.",
-  "commit_note": "Initial implementation commit; consult PR head for later handoff and review-fix commits.",
+  "commit_note": "Initial implementation commit; consult PR head for subsequent review fixes.",
   "derived_inputs_sha256_lf": {
     "prior_derived_lf_bytes": "2d2e9a6a6ee10fa2ced174b33674f33faa77f6948a73679eeb6d54507a24eef9",
     "official_derived_lf_bytes": "0092305a7d59473c37b9f9f71b7e52d2cef92d37348e1f1bd9db74890295315a"
   },
-  "source_hash_note": "raw_sha256 is HTTP response bytes, unavailable to rehash because bodies were not retained; derived JSON hashes use LF-normalized bytes."
+  "source_hash_note": "raw_sha256 is HTTP response bytes, unavailable to rehash because bodies were not retained; derived JSON hashes use LF-normalized bytes.",
+  "identity_rule": "Reject entire input when any official ID is missing or duplicated before matching; match unique league/date/home/away keys, then reconcile scores.",
+  "integrated_main_sha": "90b374348c42478675ac48aadb8815f6c093d858"
 }

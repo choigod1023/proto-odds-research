@@ -13,6 +13,11 @@ def key_official(row):
     return (row['league'], row['kickoff_at'][:10], row['home'], row['away'])
 
 def link(prior, official):
+    official_ids = [row['official_game_id'] for row in official]
+    if any(not isinstance(ident, str) or not ident.strip() for ident in official_ids):
+        raise ValueError('missing official game ID')
+    if len(official_ids) != len(set(official_ids)):
+        raise ValueError('duplicate official game ID')
     index = defaultdict(list)
     for row in official:
         index[key_official(row)].append(row)

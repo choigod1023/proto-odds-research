@@ -71,7 +71,7 @@ def test_recomputed_all_hashes_require_trusted_snapshot():
     after['quotes'][0]['odds']['home']=9.9
     observations={o['observation_id']:o for o in after['observations']}
     f=after['freezes'][0]
-    f['input_content_sha256']=v.content_digest(after['quotes'][0], after['lineups'], observations)
+    f['input_content_sha256']=v.content_digest(after['games'][0], after['products'][0], after['aliases'], after['quotes'][0], after['lineups'], observations)
     f['freeze_hash']=v.digest(f)
     assert v.validate(after)
     with pytest.raises(v.Invalid, match='history changed'):
@@ -84,7 +84,42 @@ def test_v1_is_not_silently_accepted_as_v1_1():
 def test_content_digest_matches_independent_canonical_encoding():
     import hashlib
     d=fixture(); f=d['freezes'][0]; o=d['observations'][0]
-    payload={'domain':'accuracy-structure-v1.1-inputs','quote':d['quotes'][0],
+    payload={'domain':'accuracy-structure-v1.2-inputs','game':d['games'][0], 'product':d['products'][0], 'identity_aliases':d['aliases'], 'quote':d['quotes'][0],
              'quote_observation':o,'lineups':[{'lineup':d['lineups'][0], 'observation':o}]}
     raw=json.dumps(payload,sort_keys=True,ensure_ascii=False,separators=(',', ':'),allow_nan=False).encode('utf-8')
     assert hashlib.sha256(raw).hexdigest()==f['input_content_sha256']
+
+
+@pytest.mark.parametrize('mutation', [
+    lambda d: d['games'][0].update(kickoff_at='2026-10-30T12:00:00+00:00'),
+    lambda d: d['games'][0].update(away_team_id='another-away'),
+    lambda d: d['aliases'][0].update(official_id='other-game'),
+    lambda d: d['products'][0]['outcomes'].reverse(),
+])
+def test_frozen_identity_and_product_content_cannot_change(mutation):
+    d=fixture(); mutation(d)
+    with pytest.raises(v.Invalid): v.validate(d)
+
+def test_unselected_alias_can_be_appended_without_rehash():
+    before=fixture(); after=copy.deepcopy(before)
+    after['aliases'].append({'canonical_game_id':'g1','authority':'second-source','official_id':'other-id'})
+    assert v.validate(after) and v.validate_append(before,after)
+    assert after['freezes'][0] == before['freezes'][0]
+
+def test_selected_alias_refs_are_unique_and_match_game():
+    d=fixture(); d['freezes'][0]['identity_aliases'].append(copy.deepcopy(d['freezes'][0]['identity_aliases'][0]))
+    with pytest.raises(v.Invalid, match='duplicate identity alias reference'): v.validate(d)
+    d=fixture(); g=copy.deepcopy(d['games'][0]); g['canonical_game_id']='g2'; d['games'].append(g)
+    d['aliases'].append({'canonical_game_id':'g2','authority':'other','official_id':'id2'})
+    d['freezes'][0]['identity_aliases']=[{'authority':'other','official_id':'id2'}]
+    with pytest.raises(v.Invalid, match='identity alias mismatch'): v.validate(d)
+
+def test_v1_1_rejected_and_rehash_of_identity_still_needs_snapshot():
+    before=fixture(); old=copy.deepcopy(before); old['schema_version']='v1.1'; old['freezes'][0].pop('identity_aliases')
+    with pytest.raises(v.Invalid): v.validate(old)
+    after=copy.deepcopy(before); after['games'][0]['kickoff_at']='2026-10-30T12:00:00+00:00'
+    f=after['freezes'][0]; obs={o['observation_id']:o for o in after['observations']}
+    f['input_content_sha256']=v.content_digest(after['games'][0],after['products'][0],after['aliases'],after['quotes'][0],after['lineups'],obs)
+    f['freeze_hash']=v.digest(f)
+    assert v.validate(after)
+    with pytest.raises(v.Invalid, match='history changed'): v.validate_append(before,after)

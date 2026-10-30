@@ -55,7 +55,7 @@ def test_compressed_only_and_revision_refresh(tmp_path, monkeypatch):
     db.store_artifact('sample', {'generated_at': 'old', 'history': ['abc'] * 10000})
     cache = ArtifactResponses(db)
     first = cache.get_bytes('sample')
-    assert len(cache.ready['sample']) == 2
+    assert len(cache.ready['sample']) == 3
     assert len(first) < len(gzip.decompress(first)) / 10
     assert cache.get_bytes('sample', compressed=False) == gzip.decompress(first)
     original = db.get_artifact_json
@@ -109,3 +109,23 @@ def test_proto_labels_skip_prediction_objects(tmp_path, monkeypatch):
     monkeypatch.setattr(live_scores, 'load_artifact', lambda *a: (_ for _ in ()).throw(AssertionError('full load')))
     assert live_scores._proto_games() == [expected, expected]
     assert RuntimeDatabase(tmp_path / 'empty.db').proto_team_labels() == []
+
+def test_conditional_response_uses_selected_body_and_avoids_inflation(tmp_path, monkeypatch):
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    original = {'generated_at': 'old', 'live': [{'options': ['한글'] * 5000}]}
+    db.store_artifact('picks_v2', original)
+    slot = threading.Lock()
+    cache = ArtifactResponses(db, memory_lock=slot)
+    wire, tag = cache.get_response('picks_v2')
+    assert json.loads(gzip.decompress(wire)) == original
+    monkeypatch.setattr(gzip, 'decompress', lambda _: (_ for _ in ()).throw(AssertionError('unnecessary inflate')))
+    assert cache.get_response('picks_v2', compressed=False, if_none_match=tag) == (None, tag)
+    db.store_artifact('picks_v2', {'generated_at': 'new', 'live': []})
+    with db.connect() as c:
+        c.execute("UPDATE artifacts SET stored_at='next' WHERE name='picks_v2'")
+    # A blocked rebuild serves the old body and its own validator, not the new DB revision.
+    with slot:
+        assert cache.get_response('picks_v2', if_none_match=tag) == (None, tag)
+    new_wire, new_tag = cache.get_response('picks_v2', if_none_match=tag)
+    assert new_wire and new_tag != tag
+    assert cache.get_response('picks_v2', if_none_match='"unmatched"')[0] == new_wire
