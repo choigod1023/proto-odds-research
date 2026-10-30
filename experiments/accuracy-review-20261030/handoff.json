@@ -1,0 +1,42 @@
+{
+  "role": "independent_review",
+  "status": "draft_pr_open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-review-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": "0de1f67c (PR433 original protocol; this review is not a new performance experiment)",
+  "commit": "4f305a91 (review implementation; handoff metadata is a later commit)",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/439",
+  "changed_paths": [
+    "experiments/accuracy-review-20261030/**",
+    "tests/test_accuracy_review_independent.py",
+    "docs/research/2026-10-30-accuracy-review.md"
+  ],
+  "inputs_and_sha": {
+    "predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+    "results.json": "fc780df6f4fede73f81948dfd1bafe3325acf95803da6573ddd02975603f6d07",
+    "targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0"
+  },
+  "tests": [
+    "python -m pytest -q tests/test_accuracy_review_independent.py: 2 passed",
+    "python -m pytest -q: 1861 passed, 6 skipped, 93 subtests passed (first test version; final second fixture test passed separately)",
+    "independent recheck: 23752 settlements; 1400 summary values, zero differences",
+    "710 target rows vs upstream normalized cases: zero duplicate/missing/field mismatches"
+  ],
+  "metrics": {
+    "2026_actual_votes": 445,
+    "selected_eligible_leagues_n": 436,
+    "late_publication_claims_after_decision_in_actual_2026": 0,
+    "comparison_family": 80,
+    "reported_significant_improvement": 0
+  },
+  "limitations": [
+    "retrospective data; pregame receipt certification 0",
+    "source normalization and executable prices not independently certified",
+    "intervals and tests not independently rerun",
+    "full training replay not performed",
+    "deployment version not checked"
+  ],
+  "blockers": [],
+  "next_dependency": "independently witnessed prospective receipts, same-product executable price, result evidence and coordinator schema decision"
+}
