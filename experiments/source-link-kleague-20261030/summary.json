@@ -1,0 +1,164 @@
+{
+  "local_raw_games": 816,
+  "local_team_rows": 1632,
+  "local_player_start_rows": 17952,
+  "local_missing_assists": 5104,
+  "official_games_verified_xi_stats": 11,
+  "official_team_rows": 22,
+  "official_start_rows": 242,
+  "official_all_stat_rows_including_rejected_xi": 515,
+  "combined_team_rows": 1652,
+  "PR424_raw_xi_agree_team_rows": 1632,
+  "identity_crosschecks": [
+    {
+      "key": [
+        "K리그1",
+        "2026-07-04",
+        "전북"
+      ],
+      "source_ids": [
+        "naver:20260704052191:home",
+        "official:2026:1:91:home"
+      ],
+      "exact_xi_player_ids": [
+        "20100052",
+        "20130142",
+        "20140143",
+        "20150104",
+        "20170121",
+        "20180212",
+        "20190057",
+        "20190084",
+        "20230029",
+        "20230043",
+        "20230224"
+      ],
+      "nonmissing_goal_assist_agree": true
+    },
+    {
+      "key": [
+        "K리그1",
+        "2026-07-04",
+        "강원"
+      ],
+      "source_ids": [
+        "naver:20260704052191:away",
+        "official:2026:1:91:away"
+      ],
+      "exact_xi_player_ids": [
+        "20130134",
+        "20160098",
+        "20170164",
+        "20170182",
+        "20180057",
+        "20200066",
+        "20200077",
+        "20210112",
+        "20230270",
+        "20230308",
+        "20240097"
+      ],
+      "nonmissing_goal_assist_agree": true
+    }
+  ],
+  "conflicts": [],
+  "local_rejected": [],
+  "rows": {
+    "primary": {
+      "total": 24,
+      "any_feature": 13,
+      "both_teams_strength": 9,
+      "actual_stat_strength": 13,
+      "by_league": {
+        "K리그1": {
+          "total": 15,
+          "actual_stat_strength": 12
+        },
+        "K리그2": {
+          "total": 9,
+          "actual_stat_strength": 1
+        }
+      }
+    },
+    "archive": {
+      "total": 733,
+      "any_feature": 709,
+      "both_teams_strength": 705,
+      "actual_stat_strength": 709,
+      "by_league": {
+        "K리그1": {
+          "total": 733,
+          "actual_stat_strength": 709
+        },
+        "K리그2": {
+          "total": 0,
+          "actual_stat_strength": 0
+        }
+      }
+    }
+  },
+  "fields": {
+    "kleague_strength_prior_home_xi_goal_known_share": 717,
+    "kleague_strength_prior_home_xi_goal_known_mean": 717,
+    "kleague_strength_prior_home_xi_assist_known_share": 717,
+    "kleague_strength_prior_home_attack_goal_known_mean": 717,
+    "kleague_strength_prior_away_xi_goal_known_share": 719,
+    "kleague_strength_prior_away_xi_goal_known_mean": 719,
+    "kleague_strength_prior_away_xi_assist_known_share": 719,
+    "kleague_strength_prior_away_attack_goal_known_mean": 719,
+    "kleague_strength_prior_home_rotation_goal_net": 384,
+    "kleague_strength_prior_away_rotation_goal_net": 401,
+    "kleague_strength_prior_home_xi_assist_known_mean": 501,
+    "kleague_strength_prior_away_xi_assist_known_mean": 503,
+    "kleague_strength_prior_home_rotation_assist_net": 262,
+    "kleague_strength_prior_away_rotation_assist_net": 270
+  },
+  "missing_reasons": {
+    "home:no_player_stats_before_reference_xi": 27,
+    "away:no_player_stats_before_reference_xi": 26,
+    "home:xi_goal_history_missing_players:3": 23,
+    "home:rotation_goal_net:missing_entrant_or_leaver_stats": 284,
+    "home:xi_assist_history_missing_players:11": 216,
+    "home:rotation_assist_net:missing_entrant_or_leaver_stats": 406,
+    "away:xi_goal_history_missing_players:1": 169,
+    "away:rotation_goal_net:missing_entrant_or_leaver_stats": 268,
+    "away:xi_assist_history_missing_players:11": 216,
+    "away:rotation_assist_net:missing_entrant_or_leaver_stats": 399,
+    "home:xi_goal_history_missing_players:2": 73,
+    "away:rotation_goal_net:no_prior_rotation": 50,
+    "away:rotation_assist_net:no_prior_rotation": 50,
+    "home:xi_goal_history_missing_players:1": 170,
+    "away:xi_goal_history_missing_players:3": 26,
+    "away:xi_goal_history_missing_players:4": 16,
+    "away:xi_goal_history_missing_players:2": 52,
+    "home:xi_goal_history_missing_players:4": 11,
+    "home:rotation_goal_net:no_prior_rotation": 49,
+    "home:rotation_assist_net:no_prior_rotation": 49,
+    "home:xi_assist_history_missing_players:3": 18,
+    "away:xi_assist_history_missing_players:3": 17,
+    "home:xi_assist_history_missing_players:2": 58,
+    "away:xi_assist_history_missing_players:1": 127,
+    "home:xi_goal_history_missing_players:5": 4,
+    "home:xi_assist_history_missing_players:5": 4,
+    "away:xi_assist_history_missing_players:4": 11,
+    "home:xi_assist_history_missing_players:4": 8,
+    "away:xi_assist_history_missing_players:2": 39,
+    "home:xi_assist_history_missing_players:1": 112,
+    "away:xi_goal_history_missing_players:9": 1,
+    "away:xi_assist_history_missing_players:9": 1,
+    "home:xi_goal_history_missing_players:6": 2,
+    "home:xi_assist_history_missing_players:6": 2,
+    "away:xi_goal_history_missing_players:5": 3,
+    "away:xi_assist_history_missing_players:5": 3,
+    "home:no_eligible_same_season_player_history": 5,
+    "away:no_eligible_same_season_player_history": 3,
+    "away:xi_goal_history_missing_players:6": 1,
+    "away:xi_assist_history_missing_players:6": 1,
+    "home:xi_goal_history_missing_players:7": 1,
+    "home:xi_assist_history_missing_players:7": 1,
+    "away:stale_reference_xi_over30days": 9,
+    "home:stale_reference_xi_over30days": 8
+  },
+  "asof": "retrospective date-only; no captured_pregame claim",
+  "outcomes_or_models_read": false
+}
