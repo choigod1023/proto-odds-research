@@ -1,0 +1,503 @@
+[
+  {
+    "number": 398,
+    "title": "research: 여러 작성자 과거 1년 범위 픽·동일 배당 ROI 검증",
+    "state": "open",
+    "head": "f545f3073f82ae13c278849bae4c656416ee7628",
+    "branch": "codex/tipster-year-validation-20261028",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/398",
+    "body": "세 날짜 20경기로 장기 수익을 판단할 수 없어, 2025-10-28~2026-10-27을 목표로 여러 작성자의 간헐적인 과거 추천을 수집하고 같은 경기·같은 가격에서 비교했습니다. 8개 출처·작성자 표기 44개·추천 후보 2,770건을 보존했습니다. 종목별 누락과 기존 표본 중복 25건도 공개합니다.\n\n주 분석은 공식 결과·정산 범위를 확인한 912픽/742경기이며, 같은 프로토 배당 비교는 492경기입니다. 시장 ROI -10.11%, 픽스터 투표 -8.10%, 시장90:픽스터10 -8.97%로 모두 적자입니다. 혼합의 시장 대비 차이는 +1.14%p, 주 단위 부트스트랩 95% 구간 -6.28~+9.09%p여서 개선을 확정할 수 없습니다. 농구 연장 포함을 가정한 580경기 보충 분석은 별도 파일로 분리했습니다.\n\n단폴 1만 원·전 종목 합산 월 순손실 5만 원·당일 미정산 노출 예약 규칙을 유지했습니다. 공식 NBA 날짜별 SSR 1,227경기, K리그 485경기를 추가 연결하고 프로토 162회차/6,304행의 가격을 공식 결과와 별도로 대조했습니다. 전체 원문 본문은 로컬 캐시로 남기고 재배포하지 않으며 구조화한 추천·가격·점수·URL·해시와 오프라인 재현 코드를 보존합니다.\n\n검증: pytest 44개 통과, 주/보충 분석 전체 정산과 동일 가격 수익·월 한도를 독립 산식으로 재검산, 입력/산출물 해시 기록, compileall 및 diff check 통과. 현행 운영 예측의 동결 재생·경기 전 게시 인증은 미확보입니다. 운영 코드 변경·모델 채택·병합·배포를 수행하지 않았습니다.\n\n상세 결과: docs/research/2026-10-28-tipster-year-multi-author.md\n",
+    "body_sha256": "c152965c9e53dc478e54203f0f9039ff822b6593350ad4bc26712fc0c8028b4d",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-28-tipster-expansion-roi.md",
+        "sha256": "84d42109f6dd99537656aa272ef2c9976597b0e42781594dd77ae0f25af5872e"
+      },
+      {
+        "path": "docs/research/2026-10-28-tipster-year-multi-author.md",
+        "sha256": "e9f36b86c1f17523a1db348f544afd0aba7868f33c72ee36e3363fc86a63d915"
+      }
+    ]
+  },
+  {
+    "number": 399,
+    "title": "feat: 실제 추천과 모의 운용을 픽스터 투표 단폴로 전환",
+    "state": "closed",
+    "head": "8fd55b325f15452d5593a1694db7a00b0b772bfb",
+    "branch": "codex/tipster-vote-selection-20261028",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/399",
+    "body": "실제 경기별 추천을 `market90-tipster10-v2`에서 `tipster-vote-v1`으로 전환합니다. 작성자별 경기 전 최초 관측 한 표를 모아 유일한 최다 득표 방향을 고르고, 투표 없음·동률은 보류합니다. 투표가 시장의 약세 방향을 골라도 그대로 선택하되 지지율을 적중확률로 바꾸지 않습니다. 확률·EV 입력은 동일 선택의 시장값을 유지하며 수익성 미검증 표시를 보존합니다.\n\nT-30 동결·과거 혼합 버전·배당·공식 정산 원장을 소급 변경하지 않습니다. 오늘 후보도 판정 원장의 정확한 선택·offer에 연결하고, 더 최근의 보류가 오래된 픽으로 신규 모의 거래를 만들지 않게 revision별 기록을 보존합니다. 기존 일일 관심 하이라이트 기준은 유지합니다.\n\n모의 운용 신규 거래는 `tipster-vote-single-v1` 단폴 1만 원 계정 하나로 전환하고 기존 계정은 정산만 이어갑니다. 전 종목과 미정산 노출을 합산한 월 순손실 5만 원 제한·실매수 금지를 유지합니다. 자동 보고는 실행 요약/아티팩트로 보존합니다.\n\n검증: Python 1,562개·93 subtests 통과(5 skipped), 웹 270개 및 프로덕션 빌드 통과. 투표 없는 보류, 동률, 동일 최초 시각의 상반된 표, 늦은 표, 역배 선택, 지지율/확률 분리, 동결 호환, 변경 전 revision의 공식 정산, 전체 모의 예산을 확인했습니다. 사용자에게 CI 통과 후 병합·배포 및 실제 화면 확인을 요청받았습니다.\n",
+    "body_sha256": "f4c54c32a386a5e4c62fc0fe17cf9abb6052aa018f81b8aee83e87dd3c92bf38",
+    "reports": []
+  },
+  {
+    "number": 400,
+    "title": "perf: KBO 표시 갱신 때 기존 경기 응답 재사용",
+    "state": "open",
+    "head": "cabcf4fbd1fb08a56a883cb0b50b0632231ebb15",
+    "branch": "codex/refresh-bottleneck-audit-20261028",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/400",
+    "body": "KBO 수집 시각이 바뀔 때 예측 산출물이 동일해도 전체 2,841경기를 다시 읽고 상세를 직렬화·압축해 공통 메모리 슬롯을 오래 점유했습니다. 예측 revision·KST 날짜·요청 scope가 유지되는 경우 압축 상세를 재사용하고 KBO의 현재 선발·타순 표시만 갱신합니다. 새 예측·자정·새 scope·손상 캐시는 전체 준비로 돌아가며 작업 중 revision 변경은 게시를 거부합니다. 사전 판정·확률·배당·정산과 원천 시각은 보존합니다.\r\n\r\n운영 캐시를 로컬 fixture로 복원한 3회 A/B에서 해당 준비 작업 중앙값은 1.242→0.443초(64.3% 감소)였습니다. 모든 scope의 해제한 JSON과 모든 상세가 전체 준비 결과와 같았습니다. 이는 KBO 표시만 바뀐 조건의 로컬 측정이며 운영 전체 갱신 지연의 개선을 뜻하지 않습니다. 반복 가능한 측정 스크립트와 점검 보고서를 포함했습니다.\r\n\r\n검증: 관련 40 tests 통과, 전체 Python 1,570 passed / 5 skipped / 93 subtests passed. 새 회귀 테스트는 선발·타순 변경·제거, recent 밖 KBO 상세, 비야구·동결 판정 보존, 자정·scope·원본 revision·손상 캐시의 fallback, 실제 자식 프로세스를 확인합니다. 별도 측정 스크립트도 실행했습니다. 운영 병합·배포는 아직 하지 않았습니다.\r\n",
+    "body_sha256": "7114f99f5d80c77391a1b653de7a1e3b7bf2842f9280fcd5167881f7fb8baa99",
+    "reports": []
+  },
+  {
+    "number": 401,
+    "title": "feat: 최근 경기와 다양한 픽스터 원문 수집 확대",
+    "state": "open",
+    "head": "93a5000d352b76591b8e26e54e75971379cde750",
+    "branch": "codex/diverse-tipster-intake-20261028",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/401",
+    "body": "최근 픽을 놓치던 수집과 원문 출처의 편중을 개선합니다. 픽천국의 오래된 글 우선 HTML에서 앞 12개만 고르던 방식을 최근/예정 날짜와 현재 대진 우선으로 바꾸고, Q-EDGE의 단일 경기·명시적 최종 승패 어댑터를 추가했습니다. 축구는 정규시간 90분 표기, 고유 대진/일정, 실제 수신 완료 ≤ T-30을 요구합니다. 서술상의 우세·진출·핸디·복수 선택은 승패 투표로 바꾸지 않습니다. K리그·NPB·NBA의 확인된 팀 별칭과 골리의 MLS/EFL 리그명도 보완했습니다.\r\n\r\n작성자별 최초 표에서 200자 이상 분석의 정확한 정규화 복제는 한 표로 세며, 동일 내용의 방향 충돌 묶음은 제외합니다. 유사한 의견을 복제로 단정하지 않습니다. 총 요청 한도는 기존 21회(목록 6 + 본문 15), 새 요청 시작 기한은 90초입니다. 출처·리그·작성자별 실제 수집 수와 제외 사유를 남깁니다.\r\n\r\n실제 로컬 수집: 18.423초 / 본문 15건 / 14건 파싱 / 2발행처 4표를 3경기에 연결했습니다. 기존 공개 관측 20건에 더한 동일 시각 비교에서 AC밀란 홈·인테르 원정이 새 선택, 파르마-우디네세는 원정/무 동률 보류가 됐습니다. TailSlips MLB는 이 비교에 포함하지 않았고 미래 결과가 미확정이므로 적중률·ROI 개선을 주장하지 않습니다. 관측 증거와 오프라인 재현 스크립트를 포함합니다. 월 손실 5만원과 동결/정산/시장확률 계약은 유지합니다.\r\n\r\n검증: Python 1,585 passed / 5 skipped / 93 subtests passed. 웹 270 tests 및 production build 통과. 최종 파서로 실제 Q-EDGE 원문 재수신·연결, 오프라인 입력 비교 재현도 확인했습니다. 운영 병합·배포는 아직 하지 않았습니다.\r\n",
+    "body_sha256": "4baf7020e83bb84910e8d8e296319250f1a84dbb28d0198deb576ea437eb5f4b",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-28-diverse-tipster-intake.md",
+        "sha256": "cdb82b4aad6fca644a08c0cd8e320f1ae69af41e634f3df18024bde41b0ab935"
+      }
+    ]
+  },
+  {
+    "number": 402,
+    "title": "research: compare yearly hit rates across market, hybrids, and tipster votes",
+    "state": "open",
+    "head": "0f63dbd60fccca301571e8fc5638b0ba9a1a044e",
+    "branch": "codex/year-model-hit-comparison-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/402",
+    "body": "Compare five fixed selection rules on the same archived fixtures in the requested 2025-10-29–2026-10-28 window: market reference, market/vote 90:10, 75:25, 50:50, and tipster plurality. Preserve compact source facts, hashes, fixture-level picks, independent settlement checks, coverage/abstention counts, weekly intervals, league/time splits, and a Korean report.\n\nStrict common cohort: 492 games. Hit rates are 57.52%, 57.52%, 53.25%, 54.27%, and 54.27%; every flat-stake ROI is negative. Supplemental overtime-assumed cohort: 580 games; 90:10 reaches 58.97% versus market 57.76%, but the paired improvement interval includes zero.\n\nLimitations: reuse of PR #398's previously seen retrospective archive, incomplete season coverage, no independently certified pregame versions/purchase-time prices, and only 17/21 common fixtures with multiple voters. This does not replay the complete historic production model, select a winner for deployment, or prove future profit. Supplemental and strict cohorts overlap and must not be added together.\n\nValidation:\n- Full Python suite: 1,581 passed, 93 subtests passed, 5 skipped.\n- New regression suite: 19 passed, including independent corpus settlement.\n- Every saved pick/return of the three legacy arms agrees fixture-by-fixture with the original PR #398 archive.\n- Each model's shared-across-sports paper account reserves same-day stakes and respects the KRW 50,000 monthly loss limit.\n- LF-pinned evidence passes exact input hash checks after Git normalization.\n\nNo production code, operational policy, DB, infrastructure, merge, or deployment changes.\r\n",
+    "body_sha256": "9d3a8ac7896f267e2a908680da27c87f561eae3b7cdeba2bfbfe2513cedbf918",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-year-model-hit-comparison.md",
+        "sha256": "f529eb4a5cadb276e5eaf9aa50e764d130917642a447bff3af66f52ad4bd361b"
+      }
+    ]
+  },
+  {
+    "number": 403,
+    "title": "research: audit model inputs and prioritize accuracy improvements",
+    "state": "open",
+    "head": "30e53e03489f9fd71c617a256ab0f8c65f124e04",
+    "branch": "codex/model-feature-research-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/403",
+    "body": "Investigate which model components and inputs are worth testing to improve hit rate beyond fixed market/tipster blends. The Korean roadmap combines primary research with the current main selection path and explicitly distinguishes previously failed features from new candidates.\n\nFindings:\n- Current author-plurality selection leaves recognized lineup/absence evidence as context only. Three synthetic context variants keep the same pick/probability; this is a mechanism probe, not predictive validation.\n- Re-scoring PR #402's existing cohort: on 180 market/vote disagreements, market is correct 98 times versus vote 82. Only 17/492 strict common fixtures have multiple voters.\n- Positive temperature scaling changes zero choices in 60,000 synthetic comparisons; it cannot itself improve argmax hit rate.\n- Prior xFIP, lineup/wOBA, and form/schedule failures are retained as counterevidence. Literature supports investigating player contributions, expected minutes/innings, independent crowd information, and market-conditioned regularized integration; no new accuracy or ROI gain is claimed.\n\nValidation: full Python suite 1,565 passed, 93 subtests passed, 5 skipped; 3 new focused tests passed. Saved input provenance includes fixed upstream commits and LF-normalized hashes.\n\nResearch only. No new predictor trained, no new collection adapter, no production policy/DB/infra/deployment changes. The KRW 50,000 monthly paper loss limit remains part of the proposed validation contract.\r\n",
+    "body_sha256": "d41c2b1d9aaad82062d724ce0afc31518f9c968b12b3c019ca79c92a1df53aa6",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-accuracy-feature-roadmap.md",
+        "sha256": "4ddfd42ec8191d85357f4ff00530e6cf5f84a9d4bd4f6c11e5381cf216a31af3"
+      }
+    ]
+  },
+  {
+    "number": 404,
+    "title": "research: test K-league player-proxy Dixon-Coles and recency weighting",
+    "state": "open",
+    "head": "a873ad203a11db9424d3d045f2245c0d05a57677",
+    "branch": "codex/kleague-decay-backtest-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/404",
+    "body": "Implement and run a retrospective K-league Dixon-Coles goal model, with and without a past-only projected-XI G+A proxy, against the fixed market90:tipster10 rule. Evaluate all common fixtures with equal flat stakes and no monthly loss/profit cap, frequency limit, or odds/probability filter.\n\nBuild a deduplicated 1,615-game fact table; refit monthly using only prior dates. Compare uniform weighting and fixed 90/180/365-day half-lives. Select decay on 2025 sequential log loss, not the 2026 evaluation results. Persist fitted parameters, predictions, source hashes, all fixed alternatives, paired uncertainty, and a Korean report.\n\nSame 30 existing fixtures (K1 19, K2 11):\n- Market: 18/30, 60.00% hit rate, +17.00% ROI.\n- Fixed market90:tipster10: 16/30, 53.33%, +5.40% ROI.\n- Validation-selected DC + projected XI: 12/30, 40.00%, -27.93% ROI.\n- Market90:new model10: 17/30, 56.67%, +9.03% ROI; still below market alone.\n\nNo improvement/adoption claim. The player proxy changed probabilities but no final choices relative to the team model. Recency did not consistently help: K1 selected 90 days on 2025 but did worse in 2026; K2's 2025 selection was uniform. The evaluation set occupies only six observed weeks and is already-seen retrospective data. Announced pregame lineup versions, xG, minutes, and purchase-time prices are unverified or omitted. This is not the full proposed player-rating system.\n\nValidation:\n- Full Python suite: 1,575 passed, 93 subtests passed, 5 skipped.\n- 13 focused regression tests, including finite-difference gradient checks, future/same-day leakage checks, duplicate/conflict handling, model selection, and independent settlement.\n- All 168 optimization runs converged. Every pick in all 22 result arms independently reconciles to exact equal-stake returns.\n\nResearch only; no production code/policy, live loss-limit, DB, infrastructure, merge, or deployment changes.\r\n",
+    "body_sha256": "207621452c6e5bff30856e622a8aa30c0b71d8407929567ab3e1b7cd27e9c690",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-kleague-decay-backtest.md",
+        "sha256": "60cb0edd6db25a132a6cf157d64bb99b83417ca509fc56a31b6343a8879fcc31"
+      }
+    ]
+  },
+  {
+    "number": 405,
+    "title": "research: 야구 리그별 모형 비교와 낮은 적중률 원인 감사",
+    "state": "open",
+    "head": "f32417e0aa12ee7d0466dcb1f199944bde64af0a",
+    "branch": "codex/baseball-league-fit-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/405",
+    "body": "KBO·NPB·MLB의 과거 팀 성적, 일정, 추정 선발 및 KBO 개인·타순 대용치를 리그별 득점 모형으로 비교합니다. 같은 434경기에서 과거 검증으로 선택한 새 단독 모형의 적중률/ROI는 KBO 52.22%/−18.17%, NPB 53.04%/−17.23%, MLB 46.55%/−23.54%로 기존 시장90:픽스터10보다 낮았습니다. 운영 모형을 교체하지 않고 실패 원인과 재현 자료를 보존합니다.\n\n- 15,722경기 이력, 후보120개(학습 선발 결측으로 NPB12개는 선택 제외), 연도별276회 적합. 2023 학습→2024 검증 선택 후 이전 연도 계수로 평가합니다. 연구 ROI에 월 손실·수익 제한은 적용하지 않습니다.\n- 같은 날 결과·실제 선발·타격 기록을 당일 입력에서 제외합니다. MLB 시범경기와 원래/재개 날짜에 최종 점수가 반복된15개 경기ID를 제외합니다. 선발 간격은 이전 기록으로 추정하며 raw bf를 실제 타자 수로 오인하지 않습니다.\n- 모든 후보 확률, 계수·분산·정규화 값, 원본 해시, 입력 날짜 감사, 주 단위 불확실성 구간 및 논문 근거를 보존합니다. 이 데이터는 사전 인증이 없는 반복 회고 표본으로 미래 수익 증거가 아닙니다.\n\n검증: Python1,580개 및93 subtests 통과(5skip), 신규18개 회귀 검사. 독립 Decimal 정산147개 정책,434경기·868팀측 입력 날짜 및 저장 계수로868개 확률 재계산 통과. 전체 cold refit의 계수·결과도 정확히 재현했습니다. 운영·UI·DB 변경이나 배포는 없습니다.\n\n상세: docs/research/2026-10-29-baseball-league-fit.md\n",
+    "body_sha256": "8ea2d94c6091cd5f720cdba5c853c1c08a58b645443c8cadc77d03b5f5212a16",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-league-fit.md",
+        "sha256": "181084fc720d08cd78d74079b2cb80d1883b5b7581c26b9573f6853a72969858"
+      }
+    ]
+  },
+  {
+    "number": 406,
+    "title": "research: 실제 발표 MLB 재검증과 NPB 투수 이력 복원",
+    "state": "open",
+    "head": "a4ce7801120b341f5a9c67d8a09e36944fe306a0",
+    "branch": "codex/baseball-pregame-evidence-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/406",
+    "body": "MLB의 실제 경기 전 선발·9인 타순을 공식 과거 timecode로 확보하고, 개인 투구·타격 지표와 이전 완료 시즌 Statcast를 추가해 고정9:1과 같은116경기에서 비교했습니다. 과거 검증으로 선택한 모형은44.83%/ROI−24.40%로 기존54.31%/−13.34%보다 낮았고, 혼합도 최종 선택이 바뀌지 않았습니다. 운영 모델을 교체하지 않습니다.\n\n- 716개 조회 중712개를 시각·상태·실제 투구 없음·양 팀9인 조건으로 채택했습니다. 2024학습296·2025검증300·평가116, 변수묶음3×ridge3으로9개 후보를 비교했습니다. Statcast6개 표는 경기연도−1만 사용합니다.\n- NPB공식2023 투수표879개를 파싱해 기존877경기 중876경기의 선발·실제BF·투구 기록을 복원했습니다. 점수 충돌1경기는 제외합니다. 이는 경기 후 학습 이력이며 당일 발표 증거가 아닙니다.\n- KBO·NPB의 양 팀 발표 타순까지 갖춘 ROI 비교는 아직 미완료입니다. 선발 로그 일치가 각각2경기뿐이고 타순이 없으며, 뉴스 표본도 한쪽 팀뿐입니다. 이 부족을 경기 후 자료로 채우지 않습니다. 로컬 직접 수집기와 KBO공식 fallback을 추가했지만 운영 스케줄에는 설치하지 않았습니다.\n- 연구 ROI에는 월 손실 제한을 적용하지 않으며 실제 자금 정책·운영DB·서버·배포를 변경하지 않습니다. 이전 #405의 반복 회고 표본으로 미래 수익 증거가 아닙니다.\n\n검증: 신규19개 검사, 전체Python1,581개 및93subtests 통과(5skip). 독립Decimal 정산17개 후보·정책,116경기와 저장 계수1,044개 확률 재계산 통과. 재현용압축사실·원문URL·시각·해시·제외사유를 보존합니다.\n\n상세: docs/research/2026-10-29-announced-baseball-comparison.md\n",
+    "body_sha256": "3d5b06ce52ede1bf188607df63845c4336cd70cc81e7d9f6227860a90abcc335",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-announced-baseball-comparison.md",
+        "sha256": "70a7039e6ca42a6751eb326282348eb680310a2cfc4c9fe9ae0ef10c05e4a5f3"
+      }
+    ]
+  },
+  {
+    "number": 407,
+    "title": "research: 야구 변수 변형·분할 73개 후보와 다른 기간 ROI 검증",
+    "state": "open",
+    "head": "86a061b67f27bfa4fec21fbf83d8a5c965fb5401",
+    "branch": "codex/baseball-feature-partitions-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/407",
+    "body": "## 결과\n\n보유 야구 칼럼의 비율화·타순 분해·투타 상호작용·시즌 간 차이·그룹별 계수·비선형화를 로컬에서 비교한다. 운영 변경 없이 재현 가능한 입력 사실, 73개 후보의 계수와 경기별 확률, 다른 기간 진단 및 한국어 보고서를 저장한다.\n\n2024년 가격 연결 MLB 274경기를 날짜 순 190/84로 나눠 후보를 선택하고 기존 반복 평가 116경기에서 비교했다. 비교용 9:1은 적중률 54.31%·ROI -13.34%, 검증 적중률 선택 후보는 50.86%·-16.85%였다. 검증 logloss는 추가 변수 없는 시장 기준을 선택했다. 극적 개선 기준을 통과한 선택 정책은 없다.\n\nKBO 시장 확률 60~65% 구간은 38경기에서 76.32%·+10.39%지만 참여율 18.72%이며, 시장과 9:1 픽이 동일하다. 2023/24 같은 구간은 시장 단독 ROI -9.16%/-14.26%로 재현되지 않았다. 고정 9:1은 시장 우세 확률 5/9 초과에서 픽스터가 전부 반대해도 픽을 바꿀 수 없다는 점을 별도로 검증한다. 다른 기간 총 7,609경기 검사는 시장 단독이며 과거 픽스터 검증의 대체물이 아니다.\n\n29개 배당 시계열 파일도 감사했으나 경기 전 T-10 조건으로 연결된 경기는 8건뿐이다. 당시 구매 가능 시점·반복 탐색·소표본 한계를 보고서에 명시했다. PR #405/#406의 자료에서 파생한 사실을 함께 커밋해 모델 재실행 시 미병합 코드나 운영 서버가 필요하지 않다.\n\n## 검증\n\n- Python 전체: 1,577 passed, 93 subtests passed, 5 skipped\n- 신규 회귀 테스트: 15 passed\n- 독립 검증: 저장 계수로 8,468개 확률 재계산, Decimal 정산 79개 대조\n- 경기 후 가격 배제, 시점/팀 교환 대칭, 검증 기간 내 선택, 같은 경기 정산, 9:1 경계 검사\n\n보고서: `docs/research/2026-10-29-baseball-feature-partitions.md`\r\n",
+    "body_sha256": "218e3ee29a4965b73e58f1fd66e3e52a5c4751f9211c058167d7a4598410bda4",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-feature-partitions.md",
+        "sha256": "fcf304300e0a638f69bd811858a3e9d2a743f7b9f4e05e0b685c524f5eeef639"
+      }
+    ]
+  },
+  {
+    "number": 408,
+    "title": "research: 실제 최근 성적·불펜 기록과 사전 타순 변경의 9:1 비교",
+    "state": "open",
+    "head": "4d1e45e0a47856c13918549ab00142c4ccd38734",
+    "branch": "codex/baseball-event-form-bullpen-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/408",
+    "body": "## 결과\n\n선발·타순 변경, 실제 최근 성적과 불펜 사용량을 보존 가격·픽스터 입력·결과에 연결해 로컬에서 비교한다. MLB 2024~2026년 90개 구단·시즌의 선수별 경기 로그와 390경기의 세 시점 사전 상태를 새로 수집했다. 단순 예상 선발만 쓰지 않도록 T-10 공식 박스 등록도 별도로 확인한다.\n\n공식 득실점과 선수 로그 합계가 다른 83경기를 발견해 공식 박스스코어로 복구했다. 원본·시점 제외 사유·가격 연결 진단·계수·경기별 확률·정산과 한국어 보고서를 함께 저장한다. 커밋된 자료만으로 네트워크와 미병합 선행 연구 코드 없이 재실행할 수 있다.\n\n2024년 190/84경기로 12개 변형+시장 기준에서 선택하고 274경기로 재학습했다. 검증 선택 후보는 불펜 5변수의 강한 정규화 모델이다. 기존 반복 평가 116경기에서 9:1은 적중률 54.31%·ROI -13.34%, 새 후보는 55.17%·-11.97%였다. 한 경기 선택 변경으로 1만6천 원 손실이 줄어든 차이다. 7월 이전 83경기에서만 개선됐고 7월 이후 32경기에서는 선택 변화가 없다. 최근 성적 결합은 오히려 악화됐다. 미래 우위나 운영 채택을 주장하지 않는다.\n\n등록 타순 변경은 고유 1경기에서 관측했으나 그 전후 가격이 없었다. 변경+발표 전후 배당이 모두 연결된 표본은 0건이므로 미반영 배당 기회의 ROI 검증 완료로 부르지 않는다. 구단 게시물 발표 시각 증명과 공식 사전 박스 시점도 구분한다. 실제 선수 로그 비교는 MLB 범위이며 KBO·NPB의 동일 작업 완료를 주장하지 않는다.\n\n## 검증\n\n- Python 전체 1,574 passed, 93 subtests passed, 5 skipped\n- 신규 회귀 테스트 12 passed\n- 독립 검증: 1,508 확률, 34 정산, 원본 기반 불펜 사용량 1,560개, 공식 득실점 29,672개 대조\n- 실제 마지막 플레이를 조회한 완료 경계 표본 감사 30/30 통과(전체 무오류 증명 아님)\n- 시점 누수, 진행 중 경기 배제, 사전 등록 선발과 예상 선발 구분, 선수 로그 복구본 우선, 발표 전후 가격 부재, 환불·JSON 직렬화 회귀 검사\n\n보고서: docs/research/2026-10-29-baseball-event-form-bullpen.md\n\n운영 코드·DB·추천 정책·배포 변경 없음. 연구 ROI는 월 손실 한도 없이 동일 금액 단폴로 계산했다.\r\n",
+    "body_sha256": "cf1b189b672f904d21a079c04a401fda9ed86d67d011ab104263991158c74543",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-event-form-bullpen.md",
+        "sha256": "2b9297eb92e4d89f159979a5b9ea2c0e6dd5b06a2e75dc8d3d40ba5628e978b4"
+      }
+    ]
+  },
+  {
+    "number": 409,
+    "title": "fix: 공개 픽스터 글의 경기 매칭과 승패 형식 누락 수정",
+    "state": "closed",
+    "head": "7d001c51ba6047dfdfa20d89a4a644053c6a0ba4",
+    "branch": "codex/fix-tipster-intake-matching-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/409",
+    "body": "## 문제와 변경\n\n공개 분석 글에 전체 경기 승패 픽이 있어도 표시 형식, 리그·팀 이름 차이 또는 수집 순서 때문에 경기와 연결되지 않아 픽스터 투표가 0표로 남는다. 골리의 대괄호 없는 승무패, 명시적 야구 예상 승리팀, 농구 승부 예측, 요약 첫 줄의 팀 승패를 읽고 실제 확인한 ACL2·KBL·잉리그컵·세리에A 별칭을 추가했다. 목록에서 유일하게 식별된 시작 전 경기를 최대 4개 우선하되 기존 16건 상한과 최신 글 확인·순환 예산을 유지한다.\n\n10월 29일 17:01 KST에 받은 공개 글 8개를 격리된 현재 경기 목록과 대조한 결과, 기존 0건에서 변경 후 8건이 연결됐다. 상대가 칼초로만 표기된 프로시노네 경기는 본문의 두 팀 항목을 추가로 확인하는 경우에만 연결한다. 이는 선택한 사례이지 전체 경기의 커버리지나 운영 서버의 수신 성공을 뜻하지 않는다. 상세는 `docs/tipster-intake-matching-20261029.md`에 기록했다.\n\n본문 수신 시각, T-30, 경기·팀·날짜의 유일성, 승패 시장 구분과 기존 동결 원장을 유지한다. 이력 소급이나 실제 서버 데이터 변경은 하지 않았다.\n\n## 검증\n\n- 수집기·선택·게시 회귀 테스트 84개 통과\n- Python 전체 1,574개 통과, 3개 건너뜀, 기존 소수점 정밀도 비교 실패 1개 제외. 동일 실패는 변경 전 `b8871280`에서도 재현했다.\n- 프론트 테스트 270개 통과, 프로덕션 빌드 성공\n- 운영 수집기 로그와 배포 후 결과는 아직 확인하지 못했다.\n",
+    "body_sha256": "4fa243797a00de83d5787e7621047bf21b0fd8ddce6797f8844c2fcef7c5c9e7",
+    "reports": []
+  },
+  {
+    "number": 410,
+    "title": "research: 새 MLB 230경기와 KBO·NPB 불펜 후보의 기간별 검증",
+    "state": "open",
+    "head": "402c691d6c8374dd67677196d488b44850c5fa61",
+    "branch": "codex/baseball-bullpen-external-periods-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/410",
+    "body": "## 결과\n\n기존 116경기에서 1건 개선된 MLB 불펜 후보를 동결해 새로운 230경기에 적용하고, KBO·NPB에는 확보 가능한 공통 불펜 입력으로 별도 후보를 학습·비교한다. 연구 자료·계수·경기별 확률·정산·원천 누락 진단을 보존하며 운영 변경은 하지 않는다.\n\n- MLB 새 230경기: 시장 대비 적중률 53.91%→53.48%, ROI -16.85%→-17.57%. 기존116경기를 전부 제외했으며 새 픽스터가 없어 시장 단독 대비 검사라고 구분한다. 기존 후보의 개선은 유지되지 않았다.\n- KBO 유효198/203경기: 같은 경기의9:1 대비 적중률 60.10%로 동일, ROI -7.40%→-7.39%. 순손익300원 차이는 채택 근거가 아니다.\n- NPB115경기: 9:1 대비58.26%→60.00%, -9.97%→-7.11%. 순손익32,900원 개선이지만7월 이후27경기에서는 변경0건이다. 차이의 불확실성 구간도0을 포함한다.\n\nNPB 공식2024년877·2026년777경기를 새로 수집했다. 0+/5+ 이닝 표기를 수정해 누락을 복구하고, 공식 종료 상태·선수ID·소속 팀·양 팀 투수 실점 합계를 검사했다. KBO 보유 투수 기록은7월26일에 끝나 이후5개 평가 경기의 과거 정보가 불완전했다. 누락을 휴식으로 해석하지 않도록 같은 과거28일 완전성 조건으로 학습·검증·평가를 제외하고, 더블헤더는 gameId별로 보존했다. Naver의 유효 경기ID 조회도 ReadTimeout으로 추가 기록을 확보하지 못했다.\n\nKBO·NPB 후보는 2023학습→2024선택 후2023+24재학습→2026평가다. MLB의 투구 수·세이브/홀드·BF를 동일하게 갖추지 못한 항목은 아웃 수 기반 변수로 바꾼 별도 모형임을 명시했다. 평가 결과로 계수를 선택하지 않았다. 월 손실 한도 없이 동일 금액 단폴로 정산했고, 이전 연구에서 이미 본 회고 집합·매수 시점 미인증 한계를 함께 기록했다.\n\n## 검증\n\n- Python 전체1,581 passed, 93 subtests passed, 5 skipped\n- 신규 회귀 테스트19 passed\n- 독립 검증: 543 평가 행, 13,381개 계수 기반 확률, 46개 정산\n- 원자료 특징 재계산: 공통16,815개·MLB1,150개\n- 과거5,186경기 투수 실점 합계 대조, 저장 자료만의 특징 재생SHA 일치\n\n보고서: docs/research/2026-10-29-bullpen-external-periods.md\n\n운영 코드·DB·추천 정책·배포 변경 없음.\r\n",
+    "body_sha256": "80e325b218e24fc6e23c6025476bb49c62e0fe8578895e39a3318c51c42e906e",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-bullpen-external-periods.md",
+        "sha256": "965e9995280f54a187db25d4b1472104f445f4f388542d105d304e8ede7be115"
+      }
+    ]
+  },
+  {
+    "number": 411,
+    "title": "research: MLB·KBO 별도 모형 55개와 기간별 ROI 재검증",
+    "state": "open",
+    "head": "1d484dc2dffce728c89b97db9931702db33235e0",
+    "branch": "codex/baseball-league-retune-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/411",
+    "body": "MLB와 KBO에서 다른 변수·분포·산정식을 적용하되 기존 기준보다 개선되는지 확인할 수 있도록, 리그별 독립 에이전트 실험과 정산 검사를 보존합니다. 운영 교체 근거를 얻지 못했으며 추천 정책·서버·DB 변경은 없습니다.\n\n- MLB: 득점 환경·공격/수비·일정 부담·45/180일 감쇠, Poisson/음이항/Pythagorean 및 시장 혼합·잔차보정 24개와 기준1개. 2023 학습→2024 선택→2023+24 재학습→별도230/기존116 평가.\n- KBO: 타격 OPS 대용치·득실점·휴식·선발 평균 이닝·불펜 의존도와 로지스틱/음이항/Pythagorean 28개와 기준2개. 710학습·712검증·198평가.\n- primary/적중 우선/수익 우선은 검증만으로 동결하며, 사후 평가 우승자로 교체하지 않습니다. NPB는 이번 탐색에서 제외합니다.\n\nMLB primary는 별도230에서 시장124승·ROI -16.85% 대비122승·-18.33%로 악화했습니다. 적중 우선은126승·-14.68%였으나 뒤쪽130경기에서는 악화했습니다. KBO primary는119승 유지, ROI -7.40%→-7.14%(+5,300원)이지만 확률오차·낙폭은 악화했습니다.\n\n단폴1만원·월 손실 제한 없음. MLB230에는 픽스터가 없어 순수시장 대조이며, 기존116과 KBO198의 연구용9:1(시장90%+동결투표10%)과 구별합니다. 이미 본 회고 집합, 원천 공개 시각 미인증, 현재 확정 선발/타순 미포함 등의 한계를 보고서에 명시합니다.\n\n검증:\n- `python -m pytest -q`: 1,612 passed, 5 skipped, 93 subtests passed\n- 이후 기준선 수식 검산을 보강한 `tests/test_audit_league_retune_results.py`: 5 passed\n- 부모 독립 정산기: 전25/30개 후보의 검증·평가 성과, 동결선택, 기간별 세 역할의 지표·픽 변경 모두 일치\n- 두 리그 Git 커밋 사실만 추출한 네트워크 차단 전체 재학습·선택·평가 재현 통과\n- 검증33주 3,000회 재표본 선택 안정성 및 실제 픽 불일치 보존\n\n보고서: `docs/research/2026-10-29-baseball-league-retune.md`. 원천·확률·선택·계수·검산·통합 커밋 대응은 `experiments/baseball-league-retune-20261029/`에 보존합니다. 운영 적용·병합·배포는 이 PR 생성에 포함하지 않습니다.\n\n환경 간 수치 재현은 확률·계수 절대오차 1e-12/상대오차 0을 허용하며, 선택 픽·적중수·정산 손익은 정확히 비교합니다. 0.5 경계의 1ULP 픽 변경과 의미 있는 계수 변경도 거부하는 회귀검사를 포함합니다. 최종 Linux CI test도 통과했습니다.\n",
+    "body_sha256": "fdba61562d85fe749b9befa99ad779d18fff2fb295376cecc6a0950e271b875c",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-league-retune.md",
+        "sha256": "eb91cd836d73fafa9655bb494a8bf27b227af5c135b542394e51bfee776dadd0"
+      },
+      {
+        "path": "docs/research/2026-10-29-kbo-retune.md",
+        "sha256": "9d9232b390d93a733165da6493ba6719b93b87d7036aa8e32dc9e18250887736"
+      },
+      {
+        "path": "docs/research/2026-10-29-league-retune-validation-design.md",
+        "sha256": "bcb83587b372fa0e33c24e3e856ff9b0c01a3845330948c3fc35ecbc683ac5fc"
+      },
+      {
+        "path": "docs/research/2026-10-29-mlb-retune.md",
+        "sha256": "d407b2d7ed5e74f45c8b58bd3a51a7d47e367ee3874186e1d943976e1fc06068"
+      }
+    ]
+  },
+  {
+    "number": 412,
+    "title": "fix: 픽스터 대기에 따른 배당 수집 무기한 양보 방지",
+    "state": "open",
+    "head": "e67b8c8b3ff43db151f847e091490a58e49f4c3d",
+    "branch": "codex/odds-yield-bound-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/412",
+    "body": "픽스터 작업이 메모리 제한으로 실행되지 못하는 동안 배당 수집이 반복 양보하는 문제를 수정합니다. 대기 작업마다 한 번만 양보하며 기존 메모리 제한과 저장 배당 재판정은 유지합니다. 관련 테스트 57개 통과. 저메모리 상태에서 픽스터 실행 자체는 보장하지 않습니다.",
+    "body_sha256": "8f818aa3ee384db900d082be4ca2b58aaf07aded6514e9b2177f90970098ac4f",
+    "reports": []
+  },
+  {
+    "number": 413,
+    "title": "research: 선수·동적전력 모형과 9:1 가격 제약·상수선택 진단",
+    "state": "open",
+    "head": "6a83bfd7257913a80de76f6086944e19b8fa7e2e",
+    "branch": "codex/baseball-information-stepchange-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/413",
+    "body": "기존의 작은 변수·가중치 탐색만으로 개선이 재현되지 않아, MLB의 실제 사전 발표 선수입력, KBO의 상대강도 동적 전력, 배당에 따른 선택 목적을 분리해 연구합니다. 큰 개선의 운영 교체 후보는 찾지 못했으며, 모델이 실제로 무엇을 구별했는지와 가격 제약을 함께 보존합니다.\n\n- MLB: 공식 historical feed230요청/194시점검증·36기준선 fallback, 전시즌 공식선수표6개 추가. 선형/matchup/hinge12후보,2024학습296→2025검증300→평가346. 선택primary가 검증된194+116경기에서 전부 홈팀을 골라, 홈상수 대조와 정산이 같음을 확인했습니다. 전체230 ROI -16.85%→-11.69%이지만 기존116 -13.34%→-24.40%이며, 선수 정보의 효과로 주장하지 않습니다.\n- KBO: Margin Elo·공수 분리 quasi-Poisson/Laplace 상태24후보+기준2, 당일 결과는 그날 예측 이후 갱신.710학습/712검증/198평가, 검증고정 주후보119승·ROI -7.298%. 9:1보다2,100원만 개선되고 낙폭·확률오차는 악화했습니다.\n- 부모: 각리그18개 사전고정 선택정책과 앞선기간만 사용한확률보정. 두리그모두 후기검증 수익·참여 조건을 통과한 정책이 없었습니다. 평가ROI가좋아보이는소표본정책을사후채택하지않았습니다.\n- 고정연구9:1이표현할수있는최대확률로도가격을넘지못하는경기는KBO194/198,MLB기존116/116입니다. 수식의상한진단이며 가중치상향이수익을준다는주장이아닙니다.\n\n모두 동일경기·당시배당·단폴1만원, 월손실cap없음. 시장단독·연구9:1·운영추천은구분하며 이미본회고집합의한계를명시합니다. 현재 운영 모델·서버·DB·배포 변경은 없습니다.\n\n검증:\n- 두리그 각20개 회귀 검사 통과: 실제시점/선수prior/라인업순서·누출·동일날더블헤더·상태/계수재현·정확한정산\n- MLB 네트워크차단재실행과5산출물해시일치,204집합×정책독립정산,전체346결과반전에도예측·선택불변\n- 부모가두worker코드없이기준·같은가격·모든기간정산을다시계산,정수손익·적중·확률오차·픽변경일치\n- 부모 정책의평가정답을바꿔도보정/검증선택불변,무매수ROI=null/참여율/기회당손익분리\n- 전체 Python 테스트: 1,627 passed, 5 skipped, 93 subtests passed. 최종 CI도 확인합니다.\n\n통합보고서: `docs/research/2026-10-29-baseball-information-stepchange.md`. 모든원천·수식·계수·예측·정산·실패결과·검증을 `experiments/baseball-information-stepchange-20261029/`에 보존합니다. 별도 연구 PR이며 병합·배포는 포함하지 않습니다.\n\n환경 간 재학습 optimizer의 계수·확률 오차는1e-8 범위에서 비교하되, 모든 경기의 선택방향·정수손익·검증head는 정확히 비교합니다. 저장계수를 쓰는 forward 검사와 원천·상태 재현은1e-12를 유지합니다. 평가 결과나 저장 계수는 바꾸지 않았습니다.\n",
+    "body_sha256": "c14483cc17d7fa761b1d24c551daeaeb7f321b985ad306b6da8460ef3a7f76ec",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-information-stepchange.md",
+        "sha256": "c41739052e72f5b336c1926264f8b559bffc4949dd624c6b2bab9f39128f70f0"
+      },
+      {
+        "path": "docs/research/2026-10-29-baseball-objective-diagnosis.md",
+        "sha256": "eea2fe9c9f735a4303cf2fdb11fb1439eb09c7d2145f80d8f425fab2c8aaa91d"
+      },
+      {
+        "path": "docs/research/2026-10-29-kbo-opponent-dynamic.md",
+        "sha256": "244e4b257d946c3f105b3436719433a9517df7cbdd244821ef6ac7d03acecf41"
+      },
+      {
+        "path": "docs/research/2026-10-29-mlb-lineup-nonlinear.md",
+        "sha256": "6780adf79cd3d595e2a1e8500761a425f81af67524b229079416396f6c4d8641"
+      }
+    ]
+  },
+  {
+    "number": 414,
+    "title": "fix: 실제 운영 ROI 비교와 동일 스냅샷 모델 비교 기록 연결",
+    "state": "closed",
+    "head": "0bd7dbe4c6e4bd0a5fd51f1264e58ec5d5997018",
+    "branch": "codex/operating-ledger-comparison-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/414",
+    "body": "현재 서비스는 픽스터 투표 정책인데 과거 9:1 연구나 종료된 shadow 실험의 ROI를 현행 성적으로 비교할 수 없었습니다. 전체 운영 원장 8,674건의 해시 연결을 검증하고, 최신 T-30 이전 revision과 당시 배당·별도 공식 결과로 실제 운영 비교를 재현합니다.\n\n- 현행 55개 입력 적격 기회(선택 9/보류 46), 공식 연결 45개 중 세 모델 공통 정산은 4경기입니다. 운영 투표 −27,800원/−69.50%, 시장 및 동일 저장 투표 9:1 비교안 각각 −13,100원/−32.75%입니다. 차이는 한 경기이며 채택·수익 안정성 근거로 쓰지 않습니다. 이전 적용 9:1 기록은 다른 날짜로 분리합니다.\n- 새 원장에 같은 스냅샷의 운영·시장·현재 투표 9:1·저장 스코어·홈 통제군과 레시피/입력/가격/소스 해시를 함께 남깁니다. 경기당 8KB 제한이며 별도 작업·학습·네트워크·과거 원장 조회를 추가하지 않습니다. 이 기록은 새 MLB/KBO 학습 모델의 운영 연결을 뜻하지 않습니다.\n- 최신 보류를 이전 픽으로 대체하지 않고, 결과 교정/미확정·시각·팀·회차·중복을 검사합니다. 미래 저장 비교안은 레시피가 달라지면 재작성하지 않습니다. 소스 해시는 Windows/Linux 및 Python 버전 간 비교가 가능합니다.\n- 운영 선택·확률·동결·기존 원장·월 손실 5만원 모의 한도는 유지합니다. 전체 원문 export는 로컬에 보관하고 공개 PR에는 결과와 공식 결과 입력·해시 메타데이터를 보존합니다.\n\n검증: 전체 Python **1,690 passed, 5 skipped, 93 subtests passed**(실제 export 감사 포함), 실제 공식 입력 비교 CLI 실행 및 전체 원장 해시 검증, diff 검사 통과. UI 변경은 없습니다.\n\n병합·배포·서버 재시작·모델 승격은 수행하지 않았습니다. 배포 전에는 새 비교 sidecar의 운영 적재를 검증했다고 주장하지 않습니다.\n",
+    "body_sha256": "b625c853747b42f5673843394b83ec182efb1191035435773eeeaff4a677fc30",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-operating-comparison-results.md",
+        "sha256": "953843313b7f4d5114037e788f7ef21d23a844a3a8e20a6e42b68153f99b5ba8"
+      },
+      {
+        "path": "docs/research/2026-10-29-operating-input-contract.md",
+        "sha256": "e686e3052b268ab3547d78cceba21714cbd23adee6813010dc7d826209a1af7b"
+      },
+      {
+        "path": "docs/research/2026-10-29-operating-paired-capture.md",
+        "sha256": "cabceefb913ab79eba2d3cd14915230b42fe3f2134088271cf8b450e68308f4b"
+      }
+    ]
+  },
+  {
+    "number": 415,
+    "title": "feat: bounded frozen KBO candidate inference bridge",
+    "state": "closed",
+    "head": "fdf0a5129c3b1d8146315451780d4b45538524be",
+    "branch": "codex/kbo-candidate-inference-worker-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/415",
+    "body": "동결된 KBO e0:residual:0.03을 재학습 없이 실행하는 독립 추론 모듈과 slim 계수·종료 seed를 추가합니다. 공식 결과 revision과 명시적 일별 공식 일정의 완전성을 대조해 날짜별 prior를 캐시하고, runtime은 같은 snapshot의 offer·유효 투표에 final_fit을 적용합니다. 추천·운영 확률·부모 runtime·MLB 파일은 변경하지 않습니다.\n\n- API: normalize_proto_history, verify_increment_coverage, build_daily_state, state_for_fixture, infer_candidate. DB·네트워크·환경·현재 시각 조회가 없고 파일은 import 시 한 번 읽습니다.\n- seed는 2026-10-27 종료, 2,913경기입니다. 실제 seed 관측 시각·공식 일정 coverage·정정 증거가 없으면 unavailable입니다. 모든 전날 최종 결과가 알려졌다면 자정 전 다음 날 prior도 계산합니다.\n- validation 712개(selection_fit), evaluation 198개(final_fit)의 확률 오차 <1e-12, 선택과 정수 손익 전부 일치. 원본 특징 1,620개와 e0 snapshot 634개도 재현했습니다.\n- 평가 손익 -144,500원, ROI -7.2980%, 최대 낙폭 166,700원. 기존 연구 9:1보다 손실 2,100원 감소·낙폭 9,000원 증가이며 실제 운영 9:1 재현이나 미래 이익을 주장하지 않습니다.\n\n검증: python -B -m pytest tests/test_kbo_frozen_candidate.py tests/test_operating_model_capture.py tests/test_operating_model_comparison.py tests/test_operating_ledger_inputs.py -q -p no:cacheprovider → 176 passed, 1 skipped. git diff --check 통과.\n\n변경 범위는 src/kbo_frozen_candidate.py, tests/test_kbo_frozen_candidate.py, data/model_candidates/kbo/*, docs/research/2026-10-29-kbo-candidate-bridge.md입니다. 부모가 통합·실제 원천 수집·새 비교 기록·배포를 담당합니다. 이 PR은 draft이며 병합/배포하지 않습니다.",
+    "body_sha256": "c918ae52a3e8188cbd66ca778a72b7d269a6fcb0816073f8b651c5683d297aae",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-kbo-candidate-bridge.md",
+        "sha256": "b24defc20a4397ffe21f62e8739f1eba27da95207c418df9e3e752e52cfd947d"
+      }
+    ]
+  },
+  {
+    "number": 416,
+    "title": "feat: 동결 야구 후보의 사전 수집·모의 비교·공식 정산 연결",
+    "state": "closed",
+    "head": "caa8c0c4885b2836b98fd2469a6fe3af7a3a9129",
+    "branch": "codex/baseball-candidate-bridge-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/416",
+    "body": "#414를 병합·배포하고 다음 자동 판정에서 비교 기록 3건(원장 8676~8678)이 실제 저장된 것을 확인했습니다. 이 PR은 동결 MLB/KBO 학습 후보까지 기존 선수 수집→사전 추론→원장→공식 결과 연구 정산 경로에 연결합니다.\n\n- MLB `linear:l2=10`, KBO `e0:residual:0.03`의 기존 계수/스케일을 재학습 없이 작은 artifact와 순수 추론으로 분리했습니다. 운영 선택은 `tipster-vote-v1` 그대로입니다.\n- MLB는 기존 선수 수집 작업에서 실제 HTTP 수신 완료 시각·정확한 gamePk·9인 공식 타순·필수 통계를 제한 수집합니다. 공식 probable pitcher를 최종 확정 선발로 부르지 않습니다. KBO는 고정 seed 뒤 공식 일정/휴식일/결과 전체 coverage를 확인해 전력 상태를 만듭니다. 누락은 unavailable이며 가용 시각을 과거로 만들지 않습니다.\n- 같은 입력을 재확인하고 기존 snapshot의 선수 관측 시각만 바꾸던 문제와 KBO 상태에 UI 반올림을 적용하면 hash가 깨지는 문제를 수정했습니다. 새로운 원천은 실제 확보 시각 이후 새 판정에 붙이고 T-30 동결/기존 원장은 보존합니다.\n- 후보 선택·확률·가격·artifact/입력 hash를 같은 원장에 저장하고, 운영 보류 경기의 후보도 공식 결과로 자동 연구 정산합니다. 중복·교정·무승부 환급을 검사합니다. 실제 모의 지갑 거래와 월 손실 5만원 한도는 변경하지 않습니다. 새 상시 작업·유료 증설·HTTP 내 학습은 없습니다.\n- 기존 운영 비교 CLI는 저장된 미래 후보를 임의 재학습/재계산하지 않고 동일 경기의 ROI·선택률·낙폭·Brier/logloss를 비교합니다. 과거 1,220행 재현은 새 수익 개선 실험이 아니며 MLB 310경기가 모두 홈을 골랐고 기간별 우열이 뒤집혀 승격하지 않습니다.\n\n검증: 전체 Python 1,839 passed / 6 skipped / 93 subtests, 과거 선택·원 단위 정산 1,220행 일치(확률 오차<=1e-12), 실제 KBO 공식 일정/결과 로컬 수집과 전력 상태 생성, diff 검사. 원천·시점·리그·기간별 결과와 배포 증거를 보고서에 저장했습니다.\n\n사용자가 CI 통과 후 병합·배포 및 다음 자동 갱신 확인을 승인했습니다. 모델 승격은 이번 변경에 포함하지 않습니다. 분리 worker의 Draft #415는 이 통합 PR로 대체합니다.\n",
+    "body_sha256": "f80f016920ce8e694f86190e83da5309c823e3f51eb338a2e345a2060b840667",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-candidate-integration.md",
+        "sha256": "6a11c062c42a738f4840c8c5443b1fa78c2621e53f6ab2ebcb89ddf7339e29ea"
+      },
+      {
+        "path": "docs/research/2026-10-29-kbo-candidate-bridge.md",
+        "sha256": "b24defc20a4397ffe21f62e8739f1eba27da95207c418df9e3e752e52cfd947d"
+      },
+      {
+        "path": "docs/research/2026-10-29-mlb-candidate-bridge.md",
+        "sha256": "2699d3cc39fdfab1982ff87c65b5662d56ba79511e6e0a3d4170d08fb605ea15"
+      }
+    ]
+  },
+  {
+    "number": 417,
+    "title": "fix: 후보 원천 수집을 전체 선수 작업의 메모리 대기에서 분리",
+    "state": "closed",
+    "head": "dc8a0c9db10ef51b32eff417c778b5b168abd089",
+    "branch": "codex/baseball-candidate-intake-liveness-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/417",
+    "body": "#416 배포 후 운영을 읽어보니 player_info가 10:38:48 UTC에서 약 4시간 멈춰 있었고 새 후보 상태 문서도 없었습니다. 512MB 메모리 입장을 기다리는 전체 선수 작업에만 원천 수집을 붙이면 경기 전 입력을 놓칠 수 있어, 소량 원천 확인을 기존 5분 경량 선발 작업에서도 실행합니다.\n\n- 새 프로세스·증설 없이 기존 작업을 재사용합니다. MLB는 SQLite에서 미래 경기 ID/시각/홈/원정 네 필드만 투영해 전체 선수 JSON을 Python으로 읽지 않습니다.\n- MLB 회당 최대 1경기 순환, KBO 최대 2일, 원천별 6초 예산과 요청 timeout 2/3초, 본문 상한·cooldown을 둡니다. 실제 feed의 경기 전 상태/시각/9인 타순 검증은 유지하며 캐시 일정으로 상태를 추정하지 않습니다.\n- 새 공식 원천을 별도 작은 문서에 실제 수신 시각으로 저장하고 경량 판정은 더 최근의 적격 원천을 사용합니다. KBO 실패와 선택적 후보 확인 실패를 분리합니다. 실제 추천·T-30·월 손실 5만원 제한은 그대로입니다.\n- 후보 확인이 기존 게시 잠금의 점유 시간을 늘릴 수 있어 예산을 작게 제한했습니다. 타순 미발표·대상 없음·실패를 숫자 예측 성공으로 부르지 않습니다.\n\n검증: 전체 Python **1,845 passed, 6 skipped, 93 subtests passed**. 1MB 패딩 투영/전체 문서 역직렬화 금지, 실제 DB→새 원천 문서→판정 입력, 예산·cooldown·회전·실패 독립성 회귀 포함. diff 검사 통과.\n\n사용자는 필요한 원인 수정, CI 통과 후 병합·배포와 다음 자동 갱신 확인까지 승인했습니다. 운영에서 원천 상태가 실제 저장되는지 배포 후 확인합니다.\n",
+    "body_sha256": "2f813ad66416ee84742f798b0b720b80aad2b913ced561e6029151f639e7fed9",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-candidate-intake-liveness.md",
+        "sha256": "a618cc1edbeed23fb17f569ead3cfacd01eeb97018c41e689bfba459b76f713c"
+      }
+    ]
+  },
+  {
+    "number": 418,
+    "title": "docs: 야구 후보 자동 원천 수집과 배포 검증 근거 보존",
+    "state": "closed",
+    "head": "4e501af975b41d3ad422a8d24c6c1109d194a736",
+    "branch": "codex/baseball-bridge-live-evidence-20261029",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/418",
+    "body": "#414/#416/#417 병합·배포 후 실제 운영 관측을 저장합니다. 코드 변경은 없습니다.\n\n- #414 다음 자동 판정의 비교 원장 3건 저장·전체 8,678건 hash 연결 검증은 이전 실행 근거에 보존했습니다.\n- #416/#417 운영 checkout a39ba845, Python3.11 모듈 로드와 HTTP200을 확인했습니다.\n- 14:51:02 UTC 새 경량 자동 작업이 KBO 29/30일 상태를 DB에 저장했습니다. 그 순간에도 전체 player_info는10:38:48이어서 메모리 대기와 독립 실행을 확인했습니다.\n- MLB 조회 범위 적격 일정0, 신규 실전 후보 숫자 예측/정산/실현ROI 미관측을 명시했습니다. 성공 범위를 원천 실행과 상태 저장으로 한정합니다.\n\n코드 PR의 CI(#4161843/#4171849 및93subtests) 통과 상태를 보존하며, 원문JSON 파싱·운영시각/checkout/HTTP상태 대조·diff 검사를 했습니다. 문서 병합은 운영 코드가 바뀌지 않으므로 추가 서버 재시작이 필요하지 않습니다.\n",
+    "body_sha256": "f542af8f8aaa2cc58a9c7c8034d4f207a3d953277531673827645a0e2b81d600",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-29-baseball-bridge-live-acceptance.md",
+        "sha256": "6e0a7d821b521ddc73868a79b3ee6129e0f3d36732ef32bc270be2c889db5447"
+      }
+    ]
+  },
+  {
+    "number": 419,
+    "title": "research: 리그별 월 손실 한도 유무와 수익 선별 규칙 비교",
+    "state": "open",
+    "head": "d104460f6b66cf5389ea2b89a67b090e96bc1a79",
+    "branch": "codex/league-loss-cap-ablation-20261030",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/419",
+    "body": "기존 ROI 대부분이 이미 무제한 단폴 결과인데 월 손실 제한 때문에 낮았던 것으로 해석할 수 있어, 같은 저장 예측·가격·결과에서 한도만 달리하는 로컬 비교를 추가합니다. 리그별 독립 모의 지갑에 전체 미정산 원금을 예약하고, 정확한 정산 시각이 없어 다음 날/이틀 뒤 정산을 따로 계산합니다. 미열람 자료나 실제 운영 지갑의 정확한 반사실 수익이라고 주장하지 않습니다.\n\n4개 에이전트의 원본·검산 근거와 정규화 모델×경기 40,495행을 보존했습니다. 동일 경기 비교와 앞 기간에서만 고른 모델/확률·EV 필터를 뒤 기간에 적용한 탐색을 분리합니다. 실제 지갑 원장도 읽기 전용으로 확인했으며, 이전 계정 미정산 10건 10만 원의 예약 상태와 거절된 모든 기회가 없다는 한계를 기록했습니다.\n\n검증: 로컬 전체 1,857 passed, 6 skipped, 93 subtests. 신규 회귀 12개 통과. 414개 집합×2개 정산 가정에서 월 5만 원 한도 및 추가 베팅 손익 항등식을 확인했습니다. 운영 지갑·추천 정책·월 한도·서버 설정 변경 및 배포는 없습니다. 이 PR은 연구 근거 보존용입니다.\n",
+    "body_sha256": "986b8f9e7ef7cb43e96d1a31f3145604618fcd2f9907de57a5b1353678beffaa",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-30-league-loss-cap.md",
+        "sha256": "1aa7ac045ff1b35a492b7d16f3109a7f0c19d68428efd6baf762d812f128adc8"
+      }
+    ]
+  },
+  {
+    "number": 420,
+    "status": "unavailable404",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/420"
+  },
+  {
+    "number": 421,
+    "title": "research: Proto 전체 선택지의 사전 확률·배당·정산 수익성 검증",
+    "state": "open",
+    "head": "5210d1c119fdb289406e30ec22149c7c69f066ac",
+    "branch": "codex/proto-all-pick-profitability-20261030",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/421",
+    "body": "추천으로 선택한 픽만 검사하던 범위를 보유 Proto 상품의 모든 선택지로 넓힙니다. 2023~2024 fixture와 읽기 전용 역사 DB, 29개 최신 회차 캐시를 합성하고, 최신의 비어 있지 않은 24회차로 오래된 회차 전체를 교체했습니다. 로컬에서 174,633개 상품 행을 검사해 166,463개 물리 상품·389,203개 선택지의 배당/결과/손익을 보존합니다. 각 결과를 운영사 원 발표와 독립 대조했다고 주장하지 않습니다.\n\n별도로 사전 원장 7,458개 snapshot의 전체 options를 조사했습니다. T−30 이전 최신 전체 명단을 먼저 선택하고 회차·게임번호·기간·라인·방향을 엄격하게 연결해 11,977개 상품·28,578개 선택지에 당시 저장 배당으로 정산을 붙였습니다. 빈 최신 명단이나 모델 확률 결측을 과거 값으로 채우지 않습니다. 시장확률·저장 최종 참고값·비검증 score shadow를 구분하고, 같은 608개 상품 비교와 전체 결과가 다른 모집단임을 명시합니다.\n\n정산은 가족별 결과 허용 목록, 언더/오버 순서, 3-way 핸디무, 일반 2-way 야구·농구 무승부 환불, 취소 가격 sentinel, 회차 재발매 충돌과 전반 범위를 검사합니다. 2024년 204개 적격 조건 중 15개 조건을 고정한 뒤 2025/2026에 적용하고 같은 상품의 낮은 배당 선택과 비교합니다. 선택지별 원장·제외·source hash·재현 입력을 함께 보존합니다.\n\n검증: 신규 회귀 31개, 전체 로컬 1,876 passed / 6 skipped / 93 subtests. 선택지 389,203개 지급액·고유키, 사전 28,578개 고유 offer_id와 gzip 아티팩트 11개 SHA256 검산. 연구상 월 손실 제한 OFF·균등 단폴 1만원이며, 운영 한도·지갑·추천 코드·DB·배포는 변경하지 않습니다. 연구 기록 보존용 PR이며 수익 모델 채택이나 미래 수익 보증이 아닙니다.\n",
+    "body_sha256": "d2b5bd304ff057b186726ff3a3dc02b9bf2552c0efb17541afcdfb686a1895df",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-30-proto-all-pick-profitability.md",
+        "sha256": "d106fd5e3371baa608ea9b2e9b18578837930495de4b963906de572788fb2156"
+      }
+    ]
+  },
+  {
+    "number": 422,
+    "title": "research: 고배당 단폴과 저배당 조합의 모델·리그별 손익 비교",
+    "state": "open",
+    "head": "2502509183f9f9a618bc9416de1d7f46ff0b7b95",
+    "branch": "codex/single-vs-low-odds-parlays-20261030",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/422",
+    "body": "## 비교 대상과 결과\n\n같은 리그·경기일·발매 회차·사전 관측 시각에서 같은 총액 12,000원으로 고배당 단폴과 저배당 2·3·4폴을 비교합니다. 동일한 조합 구성 픽을 단폴로 분산한 대조군도 계산합니다. 결과를 보지 않는 선정 규칙을 먼저 커밋했습니다.\n\n- 장기 시장 회고 44,396경기, 실제 픽스터 회고 597경기, 사전 저장 7,458개 전체 수정본을 분리합니다. 시장 배당 역수 모델을 서비스 모델의 실적으로 부르지 않습니다.\n- 장기 시장 공통 표본에서 KBO·NPB·MLB·NBA는 3~4폴이 2폴보다 손실이 컸습니다. KBL 5~10배 단폴 등 양수 예외와 표본 한계도 보고합니다.\n- 앞 2/3 기간으로 리그별 전략을 선택하고 뒤 1/3을 평가합니다. 기존에 본 자료이므로 새 holdout/실전 수익 보장을 주장하지 않습니다.\n- 자체 모델·시장:투표 9:1·순수 투표의 공통 가용 표본 부족과 과거 단폴 구매 지정/배당 유효 시각 미확인도 명시합니다.\n\n## 검증\n\n- 신규 회귀 테스트 17개 통과. 전체 로컬 1,862 passed, 6 skipped, 93 subtests passed.\n- 별도 구현이 271,905개 비교 세션·408,017개 투표권의 원본 신원, 최신 수정본, 사전 시각, 동일 회차, 경기/팀 중복, 프로토 절사·올림 및 환불 정산을 전수 검증했습니다.\n- 소스/입력/결과 해시와 재현 명령, 실제 선택 내역을 저장했습니다. 120분 초과 배당 1.14%는 신선도 진단이며 고정 프로토콜에 없던 사후 제외 규칙으로 사용하지 않았습니다.\n\n운영 코드·서버·베팅 설정·월 손실 한도는 바꾸지 않습니다. 병합·배포는 수행하지 않았습니다.\n",
+    "body_sha256": "7aed89c5c2c39468e2c33cb27d9e95234d41b609de59bd79dc983bf79f4b6f75",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-30-single-parlay-comparison.md",
+        "sha256": "ba2e6c2fa92f56b4b7bedbf60c90a013eacdd92e75bf977ef219a0da8b4ad8d1"
+      },
+      {
+        "path": "docs/research/2026-10-30-single-parlay-protocol.json",
+        "sha256": "5847f8fdfa9ea0c50503de91fe58b88f84ba8b5d5dfd8dd1496516d5ab48e888"
+      }
+    ]
+  },
+  {
+    "number": 423,
+    "title": "research: 논문 근거로 조건부 2폴·보정·픽스터 혼합 모델 검증",
+    "state": "open",
+    "head": "8eec8a052ef85a465f6157f6555e5e60b668d8ab",
+    "branch": "codex/two-leg-model-literature-20261030",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/423",
+    "body": "## 결과와 범위\n\n조건에 맞는 두 경기만 묶는 연구용 2폴을 구현하고, 실제 저장 시장/점수 예측과 실제 픽스터를 이용한 고정9:1·보정·학습 혼합·리그 축소·최근90일 가중을 시간순으로 비교했습니다. 적중률과 ROI를 함께 안정적으로 개선한 교체 후보는 확인하지 못했습니다. 운영 추천/서버/월 손실 설정은 변경하지 않습니다.\n\n세 에이전트가 확률 보정, 픽스터 결합, 리그별 변수를 나눠 1차 자료 23건(정정문 포함)을 조사했습니다. Walsh/Joshi 논문의 평균 ROI가 2025년 정정에서 +34.69%에서 −9.77%로 바뀐 사실도 반영합니다. 논문 수익은 우리 수익이 아닙니다.\n\n- 조건부2폴: 두 leg 모두 확률55% 이상·모델 추정 EV>0, 부족하면 no-fill. 배당 상한 없음. 강제2폴과 같은 leg 분산 단폴 대조군을 함께 기록합니다.\n- 원천 감사로 알려진 경기 후 게시6추천/5경기 제외, 문서 해시 별칭 중복 방지, 투표 동률 기권·방향 시장확률의 운영계약 참고선 분리.\n- 정정 기본 자료: 픽스터592경기와 저장 공통91경기/323시장. 60/20/20 및50/20/30은 겹치는 민감도이지 독립 holdout 두 번이 아닙니다.\n- 별도 게시시각 민감도552경기. NBA 강제2폴3장의 ROI가 가정 변경에 따라 −43.33%→+40%로 바뀌는 점을 개선 증거로 쓰지 않습니다. 조건부 고정9:1은0거래이며 ROI 미산정입니다.\n- 실제 수신/가격 유효/결과 최초 가용 시각은 미입증이어서 strict_asof_training_certified=false를 명시합니다. 수정 전 v1 결과와 프로토콜 감사 부록도 보존합니다.\n\n## 검증\n\n- 신규24개 회귀 테스트 통과, 전체 로컬1,869 passed·6 skipped·93 subtests passed.\n- 독립 에이전트가 기본35세션/940정책, 민감도29세션/812정책을 저장 파라미터에서 재검증해 불일치0건.\n- 실제 heldout label 회전 재실행에서 피팅값/예측확률/선택 픽은 불변, 손익만 변화. 학습/test 경기 중복 없음.\n- 동결 입력·모델별 예측·티켓·적합 파라미터·출처·실패 결과·해시 및 재현 명령 저장.\n\n연구 보존 PR이며 모델 채택·운영 배포는 수행하지 않았습니다.\n",
+    "body_sha256": "e9b550848e7a28c58ce2dadfd852f8451a5db3dca97954cccba2dc3c667888cc",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-30-two-leg-literature-protocol.json",
+        "sha256": "62ae44b96ab23a793e8d192bab0bb03e6ff76fe100a267fa7e8012ef84e507fd"
+      },
+      {
+        "path": "docs/research/2026-10-30-two-leg-model-literature.md",
+        "sha256": "62a55a8feb1a8e93df9f35ea52efab2d8292fbaa505510b08ee05c7d4e5cacb8"
+      }
+    ]
+  },
+  {
+    "number": 424,
+    "title": "research: 선수·라인업 부하 특성의 실제 9:1 비교와 시간 근거 검증",
+    "state": "open",
+    "head": "8bb66e8bccd4ac68fe46a2b59e75147a84de9679",
+    "branch": "codex/pregame-feature-rd-20261030",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/424",
+    "body": "기존 가중치만 바꾸는 비교를 넘어서, 과거 선발 구성·구원투수 투구 부하·선수 출전시간을 실제 원문에서 추출하고 시장/실제 픽스터/고정 9:1과 같은 경기에서 비교합니다. 연구 자료와 검증 코드만 추가하며 운영 예측·DB·스케줄·서버는 변경하지 않습니다.\n\n- K리그 과거 XI/로테이션, MLB 정확한 48·72시간 투구 부하 및 별도 날짜 지연 변수, NBA·KBL 선수별 출전시간/연장 부하를 세 에이전트로 구현했습니다.\n- 사전 고정 프로토콜, 날짜 순 두 분할, 훈련 전용 전처리, 최소 독립 학습 표본, 실제 매칭/보조 시장 자료 분리, 시각·원문 해시 게이트와 강제 채움 없는 2폴 평가를 추가했습니다.\n- 실제 매칭 NBA 18경기에서 새 혼합은 기존 9:1과 같은 적중률61.11%·ROI-12.78%입니다. MLB 16경기의 불펜 단독은25.00%·-55.94%로 열세입니다. K리그 실제 평가는6~8경기로 부족합니다. 새 모델의 운영 교체 근거는 없습니다.\n- 보조 K리그 잔차 보정은 첫 분할 ROI-15.50%→-2.04%지만 넓은 분할은-11.77%→-10.55%, 적중률은45.98%→42.86%로 내려갑니다. 보조 시장 성과를 실제 서비스 성과로 표시하지 않습니다.\n- 평가 결과물107행/학습 성공40개, 정규화 케이스7,092개를 동결해 다른 작업 폴더 없이 오프라인 재현할 수 있습니다. 원문/산출물645개 파일의 Git staged blob SHA256을 대조했습니다.\n- 로컬 수신 원장은 미래 NBA 일정7건의 실제 수신/원문을 기록합니다. 확정 라인업·결장 수집 성공으로 부르지 않으며 자동 서버 작업은 켜지 않았습니다.\n- 에이전트 교차 검토로 늦은 입력, 잘못된 시각의 날짜 우회, 선택 날짜 모순, 취소 환급, 팀명 별칭/실제 경기 중복, 사실·관측 시각 역전 경계를 보강했습니다. 현재 관측 수치는 보강 전후 동일합니다.\n\n검증: 전체 Python **1,909 passed, 6 skipped, 98 subtests passed**. 오프라인 재실행 결과·계수·확률이 일치합니다. 실제 MLB 평가88개 날짜의 정답을 뒤집어도 학습값·예측은 동일하고 평가 성적만 바뀌었습니다. 웹/UI/배포 변경이 없어 웹 빌드·운영 실행은 수행하지 않았습니다.\n\n한계: 과거 당시 수신을 인증한 새 특성은0건입니다. 원천 날짜만 있는 경우 별도 지연 가정으로 분리했습니다. KBO·NPB 투구 수 이력, K리그2 XI, 사전 확정 부상·결장 이력은 미확보이고 KBL은 학습 표본이 부족합니다. 연구 월 손실 한도는 OFF, 운영 한도는 변경하지 않았습니다. 실제 매칭의 적격2폴은0장이므로 2폴 성능 개선도 주장하지 않습니다.\n\n상세: docs/research/2026-10-30-pregame-feature-rd.md\n프로토콜: docs/research/2026-10-30-pregame-feature-rd-protocol.json\n자료: experiments/pregame-feature-rd-20261030/ 및 종목별 원문 폴더\n\n#422/#423의 동결 자료를 참조하되 필요한 정규화 케이스와 새 특성을 이 PR에 보존해 선행 PR 병합 없이 재현됩니다. 병합·배포는 하지 않았습니다.\r\n",
+    "body_sha256": "2efc92ae1b267fe61e52321e88d991fdf54836e1ca24fd709866c68737d33c04",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-30-pregame-feature-rd-protocol.json",
+        "sha256": "14974131cb6d243f7a272e2e24ed41f9d57ac12b2befff4b7f9c76a8b090e2e4"
+      },
+      {
+        "path": "docs/research/2026-10-30-pregame-feature-rd.md",
+        "sha256": "93a20f19a05756b5de8ce5df30ad407993d3ba7e5611fc340c72f48e07c6b288"
+      },
+      {
+        "path": "docs/research/2026-10-30-rd-baseball.md",
+        "sha256": "7cc69befb2a167ef49ce982d61c88590d85ff269e93aaf4cc83be1e0f125316a"
+      },
+      {
+        "path": "docs/research/2026-10-30-rd-basketball.md",
+        "sha256": "fc0e8bf324b635c08f18adc1c1fd4861732a56ab898ce231de5965cccf3ebde3"
+      },
+      {
+        "path": "docs/research/2026-10-30-rd-soccer.md",
+        "sha256": "9c1f81f871788f4652ddb662d2cc51b6ad64b93434133b2a88b8c0d25b130647"
+      }
+    ]
+  },
+  {
+    "number": 425,
+    "title": "research: 공식 선수·투구·픽스터 자료 추가 연결과 KBO 후속 기간 검증",
+    "state": "open",
+    "head": "8b7a49ca8bab4d1d1fb4836a500dc97f8bbb5bd7",
+    "branch": "codex/link-new-source-evidence-20261030",
+    "url": "https://github.com/choigod1023/proto-odds-research/pull/425",
+    "body": "기존 자료에 연결하지 못했던 공식 선수·투구 기록과 추가 픽스터를 실제로 수집·연결하고, 개선 신호가 있었던 KBO 모델을 계수 고정 후 다른 기간에서 검증합니다. 새 자료가 많아진 것과 운영 추천 성능이 좋아진 것을 구분합니다.\n\n이 PR은 **#424 위에 쌓은 후속 연구 PR**입니다. base는 codex/pregame-feature-rd-20261030이며 #424 병합 후 main으로 이어갈 수 있습니다. 연구 코드·자료 보존만 포함하며 운영·DB·스케줄러·지갑·월 손실 한도는 변경하지 않습니다.\n\n- 공식 야구490경기, 투수4,503행, 실제 숫자 투구 수2,069개를 확보했습니다. 실제 매칭 새 특성은 KBO154/204경기, NPB59/110경기에 연결했습니다. KBO 구원 투구 수·공식 타순은 미확보로 보존합니다.\n- K리그는 기존816경기·17,952선발 행의 득점·도움·포지션과 공식 선수 통계를 연결해 과거 선발진 기여·교체 가치를 계산했습니다. 실제 매칭13/24건, 보조709/733건에 통계 기반 특성이 있습니다. 현재 경기 확정 XI라는 주장은 없습니다.\n- 추가 픽스터11기사를 기존 가격/결과가 있는 경기11건에 연결했습니다. 모두 한 작성자이므로 독립 의견11명으로 세지 않습니다. canonical URL·본문/문서 해시·작성자 의존 관계를 보존합니다.\n- 저장된7,458수정본에서 같은 시점/상품/동결 가격의 배당 이력68행, 실제 가격 변경11행을 추출했습니다. 반복된 모델 수정본을 배당 변화로 부풀리지 않았습니다.\n- KBO 첫26경기에서는 새 잔차 모델65.38%·ROI+3.04%로 기존9:1보다 좋았습니다. 계수를5cbc3581에 고정한 뒤 추가 수집한 이후40경기(2026-05-29~07-01)에서는 새 모델60.00%·-8.48%, 기존9:1은65.00%·-0.90%, 투표 방향은67.50%·+7.75%입니다. 새 모델의 운영 교체는 권하지 않습니다.\n- NPB도 넓은19경기 분할에서 새 모델 ROI-21.68%로 기존9:1 +9.63%보다 나빴습니다. 작은 표본의 고수익 값이나2폴 최고값을 채택 근거로 쓰지 않습니다.\n- 전체7,401사례·125결과 행·확률·계수·원천/시간/해시·기권을 포함한 정책 노출을 보존했습니다. 후속 평가에서는 재학습을 호출하지 않고, 과거 원천 수신 시각을 소급하지 않습니다.\n\n검증: **로컬2,022 passed, 6 skipped, 101 subtests passed**. 오프라인 재실행9개 결과 파일의 의미상 일치, 원천·코드 해시, 동결 계수 동일성, 후속40경기24적중·순손익-40,680원 독립 정산을 확인했습니다. Git staged blob797개 SHA256을 검증했습니다. 복사본 대표 작성자 변경으로 투표 제한을 우회하는 반례, 무효 행의 신원 연결, 모든 추가 문서가 충돌할 때 기권, 기존 기회 스테이크 보존, Tokyo 실제 종료 시각/날짜 분리도 회귀 테스트했습니다.\n\n한계: 과거 원문 게시 시각 주장은 실제 당시 수신 인증과 다릅니다. 새 최초 수신 인증 학습 특성은0건입니다. 날짜별 가정과 관측된 부분 부하를 명시했고, 후속 기간의 원래 가격/결과도 이미 다른 연구에서 열람한 아카이브이므로 완전한 맹검이라고 부르지 않습니다. 운영 자동 라인업 반영·새 모델 채택·병합·배포는 하지 않았습니다.\n\n상세 보고서: docs/research/2026-10-30-source-link-step2.md\n사전/추가 프로토콜: docs/research/2026-10-30-source-link-step2-protocol.json\n통합 결과: experiments/source-link-step2-20261030/\n종목별 원천/실패/검증: experiments/source-link-{kleague,baseball,tipster}-20261030/\r\n",
+    "body_sha256": "295020058132d94be64a9401ee1b6f8a53f5bcc070326fb5e1ac8668a4ca64bf",
+    "reports": [
+      {
+        "path": "docs/research/2026-10-30-source-link-baseball.md",
+        "sha256": "bfd565e970dbcb3616fb8465a112edca772676c4391436c72b7008cdc8458a27"
+      },
+      {
+        "path": "docs/research/2026-10-30-source-link-kleague.md",
+        "sha256": "4fa73e6df10020a663d52608158c5a26ddbe85f31bf7a1532b26d4a2ac876ac3"
+      },
+      {
+        "path": "docs/research/2026-10-30-source-link-step2-protocol.json",
+        "sha256": "b667d0105106cd84bca8eb3ac7ed3afddf2754abf74ae007ad4d7b581d3bb006"
+      },
+      {
+        "path": "docs/research/2026-10-30-source-link-step2.md",
+        "sha256": "38c4f8d7b1d92358662ad585cafd1f55ce7407c9b564d2081220693a425b2c94"
+      },
+      {
+        "path": "docs/research/2026-10-30-source-link-tipster.md",
+        "sha256": "55d3a81ced0bcc99a8d6c6185fdbcdbdc54b7b17bf5d47186f0a5b12ee8ec2a1"
+      }
+    ]
+  }
+]

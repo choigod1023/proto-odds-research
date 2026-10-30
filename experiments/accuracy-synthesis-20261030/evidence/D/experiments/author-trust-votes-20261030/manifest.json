@@ -1,0 +1,30 @@
+{
+  "artifacts": {
+    "docs/research/2026-10-30-author-trust-votes-protocol.json": "e1e5f317c1914af8403fc53370cc972f28f5d7eb074284430b2b581198291d23",
+    "docs/research/2026-10-30-author-trust-votes.md": "5c0e025dd0c72bfcf1e768b470c5dd4ff12db14eec511d791b0e41f7150a2577",
+    "experiments/author-trust-votes-20261030/.gitattributes": "730a35ae3d558080083c3103d9ac8100c3f6561678092abe341701dfa331eb1d",
+    "experiments/author-trust-votes-20261030/inputs/frames.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    "experiments/author-trust-votes-20261030/inputs/new-votes-raw.jsonl.gz": "67efc21b49b68de4160adb7528a706d32d5ab8e814a76f19347b590256c049b6",
+    "experiments/author-trust-votes-20261030/inputs/old-votes-raw.jsonl.gz": "11f3a5ff16aed2d6ad9283397b91942680a6c7ed86f2067895effd87e08b1ec0",
+    "experiments/author-trust-votes-20261030/ledger.json": "e63675e244c5d5b1179a79a78eaa8f36eea9e9976d1de600b7aec0f6ba2bb2de",
+    "experiments/author-trust-votes-20261030/results.json": "8ca1cdde1a991a09d53268d63cb057e430af5b29c565c39d1ba09178bd610f5c",
+    "experiments/author-trust-votes-20261030/run.py": "14096239bd04e31c4eb2209253b60eec07dbd585b506c0300ab8574a06898bc2",
+    "experiments/author-trust-votes-20261030/verify.py": "aaae853f1851ebf3de51cdc172f35e0b7975c50c8f6da76f74fc303e222846eb",
+    "tests/test_author_trust_votes.py": "4d796de77f50789aca0c5cfb471278680a8a0db050bc30ba069641f50c417fe0"
+  },
+  "duplicate_votes_archive_sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+  "offline_replay": "python experiments/author-trust-votes-20261030/run.py && python experiments/author-trust-votes-20261030/verify.py",
+  "protocol_amendment_commit": "279fc000",
+  "protocol_initial_commit": "ba51a2ea",
+  "sha256_convention": "binary exact; UTF-8 text CRLF normalized to LF before hashing",
+  "source_files": {
+    "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/link-new-source-evidence-20261030/experiments/source-link-tipster-20261030/new-votes-raw.jsonl.gz": "67efc21b49b68de4160adb7528a706d32d5ab8e814a76f19347b590256c049b6",
+    "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/link-new-source-evidence-20261030/experiments/source-link-tipster-20261030/old-votes-raw.jsonl.gz": "11f3a5ff16aed2d6ad9283397b91942680a6c7ed86f2067895effd87e08b1ec0",
+    "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/two-leg-model-literature-20261030/experiments/two-leg-literature-20261030/inputs/votes.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+  },
+  "source_worktree_heads": {
+    "link-new-source-evidence-20261030": "8b7a49ca8bab4d1d1fb4836a500dc97f8bbb5bd7",
+    "two-leg-model-literature-20261030": "8eec8a052ef85a465f6157f6555e5e60b668d8ab"
+  },
+  "url_dedup_fix": "Preserve article-identity query keys; remove only named tracking/pagination keys. Source URL preferred. Comparison to 0c809142: result JSON and ledger unchanged."
+}
