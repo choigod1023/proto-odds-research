@@ -1,0 +1,57 @@
+{
+  "role": "independent_cross_review",
+  "status": "draft_pr_open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-cross-review-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": null,
+  "commit": "87516531 (implementation; handoff metadata is in a later commit)",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/442",
+  "changed_paths": [
+    "experiments/accuracy-cross-review-20261030/**",
+    "tests/test_accuracy_cross_review.py",
+    "docs/research/2026-10-30-accuracy-cross-review.md"
+  ],
+  "inputs_and_sha": {
+    "PR438_head": "13d0bb6508e60b98143e8dbc88f8bdc9abea4d0c",
+    "PR436_head": "b6d7b49473518d22333f67b6ad5328941e2e7f9c",
+    "PR440_head": "586e7664ada1f7075c5f5e4889529256e4df9a02",
+    "files": {
+      "connection/links.json": "573a404b470832f1bb5dd6b3b2c180e53fb707e328ce43976bbc4bfa01cbf55d",
+      "connection/official-2025.json": "cc0846ccbbea723bc04f1277e07534ee4c89207cb2e14a9e0b55d8884251ef48",
+      "development/adapter.py": "9bf8f7049220a8203ee353cad56d3234e94fa58c159cfd80e25b95b20c6b10e4",
+      "development/baseline_model.py": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1",
+      "structure/fixture-pregame.json": "77828ba41c8b497f17c0ce7172ba8cb79c6a33b754b7c71b5ef6bc6e7b245be1",
+      "structure/fixture-settled.json": "8c46194716b1a2a006cad72069be569eb3790cdc2e02e8592f386217dab7eafa",
+      "structure/schema.json": "b978ff0ffd04a1b7ed415c94370cd19cc9497a5710b35d034cd24a0dd0fb8da0",
+      "structure/validator.py": "a7bfd83edb3550f8b74bbe633120ead8dcb597ef33a75f7ed6dbf908bfd4d779"
+    }
+  },
+  "tests": {
+    "cross": "15 passed",
+    "full": "1875 passed, 6 skipped, 93 subtests passed",
+    "source_copies": "8 bytewise SHA256 matches"
+  },
+  "metrics": {
+    "official_2025_unique": 275,
+    "existing_links": 23,
+    "additional_candidates": 252,
+    "verified_pregame_player_price_or_receipt": 0,
+    "accuracy_or_roi_evaluation": "not performed"
+  },
+  "limitations": [
+    "synthetic fixture tests; not production integration",
+    "prior result-based links not independently replayed from original source history",
+    "no official identity authority, source raw bytes or independent receipt verification",
+    "no model training, performance or deployment verification"
+  ],
+  "blockers": [
+    "v0 to v1 translation and lossless source/state/hash linkage not implemented",
+    "trusted independent snapshot needed; standalone v1 freeze digest does not bind referenced content",
+    "product/line/scope and availability/time validation absent at adapter boundary",
+    "player IDs and trained-state team IDs lack verified authority mapping; incomplete allocations rejected",
+    "invalid lineup raises; safe baseline handling needs explicit caller design",
+    "score-based matching is not pregame identity proof"
+  ],
+  "next_dependency": "coordinator decides interface; establish independent identity, trust snapshot and prospective data evidence before integration"
+}

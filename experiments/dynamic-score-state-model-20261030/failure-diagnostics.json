@@ -1,0 +1,152 @@
+[
+  {
+    "league": "K리그1",
+    "training_score_marginal_mean": 1.275219298245614,
+    "training_score_marginal_variance": 1.2499122326100338,
+    "marginal_variance_mean_ratio": 0.9801547344285045,
+    "diagnostic_warning": "Unconditional mixture overteams/opponents; NOT proof of conditional Poisson dispersion failure",
+    "validation_logloss": {
+      "score-static": 1.0739705825434773,
+      "score-dynamic": 1.07402146413066,
+      "outcome-static": 1.0728301423117763,
+      "outcome-dynamic": 1.0736065112584066
+    },
+    "selected": "outcome-static",
+    "actual_evaluation": [
+      {
+        "mode": "frozen",
+        "disagreements_market": 5,
+        "home_constant_agreement": true,
+        "class_counts": {
+          "0": 15
+        }
+      },
+      {
+        "mode": "prequential",
+        "disagreements_market": 3,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "0": 13,
+          "2": 2
+        }
+      }
+    ]
+  },
+  {
+    "league": "K리그2",
+    "training_score_marginal_mean": 1.297872340425532,
+    "training_score_marginal_variance": 1.3410593028519693,
+    "marginal_variance_mean_ratio": 1.0332752005580748,
+    "diagnostic_warning": "Unconditional mixture overteams/opponents; NOT proof of conditional Poisson dispersion failure",
+    "validation_logloss": {
+      "score-static": 1.0974609015003938,
+      "score-dynamic": 1.1070830138425765,
+      "outcome-static": 1.0893833846645178,
+      "outcome-dynamic": 1.0928123777886916
+    },
+    "selected": null,
+    "actual_evaluation": []
+  },
+  {
+    "league": "KBO",
+    "training_score_marginal_mean": 4.985446985446986,
+    "training_score_marginal_variance": 12.057307267286477,
+    "marginal_variance_mean_ratio": 2.418500748775978,
+    "diagnostic_warning": "Unconditional mixture overteams/opponents; NOT proof of conditional Poisson dispersion failure",
+    "validation_logloss": {
+      "score-static": 0.7216070738620615,
+      "score-dynamic": 0.7403232868232468,
+      "outcome-static": 0.687859362843732,
+      "outcome-dynamic": 0.6937974046461162
+    },
+    "selected": "outcome-static",
+    "actual_evaluation": [
+      {
+        "mode": "frozen",
+        "disagreements_market": 62,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "0": 129,
+          "1": 70
+        }
+      },
+      {
+        "mode": "prequential",
+        "disagreements_market": 50,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "0": 117,
+          "1": 82
+        }
+      }
+    ]
+  },
+  {
+    "league": "NPB",
+    "training_score_marginal_mean": 3.379133409350057,
+    "training_score_marginal_variance": 7.225129009567965,
+    "marginal_variance_mean_ratio": 2.1381603311594755,
+    "diagnostic_warning": "Unconditional mixture overteams/opponents; NOT proof of conditional Poisson dispersion failure",
+    "validation_logloss": {
+      "score-static": 0.7047813543871024,
+      "score-dynamic": 0.7174702651595035,
+      "outcome-static": 0.6868597655146333,
+      "outcome-dynamic": 0.6923183358106024
+    },
+    "selected": "outcome-static",
+    "actual_evaluation": [
+      {
+        "mode": "frozen",
+        "disagreements_market": 30,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "0": 90,
+          "1": 20
+        }
+      },
+      {
+        "mode": "prequential",
+        "disagreements_market": 39,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "1": 39,
+          "0": 71
+        }
+      }
+    ]
+  },
+  {
+    "league": "MLB",
+    "training_score_marginal_mean": 4.496981053508224,
+    "training_score_marginal_variance": 9.916865755835076,
+    "marginal_variance_mean_ratio": 2.205227382067497,
+    "diagnostic_warning": "Unconditional mixture overteams/opponents; NOT proof of conditional Poisson dispersion failure",
+    "validation_logloss": {
+      "score-static": 0.709626486745244,
+      "score-dynamic": 0.719218433632712,
+      "outcome-static": 0.6857985955271685,
+      "outcome-dynamic": 0.6904303386153562
+    },
+    "selected": "outcome-static",
+    "actual_evaluation": [
+      {
+        "mode": "frozen",
+        "disagreements_market": 32,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "0": 82,
+          "1": 30
+        }
+      },
+      {
+        "mode": "prequential",
+        "disagreements_market": 39,
+        "home_constant_agreement": false,
+        "class_counts": {
+          "0": 79,
+          "1": 33
+        }
+      }
+    ]
+  }
+]

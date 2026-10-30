@@ -1,0 +1,44 @@
+{
+  "role": "server",
+  "status": "completed_with_observation_limits",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-server-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/437",
+  "changed_paths": [
+    "docs/research/2026-10-30-accuracy-server.md",
+    "experiments/accuracy-server-20261030/handoff.json"
+  ],
+  "inputs_and_sha": {
+    "AGENTS.md": "e7b063e7f7d29e21cdb00551e649c6ab5fff0129ef4694f7cbe875beeb9ac325",
+    "docs/PRODUCTION_CONTRACT.md": "297d3676cee6d1f230057d0e4ce75981f77d6aa3f6424cbc952b3f84b6d2d32e",
+    "docs/research/2026-10-25-research-scope-correction.md": "9eaa7a2c20be065f0478689edf563552b65df4fc13518ba91a502aceb32aab3d",
+    "deploy/supervisor.py": "342929482325033e35ac4e8e85eee15e21d1abb17b3ac7baf1a76b7117ded7a5",
+    "deploy/web/README.md": "f116a8602f0ea122691fd570371ec3d3b41feee660fb58cbb3f4149199b712c7"
+  },
+  "tests": [
+    "Python JSON parse and required-field validation; git diff --check"
+  ],
+  "metrics": {
+    "matches_recent_seconds": 0.512,
+    "matches_recent_bytes": 2984580,
+    "picks_seconds": 8.893,
+    "picks_bytes": 39682129,
+    "health_status": "ok",
+    "picks_generated_at": "2026-10-30T09:18:08+00:00",
+    "view_revision": "2026-10-30T09:36:54.716483+00:00",
+    "live_generated_at": "2026-10-30T09:41:06+00:00",
+    "logged_peak_rss_kib": 702072
+  },
+  "limitations": [
+    "Single snapshot; no availability or stability conclusion.",
+    "Sampling timestamps and exact 10 second spacing unavailable; current per-process RSS/HWM not obtained.",
+    "Image-wide commit not verified; only supervisor hash matched.",
+    "Commit is supplied in final response: embedding own commit hash is self-referential.",
+    "No model performance experiment; protocol commit not applicable."
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator review of timeouts, staleness and batch/serving separation; further timestamped process observations and image provenance."
+}
