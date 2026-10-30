@@ -1,0 +1,53 @@
+{
+  "role": "independent_timing_and_followup_review",
+  "status": "draft_pr_pending",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-timing-review-20261030",
+  "base_sha": "90b374348c42478675ac48aadb8815f6c093d858",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": null,
+  "changed_paths": [
+    "experiments/accuracy-timing-review-20261030/**",
+    "tests/test_accuracy_timing_review.py",
+    "docs/research/2026-10-30-accuracy-timing-review.md"
+  ],
+  "inputs_and_sha": {
+    "uncommitted_parent_prepare": "f01b68e80ea1c2c0fa42f3eb5d7309fb20e5d947fb3507f62b0a207314763442",
+    "uncommitted_parent_test": "240318b396c5ada5e6ca39e440eeb19dbe638dbd0f2a71c2ca53c1f2c403f67f",
+    "pr438_head": "b2da27a949149de36555b79643158173105a15f9",
+    "pr440_head": "d981fae895ccff2193614d7337908cb5318e051e",
+    "pr436_head_unchanged": "b6d7b49473518d22333f67b6ad5328941e2e7f9c",
+    "vendor_hashes": {
+      "connection/match.py": "c1b267e9715fc6c04c65c89da0dfe96e1d417fa92f7a8b0e8734b47422378663",
+      "parent/integration_test_source.txt": "240318b396c5ada5e6ca39e440eeb19dbe638dbd0f2a71c2ca53c1f2c403f67f",
+      "parent/prepare.py": "f01b68e80ea1c2c0fa42f3eb5d7309fb20e5d947fb3507f62b0a207314763442",
+      "structure/fixture-pregame.json": "36adc8beb460b97e9575921728666f31b0e849089ffc6e83882ebfc45dfc536b",
+      "structure/schema.json": "6fe11c16d02bcb15cb98384254489ef5a6c6d4b314c3f2ba0d0d70e14cd104ef",
+      "structure/validator.py": "348121cf07ea884e34144ad5900244e4573af7ffd8f41dd0aa2585ccbca84aaf"
+    }
+  },
+  "tests": {
+    "targeted": "11 passed",
+    "full_on_9ad96903": "1873 passed, 6 skipped, 93 subtests passed",
+    "full_on_90b37434": "1888 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "source_frames": 597,
+    "source_frame_duplicate_event_ids": 0,
+    "actual_2026_target_cases": 445,
+    "actual_2026_case_frame_league_team_name_mismatches": 0
+  },
+  "limitations": [
+    "parent replay byte identity reported by parent not rerun",
+    "synthetic counterexamples do not establish a real corrupted row",
+    "latest PR436 fix unavailable at single lookup",
+    "no external pregame receipt or live deployment verified"
+  ],
+  "blockers": [
+    "case decision timestamp provenance and frame identity checks are not independently enforced by parent helper",
+    "v1.1 input digest does not bind game identity; trusted snapshot prevents mutation",
+    "connection link function does not reject duplicate official ID across distinct fixture keys"
+  ],
+  "next_dependency": "coordinator review identity and decision provenance, trusted snapshot and duplicate ID guards; review PR436 after completion"
+}
