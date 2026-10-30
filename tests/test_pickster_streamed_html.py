@@ -58,3 +58,42 @@ def test_observation_clock_is_after_receiving_public_html(monkeypatch):
     result = w.collect_once(object())
     assert result['observed_at'] == '2026-10-28T14:00:40+00:00'
     assert all(e['observed_at'] == result['observed_at'] for e in events)
+
+
+def empty_mlb_slate():
+    return """<html><head>
+    <title>Tonight's MLB slate · 0 games, 0 picks from 0 sharps · TailSlips</title>
+    <link rel="canonical" href="https://tailslips.com/slate?sport=mlb">
+    <meta name="description" content="Tonight's MLB slate on TailSlips: 0 games on the board, no picks tweeted yet. Check back as cappers post.">
+    </head><body><h1>Tonight's slate</h1></body></html>"""
+
+
+def test_explicit_empty_mlb_slate_is_successful():
+    assert w.parse_slate(empty_mlb_slate(), '2026-10-30T00:00:00Z') == ([], [])
+
+
+@pytest.mark.parametrize('html', [
+    '<html><title>Error</title></html>',
+    empty_mlb_slate().replace('0 games, 0 picks', '1 games, 0 picks'),
+    empty_mlb_slate().replace('sport=mlb', 'sport=nba'),
+    empty_mlb_slate().replace('</body>', '<a href="/cappers/one">one</a></body>'),
+    empty_mlb_slate().replace('no picks tweeted yet', 'picks available'),
+])
+def test_unknown_or_contradictory_empty_structure_still_fails(html):
+    with pytest.raises(ValueError, match='section'):
+        w.parse_slate(html, '2026-10-30T00:00:00Z')
+
+
+def test_empty_slate_collection_preserves_historical_pick_state(monkeypatch):
+    state = {'initialized_at': 'old', 'pick_identity_version': 4, 'picks': {'old': {'last_seen': 'old'}},
+             'current_pick_ids': ['old']}
+    saved = []
+    monkeypatch.setattr(w, '_now', lambda: '2026-10-30T00:00:00+00:00')
+    monkeypatch.setattr(w, 'parse_leaderboard', lambda *a: [])
+    monkeypatch.setattr(w, '_load_state', lambda: state)
+    monkeypatch.setattr(w, '_save_state', lambda value: saved.append(value))
+    monkeypatch.setattr(w, '_append_jsonl', lambda p, rows: len(rows))
+    result = w.collect_once(None, leaderboard_html='', slate_html=empty_mlb_slate())
+    assert result['games'] == result['slate_picks'] == result['pick_events_written'] == 0
+    assert saved[0]['picks']['old']['last_seen'] == 'old'
+    assert saved[0]['current_pick_ids'] == []
