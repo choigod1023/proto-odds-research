@@ -13,9 +13,20 @@ def ts(s):
         return d if d.tzinfo else None
     except (ValueError, TypeError, AttributeError): return None
 def norm(s): return str(s or '').strip().casefold()
+# Only known aliases and non-identity query arguments may be collapsed.
+HOST_ALIASES = {f'www.{h}': h for h in ('pickswise.com','tonyspicks.com','betblog.com','covers.com','goli.tv')}
+NON_IDENTITY_QUERY = {'page','paged','utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id','gclid','fbclid','msclkid'}
 def url(s):
-    u = urllib.parse.urlsplit(s or '')
-    return (u.netloc.casefold() + u.path.rstrip('/').casefold()) if u.netloc else ''
+    try:
+        u = urllib.parse.urlsplit(s or '')
+        if u.scheme.casefold() not in ('http','https') or not u.hostname: return ''
+        host = HOST_ALIASES.get(u.hostname.casefold(), u.hostname.casefold())
+        port = u.port
+        if port and not (u.scheme.casefold() == 'http' and port == 80 or u.scheme.casefold() == 'https' and port == 443): host += f':{port}'
+        query = sorted((k,v) for k,v in urllib.parse.parse_qsl(u.query,keep_blank_values=True) if k.casefold() not in NON_IDENTITY_QUERY)
+        suffix = urllib.parse.urlencode(query)
+        return host + u.path.rstrip('/') + ('?' + suffix if suffix else '')
+    except ValueError: return ''
 def keyauthor(x):
     a = norm(x.get('author')); site = norm(x.get('source_site') or urllib.parse.urlsplit(x.get('source_url') or '').netloc or x.get('source'))
     return (site, a) if site and a else None
@@ -35,7 +46,8 @@ def prepare(frames, raw):
         a,b=find(i),find(j)
         if a != b: parent[max(a,b)] = min(a,b)
     for i,x in enumerate(allrows):
-        author=keyauthor(x); u=url(x.get('canonical_article_url') or x.get('source_url'))
+        # The source URL may retain identity keys lost in an upstream canonical URL.
+        author=keyauthor(x); u=url(x.get('source_url') or x.get('canonical_article_url'))
         keys=[]
         if author: keys.append(('author',author))
         if u: keys.append(('url',u))

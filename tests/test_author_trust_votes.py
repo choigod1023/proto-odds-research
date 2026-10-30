@@ -35,5 +35,31 @@ def test_identity_bridge_is_built_before_postgame_exclusion():
     rows,reasons,_,_=study.prepare([f],raw)
     assert len(rows[0]['votes'])==1 and reasons['postgame_claim']==1
 
+def test_article_identity_query_is_not_dropped():
+    a='https://forum.example/bbs/board.php?bo_table=analysis&wr_id=123'
+    b='https://forum.example/bbs/board.php?bo_table=analysis&wr_id=456'
+    assert study.url(a)!=study.url(b)
+    assert study.url(a)!=study.url(a.replace('analysis','other'))
+    assert study.url('https://forum.example/post?id=123')!=study.url('https://forum.example/post?id=456')
+    assert study.url('https://forum.example/Post?id=123')!=study.url('https://forum.example/post?id=123')
+
+def test_tracking_alias_and_transitive_citation():
+    a='https://www.pickswise.com/article/?id=123&page=2&utm_source=feed'
+    alias='http://pickswise.com/article?id=123&fbclid=opaque'
+    assert study.url(a)==study.url(alias)
+    def vote(author, address, **extra):
+        return dict(author=author,source_site='site',source_url=address,event_id='e',kickoff='2026-01-03T12:00:00+00:00',published_at_claim='2026-01-01T00:00:00Z',selection='home',**extra)
+    raw=[vote('a',a),vote('b','https://example.com/b',citation_urls=[alias]),vote('c','https://example.com/c',citation_urls=['https://example.com/b?utm_medium=social'])]
+    frame={'event_id':'e','kickoff':'2026-01-03T12:00:00+00:00','raw_forecasts':[],'choices':[{'side':'home','odds':2,'scores':{'market':.5}},{'side':'away','odds':2,'scores':{'market':.5}}], 'winner':'home','original_model_picks':{'market90_vote10':'home'}}
+    rows,_,_,_=study.prepare([frame],raw); assert len(rows[0]['votes'])==1
+    raw=[vote('a','https://forum.example/bbs/board.php?bo_table=analysis&wr_id=123'),vote('b','https://forum.example/bbs/board.php?bo_table=analysis&wr_id=456')]
+    rows,_,_,_=study.prepare([frame],raw); assert len(rows[0]['votes'])==2
+
+def test_later_conflicting_author_vote_excluded_under_frozen_protocol():
+    common={'author':'a','source_site':'site','event_id':'e','kickoff':'2026-01-03T12:00:00+00:00'}
+    raw=[dict(common,source_url='https://site/a',published_at_claim='2026-01-01T00:00:00Z',selection='home'),dict(common,source_url='https://site/b',published_at_claim='2026-01-02T00:00:00Z',selection='away')]
+    frame={'event_id':'e','kickoff':'2026-01-03T12:00:00+00:00','raw_forecasts':[],'choices':[{'side':'home','odds':2,'scores':{'market':.5}},{'side':'away','odds':2,'scores':{'market':.5}}], 'winner':'home','original_model_picks':{'market90_vote10':'home'}}
+    rows,reasons,_,_=study.prepare([frame],raw); assert rows==[] and reasons['conflicting_component']==1
+
 def test_independent_settlement():
     spec=importlib.util.spec_from_file_location('verification',P/'verify.py'); verify=importlib.util.module_from_spec(spec); spec.loader.exec_module(verify); verify.verify()
