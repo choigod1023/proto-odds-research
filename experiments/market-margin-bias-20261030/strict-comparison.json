@@ -1,0 +1,315 @@
+{
+  "n": 491,
+  "coverage": 1.0,
+  "weeks": 32,
+  "cutoff_exclusive": "2025-11-05",
+  "selected": "shin",
+  "accuracy": 0.5743380855397149,
+  "roi": -0.10230142566191447,
+  "comparisons": {
+    "market": {
+      "accuracy_delta": 0.0,
+      "roi_delta": 0.0,
+      "accuracy_ci": [
+        0.0,
+        0.0
+      ],
+      "roi_ci": [
+        0.0,
+        0.0
+      ],
+      "p_uncorrected": 1.0,
+      "p_holm": 1.0
+    },
+    "market90_vote10": {
+      "accuracy_delta": 0.0,
+      "roi_delta": -0.011384928716904273,
+      "accuracy_ci": [
+        -0.042155293146832015,
+        0.04035401002506264
+      ],
+      "roi_ci": [
+        -0.09279622451304811,
+        0.06525018796992482
+      ],
+      "p_uncorrected": 1.0,
+      "p_holm": 1.0
+    }
+  },
+  "all_candidates": {
+    "proportional": {
+      "accuracy": 0.5743380855397149,
+      "roi": -0.10230142566191447,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0,
+          "accuracy_ci": [
+            0.0,
+            0.0
+          ],
+          "roi_ci": [
+            0.0,
+            0.0
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": 0.0,
+          "roi_delta": -0.011384928716904273,
+          "accuracy_ci": [
+            -0.042155293146832015,
+            0.04035401002506264
+          ],
+          "roi_ci": [
+            -0.09279622451304811,
+            0.06525018796992482
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "power": {
+      "accuracy": 0.5743380855397149,
+      "roi": -0.10230142566191447,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0,
+          "accuracy_ci": [
+            0.0,
+            0.0
+          ],
+          "roi_ci": [
+            0.0,
+            0.0
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": 0.0,
+          "roi_delta": -0.011384928716904273,
+          "accuracy_ci": [
+            -0.042155293146832015,
+            0.04035401002506264
+          ],
+          "roi_ci": [
+            -0.09279622451304811,
+            0.06525018796992482
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "shin": {
+      "accuracy": 0.5743380855397149,
+      "roi": -0.10230142566191447,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0,
+          "accuracy_ci": [
+            0.0,
+            0.0
+          ],
+          "roi_ci": [
+            0.0,
+            0.0
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": 0.0,
+          "roi_delta": -0.011384928716904273,
+          "accuracy_ci": [
+            -0.042155293146832015,
+            0.04035401002506264
+          ],
+          "roi_ci": [
+            -0.09279622451304811,
+            0.06525018796992482
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "additive-logit": {
+      "accuracy": 0.5743380855397149,
+      "roi": -0.10230142566191447,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0,
+          "accuracy_ci": [
+            0.0,
+            0.0
+          ],
+          "roi_ci": [
+            0.0,
+            0.0
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": 0.0,
+          "roi_delta": -0.011384928716904273,
+          "accuracy_ci": [
+            -0.042155293146832015,
+            0.04035401002506264
+          ],
+          "roi_ci": [
+            -0.09279622451304811,
+            0.06525018796992482
+          ],
+          "p_uncorrected": 1.0,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "proportional+league-home-draw": {
+      "accuracy": 0.5804480651731161,
+      "roi": -0.09323828920570265,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": 0.006109979633401222,
+          "roi_delta": 0.009063136456211813,
+          "accuracy_ci": [
+            -0.01612984685565331,
+            0.02763584582799841
+          ],
+          "roi_ci": [
+            -0.0323993969407724,
+            0.04738681531024909
+          ],
+          "p_uncorrected": 0.659,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": 0.006109979633401222,
+          "roi_delta": -0.0023217922606924637,
+          "accuracy_ci": [
+            -0.04375,
+            0.04990411940637406
+          ],
+          "roi_ci": [
+            -0.09673774829332743,
+            0.07920314157688374
+          ],
+          "p_uncorrected": 0.788,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "power+league-home-draw": {
+      "accuracy": 0.5682281059063137,
+      "roi": -0.11480651731160897,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": -0.006109979633401222,
+          "roi_delta": -0.012505091649694502,
+          "accuracy_ci": [
+            -0.025866276460468247,
+            0.013973009492664723
+          ],
+          "roi_ci": [
+            -0.04916872285803401,
+            0.024033610936517895
+          ],
+          "p_uncorrected": 0.661,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": -0.006109979633401222,
+          "roi_delta": -0.023890020366598774,
+          "accuracy_ci": [
+            -0.06061633281972265,
+            0.04071246819338423
+          ],
+          "roi_ci": [
+            -0.1277006688963211,
+            0.06406482941224023
+          ],
+          "p_uncorrected": 0.898,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "shin+league-home-draw": {
+      "accuracy": 0.5784114052953157,
+      "roi": -0.09678207739307537,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": 0.004073319755600814,
+          "roi_delta": 0.005519348268839106,
+          "accuracy_ci": [
+            -0.019837181845638506,
+            0.026217392158403394
+          ],
+          "roi_ci": [
+            -0.038624800700567695,
+            0.044779150344542155
+          ],
+          "p_uncorrected": 0.807,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": 0.004073319755600814,
+          "roi_delta": -0.0058655804480651766,
+          "accuracy_ci": [
+            -0.04961855738450173,
+            0.04832013574660633
+          ],
+          "roi_ci": [
+            -0.10689929716670324,
+            0.07594515531745774
+          ],
+          "p_uncorrected": 0.866,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "additive-logit+league-home-draw": {
+      "accuracy": 0.5682281059063137,
+      "roi": -0.11464358452138494,
+      "comparisons": {
+        "market": {
+          "accuracy_delta": -0.006109979633401222,
+          "roi_delta": -0.012342158859470466,
+          "accuracy_ci": [
+            -0.027473337075498174,
+            0.013564150377942766
+          ],
+          "roi_ci": [
+            -0.0518737508792355,
+            0.022741502760524484
+          ],
+          "p_uncorrected": 0.664,
+          "p_holm": 1.0
+        },
+        "market90_vote10": {
+          "accuracy_delta": -0.006109979633401222,
+          "roi_delta": -0.023727087576374744,
+          "accuracy_ci": [
+            -0.06265517541930048,
+            0.041796688824783615
+          ],
+          "roi_ci": [
+            -0.12969274569166275,
+            0.06536042451349658
+          ],
+          "p_uncorrected": 0.913,
+          "p_holm": 1.0
+        }
+      }
+    }
+  },
+  "source_sha256": "5d433838cf654ff6227bc617efbe43907a572850f6a883f6969967f414b23e76",
+  "note": "Strict PR402 actual votes; already exposed retrospective secondary cohort, no independently authenticated pregame receipt. Not a blind holdout."
+}
