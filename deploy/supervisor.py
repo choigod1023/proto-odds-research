@@ -172,7 +172,7 @@ LIVE_EVERY = 30            # 30초
 LIVE_PORT = 8080
 # 프론트의 no-cache JSON 요청은 교차 출처에서 Cache-Control 헤더를 보내므로
 # OPTIONS 응답에도 반드시 허용해야 한다. 빠지면 모든 실시간 요청이 브라우저에서 막힌다.
-CORS_REQUEST_HEADERS = "Content-Type, Cache-Control"
+CORS_REQUEST_HEADERS = "Content-Type, Cache-Control, If-None-Match"
 ANONYMOUS_BETS_PATH = Path(os.environ.get("ANONYMOUS_BETS_PATH", "/data/anonymous_bets.jsonl"))
 _anonymous_bets_lock = threading.Lock()
 # 전체 재계산과 일일 xG 수집은 각각 메모리를 크게 쓴다. 재시작 15분 뒤 두 작업이
@@ -1151,6 +1151,7 @@ def serve_live() -> None:
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
             self.send_header("Access-Control-Allow-Headers", CORS_REQUEST_HEADERS)
+            self.send_header("Access-Control-Expose-Headers", "ETag")
             # 30초마다 바뀌므로 브라우저·프록시 캐시를 짧게 유지한다
             self.send_header("Cache-Control", "public, max-age=5")
 
@@ -1237,16 +1238,27 @@ def serve_live() -> None:
                 return
             try:
                 accepts_gzip = "gzip" in self.headers.get("Accept-Encoding", "").lower()
-                body = artifact_responses.get_bytes(artifact_name, compressed=accepts_gzip)
+                if artifact_name == "picks_v2":
+                    body, etag = artifact_responses.get_response(
+                        artifact_name, compressed=accepts_gzip,
+                        if_none_match=self.headers.get("If-None-Match"))
+                else:
+                    body = artifact_responses.get_bytes(artifact_name, compressed=accepts_gzip)
+                    etag = None
             except (OSError, KeyError, ValueError):
                 self.send_response(503)
                 self._cors()
                 self.end_headers()
                 return
-            self.send_response(200)
+            self.send_response(304 if body is None else 200)
             self._cors()
-            self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Vary", "Accept-Encoding")
+            if etag is not None:
+                self.send_header("ETag", etag)
+            if body is None:
+                self.end_headers()
+                return
+            self.send_header("Content-Type", "application/json; charset=utf-8")
             if accepts_gzip:
                 self.send_header("Content-Encoding", "gzip")
             self.send_header("Content-Length", str(len(body)))
