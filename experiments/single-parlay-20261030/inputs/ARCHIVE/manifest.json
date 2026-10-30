@@ -1,0 +1,8681 @@
+{
+  "created_at": "2026-10-30T01:53:56.748437+00:00",
+  "protocol": "single-vs-low-parlay-v1",
+  "cohort": "historical_market_proxy",
+  "probability_models": [
+    "market_proportional_archive_proxy"
+  ],
+  "probability_definition": "p_i=(1/odds_i)/sum_j(1/odds_j) within each complete physical market",
+  "probability_status": "unverified_market_implied_probability; not saved Shin or current operating model",
+  "source_sha256": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\experiments\\proto-all-picks-20261030\\offers.jsonl.gz": "096b7c64189476a84601fad7181c44ed82705587ef7b0891715a4f601e3df98a",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\docs\\research\\2026-10-30-single-parlay-protocol.json": "5847f8fdfa9ea0c50503de91fe58b88f84ba8b5d5dfd8dd1496516d5ab48e888",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\experiments\\proto-all-picks-20261030\\normalization.json": "2a632a5da11dcf9efe79690167c3832a5cfa58625377ff00beb0673a8595fd46",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\scripts\\proto_all_pick_research.py": "0a8ae5ca43c400a580407bb4174bfb9a5bb0b312949b095d3e9addf148581f2c"
+  },
+  "source_file_bytes": 19327706,
+  "output_sha256": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3",
+  "export_code_sha256": "212cae045201a0ec1ae1c17a3f3bfd678f971543168ba4242e5f1031b1ac3731",
+  "counts": {
+    "frames": 44396,
+    "physical_markets": 166463,
+    "choices": 389203
+  },
+  "source_market_status": {
+    "settled": 166463
+  },
+  "choice_status": {
+    "settled": 389203
+  },
+  "kickoff_date_range": [
+    "2023-01-01",
+    "2026-10-30"
+  ],
+  "counts_by_kst_date": {
+    "2023-01-01": {
+      "frames": 28,
+      "physical_markets": 87,
+      "choices": 202
+    },
+    "2023-01-02": {
+      "frames": 10,
+      "physical_markets": 31,
+      "choices": 74
+    },
+    "2023-01-03": {
+      "frames": 18,
+      "physical_markets": 55,
+      "choices": 118
+    },
+    "2023-01-04": {
+      "frames": 15,
+      "physical_markets": 47,
+      "choices": 112
+    },
+    "2023-01-05": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 176
+    },
+    "2023-01-06": {
+      "frames": 12,
+      "physical_markets": 36,
+      "choices": 80
+    },
+    "2023-01-07": {
+      "frames": 27,
+      "physical_markets": 82,
+      "choices": 186
+    },
+    "2023-01-08": {
+      "frames": 29,
+      "physical_markets": 92,
+      "choices": 222
+    },
+    "2023-01-09": {
+      "frames": 20,
+      "physical_markets": 63,
+      "choices": 144
+    },
+    "2023-01-10": {
+      "frames": 14,
+      "physical_markets": 42,
+      "choices": 94
+    },
+    "2023-01-11": {
+      "frames": 13,
+      "physical_markets": 41,
+      "choices": 88
+    },
+    "2023-01-12": {
+      "frames": 26,
+      "physical_markets": 82,
+      "choices": 196
+    },
+    "2023-01-13": {
+      "frames": 13,
+      "physical_markets": 41,
+      "choices": 92
+    },
+    "2023-01-14": {
+      "frames": 21,
+      "physical_markets": 63,
+      "choices": 144
+    },
+    "2023-01-15": {
+      "frames": 43,
+      "physical_markets": 136,
+      "choices": 338
+    },
+    "2023-01-16": {
+      "frames": 19,
+      "physical_markets": 59,
+      "choices": 138
+    },
+    "2023-01-17": {
+      "frames": 14,
+      "physical_markets": 42,
+      "choices": 88
+    },
+    "2023-01-18": {
+      "frames": 8,
+      "physical_markets": 25,
+      "choices": 56
+    },
+    "2023-01-19": {
+      "frames": 19,
+      "physical_markets": 58,
+      "choices": 126
+    },
+    "2023-01-20": {
+      "frames": 15,
+      "physical_markets": 47,
+      "choices": 104
+    },
+    "2023-01-21": {
+      "frames": 30,
+      "physical_markets": 90,
+      "choices": 210
+    },
+    "2023-01-22": {
+      "frames": 38,
+      "physical_markets": 119,
+      "choices": 290
+    },
+    "2023-01-23": {
+      "frames": 20,
+      "physical_markets": 62,
+      "choices": 142
+    },
+    "2023-01-24": {
+      "frames": 15,
+      "physical_markets": 47,
+      "choices": 102
+    },
+    "2023-01-25": {
+      "frames": 18,
+      "physical_markets": 56,
+      "choices": 128
+    },
+    "2023-01-26": {
+      "frames": 28,
+      "physical_markets": 86,
+      "choices": 200
+    },
+    "2023-01-27": {
+      "frames": 16,
+      "physical_markets": 49,
+      "choices": 108
+    },
+    "2023-01-28": {
+      "frames": 25,
+      "physical_markets": 76,
+      "choices": 184
+    },
+    "2023-01-29": {
+      "frames": 42,
+      "physical_markets": 135,
+      "choices": 324
+    },
+    "2023-01-30": {
+      "frames": 15,
+      "physical_markets": 47,
+      "choices": 112
+    },
+    "2023-01-31": {
+      "frames": 14,
+      "physical_markets": 42,
+      "choices": 88
+    },
+    "2023-02-01": {
+      "frames": 12,
+      "physical_markets": 37,
+      "choices": 80
+    },
+    "2023-02-02": {
+      "frames": 31,
+      "physical_markets": 101,
+      "choices": 238
+    },
+    "2023-02-03": {
+      "frames": 14,
+      "physical_markets": 43,
+      "choices": 92
+    },
+    "2023-02-04": {
+      "frames": 31,
+      "physical_markets": 96,
+      "choices": 226
+    },
+    "2023-02-05": {
+      "frames": 49,
+      "physical_markets": 155,
+      "choices": 378
+    },
+    "2023-02-06": {
+      "frames": 18,
+      "physical_markets": 56,
+      "choices": 132
+    },
+    "2023-02-07": {
+      "frames": 14,
+      "physical_markets": 42,
+      "choices": 90
+    },
+    "2023-02-08": {
+      "frames": 13,
+      "physical_markets": 39,
+      "choices": 84
+    },
+    "2023-02-09": {
+      "frames": 23,
+      "physical_markets": 72,
+      "choices": 162
+    },
+    "2023-02-10": {
+      "frames": 12,
+      "physical_markets": 36,
+      "choices": 78
+    },
+    "2023-02-11": {
+      "frames": 32,
+      "physical_markets": 99,
+      "choices": 230
+    },
+    "2023-02-12": {
+      "frames": 49,
+      "physical_markets": 151,
+      "choices": 370
+    },
+    "2023-02-13": {
+      "frames": 15,
+      "physical_markets": 49,
+      "choices": 120
+    },
+    "2023-02-14": {
+      "frames": 18,
+      "physical_markets": 56,
+      "choices": 120
+    },
+    "2023-02-15": {
+      "frames": 11,
+      "physical_markets": 32,
+      "choices": 68
+    },
+    "2023-02-16": {
+      "frames": 19,
+      "physical_markets": 58,
+      "choices": 124
+    },
+    "2023-02-17": {
+      "frames": 27,
+      "physical_markets": 85,
+      "choices": 208
+    },
+    "2023-02-18": {
+      "frames": 30,
+      "physical_markets": 91,
+      "choices": 230
+    },
+    "2023-02-19": {
+      "frames": 39,
+      "physical_markets": 124,
+      "choices": 314
+    },
+    "2023-02-20": {
+      "frames": 16,
+      "physical_markets": 52,
+      "choices": 134
+    },
+    "2023-02-21": {
+      "frames": 6,
+      "physical_markets": 18,
+      "choices": 44
+    },
+    "2023-02-22": {
+      "frames": 5,
+      "physical_markets": 15,
+      "choices": 34
+    },
+    "2023-02-23": {
+      "frames": 10,
+      "physical_markets": 28,
+      "choices": 62
+    },
+    "2023-02-24": {
+      "frames": 48,
+      "physical_markets": 139,
+      "choices": 318
+    },
+    "2023-02-25": {
+      "frames": 40,
+      "physical_markets": 120,
+      "choices": 286
+    },
+    "2023-02-26": {
+      "frames": 63,
+      "physical_markets": 193,
+      "choices": 484
+    },
+    "2023-02-27": {
+      "frames": 37,
+      "physical_markets": 113,
+      "choices": 250
+    },
+    "2023-02-28": {
+      "frames": 16,
+      "physical_markets": 48,
+      "choices": 104
+    },
+    "2023-03-01": {
+      "frames": 27,
+      "physical_markets": 83,
+      "choices": 188
+    },
+    "2023-03-02": {
+      "frames": 21,
+      "physical_markets": 67,
+      "choices": 150
+    },
+    "2023-03-03": {
+      "frames": 12,
+      "physical_markets": 38,
+      "choices": 86
+    },
+    "2023-03-04": {
+      "frames": 48,
+      "physical_markets": 146,
+      "choices": 356
+    },
+    "2023-03-05": {
+      "frames": 58,
+      "physical_markets": 181,
+      "choices": 462
+    },
+    "2023-03-06": {
+      "frames": 21,
+      "physical_markets": 67,
+      "choices": 156
+    },
+    "2023-03-07": {
+      "frames": 13,
+      "physical_markets": 39,
+      "choices": 86
+    },
+    "2023-03-08": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 182
+    },
+    "2023-03-09": {
+      "frames": 17,
+      "physical_markets": 50,
+      "choices": 104
+    },
+    "2023-03-10": {
+      "frames": 30,
+      "physical_markets": 93,
+      "choices": 218
+    },
+    "2023-03-11": {
+      "frames": 37,
+      "physical_markets": 115,
+      "choices": 272
+    },
+    "2023-03-12": {
+      "frames": 84,
+      "physical_markets": 258,
+      "choices": 636
+    },
+    "2023-03-13": {
+      "frames": 28,
+      "physical_markets": 88,
+      "choices": 204
+    },
+    "2023-03-14": {
+      "frames": 17,
+      "physical_markets": 51,
+      "choices": 106
+    },
+    "2023-03-15": {
+      "frames": 18,
+      "physical_markets": 54,
+      "choices": 112
+    },
+    "2023-03-16": {
+      "frames": 21,
+      "physical_markets": 63,
+      "choices": 136
+    },
+    "2023-03-17": {
+      "frames": 25,
+      "physical_markets": 76,
+      "choices": 184
+    },
+    "2023-03-18": {
+      "frames": 43,
+      "physical_markets": 129,
+      "choices": 316
+    },
+    "2023-03-19": {
+      "frames": 72,
+      "physical_markets": 220,
+      "choices": 554
+    },
+    "2023-03-20": {
+      "frames": 23,
+      "physical_markets": 72,
+      "choices": 170
+    },
+    "2023-03-21": {
+      "frames": 9,
+      "physical_markets": 27,
+      "choices": 54
+    },
+    "2023-03-22": {
+      "frames": 9,
+      "physical_markets": 27,
+      "choices": 54
+    },
+    "2023-03-23": {
+      "frames": 17,
+      "physical_markets": 52,
+      "choices": 110
+    },
+    "2023-03-24": {
+      "frames": 21,
+      "physical_markets": 71,
+      "choices": 170
+    },
+    "2023-03-25": {
+      "frames": 27,
+      "physical_markets": 86,
+      "choices": 198
+    },
+    "2023-03-26": {
+      "frames": 45,
+      "physical_markets": 143,
+      "choices": 356
+    },
+    "2023-03-27": {
+      "frames": 19,
+      "physical_markets": 63,
+      "choices": 142
+    },
+    "2023-03-28": {
+      "frames": 24,
+      "physical_markets": 80,
+      "choices": 189
+    },
+    "2023-03-29": {
+      "frames": 30,
+      "physical_markets": 95,
+      "choices": 225
+    },
+    "2023-03-30": {
+      "frames": 12,
+      "physical_markets": 36,
+      "choices": 72
+    },
+    "2023-03-31": {
+      "frames": 25,
+      "physical_markets": 75,
+      "choices": 154
+    },
+    "2023-04-01": {
+      "frames": 67,
+      "physical_markets": 206,
+      "choices": 486
+    },
+    "2023-04-02": {
+      "frames": 78,
+      "physical_markets": 242,
+      "choices": 580
+    },
+    "2023-04-03": {
+      "frames": 38,
+      "physical_markets": 117,
+      "choices": 250
+    },
+    "2023-04-04": {
+      "frames": 31,
+      "physical_markets": 93,
+      "choices": 194
+    },
+    "2023-04-05": {
+      "frames": 54,
+      "physical_markets": 164,
+      "choices": 366
+    },
+    "2023-04-06": {
+      "frames": 39,
+      "physical_markets": 118,
+      "choices": 252
+    },
+    "2023-04-07": {
+      "frames": 24,
+      "physical_markets": 72,
+      "choices": 152
+    },
+    "2023-04-08": {
+      "frames": 70,
+      "physical_markets": 220,
+      "choices": 506
+    },
+    "2023-04-09": {
+      "frames": 83,
+      "physical_markets": 255,
+      "choices": 618
+    },
+    "2023-04-10": {
+      "frames": 40,
+      "physical_markets": 121,
+      "choices": 260
+    },
+    "2023-04-11": {
+      "frames": 27,
+      "physical_markets": 82,
+      "choices": 168
+    },
+    "2023-04-12": {
+      "frames": 36,
+      "physical_markets": 109,
+      "choices": 236
+    },
+    "2023-04-13": {
+      "frames": 27,
+      "physical_markets": 81,
+      "choices": 166
+    },
+    "2023-04-14": {
+      "frames": 28,
+      "physical_markets": 84,
+      "choices": 186
+    },
+    "2023-04-15": {
+      "frames": 63,
+      "physical_markets": 193,
+      "choices": 460
+    },
+    "2023-04-16": {
+      "frames": 77,
+      "physical_markets": 238,
+      "choices": 568
+    },
+    "2023-04-17": {
+      "frames": 31,
+      "physical_markets": 97,
+      "choices": 218
+    },
+    "2023-04-18": {
+      "frames": 31,
+      "physical_markets": 93,
+      "choices": 198
+    },
+    "2023-04-19": {
+      "frames": 44,
+      "physical_markets": 132,
+      "choices": 294
+    },
+    "2023-04-20": {
+      "frames": 31,
+      "physical_markets": 93,
+      "choices": 194
+    },
+    "2023-04-21": {
+      "frames": 30,
+      "physical_markets": 90,
+      "choices": 198
+    },
+    "2023-04-22": {
+      "frames": 57,
+      "physical_markets": 175,
+      "choices": 408
+    },
+    "2023-04-23": {
+      "frames": 85,
+      "physical_markets": 260,
+      "choices": 630
+    },
+    "2023-04-24": {
+      "frames": 31,
+      "physical_markets": 94,
+      "choices": 212
+    },
+    "2023-04-25": {
+      "frames": 23,
+      "physical_markets": 69,
+      "choices": 144
+    },
+    "2023-04-26": {
+      "frames": 39,
+      "physical_markets": 118,
+      "choices": 256
+    },
+    "2023-04-27": {
+      "frames": 38,
+      "physical_markets": 116,
+      "choices": 250
+    },
+    "2023-04-28": {
+      "frames": 32,
+      "physical_markets": 98,
+      "choices": 214
+    },
+    "2023-04-29": {
+      "frames": 57,
+      "physical_markets": 173,
+      "choices": 410
+    },
+    "2023-04-30": {
+      "frames": 67,
+      "physical_markets": 209,
+      "choices": 500
+    },
+    "2023-05-01": {
+      "frames": 27,
+      "physical_markets": 84,
+      "choices": 188
+    },
+    "2023-05-02": {
+      "frames": 27,
+      "physical_markets": 81,
+      "choices": 176
+    },
+    "2023-05-03": {
+      "frames": 45,
+      "physical_markets": 136,
+      "choices": 306
+    },
+    "2023-05-04": {
+      "frames": 40,
+      "physical_markets": 126,
+      "choices": 282
+    },
+    "2023-05-05": {
+      "frames": 30,
+      "physical_markets": 89,
+      "choices": 200
+    },
+    "2023-05-06": {
+      "frames": 46,
+      "physical_markets": 139,
+      "choices": 324
+    },
+    "2023-05-07": {
+      "frames": 68,
+      "physical_markets": 211,
+      "choices": 510
+    },
+    "2023-05-08": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 176
+    },
+    "2023-05-09": {
+      "frames": 32,
+      "physical_markets": 97,
+      "choices": 210
+    },
+    "2023-05-10": {
+      "frames": 36,
+      "physical_markets": 108,
+      "choices": 234
+    },
+    "2023-05-11": {
+      "frames": 34,
+      "physical_markets": 102,
+      "choices": 216
+    },
+    "2023-05-12": {
+      "frames": 24,
+      "physical_markets": 72,
+      "choices": 156
+    },
+    "2023-05-13": {
+      "frames": 57,
+      "physical_markets": 174,
+      "choices": 406
+    },
+    "2023-05-14": {
+      "frames": 74,
+      "physical_markets": 227,
+      "choices": 552
+    },
+    "2023-05-15": {
+      "frames": 27,
+      "physical_markets": 86,
+      "choices": 194
+    },
+    "2023-05-16": {
+      "frames": 26,
+      "physical_markets": 77,
+      "choices": 160
+    },
+    "2023-05-17": {
+      "frames": 28,
+      "physical_markets": 84,
+      "choices": 170
+    },
+    "2023-05-18": {
+      "frames": 38,
+      "physical_markets": 114,
+      "choices": 256
+    },
+    "2023-05-19": {
+      "frames": 22,
+      "physical_markets": 66,
+      "choices": 146
+    },
+    "2023-05-20": {
+      "frames": 59,
+      "physical_markets": 177,
+      "choices": 418
+    },
+    "2023-05-21": {
+      "frames": 75,
+      "physical_markets": 232,
+      "choices": 562
+    },
+    "2023-05-22": {
+      "frames": 25,
+      "physical_markets": 78,
+      "choices": 174
+    },
+    "2023-05-23": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 164
+    },
+    "2023-05-24": {
+      "frames": 51,
+      "physical_markets": 155,
+      "choices": 358
+    },
+    "2023-05-25": {
+      "frames": 33,
+      "physical_markets": 100,
+      "choices": 218
+    },
+    "2023-05-26": {
+      "frames": 24,
+      "physical_markets": 72,
+      "choices": 150
+    },
+    "2023-05-27": {
+      "frames": 47,
+      "physical_markets": 141,
+      "choices": 326
+    },
+    "2023-05-28": {
+      "frames": 71,
+      "physical_markets": 216,
+      "choices": 524
+    },
+    "2023-05-29": {
+      "frames": 40,
+      "physical_markets": 124,
+      "choices": 298
+    },
+    "2023-05-30": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 156
+    },
+    "2023-05-31": {
+      "frames": 31,
+      "physical_markets": 93,
+      "choices": 188
+    },
+    "2023-06-01": {
+      "frames": 42,
+      "physical_markets": 125,
+      "choices": 276
+    },
+    "2023-06-02": {
+      "frames": 24,
+      "physical_markets": 71,
+      "choices": 146
+    },
+    "2023-06-03": {
+      "frames": 47,
+      "physical_markets": 140,
+      "choices": 312
+    },
+    "2023-06-04": {
+      "frames": 67,
+      "physical_markets": 200,
+      "choices": 470
+    },
+    "2023-06-05": {
+      "frames": 36,
+      "physical_markets": 107,
+      "choices": 248
+    },
+    "2023-06-06": {
+      "frames": 22,
+      "physical_markets": 66,
+      "choices": 136
+    },
+    "2023-06-07": {
+      "frames": 36,
+      "physical_markets": 107,
+      "choices": 226
+    },
+    "2023-06-08": {
+      "frames": 35,
+      "physical_markets": 105,
+      "choices": 220
+    },
+    "2023-06-09": {
+      "frames": 28,
+      "physical_markets": 82,
+      "choices": 166
+    },
+    "2023-06-10": {
+      "frames": 42,
+      "physical_markets": 126,
+      "choices": 270
+    },
+    "2023-06-11": {
+      "frames": 59,
+      "physical_markets": 177,
+      "choices": 410
+    },
+    "2023-06-12": {
+      "frames": 22,
+      "physical_markets": 66,
+      "choices": 140
+    },
+    "2023-06-13": {
+      "frames": 24,
+      "physical_markets": 74,
+      "choices": 152
+    },
+    "2023-06-14": {
+      "frames": 29,
+      "physical_markets": 86,
+      "choices": 172
+    },
+    "2023-06-15": {
+      "frames": 35,
+      "physical_markets": 106,
+      "choices": 222
+    },
+    "2023-06-16": {
+      "frames": 34,
+      "physical_markets": 100,
+      "choices": 214
+    },
+    "2023-06-17": {
+      "frames": 51,
+      "physical_markets": 164,
+      "choices": 365
+    },
+    "2023-06-18": {
+      "frames": 61,
+      "physical_markets": 187,
+      "choices": 432
+    },
+    "2023-06-19": {
+      "frames": 25,
+      "physical_markets": 73,
+      "choices": 159
+    },
+    "2023-06-20": {
+      "frames": 35,
+      "physical_markets": 112,
+      "choices": 254
+    },
+    "2023-06-21": {
+      "frames": 45,
+      "physical_markets": 144,
+      "choices": 324
+    },
+    "2023-06-22": {
+      "frames": 36,
+      "physical_markets": 108,
+      "choices": 238
+    },
+    "2023-06-23": {
+      "frames": 23,
+      "physical_markets": 69,
+      "choices": 138
+    },
+    "2023-06-24": {
+      "frames": 45,
+      "physical_markets": 135,
+      "choices": 300
+    },
+    "2023-06-25": {
+      "frames": 52,
+      "physical_markets": 156,
+      "choices": 354
+    },
+    "2023-06-26": {
+      "frames": 20,
+      "physical_markets": 60,
+      "choices": 126
+    },
+    "2023-06-27": {
+      "frames": 22,
+      "physical_markets": 65,
+      "choices": 134
+    },
+    "2023-06-28": {
+      "frames": 38,
+      "physical_markets": 114,
+      "choices": 242
+    },
+    "2023-06-29": {
+      "frames": 26,
+      "physical_markets": 77,
+      "choices": 158
+    },
+    "2023-06-30": {
+      "frames": 33,
+      "physical_markets": 98,
+      "choices": 202
+    },
+    "2023-07-01": {
+      "frames": 46,
+      "physical_markets": 135,
+      "choices": 298
+    },
+    "2023-07-02": {
+      "frames": 53,
+      "physical_markets": 155,
+      "choices": 352
+    },
+    "2023-07-03": {
+      "frames": 22,
+      "physical_markets": 66,
+      "choices": 146
+    },
+    "2023-07-04": {
+      "frames": 20,
+      "physical_markets": 59,
+      "choices": 118
+    },
+    "2023-07-05": {
+      "frames": 38,
+      "physical_markets": 114,
+      "choices": 244
+    },
+    "2023-07-06": {
+      "frames": 30,
+      "physical_markets": 90,
+      "choices": 182
+    },
+    "2023-07-07": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 162
+    },
+    "2023-07-08": {
+      "frames": 46,
+      "physical_markets": 137,
+      "choices": 302
+    },
+    "2023-07-09": {
+      "frames": 51,
+      "physical_markets": 153,
+      "choices": 344
+    },
+    "2023-07-10": {
+      "frames": 22,
+      "physical_markets": 66,
+      "choices": 140
+    },
+    "2023-07-11": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 52
+    },
+    "2023-07-12": {
+      "frames": 15,
+      "physical_markets": 45,
+      "choices": 98
+    },
+    "2023-07-13": {
+      "frames": 21,
+      "physical_markets": 63,
+      "choices": 148
+    },
+    "2023-07-14": {
+      "frames": 2,
+      "physical_markets": 6,
+      "choices": 12
+    },
+    "2023-07-15": {
+      "frames": 28,
+      "physical_markets": 84,
+      "choices": 186
+    },
+    "2023-07-16": {
+      "frames": 49,
+      "physical_markets": 147,
+      "choices": 346
+    },
+    "2023-07-17": {
+      "frames": 25,
+      "physical_markets": 75,
+      "choices": 154
+    },
+    "2023-07-18": {
+      "frames": 13,
+      "physical_markets": 39,
+      "choices": 86
+    },
+    "2023-07-19": {
+      "frames": 18,
+      "physical_markets": 54,
+      "choices": 114
+    },
+    "2023-07-20": {
+      "frames": 19,
+      "physical_markets": 59,
+      "choices": 122
+    },
+    "2023-07-21": {
+      "frames": 22,
+      "physical_markets": 73,
+      "choices": 160
+    },
+    "2023-07-22": {
+      "frames": 34,
+      "physical_markets": 107,
+      "choices": 237
+    },
+    "2023-07-23": {
+      "frames": 35,
+      "physical_markets": 108,
+      "choices": 237
+    },
+    "2023-07-24": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 172
+    },
+    "2023-07-25": {
+      "frames": 24,
+      "physical_markets": 77,
+      "choices": 165
+    },
+    "2023-07-26": {
+      "frames": 32,
+      "physical_markets": 102,
+      "choices": 220
+    },
+    "2023-07-27": {
+      "frames": 28,
+      "physical_markets": 92,
+      "choices": 199
+    },
+    "2023-07-28": {
+      "frames": 24,
+      "physical_markets": 77,
+      "choices": 167
+    },
+    "2023-07-29": {
+      "frames": 37,
+      "physical_markets": 115,
+      "choices": 245
+    },
+    "2023-07-30": {
+      "frames": 39,
+      "physical_markets": 125,
+      "choices": 266
+    },
+    "2023-07-31": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 170
+    },
+    "2023-08-01": {
+      "frames": 27,
+      "physical_markets": 90,
+      "choices": 193
+    },
+    "2023-08-02": {
+      "frames": 36,
+      "physical_markets": 117,
+      "choices": 255
+    },
+    "2023-08-03": {
+      "frames": 31,
+      "physical_markets": 99,
+      "choices": 211
+    },
+    "2023-08-04": {
+      "frames": 28,
+      "physical_markets": 89,
+      "choices": 191
+    },
+    "2023-08-05": {
+      "frames": 38,
+      "physical_markets": 121,
+      "choices": 271
+    },
+    "2023-08-06": {
+      "frames": 41,
+      "physical_markets": 129,
+      "choices": 289
+    },
+    "2023-08-07": {
+      "frames": 21,
+      "physical_markets": 65,
+      "choices": 138
+    },
+    "2023-08-08": {
+      "frames": 27,
+      "physical_markets": 87,
+      "choices": 186
+    },
+    "2023-08-09": {
+      "frames": 31,
+      "physical_markets": 98,
+      "choices": 209
+    },
+    "2023-08-10": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 163
+    },
+    "2023-08-11": {
+      "frames": 23,
+      "physical_markets": 75,
+      "choices": 159
+    },
+    "2023-08-12": {
+      "frames": 55,
+      "physical_markets": 176,
+      "choices": 413
+    },
+    "2023-08-13": {
+      "frames": 51,
+      "physical_markets": 163,
+      "choices": 381
+    },
+    "2023-08-14": {
+      "frames": 23,
+      "physical_markets": 71,
+      "choices": 160
+    },
+    "2023-08-15": {
+      "frames": 24,
+      "physical_markets": 79,
+      "choices": 175
+    },
+    "2023-08-16": {
+      "frames": 33,
+      "physical_markets": 105,
+      "choices": 229
+    },
+    "2023-08-17": {
+      "frames": 27,
+      "physical_markets": 87,
+      "choices": 181
+    },
+    "2023-08-18": {
+      "frames": 19,
+      "physical_markets": 60,
+      "choices": 132
+    },
+    "2023-08-19": {
+      "frames": 53,
+      "physical_markets": 168,
+      "choices": 395
+    },
+    "2023-08-20": {
+      "frames": 59,
+      "physical_markets": 190,
+      "choices": 449
+    },
+    "2023-08-21": {
+      "frames": 35,
+      "physical_markets": 107,
+      "choices": 258
+    },
+    "2023-08-22": {
+      "frames": 27,
+      "physical_markets": 85,
+      "choices": 191
+    },
+    "2023-08-23": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 165
+    },
+    "2023-08-24": {
+      "frames": 27,
+      "physical_markets": 85,
+      "choices": 186
+    },
+    "2023-08-25": {
+      "frames": 42,
+      "physical_markets": 129,
+      "choices": 289
+    },
+    "2023-08-26": {
+      "frames": 68,
+      "physical_markets": 210,
+      "choices": 483
+    },
+    "2023-08-27": {
+      "frames": 79,
+      "physical_markets": 245,
+      "choices": 577
+    },
+    "2023-08-28": {
+      "frames": 40,
+      "physical_markets": 120,
+      "choices": 266
+    },
+    "2023-08-29": {
+      "frames": 36,
+      "physical_markets": 107,
+      "choices": 230
+    },
+    "2023-08-30": {
+      "frames": 46,
+      "physical_markets": 135,
+      "choices": 293
+    },
+    "2023-08-31": {
+      "frames": 55,
+      "physical_markets": 170,
+      "choices": 379
+    },
+    "2023-09-01": {
+      "frames": 35,
+      "physical_markets": 109,
+      "choices": 246
+    },
+    "2023-09-02": {
+      "frames": 70,
+      "physical_markets": 220,
+      "choices": 510
+    },
+    "2023-09-03": {
+      "frames": 83,
+      "physical_markets": 257,
+      "choices": 609
+    },
+    "2023-09-04": {
+      "frames": 28,
+      "physical_markets": 85,
+      "choices": 193
+    },
+    "2023-09-05": {
+      "frames": 23,
+      "physical_markets": 73,
+      "choices": 150
+    },
+    "2023-09-06": {
+      "frames": 33,
+      "physical_markets": 104,
+      "choices": 223
+    },
+    "2023-09-07": {
+      "frames": 27,
+      "physical_markets": 86,
+      "choices": 181
+    },
+    "2023-09-08": {
+      "frames": 36,
+      "physical_markets": 121,
+      "choices": 282
+    },
+    "2023-09-09": {
+      "frames": 43,
+      "physical_markets": 142,
+      "choices": 319
+    },
+    "2023-09-10": {
+      "frames": 46,
+      "physical_markets": 148,
+      "choices": 337
+    },
+    "2023-09-11": {
+      "frames": 28,
+      "physical_markets": 87,
+      "choices": 200
+    },
+    "2023-09-12": {
+      "frames": 30,
+      "physical_markets": 97,
+      "choices": 214
+    },
+    "2023-09-13": {
+      "frames": 47,
+      "physical_markets": 153,
+      "choices": 358
+    },
+    "2023-09-14": {
+      "frames": 23,
+      "physical_markets": 71,
+      "choices": 148
+    },
+    "2023-09-15": {
+      "frames": 18,
+      "physical_markets": 58,
+      "choices": 126
+    },
+    "2023-09-16": {
+      "frames": 52,
+      "physical_markets": 163,
+      "choices": 387
+    },
+    "2023-09-17": {
+      "frames": 74,
+      "physical_markets": 228,
+      "choices": 556
+    },
+    "2023-09-18": {
+      "frames": 34,
+      "physical_markets": 105,
+      "choices": 232
+    },
+    "2023-09-19": {
+      "frames": 48,
+      "physical_markets": 150,
+      "choices": 347
+    },
+    "2023-09-20": {
+      "frames": 50,
+      "physical_markets": 150,
+      "choices": 342
+    },
+    "2023-09-21": {
+      "frames": 58,
+      "physical_markets": 182,
+      "choices": 423
+    },
+    "2023-09-22": {
+      "frames": 57,
+      "physical_markets": 193,
+      "choices": 461
+    },
+    "2023-09-23": {
+      "frames": 55,
+      "physical_markets": 172,
+      "choices": 406
+    },
+    "2023-09-24": {
+      "frames": 83,
+      "physical_markets": 262,
+      "choices": 638
+    },
+    "2023-09-25": {
+      "frames": 41,
+      "physical_markets": 125,
+      "choices": 282
+    },
+    "2023-09-26": {
+      "frames": 22,
+      "physical_markets": 61,
+      "choices": 123
+    },
+    "2023-09-27": {
+      "frames": 39,
+      "physical_markets": 119,
+      "choices": 264
+    },
+    "2023-09-28": {
+      "frames": 55,
+      "physical_markets": 170,
+      "choices": 398
+    },
+    "2023-09-29": {
+      "frames": 32,
+      "physical_markets": 98,
+      "choices": 219
+    },
+    "2023-09-30": {
+      "frames": 71,
+      "physical_markets": 220,
+      "choices": 513
+    },
+    "2023-10-01": {
+      "frames": 85,
+      "physical_markets": 262,
+      "choices": 625
+    },
+    "2023-10-02": {
+      "frames": 45,
+      "physical_markets": 140,
+      "choices": 302
+    },
+    "2023-10-03": {
+      "frames": 30,
+      "physical_markets": 96,
+      "choices": 228
+    },
+    "2023-10-04": {
+      "frames": 40,
+      "physical_markets": 129,
+      "choices": 300
+    },
+    "2023-10-05": {
+      "frames": 37,
+      "physical_markets": 115,
+      "choices": 274
+    },
+    "2023-10-06": {
+      "frames": 49,
+      "physical_markets": 157,
+      "choices": 383
+    },
+    "2023-10-07": {
+      "frames": 42,
+      "physical_markets": 133,
+      "choices": 326
+    },
+    "2023-10-08": {
+      "frames": 58,
+      "physical_markets": 185,
+      "choices": 472
+    },
+    "2023-10-09": {
+      "frames": 18,
+      "physical_markets": 59,
+      "choices": 141
+    },
+    "2023-10-10": {
+      "frames": 10,
+      "physical_markets": 36,
+      "choices": 79
+    },
+    "2023-10-11": {
+      "frames": 8,
+      "physical_markets": 26,
+      "choices": 58
+    },
+    "2023-10-12": {
+      "frames": 8,
+      "physical_markets": 27,
+      "choices": 58
+    },
+    "2023-10-13": {
+      "frames": 28,
+      "physical_markets": 95,
+      "choices": 239
+    },
+    "2023-10-14": {
+      "frames": 24,
+      "physical_markets": 79,
+      "choices": 191
+    },
+    "2023-10-15": {
+      "frames": 22,
+      "physical_markets": 72,
+      "choices": 175
+    },
+    "2023-10-16": {
+      "frames": 16,
+      "physical_markets": 58,
+      "choices": 141
+    },
+    "2023-10-17": {
+      "frames": 18,
+      "physical_markets": 60,
+      "choices": 146
+    },
+    "2023-10-18": {
+      "frames": 26,
+      "physical_markets": 84,
+      "choices": 210
+    },
+    "2023-10-19": {
+      "frames": 7,
+      "physical_markets": 22,
+      "choices": 47
+    },
+    "2023-10-20": {
+      "frames": 10,
+      "physical_markets": 30,
+      "choices": 68
+    },
+    "2023-10-21": {
+      "frames": 40,
+      "physical_markets": 131,
+      "choices": 329
+    },
+    "2023-10-22": {
+      "frames": 57,
+      "physical_markets": 182,
+      "choices": 468
+    },
+    "2023-10-23": {
+      "frames": 12,
+      "physical_markets": 41,
+      "choices": 102
+    },
+    "2023-10-24": {
+      "frames": 18,
+      "physical_markets": 59,
+      "choices": 145
+    },
+    "2023-10-25": {
+      "frames": 23,
+      "physical_markets": 77,
+      "choices": 189
+    },
+    "2023-10-26": {
+      "frames": 26,
+      "physical_markets": 83,
+      "choices": 189
+    },
+    "2023-10-27": {
+      "frames": 38,
+      "physical_markets": 125,
+      "choices": 316
+    },
+    "2023-10-28": {
+      "frames": 50,
+      "physical_markets": 158,
+      "choices": 383
+    },
+    "2023-10-29": {
+      "frames": 54,
+      "physical_markets": 172,
+      "choices": 427
+    },
+    "2023-10-30": {
+      "frames": 19,
+      "physical_markets": 62,
+      "choices": 148
+    },
+    "2023-10-31": {
+      "frames": 23,
+      "physical_markets": 72,
+      "choices": 157
+    },
+    "2023-11-01": {
+      "frames": 15,
+      "physical_markets": 45,
+      "choices": 106
+    },
+    "2023-11-02": {
+      "frames": 27,
+      "physical_markets": 88,
+      "choices": 193
+    },
+    "2023-11-03": {
+      "frames": 12,
+      "physical_markets": 39,
+      "choices": 87
+    },
+    "2023-11-04": {
+      "frames": 31,
+      "physical_markets": 98,
+      "choices": 235
+    },
+    "2023-11-05": {
+      "frames": 48,
+      "physical_markets": 159,
+      "choices": 388
+    },
+    "2023-11-06": {
+      "frames": 24,
+      "physical_markets": 78,
+      "choices": 192
+    },
+    "2023-11-07": {
+      "frames": 29,
+      "physical_markets": 93,
+      "choices": 213
+    },
+    "2023-11-08": {
+      "frames": 22,
+      "physical_markets": 76,
+      "choices": 190
+    },
+    "2023-11-09": {
+      "frames": 28,
+      "physical_markets": 90,
+      "choices": 201
+    },
+    "2023-11-10": {
+      "frames": 41,
+      "physical_markets": 137,
+      "choices": 344
+    },
+    "2023-11-11": {
+      "frames": 45,
+      "physical_markets": 142,
+      "choices": 347
+    },
+    "2023-11-12": {
+      "frames": 52,
+      "physical_markets": 174,
+      "choices": 436
+    },
+    "2023-11-13": {
+      "frames": 28,
+      "physical_markets": 91,
+      "choices": 213
+    },
+    "2023-11-14": {
+      "frames": 8,
+      "physical_markets": 26,
+      "choices": 54
+    },
+    "2023-11-15": {
+      "frames": 13,
+      "physical_markets": 40,
+      "choices": 81
+    },
+    "2023-11-16": {
+      "frames": 24,
+      "physical_markets": 77,
+      "choices": 172
+    },
+    "2023-11-17": {
+      "frames": 31,
+      "physical_markets": 104,
+      "choices": 255
+    },
+    "2023-11-18": {
+      "frames": 29,
+      "physical_markets": 94,
+      "choices": 211
+    },
+    "2023-11-19": {
+      "frames": 24,
+      "physical_markets": 81,
+      "choices": 185
+    },
+    "2023-11-20": {
+      "frames": 19,
+      "physical_markets": 63,
+      "choices": 144
+    },
+    "2023-11-21": {
+      "frames": 33,
+      "physical_markets": 108,
+      "choices": 260
+    },
+    "2023-11-22": {
+      "frames": 27,
+      "physical_markets": 87,
+      "choices": 212
+    },
+    "2023-11-23": {
+      "frames": 19,
+      "physical_markets": 60,
+      "choices": 123
+    },
+    "2023-11-24": {
+      "frames": 9,
+      "physical_markets": 30,
+      "choices": 71
+    },
+    "2023-11-25": {
+      "frames": 43,
+      "physical_markets": 138,
+      "choices": 334
+    },
+    "2023-11-26": {
+      "frames": 66,
+      "physical_markets": 213,
+      "choices": 538
+    },
+    "2023-11-27": {
+      "frames": 24,
+      "physical_markets": 76,
+      "choices": 182
+    },
+    "2023-11-28": {
+      "frames": 21,
+      "physical_markets": 69,
+      "choices": 164
+    },
+    "2023-11-29": {
+      "frames": 35,
+      "physical_markets": 111,
+      "choices": 271
+    },
+    "2023-11-30": {
+      "frames": 29,
+      "physical_markets": 95,
+      "choices": 227
+    },
+    "2023-12-01": {
+      "frames": 46,
+      "physical_markets": 150,
+      "choices": 367
+    },
+    "2023-12-02": {
+      "frames": 30,
+      "physical_markets": 95,
+      "choices": 230
+    },
+    "2023-12-03": {
+      "frames": 77,
+      "physical_markets": 249,
+      "choices": 620
+    },
+    "2023-12-04": {
+      "frames": 15,
+      "physical_markets": 49,
+      "choices": 126
+    },
+    "2023-12-05": {
+      "frames": 14,
+      "physical_markets": 44,
+      "choices": 106
+    },
+    "2023-12-06": {
+      "frames": 15,
+      "physical_markets": 48,
+      "choices": 117
+    },
+    "2023-12-07": {
+      "frames": 25,
+      "physical_markets": 85,
+      "choices": 191
+    },
+    "2023-12-08": {
+      "frames": 14,
+      "physical_markets": 49,
+      "choices": 115
+    },
+    "2023-12-09": {
+      "frames": 39,
+      "physical_markets": 123,
+      "choices": 291
+    },
+    "2023-12-10": {
+      "frames": 47,
+      "physical_markets": 157,
+      "choices": 399
+    },
+    "2023-12-11": {
+      "frames": 12,
+      "physical_markets": 41,
+      "choices": 104
+    },
+    "2023-12-12": {
+      "frames": 25,
+      "physical_markets": 78,
+      "choices": 173
+    },
+    "2023-12-13": {
+      "frames": 27,
+      "physical_markets": 83,
+      "choices": 205
+    },
+    "2023-12-14": {
+      "frames": 27,
+      "physical_markets": 84,
+      "choices": 198
+    },
+    "2023-12-15": {
+      "frames": 47,
+      "physical_markets": 149,
+      "choices": 371
+    },
+    "2023-12-16": {
+      "frames": 30,
+      "physical_markets": 95,
+      "choices": 226
+    },
+    "2023-12-17": {
+      "frames": 58,
+      "physical_markets": 189,
+      "choices": 466
+    },
+    "2023-12-18": {
+      "frames": 20,
+      "physical_markets": 68,
+      "choices": 164
+    },
+    "2023-12-19": {
+      "frames": 19,
+      "physical_markets": 61,
+      "choices": 132
+    },
+    "2023-12-20": {
+      "frames": 18,
+      "physical_markets": 59,
+      "choices": 141
+    },
+    "2023-12-21": {
+      "frames": 37,
+      "physical_markets": 123,
+      "choices": 293
+    },
+    "2023-12-22": {
+      "frames": 21,
+      "physical_markets": 67,
+      "choices": 153
+    },
+    "2023-12-23": {
+      "frames": 29,
+      "physical_markets": 93,
+      "choices": 224
+    },
+    "2023-12-24": {
+      "frames": 38,
+      "physical_markets": 126,
+      "choices": 294
+    },
+    "2023-12-25": {
+      "frames": 6,
+      "physical_markets": 22,
+      "choices": 48
+    },
+    "2023-12-26": {
+      "frames": 9,
+      "physical_markets": 29,
+      "choices": 65
+    },
+    "2023-12-27": {
+      "frames": 26,
+      "physical_markets": 84,
+      "choices": 197
+    },
+    "2023-12-28": {
+      "frames": 16,
+      "physical_markets": 55,
+      "choices": 122
+    },
+    "2023-12-29": {
+      "frames": 15,
+      "physical_markets": 49,
+      "choices": 106
+    },
+    "2023-12-30": {
+      "frames": 38,
+      "physical_markets": 123,
+      "choices": 294
+    },
+    "2023-12-31": {
+      "frames": 24,
+      "physical_markets": 84,
+      "choices": 196
+    },
+    "2024-01-01": {
+      "frames": 13,
+      "physical_markets": 42,
+      "choices": 92
+    },
+    "2024-01-02": {
+      "frames": 24,
+      "physical_markets": 77,
+      "choices": 180
+    },
+    "2024-01-03": {
+      "frames": 12,
+      "physical_markets": 39,
+      "choices": 89
+    },
+    "2024-01-04": {
+      "frames": 24,
+      "physical_markets": 77,
+      "choices": 172
+    },
+    "2024-01-05": {
+      "frames": 11,
+      "physical_markets": 35,
+      "choices": 83
+    },
+    "2024-01-06": {
+      "frames": 33,
+      "physical_markets": 107,
+      "choices": 245
+    },
+    "2024-01-07": {
+      "frames": 26,
+      "physical_markets": 85,
+      "choices": 207
+    },
+    "2024-01-08": {
+      "frames": 16,
+      "physical_markets": 51,
+      "choices": 114
+    },
+    "2024-01-09": {
+      "frames": 11,
+      "physical_markets": 35,
+      "choices": 74
+    },
+    "2024-01-10": {
+      "frames": 10,
+      "physical_markets": 32,
+      "choices": 70
+    },
+    "2024-01-11": {
+      "frames": 17,
+      "physical_markets": 53,
+      "choices": 115
+    },
+    "2024-01-12": {
+      "frames": 11,
+      "physical_markets": 34,
+      "choices": 76
+    },
+    "2024-01-13": {
+      "frames": 35,
+      "physical_markets": 114,
+      "choices": 273
+    },
+    "2024-01-14": {
+      "frames": 54,
+      "physical_markets": 173,
+      "choices": 433
+    },
+    "2024-01-15": {
+      "frames": 21,
+      "physical_markets": 71,
+      "choices": 173
+    },
+    "2024-01-16": {
+      "frames": 19,
+      "physical_markets": 59,
+      "choices": 130
+    },
+    "2024-01-17": {
+      "frames": 19,
+      "physical_markets": 64,
+      "choices": 153
+    },
+    "2024-01-18": {
+      "frames": 27,
+      "physical_markets": 88,
+      "choices": 205
+    },
+    "2024-01-19": {
+      "frames": 20,
+      "physical_markets": 65,
+      "choices": 153
+    },
+    "2024-01-20": {
+      "frames": 30,
+      "physical_markets": 97,
+      "choices": 236
+    },
+    "2024-01-21": {
+      "frames": 45,
+      "physical_markets": 147,
+      "choices": 364
+    },
+    "2024-01-22": {
+      "frames": 21,
+      "physical_markets": 69,
+      "choices": 166
+    },
+    "2024-01-23": {
+      "frames": 23,
+      "physical_markets": 75,
+      "choices": 178
+    },
+    "2024-01-24": {
+      "frames": 16,
+      "physical_markets": 54,
+      "choices": 129
+    },
+    "2024-01-25": {
+      "frames": 24,
+      "physical_markets": 80,
+      "choices": 189
+    },
+    "2024-01-26": {
+      "frames": 15,
+      "physical_markets": 50,
+      "choices": 113
+    },
+    "2024-01-27": {
+      "frames": 31,
+      "physical_markets": 98,
+      "choices": 238
+    },
+    "2024-01-28": {
+      "frames": 53,
+      "physical_markets": 176,
+      "choices": 434
+    },
+    "2024-01-29": {
+      "frames": 20,
+      "physical_markets": 68,
+      "choices": 164
+    },
+    "2024-01-30": {
+      "frames": 22,
+      "physical_markets": 72,
+      "choices": 158
+    },
+    "2024-01-31": {
+      "frames": 20,
+      "physical_markets": 71,
+      "choices": 167
+    },
+    "2024-02-01": {
+      "frames": 23,
+      "physical_markets": 78,
+      "choices": 175
+    },
+    "2024-02-02": {
+      "frames": 15,
+      "physical_markets": 51,
+      "choices": 117
+    },
+    "2024-02-03": {
+      "frames": 39,
+      "physical_markets": 130,
+      "choices": 310
+    },
+    "2024-02-04": {
+      "frames": 57,
+      "physical_markets": 190,
+      "choices": 474
+    },
+    "2024-02-05": {
+      "frames": 21,
+      "physical_markets": 67,
+      "choices": 156
+    },
+    "2024-02-06": {
+      "frames": 14,
+      "physical_markets": 45,
+      "choices": 100
+    },
+    "2024-02-07": {
+      "frames": 17,
+      "physical_markets": 53,
+      "choices": 121
+    },
+    "2024-02-08": {
+      "frames": 27,
+      "physical_markets": 86,
+      "choices": 201
+    },
+    "2024-02-09": {
+      "frames": 23,
+      "physical_markets": 72,
+      "choices": 151
+    },
+    "2024-02-10": {
+      "frames": 35,
+      "physical_markets": 109,
+      "choices": 259
+    },
+    "2024-02-11": {
+      "frames": 65,
+      "physical_markets": 211,
+      "choices": 512
+    },
+    "2024-02-12": {
+      "frames": 24,
+      "physical_markets": 79,
+      "choices": 185
+    },
+    "2024-02-13": {
+      "frames": 16,
+      "physical_markets": 52,
+      "choices": 114
+    },
+    "2024-02-14": {
+      "frames": 23,
+      "physical_markets": 74,
+      "choices": 175
+    },
+    "2024-02-15": {
+      "frames": 29,
+      "physical_markets": 91,
+      "choices": 207
+    },
+    "2024-02-16": {
+      "frames": 24,
+      "physical_markets": 76,
+      "choices": 189
+    },
+    "2024-02-17": {
+      "frames": 23,
+      "physical_markets": 76,
+      "choices": 193
+    },
+    "2024-02-18": {
+      "frames": 46,
+      "physical_markets": 153,
+      "choices": 393
+    },
+    "2024-02-19": {
+      "frames": 11,
+      "physical_markets": 37,
+      "choices": 95
+    },
+    "2024-02-20": {
+      "frames": 7,
+      "physical_markets": 22,
+      "choices": 54
+    },
+    "2024-02-21": {
+      "frames": 12,
+      "physical_markets": 39,
+      "choices": 97
+    },
+    "2024-02-22": {
+      "frames": 11,
+      "physical_markets": 34,
+      "choices": 83
+    },
+    "2024-02-23": {
+      "frames": 36,
+      "physical_markets": 111,
+      "choices": 265
+    },
+    "2024-02-24": {
+      "frames": 38,
+      "physical_markets": 117,
+      "choices": 285
+    },
+    "2024-02-25": {
+      "frames": 68,
+      "physical_markets": 218,
+      "choices": 559
+    },
+    "2024-02-26": {
+      "frames": 27,
+      "physical_markets": 86,
+      "choices": 203
+    },
+    "2024-02-27": {
+      "frames": 10,
+      "physical_markets": 31,
+      "choices": 70
+    },
+    "2024-02-28": {
+      "frames": 23,
+      "physical_markets": 74,
+      "choices": 165
+    },
+    "2024-02-29": {
+      "frames": 18,
+      "physical_markets": 59,
+      "choices": 135
+    },
+    "2024-03-01": {
+      "frames": 24,
+      "physical_markets": 78,
+      "choices": 180
+    },
+    "2024-03-02": {
+      "frames": 50,
+      "physical_markets": 155,
+      "choices": 385
+    },
+    "2024-03-03": {
+      "frames": 73,
+      "physical_markets": 233,
+      "choices": 595
+    },
+    "2024-03-04": {
+      "frames": 21,
+      "physical_markets": 66,
+      "choices": 157
+    },
+    "2024-03-05": {
+      "frames": 15,
+      "physical_markets": 48,
+      "choices": 108
+    },
+    "2024-03-06": {
+      "frames": 24,
+      "physical_markets": 75,
+      "choices": 176
+    },
+    "2024-03-07": {
+      "frames": 20,
+      "physical_markets": 64,
+      "choices": 145
+    },
+    "2024-03-08": {
+      "frames": 25,
+      "physical_markets": 76,
+      "choices": 184
+    },
+    "2024-03-09": {
+      "frames": 50,
+      "physical_markets": 161,
+      "choices": 398
+    },
+    "2024-03-10": {
+      "frames": 74,
+      "physical_markets": 233,
+      "choices": 595
+    },
+    "2024-03-11": {
+      "frames": 26,
+      "physical_markets": 85,
+      "choices": 202
+    },
+    "2024-03-12": {
+      "frames": 15,
+      "physical_markets": 47,
+      "choices": 107
+    },
+    "2024-03-13": {
+      "frames": 18,
+      "physical_markets": 58,
+      "choices": 131
+    },
+    "2024-03-14": {
+      "frames": 19,
+      "physical_markets": 62,
+      "choices": 137
+    },
+    "2024-03-15": {
+      "frames": 27,
+      "physical_markets": 84,
+      "choices": 204
+    },
+    "2024-03-16": {
+      "frames": 51,
+      "physical_markets": 160,
+      "choices": 402
+    },
+    "2024-03-17": {
+      "frames": 73,
+      "physical_markets": 232,
+      "choices": 585
+    },
+    "2024-03-18": {
+      "frames": 23,
+      "physical_markets": 72,
+      "choices": 175
+    },
+    "2024-03-19": {
+      "frames": 10,
+      "physical_markets": 32,
+      "choices": 66
+    },
+    "2024-03-20": {
+      "frames": 17,
+      "physical_markets": 52,
+      "choices": 125
+    },
+    "2024-03-21": {
+      "frames": 20,
+      "physical_markets": 65,
+      "choices": 148
+    },
+    "2024-03-22": {
+      "frames": 36,
+      "physical_markets": 122,
+      "choices": 298
+    },
+    "2024-03-23": {
+      "frames": 31,
+      "physical_markets": 106,
+      "choices": 248
+    },
+    "2024-03-24": {
+      "frames": 49,
+      "physical_markets": 156,
+      "choices": 384
+    },
+    "2024-03-25": {
+      "frames": 12,
+      "physical_markets": 37,
+      "choices": 83
+    },
+    "2024-03-26": {
+      "frames": 35,
+      "physical_markets": 124,
+      "choices": 286
+    },
+    "2024-03-27": {
+      "frames": 39,
+      "physical_markets": 130,
+      "choices": 325
+    },
+    "2024-03-28": {
+      "frames": 19,
+      "physical_markets": 63,
+      "choices": 132
+    },
+    "2024-03-29": {
+      "frames": 32,
+      "physical_markets": 102,
+      "choices": 218
+    },
+    "2024-03-30": {
+      "frames": 83,
+      "physical_markets": 246,
+      "choices": 598
+    },
+    "2024-03-31": {
+      "frames": 87,
+      "physical_markets": 256,
+      "choices": 626
+    },
+    "2024-04-01": {
+      "frames": 48,
+      "physical_markets": 129,
+      "choices": 302
+    },
+    "2024-04-02": {
+      "frames": 40,
+      "physical_markets": 132,
+      "choices": 291
+    },
+    "2024-04-03": {
+      "frames": 66,
+      "physical_markets": 213,
+      "choices": 506
+    },
+    "2024-04-04": {
+      "frames": 42,
+      "physical_markets": 142,
+      "choices": 313
+    },
+    "2024-04-05": {
+      "frames": 29,
+      "physical_markets": 96,
+      "choices": 214
+    },
+    "2024-04-06": {
+      "frames": 75,
+      "physical_markets": 218,
+      "choices": 518
+    },
+    "2024-04-07": {
+      "frames": 93,
+      "physical_markets": 270,
+      "choices": 670
+    },
+    "2024-04-08": {
+      "frames": 39,
+      "physical_markets": 104,
+      "choices": 231
+    },
+    "2024-04-09": {
+      "frames": 26,
+      "physical_markets": 90,
+      "choices": 194
+    },
+    "2024-04-10": {
+      "frames": 53,
+      "physical_markets": 169,
+      "choices": 377
+    },
+    "2024-04-11": {
+      "frames": 39,
+      "physical_markets": 128,
+      "choices": 282
+    },
+    "2024-04-12": {
+      "frames": 32,
+      "physical_markets": 101,
+      "choices": 229
+    },
+    "2024-04-13": {
+      "frames": 95,
+      "physical_markets": 275,
+      "choices": 665
+    },
+    "2024-04-14": {
+      "frames": 72,
+      "physical_markets": 206,
+      "choices": 509
+    },
+    "2024-04-15": {
+      "frames": 41,
+      "physical_markets": 109,
+      "choices": 239
+    },
+    "2024-04-16": {
+      "frames": 34,
+      "physical_markets": 117,
+      "choices": 260
+    },
+    "2024-04-17": {
+      "frames": 47,
+      "physical_markets": 156,
+      "choices": 362
+    },
+    "2024-04-18": {
+      "frames": 30,
+      "physical_markets": 99,
+      "choices": 216
+    },
+    "2024-04-19": {
+      "frames": 27,
+      "physical_markets": 93,
+      "choices": 220
+    },
+    "2024-04-20": {
+      "frames": 70,
+      "physical_markets": 218,
+      "choices": 535
+    },
+    "2024-04-21": {
+      "frames": 81,
+      "physical_markets": 253,
+      "choices": 618
+    },
+    "2024-04-22": {
+      "frames": 37,
+      "physical_markets": 112,
+      "choices": 259
+    },
+    "2024-04-23": {
+      "frames": 30,
+      "physical_markets": 99,
+      "choices": 220
+    },
+    "2024-04-24": {
+      "frames": 39,
+      "physical_markets": 128,
+      "choices": 288
+    },
+    "2024-04-25": {
+      "frames": 39,
+      "physical_markets": 134,
+      "choices": 302
+    },
+    "2024-04-26": {
+      "frames": 26,
+      "physical_markets": 86,
+      "choices": 189
+    },
+    "2024-04-27": {
+      "frames": 74,
+      "physical_markets": 228,
+      "choices": 552
+    },
+    "2024-04-28": {
+      "frames": 88,
+      "physical_markets": 268,
+      "choices": 657
+    },
+    "2024-04-29": {
+      "frames": 37,
+      "physical_markets": 112,
+      "choices": 249
+    },
+    "2024-04-30": {
+      "frames": 31,
+      "physical_markets": 105,
+      "choices": 233
+    },
+    "2024-05-01": {
+      "frames": 37,
+      "physical_markets": 122,
+      "choices": 270
+    },
+    "2024-05-02": {
+      "frames": 23,
+      "physical_markets": 74,
+      "choices": 155
+    },
+    "2024-05-03": {
+      "frames": 46,
+      "physical_markets": 152,
+      "choices": 368
+    },
+    "2024-05-04": {
+      "frames": 65,
+      "physical_markets": 205,
+      "choices": 495
+    },
+    "2024-05-05": {
+      "frames": 62,
+      "physical_markets": 193,
+      "choices": 471
+    },
+    "2024-05-06": {
+      "frames": 56,
+      "physical_markets": 173,
+      "choices": 421
+    },
+    "2024-05-07": {
+      "frames": 23,
+      "physical_markets": 77,
+      "choices": 170
+    },
+    "2024-05-08": {
+      "frames": 28,
+      "physical_markets": 94,
+      "choices": 200
+    },
+    "2024-05-09": {
+      "frames": 23,
+      "physical_markets": 74,
+      "choices": 159
+    },
+    "2024-05-10": {
+      "frames": 23,
+      "physical_markets": 79,
+      "choices": 176
+    },
+    "2024-05-11": {
+      "frames": 61,
+      "physical_markets": 201,
+      "choices": 481
+    },
+    "2024-05-12": {
+      "frames": 78,
+      "physical_markets": 252,
+      "choices": 617
+    },
+    "2024-05-13": {
+      "frames": 32,
+      "physical_markets": 102,
+      "choices": 234
+    },
+    "2024-05-14": {
+      "frames": 31,
+      "physical_markets": 103,
+      "choices": 225
+    },
+    "2024-05-15": {
+      "frames": 49,
+      "physical_markets": 154,
+      "choices": 358
+    },
+    "2024-05-16": {
+      "frames": 50,
+      "physical_markets": 154,
+      "choices": 358
+    },
+    "2024-05-17": {
+      "frames": 28,
+      "physical_markets": 88,
+      "choices": 189
+    },
+    "2024-05-18": {
+      "frames": 60,
+      "physical_markets": 184,
+      "choices": 427
+    },
+    "2024-05-19": {
+      "frames": 80,
+      "physical_markets": 243,
+      "choices": 585
+    },
+    "2024-05-20": {
+      "frames": 50,
+      "physical_markets": 148,
+      "choices": 356
+    },
+    "2024-05-21": {
+      "frames": 28,
+      "physical_markets": 94,
+      "choices": 209
+    },
+    "2024-05-22": {
+      "frames": 40,
+      "physical_markets": 131,
+      "choices": 293
+    },
+    "2024-05-23": {
+      "frames": 30,
+      "physical_markets": 98,
+      "choices": 206
+    },
+    "2024-05-24": {
+      "frames": 29,
+      "physical_markets": 98,
+      "choices": 213
+    },
+    "2024-05-25": {
+      "frames": 52,
+      "physical_markets": 170,
+      "choices": 391
+    },
+    "2024-05-26": {
+      "frames": 75,
+      "physical_markets": 235,
+      "choices": 565
+    },
+    "2024-05-27": {
+      "frames": 36,
+      "physical_markets": 108,
+      "choices": 250
+    },
+    "2024-05-28": {
+      "frames": 25,
+      "physical_markets": 85,
+      "choices": 184
+    },
+    "2024-05-29": {
+      "frames": 35,
+      "physical_markets": 114,
+      "choices": 249
+    },
+    "2024-05-30": {
+      "frames": 47,
+      "physical_markets": 152,
+      "choices": 347
+    },
+    "2024-05-31": {
+      "frames": 27,
+      "physical_markets": 91,
+      "choices": 195
+    },
+    "2024-06-01": {
+      "frames": 51,
+      "physical_markets": 162,
+      "choices": 373
+    },
+    "2024-06-02": {
+      "frames": 62,
+      "physical_markets": 195,
+      "choices": 461
+    },
+    "2024-06-03": {
+      "frames": 26,
+      "physical_markets": 77,
+      "choices": 170
+    },
+    "2024-06-04": {
+      "frames": 27,
+      "physical_markets": 97,
+      "choices": 215
+    },
+    "2024-06-05": {
+      "frames": 42,
+      "physical_markets": 142,
+      "choices": 319
+    },
+    "2024-06-06": {
+      "frames": 46,
+      "physical_markets": 155,
+      "choices": 350
+    },
+    "2024-06-07": {
+      "frames": 37,
+      "physical_markets": 127,
+      "choices": 283
+    },
+    "2024-06-08": {
+      "frames": 47,
+      "physical_markets": 156,
+      "choices": 356
+    },
+    "2024-06-09": {
+      "frames": 52,
+      "physical_markets": 170,
+      "choices": 391
+    },
+    "2024-06-10": {
+      "frames": 23,
+      "physical_markets": 72,
+      "choices": 154
+    },
+    "2024-06-11": {
+      "frames": 32,
+      "physical_markets": 112,
+      "choices": 255
+    },
+    "2024-06-12": {
+      "frames": 53,
+      "physical_markets": 178,
+      "choices": 413
+    },
+    "2024-06-13": {
+      "frames": 35,
+      "physical_markets": 118,
+      "choices": 251
+    },
+    "2024-06-14": {
+      "frames": 28,
+      "physical_markets": 92,
+      "choices": 195
+    },
+    "2024-06-15": {
+      "frames": 50,
+      "physical_markets": 163,
+      "choices": 371
+    },
+    "2024-06-16": {
+      "frames": 68,
+      "physical_markets": 217,
+      "choices": 519
+    },
+    "2024-06-17": {
+      "frames": 20,
+      "physical_markets": 64,
+      "choices": 138
+    },
+    "2024-06-18": {
+      "frames": 21,
+      "physical_markets": 71,
+      "choices": 152
+    },
+    "2024-06-19": {
+      "frames": 36,
+      "physical_markets": 116,
+      "choices": 261
+    },
+    "2024-06-20": {
+      "frames": 44,
+      "physical_markets": 140,
+      "choices": 317
+    },
+    "2024-06-21": {
+      "frames": 32,
+      "physical_markets": 110,
+      "choices": 239
+    },
+    "2024-06-22": {
+      "frames": 58,
+      "physical_markets": 186,
+      "choices": 436
+    },
+    "2024-06-23": {
+      "frames": 59,
+      "physical_markets": 190,
+      "choices": 442
+    },
+    "2024-06-24": {
+      "frames": 19,
+      "physical_markets": 61,
+      "choices": 130
+    },
+    "2024-06-25": {
+      "frames": 32,
+      "physical_markets": 110,
+      "choices": 249
+    },
+    "2024-06-26": {
+      "frames": 48,
+      "physical_markets": 158,
+      "choices": 374
+    },
+    "2024-06-27": {
+      "frames": 29,
+      "physical_markets": 102,
+      "choices": 225
+    },
+    "2024-06-28": {
+      "frames": 25,
+      "physical_markets": 87,
+      "choices": 192
+    },
+    "2024-06-29": {
+      "frames": 46,
+      "physical_markets": 148,
+      "choices": 347
+    },
+    "2024-06-30": {
+      "frames": 58,
+      "physical_markets": 185,
+      "choices": 444
+    },
+    "2024-07-01": {
+      "frames": 23,
+      "physical_markets": 73,
+      "choices": 158
+    },
+    "2024-07-02": {
+      "frames": 18,
+      "physical_markets": 67,
+      "choices": 151
+    },
+    "2024-07-03": {
+      "frames": 37,
+      "physical_markets": 122,
+      "choices": 263
+    },
+    "2024-07-04": {
+      "frames": 43,
+      "physical_markets": 136,
+      "choices": 303
+    },
+    "2024-07-05": {
+      "frames": 33,
+      "physical_markets": 103,
+      "choices": 225
+    },
+    "2024-07-06": {
+      "frames": 47,
+      "physical_markets": 150,
+      "choices": 354
+    },
+    "2024-07-07": {
+      "frames": 46,
+      "physical_markets": 148,
+      "choices": 340
+    },
+    "2024-07-08": {
+      "frames": 31,
+      "physical_markets": 93,
+      "choices": 210
+    },
+    "2024-07-09": {
+      "frames": 20,
+      "physical_markets": 69,
+      "choices": 155
+    },
+    "2024-07-10": {
+      "frames": 44,
+      "physical_markets": 146,
+      "choices": 346
+    },
+    "2024-07-11": {
+      "frames": 25,
+      "physical_markets": 85,
+      "choices": 186
+    },
+    "2024-07-12": {
+      "frames": 23,
+      "physical_markets": 80,
+      "choices": 171
+    },
+    "2024-07-13": {
+      "frames": 39,
+      "physical_markets": 128,
+      "choices": 289
+    },
+    "2024-07-14": {
+      "frames": 69,
+      "physical_markets": 221,
+      "choices": 541
+    },
+    "2024-07-15": {
+      "frames": 25,
+      "physical_markets": 87,
+      "choices": 186
+    },
+    "2024-07-16": {
+      "frames": 9,
+      "physical_markets": 36,
+      "choices": 79
+    },
+    "2024-07-17": {
+      "frames": 16,
+      "physical_markets": 66,
+      "choices": 151
+    },
+    "2024-07-18": {
+      "frames": 18,
+      "physical_markets": 62,
+      "choices": 158
+    },
+    "2024-07-19": {
+      "frames": 11,
+      "physical_markets": 44,
+      "choices": 99
+    },
+    "2024-07-20": {
+      "frames": 36,
+      "physical_markets": 118,
+      "choices": 275
+    },
+    "2024-07-21": {
+      "frames": 51,
+      "physical_markets": 168,
+      "choices": 399
+    },
+    "2024-07-22": {
+      "frames": 17,
+      "physical_markets": 51,
+      "choices": 106
+    },
+    "2024-07-23": {
+      "frames": 21,
+      "physical_markets": 67,
+      "choices": 146
+    },
+    "2024-07-24": {
+      "frames": 26,
+      "physical_markets": 84,
+      "choices": 189
+    },
+    "2024-07-25": {
+      "frames": 25,
+      "physical_markets": 83,
+      "choices": 184
+    },
+    "2024-07-26": {
+      "frames": 26,
+      "physical_markets": 93,
+      "choices": 214
+    },
+    "2024-07-27": {
+      "frames": 40,
+      "physical_markets": 133,
+      "choices": 300
+    },
+    "2024-07-28": {
+      "frames": 48,
+      "physical_markets": 157,
+      "choices": 354
+    },
+    "2024-07-29": {
+      "frames": 37,
+      "physical_markets": 113,
+      "choices": 256
+    },
+    "2024-07-30": {
+      "frames": 32,
+      "physical_markets": 105,
+      "choices": 225
+    },
+    "2024-07-31": {
+      "frames": 43,
+      "physical_markets": 141,
+      "choices": 312
+    },
+    "2024-08-01": {
+      "frames": 41,
+      "physical_markets": 137,
+      "choices": 303
+    },
+    "2024-08-02": {
+      "frames": 25,
+      "physical_markets": 85,
+      "choices": 184
+    },
+    "2024-08-03": {
+      "frames": 48,
+      "physical_markets": 153,
+      "choices": 346
+    },
+    "2024-08-04": {
+      "frames": 36,
+      "physical_markets": 117,
+      "choices": 253
+    },
+    "2024-08-05": {
+      "frames": 28,
+      "physical_markets": 83,
+      "choices": 180
+    },
+    "2024-08-06": {
+      "frames": 30,
+      "physical_markets": 105,
+      "choices": 231
+    },
+    "2024-08-07": {
+      "frames": 47,
+      "physical_markets": 153,
+      "choices": 351
+    },
+    "2024-08-08": {
+      "frames": 31,
+      "physical_markets": 102,
+      "choices": 218
+    },
+    "2024-08-09": {
+      "frames": 28,
+      "physical_markets": 96,
+      "choices": 214
+    },
+    "2024-08-10": {
+      "frames": 61,
+      "physical_markets": 201,
+      "choices": 482
+    },
+    "2024-08-11": {
+      "frames": 54,
+      "physical_markets": 179,
+      "choices": 418
+    },
+    "2024-08-12": {
+      "frames": 26,
+      "physical_markets": 84,
+      "choices": 188
+    },
+    "2024-08-13": {
+      "frames": 23,
+      "physical_markets": 79,
+      "choices": 172
+    },
+    "2024-08-14": {
+      "frames": 36,
+      "physical_markets": 118,
+      "choices": 268
+    },
+    "2024-08-15": {
+      "frames": 27,
+      "physical_markets": 91,
+      "choices": 199
+    },
+    "2024-08-16": {
+      "frames": 20,
+      "physical_markets": 70,
+      "choices": 159
+    },
+    "2024-08-17": {
+      "frames": 70,
+      "physical_markets": 232,
+      "choices": 570
+    },
+    "2024-08-18": {
+      "frames": 59,
+      "physical_markets": 198,
+      "choices": 477
+    },
+    "2024-08-19": {
+      "frames": 30,
+      "physical_markets": 93,
+      "choices": 217
+    },
+    "2024-08-20": {
+      "frames": 25,
+      "physical_markets": 88,
+      "choices": 197
+    },
+    "2024-08-21": {
+      "frames": 39,
+      "physical_markets": 128,
+      "choices": 293
+    },
+    "2024-08-22": {
+      "frames": 29,
+      "physical_markets": 95,
+      "choices": 210
+    },
+    "2024-08-23": {
+      "frames": 33,
+      "physical_markets": 110,
+      "choices": 255
+    },
+    "2024-08-24": {
+      "frames": 67,
+      "physical_markets": 224,
+      "choices": 545
+    },
+    "2024-08-25": {
+      "frames": 79,
+      "physical_markets": 259,
+      "choices": 639
+    },
+    "2024-08-26": {
+      "frames": 32,
+      "physical_markets": 104,
+      "choices": 246
+    },
+    "2024-08-27": {
+      "frames": 24,
+      "physical_markets": 82,
+      "choices": 181
+    },
+    "2024-08-28": {
+      "frames": 38,
+      "physical_markets": 129,
+      "choices": 297
+    },
+    "2024-08-29": {
+      "frames": 36,
+      "physical_markets": 115,
+      "choices": 265
+    },
+    "2024-08-30": {
+      "frames": 30,
+      "physical_markets": 105,
+      "choices": 248
+    },
+    "2024-08-31": {
+      "frames": 70,
+      "physical_markets": 232,
+      "choices": 563
+    },
+    "2024-09-01": {
+      "frames": 76,
+      "physical_markets": 246,
+      "choices": 604
+    },
+    "2024-09-02": {
+      "frames": 35,
+      "physical_markets": 111,
+      "choices": 257
+    },
+    "2024-09-03": {
+      "frames": 23,
+      "physical_markets": 82,
+      "choices": 173
+    },
+    "2024-09-04": {
+      "frames": 30,
+      "physical_markets": 104,
+      "choices": 226
+    },
+    "2024-09-05": {
+      "frames": 31,
+      "physical_markets": 112,
+      "choices": 245
+    },
+    "2024-09-06": {
+      "frames": 40,
+      "physical_markets": 141,
+      "choices": 335
+    },
+    "2024-09-07": {
+      "frames": 49,
+      "physical_markets": 168,
+      "choices": 394
+    },
+    "2024-09-08": {
+      "frames": 48,
+      "physical_markets": 166,
+      "choices": 390
+    },
+    "2024-09-09": {
+      "frames": 23,
+      "physical_markets": 71,
+      "choices": 159
+    },
+    "2024-09-10": {
+      "frames": 37,
+      "physical_markets": 179,
+      "choices": 419
+    },
+    "2024-09-11": {
+      "frames": 50,
+      "physical_markets": 239,
+      "choices": 560
+    },
+    "2024-09-12": {
+      "frames": 22,
+      "physical_markets": 109,
+      "choices": 241
+    },
+    "2024-09-13": {
+      "frames": 19,
+      "physical_markets": 79,
+      "choices": 182
+    },
+    "2024-09-14": {
+      "frames": 77,
+      "physical_markets": 242,
+      "choices": 597
+    },
+    "2024-09-15": {
+      "frames": 70,
+      "physical_markets": 219,
+      "choices": 539
+    },
+    "2024-09-16": {
+      "frames": 34,
+      "physical_markets": 110,
+      "choices": 250
+    },
+    "2024-09-17": {
+      "frames": 29,
+      "physical_markets": 135,
+      "choices": 312
+    },
+    "2024-09-18": {
+      "frames": 43,
+      "physical_markets": 201,
+      "choices": 467
+    },
+    "2024-09-19": {
+      "frames": 53,
+      "physical_markets": 242,
+      "choices": 572
+    },
+    "2024-09-20": {
+      "frames": 24,
+      "physical_markets": 108,
+      "choices": 247
+    },
+    "2024-09-21": {
+      "frames": 73,
+      "physical_markets": 236,
+      "choices": 575
+    },
+    "2024-09-22": {
+      "frames": 81,
+      "physical_markets": 265,
+      "choices": 652
+    },
+    "2024-09-23": {
+      "frames": 39,
+      "physical_markets": 134,
+      "choices": 303
+    },
+    "2024-09-24": {
+      "frames": 15,
+      "physical_markets": 70,
+      "choices": 158
+    },
+    "2024-09-25": {
+      "frames": 37,
+      "physical_markets": 177,
+      "choices": 404
+    },
+    "2024-09-26": {
+      "frames": 37,
+      "physical_markets": 178,
+      "choices": 410
+    },
+    "2024-09-27": {
+      "frames": 30,
+      "physical_markets": 133,
+      "choices": 311
+    },
+    "2024-09-28": {
+      "frames": 76,
+      "physical_markets": 267,
+      "choices": 651
+    },
+    "2024-09-29": {
+      "frames": 72,
+      "physical_markets": 236,
+      "choices": 578
+    },
+    "2024-09-30": {
+      "frames": 34,
+      "physical_markets": 121,
+      "choices": 273
+    },
+    "2024-10-01": {
+      "frames": 20,
+      "physical_markets": 88,
+      "choices": 205
+    },
+    "2024-10-02": {
+      "frames": 38,
+      "physical_markets": 173,
+      "choices": 414
+    },
+    "2024-10-03": {
+      "frames": 43,
+      "physical_markets": 183,
+      "choices": 440
+    },
+    "2024-10-04": {
+      "frames": 40,
+      "physical_markets": 170,
+      "choices": 418
+    },
+    "2024-10-05": {
+      "frames": 51,
+      "physical_markets": 186,
+      "choices": 473
+    },
+    "2024-10-06": {
+      "frames": 66,
+      "physical_markets": 236,
+      "choices": 599
+    },
+    "2024-10-07": {
+      "frames": 17,
+      "physical_markets": 56,
+      "choices": 142
+    },
+    "2024-10-08": {
+      "frames": 6,
+      "physical_markets": 30,
+      "choices": 66
+    },
+    "2024-10-09": {
+      "frames": 8,
+      "physical_markets": 37,
+      "choices": 84
+    },
+    "2024-10-10": {
+      "frames": 8,
+      "physical_markets": 41,
+      "choices": 95
+    },
+    "2024-10-11": {
+      "frames": 27,
+      "physical_markets": 135,
+      "choices": 333
+    },
+    "2024-10-12": {
+      "frames": 19,
+      "physical_markets": 89,
+      "choices": 215
+    },
+    "2024-10-13": {
+      "frames": 17,
+      "physical_markets": 81,
+      "choices": 195
+    },
+    "2024-10-14": {
+      "frames": 12,
+      "physical_markets": 52,
+      "choices": 127
+    },
+    "2024-10-15": {
+      "frames": 21,
+      "physical_markets": 93,
+      "choices": 228
+    },
+    "2024-10-16": {
+      "frames": 27,
+      "physical_markets": 121,
+      "choices": 294
+    },
+    "2024-10-17": {
+      "frames": 4,
+      "physical_markets": 20,
+      "choices": 44
+    },
+    "2024-10-18": {
+      "frames": 10,
+      "physical_markets": 44,
+      "choices": 104
+    },
+    "2024-10-19": {
+      "frames": 58,
+      "physical_markets": 248,
+      "choices": 602
+    },
+    "2024-10-20": {
+      "frames": 60,
+      "physical_markets": 261,
+      "choices": 640
+    },
+    "2024-10-21": {
+      "frames": 13,
+      "physical_markets": 59,
+      "choices": 142
+    },
+    "2024-10-22": {
+      "frames": 15,
+      "physical_markets": 66,
+      "choices": 159
+    },
+    "2024-10-23": {
+      "frames": 36,
+      "physical_markets": 162,
+      "choices": 390
+    },
+    "2024-10-24": {
+      "frames": 36,
+      "physical_markets": 156,
+      "choices": 363
+    },
+    "2024-10-25": {
+      "frames": 43,
+      "physical_markets": 178,
+      "choices": 429
+    },
+    "2024-10-26": {
+      "frames": 60,
+      "physical_markets": 245,
+      "choices": 584
+    },
+    "2024-10-27": {
+      "frames": 60,
+      "physical_markets": 257,
+      "choices": 608
+    },
+    "2024-10-28": {
+      "frames": 25,
+      "physical_markets": 107,
+      "choices": 253
+    },
+    "2024-10-29": {
+      "frames": 22,
+      "physical_markets": 92,
+      "choices": 199
+    },
+    "2024-10-30": {
+      "frames": 28,
+      "physical_markets": 118,
+      "choices": 273
+    },
+    "2024-10-31": {
+      "frames": 31,
+      "physical_markets": 139,
+      "choices": 314
+    },
+    "2024-11-01": {
+      "frames": 17,
+      "physical_markets": 72,
+      "choices": 162
+    },
+    "2024-11-02": {
+      "frames": 44,
+      "physical_markets": 184,
+      "choices": 432
+    },
+    "2024-11-03": {
+      "frames": 74,
+      "physical_markets": 305,
+      "choices": 736
+    },
+    "2024-11-04": {
+      "frames": 23,
+      "physical_markets": 97,
+      "choices": 234
+    },
+    "2024-11-05": {
+      "frames": 31,
+      "physical_markets": 127,
+      "choices": 282
+    },
+    "2024-11-06": {
+      "frames": 26,
+      "physical_markets": 108,
+      "choices": 261
+    },
+    "2024-11-07": {
+      "frames": 39,
+      "physical_markets": 165,
+      "choices": 380
+    },
+    "2024-11-08": {
+      "frames": 45,
+      "physical_markets": 189,
+      "choices": 458
+    },
+    "2024-11-09": {
+      "frames": 52,
+      "physical_markets": 216,
+      "choices": 507
+    },
+    "2024-11-10": {
+      "frames": 73,
+      "physical_markets": 279,
+      "choices": 689
+    },
+    "2024-11-11": {
+      "frames": 31,
+      "physical_markets": 122,
+      "choices": 277
+    },
+    "2024-11-12": {
+      "frames": 10,
+      "physical_markets": 41,
+      "choices": 83
+    },
+    "2024-11-13": {
+      "frames": 19,
+      "physical_markets": 78,
+      "choices": 158
+    },
+    "2024-11-14": {
+      "frames": 25,
+      "physical_markets": 105,
+      "choices": 224
+    },
+    "2024-11-15": {
+      "frames": 28,
+      "physical_markets": 125,
+      "choices": 295
+    },
+    "2024-11-16": {
+      "frames": 32,
+      "physical_markets": 131,
+      "choices": 292
+    },
+    "2024-11-17": {
+      "frames": 22,
+      "physical_markets": 93,
+      "choices": 213
+    },
+    "2024-11-18": {
+      "frames": 9,
+      "physical_markets": 35,
+      "choices": 82
+    },
+    "2024-12-31": {
+      "frames": 2,
+      "physical_markets": 9,
+      "choices": 21
+    },
+    "2025-01-01": {
+      "frames": 16,
+      "physical_markets": 68,
+      "choices": 152
+    },
+    "2025-01-02": {
+      "frames": 21,
+      "physical_markets": 90,
+      "choices": 206
+    },
+    "2025-01-03": {
+      "frames": 13,
+      "physical_markets": 55,
+      "choices": 121
+    },
+    "2025-01-04": {
+      "frames": 23,
+      "physical_markets": 99,
+      "choices": 224
+    },
+    "2025-01-05": {
+      "frames": 39,
+      "physical_markets": 178,
+      "choices": 423
+    },
+    "2025-01-06": {
+      "frames": 15,
+      "physical_markets": 66,
+      "choices": 150
+    },
+    "2025-01-07": {
+      "frames": 18,
+      "physical_markets": 75,
+      "choices": 162
+    },
+    "2025-01-08": {
+      "frames": 15,
+      "physical_markets": 65,
+      "choices": 137
+    },
+    "2025-01-09": {
+      "frames": 15,
+      "physical_markets": 63,
+      "choices": 133
+    },
+    "2025-01-10": {
+      "frames": 16,
+      "physical_markets": 72,
+      "choices": 157
+    },
+    "2025-01-11": {
+      "frames": 35,
+      "physical_markets": 150,
+      "choices": 351
+    },
+    "2025-01-12": {
+      "frames": 38,
+      "physical_markets": 175,
+      "choices": 419
+    },
+    "2025-01-13": {
+      "frames": 23,
+      "physical_markets": 101,
+      "choices": 230
+    },
+    "2025-01-14": {
+      "frames": 13,
+      "physical_markets": 54,
+      "choices": 116
+    },
+    "2025-01-15": {
+      "frames": 30,
+      "physical_markets": 131,
+      "choices": 303
+    },
+    "2025-01-16": {
+      "frames": 31,
+      "physical_markets": 137,
+      "choices": 313
+    },
+    "2025-01-17": {
+      "frames": 15,
+      "physical_markets": 64,
+      "choices": 145
+    },
+    "2025-01-18": {
+      "frames": 32,
+      "physical_markets": 130,
+      "choices": 302
+    },
+    "2025-01-19": {
+      "frames": 47,
+      "physical_markets": 205,
+      "choices": 497
+    },
+    "2025-01-20": {
+      "frames": 21,
+      "physical_markets": 93,
+      "choices": 217
+    },
+    "2025-01-21": {
+      "frames": 14,
+      "physical_markets": 58,
+      "choices": 123
+    },
+    "2025-01-22": {
+      "frames": 31,
+      "physical_markets": 135,
+      "choices": 315
+    },
+    "2025-01-23": {
+      "frames": 28,
+      "physical_markets": 129,
+      "choices": 298
+    },
+    "2025-01-24": {
+      "frames": 31,
+      "physical_markets": 129,
+      "choices": 296
+    },
+    "2025-01-25": {
+      "frames": 28,
+      "physical_markets": 120,
+      "choices": 284
+    },
+    "2025-01-26": {
+      "frames": 54,
+      "physical_markets": 241,
+      "choices": 567
+    },
+    "2025-01-27": {
+      "frames": 15,
+      "physical_markets": 73,
+      "choices": 180
+    },
+    "2025-01-28": {
+      "frames": 20,
+      "physical_markets": 82,
+      "choices": 174
+    },
+    "2025-01-29": {
+      "frames": 11,
+      "physical_markets": 47,
+      "choices": 101
+    },
+    "2025-01-30": {
+      "frames": 34,
+      "physical_markets": 139,
+      "choices": 317
+    },
+    "2025-01-31": {
+      "frames": 28,
+      "physical_markets": 114,
+      "choices": 268
+    },
+    "2025-02-01": {
+      "frames": 35,
+      "physical_markets": 149,
+      "choices": 349
+    },
+    "2025-02-02": {
+      "frames": 49,
+      "physical_markets": 217,
+      "choices": 518
+    },
+    "2025-02-03": {
+      "frames": 21,
+      "physical_markets": 89,
+      "choices": 210
+    },
+    "2025-02-04": {
+      "frames": 20,
+      "physical_markets": 83,
+      "choices": 182
+    },
+    "2025-02-05": {
+      "frames": 20,
+      "physical_markets": 82,
+      "choices": 182
+    },
+    "2025-02-06": {
+      "frames": 25,
+      "physical_markets": 105,
+      "choices": 232
+    },
+    "2025-02-07": {
+      "frames": 17,
+      "physical_markets": 73,
+      "choices": 162
+    },
+    "2025-02-08": {
+      "frames": 32,
+      "physical_markets": 138,
+      "choices": 321
+    },
+    "2025-02-09": {
+      "frames": 50,
+      "physical_markets": 216,
+      "choices": 508
+    },
+    "2025-02-10": {
+      "frames": 18,
+      "physical_markets": 82,
+      "choices": 196
+    },
+    "2025-02-11": {
+      "frames": 20,
+      "physical_markets": 83,
+      "choices": 182
+    },
+    "2025-02-12": {
+      "frames": 27,
+      "physical_markets": 111,
+      "choices": 259
+    },
+    "2025-02-13": {
+      "frames": 37,
+      "physical_markets": 156,
+      "choices": 353
+    },
+    "2025-02-14": {
+      "frames": 28,
+      "physical_markets": 119,
+      "choices": 282
+    },
+    "2025-02-15": {
+      "frames": 42,
+      "physical_markets": 178,
+      "choices": 440
+    },
+    "2025-02-16": {
+      "frames": 50,
+      "physical_markets": 232,
+      "choices": 577
+    },
+    "2025-02-17": {
+      "frames": 17,
+      "physical_markets": 78,
+      "choices": 194
+    },
+    "2025-02-18": {
+      "frames": 16,
+      "physical_markets": 66,
+      "choices": 161
+    },
+    "2025-02-19": {
+      "frames": 16,
+      "physical_markets": 67,
+      "choices": 162
+    },
+    "2025-02-20": {
+      "frames": 18,
+      "physical_markets": 76,
+      "choices": 181
+    },
+    "2025-02-21": {
+      "frames": 29,
+      "physical_markets": 119,
+      "choices": 274
+    },
+    "2025-02-22": {
+      "frames": 55,
+      "physical_markets": 225,
+      "choices": 540
+    },
+    "2025-02-23": {
+      "frames": 69,
+      "physical_markets": 293,
+      "choices": 720
+    },
+    "2025-02-24": {
+      "frames": 25,
+      "physical_markets": 109,
+      "choices": 253
+    },
+    "2025-02-25": {
+      "frames": 13,
+      "physical_markets": 54,
+      "choices": 115
+    },
+    "2025-02-26": {
+      "frames": 35,
+      "physical_markets": 146,
+      "choices": 345
+    },
+    "2025-02-27": {
+      "frames": 24,
+      "physical_markets": 112,
+      "choices": 257
+    },
+    "2025-02-28": {
+      "frames": 14,
+      "physical_markets": 59,
+      "choices": 131
+    },
+    "2025-03-01": {
+      "frames": 53,
+      "physical_markets": 218,
+      "choices": 518
+    },
+    "2025-03-02": {
+      "frames": 71,
+      "physical_markets": 289,
+      "choices": 701
+    },
+    "2025-03-03": {
+      "frames": 30,
+      "physical_markets": 124,
+      "choices": 284
+    },
+    "2025-03-04": {
+      "frames": 15,
+      "physical_markets": 64,
+      "choices": 143
+    },
+    "2025-03-05": {
+      "frames": 27,
+      "physical_markets": 110,
+      "choices": 250
+    },
+    "2025-03-06": {
+      "frames": 18,
+      "physical_markets": 74,
+      "choices": 162
+    },
+    "2025-03-07": {
+      "frames": 30,
+      "physical_markets": 123,
+      "choices": 283
+    },
+    "2025-03-08": {
+      "frames": 49,
+      "physical_markets": 197,
+      "choices": 474
+    },
+    "2025-03-09": {
+      "frames": 76,
+      "physical_markets": 305,
+      "choices": 747
+    },
+    "2025-03-10": {
+      "frames": 25,
+      "physical_markets": 104,
+      "choices": 245
+    },
+    "2025-03-11": {
+      "frames": 23,
+      "physical_markets": 95,
+      "choices": 207
+    },
+    "2025-03-12": {
+      "frames": 25,
+      "physical_markets": 109,
+      "choices": 259
+    },
+    "2025-03-13": {
+      "frames": 24,
+      "physical_markets": 100,
+      "choices": 225
+    },
+    "2025-03-14": {
+      "frames": 26,
+      "physical_markets": 108,
+      "choices": 253
+    },
+    "2025-03-15": {
+      "frames": 48,
+      "physical_markets": 189,
+      "choices": 448
+    },
+    "2025-03-16": {
+      "frames": 83,
+      "physical_markets": 323,
+      "choices": 798
+    },
+    "2025-03-17": {
+      "frames": 28,
+      "physical_markets": 115,
+      "choices": 272
+    },
+    "2025-03-18": {
+      "frames": 15,
+      "physical_markets": 63,
+      "choices": 129
+    },
+    "2025-03-19": {
+      "frames": 9,
+      "physical_markets": 38,
+      "choices": 80
+    },
+    "2025-03-20": {
+      "frames": 19,
+      "physical_markets": 85,
+      "choices": 182
+    },
+    "2025-03-21": {
+      "frames": 30,
+      "physical_markets": 130,
+      "choices": 312
+    },
+    "2025-03-22": {
+      "frames": 30,
+      "physical_markets": 145,
+      "choices": 333
+    },
+    "2025-03-23": {
+      "frames": 43,
+      "physical_markets": 195,
+      "choices": 468
+    },
+    "2025-03-24": {
+      "frames": 23,
+      "physical_markets": 95,
+      "choices": 220
+    },
+    "2025-03-25": {
+      "frames": 29,
+      "physical_markets": 145,
+      "choices": 338
+    },
+    "2025-03-26": {
+      "frames": 39,
+      "physical_markets": 179,
+      "choices": 423
+    },
+    "2025-03-27": {
+      "frames": 14,
+      "physical_markets": 68,
+      "choices": 148
+    },
+    "2025-03-28": {
+      "frames": 39,
+      "physical_markets": 168,
+      "choices": 375
+    },
+    "2025-03-29": {
+      "frames": 65,
+      "physical_markets": 204,
+      "choices": 504
+    },
+    "2025-03-30": {
+      "frames": 100,
+      "physical_markets": 280,
+      "choices": 720
+    },
+    "2025-03-31": {
+      "frames": 36,
+      "physical_markets": 109,
+      "choices": 258
+    },
+    "2025-04-01": {
+      "frames": 31,
+      "physical_markets": 142,
+      "choices": 310
+    },
+    "2025-04-02": {
+      "frames": 49,
+      "physical_markets": 230,
+      "choices": 528
+    },
+    "2025-04-03": {
+      "frames": 48,
+      "physical_markets": 235,
+      "choices": 532
+    },
+    "2025-04-04": {
+      "frames": 28,
+      "physical_markets": 112,
+      "choices": 254
+    },
+    "2025-04-05": {
+      "frames": 87,
+      "physical_markets": 229,
+      "choices": 587
+    },
+    "2025-04-06": {
+      "frames": 90,
+      "physical_markets": 242,
+      "choices": 629
+    },
+    "2025-04-07": {
+      "frames": 39,
+      "physical_markets": 106,
+      "choices": 254
+    },
+    "2025-04-08": {
+      "frames": 33,
+      "physical_markets": 162,
+      "choices": 362
+    },
+    "2025-04-09": {
+      "frames": 57,
+      "physical_markets": 259,
+      "choices": 591
+    },
+    "2025-04-10": {
+      "frames": 38,
+      "physical_markets": 183,
+      "choices": 406
+    },
+    "2025-04-11": {
+      "frames": 31,
+      "physical_markets": 130,
+      "choices": 303
+    },
+    "2025-04-12": {
+      "frames": 89,
+      "physical_markets": 253,
+      "choices": 633
+    },
+    "2025-04-13": {
+      "frames": 78,
+      "physical_markets": 218,
+      "choices": 573
+    },
+    "2025-04-14": {
+      "frames": 43,
+      "physical_markets": 115,
+      "choices": 270
+    },
+    "2025-04-15": {
+      "frames": 25,
+      "physical_markets": 130,
+      "choices": 296
+    },
+    "2025-04-16": {
+      "frames": 43,
+      "physical_markets": 201,
+      "choices": 463
+    },
+    "2025-04-17": {
+      "frames": 30,
+      "physical_markets": 149,
+      "choices": 335
+    },
+    "2025-04-18": {
+      "frames": 40,
+      "physical_markets": 168,
+      "choices": 402
+    },
+    "2025-04-19": {
+      "frames": 57,
+      "physical_markets": 188,
+      "choices": 466
+    },
+    "2025-04-20": {
+      "frames": 88,
+      "physical_markets": 282,
+      "choices": 710
+    },
+    "2025-04-21": {
+      "frames": 41,
+      "physical_markets": 137,
+      "choices": 334
+    },
+    "2025-04-22": {
+      "frames": 23,
+      "physical_markets": 111,
+      "choices": 252
+    },
+    "2025-04-23": {
+      "frames": 35,
+      "physical_markets": 177,
+      "choices": 399
+    },
+    "2025-04-24": {
+      "frames": 31,
+      "physical_markets": 153,
+      "choices": 348
+    },
+    "2025-04-25": {
+      "frames": 46,
+      "physical_markets": 177,
+      "choices": 426
+    },
+    "2025-04-26": {
+      "frames": 66,
+      "physical_markets": 211,
+      "choices": 528
+    },
+    "2025-04-27": {
+      "frames": 69,
+      "physical_markets": 220,
+      "choices": 549
+    },
+    "2025-04-28": {
+      "frames": 35,
+      "physical_markets": 108,
+      "choices": 262
+    },
+    "2025-04-29": {
+      "frames": 44,
+      "physical_markets": 201,
+      "choices": 471
+    },
+    "2025-04-30": {
+      "frames": 31,
+      "physical_markets": 153,
+      "choices": 340
+    },
+    "2025-05-01": {
+      "frames": 27,
+      "physical_markets": 133,
+      "choices": 296
+    },
+    "2025-05-02": {
+      "frames": 29,
+      "physical_markets": 127,
+      "choices": 295
+    },
+    "2025-05-03": {
+      "frames": 80,
+      "physical_markets": 226,
+      "choices": 589
+    },
+    "2025-05-04": {
+      "frames": 73,
+      "physical_markets": 222,
+      "choices": 568
+    },
+    "2025-05-05": {
+      "frames": 44,
+      "physical_markets": 153,
+      "choices": 368
+    },
+    "2025-05-06": {
+      "frames": 43,
+      "physical_markets": 196,
+      "choices": 462
+    },
+    "2025-05-07": {
+      "frames": 31,
+      "physical_markets": 154,
+      "choices": 345
+    },
+    "2025-05-08": {
+      "frames": 18,
+      "physical_markets": 87,
+      "choices": 191
+    },
+    "2025-05-09": {
+      "frames": 22,
+      "physical_markets": 98,
+      "choices": 225
+    },
+    "2025-05-10": {
+      "frames": 54,
+      "physical_markets": 184,
+      "choices": 451
+    },
+    "2025-05-11": {
+      "frames": 97,
+      "physical_markets": 317,
+      "choices": 802
+    },
+    "2025-05-12": {
+      "frames": 25,
+      "physical_markets": 78,
+      "choices": 187
+    },
+    "2025-05-13": {
+      "frames": 29,
+      "physical_markets": 143,
+      "choices": 322
+    },
+    "2025-05-14": {
+      "frames": 38,
+      "physical_markets": 180,
+      "choices": 414
+    },
+    "2025-05-15": {
+      "frames": 54,
+      "physical_markets": 249,
+      "choices": 582
+    },
+    "2025-05-16": {
+      "frames": 18,
+      "physical_markets": 79,
+      "choices": 181
+    },
+    "2025-05-17": {
+      "frames": 61,
+      "physical_markets": 212,
+      "choices": 523
+    },
+    "2025-05-18": {
+      "frames": 75,
+      "physical_markets": 253,
+      "choices": 635
+    },
+    "2025-05-19": {
+      "frames": 38,
+      "physical_markets": 114,
+      "choices": 287
+    },
+    "2025-05-20": {
+      "frames": 23,
+      "physical_markets": 120,
+      "choices": 270
+    },
+    "2025-05-21": {
+      "frames": 37,
+      "physical_markets": 177,
+      "choices": 410
+    },
+    "2025-05-22": {
+      "frames": 32,
+      "physical_markets": 157,
+      "choices": 356
+    },
+    "2025-05-23": {
+      "frames": 23,
+      "physical_markets": 112,
+      "choices": 255
+    },
+    "2025-05-24": {
+      "frames": 42,
+      "physical_markets": 164,
+      "choices": 391
+    },
+    "2025-05-25": {
+      "frames": 72,
+      "physical_markets": 261,
+      "choices": 645
+    },
+    "2025-05-26": {
+      "frames": 40,
+      "physical_markets": 147,
+      "choices": 367
+    },
+    "2025-05-27": {
+      "frames": 28,
+      "physical_markets": 139,
+      "choices": 314
+    },
+    "2025-05-28": {
+      "frames": 30,
+      "physical_markets": 149,
+      "choices": 335
+    },
+    "2025-05-29": {
+      "frames": 39,
+      "physical_markets": 182,
+      "choices": 423
+    },
+    "2025-05-30": {
+      "frames": 17,
+      "physical_markets": 87,
+      "choices": 197
+    },
+    "2025-05-31": {
+      "frames": 51,
+      "physical_markets": 225,
+      "choices": 532
+    },
+    "2025-06-01": {
+      "frames": 54,
+      "physical_markets": 246,
+      "choices": 577
+    },
+    "2025-06-02": {
+      "frames": 22,
+      "physical_markets": 105,
+      "choices": 240
+    },
+    "2025-06-03": {
+      "frames": 17,
+      "physical_markets": 90,
+      "choices": 202
+    },
+    "2025-06-04": {
+      "frames": 34,
+      "physical_markets": 165,
+      "choices": 371
+    },
+    "2025-06-05": {
+      "frames": 36,
+      "physical_markets": 172,
+      "choices": 380
+    },
+    "2025-06-06": {
+      "frames": 45,
+      "physical_markets": 205,
+      "choices": 469
+    },
+    "2025-06-07": {
+      "frames": 52,
+      "physical_markets": 223,
+      "choices": 524
+    },
+    "2025-06-08": {
+      "frames": 56,
+      "physical_markets": 228,
+      "choices": 533
+    },
+    "2025-06-09": {
+      "frames": 26,
+      "physical_markets": 109,
+      "choices": 243
+    },
+    "2025-06-10": {
+      "frames": 36,
+      "physical_markets": 180,
+      "choices": 423
+    },
+    "2025-06-11": {
+      "frames": 64,
+      "physical_markets": 301,
+      "choices": 709
+    },
+    "2025-06-12": {
+      "frames": 35,
+      "physical_markets": 170,
+      "choices": 371
+    },
+    "2025-06-13": {
+      "frames": 24,
+      "physical_markets": 109,
+      "choices": 240
+    },
+    "2025-06-14": {
+      "frames": 46,
+      "physical_markets": 201,
+      "choices": 457
+    },
+    "2025-06-15": {
+      "frames": 64,
+      "physical_markets": 256,
+      "choices": 606
+    },
+    "2025-06-16": {
+      "frames": 27,
+      "physical_markets": 114,
+      "choices": 258
+    },
+    "2025-06-17": {
+      "frames": 27,
+      "physical_markets": 136,
+      "choices": 314
+    },
+    "2025-06-18": {
+      "frames": 42,
+      "physical_markets": 200,
+      "choices": 452
+    },
+    "2025-06-19": {
+      "frames": 35,
+      "physical_markets": 175,
+      "choices": 395
+    },
+    "2025-06-20": {
+      "frames": 34,
+      "physical_markets": 153,
+      "choices": 343
+    },
+    "2025-06-21": {
+      "frames": 57,
+      "physical_markets": 218,
+      "choices": 518
+    },
+    "2025-06-22": {
+      "frames": 53,
+      "physical_markets": 213,
+      "choices": 497
+    },
+    "2025-06-23": {
+      "frames": 32,
+      "physical_markets": 136,
+      "choices": 320
+    },
+    "2025-06-24": {
+      "frames": 17,
+      "physical_markets": 90,
+      "choices": 207
+    },
+    "2025-06-25": {
+      "frames": 32,
+      "physical_markets": 155,
+      "choices": 354
+    },
+    "2025-06-26": {
+      "frames": 46,
+      "physical_markets": 212,
+      "choices": 489
+    },
+    "2025-06-27": {
+      "frames": 32,
+      "physical_markets": 155,
+      "choices": 348
+    },
+    "2025-06-28": {
+      "frames": 52,
+      "physical_markets": 239,
+      "choices": 553
+    },
+    "2025-07-04": {
+      "frames": 11,
+      "physical_markets": 60,
+      "choices": 136
+    },
+    "2025-07-05": {
+      "frames": 54,
+      "physical_markets": 248,
+      "choices": 584
+    },
+    "2025-07-06": {
+      "frames": 48,
+      "physical_markets": 225,
+      "choices": 526
+    },
+    "2025-07-07": {
+      "frames": 18,
+      "physical_markets": 87,
+      "choices": 195
+    },
+    "2025-07-08": {
+      "frames": 22,
+      "physical_markets": 116,
+      "choices": 261
+    },
+    "2025-07-09": {
+      "frames": 35,
+      "physical_markets": 170,
+      "choices": 382
+    },
+    "2025-07-10": {
+      "frames": 35,
+      "physical_markets": 163,
+      "choices": 365
+    },
+    "2025-07-11": {
+      "frames": 22,
+      "physical_markets": 104,
+      "choices": 226
+    },
+    "2025-07-12": {
+      "frames": 45,
+      "physical_markets": 201,
+      "choices": 457
+    },
+    "2025-07-13": {
+      "frames": 53,
+      "physical_markets": 232,
+      "choices": 528
+    },
+    "2025-07-14": {
+      "frames": 30,
+      "physical_markets": 134,
+      "choices": 298
+    },
+    "2025-07-15": {
+      "frames": 9,
+      "physical_markets": 39,
+      "choices": 88
+    },
+    "2025-07-16": {
+      "frames": 28,
+      "physical_markets": 116,
+      "choices": 265
+    },
+    "2025-07-17": {
+      "frames": 25,
+      "physical_markets": 102,
+      "choices": 238
+    },
+    "2025-07-18": {
+      "frames": 14,
+      "physical_markets": 59,
+      "choices": 127
+    },
+    "2025-07-19": {
+      "frames": 44,
+      "physical_markets": 190,
+      "choices": 431
+    },
+    "2025-07-20": {
+      "frames": 64,
+      "physical_markets": 257,
+      "choices": 599
+    },
+    "2025-07-21": {
+      "frames": 28,
+      "physical_markets": 130,
+      "choices": 289
+    },
+    "2025-07-22": {
+      "frames": 23,
+      "physical_markets": 120,
+      "choices": 274
+    },
+    "2025-07-23": {
+      "frames": 28,
+      "physical_markets": 142,
+      "choices": 328
+    },
+    "2025-07-24": {
+      "frames": 23,
+      "physical_markets": 117,
+      "choices": 262
+    },
+    "2025-07-25": {
+      "frames": 11,
+      "physical_markets": 59,
+      "choices": 133
+    },
+    "2025-07-26": {
+      "frames": 42,
+      "physical_markets": 201,
+      "choices": 467
+    },
+    "2025-07-27": {
+      "frames": 51,
+      "physical_markets": 240,
+      "choices": 561
+    },
+    "2025-07-28": {
+      "frames": 16,
+      "physical_markets": 79,
+      "choices": 173
+    },
+    "2025-07-29": {
+      "frames": 27,
+      "physical_markets": 142,
+      "choices": 318
+    },
+    "2025-07-30": {
+      "frames": 30,
+      "physical_markets": 151,
+      "choices": 338
+    },
+    "2025-07-31": {
+      "frames": 36,
+      "physical_markets": 183,
+      "choices": 417
+    },
+    "2025-08-01": {
+      "frames": 14,
+      "physical_markets": 77,
+      "choices": 173
+    },
+    "2025-08-02": {
+      "frames": 45,
+      "physical_markets": 211,
+      "choices": 488
+    },
+    "2025-08-03": {
+      "frames": 30,
+      "physical_markets": 151,
+      "choices": 339
+    },
+    "2025-08-04": {
+      "frames": 22,
+      "physical_markets": 104,
+      "choices": 239
+    },
+    "2025-08-05": {
+      "frames": 26,
+      "physical_markets": 133,
+      "choices": 295
+    },
+    "2025-08-06": {
+      "frames": 36,
+      "physical_markets": 175,
+      "choices": 394
+    },
+    "2025-08-07": {
+      "frames": 34,
+      "physical_markets": 169,
+      "choices": 380
+    },
+    "2025-08-08": {
+      "frames": 19,
+      "physical_markets": 97,
+      "choices": 219
+    },
+    "2025-08-09": {
+      "frames": 56,
+      "physical_markets": 213,
+      "choices": 511
+    },
+    "2025-08-10": {
+      "frames": 64,
+      "physical_markets": 238,
+      "choices": 579
+    },
+    "2025-08-11": {
+      "frames": 34,
+      "physical_markets": 131,
+      "choices": 304
+    },
+    "2025-08-12": {
+      "frames": 25,
+      "physical_markets": 125,
+      "choices": 276
+    },
+    "2025-08-13": {
+      "frames": 40,
+      "physical_markets": 191,
+      "choices": 438
+    },
+    "2025-08-14": {
+      "frames": 29,
+      "physical_markets": 148,
+      "choices": 335
+    },
+    "2025-08-15": {
+      "frames": 29,
+      "physical_markets": 129,
+      "choices": 298
+    },
+    "2025-08-16": {
+      "frames": 72,
+      "physical_markets": 246,
+      "choices": 607
+    },
+    "2025-08-17": {
+      "frames": 71,
+      "physical_markets": 239,
+      "choices": 589
+    },
+    "2025-08-18": {
+      "frames": 32,
+      "physical_markets": 96,
+      "choices": 239
+    },
+    "2025-08-19": {
+      "frames": 26,
+      "physical_markets": 136,
+      "choices": 308
+    },
+    "2025-08-20": {
+      "frames": 38,
+      "physical_markets": 195,
+      "choices": 454
+    },
+    "2025-08-21": {
+      "frames": 33,
+      "physical_markets": 167,
+      "choices": 388
+    },
+    "2025-08-22": {
+      "frames": 44,
+      "physical_markets": 175,
+      "choices": 410
+    },
+    "2025-08-23": {
+      "frames": 84,
+      "physical_markets": 237,
+      "choices": 605
+    },
+    "2025-08-24": {
+      "frames": 77,
+      "physical_markets": 233,
+      "choices": 584
+    },
+    "2025-08-25": {
+      "frames": 40,
+      "physical_markets": 115,
+      "choices": 279
+    },
+    "2025-08-26": {
+      "frames": 37,
+      "physical_markets": 181,
+      "choices": 406
+    },
+    "2025-08-27": {
+      "frames": 53,
+      "physical_markets": 250,
+      "choices": 569
+    },
+    "2025-08-28": {
+      "frames": 38,
+      "physical_markets": 191,
+      "choices": 438
+    },
+    "2025-08-29": {
+      "frames": 39,
+      "physical_markets": 168,
+      "choices": 393
+    },
+    "2025-08-30": {
+      "frames": 86,
+      "physical_markets": 232,
+      "choices": 589
+    },
+    "2025-08-31": {
+      "frames": 89,
+      "physical_markets": 254,
+      "choices": 637
+    },
+    "2025-09-01": {
+      "frames": 46,
+      "physical_markets": 131,
+      "choices": 316
+    },
+    "2025-09-02": {
+      "frames": 31,
+      "physical_markets": 149,
+      "choices": 325
+    },
+    "2025-09-03": {
+      "frames": 41,
+      "physical_markets": 192,
+      "choices": 422
+    },
+    "2025-09-04": {
+      "frames": 34,
+      "physical_markets": 161,
+      "choices": 351
+    },
+    "2025-09-05": {
+      "frames": 41,
+      "physical_markets": 200,
+      "choices": 467
+    },
+    "2025-09-06": {
+      "frames": 50,
+      "physical_markets": 221,
+      "choices": 518
+    },
+    "2025-09-07": {
+      "frames": 50,
+      "physical_markets": 218,
+      "choices": 503
+    },
+    "2025-09-08": {
+      "frames": 27,
+      "physical_markets": 124,
+      "choices": 286
+    },
+    "2025-09-09": {
+      "frames": 34,
+      "physical_markets": 172,
+      "choices": 399
+    },
+    "2025-09-10": {
+      "frames": 48,
+      "physical_markets": 238,
+      "choices": 559
+    },
+    "2025-09-11": {
+      "frames": 25,
+      "physical_markets": 130,
+      "choices": 288
+    },
+    "2025-09-12": {
+      "frames": 19,
+      "physical_markets": 78,
+      "choices": 177
+    },
+    "2025-09-13": {
+      "frames": 84,
+      "physical_markets": 239,
+      "choices": 605
+    },
+    "2025-09-14": {
+      "frames": 85,
+      "physical_markets": 243,
+      "choices": 616
+    },
+    "2025-09-15": {
+      "frames": 45,
+      "physical_markets": 147,
+      "choices": 347
+    },
+    "2025-09-16": {
+      "frames": 33,
+      "physical_markets": 170,
+      "choices": 391
+    },
+    "2025-09-17": {
+      "frames": 52,
+      "physical_markets": 250,
+      "choices": 580
+    },
+    "2025-09-18": {
+      "frames": 56,
+      "physical_markets": 273,
+      "choices": 632
+    },
+    "2025-09-19": {
+      "frames": 23,
+      "physical_markets": 114,
+      "choices": 269
+    },
+    "2025-09-20": {
+      "frames": 79,
+      "physical_markets": 260,
+      "choices": 653
+    },
+    "2025-09-21": {
+      "frames": 74,
+      "physical_markets": 250,
+      "choices": 623
+    },
+    "2025-09-22": {
+      "frames": 33,
+      "physical_markets": 126,
+      "choices": 297
+    },
+    "2025-09-23": {
+      "frames": 27,
+      "physical_markets": 144,
+      "choices": 341
+    },
+    "2025-09-24": {
+      "frames": 31,
+      "physical_markets": 159,
+      "choices": 365
+    },
+    "2025-09-25": {
+      "frames": 41,
+      "physical_markets": 215,
+      "choices": 507
+    },
+    "2025-09-26": {
+      "frames": 35,
+      "physical_markets": 172,
+      "choices": 411
+    },
+    "2025-09-27": {
+      "frames": 75,
+      "physical_markets": 245,
+      "choices": 615
+    },
+    "2025-09-28": {
+      "frames": 81,
+      "physical_markets": 259,
+      "choices": 656
+    },
+    "2025-09-29": {
+      "frames": 37,
+      "physical_markets": 131,
+      "choices": 319
+    },
+    "2025-09-30": {
+      "frames": 23,
+      "physical_markets": 130,
+      "choices": 315
+    },
+    "2025-10-01": {
+      "frames": 41,
+      "physical_markets": 206,
+      "choices": 507
+    },
+    "2025-10-02": {
+      "frames": 36,
+      "physical_markets": 168,
+      "choices": 416
+    },
+    "2025-10-03": {
+      "frames": 53,
+      "physical_markets": 266,
+      "choices": 670
+    },
+    "2025-10-04": {
+      "frames": 59,
+      "physical_markets": 230,
+      "choices": 572
+    },
+    "2025-10-05": {
+      "frames": 65,
+      "physical_markets": 263,
+      "choices": 647
+    },
+    "2025-10-06": {
+      "frames": 23,
+      "physical_markets": 99,
+      "choices": 241
+    },
+    "2025-10-07": {
+      "frames": 6,
+      "physical_markets": 32,
+      "choices": 74
+    },
+    "2025-10-08": {
+      "frames": 16,
+      "physical_markets": 71,
+      "choices": 167
+    },
+    "2025-10-09": {
+      "frames": 23,
+      "physical_markets": 110,
+      "choices": 270
+    },
+    "2025-10-10": {
+      "frames": 25,
+      "physical_markets": 125,
+      "choices": 310
+    },
+    "2025-10-11": {
+      "frames": 24,
+      "physical_markets": 116,
+      "choices": 279
+    },
+    "2025-10-12": {
+      "frames": 30,
+      "physical_markets": 142,
+      "choices": 348
+    },
+    "2025-10-13": {
+      "frames": 15,
+      "physical_markets": 79,
+      "choices": 194
+    },
+    "2025-10-14": {
+      "frames": 25,
+      "physical_markets": 126,
+      "choices": 312
+    },
+    "2025-10-15": {
+      "frames": 27,
+      "physical_markets": 129,
+      "choices": 317
+    },
+    "2025-10-16": {
+      "frames": 6,
+      "physical_markets": 31,
+      "choices": 73
+    },
+    "2025-10-17": {
+      "frames": 9,
+      "physical_markets": 42,
+      "choices": 98
+    },
+    "2025-10-18": {
+      "frames": 59,
+      "physical_markets": 266,
+      "choices": 658
+    },
+    "2025-10-19": {
+      "frames": 62,
+      "physical_markets": 271,
+      "choices": 669
+    },
+    "2025-10-20": {
+      "frames": 16,
+      "physical_markets": 72,
+      "choices": 175
+    },
+    "2025-10-21": {
+      "frames": 15,
+      "physical_markets": 77,
+      "choices": 189
+    },
+    "2025-10-22": {
+      "frames": 35,
+      "physical_markets": 159,
+      "choices": 386
+    },
+    "2025-10-23": {
+      "frames": 40,
+      "physical_markets": 175,
+      "choices": 411
+    },
+    "2025-10-24": {
+      "frames": 43,
+      "physical_markets": 218,
+      "choices": 549
+    },
+    "2025-10-25": {
+      "frames": 71,
+      "physical_markets": 276,
+      "choices": 662
+    },
+    "2025-10-26": {
+      "frames": 54,
+      "physical_markets": 218,
+      "choices": 526
+    },
+    "2025-10-27": {
+      "frames": 28,
+      "physical_markets": 118,
+      "choices": 274
+    },
+    "2025-10-28": {
+      "frames": 19,
+      "physical_markets": 81,
+      "choices": 173
+    },
+    "2025-10-29": {
+      "frames": 17,
+      "physical_markets": 78,
+      "choices": 176
+    },
+    "2025-10-30": {
+      "frames": 44,
+      "physical_markets": 204,
+      "choices": 485
+    },
+    "2025-10-31": {
+      "frames": 14,
+      "physical_markets": 64,
+      "choices": 146
+    },
+    "2025-11-01": {
+      "frames": 41,
+      "physical_markets": 171,
+      "choices": 404
+    },
+    "2025-11-02": {
+      "frames": 72,
+      "physical_markets": 312,
+      "choices": 765
+    },
+    "2025-11-03": {
+      "frames": 25,
+      "physical_markets": 107,
+      "choices": 251
+    },
+    "2025-11-04": {
+      "frames": 24,
+      "physical_markets": 110,
+      "choices": 257
+    },
+    "2025-11-05": {
+      "frames": 35,
+      "physical_markets": 157,
+      "choices": 378
+    },
+    "2025-11-06": {
+      "frames": 37,
+      "physical_markets": 160,
+      "choices": 376
+    },
+    "2025-11-07": {
+      "frames": 42,
+      "physical_markets": 210,
+      "choices": 533
+    },
+    "2025-11-08": {
+      "frames": 53,
+      "physical_markets": 220,
+      "choices": 519
+    },
+    "2025-11-09": {
+      "frames": 74,
+      "physical_markets": 307,
+      "choices": 748
+    },
+    "2025-11-10": {
+      "frames": 24,
+      "physical_markets": 97,
+      "choices": 228
+    },
+    "2025-11-11": {
+      "frames": 12,
+      "physical_markets": 49,
+      "choices": 99
+    },
+    "2025-11-12": {
+      "frames": 11,
+      "physical_markets": 45,
+      "choices": 93
+    },
+    "2025-11-13": {
+      "frames": 17,
+      "physical_markets": 72,
+      "choices": 149
+    },
+    "2025-11-14": {
+      "frames": 26,
+      "physical_markets": 120,
+      "choices": 290
+    },
+    "2025-11-15": {
+      "frames": 27,
+      "physical_markets": 124,
+      "choices": 280
+    },
+    "2025-11-16": {
+      "frames": 29,
+      "physical_markets": 134,
+      "choices": 313
+    },
+    "2025-11-17": {
+      "frames": 16,
+      "physical_markets": 70,
+      "choices": 156
+    },
+    "2025-11-18": {
+      "frames": 31,
+      "physical_markets": 139,
+      "choices": 324
+    },
+    "2025-11-19": {
+      "frames": 40,
+      "physical_markets": 175,
+      "choices": 414
+    },
+    "2025-11-20": {
+      "frames": 13,
+      "physical_markets": 54,
+      "choices": 110
+    },
+    "2025-11-21": {
+      "frames": 8,
+      "physical_markets": 33,
+      "choices": 69
+    },
+    "2025-11-22": {
+      "frames": 38,
+      "physical_markets": 162,
+      "choices": 383
+    },
+    "2025-11-23": {
+      "frames": 68,
+      "physical_markets": 294,
+      "choices": 719
+    },
+    "2025-11-24": {
+      "frames": 24,
+      "physical_markets": 102,
+      "choices": 238
+    },
+    "2025-11-25": {
+      "frames": 24,
+      "physical_markets": 105,
+      "choices": 242
+    },
+    "2025-11-26": {
+      "frames": 31,
+      "physical_markets": 140,
+      "choices": 344
+    },
+    "2025-11-27": {
+      "frames": 35,
+      "physical_markets": 151,
+      "choices": 357
+    },
+    "2025-11-28": {
+      "frames": 59,
+      "physical_markets": 271,
+      "choices": 653
+    },
+    "2025-11-29": {
+      "frames": 57,
+      "physical_markets": 202,
+      "choices": 467
+    },
+    "2025-11-30": {
+      "frames": 71,
+      "physical_markets": 276,
+      "choices": 690
+    },
+    "2025-12-01": {
+      "frames": 39,
+      "physical_markets": 149,
+      "choices": 330
+    },
+    "2025-12-02": {
+      "frames": 29,
+      "physical_markets": 114,
+      "choices": 240
+    },
+    "2025-12-03": {
+      "frames": 22,
+      "physical_markets": 97,
+      "choices": 227
+    },
+    "2025-12-04": {
+      "frames": 25,
+      "physical_markets": 116,
+      "choices": 268
+    },
+    "2025-12-05": {
+      "frames": 18,
+      "physical_markets": 79,
+      "choices": 179
+    },
+    "2025-12-06": {
+      "frames": 53,
+      "physical_markets": 218,
+      "choices": 506
+    },
+    "2025-12-07": {
+      "frames": 54,
+      "physical_markets": 234,
+      "choices": 564
+    },
+    "2025-12-08": {
+      "frames": 24,
+      "physical_markets": 102,
+      "choices": 239
+    },
+    "2025-12-09": {
+      "frames": 18,
+      "physical_markets": 81,
+      "choices": 193
+    },
+    "2025-12-10": {
+      "frames": 28,
+      "physical_markets": 127,
+      "choices": 311
+    },
+    "2025-12-11": {
+      "frames": 26,
+      "physical_markets": 117,
+      "choices": 286
+    },
+    "2025-12-12": {
+      "frames": 47,
+      "physical_markets": 232,
+      "choices": 580
+    },
+    "2025-12-13": {
+      "frames": 34,
+      "physical_markets": 143,
+      "choices": 330
+    },
+    "2025-12-14": {
+      "frames": 48,
+      "physical_markets": 216,
+      "choices": 527
+    },
+    "2025-12-15": {
+      "frames": 23,
+      "physical_markets": 97,
+      "choices": 224
+    },
+    "2025-12-16": {
+      "frames": 13,
+      "physical_markets": 56,
+      "choices": 126
+    },
+    "2025-12-17": {
+      "frames": 10,
+      "physical_markets": 44,
+      "choices": 95
+    },
+    "2025-12-18": {
+      "frames": 10,
+      "physical_markets": 43,
+      "choices": 98
+    },
+    "2025-12-19": {
+      "frames": 38,
+      "physical_markets": 178,
+      "choices": 420
+    },
+    "2025-12-20": {
+      "frames": 29,
+      "physical_markets": 128,
+      "choices": 302
+    },
+    "2025-12-21": {
+      "frames": 50,
+      "physical_markets": 218,
+      "choices": 519
+    },
+    "2025-12-22": {
+      "frames": 19,
+      "physical_markets": 83,
+      "choices": 193
+    },
+    "2025-12-23": {
+      "frames": 21,
+      "physical_markets": 89,
+      "choices": 204
+    },
+    "2025-12-24": {
+      "frames": 26,
+      "physical_markets": 110,
+      "choices": 238
+    },
+    "2025-12-25": {
+      "frames": 14,
+      "physical_markets": 63,
+      "choices": 149
+    },
+    "2025-12-26": {
+      "frames": 13,
+      "physical_markets": 54,
+      "choices": 118
+    },
+    "2025-12-27": {
+      "frames": 36,
+      "physical_markets": 151,
+      "choices": 349
+    },
+    "2025-12-28": {
+      "frames": 32,
+      "physical_markets": 144,
+      "choices": 333
+    },
+    "2025-12-29": {
+      "frames": 15,
+      "physical_markets": 63,
+      "choices": 143
+    },
+    "2025-12-30": {
+      "frames": 31,
+      "physical_markets": 126,
+      "choices": 288
+    },
+    "2025-12-31": {
+      "frames": 20,
+      "physical_markets": 90,
+      "choices": 211
+    },
+    "2026-01-01": {
+      "frames": 20,
+      "physical_markets": 82,
+      "choices": 180
+    },
+    "2026-01-02": {
+      "frames": 24,
+      "physical_markets": 104,
+      "choices": 246
+    },
+    "2026-01-03": {
+      "frames": 25,
+      "physical_markets": 105,
+      "choices": 234
+    },
+    "2026-01-04": {
+      "frames": 35,
+      "physical_markets": 151,
+      "choices": 353
+    },
+    "2026-01-05": {
+      "frames": 33,
+      "physical_markets": 144,
+      "choices": 345
+    },
+    "2026-01-06": {
+      "frames": 17,
+      "physical_markets": 70,
+      "choices": 154
+    },
+    "2026-01-07": {
+      "frames": 19,
+      "physical_markets": 87,
+      "choices": 200
+    },
+    "2026-01-08": {
+      "frames": 32,
+      "physical_markets": 147,
+      "choices": 343
+    },
+    "2026-01-09": {
+      "frames": 13,
+      "physical_markets": 57,
+      "choices": 132
+    },
+    "2026-01-10": {
+      "frames": 37,
+      "physical_markets": 161,
+      "choices": 373
+    },
+    "2026-01-11": {
+      "frames": 49,
+      "physical_markets": 215,
+      "choices": 517
+    },
+    "2026-01-12": {
+      "frames": 22,
+      "physical_markets": 93,
+      "choices": 208
+    },
+    "2026-01-13": {
+      "frames": 18,
+      "physical_markets": 79,
+      "choices": 180
+    },
+    "2026-01-14": {
+      "frames": 23,
+      "physical_markets": 99,
+      "choices": 226
+    },
+    "2026-01-15": {
+      "frames": 24,
+      "physical_markets": 107,
+      "choices": 248
+    },
+    "2026-01-16": {
+      "frames": 19,
+      "physical_markets": 80,
+      "choices": 178
+    },
+    "2026-01-17": {
+      "frames": 31,
+      "physical_markets": 138,
+      "choices": 329
+    },
+    "2026-01-18": {
+      "frames": 54,
+      "physical_markets": 235,
+      "choices": 568
+    },
+    "2026-01-19": {
+      "frames": 19,
+      "physical_markets": 85,
+      "choices": 200
+    },
+    "2026-01-20": {
+      "frames": 16,
+      "physical_markets": 68,
+      "choices": 150
+    },
+    "2026-01-21": {
+      "frames": 34,
+      "physical_markets": 150,
+      "choices": 350
+    },
+    "2026-01-22": {
+      "frames": 24,
+      "physical_markets": 112,
+      "choices": 262
+    },
+    "2026-01-23": {
+      "frames": 32,
+      "physical_markets": 151,
+      "choices": 361
+    },
+    "2026-01-24": {
+      "frames": 32,
+      "physical_markets": 145,
+      "choices": 342
+    },
+    "2026-01-25": {
+      "frames": 48,
+      "physical_markets": 214,
+      "choices": 521
+    },
+    "2026-01-26": {
+      "frames": 22,
+      "physical_markets": 97,
+      "choices": 229
+    },
+    "2026-01-27": {
+      "frames": 12,
+      "physical_markets": 52,
+      "choices": 116
+    },
+    "2026-01-28": {
+      "frames": 13,
+      "physical_markets": 56,
+      "choices": 122
+    },
+    "2026-01-29": {
+      "frames": 30,
+      "physical_markets": 146,
+      "choices": 347
+    },
+    "2026-01-30": {
+      "frames": 32,
+      "physical_markets": 152,
+      "choices": 364
+    },
+    "2026-01-31": {
+      "frames": 35,
+      "physical_markets": 153,
+      "choices": 356
+    },
+    "2026-02-01": {
+      "frames": 49,
+      "physical_markets": 216,
+      "choices": 522
+    },
+    "2026-02-02": {
+      "frames": 27,
+      "physical_markets": 117,
+      "choices": 266
+    },
+    "2026-02-03": {
+      "frames": 10,
+      "physical_markets": 44,
+      "choices": 98
+    },
+    "2026-02-04": {
+      "frames": 26,
+      "physical_markets": 109,
+      "choices": 240
+    },
+    "2026-02-05": {
+      "frames": 16,
+      "physical_markets": 69,
+      "choices": 157
+    },
+    "2026-02-06": {
+      "frames": 21,
+      "physical_markets": 86,
+      "choices": 192
+    },
+    "2026-02-07": {
+      "frames": 38,
+      "physical_markets": 165,
+      "choices": 393
+    },
+    "2026-02-08": {
+      "frames": 56,
+      "physical_markets": 246,
+      "choices": 589
+    },
+    "2026-02-09": {
+      "frames": 23,
+      "physical_markets": 101,
+      "choices": 238
+    },
+    "2026-02-10": {
+      "frames": 24,
+      "physical_markets": 100,
+      "choices": 226
+    },
+    "2026-02-11": {
+      "frames": 28,
+      "physical_markets": 118,
+      "choices": 276
+    },
+    "2026-02-12": {
+      "frames": 29,
+      "physical_markets": 123,
+      "choices": 280
+    },
+    "2026-02-13": {
+      "frames": 12,
+      "physical_markets": 51,
+      "choices": 115
+    },
+    "2026-02-14": {
+      "frames": 31,
+      "physical_markets": 146,
+      "choices": 355
+    },
+    "2026-02-15": {
+      "frames": 46,
+      "physical_markets": 194,
+      "choices": 476
+    },
+    "2026-02-16": {
+      "frames": 14,
+      "physical_markets": 60,
+      "choices": 142
+    },
+    "2026-02-17": {
+      "frames": 16,
+      "physical_markets": 69,
+      "choices": 166
+    },
+    "2026-02-18": {
+      "frames": 20,
+      "physical_markets": 88,
+      "choices": 214
+    },
+    "2026-02-19": {
+      "frames": 13,
+      "physical_markets": 63,
+      "choices": 157
+    },
+    "2026-02-20": {
+      "frames": 30,
+      "physical_markets": 123,
+      "choices": 282
+    },
+    "2026-02-21": {
+      "frames": 42,
+      "physical_markets": 176,
+      "choices": 417
+    },
+    "2026-02-22": {
+      "frames": 65,
+      "physical_markets": 281,
+      "choices": 690
+    },
+    "2026-02-23": {
+      "frames": 28,
+      "physical_markets": 124,
+      "choices": 288
+    },
+    "2026-02-24": {
+      "frames": 9,
+      "physical_markets": 40,
+      "choices": 92
+    },
+    "2026-02-25": {
+      "frames": 27,
+      "physical_markets": 116,
+      "choices": 264
+    },
+    "2026-02-26": {
+      "frames": 21,
+      "physical_markets": 92,
+      "choices": 208
+    },
+    "2026-02-27": {
+      "frames": 39,
+      "physical_markets": 163,
+      "choices": 377
+    },
+    "2026-02-28": {
+      "frames": 62,
+      "physical_markets": 213,
+      "choices": 500
+    },
+    "2026-03-01": {
+      "frames": 68,
+      "physical_markets": 255,
+      "choices": 639
+    },
+    "2026-03-02": {
+      "frames": 45,
+      "physical_markets": 157,
+      "choices": 360
+    },
+    "2026-03-03": {
+      "frames": 22,
+      "physical_markets": 91,
+      "choices": 197
+    },
+    "2026-03-04": {
+      "frames": 25,
+      "physical_markets": 105,
+      "choices": 240
+    },
+    "2026-03-05": {
+      "frames": 25,
+      "physical_markets": 111,
+      "choices": 258
+    },
+    "2026-03-06": {
+      "frames": 18,
+      "physical_markets": 75,
+      "choices": 159
+    },
+    "2026-03-07": {
+      "frames": 53,
+      "physical_markets": 213,
+      "choices": 506
+    },
+    "2026-03-08": {
+      "frames": 73,
+      "physical_markets": 268,
+      "choices": 656
+    },
+    "2026-03-09": {
+      "frames": 35,
+      "physical_markets": 136,
+      "choices": 311
+    },
+    "2026-03-10": {
+      "frames": 21,
+      "physical_markets": 87,
+      "choices": 191
+    },
+    "2026-03-11": {
+      "frames": 34,
+      "physical_markets": 147,
+      "choices": 337
+    },
+    "2026-03-12": {
+      "frames": 31,
+      "physical_markets": 129,
+      "choices": 291
+    },
+    "2026-03-13": {
+      "frames": 33,
+      "physical_markets": 143,
+      "choices": 338
+    },
+    "2026-03-14": {
+      "frames": 57,
+      "physical_markets": 202,
+      "choices": 496
+    },
+    "2026-03-15": {
+      "frames": 82,
+      "physical_markets": 320,
+      "choices": 783
+    },
+    "2026-03-16": {
+      "frames": 28,
+      "physical_markets": 107,
+      "choices": 251
+    },
+    "2026-03-17": {
+      "frames": 21,
+      "physical_markets": 88,
+      "choices": 194
+    },
+    "2026-03-18": {
+      "frames": 40,
+      "physical_markets": 170,
+      "choices": 398
+    },
+    "2026-03-19": {
+      "frames": 21,
+      "physical_markets": 94,
+      "choices": 218
+    },
+    "2026-03-20": {
+      "frames": 30,
+      "physical_markets": 137,
+      "choices": 325
+    },
+    "2026-03-21": {
+      "frames": 41,
+      "physical_markets": 177,
+      "choices": 431
+    },
+    "2026-03-22": {
+      "frames": 80,
+      "physical_markets": 351,
+      "choices": 857
+    },
+    "2026-03-23": {
+      "frames": 26,
+      "physical_markets": 112,
+      "choices": 268
+    },
+    "2026-03-24": {
+      "frames": 12,
+      "physical_markets": 49,
+      "choices": 99
+    },
+    "2026-03-25": {
+      "frames": 7,
+      "physical_markets": 30,
+      "choices": 62
+    },
+    "2026-03-26": {
+      "frames": 16,
+      "physical_markets": 69,
+      "choices": 144
+    },
+    "2026-03-27": {
+      "frames": 44,
+      "physical_markets": 200,
+      "choices": 466
+    },
+    "2026-03-28": {
+      "frames": 57,
+      "physical_markets": 249,
+      "choices": 577
+    },
+    "2026-03-29": {
+      "frames": 52,
+      "physical_markets": 230,
+      "choices": 525
+    },
+    "2026-03-30": {
+      "frames": 29,
+      "physical_markets": 127,
+      "choices": 280
+    },
+    "2026-03-31": {
+      "frames": 40,
+      "physical_markets": 206,
+      "choices": 457
+    },
+    "2026-04-01": {
+      "frames": 61,
+      "physical_markets": 289,
+      "choices": 666
+    },
+    "2026-04-02": {
+      "frames": 39,
+      "physical_markets": 199,
+      "choices": 435
+    },
+    "2026-04-03": {
+      "frames": 34,
+      "physical_markets": 119,
+      "choices": 282
+    },
+    "2026-04-04": {
+      "frames": 67,
+      "physical_markets": 207,
+      "choices": 506
+    },
+    "2026-04-05": {
+      "frames": 85,
+      "physical_markets": 263,
+      "choices": 665
+    },
+    "2026-04-06": {
+      "frames": 49,
+      "physical_markets": 149,
+      "choices": 358
+    },
+    "2026-04-07": {
+      "frames": 35,
+      "physical_markets": 184,
+      "choices": 413
+    },
+    "2026-04-08": {
+      "frames": 49,
+      "physical_markets": 247,
+      "choices": 547
+    },
+    "2026-04-09": {
+      "frames": 32,
+      "physical_markets": 152,
+      "choices": 338
+    },
+    "2026-04-10": {
+      "frames": 30,
+      "physical_markets": 131,
+      "choices": 302
+    },
+    "2026-04-11": {
+      "frames": 91,
+      "physical_markets": 258,
+      "choices": 635
+    },
+    "2026-04-12": {
+      "frames": 75,
+      "physical_markets": 225,
+      "choices": 576
+    },
+    "2026-04-13": {
+      "frames": 43,
+      "physical_markets": 117,
+      "choices": 273
+    },
+    "2026-04-21": {
+      "frames": 14,
+      "physical_markets": 94,
+      "choices": 219
+    },
+    "2026-04-22": {
+      "frames": 50,
+      "physical_markets": 243,
+      "choices": 558
+    },
+    "2026-04-23": {
+      "frames": 52,
+      "physical_markets": 263,
+      "choices": 617
+    },
+    "2026-04-24": {
+      "frames": 31,
+      "physical_markets": 162,
+      "choices": 368
+    },
+    "2026-04-25": {
+      "frames": 78,
+      "physical_markets": 382,
+      "choices": 915
+    },
+    "2026-04-26": {
+      "frames": 77,
+      "physical_markets": 371,
+      "choices": 883
+    },
+    "2026-04-27": {
+      "frames": 30,
+      "physical_markets": 143,
+      "choices": 326
+    },
+    "2026-04-28": {
+      "frames": 27,
+      "physical_markets": 150,
+      "choices": 338
+    },
+    "2026-04-29": {
+      "frames": 49,
+      "physical_markets": 217,
+      "choices": 489
+    },
+    "2026-04-30": {
+      "frames": 31,
+      "physical_markets": 170,
+      "choices": 383
+    },
+    "2026-05-01": {
+      "frames": 27,
+      "physical_markets": 149,
+      "choices": 334
+    },
+    "2026-05-02": {
+      "frames": 75,
+      "physical_markets": 378,
+      "choices": 907
+    },
+    "2026-05-03": {
+      "frames": 76,
+      "physical_markets": 360,
+      "choices": 860
+    },
+    "2026-05-04": {
+      "frames": 37,
+      "physical_markets": 170,
+      "choices": 391
+    },
+    "2026-05-05": {
+      "frames": 36,
+      "physical_markets": 213,
+      "choices": 498
+    },
+    "2026-05-06": {
+      "frames": 43,
+      "physical_markets": 191,
+      "choices": 429
+    },
+    "2026-05-07": {
+      "frames": 24,
+      "physical_markets": 136,
+      "choices": 305
+    },
+    "2026-05-08": {
+      "frames": 26,
+      "physical_markets": 143,
+      "choices": 321
+    },
+    "2026-05-09": {
+      "frames": 60,
+      "physical_markets": 312,
+      "choices": 741
+    },
+    "2026-05-10": {
+      "frames": 80,
+      "physical_markets": 383,
+      "choices": 916
+    },
+    "2026-05-11": {
+      "frames": 35,
+      "physical_markets": 157,
+      "choices": 366
+    },
+    "2026-05-12": {
+      "frames": 26,
+      "physical_markets": 154,
+      "choices": 357
+    },
+    "2026-05-13": {
+      "frames": 36,
+      "physical_markets": 188,
+      "choices": 428
+    },
+    "2026-05-14": {
+      "frames": 46,
+      "physical_markets": 233,
+      "choices": 547
+    },
+    "2026-05-15": {
+      "frames": 26,
+      "physical_markets": 139,
+      "choices": 312
+    },
+    "2026-05-16": {
+      "frames": 52,
+      "physical_markets": 271,
+      "choices": 638
+    },
+    "2026-05-17": {
+      "frames": 76,
+      "physical_markets": 377,
+      "choices": 907
+    },
+    "2026-05-18": {
+      "frames": 41,
+      "physical_markets": 185,
+      "choices": 437
+    },
+    "2026-05-19": {
+      "frames": 27,
+      "physical_markets": 153,
+      "choices": 340
+    },
+    "2026-05-20": {
+      "frames": 20,
+      "physical_markets": 100,
+      "choices": 226
+    },
+    "2026-08-26": {
+      "frames": 40,
+      "physical_markets": 212,
+      "choices": 494
+    },
+    "2026-08-27": {
+      "frames": 36,
+      "physical_markets": 207,
+      "choices": 481
+    },
+    "2026-08-28": {
+      "frames": 47,
+      "physical_markets": 211,
+      "choices": 478
+    },
+    "2026-08-29": {
+      "frames": 86,
+      "physical_markets": 408,
+      "choices": 972
+    },
+    "2026-08-30": {
+      "frames": 72,
+      "physical_markets": 350,
+      "choices": 837
+    },
+    "2026-08-31": {
+      "frames": 34,
+      "physical_markets": 159,
+      "choices": 363
+    },
+    "2026-09-01": {
+      "frames": 40,
+      "physical_markets": 203,
+      "choices": 450
+    },
+    "2026-09-02": {
+      "frames": 47,
+      "physical_markets": 196,
+      "choices": 444
+    },
+    "2026-09-03": {
+      "frames": 28,
+      "physical_markets": 148,
+      "choices": 336
+    },
+    "2026-09-04": {
+      "frames": 28,
+      "physical_markets": 133,
+      "choices": 294
+    },
+    "2026-09-05": {
+      "frames": 78,
+      "physical_markets": 390,
+      "choices": 931
+    },
+    "2026-09-06": {
+      "frames": 83,
+      "physical_markets": 390,
+      "choices": 931
+    },
+    "2026-09-07": {
+      "frames": 33,
+      "physical_markets": 147,
+      "choices": 334
+    },
+    "2026-09-08": {
+      "frames": 32,
+      "physical_markets": 178,
+      "choices": 405
+    },
+    "2026-09-09": {
+      "frames": 50,
+      "physical_markets": 259,
+      "choices": 609
+    },
+    "2026-09-10": {
+      "frames": 60,
+      "physical_markets": 311,
+      "choices": 727
+    },
+    "2026-09-11": {
+      "frames": 27,
+      "physical_markets": 151,
+      "choices": 350
+    },
+    "2026-09-12": {
+      "frames": 83,
+      "physical_markets": 406,
+      "choices": 972
+    },
+    "2026-09-13": {
+      "frames": 78,
+      "physical_markets": 377,
+      "choices": 895
+    },
+    "2026-09-14": {
+      "frames": 40,
+      "physical_markets": 187,
+      "choices": 434
+    },
+    "2026-09-15": {
+      "frames": 42,
+      "physical_markets": 217,
+      "choices": 512
+    },
+    "2026-09-16": {
+      "frames": 51,
+      "physical_markets": 224,
+      "choices": 507
+    },
+    "2026-09-17": {
+      "frames": 67,
+      "physical_markets": 311,
+      "choices": 732
+    },
+    "2026-09-18": {
+      "frames": 43,
+      "physical_markets": 197,
+      "choices": 453
+    },
+    "2026-09-19": {
+      "frames": 79,
+      "physical_markets": 375,
+      "choices": 902
+    },
+    "2026-09-20": {
+      "frames": 93,
+      "physical_markets": 444,
+      "choices": 1059
+    },
+    "2026-09-21": {
+      "frames": 46,
+      "physical_markets": 195,
+      "choices": 438
+    },
+    "2026-09-22": {
+      "frames": 27,
+      "physical_markets": 136,
+      "choices": 299
+    },
+    "2026-09-23": {
+      "frames": 34,
+      "physical_markets": 153,
+      "choices": 345
+    },
+    "2026-09-24": {
+      "frames": 30,
+      "physical_markets": 155,
+      "choices": 350
+    },
+    "2026-09-25": {
+      "frames": 45,
+      "physical_markets": 190,
+      "choices": 433
+    },
+    "2026-09-26": {
+      "frames": 53,
+      "physical_markets": 258,
+      "choices": 603
+    },
+    "2026-09-27": {
+      "frames": 61,
+      "physical_markets": 284,
+      "choices": 660
+    },
+    "2026-09-28": {
+      "frames": 44,
+      "physical_markets": 185,
+      "choices": 421
+    },
+    "2026-09-29": {
+      "frames": 39,
+      "physical_markets": 180,
+      "choices": 421
+    },
+    "2026-09-30": {
+      "frames": 25,
+      "physical_markets": 126,
+      "choices": 295
+    },
+    "2026-10-01": {
+      "frames": 29,
+      "physical_markets": 146,
+      "choices": 330
+    },
+    "2026-10-02": {
+      "frames": 30,
+      "physical_markets": 98,
+      "choices": 219
+    },
+    "2026-10-03": {
+      "frames": 47,
+      "physical_markets": 225,
+      "choices": 522
+    },
+    "2026-10-04": {
+      "frames": 35,
+      "physical_markets": 177,
+      "choices": 415
+    },
+    "2026-10-05": {
+      "frames": 27,
+      "physical_markets": 124,
+      "choices": 288
+    },
+    "2026-10-06": {
+      "frames": 28,
+      "physical_markets": 142,
+      "choices": 333
+    },
+    "2026-10-07": {
+      "frames": 33,
+      "physical_markets": 152,
+      "choices": 361
+    },
+    "2026-10-08": {
+      "frames": 7,
+      "physical_markets": 37,
+      "choices": 81
+    },
+    "2026-10-09": {
+      "frames": 18,
+      "physical_markets": 51,
+      "choices": 110
+    },
+    "2026-10-10": {
+      "frames": 56,
+      "physical_markets": 264,
+      "choices": 650
+    },
+    "2026-10-11": {
+      "frames": 67,
+      "physical_markets": 309,
+      "choices": 755
+    },
+    "2026-10-12": {
+      "frames": 17,
+      "physical_markets": 86,
+      "choices": 202
+    },
+    "2026-10-13": {
+      "frames": 21,
+      "physical_markets": 96,
+      "choices": 233
+    },
+    "2026-10-14": {
+      "frames": 39,
+      "physical_markets": 190,
+      "choices": 468
+    },
+    "2026-10-15": {
+      "frames": 44,
+      "physical_markets": 221,
+      "choices": 551
+    },
+    "2026-10-16": {
+      "frames": 44,
+      "physical_markets": 212,
+      "choices": 526
+    },
+    "2026-10-17": {
+      "frames": 67,
+      "physical_markets": 295,
+      "choices": 731
+    },
+    "2026-10-18": {
+      "frames": 58,
+      "physical_markets": 281,
+      "choices": 700
+    },
+    "2026-10-19": {
+      "frames": 18,
+      "physical_markets": 83,
+      "choices": 199
+    },
+    "2026-10-20": {
+      "frames": 10,
+      "physical_markets": 53,
+      "choices": 123
+    },
+    "2026-10-21": {
+      "frames": 35,
+      "physical_markets": 154,
+      "choices": 381
+    },
+    "2026-10-22": {
+      "frames": 29,
+      "physical_markets": 155,
+      "choices": 367
+    },
+    "2026-10-23": {
+      "frames": 40,
+      "physical_markets": 177,
+      "choices": 446
+    },
+    "2026-10-24": {
+      "frames": 76,
+      "physical_markets": 349,
+      "choices": 846
+    },
+    "2026-10-25": {
+      "frames": 71,
+      "physical_markets": 304,
+      "choices": 737
+    },
+    "2026-10-26": {
+      "frames": 25,
+      "physical_markets": 107,
+      "choices": 252
+    },
+    "2026-10-27": {
+      "frames": 25,
+      "physical_markets": 113,
+      "choices": 258
+    },
+    "2026-10-28": {
+      "frames": 29,
+      "physical_markets": 121,
+      "choices": 284
+    },
+    "2026-10-29": {
+      "frames": 49,
+      "physical_markets": 211,
+      "choices": 500
+    },
+    "2026-10-30": {
+      "frames": 3,
+      "physical_markets": 14,
+      "choices": 36
+    }
+  },
+  "counts_by_league": {
+    "ACL2": {
+      "frames": 217,
+      "physical_markets": 867,
+      "choices": 2168
+    },
+    "ACLE": {
+      "frames": 408,
+      "physical_markets": 1562,
+      "choices": 4003
+    },
+    "AG남농": {
+      "frames": 66,
+      "physical_markets": 205,
+      "choices": 410
+    },
+    "AG남배": {
+      "frames": 88,
+      "physical_markets": 290,
+      "choices": 580
+    },
+    "AG남축": {
+      "frames": 62,
+      "physical_markets": 222,
+      "choices": 568
+    },
+    "AG야구": {
+      "frames": 16,
+      "physical_markets": 58,
+      "choices": 117
+    },
+    "AG여농": {
+      "frames": 48,
+      "physical_markets": 143,
+      "choices": 286
+    },
+    "AG여배": {
+      "frames": 74,
+      "physical_markets": 233,
+      "choices": 466
+    },
+    "AG여축": {
+      "frames": 42,
+      "physical_markets": 145,
+      "choices": 358
+    },
+    "APBC": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "A리그": {
+      "frames": 584,
+      "physical_markets": 1984,
+      "choices": 5136
+    },
+    "CSL": {
+      "frames": 24,
+      "physical_markets": 85,
+      "choices": 210
+    },
+    "C네이션": {
+      "frames": 104,
+      "physical_markets": 367,
+      "choices": 934
+    },
+    "C챔피언": {
+      "frames": 25,
+      "physical_markets": 118,
+      "choices": 304
+    },
+    "EFL챔": {
+      "frames": 1480,
+      "physical_markets": 5120,
+      "choices": 13221
+    },
+    "EPL": {
+      "frames": 1332,
+      "physical_markets": 5492,
+      "choices": 14142
+    },
+    "FIFA아세": {
+      "frames": 14,
+      "physical_markets": 51,
+      "choices": 124
+    },
+    "J1리그": {
+      "frames": 1132,
+      "physical_markets": 3681,
+      "choices": 9596
+    },
+    "J1백년": {
+      "frames": 162,
+      "physical_markets": 559,
+      "choices": 1405
+    },
+    "J2J3백년": {
+      "frames": 74,
+      "physical_markets": 270,
+      "choices": 688
+    },
+    "J2리그": {
+      "frames": 862,
+      "physical_markets": 2803,
+      "choices": 7330
+    },
+    "KBL": {
+      "frames": 1006,
+      "physical_markets": 4383,
+      "choices": 9612
+    },
+    "KBL컵": {
+      "frames": 24,
+      "physical_markets": 96,
+      "choices": 204
+    },
+    "KBO": {
+      "frames": 2506,
+      "physical_markets": 12411,
+      "choices": 27982
+    },
+    "KOVO남": {
+      "frames": 433,
+      "physical_markets": 1523,
+      "choices": 3046
+    },
+    "KOVO여": {
+      "frames": 433,
+      "physical_markets": 1527,
+      "choices": 3054
+    },
+    "KOVO컵남": {
+      "frames": 41,
+      "physical_markets": 146,
+      "choices": 292
+    },
+    "KOVO컵여": {
+      "frames": 42,
+      "physical_markets": 153,
+      "choices": 306
+    },
+    "K리그1": {
+      "frames": 812,
+      "physical_markets": 3126,
+      "choices": 8186
+    },
+    "K리그2": {
+      "frames": 886,
+      "physical_markets": 2927,
+      "choices": 7616
+    },
+    "K슈퍼컵": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "K승강PO": {
+      "frames": 8,
+      "physical_markets": 28,
+      "choices": 72
+    },
+    "MLB": {
+      "frames": 8335,
+      "physical_markets": 30827,
+      "choices": 65378
+    },
+    "MLS": {
+      "frames": 1912,
+      "physical_markets": 6298,
+      "choices": 16451
+    },
+    "NBA": {
+      "frames": 4497,
+      "physical_markets": 15694,
+      "choices": 31388
+    },
+    "NBA컵": {
+      "frames": 2,
+      "physical_markets": 7,
+      "choices": 14
+    },
+    "NPB": {
+      "frames": 3023,
+      "physical_markets": 11896,
+      "choices": 25847
+    },
+    "U20아컵": {
+      "frames": 28,
+      "physical_markets": 124,
+      "choices": 310
+    },
+    "U20월드": {
+      "frames": 52,
+      "physical_markets": 226,
+      "choices": 582
+    },
+    "U23아컵": {
+      "frames": 64,
+      "physical_markets": 242,
+      "choices": 619
+    },
+    "U23아컵Q": {
+      "frames": 6,
+      "physical_markets": 25,
+      "choices": 63
+    },
+    "UCL": {
+      "frames": 627,
+      "physical_markets": 2934,
+      "choices": 7561
+    },
+    "UECL": {
+      "frames": 468,
+      "physical_markets": 1911,
+      "choices": 4896
+    },
+    "UEL": {
+      "frames": 657,
+      "physical_markets": 2752,
+      "choices": 7085
+    },
+    "U남축INT": {
+      "frames": 3,
+      "physical_markets": 12,
+      "choices": 30
+    },
+    "U네이션": {
+      "frames": 279,
+      "physical_markets": 1176,
+      "choices": 2960
+    },
+    "U슈퍼컵": {
+      "frames": 3,
+      "physical_markets": 14,
+      "choices": 36
+    },
+    "WBC": {
+      "frames": 94,
+      "physical_markets": 313,
+      "choices": 626
+    },
+    "WKBL": {
+      "frames": 325,
+      "physical_markets": 1425,
+      "choices": 3128
+    },
+    "골드컵": {
+      "frames": 56,
+      "physical_markets": 209,
+      "choices": 539
+    },
+    "남농EASL": {
+      "frames": 75,
+      "physical_markets": 299,
+      "choices": 598
+    },
+    "남농아예": {
+      "frames": 4,
+      "physical_markets": 11,
+      "choices": 22
+    },
+    "남농아컵": {
+      "frames": 36,
+      "physical_markets": 125,
+      "choices": 250
+    },
+    "남농올림": {
+      "frames": 26,
+      "physical_markets": 73,
+      "choices": 146
+    },
+    "남농올예": {
+      "frames": 36,
+      "physical_markets": 102,
+      "choices": 204
+    },
+    "남농월드": {
+      "frames": 92,
+      "physical_markets": 262,
+      "choices": 524
+    },
+    "남농월예": {
+      "frames": 219,
+      "physical_markets": 733,
+      "choices": 1466
+    },
+    "남농유로": {
+      "frames": 76,
+      "physical_markets": 254,
+      "choices": 508
+    },
+    "남배네이": {
+      "frames": 309,
+      "physical_markets": 996,
+      "choices": 1992
+    },
+    "남배세계": {
+      "frames": 64,
+      "physical_markets": 207,
+      "choices": 414
+    },
+    "남배아선": {
+      "frames": 11,
+      "physical_markets": 37,
+      "choices": 74
+    },
+    "남배올림": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 156
+    },
+    "남배챌린": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "남배코컵": {
+      "frames": 10,
+      "physical_markets": 36,
+      "choices": 72
+    },
+    "남축E1챔": {
+      "frames": 6,
+      "physical_markets": 30,
+      "choices": 76
+    },
+    "남축INTL": {
+      "frames": 486,
+      "physical_markets": 1833,
+      "choices": 4680
+    },
+    "남축아예": {
+      "frames": 44,
+      "physical_markets": 192,
+      "choices": 486
+    },
+    "남축아컵": {
+      "frames": 51,
+      "physical_markets": 191,
+      "choices": 484
+    },
+    "남축올림": {
+      "frames": 32,
+      "physical_markets": 116,
+      "choices": 306
+    },
+    "남축올예": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "네덜FA컵": {
+      "frames": 54,
+      "physical_markets": 206,
+      "choices": 524
+    },
+    "네슈퍼컵": {
+      "frames": 3,
+      "physical_markets": 12,
+      "choices": 31
+    },
+    "노르FA컵": {
+      "frames": 6,
+      "physical_markets": 26,
+      "choices": 65
+    },
+    "독슈퍼컵": {
+      "frames": 3,
+      "physical_markets": 9,
+      "choices": 24
+    },
+    "독일FA컵": {
+      "frames": 53,
+      "physical_markets": 201,
+      "choices": 513
+    },
+    "라리가": {
+      "frames": 1388,
+      "physical_markets": 5040,
+      "choices": 13019
+    },
+    "리그스컵": {
+      "frames": 77,
+      "physical_markets": 249,
+      "choices": 654
+    },
+    "미국FA컵": {
+      "frames": 53,
+      "physical_markets": 183,
+      "choices": 471
+    },
+    "박신자컵": {
+      "frames": 87,
+      "physical_markets": 287,
+      "choices": 574
+    },
+    "분데스리": {
+      "frames": 1098,
+      "physical_markets": 4122,
+      "choices": 10696
+    },
+    "세리에A": {
+      "frames": 1365,
+      "physical_markets": 4983,
+      "choices": 12871
+    },
+    "스페FA컵": {
+      "frames": 55,
+      "physical_markets": 192,
+      "choices": 495
+    },
+    "스페슈퍼": {
+      "frames": 12,
+      "physical_markets": 47,
+      "choices": 119
+    },
+    "아네이션": {
+      "frames": 104,
+      "physical_markets": 404,
+      "choices": 1022
+    },
+    "아랍컵": {
+      "frames": 28,
+      "physical_markets": 112,
+      "choices": 280
+    },
+    "야INTL": {
+      "frames": 6,
+      "physical_markets": 29,
+      "choices": 64
+    },
+    "에레디비": {
+      "frames": 1120,
+      "physical_markets": 4045,
+      "choices": 10440
+    },
+    "엘리테세": {
+      "frames": 154,
+      "physical_markets": 541,
+      "choices": 1401
+    },
+    "여농아컵": {
+      "frames": 25,
+      "physical_markets": 81,
+      "choices": 162
+    },
+    "여농올림": {
+      "frames": 26,
+      "physical_markets": 70,
+      "choices": 140
+    },
+    "여농올예": {
+      "frames": 24,
+      "physical_markets": 64,
+      "choices": 128
+    },
+    "여농월드": {
+      "frames": 36,
+      "physical_markets": 132,
+      "choices": 264
+    },
+    "여농월예": {
+      "frames": 26,
+      "physical_markets": 83,
+      "choices": 166
+    },
+    "여배네이": {
+      "frames": 324,
+      "physical_markets": 974,
+      "choices": 1948
+    },
+    "여배세계": {
+      "frames": 64,
+      "physical_markets": 199,
+      "choices": 398
+    },
+    "여배아선": {
+      "frames": 9,
+      "physical_markets": 26,
+      "choices": 52
+    },
+    "여배올림": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 158
+    },
+    "여배올예": {
+      "frames": 7,
+      "physical_markets": 16,
+      "choices": 32
+    },
+    "여배챌린": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "여배코리": {
+      "frames": 15,
+      "physical_markets": 53,
+      "choices": 106
+    },
+    "여축E1챔": {
+      "frames": 6,
+      "physical_markets": 31,
+      "choices": 78
+    },
+    "여축INTL": {
+      "frames": 22,
+      "physical_markets": 79,
+      "choices": 202
+    },
+    "여축아컵": {
+      "frames": 10,
+      "physical_markets": 41,
+      "choices": 102
+    },
+    "여축올림": {
+      "frames": 26,
+      "physical_markets": 100,
+      "choices": 262
+    },
+    "여축올예": {
+      "frames": 3,
+      "physical_markets": 10,
+      "choices": 26
+    },
+    "여축월드": {
+      "frames": 64,
+      "physical_markets": 234,
+      "choices": 588
+    },
+    "유로24": {
+      "frames": 51,
+      "physical_markets": 207,
+      "choices": 519
+    },
+    "유로예선": {
+      "frames": 238,
+      "physical_markets": 834,
+      "choices": 2138
+    },
+    "이슈퍼컵": {
+      "frames": 10,
+      "physical_markets": 36,
+      "choices": 92
+    },
+    "이탈FA컵": {
+      "frames": 65,
+      "physical_markets": 248,
+      "choices": 632
+    },
+    "인터컨컵": {
+      "frames": 8,
+      "physical_markets": 33,
+      "choices": 83
+    },
+    "일리그컵": {
+      "frames": 176,
+      "physical_markets": 591,
+      "choices": 1534
+    },
+    "일본FA컵": {
+      "frames": 95,
+      "physical_markets": 343,
+      "choices": 876
+    },
+    "일슈퍼컵": {
+      "frames": 3,
+      "physical_markets": 11,
+      "choices": 28
+    },
+    "잉글FA컵": {
+      "frames": 145,
+      "physical_markets": 559,
+      "choices": 1426
+    },
+    "잉리그컵": {
+      "frames": 116,
+      "physical_markets": 466,
+      "choices": 1180
+    },
+    "잉슈퍼컵": {
+      "frames": 3,
+      "physical_markets": 11,
+      "choices": 29
+    },
+    "축ASEA챔": {
+      "frames": 9,
+      "physical_markets": 30,
+      "choices": 78
+    },
+    "축INTL": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "축걸프컵": {
+      "frames": 15,
+      "physical_markets": 68,
+      "choices": 170
+    },
+    "축올림친": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "축월드예": {
+      "frames": 506,
+      "physical_markets": 2234,
+      "choices": 5632
+    },
+    "축클럽친": {
+      "frames": 20,
+      "physical_markets": 76,
+      "choices": 192
+    },
+    "캄페오컵": {
+      "frames": 4,
+      "physical_markets": 15,
+      "choices": 38
+    },
+    "코파리베": {
+      "frames": 41,
+      "physical_markets": 191,
+      "choices": 488
+    },
+    "코파아메": {
+      "frames": 32,
+      "physical_markets": 132,
+      "choices": 332
+    },
+    "코파아예": {
+      "frames": 2,
+      "physical_markets": 6,
+      "choices": 16
+    },
+    "클럽월드": {
+      "frames": 70,
+      "physical_markets": 313,
+      "choices": 790
+    },
+    "프랑FA컵": {
+      "frames": 57,
+      "physical_markets": 216,
+      "choices": 552
+    },
+    "프리그1": {
+      "frames": 1152,
+      "physical_markets": 4094,
+      "choices": 10585
+    },
+    "프리미12": {
+      "frames": 27,
+      "physical_markets": 108,
+      "choices": 216
+    },
+    "프슈퍼컵": {
+      "frames": 3,
+      "physical_markets": 12,
+      "choices": 30
+    },
+    "한국FA컵": {
+      "frames": 64,
+      "physical_markets": 221,
+      "choices": 575
+    },
+    "호주FA컵": {
+      "frames": 38,
+      "physical_markets": 128,
+      "choices": 332
+    }
+  },
+  "counts_by_kickoff_year": {
+    "2023": {
+      "frames": 11950,
+      "physical_markets": 37227,
+      "choices": 85613
+    },
+    "2024": {
+      "frames": 11649,
+      "physical_markets": 39719,
+      "choices": 92954
+    },
+    "2025": {
+      "frames": 13089,
+      "physical_markets": 54727,
+      "choices": 128945
+    },
+    "2026": {
+      "frames": 7708,
+      "physical_markets": 34790,
+      "choices": 81691
+    }
+  },
+  "counts_by_league_and_kickoff_year": {
+    "ACL2/2024": {
+      "frames": 37,
+      "physical_markets": 148,
+      "choices": 370
+    },
+    "ACL2/2025": {
+      "frames": 115,
+      "physical_markets": 459,
+      "choices": 1148
+    },
+    "ACL2/2026": {
+      "frames": 65,
+      "physical_markets": 260,
+      "choices": 650
+    },
+    "ACLE/2023": {
+      "frames": 126,
+      "physical_markets": 403,
+      "choices": 1058
+    },
+    "ACLE/2024": {
+      "frames": 81,
+      "physical_markets": 301,
+      "choices": 769
+    },
+    "ACLE/2025": {
+      "frames": 120,
+      "physical_markets": 551,
+      "choices": 1410
+    },
+    "ACLE/2026": {
+      "frames": 81,
+      "physical_markets": 307,
+      "choices": 766
+    },
+    "AG남농/2023": {
+      "frames": 40,
+      "physical_markets": 108,
+      "choices": 216
+    },
+    "AG남농/2026": {
+      "frames": 26,
+      "physical_markets": 97,
+      "choices": 194
+    },
+    "AG남배/2023": {
+      "frames": 41,
+      "physical_markets": 116,
+      "choices": 232
+    },
+    "AG남배/2026": {
+      "frames": 47,
+      "physical_markets": 174,
+      "choices": 348
+    },
+    "AG남축/2023": {
+      "frames": 34,
+      "physical_markets": 108,
+      "choices": 284
+    },
+    "AG남축/2026": {
+      "frames": 28,
+      "physical_markets": 114,
+      "choices": 284
+    },
+    "AG야구/2023": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "AG야구/2026": {
+      "frames": 8,
+      "physical_markets": 34,
+      "choices": 69
+    },
+    "AG여농/2023": {
+      "frames": 25,
+      "physical_markets": 68,
+      "choices": 136
+    },
+    "AG여농/2026": {
+      "frames": 23,
+      "physical_markets": 75,
+      "choices": 150
+    },
+    "AG여배/2023": {
+      "frames": 37,
+      "physical_markets": 107,
+      "choices": 214
+    },
+    "AG여배/2026": {
+      "frames": 37,
+      "physical_markets": 126,
+      "choices": 252
+    },
+    "AG여축/2023": {
+      "frames": 16,
+      "physical_markets": 52,
+      "choices": 136
+    },
+    "AG여축/2026": {
+      "frames": 26,
+      "physical_markets": 93,
+      "choices": 222
+    },
+    "APBC/2023": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "A리그/2023": {
+      "frames": 167,
+      "physical_markets": 503,
+      "choices": 1340
+    },
+    "A리그/2024": {
+      "frames": 134,
+      "physical_markets": 421,
+      "choices": 1110
+    },
+    "A리그/2025": {
+      "frames": 175,
+      "physical_markets": 658,
+      "choices": 1672
+    },
+    "A리그/2026": {
+      "frames": 108,
+      "physical_markets": 402,
+      "choices": 1014
+    },
+    "CSL/2026": {
+      "frames": 24,
+      "physical_markets": 85,
+      "choices": 210
+    },
+    "C네이션/2023": {
+      "frames": 44,
+      "physical_markets": 146,
+      "choices": 380
+    },
+    "C네이션/2024": {
+      "frames": 32,
+      "physical_markets": 124,
+      "choices": 315
+    },
+    "C네이션/2025": {
+      "frames": 4,
+      "physical_markets": 18,
+      "choices": 45
+    },
+    "C네이션/2026": {
+      "frames": 24,
+      "physical_markets": 79,
+      "choices": 194
+    },
+    "C챔피언/2026": {
+      "frames": 25,
+      "physical_markets": 118,
+      "choices": 304
+    },
+    "EFL챔/2023": {
+      "frames": 108,
+      "physical_markets": 336,
+      "choices": 888
+    },
+    "EFL챔/2024": {
+      "frames": 437,
+      "physical_markets": 1404,
+      "choices": 3692
+    },
+    "EFL챔/2025": {
+      "frames": 559,
+      "physical_markets": 1946,
+      "choices": 5023
+    },
+    "EFL챔/2026": {
+      "frames": 376,
+      "physical_markets": 1434,
+      "choices": 3618
+    },
+    "EPL/2023": {
+      "frames": 417,
+      "physical_markets": 1450,
+      "choices": 3734
+    },
+    "EPL/2024": {
+      "frames": 294,
+      "physical_markets": 1142,
+      "choices": 2895
+    },
+    "EPL/2025": {
+      "frames": 378,
+      "physical_markets": 1672,
+      "choices": 4340
+    },
+    "EPL/2026": {
+      "frames": 243,
+      "physical_markets": 1228,
+      "choices": 3173
+    },
+    "FIFA아세/2026": {
+      "frames": 14,
+      "physical_markets": 51,
+      "choices": 124
+    },
+    "J1리그/2023": {
+      "frames": 306,
+      "physical_markets": 921,
+      "choices": 2454
+    },
+    "J1리그/2024": {
+      "frames": 359,
+      "physical_markets": 1112,
+      "choices": 2942
+    },
+    "J1리그/2025": {
+      "frames": 377,
+      "physical_markets": 1347,
+      "choices": 3459
+    },
+    "J1리그/2026": {
+      "frames": 90,
+      "physical_markets": 301,
+      "choices": 741
+    },
+    "J1백년/2026": {
+      "frames": 162,
+      "physical_markets": 559,
+      "choices": 1405
+    },
+    "J2J3백년/2026": {
+      "frames": 74,
+      "physical_markets": 270,
+      "choices": 688
+    },
+    "J2리그/2024": {
+      "frames": 380,
+      "physical_markets": 1172,
+      "choices": 3104
+    },
+    "J2리그/2025": {
+      "frames": 382,
+      "physical_markets": 1231,
+      "choices": 3226
+    },
+    "J2리그/2026": {
+      "frames": 100,
+      "physical_markets": 400,
+      "choices": 1000
+    },
+    "KBL/2023": {
+      "frames": 292,
+      "physical_markets": 1008,
+      "choices": 2148
+    },
+    "KBL/2024": {
+      "frames": 210,
+      "physical_markets": 891,
+      "choices": 1992
+    },
+    "KBL/2025": {
+      "frames": 309,
+      "physical_markets": 1518,
+      "choices": 3345
+    },
+    "KBL/2026": {
+      "frames": 195,
+      "physical_markets": 966,
+      "choices": 2127
+    },
+    "KBL컵/2023": {
+      "frames": 12,
+      "physical_markets": 36,
+      "choices": 72
+    },
+    "KBL컵/2024": {
+      "frames": 12,
+      "physical_markets": 60,
+      "choices": 132
+    },
+    "KBO/2023": {
+      "frames": 722,
+      "physical_markets": 2479,
+      "choices": 5283
+    },
+    "KBO/2024": {
+      "frames": 725,
+      "physical_markets": 2989,
+      "choices": 6703
+    },
+    "KBO/2025": {
+      "frames": 703,
+      "physical_markets": 4221,
+      "choices": 9848
+    },
+    "KBO/2026": {
+      "frames": 356,
+      "physical_markets": 2722,
+      "choices": 6148
+    },
+    "KOVO남/2023": {
+      "frames": 140,
+      "physical_markets": 420,
+      "choices": 840
+    },
+    "KOVO남/2024": {
+      "frames": 90,
+      "physical_markets": 296,
+      "choices": 592
+    },
+    "KOVO남/2025": {
+      "frames": 132,
+      "physical_markets": 525,
+      "choices": 1050
+    },
+    "KOVO남/2026": {
+      "frames": 71,
+      "physical_markets": 282,
+      "choices": 564
+    },
+    "KOVO여/2023": {
+      "frames": 140,
+      "physical_markets": 418,
+      "choices": 836
+    },
+    "KOVO여/2024": {
+      "frames": 90,
+      "physical_markets": 298,
+      "choices": 596
+    },
+    "KOVO여/2025": {
+      "frames": 135,
+      "physical_markets": 541,
+      "choices": 1082
+    },
+    "KOVO여/2026": {
+      "frames": 68,
+      "physical_markets": 270,
+      "choices": 540
+    },
+    "KOVO컵남/2023": {
+      "frames": 15,
+      "physical_markets": 45,
+      "choices": 90
+    },
+    "KOVO컵남/2024": {
+      "frames": 11,
+      "physical_markets": 44,
+      "choices": 88
+    },
+    "KOVO컵남/2025": {
+      "frames": 3,
+      "physical_markets": 9,
+      "choices": 18
+    },
+    "KOVO컵남/2026": {
+      "frames": 12,
+      "physical_markets": 48,
+      "choices": 96
+    },
+    "KOVO컵여/2023": {
+      "frames": 15,
+      "physical_markets": 45,
+      "choices": 90
+    },
+    "KOVO컵여/2024": {
+      "frames": 15,
+      "physical_markets": 60,
+      "choices": 120
+    },
+    "KOVO컵여/2026": {
+      "frames": 12,
+      "physical_markets": 48,
+      "choices": 96
+    },
+    "K리그1/2023": {
+      "frames": 228,
+      "physical_markets": 685,
+      "choices": 1826
+    },
+    "K리그1/2024": {
+      "frames": 222,
+      "physical_markets": 708,
+      "choices": 1860
+    },
+    "K리그1/2025": {
+      "frames": 227,
+      "physical_markets": 865,
+      "choices": 2235
+    },
+    "K리그1/2026": {
+      "frames": 135,
+      "physical_markets": 868,
+      "choices": 2265
+    },
+    "K리그2/2023": {
+      "frames": 236,
+      "physical_markets": 709,
+      "choices": 1890
+    },
+    "K리그2/2024": {
+      "frames": 234,
+      "physical_markets": 756,
+      "choices": 1980
+    },
+    "K리그2/2025": {
+      "frames": 272,
+      "physical_markets": 930,
+      "choices": 2404
+    },
+    "K리그2/2026": {
+      "frames": 144,
+      "physical_markets": 532,
+      "choices": 1342
+    },
+    "K슈퍼컵/2026": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "K승강PO/2023": {
+      "frames": 4,
+      "physical_markets": 12,
+      "choices": 32
+    },
+    "K승강PO/2025": {
+      "frames": 4,
+      "physical_markets": 16,
+      "choices": 40
+    },
+    "MLB/2023": {
+      "frames": 2426,
+      "physical_markets": 7278,
+      "choices": 14556
+    },
+    "MLB/2024": {
+      "frames": 2437,
+      "physical_markets": 7539,
+      "choices": 15251
+    },
+    "MLB/2025": {
+      "frames": 2371,
+      "physical_markets": 10588,
+      "choices": 23579
+    },
+    "MLB/2026": {
+      "frames": 1101,
+      "physical_markets": 5422,
+      "choices": 11992
+    },
+    "MLS/2023": {
+      "frames": 519,
+      "physical_markets": 1559,
+      "choices": 4156
+    },
+    "MLS/2024": {
+      "frames": 514,
+      "physical_markets": 1611,
+      "choices": 4254
+    },
+    "MLS/2025": {
+      "frames": 525,
+      "physical_markets": 1765,
+      "choices": 4597
+    },
+    "MLS/2026": {
+      "frames": 354,
+      "physical_markets": 1363,
+      "choices": 3444
+    },
+    "NBA/2023": {
+      "frames": 1257,
+      "physical_markets": 3771,
+      "choices": 7542
+    },
+    "NBA/2024": {
+      "frames": 1040,
+      "physical_markets": 3315,
+      "choices": 6630
+    },
+    "NBA/2025": {
+      "frames": 1329,
+      "physical_markets": 5201,
+      "choices": 10402
+    },
+    "NBA/2026": {
+      "frames": 871,
+      "physical_markets": 3407,
+      "choices": 6814
+    },
+    "NBA컵/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 6
+    },
+    "NBA컵/2025": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 8
+    },
+    "NPB/2023": {
+      "frames": 877,
+      "physical_markets": 2612,
+      "choices": 5224
+    },
+    "NPB/2024": {
+      "frames": 878,
+      "physical_markets": 3465,
+      "choices": 7717
+    },
+    "NPB/2025": {
+      "frames": 854,
+      "physical_markets": 3828,
+      "choices": 8510
+    },
+    "NPB/2026": {
+      "frames": 414,
+      "physical_markets": 1991,
+      "choices": 4396
+    },
+    "U20아컵/2025": {
+      "frames": 28,
+      "physical_markets": 124,
+      "choices": 310
+    },
+    "U20월드/2025": {
+      "frames": 52,
+      "physical_markets": 226,
+      "choices": 582
+    },
+    "U23아컵/2024": {
+      "frames": 32,
+      "physical_markets": 101,
+      "choices": 266
+    },
+    "U23아컵/2026": {
+      "frames": 32,
+      "physical_markets": 141,
+      "choices": 353
+    },
+    "U23아컵Q/2023": {
+      "frames": 3,
+      "physical_markets": 11,
+      "choices": 28
+    },
+    "U23아컵Q/2025": {
+      "frames": 3,
+      "physical_markets": 14,
+      "choices": 35
+    },
+    "UCL/2023": {
+      "frames": 149,
+      "physical_markets": 476,
+      "choices": 1250
+    },
+    "UCL/2024": {
+      "frames": 127,
+      "physical_markets": 514,
+      "choices": 1310
+    },
+    "UCL/2025": {
+      "frames": 217,
+      "physical_markets": 1059,
+      "choices": 2705
+    },
+    "UCL/2026": {
+      "frames": 134,
+      "physical_markets": 885,
+      "choices": 2296
+    },
+    "UECL/2023": {
+      "frames": 141,
+      "physical_markets": 456,
+      "choices": 1194
+    },
+    "UECL/2024": {
+      "frames": 99,
+      "physical_markets": 367,
+      "choices": 939
+    },
+    "UECL/2025": {
+      "frames": 152,
+      "physical_markets": 752,
+      "choices": 1923
+    },
+    "UECL/2026": {
+      "frames": 76,
+      "physical_markets": 336,
+      "choices": 840
+    },
+    "UEL/2023": {
+      "frames": 161,
+      "physical_markets": 518,
+      "choices": 1358
+    },
+    "UEL/2024": {
+      "frames": 141,
+      "physical_markets": 525,
+      "choices": 1343
+    },
+    "UEL/2025": {
+      "frames": 213,
+      "physical_markets": 989,
+      "choices": 2526
+    },
+    "UEL/2026": {
+      "frames": 142,
+      "physical_markets": 720,
+      "choices": 1858
+    },
+    "U남축INT/2025": {
+      "frames": 3,
+      "physical_markets": 12,
+      "choices": 30
+    },
+    "U네이션/2023": {
+      "frames": 4,
+      "physical_markets": 12,
+      "choices": 32
+    },
+    "U네이션/2024": {
+      "frames": 139,
+      "physical_markets": 583,
+      "choices": 1475
+    },
+    "U네이션/2025": {
+      "frames": 28,
+      "physical_markets": 112,
+      "choices": 281
+    },
+    "U네이션/2026": {
+      "frames": 108,
+      "physical_markets": 469,
+      "choices": 1172
+    },
+    "U슈퍼컵/2023": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "U슈퍼컵/2024": {
+      "frames": 1,
+      "physical_markets": 5,
+      "choices": 13
+    },
+    "U슈퍼컵/2025": {
+      "frames": 1,
+      "physical_markets": 5,
+      "choices": 13
+    },
+    "WBC/2023": {
+      "frames": 47,
+      "physical_markets": 136,
+      "choices": 272
+    },
+    "WBC/2026": {
+      "frames": 47,
+      "physical_markets": 177,
+      "choices": 354
+    },
+    "WKBL/2023": {
+      "frames": 96,
+      "physical_markets": 337,
+      "choices": 723
+    },
+    "WKBL/2024": {
+      "frames": 71,
+      "physical_markets": 303,
+      "choices": 677
+    },
+    "WKBL/2025": {
+      "frames": 98,
+      "physical_markets": 490,
+      "choices": 1078
+    },
+    "WKBL/2026": {
+      "frames": 60,
+      "physical_markets": 295,
+      "choices": 650
+    },
+    "골드컵/2023": {
+      "frames": 31,
+      "physical_markets": 95,
+      "choices": 252
+    },
+    "골드컵/2025": {
+      "frames": 25,
+      "physical_markets": 114,
+      "choices": 287
+    },
+    "남농EASL/2024": {
+      "frames": 11,
+      "physical_markets": 44,
+      "choices": 88
+    },
+    "남농EASL/2025": {
+      "frames": 39,
+      "physical_markets": 155,
+      "choices": 310
+    },
+    "남농EASL/2026": {
+      "frames": 25,
+      "physical_markets": 100,
+      "choices": 200
+    },
+    "남농아예/2024": {
+      "frames": 2,
+      "physical_markets": 4,
+      "choices": 8
+    },
+    "남농아예/2025": {
+      "frames": 2,
+      "physical_markets": 7,
+      "choices": 14
+    },
+    "남농아컵/2025": {
+      "frames": 36,
+      "physical_markets": 125,
+      "choices": 250
+    },
+    "남농올림/2024": {
+      "frames": 26,
+      "physical_markets": 73,
+      "choices": 146
+    },
+    "남농올예/2024": {
+      "frames": 36,
+      "physical_markets": 102,
+      "choices": 204
+    },
+    "남농월드/2023": {
+      "frames": 92,
+      "physical_markets": 262,
+      "choices": 524
+    },
+    "남농월예/2023": {
+      "frames": 48,
+      "physical_markets": 132,
+      "choices": 264
+    },
+    "남농월예/2025": {
+      "frames": 63,
+      "physical_markets": 230,
+      "choices": 460
+    },
+    "남농월예/2026": {
+      "frames": 108,
+      "physical_markets": 371,
+      "choices": 742
+    },
+    "남농유로/2025": {
+      "frames": 76,
+      "physical_markets": 254,
+      "choices": 508
+    },
+    "남배네이/2023": {
+      "frames": 104,
+      "physical_markets": 308,
+      "choices": 616
+    },
+    "남배네이/2024": {
+      "frames": 104,
+      "physical_markets": 311,
+      "choices": 622
+    },
+    "남배네이/2025": {
+      "frames": 101,
+      "physical_markets": 377,
+      "choices": 754
+    },
+    "남배세계/2025": {
+      "frames": 64,
+      "physical_markets": 207,
+      "choices": 414
+    },
+    "남배아선/2023": {
+      "frames": 5,
+      "physical_markets": 14,
+      "choices": 28
+    },
+    "남배아선/2026": {
+      "frames": 6,
+      "physical_markets": 23,
+      "choices": 46
+    },
+    "남배올림/2024": {
+      "frames": 26,
+      "physical_markets": 78,
+      "choices": 156
+    },
+    "남배챌린/2023": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "남배코컵/2024": {
+      "frames": 10,
+      "physical_markets": 36,
+      "choices": 72
+    },
+    "남축E1챔/2025": {
+      "frames": 6,
+      "physical_markets": 30,
+      "choices": 76
+    },
+    "남축INTL/2023": {
+      "frames": 121,
+      "physical_markets": 401,
+      "choices": 1042
+    },
+    "남축INTL/2024": {
+      "frames": 153,
+      "physical_markets": 548,
+      "choices": 1407
+    },
+    "남축INTL/2025": {
+      "frames": 114,
+      "physical_markets": 507,
+      "choices": 1279
+    },
+    "남축INTL/2026": {
+      "frames": 98,
+      "physical_markets": 377,
+      "choices": 952
+    },
+    "남축아예/2025": {
+      "frames": 42,
+      "physical_markets": 184,
+      "choices": 466
+    },
+    "남축아예/2026": {
+      "frames": 2,
+      "physical_markets": 8,
+      "choices": 20
+    },
+    "남축아컵/2024": {
+      "frames": 51,
+      "physical_markets": 191,
+      "choices": 484
+    },
+    "남축올림/2024": {
+      "frames": 32,
+      "physical_markets": 116,
+      "choices": 306
+    },
+    "남축올예/2024": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "네덜FA컵/2023": {
+      "frames": 17,
+      "physical_markets": 60,
+      "choices": 154
+    },
+    "네덜FA컵/2024": {
+      "frames": 12,
+      "physical_markets": 39,
+      "choices": 102
+    },
+    "네덜FA컵/2025": {
+      "frames": 14,
+      "physical_markets": 59,
+      "choices": 148
+    },
+    "네덜FA컵/2026": {
+      "frames": 11,
+      "physical_markets": 48,
+      "choices": 120
+    },
+    "네슈퍼컵/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "네슈퍼컵/2024": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "네슈퍼컵/2025": {
+      "frames": 1,
+      "physical_markets": 6,
+      "choices": 15
+    },
+    "노르FA컵/2025": {
+      "frames": 6,
+      "physical_markets": 26,
+      "choices": 65
+    },
+    "독슈퍼컵/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "독슈퍼컵/2024": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "독슈퍼컵/2025": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "독일FA컵/2023": {
+      "frames": 17,
+      "physical_markets": 53,
+      "choices": 140
+    },
+    "독일FA컵/2024": {
+      "frames": 11,
+      "physical_markets": 43,
+      "choices": 110
+    },
+    "독일FA컵/2025": {
+      "frames": 15,
+      "physical_markets": 65,
+      "choices": 163
+    },
+    "독일FA컵/2026": {
+      "frames": 10,
+      "physical_markets": 40,
+      "choices": 100
+    },
+    "라리가/2023": {
+      "frames": 411,
+      "physical_markets": 1299,
+      "choices": 3420
+    },
+    "라리가/2024": {
+      "frames": 327,
+      "physical_markets": 1084,
+      "choices": 2837
+    },
+    "라리가/2025": {
+      "frames": 370,
+      "physical_markets": 1441,
+      "choices": 3685
+    },
+    "라리가/2026": {
+      "frames": 280,
+      "physical_markets": 1216,
+      "choices": 3077
+    },
+    "리그스컵/2023": {
+      "frames": 30,
+      "physical_markets": 90,
+      "choices": 240
+    },
+    "리그스컵/2024": {
+      "frames": 31,
+      "physical_markets": 97,
+      "choices": 258
+    },
+    "리그스컵/2025": {
+      "frames": 8,
+      "physical_markets": 30,
+      "choices": 76
+    },
+    "리그스컵/2026": {
+      "frames": 8,
+      "physical_markets": 32,
+      "choices": 80
+    },
+    "미국FA컵/2023": {
+      "frames": 22,
+      "physical_markets": 66,
+      "choices": 176
+    },
+    "미국FA컵/2024": {
+      "frames": 7,
+      "physical_markets": 24,
+      "choices": 63
+    },
+    "미국FA컵/2025": {
+      "frames": 14,
+      "physical_markets": 56,
+      "choices": 140
+    },
+    "미국FA컵/2026": {
+      "frames": 10,
+      "physical_markets": 37,
+      "choices": 92
+    },
+    "박신자컵/2023": {
+      "frames": 27,
+      "physical_markets": 81,
+      "choices": 162
+    },
+    "박신자컵/2024": {
+      "frames": 23,
+      "physical_markets": 68,
+      "choices": 136
+    },
+    "박신자컵/2025": {
+      "frames": 24,
+      "physical_markets": 86,
+      "choices": 172
+    },
+    "박신자컵/2026": {
+      "frames": 13,
+      "physical_markets": 52,
+      "choices": 104
+    },
+    "분데스리/2023": {
+      "frames": 314,
+      "physical_markets": 1004,
+      "choices": 2636
+    },
+    "분데스리/2024": {
+      "frames": 253,
+      "physical_markets": 854,
+      "choices": 2230
+    },
+    "분데스리/2025": {
+      "frames": 306,
+      "physical_markets": 1138,
+      "choices": 2921
+    },
+    "분데스리/2026": {
+      "frames": 225,
+      "physical_markets": 1126,
+      "choices": 2909
+    },
+    "세리에A/2023": {
+      "frames": 411,
+      "physical_markets": 1302,
+      "choices": 3426
+    },
+    "세리에A/2024": {
+      "frames": 318,
+      "physical_markets": 1069,
+      "choices": 2796
+    },
+    "세리에A/2025": {
+      "frames": 363,
+      "physical_markets": 1402,
+      "choices": 3586
+    },
+    "세리에A/2026": {
+      "frames": 273,
+      "physical_markets": 1210,
+      "choices": 3063
+    },
+    "스페FA컵/2023": {
+      "frames": 14,
+      "physical_markets": 43,
+      "choices": 114
+    },
+    "스페FA컵/2024": {
+      "frames": 16,
+      "physical_markets": 48,
+      "choices": 128
+    },
+    "스페FA컵/2025": {
+      "frames": 14,
+      "physical_markets": 55,
+      "choices": 138
+    },
+    "스페FA컵/2026": {
+      "frames": 11,
+      "physical_markets": 46,
+      "choices": 115
+    },
+    "스페슈퍼/2023": {
+      "frames": 3,
+      "physical_markets": 11,
+      "choices": 28
+    },
+    "스페슈퍼/2024": {
+      "frames": 3,
+      "physical_markets": 10,
+      "choices": 26
+    },
+    "스페슈퍼/2025": {
+      "frames": 3,
+      "physical_markets": 14,
+      "choices": 35
+    },
+    "스페슈퍼/2026": {
+      "frames": 3,
+      "physical_markets": 12,
+      "choices": 30
+    },
+    "아네이션/2024": {
+      "frames": 52,
+      "physical_markets": 184,
+      "choices": 472
+    },
+    "아네이션/2025": {
+      "frames": 32,
+      "physical_markets": 140,
+      "choices": 350
+    },
+    "아네이션/2026": {
+      "frames": 20,
+      "physical_markets": 80,
+      "choices": 200
+    },
+    "아랍컵/2024": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "아랍컵/2025": {
+      "frames": 27,
+      "physical_markets": 108,
+      "choices": 270
+    },
+    "야INTL/2024": {
+      "frames": 2,
+      "physical_markets": 10,
+      "choices": 22
+    },
+    "야INTL/2025": {
+      "frames": 4,
+      "physical_markets": 19,
+      "choices": 42
+    },
+    "에레디비/2023": {
+      "frames": 325,
+      "physical_markets": 1067,
+      "choices": 2784
+    },
+    "에레디비/2024": {
+      "frames": 271,
+      "physical_markets": 916,
+      "choices": 2398
+    },
+    "에레디비/2025": {
+      "frames": 307,
+      "physical_markets": 1148,
+      "choices": 2949
+    },
+    "에레디비/2026": {
+      "frames": 217,
+      "physical_markets": 914,
+      "choices": 2309
+    },
+    "엘리테세/2024": {
+      "frames": 76,
+      "physical_markets": 241,
+      "choices": 638
+    },
+    "엘리테세/2025": {
+      "frames": 78,
+      "physical_markets": 300,
+      "choices": 763
+    },
+    "여농아컵/2023": {
+      "frames": 5,
+      "physical_markets": 13,
+      "choices": 26
+    },
+    "여농아컵/2025": {
+      "frames": 20,
+      "physical_markets": 68,
+      "choices": 136
+    },
+    "여농올림/2024": {
+      "frames": 26,
+      "physical_markets": 70,
+      "choices": 140
+    },
+    "여농올예/2024": {
+      "frames": 24,
+      "physical_markets": 64,
+      "choices": 128
+    },
+    "여농월드/2026": {
+      "frames": 36,
+      "physical_markets": 132,
+      "choices": 264
+    },
+    "여농월예/2026": {
+      "frames": 26,
+      "physical_markets": 83,
+      "choices": 166
+    },
+    "여배네이/2023": {
+      "frames": 104,
+      "physical_markets": 294,
+      "choices": 588
+    },
+    "여배네이/2024": {
+      "frames": 104,
+      "physical_markets": 286,
+      "choices": 572
+    },
+    "여배네이/2025": {
+      "frames": 116,
+      "physical_markets": 394,
+      "choices": 788
+    },
+    "여배세계/2025": {
+      "frames": 64,
+      "physical_markets": 199,
+      "choices": 398
+    },
+    "여배아선/2023": {
+      "frames": 7,
+      "physical_markets": 19,
+      "choices": 38
+    },
+    "여배아선/2026": {
+      "frames": 2,
+      "physical_markets": 7,
+      "choices": 14
+    },
+    "여배올림/2024": {
+      "frames": 26,
+      "physical_markets": 79,
+      "choices": 158
+    },
+    "여배올예/2023": {
+      "frames": 7,
+      "physical_markets": 16,
+      "choices": 32
+    },
+    "여배챌린/2023": {
+      "frames": 8,
+      "physical_markets": 24,
+      "choices": 48
+    },
+    "여배코리/2025": {
+      "frames": 15,
+      "physical_markets": 53,
+      "choices": 106
+    },
+    "여축E1챔/2025": {
+      "frames": 6,
+      "physical_markets": 31,
+      "choices": 78
+    },
+    "여축INTL/2023": {
+      "frames": 6,
+      "physical_markets": 19,
+      "choices": 50
+    },
+    "여축INTL/2024": {
+      "frames": 7,
+      "physical_markets": 26,
+      "choices": 67
+    },
+    "여축INTL/2025": {
+      "frames": 9,
+      "physical_markets": 34,
+      "choices": 85
+    },
+    "여축아컵/2026": {
+      "frames": 10,
+      "physical_markets": 41,
+      "choices": 102
+    },
+    "여축올림/2024": {
+      "frames": 26,
+      "physical_markets": 100,
+      "choices": 262
+    },
+    "여축올예/2023": {
+      "frames": 3,
+      "physical_markets": 10,
+      "choices": 26
+    },
+    "여축월드/2023": {
+      "frames": 64,
+      "physical_markets": 234,
+      "choices": 588
+    },
+    "유로24/2024": {
+      "frames": 51,
+      "physical_markets": 207,
+      "choices": 519
+    },
+    "유로예선/2023": {
+      "frames": 229,
+      "physical_markets": 805,
+      "choices": 2062
+    },
+    "유로예선/2024": {
+      "frames": 9,
+      "physical_markets": 29,
+      "choices": 76
+    },
+    "이슈퍼컵/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "이슈퍼컵/2024": {
+      "frames": 3,
+      "physical_markets": 9,
+      "choices": 24
+    },
+    "이슈퍼컵/2025": {
+      "frames": 6,
+      "physical_markets": 24,
+      "choices": 60
+    },
+    "이탈FA컵/2023": {
+      "frames": 21,
+      "physical_markets": 71,
+      "choices": 184
+    },
+    "이탈FA컵/2024": {
+      "frames": 13,
+      "physical_markets": 42,
+      "choices": 110
+    },
+    "이탈FA컵/2025": {
+      "frames": 17,
+      "physical_markets": 78,
+      "choices": 195
+    },
+    "이탈FA컵/2026": {
+      "frames": 14,
+      "physical_markets": 57,
+      "choices": 143
+    },
+    "인터컨컵/2024": {
+      "frames": 2,
+      "physical_markets": 7,
+      "choices": 18
+    },
+    "인터컨컵/2025": {
+      "frames": 4,
+      "physical_markets": 16,
+      "choices": 40
+    },
+    "인터컨컵/2026": {
+      "frames": 2,
+      "physical_markets": 10,
+      "choices": 25
+    },
+    "일리그컵/2023": {
+      "frames": 73,
+      "physical_markets": 219,
+      "choices": 584
+    },
+    "일리그컵/2024": {
+      "frames": 37,
+      "physical_markets": 116,
+      "choices": 306
+    },
+    "일리그컵/2025": {
+      "frames": 45,
+      "physical_markets": 172,
+      "choices": 434
+    },
+    "일리그컵/2026": {
+      "frames": 21,
+      "physical_markets": 84,
+      "choices": 210
+    },
+    "일본FA컵/2023": {
+      "frames": 10,
+      "physical_markets": 31,
+      "choices": 82
+    },
+    "일본FA컵/2024": {
+      "frames": 34,
+      "physical_markets": 108,
+      "choices": 284
+    },
+    "일본FA컵/2025": {
+      "frames": 30,
+      "physical_markets": 120,
+      "choices": 300
+    },
+    "일본FA컵/2026": {
+      "frames": 21,
+      "physical_markets": 84,
+      "choices": 210
+    },
+    "일슈퍼컵/2023": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "일슈퍼컵/2024": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "일슈퍼컵/2025": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "잉글FA컵/2023": {
+      "frames": 17,
+      "physical_markets": 58,
+      "choices": 150
+    },
+    "잉글FA컵/2024": {
+      "frames": 51,
+      "physical_markets": 171,
+      "choices": 444
+    },
+    "잉글FA컵/2025": {
+      "frames": 39,
+      "physical_markets": 166,
+      "choices": 420
+    },
+    "잉글FA컵/2026": {
+      "frames": 38,
+      "physical_markets": 164,
+      "choices": 412
+    },
+    "잉리그컵/2023": {
+      "frames": 24,
+      "physical_markets": 82,
+      "choices": 212
+    },
+    "잉리그컵/2024": {
+      "frames": 34,
+      "physical_markets": 126,
+      "choices": 323
+    },
+    "잉리그컵/2025": {
+      "frames": 32,
+      "physical_markets": 142,
+      "choices": 355
+    },
+    "잉리그컵/2026": {
+      "frames": 26,
+      "physical_markets": 116,
+      "choices": 290
+    },
+    "잉슈퍼컵/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "잉슈퍼컵/2024": {
+      "frames": 1,
+      "physical_markets": 5,
+      "choices": 13
+    },
+    "잉슈퍼컵/2025": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "축ASEA챔/2023": {
+      "frames": 6,
+      "physical_markets": 18,
+      "choices": 48
+    },
+    "축ASEA챔/2025": {
+      "frames": 2,
+      "physical_markets": 8,
+      "choices": 20
+    },
+    "축ASEA챔/2026": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "축INTL/2024": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "축걸프컵/2026": {
+      "frames": 15,
+      "physical_markets": 68,
+      "choices": 170
+    },
+    "축올림친/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "축월드예/2023": {
+      "frames": 55,
+      "physical_markets": 180,
+      "choices": 467
+    },
+    "축월드예/2024": {
+      "frames": 133,
+      "physical_markets": 550,
+      "choices": 1393
+    },
+    "축월드예/2025": {
+      "frames": 302,
+      "physical_markets": 1434,
+      "choices": 3597
+    },
+    "축월드예/2026": {
+      "frames": 16,
+      "physical_markets": 70,
+      "choices": 175
+    },
+    "축클럽친/2024": {
+      "frames": 2,
+      "physical_markets": 7,
+      "choices": 18
+    },
+    "축클럽친/2025": {
+      "frames": 18,
+      "physical_markets": 69,
+      "choices": 174
+    },
+    "캄페오컵/2023": {
+      "frames": 1,
+      "physical_markets": 3,
+      "choices": 8
+    },
+    "캄페오컵/2024": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "캄페오컵/2025": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "캄페오컵/2026": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "코파리베/2025": {
+      "frames": 29,
+      "physical_markets": 147,
+      "choices": 380
+    },
+    "코파리베/2026": {
+      "frames": 12,
+      "physical_markets": 44,
+      "choices": 108
+    },
+    "코파아메/2024": {
+      "frames": 32,
+      "physical_markets": 132,
+      "choices": 332
+    },
+    "코파아예/2024": {
+      "frames": 2,
+      "physical_markets": 6,
+      "choices": 16
+    },
+    "클럽월드/2023": {
+      "frames": 14,
+      "physical_markets": 44,
+      "choices": 116
+    },
+    "클럽월드/2025": {
+      "frames": 56,
+      "physical_markets": 269,
+      "choices": 674
+    },
+    "프랑FA컵/2023": {
+      "frames": 17,
+      "physical_markets": 55,
+      "choices": 144
+    },
+    "프랑FA컵/2024": {
+      "frames": 15,
+      "physical_markets": 50,
+      "choices": 130
+    },
+    "프랑FA컵/2025": {
+      "frames": 12,
+      "physical_markets": 57,
+      "choices": 143
+    },
+    "프랑FA컵/2026": {
+      "frames": 13,
+      "physical_markets": 54,
+      "choices": 135
+    },
+    "프리그1/2023": {
+      "frames": 373,
+      "physical_markets": 1192,
+      "choices": 3130
+    },
+    "프리그1/2024": {
+      "frames": 252,
+      "physical_markets": 836,
+      "choices": 2192
+    },
+    "프리그1/2025": {
+      "frames": 312,
+      "physical_markets": 1161,
+      "choices": 2982
+    },
+    "프리그1/2026": {
+      "frames": 215,
+      "physical_markets": 905,
+      "choices": 2281
+    },
+    "프리미12/2024": {
+      "frames": 27,
+      "physical_markets": 108,
+      "choices": 216
+    },
+    "프슈퍼컵/2024": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "프슈퍼컵/2025": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "프슈퍼컵/2026": {
+      "frames": 1,
+      "physical_markets": 4,
+      "choices": 10
+    },
+    "한국FA컵/2023": {
+      "frames": 24,
+      "physical_markets": 74,
+      "choices": 196
+    },
+    "한국FA컵/2024": {
+      "frames": 24,
+      "physical_markets": 79,
+      "choices": 207
+    },
+    "한국FA컵/2025": {
+      "frames": 16,
+      "physical_markets": 68,
+      "choices": 172
+    },
+    "호주FA컵/2023": {
+      "frames": 13,
+      "physical_markets": 39,
+      "choices": 104
+    },
+    "호주FA컵/2024": {
+      "frames": 11,
+      "physical_markets": 35,
+      "choices": 92
+    },
+    "호주FA컵/2025": {
+      "frames": 10,
+      "physical_markets": 40,
+      "choices": 102
+    },
+    "호주FA컵/2026": {
+      "frames": 4,
+      "physical_markets": 14,
+      "choices": 34
+    }
+  },
+  "multiple_alias_markets": 954,
+  "earliest_alias_differs_from_primary_row": 0,
+  "alias_rule": "minimum (numeric season, numeric round, numeric game_no, original game_no tie-break); original alias values retained including leading zeros; no outcomes consulted",
+  "offer_id_rule": "source market_id + colon + zero-based side index",
+  "event_identity_rule": "preserve source event_id; validated SHA256(first24) of compact UTF8 JSON [naive kickoff,sport,league,home,away]",
+  "snapshot_id_rule": "full SHA256 compact UTF8 JSON [historical_market_proxy,event_id]; one frame per physical event",
+  "time_assumption": "All source ISO timestamps naive; attach +09:00 without converting clock. available_at=kickoff-24h is hypothetical, never observed.",
+  "availability_proven": false,
+  "pending_unsettled_universe_present": false,
+  "source_normalization_reported_audit": {
+    "distinct_physical_events": 44396,
+    "identical_reissue_rows_collapsed": 954,
+    "input_rows": 174633,
+    "market_excluded:conflicting_price_result_or_state_reissues": 587,
+    "market_excluded:invalid_quoted_price": 230,
+    "market_excluded:unpriced_void": 2876,
+    "market_excluded:unrecognized_or_unsettled_result": 512,
+    "parsed_rows": 172274,
+    "physical_market_groups": 170668,
+    "quoted_selections": 389203,
+    "raw_status:invalid_quoted_price": 231,
+    "raw_status:settled": 168589,
+    "raw_status:unpriced_void": 2920,
+    "raw_status:unrecognized_or_unsettled_result": 534,
+    "shape_excluded:invalid_selection_count": 2332,
+    "shape_excluded:unsupported_market": 27,
+    "usable_markets": 166463
+  },
+  "source_normalization_reported_input_sha256": {
+    "experiments\\proto-all-picks-20261030\\inputs\\combined-games.jsonl.gz": "6d0892bae58aaecd2f140ee20347f650032492b08a5901f4db7dfa0f12d3f432"
+  },
+  "validation": {
+    "readback_counts": {
+      "frames": 44396,
+      "physical_markets": 166463,
+      "choices": 389203
+    },
+    "source_hashes_unchanged": true,
+    "physical_identity_hashes_checked": 166463,
+    "outcome_blindness_and_alias_order_tested_markets": 166463,
+    "unique_offer_ids": 389203,
+    "probability_max_absolute_error_vs_decimal": 1.1102230246251565e-16,
+    "all_market_probability_vectors_sum_to_one": true,
+    "all_actual_settlements_match": true,
+    "all_choices_and_markets_preserved": true,
+    "assumed_kst_frames": 44396
+  },
+  "limitations": [
+    "Settled-only selection bias: this exact input has no pending/unsettled markets and no refund markets. Do not infer a complete historical buyable universe.",
+    "Prior normalization excluded cancellations with unpriced/1.00 sentinel odds, unsettled/unrecognized results, conflicting price/result/state reissues, invalid prices and unsupported shapes. Export does not recover exclusions.",
+    "Upstream reported exclusions/counts are copied for context, not independently regenerated from raw archives in this sidecar.",
+    "Earliest issued alias is an issue identifier, not proof of earliest price observation or historical availability.",
+    "Physical event grouping inherits upstream cleaned-team identity; no new external fixture identity verification.",
+    "Market reciprocal probabilities are unverified and uncalibrated; no saved Shin probabilities, saved operating model or tipster input.",
+    "Settlement uses upstream actual product-specific result/winner labels; no simulated outcomes or independent official verification.",
+    "2023-2026 archive previously exposed; no untouched holdout claimed. No train/test split, ranking, ticket construction or ROI run.",
+    "Frames retain all eligible source market choices including half-game families; parent ticket engine owns frozen eligibility/checkpoint/session rules.",
+    "Private ignored sidecar only; no tracked edits, commits, PR, network fetches or production changes."
+  ]
+}

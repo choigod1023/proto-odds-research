@@ -1,0 +1,42 @@
+{
+  "checks": {
+    "strict_rebuilt_event_ledger_exact_match": 508,
+    "standard-ot_rebuilt_event_ledger_exact_match": 597,
+    "unique_physical_events": 597,
+    "complete_proto_offer_match_events": 597,
+    "raw_forecasts_enriched": 635,
+    "raw_rows_used": {
+      "strict": 542,
+      "standard-ot": 93
+    },
+    "vote_counts_exact_match": true,
+    "market_and_fixed91_saved_picks_exact_match": true,
+    "zero_vote_scores_preserved": 626,
+    "zero_vote_pure_eligibility_rejected": true,
+    "quote_observed_at_all_null": true,
+    "retrospective_nonexecutable_all": true,
+    "source_proven_available_events": 0,
+    "no_roi_computed": true,
+    "source_hashes_unchanged": true
+  },
+  "exclusions": {
+    "strict": {
+      "missing or conflicting prices": 172
+    },
+    "standard-ot": {
+      "missing or conflicting prices": 175
+    }
+  },
+  "raw_counts": {
+    "strict": {
+      "rows": 723,
+      "official_groups": 680,
+      "priced_events": 508
+    },
+    "standard-ot": {
+      "rows": 820,
+      "official_groups": 772,
+      "priced_events": 597
+    }
+  }
+}
