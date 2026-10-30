@@ -1,4 +1,4 @@
-"""Offline v1.1 proposal validator. No external receipt verifier is configured."""
+"""Offline v1.2 proposal validator. No external receipt verifier is configured."""
 import hashlib
 import json
 import math
@@ -53,10 +53,13 @@ def shape(value, spec, path='$'):
             need(rule is not False, path + ': unexpected ' + k)
             if isinstance(rule, dict): shape(v, rule, path + '.' + k)
 
-def content_digest(quote, lineups, observations):
+def content_digest(game, product, selected_aliases, quote, lineups, observations):
     """Hash complete referenced records, including each observation, in reference order."""
     payload = {
-        'domain': 'accuracy-structure-v1.1-inputs',
+        'domain': 'accuracy-structure-v1.2-inputs',
+        'game': game,
+        'product': product,
+        'identity_aliases': selected_aliases,
         'quote': quote,
         'quote_observation': observations[quote['observation_id']],
         'lineups': [{'lineup': lineup, 'observation': observations[lineup['observation_id']]}
@@ -124,13 +127,20 @@ def validate(doc):
         need(set(f['probabilities']) == set(p['outcomes']) and abs(sum(f['probabilities'].values())-1) <= 1e-9, 'probability vector')
         need(f['selection'] in p['outcomes'], 'selection')
         q=quotes.get(f['quote_revision_id']); need(q is not None and q['canonical_game_id']==f['canonical_game_id'] and q['identity']==f['identity'], 'quote mismatch')
+        selected_aliases=[]; seen_aliases=set()
+        for ref in f['identity_aliases']:
+            key=(ref['authority'], ref['official_id'])
+            need(key not in seen_aliases, 'duplicate identity alias reference'); seen_aliases.add(key)
+            alias=aliases.get(key)
+            need(alias is not None and alias['canonical_game_id'] == f['canonical_game_id'], 'identity alias mismatch')
+            selected_aliases.append(alias)
         refs=[observation(q)]; selected_lineups=[]
         need(len(set(f['lineup_revision_ids'])) == len(f['lineup_revision_ids']), 'duplicate lineup reference')
         for rid in f['lineup_revision_ids']:
             l=lineups.get(rid); need(l is not None and l['canonical_game_id']==f['canonical_game_id'], 'lineup mismatch'); refs.append(observation(l)); selected_lineups.append(l)
         for e in refs:
             need(e['availability_tier']=='observed' and instant(e['revision_received_at']) <= decision, 'unavailable at decision')
-        need(content_digest(q, selected_lineups, obs) == f['input_content_sha256'], 'input content hash mismatch')
+        need(content_digest(g, p, selected_aliases, q, selected_lineups, obs) == f['input_content_sha256'], 'input content hash mismatch')
         need(digest(f)==f['freeze_hash'], 'freeze hash mismatch')
     unique(doc['settlements'], lambda x: x['freeze_hash'], 'settlement')
     for s in doc['settlements']:

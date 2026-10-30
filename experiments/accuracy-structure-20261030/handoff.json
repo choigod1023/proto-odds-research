@@ -1,6 +1,6 @@
 {
   "role": "structure",
-  "status": "v1.1 review fix locally validated; implementation CI passed; handoff-only commit CI must be checked",
+  "status": "v1.2 locally validated; GitHub CI pending",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-accuracy-structure-20261030",
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
@@ -21,9 +21,9 @@
     "cross review PR442": "https://github.com/choigod1023/proto-odds-research/pull/442 (reviewed head 13d0bb6508e60b98143e8dbc88f8bdc9abea4d0c on PR438)"
   },
   "tests": {
-    "python -m pytest -q tests/test_accuracy_structure.py": "26 passed",
-    "python -m pytest -q": "1886 passed, 6 skipped, 93 subtests passed",
-    "GitHub CI": "implementation commit b2da27a: test passed, https://github.com/choigod1023/proto-odds-research/actions/runs/41036951044; handoff-only commit reruns CI"
+    "python -m pytest -q tests/test_accuracy_structure.py": "33 passed",
+    "python -m pytest -q": "1910 passed, 6 skipped, 93 subtests passed",
+    "GitHub CI": "pending for v1.2"
   },
   "metrics": {
     "external_receipt_authenticated": 0,
@@ -34,8 +34,10 @@
     "previous trusted snapshot required for append validation",
     "no database migration or live integration",
     "commit field identifies implementation commit; final handoff-only commit is available via PR head",
-    "v1.1 input-content hash binds quote, lineup, and referenced observation records; a fully rehashed forgery requires trusted prior snapshot or external evidence to detect"
+    "v1.1 input-content hash binds quote, lineup, and referenced observation records; a fully rehashed forgery requires trusted prior snapshot or external evidence to detect",
+    "v1.2 binds selected game, directly referenced product and explicitly selected aliases; unrelated aliases may be appended; rehashed forgery needs trusted snapshot"
   ],
   "blockers": [],
-  "next_dependency": "Coordinator reviews v1.1 compatibility and merges only after CI; separate v0 mapping and trusted external receipt integration."
+  "next_dependency": "Coordinator reviews v1.2 compatibility and final CI before merge; v0 mapping and external receipt integration are separate.",
+  "updated_main_sha": "90b374348c42478675ac48aadb8815f6c093d858"
 }

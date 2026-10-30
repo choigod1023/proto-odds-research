@@ -1,5 +1,5 @@
 {
-  "schema_version": "v1.1",
+  "schema_version": "v1.2",
   "games": [
     {
       "canonical_game_id": "g1",
@@ -116,8 +116,14 @@
         "away": 0.4
       },
       "selection": "home",
-      "freeze_hash": "8e083c9d26f81c3cee4997d8ad63f2ec85ee3a40b5049119aa4df4af2015c217",
-      "input_content_sha256": "2cfa7a7636fa3ec2ab79b95ce74e19dca29e2597c6db7ba56acb3e6bae815300"
+      "freeze_hash": "12b8b96ed08e1993dc1e346964a5378b1049234f4b39f25b0a05feb654f7f447",
+      "input_content_sha256": "df0500934e0a5a48a87fc7f1c8b653e8d83574d3c0d9ca6902865eb298607471",
+      "identity_aliases": [
+        {
+          "authority": "official",
+          "official_id": "game-1"
+        }
+      ]
     }
   ],
   "settlements": [
@@ -129,7 +135,7 @@
         "period": "full",
         "line": null
       },
-      "freeze_hash": "8e083c9d26f81c3cee4997d8ad63f2ec85ee3a40b5049119aa4df4af2015c217",
+      "freeze_hash": "12b8b96ed08e1993dc1e346964a5378b1049234f4b39f25b0a05feb654f7f447",
       "final_at": "2026-10-30T12:30:00+00:00",
       "observation_id": "result",
       "status": "final",
