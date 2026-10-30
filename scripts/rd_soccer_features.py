@@ -18,6 +18,9 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 from zoneinfo import ZoneInfo
 
 KST = ZoneInfo("Asia/Seoul")
+# Source calendar: game_detail copies Naver K-league gameDate unchanged;
+# soccer_info._naver_start interprets this domestic fixture calendar in KST.
+# This annotates a calendar date, never an observed/publication timestamp.
 # Explicit source-name aliases only; never infer identity from scores/results.
 TEAM_ALIASES = {"울산HDFC": "울산", "전북현대": "전북", "포항스틸": "포항",
     "FC서울": "서울", "강원FC": "강원", "광주FC": "광주", "대구FC": "대구",
@@ -130,6 +133,7 @@ def extract(rosters, history, source_hash, archive_league=None):
                 base["feature_evidence"][name] = {
                     "max_fact_time": None, "observed_at": None,
                     "max_fact_date": h[-1]["date"], "latest_source_game_date": h[-1]["date"],
+                    "fact_date_timezone": "Asia/Seoul",
                     "source_sha256": [source_hash], "availability_tier": "retrospective_lagged",
                     "note": "Date-only structural lag; last fact date=" + h[-1]["date"]
                     + "; partial observed XI archive, not complete schedule; no authenticated capture."}
@@ -153,6 +157,7 @@ def extract(rosters, history, source_hash, archive_league=None):
                         "max_fact_time": None, "observed_at": None, "source_sha256": [source_hash],
                         "max_fact_date": max(g["date"] for g in h + targets),
                         "latest_source_game_date": max(g["date"] for g in h + targets),
+                        "fact_date_timezone": "Asia/Seoul",
                         "availability_tier": "unverified", "note": "TARGET XI EX POST; never eligible pregame without capture proof"} for k in vals},
                     "source_ids": sorted({g["source_id"] for g in h + targets}),
                     "source_meta": {"source_game_dates": {g["source_id"]: g["date"] for g in h + targets},

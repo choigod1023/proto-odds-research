@@ -54,6 +54,7 @@ class SoccerFeaturesTest(unittest.TestCase):
             self.assertEqual(e["availability_tier"], "retrospective_lagged")
             self.assertEqual(e["max_fact_date"], "2026-03-05")
             self.assertEqual(e["latest_source_game_date"], "2026-03-05")
+            self.assertEqual(e["fact_date_timezone"], "Asia/Seoul")
         self.assertEqual(rows[0]["source_meta"]["fact_dates"], ["2026-03-01", "2026-03-05"])
         self.assertEqual(rows[0]["source_meta"]["source_game_dates"]["2026-03-05"], "2026-03-05")
         # Parent's separate date-only view: March 5 + 3 days misses March 7.
@@ -61,6 +62,7 @@ class SoccerFeaturesTest(unittest.TestCase):
         self.assertGreater(latest + timedelta(days=3), date(2026, 3, 7))
         self.assertEqual(latest + timedelta(days=3), date(2026, 3, 8))
         self.assertEqual(next(iter(diagnostic[0]["feature_evidence"].values()))["max_fact_date"], "2026-03-08")
+        self.assertEqual(next(iter(diagnostic[0]["feature_evidence"].values()))["fact_date_timezone"], "Asia/Seoul")
         self.assertNotIn("target", rows[0])
         self.assertNotIn("odds", rows[0])
 

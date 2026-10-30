@@ -8,5 +8,22 @@
   "per_feature_max_fact_dates_verified": true,
   "invented_timestamps": 0,
   "target_outcome_odds_columns": 0,
-  "manifest_output_hashes_valid": true
+  "manifest_output_hashes_valid": true,
+  "fact_date_timezone": "Asia/Seoul",
+  "source_calendar_date_matches_game_id_rows": 1632,
+  "timezone_metadata_only_comparison": {
+    "features.jsonl.gz": {
+      "rows": 54,
+      "annotated_fields": 388
+    },
+    "archive-features-AUXILIARY.jsonl.gz": {
+      "rows": 737,
+      "annotated_fields": 10222
+    },
+    "current-xi-DIAGNOSTIC-DO-NOT-FIT.jsonl.gz": {
+      "rows": 36,
+      "annotated_fields": 108
+    }
+  },
+  "feature_values_and_all_other_row_fields_unchanged": true
 }
