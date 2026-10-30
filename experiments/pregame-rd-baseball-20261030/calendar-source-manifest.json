@@ -1,0 +1,1080 @@
+{
+  "inputs": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\experiments\\single-parlay-20261030\\inputs\\ARCHIVE\\events.jsonl.gz",
+      "sha256": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\results\\forecast-rosters.jsonl.gz",
+      "sha256": "a0d576db17ebc66ba4537b743c8dfbdb8523d5dd24dbda0a9b75b4329f298239"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\claimed-time-results\\forecast-rosters.jsonl.gz",
+      "sha256": "e729ca6e799e768dc42832eccd34f370fbf7df368c67f54918c475f2d0f0f955"
+    }
+  ],
+  "sources": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\schedule-2024.jsonl.gz",
+      "sha256": "df0f14bf8e11cdf9fb31ba90705b52c5ce77390250a09a8b2fd14449e06f5dcf",
+      "response_sha256": "8ef143feb0692a9d0a0d0d9427c0398da7172669a7ab045a1f16242f72deb08e",
+      "observed_at": "2026-10-29T05:12:55.138160+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\schedule-2025.jsonl.gz",
+      "sha256": "4470c57a62b1402cd40579702701378aa00d2582840f6624d512b8c189674e3b",
+      "response_sha256": "0678b0f82eb29dd6ae1fa1a840e36576d09389eb0864bb98920890876df21540",
+      "observed_at": "2026-10-29T05:13:14.626624+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\schedule-2026.jsonl.gz",
+      "sha256": "7881b4efe745aefe29bc06da7c89602ca97a82b0ba0f09cab104a65e13d572e3",
+      "response_sha256": "23feca0f82c89dc9a3b494117c9703cb104cf4a38e8ade35d20e9aafbd4ec395",
+      "observed_at": "2026-10-29T05:13:34.517088+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-108.jsonl.gz",
+      "sha256": "c7187c599f83de32d151eb8e79e9a602068e66a803d2c66e726d11ca3c5998e6",
+      "response_sha256": "07997e8d52339f3e841412deb164a29cc67140dfd737b79ba3082880727fbfa2",
+      "observed_at": "2026-10-29T05:12:56.771182+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-109.jsonl.gz",
+      "sha256": "103d3ef68e143347a4c497943c1b94f48fbcf75d193d96bb91eccac0e0f7701a",
+      "response_sha256": "6368b76bf6a2bf1a001a465cbb70639ab87e7901f134c5e1755b8960f579ab9c",
+      "observed_at": "2026-10-29T05:12:56.793823+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-110.jsonl.gz",
+      "sha256": "eb57379aff8d4351d297036d81d75234585828312b25a6adb00ee221c43358ea",
+      "response_sha256": "312ec42616f3bd518baf92aa8749e3ecd178a1864ea16d6e157e9d7662f6fb4f",
+      "observed_at": "2026-10-29T05:12:56.974919+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-111.jsonl.gz",
+      "sha256": "0ab4ed2e8addf1c47394711a5837451bb1c3159ad0f9e0cb9c932a79ac9c0439",
+      "response_sha256": "561cbf376bbb1bc8ffd426f3580dc4a52541321f5a907f94b61515c2f2edc883",
+      "observed_at": "2026-10-29T05:12:58.557587+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-112.jsonl.gz",
+      "sha256": "5c8cd736c9ffab4bfdfcb6bb714e39537ae93b891f06b328d45711c357545c72",
+      "response_sha256": "7d8ec0c6697caf5416d62fc8dc2cae9f32bad7973392f9931b5c3f873c4cdbca",
+      "observed_at": "2026-10-29T05:12:58.430643+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-113.jsonl.gz",
+      "sha256": "d5817614446c6652ef61b5c68e7c17340cda3531dc81dda927f01a339700f134",
+      "response_sha256": "0331eeed288cb9c97a828f9437a8cb63cc0092c817f1b14465ce97b2d23e7669",
+      "observed_at": "2026-10-29T05:12:58.586807+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-114.jsonl.gz",
+      "sha256": "c0201796fc2f641858affe3f7e68c712c32ed4c7edc964c2a47008b520985d5c",
+      "response_sha256": "dbc789de9b65ddde5c50fc97b724f7b21d7a0f2de9c561179542020ace432d6d",
+      "observed_at": "2026-10-29T05:13:00.015074+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-115.jsonl.gz",
+      "sha256": "965a2c77b0825bc56f8774aad21264ef0b9e2108cf7d02fc3a2fe3ce70aade23",
+      "response_sha256": "6e63dc84d40e73493358dd4cfe753952086cf60420769f96aa5a89163a3d361f",
+      "observed_at": "2026-10-29T05:13:00.271588+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-116.jsonl.gz",
+      "sha256": "a5e64e6ce47999cfbb55290b827dbedd3516ad6f727bbf1195e4a93cddf271bc",
+      "response_sha256": "5147d47e700608c338678076dffe39cd07dfd565fe070609159cd63fee2c8105",
+      "observed_at": "2026-10-29T05:13:00.338251+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-117.jsonl.gz",
+      "sha256": "0c521c7bf1d455731dba77f4aabdd033381b5b9df08a33f50bfee3841d18d791",
+      "response_sha256": "fd787c491971cea04b649f79da67a7a2c7144b51c1f3f5aeb9e090d858ccb1a9",
+      "observed_at": "2026-10-29T05:13:01.706669+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-118.jsonl.gz",
+      "sha256": "e121cabe31d022623bdd834b5dea4568820ef2eb707a402e261ce7f3711894b4",
+      "response_sha256": "01e94460d8d26841262d40270d25bfbab1c584b9eede1da399fcc3fa947d59c6",
+      "observed_at": "2026-10-29T05:13:01.810801+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-119.jsonl.gz",
+      "sha256": "8895e0ccaa264ecb42a24ab99a306e85531f551aec7eda4c8c21e87961d3ac0a",
+      "response_sha256": "1191b11e371130872244e9e239f74745a9dcbd9f9dc676a242d83854a510c3d3",
+      "observed_at": "2026-10-29T05:13:02.134566+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-120.jsonl.gz",
+      "sha256": "07be37ffba011efd9c6a853cd276584d3cfb19cfd860e430d24da6fda364ece5",
+      "response_sha256": "8c78f99c560ce89d6708793ee03dbd64b6e7cbc107dd1f6c9a16d891c5a73fde",
+      "observed_at": "2026-10-29T05:13:03.371908+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-121.jsonl.gz",
+      "sha256": "06d9fb699a08a4c8dd3d225da40b37e4978aca183bac7eae8c7d4fa865e4ed0f",
+      "response_sha256": "3d8577d201c902999d867b64050e387198ea393d4fa9c53630c873e8488d9687",
+      "observed_at": "2026-10-29T05:13:03.608083+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-133.jsonl.gz",
+      "sha256": "0bb953d27a8a314da149be0a787b02e2ad78bb0bf9d3fd5f95eb0af4ac5111da",
+      "response_sha256": "0c4ad4ee4e81898123490163ca3e05206560f9920af6765e46adf0daa2569157",
+      "observed_at": "2026-10-29T05:13:03.755083+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-134.jsonl.gz",
+      "sha256": "39b56bc97d7c7afe401956e61a98f088b5e43368f8d95773215a7915742dd4b4",
+      "response_sha256": "7be0ca58d0cb3b10ec36f30b7701f32eb9739326c87401451a3613a1028acf06",
+      "observed_at": "2026-10-29T05:13:05.073385+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-135.jsonl.gz",
+      "sha256": "96991f6b2eebfca2cc1c0f15a12fd88bde850e5c22f63fe6a44d8eab889fefd7",
+      "response_sha256": "1f6dd4cbc630e04139690f37bb4ae0ff96f1c855e9c11881ce03cc31ca7180e0",
+      "observed_at": "2026-10-29T05:13:05.135187+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-136.jsonl.gz",
+      "sha256": "844fa232605b5f091498f2a5c3e6add4de658c41d36a484d9b262b7787567b52",
+      "response_sha256": "cc77f496ce1c3446ba996e9e9a8114a651e039e3ff06db70130f2ab6aef7c521",
+      "observed_at": "2026-10-29T05:13:05.412314+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-137.jsonl.gz",
+      "sha256": "3b661e2db3be83fb41cb746d5baea41e5363d9d2e530339d96533ea2ead90877",
+      "response_sha256": "a2d807d70e21d6e3e0a2f7bc1c8add8d47c762edfad7aaed6002982cd4542b59",
+      "observed_at": "2026-10-29T05:13:06.746377+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-138.jsonl.gz",
+      "sha256": "e1989d1e5c04143bbab757430f0d0090f5b3ffb43d6a40028e1af4ec753d34bf",
+      "response_sha256": "f0f2995ac714644ff00d5f8622eec4b84a3c32a2848aad69ac067a5d117dba58",
+      "observed_at": "2026-10-29T05:13:06.795572+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-139.jsonl.gz",
+      "sha256": "eeab694ef82073a44b030e849c59481bea5309daa747a2d2ba9a1f48e03946d3",
+      "response_sha256": "2dae9077c841f470a250077139f5883e1e39a2048721b8f1a0bdc9b97dcd4089",
+      "observed_at": "2026-10-29T05:13:07.083200+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-140.jsonl.gz",
+      "sha256": "3d65c1156e8f5bc274e5cd0f87ec131d32f1160308119376c1f0a27ed4556518",
+      "response_sha256": "f764acfb1abec7ab0c6d1b764c49349b0d585ec4264780941fb73b741b9efc75",
+      "observed_at": "2026-10-29T05:13:08.413343+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-141.jsonl.gz",
+      "sha256": "8cf3626c34ac12362ca3f50dada16e2d46c295c98e291452dc7651527c2bf68a",
+      "response_sha256": "e4dd60b52668759aaa891ed02f94dcdd5e338ef57adaaa20434e4eff914cad27",
+      "observed_at": "2026-10-29T05:13:08.928258+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-142.jsonl.gz",
+      "sha256": "6c12e4107c52b56f42d284a6776c0f644c0f0949d4e59343171a84d71a6ff080",
+      "response_sha256": "7014f62ba278a06fcd3ae336f09de8f71cc8a6ce0c2ef88cbe478c0d81a348f9",
+      "observed_at": "2026-10-29T05:13:08.697752+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-143.jsonl.gz",
+      "sha256": "5aac31dc8b53426ac1c0b3fe879ee2f1490bfa5328c93ad4556153e2696648b3",
+      "response_sha256": "04b76dac02fffa14e7a75ab2a66f2236be56f65645f76f9a33c01565b8bb515c",
+      "observed_at": "2026-10-29T05:13:10.038183+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-144.jsonl.gz",
+      "sha256": "79f4a859aa8d03c6c40617f2d6f5a86b6ba627d2254f5416093a9e1817937245",
+      "response_sha256": "64e607ab82aaac6625417002e55f09176be50faba9fbb393155ae2feb776706c",
+      "observed_at": "2026-10-29T05:13:10.414060+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-145.jsonl.gz",
+      "sha256": "9cee04f9fe46a3ed733db0954795a2398ae5d57368b19c82867552791c5befb1",
+      "response_sha256": "7297ec0453b56f5bc1bb49466da762d7bbf18ab7dd03323db45fdb57f0e88a07",
+      "observed_at": "2026-10-29T05:13:10.585615+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-146.jsonl.gz",
+      "sha256": "66f4afce62eafcb9accb370e17cf535589d75e3fa14943410301c266cb88776d",
+      "response_sha256": "bc5c4acfc9ff6e58ac5ed8a8f14521f695607357d091fb3306bfddba43fb0e9e",
+      "observed_at": "2026-10-29T05:13:11.845900+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-147.jsonl.gz",
+      "sha256": "3e8970a3cdbe89a53156a5de5f271fc7241ed5fb84ece0d662e0301ee6b5b51a",
+      "response_sha256": "2ed177199ef44431e326e60b365588577d1d11d5279f07c9a11c5bcd5eac879f",
+      "observed_at": "2026-10-29T05:13:11.993651+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2024-158.jsonl.gz",
+      "sha256": "72ba55f34ea3c99deee593782bba3501a0dd418e6bd6e014eaaabd526735652a",
+      "response_sha256": "289511c2f54bddb52c56ae68610cb0154a17139f91f8c2dcdafa0417c06fce6e",
+      "observed_at": "2026-10-29T05:13:12.254239+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-108.jsonl.gz",
+      "sha256": "cb353db4f5e26d8d55ed3712273d0107cfd40dee3540d15fe69a36c1ea2f32ff",
+      "response_sha256": "421c9553a77d9e9ab8aeb03c6ceaa2a43e30bf36643d81c25933e0ea997a2f7e",
+      "observed_at": "2026-10-29T05:13:16.325603+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-109.jsonl.gz",
+      "sha256": "cf2f4fc7766b902fc85980f7b0699037b02e84d77d2e39b01a9eaa148bbc7859",
+      "response_sha256": "e98e2f035d0eab694e2b941afb3e2405c381c62f6d594e76f6bf2797aa6db4af",
+      "observed_at": "2026-10-29T05:13:16.387733+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-110.jsonl.gz",
+      "sha256": "5f3f012721283a160708ef9ae3dbb728fea2c3e5cfc37ac6e7ec79adfc552d7c",
+      "response_sha256": "856a728c1bc883d32a141296cea98bb99751da64f930cd1c60b9c0367160018d",
+      "observed_at": "2026-10-29T05:13:16.440606+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-111.jsonl.gz",
+      "sha256": "d37ecfd6b48d2ba20dba727861d0183c45410885dc17d2ba9d237888bc1f95df",
+      "response_sha256": "9003382ce57279c5577fdb490ba40055c1464d8907ef8c727749caa5a3ddcb7a",
+      "observed_at": "2026-10-29T05:13:18.162746+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-112.jsonl.gz",
+      "sha256": "abbbc65e508adac02b4e7c4844cd91849eaa10c3487c50937dadfa11bbdd0476",
+      "response_sha256": "9d4632cda760a4dd904efc4c9117cb1ef2a78acdb2fd7f8128a98215e615e2f4",
+      "observed_at": "2026-10-29T05:13:18.009813+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-113.jsonl.gz",
+      "sha256": "9e032aa2547a438e62fb393fceb581624e23b2d6b4b54f60db542d76537ee499",
+      "response_sha256": "89f8c668224bc2035f5e724bf28d252802050f8b53921ec7352ec780c53422c5",
+      "observed_at": "2026-10-29T05:13:18.105427+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-114.jsonl.gz",
+      "sha256": "fbfa92fa40000998dfc222c7c062e35ebaebd2b9b97425d38ce948e2916f2487",
+      "response_sha256": "e30b1bea36e4fb9a1f68836250b8f9c615a0ed4a7d7f5d6001565eff1788102a",
+      "observed_at": "2026-10-29T05:13:19.540765+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-115.jsonl.gz",
+      "sha256": "c94fed4644160eb64a4e577ac813f207d2b9cae408ef59bdaf40a41f66a7f058",
+      "response_sha256": "fb12d79b9cb9f7d74033028d92c87b4183df3bb96254145c0cfd900b6f898282",
+      "observed_at": "2026-10-29T05:13:20.105754+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-116.jsonl.gz",
+      "sha256": "6f99349dedf05e22e343226e3e1d082e798b25c09c9437b17bacbadf3642e178",
+      "response_sha256": "cb331bd216293da872c822a6ec38c061122b42762864fab09a21e29b5678e83b",
+      "observed_at": "2026-10-29T05:13:19.966599+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-117.jsonl.gz",
+      "sha256": "39f9cfece80b11ca02b51868723c1ac991af278226204999026f680ac54e0072",
+      "response_sha256": "92866e8d5b0bbd15a6125024c3a318f5567015139605a86830250bddd971b21a",
+      "observed_at": "2026-10-29T05:13:21.098292+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-118.jsonl.gz",
+      "sha256": "2655ae04f0ff2f643243cef1c433ecc3ba91267e9faab3394e99e9f1c8c459ce",
+      "response_sha256": "2d3e54ca187a265a454f1fa2e6717ff6c4d8392c9902e408273cc7654cbbd799",
+      "observed_at": "2026-10-29T05:13:21.633576+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-119.jsonl.gz",
+      "sha256": "bcac9c2893207326f168a9a59e41cd33b767a09d0f721e81ba3c93f8f904c7d1",
+      "response_sha256": "a6f5a882e7f877368ef1e60769f796db19435b8cf917e9f01af90bd092209284",
+      "observed_at": "2026-10-29T05:13:21.876763+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-120.jsonl.gz",
+      "sha256": "3a02e6811238ec488c23d752ed192159f2ae11cfb29ed4ac693ed9a1438d7cdf",
+      "response_sha256": "3a6ec5d65a0cbd290959559814fdfcedad1b36f2669a350efe79f61bb19f3f36",
+      "observed_at": "2026-10-29T05:13:22.760814+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-121.jsonl.gz",
+      "sha256": "21d4124dad0c7ac199be381b216f3f30449924362bb716b2658a0982c08d7caa",
+      "response_sha256": "e62bc8ccc6d12f4259c70e78ced56ecc06afd1d30aab8edae06180d0a47a4086",
+      "observed_at": "2026-10-29T05:13:23.315835+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-133.jsonl.gz",
+      "sha256": "3b647ef0a26cfff69c40666d14b298e97afe1679b86f066c07bbd5f0d16f97b5",
+      "response_sha256": "a67331115c50084f7a7b455fd1fd4622875accfd0138eb0d5fe55ce08cfe44e6",
+      "observed_at": "2026-10-29T05:13:23.362320+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-134.jsonl.gz",
+      "sha256": "a3ad0d24bd5546ef7efeec578f6832b8f5a7c38e149f0bfdfd5746e76bcd047c",
+      "response_sha256": "8fc54208dca6746a32711ab77badfaa9e166e07c178203d8a9b598877a276552",
+      "observed_at": "2026-10-29T05:13:24.406116+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-135.jsonl.gz",
+      "sha256": "88283dba3bdc499643f2e553fed39951794158e05f9499f0727f4e8069d533c9",
+      "response_sha256": "268e30f694572486f9c70d18f6c2436d60da11437a7b01f3d5d7d3e60d2561b1",
+      "observed_at": "2026-10-29T05:13:24.870670+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-136.jsonl.gz",
+      "sha256": "e92bdae12f7bd035fec107dd7eda86adf92c7bfd0b8b78da857d3099434d3fa9",
+      "response_sha256": "49164209d0eba087264e18b2031bb73f2526f6220019535bd9009d476ae0a729",
+      "observed_at": "2026-10-29T05:13:25.083490+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-137.jsonl.gz",
+      "sha256": "069fec217dbffa5b4a10c96c88921e05abbb69b936f5ff405768acb16b11e2e1",
+      "response_sha256": "27da64defe1ea71ae5100c3bdf50b500822a99518e9fe85325a2ecad08e237ee",
+      "observed_at": "2026-10-29T05:13:25.995136+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-138.jsonl.gz",
+      "sha256": "6eb3026c4d5c3401fb9d106dbf0a2df67ff455da97083caa9180c59451d7fa04",
+      "response_sha256": "0f46ba6f5fc6a9685c7cbaa1eaf0fb692071a97e37e0cba22ef7791b36bb9808",
+      "observed_at": "2026-10-29T05:13:26.468076+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-139.jsonl.gz",
+      "sha256": "aa2fd496cb784e76a87afab9eae15234bc3d8a782fb4f6481a2602ba950c3e44",
+      "response_sha256": "e66c9c372d59073734b57ba9b89c453cbc02d6ec2f90d71077ed2f3ba2b60c96",
+      "observed_at": "2026-10-29T05:13:26.789700+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-140.jsonl.gz",
+      "sha256": "e41046fe4003cc320fcc44a2048e1518d53302a5c4428b45144e5111867941ee",
+      "response_sha256": "fbdedaf6620d8ea4dfb9dc31d067b1935a05bb9140b882924ffc9f02affb88f7",
+      "observed_at": "2026-10-29T05:13:27.694615+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-141.jsonl.gz",
+      "sha256": "75ace84225a6ab13afe607195ec9575f71c87a824845c82c1238f3946fecb513",
+      "response_sha256": "6f022cfa419a5946f051c620ec3a64ef59d8a90914c5f912a486dff245cfa6ce",
+      "observed_at": "2026-10-29T05:13:28.071699+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-142.jsonl.gz",
+      "sha256": "01574a6d9e3606f6723037a0e690d8bbed88ef6e3ff25f3384b941c4405c771d",
+      "response_sha256": "fe5c2a62e62a3b791d78d8346f4d782cd5672958b05fb0c80ea18af32e31d89c",
+      "observed_at": "2026-10-29T05:13:28.490154+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-143.jsonl.gz",
+      "sha256": "cab5715da463c108c4675e779b468033e764bbb7662bdd321f9c12a5eddc9b1b",
+      "response_sha256": "0a7a44628a07142d13dd873e773e4f6a7fa0603fb38821c9931731feefa4ab29",
+      "observed_at": "2026-10-29T05:13:29.345223+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-144.jsonl.gz",
+      "sha256": "b1eacb86e95cb8295ff395875b256c0e9ea6f8c5f7bde9d310acd9c1b9308239",
+      "response_sha256": "a1422a2b4684204daba46fec69d44d891a7d9549259119a174706787e615c350",
+      "observed_at": "2026-10-29T05:13:29.697210+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-145.jsonl.gz",
+      "sha256": "ba8ac78d447d453964ca0d0273a034aec55799604d32e2d631b3afaf282f36eb",
+      "response_sha256": "56375bea7915af12ae024580ce542f1c93090b0aea4d36ed6cf5793f2b374f6e",
+      "observed_at": "2026-10-29T05:13:30.192651+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-146.jsonl.gz",
+      "sha256": "77c9a9460b46e5bead6fb13388924758c181928cd55d00ed397bef752ecbf3cc",
+      "response_sha256": "5cbf0a3cc6c609f15fdb611cc13e0acf3f7f1ec616627fe87c109fbc81f91c7c",
+      "observed_at": "2026-10-29T05:13:30.799571+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-147.jsonl.gz",
+      "sha256": "77b1f2fa339cca69dd393075b60e8c00b3cd788d6c08a961b20524de1228dcd9",
+      "response_sha256": "531d5e49a0970f519236a11dec584886a8bead1ebb84110d0b95289317d09f4d",
+      "observed_at": "2026-10-29T05:13:31.379078+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2025-158.jsonl.gz",
+      "sha256": "772c02f9680e1f9eed113a1ab57a82fc8fa5f28c388aabf2e850d664a51e3b77",
+      "response_sha256": "648a383816eb4fa92d99d6ce118dbea2e08979d3e2aac5717daa63337b405426",
+      "observed_at": "2026-10-29T05:13:31.950553+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-108.jsonl.gz",
+      "sha256": "6291cf5976764258e9d80a16439c702ff8c20c857b46b10ebffd488393365f05",
+      "response_sha256": "e8006437258cd825bac51c684772af3b60ebaaf50e886e8144662a62382e2f06",
+      "observed_at": "2026-10-29T05:13:36.946126+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-109.jsonl.gz",
+      "sha256": "2a3f1aac4808502c121837bd9c77ded6f6695699b9fc22e8f38527eeddfe95a2",
+      "response_sha256": "60f6879df2a5c67652423fba07bc283c95402fbd29d8d8df167b4760a923a4f3",
+      "observed_at": "2026-10-29T05:13:36.113594+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-110.jsonl.gz",
+      "sha256": "5d722e87bfe30bfe4a2d58f3803429fda6e6442423e4213eea34a119ec8adeff",
+      "response_sha256": "e3dff411d0abf6354c73405ec3b9b7b3e88ff18a9fbd65dc98f29ca1e066d76f",
+      "observed_at": "2026-10-29T05:13:36.267453+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-111.jsonl.gz",
+      "sha256": "c435c5f39a27e1a19f812265e68ceb14aae9337914ea657a1a84e9b94ac54c21",
+      "response_sha256": "f2daa92d5a241d4252cd36ad6757e930e1e5afe5b067c5964d31a6e05a5975f1",
+      "observed_at": "2026-10-29T05:13:37.722707+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-112.jsonl.gz",
+      "sha256": "6c88918bb50673d99f7aef1cacd156d04a212f7e0dec5d727f000f2770406d81",
+      "response_sha256": "a330388c7234fb6b18a746f43534a0e3ef43c26b3f6352d71fea1b10c7a0e1e9",
+      "observed_at": "2026-10-29T05:13:37.799749+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-113.jsonl.gz",
+      "sha256": "e8d855d2b15f875df2b80ffa20e120921837d51d4d70bc846915fe2a3af4a83e",
+      "response_sha256": "0dd29e1d7d1b2f5472f576d5b1f2dbbc16e29a1a16f4a8607dc6d8959b6334a4",
+      "observed_at": "2026-10-29T05:13:38.297403+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-114.jsonl.gz",
+      "sha256": "d5213e055241ea2f93c05059770dc5c6f24e24c2f255930715caace02f1539aa",
+      "response_sha256": "70f7976b6305ebce1c838c774683f4e1974d3a71d5d9ffedc5aa8a89bccab9a5",
+      "observed_at": "2026-10-29T05:13:39.326543+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-115.jsonl.gz",
+      "sha256": "35b164d9e651f92cff17de8c6dc2267a4569a38440df557aa4d204bdf27c3aa4",
+      "response_sha256": "13b0db340469d1f889c0e627e125c187679a18e4d71a54b6e4a64f464a4f451d",
+      "observed_at": "2026-10-29T05:13:39.386089+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-116.jsonl.gz",
+      "sha256": "506240c1bca532c7c4b6594ac7b329414c0916e021464210e9eb171b4f8bcf14",
+      "response_sha256": "7879d78dc6c62ba2028253cc25c5b0df045c082b0657ed97efd621b34d6015c4",
+      "observed_at": "2026-10-29T05:13:39.751925+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-117.jsonl.gz",
+      "sha256": "2c569211a095cd703ab2cae4ed52e2c7e5eb2d1a7e0e6c53914b1c04103cb70b",
+      "response_sha256": "cb73013d4608afd171c7646be186d5daea065944fdf4acdcd36e412413b17486",
+      "observed_at": "2026-10-29T05:13:40.812335+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-118.jsonl.gz",
+      "sha256": "b92febc2d0a05e1050063fe09570f158db0828a3567b600faa1c7e23feb26221",
+      "response_sha256": "59ab8d54da8c09b44fe14aa31d8e24b5ed1fa3f0b4b94b072fc22ee263f7ae36",
+      "observed_at": "2026-10-29T05:13:41.352834+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-119.jsonl.gz",
+      "sha256": "b194021f00279532ca00eb8e7ea5e42011822a9c0892a64a2fdbd3fc7e063873",
+      "response_sha256": "8bb32a41611e08ba087c8fa9294b8ae8d2b17d930004e39e8a99b6f6b04f49d5",
+      "observed_at": "2026-10-29T05:13:41.157332+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-120.jsonl.gz",
+      "sha256": "242d66807e22af01ae3feba55e8b5ba286a555ec35586c5f8ae8f337ced536fb",
+      "response_sha256": "b18358426b98da767546d604b86d9ccbc79e000528e083d2e598c212dc2d2a1d",
+      "observed_at": "2026-10-29T05:13:42.191789+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-121.jsonl.gz",
+      "sha256": "74bf48c45ab46431f847fbb64759623a5d7993c6e6950519c4274071f30daeb3",
+      "response_sha256": "bd6453e29a605b93383f1ecc18fc291338f240a1bf777b8859521f7b08733df8",
+      "observed_at": "2026-10-29T05:13:42.627266+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-133.jsonl.gz",
+      "sha256": "b55529f8c82e0df917544cc57a2207e0b07eb368e84911d569dadbe559f51b13",
+      "response_sha256": "c9de9e4758cdb4e7f494697156d49965c529d9b37a11fd6560e6d3585658ad30",
+      "observed_at": "2026-10-29T05:13:42.799946+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-134.jsonl.gz",
+      "sha256": "c67f2a6d21c99fae9ff4f22f9c700057cafcd928c0e99f40f93de1dbeeeefa3d",
+      "response_sha256": "aec6c9a60b45877c5a84c43b72ca42f6d97c30f7c3dca4034eb5e1fd9c315958",
+      "observed_at": "2026-10-29T05:13:44.111947+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-135.jsonl.gz",
+      "sha256": "765d33b174edd3a0c26441d5fd83218dd4f878b3e319fa81be2d81aa852f3732",
+      "response_sha256": "a2f0e3acf7f1a453a738897b22da9fefd93b1408a6ed6dc0237dda100b88f6aa",
+      "observed_at": "2026-10-29T05:13:44.145755+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-136.jsonl.gz",
+      "sha256": "c7f8061751d24a295b03605d1e12e8dcae3d1d1bd1ce8215617a6e0313784842",
+      "response_sha256": "decbd44a118ab165c038df9f781ca39cb624b25aa85aabd8ff9452ba5ead2fb7",
+      "observed_at": "2026-10-29T05:13:44.256508+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-137.jsonl.gz",
+      "sha256": "0c82b3a4a80b43cb6319aa0e3f568d26f52dbbccb4fdbc89a92a0538f3b1e757",
+      "response_sha256": "9baaeb5f6a98a2092be5cec8e0bb70aa7b4b8082e8dbaedbd325d0732659ba0e",
+      "observed_at": "2026-10-29T05:13:45.735790+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-138.jsonl.gz",
+      "sha256": "43800a08adb16809a35218712ae8c06d338827f74d8eccf16a618e203984f44d",
+      "response_sha256": "24078f77f0c8a16b5186bff5d3d559aee39783b8569658b9a8013900eb7b1e33",
+      "observed_at": "2026-10-29T05:13:45.760745+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-139.jsonl.gz",
+      "sha256": "27e3be419d859d67fb759e3eba3d628b603f2ba5f87debf1105b9919c2d1eb7c",
+      "response_sha256": "6ac16cbb38e9474f81859a14da9b3e4873ddbd4d637096e271dda1729b8c3afb",
+      "observed_at": "2026-10-29T05:13:45.827863+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-140.jsonl.gz",
+      "sha256": "983175deb4aa1bccbc86e2510fc5b7b8c1ebb70800339985f602609e58fad368",
+      "response_sha256": "bbdfa323f4e849921ae0a521dcfe3a8fc0f39ec8813ea23a5581576290ce3b6f",
+      "observed_at": "2026-10-29T05:13:47.290272+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-141.jsonl.gz",
+      "sha256": "0913a5a5e6b39f2f0265a61a88d263120fc2c3bcc2d8015d2e1ef1de0f4fc9df",
+      "response_sha256": "db56bf5820f7cfe5a2955cd0e89455683af7b3721265bc4c8820a4680f902f71",
+      "observed_at": "2026-10-29T05:13:47.376352+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-142.jsonl.gz",
+      "sha256": "e9b834019ff678a164934c6ac9285f9b31cd6052f390a1d16fb2feacf0c572ac",
+      "response_sha256": "426d36f3447dc970564024f0dcb47cd46644608e38de66c8b43ab1793fe70f2c",
+      "observed_at": "2026-10-29T05:13:47.358286+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-143.jsonl.gz",
+      "sha256": "5018d94b995b9bbe897a29aa0601c27d6f8882d7c9be670c9ee54a50203f0c46",
+      "response_sha256": "e19b09c618bf5d1cae29d719e1828d8072bf7b981907368e97c4e4107d1d1ac2",
+      "observed_at": "2026-10-29T05:13:48.847373+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-144.jsonl.gz",
+      "sha256": "42f1be149fe696628d093f94f9fc619b3c469be577d77b97461814682a7c7b13",
+      "response_sha256": "f53ca3f7e7a0df8837f9baff440b9c40b8d7d6131134194e0dceab35f105e3cd",
+      "observed_at": "2026-10-29T05:13:49.050885+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-145.jsonl.gz",
+      "sha256": "f4d2585c367ef44236f2e48c7ddbfc599321a8f52f90b047c64346f5889a9d7d",
+      "response_sha256": "eb6aa737cabb58ee7b81dd542402c4df1eb59a809a93fbbb745b26cf77b826cd",
+      "observed_at": "2026-10-29T05:13:49.092913+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-146.jsonl.gz",
+      "sha256": "c6b4f5da5d0d72bb4e15e9c0f47642b24e9af3ff5306905822514bd9019d88b4",
+      "response_sha256": "3f07f688009ac4a5ea88b7f1175f6c95549e0452369f581a640bc23e1eecb364",
+      "observed_at": "2026-10-29T05:13:50.357774+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-147.jsonl.gz",
+      "sha256": "96789b33f04d028b3bbcf134fc32cf21511a63728a95a4510e44ad647ae56b19",
+      "response_sha256": "0c33a4f40dadc32d1bf1291f323d27d075788496aace85405697dc3c366db44e",
+      "observed_at": "2026-10-29T05:13:50.667920+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\logs-2026-158.jsonl.gz",
+      "sha256": "cf1ea238ed725fac53cecf91078e791693222d2757e41a99c1c1a39c457112ed",
+      "response_sha256": "a356324ac6b311a1aa2a43d5bce588479de5fae7ca6810fee29a583771fc57d4",
+      "observed_at": "2026-10-29T05:13:50.771793+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746179.jsonl.gz",
+      "sha256": "516f71b3d728b8af05cac6e8f3155b71a7856ec84ff2a17af895de9f49b9e4d7",
+      "response_sha256": "c82661b42b43f3ce27d0b1e188b2724b03278d9266fb91eee9022eae8868c80f",
+      "observed_at": "2026-10-29T05:32:13.881860+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746414.jsonl.gz",
+      "sha256": "b13a92b3836018cfccd30c30c76f6fc554cd15fd8730f41c5cdee4b65b5d286a",
+      "response_sha256": "6689be4e663c558d4376a34a59064e3f48af38c799036ae46ea3917099e7fc2f",
+      "observed_at": "2026-10-29T05:32:13.834401+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746416.jsonl.gz",
+      "sha256": "6011c41a9af625807d6bc9cb6d47f54cb694c31a448cab1d877a960db118c5f0",
+      "response_sha256": "f525d5b847b78a52ad7aadd4e231cc1cfb2523cfb2a38b2e0a1ccf68edcc0a5f",
+      "observed_at": "2026-10-29T05:32:13.884826+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746417.jsonl.gz",
+      "sha256": "8dde7edcf36d2aa1ab324ee703709fe73f5f10570b578b412fcb91e2735371a8",
+      "response_sha256": "f416122daa9c44d12575df2539d4779738b26a0187ba0023df1113e39f7a02b4",
+      "observed_at": "2026-10-29T05:32:14.734088+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746738.jsonl.gz",
+      "sha256": "15269e29cbf3ec2b9a1e03f073a32cf543deed548383e126cfaed4609d58c7a6",
+      "response_sha256": "c48a2ec29b8232c2f5df9315e2046e6d0210124ae6e8cebe5cd33dfaa2700c9e",
+      "observed_at": "2026-10-29T05:32:14.949574+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746740.jsonl.gz",
+      "sha256": "a8c80e73f47b5f96793c055dcf0c49ec97ea2a211276c43767131994962a6580",
+      "response_sha256": "72add743aff902ae7cf293b2038a47d2485da34ae0647762b060d3ae43e6643d",
+      "observed_at": "2026-10-29T05:32:14.938628+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746743.jsonl.gz",
+      "sha256": "b56d747494189c1ea15d1bcf2125a56ebae328e01907c4e4d8d4fa04ba6a89f4",
+      "response_sha256": "e5357be81b46448a20590c35b4301b8f0389d9b4e0014c0ac1cb6f401ecc5386",
+      "observed_at": "2026-10-29T05:32:15.727152+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746786.jsonl.gz",
+      "sha256": "8074bbde701e3863d5b5f4c82c00ada78dd8f6b95216f44c84801ef26b7f7e9d",
+      "response_sha256": "49b0bff797ff5a47c3dfced88296467f79b2c712b2680f6c6997cc0e89a8e9ac",
+      "observed_at": "2026-10-29T05:32:16.021222+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-746910.jsonl.gz",
+      "sha256": "9d302e9ccc6bab2a3069b5805645045b860f6741e675eeba280750208a045b5d",
+      "response_sha256": "c01197fcab647e4a5caa7e3d4a13ada766204ff8d71641387334ded6b2b92b37",
+      "observed_at": "2026-10-29T05:32:16.043454+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776222.jsonl.gz",
+      "sha256": "8e99128a3bdd0e3dba44ce459c7dcd6e8ce2a9220d4f5d0110931326a0a92475",
+      "response_sha256": "7a1b4c5857e0e8566d876ebc806dc45cc2fbc814a191cd3e319c903d537ab1fc",
+      "observed_at": "2026-10-29T05:32:16.595432+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776225.jsonl.gz",
+      "sha256": "86d770c69c2427af414ab083e7429696315f7ccb7a2292188cf164c95bf50f45",
+      "response_sha256": "5098755e3cca071cf0e854e74ee10a4ce49bc8f1607714ebdcd9cfaee62725e1",
+      "observed_at": "2026-10-29T05:32:17.003095+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776288.jsonl.gz",
+      "sha256": "b29e33632e27617ba87f7f9abc0cce449a638745699aa1d071245622d44f3a74",
+      "response_sha256": "8ad5944f857543e474882c9f572efc1f5e87c53cacfdb50d0be369254dd2914b",
+      "observed_at": "2026-10-29T05:32:17.063559+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776324.jsonl.gz",
+      "sha256": "7e0f6d196cb5293bd8adda21be7fc5ba2e7e06896240d85e1819dc5bb23cd917",
+      "response_sha256": "b0a86efa1b2309a3a81fe704c2e1d3208d4ee3ddcba7a7cdf0aed0c015b2c118",
+      "observed_at": "2026-10-29T05:32:17.509998+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776329.jsonl.gz",
+      "sha256": "3adec15310db1279cc20a471a7884b06816ae7f80ef976f55eed9491ee35ee4d",
+      "response_sha256": "2a5bbec858076d08b262d588ac407d74ef25f8a3bb5235dcde069dbd930e333c",
+      "observed_at": "2026-10-29T05:32:18.098872+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776355.jsonl.gz",
+      "sha256": "78510f450cb40f914904754efa8d62e550f1a7b31a8b20558f6bd485dd1b4663",
+      "response_sha256": "fae1892e29ce8eae0e0a5391e115de735c6e5473827b48726790e84f8997cc77",
+      "observed_at": "2026-10-29T05:32:18.193988+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776411.jsonl.gz",
+      "sha256": "21b73a04d823a92798ab1b04a0b4e1a72a36bb3123834b0207c9d4bef2037a0f",
+      "response_sha256": "79db4fbd9295ae8249aa4304a349e59ea852d45a9a6ba52a8af4d3754f65fd25",
+      "observed_at": "2026-10-29T05:32:18.470587+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776442.jsonl.gz",
+      "sha256": "f8bade8ca99c88b71d35e0dfe5fe208de52a4006da7b8646e431d8f1c702a07f",
+      "response_sha256": "89b95672927975df06ec7658a149073608ef27d6e9521b8103c285138f914123",
+      "observed_at": "2026-10-29T05:32:19.125060+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776502.jsonl.gz",
+      "sha256": "7ae948abc834996bce0af0dd64b4713e17956406ecf35f56318d15ca0b3c6ab4",
+      "response_sha256": "5ae40291663c367fa96ff9426818e40e0b2bcd50853b8d83dfe28d44e8c31c95",
+      "observed_at": "2026-10-29T05:32:19.283672+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776530.jsonl.gz",
+      "sha256": "b623049b70e00925cd22aa71c7dc18548e133d7981c090089c4aee02bb04f6ca",
+      "response_sha256": "1b9772fbd0e2c696c768c71776a9068af9adc3da94a45d8448022057c411b8ad",
+      "observed_at": "2026-10-29T05:32:19.522283+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776541.jsonl.gz",
+      "sha256": "da0def07a71299814ca249e3f37b8aec6568d9af2adbd388a677c738c4bd7257",
+      "response_sha256": "e8ee344ab886e60af1397bfa70ac35e4bb16eeecf5e1c93d001d9a3b02e230b0",
+      "observed_at": "2026-10-29T05:32:20.030934+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776603.jsonl.gz",
+      "sha256": "167e6336b939f0aa9be54e18e97bd2c354112003f7394b61df8461cb3d784d36",
+      "response_sha256": "825e0954a676fcc4caae8a1e5a70921c8a9370928849e20afe4e65f451d01208",
+      "observed_at": "2026-10-29T05:32:20.352410+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776619.jsonl.gz",
+      "sha256": "91cb23c016ae50f8cb05fed9bf6a45809134371a33aaa817ec68187fa67a89c9",
+      "response_sha256": "cfe232baf8d31c9beffb282f6339362015f29b453f309ac4c543a10350b2612a",
+      "observed_at": "2026-10-29T05:32:20.606998+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776639.jsonl.gz",
+      "sha256": "d9483b44a978877d8acfc181a56fc280b0743837000dff735bd3f617d29bffc5",
+      "response_sha256": "c8b31ac80b809b05a226a24f6f3353451bab3cfdf3537f6f9c336555540c84fa",
+      "observed_at": "2026-10-29T05:32:20.985824+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776667.jsonl.gz",
+      "sha256": "0bc15c09d9bb7afa912a157fbe7c01f349b5e686d9dfc14f5de904a4f5521681",
+      "response_sha256": "858cbae3249f1353beb9f4c46266a4ac091272c8c11d10e23f20c01ab71c3bbd",
+      "observed_at": "2026-10-29T05:32:21.325907+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776700.jsonl.gz",
+      "sha256": "1897f972047feae6e5c6dc9b0184c5cbf38d359d026ccf62c0b1660b1d724b32",
+      "response_sha256": "94a5923ab23bb8e3c06e0c3c3fe5289875a5822cf00c03e5b05a202ff6afa9fe",
+      "observed_at": "2026-10-29T05:32:21.584611+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776749.jsonl.gz",
+      "sha256": "8f05312edaf02c45b7adcb070857c1da3c73a9e8f9f1db99136fc6b1c2026b39",
+      "response_sha256": "875b1acefb1701e15937e746ef07954c2785e4f4283415fcbc213ae2f4e50a91",
+      "observed_at": "2026-10-29T05:32:21.964568+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776820.jsonl.gz",
+      "sha256": "f82a4b102d82129b6c8263e0ea1ca9a26d6e0d2824fe874f7c9529a00e12cdaf",
+      "response_sha256": "c94dc1804bb49e86849af2b518105ab4a1e59c22a788add01800b45e375f4e40",
+      "observed_at": "2026-10-29T05:32:22.307064+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776859.jsonl.gz",
+      "sha256": "a94ef52897a79b49f5650cb07a77ab6010c150c6a9385b1e02d27e684c704063",
+      "response_sha256": "e72ed6d1053e538de136de29312f13229600514f9942a2cb90ef791603f73d61",
+      "observed_at": "2026-10-29T05:32:22.628084+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776892.jsonl.gz",
+      "sha256": "99fa859f780ec7afdf3f78e51ed6cbd0da8c0c7536160c0e711adac4119c28a5",
+      "response_sha256": "6a98a70494bf9d8d1191f40b19c5362eacd18c68816a62031ec0cd610ec09725",
+      "observed_at": "2026-10-29T05:32:22.915174+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776906.jsonl.gz",
+      "sha256": "5796bd761e1263224850b93814f1f17cfd7b8856ce89451832f0237c6ba4a679",
+      "response_sha256": "b1712698b4ab52240a17368612b662e2aaff51e39f504bd7c9766c105429ba29",
+      "observed_at": "2026-10-29T05:32:23.314506+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776961.jsonl.gz",
+      "sha256": "ecac0be442bbff5c0bc33c84cfe05457d9e14945c8d962868799c77c66aabbf4",
+      "response_sha256": "bd66af900b3c19bca7a2ce921bf96a5c98bc219b96ed4f9da53efbbc4c7ab75f",
+      "observed_at": "2026-10-29T05:32:23.602254+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-776997.jsonl.gz",
+      "sha256": "a0b8a4aa1b7f0e49e9905a34dc2b566db7570e536215bf765811d2f9f7b34467",
+      "response_sha256": "8c2a9b1897cd7c4523a634648108af652c6a9f98fc271421b524d42aefb591e2",
+      "observed_at": "2026-10-29T05:32:23.794862+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777005.jsonl.gz",
+      "sha256": "1ec83f115741968a045b8e0728a7492014c406f00a173d2494e8c8735dd79aa8",
+      "response_sha256": "32499f0a663dd9890d58e4aec5a605d6f88f591b827054eaa1f0623493648383",
+      "observed_at": "2026-10-29T05:32:24.188513+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777022.jsonl.gz",
+      "sha256": "8a40651b088e1dc021bcc7a69c0a02c08e111f4262b99d892f82c28a66614356",
+      "response_sha256": "005c32737788abf83fd325d235f07df52c131e0eeab4b5b7b5119bdbb531353d",
+      "observed_at": "2026-10-29T05:32:24.488586+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777039.jsonl.gz",
+      "sha256": "6770589e2e74c46cf5426298db01281c52ba0be5d080f1e51c73c342440500a7",
+      "response_sha256": "fe7e5c04b098ab6cd7eafcee452a2db62ff056212daec01bf283006a9143e549",
+      "observed_at": "2026-10-29T05:32:24.828740+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777072.jsonl.gz",
+      "sha256": "0833d146e92562f6b89113f6c34fda41d6ef2e89447405a627b901dd86714efb",
+      "response_sha256": "63998d9f0b8412d3ec59dd4b56364eee3fe227decd8e1cb45b78a73b0c19b524",
+      "observed_at": "2026-10-29T05:32:25.191576+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777077.jsonl.gz",
+      "sha256": "0a0d9a60037f81df85f43bd1179589ea7ed4cabe0fbd96607abc52d6bc6291b0",
+      "response_sha256": "f492f7bf8a2cdc4cb3a12bc3f8ca22bc343e105f7a5abd1e387ae6a9ff0823cc",
+      "observed_at": "2026-10-29T05:32:25.457648+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777117.jsonl.gz",
+      "sha256": "bcdf5b1c819587ace59ab5069bd6605fd07b7318b9a59d8ab6dcf7aff30ea46b",
+      "response_sha256": "a566a40c1777f2dc7e08f3be81432b94dc1123905f57fd61a94d0e9542b481e3",
+      "observed_at": "2026-10-29T05:32:25.773836+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777134.jsonl.gz",
+      "sha256": "399ea755a6532b643403973cfa0710d7a341ef924464e6be5dc6cf194466f0cd",
+      "response_sha256": "2b473d6d131c20926abe3d94a248ad61561b028aadb0290e2a9aa6768fa50c8a",
+      "observed_at": "2026-10-29T05:32:26.101786+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777173.jsonl.gz",
+      "sha256": "1012a101d3d9cd692e13b3d5487f762ce781b320dd1f8a93748a035327165695",
+      "response_sha256": "9990738ac29ec3286c4cd76719f0fe34e07f6112f58efecb28135ef1edb1a1a5",
+      "observed_at": "2026-10-29T05:32:26.350768+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777190.jsonl.gz",
+      "sha256": "df8e1ba088bb165e196dd43486cb542365b02762189d04a1d1a4749e2bd74978",
+      "response_sha256": "6e18a052de228dcc832cdffb6e5bb9810f0e9fbb6de4cc5dfa0d8547c20d0b5d",
+      "observed_at": "2026-10-29T05:32:26.758979+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777230.jsonl.gz",
+      "sha256": "4a9e11de973427288724e2fc087ec872305d3f53b7e3b05cdbc5f8a212376d6b",
+      "response_sha256": "d781e1ca4d1345174da3a4fe123f6a2d7ae1e0a35a665416e35d1a1a1232e176",
+      "observed_at": "2026-10-29T05:32:27.021633+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777232.jsonl.gz",
+      "sha256": "5cf30d7668ea8d1d00f41ae7ab435bbedd00d485a8811c3886991d34aa6fb994",
+      "response_sha256": "15f10b4c8bbad698d4e04d1538223b5f0f548946c9ca8d80f5ee703de110dd92",
+      "observed_at": "2026-10-29T05:32:27.311119+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777273.jsonl.gz",
+      "sha256": "3ae68f3a4a6f8d8af209c38279a90dd48623362dd7dc907ba4664657734b889f",
+      "response_sha256": "e9fe15d410b037dd6d12782d77423d95646db1e12386373553b9432581c03d33",
+      "observed_at": "2026-10-29T05:32:27.725387+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777426.jsonl.gz",
+      "sha256": "9ca1de23445548e54b112e3df00b1bb1f8d6f58915e7e0ec6b6cf13ab4169886",
+      "response_sha256": "3eb087482485606cd6091269446298306fbe807072677f9cfa2366c6af852f5f",
+      "observed_at": "2026-10-29T05:32:27.994566+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777458.jsonl.gz",
+      "sha256": "e2205d6051943ea0c64484e571fc245834ed3e70a423e3d92502ac2ecf33f86a",
+      "response_sha256": "748566088e25adc62b20baba558a60e92836044722f42d633868263706534471",
+      "observed_at": "2026-10-29T05:32:28.329423+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777491.jsonl.gz",
+      "sha256": "f05854b5c74895ed49788a2d6058257082440887c89276bb4f8fbb204a1a710b",
+      "response_sha256": "8e3bae2cba27edf79722f732464809aa9f9b4d4d7282012d518793369d8d5381",
+      "observed_at": "2026-10-29T05:32:28.651466+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777527.jsonl.gz",
+      "sha256": "ff407a921a2d24cfede8390a48e1e19266321d6fd0ceb9f5b45fe99a09f821c6",
+      "response_sha256": "04aadfedec1692029c5dd88e809c7207e32d9665f39b202d1097ab7592102c7d",
+      "observed_at": "2026-10-29T05:32:28.980411+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777533.jsonl.gz",
+      "sha256": "8a8493bb13f336cecd91f53a68721c8714968fc3f30ee742311c7e015922972d",
+      "response_sha256": "5343df2ced335ec8e1328334dee9f8c8269dc3017cb7c9900ee3ab7f1836f161",
+      "observed_at": "2026-10-29T05:32:29.305220+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777579.jsonl.gz",
+      "sha256": "8fa8aaf562fabf5a1391b06a61ccd1dcb85c2243e0ddf3d7eb551e1dbb024dbf",
+      "response_sha256": "6e9a07c045ddb4e2ca88521787b04dba02d020cae434468d0c451bfe4cc570ba",
+      "observed_at": "2026-10-29T05:32:29.625249+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777585.jsonl.gz",
+      "sha256": "78701477e2f64fdbdc6e17427585b38c009e7160d7923fedc77b19fff156b324",
+      "response_sha256": "e55e07f7ee42a20c9d6850c9d29f7a8de6b065caca5b50d49c4c21d6dfa1920a",
+      "observed_at": "2026-10-29T05:32:29.994168+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777615.jsonl.gz",
+      "sha256": "af343e9e7f1301ff69823912115888439b0f62495ffc38627bbca9994d6c9d6b",
+      "response_sha256": "cd0c9151b7d9f1bfed3731288083db2d522001b71849e01d4d9efef29fb07a8a",
+      "observed_at": "2026-10-29T05:32:30.281209+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777641.jsonl.gz",
+      "sha256": "b679ad4f8011de976df7c099543b8debc6ac60032e32d6ec8c713f89148085bd",
+      "response_sha256": "66af2d2f2d8a38c35f6da3ceb5cbd0af80cb5a943306ae13bf68bd713c12b531",
+      "observed_at": "2026-10-29T05:32:30.575221+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777643.jsonl.gz",
+      "sha256": "f03fb287973bf035834ee91d347358ecab948f29c3279eac9bc54d738fadc0cc",
+      "response_sha256": "657b3b6b7904fc96597d697836f351a36851ef6d805443aadd42e171116819f6",
+      "observed_at": "2026-10-29T05:32:30.885303+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777658.jsonl.gz",
+      "sha256": "18b039f4e94ba0ae030ffcb206e0ffb722de3a39ba1251b4286210e87f81b275",
+      "response_sha256": "67d637186fd01caa4034b6d7e1c8a936f5b546175b6108166bd4b2b860b92b7c",
+      "observed_at": "2026-10-29T05:32:31.317345+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777707.jsonl.gz",
+      "sha256": "68a1f9281908726a8c581a11d0d063b4671355434a88b87deeb6813a2a792f01",
+      "response_sha256": "291a233e0e16d752f47eb7f7b73e5e00644de64ed0acd2b4bbbf4e4efa08b469",
+      "observed_at": "2026-10-29T05:32:31.606419+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777813.jsonl.gz",
+      "sha256": "f9cc45310b12c0cb39e7e881db59db1f20f9d72416ee20163ec1625016ac0b2a",
+      "response_sha256": "5ed187387ee84023d642cb76698997567553d7eace89a48882162f484d1afee9",
+      "observed_at": "2026-10-29T05:32:31.881933+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777865.jsonl.gz",
+      "sha256": "155a26b860306cbf6a24555cd7302ce04fbd21d03c19ccd24b7c12381acde229",
+      "response_sha256": "3716627ee4f4f5a5a399a78b87d809e585c995d6562a368c3a73e075a7fb405d",
+      "observed_at": "2026-10-29T05:32:32.288281+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777875.jsonl.gz",
+      "sha256": "8f42ec1bc80a75da9d2092d7494de830db7362bb862a83a23c64a977dd9d7c31",
+      "response_sha256": "02260e88661b51a561cbd96dddf4fd3731691af7ee2d6e1cb6e059c1fdfb3bd4",
+      "observed_at": "2026-10-29T05:32:32.479422+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777883.jsonl.gz",
+      "sha256": "49278c12b9feb7099a49129f78396094e183ea3ce499632dcd4dea42ee73f5e1",
+      "response_sha256": "1aa74c6a83305c25e2024026c0f81ba9fbe71b1a195b15e8380714cf7d7c25e7",
+      "observed_at": "2026-10-29T05:32:32.837523+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777911.jsonl.gz",
+      "sha256": "b53e2bc3884c413629b91a295874b838d9052b3cd56a235d60b38fc9410815ae",
+      "response_sha256": "fe790934569a1ccc0066c9823272069f704d2b4a0ae6cb836b779d569d8d7962",
+      "observed_at": "2026-10-29T05:32:33.294169+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777938.jsonl.gz",
+      "sha256": "00d33e3c4edb8ba8de2a9f39f3f4451a6fe8e3b505b037657524ee1db975dc2f",
+      "response_sha256": "2ab8ef2d1098bcbee0939c3a0246189a2212dbfe5cc9a30863fea23cea64066d",
+      "observed_at": "2026-10-29T05:32:33.462530+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-777955.jsonl.gz",
+      "sha256": "532b251c295e5345acd7d0f35195718d04c4070db6ff0a1126001b7a9619f4e8",
+      "response_sha256": "76eda8b454c95ae1c0bdd91406c612033df56631f76aded6aa916eb361a00ac5",
+      "observed_at": "2026-10-29T05:32:33.794206+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-778045.jsonl.gz",
+      "sha256": "efd11c5a2958e61a21a284e6b48cbeaecf2472f91a0800f7eb001421990b2a0c",
+      "response_sha256": "5585c64e62bb255e95ac7abcb7c1015f728e5a74077efe510c78ac926d652bcc",
+      "observed_at": "2026-10-29T05:32:34.363508+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-778126.jsonl.gz",
+      "sha256": "594f8eacfa69486ef1f2309414c800e7d8aad28d47d41786abe3a56a46da2b88",
+      "response_sha256": "09843d1685f17b16ba8a7de9e1802ffcdc67c1d462212652787ad5839d45df60",
+      "observed_at": "2026-10-29T05:32:34.512484+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-778288.jsonl.gz",
+      "sha256": "59f731e4055c3e8c1ab7fc3fde7e8c7e2bb645f42163538d32ac2f6b828b842b",
+      "response_sha256": "663cbfcf073c386d3f34bab26c52fe1c5acc63ff62b1f2afc101e79afbe5c89f",
+      "observed_at": "2026-10-29T05:32:34.757408+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-778450.jsonl.gz",
+      "sha256": "26bbc4cb05a27b50761a62f60e51f9371c88702502f45f7bfc8e8e5150c5d10b",
+      "response_sha256": "75612237299bc04b5b85ccf82258b741ab4e0604ef3860228b0fa9559250cd69",
+      "observed_at": "2026-10-29T05:32:35.379864+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-813066.jsonl.gz",
+      "sha256": "c781c37243818e7fcb2c880f16f20f0f6646fc6afe8735f8bb96498336c4d460",
+      "response_sha256": "b294735daa954566b2a35a56b2d14b604fa4697ab789c270f4066837a2980ce7",
+      "observed_at": "2026-10-29T05:32:35.584893+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822705.jsonl.gz",
+      "sha256": "f19d9adcd00deec5e251b46894756ba90bf8c4514446da6ab6211afb0364aad9",
+      "response_sha256": "86be89cbf2bd79de87b13ca83bbcf7c86cf02a4adee2569bf2f929afdb1f7faa",
+      "observed_at": "2026-10-29T05:32:35.766070+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822789.jsonl.gz",
+      "sha256": "1a857e9efa6a1636272faa38227a77f6e1a4d1be030d34872c8480cacd408b59",
+      "response_sha256": "c7305da3e9477f26cc6c09c808ea9a53b85d14f6ff9d285d3f8c16d63ff86303",
+      "observed_at": "2026-10-29T05:32:36.408472+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822792.jsonl.gz",
+      "sha256": "791107644fe15dcfdf71f7e38625d0e40db5ad1ea489c4855490ca1782612cf7",
+      "response_sha256": "5b82c0655a7d4eb08f071e46f5f2b01f3424aa7863801eb2dcf1e5fb8e690ca0",
+      "observed_at": "2026-10-29T05:32:36.703648+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822799.jsonl.gz",
+      "sha256": "e69dea644821ddd2675ec9e82f3a2a1d7b8a01c15001804b19086a2ee5731118",
+      "response_sha256": "1dc3907e1f8eb7af994acdb86b271dade176d2e4c63332c572db8afa13ce8dca",
+      "observed_at": "2026-10-29T05:32:36.759589+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822824.jsonl.gz",
+      "sha256": "c83c6e3d339c5b0e412ed22109c2d8dcc130bb96e9b1c53c8fffc1ca4f67a14c",
+      "response_sha256": "c0c9b9e81dd8d252d87349455b3cccd5e0d489696decbe9c7783afc1601d614c",
+      "observed_at": "2026-10-29T05:32:37.396173+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822826.jsonl.gz",
+      "sha256": "5692a60429c4fb8415c5b9458ca29ca327be3ef479c5b82a829379a5be9ddb3d",
+      "response_sha256": "df19db8786e646fd16b73697e2c9f6427cdf5a6c7d5f5358b72acd46f0d7cb0e",
+      "observed_at": "2026-10-29T05:32:37.726166+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-822943.jsonl.gz",
+      "sha256": "504976823ceb8b7ceaecbafe5c4788e34602e289493bf1c385f733a9767f0468",
+      "response_sha256": "7baee57cf571ba87baa8b13e46f8efb19ef776ddb6e0a8c6f0adcac3c6bdb8e8",
+      "observed_at": "2026-10-29T05:32:37.878183+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-823072.jsonl.gz",
+      "sha256": "7e554feb9a243331be83716b05815f6b56f60b4a089bd77152b7b11d3efb9a50",
+      "response_sha256": "74ef5e6606e8d132196508ea2752ab73cd7434c738d97d6bf438de69a9c07f51",
+      "observed_at": "2026-10-29T05:32:38.343713+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-823073.jsonl.gz",
+      "sha256": "8e0b7923cb1cdaf46aa6cea3f865bcfc035170c2f399f84d6d6cab1109649233",
+      "response_sha256": "d153e2ca008c0f79ad8b57ddccb6cc7f3774da669d6114c9b7104aafe74d36f0",
+      "observed_at": "2026-10-29T05:32:38.642058+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-823471.jsonl.gz",
+      "sha256": "3814c708ff9ce2cbf21c9df03c49a9be68c6c0eca0728b6a081975fad4b0feb7",
+      "response_sha256": "8ab3b34f288f02eb4a70c7dde90f039e7e64a48a03360817b61cf3e3aa70643b",
+      "observed_at": "2026-10-29T05:32:38.876392+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-823944.jsonl.gz",
+      "sha256": "af14a8842295a05340751ec04508306a53fc4bec97fb641e4ea8f2578ba659b3",
+      "response_sha256": "47e3cc6ba336d72bae342ddb7ad056689201fd2d71934b5043b0c692d83180c8",
+      "observed_at": "2026-10-29T05:32:39.354910+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-824158.jsonl.gz",
+      "sha256": "c2c03b2bdfa473d2d17d9833329ebc389ee5505ee18d62c48a8f18043a64f373",
+      "response_sha256": "9f2d0373c1f79ab614d6f2513d30215782fed9175d0a60e10da9e6a1b91c1b86",
+      "observed_at": "2026-10-29T05:32:39.638874+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-824452.jsonl.gz",
+      "sha256": "393a385ab57f8ae266e1df9377d5701d4d45260690b2cc9c894f07ca6b108859",
+      "response_sha256": "781b67a5402e63d58800b93df67b4cebfc055cbbe87a461e1cbbbc84f54333bd",
+      "observed_at": "2026-10-29T05:32:39.855201+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-824455.jsonl.gz",
+      "sha256": "a6f070e67b24b922ee8021600056a2f0da111ac6a3b0c85cf3d6cc2653c2f9cf",
+      "response_sha256": "16129e9babbad76beb31952d4ddcc6ba6ed03f34614c0b734ba9f74c21f21a8b",
+      "observed_at": "2026-10-29T05:32:40.349850+00:00"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\repair-824941.jsonl.gz",
+      "sha256": "3df481a99df7842728d4dd21315a85832eda65dd0e316a083697b88f1c97961d",
+      "response_sha256": "c35db206ea3016873d230b2595ca21e453a102e83dcc518a4a07dbaf7a286fec",
+      "observed_at": "2026-10-29T05:32:40.599503+00:00"
+    }
+  ],
+  "join": "explicit team aliases + kickoff within 30 minutes, unique match; exact MLB id for tipster frames",
+  "raw_record_key": [
+    "gamePk",
+    "player",
+    "team_id"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "offline_replay_equal": true,
+  "offline_http_requests": 0,
+  "tests_passed": 13,
+  "temporal_and_numeric_checks": {
+    "feature_values_checked": 2656
+  },
+  "cohorts": {
+    "retrospective_year_standard_ot_nba_increment": {
+      "rows": 89,
+      "featured": 80,
+      "both_sides": 57
+    },
+    "retrospective_year_strict": {
+      "rows": 28,
+      "featured": 25,
+      "both_sides": 15
+    },
+    "retrospective_year_standard_ot_nba_increment__claimed_time_only": {
+      "rows": 88,
+      "featured": 77,
+      "both_sides": 70
+    },
+    "historical_market_proxy": {
+      "rows": 251,
+      "featured": 251,
+      "both_sides": 89
+    }
+  },
+  "source_records": 485,
+  "raw_gzip_bytes": 10693326,
+  "uncompressed_feature_sha256": {
+    "features.jsonl.gz": "80cbbbaa8ccd3457fbe10dc1a7a6d575e6747e87216760f070e9de98eaf11f60",
+    "archive-features.jsonl.gz": "93455b449d5a501bddb2b0d0546e4229ae080172cd091afe5603365ae4405154"
+  }
+}

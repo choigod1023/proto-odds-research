@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "outcomes_read": false,
+  "roi_selection": false,
+  "history": "same-season observed XI; date strictly before decision local date",
+  "groups": {
+    "prior_only": [
+      "observed_games",
+      "history_age_days",
+      "previous_xi_regular_share",
+      "regular_top11_start_share",
+      "previous_churn",
+      "mean_last5_churn",
+      "previous_xi_mean_starts14"
+    ],
+    "retrospective_current_xi_DIAGNOSTIC_ONLY": [
+      "regular_share",
+      "changes",
+      "regulars_missing"
+    ]
+  },
+  "freshness": "workload and previous-XI features omitted after >30 day source gap",
+  "missing": "omit, never impute; workload = starts proxy, not minutes"
+}

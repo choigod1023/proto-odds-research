@@ -1,0 +1,27 @@
+{
+  "source_case_files": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\results\\forecast-rosters.jsonl.gz",
+      "sha256": "a0d576db17ebc66ba4537b743c8dfbdb8523d5dd24dbda0a9b75b4329f298239"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\claimed-time-results\\forecast-rosters.jsonl.gz",
+      "sha256": "e729ca6e799e768dc42832eccd34f370fbf7df368c67f54918c475f2d0f0f955"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\experiments\\single-parlay-20261030\\inputs\\ARCHIVE\\events.jsonl.gz",
+      "sha256": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3"
+    }
+  ],
+  "normalization_audit": {
+    "primary_vote_ties_excluded_from_common_operating_support": 14,
+    "aux_no_canonical_full_moneyline": 28
+  },
+  "source_kind": "frozen canonical full-game market cases; actual claimed-time tipster, saved references and auxiliary market proxy remain separate",
+  "source_prs": [
+    422,
+    423
+  ],
+  "case_count": 7092,
+  "first_normalization_script": "pregame_rd_compare.py before availability hardening; dataset has zero late input cases; replay gate independently rechecks availability"
+}

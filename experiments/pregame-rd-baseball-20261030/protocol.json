@@ -1,0 +1,14 @@
+{
+  "features": [
+    "relief_pitches_48h",
+    "relief_pitches_72h",
+    "relievers_ge30_pitches_72h",
+    "relievers_used_ge2_dates_72h"
+  ],
+  "max_events": 5,
+  "max_requests": 48,
+  "choice": "earliest distinct MLB roster events",
+  "tier": "retrospective_lagged",
+  "target_lineups": false,
+  "roi_inspected": false
+}

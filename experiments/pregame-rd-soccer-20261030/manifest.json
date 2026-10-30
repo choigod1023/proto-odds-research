@@ -1,0 +1,91 @@
+{
+  "inputs": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto\\data\\raw\\detail\\kleague_soccer_2023_2026.json",
+      "sha256": "23380355d10e7a9b078a2c170611e89796b95549be19d1d783b2c7d480ac2daa",
+      "role": "date-only retrospective XI",
+      "observed_at": null
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\results\\forecast-rosters.jsonl.gz",
+      "sha256": "a0d576db17ebc66ba4537b743c8dfbdb8523d5dd24dbda0a9b75b4329f298239",
+      "role": "exact forecast frame"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\claimed-time-results\\forecast-rosters.jsonl.gz",
+      "sha256": "e729ca6e799e768dc42832eccd34f370fbf7df368c67f54918c475f2d0f0f955",
+      "role": "exact forecast frame"
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\experiments\\single-parlay-20261030\\inputs\\ARCHIVE\\events.jsonl.gz",
+      "sha256": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3",
+      "role": "AUXILIARY settled-only retrospective historical_market_proxy"
+    }
+  ],
+  "outputs": [
+    {
+      "path": ".gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "archive-audit.jsonl.gz",
+      "sha256": "0b96eff22286eac4d81854d97f27bd3ebde09ab9dff7d39e8b8f259d8f76cf22"
+    },
+    {
+      "path": "archive-features-AUXILIARY.jsonl.gz",
+      "sha256": "cc62e5c6ba4b854b885ffc205a449de45abb4dd9d921a63bfb72b153194fac4a"
+    },
+    {
+      "path": "archive-input-frames.jsonl.gz",
+      "sha256": "51fe01cafbbf80bbf418ecc356c5b27bb27a8a90fa12595e88bdce7fe4c5c6a5"
+    },
+    {
+      "path": "archive-summary.json",
+      "sha256": "411059791b92dcd3c9a661b2c959b7f311121c9d9b868d7d3b97840b58414f89"
+    },
+    {
+      "path": "audit.jsonl.gz",
+      "sha256": "5bfd3ea185b767d400f7da68f0494c2180100c1dd84d087980661e98635a13b4"
+    },
+    {
+      "path": "capture-attempt-20261030T040434942966Z.json",
+      "sha256": "7306e52edf4d8905d8c70c2face9a7558a3f42c04a072d811923d02a9bda0c19"
+    },
+    {
+      "path": "capture-d9c4e3733f95ca1a.raw.gz",
+      "sha256": "9468dc641917b62aae31d083674eb810a6b6e03b63a3ed09bc26630e761a5eae"
+    },
+    {
+      "path": "current-xi-DIAGNOSTIC-DO-NOT-FIT.jsonl.gz",
+      "sha256": "77ae66fab714520ab35abd39cbf89f9d8b6255efe04fc8609e3d8a4546596e56"
+    },
+    {
+      "path": "features.jsonl.gz",
+      "sha256": "2d55e742b3bfc7faca80597bbfe2c3464cee8df106c50ad3fd83bcf582dd85b2"
+    },
+    {
+      "path": "input-frames.jsonl.gz",
+      "sha256": "a9a650aff45446c0f35b6f333aff0bd356b7aabd2402bf458d1cd5d82e2f8113"
+    },
+    {
+      "path": "protocol.json",
+      "sha256": "431f68340416d6624bed11c69ccf0fa618f791dcd93a2fa404a3b415c95a53b7"
+    },
+    {
+      "path": "raw-xi.json.gz",
+      "sha256": "512c771ea81effc00ae54d6e18acd5a8d805f51ebcbaa2d7a549f38898e34e66"
+    },
+    {
+      "path": "summary.json",
+      "sha256": "a7f4d244fceffe580c8d09bd49243f65f970c41b4edbd7527009344377ca6b80"
+    },
+    {
+      "path": "team-aliases.json",
+      "sha256": "45535082852a473bdf33c3fa3139fbede5f5cee24c769818f203b18a14541e10"
+    },
+    {
+      "path": "validation.json",
+      "sha256": "3f6e5d7047204397d03db900a289b981e2b621922bf93d50ed177ef10a9e4f18"
+    }
+  ]
+}

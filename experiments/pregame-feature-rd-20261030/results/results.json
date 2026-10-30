@@ -1,0 +1,7169 @@
+[
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1331,
+    "train_primary_n": 1331,
+    "train_aux_n": 0,
+    "test_n": 398,
+    "test_start": "2025-10-30",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 398,
+      "graded": 398,
+      "accuracy_pct": 54.52261306532663,
+      "brier": 0.49600239258010337,
+      "logloss": 0.6890759536768406,
+      "roi_pct": -16.5,
+      "net_krw": -788040.0,
+      "daily_close_drawdown_krw": 832200.0,
+      "pick_counts": {
+        "home": 229,
+        "away": 169
+      }
+    },
+    "delta_vs_market": {
+      "n": 398,
+      "graded": 398,
+      "dates": 88,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 398,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 32,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1331,
+    "train_primary_n": 1331,
+    "train_aux_n": 0,
+    "test_n": 398,
+    "test_start": "2025-10-30",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 398,
+      "graded": 398,
+      "accuracy_pct": 49.246231155778894,
+      "brier": 0.5008334288326042,
+      "logloss": 0.6939808889012277,
+      "roi_pct": -16.118090452261306,
+      "net_krw": -769800.0,
+      "daily_close_drawdown_krw": 769800.0,
+      "pick_counts": {
+        "home": 398
+      }
+    },
+    "delta_vs_market": {
+      "n": 398,
+      "graded": 398,
+      "dates": 88,
+      "accuracy_delta_pp": -5.276381909547739,
+      "roi_delta_pp": 0.3819095477386937,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -11.386138613861386,
+          1.0351966873706004
+        ],
+        "roi_delta_pp": [
+          -10.565349544072948,
+          11.458333333333334
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 398,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 32,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1331,
+    "train_primary_n": 1331,
+    "train_aux_n": 0,
+    "test_n": 398,
+    "test_start": "2025-10-30",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 398,
+      "graded": 398,
+      "accuracy_pct": 48.49246231155779,
+      "brier": 0.5023177599381604,
+      "logloss": 0.6954790659973802,
+      "roi_pct": -17.37437185929648,
+      "net_krw": -829800.0,
+      "daily_close_drawdown_krw": 846000.0,
+      "pick_counts": {
+        "home": 327,
+        "away": 71
+      }
+    },
+    "delta_vs_market": {
+      "n": 398,
+      "graded": 398,
+      "dates": 88,
+      "accuracy_delta_pp": -6.030150753768845,
+      "roi_delta_pp": -0.8743718592964819,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -13.0,
+          0.554016620498615
+        ],
+        "roi_delta_pp": [
+          -13.184615384615382,
+          10.962962962962965
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 398,
+      "selected": 9,
+      "n": 9,
+      "graded": 9,
+      "accuracy_pct": 55.55555555555556,
+      "brier": 0.5032724820545725,
+      "logloss": 0.6966164918122996,
+      "roi_pct": 12.555555555555555,
+      "net_krw": 13560.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "home": 9
+      }
+    },
+    "two_leg": {
+      "opportunities": 32,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1331,
+    "train_primary_n": 1331,
+    "train_aux_n": 0,
+    "test_n": 398,
+    "test_start": "2025-10-30",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 398,
+      "graded": 398,
+      "accuracy_pct": 52.76381909547739,
+      "brier": 0.49679315559070386,
+      "logloss": 0.6898525335105704,
+      "roi_pct": -19.150753768844222,
+      "net_krw": -914640.0,
+      "daily_close_drawdown_krw": 931680.0,
+      "pick_counts": {
+        "home": 210,
+        "away": 188
+      }
+    },
+    "delta_vs_market": {
+      "n": 398,
+      "graded": 398,
+      "dates": 88,
+      "accuracy_delta_pp": -1.7587939698492463,
+      "roi_delta_pp": -2.650753768844221,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -4.722222222222222,
+          1.0309278350515463
+        ],
+        "roi_delta_pp": [
+          -7.894117647058822,
+          2.1959287531806617
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 398,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 32,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1331,
+    "train_primary_n": 1331,
+    "train_aux_n": 0,
+    "test_n": 398,
+    "test_start": "2025-10-30",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 398,
+      "graded": 398,
+      "accuracy_pct": 49.246231155778894,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -16.118090452261306,
+      "net_krw": -769800.0,
+      "daily_close_drawdown_krw": 769800.0,
+      "pick_counts": {
+        "home": 398
+      }
+    },
+    "delta_vs_market": {
+      "n": 398,
+      "graded": 398,
+      "dates": 88,
+      "accuracy_delta_pp": -5.276381909547739,
+      "roi_delta_pp": 0.3819095477386937,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -11.386138613861386,
+          1.0351966873706004
+        ],
+        "roi_delta_pp": [
+          -10.565349544072948,
+          11.458333333333334
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 32,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1068,
+    "train_primary_n": 1068,
+    "train_aux_n": 0,
+    "test_n": 565,
+    "test_start": "2025-09-02",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 565,
+      "graded": 565,
+      "accuracy_pct": 54.15929203539823,
+      "brier": 0.4890205615300335,
+      "logloss": 0.6817054710127388,
+      "roi_pct": -18.086725663716813,
+      "net_krw": -1226280.0,
+      "daily_close_drawdown_krw": 1269000.0,
+      "pick_counts": {
+        "home": 345,
+        "away": 220
+      }
+    },
+    "delta_vs_market": {
+      "n": 565,
+      "graded": 565,
+      "dates": 131,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 565,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 46,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1068,
+    "train_primary_n": 1068,
+    "train_aux_n": 0,
+    "test_n": 565,
+    "test_start": "2025-09-02",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 565,
+      "graded": 565,
+      "accuracy_pct": 51.68141592920354,
+      "brier": 0.4994560373299272,
+      "logloss": 0.6926031297183981,
+      "roi_pct": -13.699115044247788,
+      "net_krw": -928800.0,
+      "daily_close_drawdown_krw": 928800.0,
+      "pick_counts": {
+        "home": 565
+      }
+    },
+    "delta_vs_market": {
+      "n": 565,
+      "graded": 565,
+      "dates": 131,
+      "accuracy_delta_pp": -2.47787610619469,
+      "roi_delta_pp": 4.387610619469027,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -7.321428571428571,
+          2.4482109227871938
+        ],
+        "roi_delta_pp": [
+          -4.535849056603774,
+          13.072933549432738
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 565,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 46,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1068,
+    "train_primary_n": 1068,
+    "train_aux_n": 0,
+    "test_n": 565,
+    "test_start": "2025-09-02",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 565,
+      "graded": 565,
+      "accuracy_pct": 48.49557522123894,
+      "brier": 0.5019339269759202,
+      "logloss": 0.6950868915093836,
+      "roi_pct": -16.060176991150442,
+      "net_krw": -1088880.0,
+      "daily_close_drawdown_krw": 1112160.0,
+      "pick_counts": {
+        "away": 170,
+        "home": 395
+      }
+    },
+    "delta_vs_market": {
+      "n": 565,
+      "graded": 565,
+      "dates": 131,
+      "accuracy_delta_pp": -5.663716814159292,
+      "roi_delta_pp": 2.0265486725663715,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -11.267605633802816,
+          0.5217391304347826
+        ],
+        "roi_delta_pp": [
+          -8.103806228373703,
+          13.167844522968197
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 565,
+      "selected": 18,
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": 0.5100698306104908,
+      "logloss": 0.703409064051356,
+      "roi_pct": 8.055555555555559,
+      "net_krw": 17400.0,
+      "daily_close_drawdown_krw": 36240.0,
+      "pick_counts": {
+        "home": 18
+      }
+    },
+    "two_leg": {
+      "opportunities": 46,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1068,
+    "train_primary_n": 1068,
+    "train_aux_n": 0,
+    "test_n": 565,
+    "test_start": "2025-09-02",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 565,
+      "graded": 565,
+      "accuracy_pct": 53.097345132743364,
+      "brier": 0.4922049050939231,
+      "logloss": 0.6849606635466481,
+      "roi_pct": -19.327433628318584,
+      "net_krw": -1310400.0,
+      "daily_close_drawdown_krw": 1326000.0,
+      "pick_counts": {
+        "home": 315,
+        "away": 250
+      }
+    },
+    "delta_vs_market": {
+      "n": 565,
+      "graded": 565,
+      "dates": 131,
+      "accuracy_delta_pp": -1.0619469026548674,
+      "roi_delta_pp": -1.2407079646017696,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -3.5714285714285716,
+          1.2173913043478262
+        ],
+        "roi_delta_pp": [
+          -5.572222222222221,
+          2.6494156928213695
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 565,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 46,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1068,
+    "train_primary_n": 1068,
+    "train_aux_n": 0,
+    "test_n": 565,
+    "test_start": "2025-09-02",
+    "test_end": "2026-10-29",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 565,
+      "graded": 565,
+      "accuracy_pct": 51.68141592920354,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -13.699115044247788,
+      "net_krw": -928800.0,
+      "daily_close_drawdown_krw": 928800.0,
+      "pick_counts": {
+        "home": 565
+      }
+    },
+    "delta_vs_market": {
+      "n": 565,
+      "graded": 565,
+      "dates": 131,
+      "accuracy_delta_pp": -2.47787610619469,
+      "roi_delta_pp": 4.387610619469027,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -7.321428571428571,
+          2.4482109227871938
+        ],
+        "roi_delta_pp": [
+          -4.535849056603774,
+          13.072933549432738
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 46,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.5584025180983198,
+      "logloss": 0.751925020262914,
+      "roi_pct": -44.666666666666664,
+      "net_krw": -64320.0,
+      "daily_close_drawdown_krw": 72240.0,
+      "pick_counts": {
+        "home": 8,
+        "away": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 8.333333333333334,
+      "roi_delta_pp": 14.25,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 12,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 25.0,
+      "brier": 0.5971037030369027,
+      "logloss": 0.7918854361155332,
+      "roi_pct": -58.916666666666664,
+      "net_krw": -84840.0,
+      "daily_close_drawdown_krw": 92760.0,
+      "pick_counts": {
+        "home": 9,
+        "away": 3
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": -8.333333333333334,
+      "roi_delta_pp": -14.25,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 12,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.5173115699931828,
+      "logloss": 0.7104727564404699,
+      "roi_pct": -39.083333333333336,
+      "net_krw": -56280.0,
+      "daily_close_drawdown_krw": 64200.0,
+      "pick_counts": {
+        "home": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 5.583333333333333,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 8.333333333333334,
+      "roi_delta_pp": 19.833333333333332,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 12,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 25.0,
+      "brier": 0.5136802806806245,
+      "logloss": 0.7068129088166967,
+      "roi_pct": -53.583333333333336,
+      "net_krw": -77160.0,
+      "daily_close_drawdown_krw": 77160.0,
+      "pick_counts": {
+        "home": 9,
+        "away": 3
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": -8.333333333333334,
+      "roi_delta_pp": -8.916666666666666,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 5.333333333333335,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 12,
+      "selected": 2,
+      "n": 2,
+      "graded": 2,
+      "accuracy_pct": 50.0,
+      "brier": 0.4920728932950826,
+      "logloss": 0.6849839825965671,
+      "roi_pct": 1.0,
+      "net_krw": 240.0,
+      "daily_close_drawdown_krw": 12000.0,
+      "pick_counts": {
+        "home": 2
+      }
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 25.0,
+      "brier": 0.5869621503428457,
+      "logloss": 0.7812510430656077,
+      "roi_pct": -58.916666666666664,
+      "net_krw": -84840.0,
+      "daily_close_drawdown_krw": 92760.0,
+      "pick_counts": {
+        "home": 9,
+        "away": 3
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": -8.333333333333334,
+      "roi_delta_pp": -14.25,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 12,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 33.333333333333336,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -39.083333333333336,
+      "net_krw": -56280.0,
+      "daily_close_drawdown_krw": 64200.0,
+      "pick_counts": {
+        "home": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 5.583333333333333,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 8.333333333333334,
+      "roi_delta_pp": 19.833333333333332,
+      "ci95": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 1984,
+    "train_primary_n": 82,
+    "train_aux_n": 1902,
+    "test_n": 12,
+    "test_start": "2026-09-09",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 12,
+      "graded": 12,
+      "accuracy_pct": 33.333333333333336,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -42.583333333333336,
+      "net_krw": -61320.0,
+      "daily_close_drawdown_krw": 69240.0,
+      "pick_counts": {
+        "home": 8,
+        "away": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 2.0833333333333335,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 12,
+      "graded": 12,
+      "dates": 8,
+      "accuracy_delta_pp": 8.333333333333334,
+      "roi_delta_pp": 16.333333333333332,
+      "ci95": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 43.75,
+      "brier": 0.5139758928383937,
+      "logloss": 0.706953148793959,
+      "roi_pct": -30.5,
+      "net_krw": -58560.0,
+      "daily_close_drawdown_krw": 72240.0,
+      "pick_counts": {
+        "home": 11,
+        "away": 5
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 6.25,
+      "roi_delta_pp": 10.6875,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          21.428571428571427
+        ],
+        "roi_delta_pp": [
+          0.0,
+          36.642857142857146
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 16,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 37.5,
+      "brier": 0.5381797863850322,
+      "logloss": 0.731479850050348,
+      "roi_pct": -41.1875,
+      "net_krw": -79080.0,
+      "daily_close_drawdown_krw": 92760.0,
+      "pick_counts": {
+        "home": 12,
+        "away": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": -6.25,
+      "roi_delta_pp": -10.6875,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -21.428571428571427,
+          0.0
+        ],
+        "roi_delta_pp": [
+          -36.642857142857146,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 16,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 37.5,
+      "brier": 0.513601367464915,
+      "logloss": 0.706760176631021,
+      "roi_pct": -35.75,
+      "net_krw": -68640.0,
+      "daily_close_drawdown_krw": 76560.0,
+      "pick_counts": {
+        "home": 16
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": -6.25,
+      "roi_delta_pp": -5.250000000000001,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -33.333333333333336,
+          20.0
+        ],
+        "roi_delta_pp": [
+          -53.833333333333336,
+          42.8
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 5.437499999999999,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -22.22222222222222,
+          23.80952380952381
+        ],
+        "roi_delta_pp": [
+          -37.55555555555556,
+          50.23809523809524
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 16,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 25.0,
+      "brier": 0.5155920080968424,
+      "logloss": 0.7087580295048649,
+      "roi_pct": -55.9375,
+      "net_krw": -107400.0,
+      "daily_close_drawdown_krw": 107400.0,
+      "pick_counts": {
+        "home": 12,
+        "away": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": -18.75,
+      "roi_delta_pp": -25.4375,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          12.5
+        ],
+        "roi_delta_pp": [
+          -80.64285714285714,
+          31.333333333333332
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": -12.5,
+      "roi_delta_pp": -14.75,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -42.857142857142854,
+          18.75
+        ],
+        "roi_delta_pp": [
+          -64.73333333333332,
+          41.4375
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 16,
+      "selected": 2,
+      "n": 2,
+      "graded": 2,
+      "accuracy_pct": 50.0,
+      "brier": 0.49219741911548914,
+      "logloss": 0.6850902018193601,
+      "roi_pct": 1.0,
+      "net_krw": 240.0,
+      "daily_close_drawdown_krw": 12000.0,
+      "pick_counts": {
+        "home": 2
+      }
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 37.5,
+      "brier": 0.5339522053018994,
+      "logloss": 0.7271560077190751,
+      "roi_pct": -41.1875,
+      "net_krw": -79080.0,
+      "daily_close_drawdown_krw": 92760.0,
+      "pick_counts": {
+        "home": 12,
+        "away": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": -6.25,
+      "roi_delta_pp": -10.6875,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -21.428571428571427,
+          0.0
+        ],
+        "roi_delta_pp": [
+          -36.642857142857146,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 16,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 37.5,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -35.75,
+      "net_krw": -68640.0,
+      "daily_close_drawdown_krw": 76560.0,
+      "pick_counts": {
+        "home": 16
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": -6.25,
+      "roi_delta_pp": -5.250000000000001,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -33.333333333333336,
+          20.0
+        ],
+        "roi_delta_pp": [
+          -53.833333333333336,
+          42.8
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 5.437499999999999,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -22.22222222222222,
+          23.80952380952381
+        ],
+        "roi_delta_pp": [
+          -37.55555555555556,
+          50.23809523809524
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 1980,
+    "train_primary_n": 78,
+    "train_aux_n": 1902,
+    "test_n": 16,
+    "test_start": "2026-08-15",
+    "test_end": "2026-10-16",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 16,
+      "graded": 16,
+      "accuracy_pct": 43.75,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -28.9375,
+      "net_krw": -55560.0,
+      "daily_close_drawdown_krw": 69240.0,
+      "pick_counts": {
+        "home": 11,
+        "away": 5
+      }
+    },
+    "delta_vs_market": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 1.5625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -18.75,
+          14.285714285714286
+        ],
+        "roi_delta_pp": [
+          -32.0625,
+          26.133333333333333
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 16,
+      "graded": 16,
+      "dates": 12,
+      "accuracy_delta_pp": 6.25,
+      "roi_delta_pp": 12.25,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          17.647058823529413
+        ],
+        "roi_delta_pp": [
+          0.0,
+          34.588235294117645
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 0,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "saved_pregame",
+    "league": "MLB",
+    "feature_set": "baseball_calendar",
+    "evidence_view": "retrospective_date_lagged",
+    "status": "insufficient_dates",
+    "events": 20
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_exact",
+    "evidence_view": "retrospective_lagged",
+    "status": "insufficient_dates",
+    "events": 4
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "MLB",
+    "feature_set": "baseball_exact",
+    "evidence_view": "retrospective_date_lagged",
+    "status": "insufficient_dates",
+    "events": 4
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 19,
+    "train_primary_n": 19,
+    "train_aux_n": 0,
+    "test_n": 5,
+    "test_start": "2026-10-11",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "market",
+    "metrics": {
+      "n": 5,
+      "graded": 5,
+      "accuracy_pct": 20.0,
+      "brier": 0.6671702787015115,
+      "logloss": 0.8667468397025122,
+      "roi_pct": -73.0,
+      "net_krw": -43800.0,
+      "daily_close_drawdown_krw": 43800.0,
+      "pick_counts": {
+        "away": 3,
+        "home": 2
+      }
+    },
+    "delta_vs_market": {
+      "n": 5,
+      "graded": 5,
+      "dates": 4,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 5,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 19,
+    "train_primary_n": 19,
+    "train_aux_n": 0,
+    "test_n": 5,
+    "test_start": "2026-10-11",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 5,
+      "graded": 5,
+      "accuracy_pct": 80.0,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 79.2,
+      "net_krw": 47520.0,
+      "daily_close_drawdown_krw": 7800.0,
+      "pick_counts": {
+        "home": 5
+      }
+    },
+    "delta_vs_market": {
+      "n": 5,
+      "graded": 5,
+      "dates": 4,
+      "accuracy_delta_pp": 60.0,
+      "roi_delta_pp": 152.2,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 13,
+    "train_primary_n": 13,
+    "train_aux_n": 0,
+    "test_n": 7,
+    "test_start": "2026-10-06",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "market",
+    "metrics": {
+      "n": 7,
+      "graded": 7,
+      "accuracy_pct": 28.571428571428573,
+      "brier": 0.6861014832883098,
+      "logloss": 0.8920709272770427,
+      "roi_pct": -58.57142857142857,
+      "net_krw": -49200.0,
+      "daily_close_drawdown_krw": 49200.0,
+      "pick_counts": {
+        "away": 5,
+        "home": 2
+      }
+    },
+    "delta_vs_market": {
+      "n": 7,
+      "graded": 7,
+      "dates": 6,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 7,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 13,
+    "train_primary_n": 13,
+    "train_aux_n": 0,
+    "test_n": 7,
+    "test_start": "2026-10-06",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 7,
+      "graded": 7,
+      "accuracy_pct": 71.42857142857143,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 76.28571428571429,
+      "net_krw": 64080.0,
+      "daily_close_drawdown_krw": 12000.0,
+      "pick_counts": {
+        "home": 7
+      }
+    },
+    "delta_vs_market": {
+      "n": 7,
+      "graded": 7,
+      "dates": 6,
+      "accuracy_delta_pp": 42.857142857142854,
+      "roi_delta_pp": 134.85714285714286,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 69.56521739130434,
+      "brier": 0.4035222898214918,
+      "logloss": 0.5827535158828878,
+      "roi_pct": -7.239130434782608,
+      "net_krw": -39960.0,
+      "daily_close_drawdown_krw": 60600.0,
+      "pick_counts": {
+        "home": 34,
+        "away": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 56.52173913043478,
+      "brier": 0.49482786694415504,
+      "logloss": 0.6879714131873191,
+      "roi_pct": -22.97826086956522,
+      "net_krw": -126840.0,
+      "daily_close_drawdown_krw": 144720.0,
+      "pick_counts": {
+        "home": 46
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": -13.043478260869565,
+      "roi_delta_pp": -15.73913043478261,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -27.868852459016395,
+          5.128205128205129
+        ],
+        "roi_delta_pp": [
+          -39.89473684210526,
+          15.375
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 56.52173913043478,
+      "brier": 0.47497648338699605,
+      "logloss": 0.6679425536879334,
+      "roi_pct": -16.804347826086957,
+      "net_krw": -92760.0,
+      "daily_close_drawdown_krw": 123600.0,
+      "pick_counts": {
+        "home": 38,
+        "away": 8
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": -13.043478260869565,
+      "roi_delta_pp": -9.56521739130435,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -26.0,
+          4.545454545454546
+        ],
+        "roi_delta_pp": [
+          -37.02439024390244,
+          24.61111111111111
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 6,
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.6201301833544232,
+      "logloss": 0.8167003696811994,
+      "roi_pct": -3.5,
+      "net_krw": -2520.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 6
+      }
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 1,
+      "settled": 1,
+      "roi_pct": -100.0,
+      "component_single_roi_pct": 108.0,
+      "net_krw": -12000,
+      "details": [
+        {
+          "day": "2026-04-13",
+          "issue": [
+            2026,
+            45
+          ],
+          "placement": "2026-04-13T00:00:00+00:00",
+          "legs": [
+            {
+              "event_id": "12ad004d5b799bc0e5560e78",
+              "product_id": "f3d67cd62c0b8fadf620407e",
+              "side": "away",
+              "p": 0.6812671634247546,
+              "odds": 5.32
+            },
+            {
+              "event_id": "273d0ea287eb838f3943ed41",
+              "product_id": "cfec3d9375ef5cefe0b3bc30",
+              "side": "away",
+              "p": 0.6213725169787195,
+              "odds": 4.16
+            }
+          ],
+          "settlement": {
+            "net_krw": -12000,
+            "component_single_net_krw": 12960.0,
+            "quoted_odds": 22.2,
+            "hit": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 69.56521739130434,
+      "brier": 0.3897030615559121,
+      "logloss": 0.5653027400797682,
+      "roi_pct": -5.739130434782608,
+      "net_krw": -31680.0,
+      "daily_close_drawdown_krw": 48600.0,
+      "pick_counts": {
+        "away": 18,
+        "home": 28
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 1.5,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -11.428571428571429,
+          9.411764705882353
+        ],
+        "roi_delta_pp": [
+          -17.852941176470587,
+          17.967741935483872
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 3,
+      "n": 3,
+      "graded": 3,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.5325316948955036,
+      "logloss": 0.7212317889025237,
+      "roi_pct": -45.666666666666664,
+      "net_krw": -16440.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 3
+      }
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 56.52173913043478,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -22.97826086956522,
+      "net_krw": -126840.0,
+      "daily_close_drawdown_krw": 144720.0,
+      "pick_counts": {
+        "home": 46
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": -13.043478260869565,
+      "roi_delta_pp": -15.73913043478261,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -27.868852459016395,
+          5.128205128205129
+        ],
+        "roi_delta_pp": [
+          -39.89473684210526,
+          15.375
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 71.875,
+      "brier": 0.37811650177191897,
+      "logloss": 0.5558941837975105,
+      "roi_pct": -5.28125,
+      "net_krw": -40560.0,
+      "daily_close_drawdown_krw": 60600.0,
+      "pick_counts": {
+        "home": 45,
+        "away": 19
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 60.9375,
+      "brier": 0.4895173842388844,
+      "logloss": 0.6826548126995222,
+      "roi_pct": -14.34375,
+      "net_krw": -110160.0,
+      "daily_close_drawdown_krw": 175440.0,
+      "pick_counts": {
+        "home": 64
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": -10.9375,
+      "roi_delta_pp": -9.0625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.757575757575758,
+          6.756756756756757
+        ],
+        "roi_delta_pp": [
+          -35.61904761904762,
+          23.49206349206349
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 57.8125,
+      "brier": 0.47944187591002585,
+      "logloss": 0.6723388758960186,
+      "roi_pct": -14.4375,
+      "net_krw": -110880.0,
+      "daily_close_drawdown_krw": 149640.0,
+      "pick_counts": {
+        "home": 52,
+        "away": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": -14.0625,
+      "roi_delta_pp": -9.15625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -28.571428571428573,
+          2.9411764705882355
+        ],
+        "roi_delta_pp": [
+          -36.285714285714285,
+          25.513513513513512
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 11,
+      "n": 11,
+      "graded": 11,
+      "accuracy_pct": 27.272727272727273,
+      "brier": 0.6064301757938515,
+      "logloss": 0.8012293248419211,
+      "roi_pct": -28.181818181818183,
+      "net_krw": -37200.0,
+      "daily_close_drawdown_krw": 48000.0,
+      "pick_counts": {
+        "home": 4,
+        "away": 7
+      }
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 1,
+      "settled": 1,
+      "roi_pct": -100.0,
+      "component_single_roi_pct": 108.0,
+      "net_krw": -12000,
+      "details": [
+        {
+          "day": "2026-04-13",
+          "issue": [
+            2026,
+            45
+          ],
+          "placement": "2026-04-13T00:00:00+00:00",
+          "legs": [
+            {
+              "event_id": "12ad004d5b799bc0e5560e78",
+              "product_id": "f3d67cd62c0b8fadf620407e",
+              "side": "away",
+              "p": 0.6275149588440152,
+              "odds": 5.32
+            },
+            {
+              "event_id": "273d0ea287eb838f3943ed41",
+              "product_id": "cfec3d9375ef5cefe0b3bc30",
+              "side": "away",
+              "p": 0.5981461622824622,
+              "odds": 4.16
+            }
+          ],
+          "settlement": {
+            "net_krw": -12000,
+            "component_single_net_krw": 12960.0,
+            "quoted_odds": 22.2,
+            "hit": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 71.875,
+      "brier": 0.377688850467161,
+      "logloss": 0.5534953421928533,
+      "roi_pct": -3.1874999999999996,
+      "net_krw": -24480.0,
+      "daily_close_drawdown_krw": 51480.0,
+      "pick_counts": {
+        "home": 37,
+        "away": 27
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 2.09375,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -10.909090909090908,
+          8.219178082191782
+        ],
+        "roi_delta_pp": [
+          -16.482142857142858,
+          16.25
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 8,
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 62.5,
+      "brier": 0.4217202267454042,
+      "logloss": 0.6101433200714579,
+      "roi_pct": 2.75,
+      "net_krw": 2640.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 8
+      }
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 60.9375,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -14.34375,
+      "net_krw": -110160.0,
+      "daily_close_drawdown_krw": 175440.0,
+      "pick_counts": {
+        "home": 64
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": -10.9375,
+      "roi_delta_pp": -9.0625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.757575757575758,
+          6.756756756756757
+        ],
+        "roi_delta_pp": [
+          -35.61904761904762,
+          23.49206349206349
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 69.23076923076923,
+      "brier": 0.5093435443917423,
+      "logloss": 0.7130174314870901,
+      "roi_pct": -1.538461538461539,
+      "net_krw": -2400.0,
+      "daily_close_drawdown_krw": 22320.0,
+      "pick_counts": {
+        "away": 4,
+        "home": 9
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 7.6923076923076925,
+      "roi_delta_pp": 12.538461538461538,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          25.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          40.74999999999999
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 61.53846153846154,
+      "brier": 0.5190272563809266,
+      "logloss": 0.7201904802993955,
+      "roi_pct": -14.076923076923077,
+      "net_krw": -21960.0,
+      "daily_close_drawdown_krw": 29520.0,
+      "pick_counts": {
+        "away": 3,
+        "home": 10
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -12.538461538461538,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          -40.74999999999999,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 53.84615384615385,
+      "brier": 0.5,
+      "logloss": 0.6931471805599453,
+      "roi_pct": -22.615384615384617,
+      "net_krw": -35280.0,
+      "daily_close_drawdown_krw": 62520.0,
+      "pick_counts": {
+        "home": 13
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -15.384615384615385,
+      "roi_delta_pp": -21.076923076923077,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -46.15384615384615,
+          14.285714285714286
+        ],
+        "roi_delta_pp": [
+          -74.61538461538461,
+          33.42857142857143
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -8.53846153846154,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -33.333333333333336,
+          16.666666666666668
+        ],
+        "roi_delta_pp": [
+          -53.666666666666664,
+          38.36363636363637
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 46.15384615384615,
+      "brier": 0.5553505136367062,
+      "logloss": 0.7509463144702715,
+      "roi_pct": -15.307692307692308,
+      "net_krw": -23880.0,
+      "daily_close_drawdown_krw": 51240.0,
+      "pick_counts": {
+        "away": 9,
+        "home": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -23.076923076923077,
+      "roi_delta_pp": -13.769230769230766,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          9.090909090909092
+        ],
+        "roi_delta_pp": [
+          -62.42857142857143,
+          59.583333333333336
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -15.384615384615385,
+      "roi_delta_pp": -1.2307692307692302,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -46.666666666666664,
+          25.0
+        ],
+        "roi_delta_pp": [
+          -58.30769230769231,
+          76.63636363636364
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 2,
+      "n": 2,
+      "graded": 2,
+      "accuracy_pct": 0.0,
+      "brier": 0.8539748766539517,
+      "logloss": 1.0606052727986655,
+      "roi_pct": -100.0,
+      "net_krw": -24000,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 2
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 61.53846153846154,
+      "brier": 0.5143646209621484,
+      "logloss": 0.7132198931288385,
+      "roi_pct": -14.076923076923077,
+      "net_krw": -21960.0,
+      "daily_close_drawdown_krw": 29520.0,
+      "pick_counts": {
+        "away": 3,
+        "home": 10
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -12.538461538461538,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          -40.74999999999999,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 53.84615384615385,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -22.615384615384617,
+      "net_krw": -35280.0,
+      "daily_close_drawdown_krw": 62520.0,
+      "pick_counts": {
+        "home": 13
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -15.384615384615385,
+      "roi_delta_pp": -21.076923076923077,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -46.15384615384615,
+          14.285714285714286
+        ],
+        "roi_delta_pp": [
+          -74.61538461538461,
+          33.42857142857143
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -8.53846153846154,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -33.333333333333336,
+          16.666666666666668
+        ],
+        "roi_delta_pp": [
+          -53.666666666666664,
+          38.36363636363637
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 38.46153846153846,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -17.076923076923077,
+      "net_krw": -26640.0,
+      "daily_close_drawdown_krw": 60720.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 8
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -30.76923076923077,
+      "roi_delta_pp": -15.538461538461535,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -66.66666666666667,
+          8.333333333333334
+        ],
+        "roi_delta_pp": [
+          -89.35714285714286,
+          61.166666666666664
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -23.076923076923077,
+      "roi_delta_pp": -2.9999999999999996,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -57.142857142857146,
+          15.384615384615385
+        ],
+        "roi_delta_pp": [
+          -71.75,
+          71.0
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 66.66666666666667,
+      "brier": 0.4809943700947785,
+      "logloss": 0.6798591537675758,
+      "roi_pct": -5.5,
+      "net_krw": -11880.0,
+      "daily_close_drawdown_krw": 43680.0,
+      "pick_counts": {
+        "away": 7,
+        "home": 11
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 5.555555555555555,
+      "roi_delta_pp": 7.277777777777778,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -12.5,
+          25.0
+        ],
+        "roi_delta_pp": [
+          -24.352941176470583,
+          40.25
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 61.111111111111114,
+      "brier": 0.49728392651788145,
+      "logloss": 0.694304499046638,
+      "roi_pct": -12.777777777777779,
+      "net_krw": -27600.0,
+      "daily_close_drawdown_krw": 39960.0,
+      "pick_counts": {
+        "away": 6,
+        "home": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -5.555555555555555,
+      "roi_delta_pp": -7.277777777777778,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          12.5
+        ],
+        "roi_delta_pp": [
+          -40.75,
+          24.352941176470583
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": 0.5003786857952063,
+      "logloss": 0.6935260098305303,
+      "roi_pct": 6.166666666666667,
+      "net_krw": 13320.0,
+      "daily_close_drawdown_krw": 36000.0,
+      "pick_counts": {
+        "away": 18
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": 11.66666666666667,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          17.647058823529413
+        ],
+        "roi_delta_pp": [
+          -58.27777777777778,
+          82.3157894736842
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -11.11111111111111,
+      "roi_delta_pp": 18.944444444444443,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -44.44444444444444,
+          27.77777777777778
+        ],
+        "roi_delta_pp": [
+          -52.94117647058823,
+          93.3157894736842
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": 0.5667781592339246,
+      "logloss": 0.7666714970513399,
+      "roi_pct": -11.277777777777779,
+      "net_krw": -24360.0,
+      "daily_close_drawdown_krw": 75240.0,
+      "pick_counts": {
+        "away": 12,
+        "home": 6
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -5.777777777777777,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -41.1764705882353,
+          11.764705882352942
+        ],
+        "roi_delta_pp": [
+          -49.15,
+          52.333333333333336
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -11.11111111111111,
+      "roi_delta_pp": 1.5000000000000013,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -41.1764705882353,
+          25.0
+        ],
+        "roi_delta_pp": [
+          -51.5,
+          65.125
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 4,
+      "n": 4,
+      "graded": 4,
+      "accuracy_pct": 0.0,
+      "brier": 0.9775978516906337,
+      "logloss": 1.2056981476229176,
+      "roi_pct": -100.0,
+      "net_krw": -48000,
+      "daily_close_drawdown_krw": 48000.0,
+      "pick_counts": {
+        "home": 1,
+        "away": 3
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 61.111111111111114,
+      "brier": 0.49473776584446255,
+      "logloss": 0.6908586512815831,
+      "roi_pct": -12.777777777777779,
+      "net_krw": -27600.0,
+      "daily_close_drawdown_krw": 39960.0,
+      "pick_counts": {
+        "away": 6,
+        "home": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -5.555555555555555,
+      "roi_delta_pp": -7.277777777777778,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          12.5
+        ],
+        "roi_delta_pp": [
+          -40.75,
+          24.352941176470583
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -24.666666666666668,
+      "net_krw": -53280.0,
+      "daily_close_drawdown_krw": 62520.0,
+      "pick_counts": {
+        "home": 18
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -19.166666666666668,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -44.44444444444444,
+          11.11111111111111
+        ],
+        "roi_delta_pp": [
+          -66.38888888888889,
+          28.388888888888886
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -11.11111111111111,
+      "roi_delta_pp": -11.888888888888888,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -36.8421052631579,
+          15.789473684210526
+        ],
+        "roi_delta_pp": [
+          -53.21052631578947,
+          33.0
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 38.888888888888886,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -22.72222222222222,
+      "net_krw": -49080.0,
+      "daily_close_drawdown_krw": 60720.0,
+      "pick_counts": {
+        "home": 8,
+        "away": 10
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -27.77777777777778,
+      "roi_delta_pp": -17.222222222222218,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -58.8235294117647,
+          5.882352941176471
+        ],
+        "roi_delta_pp": [
+          -77.7,
+          45.9
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -22.22222222222222,
+      "roi_delta_pp": -9.944444444444443,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          5.882352941176471
+        ],
+        "roi_delta_pp": [
+          -65.0,
+          46.588235294117645
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 19,
+    "train_primary_n": 19,
+    "train_aux_n": 0,
+    "test_n": 5,
+    "test_start": "2026-10-11",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "market",
+    "metrics": {
+      "n": 5,
+      "graded": 5,
+      "accuracy_pct": 20.0,
+      "brier": 0.6671702787015115,
+      "logloss": 0.8667468397025122,
+      "roi_pct": -73.0,
+      "net_krw": -43800.0,
+      "daily_close_drawdown_krw": 43800.0,
+      "pick_counts": {
+        "away": 3,
+        "home": 2
+      }
+    },
+    "delta_vs_market": {
+      "n": 5,
+      "graded": 5,
+      "dates": 4,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 5,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 19,
+    "train_primary_n": 19,
+    "train_aux_n": 0,
+    "test_n": 5,
+    "test_start": "2026-10-11",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 5,
+      "graded": 5,
+      "accuracy_pct": 80.0,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 79.2,
+      "net_krw": 47520.0,
+      "daily_close_drawdown_krw": 7800.0,
+      "pick_counts": {
+        "home": 5
+      }
+    },
+    "delta_vs_market": {
+      "n": 5,
+      "graded": 5,
+      "dates": 4,
+      "accuracy_delta_pp": 60.0,
+      "roi_delta_pp": 152.2,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 13,
+    "train_primary_n": 13,
+    "train_aux_n": 0,
+    "test_n": 7,
+    "test_start": "2026-10-06",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "market",
+    "metrics": {
+      "n": 7,
+      "graded": 7,
+      "accuracy_pct": 28.571428571428573,
+      "brier": 0.6861014832883098,
+      "logloss": 0.8920709272770427,
+      "roi_pct": -58.57142857142857,
+      "net_krw": -49200.0,
+      "daily_close_drawdown_krw": 49200.0,
+      "pick_counts": {
+        "away": 5,
+        "home": 2
+      }
+    },
+    "delta_vs_market": {
+      "n": 7,
+      "graded": 7,
+      "dates": 6,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 7,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "KBL",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 13,
+    "train_primary_n": 13,
+    "train_aux_n": 0,
+    "test_n": 7,
+    "test_start": "2026-10-06",
+    "test_end": "2026-10-25",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 7,
+      "graded": 7,
+      "accuracy_pct": 71.42857142857143,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 76.28571428571429,
+      "net_krw": 64080.0,
+      "daily_close_drawdown_krw": 12000.0,
+      "pick_counts": {
+        "home": 7
+      }
+    },
+    "delta_vs_market": {
+      "n": 7,
+      "graded": 7,
+      "dates": 6,
+      "accuracy_delta_pp": 42.857142857142854,
+      "roi_delta_pp": 134.85714285714286,
+      "ci95": null
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 69.56521739130434,
+      "brier": 0.4035222898214918,
+      "logloss": 0.5827535158828878,
+      "roi_pct": -7.239130434782608,
+      "net_krw": -39960.0,
+      "daily_close_drawdown_krw": 60600.0,
+      "pick_counts": {
+        "home": 34,
+        "away": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 56.52173913043478,
+      "brier": 0.49482786694415504,
+      "logloss": 0.6879714131873191,
+      "roi_pct": -22.97826086956522,
+      "net_krw": -126840.0,
+      "daily_close_drawdown_krw": 144720.0,
+      "pick_counts": {
+        "home": 46
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": -13.043478260869565,
+      "roi_delta_pp": -15.73913043478261,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -27.868852459016395,
+          5.128205128205129
+        ],
+        "roi_delta_pp": [
+          -39.89473684210526,
+          15.375
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 56.52173913043478,
+      "brier": 0.47497648338699605,
+      "logloss": 0.6679425536879334,
+      "roi_pct": -16.804347826086957,
+      "net_krw": -92760.0,
+      "daily_close_drawdown_krw": 123600.0,
+      "pick_counts": {
+        "home": 38,
+        "away": 8
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": -13.043478260869565,
+      "roi_delta_pp": -9.56521739130435,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -26.0,
+          4.545454545454546
+        ],
+        "roi_delta_pp": [
+          -37.02439024390244,
+          24.61111111111111
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 6,
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.6201301833544232,
+      "logloss": 0.8167003696811994,
+      "roi_pct": -3.5,
+      "net_krw": -2520.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 6
+      }
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 1,
+      "settled": 1,
+      "roi_pct": -100.0,
+      "component_single_roi_pct": 108.0,
+      "net_krw": -12000,
+      "details": [
+        {
+          "day": "2026-04-13",
+          "issue": [
+            2026,
+            45
+          ],
+          "placement": "2026-04-13T00:00:00+00:00",
+          "legs": [
+            {
+              "event_id": "12ad004d5b799bc0e5560e78",
+              "product_id": "f3d67cd62c0b8fadf620407e",
+              "side": "away",
+              "p": 0.6812671634247546,
+              "odds": 5.32
+            },
+            {
+              "event_id": "273d0ea287eb838f3943ed41",
+              "product_id": "cfec3d9375ef5cefe0b3bc30",
+              "side": "away",
+              "p": 0.6213725169787195,
+              "odds": 4.16
+            }
+          ],
+          "settlement": {
+            "net_krw": -12000,
+            "component_single_net_krw": 12960.0,
+            "quoted_odds": 22.2,
+            "hit": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 69.56521739130434,
+      "brier": 0.3897030615559121,
+      "logloss": 0.5653027400797682,
+      "roi_pct": -5.739130434782608,
+      "net_krw": -31680.0,
+      "daily_close_drawdown_krw": 48600.0,
+      "pick_counts": {
+        "away": 18,
+        "home": 28
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 1.5,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -11.428571428571429,
+          9.411764705882353
+        ],
+        "roi_delta_pp": [
+          -17.852941176470587,
+          17.967741935483872
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 46,
+      "selected": 3,
+      "n": 3,
+      "graded": 3,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.5325316948955036,
+      "logloss": 0.7212317889025237,
+      "roi_pct": -45.666666666666664,
+      "net_krw": -16440.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 3
+      }
+    },
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 124,
+    "train_primary_n": 124,
+    "train_aux_n": 0,
+    "test_n": 46,
+    "test_start": "2026-04-04",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 46,
+      "graded": 46,
+      "accuracy_pct": 56.52173913043478,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -22.97826086956522,
+      "net_krw": -126840.0,
+      "daily_close_drawdown_krw": 144720.0,
+      "pick_counts": {
+        "home": 46
+      }
+    },
+    "delta_vs_market": {
+      "n": 46,
+      "graded": 46,
+      "dates": 17,
+      "accuracy_delta_pp": -13.043478260869565,
+      "roi_delta_pp": -15.73913043478261,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -27.868852459016395,
+          5.128205128205129
+        ],
+        "roi_delta_pp": [
+          -39.89473684210526,
+          15.375
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 5,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 71.875,
+      "brier": 0.37811650177191897,
+      "logloss": 0.5558941837975105,
+      "roi_pct": -5.28125,
+      "net_krw": -40560.0,
+      "daily_close_drawdown_krw": 60600.0,
+      "pick_counts": {
+        "home": 45,
+        "away": 19
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 60.9375,
+      "brier": 0.4895173842388844,
+      "logloss": 0.6826548126995222,
+      "roi_pct": -14.34375,
+      "net_krw": -110160.0,
+      "daily_close_drawdown_krw": 175440.0,
+      "pick_counts": {
+        "home": 64
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": -10.9375,
+      "roi_delta_pp": -9.0625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.757575757575758,
+          6.756756756756757
+        ],
+        "roi_delta_pp": [
+          -35.61904761904762,
+          23.49206349206349
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 57.8125,
+      "brier": 0.47944187591002585,
+      "logloss": 0.6723388758960186,
+      "roi_pct": -14.4375,
+      "net_krw": -110880.0,
+      "daily_close_drawdown_krw": 149640.0,
+      "pick_counts": {
+        "home": 52,
+        "away": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": -14.0625,
+      "roi_delta_pp": -9.15625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -28.571428571428573,
+          2.9411764705882355
+        ],
+        "roi_delta_pp": [
+          -36.285714285714285,
+          25.513513513513512
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 11,
+      "n": 11,
+      "graded": 11,
+      "accuracy_pct": 27.272727272727273,
+      "brier": 0.6064301757938515,
+      "logloss": 0.8012293248419211,
+      "roi_pct": -28.181818181818183,
+      "net_krw": -37200.0,
+      "daily_close_drawdown_krw": 48000.0,
+      "pick_counts": {
+        "home": 4,
+        "away": 7
+      }
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 1,
+      "settled": 1,
+      "roi_pct": -100.0,
+      "component_single_roi_pct": 108.0,
+      "net_krw": -12000,
+      "details": [
+        {
+          "day": "2026-04-13",
+          "issue": [
+            2026,
+            45
+          ],
+          "placement": "2026-04-13T00:00:00+00:00",
+          "legs": [
+            {
+              "event_id": "12ad004d5b799bc0e5560e78",
+              "product_id": "f3d67cd62c0b8fadf620407e",
+              "side": "away",
+              "p": 0.6275149588440152,
+              "odds": 5.32
+            },
+            {
+              "event_id": "273d0ea287eb838f3943ed41",
+              "product_id": "cfec3d9375ef5cefe0b3bc30",
+              "side": "away",
+              "p": 0.5981461622824622,
+              "odds": 4.16
+            }
+          ],
+          "settlement": {
+            "net_krw": -12000,
+            "component_single_net_krw": 12960.0,
+            "quoted_odds": 22.2,
+            "hit": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 71.875,
+      "brier": 0.377688850467161,
+      "logloss": 0.5534953421928533,
+      "roi_pct": -3.1874999999999996,
+      "net_krw": -24480.0,
+      "daily_close_drawdown_krw": 51480.0,
+      "pick_counts": {
+        "home": 37,
+        "away": 27
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 2.09375,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -10.909090909090908,
+          8.219178082191782
+        ],
+        "roi_delta_pp": [
+          -16.482142857142858,
+          16.25
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 64,
+      "selected": 8,
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 62.5,
+      "brier": 0.4217202267454042,
+      "logloss": 0.6101433200714579,
+      "roi_pct": 2.75,
+      "net_krw": 2640.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 8
+      }
+    },
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 106,
+    "train_primary_n": 106,
+    "train_aux_n": 0,
+    "test_n": 64,
+    "test_start": "2026-03-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 64,
+      "graded": 64,
+      "accuracy_pct": 60.9375,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -14.34375,
+      "net_krw": -110160.0,
+      "daily_close_drawdown_krw": 175440.0,
+      "pick_counts": {
+        "home": 64
+      }
+    },
+    "delta_vs_market": {
+      "n": 64,
+      "graded": 64,
+      "dates": 26,
+      "accuracy_delta_pp": -10.9375,
+      "roi_delta_pp": -9.0625,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.757575757575758,
+          6.756756756756757
+        ],
+        "roi_delta_pp": [
+          -35.61904761904762,
+          23.49206349206349
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 8,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 69.23076923076923,
+      "brier": 0.5093435443917423,
+      "logloss": 0.7130174314870901,
+      "roi_pct": -1.538461538461539,
+      "net_krw": -2400.0,
+      "daily_close_drawdown_krw": 22320.0,
+      "pick_counts": {
+        "away": 4,
+        "home": 9
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 7.6923076923076925,
+      "roi_delta_pp": 12.538461538461538,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          25.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          40.74999999999999
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 61.53846153846154,
+      "brier": 0.5190272563809266,
+      "logloss": 0.7201904802993955,
+      "roi_pct": -14.076923076923077,
+      "net_krw": -21960.0,
+      "daily_close_drawdown_krw": 29520.0,
+      "pick_counts": {
+        "away": 3,
+        "home": 10
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -12.538461538461538,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          -40.74999999999999,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 53.84615384615385,
+      "brier": 0.5,
+      "logloss": 0.6931471805599453,
+      "roi_pct": -22.615384615384617,
+      "net_krw": -35280.0,
+      "daily_close_drawdown_krw": 62520.0,
+      "pick_counts": {
+        "home": 13
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -15.384615384615385,
+      "roi_delta_pp": -21.076923076923077,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -46.15384615384615,
+          14.285714285714286
+        ],
+        "roi_delta_pp": [
+          -74.61538461538461,
+          33.42857142857143
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -8.53846153846154,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -33.333333333333336,
+          16.666666666666668
+        ],
+        "roi_delta_pp": [
+          -53.666666666666664,
+          38.36363636363637
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 46.15384615384615,
+      "brier": 0.5553505136367062,
+      "logloss": 0.7509463144702715,
+      "roi_pct": -15.307692307692308,
+      "net_krw": -23880.0,
+      "daily_close_drawdown_krw": 51240.0,
+      "pick_counts": {
+        "away": 9,
+        "home": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -23.076923076923077,
+      "roi_delta_pp": -13.769230769230766,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          9.090909090909092
+        ],
+        "roi_delta_pp": [
+          -62.42857142857143,
+          59.583333333333336
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -15.384615384615385,
+      "roi_delta_pp": -1.2307692307692302,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -46.666666666666664,
+          25.0
+        ],
+        "roi_delta_pp": [
+          -58.30769230769231,
+          76.63636363636364
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 2,
+      "n": 2,
+      "graded": 2,
+      "accuracy_pct": 0.0,
+      "brier": 0.8539748766539517,
+      "logloss": 1.0606052727986655,
+      "roi_pct": -100.0,
+      "net_krw": -24000,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "away": 2
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 61.53846153846154,
+      "brier": 0.5143646209621484,
+      "logloss": 0.7132198931288385,
+      "roi_pct": -14.076923076923077,
+      "net_krw": -21960.0,
+      "daily_close_drawdown_krw": 29520.0,
+      "pick_counts": {
+        "away": 3,
+        "home": 10
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -12.538461538461538,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          -40.74999999999999,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 13,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 53.84615384615385,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -22.615384615384617,
+      "net_krw": -35280.0,
+      "daily_close_drawdown_krw": 62520.0,
+      "pick_counts": {
+        "home": 13
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -15.384615384615385,
+      "roi_delta_pp": -21.076923076923077,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -46.15384615384615,
+          14.285714285714286
+        ],
+        "roi_delta_pp": [
+          -74.61538461538461,
+          33.42857142857143
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -7.6923076923076925,
+      "roi_delta_pp": -8.53846153846154,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -33.333333333333336,
+          16.666666666666668
+        ],
+        "roi_delta_pp": [
+          -53.666666666666664,
+          38.36363636363637
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 78,
+    "train_primary_n": 43,
+    "train_aux_n": 35,
+    "test_n": 13,
+    "test_start": "2026-04-07",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 13,
+      "graded": 13,
+      "accuracy_pct": 38.46153846153846,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -17.076923076923077,
+      "net_krw": -26640.0,
+      "daily_close_drawdown_krw": 60720.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 8
+      }
+    },
+    "delta_vs_market": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -30.76923076923077,
+      "roi_delta_pp": -15.538461538461535,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -66.66666666666667,
+          8.333333333333334
+        ],
+        "roi_delta_pp": [
+          -89.35714285714286,
+          61.166666666666664
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 13,
+      "graded": 13,
+      "dates": 11,
+      "accuracy_delta_pp": -23.076923076923077,
+      "roi_delta_pp": -2.9999999999999996,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -57.142857142857146,
+          15.384615384615385
+        ],
+        "roi_delta_pp": [
+          -71.75,
+          71.0
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 66.66666666666667,
+      "brier": 0.4809943700947785,
+      "logloss": 0.6798591537675758,
+      "roi_pct": -5.5,
+      "net_krw": -11880.0,
+      "daily_close_drawdown_krw": 43680.0,
+      "pick_counts": {
+        "away": 7,
+        "home": 11
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 5.555555555555555,
+      "roi_delta_pp": 7.277777777777778,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -12.5,
+          25.0
+        ],
+        "roi_delta_pp": [
+          -24.352941176470583,
+          40.25
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 61.111111111111114,
+      "brier": 0.49728392651788145,
+      "logloss": 0.694304499046638,
+      "roi_pct": -12.777777777777779,
+      "net_krw": -27600.0,
+      "daily_close_drawdown_krw": 39960.0,
+      "pick_counts": {
+        "away": 6,
+        "home": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -5.555555555555555,
+      "roi_delta_pp": -7.277777777777778,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          12.5
+        ],
+        "roi_delta_pp": [
+          -40.75,
+          24.352941176470583
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": 0.5003786857952063,
+      "logloss": 0.6935260098305303,
+      "roi_pct": 6.166666666666667,
+      "net_krw": 13320.0,
+      "daily_close_drawdown_krw": 36000.0,
+      "pick_counts": {
+        "away": 18
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": 11.66666666666667,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          17.647058823529413
+        ],
+        "roi_delta_pp": [
+          -58.27777777777778,
+          82.3157894736842
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -11.11111111111111,
+      "roi_delta_pp": 18.944444444444443,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -44.44444444444444,
+          27.77777777777778
+        ],
+        "roi_delta_pp": [
+          -52.94117647058823,
+          93.3157894736842
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": 0.5667781592339246,
+      "logloss": 0.7666714970513399,
+      "roi_pct": -11.277777777777779,
+      "net_krw": -24360.0,
+      "daily_close_drawdown_krw": 75240.0,
+      "pick_counts": {
+        "away": 12,
+        "home": 6
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -5.777777777777777,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -41.1764705882353,
+          11.764705882352942
+        ],
+        "roi_delta_pp": [
+          -49.15,
+          52.333333333333336
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -11.11111111111111,
+      "roi_delta_pp": 1.5000000000000013,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -41.1764705882353,
+          25.0
+        ],
+        "roi_delta_pp": [
+          -51.5,
+          65.125
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 4,
+      "n": 4,
+      "graded": 4,
+      "accuracy_pct": 0.0,
+      "brier": 0.9775978516906337,
+      "logloss": 1.2056981476229176,
+      "roi_pct": -100.0,
+      "net_krw": -48000,
+      "daily_close_drawdown_krw": 48000.0,
+      "pick_counts": {
+        "home": 1,
+        "away": 3
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 61.111111111111114,
+      "brier": 0.49473776584446255,
+      "logloss": 0.6908586512815831,
+      "roi_pct": -12.777777777777779,
+      "net_krw": -27600.0,
+      "daily_close_drawdown_krw": 39960.0,
+      "pick_counts": {
+        "away": 6,
+        "home": 12
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -5.555555555555555,
+      "roi_delta_pp": -7.277777777777778,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -25.0,
+          12.5
+        ],
+        "roi_delta_pp": [
+          -40.75,
+          24.352941176470583
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "eligible_single": {
+      "available": 18,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 50.0,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -24.666666666666668,
+      "net_krw": -53280.0,
+      "daily_close_drawdown_krw": 62520.0,
+      "pick_counts": {
+        "home": 18
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -19.166666666666668,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -44.44444444444444,
+          11.11111111111111
+        ],
+        "roi_delta_pp": [
+          -66.38888888888889,
+          28.388888888888886
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -11.11111111111111,
+      "roi_delta_pp": -11.888888888888888,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -36.8421052631579,
+          15.789473684210526
+        ],
+        "roi_delta_pp": [
+          -53.21052631578947,
+          33.0
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+    "league": "NBA",
+    "feature_set": "basketball_minutes",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 69,
+    "train_primary_n": 39,
+    "train_aux_n": 30,
+    "test_n": 18,
+    "test_start": "2026-03-13",
+    "test_end": "2026-10-27",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 18,
+      "graded": 18,
+      "accuracy_pct": 38.888888888888886,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -22.72222222222222,
+      "net_krw": -49080.0,
+      "daily_close_drawdown_krw": 60720.0,
+      "pick_counts": {
+        "home": 8,
+        "away": 10
+      }
+    },
+    "delta_vs_market": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -27.77777777777778,
+      "roi_delta_pp": -17.222222222222218,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -58.8235294117647,
+          5.882352941176471
+        ],
+        "roi_delta_pp": [
+          -77.7,
+          45.9
+        ]
+      }
+    },
+    "delta_vs_actual91": {
+      "n": 18,
+      "graded": 18,
+      "dates": 16,
+      "accuracy_delta_pp": -22.22222222222222,
+      "roi_delta_pp": -9.944444444444443,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -50.0,
+          5.882352941176471
+        ],
+        "roi_delta_pp": [
+          -65.0,
+          46.588235294117645
+        ]
+      }
+    },
+    "two_leg": {
+      "opportunities": 1,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 438,
+    "train_primary_n": 438,
+    "train_aux_n": 0,
+    "test_n": 157,
+    "test_start": "2025-08-09",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 157,
+      "graded": 157,
+      "accuracy_pct": 43.94904458598726,
+      "brier": 0.6410123990815727,
+      "logloss": 1.0610518668809248,
+      "roi_pct": -15.496815286624203,
+      "net_krw": -291960.0,
+      "daily_close_drawdown_krw": 348840.0,
+      "pick_counts": {
+        "home": 104,
+        "away": 53
+      }
+    },
+    "delta_vs_market": {
+      "n": 157,
+      "graded": 157,
+      "dates": 54,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 157,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 36,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 438,
+    "train_primary_n": 438,
+    "train_aux_n": 0,
+    "test_n": 157,
+    "test_start": "2025-08-09",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 157,
+      "graded": 157,
+      "accuracy_pct": 40.76433121019108,
+      "brier": 0.656834990606601,
+      "logloss": 1.0839584986538455,
+      "roi_pct": -12.796178343949045,
+      "net_krw": -241080.0,
+      "daily_close_drawdown_krw": 451440.0,
+      "pick_counts": {
+        "home": 157
+      }
+    },
+    "delta_vs_market": {
+      "n": 157,
+      "graded": 157,
+      "dates": 54,
+      "accuracy_delta_pp": -3.1847133757961785,
+      "roi_delta_pp": 2.70063694267516,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -12.418300653594772,
+          5.555555555555555
+        ],
+        "roi_delta_pp": [
+          -19.211920529801326,
+          23.87730061349693
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 157,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 36,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 438,
+    "train_primary_n": 438,
+    "train_aux_n": 0,
+    "test_n": 157,
+    "test_start": "2025-08-09",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 157,
+      "graded": 157,
+      "accuracy_pct": 40.76433121019108,
+      "brier": 0.6501255570338559,
+      "logloss": 1.0714001060050815,
+      "roi_pct": -0.9745222929936306,
+      "net_krw": -18360.0,
+      "daily_close_drawdown_krw": 252000.0,
+      "pick_counts": {
+        "draw": 38,
+        "away": 19,
+        "home": 100
+      }
+    },
+    "delta_vs_market": {
+      "n": 157,
+      "graded": 157,
+      "dates": 54,
+      "accuracy_delta_pp": -3.1847133757961785,
+      "roi_delta_pp": 14.522292993630574,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -13.461538461538462,
+          6.802721088435374
+        ],
+        "roi_delta_pp": [
+          -11.165517241379309,
+          40.31547619047619
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 157,
+      "selected": 1,
+      "n": 1,
+      "graded": 1,
+      "accuracy_pct": 0.0,
+      "brier": 0.9566095410700975,
+      "logloss": 1.471476481782042,
+      "roi_pct": -100.0,
+      "net_krw": -12000,
+      "daily_close_drawdown_krw": 12000.0,
+      "pick_counts": {
+        "home": 1
+      }
+    },
+    "two_leg": {
+      "opportunities": 36,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 438,
+    "train_primary_n": 438,
+    "train_aux_n": 0,
+    "test_n": 157,
+    "test_start": "2025-08-09",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 157,
+      "graded": 157,
+      "accuracy_pct": 45.22292993630573,
+      "brier": 0.639804373671735,
+      "logloss": 1.0575422021738805,
+      "roi_pct": -2.0382165605095555,
+      "net_krw": -38400.0,
+      "daily_close_drawdown_krw": 214440.0,
+      "pick_counts": {
+        "home": 83,
+        "away": 40,
+        "draw": 34
+      }
+    },
+    "delta_vs_market": {
+      "n": 157,
+      "graded": 157,
+      "dates": 54,
+      "accuracy_delta_pp": 1.2738853503184713,
+      "roi_delta_pp": 13.458598726114653,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -6.622516556291391,
+          8.51063829787234
+        ],
+        "roi_delta_pp": [
+          -8.071005917159763,
+          33.26543209876543
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 157,
+      "selected": 7,
+      "n": 7,
+      "graded": 7,
+      "accuracy_pct": 28.571428571428573,
+      "brier": 0.8427023059595016,
+      "logloss": 1.346879767822929,
+      "roi_pct": -46.857142857142854,
+      "net_krw": -39360.0,
+      "daily_close_drawdown_krw": 39360.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 2
+      }
+    },
+    "two_leg": {
+      "opportunities": 36,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 438,
+    "train_primary_n": 438,
+    "train_aux_n": 0,
+    "test_n": 157,
+    "test_start": "2025-08-09",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 157,
+      "graded": 157,
+      "accuracy_pct": 40.76433121019108,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -12.796178343949045,
+      "net_krw": -241080.0,
+      "daily_close_drawdown_krw": 451440.0,
+      "pick_counts": {
+        "home": 157
+      }
+    },
+    "delta_vs_market": {
+      "n": 157,
+      "graded": 157,
+      "dates": 54,
+      "accuracy_delta_pp": -3.1847133757961785,
+      "roi_delta_pp": 2.70063694267516,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -12.418300653594772,
+          5.555555555555555
+        ],
+        "roi_delta_pp": [
+          -19.211920529801326,
+          23.87730061349693
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 36,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 372,
+    "train_primary_n": 372,
+    "train_aux_n": 0,
+    "test_n": 224,
+    "test_start": "2025-05-11",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market",
+    "metrics": {
+      "n": 224,
+      "graded": 224,
+      "accuracy_pct": 45.982142857142854,
+      "brier": 0.6337284124468858,
+      "logloss": 1.050020827510908,
+      "roi_pct": -11.767857142857142,
+      "net_krw": -316320.0,
+      "daily_close_drawdown_krw": 387360.0,
+      "pick_counts": {
+        "away": 80,
+        "home": 144
+      }
+    },
+    "delta_vs_market": {
+      "n": 224,
+      "graded": 224,
+      "dates": 81,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": {
+        "accuracy_delta_pp": [
+          0.0,
+          0.0
+        ],
+        "roi_delta_pp": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 224,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 60,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 372,
+    "train_primary_n": 372,
+    "train_aux_n": 0,
+    "test_n": 224,
+    "test_start": "2025-05-11",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 224,
+      "graded": 224,
+      "accuracy_pct": 37.94642857142857,
+      "brier": 0.6620723282914581,
+      "logloss": 1.09144523978189,
+      "roi_pct": -20.058035714285715,
+      "net_krw": -539160.0,
+      "daily_close_drawdown_krw": 598440.0,
+      "pick_counts": {
+        "home": 224
+      }
+    },
+    "delta_vs_market": {
+      "n": 224,
+      "graded": 224,
+      "dates": 81,
+      "accuracy_delta_pp": -8.035714285714286,
+      "roi_delta_pp": -8.290178571428571,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -15.767634854771785,
+          -0.4484304932735426
+        ],
+        "roi_delta_pp": [
+          -26.108870967741936,
+          9.987012987012987
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 224,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 60,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 372,
+    "train_primary_n": 372,
+    "train_aux_n": 0,
+    "test_n": 224,
+    "test_start": "2025-05-11",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "feature_only",
+    "metrics": {
+      "n": 224,
+      "graded": 224,
+      "accuracy_pct": 37.5,
+      "brier": 0.6648725367570367,
+      "logloss": 1.0953045274868691,
+      "roi_pct": -12.058035714285714,
+      "net_krw": -324120.0,
+      "daily_close_drawdown_krw": 368040.0,
+      "pick_counts": {
+        "home": 125,
+        "away": 47,
+        "draw": 52
+      }
+    },
+    "delta_vs_market": {
+      "n": 224,
+      "graded": 224,
+      "dates": 81,
+      "accuracy_delta_pp": -8.482142857142858,
+      "roi_delta_pp": -0.2901785714285712,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -16.666666666666668,
+          -0.8064516129032258
+        ],
+        "roi_delta_pp": [
+          -21.827004219409282,
+          19.30472103004292
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 224,
+      "selected": 4,
+      "n": 4,
+      "graded": 4,
+      "accuracy_pct": 25.0,
+      "brier": 0.794024890206181,
+      "logloss": 1.2551505819498605,
+      "roi_pct": -54.75,
+      "net_krw": -26280.0,
+      "daily_close_drawdown_krw": 26280.0,
+      "pick_counts": {
+        "home": 3,
+        "away": 1
+      }
+    },
+    "two_leg": {
+      "opportunities": 60,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 372,
+    "train_primary_n": 372,
+    "train_aux_n": 0,
+    "test_n": 224,
+    "test_start": "2025-05-11",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "market_feature_residual",
+    "metrics": {
+      "n": 224,
+      "graded": 224,
+      "accuracy_pct": 42.857142857142854,
+      "brier": 0.6463324316433802,
+      "logloss": 1.0680973491651349,
+      "roi_pct": -10.553571428571429,
+      "net_krw": -283680.0,
+      "daily_close_drawdown_krw": 318720.0,
+      "pick_counts": {
+        "away": 67,
+        "home": 110,
+        "draw": 47
+      }
+    },
+    "delta_vs_market": {
+      "n": 224,
+      "graded": 224,
+      "dates": 81,
+      "accuracy_delta_pp": -3.125,
+      "roi_delta_pp": 1.214285714285715,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -8.482142857142858,
+          1.82648401826484
+        ],
+        "roi_delta_pp": [
+          -13.626168224299063,
+          15.695067264573991
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "eligible_single": {
+      "available": 224,
+      "selected": 14,
+      "n": 14,
+      "graded": 14,
+      "accuracy_pct": 50.0,
+      "brier": 0.6279131157936397,
+      "logloss": 1.0478746097853053,
+      "roi_pct": -13.285714285714283,
+      "net_krw": -22320.0,
+      "daily_close_drawdown_krw": 44160.0,
+      "pick_counts": {
+        "away": 7,
+        "home": 7
+      }
+    },
+    "two_leg": {
+      "opportunities": 60,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "historical_market_proxy",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 372,
+    "train_primary_n": 372,
+    "train_aux_n": 0,
+    "test_n": 224,
+    "test_start": "2025-05-11",
+    "test_end": "2026-08-26",
+    "strict_asof_training_certified": false,
+    "status": "evaluated",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 224,
+      "graded": 224,
+      "accuracy_pct": 37.94642857142857,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -20.058035714285715,
+      "net_krw": -539160.0,
+      "daily_close_drawdown_krw": 598440.0,
+      "pick_counts": {
+        "home": 224
+      }
+    },
+    "delta_vs_market": {
+      "n": 224,
+      "graded": 224,
+      "dates": 81,
+      "accuracy_delta_pp": -8.035714285714286,
+      "roi_delta_pp": -8.290178571428571,
+      "ci95": {
+        "accuracy_delta_pp": [
+          -15.767634854771785,
+          -0.4484304932735426
+        ],
+        "roi_delta_pp": [
+          -26.108870967741936,
+          9.987012987012987
+        ]
+      }
+    },
+    "delta_vs_actual91": null,
+    "two_leg": {
+      "opportunities": 60,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "market",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.7005070120102367,
+      "logloss": 1.1355972037191016,
+      "roi_pct": -44.00000000000001,
+      "net_krw": -31680.0,
+      "daily_close_drawdown_krw": 36000.0,
+      "pick_counts": {
+        "home": 3,
+        "away": 3
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -50.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 6,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 50.0,
+      "brier": 0.6938616714111882,
+      "logloss": 1.1248834358946729,
+      "roi_pct": 5.999999999999996,
+      "net_krw": 4320.0,
+      "daily_close_drawdown_krw": 0,
+      "pick_counts": {
+        "home": 3,
+        "away": 2,
+        "draw": 1
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 16.666666666666668,
+      "roi_delta_pp": 50.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 6,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 50.0,
+      "brier": 0.6654084049217127,
+      "logloss": 1.1024275448571121,
+      "roi_pct": 24.333333333333318,
+      "net_krw": 17520.0,
+      "daily_close_drawdown_krw": 0,
+      "pick_counts": {
+        "home": 6
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 16.666666666666668,
+      "roi_delta_pp": 68.33333333333333,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 18.33333333333333,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 6,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "feature_only",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 16.666666666666668,
+      "brier": 0.7901845208607723,
+      "logloss": 1.2857706357071996,
+      "roi_pct": -68.16666666666667,
+      "net_krw": -49080.0,
+      "daily_close_drawdown_krw": 49080.0,
+      "pick_counts": {
+        "home": 2,
+        "away": 4
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -24.166666666666668,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": -33.333333333333336,
+      "roi_delta_pp": -74.16666666666667,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 6,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 33.333333333333336,
+      "brier": 0.6937672267458348,
+      "logloss": 1.135544392429286,
+      "roi_pct": -44.00000000000001,
+      "net_krw": -31680.0,
+      "daily_close_drawdown_krw": 36000.0,
+      "pick_counts": {
+        "home": 3,
+        "away": 3
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": -16.666666666666668,
+      "roi_delta_pp": -50.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 6,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 50.0,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 24.333333333333318,
+      "net_krw": 17520.0,
+      "daily_close_drawdown_krw": 0,
+      "pick_counts": {
+        "home": 6
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 16.666666666666668,
+      "roi_delta_pp": 68.33333333333333,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 18.33333333333333,
+      "ci95": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "60-20-20",
+    "train_n": 730,
+    "train_primary_n": 7,
+    "train_aux_n": 723,
+    "test_n": 6,
+    "test_start": "2026-08-02",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 6,
+      "graded": 6,
+      "accuracy_pct": 50.0,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": 5.999999999999996,
+      "net_krw": 4320.0,
+      "daily_close_drawdown_krw": 0,
+      "pick_counts": {
+        "home": 3,
+        "away": 2,
+        "draw": 1
+      }
+    },
+    "delta_vs_market": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 16.666666666666668,
+      "roi_delta_pp": 50.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 6,
+      "graded": 6,
+      "dates": 2,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "two_leg": {
+      "opportunities": 2,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "market",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 25.0,
+      "brier": 0.7094275283546294,
+      "logloss": 1.1529216439354302,
+      "roi_pct": -58.0,
+      "net_krw": -55680.0,
+      "daily_close_drawdown_krw": 55680.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 3
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": -12.5,
+      "roi_delta_pp": -37.5,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 8,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "actual_market90_tipster10",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 37.5,
+      "brier": 0.7226010332124971,
+      "logloss": 1.1712264469815652,
+      "roi_pct": -20.500000000000004,
+      "net_krw": -19680.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 2,
+        "draw": 1
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 12.5,
+      "roi_delta_pp": 37.5,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 8,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "intercept_control",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 37.5,
+      "brier": 0.6838185877761161,
+      "logloss": 1.127671453960499,
+      "roi_pct": -6.750000000000007,
+      "net_krw": -6480.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "home": 8
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 12.5,
+      "roi_delta_pp": 51.24999999999999,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 13.749999999999996,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 8,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "feature_only",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 50.0,
+      "brier": 0.6519715709891342,
+      "logloss": 1.0795280720202023,
+      "roi_pct": 31.375,
+      "net_krw": 30120.0,
+      "daily_close_drawdown_krw": 36000.0,
+      "pick_counts": {
+        "draw": 3,
+        "away": 4,
+        "home": 1
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 25.0,
+      "roi_delta_pp": 89.375,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 12.5,
+      "roi_delta_pp": 51.87500000000001,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 8,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "actual91_anchor90_feature10",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 37.5,
+      "brier": 0.7089950865352328,
+      "logloss": 1.1546742003690778,
+      "roi_pct": -20.500000000000004,
+      "net_krw": -19680.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 2,
+        "draw": 1
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 12.5,
+      "roi_delta_pp": 37.5,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "eligible_single": {
+      "available": 8,
+      "selected": 0,
+      "n": 0,
+      "roi_pct": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "home_always_direction_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 37.5,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -6.750000000000007,
+      "net_krw": -6480.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "home": 8
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 12.5,
+      "roi_delta_pp": 51.24999999999999,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 13.749999999999996,
+      "ci95": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  },
+  {
+    "cohort": "retrospective_year_strict__claimed_time_only",
+    "league": "K리그1",
+    "feature_set": "soccer_prior",
+    "evidence_view": "retrospective_date_lagged",
+    "split": "50-20-30",
+    "train_n": 728,
+    "train_primary_n": 5,
+    "train_aux_n": 723,
+    "test_n": 8,
+    "test_start": "2026-08-01",
+    "test_end": "2026-09-20",
+    "strict_asof_training_certified": false,
+    "status": "insufficient_heldout_events_descriptive_only",
+    "model": "operating_unique_vote_market_reference",
+    "probability_semantics": "direction-only reference; no calibrated probability vector",
+    "metrics": {
+      "n": 8,
+      "graded": 8,
+      "accuracy_pct": 37.5,
+      "brier": null,
+      "logloss": null,
+      "roi_pct": -20.500000000000004,
+      "net_krw": -19680.0,
+      "daily_close_drawdown_krw": 24000.0,
+      "pick_counts": {
+        "home": 5,
+        "away": 2,
+        "draw": 1
+      }
+    },
+    "delta_vs_market": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 12.5,
+      "roi_delta_pp": 37.5,
+      "ci95": null
+    },
+    "delta_vs_actual91": {
+      "n": 8,
+      "graded": 8,
+      "dates": 3,
+      "accuracy_delta_pp": 0.0,
+      "roi_delta_pp": 0.0,
+      "ci95": null
+    },
+    "two_leg": {
+      "opportunities": 3,
+      "tickets": 0,
+      "settled": 0,
+      "roi_pct": null,
+      "component_single_roi_pct": null,
+      "net_krw": 0,
+      "details": []
+    }
+  }
+]
