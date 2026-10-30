@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:accuracy-structure:v1",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "v1"
+    },
+    "games": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "league": {
+            "type": "string",
+            "minLength": 1
+          },
+          "home_team_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "away_team_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kickoff_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "doubleheader_game_number": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "status": {
+            "enum": [
+              "scheduled",
+              "postponed",
+              "cancelled"
+            ]
+          }
+        },
+        "required": [
+          "canonical_game_id",
+          "league",
+          "home_team_id",
+          "away_team_id",
+          "kickoff_at",
+          "doubleheader_game_number",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "type": "string",
+            "minLength": 1
+          },
+          "official_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "canonical_game_id",
+          "authority",
+          "official_id"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identity": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "market": {
+                "type": "string",
+                "minLength": 1
+              },
+              "period": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "product_id",
+              "market",
+              "period",
+              "line"
+            ],
+            "additionalProperties": false
+          },
+          "reissue_of": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "outcomes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 2
+          }
+        },
+        "required": [
+          "canonical_game_id",
+          "identity",
+          "reissue_of",
+          "outcomes"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "observation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "object",
+            "properties": {
+              "source_url": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "published_at_claim": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "first_received_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "revision_received_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "availability_tier": {
+                "enum": [
+                  "observed",
+                  "retrospective",
+                  "unknown"
+                ]
+              },
+              "external_receipt_verified": {
+                "const": false
+              }
+            },
+            "required": [
+              "source_url",
+              "source_sha256",
+              "published_at_claim",
+              "first_received_at",
+              "revision_received_at",
+              "availability_tier",
+              "external_receipt_verified"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "observation_id",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "quotes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "revision_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identity": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "market": {
+                "type": "string",
+                "minLength": 1
+              },
+              "period": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "product_id",
+              "market",
+              "period",
+              "line"
+            ],
+            "additionalProperties": false
+          },
+          "observation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quote_observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "odds": {
+            "type": "object",
+            "minProperties": 2,
+            "additionalProperties": {
+              "type": "number",
+              "exclusiveMinimum": 1
+            }
+          }
+        },
+        "required": [
+          "revision_id",
+          "canonical_game_id",
+          "identity",
+          "observation_id",
+          "quote_observed_at",
+          "odds"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "lineups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "revision_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "team_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "player_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "order": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "announcement_status": {
+                  "enum": [
+                    "confirmed",
+                    "probable"
+                  ]
+                },
+                "expected_minutes_or_innings": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "player_id",
+                "role",
+                "order",
+                "announcement_status",
+                "expected_minutes_or_innings"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "revision_id",
+          "canonical_game_id",
+          "team_id",
+          "observation_id",
+          "players"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "freezes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identity": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "market": {
+                "type": "string",
+                "minLength": 1
+              },
+              "period": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "product_id",
+              "market",
+              "period",
+              "line"
+            ],
+            "additionalProperties": false
+          },
+          "decision_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "model_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quote_revision_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lineup_revision_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "probabilities": {
+            "type": "object",
+            "minProperties": 2,
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "selection": {
+            "type": "string",
+            "minLength": 1
+          },
+          "freeze_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "canonical_game_id",
+          "identity",
+          "decision_at",
+          "model_id",
+          "model_version",
+          "quote_revision_id",
+          "lineup_revision_ids",
+          "probabilities",
+          "selection",
+          "freeze_hash"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "settlements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "canonical_game_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identity": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "market": {
+                "type": "string",
+                "minLength": 1
+              },
+              "period": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "product_id",
+              "market",
+              "period",
+              "line"
+            ],
+            "additionalProperties": false
+          },
+          "freeze_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "final_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "observation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "final",
+              "void"
+            ]
+          },
+          "score": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "home": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "away": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "home",
+              "away"
+            ],
+            "additionalProperties": false
+          },
+          "settlement_scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "canonical_game_id",
+          "identity",
+          "freeze_hash",
+          "final_at",
+          "observation_id",
+          "status",
+          "score",
+          "settlement_scope"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "games",
+    "aliases",
+    "products",
+    "observations",
+    "quotes",
+    "lineups",
+    "freezes",
+    "settlements"
+  ],
+  "additionalProperties": false
+}

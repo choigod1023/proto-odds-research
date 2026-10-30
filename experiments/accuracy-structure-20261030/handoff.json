@@ -1,11 +1,11 @@
 {
   "role": "structure",
-  "status": "v1.2 locally validated; GitHub CI pending",
+  "status": "v1.2 implementation CI passed; final handoff-only commit CI must be checked",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-accuracy-structure-20261030",
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
   "protocol_sha": null,
-  "commit": "b2da27a",
+  "commit": "26f5e1ea4d9f7a942035e3bb99e16a9511eab3bc",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/438",
   "changed_paths": [
     "experiments/accuracy-structure-20261030/",
@@ -23,7 +23,7 @@
   "tests": {
     "python -m pytest -q tests/test_accuracy_structure.py": "33 passed",
     "python -m pytest -q": "1910 passed, 6 skipped, 93 subtests passed",
-    "GitHub CI": "pending for v1.2"
+    "GitHub CI": "implementation commit 26f5e1e: test passed https://github.com/choigod1023/proto-odds-research/actions/runs/41037621028; handoff-only commit reruns CI"
   },
   "metrics": {
     "external_receipt_authenticated": 0,
