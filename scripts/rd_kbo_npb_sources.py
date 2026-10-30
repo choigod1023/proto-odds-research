@@ -156,6 +156,44 @@ class Phase2Fetch(Fetch):
         return inherited+super().source_records()
 
 
+class Phase3Fetch(Phase2Fetch):
+    """Final KBO-only batch; independent <=60 attempts, previous caches immutable."""
+    def __init__(self,out=None,cache_roots=None):
+        super().__init__(out or OUT/'phase3')
+        self.limit=60
+        self.host_limit=60
+        self.cache_roots=cache_roots if cache_roots is not None else [('phase2',OUT/'phase2'),('phase1',OUT)]
+        self.used_sources={}
+
+    def get(self,url,data=None):
+        if url!='https://www.koreabaseball.com/Game/SummaryView.aspx' or not isinstance(data,dict) or set(data)!={'gamedate','leagueId','seriesId'}:
+            raise ValueError('phase3_KBO_Summary_only')
+        if data['leagueId']!='1' or data['seriesId']!='0' or not re.fullmatch(r'\d{8}',data['gamedate']):
+            raise ValueError('phase3_invalid_regular_season_parameters')
+        key=hashlib.sha256((url+json.dumps(data,sort_keys=True)).encode()).hexdigest()
+        for origin,root in self.cache_roots:
+            root=Path(root)
+            path=root/'raw'/(key+'.meta.json')
+            if not path.exists():
+                continue
+            meta=json.loads(path.read_text(encoding='utf8'))
+            raw=gzip.decompress((root/meta['raw_path']).read_bytes())
+            if hashlib.sha256(raw).hexdigest()!=meta['sha256']:
+                raise ValueError('previous_phase_cache_hash_mismatch')
+            # These roots are sibling phase2/phase3 directories, or phase1's parent.
+            relative_prefix='../phase2/' if origin=='phase2' else '../'
+            meta.update(raw_path=relative_prefix+meta['raw_path'],cache_origin=origin+'_read_only')
+            self.used_sources[key]=meta
+            return raw.decode(meta['encoding'],errors='replace'),meta
+        html,meta=Fetch.get(self,url,data)
+        meta=dict(meta,cache_origin='phase3')
+        self.used_sources[key]=meta
+        return html,meta
+
+    def source_records(self):
+        return [self.used_sources[key] for key in sorted(self.used_sources)]
+
+
 def freeze(out=OUT):
     out.mkdir(parents=True, exist_ok=True)
     target_path = out / 'selected-targets.jsonl.gz'
@@ -534,10 +572,10 @@ def collect(selected, out=OUT, fetch_override=None, collected_override=None):
     aux_protocol = out/'auxiliary-protocol.json'
     if not aux_protocol.exists():
         dump(aux_protocol,dict(frozen_at=stamp(), source_archive=str(ARCHIVE),
-            selection='historical_market_proxy KBO/NPB rows on already fetched official dates; exact local date, home, away, unique fixture and <=30m actual start difference',
+            selection='No auxiliary expansion in final later-period primary batch; intentionally empty' if isinstance(fetch,Phase3Fetch) else 'historical_market_proxy KBO/NPB rows on already fetched official dates; exact local date, home, away, unique fixture and <=30m actual start difference',
             extra_http_requests=0, label_fields_accessed=False, model_fitted=False, roi_inspected=False,
             parent_requirement='Parent canonicalizes fullgame cases and excludes auxiliary dates shared with primary before evaluation.'))
-    if ARCHIVE.exists():
+    if ARCHIVE.exists() and not isinstance(fetch,Phase3Fetch):
         with gzip.open(ARCHIVE,'rt',encoding='utf8') as f:
             for line in f:
                 r=json.loads(line)
@@ -564,7 +602,8 @@ def collect(selected, out=OUT, fetch_override=None, collected_override=None):
             errors.append(dict(league='KBO',url=meta['url'],request_data=meta.get('data'),reason=meta['semantic_error'],source_sha256=meta['sha256']))
     rows_write(out/'negative-probes.jsonl.gz', errors)
     dump(out/'source-manifest.json',dict(sources=manifest,total_http_attempts=len(fetch.attempts),
-        archive_input_path=str(ARCHIVE),archive_sha256=hashlib.sha256(ARCHIVE.read_bytes()).hexdigest() if ARCHIVE.exists() else None))
+        archive_input_path=str(ARCHIVE) if not isinstance(fetch,Phase3Fetch) else None,
+        archive_sha256=hashlib.sha256(ARCHIVE.read_bytes()).hexdigest() if ARCHIVE.exists() and not isinstance(fetch,Phase3Fetch) else None))
     joined={r['event_id']:r for r in matches if not r['auxiliary']}
     by_event={r['event_id']:r for r in primary}
     coverage=[]
@@ -573,8 +612,10 @@ def collect(selected, out=OUT, fetch_override=None, collected_override=None):
             r=json.loads(line)
             if r['league'] not in ('KBO','NPB') or r['cohort']!='retrospective_year_strict__claimed_time_only':
                 continue
+            if isinstance(fetch,Phase3Fetch) and r['league']!='KBO':
+                continue
             event=r['event_id'];matched=joined.get(event,{}).get('matched',False)
-            outside='outside_frozen_first30_target_dates' if isinstance(fetch,Phase2Fetch) else 'outside_frozen_first6_target_dates'
+            outside='outside_frozen_first10_KBO_later_dates' if isinstance(fetch,Phase3Fetch) else 'outside_frozen_first30_target_dates' if isinstance(fetch,Phase2Fetch) else 'outside_frozen_first6_target_dates'
             reason=outside if event not in joined else joined[event]['reason'] if not matched else 'no_verified_prior_history' if event not in by_event else 'features_available'
             coverage.append(dict(cohort=r['cohort'],event_id=event,league=r['league'],selected=event in joined,matched=matched,feature_row=event in by_event,reason=reason))
     rows_write(out/'primary-coverage.jsonl.gz',coverage)
@@ -599,7 +640,10 @@ def collect(selected, out=OUT, fetch_override=None, collected_override=None):
             'KBO_player_identity':'team-scoped display names only; repeat-appearance counts can collide for homonyms',
             'all_target_lineups':'diagnostic_only_unproven_pregame_publication',
             'workload':'observed subset, not complete window; empty/missing source dates not zero-filled'},roi_inspected=False,model_fitted=False)
-    if isinstance(fetch,Phase2Fetch):
+    if isinstance(fetch,Phase3Fetch):
+        summary.update(original_phase1_http_attempts=95,original_phase2_http_attempts=200,
+            additional_phase3_http_attempts=len(fetch.attempts),combined_http_attempts=295+len(fetch.attempts),NPB_new_requests=0)
+    elif isinstance(fetch,Phase2Fetch):
         summary.update(original_phase1_http_attempts=95,additional_phase2_http_attempts=len(fetch.attempts),combined_http_attempts=95+len(fetch.attempts),
             identity_only_primary_targets=sum(g.get('identity_only',False) for g in parsed),
             new_attempts_by_host=dict(Counter(urlparse(a['url']).hostname for a in fetch.attempts)))
@@ -611,6 +655,13 @@ def phase1_unchanged(out):
     baseline=json.loads((out/'phase1-baseline-hashes.json').read_text(encoding='utf8'))
     for name,digest in baseline.items():
         assert hashlib.sha256((OUT/name).read_bytes()).hexdigest()==digest,('phase1_artifact_changed',name)
+    return len(baseline)
+
+
+def previous_phases_unchanged(out):
+    baseline=json.loads((out/'previous-phases-baseline-hashes.json').read_text(encoding='utf8'))
+    for name,digest in baseline.items():
+        assert hashlib.sha256((OUT/name).read_bytes()).hexdigest()==digest,('previous_phase_artifact_changed',name)
     return len(baseline)
 
 
@@ -753,6 +804,55 @@ def collect_phase2(out=None):
     structural_support(out)
 
 
+def collect_phase3(out=None):
+    out=Path(out or OUT/'phase3')
+    unchanged=previous_phases_unchanged(out)
+    protocol=json.loads((out/'protocol.json').read_text(encoding='utf8'))
+    relative=(out/'protocol.json').relative_to(ROOT).as_posix()
+    committed=subprocess.check_output(['git','log','-1','--format=%H','--',relative],cwd=ROOT,text=True).strip()
+    assert committed,'phase3_protocol_not_committed'
+    assert json.loads(subprocess.check_output(['git','show',committed+':'+relative],cwd=ROOT))==protocol
+    assert protocol['max_additional_http_attempts']==60 and protocol['NPB_requests_allowed'] is False
+    selected=list(map(json.loads,gzip.open(out/'selected-targets.jsonl.gz','rt',encoding='utf8')))
+    days={dt(r['kickoff']).astimezone(JST).date() for r in selected}
+    assert len(days)==10 and min(d.isoformat() for d in days)>protocol['strictly_after_phase2_date']
+    for row in selected:
+        assert row['league']=='KBO'
+        for side in ('home','away'):
+            team_code('KBO',row[side])
+    source_days=days|{d-timedelta(days=x) for d in days for x in (4,3,2)}
+    fetch=Phase3Fetch(out)
+    parsed,schedules,errors=[],[],[]
+    url=protocol['source']
+    for day in sorted(source_days):
+        try:
+            html,meta=fetch.get(url,dict(gamedate=day.strftime('%Y%m%d'),leagueId='1',seriesId='0'))
+            if meta['error']:
+                raise ValueError(meta['error'])
+            games=parse_kbo(html,day)
+            schedules.append(dict(league='KBO',date=day.isoformat(),url=url,request_data=meta['data'],
+                source_sha256=meta['sha256'],cache_origin=meta['cache_origin'],raw_games=len(games),selected_games=len(games),
+                game_ids=[g['game_id'] for g in games],empty_reason=None if games else 'no_completed_regular_game_rows_in_summary'))
+            for game in games:
+                game.update(source_url=url,source_sha256=meta['sha256'],observed_at=meta['observed_at'])
+            parsed.extend(games)
+        except (ValueError,RuntimeError) as exc:
+            errors.append(dict(league='KBO',date=day.isoformat(),url=url,reason=str(exc)))
+        dump(out/'source-cardinality.json',schedules)
+    collect(selected,out,fetch_override=fetch,collected_override=(parsed,schedules,errors))
+    attempts=fetch.attempts
+    gaps=[(dt(b['started_at'])-dt(a['started_at'])).total_seconds() for a,b in zip(attempts,attempts[1:])]
+    assert len(attempts)<=60 and (not gaps or min(gaps)>=.499)
+    assert all(a['url']==url and a['data']['seriesId']=='0' for a in attempts)
+    assert not attempts or dt(protocol['frozen_at'])<dt(attempts[0]['started_at'])
+    dump(out/'request-accounting.json',dict(original_phase1_attempts=95,original_phase2_attempts=200,
+        additional_phase3_attempts=len(attempts),additional_cap=60,combined_attempts=295+len(attempts),NPB_new_requests=0,
+        minimum_additional_start_spacing_seconds=min(gaps) if gaps else None,
+        phase3_source_days=len(source_days),used_source_responses=len(fetch.used_sources),
+        used_cached_responses_by_origin=dict(Counter(m['cache_origin'] for m in fetch.source_records() if m['cache_origin']!='phase3')),
+        previous_phase_artifacts_unchanged=previous_phases_unchanged(out),protocol_frozen_before_new_fetch=True))
+
+
 def verify(out=OUT):
     """Offline replay and field-clock verification only; no fitting or evaluation."""
     from rd_asof_evidence import feature_gate
@@ -763,7 +863,7 @@ def verify(out=OUT):
         assert hashlib.sha256(raw).hexdigest()==meta['sha256']
         assert dt(meta['started_at'])<=dt(meta['observed_at'])
     count=len((out/'http-attempts.jsonl').read_text(encoding='utf8').splitlines())
-    assert count==manifest['total_http_attempts'] and count<=(200 if out.name=='phase2' else 160)
+    assert count==manifest['total_http_attempts'] and count<=(60 if out.name=='phase3' else 200 if out.name=='phase2' else 160)
     excluded={'validation.json','artifact-hashes.json','changed-paths.txt'}
     def fingerprint():
         return {p.relative_to(out).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
@@ -774,7 +874,9 @@ def verify(out=OUT):
         raise AssertionError('offline_replay_attempted_network')
     requests.Session.request=blocked
     try:
-        if out.name=='phase2':
+        if out.name=='phase3':
+            collect_phase3(out)
+        elif out.name=='phase2':
             collect_phase2(out)
         else:
             collect(freeze(out),out)
@@ -802,6 +904,12 @@ def verify(out=OUT):
             ok,reason=feature_gate(value,e,row['decision_at'],view='retrospective_date_lagged')
             assert ok,(row['event_id'],name,reason)
             gates[reason]+=1
+    if out.name=='phase3':
+        specification=json.loads((OUT/'phase2/source-adapter-spec.json').read_text(encoding='utf8'))
+        expected={side+'_'+name for side in ('home','away') for name in specification['KBO_features']}
+        cutoff=json.loads((out/'protocol.json').read_text(encoding='utf8'))['strictly_after_phase2_date']
+        assert all(r['league']=='KBO' and set(r['features'])==expected and dt(r['kickoff']).astimezone(JST).date().isoformat()>cutoff for r in rows)
+        assert previous_phases_unchanged(out)==637
     regression=subprocess.run([sys.executable,'-m','pytest','tests/test_rd_kbo_npb_sources.py','tests/test_npb_lineups.py',
         '-q','--disable-warnings'],cwd=ROOT,capture_output=True,text=True,timeout=60)
     assert regression.returncode==0,regression.stdout[-2000:]+regression.stderr[-1000:]
@@ -810,6 +918,9 @@ def verify(out=OUT):
         feature_fields=sum(gates.values()),field_gate_reasons=dict(gates),
         regression_command='python -m pytest tests/test_rd_kbo_npb_sources.py tests/test_npb_lineups.py -q --disable-warnings',
         observed_regression_result=regression.stdout.strip().splitlines()[-1],roi_inspected=False,models_fitted=False)
+    if out.name=='phase3':
+        result.update(previous_phase_artifacts_unchanged=637,NPB_new_requests=0,exact_phase2_KBO_feature_names=True,
+            primary_later_period_rows=len(rows),models_or_coefficients_read=False)
     dump(out/'validation.json',result)
     tracked=['scripts/rd_kbo_npb_sources.py','tests/test_rd_kbo_npb_sources.py','docs/research/2026-10-30-source-link-baseball.md']
     paths=tracked+[p.relative_to(ROOT).as_posix() for p in out.rglob('*') if p.is_file() and p.name!='changed-paths.txt']
@@ -825,13 +936,19 @@ def verify(out=OUT):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['freeze', 'probe', 'collect','verify','collect-phase2','verify-phase2'])
+    parser.add_argument('command', choices=['freeze', 'probe', 'collect','verify','collect-phase2','verify-phase2','collect-phase3','verify-phase3'])
     args = parser.parse_args()
     if args.command=='collect-phase2':
         collect_phase2()
         return
     if args.command=='verify-phase2':
         verify(OUT/'phase2')
+        return
+    if args.command=='collect-phase3':
+        collect_phase3()
+        return
+    if args.command=='verify-phase3':
+        verify(OUT/'phase3')
         return
     selected = freeze()
     if args.command == 'freeze':

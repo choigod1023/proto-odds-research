@@ -8,8 +8,8 @@ import json
 import pytest
 from bs4 import BeautifulSoup
 
-from scripts.rd_kbo_npb_sources import (OUT, Fetch, Phase2Fetch, aggregate, dt, npb_links,
-    parse_kbo, parse_npb, target_match, team_code, phase1_unchanged, structural_support, rows_write)
+from scripts.rd_kbo_npb_sources import (OUT, Fetch, Phase2Fetch, Phase3Fetch, aggregate, dt, npb_links,
+    parse_kbo, parse_npb, target_match, team_code, phase1_unchanged, previous_phases_unchanged, structural_support, rows_write)
 
 
 def cached(fragment, data_date=None):
@@ -266,3 +266,50 @@ def test_structural_support_counts_independent_fixtures_and_48h_without_labels(t
     assert [r['primary_train_candidate_fixtures_after48h'] for r in kbo]==[32,26]
     assert [r['test_candidate_fixtures'] for r in kbo]==[12,18]
     assert all(r['auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates']==1 for r in kbo)
+
+
+def test_phase3_forbids_npb_and_nonregular_or_other_endpoints_before_io(tmp_path):
+    fetch=Phase3Fetch(tmp_path,cache_roots=[])
+    assert fetch.limit==60 and fetch.spacing==.5
+    for url,data in [
+        ('https://npb.jp/bis/2026/games/gm20260601.html',None),
+        ('https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList',{}),
+        ('https://www.koreabaseball.com/Game/SummaryView.aspx',dict(gamedate='20260601',leagueId='1',seriesId='9'))]:
+        with pytest.raises(ValueError):fetch.get(url,data)
+    assert not fetch.attempts and not fetch.ledger.exists()
+
+
+def test_phase3_both_previous_caches_readonly_and_own_failure_budget(tmp_path):
+    import requests
+    class Broken:
+        def request(self,*args,**kwargs):raise requests.Timeout('not displayed')
+    url='https://www.koreabaseball.com/Game/SummaryView.aspx'
+    data=lambda d:dict(gamedate=d,leagueId='1',seriesId='0')
+    for root,day in ((tmp_path,'20260525'),(tmp_path/'phase2','20260526')):
+        old=Fetch(root,1);old.session=Broken();old.get(url,data(day))
+    before={p:p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}
+    fetch=Phase3Fetch(tmp_path/'phase3',cache_roots=[('phase2',tmp_path/'phase2'),('phase1',tmp_path)])
+    fetch.session=Broken()
+    assert fetch.get(url,data('20260525'))[1]['cache_origin']=='phase1_read_only'
+    assert fetch.get(url,data('20260526'))[1]['cache_origin']=='phase2_read_only'
+    assert not fetch.attempts
+    fetch.limit=1
+    fetch.get(url,data('20260527'))
+    assert len(fetch.attempts)==1
+    with pytest.raises(RuntimeError,match='budget_exhausted'):fetch.get(url,data('20260528'))
+    assert fetch.get(url,data('20260526'))[1]['cache_origin']=='phase2_read_only'
+    assert all(p.read_bytes()==raw for p,raw in before.items())
+    assert len(fetch.source_records())==3
+
+
+def test_phase3_frozen_later_dates_no_overlap_and_previous_artifacts_unchanged():
+    p=OUT/'phase3'
+    protocol=json.loads((p/'protocol.json').read_text(encoding='utf8'))
+    phase2=json.loads((OUT/'phase2/protocol.json').read_text(encoding='utf8'))
+    assert protocol['strictly_after_phase2_date']==max(phase2['dates']['KBO'])=='2026-05-24'
+    assert len(protocol['dates'])==10 and min(protocol['dates'])>'2026-05-24'
+    rows=list(map(json.loads,gzip.open(p/'selected-targets.jsonl.gz','rt',encoding='utf8')))
+    assert len(rows)==40 and all(r['league']=='KBO' for r in rows)
+    assert {dt(r['kickoff']).astimezone(dt(r['kickoff']).tzinfo).date().isoformat() for r in rows}==set(protocol['dates'])
+    assert not any(set(r)&{'outcome','odds','choices'} for r in rows)
+    assert previous_phases_unchanged(p)==637
