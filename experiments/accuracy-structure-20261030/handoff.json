@@ -1,12 +1,12 @@
 {
   "role": "structure",
-  "status": "validated; draft PR creation pending",
+  "status": "complete; draft PR open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-accuracy-structure-20261030",
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
   "protocol_sha": null,
-  "commit": null,
-  "pr_url": null,
+  "commit": "62988c2",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/438",
   "changed_paths": [
     "experiments/accuracy-structure-20261030/",
     "tests/test_accuracy_structure.py",
@@ -31,7 +31,7 @@
     "synthetic fixtures only; no raw-byte hash, official source, or external receipt verification",
     "previous trusted snapshot required for append validation",
     "no database migration or live integration",
-    "commit field cannot contain the SHA of its own commit; use git rev-parse HEAD"
+    "commit field identifies implementation commit; final handoff-only commit is available via PR head"
   ],
   "blockers": [],
   "next_dependency": "Coordinator decides v1 adoption; trusted external receipt and official source integration require separate design."
