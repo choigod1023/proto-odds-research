@@ -1,9 +1,10 @@
 {
-  "full_pytest": "1866 passed, 6 skipped, 93 subtests passed",
-  "focused_tests": 21,
+  "full_pytest": "1867 passed, 6 skipped, 93 subtests passed",
+  "focused_tests": 22,
   "replay_exact_byte_match": {
     "named-kbl-exception-predictions.jsonl.gz": true,
     "predictions.jsonl.gz": true,
+    "quote-only-predictions.jsonl.gz": true,
     "results.json": true,
     "strict-diagnostic-predictions.jsonl.gz": true
   },
@@ -19,5 +20,8 @@
     "special KBL scope addendum after primary results, no adoption",
     "new-period validation unavailable",
     "actual9:1 policy support0"
-  ]
+  ],
+  "quote_predictions_independent_of_invalid_threeway_labels": true,
+  "protocol_hash_in_manifest": true,
+  "hash_paths_repo_relative": true
 }

@@ -122,3 +122,24 @@ def test_nonexclusive_labels_rejected():
     f["choices"][1]["hit"] = True
     rows, _, audit, _ = m.make_records([f])
     assert not rows and audit["nonexclusive_result_rejected"] == 1
+
+
+def test_three_way_and_invalid_labels_never_change_quote_only_predictions():
+    f = frame("2026-01-01")
+    for c in f["choices"]:
+        c["n_way"] = 3
+        c["market"] = "승무패"
+    third = dict(f["choices"][0], side_index_0based=2, odds=3.3, hit=False)
+    f["choices"].append(third)
+    expected, _ = m.build_predictions([f])
+    changed = copy.deepcopy(f)
+    for c in changed["choices"]:
+        c["hit"] = not c["hit"]  # Invalid two-winner settlement, still same prediction.
+    assert m.build_predictions([changed])[0] == expected
+    assert m.make_records([changed])[0] == []
+    changed["choices"][0]["hit"] = None
+    assert m.build_predictions([changed])[0] == expected
+    assert m.make_records([changed])[0] == []
+    for i, c in enumerate(changed["choices"]):
+        c["hit"] = i == 2  # Valid alternative outcome.
+    assert m.build_predictions([changed])[0] == expected

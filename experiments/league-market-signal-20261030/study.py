@@ -116,13 +116,34 @@ def cents(c):
     return round(c["odds"] * 100) - 100 if c["hit"] else -100
 
 
-def make_records(frames, families=None, frozen_phases=None):
+def build_predictions(frames, families=None, frozen_phases=None):
+    """Freeze quote-only predictions BEFORE looking at any settlement labels."""
     phases = frozen_phases if frozen_phases is not None else phase_map(date_of(f) for f in frames)
-    records, opportunities, audits = [], Counter(), Counter()
+    predictions = []
     for f in frames:
         date = date_of(f)
         dt = datetime.fromisoformat(f["kickoff"])
         week = f"{dt.isocalendar().year}-W{dt.isocalendar().week:02}"
+        for family, cs in canonical(f, families).items():
+            phase = phases[date]
+            quote = quote_only(cs)
+            mass = sum(1 / c["odds"] for c in cs)
+            for k in range(len(BINS)):
+                pick, base = predict(quote, k)
+                if pick is None:
+                    continue
+                c, m = cs[pick], cs[base]
+                predictions.append({"event_id": f["event_id"], "kickoff": f["kickoff"], "date": date,
+                    "week": week, "phase": phase, "league": f["league"], "family": family, "bin": k,
+                    "market_id": c["market_id"], "pick": pick, "market_pick": base,
+                    "odds": c["odds"], "market_odds": m["odds"], "p": 1 / c["odds"] / mass})
+    return predictions, phases
+
+
+def make_records(frames, families=None, frozen_phases=None):
+    predictions, phases = build_predictions(frames, families, frozen_phases)
+    labels, opportunities, audits = {}, Counter(), Counter()
+    for f in frames:
         for family, cs in canonical(f, families).items():
             audits["canonical_products"] += 1
             if any(type(c.get("hit")) is not bool or type(c.get("refund")) is not bool for c in cs):
@@ -134,21 +155,15 @@ def make_records(frames, families=None, frozen_phases=None):
             if not all(c["refund"] for c in cs) and sum(c["hit"] for c in cs) != 1:
                 audits["nonexclusive_result_rejected"] += 1
                 continue
-            phase = phases[date]
-            opportunities[(f["league"], family, phase)] += 1
-            quote = quote_only(cs)
-            mass = sum(1 / c["odds"] for c in cs)
-            for k in range(len(BINS)):
-                pick, base = predict(quote, k)
-                if pick is None:
-                    continue
-                c, m = cs[pick], cs[base]
-                records.append({"event_id": f["event_id"], "kickoff": f["kickoff"], "date": date,
-                    "week": week, "phase": phase, "league": f["league"], "family": family, "bin": k,
-                    "market_id": c["market_id"], "pick": pick, "market_pick": base,
-                    "odds": c["odds"], "market_odds": m["odds"], "p": 1 / c["odds"] / mass,
-                    "hit": c["hit"], "market_hit": m["hit"], "void": c["refund"],
-                    "profit_cents": cents(c), "market_profit_cents": cents(m)})
+            labels[f["event_id"], cs[0]["market_id"]] = cs
+            opportunities[f["league"], family, phases[date_of(f)]] += 1
+    records = []
+    for p in predictions:
+        cs = labels.get((p["event_id"], p["market_id"]))
+        if cs is not None:
+            c, m = cs[p["pick"]], cs[p["market_pick"]]
+            records.append(dict(p, hit=c["hit"], market_hit=m["hit"], void=c["refund"],
+                profit_cents=cents(c), market_profit_cents=cents(m)))
     return records, opportunities, dict(audits), phases
 
 
@@ -375,12 +390,17 @@ def run(input_dir, output_dir, repeats=2000, permutations=9999):
         "evaluation": "unavailable" if not later else "requires protocol-compliant exact product/physical dedup; not treated as completed"}
     result["supplement_actual_votes"] = supp
     write_gz(output_dir / "predictions.jsonl.gz", records)
+    write_gz(output_dir / "quote-only-predictions.jsonl.gz", build_predictions(frames)[0])
     write_gz(output_dir / "strict-diagnostic-predictions.jsonl.gz", supp_records)
     write_gz(output_dir / "named-kbl-exception-predictions.jsonl.gz", special)
     save(output_dir / "results.json", result)
-    files = [*input_dir.glob("*"), Path(__file__), Path(__file__).parent / "kbl-exception-addendum.json", *output_dir.glob("*")]
+    repo = Path(__file__).resolve().parents[2]
+    protocol = repo / "docs/research/2026-10-30-league-market-signal-protocol.json"
+    files = [*input_dir.glob("*"), Path(__file__), protocol, Path(__file__).parent / "kbl-exception-addendum.json", *output_dir.glob("*")]
     files = sorted(p for p in files if p.is_file() and p.name != "hashes.json")
-    save(output_dir / "hashes.json", {str(p.resolve()): digest(p) for p in files})
+    save(output_dir / "hashes.json", {p.resolve().relative_to(repo).as_posix(): {
+        "sha256": hashlib.sha256(p.read_bytes().replace(b"\r\n", b"\n")).hexdigest() if p == protocol else digest(p),
+        "mode": "LF_normalized_UTF8" if p == protocol else "bytes"} for p in files})
     return result
 
 
