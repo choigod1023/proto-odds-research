@@ -9,3 +9,9 @@ docs/research/2026-10-01-score-tournament-protocol.md text eol=lf
 
 # Research evidence hashes the exact script bytes, including line endings.
 scripts/evaluate_draw_calibration_holdout.py text eol=lf
+
+# Keep the equal-budget single/parlay experiment's evidence hashes portable.
+scripts/single_parlay_research.py text eol=lf
+tests/test_single_parlay_research.py text eol=lf
+docs/research/2026-10-30-single-parlay-protocol.json text eol=lf
+docs/research/2026-10-30-single-parlay-comparison.md text eol=lf

@@ -1,0 +1,544 @@
+{
+  "started_at": "2026-10-30T02:10:21.069684+00:00",
+  "completed_at": "2026-10-30T02:10:50.120328+00:00",
+  "independent": true,
+  "selection_code_imported": false,
+  "roi_search_performed": false,
+  "all_selected_sessions_examined": true,
+  "overall_pass": true,
+  "all_core_ticket_invariants_pass": true,
+  "counts": {
+    "sessions": 271905,
+    "tickets": 408017,
+    "legs": 769333,
+    "component_controls": 199500,
+    "source_frames": 52451,
+    "source_choices": 477266,
+    "unique_tickets": 190571,
+    "cross_model_groups": 6291,
+    "summary_rows": 12055,
+    "summary_base_groups_with_multiple_model_signatures": 488
+  },
+  "cohorts": {
+    "saved_pregame": {
+      "sessions": 44500,
+      "tickets": 76128,
+      "legs": 145032
+    },
+    "retrospective_year_standard_ot_nba_increment": {
+      "sessions": 700,
+      "tickets": 742,
+      "legs": 997
+    },
+    "retrospective_year_strict": {
+      "sessions": 3133,
+      "tickets": 3155,
+      "legs": 5430
+    },
+    "historical_market_proxy": {
+      "sessions": 223572,
+      "tickets": 327992,
+      "legs": 617874
+    }
+  },
+  "ticket_status": {
+    "settled": 407341,
+    "pending": 676
+  },
+  "checks": {
+    "actual_net_independent_decimal": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "all_legs_exact_session_issue": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "available_before_placement": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "budget_equal_12000": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "component_singles_independent_decimal": {
+      "classification": "integrity",
+      "checked": 199500,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "component_stake_integer_1000_multiple": {
+      "classification": "integrity",
+      "checked": 199500,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "cross_model_complete_flag_matches_all_outcomes": {
+      "classification": "integrity",
+      "checked": 6291,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "cross_model_equal_stakes": {
+      "classification": "integrity",
+      "checked": 6291,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "cross_model_group_complete_model_membership": {
+      "classification": "integrity",
+      "checked": 6291,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "cross_model_same_checkpoint": {
+      "classification": "integrity",
+      "checked": 6291,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "cross_model_signature_declared": {
+      "classification": "integrity",
+      "checked": 13371,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "equal_stakes_across_session_strategies": {
+      "classification": "integrity",
+      "checked": 271905,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "input_artifacts_stable_during_validation": {
+      "classification": "integrity",
+      "checked": 1,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "issued_product_coordinates_complete": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "kickoff_at_least_30min_after_placement": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "kickoff_day_matches_session": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "latest_full_event_revision": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "leg_count": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "manifest_code_hash_matches_current_code": {
+      "classification": "integrity",
+      "checked": 1,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "manifest_input_hash": {
+      "classification": "integrity",
+      "checked": 3,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "manifest_source_frame_count": {
+      "classification": "integrity",
+      "checked": 3,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "no_shared_teams": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "no_vote_score_used_as_ev_probability": {
+      "classification": "integrity",
+      "checked": 384233,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "one_session_per_strategy_context": {
+      "classification": "integrity",
+      "checked": 271905,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "placement_on_30min_grid": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "primary_quote_not_future": {
+      "classification": "integrity",
+      "checked": 145032,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "primary_quote_observed_time_present": {
+      "classification": "integrity",
+      "checked": 145032,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "probability_model_identity": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "quoted_odds_independent_decimal": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "same_checkpoint_across_session_strategies": {
+      "classification": "integrity",
+      "checked": 271905,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "saved_time_source_availability_proven": {
+      "classification": "integrity",
+      "checked": 145032,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "session_count_matches_manifest": {
+      "classification": "integrity",
+      "checked": 1,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "settlement_status_hit_refund": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_choice_fields_prices_outcomes": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_choice_key_unique": {
+      "classification": "integrity",
+      "checked": 477266,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_choice_membership_snapshot_offer_selection": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_frame_identity_and_times": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_model_score": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_snapshot_membership": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "source_snapshot_unique": {
+      "classification": "integrity",
+      "checked": 52451,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "strategy_price_band": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "summary_covers_every_signature_group": {
+      "classification": "integrity",
+      "checked": 1,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "summary_model_signature_membership": {
+      "classification": "integrity",
+      "checked": 12055,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "summary_selected_count_by_exact_signature": {
+      "classification": "integrity",
+      "checked": 12055,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "summary_settled_count_by_exact_signature": {
+      "classification": "integrity",
+      "checked": 12055,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "summary_unique_model_signature_key": {
+      "classification": "integrity",
+      "checked": 12055,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "ticket_strategy_matches_key": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "unique_event_ids": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "unique_physical_events": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "unsettled_source_has_null_hit": {
+      "classification": "integrity",
+      "checked": 769333,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    },
+    "valid_known_issue_round": {
+      "classification": "integrity",
+      "checked": 408017,
+      "failures": 0,
+      "affected_sessions": 0,
+      "affected_tickets": 0
+    }
+  },
+  "failure_examples": {},
+  "cross_model_signatures": {
+    "market+saved_final_reference": 5886,
+    "market+market90_score10_hypothesis+saved_final_reference+saved_score_shadow": 394,
+    "market+market90_vote10": 10,
+    "market+market90_vote10+vote_support": 1
+  },
+  "quote_freshness_diagnostic": {
+    "saved_pregame": {
+      "frozen_protocol_max_quote_age_minutes": null,
+      "pass_gate": false,
+      "scope": "Selected leg instances, including repetitions across strategy/model/comparison contexts.",
+      "reference_threshold_minutes": 120,
+      "reference_threshold_is_contractual": false,
+      "legs": 145032,
+      "older_than_120min_reference_only": 1654,
+      "max_minutes": 3263.133333333333,
+      "older_than_120min_pct_reference_only": 1.1404379723095592,
+      "affected_ticket_instances_reference_only": 1072,
+      "affected_sessions_reference_only": 768,
+      "min_minutes": 2.3333333333333335,
+      "percentiles_minutes": {
+        "50": 22.45,
+        "75": 28.05,
+        "90": 29.9,
+        "95": 31.733333333333334,
+        "99": 188.15
+      },
+      "buckets": {
+        "under30": 130862,
+        "30_to_60": 12270,
+        "60_to_120": 246,
+        "120_to_360": 440,
+        "360_to_1440": 934,
+        "1440_or_more": 280
+      },
+      "examples_over_reference_threshold": [
+        {
+          "session_line": 394,
+          "cohort": "saved_pregame",
+          "model": "market",
+          "context": "pair:single_long_5_10:wide_parlay_2",
+          "strategy": "wide_parlay_2",
+          "placement": "2026-10-28T17:30:00+09:00",
+          "snapshot": "b77dfce5908893da37d37f323ff262b44af85ce152d791b0490c2ad23eb481db",
+          "offer": "off_a0282354d8dd0d5c",
+          "selection": "언더",
+          "quote_age_minutes": 560.2
+        },
+        {
+          "session_line": 395,
+          "cohort": "saved_pregame",
+          "model": "market",
+          "context": "pair:single_long_5_10:wide_parlay_3",
+          "strategy": "wide_parlay_3",
+          "placement": "2026-10-28T17:30:00+09:00",
+          "snapshot": "b77dfce5908893da37d37f323ff262b44af85ce152d791b0490c2ad23eb481db",
+          "offer": "off_a0282354d8dd0d5c",
+          "selection": "언더",
+          "quote_age_minutes": 560.2
+        },
+        {
+          "session_line": 396,
+          "cohort": "saved_pregame",
+          "model": "market",
+          "context": "pair:single_long_5_10:wide_parlay_4",
+          "strategy": "wide_parlay_4",
+          "placement": "2026-10-28T17:30:00+09:00",
+          "snapshot": "b77dfce5908893da37d37f323ff262b44af85ce152d791b0490c2ad23eb481db",
+          "offer": "off_a0282354d8dd0d5c",
+          "selection": "언더",
+          "quote_age_minutes": 560.2
+        },
+        {
+          "session_line": 396,
+          "cohort": "saved_pregame",
+          "model": "market",
+          "context": "pair:single_long_5_10:wide_parlay_4",
+          "strategy": "wide_parlay_4",
+          "placement": "2026-10-28T17:30:00+09:00",
+          "snapshot": "d9a3cfd22ad7cfdd8cfd975b19fa8919ed6e350a8d832014f6ff99dfeea6de32",
+          "offer": "off_0767776ec55556e5",
+          "selection": "오버",
+          "quote_age_minutes": 560.2
+        },
+        {
+          "session_line": 399,
+          "cohort": "saved_pregame",
+          "model": "market",
+          "context": "pair:single_long_5_10:wide_parlay_3",
+          "strategy": "wide_parlay_3",
+          "placement": "2026-10-28T17:30:00+09:00",
+          "snapshot": "b77dfce5908893da37d37f323ff262b44af85ce152d791b0490c2ad23eb481db",
+          "offer": "off_edbc3fbb112d6708",
+          "selection": "홈",
+          "quote_age_minutes": 560.2
+        }
+      ]
+    }
+  },
+  "artifact_sha256_before": {
+    ".local-test/RESULTS/sessions.jsonl.gz": "e3caa0304fba66596109b2cdeb3b2ecb38c0b746e25bcd414c7e021eb0bbcd50",
+    ".local-test/RESULTS/summary.json.gz": "8eb1c3db5f72fe7146ce3fc6d5c96aa04015188e13b612d0de3e2a5782cfd958",
+    ".local-test/RESULTS/manifest.json": "557c28798043b54413b3d47cea97be673a74f422bb154090ef629d70ed0e7597",
+    "docs/research/2026-10-30-single-parlay-protocol.json": "5847f8fdfa9ea0c50503de91fe58b88f84ba8b5d5dfd8dd1496516d5ab48e888",
+    "scripts/single_parlay_research.py": "1cf4f88be799f5abaf3c375d5517b3c56e6f5edd11f279911c2488fd681c6db5",
+    ".local-test/TIMED/events.jsonl.gz": "e62634c3db0ea87e643f976b378c09742b8879190809c155b24306f5e411d997",
+    ".local-test/VOTES/events.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    ".local-test/ARCHIVE/events.jsonl.gz": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3"
+  },
+  "artifact_sha256_after": {
+    ".local-test/RESULTS/sessions.jsonl.gz": "e3caa0304fba66596109b2cdeb3b2ecb38c0b746e25bcd414c7e021eb0bbcd50",
+    ".local-test/RESULTS/summary.json.gz": "8eb1c3db5f72fe7146ce3fc6d5c96aa04015188e13b612d0de3e2a5782cfd958",
+    ".local-test/RESULTS/manifest.json": "557c28798043b54413b3d47cea97be673a74f422bb154090ef629d70ed0e7597",
+    "docs/research/2026-10-30-single-parlay-protocol.json": "5847f8fdfa9ea0c50503de91fe58b88f84ba8b5d5dfd8dd1496516d5ab48e888",
+    "scripts/single_parlay_research.py": "1cf4f88be799f5abaf3c375d5517b3c56e6f5edd11f279911c2488fd681c6db5",
+    ".local-test/TIMED/events.jsonl.gz": "e62634c3db0ea87e643f976b378c09742b8879190809c155b24306f5e411d997",
+    ".local-test/VOTES/events.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    ".local-test/ARCHIVE/events.jsonl.gz": "78a67939f2375daa13156d958319afaece69216507f8f6e338f39a63f88291a3"
+  },
+  "validator_sha256": "63d396aafe0e3b0ac6918eb34a843a7d335e7178aebf293d308b1b50af24bf67",
+  "arithmetic_self_checks_passed": 8,
+  "methodology": [
+    "Streaming full session ledger, no sampling. Source membership uses cohort/snapshot/offer/selection.",
+    "Independent Decimal arithmetic: raw product, floor to 2 decimals, ceil to 1 decimal for parlays; single prices unchanged.",
+    "Unknown non-refund leg leaves ticket pending. Refund leg price becomes 1.00; original leg count retains parlay rounding, per frozen protocol.",
+    "Components divide the same 12000-KRW ticket budget equally over its exact legs.",
+    "Latest revision checked across all leagues using normalized event/kickoff and available_at/ledger_sequence/snapshot tie order.",
+    "Summary keys and counts checked with exact ordered models_compared signature; no 2-model/4-model pooling."
+  ],
+  "limitations": [
+    "Source membership verifies the provided normalized inputs, not independent operator settlement or external pregame availability.",
+    "Historical/vote proxy available_at timestamps are hypothetical: arithmetic timing pass does not certify buyability.",
+    "Complete issued coordinates, including nonempty game_no, are required at selection time under the corrected identity gate.",
+    "The frozen protocol has no maximum quote-age limit. Freshness is diagnostic only; the 120-minute reference is not a pass/fail gate and does not filter tickets.",
+    "No independent search of ticket optimality or earliest feasible checkpoint; no model calibration certification."
+  ]
+}
