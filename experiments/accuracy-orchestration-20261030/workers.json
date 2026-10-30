@@ -7,7 +7,7 @@
     "branch": "codex/accuracy-orchestrator-terra-20261030"
   },
   "coordination": "native Codex task sessions; coordinator reads statuses and worker handoffs; no cross-thread worker messages",
-  "execution_mode": "bounded first sprint, no recurring automation or daemon enabled",
+  "execution_mode": "bounded first sprint and reviewed follow-up work; no recurring automation or daemon enabled",
   "workers": [
     {
       "role": "structure",
@@ -20,7 +20,7 @@
       "model_configuration_evidence": "create_thread explicitly accepted model argument",
       "runtime_model_observed": false,
       "title": "승부예측 Terra · 자료구조",
-      "status_observed": "first_sprint_completed",
+      "status_observed": "followup_submitted",
       "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-structure-20261030",
       "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-structure-20261030/repo",
       "first_sprint": {
@@ -29,6 +29,11 @@
         "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/438",
         "handoff_path": "experiments/accuracy-structure-20261030/handoff.json",
         "handoff_sha256": "218622d5fcd189a3f23122ecc4479a72712ff90374ecaeb23e940529d91bf59f"
+      },
+      "followup": {
+        "head_sha": "33b49a590d607a573ca5bd6832f549aeca9c9300",
+        "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/438",
+        "handoff_sha256": "2dffab237d51845eca065e7e030a0cef364d0919b72d5af5f6c89be06bef17c0"
       }
     },
     {
@@ -42,7 +47,7 @@
       "model_configuration_evidence": "create_thread explicitly accepted model argument",
       "runtime_model_observed": false,
       "title": "승부예측 Terra · 모델 개발",
-      "status_observed": "first_sprint_completed",
+      "status_observed": "followup_submitted",
       "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-development-20261030",
       "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-development-20261030/repo",
       "first_sprint": {
@@ -51,6 +56,11 @@
         "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/436",
         "handoff_path": "experiments/accuracy-development-20261030/handoff.json",
         "handoff_sha256": "794fa5cd2efcd9931091f0b0332067a744a418c56a12e59c0f2d9daf3d09a9b5"
+      },
+      "followup": {
+        "head_sha": "97be5f43293670a8a98eafe5c6fee926a909a15e",
+        "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/436",
+        "handoff_sha256": "5e7beff69fda1c1bad3c433b50789c9c0d9e9e62ddabf9c90b2b063db4486432"
       }
     },
     {
@@ -64,7 +74,7 @@
       "model_configuration_evidence": "create_thread explicitly accepted model argument",
       "runtime_model_observed": false,
       "title": "승부예측 Terra · 독립 검토",
-      "status_observed": "second_assignment_dispatched",
+      "status_observed": "followup_submitted",
       "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-review-20261030",
       "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-review-20261030/repo",
       "first_sprint": {
@@ -74,7 +84,15 @@
         "handoff_path": "experiments/accuracy-review-20261030/handoff.json",
         "handoff_sha256": "304eb6b5c3ed4b778a2049b2ed41dd7c05fbe8f659c1438b41f77bbb5fab1f97"
       },
-      "next_assignment": "cross-review PR438, PR436, PR440 in a new isolated branch; dispatched after first handoffs"
+      "next_assignment": "cross-review PR438, PR436, PR440 in a new isolated branch; dispatched after first handoffs",
+      "followup": {
+        "pr_urls": [
+          "https://github.com/choigod1023/proto-odds-research/pull/442",
+          "https://github.com/choigod1023/proto-odds-research/pull/444",
+          "https://github.com/choigod1023/proto-odds-research/pull/445"
+        ],
+        "scope": "archived independent findings; reproduced against the named historical heads"
+      }
     },
     {
       "role": "connection",
@@ -87,7 +105,7 @@
       "model_configuration_evidence": "create_thread explicitly accepted model argument",
       "runtime_model_observed": false,
       "title": "승부예측 Terra · 데이터 연결",
-      "status_observed": "first_sprint_completed",
+      "status_observed": "followup_submitted",
       "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-connection-20261030",
       "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-connection-20261030/repo",
       "first_sprint": {
@@ -96,6 +114,11 @@
         "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/440",
         "handoff_path": "experiments/accuracy-connection-20261030/handoff.json",
         "handoff_sha256": "8d05f958baf9c8852d895e8ccebdd95f9c8549d332c003c9d491e0d90cd05919"
+      },
+      "followup": {
+        "head_sha": "45b250d29c3471d7a3f64dc4649dc1906091f05e",
+        "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/440",
+        "handoff_sha256": "c8d2960e13d330f81e7b5b3cd1a571fed903d356af8b8e5341aab25d6d4b3cce"
       }
     },
     {
@@ -109,7 +132,7 @@
       "model_configuration_evidence": "create_thread explicitly accepted model argument",
       "runtime_model_observed": false,
       "title": "승부예측 Terra · 서버관리",
-      "status_observed": "first_sprint_completed",
+      "status_observed": "followup_submitted",
       "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-server-20261030",
       "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-server-20261030/repo",
       "first_sprint": {
@@ -118,6 +141,10 @@
         "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/437",
         "handoff_path": "experiments/accuracy-server-20261030/handoff.json",
         "handoff_sha256": "74ee5e7b4fbb99324800eb2281476472ca8556ca0017d0dae4ff373d5d8b5740"
+      },
+      "followup": {
+        "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/443",
+        "scope": "conditional ETag response; collector deployment not performed"
       }
     }
   ],
@@ -125,5 +152,12 @@
     "id": "932fe824-7770-42ef-ad15-84a39dfa44ab",
     "name": "승부예측 · Terra 워커"
   },
-  "orchestration_pr": "https://github.com/choigod1023/proto-odds-research/pull/441"
+  "orchestration_pr": "https://github.com/choigod1023/proto-odds-research/pull/441",
+  "followup_authorization": {
+    "request": "계속 작업하고 병합하고 알아서 담당해봐",
+    "scope": "review, regression fixes, integration and CI-verified merge",
+    "integration_branch": "codex/accuracy-integration-terra-20261030",
+    "production_collector_deployed": false,
+    "prediction_model_adopted": false
+  }
 }

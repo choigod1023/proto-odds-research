@@ -9,6 +9,9 @@ import pytest
 ROOT=Path(__file__).resolve().parents[1]/'experiments/accuracy-adapter-review-20261030/vendor'
 source=(ROOT/'development/original-tests.txt').read_text(encoding='utf8')
 source=source.replace("DIR = Path(__file__).resolve().parents[1] / 'experiments' / 'accuracy-development-20261030'", 'DIR = Path('+repr(str(ROOT/'development'))+')')
+# The archived contract intentionally differs from the current adapter. Keep
+# its relative imports out of the live test package's sys.modules namespace.
+source=source.replace('accuracy_development', 'accuracy_adapter_review_vendor')
 upstream=types.ModuleType('upstream_fixtures'); upstream.__file__=str(ROOT/'development/original-tests.txt')
 exec(compile(source,upstream.__file__,'exec'),upstream.__dict__)
 

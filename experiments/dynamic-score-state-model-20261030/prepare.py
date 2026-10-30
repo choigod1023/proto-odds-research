@@ -3,7 +3,7 @@ import gzip
 import hashlib
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path('C:/Users/user/Documents/ChatGPT/sportstoto-worktrees')
@@ -22,7 +22,7 @@ def write(path, rows):
             z.write(raw)
 
 
-def publication_rejection(frame, decision_at, kickoff_at):
+def publication_rejection(frame, decision_at, kickoff_at, expected_identity=None):
     """Validate publication claims at the decision, never certify actual receipt."""
     if frame is None:
         return 'missing_frame'
@@ -34,8 +34,11 @@ def publication_rejection(frame, decision_at, kickoff_at):
             return 'unknown_or_naive_publication'
         if frame_kickoff != kickoff:
             return 'frame_kickoff_mismatch'
-        if decision >= kickoff:
+        if decision > kickoff - timedelta(minutes=30):
             return 'invalid_decision_time'
+        if expected_identity is not None and any(frame.get(key) != expected_identity.get(key)
+                                                 for key in ('event_id', 'league', 'home', 'away')):
+            return 'frame_identity_mismatch'
         if any(value >= kickoff for value in dates):
             return 'postkickoff_publication'
         if any(value > decision for value in dates):
@@ -91,7 +94,7 @@ def main():
         actual = c['cohort'] != 'historical_market_proxy'
         if actual:
             f = frames.get(c['event_id'])
-            bad = publication_rejection(f, c.get('decision_at'), c.get('kickoff'))
+            bad = publication_rejection(f, c.get('decision_at'), c.get('kickoff'), c)
             if bad:
                 audit[bad] = audit.get(bad, 0) + 1
                 continue

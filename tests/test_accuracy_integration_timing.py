@@ -1,5 +1,4 @@
 """Regression for a source publication between the decision and kickoff."""
-import copy
 import gzip
 import importlib.util
 import json
@@ -62,3 +61,17 @@ def test_saved_actual_vote_inputs_unchanged_and_late_claim_is_rejected():
     f = frame(fixture['source_reported_published_at'])
     f['kickoff'] = fixture['kickoff']
     assert prepare.publication_rejection(f, fixture['decision_at'], fixture['kickoff']) == 'postdecision_publication'
+
+
+@pytest.mark.parametrize('key', ['event_id', 'league', 'home', 'away'])
+def test_wrong_source_frame_identity_rejected(key):
+    identity = dict(event_id='game-1', league='KBO', home='home', away='away')
+    f = dict(frame(), **identity)
+    f[key] = 'different'
+    assert prepare.publication_rejection(f, '2026-10-30T09:30:00Z',
+                                         '2026-10-30T10:00:00Z', identity) == 'frame_identity_mismatch'
+
+
+def test_late_decision_cannot_move_publication_cutoff_inside_t30():
+    assert prepare.publication_rejection(frame('2026-10-30T09:40:00Z'), '2026-10-30T09:45:00Z',
+                                         '2026-10-30T10:00:00Z') == 'invalid_decision_time'
