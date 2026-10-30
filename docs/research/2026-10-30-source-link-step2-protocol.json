@@ -1,0 +1,22 @@
+{
+  "version": "source-link-step2-v1",
+  "frozen_before_new_ROI": true,
+  "dependency": "PR424 8bb66e8bccd4ac68fe46a2b59e75147a84de9679; this branch was created from latest origin/main then integrated that committed research dependency",
+  "objective": "Find and actually connect additional pregame-relevant player/source information to the frozen primary tipster/price/result cases; compare without claiming auxiliary markets are operating/tipster results",
+  "scope": ["Kleague player-value changes from prior game history", "KBO/NPB verified pitching/lineup source joins", "Independent public tipster coverage and source provenance"],
+  "write_policy": "Dedicated isolated workers; public bounded read-only HTTP, no secrets/login/access bypass, no production processes/DB/scheduler/deployment changes",
+  "priority": ["K리그1", "K리그2", "KBO", "NPB", "MLB", "KBL", "NBA"],
+  "inputs": "experiments/pregame-feature-rd-20261030/inputs/cases.jsonl.gz; prior original frames can expand mapping only with exact fixture identity and labels excluded from feature construction",
+  "feature_contract": "PR424 cohort/event_id/league/kickoff plus decision_at, numeric features, per-field max_fact_time or max_fact_date+timezone, actual observed_at, source_sha256, availability_tier. Never invent historical reception, target announcements or use target final stats in predictions.",
+  "source_contract": "URL, source identity/author, fetch time, publication claim separately, raw response hash, parsed fields, verified fixture join method, field-level reasons. Do not commit full third-party articles; minimal metadata/directions and hashes, local raw cache only.",
+  "time_views": ["captured_pregame with verified local capture links", "retrospective_lagged actual prior completion timestamp", "retrospective_date_lagged source-calendar-end+24h bound assumption", "target-XI publication unproven: diagnostic only, excluded from fitting"],
+  "no_substitution": "Do not rename prior XI as target confirmed XI, batters faced as pitch count, source count as independent author count, or full-season stats as pregame information.",
+  "candidates": "For each genuinely new numeric feature bundle use the PR424 fixed L2=10 feature-only and market-offset residual (no proxy/Shin offset transfer), intercept/home controls and fixed actual91-anchor90+feature10. No new weight/hyperparameter search using heldout results.",
+  "tipster_analysis": "Unique independently sourced documents/authors, publication and observation separated; new historical votes only in explicitly retrospective claimed-time cohort. Compare old vote direction, new independent direction and fixed9:1 on identical priced cases; no one-hot share called probability or fabricated financial edge.",
+  "splits": "PR424 60/20/20 and 50/20/30 unique kickoff dates, min30 independent training fixtures; test below10 descriptive only; train/labels at least48h before validation start as uncertified assumption; exclude auxiliary dates appearing in primary",
+  "metrics": ["source/field join coverage with reasons", "accuracy", "Brier and logloss where real probabilities", "flat 12000KRW single ROI", "daily-close drawdown", "paired-date intervals", "no-fill two-leg coverage and same-leg singles when eligible"],
+  "two_leg": "Keep existing fixed first common T-30 freeze, individual p>=0.55 and p*price>1, distinct teams, no filler and no odds ceiling. More general common-purchase-time replay requires actual earlier price/features; do not claim implemented without those records.",
+  "research_monthly_loss_cap": null,
+  "production_changed": false,
+  "adoption": "Additional source collection and research PR are not evidence of a production improvement. Preserve negative results, missing leagues and limited sample sizes. No merge/deployment in this task without specific applicable authorization."
+}
