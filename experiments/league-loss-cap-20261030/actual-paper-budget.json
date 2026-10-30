@@ -1,0 +1,127 @@
+{
+  "last_event_at": "2026-10-30T05:29:58.615993+09:00",
+  "events": 125,
+  "budget": {
+    "month": "2026-10",
+    "monthly_net": 70800,
+    "pending_stake": 100000,
+    "available_loss_budget": 20800,
+    "monthly_loss_limit": 50000,
+    "scope": "all_accounts_all_leagues_including_legacy"
+  },
+  "accounts": {
+    "ev_rank-weekly2": {
+      "bets": 6,
+      "settled": 4,
+      "net": 9000,
+      "pending_stake": 20000,
+      "monthly_net": {
+        "2026-10": 9000
+      },
+      "roi": 0.225,
+      "max_drawdown": 20000
+    },
+    "ev_rank-weekly3": {
+      "bets": 9,
+      "settled": 7,
+      "net": 3000,
+      "pending_stake": 20000,
+      "monthly_net": {
+        "2026-10": 3000
+      },
+      "roi": 0.04285714285714286,
+      "max_drawdown": 30000
+    },
+    "probability-weekly2": {
+      "bets": 6,
+      "settled": 3,
+      "net": 18000,
+      "pending_stake": 30000,
+      "monthly_net": {
+        "2026-10": 18000
+      },
+      "roi": 0.6,
+      "max_drawdown": 10000
+    },
+    "probability-weekly3": {
+      "bets": 9,
+      "settled": 6,
+      "net": 35000,
+      "pending_stake": 30000,
+      "monthly_net": {
+        "2026-10": 35000
+      },
+      "roi": 0.5833333333333334,
+      "max_drawdown": 10000
+    },
+    "tipster-vote-single-v1": {
+      "bets": 1,
+      "settled": 1,
+      "net": 5800,
+      "pending_stake": 0,
+      "monthly_net": {
+        "2026-10": 5800
+      },
+      "roi": 0.58,
+      "max_drawdown": 0
+    }
+  },
+  "journal_sha256": "ce1a81462f8f8c5ebdce0c09864dd4aa8c382e58466e76671b1afdd52ae40aac",
+  "missing_skipped_opportunities": "Journal does not record every rejected opportunity; exact actual-wallet uncapped counterfactual cannot be inferred from accepted bets alone.",
+  "source_url": "https://github.com/choigod1023/proto-odds-research/blob/codex/paper-state-v1/paper/journal.json",
+  "github_blob_sha": "d3005943f3633ce34f78af8452d8cc91f79d8c5b",
+  "is_real_money": false,
+  "pending_dates": [
+    {
+      "at": "2026-10-14T02:05:40.504837+09:00",
+      "account": "probability-weekly2",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-14T02:05:40.504837+09:00",
+      "account": "probability-weekly3",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-26T03:18:57.869792+09:00",
+      "account": "probability-weekly2",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-26T03:18:57.869792+09:00",
+      "account": "ev_rank-weekly2",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-26T03:18:57.869792+09:00",
+      "account": "probability-weekly3",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-26T03:18:57.869792+09:00",
+      "account": "ev_rank-weekly3",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-27T08:41:37.622367+09:00",
+      "account": "probability-weekly2",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-27T08:41:37.622367+09:00",
+      "account": "ev_rank-weekly2",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-27T08:41:37.622367+09:00",
+      "account": "probability-weekly3",
+      "stake": 10000
+    },
+    {
+      "at": "2026-10-27T08:41:37.622367+09:00",
+      "account": "ev_rank-weekly3",
+      "stake": 10000
+    }
+  ],
+  "checked_at_utc": "2026-10-30T00:30:29+00:00"
+}
