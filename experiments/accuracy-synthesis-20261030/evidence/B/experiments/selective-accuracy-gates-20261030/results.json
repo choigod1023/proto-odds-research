@@ -1,0 +1,1031 @@
+{
+  "count": 489,
+  "split": [
+    {
+      "n": 302,
+      "from": "2025-11-01",
+      "to": "2026-05-30"
+    },
+    {
+      "n": 138,
+      "from": "2026-05-31",
+      "to": "2026-08-01"
+    },
+    {
+      "n": 49,
+      "from": "2026-08-02",
+      "to": "2026-10-26"
+    }
+  ],
+  "eligible": [
+    "all",
+    "gap>=0.05",
+    "gap>=0.10",
+    "market_vote_agree",
+    "odds<=1.8",
+    "league=KBO"
+  ],
+  "validation_scores": [
+    [
+      0.0,
+      0
+    ],
+    [
+      -0.008849557522123908,
+      -1
+    ],
+    [
+      0.0,
+      -2
+    ],
+    [
+      0.0,
+      -4
+    ],
+    [
+      0.0,
+      -7
+    ],
+    [
+      0.012658227848101333,
+      -10
+    ]
+  ],
+  "selected": "league=KBO",
+  "test_coverage": 0.061224489795918366,
+  "test_gate": {
+    "n": 3,
+    "wins": 1,
+    "net": -1.41,
+    "accuracy": 0.3333333333333333,
+    "roi": -0.47
+  },
+  "test_fixed_same": {
+    "n": 3,
+    "wins": 1,
+    "net": -1.41,
+    "accuracy": 0.3333333333333333,
+    "roi": -0.47
+  },
+  "test_market_full": {
+    "n": 49,
+    "wins": 23,
+    "net": -12.030000000000001,
+    "accuracy": 0.46938775510204084,
+    "roi": -0.24551020408163268
+  },
+  "test_rank": {
+    "n": 3,
+    "wins": 0,
+    "net": -3,
+    "accuracy": 0.0,
+    "roi": -1.0
+  },
+  "ci": {
+    "rank_accuracy": {
+      "95": [
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "bonferroni_12": [
+        0.3333333333333333,
+        0.3333333333333333
+      ]
+    },
+    "rank_roi": {
+      "95": [
+        0.53,
+        0.53
+      ],
+      "bonferroni_12": [
+        0.53,
+        0.53
+      ]
+    },
+    "fixed_accuracy": {
+      "95": [
+        0.0,
+        0.0
+      ],
+      "bonferroni_12": [
+        0.0,
+        0.0
+      ]
+    },
+    "fixed_roi": {
+      "95": [
+        0.0,
+        0.0
+      ],
+      "bonferroni_12": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "test_weeks": 12,
+  "selected_weeks": 1,
+  "valid_for_inference": false,
+  "inference_invalid_reason": "only one selected week; bootstrap intervals are degenerate",
+  "ci_interpretation": "unreliable: only one selected week",
+  "curves": [
+    {
+      "candidate": "all",
+      "coverage": 1.0,
+      "gate": {
+        "n": 49,
+        "wins": 23,
+        "net": -12.030000000000001,
+        "accuracy": 0.46938775510204084,
+        "roi": -0.24551020408163268
+      },
+      "rank": {
+        "n": 49,
+        "wins": 23,
+        "net": -12.030000000000001,
+        "accuracy": 0.46938775510204084,
+        "roi": -0.24551020408163268
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 12,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.3653769841269841,
+              0.6060606060606061
+            ],
+            "bonferroni_12": [
+              0.32142857142857145,
+              0.6960940931049653
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.401888130104196,
+              -0.0408303571428574
+            ],
+            "bonferroni_12": [
+              -0.4689654304029303,
+              0.10025000000000345
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              -0.15789473684210525,
+              0.047619047619047616
+            ],
+            "bonferroni_12": [
+              -0.1962940640737169,
+              0.08531028368794444
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              -0.37660714285714286,
+              0.08142857142857143
+            ],
+            "bonferroni_12": [
+              -0.4644827586206896,
+              0.1458805851063849
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "gap>=0.05",
+      "coverage": 0.7959183673469388,
+      "gate": {
+        "n": 39,
+        "wins": 19,
+        "net": -8.85,
+        "accuracy": 0.48717948717948717,
+        "roi": -0.22692307692307692
+      },
+      "rank": {
+        "n": 39,
+        "wins": 18,
+        "net": -11.02,
+        "accuracy": 0.46153846153846156,
+        "roi": -0.2825641025641025
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 11,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.3148015873015873,
+              0.6923469387755068
+            ],
+            "bonferroni_12": [
+              0.24091666666666667,
+              0.8
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.4923701861360719,
+              0.08098006566604089
+            ],
+            "bonferroni_12": [
+              -0.6124997897392767,
+              0.2312379419191972
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              -0.006493506493506497,
+              0.06385347376201027
+            ],
+            "bonferroni_12": [
+              -0.02709677419354839,
+              0.08149192084241108
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              -0.007408502791068518,
+              0.13040576877092297
+            ],
+            "bonferroni_12": [
+              -0.02872250524582023,
+              0.16280141295554298
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "gap>=0.10",
+      "coverage": 0.6122448979591837,
+      "gate": {
+        "n": 30,
+        "wins": 15,
+        "net": -6.47,
+        "accuracy": 0.5,
+        "roi": -0.21566666666666665
+      },
+      "rank": {
+        "n": 30,
+        "wins": 14,
+        "net": -8.69,
+        "accuracy": 0.4666666666666667,
+        "roi": -0.28966666666666663
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 11,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.2916666666666667,
+              0.7407407407407407
+            ],
+            "bonferroni_12": [
+              0.2,
+              0.8536265432098868
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.5352033333333334,
+              0.1435758928571425
+            ],
+            "bonferroni_12": [
+              -0.6761514784946236,
+              0.3120779320987669
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              -0.0039215686274509665,
+              0.08333333333333331
+            ],
+            "bonferroni_12": [
+              -0.01733114252645506,
+              0.11256701940035278
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              0.0,
+              0.1751327307957743
+            ],
+            "bonferroni_12": [
+              -0.02136964234773927,
+              0.23622865810886767
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "gap>=0.20",
+      "coverage": 0.2857142857142857,
+      "gate": {
+        "n": 14,
+        "wins": 6,
+        "net": -4.890000000000001,
+        "accuracy": 0.42857142857142855,
+        "roi": -0.3492857142857143
+      },
+      "rank": {
+        "n": 14,
+        "wins": 7,
+        "net": -3.76,
+        "accuracy": 0.5,
+        "roi": -0.26857142857142857
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 9,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.1,
+              0.7333333333333333
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.875
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.8560000000000001,
+              0.13785714285714284
+            ],
+            "bonferroni_12": [
+              -1.0,
+              0.3557006944444465
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              -0.23214285714285715,
+              0.049022187822497135
+            ],
+            "bonferroni_12": [
+              -0.3266544117647059,
+              0.09740259740259749
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              -0.3531688492063492,
+              0.15166666666666664
+            ],
+            "bonferroni_12": [
+              -0.49823506944444446,
+              0.24117403198653234
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "market_vote_agree",
+      "coverage": 0.7755102040816326,
+      "gate": {
+        "n": 38,
+        "wins": 20,
+        "net": -6.26,
+        "accuracy": 0.5263157894736842,
+        "roi": -0.16473684210526315
+      },
+      "rank": {
+        "n": 38,
+        "wins": 18,
+        "net": -10.02,
+        "accuracy": 0.47368421052631576,
+        "roi": -0.2636842105263158
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 12,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.39582122093023253,
+              0.7027027027027027
+            ],
+            "bonferroni_12": [
+              0.3333333333333333,
+              0.8
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.36750215517241386,
+              0.10320035714285708
+            ],
+            "bonferroni_12": [
+              -0.4604241898148148,
+              0.26053492254273575
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              -0.050117816965643075,
+              0.15848584561768278
+            ],
+            "bonferroni_12": [
+              -0.11145974194275404,
+              0.22333333333333336
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              -0.06174057014109994,
+              0.2728136160714285
+            ],
+            "bonferroni_12": [
+              -0.15248074845679013,
+              0.38335941358024717
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "voters>=2",
+      "coverage": 0.0,
+      "gate": {
+        "n": 0,
+        "wins": 0,
+        "net": 0,
+        "accuracy": null,
+        "roi": null
+      },
+      "rank": {
+        "n": 0,
+        "wins": 0,
+        "net": 0,
+        "accuracy": null,
+        "roi": null
+      },
+      "weekly_ci": {
+        "status": "no selected events",
+        "valid_bootstraps": 0
+      }
+    },
+    {
+      "candidate": "odds<=1.5",
+      "coverage": 0.24489795918367346,
+      "gate": {
+        "n": 12,
+        "wins": 5,
+        "net": -4.8,
+        "accuracy": 0.4166666666666667,
+        "roi": -0.39999999999999997
+      },
+      "rank": {
+        "n": 12,
+        "wins": 5,
+        "net": -4.8,
+        "accuracy": 0.4166666666666667,
+        "roi": -0.39999999999999997
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 9,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.1111111111111111,
+              0.7142857142857143
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.8571428571428571
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.8511111111111112,
+              0.037146103896103615
+            ],
+            "bonferroni_12": [
+              -1.0,
+              0.23213969017094288
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "odds<=1.8",
+      "coverage": 0.8979591836734694,
+      "gate": {
+        "n": 44,
+        "wins": 21,
+        "net": -10.89,
+        "accuracy": 0.4772727272727273,
+        "roi": -0.24750000000000003
+      },
+      "rank": {
+        "n": 44,
+        "wins": 21,
+        "net": -10.89,
+        "accuracy": 0.4772727272727273,
+        "roi": -0.24750000000000003
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 12,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.36363636363636365,
+              0.625
+            ],
+            "bonferroni_12": [
+              0.3188245486782721,
+              0.7251893939394001
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.4150022727272728,
+              -0.030304687500000687
+            ],
+            "bonferroni_12": [
+              -0.48612666122004355,
+              0.11788115384615777
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              -0.125,
+              0.0625
+            ],
+            "bonferroni_12": [
+              -0.1702127659574468,
+              0.09375
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              -0.22124999999999997,
+              0.106875
+            ],
+            "bonferroni_12": [
+              -0.30127659574468085,
+              0.16031249999999989
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "league=MLB",
+      "coverage": 0.46938775510204084,
+      "gate": {
+        "n": 23,
+        "wins": 11,
+        "net": -5.78,
+        "accuracy": 0.4782608695652174,
+        "roi": -0.25130434782608696
+      },
+      "rank": {
+        "n": 23,
+        "wins": 11,
+        "net": -6.52,
+        "accuracy": 0.4782608695652174,
+        "roi": -0.2834782608695652
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 9,
+        "valid_bootstraps": 20000,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.3333333333333333,
+              0.7272727272727273
+            ],
+            "bonferroni_12": [
+              0.2857142857142857,
+              0.9230769230769231
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.46030326704545454,
+              0.11223611111110987
+            ],
+            "bonferroni_12": [
+              -0.536597439236111,
+              0.39890277777779076
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              -0.15217391304347827,
+              0.22166666666666662
+            ],
+            "bonferroni_12": [
+              -0.2203530701754386,
+              0.3777376459339776
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              -0.21523949579831944,
+              0.38244447463768105
+            ],
+            "bonferroni_12": [
+              -0.32806819261695913,
+              0.6278384589947095
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.11538461538461539
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.14814814814814814
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.1973076923076924
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.25333333333333335
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "league=NPB",
+      "coverage": 0.10204081632653061,
+      "gate": {
+        "n": 5,
+        "wins": 4,
+        "net": 1.4100000000000001,
+        "accuracy": 0.8,
+        "roi": 0.28200000000000003
+      },
+      "rank": {
+        "n": 5,
+        "wins": 1,
+        "net": -3.66,
+        "accuracy": 0.2,
+        "roi": -0.732
+      },
+      "weekly_ci": {
+        "status": "ok",
+        "selected_weeks": 4,
+        "valid_bootstraps": 19696,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.5,
+              1.0
+            ],
+            "bonferroni_12": [
+              0.5,
+              1.0
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.21999999999999997,
+              0.6917857142857143
+            ],
+            "bonferroni_12": [
+              -0.21999999999999997,
+              0.7200000000000001
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              0.0,
+              1.0
+            ],
+            "bonferroni_12": [
+              -0.4,
+              1.0
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              0.10999999999999999,
+              1.6566666666666667
+            ],
+            "bonferroni_12": [
+              -0.41000000000000003,
+              1.72
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "candidate": "league=KBO",
+      "coverage": 0.061224489795918366,
+      "gate": {
+        "n": 3,
+        "wins": 1,
+        "net": -1.41,
+        "accuracy": 0.3333333333333333,
+        "roi": -0.47
+      },
+      "rank": {
+        "n": 3,
+        "wins": 0,
+        "net": -3,
+        "accuracy": 0.0,
+        "roi": -1.0
+      },
+      "weekly_ci": {
+        "status": "degenerate_one_selected_week",
+        "selected_weeks": 1,
+        "valid_bootstraps": 12561,
+        "intervals": {
+          "accuracy": {
+            "95": [
+              0.3333333333333333,
+              0.3333333333333333
+            ],
+            "bonferroni_12": [
+              0.3333333333333333,
+              0.3333333333333333
+            ]
+          },
+          "roi": {
+            "95": [
+              -0.47,
+              -0.47
+            ],
+            "bonferroni_12": [
+              -0.47,
+              -0.47
+            ]
+          },
+          "rank_accuracy_difference": {
+            "95": [
+              0.3333333333333333,
+              0.3333333333333333
+            ],
+            "bonferroni_12": [
+              0.3333333333333333,
+              0.3333333333333333
+            ]
+          },
+          "rank_roi_difference": {
+            "95": [
+              0.53,
+              0.53
+            ],
+            "bonferroni_12": [
+              0.53,
+              0.53
+            ]
+          },
+          "fixed_accuracy_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          },
+          "fixed_roi_difference": {
+            "95": [
+              0.0,
+              0.0
+            ],
+            "bonferroni_12": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "prediction_fingerprint": "29e39857d10d13f5570866a2d2132ba1a8cdf48b41f2313c5f5820e22e912124",
+  "publication_gate": {
+    "counts": {
+      "pre_kickoff_claim": 137,
+      "unknown": 401,
+      "unmatched": 181,
+      "postkickoff": 4
+    },
+    "retained_rows": 719,
+    "known_late_excluded": 4,
+    "authenticated_receipts": 0,
+    "applied_before_event_grouping_training_selection": true
+  },
+  "label_flip_check": "passed",
+  "hashes": {
+    "input.jsonl": "702c4f830218b695c12d79acf42c30ce624f40237137a4c3d7f549a4d887b650",
+    "votes-metadata.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    "run.py": "76717748bb4177535baafe4bb8b187b07d4af206813df94bf380aae6541709a5",
+    "source_gate.py": "ea820cb4814324fb383499d01737ae8ac5e343311e9c6beacc6ef3da69a368ce",
+    "upstream.py": "00e6cdbf8442aac5e991bb00260b1abfd354e97aaef3051eedac3a8b59399c86",
+    "devig.py": "234d000c33279334e4989ffb33b2b57eec344ae8e78593f3308dc3966c868840",
+    "predictions.jsonl": "2078f6a54c6f7759dea92131af07ba56da5355abef2b56f0de2013702edc6ef0",
+    "publication-audit.jsonl": "1afa3989938d8b66c57634f4912ad3f989f16273fd03d8e1185d51aef7ebd88d",
+    "legacy-results.json": "63e65d4e211ed824dc56e246d0e0ed87b92e67a089728b9154a902c91eea19d2",
+    "legacy-predictions.jsonl": "531eb7d2ab814d2d1896ec8e3b23f43c8094d1d512f90dfc5f59d1edf650848c"
+  }
+}
