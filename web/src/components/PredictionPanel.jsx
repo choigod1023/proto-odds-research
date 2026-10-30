@@ -1,5 +1,5 @@
 import { decisionLabel, isFixedTipsterVersion } from "../lib/decision-view-model.js";
-import { tipsterVoteSummary } from "../lib/fixed-tipster-policy.js";
+import { tipsterVoteSummary, isMarketFallback } from "../lib/fixed-tipster-policy.js";
 
 const reasonParts = (reason) => {
   const [title, ...body] = String(reason).split(" — ");
@@ -98,7 +98,7 @@ export default function PredictionPanel({ analysis, scoreForecast }) {
           <h3>{prediction?.headline || "예측 자료 확인 중"}</h3>
           <p>{summary}</p>
         </div>
-        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{vote ? "배당 기반 시장확률 · 투표 지지율과 별개" : isFixedTipsterVersion(decision?.probability?.basis) ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률 · 픽스터 미반영"}</span></div>}
+        {probability !== null && <div className="prediction-probability"><b>{probability}%</b><span>{isMarketFallback(decision?.tipster) ? "배당 기반 시장확률 · 픽스터 없음" : vote ? "배당 기반 시장확률 · 투표 지지율과 별개" : isFixedTipsterVersion(decision?.probability?.basis) ? "시장 90% + 픽스터 10% · 수익성 미검증" : decision?.model?.validatedEdge ? "AI 최종확률" : "배당 기반 시장확률 · 픽스터 미반영"}</span></div>}
       </header>
       {decision?.tipster?.evidence?.length > 0 && <div className="px-4 py-3 text-[11px] border-b border-rule2" aria-label="실제 반영된 픽스터 원문">
         <b>{vote ? vote.text : `실제 반영한 픽스터 · ${decision.tipster.authors}명/발행처`}</b>

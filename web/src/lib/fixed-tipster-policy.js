@@ -16,7 +16,10 @@ export function usesTipsterVote(game) {
     || (!raw && isTipsterVoteVersion(game?.tipster_hybrid?.version));
 }
 
+export const isMarketFallback = info => info?.selection_source === "market_fallback" && info?.reason === "market_fallback_no_votes" && info?.status === "applied";
+
 export function tipsterVoteSummary(info) {
+  if (isMarketFallback(info)) return { authors: 0, counts: {}, share: null, text: "시장 확률 기준 · 픽스터 없음" };
   const evidence = Array.isArray(info?.evidence) ? info.evidence : [];
   const authors = Number.isInteger(info?.authors) ? info.authors : evidence.length;
   const counts = info?.vote_counts || Object.fromEntries(["홈", "무", "원정"].map(side =>
