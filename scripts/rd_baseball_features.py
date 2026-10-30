@@ -197,6 +197,17 @@ def calendar_workload(records, cutoff):
     return sum(v>=30 for v in by_player.values()),chosen
 
 
+
+def calendar_fact_dates(records):
+    """Expose observed source dates only; never infer a timestamp or empty date."""
+    if not records or any(not r.get('date') for r in records):
+        raise ValueError('fact_date_coverage_unknown')
+    dates=sorted({r['date'] for r in records})
+    for value in dates:
+        datetime.strptime(value, '%Y-%m-%d')
+    return dict(max_fact_date=dates[-1], fact_date_timezone='UTC', selected_fact_dates=dates)
+
+
 def auxiliary(args):
     """Read-only existing game logs; date precision explicitly remains unverified."""
     import ast
@@ -269,7 +280,7 @@ def auxiliary(args):
                 hashes=sorted({x['source_sha256'] for x in used});source_ids.update(hashes)
                 name=side+'_relievers_ge30_pitches_lagged_dates_2_4'
                 features[name]=value
-                evidence[name]=dict(max_fact_time=None,observed_at=max(x['observed_at'] for x in used),source_sha256=hashes,
+                evidence[name]=dict(**calendar_fact_dates(used),max_fact_time=None,observed_at=max(x['observed_at'] for x in used),source_sha256=hashes,
                    availability_tier='retrospective_lagged',note='STRUCTURAL DATE LAG ONLY. Actual per-game end timestamp unavailable; max_fact_time intentionally null. Uses pitching game logs on UTC decision dates minus 2 through 4; no target lineup, current roster, health or confirmed availability. Parent must not treat as authenticated as-of evidence.')
                 for x in used: selected_raw[(x['gamePk'],x['player'],tid)]=dict(x,team_id=tid)
             if failed: continue

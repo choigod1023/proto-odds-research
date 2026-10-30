@@ -57,3 +57,11 @@ ARCHIVE는 settled-only retrospective market proxy이며 서비스 모델/실제
 CLI `--roster`는 복수 gzip JSONL 기준 로스터, `--output`은 위 산출물 루트다. 기본 extraction은 `--max-events 5 --max-requests 48`. 날짜 지연 추가 추출은 같은 로스터 옵션에 `--archive <ARCHIVE/events.jsonl.gz> --local-history <baseball-event-form-bullpen-20261029/sources>`를 더한다. 순방향은 `--capture-forward --max-requests 1`이다. 정확한 원본 절대 경로와 해시는 manifest에 기록했다.
 
 회귀 테스트는 미래·동일 cutoff·대상 경기 제외, doubleheader와 중복, 48/72시간 경계, 날짜 지연, 투구 수 누락, 9인 라인업 완전성, 시즌 최종 통계 무시, timezone 필수를 확인한다. 원본과 산출물 해시 및 실제 evidence timestamp 검증은 `validation.json`과 `artifact-hashes.json`에 남긴다. 미래 ROI 개선은 검증하지 않았고 생산 채택·병합·배포를 하지 않았다.
+
+## 날짜 근거 메타데이터 보강
+
+날짜 지연 5,800행의 각 피처에 `max_fact_date`, `fact_date_timezone: "UTC"`, `selected_fact_dates`를 추가했다. `max_fact_date`는 실제 선택된 로그 날짜의 최댓값이다. 의사결정일−2를 기본값으로 쓰지 않는다. 관측 로그/날짜가 없으면 근거를 만들지 않는다. `max_fact_time: null`, 기존 피처 값·수집 시각·해시·행 수는 그대로다. 13개 회귀 테스트와 17,400건의 날짜 근거 검증을 통과했다.
+
+부모의 CALENDAR-LAG ASSUMPTION 뷰는 이 날짜와 UTC 날짜 끝을 이용해 `calendar-date-end + 24h <= decision_at` 조건을 별도로 적용할 수 있다. 이것은 실제 경기 종료나 당시 수신을 입증하는 조건이 아니다. 이 작업은 시각을 만들어 넣거나 strict/timestamp-retro 결과와 섞지 않는다.
+
+저렴한 추가 원천 확인: `npb-live-refresh-20260905/data/raw/detail/kbo_baseball_2023_2026.json`에 2,884경기 투수별 기록이 있지만 표본 스키마는 `pcode/name/inn/er/r/kk/bb/hit/hr/era/bf/wls`이며 검증된 투구 수 필드가 없다. `bf`를 투구 수로 추측하지 않았다. 같은 작업과 `kbo-collection-recovery-20261026`의 KBO/NPB starters 자료는 선발 목록이며 불펜 투구 로그로 대체하지 않았다. 이번 보강에서는 KBO·NPB 피처를 추가하지 않았다.

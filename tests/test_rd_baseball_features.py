@@ -54,6 +54,19 @@ class WorkloadTests(unittest.TestCase):
         box={'teams':{s:{'team':{'id':7},'players':{'ID10':player}} for s in ['home','away']}}
         g=dict(gamePk=1,end_time=(self.cut-timedelta(hours=1)).isoformat(),source_sha256='hash',observed_at='2026-10-30T00:00:00+00:00')
         with self.assertRaises(ValueError): rd.prior_relief(box,g,99,self.cut)
+    def test_fact_date_is_latest_selected_not_window_ceiling(self):
+        cutoff=rd.dt('2026-04-06T12:00:00+00:00')
+        value,used=rd.calendar_workload([dict(gamePk=1,player=10,date='2026-04-02',pitches=5)],cutoff)
+        self.assertEqual(value,0)
+        self.assertEqual(rd.calendar_fact_dates(used),dict(max_fact_date='2026-04-02',fact_date_timezone='UTC',selected_fact_dates=['2026-04-02']))
+    def test_fact_dates_preserve_actual_selected_dates(self):
+        evidence=rd.calendar_fact_dates([{'date':'2026-04-04'},{'date':'2026-04-02'},{'date':'2026-04-04'}])
+        self.assertEqual(evidence['max_fact_date'],'2026-04-04')
+        self.assertEqual(evidence['selected_fact_dates'],['2026-04-02','2026-04-04'])
+        self.assertNotIn('max_fact_time',evidence)
+    def test_fact_dates_do_not_invent_missing_coverage(self):
+        for records in ([],[{}],[{'date':None}]):
+            with self.assertRaises(ValueError): rd.calendar_fact_dates(records)
     def test_timezone_required(self):
         with self.assertRaises(ValueError): rd.dt('2026-04-03T12:00:00')
 
