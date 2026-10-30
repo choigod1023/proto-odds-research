@@ -93,5 +93,15 @@
     "model": "operating_unique_vote_market_reference",
     "selection": "Unique plurality vote direction only, ties abstain; rank and EV use saved market probability, not vote share; probability quality metrics explicitly market-reference while accuracy measures the vote decision",
     "freeze_status": "Original v1 results inspected; this is a transparent baseline correction, not a fresh preregistered winning model"
+  },
+  "metadata_quality_addendum": {
+    "reason": "Independent source audit found 6 explicit publication timestamps at/after kickoff and one duplicate document credited to two authors. Correct input validity, not pick profitability; preserve v1 descriptive outputs.",
+    "rules": [
+      "Exclude any forecast with aware claimed published_at>=kickoff, regardless result",
+      "Deduplicate event+document_hash votes; if one document contradicts itself discard the whole conflicting document",
+      "After filtering, aggregate remaining actual author/document votes; no surviving vote means event not eligible for common tipster comparison",
+      "Unknown publication time stays explicitly unproven and cannot be called pregame-certified"
+    ],
+    "timing": "V1 results were inspected before metadata audit correction; corrected replay remains retrospective, not newly preregistered or untouched"
   }
 }
