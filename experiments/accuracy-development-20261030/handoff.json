@@ -1,0 +1,51 @@
+{
+  "role": "development",
+  "status": "review_revision_complete_evaluation_not_performed",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-development-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": null,
+  "commit": "95ef1efa054de8eb3b07cc3fa34d3004bd3620aa plus subsequent package isolation and metadata commits; see git HEAD",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/436",
+  "changed_paths": [
+    "experiments/accuracy-development-20261030/",
+    "tests/test_accuracy_development.py",
+    "docs/research/2026-10-30-accuracy-development.md"
+  ],
+  "inputs_and_sha": [
+    {
+      "path": "PR433 0ed675a0e7ee53d75691d071b41739099edb1a65:experiments/dynamic-score-state-model-20261030/model.py",
+      "sha256": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1"
+    },
+    {
+      "path": "PR442 b151ad0c73d3909b08ee80e7564e91c70d346755 vendor/structure/fixture-pregame.json",
+      "sha256": "9d9714c1ebf3e81a8c911fb55ef76ea5867213989e4593d3604a0a12a4d55e73"
+    },
+    {
+      "path": "PR442 b151ad0c73d3909b08ee80e7564e91c70d346755 vendor/structure/schema.json",
+      "sha256": "8f0fc6ca031b776a0f01dc3c8e90bfae5c9ed63549906f570c6ffc75ba315307"
+    },
+    {
+      "path": "PR442 b151ad0c73d3909b08ee80e7564e91c70d346755 vendor/structure/validator.py",
+      "sha256": "d999a996b4958b8e483d72d1e0f049f4fb707c5be01eb874c43af422eb797294"
+    }
+  ],
+  "tests": {
+    "targeted": "20 passed; with cross-review 35 passed",
+    "full": "1897 passed, 6 skipped, 93 subtests passed after merging main 90b374348c42478675ac48aadb8815f6c093d858"
+  },
+  "metrics": {
+    "new_model_accuracy": null,
+    "new_model_roi": null,
+    "certified_player_sample_count": "not measured"
+  },
+  "limitations": [
+    "No player coefficients, training, real-data performance or ROI evaluation.",
+    "Independent trust verifier and verified state training provenance are not implemented; caller must authenticate the entire contract and all historical result availability including team evidence.",
+    "Initial v1 shape projection is not full v1 validation; no freeze-content hash authentication or external receipt verifier.",
+    "Different-observation lineup revisions are unsupported and fall back without using them.",
+    "No protocol required for interface-only validation; no performance hypothesis evaluated."
+  ],
+  "blockers": [],
+  "next_dependency": "Independent authenticated core and baseline provenance verifier, verified team/product mappings, and coordinator decision on v1; structure reference-content hash changes not yet integrated."
+}
