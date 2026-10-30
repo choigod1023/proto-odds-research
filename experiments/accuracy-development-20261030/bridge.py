@@ -1,10 +1,10 @@
-"""Explicit v1 input bridge; no freeze integrity or receipt authentication."""
+"""Explicit v1.2 new-inference bridge; no freeze or receipt authentication."""
 from copy import deepcopy
 from .adapter import infer
 
 
 def infer_v1(state, doc, game_id, quote_revision_id, lineup_revision_ids, decision_at, contract, validate_v1, verify_contract):
-    """Validate a quote-only v1 projection, bind it to an independently verified contract.
+    """Validate a quote-only v1.2 projection, bind it to an independently verified contract.
 
     Lineup revisions are optional and are never required for core validation.
     No existing v1 freeze or settlement is read as a feature or authenticated.

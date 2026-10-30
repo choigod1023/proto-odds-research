@@ -110,7 +110,9 @@ def infer(state, request, contract, verify_contract):
     decision, kickoff = _time(request["decision_at"]), _time(ident["kickoff_at"])
     if decision > kickoff - timedelta(minutes=30):
         raise ValueError("decision after T-30")
-    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote", "decision_at"))
+    if _time(contract["decision_at"]) != decision:
+        raise ValueError("decision time does not match verified contract")
     if contract["identity"] != ident:
         raise ValueError("unverified game identity")
     product = contract["product"]
