@@ -1,0 +1,445 @@
+{
+  "scope": "VOTES provenance only; no fitting, scoring or ROI",
+  "input": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\experiments\\single-parlay-20261030\\inputs\\VOTES\\events.jsonl.gz",
+  "input_sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+  "events": 597,
+  "unique_event_ids": 597,
+  "cohorts": {
+    "retrospective_year_standard_ot_nba_increment": 89,
+    "retrospective_year_strict": 508
+  },
+  "league_events": {
+    "NBA": 99,
+    "MLB": 116,
+    "KBL": 18,
+    "K리그2": 11,
+    "K리그1": 19,
+    "KBO": 217,
+    "NPB": 117
+  },
+  "raw_forecasts": 635,
+  "source_rows": {
+    "Pickswise": 105,
+    "Betblog": 21,
+    "TonysPicks": 90,
+    "Miky938 Tips": 28,
+    "golfmasterj.tistory.com": 104,
+    "guidesyj.tistory.com": 175,
+    "sportsanalyst1.tistory.com": 106,
+    "Covers": 6
+  },
+  "author_rows": [
+    {
+      "source": "guidesyj.tistory.com",
+      "author": "행복단비",
+      "rows": 175
+    },
+    {
+      "source": "sportsanalyst1.tistory.com",
+      "author": "sportsanalyst1",
+      "rows": 106
+    },
+    {
+      "source": "TonysPicks",
+      "author": "Tony Tellez",
+      "rows": 79
+    },
+    {
+      "source": "golfmasterj.tistory.com",
+      "author": "마스터제이",
+      "rows": 67
+    },
+    {
+      "source": "Miky938 Tips",
+      "author": "Miky938",
+      "rows": 28
+    },
+    {
+      "source": "Pickswise",
+      "author": "Napier Montgomery",
+      "rows": 27
+    },
+    {
+      "source": "Pickswise",
+      "author": "Filip Tomic",
+      "rows": 27
+    },
+    {
+      "source": "Pickswise",
+      "author": "Ricky Dimon",
+      "rows": 26
+    },
+    {
+      "source": "golfmasterj.tistory.com",
+      "author": "전술배당연구소 2.0",
+      "rows": 21
+    },
+    {
+      "source": "Betblog",
+      "author": "palaima",
+      "rows": 11
+    },
+    {
+      "source": "Pickswise",
+      "author": "Javan Shouey",
+      "rows": 11
+    },
+    {
+      "source": "Pickswise",
+      "author": "Germantas Kneita",
+      "rows": 10
+    },
+    {
+      "source": "golfmasterj.tistory.com",
+      "author": "전술배당연구소 에디터",
+      "rows": 10
+    },
+    {
+      "source": "TonysPicks",
+      "author": "Ron Crawford",
+      "rows": 10
+    },
+    {
+      "source": "Betblog",
+      "author": "Grynakraujis",
+      "rows": 5
+    },
+    {
+      "source": "golfmasterj.tistory.com",
+      "author": "KBO 야구 분석 에디터",
+      "rows": 5
+    },
+    {
+      "source": "Betblog",
+      "author": "Kentukyo",
+      "rows": 4
+    },
+    {
+      "source": "Pickswise",
+      "author": "Caleb Wilfinger",
+      "rows": 4
+    },
+    {
+      "source": "Covers",
+      "author": "Jason Wilson",
+      "rows": 2
+    },
+    {
+      "source": "Covers",
+      "author": "Todd Cordell",
+      "rows": 2
+    },
+    {
+      "source": "golfmasterj.tistory.com",
+      "author": "NPB 야구 분석 에디터",
+      "rows": 1
+    },
+    {
+      "source": "TonysPicks",
+      "author": "Tonys Picks Staff",
+      "rows": 1
+    },
+    {
+      "source": "Covers",
+      "author": "Ed Scimia",
+      "rows": 1
+    },
+    {
+      "source": "Covers",
+      "author": "Quinn Allen",
+      "rows": 1
+    },
+    {
+      "source": "Betblog",
+      "author": "CASHKING",
+      "rows": 1
+    }
+  ],
+  "unique_source_author_labels": 25,
+  "author_rows_with_unicode_replacement_character": 0,
+  "voters_histogram": {
+    "1": 560,
+    "2": 36,
+    "3": 1
+  },
+  "multi_author_events": 37,
+  "ties": 17,
+  "duplicate_source_author_within_event": [],
+  "excluded_conflicts_events": 0,
+  "timestamps": {
+    "published_parseable": 591,
+    "published_before_kickoff": 585,
+    "published_at_or_after_kickoff": 6,
+    "observed_parseable": 635,
+    "observed_before_kickoff": 0,
+    "observed_at_or_after_kickoff": 635,
+    "cutoff_proven": 0,
+    "published_missing": 28,
+    "published_present_without_aware_timestamp": 16
+  },
+  "availability_proven_events": 0,
+  "quote_observed_verified_events": 0,
+  "author_pairs": [
+    {
+      "a": [
+        "golfmasterj.tistory.com",
+        "마스터제이"
+      ],
+      "b": [
+        "guidesyj.tistory.com",
+        "행복단비"
+      ],
+      "overlap": 16,
+      "agree": 9,
+      "ambiguous": 0,
+      "agreement_fraction": 0.5625
+    },
+    {
+      "a": [
+        "golfmasterj.tistory.com",
+        "KBO 야구 분석 에디터"
+      ],
+      "b": [
+        "guidesyj.tistory.com",
+        "행복단비"
+      ],
+      "overlap": 5,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 0.2
+    },
+    {
+      "a": [
+        "golfmasterj.tistory.com",
+        "전술배당연구소 에디터"
+      ],
+      "b": [
+        "guidesyj.tistory.com",
+        "행복단비"
+      ],
+      "overlap": 5,
+      "agree": 2,
+      "ambiguous": 0,
+      "agreement_fraction": 0.4
+    },
+    {
+      "a": [
+        "golfmasterj.tistory.com",
+        "마스터제이"
+      ],
+      "b": [
+        "sportsanalyst1.tistory.com",
+        "sportsanalyst1"
+      ],
+      "overlap": 3,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 0.3333333333333333
+    },
+    {
+      "a": [
+        "TonysPicks",
+        "Ron Crawford"
+      ],
+      "b": [
+        "sportsanalyst1.tistory.com",
+        "sportsanalyst1"
+      ],
+      "overlap": 2,
+      "agree": 2,
+      "ambiguous": 0,
+      "agreement_fraction": 1.0
+    },
+    {
+      "a": [
+        "Betblog",
+        "Grynakraujis"
+      ],
+      "b": [
+        "Pickswise",
+        "Ricky Dimon"
+      ],
+      "overlap": 1,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 1.0
+    },
+    {
+      "a": [
+        "Betblog",
+        "Grynakraujis"
+      ],
+      "b": [
+        "Pickswise",
+        "Germantas Kneita"
+      ],
+      "overlap": 1,
+      "agree": 0,
+      "ambiguous": 0,
+      "agreement_fraction": 0.0
+    },
+    {
+      "a": [
+        "golfmasterj.tistory.com",
+        "NPB 야구 분석 에디터"
+      ],
+      "b": [
+        "golfmasterj.tistory.com",
+        "마스터제이"
+      ],
+      "overlap": 1,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 1.0
+    },
+    {
+      "a": [
+        "golfmasterj.tistory.com",
+        "NPB 야구 분석 에디터"
+      ],
+      "b": [
+        "guidesyj.tistory.com",
+        "행복단비"
+      ],
+      "overlap": 1,
+      "agree": 0,
+      "ambiguous": 0,
+      "agreement_fraction": 0.0
+    },
+    {
+      "a": [
+        "TonysPicks",
+        "Tony Tellez"
+      ],
+      "b": [
+        "guidesyj.tistory.com",
+        "행복단비"
+      ],
+      "overlap": 1,
+      "agree": 0,
+      "ambiguous": 0,
+      "agreement_fraction": 0.0
+    },
+    {
+      "a": [
+        "TonysPicks",
+        "Tony Tellez"
+      ],
+      "b": [
+        "TonysPicks",
+        "Tonys Picks Staff"
+      ],
+      "overlap": 1,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 1.0
+    },
+    {
+      "a": [
+        "Covers",
+        "Ed Scimia"
+      ],
+      "b": [
+        "Covers",
+        "Jason Wilson"
+      ],
+      "overlap": 1,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 1.0
+    },
+    {
+      "a": [
+        "Covers",
+        "Jason Wilson"
+      ],
+      "b": [
+        "Covers",
+        "Quinn Allen"
+      ],
+      "overlap": 1,
+      "agree": 1,
+      "ambiguous": 0,
+      "agreement_fraction": 1.0
+    }
+  ],
+  "reused_urls_groups": 96,
+  "reused_hash_groups": 86,
+  "cross_author_same_document_hash_groups": [
+    {
+      "sha256": "ca95290adc7767743a455ae674235a1ae447418585e363d18f944ac12948ab65",
+      "rows": [
+        [
+          "MLB:823538",
+          "TonysPicks",
+          "Tony Tellez",
+          "away"
+        ],
+        [
+          "MLB:823538",
+          "TonysPicks",
+          "Tonys Picks Staff",
+          "away"
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "Source-author labels are not verified unique human identities.",
+    "Shared URL/hash across events can be a multi-game roundup, not copying.",
+    "Pair agreement can reflect common market favorites; no causal copying inference.",
+    "No text bodies in export: semantic copying, revision histories, and independent authorship untestable.",
+    "Availability timestamps are hypothetical; publication claims do not prove pregame capture."
+  ],
+  "publication_at_or_after_kickoff_examples": [
+    {
+      "event_id": "MLB:824849",
+      "kickoff": "2026-04-29T07:35:00+09:00",
+      "source": "TonysPicks",
+      "author": "Tony Tellez",
+      "published": "2026-04-29T03:20:42Z",
+      "url": "https://www.tonyspicks.com/2026/04/28/free-mlb-picks-for-today-4-29-2026/"
+    },
+    {
+      "event_id": "MLB:824768",
+      "kickoff": "2026-05-09T08:10:00+09:00",
+      "source": "TonysPicks",
+      "author": "Tony Tellez",
+      "published": "2026-05-09T04:58:52Z",
+      "url": "https://www.tonyspicks.com/2026/05/08/free-mlb-picks-for-today-5-9-2026/"
+    },
+    {
+      "event_id": "MLB:823538",
+      "kickoff": "2026-06-06T08:05:00+09:00",
+      "source": "TonysPicks",
+      "author": "Tony Tellez",
+      "published": "2026-06-06T08:26:33Z",
+      "url": "https://www.tonyspicks.com/2026/06/06/free-mlb-picks-for-today-6-6-2026/"
+    },
+    {
+      "event_id": "MLB:823538",
+      "kickoff": "2026-06-06T08:05:00+09:00",
+      "source": "TonysPicks",
+      "author": "Tonys Picks Staff",
+      "published": "2026-06-06T12:35:06Z",
+      "url": "https://www.tonyspicks.com/2026/06/06/red-sox-vs-yankees-mlb-sharp-pick-june-6-2026/"
+    },
+    {
+      "event_id": "NPB:/scores/2026/0622/e-l-09/",
+      "kickoff": "2026-06-22T18:00:00+09:00",
+      "source": "TonysPicks",
+      "author": "Ron Crawford",
+      "published": "2026-06-22T09:56:18Z",
+      "url": "https://www.tonyspicks.com/2026/06/22/seibu-lions-vs-rakuten-golden-eagles-best-bet-ron-crawford-june-22/"
+    },
+    {
+      "event_id": "/scores/2026/0801/f-m-15/",
+      "kickoff": "2026-08-01T14:00:00+09:00",
+      "source": "golfmasterj.tistory.com",
+      "author": "마스터제이",
+      "published": "2026-08-01T14:12:08+09:00",
+      "url": "https://golfmasterj.tistory.com/entry/8%EC%9B%94-1%EC%9D%BC-KBO%C2%B7NPB-11%EA%B2%BD%EA%B8%B0-%EB%8B%A8%ED%86%B5-%EB%B6%84%EC%84%9D-%E2%80%94-%EC%B9%B4%EB%9D%BC%EC%8A%A4%EC%BD%94%EC%9D%98-KBO-%EB%8D%B0%EB%B7%94%EC%A0%84-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%B9%B4%ED%86%A0%EC%9D%98-%ED%99%88-%EB%AC%B4%ED%8C%A8%ED%96%89%EC%A7%84%EC%9D%80-%EC%98%A4%EB%8A%98-%EB%81%9D%EB%82%A0%EA%B9%8C"
+    }
+  ],
+  "manifest_sha256_matches": true
+}

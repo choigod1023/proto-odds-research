@@ -1,0 +1,168 @@
+{
+  "topic": "LEAGUE",
+  "checked_at": "2026-10-30",
+  "scope": "문헌·코드 읽기만 수행. 피팅·ROI 실험·운영 변경 없음",
+  "sources": [
+    {
+      "id": "KL18",
+      "title": "이변량 영과잉 포아송 및 대각확대 모형을 이용한 K-리그 골득점 자료 분석",
+      "authors": [
+        "허윤서",
+        "김경희"
+      ],
+      "year": 2018,
+      "primary_url": "https://doi.org/10.7465/jkdi.2018.29.6.1643",
+      "verified_url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002405485",
+      "access": "저자 초록을 KCI에서 확인; DOI 원문 접근 실패",
+      "finding": "2015–2018 자료에 8개 모형 비교. 설명변수는 해당 경기 전반 득점·점유율이다.",
+      "limitation": "경기 전 예측의 증거로 사용할 수 없다. AIC/BIC 적합도와 미래 수익은 다르다."
+    },
+    {
+      "id": "KL24",
+      "title": "머신러닝 알고리즘을 활용한 한국프로축구 경기결과 예측: 2020~2023시즌 K리그 경기데이터 활용",
+      "authors": [
+        "김필수",
+        "이상현",
+        "전성삼"
+      ],
+      "year": 2024,
+      "primary_url": "https://journal.dcs.or.kr/xml/40422/40422.pdf",
+      "doi": "10.9728/dcs.2024.25.4.1027",
+      "access": "발행처 PDF 검색 추출문·KCI 서지 확인; PDF 직접 재열기는 실패",
+      "finding": "2020–2022 학습, 2023 경기 기록 투입, 144경기 중 119경기 결과 일치 주장. 유효슈팅 등 경기 통계 중요.",
+      "limitation": "대상 경기 통계의 사전 가용성 입증 없음. 82.64%를 사전 베팅 정확도로 인용하지 않는다."
+    },
+    {
+      "id": "DC97",
+      "title": "Modelling Association Football Scores and Inefficiencies in the Football Betting Market",
+      "authors": [
+        "Mark J. Dixon",
+        "Stuart G. Coles"
+      ],
+      "year": 1997,
+      "primary_url": "https://academic.oup.com/jrsssc/article-abstract/46/2/265/6990546",
+      "doi": "10.1111/1467-9876.00065",
+      "access": "발행처 초록 확인; 전문 미확인",
+      "finding": "동적 팀 전력을 고려한 Poisson 회귀. 1992–1995 영국 경기로 적합하고 1995–1996 배당으로 전략 평가.",
+      "limitation": "논문의 양의 수익은 우리 시장·2폴·현재 가격에서의 수익 증거가 아니다. 세부 시간감쇠는 후속 원논문 설명과 교차 확인."
+    },
+    {
+      "id": "KN03",
+      "title": "Analysis of sports data by using bivariate Poisson models",
+      "authors": [
+        "Dimitris Karlis",
+        "Ioannis Ntzoufras"
+      ],
+      "year": 2003,
+      "primary_url": "https://www2.stat-athens.aueb.gr/~jbn/papers2/08_Karlis_Ntzoufras_2003_RSSD.pdf",
+      "doi": "10.1111/1467-9884.00366",
+      "access": "저자 소속 대학 전문 및 발행처 초록 확인",
+      "finding": "득점 상관·대각확대가 무승부 적합을 개선할 수 있음. 축구·수구 사례.",
+      "limitation": "기본 공통성분 bivariate Poisson은 음의 공분산을 표현하지 못한다. 서로 다른 경기의 2폴 상관을 추정하는 모형은 아니다."
+    },
+    {
+      "id": "XG21",
+      "title": "A Goal Scoring Probability Model for Shots Based on Synchronized Positional and Event Data in Football (Soccer)",
+      "authors": [
+        "Gabriel Anzer",
+        "Pascal Bauer"
+      ],
+      "year": 2021,
+      "primary_url": "https://public-pages-files-2025.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2021.624475/pdf",
+      "doi": "10.3389/fspor.2021.624475",
+      "access": "발행처 PDF 첫 페이지·초록 확인",
+      "finding": "Bundesliga 105627개 슛의 위치·이벤트 정보를 결합한 xG 모형.",
+      "limitation": "슛별 득점 확률 검증이며 다음 경기 승패나 ROI 검증이 아니다. K리그 tracking 원천 확보도 별개."
+    },
+    {
+      "id": "KBO19",
+      "title": "A Win/Lose prediction model of Korean professional baseball using machine learning technique",
+      "authors": [
+        "Yeong-Jin Seo",
+        "Hyung-Woo Moon",
+        "Yong-Tae Woo"
+      ],
+      "year": 2019,
+      "primary_url": "https://journal.kci.go.kr/jksci/archive/articlePdf?artiId=ART002439410",
+      "doi": "10.9708/jksci.2019.24.02.017",
+      "access": "학회 PDF 초록·도입부 확인; 세부 검증 전수 감사 안 함",
+      "finding": "기본·세이버메트릭 기록으로 득실점 예측 후 승률을 만드는 신경망 접근.",
+      "limitation": "사전 시각 보장·동일 가격 시장 대조·2폴 수익을 검증한 근거로 사용하지 않는다."
+    },
+    {
+      "id": "NPB11",
+      "title": "Pitching Prediction By Multinomial Logit Model In Nippon Professional Baseball(Session 2a)",
+      "authors": [
+        "Keisuke Koike",
+        "Hiroyasu Abe",
+        "Hiroshi Yadohisa"
+      ],
+      "year": 2011,
+      "primary_url": "https://www.jstage.jst.go.jp/article/jscssymo/25/0/25_85/_article",
+      "doi": "10.20551/jscssymo.25.0_85",
+      "access": "학회 J-STAGE 초록 확인; 학술대회 85–88쪽",
+      "finding": "타자에게 정보를 주기 위한 multinomial logit 투구 예측 모형.",
+      "limitation": "경기 승패 사전 예측과 다른 과제. 2017 온라인 공개일을 발행연도로 오인하면 안 된다."
+    },
+    {
+      "id": "MLB12",
+      "title": "The Impact of Pitch Counts and Days of Rest on Performance Among Major-League Baseball Pitchers",
+      "authors": [
+        "John C. Bradbury",
+        "Sean L. Forman"
+      ],
+      "year": 2012,
+      "primary_url": "https://digitalcommons.kennesaw.edu/facpubs/2168/",
+      "doi": "10.1519/JSC.0b013e31824e16fe",
+      "access": "저자 대학 저장소 초록·서지 확인",
+      "finding": "높은 투구 부하는 이후 성과를 낮출 수 있으나 효과가 작아 고정 투구수 기준의 효용이 제한적이라는 결론.",
+      "limitation": "MLB 선발 연구를 불펜 가용성·KBO·NPB 고정 페널티로 바로 전환할 수 없다."
+    },
+    {
+      "id": "KBL26",
+      "title": "설명가능한 머신러닝을 활용한 한국프로농구(KBL) 경기 결과 예측과 경기 전 팀 요인의 기여도 분석",
+      "authors": [
+        "강용구",
+        "최형준"
+      ],
+      "year": 2026,
+      "primary_url": "https://doi.org/10.35159/kjss.2026.8.35.4.731",
+      "verified_url": "https://www.kci.go.kr/kciportal/mobile/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003376896",
+      "access": "KCI 저자 초록 확인; DOI 원문 접근 실패",
+      "finding": "경기 전 누적값만 사용. 2378경기에서 정확도 63.0%, AUC .66, 기준 정확도 56.5%. 전력 통제 뒤 Four Factors 추가 효과 없고 XGBoost가 logistic을 능가하지 않음.",
+      "limitation": "초록 수준 확인. 베팅 가격·확률 보정·ROI 검증을 확인하지 못함."
+    },
+    {
+      "id": "NBA21",
+      "title": "Impacts of travel distance and travel direction on back-to-back games in the National Basketball Association",
+      "authors": [
+        "Jonathan Charest",
+        "C. H. Samuels",
+        "C. H. Bastien",
+        "D. Lawson",
+        "M. A. Grandner"
+      ],
+      "year": 2021,
+      "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8636381/",
+      "doi": "10.5664/jcsm.9446",
+      "access": "원논문 공개 전문 초록·방법 확인",
+      "finding": "2013–2020 NBA 연속 경기의 이동 거리·방향·홈원정 순서와 승리의 관계 분석.",
+      "limitation": "관측 연구이며 NBA 시차 효과를 KBL에 이전할 근거 없음. 배당 대비 정보 우위·ROI 미검증."
+    },
+    {
+      "id": "RISK16",
+      "title": "Risk-Constrained Kelly Gambling",
+      "authors": [
+        "Enzo Busseti",
+        "Ernest K. Ryu",
+        "Stephen Boyd"
+      ],
+      "year": 2016,
+      "primary_url": "https://web.stanford.edu/~boyd/papers/kelly.html",
+      "fulltext_url": "https://web.stanford.edu/~boyd/papers/pdf/kelly.pdf",
+      "access": "저자 대학 소개·원고 초록 확인",
+      "finding": "가정한 수익 분포 아래 낙폭 확률 상계를 이용한 볼록 최적화.",
+      "limitation": "모델 오차와 실제 경기 상관을 해결하지 않음. 고정 1만원 연구나 월 손실 제한을 바꿀 근거가 아님."
+    }
+  ]
+}

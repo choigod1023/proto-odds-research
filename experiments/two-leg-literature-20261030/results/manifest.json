@@ -1,0 +1,36 @@
+{
+  "inputs": [
+    {
+      "path": "experiments/two-leg-literature-20261030/inputs/timed.jsonl.gz",
+      "sha256": "e62634c3db0ea87e643f976b378c09742b8879190809c155b24306f5e411d997"
+    },
+    {
+      "path": "experiments/two-leg-literature-20261030/inputs/votes.jsonl.gz",
+      "sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+    }
+  ],
+  "preparation": {
+    "missing_common_probability_roster": 30630,
+    "missing_issued_identity_choices": 5463,
+    "duplicate_document_forecasts_excluded": 0,
+    "publication_time_not_proven": 44,
+    "retrospective_later_alias_rosters_skipped": 16,
+    "known_late_publication_forecasts_excluded": 6,
+    "events_without_admissible_tipster_vote": 5,
+    "frames": 8055,
+    "common_rosters_all_revisions": 3690
+  },
+  "counts": {
+    "forecast_rosters": 915,
+    "result_rows": 296,
+    "fits": 6,
+    "sessions": 35
+  },
+  "production_changed": false,
+  "claimed_time_sensitivity": false,
+  "claimed_time_audit": null,
+  "evidence_scope": "retrospective chronological replay; result receipt timestamps unverified",
+  "result_receipt_times_verified": false,
+  "strict_asof_training_certified": false,
+  "code_sha256": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5"
+}

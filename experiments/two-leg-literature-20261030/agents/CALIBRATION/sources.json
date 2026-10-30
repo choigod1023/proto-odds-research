@@ -1,0 +1,87 @@
+{
+  "checked_on": "2026-10-30",
+  "scope": "CALIBRATION; literature and read-only contracts; no fitting or ROI experiment",
+  "sources": [
+    {
+      "id": "guo2017",
+      "title": "On Calibration of Modern Neural Networks",
+      "authors": [
+        "Chuan Guo",
+        "Geoff Pleiss",
+        "Yu Sun",
+        "Kilian Q. Weinberger"
+      ],
+      "year": 2017,
+      "url": "https://proceedings.mlr.press/v70/guo17a.html",
+      "fulltext": "https://proceedings.mlr.press/v70/guo17a/guo17a.pdf",
+      "verified": "primary_fulltext",
+      "finding": "Positive shared temperature preserves argmax; held-out NLL fit changes confidence; vision/NLP evidence, not sports ROI."
+    },
+    {
+      "id": "kull2017",
+      "title": "Beta calibration: a well-founded and easily implemented improvement on logistic calibration for binary classifiers",
+      "authors": [
+        "Meelis Kull",
+        "Telmo Silva Filho",
+        "Peter Flach"
+      ],
+      "year": 2017,
+      "url": "https://proceedings.mlr.press/v54/kull17a.html",
+      "fulltext": "https://proceedings.mlr.press/v54/kull17a/kull17a.pdf",
+      "verified": "primary_fulltext",
+      "finding": "Beta contains identity; isotonic risks small-sample overfit; binary result does not validate multiclass renormalization."
+    },
+    {
+      "id": "walsh2024",
+      "title": "Machine learning for sports betting: should model selection be based on accuracy or calibration?",
+      "authors": [
+        "Conor Walsh",
+        "Alok Joshi"
+      ],
+      "year": 2024,
+      "url": "https://doi.org/10.1016/j.mlwa.2024.100539",
+      "fulltext": "https://arxiv.org/html/2303.06021v4",
+      "verified": "author_preprint_and_institutional_record",
+      "superseded_by": "walsh2025",
+      "finding": "NBA single evaluation season; original headline returns must be read with 2025 correction."
+    },
+    {
+      "id": "walsh2025",
+      "title": "Corrigendum to Machine learning for sports betting: should model selection be based on accuracy or calibration?",
+      "authors": [
+        "Conor Walsh",
+        "Alok Joshi"
+      ],
+      "year": 2025,
+      "url": "https://doi.org/10.1016/j.mlwa.2025.100627",
+      "fulltext": "https://researchportal.bath.ac.uk/en/publications/corrigendum-to-machine-learning-for-sports-betting-should-model-s/",
+      "verified": "primary_institutional_full_correction_text",
+      "finding": "Feature engineering implementation errors affected downstream results. Corrected average ROI calibration -9.77%, accuracy -26.78%; best 23.13% vs 10.9%; eighth-Kelly -42.67% vs -64.45%. Paper metrics, not our ROI."
+    },
+    {
+      "id": "gneiting2007",
+      "title": "Strictly Proper Scoring Rules, Prediction, and Estimation",
+      "authors": [
+        "Tilmann Gneiting",
+        "Adrian E. Raftery"
+      ],
+      "year": 2007,
+      "url": "https://doi.org/10.1198/016214506000001437",
+      "fulltext": "https://sites.stat.washington.edu/people/raftery/Research/PDF/Gneiting2007jasa.pdf",
+      "verified": "author_hosted_primary_text",
+      "finding": "Strict propriety elicits true distributions in expectation; finite-sample score gains neither prove perfect calibration nor profits."
+    },
+    {
+      "id": "white2000",
+      "title": "A Reality Check for Data Snooping",
+      "authors": [
+        "Halbert White"
+      ],
+      "year": 2000,
+      "url": "https://doi.org/10.1111/1468-0262.00152",
+      "fulltext": "https://users.ssc.wisc.edu/~behansen/718/White2000.pdf",
+      "verified": "university_hosted_primary_fulltext",
+      "finding": "Benchmark superiority after specification search needs family-aware inference; dependence and regularity assumptions matter, especially with very few dates."
+    }
+  ]
+}
