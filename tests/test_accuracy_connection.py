@@ -1,4 +1,5 @@
 import json
+import pytest
 import hashlib
 import importlib.util
 from copy import deepcopy
@@ -73,3 +74,31 @@ def test_duplicate_prior_identity_is_ambiguous():
     assert len(result['links']) == 22
     assert len(result['unmatched']) == 2
     assert all(x['reason'] == 'ambiguous' for x in result['unmatched'])
+
+
+def test_duplicate_official_id_across_different_keys_fails_closed_even_with_poisoned_scores():
+    spec = importlib.util.spec_from_file_location('connection_match_duplicate_id', ROOT / 'match.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    prior, official = load('prior-2025.json'), load('official-2025.json')
+    saved = load('links.json')['links']
+    first = next(r for r in official if r['official_game_id'] == saved[0]['official_game_id'])
+    second = next(r for r in official if r['official_game_id'] == saved[1]['official_game_id'])
+    assert module.key_official(first) != module.key_official(second)
+    second['official_game_id'] = first['official_game_id']
+    for row in prior:
+        row['hg'], row['ag'] = 999, 998
+    for row in official:
+        row['score'] = [999, 998]
+    with pytest.raises(ValueError, match='duplicate official game ID'):
+        module.link(prior, official)
+
+
+def test_missing_official_id_fails_closed():
+    spec = importlib.util.spec_from_file_location('connection_match_missing_id', ROOT / 'match.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    official = load('official-2025.json')
+    official[0]['official_game_id'] = ''
+    with pytest.raises(ValueError, match='missing official game ID'):
+        module.link(load('prior-2025.json'), official)
