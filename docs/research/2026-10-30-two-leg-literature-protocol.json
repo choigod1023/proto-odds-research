@@ -103,5 +103,15 @@
       "Unknown publication time stays explicitly unproven and cannot be called pregame-certified"
     ],
     "timing": "V1 results were inspected before metadata audit correction; corrected replay remains retrospective, not newly preregistered or untouched"
+  },
+  "verification_addendum": {
+    "reason": "Review found generic duplicate-hash alias and per-event sample-size invariants; fix without selecting on profits. Current data results unchanged after correction.",
+    "hash_aliases": [
+      "document_sha256",
+      "source_sha256"
+    ],
+    "sample_sizes": "Minimum30training/10validation independent events and league shrinkage by independent event counts; retain market counts separately",
+    "common_saved_rosters": "Require market,score,andfinal complete vectors; native support hash and paired comparison support retained",
+    "result_timing": "All outputs explicitly mark strict_asof_training_certified=false because actual result receipt times are absent; 48h embargo is only an assumption"
   }
 }
