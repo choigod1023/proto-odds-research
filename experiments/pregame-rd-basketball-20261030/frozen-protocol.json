@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "window_hours": 72,
+  "features_per_side": [
+    "player_top5_minutes_72h",
+    "player_peak_minutes_72h",
+    "player_squared_load_72h",
+    "ot_team_minutes_72h"
+  ],
+  "squared_load": "sum over players of (cumulative 72h minutes / league regulation minutes)^2",
+  "ot_team_minutes": "5 * 5 * number of overtime periods; not individual OT minutes",
+  "clock": {
+    "NBA": 48,
+    "KBL": 40,
+    "overtime": 5
+  },
+  "gate": "game start in [decision-72h,decision); actual final end strictly before decision; exclude target",
+  "missing": "omit feature keys, never coerce missing minutes or absent boxes to zero",
+  "injury": "missing: no authenticated historical pregame announcement archive",
+  "archive": "reuse fetched sources only; retrospective settled-only secondary training/diagnostic",
+  "selection": "collect all prior games for actual roster windows, bounded HTTP budget; no ROI inspected"
+}

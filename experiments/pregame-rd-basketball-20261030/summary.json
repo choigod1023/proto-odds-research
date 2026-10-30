@@ -1,0 +1,45 @@
+{
+  "actual_and_claimed": {
+    "rows": 205,
+    "rows_with_features": 182,
+    "both_sides": 142,
+    "by_league": {
+      "NBA": 166,
+      "KBL": 16
+    },
+    "tiers": {
+      "retrospective_lagged": 1296
+    }
+  },
+  "archive_secondary": {
+    "rows": 251,
+    "rows_with_features": 251,
+    "both_sides": 89,
+    "by_league": {
+      "NBA": 223,
+      "KBL": 28
+    },
+    "tiers": {
+      "retrospective_lagged": 1360
+    }
+  },
+  "normalized_games": {
+    "KBL": 23,
+    "NBA": 227
+  },
+  "requests_this_run": 0,
+  "missing_reasons_actual": {
+    "prior_game_not_finished_at_decision": 14,
+    "no_prior_box_in_72h": 53,
+    "missing_scheduled_box": 17,
+    "missing_player_minutes": 2
+  },
+  "missing_reasons_archive": {
+    "schedule_window_not_covered": 9202,
+    "missing_scheduled_box": 1259,
+    "prior_game_not_finished_at_decision": 21,
+    "no_prior_box_in_72h": 183,
+    "missing_player_minutes": 1
+  },
+  "roi": "not evaluated here; parent matched evaluator only; no model improvement claim"
+}
