@@ -22,6 +22,29 @@ def write(path, rows):
             z.write(raw)
 
 
+def publication_rejection(frame, decision_at, kickoff_at):
+    """Validate publication claims at the decision, never certify actual receipt."""
+    if frame is None:
+        return 'missing_frame'
+    try:
+        parse = lambda value: datetime.fromisoformat(value.replace('Z', '+00:00'))
+        kickoff, decision, frame_kickoff = map(parse, (kickoff_at, decision_at, frame['kickoff']))
+        dates = [parse(row['source_reported_published_at']) for row in frame['raw_forecasts']]
+        if not dates or any(value.utcoffset() is None for value in (kickoff, decision, frame_kickoff, *dates)):
+            return 'unknown_or_naive_publication'
+        if frame_kickoff != kickoff:
+            return 'frame_kickoff_mismatch'
+        if decision >= kickoff:
+            return 'invalid_decision_time'
+        if any(value >= kickoff for value in dates):
+            return 'postkickoff_publication'
+        if any(value > decision for value in dates):
+            return 'postdecision_publication'
+    except (KeyError, ValueError, TypeError, AttributeError):
+        return 'unknown_or_naive_publication'
+    return None
+
+
 def main():
     folder = HERE / 'inputs'
     folder.mkdir(exist_ok=True)
@@ -68,13 +91,7 @@ def main():
         actual = c['cohort'] != 'historical_market_proxy'
         if actual:
             f = frames.get(c['event_id'])
-            bad = 'missing_frame'
-            try:
-                kickoff = datetime.fromisoformat(f['kickoff'])
-                dates = [datetime.fromisoformat(r['source_reported_published_at'].replace('Z', '+00:00')) for r in f['raw_forecasts']]
-                bad = 'unknown_or_naive_publication' if not dates or any(d.tzinfo is None for d in dates) else 'postkickoff_publication' if any(d >= kickoff for d in dates) else None
-            except (KeyError, ValueError, TypeError, AttributeError):
-                bad = 'unknown_or_naive_publication' if f is not None else 'missing_frame'
+            bad = publication_rejection(f, c.get('decision_at'), c.get('kickoff'))
             if bad:
                 audit[bad] = audit.get(bad, 0) + 1
                 continue

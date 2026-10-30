@@ -1,0 +1,20 @@
+{
+  "preparation": {
+    "history": 17337,
+    "targets": 710,
+    "exclusions": {
+      "unresolved_exact_team": 6311,
+      "unknown_or_naive_publication": 5
+    }
+  },
+  "replay_identical_bytes": {
+    "history.jsonl.gz": true,
+    "targets.jsonl.gz": true
+  },
+  "scope": "Publication eligibility bug fix; original model/results unchanged; actual receipt remains uncertified.",
+  "publication_gate_source": {
+    "path": "experiments/dynamic-score-state-model-20261030/prepare.py",
+    "previous_sha256": "4d3a4a6158897eed3173c9f400f8b4f5f5cf877bc82e60450e37ca985277ff5b",
+    "sha256": "f01b68e80ea1c2c0fa42f3eb5d7309fb20e5d947fb3507f62b0a207314763442"
+  }
+}
