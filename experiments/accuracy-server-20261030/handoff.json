@@ -6,7 +6,7 @@
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
   "protocol_sha": null,
   "commit": null,
-  "pr_url": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/437",
   "changed_paths": [
     "docs/research/2026-10-30-accuracy-server.md",
     "experiments/accuracy-server-20261030/handoff.json"
@@ -36,7 +36,7 @@
     "Single snapshot; no availability or stability conclusion.",
     "Sampling timestamps and exact 10 second spacing unavailable; current per-process RSS/HWM not obtained.",
     "Image-wide commit not verified; only supervisor hash matched.",
-    "commit and PR URL are supplied in final response: embedding own commit hash is self-referential.",
+    "Commit is supplied in final response: embedding own commit hash is self-referential.",
     "No model performance experiment; protocol commit not applicable."
   ],
   "blockers": [],
