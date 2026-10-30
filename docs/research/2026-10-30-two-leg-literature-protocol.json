@@ -113,5 +113,15 @@
     "sample_sizes": "Minimum30training/10validation independent events and league shrinkage by independent event counts; retain market counts separately",
     "common_saved_rosters": "Require market,score,andfinal complete vectors; native support hash and paired comparison support retained",
     "result_timing": "All outputs explicitly mark strict_asof_training_certified=false because actual result receipt times are absent; 48h embargo is only an assumption"
+  },
+  "claimed_time_sensitivity_addendum": {
+    "purpose": "Do not assume a tipster statement was available at kickoff-24h when its own posted time is later. Additional input-quality sensitivity; no parameter grid or policy optimization.",
+    "rules": [
+      "Keep only aware source-claimed publication times no later than kickoff-30min",
+      "Final electorate becomes available at latest surviving claimed posting, not synthetic kickoff-24h",
+      "Unknown publication rows omitted for this sensitivity only",
+      "Same two frozen splits, models and ticket rules; still no authenticated receipt or price-at-publication proof"
+    ],
+    "evidence": "Same already exposed dataset; not independent new validation"
   }
 }
