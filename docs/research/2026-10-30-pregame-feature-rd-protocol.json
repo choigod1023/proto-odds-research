@@ -4,7 +4,15 @@
   "production_changed": false,
   "research_monthly_loss_cap": null,
   "two_leg_policy": "Two individually eligible legs only, otherwise no bet. No production policy change.",
-  "priority": ["K리그1", "K리그2", "KBO", "NPB", "MLB", "KBL", "NBA"],
+  "priority": [
+    "K리그1",
+    "K리그2",
+    "KBO",
+    "NPB",
+    "MLB",
+    "KBL",
+    "NBA"
+  ],
   "data": {
     "primary": "PR423 cleaned actual tipster matched rosters and saved model references; genuine tipster/market/fixed9:1 where actually present",
     "auxiliary": "PR422 large historical_market_proxy prices/outcomes may train/statistically evaluate new feature models, never called existing service or actual tipster model",
@@ -30,10 +38,29 @@
   "temporal_evaluation": "60/20/20 KST unique dates, mandatory50/20/30 sensitivity; splits overlap and are not independent external replications. Keep event identities in one partition; no test outcome selection.",
   "training_minimum": "30 independent training events,10 validation if hyperparameters selected; fixedL2/weights require no posthoc validation selection. Require at least10 heldout events to compare, else insufficient. Auxiliary past-only training may be used for primary matched evaluation with exact physical-event dedup and cutoff before primary validation/test.",
   "label_availability": "Use actual first result receipt where available. Otherwise a48h kickoff embargo is explicitly an assumption and cannot certify strict as-of training.",
-  "metrics": ["coverage/missing reasons/evidence tier", "accuracy", "Brier", "logloss", "single flat-stake ROI", "home/draw/away pick shares", "two-leg no-fill ROI/coverage", "same-leg separate singles", "daily-close drawdown", "paired kickoff-date intervals"],
+  "metrics": [
+    "coverage/missing reasons/evidence tier",
+    "accuracy",
+    "Brier",
+    "logloss",
+    "single flat-stake ROI",
+    "home/draw/away pick shares",
+    "two-leg no-fill ROI/coverage",
+    "same-leg separate singles",
+    "daily-close drawdown",
+    "paired kickoff-date intervals"
+  ],
   "ticket_budget_krw": 12000,
   "ticket_threshold": "Each model p>=0.55 and p*odds>1; no upper odds cap; no valid second leg =>no ticket",
   "payout": "Original single odds; parlay product floor2dec then ceil1dec; void leg1.00/allvoid refund; actual labels only",
   "forward_development": "Implement/test local capture journal and provider adapters to record future source/label observations honestly. No cron activation, deployment, production file writes or paid purchases.",
-  "adoption": "Research PR preserves code/evidence only. Already exposed archives, sparse primary cohorts or auxiliary proxy improvements are not sufficient for production replacement or future-profit claim."
+  "adoption": "Research PR preserves code/evidence only. Already exposed archives, sparse primary cohorts or auxiliary proxy improvements are not sufficient for production replacement or future-profit claim.",
+  "implementation_clarifications_before_ROI": {
+    "primary_support": "Use claimed-time tipster cohort and saved full-game moneyline references; unique-vote directions only for fair common operating-policy support. Exclude HC/totals/odd-even from player-win models.",
+    "calendar_view": "Additional retrospective_date_lagged view accepts source max_fact_date+declared timezone only when calendar-day end+24h<=decision; this is an explicit upper-bound assumption, never a made-up actual end/observed timestamp. Captured/time-only gates continue to reject missing times.",
+    "auxiliary_transfer": "Feature-only/intercept classifiers can use earlier auxiliary games; omit every auxiliary target date that occurs in primary to avoid physical aliases. Never transfer proxy-market-offset calibration to genuine Shin primary anchors.",
+    "freeze_and_pairs": "Per-game T-30 prediction freeze. Conditional2 ticket requires all frozen predictions already available before earliest kickoff-30min, which mainly limits this experiment to simultaneous kickoffs; no later-signal fill.",
+    "sparse": "Under10heldout events may have explicitly labeled descriptive output only, never adoption/confirmed comparison.",
+    "forward": "Local append-only capture records now, verifies stored bytes/chain, and never backdates reception or certifies external publication."
+  }
 }
