@@ -1,0 +1,57 @@
+{
+  "implemented": [
+    "scorestate teamattack/defense",
+    "outcomestate teamability/home/draw",
+    "Gaussianposteriorcovariance andunseenprior",
+    "sourceavailability+4dayresearchproxy",
+    "sameprice actualtipster/fixed9/market comparative tests"
+  ],
+  "not_implemented": [
+    "actualtargetstarterandXIeffects",
+    "pitcher/batterindividualperformance",
+    "weatherparkplatoon",
+    "tipstertrustasnewmodelmeasurement",
+    "neuraltextencoder/transformer/GNN",
+    "productioncollector/scheduler"
+  ],
+  "required_contract": {
+    "identity": "official_game_id,league,home_team_id,away_team_id,player_ids",
+    "time": "official_start,source_published_claim,first_received_at,revision_received_at,raw_sha256,external_witness_receipt,official_result_first_available",
+    "lineup": "announced/probable distinction,officialannouncementURL,playerrole,battingorder,expectedinnings/minutes",
+    "quote": "issuedproduct_id,fullpricevector,eachquote_observed_at,validity,freeze_at",
+    "results": "official_score,marketsettlement_scope,void/cancel,final_at,result_source_hash"
+  },
+  "league_priorities": [
+    {
+      "league": "K리그1/2",
+      "need": "samepoint officialXI/minutes/xG/absences and rotation; currentonlypastteamscores",
+      "next_architecture": "teamstate+shrunkenplayercomposition+explicitdraw,comparetabularGBDTbaseline",
+      "blocking": "K리그2 2025validation23<50; actualK1priced15,K2priced9"
+    },
+    {
+      "league": "KBO",
+      "need": "announcedstarter,fullbattingorder,priorpitcherabilityandinnings,completebullpenpitchcounts notBF proxy,parkweather",
+      "next_architecture": "starter/bullpenmixture+battingcomposition withhierarchicalpriors",
+      "blocking": "currentteamonlymodel199gamesinferior"
+    },
+    {
+      "league": "NPB",
+      "need": "completeofficialpitchcounts/platoon,announcedXI,parkandrest; notjustpartialD2D3D4subset",
+      "next_architecture": "samebaseballhierarchy withownleaguepriors",
+      "blocking": "frozen110lossreduction didnotpersistonline"
+    },
+    {
+      "league": "MLB",
+      "need": "asofStatcastxwOBA/xERA/FIP/platoon,startercertainty/expectedinnings,rosterandbullpen",
+      "next_architecture": "playerhierarchy+battingpitchinginteractions,GBDTcountermodel",
+      "blocking": "teamonly112pricedinferior; calendarhistorydoubleheaderdedupcaveat"
+    },
+    {
+      "league": "KBL/NBA",
+      "need": "lineup/injuryannouncementtime,expectedminutes,possession/efficiency/paceandrest",
+      "next_architecture": "dynamicpace+efficiency/playercomposition,notrawbaseballPoisson",
+      "blocking": "nottrainedorevaluatedinthisstudy"
+    }
+  ],
+  "write_scope": "researchcontract only, no newfeatureeffect/pipeline/adoptionclaimed"
+}

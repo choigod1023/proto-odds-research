@@ -1,0 +1,29 @@
+{
+  "focused_tests": 25,
+  "full_pytest": "1870 passed, 6 skipped, 93 subtests passed",
+  "offline_replay_exact_bytes": {
+    "results.json": true,
+    "trained-states.json": true,
+    "predictions.jsonl.gz": true
+  },
+  "independent": {
+    "independent_actual_price_legs": 17800,
+    "frozen_probability_replay": 2772,
+    "all_test_label_poison_training_states_unchanged": 20,
+    "causal_unavailable_future_poison_checks": 4,
+    "holm80_independent": true,
+    "network_blocked": true,
+    "metric_tolerance": 1e-12
+  },
+  "protocol_commit": "0de1f67c",
+  "model_candidate_count": 4,
+  "accuracy_test_family": 80,
+  "certified_receipt": 0,
+  "merge_deploy": false,
+  "environment": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0"
+  }
+}
