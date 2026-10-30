@@ -1,6 +1,6 @@
 """Explicit v1 input bridge; no freeze integrity or receipt authentication."""
 from copy import deepcopy
-from adapter import infer
+from .adapter import infer
 
 
 def infer_v1(state, doc, game_id, quote_revision_id, lineup_revision_ids, decision_at, contract, validate_v1, verify_contract):

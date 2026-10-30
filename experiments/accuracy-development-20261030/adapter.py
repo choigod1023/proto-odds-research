@@ -6,7 +6,6 @@ import json
 import math
 import re
 
-from baseline_model import State
 
 
 def _keys(obj, required, optional=()):

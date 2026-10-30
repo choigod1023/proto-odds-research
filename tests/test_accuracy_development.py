@@ -8,10 +8,11 @@ from pathlib import Path
 import pytest
 
 DIR = Path(__file__).resolve().parents[1] / 'experiments' / 'accuracy-development-20261030'
-sys.path.insert(0, str(DIR))
-from adapter import infer, _canonical
-from baseline_model import State
-from bridge import infer_v1
+pkg_spec = importlib.util.spec_from_file_location('accuracy_development', DIR / '__init__.py', submodule_search_locations=[str(DIR)])
+pkg = importlib.util.module_from_spec(pkg_spec); sys.modules[pkg_spec.name] = pkg; pkg_spec.loader.exec_module(pkg)
+from accuracy_development.adapter import infer, _canonical
+from accuracy_development.baseline_model import State
+from accuracy_development.bridge import infer_v1
 spec = importlib.util.spec_from_file_location('structure_validator_fixture', DIR / 'vendor_structure_v1' / 'validator.py')
 validator = importlib.util.module_from_spec(spec); spec.loader.exec_module(validator)
 

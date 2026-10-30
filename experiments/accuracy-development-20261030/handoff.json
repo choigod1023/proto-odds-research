@@ -5,7 +5,7 @@
   "branch": "codex/terra-accuracy-development-20261030",
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
   "protocol_sha": null,
-  "commit": "See git HEAD; implementation revision follows 90c361e",
+  "commit": "95ef1efa054de8eb3b07cc3fa34d3004bd3620aa plus subsequent package isolation and metadata commits; see git HEAD",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/436",
   "changed_paths": [
     "experiments/accuracy-development-20261030/",
@@ -31,8 +31,8 @@
     }
   ],
   "tests": {
-    "targeted": "20 passed",
-    "full": "1880 passed, 6 skipped, 93 subtests passed"
+    "targeted": "20 passed; with cross-review 35 passed",
+    "full": "1897 passed, 6 skipped, 93 subtests passed after merging main 90b374348c42478675ac48aadb8815f6c093d858"
   },
   "metrics": {
     "new_model_accuracy": null,
