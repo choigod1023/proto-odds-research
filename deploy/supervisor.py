@@ -194,6 +194,8 @@ _next_recommendation_refresh = 0.0
 _tipster_wait_started = None
 _tailslips_wait_started = None
 _tipster_publish_pending = threading.Event()
+# Accessed only by the single odds looper. A waiting collector gets one yield.
+_odds_yielded_tipster_waits = set()
 TIPSTER_LOOPERS = {"공개 픽스터", "다종목 픽스터"}
 
 
@@ -712,7 +714,18 @@ def _run_odds_cycle(cmd, market_retry=False):
     Existing background children finish normally (no transaction interruption).
     New optional work cannot repeatedly overtake the pending publication.
     """
-    if not market_retry and _tipster_overdue():
+    # A collector can remain blocked by the 512MB gate indefinitely. Yield once
+    # per waiting episode, then continue odds even if that collector cannot run.
+    # Drop completed episodes so a future collection gets its own opportunity.
+    waits = {(name, started) for name, started in (
+        ("다종목 픽스터", _tipster_wait_started),
+        ("공개 픽스터", _tailslips_wait_started)) if started is not None}
+    _odds_yielded_tipster_waits.intersection_update(waits)
+    eligible = sorted((started, name) for name, started in waits
+                      if time.monotonic() - started >= 120)
+    preferred = (eligible[0][1], eligible[0][0]) if eligible else None
+    if not market_retry and preferred is not None and preferred not in _odds_yielded_tipster_waits:
+        _odds_yielded_tipster_waits.add(preferred)
         # An expired retry window may still hold the previous reservation.
         _market_cycle_pending.clear()
         log("새 배당 수집 한 주기 양보 — 오래 기다린 픽스터 자동 수집 우선")
