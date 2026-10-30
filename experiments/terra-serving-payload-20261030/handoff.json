@@ -6,7 +6,7 @@
   "base_sha": "f744cc954236507fe93615962f110617a2e34711",
   "protocol_sha": null,
   "commit": null,
-  "pr_url": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/443",
   "changed_paths": [
     "deploy/supervisor.py",
     "src/artifact_responses.py",
@@ -22,7 +22,7 @@
     "docs/data/picks_v2.json": "abe9350eee06ccf8a510c0295d4af8364e5d168f9174ee94d2c286c697822efa"
   },
   "tests": [
-    "python -m pytest -q: 1862 passed, 6 skipped, 93 subtests",
+    "python -m pytest -q: 1864 passed, 6 skipped, 93 subtests",
     "npm test -- --test-reporter=dot: passed",
     "npx vite build --outDir ../.local-build: passed",
     "local HTTP: 200 gzip, CORS, 304 and changed 200; JS conditional and old-server tests passed",
