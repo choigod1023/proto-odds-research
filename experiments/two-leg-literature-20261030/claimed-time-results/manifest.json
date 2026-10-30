@@ -1,0 +1,32 @@
+{
+  "inputs": [
+    {
+      "path": "experiments/two-leg-literature-20261030/inputs/votes.jsonl.gz",
+      "sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+    }
+  ],
+  "preparation": {
+    "duplicate_document_forecasts_excluded": 0,
+    "retrospective_later_alias_rosters_skipped": 15,
+    "frames": 552,
+    "common_rosters_all_revisions": 552
+  },
+  "counts": {
+    "forecast_rosters": 552,
+    "result_rows": 160,
+    "fits": 4,
+    "sessions": 29
+  },
+  "production_changed": false,
+  "claimed_time_sensitivity": true,
+  "claimed_time_audit": {
+    "not_preT30_claimed_forecasts_excluded": 8,
+    "events_without_timestamped_preT30_forecasts": 45,
+    "unknown_claimed_time_forecasts_excluded": 44,
+    "events": 552
+  },
+  "evidence_scope": "retrospective chronological replay; result receipt timestamps unverified",
+  "result_receipt_times_verified": false,
+  "strict_asof_training_certified": false,
+  "code_sha256": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5"
+}

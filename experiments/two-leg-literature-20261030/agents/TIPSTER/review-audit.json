@@ -1,0 +1,427 @@
+{
+  "engine_sha256": "8daa59d595ec3ffbc4549c6fb0523579112bba3d00403494ea639bf8d6629984",
+  "manifest_code_sha256": "8daa59d595ec3ffbc4549c6fb0523579112bba3d00403494ea639bf8d6629984",
+  "counts_no_fitting_no_roi": true,
+  "all_votes": {
+    "rosters": 597,
+    "target_known": 597,
+    "unique_vote": 580,
+    "unique_vote_target_known": 580,
+    "unique_vote_vs_9to1_direction_diff": 142,
+    "unique_vote_vs_market_direction_diff": 241,
+    "raw_vote_share_differs_market_at_selected": 580,
+    "selected_market_prob_at_least_55pct": 231,
+    "tied_vote": 17
+  },
+  "by_cohort": {
+    "retrospective_year_standard_ot_nba_increment": {
+      "rosters": 89,
+      "target_known": 89,
+      "unique_vote": 88,
+      "unique_vote_target_known": 88,
+      "unique_vote_vs_9to1_direction_diff": 42,
+      "unique_vote_vs_market_direction_diff": 61,
+      "raw_vote_share_differs_market_at_selected": 88,
+      "selected_market_prob_at_least_55pct": 20,
+      "tied_vote": 1
+    },
+    "retrospective_year_strict": {
+      "rosters": 508,
+      "target_known": 508,
+      "unique_vote": 492,
+      "unique_vote_target_known": 492,
+      "unique_vote_vs_9to1_direction_diff": 100,
+      "unique_vote_vs_market_direction_diff": 180,
+      "raw_vote_share_differs_market_at_selected": 492,
+      "selected_market_prob_at_least_55pct": 211,
+      "tied_vote": 16
+    }
+  },
+  "test_slices": [
+    {
+      "cohort": "retrospective_year_standard_ot_nba_increment",
+      "split": "60-20-20",
+      "rosters": 16,
+      "target_known": 16,
+      "unique_vote": 16,
+      "unique_vote_target_known": 16,
+      "unique_vote_vs_9to1_direction_diff": 5,
+      "unique_vote_vs_market_direction_diff": 6,
+      "raw_vote_share_differs_market_at_selected": 16,
+      "selected_market_prob_at_least_55pct": 7
+    },
+    {
+      "cohort": "retrospective_year_standard_ot_nba_increment",
+      "split": "50-20-30",
+      "rosters": 22,
+      "target_known": 22,
+      "unique_vote": 22,
+      "unique_vote_target_known": 22,
+      "unique_vote_vs_9to1_direction_diff": 7,
+      "unique_vote_vs_market_direction_diff": 10,
+      "raw_vote_share_differs_market_at_selected": 22,
+      "selected_market_prob_at_least_55pct": 9
+    },
+    {
+      "cohort": "retrospective_year_strict",
+      "split": "60-20-20",
+      "rosters": 42,
+      "target_known": 42,
+      "unique_vote": 42,
+      "unique_vote_target_known": 42,
+      "unique_vote_vs_9to1_direction_diff": 6,
+      "unique_vote_vs_market_direction_diff": 11,
+      "raw_vote_share_differs_market_at_selected": 42,
+      "selected_market_prob_at_least_55pct": 18
+    },
+    {
+      "cohort": "retrospective_year_strict",
+      "split": "50-20-30",
+      "rosters": 76,
+      "target_known": 76,
+      "unique_vote": 76,
+      "unique_vote_target_known": 76,
+      "unique_vote_vs_9to1_direction_diff": 9,
+      "unique_vote_vs_market_direction_diff": 19,
+      "raw_vote_share_differs_market_at_selected": 76,
+      "selected_market_prob_at_least_55pct": 32
+    }
+  ],
+  "aliases": [
+    {
+      "event_id": "kleague:2026:1:54",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 46,
+          "game_no": "0359"
+        },
+        {
+          "issue_year": 2026,
+          "round": 47,
+          "game_no": "0359"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        46
+      ],
+      "selected_game_no": "0359"
+    },
+    {
+      "event_id": "MLB:823636",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 49,
+          "game_no": "1945"
+        },
+        {
+          "issue_year": 2026,
+          "round": 50,
+          "game_no": "1945"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        49
+      ],
+      "selected_game_no": "1945"
+    },
+    {
+      "event_id": "MLB:824931",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 49,
+          "game_no": "1950"
+        },
+        {
+          "issue_year": 2026,
+          "round": 50,
+          "game_no": "1950"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        49
+      ],
+      "selected_game_no": "1950"
+    },
+    {
+      "event_id": "nba:0042500125",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 49,
+          "game_no": "1891"
+        },
+        {
+          "issue_year": 2026,
+          "round": 50,
+          "game_no": "1891"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        49
+      ],
+      "selected_game_no": "1891"
+    },
+    {
+      "event_id": "MLB:825017",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 49,
+          "game_no": "1979"
+        },
+        {
+          "issue_year": 2026,
+          "round": 50,
+          "game_no": "1979"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        49
+      ],
+      "selected_game_no": "1979"
+    },
+    {
+      "event_id": "MLB:823714",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 50,
+          "game_no": "2403"
+        },
+        {
+          "issue_year": 2026,
+          "round": 51,
+          "game_no": "2403"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        50
+      ],
+      "selected_game_no": "2403"
+    },
+    {
+      "event_id": "MLB:823553",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 52,
+          "game_no": "3690"
+        },
+        {
+          "issue_year": 2026,
+          "round": 53,
+          "game_no": "3690"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        52
+      ],
+      "selected_game_no": "3690"
+    },
+    {
+      "event_id": "MLB:825092",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 52,
+          "game_no": "3729"
+        },
+        {
+          "issue_year": 2026,
+          "round": 53,
+          "game_no": "3729"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        52
+      ],
+      "selected_game_no": "3729"
+    },
+    {
+      "event_id": "MLB:824767",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 53,
+          "game_no": "4086"
+        },
+        {
+          "issue_year": 2026,
+          "round": 54,
+          "game_no": "4086"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        53
+      ],
+      "selected_game_no": "4086"
+    },
+    {
+      "event_id": "MLB:823306",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 53,
+          "game_no": "4091"
+        },
+        {
+          "issue_year": 2026,
+          "round": 54,
+          "game_no": "4091"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        53
+      ],
+      "selected_game_no": "4091"
+    },
+    {
+      "event_id": "MLB:824927",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 55,
+          "game_no": "5254"
+        },
+        {
+          "issue_year": 2026,
+          "round": 56,
+          "game_no": "5254"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        55
+      ],
+      "selected_game_no": "5254"
+    },
+    {
+      "event_id": "MLB:823712",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 55,
+          "game_no": "5259"
+        },
+        {
+          "issue_year": 2026,
+          "round": 56,
+          "game_no": "5259"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        55
+      ],
+      "selected_game_no": "5259"
+    },
+    {
+      "event_id": "MLB:824604",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 55,
+          "game_no": "5269"
+        },
+        {
+          "issue_year": 2026,
+          "round": 56,
+          "game_no": "5269"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        55
+      ],
+      "selected_game_no": "5269"
+    },
+    {
+      "event_id": "MLB:824591",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 67,
+          "game_no": "0809"
+        },
+        {
+          "issue_year": 2026,
+          "round": 68,
+          "game_no": "0809"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        67
+      ],
+      "selected_game_no": "0809"
+    },
+    {
+      "event_id": "MLB:823749",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 97,
+          "game_no": "4741"
+        },
+        {
+          "issue_year": 2026,
+          "round": 98,
+          "game_no": "4741"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        97
+      ],
+      "selected_game_no": "4741"
+    },
+    {
+      "event_id": "MLB:823092",
+      "saved_issue_rounds": [
+        {
+          "issue_year": 2026,
+          "round": 106,
+          "game_no": "0125"
+        },
+        {
+          "issue_year": 2026,
+          "round": 107,
+          "game_no": "0125"
+        }
+      ],
+      "selected_issue": [
+        2026,
+        106
+      ],
+      "selected_game_no": "0125"
+    }
+  ],
+  "alias_events": 16,
+  "raw_source_ties": 17,
+  "actual_vote_reference_supported_events_without_timing_proof": 580,
+  "formally_operating_eligible_events": 0,
+  "reference_model_labels_in_saved_predictions": {
+    "market": 156,
+    "external_raw_direction_reference": 156,
+    "fixed_market90_external10": 156,
+    "market_prior10_actual_votes": 156,
+    "temperature_market": 156,
+    "temperature_fixed90": 156,
+    "validation_selected_calibrated_pool": 156,
+    "league_shrunk_calibrated_pool": 156,
+    "recent90d_league_shrunk_pool": 156
+  }
+}

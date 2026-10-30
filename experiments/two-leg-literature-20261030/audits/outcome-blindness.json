@@ -1,0 +1,99 @@
+{
+  "primary": {
+    "pass_all": true,
+    "partitions": [
+      {
+        "cohort": "retrospective_year_standard_ot_nba_increment",
+        "split": "60-20-20",
+        "train_events": 51,
+        "validation_events": 17,
+        "test_events": 16
+      },
+      {
+        "cohort": "retrospective_year_standard_ot_nba_increment",
+        "split": "50-20-30",
+        "train_events": 46,
+        "validation_events": 21,
+        "test_events": 22
+      },
+      {
+        "cohort": "retrospective_year_strict",
+        "split": "60-20-20",
+        "train_events": 370,
+        "validation_events": 84,
+        "test_events": 41
+      },
+      {
+        "cohort": "retrospective_year_strict",
+        "split": "50-20-30",
+        "train_events": 305,
+        "validation_events": 112,
+        "test_events": 72
+      },
+      {
+        "cohort": "saved_pregame",
+        "split": "60-20-20",
+        "train_events": 53,
+        "validation_events": 0,
+        "test_events": 17
+      },
+      {
+        "cohort": "saved_pregame",
+        "split": "50-20-30",
+        "train_events": 53,
+        "validation_events": 0,
+        "test_events": 17
+      }
+    ],
+    "heldout_product_revisions_rotated": 129,
+    "prediction_rows": 2182,
+    "ticket_sessions": 35,
+    "changed_policy_nets": 101,
+    "fits_identical": true,
+    "probabilities_identical": true,
+    "selected_legs_identical": true,
+    "note": "Same exposed archives; verifies no direct holdout-label dependency, not authenticated historical label receipt or upstream feature availability"
+  },
+  "claimed": {
+    "pass_all": true,
+    "partitions": [
+      {
+        "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+        "split": "60-20-20",
+        "train_events": 50,
+        "validation_events": 17,
+        "test_events": 16
+      },
+      {
+        "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+        "split": "50-20-30",
+        "train_events": 45,
+        "validation_events": 21,
+        "test_events": 22
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "split": "60-20-20",
+        "train_events": 342,
+        "validation_events": 76,
+        "test_events": 32
+      },
+      {
+        "cohort": "retrospective_year_strict__claimed_time_only",
+        "split": "50-20-30",
+        "train_events": 297,
+        "validation_events": 94,
+        "test_events": 61
+      }
+    ],
+    "heldout_product_revisions_rotated": 48,
+    "prediction_rows": 1310,
+    "ticket_sessions": 29,
+    "changed_policy_nets": 101,
+    "fits_identical": true,
+    "probabilities_identical": true,
+    "selected_legs_identical": true,
+    "note": "Same exposed archives; verifies no direct holdout-label dependency, not authenticated historical label receipt or upstream feature availability"
+  },
+  "script_sha256": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5"
+}

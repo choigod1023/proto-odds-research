@@ -1,0 +1,103 @@
+{
+  "verified_on": "2026-10-30",
+  "primary_only": true,
+  "paper_roi_is_not_service_roi": true,
+  "papers": [
+    {
+      "id": "spann_skiera_2009",
+      "title": "Sports forecasting: a comparison of the forecast accuracy of prediction markets, betting odds and tipsters",
+      "authors": [
+        "Martin Spann",
+        "Bernd Skiera"
+      ],
+      "year": 2009,
+      "doi": "10.1002/for.1091",
+      "primary_url": "https://onlinelibrary.wiley.com/doi/10.1002/for.1091",
+      "evidence_read": "publisher abstract and metadata",
+      "findings_ko": "독일 축구 3시즌 678~837경기 비교에서 시장과 배당이 픽스터보다 정확했다. 결합은 정확도를 개선했지만 당시 25% 비용 조건에서 체계적 수익은 없었다.",
+      "limits_ko": "2000년대 독일 단일 축구시장; 비용과 배당 환경이 다르며 두 경기 조합 검증이 아니다. 온라인 공개 2008년, 권호 2009년.",
+      "recommendation_ko": "시장 기준선을 유지하고 픽스터의 추가 정보만 검증한다. 정확도 개선을 수익 개선으로 대체하지 않는다."
+    },
+    {
+      "id": "brown_reade_2019",
+      "title": "The wisdom of amateur crowds: Evidence from an online community of sports tipsters",
+      "authors": [
+        "Alasdair Brown",
+        "J. James Reade"
+      ],
+      "year": 2019,
+      "doi": "10.1016/j.ejor.2018.07.015",
+      "primary_url": "https://ueaeprints.uea.ac.uk/67529/4/Accepted_manuscript.pdf",
+      "metadata_url": "https://ueaeprints.uea.ac.uk/id/eprint/67529/",
+      "evidence_read": "accepted manuscript abstract, highlights and conclusion; university metadata",
+      "findings_ko": "Oddsportal 다수결 전략에서 68,339건 평균 수익률 1.317%를 보고했다. 경험·과거 정확도로 군중을 선별해도 수익이 개선되지 않았다.",
+      "limits_ko": "논문 수익률은 본 서비스 수익률이 아니다. 작성자가 앞선 추천을 볼 수 있어 독립 신념과 군중 추종을 분리하지 못한다고 저자들이 명시했다. 2018년 채택본, 2019년 권호.",
+      "recommendation_ko": "과거 적중 상위 작성자만 고르거나 표가 많으면 무조건 낫다고 가정하지 않는다. 전체 군중 대조군과 축소 추정 대조군을 시간 순서로 비교한다."
+    },
+    {
+      "id": "gneiting_ranjan_2013",
+      "title": "Combining predictive distributions",
+      "authors": [
+        "Tilmann Gneiting",
+        "Roopesh Ranjan"
+      ],
+      "year": 2013,
+      "doi": "10.1214/13-EJS823",
+      "primary_url": "https://arxiv.org/abs/1106.1638",
+      "fulltext_url": "https://arxiv.org/html/1106.1638v1",
+      "evidence_read": "author preprint abstract; sections 3.1 and 4; author institutional publication metadata",
+      "findings_ko": "선형 확률 풀은 구성 예측이 보정되어 있어도 보정을 보존한다고 일반적으로 말할 수 없다. 조건에 따라 과분산을 만들며 비선형 풀과 재보정을 검토한다.",
+      "limits_ko": "이론과 금융·기상 사례이며 스포츠 수익 실험이 아니다. 표 비율은 처음부터 보정된 확률이 아니므로 정리를 그대로 적용하면 안 된다. arXiv 2011년과 학술지 2013년을 구분한다.",
+      "recommendation_ko": "90:10 혼합과 투표 비율의 확률 보정을 별도로 검사하고, 표 비율을 곧바로 EV에 넣지 않는다."
+    },
+    {
+      "id": "breiman_1996",
+      "title": "Stacked Regressions",
+      "authors": [
+        "Leo Breiman"
+      ],
+      "year": 1996,
+      "doi": "10.1023/A:1018046112532",
+      "primary_url": "https://statistics.berkeley.edu/sites/default/files/tech-reports/367.pdf",
+      "evidence_read": "author-hosted paper abstract and publisher metadata",
+      "findings_ko": "교차검증 예측과 비음수 제약 최소제곱으로 여러 회귀 예측을 결합한다. 훈련 자료에서 맞춘 값 대신 외부 예측으로 결합 계수를 구한다.",
+      "limits_ko": "회귀와 제곱오차 연구이며 스포츠 확률·수익 최적화의 증거는 아니다. 기술보고서 등록 1992년과 최종 출판 1996년을 구분한다.",
+      "recommendation_ko": "시장 예측을 기준으로 표의 추가 신호를 시간 순서 외부 예측에서만 추정한다. 본 자료에서는 고차원 작성자별 계수를 피한다."
+    },
+    {
+      "id": "yao_etal_2018",
+      "title": "Using Stacking to Average Bayesian Predictive Distributions (with Discussion)",
+      "authors": [
+        "Yuling Yao",
+        "Aki Vehtari",
+        "Daniel Simpson",
+        "Andrew Gelman"
+      ],
+      "year": 2018,
+      "doi": "10.1214/17-BA1091",
+      "primary_url": "https://arxiv.org/abs/1704.02030",
+      "published_pdf_url": "https://sites.stat.columbia.edu/gelman/research/published/stacking.pdf",
+      "evidence_read": "author preprint abstract and university publisher-PDF metadata",
+      "findings_ko": "후보 중 참 모형이 없을 수 있는 상황에서 proper scoring rule로 예측분포 결합을 최적화한다. LOO와 안정화 기법을 사용한다.",
+      "limits_ko": "베이지안 예측분포 논문이며 투표율이나 ROI를 직접 검증하지 않았다. 시계열에 무작위 LOO를 복제하면 미래 누수가 생길 수 있다.",
+      "recommendation_ko": "실서비스 적용 후보는 시간 순서 검증의 log loss와 Brier로 좁힌다. 시장 잔차 stacking은 적용 제안이지 논문이 직접 입증한 스포츠 전략이 아니다."
+    },
+    {
+      "id": "lorenz_etal_2011",
+      "title": "How social influence can undermine the wisdom of crowd effect",
+      "authors": [
+        "Jan Lorenz",
+        "Heiko Rauhut",
+        "Frank Schweitzer",
+        "Dirk Helbing"
+      ],
+      "year": 2011,
+      "doi": "10.1073/pnas.1008636108",
+      "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3107299/",
+      "evidence_read": "full primary article abstract and experimental findings",
+      "findings_ko": "144명 사실 추정 실험에서 타인의 답을 보는 조건은 다양성을 줄이고 정확도 개선 없이 확신을 높일 수 있었다.",
+      "limits_ko": "사실 수치 추정 실험으로 스포츠 추천 복제나 모든 사회적 영향의 해로움을 입증하지 않는다.",
+      "recommendation_ko": "독립 작성자·독립 문서·사전 관측 수를 구분하고 동일 문서를 여러 표로 세지 않는다. 단순 일치율만으로 복제를 판정하지 않는다."
+    }
+  ]
+}

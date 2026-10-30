@@ -1,0 +1,583 @@
+{
+  "scope": "Read-only independent replay from saved parameters; no fitting, no production changes",
+  "stake_krw": 12000,
+  "freshness_minutes": 120,
+  "freshness_provenance": "User confirms proposer fixed before v1; protocol agrees. No posthoc-cut allegation. Files alone do not independently timestamp adoption.",
+  "manifest_counts": {
+    "forecast_rosters": 915,
+    "result_rows": 296,
+    "fits": 6,
+    "sessions": 35
+  },
+  "frames": 8055,
+  "forecast_rosters": 915,
+  "session_rows": 35,
+  "policy_entries": 940,
+  "selected_entries": 356,
+  "skipped_entries": 584,
+  "selected_refund_legs": 0,
+  "pending_policy_entries": 0,
+  "empty_latest_frames": 2466,
+  "empty_latest_invalidating_old_products": 0,
+  "event_ids_with_multiple_kickoffs": [],
+  "top20_vs_unbounded_selection_differences_actual": 0,
+  "checks": {
+    "latest_full_rosters": 1,
+    "whole_session_universe": 1,
+    "earliest_checkpoint": 35,
+    "pending_gate": 35,
+    "all_policy_selection": 940,
+    "no_fill": 940,
+    "stake": 940,
+    "ticket_net": 940,
+    "single_net": 940,
+    "quoted_odds": 940,
+    "all_policy_summary": 556,
+    "counts": 1,
+    "manifest_code_hash": 1,
+    "stable_artifacts": 1,
+    "source_hash": 2
+  },
+  "errors": [],
+  "synthetic_settlement": [
+    {
+      "case": "both_hit",
+      "ticket_net": 9600.0,
+      "same_legs_single_net": 4080.0,
+      "remaining_active_single_original_net": null
+    },
+    {
+      "case": "one_void_one_hit",
+      "ticket_net": 3600.0,
+      "same_legs_single_net": 1380.0,
+      "remaining_active_single_original_net": 2760.0
+    },
+    {
+      "case": "both_void",
+      "ticket_net": 0.0,
+      "same_legs_single_net": 0.0,
+      "remaining_active_single_original_net": null
+    },
+    {
+      "case": "loss_pending",
+      "ticket_net": null,
+      "same_legs_single_net": null,
+      "remaining_active_single_original_net": null
+    },
+    {
+      "case": "loss_void",
+      "ticket_net": -12000,
+      "same_legs_single_net": -6000.0,
+      "remaining_active_single_original_net": null
+    }
+  ],
+  "cohort_sessions": [
+    {
+      "cohort": "retrospective_year_standard_ot_nba_increment",
+      "session_rows": 6,
+      "unique_without_split": 3,
+      "unique_kickoff_dates": 3,
+      "kickoff_dates": [
+        "2026-04-13",
+        "2026-10-22",
+        "2026-10-27"
+      ]
+    },
+    {
+      "cohort": "retrospective_year_strict",
+      "session_rows": 25,
+      "unique_without_split": 16,
+      "unique_kickoff_dates": 13,
+      "kickoff_dates": [
+        "2026-07-19",
+        "2026-07-21",
+        "2026-07-22",
+        "2026-07-23",
+        "2026-08-01",
+        "2026-08-02",
+        "2026-09-08",
+        "2026-09-12",
+        "2026-09-15",
+        "2026-09-20",
+        "2026-10-06",
+        "2026-10-08",
+        "2026-10-24"
+      ]
+    },
+    {
+      "cohort": "saved_pregame",
+      "session_rows": 4,
+      "unique_without_split": 2,
+      "unique_kickoff_dates": 1,
+      "kickoff_dates": [
+        "2026-09-06"
+      ]
+    }
+  ],
+  "input_artifacts_sha256": {
+    "fits.json": "23a914f01c731e8acb3057ebb2998dac7d67b37dda5049c4ff4357b4b74c4159",
+    "forecast-rosters.jsonl.gz": "3dcfc9318da5839124c525d29236b7e1d6e04f05fc0478034e619bbd7be3403f",
+    "heldout-predictions.jsonl.gz": "266d9bcc607d253889f825d353419a27748ca674536b6168c34723e8529898e6",
+    "manifest.json": "caa88bac685df912e4920e8973e2e87b62df5ae1d3fee312358bcec74f77969e",
+    "normalized-frames.jsonl.gz": "8a940fd99122605f372960dcbb34fbc1936b63b0ca5fa925ca46fc87ee31f51f",
+    "results.json": "fc61105498e2d923074f07dc971784048decea12948a1e9d2decd28c92273386",
+    "ticket-sessions.jsonl.gz": "8d803947a49fee60de46780d941ccd944dc283b68e06c4159cca4242cb8eabc5"
+  },
+  "script_sha256": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5",
+  "limitations": [
+    "No verification of official settlement rule or actual purchase availability",
+    "Saved refunds and pending unexercised; synthetic tests only",
+    "No refitting, label receipt timestamp audit or probability accuracy inference",
+    "Sessions overlap across splits; cannot sum as independent bets"
+  ],
+  "validator_revision_note": "Initial validator omitted the operating_unique_vote_market_reference branch added by parent; all its 99 entries were independently checked with unique vote direction and market probabilities. This was a validator omission, not a parent selection defect.",
+  "operating_unique_vote_reference_recheck": {
+    "entries": 99,
+    "mismatches": []
+  },
+  "synthetic_state_and_selection": [
+    {
+      "case": "latest_empty_frame_no_forecast_fallback",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "freshness_120",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "freshness_120.01666666666667",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "freshness_-1",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "single_candidate_no_fill",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "shared_team_rejected",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "different_issued_round_rejected",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "latest_empty_frame_invalidates_ticket",
+      "passed": true,
+      "details": null
+    },
+    {
+      "case": "first_common_checkpoint_is_frozen_no_later_conditional_retry",
+      "passed": true,
+      "details": {
+        "sessions": 1
+      }
+    }
+  ],
+  "selected_odds_contract": {
+    "finite_at_least_1_01": true
+  },
+  "artifact_hashes_stable_at_final_check": {
+    "fits.json": true,
+    "forecast-rosters.jsonl.gz": true,
+    "heldout-predictions.jsonl.gz": true,
+    "manifest.json": true,
+    "normalized-frames.jsonl.gz": true,
+    "results.json": true,
+    "ticket-sessions.jsonl.gz": true
+  },
+  "script_hash_stable_at_final_check": true,
+  "status": "pass_actual_arithmetic_and_selection_with_documented_limitations",
+  "unique_common_opportunities_without_split": 21,
+  "max_distinct_events_in_actual_session_league_day_group": 15,
+  "saved_quote_later_than_frame_count": 0,
+  "availability_proven_false_by_cohort": {
+    "retrospective_year_standard_ot_nba_increment": 89,
+    "retrospective_year_strict": 508,
+    "saved_pregame": 0
+  },
+  "top20_validation_note": "Actual session groups have at most 15 distinct events, so top20 cap is inactive, including the separately verified operating reference.",
+  "previous_audit_snapshot": {
+    "script_sha256": "7dd04e3d74ce110305f175dccb5a9e51d71be608db44d58889612951cf640a7a",
+    "artifacts_sha256": {
+      "fits.json": "eba25b7f35d52be2fda36e1062bf37c3c1b9ce5855bf96568aa14519905b0191",
+      "forecast-rosters.jsonl.gz": "79b83952f8ccb6973f9d78b33fec4935dc6831c493f625d6dbf148079ad2b0f2",
+      "heldout-predictions.jsonl.gz": "d25d3fda5c70998ee37af2cdfd34c2474207857282fa6e7cd94c1c236592a709",
+      "manifest.json": "ecf780d7c7f042db9f4837a53c2ea325417ce40e3c6e30e44a0dfd950786d035",
+      "normalized-frames.jsonl.gz": "ec2a5a30e55e08d68114d67d89072a7c8760590465c76341e7480c6af2e3736f",
+      "results.json": "804b70c9518983050c7232f5cc6d95d3c1838947a5cfa5daea9b281f0845aceb",
+      "ticket-sessions.jsonl.gz": "946d175536565d6a7e08c23ffb48ce7ac4afbaf3737dbc815ee1401be1c6ef67"
+    },
+    "note": "Parent regenerated RESULTS adding forecast delta metrics while audit was running; superseded snapshot retained for traceability.",
+    "checks": {
+      "latest_full_frame_forecast_all": 1,
+      "all_session_universe": 1,
+      "earliest_common_checkpoint": 37,
+      "common_pending_gate": 37,
+      "independent_policy_selection": 996,
+      "no_fill_two_or_zero": 996,
+      "stake": 996,
+      "ticket_net": 996,
+      "equal_budget_component_single_net": 996,
+      "quoted_odds": 996,
+      "distinct_event_team": 376,
+      "same_league_kst_day_issue": 752,
+      "timing_freshness": 752,
+      "latest_session_frame": 752,
+      "all_saved_policy_summary_fields": 584,
+      "manifest_code_hash": 1,
+      "manifest_input_hash": 2,
+      "synthetic_settlement": 5
+    },
+    "session_rows": 37,
+    "forecast_rosters": 920,
+    "selected_entries": 376,
+    "skipped_entries": 620,
+    "cohort_sessions": [
+      {
+        "cohort": "retrospective_year_standard_ot_nba_increment",
+        "session_rows": 6,
+        "unique_without_split": 3,
+        "unique_kickoff_dates": 3,
+        "kickoff_dates": [
+          "2026-04-13",
+          "2026-10-22",
+          "2026-10-27"
+        ],
+        "placement_dates": [
+          "2026-04-12",
+          "2026-10-21",
+          "2026-10-26"
+        ]
+      },
+      {
+        "cohort": "retrospective_year_strict",
+        "session_rows": 27,
+        "unique_without_split": 18,
+        "unique_kickoff_dates": 14,
+        "kickoff_dates": [
+          "2026-07-18",
+          "2026-07-19",
+          "2026-07-21",
+          "2026-07-22",
+          "2026-07-23",
+          "2026-08-01",
+          "2026-08-02",
+          "2026-09-08",
+          "2026-09-12",
+          "2026-09-15",
+          "2026-09-20",
+          "2026-10-06",
+          "2026-10-08",
+          "2026-10-24"
+        ],
+        "placement_dates": [
+          "2026-07-17",
+          "2026-07-18",
+          "2026-07-20",
+          "2026-07-21",
+          "2026-07-22",
+          "2026-07-31",
+          "2026-08-01",
+          "2026-09-07",
+          "2026-09-11",
+          "2026-09-14",
+          "2026-09-19",
+          "2026-10-05",
+          "2026-10-07",
+          "2026-10-23"
+        ]
+      },
+      {
+        "cohort": "saved_pregame",
+        "session_rows": 4,
+        "unique_without_split": 2,
+        "unique_kickoff_dates": 1,
+        "kickoff_dates": [
+          "2026-09-06"
+        ],
+        "placement_dates": [
+          "2026-09-06"
+        ]
+      }
+    ]
+  },
+  "latest_snapshot_revalidation": {
+    "checks": {
+      "latest_forecast": 1,
+      "session_universe": 1,
+      "earliest_checkpoint": 35,
+      "policy_selection": 940,
+      "no_fill": 940,
+      "stake": 940,
+      "net": 940,
+      "single_net": 940,
+      "quoted_odds": 940,
+      "summary": 556,
+      "artifact_hash_stability": 1,
+      "manifest_code": 1,
+      "script_stability": 1
+    },
+    "errors": [],
+    "status": "passed",
+    "all_policy_selection_entries": 940,
+    "note": "Independent full replay from saved fits, no fitting. New forecast delta metrics outside this twoleg audit."
+  },
+  "source_quality_final": {
+    "missing_common_probability_roster": 30630,
+    "missing_issued_identity_choices": 5463,
+    "duplicate_document_forecasts_excluded": 0,
+    "publication_time_not_proven": 44,
+    "retrospective_later_alias_rosters_skipped": 16,
+    "known_late_publication_forecasts_excluded": 6,
+    "events_without_admissible_tipster_vote": 5,
+    "frames": 8055,
+    "common_rosters_all_revisions": 3690
+  },
+  "version_history_note": "User confirms final parent source-quality exclusions: 6 explicitly late-published forecasts across 5 events. RESULTS-V1 retains prior run; protocol audit addendum explains changes. Final audit uses current RESULTS, not RESULTS-V1.",
+  "final_confirmation": {
+    "script_matches_current_manifest": true,
+    "all_artifact_hashes_match_revalidated_snapshot": true,
+    "all35sessions_replayed_without_fitting": true,
+    "new_forecast_CI_not_audited": true
+  },
+  "independent_source_quality_validation": {
+    "explicit_late_forecasts": 6,
+    "events_with_explicit_late_forecasts": 5,
+    "remaining_duplicate_document_forecasts": 0,
+    "events_without_admissible_vote": 5,
+    "vote_vector_or_count_mismatches": [],
+    "unknown_publication_time_remains_unproven": true
+  },
+  "audit_hash_history": [
+    {
+      "script_sha256": "15b699de71c8a07a11ce8266d3186490d08341f245c8cd777dc05037981e8483",
+      "artifacts_sha256": {
+        "fits.json": "a402e98cc0ae7119e4d947e5df401d3b08658d02c8441d9b3b32fb813738fed0",
+        "forecast-rosters.jsonl.gz": "9ba94d3de0df1c2e20c63e87e6e5749bb5a27f8faf3608f58727c2db8bcd2582",
+        "heldout-predictions.jsonl.gz": "06074690a2d0fffa39a3107f9513f46a354ff1dd4dbb5bd45009c5d8dbbb22a8",
+        "manifest.json": "97749d5423716e49d659c251e12398e7ea4f6393402c2f5b9ac19a2a84f2f176",
+        "normalized-frames.jsonl.gz": "0f57e9853c7b154e4eff82f739579dffe70ff4dcdf36b25f3ab36cdf5140843f",
+        "results.json": "9d923c40b8d4f7487c6009bdde67fbf0c80dd78a207c39a63c036441851ba94e",
+        "ticket-sessions.jsonl.gz": "970aaa48a7e4de2daad773c681af60f5c526abd05da7275e01ec30d29441ff85"
+      }
+    },
+    {
+      "script_sha256": "2257c9a059a45f3625ffd26499c3f33b15c0e054b7a2fa9e6c681a1333b3682d",
+      "artifacts_sha256": {
+        "fits.json": "23a914f01c731e8acb3057ebb2998dac7d67b37dda5049c4ff4357b4b74c4159",
+        "forecast-rosters.jsonl.gz": "4bf8040446e2442c2a9f94a45139f16097e72ed27f6f860b927788c9ad7f85bc",
+        "heldout-predictions.jsonl.gz": "07e1192fec7514f355586391113bd54eea855e7a2a3db4f4f15a2f58242816a5",
+        "manifest.json": "32401081625722e4befa252e5dd4dc92a84810c623b7f392a1d3d30c74813ab4",
+        "normalized-frames.jsonl.gz": "e6ae2d266f28f04b851665565a2bb8a7ed12a289b111d9318de3aef79278e9bd",
+        "results.json": "fc61105498e2d923074f07dc971784048decea12948a1e9d2decd28c92273386",
+        "ticket-sessions.jsonl.gz": "3919825d6ccb5665bacd6b1ff49196a2b73ac8a0fc129f3a75b2560a16a92c12"
+      }
+    }
+  ],
+  "final_metadata_invariant_refresh": {
+    "saved_parameter_only": true,
+    "fitting_executed": false,
+    "model_selection_replayed": 35,
+    "policy_entries": 940,
+    "errors": [],
+    "checks": {
+      "all_latest_forecast_rosters": 1,
+      "earliest_common_checkpoint": 35,
+      "pending_gate": 35,
+      "all_policy_selection": 940,
+      "no_fill": 940,
+      "stake": 940,
+      "ticket_net": 940,
+      "component_single_net": 940,
+      "quoted_odds": 940,
+      "leg_identity_and_timing": 712,
+      "final_counts": 1,
+      "manifest_code_hash": 1,
+      "stable_code": 1,
+      "stable_results": 1,
+      "source_hash": 2
+    },
+    "outcome_blindness_audit": "separate parent audit, not certified here",
+    "strict_asof_training_certified": false,
+    "result_receipt_times_verified": false
+  },
+  "final_primary_and_claimed_replay": {
+    "primary": {
+      "folder": ".local-test/RESULTS",
+      "rosters": 915,
+      "sessions": 35,
+      "unique_without_split": 21,
+      "checks": {
+        "latest_full_rosters": 1,
+        "whole_session_universe": 1,
+        "earliest_checkpoint": 35,
+        "pending_gate": 35,
+        "all_policy_selection": 940,
+        "no_fill": 940,
+        "stake": 940,
+        "ticket_net": 940,
+        "single_net": 940,
+        "quoted_odds": 940,
+        "all_policy_summary": 556,
+        "counts": 1,
+        "manifest_code_hash": 1,
+        "stable_artifacts": 1,
+        "source_hash": 2
+      },
+      "errors": [],
+      "artifact_sha256": {
+        "fits.json": "23a914f01c731e8acb3057ebb2998dac7d67b37dda5049c4ff4357b4b74c4159",
+        "forecast-rosters.jsonl.gz": "3dcfc9318da5839124c525d29236b7e1d6e04f05fc0478034e619bbd7be3403f",
+        "heldout-predictions.jsonl.gz": "266d9bcc607d253889f825d353419a27748ca674536b6168c34723e8529898e6",
+        "manifest.json": "caa88bac685df912e4920e8973e2e87b62df5ae1d3fee312358bcec74f77969e",
+        "normalized-frames.jsonl.gz": "8a940fd99122605f372960dcbb34fbc1936b63b0ca5fa925ca46fc87ee31f51f",
+        "results.json": "fc61105498e2d923074f07dc971784048decea12948a1e9d2decd28c92273386",
+        "ticket-sessions.jsonl.gz": "8d803947a49fee60de46780d941ccd944dc283b68e06c4159cca4242cb8eabc5"
+      },
+      "nba_fixed90_forced2": [
+        {
+          "cohort": "retrospective_year_standard_ot_nba_increment",
+          "split": "60-20-20",
+          "model": "fixed_market90_external10",
+          "forced2": {
+            "opportunities": 3,
+            "pending_opportunities": 0,
+            "tickets": 3,
+            "ticket_dates": 3,
+            "coverage_pct": 100.0,
+            "net_krw": -15600.0,
+            "roi_pct": -43.333333333333336,
+            "session_budget_return_pct": -43.333333333333336,
+            "hit_pct": 33.333333333333336,
+            "component_single_roi_pct": -14.5,
+            "daily_close_drawdown_krw": 24000.0,
+            "max_losing_streak": 2,
+            "profitable_months": 0,
+            "months": 2
+          }
+        },
+        {
+          "cohort": "retrospective_year_standard_ot_nba_increment",
+          "split": "50-20-30",
+          "model": "fixed_market90_external10",
+          "forced2": {
+            "opportunities": 3,
+            "pending_opportunities": 0,
+            "tickets": 3,
+            "ticket_dates": 3,
+            "coverage_pct": 100.0,
+            "net_krw": -15600.0,
+            "roi_pct": -43.333333333333336,
+            "session_budget_return_pct": -43.333333333333336,
+            "hit_pct": 33.333333333333336,
+            "component_single_roi_pct": -14.5,
+            "daily_close_drawdown_krw": 24000.0,
+            "max_losing_streak": 2,
+            "profitable_months": 0,
+            "months": 2
+          }
+        }
+      ],
+      "strict_asof_training_certified": false,
+      "fitting_executed": false
+    },
+    "claimed": {
+      "folder": ".local-test/CLAIMED/results",
+      "rosters": 552,
+      "sessions": 29,
+      "unique_without_split": 18,
+      "checks": {
+        "latest_full_rosters": 1,
+        "whole_session_universe": 1,
+        "earliest_checkpoint": 29,
+        "pending_gate": 29,
+        "all_policy_selection": 812,
+        "no_fill": 812,
+        "stake": 812,
+        "ticket_net": 812,
+        "single_net": 812,
+        "quoted_odds": 812,
+        "all_policy_summary": 392,
+        "counts": 1,
+        "manifest_code_hash": 1,
+        "stable_artifacts": 1,
+        "source_hash": 1
+      },
+      "errors": [],
+      "artifact_sha256": {
+        "claimed-time-audit.json": "716be1a182756bc02f6ae4b47a4369cf32e3d22f77628c504404324db3abefc5",
+        "fits.json": "c3aeb64a6d21c8c38978e2399d4cf4a10d46cbdf0d909c5bd77ad3dccd8dbb0f",
+        "forecast-rosters.jsonl.gz": "64137cff760d5edd13ed78810089d6822ed630248b1d65e839b22b0afe30eb16",
+        "heldout-predictions.jsonl.gz": "8ecb23e38d781ad1b4b48d13489035901b4d522a2a382fb1af848b8a44f3ccd7",
+        "manifest.json": "acd1080d59e2152c88b2594fed811728e37141b87d5035b9d8340c333dc5a286",
+        "normalized-frames.jsonl.gz": "8cfcc221c53d1917c54434968eceb62212baf4292b4c417a4b18978a8440cd38",
+        "results.json": "88a51fde80cc09e8143afbe46c0cc94decc510a4a80b788e6483573170da98f3",
+        "ticket-sessions.jsonl.gz": "778a24dc60ac1a9f88ecd8787b90f27f3a310c6f3326fcbc925889092bfa7c50"
+      },
+      "nba_fixed90_forced2": [
+        {
+          "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+          "split": "60-20-20",
+          "model": "fixed_market90_external10",
+          "forced2": {
+            "opportunities": 3,
+            "pending_opportunities": 0,
+            "tickets": 3,
+            "ticket_dates": 3,
+            "coverage_pct": 100.0,
+            "net_krw": 14400.0,
+            "roi_pct": 40.0,
+            "session_budget_return_pct": 40.0,
+            "hit_pct": 66.66666666666667,
+            "component_single_roi_pct": 13.666666666666666,
+            "daily_close_drawdown_krw": 12000.0,
+            "max_losing_streak": 1,
+            "profitable_months": 1,
+            "months": 2
+          }
+        },
+        {
+          "cohort": "retrospective_year_standard_ot_nba_increment__claimed_time_only",
+          "split": "50-20-30",
+          "model": "fixed_market90_external10",
+          "forced2": {
+            "opportunities": 3,
+            "pending_opportunities": 0,
+            "tickets": 3,
+            "ticket_dates": 3,
+            "coverage_pct": 100.0,
+            "net_krw": 14400.0,
+            "roi_pct": 40.0,
+            "session_budget_return_pct": 40.0,
+            "hit_pct": 66.66666666666667,
+            "component_single_roi_pct": 13.666666666666666,
+            "daily_close_drawdown_krw": 12000.0,
+            "max_losing_streak": 1,
+            "profitable_months": 1,
+            "months": 2
+          }
+        }
+      ],
+      "strict_asof_training_certified": false,
+      "fitting_executed": false
+    }
+  },
+  "final_codehash_confirmed": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5",
+  "parent_outcome_blindness_reference": {
+    "path": ".local-test/outcome-blindness.json",
+    "sha256": "ba1ba3a5c34dffcf0c7aae3964ca29eb4b2f7d987d0c7686d5286f5c5ddcd6a7",
+    "scope": "Parent separate label-rotation audit; not independently rerun here"
+  },
+  "claimed_interpretation": "Different claimed-publication eligibility, timing checkpoints, event/split populations and saved fit inputs; ROI difference is not isolated model gain."
+}

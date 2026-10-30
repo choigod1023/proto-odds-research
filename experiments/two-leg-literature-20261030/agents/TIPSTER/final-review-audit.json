@@ -1,0 +1,104 @@
+{
+  "engine_hash": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5",
+  "manifest_hash": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5",
+  "v1_preserved": true,
+  "all_rosters": 915,
+  "vote_rosters": 592,
+  "checks": {
+    "independently_matched_reconstructed_vectors": 592,
+    "no_surviving_vote_events": 5,
+    "operating_prediction_market_vectors": 151,
+    "operating_ticket_legs_direction_and_probability": 62,
+    "operating_common_and_paired_count_matches": 20,
+    "synthetic_hash_alias_conflict_excluded": 1,
+    "synthetic_operating_tie_and_market_probability": 1,
+    "strict_asof_unverified_explicit": 1,
+    "support_hash_independent_matches": 496,
+    "timed_complete_final_rosters": 323,
+    "fit_event_count_metadata_matches": 24
+  },
+  "cohort": {
+    "retrospective_year_standard_ot_nba_increment": {
+      "events": 89,
+      "unique": 88,
+      "tie": 1,
+      "unique_vs_fixed90_direction_diff": 42
+    },
+    "retrospective_year_strict": {
+      "events": 503,
+      "unique": 487,
+      "tie": 16,
+      "unique_vs_fixed90_direction_diff": 97
+    }
+  },
+  "source_surviving_rows": {
+    "Pickswise": 105,
+    "Betblog": 21,
+    "TonysPicks": 85,
+    "Miky938 Tips": 28,
+    "golfmasterj.tistory.com": 103,
+    "guidesyj.tistory.com": 175,
+    "sportsanalyst1.tistory.com": 106,
+    "Covers": 6
+  },
+  "excluded_late": [
+    {
+      "event_id": "MLB:824849",
+      "source": "TonysPicks",
+      "author": "Tony Tellez"
+    },
+    {
+      "event_id": "MLB:824768",
+      "source": "TonysPicks",
+      "author": "Tony Tellez"
+    },
+    {
+      "event_id": "MLB:823538",
+      "source": "TonysPicks",
+      "author": "Tony Tellez"
+    },
+    {
+      "event_id": "MLB:823538",
+      "source": "TonysPicks",
+      "author": "Tonys Picks Staff"
+    },
+    {
+      "event_id": "NPB:/scores/2026/0622/e-l-09/",
+      "source": "TonysPicks",
+      "author": "Ron Crawford"
+    },
+    {
+      "event_id": "/scores/2026/0801/f-m-15/",
+      "source": "golfmasterj.tistory.com",
+      "author": "마스터제이"
+    }
+  ],
+  "sessions": 35,
+  "synthetic_source_sha256_alias_vote_count": 1,
+  "raw_source_sha256_rows": 385,
+  "training_gate_and_shrinkage_implementation": "Reviewed: global and league minimum counts use unique event_id; league shrinkage uses unique validation/train event counts. No fitting rerun.",
+  "code_unchanged_since_manifest": true,
+  "source_time_sensitivity": {
+    "code_sha256": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5",
+    "audit": {
+      "not_preT30_claimed_forecasts_excluded": 8,
+      "events_without_timestamped_preT30_forecasts": 45,
+      "unknown_claimed_time_forecasts_excluded": 44,
+      "events": 552
+    },
+    "independent_filter_counts": {
+      "late_for_T30": 8,
+      "no_votes_events": 45,
+      "unknown": 44
+    },
+    "independent_matched_frames": 552,
+    "saved_claimed_rosters": 552,
+    "saved_claimed_sessions": 29,
+    "missing_None_naive_date_invalid_cases_pass": true,
+    "T30_equality_accept_and_plus1second_reject": true,
+    "available_max_original_and_latest_claim_pass": true,
+    "saved_source_vectors_and_operating_legs_pass": true,
+    "rawvote_forced2_only_no_EV": true,
+    "receipt_or_execution_proven": false
+  }
+}

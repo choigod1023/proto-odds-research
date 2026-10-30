@@ -1,0 +1,32 @@
+{
+  "source_sha256": "92df250c9bb7e16f8ad187d0ad7a8ef2afb572816e7699e432bdd2389fd83ec5",
+  "source_matches_requested_frozen_hash": true,
+  "status": "no_new_actionable_defect_identified_in_read_only_final_confirmation",
+  "checks": {
+    "primary": {
+      "counts": {
+        "forecast_rosters": 915,
+        "result_rows": 296,
+        "fits": 6,
+        "sessions": 35
+      },
+      "stored_outcome_perturbation_comparison_verified": true,
+      "changed_policy_nets": 101,
+      "strict_asof_training_certified": false
+    },
+    "claimed": {
+      "counts": {
+        "forecast_rosters": 552,
+        "result_rows": 160,
+        "fits": 4,
+        "sessions": 29
+      },
+      "stored_outcome_perturbation_comparison_verified": true,
+      "changed_policy_nets": 101,
+      "strict_asof_training_certified": false
+    }
+  },
+  "no_fitting_executed": true,
+  "audit_scope": "Stored outcome-perturbation artifacts independently compared; intersection of test dates across splits only, not upstream feature causality or result receipt proof.",
+  "previous_fixes": "event-count gates/shrinkage, complete TIMED final common domain, support hashes and source_sha256 alias retained"
+}

@@ -1,0 +1,78 @@
+{
+  "created_at": "2026-10-30T01:51:43.045268+00:00",
+  "protocol": "single-vs-low-parlay-v1",
+  "input_sha256": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\experiments\\proto-all-picks-20261030\\inputs\\combined-games.jsonl.gz": "6d0892bae58aaecd2f140ee20347f650032492b08a5901f4db7dfa0f12d3f432",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\experiments\\proto-all-picks-20261030\\inputs\\saved\\prediction-snapshots.jsonl.gz": "ac17b2f3d3e4f5e0a653f1c4f0423fb82be21ddef2933a189d6bef6b2eb66c3a",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\experiments\\proto-all-picks-20261030\\inputs\\saved\\all-offer-outcomes.jsonl.gz": "77823c04458550c02b07977a52f3e8f3493680e0eb574b8f9e9e205aaac00d1f",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\experiments\\proto-all-picks-20261030\\inputs\\saved\\issued-product-result-labels-post-20260909.jsonl.gz": "047afd9106200e38cdafe35767b840e579c586c5e0abb77b1dc08c8a2a812eff",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\docs\\research\\2026-10-30-single-parlay-protocol.json": "5847f8fdfa9ea0c50503de91fe58b88f84ba8b5d5dfd8dd1496516d5ab48e888"
+  },
+  "helper_code_sha256": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\scripts\\proto_all_pick_research.py": "0a8ae5ca43c400a580407bb4174bfb9a5bb0b312949b095d3e9addf148581f2c",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\scripts\\proto_saved_offer_profitability.py": "6a16b52ea6cc19192395dec0b558fa4dbe495ef0b2e9a3ac290e9404440001f2",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\bets.py": "c8ec071e63df0f159738ce7f894ab889014561c220e94610b7df8a761baaaf82",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\matches.py": "2305a784c1d45863724bb82d237e754cb4fac37d444a03eab49404370a75e8c3",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\runtime_datasets.py": "91cf79b4365595e5f2d5c253edd5bba9d90bf4c7707b22c600cfb531acce2038",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\runtime_db.py": "0944be1b81b3fd161f0e51a4a06f8030686d009d75945eb3bdbe0bfde3e317a8",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\temporary_workspace.py": "e274e769122af5a6de69d2891429fa7441cc8820681187d195a7a27fd276fe99",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\src\\wisetoto.py": "3734e77e592141c6222ded1454de4f93f0dd7d7c5fbcc24bcfd79ca70dc30f1c",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\single-vs-low-odds-parlays-20261030\\.local-test\\TIMED\\build_events.py": "6a1006ecc849e5e0a29ad923f8cfb83834a9730299e99d2851444d6c5c99a513"
+  },
+  "output_sha256": "e62634c3db0ea87e643f976b378c09742b8879190809c155b24306f5e411d997",
+  "counts": {
+    "frames": 7458,
+    "choices": 86806,
+    "empty_frames": 252,
+    "source_empty_frames": 252,
+    "frames_without_score_shadow": 6571,
+    "missing_frame_team_identity": 313
+  },
+  "choice_status": {
+    "pending": 5824,
+    "settled": 80953,
+    "conflict": 29
+  },
+  "model_choice_counts": {
+    "market": 86761,
+    "saved_final_reference": 86761,
+    "saved_score_shadow": 7816,
+    "market90_score10_hypothesis": 7816
+  },
+  "non_evaluable_reasons": {
+    "no_exact_product_result": 361,
+    "no_verified_issued_identity": 5418,
+    "result_team_mismatch": 8,
+    "result_kickoff_mismatch": 21,
+    "invalid_option_contract:('승무패', 6)": 18,
+    "invalid_option_contract:('승무패', 9)": 27
+  },
+  "result_index_audit": {
+    "archive_shape_excluded": 2359,
+    "archive_unconfirmed_excluded": 765,
+    "extra_issued_result_records": 1220,
+    "issued_results_available": 171509
+  },
+  "conflicting_product_keys": [],
+  "source_snapshot_labels": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\fix-ledger-settlement-20260926\\replay-ledger-local.jsonl": 1326,
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-candidate-bridge-20261029\\.local-test\\production-ledger-post414.jsonl.gz": 6132
+  },
+  "tests": {
+    "all_revisions_preserved": true,
+    "source_option_counts_match": true,
+    "pending_conflict_null_hit": true,
+    "source_hashes_stable": true,
+    "outcome_blindness_sample_frames": 202
+  },
+  "limitations": [
+    "Internal saved-time evidence only; no independent availability certification.",
+    "Entire saved features.options roster, not proof every operator-issued product was saved.",
+    "No T-30/latest filter applied: consumer must apply frozen checkpoint protocol.",
+    "All score shadows are uncalibrated; market90_score10 is not market90_vote10.",
+    "No verified issued identity leaves settlement non-evaluable but does not suppress valid saved probability vectors.",
+    "No score or vote fabricated; no ROI search, production calls, tracked changes or PR.",
+    "Frame team metadata may use unique consistent static identity from other revisions of same event/kickoff; never results.",
+    "Invalid/incomplete market vectors receive no model score; frames with no valid vectors retain empty choices."
+  ]
+}
