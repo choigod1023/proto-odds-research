@@ -4,6 +4,7 @@ from datetime import date, timedelta
 import hashlib, json
 import numpy as np
 import upstream
+import source_gate
 from devig import market_probabilities
 
 HERE=Path(__file__).resolve().parent
@@ -33,6 +34,42 @@ def metrics(es,fs,inds,model='market'):
     assert pairs == other
     assert (sum(a for a,b in pairs), sum(round(b*100) for a,b in pairs)) == (sum(a for a,b in other), sum(round(b*100) for a,b in other))
     return {'n':len(pairs),'wins':sum(x[0] for x in pairs),'net':sum(x[1] for x in pairs),'accuracy':sum(x[0] for x in pairs)/len(pairs) if pairs else None,'roi':sum(x[1] for x in pairs)/len(pairs) if pairs else None}
+
+def prediction_records(feats, chosen, rank):
+    records=[]
+    for split, fs in zip(('train','validation','test'),feats):
+        for j,f in enumerate(fs):
+            records.append({'split':split,'features':f,'selected':gated(f,chosen),
+                            'market_rank_selected':j in rank if split=='test' else None})
+    return records
+
+def jsonl_bytes(records):
+    return (''.join(json.dumps(r,sort_keys=True,ensure_ascii=False,separators=(',',':'))+'\n' for r in records)).encode('utf8')
+
+def curve_ci(es, fs, inds, ranks, draws, weeks):
+    if not inds:
+        return {'status':'no selected events','valid_bootstraps':0}
+    wk={w:i for i,w in enumerate(weeks)}; matrix=np.zeros((len(weeks),7))
+    for j,x in enumerate(fs):
+        day=date.fromisoformat(x['date']); w=(day-timedelta(days=day.weekday())).isoformat(); z=matrix[wk[w]]
+        if j in inds:
+            hit,net=score(es[j],x['market'],x['odds']); bh,bn=score(es[j],x['fixed'],x['fixed_odds']);z += [hit,net,1,bh,bn,0,0]
+        if j in ranks:
+            hit,net=score(es[j],x['market'],x['odds']); z += [0,0,0,0,0,hit,net]
+    totals=matrix[draws].sum(axis=1)
+    # Rank count and gate count may differ across resampled weeks.
+    counts=np.zeros(len(weeks))
+    for j in ranks:
+        day=date.fromisoformat(fs[j]['date']);counts[wk[(day-timedelta(days=day.weekday())).isoformat()]]+=1
+    rank_counts=counts[draws].sum(axis=1); valid=(totals[:,2]>0)&(rank_counts>0)
+    totals=totals[valid]; rank_counts=rank_counts[valid]
+    if not len(totals): return {'status':'no valid bootstrap','valid_bootstraps':0}
+    series={'accuracy':totals[:,0]/totals[:,2], 'roi':totals[:,1]/totals[:,2],
+            'rank_accuracy_difference':totals[:,0]/totals[:,2]-totals[:,5]/rank_counts,
+            'rank_roi_difference':totals[:,1]/totals[:,2]-totals[:,6]/rank_counts,
+            'fixed_accuracy_difference':(totals[:,0]-totals[:,3])/totals[:,2],
+            'fixed_roi_difference':(totals[:,1]-totals[:,4])/totals[:,2]}
+    return {'status':'ok','valid_bootstraps':int(valid.sum()),'intervals':{k:{'95':np.quantile(v,[.025,.975]).tolist(),'bonferroni_12':np.quantile(v,[.05/24,1-.05/24]).tolist()} for k,v in series.items()}}
 
 def run(rows):
     ev,_,_=upstream.events_from_rows(rows)
@@ -65,12 +102,21 @@ def run(rows):
     ci={k:{'95':np.quantile(v,[.025,.975]).tolist(),'bonferroni_12':np.quantile(v,[.05/(2*12),1-.05/(2*12)]).tolist()} for k,v in ds.items()}
     curve=[]
     for i in range(11):
-        ix={j for j,x in enumerate(f) if gated(x,i)}; curve.append({'candidate':NAMES[i],'coverage':len(ix)/len(f),'gate':metrics(e,f,ix),'rank':metrics(e,f,rank_idx(f,len(ix)))})
-    return {'count':len(ev),'split':[{'n':len(p),'from':p[0]['match_date'],'to':p[-1]['match_date']} for p in parts], 'eligible':[NAMES[i] for i in eligible],'validation_scores':scores,'selected':NAMES[chosen],'test_coverage':len(inds)/len(e),'test_gate':metrics(e,f,inds),'test_fixed_same':metrics(e,f,inds,'fixed'),'test_market_full':metrics(e,f,allidx),'test_rank':metrics(e,f,rank),'ci':ci,'test_weeks':len(weeks),'curves':curve,'prediction_fingerprint':hashlib.sha256(json.dumps(feats,sort_keys=True).encode()).hexdigest()}
+        ix={j for j,x in enumerate(f) if gated(x,i)}; rix=rank_idx(f,len(ix)); curve.append({'candidate':NAMES[i],'coverage':len(ix)/len(f),'gate':metrics(e,f,ix),'rank':metrics(e,f,rix),'weekly_ci':curve_ci(e,f,ix,rix,draws,weeks)})
+    return {'count':len(ev),'split':[{'n':len(p),'from':p[0]['match_date'],'to':p[-1]['match_date']} for p in parts], 'eligible':[NAMES[i] for i in eligible],'validation_scores':scores,'selected':NAMES[chosen],'test_coverage':len(inds)/len(e),'test_gate':metrics(e,f,inds),'test_fixed_same':metrics(e,f,inds,'fixed'),'test_market_full':metrics(e,f,allidx),'test_rank':metrics(e,f,rank),'ci':ci,'test_weeks':len(weeks),'curves':curve,'prediction_fingerprint':hashlib.sha256(json.dumps(feats,sort_keys=True).encode()).hexdigest(), 'predictions':prediction_records(feats,chosen,rank)}
 
 if __name__=='__main__':
     rows=[json.loads(x) for x in (HERE/'input.jsonl').read_text(encoding='utf8').splitlines()]; result=run(rows)
     flipped=[dict(r,home_score=r['away_score'],away_score=r['home_score']) if r['match_date']>=result['split'][2]['from'] else r for r in rows]
     check=run(flipped); assert result['selected']==check['selected'] and result['prediction_fingerprint']==check['prediction_fingerprint']
-    result['label_flip_check']='passed'; result['hashes']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [HERE/'input.jsonl',HERE/'run.py',HERE/'upstream.py',HERE/'devig.py']}
+    predictions=jsonl_bytes(result.pop('predictions')); assert predictions==jsonl_bytes(check.pop('predictions'))
+    (HERE/'predictions.jsonl').write_bytes(predictions)
+    retained,audit,counts=source_gate.gate(rows,source_gate.load_frames())
+    (HERE/'publication-audit.jsonl').write_bytes(jsonl_bytes(audit))
+    filtered,_,_=upstream.events_from_rows(retained)
+    filtered=[e for e in filtered if all(upstream.result(e,m) not in (None,'push') for m in upstream.MODELS)]
+    test=[e for e in filtered if e['match_date']>=result['split'][2]['from']]; features=[feature(e) for e in test]
+    selected=NAMES.index(result['selected']); indices={j for j,f in enumerate(features) if gated(f,selected)}
+    result['publication_gate']={'counts':counts,'retained_rows':len(retained),'known_late_excluded':counts.get('postkickoff',0),'authenticated_receipts':0,'frozen_test_rule':result['selected'],'filtered_common_count':len(filtered),'filtered_test':metrics(test,features,indices),'filtered_test_opportunities':len(test)}
+    result['label_flip_check']='passed'; result['hashes']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [HERE/'input.jsonl',HERE/'votes-metadata.jsonl.gz',HERE/'run.py',HERE/'source_gate.py',HERE/'upstream.py',HERE/'devig.py',HERE/'predictions.jsonl',HERE/'publication-audit.jsonl']}
     (HERE/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf8'); print(json.dumps({k:result[k] for k in ('count','split','eligible','selected','test_coverage','test_gate','test_rank','test_fixed_same','ci','label_flip_check')},ensure_ascii=False))

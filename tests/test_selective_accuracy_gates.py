@@ -20,3 +20,31 @@ def test_holdout_label_flip_does_not_change_selection_or_predictions():
     a=m.run(rows); cutoff=a['split'][2]['from']
     flipped=[dict(r,home_score=r['away_score'],away_score=r['home_score']) if r['match_date']>=cutoff else r for r in rows]
     b=m.run(flipped); assert (a['selected'],a['prediction_fingerprint'])==(b['selected'],b['prediction_fingerprint'])
+
+
+def test_known_postkickoff_publication_excluded_unknown_retained():
+    from source_gate import gate
+    row={'fixture_id':'MLB:1','source_url':'https://example.test/a','author':'A','side':'home','kickoff':'2026-06-01T10:00:00+09:00'}
+    raw={'source_url':row['source_url'],'author':'A','side':'home','source_reported_published_at':'2026-06-01T01:01:00Z'}
+    frame={'event_id':'MLB:1','kickoff':row['kickoff'],'raw_forecasts':[raw]}
+    kept,audit,counts=gate([row],[frame]); assert not kept and audit[0]['status']=='postkickoff' and counts['postkickoff']==1
+    raw['source_reported_published_at']=None
+    kept,audit,counts=gate([row],[frame]); assert kept==[row] and audit[0]['status']=='unknown'
+    raw['source_reported_published_at']='2026-06-01T00:59:00Z'
+    kept,audit,counts=gate([row],[frame]); assert kept==[row] and audit[0]['status']=='pre_kickoff_claim'
+
+def test_real_metadata_gate_and_prediction_output_replay():
+    import hashlib
+    from source_gate import gate, load_frames
+    rows=[json.loads(x) for x in (P/'input.jsonl').read_text(encoding='utf8').splitlines()]
+    kept,audit,counts=gate(rows,load_frames()); assert counts=={'pre_kickoff_claim':137,'unknown':401,'unmatched':181,'postkickoff':4}
+    assert len(kept)==719 and all(x['status']!='postkickoff' for x in gate(kept,load_frames())[1])
+    result=m.run(rows); saved=(P/'predictions.jsonl').read_bytes(); assert saved==m.jsonl_bytes(result['predictions'])
+    manifest=json.loads((P/'results.json').read_text(encoding='utf8')); assert hashlib.sha256(saved).hexdigest()==manifest['hashes']['predictions.jsonl']
+    cutoff=result['split'][2]['from']; flipped=[dict(r,home_score=r['away_score'],away_score=r['home_score']) if r['match_date']>=cutoff else r for r in rows]
+    assert hashlib.sha256(m.jsonl_bytes(m.run(flipped)['predictions'])).hexdigest()==manifest['hashes']['predictions.jsonl']
+    assert len(result['predictions'])==492
+    allow={'id','date','league','market','fixed','p','gap','agree','voters','odds','fixed_odds'}
+    assert all(set(x['features'])==allow for x in result['predictions'])
+    assert all(c['weekly_ci']['status']=='ok' for c in result['curves'] if c['gate']['n'])
+    assert next(c for c in result['curves'] if c['candidate']=='voters>=2')['weekly_ci']['status']=='no selected events'
