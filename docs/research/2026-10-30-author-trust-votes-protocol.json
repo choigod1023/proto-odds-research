@@ -1,0 +1,29 @@
+{
+  "study": "author-trust-votes",
+  "hypothesis": "Beta-binomial author weighting improves 90:10 accuracy over market and fixed 90:10 on common retrospectively eligible events",
+  "data": "all available raw old/new vote records plus standard-ot frames; do not infer missing identity, timestamps or independence",
+  "identity": "construct transitive components on all raw records before publication filtering, using same normalized site+author, canonical URL, exact document/body hash, and explicit cross-citation links when present; then pregame claimed publication only, earliest per component per event; exclude conflicts and missing identity/time",
+  "settlement": "only outcomes from strictly earlier calendar days proxy settlement availability; no verified historical settlement clock; freeze parameters using train only before validation/test",
+  "split": "sort common eligible event kickoff chronologically, first 50% train, next 25% validation, last 25% test, avoid splitting same date",
+  "candidates": [
+    {
+      "prior": "Beta(1,1)",
+      "weight": "posterior mean"
+    },
+    {
+      "prior": "Beta(5,5)",
+      "weight": "posterior mean"
+    },
+    {
+      "prior": "Beta(10,10)",
+      "weight": "posterior mean"
+    }
+  ],
+  "trial_count": 3,
+  "selection": "maximum validation accuracy on common opportunities; tie first candidate; no test tuning",
+  "baselines": "market and original actual fixed 90:10 vote share from frame, 4-decimal rounding; weighted 90:10 same rounding",
+  "metrics": "coverage, n, accuracy, single unit ROI, disagreement subset, independent vote counts, posterior beta 95% interval, paired weekly bootstrap accuracy and ROI differences for both baselines; 2000 replicates seed 20261030, Bonferroni simultaneous intervals alpha=0.05/3 across candidates",
+  "leakage": "claimed publication < kickoff; exclude postgame and unknown; no final odds or labels in features; test label flips leave training parameters and predictions unchanged; prices historical not certified; conservative prior-day settlement proxy not authenticated",
+  "interpretation": "all data previously exposed, not blind holdout; no inference about future performance or executable odds; no independent author claim without evidence",
+  "reproducibility": "committed input/source/result SHA256; independent second settlement implementation exact agreement; offline replay"
+}
