@@ -69,7 +69,8 @@ def curve_ci(es, fs, inds, ranks, draws, weeks):
             'rank_roi_difference':totals[:,1]/totals[:,2]-totals[:,6]/rank_counts,
             'fixed_accuracy_difference':(totals[:,0]-totals[:,3])/totals[:,2],
             'fixed_roi_difference':(totals[:,1]-totals[:,4])/totals[:,2]}
-    return {'status':'ok','valid_bootstraps':int(valid.sum()),'intervals':{k:{'95':np.quantile(v,[.025,.975]).tolist(),'bonferroni_12':np.quantile(v,[.05/24,1-.05/24]).tolist()} for k,v in series.items()}}
+    selected_weeks=int(np.count_nonzero(matrix[:,2]))
+    return {'status':'degenerate_one_selected_week' if selected_weeks<2 else 'ok','selected_weeks':selected_weeks,'valid_bootstraps':int(valid.sum()),'intervals':{k:{'95':np.quantile(v,[.025,.975]).tolist(),'bonferroni_12':np.quantile(v,[.05/24,1-.05/24]).tolist()} for k,v in series.items()}}
 
 def run(rows):
     ev,_,_=upstream.events_from_rows(rows)
@@ -103,20 +104,17 @@ def run(rows):
     curve=[]
     for i in range(11):
         ix={j for j,x in enumerate(f) if gated(x,i)}; rix=rank_idx(f,len(ix)); curve.append({'candidate':NAMES[i],'coverage':len(ix)/len(f),'gate':metrics(e,f,ix),'rank':metrics(e,f,rix),'weekly_ci':curve_ci(e,f,ix,rix,draws,weeks)})
-    return {'count':len(ev),'split':[{'n':len(p),'from':p[0]['match_date'],'to':p[-1]['match_date']} for p in parts], 'eligible':[NAMES[i] for i in eligible],'validation_scores':scores,'selected':NAMES[chosen],'test_coverage':len(inds)/len(e),'test_gate':metrics(e,f,inds),'test_fixed_same':metrics(e,f,inds,'fixed'),'test_market_full':metrics(e,f,allidx),'test_rank':metrics(e,f,rank),'ci':ci,'test_weeks':len(weeks),'curves':curve,'prediction_fingerprint':hashlib.sha256(json.dumps(feats,sort_keys=True).encode()).hexdigest(), 'predictions':prediction_records(feats,chosen,rank)}
+    return {'count':len(ev),'split':[{'n':len(p),'from':p[0]['match_date'],'to':p[-1]['match_date']} for p in parts], 'eligible':[NAMES[i] for i in eligible],'validation_scores':scores,'selected':NAMES[chosen],'test_coverage':len(inds)/len(e),'test_gate':metrics(e,f,inds),'test_fixed_same':metrics(e,f,inds,'fixed'),'test_market_full':metrics(e,f,allidx),'test_rank':metrics(e,f,rank),'ci':ci,'test_weeks':len(weeks),'selected_weeks':int(np.count_nonzero(matrix[:,2])),'ci_interpretation':('unreliable: only one selected week' if np.count_nonzero(matrix[:,2])<2 else 'weekly paired bootstrap'), 'curves':curve,'prediction_fingerprint':hashlib.sha256(json.dumps(feats,sort_keys=True).encode()).hexdigest(), 'predictions':prediction_records(feats,chosen,rank)}
 
 if __name__=='__main__':
-    rows=[json.loads(x) for x in (HERE/'input.jsonl').read_text(encoding='utf8').splitlines()]; result=run(rows)
-    flipped=[dict(r,home_score=r['away_score'],away_score=r['home_score']) if r['match_date']>=result['split'][2]['from'] else r for r in rows]
+    rows=[json.loads(x) for x in (HERE/'input.jsonl').read_text(encoding='utf8').splitlines()]
+    retained,audit,counts=source_gate.gate(rows,source_gate.load_frames())
+    (HERE/'publication-audit.jsonl').write_bytes(jsonl_bytes(audit))
+    result=run(retained)
+    flipped=[dict(r,home_score=r['away_score'],away_score=r['home_score']) if r['match_date']>=result['split'][2]['from'] else r for r in retained]
     check=run(flipped); assert result['selected']==check['selected'] and result['prediction_fingerprint']==check['prediction_fingerprint']
     predictions=jsonl_bytes(result.pop('predictions')); assert predictions==jsonl_bytes(check.pop('predictions'))
     (HERE/'predictions.jsonl').write_bytes(predictions)
-    retained,audit,counts=source_gate.gate(rows,source_gate.load_frames())
-    (HERE/'publication-audit.jsonl').write_bytes(jsonl_bytes(audit))
-    filtered,_,_=upstream.events_from_rows(retained)
-    filtered=[e for e in filtered if all(upstream.result(e,m) not in (None,'push') for m in upstream.MODELS)]
-    test=[e for e in filtered if e['match_date']>=result['split'][2]['from']]; features=[feature(e) for e in test]
-    selected=NAMES.index(result['selected']); indices={j for j,f in enumerate(features) if gated(f,selected)}
-    result['publication_gate']={'counts':counts,'retained_rows':len(retained),'known_late_excluded':counts.get('postkickoff',0),'authenticated_receipts':0,'frozen_test_rule':result['selected'],'filtered_common_count':len(filtered),'filtered_test':metrics(test,features,indices),'filtered_test_opportunities':len(test)}
-    result['label_flip_check']='passed'; result['hashes']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [HERE/'input.jsonl',HERE/'votes-metadata.jsonl.gz',HERE/'run.py',HERE/'source_gate.py',HERE/'upstream.py',HERE/'devig.py',HERE/'predictions.jsonl',HERE/'publication-audit.jsonl']}
+    result['publication_gate']={'counts':counts,'retained_rows':len(retained),'known_late_excluded':counts.get('postkickoff',0),'authenticated_receipts':0,'applied_before_event_grouping_training_selection':True}
+    result['label_flip_check']='passed'; result['hashes']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [HERE/'input.jsonl',HERE/'votes-metadata.jsonl.gz',HERE/'run.py',HERE/'source_gate.py',HERE/'upstream.py',HERE/'devig.py',HERE/'predictions.jsonl',HERE/'publication-audit.jsonl',HERE/'legacy-results.json',HERE/'legacy-predictions.jsonl']}
     (HERE/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf8'); print(json.dumps({k:result[k] for k in ('count','split','eligible','selected','test_coverage','test_gate','test_rank','test_fixed_same','ci','label_flip_check')},ensure_ascii=False))
