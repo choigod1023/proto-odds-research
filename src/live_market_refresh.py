@@ -292,7 +292,9 @@ def refresh_document(document: dict, live_odds: dict, *,
         clock = clock.replace(tzinfo=KST)
     decision_clock = max(observed, clock) if observed and clock else None
     from fixed_tipster_hybrid import load_votes, context as tipster_context
-    tipster_votes = None  # One bounded batch for all unfrozen supported sports.
+    # DB-off is an unavailable electorate, not a verified zero-vote result.
+    # Keep a non-empty error sentinel so neither downstream `or []` erases it.
+    tipster_votes = None if use_database else [{"_tipster_load_error": True}]
     form_provider = None
     fixture_document = player_document
     fixtures_loaded = player_document is not None
@@ -494,6 +496,12 @@ def refresh_document(document: dict, live_odds: dict, *,
             info = tipster_context(game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat())
             prior = snapshot.get("tipster_hybrid") or {}
             tipster_changed = (info.get("version"), info.get("status"), info.get("reason"), info.get("evidence_hash")) != (prior.get("version"), prior.get("input_status", prior.get("status")), prior.get("input_reason", prior.get("reason")), prior.get("evidence_hash"))
+            # Old no-vote snapshots withheld the pick under the same input
+            # status/reason. Re-evaluate once before T-30 under the new policy.
+            if (info.get("reason") == "no_eligible_pregame_votes"
+                    and prior.get("status") == "withheld"
+                    and prior.get("reason") == "no_eligible_pregame_votes"):
+                tipster_changed = True
         if (old_signature == new_signature and game.get("status") == target_status
                 and not broken_revision and not player_changed and not tipster_changed):
             changed += int(display_changed)

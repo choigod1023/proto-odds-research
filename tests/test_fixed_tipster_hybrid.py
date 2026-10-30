@@ -262,3 +262,51 @@ def test_no_votes_selects_three_way_market_draw_and_rejects_malformed_market():
     g['options'][0]['market']='승패'
     _,snapshot=decide(g,rows=[])
     assert snapshot['action']=='withhold'
+
+
+def test_refresh_without_database_does_not_mistake_unavailable_votes_for_empty(monkeypatch):
+    import src.live_market_refresh as refresh
+    import kbo_pregame
+    monkeypatch.setattr(refresh, 'database_enabled', lambda: False)
+    monkeypatch.setattr(kbo_pregame, 'current_document', lambda: {'games': []})
+    g=game()
+    feed=dict(generated_at=AT, markets={'100': {'10': dict(game_no='10', date=g['date'],
+        sport='bs', league='MLB', home=g['home'], away=g['away'], market='승패',
+        label='', n_way=2, odds=[1.8, 1.9], result='경기전')}})
+    doc,_=refresh.refresh_document({'live': [], 'past': []}, feed)
+    result=doc['live'][0]
+    assert result['추천'] is None
+    assert result['decision_snapshot']['action']=='withhold'
+    assert result['tipster_hybrid']['reason']=='tipster_input_unavailable'
+
+
+def test_legacy_no_vote_withhold_refreshes_once_before_freeze(tmp_path, monkeypatch):
+    from datetime import datetime
+    import fixed_tipster_hybrid
+    import src.live_market_refresh as refresh
+    import kbo_pregame
+    monkeypatch.setenv('PROODD_DB_PATH', str(tmp_path / 'runtime.sqlite3'))
+    monkeypatch.setattr(kbo_pregame, 'current_document', lambda: {'games': []})
+    monkeypatch.setattr(fixed_tipster_hybrid, 'load_votes', lambda at: [])
+    g=game()
+    feed=dict(generated_at=AT, markets={'100': {'10': dict(game_no='10',date=g['date'],
+        sport='bs',league='MLB',home=g['home'],away=g['away'],market='승패',
+        label='',n_way=2,odds=[1.8,1.9],result='경기전')}})
+    doc,_=refresh.refresh_document({'live': [], 'past': []},feed,now=datetime.fromisoformat(AT))
+    current=doc['live'][0]
+    prior=current['decision_snapshot']['tipster_hybrid']
+    prior.clear(); prior.update(version=VERSION,status='withheld',input_status='withheld',
+                                reason='no_eligible_pregame_votes',authors=0)
+    current['tipster_hybrid']=copy.deepcopy(prior)
+    current['추천']=None
+    current['decision_snapshot']['action']='withhold'
+    current['decision_snapshot']['selection_id']=None
+    current['decision_snapshot']['offer_id']=None
+    frozen_doc=copy.deepcopy(doc)
+    frozen_snapshot=copy.deepcopy(frozen_doc['live'][0]['decision_snapshot'])
+    frozen_doc,_=refresh.refresh_document(frozen_doc,feed,now=datetime.fromisoformat('2026-10-25T22:41:00+00:00'))
+    assert frozen_doc['live'][0]['decision_snapshot']==frozen_snapshot
+    doc,n=refresh.refresh_document(doc,feed,now=datetime.fromisoformat('2026-10-25T22:01:00+00:00'))
+    assert n==1 and doc['live'][0]['tipster_hybrid']['selection_source']=='market_fallback'
+    _,n=refresh.refresh_document(doc,feed,now=datetime.fromisoformat('2026-10-25T22:02:00+00:00'))
+    assert n==0
