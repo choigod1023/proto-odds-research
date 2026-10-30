@@ -125,6 +125,8 @@
   },
   "test_weeks": 12,
   "selected_weeks": 1,
+  "valid_for_inference": false,
+  "inference_invalid_reason": "only one selected week; bootstrap intervals are degenerate",
   "ci_interpretation": "unreliable: only one selected week",
   "curves": [
     {
@@ -1017,7 +1019,7 @@
   "hashes": {
     "input.jsonl": "702c4f830218b695c12d79acf42c30ce624f40237137a4c3d7f549a4d887b650",
     "votes-metadata.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
-    "run.py": "df3ebf21bb673a4bd4b51aa7991ff98ba42630f7545fcc2415aa101c711a0945",
+    "run.py": "76717748bb4177535baafe4bb8b187b07d4af206813df94bf380aae6541709a5",
     "source_gate.py": "ea820cb4814324fb383499d01737ae8ac5e343311e9c6beacc6ef3da69a368ce",
     "upstream.py": "00e6cdbf8442aac5e991bb00260b1abfd354e97aaef3051eedac3a8b59399c86",
     "devig.py": "234d000c33279334e4989ffb33b2b57eec344ae8e78593f3308dc3966c868840",

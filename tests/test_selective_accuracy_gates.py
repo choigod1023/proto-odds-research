@@ -51,4 +51,6 @@ def test_real_metadata_gate_and_prediction_output_replay():
     assert all(c['weekly_ci']['status'] in ('ok','degenerate_one_selected_week') for c in result['curves'] if c['gate']['n'])
     assert result['selected']=='league=KBO' and result['selected_weeks']==1
     assert result['ci_interpretation']=='unreliable: only one selected week'
+    assert result['valid_for_inference'] is False and manifest['valid_for_inference'] is False
+    assert result['inference_invalid_reason']==manifest['inference_invalid_reason']
     assert next(c for c in result['curves'] if c['candidate']=='voters>=2')['weekly_ci']['status']=='no selected events'
