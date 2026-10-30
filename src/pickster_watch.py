@@ -330,6 +330,18 @@ def parse_slate(html: str, observed_at: str | None = None) -> tuple[list[dict], 
             "n_straight_moneyline": len(ml), "moneyline_capper_counts": side_counts,
         })
     if html.strip() and not sections:
+        # An explicitly empty MLB slate is a successful observation, not a
+        # parser failure. Require the source's canonical URL and exact count
+        # metadata, and reject contradictory author links or unknown markup.
+        title = soup.title.get_text(" ", strip=True) if soup.title else ""
+        canonical = soup.select_one('link[rel="canonical"]')
+        description = soup.select_one('meta[name="description"]')
+        if (title == "Tonight's MLB slate · 0 games, 0 picks from 0 sharps · TailSlips"
+                and canonical and canonical.get("href") == SLATE_URL
+                and description and description.get("content") ==
+                "Tonight's MLB slate on TailSlips: 0 games on the board, no picks tweeted yet. Check back as cappers post."
+                and not soup.select_one('a[href^="/cappers/"]')):
+            return [], []
         raise ValueError("TailSlips 슬레이트 경기 section을 찾지 못함")
     if not picks and any(s.select_one('a[href^="/cappers/"]') for s in sections):
         raise ValueError("TailSlips 픽 행 구조 변경 의심: 작성자 링크가 있지만 픽 0건")
