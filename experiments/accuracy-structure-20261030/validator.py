@@ -79,8 +79,16 @@ def unique(items, key, name):
         result[k] = item
     return result
 
-def validate(doc):
-    shape(doc, SCHEMA)
+def _validate(doc, pre_inference=False):
+    schema = SCHEMA
+    if pre_inference:
+        # A new inference has no frozen prediction yet. Retain all identity,
+        # product, quote and observation checks without weakening stored records.
+        schema = {**SCHEMA, 'properties': {**SCHEMA['properties'],
+                  'freezes': {**SCHEMA['properties']['freezes'], 'minItems': 0}}}
+    shape(doc, schema)
+    if pre_inference:
+        need(not doc['freezes'] and not doc['settlements'], 'pre-inference core cannot contain frozen records')
     games = unique(doc['games'], lambda x: x['canonical_game_id'], 'game')
     for g in games.values(): need(g['home_team_id'] != g['away_team_id'], 'same teams')
     aliases = unique(doc['aliases'], lambda x: (x['authority'], x['official_id']), 'official alias')
@@ -151,6 +159,16 @@ def validate(doc):
         need(s['settlement_scope'] == s['identity']['period'], 'settlement scope mismatch')
         need((s['status']=='void' and s['score'] is None) or (s['status']=='final' and s['score'] is not None), 'result status/score')
     return True
+
+def validate(doc):
+    """Validate a stored v1.2 document, including at least one frozen prediction."""
+    return _validate(doc)
+
+
+def validate_inference_core(doc):
+    """Validate an unfrozen input projection; no receipt or freeze authentication."""
+    return _validate(doc, pre_inference=True)
+
 
 def validate_append(before, after):
     validate(before); validate(after)

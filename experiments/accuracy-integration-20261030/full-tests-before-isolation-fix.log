@@ -1,0 +1,371 @@
+.................................FF............FFFFFFFF................. [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+................................................. [ 23%]
+..................................................................... [ 27%]
+........................................................................ [ 30%]
+.......................................s................................ [ 34%]
+........................................................................ [ 37%]
+........................................................................ [ 41%]
+........................................................................ [ 45%]
+........................................................................ [ 48%]
+........................................................................ [ 52%]
+........................................................................ [ 55%]
+..........................................s............................. [ 59%]
+........................................................................ [ 62%]
+........................................................................ [ 66%]
+............................................................... [ 69%]
+........................................................................ [ 73%]
+........................................................................ [ 76%]
+........................................................................ [ 80%]
+........................................................................ [ 83%]
+........................................................................ [ 87%]
+........................................................................ [ 90%]
+.....................................................................................................................................................s........ [ 98%]
+..................sss.....                                               [100%]
+================================== FAILURES ===================================
+______ test_v1_partial_lineup_falls_back_and_freeze_is_not_authenticated ______
+
+    def test_v1_partial_lineup_falls_back_and_freeze_is_not_authenticated():
+        state,doc,c,verify=fixture(); before=state.export()
+        assert validator.validate(doc) is True
+>       a=run(state,doc,c,verify); b=run(state,doc,c,verify,['l1'])
+          ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+________________ test_complete_lineup_preserves_probabilities _________________
+
+    def test_complete_lineup_preserves_probabilities():
+        state,doc,c,verify=fixture()
+        doc['lineups']=[{'revision_id':team,'canonical_game_id':'g1','team_id':team,'observation_id':'o1','players':[{'player_id':team+role,'role':role,'order':None,'announcement_status':status,'expected_minutes_or_innings':n} for role,status,n in [('starter','probable',6),('bullpen','confirmed',3)]]} for team in ('h','a')]
+>       p=run(state,doc,c,verify,['h','a']); base=run(state,doc,c,verify)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+___________ test_mismatched_v1_quote_and_invalid_lineup_suppression ___________
+
+    def test_mismatched_v1_quote_and_invalid_lineup_suppression():
+        s,d,c,v=fixture(); d['quotes'][0]['odds']['home']=9.9
+        with pytest.raises(ValueError): run(s,d,c,v)
+        s,d,c,v=fixture(); d['lineups'][0]['players'][0]['current_score']=10
+>       result=run(s,d,c,v,['l1'])
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+______________________ test_soccer_threeway_and_mapping _______________________
+
+    def test_soccer_threeway_and_mapping():
+        s=State('K����1','outcome',0)
+        s.update({'date':'2026-10-01','league':'K����1','home':'H','away':'A','hg':1,'ag':0},datetime(2026,10,5,tzinfo=timezone.utc))
+        _,d,c,_=fixture(); i=c['identity']; i.update(league='K����1'); c['team_mapping']={'h':'H','a':'A'}
+        c['product']['outcomes']=['home','draw','away']; c['quote']['odds']={'home':2.,'draw':3.,'away':4.}
+        c['state_sha256']=hashlib.sha256(_canonical(s.export()).encode()).hexdigest()
+>       assert len(infer(s,{'identity':i,'decision_at':'2026-10-30T09:30:00+00:00','lineup':None},c,lambda *_:True)['probability_vector'])==3
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'K����1', 'canonical_game_id': 'g1', 'official_game_... {'product_id': 'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'H', 'a': 'A'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+__________________ test_bad_lineups_are_discarded[<lambda>0] __________________
+
+mutate = <function <lambda> at 0x00000202656596F0>
+
+    @pytest.mark.parametrize('mutate', [
+        lambda d: d['lineups'][0]['players'][0].update(expected_minutes_or_innings=4),
+        lambda d: d['lineups'][0]['players'][0].update(announcement_status='unknown'),
+        lambda d: d['lineups'][0].update(canonical_game_id='other'),
+        lambda d: d['lineups'][0]['players'][0].update(team_id='wrong'),
+    ])
+    def test_bad_lineups_are_discarded(mutate):
+        s,d,c,v=fixture(); mutate(d)
+>       result=run(s,d,c,v,['l1'])
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+__________________ test_bad_lineups_are_discarded[<lambda>1] __________________
+
+mutate = <function <lambda> at 0x00000202656597A0>
+
+    @pytest.mark.parametrize('mutate', [
+        lambda d: d['lineups'][0]['players'][0].update(expected_minutes_or_innings=4),
+        lambda d: d['lineups'][0]['players'][0].update(announcement_status='unknown'),
+        lambda d: d['lineups'][0].update(canonical_game_id='other'),
+        lambda d: d['lineups'][0]['players'][0].update(team_id='wrong'),
+    ])
+    def test_bad_lineups_are_discarded(mutate):
+        s,d,c,v=fixture(); mutate(d)
+>       result=run(s,d,c,v,['l1'])
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+__________________ test_bad_lineups_are_discarded[<lambda>2] __________________
+
+mutate = <function <lambda> at 0x0000020265659850>
+
+    @pytest.mark.parametrize('mutate', [
+        lambda d: d['lineups'][0]['players'][0].update(expected_minutes_or_innings=4),
+        lambda d: d['lineups'][0]['players'][0].update(announcement_status='unknown'),
+        lambda d: d['lineups'][0].update(canonical_game_id='other'),
+        lambda d: d['lineups'][0]['players'][0].update(team_id='wrong'),
+    ])
+    def test_bad_lineups_are_discarded(mutate):
+        s,d,c,v=fixture(); mutate(d)
+>       result=run(s,d,c,v,['l1'])
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+__________________ test_bad_lineups_are_discarded[<lambda>3] __________________
+
+mutate = <function <lambda> at 0x0000020265659900>
+
+    @pytest.mark.parametrize('mutate', [
+        lambda d: d['lineups'][0]['players'][0].update(expected_minutes_or_innings=4),
+        lambda d: d['lineups'][0]['players'][0].update(announcement_status='unknown'),
+        lambda d: d['lineups'][0].update(canonical_game_id='other'),
+        lambda d: d['lineups'][0]['players'][0].update(team_id='wrong'),
+    ])
+    def test_bad_lineups_are_discarded(mutate):
+        s,d,c,v=fixture(); mutate(d)
+>       result=run(s,d,c,v,['l1'])
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+_________ test_decision_is_bound_to_contract_and_received_by_verifier _________
+
+    def test_decision_is_bound_to_contract_and_received_by_verifier():
+        state,doc,contract,verify=fixture()
+        seen = []
+        def check(candidate, snapshot):
+            seen.append(candidate['decision_at'])
+            return verify(candidate, snapshot)
+>       expected = run(state,doc,contract,check)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+__________________ test_real_v12_freeze_none_core_projection __________________
+
+    def test_real_v12_freeze_none_core_projection():
+        state, doc, contract, verify = fixture()
+        assert doc['schema_version'] == 'v1.2' and validator.validate(doc) is True
+        doc['freezes'] = []
+>       assert run(state,doc,contract,verify,['l1'])['availability_reason']['code'] == 'lineup_invalid'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_accuracy_development.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_accuracy_development.py:45: in run
+    return infer_v1(state,doc,'g1','q1',refs or [],decision,contract,validate_core,verify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\bridge.py:68: in infer_v1
+    return infer(state, {'identity': ident, 'decision_at': decision_at, 'lineup': lineup}, contract, verify_contract)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:113: in infer
+    _keys(contract, ("identity", "product", "team_mapping", "state_sha256", "state_available_through", "quote"))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = {'decision_at': '2026-10-30T09:30:00+00:00', 'identity': {'league': 'KBO', 'canonical_game_id': 'g1', 'official_game_i...'p1', 'market': 'win', 'period': 'full', 'line': None, ...}, 'team_mapping': {'h': 'Home Name', 'a': 'Away Name'}, ...}
+required = ('identity', 'product', 'team_mapping', 'state_sha256', 'state_available_through', 'quote')
+optional = ()
+
+    def _keys(obj, required, optional=()):
+        if not isinstance(obj, dict) or set(obj) - set(required) - set(optional) or set(required) - set(obj):
+>           raise ValueError("unexpected or missing fields")
+E           ValueError: unexpected or missing fields
+
+experiments\accuracy-adapter-review-20261030\vendor\development\adapter.py:13: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_accuracy_development.py::test_v1_partial_lineup_falls_back_and_freeze_is_not_authenticated
+FAILED tests/test_accuracy_development.py::test_complete_lineup_preserves_probabilities
+FAILED tests/test_accuracy_development.py::test_mismatched_v1_quote_and_invalid_lineup_suppression
+FAILED tests/test_accuracy_development.py::test_soccer_threeway_and_mapping
+FAILED tests/test_accuracy_development.py::test_bad_lineups_are_discarded[<lambda>0]
+FAILED tests/test_accuracy_development.py::test_bad_lineups_are_discarded[<lambda>1]
+FAILED tests/test_accuracy_development.py::test_bad_lineups_are_discarded[<lambda>2]
+FAILED tests/test_accuracy_development.py::test_bad_lineups_are_discarded[<lambda>3]
+FAILED tests/test_accuracy_development.py::test_decision_is_bound_to_contract_and_received_by_verifier
+FAILED tests/test_accuracy_development.py::test_real_v12_freeze_none_core_projection
+10 failed, 2005 passed, 6 skipped, 93 subtests passed in 35.63s

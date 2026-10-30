@@ -1,0 +1,52 @@
+{
+  "role": "development",
+  "status": "review_revision_complete_evaluation_not_performed",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-development-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": null,
+  "commit": "See git HEAD for decision binding and v1.2 vendor revision",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/436",
+  "changed_paths": [
+    "experiments/accuracy-development-20261030/",
+    "tests/test_accuracy_development.py",
+    "docs/research/2026-10-30-accuracy-development.md"
+  ],
+  "inputs_and_sha": [
+    {
+      "path": "PR433 0ed675a0e7ee53d75691d071b41739099edb1a65:experiments/dynamic-score-state-model-20261030/model.py",
+      "sha256": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1"
+    },
+    {
+      "path": "PR438 33b49a590d607a573ca5bd6832f549aeca9c9300 experiments/accuracy-structure-20261030/fixture-pregame.json",
+      "sha256": "a8ca3a3c61961f98b82b077942a24b15e5cc54968e4d2b78f31742e62c05910b"
+    },
+    {
+      "path": "PR438 33b49a590d607a573ca5bd6832f549aeca9c9300 experiments/accuracy-structure-20261030/schema.json",
+      "sha256": "20fdd089cffa0f361d477731fb4e33472d5066ff469041d742b49c6863309069"
+    },
+    {
+      "path": "PR438 33b49a590d607a573ca5bd6832f549aeca9c9300 experiments/accuracy-structure-20261030/validator.py",
+      "sha256": "966d730adefb8230f31ec338284c4f5ebe15c15125a690fd2c5724df70489914"
+    }
+  ],
+  "tests": {
+    "targeted": "37 passed including cross-review and 22 development tests",
+    "full": "1899 passed, 6 skipped, 93 subtests passed",
+    "ci": "See PR latest head checks"
+  },
+  "metrics": {
+    "new_model_accuracy": null,
+    "new_model_roi": null,
+    "certified_player_sample_count": "not measured"
+  },
+  "limitations": [
+    "No player coefficients, training, real-data performance or ROI evaluation.",
+    "Independent trusted verifier must authenticate the entire contract including decision_at, actual team mappings, state and its historical data availability; lambda True is a synthetic fixture, not authentication.",
+    "v1.2 core schema projection tests a new inference with no freeze; it does not validate or authenticate existing freeze content, provenance or external receipt.",
+    "Different-observation lineup revisions are unsupported and fall back without using them.",
+    "No performance hypothesis evaluated."
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator integration against latest structure PR head and trusted verifier for identity and training provenance; separate preregistration before performance evaluation."
+}

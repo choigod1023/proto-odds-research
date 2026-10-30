@@ -1,0 +1,62 @@
+[
+  {
+    "title": "A State-Space Model for National Football League Scores",
+    "authors": "Glickman and Stern",
+    "year": 1998,
+    "url": "https://glicko.net/research/nfl.pdf",
+    "use": "AR team strength, mean reversion and season uncertainty; NFL success notourbaseballproof"
+  },
+  {
+    "title": "Parameter estimation in large dynamic paired comparison experiments",
+    "authors": "Glickman",
+    "year": 1999,
+    "url": "https://www.glicko.net/research/glicko.pdf",
+    "use": "latentability uncertainty, inactivity increases variance; originalimplementationnotclaimed"
+  },
+  {
+    "title": "A Bayesian Approximation Method for Online Ranking",
+    "authors": "Weng and Lin",
+    "year": 2011,
+    "url": "https://jmlr.org/papers/volume12/weng11a/weng11a.pdf",
+    "use": "Gaussianposteriorapproximation computationallybounded updates, notexactreproduction"
+  },
+  {
+    "title": "A dynamic bivariate Poisson model for analysing and forecasting match results in the English Premier League",
+    "authors": "Koopman and Lit",
+    "year": 2015,
+    "doi": "10.1111/rssa.12042",
+    "url": "https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12042",
+    "read_preprint": "https://research.vu.nl/ws/files/3167073/12099.pdf",
+    "preprint_year": 2012,
+    "use": "separate evolvingattackdefense, comparefullscoremodels. OursconditionindependentPoisson+correlatedlatentlognormal, no sharedcount/importance-sampler."
+  },
+  {
+    "title": "Forecasting football match results in national league competitions using score-driven time series models",
+    "authors": "Koopman and Lit",
+    "year": 2019,
+    "url": "https://research.vu.nl/ws/portalfiles/portal/151597369/Forecasting_football_match_results_in_national_league_competitions_using_scoredriven_time_series_models.pdf",
+    "use": "scoresvsoutcomelikelihoodcomparison motivation; notclaimpaperswinnertransfers"
+  },
+  {
+    "title": "A Two-Stage Bayesian Model for Predicting Winners in Major League Baseball",
+    "authors": "Yang and Swartz",
+    "year": 2004,
+    "url": "https://jds-online.org/journal/JDS/article/1117/info",
+    "doi": "10.6339/JDS.2004.02(1).142",
+    "use": "team/batting/starter-timevarying factors indicate missing playerdatarequirements; oursdoesnotclaimstartermodelimplemented"
+  },
+  {
+    "title": "On Extending the Bradley-Terry Model to Accommodate Ties in Paired Comparison Experiments",
+    "authors": "Davidson",
+    "year": 1970,
+    "url": "https://www.tandfonline.com/doi/abs/10.1080/01621459.1970.10481082",
+    "use": "explicitdrawcategory underlying centeredsoftmax(d/2,lognu,-d/2); temporalGaussianfilter oursnotpaperalgorithm"
+  },
+  {
+    "title": "Why do tree-based models still outperform deep learning on typical tabular data?",
+    "authors": "Grinsztajn,Oyallon,Varoquaux",
+    "year": 2022,
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf",
+    "use": "Feature-rich tabularGBDT should remain comparator; neuralmodelnotautomaticallysuperior. Doesnotprovewhichsportsmodelwins. Notanewtrialaftertest."
+  }
+]
