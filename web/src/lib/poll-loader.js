@@ -13,16 +13,20 @@ export function createPollLoader(sources, publish, { fetcher = fetch, timeoutMs 
       await Promise.all(Object.entries(sources).map(async ([key, url]) => {
         const previous = cache.get(key);
         try {
+          const headers = { 'Cache-Control': 'no-cache' };
+          if (previous?.etag) headers['If-None-Match'] = previous.etag;
           const response = await fetcher(`${url}${url.includes('?') ? '&' : '?'}_=${Date.now()}`, {
-            cache: 'no-store', headers: { 'Cache-Control': 'no-cache' }, signal: controller.signal,
+            cache: 'no-store', headers, signal: controller.signal,
           });
+          if (response.status === 304 && previous) { data[key] = previous.value; return; }
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const text = await response.text();
           if (stopped || controller.signal.aborted) { data[key] = previous?.value ?? null; return; }
-          if (previous?.text === text) data[key] = previous.value;
+          const etag = response.headers?.get('ETag') || null;
+          if (previous?.text === text) { cache.set(key, { ...previous, etag }); data[key] = previous.value; }
           else {
             const value = JSON.parse(text);
-            cache.set(key, { text, value });
+            cache.set(key, { text, value, etag });
             data[key] = value;
             changed = true;
           }
