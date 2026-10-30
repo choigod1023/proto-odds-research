@@ -55,3 +55,36 @@ def test_doubleheader_and_reissue_are_distinct():
     assert v.validate(d)
     d['aliases'][1]['official_id']='game-1'
     with pytest.raises(v.Invalid): v.validate(d)
+
+@pytest.mark.parametrize('mutation', [
+    lambda d: d['quotes'][0]['odds'].update(home=9.9),
+    lambda d: d['observations'][0]['evidence'].update(source_sha256='b' * 64),
+    lambda d: d['lineups'][0]['players'][0].update(role='reliever'),
+])
+def test_referenced_content_changes_fail_standalone(mutation):
+    d=fixture(); mutation(d)
+    with pytest.raises(v.Invalid, match='input content hash mismatch'):
+        v.validate(d)
+
+def test_recomputed_all_hashes_require_trusted_snapshot():
+    before=fixture(); after=copy.deepcopy(before)
+    after['quotes'][0]['odds']['home']=9.9
+    observations={o['observation_id']:o for o in after['observations']}
+    f=after['freezes'][0]
+    f['input_content_sha256']=v.content_digest(after['quotes'][0], after['lineups'], observations)
+    f['freeze_hash']=v.digest(f)
+    assert v.validate(after)
+    with pytest.raises(v.Invalid, match='history changed'):
+        v.validate_append(before, after)
+
+def test_v1_is_not_silently_accepted_as_v1_1():
+    d=fixture(); d['schema_version']='v1'; d['freezes'][0].pop('input_content_sha256')
+    with pytest.raises(v.Invalid): v.validate(d)
+
+def test_content_digest_matches_independent_canonical_encoding():
+    import hashlib
+    d=fixture(); f=d['freezes'][0]; o=d['observations'][0]
+    payload={'domain':'accuracy-structure-v1.1-inputs','quote':d['quotes'][0],
+             'quote_observation':o,'lineups':[{'lineup':d['lineups'][0], 'observation':o}]}
+    raw=json.dumps(payload,sort_keys=True,ensure_ascii=False,separators=(',', ':'),allow_nan=False).encode('utf-8')
+    assert hashlib.sha256(raw).hexdigest()==f['input_content_sha256']
