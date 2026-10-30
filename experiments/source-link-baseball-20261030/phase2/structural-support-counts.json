@@ -1,0 +1,47 @@
+{
+  "scope": "Structural fixture counts only. Parent must check labels, canonical fullgame eligibility, actual price/quote clocks and common matched support. No outcome or ROI access.",
+  "counts": [
+    {
+      "league": "KBO",
+      "split": "60-20-20",
+      "primary_feature_dates": 29,
+      "primary_train_candidate_fixtures_after48h": 53,
+      "auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates": 35,
+      "test_candidate_fixtures": 26,
+      "primary_train_ge30": true,
+      "test_ge10": true
+    },
+    {
+      "league": "KBO",
+      "split": "50-20-30",
+      "primary_feature_dates": 29,
+      "primary_train_candidate_fixtures_after48h": 52,
+      "auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates": 25,
+      "test_candidate_fixtures": 40,
+      "primary_train_ge30": true,
+      "test_ge10": true
+    },
+    {
+      "league": "NPB",
+      "split": "60-20-20",
+      "primary_feature_dates": 30,
+      "primary_train_candidate_fixtures_after48h": 36,
+      "auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates": 37,
+      "test_candidate_fixtures": 13,
+      "primary_train_ge30": true,
+      "test_ge10": true
+    },
+    {
+      "league": "NPB",
+      "split": "50-20-30",
+      "primary_feature_dates": 30,
+      "primary_train_candidate_fixtures_after48h": 29,
+      "auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates": 27,
+      "test_candidate_fixtures": 19,
+      "primary_train_ge30": false,
+      "test_ge10": true
+    }
+  ],
+  "models_fitted": false,
+  "ROI_inspected": false
+}

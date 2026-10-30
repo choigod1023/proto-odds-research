@@ -1,15 +1,15 @@
 """Offline real-cache and adversarial identity/clock regressions."""
 import copy
 import base64
-from datetime import date
+from datetime import date, timedelta
 import gzip
 import json
 
 import pytest
 from bs4 import BeautifulSoup
 
-from scripts.rd_kbo_npb_sources import (OUT, Fetch, aggregate, dt, npb_links,
-    parse_kbo, parse_npb, target_match, team_code)
+from scripts.rd_kbo_npb_sources import (OUT, Fetch, Phase2Fetch, aggregate, dt, npb_links,
+    parse_kbo, parse_npb, target_match, team_code, phase1_unchanged, structural_support, rows_write)
 
 
 def cached(fragment, data_date=None):
@@ -165,3 +165,104 @@ def test_request_budget_failures_durable_and_official_only(tmp_path):
         Fetch(tmp_path,1).get(url+'?different')
     with pytest.raises(ValueError,match='nonofficial_url'):
         fetch.get('https://untrusted.example/')
+
+
+def test_phase2_original_cache_readonly_and_separate_budget(tmp_path):
+    phase1=tmp_path/'original'
+    fetch=Fetch(phase1,limit=1)
+    class Broken:
+        def request(self,*args,**kwargs):
+            import requests
+            raise requests.Timeout('not displayed')
+    fetch.session=Broken()
+    url='https://npb.jp/bis/2026/games/gm20260329.html'
+    fetch.get(url)
+    before={p:p.read_bytes() for p in phase1.rglob('*') if p.is_file()}
+    phase2=Phase2Fetch(tmp_path/'phase2',reuse_root=phase1)
+    phase2.session=Broken()
+    assert phase2.get(url)[1]['error']=='Timeout'
+    assert not phase2.attempts and phase2.limit==200
+    phase2.limit=1
+    phase2.get(url+'?phase2')
+    assert len(phase2.attempts)==1 and len(fetch.attempts)==1
+    assert phase2.get(url)[1]['error']=='Timeout'  # Original cache allowed after new budget exhausted.
+    with pytest.raises(RuntimeError,match='budget_exhausted'):
+        phase2.get(url+'?another')
+    assert all(p.read_bytes()==raw for p,raw in before.items())
+    inherited=[m for m in phase2.source_records() if m.get('cache_origin')=='phase1_read_only']
+    assert len(inherited)==1 and inherited[0]['raw_path'].startswith('../raw/')
+
+
+def test_phase2_identity_only_fixture_never_supplies_history():
+    old=make_game();old['identity_only']=True
+    assert not aggregate(make_row(),[old])[0]
+    row=make_row();game=make_game('target','2026-03-31');game.update(identity_only=True,start_time=None)
+    assert target_match(row,game)==(True,'exact_official_daily_path_date_both_teams_fixture_id_start_unverified')
+    row['cohort']='historical_market_proxy'
+    assert target_match(row,game)==(False,'auxiliary_actual_start_unverified')
+
+
+def test_phase2_known_npb_provider_prefix_preserves_exact_official_fixture_identity():
+    row=make_row();row.update(league='NPB',home='Orix Buffaloes',away='Hokkaido Nippon-Ham Fighters',
+        event_id='NPB:/scores/2026/0509/b-f-11/',kickoff='2026-05-09T14:00:00+09:00')
+    game=make_game('/scores/2026/0509/b-f-11/','2026-05-09')
+    game.update(league='NPB',home_id='b',away_id='f',start_time=None,identity_only=True)
+    assert target_match(row,game)[0]
+    game['game_id']='/scores/2026/0509/b-f-12/'
+    assert target_match(row,game)==(False,'exact_official_fixture_id_mismatch')
+
+
+def test_phase2_pacing_sleeps_only_required_remainder(tmp_path,monkeypatch):
+    from scripts import rd_kbo_npb_sources as module
+    fetch=Phase2Fetch(tmp_path,reuse_root=tmp_path/'old')
+    fixed=dt('2026-10-30T12:00:00+00:00')
+    class Clock(module.datetime):
+        @staticmethod
+        def now(tz):return fixed
+    sleeps=[]
+    monkeypatch.setattr(module,'datetime',Clock)
+    monkeypatch.setattr(module.time_lib,'sleep',sleeps.append)
+    fetch.attempts=[dict(started_at='2026-10-30T11:59:59.800000+00:00')]
+    fetch.before_attempt()
+    assert sleeps==[pytest.approx(.3)]
+    fetch.attempts=[dict(started_at='2026-10-30T11:59:59+00:00')]
+    fetch.before_attempt()
+    assert len(sleeps)==1
+
+
+def test_phase2_frozen_selection_and_all_phase1_hashes():
+    p=OUT/'phase2'
+    protocol=json.loads((p/'protocol.json').read_text(encoding='utf8'))
+    assert protocol['max_additional_http_attempts']==200 and protocol['phase1_original_http_attempts']==95
+    rows=list(map(json.loads,gzip.open(p/'selected-targets.jsonl.gz','rt',encoding='utf8')))
+    assert sum(r['league']=='KBO' for r in rows)==117
+    assert sum(r['league']=='NPB' for r in rows)==59
+    assert all(len(days)==30 for days in protocol['dates'].values())
+    assert phase1_unchanged(p)==211
+    for row in rows:
+        for side in ('home','away'):
+            assert team_code(row['league'],row[side])
+
+
+@pytest.mark.parametrize('name,expected',[
+    ('Orix Buffaloes','b'),('Chunichi Dragons','d'),('Hanshin Tigers','t'),('Chiba Lotte Marines','m'),
+    ('Hokkaido Nippon-Ham Fighters','f'),('Saitama Seibu Lions','l'),('Tohoku Rakuten Golden Eagles','e'),('Tokyo Yakult Swallows','s')])
+def test_phase2_frozen_primary_english_team_names(name,expected):
+    assert team_code('NPB',name)==expected
+
+
+def test_structural_support_counts_independent_fixtures_and_48h_without_labels(tmp_path):
+    base=dt('2026-01-01T18:00:00+09:00')
+    rows=[]
+    for index in range(30):
+        start=(base+timedelta(days=index)).isoformat()
+        rows.extend(dict(league='KBO',event_id=f'{index}-{n}',kickoff=start,decision_at=start) for n in (1,2))
+    rows_write(tmp_path/'features.jsonl.gz',rows+[rows[0]])
+    rows_write(tmp_path/'auxiliary-features.jsonl.gz',[
+        dict(league='KBO',event_id='old_aux',kickoff='2025-12-25T18:00:00+09:00'),
+        dict(league='KBO',event_id='same_primary_date_aux',kickoff=base.isoformat())])
+    result=structural_support(tmp_path)
+    kbo=[r for r in result['counts'] if r['league']=='KBO']
+    assert [r['primary_train_candidate_fixtures_after48h'] for r in kbo]==[32,26]
+    assert [r['test_candidate_fixtures'] for r in kbo]==[12,18]
+    assert all(r['auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates']==1 for r in kbo)

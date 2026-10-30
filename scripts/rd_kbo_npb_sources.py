@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time as time_lib
 import html as html_lib
 from urllib.parse import urljoin, urlparse
 
@@ -57,6 +58,7 @@ class Fetch:
         self.ledger = self.out / 'http-attempts.jsonl'
         self.attempts = [json.loads(x) for x in self.ledger.read_text(encoding='utf8').splitlines()] if self.ledger.exists() else []
         self.limit = min(limit, 160)
+        self.host_limit = 80
         self.session = requests.Session()
         self.session.trust_env = False  # Public requests only, never inherit credentials/proxy auth.
         self.session.headers.update({'User-Agent': 'public-historical-baseball-research/1.0'})
@@ -75,8 +77,9 @@ class Fetch:
             return raw.decode(meta['encoding'], errors='replace'), meta
         if len(self.attempts) >= self.limit:
             raise RuntimeError('request_budget_exhausted')
-        if sum(urlparse(a['url']).hostname == urlparse(url).hostname for a in self.attempts) >= 80:
+        if sum(urlparse(a['url']).hostname == urlparse(url).hostname for a in self.attempts) >= self.host_limit:
             raise RuntimeError('league_request_allocation_exhausted')
+        self.before_attempt()
         attempt = dict(attempt=len(self.attempts) + 1, url=url, method='GET' if data is None else 'POST', data=data, started_at=stamp())
         with self.ledger.open('a', encoding='utf8') as f:
             f.write(json.dumps(attempt) + '\n')
@@ -107,6 +110,50 @@ class Fetch:
         raw_path.write_bytes(gzip.compress(raw, mtime=0))
         dump(meta_path, meta)
         return raw.decode(meta['encoding'], errors='replace'), meta
+
+    def before_attempt(self):
+        pass
+
+    def source_records(self):
+        return [json.loads(p.read_text(encoding='utf8')) for p in sorted(self.raw.glob('*.meta.json'))]
+
+
+class Phase2Fetch(Fetch):
+    """Independent 200-attempt budget, immutable phase1 cache, paced new I/O."""
+    def __init__(self, out=None, reuse_root=OUT):
+        super().__init__(out or OUT/'phase2')
+        self.limit = 200
+        self.host_limit = 200
+        self.reuse_root = Path(reuse_root)
+        self.spacing = 0.5
+
+    def get(self, url, data=None):
+        if urlparse(url).hostname not in ('npb.jp','www.koreabaseball.com') or not url.startswith('https://'):
+            raise ValueError('nonofficial_url')
+        identity=url if data is None else url+json.dumps(data,sort_keys=True)
+        key=hashlib.sha256(identity.encode()).hexdigest()
+        path=self.reuse_root/'raw'/(key+'.meta.json')
+        if path.exists():
+            meta=json.loads(path.read_text(encoding='utf8'))
+            raw=gzip.decompress((self.reuse_root/meta['raw_path']).read_bytes())
+            if hashlib.sha256(raw).hexdigest()!=meta['sha256']:
+                raise ValueError('phase1_cache_hash_mismatch')
+            return raw.decode(meta['encoding'],errors='replace'),meta
+        return super().get(url,data)
+
+    def before_attempt(self):
+        if self.attempts:
+            elapsed=(datetime.now(UTC)-dt(self.attempts[-1]['started_at'])).total_seconds()
+            if elapsed<self.spacing:
+                time_lib.sleep(self.spacing-elapsed)
+
+    def source_records(self):
+        inherited=[]
+        for path in sorted((self.reuse_root/'raw').glob('*.meta.json')):
+            meta=json.loads(path.read_text(encoding='utf8'))
+            meta.update(raw_path='../'+meta['raw_path'],cache_origin='phase1_read_only')
+            inherited.append(meta)
+        return inherited+super().source_records()
 
 
 def freeze(out=OUT):
@@ -148,9 +195,17 @@ NPB_TEAMS = {'読売ジャイアンツ':'g', '阪神タイガース':'t', '横�
     'オリックス・バファローズ':'b', '東北楽天ゴールデンイーグルス':'e', '埼玉西武ライオンズ':'l', '千葉ロッテマリーンズ':'m'}
 KO_NPB = {'요미우리':'g', '한신':'t', '요코베이':'db', '요코하마':'db', '주니치':'d', '히로카프':'c', '히로시마':'c',
     '야쿠르트':'s', '소프트뱅':'h', '니혼햄':'f', '닛폰햄':'f', '오릭스':'b', '라쿠텐':'e', '세이부':'l', '지바롯데':'m', '지바 롯데':'m'}
+ENGLISH_TEAMS = {'KBO':{'Doosan Bears':'OB','Hanwha Eagles':'HH','KIA Tigers':'HT','KT Wiz Suwon':'KT',
+    'Kiwoom Heroes':'WO','LG Twins':'LG','Lotte Giants':'LT','NC Dinos':'NC','SSG Landers':'SK','Samsung Lions':'SS'},
+    'NPB':{'Chiba Lotte Marines':'m','Chunichi Dragons':'d','Fukuoka S. Hawks':'h','Hanshin Tigers':'t','Hiroshima Carp':'c',
+    'Nippon Ham Fighters':'f','Hokkaido Nippon-Ham Fighters':'f','Orix Buffaloes':'b','Rakuten Gold. Eagles':'e',
+    'Tohoku Rakuten Golden Eagles':'e','Seibu Lions':'l','Saitama Seibu Lions':'l','Yakult Swallows':'s',
+    'Tokyo Yakult Swallows':'s','Yokohama BayStars':'db','Yomiuri Giants':'g'}}
 
 
 def team_code(league, name):
+    if name in ENGLISH_TEAMS.get(league,{}):
+        return ENGLISH_TEAMS[league][name]
     compact = re.sub(r'\s+', '', name)
     mapping = KBO_TEAMS if league == 'KBO' else KO_NPB
     matches = {code for alias, code in mapping.items() if compact.startswith(alias.replace(' ', ''))}
@@ -300,6 +355,13 @@ def npb_links(html, day):
     return sorted(links)
 
 
+def official_fixture_id(row):
+    # PR424 mixes official paths with the same path wrapped in a known provider namespace.
+    # Remove only this exact namespace; retain date/teams/series-number in full.
+    match=re.fullmatch(r'NPB:(/scores/\d{4}/\d{4}/[a-z]+-[a-z]+-\d+/)',row['event_id']) if row['league']=='NPB' else None
+    return match[1] if match else row['event_id']
+
+
 def target_match(row, game):
     if row['league'] != game['league']:
         return False, 'league_mismatch'
@@ -308,9 +370,13 @@ def target_match(row, game):
         return False, 'date_mismatch'
     if team_code(row['league'], row['home']) != game['home_id'] or team_code(row['league'], row['away']) != game['away_id']:
         return False, 'home_away_team_mismatch'
-    if row['cohort'] != 'historical_market_proxy' and row['event_id'] != game['game_id']:
+    if row['cohort'] != 'historical_market_proxy' and official_fixture_id(row) != game['game_id']:
         return False, 'exact_official_fixture_id_mismatch'
     delta = abs((dt(row['kickoff']) - dt(game['start_time'])).total_seconds()) if game.get('start_time') else None
+    if delta is None:
+        if row['cohort']=='historical_market_proxy':
+            return False,'auxiliary_actual_start_unverified'
+        return True,'exact_official_daily_path_date_both_teams_fixture_id_start_unverified'
     if delta is not None and delta > 1800:
         return False, 'kickoff_difference_over30m'
     identity_note = 'exact_date_both_teams_unique_official_fixture' if row['cohort']=='historical_market_proxy' else 'exact_date_both_teams_official_id'
@@ -321,7 +387,7 @@ def aggregate(row, history):
     decision = dt(row.get('decision_at') or (dt(row['kickoff']) - timedelta(minutes=30)).isoformat())
     target_day = dt(row['kickoff']).astimezone(JST).date()
     days = {(target_day - timedelta(days=x)).isoformat() for x in (4,3,2)}
-    games = [g for g in history if g['league'] == row['league'] and g['game_id'] != row['event_id'] and g['fact_date'] in days]
+    games = [g for g in history if not g.get('identity_only') and g['league'] == row['league'] and g['game_id'] != official_fixture_id(row) and g['fact_date'] in days]
     values, evidence, audit = {}, {}, []
     for side in ('home','away'):
         code = team_code(row['league'], row[side])
@@ -374,8 +440,8 @@ def aggregate(row, history):
 ARCHIVE = Path('C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/single-vs-low-odds-parlays-20261030/experiments/single-parlay-20261030/inputs/ARCHIVE/events.jsonl.gz')
 
 
-def collect(selected, out=OUT):
-    fetch = Fetch(out)
+def collect(selected, out=OUT, fetch_override=None, collected_override=None):
+    fetch = fetch_override or Fetch(out)
     adapter_spec=out/'source-adapter-spec.json'
     if not adapter_spec.exists():
         dump(adapter_spec,dict(frozen_at=stamp(),frozen_before_parent_evaluation=True,
@@ -386,9 +452,9 @@ def collect(selected, out=OUT):
             identity='exact league/date/home/away; primary exact official id; auxiliary unique fixture plus actual start within30m',
             clocks='NPB official actual end HH:MM on verified source date (next-day if end<start). KBO calendar date only + end-of-day +24h.',
             fact_date_timezone={'KBO':'Asia/Seoul','NPB':'Asia/Tokyo'},roi_inspected=False,model_fitted=False))
-    parsed, schedules, errors = [], [], []
+    parsed, schedules, errors = collected_override if collected_override is not None else ([], [], [])
     # Source cardinality is persisted incrementally BEFORE feature construction.
-    for league in ('KBO','NPB'):
+    for league in (() if collected_override is not None else ('KBO','NPB')):
         targets = [r for r in selected if r['league']==league]
         relevant = {team_code(league, r[s]) for r in targets for s in ('home','away')}
         target_dates = {dt(r['kickoff']).astimezone(JST).date() for r in targets}
@@ -433,7 +499,9 @@ def collect(selected, out=OUT):
                 errors.append(dict(league=league, date=day.isoformat(),reason=str(exc)))
             dump(out/'source-cardinality.json', schedules)
     parsed = sorted({(g['league'],g['game_id']):g for g in parsed}.values(),key=lambda g:(g['league'],g['game_id']))
-    rows_write(out/'parsed-official-games.jsonl.gz', parsed)
+    rows_write(out/'parsed-official-games.jsonl.gz', [g for g in parsed if not g.get('identity_only')])
+    if collected_override is not None:
+        rows_write(out/'target-identities.jsonl.gz',[g for g in parsed if g.get('identity_only')])
     matches, diagnostics, features, audit = [], [], [], []
     def attach(row, auxiliary=False):
         candidates = [g for g in parsed if g['league']==row['league'] and g['fact_date']==dt(row['kickoff']).astimezone(JST).date().isoformat()
@@ -447,7 +515,8 @@ def collect(selected, out=OUT):
         game=accepted[0]
         _,reason=target_match(row,game)
         matches.append(dict(**row,matched=True,reason=reason,official_game_id=game['game_id'],auxiliary=auxiliary,
-            source_sha256=game['source_sha256'], actual_start=game['start_time']))
+            source_sha256=game['source_sha256'], actual_start=game['start_time'],
+            identity_normalization='known_NPB_provider_namespace_only' if official_fixture_id(row)!=row['event_id'] else 'none'))
         diagnostics.append(dict(event_id=row['event_id'], official_game_id=game['game_id'],lineups=game['lineups'],source_sha256=game['source_sha256'],
             reason='postgame_target_XI_publication_time_unproven_DIAGNOSTIC_ONLY',excluded_from_features=True,auxiliary=auxiliary))
         values,evidence,failures=aggregate(row,parsed)
@@ -487,7 +556,7 @@ def collect(selected, out=OUT):
     rows_write(out/'fixture-joins.jsonl.gz',matches)
     rows_write(out/'target-lineups-DIAGNOSTIC-ONLY.jsonl.gz',diagnostics)
     rows_write(out/'field-audit.jsonl.gz',audit)
-    manifest=[json.loads(p.read_text(encoding='utf8')) for p in sorted(fetch.raw.glob('*.meta.json'))]
+    manifest=fetch.source_records()
     for meta in manifest:
         html=gzip.decompress((out/meta['raw_path']).read_bytes()).decode(meta['encoding'],errors='replace')
         if '에러 | KBO홈페이지' in html:
@@ -505,7 +574,8 @@ def collect(selected, out=OUT):
             if r['league'] not in ('KBO','NPB') or r['cohort']!='retrospective_year_strict__claimed_time_only':
                 continue
             event=r['event_id'];matched=joined.get(event,{}).get('matched',False)
-            reason='outside_frozen_first6_target_dates' if event not in joined else joined[event]['reason'] if not matched else 'no_verified_prior_history' if event not in by_event else 'features_available'
+            outside='outside_frozen_first30_target_dates' if isinstance(fetch,Phase2Fetch) else 'outside_frozen_first6_target_dates'
+            reason=outside if event not in joined else joined[event]['reason'] if not matched else 'no_verified_prior_history' if event not in by_event else 'features_available'
             coverage.append(dict(cohort=r['cohort'],event_id=event,league=r['league'],selected=event in joined,matched=matched,feature_row=event in by_event,reason=reason))
     rows_write(out/'primary-coverage.jsonl.gz',coverage)
     availability=[]
@@ -516,7 +586,7 @@ def collect(selected, out=OUT):
             batting_lineup=dict(available=r['league']=='NPB',role='postgame_diagnostic_only' if r['league']=='NPB' else 'missing_official_batting_order')))
     rows_write(out/'field-availability.jsonl.gz',availability)
     summary=dict(http_attempts=len(fetch.attempts),selected_primary=dict(Counter(r['league'] for r in selected)),
-        parsed_games=dict(Counter(g['league'] for g in parsed)), parsed_pitcher_rows=dict(Counter(g['league'] for g in parsed for _ in g['pitchers'])),
+        parsed_games=dict(Counter(g['league'] for g in parsed if not g.get('identity_only'))), parsed_pitcher_rows=dict(Counter(g['league'] for g in parsed for _ in g['pitchers'])),
         parsed_pitch_counts=dict(Counter(g['league'] for g in parsed for p in g['pitchers'] if p['pitch_count'] is not None)),
         parsed_nine_player_lineups=dict(Counter(g['league'] for g in parsed for x in g['lineups'].values() if len(x)==9)),
         matched_primary=dict(Counter(r['league'] for r in matches if r['matched'] and not r['auxiliary'])),
@@ -529,8 +599,158 @@ def collect(selected, out=OUT):
             'KBO_player_identity':'team-scoped display names only; repeat-appearance counts can collide for homonyms',
             'all_target_lineups':'diagnostic_only_unproven_pregame_publication',
             'workload':'observed subset, not complete window; empty/missing source dates not zero-filled'},roi_inspected=False,model_fitted=False)
+    if isinstance(fetch,Phase2Fetch):
+        summary.update(original_phase1_http_attempts=95,additional_phase2_http_attempts=len(fetch.attempts),combined_http_attempts=95+len(fetch.attempts),
+            identity_only_primary_targets=sum(g.get('identity_only',False) for g in parsed),
+            new_attempts_by_host=dict(Counter(urlparse(a['url']).hostname for a in fetch.attempts)))
     dump(out/'summary.json',summary)
     print(json.dumps(summary,ensure_ascii=False))
+
+
+def phase1_unchanged(out):
+    baseline=json.loads((out/'phase1-baseline-hashes.json').read_text(encoding='utf8'))
+    for name,digest in baseline.items():
+        assert hashlib.sha256((OUT/name).read_bytes()).hexdigest()==digest,('phase1_artifact_changed',name)
+    return len(baseline)
+
+
+def structural_support(out):
+    """Count fixtures/dates only. Does not inspect labels, prices or fit models."""
+    primary=list(map(json.loads,gzip.open(out/'features.jsonl.gz','rt',encoding='utf8')))
+    auxiliary=list(map(json.loads,gzip.open(out/'auxiliary-features.jsonl.gz','rt',encoding='utf8')))
+    results=[]
+    for league in ('KBO','NPB'):
+        rows=[r for r in primary if r['league']==league]
+        day=lambda r:dt(r['kickoff']).astimezone(JST).date().isoformat()
+        dates=sorted({day(r) for r in rows})
+        for train_fraction,val_fraction in ((.6,.2),(.5,.2)):
+            a=max(1,int(len(dates)*train_fraction));b=max(a+1,int(len(dates)*(train_fraction+val_fraction)))
+            if b>=len(dates):
+                continue
+            validation_start=min(dt(r['decision_at']) for r in rows if day(r) in dates[a:b])
+            primary_train={r['event_id'] for r in rows if day(r) in dates[:a] and dt(r['kickoff'])<validation_start-timedelta(hours=48)}
+            aux_train={r['event_id'] for r in auxiliary if r['league']==league and day(r) not in dates and dt(r['kickoff'])<validation_start-timedelta(hours=48)}
+            test={r['event_id'] for r in rows if day(r) in dates[b:]}
+            results.append(dict(league=league,split='60-20-20' if train_fraction==.6 else '50-20-30',primary_feature_dates=len(dates),
+                primary_train_candidate_fixtures_after48h=len(primary_train),auxiliary_train_candidate_fixtures_after48h_excluding_primary_dates=len(aux_train),
+                test_candidate_fixtures=len(test),primary_train_ge30=len(primary_train)>=30,test_ge10=len(test)>=10))
+    result=dict(scope='Structural fixture counts only. Parent must check labels, canonical fullgame eligibility, actual price/quote clocks and common matched support. No outcome or ROI access.',
+        counts=results,models_fitted=False,ROI_inspected=False)
+    dump(out/'structural-support-counts.json',result)
+    return result
+
+
+def collect_phase2(out=None):
+    out=Path(out or OUT/'phase2')
+    phase1_unchanged(out)
+    protocol=json.loads((out/'protocol.json').read_text(encoding='utf8'))
+    assert protocol['max_additional_http_attempts']==200 and protocol['frozen_before_fetch']
+    # The user requested a separate protocol commit before any phase2 HTTP.
+    protocol_relative=(out/'protocol.json').relative_to(ROOT).as_posix()
+    freeze_commit=subprocess.check_output(['git','log','-1','--format=%H','--',protocol_relative],cwd=ROOT,text=True).strip()
+    assert freeze_commit,'phase2_protocol_not_committed_before_collection'
+    frozen=subprocess.check_output(['git','show',freeze_commit+':'+protocol_relative],cwd=ROOT)
+    assert json.loads(frozen)==protocol,'phase2_protocol_changed_after_freeze_commit'
+    selected=[json.loads(line) for line in gzip.open(out/'selected-targets.jsonl.gz','rt',encoding='utf8')]
+    # Validate every frozen alias before any new HTTP; matching still verifies both official team codes.
+    for row in selected:
+        for side in ('home','away'):
+            team_code(row['league'],row[side])
+    fetch=Phase2Fetch(out)
+    actual={(g['league'],g['game_id']):g for g in map(json.loads,gzip.open(OUT/'parsed-official-games.jsonl.gz','rt',encoding='utf8'))}
+    identities={}
+    schedules=[]
+    errors=[]
+    kbo=[r for r in selected if r['league']=='KBO']
+    target_days={dt(r['kickoff']).astimezone(JST).date() for r in kbo}
+    all_days=target_days|{d-timedelta(days=x) for d in target_days for x in (4,3,2)}
+    for day in sorted(all_days):
+        url='https://www.koreabaseball.com/Game/SummaryView.aspx'
+        try:
+            html,meta=fetch.get(url,dict(gamedate=day.strftime('%Y%m%d'),leagueId='1',seriesId='0'))
+            if meta['error']:
+                raise ValueError(meta['error'])
+            games=parse_kbo(html,day)
+            schedules.append(dict(league='KBO',date=day.isoformat(),url=url,request_data=meta['data'],source_sha256=meta['sha256'],
+                raw_games=len(games),selected_games=len(games),game_ids=[g['game_id'] for g in games],
+                empty_reason=None if games else 'no_completed_regular_game_rows_in_summary'))
+            for game in games:
+                game.update(source_url=url,source_sha256=meta['sha256'],observed_at=meta['observed_at'])
+                actual[('KBO',game['game_id'])]=game
+        except (ValueError,RuntimeError) as exc:
+            errors.append(dict(league='KBO',date=day.isoformat(),url=url,reason=str(exc)))
+        dump(out/'source-cardinality.json',schedules)
+    npb=[r for r in selected if r['league']=='NPB']
+    def daily(day,role):
+        url=f'https://npb.jp/bis/{day.year}/games/gm{day:%Y%m%d}.html'
+        html,meta=fetch.get(url)
+        if meta['error']:
+            raise ValueError(meta['error'])
+        match=re.search(r'(\d{4})年\s*(\d+)月\s*(\d+)日',clean(BeautifulSoup(html,'lxml')))
+        if not match or date(*(int(x) for x in match.groups()))!=day:
+            raise ValueError('npb_daily_response_date_mismatch')
+        links=npb_links(html,day)
+        record=dict(league='NPB',date=day.isoformat(),url=url,role=role,source_sha256=meta['sha256'],
+            raw_box_urls=links,selected_box_urls=[],raw_games=len(links),selected_games=0,
+            empty_reason=None if links else 'no_exact_date_first_team_box_links')
+        schedules.append(record)
+        return links,meta,record
+    for target_day in sorted({dt(r['kickoff']).astimezone(JST).date() for r in npb}):
+        cases=[r for r in npb if dt(r['kickoff']).astimezone(JST).date()==target_day]
+        teams={team_code('NPB',r[side]) for r in cases for side in ('home','away')}
+        try:
+            links,meta,record=daily(target_day,'target_identity_only')
+            paths={urlparse(url).path.removesuffix('box.html'):url for url in links}
+            record['selected_identity_paths']=sorted(official_fixture_id(r) for r in cases if official_fixture_id(r) in paths)
+            for row in cases:
+                event=official_fixture_id(row)
+                if event not in paths:
+                    errors.append(dict(league='NPB',date=target_day.isoformat(),event_id=event,reason='exact_target_path_absent_from_official_daily_index'))
+                    continue
+                code=event.strip('/').split('/')[-1].split('-')
+                identities[('NPB',event)]=dict(league='NPB',game_id=event,fact_date=target_day.isoformat(),home_id=code[0],away_id=code[1],
+                    start_time=None,end_time=None,pitchers=[],lineups={},final=False,identity_only=True,
+                    identity_method='official_daily_exact_fixture_path_date_home_away; actual_start_unverified; no_target_stats_requested',
+                    source_url=meta['url'],source_sha256=meta['sha256'],observed_at=meta['observed_at'])
+        except (ValueError,RuntimeError) as exc:
+            errors.append(dict(league='NPB',date=target_day.isoformat(),role='target_identity_only',reason=str(exc)))
+        dump(out/'source-cardinality.json',schedules)
+        for offset in (4,3,2):
+            day=target_day-timedelta(days=offset)
+            try:
+                links,meta,record=daily(day,'prior_pitching_for_'+target_day.isoformat())
+                chosen=[url for url in links if set(urlparse(url).path.split('/')[-2].split('-')[:2])&teams]
+                record.update(selected_box_urls=chosen,selected_games=len(chosen))
+                dump(out/'source-cardinality.json',schedules)
+                for url in chosen:
+                    event=urlparse(url).path.removesuffix('box.html')
+                    if ('NPB',event) in actual:
+                        continue
+                    try:
+                        html,bm=fetch.get(url)
+                        if bm['error']:
+                            raise ValueError(bm['error'])
+                        game=parse_npb(html,url,day)
+                        game.update(source_url=url,source_sha256=bm['sha256'],observed_at=bm['observed_at'])
+                        actual[('NPB',game['game_id'])]=game
+                    except (ValueError,RuntimeError) as exc:
+                        errors.append(dict(league='NPB',date=day.isoformat(),target_date=target_day.isoformat(),url=url,reason=str(exc)))
+            except (ValueError,RuntimeError) as exc:
+                errors.append(dict(league='NPB',date=day.isoformat(),target_date=target_day.isoformat(),reason=str(exc)))
+        dump(out/'collection-progress.json',dict(additional_attempts=len(fetch.attempts),max_additional_attempts=200,
+            last_np_target_date=target_day.isoformat(),actual_games=dict(Counter(k[0] for k in actual))))
+    identities={k:g for k,g in identities.items() if k not in actual}
+    parsed=list(actual.values())+list(identities.values())
+    # Materialize with the same feature names, aggregation and field evidence as phase1.
+    collect(selected,out,fetch_override=fetch,collected_override=(parsed,schedules,errors))
+    attempts=fetch.attempts
+    gaps=[(dt(b['started_at'])-dt(a['started_at'])).total_seconds() for a,b in zip(attempts,attempts[1:])]
+    assert not gaps or min(gaps)>=0.499,'request_spacing_below_0.5s'
+    dump(out/'request-accounting.json',dict(original_phase1_attempts=95,additional_phase2_attempts=len(attempts),
+        combined_attempts=95+len(attempts),additional_cap=200,minimum_additional_start_spacing_seconds=min(gaps) if gaps else None,
+        new_attempts_by_host=dict(Counter(urlparse(a['url']).hostname for a in attempts)),
+        cached_original_responses_available=95,phase1_unchanged_files=phase1_unchanged(out)))
+    structural_support(out)
 
 
 def verify(out=OUT):
@@ -543,7 +763,7 @@ def verify(out=OUT):
         assert hashlib.sha256(raw).hexdigest()==meta['sha256']
         assert dt(meta['started_at'])<=dt(meta['observed_at'])
     count=len((out/'http-attempts.jsonl').read_text(encoding='utf8').splitlines())
-    assert count==manifest['total_http_attempts'] and count<=160
+    assert count==manifest['total_http_attempts'] and count<=(200 if out.name=='phase2' else 160)
     excluded={'validation.json','artifact-hashes.json','changed-paths.txt'}
     def fingerprint():
         return {p.relative_to(out).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
@@ -554,12 +774,16 @@ def verify(out=OUT):
         raise AssertionError('offline_replay_attempted_network')
     requests.Session.request=blocked
     try:
-        collect(freeze(out),out)
+        if out.name=='phase2':
+            collect_phase2(out)
+        else:
+            collect(freeze(out),out)
     finally:
         requests.Session.request=original
     assert before==fingerprint(),'cached_replay_changed_artifacts'
     rows=[json.loads(line) for filename in ('features.jsonl.gz','auxiliary-features.jsonl.gz')
           for line in gzip.open(out/filename,'rt',encoding='utf8')]
+    games={g['game_id']:g for g in map(json.loads,gzip.open(out/'parsed-official-games.jsonl.gz','rt',encoding='utf8'))}
     gates=Counter()
     hashes={m['sha256'] for m in sources}
     for row in rows:
@@ -568,7 +792,11 @@ def verify(out=OUT):
         for name,value in row['features'].items():
             e=row['feature_evidence'][name]
             assert set(e['source_sha256'])<=hashes
-            assert row['event_id'] not in e['source_game_ids']
+            assert official_fixture_id(row) not in e['source_game_ids']
+            for source_game in e['source_game_ids']:
+                game=games[source_game]
+                assert not game.get('identity_only') and game['league']==row['league']
+                assert game['fact_date'] in {(target_day-timedelta(days=x)).isoformat() for x in (4,3,2)}
             if e.get('max_fact_date'):
                 assert date.fromisoformat(e['max_fact_date'])<=target_day-timedelta(days=2)
             ok,reason=feature_gate(value,e,row['decision_at'],view='retrospective_date_lagged')
@@ -597,8 +825,14 @@ def verify(out=OUT):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['freeze', 'probe', 'collect','verify'])
+    parser.add_argument('command', choices=['freeze', 'probe', 'collect','verify','collect-phase2','verify-phase2'])
     args = parser.parse_args()
+    if args.command=='collect-phase2':
+        collect_phase2()
+        return
+    if args.command=='verify-phase2':
+        verify(OUT/'phase2')
+        return
     selected = freeze()
     if args.command == 'freeze':
         print(json.dumps(dict(selected=Counter(r['league'] for r in selected))))

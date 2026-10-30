@@ -1,0 +1,73 @@
+{
+  "http_attempts": 200,
+  "selected_primary": {
+    "KBO": 117,
+    "NPB": 59
+  },
+  "parsed_games": {
+    "KBO": 205,
+    "NPB": 178
+  },
+  "parsed_pitcher_rows": {
+    "KBO": 2038,
+    "NPB": 1445
+  },
+  "parsed_pitch_counts": {
+    "KBO": 410,
+    "NPB": 1445
+  },
+  "parsed_nine_player_lineups": {
+    "NPB": 356
+  },
+  "matched_primary": {
+    "KBO": 117,
+    "NPB": 59
+  },
+  "primary_feature_rows": {
+    "KBO": 114,
+    "NPB": 59
+  },
+  "auxiliary_feature_rows": {
+    "NPB": 152,
+    "KBO": 164
+  },
+  "matched_auxiliary": {
+    "NPB": 168,
+    "KBO": 174
+  },
+  "primary_coverage_reasons": {
+    "no_verified_prior_history": 3,
+    "features_available": 173,
+    "outside_frozen_first30_target_dates": 138
+  },
+  "auxiliary_candidates": {
+    "NPB": 214,
+    "KBO": 174
+  },
+  "unmatched_reasons": {
+    "kickoff_difference_over30m": 1,
+    "official_target_fixture_not_collected": 36,
+    "auxiliary_actual_start_unverified": 9
+  },
+  "negative_probe_reasons": {
+    "npb_not_final": 8,
+    "official_http200_error_page": 3
+  },
+  "field_limitations": {
+    "KBO_relief_pitch_count": "unavailable in Summary; never substitute BF or entry inning",
+    "KBO_batting_order": "unavailable in Summary; detailed official endpoint returned error page",
+    "KBO_player_identity": "team-scoped display names only; repeat-appearance counts can collide for homonyms",
+    "all_target_lineups": "diagnostic_only_unproven_pregame_publication",
+    "workload": "observed subset, not complete window; empty/missing source dates not zero-filled"
+  },
+  "roi_inspected": false,
+  "model_fitted": false,
+  "original_phase1_http_attempts": 95,
+  "additional_phase2_http_attempts": 200,
+  "combined_http_attempts": 295,
+  "identity_only_primary_targets": 12,
+  "new_attempts_by_host": {
+    "www.koreabaseball.com": 41,
+    "npb.jp": 159
+  }
+}
