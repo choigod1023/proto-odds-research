@@ -1,0 +1,92 @@
+{
+  "schema_version": "accuracy-orchestration-v1",
+  "base_sha_at_dispatch": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "orchestrator": {
+    "thread_id": "01a06bca-36db-7623-8d86-0f2d21fb08f2",
+    "role": "planning, priority, contracts, evidence adjudication, integration",
+    "branch": "codex/accuracy-orchestrator-terra-20261030"
+  },
+  "coordination": "native Codex task sessions; coordinator reads statuses and worker handoffs; no cross-thread worker messages",
+  "execution_mode": "bounded first sprint, no recurring automation or daemon enabled",
+  "workers": [
+    {
+      "role": "structure",
+      "threadId": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
+      "projectlessOutputDirectory": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-structure-20261030/outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "thinking": "high",
+      "creation_succeeded": true,
+      "model_configuration_evidence": "create_thread explicitly accepted model argument",
+      "runtime_model_observed": false,
+      "title": "승부예측 Terra · 자료구조",
+      "status_observed": "active",
+      "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-structure-20261030",
+      "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-structure-20261030/repo"
+    },
+    {
+      "role": "development",
+      "threadId": "01a18c2d-e953-7d83-8b66-05e7173ae159",
+      "projectlessOutputDirectory": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-development-20261030/outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "thinking": "high",
+      "creation_succeeded": true,
+      "model_configuration_evidence": "create_thread explicitly accepted model argument",
+      "runtime_model_observed": false,
+      "title": "승부예측 Terra · 모델 개발",
+      "status_observed": "active",
+      "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-development-20261030",
+      "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-development-20261030/repo"
+    },
+    {
+      "role": "review",
+      "threadId": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
+      "projectlessOutputDirectory": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-review-20261030/outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "thinking": "high",
+      "creation_succeeded": true,
+      "model_configuration_evidence": "create_thread explicitly accepted model argument",
+      "runtime_model_observed": false,
+      "title": "승부예측 Terra · 독립 검토",
+      "status_observed": "active",
+      "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-review-20261030",
+      "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-review-20261030/repo"
+    },
+    {
+      "role": "connection",
+      "threadId": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
+      "projectlessOutputDirectory": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-connection-20261030/outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "thinking": "high",
+      "creation_succeeded": true,
+      "model_configuration_evidence": "create_thread explicitly accepted model argument",
+      "runtime_model_observed": false,
+      "title": "승부예측 Terra · 데이터 연결",
+      "status_observed": "active",
+      "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-connection-20261030",
+      "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-connection-20261030/repo"
+    },
+    {
+      "role": "server",
+      "threadId": "01a18c2d-f48c-7193-8638-ff4e69a0c982",
+      "projectlessOutputDirectory": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-server-20261030/outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "thinking": "high",
+      "creation_succeeded": true,
+      "model_configuration_evidence": "create_thread explicitly accepted model argument",
+      "runtime_model_observed": false,
+      "title": "승부예측 Terra · 서버관리",
+      "status_observed": "active",
+      "cwd": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-server-20261030",
+      "expected_repo": "C:/Users/user/Documents/Codex/2026-10-30/sportstoto-terra-server-20261030/repo"
+    }
+  ],
+  "sidebar_section": {
+    "id": "932fe824-7770-42ef-ad15-84a39dfa44ab",
+    "name": "승부예측 · Terra 워커"
+  }
+}

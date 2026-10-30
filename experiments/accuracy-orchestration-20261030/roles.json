@@ -1,0 +1,32 @@
+{
+  "structure": {
+    "title": "승부예측 Terra · 자료구조",
+    "branch": "codex/terra-accuracy-structure-20261030",
+    "path": "experiments/accuracy-structure-20261030",
+    "task": "자료구조는 수업 문제가 아니라 예측 데이터 구조·스키마·DB 연결 계약을 뜻합니다.\n1) 경기/상품/가격revision/선발·타순revision/원문관측/동결/공식정산을 분리하는 v1 JSON 계약과 Python 검증기를 구현하십시오. canonical_game_id와 official_id의 alias bridge, doubleheader/reissue/취소를 결과값 없이 구분합니다.\n2) published_at 주장, first_received_at 실제관측, decision_at, final_at, source_sha256, availability_tier, 외부인증 상태를 각각 보존합니다. 누락·순서역전·사후수신·서로다른시장/기간·변경된동결픽은 fail-closed. 내부해시체인만으로 인증true를 만들지 않습니다.\n3) 공통 provisional-interface.json과 PR431/433 자료를 읽고, 유효/무효 합성사례와 동결 후 결과 추가를 실제 Python으로 검증합니다. DB migration은 실행하지 않고 인덱스/정규화 제안만 적습니다.\n4) 결과는 담당 schema.json, validator.py, fixture와 고유 테스트, 보고서/hand-off에 남깁니다. 모델 개발/연결 워커가 채택할 수 있게 v0와의 호환/변경 목록을 명시합니다."
+  },
+  "development": {
+    "title": "승부예측 Terra · 모델 개발",
+    "branch": "codex/terra-accuracy-development-20261030",
+    "path": "experiments/accuracy-development-20261030",
+    "task": "1) PR433의 독립 베이지안 상태 모델을 기반으로, 선수 구성/선발·불펜 입력을 받을 연구 전용 어댑터와 inference 인터페이스를 구현하십시오. 공통 provisional-interface.json v0를 사용하고 구조 워커의 미완성 결과를 기다리며 멈추지 않습니다.\n2) 선수자료가 없으면 기존 기준 확률을 보존하며 미가용 사유를 반환합니다. confirmed/probable 구분, 기대이닝/분의 합 제약, 발표·실수신 시각과 경기ID를 검사하고 경기 후/현재결과를 피처로 받지 않습니다. 근거 없는 보너스 점수/임의 확률상향은 금지입니다.\n3) 첫 스프린트는 검증 가능한 입력 경계/이전 예측 보존/후보 상태 직렬화까지입니다. 실자료로 새로운 모델을 학습/성과 계산하려면 먼저 프로토콜을 커밋하고 실제 가용 표본 수를 산정합니다. 인증표본0이면 개선 ROI를 만들지 말고 준비완료와 미평가를 분리합니다. 합성데이터는 인터페이스·누출 시험에만 쓰고 적중률 주장에 쓰지 않습니다.\n4) 결과와 테스트를 자신의 폴더/브랜치에만 남기고 draft PR로 제출하십시오. 운영 추천이나 PR433 원본을 수정하지 않습니다."
+  },
+  "review": {
+    "title": "승부예측 Terra · 독립 검토",
+    "branch": "codex/terra-accuracy-review-20261030",
+    "path": "experiments/accuracy-review-20261030",
+    "task": "1) PR433 최종0ed675a0의 source/protocol/입력/선택/확률/정산/가설검정을 독립 검토하십시오. 전방수신 가용성, +4day 대용시각, frozen/prequential 구분, samefixture/price, 홈상수, 실제투표와proxy 분리, 후보 선택 시점, 공분산/적분 정합성을 확인합니다.\n2) 최소 하나의 독립 Python 검산기를 작성해 실제 저장 예측과 원문 입력에서 적중률/ROI/coverage를 재계산하고 차이를 기록합니다. 같은 함수를 호출한 것을 독립 구현으로 부르지 않습니다. 확인한 결함은 작은 재현fixture/수치 영향/코드 줄과 함께 보존하고 원본을 직접 고치지 않습니다.\n3) 다른 워커 PR은 첫 결과가 나온 뒤 총괄이 후속 배정합니다. 지금은 자료구조/모델 개발 코드를 기다리거나 재작성하지 말고 PR433 및 provisional 계약을 검토합니다.\n4) 보고서는 확인된 문제/추정/이미 공개된 한계를 나누고, 적중률 상승 또는 운영 반영 가능 판정을 분리합니다. 결과없는 일반 체크리스트만 제출하지 않습니다."
+  },
+  "connection": {
+    "title": "승부예측 Terra · 데이터 연결",
+    "branch": "codex/terra-accuracy-connection-20261030",
+    "path": "experiments/accuracy-connection-20261030",
+    "task": "1) 우선 K리그2 2025 이력이 23경기뿐인 원인을 기존 원천/정규화 단계에서 추적하고 공식 경기ID·대진·시작시각·결과를 추가 연결하십시오. 기존 로컬 원천과 캐시를 먼저 읽고 필요할 때만 공식 공개 endpoint를 bounded read-only로 조회합니다. 표본 목표는 검증 가능한100경기이며 못 채우면 실제 n과 누락 원인을 그대로 보고합니다. 후발 관측을 과거 수신으로 소급하지 않습니다.\n2) 이어 현재 예정 K리그/KBO 경기에서 공식 발표 선발/타순의 수집 가능성을 최소 표본으로 검증합니다. confirmed/probable·게시 주장/실제완료수신·원문해시·공식경기ID를 분리해 provisional-interface.json에 맞춘 입력을 자신의 로컬 연구 파일로 보존합니다. API를 못 읽으면 진단/실패사유만 남기고 가짜 라인업을 만들지 않습니다.\n3) 외부 요청 총60회 이하, 요청별timeout15초, 제한/타임아웃 반복이면 중단하며 로그인/차단우회/유료API를 사용하지 않습니다. 기사 원문 전체를 Git에 재배포하지 말고 최소 통계·URL·SHA를 보존합니다. 운영 수집/DB/스케줄에는 연결하지 않습니다.\n4) 자료에는 수집수/고유경기/정확연결/사전수신/인증을 각각 기록하고, 모델수익률 계산은 개발/검토 워커와 구분합니다. 실제 수집과 정합 검증을 포함해 draft PR을 제출합니다."
+  },
+  "server": {
+    "title": "승부예측 Terra · 서버관리",
+    "branch": "codex/terra-accuracy-server-20261030",
+    "path": "experiments/accuracy-server-20261030",
+    "task": "1) 현재 운영 웹/API/수집기의 버전·배포·health·목록응답시간·generated_at/revision/live 시각과 최신 로그의 OOM/작업실패/대기를 읽기 전용으로 검사합니다. 이미9월에 보고한 OOM을 새 장애라고 반복하지 말고 현재 날짜와 최근범위를 명시합니다. 최신main#435와 실제배포가 같은지는 별도로 확인합니다.\n2) 기존 인증/CLI가 있으면 가벼운 /proc MemAvailable, 프로세스RSS/peak, CPU/memory/io PSI를10초간격 최대3회 읽습니다. PSI를 CPU사용률로 표현하지 않습니다. 메모리가 잠깐 많거나 API한번빠른것을 안정화로 주장하지 않습니다. 모델 생성기/벤치마크를 운영에서 실행하지 않습니다.\n3) 한 번의 유한점검만 수행합니다. 재시작·배포·scale·DB변경·파일삭제·cron변경·알림발송·새 상시워처는 하지 않습니다. secret/env/token출력 금지. 다른 활성 세션과 메시지를 주고받지 않습니다. 운영연결이 없으면 접근불가를 명시하고 로컬 로그/설정의 읽기 검토와 필요한 관측 명령을 제시합니다.\n4) 정제된 관측 자료와 로컬 진단 파서/회귀 테스트 또는 보고서를 담당 범위에 보존합니다. 추천모델 학습이 웹 응답 경로에 들어가지 않도록 배치·서빙 분리 검토안을 적되 실제 서버 변경은 하지 않습니다."
+  }
+}
