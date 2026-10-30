@@ -1,0 +1,41 @@
+{
+  "schema_version": "provisional-v0",
+  "identity": [
+    "league",
+    "official_game_id",
+    "product_id",
+    "home_team_id",
+    "away_team_id",
+    "kickoff_at"
+  ],
+  "clocks": [
+    "source_published_at_claim",
+    "first_received_at",
+    "revision_received_at",
+    "decision_at",
+    "result_final_at"
+  ],
+  "source": [
+    "source_url",
+    "raw_sha256",
+    "availability_tier",
+    "external_receipt_verified"
+  ],
+  "payload": {
+    "quote": "full same-product odds vector with quote_observed_at",
+    "lineup": "player_id,role,order,announcement_status confirmed|probable,expected_minutes_or_innings",
+    "prediction": "model_id,model_version,probability_vector,input_revision,freeze_hash",
+    "result": "score,settlement_scope,void,result_source_hash"
+  },
+  "rules": [
+    "alltimestampsaware",
+    "publishedclaim not actualreceipt",
+    "unknown!=0",
+    "firstreceipt and revision separate",
+    "source_receipt<=decision for pregamemode",
+    "no label/currentresult feature",
+    "external_receipt_verified false without independent witness",
+    "separate append for settlement; frozen prediction cannot mutate"
+  ],
+  "status": "parent-owned provisional bridge. Structureworker v1 proposal must include compatibility and requires coordinator decision before otherworkers switch."
+}
