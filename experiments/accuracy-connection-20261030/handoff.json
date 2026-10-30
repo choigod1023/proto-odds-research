@@ -1,12 +1,12 @@
 {
   "role": "connection",
-  "status": "implementation_complete",
+  "status": "draft_pr_open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-accuracy-connection-20261030",
   "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
   "protocol_sha": null,
-  "commit": null,
-  "pr_url": null,
+  "commit": "ac2d0b3c",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/440",
   "changed_paths": [
     "experiments/accuracy-connection-20261030/",
     "tests/test_accuracy_connection.py",
@@ -55,5 +55,6 @@
     "No performance candidate tested; protocol commit not applicable."
   ],
   "blockers": [],
-  "next_dependency": "Coordinator decides whether to integrate the historical results; collect new confirmed player identities and independent receipts before prospective use."
+  "next_dependency": "Coordinator decides whether to integrate the historical results; collect new confirmed player identities and independent receipts before prospective use.",
+  "commit_note": "Implementation commit; handoff update is a subsequent commit."
 }
