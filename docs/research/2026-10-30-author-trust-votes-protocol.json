@@ -25,5 +25,6 @@
   "metrics": "coverage, n, accuracy, single unit ROI, disagreement subset, independent vote counts, posterior beta 95% interval, paired weekly bootstrap accuracy and ROI differences for both baselines; 2000 replicates seed 20261030, Bonferroni simultaneous intervals alpha=0.05/3 across candidates",
   "leakage": "claimed publication < kickoff; exclude postgame and unknown; no final odds or labels in features; test label flips leave training parameters and predictions unchanged; prices historical not certified; conservative prior-day settlement proxy not authenticated",
   "interpretation": "all data previously exposed, not blind holdout; no inference about future performance or executable odds; no independent author claim without evidence",
-  "reproducibility": "committed input/source/result SHA256; independent second settlement implementation exact agreement; offline replay"
+  "reproducibility": "committed input/source/result SHA256; independent second settlement implementation exact agreement; offline replay",
+  "amendment_before_experiment": "User instructed prior-calendar-day plus 48h embargo; require historical kickoff+48h <= training boundary and historical date strictly before boundary date. Settlement remains assumed, not authenticated. Strict certified branch has zero eligible observations. Parameters frozen at train boundary for validation and test."
 }
