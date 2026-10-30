@@ -1,0 +1,39 @@
+{
+  "role": "development",
+  "status": "implementation_complete_evaluation_not_performed",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-accuracy-development-20261030",
+  "base_sha": "f5d4ff541d63c6855a9d7deaa0b97df41e2a9681",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": null,
+  "changed_paths": [
+    "experiments/accuracy-development-20261030/",
+    "tests/test_accuracy_development.py",
+    "docs/research/2026-10-30-accuracy-development.md"
+  ],
+  "inputs_and_sha": [
+    {
+      "path": "PR433 0ed675a0e7ee53d75691d071b41739099edb1a65:experiments/dynamic-score-state-model-20261030/model.py",
+      "sha256": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1"
+    }
+  ],
+  "tests": {
+    "targeted": "15 passed",
+    "full": "1875 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "new_model_accuracy": null,
+    "new_model_roi": null,
+    "certified_player_sample_count": "not measured"
+  },
+  "limitations": [
+    "No player effects, training or performance evaluation; synthetic inputs only.",
+    "External receipt verifier absent; true claims rejected.",
+    "Historical state provenance, product identity mapping and source truth require independent verification.",
+    "commit is null because a file cannot contain its own commit hash; use git HEAD.",
+    "No protocol required for interface-only validation; no performance hypothesis evaluated."
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator decision on structure v1 compatibility; independently verified player inputs and a precommitted evaluation protocol before training or performance measurement."
+}
