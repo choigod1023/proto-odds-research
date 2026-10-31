@@ -1,0 +1,22 @@
+{
+  "status": "uncommitted_parent_snapshot_reviewed",
+  "integration_pr469_last_pushed_head": "9770838813d9ff80ad2942ecf78e36719a1c9f50",
+  "capture_pr467_last_pushed_head": "5f843be9bd744f795c205e93cf5433cac037e4f5",
+  "uncommitted_source_raw_sha256": {
+    "scripts/capture_official_research_inputs.py": "50ded9af3b6f43a97a313390c6386a30743abb59b0952a76d908508501f71736",
+    "tests/test_official_fact_capture.py": "06e9622d05c88b00012f88586a8a7fdc1b942f68429b22c2f6123c21c0b14f06"
+  },
+  "checks": [
+    "7 targeted tests passed in independent temp snapshot",
+    "independent synthetic two-game calendar selects explicitly requested second game, exactly one lineup request",
+    "full calendar raw bytes retained and other_scheduled_games=1",
+    "missing target leads to one calendar request and no lineup",
+    "wrong date or ID rejected by targeted test",
+    "programmatic two-game batch integration remains separate"
+  ],
+  "limitations": [
+    "changes are uncommitted at lookup; final head and commit-to-working-tree match not yet verified",
+    "single-context CLI intentionally does not support multiple contexts",
+    "synthetic offline tests; no external witness or performance evaluation"
+  ]
+}

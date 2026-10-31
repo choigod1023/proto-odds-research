@@ -1,6 +1,6 @@
 {
   "role": "facts_pipeline_independent_review",
-  "status": "draft_pr_open_final_integration_reviewed_cli_multigame_pending",
+  "status": "draft_pr_open_single_context_snapshot_reviewed_uncommitted",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/fact-pipeline-independent-review-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
@@ -32,7 +32,8 @@
     "full_fixture_driver": "not implemented",
     "targeted_latest": "16 passed: 10 historical head and 6 latest; plus original synthetic catalog",
     "three_component": "synthetic same event seed->recapture->price; two-game valid batch rejected by capture",
-    "final_targeted": "36 passed, plus independent two-game, raw-hash and stale-claim checks"
+    "final_targeted": "36 passed, plus independent two-game, raw-hash and stale-claim checks",
+    "single_context_followup": "7 selected tests passed and one independent synthetic selected-game/no-extra-call check"
   },
   "metrics": {
     "capture_pr467_sample": "1 game, 2 probable starters, both external_receipt_verified=false",
@@ -40,20 +41,19 @@
     "accuracy_roi": "not evaluated"
   },
   "limitations": [
-    "No real native send, runtime deployment or ROI evaluation",
-    "verified bytes do not prove externally witnessed pregame receipt",
-    "full suite not repeated for final head; parent reported its own 2111 tests"
+    "new source and test snapshot not yet linked to a pushed head",
+    "single-context CLI intentionally does not accept multiple contexts",
+    "no real native message, runtime deployment or ROI evaluation",
+    "verified hash does not prove external receipt"
   ],
   "findings": [
-    "raw bytes now preserved and two saved samples independently rehashed; does not certify receipt",
-    "batch API accepts two ready rows from explicit per-game adapter callback",
-    "default CLI one-context wrapper still rejects two-game facts with mixed_context_facts",
-    "stale claim rejected after reclaim with unique claim_id"
+    "parent uncommitted selection filters to explicit single KBO fixture and retains full calendar bytes; final head not yet verified",
+    "CLI intentionally single-context; no requirement to merge multiple contexts",
+    "two-game programmatic batch still supported with per-game callback",
+    "raw bytes and stale-claim checks passed at previous pinned head"
   ],
-  "blockers": [
-    "for multi-game default CLI use, implement explicit per-game context routing or document/offer supported single-game filtering without dropping facts"
-  ],
-  "next_dependency": "coordinator decides whether one-context CLI limitation blocks rollout and supplies supported multi-game routing; existing multi-row API supports explicit mapping",
+  "blockers": [],
+  "next_dependency": "after final head arrives, verify committed source hashes match reviewed snapshot and re-run targeted tests",
   "final_integration_head": "9770838813d9ff80ad2942ecf78e36719a1c9f50",
   "capture_pr467_final_head": "5f843be9bd744f795c205e93cf5433cac037e4f5"
 }
