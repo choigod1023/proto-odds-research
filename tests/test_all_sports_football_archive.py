@@ -1,8 +1,11 @@
 import csv
 import gzip
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -25,7 +28,7 @@ def run(tmp_path, rows):
         writer = csv.DictWriter(f, fieldnames=archive.FIELDS)
         writer.writeheader()
         writer.writerows(rows)
-    summary = archive.run(source, output, audit)
+    summary = archive.run(source, output, audit, allow_unverified_chronology=True)
     with gzip.open(output, 'rt', encoding='utf-8') as f:
         records = [json.loads(line) for line in f]
     return source, output, audit, summary, records
@@ -46,7 +49,7 @@ def test_fixture_conflicts_and_identical_duplicates(tmp_path):
     assert records[-1]['kickoff'] == '2020-01-02T00:00:00'
     assert all(r['kickoff_precision'] == 'date' for r in records)
     before = output.read_bytes()
-    archive.run(source, output, audit)
+    archive.run(source, output, audit, allow_unverified_chronology=True)
     assert output.read_bytes() == before
 
 
@@ -71,3 +74,46 @@ def test_missing_headers_and_overwrite_protection(tmp_path):
         archive.run(source, tmp_path / 'out', tmp_path / 'audit')
     with pytest.raises(ValueError, match='distinct'):
         archive.run(source, source, tmp_path / 'audit')
+
+
+def test_default_quarantines_unverified_dates_and_explicit_witness_rebuilds(tmp_path):
+    source, output, audit, _, _ = run(tmp_path, [row(), row(HomeTeam='Unknown')])
+    summary = archive.run(source, output, audit)
+    assert summary['accepted_rows'] == 0
+    assert summary['exclusions']['unverified_fixture_date'] == 2
+    assert summary['chronology_policy'] == 'independent_fixture_dates_only'
+    assert not summary['pregame_receipts_verified']
+    witness = dict(id='fixture', source_fixture=row(), confirmed_day='2020-02-01',
+        checked_at_utc='2026-10-31T14:15:35Z', kind='official_fixture_result',
+        official_home='Home', official_away='Away', identity_check='explicit test fixture',
+        observation_method='web_tool_rendered_text', urls=['https://www.fotball.no/example'])
+    registry = dict(source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(), witnesses=[witness])
+    summary = archive.run(source, output, audit, date_witnesses=registry)
+    assert summary['accepted_rows'] == 1
+    assert summary['chronology_counts'] == dict(contradicted_corrected=1, unverified=1)
+    with gzip.open(output, 'rt', encoding='utf-8') as stream:
+        record = json.loads(next(stream))
+        assert record['day'] == '2020-02-01'
+        assert record['home'] == 'Home' and record['odds'] == [2, 3.5, 4]
+    assert '2020-01-02' in source.read_text(encoding='utf-8')
+
+
+def test_invalid_duplicate_cannot_escape_witnessed_conflict_filter(tmp_path):
+    source, output, audit, _, _ = run(tmp_path, [row(), row(OddHome='')])
+    witness = dict(id='fixture', source_fixture=row(), confirmed_day='2020-02-01',
+        checked_at_utc='2026-10-31T14:15:35Z', kind='official_fixture_result',
+        official_home='Home', official_away='Away', identity_check='explicit test fixture',
+        observation_method='web_tool_rendered_text', urls=['https://www.fotball.no/example'])
+    registry = dict(source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(), witnesses=[witness])
+    summary = archive.run(source, output, audit, date_witnesses=registry)
+    assert summary['accepted_rows'] == 0
+    assert summary['exclusions']['conflicting_fixture_rows'] == 2
+
+
+def test_cli_no_witness_data_returns_blocked_exit(tmp_path):
+    source, output, audit, _, _ = run(tmp_path, [row()])
+    result = subprocess.run([sys.executable, str(PATH), '--source', str(source),
+        '--output', str(output), '--audit', str(audit)], capture_output=True, text=True)
+    assert result.returncode == 2
+    assert 'chronology validation blocked' in result.stderr
+    assert json.loads(audit.read_text(encoding='utf-8'))['accepted_rows'] == 0
