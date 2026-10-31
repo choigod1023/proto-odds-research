@@ -13,10 +13,21 @@ test("game details expose a market tab and recorded offers without creating pick
   const game={year:2099,round:1,date:"12.31(목) 23:00",sport:"sc",league:"test",home:"A",away:"B",status:"경기전",options:opts};
   const rendered=renderToStaticMarkup(createElement(Game,{g:game,opts,wait:false,detailOnly:true}));assert.match(rendered,/상품·배당/);
   const catalog=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:recordedMarketOffers(opts)}));
-  assert.match(catalog,/1545 · 핸디캡 H \+1\.0/);assert.match(catalog,/1546 · 언더오버 U 2\.5/);assert.match(catalog,/정산 범위 미확인/);assert.match(catalog,/현재 판매 여부/);assert.doesNotMatch(catalog,/선택 목록에 담기|예측 픽|추천/);
+  assert.match(catalog,/1545 · 핸디캡 H \+1\.0/);assert.match(catalog,/1546 · 언더오버 U 2\.5/);assert.match(catalog,/정산 범위 미확인/);assert.match(catalog,/현재 판매 여부/);assert.match(catalog,/원장 일치 여부 미확인/);assert.doesNotMatch(catalog,/선택 목록에 담기|예측 픽|추천/);
   const partial=renderToStaticMarkup(createElement(Game,{g:{...game,options:opts.slice(0,1)},opts:opts.slice(0,1),wait:false,detailOnly:true}));
   assert.match(partial,/상품·배당/);
-  const empty=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:recordedMarketOffers(opts.slice(0,1))}));
-  assert.match(empty,/완전한 상품과 배당을 확인하지 못했습니다/);assert.doesNotMatch(empty,/1\.48/);
+  for (const waiting of [true,false]) {
+    const noOptions=renderToStaticMarkup(createElement(Game,{g:{...game,status:waiting?"배당대기":"경기전",options:[]},opts:[],wait:waiting,detailOnly:true}));
+    assert.match(noOptions,/상품·배당/);
+    assert.doesNotMatch(noOptions,/배당은 아직 발표되지 않았다|배당 발표 전/);
+    const missing=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:[],waiting}));
+    assert.match(missing,/미발매인지 수집 지연인지는 확인되지 않았습니다/);
+  }
+  const live=recordedMarketOffers(opts.map(row=>({...row,_live:true})),{_liveOddsRecalculatedAt:"2026-10-31T01:00:00Z"});
+  const pending=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:live,hasOptions:true}));
+  assert.match(pending,/새로 관측한 배당/);assert.match(pending,/원장 확인 대기/);assert.match(pending,/배당 자료 생성/);
+  assert.doesNotMatch(pending,/사전 픽 원장과 일치|기록된 상품과 배당/);
+  const empty=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:recordedMarketOffers(opts.slice(0,1)),hasOptions:true}));
+  assert.match(empty,/상품 정보가 불완전하거나 서로 충돌/);assert.doesNotMatch(empty,/1\.48/);
  } finally {await server.close();}
 });

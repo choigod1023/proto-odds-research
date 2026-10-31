@@ -791,7 +791,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
       : waitText === "상태 확인 불가"
       ? "경기 상태 확인 필요"
       : wait
-        ? "배당 발표 전"
+        ? "배당 자료 확인 중"
         : "분석 자료 확인 중");
   const openingProbability = saved?.openingProbability ?? null;
   const currentProbability = decision.probability.final ?? pick?.o?.["시장확률"];
@@ -801,9 +801,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const probabilityMessage = ESTIMATE_MESSAGE[saved?.estimateStatus || "missing_opening"];
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
-  // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
-  // 경기 시작/예정시각 경과 뒤에는 그 문장을 사실처럼 재노출하지 않는다.
-  const insightGame = wait && (liveClosed || waitText === "상태 확인 불가")
+  // 자료가 없다는 사실만으로 미발표라고 단정한 기존 해설은 노출하지 않는다.
+  const insightGame = wait
     ? { ...g, 해설: null, 해설기본: null }
     : g;
   const resultHeadline = outcome.record
@@ -875,7 +874,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                 {Number(outcome.record?.odds) > 1 && <small className="tnum text-[11px] text-ink3">당시 배당 {odds(outcome.record.odds)}배</small>}
               </span>
             : liveClosed ? <OddsChip label="판정" value="마감" />
-            : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
+            : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "확인 중"} />
             : pick ? <OddsChip
                   label={pick.o["선택"]}
                   value={odds(pick.o["배당"])}
@@ -939,7 +938,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               ? "오래된 데이터로는 배당 발표 여부를 판단하지 않습니다. 최신 수집이 확인될 때까지 기다려 주세요."
               : waitText === "상태 확인 불가"
                 ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했다."
-                : "배당은 아직 발표되지 않았다. 경기 정보는 먼저 확인할 수 있다."}
+                : "배당 자료를 확인하지 못했습니다. 미발매인지 수집 지연인지는 확인되지 않았습니다."}
           </div>
         )}
         {predictionUnavailable && (
@@ -1474,18 +1473,32 @@ function ContextEvidence({ g, pick }) {
   </div>;
 }
 
-export function RecordedMarketOffers({ offers }) {
-  return <section aria-label="기록된 상품과 배당">
+const marketTime = (value) => value ? new Date(value).toLocaleString("ko-KR", {
+  timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit",
+}) + " KST" : null;
+
+export function RecordedMarketOffers({ offers, hasOptions = false, waiting = false }) {
+  return <section aria-label="상품과 배당">
     <p className="mb-3 text-[11.5px] leading-6 text-ink3">
-      기록된 상품과 배당입니다. 경기별 픽과는 별개이며, 현재 판매 여부와 정확한 정산 기준은 공식 발매처에서 확인하세요.
+      상품별 가격의 출처와 확인 상태를 구분합니다. 현재 판매 여부와 정확한 정산 기준은 공식 발매처에서 확인하세요.
     </p>
-    {!offers.length && <p role="status" className="text-[11.5px] text-ink3">완전한 상품과 배당을 확인하지 못했습니다.</p>}
+    {!offers.length && <p role="status" className="text-[11.5px] text-ink3">{hasOptions
+      ? "상품 정보가 불완전하거나 서로 충돌해 배당 표시를 보류했습니다."
+      : waiting ? "상품 자료를 확인 중입니다. 미발매인지 수집 지연인지는 확인되지 않았습니다."
+        : "표시할 상품 자료가 없습니다. 미발매인지 수집 지연인지는 확인되지 않았습니다."}</p>}
     <div className="grid gap-2">
       {offers.map((offer) => <section key={offer.gameNo} className="rounded border border-rule2 px-3 py-2">
         <h4 className="m-0 text-[12px] font-semibold text-ink">{offer.gameNo} · {offer.market}{offer.label ? ` ${offer.label}` : ""}</h4>
         <p className="my-1 text-[10.5px] text-ink3">{offer.period ? `기간 ${offer.period} · ` : ""}{offer.settlementScope ? `정산 ${offer.settlementScope}` : "정산 범위 미확인"}</p>
-        <ul className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-[12px]">
-          {offer.selections.map((selection) => <li key={selection.name}>{selection.name} <b className="tnum">{selection.odds.toFixed(2)}</b></li>)}
+        <ul className="m-0 list-none p-0 text-[12px]">
+          {offer.selections.map((selection) => <li key={selection.name} className="py-1">
+            {selection.name} <b className="tnum">{selection.odds.toFixed(2)}</b>{" · "}
+            <span className="text-[10.5px] text-ink3">{selection.provenance.kind === "ledger_pick"
+              ? `사전 픽 원장과 일치 · 원장 기록 ${marketTime(selection.provenance.at)}`
+              : selection.provenance.kind === "observed_unrecorded"
+                ? `새로 관측한 배당 · 원장 확인 대기 · 배당 자료 생성 ${marketTime(selection.provenance.at) || "시각 미확인"}`
+                : "저장된 경기 자료 · 원장 일치 여부 미확인"}</span>
+          </li>)}
         </ul>
       </section>)}
     </div>
@@ -1496,8 +1509,8 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
   highlightedToday = false, recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
-  const offers = showPrices ? recordedMarketOffers(opts) : [];
-  if (showPrices && opts?.length) tabs.splice(1, 0, { id: "markets", label: "상품·배당" });
+  const offers = recordedMarketOffers(opts, g);
+  tabs.splice(Math.min(1, tabs.length), 0, { id: "markets", label: "상품·배당" });
   if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
     tabs.push({ id: "evidence", label: "픽 근거·수식" });
   }
@@ -1540,7 +1553,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
             : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>}
           <div className="mt-3 border-t border-rule2 pt-3"><TeamsPanel g={g} /></div>
         </>}
-        {current === "markets" && <RecordedMarketOffers offers={offers} />}
+        {current === "markets" && <RecordedMarketOffers offers={offers} hasOptions={Boolean(opts?.length)} waiting={!showPrices} />}
         {current === "players" && <>
           <PlayersPanel g={g} />
           <div className="mt-3 border-t border-rule2 pt-3"><AvailabilityPanel g={g} /></div>
