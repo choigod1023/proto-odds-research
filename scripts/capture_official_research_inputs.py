@@ -36,7 +36,9 @@ def fetch(session,url,data):
     finally:
         if response is not None: response.close()
 
-def capture(day,session):
+def capture(day,session, *, official_game_id=None):
+    if official_game_id is not None and (not isinstance(official_game_id,str) or not official_game_id.startswith(day)):
+        raise ValueError('invalid_target_game_id')
     ledger=[]; missing=[]; facts=[]; games=[]
     data={'leId':'1','srId':'0,1,3,4,5,6,7,8,9','date':day}
     try:
@@ -44,10 +46,13 @@ def capture(day,session):
         parsed=normalize_kbo_schedule(raw,expected_date=day,received_at=entry['received_at'])
     except (requests.RequestException,ValueError,KeyError,TypeError) as exc:
         return {'schema':'official-fact-capture-v1','games':[],'facts':[],'missing':[{'kind':'calendar','reason':type(exc).__name__+': '+str(exc)[:100]}],'requests':ledger,'request_attempts':1}
-    games=sorted(parsed['games'],key=lambda g:g['kickoff_at'])[:3]; ids={g['official_game_id'] for g in games}
+    candidates=parsed['games']
+    if official_game_id is not None:
+        candidates=[g for g in candidates if g['official_game_id']==official_game_id]
+    games=sorted(candidates,key=lambda g:g['kickoff_at'])[:3]; ids={g['official_game_id'] for g in games}
     facts=[f for f in parsed['facts'] if f['official_game_id'] in ids]
     missing=[m for m in parsed['missing'] if m['official_game_id'] in ids]
-    if not games: missing.append({'kind':'upcoming_fixture','reason':'no_scheduled_game_before_t30_in_calendar'})
+    if not games: missing.append({'kind':'upcoming_fixture','reason':'no_target_game_before_t30_in_calendar' if official_game_id is not None else 'no_scheduled_game_before_t30_in_calendar'})
     attempts=1
     for game in games:
         attempts+=1
@@ -60,7 +65,10 @@ def capture(day,session):
             missing.append({'official_game_id':game['official_game_id'],'kind':'confirmed_batting_order','reason':type(exc).__name__})
             break  # Stop on the first failed request, including rate limiting.
     for game in games: game.pop('lineup_request',None)
-    return {'schema':'official-fact-capture-v1','games':games,'facts':facts,'missing':missing,'requests':ledger,'request_attempts':attempts}
+    result={'schema':'official-fact-capture-v1','games':games,'facts':facts,'missing':missing,'requests':ledger,'request_attempts':attempts}
+    if official_game_id is not None:
+        result['selection']={'official_game_id':official_game_id,'other_scheduled_games':len(parsed['games'])-len(games)}
+    return result
 
 def valid_response_bytes(entry):
     if not isinstance(entry,dict) or entry.get('status')!=200: return False
@@ -175,6 +183,7 @@ def main():
     options=(args.adapter_out,args.manifest_out,args.adapter_module,args.adapter_function,args.adapter_context)
     if any(options) and not all(options): raise SystemExit('Provide --adapter-out, --manifest-out, --adapter-module, --adapter-function and --adapter-context together')
     adapter=dispatcher=None
+    target_game=None
     if all(options):
         output_paths=[args.out,args.adapter_out,args.manifest_out]
         if len({x.resolve() for x in output_paths})!=3 or any(x.exists() for x in output_paths): raise SystemExit('Output paths must be distinct and new; no request made')
@@ -182,12 +191,16 @@ def main():
             adapter_function=getattr(importlib.import_module(args.adapter_module),args.adapter_function)
             context=json.loads(args.adapter_context.read_text(encoding='utf8'))
             if not isinstance(context,dict) or any(k not in context for k in ('registry','baseline','market','input_id')): raise ValueError('adapter_context_missing')
+            registry=context['registry']
+            target_game=registry.get('official_game_id') if isinstance(registry,dict) else None
+            if not isinstance(target_game,str) or not target_game.startswith(args.date) or registry.get('league')!='KBO':
+                raise ValueError('CLI requires one KBO fixture context matching --date')
             adapter=lambda facts:adapt_with_context(facts,to_adapter_input=adapter_function,context=context)
             dispatcher=importlib.import_module('research_dispatch').build_manifest
         except (ImportError,AttributeError,ValueError,OSError) as exc: raise SystemExit('Adapter, context or dispatcher unavailable; no request made: '+str(exc)) from exc
     with requests.Session() as session:
         session.headers.update({'User-Agent':'Mozilla/5.0','Referer':'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx','Accept':'application/json','Accept-Encoding':'identity'})
-        bundle=capture(args.date,session)
+        bundle=capture(args.date,session,official_game_id=target_game)
     pipeline=None
     if adapter:
         pipeline=run_capture_pipeline(bundle,adapter=adapter,build_manifest=dispatcher,raw_path=args.out,inputs_path=args.adapter_out,manifest_path=args.manifest_out)

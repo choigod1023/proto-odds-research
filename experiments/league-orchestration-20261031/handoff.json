@@ -36,8 +36,8 @@
   ],
   "diagnostic_pr": 468,
   "tests": {
-    "targeted": 78,
-    "full_passed": 2111,
+    "targeted": 79,
+    "full_passed": 2112,
     "full_skipped": 6,
     "subtests": 93
   },
@@ -60,7 +60,8 @@
     "src/fact_delta_inputs.py": "1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a",
     "src/official_fact_capture.py": "3942eaec0ad8d5194903f3a28a16cef011f870ea6ebcc6894dc2bad415068748",
     "scripts/dispatch_league_research.py": "f2b35262463ec57b6165c5e9d8461be61a412e70024d910d78695435d78dc3e5",
-    "scripts/capture_official_research_inputs.py": "267e240c01977dfd5c18b5981a291de8e65ffbb04777fabf62f54b017eb161e0",
+    "scripts/capture_official_research_inputs.py": "96b650a33df8a1889fc0a3906565d7527be684ed9ff2b6146dd8ea4fa87d2b88",
     "tests/test_fact_research_dispatch_integration.py": "f5e312c3a938b9346e7559a686f6a6458d30ce37c9a8a24d89a93716fc371ba6"
-  }
+  },
+  "cli_scope": "single KBO context selects only its official game ID before lineup requests; other scheduled games counted, multi-context CLI unsupported"
 }

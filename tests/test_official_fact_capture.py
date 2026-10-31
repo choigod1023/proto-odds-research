@@ -209,3 +209,29 @@ def test_two_game_rows_check_only_their_own_facts_and_reject_unmapped(tmp_path):
         script.run_capture_pipeline(bad,adapter=adapter,build_manifest=lambda values:{},raw_path=tmp_path/'a3',inputs_path=tmp_path/'b3',manifest_path=tmp_path/'c3')
     with pytest.raises(ValueError,match='mixed_context_facts'):
         script.adapt_with_context(bundle['facts'],to_adapter_input=lambda *a,**k:None,context=fixture['context'])
+
+
+def test_single_context_capture_selects_its_fixture_on_multi_game_day(monkeypatch):
+    spec=importlib.util.spec_from_file_location('capture_selected_game',ROOT/'scripts/capture_official_research_inputs.py')
+    script=importlib.util.module_from_spec(spec);spec.loader.exec_module(script)
+    first=game();second=game()
+    second.update(G_ID='20261101LGKT0',AWAY_ID='LG',HOME_ID='KT')
+    schedule=json.dumps({'code':100,'game':[first,second]}).encode()
+    lineup=json.dumps([[{'LINEUP_CK':False}]]).encode()
+    calls=[]
+    def fetch(_session,url,data):
+        calls.append((url,data))
+        raw=schedule if url==script.KBO_URL else lineup
+        return raw,{'url':url,'status':200,'received_at':RECEIPT,
+                    'raw_sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),
+                    'raw_base64':base64.b64encode(raw).decode()}
+    monkeypatch.setattr(script,'fetch',fetch)
+    result=script.capture('20261101',object(),official_game_id=second['G_ID'])
+    assert [g['official_game_id'] for g in result['games']]==[second['G_ID']]
+    assert {f['official_game_id'] for f in result['facts']}=={second['G_ID']}
+    assert result['selection']['other_scheduled_games']==1
+    assert calls[1][1]['gameId']==second['G_ID'] and len(calls)==2
+    missing=script.capture('20261101',object(),official_game_id='20261101XXYY0')
+    assert not missing['games'] and not missing['facts'] and missing['request_attempts']==1
+    with pytest.raises(ValueError,match='invalid_target_game_id'):
+        script.capture('20261101',object(),official_game_id='../different-day')
