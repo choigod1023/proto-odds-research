@@ -1,0 +1,47 @@
+{
+  "role": "underdog_diagnostics",
+  "status": "complete; draft PR open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/underdog-diagnostics-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": "aeb0be8e",
+  "commit": "f9e97dd5",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/468",
+  "changed_paths": [
+    "experiments/underdog-diagnostics-20261031/",
+    "tests/test_accuracy_underdog_diagnostics.py",
+    "docs/research/2026-10-31-underdog-diagnostics.md"
+  ],
+  "inputs_and_sha": {
+    "expert-forecasts.jsonl": "a11fdf81dbb6958c60a2230b0066c0e5699a154c7ebb31496678587bd625d16f",
+    "expert-settlements.jsonl": "e3b97daa818f10d59e6dca70bde3ae5fab367fd38fe430285af584ae34556ad0",
+    "state-predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+    "targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0"
+  },
+  "tests": {
+    "targeted": "4 passed",
+    "full": "2019 passed, 6 skipped, 93 subtests passed",
+    "source": "PR453 source files match git 863b13ea objects; PR433 prediction SHA256 matches source",
+    "settlement": "2,817 records validated against archived settlements; independent Decimal check 18 overall groups; expert 122: 63/-18.47% versus market 67/-13.07%",
+    "cross_platform_bytes": "Exact source CRLF bytes preserved with binary attribute; Git staged SHA256 matches preregistered source hashes; targeted test 4 passed after fix"
+  },
+  "metrics": {
+    "expert_frozen_underdog_n": 10,
+    "expert_frozen_underdog_hits": 3,
+    "expert_frozen_underdog_mean_market_p": 0.4852,
+    "expert_frozen_underdog_mean_model_p": 0.5149,
+    "expert_market_same_changed_events_hits": 7,
+    "expert_122_subset_of_445": true
+  },
+  "limitations": [
+    "Retrospective reused samples; receipt and executable price certification 0",
+    "group-specific Wilson and week bootstrap are descriptive, not corrected for selection or repeated research",
+    "streak ordered by decision time within underdog choices, not settlement time",
+    "market and fixed91 are research controls, not current operating selection",
+    "state K league 2 not eligible, model only 436/445",
+    "model content and all hashes can be reinterpreted only with trusted source and independent prospective evidence",
+    "commit field identifies analysis commit; final handoff-only commit is PR head"
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator reviews diagnostic and decides if and how to pursue prospectively authenticated data; no operational changes."
+}
