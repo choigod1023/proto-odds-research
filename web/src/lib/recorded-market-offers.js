@@ -20,8 +20,8 @@ function knownTimestamp(value) {
 
 function priceProvenance(row, game) {
   if (row._live === true) return {
-    kind: "observed_unrecorded",
-    at: knownTimestamp(game?._liveOddsRecalculatedAt),
+    kind: "overlay_unverified",
+    documentGeneratedAt: knownTimestamp(game?._liveOddsRecalculatedAt),
   };
   const record = game?.prediction_record;
   const recorded = game?.prediction_status === "recorded_pregame"

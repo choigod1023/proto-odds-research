@@ -32,16 +32,18 @@ test("different choices sharing a provided selection_id are withheld, including 
  assert.equal(recordedMarketOffers([...total.map(row=>({...row,selection_id:row.선택})),...reissue]).length,2);
 });
 
-test("reprice marks observed values pending and preserves unknown timestamp",()=>{
+test("carried-forward prices do not inherit the artifact generation time as an observation time",()=>{
  const options=total.map((row,i)=>({...row,selection_id:`sel${i}`,offer_id:`off${i}`}));
  const game={options,prediction_status:"recorded_pregame",prediction_revision_id:"dec1",prediction_record:{prediction_snapshot_id:"dec1",selection_id:"sel0",offer_id:"off0",market:"언더오버",label:"U 2.5",selection:"언더",odds:2.18,captured_at:"2026-10-31T00:00:00Z"}};
  let before=recordedMarketOffers(options,game)[0];assert.equal(before.selections[0].provenance.kind,"ledger_pick");assert.equal(before.selections[1].provenance.kind,"unverified");
- const changed=repriceGameOdds(game,{1546:[2.05,1.75]},"2026-10-31T01:00:00Z");
+ // The 00:00 price can be carried into an empty 01:00 collection, whose
+ // generated_at is updated even though no new observation was made.
+ const carried={generated_at:"2026-10-31T01:00:00Z",odds:{1546:[2.05,1.75]}};
+ const changed=repriceGameOdds(game,carried.odds,carried.generated_at);
  assert.equal(changed.prediction_status,"prediction_ledger_required");assert.equal(changed.prediction_record,null);
  const after=recordedMarketOffers(changed.options,changed)[0];
- assert.equal(after.selections[0].provenance.kind,"observed_unrecorded");
- assert.equal(after.selections[0].provenance.at,"2026-10-31T01:00:00Z");
- assert.equal(recordedMarketOffers(changed.options,{...changed,_liveOddsRecalculatedAt:null})[0].selections[0].provenance.at,null);
+ assert.deepEqual(after.selections[0].provenance,{kind:"overlay_unverified",documentGeneratedAt:"2026-10-31T01:00:00Z"});
+ assert.equal(recordedMarketOffers(changed.options,{...changed,_liveOddsRecalculatedAt:null})[0].selections[0].provenance.documentGeneratedAt,null);
  assert.equal(recordedMarketOffers(options,{...game,prediction_revision_id:"other"})[0].selections[0].provenance.kind,"unverified");
  assert.equal(recordedMarketOffers(options,{...game,prediction_record:{...game.prediction_record,odds:9}})[0].selections[0].provenance.kind,"unverified");
 });

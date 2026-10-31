@@ -25,8 +25,8 @@ test("game details expose a market tab and recorded offers without creating pick
   }
   const live=recordedMarketOffers(opts.map(row=>({...row,_live:true})),{_liveOddsRecalculatedAt:"2026-10-31T01:00:00Z"});
   const pending=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:live,hasOptions:true}));
-  assert.match(pending,/새로 관측한 배당/);assert.match(pending,/원장 확인 대기/);assert.match(pending,/배당 자료 생성/);
-  assert.doesNotMatch(pending,/사전 픽 원장과 일치|기록된 상품과 배당/);
+  assert.match(pending,/이전 배당 이월 가능/);assert.match(pending,/개별 가격 관측 시각 미확인/);assert.match(pending,/원장 확인 대기/);assert.match(pending,/배당 문서 생성/);
+  assert.doesNotMatch(pending,/새로 관측|사전 픽 원장과 일치|기록된 상품과 배당/);
   const empty=renderToStaticMarkup(createElement(RecordedMarketOffers,{offers:recordedMarketOffers(opts.slice(0,1)),hasOptions:true}));
   assert.match(empty,/상품 정보가 불완전하거나 서로 충돌/);assert.doesNotMatch(empty,/1\.48/);
  } finally {await server.close();}

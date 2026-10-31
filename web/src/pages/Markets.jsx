@@ -1495,8 +1495,8 @@ export function RecordedMarketOffers({ offers, hasOptions = false, waiting = fal
             {selection.name} <b className="tnum">{selection.odds.toFixed(2)}</b>{" · "}
             <span className="text-[10.5px] text-ink3">{selection.provenance.kind === "ledger_pick"
               ? `사전 픽 원장과 일치 · 원장 기록 ${marketTime(selection.provenance.at)}`
-              : selection.provenance.kind === "observed_unrecorded"
-                ? `새로 관측한 배당 · 원장 확인 대기 · 배당 자료 생성 ${marketTime(selection.provenance.at) || "시각 미확인"}`
+              : selection.provenance.kind === "overlay_unverified"
+                ? `배당 자료 반영 · 이전 배당 이월 가능 · 개별 가격 관측 시각 미확인 · 원장 확인 대기 · 배당 문서 생성 ${marketTime(selection.provenance.documentGeneratedAt) || "시각 미확인"}`
                 : "저장된 경기 자료 · 원장 일치 여부 미확인"}</span>
           </li>)}
         </ul>
