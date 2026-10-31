@@ -1,0 +1,61 @@
+{
+  "role": "league research worker",
+  "league": "MLB",
+  "status": "blocked_data",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/league-mlb-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "data/model_candidates/mlb/parity-fixtures.jsonl.gz": "800a9f507a16256ca99b2dec5625cdcc0881b2848a232345b9945033a1d2f1a0",
+    "experiments/operating-ledger-comparison-20261029/comparison.json": "a04285b6a14c09415e713cdc0e4b887073eb97da4c41d10b24b03631053c8223",
+    "data/raw/mlb_starters.json": "45c81a540cf8d99a33fbabf1afd6168b96530c77d59ed42d9aca9596cfcd982f",
+    "data/raw/overseas/MLB.json": "01089cc1ea85e6bee3797e711ba0e1d187b1320714b132b9345c20f69b8bb290",
+    "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/information-edge-model-20261031/docs/research/2026-10-31-information-edge.md": "2d7637da56b42c51833b116de7a290f0f40ad5df0fe70d12086a1689664c984b",
+    "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/information-edge-model-20261031/experiments/information-edge-20261031/fact-delta-contract.json": "c4ee7eac2080cbbdb3d25672faf952fd017bdadff4125f003bc6b362f6952673"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "32e2d6542ea8e2e9ed923ea45e97b87aeb2cd668",
+  "protocol_blob_sha256": "59eabc5a26e767e15fda98a05f1d0bb1f0ec934900e57c89643f11abdb22487b",
+  "tests": [
+    "python -X utf8 -m pytest tests/test_league_mlb_audit.py -q -p no:cacheprovider: 2 passed",
+    "git diff --check: passed"
+  ],
+  "metrics": {
+    "archive_rows": 310,
+    "unique_gamePk": 310,
+    "collection_after_decision": 310,
+    "missing_quote_observed_at": 310,
+    "labels_present": 310,
+    "fixture_preregistered_eligible": 0,
+    "comparison_file_events": 146,
+    "comparison_file_mlb_events": 0,
+    "new_opportunities": null,
+    "new_verified_receipt": null,
+    "new_price": null,
+    "new_result": null,
+    "new_confirmed_player_join": null,
+    "new_coverage": null,
+    "new_accuracy": null,
+    "new_roi": null,
+    "new_logloss": null,
+    "new_brier": null,
+    "new_drawdown": null
+  },
+  "limitations": [
+    "Audited files only, not whole production or all opportunities.",
+    "No original fixture HTTP bytes: recorded hash strings cannot authenticate documents or independent receipt.",
+    "Past 32-game MLB evaluation is reused exploratory data.",
+    "Leakage, duplicate document bytes and future label poison checks on new candidate not run: no eligible dataset or candidate execution.",
+    "No exact current operating frozen picks matched."
+  ],
+  "blockers": [
+    "No new eligible evidence event or verified predecision player and full price receipt."
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/460",
+  "next_data_needed": [
+    "New event IDs and immutable input hashes",
+    "Official gamePk, teams, announced lineups, starter status and player IDs; source bytes and actual receipt timestamps",
+    "Prior completed game pitcher/batter and bullpen workload data, Statcast extraction and receipt times, predecision venue factor provenance",
+    "Full matching two-way market prices and actual receipt, exact frozen operating decision or hold, official result and settlement with receipt"
+  ]
+}
