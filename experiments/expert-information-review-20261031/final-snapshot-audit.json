@@ -1,0 +1,30 @@
+{
+  "snapshot_sha256": {
+    "run.py": "8813770006923e94da3ff422cf01311e63bc423f0acda2d84b3374f7fee07129",
+    "verify.py": "166534d77df134e65f5690bd467df2ecab16ac5e86e73e2ea8a25dbc83910ab5",
+    "verification.json": "27b45c979a57ff190eae0f7b3278e33d24159ce22ab000ebeeeda511f4b716a0",
+    "results.json": "facedf75634e1cc0959b04730041b669c7e8efc7c58067b4b73ac517b0461c5d",
+    "forecasts.jsonl": "a11fdf81dbb6958c60a2230b0066c0e5699a154c7ebb31496678587bd625d16f",
+    "settlements.jsonl": "e3b97daa818f10d59e6dca70bde3ae5fab367fd38fe430285af584ae34556ad0",
+    "protocol.json": "061716c82b9b5487c7c52db03ec57d1718de699f185ef1380f43567a64289a4d",
+    "negative-control.json": "0d1f6b4500a503d697ca204f0a572f332c04f62a9888e635b291a0517a5cd3dd",
+    "inputs/targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "inputs/votes.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    "inputs/cases.jsonl.gz": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
+    "inputs/provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76"
+  },
+  "ledger_records_checked": 1220,
+  "metric_values_checked": 660,
+  "train_cutoff_forecasts_checked": 488,
+  "bootstrap_cells_checked": 12,
+  "stored_protocol_commit": "a1ed59f8849a29b753fa9a45df482ad294ed5862",
+  "primary_protocol_commit": "396a12e0a477418c8fee66562e36dba4bb274525",
+  "summary": "no discrepancies in specified numerical checks; protocol commit provenance requires clarification",
+  "not_checked": [
+    "candidate validation losses independently refit",
+    "probability vector reconstruction",
+    "actual receipt or executable prices",
+    "independent verification of raw HTTP",
+    "developer final commit hash"
+  ]
+}
