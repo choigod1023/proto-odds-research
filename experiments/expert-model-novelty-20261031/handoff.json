@@ -1,12 +1,12 @@
 {
   "role": "model-novelty-review",
-  "status": "report validated; draft PR pending",
+  "status": "complete; draft PR open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-model-novelty-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
   "protocol_sha": "396a12e0a477418c8fee66562e36dba4bb274525",
-  "commit": null,
-  "pr_url": null,
+  "commit": "67765c1c",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/451",
   "changed_paths": [
     "docs/research/2026-10-31-expert-model-novelty.md",
     "experiments/expert-model-novelty-20261031/handoff.json"
@@ -32,7 +32,8 @@
     "Published retrospective data already examined, no independent unseen test; no exact event overlap crosswalk computed",
     "publication_evidence identity count is not eligible vote count, verified identity, or source independence",
     "actual receipt and executable price certification absent",
-    "parent protocol is an exploratory fixed plan, not evidence of improvement"
+    "parent protocol is an exploratory fixed plan, not evidence of improvement",
+    "commit field identifies report commit; final handoff-only commit is PR head"
   ],
   "blockers": [],
   "next_dependency": "Coordinator assesses overlap and decides preregistered contrast and future prospective data requirements; separate parent experiment."
