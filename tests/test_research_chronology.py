@@ -85,3 +85,13 @@ def test_fully_witnessed_correction_still_requires_rebuild(tmp_path):
     report = audit_archive(source, registry(source.read_bytes()))
     assert not report['strict_chronology_ready']
     assert report['witnessed_rebuild_ready']
+
+
+def test_empty_archive_and_empty_cohort_never_pass(tmp_path):
+    source = tmp_path / 'empty.csv'
+    source.write_text('Division,MatchDate,HomeTeam,AwayTeam,FTHome,FTAway\n', encoding='utf-8')
+    report = audit_archive(source, registry(source.read_bytes()))
+    assert report['rows'] == 0
+    assert not report['strict_chronology_ready'] and not report['witnessed_rebuild_ready']
+    with pytest.raises(ValueError, match='empty chronology'):
+        DateWitnesses(registry(), PAYLOAD).require_verified([])

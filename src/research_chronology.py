@@ -30,6 +30,11 @@ def _score(value):
 
 
 def fixture_key(row):
+    if any(not isinstance(row[k], str) or not row[k].strip() or row[k] != row[k].strip()
+           for k in ('Division', 'HomeTeam', 'AwayTeam')):
+        raise ValueError('fixture identity must be explicit and canonical')
+    if row['HomeTeam'].casefold() == row['AwayTeam'].casefold():
+        raise ValueError('fixture teams must differ')
     return (row['Division'], _day(row['MatchDate']), row['HomeTeam'],
             row['AwayTeam'], _score(row['FTHome']), _score(row['FTAway']))
 
@@ -41,7 +46,12 @@ class DateWitnesses:
             raise ValueError('archive differs from witnessed source')
         self.source_sha256 = digest
         self.witnesses = {}
+        identifiers = set()
         for witness in registry['witnesses']:
+            identifier = witness.get('id')
+            if not isinstance(identifier, str) or not identifier or identifier in identifiers:
+                raise ValueError('missing or duplicate witness id')
+            identifiers.add(identifier)
             key = fixture_key(witness['source_fixture'])
             if key in self.witnesses:
                 raise ValueError('duplicate or conflicting date witness')
@@ -87,6 +97,8 @@ class DateWitnesses:
             checked.append({**row, 'MatchDate': item['verified_day'],
                             'chronology_witness': item['witness_id'],
                             'original_MatchDate': row['MatchDate']})
+        if not checked:
+            raise ValueError('empty chronology cohort')
         return checked
 
 
@@ -99,6 +111,13 @@ def audit_archive(source: Path, registry: dict):
         for row in csv.DictReader(stream):
             league = per_league.setdefault(row['Division'], Counter())
             try:
+                day = date.fromisoformat(row['MatchDate'])
+                if day.day <= 12 and day.month != day.day:
+                    counts['month_day_ambiguous'] += 1
+                    league['month_day_ambiguous'] += 1
+            except ValueError:
+                pass
+            try:
                 result = witnesses.assess(row)
             except (ValueError, ArithmeticError, KeyError):
                 counts['invalid_fixture'] += 1
@@ -106,19 +125,17 @@ def audit_archive(source: Path, registry: dict):
                 continue
             counts[result['status']] += 1
             league[result['status']] += 1
-            day = date.fromisoformat(row['MatchDate'])
             # An ambiguity flag is NOT a finding that the date is wrong.
-            if day.day <= 12 and day.month != day.day:
-                counts['month_day_ambiguous'] += 1
-                league['month_day_ambiguous'] += 1
+            day = date.fromisoformat(row['MatchDate'])
             if result['status'] != 'unverified':
                 findings.append({'fixture': list(fixture_key(row)), **result,
                                  'shift_days': (date.fromisoformat(result['verified_day']) - day).days})
-    return {'source_sha256': witnesses.source_sha256, 'counts': dict(counts),
+    total = sum(counts[k] for k in ('confirmed', 'contradicted', 'unverified', 'invalid_fixture'))
+    return {'source_sha256': witnesses.source_sha256, 'rows': total, 'counts': dict(counts),
             'by_league': {k: dict(v) for k, v in sorted(per_league.items())},
             'findings': findings,
-            'strict_chronology_ready': not any(counts[k] for k in ('unverified', 'invalid_fixture', 'contradicted')),
-            'witnessed_rebuild_ready': not counts['unverified'] and not counts['invalid_fixture'],
+            'strict_chronology_ready': bool(total) and not any(counts[k] for k in ('unverified', 'invalid_fixture', 'contradicted')),
+            'witnessed_rebuild_ready': bool(total) and not counts['unverified'] and not counts['invalid_fixture'],
             'pregame_receipts_verified': False, 'execution_prices_verified': False,
             'note': 'Unverified is not proven incorrect. Ambiguous dates are never automatically swapped.'}
 
