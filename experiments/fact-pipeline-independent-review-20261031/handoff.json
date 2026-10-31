@@ -1,6 +1,6 @@
 {
   "role": "facts_pipeline_independent_review",
-  "status": "draft_pr_open_queue_final_reviewed_capture_blocked",
+  "status": "draft_pr_open_final_integration_reviewed_cli_multigame_pending",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/fact-pipeline-independent-review-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
@@ -27,11 +27,12 @@
   },
   "tests": {
     "targeted": "13 queue/capture integration tests passed plus prior 8 fixture/interim tests",
-    "full": "2052 passed, 6 skipped, 93 subtests passed",
+    "full": "not rerun for final head; prior 2052 passed applies only earlier review branch",
     "fixture_catalog": 37,
     "full_fixture_driver": "not implemented",
     "targeted_latest": "16 passed: 10 historical head and 6 latest; plus original synthetic catalog",
-    "three_component": "synthetic same event seed->recapture->price; two-game valid batch rejected by capture"
+    "three_component": "synthetic same event seed->recapture->price; two-game valid batch rejected by capture",
+    "final_targeted": "36 passed, plus independent two-game, raw-hash and stale-claim checks"
   },
   "metrics": {
     "capture_pr467_sample": "1 game, 2 probable starters, both external_receipt_verified=false",
@@ -39,23 +40,20 @@
     "accuracy_roi": "not evaluated"
   },
   "limitations": [
-    "final adapter PR not available, synthetic test uses explicitly hashed interim adapter",
-    "final capture sidecar head not yet received",
-    "test copies replace worker thread IDs with inert strings",
-    "no real native message was sent",
-    "source authentication, historical timestamps and prospective performance are not proven"
+    "No real native send, runtime deployment or ROI evaluation",
+    "verified bytes do not prove externally witnessed pregame receipt",
+    "full suite not repeated for final head; parent reported its own 2111 tests"
   ],
   "findings": [
-    "PR469 latest rejects forged and stale claims after re-claim; fixed registry controls destination",
-    "explicit seed avoids known baseline dispatch; same capture time update is no-op; price change wakes",
-    "capture PR467 ac7816 all(facts for each ready row) rejects two valid distinct game rows",
-    "capture records hash and size but not raw HTTP bytes; no independent rehash possible",
-    "external receipt remains unverified; queue is not an authentication gateway",
-    "claim cap 3 per invocation, not confirmed global cap"
+    "raw bytes now preserved and two saved samples independently rehashed; does not certify receipt",
+    "batch API accepts two ready rows from explicit per-game adapter callback",
+    "default CLI one-context wrapper still rejects two-game facts with mixed_context_facts",
+    "stale claim rejected after reclaim with unique claim_id"
   ],
   "blockers": [
-    "capture multi-game per-row validation must partition by game and product before manifest creation",
-    "capture raw response sidecar and audit of byte/hash/receipt provenance is under development"
+    "for multi-game default CLI use, implement explicit per-game context routing or document/offer supported single-game filtering without dropping facts"
   ],
-  "next_dependency": "Capture worker publishes final head including multi-game partition and raw byte sidecar; repeat isolated integration with committed adapter and queue heads"
+  "next_dependency": "coordinator decides whether one-context CLI limitation blocks rollout and supplies supported multi-game routing; existing multi-row API supports explicit mapping",
+  "final_integration_head": "9770838813d9ff80ad2942ecf78e36719a1c9f50",
+  "capture_pr467_final_head": "5f843be9bd744f795c205e93cf5433cac037e4f5"
 }
