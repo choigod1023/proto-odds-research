@@ -1,0 +1,58 @@
+{
+  "role": "server",
+  "status": "investigation_complete_root_cause_unresolved",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-stale-generation-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/452",
+  "changed_paths": [
+    "docs/research/2026-10-31-stale-generation-investigation.md",
+    "experiments/terra-stale-generation-20261031/reproduce_gate.py",
+    "experiments/terra-stale-generation-20261031/handoff.json"
+  ],
+  "inputs_and_sha": {
+    "collector_head": "f9058fb98e2bfaa1fd8dede0f5f7ef70c8cdcd77",
+    "image_supervisor_sha256": "342929482325033e35ac4e8e85eee15e21d1abb17b3ac7baf1a76b7117ded7a5",
+    "repo_supervisor_sha256": "31218911b781ae0f963eccd48096a457bac73214bb8e1fdd15313c5917e2570c",
+    "isolated_responses_sha256": "311393c8420d53ae92a6c9ee4979afa4077c074d079923242fef8220a6ff9ae7"
+  },
+  "tests": [
+    "python -m pytest -q tests/test_runtime_memory.py tests/test_market_priority.py tests/test_response_cache.py tests/test_background_memory.py tests/test_isolated_match_responses.py: 65 passed",
+    "python experiments/terra-stale-generation-20261031/reproduce_gate.py: mocked 468, 479, 511 refuse and 512 admits; no production workload",
+    "JSON required-field and path validation and git diff --check"
+  ],
+  "metrics": {
+    "observation_utc": "2026-10-31T00:47:19Z",
+    "log_range_utc": [
+      "2026-10-31T00:35:06Z",
+      "2026-10-31T00:47:09Z"
+    ],
+    "picks_generated_at": "2026-10-30T10:13:55+00:00",
+    "picks_stored_at": "2026-10-30T10:17:23.995637+00:00",
+    "odds_stored_at": "2026-10-31T00:40:44.315837+00:00",
+    "decision_gate_mib": 512,
+    "recent_denials_mib": [
+      470,
+      473,
+      476,
+      468
+    ],
+    "warmer_build_seconds": [
+      104.41,
+      75.69
+    ],
+    "process_605_rss_kib": 271436
+  },
+  "limitations": [
+    "Memory pressure composition and entire stale interval unresolved; recent admission denials confirmed.",
+    "No source fix warranted by evidence; threshold decrease risks OOM and operation contracts.",
+    "One-shot read-only observations; no workload generated on production.",
+    "Self commit hash omitted; final answer supplies it."
+  ],
+  "blockers": [
+    "No peak memory attribution or complete historical log to establish root cause and safe fix."
+  ],
+  "next_dependency": "Coordinator review; isolate parent/warmer/decision peak-memory measurements in equivalent local fixture and investigate retained log history; seek separate authorization for any production action."
+}
