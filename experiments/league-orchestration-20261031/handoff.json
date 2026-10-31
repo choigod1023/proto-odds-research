@@ -1,0 +1,66 @@
+{
+  "schema_version": "league-orchestration-handoff-v1",
+  "parent_pr": 469,
+  "branch": "codex/verified-facts-league-workers-20261031",
+  "workers_created": 10,
+  "configured_model": "gpt-6.1-terra",
+  "worker_initial_state": "blocked_data; finite audits and preregistrations completed",
+  "new_eligible_evaluation_events": 0,
+  "production_model_changed": false,
+  "production_deployed": false,
+  "runtime_research_queue_jobs": 0,
+  "project": {
+    "name": "승부예측",
+    "id": "86faf4e5-48c4-4396-bfc1-695b67dc74c9",
+    "main_thread": "01a06bca-36db-7623-8d86-0f2d21fb08f2",
+    "pinned_project": true
+  },
+  "automation": {
+    "id": "automation",
+    "status": "ACTIVE",
+    "metadata_check_hours": 6,
+    "research_trigger": "new eligible semantic input only; quiet when unchanged"
+  },
+  "integrated_prs": [
+    456,
+    457,
+    458,
+    459,
+    460,
+    461,
+    462,
+    463,
+    464,
+    465,
+    467
+  ],
+  "diagnostic_pr": 468,
+  "tests": {
+    "targeted": 78,
+    "full_passed": 2111,
+    "full_skipped": 6,
+    "subtests": 93
+  },
+  "actual_capture": {
+    "public_http_responses_with_bytes": 2,
+    "probable_starters": 2,
+    "confirmed_starters": 0,
+    "new_semantic_facts_since_first_capture": 0,
+    "external_receipt_certification": false
+  },
+  "limitations": [
+    "No fitted player-effect model; baseline probability unchanged",
+    "Local queue monitor is configured; recurring production fact collection not deployed",
+    "No new authenticated blind ROI sample",
+    "Input hash is not independent publication/receipt authentication",
+    "Native send not exactly-once; uncertain delivery requires destination inspection"
+  ],
+  "files_lf_sha256": {
+    "src/research_dispatch.py": "5f49a2a239a38a58c4c6a42182b8aaf420c8c6101ef1659e125a55e787b24760",
+    "src/fact_delta_inputs.py": "1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a",
+    "src/official_fact_capture.py": "3942eaec0ad8d5194903f3a28a16cef011f870ea6ebcc6894dc2bad415068748",
+    "scripts/dispatch_league_research.py": "f2b35262463ec57b6165c5e9d8461be61a412e70024d910d78695435d78dc3e5",
+    "scripts/capture_official_research_inputs.py": "267e240c01977dfd5c18b5981a291de8e65ffbb04777fabf62f54b017eb161e0",
+    "tests/test_fact_research_dispatch_integration.py": "f5e312c3a938b9346e7559a686f6a6458d30ce37c9a8a24d89a93716fc371ba6"
+  }
+}
