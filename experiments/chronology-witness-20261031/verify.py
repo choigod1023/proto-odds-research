@@ -2,6 +2,7 @@
 from decimal import Decimal
 import gzip
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 
@@ -11,12 +12,19 @@ HERE = Path(__file__).resolve().parent
 def verify():
     report = json.loads((HERE / 'results.json').read_text(encoding='utf-8'))
     arms = {}
+    probability_replays = {}
+    replay_path = HERE.parent / 'all-sports-underdog-20261031/replay_audit.py'
+    spec = importlib.util.spec_from_file_location('independent_chronology_replay', replay_path)
+    replay = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(replay)
     forecasts = 0
     for arm, summary in report['by_arm'].items():
         with gzip.open(HERE / arm / 'ledger.jsonl.gz', 'rt', encoding='utf-8') as stream:
             rows = [json.loads(line) for line in stream]
         assert len(rows) == report['fixtures'] == len({r['id'] for r in rows})
         arms[arm] = {r['id']: r for r in rows}
+        states = json.loads((HERE / arm / 'states.json').read_text(encoding='utf-8'))
+        probability_replays[arm] = replay.check(rows, rows, states, refit=True)
         for model, policies in summary.items():
             for row in rows:
                 forecast = row['predictions'][model]
@@ -49,6 +57,7 @@ def verify():
     assert report['adopted'] is False and not report['player_or_tipster_inputs_used']
     return dict(forecasts_checked=forecasts, fixture_date_changes=len(moved),
                 same_event_price_and_label=True, strict_performance_certified=False,
+                independent_probability_replay=probability_replays,
                 files={str(p.relative_to(HERE)): hashlib.sha256(p.read_bytes()).hexdigest()
                        for p in sorted(HERE.rglob('*')) if p.is_file() and
                        (p.suffix == '.gz' or p.name in ('protocol.json','witnesses.json','results.json'))})
