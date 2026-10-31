@@ -1,0 +1,49 @@
+{
+  "role": "server",
+  "status": "completed_with_limits",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-improvement-audit-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": null,
+  "changed_paths": [
+    "docs/research/2026-10-31-serving-improvement-audit.md",
+    "experiments/serving-improvement-audit-20261031/handoff.json"
+  ],
+  "inputs_and_sha": {
+    "collector_image": "deployment-01M6613ES1R276GZECMASE5BEW",
+    "collector_repo_head": "f9058fb98e2bfaa1fd8dede0f5f7ef70c8cdcd77",
+    "running_supervisor_sha256": "342929482325033e35ac4e8e85eee15e21d1abb17b3ac7baf1a76b7117ded7a5",
+    "collector_artifact_responses_sha256": "8ba5c10b6c43459da9dac7c0b13f4f3da456c32f904e25b95446afa85dbbdcbc",
+    "pr443_supervisor_sha256": "944e3dd40dbbf5036d79ecce8e789bc28a24ccc3a89a9fe9a1e4ec259ce0efbd",
+    "pr443_artifact_responses_sha256": "1beaaaec5f8d36c27108b8e9f4eab936657957f3b45c64aab47fdbbaff748fcb"
+  },
+  "tests": [
+    "Python JSON parse and required field and path validation",
+    "git diff --cached --check"
+  ],
+  "metrics": {
+    "observed_at_utc": "2026-10-31T00:42:38Z",
+    "health_http": 200,
+    "health_status": "ok",
+    "recent_http": 200,
+    "recent_seconds": 0.501,
+    "recent_bytes": 3302537,
+    "picks_generated_at": "2026-10-30T10:13:55+00:00",
+    "picks_stored_at": "2026-10-30T10:17:23.995637+00:00",
+    "revision": "2026-10-30T10:17:23.995637+00:00|kbo:2026-10-31T00:37:15+00:00",
+    "server_etag_deployed": false
+  },
+  "limitations": [
+    "Single read-only snapshot; no causal latency comparison.",
+    "Individual recent log matches could not be printed due to local encoding error; failures cannot be classified.",
+    "No conditional production picks request or browser asset verification.",
+    "Commit SHA omitted to avoid self-reference; final response supplies it.",
+    "No prediction experiment protocol applies."
+  ],
+  "blockers": [
+    "Reason for old picks generation timestamp remains unknown."
+  ],
+  "next_dependency": "Coordinator review; inspect current logs with UTF-8 and separately authorize any operational change."
+}
