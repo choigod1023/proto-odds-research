@@ -1,12 +1,12 @@
 {
   "role": "connection",
-  "status": "source_permission_and_live_data_blocked",
+  "status": "draft_pr_open_source_permission_and_live_data_blocked",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/live-facts-source-audit-20261031",
   "base_sha": "f46654803c821bed2159532227aeff28f4f77345",
   "protocol_sha": null,
-  "commit": null,
-  "pr_url": null,
+  "commit": "722f6d5c0",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/472",
   "changed_paths": [
     "experiments/live-source-audit-20261031/",
     "tests/test_live_source_audit.py",
@@ -39,5 +39,6 @@
   "blockers": [
     "no verified source license or usable authenticated live feed supplied"
   ],
-  "next_dependency": "Obtain explicit permitted source/credentials and product rights; bind validated source bytes, observation and receipt clocks, exact fixture/player/product IDs before any scheduling."
+  "next_dependency": "Obtain explicit permitted source/credentials and product rights; bind validated source bytes, observation and receipt clocks, exact fixture/player/product IDs before any scheduling.",
+  "commit_note": "Implementation commit; PR head includes handoff update."
 }
