@@ -1,6 +1,6 @@
 {
   "role": "connection",
-  "status": "draft_pr_open_source_permission_and_live_data_blocked",
+  "status": "draft_pr_open_runtime_observed_upstream_authorization_unverified",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/live-facts-source-audit-20261031",
   "base_sha": "f46654803c821bed2159532227aeff28f4f77345",
@@ -25,8 +25,9 @@
     "snapshot_local_read_at": "2026-10-31T04:19:49.910338+00:00",
     "snapshot_stale": true,
     "live_eligible": 0,
-    "licensed_live_api_calls": 0,
-    "new_official_observations": 0
+    "new_official_observations": 0,
+    "own_public_operational_read_checks": "performed; see runtime-check.json",
+    "licensed_upstream_live_api_calls": 0
   },
   "limitations": [
     "source HTTP bytes/source-observed timestamp unavailable for local repository snapshot",
@@ -34,11 +35,22 @@
     "KBO and MLB service terms constrain automated use; exact authorized use requires rights confirmation",
     "NPB/K League and other leagues lack verified authorization and source availability for this use",
     "ODDS_API_KEY, THE_ODDS_API_KEY and KLEAGUE_API_KEY absent in process; account and production secrets not inspected",
-    "offline policy is not a network connector or authorization and schedules no jobs"
+    "offline policy is not a network connector or authorization and schedules no jobs",
+    "subsequent read-only runtime observations are narrow samples and do not prove cause or source price freshness"
   ],
   "blockers": [
     "no verified source license or usable authenticated live feed supplied"
   ],
-  "next_dependency": "Obtain explicit permitted source/credentials and product rights; bind validated source bytes, observation and receipt clocks, exact fixture/player/product IDs before any scheduling.",
-  "commit_note": "Implementation commit; PR head includes handoff update."
+  "next_dependency": "Independently investigate stale picks and health/API timestamp discrepancy; separately confirm licensed source access before new upstream polling.",
+  "commit_note": "Implementation commit; PR head includes handoff update.",
+  "runtime_observation": {
+    "odds_api": "HTTP 200; generated 04:37:59 UTC, unchanged from 04:38:26 through 04:40:03 UTC",
+    "picks_api_generated_at": "2026-10-30T09:18:08+00:00",
+    "health_picks_generated_at": "2026-10-30T10:13:55+00:00",
+    "fly_machine_started": 1,
+    "scheduled_market_round_game_number_missing": 67,
+    "existing_incident": "https://github.com/choigod1023/proto-odds-research/issues/447",
+    "source_price_delay": "unknown",
+    "cause": "unconfirmed"
+  }
 }
