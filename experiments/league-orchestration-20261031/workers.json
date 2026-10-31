@@ -1,0 +1,127 @@
+{
+  "orchestrator_thread": "01a06bca-36db-7623-8d86-0f2d21fb08f2",
+  "user_research_trigger": "new eligible evidence only",
+  "initial_task": "bounded evidence inventory and one hypothesis per league",
+  "workers": [
+    {
+      "key": "kleague1",
+      "label": "K리그1",
+      "sport": "football",
+      "focus": "공식 선발·포메이션·결장과 일정 간격을 3-way 확률에 연결; Dixon-Coles/계층 득점 모델과 같은 경기 시장 기준을 비교. 기존 K1 10경기와 홈 상수 흑자를 새 성과로 재포장하지 않는다.",
+      "threadId": "01a18f7e-9f1e-7660-9274-8bd728a12f3b",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-kleague1-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "kleague2",
+      "label": "K리그2",
+      "sport": "football",
+      "focus": "새로 확보한 공식 결과275건과 과거 예측·동일상품가격의 실제 교집합부터 확인. 승격/플레이오프·선발·휴식 변수를 분리하고 사후 결과만으로 ROI 표본을 늘리지 않는다. 4경기 흑자는 시장과 같았음을 보존.",
+      "threadId": "01a18f7e-a351-7773-b538-e09a0d65a5e3",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-kleague2-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "kbo",
+      "label": "KBO",
+      "sport": "baseball",
+      "focus": "공식 확정 선발·타순과 24/48시간 불펜 투구·휴식, 구장과 타자 손잡이 구성의 변화. verified fact와 probable·추정을 구분하고 현재/미래 경기 결과를 피처에 넣지 않는다.",
+      "threadId": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-kbo-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "npb",
+      "label": "NPB",
+      "sport": "baseball",
+      "focus": "공식 선수 ID/확정 타순/예고 선발·당일 변경, 불펜 연투와 무승부·연장 정산 규칙. 일본어 팀·선수 별칭과 더블헤더를 정확 연결하고 NPB25경기 한 픽 개선을 입증으로 삼지 않는다.",
+      "threadId": "01a18f7e-ac5f-7a11-935a-4296d5ce2f95",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-npb-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "mlb",
+      "label": "MLB",
+      "sport": "baseball",
+      "focus": "공식 gamePk·발표 타순·probable/final starter, 이전 경기 투구·타구/타자 구성·불펜 workload·구장변수. Statcast 추출 날짜와 실제 수신 시점을 구분하며 경기 후 업데이트된 target 수치를 쓰지 않는다.",
+      "threadId": "01a18f7e-b0f7-7a00-b05f-c52dc92ba3b6",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-mlb-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "kbl",
+      "label": "KBL",
+      "sport": "basketball",
+      "focus": "공식 출전 가능·외국인/주전 결장·예상 로테이션·페이스·휴식/이동. KBL 경기 시간·연장/핸디/합계 정산을 공식자료로 확인하고 NBA 변수를 그대로 복제하지 않는다.",
+      "threadId": "01a18f7e-b5ad-79f3-aaaa-4507d632a5cd",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-kbl-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "nba",
+      "label": "NBA",
+      "sport": "basketball",
+      "focus": "공식 injury report·확정 선발·출전 제한·백투백/이동·페이스와 선수 역할. 가비지타임·postgame 분수·늦은 injury revision 누출을 차단하고 KBL과 별도 상태로 평가.",
+      "threadId": "01a18f7e-ba1a-7930-b826-1ab71813a752",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-nba-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "vleague_m",
+      "label": "V리그 남자",
+      "sport": "volleyball",
+      "focus": "공식 선발/세터·공격수 결장·로테이션과 서브/리시브·세트별 득점 구조. 축구식 득점 가정을 복제하지 않고 경기승/세트/포인트 상품을 구분.",
+      "threadId": "01a18f7e-be7d-71b3-8f39-19165e69a770",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-vleague-m-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "vleague_w",
+      "label": "V리그 여자",
+      "sport": "volleyball",
+      "focus": "여자부 독립 선발/세터·공격수 구성·리시브·휴식과 세트 전이. 남자부 계수를 그대로 전이하지 말고 공식 등록·출전 자료의 실제 가용시점부터 검증.",
+      "threadId": "01a18f7e-c38b-7ca1-9494-d2816daf84c8",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-vleague-w-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    },
+    {
+      "key": "football_other",
+      "label": "기타 축구·토너먼트",
+      "sport": "football",
+      "focus": "현재 자료에 존재하는 다른 리그와 컵/플레이오프를 우선 조사해 검증가능 대상만 선정. 정규리그와 중립구장·2차전/합산스코어·로테이션 영향을 구분하고 추가 전담워커 필요성을 근거로 총괄에 제안.",
+      "threadId": "01a18f7e-c88c-7be3-8885-a3a8d9f38664",
+      "projectlessOutputDirectory": "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\sportstoto-league-football-other-20261031\\outputs",
+      "hostId": "local",
+      "configured_model": "gpt-6.1-terra",
+      "reasoning": "high",
+      "runtime_model_observed": false
+    }
+  ]
+}

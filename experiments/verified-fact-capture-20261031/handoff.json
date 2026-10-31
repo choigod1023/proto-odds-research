@@ -1,0 +1,58 @@
+{
+  "role": "connection",
+  "status": "draft_pr_open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/verified-fact-capture-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "src/official_fact_capture.py": "3942eaec0ad8d5194903f3a28a16cef011f870ea6ebcc6894dc2bad415068748",
+    "scripts/capture_official_research_inputs.py": "267e240c01977dfd5c18b5981a291de8e65ffbb04777fabf62f54b017eb161e0",
+    "tests/test_official_fact_capture.py": "f4a8bbdfcc56e27eb211a988ebe5e98687c10177da8b5d8c6102989ad3e12ee6",
+    "experiments/verified-fact-capture-20261031/capture.json": "57676a0954995633156a55de15f90ced8fdfe3dcdd7dc4453492385a086de6ad",
+    "experiments/verified-fact-capture-20261031/capture-with-bytes.json": "596eb0270bc2ed00640c93a3ff901a5035a079a2070f273f66d2243ac0b561c3",
+    "experiments/verified-fact-capture-20261031/synthetic-real-adapter-fixture.json": "5af7012b56fdd443ee09dcd3ac3d9a49bc6a99778e1119333233cae8417ae249"
+  },
+  "new_input_ids": [
+    "official-fact-v1:7f700f0c4b6bafe01bd47b26005195133803b86a98e5ade87fdc3ee87ad7008f",
+    "official-fact-v1:5c0ebf50a442327d88622566a5efff8f39cedaa030043b6d8d8e2e31f0d06065"
+  ],
+  "protocol_sha": null,
+  "tests": {
+    "targeted": "13 passed",
+    "full": "2028 passed, 6 skipped, 93 subtests passed",
+    "real_adapter_and_dispatcher": "synthetic ready=1, source bytes validated, external receipt false, unmatched=0; not production data"
+  },
+  "metrics": {
+    "new_official_games": 1,
+    "new_probable_pitcher_facts": 2,
+    "confirmed_lineups": 0,
+    "eligible_ready": 0,
+    "external_receipt_verified": 0,
+    "actual_requests_total": 10,
+    "bundle_requests": 2,
+    "recapture_requests": 2,
+    "recapture_games": 1,
+    "recapture_probable_facts": 2,
+    "recapture_raw_bytes_verified": 2,
+    "new_semantic_facts_after_recapture": 0
+  },
+  "limitations": [
+    "first capture was hash-only and its original response bytes cannot be verified; later response has its own actual receipt",
+    "actual KBO sample lacks canonical game, decision, prior value, claim, same-product price and confirmed status",
+    "independent receipt is not certified; local request ledger is asserted even where retained bytes verify",
+    "synthetic complete input used only for real adapter and dispatcher integration",
+    "15s socket timeout not a strict whole-request wall clock limit"
+  ],
+  "blockers": [
+    "actual KBO sample cannot be ready until missing official confirmation and other inputs arrive"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/467",
+  "next_data_needed": "Confirmed official facts with fixture/player registry, prior claim, decision, baseline and complete same-product pregame price.",
+  "implementation_commit": "9572dfded",
+  "commit_note": "PR head includes subsequent handoff update",
+  "recaptured_input_ids": [
+    "official-fact-v1:7f700f0c4b6bafe01bd47b26005195133803b86a98e5ade87fdc3ee87ad7008f",
+    "official-fact-v1:5c0ebf50a442327d88622566a5efff8f39cedaa030043b6d8d8e2e31f0d06065"
+  ],
+  "new_semantic_fact_count_after_recapture": 0
+}

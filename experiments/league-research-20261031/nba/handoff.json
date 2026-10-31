@@ -1,0 +1,52 @@
+{
+  "role": "league_research_worker",
+  "league": "NBA",
+  "status": "blocked_data",
+  "repo": "C:/Users/user/Documents/Codex/2026-10-31/sportstoto-league-nba-20261031/repo",
+  "branch": "codex/league-nba-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "experiments/operating-ledger-comparison-20261029/comparison.json": "a04285b6a14c09415e713cdc0e4b887073eb97da4c41d10b24b03631053c8223",
+    "parent_information_edge_doc": "2d7637da56b42c51833b116de7a290f0f40ad5df0fe70d12086a1689664c984b",
+    "parent_fact_delta_contract": "c4ee7eac2080cbbdb3d25672faf952fd017bdadff4125f003bc6b362f6952673"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "61c2a71",
+  "tests": [
+    "python tests/test_league_nba_audit.py",
+    "git diff --check"
+  ],
+  "metrics": {
+    "scope": "selected retrospective comparison artifact; market text corrupt",
+    "nba_rows": 35,
+    "unique_event_ids": 35,
+    "saved_captured_at_by_t30": 35,
+    "market_selected_with_saved_odds": 35,
+    "stored_result_linked": 32,
+    "stored_operating_selected_odds_result": 20,
+    "stored_operating_abstained": 15,
+    "official_player_document_fields_present": 0,
+    "new_candidate_eligible_n": 0,
+    "coverage": null,
+    "accuracy": null,
+    "roi": null,
+    "logloss": null,
+    "brier": null,
+    "drawdown": null
+  },
+  "limitations": [
+    "No independent receipt or official player document bytes in audited event rows; no complete price authentication.",
+    "Market label corrupted, physical event identity and market eligibility unverified; counts are not full opportunity universe.",
+    "No actual-data leakage, duplicate-document or future-label poison test possible; structural audit is not evidence of improved accuracy."
+  ],
+  "blockers": [
+    "No new linked prospective eligible data or evidence event IDs",
+    "Insufficient sample for preregistered split"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/464",
+  "next_data_needed": [
+    "New evidence event_id and input SHA, original official injury/lineup/restriction documents and actual receipt evidence",
+    "Unique fixture/player IDs; complete same-provider two-sided prices and actual receipt by freeze",
+    "Exact operating frozen revision including abstention, official result receipt, prior role/pace and schedule/travel provenance"
+  ]
+}

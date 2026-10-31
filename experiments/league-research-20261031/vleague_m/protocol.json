@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "status": "blocked_data",
+  "league": "vleague_m",
+  "target": "full_match_moneyline_two_way",
+  "hypothesis": "Confirmed setter or attacker availability and predecision team serve/reception history may improve match-win log loss compared with same-time market and a no-fact baseline.",
+  "units": "One unique match and identical full-match two-way product, quote and settlement. Set markets and rally-point totals are separate products and excluded.",
+  "decision": "Freeze actual recorded receipts at or before the earlier of actual decision and scheduled start minus 30 minutes. Require unambiguous identity, complete predecision two-way quote and official settled result. No imputed receipt times.",
+  "features": ["official confirmed setter and attacker presence or absence, source revision and actual receipt", "predecision player identity and position", "prior completed matches official serve errors, aces, reception and set scores with actual availability", "same-time complete two-way odds"],
+  "candidate": "Single regularized logistic market-offset model with fixed L2 penalty 10; home no-vig market logit offset, home-minus-away confirmed setter absence and attacker absence indicators, and predecision team serve/reception differential. Unknown facts remain missing; no manual probability bonus. Require both teams observed for each variable; otherwise no candidate prediction.",
+  "split": "Prospective chronological, by match date; first 60% eligible matches train, next 20% validation, final 20% test. Boundaries fixed by sequence before opening labels; no same-date split. Minimum 200 train, 50 validation, 100 test with at least 30 confirmed affected matches overall and 10 in each validation and test. Otherwise blocked_data. Training labels must have actual receipt before each split starts. No refits on test.",
+  "selection": "Exactly one candidate; compare candidate against no-fact market-offset intercept-only model and no-vig market. Proceed to test only if validation candidate paired mean log loss is strictly lower than both comparators; no tuning or test-driven revision. Frozen operating picks are a separate comparison only where exact matching revisions exist; never substitute reconstructed picks.",
+  "stop": "Stop if eligibility, receipt provenance, sample minimum, label availability or identity checks fail, or validation gate fails. Negative or inconclusive test is reported without promotion. A new protocol requires a new commit and fresh future data.",
+  "reports": ["opportunities and exclusion reasons by market", "actual predecision receipt, complete price, result and confirmed player link counts", "matched n and coverage", "accuracy", "flat-unit ROI with identical settlement", "binary log loss", "binary Brier", "chronological cumulative-unit maximum drawdown", "future-label poisoning, time leakage and duplicate-document checks"],
+  "integrity": "Document bytes and actual receipt provenance required; SHA256 alone is not independent authentication. Published time is not receipt. Probable is not confirmed. Duplicate bytes count once as evidence, not as proof of shared authorship. No target-game outcomes in features. Freeze training labels by actual availability and test future-label poisoning in Python when data exists."
+}

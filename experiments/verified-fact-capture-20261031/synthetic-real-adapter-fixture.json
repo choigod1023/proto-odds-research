@@ -1,0 +1,228 @@
+{
+  "synthetic_only": true,
+  "source_adapter_lf_sha256": "1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a",
+  "bundle": {
+    "schema": "official-fact-capture-v1",
+    "facts": [
+      {
+        "fact_id": "f1",
+        "canonical_game_id": "game-1",
+        "official_game_id": "official-1",
+        "league": "KBO",
+        "sport": "baseball",
+        "kind": "confirmed_starter_change",
+        "before_value": {
+          "player_id": "p-old",
+          "status": "probable"
+        },
+        "after_value": {
+          "player_id": "p-new",
+          "status": "confirmed"
+        },
+        "units": "player",
+        "player_ids": [
+          "p-old",
+          "p-new"
+        ],
+        "claim": {
+          "url": "https://example.org/claim",
+          "published_at": "2026-10-31T09:00:00+00:00",
+          "received_at": "2026-10-31T09:00:00+00:00",
+          "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "official": {
+          "url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+          "published_at": "2026-10-31T09:00:00+00:00",
+          "received_at": "2026-10-31T09:00:00+00:00",
+          "raw_sha256": "2b5841446f63818b14eae46d90d36f3f2eb92fb7f9fda8458bdd48fec424c98f",
+          "identity_checked": true,
+          "confirmed": true,
+          "external_receipt_verified": false
+        },
+        "decision_at": "2026-10-31T09:30:00+00:00",
+        "kickoff_at": "2026-10-31T10:00:00+00:00",
+        "market": {
+          "product_id": "p1",
+          "market": "win",
+          "period": "full",
+          "line": null,
+          "outcomes": [
+            "home",
+            "away"
+          ],
+          "odds": {
+            "home": 1.8,
+            "away": 2.1
+          },
+          "observed_at": "2026-10-31T09:00:00+00:00",
+          "received_at": "2026-10-31T09:00:00+00:00"
+        },
+        "revision": 1
+      }
+    ],
+    "games": [],
+    "missing": [],
+    "requests": [
+      {
+        "url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+        "raw_sha256": "2b5841446f63818b14eae46d90d36f3f2eb92fb7f9fda8458bdd48fec424c98f",
+        "received_at": "2026-10-31T09:00:00+00:00",
+        "status": 200,
+        "bytes": 37,
+        "raw_base64": "eyJmaXh0dXJlIjoic3ludGhldGljLW9mZmljaWFsLWJvZHkifQ=="
+      }
+    ],
+    "request_attempts": 1
+  },
+  "context": {
+    "registry": {
+      "canonical_game_id": "game-1",
+      "official_game_id": "official-1",
+      "league": "KBO",
+      "sport": "baseball",
+      "kickoff_at": "2026-10-31T10:00:00+00:00",
+      "home_team_id": "H",
+      "away_team_id": "A",
+      "player_teams": {
+        "p-old": "H",
+        "p-new": "H",
+        "p-away": "A"
+      },
+      "product": {
+        "product_id": "p1",
+        "market": "win",
+        "period": "full",
+        "line": null,
+        "outcomes": [
+          "home",
+          "away"
+        ]
+      }
+    },
+    "baseline": {
+      "canonical_game_id": "game-1",
+      "product_id": "p1",
+      "decision_at": "2026-10-31T09:30:00+00:00",
+      "outcomes": [
+        "home",
+        "away"
+      ],
+      "probability_vector": [
+        0.55,
+        0.45
+      ],
+      "input_content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "freeze_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "market": {
+      "product_id": "p1",
+      "market": "win",
+      "period": "full",
+      "line": null,
+      "outcomes": [
+        "home",
+        "away"
+      ],
+      "odds": {
+        "home": 1.8,
+        "away": 2.1
+      },
+      "observed_at": "2026-10-31T09:00:00+00:00",
+      "received_at": "2026-10-31T09:00:00+00:00"
+    },
+    "input_id": "synthetic-real-adapter",
+    "workloads": {}
+  },
+  "adapter_output": {
+    "schema_version": "fact-delta-inputs-v1",
+    "league_id": "kbo",
+    "sport": "baseball",
+    "game_id": "game-1",
+    "market_id": "p1",
+    "input_id": "synthetic-real-adapter",
+    "research_eligible": true,
+    "status": "ready",
+    "features": {
+      "facts": [
+        {
+          "after_value": {
+            "player_id": "p-new",
+            "status": "confirmed"
+          },
+          "before_available": true,
+          "before_value": {
+            "player_id": "p-old",
+            "status": "probable"
+          },
+          "externally_verified": false,
+          "kind": "confirmed_starter_change",
+          "league": "KBO",
+          "player_ids": [
+            "p-old",
+            "p-new"
+          ],
+          "reason": "available",
+          "sport": "baseball",
+          "units": "player"
+        }
+      ],
+      "market": {
+        "product_id": "p1",
+        "market": "win",
+        "period": "full",
+        "line": null,
+        "outcomes": [
+          "home",
+          "away"
+        ],
+        "odds": {
+          "home": 1.8,
+          "away": 2.1
+        }
+      }
+    },
+    "source_evidence": [
+      {
+        "kind": "claim",
+        "external_receipt_verified": false,
+        "url": "https://example.org/claim",
+        "published_at": "2026-10-31T09:00:00+00:00",
+        "received_at": "2026-10-31T09:00:00+00:00",
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "fact_id": "f1",
+        "revision": 1
+      },
+      {
+        "kind": "official",
+        "external_receipt_verified": false,
+        "url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+        "published_at": "2026-10-31T09:00:00+00:00",
+        "received_at": "2026-10-31T09:00:00+00:00",
+        "raw_sha256": "2b5841446f63818b14eae46d90d36f3f2eb92fb7f9fda8458bdd48fec424c98f",
+        "identity_checked": true,
+        "confirmed": true,
+        "fact_id": "f1",
+        "revision": 1
+      },
+      {
+        "kind": "market",
+        "raw_sha256": null,
+        "external_receipt_verified": false,
+        "observed_at": "2026-10-31T09:00:00+00:00",
+        "received_at": "2026-10-31T09:00:00+00:00"
+      },
+      {
+        "kind": "baseline_reference",
+        "external_receipt_verified": false,
+        "input_content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "freeze_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    ],
+    "semantic_sha256": "79aaf72d076508447bc2281cd64ccf9592cf75cc46b7313e5c7c6ad844c2fd0a",
+    "reasons": [
+      "official_confirmation_asserted",
+      "candidate_model_unavailable",
+      "external_receipt_not_verified"
+    ]
+  }
+}
