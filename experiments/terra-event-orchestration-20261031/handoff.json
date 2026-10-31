@@ -11,7 +11,8 @@
     "src/event_reinference.py",
     "tests/test_event_reinference.py",
     "docs/research/2026-10-31-event-reinference-boundary.md",
-    "experiments/terra-event-orchestration-20261031/handoff.json"
+    "experiments/terra-event-orchestration-20261031/handoff.json",
+    "web/tests/live-estimator-boundary.test.js"
   ],
   "inputs_and_sha": {
     "docs/PRODUCTION_CONTRACT.md": "297d3676cee6d1f230057d0e4ce75981f77d6aa3f6424cbc952b3f84b6d2d32e",
@@ -21,16 +22,19 @@
     "deploy/supervisor.py": "4cdb93044648af4accd39c8095d98d806da38996a0952d714b886b60166450aa"
   },
   "tests": [
-    "Focused event, adapter and fact tests: 84 passed",
     "python -m pytest -q: 2169 passed, 6 skipped, 93 subtests",
+    "focused event, live-market, locking and retry Python tests: 68 passed",
+    "npm test -- --test-reporter=dot: passed",
+    "node --test web/tests/live-estimator-boundary.test.js: 3 passed",
     "git diff --cached --check"
   ],
   "metrics": {
-    "local_event_regression_tests": 20
+    "local_event_regression_tests": 20,
+    "live_estimator_regression_tests": 3
   },
   "limitations": [
     "Research boundary only; no scheduler, networking, durable queue, actual source integration or production publication.",
-    "Pregame adapter only; live inference unsupported, player effects not fitted.",
+    "Research adapter only supports pregame; existing browser LIVE score/time estimate exists and does not model player effects. Basketball/volleyball progress defaults to 0.5 while STARTED.",
     "Caller must authenticate data and atomically persist successful and last-seen state; unverified source state remains unknown.",
     "No improvement in prediction accuracy claimed.",
     "No experiment protocol; no training or model evaluation.",

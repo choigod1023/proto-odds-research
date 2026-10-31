@@ -47,7 +47,7 @@ def polling_plan(status, kickoff_at, now):
     if status in ('final', 'cancelled', 'postponed'):
         return {'phase': 'closed', 'after_seconds': None}
     if status == 'live':
-        return {'phase': 'live_model_unavailable', 'after_seconds': None}
+        return {'phase': 'live_research_adapter_unsupported', 'after_seconds': None}
     if status != 'scheduled':
         return {'phase': 'unknown_status', 'after_seconds': None}
     remaining = kickoff - now
@@ -73,10 +73,10 @@ def _prepare(job, now, quote_max_age, fact_max_age):
         raise InvalidInput('snapshot_from_future')
     status = job['status']
     if status == 'live':
-        raise InvalidInput('live_model_unavailable')
+        raise InvalidInput('live_research_adapter_unsupported')
     if status != 'scheduled':
         raise InvalidInput('game_not_scheduled')
-    if now > kickoff - timedelta(minutes=30):
+    if now >= kickoff - timedelta(minutes=30):
         raise InvalidInput('pregame_frozen')
     quote = job['quote']
     if quote['product_id'] != identity['product_id']:

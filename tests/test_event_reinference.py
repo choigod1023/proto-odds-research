@@ -33,7 +33,7 @@ def test_schedule_is_bounded_and_live_does_not_claim_model_support():
     assert polling_plan('scheduled',kickoff,'2026-10-30T03:00:00+00:00')['after_seconds']==3600
     assert polling_plan('scheduled',kickoff,NOW)['after_seconds']==900
     assert polling_plan('scheduled',kickoff,'2026-10-30T10:00:00+00:00')['phase']=='frozen'
-    assert polling_plan('live',kickoff,NOW)=={'phase':'live_model_unavailable','after_seconds':None}
+    assert polling_plan('live',kickoff,NOW)=={'phase':'live_research_adapter_unsupported','after_seconds':None}
     assert polling_plan('postponed',kickoff,NOW)['phase']=='closed'
     with pytest.raises(InvalidInput): polling_plan('scheduled',kickoff,'2026-10-30T09:30:00')
 
@@ -59,7 +59,7 @@ def test_player_event_change_is_scoped_per_game_and_delivery_is_not_learned_effe
  (lambda x:x['quote'].update(received_at='2026-10-30T09:31:00+00:00'),'quote_unavailable'),
  (lambda x:x['quote']['odds'].pop('away'),'invalid_quote_vector'),
  (lambda x:x['quote'].update(product_id='other'),'quote_product_mismatch'),
- (lambda x:x.update(status='live'),'live_model_unavailable'),
+ (lambda x:x.update(status='live'),'live_research_adapter_unsupported'),
  (lambda x:x.update(status='postponed'),'game_not_scheduled'),
  (lambda x:x['facts'][0].update(canonical_game_id='wrong'),'fact_game_mismatch'),
  (lambda x:x['facts'][0].update(observed_at='2026-10-30T07:00:00+00:00'),'fact_stale'),
@@ -72,17 +72,23 @@ def test_failure_closed_and_t30_boundary():
     assert run([job()],verify=lambda *_: False)['outcomes'][0]['reason']=='evidence_unverified'
     assert run([job()],infer=lambda *_:{'probability_vector':[float('nan'),0]})['outcomes'][0]['reason']=='invalid_model_output'
     a=job(); a['snapshot_at']='2026-10-30T10:00:00+00:00'; a['quote'].update(observed_at=a['snapshot_at'],received_at=a['snapshot_at']); a['facts']=[]
+    assert run([a],now=a['snapshot_at'])['outcomes'][0]['reason']=='pregame_frozen'
+    a['snapshot_at']='2026-10-30T09:59:59+00:00'; a['quote'].update(observed_at=a['snapshot_at'],received_at=a['snapshot_at'])
     assert run([a],now=a['snapshot_at'])['outcomes'][0]['status']=='inferred'
     assert run([a],now='2026-10-30T10:00:01+00:00')['outcomes'][0]['reason']=='pregame_frozen'
 
 def test_research_adapter_runs_with_its_verified_contract():
     spec=importlib.util.spec_from_file_location('existing_accuracy_test',ROOT/'tests/test_accuracy_development.py')
     module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
-    state, doc, contract, verifier=module.fixture(); before=state.export(); a=job(); a['identity']=copy.deepcopy(contract['identity']); a['facts']=[]; a['quote']['odds']=copy.deepcopy(contract['quote']['odds'])
+    state, doc, contract, _=module.fixture(); before=state.export(); a=job(); a['identity']=copy.deepcopy(contract['identity']); a['facts']=[]
+    timestamp='2026-10-30T09:29:59+00:00'; a['snapshot_at']=timestamp; contract['decision_at']=timestamp
+    a['quote'].update(odds=copy.deepcopy(contract['quote']['odds']),observed_at=contract['quote']['observed_at'],received_at=contract['quote']['revision_received_at'])
+    trusted=copy.deepcopy(contract)
+    def verifier(candidate, snapshot): return candidate == trusted and snapshot == before
     def actual(j, now):
         request={'identity':j['identity'],'decision_at':now.isoformat(),'lineup':None}
         return module.infer(state,request,contract,verifier)
-    out=run([a],verify=lambda j,n: j['identity']==contract['identity'] and j['quote']['odds']==contract['quote']['odds'],infer=actual)
+    out=run_batch([a],now=timestamp,quote_max_age_seconds=3600,fact_max_age_seconds=3600,max_inferences=1,max_jobs=1,last_success={},last_seen={},verify=lambda j,n: j['identity']==contract['identity'] and j['quote']['odds']==contract['quote']['odds'],infer=actual)
     assert out['outcomes'][0]['status']=='inferred'; assert state.export()==before
     assert out['outcomes'][0]['result']['availability_reason']['code']=='lineup_unavailable'
 
