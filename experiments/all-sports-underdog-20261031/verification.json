@@ -2,7 +2,7 @@
   "source_fixtures": 283528,
   "worker_ledger_events": 283528,
   "independently_verified_forecasts": 1134112,
-  "independently_verified_policy_cells": 3664,
+  "independently_verified_policy_cells": 4780,
   "mismatches": 0,
   "domestic_sports": [
     "bk",
@@ -12,11 +12,58 @@
   ],
   "independent_pregame_or_executable_price_certified": 0,
   "source_cohorts_not_independent_or_summed": true,
+  "independent_prediction_replay": {
+    "domestic_archive/bk": {
+      "fixtures": 6748,
+      "probabilities_replayed": 26992,
+      "max_probability_difference": 4.440892098500626e-16,
+      "max_scaler_mean_difference": 0.0,
+      "max_scaler_scale_difference": 5.551115123125783e-17,
+      "max_objective_gradient": 6.634115712636187e-08,
+      "independent_refits": []
+    },
+    "domestic_archive/bs": {
+      "fixtures": 14978,
+      "probabilities_replayed": 59912,
+      "max_probability_difference": 4.996003610813204e-16,
+      "max_scaler_mean_difference": 4.163336342344337e-17,
+      "max_scaler_scale_difference": 8.326672684688674e-17,
+      "max_objective_gradient": 4.13043272074181e-08,
+      "independent_refits": []
+    },
+    "domestic_archive/sc": {
+      "fixtures": 23998,
+      "probabilities_replayed": 95992,
+      "max_probability_difference": 8.881784197001252e-16,
+      "max_scaler_mean_difference": 5.551115123125783e-17,
+      "max_scaler_scale_difference": 5.551115123125783e-17,
+      "max_objective_gradient": 6.307907438338548e-07,
+      "independent_refits": []
+    },
+    "external_football_archive/sc": {
+      "fixtures": 235799,
+      "probabilities_replayed": 943196,
+      "max_probability_difference": 7.771561172376096e-16,
+      "max_scaler_mean_difference": 9.71445146547012e-17,
+      "max_scaler_scale_difference": 1.6653345369377348e-16,
+      "max_objective_gradient": 6.505890919694755e-07,
+      "independent_refits": []
+    },
+    "domestic_archive/vl": {
+      "fixtures": 2005,
+      "probabilities_replayed": 8020,
+      "max_probability_difference": 8.881784197001252e-16,
+      "max_scaler_mean_difference": 5.551115123125783e-17,
+      "max_scaler_scale_difference": 2.7755575615628914e-17,
+      "max_objective_gradient": 1.5764571316401448e-07,
+      "independent_refits": []
+    }
+  },
   "worker_result_lf_sha256": {
-    "results/bk/domestic_archive/results.json": "127146e01f9fbe6daec636ae3ad3ae4150bd0152ef5630c1c4ba3a537044d6de",
-    "results/bs/domestic_archive/results.json": "493eee39d62c83b5d9232db9df7d3d8507cb06d3c5416aca5290753d09a4b96f",
-    "results/sc/domestic_archive/results.json": "45e2b582fb873aa581ca9d4dc6e62a4617e0e85acfde2d3035a1cc4a1de0a5b9",
-    "results/sc/external_football_archive/results.json": "571edc039cbb1f4943190958c1c24cf2aa57951dca688a24fc9b60990591894b",
-    "results/vl/domestic_archive/results.json": "c5e4d42c7b778b3fad36c2d85d8c4f961a88f031a97698c8f176b0dbaf6afa28"
+    "results/bk/domestic_archive/results.json": "b9746dcf6b78df8c771815b48017aff7782cc3900d1645e513861c3a3bbbfe02",
+    "results/bs/domestic_archive/results.json": "f1ebd6f5470d7deaac4adb0f247ddc084cf2ec871d1390fa803fb6fe0f9e621b",
+    "results/sc/domestic_archive/results.json": "7952a9486938fdb2053389c8cca49cca23aa66323808e23bac6ed33d4e3f2d4b",
+    "results/sc/external_football_archive/results.json": "7004d07eeb10e8a05fd03d3848d632719c07d67708aa51192b50989a594a47ba",
+    "results/vl/domestic_archive/results.json": "359ae9e33c7ef919e7648573fc0da2c3e2942f84946e5ff829dac7c8d3d2a310"
   }
 }

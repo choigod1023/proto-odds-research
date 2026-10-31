@@ -126,6 +126,64 @@
           "positive_months": 3,
           "negative_months": 41
         },
+        "non_underdogs": {
+          "opportunities": 6748,
+          "bets": 6748,
+          "hits": 4604,
+          "accuracy": 0.6822762299940723,
+          "net_units": "-772.93",
+          "roi": -0.11454208654416123,
+          "net_per_opportunity": -0.11454208654416123,
+          "drawdown_units": 772.99,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -21.48,
+            "2023-03": -20.07,
+            "2023-04": -22.31,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -14.77,
+            "2023-11": -37.72,
+            "2023-12": -18.48,
+            "2024-01": -40.52,
+            "2024-02": -23.44,
+            "2024-03": -50.07,
+            "2024-04": -8.44,
+            "2024-05": -5.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -18.46,
+            "2024-11": -31.39,
+            "2024-12": -33.55,
+            "2025-01": -30.98,
+            "2025-02": -23.55,
+            "2025-03": -29.92,
+            "2025-04": -4.34,
+            "2025-05": -15.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -16.43,
+            "2025-11": -44.19,
+            "2025-12": -66.13,
+            "2026-01": -34.81,
+            "2026-02": -22.43,
+            "2026-03": -26.23,
+            "2026-04": -17.15,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 41
+        },
         "underdogs": {
           "opportunities": 6748,
           "bets": 0,
@@ -254,6 +312,16 @@
         "weeks": 0,
         "mean": null,
         "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6748,
+        "weeks": 161,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "outcome_form": {
@@ -361,6 +429,64 @@
             "2025-09": -6.43,
             "2025-10": -12.37,
             "2025-11": -31.32,
+            "2025-12": -53.49,
+            "2026-01": -28.67,
+            "2026-02": -16.25,
+            "2026-03": -26.53,
+            "2026-04": -12.3,
+            "2026-05": -5.44,
+            "2026-06": -3.4,
+            "2026-07": -7.9,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 42
+        },
+        "non_underdogs": {
+          "opportunities": 6748,
+          "bets": 5527,
+          "hits": 3840,
+          "accuracy": 0.6947711235751765,
+          "net_units": "-637.23",
+          "roi": -0.11529401121765877,
+          "net_per_opportunity": -0.09443242442205098,
+          "drawdown_units": 637.29,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -19.58,
+            "2023-03": -14.4,
+            "2023-04": -15.61,
+            "2023-05": -3.15,
+            "2023-06": -1.05,
+            "2023-07": 0.0,
+            "2023-08": -4.48,
+            "2023-09": -4.22,
+            "2023-10": -6.88,
+            "2023-11": -27.25,
+            "2023-12": -16.09,
+            "2024-01": -31.93,
+            "2024-02": -24.23,
+            "2024-03": -46.25,
+            "2024-04": -9.94,
+            "2024-05": -5.68,
+            "2024-06": -0.11,
+            "2024-07": -4.67,
+            "2024-08": -0.48,
+            "2024-09": -1.74,
+            "2024-10": -16.06,
+            "2024-11": -28.96,
+            "2024-12": -25.87,
+            "2025-01": -28.41,
+            "2025-02": -23.84,
+            "2025-03": -23.1,
+            "2025-04": -1.92,
+            "2025-05": -13.24,
+            "2025-06": -1.6,
+            "2025-07": -1.8,
+            "2025-08": -1.04,
+            "2025-09": -6.43,
+            "2025-10": -12.37,
+            "2025-11": -32.32,
             "2025-12": -53.49,
             "2026-01": -28.67,
             "2026-02": -16.25,
@@ -508,6 +634,16 @@
           -0.13124356716294683,
           0.03321452064423329
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6748,
+        "weeks": 161,
+        "mean": -0.028866330764671013,
+        "ci95": [
+          -0.03794366707353499,
+          -0.019511719612637774
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "market_residual": {
@@ -615,6 +751,64 @@
             "2025-09": -5.56,
             "2025-10": -15.86,
             "2025-11": -46.08,
+            "2025-12": -66.58,
+            "2026-01": -30.25,
+            "2026-02": -18.43,
+            "2026-03": -25.23,
+            "2026-04": -17.61,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.81,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 41
+        },
+        "non_underdogs": {
+          "opportunities": 6748,
+          "bets": 6633,
+          "hits": 4541,
+          "accuracy": 0.6846072666968189,
+          "net_units": "-765.07",
+          "roi": -0.11534298205939997,
+          "net_per_opportunity": -0.11337729697688204,
+          "drawdown_units": 765.13,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -20.59,
+            "2023-03": -19.84,
+            "2023-04": -23.06,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -12.76,
+            "2023-11": -33.39,
+            "2023-12": -17.24,
+            "2024-01": -37.87,
+            "2024-02": -24.54,
+            "2024-03": -52.22,
+            "2024-04": -8.93,
+            "2024-05": -4.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -19.18,
+            "2024-11": -34.94,
+            "2024-12": -35.74,
+            "2025-01": -29.4,
+            "2025-02": -25.76,
+            "2025-03": -29.67,
+            "2025-04": -4.09,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -15.86,
+            "2025-11": -47.08,
             "2025-12": -66.58,
             "2026-01": -30.25,
             "2026-02": -18.43,
@@ -762,6 +956,16 @@
           -0.361340254237288,
           0.24782258064516083
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6748,
+        "weeks": 161,
+        "mean": -0.0026615293420272673,
+        "ci95": [
+          -0.0052632518298971935,
+          9.763491284132448e-05
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "half_market_form": {
@@ -869,6 +1073,64 @@
             "2025-09": -6.64,
             "2025-10": -13.28,
             "2025-11": -41.24,
+            "2025-12": -58.15,
+            "2026-01": -30.03,
+            "2026-02": -19.52,
+            "2026-03": -27.0,
+            "2026-04": -15.29,
+            "2026-05": -7.96,
+            "2026-06": -4.39,
+            "2026-07": -8.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 2,
+          "negative_months": 42
+        },
+        "non_underdogs": {
+          "opportunities": 6748,
+          "bets": 6262,
+          "hits": 4334,
+          "accuracy": 0.6921111465985308,
+          "net_units": "-716.04",
+          "roi": -0.11434685404024274,
+          "net_per_opportunity": -0.10611144042679313,
+          "drawdown_units": 716.1,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -22.07,
+            "2023-03": -16.08,
+            "2023-04": -17.01,
+            "2023-05": -3.42,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.58,
+            "2023-09": -7.78,
+            "2023-10": -11.35,
+            "2023-11": -29.07,
+            "2023-12": -18.6,
+            "2024-01": -40.85,
+            "2024-02": -21.09,
+            "2024-03": -50.48,
+            "2024-04": -9.74,
+            "2024-05": -6.54,
+            "2024-06": -0.11,
+            "2024-07": -6.79,
+            "2024-08": -1.38,
+            "2024-09": -2.72,
+            "2024-10": -17.37,
+            "2024-11": -33.42,
+            "2024-12": -26.41,
+            "2025-01": -29.21,
+            "2025-02": -24.85,
+            "2025-03": -23.56,
+            "2025-04": -3.33,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.84,
+            "2025-09": -6.64,
+            "2025-10": -13.28,
+            "2025-11": -42.24,
             "2025-12": -58.15,
             "2026-01": -30.03,
             "2026-02": -19.52,
@@ -1016,6 +1278,16 @@
           -0.18416639665404777,
           0.13235270486841377
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6748,
+        "weeks": 161,
+        "mean": -0.010597213989330173,
+        "ci95": [
+          -0.016625902795744132,
+          -0.004282808836668324
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     }
   },
@@ -1070,6 +1342,32 @@
               "2023-09": -8.92,
               "2023-10": -12.77,
               "2023-11": -35.72,
+              "2023-12": -18.48
+            },
+            "positive_months": 1,
+            "negative_months": 11
+          },
+          "non_underdogs": {
+            "opportunities": 1848,
+            "bets": 1848,
+            "hits": 1271,
+            "accuracy": 0.6877705627705628,
+            "net_units": "-182.83",
+            "roi": -0.09893398268398268,
+            "net_per_opportunity": -0.09893398268398268,
+            "drawdown_units": 182.83,
+            "monthly_net": {
+              "2023-01": -28.61,
+              "2023-02": -21.48,
+              "2023-03": -20.07,
+              "2023-04": -22.31,
+              "2023-05": -2.69,
+              "2023-06": -0.59,
+              "2023-07": 0.01,
+              "2023-08": -7.2,
+              "2023-09": -8.92,
+              "2023-10": -14.77,
+              "2023-11": -37.72,
               "2023-12": -18.48
             },
             "positive_months": 1,
@@ -1139,6 +1437,16 @@
           "weeks": 0,
           "mean": null,
           "ci95": null
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1848,
+          "weeks": 43,
+          "mean": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "outcome_form": {
@@ -1190,6 +1498,32 @@
               "2023-09": -4.22,
               "2023-10": -6.62,
               "2023-11": -26.97,
+              "2023-12": -16.09
+            },
+            "positive_months": 0,
+            "negative_months": 11
+          },
+          "non_underdogs": {
+            "opportunities": 1848,
+            "bets": 1506,
+            "hits": 1055,
+            "accuracy": 0.700531208499336,
+            "net_units": "-141.32",
+            "roi": -0.09383798140770253,
+            "net_per_opportunity": -0.07647186147186147,
+            "drawdown_units": 141.32,
+            "monthly_net": {
+              "2023-01": -28.61,
+              "2023-02": -19.58,
+              "2023-03": -14.4,
+              "2023-04": -15.61,
+              "2023-05": -3.15,
+              "2023-06": -1.05,
+              "2023-07": 0.0,
+              "2023-08": -4.48,
+              "2023-09": -4.22,
+              "2023-10": -6.88,
+              "2023-11": -27.25,
               "2023-12": -16.09
             },
             "positive_months": 0,
@@ -1265,6 +1599,16 @@
             -0.20779865597878497,
             0.09318872335798173
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1848,
+          "weeks": 43,
+          "mean": -0.02977813852813853,
+          "ci95": [
+            -0.04538032322005842,
+            -0.012860460257314505
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "market_residual": {
@@ -1316,6 +1660,32 @@
               "2023-09": -8.92,
               "2023-10": -12.5,
               "2023-11": -33.11,
+              "2023-12": -17.24
+            },
+            "positive_months": 1,
+            "negative_months": 11
+          },
+          "non_underdogs": {
+            "opportunities": 1848,
+            "bets": 1810,
+            "hits": 1253,
+            "accuracy": 0.6922651933701658,
+            "net_units": "-174.88",
+            "roi": -0.09661878453038673,
+            "net_per_opportunity": -0.09463203463203464,
+            "drawdown_units": 174.88,
+            "monthly_net": {
+              "2023-01": -28.61,
+              "2023-02": -20.59,
+              "2023-03": -19.84,
+              "2023-04": -23.06,
+              "2023-05": -2.69,
+              "2023-06": -0.59,
+              "2023-07": 0.01,
+              "2023-08": -7.2,
+              "2023-09": -8.92,
+              "2023-10": -12.76,
+              "2023-11": -33.39,
               "2023-12": -17.24
             },
             "positive_months": 1,
@@ -1391,6 +1761,16 @@
             -0.6149999999999999,
             0.6253796874999997
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1848,
+          "weeks": 43,
+          "mean": -0.002673160173160173,
+          "ci95": [
+            -0.009622499728750464,
+            0.003560386815539918
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "half_market_form": {
@@ -1442,6 +1822,32 @@
               "2023-09": -7.78,
               "2023-10": -11.09,
               "2023-11": -28.79,
+              "2023-12": -18.6
+            },
+            "positive_months": 1,
+            "negative_months": 11
+          },
+          "non_underdogs": {
+            "opportunities": 1848,
+            "bets": 1708,
+            "hits": 1195,
+            "accuracy": 0.699648711943794,
+            "net_units": "-162.15",
+            "roi": -0.09493559718969555,
+            "net_per_opportunity": -0.0877435064935065,
+            "drawdown_units": 162.15,
+            "monthly_net": {
+              "2023-01": -28.61,
+              "2023-02": -22.07,
+              "2023-03": -16.08,
+              "2023-04": -17.01,
+              "2023-05": -3.42,
+              "2023-06": -0.59,
+              "2023-07": 0.01,
+              "2023-08": -7.58,
+              "2023-09": -7.78,
+              "2023-10": -11.35,
+              "2023-11": -29.07,
               "2023-12": -18.6
             },
             "positive_months": 1,
@@ -1517,6 +1923,16 @@
             -0.27301796683046686,
             0.2440577399807188
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1848,
+          "weeks": 43,
+          "mean": -0.01067099567099567,
+          "ci95": [
+            -0.020453047610573843,
+            5.516105696008829e-06
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       }
     },
@@ -1571,6 +1987,32 @@
               "2024-10": -18.46,
               "2024-11": -30.39,
               "2024-12": -35.03
+            },
+            "positive_months": 1,
+            "negative_months": 11
+          },
+          "non_underdogs": {
+            "opportunities": 1831,
+            "bets": 1831,
+            "hits": 1240,
+            "accuracy": 0.6772255598033862,
+            "net_units": "-222.27",
+            "roi": -0.12139268159475697,
+            "net_per_opportunity": -0.12139268159475697,
+            "drawdown_units": 225.31,
+            "monthly_net": {
+              "2024-01": -40.52,
+              "2024-02": -23.44,
+              "2024-03": -50.07,
+              "2024-04": -8.44,
+              "2024-05": -5.89,
+              "2024-06": -1.11,
+              "2024-07": -6.79,
+              "2024-08": 0.11,
+              "2024-09": -2.72,
+              "2024-10": -18.46,
+              "2024-11": -31.39,
+              "2024-12": -33.55
             },
             "positive_months": 1,
             "negative_months": 11
@@ -1639,6 +2081,16 @@
           "weeks": 0,
           "mean": null,
           "ci95": null
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1831,
+          "weeks": 46,
+          "mean": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "outcome_form": {
@@ -1691,6 +2143,32 @@
               "2024-10": -16.06,
               "2024-11": -27.96,
               "2024-12": -25.61
+            },
+            "positive_months": 0,
+            "negative_months": 12
+          },
+          "non_underdogs": {
+            "opportunities": 1831,
+            "bets": 1503,
+            "hits": 1032,
+            "accuracy": 0.6866267465069861,
+            "net_units": "-195.92",
+            "roi": -0.13035262807717898,
+            "net_per_opportunity": -0.10700163844893501,
+            "drawdown_units": 199.88,
+            "monthly_net": {
+              "2024-01": -31.93,
+              "2024-02": -24.23,
+              "2024-03": -46.25,
+              "2024-04": -9.94,
+              "2024-05": -5.68,
+              "2024-06": -0.11,
+              "2024-07": -4.67,
+              "2024-08": -0.48,
+              "2024-09": -1.74,
+              "2024-10": -16.06,
+              "2024-11": -28.96,
+              "2024-12": -25.87
             },
             "positive_months": 0,
             "negative_months": 12
@@ -1765,6 +2243,16 @@
             -0.27269727703021296,
             0.05621727681575881
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1831,
+          "weeks": 46,
+          "mean": -0.03590933915892955,
+          "ci95": [
+            -0.055509984635741,
+            -0.01632284261880273
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "market_residual": {
@@ -1817,6 +2305,32 @@
               "2024-10": -19.18,
               "2024-11": -33.94,
               "2024-12": -33.74
+            },
+            "positive_months": 1,
+            "negative_months": 11
+          },
+          "non_underdogs": {
+            "opportunities": 1831,
+            "bets": 1795,
+            "hits": 1215,
+            "accuracy": 0.6768802228412256,
+            "net_units": "-228.82",
+            "roi": -0.12747632311977716,
+            "net_per_opportunity": -0.12496996176952485,
+            "drawdown_units": 232.86,
+            "monthly_net": {
+              "2024-01": -37.87,
+              "2024-02": -24.54,
+              "2024-03": -52.22,
+              "2024-04": -8.93,
+              "2024-05": -4.89,
+              "2024-06": -1.11,
+              "2024-07": -6.79,
+              "2024-08": 0.11,
+              "2024-09": -2.72,
+              "2024-10": -19.18,
+              "2024-11": -34.94,
+              "2024-12": -35.74
             },
             "positive_months": 1,
             "negative_months": 11
@@ -1891,6 +2405,16 @@
             -0.9551566558441558,
             0.05265119485294118
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1831,
+          "weeks": 46,
+          "mean": -0.006843255051884216,
+          "ci95": [
+            -0.012116191178402588,
+            -0.001427533122082798
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "half_market_form": {
@@ -1943,6 +2467,32 @@
               "2024-10": -17.37,
               "2024-11": -32.42,
               "2024-12": -26.15
+            },
+            "positive_months": 0,
+            "negative_months": 12
+          },
+          "non_underdogs": {
+            "opportunities": 1831,
+            "bets": 1687,
+            "hits": 1153,
+            "accuracy": 0.6834617664493183,
+            "net_units": "-216.90",
+            "roi": -0.12857142857142856,
+            "net_per_opportunity": -0.1184598580010923,
+            "drawdown_units": 221.37,
+            "monthly_net": {
+              "2024-01": -40.85,
+              "2024-02": -21.09,
+              "2024-03": -50.48,
+              "2024-04": -9.74,
+              "2024-05": -6.54,
+              "2024-06": -0.11,
+              "2024-07": -6.79,
+              "2024-08": -1.38,
+              "2024-09": -2.72,
+              "2024-10": -17.37,
+              "2024-11": -33.42,
+              "2024-12": -26.41
             },
             "positive_months": 0,
             "negative_months": 12
@@ -2017,6 +2567,16 @@
             -0.4336111641221375,
             0.10433764486754948
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1831,
+          "weeks": 46,
+          "mean": -0.017509557618787547,
+          "ci95": [
+            -0.029322223274311148,
+            -0.004879523714101904
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       }
     },
@@ -2070,6 +2630,32 @@
               "2025-09": -5.56,
               "2025-10": -16.43,
               "2025-11": -44.93,
+              "2025-12": -66.13
+            },
+            "positive_months": 0,
+            "negative_months": 12
+          },
+          "non_underdogs": {
+            "opportunities": 1921,
+            "bets": 1921,
+            "hits": 1285,
+            "accuracy": 0.6689224362311296,
+            "net_units": "-245.40",
+            "roi": -0.12774596564289434,
+            "net_per_opportunity": -0.12774596564289434,
+            "drawdown_units": 252.35,
+            "monthly_net": {
+              "2025-01": -30.98,
+              "2025-02": -23.55,
+              "2025-03": -29.92,
+              "2025-04": -4.34,
+              "2025-05": -15.51,
+              "2025-06": -1.6,
+              "2025-07": -1.58,
+              "2025-08": -5.61,
+              "2025-09": -5.56,
+              "2025-10": -16.43,
+              "2025-11": -44.19,
               "2025-12": -66.13
             },
             "positive_months": 0,
@@ -2139,6 +2725,16 @@
           "weeks": 0,
           "mean": null,
           "ci95": null
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1921,
+          "weeks": 47,
+          "mean": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "outcome_form": {
@@ -2190,6 +2786,32 @@
               "2025-09": -6.43,
               "2025-10": -12.37,
               "2025-11": -31.32,
+              "2025-12": -53.49
+            },
+            "positive_months": 0,
+            "negative_months": 12
+          },
+          "non_underdogs": {
+            "opportunities": 1921,
+            "bets": 1571,
+            "hits": 1072,
+            "accuracy": 0.6823679185232336,
+            "net_units": "-199.56",
+            "roi": -0.12702737110120943,
+            "net_per_opportunity": -0.10388339406559084,
+            "drawdown_units": 202.64,
+            "monthly_net": {
+              "2025-01": -28.41,
+              "2025-02": -23.84,
+              "2025-03": -23.1,
+              "2025-04": -1.92,
+              "2025-05": -13.24,
+              "2025-06": -1.6,
+              "2025-07": -1.8,
+              "2025-08": -1.04,
+              "2025-09": -6.43,
+              "2025-10": -12.37,
+              "2025-11": -32.32,
               "2025-12": -53.49
             },
             "positive_months": 0,
@@ -2265,6 +2887,16 @@
             -0.17117980901856764,
             0.18018728422572328
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1921,
+          "weeks": 47,
+          "mean": -0.022535137948984908,
+          "ci95": [
+            -0.04143643166667246,
+            -0.004251064208828718
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "market_residual": {
@@ -2316,6 +2948,32 @@
               "2025-09": -5.56,
               "2025-10": -15.86,
               "2025-11": -46.08,
+              "2025-12": -66.58
+            },
+            "positive_months": 0,
+            "negative_months": 12
+          },
+          "non_underdogs": {
+            "opportunities": 1921,
+            "bets": 1897,
+            "hits": 1270,
+            "accuracy": 0.6694781233526621,
+            "net_units": "-247.30",
+            "roi": -0.13036373220875067,
+            "net_per_opportunity": -0.12873503383654347,
+            "drawdown_units": 253.55,
+            "monthly_net": {
+              "2025-01": -29.4,
+              "2025-02": -25.76,
+              "2025-03": -29.67,
+              "2025-04": -4.09,
+              "2025-05": -14.51,
+              "2025-06": -1.6,
+              "2025-07": -1.58,
+              "2025-08": -5.61,
+              "2025-09": -5.56,
+              "2025-10": -15.86,
+              "2025-11": -47.08,
               "2025-12": -66.58
             },
             "positive_months": 0,
@@ -2391,6 +3049,16 @@
             -0.7162380952380953,
             0.42307692307692296
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1921,
+          "weeks": 47,
+          "mean": -0.0023685580426861014,
+          "ci95": [
+            -0.006062604089083608,
+            0.0012194499462026597
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "half_market_form": {
@@ -2442,6 +3110,32 @@
               "2025-09": -6.64,
               "2025-10": -13.28,
               "2025-11": -41.24,
+              "2025-12": -58.15
+            },
+            "positive_months": 0,
+            "negative_months": 12
+          },
+          "non_underdogs": {
+            "opportunities": 1921,
+            "bets": 1788,
+            "hits": 1215,
+            "accuracy": 0.6795302013422819,
+            "net_units": "-224.79",
+            "roi": -0.12572147651006713,
+            "net_per_opportunity": -0.11701717855283707,
+            "drawdown_units": 227.75,
+            "monthly_net": {
+              "2025-01": -29.21,
+              "2025-02": -24.85,
+              "2025-03": -23.56,
+              "2025-04": -3.33,
+              "2025-05": -14.51,
+              "2025-06": -1.6,
+              "2025-07": -1.58,
+              "2025-08": -5.84,
+              "2025-09": -6.64,
+              "2025-10": -13.28,
+              "2025-11": -42.24,
               "2025-12": -58.15
             },
             "positive_months": 0,
@@ -2517,6 +3211,16 @@
             -0.235018581081081,
             0.3755082847295864
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1921,
+          "weeks": 47,
+          "mean": -0.006147839666840187,
+          "ci95": [
+            -0.018083347729942644,
+            0.004172163219504324
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       }
     },
@@ -2546,6 +3250,28 @@
             "negative_months": 7
           },
           "favorites": {
+            "opportunities": 1148,
+            "bets": 1148,
+            "hits": 808,
+            "accuracy": 0.7038327526132404,
+            "net_units": "-122.43",
+            "roi": -0.10664634146341463,
+            "net_per_opportunity": -0.10664634146341463,
+            "drawdown_units": 122.49,
+            "monthly_net": {
+              "2026-01": -34.81,
+              "2026-02": -22.43,
+              "2026-03": -26.23,
+              "2026-04": -17.15,
+              "2026-05": -8.41,
+              "2026-06": -4.39,
+              "2026-07": -9.07,
+              "2026-08": 0.06
+            },
+            "positive_months": 1,
+            "negative_months": 7
+          },
+          "non_underdogs": {
             "opportunities": 1148,
             "bets": 1148,
             "hits": 808,
@@ -2623,6 +3349,16 @@
           "weeks": 0,
           "mean": null,
           "ci95": null
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1148,
+          "weeks": 27,
+          "mean": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "outcome_form": {
@@ -2650,6 +3386,28 @@
             "negative_months": 7
           },
           "favorites": {
+            "opportunities": 1148,
+            "bets": 947,
+            "hits": 681,
+            "accuracy": 0.7191129883843717,
+            "net_units": "-100.43",
+            "roi": -0.1060506863780359,
+            "net_per_opportunity": -0.08748257839721255,
+            "drawdown_units": 100.49,
+            "monthly_net": {
+              "2026-01": -28.67,
+              "2026-02": -16.25,
+              "2026-03": -26.53,
+              "2026-04": -12.3,
+              "2026-05": -5.44,
+              "2026-06": -3.4,
+              "2026-07": -7.9,
+              "2026-08": 0.06
+            },
+            "positive_months": 1,
+            "negative_months": 7
+          },
+          "non_underdogs": {
             "opportunities": 1148,
             "bets": 947,
             "hits": 681,
@@ -2733,6 +3491,16 @@
             -0.21700758081752605,
             0.1245941956293598
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1148,
+          "weeks": 27,
+          "mean": -0.0267595818815331,
+          "ci95": [
+            -0.043090424243603806,
+            -0.00701917343344802
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "market_residual": {
@@ -2760,6 +3528,28 @@
             "negative_months": 7
           },
           "favorites": {
+            "opportunities": 1148,
+            "bets": 1131,
+            "hits": 803,
+            "accuracy": 0.7099911582670203,
+            "net_units": "-114.07",
+            "roi": -0.1008576480990274,
+            "net_per_opportunity": -0.09936411149825784,
+            "drawdown_units": 114.13,
+            "monthly_net": {
+              "2026-01": -30.25,
+              "2026-02": -18.43,
+              "2026-03": -25.23,
+              "2026-04": -17.61,
+              "2026-05": -8.41,
+              "2026-06": -4.39,
+              "2026-07": -9.81,
+              "2026-08": 0.06
+            },
+            "positive_months": 1,
+            "negative_months": 7
+          },
+          "non_underdogs": {
             "opportunities": 1148,
             "bets": 1131,
             "hits": 803,
@@ -2843,6 +3633,16 @@
             0.009267857142857076,
             1.3458970588235293
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1148,
+          "weeks": 27,
+          "mean": 0.003536585365853658,
+          "ci95": [
+            -0.0019946721311475406,
+            0.008402761851784984
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       },
       "half_market_form": {
@@ -2870,6 +3670,28 @@
             "negative_months": 7
           },
           "favorites": {
+            "opportunities": 1148,
+            "bets": 1079,
+            "hits": 771,
+            "accuracy": 0.7145505097312326,
+            "net_units": "-112.20",
+            "roi": -0.10398517145505097,
+            "net_per_opportunity": -0.09773519163763066,
+            "drawdown_units": 112.26,
+            "monthly_net": {
+              "2026-01": -30.03,
+              "2026-02": -19.52,
+              "2026-03": -27.0,
+              "2026-04": -15.29,
+              "2026-05": -7.96,
+              "2026-06": -4.39,
+              "2026-07": -8.07,
+              "2026-08": 0.06
+            },
+            "positive_months": 1,
+            "negative_months": 7
+          },
+          "non_underdogs": {
             "opportunities": 1148,
             "bets": 1079,
             "hits": 771,
@@ -2953,6 +3775,16 @@
             -0.40604185574396945,
             0.49340292207792197
           ]
+        },
+        "underdog_vs_skip_per_opportunity": {
+          "opportunities": 1148,
+          "weeks": 27,
+          "mean": -0.006898954703832754,
+          "ci95": [
+            -0.021306195665862882,
+            0.009007727272727228
+          ],
+          "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
         }
       }
     }
@@ -2978,6 +3810,22 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 28,
+            "bets": 28,
+            "hits": 20,
+            "accuracy": 0.7142857142857143,
+            "net_units": "-4.31",
+            "roi": -0.15392857142857144,
+            "net_per_opportunity": -0.15392857142857144,
+            "drawdown_units": 6.04,
+            "monthly_net": {
+              "2023-09": 0.63,
+              "2023-10": -4.94
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 28,
             "bets": 28,
             "hits": 20,
@@ -3061,6 +3909,22 @@
             "positive_months": 1,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 28,
+            "bets": 12,
+            "hits": 9,
+            "accuracy": 0.75,
+            "net_units": "-1.82",
+            "roi": -0.15166666666666667,
+            "net_per_opportunity": -0.065,
+            "drawdown_units": 2.43,
+            "monthly_net": {
+              "2023-09": 0.44,
+              "2023-10": -2.26
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 28,
             "bets": 16,
@@ -3129,6 +3993,22 @@
             "positive_months": 1,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 28,
+            "bets": 27,
+            "hits": 20,
+            "accuracy": 0.7407407407407407,
+            "net_units": "-3.31",
+            "roi": -0.12259259259259259,
+            "net_per_opportunity": -0.11821428571428572,
+            "drawdown_units": 5.04,
+            "monthly_net": {
+              "2023-09": 0.63,
+              "2023-10": -3.94
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 28,
             "bets": 1,
@@ -3182,6 +4062,22 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 28,
+            "bets": 26,
+            "hits": 20,
+            "accuracy": 0.7692307692307693,
+            "net_units": "-2.31",
+            "roi": -0.08884615384615385,
+            "net_per_opportunity": -0.0825,
+            "drawdown_units": 4.13,
+            "monthly_net": {
+              "2023-09": 1.63,
+              "2023-10": -3.94
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 28,
             "bets": 26,
             "hits": 20,
@@ -3267,6 +4163,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 18,
+            "bets": 18,
+            "hits": 16,
+            "accuracy": 0.8888888888888888,
+            "net_units": "-1.47",
+            "roi": -0.08166666666666667,
+            "net_per_opportunity": -0.08166666666666667,
+            "drawdown_units": 1.77,
+            "monthly_net": {
+              "2023-09": -0.88,
+              "2023-10": -0.59
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 18,
             "bets": 0,
@@ -3320,6 +4232,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 18,
+            "bets": 10,
+            "hits": 9,
+            "accuracy": 0.9,
+            "net_units": "-0.67",
+            "roi": -0.067,
+            "net_per_opportunity": -0.03722222222222222,
+            "drawdown_units": 0.89,
+            "monthly_net": {
+              "2023-09": 0.01,
+              "2023-10": -0.68
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 18,
             "bets": 10,
             "hits": 9,
@@ -3403,6 +4331,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 18,
+            "bets": 18,
+            "hits": 16,
+            "accuracy": 0.8888888888888888,
+            "net_units": "-1.47",
+            "roi": -0.08166666666666667,
+            "net_per_opportunity": -0.08166666666666667,
+            "drawdown_units": 1.77,
+            "monthly_net": {
+              "2023-09": -0.88,
+              "2023-10": -0.59
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 18,
             "bets": 0,
@@ -3456,6 +4400,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 18,
+            "bets": 18,
+            "hits": 16,
+            "accuracy": 0.8888888888888888,
+            "net_units": "-1.47",
+            "roi": -0.08166666666666667,
+            "net_per_opportunity": -0.08166666666666667,
+            "drawdown_units": 1.77,
+            "monthly_net": {
+              "2023-09": -0.88,
+              "2023-10": -0.59
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 18,
             "bets": 18,
             "hits": 16,
@@ -3578,6 +4538,49 @@
               "2024-10": -2.67,
               "2024-11": 3.28,
               "2024-12": -4.2,
+              "2025-01": -5.45,
+              "2025-02": 0.25,
+              "2025-03": -2.26,
+              "2025-04": 0.24,
+              "2025-05": -3.85,
+              "2025-10": -1.83,
+              "2025-11": -10.19,
+              "2025-12": -5.8,
+              "2026-01": 1.5,
+              "2026-02": -0.98,
+              "2026-03": -7.28,
+              "2026-04": -5.84,
+              "2026-05": -0.53
+            },
+            "positive_months": 10,
+            "negative_months": 19
+          },
+          "non_underdogs": {
+            "opportunities": 1027,
+            "bets": 1027,
+            "hits": 686,
+            "accuracy": 0.667964946445959,
+            "net_units": "-73.19",
+            "roi": -0.07126582278481013,
+            "net_per_opportunity": -0.07126582278481013,
+            "drawdown_units": 80.16,
+            "monthly_net": {
+              "2023-01": 0.26,
+              "2023-02": 2.74,
+              "2023-03": -0.01,
+              "2023-04": -1.7,
+              "2023-05": 2.37,
+              "2023-10": -3.41,
+              "2023-11": -10.17,
+              "2023-12": -4.63,
+              "2024-01": -6.39,
+              "2024-02": 0.15,
+              "2024-03": -9.7,
+              "2024-04": 0.21,
+              "2024-05": 1.22,
+              "2024-10": -2.67,
+              "2024-11": 3.28,
+              "2024-12": -2.72,
               "2025-01": -5.45,
               "2025-02": 0.25,
               "2025-03": -2.26,
@@ -3771,6 +4774,49 @@
             "positive_months": 8,
             "negative_months": 21
           },
+          "non_underdogs": {
+            "opportunities": 1027,
+            "bets": 847,
+            "hits": 575,
+            "accuracy": 0.6788665879574971,
+            "net_units": "-62.54",
+            "roi": -0.0738370720188902,
+            "net_per_opportunity": -0.06089581304771178,
+            "drawdown_units": 68.61,
+            "monthly_net": {
+              "2023-01": 0.26,
+              "2023-02": 1.97,
+              "2023-03": 2.01,
+              "2023-04": -1.49,
+              "2023-05": 1.46,
+              "2023-10": -2.0,
+              "2023-11": -4.42,
+              "2023-12": -4.84,
+              "2024-01": -4.14,
+              "2024-02": -2.23,
+              "2024-03": -9.08,
+              "2024-04": -1.3,
+              "2024-05": 1.22,
+              "2024-10": -1.36,
+              "2024-11": -2.38,
+              "2024-12": -1.01,
+              "2025-01": -5.07,
+              "2025-02": 0.52,
+              "2025-03": -1.76,
+              "2025-04": 0.49,
+              "2025-05": -4.42,
+              "2025-10": -1.93,
+              "2025-11": -6.78,
+              "2025-12": -2.79,
+              "2026-01": 0.74,
+              "2026-02": -0.1,
+              "2026-03": -7.58,
+              "2026-04": -4.88,
+              "2026-05": -1.65
+            },
+            "positive_months": 8,
+            "negative_months": 21
+          },
           "underdogs": {
             "opportunities": 1027,
             "bets": 180,
@@ -3930,6 +4976,49 @@
               "2024-10": -3.39,
               "2024-11": 2.55,
               "2024-12": -4.2,
+              "2025-01": -4.45,
+              "2025-02": 1.25,
+              "2025-03": -3.01,
+              "2025-04": -0.51,
+              "2025-05": -2.85,
+              "2025-10": -0.83,
+              "2025-11": -11.61,
+              "2025-12": -6.52,
+              "2026-01": 1.78,
+              "2026-02": 0.02,
+              "2026-03": -7.28,
+              "2026-04": -6.3,
+              "2026-05": -0.53
+            },
+            "positive_months": 9,
+            "negative_months": 20
+          },
+          "non_underdogs": {
+            "opportunities": 1027,
+            "bets": 998,
+            "hits": 666,
+            "accuracy": 0.6673346693386774,
+            "net_units": "-78.48",
+            "roi": -0.07863727454909819,
+            "net_per_opportunity": -0.07641674780915288,
+            "drawdown_units": 83.63,
+            "monthly_net": {
+              "2023-01": 0.26,
+              "2023-02": 1.41,
+              "2023-03": -0.74,
+              "2023-04": -1.7,
+              "2023-05": 2.37,
+              "2023-10": -3.41,
+              "2023-11": -8.17,
+              "2023-12": -4.33,
+              "2024-01": -6.1,
+              "2024-02": -0.56,
+              "2024-03": -11.06,
+              "2024-04": 0.21,
+              "2024-05": 1.22,
+              "2024-10": -3.39,
+              "2024-11": 2.55,
+              "2024-12": -6.2,
               "2025-01": -4.45,
               "2025-02": 1.25,
               "2025-03": -3.01,
@@ -4123,6 +5212,49 @@
             "positive_months": 7,
             "negative_months": 22
           },
+          "non_underdogs": {
+            "opportunities": 1027,
+            "bets": 933,
+            "hits": 630,
+            "accuracy": 0.6752411575562701,
+            "net_units": "-68.93",
+            "roi": -0.07387995712754555,
+            "net_per_opportunity": -0.06711781888997079,
+            "drawdown_units": 74.74,
+            "monthly_net": {
+              "2023-01": 0.26,
+              "2023-02": 2.07,
+              "2023-03": -0.19,
+              "2023-04": -1.2,
+              "2023-05": 2.37,
+              "2023-10": -2.49,
+              "2023-11": -5.18,
+              "2023-12": -5.28,
+              "2024-01": -7.14,
+              "2024-02": -1.2,
+              "2024-03": -10.48,
+              "2024-04": -0.47,
+              "2024-05": 1.22,
+              "2024-10": -2.84,
+              "2024-11": 0.1,
+              "2024-12": -2.55,
+              "2025-01": -5.4,
+              "2025-02": 0.52,
+              "2025-03": -0.01,
+              "2025-04": -0.51,
+              "2025-05": -3.85,
+              "2025-10": -0.71,
+              "2025-11": -7.61,
+              "2025-12": -4.79,
+              "2026-01": 1.87,
+              "2026-02": -0.66,
+              "2026-03": -8.01,
+              "2026-04": -5.69,
+              "2026-05": -1.08
+            },
+            "positive_months": 7,
+            "negative_months": 22
+          },
           "underdogs": {
             "opportunities": 1027,
             "bets": 94,
@@ -4247,6 +5379,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 24,
+            "bets": 24,
+            "hits": 14,
+            "accuracy": 0.5833333333333334,
+            "net_units": "-5.14",
+            "roi": -0.21416666666666667,
+            "net_per_opportunity": -0.21416666666666667,
+            "drawdown_units": 6.06,
+            "monthly_net": {
+              "2023-10": -1.61,
+              "2024-10": -3.53
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 24,
             "bets": 0,
@@ -4300,6 +5448,22 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 24,
+            "bets": 17,
+            "hits": 10,
+            "accuracy": 0.5882352941176471,
+            "net_units": "-4.00",
+            "roi": -0.23529411764705882,
+            "net_per_opportunity": -0.16666666666666666,
+            "drawdown_units": 4.1,
+            "monthly_net": {
+              "2023-10": -0.26,
+              "2024-10": -3.74
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 24,
             "bets": 17,
             "hits": 10,
@@ -4383,6 +5547,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 24,
+            "bets": 24,
+            "hits": 14,
+            "accuracy": 0.5833333333333334,
+            "net_units": "-5.14",
+            "roi": -0.21416666666666667,
+            "net_per_opportunity": -0.21416666666666667,
+            "drawdown_units": 6.06,
+            "monthly_net": {
+              "2023-10": -1.61,
+              "2024-10": -3.53
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 24,
             "bets": 0,
@@ -4436,6 +5616,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 24,
+            "bets": 22,
+            "hits": 13,
+            "accuracy": 0.5909090909090909,
+            "net_units": "-4.84",
+            "roi": -0.22,
+            "net_per_opportunity": -0.20166666666666666,
+            "drawdown_units": 5.76,
+            "monthly_net": {
+              "2023-10": -1.61,
+              "2024-10": -3.23
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 24,
             "bets": 22,
             "hits": 13,
@@ -4572,6 +5768,53 @@
               "2025-06": -1.6,
               "2025-10": -11.22,
               "2025-11": -26.25,
+              "2025-12": -46.48,
+              "2026-01": -37.26,
+              "2026-02": -17.89,
+              "2026-03": -20.76,
+              "2026-04": -11.38,
+              "2026-05": -7.88,
+              "2026-06": -3.4
+            },
+            "positive_months": 1,
+            "negative_months": 32
+          },
+          "non_underdogs": {
+            "opportunities": 4713,
+            "bets": 4713,
+            "hits": 3212,
+            "accuracy": 0.6815192022066624,
+            "net_units": "-570.21",
+            "roi": -0.120986632718014,
+            "net_per_opportunity": -0.120986632718014,
+            "drawdown_units": 570.21,
+            "monthly_net": {
+              "2023-01": -27.86,
+              "2023-02": -9.84,
+              "2023-03": -19.8,
+              "2023-04": -20.61,
+              "2023-05": -5.06,
+              "2023-06": 0.4,
+              "2023-10": -4.22,
+              "2023-11": -24.45,
+              "2023-12": -13.23,
+              "2024-01": -33.64,
+              "2024-02": -16.58,
+              "2024-03": -37.65,
+              "2024-04": -8.65,
+              "2024-05": -7.11,
+              "2024-06": -1.11,
+              "2024-10": -12.28,
+              "2024-11": -33.85,
+              "2024-12": -28.17,
+              "2025-01": -21.64,
+              "2025-02": -17.81,
+              "2025-03": -27.43,
+              "2025-04": -4.58,
+              "2025-05": -11.66,
+              "2025-06": -1.6,
+              "2025-10": -11.22,
+              "2025-11": -25.51,
               "2025-12": -46.48,
               "2026-01": -37.26,
               "2026-02": -17.89,
@@ -4775,6 +6018,53 @@
             "positive_months": 0,
             "negative_months": 33
           },
+          "non_underdogs": {
+            "opportunities": 4713,
+            "bets": 4009,
+            "hits": 2795,
+            "accuracy": 0.6971813419805438,
+            "net_units": "-484.92",
+            "roi": -0.12095784484908954,
+            "net_per_opportunity": -0.10288987905792489,
+            "drawdown_units": 485.52,
+            "monthly_net": {
+              "2023-01": -27.86,
+              "2023-02": -10.08,
+              "2023-03": -15.49,
+              "2023-04": -14.12,
+              "2023-05": -4.61,
+              "2023-06": -0.06,
+              "2023-10": -1.68,
+              "2023-11": -20.43,
+              "2023-12": -11.61,
+              "2024-01": -26.47,
+              "2024-02": -18.39,
+              "2024-03": -36.45,
+              "2024-04": -8.64,
+              "2024-05": -6.9,
+              "2024-06": -0.11,
+              "2024-10": -11.13,
+              "2024-11": -26.58,
+              "2024-12": -23.71,
+              "2025-01": -24.87,
+              "2025-02": -19.38,
+              "2025-03": -20.91,
+              "2025-04": -2.41,
+              "2025-05": -8.82,
+              "2025-06": -1.6,
+              "2025-10": -8.67,
+              "2025-11": -18.43,
+              "2025-12": -42.52,
+              "2026-01": -29.29,
+              "2026-02": -12.73,
+              "2026-03": -17.72,
+              "2026-04": -7.06,
+              "2026-05": -3.79,
+              "2026-06": -2.4
+            },
+            "positive_months": 0,
+            "negative_months": 33
+          },
           "underdogs": {
             "opportunities": 4713,
             "bets": 704,
@@ -4956,6 +6246,53 @@
               "2025-06": -1.6,
               "2025-10": -11.65,
               "2025-11": -25.98,
+              "2025-12": -46.21,
+              "2026-01": -32.98,
+              "2026-02": -16.89,
+              "2026-03": -20.76,
+              "2026-04": -11.38,
+              "2026-05": -7.88,
+              "2026-06": -3.4
+            },
+            "positive_months": 1,
+            "negative_months": 32
+          },
+          "non_underdogs": {
+            "opportunities": 4713,
+            "bets": 4637,
+            "hits": 3173,
+            "accuracy": 0.6842786284235497,
+            "net_units": "-560.19",
+            "roi": -0.12080871252965279,
+            "net_per_opportunity": -0.11886059834500318,
+            "drawdown_units": 560.19,
+            "monthly_net": {
+              "2023-01": -27.86,
+              "2023-02": -9.62,
+              "2023-03": -18.84,
+              "2023-04": -21.36,
+              "2023-05": -5.06,
+              "2023-06": 0.4,
+              "2023-10": -3.21,
+              "2023-11": -21.42,
+              "2023-12": -12.29,
+              "2024-01": -31.28,
+              "2024-02": -16.97,
+              "2024-03": -38.44,
+              "2024-04": -9.14,
+              "2024-05": -6.11,
+              "2024-06": -1.11,
+              "2024-10": -12.28,
+              "2024-11": -35.24,
+              "2024-12": -26.88,
+              "2025-01": -21.06,
+              "2025-02": -21.02,
+              "2025-03": -26.43,
+              "2025-04": -3.58,
+              "2025-05": -11.66,
+              "2025-06": -1.6,
+              "2025-10": -11.65,
+              "2025-11": -26.98,
               "2025-12": -46.21,
               "2026-01": -32.98,
               "2026-02": -16.89,
@@ -5159,6 +6496,53 @@
             "positive_months": 1,
             "negative_months": 32
           },
+          "non_underdogs": {
+            "opportunities": 4713,
+            "bets": 4395,
+            "hits": 3038,
+            "accuracy": 0.6912400455062571,
+            "net_units": "-530.02",
+            "roi": -0.12059613196814561,
+            "net_per_opportunity": -0.11245915552726501,
+            "drawdown_units": 530.02,
+            "monthly_net": {
+              "2023-01": -27.86,
+              "2023-02": -11.4,
+              "2023-03": -15.63,
+              "2023-04": -15.81,
+              "2023-05": -5.79,
+              "2023-06": 0.4,
+              "2023-10": -2.72,
+              "2023-11": -21.36,
+              "2023-12": -12.13,
+              "2024-01": -32.72,
+              "2024-02": -16.88,
+              "2024-03": -37.28,
+              "2024-04": -9.27,
+              "2024-05": -7.76,
+              "2024-06": -0.11,
+              "2024-10": -11.75,
+              "2024-11": -32.69,
+              "2024-12": -22.55,
+              "2025-01": -21.27,
+              "2025-02": -19.95,
+              "2025-03": -23.12,
+              "2025-04": -2.82,
+              "2025-05": -10.66,
+              "2025-06": -1.6,
+              "2025-10": -8.9,
+              "2025-11": -27.64,
+              "2025-12": -42.62,
+              "2026-01": -32.31,
+              "2026-02": -16.01,
+              "2026-03": -19.86,
+              "2026-04": -9.67,
+              "2026-05": -6.88,
+              "2026-06": -3.4
+            },
+            "positive_months": 1,
+            "negative_months": 32
+          },
           "underdogs": {
             "opportunities": 4713,
             "bets": 318,
@@ -5291,6 +6675,22 @@
             "positive_months": 2,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "1.00",
+            "roi": 0.5,
+            "net_per_opportunity": 0.5,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2023-12": 0.39,
+              "2025-12": 0.61
+            },
+            "positive_months": 2,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 2,
             "bets": 0,
@@ -5344,6 +6744,22 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "1.00",
+            "roi": 0.5,
+            "net_per_opportunity": 0.5,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2023-12": 0.39,
+              "2025-12": 0.61
+            },
+            "positive_months": 2,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 2,
             "bets": 2,
             "hits": 2,
@@ -5427,6 +6843,22 @@
             "positive_months": 2,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "1.00",
+            "roi": 0.5,
+            "net_per_opportunity": 0.5,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2023-12": 0.39,
+              "2025-12": 0.61
+            },
+            "positive_months": 2,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 2,
             "bets": 0,
@@ -5480,6 +6912,22 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "1.00",
+            "roi": 0.5,
+            "net_per_opportunity": 0.5,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2023-12": 0.39,
+              "2025-12": 0.61
+            },
+            "positive_months": 2,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 2,
             "bets": 2,
             "hits": 2,
@@ -5568,6 +7016,40 @@
             "negative_months": 15
           },
           "favorites": {
+            "opportunities": 350,
+            "bets": 350,
+            "hits": 241,
+            "accuracy": 0.6885714285714286,
+            "net_units": "-34.97",
+            "roi": -0.09991428571428572,
+            "net_per_opportunity": -0.09991428571428572,
+            "drawdown_units": 37.2,
+            "monthly_net": {
+              "2023-01": -1.01,
+              "2023-02": -6.69,
+              "2023-03": -0.26,
+              "2023-11": -3.1,
+              "2023-12": -1.01,
+              "2024-01": -0.49,
+              "2024-02": -1.89,
+              "2024-03": -2.72,
+              "2024-10": 1.0,
+              "2024-11": -2.07,
+              "2024-12": -0.72,
+              "2025-01": -2.45,
+              "2025-02": -6.48,
+              "2025-03": 0.71,
+              "2025-11": -3.44,
+              "2025-12": -4.25,
+              "2026-01": 1.34,
+              "2026-02": -2.26,
+              "2026-03": 0.75,
+              "2026-04": 0.07
+            },
+            "positive_months": 5,
+            "negative_months": 15
+          },
+          "non_underdogs": {
             "opportunities": 350,
             "bets": 350,
             "hits": 241,
@@ -5741,6 +7223,40 @@
             "positive_months": 7,
             "negative_months": 13
           },
+          "non_underdogs": {
+            "opportunities": 350,
+            "bets": 260,
+            "hits": 187,
+            "accuracy": 0.7192307692307692,
+            "net_units": "-18.66",
+            "roi": -0.07176923076923077,
+            "net_per_opportunity": -0.05331428571428572,
+            "drawdown_units": 20.21,
+            "monthly_net": {
+              "2023-01": -1.01,
+              "2023-02": -4.28,
+              "2023-03": -0.92,
+              "2023-11": -2.4,
+              "2023-12": -0.03,
+              "2024-01": -1.32,
+              "2024-02": 0.11,
+              "2024-03": -0.72,
+              "2024-10": 1.43,
+              "2024-11": -1.25,
+              "2024-12": 0.42,
+              "2025-01": 1.97,
+              "2025-02": -5.36,
+              "2025-03": 0.51,
+              "2025-11": -2.16,
+              "2025-12": -0.56,
+              "2026-01": 0.27,
+              "2026-02": -3.38,
+              "2026-03": 0.38,
+              "2026-04": -0.36
+            },
+            "positive_months": 7,
+            "negative_months": 13
+          },
           "underdogs": {
             "opportunities": 350,
             "bets": 90,
@@ -5848,6 +7364,40 @@
             "negative_months": 15
           },
           "favorites": {
+            "opportunities": 350,
+            "bets": 345,
+            "hits": 238,
+            "accuracy": 0.6898550724637681,
+            "net_units": "-35.10",
+            "roi": -0.10173913043478261,
+            "net_per_opportunity": -0.10028571428571428,
+            "drawdown_units": 37.33,
+            "monthly_net": {
+              "2023-01": -1.01,
+              "2023-02": -4.69,
+              "2023-03": -0.26,
+              "2023-11": -3.8,
+              "2023-12": -1.01,
+              "2024-01": -0.49,
+              "2024-02": -1.89,
+              "2024-03": -2.72,
+              "2024-10": 1.0,
+              "2024-11": -3.5,
+              "2024-12": -0.72,
+              "2025-01": -2.45,
+              "2025-02": -6.48,
+              "2025-03": 0.71,
+              "2025-11": -3.44,
+              "2025-12": -4.25,
+              "2026-01": 1.34,
+              "2026-02": -2.26,
+              "2026-03": 0.75,
+              "2026-04": 0.07
+            },
+            "positive_months": 5,
+            "negative_months": 15
+          },
+          "non_underdogs": {
             "opportunities": 350,
             "bets": 345,
             "hits": 238,
@@ -6021,6 +7571,40 @@
             "positive_months": 6,
             "negative_months": 14
           },
+          "non_underdogs": {
+            "opportunities": 350,
+            "bets": 314,
+            "hits": 221,
+            "accuracy": 0.7038216560509554,
+            "net_units": "-28.75",
+            "roi": -0.09156050955414012,
+            "net_per_opportunity": -0.08214285714285714,
+            "drawdown_units": 30.61,
+            "monthly_net": {
+              "2023-01": -1.01,
+              "2023-02": -5.05,
+              "2023-03": -0.26,
+              "2023-11": -2.53,
+              "2023-12": -1.58,
+              "2024-01": -0.99,
+              "2024-02": 0.11,
+              "2024-03": -2.72,
+              "2024-10": 1.43,
+              "2024-11": -2.08,
+              "2024-12": -0.37,
+              "2025-01": -1.1,
+              "2025-02": -5.91,
+              "2025-03": 0.51,
+              "2025-11": -2.94,
+              "2025-12": -2.68,
+              "2026-01": 0.8,
+              "2026-02": -2.83,
+              "2026-03": 0.38,
+              "2026-04": 0.07
+            },
+            "positive_months": 6,
+            "negative_months": 14
+          },
           "underdogs": {
             "opportunities": 350,
             "bets": 36,
@@ -6122,6 +7706,32 @@
             "negative_months": 8
           },
           "favorites": {
+            "opportunities": 75,
+            "bets": 75,
+            "hits": 53,
+            "accuracy": 0.7066666666666667,
+            "net_units": "-8.44",
+            "roi": -0.11253333333333333,
+            "net_per_opportunity": -0.11253333333333333,
+            "drawdown_units": 12.78,
+            "monthly_net": {
+              "2024-10": -0.98,
+              "2024-11": 1.25,
+              "2024-12": -1.94,
+              "2025-01": -1.44,
+              "2025-02": 0.38,
+              "2025-03": -0.94,
+              "2025-10": -3.38,
+              "2025-11": -0.22,
+              "2025-12": -4.06,
+              "2026-01": -0.39,
+              "2026-02": 2.58,
+              "2026-03": 0.7
+            },
+            "positive_months": 4,
+            "negative_months": 8
+          },
+          "non_underdogs": {
             "opportunities": 75,
             "bets": 75,
             "hits": 53,
@@ -6255,6 +7865,32 @@
             "positive_months": 3,
             "negative_months": 9
           },
+          "non_underdogs": {
+            "opportunities": 75,
+            "bets": 56,
+            "hits": 39,
+            "accuracy": 0.6964285714285714,
+            "net_units": "-7.55",
+            "roi": -0.13482142857142856,
+            "net_per_opportunity": -0.10066666666666667,
+            "drawdown_units": 9.3,
+            "monthly_net": {
+              "2024-10": -1.26,
+              "2024-11": 1.25,
+              "2024-12": -1.57,
+              "2025-01": -0.44,
+              "2025-02": 0.38,
+              "2025-03": -0.94,
+              "2025-10": -1.77,
+              "2025-11": -0.56,
+              "2025-12": -3.22,
+              "2026-01": -0.39,
+              "2026-02": 1.41,
+              "2026-03": -0.44
+            },
+            "positive_months": 3,
+            "negative_months": 9
+          },
           "underdogs": {
             "opportunities": 75,
             "bets": 19,
@@ -6338,6 +7974,32 @@
             "negative_months": 8
           },
           "favorites": {
+            "opportunities": 75,
+            "bets": 75,
+            "hits": 53,
+            "accuracy": 0.7066666666666667,
+            "net_units": "-8.44",
+            "roi": -0.11253333333333333,
+            "net_per_opportunity": -0.11253333333333333,
+            "drawdown_units": 12.78,
+            "monthly_net": {
+              "2024-10": -0.98,
+              "2024-11": 1.25,
+              "2024-12": -1.94,
+              "2025-01": -1.44,
+              "2025-02": 0.38,
+              "2025-03": -0.94,
+              "2025-10": -3.38,
+              "2025-11": -0.22,
+              "2025-12": -4.06,
+              "2026-01": -0.39,
+              "2026-02": 2.58,
+              "2026-03": 0.7
+            },
+            "positive_months": 4,
+            "negative_months": 8
+          },
+          "non_underdogs": {
             "opportunities": 75,
             "bets": 75,
             "hits": 53,
@@ -6471,6 +8133,32 @@
             "positive_months": 4,
             "negative_months": 8
           },
+          "non_underdogs": {
+            "opportunities": 75,
+            "bets": 71,
+            "hits": 50,
+            "accuracy": 0.704225352112676,
+            "net_units": "-9.02",
+            "roi": -0.12704225352112675,
+            "net_per_opportunity": -0.12026666666666666,
+            "drawdown_units": 12.07,
+            "monthly_net": {
+              "2024-10": -0.98,
+              "2024-11": 1.25,
+              "2024-12": -0.94,
+              "2025-01": -1.44,
+              "2025-02": 0.38,
+              "2025-03": -0.94,
+              "2025-10": -3.67,
+              "2025-11": -0.22,
+              "2025-12": -4.06,
+              "2026-01": -0.39,
+              "2026-02": 1.86,
+              "2026-03": 0.13
+            },
+            "positive_months": 4,
+            "negative_months": 8
+          },
           "underdogs": {
             "opportunities": 75,
             "bets": 4,
@@ -6559,6 +8247,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.11",
+            "roi": 0.11,
+            "net_per_opportunity": 0.11,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2025-02": 0.11
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 1,
             "bets": 0,
@@ -6609,6 +8312,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 1,
+            "bets": 0,
+            "hits": 0,
+            "accuracy": null,
+            "net_units": "0",
+            "roi": null,
+            "net_per_opportunity": 0.0,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2025-02": 0.0
+            },
+            "positive_months": 0,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 1,
             "bets": 0,
             "hits": 0,
@@ -6687,6 +8405,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.11",
+            "roi": 0.11,
+            "net_per_opportunity": 0.11,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2025-02": 0.11
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 1,
             "bets": 0,
@@ -6737,6 +8470,21 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.11",
+            "roi": 0.11,
+            "net_per_opportunity": 0.11,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2025-02": 0.11
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 1,
             "bets": 1,
             "hits": 1,
@@ -6817,6 +8565,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 21,
+            "bets": 21,
+            "hits": 14,
+            "accuracy": 0.6666666666666666,
+            "net_units": "-3.99",
+            "roi": -0.19,
+            "net_per_opportunity": -0.19,
+            "drawdown_units": 3.99,
+            "monthly_net": {
+              "2025-08": -3.99
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 21,
             "bets": 0,
@@ -6867,6 +8630,21 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 21,
+            "bets": 10,
+            "hits": 8,
+            "accuracy": 0.8,
+            "net_units": "-0.14",
+            "roi": -0.014,
+            "net_per_opportunity": -0.006666666666666667,
+            "drawdown_units": 1.85,
+            "monthly_net": {
+              "2025-08": -0.14
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 21,
             "bets": 10,
             "hits": 8,
@@ -6945,6 +8723,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 21,
+            "bets": 21,
+            "hits": 14,
+            "accuracy": 0.6666666666666666,
+            "net_units": "-3.99",
+            "roi": -0.19,
+            "net_per_opportunity": -0.19,
+            "drawdown_units": 3.99,
+            "monthly_net": {
+              "2025-08": -3.99
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 21,
             "bets": 0,
@@ -6995,6 +8788,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 21,
+            "bets": 20,
+            "hits": 13,
+            "accuracy": 0.65,
+            "net_units": "-4.55",
+            "roi": -0.2275,
+            "net_per_opportunity": -0.21666666666666667,
+            "drawdown_units": 4.55,
+            "monthly_net": {
+              "2025-08": -4.55
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 21,
             "bets": 20,
             "hits": 13,
@@ -7062,6 +8870,22 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 21,
+            "bets": 21,
+            "hits": 17,
+            "accuracy": 0.8095238095238095,
+            "net_units": "-0.27",
+            "roi": -0.012857142857142857,
+            "net_per_opportunity": -0.012857142857142857,
+            "drawdown_units": 2.21,
+            "monthly_net": {
+              "2024-07": 0.66,
+              "2024-08": -0.93
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 21,
             "bets": 21,
             "hits": 17,
@@ -7145,6 +8969,22 @@
             "positive_months": 1,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 21,
+            "bets": 13,
+            "hits": 10,
+            "accuracy": 0.7692307692307693,
+            "net_units": "-1.01",
+            "roi": -0.07769230769230769,
+            "net_per_opportunity": -0.048095238095238094,
+            "drawdown_units": 2.44,
+            "monthly_net": {
+              "2024-07": 1.41,
+              "2024-08": -2.42
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 21,
             "bets": 8,
@@ -7198,6 +9038,22 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 21,
+            "bets": 21,
+            "hits": 17,
+            "accuracy": 0.8095238095238095,
+            "net_units": "-0.27",
+            "roi": -0.012857142857142857,
+            "net_per_opportunity": -0.012857142857142857,
+            "drawdown_units": 2.21,
+            "monthly_net": {
+              "2024-07": 0.66,
+              "2024-08": -0.93
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 21,
             "bets": 21,
             "hits": 17,
@@ -7281,6 +9137,22 @@
             "positive_months": 1,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 21,
+            "bets": 18,
+            "hits": 14,
+            "accuracy": 0.7777777777777778,
+            "net_units": "-1.75",
+            "roi": -0.09722222222222222,
+            "net_per_opportunity": -0.08333333333333333,
+            "drawdown_units": 3.11,
+            "monthly_net": {
+              "2024-07": 0.66,
+              "2024-08": -2.41
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 21,
             "bets": 3,
@@ -7335,6 +9207,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 30,
+            "bets": 30,
+            "hits": 21,
+            "accuracy": 0.7,
+            "net_units": "-5.83",
+            "roi": -0.19433333333333333,
+            "net_per_opportunity": -0.19433333333333333,
+            "drawdown_units": 6.07,
+            "monthly_net": {
+              "2024-07": -5.83
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 30,
             "bets": 30,
             "hits": 21,
@@ -7413,6 +9300,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 30,
+            "bets": 18,
+            "hits": 11,
+            "accuracy": 0.6111111111111112,
+            "net_units": "-5.37",
+            "roi": -0.29833333333333334,
+            "net_per_opportunity": -0.179,
+            "drawdown_units": 5.59,
+            "monthly_net": {
+              "2024-07": -5.37
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 30,
             "bets": 12,
@@ -7463,6 +9365,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 30,
+            "bets": 30,
+            "hits": 21,
+            "accuracy": 0.7,
+            "net_units": "-5.83",
+            "roi": -0.19433333333333333,
+            "net_per_opportunity": -0.19433333333333333,
+            "drawdown_units": 6.07,
+            "monthly_net": {
+              "2024-07": -5.83
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 30,
             "bets": 30,
             "hits": 21,
@@ -7541,6 +9458,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 30,
+            "bets": 30,
+            "hits": 21,
+            "accuracy": 0.7,
+            "net_units": "-5.83",
+            "roi": -0.19433333333333333,
+            "net_per_opportunity": -0.19433333333333333,
+            "drawdown_units": 6.07,
+            "monthly_net": {
+              "2024-07": -5.83
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 30,
             "bets": 0,
@@ -7594,6 +9526,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 78,
+            "bets": 78,
+            "hits": 53,
+            "accuracy": 0.6794871794871795,
+            "net_units": "-15.51",
+            "roi": -0.19884615384615384,
+            "net_per_opportunity": -0.19884615384615384,
+            "drawdown_units": 15.51,
+            "monthly_net": {
+              "2023-08": -6.9,
+              "2023-09": -8.61
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 78,
             "bets": 78,
             "hits": 53,
@@ -7677,6 +9625,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 78,
+            "bets": 47,
+            "hits": 31,
+            "accuracy": 0.6595744680851063,
+            "net_units": "-11.37",
+            "roi": -0.2419148936170213,
+            "net_per_opportunity": -0.14576923076923076,
+            "drawdown_units": 11.46,
+            "monthly_net": {
+              "2023-08": -6.34,
+              "2023-09": -5.03
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 78,
             "bets": 31,
@@ -7730,6 +9694,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 78,
+            "bets": 78,
+            "hits": 53,
+            "accuracy": 0.6794871794871795,
+            "net_units": "-15.51",
+            "roi": -0.19884615384615384,
+            "net_per_opportunity": -0.19884615384615384,
+            "drawdown_units": 15.51,
+            "monthly_net": {
+              "2023-08": -6.9,
+              "2023-09": -8.61
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 78,
             "bets": 78,
             "hits": 53,
@@ -7813,6 +9793,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 78,
+            "bets": 73,
+            "hits": 50,
+            "accuracy": 0.684931506849315,
+            "net_units": "-15.44",
+            "roi": -0.2115068493150685,
+            "net_per_opportunity": -0.19794871794871796,
+            "drawdown_units": 15.76,
+            "monthly_net": {
+              "2023-08": -7.28,
+              "2023-09": -8.16
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 78,
             "bets": 5,
@@ -7873,6 +9869,27 @@
             "negative_months": 6
           },
           "favorites": {
+            "opportunities": 171,
+            "bets": 171,
+            "hits": 115,
+            "accuracy": 0.672514619883041,
+            "net_units": "-32.04",
+            "roi": -0.18736842105263157,
+            "net_per_opportunity": -0.18736842105263157,
+            "drawdown_units": 33.74,
+            "monthly_net": {
+              "2023-02": -7.69,
+              "2025-11": -4.83,
+              "2025-12": -6.15,
+              "2026-02": -3.88,
+              "2026-03": 0.57,
+              "2026-06": -0.99,
+              "2026-07": -9.07
+            },
+            "positive_months": 1,
+            "negative_months": 6
+          },
+          "non_underdogs": {
             "opportunities": 171,
             "bets": 171,
             "hits": 115,
@@ -7981,6 +9998,27 @@
             "positive_months": 0,
             "negative_months": 7
           },
+          "non_underdogs": {
+            "opportunities": 171,
+            "bets": 116,
+            "hits": 73,
+            "accuracy": 0.6293103448275862,
+            "net_units": "-27.11",
+            "roi": -0.23370689655172414,
+            "net_per_opportunity": -0.15853801169590642,
+            "drawdown_units": 27.93,
+            "monthly_net": {
+              "2023-02": -7.19,
+              "2025-11": -4.39,
+              "2025-12": -5.01,
+              "2026-02": -1.45,
+              "2026-03": -0.17,
+              "2026-06": -1.0,
+              "2026-07": -7.9
+            },
+            "positive_months": 0,
+            "negative_months": 7
+          },
           "underdogs": {
             "opportunities": 171,
             "bets": 55,
@@ -8049,6 +10087,27 @@
             "negative_months": 6
           },
           "favorites": {
+            "opportunities": 171,
+            "bets": 168,
+            "hits": 114,
+            "accuracy": 0.6785714285714286,
+            "net_units": "-30.78",
+            "roi": -0.18321428571428572,
+            "net_per_opportunity": -0.18,
+            "drawdown_units": 32.48,
+            "monthly_net": {
+              "2023-02": -7.69,
+              "2025-11": -4.83,
+              "2025-12": -6.15,
+              "2026-02": -1.88,
+              "2026-03": 0.57,
+              "2026-06": -0.99,
+              "2026-07": -9.81
+            },
+            "positive_months": 1,
+            "negative_months": 6
+          },
+          "non_underdogs": {
             "opportunities": 171,
             "bets": 168,
             "hits": 114,
@@ -8157,6 +10216,27 @@
             "positive_months": 1,
             "negative_months": 6
           },
+          "non_underdogs": {
+            "opportunities": 171,
+            "bets": 164,
+            "hits": 114,
+            "accuracy": 0.6951219512195121,
+            "net_units": "-26.50",
+            "roi": -0.16158536585365854,
+            "net_per_opportunity": -0.15497076023391812,
+            "drawdown_units": 28.2,
+            "monthly_net": {
+              "2023-02": -7.69,
+              "2025-11": -3.83,
+              "2025-12": -4.61,
+              "2026-02": -1.88,
+              "2026-03": 0.57,
+              "2026-06": -0.99,
+              "2026-07": -8.07
+            },
+            "positive_months": 1,
+            "negative_months": 6
+          },
           "underdogs": {
             "opportunities": 171,
             "bets": 7,
@@ -8222,6 +10302,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 54,
+            "bets": 54,
+            "hits": 39,
+            "accuracy": 0.7222222222222222,
+            "net_units": "-6.78",
+            "roi": -0.12555555555555556,
+            "net_per_opportunity": -0.12555555555555556,
+            "drawdown_units": 9.1,
+            "monthly_net": {
+              "2025-08": -1.89,
+              "2025-09": -4.89
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 54,
             "bets": 54,
             "hits": 39,
@@ -8305,6 +10401,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 54,
+            "bets": 31,
+            "hits": 21,
+            "accuracy": 0.6774193548387096,
+            "net_units": "-6.22",
+            "roi": -0.2006451612903226,
+            "net_per_opportunity": -0.11518518518518518,
+            "drawdown_units": 7.26,
+            "monthly_net": {
+              "2025-08": -1.69,
+              "2025-09": -4.53
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 54,
             "bets": 23,
@@ -8358,6 +10470,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 54,
+            "bets": 54,
+            "hits": 39,
+            "accuracy": 0.7222222222222222,
+            "net_units": "-6.78",
+            "roi": -0.12555555555555556,
+            "net_per_opportunity": -0.12555555555555556,
+            "drawdown_units": 9.1,
+            "monthly_net": {
+              "2025-08": -1.89,
+              "2025-09": -4.89
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 54,
             "bets": 54,
             "hits": 39,
@@ -8441,6 +10569,22 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 54,
+            "bets": 50,
+            "hits": 36,
+            "accuracy": 0.72,
+            "net_units": "-7.86",
+            "roi": -0.1572,
+            "net_per_opportunity": -0.14555555555555555,
+            "drawdown_units": 9.45,
+            "monthly_net": {
+              "2025-08": -2.56,
+              "2025-09": -5.3
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 54,
             "bets": 4,
@@ -8495,6 +10639,21 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.01",
+            "roi": 0.01,
+            "net_per_opportunity": 0.01,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.01
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 1,
             "bets": 1,
             "hits": 1,
@@ -8573,6 +10732,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.01",
+            "roi": 0.01,
+            "net_per_opportunity": 0.01,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.01
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 1,
             "bets": 0,
@@ -8623,6 +10797,21 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.01",
+            "roi": 0.01,
+            "net_per_opportunity": 0.01,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.01
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 1,
             "bets": 1,
             "hits": 1,
@@ -8701,6 +10890,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 1,
+            "bets": 1,
+            "hits": 1,
+            "accuracy": 1.0,
+            "net_units": "0.01",
+            "roi": 0.01,
+            "net_per_opportunity": 0.01,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.01
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 1,
             "bets": 0,
@@ -8758,6 +10962,26 @@
             "negative_months": 5
           },
           "favorites": {
+            "opportunities": 70,
+            "bets": 70,
+            "hits": 52,
+            "accuracy": 0.7428571428571429,
+            "net_units": "-3.91",
+            "roi": -0.055857142857142855,
+            "net_per_opportunity": -0.055857142857142855,
+            "drawdown_units": 5.15,
+            "monthly_net": {
+              "2023-08": -0.3,
+              "2023-09": -0.06,
+              "2024-08": -0.43,
+              "2024-09": -2.72,
+              "2025-08": 0.27,
+              "2025-09": -0.67
+            },
+            "positive_months": 1,
+            "negative_months": 5
+          },
+          "non_underdogs": {
             "opportunities": 70,
             "bets": 70,
             "hits": 52,
@@ -8861,6 +11085,26 @@
             "positive_months": 3,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 70,
+            "bets": 44,
+            "hits": 35,
+            "accuracy": 0.7954545454545454,
+            "net_units": "-0.63",
+            "roi": -0.014318181818181818,
+            "net_per_opportunity": -0.009,
+            "drawdown_units": 3.41,
+            "monthly_net": {
+              "2023-08": 1.86,
+              "2023-09": 0.36,
+              "2024-08": 0.0,
+              "2024-09": -1.74,
+              "2025-08": 0.79,
+              "2025-09": -1.9
+            },
+            "positive_months": 3,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 70,
             "bets": 26,
@@ -8926,6 +11170,26 @@
             "negative_months": 5
           },
           "favorites": {
+            "opportunities": 70,
+            "bets": 70,
+            "hits": 52,
+            "accuracy": 0.7428571428571429,
+            "net_units": "-3.91",
+            "roi": -0.055857142857142855,
+            "net_per_opportunity": -0.055857142857142855,
+            "drawdown_units": 5.15,
+            "monthly_net": {
+              "2023-08": -0.3,
+              "2023-09": -0.06,
+              "2024-08": -0.43,
+              "2024-09": -2.72,
+              "2025-08": 0.27,
+              "2025-09": -0.67
+            },
+            "positive_months": 1,
+            "negative_months": 5
+          },
+          "non_underdogs": {
             "opportunities": 70,
             "bets": 70,
             "hits": 52,
@@ -9029,6 +11293,26 @@
             "positive_months": 2,
             "negative_months": 4
           },
+          "non_underdogs": {
+            "opportunities": 70,
+            "bets": 64,
+            "hits": 49,
+            "accuracy": 0.765625,
+            "net_units": "-2.89",
+            "roi": -0.04515625,
+            "net_per_opportunity": -0.04128571428571429,
+            "drawdown_units": 4.46,
+            "monthly_net": {
+              "2023-08": -0.3,
+              "2023-09": -0.37,
+              "2024-08": 0.57,
+              "2024-09": -2.72,
+              "2025-08": 1.27,
+              "2025-09": -1.34
+            },
+            "positive_months": 2,
+            "negative_months": 4
+          },
           "underdogs": {
             "opportunities": 70,
             "bets": 6,
@@ -9091,6 +11375,21 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "0.05",
+            "roi": 0.025,
+            "net_per_opportunity": 0.025,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.05
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 2,
             "bets": 2,
             "hits": 2,
@@ -9169,6 +11468,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "0.05",
+            "roi": 0.025,
+            "net_per_opportunity": 0.025,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.05
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 2,
             "bets": 0,
@@ -9219,6 +11533,21 @@
             "negative_months": 0
           },
           "favorites": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "0.05",
+            "roi": 0.025,
+            "net_per_opportunity": 0.025,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.05
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
+          "non_underdogs": {
             "opportunities": 2,
             "bets": 2,
             "hits": 2,
@@ -9297,6 +11626,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 2,
+            "bets": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "net_units": "0.05",
+            "roi": 0.025,
+            "net_per_opportunity": 0.025,
+            "drawdown_units": 0.0,
+            "monthly_net": {
+              "2026-08": 0.05
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 2,
             "bets": 0,
@@ -9351,6 +11695,23 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 11,
+            "bets": 11,
+            "hits": 8,
+            "accuracy": 0.7272727272727273,
+            "net_units": "-2.56",
+            "roi": -0.23272727272727273,
+            "net_per_opportunity": -0.23272727272727273,
+            "drawdown_units": 2.7,
+            "monthly_net": {
+              "2023-06": -0.99,
+              "2023-07": 0.01,
+              "2025-07": -1.58
+            },
+            "positive_months": 1,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 11,
             "bets": 11,
             "hits": 8,
@@ -9439,6 +11800,23 @@
             "positive_months": 0,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 11,
+            "bets": 8,
+            "hits": 5,
+            "accuracy": 0.625,
+            "net_units": "-2.79",
+            "roi": -0.34875,
+            "net_per_opportunity": -0.25363636363636366,
+            "drawdown_units": 2.93,
+            "monthly_net": {
+              "2023-06": -0.99,
+              "2023-07": 0.0,
+              "2025-07": -1.8
+            },
+            "positive_months": 0,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 11,
             "bets": 3,
@@ -9511,6 +11889,23 @@
             "positive_months": 1,
             "negative_months": 2
           },
+          "non_underdogs": {
+            "opportunities": 11,
+            "bets": 11,
+            "hits": 8,
+            "accuracy": 0.7272727272727273,
+            "net_units": "-2.56",
+            "roi": -0.23272727272727273,
+            "net_per_opportunity": -0.23272727272727273,
+            "drawdown_units": 2.7,
+            "monthly_net": {
+              "2023-06": -0.99,
+              "2023-07": 0.01,
+              "2025-07": -1.58
+            },
+            "positive_months": 1,
+            "negative_months": 2
+          },
           "underdogs": {
             "opportunities": 11,
             "bets": 0,
@@ -9567,6 +11962,23 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 11,
+            "bets": 11,
+            "hits": 8,
+            "accuracy": 0.7272727272727273,
+            "net_units": "-2.56",
+            "roi": -0.23272727272727273,
+            "net_per_opportunity": -0.23272727272727273,
+            "drawdown_units": 2.7,
+            "monthly_net": {
+              "2023-06": -0.99,
+              "2023-07": 0.01,
+              "2025-07": -1.58
+            },
+            "positive_months": 1,
+            "negative_months": 2
+          },
+          "non_underdogs": {
             "opportunities": 11,
             "bets": 11,
             "hits": 8,
@@ -9655,6 +12067,22 @@
             "positive_months": 1,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 18,
+            "bets": 18,
+            "hits": 14,
+            "accuracy": 0.7777777777777778,
+            "net_units": "-0.15",
+            "roi": -0.008333333333333333,
+            "net_per_opportunity": -0.008333333333333333,
+            "drawdown_units": 2.28,
+            "monthly_net": {
+              "2024-07": -1.62,
+              "2024-08": 1.47
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 18,
             "bets": 0,
@@ -9708,6 +12136,22 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 18,
+            "bets": 8,
+            "hits": 7,
+            "accuracy": 0.875,
+            "net_units": "1.23",
+            "roi": 0.15375,
+            "net_per_opportunity": 0.06833333333333333,
+            "drawdown_units": 1.0,
+            "monthly_net": {
+              "2024-07": -0.71,
+              "2024-08": 1.94
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 18,
             "bets": 8,
             "hits": 7,
@@ -9791,6 +12235,22 @@
             "positive_months": 1,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 18,
+            "bets": 18,
+            "hits": 14,
+            "accuracy": 0.7777777777777778,
+            "net_units": "-0.15",
+            "roi": -0.008333333333333333,
+            "net_per_opportunity": -0.008333333333333333,
+            "drawdown_units": 2.28,
+            "monthly_net": {
+              "2024-07": -1.62,
+              "2024-08": 1.47
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 18,
             "bets": 0,
@@ -9844,6 +12304,22 @@
             "negative_months": 2
           },
           "favorites": {
+            "opportunities": 18,
+            "bets": 16,
+            "hits": 12,
+            "accuracy": 0.75,
+            "net_units": "-1.16",
+            "roi": -0.0725,
+            "net_per_opportunity": -0.06444444444444444,
+            "drawdown_units": 2.95,
+            "monthly_net": {
+              "2024-07": -1.62,
+              "2024-08": 0.46
+            },
+            "positive_months": 1,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 18,
             "bets": 16,
             "hits": 12,
@@ -9927,6 +12403,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 16,
+            "bets": 16,
+            "hits": 9,
+            "accuracy": 0.5625,
+            "net_units": "-5.12",
+            "roi": -0.32,
+            "net_per_opportunity": -0.32,
+            "drawdown_units": 6.05,
+            "monthly_net": {
+              "2024-02": -5.12
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 16,
             "bets": 0,
@@ -9977,6 +12468,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 16,
+            "bets": 7,
+            "hits": 3,
+            "accuracy": 0.42857142857142855,
+            "net_units": "-3.72",
+            "roi": -0.5314285714285715,
+            "net_per_opportunity": -0.2325,
+            "drawdown_units": 3.99,
+            "monthly_net": {
+              "2024-02": -3.72
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 16,
             "bets": 7,
             "hits": 3,
@@ -10055,6 +12561,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 16,
+            "bets": 16,
+            "hits": 9,
+            "accuracy": 0.5625,
+            "net_units": "-5.12",
+            "roi": -0.32,
+            "net_per_opportunity": -0.32,
+            "drawdown_units": 6.05,
+            "monthly_net": {
+              "2024-02": -5.12
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 16,
             "bets": 0,
@@ -10105,6 +12626,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 16,
+            "bets": 14,
+            "hits": 9,
+            "accuracy": 0.6428571428571429,
+            "net_units": "-3.12",
+            "roi": -0.22285714285714286,
+            "net_per_opportunity": -0.195,
+            "drawdown_units": 4.05,
+            "monthly_net": {
+              "2024-02": -3.12
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 16,
             "bets": 14,
             "hits": 9,
@@ -10185,6 +12721,21 @@
             "positive_months": 0,
             "negative_months": 1
           },
+          "non_underdogs": {
+            "opportunities": 17,
+            "bets": 17,
+            "hits": 14,
+            "accuracy": 0.8235294117647058,
+            "net_units": "-0.21",
+            "roi": -0.012352941176470587,
+            "net_per_opportunity": -0.012352941176470587,
+            "drawdown_units": 1.26,
+            "monthly_net": {
+              "2026-03": -0.21
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
           "underdogs": {
             "opportunities": 17,
             "bets": 0,
@@ -10235,6 +12786,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 17,
+            "bets": 9,
+            "hits": 7,
+            "accuracy": 0.7777777777777778,
+            "net_units": "-1.00",
+            "roi": -0.1111111111111111,
+            "net_per_opportunity": -0.058823529411764705,
+            "drawdown_units": 1.65,
+            "monthly_net": {
+              "2026-03": -1.0
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 17,
             "bets": 9,
             "hits": 7,
@@ -10313,6 +12879,21 @@
             "positive_months": 1,
             "negative_months": 0
           },
+          "non_underdogs": {
+            "opportunities": 17,
+            "bets": 16,
+            "hits": 14,
+            "accuracy": 0.875,
+            "net_units": "0.79",
+            "roi": 0.049375,
+            "net_per_opportunity": 0.04647058823529412,
+            "drawdown_units": 1.15,
+            "monthly_net": {
+              "2026-03": 0.79
+            },
+            "positive_months": 1,
+            "negative_months": 0
+          },
           "underdogs": {
             "opportunities": 17,
             "bets": 1,
@@ -10363,6 +12944,21 @@
             "negative_months": 1
           },
           "favorites": {
+            "opportunities": 17,
+            "bets": 17,
+            "hits": 14,
+            "accuracy": 0.8235294117647058,
+            "net_units": "-0.21",
+            "roi": -0.012352941176470587,
+            "net_per_opportunity": -0.012352941176470587,
+            "drawdown_units": 1.26,
+            "monthly_net": {
+              "2026-03": -0.21
+            },
+            "positive_months": 0,
+            "negative_months": 1
+          },
+          "non_underdogs": {
             "opportunities": 17,
             "bets": 17,
             "hits": 14,
@@ -10489,6 +13085,43 @@
           "positive_months": 2,
           "negative_months": 21
         },
+        "non_underdogs": {
+          "opportunities": 3260,
+          "bets": 3260,
+          "hits": 2228,
+          "accuracy": 0.6834355828220859,
+          "net_units": "-353.92",
+          "roi": -0.10856441717791411,
+          "net_per_opportunity": -0.10856441717791411,
+          "drawdown_units": 355.03,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -21.48,
+            "2023-03": -20.07,
+            "2023-04": -22.31,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -14.77,
+            "2023-11": -37.72,
+            "2023-12": -18.48,
+            "2024-01": -40.52,
+            "2024-02": -23.44,
+            "2024-03": -50.07,
+            "2024-04": -8.44,
+            "2024-05": -5.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -18.46,
+            "2024-11": -13.76
+          },
+          "positive_months": 2,
+          "negative_months": 21
+        },
         "underdogs": {
           "opportunities": 3260,
           "bets": 0,
@@ -10575,6 +13208,16 @@
         "weeks": 0,
         "mean": null,
         "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3260,
+        "weeks": 82,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "outcome_form": {
@@ -10649,6 +13292,43 @@
             "2024-09": -1.74,
             "2024-10": -16.06,
             "2024-11": -14.46
+          },
+          "positive_months": 0,
+          "negative_months": 22
+        },
+        "non_underdogs": {
+          "opportunities": 3260,
+          "bets": 2663,
+          "hits": 1847,
+          "accuracy": 0.6935786706721743,
+          "net_units": "-297.87",
+          "roi": -0.11185505069470522,
+          "net_per_opportunity": -0.09137116564417178,
+          "drawdown_units": 298.37,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -19.58,
+            "2023-03": -14.4,
+            "2023-04": -15.61,
+            "2023-05": -3.15,
+            "2023-06": -1.05,
+            "2023-07": 0.0,
+            "2023-08": -4.48,
+            "2023-09": -4.22,
+            "2023-10": -6.88,
+            "2023-11": -27.25,
+            "2023-12": -16.09,
+            "2024-01": -31.93,
+            "2024-02": -24.23,
+            "2024-03": -46.25,
+            "2024-04": -9.94,
+            "2024-05": -5.68,
+            "2024-06": -0.11,
+            "2024-07": -4.67,
+            "2024-08": -0.48,
+            "2024-09": -1.74,
+            "2024-10": -16.06,
+            "2024-11": -15.46
           },
           "positive_months": 0,
           "negative_months": 22
@@ -10745,6 +13425,16 @@
           -0.21149775823583744,
           0.016828656495806588
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3260,
+        "weeks": 82,
+        "mean": -0.03428527607361963,
+        "ci95": [
+          -0.04808193508064381,
+          -0.019718691480285423
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "market_residual": {
@@ -10819,6 +13509,43 @@
             "2024-09": -2.72,
             "2024-10": -19.18,
             "2024-11": -14.92
+          },
+          "positive_months": 2,
+          "negative_months": 21
+        },
+        "non_underdogs": {
+          "opportunities": 3260,
+          "bets": 3191,
+          "hits": 2190,
+          "accuracy": 0.686305233469132,
+          "net_units": "-348.94",
+          "roi": -0.10935130053274836,
+          "net_per_opportunity": -0.10703680981595091,
+          "drawdown_units": 349.47,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -20.59,
+            "2023-03": -19.84,
+            "2023-04": -23.06,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -12.76,
+            "2023-11": -33.39,
+            "2023-12": -17.24,
+            "2024-01": -37.87,
+            "2024-02": -24.54,
+            "2024-03": -52.22,
+            "2024-04": -8.93,
+            "2024-05": -4.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -19.18,
+            "2024-11": -15.92
           },
           "positive_months": 2,
           "negative_months": 21
@@ -10915,6 +13642,16 @@
           -0.6216778846153844,
           0.21195271724508963
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3260,
+        "weeks": 82,
+        "mean": -0.004923312883435583,
+        "ci95": [
+          -0.009644682055273107,
+          3.69833531509738e-06
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "half_market_form": {
@@ -10989,6 +13726,43 @@
             "2024-09": -2.72,
             "2024-10": -17.37,
             "2024-11": -18.55
+          },
+          "positive_months": 1,
+          "negative_months": 22
+        },
+        "non_underdogs": {
+          "opportunities": 3260,
+          "bets": 3010,
+          "hits": 2080,
+          "accuracy": 0.6910299003322259,
+          "net_units": "-338.77",
+          "roi": -0.11254817275747508,
+          "net_per_opportunity": -0.10391717791411043,
+          "drawdown_units": 338.77,
+          "monthly_net": {
+            "2023-01": -28.61,
+            "2023-02": -22.07,
+            "2023-03": -16.08,
+            "2023-04": -17.01,
+            "2023-05": -3.42,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.58,
+            "2023-09": -7.78,
+            "2023-10": -11.35,
+            "2023-11": -29.07,
+            "2023-12": -18.6,
+            "2024-01": -40.85,
+            "2024-02": -21.09,
+            "2024-03": -50.48,
+            "2024-04": -9.74,
+            "2024-05": -6.54,
+            "2024-06": -0.11,
+            "2024-07": -6.79,
+            "2024-08": -1.38,
+            "2024-09": -2.72,
+            "2024-10": -17.37,
+            "2024-11": -19.55
           },
           "positive_months": 1,
           "negative_months": 22
@@ -11085,6 +13859,16 @@
           -0.3704056193829334,
           0.008647917384951277
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3260,
+        "weeks": 82,
+        "mean": -0.01758282208588957,
+        "ci95": [
+          -0.025377583559087778,
+          -0.009483724470009452
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     }
   },
@@ -11150,6 +13934,42 @@
             "2025-09": -5.56,
             "2025-10": -16.43,
             "2025-11": -44.93,
+            "2025-12": -66.13,
+            "2026-01": -34.81,
+            "2026-02": -22.43,
+            "2026-03": -26.23,
+            "2026-04": -17.15,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 21
+        },
+        "non_underdogs": {
+          "opportunities": 3488,
+          "bets": 3488,
+          "hits": 2376,
+          "accuracy": 0.6811926605504587,
+          "net_units": "-419.01",
+          "roi": -0.1201290137614679,
+          "net_per_opportunity": -0.1201290137614679,
+          "drawdown_units": 419.07,
+          "monthly_net": {
+            "2024-11": -17.63,
+            "2024-12": -33.55,
+            "2025-01": -30.98,
+            "2025-02": -23.55,
+            "2025-03": -29.92,
+            "2025-04": -4.34,
+            "2025-05": -15.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -16.43,
+            "2025-11": -44.19,
             "2025-12": -66.13,
             "2026-01": -34.81,
             "2026-02": -22.43,
@@ -11247,6 +14067,16 @@
         "weeks": 0,
         "mean": null,
         "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3488,
+        "weeks": 80,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "outcome_form": {
@@ -11310,6 +14140,42 @@
             "2025-09": -6.43,
             "2025-10": -12.37,
             "2025-11": -31.32,
+            "2025-12": -53.49,
+            "2026-01": -28.67,
+            "2026-02": -16.25,
+            "2026-03": -26.53,
+            "2026-04": -12.3,
+            "2026-05": -5.44,
+            "2026-06": -3.4,
+            "2026-07": -7.9,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 21
+        },
+        "non_underdogs": {
+          "opportunities": 3488,
+          "bets": 2864,
+          "hits": 1993,
+          "accuracy": 0.6958798882681564,
+          "net_units": "-339.36",
+          "roi": -0.11849162011173184,
+          "net_per_opportunity": -0.09729357798165138,
+          "drawdown_units": 339.42,
+          "monthly_net": {
+            "2024-11": -13.5,
+            "2024-12": -25.87,
+            "2025-01": -28.41,
+            "2025-02": -23.84,
+            "2025-03": -23.1,
+            "2025-04": -1.92,
+            "2025-05": -13.24,
+            "2025-06": -1.6,
+            "2025-07": -1.8,
+            "2025-08": -1.04,
+            "2025-09": -6.43,
+            "2025-10": -12.37,
+            "2025-11": -32.32,
             "2025-12": -53.49,
             "2026-01": -28.67,
             "2026-02": -16.25,
@@ -11413,6 +14279,16 @@
           -0.12099979169822751,
           0.11151138346167352
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3488,
+        "weeks": 80,
+        "mean": -0.023801605504587153,
+        "ci95": [
+          -0.03590312265271918,
+          -0.011846187452116012
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "market_residual": {
@@ -11476,6 +14352,42 @@
             "2025-09": -5.56,
             "2025-10": -15.86,
             "2025-11": -46.08,
+            "2025-12": -66.58,
+            "2026-01": -30.25,
+            "2026-02": -18.43,
+            "2026-03": -25.23,
+            "2026-04": -17.61,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.81,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 21
+        },
+        "non_underdogs": {
+          "opportunities": 3488,
+          "bets": 3442,
+          "hits": 2351,
+          "accuracy": 0.6830331202789076,
+          "net_units": "-416.13",
+          "roi": -0.1208977338756537,
+          "net_per_opportunity": -0.11930332568807339,
+          "drawdown_units": 416.19,
+          "monthly_net": {
+            "2024-11": -19.02,
+            "2024-12": -35.74,
+            "2025-01": -29.4,
+            "2025-02": -25.76,
+            "2025-03": -29.67,
+            "2025-04": -4.09,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -15.86,
+            "2025-11": -47.08,
             "2025-12": -66.58,
             "2026-01": -30.25,
             "2026-02": -18.43,
@@ -11579,6 +14491,16 @@
           -0.2756219512195122,
           0.5755436170212765
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3488,
+        "weeks": 80,
+        "mean": -0.000547591743119266,
+        "ci95": [
+          -0.0031795355378708323,
+          0.002264903304676979
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     },
     "half_market_form": {
@@ -11642,6 +14564,42 @@
             "2025-09": -6.64,
             "2025-10": -13.28,
             "2025-11": -41.24,
+            "2025-12": -58.15,
+            "2026-01": -30.03,
+            "2026-02": -19.52,
+            "2026-03": -27.0,
+            "2026-04": -15.29,
+            "2026-05": -7.96,
+            "2026-06": -4.39,
+            "2026-07": -8.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 21
+        },
+        "non_underdogs": {
+          "opportunities": 3488,
+          "bets": 3252,
+          "hits": 2254,
+          "accuracy": 0.6931119311193112,
+          "net_units": "-377.27",
+          "roi": -0.11601168511685117,
+          "net_per_opportunity": -0.10816227064220184,
+          "drawdown_units": 377.33,
+          "monthly_net": {
+            "2024-11": -13.87,
+            "2024-12": -26.41,
+            "2025-01": -29.21,
+            "2025-02": -24.85,
+            "2025-03": -23.56,
+            "2025-04": -3.33,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.84,
+            "2025-09": -6.64,
+            "2025-10": -13.28,
+            "2025-11": -42.24,
             "2025-12": -58.15,
             "2026-01": -30.03,
             "2026-02": -19.52,
@@ -11745,6 +14703,16 @@
           -0.11069478070175436,
           0.3580601271712157
         ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 3488,
+        "weeks": 80,
+        "mean": -0.004068233944954129,
+        "ci95": [
+          -0.012483292412431412,
+          0.004450111475995795
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
       }
     }
   },
@@ -11752,5 +14720,1678 @@
     "domestic.jsonl.gz": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
   },
   "common_lf_sha256": "2a507d75338442feeedb1d7ec85402f0f3f8217758b7ac8f89ad7b9a21c8e092",
-  "warning": "Retrospective source/price/clock uncertified. First period fallback explicit. Daily-close PnL uses source game date, not witnessed settlement. No operating/tipster9:1 claim."
+  "warning": "Retrospective source/price/clock uncertified. First period fallback explicit. Daily-close PnL uses source game date, not witnessed settlement. No operating/tipster9:1 claim.",
+  "trained_only": {
+    "market": {
+      "policies": {
+        "all": {
+          "opportunities": 6462,
+          "bets": 6462,
+          "hits": 4415,
+          "accuracy": 0.6832250077375426,
+          "net_units": "-744.32",
+          "roi": -0.11518415351284432,
+          "net_per_opportunity": -0.11518415351284432,
+          "drawdown_units": 744.38,
+          "monthly_net": {
+            "2023-02": -21.48,
+            "2023-03": -20.07,
+            "2023-04": -22.31,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -14.77,
+            "2023-11": -37.72,
+            "2023-12": -18.48,
+            "2024-01": -40.52,
+            "2024-02": -23.44,
+            "2024-03": -50.07,
+            "2024-04": -8.44,
+            "2024-05": -5.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -18.46,
+            "2024-11": -31.39,
+            "2024-12": -33.55,
+            "2025-01": -30.98,
+            "2025-02": -23.55,
+            "2025-03": -29.92,
+            "2025-04": -4.34,
+            "2025-05": -15.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -16.43,
+            "2025-11": -44.19,
+            "2025-12": -66.13,
+            "2026-01": -34.81,
+            "2026-02": -22.43,
+            "2026-03": -26.23,
+            "2026-04": -17.15,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "favorites": {
+          "opportunities": 6462,
+          "bets": 6452,
+          "hits": 4410,
+          "accuracy": 0.6835089894606323,
+          "net_units": "-743.06",
+          "roi": -0.1151673899566026,
+          "net_per_opportunity": -0.11498916744042093,
+          "drawdown_units": 743.12,
+          "monthly_net": {
+            "2023-02": -21.48,
+            "2023-03": -20.07,
+            "2023-04": -22.31,
+            "2023-05": -3.45,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -12.77,
+            "2023-11": -35.72,
+            "2023-12": -18.48,
+            "2024-01": -40.52,
+            "2024-02": -23.44,
+            "2024-03": -50.07,
+            "2024-04": -8.44,
+            "2024-05": -5.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -18.46,
+            "2024-11": -30.39,
+            "2024-12": -35.03,
+            "2025-01": -30.98,
+            "2025-02": -24.31,
+            "2025-03": -29.92,
+            "2025-04": -4.34,
+            "2025-05": -15.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -16.43,
+            "2025-11": -44.93,
+            "2025-12": -66.13,
+            "2026-01": -34.81,
+            "2026-02": -22.43,
+            "2026-03": -26.23,
+            "2026-04": -17.15,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "non_underdogs": {
+          "opportunities": 6462,
+          "bets": 6462,
+          "hits": 4415,
+          "accuracy": 0.6832250077375426,
+          "net_units": "-744.32",
+          "roi": -0.11518415351284432,
+          "net_per_opportunity": -0.11518415351284432,
+          "drawdown_units": 744.38,
+          "monthly_net": {
+            "2023-02": -21.48,
+            "2023-03": -20.07,
+            "2023-04": -22.31,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -14.77,
+            "2023-11": -37.72,
+            "2023-12": -18.48,
+            "2024-01": -40.52,
+            "2024-02": -23.44,
+            "2024-03": -50.07,
+            "2024-04": -8.44,
+            "2024-05": -5.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -18.46,
+            "2024-11": -31.39,
+            "2024-12": -33.55,
+            "2025-01": -30.98,
+            "2025-02": -23.55,
+            "2025-03": -29.92,
+            "2025-04": -4.34,
+            "2025-05": -15.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -16.43,
+            "2025-11": -44.19,
+            "2025-12": -66.13,
+            "2026-01": -34.81,
+            "2026-02": -22.43,
+            "2026-03": -26.23,
+            "2026-04": -17.15,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "underdogs": {
+          "opportunities": 6462,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-02": 0.0,
+            "2023-03": 0.0,
+            "2023-04": 0.0,
+            "2023-05": 0.0,
+            "2023-06": 0.0,
+            "2023-07": 0.0,
+            "2023-08": 0.0,
+            "2023-09": 0.0,
+            "2023-10": 0.0,
+            "2023-11": 0.0,
+            "2023-12": 0.0,
+            "2024-01": 0.0,
+            "2024-02": 0.0,
+            "2024-03": 0.0,
+            "2024-04": 0.0,
+            "2024-05": 0.0,
+            "2024-06": 0.0,
+            "2024-07": 0.0,
+            "2024-08": 0.0,
+            "2024-09": 0.0,
+            "2024-10": 0.0,
+            "2024-11": 0.0,
+            "2024-12": 0.0,
+            "2025-01": 0.0,
+            "2025-02": 0.0,
+            "2025-03": 0.0,
+            "2025-04": 0.0,
+            "2025-05": 0.0,
+            "2025-06": 0.0,
+            "2025-07": 0.0,
+            "2025-08": 0.0,
+            "2025-09": 0.0,
+            "2025-10": 0.0,
+            "2025-11": 0.0,
+            "2025-12": 0.0,
+            "2026-01": 0.0,
+            "2026-02": 0.0,
+            "2026-03": 0.0,
+            "2026-04": 0.0,
+            "2026-05": 0.0,
+            "2026-06": 0.0,
+            "2026-07": 0.0,
+            "2026-08": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        },
+        "market_same_underdogs": {
+          "opportunities": 6462,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-02": 0.0,
+            "2023-03": 0.0,
+            "2023-04": 0.0,
+            "2023-05": 0.0,
+            "2023-06": 0.0,
+            "2023-07": 0.0,
+            "2023-08": 0.0,
+            "2023-09": 0.0,
+            "2023-10": 0.0,
+            "2023-11": 0.0,
+            "2023-12": 0.0,
+            "2024-01": 0.0,
+            "2024-02": 0.0,
+            "2024-03": 0.0,
+            "2024-04": 0.0,
+            "2024-05": 0.0,
+            "2024-06": 0.0,
+            "2024-07": 0.0,
+            "2024-08": 0.0,
+            "2024-09": 0.0,
+            "2024-10": 0.0,
+            "2024-11": 0.0,
+            "2024-12": 0.0,
+            "2025-01": 0.0,
+            "2025-02": 0.0,
+            "2025-03": 0.0,
+            "2025-04": 0.0,
+            "2025-05": 0.0,
+            "2025-06": 0.0,
+            "2025-07": 0.0,
+            "2025-08": 0.0,
+            "2025-09": 0.0,
+            "2025-10": 0.0,
+            "2025-11": 0.0,
+            "2025-12": 0.0,
+            "2026-01": 0.0,
+            "2026-02": 0.0,
+            "2026-03": 0.0,
+            "2026-04": 0.0,
+            "2026-05": 0.0,
+            "2026-06": 0.0,
+            "2026-07": 0.0,
+            "2026-08": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_market": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6462,
+        "weeks": 156,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    },
+    "outcome_form": {
+      "policies": {
+        "all": {
+          "opportunities": 6462,
+          "bets": 6462,
+          "hits": 4108,
+          "accuracy": 0.6357164964407305,
+          "net_units": "-803.41",
+          "roi": -0.12432838130609718,
+          "net_per_opportunity": -0.12432838130609718,
+          "drawdown_units": 803.47,
+          "monthly_net": {
+            "2023-02": -36.47,
+            "2023-03": -24.54,
+            "2023-04": -18.21,
+            "2023-05": -7.71,
+            "2023-06": -2.05,
+            "2023-07": -1.0,
+            "2023-08": -8.34,
+            "2023-09": -4.61,
+            "2023-10": -7.59,
+            "2023-11": -31.6,
+            "2023-12": -25.62,
+            "2024-01": -26.48,
+            "2024-02": -38.28,
+            "2024-03": -55.76,
+            "2024-04": -19.58,
+            "2024-05": -7.81,
+            "2024-06": 0.87,
+            "2024-07": -10.31,
+            "2024-08": -7.73,
+            "2024-09": -0.69,
+            "2024-10": -21.25,
+            "2024-11": -44.8,
+            "2024-12": -29.85,
+            "2025-01": -40.4,
+            "2025-02": -31.1,
+            "2025-03": -27.99,
+            "2025-04": -7.57,
+            "2025-05": -12.55,
+            "2025-06": -1.6,
+            "2025-07": -3.8,
+            "2025-08": -2.74,
+            "2025-09": -10.61,
+            "2025-10": -15.84,
+            "2025-11": -34.68,
+            "2025-12": -53.97,
+            "2026-01": -36.4,
+            "2026-02": -21.67,
+            "2026-03": -40.7,
+            "2026-04": -13.65,
+            "2026-05": -4.48,
+            "2026-06": -2.87,
+            "2026-07": -11.44,
+            "2026-08": 0.06
+          },
+          "positive_months": 2,
+          "negative_months": 41
+        },
+        "favorites": {
+          "opportunities": 6462,
+          "bets": 5231,
+          "hits": 3646,
+          "accuracy": 0.696998661823743,
+          "net_units": "-607.34",
+          "roi": -0.11610399541196711,
+          "net_per_opportunity": -0.09398638192510059,
+          "drawdown_units": 607.4,
+          "monthly_net": {
+            "2023-02": -19.58,
+            "2023-03": -14.4,
+            "2023-04": -15.61,
+            "2023-05": -3.91,
+            "2023-06": -1.05,
+            "2023-07": 0.0,
+            "2023-08": -4.48,
+            "2023-09": -4.22,
+            "2023-10": -6.62,
+            "2023-11": -26.97,
+            "2023-12": -16.09,
+            "2024-01": -31.93,
+            "2024-02": -24.23,
+            "2024-03": -46.25,
+            "2024-04": -9.94,
+            "2024-05": -5.68,
+            "2024-06": -0.11,
+            "2024-07": -4.67,
+            "2024-08": -0.48,
+            "2024-09": -1.74,
+            "2024-10": -16.06,
+            "2024-11": -27.96,
+            "2024-12": -25.61,
+            "2025-01": -28.41,
+            "2025-02": -24.6,
+            "2025-03": -23.1,
+            "2025-04": -1.92,
+            "2025-05": -13.24,
+            "2025-06": -1.6,
+            "2025-07": -1.8,
+            "2025-08": -1.04,
+            "2025-09": -6.43,
+            "2025-10": -12.37,
+            "2025-11": -31.32,
+            "2025-12": -53.49,
+            "2026-01": -28.67,
+            "2026-02": -16.25,
+            "2026-03": -26.53,
+            "2026-04": -12.3,
+            "2026-05": -5.44,
+            "2026-06": -3.4,
+            "2026-07": -7.9,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 41
+        },
+        "non_underdogs": {
+          "opportunities": 6462,
+          "bets": 5241,
+          "hits": 3651,
+          "accuracy": 0.6966227819118489,
+          "net_units": "-608.62",
+          "roi": -0.11612669337912612,
+          "net_per_opportunity": -0.09418446301454658,
+          "drawdown_units": 608.68,
+          "monthly_net": {
+            "2023-02": -19.58,
+            "2023-03": -14.4,
+            "2023-04": -15.61,
+            "2023-05": -3.15,
+            "2023-06": -1.05,
+            "2023-07": 0.0,
+            "2023-08": -4.48,
+            "2023-09": -4.22,
+            "2023-10": -6.88,
+            "2023-11": -27.25,
+            "2023-12": -16.09,
+            "2024-01": -31.93,
+            "2024-02": -24.23,
+            "2024-03": -46.25,
+            "2024-04": -9.94,
+            "2024-05": -5.68,
+            "2024-06": -0.11,
+            "2024-07": -4.67,
+            "2024-08": -0.48,
+            "2024-09": -1.74,
+            "2024-10": -16.06,
+            "2024-11": -28.96,
+            "2024-12": -25.87,
+            "2025-01": -28.41,
+            "2025-02": -23.84,
+            "2025-03": -23.1,
+            "2025-04": -1.92,
+            "2025-05": -13.24,
+            "2025-06": -1.6,
+            "2025-07": -1.8,
+            "2025-08": -1.04,
+            "2025-09": -6.43,
+            "2025-10": -12.37,
+            "2025-11": -32.32,
+            "2025-12": -53.49,
+            "2026-01": -28.67,
+            "2026-02": -16.25,
+            "2026-03": -26.53,
+            "2026-04": -12.3,
+            "2026-05": -5.44,
+            "2026-06": -3.4,
+            "2026-07": -7.9,
+            "2026-08": 0.06
+          },
+          "positive_months": 1,
+          "negative_months": 41
+        },
+        "underdogs": {
+          "opportunities": 6462,
+          "bets": 1221,
+          "hits": 457,
+          "accuracy": 0.37428337428337427,
+          "net_units": "-194.79",
+          "roi": -0.15953316953316954,
+          "net_per_opportunity": -0.030143918291550602,
+          "drawdown_units": 195.99,
+          "monthly_net": {
+            "2023-02": -16.89,
+            "2023-03": -10.14,
+            "2023-04": -2.6,
+            "2023-05": -4.56,
+            "2023-06": -1.0,
+            "2023-07": -1.0,
+            "2023-08": -3.86,
+            "2023-09": -0.39,
+            "2023-10": -0.71,
+            "2023-11": -4.35,
+            "2023-12": -9.53,
+            "2024-01": 5.45,
+            "2024-02": -14.05,
+            "2024-03": -9.51,
+            "2024-04": -9.64,
+            "2024-05": -2.13,
+            "2024-06": 0.98,
+            "2024-07": -5.64,
+            "2024-08": -7.25,
+            "2024-09": 1.05,
+            "2024-10": -5.19,
+            "2024-11": -15.84,
+            "2024-12": -3.98,
+            "2025-01": -11.99,
+            "2025-02": -7.26,
+            "2025-03": -4.89,
+            "2025-04": -5.65,
+            "2025-05": 0.69,
+            "2025-06": 0.0,
+            "2025-07": -2.0,
+            "2025-08": -1.7,
+            "2025-09": -4.18,
+            "2025-10": -3.47,
+            "2025-11": -2.36,
+            "2025-12": -0.48,
+            "2026-01": -7.73,
+            "2026-02": -5.42,
+            "2026-03": -14.17,
+            "2026-04": -1.35,
+            "2026-05": 0.96,
+            "2026-06": 0.53,
+            "2026-07": -3.54,
+            "2026-08": 0.0
+          },
+          "positive_months": 6,
+          "negative_months": 35
+        },
+        "market_same_underdogs": {
+          "opportunities": 6462,
+          "bets": 1221,
+          "hits": 764,
+          "accuracy": 0.6257166257166257,
+          "net_units": "-135.72",
+          "roi": -0.11115479115479115,
+          "net_per_opportunity": -0.021002785515320335,
+          "drawdown_units": 138.6,
+          "monthly_net": {
+            "2023-02": -1.9,
+            "2023-03": -5.67,
+            "2023-04": -6.7,
+            "2023-05": 0.46,
+            "2023-06": 0.46,
+            "2023-07": 0.01,
+            "2023-08": -2.72,
+            "2023-09": -4.7,
+            "2023-10": -6.15,
+            "2023-11": -8.75,
+            "2023-12": -2.39,
+            "2024-01": -8.59,
+            "2024-02": 0.79,
+            "2024-03": -3.82,
+            "2024-04": 1.5,
+            "2024-05": -0.21,
+            "2024-06": -1.0,
+            "2024-07": -2.12,
+            "2024-08": 0.59,
+            "2024-09": -0.98,
+            "2024-10": -2.4,
+            "2024-11": -2.43,
+            "2024-12": -9.42,
+            "2025-01": -2.57,
+            "2025-02": 0.29,
+            "2025-03": -6.82,
+            "2025-04": -2.42,
+            "2025-05": -2.27,
+            "2025-06": 0.0,
+            "2025-07": 0.22,
+            "2025-08": -4.57,
+            "2025-09": 0.87,
+            "2025-10": -4.06,
+            "2025-11": -13.61,
+            "2025-12": -12.64,
+            "2026-01": -6.14,
+            "2026-02": -6.18,
+            "2026-03": 0.3,
+            "2026-04": -4.85,
+            "2026-05": -2.97,
+            "2026-06": -0.99,
+            "2026-07": -1.17,
+            "2026-08": 0.0
+          },
+          "positive_months": 10,
+          "negative_months": 31
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 1221,
+        "weeks": 141,
+        "mean": -0.15953316953316954,
+        "ci95": [
+          -0.21044806189541815,
+          -0.10908753148614632
+        ]
+      },
+      "underdog_vs_market": {
+        "n": 1221,
+        "weeks": 141,
+        "mean": -0.04837837837837839,
+        "ci95": [
+          -0.13124356716294683,
+          0.03321452064423329
+        ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6462,
+        "weeks": 156,
+        "mean": -0.030143918291550605,
+        "ci95": [
+          -0.039803788308818575,
+          -0.02003185633810634
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    },
+    "market_residual": {
+      "policies": {
+        "all": {
+          "opportunities": 6462,
+          "bets": 6462,
+          "hits": 4406,
+          "accuracy": 0.6818322500773755,
+          "net_units": "-754.42",
+          "roi": -0.1167471371092541,
+          "net_per_opportunity": -0.1167471371092541,
+          "drawdown_units": 754.48,
+          "monthly_net": {
+            "2023-02": -23.38,
+            "2023-03": -21.36,
+            "2023-04": -24.06,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -12.79,
+            "2023-11": -32.19,
+            "2023-12": -18.04,
+            "2024-01": -37.96,
+            "2024-02": -26.77,
+            "2024-03": -56.62,
+            "2024-04": -10.14,
+            "2024-05": -4.07,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -20.18,
+            "2024-11": -39.94,
+            "2024-12": -35.16,
+            "2025-01": -29.09,
+            "2025-02": -26.99,
+            "2025-03": -29.88,
+            "2025-04": -4.32,
+            "2025-05": -13.74,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -16.36,
+            "2025-11": -49.31,
+            "2025-12": -67.81,
+            "2026-01": -27.7,
+            "2026-02": -15.42,
+            "2026-03": -24.48,
+            "2026-04": -18.86,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -10.81,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "favorites": {
+          "opportunities": 6462,
+          "bets": 6337,
+          "hits": 4349,
+          "accuracy": 0.686286886539372,
+          "net_units": "-731.68",
+          "roi": -0.11546157487770238,
+          "net_per_opportunity": -0.11322810275456514,
+          "drawdown_units": 731.74,
+          "monthly_net": {
+            "2023-02": -20.59,
+            "2023-03": -19.84,
+            "2023-04": -23.06,
+            "2023-05": -3.45,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -12.5,
+            "2023-11": -33.11,
+            "2023-12": -17.24,
+            "2024-01": -37.87,
+            "2024-02": -24.54,
+            "2024-03": -52.22,
+            "2024-04": -8.93,
+            "2024-05": -4.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -19.18,
+            "2024-11": -33.94,
+            "2024-12": -33.74,
+            "2025-01": -29.4,
+            "2025-02": -24.76,
+            "2025-03": -29.67,
+            "2025-04": -4.09,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -15.86,
+            "2025-11": -46.08,
+            "2025-12": -66.58,
+            "2026-01": -30.25,
+            "2026-02": -18.43,
+            "2026-03": -25.23,
+            "2026-04": -17.61,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.81,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "non_underdogs": {
+          "opportunities": 6462,
+          "bets": 6347,
+          "hits": 4352,
+          "accuracy": 0.685678273199937,
+          "net_units": "-736.46",
+          "roi": -0.11603277138805734,
+          "net_per_opportunity": -0.11396781182296503,
+          "drawdown_units": 736.52,
+          "monthly_net": {
+            "2023-02": -20.59,
+            "2023-03": -19.84,
+            "2023-04": -23.06,
+            "2023-05": -2.69,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.2,
+            "2023-09": -8.92,
+            "2023-10": -12.76,
+            "2023-11": -33.39,
+            "2023-12": -17.24,
+            "2024-01": -37.87,
+            "2024-02": -24.54,
+            "2024-03": -52.22,
+            "2024-04": -8.93,
+            "2024-05": -4.89,
+            "2024-06": -1.11,
+            "2024-07": -6.79,
+            "2024-08": 0.11,
+            "2024-09": -2.72,
+            "2024-10": -19.18,
+            "2024-11": -34.94,
+            "2024-12": -35.74,
+            "2025-01": -29.4,
+            "2025-02": -25.76,
+            "2025-03": -29.67,
+            "2025-04": -4.09,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.61,
+            "2025-09": -5.56,
+            "2025-10": -15.86,
+            "2025-11": -47.08,
+            "2025-12": -66.58,
+            "2026-01": -30.25,
+            "2026-02": -18.43,
+            "2026-03": -25.23,
+            "2026-04": -17.61,
+            "2026-05": -8.41,
+            "2026-06": -4.39,
+            "2026-07": -9.81,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "underdogs": {
+          "opportunities": 6462,
+          "bets": 115,
+          "hits": 54,
+          "accuracy": 0.46956521739130436,
+          "net_units": "-17.96",
+          "roi": -0.15617391304347827,
+          "net_per_opportunity": -0.0027793252862890745,
+          "drawdown_units": 25.53,
+          "monthly_net": {
+            "2023-02": -2.79,
+            "2023-03": -1.52,
+            "2023-04": -1.0,
+            "2023-05": 0.0,
+            "2023-06": 0.0,
+            "2023-07": 0.0,
+            "2023-08": 0.0,
+            "2023-09": 0.0,
+            "2023-10": -0.03,
+            "2023-11": 1.2,
+            "2023-12": -0.8,
+            "2024-01": -0.09,
+            "2024-02": -2.23,
+            "2024-03": -4.4,
+            "2024-04": -1.21,
+            "2024-05": 0.82,
+            "2024-06": 0.0,
+            "2024-07": 0.0,
+            "2024-08": 0.0,
+            "2024-09": 0.0,
+            "2024-10": -1.0,
+            "2024-11": -5.0,
+            "2024-12": 0.58,
+            "2025-01": 0.31,
+            "2025-02": -1.23,
+            "2025-03": -0.21,
+            "2025-04": -0.23,
+            "2025-05": 0.77,
+            "2025-06": 0.0,
+            "2025-07": 0.0,
+            "2025-08": 0.0,
+            "2025-09": 0.0,
+            "2025-10": -0.5,
+            "2025-11": -2.23,
+            "2025-12": -1.23,
+            "2026-01": 2.55,
+            "2026-02": 3.01,
+            "2026-03": 0.75,
+            "2026-04": -1.25,
+            "2026-05": 0.0,
+            "2026-06": 0.0,
+            "2026-07": -1.0,
+            "2026-08": 0.0
+          },
+          "positive_months": 8,
+          "negative_months": 19
+        },
+        "market_same_underdogs": {
+          "opportunities": 6462,
+          "bets": 115,
+          "hits": 61,
+          "accuracy": 0.5304347826086957,
+          "net_units": "-11.38",
+          "roi": -0.09895652173913043,
+          "net_per_opportunity": -0.0017610646858557723,
+          "drawdown_units": 12.96,
+          "monthly_net": {
+            "2023-02": -0.89,
+            "2023-03": -0.23,
+            "2023-04": 0.75,
+            "2023-05": 0.0,
+            "2023-06": 0.0,
+            "2023-07": 0.0,
+            "2023-08": 0.0,
+            "2023-09": 0.0,
+            "2023-10": -0.27,
+            "2023-11": -2.61,
+            "2023-12": -1.24,
+            "2024-01": -2.65,
+            "2024-02": 1.1,
+            "2024-03": 2.15,
+            "2024-04": 0.49,
+            "2024-05": -1.0,
+            "2024-06": 0.0,
+            "2024-07": 0.0,
+            "2024-08": 0.0,
+            "2024-09": 0.0,
+            "2024-10": 0.72,
+            "2024-11": 3.55,
+            "2024-12": -1.29,
+            "2025-01": -1.58,
+            "2025-02": 0.45,
+            "2025-03": -0.25,
+            "2025-04": -0.25,
+            "2025-05": -1.0,
+            "2025-06": 0.0,
+            "2025-07": 0.0,
+            "2025-08": 0.0,
+            "2025-09": 0.0,
+            "2025-10": -0.57,
+            "2025-11": 1.15,
+            "2025-12": 0.45,
+            "2026-01": -4.56,
+            "2026-02": -4.0,
+            "2026-03": -1.0,
+            "2026-04": 0.46,
+            "2026-05": 0.0,
+            "2026-06": 0.0,
+            "2026-07": 0.74,
+            "2026-08": 0.0
+          },
+          "positive_months": 11,
+          "negative_months": 16
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 115,
+        "weeks": 68,
+        "mean": -0.15617391304347827,
+        "ci95": [
+          -0.3123645272601794,
+          0.0008115196803787798
+        ]
+      },
+      "underdog_vs_market": {
+        "n": 115,
+        "weeks": 68,
+        "mean": -0.057217391304347796,
+        "ci95": [
+          -0.361340254237288,
+          0.24782258064516083
+        ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6462,
+        "weeks": 156,
+        "mean": -0.002779325286289075,
+        "ci95": [
+          -0.005694116885164336,
+          0.0001855043894386063
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    },
+    "half_market_form": {
+      "policies": {
+        "all": {
+          "opportunities": 6462,
+          "bets": 6462,
+          "hits": 4361,
+          "accuracy": 0.6748684617765398,
+          "net_units": "-758.94",
+          "roi": -0.11744661095636026,
+          "net_per_opportunity": -0.11744661095636026,
+          "drawdown_units": 759.0,
+          "monthly_net": {
+            "2023-02": -27.36,
+            "2023-03": -20.04,
+            "2023-04": -15.76,
+            "2023-05": -5.43,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -8.78,
+            "2023-09": -8.22,
+            "2023-10": -12.57,
+            "2023-11": -28.62,
+            "2023-12": -25.9,
+            "2024-01": -46.9,
+            "2024-02": -24.95,
+            "2024-03": -57.75,
+            "2024-04": -13.97,
+            "2024-05": -7.54,
+            "2024-06": 0.87,
+            "2024-07": -6.79,
+            "2024-08": -5.38,
+            "2024-09": -2.72,
+            "2024-10": -19.38,
+            "2024-11": -42.81,
+            "2024-12": -21.64,
+            "2025-01": -31.01,
+            "2025-02": -29.21,
+            "2025-03": -21.35,
+            "2025-04": -5.93,
+            "2025-05": -13.67,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -7.07,
+            "2025-09": -8.29,
+            "2025-10": -15.01,
+            "2025-11": -45.18,
+            "2025-12": -56.7,
+            "2026-01": -32.71,
+            "2026-02": -20.04,
+            "2026-03": -31.45,
+            "2026-04": -16.79,
+            "2026-05": -8.16,
+            "2026-06": -4.39,
+            "2026-07": -6.64,
+            "2026-08": 0.06
+          },
+          "positive_months": 3,
+          "negative_months": 40
+        },
+        "favorites": {
+          "opportunities": 6462,
+          "bets": 5966,
+          "hits": 4140,
+          "accuracy": 0.693932282936641,
+          "net_units": "-686.15",
+          "roi": -0.11501005698960778,
+          "net_per_opportunity": -0.10618229650263077,
+          "drawdown_units": 686.21,
+          "monthly_net": {
+            "2023-02": -22.07,
+            "2023-03": -16.08,
+            "2023-04": -17.01,
+            "2023-05": -4.18,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.58,
+            "2023-09": -7.78,
+            "2023-10": -11.09,
+            "2023-11": -28.79,
+            "2023-12": -18.6,
+            "2024-01": -40.85,
+            "2024-02": -21.09,
+            "2024-03": -50.48,
+            "2024-04": -9.74,
+            "2024-05": -6.54,
+            "2024-06": -0.11,
+            "2024-07": -6.79,
+            "2024-08": -1.38,
+            "2024-09": -2.72,
+            "2024-10": -17.37,
+            "2024-11": -32.42,
+            "2024-12": -26.15,
+            "2025-01": -29.21,
+            "2025-02": -25.61,
+            "2025-03": -23.56,
+            "2025-04": -3.33,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.84,
+            "2025-09": -6.64,
+            "2025-10": -13.28,
+            "2025-11": -41.24,
+            "2025-12": -58.15,
+            "2026-01": -30.03,
+            "2026-02": -19.52,
+            "2026-03": -27.0,
+            "2026-04": -15.29,
+            "2026-05": -7.96,
+            "2026-06": -4.39,
+            "2026-07": -8.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 2,
+          "negative_months": 41
+        },
+        "non_underdogs": {
+          "opportunities": 6462,
+          "bets": 5976,
+          "hits": 4145,
+          "accuracy": 0.6936077643908969,
+          "net_units": "-687.43",
+          "roi": -0.11503179384203481,
+          "net_per_opportunity": -0.10638037759207676,
+          "drawdown_units": 687.49,
+          "monthly_net": {
+            "2023-02": -22.07,
+            "2023-03": -16.08,
+            "2023-04": -17.01,
+            "2023-05": -3.42,
+            "2023-06": -0.59,
+            "2023-07": 0.01,
+            "2023-08": -7.58,
+            "2023-09": -7.78,
+            "2023-10": -11.35,
+            "2023-11": -29.07,
+            "2023-12": -18.6,
+            "2024-01": -40.85,
+            "2024-02": -21.09,
+            "2024-03": -50.48,
+            "2024-04": -9.74,
+            "2024-05": -6.54,
+            "2024-06": -0.11,
+            "2024-07": -6.79,
+            "2024-08": -1.38,
+            "2024-09": -2.72,
+            "2024-10": -17.37,
+            "2024-11": -33.42,
+            "2024-12": -26.41,
+            "2025-01": -29.21,
+            "2025-02": -24.85,
+            "2025-03": -23.56,
+            "2025-04": -3.33,
+            "2025-05": -14.51,
+            "2025-06": -1.6,
+            "2025-07": -1.58,
+            "2025-08": -5.84,
+            "2025-09": -6.64,
+            "2025-10": -13.28,
+            "2025-11": -42.24,
+            "2025-12": -58.15,
+            "2026-01": -30.03,
+            "2026-02": -19.52,
+            "2026-03": -27.0,
+            "2026-04": -15.29,
+            "2026-05": -7.96,
+            "2026-06": -4.39,
+            "2026-07": -8.07,
+            "2026-08": 0.06
+          },
+          "positive_months": 2,
+          "negative_months": 41
+        },
+        "underdogs": {
+          "opportunities": 6462,
+          "bets": 486,
+          "hits": 216,
+          "accuracy": 0.4444444444444444,
+          "net_units": "-71.51",
+          "roi": -0.14713991769547324,
+          "net_per_opportunity": -0.011066233364283504,
+          "drawdown_units": 74.74,
+          "monthly_net": {
+            "2023-02": -5.29,
+            "2023-03": -3.96,
+            "2023-04": 1.25,
+            "2023-05": -2.01,
+            "2023-06": 0.0,
+            "2023-07": 0.0,
+            "2023-08": -1.2,
+            "2023-09": -0.44,
+            "2023-10": -1.22,
+            "2023-11": 0.45,
+            "2023-12": -7.3,
+            "2024-01": -6.05,
+            "2024-02": -3.86,
+            "2024-03": -7.27,
+            "2024-04": -4.23,
+            "2024-05": -1.0,
+            "2024-06": 0.98,
+            "2024-07": 0.0,
+            "2024-08": -4.0,
+            "2024-09": 0.0,
+            "2024-10": -2.01,
+            "2024-11": -9.39,
+            "2024-12": 4.77,
+            "2025-01": -1.8,
+            "2025-02": -4.36,
+            "2025-03": 2.21,
+            "2025-04": -2.6,
+            "2025-05": 0.84,
+            "2025-06": 0.0,
+            "2025-07": 0.0,
+            "2025-08": -1.23,
+            "2025-09": -1.65,
+            "2025-10": -1.73,
+            "2025-11": -2.94,
+            "2025-12": 1.45,
+            "2026-01": -2.68,
+            "2026-02": -0.52,
+            "2026-03": -4.45,
+            "2026-04": -1.5,
+            "2026-05": -0.2,
+            "2026-06": 0.0,
+            "2026-07": 1.43,
+            "2026-08": 0.0
+          },
+          "positive_months": 8,
+          "negative_months": 27
+        },
+        "market_same_underdogs": {
+          "opportunities": 6462,
+          "bets": 486,
+          "hits": 270,
+          "accuracy": 0.5555555555555556,
+          "net_units": "-56.91",
+          "roi": -0.11709876543209877,
+          "net_per_opportunity": -0.008806870937790158,
+          "drawdown_units": 58.25,
+          "monthly_net": {
+            "2023-02": 0.59,
+            "2023-03": -3.99,
+            "2023-04": -5.3,
+            "2023-05": 0.73,
+            "2023-06": 0.0,
+            "2023-07": 0.0,
+            "2023-08": 0.38,
+            "2023-09": -1.14,
+            "2023-10": -1.68,
+            "2023-11": -6.93,
+            "2023-12": 0.12,
+            "2024-01": 0.33,
+            "2024-02": -2.35,
+            "2024-03": 0.41,
+            "2024-04": 1.3,
+            "2024-05": 0.65,
+            "2024-06": -1.0,
+            "2024-07": 0.0,
+            "2024-08": 1.49,
+            "2024-09": 0.0,
+            "2024-10": -1.09,
+            "2024-11": 2.03,
+            "2024-12": -8.88,
+            "2025-01": -1.77,
+            "2025-02": 1.3,
+            "2025-03": -6.36,
+            "2025-04": -1.01,
+            "2025-05": -1.0,
+            "2025-06": 0.0,
+            "2025-07": 0.0,
+            "2025-08": 0.23,
+            "2025-09": 1.08,
+            "2025-10": -3.15,
+            "2025-11": -3.69,
+            "2025-12": -7.98,
+            "2026-01": -4.78,
+            "2026-02": -2.91,
+            "2026-03": 0.77,
+            "2026-04": -1.86,
+            "2026-05": -0.45,
+            "2026-06": 0.0,
+            "2026-07": -1.0,
+            "2026-08": 0.0
+          },
+          "positive_months": 14,
+          "negative_months": 21
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 486,
+        "weeks": 116,
+        "mean": -0.14713991769547322,
+        "ci95": [
+          -0.23082290050514176,
+          -0.05925361509835202
+        ]
+      },
+      "underdog_vs_market": {
+        "n": 486,
+        "weeks": 116,
+        "mean": -0.030041152263374487,
+        "ci95": [
+          -0.18416639665404777,
+          0.13235270486841377
+        ]
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 6462,
+        "weeks": 156,
+        "mean": -0.011066233364283504,
+        "ci95": [
+          -0.01724749361730211,
+          -0.004901146664935857
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    }
+  },
+  "fallback_only": {
+    "market": {
+      "policies": {
+        "all": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "favorites": {
+          "opportunities": 286,
+          "bets": 285,
+          "hits": 189,
+          "accuracy": 0.6631578947368421,
+          "net_units": "-27.61",
+          "roi": -0.09687719298245615,
+          "net_per_opportunity": -0.09653846153846155,
+          "drawdown_units": 28.4,
+          "monthly_net": {
+            "2023-01": -27.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "non_underdogs": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        },
+        "market_same_underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_market": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 286,
+        "weeks": 6,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    },
+    "outcome_form": {
+      "policies": {
+        "all": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "favorites": {
+          "opportunities": 286,
+          "bets": 285,
+          "hits": 189,
+          "accuracy": 0.6631578947368421,
+          "net_units": "-27.61",
+          "roi": -0.09687719298245615,
+          "net_per_opportunity": -0.09653846153846155,
+          "drawdown_units": 28.4,
+          "monthly_net": {
+            "2023-01": -27.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "non_underdogs": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        },
+        "market_same_underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_market": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 286,
+        "weeks": 6,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    },
+    "market_residual": {
+      "policies": {
+        "all": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "favorites": {
+          "opportunities": 286,
+          "bets": 285,
+          "hits": 189,
+          "accuracy": 0.6631578947368421,
+          "net_units": "-27.61",
+          "roi": -0.09687719298245615,
+          "net_per_opportunity": -0.09653846153846155,
+          "drawdown_units": 28.4,
+          "monthly_net": {
+            "2023-01": -27.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "non_underdogs": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        },
+        "market_same_underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_market": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 286,
+        "weeks": 6,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    },
+    "half_market_form": {
+      "policies": {
+        "all": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "favorites": {
+          "opportunities": 286,
+          "bets": 285,
+          "hits": 189,
+          "accuracy": 0.6631578947368421,
+          "net_units": "-27.61",
+          "roi": -0.09687719298245615,
+          "net_per_opportunity": -0.09653846153846155,
+          "drawdown_units": 28.4,
+          "monthly_net": {
+            "2023-01": -27.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "non_underdogs": {
+          "opportunities": 286,
+          "bets": 286,
+          "hits": 189,
+          "accuracy": 0.6608391608391608,
+          "net_units": "-28.61",
+          "roi": -0.10003496503496503,
+          "net_per_opportunity": -0.10003496503496503,
+          "drawdown_units": 29.4,
+          "monthly_net": {
+            "2023-01": -28.61
+          },
+          "positive_months": 0,
+          "negative_months": 1
+        },
+        "underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        },
+        "market_same_underdogs": {
+          "opportunities": 286,
+          "bets": 0,
+          "hits": 0,
+          "accuracy": null,
+          "net_units": "0",
+          "roi": null,
+          "net_per_opportunity": 0.0,
+          "drawdown_units": 0.0,
+          "monthly_net": {
+            "2023-01": 0.0
+          },
+          "positive_months": 0,
+          "negative_months": 0
+        }
+      },
+      "underdog_vs_skip": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_market": {
+        "n": 0,
+        "weeks": 0,
+        "mean": null,
+        "ci95": null
+      },
+      "underdog_vs_skip_per_opportunity": {
+        "opportunities": 286,
+        "weeks": 6,
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "estimand": "incremental net per observed fixture opportunity, not per bet or per calendar week"
+      }
+    }
+  },
+  "aggregation_revision": "pipeline-audit-v2: ties retained, fallback split, per-opportunity uncertainty",
+  "forecast_generator_common_lf_sha256": "2a507d75338442feeedb1d7ec85402f0f3f8217758b7ac8f89ad7b9a21c8e092",
+  "aggregation_common_lf_sha256": "2fb09168975c2934d83734eb70ea49544bc04a47d9d6a4119e39738b54cdde26"
 }
