@@ -1,0 +1,9 @@
+{
+  "type": "diagnostic_only_addendum",
+  "primary_protocol_commit": "396a12e0a477418c8fee66562e36dba4bb274525",
+  "purpose": "Distinguish actual tipster directional information from market-favourite calibration and source sampling effects.",
+  "control": "Replace each expert direction by the same fixture market argmax while retaining source, author, timestamps, prices, split and exact-document grouping; fit the primary selected architecture with its frozen hyperparameters and compare predictions on the same test fixtures.",
+  "selection": "Never use this diagnostic to choose an architecture, tune a coefficient or change the primary split; report separately after primary fixed selection.",
+  "interpretation": "Similar or better sham-expert performance cannot support a claim that human directional information produced the gain. A difference alone is still not causal proof or executable profit evidence.",
+  "disclosure": "Exploratory reused dataset; addendum frozen before receiving the new candidate's performance results. Not an independent blind test."
+}

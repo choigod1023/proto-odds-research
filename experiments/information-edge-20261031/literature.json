@@ -1,0 +1,37 @@
+{
+  "interpretation": "Design inspirations, not sports-performance replication or a profit guarantee.",
+  "sources": [
+    {
+      "title": "Learning From Crowds",
+      "authors": "Raykar et al.",
+      "year": 2010,
+      "url": "https://jmlr.org/papers/v11/raykar10a.html",
+      "use": "Unequal annotator reliability motivates partial pooling instead of counting every opinion equally.",
+      "difference": "The paper infers latent labels; this experiment uses saved official-linked results in supervised fitting. It does not reproduce the paper's algorithm or empirical claims."
+    },
+    {
+      "title": "A Generative Bayesian Model for Aggregating Experts' Probabilities",
+      "authors": "Joseph Kahn",
+      "publication": "UAI 2004; arXiv deposit 2012",
+      "url": "https://arxiv.org/abs/1207.4144",
+      "use": "Event-specific prior and relative expert information motivate a market offset with learned evidence coefficients.",
+      "difference": "Our inputs are directional picks, not expert probabilities. The exact softmax and shrinkage constants are a new project specification, not the paper's implemented model."
+    },
+    {
+      "title": "A Heuristic for Combining Correlated Experts When There Are Few Data",
+      "authors": "Soule, Grushka-Cockayne, Merrick",
+      "publication": "Published online 2023; Management Science 70(10)",
+      "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.2021.02009",
+      "use": "Estimating expert skill and dependence can itself increase error in small samples. Use shrinkage and a market-only control.",
+      "difference": "We do not estimate a full expert covariance matrix with only a few multi-author fixtures. Exact-document deduplication is not a general dependence correction."
+    },
+    {
+      "title": "Probabilistic Opinion Pooling",
+      "authors": "Dietrich and List",
+      "year": 2014,
+      "url": "https://personal.lse.ac.uk/list/PDF-files/OpinionPoolingReview.pdf",
+      "use": "Shared versus private information and competence versus equal representation distinguish predictive aggregation from a fair vote.",
+      "difference": "General aggregation theory does not establish a sports betting advantage."
+    }
+  ]
+}
