@@ -1,0 +1,17 @@
+{
+  "purpose": "descriptive post-selection underdog diagnostics; no model selection, efficacy claim, optimization or operations",
+  "samples": {
+    "expert_122": "PR453 863b13ea1015fadb5b57b68af4a50b7af09b3c3b test forecasts and matching target",
+    "state_445": "PR433 actual_vote_2026, one outcome-static prediction per mode; K2 candidate excluded as validation gate not met; other controls 445"
+  },
+  "classification": "same market unique max=favorite; selected strictly less than max=underdog; selecting tied maximum=top_tie; retain ranks and outcome and league",
+  "metrics": "n hits Wilson interval, mean market probability, mean chosen model probability except vote, odds, flat-stake profit/ROI, longest selected-under group consecutive loss run, differences and flips; no hypothesis search, no causal inference",
+  "timing": "sort decision_at then event_id, calculate streak over selected subgroup sequence; probability product for that observed streak assumes independent Bernoulli with saved market p, post-selected descriptive illustration only",
+  "limits": "retrospective reused records, no receipt or executable price certification, official outcome linkage unverified here, unit stakes no wallet, fixed91 comparison is not live policy",
+  "files_sha256": {
+    "expert-forecasts.jsonl": "a11fdf81dbb6958c60a2230b0066c0e5699a154c7ebb31496678587bd625d16f",
+    "expert-settlements.jsonl": "e3b97daa818f10d59e6dca70bde3ae5fab367fd38fe430285af584ae34556ad0",
+    "state-predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+    "targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0"
+  }
+}
