@@ -1,0 +1,47 @@
+{
+  "snapshot_sha256": {
+    "run.py": "039d42d1fb1ef5b6e452e2fda8bead4bf1765b3b5edbc98b91a49b7c79bfc36c",
+    "verify.py": "0ed4e2866318fed8b9a56723c6b68dcb954edb098b46477496109bc6114e2d7d",
+    "verification.json": "fa12f54475baac5e0a365250b0f3db5b2cc0f271ee4d2133c80b490c4c06f3d3",
+    "results.json": "842c17d2fb0ec1f6896566b81afd9b4bca65641e6c44a55dfbfda276b9be059f",
+    "forecasts.jsonl": "908add38d8fe313614eb6b0368f0ad97723db87584808b626cf5070c9d888489",
+    "settlements.jsonl": "4df46c091c04e31883acb49a80b2b85074e052781f1495f4d1fbd6335a970cf6",
+    "protocol.json": "061716c82b9b5487c7c52db03ec57d1718de699f185ef1380f43567a64289a4d",
+    "negative-control.json": "0d1f6b4500a503d697ca204f0a572f332c04f62a9888e635b291a0517a5cd3dd",
+    "inputs/targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "inputs/votes.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    "inputs/cases.jsonl.gz": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
+    "inputs/provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76",
+    "protocol-origin.json": "8086afc482302d69a54bb131bd03663af7854ab39032db2700f65cf01bfcf1c5"
+  },
+  "ledger_records_checked": 1220,
+  "metric_values_checked": 660,
+  "train_cutoff_forecasts_checked": 488,
+  "bootstrap_cells_checked": 12,
+  "raw_sha256": {
+    "run.py": "039d42d1fb1ef5b6e452e2fda8bead4bf1765b3b5edbc98b91a49b7c79bfc36c",
+    "verify.py": "0ed4e2866318fed8b9a56723c6b68dcb954edb098b46477496109bc6114e2d7d",
+    "verification.json": "fa12f54475baac5e0a365250b0f3db5b2cc0f271ee4d2133c80b490c4c06f3d3",
+    "results.json": "842c17d2fb0ec1f6896566b81afd9b4bca65641e6c44a55dfbfda276b9be059f",
+    "forecasts.jsonl": "908add38d8fe313614eb6b0368f0ad97723db87584808b626cf5070c9d888489",
+    "settlements.jsonl": "4df46c091c04e31883acb49a80b2b85074e052781f1495f4d1fbd6335a970cf6",
+    "protocol.json": "061716c82b9b5487c7c52db03ec57d1718de699f185ef1380f43567a64289a4d",
+    "negative-control.json": "0d1f6b4500a503d697ca204f0a572f332c04f62a9888e635b291a0517a5cd3dd",
+    "inputs/targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "inputs/votes.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    "inputs/cases.jsonl.gz": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
+    "inputs/provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76",
+    "protocol-origin.json": "8086afc482302d69a54bb131bd03663af7854ab39032db2700f65cf01bfcf1c5"
+  },
+  "stored_parent_protocol_commit": "396a12e0a477418c8fee66562e36dba4bb274525",
+  "copied_protocol_commit": "a1ed59f8849a29b753fa9a45df482ad294ed5862",
+  "reviewed_commit": "863b13ea1015fadb5b57b68af4a50b7af09b3c3b",
+  "summary": "no discrepancies in specified checks",
+  "not_checked": [
+    "candidate validation losses independently refit",
+    "probability vector reconstruction",
+    "actual receipt or executable prices",
+    "independent verification of raw HTTP",
+    "developer output reproduction from scratch"
+  ]
+}

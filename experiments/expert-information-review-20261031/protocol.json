@@ -1,0 +1,68 @@
+{
+  "schema": "information-edge-preregister-v1",
+  "purpose": "Exploratory market-conditioned expert information test; no new independent holdout or production promotion",
+  "base_main": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "evidence_tier": "retrospective claimed-publication only; actual pregame receipt and executable-price certification remain zero",
+  "sources": {
+    "targets": "experiments/dynamic-score-state-model-20261030/inputs/targets.jsonl.gz",
+    "frames": "raw_frames path and SHA from the same inputs/provenance.json"
+  },
+  "eligibility": [
+    "actual_votes only; do not turn proxy rows into expert observations",
+    "exact event id, league, kickoff and source team identity; source publication claim <= decision <= T-30",
+    "same target fullgame outcomes, full saved odds vector and official-linked result; no fabricated prices or missing votes",
+    "within-event one vote per source+author; opposing repeated author votes excluded; equal document SHA clustered only within that event; absent hash uses distinct source+author key",
+    "all original folds/records already inspected historically: reuse is exploratory, never blind or prospective"
+  ],
+  "split_UTC": {
+    "train_labels_available_before": "2026-06-01T00:00:00+00:00",
+    "validation_decisions": [
+      "2026-06-01T00:00:00+00:00",
+      "2026-07-01T00:00:00+00:00"
+    ],
+    "test_decisions": [
+      "2026-07-01T00:00:00+00:00",
+      "2026-11-01T00:00:00+00:00"
+    ],
+    "label_availability_proxy": "kickoff + 96 hours; assumption not actual receipt/final-time certification"
+  },
+  "formula": "z_vk=1(vote=k)-market_p[k]; within each exact-document group average beta(source,author,league)*z, then average groups; p=softmax(log(market_p)+contribution); coefficient global + league + league/source/author, unseen terms zero",
+  "candidates": [
+    {
+      "id": "market",
+      "learned": false
+    },
+    {
+      "id": "expert_global",
+      "parameters": "global coefficient only; ridge strength1, bound[-2,2]"
+    },
+    {
+      "id": "expert_hierarchical",
+      "parameters": "global ridge1 bound[-2,2]; league ridge4 bound[-1,1]; league/source/author ridge16 bound[-1,1]"
+    }
+  ],
+  "fit": "scipy L-BFGS-B deterministic zero initial point; softmax likelihood + 0.5*sum(lambda*coef^2); analytic gradient; maxiter500 ftol1e-12; no post-result hyperparameter search",
+  "selection": "validation mean logloss overall, minimum30 valid validation events; tie1e-12 prefers simpler candidate market then global then hierarchical; select once before test; no per-league re-selection",
+  "modes": [
+    "primary frozen refit on all labels available before 2026-07-01, unchanged parameters throughout test",
+    "secondary prequential: selected configuration refit once per UTC decision day using only prior labels available via +96h; separate from frozen results"
+  ],
+  "controls": [
+    "market argmax",
+    "recomputed fixed91 = .9*market_p+.1*eligible expert group directional frequency, argmax; not frozen production replay",
+    "direction-only equal-author vote, unique plurality or abstain; no calibrated probability assigned"
+  ],
+  "metrics": [
+    "same fixture/price unit stake single-game accuracy, ROI, logloss, Brier, coverage, pick changes",
+    "per league counts and total; monthly unit P&L and daily-close max drawdown, without paper-wallet monthly-stop simulation",
+    "paired calendar-week block bootstrap5000 seed20261031 for selected-vs-market accuracy/ROI; raw league n<30 flagged descriptive only; no profit guarantees"
+  ],
+  "falsification": [
+    "future/current outcome poisoning must leave current prediction identical",
+    "forecast API cannot accept target outcome; no current-score inputs",
+    "same exact document copied within an event cannot multiply its information weight",
+    "author prior unseen defaults to zero offset; market-only parameter zero exactly reproduces market",
+    "independent Decimal odds settlement and no output state mutation"
+  ],
+  "scope": "local research only; no production model switch, budget change, deployment, restart, external messaging or recurring task"
+}
