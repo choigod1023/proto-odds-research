@@ -1,6 +1,6 @@
 {
   "role": "facts_pipeline_independent_review",
-  "status": "draft_pr_open_followup_found_blockers",
+  "status": "draft_pr_open_queue_final_reviewed_capture_blocked",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/fact-pipeline-independent-review-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
@@ -20,13 +20,18 @@
     "queue_v1": "a54b097a35e363195b20e704d2ce92c6bab0d23f095927c093f19ff1b3bb1661",
     "queue_v2": "319ba7c6fae5a9acff2da63dbc1459882008070d66625706c7540aa42337177a",
     "adapter_interim": "78dce09f8af94a79934834c63c3f9935a3fb209826fe822b64a012996c23ce33",
-    "capture_pr467_head": "13607afe4177be6ab16bf6c0b7be800c7a1bdabd"
+    "capture_pr467_head": "ac7816a751b8d6d57734a4d71ef382fb7e59f150",
+    "queue_pr469_head": "3eeb1d3a34a4836adb9e2ac97845ad7cccd1871b",
+    "queue_pr469_source_raw": "5f49a2a239a38a58c4c6a42182b8aaf420c8c6101ef1659e125a55e787b24760",
+    "adapter_interim_lf": "1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a"
   },
   "tests": {
     "targeted": "13 queue/capture integration tests passed plus prior 8 fixture/interim tests",
-    "full": "2036 passed, 6 skipped, 93 subtests passed",
+    "full": "2052 passed, 6 skipped, 93 subtests passed",
     "fixture_catalog": 37,
-    "full_fixture_driver": "not implemented"
+    "full_fixture_driver": "not implemented",
+    "targeted_latest": "16 passed: 10 historical head and 6 latest; plus original synthetic catalog",
+    "three_component": "synthetic same event seed->recapture->price; two-game valid batch rejected by capture"
   },
   "metrics": {
     "capture_pr467_sample": "1 game, 2 probable starters, both external_receipt_verified=false",
@@ -34,24 +39,23 @@
     "accuracy_roi": "not evaluated"
   },
   "limitations": [
-    "queue SHA snapshots are uncommitted; original may change",
-    "queue v2 test copy has inert worker labels replacing chat IDs",
-    "no final adapter PR found; adapter snapshot may change",
-    "capture PR467 head pinned; synthetic wrapper mapping, no actual network",
-    "no real thread message or production action; no ROI inference"
+    "final adapter PR not available, synthetic test uses explicitly hashed interim adapter",
+    "final capture sidecar head not yet received",
+    "test copies replace worker thread IDs with inert strings",
+    "no real native message was sent",
+    "source authentication, historical timestamps and prospective performance are not proven"
   ],
   "findings": [
-    "no public baseline seed; first publish enqueues known inputs",
-    "manifest accepts altered external receipt flag and extra prompt/threadId within stored untrusted input; fixed prompt does not embed these",
-    "dispatch_request accepts caller-supplied claimed state and fake event without checking persisted queue; CLI first reads stored job but race possible",
-    "capture gate trusts asserted external receipt true while adapter output reports false; synthetic integration reaches ready without actual witness",
-    "claim limit 3 per call, second claim can reach 4 outstanding"
+    "PR469 latest rejects forged and stale claims after re-claim; fixed registry controls destination",
+    "explicit seed avoids known baseline dispatch; same capture time update is no-op; price change wakes",
+    "capture PR467 ac7816 all(facts for each ready row) rejects two valid distinct game rows",
+    "capture records hash and size but not raw HTTP bytes; no independent rehash possible",
+    "external receipt remains unverified; queue is not an authentication gateway",
+    "claim cap 3 per invocation, not confirmed global cap"
   ],
   "blockers": [
-    "seed initialization or verified known-data baseline required",
-    "bind manifest evidence to validated semantics and reject unexpected fields",
-    "bind dispatch request to persisted claimed event under lock",
-    "align trusted receipt verification between capture and adapter"
+    "capture multi-game per-row validation must partition by game and product before manifest creation",
+    "capture raw response sidecar and audit of byte/hash/receipt provenance is under development"
   ],
-  "next_dependency": "final queue/capture/adapter heads; coordinator fixes blockers, then rerun isolated integration against committed hashes"
+  "next_dependency": "Capture worker publishes final head including multi-game partition and raw byte sidecar; repeat isolated integration with committed adapter and queue heads"
 }
