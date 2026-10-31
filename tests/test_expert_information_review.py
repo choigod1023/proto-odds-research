@@ -10,7 +10,8 @@ from scipy.optimize import minimize as scipy_minimize
 ROOT=Path(__file__).resolve().parents[1]/'experiments/expert-information-review-20261031'
 def module(name,path):
     spec=importlib.util.spec_from_file_location(name,path); m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
-m=module('expert_snapshot',ROOT/'vendor/run_snapshot.py')
+m=module('expert_final_snapshot',ROOT/'vendor/run_final_863b.py')
+historical=module('expert_old_snapshot',ROOT/'vendor/run_snapshot.py')
 ledger=module('expert_ledger',ROOT/'independent_ledger.py')
 
 def feature(i,decision='2026-05-01T00:00:00+00:00'):
@@ -98,7 +99,7 @@ def test_full_synthetic_current_and_future_poison_no_earlier_leakage():
 def test_missing_document_hash_does_not_imply_same_document():
     votes=[{'source':'siteA','author':'alice','side':'home','source_reported_published_at':'2026-07-01T08:00:00Z','source_sha256':'a'*64},
            {'source':'siteB','author':'bob','side':'away','source_reported_published_at':'2026-07-01T08:00:00Z','source_sha256':'a'*64}]
-    grouped=m.groups(votes,datetime.fromisoformat('2026-07-01T09:00:00+00:00'),['home','away'])
+    grouped=historical.groups(votes,datetime.fromisoformat('2026-07-01T09:00:00+00:00'),['home','away'])
     assert len(grouped)==1
     # Protocol says absent document SHA uses distinct source+author keys: two groups.
     assert len({(v['source'],v['author']) for v in votes})==2
@@ -113,3 +114,10 @@ def test_validation_unavailable_by_july_cannot_choose_candidate():
     assert stats['selected']==other['selected'] and stats['validation_logloss']==other['validation_logloss']
     # Its outcome becomes available before the test event, so prequential changes are allowed.
     assert [x for x in forecasts if x['mode']=='frozen']==[x for x in poisoned if x['mode']=='frozen']
+
+def test_final_source_uses_document_only_for_grouping():
+    final=module('expert_final_snapshot',ROOT/'vendor/run_final_863b.py')
+    votes=[{'source':'siteA','author':'alice','side':'home','source_reported_published_at':'2026-07-01T08:00:00Z','source_sha256':'a'*64},
+           {'source':'siteB','author':'bob','side':'away','source_reported_published_at':'2026-07-01T08:00:00Z','source_sha256':'a'*64}]
+    groups=final.groups(votes,datetime.fromisoformat('2026-07-01T09:00:00+00:00'),['home','away'])
+    assert len(groups)==2

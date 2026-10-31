@@ -1,12 +1,12 @@
 {
   "role": "expert_information_independent_review",
-  "status": "draft_pr_open_final_developer_head_unavailable",
+  "status": "final_commit_audited_draft_pr_open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/expert-information-review-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
   "protocol_sha": "396a12e0a477418c8fee66562e36dba4bb274525",
   "negative_control_commit": "f962647e",
-  "commit": "031fa35 (review implementation; handoff metadata follows)",
+  "commit": "031fa35 (initial review); final audit update is in subsequent PR head",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/454",
   "changed_paths": [
     "experiments/expert-information-review-20261031/**",
@@ -14,43 +14,42 @@
     "docs/research/2026-10-31-expert-information-review.md"
   ],
   "inputs_and_sha": {
-    "run.py": "8813770006923e94da3ff422cf01311e63bc423f0acda2d84b3374f7fee07129",
-    "verify.py": "166534d77df134e65f5690bd467df2ecab16ac5e86e73e2ea8a25dbc83910ab5",
-    "verification.json": "27b45c979a57ff190eae0f7b3278e33d24159ce22ab000ebeeeda511f4b716a0",
-    "results.json": "facedf75634e1cc0959b04730041b669c7e8efc7c58067b4b73ac517b0461c5d",
-    "forecasts.jsonl": "a11fdf81dbb6958c60a2230b0066c0e5699a154c7ebb31496678587bd625d16f",
-    "settlements.jsonl": "e3b97daa818f10d59e6dca70bde3ae5fab367fd38fe430285af584ae34556ad0",
+    "run.py": "039d42d1fb1ef5b6e452e2fda8bead4bf1765b3b5edbc98b91a49b7c79bfc36c",
+    "verify.py": "0ed4e2866318fed8b9a56723c6b68dcb954edb098b46477496109bc6114e2d7d",
+    "verification.json": "fa12f54475baac5e0a365250b0f3db5b2cc0f271ee4d2133c80b490c4c06f3d3",
+    "results.json": "842c17d2fb0ec1f6896566b81afd9b4bca65641e6c44a55dfbfda276b9be059f",
+    "forecasts.jsonl": "908add38d8fe313614eb6b0368f0ad97723db87584808b626cf5070c9d888489",
+    "settlements.jsonl": "4df46c091c04e31883acb49a80b2b85074e052781f1495f4d1fbd6335a970cf6",
     "protocol.json": "061716c82b9b5487c7c52db03ec57d1718de699f185ef1380f43567a64289a4d",
     "negative-control.json": "0d1f6b4500a503d697ca204f0a572f332c04f62a9888e635b291a0517a5cd3dd",
     "inputs/targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
     "inputs/votes.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
     "inputs/cases.jsonl.gz": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
-    "inputs/provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76"
+    "inputs/provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76",
+    "protocol-origin.json": "8086afc482302d69a54bb131bd03663af7854ab39032db2700f65cf01bfcf1c5"
   },
   "tests": {
-    "targeted": "7 passed including post-full extra nonmutation assertion",
-    "full": "2022 passed, 6 skipped, 93 subtests passed before extra nonmutation assertion",
+    "targeted": "8 passed; final model is used for synthetic tests",
+    "full": "2023 passed, 6 skipped, 93 subtests passed",
     "input_preflight": "446 source records, 0 examined identity/time mismatches",
-    "independent_ledger": "1220 snapshot settlements; zero differences",
-    "metrics": "660 summary values; zero differences",
-    "time_cutoff": "488 snapshot forecasts; zero count differences",
-    "block_bootstrap": "12 selected-vs-market cells independently reconstructed; zero differences",
-    "validation": "3 losses replayed with original model functions, not independent implementation"
+    "independent_ledger": "1220 final committed predictions; zero discrepancies",
+    "metrics": "660 final summary values; zero discrepancies",
+    "time_cutoff": "488 final forecasts; zero discrepancies",
+    "block_bootstrap": "12 final cells; zero discrepancies",
+    "validation": "3 candidate losses replayed using developer code, not independent model"
   },
   "metrics": {
-    "new_profit_or_accuracy": "not reported; developer final code/result hash relationship unconfirmed"
+    "new_profit_or_accuracy": "No new ROI experiment; performance values deliberately not repeated"
   },
   "limitations": [
-    "code changed after review snapshot; latest run sha fd6af34fe8c1aaf526d8756388fe5f361df25ea4dfd4d4a1390470b117f00cd2",
-    "input checks do not authenticate independent receipts executable prices original HTTP or settlement",
-    "reused retrospective data is not blind",
-    "full data label poisoning not executed; synthetic only",
-    "hash-only reference a1ed59 differs from parent prereg 396a12; relationship unresolved"
+    "retrospective sample, not blind",
+    "actual receipt, executable prices, original HTTP and settlement not independently authenticated",
+    "developer full output was not reproduced from scratch",
+    "synthetic current/future label poisoning only"
   ],
-  "blockers": [
-    "verify run hash against final commit and regenerate/check outputs after final code; verification.json currently excludes run.py",
-    "clarify provenance of protocol_commit field",
-    "document whether source_sha256 is a verified document SHA before using it to group votes"
-  ],
-  "next_dependency": "developer publishes final commit, protocol-origin mapping and final code/input/output hashes; rerun independent audit against matching snapshot"
+  "blockers": [],
+  "next_dependency": "Coordinator may map this audit to final developer commit; independent external receipt and real executable prices remain required for prospective evaluation",
+  "final_developer_head": "863b13ea1015fadb5b57b68af4a50b7af09b3c3b",
+  "hash_convention": "text .py/.json/.jsonl CRLF normalized to LF; compressed inputs raw bytes",
+  "worktree_comparison": "13 files normalize to commit; 7 have newline-only raw differences"
 }

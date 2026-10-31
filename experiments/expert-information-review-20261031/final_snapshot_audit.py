@@ -14,11 +14,22 @@ def at(s):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('snapshot',type=Path);p.add_argument('output',type=Path);a=p.parse_args();root=a.snapshot
-    files=['run.py','verify.py','verification.json','results.json','forecasts.jsonl','settlements.jsonl','protocol.json','negative-control.json','inputs/targets.jsonl.gz','inputs/votes.jsonl.gz','inputs/cases.jsonl.gz','inputs/provenance.json']
-    hashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in files}
+    files=['run.py','verify.py','verification.json','results.json','forecasts.jsonl','settlements.jsonl','protocol.json','negative-control.json','inputs/targets.jsonl.gz','inputs/votes.jsonl.gz','inputs/cases.jsonl.gz','inputs/provenance.json','protocol-origin.json']
+    def digest(path, normalize=False):
+        data=path.read_bytes()
+        if normalize and path.suffix in ('.py','.json','.jsonl'):data=data.replace(b'\r\n',b'\n')
+        return hashlib.sha256(data).hexdigest()
+    hashes={name:digest(root/name,True) for name in files}
+    raw_hashes={name:digest(root/name) for name in files}
     results=json.loads((root/'results.json').read_text(encoding='utf8'));verification=json.loads((root/'verification.json').read_text(encoding='utf8'))
+    for name,expected in verification['code_sha256'].items():
+        if hashes[name]!=expected or results['code_sha256'][name]!=expected:raise ValueError('code hash mismatch: '+name)
     for name,expected in results['inputs'].items():
-        if hashes['inputs/'+name]!=expected:raise ValueError('input hash mismatch: '+name)
+        if hashes['inputs/'+name]!=expected or verification['input_sha256'].get(name)!=expected:raise ValueError('input hash mismatch: '+name)
+    origin=json.loads((root/'protocol-origin.json').read_text(encoding='utf8'))
+    if results['parent_protocol_commit']!='396a12e0a477418c8fee66562e36dba4bb274525' or origin['parent_commit']!=results['parent_protocol_commit'] or origin['sha256']!=hashes['protocol.json']:
+        raise ValueError('protocol origin mismatch')
+    if results['negative_control_parent_commit']!='f962647e41015be807c9570591f763c5b98889d0':raise ValueError('negative-control origin mismatch')
     for name,expected in verification['hashes'].items():
         if hashes[name]!=expected:raise ValueError('verification hash mismatch: '+name)
     targets=[x for x in read_jsonl(root/'inputs/targets.jsonl.gz') if x['actual_votes']]
@@ -89,6 +100,6 @@ def main():
         roi_ci=np.quantile(np.asarray(profit)[draw].sum(axis=1)/sizes,[.025,.975])
         if not np.allclose(hit_ci,cell['paired_weekly_95ci_accuracy_vs_market'],rtol=0,atol=1e-12) or not np.allclose(roi_ci,cell['paired_weekly_95ci_roi_vs_market'],rtol=0,atol=1e-12):raise ValueError('weekly bootstrap mismatch')
         bootstrap_checks+=1
-    report={'snapshot_sha256':hashes,'ledger_records_checked':ledger['records'],'metric_values_checked':checks,'train_cutoff_forecasts_checked':cutchecks,'bootstrap_cells_checked':bootstrap_checks,'stored_protocol_commit':results['protocol_commit'],'primary_protocol_commit':'396a12e0a477418c8fee66562e36dba4bb274525','summary':'no discrepancies in specified numerical checks; protocol commit provenance requires clarification','not_checked':['candidate validation losses independently refit','probability vector reconstruction','actual receipt or executable prices','independent verification of raw HTTP','developer final commit hash']}
+    report={'snapshot_sha256':hashes,'ledger_records_checked':ledger['records'],'metric_values_checked':checks,'train_cutoff_forecasts_checked':cutchecks,'bootstrap_cells_checked':bootstrap_checks,'raw_sha256':raw_hashes,'stored_parent_protocol_commit':results['parent_protocol_commit'],'copied_protocol_commit':results['copied_protocol_commit'],'reviewed_commit':'863b13ea1015fadb5b57b68af4a50b7af09b3c3b','summary':'no discrepancies in specified checks','not_checked':['candidate validation losses independently refit','probability vector reconstruction','actual receipt or executable prices','independent verification of raw HTTP','developer output reproduction from scratch']}
     a.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8');print('ledger records',ledger['records'],'metric values',checks,'cutoff forecasts',cutchecks,'no discrepancies')
 if __name__=='__main__':main()
