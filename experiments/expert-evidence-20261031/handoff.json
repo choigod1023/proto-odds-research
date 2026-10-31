@@ -1,0 +1,105 @@
+{
+  "role": "connection",
+  "status": "implementation_complete",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-expert-evidence-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": null,
+  "changed_paths": [
+    "experiments/expert-evidence-20261031/",
+    "tests/test_accuracy_expert_evidence.py",
+    "docs/research/2026-10-31-expert-evidence.md"
+  ],
+  "inputs_and_sha": {
+    "targets": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "frames": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+    "cases": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d"
+  },
+  "tests": {
+    "targeted": "4 passed",
+    "full": "2019 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "by_kickoff_year": {
+      "2025": {
+        "events": 1,
+        "author_rows": 1,
+        "unique_source_authors": 1,
+        "repeated_source_authors": 0,
+        "rows_by_repeated_source_authors": 0,
+        "publisher_count": 1,
+        "publishers": {
+          "TonysPicks": 1
+        },
+        "events_multiple_publishers": 0,
+        "same_source_author_event_duplicate_rows": 0,
+        "same_hash_within_event_rows": 0,
+        "document_hash_present_rows": 1,
+        "document_hash_verified_rows": 0,
+        "hash_kind_rows": {
+          "document_sha256": 1
+        },
+        "distinct_hashes_by_kind": 1,
+        "repeated_hash_rows": 0,
+        "claim_by_decision_rows": 1,
+        "claim_eligible_rows": 1,
+        "observed_by_decision_rows": 0,
+        "externally_verified_receipts": 0,
+        "verified_quote_events": 0,
+        "pr433_445_overlap_events": 0
+      },
+      "2026": {
+        "events": 445,
+        "author_rows": 459,
+        "unique_source_authors": 11,
+        "repeated_source_authors": 10,
+        "rows_by_repeated_source_authors": 458,
+        "publisher_count": 6,
+        "publishers": {
+          "golfmasterj.tistory.com": 75,
+          "Pickswise": 38,
+          "guidesyj.tistory.com": 159,
+          "TonysPicks": 82,
+          "sportsanalyst1.tistory.com": 104,
+          "Covers": 1
+        },
+        "events_multiple_publishers": 14,
+        "same_source_author_event_duplicate_rows": 0,
+        "same_hash_within_event_rows": 0,
+        "document_hash_present_rows": 459,
+        "document_hash_verified_rows": 0,
+        "hash_kind_rows": {
+          "source_sha256": 338,
+          "document_sha256": 121
+        },
+        "distinct_hashes_by_kind": 263,
+        "repeated_hash_rows": 256,
+        "claim_by_decision_rows": 459,
+        "claim_eligible_rows": 459,
+        "observed_by_decision_rows": 0,
+        "externally_verified_receipts": 0,
+        "verified_quote_events": 0,
+        "pr433_445_overlap_events": 445
+      }
+    },
+    "rejections": {},
+    "event_count": 446,
+    "operational_pregame_eligible_events": 0,
+    "input_sha256": {
+      "targets": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+      "frames": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965",
+      "cases": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d"
+    }
+  },
+  "limitations": [
+    "retrospective observations, first receipt unknown; no certified pre-decision price or external receipt",
+    "PR433 2026 events are fully overlapping, not holdout",
+    "no document bytes verified; result source hash and exact final time unknown",
+    "author keys source plus author, cross-site identity not established",
+    "no model training or performance evaluated"
+  ],
+  "blockers": [],
+  "next_dependency": "Collect independently witnessed prospective author and price observations before training or evaluation."
+}
