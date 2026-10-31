@@ -31,7 +31,7 @@ import { usePolledData } from "../lib/poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
 import { mergeMatchDetail, shouldRefreshDetailList } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
-import { freshnessStatus, isLiveFeedDelayed, waitingLabel } from "../lib/data-freshness.js";
+import { freshnessStatus, isLiveFeedDelayed, isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { savedLivePrediction } from "../lib/saved-live-prediction.js";
@@ -321,7 +321,7 @@ function useTodayClock(today) {
 /* ── 경기별 예측 목록 ─────────────────────────────────────────── */
 const STATUS = [
   ["", "전체"], ["live", "진행 중"], ["upcoming", "예정"],
-  ["finished", "종료"], ["pending", "상태 확인 중"],
+  ["finished", "종료"], ["pending", "상태 확인 중"], ["unlinked", "미연결 · 상태 확인 필요"],
 ];
 
 export function GameList({ data, grades, caps, stale, today, marketOdds, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
@@ -403,6 +403,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   const pool = useMemo(
     () => deduplicateGameCards([...(data.live || []), ...(data.past || [])]),
     [data]);
+  const unlinkedPool = useMemo(() => missingMarketFixtures(data, marketOdds), [data, marketOdds]);
   const recommendationClock = useTodayClock(today);
   const clock = Math.max(recommendationClock, dateClock);
   const alignedToday = useMemo(() => alignTodayRecommendations(today, pool), [today, pool]);
@@ -423,17 +424,17 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     : { option: null, membership: null };
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
-  const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
+  const leagues = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.league)).sort(), [pool, unlinkedPool]);
   const markets = useMemo(
     () => uniq(pool.flatMap((g) => [...(g.options || []).map((o) => o.market), g.prediction_record?.market])).sort(), [pool]);
-  const rounds = useMemo(() => uniq(pool.map((g) => g.round)).sort((a, b) => b - a), [pool]);
+  const rounds = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.round)).sort((a, b) => b - a), [pool, unlinkedPool]);
 
   const isRecommended = (game) => !stale && !(game._liveOddsChanged && !decisionFrozen(game))
     && todaySelectionForGame(todayMemberships, game.options || [], game.round).membership?.recommended === true;
   const games = useMemo(() => {
     const q = f.q.trim().toLowerCase();
     return pool.filter((g) =>
-      (!f.st || gamePhase(g) === f.st) &&
+      (!f.st || (f.st !== "unlinked" && gamePhase(g) === f.st)) &&
       (!f.sp || g.sport === f.sp) &&
       (!f.fav || isFavoriteGame(g, favorites)) &&
       (!f.rec || isRecommended(g)) &&
@@ -476,11 +477,12 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   };
 
   // 배당에만 있는 경기는 원장이나 추천 생성 없이 별도 안내한다.
-  const missingFixtures = (f.st || f.fav || f.rec || f.mk || cap) ? [] :
-    missingMarketFixtures(data, marketOdds).filter((g) =>
+  const missingCandidates = (f.fav || f.rec || f.mk || cap) ? [] :
+    unlinkedPool.filter((g) =>
       (!f.sp || g.sport === f.sp) && (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) && matchesGameDate(g, f.dt, clock) &&
       (!f.q.trim() || [g.home, g.away, g.league].join(" ").toLowerCase().includes(f.q.trim().toLowerCase())));
+  const missingFixtures = !f.st || f.st === "unlinked" ? missingCandidates : [];
   const filteredGames = games.filter((game) => matchesGameMarketFilters(game, f.mk, cap));
   const leagueGroups = [];
   for (const game of filteredGames) {
@@ -620,7 +622,8 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
           <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>상태 확인 중 {phaseCounts.pending || 0}</button>
           <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
           <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
-          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
+          <button type="button" aria-pressed={f.st === "unlinked"} onClick={() => selectPhase("unlinked")}>미연결 · 상태 확인 필요 {missingCandidates.length}건</button>
+          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0) + missingCandidates.length}건</button>
         </div>
       </div>
 
@@ -631,7 +634,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
       </details>
 
       <div className="league-list" aria-label="리그별 경기">
-        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기{missingFixtures.length ? ` · 미연결 배구 ${missingFixtures.length}경기 별도` : ""} </p>
+        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기{missingFixtures.length ? ` · 미연결 배구 ${missingFixtures.length}건 별도` : ""} </p>
         {leagueGroups.map((group, index) => {
           const open = openLeague === group.key || (openLeague === null && index === 0);
           const liveCount = group.games.filter((game) => gamePhase(game) === "live").length;
@@ -651,11 +654,13 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
             <div id={"league-games-" + index} hidden={!open} className="league-games">{open && renderLeagueGames(group.games)}</div>
           </section>;
         })}
+        {f.st && f.st !== "unlinked" && missingCandidates.length > 0 && <p role="status">선택한 상태에는 포함하지 않은 미연결 배구 상품 {missingCandidates.length}건이 있습니다. 상태는 확인이 필요합니다. 위의 ‘미연결 · 상태 확인 필요’에서 볼 수 있습니다.</p>}
         {missingFixtures.length > 0 && <section className="league-group" aria-label="배당에서 확인된 미연결 배구 경기">
-          <h3>배당에서 확인된 미연결 배구 경기 {missingFixtures.length}경기</h3>
-          <p role="status">경기 목록에 연결되지 않았습니다. 아래 경기의 저장된 사전 픽은 확인할 수 없습니다. 배당 자료 시각: {kstStamp(marketOdds.generated_at)} KST</p>
-          <ul>{missingFixtures.map((g) => <li key={JSON.stringify([g.sport, g.league, g.date, g.home, g.away])}>
-            {g.league} · {g.date} · {g.home} vs {g.away}
+          <h3>배당에서 확인된 미연결 배구 상품 {missingFixtures.length}건</h3>
+          <p role="status">경기 목록에 연결되지 않아 상태와 저장된 사전 픽을 확인할 수 없습니다. 배당 문서 생성: {kstStamp(marketOdds.generated_at)} KST{isDataStale(marketOdds.generated_at) || Date.parse(marketOdds.generated_at) > Date.now() + 5000 ? " · 문서가 오래됐거나 시각이 올바르지 않습니다" : ""}. 개별 가격의 관측 시각은 확인되지 않았습니다. 이 목록에는 상품 탭이 없습니다.</p>
+          <ul>{missingFixtures.map((g) => <li key={JSON.stringify([g.year, g.round, g.sport, g.league, g.date, g.home, g.away])}>
+            {g.round}회 · {g.league} · {g.date} · {g.home} vs {g.away} · 상태 확인 필요
+            {g.sourceRows.map((row, index) => <span key={index}> · 원천 게임번호 {row.gameNo || "미기재"}, 상태 표기 {row.status || "미기재"}, 결과 표기 {row.result || "미기재"}</span>)}
           </li>)}</ul>
         </section>}
         {!leagueGroups.length && !missingFixtures.length && <Empty>
