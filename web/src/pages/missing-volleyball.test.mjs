@@ -26,3 +26,25 @@ test("an absent volleyball fixture remains visibly unlinked without a pick after
     assert.doesNotMatch(html,/조건에 맞는 경기가 없습니다|1\.72|1\.76/);
   } finally { await server.close(); Date.now=oldNow; }
 });
+
+test("round selector combines numeric and string identifiers while keeping other rounds and sports", async () => {
+  const originalNow = Date.now;
+  Date.now = () => Date.parse("2026-10-31T05:00:00Z");
+  const server = await createServer({ configFile:false, root:fileURLToPath(new URL("../../",import.meta.url)),
+    esbuild:{jsx:"automatic"}, optimizeDeps:{noDiscovery:true,include:[]},
+    server:{middlewareMode:true,watch:null,hmr:false},appType:"custom" });
+  try {
+    const {GameList} = await server.ssrLoadModule("/src/pages/Markets.jsx");
+    const base = {year:2026,date:"10.31(토) 16:00",status:"경기전",options:[]};
+    const live = [{...base,round:129,sport:"bs",league:"야구",home:"A",away:"B"},
+                  {...base,round:128,sport:"sc",league:"축구",home:"C",away:"D"}];
+    const row = {...base,sport:"vl",league:"KOVO여",home:"GS",away:"도로공사",market:"승패",n_way:2};
+    const odds={generated_at:"2026-10-31T05:00:00Z",markets:{129:{1:row},130:{2:row}}};
+    const html=renderToStaticMarkup(createElement(GameList,{data:{live,past:[]},marketOdds:odds}));
+    assert.equal((html.match(/<option value="129">/g)||[]).length,1);
+    assert.equal((html.match(/<option value="128">/g)||[]).length,1);
+    assert.equal((html.match(/<option value="130">/g)||[]).length,1);
+    assert.match(html,/야구/); assert.match(html,/축구/);
+    assert.match(html,/129회 · KOVO여/); assert.match(html,/130회 · KOVO여/);
+  } finally { await server.close(); Date.now=originalNow; }
+});

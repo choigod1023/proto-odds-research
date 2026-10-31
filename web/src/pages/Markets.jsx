@@ -427,7 +427,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   const leagues = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.league)).sort(), [pool, unlinkedPool]);
   const markets = useMemo(
     () => uniq(pool.flatMap((g) => [...(g.options || []).map((o) => o.market), g.prediction_record?.market])).sort(), [pool]);
-  const rounds = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.round)).sort((a, b) => b - a), [pool, unlinkedPool]);
+  const rounds = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.round).filter((round) => round != null && round !== "").map(String)).sort((a, b) => b - a), [pool, unlinkedPool]);
 
   const isRecommended = (game) => !stale && !(game._liveOddsChanged && !decisionFrozen(game))
     && todaySelectionForGame(todayMemberships, game.options || [], game.round).membership?.recommended === true;
