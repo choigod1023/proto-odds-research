@@ -1,0 +1,17 @@
+{
+  "question": "Can syntactically valid but contradicted source dates alter temporal model validation?",
+  "scope": "Offline chronology audit and two-witness sensitivity, not a player-form or tipster experiment",
+  "source_sha256": "ef224cf2c252f07a842b3bcfd4ba5c718c25cedd8937ffa174a74b86b5ba4221",
+  "normalizer_lf_sha256": "b7c98894d80b4d671595eca39dc6c5136fcd6b11617b1bbc158223691444b056",
+  "model_code_lf_sha256": "2a507d75338442feeedb1d7ec85402f0f3f8217758b7ac8f89ad7b9a21c8e092",
+  "upstream_pr": 476,
+  "upstream_commit": "8da54db9204ac2709c204bc216c2900408b0ce1f",
+  "sensitivity_league": "NOR",
+  "sensitivity_design": "Same accepted NOR fixtures/prices/labels. Compare source dates versus only independently witnessed corrections; no alias changes. Monthly prior-only fits and four-day result embargo from pinned model code. Unwitnessed dates remain unverified in BOTH arms.",
+  "policies": ["all", "underdogs"],
+  "models": ["market", "outcome_form", "market_residual", "half_market_form"],
+  "selection": "No model selection or production adoption. Report every model regardless of direction.",
+  "strict_comparison": "Block if any fixture lacks an independent date witness; two corrections are not certification of the remaining archive.",
+  "money": "Equal one-unit retrospective singles without monthly stop in this diagnostic. Existing operating wallet/monthly -50000 KRW limit unchanged.",
+  "limitations": ["Official result witnesses read today are not historical pregame receipts", "No new verified player cohort; no player-form ROI inference", "Odds observation time and execution price remain uncertified", "Two-date sensitivity is not a corrected full-archive performance estimate"]
+}
