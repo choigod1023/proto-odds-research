@@ -1,5 +1,5 @@
 {
-  "status": "uncommitted_parent_snapshot_reviewed",
+  "status": "pushed_head_reviewed",
   "integration_pr469_last_pushed_head": "9770838813d9ff80ad2942ecf78e36719a1c9f50",
   "capture_pr467_last_pushed_head": "5f843be9bd744f795c205e93cf5433cac037e4f5",
   "uncommitted_source_raw_sha256": {
@@ -7,16 +7,19 @@
     "tests/test_official_fact_capture.py": "06e9622d05c88b00012f88586a8a7fdc1b942f68429b22c2f6123c21c0b14f06"
   },
   "checks": [
-    "7 targeted tests passed in independent temp snapshot",
-    "independent synthetic two-game calendar selects explicitly requested second game, exactly one lineup request",
-    "full calendar raw bytes retained and other_scheduled_games=1",
-    "missing target leads to one calendar request and no lineup",
-    "wrong date or ID rejected by targeted test",
-    "programmatic two-game batch integration remains separate"
+    "17 independent local tests plus 1 targeted upstream test passed at final commit",
+    "parent uncommitted raw file SHA differs by CRLF only; LF matches committed source and test",
+    "two-game calendar selects only second game and preserves full raw calendar",
+    "missing target produces only calendar request; wrong date/league rejected before Session",
+    "programmatic two-game batch with actual adapters passes"
   ],
   "limitations": [
-    "changes are uncommitted at lookup; final head and commit-to-working-tree match not yet verified",
     "single-context CLI intentionally does not support multiple contexts",
-    "synthetic offline tests; no external witness or performance evaluation"
-  ]
+    "synthetic offline tests do not certify external receipt, production execution or ROI"
+  ],
+  "final_pr469_head": "57bfcc1ca7ce84d01ccbc3ab1fd34f7424ef1b02",
+  "committed_source_lf_sha256": {
+    "scripts/capture_official_research_inputs.py": "96b650a33df8a1889fc0a3906565d7527be684ed9ff2b6146dd8ea4fa87d2b88",
+    "tests/test_official_fact_capture.py": "996747bbae9a4143a01a23935eb97b9e6c57d647169299247c3eea548f0281ce"
+  }
 }

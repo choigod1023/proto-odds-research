@@ -1,6 +1,6 @@
 {
   "role": "facts_pipeline_independent_review",
-  "status": "draft_pr_open_single_context_snapshot_reviewed_uncommitted",
+  "status": "draft_pr_open_final_pushed_head_reviewed",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/fact-pipeline-independent-review-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
@@ -33,7 +33,8 @@
     "targeted_latest": "16 passed: 10 historical head and 6 latest; plus original synthetic catalog",
     "three_component": "synthetic same event seed->recapture->price; two-game valid batch rejected by capture",
     "final_targeted": "36 passed, plus independent two-game, raw-hash and stale-claim checks",
-    "single_context_followup": "7 selected tests passed and one independent synthetic selected-game/no-extra-call check"
+    "single_context_followup": "7 selected tests passed and one independent synthetic selected-game/no-extra-call check",
+    "final_commit": "17 independent tests + 1 upstream target-fixture regression passed; no full rerun as requested"
   },
   "metrics": {
     "capture_pr467_sample": "1 game, 2 probable starters, both external_receipt_verified=false",
@@ -41,19 +42,18 @@
     "accuracy_roi": "not evaluated"
   },
   "limitations": [
-    "new source and test snapshot not yet linked to a pushed head",
-    "single-context CLI intentionally does not accept multiple contexts",
-    "no real native message, runtime deployment or ROI evaluation",
-    "verified hash does not prove external receipt"
+    "single-context CLI intentionally does not merge multiple contexts",
+    "no real native messages, runtime deployment or ROI evaluation",
+    "source/response SHA does not prove externally witnessed pregame receipt"
   ],
   "findings": [
-    "parent uncommitted selection filters to explicit single KBO fixture and retains full calendar bytes; final head not yet verified",
-    "CLI intentionally single-context; no requirement to merge multiple contexts",
-    "two-game programmatic batch still supported with per-game callback",
-    "raw bytes and stale-claim checks passed at previous pinned head"
+    "single KBO context target fixture selection confirmed at final commit; unrelated games not queried",
+    "programmatic two-game batch accepted with explicit per-game adapter mapping",
+    "seed, dedup, timestamp-only, price change, busy, uncertain, path, stale claim and fixed prompt tested",
+    "captured raw bytes integrity tested; does not authenticate external receipt"
   ],
   "blockers": [],
-  "next_dependency": "after final head arrives, verify committed source hashes match reviewed snapshot and re-run targeted tests",
-  "final_integration_head": "9770838813d9ff80ad2942ecf78e36719a1c9f50",
+  "next_dependency": "Coordinator can map this review to exact pinned head; independent prospectively witnessed source and performance assessment remain separate",
+  "final_integration_head": "57bfcc1ca7ce84d01ccbc3ab1fd34f7424ef1b02",
   "capture_pr467_final_head": "5f843be9bd744f795c205e93cf5433cac037e4f5"
 }
