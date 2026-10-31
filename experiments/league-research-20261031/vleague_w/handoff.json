@@ -1,0 +1,46 @@
+{
+  "role": "league research worker",
+  "league": "vleague_w",
+  "status": "blocked_data",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/league-vleague_w-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "experiments/sport-tournament-20261025/vl/vl.json": "9ab707f68fbc2202b150f3f109595433676119d69a1cd121155a398cc97e4dbe",
+    "experiments/tipster-three-arm-20261025/historical-audit.json": "cf4457d16aa8228ca23df0e4885561934ec687cd78c7f327b6b4056221c6be85",
+    "docs/data/picks_v2.json": "abe9350eee06ccf8a510c0295d4af8364e5d168f9174ee94d2c286c697822efa",
+    "experiments/recent-calibration-20260907/dataset.json": "ddf09020cfea71377c97b0c14bf6021641854a2c7278ec7ce1fc7556459dc894"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "24c816f",
+  "protocol_blob_sha256": "ac6f3729aa34e48b897a571869cd8d7032177e74163349d52b42268768404b2b",
+  "tests": [
+    "python -m unittest tests.test_league_vleague_w_guards -v: 3 passed (synthetic only)"
+  ],
+  "metrics": {
+    "vleague_w_confirmed_eligible_linked_n": 0,
+    "scope": "only reviewed files; total opportunities and component counts unknown",
+    "coverage": null,
+    "accuracy": null,
+    "roi": null,
+    "logloss": null,
+    "brier": null,
+    "drawdown": null
+  },
+  "limitations": [
+    "No official original bytes or independently evidenced predecision receipt linked",
+    "No frozen operating pick or matched same-time full quote and official outcome",
+    "Synthetic guards do not test a real ingestion or model pipeline"
+  ],
+  "blockers": [
+    "No new registered actual evidence event with complete field linkage"
+  ],
+  "pr_url": null,
+  "next_data_needed": [
+    "unique official women league fixture and team/player IDs",
+    "prior and current official confirmed starting setter, original bytes and actual receipt evidence",
+    "same-product complete predecision odds and receipt",
+    "official outcome bytes and actual availability",
+    "exact operating frozen decision revision if available"
+  ]
+}
