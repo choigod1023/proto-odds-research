@@ -1,0 +1,114 @@
+{
+  "facts": [
+    {
+      "fact_id": "f1",
+      "canonical_game_id": "game-1",
+      "official_game_id": "official-1",
+      "league": "KBO",
+      "sport": "baseball",
+      "kind": "confirmed_starter_change",
+      "before_value": {
+        "player_id": "p-old",
+        "status": "probable"
+      },
+      "after_value": {
+        "player_id": "p-new",
+        "status": "confirmed"
+      },
+      "units": "player",
+      "player_ids": [
+        "p-old",
+        "p-new"
+      ],
+      "claim": {
+        "url": "https://example.org/claim",
+        "published_at": "2026-10-31T09:00:00+00:00",
+        "received_at": "2026-10-31T09:00:00+00:00",
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "official": {
+        "url": "https://example.org/official",
+        "published_at": "2026-10-31T09:00:00+00:00",
+        "received_at": "2026-10-31T09:00:00+00:00",
+        "raw_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "identity_checked": true,
+        "confirmed": true
+      },
+      "decision_at": "2026-10-31T09:30:00+00:00",
+      "kickoff_at": "2026-10-31T10:00:00+00:00",
+      "market": {
+        "product_id": "p1",
+        "market": "win",
+        "period": "full",
+        "line": null,
+        "outcomes": [
+          "home",
+          "away"
+        ],
+        "odds": {
+          "home": 1.8,
+          "away": 2.1
+        },
+        "observed_at": "2026-10-31T09:00:00+00:00",
+        "received_at": "2026-10-31T09:00:00+00:00"
+      },
+      "revision": 1
+    }
+  ],
+  "registry": {
+    "canonical_game_id": "game-1",
+    "official_game_id": "official-1",
+    "league": "KBO",
+    "sport": "baseball",
+    "kickoff_at": "2026-10-31T10:00:00+00:00",
+    "home_team_id": "H",
+    "away_team_id": "A",
+    "player_teams": {
+      "p-old": "H",
+      "p-new": "H",
+      "p-away": "A"
+    },
+    "product": {
+      "product_id": "p1",
+      "market": "win",
+      "period": "full",
+      "line": null,
+      "outcomes": [
+        "home",
+        "away"
+      ]
+    }
+  },
+  "baseline": {
+    "canonical_game_id": "game-1",
+    "product_id": "p1",
+    "decision_at": "2026-10-31T09:30:00+00:00",
+    "outcomes": [
+      "home",
+      "away"
+    ],
+    "probability_vector": [
+      0.55,
+      0.45
+    ],
+    "input_content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "freeze_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "market": {
+    "product_id": "p1",
+    "market": "win",
+    "period": "full",
+    "line": null,
+    "outcomes": [
+      "home",
+      "away"
+    ],
+    "odds": {
+      "home": 1.8,
+      "away": 2.1
+    },
+    "observed_at": "2026-10-31T09:00:00+00:00",
+    "received_at": "2026-10-31T09:00:00+00:00"
+  },
+  "workloads": {}
+}
