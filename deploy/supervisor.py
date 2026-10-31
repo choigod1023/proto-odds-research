@@ -672,6 +672,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
 
 
 MARKET_REFRESH_TIMEOUT = 300
+# Wait only for an already running memory-heavy task; never interrupt it.
+MARKET_HANDOFF_WAIT_SECONDS = 60
 # A source can keep a socket alive without finishing its response; per-request
 # read timeouts are not an overall deadline. Never hold the shared decision
 # lock indefinitely. Allow a full scan substantially longer than a normal poll.
@@ -799,8 +801,13 @@ def _run_market_refresh():
 def _refresh_market_after_collection() -> int:
     """The scraper has exited; do not overlap prediction with a heavy worker."""
     if not _memory_heavy_lock.acquire(blocking=False):
-        log("배당 저장 완료, 시장 판정 보류 — 보조 작업 실행 중; 다음 주기 재시도")
-        return 1
+        # The warmer can occupy this same slot while a saved-price decision is
+        # pending. Give an already-running child a bounded chance to finish;
+        # never stop it or bypass the post-acquisition 512 MiB admission gate.
+        log(f"배당 저장 완료, 시장 판정 슬롯 대기 — 최대 {MARKET_HANDOFF_WAIT_SECONDS}s")
+        if not _memory_heavy_lock.acquire(timeout=MARKET_HANDOFF_WAIT_SECONDS):
+            log("배당 저장 완료, 시장 판정 보류 — 슬롯 대기 시간 초과; 다음 주기 재시도")
+            return 1
     try:
         available = _available_memory_mb()
         if available is None or available < 256:

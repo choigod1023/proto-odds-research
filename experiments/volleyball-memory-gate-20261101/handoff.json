@@ -1,0 +1,55 @@
+{
+  "role": "server",
+  "status": "partial_fix_lock_contention_memory_pressure_unresolved",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/volleyball-memory-gate-20261101",
+  "base_sha": "f46654803c821bed2159532227aeff28f4f77345",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/481",
+  "changed_paths": [
+    "deploy/supervisor.py",
+    "tests/test_background_memory.py",
+    "tests/test_volleyball_memory_handoff.py",
+    "docs/research/2026-11-01-volleyball-memory-handoff.md",
+    "experiments/volleyball-memory-gate-20261101/handoff.json"
+  ],
+  "inputs_and_sha": {
+    "pr478_head": "d184f27814e0801e3c8cba4d9cf4d8322bbee010",
+    "local_fixture_sha256": "abe9350eee06ccf8a510c0295d4af8364e5d168f9174ee94d2c286c697822efa"
+  },
+  "tests": [
+    "61 focused Python tests passed",
+    "2152 passed, 6 skipped, 93 subtests full pytest",
+    "PR478 pinned patch + this patch in independent worktree: 51 tests passed",
+    "local fixture memory profiler; Windows 632 games, not production",
+    "git diff --cached --check"
+  ],
+  "metrics": {
+    "logs_range_utc": [
+      "2026-10-31T19:46:39Z",
+      "2026-10-31T20:03:01Z"
+    ],
+    "decision_denials_mib": [
+      469,
+      472,
+      467,
+      473,
+      465
+    ],
+    "snapshot_bytes": 15238610,
+    "parent_rss_kib_sample": 278284,
+    "wait_seconds": 60
+  },
+  "limitations": [
+    "Memory headroom remains insufficient; no claim production recovered or volleyball picks fixed.",
+    "Lock ownership inferred from timing and shared lock; not independently observed.",
+    "1GB production peak and behavior untested; no operational actions.",
+    "A bounded lock wait can add up to 60 seconds per attempt before other existing waits.",
+    "Commit SHA supplied in final response."
+  ],
+  "blockers": [
+    "Root cause of persistent 512MiB admission failures and safe path to sufficient headroom unverified."
+  ],
+  "next_dependency": "Coordinator review; investigate memory composition and safe headroom with production-equivalent isolated fixture, then separately authorize any deployment."
+}
