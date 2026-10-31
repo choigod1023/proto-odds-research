@@ -12,7 +12,8 @@
     "tests/test_background_memory.py",
     "tests/test_volleyball_memory_handoff.py",
     "docs/research/2026-11-01-volleyball-memory-handoff.md",
-    "experiments/volleyball-memory-gate-20261101/handoff.json"
+    "experiments/volleyball-memory-gate-20261101/handoff.json",
+    "experiments/volleyball-memory-gate-20261101/profile_fixture.py"
   ],
   "inputs_and_sha": {
     "pr478_head": "d184f27814e0801e3c8cba4d9cf4d8322bbee010",
@@ -23,7 +24,8 @@
     "2152 passed, 6 skipped, 93 subtests full pytest",
     "PR478 pinned patch + this patch in independent worktree: 51 tests passed",
     "local fixture memory profiler; Windows 632 games, not production",
-    "git diff --cached --check"
+    "git diff --cached --check",
+    "python experiments/volleyball-memory-gate-20261101/profile_fixture.py: synthetic 2969-game existing in-process vs existing isolated parent memory"
   ],
   "metrics": {
     "logs_range_utc": [
@@ -39,17 +41,24 @@
     ],
     "snapshot_bytes": 15238610,
     "parent_rss_kib_sample": 278284,
-    "wait_seconds": 60
+    "wait_seconds": 60,
+    "observed_decision_available_mib": 464,
+    "snapshot_detail_payload_bytes": 9291425,
+    "snapshot_list_payload_bytes": 5382234,
+    "synthetic_fixture_sha256": "ed788b0f1f7f00bf29bfc3e0cb5d1cf1ade729875c3470d7d51fdf47ed530b2b",
+    "synthetic_inprocess_parent_rss_kib": 174816,
+    "synthetic_isolated_parent_rss_kib": 45316
   },
   "limitations": [
     "Memory headroom remains insufficient; no claim production recovered or volleyball picks fixed.",
     "Lock ownership inferred from timing and shared lock; not independently observed.",
     "1GB production peak and behavior untested; no operational actions.",
     "A bounded lock wait can add up to 60 seconds per attempt before other existing waits.",
-    "Commit SHA supplied in final response."
+    "Commit SHA supplied in final response.",
+    "Existing isolated response path already reduces parent RSS on local synthetic fixture; no additional safe memory reduction was established."
   ],
   "blockers": [
-    "Root cause of persistent 512MiB admission failures and safe path to sufficient headroom unverified."
+    "Parent anonymous RSS ownership and sufficient safe reclaim remain unverified; 512MiB gate is retained."
   ],
   "next_dependency": "Coordinator review; investigate memory composition and safe headroom with production-equivalent isolated fixture, then separately authorize any deployment."
 }

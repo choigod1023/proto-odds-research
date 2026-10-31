@@ -21,3 +21,15 @@
 기존 `scripts/measure_match_response_memory.py`를 로컬 Windows 저장소 fixture로만 실행했다. 632경기에서 예전 in-process 경로 parent RSS 67,020KiB/peak 88,556KiB, 기존 isolated 경로 parent RSS 31,180KiB/peak 49,576KiB였다. fixture·플랫폼·동시 부하가 운영 2,969경기와 달라 운영 개선 수치나 안전 한도로 쓰지 않는다.
 
 이후에는 동등 크기의 격리 입력에서 parent·워머·판정 자식의 피크와 겹침을 따로 계측하고, 메모리 512MiB 미달이 계속되는 구조를 해결할 근거가 필요하다. 실제 코드 병합과 배포, 재시작은 별도 상태다.
+
+## 2026-11-01 추가 메모리 원인 조사
+
+05:04~06:06 KST(10월 31일 20:04~21:06 UTC)에 동일 수집기를 읽기 전용으로 재확인했다. 20:56:57 UTC 판정 직전 여유 464MiB였고 기준 512MiB보다 48MiB 부족했다. 21:02:18 UTC에는 공유 락 경합으로 저장 배당 판정이 보류됐으며 21:02:28 UTC 웹 응답 준비가 완료됐다. 이 관측은 기존 락 수정이 여전히 부분적일 뿐임을 뒷받침한다. 장기간 전체의 근본 원인이나 OOM 여부를 증명하지 않는다.
+
+21:04:54 UTC 한 프로세스 표본에서는 supervisor PID 605의 RSS 275,356KiB, HWM 377,900KiB, thread 19개, 별도 live_scores 자식 RSS 134,920KiB, 시스템 MemAvailable 362,848KiB였다. 이 값은 464MiB 판정 표본과 다른 순간이며 score 자식은 판정 전에 빠져나가도록 기존 score lock이 조정한다. 21:05:09 UTC에는 supervisor RSS 284,340KiB 중 anonymous 278,472KiB, thread 대기 상태는 sleep 14·futex 4·poll 1, 열린 socket 1개였다. 이 표본은 당시 열린 전송 연결이 많아서만 큰 RSS가 유지된다는 설명을 뒷받침하지 않지만 allocator 내부나 다른 순간의 요청을 배제하지 않는다. SSH CLI는 출력 후 Windows 핸들 오류로 종료했다.
+
+21:06:36 UTC 응답 snapshot zip의 중앙 디렉터리만 읽어 2,969개 상세 압축 본문 총 9,291,425 bytes, 목록 압축 본문 총 5,382,234 bytes, 파일 크기 15,238,612 bytes를 확인했다. 이는 디스크상 압축 payload 크기이며 Python 객체·allocator 오버헤드나 다른 캐시는 포함하지 않는다. 전체 응답을 포기하고 삭제하더라도 이 숫자만으로 부족한 48MiB 이상의 회수가 입증되지는 않고 마지막 정상 응답·상세 기능을 해친다. `MatchViews.release_working_set()`과 `malloc_trim`은 이미 판정 직전 실행되며, 현재 어떤 살아 있는 객체나 allocator 영역이 나머지 anonymous RSS를 점유하는지는 읽기 전용 `/proc`만으로 확인하지 못했다.
+
+격리 Windows 실험 `python experiments/volleyball-memory-gate-20261101/profile_fixture.py`는 저장소 632경기를 복제해 2,969개의 합성 ID를 만든 41,573,425-byte fixture(SHA256 `ed788b0f1f7f00bf29bfc3e0cb5d1cf1ade729875c3470d7d51fdf47ed530b2b`)를 사용한다. 별도 임시 SQLite에서 3개 revision을 준비한 뒤 부모 프로세스 RSS/HWM을 비교했다. 구 in-process 구현은 174,816/281,428KiB, **이미 운영 코드에 있는** isolated 구현은 45,316/126,684KiB였고 각 상세 2,969개와 목록 gzip 크기 192,424 bytes가 같았다. 이는 운영 전후 실험이나 이번 PR의 신규 절감량이 아니다. Windows와 합성 자료이며 자식 피크·동시 운영 부하·운영 JSON 필드 분포와 allocator를 재현하지 못한다. 기존 상세/목록 회귀 테스트는 내용 일치를 별도로 검사한다.
+
+따라서 512MiB를 유지하면서 운영에서 판정을 다시 시작할 만큼 추가로 메모리를 회수하는 안전한 패치는 아직 입증하지 못했다. 런타임 전체를 무작정 비우거나 메모리 기준을 낮추지 않았다. 다음 단계는 격리 Linux에서 운영과 동등한 크기·필드 분포의 비식별 fixture로 부모의 살아 있는 객체/allocator 구성과 동시 요청·워머의 부모 및 자식 피크를 분리 계측하고, 마지막 정상 응답과 정확한 detail revision을 보존하는 후보만 전후 비교하는 것이다. 운영 자료를 복사하거나 서버 재시작/DB 변경은 하지 않았다.
