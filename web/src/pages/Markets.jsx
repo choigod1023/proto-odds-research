@@ -39,6 +39,7 @@ import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
+import { recordedMarketOffers } from "../lib/recorded-market-offers.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
 import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
 import { gameStatusLabel } from "../lib/match-status.js";
@@ -1473,10 +1474,30 @@ function ContextEvidence({ g, pick }) {
   </div>;
 }
 
+export function RecordedMarketOffers({ offers }) {
+  return <section aria-label="기록된 상품과 배당">
+    <p className="mb-3 text-[11.5px] leading-6 text-ink3">
+      기록된 상품과 배당입니다. 경기별 픽과는 별개이며, 현재 판매 여부와 정확한 정산 기준은 공식 발매처에서 확인하세요.
+    </p>
+    {!offers.length && <p role="status" className="text-[11.5px] text-ink3">완전한 상품과 배당을 확인하지 못했습니다.</p>}
+    <div className="grid gap-2">
+      {offers.map((offer) => <section key={offer.gameNo} className="rounded border border-rule2 px-3 py-2">
+        <h4 className="m-0 text-[12px] font-semibold text-ink">{offer.gameNo} · {offer.market}{offer.label ? ` ${offer.label}` : ""}</h4>
+        <p className="my-1 text-[10.5px] text-ink3">{offer.period ? `기간 ${offer.period} · ` : ""}{offer.settlementScope ? `정산 ${offer.settlementScope}` : "정산 범위 미확인"}</p>
+        <ul className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-[12px]">
+          {offer.selections.map((selection) => <li key={selection.name}>{selection.name} <b className="tnum">{selection.odds.toFixed(2)}</b></li>)}
+        </ul>
+      </section>)}
+    </div>
+  </section>;
+}
+
 function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
   highlightedToday = false, recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
+  const offers = showPrices ? recordedMarketOffers(opts) : [];
+  if (showPrices && opts?.length) tabs.splice(1, 0, { id: "markets", label: "상품·배당" });
   if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
     tabs.push({ id: "evidence", label: "픽 근거·수식" });
   }
@@ -1519,6 +1540,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
             : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>}
           <div className="mt-3 border-t border-rule2 pt-3"><TeamsPanel g={g} /></div>
         </>}
+        {current === "markets" && <RecordedMarketOffers offers={offers} />}
         {current === "players" && <>
           <PlayersPanel g={g} />
           <div className="mt-3 border-t border-rule2 pt-3"><AvailabilityPanel g={g} /></div>
