@@ -1,0 +1,111 @@
+{
+  "source": "tracked csv snapshots only",
+  "identity": [
+    "league",
+    "year",
+    "round",
+    "game_no"
+  ],
+  "caveats": [
+    "offer IDs not independently verified unique fixtures",
+    "timestamp is stored ts, not proven receipt; date parsed as KST using listed year",
+    "recognized result label is not official settlement",
+    "league aliases with mojibake not merged",
+    "no source document bytes or player links in these rows"
+  ],
+  "snapshot_sha256s": {
+    "odds_timeseries_20260726.csv": "668a39df962966a82ea67c5fce84b2e3ee48a8f08a6a94569ba15310b1d676e3",
+    "odds_timeseries_20260727.csv": "2e5d77ad2c895633b439bcb47b07b2a78636c129439286f503c742581530113f",
+    "odds_timeseries_20260728.csv": "ee54364e0e2b13ec7f3d87e405ce51b387b68d111945e53f77e1e056b2737837",
+    "odds_timeseries_20260729.csv": "8e6b0c9677c0a9453cccc930d8cfb2adb29b4777906e821dabb0288f19685cbb",
+    "odds_timeseries_20260730.csv": "38e63b631eac984f205469711cf29b4c4950a9a38e2b47c36a9883c872c239ea",
+    "odds_timeseries_20260731.csv": "f6f92cb7eb0da0d00ef52747ca172e5744957f4e2e90045cf1ff83aa4ec4efb5",
+    "odds_timeseries_20260801.csv": "dc6ffd73b8ad968cf853d4e62c14e2b46dcc289b0fb30f8033f48a9d6fe6b083",
+    "odds_timeseries_20260802.csv": "b43f43bce00cb31be94d6d6cc8968e14b3c153cb30167bc24c5fccf68cb7c5b6",
+    "odds_timeseries_20260803.csv": "1a107855b6eb7630a267bee2a75d77c409c7933b2481f707c9939d24edc379d4",
+    "odds_timeseries_20260804.csv": "5a3c1cd670e6c16659e912e787814f6c73975685cbf1ddc9d44f861ff2caaddd",
+    "odds_timeseries_20260805.csv": "612d0b219dc77bfef4b99b477aa1d08f3adf7af7e96e356d586e81d6f1387670",
+    "odds_timeseries_20260806.csv": "cb7a65bb353e0a82f408061987242926bfafaeb9474a2def4e604dd666f2f01b",
+    "odds_timeseries_20260807.csv": "7a98c453753b25eecb1223ff5ed86cf36775ddff978b92eb7d5c1f340a387446",
+    "odds_timeseries_20260808.csv": "5655f8980ab4975c4d51893aa2f4bf5fd29f06742c3427fc2f997699153be3e8",
+    "odds_timeseries_20260809.csv": "5176802a42dbc08d8d727bfd714bf3f922853492caa4b738135d7945fb01a7d1",
+    "odds_timeseries_20260810.csv": "41cb410dba9e37beb10b6591169d31c8ac781ecaa630b546b0c20d788ecc5e2c",
+    "odds_timeseries_20260811.csv": "6ec1056b32dec89e16b7e5042b52a69940fc7aeb81ea8f5299601018820633fa",
+    "odds_timeseries_20260812.csv": "c168ad530f3954db278f45debdf1b35b28c0ae0e338d616ae96847e596a82c0f",
+    "odds_timeseries_20260813.csv": "73eb223151adbef789c430e8bc4c56138b73ef44a711ad2b1bc442bc55b3d083",
+    "odds_timeseries_20260814.csv": "dd150b88afff47dc1534cf3280bfbb71c27237caaae9078b6398e2f4840c51e6",
+    "odds_timeseries_20260815.csv": "c7fbbd9dbb862f0be7d0acaa99f6f9e29da98952a0863b6733bc55872477ee6d",
+    "odds_timeseries_20260816.csv": "2997f8de2fd2bb4c1f0f6c8d4cd15bfe35402110896ea8cb6bdfe5f7d9b7b0f8",
+    "odds_timeseries_20260817.csv": "7830d83385b933cd8951de812c485351ffb2e2ea18f290f5455b2a44b2272f3e",
+    "odds_timeseries_20260818.csv": "e222c7f1dcf991f5ab762c401fdc9a8b2fd1fd7453541bcb4ef421fb4892d5fa",
+    "odds_timeseries_20260819.csv": "7aa4e2bc60a4d542f72ae6fe2e0237e71843a525e9e627c7afe22cdd692a30c4",
+    "odds_timeseries_20260820.csv": "fbdc540b227dbd0417f9aec1baa328d871012242fbc8adef6bed337d85c86794",
+    "odds_timeseries_20260821.csv": "4eff2b80ed59fc36fa92729de343cfc2268967bed188d8a8d0246e9ce87159b6",
+    "odds_timeseries_20260822.csv": "83e7315f938381c6f6211ccac686a05a2ff694882b1f17c2eb0e4aa7b38b9920",
+    "odds_timeseries_20260823.csv": "dd762abcdd2e21e47c560c8a32b62bc6ee30b72fb1613f39b11f62fab46ec766",
+    "odds_timeseries_20260824.csv": "cbae2b684510140c5425784c24e465ead4170a3361d5c4202dc2050624a166bf",
+    "odds_timeseries_20260825.csv": "e2f5b6d31a71f073328229925ab00f37263080aa5c82b68decfe0a8580c5d92e",
+    "odds_timeseries_20260826.csv": "64143d928d12b002d39670d2f30e730a55de4c8a39310d43e135b752c4a2827f",
+    "odds_timeseries_20260827.csv": "34558d624eb160ca5318fc47d5025203dfa6405a1d2d2427cca203c38de81d27",
+    "odds_timeseries_20260828.csv": "2338249c7ebcb5df5455450dedf642d4d55e74492ab580511b613a82befbf402",
+    "odds_timeseries_20260829.csv": "d9f46a91217482aec0e2f232c2db652d62933b88d952d7c6df3ba7d36edb340c",
+    "odds_timeseries_20260830.csv": "b885ba950b789d16dc2d0d9fd1608ae8885059e359ccccd4520630f3cfc3d86f",
+    "odds_timeseries_20260831.csv": "87a705647de464fd436ead5924fe0d9ec0c3013dde7a8c9f8078bde0a7505cb2",
+    "odds_timeseries_20260901.csv": "185f8575c80de118a59af667a15732f639d5f6385f1c0db8634fe0a6dc1f0399",
+    "odds_timeseries_20260902.csv": "05c420d55118e0515722f929520f905af237e82faaf11faef07336c4924088ad",
+    "odds_timeseries_20260904.csv": "7ce93ea0ac55875ce7e492bf70680581d12e06b9d6570aff9eb3a74375bf96bb",
+    "odds_timeseries_20260905.csv": "bb4bac8c871af5189e2557a0e669b9fb3b6b5e4226e413e2066b5378d3f03b2d"
+  },
+  "counts": {
+    "UCL": {
+      "offer_ids": 21,
+      "any_three_prices": 21,
+      "price_timestamp_before_t30_uncertified": 8,
+      "recognized_result_label": 17,
+      "conflicting_recognized_result_labels": 0,
+      "recognized_result_before_kickoff": 0,
+      "actual_receipt_certified": 0,
+      "official_confirmed_player_linked": 0
+    },
+    "UEL": {
+      "offer_ids": 24,
+      "any_three_prices": 24,
+      "price_timestamp_before_t30_uncertified": 16,
+      "recognized_result_label": 24,
+      "conflicting_recognized_result_labels": 0,
+      "recognized_result_before_kickoff": 0,
+      "actual_receipt_certified": 0,
+      "official_confirmed_player_linked": 0
+    },
+    "한국FA컵": {
+      "offer_ids": 21,
+      "any_three_prices": 21,
+      "price_timestamp_before_t30_uncertified": 16,
+      "recognized_result_label": 21,
+      "conflicting_recognized_result_labels": 0,
+      "recognized_result_before_kickoff": 0,
+      "actual_receipt_certified": 0,
+      "official_confirmed_player_linked": 0
+    },
+    "코파리베": {
+      "offer_ids": 20,
+      "any_three_prices": 19,
+      "price_timestamp_before_t30_uncertified": 12,
+      "recognized_result_label": 18,
+      "conflicting_recognized_result_labels": 0,
+      "recognized_result_before_kickoff": 0,
+      "actual_receipt_certified": 0,
+      "official_confirmed_player_linked": 0
+    },
+    "잉리그컵": {
+      "offer_ids": 8,
+      "any_three_prices": 8,
+      "price_timestamp_before_t30_uncertified": 5,
+      "recognized_result_label": 8,
+      "conflicting_recognized_result_labels": 0,
+      "recognized_result_before_kickoff": 0,
+      "actual_receipt_certified": 0,
+      "official_confirmed_player_linked": 0
+    }
+  }
+}
