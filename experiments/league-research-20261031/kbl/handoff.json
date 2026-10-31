@@ -1,0 +1,54 @@
+{
+  "role": "league research worker",
+  "league": "KBL",
+  "status": "blocked_data",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/league-kbl-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "experiments/operating-ledger-comparison-20261029/comparison.json": "a04285b6a14c09415e713cdc0e4b887073eb97da4c41d10b24b03631053c8223",
+    "experiments/sport-tournament-20261025/bk/bk.json": "cf9e8a30b73f97fafa9beb5e0c43178c9e3cf46a5caf8b7d1b6b7347d9a2ec5c"
+  },
+  "new_input_ids": [],
+  "protocol_sha": {
+    "commit": "f4120966cd4584c6fb7f9bd9b34382b481869923",
+    "git_blob_bytes_sha256": "fcd36cc193229f85405b14b4aa7bfe188715579af3000f340370b8ac93314780"
+  },
+  "tests": [
+    "python -X utf8 experiments/league-research-20261031/kbl/audit.py",
+    "git diff --check"
+  ],
+  "metrics": {
+    "audited_scope": "comparison.json KBL full-game win only",
+    "opportunities": 4,
+    "stored_pre_t30_as_of_and_capture": 4,
+    "stored_selected_market_price": 4,
+    "linked_proto_result": 4,
+    "current_policy": 1,
+    "player_evidence": 0,
+    "eligible_new_candidate": 0,
+    "accuracy": null,
+    "roi": null,
+    "logloss": null,
+    "brier": null,
+    "drawdown": null
+  },
+  "limitations": [
+    "No full ledger or raw player documents; timestamps and price not independently authenticated.",
+    "Synthetic time/duplicate-byte/future-label tests are not real-data leakage verification.",
+    "Handicap and total are outside this audited comparison; population opportunity count unknown.",
+    "No independent new evaluation or fitted player model."
+  ],
+  "blockers": [
+    "No prospectively received official player status and prior game records linked to same-market full price and results.",
+    "Product-specific settlement exceptions and applicable season rules require archival verification."
+  ],
+  "pr_url": null,
+  "next_data_needed": [
+    "new event_id and input SHA",
+    "official original document bytes, player/game/team identities and actual receipt time",
+    "predecision complete market vector and product rules",
+    "prior completed boxscores with receipt, rest/travel and pace inputs",
+    "frozen operating revision and official result with receipt and correction history"
+  ]
+}
