@@ -194,10 +194,11 @@ _next_recommendation_refresh = 0.0
 _tipster_wait_started = None
 _tailslips_wait_started = None
 _tipster_publish_pending = threading.Event()
-# Accessed only by the odds looper; track the last bounded yield per waiting episode.
+# Written by the odds looper; recommendation workers read the yield timestamps.
 _odds_yielded_tipster_waits = {}
 TIPSTER_LOOPERS = {"공개 픽스터", "다종목 픽스터"}
 TIPSTER_YIELD_RETRY_SECONDS = 900
+TIPSTER_YIELD_WINDOW_SECONDS = 60
 
 
 def _preferred_tipster():
@@ -207,6 +208,18 @@ def _preferred_tipster():
         (_tailslips_wait_started, "공개 픽스터"))
         if started is not None and now - started >= 120]
     return min(waiting)[1] if waiting else None
+
+
+def _tipster_yield_active():
+    """Protect one odds interval for a waiting collector, without blocking retries forever."""
+    now = time.monotonic()
+    for name, started in (("다종목 픽스터", _tipster_wait_started),
+                          ("공개 픽스터", _tailslips_wait_started)):
+        if started is not None:
+            yielded = _odds_yielded_tipster_waits.get((name, started))
+            if yielded is not None and 0 <= now - yielded < TIPSTER_YIELD_WINDOW_SECONDS:
+                return True
+    return False
 
 
 def _tipster_overdue():
@@ -835,7 +848,7 @@ def _refresh_market_after_collection() -> int:
 def _refresh_recommendation_after_odds(*, repair: bool = True) -> bool:
     """Shared bounded admission for startup, periodic retry and odds handoff."""
     global _next_recommendation_refresh
-    if _tipster_overdue() and not _tipster_publish_pending.is_set():
+    if _tipster_yield_active() or (_tipster_overdue() and not _tipster_publish_pending.is_set()):
         # Yield optional recommendation enrichment, never live market publication.
         # The intake still needs the same heavy lock and 512MiB admission gate.
         return False
@@ -876,6 +889,9 @@ def _refresh_recommendation_in_slot(*, repair: bool = True) -> bool:
         log("추천 후속 갱신 보류 — 보조 작업 실행 중; 독립 주기에서 재시도")
         return False
     try:
+        # A yield may begin after the outer admission check but before this lock.
+        if _tipster_yield_active():
+            return False
         available = _available_memory_mb()
         if available is None or available < 256:
             log(f"추천 후속 갱신 보류 — 여유 {available}MB / 필요 256MB")

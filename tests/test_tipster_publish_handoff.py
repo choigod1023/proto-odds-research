@@ -75,6 +75,43 @@ def test_oldest_collector_wins_and_new_odds_yields_but_retry_does_not(monkeypatc
     assert s._run_odds_cycle(['odds'], market_retry=True) == (0, False)
 
 
+
+def test_odds_looper_yield_defers_pending_recommendations_but_not_market_retry(monkeypatch):
+    now = [200.]
+    monkeypatch.setattr(s.time, 'monotonic', lambda: now[0])
+    monkeypatch.setattr(s, '_tailslips_wait_started', 0.)
+    s._tipster_publish_pending.set()
+    calls = []
+    monkeypatch.setattr(s, '_refresh_recommendation_in_slot', lambda **kw: calls.append(kw) or True)
+    monkeypatch.setattr(s.time, 'sleep', lambda _: (_ for _ in ()).throw(StopIteration()))
+    with pytest.raises(StopIteration):
+        s.run_looper('실시간 배당', ['odds'], 60)
+    assert calls == []
+    assert not s._refresh_recommendation_after_odds(repair=True)
+    assert s._tipster_publish_pending.is_set()
+    monkeypatch.setattr(s, '_refresh_market_after_collection', lambda: calls.append('market') or 0)
+    assert s._run_odds_cycle(['odds'], market_retry=True) == (0, False)
+    assert calls == ['market']
+    now[0] += 60
+    assert s._refresh_recommendation_after_odds(repair=True)
+    assert calls == ['market', {'repair': True}]
+
+
+def test_yield_rechecked_inside_recommendation_lock_and_market_retry_still_runs(monkeypatch):
+    monkeypatch.setattr(s.time, 'monotonic', lambda: 200.)
+    monkeypatch.setattr(s, '_tipster_wait_started', 0.)
+    s._tipster_publish_pending.set()
+    assert s._run_odds_cycle(['odds']) == (0, False)
+    monkeypatch.setattr(s.subprocess, 'run', lambda *a, **kw: pytest.fail('recommendation ran'))
+    assert not s._refresh_recommendation_in_slot(repair=True)
+    assert not s._memory_heavy_lock.locked()
+    calls = []
+    monkeypatch.setattr(s, '_run_market_refresh', lambda: calls.append('market') or SimpleNamespace(returncode=0))
+    assert s._run_odds_cycle(['odds'], market_retry=True) == (0, False)
+    assert calls == ['market']
+    monkeypatch.setattr(s, '_tipster_wait_started', None)
+    assert not s._tipster_yield_active()
+
 def test_tailslips_gets_the_reserved_slot_and_clears_it_on_failure(monkeypatch):
     monkeypatch.setattr(s.time, 'monotonic', lambda: 200.)
     monkeypatch.setattr(s, '_tailslips_wait_started', 0.)
