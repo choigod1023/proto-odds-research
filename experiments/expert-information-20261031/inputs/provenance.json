@@ -1,0 +1,44 @@
+{
+  "sources": {
+    "baseball_history": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\shrunk-market-residual-20261030\\experiments\\shrunk-market-residual-20261030\\inputs\\history.jsonl.gz",
+      "sha256": "07348651fc1a2a49820f81f8bf063a40304cfb4b4816351f6cefee11c6bc4a28"
+    },
+    "baseball_identities": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\shrunk-market-residual-20261030\\experiments\\shrunk-market-residual-20261030\\inputs\\canonical_targets.jsonl.gz",
+      "sha256": "d9f418e66c25633953b1a04765d923ae26209187ee816b7d27bfc1918d78e5df"
+    },
+    "soccer_history": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\kleague-decay-backtest-20261029\\experiments\\kleague-decay-20261029\\history.jsonl",
+      "sha256": "dcbf7ac3d1641750c12cd5f5f4278a6dc9d911e51b6d7d6660e69c7c35e83586"
+    },
+    "soccer_identities": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\kleague-decay-backtest-20261029\\experiments\\kleague-decay-20261029\\targets.jsonl",
+      "sha256": "5c2f73ef1a797b4e52ecb71e26467b393d519c59c8c4ac69ab1f2e82a3238975"
+    },
+    "raw_frames": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\two-leg-model-literature-20261030\\experiments\\two-leg-literature-20261030\\inputs\\votes.jsonl.gz",
+      "sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+    },
+    "cases": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\experiments\\source-link-step2-20261030\\inputs\\cases.jsonl.gz",
+      "sha256": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d"
+    },
+    "aliases": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\shrunk-market-residual-20261030\\experiments\\shrunk-market-residual-20261030\\results\\results.json",
+      "sha256": "664148b728af4a6f3ba51c0152ffaa2333b8112a33d3129f6f9776bfbd310190"
+    }
+  },
+  "history_rows": 17337,
+  "target_rows": 710,
+  "exclusions": {
+    "unresolved_exact_team": 6311,
+    "unknown_or_naive_publication": 5
+  },
+  "receipt_certified": 0,
+  "notes": [
+    "date/team normalized prior history may omit doubleheaders, not full census",
+    "publication claims not independent receipt evidence",
+    "no fuzzy/outcome-based identities"
+  ]
+}
