@@ -1,12 +1,12 @@
 {
   "role": "underdog_diagnostics",
-  "status": "analysis validated, draft PR pending",
+  "status": "complete; draft PR open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/underdog-diagnostics-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
   "protocol_sha": "aeb0be8e",
-  "commit": null,
-  "pr_url": null,
+  "commit": "f9e97dd5",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/468",
   "changed_paths": [
     "experiments/underdog-diagnostics-20261031/",
     "tests/test_accuracy_underdog_diagnostics.py",
@@ -38,7 +38,8 @@
     "streak ordered by decision time within underdog choices, not settlement time",
     "market and fixed91 are research controls, not current operating selection",
     "state K league 2 not eligible, model only 436/445",
-    "model content and all hashes can be reinterpreted only with trusted source and independent prospective evidence"
+    "model content and all hashes can be reinterpreted only with trusted source and independent prospective evidence",
+    "commit field identifies analysis commit; final handoff-only commit is PR head"
   ],
   "blockers": [],
   "next_dependency": "Coordinator reviews diagnostic and decides if and how to pursue prospectively authenticated data; no operational changes."
