@@ -73,7 +73,8 @@ def eligible_fact(fact, row):
         if fact.get('semantic_sha256')!=semantic_hash(fact): return False
         game_id=str(fact.get('official_game_id') or '')
         valid_source = (fact.get('league')=='KBO' and row.get('league_id')=='kbo' and official.get('url') in {KBO_URL,LINEUP_URL}) or (fact.get('league')=='MLB' and row.get('league_id')=='mlb' and game_id.isdigit() and official.get('url')==f'https://statsapi.mlb.com/api/v1.1/game/{game_id}/feed/live')
-        if not valid_source or fact.get('sport') != row.get('sport') or not claim.get('url','').startswith('https://'): return False
+        claim_url=claim.get('url')
+        if not valid_source or fact.get('sport') != row.get('sport') or not isinstance(claim_url,str) or not claim_url.startswith('https://'): return False
         if not any(isinstance(e,dict) and e.get('url')==official.get('url') and e.get('raw_sha256')==official.get('raw_sha256') and e.get('received_at')==official.get('received_at') for e in row.get('source_evidence', [])): return False
         if not all(isinstance(x,str) and re.fullmatch(r'[0-9a-f]{64}',x) for x in (official.get('raw_sha256'),claim.get('raw_sha256'))): return False
         if timestamp(claim['published_at']) > decision: return False

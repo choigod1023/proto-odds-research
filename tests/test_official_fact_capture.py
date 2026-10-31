@@ -111,3 +111,10 @@ def test_pipeline_ready_requires_confirmed_timed_fact_and_same_market(tmp_path):
     fact['official']['url']='https://example.org/not-official'
     with pytest.raises(ValueError,match='unsupported_ready_input'):
         script.run_capture_pipeline(bundle,adapter=adapter,build_manifest=lambda rows:{},raw_path=tmp_path/'raw2',inputs_path=tmp_path/'inputs2',manifest_path=tmp_path/'manifest2')
+
+
+def test_ready_guard_rejects_missing_claim_url_without_exception():
+    spec=importlib.util.spec_from_file_location('capture_null_claim',ROOT/'scripts/capture_official_research_inputs.py');script=importlib.util.module_from_spec(spec);spec.loader.exec_module(script)
+    bundle=json.loads((ROOT/'experiments/verified-fact-capture-20261031/capture.json').read_text(encoding='utf8')); f=bundle['facts'][0]
+    f['canonical_game_id']='canonical';f['decision_at']='2026-10-31T02:00:00+00:00';f['kind']='confirmed_starting_pitcher';f['after_value']['announcement_status']='confirmed';f['semantic_sha256']=semantic_hash(f);f['official'].update(confirmed=True,external_receipt_verified=True);f['market']['product_id']='market'
+    assert script.eligible_fact(f,{'game_id':'canonical','market_id':'market','league_id':'kbo','sport':'baseball','source_evidence':[f['official']]}) is False
