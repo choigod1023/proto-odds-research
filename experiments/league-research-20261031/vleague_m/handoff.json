@@ -14,7 +14,7 @@
   "protocol_sha": "e6c02cd02bb3a1899ee350ebaade4e74258a70fb",
   "tests": [
     "Python JSON parsing and snapshot sport/league count",
-    "git diff --check (pending final check)"
+    "git diff --cached --check passed"
   ],
   "metrics": {
     "scope": "docs/data/picks_v2.json live and past only",
@@ -39,7 +39,7 @@
   "blockers": [
     "Prospective source bytes, actual receipt witnesses, market prices, official confirmed lineups/absences and settlement joins unavailable."
   ],
-  "pr_url": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/463",
   "next_data_needed": [
     "New evidence event_id and input SHA, official bytes and actual receipt provenance",
     "Canonical match, team, player and product identity; confirmed setter/attacker participation or absence and revision",
