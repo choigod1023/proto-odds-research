@@ -84,3 +84,12 @@ def test_original_offer_cohort_and_ambiguous_case_fail_closed():
     assert not m.eligible([target],[frame],[case,copy.deepcopy(case)])[0]
     bad=copy.deepcopy(case); bad['game_no']='not-the-offer'
     assert not m.eligible([target],[frame],[bad])[0]
+
+
+def test_source_hash_is_not_a_document_hash():
+    at=m.instant('2026-07-01T09:00:00+00:00')
+    source={'source':'s','author':'a','side':'home','source_sha256':'b'*64,'source_reported_published_at':'2026-07-01T08:00:00+00:00'}
+    second=dict(source,author='b')
+    assert len(m.groups([source,second],at,['home','away']))==2
+    source['document_sha256']='c'*64;second['document_sha256']='c'*64
+    assert len(m.groups([source,second],at,['home','away']))==1

@@ -1,5 +1,13 @@
 {
-  "protocol_commit": "a1ed59f8849a29b753fa9a45df482ad294ed5862",
+  "parent_protocol_commit": "396a12e0a477418c8fee66562e36dba4bb274525",
+  "copied_protocol_commit": "a1ed59f8849a29b753fa9a45df482ad294ed5862",
+  "negative_control_parent_commit": "f962647e41015be807c9570591f763c5b98889d0",
+  "negative_control_copied_commit": "4e59f5d8c47ab169ca2a159e0a65f68a89bbe856",
+  "code_sha256": {
+    "run.py": "039d42d1fb1ef5b6e452e2fda8bead4bf1765b3b5edbc98b91a49b7c79bfc36c",
+    "verify.py": "0ed4e2866318fed8b9a56723c6b68dcb954edb098b46477496109bc6114e2d7d"
+  },
+  "hash_convention": "SHA256 of raw bytes; textual .py/.json/.jsonl normalized CRLF to LF",
   "inputs": {
     "cases.jsonl.gz": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
     "provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76",

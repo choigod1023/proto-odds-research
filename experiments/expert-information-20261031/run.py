@@ -31,7 +31,10 @@ def read_gz(path):
     with gzip.open(path,'rt',encoding='utf-8') as f: return [json.loads(line) for line in f]
 
 
-def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+def sha(path):
+    data=path.read_bytes()
+    if path.suffix in ('.py','.json','.jsonl'): data=data.replace(b'\r\n', b'\n')
+    return hashlib.sha256(data).hexdigest()
 
 
 def groups(votes, decision, sides):
@@ -43,7 +46,9 @@ def groups(votes, decision, sides):
             published = instant(v['source_reported_published_at'])
             if published > decision: continue
         except (KeyError,ValueError,TypeError,AttributeError): continue
-        h = v.get('document_sha256') or v.get('source_sha256')
+        # Only a documented content hash may cluster authors; source_sha256
+        # is not established as a hash of an individual document.
+        h = v.get('document_sha256')
         if h is not None and (not isinstance(h,str) or not re.fullmatch('[0-9a-fA-F]{64}', h)): h = None
         by_author[(source,author)].append((published, side, h.lower() if h else None))
     docs = collections.defaultdict(list)
@@ -247,7 +252,7 @@ def run():
     forecasts,stats=predictions(rows)
     results,settlement=measure(forecasts,rows)
     split=collections.Counter('train' if instant(r['features']['decision_at'])<TRAIN_END else 'validation' if instant(r['features']['decision_at'])<TEST_START else 'test' if instant(r['features']['decision_at'])<TEST_END else 'outside' for r in rows)
-    output={'protocol_commit':'a1ed59f8849a29b753fa9a45df482ad294ed5862','inputs':{x.name:sha(x) for x in inp.iterdir() if x.is_file()},'eligible':len(rows),'split_by_decision':dict(split),'rejected':rejected,'vote_audit':audit,'fit':stats,'metrics':results,'limitations':['retrospective publication claims only; certified receipt and executable prices zero','fixed91 is recomputed from grouped directional frequencies, not frozen operating predictions','96h result availability is a research assumption','previously inspected data; not blind or prospective']}
+    output={'parent_protocol_commit':'396a12e0a477418c8fee66562e36dba4bb274525','copied_protocol_commit':'a1ed59f8849a29b753fa9a45df482ad294ed5862','negative_control_parent_commit':'f962647e41015be807c9570591f763c5b98889d0','negative_control_copied_commit':'4e59f5d8c47ab169ca2a159e0a65f68a89bbe856','code_sha256':{name:sha(ROOT/name) for name in ('run.py','verify.py')},'hash_convention':'SHA256 of raw bytes; textual .py/.json/.jsonl normalized CRLF to LF','inputs':{x.name:sha(x) for x in inp.iterdir() if x.is_file()},'eligible':len(rows),'split_by_decision':dict(split),'rejected':rejected,'vote_audit':audit,'fit':stats,'metrics':results,'limitations':['retrospective publication claims only; certified receipt and executable prices zero','fixed91 is recomputed from grouped directional frequencies, not frozen operating predictions','96h result availability is a research assumption','previously inspected data; not blind or prospective']}
     (ROOT/'results.json').write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (ROOT/'forecasts.jsonl').write_text(''.join(json.dumps(x,ensure_ascii=False)+'\n' for x in forecasts),encoding='utf-8')
     (ROOT/'settlements.jsonl').write_text(''.join(json.dumps(x,ensure_ascii=False)+'\n' for x in settlement),encoding='utf-8')

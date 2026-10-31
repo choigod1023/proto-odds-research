@@ -7,6 +7,10 @@ import json
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parent
+def digest(path):
+    content=path.read_bytes()
+    if path.suffix in ('.py','.json','.jsonl'): content=content.replace(b'\r\n',b'\n')
+    return hashlib.sha256(content).hexdigest()
 with gzip.open(ROOT/'inputs/targets.jsonl.gz','rt',encoding='utf-8') as f:
     rows=[json.loads(line) for line in f]
 targets={r['event_id']:r for r in rows if r['actual_votes']}
@@ -26,6 +30,12 @@ for row in json.loads((ROOT/'results.json').read_text(encoding='utf-8'))['metric
     hits,pnl=totals[(row['league'],row['model'],row['mode'])]
     assert hits==row['hits'] and abs(float(pnl/Decimal(row['n']))-row['roi'])<1e-12
 checks['league_cells']=sum(r['league']!='ALL' for r in json.loads((ROOT/'results.json').read_text(encoding='utf-8'))['metrics'])
-checks['hashes']={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in ('protocol.json','negative-control.json','results.json','forecasts.jsonl','settlements.jsonl')}
+result=json.loads((ROOT/'results.json').read_text(encoding='utf-8'))
+for name, expected in result['code_sha256'].items(): assert digest(ROOT/name)==expected
+for name, expected in result['inputs'].items(): assert digest(ROOT/'inputs'/name)==expected
+checks['hash_convention']='raw bytes; textual .py/.json/.jsonl normalize CRLF to LF'
+checks['code_sha256']={name:digest(ROOT/name) for name in ('run.py','verify.py')}
+checks['input_sha256']={name:digest(ROOT/'inputs'/name) for name in result['inputs']}
+checks['hashes']={name:digest(ROOT/name) for name in ('protocol.json','negative-control.json','results.json','forecasts.jsonl','settlements.jsonl')}
 (ROOT/'verification.json').write_text(json.dumps(dict(checks),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(dict(checks),ensure_ascii=False))
