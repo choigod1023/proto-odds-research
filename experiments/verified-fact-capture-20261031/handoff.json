@@ -1,0 +1,44 @@
+{
+  "role": "connection",
+  "status": "implementation_complete_integration_blocked",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/verified-fact-capture-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "src/official_fact_capture.py": "3942eaec0ad8d5194903f3a28a16cef011f870ea6ebcc6894dc2bad415068748",
+    "scripts/capture_official_research_inputs.py": "142eb8e58b536005ef4e02267b83b04c8d9a50a403d1149f33b92c8c703c9386",
+    "tests/test_official_fact_capture.py": "f5a730205b4ee9d11857e51f739e117e8f2be324dbd0abd98991389cb58fc781",
+    "experiments/verified-fact-capture-20261031/capture.json": "57676a0954995633156a55de15f90ced8fdfe3dcdd7dc4453492385a086de6ad"
+  },
+  "new_input_ids": [
+    "official-fact-v1:7f700f0c4b6bafe01bd47b26005195133803b86a98e5ade87fdc3ee87ad7008f",
+    "official-fact-v1:5c0ebf50a442327d88622566a5efff8f39cedaa030043b6d8d8e2e31f0d06065"
+  ],
+  "protocol_sha": null,
+  "tests": {
+    "targeted": "7 passed",
+    "full": "2022 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "new_official_games": 1,
+    "new_probable_pitcher_facts": 2,
+    "confirmed_lineups": 0,
+    "eligible_ready": 0,
+    "external_receipt_verified": 0,
+    "actual_requests_total": 8,
+    "bundle_requests": 2
+  },
+  "limitations": [
+    "canonical game mapping, decision, prior value, claim, same-product market and independent receipt are missing",
+    "probable starters are not confirmed; lineup not announced",
+    "source body not retained; hash was computed at receipt and cannot now be reverified",
+    "MLB/NPB/K League have no newly captured prospective player facts in this sample",
+    "adapter and research_dispatch integration not yet available; dependency injection tested only with mocks",
+    "15s requests socket timeout is not a strict whole-request wall clock limit"
+  ],
+  "blockers": [
+    "real adapter and research_dispatch not present on base"
+  ],
+  "pr_url": null,
+  "next_data_needed": "Confirmed official facts with independent fixture/player identity, actual claim/official receipt, decision and full same-product price; real adapter/dispatcher integration."
+}
