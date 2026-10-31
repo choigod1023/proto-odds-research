@@ -67,7 +67,7 @@ def test_overdue_tipster_gets_next_optional_slot(gate, monkeypatch):
 def test_overdue_tipster_still_waits_for_market_and_memory(gate, monkeypatch):
     monkeypatch.setattr(supervisor, '_tipster_wait_started', 0.0)
     monkeypatch.setattr(supervisor.time, 'monotonic', lambda: 121.0)
-    readings = iter([600, 511, 512])
+    readings = iter([600, 511, 511, 512])
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: next(readings))
     supervisor._market_cycle_pending.set()
     waits = []

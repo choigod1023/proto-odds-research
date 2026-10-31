@@ -11,7 +11,7 @@ def isolated(monkeypatch):
     monkeypatch.setattr(s, '_market_cycle_pending', threading.Event())
     monkeypatch.setattr(s, '_tipster_publish_pending', threading.Event())
     monkeypatch.setattr(s, '_tipster_wait_started', None)
-    monkeypatch.setattr(s, '_odds_yielded_tipster_waits', set())
+    monkeypatch.setattr(s, '_odds_yielded_tipster_waits', {})
     monkeypatch.setattr(s, '_tailslips_wait_started', None)
     monkeypatch.setattr(s, '_available_memory_mb', lambda: 700)
 
@@ -123,3 +123,60 @@ def test_low_memory_wait_yields_once_then_odds_continue_and_next_wait_gets_a_tur
     assert calls == ['odds', 'odds']
     assert s._run_odds_cycle(['odds']) == (0, False)
     assert calls == ['odds', 'odds', 'odds']
+
+
+def test_persistent_wait_gets_bounded_repeat_opportunity_without_interrupting_retry(monkeypatch):
+    now=[500.]
+    monkeypatch.setattr(s.time,'monotonic',lambda:now[0])
+    monkeypatch.setattr(s,'_tipster_wait_started',100.)
+    calls=[]
+    monkeypatch.setattr(s.subprocess,'run',lambda *a,**k: calls.append('odds') or SimpleNamespace(returncode=0))
+    monkeypatch.setattr(s,'_refresh_market_after_collection',lambda:0)
+    assert s._run_odds_cycle(['odds'])==(0,False) and not calls
+    now[0]+=899
+    assert s._run_odds_cycle(['odds'])==(0,False) and calls==['odds']
+    now[0]+=1
+    assert s._run_odds_cycle(['odds'],market_retry=True)==(0,False) and calls==['odds']
+    assert s._run_odds_cycle(['odds'])==(0,False) and calls==['odds']
+    assert s._run_odds_cycle(['odds'])==(0,False) and calls==['odds','odds']
+
+def test_low_headroom_reclaims_only_when_preferred_and_still_requires_gate(monkeypatch):
+    now=[200.]; readings=iter([300,400,511,512]); events=[]
+    monkeypatch.setattr(s.time,'monotonic',lambda:now[0])
+    monkeypatch.setattr(s,'_tipster_wait_started',0.)
+    monkeypatch.setattr(s,'_available_memory_mb',lambda:next(readings))
+    monkeypatch.setattr(s,'_release_match_working_set',lambda:events.append('drop'))
+    monkeypatch.setattr(s,'release_unused_heap',lambda:events.append('trim'))
+    def sleep(seconds):
+        assert not s._memory_heavy_lock.locked()
+        now[0]+=seconds
+    monkeypatch.setattr(s.time,'sleep',sleep)
+    with s._background_slot('다종목 픽스터'):
+        assert events==['drop','trim'] and s._memory_heavy_lock.locked()
+    assert now[0]==260.
+
+def test_reclaim_failure_does_not_bypass_headroom_or_hold_lock(monkeypatch):
+    now=[200.]; readings=iter([300,600]); sleeps=[]
+    monkeypatch.setattr(s.time,'monotonic',lambda:now[0])
+    monkeypatch.setattr(s,'_tipster_wait_started',0.)
+    monkeypatch.setattr(s,'_available_memory_mb',lambda:next(readings))
+    def failure(): raise RuntimeError('temporary failure')
+    monkeypatch.setattr(s,'_release_match_working_set',failure)
+    def wait(seconds):
+        assert not s._memory_heavy_lock.locked()
+        sleeps.append(seconds);now[0]+=seconds
+    monkeypatch.setattr(s.time,'sleep',wait)
+    with s._background_slot('다종목 픽스터'):
+        assert sleeps==[30] and s._memory_heavy_lock.locked()
+
+
+def test_pending_market_retry_prevents_tipster_reclaim(monkeypatch):
+    now=[200.];monkeypatch.setattr(s.time,'monotonic',lambda:now[0])
+    monkeypatch.setattr(s,'_tipster_wait_started',0.)
+    monkeypatch.setattr(s,'_available_memory_mb',lambda:600 if not s._market_cycle_pending.is_set() else 300)
+    monkeypatch.setattr(s,'_release_match_working_set',lambda:pytest.fail('market reservation must win'))
+    s._market_cycle_pending.set()
+    def wait(seconds):
+        assert not s._memory_heavy_lock.locked();s._market_cycle_pending.clear();now[0]+=seconds
+    monkeypatch.setattr(s.time,'sleep',wait)
+    with s._background_slot('다종목 픽스터'): assert s._memory_heavy_lock.locked()
