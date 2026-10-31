@@ -1,5 +1,7 @@
 """Capture up to three KBO fixtures once; detached JSON output, no DB/daemon."""
 import argparse
+import base64
+import binascii
 import copy
 import importlib
 import math
@@ -22,6 +24,7 @@ def fetch(session,url,data):
     try:
         response=session.post(url,data=data,timeout=15,allow_redirects=False,stream=True)
         if response.status_code!=200: raise ValueError('unexpected_http_status_'+str(response.status_code))
+        if response.headers.get('Content-Encoding','identity').lower() not in ('','identity'): raise ValueError('encoded_response_not_supported')
         chunks=[]; size=0
         for chunk in response.iter_content(chunk_size=65536):
             if time.monotonic()-start>15: raise ValueError('total_time_limit')
@@ -29,7 +32,7 @@ def fetch(session,url,data):
             if size>MAX_BODY: raise ValueError('response_size_limit')
             chunks.append(chunk)
         raw=b''.join(chunks); at=datetime.now(timezone.utc).isoformat()
-        return raw,{'url':url,'status':response.status_code,'received_at':at,'raw_sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}
+        return raw,{'url':url,'status':response.status_code,'received_at':at,'raw_sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'raw_base64':base64.b64encode(raw).decode('ascii')}
     finally:
         if response is not None: response.close()
 
@@ -59,6 +62,15 @@ def capture(day,session):
     for game in games: game.pop('lineup_request',None)
     return {'schema':'official-fact-capture-v1','games':games,'facts':facts,'missing':missing,'requests':ledger,'request_attempts':attempts}
 
+def valid_response_bytes(entry):
+    if not isinstance(entry,dict) or entry.get('status')!=200: return False
+    value=entry.get('raw_base64'); size=entry.get('bytes')
+    if not isinstance(value,str) or type(size) is not int or not 0<size<=MAX_BODY: return False
+    if len(value)>4*((MAX_BODY+2)//3): return False
+    try: raw=base64.b64decode(value,validate=True)
+    except (binascii.Error,ValueError): return False
+    return len(raw)==size and hashlib.sha256(raw).hexdigest()==entry.get('raw_sha256')
+
 def eligible_fact(fact, row, bundle):
     """Check locally recorded evidence; independent external receipt remains unverified."""
     try:
@@ -81,7 +93,7 @@ def eligible_fact(fact, row, bundle):
         claim_url=claim.get('url')
         if not valid_source or fact.get('sport') != row.get('sport') or not isinstance(claim_url,str) or not claim_url.startswith('https://'): return False
         if not any(isinstance(e,dict) and e.get('url')==official.get('url') and e.get('raw_sha256')==official.get('raw_sha256') and e.get('received_at')==official.get('received_at') for e in row.get('source_evidence', [])): return False
-        if not any(isinstance(e,dict) and e.get('status')==200 and e.get('url')==official.get('url') and e.get('raw_sha256')==official.get('raw_sha256') and e.get('received_at')==official.get('received_at') for e in bundle.get('requests', [])): return False
+        if not any(isinstance(e,dict) and valid_response_bytes(e) and e.get('url')==official.get('url') and e.get('raw_sha256')==official.get('raw_sha256') and e.get('received_at')==official.get('received_at') for e in bundle.get('requests', [])): return False
         if not all(isinstance(x,str) and re.fullmatch(r'[0-9a-f]{64}',x) for x in (official.get('raw_sha256'),claim.get('raw_sha256'))): return False
         claim_received=timestamp(claim['received_at'])
         if claim.get('published_at') is not None and timestamp(claim['published_at'])>claim_received: return False
@@ -101,9 +113,14 @@ def adapt_with_context(facts, *, to_adapter_input, context):
     """Call the actual adapter contract using caller-supplied context, never synthesize data."""
     if not isinstance(context,dict) or any(k not in context for k in ('registry','baseline','market','input_id')):
         raise ValueError('adapter_context_missing')
+    registry=context['registry']
+    if not isinstance(registry,dict) or not isinstance(registry.get('product'),dict): raise ValueError('invalid_adapter_registry')
+    target_game=registry.get('canonical_game_id');target_product=registry['product'].get('product_id')
     compact=[]
     for original in facts:
         if not isinstance(original,dict): raise ValueError('invalid_fact')
+        game_id=original.get('canonical_game_id'); product=(original.get('market') or {}).get('product_id')
+        if (game_id is not None and game_id!=target_game) or (product is not None and product!=target_product): raise ValueError('mixed_context_facts')
         item={k:copy.deepcopy(original[k]) for k in FACT_KEYS if k in original}
         for name,keys in EVIDENCE_KEYS.items():
             if isinstance(item.get(name),dict): item[name]={k:item[name][k] for k in keys if k in item[name]}
@@ -128,6 +145,13 @@ def run_capture_pipeline(bundle, *, adapter, build_manifest, raw_path, inputs_pa
     paths[0].write_text(json.dumps(bundle,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
     rows=adapter(copy.deepcopy(facts))
     if not isinstance(rows,list): raise ValueError('adapter_must_return_list')
+    def fact_key(fact):
+        market=fact.get('market') if isinstance(fact,dict) else None
+        return (fact.get('canonical_game_id'),market.get('product_id')) if isinstance(market,dict) else (None,None)
+    def row_key(row): return (row.get('game_id'),row.get('market_id'))
+    known_row_keys={row_key(row) for row in rows if isinstance(row,dict) and row.get('game_id') and row.get('market_id')}
+    unmatched=sum(1 for fact in facts if fact_key(fact) not in known_row_keys)
+    if unmatched and any(isinstance(row,dict) and (row.get('status')=='ready' or row.get('research_eligible') is True) for row in rows): raise ValueError('unmapped_facts_in_ready_batch')
     allowed={'kleague1','kleague2','kbo','npb','mlb','kbl','nba','vleague_m','vleague_w','football_other'}
     for row in rows:
         if not isinstance(row,dict) or row.get('schema_version')!='fact-delta-inputs-v1' or row.get('league_id') not in allowed: raise ValueError('invalid_adapter_row')
@@ -136,12 +160,13 @@ def run_capture_pipeline(bundle, *, adapter, build_manifest, raw_path, inputs_pa
         if not isinstance(row.get('features'),dict) or not isinstance(row.get('source_evidence'),list) or not isinstance(row.get('reasons'),list): raise ValueError('invalid_adapter_fields')
         if contains_result(row['features']): raise ValueError('target_result_in_features')
         if row['research_eligible'] or row['status']=='ready':
-            if row['status']!='ready' or not row['research_eligible'] or not row['source_evidence'] or not facts or not all(eligible_fact(f,row,bundle) for f in facts): raise ValueError('unsupported_ready_input')
+            matching=[fact for fact in facts if fact_key(fact)==row_key(row)]
+            if row['status']!='ready' or not row['research_eligible'] or not row['source_evidence'] or not matching or not all(eligible_fact(f,row,bundle) for f in matching): raise ValueError('unsupported_ready_input')
     manifest=build_manifest(copy.deepcopy(rows))
     for path,value in zip(paths[1:],(rows,manifest)):
         path.parent.mkdir(parents=True,exist_ok=True)
         path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
-    return {'raw_path':str(paths[0]),'inputs_path':str(paths[1]),'manifest_path':str(paths[2]),'inputs':len(rows)}
+    return {'raw_path':str(paths[0]),'inputs_path':str(paths[1]),'manifest_path':str(paths[2]),'inputs':len(rows),'unmatched_fact_count':unmatched}
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--date',required=True,help='KST YYYYMMDD');p.add_argument('--out',type=Path,required=True,help='new raw bundle path');p.add_argument('--adapter-out',type=Path);p.add_argument('--manifest-out',type=Path);p.add_argument('--adapter-module');p.add_argument('--adapter-function');p.add_argument('--adapter-context',type=Path);args=p.parse_args()
@@ -161,13 +186,14 @@ def main():
             dispatcher=importlib.import_module('research_dispatch').build_manifest
         except (ImportError,AttributeError,ValueError,OSError) as exc: raise SystemExit('Adapter, context or dispatcher unavailable; no request made: '+str(exc)) from exc
     with requests.Session() as session:
-        session.headers.update({'User-Agent':'Mozilla/5.0','Referer':'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx','Accept':'application/json'})
+        session.headers.update({'User-Agent':'Mozilla/5.0','Referer':'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx','Accept':'application/json','Accept-Encoding':'identity'})
         bundle=capture(args.date,session)
+    pipeline=None
     if adapter:
-        run_capture_pipeline(bundle,adapter=adapter,build_manifest=dispatcher,raw_path=args.out,inputs_path=args.adapter_out,manifest_path=args.manifest_out)
+        pipeline=run_capture_pipeline(bundle,adapter=adapter,build_manifest=dispatcher,raw_path=args.out,inputs_path=args.adapter_out,manifest_path=args.manifest_out)
     else:
         args.out.parent.mkdir(parents=True,exist_ok=True)
         args.out.write_text(json.dumps(bundle,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
-    print(json.dumps({'games':len(bundle['games']),'facts':len(bundle['facts']),'missing':len(bundle['missing']),'requests':bundle['request_attempts']}))
+    print(json.dumps({'games':len(bundle['games']),'facts':len(bundle['facts']),'missing':len(bundle['missing']),'requests':bundle['request_attempts'],'unmatched_fact_count':pipeline['unmatched_fact_count'] if pipeline else None}))
 if __name__=='__main__': main()
 
