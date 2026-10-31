@@ -1,0 +1,49 @@
+{
+  "role": "league_research",
+  "league": "vleague_m",
+  "status": "blocked_data",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/league-vleague_m-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "experiments/sport-tournament-20261025/vl/vl.json": "9ab707f68fbc2202b150f3f109595433676119d69a1cd121155a398cc97e4dbe",
+    "docs/data/picks_v2.json": "abe9350eee06ccf8a510c0295d4af8364e5d168f9174ee94d2c286c697822efa",
+    "experiments/tipster-three-arm-20261025/historical-audit.json": "cf4457d16aa8228ca23df0e4885561934ec687cd78c7f327b6b4056221c6be85"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "e6c02cd02bb3a1899ee350ebaade4e74258a70fb",
+  "tests": [
+    "Python JSON parsing and snapshot sport/league count",
+    "git diff --check (pending final check)"
+  ],
+  "metrics": {
+    "scope": "docs/data/picks_v2.json live and past only",
+    "vleague_m_opportunities_in_snapshot": 0,
+    "vleague_m_predecision_receipt_in_snapshot": 0,
+    "vleague_m_price_in_snapshot": 0,
+    "vleague_m_result_in_snapshot": 0,
+    "vleague_m_confirmed_player_link_in_snapshot": 0,
+    "eligible_new_prospective_sample": 0,
+    "coverage": null,
+    "accuracy": null,
+    "roi": null,
+    "logloss": null,
+    "brier": null,
+    "drawdown": null
+  },
+  "limitations": [
+    "Static snapshot is not a complete V-League opportunity census. No actual eligible new evidence event was assigned.",
+    "No real-data leakage, duplicate document, or future-label poisoning test could be executed without eligible records.",
+    "Mixed volleyball historical results cannot identify V-League men or authenticate predecision receipt."
+  ],
+  "blockers": [
+    "Prospective source bytes, actual receipt witnesses, market prices, official confirmed lineups/absences and settlement joins unavailable."
+  ],
+  "pr_url": null,
+  "next_data_needed": [
+    "New evidence event_id and input SHA, official bytes and actual receipt provenance",
+    "Canonical match, team, player and product identity; confirmed setter/attacker participation or absence and revision",
+    "Prior completed official serve/reception statistics and set scores with actual availability",
+    "Same-product complete predecision quote with actual receipt, official result and exact frozen operating revision where available"
+  ]
+}
