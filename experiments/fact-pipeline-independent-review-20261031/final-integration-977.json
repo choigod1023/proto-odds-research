@@ -1,0 +1,36 @@
+{
+  "queue_integration_head": "9770838813d9ff80ad2942ecf78e36719a1c9f50",
+  "capture_pr_head": "5f843be9bd744f795c205e93cf5433cac037e4f5",
+  "source_sha256": {
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/research_dispatch.py": "5f49a2a239a38a58c4c6a42182b8aaf420c8c6101ef1659e125a55e787b24760",
+    "src/fact_delta_inputs.py": "1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a",
+    "src/official_fact_capture.py": "3942eaec0ad8d5194903f3a28a16cef011f870ea6ebcc6894dc2bad415068748",
+    "src/mlb_candidate_feed.py": "a4ad645019ef80fecf90eeb9306491915aed1021d9a88920cf34a376192d29cd",
+    "scripts/capture_official_research_inputs.py": "267e240c01977dfd5c18b5981a291de8e65ffbb04777fabf62f54b017eb161e0",
+    "scripts/dispatch_league_research.py": "f2b35262463ec57b6165c5e9d8461be61a412e70024d910d78695435d78dc3e5",
+    "tests/test_fact_research_dispatch_integration.py": "f5e312c3a938b9346e7559a686f6a6458d30ce37c9a8a24d89a93716fc371ba6",
+    "tests/test_research_dispatch.py": "a008d797bdfef950a289db6ca157067fa9e49062e14635204d03e2f27f21eb33",
+    "tests/test_official_fact_capture.py": "f4a8bbdfcc56e27eb211a988ebe5e98687c10177da8b5d8c6102989ad3e12ee6",
+    "experiments/fact-delta-research-adapter-20261031/example-bundle.json": "fb03a5ffb97ab17d23d2f1733d9d7a7c73067e21f7b7e49397f88bd66b3e5eca",
+    "experiments/verified-fact-capture-20261031/synthetic-real-adapter-fixture.json": "5af7012b56fdd443ee09dcd3ac3d9a49bc6a99778e1119333233cae8417ae249",
+    "experiments/verified-fact-capture-20261031/capture.json": "57676a0954995633156a55de15f90ced8fdfe3dcdd7dc4453492385a086de6ad",
+    "experiments/verified-fact-capture-20261031/capture-with-bytes.json": "596eb0270bc2ed00640c93a3ff901a5035a079a2070f273f66d2243ac0b561c3"
+  },
+  "validation": {
+    "targeted_parent_tests": "36 passed",
+    "two_game_batch_function": "2 actual adapter-generated ready rows accepted with explicit per-game callback; 0 unmatched",
+    "two_game_default_cli_wrapper": "rejects mixed_context_facts with two distinct games",
+    "raw_response_samples": "2 body bytes verified against length and SHA256; hash-only rejected",
+    "new_receipt_times": "2 matching request timestamps not earlier than original",
+    "stale_claim": "reclaim uses different claim_id; old claim rejected; no message sent",
+    "capture_commit_identity": "3 selected capture files Git blob equal between #467 and #469 heads",
+    "adapter_identity": "commit LF SHA256 1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a; matches prior worker 78dce09f... after CRLF normalization"
+  },
+  "limitations": [
+    "default CLI accepts only one context, multi-game rejected; multi-context wrapper was supplied explicitly for batch API",
+    "raw hash check does not prove independent receipt or historical validity",
+    "no real native message, runtime deployment or ROI evaluation",
+    "full test suite not rerun per request"
+  ]
+}

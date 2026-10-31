@@ -1,0 +1,59 @@
+{
+  "role": "facts_pipeline_independent_review",
+  "status": "draft_pr_open_final_pushed_head_reviewed",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/fact-pipeline-independent-review-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": null,
+  "commit": "7270268 initial; queue followup in subsequent PR head",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/466",
+  "changed_paths": [
+    "experiments/fact-pipeline-independent-review-20261031/**",
+    "tests/test_fact_pipeline_independent_review.py",
+    "tests/test_fact_pipeline_adapter_snapshot.py",
+    "docs/research/2026-10-31-fact-pipeline-independent-review.md"
+  ],
+  "inputs_and_sha": {
+    "adapter_interim_snapshot": "19e7dc3fe51502e1c558f1dce342a1068b1b0fbb8631f68d06ec23c33274a7e4",
+    "scenarios": "871107a25b92349d396143f925017198d959258eba249b4c3e3b654f233b73e6",
+    "worker_common_read_only": "271f27562d01939338327976cf293323d7a30ec7e5ab0ff7c89e92403f4a2d80",
+    "queue_v1": "a54b097a35e363195b20e704d2ce92c6bab0d23f095927c093f19ff1b3bb1661",
+    "queue_v2": "319ba7c6fae5a9acff2da63dbc1459882008070d66625706c7540aa42337177a",
+    "adapter_interim": "78dce09f8af94a79934834c63c3f9935a3fb209826fe822b64a012996c23ce33",
+    "capture_pr467_head": "ac7816a751b8d6d57734a4d71ef382fb7e59f150",
+    "queue_pr469_head": "3eeb1d3a34a4836adb9e2ac97845ad7cccd1871b",
+    "queue_pr469_source_raw": "5f49a2a239a38a58c4c6a42182b8aaf420c8c6101ef1659e125a55e787b24760",
+    "adapter_interim_lf": "1b5aaaecc831a99680b62c867faa4f8816851f32de3549b56d5794b8b807235a"
+  },
+  "tests": {
+    "targeted": "13 queue/capture integration tests passed plus prior 8 fixture/interim tests",
+    "full": "not rerun for final head; prior 2052 passed applies only earlier review branch",
+    "fixture_catalog": 37,
+    "full_fixture_driver": "not implemented",
+    "targeted_latest": "16 passed: 10 historical head and 6 latest; plus original synthetic catalog",
+    "three_component": "synthetic same event seed->recapture->price; two-game valid batch rejected by capture",
+    "final_targeted": "36 passed, plus independent two-game, raw-hash and stale-claim checks",
+    "single_context_followup": "7 selected tests passed and one independent synthetic selected-game/no-extra-call check",
+    "final_commit": "17 independent tests + 1 upstream target-fixture regression passed; no full rerun as requested"
+  },
+  "metrics": {
+    "capture_pr467_sample": "1 game, 2 probable starters, both external_receipt_verified=false",
+    "new_observations_by_reviewer": 0,
+    "accuracy_roi": "not evaluated"
+  },
+  "limitations": [
+    "single-context CLI intentionally does not merge multiple contexts",
+    "no real native messages, runtime deployment or ROI evaluation",
+    "source/response SHA does not prove externally witnessed pregame receipt"
+  ],
+  "findings": [
+    "single KBO context target fixture selection confirmed at final commit; unrelated games not queried",
+    "programmatic two-game batch accepted with explicit per-game adapter mapping",
+    "seed, dedup, timestamp-only, price change, busy, uncertain, path, stale claim and fixed prompt tested",
+    "captured raw bytes integrity tested; does not authenticate external receipt"
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator can map this review to exact pinned head; independent prospectively witnessed source and performance assessment remain separate",
+  "final_integration_head": "57bfcc1ca7ce84d01ccbc3ab1fd34f7424ef1b02",
+  "capture_pr467_final_head": "5f843be9bd744f795c205e93cf5433cac037e4f5"
+}

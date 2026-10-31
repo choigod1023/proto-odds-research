@@ -1,0 +1,513 @@
+{
+  "version": "review-fixtures-v1",
+  "status": "synthetic preparation; not target-system results",
+  "protocol": "Each scenario executes in an isolated temporary state. Driver translates setup to trusted synthetic objects, executes steps in order, and returns observed subset as JSON. Never execute commands encoded in identifiers.",
+  "cases": [
+    {
+      "id": "capture_published_not_receipt",
+      "focus": "시점",
+      "setup": "first_received_at=null; published_at은 판정 전",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "external_receipt_certified": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_received_after_decision",
+      "focus": "시점",
+      "setup": "first_received_at=decision+1초; published_at=decision-1시간",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "external_receipt_certified": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_naive_clock",
+      "focus": "시점",
+      "setup": "first_received_at 시간대 없음",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_revision_late",
+      "focus": "시점",
+      "setup": "revision_received_at=decision+1초",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_first_after_revision",
+      "focus": "시점",
+      "setup": "first_received_at > revision_received_at",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_probable",
+      "focus": "확정",
+      "setup": "확정이 필요한 선발 후보에서 발표 상태 probable만 있음",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "confirmed": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_unsupported_statement",
+      "focus": "의견분리",
+      "setup": "공식 페이지에 의견 텍스트만 있고 선수 확정 사실 없음",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "confirmed": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_wrong_game",
+      "focus": "신원",
+      "setup": "정식 game_id가 대상과 다름; 같은 팀/날짜",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_wrong_product",
+      "focus": "상품",
+      "setup": "product_id는 다르지만 팀과 경기 ID는 동일",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_missing_player",
+      "focus": "선수",
+      "setup": "확정 선발 player_id 누락",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_raw_hash_unwitnessed",
+      "focus": "인증",
+      "setup": "정확한 raw sha와 자체 수신 로그만 존재; 외부 증인 없음",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "raw_hash_checked": true,
+        "external_receipt_certified": false
+      }
+    },
+    {
+      "id": "capture_raw_hash_mismatch",
+      "focus": "원문",
+      "setup": "저장된 raw bytes와 기재 sha256 불일치",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "eligible": false,
+        "raw_hash_checked": false,
+        "baseline": "unchanged",
+        "enqueue_count": 0
+      }
+    },
+    {
+      "id": "capture_no_raw_bytes",
+      "focus": "원문",
+      "setup": "hash 문자열만 있고 raw bytes 없음",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "raw_hash_checked": false,
+        "external_receipt_certified": false
+      }
+    },
+    {
+      "id": "adapter_missing_fact",
+      "focus": "기준보존",
+      "setup": "유효 baseline; 선수 사실 누락",
+      "steps": [
+        "predict"
+      ],
+      "expected": {
+        "baseline": "unchanged",
+        "research_eligible": false,
+        "status": "baseline_only"
+      }
+    },
+    {
+      "id": "adapter_bad_fact",
+      "focus": "기준보존",
+      "setup": "유효 baseline; 예상 이닝 0, 선수 ID 누락 또는 잘못된 팀",
+      "steps": [
+        "predict"
+      ],
+      "expected": {
+        "baseline": "unchanged",
+        "research_eligible": false
+      }
+    },
+    {
+      "id": "adapter_result_feature",
+      "focus": "누출",
+      "setup": "대상 점수 또는 경기 후 투구 이닝을 사실 입력에 주입",
+      "steps": [
+        "predict"
+      ],
+      "expected": {
+        "eligible": false,
+        "baseline": "unchanged"
+      }
+    },
+    {
+      "id": "manifest_generated_at_only",
+      "focus": "중복",
+      "setup": "현재 신뢰 스냅샷과 사실 동일; generated_at만 변경",
+      "steps": [
+        "ingest",
+        "change_generated_at",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "semantic_changes": 1
+      }
+    },
+    {
+      "id": "manifest_duplicate_replay",
+      "focus": "중복",
+      "setup": "같은 event_id와 사실 원문 반복",
+      "steps": [
+        "ingest",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "semantic_changes": 1
+      }
+    },
+    {
+      "id": "manifest_existing_445",
+      "focus": "기존자료",
+      "setup": "기존 회고 445경기의 복제 또는 재열람",
+      "steps": [
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "semantic_changes": 0
+      }
+    },
+    {
+      "id": "manifest_distinct_leagues",
+      "focus": "리그",
+      "setup": "같은 공급자 event_id 문자열이지만 KBO와 NPB의 독립 공식 namespace",
+      "steps": [
+        "ingest_both"
+      ],
+      "expected": {
+        "enqueue_count": 2,
+        "distinct_leagues": 2
+      }
+    },
+    {
+      "id": "manifest_conflicting_event",
+      "focus": "충돌",
+      "setup": "같은 리그와 공식 event ID인데 팀이 충돌",
+      "steps": [
+        "ingest_both"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "reason": "identity_conflict"
+      }
+    },
+    {
+      "id": "manifest_rewrite_first_receipt",
+      "focus": "불변",
+      "setup": "이미 저장된 first_received_at을 더 이른 시간으로 수정",
+      "steps": [
+        "ingest",
+        "rewrite_first_receipt",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "reason": "immutable_receipt_conflict"
+      }
+    },
+    {
+      "id": "queue_worker_routing",
+      "focus": "선택",
+      "setup": "신뢰된 KBO 새 사실 1개 및 다른 리그 변경 없음",
+      "steps": [
+        "ingest",
+        "plan"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "planned_worker_keys": [
+          "kbo"
+        ],
+        "messages_sent": 0
+      }
+    },
+    {
+      "id": "queue_same_evidence_once",
+      "focus": "멱등",
+      "setup": "같은 semantic event를 두 차례 제출",
+      "steps": [
+        "ingest",
+        "ingest",
+        "plan"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "planned_count": 1,
+        "messages_sent": 0
+      }
+    },
+    {
+      "id": "queue_retry",
+      "focus": "재시도",
+      "setup": "같은 작업의 명시된 재시도 가능 실패를 기록한 뒤 정상 ack를 수신",
+      "steps": [
+        "ingest",
+        "mark_known_retryable_failure",
+        "plan_retry",
+        "ack_success",
+        "plan_again"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "planned_attempts": 2,
+        "completed_count": 1,
+        "messages_sent": 0
+      }
+    },
+    {
+      "id": "queue_injection",
+      "focus": "명령주입",
+      "setup": "league 혹은 event_id에 kbo; 외부 명령 구문 삽입",
+      "steps": [
+        "ingest",
+        "plan"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "planned_count": 0,
+        "messages_sent": 0,
+        "reason": "invalid_identifier"
+      }
+    },
+    {
+      "id": "queue_league_spoof",
+      "focus": "교차리그",
+      "setup": "NBA 작업에 KBO 공식 자료를 끼워넣음",
+      "steps": [
+        "ingest",
+        "plan"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "planned_count": 0,
+        "messages_sent": 0,
+        "reason": "league_mismatch"
+      }
+    },
+    {
+      "id": "queue_duplicate_id_changed_fact",
+      "focus": "충돌",
+      "setup": "동일 revision/event ID로 서로 다른 payload 전달",
+      "steps": [
+        "ingest",
+        "mutate_payload",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "reason": "revision_conflict"
+      }
+    },
+    {
+      "id": "queue_distinct_revision",
+      "focus": "새자료",
+      "setup": "신뢰 가능한 후속 revision에서 실제 선수 확정 상태 변경",
+      "steps": [
+        "ingest",
+        "new_revision",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 2,
+        "semantic_changes": 2
+      }
+    },
+    {
+      "id": "adapter_valid_without_model",
+      "focus": "입력과예측분리",
+      "setup": "공식 확정 사실, 경기·상품 ID, 가격 및 시각이 유효하지만 선수 모델 artifact 없음",
+      "steps": [
+        "convert"
+      ],
+      "expected": {
+        "research_eligible": true,
+        "status": "ready",
+        "baseline": "unchanged",
+        "prediction_changed": false
+      }
+    },
+    {
+      "id": "manifest_first_seed",
+      "focus": "초기화",
+      "setup": "현재 알려진 기존 입력을 최초 seed로 등록",
+      "steps": [
+        "seed",
+        "plan"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "planned_count": 0,
+        "messages_sent": 0
+      }
+    },
+    {
+      "id": "manifest_price_change",
+      "focus": "새자료",
+      "setup": "기존 입력에서 동일 상품의 완전한 가격 벡터만 정당하게 수정",
+      "steps": [
+        "seed",
+        "change_price",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "semantic_changes": 1
+      }
+    },
+    {
+      "id": "manifest_trust_change",
+      "focus": "인증변화",
+      "setup": "기존 입력과 같지만 독립 확인의 신뢰 가능한 상태만 변경",
+      "steps": [
+        "seed",
+        "change_verified_status",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "semantic_changes": 1
+      }
+    },
+    {
+      "id": "manifest_schema_change",
+      "focus": "스키마",
+      "setup": "실제 정규화 feature schema가 변경됨",
+      "steps": [
+        "seed",
+        "change_feature_schema",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "semantic_changes": 1
+      }
+    },
+    {
+      "id": "queue_uncertain",
+      "focus": "불확실한전달",
+      "setup": "외부 호출의 수신 여부를 알 수 없는 전달 상태",
+      "steps": [
+        "ingest",
+        "mark_delivery_uncertain",
+        "plan_again"
+      ],
+      "expected": {
+        "enqueue_count": 1,
+        "retry_planned": false,
+        "delivery_status": "uncertain",
+        "messages_sent": 0
+      }
+    },
+    {
+      "id": "queue_prompt_injection",
+      "focus": "고정registry",
+      "setup": "manifest에 새 prompt와 다른 threadId 추가",
+      "steps": [
+        "ingest",
+        "plan"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "planned_count": 0,
+        "messages_sent": 0,
+        "reason": "invalid_manifest"
+      }
+    },
+    {
+      "id": "manifest_receipt_timestamp_only",
+      "focus": "중복",
+      "setup": "동일 사실·가격·확인 상태에서 허용된 capture/receipt 시각만 증가",
+      "steps": [
+        "seed",
+        "recapture_same",
+        "ingest"
+      ],
+      "expected": {
+        "enqueue_count": 0,
+        "semantic_changes": 0
+      }
+    }
+  ]
+}
