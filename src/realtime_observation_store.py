@@ -196,7 +196,7 @@ class ObservationStore:
             if rec['kind']=='settlement': action='settlement_only'
             elif rec['kind']=='odds' and (rec['payload']['status']!='open' or rec['payload']['valid_until'] < rec['received_at']): action='invalidate'
             else: action='recompute_prediction'
-        if is_newest and rec['kind']!='settlement' and rec['phase']=='pregame' and _time(rec['received_at'],'received_at') > _time(rec['kickoff_at'],'kickoff_at')-timedelta(minutes=30):
+        if is_newest and rec['kind']!='settlement' and rec['phase']=='pregame' and _time(rec['received_at'],'received_at') >= _time(rec['kickoff_at'],'kickoff_at')-timedelta(minutes=30):
             action='pregame_frozen'
         return {'status':'appended' if is_newest else 'out_of_order','action':action,'first_received_at':rec['received_at']}
 
@@ -215,7 +215,7 @@ class ObservationStore:
         _required_text(canonical_game_id,'canonical_game_id')
         decision=_stamp(decision_at,'decision_at'); kickoff=_stamp(kickoff_at,'kickoff_at')
         if phase not in PHASES: raise ObservationError('invalid phase')
-        if phase=='pregame' and _time(decision,'decision_at') > _time(kickoff,'kickoff_at')-timedelta(minutes=30): raise ObservationError('pregame cutoff exceeded')
+        if phase=='pregame' and _time(decision,'decision_at') >= _time(kickoff,'kickoff_at')-timedelta(minutes=30): raise ObservationError('pregame cutoff exceeded')
         if phase=='inplay' and decision < kickoff: raise ObservationError('inplay before kickoff')
         if not isinstance(max_age_seconds,Mapping) or set(max_age_seconds)!=(KINDS-{'settlement'}): raise ObservationError('explicit max age for each input kind required')
         if any(type(v) is not int or v<0 for v in max_age_seconds.values()): raise ObservationError('invalid max age')

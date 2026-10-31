@@ -125,7 +125,7 @@ def test_late_pregame_change_does_not_authorize_frozen_pick_change(store):
     changed['payload']['valid_until']='2026-10-31T10:59:00+00:00'
     changed['payload']['outcomes']['home']=1.9
     assert store.append(changed,RAW)['action']=='pregame_frozen'
-    frozen=store.snapshot('canonical-1','2026-10-31T10:30:00+00:00','pregame',KICK,AGES)
+    frozen=store.snapshot('canonical-1','2026-10-31T10:29:59+00:00','pregame',KICK,AGES)
     assert frozen['entries'][0]['observation']['provider_revision_id']=='rev-1'
 
 def test_persistent_reopen_and_idempotent_concurrent_ingestion(tmp_path):
@@ -189,3 +189,10 @@ def test_settlement_final_time_cannot_be_after_receipt_or_before_kickoff(store):
     with pytest.raises(m.ObservationError,match='final after receipt'):store.append(e,RAW)
     e['payload']['final_at']='2026-10-31T10:50:00+00:00'
     with pytest.raises(m.ObservationError,match='final before kickoff'):store.append(e,RAW)
+
+
+def test_exact_t30_is_frozen_like_existing_refresh(store):
+    updated=event(1,'2026-10-31T10:30:00+00:00')
+    assert store.append(updated,RAW)['action']=='pregame_frozen'
+    with pytest.raises(m.ObservationError,match='cutoff'):
+        store.snapshot('canonical-1','2026-10-31T10:30:00+00:00','pregame',KICK,AGES)
