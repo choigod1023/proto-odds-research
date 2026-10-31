@@ -12,10 +12,43 @@
   },
   "new_input_ids": [],
   "protocol_sha": "2ce4725e6353f0952715607eb791fc453f762456",
-  "tests": ["Python audit of file rows, distinct IDs and missing evidence columns", "protocol and handoff JSON parse", "git diff --check"],
-  "metrics": {"scoped_raw_rows": 3248, "distinct_id_strings": 3248, "both_starter_names": 2313, "missing_either_name": 935, "certified_receipt_within_scoped_file": 0, "certified_player_links_within_scoped_file": 0, "opportunity_count": null, "eligible_price_result_fact_intersection": null, "candidate_accuracy": null, "candidate_roi": null, "candidate_logloss": null, "candidate_brier": null, "candidate_drawdown": null},
-  "limitations": ["No full repository or production DB audit", "historical 25-game NPB results are previously viewed and not independent", "no fitted candidate or actual future-label, timing, duplicate-document test", "source timestamps, original bytes, product rules and executable prices are not certified"],
-  "blockers": ["no new prospective evidence event or validated matched cohort", "unverified product-specific settlement and official identity/receipt"],
-  "pr_url": null,
-  "next_data_needed": ["official game and player IDs and aliases", "original official before/after documents and actual receipt evidence by T-30", "prior completed bullpen boxscores and receipt", "same-product full odds and timestamps", "official outcomes and product-specific draw/extra-inning/void settlement rules", "exact frozen operating selection if available"]
+  "tests": [
+    "Python audit of file rows, distinct IDs and missing evidence columns",
+    "protocol and handoff JSON parse",
+    "git diff --check"
+  ],
+  "metrics": {
+    "scoped_raw_rows": 3248,
+    "distinct_id_strings": 3248,
+    "both_starter_names": 2313,
+    "missing_either_name": 935,
+    "certified_receipt_within_scoped_file": 0,
+    "certified_player_links_within_scoped_file": 0,
+    "opportunity_count": null,
+    "eligible_price_result_fact_intersection": null,
+    "candidate_accuracy": null,
+    "candidate_roi": null,
+    "candidate_logloss": null,
+    "candidate_brier": null,
+    "candidate_drawdown": null
+  },
+  "limitations": [
+    "No full repository or production DB audit",
+    "historical 25-game NPB results are previously viewed and not independent",
+    "no fitted candidate or actual future-label, timing, duplicate-document test",
+    "source timestamps, original bytes, product rules and executable prices are not certified"
+  ],
+  "blockers": [
+    "no new prospective evidence event or validated matched cohort",
+    "unverified product-specific settlement and official identity/receipt"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/457",
+  "next_data_needed": [
+    "official game and player IDs and aliases",
+    "original official before/after documents and actual receipt evidence by T-30",
+    "prior completed bullpen boxscores and receipt",
+    "same-product full odds and timestamps",
+    "official outcomes and product-specific draw/extra-inning/void settlement rules",
+    "exact frozen operating selection if available"
+  ]
 }
