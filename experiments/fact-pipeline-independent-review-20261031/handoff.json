@@ -1,0 +1,48 @@
+{
+  "role": "facts_pipeline_independent_review",
+  "status": "draft_pr_pending_final_components_unavailable",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/fact-pipeline-independent-review-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": null,
+  "commit": null,
+  "pr_url": null,
+  "changed_paths": [
+    "experiments/fact-pipeline-independent-review-20261031/**",
+    "tests/test_fact_pipeline_independent_review.py",
+    "tests/test_fact_pipeline_adapter_snapshot.py",
+    "docs/research/2026-10-31-fact-pipeline-independent-review.md"
+  ],
+  "inputs_and_sha": {
+    "adapter_interim_snapshot": "19e7dc3fe51502e1c558f1dce342a1068b1b0fbb8631f68d06ec23c33274a7e4",
+    "scenarios": "871107a25b92349d396143f925017198d959258eba249b4c3e3b654f233b73e6",
+    "worker_common_read_only": "271f27562d01939338327976cf293323d7a30ec7e5ab0ff7c89e92403f4a2d80"
+  },
+  "tests": {
+    "targeted": "8 passed",
+    "full": "2023 passed, 6 skipped, 93 subtests passed",
+    "conformance_fixture_count": 37,
+    "actual_queue_or_collector_scenarios_executed": 0
+  },
+  "metrics": {
+    "prospective_real_observations": "not collected or measured",
+    "accuracy_roi": "not evaluated"
+  },
+  "limitations": [
+    "collector, final adapter and queue heads unavailable at review",
+    "scenario inputs are textual descriptions requiring local offline driver implementation",
+    "interim adapter is not final and its errors cannot be attributed to final implementation",
+    "local harness is not a network sandbox",
+    "not a prospective performance evaluation"
+  ],
+  "findings": [
+    "interim low-level adapter raises on invalid fact; caller fallback not tested",
+    "interim adapter accepts identical before/after for change kind; queue semantic dedup not tested",
+    "interim accepts asserted hash and official identity with external_verified false; no raw-byte or witness verification established"
+  ],
+  "blockers": [
+    "need immutable final collector/adapter/queue heads and a test-only bridge driver",
+    "need trusted source and receipt evidence; independent sender behavior outside CLI cannot guarantee exactly-once"
+  ],
+  "next_dependency": "coordinator supplies final heads; implement isolated driver and check new-data gate, confirmed facts, baseline, uncertain delivery and injection scenarios"
+}
