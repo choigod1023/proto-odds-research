@@ -38,6 +38,7 @@ import { savedLivePrediction } from "../lib/saved-live-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
+import { missingMarketFixtures } from "../lib/missing-market-fixtures.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
 import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
@@ -204,7 +205,7 @@ export default function Markets() {
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
       </details>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
+        stale={stale} today={liveToday} marketOdds={liveOdds} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
     </Shell>
   );
 }
@@ -323,7 +324,7 @@ const STATUS = [
   ["finished", "종료"], ["pending", "상태 확인 중"],
 ];
 
-export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
+export function GameList({ data, grades, caps, stale, today, marketOdds, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
   const [openedGame, setOpenedGame] = useState(null);
   const detailPath = openedGame?._detail_key && data.view?.revision
     ? `/api/match-detail?key=${encodeURIComponent(openedGame._detail_key)}&revision=${encodeURIComponent(data.view.revision)}` : null;
@@ -474,6 +475,12 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     setF((current) => ({ ...current, st: current.st === phase ? "" : phase }));
   };
 
+  // 배당에만 있는 경기는 원장이나 추천 생성 없이 별도 안내한다.
+  const missingFixtures = (f.st || f.fav || f.rec || f.mk || cap) ? [] :
+    missingMarketFixtures(data, marketOdds).filter((g) =>
+      (!f.sp || g.sport === f.sp) && (!f.lg || g.league === f.lg) &&
+      (!f.rd || String(g.round) === f.rd) && matchesGameDate(g, f.dt, clock) &&
+      (!f.q.trim() || [g.home, g.away, g.league].join(" ").toLowerCase().includes(f.q.trim().toLowerCase())));
   const filteredGames = games.filter((game) => matchesGameMarketFilters(game, f.mk, cap));
   const leagueGroups = [];
   for (const game of filteredGames) {
@@ -624,7 +631,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       </details>
 
       <div className="league-list" aria-label="리그별 경기">
-        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기 </p>
+        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기{missingFixtures.length ? ` · 미연결 배구 ${missingFixtures.length}경기 별도` : ""} </p>
         {leagueGroups.map((group, index) => {
           const open = openLeague === group.key || (openLeague === null && index === 0);
           const liveCount = group.games.filter((game) => gamePhase(game) === "live").length;
@@ -644,7 +651,14 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
             <div id={"league-games-" + index} hidden={!open} className="league-games">{open && renderLeagueGames(group.games)}</div>
           </section>;
         })}
-        {!leagueGroups.length && <Empty>
+        {missingFixtures.length > 0 && <section className="league-group" aria-label="배당에서 확인된 미연결 배구 경기">
+          <h3>배당에서 확인된 미연결 배구 경기 {missingFixtures.length}경기</h3>
+          <p role="status">경기 목록에 연결되지 않았습니다. 아래 경기의 저장된 사전 픽은 확인할 수 없습니다. 배당 자료 시각: {kstStamp(marketOdds.generated_at)} KST</p>
+          <ul>{missingFixtures.map((g) => <li key={JSON.stringify([g.sport, g.league, g.date, g.home, g.away])}>
+            {g.league} · {g.date} · {g.home} vs {g.away}
+          </li>)}</ul>
+        </section>}
+        {!leagueGroups.length && !missingFixtures.length && <Empty>
           {f.fav ? "즐겨찾기와 현재 조건에 맞는 경기가 없습니다." : "조건에 맞는 경기가 없습니다."}
           <button className="empty-reset" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>전체 경기로 돌아가기</button>
         </Empty>}
