@@ -1,0 +1,45 @@
+{
+  "role": "league research worker",
+  "league": "K리그2",
+  "status": "blocked_data",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/league-kleague2-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "experiments/accuracy-connection-20261030/official-2025.json": "cc0846ccbbea723bc04f1277e07534ee4c89207cb2e14a9e0b55d8884251ef48",
+    "experiments/accuracy-connection-20261030/prior-2025.json": "a86b34a7a6a2d053d1f70a224bbd504ab2224a3bfac5ba598718136a741c1843",
+    "experiments/accuracy-connection-20261030/match.py": "19481130dc60f91d1a4150f09a35986e2c6bf023a41f3563bcd9ba04eda5acd9",
+    "experiments/accuracy-review-20261030/inputs/targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "cc43dc0efe3921cf1a7d23028f67a1f97d057134",
+  "tests": [
+    "python -m unittest discover -s tests -p test_league_kleague2*.py -v: 4 passed"
+  ],
+  "metrics": {
+    "official_results_n": 275,
+    "prior_history_links_n": 23,
+    "score_agreements_n": 23,
+    "additional_result_only_n": 252,
+    "review_target_intersection_n": 0,
+    "official_result_file_certified_lineup_n": 0,
+    "eligible_prospective_n": null,
+    "accuracy": null,
+    "roi": null,
+    "logloss": null,
+    "brier": null,
+    "drawdown": null
+  },
+  "limitations": [
+    "Review target intersection scoped to one saved evaluation input, not all production ledgers.",
+    "Official source response bytes not saved; raw hashes and independent historical receipt cannot be verified.",
+    "Synthetic integrity tests do not evaluate an actual model or prove performance."
+  ],
+  "blockers": [
+    "No linked certified predecision confirmed lineup, price, prediction, result and player history sample."
+  ],
+  "pr_url": null,
+  "next_data_needed": [
+    "New evidence event ID and input SHA, official fixture and player IDs, preserved official confirmed lineup bytes and actual receipt evidence, predecision historical minutes, same-product complete odds, frozen operating decision and official outcome."
+  ]
+}
