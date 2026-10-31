@@ -59,34 +59,57 @@ def capture(day,session):
     for game in games: game.pop('lineup_request',None)
     return {'schema':'official-fact-capture-v1','games':games,'facts':facts,'missing':missing,'requests':ledger,'request_attempts':attempts}
 
-def eligible_fact(fact, row):
-    """Conservative boundary check; dispatcher still owns full validation."""
+def eligible_fact(fact, row, bundle):
+    """Check locally recorded evidence; independent external receipt remains unverified."""
     try:
         official=fact['official']; claim=fact['claim']; market=fact['market']
         decision=timestamp(fact['decision_at']); kickoff=timestamp(fact['kickoff_at'])
         if decision > kickoff-timedelta(minutes=30): return False
         if not fact.get('canonical_game_id') or row.get('game_id') != fact['canonical_game_id']: return False
         if not market.get('product_id') or row.get('market_id') != market['product_id']: return False
-        if official.get('confirmed') is not True or official.get('identity_checked') is not True or official.get('external_receipt_verified') is not True: return False
-        if not isinstance(fact.get('after_value'),dict) or fact['after_value'].get('announcement_status')!='confirmed': return False
-        if fact.get('kind') not in {'confirmed_starting_pitcher','announced_batting_order','confirmed_lineup_change','official_absence'}: return False
-        if fact.get('semantic_sha256')!=semantic_hash(fact): return False
+        if official.get('confirmed') is not True or official.get('identity_checked') is not True: return False
+        kind=fact.get('kind'); after=fact.get('after_value')
+        if kind=='confirmed_starter_change': valid=isinstance(after,dict) and after.get('status')=='confirmed'
+        elif kind=='official_absence': valid=isinstance(after,dict) and after.get('status')=='absent'
+        elif kind=='confirmed_lineup_change': valid=isinstance(after,list) and bool(after) and all(isinstance(x,dict) and x.get('status')=='confirmed' for x in after)
+        elif kind in {'bullpen_workload_24h','bullpen_workload_48h'}: valid=type(after) is int and after>=0
+        else: valid=False
+        if not valid: return False
+        if fact.get('semantic_sha256') is not None and fact['semantic_sha256']!=semantic_hash(fact): return False
         game_id=str(fact.get('official_game_id') or '')
         valid_source = (fact.get('league')=='KBO' and row.get('league_id')=='kbo' and official.get('url') in {KBO_URL,LINEUP_URL}) or (fact.get('league')=='MLB' and row.get('league_id')=='mlb' and game_id.isdigit() and official.get('url')==f'https://statsapi.mlb.com/api/v1.1/game/{game_id}/feed/live')
         claim_url=claim.get('url')
         if not valid_source or fact.get('sport') != row.get('sport') or not isinstance(claim_url,str) or not claim_url.startswith('https://'): return False
         if not any(isinstance(e,dict) and e.get('url')==official.get('url') and e.get('raw_sha256')==official.get('raw_sha256') and e.get('received_at')==official.get('received_at') for e in row.get('source_evidence', [])): return False
+        if not any(isinstance(e,dict) and e.get('status')==200 and e.get('url')==official.get('url') and e.get('raw_sha256')==official.get('raw_sha256') and e.get('received_at')==official.get('received_at') for e in bundle.get('requests', [])): return False
         if not all(isinstance(x,str) and re.fullmatch(r'[0-9a-f]{64}',x) for x in (official.get('raw_sha256'),claim.get('raw_sha256'))): return False
-        if timestamp(claim['published_at']) > decision: return False
-        if timestamp(official['received_at']) > decision or timestamp(claim['received_at']) > decision: return False
-        if timestamp(market['received_at']) > decision or timestamp(market['observed_at']) > decision: return False
-        if not market.get('market') or not market.get('period'): return False
+        claim_received=timestamp(claim['received_at'])
+        if claim.get('published_at') is not None and timestamp(claim['published_at'])>claim_received: return False
+        if timestamp(official['received_at']) > decision or claim_received > decision: return False
+        if not timestamp(market['observed_at']) <= timestamp(market['received_at']) <= decision: return False
+        if market.get('market')!='win' or market.get('period')!='full' or market.get('line') is not None: return False
         outcomes,odds=market['outcomes'],market['odds']
-        if not isinstance(outcomes,list) or not isinstance(odds,list) or len(outcomes)<2 or len(outcomes)!=len(odds): return False
-        if len(set(outcomes))!=len(outcomes) or any(not isinstance(x,str) or not x for x in outcomes): return False
-        if any(isinstance(x,bool) or not isinstance(x,(int,float)) or not math.isfinite(x) or x<=1 for x in odds): return False
+        if outcomes not in (['home','away'],['home','draw','away']) or not isinstance(odds,dict) or set(odds)!=set(outcomes): return False
+        if any(isinstance(x,bool) or not isinstance(x,(int,float)) or not math.isfinite(x) or x<=1 for x in odds.values()): return False
         return True
     except (ValueError,KeyError,TypeError): return False
+
+FACT_KEYS=('fact_id','canonical_game_id','official_game_id','league','sport','kind','before_value','after_value','units','player_ids','claim','official','decision_at','kickoff_at','market','revision')
+EVIDENCE_KEYS={'claim':('url','published_at','received_at','raw_sha256'), 'official':('url','published_at','received_at','raw_sha256','identity_checked','confirmed')}
+
+def adapt_with_context(facts, *, to_adapter_input, context):
+    """Call the actual adapter contract using caller-supplied context, never synthesize data."""
+    if not isinstance(context,dict) or any(k not in context for k in ('registry','baseline','market','input_id')):
+        raise ValueError('adapter_context_missing')
+    compact=[]
+    for original in facts:
+        if not isinstance(original,dict): raise ValueError('invalid_fact')
+        item={k:copy.deepcopy(original[k]) for k in FACT_KEYS if k in original}
+        for name,keys in EVIDENCE_KEYS.items():
+            if isinstance(item.get(name),dict): item[name]={k:item[name][k] for k in keys if k in item[name]}
+        compact.append(item)
+    result=to_adapter_input(compact,context['registry'],context['baseline'],context['market'],input_id=context['input_id'],workloads=context.get('workloads'))
+    return [result]
 
 def contains_result(value):
     forbidden={'result','results','outcome','outcome_index','score','home_score','away_score','winner','label','settlement'}
@@ -113,7 +136,7 @@ def run_capture_pipeline(bundle, *, adapter, build_manifest, raw_path, inputs_pa
         if not isinstance(row.get('features'),dict) or not isinstance(row.get('source_evidence'),list) or not isinstance(row.get('reasons'),list): raise ValueError('invalid_adapter_fields')
         if contains_result(row['features']): raise ValueError('target_result_in_features')
         if row['research_eligible'] or row['status']=='ready':
-            if row['status']!='ready' or not row['research_eligible'] or not row['source_evidence'] or not any(eligible_fact(f,row) for f in facts): raise ValueError('unsupported_ready_input')
+            if row['status']!='ready' or not row['research_eligible'] or not row['source_evidence'] or not facts or not all(eligible_fact(f,row,bundle) for f in facts): raise ValueError('unsupported_ready_input')
     manifest=build_manifest(copy.deepcopy(rows))
     for path,value in zip(paths[1:],(rows,manifest)):
         path.parent.mkdir(parents=True,exist_ok=True)
@@ -121,19 +144,22 @@ def run_capture_pipeline(bundle, *, adapter, build_manifest, raw_path, inputs_pa
     return {'raw_path':str(paths[0]),'inputs_path':str(paths[1]),'manifest_path':str(paths[2]),'inputs':len(rows)}
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--date',required=True,help='KST YYYYMMDD');p.add_argument('--out',type=Path,required=True,help='new raw bundle path');p.add_argument('--adapter-out',type=Path);p.add_argument('--manifest-out',type=Path);p.add_argument('--adapter-module');p.add_argument('--adapter-function');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--date',required=True,help='KST YYYYMMDD');p.add_argument('--out',type=Path,required=True,help='new raw bundle path');p.add_argument('--adapter-out',type=Path);p.add_argument('--manifest-out',type=Path);p.add_argument('--adapter-module');p.add_argument('--adapter-function');p.add_argument('--adapter-context',type=Path);args=p.parse_args()
     if args.out.exists(): raise SystemExit('Output already exists; choose a new path')
     if len(args.date)!=8 or not args.date.isdigit(): raise SystemExit('Invalid date')
-    options=(args.adapter_out,args.manifest_out,args.adapter_module,args.adapter_function)
-    if any(options) and not all(options): raise SystemExit('Provide --adapter-out, --manifest-out, --adapter-module and --adapter-function together')
+    options=(args.adapter_out,args.manifest_out,args.adapter_module,args.adapter_function,args.adapter_context)
+    if any(options) and not all(options): raise SystemExit('Provide --adapter-out, --manifest-out, --adapter-module, --adapter-function and --adapter-context together')
     adapter=dispatcher=None
     if all(options):
         output_paths=[args.out,args.adapter_out,args.manifest_out]
         if len({x.resolve() for x in output_paths})!=3 or any(x.exists() for x in output_paths): raise SystemExit('Output paths must be distinct and new; no request made')
         try:
-            adapter=getattr(importlib.import_module(args.adapter_module),args.adapter_function)
+            adapter_function=getattr(importlib.import_module(args.adapter_module),args.adapter_function)
+            context=json.loads(args.adapter_context.read_text(encoding='utf8'))
+            if not isinstance(context,dict) or any(k not in context for k in ('registry','baseline','market','input_id')): raise ValueError('adapter_context_missing')
+            adapter=lambda facts:adapt_with_context(facts,to_adapter_input=adapter_function,context=context)
             dispatcher=importlib.import_module('research_dispatch').build_manifest
-        except (ImportError,AttributeError) as exc: raise SystemExit('Adapter or dispatcher unavailable; no request made: '+str(exc)) from exc
+        except (ImportError,AttributeError,ValueError,OSError) as exc: raise SystemExit('Adapter, context or dispatcher unavailable; no request made: '+str(exc)) from exc
     with requests.Session() as session:
         session.headers.update({'User-Agent':'Mozilla/5.0','Referer':'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx','Accept':'application/json'})
         bundle=capture(args.date,session)

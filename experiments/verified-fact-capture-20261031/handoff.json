@@ -1,14 +1,15 @@
 {
   "role": "connection",
-  "status": "draft_pr_open_integration_blocked",
+  "status": "draft_pr_open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/verified-fact-capture-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
   "input_sha256s": {
     "src/official_fact_capture.py": "3942eaec0ad8d5194903f3a28a16cef011f870ea6ebcc6894dc2bad415068748",
-    "scripts/capture_official_research_inputs.py": "b95b74a4c2c23bd0c04eb500f7b6d03010fd8a299f11a512f5f26714f80f489b",
-    "tests/test_official_fact_capture.py": "a8765eb92ecfc2d52c5213b1b00e7bddbbe09c7c58d11f4094f1ae5a194e3665",
-    "experiments/verified-fact-capture-20261031/capture.json": "57676a0954995633156a55de15f90ced8fdfe3dcdd7dc4453492385a086de6ad"
+    "scripts/capture_official_research_inputs.py": "e3ca05f6adac35aa9c3f4c2e3212893795c9027016e1b48970b40353ea4e6a10",
+    "tests/test_official_fact_capture.py": "0fbb3d6453fa281be64f9a5901914820d5e84659db148f6963e2c61cc745235e",
+    "experiments/verified-fact-capture-20261031/capture.json": "57676a0954995633156a55de15f90ced8fdfe3dcdd7dc4453492385a086de6ad",
+    "experiments/verified-fact-capture-20261031/synthetic-real-adapter-fixture.json": "211473a28144d34e0cf6e6f2adc64d01bca89028244eda5ab0b4723eda973c4b"
   },
   "new_input_ids": [
     "official-fact-v1:7f700f0c4b6bafe01bd47b26005195133803b86a98e5ade87fdc3ee87ad7008f",
@@ -16,8 +17,9 @@
   ],
   "protocol_sha": null,
   "tests": {
-    "targeted": "8 passed",
-    "full": "2023 passed, 6 skipped, 93 subtests passed"
+    "targeted": "9 passed",
+    "full": "2024 passed, 6 skipped, 93 subtests passed",
+    "real_adapter_and_dispatcher": "synthetic ready input generated 1 manifest case, independent receipt remained false; actual probable facts rejected"
   },
   "metrics": {
     "new_official_games": 1,
@@ -29,18 +31,17 @@
     "bundle_requests": 2
   },
   "limitations": [
-    "canonical game mapping, decision, prior value, claim, same-product market and independent receipt are missing",
-    "probable starters are not confirmed; lineup not announced",
-    "source body not retained; hash was computed at receipt and cannot now be reverified",
-    "MLB/NPB/K League have no newly captured prospective player facts in this sample",
-    "adapter and research_dispatch integration not yet available; dependency injection tested only with mocks",
-    "15s requests socket timeout is not a strict whole-request wall clock limit"
+    "actual KBO sample lacks canonical game, decision, prior value, claim, same-product market and confirmed status",
+    "independent receipt is not certified; local request ledger is asserted and raw response not retained",
+    "synthetic complete input used only for real adapter and dispatcher integration; not real performance evidence",
+    "no live adapter/dispatcher on base branch; parent must integrate actual versions",
+    "15s socket timeout not a strict whole-request wall clock limit"
   ],
   "blockers": [
-    "real adapter and research_dispatch not present on base"
+    "actual KBO sample cannot be ready until missing official confirmation and other inputs arrive"
   ],
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/467",
-  "next_data_needed": "Confirmed official facts with independent fixture/player identity, actual claim/official receipt, decision and full same-product price; real adapter/dispatcher integration.",
+  "next_data_needed": "Confirmed official facts with fixture/player registry, prior claim, decision, baseline and complete same-product pregame price.",
   "implementation_commit": "9572dfded",
   "commit_note": "PR head includes subsequent handoff update"
 }

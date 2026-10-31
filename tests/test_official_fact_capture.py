@@ -97,24 +97,42 @@ def test_pipeline_injection_preserves_missing_and_rejects_fake_ready(tmp_path):
     with pytest.raises(ValueError,match='target_result_in_features'):
         script.run_capture_pipeline(bundle,adapter=leaks,build_manifest=fake_dispatch,raw_path=tmp_path/'raw3.json',inputs_path=tmp_path/'i3.json',manifest_path=tmp_path/'m3.json')
 
-def test_pipeline_ready_requires_confirmed_timed_fact_and_same_market(tmp_path):
+def test_real_adapter_output_ready_without_external_certification(tmp_path):
     spec=importlib.util.spec_from_file_location('capture_ready',ROOT/'scripts/capture_official_research_inputs.py');script=importlib.util.module_from_spec(spec);spec.loader.exec_module(script)
-    bundle=json.loads((ROOT/'experiments/verified-fact-capture-20261031/capture.json').read_text(encoding='utf8'))
-    fact=bundle['facts'][0];fact['canonical_game_id']='canonical';fact['decision_at']='2026-10-31T02:00:00+00:00'
-    fact['official'].update(confirmed=True,external_receipt_verified=True)
-    fact['kind']='confirmed_starting_pitcher';fact['after_value']['announcement_status']='confirmed';fact['semantic_sha256']=semantic_hash(fact)
-    fact['claim'].update(url='https://example.org/claim',published_at='2026-10-31T00:00:00+00:00',received_at='2026-10-31T01:00:00+00:00',raw_sha256='a'*64)
-    fact['market'].update(product_id='market1',market='moneyline',period='full',outcomes=['home','away'],odds=[1.9,2.0],observed_at='2026-10-31T01:00:00+00:00',received_at='2026-10-31T01:01:00+00:00')
-    def adapter(facts): return [{'schema_version':'fact-delta-inputs-v1','league_id':'kbo','sport':'baseball','game_id':'canonical','market_id':'market1','input_id':'a','research_eligible':True,'status':'ready','features':{'pitcher':facts[0]['player_ids'][0]},'source_evidence':[facts[0]['official']],'reasons':[]}]
+    fixture=json.loads((ROOT/'experiments/verified-fact-capture-20261031/synthetic-real-adapter-fixture.json').read_text(encoding='utf8'))
+    bundle,context,actual_output=fixture['bundle'],fixture['context'],fixture['adapter_output']
+    assert fixture['synthetic_only'] and actual_output['status']=='ready' and actual_output['research_eligible']
+    assert all(e['external_receipt_verified'] is False for e in actual_output['source_evidence'])
+    def recorded_adapter(facts,registry,baseline,market,*,input_id,workloads):
+        assert 'external_receipt_verified' not in facts[0]['official']
+        assert registry==context['registry'] and baseline==context['baseline'] and market==context['market']
+        assert input_id==context['input_id'] and workloads==context['workloads']
+        return copy.deepcopy(actual_output)
+    adapter=lambda facts:script.adapt_with_context(facts,to_adapter_input=recorded_adapter,context=context)
     result=script.run_capture_pipeline(bundle,adapter=adapter,build_manifest=lambda rows:{'accepted':len(rows)},raw_path=tmp_path/'raw',inputs_path=tmp_path/'inputs',manifest_path=tmp_path/'manifest')
-    assert result['inputs']==1
-    fact['official']['url']='https://example.org/not-official'
+    assert result['inputs']==1 and json.loads((tmp_path/'inputs').read_text(encoding='utf8'))[0]['status']=='ready'
+    altered=copy.deepcopy(bundle); altered['requests'][0]['raw_sha256']='0'*64
     with pytest.raises(ValueError,match='unsupported_ready_input'):
-        script.run_capture_pipeline(bundle,adapter=adapter,build_manifest=lambda rows:{},raw_path=tmp_path/'raw2',inputs_path=tmp_path/'inputs2',manifest_path=tmp_path/'manifest2')
+        script.run_capture_pipeline(altered,adapter=adapter,build_manifest=lambda rows:{},raw_path=tmp_path/'raw2',inputs_path=tmp_path/'inputs2',manifest_path=tmp_path/'manifest2')
+    altered=copy.deepcopy(bundle); altered['facts'][0]['official']['confirmed']=False
+    with pytest.raises(ValueError,match='unsupported_ready_input'):
+        script.run_capture_pipeline(altered,adapter=adapter,build_manifest=lambda rows:{},raw_path=tmp_path/'raw3',inputs_path=tmp_path/'inputs3',manifest_path=tmp_path/'manifest3')
+    altered=copy.deepcopy(bundle); altered['facts'][0]['official']['url']='https://example.org/not-official'
+    with pytest.raises(ValueError,match='unsupported_ready_input'):
+        script.run_capture_pipeline(altered,adapter=adapter,build_manifest=lambda rows:{},raw_path=tmp_path/'raw4',inputs_path=tmp_path/'inputs4',manifest_path=tmp_path/'manifest4')
 
+def test_wrapper_requires_real_context_and_never_fills_capture_missing_values():
+    spec=importlib.util.spec_from_file_location('capture_context',ROOT/'scripts/capture_official_research_inputs.py');script=importlib.util.module_from_spec(spec);spec.loader.exec_module(script)
+    capture=json.loads((ROOT/'experiments/verified-fact-capture-20261031/capture.json').read_text(encoding='utf8'))
+    fixture=json.loads((ROOT/'experiments/verified-fact-capture-20261031/synthetic-real-adapter-fixture.json').read_text(encoding='utf8'))
+    with pytest.raises(ValueError,match='adapter_context_missing'):script.adapt_with_context(capture['facts'],to_adapter_input=lambda *a,**k:None,context={})
+    def check(facts,registry,baseline,market,*,input_id,workloads):
+        assert all(f['canonical_game_id'] is None and f['market']['odds'] is None and f['decision_at'] is None for f in facts)
+        assert all(f['official']['confirmed'] is False and f['after_value']['announcement_status']=='probable' for f in facts)
+        return {'status':'rejected'}
+    assert script.adapt_with_context(capture['facts'],to_adapter_input=check,context=fixture['context'])==[{'status':'rejected'}]
 
 def test_ready_guard_rejects_missing_claim_url_without_exception():
     spec=importlib.util.spec_from_file_location('capture_null_claim',ROOT/'scripts/capture_official_research_inputs.py');script=importlib.util.module_from_spec(spec);spec.loader.exec_module(script)
-    bundle=json.loads((ROOT/'experiments/verified-fact-capture-20261031/capture.json').read_text(encoding='utf8')); f=bundle['facts'][0]
-    f['canonical_game_id']='canonical';f['decision_at']='2026-10-31T02:00:00+00:00';f['kind']='confirmed_starting_pitcher';f['after_value']['announcement_status']='confirmed';f['semantic_sha256']=semantic_hash(f);f['official'].update(confirmed=True,external_receipt_verified=True);f['market']['product_id']='market'
-    assert script.eligible_fact(f,{'game_id':'canonical','market_id':'market','league_id':'kbo','sport':'baseball','source_evidence':[f['official']]}) is False
+    fixture=json.loads((ROOT/'experiments/verified-fact-capture-20261031/synthetic-real-adapter-fixture.json').read_text(encoding='utf8')); bundle=fixture['bundle']; f=bundle['facts'][0];f['claim']['url']=None
+    assert script.eligible_fact(f,fixture['adapter_output'],bundle) is False
