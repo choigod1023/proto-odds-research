@@ -1,0 +1,40 @@
+{
+  "role": "model-novelty-review",
+  "status": "complete; draft PR open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-model-novelty-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": "396a12e0a477418c8fee66562e36dba4bb274525",
+  "commit": "67765c1c",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/451",
+  "changed_paths": [
+    "docs/research/2026-10-31-expert-model-novelty.md",
+    "experiments/expert-model-novelty-20261031/handoff.json"
+  ],
+  "inputs_and_sha": {
+    "parent_protocol_sha256": "061716c82b9b5487c7c52db03ec57d1718de699f185ef1380f43567a64289a4d",
+    "PR426_report_sha256": "5c0e025dd0c72bfcf1e768b470c5dd4ff12db14eec511d791b0e41f7150a2577",
+    "PR430_report_sha256": "333ec29e50b7e878fdf0acf110f66b471d4e1d09b2997ba4c7ecb683389d8d05",
+    "PR368_readme_sha256": "7138f327b0635375660ae6486611e03bbb085807595c80829ba03933955b4020",
+    "PR423_report_sha256": "62a55a8feb1a8e93df9f35ea52efab2d8292fbaa505510b08ee05c7d4e5cacb8",
+    "PR433_targets_sha256": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "PR423_votes_sha256": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+  },
+  "tests": {
+    "source_author_count": "Python gzip/json: 445 actual_votes 2026; >1 distinct publication_evidence source+author: KBO 7, NPB 7; not necessarily eligible or independent",
+    "report_and_json_validation": "Python JSON parse, required PR citations, source SHA256 and 445/7/7 counts passed; git diff --check"
+  },
+  "metrics": {
+    "new_model_training": "not performed",
+    "new_effect_or_roi": "not calculated"
+  },
+  "limitations": [
+    "Published retrospective data already examined, no independent unseen test; no exact event overlap crosswalk computed",
+    "publication_evidence identity count is not eligible vote count, verified identity, or source independence",
+    "actual receipt and executable price certification absent",
+    "parent protocol is an exploratory fixed plan, not evidence of improvement",
+    "commit field identifies report commit; final handoff-only commit is PR head"
+  ],
+  "blockers": [],
+  "next_dependency": "Coordinator assesses overlap and decides preregistered contrast and future prospective data requirements; separate parent experiment."
+}
