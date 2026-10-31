@@ -1,12 +1,12 @@
 {
   "role": "connection",
-  "status": "implementation_complete",
+  "status": "draft_pr_open",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/terra-expert-evidence-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
   "protocol_sha": null,
-  "commit": null,
-  "pr_url": null,
+  "commit": "8e6efe511",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/450",
   "changed_paths": [
     "experiments/expert-evidence-20261031/",
     "tests/test_accuracy_expert_evidence.py",
@@ -101,5 +101,6 @@
     "no model training or performance evaluated"
   ],
   "blockers": [],
-  "next_dependency": "Collect independently witnessed prospective author and price observations before training or evaluation."
+  "next_dependency": "Collect independently witnessed prospective author and price observations before training or evaluation.",
+  "commit_note": "Implementation commit; PR head includes subsequent handoff update."
 }
