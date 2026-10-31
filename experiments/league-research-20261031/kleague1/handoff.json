@@ -1,0 +1,50 @@
+{
+  "role": "league research worker",
+  "league": "K리그1",
+  "status": "blocked_data",
+  "repo": "C:/Users/user/Documents/Codex/2026-10-31/sportstoto-league-kleague1-20261031/repo",
+  "branch": "codex/league-kleague1-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "parent_information_edge_md": "2d7637da56b42c51833b116de7e290f0f40ad5df0fe70d12086a1689664c984b",
+    "parent_fact_delta_json": "c4ee7eac2080cbbdb3d25672faf952fd017bdadff4125f003bc6b362f6952673"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "11d3186f199698b3f62f1b641d1ea0180c5fc147",
+  "tests": {
+    "python_unittest_synthetic": "4 passed",
+    "actual_data_leakage_duplicate_future_poison": "not run: no data or model"
+  },
+  "metrics": {
+    "new_opportunities_received": 0,
+    "new_linked_predecision_receipt": 0,
+    "new_linked_price": 0,
+    "new_linked_result": 0,
+    "new_linked_confirmed_player": 0,
+    "population_opportunities": null,
+    "prior_repeat_viewed_k1_test_n": 10,
+    "new_accuracy": null,
+    "new_roi": null,
+    "new_logloss": null,
+    "new_brier": null,
+    "new_drawdown": null,
+    "new_coverage": null
+  },
+  "limitations": [
+    "Zero counts refer only to newly supplied events, not the entire operational population.",
+    "Prior 10-game study is retrospective and receipt and executable prices are not authenticated.",
+    "Synthetic tests do not validate real evidence or model performance."
+  ],
+  "blockers": [
+    "No new event ID, actual receipt evidence or complete prospective opportunity manifest",
+    "No joined confirmed lineups, availability, price, result and prior histories"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/459",
+  "next_data_needed": [
+    "event ID and input SHA with complete opportunity denominator",
+    "official source bytes and real receipt timestamps for confirmed lineups, formation and explicit absences",
+    "player and fixture identities and prior available minutes, scores and schedule",
+    "full 1X2 prices with observation and receipt timestamps, official settlement",
+    "exact frozen operating revisions where available"
+  ]
+}

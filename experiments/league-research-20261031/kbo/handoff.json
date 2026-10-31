@@ -1,0 +1,54 @@
+{
+  "role": "league research worker",
+  "league": "KBO",
+  "status": "blocked_data",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/league-kbo-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "input_sha256s": {
+    "official_20261028": "b4a2a268814ae0195c393e7012091616475cc74d6524a67f1793f721b5e367ef",
+    "official_20261029": "8bea87074725c992dc12414c97372655ffa77d13a4efac5ece7901baaaa967d0",
+    "parent_report": "2d7637da56b42c51833b116de7a290f0f40ad5df0fe70d12086a1689664c984b",
+    "parent_contract": "c4ee7eac2080cbbdb3d25672faf952fd017bdadff4125f003bc6b362f6952673"
+  },
+  "new_input_ids": [],
+  "protocol_sha": "cf937957dd284269ce72689e8fcfacc69763b1e7",
+  "tests": [
+    "Python: two raw SHA-256 metadata comparisons passed; one game receipt after kickoff confirmed",
+    "protocol JSON parsed",
+    "no candidate implementation or factual feature dataset; leakage, duplicate and label-poison tests not run"
+  ],
+  "metrics": {
+    "audited_scope": "two official calendar responses; market unlinked",
+    "opportunities": 1,
+    "predecision_receipts": 0,
+    "linked_predecision_prices": 0,
+    "official_results": 1,
+    "predecision_confirmed_players": 0,
+    "bullpen_workload_linked": 0,
+    "frozen_operating_decisions_linked": 0,
+    "eligible": 0,
+    "accuracy": null,
+    "roi": null,
+    "logloss": null,
+    "brier": null,
+    "drawdown": null
+  },
+  "limitations": [
+    "Counts apply only to audited two-response subset, not all KBO opportunities",
+    "internal SHA is not independent source authentication",
+    "historical 51-game comparison repeatedly observed, not blind",
+    "no candidate experiment or actual leak/duplicate/label-poison test"
+  ],
+  "blockers": [
+    "No linked prospective eligible fact, price, operating freeze and result dataset"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/456",
+  "next_data_needed": [
+    "new evidence event_id and input SHA with actual response bytes and receipts",
+    "unique game/team/player and market crosswalk",
+    "official confirmed predecision starters and nine-player lineups, handedness and venue",
+    "complete prior-game boxscores and relief pitch counts, finish and actual receipt times for 48h",
+    "contemporaneous full odds vector, exact operating decision including abstention, kickoff revisions and official settlement"
+  ]
+}
