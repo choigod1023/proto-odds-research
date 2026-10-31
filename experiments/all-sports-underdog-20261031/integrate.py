@@ -3,11 +3,12 @@ from collections import Counter,defaultdict
 from datetime import date
 from decimal import Decimal
 import gzip,hashlib,json
+import importlib.util
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
 MODELS=['market','outcome_form','market_residual','half_market_form']
-POLICIES=['all','favorites','underdogs','market_same_underdogs']
+POLICIES=['all','favorites','non_underdogs','underdogs','market_same_underdogs']
 
 
 def read(path):
@@ -18,7 +19,7 @@ def check_cell(rows,model,policy,v):
     selected=[]
     for r in rows:
         group=r['predictions'][model]['group']
-        if policy=='all' or policy=='favorites' and group=='favorite' or policy in ('underdogs','market_same_underdogs') and group=='underdog':selected.append(r)
+        if policy=='all' or policy=='favorites' and group=='favorite' or policy=='non_underdogs' and group!='underdog' or policy in ('underdogs','market_same_underdogs') and group=='underdog':selected.append(r)
     label='market' if policy=='market_same_underdogs' else model
     profits=[Decimal(r['predictions'][label]['net']) for r in selected];total=sum(profits,Decimal(0))
     n=len(selected);hits=sum(r['predictions'][label]['hit'] for r in selected)
@@ -40,13 +41,26 @@ def check_cell(rows,model,policy,v):
 
 
 def verify():
-    source={r['id']:r for p in sorted((HERE/'inputs').glob('*.jsonl.gz')) for r in read(p)}
+    spec=importlib.util.spec_from_file_location('strict_prediction_replay',HERE/'replay_audit.py')
+    replay=importlib.util.module_from_spec(spec);spec.loader.exec_module(replay)
+    rawsource=[r for p in sorted((HERE/'inputs').glob('*.jsonl.gz')) for r in read(p)]
+    source={r['id']:r for r in rawsource}
+    replay.require(len(rawsource)==len(source),'duplicate source identity')
     forecasts=0;cells=0;events=0;inputs=set();reports={};allrows=defaultdict(list)
+    replay_results={}
     for path in sorted((HERE/'results').glob('*/*/ledger.jsonl.gz')):
         rows=read(path);folder=path.parent;report=json.loads((folder/'results.json').read_text(encoding='utf8'))
         assert len({r['id'] for r in rows})==len(rows)
+        replay.require(report['cohort']==folder.name and report['sport']==folder.parent.name,'report source scope')
+        replay.require(set(report['by_year'])=={r['day'][:4] for r in rows},'year report coverage')
+        replay.require(set(report['by_league'])=={r['league'] for r in rows},'league report coverage')
+        dates=sorted({r['day'] for r in rows})
+        replay.require(report['range']==[dates[0],dates[-1]],'source date range mismatch')
+        replay.require(report['chronological_split_day']==dates[len(dates)//2],'chronological split differs from protocol')
         assert report['count']==len(rows) and report['fallback_events']==sum(r['fallback'] for r in rows)
         state={r['month']:r for r in json.loads((folder/'states.json').read_text(encoding='utf8'))}
+        replay_source=[r for r in rawsource if r['sport']==folder.parent.name and r['cohort']==folder.name]
+        replay_results[folder.name+'/'+folder.parent.name]=replay.check(replay_source,rows,list(state.values()))
         for r in rows:
             t=source[r['id']]
             for f in ('odds','y','cohort','sport','league','day','kickoff','sources'):assert r[f]==t[f]
@@ -80,9 +94,12 @@ def verify():
         analyses.extend(([r for r in rows if r['league']==l],a) for l,a in report['by_league'].items())
         cut=report['chronological_split_day']
         analyses.extend([([r for r in rows if r['day']<cut],report['first_half']),([r for r in rows if r['day']>=cut],report['second_half'])])
+        analyses.extend([([r for r in rows if not r['fallback']],report['trained_only']),([r for r in rows if r['fallback']],report['fallback_only'])])
         for subset,analysis in analyses:
             for name in MODELS:
                 for policy in POLICIES:check_cell(subset,name,policy,analysis[name]['policies'][policy]);cells+=1
+                pp=analysis[name]['policies']
+                assert Decimal(pp['all']['net_units'])-Decimal(pp['non_underdogs']['net_units'])==Decimal(pp['underdogs']['net_units'])
         reports[report['cohort']+'/'+report['sport']]=report
         allrows[report['cohort']].extend(rows)
     # Every supplied fixture appears in exactly its sport worker, not just a sample.
@@ -92,6 +109,7 @@ def verify():
            'domestic_sports':sorted({r['sport'] for r in allrows['domestic_archive']}),
            'independent_pregame_or_executable_price_certified':0,
            'source_cohorts_not_independent_or_summed':True,
+           'independent_prediction_replay':replay_results,
            'worker_result_lf_sha256':{str(p.relative_to(HERE)).replace('\\','/'):hashlib.sha256(p.read_bytes().replace(b'\r\n',b'\n')).hexdigest() for p in sorted((HERE/'results').glob('*/*/results.json'))}}
     (HERE/'verification.json').write_text(json.dumps(audit,indent=2)+'\n',encoding='utf8',newline='\n')
     return reports,allrows,audit

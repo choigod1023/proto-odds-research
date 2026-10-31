@@ -1,6 +1,6 @@
 """Normalize all available domestic primary markets; source files read only."""
 from collections import Counter, defaultdict
-import gzip, hashlib, json, math, os
+import gzip, hashlib, json, math, os, re
 from pathlib import Path
 import sys
 import pandas as pd
@@ -30,15 +30,36 @@ def normalize(sport,league,kickoff,home,away,odds,y,source):
                 home=str(home),away=str(away),odds=odds,y=int(y),sources=[source])
 
 
-def merge(rows):
-    seen={};bad=set();repeats=0
+def merge(rows,rejected=()):
+    seen={};bad=set(rejected);repeats=0
     for row in rows:
         key=row['id']
         if key not in seen:seen[key]=row;continue
         repeats+=1;old=seen[key]
         if (old['odds'],old['y'])!=(row['odds'],row['y']):bad.add(key)
         old['sources']=sorted(set(old['sources']+row['sources']))
-    return sorted([r for k,r in seen.items() if k not in bad],key=lambda r:(r['day'],r['kickoff'],r['id'])),{'duplicate_rows':repeats,'conflicting_fixtures_excluded':len(bad)}
+    return sorted([r for k,r in seen.items() if k not in bad],key=lambda r:(r['day'],r['kickoff'],r['id'])),{'duplicate_rows':repeats,'conflicting_fixtures_excluded':len(bad&set(seen)),
+        'source_conflict_ids_propagated':len(set(rejected)),'cached_conflict_resurrections_prevented':sum(k in seen and seen[k]['sources']==['legacy_primary_cache'] for k in rejected)}
+
+
+def raw_primary_conflicts(raw):
+    """Keep known raw conflicts even if the upstream loader drops both offers."""
+    variants=defaultdict(set)
+    for r in raw.to_dict('records'):
+        s=r['sport'];k=int(r['n_way'])
+        if not (s=='sc' and r['market_family']=='승무패' and k==3 or s in ('bs','bk','vl') and r['market_family']=='승패' and k==2):continue
+        if r['is_void'] or r['result'] not in ('홈승','홈패','무승부'):continue
+        tm=re.search(r'(\d{2})\.(\d{2}).*?(\d{2}):(\d{2})',str(r['date_text']))
+        home=re.match(r'^(.+?)\s+(-?\d+)\s*$',str(r['home']));away=re.match(r'^(-?\d+)\s+(.+?)\s*$',str(r['away']))
+        if not tm or not home or not away:continue
+        mm,dd,hh,minute=map(int,tm.groups());year=int(r['year'])-(1 if int(r['round'])==1 and mm==12 else 0)
+        y=0 if r['result']=='홈승' else 1 if r['result']=='무승부' else k-1
+        try:
+            odds=list(map(float,str(r['odds']).split(',')));time=pd.Timestamp(year=year,month=mm,day=dd,hour=hh,minute=minute)
+            row=normalize(s,r['league'],time,home.group(1),away.group(2),odds,y,'raw_conflict_scan')
+        except (ValueError,TypeError):continue
+        variants[row['id']].add((tuple(odds),y,int(home.group(2)),int(away.group(1))))
+    return {identity for identity,values in variants.items() if len(values)>1}
 
 
 def prepare(cache,csv,output):
@@ -68,7 +89,7 @@ def prepare(cache,csv,output):
         if expected!=r['winner'] or outcome==.5 and sport!='sc':excluded['raw_score_conflict']+=1;continue
         try:rows.append(normalize(s,l,t,h,a,r['odds'],r['winner'],'broad_raw_archive'))
         except ValueError:excluded['raw_invalid']+=1
-    clean,duplicates=merge(rows)
+    clean,duplicates=merge(rows,rejected=raw_primary_conflicts(raw))
     write_gz(output/'domestic.jsonl.gz',clean)
     audit={'source_hashes':{cache.name:hashlib.sha256(cache.read_bytes()).hexdigest(),csv.name:hashlib.sha256(csv.read_bytes()).hexdigest()},
            'source_cache_rows':len(d),'source_raw_rows':len(raw),'raw_families':raw.market_family.value_counts().to_dict(),
