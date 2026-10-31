@@ -1,11 +1,11 @@
 {
   "role": "facts_pipeline_independent_review",
-  "status": "draft_pr_open_final_components_unavailable",
+  "status": "draft_pr_open_followup_found_blockers",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/fact-pipeline-independent-review-20261031",
   "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
   "protocol_sha": null,
-  "commit": "7270268 (review implementation; handoff metadata follows)",
+  "commit": "7270268 initial; queue followup in subsequent PR head",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/466",
   "changed_paths": [
     "experiments/fact-pipeline-independent-review-20261031/**",
@@ -16,33 +16,42 @@
   "inputs_and_sha": {
     "adapter_interim_snapshot": "19e7dc3fe51502e1c558f1dce342a1068b1b0fbb8631f68d06ec23c33274a7e4",
     "scenarios": "871107a25b92349d396143f925017198d959258eba249b4c3e3b654f233b73e6",
-    "worker_common_read_only": "271f27562d01939338327976cf293323d7a30ec7e5ab0ff7c89e92403f4a2d80"
+    "worker_common_read_only": "271f27562d01939338327976cf293323d7a30ec7e5ab0ff7c89e92403f4a2d80",
+    "queue_v1": "a54b097a35e363195b20e704d2ce92c6bab0d23f095927c093f19ff1b3bb1661",
+    "queue_v2": "319ba7c6fae5a9acff2da63dbc1459882008070d66625706c7540aa42337177a",
+    "adapter_interim": "78dce09f8af94a79934834c63c3f9935a3fb209826fe822b64a012996c23ce33",
+    "capture_pr467_head": "13607afe4177be6ab16bf6c0b7be800c7a1bdabd"
   },
   "tests": {
-    "targeted": "8 passed",
-    "full": "2023 passed, 6 skipped, 93 subtests passed",
-    "conformance_fixture_count": 37,
-    "actual_queue_or_collector_scenarios_executed": 0
+    "targeted": "13 queue/capture integration tests passed plus prior 8 fixture/interim tests",
+    "full": "2036 passed, 6 skipped, 93 subtests passed",
+    "fixture_catalog": 37,
+    "full_fixture_driver": "not implemented"
   },
   "metrics": {
-    "prospective_real_observations": "not collected or measured",
+    "capture_pr467_sample": "1 game, 2 probable starters, both external_receipt_verified=false",
+    "new_observations_by_reviewer": 0,
     "accuracy_roi": "not evaluated"
   },
   "limitations": [
-    "collector, final adapter and queue heads unavailable at review",
-    "scenario inputs are textual descriptions requiring local offline driver implementation",
-    "interim adapter is not final and its errors cannot be attributed to final implementation",
-    "local harness is not a network sandbox",
-    "not a prospective performance evaluation"
+    "queue SHA snapshots are uncommitted; original may change",
+    "queue v2 test copy has inert worker labels replacing chat IDs",
+    "no final adapter PR found; adapter snapshot may change",
+    "capture PR467 head pinned; synthetic wrapper mapping, no actual network",
+    "no real thread message or production action; no ROI inference"
   ],
   "findings": [
-    "interim low-level adapter raises on invalid fact; caller fallback not tested",
-    "interim adapter accepts identical before/after for change kind; queue semantic dedup not tested",
-    "interim accepts asserted hash and official identity with external_verified false; no raw-byte or witness verification established"
+    "no public baseline seed; first publish enqueues known inputs",
+    "manifest accepts altered external receipt flag and extra prompt/threadId within stored untrusted input; fixed prompt does not embed these",
+    "dispatch_request accepts caller-supplied claimed state and fake event without checking persisted queue; CLI first reads stored job but race possible",
+    "capture gate trusts asserted external receipt true while adapter output reports false; synthetic integration reaches ready without actual witness",
+    "claim limit 3 per call, second claim can reach 4 outstanding"
   ],
   "blockers": [
-    "need immutable final collector/adapter/queue heads and a test-only bridge driver",
-    "need trusted source and receipt evidence; independent sender behavior outside CLI cannot guarantee exactly-once"
+    "seed initialization or verified known-data baseline required",
+    "bind manifest evidence to validated semantics and reject unexpected fields",
+    "bind dispatch request to persisted claimed event under lock",
+    "align trusted receipt verification between capture and adapter"
   ],
-  "next_dependency": "coordinator supplies final heads; implement isolated driver and check new-data gate, confirmed facts, baseline, uncertain delivery and injection scenarios"
+  "next_dependency": "final queue/capture/adapter heads; coordinator fixes blockers, then rerun isolated integration against committed hashes"
 }
