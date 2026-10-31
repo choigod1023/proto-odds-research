@@ -170,6 +170,7 @@ def test_market_handoff_requires_headroom(gate, monkeypatch, available):
 
 
 def test_market_handoff_does_not_overlap_heavy_worker(gate, monkeypatch):
+    monkeypatch.setattr(supervisor, 'MARKET_HANDOFF_WAIT_SECONDS', 0.01)
     with gate:
         assert supervisor._refresh_market_after_collection() == 1
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 512)
