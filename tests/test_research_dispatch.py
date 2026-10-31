@@ -140,6 +140,18 @@ class ResearchDispatchTests(unittest.TestCase):
         self.assertIs(manifest['cases'][0]['input']['source_evidence'][0]['external_receipt_verified'],False)
         self.assertEqual(rd.validate_manifest(manifest)['cases'],manifest['cases'])
 
+    def test_stale_claim_cannot_prepare_another_send(self):
+        self.publish(); original=rd.claim(self.root)[0]
+        rd.transition(self.root,original['event_id'],'pending',operator_checked=True)
+        current=rd.claim(self.root)[0]
+        self.assertNotEqual(original['claim_id'],current['claim_id'])
+        with self.assertRaisesRegex(ValueError,'stale claim'):
+            rd.dispatch_request(self.root,original)
+        self.assertEqual(rd.dispatch_request(self.root,current)['threadId'],rd.WORKERS['kbo'])
+        rd.transition(self.root,current['event_id'],'dispatched')
+        with self.assertRaisesRegex(ValueError,'stale claim'):
+            rd.dispatch_request(self.root,current)
+
     def test_lock_never_overwrites_other_coordinator(self):
         (self.root/'queue.lock').write_text('another coordinator',encoding='utf8')
         with self.assertRaisesRegex(RuntimeError,'busy'): self.publish()

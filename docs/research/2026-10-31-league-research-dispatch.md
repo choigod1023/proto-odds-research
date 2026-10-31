@@ -37,4 +37,4 @@ python scripts/dispatch_league_research.py --state-dir .research-state prepare -
 
 ## 검증
 
-`python -m unittest tests.test_research_dispatch -q`: 초기 17개 검사 통과. 동일 입력/수신시각만 갱신/중복/기존 seed는 새 실행을 만들지 않고, 사실·가격 변화는 새 이벤트를 만든다. 리그 busy·동시 잠금·입력 경로 변조·위조 manifest·목적지 주입·불확실 전송·완료 영수증·실제 CLI 재실행을 검사한다. 이는 실제 경기 ROI 또는 운영 수집 배포의 검증이 아니다.
+`python -m unittest tests.test_research_dispatch -q`: 18개 검사 통과. 동일 입력/수신시각만 갱신/중복/기존 seed는 새 실행을 만들지 않고, 사실·가격 변화는 새 이벤트를 만든다. 리그 busy·동시 잠금·입력 경로 변조·위조 manifest·목적지 주입·불확실 전송·완료 영수증·실제 CLI 재실행을 검사한다. 독립 검토에서 지적한 오래된 claim 재사용도 회귀 검사에 추가했다. claim마다 식별자를 만들고 prepare 시 현재 대기열과 대조한다. 초기 통합 전 전체 Python은 2,032개 통과·6개 건너뜀·93 subtests였으며 claim 보완 뒤 해당 18개 검사를 다시 통과했다. 이는 실제 경기 ROI 또는 운영 수집 배포의 검증이 아니다.

@@ -226,6 +226,7 @@ def claim(root, *, limit=3):
                 continue
             load_job_input(root, job)
             job['state'] = 'claimed'
+            job['claim_id'] = uuid.uuid4().hex
             busy.add(job['league_id'])
             selected.append(deepcopy(job))
             if len(selected) == limit:
@@ -263,7 +264,11 @@ def status(root):
 
 def dispatch_request(root, job):
     """Return a native-tool request with an operator-owned constant prompt template."""
-    load_job_input(root, job)
+    with _locked(root) as locked_root:
+        current = [j for j in _read(locked_root)['jobs'] if j['event_id'] == job.get('event_id')]
+        if len(current) != 1 or current[0] != job:
+            raise ValueError('stale claim; inspect current queue')
+        load_job_input(locked_root, job)
     if job.get('state') != 'claimed' or job.get('league_id') not in WORKERS:
         raise ValueError('only a claimed known league can dispatch')
     if not SHA.fullmatch(str(job.get('event_id', ''))):
