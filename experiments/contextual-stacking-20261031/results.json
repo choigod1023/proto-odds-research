@@ -1,0 +1,3121 @@
+{
+  "selection": {
+    "selected": "global:0.001",
+    "validation_logloss": {
+      "market": 0.6431963296874535,
+      "global:0.1": 0.6422990481865104,
+      "global:0.01": 0.6398728126424357,
+      "global:0.001": 0.6391266361405147,
+      "contextual:0.1": 0.6422677819484602,
+      "contextual:0.01": 0.6418064064725638,
+      "contextual:0.001": 0.6435027382332246
+    },
+    "train_n": 261,
+    "validation_n": 50,
+    "refit_n": 322,
+    "test_n": 122,
+    "fits": {
+      "selected": {
+        "name": "global:0.001",
+        "theta": [
+          [
+            -1.7388286354467888,
+            -0.9134683864623873,
+            -1.2642515587216194
+          ]
+        ],
+        "gradient_max": 4.0620034827063e-09,
+        "fit_n": 322
+      },
+      "global": {
+        "name": "global:0.001",
+        "theta": [
+          [
+            -1.7388286354467888,
+            -0.9134683864623873,
+            -1.2642515587216194
+          ]
+        ],
+        "gradient_max": 4.0620034827063e-09,
+        "fit_n": 322
+      },
+      "contextual": {
+        "name": "contextual:0.01",
+        "theta": [
+          [
+            -0.5221296510449828,
+            0.08074605135290581,
+            -0.04585785896476948
+          ],
+          [
+            -0.05907085942686625,
+            0.015311827570641338,
+            0.019376532606592976
+          ],
+          [
+            0.06501104221019054,
+            -0.023980316375674802,
+            -0.03477547919431602
+          ],
+          [
+            -0.12179634544477426,
+            -0.02397301677585136,
+            -0.015531690368760622
+          ],
+          [
+            -0.12702202856873715,
+            0.045861210518212445,
+            0.030681983411199015
+          ],
+          [
+            -0.018186644590659592,
+            0.027153195415117362,
+            -0.02268026787805609
+          ],
+          [
+            -0.28015804831547586,
+            0.054722591317469926,
+            0.0021279910493160934
+          ],
+          [
+            -0.00338636767837934,
+            0.03582614273807611,
+            0.045264492192375265
+          ],
+          [
+            -0.13450075204810363,
+            0.053721714400348376,
+            0.016660831520771125
+          ]
+        ],
+        "gradient_max": 6.185393671049883e-09,
+        "fit_n": 322
+      }
+    }
+  },
+  "summary": {
+    "market": {
+      "n": 122,
+      "hits": 67,
+      "hit_rate": 0.5491803278688525,
+      "roi": -0.13065573770491803,
+      "logloss": 0.7271223105824836,
+      "brier": 0.5082014924458245,
+      "monthly_profit_units": {
+        "2026-07": -6.47,
+        "2026-08": -0.42,
+        "2026-09": -6.76,
+        "2026-10": -2.29
+      },
+      "daily_close_max_drawdown_units": 19.41,
+      "mean_market_p": 0.5642544376830457,
+      "mean_chosen_p": 0.5642544376830457,
+      "selection_groups": {
+        "favorite": 122
+      }
+    },
+    "score_static": {
+      "n": 122,
+      "hits": 67,
+      "hit_rate": 0.5491803278688525,
+      "roi": -0.06918032786885246,
+      "logloss": 0.7313702551437736,
+      "brier": 0.5100256683840854,
+      "monthly_profit_units": {
+        "2026-07": -11.86,
+        "2026-08": 3.99,
+        "2026-09": 1.48,
+        "2026-10": -2.05
+      },
+      "daily_close_max_drawdown_units": 12.75,
+      "mean_market_p": 0.5307146889478774,
+      "mean_chosen_p": 0.5296710463792403,
+      "selection_groups": {
+        "favorite": 89,
+        "underdog": 33
+      }
+    },
+    "outcome_static": {
+      "n": 122,
+      "hits": 57,
+      "hit_rate": 0.4672131147540984,
+      "roi": -0.18737704918032788,
+      "logloss": 0.7441766917524821,
+      "brier": 0.523124237874804,
+      "monthly_profit_units": {
+        "2026-07": -19.12,
+        "2026-08": 1.95,
+        "2026-09": -5.3,
+        "2026-10": -0.39
+      },
+      "daily_close_max_drawdown_units": 25.89,
+      "mean_market_p": 0.5145159313033448,
+      "mean_chosen_p": 0.5172305491587977,
+      "selection_groups": {
+        "favorite": 81,
+        "underdog": 41
+      }
+    },
+    "fixed91": {
+      "n": 122,
+      "hits": 64,
+      "hit_rate": 0.5245901639344263,
+      "roi": -0.15180327868852458,
+      "logloss": 0.7392626930548665,
+      "brier": 0.5200585434775569,
+      "monthly_profit_units": {
+        "2026-07": -13.3,
+        "2026-08": -0.31,
+        "2026-09": -0.91,
+        "2026-10": -4.0
+      },
+      "daily_close_max_drawdown_units": 21.59,
+      "mean_market_p": 0.5573206079193856,
+      "mean_chosen_p": 0.5942114979471191,
+      "selection_groups": {
+        "favorite": 105,
+        "underdog": 17
+      }
+    },
+    "vote_direction": {
+      "n": 122,
+      "hits": 61,
+      "hit_rate": 0.5,
+      "roi": -0.1771311475409836,
+      "logloss": null,
+      "brier": null,
+      "monthly_profit_units": {
+        "2026-07": -14.9,
+        "2026-08": -1.81,
+        "2026-09": -2.86,
+        "2026-10": -2.04
+      },
+      "daily_close_max_drawdown_units": 24.68,
+      "mean_market_p": 0.543143188204651,
+      "mean_chosen_p": null,
+      "selection_groups": {
+        "favorite": 96,
+        "underdog": 26
+      }
+    },
+    "prior_author_frozen": {
+      "n": 122,
+      "hits": 63,
+      "hit_rate": 0.5163934426229508,
+      "roi": -0.184672131147541,
+      "logloss": 0.7328663044213428,
+      "brier": 0.513865880550605,
+      "monthly_profit_units": {
+        "2026-07": -11.46,
+        "2026-08": -0.31,
+        "2026-09": -6.76,
+        "2026-10": -4.0
+      },
+      "daily_close_max_drawdown_units": 26.2,
+      "mean_market_p": 0.5618218154365635,
+      "mean_chosen_p": 0.5784328964100368,
+      "selection_groups": {
+        "favorite": 112,
+        "underdog": 10
+      }
+    },
+    "prior_author_prequential": {
+      "n": 122,
+      "hits": 65,
+      "hit_rate": 0.5327868852459017,
+      "roi": -0.1569672131147541,
+      "logloss": 0.7312471254660348,
+      "brier": 0.5121907585826555,
+      "monthly_profit_units": {
+        "2026-07": -11.46,
+        "2026-08": 1.36,
+        "2026-09": -6.76,
+        "2026-10": -2.29
+      },
+      "daily_close_max_drawdown_units": 22.82,
+      "mean_market_p": 0.5625880213414781,
+      "mean_chosen_p": 0.5740538814045832,
+      "selection_groups": {
+        "favorite": 114,
+        "underdog": 8
+      }
+    },
+    "selected": {
+      "n": 122,
+      "hits": 64,
+      "hit_rate": 0.5245901639344263,
+      "roi": -0.15180327868852458,
+      "logloss": 0.7357615322363913,
+      "brier": 0.516531791007149,
+      "monthly_profit_units": {
+        "2026-07": -13.3,
+        "2026-08": -0.31,
+        "2026-09": -0.91,
+        "2026-10": -4.0
+      },
+      "daily_close_max_drawdown_units": 21.59,
+      "mean_market_p": 0.5573206079193856,
+      "mean_chosen_p": 0.5731041511567018,
+      "selection_groups": {
+        "favorite": 105,
+        "underdog": 17
+      }
+    },
+    "global": {
+      "n": 122,
+      "hits": 64,
+      "hit_rate": 0.5245901639344263,
+      "roi": -0.15180327868852458,
+      "logloss": 0.7357615322363913,
+      "brier": 0.516531791007149,
+      "monthly_profit_units": {
+        "2026-07": -13.3,
+        "2026-08": -0.31,
+        "2026-09": -0.91,
+        "2026-10": -4.0
+      },
+      "daily_close_max_drawdown_units": 21.59,
+      "mean_market_p": 0.5573206079193856,
+      "mean_chosen_p": 0.5731041511567018,
+      "selection_groups": {
+        "favorite": 105,
+        "underdog": 17
+      }
+    },
+    "contextual": {
+      "n": 122,
+      "hits": 60,
+      "hit_rate": 0.4918032786885246,
+      "roi": -0.19655737704918033,
+      "logloss": 0.7419810150599389,
+      "brier": 0.5222421360539925,
+      "monthly_profit_units": {
+        "2026-07": -17.27,
+        "2026-08": -1.81,
+        "2026-09": -2.86,
+        "2026-10": -2.04
+      },
+      "daily_close_max_drawdown_units": 27.05,
+      "mean_market_p": 0.5455394569424862,
+      "mean_chosen_p": 0.5793797912711308,
+      "selection_groups": {
+        "favorite": 97,
+        "underdog": 25
+      }
+    }
+  },
+  "by_league": {
+    "K리그1": {
+      "market": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.427,
+        "logloss": 1.1372012456693623,
+        "brier": 0.6977250183353834,
+        "monthly_profit_units": {
+          "2026-07": 0.37,
+          "2026-08": -1.64,
+          "2026-09": -3.0
+        },
+        "daily_close_max_drawdown_units": 4.64,
+        "mean_market_p": 0.4563389171605559,
+        "mean_chosen_p": 0.4563389171605559,
+        "selection_groups": {
+          "favorite": 10
+        }
+      },
+      "score_static": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.254,
+        "logloss": 1.155855406614854,
+        "brier": 0.7049879850552436,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 1.1
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.4059373601864613,
+        "mean_chosen_p": 0.4281890056431966,
+        "selection_groups": {
+          "favorite": 6,
+          "underdog": 4
+        }
+      },
+      "outcome_static": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.254,
+        "logloss": 1.1326997622213222,
+        "brier": 0.6899254675832288,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 1.1
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.4059373601864613,
+        "mean_chosen_p": 0.4263609554672086,
+        "selection_groups": {
+          "favorite": 6,
+          "underdog": 4
+        }
+      },
+      "fixed91": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.364,
+        "logloss": 1.1729171912378358,
+        "brier": 0.7237521413179999,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 0.0
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.44229392247351695,
+        "mean_chosen_p": 0.4980645302261653,
+        "selection_groups": {
+          "favorite": 8,
+          "underdog": 2
+        }
+      },
+      "vote_direction": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.364,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 0.0
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.44229392247351695,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "favorite": 8,
+          "underdog": 2
+        }
+      },
+      "prior_author_frozen": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.427,
+        "logloss": 1.1505463079831468,
+        "brier": 0.7074058990656186,
+        "monthly_profit_units": {
+          "2026-07": 0.37,
+          "2026-08": -1.64,
+          "2026-09": -3.0
+        },
+        "daily_close_max_drawdown_units": 4.64,
+        "mean_market_p": 0.4563389171605559,
+        "mean_chosen_p": 0.47067826304468746,
+        "selection_groups": {
+          "favorite": 10
+        }
+      },
+      "prior_author_prequential": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.427,
+        "logloss": 1.147230875148388,
+        "brier": 0.7049115834340263,
+        "monthly_profit_units": {
+          "2026-07": 0.37,
+          "2026-08": -1.64,
+          "2026-09": -3.0
+        },
+        "daily_close_max_drawdown_units": 4.64,
+        "mean_market_p": 0.4563389171605559,
+        "mean_chosen_p": 0.46321147007211927,
+        "selection_groups": {
+          "favorite": 10
+        }
+      },
+      "selected": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.364,
+        "logloss": 1.159762848074777,
+        "brier": 0.7127365790710527,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 0.0
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.44229392247351695,
+        "mean_chosen_p": 0.47190535327355576,
+        "selection_groups": {
+          "favorite": 8,
+          "underdog": 2
+        }
+      },
+      "global": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.364,
+        "logloss": 1.159762848074777,
+        "brier": 0.7127365790710527,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 0.0
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.44229392247351695,
+        "mean_chosen_p": 0.47190535327355576,
+        "selection_groups": {
+          "favorite": 8,
+          "underdog": 2
+        }
+      },
+      "contextual": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.364,
+        "logloss": 1.1760621683480605,
+        "brier": 0.7231802850666567,
+        "monthly_profit_units": {
+          "2026-07": -2.0,
+          "2026-08": -1.64,
+          "2026-09": 0.0
+        },
+        "daily_close_max_drawdown_units": 4.0,
+        "mean_market_p": 0.44229392247351695,
+        "mean_chosen_p": 0.48242528155306397,
+        "selection_groups": {
+          "favorite": 8,
+          "underdog": 2
+        }
+      }
+    },
+    "K리그2": {
+      "market": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.4375,
+        "logloss": 0.8551811153162729,
+        "brier": 0.49152479692780804,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": -0.05
+        },
+        "daily_close_max_drawdown_units": 0.05,
+        "mean_market_p": 0.4588082714808684,
+        "mean_chosen_p": 0.4588082714808684,
+        "selection_groups": {
+          "favorite": 4
+        }
+      },
+      "score_static": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.4375,
+        "logloss": 1.0317726724202831,
+        "brier": 0.6205175829523595,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": -0.05
+        },
+        "daily_close_max_drawdown_units": 0.05,
+        "mean_market_p": 0.448060940242918,
+        "mean_chosen_p": 0.4130292331797432,
+        "selection_groups": {
+          "favorite": 3,
+          "underdog": 1
+        }
+      },
+      "outcome_static": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.4375,
+        "logloss": 1.0604262201128236,
+        "brier": 0.6415059345998853,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": -0.05
+        },
+        "daily_close_max_drawdown_units": 0.05,
+        "mean_market_p": 0.448060940242918,
+        "mean_chosen_p": 0.3908113603425806,
+        "selection_groups": {
+          "favorite": 3,
+          "underdog": 1
+        }
+      },
+      "fixed91": {
+        "n": 4,
+        "hits": 4,
+        "hit_rate": 1.0,
+        "roi": 1.15,
+        "logloss": 0.7765733274234005,
+        "brier": 0.4403410019318254,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": 2.8
+        },
+        "daily_close_max_drawdown_units": 0.0,
+        "mean_market_p": 0.4416842227278764,
+        "mean_chosen_p": 0.47251580045508873,
+        "selection_groups": {
+          "favorite": 3,
+          "underdog": 1
+        }
+      },
+      "vote_direction": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.6625,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": 0.85
+        },
+        "daily_close_max_drawdown_units": 0.0,
+        "mean_market_p": 0.3983837583962145,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "favorite": 2,
+          "underdog": 2
+        }
+      },
+      "prior_author_frozen": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.4375,
+        "logloss": 0.8235555735684537,
+        "brier": 0.47110850913218655,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": -0.05
+        },
+        "daily_close_max_drawdown_units": 0.05,
+        "mean_market_p": 0.4588082714808684,
+        "mean_chosen_p": 0.4600573630914305,
+        "selection_groups": {
+          "favorite": 4
+        }
+      },
+      "prior_author_prequential": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.4375,
+        "logloss": 0.8387089789289958,
+        "brier": 0.4806479520631974,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": -0.05
+        },
+        "daily_close_max_drawdown_units": 0.05,
+        "mean_market_p": 0.4588082714808684,
+        "mean_chosen_p": 0.4622435239075956,
+        "selection_groups": {
+          "favorite": 4
+        }
+      },
+      "selected": {
+        "n": 4,
+        "hits": 4,
+        "hit_rate": 1.0,
+        "roi": 1.15,
+        "logloss": 0.8416097774786734,
+        "brier": 0.48466911346657143,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": 2.8
+        },
+        "daily_close_max_drawdown_units": 0.0,
+        "mean_market_p": 0.4416842227278764,
+        "mean_chosen_p": 0.4393136554592832,
+        "selection_groups": {
+          "favorite": 3,
+          "underdog": 1
+        }
+      },
+      "global": {
+        "n": 4,
+        "hits": 4,
+        "hit_rate": 1.0,
+        "roi": 1.15,
+        "logloss": 0.8416097774786734,
+        "brier": 0.48466911346657143,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": 2.8
+        },
+        "daily_close_max_drawdown_units": 0.0,
+        "mean_market_p": 0.4416842227278764,
+        "mean_chosen_p": 0.4393136554592832,
+        "selection_groups": {
+          "favorite": 3,
+          "underdog": 1
+        }
+      },
+      "contextual": {
+        "n": 4,
+        "hits": 3,
+        "hit_rate": 0.75,
+        "roi": 0.6625,
+        "logloss": 0.8354782890954087,
+        "brier": 0.48094493149623707,
+        "monthly_profit_units": {
+          "2026-07": 0.44,
+          "2026-08": 1.36,
+          "2026-09": 0.85
+        },
+        "daily_close_max_drawdown_units": 0.0,
+        "mean_market_p": 0.3983837583962145,
+        "mean_chosen_p": 0.4500525831536497,
+        "selection_groups": {
+          "favorite": 2,
+          "underdog": 2
+        }
+      }
+    },
+    "KBO": {
+      "market": {
+        "n": 51,
+        "hits": 32,
+        "hit_rate": 0.6274509803921569,
+        "roi": -0.02411764705882353,
+        "logloss": 0.6859988032718743,
+        "brier": 0.49215820290638107,
+        "monthly_profit_units": {
+          "2026-07": 0.51,
+          "2026-08": -0.33,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 6.0,
+        "mean_market_p": 0.584931990063109,
+        "mean_chosen_p": 0.584931990063109,
+        "selection_groups": {
+          "favorite": 51
+        }
+      },
+      "score_static": {
+        "n": 51,
+        "hits": 26,
+        "hit_rate": 0.5098039215686274,
+        "roi": -0.16686274509803922,
+        "logloss": 0.6871813582655055,
+        "brier": 0.49412174978746276,
+        "monthly_profit_units": {
+          "2026-07": -6.77,
+          "2026-08": -0.33,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 8.66,
+        "mean_market_p": 0.542691826338315,
+        "mean_chosen_p": 0.5448642334312064,
+        "selection_groups": {
+          "underdog": 12,
+          "favorite": 39
+        }
+      },
+      "outcome_static": {
+        "n": 51,
+        "hits": 23,
+        "hit_rate": 0.45098039215686275,
+        "roi": -0.22666666666666666,
+        "logloss": 0.6960336297677239,
+        "brier": 0.5028866093489369,
+        "monthly_profit_units": {
+          "2026-07": -9.82,
+          "2026-08": -0.33,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 12.85,
+        "mean_market_p": 0.5180443335027938,
+        "mean_chosen_p": 0.5250780131938305,
+        "selection_groups": {
+          "underdog": 19,
+          "favorite": 32
+        }
+      },
+      "fixed91": {
+        "n": 51,
+        "hits": 29,
+        "hit_rate": 0.5686274509803921,
+        "roi": -0.11372549019607843,
+        "logloss": 0.6919378166399864,
+        "brier": 0.4975505534976323,
+        "monthly_profit_units": {
+          "2026-07": -4.17,
+          "2026-08": -0.22,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 7.59,
+        "mean_market_p": 0.5759227552248459,
+        "mean_chosen_p": 0.6124481267611849,
+        "selection_groups": {
+          "favorite": 42,
+          "underdog": 9
+        }
+      },
+      "vote_direction": {
+        "n": 51,
+        "hits": 28,
+        "hit_rate": 0.5490196078431373,
+        "roi": -0.126078431372549,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": -4.8,
+          "2026-08": -0.22,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 8.22,
+        "mean_market_p": 0.5624582953643783,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "favorite": 39,
+          "underdog": 12
+        }
+      },
+      "prior_author_frozen": {
+        "n": 51,
+        "hits": 28,
+        "hit_rate": 0.5490196078431373,
+        "roi": -0.15666666666666668,
+        "logloss": 0.688106554201001,
+        "brier": 0.4940745867598273,
+        "monthly_profit_units": {
+          "2026-07": -6.36,
+          "2026-08": -0.22,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 9.78,
+        "mean_market_p": 0.5812668904199041,
+        "mean_chosen_p": 0.5978517666767487,
+        "selection_groups": {
+          "favorite": 45,
+          "underdog": 6
+        }
+      },
+      "prior_author_prequential": {
+        "n": 51,
+        "hits": 29,
+        "hit_rate": 0.5686274509803921,
+        "roi": -0.12392156862745098,
+        "logloss": 0.6870954125772143,
+        "brier": 0.493137846384421,
+        "monthly_profit_units": {
+          "2026-07": -6.36,
+          "2026-08": 1.45,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 8.15,
+        "mean_market_p": 0.5824662627063253,
+        "mean_chosen_p": 0.596587939517247,
+        "selection_groups": {
+          "favorite": 46,
+          "underdog": 5
+        }
+      },
+      "selected": {
+        "n": 51,
+        "hits": 29,
+        "hit_rate": 0.5686274509803921,
+        "roi": -0.11372549019607843,
+        "logloss": 0.6864358563358436,
+        "brier": 0.4931021629306185,
+        "monthly_profit_units": {
+          "2026-07": -4.17,
+          "2026-08": -0.22,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 7.59,
+        "mean_market_p": 0.5759227552248459,
+        "mean_chosen_p": 0.5881668917932813,
+        "selection_groups": {
+          "favorite": 42,
+          "underdog": 9
+        }
+      },
+      "global": {
+        "n": 51,
+        "hits": 29,
+        "hit_rate": 0.5686274509803921,
+        "roi": -0.11372549019607843,
+        "logloss": 0.6864358563358436,
+        "brier": 0.4931021629306185,
+        "monthly_profit_units": {
+          "2026-07": -4.17,
+          "2026-08": -0.22,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 7.59,
+        "mean_market_p": 0.5759227552248459,
+        "mean_chosen_p": 0.5881668917932813,
+        "selection_groups": {
+          "favorite": 42,
+          "underdog": 9
+        }
+      },
+      "contextual": {
+        "n": 51,
+        "hits": 27,
+        "hit_rate": 0.5294117647058824,
+        "roi": -0.17254901960784313,
+        "logloss": 0.6882709452724394,
+        "brier": 0.49506472607640617,
+        "monthly_profit_units": {
+          "2026-07": -7.17,
+          "2026-08": -0.22,
+          "2026-09": -1.41
+        },
+        "daily_close_max_drawdown_units": 10.59,
+        "mean_market_p": 0.5681905460705723,
+        "mean_chosen_p": 0.5902082911285966,
+        "selection_groups": {
+          "favorite": 40,
+          "underdog": 11
+        }
+      }
+    },
+    "NPB": {
+      "market": {
+        "n": 25,
+        "hits": 15,
+        "hit_rate": 0.6,
+        "roi": -0.0896,
+        "logloss": 0.6511033927619201,
+        "brier": 0.45933022326936557,
+        "monthly_profit_units": {
+          "2026-07": -3.62,
+          "2026-08": 1.1,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 4.61,
+        "mean_market_p": 0.5839229068298677,
+        "mean_chosen_p": 0.5839229068298677,
+        "selection_groups": {
+          "favorite": 25
+        }
+      },
+      "score_static": {
+        "n": 25,
+        "hits": 16,
+        "hit_rate": 0.64,
+        "roi": 0.0228,
+        "logloss": 0.6566192397766604,
+        "brier": 0.463790797339073,
+        "monthly_profit_units": {
+          "2026-07": -1.24,
+          "2026-08": 1.1,
+          "2026-09": 0.71
+        },
+        "daily_close_max_drawdown_units": 3.28,
+        "mean_market_p": 0.5599669070430241,
+        "mean_chosen_p": 0.5530648580499316,
+        "selection_groups": {
+          "favorite": 18,
+          "underdog": 7
+        }
+      },
+      "outcome_static": {
+        "n": 25,
+        "hits": 13,
+        "hit_rate": 0.52,
+        "roi": -0.1452,
+        "logloss": 0.6812481285213572,
+        "brier": 0.48820506288581617,
+        "monthly_profit_units": {
+          "2026-07": -3.88,
+          "2026-08": 1.1,
+          "2026-09": -0.85
+        },
+        "daily_close_max_drawdown_units": 5.93,
+        "mean_market_p": 0.5300906206986954,
+        "mean_chosen_p": 0.5311449420861173,
+        "selection_groups": {
+          "favorite": 15,
+          "underdog": 10
+        }
+      },
+      "fixed91": {
+        "n": 25,
+        "hits": 15,
+        "hit_rate": 0.6,
+        "roi": -0.0852,
+        "logloss": 0.6636704830102745,
+        "brier": 0.47186648089571614,
+        "monthly_profit_units": {
+          "2026-07": -3.51,
+          "2026-08": 1.1,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 4.5,
+        "mean_market_p": 0.5809586228186069,
+        "mean_chosen_p": 0.6068627605367463,
+        "selection_groups": {
+          "favorite": 23,
+          "underdog": 2
+        }
+      },
+      "vote_direction": {
+        "n": 25,
+        "hits": 13,
+        "hit_rate": 0.52,
+        "roi": -0.184,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": -4.48,
+          "2026-08": -0.4,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 7.93,
+        "mean_market_p": 0.5507602237538187,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "favorite": 19,
+          "underdog": 6
+        }
+      },
+      "prior_author_frozen": {
+        "n": 25,
+        "hits": 16,
+        "hit_rate": 0.64,
+        "roi": -0.0188,
+        "logloss": 0.6572863886386608,
+        "brier": 0.46545646857590384,
+        "monthly_profit_units": {
+          "2026-07": -1.85,
+          "2026-08": 1.1,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 2.84,
+        "mean_market_p": 0.5836646340292221,
+        "mean_chosen_p": 0.5955075571222616,
+        "selection_groups": {
+          "favorite": 24,
+          "underdog": 1
+        }
+      },
+      "prior_author_prequential": {
+        "n": 25,
+        "hits": 16,
+        "hit_rate": 0.64,
+        "roi": -0.0188,
+        "logloss": 0.6587951698535467,
+        "brier": 0.4669743466827569,
+        "monthly_profit_units": {
+          "2026-07": -1.85,
+          "2026-08": 1.1,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 2.84,
+        "mean_market_p": 0.5836646340292221,
+        "mean_chosen_p": 0.5931577358476046,
+        "selection_groups": {
+          "favorite": 24,
+          "underdog": 1
+        }
+      },
+      "selected": {
+        "n": 25,
+        "hits": 15,
+        "hit_rate": 0.6,
+        "roi": -0.0852,
+        "logloss": 0.665148126437053,
+        "brier": 0.4730928461717895,
+        "monthly_profit_units": {
+          "2026-07": -3.51,
+          "2026-08": 1.1,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 4.5,
+        "mean_market_p": 0.5809586228186069,
+        "mean_chosen_p": 0.5889166104367544,
+        "selection_groups": {
+          "favorite": 23,
+          "underdog": 2
+        }
+      },
+      "global": {
+        "n": 25,
+        "hits": 15,
+        "hit_rate": 0.6,
+        "roi": -0.0852,
+        "logloss": 0.665148126437053,
+        "brier": 0.4730928461717895,
+        "monthly_profit_units": {
+          "2026-07": -3.51,
+          "2026-08": 1.1,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 4.5,
+        "mean_market_p": 0.5809586228186069,
+        "mean_chosen_p": 0.5889166104367544,
+        "selection_groups": {
+          "favorite": 23,
+          "underdog": 2
+        }
+      },
+      "contextual": {
+        "n": 25,
+        "hits": 13,
+        "hit_rate": 0.52,
+        "roi": -0.184,
+        "logloss": 0.6728390141256781,
+        "brier": 0.48060021928080876,
+        "monthly_profit_units": {
+          "2026-07": -4.48,
+          "2026-08": -0.4,
+          "2026-09": 0.28
+        },
+        "daily_close_max_drawdown_units": 7.93,
+        "mean_market_p": 0.5507602237538187,
+        "mean_chosen_p": 0.5913718916577924,
+        "selection_groups": {
+          "favorite": 19,
+          "underdog": 6
+        }
+      }
+    },
+    "MLB": {
+      "market": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "roi": -0.3109375,
+        "logloss": 0.7078956620997089,
+        "brier": 0.5148096492926857,
+        "monthly_profit_units": {
+          "2026-07": -4.17,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -2.29
+        },
+        "daily_close_max_drawdown_units": 11.61,
+        "mean_market_p": 0.5628379679949155,
+        "mean_chosen_p": 0.5628379679949155,
+        "selection_groups": {
+          "favorite": 32
+        }
+      },
+      "score_static": {
+        "n": 32,
+        "hits": 19,
+        "hit_rate": 0.59375,
+        "roi": 0.0090625,
+        "logloss": 0.6899936283047945,
+        "brier": 0.49675631837059747,
+        "monthly_profit_units": {
+          "2026-07": -2.29,
+          "2026-08": 3.5,
+          "2026-09": 1.13,
+          "2026-10": -2.05
+        },
+        "daily_close_max_drawdown_units": 4.54,
+        "mean_market_p": 0.5380974646710965,
+        "mean_chosen_p": 0.533473853527393,
+        "selection_groups": {
+          "favorite": 23,
+          "underdog": 9
+        }
+      },
+      "outcome_static": {
+        "n": 32,
+        "hits": 15,
+        "hit_rate": 0.46875,
+        "roi": -0.215,
+        "logloss": 0.7091229862484519,
+        "brier": 0.5157354674235336,
+        "monthly_profit_units": {
+          "2026-07": -3.86,
+          "2026-08": 1.46,
+          "2026-09": -4.09,
+          "2026-10": -0.39
+        },
+        "daily_close_max_drawdown_units": 8.49,
+        "mean_market_p": 0.5389624915644351,
+        "mean_chosen_p": 0.5380521805091444,
+        "selection_groups": {
+          "underdog": 7,
+          "favorite": 25
+        }
+      },
+      "fixed91": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "roi": -0.3609375,
+        "logloss": 0.7335622689601743,
+        "brier": 0.5398911447682028,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -4.0
+        },
+        "daily_close_max_drawdown_units": 14.03,
+        "mean_market_p": 0.5596066238620642,
+        "mean_chosen_p": 0.6005209614758578,
+        "selection_groups": {
+          "favorite": 29,
+          "underdog": 3
+        }
+      },
+      "vote_direction": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "roi": -0.2996875,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -2.04
+        },
+        "daily_close_max_drawdown_units": 12.07,
+        "mean_market_p": 0.5560192514130823,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "favorite": 28,
+          "underdog": 4
+        }
+      },
+      "prior_author_frozen": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "roi": -0.3609375,
+        "logloss": 0.7213878057837806,
+        "brier": 0.5280915237762529,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -4.0
+        },
+        "daily_close_max_drawdown_units": 14.03,
+        "mean_market_p": 0.5596066238620642,
+        "mean_chosen_p": 0.5826147578325366,
+        "selection_groups": {
+          "favorite": 29,
+          "underdog": 3
+        }
+      },
+      "prior_author_prequential": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "roi": -0.3075,
+        "logloss": 0.7147893547462438,
+        "brier": 0.5215992522442665,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -2.29
+        },
+        "daily_close_max_drawdown_units": 12.32,
+        "mean_market_p": 0.5606162842930674,
+        "mean_chosen_p": 0.5718298882324335,
+        "selection_groups": {
+          "favorite": 30,
+          "underdog": 2
+        }
+      },
+      "selected": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "roi": -0.3609375,
+        "logloss": 0.7238096096288414,
+        "brier": 0.5304782748293462,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -4.0
+        },
+        "daily_close_max_drawdown_units": 14.03,
+        "mean_market_p": 0.5596066238620642,
+        "mean_chosen_p": 0.5850928607552726,
+        "selection_groups": {
+          "favorite": 29,
+          "underdog": 3
+        }
+      },
+      "global": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "roi": -0.3609375,
+        "logloss": 0.7238096096288414,
+        "brier": 0.5304782748293462,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -4.0
+        },
+        "daily_close_max_drawdown_units": 14.03,
+        "mean_market_p": 0.5596066238620642,
+        "mean_chosen_p": 0.5850928607552726,
+        "selection_groups": {
+          "favorite": 29,
+          "underdog": 3
+        }
+      },
+      "contextual": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "roi": -0.2996875,
+        "logloss": 0.7342611073566855,
+        "brier": 0.5404578596880824,
+        "monthly_profit_units": {
+          "2026-07": -4.06,
+          "2026-08": -0.91,
+          "2026-09": -2.58,
+          "2026-10": -2.04
+        },
+        "daily_close_max_drawdown_units": 12.07,
+        "mean_market_p": 0.5560192514130823,
+        "mean_chosen_p": 0.5992172264977967,
+        "selection_groups": {
+          "favorite": 28,
+          "underdog": 4
+        }
+      }
+    }
+  },
+  "underdog": {
+    "market": {
+      "favorite": {
+        "n": 122,
+        "hits": 67,
+        "hit_rate": 0.5491803278688525,
+        "roi": -0.13065573770491803,
+        "logloss": 0.7271223105824836,
+        "brier": 0.5082014924458245,
+        "monthly_profit_units": {
+          "2026-07": -6.47,
+          "2026-08": -0.42,
+          "2026-09": -6.76,
+          "2026-10": -2.29
+        },
+        "daily_close_max_drawdown_units": 19.41,
+        "mean_market_p": 0.5642544376830457,
+        "mean_chosen_p": 0.5642544376830457,
+        "selection_groups": {
+          "favorite": 122
+        }
+      },
+      "underdog": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.0,
+      "market_on_same_underdog_events": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "K리그2": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "KBO": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "NPB": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "MLB": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        }
+      }
+    },
+    "score_static": {
+      "favorite": {
+        "n": 89,
+        "hits": 52,
+        "hit_rate": 0.5842696629213483,
+        "roi": -0.08629213483146067,
+        "logloss": 0.7147826676024942,
+        "brier": 0.49904777548615736,
+        "monthly_profit_units": {
+          "2026-07": -6.83,
+          "2026-08": 2.58,
+          "2026-09": -1.48,
+          "2026-10": -1.95
+        },
+        "daily_close_max_drawdown_units": 9.16,
+        "mean_market_p": 0.5733359183130271,
+        "mean_chosen_p": 0.5391875923054275,
+        "selection_groups": {
+          "favorite": 89
+        }
+      },
+      "underdog": {
+        "n": 33,
+        "hits": 15,
+        "hit_rate": 0.45454545454545453,
+        "roi": -0.02303030303030303,
+        "logloss": 0.7761064760884363,
+        "brier": 0.5396327128663763,
+        "monthly_profit_units": {
+          "2026-07": -5.03,
+          "2026-08": 1.41,
+          "2026-09": 2.96,
+          "2026-10": -0.1
+        },
+        "daily_close_max_drawdown_units": 6.23,
+        "mean_market_p": 0.4157665249024739,
+        "mean_chosen_p": 0.5040052103964934,
+        "selection_groups": {
+          "underdog": 33
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.27049180327868855,
+      "market_on_same_underdog_events": {
+        "n": 33,
+        "hits": 15,
+        "hit_rate": 0.45454545454545453,
+        "roi": -0.2503030303030303,
+        "logloss": 0.7910447269582176,
+        "brier": 0.5540889045455378,
+        "monthly_profit_units": {
+          "2026-07": 0.36,
+          "2026-08": -3.0,
+          "2026-09": -5.28,
+          "2026-10": -0.34
+        },
+        "daily_close_max_drawdown_units": 11.22,
+        "mean_market_p": 0.5397619596203689,
+        "mean_chosen_p": 0.5397619596203689,
+        "selection_groups": {
+          "favorite": 33
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 4,
+          "hits": 1,
+          "hit_rate": 0.25,
+          "roi": 0.025,
+          "logloss": 1.1898524495209366,
+          "brier": 0.7243204844936525,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-08": -1.0,
+            "2026-09": 2.1
+          },
+          "daily_close_max_drawdown_units": 2.0,
+          "mean_market_p": 0.291302924727769,
+          "mean_chosen_p": 0.4101810010232642,
+          "selection_groups": {
+            "underdog": 4
+          }
+        },
+        "K리그2": {
+          "n": 1,
+          "hits": 0,
+          "hit_rate": 0.0,
+          "roi": -1.0,
+          "logloss": 1.3885304969669563,
+          "brier": 0.8553728637637341,
+          "monthly_profit_units": {
+            "2026-09": -1.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3275058483694549,
+          "mean_chosen_p": 0.44727217277457043,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "KBO": {
+          "n": 12,
+          "hits": 3,
+          "hit_rate": 0.25,
+          "roi": -0.4475,
+          "logloss": 0.7163538648483797,
+          "brier": 0.5231674919311838,
+          "monthly_profit_units": {
+            "2026-07": -5.37
+          },
+          "daily_close_max_drawdown_units": 7.57,
+          "mean_market_p": 0.4102396520848129,
+          "mean_chosen_p": 0.5256512006605604,
+          "selection_groups": {
+            "underdog": 12
+          }
+        },
+        "NPB": {
+          "n": 7,
+          "hits": 4,
+          "hit_rate": 0.5714285714285714,
+          "roi": 0.12857142857142856,
+          "logloss": 0.6926290847720055,
+          "brier": 0.49948209018579004,
+          "monthly_profit_units": {
+            "2026-07": 0.75,
+            "2026-09": 0.15
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.457221428952065,
+          "mean_chosen_p": 0.5097067367130035,
+          "selection_groups": {
+            "underdog": 7
+          }
+        },
+        "MLB": {
+          "n": 9,
+          "hits": 7,
+          "hit_rate": 0.7777777777777778,
+          "roi": 0.5122222222222222,
+          "logloss": 0.6687692715870114,
+          "brier": 0.47564890981970387,
+          "monthly_profit_units": {
+            "2026-07": 0.59,
+            "2026-08": 2.41,
+            "2026-09": 1.71,
+            "2026-10": -0.1
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.4560168829798774,
+          "mean_chosen_p": 0.5187126890332118,
+          "selection_groups": {
+            "underdog": 9
+          }
+        }
+      }
+    },
+    "outcome_static": {
+      "favorite": {
+        "n": 81,
+        "hits": 43,
+        "hit_rate": 0.5308641975308642,
+        "roi": -0.1680246913580247,
+        "logloss": 0.7371333193779478,
+        "brier": 0.5186094128742228,
+        "monthly_profit_units": {
+          "2026-07": -9.35,
+          "2026-08": 1.58,
+          "2026-09": -4.55,
+          "2026-10": -1.29
+        },
+        "daily_close_max_drawdown_units": 16.5,
+        "mean_market_p": 0.568379907574604,
+        "mean_chosen_p": 0.5261706163466229,
+        "selection_groups": {
+          "favorite": 81
+        }
+      },
+      "underdog": {
+        "n": 41,
+        "hits": 14,
+        "hit_rate": 0.34146341463414637,
+        "roi": -0.22560975609756098,
+        "logloss": 0.7580916469314405,
+        "brier": 0.5320437701930256,
+        "monthly_profit_units": {
+          "2026-07": -9.77,
+          "2026-08": 0.37,
+          "2026-09": -0.75,
+          "2026-10": 0.9
+        },
+        "daily_close_max_drawdown_units": 11.78,
+        "mean_market_p": 0.40810173427963775,
+        "mean_chosen_p": 0.49956846520236264,
+        "selection_groups": {
+          "underdog": 41
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.3360655737704918,
+      "market_on_same_underdog_events": {
+        "n": 41,
+        "hits": 24,
+        "hit_rate": 0.5853658536585366,
+        "roi": -0.05682926829268293,
+        "logloss": 0.7566150810198413,
+        "brier": 0.5277557380023968,
+        "monthly_profit_units": {
+          "2026-07": 2.88,
+          "2026-08": -2.0,
+          "2026-09": -2.21,
+          "2026-10": -1.0
+        },
+        "daily_close_max_drawdown_units": 6.5,
+        "mean_market_p": 0.5561041191167966,
+        "mean_chosen_p": 0.5561041191167966,
+        "selection_groups": {
+          "favorite": 41
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 4,
+          "hits": 1,
+          "hit_rate": 0.25,
+          "roi": 0.025,
+          "logloss": 1.144108470480292,
+          "brier": 0.6936688307332218,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-08": -1.0,
+            "2026-09": 2.1
+          },
+          "daily_close_max_drawdown_units": 2.0,
+          "mean_market_p": 0.291302924727769,
+          "mean_chosen_p": 0.40068956347661777,
+          "selection_groups": {
+            "underdog": 4
+          }
+        },
+        "K리그2": {
+          "n": 1,
+          "hits": 0,
+          "hit_rate": 0.0,
+          "roi": -1.0,
+          "logloss": 1.332222316845133,
+          "brier": 0.8194132241882949,
+          "monthly_profit_units": {
+            "2026-09": -1.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3275058483694549,
+          "mean_chosen_p": 0.4256165512373818,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "KBO": {
+          "n": 19,
+          "hits": 5,
+          "hit_rate": 0.2631578947368421,
+          "roi": -0.391578947368421,
+          "logloss": 0.7090465672899577,
+          "brier": 0.5158803638683697,
+          "monthly_profit_units": {
+            "2026-07": -7.44
+          },
+          "daily_close_max_drawdown_units": 10.17,
+          "mean_market_p": 0.41022972409010316,
+          "mean_chosen_p": 0.5117527733056982,
+          "selection_groups": {
+            "underdog": 19
+          }
+        },
+        "NPB": {
+          "n": 10,
+          "hits": 4,
+          "hit_rate": 0.4,
+          "roi": -0.186,
+          "logloss": 0.6939931119328933,
+          "brier": 0.5008493428115549,
+          "monthly_profit_units": {
+            "2026-07": -1.01,
+            "2026-09": -0.85
+          },
+          "daily_close_max_drawdown_units": 3.85,
+          "mean_market_p": 0.4327096423360345,
+          "mean_chosen_p": 0.5116241259545755,
+          "selection_groups": {
+            "underdog": 10
+          }
+        },
+        "MLB": {
+          "n": 7,
+          "hits": 4,
+          "hit_rate": 0.5714285714285714,
+          "roi": 0.1357142857142857,
+          "logloss": 0.68018363251209,
+          "brier": 0.48706938416832746,
+          "monthly_profit_units": {
+            "2026-07": -0.32,
+            "2026-08": 1.37,
+            "2026-09": -1.0,
+            "2026-10": 0.9
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.4454274824446162,
+          "mean_chosen_p": 0.5163411879712848,
+          "selection_groups": {
+            "underdog": 7
+          }
+        }
+      }
+    },
+    "fixed91": {
+      "favorite": {
+        "n": 105,
+        "hits": 57,
+        "hit_rate": 0.5428571428571428,
+        "roi": -0.1575238095238095,
+        "logloss": 0.734542172722029,
+        "brier": 0.5172822354046388,
+        "monthly_profit_units": {
+          "2026-07": -8.69,
+          "2026-08": -0.09,
+          "2026-09": -4.76,
+          "2026-10": -3.0
+        },
+        "daily_close_max_drawdown_units": 19.61,
+        "mean_market_p": 0.5752545152440685,
+        "mean_chosen_p": 0.6091576351482331,
+        "selection_groups": {
+          "favorite": 105
+        }
+      },
+      "underdog": {
+        "n": 17,
+        "hits": 7,
+        "hit_rate": 0.4117647058823529,
+        "roi": -0.11647058823529412,
+        "logloss": 0.7684188480518043,
+        "brier": 0.5372063286338156,
+        "monthly_profit_units": {
+          "2026-07": -4.61,
+          "2026-08": -0.22,
+          "2026-09": 3.85,
+          "2026-10": -1.0
+        },
+        "daily_close_max_drawdown_units": 5.6,
+        "mean_market_p": 0.4465523567963442,
+        "mean_chosen_p": 0.5018971211167098,
+        "selection_groups": {
+          "underdog": 17
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.13934426229508196,
+      "market_on_same_underdog_events": {
+        "n": 17,
+        "hits": 10,
+        "hit_rate": 0.5882352941176471,
+        "roi": 0.03529411764705882,
+        "logloss": 0.7619766134400636,
+        "brier": 0.524094023576181,
+        "monthly_profit_units": {
+          "2026-07": 2.22,
+          "2026-08": -0.33,
+          "2026-09": -2.0,
+          "2026-10": 0.71
+        },
+        "daily_close_max_drawdown_units": 2.72,
+        "mean_market_p": 0.4963127821590816,
+        "mean_chosen_p": 0.4963127821590816,
+        "selection_groups": {
+          "favorite": 17
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.5,
+          "logloss": 1.0540611866282026,
+          "brier": 0.6393157948918367,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-09": 2.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3039408159353262,
+          "mean_chosen_p": 0.3735467343417936,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "K리그2": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate": 1.0,
+          "roi": 1.85,
+          "logloss": 0.989401676859875,
+          "brier": 0.5927030661659752,
+          "monthly_profit_units": {
+            "2026-09": 1.85
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.30199897830928857,
+          "mean_chosen_p": 0.37179908047835974,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "KBO": {
+          "n": 9,
+          "hits": 3,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.38,
+          "logloss": 0.718434624424461,
+          "brier": 0.5252386630464793,
+          "monthly_profit_units": {
+            "2026-07": -3.2,
+            "2026-08": -0.22
+          },
+          "daily_close_max_drawdown_units": 3.42,
+          "mean_market_p": 0.47447383462492126,
+          "mean_chosen_p": 0.5270264511624292,
+          "selection_groups": {
+            "underdog": 9
+          }
+        },
+        "NPB": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": -0.115,
+          "logloss": 0.6680906596714842,
+          "brier": 0.47506331919147693,
+          "monthly_profit_units": {
+            "2026-07": -0.23
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.4814732249296201,
+          "mean_chosen_p": 0.5333259024366581,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "MLB": {
+          "n": 3,
+          "hits": 1,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.3933333333333333,
+          "logloss": 0.7211678092004251,
+          "brier": 0.5279661083413171,
+          "monthly_profit_units": {
+            "2026-07": -0.18,
+            "2026-10": -1.0
+          },
+          "daily_close_max_drawdown_units": 2.0,
+          "mean_market_p": 0.4827661646247927,
+          "mean_chosen_p": 0.5344895481623135,
+          "selection_groups": {
+            "underdog": 3
+          }
+        }
+      }
+    },
+    "vote_direction": {
+      "favorite": {
+        "n": 96,
+        "hits": 51,
+        "hit_rate": 0.53125,
+        "roi": -0.17666666666666667,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": -8.66,
+          "2026-08": -0.59,
+          "2026-09": -5.71,
+          "2026-10": -2.0
+        },
+        "daily_close_max_drawdown_units": 20.03,
+        "mean_market_p": 0.5746352899086288,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "favorite": 96
+        }
+      },
+      "underdog": {
+        "n": 26,
+        "hits": 10,
+        "hit_rate": 0.38461538461538464,
+        "roi": -0.17884615384615385,
+        "logloss": null,
+        "brier": null,
+        "monthly_profit_units": {
+          "2026-07": -6.24,
+          "2026-08": -1.22,
+          "2026-09": 2.85,
+          "2026-10": -0.04
+        },
+        "daily_close_max_drawdown_units": 9.38,
+        "mean_market_p": 0.42686465883611785,
+        "mean_chosen_p": null,
+        "selection_groups": {
+          "underdog": 26
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.21311475409836064,
+      "market_on_same_underdog_events": {
+        "n": 26,
+        "hits": 16,
+        "hit_rate": 0.6153846153846154,
+        "roi": 0.03923076923076923,
+        "logloss": 0.7296885489233377,
+        "brier": 0.501657710928538,
+        "monthly_profit_units": {
+          "2026-07": 2.19,
+          "2026-08": 0.17,
+          "2026-09": -1.05,
+          "2026-10": -0.29
+        },
+        "daily_close_max_drawdown_units": 3.27,
+        "mean_market_p": 0.5259251371578161,
+        "mean_chosen_p": 0.5259251371578161,
+        "selection_groups": {
+          "favorite": 26
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.5,
+          "logloss": null,
+          "brier": null,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-09": 2.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3039408159353262,
+          "mean_chosen_p": null,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "K리그2": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.425,
+          "logloss": null,
+          "brier": null,
+          "monthly_profit_units": {
+            "2026-09": 0.85
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.29365585822299267,
+          "mean_chosen_p": null,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "KBO": {
+          "n": 12,
+          "hits": 4,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.3375,
+          "logloss": null,
+          "brier": null,
+          "monthly_profit_units": {
+            "2026-07": -3.83,
+            "2026-08": -0.22
+          },
+          "daily_close_max_drawdown_units": 5.2,
+          "mean_market_p": 0.4522433987651974,
+          "mean_chosen_p": null,
+          "selection_groups": {
+            "underdog": 12
+          }
+        },
+        "NPB": {
+          "n": 6,
+          "hits": 2,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.37166666666666665,
+          "logloss": null,
+          "brier": null,
+          "monthly_profit_units": {
+            "2026-07": -1.23,
+            "2026-08": -1.0
+          },
+          "daily_close_max_drawdown_units": 4.0,
+          "mean_market_p": 0.4309110769248979,
+          "mean_chosen_p": null,
+          "selection_groups": {
+            "underdog": 6
+          }
+        },
+        "MLB": {
+          "n": 4,
+          "hits": 2,
+          "hit_rate": 0.5,
+          "roi": -0.055,
+          "logloss": null,
+          "brier": null,
+          "monthly_profit_units": {
+            "2026-07": -0.18,
+            "2026-10": -0.04
+          },
+          "daily_close_max_drawdown_units": 1.04,
+          "mean_market_p": 0.47272513367266733,
+          "mean_chosen_p": null,
+          "selection_groups": {
+            "underdog": 4
+          }
+        }
+      }
+    },
+    "prior_author_frozen": {
+      "favorite": {
+        "n": 112,
+        "hits": 60,
+        "hit_rate": 0.5357142857142857,
+        "roi": -0.15982142857142856,
+        "logloss": 0.7358180303302834,
+        "brier": 0.5145092582436264,
+        "monthly_profit_units": {
+          "2026-07": -8.05,
+          "2026-08": -0.09,
+          "2026-09": -6.76,
+          "2026-10": -3.0
+        },
+        "daily_close_max_drawdown_units": 20.98,
+        "mean_market_p": 0.5686665307169301,
+        "mean_chosen_p": 0.5841058550044211,
+        "selection_groups": {
+          "favorite": 112
+        }
+      },
+      "underdog": {
+        "n": 10,
+        "hits": 3,
+        "hit_rate": 0.3,
+        "roi": -0.463,
+        "logloss": 0.6998069742412085,
+        "brier": 0.5066600503887656,
+        "monthly_profit_units": {
+          "2026-07": -3.41,
+          "2026-08": -0.22,
+          "2026-10": -1.0
+        },
+        "daily_close_max_drawdown_units": 5.4,
+        "mean_market_p": 0.4851610042964583,
+        "mean_chosen_p": 0.5148957601529324,
+        "selection_groups": {
+          "underdog": 10
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.08196721311475409,
+      "market_on_same_underdog_events": {
+        "n": 10,
+        "hits": 7,
+        "hit_rate": 0.7,
+        "roi": 0.196,
+        "logloss": 0.6756608048773091,
+        "brier": 0.48252604892972517,
+        "monthly_profit_units": {
+          "2026-07": 1.58,
+          "2026-08": -0.33,
+          "2026-10": 0.71
+        },
+        "daily_close_max_drawdown_units": 1.27,
+        "mean_market_p": 0.5148389957035417,
+        "mean_chosen_p": 0.5148389957035417,
+        "selection_groups": {
+          "favorite": 10
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "K리그2": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "KBO": {
+          "n": 6,
+          "hits": 1,
+          "hit_rate": 0.16666666666666666,
+          "roi": -0.7033333333333334,
+          "logloss": 0.7069054461306173,
+          "brier": 0.5137531125800846,
+          "monthly_profit_units": {
+            "2026-07": -4.0,
+            "2026-08": -0.22
+          },
+          "daily_close_max_drawdown_units": 4.22,
+          "mean_market_p": 0.48442332651637926,
+          "mean_chosen_p": 0.5141986118388343,
+          "selection_groups": {
+            "underdog": 6
+          }
+        },
+        "NPB": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate": 1.0,
+          "roi": 0.77,
+          "logloss": 0.6427799637670297,
+          "brier": 0.44967702209237237,
+          "monthly_profit_units": {
+            "2026-07": 0.77
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.4967715899919297,
+          "mean_chosen_p": 0.5258286058330952,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "MLB": {
+          "n": 3,
+          "hits": 1,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.3933333333333333,
+          "logloss": 0.7046190339537839,
+          "brier": 0.511468268771592,
+          "monthly_profit_units": {
+            "2026-07": -0.18,
+            "2026-10": -1.0
+          },
+          "daily_close_max_drawdown_units": 2.0,
+          "mean_market_p": 0.4827661646247927,
+          "mean_chosen_p": 0.5126457748877408,
+          "selection_groups": {
+            "underdog": 3
+          }
+        }
+      }
+    },
+    "prior_author_prequential": {
+      "favorite": {
+        "n": 114,
+        "hits": 62,
+        "hit_rate": 0.543859649122807,
+        "roi": -0.14491228070175438,
+        "logloss": 0.7332539608350492,
+        "brier": 0.5123797018885053,
+        "monthly_profit_units": {
+          "2026-07": -8.05,
+          "2026-08": 0.58,
+          "2026-09": -6.76,
+          "2026-10": -2.29
+        },
+        "daily_close_max_drawdown_units": 19.6,
+        "mean_market_p": 0.5678718421096136,
+        "mean_chosen_p": 0.578252082318301,
+        "selection_groups": {
+          "favorite": 114
+        }
+      },
+      "underdog": {
+        "n": 8,
+        "hits": 3,
+        "hit_rate": 0.375,
+        "roi": -0.32875,
+        "logloss": 0.7026497214575803,
+        "brier": 0.5094983164742953,
+        "monthly_profit_units": {
+          "2026-07": -3.41,
+          "2026-08": 0.78
+        },
+        "daily_close_max_drawdown_units": 4.18,
+        "mean_market_p": 0.4872935753955469,
+        "mean_chosen_p": 0.5142295183841037,
+        "selection_groups": {
+          "underdog": 8
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.06557377049180328,
+      "market_on_same_underdog_events": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "roi": 0.0725,
+        "logloss": 0.6826852542211664,
+        "brier": 0.489543113542604,
+        "monthly_profit_units": {
+          "2026-07": 1.58,
+          "2026-08": -1.0
+        },
+        "daily_close_max_drawdown_units": 1.27,
+        "mean_market_p": 0.5127064246044531,
+        "mean_chosen_p": 0.5127064246044531,
+        "selection_groups": {
+          "favorite": 8
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "K리그2": {
+          "n": 0,
+          "hit_rate": null,
+          "roi": null
+        },
+        "KBO": {
+          "n": 5,
+          "hits": 1,
+          "hit_rate": 0.2,
+          "roi": -0.644,
+          "logloss": 0.7188221486212208,
+          "brier": 0.5256608024698012,
+          "monthly_profit_units": {
+            "2026-07": -4.0,
+            "2026-08": 0.78
+          },
+          "daily_close_max_drawdown_units": 4.0,
+          "mean_market_p": 0.48742479048040277,
+          "mean_chosen_p": 0.5153643021306871,
+          "selection_groups": {
+            "underdog": 5
+          }
+        },
+        "NPB": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate": 1.0,
+          "roi": 0.77,
+          "logloss": 0.6460248775931535,
+          "brier": 0.4529138358080081,
+          "monthly_profit_units": {
+            "2026-07": 0.77
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.4967715899919297,
+          "mean_chosen_p": 0.5241251026750791,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "MLB": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": -0.09,
+          "logloss": 0.6905310754806921,
+          "brier": 0.49738434181867464,
+          "monthly_profit_units": {
+            "2026-07": -0.18
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.4822265303852159,
+          "mean_chosen_p": 0.5064447668721574,
+          "selection_groups": {
+            "underdog": 2
+          }
+        }
+      }
+    },
+    "selected": {
+      "favorite": {
+        "n": 105,
+        "hits": 57,
+        "hit_rate": 0.5428571428571428,
+        "roi": -0.1575238095238095,
+        "logloss": 0.729101214161732,
+        "brier": 0.5123270124074355,
+        "monthly_profit_units": {
+          "2026-07": -8.69,
+          "2026-08": -0.09,
+          "2026-09": -4.76,
+          "2026-10": -3.0
+        },
+        "daily_close_max_drawdown_units": 19.61,
+        "mean_market_p": 0.5752545152440685,
+        "mean_chosen_p": 0.5853638322146619,
+        "selection_groups": {
+          "favorite": 105
+        }
+      },
+      "underdog": {
+        "n": 17,
+        "hits": 7,
+        "hit_rate": 0.4117647058823529,
+        "roi": -0.11647058823529412,
+        "logloss": 0.7768987909328166,
+        "brier": 0.5425024823583199,
+        "monthly_profit_units": {
+          "2026-07": -4.61,
+          "2026-08": -0.22,
+          "2026-09": 3.85,
+          "2026-10": -1.0
+        },
+        "daily_close_max_drawdown_units": 5.6,
+        "mean_market_p": 0.4465523567963442,
+        "mean_chosen_p": 0.4973825916810655,
+        "selection_groups": {
+          "underdog": 17
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.13934426229508196,
+      "market_on_same_underdog_events": {
+        "n": 17,
+        "hits": 10,
+        "hit_rate": 0.5882352941176471,
+        "roi": 0.03529411764705882,
+        "logloss": 0.7619766134400636,
+        "brier": 0.524094023576181,
+        "monthly_profit_units": {
+          "2026-07": 2.22,
+          "2026-08": -0.33,
+          "2026-09": -2.0,
+          "2026-10": 0.71
+        },
+        "daily_close_max_drawdown_units": 2.72,
+        "mean_market_p": 0.4963127821590816,
+        "mean_chosen_p": 0.4963127821590816,
+        "selection_groups": {
+          "favorite": 17
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.5,
+          "logloss": 1.0994675836421752,
+          "brier": 0.6673508837674516,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-09": 2.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3039408159353262,
+          "mean_chosen_p": 0.35216370886230186,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "K리그2": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate": 1.0,
+          "roi": 1.85,
+          "logloss": 1.0510228066703868,
+          "brier": 0.6348926120823707,
+          "monthly_profit_units": {
+            "2026-09": 1.85
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.30199897830928857,
+          "mean_chosen_p": 0.3495800134255536,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "KBO": {
+          "n": 9,
+          "hits": 3,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.38,
+          "logloss": 0.7173585431490547,
+          "brier": 0.5241665016315639,
+          "monthly_profit_units": {
+            "2026-07": -3.2,
+            "2026-08": -0.22
+          },
+          "daily_close_max_drawdown_units": 3.42,
+          "mean_market_p": 0.47447383462492126,
+          "mean_chosen_p": 0.5238450361337863,
+          "selection_groups": {
+            "underdog": 9
+          }
+        },
+        "NPB": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": -0.115,
+          "logloss": 0.681845972816664,
+          "brier": 0.48877287192172425,
+          "monthly_profit_units": {
+            "2026-07": -0.23
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.4814732249296201,
+          "mean_chosen_p": 0.5381512472946101,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "MLB": {
+          "n": 3,
+          "hits": 1,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.3933333333333333,
+          "logloss": 0.7124675459761082,
+          "brier": 0.5193011873155469,
+          "monthly_profit_units": {
+            "2026-07": -0.18,
+            "2026-10": -1.0
+          },
+          "daily_close_max_drawdown_units": 2.0,
+          "mean_market_p": 0.4827661646247927,
+          "mean_chosen_p": 0.5368962692115535,
+          "selection_groups": {
+            "underdog": 3
+          }
+        }
+      }
+    },
+    "global": {
+      "favorite": {
+        "n": 105,
+        "hits": 57,
+        "hit_rate": 0.5428571428571428,
+        "roi": -0.1575238095238095,
+        "logloss": 0.729101214161732,
+        "brier": 0.5123270124074355,
+        "monthly_profit_units": {
+          "2026-07": -8.69,
+          "2026-08": -0.09,
+          "2026-09": -4.76,
+          "2026-10": -3.0
+        },
+        "daily_close_max_drawdown_units": 19.61,
+        "mean_market_p": 0.5752545152440685,
+        "mean_chosen_p": 0.5853638322146619,
+        "selection_groups": {
+          "favorite": 105
+        }
+      },
+      "underdog": {
+        "n": 17,
+        "hits": 7,
+        "hit_rate": 0.4117647058823529,
+        "roi": -0.11647058823529412,
+        "logloss": 0.7768987909328166,
+        "brier": 0.5425024823583199,
+        "monthly_profit_units": {
+          "2026-07": -4.61,
+          "2026-08": -0.22,
+          "2026-09": 3.85,
+          "2026-10": -1.0
+        },
+        "daily_close_max_drawdown_units": 5.6,
+        "mean_market_p": 0.4465523567963442,
+        "mean_chosen_p": 0.4973825916810655,
+        "selection_groups": {
+          "underdog": 17
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.13934426229508196,
+      "market_on_same_underdog_events": {
+        "n": 17,
+        "hits": 10,
+        "hit_rate": 0.5882352941176471,
+        "roi": 0.03529411764705882,
+        "logloss": 0.7619766134400636,
+        "brier": 0.524094023576181,
+        "monthly_profit_units": {
+          "2026-07": 2.22,
+          "2026-08": -0.33,
+          "2026-09": -2.0,
+          "2026-10": 0.71
+        },
+        "daily_close_max_drawdown_units": 2.72,
+        "mean_market_p": 0.4963127821590816,
+        "mean_chosen_p": 0.4963127821590816,
+        "selection_groups": {
+          "favorite": 17
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.5,
+          "logloss": 1.0994675836421752,
+          "brier": 0.6673508837674516,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-09": 2.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3039408159353262,
+          "mean_chosen_p": 0.35216370886230186,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "K리그2": {
+          "n": 1,
+          "hits": 1,
+          "hit_rate": 1.0,
+          "roi": 1.85,
+          "logloss": 1.0510228066703868,
+          "brier": 0.6348926120823707,
+          "monthly_profit_units": {
+            "2026-09": 1.85
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.30199897830928857,
+          "mean_chosen_p": 0.3495800134255536,
+          "selection_groups": {
+            "underdog": 1
+          }
+        },
+        "KBO": {
+          "n": 9,
+          "hits": 3,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.38,
+          "logloss": 0.7173585431490547,
+          "brier": 0.5241665016315639,
+          "monthly_profit_units": {
+            "2026-07": -3.2,
+            "2026-08": -0.22
+          },
+          "daily_close_max_drawdown_units": 3.42,
+          "mean_market_p": 0.47447383462492126,
+          "mean_chosen_p": 0.5238450361337863,
+          "selection_groups": {
+            "underdog": 9
+          }
+        },
+        "NPB": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": -0.115,
+          "logloss": 0.681845972816664,
+          "brier": 0.48877287192172425,
+          "monthly_profit_units": {
+            "2026-07": -0.23
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.4814732249296201,
+          "mean_chosen_p": 0.5381512472946101,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "MLB": {
+          "n": 3,
+          "hits": 1,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.3933333333333333,
+          "logloss": 0.7124675459761082,
+          "brier": 0.5193011873155469,
+          "monthly_profit_units": {
+            "2026-07": -0.18,
+            "2026-10": -1.0
+          },
+          "daily_close_max_drawdown_units": 2.0,
+          "mean_market_p": 0.4827661646247927,
+          "mean_chosen_p": 0.5368962692115535,
+          "selection_groups": {
+            "underdog": 3
+          }
+        }
+      }
+    },
+    "contextual": {
+      "favorite": {
+        "n": 97,
+        "hits": 51,
+        "hit_rate": 0.5257731958762887,
+        "roi": -0.18515463917525773,
+        "logloss": 0.7341711454583255,
+        "brier": 0.5169278809305914,
+        "monthly_profit_units": {
+          "2026-07": -9.66,
+          "2026-08": -0.59,
+          "2026-09": -5.71,
+          "2026-10": -2.0
+        },
+        "daily_close_max_drawdown_units": 21.03,
+        "mean_market_p": 0.5753727858168691,
+        "mean_chosen_p": 0.5966835984459001,
+        "selection_groups": {
+          "favorite": 97
+        }
+      },
+      "underdog": {
+        "n": 25,
+        "hits": 9,
+        "hit_rate": 0.36,
+        "roi": -0.2408,
+        "logloss": 0.7722833091141985,
+        "brier": 0.5428614459327888,
+        "monthly_profit_units": {
+          "2026-07": -7.61,
+          "2026-08": -1.22,
+          "2026-09": 2.85,
+          "2026-10": -0.04
+        },
+        "daily_close_max_drawdown_units": 10.6,
+        "mean_market_p": 0.4297861409098803,
+        "mean_chosen_p": 0.5122410194330265,
+        "selection_groups": {
+          "underdog": 25
+        }
+      },
+      "top_tie": {
+        "n": 0,
+        "hit_rate": null,
+        "roi": null
+      },
+      "underdog_selection_share": 0.20491803278688525,
+      "market_on_same_underdog_events": {
+        "n": 25,
+        "hits": 16,
+        "hit_rate": 0.64,
+        "roi": 0.0808,
+        "logloss": 0.7173182720657649,
+        "brier": 0.48832091844683034,
+        "monthly_profit_units": {
+          "2026-07": 3.19,
+          "2026-08": 0.17,
+          "2026-09": -1.05,
+          "2026-10": -0.29
+        },
+        "daily_close_max_drawdown_units": 2.27,
+        "mean_market_p": 0.521115246923811,
+        "mean_chosen_p": 0.521115246923811,
+        "selection_groups": {
+          "favorite": 25
+        }
+      },
+      "underdog_by_league": {
+        "K리그1": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.5,
+          "logloss": 1.1092788103438802,
+          "brier": 0.6724426282079259,
+          "monthly_profit_units": {
+            "2026-07": -1.0,
+            "2026-09": 2.0
+          },
+          "daily_close_max_drawdown_units": 1.0,
+          "mean_market_p": 0.3039408159353262,
+          "mean_chosen_p": 0.369948820283822,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "K리그2": {
+          "n": 2,
+          "hits": 1,
+          "hit_rate": 0.5,
+          "roi": 0.425,
+          "logloss": 1.014652821255031,
+          "brier": 0.6127137805453986,
+          "monthly_profit_units": {
+            "2026-09": 0.85
+          },
+          "daily_close_max_drawdown_units": 0.0,
+          "mean_market_p": 0.29365585822299267,
+          "mean_chosen_p": 0.37954755186059197,
+          "selection_groups": {
+            "underdog": 2
+          }
+        },
+        "KBO": {
+          "n": 11,
+          "hits": 3,
+          "hit_rate": 0.2727272727272727,
+          "roi": -0.49272727272727274,
+          "logloss": 0.7308639430620173,
+          "brier": 0.5375675872860752,
+          "monthly_profit_units": {
+            "2026-07": -5.2,
+            "2026-08": -0.22
+          },
+          "daily_close_max_drawdown_units": 5.42,
+          "mean_market_p": 0.46119028892639213,
+          "mean_chosen_p": 0.5377625779282933,
+          "selection_groups": {
+            "underdog": 11
+          }
+        },
+        "NPB": {
+          "n": 6,
+          "hits": 2,
+          "hit_rate": 0.3333333333333333,
+          "roi": -0.37166666666666665,
+          "logloss": 0.697535100888078,
+          "brier": 0.5044027506577571,
+          "monthly_profit_units": {
+            "2026-07": -1.23,
+            "2026-08": -1.0
+          },
+          "daily_close_max_drawdown_units": 4.0,
+          "mean_market_p": 0.4309110769248979,
+          "mean_chosen_p": 0.5287051149954035,
+          "selection_groups": {
+            "underdog": 6
+          }
+        },
+        "MLB": {
+          "n": 4,
+          "hits": 2,
+          "hit_rate": 0.5,
+          "roi": -0.055,
+          "logloss": 0.7086263714116199,
+          "brier": 0.5153908416799251,
+          "monthly_profit_units": {
+            "2026-07": -0.18,
+            "2026-10": -0.04
+          },
+          "daily_close_max_drawdown_units": 1.04,
+          "mean_market_p": 0.47272513367266733,
+          "mean_chosen_p": 0.5548534235882964,
+          "selection_groups": {
+            "underdog": 4
+          }
+        }
+      }
+    }
+  },
+  "paired": {
+    "market": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 0,
+        "accuracy_delta": 0.0,
+        "roi_delta": 0.0,
+        "accuracy_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "roi_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 17,
+        "accuracy_delta": 0.02459016393442623,
+        "roi_delta": 0.021147540983606557,
+        "accuracy_difference_ci95": [
+          -0.03773584905660377,
+          0.06666666666666667
+        ],
+        "roi_difference_ci95": [
+          -0.1403879245283019,
+          0.10752477477477476
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "score_static": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 33,
+        "accuracy_delta": 0.0,
+        "roi_delta": 0.06147540983606557,
+        "accuracy_difference_ci95": [
+          -0.06289308176100629,
+          0.10391498036846865
+        ],
+        "roi_difference_ci95": [
+          -0.06556966546112115,
+          0.2750249999999998
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 39,
+        "accuracy_delta": 0.02459016393442623,
+        "roi_delta": 0.08262295081967214,
+        "accuracy_difference_ci95": [
+          -0.06000862068965517,
+          0.13636363636363635
+        ],
+        "roi_difference_ci95": [
+          -0.0771206655263567,
+          0.29403896103896093
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "outcome_static": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 41,
+        "accuracy_delta": -0.08196721311475409,
+        "roi_delta": -0.056721311475409805,
+        "accuracy_difference_ci95": [
+          -0.14493338008415146,
+          0.022478294177732346
+        ],
+        "roi_difference_ci95": [
+          -0.1800721404841006,
+          0.12964121965837544
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 47,
+        "accuracy_delta": -0.05737704918032787,
+        "roi_delta": -0.03557377049180329,
+        "accuracy_difference_ci95": [
+          -0.13077380952380954,
+          0.05196514012303477
+        ],
+        "roi_difference_ci95": [
+          -0.16691556717618664,
+          0.14954619190059817
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "fixed91": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 17,
+        "accuracy_delta": -0.02459016393442623,
+        "roi_delta": -0.021147540983606557,
+        "accuracy_difference_ci95": [
+          -0.06666666666666667,
+          0.03773584905660377
+        ],
+        "roi_difference_ci95": [
+          -0.10752477477477478,
+          0.14038792452830184
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 0,
+        "accuracy_delta": 0.0,
+        "roi_delta": 0.0,
+        "accuracy_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "roi_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "vote_direction": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 26,
+        "accuracy_delta": -0.04918032786885246,
+        "roi_delta": -0.04647540983606559,
+        "accuracy_difference_ci95": [
+          -0.0851063829787234,
+          0.014285714285714285
+        ],
+        "roi_difference_ci95": [
+          -0.1251790604592374,
+          0.10245907700152979
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 9,
+        "accuracy_delta": -0.02459016393442623,
+        "roi_delta": -0.025327868852459016,
+        "accuracy_difference_ci95": [
+          -0.05555555555555555,
+          0.02667567567567563
+        ],
+        "roi_difference_ci95": [
+          -0.08478804347826087,
+          0.07067744050020168
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "prior_author_frozen": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 10,
+        "accuracy_delta": -0.03278688524590164,
+        "roi_delta": -0.05401639344262295,
+        "accuracy_difference_ci95": [
+          -0.07058823529411765,
+          0.0
+        ],
+        "roi_difference_ci95": [
+          -0.11770194444444444,
+          0.0014212406015037596
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 7,
+        "accuracy_delta": -0.00819672131147541,
+        "roi_delta": -0.03286885245901639,
+        "accuracy_difference_ci95": [
+          -0.06668067226890756,
+          0.02830188679245283
+        ],
+        "roi_difference_ci95": [
+          -0.19152708408192598,
+          0.052656896551724064
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "prior_author_prequential": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 8,
+        "accuracy_delta": -0.01639344262295082,
+        "roi_delta": -0.026311475409836065,
+        "accuracy_difference_ci95": [
+          -0.05405405405405406,
+          0.0196078431372549
+        ],
+        "roi_difference_ci95": [
+          -0.08927087355212354,
+          0.03530254140491143
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 9,
+        "accuracy_delta": 0.00819672131147541,
+        "roi_delta": -0.005163934426229503,
+        "accuracy_difference_ci95": [
+          -0.05155643325746418,
+          0.053763440860215055
+        ],
+        "roi_difference_ci95": [
+          -0.15512648676776683,
+          0.09399178591602331
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "selected": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 17,
+        "accuracy_delta": -0.02459016393442623,
+        "roi_delta": -0.021147540983606557,
+        "accuracy_difference_ci95": [
+          -0.06666666666666667,
+          0.03773584905660377
+        ],
+        "roi_difference_ci95": [
+          -0.10752477477477478,
+          0.14038792452830184
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 0,
+        "accuracy_delta": 0.0,
+        "roi_delta": 0.0,
+        "accuracy_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "roi_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "global": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 17,
+        "accuracy_delta": -0.02459016393442623,
+        "roi_delta": -0.021147540983606557,
+        "accuracy_difference_ci95": [
+          -0.06666666666666667,
+          0.03773584905660377
+        ],
+        "roi_difference_ci95": [
+          -0.10752477477477478,
+          0.14038792452830184
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 0,
+        "accuracy_delta": 0.0,
+        "roi_delta": 0.0,
+        "accuracy_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "roi_difference_ci95": [
+          0.0,
+          0.0
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    },
+    "contextual": {
+      "market": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 25,
+        "accuracy_delta": -0.05737704918032787,
+        "roi_delta": -0.0659016393442623,
+        "accuracy_difference_ci95": [
+          -0.09090909090909091,
+          0.0
+        ],
+        "roi_difference_ci95": [
+          -0.1360327273663611,
+          0.07808847031963469
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      },
+      "fixed91": {
+        "n": 122,
+        "weeks": 15,
+        "changed_picks": 8,
+        "accuracy_delta": -0.03278688524590164,
+        "roi_delta": -0.04475409836065574,
+        "accuracy_difference_ci95": [
+          -0.05769508670520231,
+          0.01098901098901099
+        ],
+        "roi_difference_ci95": [
+          -0.09,
+          0.02880392156862745
+        ],
+        "warning": "descriptive repeated retrospective analysis; not fresh confirmatory inference"
+      }
+    }
+  },
+  "shared_errors": {
+    "n": 122,
+    "same_unique_pick": 56,
+    "same_unique_wrong": 26,
+    "limitation": "Those fixed-vector unanimous errors cannot be repaired by ANY nonnegative mixture. Not a ceiling for a new model with new inputs, nor an attainable oracle accuracy."
+  },
+  "limitations": {
+    "actual_events": 445,
+    "fresh_independent_events": 0,
+    "retrospective_reused": true,
+    "sources": {
+      "experiments\\dynamic-score-state-model-20261030\\results\\predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+      "experiments\\dynamic-score-state-model-20261030\\inputs\\targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0"
+    },
+    "no_certified_receipt_or_execution_price": true,
+    "features_sha256": "bec2554a0e75d8bb790e400596d85f40cba0538d533adb8baddc3d870c50956e",
+    "labels_sha256": "5862b74adc9094688b7550759d51f4cc6ef20d29234afe862137ebf2bcbdd018"
+  },
+  "test_label_flip_invariant": true
+}

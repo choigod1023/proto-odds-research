@@ -1,0 +1,69 @@
+{
+  "branch": "codex/next-model-evaluation-20261031",
+  "base": "f4665480",
+  "protocol_commits": [
+    "08d55368",
+    "a9a9d0f0"
+  ],
+  "actual_reused_events": 445,
+  "test_events": 122,
+  "new_independent_events": 0,
+  "models_fitted": [
+    "global stacking",
+    "contextual partial-pooling stacking"
+  ],
+  "validation_selected": "global:0.001",
+  "selected_candidate_adopted": false,
+  "production_changed": false,
+  "wallet_changed": false,
+  "tests": {
+    "new_regression_passed": 10,
+    "full_passed": 2159,
+    "full_skipped": 6,
+    "subtests": 93
+  },
+  "independent_arithmetic": {
+    "settlements": 1220,
+    "grouped_cells": 79,
+    "mismatches": 0
+  },
+  "findings": {
+    "selected_accuracy": 0.5245901639344263,
+    "selected_roi": -0.15180327868852458,
+    "market_roi": -0.13065573770491803,
+    "score_component_underdog_n": 33,
+    "score_component_underdog_hits": 15,
+    "score_component_underdog_roi": -0.02303030303030303,
+    "same_events_market_roi": -0.2503030303030303,
+    "unanimous_unrecoverable_with_fixed_convex_blend": 26
+  },
+  "interpretation": "New blend not adopted; NPB/MLB score-model results are post-hoc exploratory candidate signals only. No certified price/receipt or new official player-effect data. Not full Bayesian posterior stacking or a global optimum proof.",
+  "sample_profile": {
+    "train_available": {
+      "K리그2": 5,
+      "K리그1": 5,
+      "MLB": 77,
+      "KBO": 112,
+      "NPB": 62
+    },
+    "validation_available": {
+      "NPB": 16,
+      "KBO": 31,
+      "MLB": 3
+    },
+    "refit_available": {
+      "K리그2": 5,
+      "K리그1": 5,
+      "MLB": 80,
+      "KBO": 148,
+      "NPB": 84
+    },
+    "test": {
+      "NPB": 25,
+      "KBO": 51,
+      "MLB": 32,
+      "K리그1": 10,
+      "K리그2": 4
+    }
+  }
+}
