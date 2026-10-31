@@ -41,11 +41,12 @@ def test_four_day_causal_feature_embargo_current_and_future_labels(sport):
     assert np.array_equal(c.causal_features(rows[::-1])[1],x)
 
 
-def test_future_month_labels_never_change_frozen_month_fit():
-    rows=fixtures(650);a,states=c.forecasts(rows)
+@pytest.mark.parametrize('sport',['bs','sc','bk','vl'])
+def test_future_month_labels_never_change_frozen_month_fit(sport):
+    rows=fixtures(650,sport);a,states=c.forecasts(rows)
     changed=copy.deepcopy(rows)
     for r in changed:
-        if r['day']>='2023-03-01':r['y']=1-r['y']
+        if r['day']>='2023-03-01':r['y']=(r['y']+1)%len(r['odds'])
     b,other=c.forecasts(changed)
     assert states[:3]==other[:3]  # Mar model fits only through Feb25.
     for old,new in zip(a,b):
@@ -80,3 +81,13 @@ def test_no_invalid_source_prices_or_labels():
     with pytest.raises(ValueError):p.normalize('sc','K1','2023-01-01','A','B',[2.,2.],0,'test')
     with pytest.raises(ValueError):p.normalize('bs','KBO','2023-01-01','A','B',[1.,2.],0,'test')
     with pytest.raises(ValueError):p.normalize('bs','KBO','2023-01-01','A','B',[1.6,2.1],2,'test')
+
+
+def test_saved_worker_ledgers_cover_every_source_fixture_and_settle_exactly():
+    verifier=module('integrate')
+    reports,rows,audit=verifier.verify()
+    assert len(reports)==5
+    assert len(rows['domestic_archive'])==47729
+    assert len(rows['external_football_archive'])==235799
+    assert audit['independently_verified_forecasts']==1134112
+    assert audit['mismatches']==0
