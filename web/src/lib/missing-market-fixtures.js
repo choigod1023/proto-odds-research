@@ -1,4 +1,5 @@
-/** Unlinked volleyball market entries. A market document is not a prediction or status feed. */
+/** Unlinked full-game market entries, across all supported sports.
+ * A market document is not a prediction or an official status feed. */
 export function missingMarketFixtures(data, odds) {
   const generated = Date.parse(odds?.generated_at || "");
   if (!Number.isFinite(generated)) return [];
@@ -8,7 +9,10 @@ export function missingMarketFixtures(data, odds) {
   const seen = new Map();
   for (const [round, markets] of Object.entries(odds?.markets || {})) {
     for (const row of Object.values(markets || {})) {
-      if (row?.sport !== "vl" || row?.market !== "승패" || row.n_way !== 2 || !row.league || !row.home || !row.away) continue;
+      const fullGame = row?.sport === "sc"
+        ? row.market === "승무패" && row.n_way === 3
+        : ["bs", "bk", "vl"].includes(row?.sport) && row.market === "승패" && row.n_way === 2;
+      if (!fullGame || !row.league || !row.home || !row.away) continue;
       const match = String(row.date || "").match(/^(\d{2})\.(\d{2})\([^)]*\) (\d{2}):(\d{2})$/);
       if (!match) continue;
       const [, mm, dd, hh, min] = match;
