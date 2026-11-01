@@ -9,7 +9,11 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import sys
 from urllib.parse import quote
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'src'))
+from research_chronology import DateWitnesses
 
 FIELDS = ('Division', 'MatchDate', 'HomeTeam', 'AwayTeam', 'FTHome', 'FTAway',
           'FTResult', 'OddHome', 'OddDraw', 'OddAway')
@@ -63,7 +67,7 @@ def parse(row):
     return key, result, odds, errors
 
 
-def run(source, output, audit_path):
+def run(source, output, audit_path, *, date_witnesses=None, allow_unverified_chronology=False):
     source, output, audit_path = map(Path, (source, output, audit_path))
     if len({p.resolve() for p in (source, output, audit_path)}) != 3:
         raise ValueError('source, output and audit must be distinct paths')
@@ -71,6 +75,9 @@ def run(source, output, audit_path):
     with source.open('rb') as f:
         for block in iter(lambda: f.read(1024 * 1024), b''):
             sha.update(block)
+    witnesses = DateWitnesses(date_witnesses, source.read_bytes()) if date_witnesses is not None else None
+    chronology_counts = Counter()
+    corrections = []
     groups = defaultdict(list)
     reasons, exclusions = Counter(), Counter()
     raw_years, raw_leagues = Counter(), Counter()
@@ -98,7 +105,7 @@ def run(source, output, audit_path):
                 exclusions['invalid_rows'] += 1
                 continue
             signature = tuple(numeric_signature(row[k]) for k in ('FTHome', 'FTAway', 'OddHome', 'OddDraw', 'OddAway')) + (result,)
-            groups[key].append((signature, result, odds, errors))
+            groups[key].append((signature, result, odds, errors, row))
     records = []
     for key, rows in groups.items():
         if len({r[0] for r in rows}) > 1:
@@ -107,6 +114,20 @@ def run(source, output, audit_path):
         if rows[0][3]:
             exclusions['invalid_rows'] += len(rows)
             continue
+        # Resolve source conflicts BEFORE correcting dates, so a bad duplicate
+        # cannot be left at the original date while its valid twin is moved.
+        status = witnesses.assess(rows[0][4]) if witnesses else None
+        if status is None or status['status'] == 'unverified':
+            chronology_counts['unverified'] += 1
+            if not allow_unverified_chronology:
+                exclusions['unverified_fixture_date'] += len(rows)
+                continue
+        elif status['status'] == 'contradicted':
+            chronology_counts['contradicted_corrected'] += 1
+            corrections.append({'source_fixture': list(key), **status})
+            key = (key[0], status['verified_day'], key[2], key[3])
+        else:
+            chronology_counts['confirmed'] += 1
         exclusions['identical_duplicate_rows'] += len(rows) - 1
         league, day, home, away = key
         records.append({'id': 'extfoot|' + '|'.join(quote(x, safe='') for x in key),
@@ -114,7 +135,12 @@ def run(source, output, audit_path):
                         'day': day, 'kickoff': day + 'T00:00:00', 'kickoff_precision': 'date',
                         'home': home, 'away': away, 'odds': [float(x) for x in rows[0][2]],
                         'y': {'H': 0, 'D': 1, 'A': 2}[rows[0][1]],
+                        'chronology_status': 'independent_date_witness' if status and status['status'] != 'unverified' else 'unverified_diagnostic',
+                        'chronology_witness_id': status['witness_id'] if status else None,
+                        'original_day': rows[0][4]['MatchDate'],
                         'sources': ['external_matches_csv']})
+    if len({r['id'] for r in records}) != len(records):
+        raise ValueError('date correction creates a duplicate fixture; resolve witnesses first')
     records.sort(key=lambda x: (x['day'], x['id']))
     output.parent.mkdir(parents=True, exist_ok=True)
     audit_path.parent.mkdir(parents=True, exist_ok=True)
@@ -134,6 +160,10 @@ def run(source, output, audit_path):
                              'MatchTime is unused; source clock, independent result witness, odds observation time and price availability are unverified.'],
              'duplicate_policy': 'All rows in a fixture with differing score, result or odds are excluded, including invalid rows; identical duplicates retain one valid row.',
              'issue_counts_note': 'Validation issues can overlap and include conflicting fixtures; exclusions are mutually exclusive row counts.'}
+    audit.update(chronology_policy='explicit_unverified_diagnostic' if allow_unverified_chronology else 'independent_fixture_dates_only',
+                 chronology_counts=dict(chronology_counts), date_corrections=corrections,
+                 chronology_scope='Exact archive SHA, division, source date, teams and score; no generic month/day swap',
+                 pregame_receipts_verified=False, execution_prices_verified=False)
     audit_path.write_text(json.dumps(audit, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8')
     return audit
 
@@ -143,8 +173,16 @@ def main():
     parser.add_argument('--source', required=True)
     parser.add_argument('--output', required=True)
     parser.add_argument('--audit', required=True)
+    parser.add_argument('--date-witnesses', type=Path)
+    parser.add_argument('--allow-unverified-chronology', action='store_true',
+                        help='Explicit retrospective diagnostic only; not validation certification')
     args = parser.parse_args()
-    run(args.source, args.output, args.audit)
+    registry = json.loads(args.date_witnesses.read_text(encoding='utf-8')) if args.date_witnesses else None
+    summary = run(args.source, args.output, args.audit, date_witnesses=registry,
+                  allow_unverified_chronology=args.allow_unverified_chronology)
+    print(json.dumps({k: summary[k] for k in ('accepted_rows', 'chronology_policy', 'chronology_counts')}))
+    if not summary['accepted_rows'] and not args.allow_unverified_chronology:
+        parser.exit(2, 'No independently witnessed fixtures: chronology validation blocked.\n')
 
 
 if __name__ == '__main__':

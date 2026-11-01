@@ -1,0 +1,64 @@
+{
+  "forecasts_checked": 24736,
+  "fixture_date_changes": 2,
+  "same_event_price_and_label": true,
+  "strict_performance_certified": false,
+  "independent_probability_replay": {
+    "source_dates": {
+      "fixtures": 3092,
+      "probabilities_replayed": 12368,
+      "max_probability_difference": 7.216449660063518e-16,
+      "max_scaler_mean_difference": 4.163336342344337e-17,
+      "max_scaler_scale_difference": 1.1102230246251565e-16,
+      "max_objective_gradient": 8.884376297591413e-07,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2012-11",
+          "training": 213,
+          "max_probability_difference": 8.968155840172187e-07,
+          "max_gradient": 2.284264445998052e-09
+        },
+        {
+          "model": "market_residual",
+          "month": "2012-11",
+          "training": 213,
+          "max_probability_difference": 6.102372929195354e-08,
+          "max_gradient": 1.8569967780496426e-09
+        }
+      ]
+    },
+    "two_witnessed_corrections": {
+      "fixtures": 3092,
+      "probabilities_replayed": 12368,
+      "max_probability_difference": 7.216449660063518e-16,
+      "max_scaler_mean_difference": 4.163336342344337e-17,
+      "max_scaler_scale_difference": 1.6653345369377348e-16,
+      "max_objective_gradient": 7.138668478949019e-07,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2012-11",
+          "training": 213,
+          "max_probability_difference": 8.968155840172187e-07,
+          "max_gradient": 2.284264445998052e-09
+        },
+        {
+          "model": "market_residual",
+          "month": "2012-11",
+          "training": 213,
+          "max_probability_difference": 6.102372929195354e-08,
+          "max_gradient": 1.8569967780496426e-09
+        }
+      ]
+    }
+  },
+  "files": {
+    "protocol.json": "bca281f4d950fc4ebb0dbf9086f41a733c9fae53d709c7460c9d2223149089b6",
+    "results.json": "c7c1972090ee6b2d38209c63be146f176112120529173c98b738e8790126245c",
+    "source_dates\\ledger.jsonl.gz": "e91cc70391aa737a30d3ff81dd3e7332496977026d68022bbb283d151f212686",
+    "strict-witnessed.jsonl.gz": "65b7d7a3fb9b4be6e51a77b1aa55eb07a896e52ee72f345dc7c65b86e78d0317",
+    "two_witnessed_corrections\\ledger.jsonl.gz": "d55a8701656ede5864dcf0dad1758799c89f3f268526b9f01c1349064dc36ccb",
+    "witnesses.json": "ae462f5065adabbb967ec68e920c62a5e284e3497f15625a42f3247517bb1865"
+  }
+}

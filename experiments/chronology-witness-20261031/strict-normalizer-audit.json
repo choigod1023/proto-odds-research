@@ -1,0 +1,142 @@
+{
+  "accepted_by_league": {
+    "NOR": 2
+  },
+  "accepted_by_year": {
+    "2022": 1,
+    "2023": 1
+  },
+  "accepted_date_range": [
+    "2022-04-02",
+    "2023-12-03"
+  ],
+  "accepted_rows": 2,
+  "all_raw_rows": 238858,
+  "chronology_counts": {
+    "contradicted_corrected": 2,
+    "unverified": 235797
+  },
+  "chronology_policy": "independent_fixture_dates_only",
+  "chronology_scope": "Exact archive SHA, division, source date, teams and score; no generic month/day swap",
+  "date_corrections": [
+    {
+      "source_day": "2022-02-04",
+      "source_fixture": [
+        "NOR",
+        "2022-02-04",
+        "Ham-Kam",
+        "Lillestrom"
+      ],
+      "status": "contradicted",
+      "verified_day": "2022-04-02",
+      "witness_id": "nff-2022-99120001003"
+    },
+    {
+      "source_day": "2023-03-12",
+      "source_fixture": [
+        "NOR",
+        "2023-03-12",
+        "Molde",
+        "HamKam"
+      ],
+      "status": "contradicted",
+      "verified_day": "2023-12-03",
+      "witness_id": "nff-2023-99120001235"
+    }
+  ],
+  "duplicate_policy": "All rows in a fixture with differing score, result or odds are excluded, including invalid rows; identical duplicates retain one valid row.",
+  "excluded_rows": 238856,
+  "exclusions": {
+    "identical_duplicate_rows": 0,
+    "invalid_rows": 3059,
+    "unverified_fixture_date": 235797
+  },
+  "execution_prices_verified": false,
+  "issue_counts_note": "Validation issues can overlap and include conflicting fixtures; exclusions are mutually exclusive row counts.",
+  "limitations": [
+    "MatchDate is a timezone-free source date; kickoff is a date-only placeholder, not verified UTC or an actual time.",
+    "MatchTime is unused; source clock, independent result witness, odds observation time and price availability are unverified."
+  ],
+  "pregame_receipts_verified": false,
+  "raw_by_league": {
+    "ARG": 5330,
+    "AUT": 2306,
+    "B1": 6906,
+    "BRA": 4850,
+    "CHN": 2544,
+    "D1": 7837,
+    "D2": 7494,
+    "DEN": 2634,
+    "E0": 9810,
+    "E1": 14206,
+    "E2": 13819,
+    "E3": 13377,
+    "EC": 7746,
+    "F1": 9081,
+    "F2": 9019,
+    "FIN": 2354,
+    "G1": 4377,
+    "I1": 9412,
+    "I2": 10321,
+    "IRL": 2367,
+    "JAP": 4089,
+    "MEX": 4080,
+    "N1": 7627,
+    "NOR": 3092,
+    "P1": 6965,
+    "POL": 3567,
+    "ROM": 3640,
+    "RUS": 3008,
+    "SC0": 5377,
+    "SC1": 4294,
+    "SC2": 4296,
+    "SC3": 4215,
+    "SP1": 9419,
+    "SP2": 10992,
+    "SUI": 2273,
+    "SWE": 3110,
+    "T1": 7791,
+    "USA": 5233
+  },
+  "raw_by_year": {
+    "2000": 2794,
+    "2001": 6329,
+    "2002": 6173,
+    "2003": 3967,
+    "2004": 5534,
+    "2005": 6340,
+    "2006": 6959,
+    "2007": 6585,
+    "2008": 7148,
+    "2009": 7054,
+    "2010": 6925,
+    "2011": 7410,
+    "2012": 10597,
+    "2013": 11729,
+    "2014": 11993,
+    "2015": 12352,
+    "2016": 12100,
+    "2017": 12364,
+    "2018": 12042,
+    "2019": 12018,
+    "2020": 9562,
+    "2021": 13127,
+    "2022": 12168,
+    "2023": 12501,
+    "2024": 11148,
+    "2025": 7368,
+    "2026": 4571
+  },
+  "raw_date_range": [
+    "2000-07-28",
+    "2026-09-03"
+  ],
+  "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\external-features-20261024\\experiments\\external-features-20261024\\cache\\Matches.csv",
+  "source_sha256": "ef224cf2c252f07a842b3bcfd4ba5c718c25cedd8937ffa174a74b86b5ba4221",
+  "validation_issues_overlapping": {
+    "invalid_margin": 7,
+    "invalid_odds": 3049,
+    "invalid_result": 4,
+    "invalid_score": 4
+  }
+}

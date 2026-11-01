@@ -1,0 +1,208 @@
+{
+  "source_sha256": "ef224cf2c252f07a842b3bcfd4ba5c718c25cedd8937ffa174a74b86b5ba4221",
+  "rows": 238858,
+  "counts": {
+    "unverified": 238809,
+    "month_day_ambiguous": 83005,
+    "invalid_fixture": 47,
+    "contradicted": 2
+  },
+  "by_league": {
+    "ARG": {
+      "month_day_ambiguous": 1994,
+      "unverified": 5330
+    },
+    "AUT": {
+      "month_day_ambiguous": 826,
+      "unverified": 2306
+    },
+    "B1": {
+      "month_day_ambiguous": 2229,
+      "unverified": 6906
+    },
+    "BRA": {
+      "month_day_ambiguous": 1753,
+      "unverified": 4849,
+      "invalid_fixture": 1
+    },
+    "CHN": {
+      "month_day_ambiguous": 843,
+      "unverified": 2544
+    },
+    "D1": {
+      "month_day_ambiguous": 2703,
+      "unverified": 7837
+    },
+    "D2": {
+      "month_day_ambiguous": 2647,
+      "unverified": 7461,
+      "invalid_fixture": 33
+    },
+    "DEN": {
+      "month_day_ambiguous": 928,
+      "unverified": 2634
+    },
+    "E0": {
+      "unverified": 9810,
+      "month_day_ambiguous": 3273
+    },
+    "E1": {
+      "month_day_ambiguous": 4805,
+      "unverified": 14206
+    },
+    "E2": {
+      "month_day_ambiguous": 4450,
+      "unverified": 13819
+    },
+    "E3": {
+      "unverified": 13377,
+      "month_day_ambiguous": 4394
+    },
+    "EC": {
+      "month_day_ambiguous": 2594,
+      "unverified": 7746
+    },
+    "F1": {
+      "unverified": 9081,
+      "month_day_ambiguous": 3182
+    },
+    "F2": {
+      "unverified": 9018,
+      "month_day_ambiguous": 3159,
+      "invalid_fixture": 1
+    },
+    "FIN": {
+      "month_day_ambiguous": 744,
+      "unverified": 2354
+    },
+    "G1": {
+      "unverified": 4375,
+      "month_day_ambiguous": 1596,
+      "invalid_fixture": 2
+    },
+    "I1": {
+      "unverified": 9412,
+      "month_day_ambiguous": 3267
+    },
+    "I2": {
+      "month_day_ambiguous": 3623,
+      "unverified": 10320,
+      "invalid_fixture": 1
+    },
+    "IRL": {
+      "month_day_ambiguous": 821,
+      "unverified": 2367
+    },
+    "JAP": {
+      "month_day_ambiguous": 1495,
+      "unverified": 4089
+    },
+    "MEX": {
+      "month_day_ambiguous": 1471,
+      "unverified": 4080
+    },
+    "N1": {
+      "unverified": 7618,
+      "month_day_ambiguous": 2649,
+      "invalid_fixture": 9
+    },
+    "NOR": {
+      "month_day_ambiguous": 1104,
+      "unverified": 3090,
+      "contradicted": 2
+    },
+    "P1": {
+      "unverified": 6965,
+      "month_day_ambiguous": 2618
+    },
+    "POL": {
+      "month_day_ambiguous": 1243,
+      "unverified": 3567
+    },
+    "ROM": {
+      "month_day_ambiguous": 1297,
+      "unverified": 3640
+    },
+    "RUS": {
+      "month_day_ambiguous": 1101,
+      "unverified": 3008
+    },
+    "SC0": {
+      "unverified": 5377,
+      "month_day_ambiguous": 1905
+    },
+    "SC1": {
+      "month_day_ambiguous": 1509,
+      "unverified": 4294
+    },
+    "SC2": {
+      "month_day_ambiguous": 1522,
+      "unverified": 4296
+    },
+    "SC3": {
+      "month_day_ambiguous": 1526,
+      "unverified": 4215
+    },
+    "SP1": {
+      "unverified": 9419,
+      "month_day_ambiguous": 3275
+    },
+    "SP2": {
+      "month_day_ambiguous": 4047,
+      "unverified": 10992
+    },
+    "SUI": {
+      "month_day_ambiguous": 848,
+      "unverified": 2273
+    },
+    "SWE": {
+      "month_day_ambiguous": 1088,
+      "unverified": 3110
+    },
+    "T1": {
+      "month_day_ambiguous": 2639,
+      "unverified": 7791
+    },
+    "USA": {
+      "month_day_ambiguous": 1837,
+      "unverified": 5233
+    }
+  },
+  "findings": [
+    {
+      "fixture": [
+        "NOR",
+        "2022-02-04",
+        "Ham-Kam",
+        "Lillestrom",
+        2,
+        2
+      ],
+      "source_day": "2022-02-04",
+      "verified_day": "2022-04-02",
+      "status": "contradicted",
+      "witness_id": "nff-2022-99120001003",
+      "shift_days": 57
+    },
+    {
+      "fixture": [
+        "NOR",
+        "2023-03-12",
+        "Molde",
+        "HamKam",
+        1,
+        1
+      ],
+      "source_day": "2023-03-12",
+      "verified_day": "2023-12-03",
+      "status": "contradicted",
+      "witness_id": "nff-2023-99120001235",
+      "shift_days": 266
+    }
+  ],
+  "strict_chronology_ready": false,
+  "witnessed_rebuild_ready": false,
+  "pregame_receipts_verified": false,
+  "execution_prices_verified": false,
+  "note": "Unverified is not proven incorrect. Ambiguous dates are never automatically swapped."
+}

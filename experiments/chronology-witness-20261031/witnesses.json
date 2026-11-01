@@ -1,0 +1,33 @@
+{
+  "source_sha256": "ef224cf2c252f07a842b3bcfd4ba5c718c25cedd8937ffa174a74b86b5ba4221",
+  "witnesses": [
+    {
+      "id": "nff-2022-99120001003",
+      "source_fixture": {"Division": "NOR", "MatchDate": "2022-02-04", "HomeTeam": "Ham-Kam", "AwayTeam": "Lillestrom", "FTHome": 2, "FTAway": 2},
+      "confirmed_day": "2022-04-02",
+      "official_home": "HamKam",
+      "official_away": "Lillestrøm",
+      "identity_check": "Manually matched division, home/away, 2-2 score, season and date-swap candidate; no generic team alias authorization",
+      "kind": "official_fixture_result",
+      "observation_method": "web_tool_rendered_text",
+      "checked_at_utc": "2026-10-31T14:15:35Z",
+      "urls": ["https://www.fotball.no/fotballdata/kamp/?fiksId=7962701", "https://www.fotball.no/fotballdata/turnering/hjem/?fiksId=181484", "https://www.hamkam.no/nyheter/stats-hamkam-lsk"],
+      "raw_http_body_sha256": null,
+      "note": "Rendered official federation fixture table and club historical fixture list agree. Local direct HTTP failed; no raw HTML hash or historical observation receipt is claimed. Check timestamp records audit registration after reading the rendered evidence; it is not an HTTP receipt timestamp."
+    },
+    {
+      "id": "nff-2023-99120001235",
+      "source_fixture": {"Division": "NOR", "MatchDate": "2023-03-12", "HomeTeam": "Molde", "AwayTeam": "HamKam", "FTHome": 1, "FTAway": 1},
+      "confirmed_day": "2023-12-03",
+      "official_home": "Molde",
+      "official_away": "HamKam",
+      "identity_check": "Manually matched division, home/away, 1-1 score, 2023 final round and date-swap candidate; club match report corroborates federation table",
+      "kind": "official_fixture_result",
+      "observation_method": "web_tool_rendered_text",
+      "checked_at_utc": "2026-10-31T14:15:35Z",
+      "urls": ["https://www.fotball.no/fotballdata/turnering/hjem/?fiksId=186850", "https://www.hamkam.no/nyheter/uavgjort-pa-bortebane-mot-molde"],
+      "raw_http_body_sha256": null,
+      "note": "Federation final-round table and club report agree. Club publication 03.12.2023 is corroboration, not used alone as fixture date. No historical pregame availability is claimed. Check timestamp records audit registration after reading the rendered evidence; it is not an HTTP receipt timestamp."
+    }
+  ]
+}
