@@ -1,0 +1,2940 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>K LEAGUE</title>
+    <link rel="stylesheet" href="/assets/js/jquery-ui.min.css">
+    <link rel="stylesheet" href="/assets/js/swiper5.3.8/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.5" class="theme">
+    <link rel="stylesheet" href="/assets/css/icon.css?v=1.5">
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.min.js"></script>
+    <script src="/assets/js/swiper5.3.8/swiper.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+
+    <script src="/assets/js/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyCn98NmJHHz-fQxEvViK7C84BhxwlbF0dc",
+            authDomain: "k-league-c362b.firebaseapp.com",
+            databaseURL: "https://k-league-c362b.firebaseio.com",
+            projectId: "k-league-c362b",
+            storageBucket: "k-league-c362b.appspot.com",
+            messagingSenderId: "365443416884",
+            appId: "1:365443416884:web:bc597c79cc63ec14ca9b61",
+            measurementId: "G-L3LH9NY4ZZ"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var link = linkConvert(window.location.pathname);
+        firebase.analytics().logEvent('homepage', {"view": link});
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        function changeLang() {
+            var link = document.location.href;
+            while (link.endsWith("#")) {
+                link = link.substr(0, link.length - 1)
+            }
+
+            $.ajax({
+                url: "/changeLang.do",
+                type: "POST",
+                enctype: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (resultCode = "200") {
+                        location.href = link;
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+            });
+        }
+
+        function searchAll() {
+            let searchText = $("#searchInput").val();
+            searchText = encodeURIComponent(searchText);
+            location.href = "/search.do?searchWord=" + searchText;
+        }
+    </script>
+
+</head>
+
+<body style="display: none;">
+<header>
+    <div class="head-top">
+        <div class="header-bar">
+            <div class="bar-con">
+                <ul>
+                    
+                        <li><a href="/login.do">로그인</a></li>
+                        <li><a href="/join/step1.do">회원가입</a></li>
+                    
+                    
+                </ul>
+                <div class="lang-sel">
+                    <span>KR</span>
+                    <select id="language" onchange="javascript:changeLang();">
+                        <option value="ko"  selected  > KR</option>
+                        <option value="en"  > EN</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="header-con">
+            <h1><a href="/index.do"><img src="/assets/images/logo/logo.png" srcset="/assets/images/logo/logo.png 1x,/assets/images/logo/logo@2x.png 2x,/assets/images/logo/logo@3x.png 3x" alt="K LEAGUE"></a></h1>
+
+            <div class="league-wrap">
+                <div class="f-wrap">
+                    <ul class="tab-btns kleague-txt">
+                        <li class="active"><img src="/assets/images/text/kleague_txt1.png" srcset="/assets/images/text/kleague_txt1.png 1x,/assets/images/text/kleague_txt1@2x.png 2x,/assets/images/text/kleague_txt1@3x.png 3x" alt="K LEAGUE"></li>
+                        <li> <img src="/assets/images/text/kleague_txt2.png" srcset="/assets/images/text/kleague_txt2.png 1x,/assets/images/text/kleague_txt2@2x.png 2x,/assets/images/text/kleague_txt2@3x.png 3x" alt="K LEAGUE"> </li>
+                    </ul>
+                    <div class="tab-con-wrap">
+                        <div class="cont active">
+                            <ul class="f-wrap">
+                                
+                                    <li> <a href="https://www.fcseoul.com/" title="서울" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K09.png" srcset="/assets/images/emblem/emblem_K09.png 1x,/assets/images/emblem/emblem_K09@2x.png 2x,/assets/images/emblem/emblem_K09@3x.png 3x" alt="서울>"></a> </li>
+                                
+                                    <li> <a href="https://www.uhdfc.com/fc/greetings.php" title="울산" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K01.png" srcset="/assets/images/emblem/emblem_K01.png 1x,/assets/images/emblem/emblem_K01@2x.png 2x,/assets/images/emblem/emblem_K01@3x.png 3x" alt="울산>"></a> </li>
+                                
+                                    <li> <a href="https://www.dhcfc.kr/" title="대전" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K10.png" srcset="/assets/images/emblem/emblem_K10.png 1x,/assets/images/emblem/emblem_K10@2x.png 2x,/assets/images/emblem/emblem_K10@3x.png 3x" alt="대전>"></a> </li>
+                                
+                                    <li> <a href="https://www.hyundai-motorsfc.com" title="전북" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K05.png" srcset="/assets/images/emblem/emblem_K05.png 1x,/assets/images/emblem/emblem_K05@2x.png 2x,/assets/images/emblem/emblem_K05@3x.png 3x" alt="전북>"></a> </li>
+                                
+                                    <li> <a href="https://www.gangwon-fc.com" title="강원" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K21.png" srcset="/assets/images/emblem/emblem_K21.png 1x,/assets/images/emblem/emblem_K21@2x.png 2x,/assets/images/emblem/emblem_K21@3x.png 3x" alt="강원>"></a> </li>
+                                
+                                    <li> <a href="https://www.incheonutd.com" title="인천" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K18.png" srcset="/assets/images/emblem/emblem_K18.png 1x,/assets/images/emblem/emblem_K18@2x.png 2x,/assets/images/emblem/emblem_K18@3x.png 3x" alt="인천>"></a> </li>
+                                
+                                    <li> <a href="https://www.jejuskfc.com/" title="제주" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K04.png" srcset="/assets/images/emblem/emblem_K04.png 1x,/assets/images/emblem/emblem_K04@2x.png 2x,/assets/images/emblem/emblem_K04@3x.png 3x" alt="제주>"></a> </li>
+                                
+                                    <li> <a href="https://www.fc-anyang.com" title="안양" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K27.png" srcset="/assets/images/emblem/emblem_K27.png 1x,/assets/images/emblem/emblem_K27@2x.png 2x,/assets/images/emblem/emblem_K27@3x.png 3x" alt="안양>"></a> </li>
+                                
+                                    <li> <a href="https://www.steelers.co.kr" title="포항" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K03.png" srcset="/assets/images/emblem/emblem_K03.png 1x,/assets/images/emblem/emblem_K03@2x.png 2x,/assets/images/emblem/emblem_K03@3x.png 3x" alt="포항>"></a> </li>
+                                
+                                    <li> <a href="https://gimcheonfc.com/" title="김천" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K35.png" srcset="/assets/images/emblem/emblem_K35.png 1x,/assets/images/emblem/emblem_K35@2x.png 2x,/assets/images/emblem/emblem_K35@3x.png 3x" alt="김천>"></a> </li>
+                                
+                                    <li> <a href="https://www.bfc1995.com" title="부천" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K26.png" srcset="/assets/images/emblem/emblem_K26.png 1x,/assets/images/emblem/emblem_K26@2x.png 2x,/assets/images/emblem/emblem_K26@3x.png 3x" alt="부천>"></a> </li>
+                                
+                                    <li> <a href="https://www.gwangjufc.com/" title="광주" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K22.png" srcset="/assets/images/emblem/emblem_K22.png 1x,/assets/images/emblem/emblem_K22@2x.png 2x,/assets/images/emblem/emblem_K22@3x.png 3x" alt="광주>"></a> </li>
+                                
+                            </ul>
+                        </div>
+                        <div class="cont">
+                            <ul class="f-wrap">
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.bluewings.kr/" title="수원" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K02.png" srcset="/assets/images/emblem/emblem_K02.png 1x,/assets/images/emblem/emblem_K02@2x.png 2x,/assets/images/emblem/emblem_K02@3x.png 3x" alt="수원>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.seoulelandfc.com" title="서울E" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K31.png" srcset="/assets/images/emblem/emblem_K31.png 1x,/assets/images/emblem/emblem_K31@2x.png 2x,/assets/images/emblem/emblem_K31@3x.png 3x" alt="서울E>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.suwonfc.com" title="수원FC" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K29.png" srcset="/assets/images/emblem/emblem_K29.png 1x,/assets/images/emblem/emblem_K29@2x.png 2x,/assets/images/emblem/emblem_K29@3x.png 3x" alt="수원FC>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://daegufc.co.kr" title="대구" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K17.png" srcset="/assets/images/emblem/emblem_K17.png 1x,/assets/images/emblem/emblem_K17@2x.png 2x,/assets/images/emblem/emblem_K17@3x.png 3x" alt="대구>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.busanipark.com" title="부산" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K06.png" srcset="/assets/images/emblem/emblem_K06.png 1x,/assets/images/emblem/emblem_K06@2x.png 2x,/assets/images/emblem/emblem_K06@3x.png 3x" alt="부산>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.hwaseongfc.com/" title="화성" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K39.png" srcset="/assets/images/emblem/emblem_K39.png 1x,/assets/images/emblem/emblem_K39@2x.png 2x,/assets/images/emblem/emblem_K39@3x.png 3x" alt="화성>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.asanfc.com" title="충남아산" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K34.png" srcset="/assets/images/emblem/emblem_K34.png 1x,/assets/images/emblem/emblem_K34@2x.png 2x,/assets/images/emblem/emblem_K34@3x.png 3x" alt="충남아산>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.gimpofc.com" title="김포" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K36.png" srcset="/assets/images/emblem/emblem_K36.png 1x,/assets/images/emblem/emblem_K36@2x.png 2x,/assets/images/emblem/emblem_K36@3x.png 3x" alt="김포>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="http://www.gyeongnamfc.com" title="경남" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K20.png" srcset="/assets/images/emblem/emblem_K20.png 1x,/assets/images/emblem/emblem_K20@2x.png 2x,/assets/images/emblem/emblem_K20@3x.png 3x" alt="경남>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.yonginfc.co.kr/" title="용인" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K42.png" srcset="/assets/images/emblem/emblem_K42.png 1x,/assets/images/emblem/emblem_K42@2x.png 2x,/assets/images/emblem/emblem_K42@3x.png 3x" alt="용인>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://chfc.kr/" title="충북청주" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K37.png" srcset="/assets/images/emblem/emblem_K37.png 1x,/assets/images/emblem/emblem_K37@2x.png 2x,/assets/images/emblem/emblem_K37@3x.png 3x" alt="충북청주>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://seongnamfc.com/" title="성남" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K08.png" srcset="/assets/images/emblem/emblem_K08.png 1x,/assets/images/emblem/emblem_K08@2x.png 2x,/assets/images/emblem/emblem_K08@3x.png 3x" alt="성남>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.pajufrontier.com/" title="파주" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K40.png" srcset="/assets/images/emblem/emblem_K40.png 1x,/assets/images/emblem/emblem_K40@2x.png 2x,/assets/images/emblem/emblem_K40@3x.png 3x" alt="파주>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://cheonancityfc.kr/" title="천안" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K38.png" srcset="/assets/images/emblem/emblem_K38.png 1x,/assets/images/emblem/emblem_K38@2x.png 2x,/assets/images/emblem/emblem_K38@3x.png 3x" alt="천안>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.greenersfc.com/" title="안산" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K32.png" srcset="/assets/images/emblem/emblem_K32.png 1x,/assets/images/emblem/emblem_K32@2x.png 2x,/assets/images/emblem/emblem_K32@3x.png 3x" alt="안산>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://www.dragons.co.kr" title="전남" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K07.png" srcset="/assets/images/emblem/emblem_K07.png 1x,/assets/images/emblem/emblem_K07@2x.png 2x,/assets/images/emblem/emblem_K07@3x.png 3x" alt="전남>"></a> </li>
+                                
+                                    <li style="margin-left: 10px;"> <a href="https://gimhaefc2008.com/" title="김해" target="_blank"><img width="32px;" src="/assets/images/emblem/emblem_K41.png" srcset="/assets/images/emblem/emblem_K41.png 1x,/assets/images/emblem/emblem_K41@2x.png 2x,/assets/images/emblem/emblem_K41@3x.png 3x" alt="김해>"></a> </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-wrap">
+        <div class="menu">
+            <ul class="f-wrap">
+                <li class="fixed-logo"> <a href="/index.do"><img src="/assets/images/logo/s_emblem.png" srcset="/assets/images/logo/s_emblem.png 1x,/assets/images/logo/s_emblem@2x.png 2x,/assets/images/logo/s_emblem@3x.png 3x" alt="K LEAGUE"></a> </li>
+
+                
+
+
+
+
+
+<li>
+    <a href="/news_list.do">뉴스</a>
+    <ul class="s-menu">
+        <li><a href="/news_list.do">전체</a></li>
+        <li><a href="/news_list.do?category=notice"> 공지사항 </a></li>
+        <li><a href="/news_list.do?category=league"> 리그 </a></li>
+        <li><a href="/news_list.do?category=club"> 구단 </a></li>
+        <li><a href="/news_list.do?category=youth"> 유소년 </a></li>
+        <li><a href="/news_list.do?category=fan"> 팬 </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/video_list.do?category=highlight">영상</a>
+    <ul class="s-menu">
+        <li><a href="/video_list.do"> 전체 </a></li>
+        <li><a href="/video_list.do?category=highlight"> 하이라이트 </a></li>
+        <li><a href="/video_list.do?category=goal"> 골 </a></li>
+        <li><a href="/video_list.do?category=etc"> 케튜브 </a></li>
+        <li><a href="/video_list.do?category=club"> 구단 </a></li>
+        <li><a href="https://tv.kleague.com/" target="_blank"> K리그 TV </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/schedule.do"> 일정/결과/티켓 </a>
+    <ul class="s-menu">
+        <li><a href="/schedule.do?leagueId=1"> K리그1 </a></li>
+        <li><a href="/schedule.do?leagueId=2"> K리그2 </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/record/team.do"> 기록</a>
+    <ul class="s-menu">
+        <li><a href="/record/team.do"> 팀 순위 </a></li>
+        <li><a href="/record/player.do"> 선수 순위 </a></li>
+        <li><a href="/record/dynamicPoint.do"> ADIDAS POINT </a></li>
+        <li><a href="https://data.kleague.com" target="_blank"> 데이터 포털 </a></li>
+        <li><a href="/record/audience.do"> 관중 현황 </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/player.do"> 선수/감독</a>
+</li>
+
+
+    <li>
+        <a href="/youth/junior.do"> 유소년</a>
+        <ul class="s-menu">
+            <li><a href="/youth/junior.do"> K리그 주니어 </a></li>
+            <li><a href="/youth/youth.do"> K리그 유스 챔피언십 </a></li>
+            <li><a href="/youth/trust.do"> YOUTH TRUST </a></li>
+            <li><a href="/youth/media.do"> SOCIAL MEDIA </a></li>
+            <li><a href="https://www.bepro11.com/main" target="_blank"> 유소년 부가데이터 </a></li>
+        </ul>
+    </li>
+
+
+
+
+
+    <li>
+        <a href="https://www.kleaguefantasy.com/">이벤트</a>
+        <ul class="s-menu">
+            
+                
+                
+                    <li><a href="https://www.kleaguefantasy.com/" target="_blank">K리그 판타지</a></li>
+                
+            
+            <li><a href="/tripday/list.do">K리그 트립데이</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a style="cursor:pointer;" onclick="window.open('https://assist.kleague.com');"> 사회공헌</a>
+        <ul class="s-menu">
+            
+                <li><a href="https://assist.kleague.com" target="_blank">K LEAGUE Assist</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=voice&subTab=map" target="_blank">이동약자 안내지도</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=voice&subTab=voice" target="_blank">시각장애인 음성중계</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=greenKickOff" target="_blank">그린킥오프</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=voice&subTab=playone" target="_blank">PlayOne Cup</a></li>
+            
+                <li><a href="https://assist.kleague.com/kare?tab=info" target="_blank">케어프로젝트</a></li>
+            
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+        </ul>
+    </li>
+
+    <li>
+        <a href="/about/greetings.do"> About K LEAGUE</a>
+        <div class="s-menu f-wrap">
+            <ul class="left">
+                <li><a href="/about/greetings.do"> 인사말 </a></li>
+                <li><a href="/about/history.do"> 연혁 </a></li>
+                <li><a href="/about/ci.do"> CI소개 </a></li>
+                <li><a href="/about/organization.do"> 조직도 </a></li>
+                <li><a href="/about/sponsor.do"> 스폰서 </a></li>
+                <li><a href="/about/regulations.do"> 정관/규정 </a></li>
+                <li><a href="/about/competition.do"> 대회요강 </a></li>
+                <li><a href="/about/management.do"> 경영공시 </a></li>
+            </ul>
+            <ul class="right">
+                <li><a href="/about/reference.do">자료실</a></li>
+                <li><a href="/about/emblem.do"> 역대 엠블럼 </a></li>
+                <li><a href="/about/academy.do"> 아카데미 </a></li>
+                <li><a href="/about/clean_center.do"> K리그 클린센터 </a></li>
+                <li><a href="/about/protection_center.do"> 권리 보호 센터 </a></li>
+                <li><a href="/about/directions.do"> 찾아오시는 길 </a></li>
+                <li><a href="https://portal.kleague.com/user/service/userCertPrintNice.do" target="_blank">경력증명서발급</a></li>
+                <li><a href="/about/fonts.do">K리그 폰트</a></li>
+                <li><a href="/about/hof.do">명예의 전당</a></li>
+                
+                    <li><a href="/about/recruitment.do">수시채용</a></li>
+                
+            </ul>
+        </div>
+    </li>
+
+
+
+
+            </ul>
+
+            <div class="icon-wrap">
+                <a href="#" class="btn-sch">
+                    <img src="/assets/images/icon/ico_sch.png" srcset="/assets/images/icon/ico_sch.png 1x,/assets/images/icon/ico_sch@2x.png 2x, /assets/images/icon/ico_sch@3x.png 3x" alt="검색">
+                    <img class="close" src="/assets/images/icon/ico_close.png" srcset="/assets/images/icon/ico_close.png 1x,/assets/images/icon/ico_close@2x.png 2x, /assets/images/icon/ico_close@3x.png 3x" alt="검색">
+                </a>
+            </div>
+        </div>
+        <div class="dim"></div>
+        <div class="sch-wrap">
+            <div class="sch-box">
+                <input type="text" id="searchInput" onkeydown="if(event.keyCode == 13){ searchAll(); }" placeholder="검색어를 입력해주세요">
+                <button class="sch-btn" onclick="searchAll();"><span class="ico ico-sch3"> 검색 </span></button>
+            </div>
+        </div>
+    </div>
+
+</header>
+</body>
+
+</html>
+
+    <script src="/assets/js/calendar.js?v=1.5"></script>
+    <script>
+        let selectedTeam = "";
+        let isInitialLoad = true;
+        let selectedYear = "2025";
+        let selectedMonth = "11";
+        let selectedType = "regular";
+        let selectedMeetSeq = 1;
+        let selectedMeetType = 1;
+        let selectedTicketYn = "";
+
+        window.onscroll = function() {
+            if (!isInitialLoad) {
+                sessionStorage.setItem('scrollPosition', window.scrollY);
+            }
+        };
+
+        function chkScrollHeight(){
+            $(window).scrollTop(sessionStorage.getItem('scrollPosition'));
+        }
+
+        function toCurrentMonth() {
+            $("#year").val("2025").prop("selected", true);
+            $("#yearVal").text("2025");
+            $("#month").val("11").prop("selected", true);
+            $("#monthVal").text("11");
+            // onChanged();
+            onChangedNew();
+        }
+
+        var curLeagueId = 1;
+
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+        
+
+        function onEmblemError(elem) {
+            elem.style.display = "none";
+        }
+        function matchBC(showHtml, hideHtml, gameId){
+
+            var html = '';
+
+            if($("#"+gameId).hasClass("show")) {
+                $('#'+gameId).removeClass("show");
+                $('#'+gameId).addClass("hide");
+
+                $("#"+gameId).empty();
+                html = hideHtml;
+                $("#"+gameId).append(html)
+            }
+            else{
+                $('#'+gameId).removeClass("hide");
+                $('#'+gameId).addClass("show");
+
+                $("#"+gameId).empty();
+                html = showHtml;
+                $("#"+gameId).append(html)
+            }
+
+        }
+
+        function onChanged() {
+
+            curLeagueId = $("#leagueList").val();
+            let curLeagueType = $("#leagueList option:selected").data("type");
+            let meetType = '';
+            var teamId = $("#teamList").val();
+            if (teamId == "all") {
+                teamId = null;
+            }
+            var ticketStatus = $("#ticketList").val();
+            var year = $("#year").val();
+            var month = $("#month").val();
+            $("#yearVal").text(year);
+            $("#monthVal").text(month);
+
+            var ticketYn = $("#ticketYn").val();
+
+            var isSetFocus = false;
+            const now = new Date();
+
+            if (curLeagueType === 'etc') {
+
+                meetType = $("#leagueList option:selected").data("meet-type");
+
+                $.ajax({
+                    url: "/getScheduleList.do",
+                    type: "post",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "year": year,
+                        "etcYn": 'Y',
+                        "month": month,
+                        "leagueId": curLeagueId,
+                        "meetType": meetType
+                    }),
+                    success: function (res) {
+
+                        if (res.resultCode != "200") {
+                            alert(res.resultMsg);
+                            return;
+                        }
+
+                        // $('#leagueList option:gt(1)').remove();
+                        //
+                        // // 새 기타 리그 옵션 추가
+                        // $.each(res.data.etcLeagueList, function(index, item) {
+                        //     $('#leagueList').append(
+                        //         $('<option>', {
+                        //             value: item.meetSeq,
+                        //             text: item.meetName,
+                        //             'data-type': 'etc'
+                        //         })
+                        //     );
+                        // });
+
+                        var prevGameDate = null;
+                        var prevRoundId = null;
+
+                        var html = "";
+                        $("#scheduleList").empty();
+                        for (var i = 0; i < res.data.scheduleList.length; i++) {
+                            var item = res.data.scheduleList[i];
+
+                            html += '<tr>';
+                            html += '<td>' + item.gameDate + '</td>';
+                            html += '<td>' + item.gameTime + '</td>';
+                            html += '<td>';
+                            html += '    <div class="team">';
+                            html += '<span class="name">' + item.homeTeam + '</span>';
+                            html += '    </div>';
+                            html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                            html += '      ' + item.homeGoal + '<span class="at">:</span>' + item.awayGoal;
+                            html += '    </div>';
+                            html += '    <div class="team">';
+                            html += '<span class="name">' + item.awayTeam + '</span>';
+                            html += '    </div>';
+                            html += '</td>';
+                            html += '<td>-</td>';
+                            html += '<td>-</td>';
+                            html += '<td>' + item.fieldName + '</td>';
+                            html += '<td>-</td>';
+                            html += '</tr>';
+                        }
+
+                        $("#scheduleList").append(html);
+
+                        var lang = document.getElementById("lang").value;
+                        calendarLang("#calendar", year, month, res.data.scheduleList, lang, 'Y');
+                        isInitialLoad = false;
+                        chkScrollHeight();
+                    },
+                    error: function (err) {
+                        alert("네트워크에 문제가 있습니다.");
+                    }
+                });
+                return;
+            }
+
+            $.ajax({
+                url: "/getScheduleList.do",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "leagueId": curLeagueId,
+                    "teamId": teamId,
+                    "ticketStatus": ticketStatus,
+                    "year": year,
+                    "month": month,
+                    "ticketYn": ticketYn
+                }),
+                success: function (res) {
+                    if (res.resultCode != "200") {
+                        alert(res.resultMsg);
+                        return;
+                    }
+
+                    // $('#leagueList option:gt(1)').remove();
+                    //
+                    // // 새 기타 리그 옵션 추가
+                    // $.each(res.data.etcLeagueList, function(index, item) {
+                    //     $('#leagueList').append(
+                    //         $('<option>', {
+                    //             value: item.meetSeq,
+                    //             text: item.meetName,
+                    //             'data-type': 'etc',
+                    //             'data-meet-type': item.meetType
+                    //         })
+                    //     );
+                    // });
+
+                    var prevGameDate = null;
+                    var prevRoundId = null; 
+
+                    var html = "";
+                    $("#scheduleList").empty();
+                    for (var i = 0; i < res.data.scheduleList.length; i++) {
+                        var item = res.data.scheduleList[i];
+                        var k=0; var bchtml = '';
+
+                        var td = '<td';
+                        if(item.matchBCCnt != 1 && item.matchBCCnt != 0){
+                            td += ` rowspan='`+ item.matchBCCnt  +`'`;
+                        }
+                        td += '>';
+
+
+                        if(item.codeName == 'Play Off'){
+                            html += '<tr class="line">';
+                            html += '  <td colspan="6"></td>';
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            if (now <= new Date(item.gameDate) && !isSetFocus) {
+                                var tdNow = '<td';
+                                if(item.matchBCCnt != 1 && item.matchBCCnt != 0){
+                                    tdNow += ` rowspan='`+ item.matchBCCnt  +`'` + `id='today-match'`;
+                                }
+                                tdNow += '>';
+
+                                html += tdNow;
+                                isSetFocus = true;
+                            } else {
+                                html += td;
+                            }
+
+                            html += item.gameDate;
+                            if(item.meetSeq == 3) {
+                                html += '    <span class="roboto"> 승강PO </span>';
+                            } else {
+                                if (item.isSemiPlayOff == 'Y') {
+                                    html += '    <span class="roboto"> 준PO </span>';
+                                } else {
+                                    html += '    <span class="roboto"> PO </span>';
+                                }
+                            }
+
+                            html += '  </td>';
+                        }
+
+                        else {
+                            if ((item.gameDate != prevGameDate && prevGameDate != null) || item.roundId != prevRoundId && prevRoundId != null) {
+                                html += '<tr class="line">';
+                                html += '  <td colspan="6"></td>';
+                                html += '</tr>';
+                            }
+                            html += '<tr>';
+
+                            if ((item.gameDate != prevGameDate) || (item.gameDate == prevGameDate && item.roundId != prevRoundId)) {
+                                prevGameDate = item.gameDate;
+                                prevRoundId = item.roundId;
+
+
+                                var cnt = item.matchBCCnt;
+                                var rowplus = 0;
+                                if(cnt > 1 ){
+                                    rowplus = cnt-1;
+                                }
+
+                                var j=0;
+                                for (; j < res.data.scheduleList.length; j++) {
+                                    var temp = res.data.scheduleList[i + j]
+                                    if (!temp || temp.gameDate != prevGameDate || temp.roundId != prevRoundId) {
+                                        break;
+                                    }
+                                    if(temp.matchBCCnt != 0){
+                                        k = k + (temp.matchBCCnt*1) -1;
+                                    }
+
+                                }
+                                if(k<0){ k=0; }
+                                j +=k;
+
+                                if (now <= new Date(item.gameDate) && !isSetFocus) {
+                                    html += '  <td rowspan="' + j + '" id="today-match">';
+                                    isSetFocus = true;
+                                } else {
+                                    html += '  <td rowspan="' + j + '">';
+                                }
+                                html += item.gameDate;
+                                html += '    <span class="roboto">R' + item.roundId + '</span>';
+                                html += '  </td>';
+                            }
+                        }
+
+                        html += td + item.gameTime + '</td>';
+
+                        html += td;
+                        html += '    <div class="team">';
+                        html += '      <a href="/club/club.do?teamId=' + item.homeTeam + '" title="' + item.homeTeamName + '">';
+                        html += '        <img width="32px;" src="/assets/images/emblem/emblem_' + item.homeTeam + '.png" srcset="/assets/images/emblem/emblem_' + item.homeTeam + '.png 1x ,/assets/images/emblem/emblem_' + item.homeTeam + '@2x.png 2x,/assets/images/emblem/emblem_' + item.homeTeam + '@3x.png 3x" alt="' + item.homeTeamName + '" onError="onEmblemError(this);">';
+                        html += '      </a>';
+                        html += '      <span class="name">' + item.homeTeamName + '</span>';
+                        html += '    </div>';
+                        if (item.gameStatus || item.endYn == 'Y') {
+                            html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                            html += '      ' + item.homeGoal + '<span class="at">:</span>' + item.awayGoal;
+                            html += '    </div>';
+                        } else {
+                            html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                            html += '      <span class="vs">VS</span>';
+                            html += '    </div>';
+                        }
+                        html += '    <div class="team">';
+                        html += '      <span class="name">' + item.awayTeamName + '</span>';
+                        html += '      <a href="/club/club.do?teamId=' + item.awayTeam + '" title="' + item.awayTeamName + '">';
+                        html += '        <img width="32px;" src="/assets/images/emblem/emblem_' + item.awayTeam + '.png" srcset="/assets/images/emblem/emblem_' + item.awayTeam + '.png 1x ,/assets/images/emblem/emblem_' + item.awayTeam + '@2x.png 2x,/assets/images/emblem/emblem_' + item.awayTeam + '@3x.png 3x" alt="' + item.awayTeamName + '" onError="onEmblemError(this);">';
+                        html += '      </a>';
+                        html += '    </div>';
+                        // if (item.gameStatus == 'FE') {
+                        //   html += '               <span class="label red">경기``종료</span>';
+                        // } else if(item.gameStatus == '') {
+                        //   html += '               <span class="label">경기중</span>';
+                        // } else {
+                        //   html += '               <span class="label blue">경기전</span>';
+                        // }
+
+                        const gameStatus = item.gameStatus;
+                        if (gameStatus != null) {
+                            if (gameStatus == 'FE') {
+                                html += '<span class="label red">경기종료</span>';
+                            } else if (gameStatus.startsWith('1S')) {
+                                html += '<span class="label">전반' + gameStatus.substring(2).trim() + '분</span>';
+                            } else if (gameStatus.startsWith('2S')) {
+                                html += '<span class="label">후반' + gameStatus.substring(2).trim() + '분</span>';
+                            } else if (gameStatus.startsWith('3S')) {
+                                html += '<span class="label">연장전반' + gameStatus.substring(2).trim() + '분</span>';
+                            } else if (gameStatus.startsWith('4S')) {
+                                html += '<span class="label">연장후반' + gameStatus.substring(2).trim() + '분</span>';
+                            } else if (gameStatus.startsWith('1E')) {
+                                html += '<span class="label red">전반종료</span>';
+                            } else if (gameStatus.startsWith('2E')) {
+                                html += '<span class="label red">후반종료</span>';
+                            } else if (gameStatus.startsWith('3E')) {
+                                html += '<span class="label red">연장전반종료</span>';
+                            } else if (gameStatus.startsWith('4E')) {
+                                html += '<span class="label red">연장후반종료</span>';
+                            } else {
+                                html += '<span class="label blue">경기전</span>';
+                            }
+                        } else {
+                            if (item.endYn == 'Y') {
+                                html += '<span class="label red">경기종료</span>';
+                            } else {
+                                html += '<span class="label blue">경기전</span>';
+                            }
+                        }
+
+                        var bcN = '' + item.broadcastName;
+                        var csN = '' + item.castor;
+                        var cmN = '' + item.commentator;
+
+                        csN = csN.replace(/\/\/([^\/]+)/g, '//$1//');
+                        cmN = cmN.replace(/\/\/([^\/]+)/g, '//$1//');
+
+
+                        var bcName = bcN.split("//");
+                        var csName = csN.split("//");
+                        var cmName = cmN.split("//");
+
+                        var lang='ko';
+
+                        if(item.matchBCCnt != 0){
+                            for(var loop=0; loop <item.matchBCCnt; loop++ ){
+                                if(loop == 0 ){
+                                    html += '<td>';
+                                    if(bcN != ''){ html += bcName[loop]; }
+                                    html += ' </td>';
+
+                                    if(csName.length < item.matchBCCnt){
+                                        if(csName.length < 2){
+                                            html += td;
+                                            if(csN != ''){
+                                                if (csName[loop] && csName[loop].trim() !== '') {
+                                                    html += '캐스터';
+                                                }
+
+                                                if(lang=='en'){ html+= '<br>'; }
+                                                else{
+                                                    if (csName[loop] && csName[loop].trim() !== '') {
+                                                        html += ':';
+                                                    }
+                                                }
+                                                html += csName[loop];
+
+                                                if (csName[loop] && csName[loop].trim() !== '') {
+                                                    html +=' <br> 해설';
+                                                }
+                                                if(lang=='en'){ html+= '<br>'; }
+                                                else{
+                                                    if (csName[loop] && csName[loop].trim() !== '') {
+                                                        html += ':';
+                                                    }
+                                                }
+                                                html += cmName[loop];
+                                            }
+                                            html += ' </td>';
+                                        }
+                                        else{
+                                            html += '<td>';
+                                            if(csN != ''){
+                                                
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    html += '캐스터'
+                                                }
+                                                if(lang=='en'){ html+= '<br>'; }
+                                                else{
+                                                    if (csName[loop] && csName[loop].trim() !== '') {
+                                                        html += ':'
+                                                    }
+                                                }
+                                                if(csName.length -1 < loop){
+                                                    html += csName[csName.length -1];
+                                                }
+                                                else{
+                                                    html += csName[loop];
+                                                }
+                                                html +=' <br> 해설';
+                                                if(lang=='en'){ html+= '<br>'; }
+                                                else{
+                                                    if (csName[loop] && csName[loop].trim() !== '') {
+                                                        html += ':'
+                                                    }
+                                                }
+                                                html += cmName[loop];
+                                            }
+                                            html += ' </td>';
+                                        }
+                                    }
+                                    else{
+                                        html += '<td>';
+                                        if(csN != ''){
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                html += '캐스터'
+                                            }
+
+                                            if(lang=='en'){ html+= '<br>'; }
+                                            else{
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    html += ':'
+                                                }
+                                            }
+
+                                            // if(lang=='en'){ html+= '<br>'; }
+                                            // else{ html += ':' }
+
+                                            html += csName[loop];
+
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                html +=' <br> 해설';
+                                            }
+
+                                            // if(lang=='en'){ html+= '<br>'; }
+                                            // else{ html += ':' }
+
+                                            if(lang=='en'){ html+= '<br>'; }
+                                            else{
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    html += ':'
+                                                }
+                                            }
+
+                                            html += cmName[loop];
+                                        }
+                                        html += ' </td>';
+                                    }
+                                }
+                                else{
+                                    if(csName.length < item.matchBCCnt){
+                                        if(csName.length < 2){
+                                            bchtml += '<tr>';
+                                            bchtml +=  '<td>'+ bcName[loop] +' </td>';
+                                            bchtml += '</tr>';
+                                        }
+                                        else{
+                                            bchtml += '<tr>';
+                                            bchtml +=  '<td>'+ bcName[loop] +' </td>';
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                bchtml +=  '<td>캐스터'
+                                            }else {
+                                                bchtml +=  '<td>'
+                                            }
+
+                                            if(lang=='en'){ bchtml+= '<br>'; }
+                                            else{
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    bchtml += ':'
+                                                }
+                                            }
+
+                                            if(csName.length -1 < loop){
+                                                bchtml += csName[csName.length -1];
+                                            }
+                                            else{
+                                                bchtml += csName[loop];
+                                            }
+
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                bchtml +=' <br> 해설';
+                                            }
+
+                                            if(lang=='en'){ bchtml+= '<br>'; }
+                                            else{
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    bchtml += ':'
+                                                }
+                                            }
+
+                                            if(csName.length -1 < loop){
+                                                bchtml += cmName[csName.length -1] + ' </td>';
+                                            }
+                                            else{
+                                                bchtml += cmName[loop] + ' </td>';
+                                            }
+
+
+                                            bchtml += '</tr>';
+                                        }
+
+                                    }
+                                    else{
+                                        bchtml += '<tr>';
+                                        bchtml +=  '<td>'+ bcName[loop] +' </td>';
+                                        if(csName[loop] && csName[loop].trim() !== ''){
+                                            bchtml +=  '<td>캐스터'
+                                        }else {
+                                            bchtml +=  '<td>'
+                                        }
+
+                                        if(lang=='en'){ bchtml+= '<br>'; }
+                                        else{
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                bchtml += ':'
+                                            }
+                                        }
+
+                                        bchtml += csName[loop];
+                                        if(csName[loop] && csName[loop].trim() !== ''){
+                                            bchtml +=' <br> 해설';
+                                        }
+
+                                        if(lang=='en'){ bchtml+= '<br>'; }
+                                        else{
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                bchtml += ':'
+                                            }
+                                        }
+
+                                        bchtml += cmName[loop] + ' </td>';
+                                        bchtml += '</tr>';
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            html += '<td></td><td></td>';
+                        }
+
+                        html += td
+                        html += item.fieldName
+
+                        if(item.audienceQty != null && item.audienceQty !=0){
+
+                            var qty = item.audienceQty.toString();
+                            qty = qty.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                            html += '<br>[관중수 '
+                            html += qty;
+                            html += ']'
+                        }
+
+                        html += '</td>';
+
+                        let tabIdx = 1;
+                        switch (item.gameStatus) {
+                            case "FE":
+                                // tabIdx = 4;
+                                tabIdx = 1;
+                                break;
+                            case "":
+                                tabIdx = 3;
+                                break;
+                            default:
+                                tabIdx = 1;
+                                break;
+                        }
+
+                        if (item.leagueId != 99) {
+                            // 버튼을 먼저 만들어 개수를 센 뒤, 3개면 btn-match-group 래퍼로 감싼다.
+                            var btnHtml = '';
+
+                            btnHtml += '    <button class="btn btn-match" type="button" onclick="onMatchCenterClicked(' + item.year + ', ' + item.leagueId + ', ' + item.gameId + ', ' + item.meetSeq + ', ' + tabIdx + ');">매치센터<div class="ico-player"></div></button>';
+
+                            if (item.gameStatus == 'FE') {
+                                if(year > 2016){
+                                    btnHtml += '    <button class="btn btn-match video" type="button" onclick="onHighlightClicked(' + item.year + ', ' + item.leagueId + ', ' + item.gameId + ', ' + item.meetSeq + ');">경기영상<div class="ico-highplay"></div></button>';
+                                }
+
+                            }
+                            else {
+                                if (item.gameStatus == '') {
+                                    if(item.homeTeam == 'K10' && chkDateFunc(item.gameDate, item.gameTime)){
+                                        btnHtml += `    <button class="btn btn-match book" type="button" onclick="window.open(\'${item.externalUrl}\');">예매하기<div class="ico-ticket"></div></button> `;
+                                    }
+                                    else{
+                                        if (item.goodsCode) {
+                                            btnHtml += '    <button class="btn btn-match book" type="button" onclick="onTicketClicked(' + item.year + ', ' + item.leagueId + ', ' + item.gameId + ', \'' + item.company + '\', \'' + item.goodsCode + '\', \'' + item.homeTeam + '\');">예매하기<div class="ico-ticket"></div></button>';
+                                        }
+                                    }
+                                }
+                            }
+
+                            // K리그 트립데이 : 해당 경기에 공개된 프로그램이 있을 때만 노출
+                            if (item.tripdayYn === 'Y') {
+                                btnHtml += '    <button class="btn btn-match trip" type="button" onclick="onTripdayClicked(' + item.meetSeq + ', \'' + item.homeTeam + '\');">트립데이<div class="ico-trip"></div></button>';
+                            }
+
+                            // 버튼 3개면 2+1 줄바꿈 레이아웃 적용.
+                            // td 를 직접 flex 로 만들면 테이블 셀에서 빠져나와 border/폭이 깨지므로
+                            // 안쪽에 214px 고정폭 래퍼를 넣어 버튼 1개인 행과 좌우 폭을 맞춘다.
+                            html += td;
+                            if ((btnHtml.match(/class="btn btn-match/g) || []).length >= 3) {
+                                html += '    <div class="btn-match-group">' + btnHtml + '</div>';
+                            } else {
+                                html += btnHtml;
+                            }
+                            html += '  </td>';
+                        }
+                        html += '</tr>';
+                        html += bchtml;
+                        
+                        
+                        
+                    }
+                    $("#scheduleList").append(html);
+
+                    //calendar("#calendar", year, month, res.data.scheduleList);
+                    var lang = document.getElementById("lang").value;
+                    calendarLang("#calendar", year, month, res.data.scheduleList, lang, 'N');
+                    var todayMatch = document.getElementById('today-match');
+                    /* if(todayMatch) {
+                      todayMatch.scrollIntoView({block: "center"});
+                    } */
+                    isInitialLoad = false;
+                    chkScrollHeight();
+                },
+                error: function (err) {
+                    alert("네트워크에 문제가 있습니다.");
+                }
+            });
+        }
+
+        function onMatchCenterClicked(year, leagueId, gameId, meetSeq, tabIdx) {
+            location.href = "/match.do?year=" + year + "&leagueId=" + leagueId + "&gameId=" + gameId + "&meetSeq=" + meetSeq + "&startTabNum=" + tabIdx;
+        }
+
+        function onHighlightClicked(year, leagueId, gameId, meetSeq) {
+            location.href = "/match.do?year=" + year + "&leagueId=" + leagueId + "&gameId=" + gameId + "&meetSeq=" + meetSeq + "&startTabNum=4";
+        }
+
+        /* K리그 트립데이 : 해당 경기의 대회구분 + 홈팀으로 필터된 목록으로 이동 */
+        function onTripdayClicked(meetSeq, teamId) {
+            location.href = "/tripday/list.do?searchMeetSeq=" + meetSeq
+                          + "&searchTeamId=" + encodeURIComponent(teamId);
+        }
+
+        function onTicketClicked(year, leagueId, gameId, company, goodsCode, teamId) {
+            if ("" == "") {
+                alert("로그인 후 이용가능합니다.");
+                location.href = "/login.do?redirectUrl=/schedule.do";
+            } else {
+
+                $.ajax({
+                    url: "/chkBirth.do",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "id": ""
+                    }),
+                    success: function (res) {
+                        if (res.resultCode == "200") {
+                            if(res.data.birthChk =='Y'){
+                                if (company == "I") {
+                                    fnInterparkBooking(goodsCode, teamId);
+                                } else {
+                                    fnTicketlinkBooking(goodsCode);
+                                }
+                            }
+                            else{
+                                alert("본인인증 후 이용 가능합니다.");
+                                location.href= "/mypage/profile.do";
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function fnInterparkBooking(goodsCode, teamId) {
+            if (goodsCode == "null" || goodsCode == "") {
+                alert("판매 예정입니다.");
+                return;
+            } else {
+                $.ajax({
+                    url: "/getInterparkGoods.do",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "teamId": teamId
+                    }),
+                    success: function (res) {
+                        if (res.resultCode == "200") {
+                            var frmTicketBooking;
+                            frmTicketBooking = document.createElement("form");
+                            frmTicketBooking.name = "frmBooking";
+                            frmTicketBooking.action = "https://ticket.interpark.com/Partner/Certify/BizBooking.asp";
+                            frmTicketBooking.target = "wndBooking";
+                            frmTicketBooking.method = "post";
+                            document.body.appendChild(frmTicketBooking);
+
+                            var o;
+                            o = document.createElement("input");
+                            o.name = "bp1";
+                            o.type = "hidden";
+                            o.value = res.data.bp1;
+                            frmTicketBooking.appendChild(o);
+
+                            var o;
+                            o = document.createElement("input");
+                            o.name = "bp2";
+                            o.type = "hidden";
+                            o.value = goodsCode;
+                            frmTicketBooking.appendChild(o);
+
+                            o = document.createElement("input");
+                            o.name = "bp3";
+                            o.type = "hidden";
+                            o.value = res.data.bp3;
+                            frmTicketBooking.appendChild(o);
+
+                            o = document.createElement("input");
+                            o.name = "bpk";
+                            o.type = "hidden";
+                            o.value = res.data.bpk;
+                            frmTicketBooking.appendChild(o);
+
+                            try {
+                                var loc = "";
+                                win = window
+                                    .open(loc, "wndBooking",
+                                        "top=10, left=10, width=900, height=682, scrollbars=no");
+                                if (win == null) {
+                                    alert("팝업창이 제한되어 있어서 예매창을 열 수 없습니다.");
+                                } else {
+                                    frmTicketBooking.submit();
+                                    win.focus();
+                                }
+                            } catch (e) {
+                                alert("팝업창이 제한되어 있어서 예매창을 열 수 없습니다.");
+                            }
+                        } else {
+                            alert("네트워크에 문제가 있습니다.");
+                        }
+                    },
+                    error: function (err) {
+                        alert("네트워크에 문제가 있습니다.");
+                    }
+                });
+            }
+        }
+
+        function fnTicketlinkBooking(goodsCode) {
+
+            if (goodsCode == "null" || goodsCode == "") {
+                alert("판매 예정입니다.");
+                return;
+            } else {
+
+                window.open("https://facility.ticketlink.co.kr/facility/direct/member/seat?"
+                    + "partnerNo=5NIl4PaZg%2BpIYAPEQvgb9Q%3D%3D"
+                    + "&memberIdEnc="
+                    + "&scheduleId=" + goodsCode, "booking", "top=10, left=10, width=1000, height=682, scrollbars=no");
+            }
+        }
+
+        function showList() {
+            $("#calendarBtn").removeClass("active")
+            $("#listBtn").addClass("active")
+            $("#calendar").removeClass("show")
+            $("#list").addClass("show")
+
+
+            $("#calendarBtn").empty();
+            html = "";
+            html += '<span><img src="/assets/images/icon/btn-ico-cal.png" alt="">달력 </span>';
+            $("#calendarBtn").append(html);
+
+            $("#listBtn").empty();
+            var html = "";
+            html += '<span><img src="/assets/images/icon/btn-ico-list_on.png" alt=""  srcset="/assets/images/icon/btn-ico-list_on.png 1x, /assets/images/icon/btn-ico-list_on@2x.png 2x, /assets/images/icon/btn-ico-list_on@3x.png 3x">리스트</span>';
+            $("#listBtn").append(html);
+        }
+
+        function showCalendar() {
+            $("#listBtn").removeClass("active")
+            $("#calendarBtn").addClass("active")
+            $("#list").removeClass("show")
+            $("#calendar").addClass("show")
+
+
+            $("#listBtn").empty();
+            var html = "";
+            html += '<span><img src="/assets/images/icon/btn-ico-list.png" alt="" srcset="/assets/images/icon/btn-ico-list.png 1x, /assets/images/icon/btn-ico-list@2x.png 2x, /assets/images/icon/btn-ico-list@3x.png 3x">리스트</span>';
+            $("#listBtn").append(html);
+
+            $("#calendarBtn").empty();
+            html = "";
+            html += '<span><img src="/assets/images/icon/btn-ico-cal_on.png" alt="">달력 </span>';
+            $("#calendarBtn").append(html);
+        }
+
+        function adjustTopMenu() {
+
+            var bannerOffset = $('.date-scroll').offset();
+            $(window).scroll(function () {  //window에 스크롤링이 발생하면
+                if ($(document).scrollTop() > bannerOffset.top) {   // 위치 및 사이즈를 파악하여 미리 정한 css class를 add 또는 remove 합니다.
+                    $('.date-scroll').addClass('schedule-bar-fixed');
+                } else {
+                    $('.date-scroll').removeClass('schedule-bar-fixed');
+                }
+            });
+        }
+
+        function onPrevMonth() {
+            var year = $("#year").val();
+            var month = $("#month").val();
+            month *= 1;
+            if (month == 1) {
+                month = 12;
+
+                var year = $("#year").val();
+                year *=1;
+
+                var yearStart = 2013;
+
+                if(year == yearStart ){
+                    alert("경기 데이터가 없습니다.");
+                    return;
+                }
+                else{
+                    year--;
+                    $("#yearVal").text(year.toString().padStart(2, '0'));
+                    $("#year").val(year.toString().padStart(2, '0'));
+                }
+
+            } else {
+                month--;
+            }
+            $("#monthVal").text(month.toString().padStart(2, '0'));
+            $("#month").val(month.toString().padStart(2, '0'));
+
+            $.ajax({
+                url: "/getLeagueList.do",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "year": year,
+                    "month": month
+                }),
+                success: function (res) {
+
+                    if (res.resultCode != "200") {
+                        alert(res.resultMsg);
+                        return;
+                    }
+
+                    const leagueUl = document.querySelector('.league-sort');
+                    const lis = leagueUl.querySelectorAll('li');
+
+                    // 첫 2개 제외하고 삭제
+                    lis.forEach((li, index) => {
+                        if(index > 2) {
+                            li.remove();
+                        }
+                    });
+
+                    $.each(res.data.etcLeagueList, function (index, item) {
+                        console.log(item);
+                        var li = document.createElement('li');
+
+                        li.setAttribute('onclick', 'selectLeague(this)'); // 클릭 시 함수 호출
+
+                        // selectedMeetSeq와 같고, etcYn이 'Y'일 때만 class="on" 추가
+                        var buttonClass = (item.meetSeq == selectedMeetSeq && selectedType === 'etc') ? 'on' : '';
+
+                        li.innerHTML =
+                            '<button class="' + buttonClass + '" data-type="etc" data-meet-seq="' + item.meetSeq + '" data-meet-type="' + item.meetType + '">' +
+                            item.meetName +
+                            '</button>';
+
+                        leagueUl.appendChild(li);
+                    });
+
+                    onChangedNew();
+                },
+                error: function (err) {
+                    alert("네트워크에 문제가 있습니다.");
+                }
+            });
+        }
+
+        function onNextMonth() {
+            var year = $("#year").val();
+            var month = $("#month").val();
+            month *= 1;
+            if (month == 12) {
+                month = 1;
+
+                var year = $("#year").val();
+                year *=1;
+
+                var yearEnd = 2027;
+
+                if(year == yearEnd){
+                    alert("경기 데이터가 없습니다.");
+                    return;
+                }
+                else{
+                    year++;
+                    $("#yearVal").text(year.toString().padStart(2, '0'));
+                    $("#year").val(year.toString().padStart(2, '0'));
+                }
+
+            } else {
+                month++;
+            }
+            $("#monthVal").text(month.toString().padStart(2, '0'));
+            $("#month").val(month.toString().padStart(2, '0'));
+
+            $.ajax({
+                url: "/getLeagueList.do",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "year": year,
+                    "month": month
+                }),
+                success: function (res) {
+
+                    if (res.resultCode != "200") {
+                        alert(res.resultMsg);
+                        return;
+                    }
+
+                    const leagueUl = document.querySelector('.league-sort');
+                    const lis = leagueUl.querySelectorAll('li');
+
+                    let curLeagueType = $("#leagueList option:selected").data("type");
+
+                    // 첫 2개 제외하고 삭제
+                    lis.forEach((li, index) => {
+                        if(index > 2) {
+                            li.remove();
+                        }
+                    });
+
+                    $.each(res.data.etcLeagueList, function (index, item) {
+                        console.log(item);
+                        var li = document.createElement('li');
+
+                        li.setAttribute('onclick', 'selectLeague(this)'); // 클릭 시 함수 호출
+
+                        // selectedMeetSeq와 같고, etcYn이 'Y'일 때만 class="on" 추가
+                        var buttonClass = (item.meetSeq == selectedMeetSeq && selectedType === 'etc') ? 'on' : '';
+
+                        li.innerHTML =
+                            '<button class="' + buttonClass + '" data-type="etc" data-meet-seq="' + item.meetSeq + '" data-meet-type="' + item.meetType + '">' +
+                            item.meetName +
+                            '</button>';
+
+                        leagueUl.appendChild(li);
+                    });
+
+                    onChangedNew();
+                },
+                error: function (err) {
+                    alert("네트워크에 문제가 있습니다.");
+                }
+            });
+        }
+
+        $(window).load(function () {
+            // onLeagueChanged();
+            var $firstLi = $('.league-sort li').first();
+
+            if ($firstLi.length) {
+                // selectLeague 함수 호출
+                selectLeague($firstLi[0]);
+            }
+            adjustTopMenu();
+            
+        });
+
+        // function chkDateFunc(gameDate, gameTime){
+        //     gameDate = gameDate.replaceAll('gameDate', '.', '/')
+        //     gameDate = gameDate + ' ' + gameTime + ':00'
+        //     var chk = new Date(gameDate).getTime() - new Date().getTime();
+        //     chk = Math.abs(chk / (1000*60*60*24))
+        //     if(chk < 4){
+        //         return true;
+        //     }
+        //     else{
+        //         return false;
+        //     }
+        // }
+
+        // 사파리 호환 문제로 인한 수정
+        function chkDateFunc(gameDate, gameTime) {
+            // "2025.09.20" → "2025-09-20"
+            gameDate = gameDate.replace(/\./g, '-');
+
+            // 최종적으로 "2025-09-20T18:00:00" 형식
+            var target = new Date(gameDate + 'T' + gameTime + ':00');
+
+            var chk = target.getTime() - new Date().getTime();
+            chk = Math.abs(chk / (1000 * 60 * 60 * 24));
+
+            return chk < 7;
+        }
+
+        function onYearChanged() {
+
+            selectedTeam = '';
+
+            if (selectedType === 'regular') {
+
+            } else if (selectedType === 'etc') {
+                const kleague1Element = document.getElementById("kleague1");
+                selectLeague(kleague1Element);
+                $("#teamSortUl").show();
+                $("#ticketYnDiv").show();
+            }
+
+            curLeagueId = $("#leagueList").val();
+            let curLeagueType = $("#leagueList option:selected").data("type");
+            let meetType = '';
+            var teamId = $("#teamList").val();
+            if (teamId == "all") {
+                teamId = null;
+            }
+            var ticketStatus = $("#ticketList").val();
+            var year = $("#year").val();
+            var month = $("#month").val();
+            $("#yearVal").text(year);
+            $("#monthVal").text(month);
+
+            var ticketYn = $("#ticketYn").val();
+
+            var isSetFocus = false;
+            const now = new Date();
+
+            if (curLeagueType === 'etc') {
+                meetType = $("#leagueList option:selected").data("meet-type");
+            }
+
+            $.ajax({
+                url: "/getLeagueList.do",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "year": year,
+                    "month": month
+                }),
+                success: function (res) {
+
+                    if (res.resultCode != "200") {
+                        alert(res.resultMsg);
+                        return;
+                    }
+
+                    const leagueUl = document.querySelector('.league-sort');
+                    const lis = leagueUl.querySelectorAll('li');
+
+                    // 첫 2개 제외하고 삭제
+                    lis.forEach((li, index) => {
+                        if(index > 2) {
+                            li.remove();
+                        }
+                    });
+
+                    $.each(res.data.etcLeagueList, function (index, item) {
+                        console.log(item);
+                        var li = document.createElement('li');
+
+                        li.setAttribute('onclick', 'selectLeague(this)'); // 클릭 시 함수 호출
+                        li.innerHTML =
+                            '<button data-type="etc" data-meet-seq="' + item.meetSeq + '" data-meet-type="' + item.meetType + '">' +
+                            item.meetName +
+                            '</button>';
+
+                        leagueUl.appendChild(li);
+                    });
+
+                    onChangedNew();
+
+                    // $('#leagueList option:gt(1)').remove();
+                    // // 새 기타 리그 옵션 추가
+                    // $.each(res.data.etcLeagueList, function (index, item) {
+                    //     $('#leagueList').append(
+                    //         $('<option>', {
+                    //             value: item.meetSeq,
+                    //             text: item.meetName,
+                    //             'data-type': 'etc',
+                    //             'data-meet-type': item.meetType
+                    //         })
+                    //     );
+                    // });
+                    //
+                    // let existsMeetType = res.data.etcLeagueList.some(function (item) {
+                    //     return item.meetType === meetType;
+                    // });
+                    //
+                    // if (existsMeetType) {
+                    //     $('#leagueList option').each(function () {
+                    //         if ($(this).data("type") === "etc" && $(this).data("meet-type") === meetType) {
+                    //             $(this).prop("selected", true);
+                    //             return false; // 반복 중단
+                    //         }
+                    //     });
+                    //     onChanged();
+                    // } else {
+                    //     $('#leagueList').val(1);
+                    //
+                    //     onChanged();
+                    // }
+                },
+                error: function (err) {
+                    alert("네트워크에 문제가 있습니다.");
+                }
+            });
+        }
+
+        function selectTeam(teamId) {
+            document.querySelectorAll('.team-sort button').forEach(btn => btn.classList.remove('on'));
+            const selectedBtn = Array.from(document.querySelectorAll('.team-sort button'))
+                .find(btn => btn.getAttribute('onclick').includes(teamId));
+            if(selectedBtn) selectedBtn.classList.add('on');
+
+            // document.getElementById('selectedTeamInput').value = teamId;
+
+            selectedTeam = teamId;
+
+            onChangedNew();
+        }
+
+        function selectLeague(liElement) {
+
+            var year = $("#year").val();
+            selectedTeam = '';
+            // 모든 버튼에서 on 제거
+            const buttons = liElement.parentNode.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('on'));
+
+            // 클릭한 li 안 버튼에 on 추가
+            const btn = liElement.querySelector('button');
+            if(btn) btn.classList.add('on');
+
+            // 선택값 확인
+            const type = btn.getAttribute('data-type');
+            const meetSeq = btn.getAttribute('data-meet-seq');
+            const meetType = btn.getAttribute('data-meet-type');
+            console.log('선택:', { type, meetSeq, meetType });
+
+            selectedType = type;
+            selectedMeetSeq = meetSeq;
+
+            if (type === 'etc'){
+                selectedMeetType = meetType;
+                $("#teamSortUl").hide();
+                $("#ticketYnDiv").hide();
+            }
+
+            if (type === 'regular') {
+                $("#teamSortUl").show();
+                $("#ticketYnDiv").show();
+            }
+
+            $.ajax({
+                url: "/getClubListByYear.do",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "leagueId": selectedMeetSeq,
+                    "year": year
+                }),
+                success: function (res) {
+                    if (res.resultCode != "200") {
+                        alert(res.resultMsg);
+                        return;
+                    }
+
+                    var lang='ko';
+                    var html = "";
+                    $("#teamSortUl").empty();
+
+                    // "전체" 버튼 먼저 추가
+                    html += '<li>';
+                    html += '    <button class="on" onclick="selectTeam(\'\')">';
+                    if (lang === 'ko'){
+                        html += '        <i class="ic-emblem"></i><span>팀 전체</span>';
+                    }else if (lang === 'en') {
+                        html += '        <i class="ic-emblem"></i><span>ALL</span>';
+                    }
+                    html += '    </button>';
+                    html += '</li>';
+
+                    // 클럽 리스트 추가
+                    $.each(res.data.clubList, function (index, item) {
+                        html += '<li>';
+                        html += '    <button class="' + (selectedTeam == item.teamId ? 'on' : '') + '" onclick="selectTeam(\'' + item.teamId + '\')">';
+                        html += '        <i class="ic-emblem ' + item.teamId + '"></i><span>' + item.teamNameShort + '</span>';
+                        html += '    </button>';
+                        html += '</li>';
+                    });
+
+                    // 최종 반영
+                    $("#teamSortUl").empty().append(html);
+
+                    onChangedNew();
+                },
+                error: function (err) {
+                    alert("네트워크에 문제가 있습니다.");
+                }
+            });
+        }
+
+        function selectTicketYn() {
+            const chk = document.getElementById("chk");
+            if (chk.checked) {
+                selectedTicketYn = '';
+            } else {
+                selectedTicketYn = 'Y';
+            }
+
+            onChangedNew();
+        }
+
+        function onChangedNew() {
+            const now = new Date();
+            var isSetFocus = false;
+
+            var year = $("#year").val();
+            var month = $("#month").val();
+
+            if (selectedType === 'regular') {
+                $.ajax({
+                    url: "/getScheduleList.do",
+                    type: "post",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "leagueId": selectedMeetSeq,
+                        "teamId": selectedTeam,
+                        // "ticketStatus": selectedTicketYn,
+                        "year": year,
+                        "month": month,
+                        "ticketYn": selectedTicketYn
+                    }),
+                    success: function (res) {
+                        if (res.resultCode != "200") {
+                            alert(res.resultMsg);
+                            return;
+                        }
+
+                        var lang='ko';
+
+                        // $('#leagueList option:gt(1)').remove();
+                        //
+                        // // 새 기타 리그 옵션 추가
+                        // $.each(res.data.etcLeagueList, function(index, item) {
+                        //     $('#leagueList').append(
+                        //         $('<option>', {
+                        //             value: item.meetSeq,
+                        //             text: item.meetName,
+                        //             'data-type': 'etc',
+                        //             'data-meet-type': item.meetType
+                        //         })
+                        //     );
+                        // });
+
+                        var clubHtml = "";
+
+                        $("#teamSortUl").empty();
+
+                        // "전체" 버튼 먼저 추가
+                        clubHtml += '<li>';
+                        clubHtml += '    <button class="on" onclick="selectTeam(\'\')">';
+                        if (lang === 'ko'){
+                            clubHtml += '        <i class="ic-emblem"></i><span>팀 전체</span>';
+                        }else if (lang === 'en') {
+                            clubHtml += '        <i class="ic-emblem"></i><span>ALL</span>';
+                        }
+                        clubHtml += '    </button>';
+                        clubHtml += '</li>';
+
+                        // 클럽 리스트 추가
+                        $.each(res.data.clubList, function (index, item) {
+                            clubHtml += '<li>';
+                            clubHtml += '    <button class="' + (selectedTeam == item.teamId ? 'on' : '') + '" onclick="selectTeam(\'' + item.teamId + '\')">';
+                            clubHtml += '        <i class="ic-emblem ' + item.teamId + '"></i><span>' + item.teamNameShort + '</span>';
+                            clubHtml += '    </button>';
+                            clubHtml += '</li>';
+                        });
+
+                        // 최종 반영
+                        $("#teamSortUl").empty().append(clubHtml);
+
+                        var prevGameDate = null;
+                        var prevRoundId = null; 
+
+                        var html = "";
+                        console.log(res)
+                        $("#scheduleList").empty();
+                        for (var i = 0; i < res.data.scheduleList.length; i++) {
+                            var item = res.data.scheduleList[i];
+                            var k=0; var bchtml = '';
+
+                            var td = '<td';
+                            if(item.matchBCCnt != 1 && item.matchBCCnt != 0){
+                                td += ` rowspan='`+ item.matchBCCnt  +`'`;
+                            }
+                            td += '>';
+
+
+                            if(item.codeName == 'Play Off'){
+                                html += '<tr class="line">';
+                                html += '  <td colspan="6"></td>';
+                                html += '</tr>';
+
+                                html += '<tr>';
+
+                                if (now <= new Date(item.gameDate) && !isSetFocus) {
+                                    var tdNow = '<td';
+                                    if(item.matchBCCnt != 1 && item.matchBCCnt != 0){
+                                        tdNow += ` rowspan='`+ item.matchBCCnt  +`'` + `id='today-match'`;
+                                    }
+                                    tdNow += '>';
+
+                                    html += tdNow;
+                                    isSetFocus = true;
+                                } else {
+                                    html += td;
+                                }
+
+                                html += item.gameDate;
+                                if(item.meetSeq == 3) {
+                                    html += '    <span class="roboto"> 승강PO </span>';
+                                } else {
+                                    if (item.isSemiPlayOff == 'Y') {
+                                        html += '    <span class="roboto"> 준PO </span>';
+                                    } else {
+                                        html += '    <span class="roboto"> PO </span>';
+                                    }
+                                }
+
+                                html += '  </td>';
+                            }
+
+                            else if(item.leagueId === 7){
+                                html += '<tr class="line">';
+                                html += '  <td colspan="6"></td>';
+                                html += '</tr>';
+
+                                html += '<tr>';
+
+                                html += td;
+                                html += item.gameDate;
+                                if(lang=='en'){
+                                    html += '    <span class="roboto">SuperCup</span>';
+                                }
+                                else {
+                                    html += '    <span class="roboto">슈퍼컵</span>';
+                                }
+                                html += '  </td>';
+                            }
+
+                            else {
+                                if ((item.gameDate != prevGameDate && prevGameDate != null) || item.roundId != prevRoundId && prevRoundId != null) {
+                                    html += '<tr class="line">';
+                                    html += '  <td colspan="6"></td>';
+                                    html += '</tr>';
+                                }
+                                html += '<tr>';
+
+                                if ((item.gameDate != prevGameDate) || (item.gameDate == prevGameDate && item.roundId != prevRoundId)) {
+                                    prevGameDate = item.gameDate;
+                                    prevRoundId = item.roundId;
+
+
+                                    var cnt = item.matchBCCnt;
+                                    var rowplus = 0;
+                                    if(cnt > 1 ){
+                                        rowplus = cnt-1;
+                                    }
+
+                                    var j=0;
+                                    for (; j < res.data.scheduleList.length; j++) {
+                                        var temp = res.data.scheduleList[i + j]
+                                        if (!temp || temp.gameDate != prevGameDate || temp.roundId != prevRoundId) {
+                                            break;
+                                        }
+                                        if(temp.matchBCCnt != 0){
+                                            k = k + (temp.matchBCCnt*1) -1;
+                                        }
+
+                                    }
+                                    if(k<0){ k=0; }
+                                    j +=k;
+
+                                    if (now <= new Date(item.gameDate) && !isSetFocus) {
+                                        html += '  <td rowspan="' + j + '" id="today-match">';
+                                        isSetFocus = true;
+                                    } else {
+                                        html += '  <td rowspan="' + j + '">';
+                                    }
+                                    html += item.gameDate;
+                                    html += '    <span class="roboto">R' + item.roundId + '</span>';
+                                    html += '  </td>';
+                                }
+                            }
+
+                            html += td + item.gameTime + '</td>';
+
+                            html += td;
+                            html += '    <div class="team">';
+                            html += '      <a href="/club/club.do?teamId=' + item.homeTeam + '" title="' + item.homeTeamName + '">';
+                            html += '        <img width="32px;" src="/assets/images/emblem/emblem_' + item.homeTeam + '.png" srcset="/assets/images/emblem/emblem_' + item.homeTeam + '.png 1x ,/assets/images/emblem/emblem_' + item.homeTeam + '@2x.png 2x,/assets/images/emblem/emblem_' + item.homeTeam + '@3x.png 3x" alt="' + item.homeTeamName + '" onError="onEmblemError(this);">';
+                            html += '      </a>';
+                            html += '      <span class="name">' + item.homeTeamName + '</span>';
+                            html += '    </div>';
+                            if (item.gameStatus || item.endYn == 'Y') {
+                                html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                                html += '      ' + item.homeGoal + '<span class="at">:</span>' + item.awayGoal;
+                                html += '    </div>';
+                            } else {
+                                html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                                html += '      <span class="vs">VS</span>';
+                                html += '    </div>';
+                            }
+                            html += '    <div class="team">';
+                            html += '      <span class="name">' + item.awayTeamName + '</span>';
+                            html += '      <a href="/club/club.do?teamId=' + item.awayTeam + '" title="' + item.awayTeamName + '">';
+                            html += '        <img width="32px;" src="/assets/images/emblem/emblem_' + item.awayTeam + '.png" srcset="/assets/images/emblem/emblem_' + item.awayTeam + '.png 1x ,/assets/images/emblem/emblem_' + item.awayTeam + '@2x.png 2x,/assets/images/emblem/emblem_' + item.awayTeam + '@3x.png 3x" alt="' + item.awayTeamName + '" onError="onEmblemError(this);">';
+                            html += '      </a>';
+                            html += '    </div>';
+                            // if (item.gameStatus == 'FE') {
+                            //   html += '               <span class="label red">경기``종료</span>';
+                            // } else if(item.gameStatus == '') {
+                            //   html += '               <span class="label">경기중</span>';
+                            // } else {
+                            //   html += '               <span class="label blue">경기전</span>';
+                            // }
+
+                            const gameStatus = item.gameStatus;
+                            if (gameStatus != null) {
+                                if (gameStatus == 'FE') {
+                                    html += '<span class="label red">경기종료</span>';
+                                } else if (gameStatus.startsWith('1S')) {
+                                    html += '<span class="label">전반' + gameStatus.substring(2).trim() + '분</span>';
+                                } else if (gameStatus.startsWith('2S')) {
+                                    html += '<span class="label">후반' + gameStatus.substring(2).trim() + '분</span>';
+                                } else if (gameStatus.startsWith('3S')) {
+                                    html += '<span class="label">연장전반' + gameStatus.substring(2).trim() + '분</span>';
+                                } else if (gameStatus.startsWith('4S')) {
+                                    html += '<span class="label">연장후반' + gameStatus.substring(2).trim() + '분</span>';
+                                } else if (gameStatus.startsWith('1E')) {
+                                    html += '<span class="label red">전반종료</span>';
+                                } else if (gameStatus.startsWith('2E')) {
+                                    html += '<span class="label red">후반종료</span>';
+                                } else if (gameStatus.startsWith('3E')) {
+                                    html += '<span class="label red">연장전반종료</span>';
+                                } else if (gameStatus.startsWith('4E')) {
+                                    html += '<span class="label red">연장후반종료</span>';
+                                } else {
+                                    html += '<span class="label blue">경기전</span>';
+                                }
+                            } else {
+                                if (item.endYn == 'Y') {
+                                    html += '<span class="label red">경기종료</span>';
+                                } else {
+                                    html += '<span class="label blue">경기전</span>';
+                                }
+                            }
+
+                            var bcN = '' + item.broadcastName;
+                            var csN = '' + item.castor;
+                            var cmN = '' + item.commentator;
+
+                            csN = csN.replace(/\/\/([^\/]+)/g, '//$1//');
+                            cmN = cmN.replace(/\/\/([^\/]+)/g, '//$1//');
+
+
+                            var bcName = bcN.split("//");
+                            var csName = csN.split("//");
+                            var cmName = cmN.split("//");
+
+                            var lang='ko';
+
+                            if(item.matchBCCnt != 0){
+                                for(var loop=0; loop <item.matchBCCnt; loop++ ){
+                                    if(loop == 0 ){
+                                        html += '<td>';
+                                        if(bcN != ''){ html += bcName[loop]; }
+                                        html += ' </td>';
+
+                                        if(csName.length < item.matchBCCnt){
+                                            if(csName.length < 2){
+                                                html += td;
+                                                if(csN != ''){
+                                                    if (csName[loop] && csName[loop].trim() !== '') {
+                                                        html += '캐스터';
+                                                    }
+
+                                                    if(lang=='en'){ html+= '<br>'; }
+                                                    else{
+                                                        if (csName[loop] && csName[loop].trim() !== '') {
+                                                            html += ':';
+                                                        }
+                                                    }
+                                                    html += csName[loop];
+
+                                                    if (cmN != '') {
+                                                        if (csName[loop] && csName[loop].trim() !== '') {
+                                                            html +=' <br> 해설';
+                                                        }
+                                                        if(lang=='en'){ html+= '<br>'; }
+                                                        else{
+                                                            if (csName[loop] && csName[loop].trim() !== '') {
+                                                                html += ':';
+                                                            }
+                                                        }
+                                                        html += cmName[loop];
+                                                    }
+                                                }
+                                                html += ' </td>';
+                                            }
+                                            else{
+                                                html += '<td>';
+                                                if(csN != ''){
+                                                    
+                                                    if(csName[loop] && csName[loop].trim() !== ''){
+                                                        html += '캐스터'
+                                                    }
+                                                    if(lang=='en'){ html+= '<br>'; }
+                                                    else{
+                                                        if (csName[loop] && csName[loop].trim() !== '') {
+                                                            html += ':'
+                                                        }
+                                                    }
+                                                    if(csName.length -1 < loop){
+                                                        html += csName[csName.length -1];
+                                                    }
+                                                    else{
+                                                        html += csName[loop];
+                                                    }
+
+                                                    if (cmN != '') {
+                                                        html +=' <br> 해설';
+                                                        if(lang=='en'){ html+= '<br>'; }
+                                                        else{
+                                                            if (csName[loop] && csName[loop].trim() !== '') {
+                                                                html += ':'
+                                                            }
+                                                        }
+                                                        html += cmName[loop];
+                                                    }
+                                                }
+                                                html += ' </td>';
+                                            }
+                                        }
+                                        else{
+                                            html += '<td>';
+                                            if(csN != ''){
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    html += '캐스터'
+                                                }
+
+                                                if(lang=='en'){ html+= '<br>'; }
+                                                else{
+                                                    if(csName[loop] && csName[loop].trim() !== ''){
+                                                        html += ':'
+                                                    }
+                                                }
+
+                                                // if(lang=='en'){ html+= '<br>'; }
+                                                // else{ html += ':' }
+
+                                                html += csName[loop];
+
+                                                if (cmN != '') {
+                                                    if(csName[loop] && csName[loop].trim() !== ''){
+                                                        html +=' <br> 해설';
+                                                    }
+
+                                                    // if(lang=='en'){ html+= '<br>'; }
+                                                    // else{ html += ':' }
+
+                                                    if(lang=='en'){ html+= '<br>'; }
+                                                    else{
+                                                        if(csName[loop] && csName[loop].trim() !== ''){
+                                                            html += ':'
+                                                        }
+                                                    }
+
+                                                    html += cmName[loop];
+                                                }
+                                            }
+                                            html += ' </td>';
+                                        }
+                                    }
+                                    else{
+                                        if(csName.length < item.matchBCCnt){
+                                            if(csName.length < 2){
+                                                bchtml += '<tr>';
+                                                bchtml +=  '<td>'+ bcName[loop] +' </td>';
+                                                bchtml += '</tr>';
+                                            }
+                                            else{
+                                                bchtml += '<tr>';
+                                                bchtml +=  '<td>'+ bcName[loop] +' </td>';
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    bchtml +=  '<td>캐스터'
+                                                }else {
+                                                    bchtml +=  '<td>'
+                                                }
+
+                                                if(lang=='en'){ bchtml+= '<br>'; }
+                                                else{
+                                                    if(csName[loop] && csName[loop].trim() !== ''){
+                                                        bchtml += ':'
+                                                    }
+                                                }
+
+                                                if(csName.length -1 < loop){
+                                                    bchtml += csName[csName.length -1];
+                                                }
+                                                else{
+                                                    bchtml += csName[loop];
+                                                }
+
+                                                if (cmN != '') {
+                                                    if(csName[loop] && csName[loop].trim() !== ''){
+                                                        bchtml +=' <br> 해설';
+                                                    }
+
+                                                    if(lang=='en'){ bchtml+= '<br>'; }
+                                                    else{
+                                                        if(csName[loop] && csName[loop].trim() !== ''){
+                                                            bchtml += ':'
+                                                        }
+                                                    }
+
+                                                    if(csName.length -1 < loop){
+                                                        bchtml += cmName[csName.length -1] + ' </td>';
+                                                    }
+                                                    else{
+                                                        bchtml += cmName[loop] + ' </td>';
+                                                    }
+                                                }
+
+                                                bchtml += '</tr>';
+                                            }
+
+                                        }
+                                        else{
+                                            bchtml += '<tr>';
+                                            bchtml +=  '<td>'+ bcName[loop] +' </td>';
+                                            if(csName[loop] && csName[loop].trim() !== ''){
+                                                bchtml +=  '<td>캐스터'
+                                            }else {
+                                                bchtml +=  '<td>'
+                                            }
+
+                                            if(lang=='en'){ bchtml+= '<br>'; }
+                                            else{
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    bchtml += ':'
+                                                }
+                                            }
+
+                                            bchtml += csName[loop];
+
+                                            if (cmN != '') {
+                                                if(csName[loop] && csName[loop].trim() !== ''){
+                                                    bchtml +=' <br> 해설';
+                                                }
+
+                                                if(lang=='en'){ bchtml+= '<br>'; }
+                                                else{
+                                                    if(csName[loop] && csName[loop].trim() !== ''){
+                                                        bchtml += ':'
+                                                    }
+                                                }
+
+                                                bchtml += cmName[loop];
+                                            }
+
+                                            bchtml += '</td>';
+                                            bchtml += '</tr>';
+                                        }
+                                    }
+                                }
+                            }
+                            else{
+                                html += '<td></td><td></td>';
+                            }
+
+                            html += td
+                            html += item.fieldName
+
+                            if(item.audienceQty != null && item.audienceQty !=0){
+
+                                var qty = item.audienceQty.toString();
+                                qty = qty.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                                html += '<br>[관중수 '
+                                html += qty;
+                                html += ']'
+                            }
+
+                            html += '</td>';
+
+                            let tabIdx = 1;
+                            switch (item.gameStatus) {
+                                case "FE":
+                                    // tabIdx = 4;
+                                    tabIdx = 1;
+                                    break;
+                                case "":
+                                    tabIdx = 3;
+                                    break;
+                                default:
+                                    tabIdx = 1;
+                                    break;
+                            }
+
+                            if (item.leagueId != 99) {
+                                // 버튼을 먼저 만들어 개수를 센 뒤, 3개면 btn-match-group 래퍼로 감싼다.
+                                var btnHtml = '';
+
+                                btnHtml += '    <button class="btn btn-match" type="button" onclick="onMatchCenterClicked(' + item.year + ', ' + item.leagueId + ', ' + item.gameId + ', ' + item.meetSeq + ', ' + tabIdx + ');">매치센터<div class="ico-player"></div></button>';
+
+                                if (item.gameStatus == 'FE') {
+                                    if(year > 2016){
+                                        btnHtml += '    <button class="btn btn-match video" type="button" onclick="onHighlightClicked(' + item.year + ', ' + item.leagueId + ', ' + item.gameId + ', ' + item.meetSeq + ');">경기영상<div class="ico-highplay"></div></button>';
+                                    }
+
+                                }
+                                else {
+                                    if (item.gameStatus == '') {
+                                        if(item.homeTeam == 'K10' && chkDateFunc(item.gameDate, item.gameTime)){
+                                            btnHtml += `    <button class="btn btn-match book" type="button" onclick="window.open(\'${item.externalUrl}\');">예매하기<div class="ico-ticket"></div></button> `;
+                                        }
+                                        else{
+                                            if (item.goodsCode) {
+                                                btnHtml += '    <button class="btn btn-match book" type="button" onclick="onTicketClicked(' + item.year + ', ' + item.leagueId + ', ' + item.gameId + ', \'' + item.company + '\', \'' + item.goodsCode + '\', \'' + item.homeTeam + '\');">예매하기<div class="ico-ticket"></div></button>';
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // K리그 트립데이 : 해당 경기에 공개된 프로그램이 있을 때만 노출
+                                if (item.tripdayYn === 'Y') {
+                                    btnHtml += '    <button class="btn btn-match trip" type="button" onclick="onTripdayClicked(' + item.meetSeq + ', \'' + item.homeTeam + '\');">트립데이<div class="ico-trip"></div></button>';
+                                }
+
+                                // 버튼 3개면 2+1 줄바꿈 레이아웃 적용.
+                                // td 를 직접 flex 로 만들면 테이블 셀에서 빠져나와 border/폭이 깨지므로
+                                // 안쪽에 214px 고정폭 래퍼를 넣어 버튼 1개인 행과 좌우 폭을 맞춘다.
+                                html += td;
+                                if ((btnHtml.match(/class="btn btn-match/g) || []).length >= 3) {
+                                    html += '    <div class="btn-match-group">' + btnHtml + '</div>';
+                                } else {
+                                    html += btnHtml;
+                                }
+                                html += '  </td>';
+                            }
+                            html += '</tr>';
+                            html += bchtml;
+                            
+                            
+                            
+                        }
+                        $("#scheduleList").append(html);
+
+                        //calendar("#calendar", year, month, res.data.scheduleList);
+                        var lang = document.getElementById("lang").value;
+                        calendarLang("#calendar", year, month, res.data.scheduleList, lang, 'N');
+                        var todayMatch = document.getElementById('today-match');
+                        /* if(todayMatch) {
+                          todayMatch.scrollIntoView({block: "center"});
+                        } */
+                        isInitialLoad = false;
+                        chkScrollHeight();
+                    },
+                    error: function (err) {
+                        alert("네트워크에 문제가 있습니다.");
+                    }
+                });
+            } else if (selectedType === 'etc') {
+
+                meetType = $("#leagueList option:selected").data("meet-type");
+
+                $.ajax({
+                    url: "/getScheduleList.do",
+                    type: "post",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "year": year,
+                        "etcYn": 'Y',
+                        "month": month,
+                        "leagueId": selectedMeetSeq,
+                        "meetType": selectedMeetType
+                    }),
+                    success: function (res) {
+
+                        if (res.resultCode != "200") {
+                            alert(res.resultMsg);
+                            return;
+                        }
+
+                        // $('#leagueList option:gt(1)').remove();
+                        //
+                        // // 새 기타 리그 옵션 추가
+                        // $.each(res.data.etcLeagueList, function(index, item) {
+                        //     $('#leagueList').append(
+                        //         $('<option>', {
+                        //             value: item.meetSeq,
+                        //             text: item.meetName,
+                        //             'data-type': 'etc'
+                        //         })
+                        //     );
+                        // });
+
+                        var prevGameDate = null;
+                        var prevRoundId = null;
+
+                        var html = "";
+                        $("#scheduleList").empty();
+                        for (var i = 0; i < res.data.scheduleList.length; i++) {
+                            var item = res.data.scheduleList[i];
+
+                            html += '<tr>';
+                            html += '<td>' + item.gameDate
+                            if(item.etcYn === 'Y' && (item.meetSeq === 2 || item.meetSeq === 3) && item.gameType !== 0){
+                                var lang = document.getElementById("lang").value;
+
+                                if(item.gameType === 10) {
+                                    if(lang === 'ko') {
+                                        html += '    <span class="roboto">준결승</span>'
+                                    }
+                                    else if(lang === 'en') {
+                                        html += '    <span class="roboto">Semi Final</span>'
+                                    }
+                                }
+                                if(item.gameType === 9) {
+                                    if(lang === 'ko') {
+                                        html += '    <span class="roboto">결승</span>'
+                                    }
+                                    else if(lang === 'en') {
+                                        html += '    <span class="roboto">Final</span>'
+                                    }
+                                }
+                            }
+                            html += '</td>';
+                            html += '<td>' + item.gameTime + '</td>';
+                            html += '<td>';
+                            html += '    <div class="team">';
+                            html += '<span class="name">' + item.homeTeam + '</span>';
+                            html += '    </div>';
+                            if (item.homeGoal == null || item.awayGoal == null) {
+                                html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                                html += '      <span class="vs">VS</span>';
+                                html += '    </div>';
+                            } else {
+                                html += '    <div class="score roboto" style="padding: 0; width: auto;">';
+                                html += '      ' + item.homeGoal + '<span class="at">:</span>' + item.awayGoal;
+                                html += '    </div>';
+                            }
+                            html += '    <div class="team">';
+                            html += '<span class="name">' + item.awayTeam + '</span>';
+                            html += '    </div>';
+                            if(item.etcYn === 'Y' && (item.meetSeq === 2 || item.meetSeq === 3) && item.homeGoal6 !== null && item.awayGoal6 !== null){
+                                html += '<span class="roboto">승부차기(' + item.homeGoal6 + ':' + item.awayGoal6 + ')</span>';
+                            }
+                            html += '</td>';
+                            html += '<td>-</td>';
+                            html += '<td>-</td>';
+                            html += '<td>' + item.fieldName + '</td>';
+                            html += '<td>-</td>';
+                            html += '</tr>';
+                        }
+
+                        $("#scheduleList").append(html);
+
+                        var lang = document.getElementById("lang").value;
+                        calendarLang("#calendar", year, month, res.data.scheduleList, lang, 'Y');
+                        isInitialLoad = false;
+                        chkScrollHeight();
+                    },
+                    error: function (err) {
+                        alert("네트워크에 문제가 있습니다.");
+                    }
+                });
+                return;
+            }
+        }
+    </script>
+    </script>
+</head>
+<style>
+    .tab-button > ul > li > span {
+        display: block!important;
+    }
+</style>
+<body>
+    <div class="sub-top">
+        <h2 class="campton">일정/결과/티켓</h2>
+        <p>K리그1・2의 경기 일정 및 결과를 확인할 수 있는 공간입니다.</p>
+    </div>
+    <div class="sub-contents-wrap">
+        <input type="hidden" id="lang" name="lang" value="ko">
+        <div class="contents schedule">
+            <div class="schedule-sort">
+                <ul class="league-sort">
+                    <li id="kleague1" onclick="selectLeague(this)">
+                        <button class="on" data-type="regular" data-meet-seq="1">
+                            K리그1
+                        </button>
+                    </li>
+                    <li id="kleague2" onclick="selectLeague(this)">
+                        <button data-type="regular" data-meet-seq="2">
+                            K리그2
+                        </button>
+                    </li>
+
+
+
+
+
+                    
+                        <li onclick="selectLeague(this)">
+                            <button data-type="etc" data-meet-seq="1" data-meet-type="7">
+                                    AFC 챔피언스리그 엘리트 2025-26
+                            </button>
+                        </li>
+                    
+                        <li onclick="selectLeague(this)">
+                            <button data-type="etc" data-meet-seq="2" data-meet-type="8">
+                                    AFC 챔피언스리그 2 2025-26
+                            </button>
+                        </li>
+                    
+                </ul>
+
+                <!--
+                <div class="league-sort-wrap">
+                  <div class="swiper league-sort-swiper">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide"><button>K리그1</button></div>
+                      <div class="swiper-slide"><button>K리그2</button></div>
+                      <div class="swiper-slide"><button>국내축구기타</button></div>
+                      <div class="swiper-slide"><button>AFC챔피언스리그 엘리트</button></div>
+                      <div class="swiper-slide"><button>AFC챔피언스리그2</button></div>
+                      <div class="swiper-slide"><button>코리안컵</button></div>
+                      <div class="swiper-slide"><button>사우디 프로페셔널</button></div>
+                      <div class="swiper-slide"><button>U-23 아시안컵</button></div>
+                      <div class="swiper-slide"><button>U-20 아시안컵</button></div>
+                      <div class="swiper-slide"><button>U-23 아시안컵</button></div>
+                      <div class="swiper-slide"><button>U-20 아시안컵</button></div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                  </div>
+                </div>
+                <script>
+                  var swiper = new Swiper(".league-sort-swiper", {
+                    slidesPerView: 'auto',
+                    spaceBetween: 8,
+                    navigation: {
+                      nextEl: ".swiper-button-next",
+                      prevEl: ".swiper-button-prev",
+                    },
+                  });
+                </script> -->
+
+                <ul class="team-sort" id="teamSortUl">
+                    <li>
+                        <button class="on" onclick="selectTeam('')">
+                            <i class="ic-emblem"></i><span>팀 전체</span>
+                        </button>
+                    </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K21')">
+                                <i class="ic-emblem K21"></i><span>강원</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K22')">
+                                <i class="ic-emblem K22"></i><span>광주</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K35')">
+                                <i class="ic-emblem K35"></i><span>김천</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K17')">
+                                <i class="ic-emblem K17"></i><span>대구</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K10')">
+                                <i class="ic-emblem K10"></i><span>대전</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K09')">
+                                <i class="ic-emblem K09"></i><span>서울</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K29')">
+                                <i class="ic-emblem K29"></i><span>수원FC</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K27')">
+                                <i class="ic-emblem K27"></i><span>안양</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K01')">
+                                <i class="ic-emblem K01"></i><span>울산</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K05')">
+                                <i class="ic-emblem K05"></i><span>전북</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K04')">
+                                <i class="ic-emblem K04"></i><span>제주</span>
+                            </button>
+                        </li>
+                    
+                        <li>
+                            <button class=""
+                                    onclick="selectTeam('K03')">
+                                <i class="ic-emblem K03"></i><span>포항</span>
+                            </button>
+                        </li>
+                    
+                </ul>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="date-scroll">
+                <div class="date-wrap f-wrap">
+                    <div class="select-box">
+                        <span class="value" id="yearVal">2025</span>
+                        <select id="year" onchange="onYearChanged();" autocomplete="off">
+                            
+                                <option  >  2027 </option>
+                            
+                                <option  >  2026 </option>
+                            
+                                <option  selected  >  2025 </option>
+                            
+                                <option  >  2024 </option>
+                            
+                                <option  >  2023 </option>
+                            
+                                <option  >  2022 </option>
+                            
+                                <option  >  2021 </option>
+                            
+                                <option  >  2020 </option>
+                            
+                                <option  >  2019 </option>
+                            
+                                <option  >  2018 </option>
+                            
+                                <option  >  2017 </option>
+                            
+                                <option  >  2016 </option>
+                            
+                                <option  >  2015 </option>
+                            
+                                <option  >  2014 </option>
+                            
+                                <option  >  2013 </option>
+                            
+                        </select>
+                    </div>
+                    <div class="select-box">
+                        <span class="value" id="monthVal">11</span>
+                        <select id="month" onchange="onChangedNew();" autocomplete="off">
+                            <option >01</option>
+                            <option >02</option>
+                            <option >03</option>
+                            <option >04</option>
+                            <option >05</option>
+                            <option >06</option>
+                            <option >07</option>
+                            <option >08</option>
+                            <option >09</option>
+                            <option >10</option>
+                            <option selected>11</option>
+                            <option >12</option>
+                        </select>
+                    </div>
+                    <div class="month-btn">
+                        <button type="button" class="month-prev" onclick="onPrevMonth();">&#9664;</button>
+                        <button type="button" class="month-next" onclick="onNextMonth();">&#9654;</button>
+                    </div>
+                    <button type="button" class="btn btn-line-light btn-sm2" onclick="toCurrentMonth();"
+                            style="margin-left: 10px;">현재</button>
+
+                    <div class="tab-button right">
+                        <div class="input-checkbox" id="ticketYnDiv">
+                            <input type="checkbox" id="chk">
+                            <label for="chk" onclick="selectTicketYn();"><span>예매가능</span></label>
+                        </div>
+                        <ul>
+                            <li class="active" id="listBtn" onclick="showList();"><span><img
+                                    src="/assets/images/icon/btn-ico-list_on.png" alt=""
+                                    srcset="/assets/images/icon/btn-ico-list_on.png 1x, /assets/images/icon/btn-ico-list_on@2x.png 2x, /assets/images/icon/btn-ico-list_on@3x.png 3x">리스트</span></li>
+                            <li id="calendarBtn" onclick="showCalendar();"><span><img
+                                    src="/assets/images/icon/btn-ico-cal.png"
+                                    alt="">달력 </span></li>
+                            <!-- 달력 active 시
+              <li><span><img src="/assets/images/icon/btn-ico-list.png" alt="" srcset="/assets/images/icon/btn-ico-list.png 1x, /assets/images/icon/btn-ico-list@2x.png 2x, /assets/images/icon/btn-ico-list@3x.png 3x">리스트</span></li>
+              <li class="active"><span><img src="/assets/images/icon/btn-ico-cal_on.png" alt="">타일형 </span></li>
+              -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="select-page show" id="list">
+                <table>
+                    <colgroup>
+                        <col style="width: 8%">
+                        <col style="width: 6%">
+                        <col style="width: auto">
+                        <col style="width: 10%">
+                        <col style="width: 11%">
+                        <col style="width: 10%">
+                        
+                            <col style="width: 24%">
+                        
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>날짜</th>
+                        <th>시간</th>
+                        <th>매치센터</th>
+                        <th>중계방송사</th>
+                        <th>중계진</th>
+                        <th>장소</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="scheduleList">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="select-page" id="calendar"></div>
+
+            <br><br>
+            <div>
+                <a
+                    
+                >
+                    <img src="https://d2tfp74nsbbrkr.cloudfront.net"
+                         alt=""
+                         style="width: 100%"
+                    >
+                </a>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<body>
+
+<button type="button" class="theme-btn" id="themeBtn" name="toDark" role="button" aria-pressed="false" onclick="themeBtn()"><span class="blind">라이트 모드로 보기</span></button>
+
+<footer>
+    <div class="partner">
+        <div class="slider">
+            <div class="swiper-wrapper">
+                <a href="https://www.hanabank.com" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_hanabank@2x.png" alt="하나은행"> </a>
+
+                <a href="https://www.hd-hyundaielectric.com/elect/ko/index.jsp" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_hd_electric7.png" alt=""> </a>
+                <a href="https://www.ea.com/sports" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_ea@2x.png" alt=""> </a>
+                <a href="https://www.7-eleven.co.kr/" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_7eleven@2x.png" alt=""> </a>
+
+                <a href="https://www.adidas.co.kr/" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_adidas@2x.png" alt=""> </a>
+                <a href="https://www.lingerwatershop.com/" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_lingtee@2x.png" alt=""> </a>
+                <a href="https://www.dongwonfnb.com/services/Brand/Brand_View?brandno=97" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_dongwon@2x.png" alt=""> </a>
+                <a href="https://flex.team/" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_flex.png" alt=""> </a>
+
+                <a href="https://www.coupangplay.com/" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2024/sponsor_coupangplay@2x.png" alt=""> </a>
+
+                <a href="https://www.lguplus.com/biz" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2026/sponsor_lgup.png" alt=""> </a>
+                <a href="https://www.sportstoto.co.kr/" target="_blank" class="swiper-slide"> <img src="/assets/images/logo/2026/sponsor_sportstoto@2x.png" alt=""> </a>
+            </div>
+        </div>
+    </div>
+    <div class="foot-menu">
+        <ul class="f-wrap">
+            
+
+
+
+
+
+<li>
+    <a href="/news_list.do">뉴스</a>
+    <ul class="s-menu">
+        <li><a href="/news_list.do">전체</a></li>
+        <li><a href="/news_list.do?category=notice"> 공지사항 </a></li>
+        <li><a href="/news_list.do?category=league"> 리그 </a></li>
+        <li><a href="/news_list.do?category=club"> 구단 </a></li>
+        <li><a href="/news_list.do?category=youth"> 유소년 </a></li>
+        <li><a href="/news_list.do?category=fan"> 팬 </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/video_list.do?category=highlight">영상</a>
+    <ul class="s-menu">
+        <li><a href="/video_list.do"> 전체 </a></li>
+        <li><a href="/video_list.do?category=highlight"> 하이라이트 </a></li>
+        <li><a href="/video_list.do?category=goal"> 골 </a></li>
+        <li><a href="/video_list.do?category=etc"> 케튜브 </a></li>
+        <li><a href="/video_list.do?category=club"> 구단 </a></li>
+        <li><a href="https://tv.kleague.com/" target="_blank"> K리그 TV </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/schedule.do"> 일정/결과/티켓 </a>
+    <ul class="s-menu">
+        <li><a href="/schedule.do?leagueId=1"> K리그1 </a></li>
+        <li><a href="/schedule.do?leagueId=2"> K리그2 </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/record/team.do"> 기록</a>
+    <ul class="s-menu">
+        <li><a href="/record/team.do"> 팀 순위 </a></li>
+        <li><a href="/record/player.do"> 선수 순위 </a></li>
+        <li><a href="/record/dynamicPoint.do"> ADIDAS POINT </a></li>
+        <li><a href="https://data.kleague.com" target="_blank"> 데이터 포털 </a></li>
+        <li><a href="/record/audience.do"> 관중 현황 </a></li>
+    </ul>
+</li>
+<li>
+    <a href="/player.do"> 선수/감독</a>
+</li>
+
+
+    <li>
+        <a href="/youth/junior.do"> 유소년</a>
+        <ul class="s-menu">
+            <li><a href="/youth/junior.do"> K리그 주니어 </a></li>
+            <li><a href="/youth/youth.do"> K리그 유스 챔피언십 </a></li>
+            <li><a href="/youth/trust.do"> YOUTH TRUST </a></li>
+            <li><a href="/youth/media.do"> SOCIAL MEDIA </a></li>
+            <li><a href="https://www.bepro11.com/main" target="_blank"> 유소년 부가데이터 </a></li>
+        </ul>
+    </li>
+
+
+
+
+
+    <li>
+        <a href="https://www.kleaguefantasy.com/">이벤트</a>
+        <ul class="s-menu">
+            
+                
+                
+                    <li><a href="https://www.kleaguefantasy.com/" target="_blank">K리그 판타지</a></li>
+                
+            
+            <li><a href="/tripday/list.do">K리그 트립데이</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a style="cursor:pointer;" onclick="window.open('https://assist.kleague.com');"> 사회공헌</a>
+        <ul class="s-menu">
+            
+                <li><a href="https://assist.kleague.com" target="_blank">K LEAGUE Assist</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=voice&subTab=map" target="_blank">이동약자 안내지도</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=voice&subTab=voice" target="_blank">시각장애인 음성중계</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=greenKickOff" target="_blank">그린킥오프</a></li>
+            
+                <li><a href="https://assist.kleague.com/program?tab=voice&subTab=playone" target="_blank">PlayOne Cup</a></li>
+            
+                <li><a href="https://assist.kleague.com/kare?tab=info" target="_blank">케어프로젝트</a></li>
+            
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+        </ul>
+    </li>
+
+    <li>
+        <a href="/about/greetings.do"> About K LEAGUE</a>
+        <div class="s-menu f-wrap">
+            <ul class="left">
+                <li><a href="/about/greetings.do"> 인사말 </a></li>
+                <li><a href="/about/history.do"> 연혁 </a></li>
+                <li><a href="/about/ci.do"> CI소개 </a></li>
+                <li><a href="/about/organization.do"> 조직도 </a></li>
+                <li><a href="/about/sponsor.do"> 스폰서 </a></li>
+                <li><a href="/about/regulations.do"> 정관/규정 </a></li>
+                <li><a href="/about/competition.do"> 대회요강 </a></li>
+                <li><a href="/about/management.do"> 경영공시 </a></li>
+            </ul>
+            <ul class="right">
+                <li><a href="/about/reference.do">자료실</a></li>
+                <li><a href="/about/emblem.do"> 역대 엠블럼 </a></li>
+                <li><a href="/about/academy.do"> 아카데미 </a></li>
+                <li><a href="/about/clean_center.do"> K리그 클린센터 </a></li>
+                <li><a href="/about/protection_center.do"> 권리 보호 센터 </a></li>
+                <li><a href="/about/directions.do"> 찾아오시는 길 </a></li>
+                <li><a href="https://portal.kleague.com/user/service/userCertPrintNice.do" target="_blank">경력증명서발급</a></li>
+                <li><a href="/about/fonts.do">K리그 폰트</a></li>
+                <li><a href="/about/hof.do">명예의 전당</a></li>
+                
+                    <li><a href="/about/recruitment.do">수시채용</a></li>
+                
+            </ul>
+        </div>
+    </li>
+
+
+
+
+        </ul>
+    </div>
+    <div class="foot-info">
+        <div class="f-wrap">
+            <h2 class="foot-logo left">
+                <img src="/assets/images/logo/foot_logo.png"
+                     srcset="/assets/images/logo/foot_logo.png 1x ,/assets/images/logo/foot_logo@2x.png 2x,/assets/images/logo/foot_logo@3x.png 3x"
+                     alt="K LEAGUE">
+            </h2>
+            <div class="info">
+                <span><span class="str">T &nbsp; </span>02-2002-0702</span>
+                <span><span class="str">A &nbsp; </span>서울 종로구 경희궁길 46 축구회관 5층</span>
+                <div class="bg-select">
+                    <span>Family Sites<span class="plus"></span></span>
+                    <select onchange="if(this.value) window.open(this.value);" style="background-color: darkgray;">
+                        <option value="https://www.fifa.com/">국제축구연맹(FIFA)</option>
+                        <option value="https://www.the-afc.com/">아시아축구연맹(AFC)</option>
+                        <option value="https://www.kfa.or.kr/">대한축구협회(KFA)</option>
+                        <option value="http://www.sky-k.co.kr/">스카이케이(skyK)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="WA2021"></div>
+            <div class="sns-wrap right">
+                <a href="https://www.youtube.com/user/withkleague/" target="_blank" class="sns-youtube">
+                    <img src="/assets/images/icon/foot_sns_youtube.png"
+                         srcset="/assets/images/icon/foot_sns_youtube.png 1x ,/assets/images/icon/foot_sns_youtube@2x.png 2x,/assets/images/icon/foot_sns_youtube@3x.png 3x"
+                         alt="유투브">
+                </a>
+                <a href="https://www.instagram.com/kleague" target="_blank" class="sns-instagram">
+                    <img src="/assets/images/icon/foot_sns_insta.png"
+                         srcset="/assets/images/icon/foot_sns_insta.png 1x ,/assets/images/icon/foot_sns_insta@2x.png 2x,/assets/images/icon/foot_sns_insta@3x.png 3x"
+                         alt="인스타그램">
+                </a>
+                <a href="https://www.facebook.com/KLEAGUEofficial" target="_blank" class="sns-facebook">
+                    <img src="/assets/images/icon/foot_sns_face.png"
+                         srcset="/assets/images/icon/foot_sns_face.png 1x ,/assets/images/icon/foot_sns_face@2x.png 2x,/assets/images/icon/foot_sns_face@3x.png 3x"
+                         alt="페이스북">
+                </a>
+                <a href="https://twitter.com/kleague" target="_blank" class="sns-twitter">
+                    <img src="/assets/images/icon/club-yt.png"
+                         srcset="/assets/images/icon/club-yt.png 1x ,/assets/images/icon/club-yt@2x.png 2x,/assets/images/icon/club-yt@3x.png 3x"
+                         alt="twitter">
+                </a>
+                <a href="https://www.tiktok.com/@kleague_official" target="_blank" class="sns-tiktok">
+                    <img src="/assets/images/icon/foot_sns_tiktok.png"
+                         srcset="/assets/images/icon/foot_sns_tiktok.png 1x ,/assets/images/icon/foot_sns_tiktok@2x.png 2x,/assets/images/icon/foot_sns_tiktok@3x.png 3x"
+                         alt="틱톡">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="foot-copy">
+        <div class="f-wrap">
+            <p class="left">Copyright 2021 &copy; K LEAGUE. All right reserved.</p>
+            <ul class="menu">
+                <li><a href="/about/privacy.do"><b>개인정보처리방침</b></a></li>
+                <li><a href="/about/terms.do"><b>이용약관</b></a></li>
+                <li><a href="https://portal.kleague.com/user/service/userCertPrintNice.do" target="_blank"><b>경력증명서발급</b></a></li>
+                <li><a href="/about/directions.do"><b>찾아오시는 길</b></a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+<script>
+    function clickVoteBtn() {
+        location.href= "/about/hof.do";
+    }
+</script>
+</html>
+
+</body>
+
+</html>
