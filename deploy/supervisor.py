@@ -28,7 +28,7 @@ import subprocess
 import sys
 import threading
 import time
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -1134,7 +1134,11 @@ def warm_match_views(views, stop, rebuild_lock=None) -> None:
                     # Retain already published bodies while saved prices await
                     # their decision. Rebuilding stale views every 30s must not
                     # repeatedly take the only slot from the pending repair.
-                    pending = _market_cycle_pending.is_set() and bool(getattr(views, 'ready', {}))
+                    with getattr(views, 'lock', nullcontext()):
+                        ready = getattr(views, 'ready', {})
+                        requested = getattr(views, 'requested', ready)
+                        pending = (_market_cycle_pending.is_set() and bool(ready)
+                                   and set(requested).issubset(ready))
                     if not pending and available is not None and available >= 256:
                         if rebuild_lock is None:
                             views.refresh()

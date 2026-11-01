@@ -65,6 +65,14 @@ def test_python_backend_fallback_still_rejects_invalid_numbers(tmp_path, monkeyp
         db.get_artifact('picks_v2')
 
 
+def test_checkout_remains_readable_before_dependency_image_deployment(tmp_path, monkeypatch):
+    db = RuntimeDatabase(tmp_path / 'db.sqlite3')
+    payload = {'live': [{'home': '삼성⚾', 'value': 1.25}]}
+    db.store_artifact('picks_v2', payload)
+    monkeypatch.setattr(runtime_db, 'ijson', None)
+    assert db.get_artifact('picks_v2') == payload
+
+
 def test_concurrent_replacement_keeps_one_snapshot(tmp_path, monkeypatch):
     db = RuntimeDatabase(tmp_path / "db.sqlite3")
     _put_raw(db, "picks_v2", '{"revision":"old","live":[1,2]}')

@@ -19,10 +19,15 @@ from pathlib import Path
 import re
 import sqlite3
 from typing import Any, Iterable, Iterator, Mapping
-import ijson.backends.python as streaming_json
-import ijson
-from ijson.common import JSONError, ObjectBuilder, file_source
-from ijson.utils import coroutine, coros2gen
+try:
+    import ijson.backends.python as streaming_json
+    import ijson
+    from ijson.common import JSONError, ObjectBuilder, file_source
+    from ijson.utils import coroutine, coros2gen
+except ImportError:
+    # A checkout update can precede the collector's new dependency image. Keep
+    # the old reader usable until deployment; never bypass the memory gate.
+    ijson = None
 from runtime_datasets import DatasetStore, RESULT_SCHEMA
 
 
@@ -32,7 +37,6 @@ DEFAULT_PATH = ROOT / "data" / "runtime" / "proodd.sqlite3"
 _JSON_NUMBER = re.compile(r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\Z")
 
 
-@coroutine
 def _strict_number_tokens(target):
     """Validate ijson's Python lexer numbers before its permissive converter."""
     while True:
@@ -60,7 +64,7 @@ def _python_json_events(blob):
     return coros2gen(
         file_source(blob),
         (streaming_json.parse_value, (False, False), {}),
-        (_strict_number_tokens, (), {}),
+        (coroutine(_strict_number_tokens), (), {}),
         (streaming_json.Lexer, (), {}),
         (streaming_json.utf8_encoder, (), {}),
     )
@@ -766,7 +770,7 @@ class RuntimeDatabase(DatasetStore):
                 raise ValueError("picks payload changed during serialization")
 
     def get_artifact(self, name: str) -> dict[str, Any] | None:
-        if name == "picks_v2":
+        if name == "picks_v2" and ijson is not None:
             # Keep rowid and blob on one snapshot even if a writer replaces the
             # artifact between those operations. Never materialize the TEXT value.
             with self.connect() as connection:
