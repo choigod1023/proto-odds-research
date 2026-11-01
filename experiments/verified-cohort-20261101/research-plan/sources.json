@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "scope": "four research papers only; no game, player, betting or model data collected",
+  "direct_get_count": 4,
+  "direct_get_successes": 4,
+  "network_method": "GET, no redirect following, 8s connect / 20s read timeout, 8 MB limit",
+  "research_search_note": "Web search and web-rendered reading were also used; their internal request counts and byte hashes are unavailable. Publisher web PDF view timed out; later single direct GET succeeded. Web open of NBER w20592 returned 403 and was not retried or used.",
+  "sources": [
+    {
+      "id": "dixon_coles_1997",
+      "url": "https://ajbuckeconbikesail.net/wkpapers/Airports/MVPoisson/soccer_betting.pdf",
+      "doi": "10.1111/1467-9876.00065",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 827440,
+      "sha256": "aa4676d6b71aec0ff5914f52403e193c3fa5414c194acec1e97901bd429321e3",
+      "request_started_utc": "2026-11-01T00:57:46.955068+00:00",
+      "received_completed_utc": "2026-11-01T00:57:48.939495+00:00",
+      "sections_read": "4.1–4.4, low-score dependence and exponential time weighting",
+      "limitation": "English football; no K League validation"
+    },
+    {
+      "id": "yang_swartz_2004",
+      "url": "https://jds-online.org/journal/JDS/article/1117/file/pdf",
+      "doi": "10.6339/JDS.2004.02(1).142",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 133548,
+      "sha256": "9f738e8ddfc715e4db21f959835828dd1705727bb5e25375a8e5303d9409e154",
+      "request_started_utc": "2026-11-01T00:57:46.955478+00:00",
+      "received_completed_utc": "2026-11-01T00:57:49.364467+00:00",
+      "sections_read": "abstract, 1–2: prior performance, batting, starting pitcher, home advantage and market context",
+      "limitation": "MLB 2001; no KBO bullpen or market-offset validation"
+    },
+    {
+      "id": "gneiting_raftery_2007",
+      "url": "https://sites.stat.washington.edu/people/raftery/Research/PDF/Gneiting2007jasa.pdf",
+      "doi": "10.1198/016214506000001437",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 556804,
+      "sha256": "d31a0c5f0ae8fec1a0a6544db5d056645b2d7296d71b44a2e8efb293c7d87ba2",
+      "request_started_utc": "2026-11-01T00:57:46.955697+00:00",
+      "received_completed_utc": "2026-11-01T00:57:49.043998+00:00",
+      "sections_read": "sections 2 and 4, strictly proper scoring rules, Brier and logarithmic score",
+      "limitation": "forecast scoring, not evidence of betting profitability"
+    },
+    {
+      "id": "bailey_et_al_2017",
+      "url": "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+      "doi": "10.21314/jcf.2016.322",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 1145522,
+      "sha256": "d8bfbadaaedb430d9dec929646d92f3580fdf18238f34121ae7738fa1c69a63d",
+      "request_started_utc": "2026-11-01T00:57:46.955948+00:00",
+      "received_completed_utc": "2026-11-01T00:57:49.118677+00:00",
+      "sections_read": "sections 1–2, selection bias, probability of backtest overfitting and CSCV",
+      "limitation": "finance setting; no leakage-prone random CV substituted for chronological evaluation"
+    }
+  ]
+}
