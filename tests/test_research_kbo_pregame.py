@@ -56,6 +56,7 @@ def test_identity_mismatch_fails():
 def test_historical_article_files_are_consistent_and_not_promoted():
     from pathlib import Path
     import hashlib
+    import gzip
     root=Path(__file__).resolve().parents[1]/'experiments/verified-cohort-20261101/kbo'
     evidence=[json.loads(s) for s in (root/'evidence.jsonl').read_text(encoding='utf8').splitlines()]
     fixtures=[json.loads(s) for s in (root/'fixtures.jsonl').read_text(encoding='utf8').splitlines()]
@@ -63,7 +64,7 @@ def test_historical_article_files_are_consistent_and_not_promoted():
     assert len(log)==6 and all(x['status']==200 for x in log)
     for item in log:
         name=('kbo-photo-'+item['id'] if item['id'].isdigit() else item['id'])+'.html'
-        assert hashlib.sha256((root/'raw'/name).read_bytes()).hexdigest()==item['sha256']
+        assert hashlib.sha256(gzip.decompress((root/'raw'/(name+'.gz')).read_bytes())).hexdigest()==item['sha256']
     claims=[x for x in evidence if x.get('classification')=='historical_claimed_before']
     assert len(claims)==2 and len(fixtures)==4 and not any(x['eligible'] for x in fixtures)
     assert sum(len(x['lineup_claims']) for x in claims)==18
@@ -76,6 +77,7 @@ def test_historical_article_files_are_consistent_and_not_promoted():
 def test_claimed_publications_before_recorded_kickoffs_and_sources_contain_lineups():
     from pathlib import Path
     from datetime import datetime
+    import gzip
     root=Path(__file__).resolve().parents[1]/'experiments/verified-cohort-20261101/kbo'
     evidence=[json.loads(s) for s in (root/'evidence.jsonl').read_text(encoding='utf8').splitlines()]
     fixtures=[json.loads(s) for s in (root/'fixtures.jsonl').read_text(encoding='utf8').splitlines()]
@@ -85,6 +87,6 @@ def test_claimed_publications_before_recorded_kickoffs_and_sources_contain_lineu
         assert datetime.fromisoformat(e['published_claim'])<kickoff
         assert not f['official_result_independently_verified'] and not f['price_receipt_before']
         article_id=e['article_kbo_url'].split('=')[-1]
-        article=(root/'raw'/f'kbo-photo-{article_id}.html').read_text(encoding='utf8')
+        article=gzip.decompress((root/'raw'/f'kbo-photo-{article_id}.html.gz').read_bytes()).decode('utf8')
         assert all(x['name_claim'] in article for x in e['lineup_claims'])
     assert evidence[-1]['classification']=='pregame_article_claim_time_unverified'

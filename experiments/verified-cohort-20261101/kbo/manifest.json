@@ -61,12 +61,12 @@
     "raw/kt-watchpoint.html",
     "raw/kt-watchpoint-20250322.json",
     "article-get-log.json",
-    "raw/kbo-photo-485205.html",
-    "raw/kbo-photo-490380.html",
-    "raw/kbo-photo-512458.html",
-    "raw/osen-list-20250606.html",
-    "raw/chosun-485205.html",
-    "raw/osen-G1112586000.html"
+    "raw/kbo-photo-485205.html.gz",
+    "raw/kbo-photo-490380.html.gz",
+    "raw/kbo-photo-512458.html.gz",
+    "raw/osen-list-20250606.html.gz",
+    "raw/chosun-485205.html.gz",
+    "raw/osen-G1112586000.html.gz"
   ],
   "observation_method": "GET with Python requests timeout 15s, UTC receipt recorded after response, SHA256 raw bytes; offline CLI uniquely matches supplied game and market key. Assumed T-30 is a hypothetical cutoff, not an operating prediction timestamp.",
   "limitations": [
@@ -104,7 +104,8 @@
       "OSEN 06/06 original claims 14:16 publication, modification unknown.",
       "Postgame player codes and game IDs are external archive crosswalk candidates, not independent official identity proofs.",
       "Scores and odds are not proven pregame receipt or independently confirmed official result.",
-      "Each search timestamp was not recorded."
+      "Each search timestamp was not recorded.",
+      "Raw GET bytes are losslessly stored as gzip files; hashes refer to decompressed response bytes."
     ]
   }
 }
