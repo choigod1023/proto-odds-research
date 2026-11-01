@@ -1,0 +1,94 @@
+{
+  "status": "preliminary_retrospective_diagnostic_not_validation",
+  "evaluation_games": 227,
+  "range": [
+    "2025-02-15",
+    "2025-11-30"
+  ],
+  "models": {
+    "market": {
+      "games": 227,
+      "bets": 227,
+      "hits": 99,
+      "accuracy": 0.43612334801762115,
+      "coverage": 1.0,
+      "net_units": "-33.34",
+      "roi": -0.14687224669603524,
+      "logloss": 1.0676624347139922,
+      "brier": 0.645977917032424,
+      "daily_close_drawdown_units": "37.99",
+      "monthly_net": {
+        "2025-02": "3.23",
+        "2025-03": "-2.08",
+        "2025-04": "-4.59",
+        "2025-05": "-5.78",
+        "2025-06": "-0.57",
+        "2025-07": "1.99",
+        "2025-08": "-5.88",
+        "2025-09": "-7.12",
+        "2025-10": "-4.83",
+        "2025-11": "-7.71"
+      }
+    },
+    "time_weighted_dc": {
+      "games": 227,
+      "bets": 227,
+      "hits": 94,
+      "accuracy": 0.41409691629955947,
+      "coverage": 1.0,
+      "net_units": "-34.43",
+      "roi": -0.1516740088105727,
+      "logloss": 1.075098586725468,
+      "brier": 0.650149233826232,
+      "daily_close_drawdown_units": "40.55",
+      "monthly_net": {
+        "2025-02": "1.09",
+        "2025-03": "-8.59",
+        "2025-04": "1.57",
+        "2025-05": "-13.77",
+        "2025-06": "-4.44",
+        "2025-07": "-3.56",
+        "2025-08": "-5.17",
+        "2025-09": "0.53",
+        "2025-10": "-4.83",
+        "2025-11": "2.74"
+      }
+    }
+  },
+  "changed_picks": 54,
+  "uncertainty": {
+    "weeks": 37,
+    "roi_delta_per_game_ci95": [
+      -0.1256254538381743,
+      0.12285103383458648
+    ],
+    "accuracy_delta_per_game_ci95": [
+      -0.07174941532387838,
+      0.029127224919093836
+    ],
+    "logloss_improvement_ci95": [
+      -0.02418980682989968,
+      0.010849287465291395
+    ],
+    "note": "Paired observed fixture-week blocks; exploratory, not formal promotion test. ROI delta per opportunity differs from per-bet ROI if coverage differs."
+  },
+  "input_hashes": {
+    "games.csv.tmp": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+    "experiments\\all-sports-underdog-20261031\\inputs\\domestic.jsonl.gz": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+    "experiments\\verified-cohort-20261101\\kleague1\\fixtures.jsonl": "863d6b698dccbb528f5b17c182855b9eb8619164ce414e5e183a4a0202ce4f4b",
+    "experiments\\verified-cohort-20261101\\kleague1\\comparison.json": "5a867fb0311c048a24385bfc41594446ab2a91a280a097fc840b39d0580c81d4",
+    "experiments\\kleague-roi-diagnostic-20261101\\training\\fixtures.jsonl": "babe33ac57d28e1cd1a9caee725581da5c2d1c0d805fa2e1661468443b82a543"
+  },
+  "protocol_sha256": "2a0bc53b45e0a524ec110fc1d58dd6f29cf5da05ff2049ccd201587e96f8272a",
+  "unavailable": [
+    "actual tipster operating replay",
+    "9:1 historical hybrid",
+    "KBO player model"
+  ],
+  "price_receipt_verified": false,
+  "pregame_player_inputs_used": false,
+  "formal_minimum_300_met": false,
+  "adopted": false,
+  "registration_commit": "881e9ff9b57ffec4b6740849ffba5e28d6f23a4d",
+  "model_lf_sha256": "79187243175ed45556af79f1c376f8628844747188865cb57b5e0b627e48bf3f"
+}
