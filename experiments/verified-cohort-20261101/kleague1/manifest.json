@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0",
+  "league": "KLEAGUE1",
+  "base_sha": "e7494e594a1d2b2fe63c67949db8e09b219e51c3",
+  "input_hashes": {
+    "games.csv.tmp": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+    "domestic.jsonl.gz": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
+  },
+  "source_hashes": {
+    "schedule.html": "5226764c1434ded9d90c4bacf053d4bd1b310ed8c260c14d34f1427185f2376e",
+    "match-96.html": "ac2db03766f411e63dd96388864dfdb8fa482b83b2e33ca7055b5e7a54b3e2bb",
+    "match-110.html": "d53a9d5d93d101ef56a677618332e377a975a65ea7ed51c46fb32a3aa103c07c",
+    "match-140.html": "4bb82221a5197cd5c78800d717709b2475adb9c3d7315c9d6c41aa2669c18f89",
+    "news-93724.html": "4c2a69422404056f3d14777faa359216090750e216c719c0d7d9725f33e9038e"
+  },
+  "urls": [
+    {
+      "file": "schedule.html",
+      "url": "https://www.kleague.com/schedule.do?leagueId=1&year=2025",
+      "requested_at": "2026-11-01T00:57:54.249598+00:00",
+      "retrieved_at": "2026-11-01T00:57:54.636606+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "match-96.html",
+      "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=96&meetSeq=1&startTabNum=0",
+      "requested_at": "2026-11-01T00:58:14.033309+00:00",
+      "retrieved_at": "2026-11-01T00:58:14.508472+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "match-110.html",
+      "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=110&meetSeq=1&startTabNum=0",
+      "requested_at": "2026-11-01T00:58:14.508808+00:00",
+      "retrieved_at": "2026-11-01T00:58:14.925101+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "match-140.html",
+      "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=140&meetSeq=1&startTabNum=0",
+      "requested_at": "2026-11-01T00:58:14.925431+00:00",
+      "retrieved_at": "2026-11-01T00:58:15.374358+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "news-93724.html",
+      "url": "https://www.kleague.com/news_view.do?orderBy=seq&page=3&seq=93724&viewOption=album",
+      "requested_at": "2026-11-01T00:58:33.236382+00:00",
+      "retrieved_at": "2026-11-01T00:58:33.612346+00:00",
+      "http_status": 200
+    }
+  ],
+  "observation_method": "direct HTTP GET response bytes; match facts transcribed and checked against saved bytes; score additionally supported by official club article hosted by league",
+  "retrieved_at": "2026-11-01T00:57:54.636606+00:00 through 2026-11-01T00:58:33.612346+00:00",
+  "scope": "2025 K League 1 domestic full-game 3-way market rows; three purposively selected official fixtures; not a full-season census",
+  "counts": {
+    "raw_league_rows": 865,
+    "raw_3way_rows": 227,
+    "normalized_league_rows": 227,
+    "raw_duplicate_market_keys": 0,
+    "normalized_duplicate_ids": 0,
+    "official_fixture_rows": 3,
+    "official_score_rows": 1,
+    "unique_explicit_fixture_links": 3,
+    "fields": {
+      "date_raw": {
+        "match": 3,
+        "mismatch": 0,
+        "unknown": 224
+      },
+      "date_normalized": {
+        "match": 3,
+        "mismatch": 0,
+        "unknown": 224
+      },
+      "clock_raw": {
+        "match": 3,
+        "mismatch": 0,
+        "unknown": 224
+      },
+      "clock_normalized": {
+        "match": 3,
+        "mismatch": 0,
+        "unknown": 224
+      },
+      "utc_instant": {
+        "match": 0,
+        "mismatch": 0,
+        "unknown": 227
+      },
+      "home_away": {
+        "match": 3,
+        "mismatch": 0,
+        "unknown": 224
+      },
+      "score_raw": {
+        "match": 1,
+        "mismatch": 0,
+        "unknown": 226
+      },
+      "score_normalized": {
+        "match": 0,
+        "mismatch": 0,
+        "unknown": 227
+      },
+      "outcome_normalized": {
+        "match": 1,
+        "mismatch": 0,
+        "unknown": 226
+      },
+      "cancel_postpone": {
+        "match": 0,
+        "mismatch": 0,
+        "unknown": 227
+      },
+      "same_market_price": {
+        "match": 0,
+        "mismatch": 0,
+        "unknown": 227
+      }
+    },
+    "comparisons": [
+      {
+        "fixture_id": "kleague:2025:1:96",
+        "status": "unique",
+        "raw_matches": 1,
+        "normalized_matches": 1,
+        "date_raw": true,
+        "date_normalized": true,
+        "clock_raw": true,
+        "clock_normalized": true,
+        "utc_instant": null,
+        "home_away": true,
+        "score_raw": true,
+        "score_normalized": null,
+        "outcome_normalized": true,
+        "cancel_postpone": null,
+        "same_market_price": null
+      },
+      {
+        "fixture_id": "kleague:2025:1:110",
+        "status": "unique",
+        "raw_matches": 1,
+        "normalized_matches": 1,
+        "date_raw": true,
+        "date_normalized": true,
+        "clock_raw": true,
+        "clock_normalized": true,
+        "utc_instant": null,
+        "home_away": true,
+        "score_raw": null,
+        "score_normalized": null,
+        "outcome_normalized": null,
+        "cancel_postpone": null,
+        "same_market_price": null
+      },
+      {
+        "fixture_id": "kleague:2025:1:140",
+        "status": "unique",
+        "raw_matches": 1,
+        "normalized_matches": 1,
+        "date_raw": true,
+        "date_normalized": true,
+        "clock_raw": true,
+        "clock_normalized": true,
+        "utc_instant": null,
+        "home_away": true,
+        "score_raw": null,
+        "score_normalized": null,
+        "outcome_normalized": null,
+        "cancel_postpone": null,
+        "same_market_price": null
+      }
+    ]
+  },
+  "files": {
+    "fixtures.jsonl": "5c9b8b3ddba0f9ed3c63a3583ab059bc1c175da93819fed0c787db309312e20c",
+    "comparison.json": "a00c316ae30fc28b841778451c05bf56973d7f94419cd772623e6e366b429219"
+  },
+  "limitations": [
+    "Five direct GETs, three web opens, eight web search queries. Search/open exact query timestamps not separately instrumented; preserved result bytes retrieved at the exact GET times listed.",
+    "Schedule list and score widgets call POST; no POST was made. Three pages supply fixture date/time and teams, only one score independently evidenced; no census.",
+    "The three explicit match links are manual fixture-level identity decisions, not a reusable team alias dictionary.",
+    "UTC offsets and all market quote receipt/executability remain unverified.",
+    "Score check is retrospective, not evidence of actual pregame player or price receipt.",
+    "Local pregame ledger is an older 2026-08-28 through 2026-09-01 snapshot with no current tipster-vote-v1 entries or canonical fixture keys; no actual operating replay or historical counterfactual performed."
+  ]
+}
