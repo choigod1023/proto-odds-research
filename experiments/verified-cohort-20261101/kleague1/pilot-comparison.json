@@ -1,0 +1,120 @@
+{
+  "raw_league_rows": 865,
+  "raw_3way_rows": 227,
+  "normalized_league_rows": 227,
+  "raw_duplicate_market_keys": 0,
+  "normalized_duplicate_ids": 0,
+  "official_fixture_rows": 3,
+  "official_score_rows": 1,
+  "unique_explicit_fixture_links": 3,
+  "fields": {
+    "date_raw": {
+      "match": 3,
+      "mismatch": 0,
+      "unknown": 224
+    },
+    "date_normalized": {
+      "match": 3,
+      "mismatch": 0,
+      "unknown": 224
+    },
+    "clock_raw": {
+      "match": 3,
+      "mismatch": 0,
+      "unknown": 224
+    },
+    "clock_normalized": {
+      "match": 3,
+      "mismatch": 0,
+      "unknown": 224
+    },
+    "utc_instant": {
+      "match": 0,
+      "mismatch": 0,
+      "unknown": 227
+    },
+    "home_away": {
+      "match": 3,
+      "mismatch": 0,
+      "unknown": 224
+    },
+    "score_raw": {
+      "match": 1,
+      "mismatch": 0,
+      "unknown": 226
+    },
+    "score_normalized": {
+      "match": 0,
+      "mismatch": 0,
+      "unknown": 227
+    },
+    "outcome_normalized": {
+      "match": 1,
+      "mismatch": 0,
+      "unknown": 226
+    },
+    "cancel_postpone": {
+      "match": 0,
+      "mismatch": 0,
+      "unknown": 227
+    },
+    "same_market_price": {
+      "match": 0,
+      "mismatch": 0,
+      "unknown": 227
+    }
+  },
+  "comparisons": [
+    {
+      "fixture_id": "kleague:2025:1:96",
+      "status": "unique",
+      "raw_matches": 1,
+      "normalized_matches": 1,
+      "date_raw": true,
+      "date_normalized": true,
+      "clock_raw": true,
+      "clock_normalized": true,
+      "utc_instant": null,
+      "home_away": true,
+      "score_raw": true,
+      "score_normalized": null,
+      "outcome_normalized": true,
+      "cancel_postpone": null,
+      "same_market_price": null
+    },
+    {
+      "fixture_id": "kleague:2025:1:110",
+      "status": "unique",
+      "raw_matches": 1,
+      "normalized_matches": 1,
+      "date_raw": true,
+      "date_normalized": true,
+      "clock_raw": true,
+      "clock_normalized": true,
+      "utc_instant": null,
+      "home_away": true,
+      "score_raw": null,
+      "score_normalized": null,
+      "outcome_normalized": null,
+      "cancel_postpone": null,
+      "same_market_price": null
+    },
+    {
+      "fixture_id": "kleague:2025:1:140",
+      "status": "unique",
+      "raw_matches": 1,
+      "normalized_matches": 1,
+      "date_raw": true,
+      "date_normalized": true,
+      "clock_raw": true,
+      "clock_normalized": true,
+      "utc_instant": null,
+      "home_away": true,
+      "score_raw": null,
+      "score_normalized": null,
+      "outcome_normalized": null,
+      "cancel_postpone": null,
+      "same_market_price": null
+    }
+  ]
+}
