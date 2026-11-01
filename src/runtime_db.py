@@ -8,17 +8,59 @@ from __future__ import annotations
 from contextlib import contextmanager
 import csv
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal, InvalidOperation
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
+import re
 import sqlite3
 from typing import Any, Iterable, Iterator, Mapping
+import ijson.backends.python as streaming_json
+from ijson.common import JSONError, ObjectBuilder, file_source
+from ijson.utils import coroutine, coros2gen
 from runtime_datasets import DatasetStore, RESULT_SCHEMA
 
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_PATH = ROOT / "data" / "runtime" / "proodd.sqlite3"
+
+_JSON_NUMBER = re.compile(r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\Z")
+
+
+@coroutine
+def _strict_number_tokens(target):
+    """Validate ijson's Python lexer numbers before its permissive converter."""
+    while True:
+        position, token = yield
+        if token and token[0] in "+-.0123456789":
+            if not _JSON_NUMBER.fullmatch(token):
+                raise JSONError("Invalid JSON number")
+            if "." in token or "e" in token.lower():
+                try:
+                    Decimal(token)
+                except InvalidOperation:
+                    # Decimal limits exponent magnitude; json.loads uses float,
+                    # whose huge exponents safely become signed zero/infinity.
+                    number = float(token)
+                    token = ("-1e400" if number < 0 else "1e400") if math.isinf(number) else repr(number)
+        try:
+            target.send((position, token))
+        except StopIteration:
+            return
+
+
+def _strict_json_events(blob):
+    # Pin ijson's version: this pipeline inserts validation between the Python
+    # backend's lexer and parser while retaining arbitrary precision integers.
+    return coros2gen(
+        file_source(blob),
+        (streaming_json.parse_value, (False, False), {}),
+        (_strict_number_tokens, (), {}),
+        (streaming_json.Lexer, (), {}),
+        (streaming_json.utf8_encoder, (), {}),
+    )
 
 
 def configured_path() -> Path:
@@ -635,6 +677,30 @@ class RuntimeDatabase(DatasetStore):
             )
 
     def get_artifact(self, name: str) -> dict[str, Any] | None:
+        if name == "picks_v2":
+            # Keep rowid and blob on one snapshot even if a writer replaces the
+            # artifact between those operations. Never materialize the TEXT value.
+            with self.connect() as connection:
+                connection.execute("BEGIN")
+                row = connection.execute(
+                    "SELECT rowid FROM artifacts WHERE name=?", (name,)
+                ).fetchone()
+                if row is None:
+                    return None
+                with connection.blobopen("artifacts", "payload_json", row[0], readonly=True) as blob:
+                    builder = ObjectBuilder()
+                    # The Python backend preserves arbitrary-size integers. Convert
+                    # decimal events to float as json.loads does, including overflow.
+                    try:
+                        for event, value in _strict_json_events(blob):
+                            if event == "number" and isinstance(value, Decimal):
+                                value = float(value)
+                            builder.event(event, value)
+                    except JSONError as exc:
+                        # Match the previous public exception type without loading
+                        # or exposing the potentially large malformed payload.
+                        raise json.JSONDecodeError(str(exc), "", 0) from exc
+                    return builder.value
         with self.connect() as connection:
             row = connection.execute(
                 "SELECT payload_json FROM artifacts WHERE name=?", (name,)
