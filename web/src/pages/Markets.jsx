@@ -557,6 +557,13 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
           <p className="mt-1 text-[13px] leading-6">마지막 생성 이후 3시간이 지나 경기 판정을 멈췄습니다. 수집이 복구되면 경기별 픽과 추천 강도가 자동으로 다시 표시됩니다.</p>
         </div>
       )}
+      {!stale && isDataStale(data.generated_at) && (
+        <div role="status" className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
+          <b>경기별 판정 목록 갱신 지연</b>
+          <p>배당·점수가 갱신되어도 경기별 판정 목록은 별도로 지연될 수 있습니다. 새 배당에만 있는 경기는 아래 미연결 목록에 표시합니다. 사전 픽이나 공식 경기 상태가 확인된 것은 아닙니다.</p>
+          <small>마지막 판정 생성: {kstStamp(data.generated_at)} KST</small>
+        </div>
+      )}
       {liveDelayed && (
         <div role="status" className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-[13px] text-amber-950">
           <b>실시간 점수 갱신 지연</b>
@@ -635,7 +642,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
       </details>
 
       <div className="league-list" aria-label="리그별 경기">
-        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기{missingFixtures.length ? ` · 미연결 배구 ${missingFixtures.length}건 별도` : ""} </p>
+        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기{missingFixtures.length ? ` · 미연결 경기 ${missingFixtures.length}건 별도` : ""} </p>
         {leagueGroups.map((group, index) => {
           const open = openLeague === group.key || (openLeague === null && index === 0);
           const liveCount = group.games.filter((game) => gamePhase(game) === "live").length;
@@ -655,12 +662,12 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
             <div id={"league-games-" + index} hidden={!open} className="league-games">{open && renderLeagueGames(group.games)}</div>
           </section>;
         })}
-        {f.st && f.st !== "unlinked" && missingCandidates.length > 0 && <p role="status">선택한 상태에는 포함하지 않은 미연결 배구 상품 {missingCandidates.length}건이 있습니다. 상태는 확인이 필요합니다. 위의 ‘미연결 · 상태 확인 필요’에서 볼 수 있습니다.</p>}
-        {missingFixtures.length > 0 && <section className="league-group" aria-label="배당에서 확인된 미연결 배구 경기">
-          <h3>배당에서 확인된 미연결 배구 상품 {missingFixtures.length}건</h3>
+        {f.st && f.st !== "unlinked" && missingCandidates.length > 0 && <p role="status">선택한 상태에는 포함하지 않은 미연결 경기 {missingCandidates.length}건이 있습니다. 상태는 확인이 필요합니다. 위의 ‘미연결 · 상태 확인 필요’에서 볼 수 있습니다.</p>}
+        {missingFixtures.length > 0 && <section className="league-group" aria-label="배당에서 확인된 미연결 경기">
+          <h3>배당에서 확인된 미연결 경기 {missingFixtures.length}건</h3>
           <p role="status">경기 목록에 연결되지 않아 상태와 저장된 사전 픽을 확인할 수 없습니다. 배당 문서 생성: {kstStamp(marketOdds.generated_at)} KST{isDataStale(marketOdds.generated_at) || Date.parse(marketOdds.generated_at) > Date.now() + 5000 ? " · 문서가 오래됐거나 시각이 올바르지 않습니다" : ""}. 개별 가격의 관측 시각은 확인되지 않았습니다. 이 목록에는 상품 탭이 없습니다.</p>
           <ul>{missingFixtures.map((g) => <li key={JSON.stringify([g.year, g.round, g.sport, g.league, g.date, g.home, g.away])}>
-            {g.round}회 · {g.league} · {g.date} · {g.home} vs {g.away} · 상태 확인 필요
+            {SPORTS.find(([code]) => code === g.sport)?.[1] || g.sport} · {g.round}회 · {g.league} · {g.date} · {g.home} vs {g.away} · 상태 확인 필요
             {g.sourceRows.map((row, index) => <span key={index}> · 원천 게임번호 {row.gameNo || "미기재"}, 상태 표기 {row.status || "미기재"}, 결과 표기 {row.result || "미기재"}</span>)}
           </li>)}</ul>
         </section>}

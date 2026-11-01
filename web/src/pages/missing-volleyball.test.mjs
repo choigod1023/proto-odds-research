@@ -15,7 +15,7 @@ test("an absent volleyball fixture remains visibly unlinked without a pick after
     const {GameList}=await server.ssrLoadModule("/src/pages/Markets.jsx");
     const row={sport:"vl",league:"KOVO여",home:"GS칼텍스",away:"도로공사",date:"10.31(토) 16:00",market:"승패",n_way:2,odds:[1.72,1.76],result:"취소"};
     const html=renderToStaticMarkup(createElement(GameList,{data:{live:[],past:[]},marketOdds:{generated_at:"2026-10-31T05:04:00Z",markets:{129:{1527:row}}}}));
-    assert.match(html,/배당에서 확인된 미연결 배구 상품 1건/);
+    assert.match(html,/배당에서 확인된 미연결 경기 1건/);
     assert.match(html,/GS칼텍스 vs 도로공사/);
     assert.match(html,/저장된 사전 픽을 확인할 수 없습니다/);
     assert.match(html,/미연결 · 상태 확인 필요 1건/);

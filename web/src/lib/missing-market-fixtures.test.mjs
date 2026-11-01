@@ -29,5 +29,20 @@ test("year boundary, year-specific identity, malformed fields and sport", () => 
  assert.equal(missingMarketFixtures({},a)[0].year,2027); assert.equal(missingMarketFixtures({},a).length,1);
  assert.equal(missingMarketFixtures({live:[{...row,year:2025,round:129}],past:[]},odds).length,1);
  assert.equal(missingMarketFixtures({}, {...odds,generated_at:null}).length,0);
- assert.equal(missingMarketFixtures({}, {...odds,markets:{129:{a:{...row,sport:"bk"},b:{...row,league:""}}}}).length,0);
+ assert.equal(missingMarketFixtures({}, {...odds,markets:{129:{a:{...row,sport:"unknown"},b:{...row,league:""}}}}).length,0);
+});
+
+test("new baseball, basketball and football remain visible when predictions have not caught up", () => {
+ const bs={...row,sport:"bs",league:"KBO",home:"삼성",away:"KIA",date:"11.01(일) 14:00"};
+ const bk={...row,sport:"bk",league:"KBL",home:"창원LG",away:"원주DB",date:"11.01(일) 14:00"};
+ const sc={...row,sport:"sc",league:"K리그1",home:"A",away:"B",market:"승무패",n_way:3,date:"11.01(일) 14:00"};
+ const source={generated_at:"2026-11-01T03:33:51Z",markets:{129:{bs,bk,sc,
+   half:{...bs,market:"전반승무패",n_way:3},spread:{...bk,market:"핸디캡"},total:{...bs,market:"언더오버"}}}};
+ const list=missingMarketFixtures({live:[],past:[],generated_at:"2026-10-30T10:13:55Z"},source);
+ assert.deepEqual(list.map(g=>g.sport),["bs","bk","sc"]);
+ for(const g of list) {
+   assert.equal(g.status,undefined);assert.equal(g.options,undefined);assert.equal(g.prediction_record,undefined);
+   assert.equal(g.odds,undefined);
+ }
+ assert.deepEqual(missingMarketFixtures({live:[{...bs,round:129,year:2026}],past:[]},source).map(g=>g.sport),["bk","sc"]);
 });
