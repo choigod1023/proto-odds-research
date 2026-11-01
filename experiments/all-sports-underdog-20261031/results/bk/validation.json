@@ -1,0 +1,687 @@
+{
+  "status": "PASS",
+  "source_count": 6748,
+  "ledger_count": 6748,
+  "model_prediction_rows_checked": 26992,
+  "cohort": "domestic_archive",
+  "date_range": [
+    "2023-01-01",
+    "2026-08-15"
+  ],
+  "fallback_events": 286,
+  "fallback_months": [
+    "2023-01"
+  ],
+  "source_sha256_start_end": {
+    "common.py": {
+      "start": "2a507d75338442feeedb1d7ec85402f0f3f8217758b7ac8f89ad7b9a21c8e092",
+      "end": "2a507d75338442feeedb1d7ec85402f0f3f8217758b7ac8f89ad7b9a21c8e092"
+    },
+    "protocol.json": {
+      "start": "b6397461d8144a802ce80be25be45ccdbb8f9b9fbdf3f89079759b8afca22590",
+      "end": "b6397461d8144a802ce80be25be45ccdbb8f9b9fbdf3f89079759b8afca22590"
+    },
+    "inputs/domestic.jsonl.gz": {
+      "start": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+      "end": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
+    },
+    "inputs/external-football.jsonl.gz": {
+      "start": "31c4e7bc3a4dfc4bafa1bcb70ba295e99d910b3e326c14bfffe5bb0bf1613605",
+      "end": "31c4e7bc3a4dfc4bafa1bcb70ba295e99d910b3e326c14bfffe5bb0bf1613605"
+    }
+  },
+  "checks": "Source fields including odds and labels, all IDs, Decimal market probabilities, argmax, tie-aware market classification/rank, hit and Decimal unit net for every model row; full and yearly four-policy bets/hits/net/ROI versus report; monthly cutoff, training count and fallback; common and inputs hashes. Forecast fitting itself is not independently recalculated.",
+  "summary": {
+    "full": {
+      "market": {
+        "all": {
+          "bets": 6748,
+          "hits": 4604,
+          "net_units": "-772.93",
+          "roi": -0.11454208654416123
+        },
+        "favorites": {
+          "bets": 6737,
+          "hits": 4599,
+          "net_units": "-770.67",
+          "roi": -0.11439364702389787
+        },
+        "underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "market_same_underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        }
+      },
+      "outcome_form": {
+        "all": {
+          "bets": 6748,
+          "hits": 4297,
+          "net_units": "-832.02",
+          "roi": -0.123298755186722
+        },
+        "favorites": {
+          "bets": 5516,
+          "hits": 3835,
+          "net_units": "-634.95",
+          "roi": -0.11511058738216098
+        },
+        "underdogs": {
+          "bets": 1221,
+          "hits": 457,
+          "net_units": "-194.79",
+          "roi": -0.15953316953316954
+        },
+        "market_same_underdogs": {
+          "bets": 1221,
+          "hits": 764,
+          "net_units": "-135.72",
+          "roi": -0.11115479115479115
+        }
+      },
+      "market_residual": {
+        "all": {
+          "bets": 6748,
+          "hits": 4595,
+          "net_units": "-783.03",
+          "roi": -0.11603882631890931
+        },
+        "favorites": {
+          "bets": 6622,
+          "hits": 4538,
+          "net_units": "-759.29",
+          "roi": -0.11466173361522199
+        },
+        "underdogs": {
+          "bets": 115,
+          "hits": 54,
+          "net_units": "-17.96",
+          "roi": -0.15617391304347827
+        },
+        "market_same_underdogs": {
+          "bets": 115,
+          "hits": 61,
+          "net_units": "-11.38",
+          "roi": -0.09895652173913043
+        }
+      },
+      "half_market_form": {
+        "all": {
+          "bets": 6748,
+          "hits": 4550,
+          "net_units": "-787.55",
+          "roi": -0.1167086544161233
+        },
+        "favorites": {
+          "bets": 6251,
+          "hits": 4329,
+          "net_units": "-713.76",
+          "roi": -0.11418333066709327
+        },
+        "underdogs": {
+          "bets": 486,
+          "hits": 216,
+          "net_units": "-71.51",
+          "roi": -0.14713991769547324
+        },
+        "market_same_underdogs": {
+          "bets": 486,
+          "hits": 270,
+          "net_units": "-56.91",
+          "roi": -0.11709876543209877
+        }
+      }
+    },
+    "2023": {
+      "market": {
+        "all": {
+          "bets": 1848,
+          "hits": 1271,
+          "net_units": "-182.83",
+          "roi": -0.09893398268398268
+        },
+        "favorites": {
+          "bets": 1842,
+          "hits": 1270,
+          "net_units": "-178.59",
+          "roi": -0.0969543973941368
+        },
+        "underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "market_same_underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        }
+      },
+      "outcome_form": {
+        "all": {
+          "bets": 1848,
+          "hits": 1179,
+          "net_units": "-196.35",
+          "roi": -0.10625
+        },
+        "favorites": {
+          "bets": 1500,
+          "hits": 1052,
+          "net_units": "-140.54",
+          "roi": -0.09369333333333334
+        },
+        "underdogs": {
+          "bets": 342,
+          "hits": 124,
+          "net_units": "-55.03",
+          "roi": -0.16090643274853803
+        },
+        "market_same_underdogs": {
+          "bets": 342,
+          "hits": 218,
+          "net_units": "-38.05",
+          "roi": -0.11125730994152047
+        }
+      },
+      "market_residual": {
+        "all": {
+          "bets": 1848,
+          "hits": 1271,
+          "net_units": "-179.82",
+          "roi": -0.09730519480519481
+        },
+        "favorites": {
+          "bets": 1804,
+          "hits": 1250,
+          "net_units": "-174.10",
+          "roi": -0.09650776053215078
+        },
+        "underdogs": {
+          "bets": 38,
+          "hits": 18,
+          "net_units": "-4.94",
+          "roi": -0.13
+        },
+        "market_same_underdogs": {
+          "bets": 38,
+          "hits": 20,
+          "net_units": "-4.49",
+          "roi": -0.1181578947368421
+        }
+      },
+      "half_market_form": {
+        "all": {
+          "bets": 1848,
+          "hits": 1257,
+          "net_units": "-181.87",
+          "roi": -0.09841450216450216
+        },
+        "favorites": {
+          "bets": 1702,
+          "hits": 1192,
+          "net_units": "-161.37",
+          "roi": -0.09481198589894242
+        },
+        "underdogs": {
+          "bets": 140,
+          "hits": 62,
+          "net_units": "-19.72",
+          "roi": -0.14085714285714285
+        },
+        "market_same_underdogs": {
+          "bets": 140,
+          "hits": 78,
+          "net_units": "-17.22",
+          "roi": -0.123
+        }
+      }
+    },
+    "2024": {
+      "market": {
+        "all": {
+          "bets": 1831,
+          "hits": 1240,
+          "net_units": "-222.27",
+          "roi": -0.12139268159475697
+        },
+        "favorites": {
+          "bets": 1828,
+          "hits": 1238,
+          "net_units": "-222.75",
+          "roi": -0.12185448577680526
+        },
+        "underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "market_same_underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        }
+      },
+      "outcome_form": {
+        "all": {
+          "bets": 1831,
+          "hits": 1153,
+          "net_units": "-261.67",
+          "roi": -0.14291097760786456
+        },
+        "favorites": {
+          "bets": 1500,
+          "hits": 1031,
+          "net_units": "-194.66",
+          "roi": -0.12977333333333332
+        },
+        "underdogs": {
+          "bets": 328,
+          "hits": 121,
+          "net_units": "-65.75",
+          "roi": -0.20045731707317074
+        },
+        "market_same_underdogs": {
+          "bets": 328,
+          "hits": 207,
+          "net_units": "-28.09",
+          "roi": -0.08564024390243903
+        }
+      },
+      "market_residual": {
+        "all": {
+          "bets": 1831,
+          "hits": 1228,
+          "net_units": "-241.35",
+          "roi": -0.13181321682140906
+        },
+        "favorites": {
+          "bets": 1792,
+          "hits": 1215,
+          "net_units": "-225.82",
+          "roi": -0.126015625
+        },
+        "underdogs": {
+          "bets": 36,
+          "hits": 13,
+          "net_units": "-12.53",
+          "roi": -0.34805555555555556
+        },
+        "market_same_underdogs": {
+          "bets": 36,
+          "hits": 23,
+          "net_units": "3.07",
+          "roi": 0.08527777777777777
+        }
+      },
+      "half_market_form": {
+        "all": {
+          "bets": 1831,
+          "hits": 1211,
+          "net_units": "-248.96",
+          "roi": -0.13596941561987985
+        },
+        "favorites": {
+          "bets": 1684,
+          "hits": 1152,
+          "net_units": "-215.64",
+          "roi": -0.1280522565320665
+        },
+        "underdogs": {
+          "bets": 144,
+          "hits": 58,
+          "net_units": "-32.06",
+          "roi": -0.2226388888888889
+        },
+        "market_same_underdogs": {
+          "bets": 144,
+          "hits": 86,
+          "net_units": "-7.11",
+          "roi": -0.049375
+        }
+      }
+    },
+    "2025": {
+      "market": {
+        "all": {
+          "bets": 1921,
+          "hits": 1285,
+          "net_units": "-245.40",
+          "roi": -0.12774596564289434
+        },
+        "favorites": {
+          "bets": 1919,
+          "hits": 1283,
+          "net_units": "-246.90",
+          "roi": -0.1286607608129234
+        },
+        "underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "market_same_underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        }
+      },
+      "outcome_form": {
+        "all": {
+          "bets": 1921,
+          "hits": 1210,
+          "net_units": "-242.85",
+          "roi": -0.12641853201457573
+        },
+        "favorites": {
+          "bets": 1569,
+          "hits": 1071,
+          "net_units": "-199.32",
+          "roi": -0.12703632887189292
+        },
+        "underdogs": {
+          "bets": 350,
+          "hits": 138,
+          "net_units": "-43.29",
+          "roi": -0.12368571428571429
+        },
+        "market_same_underdogs": {
+          "bets": 350,
+          "hits": 212,
+          "net_units": "-47.58",
+          "roi": -0.13594285714285714
+        }
+      },
+      "market_residual": {
+        "all": {
+          "bets": 1921,
+          "hits": 1281,
+          "net_units": "-251.85",
+          "roi": -0.13110359187922957
+        },
+        "favorites": {
+          "bets": 1895,
+          "hits": 1270,
+          "net_units": "-245.30",
+          "roi": -0.12944591029023747
+        },
+        "underdogs": {
+          "bets": 24,
+          "hits": 11,
+          "net_units": "-4.55",
+          "roi": -0.18958333333333333
+        },
+        "market_same_underdogs": {
+          "bets": 24,
+          "hits": 13,
+          "net_units": "-1.60",
+          "roi": -0.06666666666666667
+        }
+      },
+      "half_market_form": {
+        "all": {
+          "bets": 1921,
+          "hits": 1279,
+          "net_units": "-236.60",
+          "roi": -0.12316501821967725
+        },
+        "favorites": {
+          "bets": 1786,
+          "hits": 1214,
+          "net_units": "-224.55",
+          "roi": -0.12572788353863382
+        },
+        "underdogs": {
+          "bets": 133,
+          "hits": 64,
+          "net_units": "-11.81",
+          "roi": -0.08879699248120301
+        },
+        "market_same_underdogs": {
+          "bets": 133,
+          "hits": 69,
+          "net_units": "-22.35",
+          "roi": -0.1680451127819549
+        }
+      }
+    },
+    "2026": {
+      "market": {
+        "all": {
+          "bets": 1148,
+          "hits": 808,
+          "net_units": "-122.43",
+          "roi": -0.10664634146341463
+        },
+        "favorites": {
+          "bets": 1148,
+          "hits": 808,
+          "net_units": "-122.43",
+          "roi": -0.10664634146341463
+        },
+        "underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "market_same_underdogs": {
+          "bets": 0,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        }
+      },
+      "outcome_form": {
+        "all": {
+          "bets": 1148,
+          "hits": 755,
+          "net_units": "-131.15",
+          "roi": -0.11424216027874565
+        },
+        "favorites": {
+          "bets": 947,
+          "hits": 681,
+          "net_units": "-100.43",
+          "roi": -0.1060506863780359
+        },
+        "underdogs": {
+          "bets": 201,
+          "hits": 74,
+          "net_units": "-30.72",
+          "roi": -0.1528358208955224
+        },
+        "market_same_underdogs": {
+          "bets": 201,
+          "hits": 127,
+          "net_units": "-22.00",
+          "roi": -0.10945273631840796
+        }
+      },
+      "market_residual": {
+        "all": {
+          "bets": 1148,
+          "hits": 815,
+          "net_units": "-110.01",
+          "roi": -0.09582752613240418
+        },
+        "favorites": {
+          "bets": 1131,
+          "hits": 803,
+          "net_units": "-114.07",
+          "roi": -0.1008576480990274
+        },
+        "underdogs": {
+          "bets": 17,
+          "hits": 12,
+          "net_units": "4.06",
+          "roi": 0.2388235294117647
+        },
+        "market_same_underdogs": {
+          "bets": 17,
+          "hits": 5,
+          "net_units": "-8.36",
+          "roi": -0.49176470588235294
+        }
+      },
+      "half_market_form": {
+        "all": {
+          "bets": 1148,
+          "hits": 803,
+          "net_units": "-120.12",
+          "roi": -0.10463414634146341
+        },
+        "favorites": {
+          "bets": 1079,
+          "hits": 771,
+          "net_units": "-112.20",
+          "roi": -0.10398517145505097
+        },
+        "underdogs": {
+          "bets": 69,
+          "hits": 32,
+          "net_units": "-7.92",
+          "roi": -0.11478260869565217
+        },
+        "market_same_underdogs": {
+          "bets": 69,
+          "hits": 37,
+          "net_units": "-10.23",
+          "roi": -0.1482608695652174
+        }
+      }
+    }
+  },
+  "errors": [],
+  "yearly_signs_and_changes": {
+    "market": {
+      "all": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "favorites": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "underdogs": {
+        "signs": {
+          "2023": "zero",
+          "2024": "zero",
+          "2025": "zero",
+          "2026": "zero"
+        },
+        "changes": []
+      }
+    },
+    "outcome_form": {
+      "all": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "favorites": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "underdogs": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      }
+    },
+    "market_residual": {
+      "all": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "favorites": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "underdogs": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "positive"
+        },
+        "changes": [
+          "2026"
+        ]
+      }
+    },
+    "half_market_form": {
+      "all": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "favorites": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      },
+      "underdogs": {
+        "signs": {
+          "2023": "negative",
+          "2024": "negative",
+          "2025": "negative",
+          "2026": "negative"
+        },
+        "changes": []
+      }
+    }
+  }
+}
