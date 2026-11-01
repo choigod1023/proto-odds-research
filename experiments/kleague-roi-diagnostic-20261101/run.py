@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[2];HERE=Path(__file__).resolve().parent
@@ -31,6 +32,7 @@ def official(row):
 
 
 def load_inputs(raw,training):
+    raw,training=Path(raw).resolve(),Path(training).resolve()
     old=ROOT/'experiments/verified-cohort-20261101/kleague1'
     normalized=ROOT/'experiments/all-sports-underdog-20261031/inputs/domestic.jsonl.gz'
     source_hashes={str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else p.name:digest(p)
@@ -126,6 +128,10 @@ def main():
     frozen=HERE/'input-hashes.json'
     if not frozen.exists() or json.loads(frozen.read_text(encoding='utf8'))!=hashes:
         raise ValueError('freeze input hashes in Git before evaluation')
+    for path in (frozen,HERE/'protocol.json'):
+        committed=subprocess.check_output(['git','show','HEAD:'+path.relative_to(ROOT).as_posix()],cwd=ROOT)
+        if json.loads(committed)!=json.loads(path.read_text(encoding='utf8')):
+            raise ValueError('uncommitted protocol or input-hash change')
     ledger,states=forecasts(history,evaluation)
     with (HERE/'ledger.jsonl').open('w',encoding='utf8',newline='\n') as out:
         for r in ledger:out.write(json.dumps(r,ensure_ascii=False,allow_nan=False)+'\n')
