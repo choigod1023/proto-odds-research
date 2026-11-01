@@ -68,5 +68,5 @@ def main():
       'unique_explicit_fixture_links':sum(x['status']=='unique' for x in comparisons),
       'fields':{k:count(k) for k in ('date_raw','date_normalized','clock_raw','clock_normalized','utc_instant','home_away','score_raw','score_normalized','outcome_normalized','cancel_postpone','same_market_price')},
       'comparisons':comparisons}
-    Path(args.output).write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    Path(args.output).write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n',encoding='utf-8', newline='\n')
 if __name__=='__main__':main()
