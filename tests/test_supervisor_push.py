@@ -4,6 +4,42 @@ from types import SimpleNamespace
 from deploy import supervisor
 
 
+def test_warmer_yields_existing_response_to_pending_decision(monkeypatch):
+    import threading
+    stop = threading.Event()
+    pending = threading.Event(); pending.set()
+    slot = threading.Lock()
+    monkeypatch.setattr(supervisor, '_market_cycle_pending', pending)
+    monkeypatch.setattr(supervisor, '_memory_heavy_lock', slot)
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 700)
+    monkeypatch.setattr(stop, 'wait', lambda _: stop.set())
+    class Views:
+        ready = {'recent': ('2026-11-01', b'last-good')}
+        def refresh(self):
+            raise AssertionError('pending decision must take priority')
+    views = Views()
+    supervisor.warm_match_views(views, stop)
+    assert views.ready['recent'][1] == b'last-good' and not slot.locked()
+
+
+def test_warmer_still_prepares_new_requested_scope_during_pending_repair(monkeypatch):
+    import threading
+    stop = threading.Event(); pending = threading.Event(); pending.set()
+    monkeypatch.setattr(supervisor, '_market_cycle_pending', pending)
+    monkeypatch.setattr(supervisor, '_memory_heavy_lock', threading.Lock())
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 700)
+    monkeypatch.setattr(stop, 'wait', lambda _: stop.set())
+    class Views:
+        ready = {'recent': ('2026-11-01', b'last-good')}
+        requested = {'recent', 'all'}
+        lock = threading.Lock()
+        def refresh(self):
+            self.ready['all'] = ('2026-11-01', b'all-response')
+    views = Views()
+    supervisor.warm_match_views(views, stop)
+    assert views.ready['all'][1] == b'all-response' and pending.is_set()
+
+
 def test_warmer_cannot_overlap_heavy_worker_and_retries(monkeypatch):
     import threading
     slot = threading.Lock()

@@ -83,7 +83,9 @@ def test_odds_looper_yield_defers_pending_recommendations_but_not_market_retry(m
     s._tipster_publish_pending.set()
     calls = []
     monkeypatch.setattr(s, '_refresh_recommendation_in_slot', lambda **kw: calls.append(kw) or True)
-    monkeypatch.setattr(s.time, 'sleep', lambda _: (_ for _ in ()).throw(StopIteration()))
+    def stop_after_one_cycle(_):
+        raise StopIteration
+    monkeypatch.setattr(s.time, 'sleep', stop_after_one_cycle)
     with pytest.raises(StopIteration):
         s.run_looper('실시간 배당', ['odds'], 60)
     assert calls == []

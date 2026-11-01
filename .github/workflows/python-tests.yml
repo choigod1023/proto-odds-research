@@ -24,12 +24,15 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
           cache: pip
 
       - name: 의존성 설치
@@ -37,3 +40,7 @@ jobs:
 
       - name: 인과 순서·확률 공식 회귀 테스트
         run: python -m pytest -q
+
+      - name: Linux 합성 판정 메모리 비교 (운영 DB·네트워크 사용 안 함)
+        timeout-minutes: 10
+        run: python scripts/measure_market_refresh_memory.py
