@@ -1,0 +1,51 @@
+{
+  "schema_version": "saved-baseline-inventory-v1",
+  "records": 1326,
+  "record_types": {
+    "prediction": 1326
+  },
+  "raw_distinct_prediction_event_ids": 207,
+  "selected_events": 206,
+  "rejected_revisions_or_events": 27,
+  "input_eligible_selected_events": 0,
+  "current_policy": "tipster-vote-v1",
+  "current_policy_input_eligible_selected_events": 0,
+  "player_capture_present_selected_events": 0,
+  "selected_policy_counts": {
+    "shin-market-anchor-v1": 196,
+    "internal-context-blend-v2": 10
+  },
+  "by_league": {
+    "unknown": {
+      "selected_events": 206
+    }
+  },
+  "exclusion_reasons_overlapping": {
+    "feature_after_as_of:features.player_context.starters_and_availability.updated_at": 7,
+    "incomplete_same_market_roster": 44,
+    "missing_fixture:away": 233,
+    "missing_fixture:home": 233,
+    "missing_fixture:league": 233,
+    "missing_fixture:sport": 233,
+    "missing_or_invalid_offer_roster": 44,
+    "missing_or_invalid_selected_odds": 44,
+    "missing_selected_market_or_side": 44,
+    "missing_selected_selection_or_offer": 44,
+    "no_operating_selection": 44,
+    "not_before_cutoff": 27,
+    "selection_offer_mismatch": 44
+  },
+  "prediction_as_of_range_utc": [
+    "2026-08-28T12:12:14+00:00",
+    "2026-09-01T23:01:31+00:00"
+  ],
+  "selection_rule": "latest_available_revision_before_content_or_outcome_checks",
+  "cutoff_minutes": 30,
+  "result_used": false,
+  "hash_chain_verified": false,
+  "external_receipt_verified": false,
+  "roi_evaluable": false,
+  "limitation": "Saved local snapshot only, not a live production export. Input eligibility is not official fixture/date/settlement, historical source availability or execution-price certification. Player capture presence is not confirmed-lineup or feature-time qualification. No model replay, selection, fitting or ROI calculation was performed.",
+  "source_sha256": "77c224f03c28217f552cb98b96a02e350a1e0e79d12a7145a81a3296a693d4e0",
+  "source_bytes": 14150261
+}
