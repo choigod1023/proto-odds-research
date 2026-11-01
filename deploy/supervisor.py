@@ -194,9 +194,11 @@ _next_recommendation_refresh = 0.0
 _tipster_wait_started = None
 _tailslips_wait_started = None
 _tipster_publish_pending = threading.Event()
-# Accessed only by the single odds looper. A waiting collector gets one yield.
-_odds_yielded_tipster_waits = set()
+# Written by the odds looper; recommendation workers read the yield timestamps.
+_odds_yielded_tipster_waits = {}
 TIPSTER_LOOPERS = {"공개 픽스터", "다종목 픽스터"}
+TIPSTER_YIELD_RETRY_SECONDS = 900
+TIPSTER_YIELD_WINDOW_SECONDS = 60
 
 
 def _preferred_tipster():
@@ -206,6 +208,18 @@ def _preferred_tipster():
         (_tailslips_wait_started, "공개 픽스터"))
         if started is not None and now - started >= 120]
     return min(waiting)[1] if waiting else None
+
+
+def _tipster_yield_active():
+    """Protect one odds interval for a waiting collector, without blocking retries forever."""
+    now = time.monotonic()
+    for name, started in (("다종목 픽스터", _tipster_wait_started),
+                          ("공개 픽스터", _tailslips_wait_started)):
+        if started is not None:
+            yielded = _odds_yielded_tipster_waits.get((name, started))
+            if yielded is not None and 0 <= now - yielded < TIPSTER_YIELD_WINDOW_SECONDS:
+                return True
+    return False
 
 
 def _tipster_overdue():
@@ -248,12 +262,26 @@ def _background_slot(name: str):
     """
     started = time.monotonic()
     next_notice = started
+    next_reclaim = started
     while True:
         with _memory_heavy_lock:
             available = _available_memory_mb()
             preferred = _preferred_tipster()
             priority_pending = (_market_cycle_pending.is_set()
                                 or (preferred is not None and name != preferred))
+            if (name in TIPSTER_LOOPERS and preferred == name and not priority_pending
+                    and available is not None and available < BACKGROUND_MIN_AVAILABLE_MB
+                    and time.monotonic() >= next_reclaim):
+                # Free only rebuildable parent caches under the existing lock.
+                # The same headroom threshold is measured again before admission.
+                next_reclaim = time.monotonic() + 300
+                try:
+                    _release_match_working_set()
+                    release_unused_heap()
+                    available = _available_memory_mb()
+                except Exception as exc:
+                    log(f"{name} 메모리 회수 실패: {type(exc).__name__}")
+                    available = None
             if not priority_pending and available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
                 log(f"{name} 실제 실행 — 여유 {available}MB, 대기 {int(time.monotonic()-started)}s")
                 yield
@@ -714,18 +742,21 @@ def _run_odds_cycle(cmd, market_retry=False):
     Existing background children finish normally (no transaction interruption).
     New optional work cannot repeatedly overtake the pending publication.
     """
-    # A collector can remain blocked by the 512MB gate indefinitely. Yield once
-    # per waiting episode, then continue odds even if that collector cannot run.
-    # Drop completed episodes so a future collection gets its own opportunity.
+    # An overdue collector gets a bounded recurring opportunity. Never skip a
+    # pending market retry, and do not yield more than once per 15 minutes.
     waits = {(name, started) for name, started in (
         ("다종목 픽스터", _tipster_wait_started),
         ("공개 픽스터", _tailslips_wait_started)) if started is not None}
-    _odds_yielded_tipster_waits.intersection_update(waits)
+    for finished in set(_odds_yielded_tipster_waits) - waits:
+        del _odds_yielded_tipster_waits[finished]
     eligible = sorted((started, name) for name, started in waits
                       if time.monotonic() - started >= 120)
     preferred = (eligible[0][1], eligible[0][0]) if eligible else None
-    if not market_retry and preferred is not None and preferred not in _odds_yielded_tipster_waits:
-        _odds_yielded_tipster_waits.add(preferred)
+    now = time.monotonic()
+    last_yield = _odds_yielded_tipster_waits.get(preferred)
+    if (not market_retry and preferred is not None and
+            (last_yield is None or now - last_yield >= TIPSTER_YIELD_RETRY_SECONDS)):
+        _odds_yielded_tipster_waits[preferred] = now
         # An expired retry window may still hold the previous reservation.
         _market_cycle_pending.clear()
         log("새 배당 수집 한 주기 양보 — 오래 기다린 픽스터 자동 수집 우선")
@@ -817,7 +848,7 @@ def _refresh_market_after_collection() -> int:
 def _refresh_recommendation_after_odds(*, repair: bool = True) -> bool:
     """Shared bounded admission for startup, periodic retry and odds handoff."""
     global _next_recommendation_refresh
-    if _tipster_overdue() and not _tipster_publish_pending.is_set():
+    if _tipster_yield_active() or (_tipster_overdue() and not _tipster_publish_pending.is_set()):
         # Yield optional recommendation enrichment, never live market publication.
         # The intake still needs the same heavy lock and 512MiB admission gate.
         return False
@@ -858,6 +889,9 @@ def _refresh_recommendation_in_slot(*, repair: bool = True) -> bool:
         log("추천 후속 갱신 보류 — 보조 작업 실행 중; 독립 주기에서 재시도")
         return False
     try:
+        # A yield may begin after the outer admission check but before this lock.
+        if _tipster_yield_active():
+            return False
         available = _available_memory_mb()
         if available is None or available < 256:
             log(f"추천 후속 갱신 보류 — 여유 {available}MB / 필요 256MB")
