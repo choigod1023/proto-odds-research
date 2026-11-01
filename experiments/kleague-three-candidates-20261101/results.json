@@ -1,0 +1,204 @@
+{
+  "classification": "exploratory_2025_reused_not_validation",
+  "registration_commit": "4fe8242562db20bb871a5600e1f0fcfa7c14800f",
+  "evaluation_games": 227,
+  "range": [
+    "2025-02-15",
+    "2025-11-30"
+  ],
+  "models": {
+    "market": {
+      "games": 227,
+      "bets": 227,
+      "hits": 99,
+      "accuracy": 0.43612334801762115,
+      "coverage": 1.0,
+      "net_units": "-33.34",
+      "roi": -0.14687224669603524,
+      "logloss": 1.0676624347139922,
+      "brier": 0.645977917032424,
+      "changed_picks_vs_market": 0,
+      "daily_close_drawdown_units": "37.99",
+      "monthly_net": {
+        "2025-02": "3.23",
+        "2025-03": "-2.08",
+        "2025-04": "-4.59",
+        "2025-05": "-5.78",
+        "2025-06": "-0.57",
+        "2025-07": "1.99",
+        "2025-08": "-5.88",
+        "2025-09": "-7.12",
+        "2025-10": "-4.83",
+        "2025-11": "-7.71"
+      }
+    },
+    "dc": {
+      "games": 227,
+      "bets": 227,
+      "hits": 94,
+      "accuracy": 0.41409691629955947,
+      "coverage": 1.0,
+      "net_units": "-34.43",
+      "roi": -0.1516740088105727,
+      "logloss": 1.075098586725468,
+      "brier": 0.650149233826232,
+      "changed_picks_vs_market": 54,
+      "daily_close_drawdown_units": "40.55",
+      "monthly_net": {
+        "2025-02": "1.09",
+        "2025-03": "-8.59",
+        "2025-04": "1.57",
+        "2025-05": "-13.77",
+        "2025-06": "-4.44",
+        "2025-07": "-3.56",
+        "2025-08": "-5.17",
+        "2025-09": "0.53",
+        "2025-10": "-4.83",
+        "2025-11": "2.74"
+      }
+    },
+    "bayes_market_goal": {
+      "games": 227,
+      "bets": 227,
+      "hits": 98,
+      "accuracy": 0.43171806167400884,
+      "coverage": 1.0,
+      "net_units": "-29.33",
+      "roi": -0.1292070484581498,
+      "logloss": 1.0754442269326334,
+      "brier": 0.6510166307004599,
+      "changed_picks_vs_market": 40,
+      "daily_close_drawdown_units": "29.47",
+      "monthly_net": {
+        "2025-02": "-1.12",
+        "2025-03": "-6.46",
+        "2025-04": "-1.08",
+        "2025-05": "-9.66",
+        "2025-06": "-5.20",
+        "2025-07": "2.67",
+        "2025-08": "-0.47",
+        "2025-09": "0.53",
+        "2025-10": "-4.83",
+        "2025-11": "-3.71"
+      }
+    },
+    "moe_two_expert": {
+      "games": 227,
+      "bets": 227,
+      "hits": 99,
+      "accuracy": 0.43612334801762115,
+      "coverage": 1.0,
+      "net_units": "-33.46",
+      "roi": -0.14740088105726873,
+      "logloss": 1.067271974254334,
+      "brier": 0.645480400623469,
+      "changed_picks_vs_market": 4,
+      "daily_close_drawdown_units": "38.11",
+      "monthly_net": {
+        "2025-02": "3.23",
+        "2025-03": "-2.08",
+        "2025-04": "-4.59",
+        "2025-05": "-8.12",
+        "2025-06": "-3.10",
+        "2025-07": "1.99",
+        "2025-08": "-3.53",
+        "2025-09": "-7.12",
+        "2025-10": "-4.83",
+        "2025-11": "-5.31"
+      }
+    },
+    "fl_glm": {
+      "games": 227,
+      "bets": 227,
+      "hits": 99,
+      "accuracy": 0.43612334801762115,
+      "coverage": 1.0,
+      "net_units": "-33.34",
+      "roi": -0.14687224669603524,
+      "logloss": 1.066823566837201,
+      "brier": 0.6452658332417885,
+      "changed_picks_vs_market": 0,
+      "daily_close_drawdown_units": "37.99",
+      "monthly_net": {
+        "2025-02": "3.23",
+        "2025-03": "-2.08",
+        "2025-04": "-4.59",
+        "2025-05": "-5.78",
+        "2025-06": "-0.57",
+        "2025-07": "1.99",
+        "2025-08": "-5.88",
+        "2025-09": "-7.12",
+        "2025-10": "-4.83",
+        "2025-11": "-7.71"
+      }
+    }
+  },
+  "uncertainty": {
+    "bayes_market_goal": {
+      "weeks": 37,
+      "roi_delta_per_opportunity_ci95": [
+        -0.08982388482501434,
+        0.12166924778761062
+      ],
+      "accuracy_delta_per_opportunity_ci95": [
+        -0.049019607843137254,
+        0.03755868544600939
+      ],
+      "logloss_improvement_ci95": [
+        -0.02279985946821422,
+        0.007523802346754135
+      ],
+      "classification": "descriptive reused-cohort block bootstrap, not best-of-three confirmation"
+    },
+    "moe_two_expert": {
+      "weeks": 37,
+      "roi_delta_per_opportunity_ci95": [
+        -0.04422840909090908,
+        0.04179039301310044
+      ],
+      "accuracy_delta_per_opportunity_ci95": [
+        -0.018018018018018018,
+        0.017623094616194275
+      ],
+      "logloss_improvement_ci95": [
+        -0.0039302705725295815,
+        0.004905688781510085
+      ],
+      "classification": "descriptive reused-cohort block bootstrap, not best-of-three confirmation"
+    },
+    "fl_glm": {
+      "weeks": 37,
+      "roi_delta_per_opportunity_ci95": [
+        0.0,
+        0.0
+      ],
+      "accuracy_delta_per_opportunity_ci95": [
+        0.0,
+        0.0
+      ],
+      "logloss_improvement_ci95": [
+        -0.0019683315252149764,
+        0.0036585829303605656
+      ],
+      "classification": "descriptive reused-cohort block bootstrap, not best-of-three confirmation"
+    }
+  },
+  "source_lf_sha256": {
+    "experiments/kleague-three-candidates-20261101/protocol.json": "87944079a63ac483875f833cc7e363bff253b5b58518dfc59e875b9d79efcee3",
+    "experiments/kleague-three-candidates-20261101/oof.jsonl": "158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05",
+    "experiments/kleague-three-candidates-20261101/input-manifest.json": "bc60f279ccef0d3f90ce70782dc561501e9bd1c28b2187907f8b6a00725e4ea1",
+    "experiments/kleague-three-candidates-20261101/run.py": "bc37be78e0fae940f4beea92c782a0b77023780ae0d3389074e1ba0be3a4edae",
+    "src/research_market_bayes.py": "1d00a9d88bef17c507457f049f8a36018e41ea4da51c00d0b3ff399970c3d78d",
+    "src/research_moe_two_expert.py": "e2f1e2b9e5f1ad1653c2b80ebc1fc54c0cf76fbff892c855d27ee3696441d702",
+    "src/research_fl_glm.py": "1dde9b8e6f18b7c353eed9bb5f820f8de884b5cb335d08c6014b2713aec7114d",
+    "src/research_kleague_dc.py": "79187243175ed45556af79f1c376f8628844747188865cb57b5e0b627e48bf3f",
+    "src/devig.py": "234d000c33279334e4989ffb33b2b57eec344ae8e78593f3308dc3966c868840"
+  },
+  "price_receipt_verified": false,
+  "tipster_expert": false,
+  "true_9_to_1_comparison": false,
+  "formal_validation": false,
+  "adopted": false,
+  "monthly_wallet_loss_cap_changed": false,
+  "accounting": "All full-game 3-way prices, equal-unit singles, no monthly stop; NOT personal wallet replay"
+}

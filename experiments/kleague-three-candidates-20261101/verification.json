@@ -1,0 +1,16 @@
+{
+  "evaluation_games": 227,
+  "verified_settlements": 1135,
+  "closed_form_or_prior_baseline_probability_replays": 908,
+  "independent_bayesian_poisson_sum_probability_replays": 227,
+  "maximum_replay_error": {
+    "market": 0.0,
+    "dc": 0.0,
+    "moe_two_expert": 0.0,
+    "fl_glm": 1.6653345369377348e-16,
+    "bayes_market_goal": 3.885780586188048e-16
+  },
+  "bayesian_probability_replayed": true,
+  "note": "Bayesian saved posterior integrated independently over Poisson scores0..80; MAP and Laplace fit are not independently re-estimated here. Market/DC compared with prior baseline artifact. Source and input hashes are reproducibility records, not historical pregame certification.",
+  "ledger_sha256": "da0e457f6428d4dca964026978fa3d86f2819147cca050f4ffe6c801a281ff98"
+}
