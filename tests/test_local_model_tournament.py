@@ -9,6 +9,17 @@ import numpy as np
 from scripts import local_model_tournament as m
 
 
+def assert_summary_equal(case, actual, expected):
+    # Python 3.12 improved float sum precision. Saved research summaries must
+    # agree numerically across runtimes; counts, choices and hashes remain exact.
+    case.assertEqual(actual.keys(), expected.keys())
+    for key, value in expected.items():
+        if isinstance(value, float):
+            case.assertAlmostEqual(actual[key], value, delta=max(1e-12, abs(value)*1e-12))
+        else:
+            case.assertEqual(actual[key], value)
+
+
 def row(i, season=21, day=None, league='D1', y=0, prices=None):
     return dict(match_id=str(i), season=season, date=day or f'20{season}-09-01', league=league, y=y,
                 prices=prices or [1.3, 5., 8.])
@@ -132,7 +143,7 @@ class TournamentTests(unittest.TestCase):
             self.assertEqual(m.choose_winners(f['inner_trials'], f['inner_models']), f['winners'])
             for name, rs in f['records'].items():
                 pooled[name].extend(rs)
-                self.assertEqual(m.summary(rs), f['policy'][name])
+                assert_summary_equal(self, m.summary(rs), f['policy'][name])
                 for r in rs:
                     if r['stake']:
                         a,b = r['pair']
@@ -142,7 +153,7 @@ class TournamentTests(unittest.TestCase):
                     else:
                         self.assertEqual(r['profit'],0.)
         for name,rs in pooled.items():
-            self.assertEqual(m.summary(rs),j['pooled']['policy'][name])
+            assert_summary_equal(self, m.summary(rs), j['pooled']['policy'][name])
 
 
 if __name__ == '__main__':
