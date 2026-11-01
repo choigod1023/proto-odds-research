@@ -51,3 +51,40 @@ def test_future_label_and_future_form_never_become_features():
 def test_identity_mismatch_fails():
     d,r,s=sample(); d['data']['gameScore']['gmKey']='20250322HHKT1'
     with pytest.raises(ValueError): run(d,r,s)
+
+
+def test_historical_article_files_are_consistent_and_not_promoted():
+    from pathlib import Path
+    import hashlib
+    root=Path(__file__).resolve().parents[1]/'experiments/verified-cohort-20261101/kbo'
+    evidence=[json.loads(s) for s in (root/'evidence.jsonl').read_text(encoding='utf8').splitlines()]
+    fixtures=[json.loads(s) for s in (root/'fixtures.jsonl').read_text(encoding='utf8').splitlines()]
+    log=json.loads((root/'article-get-log.json').read_text(encoding='utf8'))
+    assert len(log)==6 and all(x['status']==200 for x in log)
+    for item in log:
+        name=('kbo-photo-'+item['id'] if item['id'].isdigit() else item['id'])+'.html'
+        assert hashlib.sha256((root/'raw'/name).read_bytes()).hexdigest()==item['sha256']
+    claims=[x for x in evidence if x.get('classification')=='historical_claimed_before']
+    assert len(claims)==2 and len(fixtures)==4 and not any(x['eligible'] for x in fixtures)
+    assert sum(len(x['lineup_claims']) for x in claims)==18
+    assert all(not player['official_identity_verified'] for x in claims for player in x['lineup_claims'])
+    assert all(not x['prospective_received_before'] and x['independent_archive'] is None for x in claims)
+    unknown=[x for x in evidence if x.get('classification')=='pregame_article_claim_time_unverified']
+    assert len(unknown)==1 and unknown[0]['published_claim'] is None
+
+
+def test_claimed_publications_before_recorded_kickoffs_and_sources_contain_lineups():
+    from pathlib import Path
+    from datetime import datetime
+    root=Path(__file__).resolve().parents[1]/'experiments/verified-cohort-20261101/kbo'
+    evidence=[json.loads(s) for s in (root/'evidence.jsonl').read_text(encoding='utf8').splitlines()]
+    fixtures=[json.loads(s) for s in (root/'fixtures.jsonl').read_text(encoding='utf8').splitlines()]
+    for e in evidence[1:3]:
+        f=next(x for x in fixtures if x.get('game_id_postgame_source')==e['game_id_postgame_source'])
+        kickoff=datetime.fromisoformat(f['date']+'T'+f['scheduled_time_claim_kst']+':00+09:00')
+        assert datetime.fromisoformat(e['published_claim'])<kickoff
+        assert not f['official_result_independently_verified'] and not f['price_receipt_before']
+        article_id=e['article_kbo_url'].split('=')[-1]
+        article=(root/'raw'/f'kbo-photo-{article_id}.html').read_text(encoding='utf8')
+        assert all(x['name_claim'] in article for x in e['lineup_claims'])
+    assert evidence[-1]['classification']=='pregame_article_claim_time_unverified'

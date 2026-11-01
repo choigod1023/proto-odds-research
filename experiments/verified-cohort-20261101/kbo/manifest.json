@@ -59,7 +59,14 @@
     "fixtures.jsonl",
     "evidence.jsonl",
     "raw/kt-watchpoint.html",
-    "raw/kt-watchpoint-20250322.json"
+    "raw/kt-watchpoint-20250322.json",
+    "article-get-log.json",
+    "raw/kbo-photo-485205.html",
+    "raw/kbo-photo-490380.html",
+    "raw/kbo-photo-512458.html",
+    "raw/osen-list-20250606.html",
+    "raw/chosun-485205.html",
+    "raw/osen-G1112586000.html"
   ],
   "observation_method": "GET with Python requests timeout 15s, UTC receipt recorded after response, SHA256 raw bytes; offline CLI uniquely matches supplied game and market key. Assumed T-30 is a hypothetical cutoff, not an operating prediction timestamp.",
   "limitations": [
@@ -70,6 +77,34 @@
     "CSV and boxscore sources have no proven historical receipt. No model ROI computed.",
     "Exact search-query time not recorded; GET receipt times are recorded.",
     "Offline adapter does not authenticate independent archive witnesses or promote any lineup to eligible.",
-    "No present-policy frozen pick requirement for 2025; historical counterfactual must be distinguished from an actual operating replay. Parent reports main snapshot 1326 rows, 2026-08-28..09-01, SHA 77c224f03c28217f552cb98b96a02e350a1e0e79d12a7145a81a3296a693d4e0, old policy with no canonical fixture; not independently inspected here and not a current server audit."
-  ]
+    "No present-policy frozen pick requirement for 2025; historical counterfactual must be distinguished from an actual operating replay. Parent reports main snapshot 1326 rows, 2026-08-28..09-01, SHA 77c224f03c28217f552cb98b96a02e350a1e0e79d12a7145a81a3296a693d4e0, old policy with no canonical fixture; not independently inspected here and not a current server audit.",
+    "Follow-up found two historical time claims, not independent archival or actual pregame receipt evidence; historical candidates are not ROI-eligible."
+  ],
+  "article_followup": {
+    "additional_search_queries": 2,
+    "search_time_utc": "not recorded",
+    "additional_gets": 6,
+    "get_log": "article-get-log.json",
+    "original_kbo_article_candidates": 3,
+    "matching_publication_time_claim_before_game": 2,
+    "before_game_content_but_publication_time_unknown": 1,
+    "historical_claimed_before": 2,
+    "independent_archive_before": 0,
+    "actual_pregame_receipt_before": 0,
+    "team_official_pregame_source": 0,
+    "postgame_source_player_code_name_order_matches": 18,
+    "official_player_identity_or_affiliation_independently_verified": 0,
+    "official_result_independently_verified": 0,
+    "matched_same_game_two_way_csv_and_postgame_scores": 2,
+    "partially_matched_market_id_with_no_official_game_id": 1,
+    "eligible_intersection": 0,
+    "notes": [
+      "The 3 KBO pages repeat OSEN content, not three independent sources.",
+      "The 05/11 date claims are from Chosun Biz syndication, which gives visible 11:25/11:26 and internally inconsistent published/modified metadata.",
+      "OSEN 06/06 original claims 14:16 publication, modification unknown.",
+      "Postgame player codes and game IDs are external archive crosswalk candidates, not independent official identity proofs.",
+      "Scores and odds are not proven pregame receipt or independently confirmed official result.",
+      "Each search timestamp was not recorded."
+    ]
+  }
 }
