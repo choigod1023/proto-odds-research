@@ -45,10 +45,35 @@
     }
   },
   "baseline": {
-    "selection": "actual tipster-vote-v1 replay, abstentions included",
-    "probability": "same offer same time shin market probability",
-    "historical_control": "market90-tipster10-v2 only if frozen contemporaneous evidence exists",
-    "contract_conflict": "2026-10-28 no-vote withhold text versus current code unique market fallback; resolution required before operational promotion"
+    "freeze_before_any_research_run": true,
+    "freeze_fields": [
+      "evaluation cohort and period",
+      "policy version and code commit",
+      "market identity and snapshot as-of",
+      "selection, abstention, tie and missing-input rules",
+      "receipt provenance and independent witness status"
+    ],
+    "probability": "same offer same time shin market probability, reported separately from selection",
+    "policy_views": {
+      "contract_no_votes": "2026-10-28 contract text specifies withhold; this is not proof of actual past execution",
+      "current_code_counterfactual": "current tipster-vote-v1 on eligible historical inputs; unique market fallback when confirmed zero eligible votes; never call actual or frozen historical prediction",
+      "actual_operating_replay": "only actual preserved frozen prediction ledger revision, original policy/version/selection/price/time; missing is excluded with reason, never filled by current rule"
+    },
+    "current_code_fallback_introduced_in": "13d9c5df1cedaef104f1dfe28da372560b9d51dd",
+    "no_current_policy_frozen_actual_2025": true,
+    "stratify_by": [
+      "policy_version",
+      "selection_source: tipster_vote / market_fallback_no_votes / withheld / unknown"
+    ],
+    "report_each_stratum": [
+      "population",
+      "selected",
+      "abstained",
+      "coverage",
+      "missing_or_unknown"
+    ],
+    "historical_control": "market90-tipster10-v2 only if frozen contemporaneous evidence exists, separately labeled",
+    "contract_conflict": "2026-10-28 no-vote withhold text versus current code unique market fallback; latest approval unresolved; no operating change"
   },
   "eligibility": {
     "min_test_events_per_league": 300,
@@ -66,7 +91,15 @@
       "no cancelled or unverified offer eligibility",
       "no original source counted as new due only to hash/revision/receipt change"
     ],
-    "stop": "insufficient verified sample, ambiguous data/identity, clock/receipt failure, unavailable exact feature definitions, leakage or non-reproducible prediction"
+    "stop": "insufficient verified sample, ambiguous data/identity, clock/receipt failure, unavailable exact feature definitions, leakage or non-reproducible prediction",
+    "receipt_provenance": {
+      "separate_fields": [
+        "source asserted time",
+        "collector recorded receipt time",
+        "independent receipt evidence and verification status"
+      ],
+      "rule": "A hash, record, or timestamp claim alone is not independent proof; classify unknown when independent evidence is missing; never present a retrospectively received item as prospective."
+    }
   },
   "evaluation": {
     "primary_metric": "paired per-match log-loss improvement vs market; positive means better",
@@ -84,7 +117,7 @@
     "multiplicity": "two league hypotheses, one-sided Holm familywise 0.05; adjusted lower improvement confidence bound above zero",
     "uncertainty": "paired 7-day blocks bootstrap, 10000 draws, RNG seed 20261101; do not infer with too few independent blocks",
     "roi": "secondary fixed-unit same event/offer/price/settlement replay, retain abstentions; feasibility unverified is not realized return",
-    "selection": "candidate argmax only; exact ties abstain; no underdog bonus or post-hoc cutoffs",
+    "selection": "freeze selection baseline before research; report actual_operating_replay and historical_counterfactual separately; candidate argmax only; exact ties abstain; no underdog bonus or post-hoc cutoffs",
     "promotion": "independent new period replication, data rights and clocks verified, T-30 and ledger regression, contract reconciliation, explicit user approval",
     "paper_bankroll_monthly_net_loss_limit_krw": 50000
   },
