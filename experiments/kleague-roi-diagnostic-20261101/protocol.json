@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "purpose": "User-requested preliminary numerical comparison, NOT promotion validation",
+  "formal_protocol_unchanged": "experiments/verified-cohort-20261101/research-plan/protocol.json",
+  "formal_gate_expected_failure": ["227 test games < 300 minimum", "Historical price receipt and source availability uncertified", "2025 previously researched, not an untouched holdout"],
+  "training_source": "Newly fetched official 2023/2024 K League 1 completed fixture results by stable official team IDs; received today, not historical receipts",
+  "evaluation": "All 227 domestic 2025 K League 1 complete full-game 3-way markets uniquely matched to official 2025 fixtures; no odds or probability filters",
+  "baseline": "src.devig.shin on the exact archived three-outcome prices; argmax, ties abstain",
+  "candidate": {
+    "family": "time-weighted Dixon-Coles attack/defence Poisson",
+    "half_life_days": 180,
+    "l2": 10,
+    "objective": "SUM weighted negative joint goal log likelihood + 0.5*10*(sum attack_raw^2 + sum defence_raw^2 + rho^2); intercept/home unpenalized",
+    "identification": "attack=raw-mean(raw), defence=raw-mean(raw); unknown promoted team uses zero effects until observed in training",
+    "lambda_home": "exp(intercept + home + attack_home + defence_away)",
+    "lambda_away": "exp(intercept + attack_away + defence_home)",
+    "means_clipped": [0.05, 6.0],
+    "rho_bounds": [-0.15, 0.025],
+    "parameter_bounds": "intercept[-2,2], home[-1,1], raw team effects[-2,2]",
+    "fit": "monthly expanding prior only, official result date <= month-start minus 7 days; min200 completed training fixtures; stop rather than silently market-fallback",
+    "result_availability": "Seven-day source-date embargo is a retrospective modeling assumption, not verified historical publication/receipt",
+    "optimizer": "L-BFGS-B analytic gradient, maxiter2000, ftol1e-11, gtol1e-7; stop on failure",
+    "goals_grid": "0..30 each side, reject tail >1e-10; normalize remaining joint mass",
+    "choice": "argmax 3-way probability, 1e-12 ties abstain; no EV/odds/underdog filters"
+  },
+  "model_or_policy_searches": 0,
+  "metrics": ["coverage", "accuracy", "unit ROI", "logloss", "Brier", "monthly profit", "daily-close drawdown", "paired weekly-block bootstrap 10000 seed20261101"],
+  "unavailable_comparisons": ["actual operating/tipster-vote replay", "historical 9:1 without qualified tipster input", "KBO player-feature model"],
+  "decision": "No automatic adoption/deployment. Report all signed effects and uncertainty, label results exploratory regardless of sign; evaluate independent period and formal gates before any replacement",
+  "wallet": "Unit diagnostic does not alter operating monthly loss limit 50000 KRW or execute bets"
+}
