@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "status": "proposed_not_executable_kbo_features_and_contract_unresolved",
+  "base_commit": "e7494e594a1d2b2fe63c67949db8e09b219e51c3",
+  "evidence_at_creation": {
+    "papers_read": 4,
+    "new_game_data_gets": 0,
+    "new_eligible_kl_games": 0,
+    "new_eligible_kbo_games": 0,
+    "explanation": "No new sports data collected, matched, fitted or evaluated under this task; zero is not an estimate of existing data availability.",
+    "old_445_122_or_kbo51_retested": false
+  },
+  "budget": {
+    "candidate_models_per_league": 1,
+    "kl_half_life_days": 180,
+    "fixed_l2": 10,
+    "hyperparameter_searches": 0,
+    "seed": 20261101,
+    "bootstrap_resamples": 10000,
+    "bet_policy_tuning": 0
+  },
+  "candidates": {
+    "kleague": {
+      "family": "time-weighted Dixon-Coles team attack/defence Poisson",
+      "outcomes": [
+        "home",
+        "draw",
+        "away"
+      ],
+      "draw_correlation": "fit rho on training only",
+      "weights": "exp(-ln(2)*age_days/180)",
+      "training_l2": 10
+    },
+    "kbo": {
+      "family": "logistic market-offset residual",
+      "formula": "logit(p_home)=logit(p_market_home)+intercept+beta*x",
+      "training_l2": 10,
+      "features": [
+        "pregame starting pitchers prior-season-to-date difference",
+        "confirmed nine-player batting prior-stat difference",
+        "previous 3 days bullpen pitch count and innings differences"
+      ],
+      "feature_schema_status": "unresolved; freeze precise definitions and missingness rules before eligibility or fitting; no optimization after evaluation",
+      "void": "official rules required; no outcome-based exclusion and no invented draw probability"
+    }
+  },
+  "baseline": {
+    "selection": "actual tipster-vote-v1 replay, abstentions included",
+    "probability": "same offer same time shin market probability",
+    "historical_control": "market90-tipster10-v2 only if frozen contemporaneous evidence exists",
+    "contract_conflict": "2026-10-28 no-vote withhold text versus current code unique market fallback; resolution required before operational promotion"
+  },
+  "eligibility": {
+    "min_test_events_per_league": 300,
+    "min_temporal_folds": 3,
+    "min_evaluation_events_per_fold": 50,
+    "min_train_events_before_first_fold": 200,
+    "embargo_days": 7,
+    "sampling_unit": "unique match; keep reissues and same-day events in same block",
+    "requires": [
+      "independent official fixture date and kickoff witness",
+      "exact complete contemporaneous same-market priced vector and settlement rules",
+      "source original hash plus actual completed receipt timestamps no later than as_of and T-30",
+      "official results usable only after confirmed availability",
+      "pregame player and lineup inputs with separate source timestamp and actual receipt",
+      "no cancelled or unverified offer eligibility",
+      "no original source counted as new due only to hash/revision/receipt change"
+    ],
+    "stop": "insufficient verified sample, ambiguous data/identity, clock/receipt failure, unavailable exact feature definitions, leakage or non-reproducible prediction"
+  },
+  "evaluation": {
+    "primary_metric": "paired per-match log-loss improvement vs market; positive means better",
+    "secondary_metrics": [
+      "Brier",
+      "calibration intercept and slope",
+      "reliability plots",
+      "accuracy",
+      "coverage",
+      "ROI",
+      "monthly P&L",
+      "drawdown"
+    ],
+    "chronology": "expanding preperiod only; no future fitting or scaler leakage; at least three pre-specified chronological test blocks",
+    "multiplicity": "two league hypotheses, one-sided Holm familywise 0.05; adjusted lower improvement confidence bound above zero",
+    "uncertainty": "paired 7-day blocks bootstrap, 10000 draws, RNG seed 20261101; do not infer with too few independent blocks",
+    "roi": "secondary fixed-unit same event/offer/price/settlement replay, retain abstentions; feasibility unverified is not realized return",
+    "selection": "candidate argmax only; exact ties abstain; no underdog bonus or post-hoc cutoffs",
+    "promotion": "independent new period replication, data rights and clocks verified, T-30 and ledger regression, contract reconciliation, explicit user approval",
+    "paper_bankroll_monthly_net_loss_limit_krw": 50000
+  },
+  "actions_forbidden": [
+    "collection of new sports data in this task",
+    "model fitting",
+    "production code/database/scheduling or runtime changes",
+    "deployment or restart",
+    "real bets",
+    "send email"
+  ]
+}
