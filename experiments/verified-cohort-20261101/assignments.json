@@ -19,7 +19,7 @@
       "followup_read_only_post_budget": 10,
       "artifact_directory": "experiments/verified-cohort-20261101/kleague1",
       "model_fit_allowed": false,
-      "completion_state": "followup_dispatched",
+      "completion_state": "completed_finite_work_not_performance_validation",
       "first_pass_result": {
         "draft_pr": 484,
         "head_at_first_report": "82f16f4e171ebb7d4381001bf9348216ee19d944",
@@ -28,6 +28,18 @@
           "official_date_matches": 3,
           "official_score_matches": 1
         }
+      },
+      "final_result": {
+        "draft_pr": 484,
+        "head": "566301644c5d427e2e8a6b6492e2bdd69f119279",
+        "counts": {
+          "official_fixtures": 228,
+          "matched_domestic_fixtures": 227,
+          "official_unlinked": 1,
+          "same_date_home_away_clock_and_score": 227
+        },
+        "integrated_locally": true,
+        "merged_into_remote_main": false
       }
     },
     {
@@ -40,7 +52,7 @@
       "followup_search_query_budget": 2,
       "artifact_directory": "experiments/verified-cohort-20261101/kbo",
       "model_fit_allowed": false,
-      "completion_state": "followup_dispatched",
+      "completion_state": "completed_finite_work_not_performance_validation",
       "first_pass_result": {
         "draft_pr": 482,
         "head_at_first_report": "d648c86567555c3fc3fb7c3eb34c5c1696184022",
@@ -48,6 +60,18 @@
           "team_postgame_response_fixtures": 1,
           "strict_pregame_intersection": 0
         }
+      },
+      "final_result": {
+        "draft_pr": 482,
+        "head": "7f018c12e22c621a5158df074d82a0a59de69a8c",
+        "counts": {
+          "postgame_team_response": 1,
+          "articles": 3,
+          "historical_claimed_before": 2,
+          "strict_model_evaluation_intersection": 0
+        },
+        "integrated_locally": true,
+        "merged_into_remote_main": false
       }
     },
     {
@@ -56,7 +80,7 @@
       "scope": "Primary 논문 최대4개와 리그별 후보1개/평가/중단 규칙; 성능 숫자 생성 없음",
       "artifact_directory": "experiments/verified-cohort-20261101/research-plan",
       "model_fit_allowed": false,
-      "completion_state": "baseline_definition_followup_dispatched",
+      "completion_state": "completed_finite_work_not_performance_validation",
       "first_pass_result": {
         "draft_pr": 483,
         "head_at_first_report": "0db687ef12c746099ab062b343e371d0db4f1e54",
@@ -64,6 +88,17 @@
           "primary_papers_read": 4,
           "new_model_evaluation_fixtures": 0
         }
+      },
+      "final_result": {
+        "draft_pr": 483,
+        "head": "263c1cb38c8ae73ed3655a1f0d392d274f9212a9",
+        "counts": {
+          "primary_papers": 4,
+          "frozen_candidate_plans": 2,
+          "new_evaluation_games": 0
+        },
+        "integrated_locally": true,
+        "merged_into_remote_main": false
       }
     }
   ],
@@ -74,5 +109,5 @@
     "모의 원장 월손실 50000 KRW",
     "운영 DB/서버/스케줄"
   ],
-  "note": "Message dispatch acceptance is not worker completion or performance validation. Historical counterfactual and actual operating replay remain separate. First-pass counts and heads are snapshots, not final followup results."
+  "note": "Manual finite tasks completed. Historical counterfactual and actual operating replay remain separate. No model improvement/ROI or production deployment is claimed."
 }
