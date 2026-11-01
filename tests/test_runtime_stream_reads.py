@@ -57,6 +57,14 @@ def test_missing_and_other_artifacts(tmp_path):
     assert db.get_artifact("other") == {"a": 5}
 
 
+def test_python_backend_fallback_still_rejects_invalid_numbers(tmp_path, monkeypatch):
+    db = RuntimeDatabase(tmp_path / 'db.sqlite3')
+    monkeypatch.setattr(runtime_db.ijson, 'backend', 'python')
+    _put_raw(db, 'picks_v2', '[+1]')
+    with pytest.raises(ValueError):
+        db.get_artifact('picks_v2')
+
+
 def test_concurrent_replacement_keeps_one_snapshot(tmp_path, monkeypatch):
     db = RuntimeDatabase(tmp_path / "db.sqlite3")
     _put_raw(db, "picks_v2", '{"revision":"old","live":[1,2]}')

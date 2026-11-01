@@ -78,7 +78,7 @@ def _strict_json_events(blob):
             break
         tail = data[-5:]
     blob.seek(0)
-    return _python_json_events(blob) if surrogate else ijson.basic_parse(blob)
+    return _python_json_events(blob) if surrogate or ijson.backend == 'python' else ijson.basic_parse(blob)
 
 
 def _build_json(events):
