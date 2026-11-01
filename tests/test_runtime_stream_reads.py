@@ -24,6 +24,8 @@ def _put_raw(db, name, body):
     '[123456789012345678901234567890, 1.5, -0.0, 1e400, 1e-4000, false, null]',
     '[1e999999999999999999999, -1e-999999999999999999999]',
     '"\\ud83d\\ude00"',
+    '"\\ud800"',
+    '"\\udc00"',
     '42',
     'null',
 ])
@@ -80,3 +82,20 @@ def test_ledger_iteration_preserves_sequence_and_all_rows(tmp_path):
                 (sequence, str(sequence), str(sequence), json.dumps({"sequence": sequence})),
             )
     assert db.prediction_records() == [{"sequence": 1}, {"sequence": 2}, {"sequence": 3}]
+
+
+def test_ledger_shares_strings_but_not_mutable_feature_objects(tmp_path):
+    db = RuntimeDatabase(tmp_path / "db.sqlite3")
+    values = [{"features": {"repeated_field_name": "same text", "array": [1, 2]}},
+              {"features": {"repeated_field_name": "same text", "array": [1, 2]}}]
+    with db.transaction() as c:
+        for i, value in enumerate(values):
+            c.execute("INSERT INTO prediction_records(ledger_sequence,record_type,identity,record_hash,record_json) "
+                      "VALUES (?, 'prediction', ?, ?, ?)", (i+1, str(i), str(i), json.dumps(value)))
+    records = db.prediction_records()
+    assert records == values
+    a, b = records[0]['features'], records[1]['features']
+    assert next(iter(a)) is next(iter(b))
+    assert a['repeated_field_name'] is b['repeated_field_name']
+    a['array'].append(3)
+    assert b['array'] == [1, 2] and db.prediction_records() == values

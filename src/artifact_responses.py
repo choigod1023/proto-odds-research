@@ -4,7 +4,6 @@ Keep the previous wire payload during refresh/failure. Concurrent requests do
 not allocate another copy of a large artifact or wait behind its compression.
 """
 import gzip
-import hashlib
 import threading
 
 
@@ -31,13 +30,9 @@ class ArtifactResponses:
                         memory_owned = self.memory_lock.acquire(blocking=False)
                         if not memory_owned:
                             raise KeyError('large artifact waiting for memory slot')
-                    stored = self.database.get_artifact_json(name)
+                    stored = self.database.get_artifact_gzip(name)
                     if stored is not None:
-                        payload, revision = stored
-                        raw = payload.encode('utf-8')
-                        body = gzip.compress(raw, compresslevel=3)
-                        # Weak validator represents identical JSON across gzip/identity.
-                        etag = 'W/"' + hashlib.sha256(raw).hexdigest() + '"'
+                        body, revision, etag = stored
                         cached = (revision, body, etag)
                         with self.lock:
                             self.ready[name] = cached

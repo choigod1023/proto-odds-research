@@ -1,4 +1,5 @@
 import gzip
+import hashlib
 import json
 import threading
 import sys
@@ -7,6 +8,21 @@ from concurrent.futures import ThreadPoolExecutor
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from src.artifact_responses import ArtifactResponses
 from src.runtime_db import RuntimeDatabase
+
+
+def test_artifact_gzip_streams_exact_committed_bytes_without_full_text_read(tmp_path, monkeypatch):
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    payload = {'generated_at': 'source-time', 'live': [{'team': '삼성⚾' * 40000}]}
+    db.store_artifact('picks_v2', payload)
+    expected, revision = db.get_artifact_json('picks_v2')
+    raw = expected.encode('utf8')
+    monkeypatch.setattr(db, 'get_artifact_json', lambda _: (_ for _ in ()).throw(AssertionError('full text read')))
+    cache = ArtifactResponses(db)
+    body, etag = cache.get_response('picks_v2')
+    assert gzip.decompress(body) == raw
+    assert etag == 'W/"' + hashlib.sha256(raw).hexdigest() + '"'
+    assert cache.ready['picks_v2'][0] == revision
+    assert db.get_artifact_gzip('missing') is None
 
 
 def test_large_rebuild_waits_for_worker_but_small_feeds_remain_available(tmp_path, monkeypatch):
@@ -24,11 +40,11 @@ def test_large_rebuild_waits_for_worker_but_small_feeds_remain_available(tmp_pat
     db.store_artifact('picks_v2', {'generated_at': 'new'})
     with db.connect() as connection:
         connection.execute("UPDATE artifacts SET stored_at='next' WHERE name='picks_v2'")
-    original = db.get_artifact_json
+    original = db.get_artifact_gzip
     def guarded(name):
         assert slot.locked()
         return original(name)
-    monkeypatch.setattr(db, 'get_artifact_json', guarded)
+    monkeypatch.setattr(db, 'get_artifact_gzip', guarded)
     with slot:
         assert cache.get_bytes('picks_v2') == first
     assert json.loads(gzip.decompress(cache.get_bytes('picks_v2')))['generated_at'] == 'new'
@@ -43,7 +59,7 @@ def test_large_rebuild_failure_releases_memory_slot(tmp_path, monkeypatch):
     cache = ArtifactResponses(db, memory_lock=slot)
     def fail(name):
         raise OSError('unavailable')
-    monkeypatch.setattr(db, 'get_artifact_json', fail)
+    monkeypatch.setattr(db, 'get_artifact_gzip', fail)
     with pytest.raises(OSError):
         cache.get_bytes('picks_v2')
     assert not slot.locked()
@@ -58,10 +74,10 @@ def test_compressed_only_and_revision_refresh(tmp_path, monkeypatch):
     assert len(cache.ready['sample']) == 3
     assert len(first) < len(gzip.decompress(first)) / 10
     assert cache.get_bytes('sample', compressed=False) == gzip.decompress(first)
-    original = db.get_artifact_json
-    monkeypatch.setattr(db, 'get_artifact_json', lambda _: (_ for _ in ()).throw(AssertionError('reread')))
+    original = db.get_artifact_gzip
+    monkeypatch.setattr(db, 'get_artifact_gzip', lambda _: (_ for _ in ()).throw(AssertionError('reread')))
     assert cache.get_bytes('sample') == first
-    monkeypatch.setattr(db, 'get_artifact_json', original)
+    monkeypatch.setattr(db, 'get_artifact_gzip', original)
     db.store_artifact('sample', {'generated_at': 'new'})
     with db.connect() as c:
         c.execute("UPDATE artifacts SET stored_at='next' WHERE name='sample'")
@@ -83,7 +99,7 @@ def test_single_flight_stale_and_cold_requests(tmp_path, monkeypatch):
         entered.set()
         assert release.wait(5)
         raise OSError('read failure')
-    monkeypatch.setattr(db, 'get_artifact_json', blocked)
+    monkeypatch.setattr(db, 'get_artifact_gzip', blocked)
     with ThreadPoolExecutor(max_workers=2) as pool:
         future = pool.submit(cache.get_bytes, 'sample')
         try:

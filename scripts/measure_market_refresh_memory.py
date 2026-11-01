@@ -7,6 +7,7 @@ import copy
 from contextlib import closing
 import ctypes
 import hashlib
+import gzip
 import json
 import multiprocessing as mp
 import os
@@ -42,6 +43,7 @@ def memory():
 def create_fixture(path, fixture, live_count=2807, past_count=162, prediction_count=7780, settlement_count=1241, history_count=1000):
     from runtime_db import RuntimeDatabase
     from prediction_ledger import SCHEMA_VERSION, _sha256
+    from prediction_runtime import ledger_features
     original = fixture.read_bytes(); seed = json.loads(original)
     games = seed.get('live', []) + seed.get('past', [])
     if not games or prediction_count < live_count + past_count or settlement_count > live_count + past_count:
@@ -64,7 +66,7 @@ def create_fixture(path, fixture, live_count=2807, past_count=162, prediction_co
                       decision_id=snapshot, event_id=event, as_of='2026-01-01T00:00:00Z',
                       kickoff='2026-01-02T00:00:00Z', market_observed_at='2026-01-01T00:00:00Z',
                       captured_at='2026-01-01T00:00:00Z', model={'synthetic': True},
-                      features={'fixture': {'label': '합성 경기 🏟️'}}, versions={'decision_schema':'synthetic','operating_model':None,'residual_model':None},
+                      features=ledger_features(synthetic[i % total]), versions={'decision_schema':'synthetic','operating_model':None,'residual_model':None},
                       input_revision_hash=None, decision_snapshot_hash=_sha256({'synthetic_snapshot':snapshot}),
                       evidence_hash=_sha256({'evidence':[],'sources':[]}),
                       predictions={'action': 'market_reference', 'selection_id': 'synthetic-selection',
@@ -104,6 +106,18 @@ def child(mode, path, output):
         original_verify=PredictionLedger._read_verified_storage
         original_get=RuntimeDatabase.get_artifact; original_records=RuntimeDatabase.prediction_records
         original_persist=refresh.persist_artifact
+        original_store=RuntimeDatabase.store_artifact
+        def baseline_store(db, name, payload):
+            if name != 'picks_v2':
+                return original_store(db, name, payload)
+            body=json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)
+            with db.transaction() as c:
+                stamp=db._next_artifact_stamp(c,name)
+                c.execute('''INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
+                    VALUES (?,?,?,?) ON CONFLICT(name) DO UPDATE SET
+                    generated_at=excluded.generated_at,payload_json=excluded.payload_json,
+                    stored_at=excluded.stored_at''',(name,payload.get('generated_at'),body,stamp))
+        if mode=='before': RuntimeDatabase.store_artifact=baseline_store
         phases={}
         def measured_get(db, name):
             if mode=='before':
@@ -113,8 +127,14 @@ def child(mode, path, output):
             else: value=original_get(db,name)
             phases['load']=memory(); return value
         def measured_records(db):
-            # Both modes use the checked-out cursor-based ledger implementation.
-            value=original_records(db)
+            # Baseline already used a cursor, but did not share immutable strings
+            # across separate decoded records. No fetchall baseline is invented.
+            if mode=='before':
+                with db.connect() as c:
+                    value=[json.loads(row['record_json']) for row in c.execute(
+                        'SELECT record_json FROM prediction_records ORDER BY ledger_sequence')]
+            else:
+                value=original_records(db)
             phases['ledger_load']=memory(); return value
         def measured_verify(ledger):
             value=original_verify(ledger); phases['ledger_verified']=memory(); return value
@@ -138,11 +158,37 @@ def child(mode, path, output):
         output.put({'mode':mode,'error':repr(exc)})
 
 
+def response_child(mode, path, output):
+    try:
+        from runtime_db import RuntimeDatabase
+        db=RuntimeDatabase(path)
+        if mode=='before':
+            payload, revision=db.get_artifact_json('picks_v2')
+            raw=payload.encode('utf8')
+            body=gzip.compress(raw,compresslevel=3)
+            tag='W/"'+hashlib.sha256(raw).hexdigest()+'"'
+            del payload,raw
+        else:
+            body, revision, tag=db.get_artifact_gzip('picks_v2')
+        output.put({'mode':mode,'memory':memory(),'etag':tag,'wire_bytes':len(body)})
+    except BaseException as exc:
+        output.put({'mode':mode,'error':repr(exc)})
+
+
 def run():
     # The only input is the repository fixture; both copies stay in a fresh temp directory.
     with tempfile.TemporaryDirectory(prefix='synthetic-refresh-') as tmp:
         root=Path(tmp); base=root/'seed.sqlite3'; info=create_fixture(base,ROOT/'docs/data/picks_v2.json')
-        results=[]; ctx=mp.get_context('spawn')
+        results=[]; response_results=[]; ctx=mp.get_context('spawn')
+        for mode in ('before','after'):
+            q=ctx.Queue(); proc=ctx.Process(target=response_child,args=(mode,base,q)); proc.start(); proc.join(120)
+            if proc.is_alive(): proc.terminate(); proc.join(); raise RuntimeError(mode+' response timeout')
+            if proc.exitcode!=0: raise RuntimeError(mode+' response child failed')
+            item=q.get(timeout=5); q.close()
+            if 'error' in item: raise RuntimeError(str(item))
+            response_results.append(item)
+        if response_results[0]['etag']!=response_results[1]['etag']:
+            raise RuntimeError('response raw-byte mismatch')
         for mode in ('before','after'):
             target=root/(mode+'.sqlite3'); shutil.copyfile(base,target)
             q=ctx.Queue(); proc=ctx.Process(target=child,args=(mode,target,q)); proc.start(); proc.join(120)
@@ -161,7 +207,7 @@ def run():
             same=artifact_a==artifact_b and same_records
         if results[0]['settlements_preserved']!=info['ledger_counts']['settlement'] or results[0]['attached_hits']!=info['ledger_counts']['settlement']:
             raise RuntimeError('synthetic settlements not preserved and attached')
-        print(json.dumps({'fixture':info,'runs':results,'exact_outputs_equal':same,
+        print(json.dumps({'fixture':info,'runs':results,'response_runs':response_results,'exact_outputs_equal':same,
             'limitations':'synthetic workload with empty live market feed; no new predictions, no provider history query; after uses checked-out code, which may not contain streaming fix; cumulative process peaks; no production DB, network or real capacity claim'},ensure_ascii=False,indent=2))
         if not same: raise RuntimeError('output mismatch')
 

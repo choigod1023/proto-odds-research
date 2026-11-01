@@ -10,6 +10,8 @@ import csv
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
 import hashlib
+import gzip
+import io
 import json
 import math
 import os
@@ -18,6 +20,7 @@ import re
 import sqlite3
 from typing import Any, Iterable, Iterator, Mapping
 import ijson.backends.python as streaming_json
+import ijson
 from ijson.common import JSONError, ObjectBuilder, file_source
 from ijson.utils import coroutine, coros2gen
 from runtime_datasets import DatasetStore, RESULT_SCHEMA
@@ -51,7 +54,7 @@ def _strict_number_tokens(target):
             return
 
 
-def _strict_json_events(blob):
+def _python_json_events(blob):
     # Pin ijson's version: this pipeline inserts validation between the Python
     # backend's lexer and parser while retaining arbitrary precision integers.
     return coros2gen(
@@ -61,6 +64,50 @@ def _strict_json_events(blob):
         (streaming_json.Lexer, (), {}),
         (streaming_json.utf8_encoder, (), {}),
     )
+
+
+def _strict_json_events(blob):
+    # YAJL replaces lone high surrogates and rejects lone low surrogates, unlike
+    # json.loads. Route escaped surrogate input through the compatible backend.
+    tail = b""
+    surrogate = False
+    while chunk := blob.read(65536):
+        data = tail + chunk
+        if re.search(rb"\\u[dD][89aAbBcCdDeEfF]", data):
+            surrogate = True
+            break
+        tail = data[-5:]
+    blob.seek(0)
+    return _python_json_events(blob) if surrogate else ijson.basic_parse(blob)
+
+
+def _build_json(events):
+    builder = ObjectBuilder()
+    # json.loads shares repeated field names within a document. Do the same:
+    # creating new keys for every game otherwise costs more than the source text.
+    keys = {}
+    for event, value in events:
+        if event == "map_key":
+            if value in keys:
+                value = keys[value]
+            elif len(keys) < 16384:
+                keys[value] = value
+        elif event == "number" and isinstance(value, Decimal):
+            value = float(value)
+        builder.event(event, value)
+    return builder.value
+
+
+def _json_chunks(payload):
+    encoder = json.JSONEncoder(ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+    pending = bytearray()
+    for token in encoder.iterencode(payload):
+        pending.extend(token.encode("utf-8"))
+        if len(pending) >= 65536:
+            yield bytes(pending)
+            pending.clear()
+    if pending:
+        yield bytes(pending)
 
 
 def configured_path() -> Path:
@@ -622,11 +669,31 @@ class RuntimeDatabase(DatasetStore):
 
     def iter_prediction_records(self) -> Iterator[dict[str, Any]]:
         """Do not keep the entire serialized ledger beside its decoded copy."""
+        # A decoder normally shares keys only within one record. Feature histories
+        # repeat the same hundreds of field names across thousands of records.
+        # Share immutable strings only, with a bounded pool local to this read;
+        # dictionaries/lists stay independent and every complete record is hashed.
+        keys, strings = {}, {}
+        def object_pairs(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in keys:
+                    key = keys[key]
+                elif len(keys) < 16384:
+                    keys[key] = key
+                if isinstance(value, str) and len(value) <= 128:
+                    if value in strings:
+                        value = strings[value]
+                    elif len(strings) < 16384:
+                        strings[value] = value
+                result[key] = value
+            return result
+        decoder = json.JSONDecoder(object_pairs_hook=object_pairs)
         with self.connect() as connection:
             for row in connection.execute(
                 "SELECT record_json FROM prediction_records ORDER BY ledger_sequence"
             ):
-                yield json.loads(row["record_json"])
+                yield decoder.decode(row["record_json"])
 
     @staticmethod
     def _next_artifact_stamp(connection, name: str) -> str:
@@ -645,6 +712,8 @@ class RuntimeDatabase(DatasetStore):
         return stored_clock.isoformat(timespec="microseconds")
 
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
+        if name == "picks_v2":
+            return self._store_picks_stream(payload)
         # Encode independent artifacts before reserving SQLite's sole writer.
         # today_combo depends on prior committed state and stays inside the lock.
         body = (json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
@@ -676,6 +745,26 @@ class RuntimeDatabase(DatasetStore):
                 (name, payload.get("generated_at"), body, now),
             )
 
+    def _store_picks_stream(self, payload):
+        # Validate/count before reserving the writer. Keep SQL TEXT and the same
+        # transaction/revision semantics without a document-sized Unicode buffer.
+        size = sum(len(chunk) for chunk in _json_chunks(payload))
+        with self.transaction() as connection:
+            now = self._next_artifact_stamp(connection, "picks_v2")
+            connection.execute("""INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
+                VALUES ('picks_v2',?,CAST(zeroblob(?) AS TEXT),?)
+                ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
+                payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
+                (payload.get("generated_at"), size, now))
+            rowid = connection.execute("SELECT rowid FROM artifacts WHERE name='picks_v2'").fetchone()[0]
+            written = 0
+            with connection.blobopen("artifacts", "payload_json", rowid) as blob:
+                for chunk in _json_chunks(payload):
+                    blob.write(chunk)
+                    written += len(chunk)
+            if written != size:
+                raise ValueError("picks payload changed during serialization")
+
     def get_artifact(self, name: str) -> dict[str, Any] | None:
         if name == "picks_v2":
             # Keep rowid and blob on one snapshot even if a writer replaces the
@@ -688,24 +777,39 @@ class RuntimeDatabase(DatasetStore):
                 if row is None:
                     return None
                 with connection.blobopen("artifacts", "payload_json", row[0], readonly=True) as blob:
-                    builder = ObjectBuilder()
-                    # The Python backend preserves arbitrary-size integers. Convert
-                    # decimal events to float as json.loads does, including overflow.
                     try:
-                        for event, value in _strict_json_events(blob):
-                            if event == "number" and isinstance(value, Decimal):
-                                value = float(value)
-                            builder.event(event, value)
+                        try:
+                            return _build_json(_strict_json_events(blob))
+                        except InvalidOperation:
+                            # Extremely long exponents exceed Decimal's bounds.
+                            # Rebuild from the same snapshot using float-compatible
+                            # token validation; never reuse a partially built tree.
+                            blob.seek(0)
+                            return _build_json(_python_json_events(blob))
                     except JSONError as exc:
                         # Match the previous public exception type without loading
                         # or exposing the potentially large malformed payload.
                         raise json.JSONDecodeError(str(exc), "", 0) from exc
-                    return builder.value
         with self.connect() as connection:
             row = connection.execute(
                 "SELECT payload_json FROM artifacts WHERE name=?", (name,)
             ).fetchone()
         return json.loads(row["payload_json"]) if row is not None else None
+
+    def get_artifact_gzip(self, name: str):
+        """Compress committed UTF-8 TEXT without expanding it in the HTTP parent."""
+        with self.connect() as connection:
+            connection.execute("BEGIN")
+            row = connection.execute("SELECT rowid,stored_at FROM artifacts WHERE name=?", (name,)).fetchone()
+            if row is None:
+                return None
+            output, digest = io.BytesIO(), hashlib.sha256()
+            with connection.blobopen("artifacts", "payload_json", row[0], readonly=True) as blob:
+                with gzip.GzipFile(fileobj=output, mode="wb", compresslevel=3, mtime=0) as stream:
+                    while chunk := blob.read(65536):
+                        digest.update(chunk)
+                        stream.write(chunk)
+            return output.getvalue(), row["stored_at"], 'W/"' + digest.hexdigest() + '"'
 
     def odds_collection_context(self) -> dict[str, Any] | None:
         """Read collection hints/seeds without decoding the full picks tree in Python.

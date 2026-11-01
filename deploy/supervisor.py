@@ -1131,7 +1131,11 @@ def warm_match_views(views, stop, rebuild_lock=None) -> None:
             if _memory_heavy_lock.acquire(blocking=False):
                 try:
                     available = _available_memory_mb()
-                    if available is not None and available >= 256:
+                    # Retain already published bodies while saved prices await
+                    # their decision. Rebuilding stale views every 30s must not
+                    # repeatedly take the only slot from the pending repair.
+                    pending = _market_cycle_pending.is_set() and bool(getattr(views, 'ready', {}))
+                    if not pending and available is not None and available >= 256:
                         if rebuild_lock is None:
                             views.refresh()
                             _release_match_working_set()
