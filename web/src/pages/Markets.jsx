@@ -31,14 +31,16 @@ import { usePolledData } from "../lib/poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
 import { mergeMatchDetail, shouldRefreshDetailList } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
-import { freshnessStatus, isLiveFeedDelayed, waitingLabel } from "../lib/data-freshness.js";
+import { freshnessStatus, isLiveFeedDelayed, isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { savedLivePrediction } from "../lib/saved-live-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
+import { missingMarketFixtures } from "../lib/missing-market-fixtures.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
+import { recordedMarketOffers } from "../lib/recorded-market-offers.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
 import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
 import { gameStatusLabel } from "../lib/match-status.js";
@@ -204,7 +206,7 @@ export default function Markets() {
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
       </details>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
+        stale={stale} today={liveToday} marketOdds={liveOdds} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
     </Shell>
   );
 }
@@ -320,10 +322,10 @@ function useTodayClock(today) {
 /* ── 경기별 예측 목록 ─────────────────────────────────────────── */
 const STATUS = [
   ["", "전체"], ["live", "진행 중"], ["upcoming", "예정"],
-  ["finished", "종료"], ["pending", "상태 확인 중"],
+  ["finished", "종료"], ["pending", "상태 확인 중"], ["unlinked", "미연결 · 상태 확인 필요"],
 ];
 
-export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
+export function GameList({ data, grades, caps, stale, today, marketOdds, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
   const [openedGame, setOpenedGame] = useState(null);
   const detailPath = openedGame?._detail_key && data.view?.revision
     ? `/api/match-detail?key=${encodeURIComponent(openedGame._detail_key)}&revision=${encodeURIComponent(data.view.revision)}` : null;
@@ -402,6 +404,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
   const pool = useMemo(
     () => deduplicateGameCards([...(data.live || []), ...(data.past || [])]),
     [data]);
+  const unlinkedPool = useMemo(() => missingMarketFixtures(data, marketOdds), [data, marketOdds]);
   const recommendationClock = useTodayClock(today);
   const clock = Math.max(recommendationClock, dateClock);
   const alignedToday = useMemo(() => alignTodayRecommendations(today, pool), [today, pool]);
@@ -422,17 +425,17 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     : { option: null, membership: null };
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
-  const leagues = useMemo(() => uniq(pool.map((g) => g.league)).sort(), [pool]);
+  const leagues = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.league)).sort(), [pool, unlinkedPool]);
   const markets = useMemo(
     () => uniq(pool.flatMap((g) => [...(g.options || []).map((o) => o.market), g.prediction_record?.market])).sort(), [pool]);
-  const rounds = useMemo(() => uniq(pool.map((g) => g.round)).sort((a, b) => b - a), [pool]);
+  const rounds = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.round).filter((round) => round != null && round !== "").map(String)).sort((a, b) => b - a), [pool, unlinkedPool]);
 
   const isRecommended = (game) => !stale && !(game._liveOddsChanged && !decisionFrozen(game))
     && todaySelectionForGame(todayMemberships, game.options || [], game.round).membership?.recommended === true;
   const games = useMemo(() => {
     const q = f.q.trim().toLowerCase();
     return pool.filter((g) =>
-      (!f.st || gamePhase(g) === f.st) &&
+      (!f.st || (f.st !== "unlinked" && gamePhase(g) === f.st)) &&
       (!f.sp || g.sport === f.sp) &&
       (!f.fav || isFavoriteGame(g, favorites)) &&
       (!f.rec || isRecommended(g)) &&
@@ -474,6 +477,13 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
     setF((current) => ({ ...current, st: current.st === phase ? "" : phase }));
   };
 
+  // 배당에만 있는 경기는 원장이나 추천 생성 없이 별도 안내한다.
+  const missingCandidates = (f.fav || f.rec || f.mk || cap) ? [] :
+    unlinkedPool.filter((g) =>
+      (!f.sp || g.sport === f.sp) && (!f.lg || g.league === f.lg) &&
+      (!f.rd || String(g.round) === f.rd) && matchesGameDate(g, f.dt, clock) &&
+      (!f.q.trim() || [g.home, g.away, g.league].join(" ").toLowerCase().includes(f.q.trim().toLowerCase())));
+  const missingFixtures = !f.st || f.st === "unlinked" ? missingCandidates : [];
   const filteredGames = games.filter((game) => matchesGameMarketFilters(game, f.mk, cap));
   const leagueGroups = [];
   for (const game of filteredGames) {
@@ -613,7 +623,8 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
           <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>상태 확인 중 {phaseCounts.pending || 0}</button>
           <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
           <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
-          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0)}</button>
+          <button type="button" aria-pressed={f.st === "unlinked"} onClick={() => selectPhase("unlinked")}>미연결 · 상태 확인 필요 {missingCandidates.length}건</button>
+          <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0) + missingCandidates.length}건</button>
         </div>
       </div>
 
@@ -624,7 +635,7 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
       </details>
 
       <div className="league-list" aria-label="리그별 경기">
-        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기 </p>
+        <p className="league-list-hint" role="status">{leagueGroups.length}개 리그 · {filteredGames.length}경기{missingFixtures.length ? ` · 미연결 배구 ${missingFixtures.length}건 별도` : ""} </p>
         {leagueGroups.map((group, index) => {
           const open = openLeague === group.key || (openLeague === null && index === 0);
           const liveCount = group.games.filter((game) => gamePhase(game) === "live").length;
@@ -644,7 +655,16 @@ export function GameList({ data, grades, caps, stale, today, liveGeneratedAt, li
             <div id={"league-games-" + index} hidden={!open} className="league-games">{open && renderLeagueGames(group.games)}</div>
           </section>;
         })}
-        {!leagueGroups.length && <Empty>
+        {f.st && f.st !== "unlinked" && missingCandidates.length > 0 && <p role="status">선택한 상태에는 포함하지 않은 미연결 배구 상품 {missingCandidates.length}건이 있습니다. 상태는 확인이 필요합니다. 위의 ‘미연결 · 상태 확인 필요’에서 볼 수 있습니다.</p>}
+        {missingFixtures.length > 0 && <section className="league-group" aria-label="배당에서 확인된 미연결 배구 경기">
+          <h3>배당에서 확인된 미연결 배구 상품 {missingFixtures.length}건</h3>
+          <p role="status">경기 목록에 연결되지 않아 상태와 저장된 사전 픽을 확인할 수 없습니다. 배당 문서 생성: {kstStamp(marketOdds.generated_at)} KST{isDataStale(marketOdds.generated_at) || Date.parse(marketOdds.generated_at) > Date.now() + 5000 ? " · 문서가 오래됐거나 시각이 올바르지 않습니다" : ""}. 개별 가격의 관측 시각은 확인되지 않았습니다. 이 목록에는 상품 탭이 없습니다.</p>
+          <ul>{missingFixtures.map((g) => <li key={JSON.stringify([g.year, g.round, g.sport, g.league, g.date, g.home, g.away])}>
+            {g.round}회 · {g.league} · {g.date} · {g.home} vs {g.away} · 상태 확인 필요
+            {g.sourceRows.map((row, index) => <span key={index}> · 원천 게임번호 {row.gameNo || "미기재"}, 상태 표기 {row.status || "미기재"}, 결과 표기 {row.result || "미기재"}</span>)}
+          </li>)}</ul>
+        </section>}
+        {!leagueGroups.length && !missingFixtures.length && <Empty>
           {f.fav ? "즐겨찾기와 현재 조건에 맞는 경기가 없습니다." : "조건에 맞는 경기가 없습니다."}
           <button className="empty-reset" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>전체 경기로 돌아가기</button>
         </Empty>}
@@ -790,7 +810,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
       : waitText === "상태 확인 불가"
       ? "경기 상태 확인 필요"
       : wait
-        ? "배당 발표 전"
+        ? "배당 자료 확인 중"
         : "분석 자료 확인 중");
   const openingProbability = saved?.openingProbability ?? null;
   const currentProbability = decision.probability.final ?? pick?.o?.["시장확률"];
@@ -800,9 +820,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const probabilityMessage = ESTIMATE_MESSAGE[saved?.estimateStatus || "missing_opening"];
   const compactPlayers = compactTeamPlayerLine(analysis?.teamPreviews);
   const pendingLabel = g._liveOddsChanged ? "재계산" : stale ? "중단" : "보류";
-  // 시작 전 산출물이 options=[]였던 경기는 해설에도 "배당 미발표"가 박혀 있다.
-  // 경기 시작/예정시각 경과 뒤에는 그 문장을 사실처럼 재노출하지 않는다.
-  const insightGame = wait && (liveClosed || waitText === "상태 확인 불가")
+  // 자료가 없다는 사실만으로 미발표라고 단정한 기존 해설은 노출하지 않는다.
+  const insightGame = wait
     ? { ...g, 해설: null, 해설기본: null }
     : g;
   const resultHeadline = outcome.record
@@ -874,7 +893,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                 {Number(outcome.record?.odds) > 1 && <small className="tnum text-[11px] text-ink3">당시 배당 {odds(outcome.record.odds)}배</small>}
               </span>
             : liveClosed ? <OddsChip label="판정" value="마감" />
-            : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "발표 전"} />
+            : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "확인 중"} />
             : pick ? <OddsChip
                   label={pick.o["선택"]}
                   value={odds(pick.o["배당"])}
@@ -938,7 +957,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               ? "오래된 데이터로는 배당 발표 여부를 판단하지 않습니다. 최신 수집이 확인될 때까지 기다려 주세요."
               : waitText === "상태 확인 불가"
                 ? "경기 시작 시각이 지났지만 최신 상태를 확인하지 못했다."
-                : "배당은 아직 발표되지 않았다. 경기 정보는 먼저 확인할 수 있다."}
+                : "배당 자료를 확인하지 못했습니다. 미발매인지 수집 지연인지는 확인되지 않았습니다."}
           </div>
         )}
         {predictionUnavailable && (
@@ -1473,10 +1492,44 @@ function ContextEvidence({ g, pick }) {
   </div>;
 }
 
+const marketTime = (value) => value ? new Date(value).toLocaleString("ko-KR", {
+  timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit",
+}) + " KST" : null;
+
+export function RecordedMarketOffers({ offers, hasOptions = false, waiting = false }) {
+  return <section aria-label="상품과 배당">
+    <p className="mb-3 text-[11.5px] leading-6 text-ink3">
+      상품별 가격의 출처와 확인 상태를 구분합니다. 현재 판매 여부와 정확한 정산 기준은 공식 발매처에서 확인하세요.
+    </p>
+    {!offers.length && <p role="status" className="text-[11.5px] text-ink3">{hasOptions
+      ? "상품 정보가 불완전하거나 서로 충돌해 배당 표시를 보류했습니다."
+      : waiting ? "상품 자료를 확인 중입니다. 미발매인지 수집 지연인지는 확인되지 않았습니다."
+        : "표시할 상품 자료가 없습니다. 미발매인지 수집 지연인지는 확인되지 않았습니다."}</p>}
+    <div className="grid gap-2">
+      {offers.map((offer) => <section key={offer.gameNo} className="rounded border border-rule2 px-3 py-2">
+        <h4 className="m-0 text-[12px] font-semibold text-ink">{offer.gameNo} · {offer.market}{offer.label ? ` ${offer.label}` : ""}</h4>
+        <p className="my-1 text-[10.5px] text-ink3">{offer.period ? `기간 ${offer.period} · ` : ""}{offer.settlementScope ? `정산 ${offer.settlementScope}` : "정산 범위 미확인"}</p>
+        <ul className="m-0 list-none p-0 text-[12px]">
+          {offer.selections.map((selection) => <li key={selection.name} className="py-1">
+            {selection.name} <b className="tnum">{selection.odds.toFixed(2)}</b>{" · "}
+            <span className="text-[10.5px] text-ink3">{selection.provenance.kind === "ledger_pick"
+              ? `사전 픽 원장과 일치 · 원장 기록 ${marketTime(selection.provenance.at)}`
+              : selection.provenance.kind === "overlay_unverified"
+                ? `배당 자료 반영 · 이전 배당 이월 가능 · 개별 가격 관측 시각 미확인 · 원장 확인 대기 · 배당 문서 생성 ${marketTime(selection.provenance.documentGeneratedAt) || "시각 미확인"}`
+                : "저장된 경기 자료 · 원장 일치 여부 미확인"}</span>
+          </li>)}
+        </ul>
+      </section>)}
+    </div>
+  </section>;
+}
+
 function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
   highlightedToday = false, recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
+  const offers = recordedMarketOffers(opts, g);
+  tabs.splice(Math.min(1, tabs.length), 0, { id: "markets", label: "상품·배당" });
   if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
     tabs.push({ id: "evidence", label: "픽 근거·수식" });
   }
@@ -1519,6 +1572,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
             : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>}
           <div className="mt-3 border-t border-rule2 pt-3"><TeamsPanel g={g} /></div>
         </>}
+        {current === "markets" && <RecordedMarketOffers offers={offers} hasOptions={Boolean(opts?.length)} waiting={!showPrices} />}
         {current === "players" && <>
           <PlayersPanel g={g} />
           <div className="mt-3 border-t border-rule2 pt-3"><AvailabilityPanel g={g} /></div>
