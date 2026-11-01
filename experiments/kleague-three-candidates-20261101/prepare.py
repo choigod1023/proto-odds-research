@@ -1,14 +1,27 @@
 """Build same-source 2024 warmup and 2025 OOF inputs; no meta-model fitting."""
 from collections import defaultdict
 from pathlib import Path
-import csv,gzip,hashlib,importlib.util,json,sys
+import csv,gzip,hashlib,importlib.util,json,sys,re
+from datetime import datetime
 import numpy as np
 from scipy.optimize import least_squares
 from scipy.stats import skellam
 
 ROOT=Path(__file__).resolve().parents[2];HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT))
-from src.research_kleague_dates import parse_raw
+
+def parse_2024(row):
+    """Separate year-scoped parser; never rewrite the frozen 2025 audit."""
+    if not (row['year']=='2024' and row['sport']=='sc' and row['league']=='K리그1'
+            and row['market_family']=='승무패' and not row['market_label'] and row['n_way']=='3'):
+        return None
+    home=re.fullmatch(r'(.+?)\s+(\d+)',row['home'])
+    away=re.fullmatch(r'(\d+)\s+(.+)',row['away'])
+    clock=re.fullmatch(r'(\d{2})\.(\d{2})\([^)]*\)\s+(\d{2}):(\d{2})',row['date_text'])
+    if not home or not away or not clock:raise ValueError('unparseable 2024 eligible raw row')
+    dt=datetime(2024,*map(int,clock.groups()))
+    return dict(home=home[1],away=away[2],home_score=int(home[2]),away_score=int(away[1]),
+                day=dt.date().isoformat(),kickoff=dt.isoformat())
 
 
 def save(path,obj):
@@ -45,7 +58,7 @@ def main():
     raw_index=defaultdict(list)
     with args.raw.open(encoding='utf-8-sig',newline='') as f:
         for row in csv.DictReader(f):
-            if row['year']=='2024' and (r:=parse_raw(row)) is not None:
+            if (r:=parse_2024(row)) is not None:
                 raw_index[(r['day'],r['home'],r['away'])].append((r,row))
     warm=[];crosswalk=[]
     for f in official:
