@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "classification": "exploratory_reused_2025_cohort_no_promotion",
+  "question": "Compare three explicitly implemented candidates against the same market and frozen DC on the same 227 K League 1 2025 prices/results",
+  "features": "2024 and 2025 strictly monthly-out-of-time DC forecasts; 2024 meta-training warmup; meta-training day <= evaluation month start minus 7 days; min100 past complete priced rows; no current/future target outcomes in prediction",
+  "cohorts": {"meta_warmup_year": 2024, "expected_warmup_priced_games": 228, "evaluation_year": 2025, "expected_evaluation_games": 227, "base_score_history": "official 2023-2025; 2025 used only when earlier than the monthly cutoff"},
+  "market_goal_inversion": "same Shin 1X2 vector -> independent Poisson/Skellam home/draw probabilities; bounded log rates [.01,10], fixed initial rates; least_squares xtol/ftol/gtol1e-12 max_nfev200; stop if max probability residual>1e-6; outcomes not used",
+  "models": {
+    "market": "frozen src.devig.shin on each archived complete 3-way price vector",
+    "dc": "unchanged src.research_kleague_dc from #487, 180day half-life/L2=10/rho bounds unchanged",
+    "bayes_market_goal": {
+      "label": "Market-informed hierarchical residual goal model, Laplace approximation; adapted from Egidi, NOT exact paper MCMC reproduction",
+      "mean": "rate_team=clip(DC_OOF_rate*exp(intercept_delta+home_delta+centered_attack+centered_defence),.01,10); rate=(1-w)*rate_team+w*market_implied_rate; independent conditional Poisson",
+      "priors": "raw team residuals N(0,1/10), intercept_delta N(0,1), home_delta N(0,1/4), w~Beta(2,2); theta=logit(w) prior includes Jacobian: -2log(w)-2log(1-w)",
+      "likelihood": "sum past OOF joint goal negative log-likelihood, no new recency weights",
+      "bounds": "intercept/home[-2,2], raw team residuals[-2,2], theta[-6,6]; stop if MAP is within1e-5 of boundary",
+      "inference": "L-BFGS-B analytic gradient max2000 ftol1e-11 gtol1e-7; Hessian from central finite difference of analytic gradient, symmetrize; require positive eigenvalues>1e-8; normal Laplace posterior;128 deterministic antithetic draws seed20261101 per fit; prediction integrates draws via Skellam CDF",
+      "unknown_team": "zero-centered independent prior residual draws with variance1/10; seed based only on stable fixture identity, not outcome",
+      "limits": "Conditioned on frozen DC offsets and market goal inversion; no full posterior over the source DC; no player/tipster features"
+    },
+    "moe_two_expert": {
+      "experts": ["same market vector", "same DC vector"],
+      "tipster_expert": "unavailable, NOT replaced with fake votes",
+      "gate": "g=sigmoid(X beta), prediction=g*market+(1-g)*DC",
+      "X": ["intercept", "max(market)-1/3", "market_draw", "L1 market/DC disagreement", "unknown_DC_team_flag"],
+      "scaling": "fit mean/std on past meta-training only, zero std->1",
+      "objective": "sum negative categorical loglikelihood +0.5*10*sum(nonintercept beta^2)",
+      "fit": "one zero initialization L-BFGS-B max2000; intercept[-8,8], others[-5,5]; no model/feature/threshold search"
+    },
+    "fl_glm": {
+      "formula": "p_i = odds_i^(-beta) / sum_j odds_j^(-beta), Algorithm6 of Goto et al 2026 arXiv2604.17194v1",
+      "fit": "one beta, past-only sum categorical negative loglikelihood, bounded[-5,10], no ridge, stop if optimum is at bound; analytic derivative and scalar root/convex solver",
+      "ranking": "beta>0 preserves lowest-odds argmax; report changed picks even when probabilities/calibration change; beta=0 exact ties abstain"
+    }
+  },
+  "choices": "argmax each three-way vector; exact1e-12 ties abstain, no odds/EV/underdog filters; no tuning of choices",
+  "metrics": ["coverage", "hits/accuracy", "fixed-unit single ROI/net", "logloss", "Brier", "monthly net", "daily-close drawdown", "changed picks vs market", "paired observed-week bootstrap10000 seed20261101, descriptive only"],
+  "uncertainty": "Report all three comparisons, no winner significance from best observed result; 2025 reused, price receipt unverified, test227<300 formal minimum",
+  "unavailable": ["original tipster-vote or 9:1 common-cohort performance", "KBO player model", "certified historical execution prices"],
+  "actions": "No operating model, wallet, scheduling, DB, deployment, betting or email changes. Keep monthly50000KRW limit. Code/data/results draft PR only."
+}
