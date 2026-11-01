@@ -11,7 +11,7 @@ from scipy.optimize import minimize
 from scipy.special import logsumexp,softmax
 
 MODELS=('market','outcome_form','market_residual','half_market_form')
-POLICIES=('all','favorites','underdogs','market_same_underdogs')
+POLICIES=('all','favorites','non_underdogs','underdogs','market_same_underdogs')
 K={'bs':12.,'sc':24.,'bk':16.,'vl':18.}
 
 
@@ -105,7 +105,8 @@ def forecasts(rows):
 
 
 def metrics(rows,model,policy):
-    take=[r for r in rows if policy=='all' or policy=='favorites' and r['predictions'][model]['group']=='favorite' or policy in ('underdogs','market_same_underdogs') and r['predictions'][model]['group']=='underdog']
+    if policy not in POLICIES:raise ValueError('unknown policy')
+    take=[r for r in rows if policy=='all' or policy=='favorites' and r['predictions'][model]['group']=='favorite' or policy=='non_underdogs' and r['predictions'][model]['group']!='underdog' or policy in ('underdogs','market_same_underdogs') and r['predictions'][model]['group']=='underdog']
     use='market' if policy=='market_same_underdogs' else model
     net=sum((Decimal(r['predictions'][use]['net']) for r in take),Decimal(0));n=len(take)
     daily={r['day']:Decimal(0) for r in rows};monthly={d[:7]:Decimal(0) for d in daily}
@@ -133,12 +134,27 @@ def interval(rows,model,vs_market=False):
     return dict(n=len(selected),weeks=len(a),mean=float(a[:,1].sum()/len(selected)),ci95=np.quantile(v,[.025,.975]).tolist())
 
 
+def opportunity_interval(rows,model):
+    """All observed fixture weeks, zeros for non-underdogs; never bet-count ROI."""
+    if not rows:return dict(opportunities=0,weeks=0,mean=None,ci95=None)
+    blocks=defaultdict(lambda:np.zeros(2))
+    for r in rows:
+        key=date.fromisoformat(r['day']).isocalendar()[:2]
+        blocks[key][0]+=1
+        if r['predictions'][model]['group']=='underdog':blocks[key][1]+=float(Decimal(r['predictions'][model]['net']))
+    a=np.array([blocks[w] for w in sorted(blocks)])
+    rng=np.random.default_rng(20261031);sample=a[rng.integers(0,len(a),size=(2000,len(a)))].sum(1)
+    return dict(opportunities=len(rows),weeks=len(a),mean=float(a[:,1].sum()/len(rows)),ci95=np.quantile(sample[:,1]/sample[:,0],[.025,.975]).tolist(),
+                estimand='incremental net per observed fixture opportunity, not per bet or per calendar week')
+
+
 def summarize(rows,uncertainty=False):
     output={m:{'policies':{p:metrics(rows,m,p) for p in POLICIES}} for m in MODELS}
     if uncertainty:
         for m in MODELS:
             output[m]['underdog_vs_skip']=interval(rows,m)
             output[m]['underdog_vs_market']=interval(rows,m,True)
+            output[m]['underdog_vs_skip_per_opportunity']=opportunity_interval(rows,m)
     if rows and rows[0]['sport']=='sc':
         for m in MODELS:
             output[m]['underdog_breakdown']={tag:metrics([r for r in rows if r['predictions'][m]['group']=='underdog' and (r['predictions'][m]['rank']==rank if rank else r['predictions'][m]['draw'])],m,'all') for tag,rank in [('rank2',2),('rank3',3),('draw',None)]}

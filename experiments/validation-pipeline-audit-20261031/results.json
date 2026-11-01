@@ -1,0 +1,281 @@
+{
+  "source_commit": "f403ef75da47b02374172581763b44f646094739",
+  "probability_state_audit": {
+    "domestic_archive/bk": {
+      "fixtures": 6748,
+      "probabilities_replayed": 26992,
+      "max_probability_difference": 4.440892098500626e-16,
+      "max_scaler_mean_difference": 0.0,
+      "max_scaler_scale_difference": 5.551115123125783e-17,
+      "max_objective_gradient": 6.634115712636187e-08,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2023-02",
+          "training": 255,
+          "max_probability_difference": 4.459736080431043e-09,
+          "max_gradient": 6.169518784737704e-10
+        },
+        {
+          "model": "market_residual",
+          "month": "2023-02",
+          "training": 255,
+          "max_probability_difference": 2.9281073676834524e-09,
+          "max_gradient": 1.1193890196280892e-09
+        }
+      ]
+    },
+    "domestic_archive/bs": {
+      "fixtures": 14978,
+      "probabilities_replayed": 59912,
+      "max_probability_difference": 4.996003610813204e-16,
+      "max_scaler_mean_difference": 4.163336342344337e-17,
+      "max_scaler_scale_difference": 8.326672684688674e-17,
+      "max_objective_gradient": 4.13043272074181e-08,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2023-05",
+          "training": 639,
+          "max_probability_difference": 3.354447282166717e-07,
+          "max_gradient": 1.470451104629289e-10
+        },
+        {
+          "model": "market_residual",
+          "month": "2023-05",
+          "training": 639,
+          "max_probability_difference": 5.486944232302449e-09,
+          "max_gradient": 2.5190675026617523e-09
+        }
+      ]
+    },
+    "domestic_archive/sc": {
+      "fixtures": 23998,
+      "probabilities_replayed": 95992,
+      "max_probability_difference": 8.881784197001252e-16,
+      "max_scaler_mean_difference": 5.551115123125783e-17,
+      "max_scaler_scale_difference": 5.551115123125783e-17,
+      "max_objective_gradient": 6.307907438338548e-07,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2023-02",
+          "training": 304,
+          "max_probability_difference": 8.694366821493382e-07,
+          "max_gradient": 6.267135639875104e-09
+        },
+        {
+          "model": "market_residual",
+          "month": "2023-02",
+          "training": 304,
+          "max_probability_difference": 3.177594218861657e-07,
+          "max_gradient": 3.8968255267578245e-09
+        }
+      ]
+    },
+    "external_football_archive/sc": {
+      "fixtures": 235799,
+      "probabilities_replayed": 943196,
+      "max_probability_difference": 7.771561172376096e-16,
+      "max_scaler_mean_difference": 9.71445146547012e-17,
+      "max_scaler_scale_difference": 1.6653345369377348e-16,
+      "max_objective_gradient": 6.505890919694755e-07,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2000-10",
+          "training": 563,
+          "max_probability_difference": 1.1047750082537888e-06,
+          "max_gradient": 4.414280838646936e-09
+        },
+        {
+          "model": "market_residual",
+          "month": "2000-10",
+          "training": 563,
+          "max_probability_difference": 2.393231083031022e-06,
+          "max_gradient": 3.311251369235088e-09
+        }
+      ]
+    },
+    "domestic_archive/vl": {
+      "fixtures": 2005,
+      "probabilities_replayed": 8020,
+      "max_probability_difference": 8.881784197001252e-16,
+      "max_scaler_mean_difference": 5.551115123125783e-17,
+      "max_scaler_scale_difference": 2.7755575615628914e-17,
+      "max_objective_gradient": 1.5764571316401448e-07,
+      "independent_refits": [
+        {
+          "model": "outcome_form",
+          "month": "2023-07",
+          "training": 262,
+          "max_probability_difference": 2.4292727163199856e-08,
+          "max_gradient": 9.325135345004433e-09
+        },
+        {
+          "model": "market_residual",
+          "month": "2023-07",
+          "training": 262,
+          "max_probability_difference": 8.789385774754521e-09,
+          "max_gradient": 5.465042004847804e-09
+        }
+      ]
+    }
+  },
+  "numerical_controls": [
+    {
+      "classes": 2,
+      "synthetic_positive_accuracy": 0.985,
+      "shuffled_label_accuracy": 0.38,
+      "gradient_finite_difference_errors": {
+        "False": 1.4437465112315806e-10,
+        "True": 5.614121667552041e-11
+      },
+      "meaning": "synthetic algorithm control, not a sport/ROI result"
+    },
+    {
+      "classes": 3,
+      "synthetic_positive_accuracy": 0.915,
+      "shuffled_label_accuracy": 0.37,
+      "gradient_finite_difference_errors": {
+        "False": 3.0375421622430565e-10,
+        "True": 2.9509804322369604e-10
+      },
+      "meaning": "synthetic algorithm control, not a sport/ROI result"
+    }
+  ],
+  "unresolved_team_alias_candidates": [
+    {
+      "sport": "sc",
+      "league": "ARG",
+      "normal": "colonsantafe",
+      "variants": {
+        "Colon Santa FE": {
+          "appearances": 300,
+          "years": [
+            "2012",
+            "2022"
+          ]
+        },
+        "Colon Santa Fe": {
+          "appearances": 66,
+          "years": [
+            "2022",
+            "2023"
+          ]
+        }
+      },
+      "same_real_team_independently_confirmed": false,
+      "action": "warning only; no unverified alias merge or forecast retuning"
+    },
+    {
+      "sport": "sc",
+      "league": "D1",
+      "normal": "mgladbach",
+      "variants": {
+        "M'gladbach": {
+          "appearances": 54,
+          "years": [
+            "2025",
+            "2026"
+          ]
+        },
+        "MGladbach": {
+          "appearances": 741,
+          "years": [
+            "2001",
+            "2024"
+          ]
+        }
+      },
+      "same_real_team_independently_confirmed": false,
+      "action": "warning only; no unverified alias merge or forecast retuning"
+    },
+    {
+      "sport": "sc",
+      "league": "D2",
+      "normal": "preussenmunster",
+      "variants": {
+        "Preussen Munster": {
+          "appearances": 17,
+          "years": [
+            "2024",
+            "2024"
+          ]
+        },
+        "Preußen Münster": {
+          "appearances": 51,
+          "years": [
+            "2025",
+            "2026"
+          ]
+        }
+      },
+      "same_real_team_independently_confirmed": false,
+      "action": "warning only; no unverified alias merge or forecast retuning"
+    },
+    {
+      "sport": "sc",
+      "league": "E0",
+      "normal": "nottmforest",
+      "variants": {
+        "Nott'm Forest": {
+          "appearances": 61,
+          "years": [
+            "2024",
+            "2026"
+          ]
+        },
+        "Nottm Forest": {
+          "appearances": 93,
+          "years": [
+            "2022",
+            "2024"
+          ]
+        }
+      },
+      "same_real_team_independently_confirmed": false,
+      "action": "warning only; no unverified alias merge or forecast retuning"
+    },
+    {
+      "sport": "sc",
+      "league": "NOR",
+      "normal": "hamkam",
+      "variants": {
+        "Ham-Kam": {
+          "appearances": 50,
+          "years": [
+            "2022",
+            "2023"
+          ]
+        },
+        "HamKam": {
+          "appearances": 34,
+          "years": [
+            "2023",
+            "2024"
+          ]
+        }
+      },
+      "same_real_team_independently_confirmed": false,
+      "action": "warning only; no unverified alias merge or forecast retuning"
+    }
+  ],
+  "saved_predictions_and_states_unchanged": true,
+  "source_certification": "Replay validates algebra under source-date assumptions; it does not certify pregame receipts/prices or identical real-world team aliases.",
+  "original_model_scope": "PR475 outcome-only models, not operating tipster policy or score-static.",
+  "unchanged_artifact_hashes": {
+    "inputs/domestic.jsonl.gz": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+    "inputs/external-football.jsonl.gz": "31c4e7bc3a4dfc4bafa1bcb70ba295e99d910b3e326c14bfffe5bb0bf1613605",
+    "results/bk/domestic_archive/ledger.jsonl.gz": "b8eb5c8ffa2906d2f1b2daa003d1656c9dd7009c58fd9c0eca655d40631cd37b",
+    "results/bk/domestic_archive/states.json": "2777d4c476d19241653473574b21c5f0e7b3c34f803ab8760cdbf4295a59a465",
+    "results/bs/domestic_archive/ledger.jsonl.gz": "311e298b4b7edf9cc8507c7c493966075c694cc9eed15896eb4a390e3c49649f",
+    "results/bs/domestic_archive/states.json": "47aafced55bcb1da5c5988ab2e117b54f9c60986008fbc30ef70fce093bb4fee",
+    "results/sc/domestic_archive/ledger.jsonl.gz": "4eb3d4ab6b61bafd7319bb456d69a7dd3135d4deae9e813c24b64a1ca68c72cb",
+    "results/sc/domestic_archive/states.json": "8b2a4b23b463a1436efb3007afd52f5ae542d64b9f544991fcf75414f86a19a4",
+    "results/sc/external_football_archive/ledger.jsonl.gz": "fd0070c9969e6edee83929e11243b5c231e76e8af7b459c1fb705bdccd1f9950",
+    "results/sc/external_football_archive/states.json": "10b28669512de91b22f0bae13cc80bc8ac8debd67720e75ec673d21ade194972",
+    "results/vl/domestic_archive/ledger.jsonl.gz": "07fd92b2d937806db16d9f185ecece71efeed53cc9f63bb122d315dc6fbb6976",
+    "results/vl/domestic_archive/states.json": "5078f86018f15425084f55e5ae50813d58ad678d8687acb1987b2e3dde01cad2"
+  }
+}

@@ -13,6 +13,30 @@ def percent(value):
     return '해당 없음' if value is None else str((Decimal(str(value))*100).quantize(Decimal('.01'),rounding=ROUND_HALF_UP))+'%'
 
 
+def assess(reports,execution_certified=False):
+    """Evidence gate for this study's models only, never an automatic deployment."""
+    keys=['domestic_archive/'+s for s in ('sc','bs','bk','vl')]
+    complete=all(k in reports for k in keys)
+    observations=[]
+    for key in keys:
+        if key not in reports:continue
+        r=reports[key]
+        for name in ('outcome_form','market_residual','half_market_form'):
+            a=r['full'][name];u=a['policies']['underdogs'];ci=a.get('underdog_vs_skip',{}).get('ci95')
+            periods=[r['first_half'][name],r['second_half'][name],*[v[name] for v in r['by_year'].values()]]
+            observations.append(dict(cohort_sport=key,model=name,bets=u['bets'],net=u['net_units'],
+                positive_net=u['bets']>0 and Decimal(u['net_units'])>0,
+                positive_lower_interval=bool(ci is not None and ci[0]>0),
+                positive_each_period=bool(periods) and all(p['policies']['underdogs']['bets']>0 and Decimal(p['policies']['underdogs']['net_units'])>0 for p in periods)))
+    criteria={'four_sports_complete':complete,'every_cell_has_positive_incremental_net':bool(observations) and all(v['positive_net'] for v in observations),
+              'every_period_positive':bool(observations) and all(v['positive_each_period'] for v in observations),
+              'every_conditional_interval_lower_positive':bool(observations) and all(v['positive_lower_interval'] for v in observations),
+              'execution_prices_and_pregame_receipts_certified':bool(execution_certified)}
+    return {'evidence_supports_blanket_inclusion_for_tested_models':all(criteria.values()),'criteria':criteria,
+            'unmet_criteria':[k for k,v in criteria.items() if not v],'observations':observations,
+            'scope':'exploratory four-sport study models only; not score-static/tipster operating-policy adoption'}
+
+
 def run():
     verifier=module('integrate');common=module('common')
     reports,rows,audit=verifier.verify()
@@ -21,19 +45,21 @@ def run():
                'underdog_vs_market':common.interval(rows['domestic_archive'],m,True)} for m in common.MODELS}
     for m in common.MODELS:
         for p in common.POLICIES:verifier.check_cell(rows['domestic_archive'],m,p,pooled[m]['policies'][p])
-    decision={'blanket_include_underdogs_adopt':False,'production_changed':False,
-              'reason':'Every nonmarket fixed model has negative incremental underdog net in each domestic sport. Historical rank/league winners do not change this policy decision.',
+    assessment=assess(reports,execution_certified=False)
+    decision={'blanket_include_underdogs_adopt':assessment['evidence_supports_blanket_inclusion_for_tested_models'],'production_changed':False,
+              'assessment':assessment,
               'domestic_pooled':pooled,
               'sport_model_underdog_cells':{key:{m:rep['full'][m]['policies']['underdogs'] for m in common.MODELS[1:]} for key,rep in reports.items()},
               'verification':audit}
-    assert all(Decimal(rep['full'][m]['policies']['underdogs']['net_units'])<0 for key,rep in reports.items() if key.startswith('domestic_archive/') for m in common.MODELS[1:])
     common.save(HERE/'decision.json',decision)
     names={'sc':'축구','bs':'야구','bk':'농구','vl':'배구'}
     model_names={'market':'시장 방향','outcome_form':'전적·전력','market_residual':'시장 잔차 보정','half_market_form':'시장·전적 50:50'}
     domestic=json.loads((HERE/'inputs/domestic-audit.json').read_text(encoding='utf8'))
     ext=json.loads((HERE/'inputs/external-football-audit.json').read_text(encoding='utf8'))
+    observed=assessment['observations'];negative=sum(Decimal(o['net'])<0 for o in observed)
+    verdict='이번 연구의 증거 기준을 충족했다' if assessment['evidence_supports_blanket_inclusion_for_tested_models'] else '이번 연구의 증거 기준을 충족하지 못했다'
     lines=['# 전 종목·전체 기간 역배 포함 검증', '',
-      '**이번에 검사한 고정 모델에서는 역배를 전 종목에 일괄 포함하는 정책을 채택하지 않는다.** 국내 프로토 계열 축구·야구·농구·배구 전체 원장을 계산했고, 추가로 장기 축구 아카이브를 분리해서 계산했다. 국내 네 종목 모두 세 비시장 모델의 역배 전체 손익이 음수였다. 부분 기간·리그의 양수 수익을 보고 전면 채택하는 근거로 바꾸지 않는다. 운영 모델·서버·DB·지갑에는 변경이 없다.','',
+      f'**역배 일괄 포함은 {verdict}.** 국내 네 종목×세 비시장 모델 {len(observed)}개 셀 중 {negative}개가 역배 순손실이었다. 기준별 충족 여부와 미충족 사유는 decision.json의 assessment에 남겼다. 부분 기간·리그의 양수 수익을 보고 전면 채택하는 근거로 바꾸지 않는다. 운영 모델·서버·DB·지갑에는 변경이 없다.','',
       '## 실제 데이터 범위','',
       f'- 국내 프로토 계열: {domestic["fixtures"]:,}개 고유 경기, {domestic["range"][0]}~{domestic["range"][1]}, {len(domestic["leagues"])}개 리그. 과거 주시장 캐시 45,184건과 전체 시장 원본 171,565행을 결합하고 같은 실제 경기·가격·결과를 중복 제거했다. 충돌한 fixture는 전부 제외하며 이번 연결에서 충돌 {domestic["conflicting_fixtures_excluded"]}건이다.',
       f'- 별도 장기 축구: 원본 {ext["all_raw_rows"]:,}행 중 {ext["accepted_rows"]:,}경기, {ext["accepted_date_range"][0]}~{ext["accepted_date_range"][1]}, {len(ext["accepted_by_league"])}개 Division. 배당·점수/결과 불일치·결측 등 {ext["excluded_rows"]:,}행을 제외했다.',
@@ -55,20 +81,28 @@ def run():
     for s in ['sc','bs','bk','vl']:
         r=reports['domestic_archive/'+s]
         lines.append('| '+names[s]+f' | {r["count"]:,} | '+' | '.join(percent(r['full'][m]['policies']['all']['roi']) for m in common.MODELS)+' |')
+    lines+=['','## 학습 전 시장 fallback과 학습 완료 후 구간','',
+      '전체 기간 수치는 초기 시장 fallback을 포함한다. 아래는 같은 저장 예측을 학습 완료 여부로 구분한 전적·전력 모델의 기술 통계다. 새 학습이나 사후 픽 선택이 아니다.','',
+      '| 종목 | 시장 fallback 경기 | 학습 완료 후 경기 | 학습 완료 후 전체 ROI |',
+      '|---|---:|---:|---:|']
+    for s in ['sc','bs','bk','vl']:
+        rr=reports['domestic_archive/'+s];t=rr['trained_only']['outcome_form']['policies']['all'];f=rr['fallback_only']['outcome_form']['policies']['all']
+        lines.append(f'| {names[s]} | {f["bets"]:,} | {t["bets"]:,} | {percent(t["roi"])} |')
     lines+=['','## 역배 포함이 더한 손익','',
-      '아래는 **정배만 선택하고 역배를 건너뛰는 경우에 추가되는 역배 손익**이다. 모든 추가 손익이 음수였으므로 네 종목 모두 전체 기간에서 역배 포함이 총손익을 악화시켰다. 최고 동률의 손익은 별도다. ROI 비율의 변화와 총손익의 변화는 구분해야 한다.','',
+      f'아래는 **비역배(정배+최고 동률)를 유지하고 역배만 건너뛰는 경우에 추가되는 손익**이다. {len(observed)}개 셀 중 {negative}개의 추가 손익이 음수다. 전체 손익−비역배 손익=역배 손익을 Decimal로 검사했다. 기존 favorites 정책은 동률까지 제외했으므로 이 증분 비교에 사용하지 않는다. ROI 비율의 변화와 총손익의 변화는 구분해야 한다.','',
       '| 종목 | 모델 | 역배 건수 | 적중률 | 역배 ROI | 추가 손익(단위) | 기술적 주 블록 95% ROI 구간 |',
       '|---|---|---:|---:|---:|---:|---|']
     for s in ['sc','bs','bk','vl']:
         for m in common.MODELS[1:]:
             a=reports['domestic_archive/'+s]['full'][m];v=a['policies']['underdogs'];ci=a['underdog_vs_skip']['ci95']
             lines.append(f'| {names[s]} | {model_names[m]} | {v["bets"]:,} | {percent(v["accuracy"])} | {percent(v["roi"])} | {v["net_units"]} | {percent(ci[0])}~{percent(ci[1])} |')
-    lines+=['','## 같은 자금 단위로 본 국내 전체 원장','',
+    lines+=['','기존 주 블록 구간은 역배가 나온 주에 조건부인 베팅당 구간이다. 역배가 없던 주의 0 손익을 포함한 경기 기회당 증분 구간을 `underdog_vs_skip_per_opportunity`에 추가했다. 이는 달력 시간당 손익이나 독립 확증 구간이 아니다.','',
+      '## 같은 자금 단위로 본 국내 전체 원장','',
       '네 종목의 동일 출처 원장 안에서만 합산했다. 종목별 별도 계좌의 월 한도 수익을 더한 값이 아니라 매 선택 1단위의 단순 합계다.','',
-      '| 모델 | 역배 포함 전체 손익 / ROI | 정배만 손익 / ROI | 역배 추가 손익 | 일별 마감 최대낙폭(포함 / 정배만) |',
+      '| 모델 | 역배 포함 전체 손익 / ROI | 비역배(동률 유지) 손익 / ROI | 역배 추가 손익 | 일별 마감 최대낙폭(포함 / 비역배) |',
       '|---|---:|---:|---:|---:|']
     for m,a in pooled.items():
-        p=a['policies'];allp=p['all'];fav=p['favorites'];und=p['underdogs']
+        p=a['policies'];allp=p['all'];fav=p['non_underdogs'];und=p['underdogs']
         lines.append(f'| {model_names[m]} | {allp["net_units"]} / {percent(allp["roi"])} | {fav["net_units"]} / {percent(fav["roi"])} | {und["net_units"]} | {allp["drawdown_units"]} / {fav["drawdown_units"]} |')
     lines+=['','낙폭은 원본 경기 날짜에 손익을 귀속한 일별 마감 지표다. 실제 종료·정산 시각, 미정산 노출과 지갑 잔액의 낙폭을 인증하지 않는다. 역배를 빼면 투입 금액과 경기 수가 줄어드는 효과도 있으므로 총손실 감소를 같은 거래량의 우월성이라고 해석하지 않는다.','',
       '## 연도별 역배 ROI','',
@@ -89,8 +123,8 @@ def run():
     lines+=['','이 원장은 해외 아카이브 가격이며 프로토 세후 실수익이 아니다. 38개 Division 전체를 쓰되 서로 다른 리그의 시장·시즌 분포 차이가 있다. 일부 리그/연도의 승자만 추려 운영 성과처럼 보고하지 않는다. 전체 기간을 펼쳤다는 것은 독립 맹검 자료가 늘었다는 뜻이 아니다.','',
       '## 검증과 채택 판단','',
       f'워커별 Decimal 검사에 더해 메인 독립 검산은 코호트별 원장 행의 합계 {audit["source_fixtures"]:,}건(서로 독립인 고유 경기 수가 아님), 예측·정산 {audit["independently_verified_forecasts"]:,}건, 정책 집계 {audit["independently_verified_policy_cells"]:,}개를 확인했다. 불일치 0건이다. 원본 배당·라벨·확률 argmax·역배 순위·무승부·월별 학습 표본 수와 상태 SHA·월별 손익·낙폭을 대조했다. 이 정산 검산은 전체 최적화 알고리즘을 별도 구현해 같은 확률을 얻었다는 뜻은 아니다.',
-      '회귀 테스트는 현재/미래 라벨 변경에 대한 동결 월 계수·이전 예측의 불변, +4일 embargo, 입력 순서 불변, 초기 fallback, 3방향·최고 동률, 중복 충돌 전부 제외, 빈 표본과 분모, 외부 축구 점수·결과 일치/부정확 가격을 검사한다. 전체 테스트는 2,166 passed, 6 skipped, 93 subtests passed였다.','',
-      '1. **전 종목 역배 일괄 포함은 채택하지 않는다.** 이번 세 고정 비시장 모델 모두 국내 네 종목에서 역배 추가 손익이 음수다.',
+      '회귀 테스트는 현재/미래 라벨 변경에 대한 동결 월 계수·이전 예측의 불변, +4일 embargo, 입력 순서 불변, 초기 fallback, 3방향·최고 동률, 중복 충돌 전부 제외, 빈 표본과 분모, 외부 축구 점수·결과 일치/부정확 가격을 검사한다. 출발 연구의 전체 테스트는 2,166 passed, 6 skipped, 93 subtests passed였다. 이후 확률 재생·변조 거부·동률 보존 비교를 추가한 감사 결과는 docs/research/2026-10-31-validation-pipeline-audit.md에 기록한다.','',
+      f'1. **역배 일괄 포함은 {verdict}.** 판정에 쓰인 표본·기간별 부호·구간·가격 증거 항목을 따로 보존한다. 이 값은 운영 배포 권한이나 자동 전환 명령이 아니다.',
       '2. 역배라는 이유만으로 평생 금지한다는 결론도 아니다. 다른 입력·다른 고정 모델이 특정 리그에서 이전 시점만으로 안정적인 이점을 입증하면 그 조건을 따로 평가한다. 이번 성과를 보고 조건을 만든 뒤 같은 자료에서 검증했다고 부르지 않는다.',
       '3. 앞선 득점 모델의 111건 거의 본전은 이 대규모 승무패 모형의 음수 결과로 대체하거나 합산하지 않는다. 별도 모델의 제한된 후보 근거로만 남긴다.',
       '4. 새 후보의 전면 채택·미래 기대수익 보장은 불가하다. 손실 감소가 목적이어도 추가 손익이 음수인 선택을 추가할 근거가 없고, 검증된 구매 시각·가격·당시 선발/결장·픽스터 등 사전 증거가 필요하다. 독립 경기 전 수신/실제 구매 가격 인증은 이번에도 0건이다.','',
