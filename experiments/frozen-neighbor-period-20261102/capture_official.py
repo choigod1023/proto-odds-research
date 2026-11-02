@@ -66,13 +66,12 @@ def capture():
          no_retry=True, raw_limit=LIMIT, scope='postgame result receipt, not historical pregame evidence'))
 
 
-def process():
-    log = json.loads((OUT/'requests.json').read_text(encoding='utf8'))
+def parse_entries(entries, root=OUT):
     fixtures, rejected, clubs = [], [], {}
-    for e in log['entries']:
+    for e in entries:
         if e['status'] != 'ok':
             continue
-        raw = (OUT/e['raw_file']).read_bytes()
+        raw = (root/e['raw_file']).read_bytes()
         if hashlib.sha256(raw).hexdigest() != e['sha256']:
             raise ValueError('raw byte mismatch')
         data = json.loads(raw)['data']
@@ -102,6 +101,12 @@ def process():
                 source_sha256=e['sha256'],received_at=e['received_at']))
     if len({r['id'] for r in fixtures}) != len(fixtures):
         raise ValueError('duplicate official fixture IDs')
+    return fixtures, rejected, clubs
+
+
+def process():
+    log = json.loads((OUT/'requests.json').read_text(encoding='utf8'))
+    fixtures,rejected,clubs=parse_entries(log['entries'])
     with (OUT/'fixtures.jsonl').open('x',encoding='utf8',newline='\n') as f:
         for r in sorted(fixtures,key=lambda r:(r['day'],r['id'])):
             f.write(json.dumps(r,ensure_ascii=False,sort_keys=True)+'\n')

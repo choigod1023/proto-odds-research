@@ -1,0 +1,33 @@
+{
+  "cohorts": {
+    "domestic": {
+      "raw_price_rows": 89,
+      "eligible": 77,
+      "excluded": {
+        "duplicate_price_fixture": 12
+      },
+      "first_day": "2026-02-28",
+      "last_day": "2026-05-17",
+      "source_price_lf_sha256": "8d62107bbf57e8da926bfdcafa1814fde067c0ea0d3d3e23d36b5f2bfc7e3891",
+      "price_receipt_verified": false,
+      "price_execution_verified": false,
+      "timezone": "Korean official schedule local clock interpreted as +09:00; no independent clock certification"
+    },
+    "overseas": {
+      "raw_price_rows": 120,
+      "eligible": 120,
+      "excluded": {},
+      "first_day": "2026-02-28",
+      "last_day": "2026-07-26",
+      "source_price_lf_sha256": "47e2b363bd779cd31739f4f595aa124534c202e1adb1ed96af78307768751dd7",
+      "price_receipt_verified": false,
+      "price_execution_verified": false,
+      "timezone": "Korean official schedule local clock interpreted as +09:00; no independent clock certification"
+    }
+  },
+  "official_final_count": 204,
+  "history_count": 888,
+  "dc_source_lf_sha256": "79187243175ed45556af79f1c376f8628844747188865cb57b5e0b627e48bf3f",
+  "prior_source_bank": "unchanged 2024; target DC trained monthly on causal prior official results only",
+  "score_availability": "month start minus7days research assumption, not historical actual receipt"
+}

@@ -12,6 +12,8 @@ import sys
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 sys.path.insert(0,str(ROOT))
+sys.path.insert(0,str(HERE))
+from capture_official import parse_entries
 spec=importlib.util.spec_from_file_location('period_fixed_dc',HERE/'vendor/frozen_dc.py')
 dc=importlib.util.module_from_spec(spec);spec.loader.exec_module(dc)
 DC_SHA='79187243175ed45556af79f1c376f8628844747188865cb57b5e0b627e48bf3f'
@@ -52,6 +54,10 @@ def source_history():
         history.append(dict(id=r['fixture_id'],day=r['day'],home_id=r['home_team_id'],
                             away_id=r['away_team_id'],hg=r['scores']['home'],ag=r['scores']['away']))
     official=read_lines(HERE/'official-2026/fixtures.jsonl')
+    receipts=json.loads((HERE/'official-2026/requests.json').read_text(encoding='utf8'))['entries']
+    rebuilt,_,_=parse_entries(receipts,HERE/'official-2026')
+    if sorted(official,key=lambda r:r['id'])!=sorted(rebuilt,key=lambda r:r['id']):
+        raise ValueError('normalized fixture differs from preserved official response')
     history.extend({k:r[k] for k in ('id','day','home_id','away_id','hg','ag')} for r in official)
     if len({r['id'] for r in history})!=len(history):
         raise ValueError('duplicate history IDs')
@@ -71,6 +77,9 @@ def monthly_states(history, months):
 
 
 def parse_domestic(r):
+    if (r.get('year')!='2026' or r.get('sport')!='sc' or r.get('league')!='K리그1'
+        or r.get('market_family')!='승무패' or r.get('n_way')!='3' or r.get('market_label')):
+        return None
     h=re.fullmatch(r'(.+?)\s+(\d+)',r['home']);a=re.fullmatch(r'(\d+)\s+(.+)',r['away'])
     t=re.fullmatch(r'(\d{2})\.(\d{2})\([^)]*\)\s+(\d{2}):(\d{2})',r['date_text'])
     if not h or not a or not t or h[1] not in DOMESTIC or a[2] not in DOMESTIC:
