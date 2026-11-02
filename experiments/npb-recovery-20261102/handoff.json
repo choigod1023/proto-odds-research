@@ -1,0 +1,9 @@
+{
+ "role":"NPB 자료 복원", "league":"NPB", "status":"partial_recovery_blocked_data",
+ "branch":"codex/npb-recovery-20261102", "base_sha":"69c91f7cef35595ab637cf484bb61456f0e73f08",
+ "source_paths":["data/raw/npb_starters.json","data/raw/overseas/NPB.json","C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/rd-baseball-source-links-20261030/experiments/source-link-baseball-20261030/parsed-official-games.jsonl.gz","C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/rd-baseball-source-links-20261030/experiments/source-link-baseball-20261030/phase2/parsed-official-games.jsonl.gz","experiments/npb-recovery-20261102/raw/"],
+ "command":"python experiments/npb-recovery-20261102/recover.py", "tests":"python -m pytest tests/test_npb_recovery_20261102.py -q: 5 passed",
+ "metrics":{"base_rows":3248,"both_names_before":2313,"missing_before":935,"both_names_recovered":3,"both_names_after_in_cohort":2316,"matching_official_scores":3,"official_player_id_both":0,"actual_pregame_receipt":0,"same_price_product_time":null,"not_found_in_scoped_archives":928,"all_star_excluded":4},
+ "limitations":["limited 2023 official archive sample; 928 not found is not irrecoverable", "2023 game pages actually received 2026-11-02, postgame", "no official player IDs or operating picks linked", "same-price market and settlement not verified", "not a model accuracy study"],
+ "next_data_needed":["remaining official archive pages", "official player identities with season-team mapping", "same product odds with actual observed/received timestamps", "exact frozen operating selections and product settlement rules"], "pr_url":null
+}
