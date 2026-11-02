@@ -1,0 +1,62 @@
+{
+  "schema_version": "recovered-kbo-link-verification-v1",
+  "ledger_tail": {
+    "rows": 256,
+    "first_sequence": 8766,
+    "last_sequence": 9021,
+    "individual_hashes_verified": true,
+    "adjacent_hash_chain_verified": true,
+    "full_prefix_verified": false
+  },
+  "recovered_operating_links": 1,
+  "official_game_id": "20261101HTSS0",
+  "event_id": "evt_2b56a2c503d6a9eb",
+  "snapshot_id": "dec_3af20241522c0154",
+  "kickoff": "2026-11-01T05:00:00.000000Z",
+  "decision_at": "2026-10-31T05:11:42.720739Z",
+  "prediction_captured_at": "2026-10-31T05:13:11.515169Z",
+  "official_fact_received_at": "2026-10-31T01:25:18.574048+00:00",
+  "price_observed_at": "2026-10-31T05:09:57+00:00",
+  "price_game_no": "1856",
+  "ledger_market_observed_at": "2026-10-31T05:04:55.000000Z",
+  "price_link_kind": "frozen_vector_with_predecision_corroboration",
+  "exact_external_original_price_snapshot": false,
+  "selection": "홈",
+  "odds": 1.73,
+  "pitcher_player_ids": [
+    "53375",
+    "55633"
+  ],
+  "pitcher_status": "probable_not_final_confirmed",
+  "confirmed_lineup": false,
+  "confirmed_player_model_eligible": false,
+  "result_score": [
+    6,
+    1
+  ],
+  "result_received_at": "2026-11-02T01:53:10.672612+00:00",
+  "grade": "hit",
+  "descriptive_single_unit_profit": "0.73",
+  "model_uplift_evaluated": false,
+  "independent_receipt_authentication": false,
+  "limitations": [
+    "One recovered event is not an accuracy or ROI improvement experiment.",
+    "Hash checks do not independently authenticate the source receipt time.",
+    "Stored price observation does not prove executable purchase or raw price response receipt.",
+    "No operational records, predictions, or wallet transactions are changed."
+  ],
+  "source_files": [
+    {
+      "path": "experiments/input-link-recovery-20261102/production-snapshot.json",
+      "sha256": "608d4cea5efbe3ce847dcd1850c281abb3025bae823db6458bcb7df2210155c4"
+    },
+    {
+      "path": "experiments/verified-fact-capture-20261031/capture-with-bytes.json",
+      "sha256": "dc4fe3c023bcdebada1633d12db28346275e0c7bf155cd269d4aa97703e158e9"
+    },
+    {
+      "path": "experiments/input-link-recovery-20261102/kbo-result-20261101.json",
+      "sha256": "382c463708098fedec45225aa87cf238f7b7f3a7105992e7bcfa6749b3cbf037"
+    }
+  ]
+}
