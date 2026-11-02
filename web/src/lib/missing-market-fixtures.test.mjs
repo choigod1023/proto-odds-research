@@ -46,3 +46,52 @@ test("new baseball, basketball and football remain visible when predictions have
  }
  assert.deepEqual(missingMarketFixtures({live:[{...bs,round:129,year:2026}],past:[]},source).map(g=>g.sport),["bk","sc"]);
 });
+
+test("unlinked round retains source while linking unique exact current fixture", () => {
+ const current={...row,year:2026,round:130,_detail_key:"current-key",status:"경기전",options:[{선택:"홈"}]};
+ const [item]=missingMarketFixtures({live:[current],past:[]},odds);
+ assert.equal(item.round,"129"); assert.equal(item.linkedGame,current);
+ assert.equal(item.sourceRows[0].gameNo,"1527"); assert.equal(item.status,undefined);
+ assert.equal(item.options,undefined); assert.equal(item.odds,undefined);
+});
+test("cross-round link requires exact year and oriented identity and a unique match", () => {
+ const current={...row,year:2026,round:130};
+ const cases=[
+  [{...current,year:2025}],
+  [{...current,home:row.away,away:row.home}],
+  [{...current,league:"다른 리그"}],
+  [{...current,year:undefined}],
+  [current,{...current,round:131}],
+  [{...current,status:"경기취소"}],
+ ];
+ for (const live of cases) assert.equal(missingMarketFixtures({live,past:[]},odds)[0].linkedGame,undefined);
+});
+test("cancelled or contradictory old source remains separate from current fixture", () => {
+ const current={...row,year:2026,round:130};
+ const source={...odds,markets:{129:{a:{...row,result:"취소"},b:{...row,game_no:"1529",result:"홈승"}}}};
+ const [item]=missingMarketFixtures({live:[current],past:[]},source);
+ assert.equal(item.linkedGame,undefined); assert.equal(item.sourceRows.length,2);
+});
+
+test("conflicting result rows cannot establish a cross-round link", () => {
+ const current={...row,year:2026,round:130};
+ const source={...odds,markets:{129:{a:{...row,result:"홈승"},b:{...row,result:"원정승"}}}};
+ const [item]=missingMarketFixtures({live:[current],past:[]},source);
+ assert.equal(item.linkedGame,undefined); assert.equal(item.sourceRows.length,2);
+});
+
+test("live cancellation or postponement blocks a cross-round link even when game status is pregame", () => {
+ for (const _liveState of [{cancelled:true}, {postponed:true}]) {
+  const current={...row,year:2026,round:130,status:"경기전",_liveState};
+  const [item]=missingMarketFixtures({live:[current],past:[]},odds);
+  assert.equal(item.linkedGame,undefined);assert.equal(item.round,"129");
+ }
+});
+test("source interrupted result and contradictory pregame result never link", () => {
+ const current={...row,year:2026,round:130,status:"경기전"};
+ for (const sourceRow of [{...row,result:"중단"},{...row,status:"경기전",result:"홈승"}]) {
+  const source={...odds,markets:{129:{a:sourceRow}}};
+  const [item]=missingMarketFixtures({live:[current],past:[]},source);
+  assert.equal(item.linkedGame,undefined);assert.equal(item.sourceRows.length,1);
+ }
+});
