@@ -18,7 +18,7 @@ test("an absent volleyball fixture remains visibly unlinked without a pick after
     assert.match(html,/배당에서 확인된 미연결 경기 1건/);
     assert.match(html,/GS칼텍스 vs 도로공사/);
     assert.match(html,/저장된 사전 픽을 확인할 수 없습니다/);
-    assert.match(html,/미연결 · 상태 확인 필요 1건/);
+    assert.match(html,/원천 회차 미연결 1건 · 다른 회차 연결 0건 · 상태 확인 필요 1건/);
     assert.match(html,/결과 표기 취소/);
     assert.match(html,/개별 가격의 관측 시각은 확인되지 않았습니다/);
     assert.match(html,/상품 탭이 없습니다/);
@@ -58,7 +58,22 @@ test("a unique current round exposes its detail link without hiding the source r
   const game={...row,round:130,status:"경기전",options:[],_detail_key:"existing-detail"};
   const odds={generated_at:"2026-10-31T05:00:00Z",markets:{129:{1527:row}}};
   const html=renderToStaticMarkup(createElement(GameList,{data:{live:[game],past:[]},marketOdds:odds}));
+  assert.match(html,/원천 회차 미연결 1건 · 다른 회차 연결 1건 · 상태 확인 필요 0건/);
   assert.match(html,/129회 · KOVO여/);assert.match(html,/현재 경기정보는 130회에 연결/);
   assert.match(html,/<button type="button">경기 상세 보기<\/button>/);assert.match(html,/원천 게임번호 1527/);
+ } finally {await server.close();Date.now=oldNow;}
+});
+
+test("a linked fixture with unconfirmed current status remains in the status-check count", async () => {
+ const oldNow=Date.now; Date.now=()=>Date.parse("2026-10-31T07:30:00Z");
+ const server=await createServer({configFile:false,root:fileURLToPath(new URL("../../",import.meta.url)),esbuild:{jsx:"automatic"},optimizeDeps:{noDiscovery:true,include:[]},server:{middlewareMode:true,watch:null,hmr:false},appType:"custom"});
+ try {
+  const {GameList}=await server.ssrLoadModule("/src/pages/Markets.jsx");
+  const row={year:2026,sport:"vl",league:"KOVO여",home:"GS",away:"도로공사",date:"10.31(토) 16:00",market:"승패",n_way:2,game_no:"1527"};
+  const game={...row,round:130,status:"경기전",options:[],_detail_key:"existing-detail"};
+  const odds={generated_at:"2026-10-31T05:00:00Z",markets:{129:{1527:row}}};
+  const html=renderToStaticMarkup(createElement(GameList,{data:{live:[game],past:[]},marketOdds:odds}));
+  assert.match(html,/원천 회차 미연결 1건 · 다른 회차 연결 1건 · 상태 확인 필요 1건/);
+  assert.match(html,/129회 · KOVO여/);assert.match(html,/경기 상세 보기/);
  } finally {await server.close();Date.now=oldNow;}
 });
