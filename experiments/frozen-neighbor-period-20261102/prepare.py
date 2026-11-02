@@ -44,8 +44,10 @@ def source_history():
         raise ValueError('history coverage')
     history=[]
     for r in old:
+        ident=re.fullmatch(r'kleague:(2023|2024|2025):1:\d+',r.get('fixture_id',''))
         if (r['league']!='KLEAGUE1' or r['source_status']!='FE' or r['source_end_yn']!='Y'
-            or r['year'] not in (2023,2024,2025)):
+            or not ident or r['day'][:4]!=ident[1]
+            or ('year' in r and int(r['year'])!=int(ident[1]))):
             raise ValueError('nonfinal history')
         history.append(dict(id=r['fixture_id'],day=r['day'],home_id=r['home_team_id'],
                             away_id=r['away_team_id'],hg=r['scores']['home'],ag=r['scores']['away']))
