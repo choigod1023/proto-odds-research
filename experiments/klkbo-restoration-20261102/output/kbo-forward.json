@@ -180,6 +180,8 @@
   },
   "price_rows_in_scope": 87,
   "matching_price_rows": 87,
+  "matching_price_before_revision_count": 16,
+  "matching_price_before_revision_latest": "2026-10-31T05:09:57+00:00",
   "exact_market_observation_time_rows": 0,
   "matching_price_game_numbers": [
     "1856"
@@ -196,7 +198,8 @@
     "league": "KBO",
     "source_fixture_id": "kbo:20261101HTSS0"
   },
-  "calendar_raw_response_bytes_available": false,
+  "calendar_cache_source_sha256": "035e59fd8cb96524a0ce296e7c1ed16476968ec1ac621040f7aea5aef4c16ff8",
+  "calendar_raw_response_bytes_available": true,
   "exact_revision_settlement_count_in_partial_tail": 0,
   "evidence_layer": "prospective_local_probable_and_revision_link; full frozen/receipt/settlement verification incomplete",
   "limitations": [
@@ -205,15 +208,24 @@
     "tail_is_not_full_ledger",
     "frozen_revision_not_proven",
     "price_product_period_not_proven",
-    "official_result_raw_bytes_unavailable",
     "settlement_not_found_in_partial_tail"
   ],
   "source_hashes": {
     "snapshot_sha256": "608d4cea5efbe3ce847dcd1850c281abb3025bae823db6458bcb7df2210155c4",
-    "capture_sha256": "dc4fe3c023bcdebada1633d12db28346275e0c7bf155cd269d4aa97703e158e9"
+    "capture_sha256": "dc4fe3c023bcdebada1633d12db28346275e0c7bf155cd269d4aa97703e158e9",
+    "result_sha256": "382c463708098fedec45225aa87cf238f7b7f3a7105992e7bcfa6749b3cbf037"
   },
   "source_paths": {
     "snapshot": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\recover-inputs-new-model-20261102\\experiments\\input-link-recovery-20261102\\production-snapshot.json",
-    "capture": "experiments\\verified-fact-capture-20261031\\capture-with-bytes.json"
+    "capture": "experiments\\verified-fact-capture-20261031\\capture-with-bytes.json",
+    "result": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\recover-inputs-new-model-20261102\\experiments\\input-link-recovery-20261102\\kbo-result-20261101.json"
+  },
+  "official_result_raw": {
+    "home_score": 6,
+    "away_score": 1,
+    "raw_sha256": "035e59fd8cb96524a0ce296e7c1ed16476968ec1ac621040f7aea5aef4c16ff8",
+    "received_at": "2026-11-02T01:53:10.672612+00:00",
+    "use": "result_only",
+    "matches_cached_score": true
   }
 }

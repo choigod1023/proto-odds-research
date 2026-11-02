@@ -92,6 +92,7 @@ def link(snapshot, capture):
               and dt(p['observed_at']) <= cutoff]
     exact_time = [p for p in quotes if dt(p['observed_at']) == dt(r['market_observed_at'])]
     matching = [p for p in quotes if p.get('odds') == [odds['홈'], odds['원정']]]
+    matching_before = [p for p in matching if dt(p['observed_at']) <= dt(r['captured_at'])]
     documents = [x for x in snapshot['documents'] if x['name'] == 'kbo_candidate_calendar_cache']
     if len(documents) != 1: raise ValueError('calendar missing or ambiguous')
     calendar = documents[0]['payload']['calendar_cache'].get('2026-11-01', {})
@@ -116,10 +117,13 @@ def link(snapshot, capture):
                 'market_observed_at':r['market_observed_at'], 'odds':odds, 'prediction':r['predictions'],
                 'tipster_hybrid':r['features'].get('tipster_hybrid'), 'frozen_status_verified':False},
             'price_rows_in_scope':len(quotes), 'matching_price_rows':len(matching),
+            'matching_price_before_revision_count':len(matching_before),
+            'matching_price_before_revision_latest':max((p['observed_at'] for p in matching_before),default=None),
             'exact_market_observation_time_rows':len(exact_time),
             'matching_price_game_numbers':sorted({p['game_no'] for p in matching}),
             'price_product_period_verified':False,
             'calendar_result_claim':results[0] if len(results)==1 else None,
+            'calendar_cache_source_sha256':calendar.get('manifest',{}).get('source_sha256'),
             'calendar_raw_response_bytes_available':False,
             'exact_revision_settlement_count_in_partial_tail':len(settled),
             'evidence_layer':'prospective_local_probable_and_revision_link; full frozen/receipt/settlement verification incomplete',
@@ -128,13 +132,46 @@ def link(snapshot, capture):
                 'official_result_raw_bytes_unavailable','settlement_not_found_in_partial_tail']}
 
 
+def attach_official_result(row, result):
+    request = result['request']
+    if request.get('status') != 200 or not request.get('url','').endswith('/GetKboGameList'):
+        raise ValueError('unverified result source')
+    raw = base64.b64decode(request['raw_base64'],validate=True)
+    if len(raw) != request['bytes'] or hashlib.sha256(raw).hexdigest() != request['raw_sha256']:
+        raise ValueError('result bytes mismatch')
+    if request['raw_sha256'] != row.get('calendar_cache_source_sha256'):
+        raise ValueError('result raw does not match calendar source hash')
+    matches = [g for g in json.loads(raw)['game'] if g.get('G_ID') == row['official_game_id']
+               and str(g.get('SEASON_ID')) == '2026' and g.get('G_DT') == '20261101'
+               and g.get('G_TM') == '14:00' and g.get('HOME_ID') == 'SS' and g.get('AWAY_ID') == 'HT'
+               and str(g.get('GAME_STATE_SC')) == '3' and g.get('GAME_RESULT_CK') == 1]
+    if len(matches) != 1: raise ValueError('final result identity or state mismatch')
+    game = matches[0]
+    score = [int(game['B_SCORE_CN']),int(game['T_SCORE_CN'])]
+    cached = row.get('calendar_result_claim')
+    if not cached or [cached['hg'],cached['ag']] != score:
+        raise ValueError('result disagrees with preserved cache')
+    if dt(request['received_at']) <= dt(row['kickoff_at']): raise ValueError('result received before kickoff')
+    row['official_result_raw'] = {'home_score':score[0], 'away_score':score[1],
+                                  'raw_sha256':request['raw_sha256'], 'received_at':request['received_at'],
+                                  'use':'result_only', 'matches_cached_score':True}
+    row['calendar_raw_response_bytes_available'] = True
+    row['limitations'].remove('official_result_raw_bytes_unavailable')
+    return row
+
+
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--snapshot',type=Path,required=True);p.add_argument('--capture',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--snapshot',type=Path,required=True);p.add_argument('--capture',type=Path,required=True);p.add_argument('--result',type=Path);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
     snapshot_bytes=a.snapshot.read_bytes();capture_bytes=a.capture.read_bytes()
     row=link(json.loads(snapshot_bytes),json.loads(capture_bytes))
     row['source_hashes']={'snapshot_sha256':hashlib.sha256(snapshot_bytes).hexdigest(),
                           'capture_sha256':hashlib.sha256(capture_bytes).hexdigest()}
     row['source_paths']={'snapshot':str(a.snapshot),'capture':str(a.capture)}
+    if a.result:
+        result_bytes=a.result.read_bytes()
+        attach_official_result(row,json.loads(result_bytes))
+        row['source_hashes']['result_sha256']=hashlib.sha256(result_bytes).hexdigest()
+        row['source_paths']['result']=str(a.result)
     a.out.write_text(json.dumps(row,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     print(json.dumps({k:v for k,v in row.items() if k not in ('latest_revision_in_partial_tail','official_probable')},ensure_ascii=True,indent=2))
 

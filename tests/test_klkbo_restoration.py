@@ -74,3 +74,20 @@ def test_duplicate_physical_game_does_not_double_count_or_hide_conflicting_odds(
     assert len(merged)==1 and merged[0]['source_case_rows']==2
     assert merged[0]['market'] is None
     assert 'conflicting_duplicate_prices' in merged[0]['limitations']
+
+
+def test_official_result_requires_matching_raw_bytes_cache_and_identity():
+    mod=load('forward_link')
+    raw=json.dumps({'game':[{'G_ID':'fixture','G_DT':'20261101','G_TM':'14:00',
+        'SEASON_ID':2026,'HOME_ID':'SS','AWAY_ID':'HT','GAME_STATE_SC':'3',
+        'GAME_RESULT_CK':1,'B_SCORE_CN':'6','T_SCORE_CN':'1'}]}).encode()
+    digest=hashlib.sha256(raw).hexdigest()
+    result={'request':{'status':200,'url':'https://x/GetKboGameList',
+        'raw_base64':base64.b64encode(raw).decode(),'raw_sha256':digest,'bytes':len(raw),
+        'received_at':'2026-11-02T01:53:10Z'}}
+    row={'official_game_id':'fixture','kickoff_at':'2026-11-01T05:00:00Z',
+         'calendar_cache_source_sha256':digest,'calendar_result_claim':{'hg':6,'ag':1},
+         'limitations':['official_result_raw_bytes_unavailable']}
+    assert mod.attach_official_result(copy.deepcopy(row),result)['official_result_raw']['matches_cached_score']
+    row['calendar_result_claim']['hg']=5
+    with pytest.raises(ValueError): mod.attach_official_result(row,result)
