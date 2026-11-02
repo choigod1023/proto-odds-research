@@ -5,8 +5,39 @@
   "implementation_before_outcomes_commit": "94d6702",
   "source": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/kleague-three-candidates-20261101/experiments/kleague-three-candidates-20261101/oof.jsonl",
   "source_sha256": "158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05",
-  "validation": {"training": 144, "validation": 78, "market_hits": 33, "selected_hits": 35, "market_loss": 1.0747647322589966, "selected_loss": 1.063019062196111},
-  "test": {"period": "2025-02 to 2025-11", "n": 227, "market_hits": 99, "selected_hits": 106, "selected_roi": -0.059559471365638765, "coverage": 1.0},
-  "limitations": ["2025 previously inspected; exploratory only", "price executability not verified", "9:1, tipster and operating ledger unavailable", "DC OOF availability assumed"],
-  "commands": ["python -X utf8 experiments/neighbor-tuning-20261102/run.py", "python -X utf8 experiments/neighbor-tuning-20261102/verify.py", "python -m pytest -q tests/test_neighbor_tuning_20261102.py", "python -m pytest -q"]
+  "validation": {
+    "training": 144,
+    "validation": 78,
+    "market_hits": 33,
+    "selected_hits": 35,
+    "market_loss": 1.0747647322589966,
+    "selected_loss": 1.063019062196111
+  },
+  "test": {
+    "period": "2025-02 to 2025-11",
+    "n": 227,
+    "market_hits": 99,
+    "selected_hits": 106,
+    "selected_roi": -0.059559471365638765,
+    "coverage": 1.0
+  },
+  "limitations": [
+    "2025 previously inspected; exploratory only",
+    "price executability not verified",
+    "9:1, tipster and operating ledger unavailable",
+    "DC OOF availability assumed"
+  ],
+  "commands": [
+    "python -X utf8 experiments/neighbor-tuning-20261102/run.py",
+    "python -X utf8 experiments/neighbor-tuning-20261102/verify.py",
+    "python -m pytest -q tests/test_neighbor_tuning_20261102.py",
+    "python -m pytest -q"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/500",
+  "results_commit": "5b23bc6e4c89ea4b66b6e91b320718d4987477ed",
+  "tests": {
+    "targeted": "3 passed",
+    "full": "2249 passed, 6 skipped, 93 subtests passed",
+    "independent": "16 validation configurations, 227 probabilities, 1135 Decimal settlements; max error 1.11e-16"
+  }
 }
