@@ -39,3 +39,16 @@ def test_bank_unmodified_after_prediction():
     rows=m.read();bank=m.prepare(rows[:60]);before=[(i,x.copy(),y) for i,x,y in bank]
     m.predict(bank,{'market_p':rows[-1]['market_p'],'dc_p':rows[-1]['dc_p']},30)
     for old,new in zip(before,bank):assert old[0]==new[0] and old[2]==new[2] and (old[1]==new[1]).all()
+
+
+def test_full_test_outcome_poison_cannot_change_selection_or_picks():
+    rows=m.read();before,ledger=m.run(rows);poison=copy.deepcopy(rows)
+    for r in poison:
+        if r['split']=='evaluation_2025':r['y']=(r['y']+1)%3;r['hg']=999;r['ag']=999
+    after,poisoned=m.run(poison)
+    assert before['selected_k']==after['selected_k'] and before['validation_logloss']==after['validation_logloss']
+    for a,b in zip(ledger,poisoned):
+        assert a['id']==b['id']
+        for name in ('market','dc','neighbor'):
+            assert a['forecasts'][name]['probability']==b['forecasts'][name]['probability']
+            assert a['forecasts'][name]['pick']==b['forecasts'][name]['pick']
