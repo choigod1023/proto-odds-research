@@ -176,6 +176,14 @@ class EdgeIntegration(unittest.TestCase):
                 self.assertEqual(get('/anonymous-bets', data=b'{}')[0], 201)
                 self.assertEqual(state['posts'], 2)
                 self.assertEqual(get('/not-public')[0], 404)
+                # After inactivity, a healthy origin's new revision must be
+                # returned on the FIRST request rather than in the background.
+                state['revision'] = 'after-expiry'
+                time.sleep(6.2)
+                first = get(recent)
+                self.assertEqual(first[0], 200)
+                self.assertEqual(json.loads(first[2])['revision'], 'after-expiry')
+                self.assertNotIn(first[1]['X-Response-Cache'], ('STALE', 'UPDATING'))
                 state['status'] = 503
                 time.sleep(6.2)  # Nginx expiry is rounded to whole seconds.
                 started = time.monotonic()

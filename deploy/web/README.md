@@ -14,8 +14,10 @@ fix its upstream collection failures or OOM. No SQLite files are shared between 
 - One Nginx worker, 256 connections, 2MiB cache index, 64MiB disk-cache target.
   Cache manager limits are not instantaneous hard RAM/disk guarantees.
 - Only existing public read routes are cached; only HTTP 200 is stored.
-- Five-second edge freshness; expiry triggers background refresh on the next request,
-  not an idle polling job. Browser timestamps are excluded from the key, but scope,
+- Five-second edge freshness; the first request after expiry waits for a bounded
+  origin refresh, not an idle polling job. If origin fails, the last good body is
+  retained; concurrent requests may receive it while refresh is in progress.
+  Browser timestamps are excluded from the key, but scope,
   detail key/revision and gzip representation remain separate. Browser no-cache still
   reaches the edge; it does not force a collector rebuild on every click.
 - 500/502/503/504, transport failures and refresh-in-progress may return the last
