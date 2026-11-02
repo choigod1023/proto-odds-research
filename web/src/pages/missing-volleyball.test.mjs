@@ -48,3 +48,17 @@ test("round selector combines numeric and string identifiers while keeping other
     assert.match(html,/129회 · KOVO여/); assert.match(html,/130회 · KOVO여/);
   } finally { await server.close(); Date.now=originalNow; }
 });
+
+test("a unique current round exposes its detail link without hiding the source row", async () => {
+ const oldNow=Date.now; Date.now=()=>Date.parse("2026-10-31T05:00:00Z");
+ const server=await createServer({configFile:false,root:fileURLToPath(new URL("../../",import.meta.url)),esbuild:{jsx:"automatic"},optimizeDeps:{noDiscovery:true,include:[]},server:{middlewareMode:true,watch:null,hmr:false},appType:"custom"});
+ try {
+  const {GameList}=await server.ssrLoadModule("/src/pages/Markets.jsx");
+  const row={year:2026,sport:"vl",league:"KOVO여",home:"GS",away:"도로공사",date:"10.31(토) 16:00",market:"승패",n_way:2,game_no:"1527"};
+  const game={...row,round:130,status:"경기전",options:[],_detail_key:"existing-detail"};
+  const odds={generated_at:"2026-10-31T05:00:00Z",markets:{129:{1527:row}}};
+  const html=renderToStaticMarkup(createElement(GameList,{data:{live:[game],past:[]},marketOdds:odds}));
+  assert.match(html,/129회 · KOVO여/);assert.match(html,/현재 경기정보는 130회에 연결/);
+  assert.match(html,/<button type="button">경기 상세 보기<\/button>/);assert.match(html,/원천 게임번호 1527/);
+ } finally {await server.close();Date.now=oldNow;}
+});

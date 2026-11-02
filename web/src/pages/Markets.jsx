@@ -415,7 +415,8 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   // 조합 재계산은 미래 경기만 사용하되, 사전 추천 표시는 시작·종료 뒤에도 원장에 남긴다.
   const todayMemberships = useMemo(() => buildTodayMemberships(alignedToday), [alignedToday]);
   const modalSummary = openedGame && (pool.find((game) =>
-    String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
+    String(game.year ?? data.year ?? "") === String(openedGame.year ?? data.year ?? "") &&
+    game.sport === openedGame.sport && String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
     game.home === openedGame.home && game.away === openedGame.away &&
     game.league === openedGame.league) || openedGame);
   const modalGame = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
@@ -665,9 +666,9 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
         {f.st && f.st !== "unlinked" && missingCandidates.length > 0 && <p role="status">선택한 상태에는 포함하지 않은 미연결 경기 {missingCandidates.length}건이 있습니다. 상태는 확인이 필요합니다. 위의 ‘미연결 · 상태 확인 필요’에서 볼 수 있습니다.</p>}
         {missingFixtures.length > 0 && <section className="league-group" aria-label="배당에서 확인된 미연결 경기">
           <h3>배당에서 확인된 미연결 경기 {missingFixtures.length}건</h3>
-          <p role="status">경기 목록에 연결되지 않아 상태와 저장된 사전 픽을 확인할 수 없습니다. 배당 문서 생성: {kstStamp(marketOdds.generated_at)} KST{isDataStale(marketOdds.generated_at) || Date.parse(marketOdds.generated_at) > Date.now() + 5000 ? " · 문서가 오래됐거나 시각이 올바르지 않습니다" : ""}. 개별 가격의 관측 시각은 확인되지 않았습니다. 이 목록에는 상품 탭이 없습니다.</p>
+          <p role="status">해당 회차의 경기 목록에 연결되지 않아 저장된 사전 픽을 확인할 수 없습니다. 다른 회차에 같은 경기가 확인되면 해당 경기 정보를 열 수 있습니다. 배당 문서 생성: {kstStamp(marketOdds.generated_at)} KST{isDataStale(marketOdds.generated_at) || Date.parse(marketOdds.generated_at) > Date.now() + 5000 ? " · 문서가 오래됐거나 시각이 올바르지 않습니다" : ""}. 개별 가격의 관측 시각은 확인되지 않았습니다. 이 목록에는 상품 탭이 없습니다.</p>
           <ul>{missingFixtures.map((g) => <li key={JSON.stringify([g.year, g.round, g.sport, g.league, g.date, g.home, g.away])}>
-            {SPORTS.find(([code]) => code === g.sport)?.[1] || g.sport} · {g.round}회 · {g.league} · {g.date} · {g.home} vs {g.away} · 상태 확인 필요
+            {SPORTS.find(([code]) => code === g.sport)?.[1] || g.sport} · {g.round}회 · {g.league} · {g.date} · {g.home} vs {g.away} · {g.linkedGame ? <>현재 경기정보는 {g.linkedGame.round}회에 연결 <button type="button" onClick={() => setOpenedGame(g.linkedGame)}>경기 상세 보기</button></> : "상태 확인 필요"}
             {g.sourceRows.map((row, index) => <span key={index}> · 원천 게임번호 {row.gameNo || "미기재"}, 상태 표기 {row.status || "미기재"}, 결과 표기 {row.result || "미기재"}</span>)}
           </li>)}</ul>
         </section>}
