@@ -27,3 +27,5 @@
 원자료 `C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/kleague-three-candidates-20261101/experiments/kleague-three-candidates-20261101/oof.jsonl`, SHA256 `158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05`. 2024 OOF 228개와 이미 여러 번 검토한 2025년 227개다. 입력 검증은 복사본의 무결성, 고유 ID, 확률·가격 및 DC cutoff를 확인한다. DC 확률은 이전 2025 경기 결과의 7일 후 가용성을 가정한 기존 OOF 값을 이어받으며 실제 당일 가용성을 증명하지 않는다. 기록된 가격의 실제 체결 가능성도 검증되지 않았다. 실제 팁스터, 고정 9:1과 현행 운영 선택은 없어 비교하지 않았다. 새로운 시간 구간의 사전 등록된 독립 표본과 실제 운영 원장 없이는 성능이나 운영 채택을 확정할 수 없다.
 
 `python -X utf8 experiments/neighbor-tuning-20261102/run.py`로 실행하고 `python -X utf8 experiments/neighbor-tuning-20261102/verify.py`로 표준 라이브러리 독립 계산을 수행했다. 16개 검증 설정, 227개 보정 확률 및 1,135건 Decimal 정산을 재생했으며 확률 최대 오차는 1.11e-16이다. `python -m pytest -q tests/test_neighbor_tuning_20261102.py`의 확률·입력 제한, 2025 결과 오염, 시장 복귀 검사 3개가 통과했다.
+
+전체 테스트 `python -m pytest -q`는 2,249개 통과, 6개 건너뜀, 93개 하위 테스트 통과였다.
