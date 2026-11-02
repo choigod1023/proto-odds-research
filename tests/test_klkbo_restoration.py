@@ -29,7 +29,7 @@ def fixture():
                'announcement_status':'probable'},'official':{'confirmed':False,'raw_sha256':request['raw_sha256'],
                'received_at':request['received_at']}}
              for s,t,p in [('home','SS','11'),('away','HT','22')]]
-    record = {'event_id':'evt','kickoff':'2026-11-01T05:00:00Z', 'captured_at':'2026-10-31T02:00:00Z',
+    record = {'event_id':'evt','kickoff':'2026-11-01T05:00:00Z', 'captured_at':'2026-10-31T02:00:00Z', 'as_of':'2026-10-31T01:55:00Z',
               'market_observed_at':'2026-10-31T01:50:00Z','ledger_sequence':1,'snapshot_id':'revision',
               'predictions':{'action':'withhold'},'features':{
                'fixture':{'year':2026,'league':'KBO','sport':'bs','home':'삼성','away':'KIA','date':'11.01(일) 14:00'},
@@ -46,6 +46,15 @@ def test_forward_links_unconfirmed_and_preserves_missing_evidence():
     assert not out['latest_revision_in_partial_tail']['frozen_status_verified']
     assert not out['official_probable']['final_starting_lineup_confirmed']
     assert out['exact_revision_settlement_count_in_partial_tail']==0
+
+
+def test_price_after_decision_as_of_is_not_counted_as_prior():
+    s,c=fixture()
+    s['fixture_prices'].append({'season':2026,'league':'KBO','sport':'bs','home':'삼성','away':'KIA',
+        'date_text':'11.01(일) 14:00','market_family':'승패','n_way':2,'market_label':'',
+        'observed_at':'2026-10-31T01:57:00Z','odds':[1.7,2.1],'game_no':'123'})
+    out=load('forward_link').link(s,c)
+    assert out['matching_price_rows']==1 and out['matching_price_before_revision_count']==0
 
 
 @pytest.mark.parametrize('mutation', ['bad_bytes','wrong_side','too_late','ambiguous_options'])

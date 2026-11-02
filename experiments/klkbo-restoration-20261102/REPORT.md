@@ -13,7 +13,7 @@
 
 실제 보존 공식 응답 바이트에서 `20261101HTSS0`, 삼성 홈 `SS`, KIA 원정 `HT`, 14:00 KST와 예고 선발 홈 후라도 `53375`, 원정 올러 `55633`을 확인했다. 공식 응답 수신 기록은 10월 31일 10:25:18 KST다. 당시 운영 선수 입력의 동일 경기 ID·두 선수 이름·관측시각과 경기 전 revision `dec_3af20241522c0154`를 연결했다. 입력은 예고 선발이며 확정 9인 타순은 없다.
 
-부분 원장 256행에는 해당 경기의 사전 revision 1행이 있다. 2026-10-31 14:13:11 KST에 저장됐고 `market_reference`, 홈 선택과 같은 revision 내부 양측 가격 1.73/1.75가 보존돼 있다. 이 값은 모의 거래나 최종 동결 증명이 아니다. 별도 배당 696행은 8개 상품 각 87개 관측이며, 같은 값의 경기 후보 1856이 87건이며 그중 16건은 원장 기록 전이다. 마지막 기록 전 관측은 2026-10-31 14:09:57 KST다. 해당 자료만으로 상품의 전체 경기 여부 및 revision의 배당 관측시각과 정확히 같은 원행은 확인하지 못했다. 다른 상품 1860도 2방향이므로 가격만으로 동일 상품이라 확정하지 않는다.
+부분 원장 256행에는 해당 경기의 사전 revision 1행이 있다. 2026-10-31 14:13:11 KST에 저장됐고 `market_reference`, 홈 선택과 같은 revision 내부 양측 가격 1.73/1.75가 보존돼 있다. 이 값은 모의 거래나 최종 동결 증명이 아니다. 별도 배당 696행은 8개 상품 각 87개 관측이며, 같은 값의 경기 후보 1856이 87건이며 그중 16건은 판정 기준 시각과 원장 기록 시각 모두 이전이다. 마지막 기록 전 관측은 2026-10-31 14:09:57 KST다. 해당 자료만으로 상품의 전체 경기 여부 및 revision의 배당 관측시각과 정확히 같은 원행은 확인하지 못했다. 다른 상품 1860도 2방향이므로 가격만으로 동일 상품이라 확정하지 않는다.
 
 운영 공식 일정 캐시의 삼성 6–1 KIA 결과는 별도 보존 공식 응답 원문을 해독해 일치함을 확인했다. 이 원문은 11월 2일 10:53:10 KST에 결과 라벨용으로 수신됐고, 응답 해시는 기존 캐시의 출처 해시와 일치한다. 이는 경기 전 입력이 아니다. 이 revision의 정산은 전달된 부분 원장에서 발견하지 못했다. 전달된 256행은 각 해시 256/256, 연속 연결 255/255가 일치하고 일련번호는 8766~9021이나 그 이전 체인은 확인하지 않았다. 로컬 수신 로그와 바이트가 있어도 제3자 수신 인증은 없다. canonical_game_id는 소급 생성하지 않았다.
 
@@ -23,7 +23,7 @@
 - `python experiments/klkbo-restoration-20261102/forward_link.py --snapshot C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/recover-inputs-new-model-20261102/experiments/input-link-recovery-20261102/production-snapshot.json --capture experiments/verified-fact-capture-20261031/capture-with-bytes.json --result C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/recover-inputs-new-model-20261102/experiments/input-link-recovery-20261102/kbo-result-20261101.json --out experiments/klkbo-restoration-20261102/output/kbo-forward.json`
 - `python -m pytest tests/test_klkbo_restoration.py -q`
 
-복원·원장 관련 `python -m pytest tests/test_klkbo_restoration.py tests/test_prediction_ledger.py -q`는 25건 통과했다. 전체 `python -m pytest -q`는 초반 진행 후 출력 없이 오래 대기하여 수동 중단했으므로 전체 통과가 아니다.
+복원·원장 관련 `python -m pytest tests/test_klkbo_restoration.py tests/test_prediction_ledger.py -q`는 26건 통과했다. 전체 `python -m pytest -q`는 초반 진행 후 출력 없이 오래 대기하여 수동 중단했으므로 전체 통과가 아니다.
 
 `output/cohort.jsonl`은 263개 고유 경기, `output/kbo-2025-evidence.jsonl`은 별도 4건이다. `output/manifest.json`은 원본 경로·해시와 사유별 건수를 남긴다. 사유는 중복 집계되며 서로 더해 전체 분모로 취급하지 않는다. 신규 운영 스냅샷 해시는 `608d4cea5efbe3ce847dcd1850c281abb3025bae823db6458bcb7df2210155c4`다.
 

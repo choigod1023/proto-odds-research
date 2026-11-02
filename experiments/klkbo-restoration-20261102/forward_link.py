@@ -71,7 +71,8 @@ def link(snapshot, capture):
     if len(event_ids) != 1: raise ValueError('operating event ambiguous or missing')
     candidates.sort(key=lambda r: (dt(r['captured_at']), r['ledger_sequence']))
     r = candidates[-1]
-    if dt(request['received_at']) > dt(r['captured_at']):
+    decision_time = min(dt(r['captured_at']), dt(r['as_of']))
+    if dt(request['received_at']) > decision_time:
         raise ValueError('probable announcement received after revision')
     player_input = r.get('features',{}).get('research_player_inputs') or {}
     starters = player_input.get('starters') or {}
@@ -79,7 +80,7 @@ def link(snapshot, capture):
     player_crosscheck = (player_input.get('source_game_id') == official['G_ID'] and
                          all((starters.get(side) or {}).get('name') == name for side,name in names.items()) and
                          bool(player_input.get('observed_at')) and
-                         dt(player_input['observed_at']) <= dt(r['captured_at']))
+                         dt(player_input['observed_at']) <= decision_time)
     opts = [x for x in r.get('features',{}).get('options',[]) if x.get('market') == '승패'
             and not x.get('label') and x.get('selection') in ('홈','원정')]
     if len(opts) != 2 or {x['selection'] for x in opts} != {'홈','원정'}:
@@ -92,7 +93,7 @@ def link(snapshot, capture):
               and dt(p['observed_at']) <= cutoff]
     exact_time = [p for p in quotes if dt(p['observed_at']) == dt(r['market_observed_at'])]
     matching = [p for p in quotes if p.get('odds') == [odds['홈'], odds['원정']]]
-    matching_before = [p for p in matching if dt(p['observed_at']) <= dt(r['captured_at'])]
+    matching_before = [p for p in matching if dt(p['observed_at']) <= decision_time]
     documents = [x for x in snapshot['documents'] if x['name'] == 'kbo_candidate_calendar_cache']
     if len(documents) != 1: raise ValueError('calendar missing or ambiguous')
     calendar = documents[0]['payload']['calendar_cache'].get('2026-11-01', {})
