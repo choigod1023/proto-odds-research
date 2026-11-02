@@ -1,0 +1,224 @@
+{
+  "scope": "2026 K\ub9ac\uadf81 only; date/teams identity census; no scores, labels or model predictions calculated",
+  "sources": {
+    "detail": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto\\data\\raw\\detail\\kleague_soccer_2023_2026.json",
+      "sha256": "23380355d10e7a9b078a2c170611e89796b95549be19d1d783b2c7d480ac2daa",
+      "bytes": 6511458
+    },
+    "overseas": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto\\data\\raw\\overseas\\K\ub9ac\uadf81.json",
+      "sha256": "47e2b363bd779cd31739f4f595aa124534c202e1adb1ed96af78307768751dd7",
+      "bytes": 23268
+    },
+    "domestic_csv": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\internal-game-factors\\data\\processed\\games.csv.tmp",
+      "sha256": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+      "bytes": 25019789
+    },
+    "official_schedule_projection": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\experiments\\source-link-kleague-20261030\\schedule-identities.jsonl.gz",
+      "sha256": "ee074929d9ac1b1ff8018905bafd8d5c17c2d426758d4a505be0e49f79ec6649",
+      "bytes": 1491
+    },
+    "official_http_metadata": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\experiments\\source-link-kleague-20261030\\http.jsonl",
+      "sha256": "f8fc7b4604056add388c4d256632782c3f6d2058e434082f974fb90e20a2370e",
+      "bytes": 29406
+    },
+    "official_result_provider_snapshot": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\experiments\\operating-ledger-comparison-20261029\\official-results.json.gz",
+      "sha256": "1533a888d5ecc2c0d8ae6ab51c7520a7984ca42487d3428566f580818335e7ba",
+      "bytes": 37151
+    },
+    "official_final_projection": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\official\\kleague-results.json",
+      "sha256": "72d2cd4981deef8ad226936b6f828fb30ed230fb8edb9dbf971aaebb1444d343",
+      "bytes": 262163
+    },
+    "official_final_requests": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\official\\requests.json",
+      "sha256": "a05a21b734d720eafd03a0052c1b66cd139b385f8fda68dc0e408f4cec632786",
+      "bytes": 13142
+    },
+    "official_final_collector": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\scripts\\collect_tipster_year_official.py",
+      "sha256": "25d39154c83849139798244c97c501ce7bd454524ec37013a5e9e171c35a9972",
+      "bytes": 4617
+    },
+    "observed_odds": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto\\data\\raw\\overseas\\live_odds.csv",
+      "sha256": "7da5ff86246e015006ee14feb5ea98458bdd47ccac12634ea80153aab68e5ce9",
+      "bytes": 5706637
+    },
+    "new_official_fixtures": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\frozen-neighbor-holdout-20261102\\experiments\\frozen-neighbor-period-20261102\\official-2026\\fixtures.jsonl",
+      "sha256": "a4b1e8e4f3658419e9be910bbc39793ae423e3abe2a67e76b0866c1f5030bd85",
+      "bytes": 77412
+    },
+    "new_official_manifest": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\frozen-neighbor-holdout-20261102\\experiments\\frozen-neighbor-period-20261102\\official-2026\\manifest.json",
+      "sha256": "87c00518511a79d48ec56fadae532b5936b4c79fe9189ac8678094996cdc1aaf",
+      "bytes": 2510
+    },
+    "prior_425_cases": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\experiments\\source-link-step2-20261030\\inputs\\cases.jsonl.gz",
+      "sha256": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
+      "bytes": 553969
+    },
+    "prior_425_identity": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\link-new-source-evidence-20261030\\experiments\\source-link-kleague-20261030\\input-identities.jsonl.gz",
+      "sha256": "2e566e752940a224e0422d809355d6f7a4cb126f393607fcd0e2f668d9f690d3",
+      "bytes": 21267
+    },
+    "prior_decay_targets": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\kleague-decay-backtest-20261029\\experiments\\kleague-decay-20261029\\targets.jsonl",
+      "sha256": "5c2f73ef1a797b4e52ecb71e26467b393d519c59c8c4ac69ab1f2e82a3238975",
+      "bytes": 12603
+    },
+    "prior_neighbor_inputs": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\recover-inputs-new-model-20261102\\experiments\\neighbor-tuning-20261102\\inputs\\oof.jsonl",
+      "sha256": "6c44563414ba8319e49b23b19be77bc6792474392c5d591ae0b77c8a8eac08ca",
+      "bytes": 278892
+    },
+    "prior_dc_inputs": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\kleague-three-candidates-20261101\\experiments\\kleague-three-candidates-20261101\\oof.jsonl",
+      "sha256": "158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05",
+      "bytes": 278437
+    }
+  },
+  "overseas": {
+    "rows_2026": 120,
+    "date_range": [
+      "2026-02-28",
+      "2026-07-26"
+    ],
+    "complete_3way_prices": 120,
+    "duplicate_date_team_rows": 0,
+    "receipt_time": "missing",
+    "kickoff_time": "midnight placeholders; unverified"
+  },
+  "domestic": {
+    "rows_2026": 89,
+    "parsed": 89,
+    "date_range": [
+      "2026-02-28",
+      "2026-05-17"
+    ],
+    "complete_3way_prices": 89,
+    "duplicate_date_team_rows": 6,
+    "receipt_time": "missing",
+    "kickoff_timezone": "not certified"
+  },
+  "detail": {
+    "rows_2026": 120,
+    "date_range": [
+      "2026-02-28",
+      "2026-07-26"
+    ],
+    "duplicate_date_team_rows": 0,
+    "prior_local_read_at": "2026-10-30T05:29:01.212548+00:00",
+    "historical_receipt": "unverified"
+  },
+  "official_schedule_projection": {
+    "rows": 55,
+    "date_range": [
+      "2026-07-04",
+      "2026-09-27"
+    ],
+    "by_month": {
+      "2026-07": 30,
+      "2026-09": 25
+    },
+    "duplicate_date_team_rows": 0,
+    "contains_final_scores": false,
+    "raw_response_bytes_located": false,
+    "source_receipt": "2026-10-30T05:23:57.959107+00:00 for July; same-day September in metadata"
+  },
+  "official_final_projection": {
+    "rows": 198,
+    "date_range": [
+      "2026-02-28",
+      "2026-10-24"
+    ],
+    "duplicate_date_team_rows": 0,
+    "duplicate_official_id_rows": 0,
+    "request_started_at_range": [
+      "2026-10-28T09:52:36.164112+00:00",
+      "2026-10-28T09:52:44.701951+00:00"
+    ],
+    "receipt_semantics": "collector assigns observed_at before making HTTP request; response completion not recorded",
+    "final_status": "collector filters gameStatus=FE and endYn=Y, but output does not preserve either field",
+    "original_response_bytes": "not located; raw final state not independently verified"
+  },
+  "observed_prices": {
+    "rows": 12450,
+    "poll_started_at_range": [
+      "2026-07-27T10:01:13+00:00",
+      "2026-08-23T03:14:20+00:00"
+    ],
+    "receipt_semantics": "watcher assigns observed_at before making HTTP request; response completion not recorded",
+    "missing_kickoff_rows": 12450,
+    "note": "do not join on team names alone"
+  },
+  "joins_unique_by_oriented_date_only": {
+    "domestic_to_detail": 77,
+    "overseas_to_detail": 120,
+    "domestic_to_overseas": 77,
+    "official_schedule_to_detail": 30,
+    "official_schedule_to_overseas": 30,
+    "official_schedule_to_domestic": 0
+  },
+  "joins_official_final_projection": {
+    "domestic_unique_date_teams": 77,
+    "domestic_unique_date_teams_and_clock": 77,
+    "overseas_unique_date_teams": 120,
+    "detail_unique_date_teams": 120,
+    "note": "fixture identity only, not score comparison or performance; official raw final status must be verified"
+  },
+  "new_official_capture": {
+    "rows": 204,
+    "date_range": [
+      "2026-02-28",
+      "2026-11-01"
+    ],
+    "fe_and_ended": 204,
+    "duplicate_date_team_rows": 0,
+    "domestic_unique_date_teams_clock": 77,
+    "overseas_unique_date_teams": 120,
+    "scope_note": "freshly captured postgame; pregame price receipt still unverified"
+  },
+  "prior_use": {
+    "neighbor_2026_rows": 0,
+    "old_dc_oof_2026_rows": 0,
+    "pr425_case_rows_2026": 90,
+    "pr425_alias_mapped_rows_2026": 90,
+    "pr425_duplicate_date_team_rows": 5,
+    "pr425_months": {
+      "2026-03": 24,
+      "2026-04": 26,
+      "2026-05": 28,
+      "2026-07": 2,
+      "2026-08": 7,
+      "2026-09": 3
+    },
+    "domestic_overlap_prior_425": 66,
+    "overseas_overlap_prior_425": 70,
+    "older_decay_targets_2026": 19,
+    "overseas_overlap_decay_targets": 11,
+    "domestic_overlap_decay_targets": 8
+  },
+  "official_result_snapshot": {
+    "all_sports_rows": 2051,
+    "kleague1_rows": 42,
+    "scope": "proto 2026 round>=120, not full history; raw source receipts for individual historical matches not established"
+  },
+  "unmapped": {},
+  "limitations": [
+    "orientation/date matching does not verify exact kickoff, final result or odds timestamp",
+    "official schedule projection has no official final score; original response cache not found",
+    "no 2026 DC OOF vectors in inspected bank",
+    "no verified historical price receipt",
+    "previous 2026 analysis may have inspected data; never call independent or blind"
+  ]
+}
