@@ -164,6 +164,15 @@ def run(root, local_raw):
             kbo_csv[(r['year'], str(int(r['round'])), str(int(r['game_no'])))].append(r)
     team_ids = {'LG':'LG', 'KT':'KT', 'KIA':'HT', 'SSG':'SK', 'NC':'NC',
                 '키움':'WO', '삼성':'SS', '두산':'OB', '한화':'HH', '롯데':'LT'}
+    kbo_by_fixture = defaultdict(list)
+    for source_rows in kbo_csv.values():
+        for raw_row in source_rows:
+            h = re.fullmatch(r'(.+?)\s+(\d+)', raw_row['home'])
+            a = re.fullmatch(r'(\d+)\s+(.+)', raw_row['away'])
+            if h and a and raw_row['market_tag'] == 'hm':
+                key = (raw_row['date_text'][:5], raw_row['date_text'][-5:],
+                       team_ids.get(h[1]), team_ids.get(a[2]), int(h[2]), int(a[1]))
+                kbo_by_fixture[key].append(raw_row)
     parsed = defaultdict(list)
     for x in read_jsonl(game_path):
         if x.get('league') == 'KBO': parsed[x['game_id']].append(x)
@@ -195,6 +204,7 @@ def run(root, local_raw):
                                 'official_players':people.get(gid, []), 'raw_receipt_at':m['observed_at'],
                                 'raw_file':str(rp), 'raw_sha256':m['sha256']}
         market = None
+        void_market = None
         cands = cases.get(j.get('event_id'), [])
         if verified and len(cands) == 1:
             c = cands[0]
@@ -217,12 +227,33 @@ def run(root, local_raw):
                               'sides':['home','away'], 'price_receipt_at':None,
                               'case_available_at_claim':c.get('available_at'),
                               'price_evidence':c.get('price_evidence'), 'source':str(csv_path)}
+        if verified and not market:
+            # Recover independent raw prices even when #425 did not construct a case.
+            kickoff = j.get('kickoff','')
+            key = (kickoff[5:10].replace('-', '.'), kickoff[11:16], verified['official_home_id'],
+                   verified['official_away_id'], *verified['official_score'])
+            raw_matches = kbo_by_fixture.get(key, [])
+            if len(raw_matches) == 1:
+                raw_row = raw_matches[0]
+                try: prices = [float(x) for x in raw_row['odds'].split(',')]
+                except ValueError: prices = []
+                if len(prices) == 2 and all(x > 1 for x in prices) and raw_row['is_void'] == 'False':
+                    market = {'issue':[int(raw_row['year']),int(raw_row['round'])],
+                              'game_no':raw_row['game_no'], 'odds':prices, 'sides':['home','away'],
+                              'price_receipt_at':None, 'case_available_at_claim':None,
+                              'price_evidence':'raw_csv_exact_date_clock_teams_score_no_upstream_case',
+                              'source':str(csv_path)}
+                elif raw_row['is_void'] == 'True':
+                    void_market = {'issue':[int(raw_row['year']),int(raw_row['round'])],
+                                   'game_no':raw_row['game_no'], 'stored_values':prices,
+                                   'result':raw_row['result'], 'void':True,
+                                   'note':'settlement values, not verified pregame prices', 'source':str(csv_path)}
         reasons = ([] if verified else ['raw_official_fixture_unlinked_or_ambiguous'])
-        if not market: reasons.append('market_missing_ambiguous_or_inconsistent')
+        if not market: reasons.append('market_void' if void_market else 'market_missing_ambiguous_or_inconsistent')
         reasons += ['market_receipt_unverified', 'operating_frozen_revision_unlinked', 'pregame_receipt_unverified']
         rows.append({'league':'KBO', 'fixture_id':gid or j.get('event_id'), 'day':j.get('kickoff','')[:10],
                      'official_match':verified, 'target_event_id':j.get('event_id'),
-                     'source_auxiliary':j.get('auxiliary'), 'market':market,
+                     'source_auxiliary':j.get('auxiliary'), 'market':market, 'void_market':void_market,
                      'frozen_operating_revision':None, 'prospective_verified':False,
                      'retrospective_official_fixture':bool(verified), 'limitations':reasons})
     # PR #425 includes both primary and auxiliary cases for the same game.
