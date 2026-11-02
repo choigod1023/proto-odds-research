@@ -1,3 +1,5 @@
+export const isVoidMarketResult = (result) => ["취소", "연기", "중단", "무효"].includes(result);
+
 const LABELS = { hit: "적중", miss: "적중실패", void: "무효" };
 const finalOutcome = (state, record, source) => ({ state, label: LABELS[state], record, source });
 const validScore = (value) => ["string", "number"].includes(typeof value)
@@ -21,7 +23,7 @@ export function recommendationOutcome(game, live = game?._liveState) {
     && (!selected?.게임번호 || String(row.game_no) === String(selected.게임번호)));
   if (rows.length === 1) {
     const row = rows[0];
-    if (["취소", "연기", "중단", "무효"].includes(row.result)) {
+    if (isVoidMarketResult(row.result)) {
       return finalOutcome("void", record, "official");
     }
     const names = {

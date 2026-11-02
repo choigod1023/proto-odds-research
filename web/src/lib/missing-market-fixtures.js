@@ -1,3 +1,5 @@
+import { isVoidMarketResult } from "./pick-result.js";
+
 /** Unlinked full-game market entries, across all supported sports.
  * A market document is not a prediction or an official status feed. */
 export function missingMarketFixtures(data, odds) {
@@ -42,13 +44,18 @@ export function missingMarketFixtures(data, odds) {
   }
   return [...seen.values()].map(fixture => {
     // Do not reconcile cancelled, postponed or otherwise contradictory source rows.
-    const blocked = fixture.sourceRows.some(row => /취소|연기|무효|cancel|postpon/i.test(`${row.status || ""} ${row.result || ""}`));
+    const blocked = fixture.sourceRows.some(row =>
+      isVoidMarketResult(row.result)
+      || /취소|연기|중단|무효|cancel|postpon/i.test(`${row.status || ""} ${row.result || ""}`)
+      || (row.status === "경기전" && row.result != null));
     const conflicting = ["status", "result"].some(field =>
       new Set(fixture.sourceRows.map(row => row[field]).filter(Boolean)).size > 1);
     const candidates = currentByFixture.get(physicalKey(fixture)) || [];
     if (blocked || conflicting || candidates.length !== 1) return fixture;
     const game = candidates[0];
-    if (String(game.round) === String(fixture.round) || /취소|연기|무효|cancel|postpon/i.test(String(game.status || ""))) return fixture;
+    if (String(game.round) === String(fixture.round)
+        || game._liveState?.cancelled || game._liveState?.postponed
+        || /취소|연기|중단|무효|cancel|postpon/i.test(String(game.status || ""))) return fixture;
     return { ...fixture, linkedGame: game };
   });
 }
