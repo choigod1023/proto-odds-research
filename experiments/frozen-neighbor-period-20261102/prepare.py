@@ -143,20 +143,26 @@ def main():
         if r['home_en'] not in OVERSEAS or r['away_en'] not in OVERSEAS:op.append(None);continue
         op.append(dict(day=r['date'][:10],home_id=OVERSEAS[r['home_en']],away_id=OVERSEAS[r['away_en']],
             recorded_scores=[r['home_score'],r['away_score']],prices=[str(v) for v in r['odds']]))
-    cohorts={'domestic':link([parse_domestic(r) for r in domestic],official),'overseas':link(op,official)}
+    # Three unlabelled prices alone cannot certify the historical market/order.
+    # Retain initial linked outputs as audit evidence; do not score them as valid.
+    cohorts={'domestic':link([parse_domestic(r) for r in domestic],official),
+             'overseas':([], [dict(id=f'overseas-unverified:{i}',eligibility='excluded',
+                    reason='unverified_market_and_selection_order') for i in range(len(overseas))])}
     months={r['day'][:7] for good,_ in cohorts.values() for _,r,_ in good}
     states=monthly_states(history,months)
-    save(HERE/'dc-states.json',states)
+    output=HERE/'verified-inputs'
+    output.mkdir(exist_ok=False)
+    save(output/'dc-states.json',states)
     receipts={}
     for name,(good,bad) in cohorts.items():
         price_sha=sha(HERE/'inputs/domestic-2026.raw.jsonl') if name=='domestic' else sha(overseas_path)
         rows=opportunities(name,good,bad,states,price_sha)
-        save(HERE/(name+'-opportunities.json'),rows)
+        save(output/(name+'-opportunities.json'),rows)
         receipts[name]=dict(raw_price_rows=len(good)+len(bad),eligible=len(good),excluded=dict(Counter(r['reason'] for r in bad)),
             first_day=min((r['day'] for _,r,_ in good),default=None),last_day=max((r['day'] for _,r,_ in good),default=None),
             source_price_lf_sha256=price_sha,price_receipt_verified=False,price_execution_verified=False,
             timezone='Korean official schedule local clock interpreted as +09:00; no independent clock certification')
-    save(HERE/'preparation.json',dict(cohorts=receipts,official_final_count=len(official),history_count=len(history),
+    save(output/'preparation.json',dict(cohorts=receipts,official_final_count=len(official),history_count=len(history),
         dc_source_lf_sha256=DC_SHA,prior_source_bank='unchanged 2024; target DC trained monthly on causal prior official results only',
         score_availability='month start minus7days research assumption, not historical actual receipt'))
     print(json.dumps(receipts,ensure_ascii=True))
