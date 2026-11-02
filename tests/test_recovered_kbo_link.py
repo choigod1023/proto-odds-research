@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.verify_recovered_kbo_link import verify
+from scripts.verify_recovered_kbo_link import verify, source_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -69,3 +69,12 @@ def test_source_bytes_hash_is_verified(inputs):
     inputs[2]['request']['raw_sha256'] = '0' * 64
     with pytest.raises(ValueError, match='source bytes mismatch'):
         verify(*inputs)
+
+
+def test_wrapper_content_hash_is_portable_but_not_blind_to_changed_content(tmp_path):
+    a, b = tmp_path/'windows.json', tmp_path/'linux.json'
+    a.write_bytes(b'{\r\n  "value": 7\r\n}\r\n')
+    b.write_bytes(b'{\n  "value": 7\n}\n')
+    assert source_manifest([a])[0]['sha256'] == source_manifest([b])[0]['sha256']
+    b.write_bytes(b'{"value":8}')
+    assert source_manifest([a])[0]['sha256'] != source_manifest([b])[0]['sha256']

@@ -32,6 +32,10 @@ Windows SSH 클라이언트는 종료 코드 1을 반환했지만, 시작/종료
 
 ## 재현
 
+검산 결과의 `source_files`는 JSON 래퍼의 개행 차이를 피하도록
+`hash_basis=canonical_json_utf8`을 명시한다. HTTP 원문 바이트는 base64와
+원래 바이트 SHA-256으로 별도 검증하며 그 개행이나 수신 시각을 바꾸지 않는다.
+
 새 운영 조회는 필요하지 않다. 다음 명령은 보존된 입력만 검산한다.
 
 ```powershell

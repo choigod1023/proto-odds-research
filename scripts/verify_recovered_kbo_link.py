@@ -33,6 +33,14 @@ def raw_bytes(receipt):
     return raw
 
 
+def source_manifest(paths):
+    # Existing JSON wrappers can be checked out with CRLF on Windows. Hash their
+    # parsed content explicitly. Embedded HTTP raw_base64 stays byte-exact and
+    # its original digest is checked above, without newline rewriting.
+    return [{'path':p.as_posix(),'hash_basis':'canonical_json_utf8',
+        'sha256':_sha256(json.loads(p.read_text(encoding='utf8')))} for p in paths]
+
+
 def verify(snapshot, fact_capture, result_capture):
     rows = sorted(snapshot['prediction_tail'], key=lambda row: row['ledger_sequence'])
     if not rows:
@@ -178,8 +186,8 @@ def main():
     args = parser.parse_args()
     inputs = [args.snapshot, args.facts, args.result]
     report = verify(*(json.loads(p.read_text(encoding='utf8')) for p in inputs))
-    report['source_files'] = [{'path':p.as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in inputs]
-    with args.output.open('x', encoding='utf8') as f:
+    report['source_files'] = source_manifest(inputs)
+    with args.output.open('x', encoding='utf8', newline='\n') as f:
         json.dump(report,f,ensure_ascii=False,indent=2);f.write('\n')
     print(json.dumps({k:report[k] for k in ('recovered_operating_links','official_game_id','grade','model_uplift_evaluated')},ensure_ascii=True))
 
