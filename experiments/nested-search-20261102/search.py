@@ -2,7 +2,7 @@
 from collections import defaultdict
 from datetime import date,timedelta
 from decimal import Decimal
-import argparse, hashlib, json, math, subprocess, sys, time, warnings
+import argparse, hashlib, importlib.util, json, math, subprocess, sys, time, warnings
 from pathlib import Path
 import numpy as np
 
@@ -10,7 +10,13 @@ HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
 sys.path.insert(0,str(HERE))
 import residual_models as residual
 import ml_models as ml
-from features import read
+_spec=importlib.util.spec_from_file_location('nested_search_local_features',HERE/'features.py')
+_features=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(_features)
+read=_features.read
+OUTPUT_ROOT=None
+
+
+def outputs():return OUTPUT_ROOT if OUTPUT_ROOT is not None else HERE
 
 FOLDS=(('2025-02-01','2025-06-30'),('2025-07-01','2025-08-31'),('2025-09-01','2025-11-30'))
 PRIORITY={'market':0,'dc':1,'pool':2,'residual':3,'logistic':4,'random_forest':5,'hist_gradient_boosting':6}
@@ -105,7 +111,7 @@ def choose(trials):
 
 
 def development(registration):
-    freeze_check(registration);output=HERE/'development';output.mkdir(exist_ok=False)
+    freeze_check(registration);output=outputs()/'development';output.mkdir(exist_ok=False)
     started=time.monotonic();data=read(HERE/'prepared/development.jsonl');configs=configurations()
     byid={c['id']:[] for c in configs};allval=[];folds=[];failures=[]
     for start,end in FOLDS:
@@ -137,35 +143,37 @@ def development(registration):
 
 
 def future_predict(registration):
-    freeze_check(registration);selected=json.loads((HERE/'development/selected-model.json').read_text(encoding='utf8'))
+    freeze_check(registration);selected=json.loads((outputs()/'development/selected-model.json').read_text(encoding='utf8'))
     train=[r for r in read(HERE/'prepared/development.jsonl') if r['day']<='2026-01-25']
     target=read(HERE/'prepared/outer-features.jsonl');configs=[{'id':'market','family':'market'},{'id':'dc','family':'dc'}]
     if selected['config']['id'] not in ('market','dc'):configs.append(selected['config'])
     preds,bad=predict_grid(train,target,configs)
     if bad:raise ValueError('selected refit failed; no outcome-based replacement')
-    out=HERE/'outer-predictions';out.mkdir(exist_ok=False)
+    out=outputs()/'outer-predictions';out.mkdir(exist_ok=False)
     write_lines(out/'predictions.jsonl',[dict(id=r['id'],day=r['day'],prices=r['prices'],
       predictions={name:p[i].tolist() for name,p in preds.items()}) for i,r in enumerate(target)])
     dump(out/'manifest.json',{'selected':selected['config'],'training_ids':[r['id'] for r in train],
-      'training_cutoff':'2026-01-25','selected_artifact_sha256':digest(HERE/'development/selected-model.json'),
+      'training_cutoff':'2026-01-25','selected_artifact_sha256':digest(outputs()/'development/selected-model.json'),
       'target_features_sha256':digest(HERE/'prepared/outer-features.jsonl'),'target_labels_read':False})
     print(json.dumps({'selected':selected['config']['id'],'predicted':len(target),'target_labels_read':False}))
 
 
 def score():
-    predictions=read(HERE/'outer-predictions/predictions.jsonl');labels={r['id']:r['y'] for r in read(HERE/'prepared/outer-labels.jsonl')}
+    predictions=read(outputs()/'outer-predictions/predictions.jsonl');labels={r['id']:r['y'] for r in read(HERE/'prepared/outer-labels.jsonl')}
     if set(labels)!={r['id'] for r in predictions}:raise ValueError('label identity mismatch')
     rows=[dict(id=r['id'],day=r['day'],prices=r['prices'],y=labels[r['id']]) for r in predictions]
     names=list(predictions[0]['predictions']);ms={name:metrics(np.asarray([r['predictions'][name] for r in predictions]),rows) for name in names}
-    out=HERE/'outer-results';out.mkdir(exist_ok=False)
+    out=outputs()/'outer-results';out.mkdir(exist_ok=False)
     dump(out/'results.json',{'classification':'previously_seen_2026_outer_diagnostic_not_blind','metrics':ms,
-      'selected_artifact_sha256':digest(HERE/'development/selected-model.json'),
-      'prediction_sha256':digest(HERE/'outer-predictions/predictions.jsonl'),'automatic_adoption':False,
+      'selected_artifact_sha256':digest(outputs()/'development/selected-model.json'),
+      'prediction_sha256':digest(outputs()/'outer-predictions/predictions.jsonl'),'automatic_adoption':False,
       'actual_wallet_replay':False,'monthly_loss_cap_changed':False})
     print(json.dumps(ms))
 
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser();a.add_argument('stage',choices=['development','predict','score']);a.add_argument('--registration');args=a.parse_args()
+    a=argparse.ArgumentParser();a.add_argument('stage',choices=['development','predict','score']);a.add_argument('--registration');a.add_argument('--output-root',type=Path);args=a.parse_args()
+    if args.output_root:
+        OUTPUT_ROOT=args.output_root.resolve();OUTPUT_ROOT.mkdir(parents=True,exist_ok=True)
     if args.stage!='score' and not args.registration:a.error('--registration is required')
     {'development':lambda:development(args.registration),'predict':lambda:future_predict(args.registration),'score':score}[args.stage]()
