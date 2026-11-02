@@ -1,0 +1,219 @@
+{
+  "official_game_id": "20261101HTSS0",
+  "canonical_game_id": null,
+  "identity_basis": "official game date, time and SS/HT team IDs cross-checked against Korean home/away names; no invented canonical ID",
+  "kickoff_at": "2026-11-01T05:00:00+00:00",
+  "t30": "2026-11-01T04:30:00+00:00",
+  "official_probable": {
+    "received_at": "2026-10-31T01:25:18.574048+00:00",
+    "sha256": "b33b428741f6e25eb312b4c10ea9c393dcd9633e26bc7788532d9ede15e53cb5",
+    "external_receipt_verified": false,
+    "final_starting_lineup_confirmed": false,
+    "players": [
+      {
+        "side": "home",
+        "team_id": "SS",
+        "player_id": "53375",
+        "player_name": "후라도",
+        "announcement_status": "probable"
+      },
+      {
+        "side": "away",
+        "team_id": "HT",
+        "player_id": "55633",
+        "player_name": "올러",
+        "announcement_status": "probable"
+      }
+    ]
+  },
+  "research_player_inputs": {
+    "matches_official_id_and_names_before_revision": true,
+    "source_game_id": "20261101HTSS0",
+    "observed_at": "2026-10-31T05:11:42.720739+00:00",
+    "starters": {
+      "away": {
+        "announced": true,
+        "name": "올러",
+        "observed_at": "2026-10-31T05:11:24+00:00"
+      },
+      "home": {
+        "announced": true,
+        "name": "후라도",
+        "observed_at": "2026-10-31T05:11:24+00:00"
+      }
+    },
+    "lineup_status": {
+      "caveat": "원천에 타순 미발표 — 자동 재조회 중",
+      "label": "선발 타순 확인 중",
+      "observed_at": null,
+      "official_today": false,
+      "side_states": {
+        "away": "not_announced",
+        "home": "not_announced"
+      },
+      "state": "pending"
+    },
+    "training_eligible": false
+  },
+  "research_daily_state": {
+    "affects_probability": false,
+    "affects_selection": false,
+    "artifact_hash": "bf5dd1f56b29eefabdf4a4a67c6ecb252ba5ffb9f80da9cb10f1e62ec7297df6",
+    "availability_basis": "explicit_observation_with_caller_attested_coverage",
+    "available_at": "2026-10-31T05:11:24.795759+00:00",
+    "candidate": "e0:residual:0.03",
+    "daily_state_hash": "810b988f887e6781c378f33f5d36cece03f5bd47370a68e49bb458de60f515fb",
+    "e0": {
+      "counts": {
+        "KIA": 582,
+        "KT": 589,
+        "LG": 594,
+        "NC": 585,
+        "SSG": 580,
+        "두산": 576,
+        "롯데": 573,
+        "삼성": 595,
+        "키움": 574,
+        "한화": 582
+      },
+      "latest_observation": "2026-10-30",
+      "mean": {
+        "KIA": 0.38048532065952256,
+        "KT": 0.5847766696793907,
+        "LG": -0.12892734278458542,
+        "NC": -0.3122528781646116,
+        "SSG": 0.07947868958091002,
+        "두산": 0.11144735583006285,
+        "롯데": -0.03739234897121199,
+        "삼성": 0.10814589366893036,
+        "키움": -0.3906850423933552,
+        "한화": -0.39507631710505237
+      },
+      "team_latest": {
+        "KIA": "2026-10-30",
+        "KT": "2026-10-12",
+        "LG": "2026-10-20",
+        "NC": "2026-10-10",
+        "SSG": "2026-10-10",
+        "두산": "2026-10-14",
+        "롯데": "2026-10-12",
+        "삼성": "2026-10-30",
+        "키움": "2026-10-07",
+        "한화": "2026-10-10"
+      },
+      "through_date": "2026-11-01",
+      "total_observations": 2915
+    },
+    "latest_input_available_at": "2026-10-31T05:11:24.795759+00:00",
+    "league": "KBO",
+    "promoted": false,
+    "reason": null,
+    "seed_historical_availability": "unproven",
+    "source_signature": {
+      "complete_through": "2026-10-31",
+      "coverage_available_at": "2026-10-31T05:11:24.795759+00:00",
+      "coverage_evidence_hash": "e475dcafe66e68af44d3ed20d6a10780e31340f467bd3acff3db4cae6e87b138",
+      "coverage_from": "2026-10-28",
+      "coverage_verified": true,
+      "records_hash": "c04daca9286a7cbb271b015c07e6a516a201274ed9adcbbb6d440831a9854348",
+      "seed_hash": "7a4a25a7e165ffb638292d6517237c4787f01b27f8b9bff99d91178695a513a6",
+      "seed_history_unchanged": true,
+      "seed_observed_at": "2026-10-29T14:51:00.947424+00:00",
+      "source_id": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList"
+    },
+    "state_date": "2026-11-01",
+    "status": "available",
+    "version": "kbo-frozen-e0-bridge-v1"
+  },
+  "ledger_tail_integrity": {
+    "rows": 256,
+    "record_hash_matches": 256,
+    "adjacent_chain_links": 255,
+    "first_sequence": 8766,
+    "last_sequence": 9021,
+    "prefix_verified": false
+  },
+  "operating_event_id": "evt_2b56a2c503d6a9eb",
+  "available_pregame_revision_count": 1,
+  "latest_revision_in_partial_tail": {
+    "snapshot_id": "dec_3af20241522c0154",
+    "captured_at": "2026-10-31T05:13:11.515169Z",
+    "market_observed_at": "2026-10-31T05:04:55.000000Z",
+    "odds": {
+      "홈": 1.73,
+      "원정": 1.75
+    },
+    "prediction": {
+      "action": "market_reference",
+      "gate_codes": [],
+      "label": "",
+      "market": "승패",
+      "odds": 1.73,
+      "offer_id": "off_7ad02820813f1e4e",
+      "probability": 0.5033,
+      "probability_detail": {
+        "ai_candidate": null,
+        "ai_delta_applied": 0.0,
+        "ai_delta_candidate": null,
+        "basis": "shin_market",
+        "final": 0.5033,
+        "market": 0.5033,
+        "residual_candidate": null,
+        "residual_delta_candidate": null,
+        "residual_interval": null
+      },
+      "score_forecast": null,
+      "selection": "홈",
+      "selection_id": "sel_28c4d213d68c0e76"
+    },
+    "tipster_hybrid": {
+      "authors": 0,
+      "input_reason": "no_eligible_pregame_votes",
+      "input_status": "withheld",
+      "reason": "market_fallback_no_votes",
+      "selected_side": "홈",
+      "selection_source": "market_fallback",
+      "status": "applied",
+      "version": "tipster-vote-v1"
+    },
+    "frozen_status_verified": false
+  },
+  "price_rows_in_scope": 87,
+  "matching_price_rows": 87,
+  "exact_market_observation_time_rows": 0,
+  "matching_price_game_numbers": [
+    "1856"
+  ],
+  "price_product_period_verified": false,
+  "calendar_result_claim": {
+    "ag": 1,
+    "availability_basis": "official_final_observed_at",
+    "available_at": "2026-11-02T01:46:26.314021+00:00",
+    "away": "KIA",
+    "date": "2026-11-01",
+    "hg": 6,
+    "home": "삼성",
+    "league": "KBO",
+    "source_fixture_id": "kbo:20261101HTSS0"
+  },
+  "calendar_raw_response_bytes_available": false,
+  "exact_revision_settlement_count_in_partial_tail": 0,
+  "evidence_layer": "prospective_local_probable_and_revision_link; full frozen/receipt/settlement verification incomplete",
+  "limitations": [
+    "probable_pitchers_not_confirmed_lineup",
+    "external_receipt_not_independently_verified",
+    "tail_is_not_full_ledger",
+    "frozen_revision_not_proven",
+    "price_product_period_not_proven",
+    "official_result_raw_bytes_unavailable",
+    "settlement_not_found_in_partial_tail"
+  ],
+  "source_hashes": {
+    "snapshot_sha256": "608d4cea5efbe3ce847dcd1850c281abb3025bae823db6458bcb7df2210155c4",
+    "capture_sha256": "dc4fe3c023bcdebada1633d12db28346275e0c7bf155cd269d4aa97703e158e9"
+  },
+  "source_paths": {
+    "snapshot": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\recover-inputs-new-model-20261102\\experiments\\input-link-recovery-20261102\\production-snapshot.json",
+    "capture": "experiments\\verified-fact-capture-20261031\\capture-with-bytes.json"
+  }
+}
