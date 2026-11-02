@@ -74,3 +74,15 @@ def test_two_price_sources_are_not_counted_as_independent_games():
     a={r['id'] for r in d if r['eligibility']=='eligible'};b={r['id'] for r in o if r['eligibility']=='eligible'}
     assert len(d)==89 and len(a)==77 and len(o)==len(b)==120
     assert len(a&b)==77 and len(a|b)==120
+
+
+def test_unlabelled_overseas_prices_cannot_enter_verified_evaluation():
+    rows=json.loads((BASE/'verified-inputs/overseas-opportunities.json').read_text(encoding='utf8'))
+    assert len(rows)==120 and all(r['eligibility']=='excluded' and r['reason']=='unverified_market_and_selection_order' for r in rows)
+
+
+def test_every_valid_forecast_and_settlement_has_independent_scalar_replay():
+    s=importlib.util.spec_from_file_location('verify_period_replay',BASE/'verify.py')
+    v=importlib.util.module_from_spec(s);s.loader.exec_module(v)
+    report=v.verify()
+    assert report['verified_games']==77 and report['verified_decimal_settlements']==231
