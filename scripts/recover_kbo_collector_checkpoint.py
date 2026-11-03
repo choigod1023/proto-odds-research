@@ -17,7 +17,8 @@ def semantic(row):
                        for p in sides[side]] for side in ('home','away')}
     return {'official_game_id':row.get('official_game_id'),'home_team_id':row.get('home_team_id'),
             'away_team_id':row.get('away_team_id'),'lineup_flag':row.get('lineup_flag'),
-            'lineup_status':row.get('lineup_status'),'lineups':sides,'reason':row.get('reason')}
+            'lineup_status':row.get('lineup_status'),'lineups':sides,'reason':row.get('reason'),
+            'starting_pitchers':row.get('starting_pitchers'), 'starting_pitcher_check':row.get('starting_pitcher_check')}
 
 
 def recover(source, destination):

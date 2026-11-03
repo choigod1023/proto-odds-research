@@ -50,6 +50,12 @@ def test_original_sample_hashes():
         assert k.digest(meta_file.with_suffix('.bin').read_bytes()) == meta['sha256']
 
 
+def test_publication_time_claim_is_preserved_without_inference():
+    raw=json.dumps({'data':[{'ANNOUNCED_AT':'2023-01-01T01:02:03+09:00','UPDATED_AT':'not_a_publication'}]}).encode()
+    assert k.publication_time_fields(raw)==[{'path':['data','0','ANNOUNCED_AT'],'value':'2023-01-01T01:02:03+09:00'}]
+    assert k.publication_time_fields(sample()[0])==[]
+
+
 def test_doubleheader_requires_unambiguous_game_id():
     games = [{'G_ID':'g1','HOME_NM':'H','AWAY_NM':'A'}, {'G_ID':'g2','HOME_NM':'H','AWAY_NM':'A'}]
     with pytest.raises(ValueError, match='not_uniquely'):
@@ -201,3 +207,39 @@ def test_checkpoint_recovery_rejects_conflict_and_preserves_source(tmp_path):
     (source/'official-lineups.jsonl').write_text(json.dumps(row)+'\n'+json.dumps(changed)+'\n',encoding='utf8')
     with pytest.raises(ValueError,match='conflicting_duplicate'):
         recover(source,tmp_path/'another')
+    (source/'official-lineups.jsonl').write_text(json.dumps(row)+'\n'+json.dumps(dict(row,starting_pitchers={'home':'other'}))+'\n',encoding='utf8')
+    with pytest.raises(ValueError,match='conflicting_duplicate'):
+        recover(source,tmp_path/'third')
+
+
+def test_independent_audit_rejects_corrupted_profile(tmp_path):
+    import subprocess, sys
+    raw, game = sample()
+    lineup = k.parse_lineup(raw,game)
+    rawdir=tmp_path/'raw';rawdir.mkdir()
+    def store(data,params=None):
+        sha=k.digest(data);(rawdir/sha).write_bytes(data)
+        return {'sha256':sha,'http_status':200,'params':params or {}}
+    schedule=store((SAMPLES/'20230401-schedule.bin').read_bytes())
+    lineup_meta=store(raw)
+    last_profile=None
+    for offset,side in ((0,'home'),(100,'away')):
+        for player in lineup[side]:
+            pid=str(10000+offset+player['order'])
+            body=f'<span id="p_playerProfile_lblName">{player["name"]}</span>'.encode()
+            evidence=store(body,{'playerId':pid})
+            player.update(player_id=pid,official_profile_evidence=evidence)
+            last_profile=rawdir/evidence['sha256']
+    row={'fixture_id':game['G_ID']+'2023','official_game_id':game['G_ID'],'game_date':game['G_DT'],
+         'home_team_id':game['HOME_ID'],'away_team_id':game['AWAY_ID'],'eligible_as_pregame_feature':False,
+         'schedule_evidence':schedule,'lineup_evidence':lineup_meta,'lineup_status':'official_flag_true_profile_name_crossmatched',
+         'lineup_flag':True,'lineups':lineup,
+         'starting_pitchers':{side:{'player_id':str(game.get(prefix+'_PIT_P_ID') or ''),'name':game.get(prefix+'_PIT_P_NM')}
+                              for side,prefix in [('home','B'),('away','T')]}}
+    (tmp_path/'official-lineups.jsonl').write_text(json.dumps(row,ensure_ascii=False)+'\n',encoding='utf8')
+    script=Path(__file__).resolve().parents[1]/'scripts/audit_kbo_historical_lineups.py'
+    result=subprocess.run([sys.executable,str(script),str(tmp_path)],capture_output=True)
+    assert result.returncode==0, result.stderr
+    last_profile.write_bytes(b'corrupted')
+    result=subprocess.run([sys.executable,str(script),str(tmp_path)],capture_output=True)
+    assert result.returncode!=0 and b'raw_hash_mismatch' in result.stderr

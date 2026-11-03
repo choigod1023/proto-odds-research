@@ -70,6 +70,24 @@ def parse_lineup(raw, game):
     return result
 
 
+def publication_time_fields(raw):
+    """Keep explicit source claims verbatim; they do not prove historical receipt."""
+    found = []
+    def visit(value, path):
+        if isinstance(value, dict):
+            for key, item in value.items():
+                p = path + [str(key)]
+                upper = str(key).upper()
+                if ('ANNOUNC' in upper or 'PUBLISH' in upper) and ('TIME' in upper or 'DATE' in upper or upper.endswith(('_AT','_DT','_TM'))):
+                    if isinstance(item,(str,int,float)) and not isinstance(item,bool) and item != '':
+                        found.append({'path':p,'value':item})
+                visit(item,p)
+        elif isinstance(value, list):
+            for index, item in enumerate(value): visit(item,path+[str(index)])
+    visit(json.loads(raw), [])
+    return found
+
+
 def match_players(lineup, game_data):
     """IDs are an independently sourced *postgame* match until official profile checked."""
     seen = set()
@@ -261,6 +279,7 @@ def run(args):
                    'source_kickoff_available':bool(row.get('kickoff_at')),
                    'series_id':game['SR_ID'], 'season_id':game['SEASON_ID'], 'schedule_evidence':schedule_meta,
                    'lineup_evidence':lineup_meta, 'historical_publication_time':None,
+                   'source_publication_time_fields':publication_time_fields(raw),
                    'historical_publication_time_proven':False, 'historical_receipt_proven':False,
                    'eligible_as_pregame_feature':False,
                    'lineup_status':'not_announced_or_recent_fallback' if lineup is None else 'official_flag_true',
@@ -337,7 +356,7 @@ def run(args):
                 'batters_sha256':digest(Path(args.batters).read_bytes()),
                 'lineups_sha256':digest(output.read_bytes()) if output.exists() else None,
                 'historical_publication_time_proven':0, 'historical_receipt_proven':0,
-                'notes':'Player IDs require same-game postgame crossmatch and official current profile name; publication time and revision history are unproven.'}
+                'notes':'Player IDs use postgame same-game or same-team-season crossmatch and official current profile name; publication time and revision history are unproven.'}
     (target/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2,sort_keys=True)+'\n',encoding='utf8')
     print(json.dumps(manifest,ensure_ascii=False))
 
