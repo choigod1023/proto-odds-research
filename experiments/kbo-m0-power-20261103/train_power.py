@@ -1,5 +1,6 @@
 """Single prespecified HR/AB addition to M0; no evaluation outcomes or prices."""
 import copy,gzip,hashlib,json,sys
+from datetime import date
 from pathlib import Path
 import numpy as np
 from scipy.optimize import minimize
@@ -10,12 +11,18 @@ sys.path.insert(0,str(ROOT/'experiments/kbo-m0-win-head-20261103'))
 import train as shared
 core=shared.core
 
+def valid_history(row,player):
+    for x in player.get('history') or []:
+        if date.fromisoformat(x['date'])>=date.fromisoformat(row['event_date']) or x['fixture_id']==row['fixture_id']:
+            raise ValueError('power history is not strictly before target')
+        ab,hr=x.get('ab'),x.get('hr')
+        if type(ab)is int and type(hr)is int and 0<=hr<=ab:
+            yield x
+
 def observations(row,side):
     for player in row['raw_features'][side+'_lineup_strength']['value'] or []:
-        for x in player.get('history') or []:
-            ab,hr=x.get('ab'),x.get('hr')
-            if type(ab)is int and type(hr)is int and 0<=hr<=ab:
-                yield player['player_id'],x,ab,hr
+        for x in valid_history(row,player):
+            yield player['player_id'],x,x['ab'],x['hr']
 
 def fit_prior(rows):
     seen={}
@@ -34,7 +41,7 @@ def power(row,side,prior):
     if not players:return np.nan
     numer=denom=0.;known=False
     for player in players:
-        valid=[x for x in player.get('history') or [] if type(x.get('ab'))is int and type(x.get('hr'))is int and 0<=x['hr']<=x['ab']]
+        valid=list(valid_history(row,player))
         numer+=sum(x['hr'] for x in valid)+20*prior;denom+=sum(x['ab'] for x in valid)+20;known|=any(x['ab']>0 for x in valid)
     return numer/denom if known else np.nan
 
@@ -58,6 +65,7 @@ def fit(rows,labels,baseline):
     return {'spec':baseline['spec'],'beta':sol.x.tolist(),'prior':prior,'prior_unique_observations':n,'mean':mean,'scale':scale,'n_train':len(rows),'l2':10,'iterations':int(sol.nit),'gradient_max':float(np.max(np.abs(sol.jac)))}
 
 def predict(model,rows,baseline):
+    if [r['fixture_id'] for r in rows]!=[p['fixture_id'] for p in baseline]:raise ValueError('forecast identity mismatch')
     col,_,_=columns(rows,model['prior'],model['mean'],model['scale']);base,_=core.legacy.design([core.normalize(r) for r in rows],model['spec'],'M0');X=hstack((base,csr_matrix(col)),format='csr');z=X@np.asarray(model['beta'])
     if not np.isfinite(z).all() or np.max(np.abs(z))>20:raise ValueError('unstable predicted power rates')
     rates=np.exp(z).reshape(-1,2);h,a=rates[:,0],rates[:,1];q=np.column_stack((skellam.sf(0,h,a),skellam.pmf(0,h,a),skellam.cdf(-1,h,a)));q/=q.sum(1)[:,None];out=[]
