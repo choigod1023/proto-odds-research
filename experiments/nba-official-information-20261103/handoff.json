@@ -1,7 +1,7 @@
 {
   "role": "nba_official_source_worker",
   "league": "NBA",
-  "status": "partial_source_access_blocked_census",
+  "status": "provider_cohort_captured_official_census_unavailable",
   "branch": "codex/nba-official-information-20261103",
   "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "protocol_sha": "9e56cde975dbc530dbb91958091a30826de13521",
@@ -31,5 +31,32 @@
     "Official pregame injury and confirmed lineup document bytes with claimed publication and actual receipt times",
     "Same fixture and market complete price vector and settlement rules"
   ],
-  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/521"
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/521",
+  "provider_followup": {
+    "protocol_sha": "000a252c9094eae67475908822e4cd221c437392",
+    "provider": "ESPN",
+    "dates": 27,
+    "regular_game_id_count": 195,
+    "selected": 126,
+    "valid_postgame_starter_games": 125,
+    "postponed": 1,
+    "unselected": 69,
+    "allstar_excluded": 4,
+    "official_crosscheck_games": 3,
+    "official_crosscheck_matching": 3,
+    "requests": 160,
+    "source_time_strict_pit_certified": 0,
+    "price_verified_matches": 0,
+    "price_strict_matching_attempted": false,
+    "report": "provider-report.md",
+    "manifest": "provider/requests.json",
+    "derived_manifest": "provider/derived-manifest.json",
+    "limitations": [
+      "NBA official fixture ID census unavailable; ESPN cohort separate",
+      "All-Star filtering corrected during capture; four extra records retained",
+      "One postponed game, never replaced",
+      "Provider current receipt does not prove historical availability",
+      "Same-market price linkage not validated; no model or ROI"
+    ]
+  }
 }
