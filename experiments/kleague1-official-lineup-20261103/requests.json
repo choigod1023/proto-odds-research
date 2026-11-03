@@ -1,0 +1,89 @@
+[
+  {
+    "method": "GET",
+    "url": "https://www.kleague.com/match.do?year=2023&leagueId=1&gameId=1&meetSeq=1&startTabNum=2",
+    "requested_at": "2026-11-03T01:45:11.178586+00:00",
+    "max_bytes": 3000000,
+    "timeout_seconds": 15,
+    "status": 200,
+    "received_at": "2026-11-03T01:45:11.613698+00:00",
+    "bytes": 584978,
+    "sha256": "594250cc4dff92daa46241938e761a33a2cf663d460e967b1b385c9fc6f36adf",
+    "raw_file": "raw/match-2023-1.html.gz"
+  },
+  {
+    "method": "GET",
+    "url": "https://www.kleague.com/match.do?year=2024&leagueId=1&gameId=1&meetSeq=1&startTabNum=2",
+    "requested_at": "2026-11-03T01:45:11.620335+00:00",
+    "max_bytes": 3000000,
+    "timeout_seconds": 15,
+    "status": 200,
+    "received_at": "2026-11-03T01:45:12.096494+00:00",
+    "bytes": 680929,
+    "sha256": "8a96d7851d2410fc822111ce5d665940f0fbbf8902312604749a9a6441c716a3",
+    "raw_file": "raw/match-2024-1.html.gz"
+  },
+  {
+    "method": "GET",
+    "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=96&meetSeq=1&startTabNum=2",
+    "requested_at": "2026-11-03T01:45:12.103746+00:00",
+    "max_bytes": 3000000,
+    "timeout_seconds": 15,
+    "status": 200,
+    "received_at": "2026-11-03T01:45:12.504809+00:00",
+    "bytes": 635510,
+    "sha256": "6beb823552e75e3650d40b9f2067029bff2f22242d39fa75eaebbf1fafa27a89",
+    "raw_file": "raw/match-2025-96.html.gz"
+  },
+  {
+    "method": "POST",
+    "url": "https://www.kleague.com/api/ddf/match/matchInfo.do",
+    "params": {
+      "year": "2023",
+      "meetSeq": "1",
+      "gameId": "1"
+    },
+    "requested_at": "2026-11-03T01:45:17.847763+00:00",
+    "max_bytes": 1000000,
+    "timeout_seconds": 15,
+    "status": 200,
+    "received_at": "2026-11-03T01:45:18.219034+00:00",
+    "bytes": 23007,
+    "sha256": "f9a76b49febfad9856be559719ccba6a754cb83b59074575bfb704649c389edd",
+    "raw_file": "raw/info-2023-1.json"
+  },
+  {
+    "method": "POST",
+    "url": "https://www.kleague.com/api/ddf/match/matchInfo.do",
+    "params": {
+      "year": "2024",
+      "meetSeq": "1",
+      "gameId": "1"
+    },
+    "requested_at": "2026-11-03T01:45:18.219854+00:00",
+    "max_bytes": 1000000,
+    "timeout_seconds": 15,
+    "status": 200,
+    "received_at": "2026-11-03T01:45:18.581863+00:00",
+    "bytes": 13698,
+    "sha256": "a6246f725f61f1a5f2d9f7237af4778c99a95243e68875af68bd6bb831a3bed6",
+    "raw_file": "raw/info-2024-1.json"
+  },
+  {
+    "method": "POST",
+    "url": "https://www.kleague.com/api/ddf/match/matchInfo.do",
+    "params": {
+      "year": "2025",
+      "meetSeq": "1",
+      "gameId": "96"
+    },
+    "requested_at": "2026-11-03T01:45:18.582627+00:00",
+    "max_bytes": 1000000,
+    "timeout_seconds": 15,
+    "status": 200,
+    "received_at": "2026-11-03T01:45:18.949166+00:00",
+    "bytes": 25830,
+    "sha256": "a0a778cfbd3979b089583c15bb450f55af772fe2c48d9710b0d91d75fe605443",
+    "raw_file": "raw/info-2025-96.json"
+  }
+]

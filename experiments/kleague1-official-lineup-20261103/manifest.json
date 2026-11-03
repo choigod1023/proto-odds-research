@@ -1,0 +1,33 @@
+{
+  "attempted_fixtures": 3,
+  "parsed_fixtures": 3,
+  "both_sides_xi_11": 3,
+  "player_starters": 66,
+  "bench_players": 50,
+  "formation_sides": 6,
+  "substitution_events": 27,
+  "historical_publication_time_verified": 0,
+  "historical_actual_pregame_receipt_verified": 0,
+  "schema_version": "1.0",
+  "league": "KLEAGUE1",
+  "source_url": "https://www.kleague.com/match.do",
+  "observation_method": "official page GET and page-declared matchInfo read-only POST; current receipt",
+  "source_archives_sha256": {
+    "raw/match-2023-1.html.gz": "8bd9b2e3de85a1e0689d1e85bcdd60b39d96a3ae3137bc0063eb2793411da724",
+    "raw/match-2024-1.html.gz": "29cc0b516fabd20924afc57da632160e60f1869d9dab83b3fd844f2b894f261e",
+    "raw/match-2025-96.html.gz": "3bcc93103d0bbe1841444938e64ac8eb6eaed0a9bc651cbd3e47a8fe3b9bf8e5",
+    "raw/info-2023-1.json": "f9a76b49febfad9856be559719ccba6a754cb83b59074575bfb704649c389edd",
+    "raw/info-2024-1.json": "a6246f725f61f1a5f2d9f7237af4778c99a95243e68875af68bd6bb831a3bed6",
+    "raw/info-2025-96.json": "a0a778cfbd3979b089583c15bb450f55af772fe2c48d9710b0d91d75fe605443"
+  },
+  "request_log_sha256": "e40e9b948fdaff7d63197d2d97f85f7d534aec369fc957695e0eddb25b584200",
+  "failures": [],
+  "requests_total": 6,
+  "fixtures_sha256": "02e022b8139c42af36ac28eb98be80b1d72ea5ac8d0298fcdd83c17cfec800fe",
+  "limitations": [
+    "Retrospective current official page; lineup publication/receipt time not established.",
+    "Lineup is recorded starting XI, not proof of an earlier official announcement or absence report.",
+    "Substitution playerId/playerId2 are retained in source order; direction is not inferred.",
+    "Kickoff timezone, historical prices and pre-match player features remain unverified."
+  ]
+}
