@@ -1,0 +1,2639 @@
+{
+  "scheduled_regular_season": 270,
+  "sample_selected": 120,
+  "sample_validated": 119,
+  "sample_missing": [],
+  "sample_invalid": [
+    {
+      "gmkey": "S47G01N52",
+      "reason": "sum player points differs from schedule score"
+    }
+  ],
+  "unselected_fixture_count": 150,
+  "player_rows": 2856,
+  "starter_rows": 1190,
+  "bench_listed_rows": 1666,
+  "played_rows": 2588,
+  "dnp_zero_time_rows": 268,
+  "strict_predecision_receipts": 0,
+  "games": [
+    {
+      "gmkey": "S47G01N1",
+      "date": "20251003",
+      "home": "50",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "50": 81,
+          "55": 89
+        }
+      },
+      "header_sha256": "0d93c7cd10a07e0b0f6cc115a24c2e7eff594f5c419c525095ac4b4e1376f60a",
+      "player_sha256": "a5250adc3ca4d49bae78b9bca4100d55da379e0870259966a54e63942ba80ce6",
+      "header_received_at": "2026-11-03T03:03:51.703460+00:00",
+      "player_received_at": "2026-11-03T03:03:52.836325+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N3",
+      "date": "20251003",
+      "home": "10",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "10": 68,
+          "16": 71
+        }
+      },
+      "header_sha256": "45d8c80b0a80c64d295456bcd13b1b1fdf6fbf83382cd9cbae5edf884199d0a9",
+      "player_sha256": "60bea852e601dc329f0cd707c35aa529b5fc3116865d95bcb05328b43c34dc5f",
+      "header_received_at": "2026-11-03T03:04:02.967481+00:00",
+      "player_received_at": "2026-11-03T03:04:04.113817+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N5",
+      "date": "20251004",
+      "home": "64",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "35": 98,
+          "64": 76
+        }
+      },
+      "header_sha256": "1eb322af7a54815970882366c0ea32f920f36ad98e1215addc2c553480b75219",
+      "player_sha256": "5a1f9097b5e858e64cacc1baf6aae88aa4f92843cbd3a0b8a0b76d5fd8177139",
+      "header_received_at": "2026-11-03T03:04:05.156687+00:00",
+      "player_received_at": "2026-11-03T03:04:06.415553+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N7",
+      "date": "20251005",
+      "home": "55",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "06": 64,
+          "55": 104
+        }
+      },
+      "header_sha256": "a7b68c1b9e05c3a74c80620b406a071f16fb6959c608f9fcf45ff42d707c47a1",
+      "player_sha256": "576645599898735a055fa896e0853a0dc5bd83185bc31cd6685b5e1577e2874d",
+      "header_received_at": "2026-11-03T03:04:07.486521+00:00",
+      "player_received_at": "2026-11-03T03:04:08.588557+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N10",
+      "date": "20251006",
+      "home": "70",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "64": 66,
+          "70": 83
+        }
+      },
+      "header_sha256": "696e96a27ea7fd9eb2832232e6cf67557f9c21657749eddb03fcc53634adce22",
+      "player_sha256": "66575b0c17d72c3f3eda9859dba1a81627ca89aee5680d05828366a3bab67557",
+      "header_received_at": "2026-11-03T03:04:09.649963+00:00",
+      "player_received_at": "2026-11-03T03:04:10.789450+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N12",
+      "date": "20251008",
+      "home": "16",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "16": 75,
+          "70": 69
+        }
+      },
+      "header_sha256": "a4baf2b9ac76cd67c8c45d9b80d5544a051d48993ff6ef49e83b135c73890b3f",
+      "player_sha256": "e2992f7630f348bc515da2d9e41622d690aeaabbfb79f3f2d39267b09cdfbd4c",
+      "header_received_at": "2026-11-03T03:04:11.797765+00:00",
+      "player_received_at": "2026-11-03T03:04:12.946588+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N14",
+      "date": "20251009",
+      "home": "06",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "06": 74,
+          "35": 66
+        }
+      },
+      "header_sha256": "c80d589bf876477de4622281456084348bd8c196c851cba6fe74602c41c57010",
+      "player_sha256": "20fb550cf4659870de3413aebe5b252ab05d764bbb4919e6c6e172b038342efa",
+      "header_received_at": "2026-11-03T03:04:14.051720+00:00",
+      "player_received_at": "2026-11-03T03:04:15.235989+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N16",
+      "date": "20251011",
+      "home": "10",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "10": 68,
+          "60": 86
+        }
+      },
+      "header_sha256": "3ab9a7f479a67ba89d6f59271c7fb070335ab3771b9cacfd1298f3f1570c2823",
+      "player_sha256": "47a619a00e136731ac4da0f3efbdfa9fc11b08860eded82088f48d6957fc1261",
+      "header_received_at": "2026-11-03T03:04:16.321392+00:00",
+      "player_received_at": "2026-11-03T03:04:17.389532+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N19",
+      "date": "20251012",
+      "home": "50",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "06": 53,
+          "50": 69
+        }
+      },
+      "header_sha256": "76e45c29aab4565462910647a45d73300d491b482df0935e2269aefc5895a0a2",
+      "player_sha256": "55244dcf710bad1fa8d4b854115341ab9e426d0f65382ae80f67093d62a4530c",
+      "header_received_at": "2026-11-03T03:04:18.480872+00:00",
+      "player_received_at": "2026-11-03T03:04:19.563545+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N21",
+      "date": "20251012",
+      "home": "70",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "35": 83,
+          "70": 80
+        }
+      },
+      "header_sha256": "343c9c128b1ce746141427410c1fefde3e56b141643e0e3e0da5a43873bb30e1",
+      "player_sha256": "bb18da0e63c20d98545ac93138215578b614a7ff38a98336f433947fa656075a",
+      "header_received_at": "2026-11-03T03:04:20.707452+00:00",
+      "player_received_at": "2026-11-03T03:04:21.846369+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N23",
+      "date": "20251014",
+      "home": "10",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "10": 82,
+          "64": 77
+        }
+      },
+      "header_sha256": "8ef8548aad6eb3e4c29283de440c33fa912e29660f453959941a4f85a1d191e8",
+      "player_sha256": "125b601731eeb53a3fea25d14cd788e29c3cd0ea51ef8bedec238cf564aa82e7",
+      "header_received_at": "2026-11-03T03:04:22.917591+00:00",
+      "player_received_at": "2026-11-03T03:04:24.006648+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N25",
+      "date": "20251016",
+      "home": "16",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "16": 84,
+          "60": 86
+        }
+      },
+      "header_sha256": "75dd654427eb9a3ae36fe1f941cd1c2cc0f8eb3dbcc6e3472123135e90bbd5e8",
+      "player_sha256": "8cd742e94f38c902b649dee4197b431c158ce26f1a6f71f19f5444b3353e3054",
+      "header_received_at": "2026-11-03T03:04:25.088139+00:00",
+      "player_received_at": "2026-11-03T03:04:26.243969+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N28",
+      "date": "20251018",
+      "home": "06",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "06": 68,
+          "64": 65
+        }
+      },
+      "header_sha256": "26384f4402e33f707b7b70d0f3a6db7961ed50184573673c8ae03f8f1a9f83dd",
+      "player_sha256": "b73540175b6f7c14d5e0b36bce13fa1ff1ac074c0dff8d00dfd68972326a9939",
+      "header_received_at": "2026-11-03T03:04:27.281546+00:00",
+      "player_received_at": "2026-11-03T03:04:28.393540+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N30",
+      "date": "20251019",
+      "home": "70",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "10": 66,
+          "70": 79
+        }
+      },
+      "header_sha256": "b19e1ed2f54d99adadafbd634bac8b428d0c462e525da045f5975dcb05bc4a48",
+      "player_sha256": "ac675ee1231d2bef0613165a7d7aceb5bb15263b8854c41e70588fe041ce46fe",
+      "header_received_at": "2026-11-03T03:04:29.474768+00:00",
+      "player_received_at": "2026-11-03T03:04:30.628502+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N32",
+      "date": "20251019",
+      "home": "55",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "16": 66,
+          "55": 81
+        }
+      },
+      "header_sha256": "d445b2d36bc95078d09f43d9e2666058a6558b059c0baffb593149c7ad6f0a2d",
+      "player_sha256": "933faab709f2251cddd4b86089d124aa77dfb1fc2cdf3f9d0df9aecd59c09e37",
+      "header_received_at": "2026-11-03T03:04:31.682674+00:00",
+      "player_received_at": "2026-11-03T03:04:32.847198+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N34",
+      "date": "20251021",
+      "home": "16",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 84,
+          "16": 81
+        }
+      },
+      "header_sha256": "8bdbb8c1f27998751c14eddb59fc99f4e12c67ee05c6bbc6be56dae4dafbc4eb",
+      "player_sha256": "bb90215cb4551e5e97968bec62e06afc6a52ad10ee80cf46257c7aa1b2f34aa4",
+      "header_received_at": "2026-11-03T03:04:33.840057+00:00",
+      "player_received_at": "2026-11-03T03:04:35.012470+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N37",
+      "date": "20251024",
+      "home": "06",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 77,
+          "66": 71
+        }
+      },
+      "header_sha256": "d3ab1df06eea12d4d2dcac1ee3cc4399f39639508ee40f7a1918c2ef11dcfa3f",
+      "player_sha256": "6f4e85691326e1f8e8a0acf743528d5377fde5a194f47b40659f90f05986d1b5",
+      "header_received_at": "2026-11-03T03:04:36.044199+00:00",
+      "player_received_at": "2026-11-03T03:04:37.225414+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N39",
+      "date": "20251025",
+      "home": "64",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "60": 71,
+          "64": 61
+        }
+      },
+      "header_sha256": "e743fd131f167ef8ca28d104546a05b212e26385beb362aed87a9df2b9e86020",
+      "player_sha256": "4dc470b05bd9d80774b3704fef9c80f7bb570e0a9c6046e6de187eb8fab2a847",
+      "header_received_at": "2026-11-03T03:04:38.312426+00:00",
+      "player_received_at": "2026-11-03T03:04:39.376732+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N41",
+      "date": "20251026",
+      "home": "06",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "06": 87,
+          "70": 92
+        }
+      },
+      "header_sha256": "c8fb6e3df181a6b95eef1b4eb995f87fee6b8c11b604e600b995b79720714752",
+      "player_sha256": "9d073e23c30be03ae92979bb89bb3e250d2198e3a4d540e3e4397577ace04a15",
+      "header_received_at": "2026-11-03T03:04:40.471156+00:00",
+      "player_received_at": "2026-11-03T03:04:41.594235+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N43",
+      "date": "20251026",
+      "home": "35",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "35": 85,
+          "66": 83
+        }
+      },
+      "header_sha256": "4db9e57d9ad9295511a903e8d728eaf84a492dd0d581c7a4f13c9fb6ccbd81fe",
+      "player_sha256": "babd837c138615b811f768491f848e694d8b3b77ede78cf8dfc60e525991b38d",
+      "header_received_at": "2026-11-03T03:04:42.648398+00:00",
+      "player_received_at": "2026-11-03T03:04:43.790974+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N46",
+      "date": "20251029",
+      "home": "64",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "16": 87,
+          "64": 73
+        }
+      },
+      "header_sha256": "b2fa895e28cb405b1d9e9fd25afcd096ee6ad18c05094542555d6003e50b9f06",
+      "player_sha256": "2bb98d90352234b23d994cd04d3300eaff00081c845a83a0db07f6db53b42c5f",
+      "header_received_at": "2026-11-03T03:04:44.884595+00:00",
+      "player_received_at": "2026-11-03T03:04:45.997140+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N48",
+      "date": "20251031",
+      "home": "55",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "55": 79,
+          "64": 71
+        }
+      },
+      "header_sha256": "0f91934c49e9096c7d07a73367151dfad4fbc7edc71168173f2e0d3bcb249dc5",
+      "player_sha256": "5f456f12aedabee296b79f19d58936d6ff5d5cbbb705a1611a93c9068df3085f",
+      "header_received_at": "2026-11-03T03:04:47.054896+00:00",
+      "player_received_at": "2026-11-03T03:04:48.208688+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N50",
+      "date": "20251101",
+      "home": "35",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "35": 100,
+          "60": 77
+        }
+      },
+      "header_sha256": "44221cda0f2ea363cb0d5df72c44d93900605f855e1cb0d82b06f4300b40402f",
+      "player_sha256": "afac78ffc1550d5166ff7c2d27e5c3b491d4ec0390ea18007a693375c677ca34",
+      "header_received_at": "2026-11-03T03:04:49.330624+00:00",
+      "player_received_at": "2026-11-03T03:04:50.420559+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N55",
+      "date": "20251103",
+      "home": "35",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "10": 92,
+          "35": 79
+        }
+      },
+      "header_sha256": "61b2a1d416f3c6e4e91c44b397cbf0f0c7de6820076af7ef4bfd989659ad5542",
+      "player_sha256": "949e9f17e280feb5b7b3e709777eb37a5dbb338497bb16206dfe2ca1b6fb65d9",
+      "header_received_at": "2026-11-03T03:04:53.674633+00:00",
+      "player_received_at": "2026-11-03T03:04:54.813414+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N57",
+      "date": "20251105",
+      "home": "35",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "35": 89,
+          "70": 75
+        }
+      },
+      "header_sha256": "9369e17ba9ccd3de3fc75bfb6cdb45b48afbc83f090f23ba786c3e04a3de4d38",
+      "player_sha256": "4a7327e74cffeeadc504946d8342d8b8be284f6386e20775d9f5640a1bdf2c7a",
+      "header_received_at": "2026-11-03T03:04:55.812266+00:00",
+      "player_received_at": "2026-11-03T03:04:57.011226+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N59",
+      "date": "20251107",
+      "home": "70",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "55": 68,
+          "70": 66
+        }
+      },
+      "header_sha256": "2de60fed8d5981bae4f32985b076e301bb8cc9e52dd3ee637ba599d9f86a9b7c",
+      "player_sha256": "d15d4c2b3802293b1ed40ee97f6374cf46eb5ad130511876eafd3bffbcacbcaa",
+      "header_received_at": "2026-11-03T03:04:58.015009+00:00",
+      "player_received_at": "2026-11-03T03:04:59.151102+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N62",
+      "date": "20251108",
+      "home": "35",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "35": 80,
+          "64": 85
+        }
+      },
+      "header_sha256": "69d3b2f211b56079f4ca4362aa1aa700be63f703b06be7805185f31474f6ceaf",
+      "player_sha256": "be2fa3a8961b58563c1535d17fdce58828e13a47608e736e57f7e551f58b11c6",
+      "header_received_at": "2026-11-03T03:05:00.275703+00:00",
+      "player_received_at": "2026-11-03T03:05:01.420993+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N64",
+      "date": "20251109",
+      "home": "06",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "06": 63,
+          "66": 85
+        }
+      },
+      "header_sha256": "ca7d1ec2bf8ab9610bf71c1d989a70a4cc4a045fbfa03c2ff0a88816d7d21db5",
+      "player_sha256": "19791d4a443800873788f24a800df3c67c0e489d114ad0f09576f4a703dde984",
+      "header_received_at": "2026-11-03T03:05:02.490581+00:00",
+      "player_received_at": "2026-11-03T03:05:03.607397+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N66",
+      "date": "20251110",
+      "home": "50",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "50": 83,
+          "60": 61
+        }
+      },
+      "header_sha256": "633b7326d5026f619a7bc6b8fd062795f2f80807b92d7d4287a958ec3c0fafb9",
+      "player_sha256": "19d27931fc118a17c185d8566b894e5815dc177923e6c717cd5cd14c11dd2e47",
+      "header_received_at": "2026-11-03T03:05:04.702469+00:00",
+      "player_received_at": "2026-11-03T03:05:05.788441+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N68",
+      "date": "20251112",
+      "home": "35",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "35": 83,
+          "50": 95
+        }
+      },
+      "header_sha256": "1bca5c202d04adf6692782f39867419ce3d24741c2e8871833c1493008815ac1",
+      "player_sha256": "412bb6faf805bb1ac1524aab2f3672a8e38a8719647c633ebdcefc15fd62feb3",
+      "header_received_at": "2026-11-03T03:05:06.868354+00:00",
+      "player_received_at": "2026-11-03T03:05:08.022543+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N71",
+      "date": "20251115",
+      "home": "06",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 67,
+          "50": 82
+        }
+      },
+      "header_sha256": "a56c8207a6d803d5b53d4cc0db7094e1e4f7a2858ac8b29bb18f8a3af1a12ab3",
+      "player_sha256": "6428cc28998199e764b8eec098727af94417a94da64df324c5f102844a25388f",
+      "header_received_at": "2026-11-03T03:05:09.080089+00:00",
+      "player_received_at": "2026-11-03T03:05:10.245744+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N73",
+      "date": "20251115",
+      "home": "60",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "10": 77,
+          "60": 88
+        }
+      },
+      "header_sha256": "0877741b3a7c29da717de1f1dab85801f05935d7750e91afc9e579af03ab933d",
+      "player_sha256": "e806bb817beeca7f22d617ff339e06172c0e92ba90fc7dd77ac313a851c746c2",
+      "header_received_at": "2026-11-03T03:05:11.258754+00:00",
+      "player_received_at": "2026-11-03T03:05:12.431257+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N75",
+      "date": "20251116",
+      "home": "66",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "35": 75,
+          "66": 72
+        }
+      },
+      "header_sha256": "36fd79925f2249d033542de59a06309efca246377e7c7b4ad61ea1784aa46838",
+      "player_sha256": "79da0ad84a18d2eaf4cb4aafcdd49c25b9f477495166c3c9226170fc57bd70b9",
+      "header_received_at": "2026-11-03T03:05:13.482465+00:00",
+      "player_received_at": "2026-11-03T03:05:14.595000+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N77",
+      "date": "20251117",
+      "home": "55",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 83,
+          "55": 85
+        }
+      },
+      "header_sha256": "ecb8b6a9d7b6adf5f11e47f0d47a2aa88cc481f4b2bf82902599959a3ab1e04d",
+      "player_sha256": "bd96103dcc75ce343be01f8981dfac3ba50e7660839ee733ba501d3f4cc4d3ba",
+      "header_received_at": "2026-11-03T03:05:15.698018+00:00",
+      "player_received_at": "2026-11-03T03:05:16.825502+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N80",
+      "date": "20251119",
+      "home": "10",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "10": 68,
+          "55": 89
+        }
+      },
+      "header_sha256": "49293cc26daaff745e3b6603cc9e2eb4f79c677ab8c410fc577b7031c6ffaf97",
+      "player_sha256": "57944c0740ae90e3b42df28c39b954357e4b4e5997976af444fded7f2d71a71a",
+      "header_received_at": "2026-11-03T03:05:17.843903+00:00",
+      "player_received_at": "2026-11-03T03:05:19.005242+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N82",
+      "date": "20251120",
+      "home": "16",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "16": 84,
+          "35": 79
+        }
+      },
+      "header_sha256": "32ccb19a2d5682f2967f72b3b6d81fe8edfc421795496af142b112ad0a58ec5d",
+      "player_sha256": "5e15cd131ac797cb63ddbd011da4c6247cdfddd8426ab300783ca64fd90e32cb",
+      "header_received_at": "2026-11-03T03:05:20.058367+00:00",
+      "player_received_at": "2026-11-03T03:05:21.239384+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N84",
+      "date": "20251204",
+      "home": "50",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "50": 64,
+          "64": 66
+        }
+      },
+      "header_sha256": "a98201057d1dcaf31d7dc9412619783de55850c57741d9291728a0a5043a5c63",
+      "player_sha256": "7262193c60764cdcea846a8ed2c52b724cea8c6b5461cf9830cba682c4f01168",
+      "header_received_at": "2026-11-03T03:05:22.273553+00:00",
+      "player_received_at": "2026-11-03T03:05:23.392390+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N86",
+      "date": "20251205",
+      "home": "66",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "55": 79,
+          "66": 72
+        }
+      },
+      "header_sha256": "97b87b85606b974790fb8a8bf959df295ef79c881e0b3d487be3ca6260abd37a",
+      "player_sha256": "187329372eb2f0b4a8a6fb09ac61423ed7ff4bd9be8333e0f74c5c80f8a0097b",
+      "header_received_at": "2026-11-03T03:05:24.477215+00:00",
+      "player_received_at": "2026-11-03T03:05:25.596414+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N89",
+      "date": "20251206",
+      "home": "64",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "64": 67,
+          "70": 80
+        }
+      },
+      "header_sha256": "b5fc4445e3897ab64ff0ceafda7912d853f6c27b0b10ad51e349d30c07045f4a",
+      "player_sha256": "2f51b950bda223d75aeb9142df07b520b2e1f4ff3683ec55b973d322af289398",
+      "header_received_at": "2026-11-03T03:05:26.676386+00:00",
+      "player_received_at": "2026-11-03T03:05:27.804283+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N91",
+      "date": "20251207",
+      "home": "50",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 63,
+          "50": 66
+        }
+      },
+      "header_sha256": "ba77bdce5daf1c4284b709a87ce440d9d6c79a616520e0f25388f92c7832ca5c",
+      "player_sha256": "e6692da7a7bd9f01ac7fd2ad9ea7459ebbfd94e45cbf1ff68f1e59ea7a4d50d1",
+      "header_received_at": "2026-11-03T03:05:28.885443+00:00",
+      "player_received_at": "2026-11-03T03:05:29.981219+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N93",
+      "date": "20251207",
+      "home": "60",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "55": 80,
+          "60": 83
+        }
+      },
+      "header_sha256": "240c627521833e5c4e417124fa30363844fd38d521f4f10148237234a78cd84a",
+      "player_sha256": "a6cadfc8519eca4e7b4ef022f36187e06115c2264fcd90b496562e2fe0f385f0",
+      "header_received_at": "2026-11-03T03:05:31.055155+00:00",
+      "player_received_at": "2026-11-03T03:05:32.226589+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N95",
+      "date": "20251209",
+      "home": "66",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "66": 78,
+          "70": 87
+        }
+      },
+      "header_sha256": "b62a53c73bf68d5e5148a1ffffb98677928d8e897990b77e10ee9f86c24a4ac4",
+      "player_sha256": "a3ee1c8273d3b2107e73d7779b15c9260392cd37080af240d08852f6a4b5e491",
+      "header_received_at": "2026-11-03T03:05:33.178531+00:00",
+      "player_received_at": "2026-11-03T03:05:34.378491+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N98",
+      "date": "20251212",
+      "home": "06",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "06": 89,
+          "70": 69
+        }
+      },
+      "header_sha256": "511a5e6d29f1b410004afb0a2502ace3d18c89837ea0d7480d6d7573770249a7",
+      "player_sha256": "a7664a1216ba7788be1f2b0ddd3e7f8c5bcb3353d2faa780dcdc4c1d81db2dc0",
+      "header_received_at": "2026-11-03T03:05:35.479204+00:00",
+      "player_received_at": "2026-11-03T03:05:36.589309+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N99",
+      "date": "20251213",
+      "home": "55",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "50": 55,
+          "55": 77
+        }
+      },
+      "header_sha256": "52cba7ec3763f2768a8e7a8b7608812be2d6e99c6faa668d7799d0d6e07c72b0",
+      "player_sha256": "f4fa379524722192d72b1254ca9d53621b1127f780665faa26265da88f5e2c11",
+      "header_received_at": "2026-11-03T03:05:37.740513+00:00",
+      "player_received_at": "2026-11-03T03:05:38.822341+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N102",
+      "date": "20251214",
+      "home": "66",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "50": 80,
+          "66": 75
+        }
+      },
+      "header_sha256": "e21497f8e78aaed39ee7a6d6c3c2ec9f40241d17b5b31d7e8347c275fa7b04db",
+      "player_sha256": "683dd4a9f8639a7956f248a2d0bff0970349701e4f6a162b024f83fb5ec27402",
+      "header_received_at": "2026-11-03T03:05:39.905447+00:00",
+      "player_received_at": "2026-11-03T03:05:40.979019+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N104",
+      "date": "20251214",
+      "home": "06",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "06": 68,
+          "55": 75
+        }
+      },
+      "header_sha256": "7b2f907f1e83e490b50ba35b4bf59c6ca8c276ab3babcc282a24143cd7a8515f",
+      "player_sha256": "d48c5ed433c62a20fdd360b7be1130c6cb723f22469363c05ab4c2933f6448ac",
+      "header_received_at": "2026-11-03T03:05:42.104212+00:00",
+      "player_received_at": "2026-11-03T03:05:43.213519+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N107",
+      "date": "20251217",
+      "home": "10",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "10": 63,
+          "70": 66
+        }
+      },
+      "header_sha256": "2c84d1af6d4732efa5bb1cc4d3c8d537d7c169a12c34d0e5a2952f0b49302482",
+      "player_sha256": "af2121302a25780386049bbf04b5c74fc23786059fff15c8f412b9b40d1ad979",
+      "header_received_at": "2026-11-03T03:05:44.284802+00:00",
+      "player_received_at": "2026-11-03T03:05:45.419467+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N109",
+      "date": "20251219",
+      "home": "06",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 81,
+          "16": 83
+        }
+      },
+      "header_sha256": "e091d1f2ff3c33aeb4258a9e1a048602a13036a777307c9cad62d7a81453615f",
+      "player_sha256": "ccd2c6d40047362e107256b7c07d648dc1e34e5d2d85e031cf4f9d33f157a261",
+      "header_received_at": "2026-11-03T03:05:46.471408+00:00",
+      "player_received_at": "2026-11-03T03:05:47.629755+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N111",
+      "date": "20251220",
+      "home": "64",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "64": 66,
+          "70": 71
+        }
+      },
+      "header_sha256": "a9f6123f067f4c574b1384b5f9364e1f3950c08ec37eba7c044f2c5ae5b5a1df",
+      "player_sha256": "81272251e41f341ba014f2b2e344d9e675e8507a88cda57af0e7dc05b264b921",
+      "header_received_at": "2026-11-03T03:05:48.694851+00:00",
+      "player_received_at": "2026-11-03T03:05:49.820240+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N114",
+      "date": "20251221",
+      "home": "55",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "10": 87,
+          "55": 74
+        }
+      },
+      "header_sha256": "885cc7e65d130fa27e4766b722d331940bcd80a0d2c941b81f66fcc8dad8e24f",
+      "player_sha256": "e1577885affb004cb35c9a88006889f9438c540e00ae6453ef1f3bc513318696",
+      "header_received_at": "2026-11-03T03:05:50.888240+00:00",
+      "player_received_at": "2026-11-03T03:05:52.083920+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N116",
+      "date": "20251222",
+      "home": "70",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "35": 82,
+          "70": 90
+        }
+      },
+      "header_sha256": "bab8fec2e04e3d2943084b21df987131bfe817a18f7306eb51d304c8079dc08a",
+      "player_sha256": "2daacbbf40118617026fc0cfa849294cabdbd0156d7b3b630a92edcfdd4785a7",
+      "header_received_at": "2026-11-03T03:05:53.077941+00:00",
+      "player_received_at": "2026-11-03T03:05:54.234952+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N118",
+      "date": "20251224",
+      "home": "60",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "35": 91,
+          "60": 98
+        }
+      },
+      "header_sha256": "b2b2a06644bec19f3e7bfb2e977b04a4215c9e318ac21d239770abc10e77cd1a",
+      "player_sha256": "bb27eeb596b4585c5ce16710dfb6a4ebba7261942231a94440d770bb70e14e44",
+      "header_received_at": "2026-11-03T03:05:55.267894+00:00",
+      "player_received_at": "2026-11-03T03:05:56.431372+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N120",
+      "date": "20251225",
+      "home": "64",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 75,
+          "64": 83
+        }
+      },
+      "header_sha256": "f7e2a671a2f1cf1ed5981c51138273333ef96b028645994ac5eca183f22e5ec0",
+      "player_sha256": "ae8774b02af91ce7a33ef9d2712efd619f2acf371dccab26f66fc9ed9990d58b",
+      "header_received_at": "2026-11-03T03:05:57.477832+00:00",
+      "player_received_at": "2026-11-03T03:05:58.571485+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N123",
+      "date": "20251227",
+      "home": "64",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "55": 67,
+          "64": 66
+        }
+      },
+      "header_sha256": "1eca39a9093158dde3bf369bec3fc8aa92f8ed48af0c615bde501d433abe3647",
+      "player_sha256": "ca41b3a95f604fc2a2f9eb71f215b38204cc6982e3a3047b2f32269b297d6106",
+      "header_received_at": "2026-11-03T03:05:59.707475+00:00",
+      "player_received_at": "2026-11-03T03:06:00.833686+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N125",
+      "date": "20251227",
+      "home": "10",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 78,
+          "10": 75
+        }
+      },
+      "header_sha256": "9a8570a7c7d19d5d3cfaa9c03acb20316d253f5414af47eac13fcc98b149afb8",
+      "player_sha256": "3cff8082696f98f6ec6215da154625d3bf2bcb7f3e542bf4c3e557451898c407",
+      "header_received_at": "2026-11-03T03:06:01.927970+00:00",
+      "player_received_at": "2026-11-03T03:06:03.023348+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N127",
+      "date": "20251228",
+      "home": "16",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "16": 81,
+          "35": 67
+        }
+      },
+      "header_sha256": "bc94fcddf5b0731e6ab8219b0ae9b05e1ffddf5c2e56790e7340c0bb89da435f",
+      "player_sha256": "52ea9f6ad81b5861c718a4b4f8952010474c2a22aa21676659d88c75792f9d6f",
+      "header_received_at": "2026-11-03T03:06:04.068144+00:00",
+      "player_received_at": "2026-11-03T03:06:05.189576+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N129",
+      "date": "20251229",
+      "home": "66",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "55": 77,
+          "66": 70
+        }
+      },
+      "header_sha256": "fc2e5c0d8a6c40a1dc623855fc683f5e5cc991a14b36a42b371c55988b95b4c6",
+      "player_sha256": "240653f979cb56ffdbd8d4852b07ac5cce4f8595d692d5d8c761c637a749aa9c",
+      "header_received_at": "2026-11-03T03:06:06.299836+00:00",
+      "player_received_at": "2026-11-03T03:06:07.426468+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N132",
+      "date": "20251231",
+      "home": "60",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "16": 99,
+          "60": 82
+        }
+      },
+      "header_sha256": "a81599d0cef0c523d0cf4e1070ffac478c0c94d8abe9f108fdf41021d9f2b043",
+      "player_sha256": "5d1e0cb8d06ab5629601c33fefb800f94ba1fea61ac8f67f92c073f53402d938",
+      "header_received_at": "2026-11-03T03:06:08.491078+00:00",
+      "player_received_at": "2026-11-03T03:06:09.636384+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N134",
+      "date": "20260101",
+      "home": "55",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "55": 65,
+          "70": 71
+        }
+      },
+      "header_sha256": "e30c25a29f27486febafabe2933649057984305ae5f91d9d42e57b91309776d2",
+      "player_sha256": "1f591469bd6499f66d9f6e87a0fb87033864d33b3c8ff50026bc60d6a834e138",
+      "header_received_at": "2026-11-03T03:06:10.683630+00:00",
+      "player_received_at": "2026-11-03T03:06:11.851907+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N136",
+      "date": "20260103",
+      "home": "10",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "10": 77,
+          "64": 79
+        }
+      },
+      "header_sha256": "7d3c52741600b7cce94f06cdde1fcadd3dde38a4456e7433c5b3d1070aeebab0",
+      "player_sha256": "aa99cd6d8b38942b91ea3dde1ddb75757f2bdf68e4af29ff05b3461f020d92f8",
+      "header_received_at": "2026-11-03T03:03:53.892974+00:00",
+      "player_received_at": "2026-11-03T03:03:55.087947+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N138",
+      "date": "20260103",
+      "home": "55",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "55": 78,
+          "70": 74
+        }
+      },
+      "header_sha256": "821dc01dc0cc2cb46716119fce5ff08bff671eb365326114bb1e79236ab811e0",
+      "player_sha256": "787d551a29f4448a77a9a65486b3efc237902eb97f6d51a650422671dfe73da9",
+      "header_received_at": "2026-11-03T03:06:12.876095+00:00",
+      "player_received_at": "2026-11-03T03:06:14.032666+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N141",
+      "date": "20260104",
+      "home": "70",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "60": 68,
+          "70": 76
+        }
+      },
+      "header_sha256": "8bebbe705fc6c26790eefcbfd56f7b97845aa4bccc3ed90b923795ead3316050",
+      "player_sha256": "8a5d4b596f47a6bf231a4c31d409447a93dc8c93ff84a6be0e2b80769db2e149",
+      "header_received_at": "2026-11-03T03:06:15.080631+00:00",
+      "player_received_at": "2026-11-03T03:06:16.240325+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N143",
+      "date": "20260106",
+      "home": "10",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "10": 81,
+          "60": 66
+        }
+      },
+      "header_sha256": "f5a945a3355d5683316f88540b2b9f6995f071ea2d493e3ab31c0d2729144821",
+      "player_sha256": "5d640cb464f1eb0f61ec7e387f5bf5fa5130f3f45dd806016947f74264646e34",
+      "header_received_at": "2026-11-03T03:06:17.299399+00:00",
+      "player_received_at": "2026-11-03T03:06:18.407277+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N145",
+      "date": "20260108",
+      "home": "16",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 80,
+          "16": 82
+        }
+      },
+      "header_sha256": "1a8290f2bc8ab99343c2e520e98d82aaf3638cae303711ded0019472d0b057dc",
+      "player_sha256": "4f8c2ac67cf58014432c8ecfcdd73e57d07a758d0026a84c8caef4dc08b29d86",
+      "header_received_at": "2026-11-03T03:06:19.511546+00:00",
+      "player_received_at": "2026-11-03T03:06:20.599902+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N147",
+      "date": "20260110",
+      "home": "55",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 84,
+          "55": 94
+        }
+      },
+      "header_sha256": "7f6d538efcd6c65074de2a0ae5d30d0a9640556e9c7ef12ed879888f37d24c3a",
+      "player_sha256": "9389b906844d82ca307e62a60b81ec2ae21fc2a0e3f47d2bd423b7adfdd6ab6b",
+      "header_received_at": "2026-11-03T03:06:21.706426+00:00",
+      "player_received_at": "2026-11-03T03:06:22.825031+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N150",
+      "date": "20260111",
+      "home": "06",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "06": 74,
+          "10": 58
+        }
+      },
+      "header_sha256": "02578bdcd8e3722f882b4c5b8a980e03c2262e498a621ae313bd47bb5601b0b2",
+      "player_sha256": "bc5adab6bd14e3332ba127cff2bb4059986e76ccb62847f298281fe505dd9ca8",
+      "header_received_at": "2026-11-03T03:06:23.826284+00:00",
+      "player_received_at": "2026-11-03T03:06:25.024374+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N152",
+      "date": "20260111",
+      "home": "55",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "35": 92,
+          "55": 89
+        }
+      },
+      "header_sha256": "c5850c98368a8559c5a3b652c1464cf9f0f987e3c002a4ae543a5946a4a12ed7",
+      "player_sha256": "65cc5567fd9d1cce89a0873e705a187c868f7d83d9aa144cc56c827155ec5600",
+      "header_received_at": "2026-11-03T03:06:26.118312+00:00",
+      "player_received_at": "2026-11-03T03:06:27.236338+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N154",
+      "date": "20260112",
+      "home": "60",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "60": 96,
+          "66": 90
+        }
+      },
+      "header_sha256": "5a3c1198406b658bf8b1c1d5a1a73c0eeb02f656707305216374ce6b3dd7b8e5",
+      "player_sha256": "e1b21196f5de4223f33de8898514f9de6d79bb9d8ad27b5618ec8da444da7e37",
+      "header_received_at": "2026-11-03T03:06:28.308892+00:00",
+      "player_received_at": "2026-11-03T03:06:29.467006+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N156",
+      "date": "20260113",
+      "home": "10",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "10": 75,
+          "35": 74
+        }
+      },
+      "header_sha256": "846811404b2f019a5e718b7acade275df484c76d58e1622503350e34d38033ea",
+      "player_sha256": "f456fc7d18d3b0987ab0e7556188dba1974b4ef919cc0f84566397a3c5bbb324",
+      "header_received_at": "2026-11-03T03:06:30.531166+00:00",
+      "player_received_at": "2026-11-03T03:06:31.668147+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N159",
+      "date": "20260115",
+      "home": "55",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "50": 76,
+          "55": 89
+        }
+      },
+      "header_sha256": "81f7616bfd4274567e474738c3f2fc14e8c1f92c362090ca43bd04e5e0fd9db1",
+      "player_sha256": "9b29c0ce8f0b4bec9b3a370dfd875fdcef8a8450b5886dd270bb0f3266b03d90",
+      "header_received_at": "2026-11-03T03:06:32.723504+00:00",
+      "player_received_at": "2026-11-03T03:06:33.862816+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N161",
+      "date": "20260121",
+      "home": "06",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 62,
+          "70": 73
+        }
+      },
+      "header_sha256": "9fa497915e7d5490b3dc4271563284c9859fe2d9007326fb89a54222070ad5f1",
+      "player_sha256": "d4d53fd65c8a640c8e87222d373f513fd2fed56ffbafe40308b6e9099dd450a3",
+      "header_received_at": "2026-11-03T03:06:34.934697+00:00",
+      "player_received_at": "2026-11-03T03:06:36.052578+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N163",
+      "date": "20260122",
+      "home": "10",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "10": 78,
+          "55": 71
+        }
+      },
+      "header_sha256": "1838ffff6cb7c603e012bbbbe2a25425faca68bfd16b80700869dd9a45b400bd",
+      "player_sha256": "f5bb17fc56ac5ef8b4be1d72efd3b54892089a7715100098f0ea7b1c8eb3c67d",
+      "header_received_at": "2026-11-03T03:06:37.159302+00:00",
+      "player_received_at": "2026-11-03T03:06:38.232358+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N166",
+      "date": "20260123",
+      "home": "60",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "50": 82,
+          "60": 65
+        }
+      },
+      "header_sha256": "01f96efddf062df7c5eaa46caba3400116a4e4cf60d8014332954f7a4a79de5a",
+      "player_sha256": "528624a1a516350e74c838bf9419160bea31e25b3570a2514c0833940bab7aeb",
+      "header_received_at": "2026-11-03T03:06:39.369996+00:00",
+      "player_received_at": "2026-11-03T03:06:40.460343+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N168",
+      "date": "20260124",
+      "home": "55",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "55": 95,
+          "64": 81
+        }
+      },
+      "header_sha256": "9e2bc32eb6056b0c47e96e4a1f8d313457198b5b7fae83d47160b10e4d7154dd",
+      "player_sha256": "02af6647d64525c47e1a4399620ce8ad4d1ac66db3c3a14832667efac3174743",
+      "header_received_at": "2026-11-03T03:06:41.527278+00:00",
+      "player_received_at": "2026-11-03T03:06:42.631044+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N170",
+      "date": "20260125",
+      "home": "50",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "50": 76,
+          "70": 53
+        }
+      },
+      "header_sha256": "5a51f9e1ed0787d313b4a1a19fb52244cbe6477fbc7c2c9056aea579f2185d49",
+      "player_sha256": "432705e35ed845f153c5888cc767f2c19c725de5cb23465f8147d40a32358aa5",
+      "header_received_at": "2026-11-03T03:06:43.775933+00:00",
+      "player_received_at": "2026-11-03T03:06:44.823680+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N172",
+      "date": "20260125",
+      "home": "35",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "35": 77,
+          "66": 91
+        }
+      },
+      "header_sha256": "2a25d25005f744a6c34a7b163e319660efd3d3cfe30293bb3fa59ad76854479e",
+      "player_sha256": "555b34428816e67b05e1c3b60a30d21c43f60293fe5017b0ba681f7ef196f78f",
+      "header_received_at": "2026-11-03T03:06:46.029940+00:00",
+      "player_received_at": "2026-11-03T03:06:47.071434+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N175",
+      "date": "20260128",
+      "home": "50",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "16": 88,
+          "50": 86
+        }
+      },
+      "header_sha256": "066af1a83317d33f936e29473e43481667ffe3ba0cbb6ef9058b73db92901fa7",
+      "player_sha256": "7ef0a51a18b643f40dc0f9807f9e103207be38886b9e55e4a33e928ec920048f",
+      "header_received_at": "2026-11-03T03:06:48.168926+00:00",
+      "player_received_at": "2026-11-03T03:06:49.278660+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N177",
+      "date": "20260130",
+      "home": "16",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "16": 108,
+          "64": 103
+        }
+      },
+      "header_sha256": "f36edcc1cc64e29f597caa9a4585f8fba047742da695566471cc83515521ed8b",
+      "player_sha256": "6e87cf1d404fd50d16678a370c93994835924395784a30fe4d051351e52cdf43",
+      "header_received_at": "2026-11-03T03:06:50.429655+00:00",
+      "player_received_at": "2026-11-03T03:06:51.488085+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N179",
+      "date": "20260131",
+      "home": "60",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "35": 90,
+          "60": 103
+        }
+      },
+      "header_sha256": "61454250ef6b3f7268553f5eaf326e1a5440cf679b543997cdbbdc9e06d281f2",
+      "player_sha256": "0defdddfa58fd5db29a685de01a9e76b27905c93d3bc298c44a79ace1c09d62c",
+      "header_received_at": "2026-11-03T03:06:52.553275+00:00",
+      "player_received_at": "2026-11-03T03:06:53.617471+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N181",
+      "date": "20260201",
+      "home": "10",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "10": 73,
+          "70": 88
+        }
+      },
+      "header_sha256": "62b52be22edf78863f9f4c2ba3be95ba30790b7f38eea8bd3ee794f62cc24be6",
+      "player_sha256": "efd308a99b07fd4f5d8b1332818efa959d315d463dc6af438c96b98c29c16920",
+      "header_received_at": "2026-11-03T03:06:54.662540+00:00",
+      "player_received_at": "2026-11-03T03:06:55.857347+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N184",
+      "date": "20260202",
+      "home": "55",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "55": 77,
+          "60": 120
+        }
+      },
+      "header_sha256": "1483ec7299abb309f9d0ae27020aa3f1d5a8b70cc3b76a007613f65ee0231e8a",
+      "player_sha256": "a2e4f3b0846568d13ee503daceaefeb59f3d8f289057589c246947a3d33bb714",
+      "header_received_at": "2026-11-03T03:06:56.924912+00:00",
+      "player_received_at": "2026-11-03T03:06:58.091698+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N186",
+      "date": "20260204",
+      "home": "66",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "60": 89,
+          "66": 95
+        }
+      },
+      "header_sha256": "e485687687111565621867db04443dd64ad67aad5b2f39e72b5cb6420fdfaa5b",
+      "player_sha256": "c3c53cd86c2306db4980638193c451a70fa228241c674d382b1afcb92d0b0e17",
+      "header_received_at": "2026-11-03T03:06:59.170344+00:00",
+      "player_received_at": "2026-11-03T03:07:00.218239+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N188",
+      "date": "20260206",
+      "home": "55",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "10": 75,
+          "55": 78
+        }
+      },
+      "header_sha256": "dc840a3abf916eaa0af5e1595b27a0ea6642368df726d24881e213459a2e6156",
+      "player_sha256": "b74a9a431b3b37fe89c86bc5907b15da534d87dceaa0dfe97b39144f9289397f",
+      "header_received_at": "2026-11-03T03:07:01.322224+00:00",
+      "player_received_at": "2026-11-03T03:07:02.569325+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N190",
+      "date": "20260207",
+      "home": "66",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "06": 78,
+          "66": 92
+        }
+      },
+      "header_sha256": "d0fd2e393ea60c098889d09e14b06760c16bdcaf4984ba970aef55f178374ca3",
+      "player_sha256": "7dc982f1f6ba9abdef4a11bdc20d9a1ae70f3dc4ea50668db73df63900ccfed3",
+      "header_received_at": "2026-11-03T03:07:03.505218+00:00",
+      "player_received_at": "2026-11-03T03:07:04.676362+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N193",
+      "date": "20260208",
+      "home": "70",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "50": 77,
+          "70": 69
+        }
+      },
+      "header_sha256": "f2de26d174cbe2326de50ebb741105be9e50dfb07e3e3aac7a0f66cd441cf586",
+      "player_sha256": "b0af196193b721a99a38eae50b3e2950588029b07b25c4c8df960ada02121a64",
+      "header_received_at": "2026-11-03T03:07:05.713598+00:00",
+      "player_received_at": "2026-11-03T03:07:06.844499+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N195",
+      "date": "20260209",
+      "home": "06",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "06": 104,
+          "35": 101
+        }
+      },
+      "header_sha256": "a45a6b65da7027fa6c868db08abcb96a5e632d305fc9194f8c4942cd0ad21f88",
+      "player_sha256": "758c24caab2318201a0610f0e5d0e97f28e96ada161e0c7670cb45c617333339",
+      "header_received_at": "2026-11-03T03:07:07.904369+00:00",
+      "player_received_at": "2026-11-03T03:07:09.039394+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N197",
+      "date": "20260211",
+      "home": "55",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "55": 81,
+          "66": 64
+        }
+      },
+      "header_sha256": "d298426d42b13dfb43f20edb7a4bbe3ce6b2db7c7aaa2eccfbca053597dd98fe",
+      "player_sha256": "c9451344a8dfb4c2f27ce9cd154d864382d4d1dbe10ebda372960960c005bf68",
+      "header_received_at": "2026-11-03T03:07:10.109455+00:00",
+      "player_received_at": "2026-11-03T03:07:11.253833+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N199",
+      "date": "20260213",
+      "home": "70",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "06": 65,
+          "70": 74
+        }
+      },
+      "header_sha256": "577fb65a2bd5a69ca787e5ff73169bf16989b9ccc3a231dad29cf1d0a97b6499",
+      "player_sha256": "37f60fb4d73f2f74455f07929d5c9fd86990498507ce9fe30d31dcd0b4246a6f",
+      "header_received_at": "2026-11-03T03:07:12.320138+00:00",
+      "player_received_at": "2026-11-03T03:07:13.447284+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N202",
+      "date": "20260214",
+      "home": "50",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "16": 58,
+          "50": 80
+        }
+      },
+      "header_sha256": "8fa59033ff1ffae061df4330d5529aa7114973c64f8c74919c5497243efa512f",
+      "player_sha256": "656cfd63741981fa60c0af71de04639be60b6f62c01f0770976f519786b4c653",
+      "header_received_at": "2026-11-03T03:07:14.585765+00:00",
+      "player_received_at": "2026-11-03T03:07:15.657083+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N204",
+      "date": "20260215",
+      "home": "60",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "06": 81,
+          "60": 83
+        }
+      },
+      "header_sha256": "be4cacf3cec52c48061225243c028f33aa330d157d6007d4f98442b9a0ee1935",
+      "player_sha256": "13b52a0bcb60a775f09fb620d0904a474f0fbe37f8de1bd5fa1c397624162b5a",
+      "header_received_at": "2026-11-03T03:07:16.740625+00:00",
+      "player_received_at": "2026-11-03T03:07:17.876033+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N206",
+      "date": "20260216",
+      "home": "50",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "50": 62,
+          "66": 79
+        }
+      },
+      "header_sha256": "a4ff622d51c2dc9bd23cb2074aa9cf026501597841167eb5da92bdd8b932a357",
+      "player_sha256": "8c6220371dafaad4b58eb84d1e38d0df41d2662c0b720a61d0a93f99323fa252",
+      "header_received_at": "2026-11-03T03:07:18.911916+00:00",
+      "player_received_at": "2026-11-03T03:07:20.047388+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N208",
+      "date": "20260217",
+      "home": "64",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "06": 98,
+          "64": 86
+        }
+      },
+      "header_sha256": "7f1e2557ae5ce8e81a163f2524aca27d89a51496c7cd68d7339277cff27ef1bb",
+      "player_sha256": "10ecd75288d3cbbf029ba59fb6f73305e36f2b4c440bb9cab0e83a93613a247d",
+      "header_received_at": "2026-11-03T03:07:21.191235+00:00",
+      "player_received_at": "2026-11-03T03:07:22.250661+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N211",
+      "date": "20260218",
+      "home": "60",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "50": 94,
+          "60": 74
+        }
+      },
+      "header_sha256": "57415dbfa2c1c0c93477452aa3b0d42386f1a136239ac8e715218cb11a7bf0a7",
+      "player_sha256": "a2dbce9d9e7beeb197f184abd7b0e206a233cec897a8bb0bde3ac927d0608494",
+      "header_received_at": "2026-11-03T03:07:23.307550+00:00",
+      "player_received_at": "2026-11-03T03:07:24.399058+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N213",
+      "date": "20260219",
+      "home": "66",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "35": 64,
+          "66": 86
+        }
+      },
+      "header_sha256": "849d98e90743e6490cd1fd5bf35f69d3c29b358a569d606c13a6ce7bd94a9617",
+      "player_sha256": "3c546a1216018d49d61c6fcd955a3cc457c54a272709ff0b2f037fd37eebb264",
+      "header_received_at": "2026-11-03T03:07:25.605204+00:00",
+      "player_received_at": "2026-11-03T03:07:26.622392+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N215",
+      "date": "20260305",
+      "home": "16",
+      "away": "60",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "16": 84,
+          "60": 104
+        }
+      },
+      "header_sha256": "09b63998a05cbf98e380751cae30197711dcfc2ea4b9664be6e82ad4020ba70a",
+      "player_sha256": "2e458dac80d6432f0ee01b9c34db69f002a94af0f81c9fa05379cb2191670fa3",
+      "header_received_at": "2026-11-03T03:07:27.808938+00:00",
+      "player_received_at": "2026-11-03T03:07:28.828328+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N218",
+      "date": "20260307",
+      "home": "16",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "16": 81,
+          "66": 95
+        }
+      },
+      "header_sha256": "d04d50468e2134595a1cfc5d0c8332cf2232c0ffaa4d9311ba65c385ea634498",
+      "player_sha256": "7e1edf0445bfc281313ae11b4b6670b9c71db67793f7d9e028f8765a099051f2",
+      "header_received_at": "2026-11-03T03:07:29.916083+00:00",
+      "player_received_at": "2026-11-03T03:07:31.079512+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N220",
+      "date": "20260307",
+      "home": "70",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "64": 64,
+          "70": 66
+        }
+      },
+      "header_sha256": "f8e7abfb6214a1c45445752147d834a32615d42740edabfe2c100d6fb0bbc12d",
+      "player_sha256": "1fe5f7f0833423d12692d8c7ddbef2e428cdadb7404e612cf6ca3c75fc2aed17",
+      "header_received_at": "2026-11-03T03:07:32.189751+00:00",
+      "player_received_at": "2026-11-03T03:07:33.226825+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N222",
+      "date": "20260308",
+      "home": "10",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "06": 83,
+          "10": 95
+        }
+      },
+      "header_sha256": "1c232afd961315d4a03abd7d5d202d8e2510b0ceb0fed53b6b52af3b19fa2dcf",
+      "player_sha256": "d75d0fef61e59c0ce3e8ab7afbde7fd1038789ba05048ef0111d9f04a944845b",
+      "header_received_at": "2026-11-03T03:07:34.397315+00:00",
+      "player_received_at": "2026-11-03T03:07:35.453079+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N224",
+      "date": "20260309",
+      "home": "35",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "35": 79,
+          "70": 84
+        }
+      },
+      "header_sha256": "9ba49fe7e4f2ac41cfacdeddccaf93f8ac20e26bd06a577805ec9ef774f245a0",
+      "player_sha256": "08de6119137a0ac5f4006ca41a5b78cc9dd7a071437135bcc996c5cceec98492",
+      "header_received_at": "2026-11-03T03:07:36.552241+00:00",
+      "player_received_at": "2026-11-03T03:07:37.683464+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N227",
+      "date": "20260312",
+      "home": "55",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "16": 68,
+          "55": 89
+        }
+      },
+      "header_sha256": "70439c40c54a98a0cd4db2bbcdc28ec5c56855c384c9280beff9374c43786919",
+      "player_sha256": "32233d5b6d94cf240d6656c20844d0701aefe5f410c232ef4def6c39db0951b7",
+      "header_received_at": "2026-11-03T03:07:38.727617+00:00",
+      "player_received_at": "2026-11-03T03:07:39.861122+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N229",
+      "date": "20260314",
+      "home": "06",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 69,
+          "55": 75
+        }
+      },
+      "header_sha256": "db12941e885a6af70ebc933fa6f4a3116d796990610632f8bfdbe6fbb3799616",
+      "player_sha256": "52806e00639a84ea6107f04932327b6f9e0dc6e9761260c61bdcd05d07ce30d5",
+      "header_received_at": "2026-11-03T03:07:40.968846+00:00",
+      "player_received_at": "2026-11-03T03:07:42.077327+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N231",
+      "date": "20260314",
+      "home": "64",
+      "away": "10",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "10": 74,
+          "64": 84
+        }
+      },
+      "header_sha256": "d19f429423294f6aa7196edca71d82bd7ddd65f6feaf96b764241e3a1ecb5ecb",
+      "player_sha256": "872d677753f628be31df3db1e39e2aab97d60a1ccc413e8207cbdc5a92c490b0",
+      "header_received_at": "2026-11-03T03:07:43.113720+00:00",
+      "player_received_at": "2026-11-03T03:07:44.261596+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N233",
+      "date": "20260315",
+      "home": "66",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "35": 75,
+          "66": 98
+        }
+      },
+      "header_sha256": "953b605e90b262ff5ddc98d2d30c44077fed08a05b3d351f90427862830ace8b",
+      "player_sha256": "951edf7b554d01385ac651026619921a8d6d13f099df715db9b0b42c1979b80f",
+      "header_received_at": "2026-11-03T03:07:45.342623+00:00",
+      "player_received_at": "2026-11-03T03:07:46.412364+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N236",
+      "date": "20260318",
+      "home": "06",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 66,
+          "16": 69
+        }
+      },
+      "header_sha256": "0e307d631451e9eed540ce5595217b2ed287a47a11b01bfa15c2dfcd3621e4f5",
+      "player_sha256": "bfbf3cc0f16b6286a51a3910ff4bd2ba301b580c61f2e7f0153c9aa47bcb5816",
+      "header_received_at": "2026-11-03T03:07:47.623456+00:00",
+      "player_received_at": "2026-11-03T03:07:48.667423+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N238",
+      "date": "20260320",
+      "home": "06",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "06": 84,
+          "64": 82
+        }
+      },
+      "header_sha256": "0d8f33d7b24bef6101b7f4b6a26096584c51ac0719bce815ade9bb652aae799d",
+      "player_sha256": "6c7e8052e5cbf56a27522c8219eff67ec2b1b4a44767f2a49079e466bcf89ed1",
+      "header_received_at": "2026-11-03T03:07:49.721177+00:00",
+      "player_received_at": "2026-11-03T03:07:50.867364+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N240",
+      "date": "20260321",
+      "home": "60",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 22,
+        "dnp_zero_time": 2,
+        "points_by_team": {
+          "35": 81,
+          "60": 100
+        }
+      },
+      "header_sha256": "fbef295bff85cbd261f8ef236437e27619a215181940e9ea1711cde54276da4d",
+      "player_sha256": "cab0b538ad9f44c05f1ad58eaf0e339f9cd255e562dc694bdae10ccdb134e5a5",
+      "header_received_at": "2026-11-03T03:07:51.957056+00:00",
+      "player_received_at": "2026-11-03T03:07:53.174950+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N242",
+      "date": "20260322",
+      "home": "16",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "16": 78,
+          "64": 74
+        }
+      },
+      "header_sha256": "8f41b50f1ad770b6c9fdb49bf1288a43515a66fa8d336161c04a47884047301d",
+      "player_sha256": "6e0a31a51eb6cf1d5a8581ef9c01ee8291ba60299c46f03ca71c01582cfdc063",
+      "header_received_at": "2026-11-03T03:07:54.091592+00:00",
+      "player_received_at": "2026-11-03T03:07:55.282046+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N245",
+      "date": "20260325",
+      "home": "55",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "55": 77,
+          "66": 78
+        }
+      },
+      "header_sha256": "e910aaddb971203e59d294aa7ea75fbcfe8ffced028671188ad531bc359ef690",
+      "player_sha256": "707269802de3745abe011c7c99fff6657c6ac529a09686c2b4825f834610adf5",
+      "header_received_at": "2026-11-03T03:07:56.320997+00:00",
+      "player_received_at": "2026-11-03T03:07:57.474589+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N247",
+      "date": "20260327",
+      "home": "60",
+      "away": "06",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "06": 84,
+          "60": 79
+        }
+      },
+      "header_sha256": "382d4fbc01a14688b10b7bbef99a50ed18003fb46d37d96f99e2332776defdec",
+      "player_sha256": "32a5a14dd695f94774c45c0395f59fcf168eaeff09bb6fd2ede83b7189767f5d",
+      "header_received_at": "2026-11-03T03:07:58.505613+00:00",
+      "player_received_at": "2026-11-03T03:07:59.624647+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N249",
+      "date": "20260328",
+      "home": "66",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "16": 92,
+          "66": 81
+        }
+      },
+      "header_sha256": "10a1618b0bce06b8fd04229ef0a20389562e40bf27ddb215bb71b8bb06dd283e",
+      "player_sha256": "2c9b626e665c8b01171490ec552c7ea42844b33fb1a61d714c7f38f70ea0c88f",
+      "header_received_at": "2026-11-03T03:08:00.711065+00:00",
+      "player_received_at": "2026-11-03T03:08:01.889850+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N251",
+      "date": "20260329",
+      "home": "50",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 20,
+        "dnp_zero_time": 4,
+        "points_by_team": {
+          "50": 67,
+          "55": 55
+        }
+      },
+      "header_sha256": "89f39d49f7587aab93086e6be9b6941870f1921cb2a5e249920f510c04f99107",
+      "player_sha256": "27f774a846b3fed957ad98cf8c76c2b3afbcf786091154fb195520caaaa1c45f",
+      "header_received_at": "2026-11-03T03:08:02.922563+00:00",
+      "player_received_at": "2026-11-03T03:08:04.056462+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N254",
+      "date": "20260330",
+      "home": "10",
+      "away": "16",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "10": 81,
+          "16": 90
+        }
+      },
+      "header_sha256": "df08f0735eb1919e1ec1efc9353414390a2cbf6931e29532ce25b08b07355c52",
+      "player_sha256": "e128b2f73af6229cb1a12fffd3bc5a412be7582fcbe4936c3b482f034accc9cf",
+      "header_received_at": "2026-11-03T03:08:05.128653+00:00",
+      "player_received_at": "2026-11-03T03:08:06.255094+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N256",
+      "date": "20260401",
+      "home": "60",
+      "away": "55",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "55": 79,
+          "60": 81
+        }
+      },
+      "header_sha256": "74c3b9a64277f9eea1704dbd1caa8d48bc6f82616175b08d1bf38b2ddab2561d",
+      "player_sha256": "1db908d0fc588d844410e7884f060447344a6a37f83c7f0c3a251ce4cd0d8c91",
+      "header_received_at": "2026-11-03T03:08:07.351450+00:00",
+      "player_received_at": "2026-11-03T03:08:08.439208+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N258",
+      "date": "20260403",
+      "home": "06",
+      "away": "50",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "06": 60,
+          "50": 87
+        }
+      },
+      "header_sha256": "e2f3558d5a6140d2c1e17fa96da1837c68fad86fca92c528d56eb903fdf71f5b",
+      "player_sha256": "c3e741890a4a1f31c180e14c650348702a767665b513c44916fe1e7bdf121162",
+      "header_received_at": "2026-11-03T03:08:09.455220+00:00",
+      "player_received_at": "2026-11-03T03:08:10.652963+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N260",
+      "date": "20260404",
+      "home": "16",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 21,
+        "dnp_zero_time": 3,
+        "points_by_team": {
+          "16": 80,
+          "35": 75
+        }
+      },
+      "header_sha256": "e183e55ade720cd4e510c6eabd9b7362251083aa76380dd312a4dffb783c4a3f",
+      "player_sha256": "6b70aa08e69d718b79967137859f07b1840c4eb94efc90d638b9db745e7fed69",
+      "header_received_at": "2026-11-03T03:08:11.755331+00:00",
+      "player_received_at": "2026-11-03T03:08:12.951020+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N263",
+      "date": "20260405",
+      "home": "66",
+      "away": "70",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "66": 65,
+          "70": 61
+        }
+      },
+      "header_sha256": "18eea3eaba5a06c9722bb80fe0f5b1dd5ad8519a117a2a8bcad82f2088247a71",
+      "player_sha256": "42ea596f986db044fa3e5fd1e390224e2215fe1a7b658211f2771cc227084270",
+      "header_received_at": "2026-11-03T03:08:13.981216+00:00",
+      "player_received_at": "2026-11-03T03:08:15.107394+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N265",
+      "date": "20260406",
+      "home": "55",
+      "away": "35",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 23,
+        "dnp_zero_time": 1,
+        "points_by_team": {
+          "35": 93,
+          "55": 75
+        }
+      },
+      "header_sha256": "9b2f1fb4a7ceab154fb17ffdfc6e65cd5de9503c498a57c93cde88b8f5117313",
+      "player_sha256": "b42786e2d873fcb084938f88485099a85de27c34fc11fed5782ef4dae9a00b2e",
+      "header_received_at": "2026-11-03T03:08:16.155738+00:00",
+      "player_received_at": "2026-11-03T03:08:17.289395+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N267",
+      "date": "20260408",
+      "home": "06",
+      "away": "66",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 24,
+        "dnp_zero_time": 0,
+        "points_by_team": {
+          "06": 76,
+          "66": 72
+        }
+      },
+      "header_sha256": "7d94b789dc8504951b4d42ce6672fc561d6481b0f117233cff7434396755e3d5",
+      "player_sha256": "bd12818537a0060a1cc364ba5881383bd4b394d79f9043efbd40865cefc03ebd",
+      "header_received_at": "2026-11-03T03:08:18.343265+00:00",
+      "player_received_at": "2026-11-03T03:08:19.465942+00:00",
+      "availability": "postgame_retrospective_only"
+    },
+    {
+      "gmkey": "S47G01N270",
+      "date": "20260408",
+      "home": "35",
+      "away": "64",
+      "stats": {
+        "players": 24,
+        "starters": 10,
+        "bench_listed": 14,
+        "played": 19,
+        "dnp_zero_time": 5,
+        "points_by_team": {
+          "35": 73,
+          "64": 80
+        }
+      },
+      "header_sha256": "f8444772511914bc4e0919d7e30704e5bce01e2e7456a7ec49e39be1434792ec",
+      "player_sha256": "316d5b631c490378f463ea8bc1a83e1b1a1412d46e486b420eaa25ee46a12bea",
+      "header_received_at": "2026-11-03T03:03:56.185235+00:00",
+      "player_received_at": "2026-11-03T03:03:57.307300+00:00",
+      "availability": "postgame_retrospective_only"
+    }
+  ]
+}

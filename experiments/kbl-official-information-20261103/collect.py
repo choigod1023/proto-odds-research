@@ -15,13 +15,27 @@ def write_json(p,obj):
 def fetch(label,path,params=None):
     global last
     body=E/(label+'.body'); meta=E/(label+'.json')
+    if meta.exists() and not body.exists(): raise RuntimeError('cached incomplete/error; inspect before resume: '+label)
     if body.exists() and meta.exists():
         m=json.loads(meta.read_text(encoding='utf-8'))
         if m['status']==200 and hashlib.sha256(body.read_bytes()).hexdigest()==m['sha256']: return body.read_bytes()
         raise RuntimeError('cached failure or hash mismatch: '+label)
+    api_meta=[]
+    for file in E.glob('*.json'):
+        item=json.loads(file.read_text(encoding='utf-8'))
+        if item.get('url','').startswith(BASE): api_meta.append(item)
+    if len(api_meta)>=480: raise RuntimeError('local API request budget 480 reached')
+    if api_meta:
+        latest=max(dt.datetime.fromisoformat(m['received_at']) for m in api_meta if m.get('received_at'))
+        age=(dt.datetime.now(dt.timezone.utc)-latest).total_seconds()
+        time.sleep(max(0,1.1-age))
     time.sleep(max(0,1.1-(time.monotonic()-last)))
     last=time.monotonic()
-    r=requests.get(BASE+path,params=params,headers=H,timeout=15)
+    try:
+        r=requests.get(BASE+path,params=params,headers=H,timeout=15)
+    except requests.RequestException as exc:
+        write_json(meta,{'url':BASE+path,'params':params or {},'received_at':dt.datetime.now(dt.timezone.utc).isoformat(),'status':None,'error':str(exc)})
+        raise RuntimeError('network failure, stop; inspect before resume') from exc
     received=dt.datetime.now(dt.timezone.utc).isoformat()
     body.write_bytes(r.content)
     write_json(meta,{'url':r.url,'params':params or {},'request_headers':H,'received_at':received,'status':r.status_code,'sha256':hashlib.sha256(r.content).hexdigest(),'bytes':len(r.content),'availability':'retrospective_current_receipt'})
@@ -29,7 +43,7 @@ def fetch(label,path,params=None):
     return r.content
 
 def census():
-    rows=json.loads(fetch('schedule','/match/list',P))
+    rows=json.loads(fetch('postgame-schedule','/match/list',P))
     assert isinstance(rows,list)
     selected=sorted([r for r in rows if r.get('glkey')=='S47G01'],key=lambda x:(x['gameDate'],x['gameStart'],x['gmkey']))
     assert len({r['gmkey'] for r in selected})==len(selected)
