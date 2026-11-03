@@ -11,7 +11,7 @@ def _texts(row):
     return [str(cell.get('Text', '')).strip() for cell in row['row']]
 
 
-def confirmed_lineups(body, game_id, home, away, season, series=0):
+def confirmed_lineups(body, game_id, home, away, season, series=0, *, allow_duplicate_names=False):
     data = json.loads(body)
     if len(data) != 5 or data[0] != [{'LINEUP_CK': True}]:
         raise ValueError('official lineup is not confirmed')
@@ -29,7 +29,7 @@ def confirmed_lineups(body, game_id, home, away, season, series=0):
             ordered = sorted((int(row[0]), row[2]) for row in rows)
         except ValueError as exc:
             raise ValueError('invalid order') from exc
-        if [n for n, _ in ordered] != list(range(1, 10)) or any(not name for _, name in ordered) or len({name for _, name in ordered}) != 9:
+        if [n for n, _ in ordered] != list(range(1, 10)) or any(not name for _, name in ordered) or (not allow_duplicate_names and len({name for _, name in ordered}) != 9):
             raise ValueError('ambiguous lineup')
         result[team] = ordered
     return {'sha256': hashlib.sha256(body).hexdigest(), 'game_id': game_id, 'confirmed_lineups': result}

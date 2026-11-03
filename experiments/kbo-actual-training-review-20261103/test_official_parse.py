@@ -36,3 +36,15 @@ class OfficialExample(unittest.TestCase):
         self.assertNotIn('장시환', result['starter_names'].values())
         with self.assertRaises(ValueError):
             explicit_starting_pitchers(self.box, requested_game_id='', away='HH', home='WO')
+
+class DuplicateNameParsing(unittest.TestCase):
+    def test_duplicate_names_require_separate_identity_resolution(self):
+        meta=lambda team: [{'G_ID':'g','T_ID':team,'SEASON_ID':2025,'SR_ID':0}]
+        table=lambda names: [json.dumps({'rows':[{'row':[{'Text':str(i+1)},{'Text':'position'},{'Text':name}]} for i,name in enumerate(names)]})]
+        same=['동명','동명']+[str(i) for i in range(7)]
+        other=[str(i) for i in range(9)]
+        body=json.dumps([[{'LINEUP_CK':True}],meta('H'),meta('A'),table(same),table(other)]).encode()
+        with self.assertRaises(ValueError):
+            confirmed_lineups(body,'g','H','A',2025)
+        parsed=confirmed_lineups(body,'g','H','A',2025,allow_duplicate_names=True)
+        self.assertEqual(parsed['confirmed_lineups']['H'][:2],[(1,'동명'),(2,'동명')])
