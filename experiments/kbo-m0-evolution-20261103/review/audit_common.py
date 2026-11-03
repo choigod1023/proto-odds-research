@@ -36,13 +36,10 @@ def main():
  for r,p,gold in zip(val,predictions,baseline['development_predictions']):
   need(r['fixture_id']==p['fixture_id']==gold['fixture_id'],'검증 경기 ID');a=[p['probabilities_3way'][k] for k in ('home','draw','away')];b=[gold['probabilities_3way'][k] for k in ('home','draw','away')];q,_=ref.prediction(model,norm(r));maxerr=max(maxerr,*[abs(x-y) for x,y in zip(a,b)],*[abs(x-y) for x,y in zip(a,q)])
  need(maxerr<1e-11,'기준 확률 불일치')
- # 실제 2025 전체가 아니라 임의 부분만으로도 정상 선택이 되는지 확인한다.
- labels={'x':{'fixture_id':'x','assumed_completed_date':'2025-04-01','home_score':1,'away_score':0},'y':{'fixture_id':'y','assumed_completed_date':'2025-04-02','home_score':0,'away_score':1}}
- def p(fid,v):return {'fixture_id':fid,'probabilities_2way':{'home':v,'away':1-v},'probabilities_3way':{'home':v*.9,'draw':.1,'away':(1-v)*.9}}
- base=[p('x',.6),p('y',.6)];cand=[p('x',.4),p('y',.2)];full=core.choose({'baseline':base,'candidate':cand},labels)['selected'];partial=core.choose({'baseline':base[:1],'candidate':cand[:1]},labels)['selected'];need((full,partial)==('candidate','baseline'),'선택 반례가 재현되지 않음')
- tied=core.choose({'zz':base,'baseline':base,'aa':base},labels);need(tied['ranking']==['baseline','aa','zz'],'동률 순서')
- try:core.choose({'baseline':base,'candidate':cand[:1]},labels)
- except ValueError:pass
- else:raise ValueError('후보 간 서로 다른 경기 집합 수용')
- print(json.dumps({'상태':'공통선택함수_보강필요','계약SHA256':core.CONTRACT_SHA,'학습':len(train),'검증':len(val),'최종학습':len(end),'평가시나리오별':len(data['test_actual']),'M0재현_최대확률오차':maxerr,'2026결과배당_공통입력에없음':True,'부분집합반례':{'전체2경기선택':full,'부분1경기선택':partial,'함수에서부분집합거부':False},'후보고정산출물감사':False},ensure_ascii=False,sort_keys=True,indent=2))
+ # 최초 감사에서 재현한 부분집합 선택이 이제 차단되는지 731경기로 확인한다.
+ try:core.choose({'baseline':baseline['development_predictions'][:-1]},data['labels'])
+ except ValueError as exc:need('complete fixed2025' in str(exc),'예상과 다른 부분집합 오류')
+ else:raise ValueError('부분집합이 여전히 허용됨')
+ complete=core.choose({'baseline':baseline['development_predictions']},data['labels']);need(complete['selected']=='baseline' and complete['metrics']['baseline']['n']==731,'전체 731경기 선택')
+ print(json.dumps({'상태':'공통선택함수_부분집합차단_확인','계약SHA256':core.CONTRACT_SHA,'학습':len(train),'검증':len(val),'최종학습':len(end),'평가시나리오별':len(data['test_actual']),'M0재현_최대확률오차':maxerr,'2026결과배당_공통입력에없음':True,'부분집합거부':True,'후보고정산출물감사':False},ensure_ascii=False,sort_keys=True,indent=2))
 if __name__=='__main__':main()

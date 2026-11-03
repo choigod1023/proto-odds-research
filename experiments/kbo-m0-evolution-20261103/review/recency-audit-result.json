@@ -1,0 +1,30 @@
+{
+  "2026결과열람": false,
+  "개발731_새검증통과": true,
+  "개발커밋": "7cc6b0b4aefcc52fcf2d7416d685ffdb33da6e2d",
+  "검사수": {
+    "개발_예측": 2924,
+    "개발_후보별_변환": 8728,
+    "최종_예측": 1418,
+    "최종_학습_변환": 2182
+  },
+  "구현커밋": "ff94372a35ed2a8945e2ef7cc042ca8a7ca09c34",
+  "상태": "recency_고정예측_감사통과",
+  "선택": "shrink",
+  "선택순서": [
+    "shrink",
+    "ordered_decay30_shrink",
+    "baseline",
+    "decay90",
+    "decay30"
+  ],
+  "최대확률오차": 3.519406988061746e-14,
+  "최종2182_목적함수_기울기일치": true,
+  "최종커밋": "1110b13e7a1b552607cbeed53468cf15ca3bfbda",
+  "최종해시": {
+    "actual.json": "a98f0deb396eac0cd8ebac8177e50f3b1bce1f6242c9b71232d8b50486e2ae8c",
+    "model.json": "bade6a087d3edda777c8047b4bbfece04809ee44de9747efdeb0d1c63a7e21d9",
+    "projected.json": "4f283b83ede74b2a69d7b852efe95ff65f77062bbc75f58f306a64b6e64325d4"
+  },
+  "코드_SHA256": "5c3981a44fff5239b81dfd9a69fba5a0977ba304d3f48fb5830573ff2a17cec2"
+}
