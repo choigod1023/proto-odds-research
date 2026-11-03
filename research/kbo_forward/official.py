@@ -593,14 +593,6 @@ def parse_player_search(raw, name, team_name, role='hitter', position=None):
         a = cells[1].find('a', href=True)
         if not a or a.get_text(strip=True) != name or cells[2].get_text(strip=True) != team_name:
             continue
-        # Restrict only when the official box position unambiguously identifies
-        # a fielding group; pinch hitters/designated hitters remain ambiguous.
-        pos = str(position or '')
-        group = ('외야수' if pos and all(c in '좌중우' for c in pos) else
-                 '내야수' if pos and all(c in '一二三유' for c in pos) else
-                 '포수' if pos == '포' else None)
-        if group and len(cells) >= 4 and cells[3].get_text(strip=True) != group:
-            continue
         url = urlparse(a['href'])
         ids = parse_qs(url.query).get('playerId', [])
         valid = '/Record/Player/HitterDetail/Basic.aspx' if role == 'hitter' else '/Record/Player/PitcherDetail/Basic.aspx'
