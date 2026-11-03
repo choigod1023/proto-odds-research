@@ -11,7 +11,7 @@ def validate_snapshot(paired,lineage,evidence,projected_proofs,known_dates,verif
  if set(evidence)!=ids or set(projected_proofs)!=ids or set(lineage)!=set(p.SELECTORS) or any(set(lineage[s])!=ids for s in p.SELECTORS) or not verified_hashes:raise ValueError('source evidence or lineage coverage mismatch')
  for selector in p.SELECTORS:
   for row in normalized[selector]:
-   fid=row['fixture_id'];feature_lineage=lineage[selector][fid];p.validate_lineage(fid,row['event_date'],feature_lineage,known_dates)
+   fid=row['fixture_id'];feature_lineage=lineage[selector][fid];p.validate_lineage(fid,row['event_date'],feature_lineage,known_dates);p.validate_history_owners(row,feature_lineage)
    for k in p.PLAYER:
     value=p.original.adapter.scalar(k,feature_lineage[k]['value'])
     if value!=row['features'][k]['value']:raise ValueError('scalar value differs from pinned source lineage')

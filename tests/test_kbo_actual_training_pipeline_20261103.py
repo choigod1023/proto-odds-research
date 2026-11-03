@@ -122,3 +122,58 @@ def test_normalize_overlay_filters_target_metadata_and_rejects_team_future():
  base={**a,'target_score':123};norm,lineage=source.normalize_overlay(base,ov,'projected',None,dates,set());assert 'target_score' not in norm and norm['features']['home_lineup_strength']['value'] is None and len(lineage)==6
  ov['features']['home_team_strength']['source_fixture_ids']=['g']
  with pytest.raises(ValueError,match='temporal'):source.normalize_overlay(base,ov,'projected',None,dates,set())
+
+def paired_owned_histories():
+ a=row();b=copy.deepcopy(a)
+ for k in m.PLAYER:a['features'][k]['value']=None;b['features'][k]['value']=None
+ pairs={'projected':[a],'actual':[b]};lineage={s:{'g':{k:empty_entry() for k in m.PLAYER}} for s in m.SELECTORS}
+ for selector in m.SELECTORS:
+  for side in ('home','away'):
+   lineup=lineage[selector]['g'][side+'_lineup_strength'];lineup['value']=[{'player_id':pid,'history':None} for pid in a['roster'][side]['hitters']]
+   starter=lineage[selector]['g'][side+'_starter_strength'];starter['value']={'projected_player_id':a['roster'][side]['starter'],'appearances':[]}
+ evidence={'fixture_id':'g','event_date':a['event_date'],'home_id':'A','away_id':'B','official_game_id':'official','source_sha256':'a'*64,'retrospective_only':True,'historical_receipt_verified':False,'sides':{side:{'team_id':a[side+'_id'],'hitters':a['roster'][side]['hitters'],'starter':a['roster'][side]['starter'],'batting_basis':'official_confirmed_starting_lineup','starter_basis':'official_explicit_start_flag'} for side in ('home','away')}}
+ dates={'g':date(2024,4,1),**{'old'+str(i):date(2024,3,20+i) for i in range(5)}};proof={side+'_lineup':{'basis':'projected_from_prior_games','player_ids':a['roster'][side]['hitters'],'source_fixture_ids':['old0']} for side in ('home','away')};proof.update({side+'_starter':{'basis':'projected_from_prior_games','player_id':a['roster'][side]['starter'],'rotation_candidates':[{'player_id':a['roster'][side]['starter'] if i==0 else side+str(i),'date':str(dates['old'+str(i)]),'fixture_id':'old'+str(i)} for i in range(5)]} for side in ('home','away')})
+ return pairs,lineage,{'g':evidence},{'g':proof},dates
+
+@pytest.mark.parametrize('selector',['projected','actual'])
+@pytest.mark.parametrize('side',['home','away'])
+@pytest.mark.parametrize('role',['lineup','starter'])
+def test_snapshot_rejects_history_owned_by_wrong_selected_player(selector,side,role):
+ import workflow
+ pairs,lineage,evidence,proof,dates=paired_owned_histories();assert len(workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})[selector])==1
+ target=lineage[selector]['g'][side+'_'+role+'_strength']['value']
+ if role=='lineup':target[0]['player_id']='wrong0'
+ else:target['projected_player_id']='wrong_starter'
+ with pytest.raises(ValueError,match='player history not aligned'):workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})
+
+def test_snapshot_rejects_reordered_lineup_but_preserves_unknown_or_absent_histories():
+ import workflow
+ pairs,lineage,evidence,proof,dates=paired_owned_histories();lineup=lineage['actual']['g']['home_lineup_strength']['value'];lineup[0],lineup[1]=lineup[1],lineup[0]
+ with pytest.raises(ValueError,match='lineup player history not aligned'):workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})
+ # A newly seen ID is valid if its selected-roster ID and profile match; no historical stats are required.
+ pairs,lineage,evidence,proof,dates=paired_owned_histories();assert all(p['history'] is None for p in lineage['actual']['g']['home_lineup_strength']['value']);assert workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})
+ # An absent feature history remains missing instead of fabricating a player.
+ lineage['actual']['g']['home_lineup_strength']['value']=None;lineage['actual']['g']['home_starter_strength']['value']=None;assert workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})
+
+@pytest.mark.parametrize('selector',['projected','actual'])
+@pytest.mark.parametrize('role',['lineup','starter'])
+def test_overlay_normalization_uses_same_owner_checks(selector,role):
+ pairs,lineage,evidence,proof,dates=paired_owned_histories();overlay={'fixture_id':'g','availability_tier':'retrospective_unproven','received_at':None,'completed_at':None,'features':{k:empty_entry() for k in m.FEATURES},'projection':proof['g']};overlay['features'].update(copy.deepcopy(lineage[selector]['g']))
+ base=pairs[selector][0];ev=evidence['g'] if selector=='actual' else None
+ assert source.normalize_overlay(base,overlay,selector,ev,dates,{'a'*64})[0]['fixture_id']=='g'
+ obj=overlay['features']['home_'+role+'_strength']['value']
+ if role=='lineup':obj[0]['player_id']='wrong0'
+ else:obj['projected_player_id']='wrong_starter'
+ with pytest.raises(ValueError,match='player history not aligned'):source.normalize_overlay(base,overlay,selector,ev,dates,{'a'*64})
+
+def test_missing_projected_starter_cannot_own_a_starter_profile():
+ a=row();a['roster']['home']['starter']=None;lineage={k:empty_entry() for k in m.PLAYER};lineage['home_starter_strength']['value']={'projected_player_id':None,'appearances':[]}
+ with pytest.raises(ValueError,match='starter player history not aligned'):m.validate_history_owners(a,lineage)
+ lineage['home_starter_strength']['value']=None;m.validate_history_owners(a,lineage)
+
+def test_consistent_unseen_player_is_neutral_not_identity_mismatch():
+ import workflow
+ pairs,lineage,evidence,proof,dates=paired_owned_histories();target=pairs['actual'][0];train=copy.deepcopy(target);train['roster']['home']['hitters']=['train'+str(i) for i in range(9)];train['roster']['home']['starter']='train_starter';spec=m.original.make_spec([train])
+ assert m.original.side_features(target,'home',spec)[1]==1.0
+ assert m.original.side_features(target,'away',spec)[3]==1.0
+ assert workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})

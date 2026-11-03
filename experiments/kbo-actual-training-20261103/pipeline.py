@@ -66,6 +66,13 @@ def validate_lineage(fid,event_date,lineage,known_dates):
    for game in value['games']:
     if type((game.get('relief') or {}).get('outs')) is not int or game['relief']['outs']<0:raise ValueError('invalid relief outs')
 
+def validate_history_owners(row,lineage):
+ """Available histories must belong to the selected ordered roster and starter."""
+ for side in ('home','away'):
+  lineup=lineage[side+'_lineup_strength']['value'];starter=lineage[side+'_starter_strength']['value'];roster=row['roster'][side]
+  if lineup is not None and [person['player_id'] for person in lineup]!=roster['hitters']:raise ValueError('lineup player history not aligned')
+  if starter is not None and (roster['starter'] is None or starter['projected_player_id']!=roster['starter']):raise ValueError('starter player history not aligned')
+
 def validate_pairs(projected,actual,expected_seasons=None):
  a=index(projected);b=index(actual)
  if set(a)!=set(b):raise ValueError('matched fixture sets differ')

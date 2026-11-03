@@ -51,8 +51,5 @@ def normalize_overlay(base,overlay,selector,evidence,known_dates,verified_hashes
  features={k:{'value':pipeline.original.adapter.scalar(k,v['value'])} for k,v in overlay['features'].items()};row={k:base[k] for k in ('fixture_id','season','event_date','home_id','away_id')};row.update({'features':features,'roster':side_roster});pipeline.validate_row(row,selector=='actual');lineage={k:overlay['features'][k] for k in pipeline.PLAYER};pipeline.validate_lineage(row['fixture_id'],row['event_date'],lineage,known_dates)
  if selector=='projected':validate_projected_identity(row,overlay['projection'],known_dates)
  else:validate_official_identity(row,evidence,verified_hashes)
- for side in ('home','away'):
-  line=overlay['features'][side+'_lineup_strength']['value'];starter=overlay['features'][side+'_starter_strength']['value']
-  if line is not None and [x['player_id'] for x in line]!=side_roster[side]['hitters']:raise ValueError('lineup player history not aligned')
-  if starter is not None and starter['projected_player_id']!=side_roster[side]['starter']:raise ValueError('starter player history not aligned')
+ pipeline.validate_history_owners(row,lineage)
  return row,lineage
