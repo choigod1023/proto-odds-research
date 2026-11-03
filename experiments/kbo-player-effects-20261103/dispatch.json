@@ -1,0 +1,298 @@
+{
+  "schema": "manual-kbo-roster-effects-dispatch-v1",
+  "contract_commit": "7ceda125",
+  "contract_sha256": "6ffdf7947559df052c248a1f9fb5e7ad871321f52e7920126934bf21771465ed",
+  "workers": [
+    {
+      "role": "data_feasibility",
+      "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+      "status": "completed"
+    },
+    {
+      "role": "model",
+      "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
+      "status": "completed",
+      "target_workspace": "C:/Users/user/Documents/Codex/kbeffects",
+      "commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+      "pr": 531
+    },
+    {
+      "role": "independent_review",
+      "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
+      "status": "completed",
+      "target_workspace": "C:/Users/user/Documents/Codex/kbereview",
+      "pr": 530,
+      "commit": "b0dd76f1a740470769449381fd17fd7c7f03bed1"
+    }
+  ],
+  "parent_validation": {
+    "immutable_contracts_and_both_autocrlf_modes": 2,
+    "v1_independent_predictions": 4254,
+    "v1_independent_Decimal_settlements": 26376,
+    "v2_independent_predictions": 1418,
+    "v2_independent_Decimal_settlements": 8792,
+    "same_fixture_and_price_counts": true,
+    "model_tests_passed": 51,
+    "paired_missingness_original_design_collision_reproduced": true
+  },
+  "automatic_model_adoption": false,
+  "production_changes": false,
+  "automation_queue_changes": false,
+  "wallet_changed": false,
+  "monthly_simulation_limit_krw": 50000,
+  "model_prediction_commit": "433d915aa52727de4af128cd9e614ca80aa8aa72",
+  "selection_sha256": "27c995c0d66bbc9a1e9c1a741735540adb21355ba76fbfac4eb4eff8a650eebb",
+  "selected_family": "M2",
+  "selected_player_penalties": {
+    "M1": 100.0,
+    "M2": 100.0
+  },
+  "validation_2025": {
+    "M0": {
+      "accuracy": 0.5244565217391305,
+      "brier": 0.5425592721673187,
+      "hits": 386,
+      "logloss": 0.8667088928346843,
+      "n": 736
+    },
+    "M1": {
+      "accuracy": 0.5285326086956522,
+      "brier": 0.5600710713110876,
+      "hits": 389,
+      "logloss": 0.8922110401596032,
+      "n": 736
+    },
+    "M2": {
+      "accuracy": 0.5448369565217391,
+      "brier": 0.5265569336934598,
+      "hits": 401,
+      "logloss": 0.8107510092352548,
+      "n": 736
+    }
+  },
+  "retrospective_2026_not_scored_in_parent_yet": false,
+  "model_result_commit": "2156ec6b2c7c54a104c051c5cddc5a9d0b9d46f7",
+  "model_pr": 531,
+  "review_pr": 530,
+  "parent_replay": {
+    "independent_predictions": 4254,
+    "decimal_settlements": 26376,
+    "status": "PASS"
+  },
+  "results_2026": {
+    "official_batting_and_starter": {
+      "M0": {
+        "hits_3way": 403,
+        "n_3way": 709,
+        "logloss_3way": 0.8456724068155381,
+        "brier_3way": 0.527238987619408,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.08299850074962518,
+        "net_units": "-55.36"
+      },
+      "M1": {
+        "hits_3way": 370,
+        "n_3way": 709,
+        "logloss_3way": 0.8733549454555192,
+        "brier_3way": 0.5472196486990641,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.13157421289355323,
+        "net_units": "-87.76"
+      },
+      "M2": {
+        "hits_3way": 389,
+        "n_3way": 709,
+        "logloss_3way": 0.7713507263856147,
+        "brier_3way": 0.5083528556335304,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.08731634182908546,
+        "net_units": "-58.24"
+      },
+      "old_fixed": {
+        "hits_3way": 403,
+        "n_3way": 709,
+        "logloss_3way": 0.8454701287889971,
+        "brier_3way": 0.5270687676196767,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.08262368815592204,
+        "net_units": "-55.11"
+      }
+    },
+    "projected": {
+      "M0": {
+        "hits_3way": 398,
+        "n_3way": 709,
+        "logloss_3way": 0.8476298888795561,
+        "brier_3way": 0.5288939965726187,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09703148425787106,
+        "net_units": "-64.72"
+      },
+      "M1": {
+        "hits_3way": 387,
+        "n_3way": 709,
+        "logloss_3way": 0.8749572761486657,
+        "brier_3way": 0.5480542547701834,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09655172413793103,
+        "net_units": "-64.40"
+      },
+      "M2": {
+        "hits_3way": 390,
+        "n_3way": 709,
+        "logloss_3way": 0.7718860193816567,
+        "brier_3way": 0.50898024718308,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09022488755622189,
+        "net_units": "-60.18"
+      },
+      "old_fixed": {
+        "hits_3way": 398,
+        "n_3way": 709,
+        "logloss_3way": 0.8473827936424743,
+        "brier_3way": 0.5287131889731728,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09625187406296852,
+        "net_units": "-64.20"
+      }
+    }
+  },
+  "model_tests_passed": 47,
+  "draw_diagnostic_artifact": "PR531 2156ec6b2c7c54a104c051c5cddc5a9d0b9d46f7:experiments/kbo-player-effects-20261103/artifacts/draw-diagnostic.json",
+  "coverage_diagnostic": {
+    "learned_hitter_ids": 389,
+    "learned_starter_role_ids": 228,
+    "official_hitter_slots": 12762,
+    "official_hitter_slots_not_in_training_vocabulary": 988,
+    "official_starter_slots": 1418,
+    "official_starter_slots_not_in_training_vocabulary": 447,
+    "neutral_player_coefficient_is_not_missing_all_numeric_history": true,
+    "predictive_not_causal_effects": true
+  },
+  "interpretation": {
+    "no_consistent_hit_and_roi_superiority": true,
+    "M2_threeway_loss_improved": "mostly draw probability calibration, also modest conditional home-away log loss improvement",
+    "M0_mean_draw_projected": 0.1261,
+    "observed_draw_games": 16,
+    "observed_games": 709,
+    "no_new_candidate_added_after_results": true,
+    "M2_mean_draw_projected_v1_rounded": 0.0193,
+    "M2_mean_draw_projected_v2": 0.019505109940218195
+  },
+  "original_version_status": "numeric_results_reproduced_but_M2_paired_missingness_cancellation_confirmed",
+  "correction": {
+    "preregistered_after_original_results": true,
+    "parent_commit": "ebe25eb7",
+    "contract_file": "implementation-correction-1.json",
+    "sha256": "c368b227534310a67a46a7f80b510867ae14e3bb936d3dd8eed03f085d9f06f6",
+    "same_families_and_penalty_grid": true,
+    "status": "independently_audited",
+    "original_results_preserved": true,
+    "model_result_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+    "prediction_commit": "18c2e84d6962f9016b20996e543e5b4bb6c70975",
+    "selected_family": "M2",
+    "selected_player_penalty": 100.0,
+    "unchanged_M0_M1_verified": true,
+    "tests_passed": 51,
+    "review_commit": "b0dd76f1a740470769449381fd17fd7c7f03bed1",
+    "model_local_tests_passed": 51,
+    "independent_auditor_tests_passed": 16
+  },
+  "results_v2_2026": {
+    "official_batting_and_starter": {
+      "M0": {
+        "hits_3way": 403,
+        "n_3way": 709,
+        "logloss_3way": 0.8456724068155381,
+        "brier_3way": 0.527238987619408,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.08299850074962518,
+        "net_units": "-55.36"
+      },
+      "M1": {
+        "hits_3way": 370,
+        "n_3way": 709,
+        "logloss_3way": 0.8733549454555192,
+        "brier_3way": 0.5472196486990641,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.13157421289355323,
+        "net_units": "-87.76"
+      },
+      "M2": {
+        "hits_3way": 390,
+        "n_3way": 709,
+        "logloss_3way": 0.7723462972485765,
+        "brier_3way": 0.5093239052425897,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.08512743628185906,
+        "net_units": "-56.78"
+      },
+      "old_fixed": {
+        "hits_3way": 403,
+        "n_3way": 709,
+        "logloss_3way": 0.8454701287889971,
+        "brier_3way": 0.5270687676196767,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.08262368815592204,
+        "net_units": "-55.11"
+      }
+    },
+    "projected": {
+      "M0": {
+        "hits_3way": 398,
+        "n_3way": 709,
+        "logloss_3way": 0.8476298888795561,
+        "brier_3way": 0.5288939965726187,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09703148425787106,
+        "net_units": "-64.72"
+      },
+      "M1": {
+        "hits_3way": 387,
+        "n_3way": 709,
+        "logloss_3way": 0.8749572761486657,
+        "brier_3way": 0.5480542547701834,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09655172413793103,
+        "net_units": "-64.40"
+      },
+      "M2": {
+        "hits_3way": 395,
+        "n_3way": 709,
+        "logloss_3way": 0.7723144827133579,
+        "brier_3way": 0.509550260415788,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.07929535232383808,
+        "net_units": "-52.89"
+      },
+      "old_fixed": {
+        "hits_3way": 398,
+        "n_3way": 709,
+        "logloss_3way": 0.8473827936424743,
+        "brier_3way": 0.5287131889731728,
+        "same_price_n": 667,
+        "roi_including_refunds": -0.09625187406296852,
+        "net_units": "-64.20"
+      }
+    }
+  },
+  "next_hypotheses_not_executed": [
+    "performance-based prior for unseen hitter/starter identities",
+    "uniform verified actual lineup training inputs across seasons",
+    "separate conditional win-direction and draw calibration diagnostics"
+  ],
+  "completed_at_utc": "2026-11-03T04:56:19.456805+00:00",
+  "status": "finite_comparison_and_minimal_regression_fix_complete",
+  "review_commit": "b0dd76f1a740470769449381fd17fd7c7f03bed1",
+  "latest_model_ci": "python_3_11_and_3_12_pending_at_handoff",
+  "roi_difference_ci95_percentage_points": {
+    "v2_M2_minus_M0_projected": [
+      -4.639615892581993,
+      8.871582714185672
+    ],
+    "v2_M2_minus_M0_official": [
+      -7.602304136011137,
+      7.242757204510644
+    ]
+  }
+}
