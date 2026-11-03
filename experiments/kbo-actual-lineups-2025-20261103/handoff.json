@@ -1,0 +1,47 @@
+{
+  "status": "ready_for_join",
+  "season": 2025,
+  "source_population": 736,
+  "processed": {
+    "lineups": 736,
+    "pitcher_records": 736
+  },
+  "counts": {
+    "complete_verified": 731,
+    "official_lineup_confirmed": 731,
+    "both_actual_starters": 736,
+    "source_kickoff_mismatches": 9,
+    "encoded_year_alias_verified": 16,
+    "changed_scheduled_starters_verified": 0,
+    "starter_name_change_or_alias_verified": 2
+  },
+  "daily_disambiguated_pitchers": 5,
+  "exclusion_reasons": {
+    "lineup_flag_false": 5,
+    "complete_verified_lineup_unavailable": 5
+  },
+  "player_exclusion_reasons": {},
+  "artifacts": {
+    "lineups": "actual-lineups-2025.jsonl.gz",
+    "identity_candidates": "identity-candidates-2025.jsonl.gz",
+    "raw_evidence": "raw-evidence.jsonl.gz",
+    "daily_identity": "pitcher-daily-identity.json",
+    "unconfirmed_review": "unconfirmed-review.json",
+    "manifest": "manifest.json"
+  },
+  "lineups_sha256": "dc7e9b3b539a8e34e2023240990c966946f4e42ae242c515b5efb63d0a0620c5",
+  "identity_candidates_sha256": "96a92e22458cb93822df4ff573a7f1f34cf0f76cfc1f74fff10948ea00275644",
+  "raw_evidence_sha256": "8a214d0e87c8dd84aa9178ae0c2bb8786dadb8c5c6eb4320e6d00e8943833b56",
+  "daily_identity_sha256": "122b959a62cba5402410aade27a4b44cea24305fb14e83484a9349e7613e11b2",
+  "unconfirmed_review_sha256": "6de038f9768d9053b86a1364a1ab7adf1167e725fc1b08dc2693630eb3d8182e",
+  "manifest_sha256": "8e4063a12e885b62fec5c5ebf8e3786ba4b7ae6698adf67f22881f3418f83db2",
+  "contract_sha256": "512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480",
+  "source_rows_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+  "new_requests": 1892,
+  "request_cap": 2400,
+  "historical_receipt_proven": false,
+  "historical_publication_time_proven": false,
+  "actual_batting_starter_changes_verified": false,
+  "target_game_stats_in_features": false,
+  "notes": "Official confirmed batting lineups and verified actual pitcher markers; announcement-to-start batting changes and historical receipt remain unverified. Exclusions must remain excluded."
+}
