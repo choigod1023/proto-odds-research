@@ -1,0 +1,237 @@
+{
+  "audit_command": "python experiments/kbo-actual-training-data-20261103/audit_paired_inputs.py",
+  "audit_summary": {
+    "excluded_fixture_prior_history_references": 1843,
+    "shared_batter_histories": 41152,
+    "test_pairs": 709,
+    "train_pairs": 2182
+  },
+  "contract_sha256": "512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480",
+  "excluded_fixture_count": 5,
+  "excluded_fixture_history": "prior valid source records remain eligible for later fixtures",
+  "excluded_fixtures": [
+    {
+      "fixture_id": "20250930HTSS02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ],
+      "season": 2025
+    },
+    {
+      "fixture_id": "20250930KTNC02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ],
+      "season": 2025
+    },
+    {
+      "fixture_id": "20250930LTHH02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ],
+      "season": 2025
+    },
+    {
+      "fixture_id": "20250930OBLG02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ],
+      "season": 2025
+    },
+    {
+      "fixture_id": "20250930SKWO02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ],
+      "season": 2025
+    }
+  ],
+  "input_manifest_path": "experiments/kbo-actual-training-data-20261103/paired-inputs-manifest.json",
+  "input_manifest_sha256": "8be3db58b4915383acd1f375a1e244840c22fcf6b2a2a40cf71a9bf5441e84f9",
+  "inputs": {
+    "test-actual": {
+      "path": "experiments/kbo-actual-training-data-20261103/paired-test-actual.jsonl.gz",
+      "sha256": "f904267d65e790fbde663b2280f0489b6d8a9df26a73f5e9c9ca713bc0a64a5d"
+    },
+    "test-projected": {
+      "path": "experiments/kbo-actual-training-data-20261103/paired-test-projected.jsonl.gz",
+      "sha256": "2ef8e3a7f17b9f43262b875d3b913f0420e23f31a25aaba8f943131445a35bc6"
+    },
+    "train-actual": {
+      "path": "experiments/kbo-actual-training-data-20261103/paired-train-actual.jsonl.gz",
+      "sha256": "0d760f7cc1f993792d8ab5e697a9e77c903e5abc4f90823730baabcdc1c4adf9"
+    },
+    "train-projected": {
+      "path": "experiments/kbo-actual-training-data-20261103/paired-train-projected.jsonl.gz",
+      "sha256": "300da51d893770af62317ef975efec8e37edd5a60445c3c545daadf3e7a39eb8"
+    }
+  },
+  "limitations": [
+    "retrospective_not_blind",
+    "historical_receipt_and_publication_unproven",
+    "confirmed_official_batting_lineup_not_verified_post_announcement_change",
+    "2024_source_128_request_spacing_violations_documented",
+    "no_model_fit_predictions_or_performance"
+  ],
+  "other_tests": [
+    "test_2023_poison.py",
+    "test_2024_poison.py",
+    "test_2025_poison.py",
+    "test_2026_poison.py",
+    "test_pinned_history.py"
+  ],
+  "rebuild_argv": [
+    "python",
+    "experiments/kbo-actual-training-data-20261103/assemble_paired.py",
+    "--source",
+    "2023",
+    "C:/Users/user/Documents/Codex/kbtdata",
+    "c4e6bdb67784ceaf76e39707e1b8083f222c0a7d",
+    "experiments/kbo-actual-training-data-20261103/actual-rosters-2023.jsonl.gz",
+    "--source",
+    "2024",
+    "C:/Users/user/Documents/Codex/kbt24",
+    "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+    "experiments/kbo-actual-2024-20261103/rosters.jsonl",
+    "--source",
+    "2025",
+    "C:/Users/user/Documents/Codex/kbt25",
+    "11aa00812d45fdcf35e462413acfc48935dd530d",
+    "experiments/kbo-actual-lineups-2025-20261103/actual-lineups-2025.jsonl.gz",
+    "--verification",
+    "C:/Users/user/Documents/Codex/kbtdata",
+    "c4e6bdb67784ceaf76e39707e1b8083f222c0a7d",
+    "experiments/kbo-actual-training-data-20261103/actual-starters-2026.jsonl.gz"
+  ],
+  "row_schema": {
+    "away_id": "str",
+    "event_date": "YYYY-MM-DD",
+    "features": "model adapter scalar entries {name:{value}}",
+    "fixture_id": "str",
+    "historical_receipt_proven": "false",
+    "home_id": "str",
+    "raw_features": "past-only original history entries with provenance",
+    "roster": "{home,away}:{hitters ordered IDs or null, starter ID or null}",
+    "season": "int"
+  },
+  "selector_match_counts_by_year": {
+    "2023": {
+      "lineup_comparable_games": 716,
+      "lineup_comparable_sides": 1434,
+      "lineup_missing_sides": 12,
+      "lineup_same_order_both_sides_games": 2,
+      "lineup_same_order_sides": 115,
+      "lineup_same_set_sides": 171,
+      "starter_comparable_games": 683,
+      "starter_comparable_sides": 1383,
+      "starter_missing_sides": 63,
+      "starter_same_id_both_sides_games": 278,
+      "starter_same_id_sides": 809
+    },
+    "2024": {
+      "lineup_comparable_games": 722,
+      "lineup_comparable_sides": 1449,
+      "lineup_missing_sides": 7,
+      "lineup_same_order_both_sides_games": 7,
+      "lineup_same_order_sides": 136,
+      "lineup_same_set_sides": 196,
+      "starter_comparable_games": 720,
+      "starter_comparable_sides": 1448,
+      "starter_missing_sides": 8,
+      "starter_same_id_both_sides_games": 250,
+      "starter_same_id_sides": 810
+    },
+    "2025": {
+      "lineup_comparable_games": 713,
+      "lineup_comparable_sides": 1433,
+      "lineup_missing_sides": 29,
+      "lineup_same_order_both_sides_games": 2,
+      "lineup_same_order_sides": 92,
+      "lineup_same_set_sides": 167,
+      "starter_comparable_games": 713,
+      "starter_comparable_sides": 1437,
+      "starter_missing_sides": 25,
+      "starter_same_id_both_sides_games": 285,
+      "starter_same_id_sides": 854
+    },
+    "2026": {
+      "lineup_comparable_games": 688,
+      "lineup_comparable_sides": 1396,
+      "lineup_missing_sides": 22,
+      "lineup_same_order_both_sides_games": 4,
+      "lineup_same_order_sides": 96,
+      "lineup_same_set_sides": 161,
+      "starter_comparable_games": 709,
+      "starter_comparable_sides": 1418,
+      "starter_same_id_both_sides_games": 300,
+      "starter_same_id_sides": 858
+    }
+  },
+  "source_rosters": {
+    "2023": {
+      "commit": "c4e6bdb67784ceaf76e39707e1b8083f222c0a7d",
+      "handoff_sha256_lf": "946b8a4b5e25fae73ed1a4213aa665fd9f260b38a5be5ee4b12d29dda7277f8a",
+      "manifest_sha256": "30860c1a6bcb50be819e48d1e0e7289ecae783fd83aa3558630e27f647c46af7",
+      "path": "experiments/kbo-actual-training-data-20261103/actual-rosters-2023.jsonl.gz",
+      "population": 723,
+      "raw_bundle_sha256": "f8d07586349e907d5acaa16103b5648489d452f1e533652715108e9b40b4ef15",
+      "sha256": "53ea290c9bfe40dd792ddfd6b952faae4ee2d151176e0729a00abd8d216c9ff4",
+      "statuses": {
+        "complete": 723
+      }
+    },
+    "2024": {
+      "commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+      "handoff_and_verification_sha256_lf": {
+        "README.md": "6eb5cc67cf68999651b92d11fc171e34456c37eb2f9d8e87e5ee3a00280c7706",
+        "verification.md": "7346f902afd86c14731e17998e088b9b49c52e3c7e5caeb413260d6c9c4ae27a"
+      },
+      "manifest_sha256": "87c9def24b8a084423e1645984f2d9be86b041f39e79f5edaacb910eb86009fb",
+      "path": "experiments/kbo-actual-2024-20261103/rosters.jsonl",
+      "population": 728,
+      "raw_bundle_sha256": "512bed8407fca4132d2497e2dcc7b1ee43cd92133d7ffbe1e65d4ff4eae88800",
+      "request_spacing_note": "Earlier restart left overlapping collection processes; both were stopped, evidence hashes checked, and an exclusive lock added.",
+      "request_spacing_violations_under_1_5_seconds": 128,
+      "sha256": "2c56d0139dd6de89777aefe9e74d3e925af5bb9dafc3d4603c68f44fd640d485",
+      "statuses": {
+        "complete": 728
+      }
+    },
+    "2025": {
+      "commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
+      "daily_identity_sha256": "122b959a62cba5402410aade27a4b44cea24305fb14e83484a9349e7613e11b2",
+      "handoff_sha256": "1a1f662a089d56eac62268dedcc869a75f77cf5710c41c246a1b694d6b900a76",
+      "manifest_sha256": "8e4063a12e885b62fec5c5ebf8e3786ba4b7ae6698adf67f22881f3418f83db2",
+      "new_requests": 1892,
+      "path": "experiments/kbo-actual-lineups-2025-20261103/actual-lineups-2025.jsonl.gz",
+      "population": 736,
+      "raw_bundle_sha256": "8a214d0e87c8dd84aa9178ae0c2bb8786dadb8c5c6eb4320e6d00e8943833b56",
+      "sha256": "dc7e9b3b539a8e34e2023240990c966946f4e42ae242c515b5efb63d0a0620c5",
+      "source_kickoff_mismatches": 9,
+      "statuses": {
+        "complete": 731,
+        "excluded": 5
+      },
+      "unconfirmed_review_sha256": "6de038f9768d9053b86a1364a1ab7adf1167e725fc1b08dc2693630eb3d8182e"
+    }
+  },
+  "status": "ready_for_model_worker",
+  "test_verified_actual": 709,
+  "training_by_year": {
+    "2023": 723,
+    "2024": 728,
+    "2025": 731
+  },
+  "verification": {
+    "commit": "c4e6bdb67784ceaf76e39707e1b8083f222c0a7d",
+    "manifest_sha256": "7be3c13dd94c3529a71aae9c9d3eac15e6620d8720f6cde8726b7fe2fb5f94cf",
+    "path": "experiments/kbo-actual-training-data-20261103/actual-starters-2026.jsonl.gz",
+    "raw_bundle_sha256": "1203fd23f085c56937273a5a42c0780ed703369b4b715fededc0a84a82e6e786",
+    "sha256": "ca1d6dbc1f301ee4681237cbf1cd864df5079a3ab9364c2f7b50129a9574a69d"
+  }
+}
