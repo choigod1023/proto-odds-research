@@ -1,5 +1,5 @@
 """Locked-recipe cross-period diagnostic; no new parameter/period selection."""
-import gzip,hashlib,json,math,subprocess,sys
+import argparse,gzip,hashlib,json,math,subprocess,sys
 from pathlib import Path
 P=Path(__file__).resolve().parent;REPO=P.parents[1];BASE="experiments/kbo-m0-followup-20261103/";sys.path.insert(0,str(P/"vendor/evolution/common"));import core
 import metrics,outcome_metrics
@@ -44,7 +44,8 @@ def summarize(predictions,labels,quotes,targets):
  result["price_roi_delta"]=None if not quotes else result["price"]["equal_ensemble"]["roi"]-result["price"]["baseline"]["roi"]
  return result
 
-def main():
+def main(verify=False):
+ core.verify()
  mf=fixed("0fe05367fc85e71f2df2784c6ddf50fb017bcba2",BASE+"source-manifest.json")
  if hashlib.sha256((P/"contract.json").read_bytes()).hexdigest()!=mf["contract_sha256"]:raise ValueError("followup contract changed")
  history=core.rows("train-actual.jsonl.gz");targets={year:[r for r in history if r["season"]==year] for year in (2024,2025)};targets[2026]=core.rows("test-actual.jsonl.gz")
@@ -67,10 +68,14 @@ def main():
    t=[r for r in targets[year] if (1 if r["event_date"][5:7]<="06" else 2)==half];fids={r["fixture_id"] for r in t}
    if not t:continue
    ps={name:[r for r in rs if r["fixture_id"] in fids] for name,rs in predictions[year].items()};ls={f:labels[year][f] for f in fids};qs=[r for r in prices[year] if r["fixture_id"] in fids];result["halves"][str(year)][str(half)]=summarize(ps,ls,qs,t)
- result["2026_strict_price_sensitivity"]=summarize(pred26,labels[2026],[r for r in tiers26["strict_original_time_match"] if r["fixture_id"] in ids],targets[2026]);result["data_join_limitation"]=handoff["draw_selection_limitation"];result["source_hashes"]=SOURCES;core.dump(P/"results.json",result)
+ result["2026_strict_price_sensitivity"]=summarize(pred26,labels[2026],[r for r in tiers26["strict_original_time_match"] if r["fixture_id"] in ids],targets[2026]);result["data_join_limitation"]=handoff["draw_selection_limitation"];result["source_hashes"]=SOURCES
+ if verify:
+  if json.loads((P/"results.json").read_bytes())!=result:raise ValueError("committed cross-period results differ")
+ else:core.dump(P/"results.json",result)
  for year,d in result["annual"].items():
   print(year,{k:v for k,v in d["coverage"].items() if k!="excluded_ids"})
   for name in ("baseline","shrink","nb03","equal_ensemble"):
    m=d["outcome"][name];z=d["price"][name];print(name,m["hits"],round(m["accuracy"]*100,4),z["n"],z["net_units"],round(z["roi"]*100,4),z["max_daily_close_drawdown_units"])
   print("ROI_deltaCI%",[round(100*v,4) for v in d["price_paired_ensemble_minus_baseline"]["roi_delta_ci95"]])
-if __name__=="__main__":main()
+if __name__=="__main__":
+ parser=argparse.ArgumentParser();parser.add_argument("--verify",action="store_true");main(parser.parse_args().verify)

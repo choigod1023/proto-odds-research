@@ -50,3 +50,10 @@ def test_committed_year_results_match_known_denominators():
     assert [(z["coverage"]["target_n"],z["coverage"]["price_n"]) for z in d["annual"].values()]==[(728,714),(731,676),(709,667)]
     assert all(len(d["halves"][str(y)])==2 for y in (2024,2025,2026))
     assert d["parameters_or_weights_reselected"] is False and d["prospective_verified_settlements"]==0
+
+
+def test_full_frozen_scoring_replays_without_overwriting(capsys):
+    before=(s.P/"results.json").read_bytes()
+    s.main(verify=True)
+    assert (s.P/"results.json").read_bytes()==before
+    assert "2024" in capsys.readouterr().out
