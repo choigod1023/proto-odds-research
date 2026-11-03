@@ -1,0 +1,28 @@
+{
+  "protocol": "kbo-m0-vs-equal-forward-v1",
+  "frozen_source_commit": "2c4dfc5af0d754cc0f1693415ebbd9b8fbd3b09d",
+  "models": [
+    "baseline",
+    "equal_ensemble"
+  ],
+  "training": "2023-25 fixed coefficients; no refit or threshold search",
+  "paired_same_snapshot": true,
+  "cutoff_minutes": 30,
+  "first_complete_snapshot_immutable": true,
+  "prior_history_calendar_date_only": true,
+  "market": "explicit complete official full_game_2way(drawrefund) or full_game_3way(drawloss/win); never relabel",
+  "first_formal_review": {
+    "matched_settled": 200,
+    "span_days": 56,
+    "minimum_not_proof": true
+  },
+  "runtime": "separate local scheduled task; this PC must be awake/online; no production or existing schedules changed",
+  "preserve": [
+    "production recommendation policy",
+    "existing monthly50000KRW simulation ledger",
+    "all earlier frozen forecasts"
+  ],
+  "real_betting": false,
+  "source_evidence": "direct bounded HTTPS received UTC, raw byte SHA, parsed official identity and product, no caller supplied flags",
+  "notification": "new result summary or failure only; unchanged state silent"
+}
