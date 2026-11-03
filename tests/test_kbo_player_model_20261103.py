@@ -144,3 +144,20 @@ def test_date_only_retrospective_never_passes_strict_or_fabricates_receipts():
     with pytest.raises(ValueError):m.validate_rows([row])
     row['features']['home_team_strength']['value']=1;row['features']['home_team_strength']['history_latest_date']=row['event_date']
     with pytest.raises(ValueError,match='date-only'):m.validate_rows([row],allow_retrospective_dates=True)
+
+def test_archive_price_is_explicit_and_never_promoted_to_verified(prepared):
+    rows,labels,p=prepared; rows=copy.deepcopy(rows); labels=copy.deepcopy(labels)
+    for row in rows:
+        row['availability_tier']='retrospective_unproven';row['event_date']=row['kickoff_at'][:10]
+        row['decision_time_basis']='hypothetical';row['identity_basis']='archive'
+        row['market']['odds_observed_at']=None;row['market']['settlement_rule']='draw_void_refund'
+        for source in row['sources']:source['received_at']=None
+    for label in labels:label['settlement_rule']='draw_void_refund'
+    target=[x for x in labels if x['fixture_id'].startswith('2026-')]
+    verified,_=r.report(rows,p,target,assume_prior_calendar_day=True)
+    assert verified['models']['player']['matched_price_final']==0
+    assert verified['models']['player']['candidate']['roi_including_refunds'] is None
+    archive,_=r.report(rows,p,target,assume_prior_calendar_day=True,archived_price_scenario=True)
+    assert archive['models']['player']['matched_price_final']==30
+    assert archive['price_scenario']=='archived_assumed_not_verified'
+    with pytest.raises(ValueError,match='requires retrospective'):r.report(rows,p,target,archived_price_scenario=True)

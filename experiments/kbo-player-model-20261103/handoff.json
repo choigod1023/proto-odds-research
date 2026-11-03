@@ -1,16 +1,53 @@
 {
-  "status": "ready_for_data",
+  "status": "ready_for_independent_review",
   "branch": "codex/kbo-player-model-20261103",
   "base": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "coordinator_protocol": "867afbdd",
   "model_protocol": "b12cf82a",
   "ablation_addendum": "61f3ec7d",
   "retrospective_addendum": "9babf4e1",
-  "actual_input_path": null,
-  "actual_input_sha256": null,
+  "actual_input_path": "C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103",
+  "actual_input_sha256": {
+    "rows.jsonl": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+    "labels.jsonl": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+    "prior-projected-features.jsonl.gz": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae"
+  },
   "data_worker_expected": "experiments/kbo-player-data-20261103/{rows.jsonl,labels.jsonl,inventory.json,handoff.json}",
-  "actual_split_counts": null,
-  "actual_metrics": null,
+  "actual_split_counts": {
+    "train_2023_2024": 1451,
+    "validation_2025": 736,
+    "diagnostic_2026": 726,
+    "confirmed_pregame_and_executable_price": 0,
+    "archived_price_scenario": 354,
+    "scenario_draws": 0
+  },
+  "actual_metrics": {
+    "player": {
+      "hits": 212,
+      "n": 354,
+      "roi": -0.051440677966101696,
+      "logloss": 0.6782741891847888,
+      "brier": 0.4849651273557489
+    },
+    "market": {
+      "hits": 208,
+      "n": 354,
+      "roi": -0.10290960451977402,
+      "logloss": 0.6669350997945667,
+      "brier": 0.4743523662082065
+    },
+    "team": {
+      "hits": 209,
+      "n": 354,
+      "roi": -0.06742937853107345
+    },
+    "player_vs_market_accuracy_ci95": [
+      -0.05044979904593772,
+      0.07520956855074615
+    ],
+    "all_726_player_3way_logloss": 0.8502016624497122,
+    "verified_price_roi": null
+  },
   "model": "ridge Poisson score regression; conditional independence; separate team, starter, lineup, bullpen, starter_lineup, player modes",
   "fixed_grid": [
     1,
@@ -22,20 +59,44 @@
     "python -m pytest -q tests/test_kbo_player_model_20261103.py tests/test_devig.py tests/test_market_residual_experiment.py",
     "python -X utf8 experiments/kbo-player-model-20261103/run.py --help"
   ],
-  "targeted_test_result": "34 passed (only synthetic model data)",
+  "targeted_test_result": "37 passed; actual diagnostic independent replay 4248 Decimal settlements, 726 poisoned test labels, max error 3.66e-13",
   "limitations": [
-    "actual input not yet available or executed",
-    "feature contract and tier mapping require independent source audit",
-    "KBO retrospective 2026 not independent blind",
-    "market requires explicit source_id and verified prior receipt",
-    "tipster/current/9:1 inputs unavailable",
-    "5만원 capped wallet replay not implemented; equal unit simulation is not actual wallet",
-    "source timestamps alone do not prove provenance",
-    "prediction artifact must be frozen and sha provided before test scoring"
+    "2026 previously seen, not blind; past-day completion is an assumption",
+    "actual completion/receipt null; archived final scores not independently authenticated",
+    "projected earlier roster is not actual pregame lineup",
+    "all 17 2026 draws have no price, only 354/726 retained for archived-price scenario",
+    "no independently observed historical price or executable price, verified ROI uncomputed",
+    "no linked operating/tipster/9:1 comparisons",
+    "5만원 capped wallet replay not implemented; equal unit scenario not actual wallet",
+    "frozen code hash was computed from CRLF Windows bytes; verification reconstructs from pre-fit commit"
   ],
-  "next": "Data worker delivers exact files and checksums; coordinator independently verifies completeness and requests second phase before any real fit or evaluation.",
+  "next": "Independent review of source mapping, causal cutoffs, prediction freeze, matched accounting and limitations; no model adoption, merge or deployment.",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/512",
   "head": "see git HEAD",
   "implementation_commit": "d2e8a7067d744ccf4849657817bb0652f8bf6ef4",
-  "full_suite": "2257 passed, 6 skipped, 93 subtests passed; collected before final retrospective-label change and new targeted test; final targeted 34 passed"
+  "full_suite": "2257 passed, 6 skipped, 93 subtests passed; collected before final retrospective-label change and new targeted test; final targeted 34 passed",
+  "integration_protocol_commit": "3d468fbf",
+  "pre_fit_code_and_development_data_commit": "5cb48043",
+  "predictions_freeze_commit": "9b920679",
+  "derived_sha256": {
+    "features.jsonl.gz": "346edd84d4388f99cc9ad23f7ad530560445b4bc06b6f841b745dabffa1a8b42",
+    "development-labels.jsonl.gz": "22f3691f1e9017bbcfd9b2bde35ca0f6c208e292f117d056dd5271a80e9f6a33",
+    "predictions.json": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
+    "test-labels.jsonl.gz": "885b5dc0d182fa91d29ea4d74a078fb8835acf817095604106564864d0e19dc9",
+    "results.json": "8c8776c43dc0013056026c83c3b5afaf2d462a7de3e346438b2e71e536408562"
+  },
+  "commands": [
+    "python -m pytest -q tests/test_kbo_player_model_20261103.py tests/test_devig.py tests/test_market_residual_experiment.py",
+    "python -X utf8 experiments/kbo-player-model-20261103/verify_phase2.py"
+  ],
+  "results_path": "experiments/kbo-player-model-20261103/phase2/results.json",
+  "report_path": "experiments/kbo-player-model-20261103/phase2-report.md",
+  "execution_commands": [
+    "python -X utf8 experiments/kbo-player-model-20261103/adapter.py --source C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103 --stage features --assume-prior-calendar-day --output experiments/kbo-player-model-20261103/phase2/features.jsonl.gz",
+    "python -X utf8 experiments/kbo-player-model-20261103/adapter.py --source C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103 --stage development --assume-prior-calendar-day --output experiments/kbo-player-model-20261103/phase2/development-labels.jsonl.gz",
+    "python -X utf8 experiments/kbo-player-model-20261103/run.py predict --rows experiments/kbo-player-model-20261103/phase2/features.jsonl.gz --development-labels experiments/kbo-player-model-20261103/phase2/development-labels.jsonl.gz --assume-prior-calendar-day --output experiments/kbo-player-model-20261103/phase2/predictions.json",
+    "python -X utf8 experiments/kbo-player-model-20261103/adapter.py --source C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103 --stage test --assume-prior-calendar-day --output experiments/kbo-player-model-20261103/phase2/test-labels.jsonl.gz",
+    "python -X utf8 experiments/kbo-player-model-20261103/run.py score --rows experiments/kbo-player-model-20261103/phase2/features.jsonl.gz --predictions experiments/kbo-player-model-20261103/phase2/predictions.json --predictions-sha256 d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317 --test-labels experiments/kbo-player-model-20261103/phase2/test-labels.jsonl.gz --assume-prior-calendar-day --archived-price-scenario --output experiments/kbo-player-model-20261103/phase2/results.json"
+  ],
+  "execution_environment": "OPENBLAS_NUM_THREADS=1, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1; Windows CRLF source bytes from commit 5cb48043"
 }
