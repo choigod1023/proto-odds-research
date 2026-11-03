@@ -1,0 +1,38 @@
+{
+  "hypothesis": "a ridge-regularized binary winner residual on fixed M0 logit may improve decisive-game choices because M0 optimizes run likelihood, not winner classification",
+  "candidate": "p_home_conditional=expit(logit(M0 p_home_conditional)+X beta); fixed M0 draw probability retained",
+  "model_count": 1,
+  "l2": 10,
+  "intercept_penalty": 0,
+  "input": "same actual roster scalar features; no player ID effects, market odds, tipster claims or newly fetched sources",
+  "design": "intercept;10 fit-only team contrasts;5 home-away normalized feature contrasts at legacy indices0,2,5,6,7;5 missing contrasts;5 missing sums;fit-only scaler;no new feature search",
+  "splits": {
+    "2024": "2023actual723 ->2024actual728",
+    "2025": "2023-24actual1451 ->2025actual731",
+    "2026": "2023-25actual2182 ->2026actual709"
+  },
+  "embargo_days": 7,
+  "primary": "conditional2way accuracy on every decisive target game; same targets as M0, no selective coverage reduction",
+  "secondary": [
+    "all-target3way accuracy",
+    "conditional logloss",
+    "same prices unitROI, refunds denominator, daily-closeDD",
+    "paired calendar-week nominal95CI,5000resamples seed20261103"
+  ],
+  "development_gate": "2024 more decisive hits and conditional logloss no worse; if fails no recommendation. Always show 2025/26 raw candidate diagnostics without retuning or selecting windows.",
+  "error_analysis": "fixed confidence bins [.5,.6),[.6,.7),[.7,1]; postgame margins1/2/3plus purely diagnostics, never predictors",
+  "all_periods_previously_seen": true,
+  "not_blind_holdout": true,
+  "offset_training": "base M0 and correction trained on same past fold; not out-of-fold stacking, possible training optimism assessed only with later-year diagnostics",
+  "price_limit": "2024/25 original outcome-selected quote cohort missing all31draws; actual execution/timing unproven. No pooled across-year ROI.",
+  "forecast_freeze_before_scoring": true,
+  "no_automatic_research": true,
+  "preserve": [
+    "Windows collector and its pinned models",
+    "paused AI automations",
+    "production model/DB",
+    "existing50000KRW ledger",
+    "other worktrees"
+  ],
+  "no_merge_deploy_or_model_promotion": true
+}
