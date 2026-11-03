@@ -3,7 +3,7 @@ from datetime import datetime,timezone,timedelta
 from pathlib import Path
 import pytest
 sys.path.insert(0,str(Path(__file__).parent));import forward as f
-NOW=datetime(2026,11,3,0,0,tzinfo=timezone.utc)
+NOW=datetime(2026,11,3,4,0,tzinfo=timezone.utc)
 def snapshot():
  rows=f.core.rows("test-actual.jsonl.gz");row=copy.deepcopy(rows[-1]);start=NOW+timedelta(days=2,hours=8);gid="20261105test0";fid=gid+"2026";row.update(fixture_id=fid,event_date="2026-11-05",season=2026)
  event={"official_game_id":gid,"season":2026,"home_id":row["home_id"],"away_id":row["away_id"],"kickoff_at":start.isoformat()};evidence={}
@@ -41,3 +41,14 @@ def test_chain_tampering_and_bad_timezone_rejected(tmp_path):
  p=tmp_path/"ledger.jsonl";f.capture(snapshot(),p,clock=lambda:NOW,infer=fake_infer);raw=p.read_bytes().replace(b'"market_id":"test-only"',b'"market_id":"modified"');p.write_bytes(raw)
  with pytest.raises(ValueError,match="chain differs"):f.read_ledger(p)
  with pytest.raises(ValueError,match="timezone"):f.moment("2026-11-05T08:00:00")
+
+
+def test_nested_future_receipt_rejected_and_t30_boundary_allowed():
+ x=snapshot();x["row"]["raw_features"]["home_lineup_strength"]["value"][0]["history"][0]["received_at"]=(NOW+timedelta(seconds=1)).isoformat()
+ with pytest.raises(ValueError,match="history receipt after capture"):f.validate_snapshot(x,NOW)
+ x=snapshot();f.validate_snapshot(x,f.moment(x["event"]["kickoff_at"])-timedelta(minutes=30))
+
+def test_inference_crossing_deadline_does_not_write(tmp_path):
+ x=snapshot();start=f.moment(x["event"]["kickoff_at"]);ticks=iter([start-timedelta(minutes=31),start-timedelta(minutes=29)])
+ with pytest.raises(ValueError,match="completed later"):f.capture(x,tmp_path/"ledger.jsonl",clock=lambda:next(ticks),infer=fake_infer)
+ assert not (tmp_path/"ledger.jsonl").exists()

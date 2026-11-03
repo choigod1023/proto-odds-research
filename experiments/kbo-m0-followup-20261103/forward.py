@@ -49,6 +49,7 @@ def validate_snapshot(x,now):
  def past(obj):
   if isinstance(obj,dict):
    for key,value in obj.items():
+    if key in ("received_at","observed_at") and value is not None and moment(value)>now.astimezone(timezone.utc):raise ValueError("history receipt after capture rejected")
     if key in ("date","latest_source_date") and value is not None and date.fromisoformat(value)>=localday:raise ValueError("same-day/future history rejected")
     if key in ("fixture_id","id") and value in (row["fixture_id"],event["official_game_id"]):raise ValueError("target-game performance rejected")
     if key=="source_fixture_ids" and any(v in (row["fixture_id"],event["official_game_id"]) for v in value):raise ValueError("target-game lineage rejected")
