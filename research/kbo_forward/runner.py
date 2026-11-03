@@ -44,7 +44,7 @@ def price_packet(quote,state,official_event):
     if len(parts)!=3 or len(rounds)!=1:raise ValueError("price round not in verified listing")
     parsed,_=parse_detail(raw,rounds[0],[official_event],source["received_at"],source)
     matches=[q for q in parsed if q["market_id"]==quote["market_id"]]
-    if len(matches)!=1 or any(matches[0][k]!=quote[k] for k in ("official_game_id","home_id","away_id","kickoff_at","kind","settlement_rule","odds")):raise ValueError("normalized quote differs from raw official row")
+    if len(matches)!=1 or matches[0]!=quote:raise ValueError("normalized quote differs from raw official row")
     market={k:quote[k] for k in ("kind","settlement_rule","market_id","odds")}
     market.update({k:quote[k] for k in ("close_at","round_close_at","source_product") if k in quote})
     receipt={"uri":source["uri"],"received_at":source["received_at"],"body":body,"sha256":ledger.digest(ledger.canonical(body)),"raw_sha256":source["sha256"],"round_listing_sha256":source.get("round_listing_sha256")}
@@ -64,8 +64,8 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
         started=clock();path=state/"paired-ledger.jsonl";rows=ledger.read(path);captures=[r for r in rows if r["type"] in ("capture","unpriced_forecast")]
         previous=json.loads((state/"last-run.json").read_bytes()) if (state/"last-run.json").exists() else {}
         if official is None:
-            from official import OfficialClient
-            official=OfficialClient(state/"official",max_requests=80)
+            from connected import ConnectedOfficial
+            official=ConnectedOfficial(state/"official",max_requests=80)
         if price_fn is None:
             from prices import collect_prices
             price_fn=collect_prices
@@ -82,6 +82,8 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 e=event(g);key=(e["season"],e["official_game_id"])
                 if key in byid:raise ValueError("duplicate official event identity")
                 byid[key]=g
+                if g["source"]["G_DT"]>=today.strftime("%Y%m%d"):
+                    ledger.observe_opportunity(e,path,g.get("receipt",{}),clock=clock)
             candidates=[]
             for g in games:
                 e=event(g);delta=ledger.moment(e["kickoff_at"])-clock()
@@ -105,7 +107,11 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                     s=official.snapshot(g)
                     if not s.get("source_verified"):
                         report["excluded"].append({"official_game_id":g["source"]["G_ID"],"reasons":s.get("missing",["unverified_source"])});continue
-                    x=packet(s);x["source_game"]=g
+                    x=packet(s)
+                    if hasattr(official,"root"):
+                        from connected import verify_archived_bundles
+                        verify_archived_bundles(x,official.root)
+                    x["source_game"]=g
                     qs=[q for q in price_result["quotes"] if q["official_game_id"]==x["event"]["official_game_id"] and q.get("season",x["event"]["season"])==x["event"]["season"]]
                     if not qs:
                         x["evidence"].pop("odds",None)
@@ -125,6 +131,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                     current=z["game"];r={"event_key":c["event_key"],**{k:e[k] for k in ("official_game_id","season","home_id","away_id")},"game_date":datetime.strptime(current["source"]["G_DT"],"%Y%m%d").date().isoformat(),"status":z.get("status","final"),"home_score":z.get("home_score"),"away_score":z.get("away_score"),"evidence":evidence(official,current["receipt"])}
                     out=ledger.settle(r,path,clock=clock);report["settled_this_run"]+=int(out is not None)
                 except Exception as exc:report["excluded"].append({"official_game_id":e["official_game_id"],"result_error_type":type(exc).__name__,"reason":str(exc)[:300]})
+            ledger.close_missed_opportunities(path,previous.get("excluded",[])+report["excluded"],clock=clock)
             report["requests"]=getattr(official,"count",0)
         except Exception as exc:
             report.update(status="failed",error_type=type(exc).__name__,reason=str(exc)[:300]);report["requests"]=getattr(official,"count",0)

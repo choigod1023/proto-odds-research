@@ -68,6 +68,7 @@ def append(path,make):
 
 def capture(payload,path,clock=utcnow,infer=infer_frozen):
     first=clock();kickoff=validate_model_snapshot(payload,first)
+    if any(first>=moment(payload["market"][k]) for k in ("close_at","round_close_at")):raise ValueError("market closed before capture")
     if first-moment(payload["evidence"]["odds"]["received_at"])>timedelta(minutes=10):raise ValueError("price receipt stale at capture")
     predictions,hashes=infer(payload["row"])
     if set(predictions)!=set(MODELS):raise ValueError("paired models required")
@@ -78,6 +79,7 @@ def capture(payload,path,clock=utcnow,infer=infer_frozen):
         if den<=0 or set(two)!={"home","away"} or any((not math.isfinite(two[k]) or abs(two[k]-q[k]/den)>1e-9) for k in two):raise ValueError("invalid conditional probabilities")
         if p["fixture_id"]!=payload["row"]["fixture_id"] or p["event_date"]!=payload["row"]["event_date"]:raise ValueError("forecast identity mismatch")
     finished=clock()
+    if any(finished>=moment(payload["market"][k]) for k in ("close_at","round_close_at")):raise ValueError("market closed during inference")
     if finished<first:raise ValueError("local clock moved backwards during prediction")
     if finished>kickoff-timedelta(minutes=30):raise ValueError("forecast completed after T-30")
     kind=payload["market"]["kind"]
@@ -139,6 +141,27 @@ def settle(result,path,clock=utcnow):
         return {**outcome,"event_key":key,"recorded_at":now.isoformat(),"result":result,"economic_result":economic,"supersedes_hash":previous[-1]["hash"] if previous else None,"source_policy":POLICY,"actual_execution_verified":False}
     return append(path,make)
 
+def observe_opportunity(event,path,source_receipt,clock=utcnow):
+    now=clock();key=digest(canonical({"official_game_id":event["official_game_id"],"season":event["season"],"scope":"opportunity"}))
+    def make(rows):
+        if any(r["type"]=="opportunity" and r["event_key"]==key for r in rows):return None
+        return {"type":"opportunity","event_key":key,"event":event,"observed_at":now.isoformat(),"observed_before_cutoff":now<=moment(event["kickoff_at"])-timedelta(minutes=30),"source_receipt":source_receipt}
+    return append(path,make)
+
+def close_missed_opportunities(path,exclusions,clock=utcnow):
+    now=clock();reasons={x.get("official_game_id"):x for x in exclusions}
+    def next_record(rows):
+        closed={r["event_key"] for r in rows if r["type"]=="missed_cutoff"}
+        for o in rows:
+            if o["type"]!="opportunity" or not o["observed_before_cutoff"] or o["event_key"] in closed:continue
+            if now<=moment(o["event"]["kickoff_at"])-timedelta(minutes=30):continue
+            fid=o["event"]["official_game_id"]
+            captures=[r for r in rows if r["type"] in ("capture","unpriced_forecast") and r["input"]["event"]["official_game_id"]==fid and r["input"]["event"]["season"]==o["event"]["season"]]
+            return {"type":"missed_cutoff","event_key":o["event_key"],"event":o["event"],"observed_at":now.isoformat(),"priced_prediction_captured":any(c["type"]=="capture" for c in captures),"unpriced_prediction_captured":any(c["type"]=="unpriced_forecast" for c in captures),"last_exclusion":reasons.get(fid,{"reason":"no complete pregame pair by deadline"})}
+        return None
+    for _ in range(10):
+        if append(path,next_record) is None:break
+
 def summary(path,now=None):
     rows=read(path);caps={r["event_key"]:r for r in rows if r["type"]=="capture"};done={r["event_key"]:r for r in rows if r["type"] in ("settlement","correction")};groups={}
     for kind in sorted({c["input"]["market"]["kind"] for c in caps.values()}):
@@ -155,4 +178,4 @@ def summary(path,now=None):
     unpriced={r["event_key"]:r for r in rows if r["type"] in ("unpriced_settlement","unpriced_correction")}
     unpriced_final=[r for r in unpriced.values() if r["economic_result"]["status"]=="final"]
     unpriced_accuracy={name:{"n":len(unpriced_final),"hits":sum(r["outcome_scores"][name]["hit"] for r in unpriced_final),"roi":None} for name in MODELS}
-    return {"protocol":"kbo-m0-vs-equal-forward-v1","unpriced_outcome_comparison":unpriced_accuracy,"unpriced_paired_forecasts":sum(r["type"]=="unpriced_forecast" for r in rows),"captured":len(caps),"paired_settled":len(done),"corrections":sum(r["type"]=="correction" for r in rows),"groups":groups,"actual_execution_verified":False,"unit_stakes_only":True,"existing_monthly_loss_ledger_modified":False}
+    return {"protocol":"kbo-m0-vs-equal-forward-v1","observed_pregame_opportunities":sum(r["type"]=="opportunity" and r["observed_before_cutoff"] for r in rows),"closed_without_priced_prediction":sum(r["type"]=="missed_cutoff" and not r["priced_prediction_captured"] for r in rows),"closed_without_any_prediction":sum(r["type"]=="missed_cutoff" and not r["priced_prediction_captured"] and not r["unpriced_prediction_captured"] for r in rows),"unpriced_outcome_comparison":unpriced_accuracy,"unpriced_paired_forecasts":sum(r["type"]=="unpriced_forecast" for r in rows),"captured":len(caps),"paired_settled":len(done),"corrections":sum(r["type"]=="correction" for r in rows),"groups":groups,"actual_execution_verified":False,"unit_stakes_only":True,"existing_monthly_loss_ledger_modified":False}

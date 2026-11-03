@@ -55,7 +55,8 @@ def test_postdeadline_run_does_not_backfill_or_fetch_prices(tmp_path):
     x=payload();now=ledger.moment(x['event']['kickoff_at'])-timedelta(minutes=29);o=Official(x)
     def forbidden(*a):raise AssertionError('unnecessary price request')
     d=runner.run_once(tmp_path,o,forbidden,clock=lambda:now,infer=old.fake_infer)
-    assert d['status']=='ok' and o.snapshot_calls==0 and not (tmp_path/'paired-ledger.jsonl').exists()
+    assert d['status']=='ok' and o.snapshot_calls==0 and d['comparison']['captured']==0
+    assert not ledger.read(tmp_path/'paired-ledger.jsonl')[0]['observed_before_cutoff']
 
 def test_process_scoped_lock_blocks_another_writer_and_releases(tmp_path):
     from locking import single_writer
@@ -94,3 +95,12 @@ def test_os_lock_recovers_after_process_termination(tmp_path):
     finally:
         proc.terminate();proc.wait(timeout=5);proc.stdout.close()
     with single_writer(path) as recovered:assert recovered
+
+
+def test_mutated_price_sale_close_and_product_label_rejected(tmp_path):
+    x=payload('full_game_2way');x['event'].update(home_id='SS',away_id='HT');x['row'].update(home_id='SS',away_id='HT')
+    now=ledger.moment(x['event']['kickoff_at'])-timedelta(hours=2);q=quote(x,tmp_path,now)
+    q['close_at']=(now+timedelta(days=1)).isoformat()
+    with pytest.raises(ValueError,match='differs from raw'):runner.price_packet(q,tmp_path,x['event'])
+    q=quote(x,tmp_path,now);q['source_product']['betNm']='wrong product label'
+    with pytest.raises(ValueError,match='differs from raw'):runner.price_packet(q,tmp_path,x['event'])

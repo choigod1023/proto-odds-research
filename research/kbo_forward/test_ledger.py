@@ -9,7 +9,7 @@ spec=importlib.util.spec_from_file_location('prior_forward_fixtures',l.OLD/'test
 old=importlib.util.module_from_spec(spec);spec.loader.exec_module(old)
 
 def payload(kind='full_game_3way'):
-    x=old.snapshot()
+    x=old.snapshot();x['market']['close_at']=x['event']['kickoff_at'];x['market']['round_close_at']=(l.moment(x['event']['kickoff_at'])+timedelta(hours=4)).isoformat()
     if kind=='full_game_3way':
         x['market'].update(kind=kind,settlement_rule='draw_is_outcome')
         x['market']['odds']['draw']='3.10'
@@ -86,3 +86,21 @@ def test_unpriced_accuracy_settles_without_inventing_roi(tmp_path):
     z=l.summary(path,now=end)
     assert z['unpriced_outcome_comparison']['baseline']=={'n':1,'hits':1,'roi':None}
     assert z['paired_settled']==0 and z['groups']=={}
+
+
+def test_sale_closes_before_t30_or_during_inference_rejected(tmp_path):
+    x=payload();x['market']['close_at']=(old.NOW-timedelta(seconds=1)).isoformat()
+    with pytest.raises(ValueError,match='closed before'):l.capture(x,tmp_path/'x.jsonl',clock=lambda:old.NOW,infer=old.fake_infer)
+    x=payload();x['market']['close_at']=(old.NOW+timedelta(seconds=1)).isoformat();ticks=iter([old.NOW,old.NOW+timedelta(seconds=2)])
+    with pytest.raises(ValueError,match='closed during'):l.capture(x,tmp_path/'x.jsonl',clock=lambda:next(ticks),infer=old.fake_infer)
+    assert not (tmp_path/'x.jsonl').exists()
+
+
+def test_missing_prices_stay_in_preobserved_opportunity_denominator(tmp_path):
+    x=payload();p=tmp_path/'x.jsonl';l.observe_opportunity(x['event'],p,{'test_only':True},clock=lambda:old.NOW)
+    late=l.moment(x['event']['kickoff_at'])-timedelta(minutes=29)
+    l.close_missed_opportunities(p,[{'official_game_id':x['event']['official_game_id'],'reason':'no verified price'}],clock=lambda:late)
+    before=p.read_bytes();l.close_missed_opportunities(p,[],clock=lambda:late)
+    assert p.read_bytes()==before
+    s=l.summary(p,now=late)
+    assert s['observed_pregame_opportunities']==1 and s['closed_without_priced_prediction']==1 and s['captured']==0
