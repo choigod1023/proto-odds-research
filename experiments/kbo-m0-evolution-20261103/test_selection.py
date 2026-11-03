@@ -16,3 +16,10 @@ def test_duplicate_prediction_rejected():
 def test_raw_to_model_normalization_does_not_mutate_input():
  d=core.load();r=d["train"][100];original=copy.deepcopy(r);x=core.normalize(r);x["features"]["home_lineup_strength"]["value"]=-99
  assert r==original
+
+
+def test_invalid_or_inconsistent_probability_vectors_rejected():
+ labels=core.unique(core.rows("development-labels.jsonl.gz"));p=copy.deepcopy(core.baseline_reference()["development_predictions"][0]);bad=copy.deepcopy(p);bad["probabilities_2way"]["home"]=float("nan")
+ with pytest.raises(ValueError,match="probability vector"):core.metrics([bad],labels)
+ bad=copy.deepcopy(p);bad["probabilities_2way"]={"home":.99,"away":.01}
+ with pytest.raises(ValueError,match="inconsistent"):core.metrics([bad],labels)

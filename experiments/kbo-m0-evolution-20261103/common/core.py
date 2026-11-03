@@ -59,6 +59,13 @@ def fit_baseline(train,labels):
 def predict_baseline(model,items):return legacy.predict(model,[normalize(r) for r in items])
 def baseline_reference():return json.loads((I/"baseline-reference.json").read_bytes())
 def metrics(predictions,labels):
+ unique(predictions)
+ for r in predictions:
+  q=r["probabilities_2way"];v=r["probabilities_3way"]
+  for vector,keys in ((q,{"home","away"}),(v,{"home","draw","away"})):
+   if set(vector)!=keys or any(not isinstance(z,(int,float)) or not math.isfinite(z) or not 0<=z<=1 for z in vector.values()) or abs(sum(vector.values())-1)>1e-9:raise ValueError("invalid probability vector")
+  denom=v["home"]+v["away"]
+  if denom<=0 or any(abs(q[k]-v[k]/denom)>1e-9 for k in ("home","away")):raise ValueError("conditional probabilities inconsistent")
  out=legacy.metrics(predictions,labels);decisive=hits=0;loss=brier=0.
  for p in predictions:
   y=labels[p["fixture_id"]]
