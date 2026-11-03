@@ -28,7 +28,8 @@
   ],
   "protocol_sha": null,
   "tests": [
-    "python -m unittest discover -s tests -p test_kleague2_official_lineup_20261103.py -v: 3 passed"
+    "python -m unittest discover -s tests -p test_kleague2_official_lineup_20261103.py -v: 3 passed",
+    "12 committed raw responses match their recorded SHA-256 after binary attributes"
   ],
   "metrics": {
     "k2_games": 4,
@@ -51,7 +52,7 @@
   "blockers": [
     "Historical pregame reception and same-product prices and frozen predictions are not proven."
   ],
-  "pr_url": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/515",
   "next_data_needed": [
     "Authenticated predecision lineup capture with actual reception, fixture/player IDs, complete contemporaneous product price and frozen operating pick, result and settlement; a bounded sampling budget for further official match-centre collection."
   ]
