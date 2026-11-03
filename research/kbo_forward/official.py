@@ -23,6 +23,8 @@ LINEUP = BASE + '/ws/Schedule.asmx/GetLineUpAnalysis'
 BOX = BASE + '/ws/Schedule.asmx/GetBoxScore'
 PROFILE = BASE + '/Record/Player/HitterDetail/Basic.aspx'
 SEARCH = BASE + '/Player/Search.aspx'
+RETIRE_PITCHER = BASE + '/Record/Retire/Pitcher.aspx'
+RETIRE_HITTER = BASE + '/Record/Retire/Hitter.aspx'
 KST = timezone(timedelta(hours=9))
 
 
@@ -61,7 +63,7 @@ class OfficialClient:
             self.last = time.monotonic() - max(0, (now_utc() - last).total_seconds())
 
     def fetch(self, url, params, *, refresh_seconds=300):
-        if url not in (SCHEDULE, LINEUP, BOX, PROFILE, SEARCH):
+        if url not in (SCHEDULE, LINEUP, BOX, PROFILE, SEARCH, RETIRE_PITCHER, RETIRE_HITTER):
             raise ValueError('unapproved endpoint')
         current = now_utc()
         for rec in reversed(self.records):
@@ -83,9 +85,9 @@ class OfficialClient:
             time.sleep(max(0, 1.5 - (time.monotonic() - self.last)))
             self.count += 1
             self.lineups += int(url == LINEUP)
-            rec = {'url': url, 'method': 'GET' if url in (PROFILE, SEARCH) else 'POST', 'params': params, 'requested_at': now_utc().isoformat(), 'attempt': attempt + 1}
+            rec = {'url': url, 'method': 'GET' if url in (PROFILE, SEARCH, RETIRE_PITCHER, RETIRE_HITTER) else 'POST', 'params': params, 'requested_at': now_utc().isoformat(), 'attempt': attempt + 1}
             try:
-                response = (self.session.get(url, params=params, timeout=(5, 15), allow_redirects=False, stream=True) if url in (PROFILE, SEARCH) else self.session.post(url, data=params, timeout=(5, 15), allow_redirects=False, stream=True))
+                response = (self.session.get(url, params=params, timeout=(5, 15), allow_redirects=False, stream=True) if url in (PROFILE, SEARCH, RETIRE_PITCHER, RETIRE_HITTER) else self.session.post(url, data=params, timeout=(5, 15), allow_redirects=False, stream=True))
                 chunks, size, oversized = [], 0, False
                 for chunk in response.iter_content(chunk_size=65536):
                     if not chunk: continue
@@ -158,6 +160,27 @@ class OfficialClient:
         except (KeyError, ValueError, TypeError, OSError):
             raise SourceError('receipt_or_body_invalid')
 
+    def resolve_identity(self, name, team, role, season, identity_receipts=None, refresh_seconds=86400):
+        def retrieve(url, params, ttl):
+            if identity_receipts is None:
+                return self.fetch(url, params, refresh_seconds=ttl)
+            choices=[r for r in identity_receipts if r.get('url')==url and r.get('params')==params]
+            if len(choices)!=1: raise SourceError('identity_receipt_missing_or_duplicate')
+            return self.verified_body(choices[0],url), choices[0]
+        raw, rec=retrieve(SEARCH,{'searchWord':name},refresh_seconds)
+        matches=player_search_candidates(raw,name,team,role)
+        active=[x for x in matches if not x.startswith('retired:')]
+        if len(active)!=1: raise SourceError('player_search_missing_or_ambiguous')
+        evidence=[rec]
+        for retired in (x for x in matches if x.startswith('retired:')):
+            pid=retired.split(':',1)[1]
+            endpoint=RETIRE_HITTER if role=='hitter' else RETIRE_PITCHER
+            profile, proof=retrieve(endpoint,{'playerId':pid},86400)
+            last=retired_last_season(profile,name,pid)
+            if last>=int(season): raise SourceError('retired_candidate_in_game_season')
+            evidence.append(proof)
+        return active[0],evidence
+
     def resolve_lineups(self, lineup, game):
         """Search exact names, requiring a unique active ID on the official team.
 
@@ -167,13 +190,12 @@ class OfficialClient:
         for side in ('home', 'away'):
             result[side] = []
             for player in lineup[side]:
-                raw, rec = self.fetch(SEARCH, {'searchWord': player['name']}, refresh_seconds=300)
-                pid = parse_player_search(raw, player['name'], str(game[side.upper() + '_NM']).strip())
+                pid, ev = self.resolve_identity(player['name'], str(game[side.upper() + '_NM']).strip(), 'hitter', game['SEASON_ID'], refresh_seconds=300)
                 if pid in seen:
                     raise SourceError('duplicate_batter_id')
                 seen.add(pid)
                 result[side].append(pid)
-                receipts.append(rec)
+                receipts.extend(ev)
         return result, receipts
 
     def history_delta(self, dates, team_ids, target_day):
@@ -318,14 +340,8 @@ class OfficialClient:
             if name.isdigit():
                 if int(name)<=0: raise SourceError('invalid_box_player_id')
                 return name
-            if identity_receipts is None:
-                raw_id, rec = self.fetch(SEARCH, {'searchWord': name}, refresh_seconds=86400)
-            else:
-                choices = [r for r in identity_receipts if r.get('url') == SEARCH and (r.get('params') or {}).get('searchWord') == name]
-                if len(choices) != 1: raise SourceError('box_identity_receipt_missing_or_duplicate')
-                rec = choices[0]; raw_id = self.verified_body(rec, SEARCH)
-            pid = parse_player_search(raw_id, name, team, role, position)
-            fetched.append(rec)
+            pid, evidence = self.resolve_identity(name, team, role, game['SEASON_ID'], identity_receipts=identity_receipts)
+            fetched.extend(evidence)
             return pid
         try:
             hs, aws = int(game['B_SCORE_CN']), int(game['T_SCORE_CN'])
@@ -398,7 +414,7 @@ class OfficialClient:
         schedules={}; boxes={}
         for rec in receipts:
             url=rec.get('url')
-            if url not in (SCHEDULE,BOX,SEARCH): raise SourceError('history_receipt_endpoint_invalid')
+            if url not in (SCHEDULE,BOX,SEARCH,RETIRE_PITCHER,RETIRE_HITTER): raise SourceError('history_receipt_endpoint_invalid')
             raw=self.verified_body(rec,url)
             if url==SCHEDULE:
                 d=datetime.strptime(rec['params']['date'],'%Y%m%d').date()
@@ -530,7 +546,7 @@ class OfficialClient:
     def bundle(self, receipts, history=None):
         records = []
         for rec in receipts:
-            if rec.get('url') not in (SCHEDULE, LINEUP, BOX, PROFILE, SEARCH):
+            if rec.get('url') not in (SCHEDULE, LINEUP, BOX, PROFILE, SEARCH, RETIRE_PITCHER, RETIRE_HITTER):
                 raise SourceError('unapproved_evidence_endpoint')
             raw = self.verified_body(rec, rec['url'])
             records.append({'receipt': rec, 'body_base64': base64.b64encode(raw).decode('ascii')})
@@ -586,7 +602,7 @@ def parse_lineup(raw, game):
     return out
 
 
-def parse_player_search(raw, name, team_name, role='hitter', position=None):
+def player_search_candidates(raw, name, team_name, role='hitter'):
     """Only accept a complete official result page and one current team match."""
     soup = BeautifulSoup(raw, 'html.parser')
     root = soup.select_one('div.inquiry')
@@ -611,9 +627,39 @@ def parse_player_search(raw, name, team_name, role='hitter', position=None):
         if url.scheme or url.netloc or url.path not in (valid, retired) or len(ids) != 1 or not ids[0].isdigit() or int(ids[0]) <= 0:
             continue
         matches.append(ids[0] if url.path == valid else 'retired:' + ids[0])
-    if len(matches) != 1 or matches[0].startswith('retired:'):
+    return matches
+
+
+def parse_player_search(raw, name, team_name, role='hitter', position=None):
+    matches=player_search_candidates(raw,name,team_name,role)
+    if len(matches)!=1 or matches[0].startswith('retired:'):
         raise SourceError('player_search_missing_or_ambiguous')
     return matches[0]
+
+
+def retired_last_season(raw, expected_name, expected_id):
+    soup=BeautifulSoup(raw,'html.parser')
+    names=soup.select('[id$=ucRetireInfo_lblName]')
+    photos=soup.select('[id$=ucRetireInfo_imgProgile]')
+    if len(names)!=1 or names[0].get_text(strip=True)!=expected_name or len(photos)!=1:
+        raise SourceError('retired_identity_mismatch')
+    photo=urlparse(photos[0].get('src','')).path
+    if not photo.endswith('/'+expected_id+'.jpg'):
+        raise SourceError('retired_profile_id_mismatch')
+    tables=[]
+    for table in soup.select('table.tData01'):
+        headers=[h.get_text(strip=True) for h in table.select('thead th')]
+        if headers and headers[0]=='연도' and 'G' in headers:
+            tables.append((table,headers))
+    if len(tables)!=1: raise SourceError('retired_record_table_invalid')
+    table,headers=tables[0]; years=[]
+    for tr in table.select('tbody tr'):
+        cells=[td.get_text(strip=True) for td in tr.find_all('td',recursive=False)]
+        if len(cells)!=len(headers) or not re.fullmatch(r'\d{4}',cells[0]) or not cells[headers.index('G')].isdigit():
+            raise SourceError('retired_record_row_invalid')
+        if int(cells[headers.index('G')])>0:years.append(int(cells[0]))
+    if not years: raise SourceError('retired_last_season_unavailable')
+    return max(years)
 
 
 def validate_feature_row(row, event, history):
