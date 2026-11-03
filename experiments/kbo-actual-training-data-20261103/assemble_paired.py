@@ -60,6 +60,17 @@ def adapter_module():
  pin(EFFECTS,'d08ccb708033fb6b067e84e80eae81ea3c9b4cfa',rel,'581fac3ccd0d1aa0c82d9830776f8307b03aab89eab7d23206044a0417e9062f',True)
  spec=importlib.util.spec_from_file_location('frozen_paired_adapter',path);mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod);return mod
 
+def adapt_2023(root,commit,rel,roster_raw):
+ directory=Path(rel).parent
+ manifest_raw=pin(root,commit,(directory/'actual-rosters-2023-manifest.json').as_posix());manifest=json.loads(manifest_raw)
+ if manifest.get('status')!='finalized_2023_source_only' or manifest.get('population')!=723 or manifest.get('historical_receipt_proven')!=0 or manifest.get('historical_publication_time_proven')!=0 or manifest.get('source_rows_commit')!=FROZEN:raise ValueError('2023_manifest_contract_mismatch')
+ if sha(roster_raw)!=manifest['rows_sha256']:raise ValueError('2023_roster_manifest_sha_mismatch')
+ pin(root,commit,(directory/'actual-rosters-2023-raw.jsonl.gz').as_posix(),manifest['raw_evidence_bundle_sha256'])
+ handoff=pin(root,commit,(directory/'actual-rosters-2023-handoff.md').as_posix(),text_normalize=True)
+ data=gz(roster_raw)
+ if len(data)!=723 or sum(x.get('status')=='complete' for x in data)!=manifest['counts']['actual_complete']:raise ValueError('2023_manifest_eligibility_mismatch')
+ return data,{'manifest_sha256':sha(manifest_raw),'handoff_sha256_lf':sha(handoff.replace(b'\r\n',b'\n')),'raw_bundle_sha256':manifest['raw_evidence_bundle_sha256']}
+
 def adapt_2024(root,commit,rel,roster_raw):
  """Translate the finalized source-2024 contract without changing its evidence."""
  directory=Path(rel).parent
@@ -87,6 +98,33 @@ def adapt_2024(root,commit,rel,roster_raw):
  if len(output)!=728 or sum(x['status']=='complete' for x in output)!=manifest['eligible']:raise ValueError('2024_manifest_eligibility_mismatch')
  return output,{'manifest_sha256':sha(manifest_raw),'handoff_and_verification_sha256_lf':notes,'raw_bundle_sha256':manifest['evidence_bundle_sha256'],'request_spacing_violations_under_1_5_seconds':manifest['request_spacing_violations_under_1_5_seconds'],'request_spacing_note':manifest['request_spacing_note']}
 
+def adapt_2025(root,commit,rel,roster_raw):
+ """Translate the finalized source-2025 contract without using target statistics."""
+ directory=Path(rel).parent
+ def source(name,want=None):return pin(root,commit,(directory/name).as_posix(),want)
+ manifest_raw=source('manifest.json');manifest=json.loads(manifest_raw);handoff_raw=source('handoff.json');handoff=json.loads(handoff_raw)
+ if manifest.get('status')!='ready_for_join' or handoff.get('status')!='ready_for_join' or manifest.get('denominator')!=736 or manifest.get('contract_sha256')!=CONTRACT_SHA or manifest.get('historical_receipt_proven') is not False or manifest.get('historical_publication_time_proven') is not False or manifest.get('target_game_statistics_used_as_features') is not False:raise ValueError('2025_manifest_contract_mismatch')
+ if sha(manifest_raw)!=handoff['manifest_sha256'] or sha(roster_raw)!=manifest['lineups_gzip_sha256'] or sha(gzip.decompress(roster_raw))!=manifest['lineups_uncompressed_sha256']:raise ValueError('2025_roster_manifest_sha_mismatch')
+ identity=source('identity-candidates-2025.jsonl.gz',manifest['identity_candidates_gzip_sha256'])
+ if sha(gzip.decompress(identity))!=manifest['identity_candidates_uncompressed_sha256']:raise ValueError('2025_identity_candidates_uncompressed_sha_mismatch')
+ source('raw-evidence.jsonl.gz',manifest['evidence_gzip_sha256']);source('pitcher-daily-identity.json',manifest['daily_identity_sha256']);source('unconfirmed-review.json',manifest['unconfirmed_review_sha256'])
+ if manifest['source_rows_sha256']!='66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c' or manifest['identity_archive_sha256']!='24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8' or manifest['pitcher_identity_archive_sha256']!='c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66':raise ValueError('2025_fixed_identity_source_mismatch')
+ output=[];official_ids=set()
+ for record in gz(roster_raw):
+  if record.get('season')!=2025 or record.get('eligible_as_pregame_feature') is not False or record.get('historical_receipt_proven') is not False or record.get('historical_publication_time_proven') is not False or record.get('actual_batting_starter_changes_verified') is not False:raise ValueError('2025_retrospective_status_invalid')
+  reasons=record.get('exclusion_reasons') or [];complete=record.get('complete_verified') is True
+  if complete!=(not reasons):raise ValueError('2025_complete_and_exclusion_mismatch')
+  if complete:
+   gid=record.get('official_game_id')
+   if not gid or gid in official_ids or record.get('lineup_confirmed') is not True:raise ValueError('2025_official_fixture_duplicate_or_unconfirmed')
+   official_ids.add(gid)
+   if not str(record.get('batting_roster_semantics','')).startswith('official_confirmed_lineup_'):raise ValueError('2025_official_lineup_semantics')
+  hitters={s:(record.get(s) or {}).get('ordered_hitters') for s in ('home','away')};starters={s:(record.get(s) or {}).get('starter') for s in ('home','away')}
+  if complete and any(not starters[s] or starters[s].get('actual_record_verified') is not True or not hitters[s] for s in ('home','away')):raise ValueError('2025_actual_roster_incomplete')
+  output.append({'fixture_id':record['fixture_id'],'season':2025,'date':record['date'],'teams':{s:(record.get(s) or {}).get('team',{}).get('name') for s in ('home','away')},'status':'complete' if complete else 'excluded','exclusions':reasons,'hitters':hitters,'starters':starters})
+ if len(output)!=736 or sum(x['status']=='complete' for x in output)!=manifest['counts']['complete_verified']:raise ValueError('2025_manifest_eligibility_mismatch')
+ return output,{'manifest_sha256':sha(manifest_raw),'handoff_sha256':sha(handoff_raw),'raw_bundle_sha256':manifest['evidence_gzip_sha256'],'daily_identity_sha256':manifest['daily_identity_sha256'],'unconfirmed_review_sha256':manifest['unconfirmed_review_sha256'],'new_requests':manifest['new_requests'],'source_kickoff_mismatches':manifest['counts']['source_kickoff_mismatches']}
+
 def source_rosters(args,rows):
  sources={};meta={}
  for year,root,commit,rel in args.source:
@@ -94,7 +132,8 @@ def source_rosters(args,rows):
   if year in sources or year not in (2023,2024,2025):raise ValueError('source_year_duplicate_or_invalid')
   data=pin(root,commit,rel);extra={}
   if year==2024:translated,extra=adapt_2024(root,commit,rel,data)
-  else:translated=gz(data)
+  elif year==2025:translated,extra=adapt_2025(root,commit,rel,data)
+  else:translated,extra=adapt_2023(root,commit,rel,data)
   source=index(translated);expected={fid for fid,x in rows.items() if x['season']==year}
   if set(source)!=expected:raise ValueError('source_fixture_population_mismatch:'+str(year))
   for fid,r in source.items():
@@ -114,12 +153,13 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--source',nargs=4,action='append',required=True,metavar=('YEAR','CHECKOUT','COMMIT','FILE'));ap.add_argument('--verification',nargs=3,required=True,metavar=('CHECKOUT','COMMIT','FILE'));args=ap.parse_args()
  if sha((HERE/'parent-contract.json').read_bytes())!=CONTRACT_SHA:raise ValueError('parent_contract_mismatch')
  adapter=adapter_module();prior,games,gmap,rows,baseline,bh,ph,pit=old_inputs();sources,meta=source_rosters(args,rows)
- projected=[];actual=[];excluded=Counter();selector={str(y):Counter() for y in (2023,2024,2025,2026)};dates={fid:date.fromisoformat(g['date']) for fid,g in gmap.items()}
+ projected=[];actual=[];excluded=Counter();excluded_fixtures=[];selector={str(y):Counter() for y in (2023,2024,2025,2026)};dates={fid:date.fromisoformat(g['date']) for fid,g in gmap.items()}
  for fid,row in sorted(rows.items(),key=lambda z:(gmap[z[0]]['date'],z[0])):
   year=row['season']
   if year not in sources:continue
   roster=sources[year][fid]
   if roster['status']!='complete':
+   excluded_fixtures.append({'fixture_id':fid,'season':year,'reasons':roster['exclusions']})
    for reason in roster['exclusions']:excluded[str(year)+':'+reason]+=1
    continue
   day=gmap[fid]['date'];raw={'fixture_id':fid,'event_date':day,'season':year,'home_id':row['home_id'],'away_id':row['away_id']}
@@ -128,6 +168,9 @@ def main():
   p,a=training_pair(baseline[fid],raw,roster,bh,ph,adapter);compare_selectors(selector[str(year)],p['roster'],a['roster']);projected.append(p);actual.append(a)
  if [x['fixture_id'] for x in projected]!=[x['fixture_id'] for x in actual]:raise ValueError('training_pair_order')
  verroot,vercommit,verrel=args.verification;verraw=pin(verroot,vercommit,verrel);verification=index(gz(verraw))
+ verdir=Path(verrel).parent;vmraw=pin(verroot,vercommit,(verdir/'actual-starters-2026-manifest.json').as_posix());vm=json.loads(vmraw)
+ if vm.get('status')!='finalized_2026_starter_verification' or vm.get('population')!=709 or vm.get('historical_receipt_proven')!=0 or sha(verraw)!=vm['sha256']['records']:raise ValueError('2026_verification_manifest_mismatch')
+ pin(verroot,vercommit,(verdir/'actual-starters-2026-raw.jsonl.gz').as_posix(),vm['sha256']['raw'])
  groups=json.loads(fixed_file(prior.OUT/'official-full-2026-cohorts.jsonl'));ids=groups['all']
  if len(ids)!=709 or set(verification)!=set(ids):raise ValueError('verification_population_mismatch')
  tests={name:index(gz(fixed_file(prior.OUT/('fresh-history-2026-'+name+'.jsonl.gz')))) for name in ('projected','official_batting_and_starter')}
@@ -136,6 +179,7 @@ def main():
  for fid in ids:
   vr=verification[fid]
   if vr.get('status')!='complete':
+   excluded_fixtures.append({'fixture_id':fid,'season':2026,'reasons':vr.get('exclusions') or ['verification_missing_reason']})
    for reason in vr.get('exclusions') or ['verification_missing_reason']:excluded['2026:'+reason]+=1
    continue
   b=tests['projected'][fid];a=copy.deepcopy(tests['official_batting_and_starter'][fid]);day=gmap[fid]['date'];row=rows[fid]
@@ -165,6 +209,6 @@ def main():
  if [x['fixture_id'] for x in testp]!=[x['fixture_id'] for x in testa]:raise ValueError('test_pair_order')
  outputs={}
  for name,items in [('train-projected',projected),('train-actual',actual),('test-projected',testp),('test-actual',testa)]:outputs[name]=gzwrite(HERE/('paired-'+name+'.jsonl.gz'),items)
- info={'status':'finalized_paired_research_inputs','parent_contract_sha256':CONTRACT_SHA,'old_data_commit':FROZEN,'source_rosters':meta,'verification':{'commit':vercommit,'path':verrel,'sha256':sha(verraw)},'training_by_year':dict(Counter(str(x['season']) for x in projected)),'test_original_population':709,'test_verified_actual':len(testp),'exclusions':dict(excluded),'selector_match_counts_by_year':{k:dict(v) for k,v in selector.items()},'shared_selected_player_histories_canonical_bytes_equal':True,'history_population_policy':'All validated prior component records remain available, including records from fixtures excluded as paired training rows.','actual_starter_schedule_differences':dict(actual_change),'output_sha256':outputs,'no_labels_read':True,'target_same_day_future_features_excluded':True,'point_in_time_proven':0,'no_model_fit_or_score':True}
+ info={'status':'finalized_paired_research_inputs','parent_contract_sha256':CONTRACT_SHA,'old_data_commit':FROZEN,'source_rosters':meta,'verification':{'commit':vercommit,'path':verrel,'sha256':sha(verraw),'manifest_sha256':sha(vmraw),'raw_bundle_sha256':vm['sha256']['raw']},'training_by_year':dict(Counter(str(x['season']) for x in projected)),'test_original_population':709,'test_verified_actual':len(testp),'exclusions':dict(excluded),'excluded_fixture_count':len(excluded_fixtures),'excluded_fixtures':excluded_fixtures,'exclusion_reason_counts_may_overlap':True,'selector_match_counts_by_year':{k:dict(v) for k,v in selector.items()},'shared_selected_player_histories_canonical_bytes_equal':True,'history_population_policy':'All validated prior component records remain available, including records from fixtures excluded as paired training rows.','actual_starter_schedule_differences':dict(actual_change),'output_sha256':outputs,'no_labels_read':True,'target_same_day_future_features_excluded':True,'point_in_time_proven':0,'no_model_fit_or_score':True}
  (HERE/'paired-inputs-manifest.json').write_text(json.dumps(info,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf8',newline='\n');print(json.dumps(info,ensure_ascii=False))
 if __name__=='__main__':main()
