@@ -3,7 +3,7 @@ import collections,gzip,hashlib,json,subprocess,sys
 from pathlib import Path
 from build_rosters_2023 import SOURCE,fixed_file
 from paired_core import previous,valid_batter,valid_pitcher
-from history_index import build_old,build_fresh_pitch
+from history_index import build_old,build_fresh_bat,build_fresh_pitch
 import collect_lineups
 sys.path.insert(0,str(SOURCE/'experiments/kbo-player-data-20261103'))
 import build_prior_projection as prior
@@ -29,12 +29,14 @@ def main():
  for rel,want in [('artifacts/normalized-records.jsonl.gz','e9d84a6ee8dd3d0262fa6ef04a8fc6e23c79b6b5b04f52fc85a4223b41bc3334'),('v2/artifacts/supplement-v2.jsonl.gz','0293a109c20c3f3344215dd1bd7bfad5e55f2755ada22e01e3c0a5329fd67c84')]:
   path=gap/rel;raw=path.read_bytes();blob=subprocess.check_output(['git','cat-file','blob','d11367b7b37f3ea34f4c08987ca042af9235575e:'+path.relative_to(kbor).as_posix()],cwd=kbor)
   assert hashlib.sha256(raw).hexdigest()==want and raw==blob
- v1={x['fixture_id']:x for x in gz(gap/'artifacts/normalized-records.jsonl.gz')};v2={x['fixture_id']:x for x in gz(gap/'v2/artifacts/supplement-v2.jsonl.gz')};fresh=build_fresh_pitch(games,pit,prior.innings_outs,v1,v2)
+ v1={x['fixture_id']:x for x in gz(gap/'artifacts/normalized-records.jsonl.gz')};v2={x['fixture_id']:x for x in gz(gap/'v2/artifacts/supplement-v2.jsonl.gz')};fresh=build_fresh_pitch(games,pit,prior.innings_outs,v1,v2);fresh_bat=build_fresh_bat(games,bat,v1,v2)
  for name in ('projected','official_batting_and_starter'):
   path=prior.OUT/('fresh-history-2026-'+name+'.jsonl.gz');fixed_file(path)
   for row in gz(path):
    day=dates[row['fixture_id']]
    for side in ('home','away'):
+    for player in row['features'][side+'_lineup_strength']['value'] or []:
+     assert (player['history'] or [])==previous(fresh_bat.get(player['player_id'],[]),day,valid_batter);stats['fresh_batter_histories']+=1
     v=row['features'][side+'_starter_strength']['value']
     if v:assert v['appearances']==previous(fresh.get(v['projected_player_id'],[]),day,valid_pitcher);stats['fresh_pitcher_histories']+=1
  print(json.dumps({'status':'ok',**stats}))

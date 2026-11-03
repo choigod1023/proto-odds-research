@@ -18,6 +18,32 @@ def build_old(games,batters,pitchers,innings_outs):
  return batting,pitching
 
 def evidence(x):return {k:x[k] for k in ('url','sha256','received_at')}
+def build_fresh_bat(games,batters,v1,v2):
+ result=defaultdict(list)
+ for game in sorted(games,key=lambda x:(x['date'],x['source_fixture_id'])):
+  fid=game['source_fixture_id'];day=game['date']
+  if day<='2026-07-26':
+   box=batters.get(fid)
+   if box and (box.get('date'),box.get('home'),box.get('away'))!=(day,game['home'],game['away']):raise ValueError('prior_batter_box_identity')
+   for side in ('home','away'):
+    for x in ((box or {}).get('data') or {}).get(side,[]):
+     h={'fixture_id':fid,'date':day,**{k:x.get(k) for k in ('ab','hit','bb','hr')}}
+     if x.get('code') and valid_batter(h):result[str(x['code'])].append(h)
+  elif fid in v1:
+   r=v1[fid];supp=v2[fid]
+   if r['game_date']!=day.replace('-','') or r['official_game_id']!=supp['official_game_id']:raise ValueError('fresh_batter_fixture_mismatch')
+   for side in ('home','away'):
+    old=r['statistics']['batters'][side];new=supp['batters'][side]
+    if len(old)!=len(new):raise ValueError('fresh_batter_row_count')
+    for i,(x,y) in enumerate(zip(old,new)):
+     if y['v1_row_index']!=i or y['name']!=x['name'] or y['player_id']!=x['player_id'] or y['official_v1']!={k:x[k] for k in ('AB','H','R','RBI')}:raise ValueError('fresh_batter_row_identity')
+     if y['status']!='matched':continue
+     pid=x['player_id'];daily=y['daily_official_row'];de=y['daily_evidence']
+     if not pid or str(de.get('query',{}).get('playerId'))!=pid or daily['date']!=r['game_date'] or any(daily[k]!=x[k] for k in ('AB','H','R','RBI')) or daily['BB']!=y['BB']:raise ValueError('fresh_batter_daily_mismatch')
+     h={'fixture_id':fid,'date':day,'ab':x['AB'],'hit':x['H'],'bb':y['BB'],'hr':y.get('HR'),'provenance':{'box':evidence(r['evidence']['box']),'daily':evidence(de)}}
+     if not valid_batter(h):raise ValueError('fresh_batter_invalid_stats')
+     result[pid].append(h)
+ return result
 def build_fresh_pitch(games,pitchers,innings_outs,v1,v2):
  result=defaultdict(list)
  for game in sorted(games,key=lambda x:(x['date'],x['source_fixture_id'])):
