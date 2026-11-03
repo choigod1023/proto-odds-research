@@ -1,6 +1,5 @@
 {
   "schema_version": "kbo-official-player-information-factorial-v1",
-  "registered_before_official_lineup_scores_seen": true,
   "primary_batting_only_contract": "d2685536",
   "primary_batting_only_unchanged": true,
   "reason": "Official pitcher-source audit 9bb05671 found schedule pitcher IDs match actual starters in three games with different winning pitchers; historical publication remains unproven.",
@@ -61,5 +60,8 @@
   ],
   "production_changes": false,
   "automatic_adoption": false,
-  "wallet_changes": false
+  "wallet_changes": false,
+  "registered_before_parent_viewed_batting_only_scores": true,
+  "registered_before_secondary_starter_input_predictions_or_scores": true,
+  "registration_scope": "The already preregistered batting-only job may be progressing independently; this addendum does not claim that no other worker has scored it. Secondary starter inputs are not built yet."
 }
