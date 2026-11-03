@@ -61,7 +61,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
-        started=clock();path=state/"paired-ledger.jsonl";rows=ledger.read(path);captures=[r for r in rows if r["type"]=="capture"]
+        started=clock();path=state/"paired-ledger.jsonl";rows=ledger.read(path);captures=[r for r in rows if r["type"] in ("capture","unpriced_forecast")]
         previous=json.loads((state/"last-run.json").read_bytes()) if (state/"last-run.json").exists() else {}
         if official is None:
             from official import OfficialClient
@@ -73,7 +73,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
         try:
             today=started.astimezone(KST).date();dates={today.isoformat(),(today+timedelta(days=1)).isoformat()}
             # Fair bounded reconciliation: never run an unbounded historical crawl.
-            done={r["event_key"] for r in rows if r["type"] in ("settlement","correction")}
+            done={r["event_key"] for r in rows if r["type"] in ("settlement","correction","unpriced_settlement","unpriced_correction")}
             waiting=sorted({c["input"]["row"]["event_date"] for c in captures if c["event_key"] not in done or c["input"]["row"]["event_date"]>=(today-timedelta(days=7)).isoformat()})
             cursor=int(previous.get("settlement_cursor",0));take=(waiting[cursor:]+waiting[:cursor])[:5] if waiting else []
             dates.update(take);report["settlement_cursor"]=(cursor+len(take))%len(waiting) if waiting else 0
@@ -116,7 +116,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                         rec=ledger.capture(priced,path,clock=clock,infer=infer);report["captured_this_run"]+=int(rec is not None)
                 except Exception as exc:report["excluded"].append({"official_game_id":g["source"]["G_ID"],"error_type":type(exc).__name__,"reason":str(exc)[:300]})
             # Re-read captures so successful inference is never lost on later failures.
-            for c in [r for r in ledger.read(path) if r["type"]=="capture"]:
+            for c in [r for r in ledger.read(path) if r["type"] in ("capture","unpriced_forecast")]:
                 e=c["input"]["event"];g=byid.get((e["season"],e["official_game_id"]))
                 if g is None:continue
                 try:

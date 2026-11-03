@@ -76,3 +76,13 @@ def test_official_codes_reproduce_frozen_training_team_coefficients():
     for model in l.MODELS:
         assert got[model]['probabilities_3way']==pytest.approx(expected[model]['probabilities_3way'])
     assert (row['home_id'],row['away_id'])==('SS','HT')
+
+
+def test_unpriced_accuracy_settles_without_inventing_roi(tmp_path):
+    x=payload();x.pop('market');x['evidence'].pop('odds');path=tmp_path/'x.jsonl'
+    c=l.capture_unpriced(x,path,clock=lambda:old.NOW,infer=old.fake_infer)
+    r,end=result(x,c,h=3,a=1);done=l.settle(r,path,clock=lambda:end)
+    assert done['type']=='unpriced_settlement' and 'paper_profits' not in done
+    z=l.summary(path,now=end)
+    assert z['unpriced_outcome_comparison']['baseline']=={'n':1,'hits':1,'roi':None}
+    assert z['paired_settled']==0 and z['groups']=={}

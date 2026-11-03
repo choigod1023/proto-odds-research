@@ -114,7 +114,7 @@ def profits(capture,result):
 def settle(result,path,clock=utcnow):
     now=clock()
     def make(rows):
-        key=result["event_key"];captures=[r for r in rows if r["type"]=="capture" and r["event_key"]==key]
+        key=result["event_key"];captures=[r for r in rows if r["type"] in ("capture","unpriced_forecast") and r["event_key"]==key]
         if len(captures)!=1:raise ValueError("unique frozen capture missing")
         c=captures[0];event=c["input"]["event"]
         if any(result[k]!=event[k] for k in ("official_game_id","season","home_id","away_id")):raise ValueError("result identity mismatch")
@@ -124,11 +124,19 @@ def settle(result,path,clock=utcnow):
         if urlparse(ev["uri"]).hostname not in ("www.koreabaseball.com","koreabaseball.com") or digest(canonical(ev["body"]))!=ev["sha256"]:raise ValueError("official result evidence mismatch")
         if received>now or received<moment(c["frozen_at"]):raise ValueError("result receipt outside capture/current time")
         if result["status"]=="final" and received<moment(event["kickoff_at"]):raise ValueError("final score before kickoff")
-        previous=[r for r in rows if r["event_key"]==key and r["type"] in ("settlement","correction")]
+        previous=[r for r in rows if r["event_key"]==key and r["type"] in ("settlement","correction","unpriced_settlement","unpriced_correction")]
         economic={k:result.get(k) for k in ("official_game_id","season","home_id","away_id","game_date","status","home_score","away_score")}
         if previous and previous[-1]["economic_result"]==economic:return None
         if previous and received<=moment(previous[-1]["result"]["evidence"]["received_at"]):raise ValueError("stale conflicting result receipt")
-        return {"type":"correction" if previous else "settlement","event_key":key,"recorded_at":now.isoformat(),"result":result,"economic_result":economic,"supersedes_hash":previous[-1]["hash"] if previous else None,"paper_profits":profits(c,result),"source_policy":POLICY,"actual_execution_verified":False}
+        if c["type"]=="unpriced_forecast":
+            h,a=result.get("home_score"),result.get("away_score")
+            if result["status"] not in ("final","cancelled"):raise ValueError("unpriced result not final")
+            if result["status"]=="final" and (type(h)is not int or type(a)is not int or min(h,a)<0):raise ValueError("invalid score")
+            truth="void" if result["status"]=="cancelled" else "draw" if h==a else "home" if h>a else "away"
+            scores={name:{"pick":max(SIDES,key=p["probabilities_3way"].get),"truth":truth,"hit":max(SIDES,key=p["probabilities_3way"].get)==truth} for name,p in c["models"].items()}
+            outcome={"type":"unpriced_correction" if previous else "unpriced_settlement","outcome_scores":scores,"roi_eligible":False}
+        else:outcome={"type":"correction" if previous else "settlement","paper_profits":profits(c,result)}
+        return {**outcome,"event_key":key,"recorded_at":now.isoformat(),"result":result,"economic_result":economic,"supersedes_hash":previous[-1]["hash"] if previous else None,"source_policy":POLICY,"actual_execution_verified":False}
     return append(path,make)
 
 def summary(path,now=None):
@@ -144,4 +152,7 @@ def summary(path,now=None):
             m[model]={"settled":len(ss),"hits":hits,"refunds":refunds,"decisive_accuracy":hits/(len(ss)-refunds) if len(ss)>refunds else None,"roi":float(net/len(ss)) if ss else None,"net_units":str(net),"monthly_units":{k:str(v) for k,v in sorted(monthly.items())},"max_daily_close_drawdown_units":str(dd)}
         first=min((moment(c["frozen_at"]) for c in cs.values()),default=None);elapsed=(now or utcnow())-first if first else timedelta(0)
         groups[kind]={"captured":len(cs),"settled":len(ss),"pending":len(cs)-len(ss),"models":m,"formal_review_ready":len(ss)>=200 and elapsed>=timedelta(days=56),"automatic_adoption":False}
-    return {"protocol":"kbo-m0-vs-equal-forward-v1","unpriced_paired_forecasts":sum(r["type"]=="unpriced_forecast" for r in rows),"captured":len(caps),"paired_settled":len(done),"corrections":sum(r["type"]=="correction" for r in rows),"groups":groups,"actual_execution_verified":False,"unit_stakes_only":True,"existing_monthly_loss_ledger_modified":False}
+    unpriced={r["event_key"]:r for r in rows if r["type"] in ("unpriced_settlement","unpriced_correction")}
+    unpriced_final=[r for r in unpriced.values() if r["economic_result"]["status"]=="final"]
+    unpriced_accuracy={name:{"n":len(unpriced_final),"hits":sum(r["outcome_scores"][name]["hit"] for r in unpriced_final),"roi":None} for name in MODELS}
+    return {"protocol":"kbo-m0-vs-equal-forward-v1","unpriced_outcome_comparison":unpriced_accuracy,"unpriced_paired_forecasts":sum(r["type"]=="unpriced_forecast" for r in rows),"captured":len(caps),"paired_settled":len(done),"corrections":sum(r["type"]=="correction" for r in rows),"groups":groups,"actual_execution_verified":False,"unit_stakes_only":True,"existing_monthly_loss_ledger_modified":False}
