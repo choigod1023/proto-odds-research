@@ -1,5 +1,9 @@
 """Bounded sequential official schedule and match-centre capture, cache and resume."""
-import argparse,datetime,gzip,hashlib,json,msvcrt,os,time
+import argparse,datetime,gzip,hashlib,json,os,time
+if os.name == 'nt':
+ import msvcrt
+else:
+ import fcntl
 from pathlib import Path
 import requests
 R=Path(__file__).resolve().parent
@@ -7,6 +11,12 @@ RAW=R/'raw'; BASE='https://www.kleague.com'; MAX_FIXTURES_PER_YEAR=400
 
 def sha(b): return hashlib.sha256(b).hexdigest()
 def write_json(p,obj): p.write_bytes((json.dumps(obj,ensure_ascii=False,sort_keys=True,indent=2)+'\n').encode('utf8'))
+def lock_file(f):
+ if os.name=='nt':msvcrt.locking(f.fileno(),msvcrt.LK_NBLCK,1)
+ else:fcntl.flock(f.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+def unlock_file(f):
+ if os.name=='nt':msvcrt.locking(f.fileno(),msvcrt.LK_UNLCK,1)
+ else:fcntl.flock(f.fileno(),fcntl.LOCK_UN)
 def read_capture(stem):
  p=RAW/(stem+'.gz'); m=RAW/(stem+'.json')
  if not p.exists() and not m.exists(): return None
@@ -49,7 +59,7 @@ def schedule(session,year):
 def run(years):
  RAW.mkdir(parents=True,exist_ok=True)
  lock=(R/'collector.lock').open('a+b');lock.seek(0)
- try:msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
+ try:lock_file(lock)
  except OSError:raise RuntimeError('another collector holds lock')
  try:
   with requests.Session() as s:
@@ -70,7 +80,7 @@ def run(years):
      capture(s,f'match-{year}-2-{x["gameId"]}',BASE+'/match.do',params,'GET')
      if i%20==0 or i==len(finished):print(f'YEAR {year} captured_or_cached={i}/{len(finished)}',flush=True)
  finally:
-  lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_UNLCK,1);lock.close()
+  lock.seek(0);unlock_file(lock);lock.close()
 
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--years',type=int,nargs='+',choices=[2026,2025],default=[2026,2025]);a=p.parse_args()
