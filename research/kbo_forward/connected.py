@@ -1,18 +1,41 @@
 """Connect direct KBO identity/history verification to the frozen model input."""
 import copy,gzip,hashlib,json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime,timedelta
 from official import OfficialClient,SourceError,KST,now_utc
 from features import build_row,seed_from_frozen
 
 class ConnectedOfficial(OfficialClient):
+    def prepare_history(self,game):
+        target=datetime.strptime(game['source']['G_DT'],'%Y%m%d').date().isoformat()
+        g=game['source'];identity={'target':target,'home_id':g['HOME_ID'],'away_id':g['AWAY_ID']}
+        key=hashlib.sha256(json.dumps(identity,sort_keys=True).encode()).hexdigest()
+        folder=self.root/'prepared-history';folder.mkdir(exist_ok=True);index=folder/(key+'.json')
+        event={'official_game_id':g['G_ID'],'season':int(g['SEASON_ID']),'home_id':g['HOME_ID'],'away_id':g['AWAY_ID'],'kickoff_at':datetime.strptime(g['G_DT']+' '+g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=KST).isoformat()}
+        if index.exists():
+            ref=json.loads(index.read_bytes());path=folder/(ref['sha256']+'.json.gz');raw=gzip.decompress(path.read_bytes())
+            if hashlib.sha256(raw).hexdigest()!=ref['sha256']:raise SourceError('prepared_history_changed')
+            history=json.loads(raw)
+            if self.verify_history_stats(event,{},history):return history
+            raise SourceError('prepared_history_no_longer_verifies')
+        seed=seed_from_frozen(now_utc().isoformat(),target)
+        history=self.make_history(game,seed)
+        if not self.verify_history_stats(event,{},history):raise SourceError('new_history_did_not_verify')
+        raw=json.dumps(history,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf8');sha=hashlib.sha256(raw).hexdigest();path=folder/(sha+'.json.gz')
+        if not path.exists():
+            with path.open('xb') as out:out.write(gzip.compress(raw,mtime=0))
+        index.write_text(json.dumps({'identity':identity,'sha256':sha,'prepared_at':now_utc().isoformat()},sort_keys=True),encoding='utf8')
+        return history
+
     def snapshot(self,game):
         first=super().snapshot(game)
         if not first.get('announcement_verified'):
+            g=game['source'];start=datetime.strptime(g['G_DT']+' '+g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=KST)
+            if timedelta(minutes=30)<=start-now_utc()<=timedelta(hours=3):
+                try:self.prepare_history(game);first['history_prepared']=True
+                except SourceError as exc:first['history_preparation_missing']=str(exc)
             return first
-        target=datetime.strptime(game['source']['G_DT'],'%Y%m%d').date().isoformat()
-        seed=seed_from_frozen(now_utc().isoformat(),target)
-        history=self.make_history(game,seed)
+        history=self.prepare_history(game)
         result=super().snapshot(game,history=history,build_row=build_row)
         if not result.get('source_verified'):
             return result
