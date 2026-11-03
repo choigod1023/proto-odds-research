@@ -26,6 +26,7 @@ SEARCH = BASE + '/Player/Search.aspx'
 RETIRE_PITCHER = BASE + '/Record/Retire/Pitcher.aspx'
 RETIRE_HITTER = BASE + '/Record/Retire/Hitter.aspx'
 KST = timezone(timedelta(hours=9))
+IDENTITY_AMBIGUITY = frozenset(('player_search_missing_or_ambiguous','retired_candidate_in_game_season','retired_last_season_unavailable','retired_identity_mismatch','retired_profile_id_mismatch','retired_record_table_invalid','retired_record_row_invalid'))
 
 
 def now_utc():
@@ -160,13 +161,17 @@ class OfficialClient:
         except (KeyError, ValueError, TypeError, OSError):
             raise SourceError('receipt_or_body_invalid')
 
-    def resolve_identity(self, name, team, role, season, identity_receipts=None, refresh_seconds=86400):
+    def resolve_identity(self, name, team, role, season, identity_receipts=None, refresh_seconds=86400, evidence_sink=None):
         def retrieve(url, params, ttl):
             if identity_receipts is None:
-                return self.fetch(url, params, refresh_seconds=ttl)
+                raw, rec = self.fetch(url, params, refresh_seconds=ttl)
+                if evidence_sink is not None: evidence_sink.append(rec)
+                return raw, rec
             choices=[r for r in identity_receipts if r.get('url')==url and r.get('params')==params]
             if len(choices)!=1: raise SourceError('identity_receipt_missing_or_duplicate')
-            return self.verified_body(choices[0],url), choices[0]
+            raw = self.verified_body(choices[0],url)
+            if evidence_sink is not None: evidence_sink.append(choices[0])
+            return raw, choices[0]
         raw, rec=retrieve(SEARCH,{'searchWord':name},refresh_seconds)
         matches=player_search_candidates(raw,name,team,role)
         active=[x for x in matches if not x.startswith('retired:')]
@@ -284,6 +289,10 @@ class OfficialClient:
             return answer
         event = {'official_game_id': g['G_ID'], 'season': int(g['SEASON_ID']), 'kickoff_at': kickoff.isoformat(), 'home_id': str(g['HOME_ID']).strip(), 'away_id': str(g['AWAY_ID']).strip()}
         roster = {side: {'starter': starters[side]['player_id'], 'hitters': ids[side]} for side in ('home', 'away')}
+        required_names={event[side+'_id']:{'hitter':{p['name'] for p in ordered[side]}, 'pitcher':{starters[side]['name']}} for side in ('home','away')}
+        if unresolved_required(history,required_names):
+            answer['missing'].append('required_player_history_identity_unresolved')
+            return answer
         if not self.verify_history_coverage(event, history):
             answer['missing'].append('history_coverage_not_verified')
             return answer
@@ -340,8 +349,7 @@ class OfficialClient:
             if name.isdigit():
                 if int(name)<=0: raise SourceError('invalid_box_player_id')
                 return name
-            pid, evidence = self.resolve_identity(name, team, role, game['SEASON_ID'], identity_receipts=identity_receipts)
-            fetched.extend(evidence)
+            pid, _ = self.resolve_identity(name, team, role, game['SEASON_ID'], identity_receipts=identity_receipts, evidence_sink=fetched)
             return pid
         try:
             hs, aws = int(game['B_SCORE_CN']), int(game['T_SCORE_CN'])
@@ -351,7 +359,7 @@ class OfficialClient:
             teams = {str(game['HOME_ID']):{'runs_for':hs,'runs_against':aws},str(game['AWAY_ID']):{'runs_for':aws,'runs_against':hs}}
             required = set(teams) if required_team_ids is None else set(required_team_ids) & set(teams)
             if not required: raise SourceError('box_has_no_required_team')
-            batters, pitchers = {}, {}
+            batters, pitchers, unresolved = {}, {}, []
             for side, bi, pi in (('away',1,3),('home',2,4)):
                 team=team_names[side]
                 batting=tables[bi]; pitching=tables[pi]
@@ -360,10 +368,17 @@ class OfficialClient:
                     raise SourceError('box_batting_schema_invalid')
                 for r in batting['rows'] if str(game[side.upper() + '_ID']) in required else []:
                     cells=[str(x.get('Text') or '').strip() for x in r['row']]
-                    name=cells[2]; pid=resolve(name,team,'hitter',cells[1])
+                    name=cells[2]
                     ab,hit=int(cells[headers.index('타수')]),int(cells[headers.index('안타')])
-                    if pid in batters or min(ab,hit)<0 or hit>ab: raise SourceError('box_batter_duplicate_or_invalid')
-                    batters[pid]={'ab':ab,'hit':hit,'bb':None,'hr':None}
+                    if min(ab,hit)<0 or hit>ab: raise SourceError('box_batter_duplicate_or_invalid')
+                    stats={'ab':ab,'hit':hit,'bb':None,'hr':None}
+                    try: pid=resolve(name,team,'hitter',cells[1])
+                    except SourceError as exc:
+                        if str(exc) not in IDENTITY_AMBIGUITY: raise
+                        unresolved.append({'team':str(game[side.upper() + '_ID']),'role':'hitter','name':name,'raw_stats':stats,'reason':str(exc)})
+                        continue
+                    if pid in batters: raise SourceError('box_batter_duplicate_or_invalid')
+                    batters[pid]=stats
                 headers=[str(x.get('Text') or '').strip() for x in pitching['headers'][0]['row']]
                 for label in ('선수명','등판','이닝','피안타','홈런','삼진','실점','자책'):
                     if headers.count(label)!=1: raise SourceError('box_pitching_schema_invalid')
@@ -373,16 +388,24 @@ class OfficialClient:
                     outs=innings_outs(cells[headers.index('이닝')])
                     if outs is None: raise SourceError('box_pitcher_invalid_innings')
                     if str(game[side.upper() + '_ID']) in required:
-                        pid=resolve(cells[headers.index('선수명')],team,'pitcher')
+                        name=cells[headers.index('선수명')]
                         numbers={key:int(cells[headers.index(label)]) for key,label in (('hit','피안타'),('hr','홈런'),('kk','삼진'),('r','실점'),('er','자책'))}
-                        if pid in pitchers or min(numbers.values())<0: raise SourceError('box_pitcher_duplicate_or_invalid')
-                        pitchers[pid]={'outs':outs,**numbers,'bb':None}
+                        if min(numbers.values())<0: raise SourceError('box_pitcher_duplicate_or_invalid')
+                        stats={'outs':outs,**numbers,'bb':None}
+                        try: pid=resolve(name,team,'pitcher')
+                        except SourceError as exc:
+                            if str(exc) not in IDENTITY_AMBIGUITY: raise
+                            unresolved.append({'team':str(game[side.upper() + '_ID']),'role':'pitcher','name':name,'raw_stats':stats,'reason':str(exc)})
+                            pid=None
+                        if pid is not None:
+                            if pid in pitchers: raise SourceError('box_pitcher_duplicate_or_invalid')
+                            pitchers[pid]=stats
                     if cells[headers.index('등판')]=='선발': starts+=1
                     else: relief_outs += outs
                 if starts != 1: raise SourceError('box_starter_marker_invalid')
                 teams[str(game[side.upper() + '_ID'])]['relief']={'outs':relief_outs}
             received=max([box_receipt['finished_at'],item['receipt']['finished_at']] + [r['finished_at'] for r in fetched],key=datetime.fromisoformat)
-            normalized = {'fixture_id':game['G_ID']+str(game['SEASON_ID']),'date':datetime.strptime(game['G_DT'],'%Y%m%d').date().isoformat(),'received_at':received,'teams':teams,'batters':batters,'pitchers':pitchers,'box_complete':True,'covered_player_teams':sorted(required),'source':{'schedule_sha256':item['receipt']['sha256'],'box_sha256':box_receipt['sha256']}}
+            normalized = {'fixture_id':game['G_ID']+str(game['SEASON_ID']),'date':datetime.strptime(game['G_DT'],'%Y%m%d').date().isoformat(),'received_at':received,'teams':teams,'batters':batters,'pitchers':pitchers,'box_complete':True,'covered_player_teams':sorted(required),'unresolved_identities':unresolved,'source':{'schedule_sha256':item['receipt']['sha256'],'box_sha256':box_receipt['sha256']}}
             return (normalized, fetched) if with_receipts else normalized
         except (KeyError,IndexError,TypeError,ValueError) as exc:
             raise SourceError('box_schema_or_stat_invalid') from exc
@@ -713,3 +736,12 @@ def frozen_seed(received_at,target_date):
     seed['provenance']['received_at']=received_at
     for src in seed['provenance']['sources']:src['received_at']=received_at
     return seed
+
+
+def unresolved_required(history, required_names):
+    """Block any unresolved historical row belonging to a selected player."""
+    for game in history.get('games', []):
+        for item in game.get('unresolved_identities', []):
+            if item.get('name') in required_names.get(item.get('team'), {}).get(item.get('role'), set()):
+                return True
+    return False
