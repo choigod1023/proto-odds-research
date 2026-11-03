@@ -53,3 +53,33 @@ def test_process_scoped_lock_blocks_another_writer_and_releases(tmp_path):
         assert first
         with single_writer(p) as second:assert not second
     with single_writer(p) as third:assert third
+
+def test_more_than_five_unconfirmed_candidates_rotate_on_next_run(tmp_path):
+    x=payload();now=ledger.moment(x['event']['kickoff_at'])-timedelta(hours=2)
+    class Many(Official):
+        def __init__(self,x):super().__init__(x);self.seen=[]
+        def schedule(self,dates):
+            games=[]
+            for i in range(8):
+                g=copy.deepcopy(self.game);g['source']['G_ID']=f'candidate-{i}';games.append(g)
+            return {'games':games}
+        def snapshot(self,g):
+            self.seen.append(g['source']['G_ID']);return {'source_verified':False,'missing':['unannounced']}
+    o=Many(x);prices=lambda *a:{'quotes':[],'excluded':[],'requests':[]}
+    runner.run_once(tmp_path,o,prices,clock=lambda:now,infer=old.fake_infer)
+    assert len(o.seen)==5
+    runner.run_once(tmp_path,o,prices,clock=lambda:now+timedelta(minutes=5),infer=old.fake_infer)
+    assert len(set(o.seen))==8
+
+def test_os_lock_recovers_after_process_termination(tmp_path):
+    import subprocess
+    from locking import single_writer
+    path=tmp_path/'killed.lock'
+    source='import sys,time;sys.path.insert(0,sys.argv[1]);from locking import single_writer\nwith single_writer(sys.argv[2]) as owned:\n print(owned,flush=True)\n time.sleep(30)'
+    proc=subprocess.Popen([sys.executable,'-B','-c',source,str(Path(__file__).parent),str(path)],stdout=subprocess.PIPE,text=True)
+    try:
+        assert proc.stdout.readline().strip()=='True'
+        with single_writer(path) as owned:assert not owned
+    finally:
+        proc.terminate();proc.wait(timeout=5);proc.stdout.close()
+    with single_writer(path) as recovered:assert recovered

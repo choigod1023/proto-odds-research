@@ -79,7 +79,11 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 with (state/"price-request-receipts.jsonl").open("ab") as sink:
                     for rec in price_result["requests"]:sink.write(ledger.canonical(rec)+b"\n")
                     sink.flush();os.fsync(sink.fileno())
-            for g in candidates[:5]:
+            candidates.sort(key=lambda g:(event(g)["kickoff_at"],event(g)["official_game_id"]))
+            candidate_cursor=int(previous.get("candidate_cursor",0))%len(candidates) if candidates else 0
+            selected=(candidates[candidate_cursor:]+candidates[:candidate_cursor])[:5]
+            report["candidate_cursor"]=(candidate_cursor+len(selected))%len(candidates) if candidates else 0
+            for g in selected:
                 try:
                     official_id=g["source"]["G_ID"]
                     current_quotes=[q for q in price_result["quotes"] if q["official_game_id"]==official_id]

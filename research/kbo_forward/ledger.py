@@ -41,7 +41,20 @@ def validate_model_snapshot(payload,now,unpriced=False):
     return f.validate_snapshot(view,now)
 
 def read(path):return f.read_ledger(path)
-def append(path,make):return f.append_locked(path,make)
+def append(path,make):
+    from locking import single_writer
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    with single_writer(path.with_suffix(path.suffix+".append.lock")) as owned:
+        if not owned:raise ValueError("another append active")
+        rows=read(path);record=make(rows)
+        if record is None:return None
+        record["previous_hash"]=rows[-1]["hash"] if rows else "0"*64;record["hash"]=digest(canonical(record));raw=canonical(record)+b"\n"
+        fd=os.open(path,os.O_CREAT|os.O_APPEND|os.O_WRONLY)
+        try:
+            if os.write(fd,raw)!=len(raw):raise OSError("incomplete append; quarantine until explicit review")
+            os.fsync(fd)
+        finally:os.close(fd)
+        return record
 
 def capture(payload,path,clock=utcnow,infer=f.forecast):
     first=clock();kickoff=validate_model_snapshot(payload,first)
