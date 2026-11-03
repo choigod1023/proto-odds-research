@@ -180,10 +180,27 @@ class OfficialTests(unittest.TestCase):
         history=c.derive_history(event,seed,[item['receipt'],rec])
         with patch.object(off,'frozen_seed',return_value=seed):
             self.assertTrue(c.verify_history(event,history)); self.assertTrue(c.verify_history_coverage(event,history))
+            no_games=copy.deepcopy(history); no_games['games']=[]
+            self.assertFalse(c.verify_history_coverage(event,no_games))
             for mutate in (lambda h:h['games'][0]['teams']['HH'].__setitem__('runs_for',99),lambda h:h['games'][0].__setitem__('fixture_id','other'),lambda h:h['schedules']['HH']['events'][0].__setitem__('status','unknown'),lambda h:h['source_receipts'][1].__setitem__('sha256','0'*64),lambda h:h['games'][0]['teams'].__setitem__('wrong',{})):
                 wrong=copy.deepcopy(history);mutate(wrong);self.assertFalse(c.verify_history(event,wrong))
         self.assertEqual(history['games'][0]['pitchers']['102']['outs'],17)
         self.assertIsNone(history['games'][0]['batters']['101']['bb'])
+        # A rival's unresolved identity is irrelevant to the requested team;
+        # its official score and relief innings still remain in the record.
+        box['tables'][1]['rows'][0]['row'][2]['Text']='Unknown rival'
+        for r in box['tables'][3]['rows']: r['row'][0]['Text']='Unknown rival pitcher'
+        c2=OfficialClient(Path(self.tmp.name)/'selective',session=Multi())
+        with patch.object(off.time,'sleep'):
+            item2=c2.schedule([day])['games'][0]
+            _,rec2=c2.fetch(off.BOX,{'leId':game['LE_ID'],'srId':game['SR_ID'],'seasonId':game['SEASON_ID'],'gameId':game['G_ID']})
+            selected=c2.normalize_box(item2,rec2,required_team_ids=['HH'])
+        self.assertEqual(selected['covered_player_teams'],['HH'])
+        self.assertEqual(selected['teams']['AA']['relief']['outs'],1)
+        self.assertEqual(set(selected['batters']),{'201'})
+        with patch.object(c2,'fetch',side_effect=SourceError('identity_unavailable')):
+            with self.assertRaisesRegex(SourceError,'identity_unavailable'):
+                c2.normalize_box(item2,rec2,required_team_ids=['AA'])
 
     def test_historical_final_schedule_cache_and_unfinished_refresh(self):
         import research.kbo_forward.official as off

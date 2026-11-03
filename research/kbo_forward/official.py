@@ -296,7 +296,7 @@ class OfficialClient:
         return answer
 
 
-    def normalize_box(self, item, box_receipt, identity_receipts=None, with_receipts=False):
+    def normalize_box(self, item, box_receipt, identity_receipts=None, with_receipts=False, required_team_ids=None):
         """Derive prior game's score and player stats only from raw official tables.
 
         Four-ball totals combine walks and hit-by-pitch; individual BB is not
@@ -333,6 +333,8 @@ class OfficialClient:
             team_names = {'home':str(game['HOME_NM']).strip(),'away':str(game['AWAY_NM']).strip()}
             if not all(team_names.values()) or team_names['home']==team_names['away']: raise ValueError()
             teams = {str(game['HOME_ID']):{'runs_for':hs,'runs_against':aws},str(game['AWAY_ID']):{'runs_for':aws,'runs_against':hs}}
+            required = set(teams) if required_team_ids is None else set(required_team_ids) & set(teams)
+            if not required: raise SourceError('box_has_no_required_team')
             batters, pitchers = {}, {}
             for side, bi, pi in (('away',1,3),('home',2,4)):
                 team=team_names[side]
@@ -340,7 +342,7 @@ class OfficialClient:
                 headers=[str(x.get('Text') or '').strip() for x in batting['headers'][0]['row']]
                 if headers.count('타수') != 1 or headers.count('안타') != 1 or not batting['rows'] or not pitching['rows']:
                     raise SourceError('box_batting_schema_invalid')
-                for r in batting['rows']:
+                for r in batting['rows'] if str(game[side.upper() + '_ID']) in required else []:
                     cells=[str(x.get('Text') or '').strip() for x in r['row']]
                     name=cells[2]; pid=resolve(name,team,'hitter',cells[1])
                     ab,hit=int(cells[headers.index('타수')]),int(cells[headers.index('안타')])
@@ -352,17 +354,19 @@ class OfficialClient:
                 relief_outs=0; starts=0
                 for r in pitching['rows']:
                     cells=[str(x.get('Text') or '').strip() for x in r['row']]
-                    pid=resolve(cells[headers.index('선수명')],team,'pitcher')
                     outs=innings_outs(cells[headers.index('이닝')])
-                    numbers={key:int(cells[headers.index(label)]) for key,label in (('hit','피안타'),('hr','홈런'),('kk','삼진'),('r','실점'),('er','자책'))}
-                    if pid in pitchers or outs is None or min(numbers.values())<0: raise SourceError('box_pitcher_duplicate_or_invalid')
-                    pitchers[pid]={'outs':outs,**numbers,'bb':None}
+                    if outs is None: raise SourceError('box_pitcher_invalid_innings')
+                    if str(game[side.upper() + '_ID']) in required:
+                        pid=resolve(cells[headers.index('선수명')],team,'pitcher')
+                        numbers={key:int(cells[headers.index(label)]) for key,label in (('hit','피안타'),('hr','홈런'),('kk','삼진'),('r','실점'),('er','자책'))}
+                        if pid in pitchers or min(numbers.values())<0: raise SourceError('box_pitcher_duplicate_or_invalid')
+                        pitchers[pid]={'outs':outs,**numbers,'bb':None}
                     if cells[headers.index('등판')]=='선발': starts+=1
                     else: relief_outs += outs
                 if starts != 1: raise SourceError('box_starter_marker_invalid')
                 teams[str(game[side.upper() + '_ID'])]['relief']={'outs':relief_outs}
             received=max([box_receipt['finished_at'],item['receipt']['finished_at']] + [r['finished_at'] for r in fetched],key=datetime.fromisoformat)
-            normalized = {'fixture_id':game['G_ID']+str(game['SEASON_ID']),'date':datetime.strptime(game['G_DT'],'%Y%m%d').date().isoformat(),'received_at':received,'teams':teams,'batters':batters,'pitchers':pitchers,'box_complete':True,'source':{'schedule_sha256':item['receipt']['sha256'],'box_sha256':box_receipt['sha256']}}
+            normalized = {'fixture_id':game['G_ID']+str(game['SEASON_ID']),'date':datetime.strptime(game['G_DT'],'%Y%m%d').date().isoformat(),'received_at':received,'teams':teams,'batters':batters,'pitchers':pitchers,'box_complete':True,'covered_player_teams':sorted(required),'source':{'schedule_sha256':item['receipt']['sha256'],'box_sha256':box_receipt['sha256']}}
             return (normalized, fetched) if with_receipts else normalized
         except (KeyError,IndexError,TypeError,ValueError) as exc:
             raise SourceError('box_schema_or_stat_invalid') from exc
@@ -379,7 +383,7 @@ class OfficialClient:
             receipts.append(day['schedule_receipt'])
             for item in day['games']:
                 receipts.append(item['box_receipt'])
-                _, identities=self.normalize_box(item['game'],item['box_receipt'],with_receipts=True)
+                _, identities=self.normalize_box(item['game'],item['box_receipt'],with_receipts=True,required_team_ids=(event['home_id'],event['away_id']))
                 receipts.extend(identities)
         if not receipts: receipts=[game['receipt']]
         unique={json.dumps([x['url'],x['params']],sort_keys=True,ensure_ascii=False):x for x in receipts}
@@ -426,7 +430,7 @@ class OfficialClient:
                 if status=='final':
                     if g['G_ID'] not in boxes: raise SourceError('history_box_missing')
                     item={'source':g,'receipt':rec}
-                    normalized=self.normalize_box(item,boxes[g['G_ID']],identity_receipts=receipts)
+                    normalized=self.normalize_box(item,boxes[g['G_ID']],identity_receipts=receipts,required_team_ids=teams)
                     games.append(normalized)
             day+=timedelta(days=1)
         received=max([seed['received_at']]+[r['finished_at'] for r in receipts],key=datetime.fromisoformat)
