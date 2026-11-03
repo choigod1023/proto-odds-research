@@ -11,7 +11,7 @@ spec=importlib.util.spec_from_file_location("frozen_kbo_forward",OLD/"forward.py
 f=importlib.util.module_from_spec(spec);spec.loader.exec_module(f)
 MODELS=("baseline","equal_ensemble")
 SIDES=("home","draw","away")
-POLICY="direct-public-source-local-receipt-v1"
+POLICY="fixed-seed-plus-direct-public-source-local-receipt-v1"
 
 def canonical(x):return f.canonical(x)
 def digest(x):return f.digest(x)
@@ -182,7 +182,8 @@ def summary(path,now=None):
             for day in sorted(daily):balance+=daily[day];peak=max(peak,balance);dd=max(dd,peak-balance)
             m[model]={"settled":len(ss),"hits":hits,"refunds":refunds,"decisive_accuracy":hits/(len(ss)-refunds) if len(ss)>refunds else None,"roi":float(net/len(ss)) if ss else None,"net_units":str(net),"monthly_units":{k:str(v) for k,v in sorted(monthly.items())},"max_daily_close_drawdown_units":str(dd)}
         first=min((moment(c["frozen_at"]) for c in cs.values()),default=None);elapsed=(now or utcnow())-first if first else timedelta(0)
-        groups[kind]={"captured":len(cs),"settled":len(ss),"pending":len(cs)-len(ss),"models":m,"formal_review_ready":len(ss)>=200 and elapsed>=timedelta(days=56),"automatic_adoption":False}
+        missing=collections.Counter(k for c in cs.values() for k,v in c["input"]["row"]["features"].items() if v["value"] is None)
+        groups[kind]={"input_missing_feature_counts":dict(sorted(missing.items())),"captured":len(cs),"settled":len(ss),"pending":len(cs)-len(ss),"models":m,"formal_review_ready":len(ss)>=200 and elapsed>=timedelta(days=56),"automatic_adoption":False}
     unpriced={r["event_key"]:r for r in rows if r["type"] in ("unpriced_settlement","unpriced_correction")}
     unpriced_final=[r for r in unpriced.values() if r["economic_result"]["status"]=="final"]
     unpriced_accuracy={name:{"n":len(unpriced_final),"hits":sum(r["outcome_scores"][name]["hit"] for r in unpriced_final),"roi":None} for name in MODELS}
