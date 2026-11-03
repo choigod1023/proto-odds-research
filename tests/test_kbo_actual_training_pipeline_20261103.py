@@ -177,3 +177,12 @@ def test_consistent_unseen_player_is_neutral_not_identity_mismatch():
  assert m.original.side_features(target,'home',spec)[1]==1.0
  assert m.original.side_features(target,'away',spec)[3]==1.0
  assert workflow.validate_snapshot(pairs,lineage,evidence,proof,dates,{'a'*64},{2024})
+
+def test_historical_pitcher_metadata_bf_is_not_used_as_batters_faced():
+ lineage={k:empty_entry() for k in m.PLAYER};entry=lineage['home_starter_strength'];entry['value']={'projected_player_id':'p1','appearances':[{'fixture_id':'old','date':'2024-03-31','er':2,'outs':18,'r':2,'bb':1,'hit':2,'hr':0,'kk':3,'source_bf_raw':9999,'source_bf_units':'unverified'}]};dates={'old':date(2024,3,31),'target':date(2024,4,1)};m.validate_lineage('target','2024-04-01',lineage,dates);assert m.original.adapter.scalar('home_starter_strength',entry['value'])==3
+ changed=copy.deepcopy(entry['value']);changed['appearances'][0]['source_bf_raw']=0;assert m.original.adapter.scalar('home_starter_strength',changed)==3
+
+def test_shared_player_history_must_match_across_training_selectors():
+ import dataset
+ a={'raw_features':{k:empty_entry() for k in m.FEATURES},'roster':{'home':{'starter':None},'away':{'starter':None}}};b=copy.deepcopy(a);a['raw_features']['home_lineup_strength']['value']=[{'player_id':'h0','history':[{'ab':1}]}];b['raw_features']['home_lineup_strength']['value']=[{'player_id':'h0','history':[{'ab':2}]}]
+ with pytest.raises(ValueError,match='shared hitter'):dataset.check_shared(a,b)

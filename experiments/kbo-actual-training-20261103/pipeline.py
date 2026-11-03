@@ -61,7 +61,7 @@ def validate_lineage(fid,event_date,lineage,known_dates):
   if 'starter' in name and value is not None:
    if set(value)!={'projected_player_id','appearances'}:raise ValueError('starter profile schema')
    for hist in value['appearances']:
-    if not {'fixture_id','date','er','outs','r'}<=set(hist) or set(hist)-{'fixture_id','date','er','outs','r','provenance'} or any(type(hist[k]) is not int or hist[k]<0 for k in ('er','outs')):raise ValueError('invalid pitcher components')
+    if not {'fixture_id','date','er','outs','r'}<=set(hist) or set(hist)-{'fixture_id','date','er','outs','r','provenance','bb','hit','hr','kk','source_bf_raw','source_bf_units'} or any(type(hist[k]) is not int or hist[k]<0 for k in ('er','outs')):raise ValueError('invalid pitcher components')
   if 'bullpen' in name and value is not None:
    for game in value['games']:
     if type((game.get('relief') or {}).get('outs')) is not int or game['relief']['outs']<0:raise ValueError('invalid relief outs')
