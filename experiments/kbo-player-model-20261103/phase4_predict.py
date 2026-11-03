@@ -38,7 +38,9 @@ def load_inputs():
         inputs[k]=[json.loads(x) for x in gzip.decompress(raw).splitlines()]
     raw=read_checked(P/'phase2/features.jsonl.gz',HASH['features']);inputs['features']=[json.loads(x) for x in gzip.decompress(raw).splitlines()]
     inputs['predictions']=json.loads(read_checked(P/'phase2/predictions.json',HASH['predictions']))
-    if digest((P/'model.py').read_bytes())!=inputs['predictions']['code_sha256']['model']:raise ValueError('frozen model source bytes differ')
+    model_blob=subprocess.check_output(['git','-C',str(ROOT),'show','5cb48043:experiments/kbo-player-model-20261103/model.py'])
+    historic_crlf=model_blob.replace(b'\n',b'\r\n')
+    if (P/'model.py').read_bytes() not in (model_blob,historic_crlf) or digest(historic_crlf)!=inputs['predictions']['code_sha256']['model']:raise ValueError('frozen model source differs from Git blob or recorded Windows checkout')
     return inputs
 
 def index(rows):
@@ -65,7 +67,7 @@ def build(rows):
         src=overlay[fid];old=prior[fid];row=base[fid];context=src['official_lineup_context']
         if row['season']!=2026 or row['availability_tier']!='retrospective_unproven' or src['availability_tier']!='retrospective_unproven' or src['scenario']!=DATA_SCENARIO:raise ValueError('invalid target tier/scenario')
         if context['basis']!=DATA_SCENARIO or any(context[k] is not False for k in ('historical_receipt_proven','eligible_as_pregame_feature','point_in_time_verified')) or context['baseline_projection_metadata_not_official_selector'] is not True:raise ValueError('unsafe availability promotion')
-        if context['official_game_date']!=row['event_date'].replace('-',''):raise ValueError('official date mismatch')
+        if context['official_game_date']!=row['event_date'].replace('-','') or fid!=context['official_game_id']+str(row['season']):raise ValueError('official fixture/date mismatch')
         if context['home_team_id']!=TEAMS.get(row['home_id']) or context['away_team_id']!=TEAMS.get(row['away_id']):raise ValueError('official oriented teams mismatch')
         if canonical(src['projection'])!=canonical(old['projection']):raise ValueError('prior projection changed')
         old_non={k:v for k,v in old['features'].items() if k not in LINEUP};new_non={k:v for k,v in src['features'].items() if k not in LINEUP}
