@@ -1,0 +1,24 @@
+{
+  "hypothesis": "archived prior batter HR/AB may add batting power omitted by existing M0 OBP-proxy aggregate",
+  "manual_request_only": true,
+  "candidate_count": 1,
+  "task_total_new_candidates": 2,
+  "previous_candidate": "kbo-m0-win-head-20261103; failed2026 after better2024/25, not hidden",
+  "features": "one own-side lineup HR/AB strength plus its missing indicator; no pitcher HR because2026 coverage absent",
+  "prior": "fit-only unique(player_id,fixture_id,date) valid HR/AB pooled rate;20 pseudoAB per batter;all-unknown side stays null",
+  "model": "M0 Poisson GLM refit with extra standardized own-side power and missing flag; same L2=10,intercept0; no grid or weight search",
+  "splits": [
+    "2023->2024",
+    "2023-24->2025",
+    "2023-25->2026"
+  ],
+  "embargo_days": 7,
+  "development_gate": "2024 decisive_hits higher and decisive_logloss no worse; always report2025/26 diagnostics without retuning",
+  "same_targets_and_prices": true,
+  "no_coverage_filter_or_bet_threshold": true,
+  "all_historical_periods_already_seen": true,
+  "not_blind_or_confirmatory": true,
+  "price_selection_bias_2024_25": true,
+  "no_live_collector_or_model_or_automation_changes": true,
+  "no_merge_or_deploy": true
+}
