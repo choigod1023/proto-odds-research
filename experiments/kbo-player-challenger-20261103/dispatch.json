@@ -4,8 +4,8 @@
   "protocol_commit": "867afbdd",
   "protocol_sha256": "c3a687077f822087bc94df8c2cd314ff988a1cdd9359941f8152a779cff9926d",
   "contract_sha256": "59d4c7259dfb3135e9cbbba7fee2f415f614c6c6badb9c99120c0d1cf84c99ec",
-  "dispatch_verified_at": "2026-11-03T01:26:04Z",
-  "current_stage": "kbo_actual_model_comparison_and_projection_audit",
+  "dispatch_verified_at": "2026-11-03T01:50:31Z",
+  "current_stage": "kbo_official_price_overlay_review_and_official_lineup_capture",
   "workers": [
     {
       "role": "data",
@@ -14,9 +14,9 @@
       "native_send_succeeded": true,
       "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "prior_projection_completed",
+      "stage": "projection_reliability_completed",
       "pr": 511,
-      "commit": "b0833a6",
+      "commit": "63425c1",
       "actual_workspace": "C:/Users/user/Documents/Codex/kbodata"
     },
     {
@@ -26,8 +26,9 @@
       "native_send_succeeded": true,
       "observed_status": "active",
       "runtime_model_verified": false,
-      "stage": "phase2_actual_comparison_dispatched",
-      "pr": 512
+      "stage": "official_price_overlay_completed",
+      "pr": 512,
+      "commit": "5c797509a9305674307ecce83df99ea8f9a2b0c1"
     },
     {
       "role": "independent_review",
@@ -36,18 +37,60 @@
       "native_send_succeeded": true,
       "observed_status": "active",
       "runtime_model_verified": false,
-      "stage": "phase3_projection_audit_dispatched",
-      "pr": 510
+      "stage": "phase6_overlay_audit",
+      "pr": 510,
+      "commit": "431e7e9f39b301a94bf7cfbc2501dab35f3d0086"
+    },
+    {
+      "role": "official_price_restoration",
+      "thread_id": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
+      "branch": "codex/kbo-official-odds-20261103",
+      "actual_workspace": "C:/Users/user/Documents/Codex/kbo-official-odds-20261103",
+      "native_send_succeeded": true,
+      "observed_status": "idle",
+      "runtime_model_verified": false,
+      "stage": "ready_for_join_independently_audited",
+      "commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
+      "pr": 513
+    },
+    {
+      "role": "official_lineup_restoration",
+      "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
+      "branch": "codex/kbo-official-lineup-short-20261103",
+      "actual_workspace": "C:/Users/user/Documents/Codex/klu",
+      "native_send_succeeded": true,
+      "observed_status": "active",
+      "runtime_model_verified": false,
+      "stage": "confirmed_lineup_capture_priority_2026",
+      "commit": "b3f1f2c2fb79354150c42a22199078943860c042",
+      "pr": 514,
+      "partial_confirmed_count_observed": 377
+    },
+    {
+      "role": "kleague1_official_inputs",
+      "thread_id": "01a18f7e-9f1e-7660-9274-8bd728a12f3b",
+      "native_send_succeeded": true,
+      "observed_status": "active",
+      "runtime_model_verified": false,
+      "stage": "actual_official_api_inventory_and_collection"
+    },
+    {
+      "role": "kleague2_official_inputs",
+      "thread_id": "01a18f7e-a351-7773-b538-e09a0d65a5e3",
+      "native_send_succeeded": true,
+      "observed_status": "active",
+      "runtime_model_verified": false,
+      "stage": "actual_official_api_inventory_and_collection"
     }
   ],
   "league_stages": [
     {
       "league": "KBO",
-      "status": "in_progress"
+      "status": "initial_comparison_done_official_input_enrichment_in_progress"
     },
     {
       "league": "K리그1·K리그2",
-      "status": "waiting_for_kbo_results"
+      "status": "official_input_collection_started_after_initial_kbo_comparison"
     },
     {
       "league": "NPB·MLB·KBL·NBA·배구·기타 축구",
@@ -72,5 +115,60 @@
     "draws_with_usable_prices": 0,
     "selection_bias": "all_draws_lack_usable_original_prices"
   },
-  "integration_amendment_commit": "1770f8b35a4986fb39fa3615a158cab083add864"
+  "integration_amendment_commit": "1770f8b35a4986fb39fa3615a158cab083add864",
+  "restoration_priority": {
+    "human_requested": true,
+    "initial_price_samples_returned_real_values": 3,
+    "lineup_sample_years_returned_confirmed_flag": [
+      2023,
+      2025,
+      2026
+    ],
+    "all_missing_data_restored": false,
+    "hold_kleague_until_kbo_result": false,
+    "existing_input_files_preserved": true,
+    "initial_kbo_result_review_commit": "96b48288",
+    "official_prices_restored": 373,
+    "draw_prices_restored": 56,
+    "restored_without_original_kickoff": 249
+  },
+  "preliminary_comparison": {
+    "cohort": "2026-03-28_through_2026-06-30_archived_prices_without_draws",
+    "n": 354,
+    "primary_player_hits": 212,
+    "primary_player_roi": -0.051440677966101696,
+    "market_hits": 208,
+    "market_roi": -0.10290960451977402,
+    "audit_complete": false,
+    "operating_superiority_established": false,
+    "new_official_prices_used": false
+  },
+  "price_overlay": {
+    "prediction_sha256": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
+    "restored_prices_sha256": "d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117",
+    "overlay_results_sha256": "24938f0f5489d22bbc76a830e2f48e2491da6687d3f4a5a2f9e8e8c376790d23",
+    "retraining_performed": false,
+    "parent_independent_decimal_check": true,
+    "strict_original_time_match": {
+      "n": 439,
+      "refunds": 10,
+      "player_hits": 245,
+      "player_net_units": "-42.95",
+      "market_hits": 250,
+      "market_net_units": "-46.83"
+    },
+    "extended_day_team_source_confirmed": {
+      "n": 683,
+      "refunds": 16,
+      "player_hits": 380,
+      "player_net_units": "-67.71",
+      "market_hits": 398,
+      "market_net_units": "-58.70"
+    },
+    "strict_means_point_in_time_verified": false,
+    "official_lineups_used": false,
+    "conclusion": "No demonstrated superiority; extended cohort favors market point estimate. No adoption.",
+    "wallet_replay_performed": false,
+    "independent_final_audit_complete": false
+  }
 }
