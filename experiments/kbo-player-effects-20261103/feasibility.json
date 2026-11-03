@@ -1,0 +1,32 @@
+{
+  "schema": "kbo-roster-feasibility-readonly-v1",
+  "observed_at_utc": "2026-11-03T04:32:15.595371+00:00",
+  "worker": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+  "raw_sha256": {
+    "data/raw/detail/kbo_batters_indiv_2023_2026.json": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+    "data/raw/detail/kbo_baseball_2023_2026.json": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66"
+  },
+  "observations": {
+    "2023_batter_rows": 18290,
+    "2023_pitcher_rows": 6879,
+    "2024_batter_rows": 18212,
+    "2024_pitcher_rows": 7134,
+    "2025_batter_rows": 18777,
+    "2025_pitcher_rows": 7151,
+    "2026_original_batter_rows": 11991,
+    "2026_original_pitcher_rows": 4594,
+    "strict_historical_announced_roster_receipts": 0,
+    "2023_official_roster_games": 340,
+    "2023_both_lineups_prior_name_id_and_profile_mapped": 169,
+    "uniform_2023_2025_official_roster_training_unavailable": true,
+    "batter_handedness_missing_fraction": 1.0,
+    "pitcher_handedness_and_start_flag_missing_fraction": 1.0,
+    "pitcher_bf_official_single_game_comparisons": 13,
+    "pitcher_bf_matched_pitch_count_in_checked_game": true,
+    "pitcher_bf_global_definition_proven": false,
+    "new_complete_daily_batters": 3939,
+    "new_incomplete_daily_batters": 3026,
+    "new_pitcher_pure_bb_missing_fraction": 1.0
+  },
+  "scope": "Read-only diagnostics; missing-field percentages refer to inspected raw rows, not proof all season games were captured. No new fitting or network collection in this inventory."
+}
