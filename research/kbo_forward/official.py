@@ -123,8 +123,15 @@ class OfficialClient:
         for day in dates:
             day = date.fromisoformat(day) if isinstance(day, str) else day
             requested = day.strftime('%Y%m%d')
-            raw, rec = self.fetch(SCHEDULE, {'leId': '1', 'srId': '0,1,3,4,5,6,7,8,9', 'date': requested})
+            params = {'leId': '1', 'srId': '0,1,3,4,5,6,7,8,9', 'date': requested}
+            refresh = 86400 if day < now_utc().astimezone(KST).date() else 300
+            raw, rec = self.fetch(SCHEDULE, params, refresh_seconds=refresh)
             obj = json.loads(raw)
+            # A past day can still contain a delayed or unresolved game. Do not
+            # cache its nonfinal status for the longer completed-day period.
+            if refresh > 300 and isinstance(obj, dict) and isinstance(obj.get('game'), list) and any(str(g.get('GAME_STATE_SC')) != '3' and str(g.get('CANCEL_SC_ID')) == '0' for g in obj['game']):
+                raw, rec = self.fetch(SCHEDULE, params, refresh_seconds=300)
+                obj = json.loads(raw)
             if not isinstance(obj, dict) or str(obj.get('code')) != '100' or not isinstance(obj.get('game'), list):
                 raise SourceError('invalid_schedule')
             for game in obj['game']:
@@ -312,7 +319,7 @@ class OfficialClient:
                 if int(name)<=0: raise SourceError('invalid_box_player_id')
                 return name
             if identity_receipts is None:
-                raw_id, rec = self.fetch(SEARCH, {'searchWord': name}, refresh_seconds=3600)
+                raw_id, rec = self.fetch(SEARCH, {'searchWord': name}, refresh_seconds=86400)
             else:
                 choices = [r for r in identity_receipts if r.get('url') == SEARCH and (r.get('params') or {}).get('searchWord') == name]
                 if len(choices) != 1: raise SourceError('box_identity_receipt_missing_or_duplicate')

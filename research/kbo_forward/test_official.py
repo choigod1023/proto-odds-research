@@ -185,6 +185,24 @@ class OfficialTests(unittest.TestCase):
         self.assertEqual(history['games'][0]['pitchers']['102']['outs'],17)
         self.assertIsNone(history['games'][0]['batters']['101']['bb'])
 
+    def test_historical_final_schedule_cache_and_unfinished_refresh(self):
+        import research.kbo_forward.official as off
+        current=datetime.now(timezone.utc)
+        day=current.astimezone(timezone(timedelta(hours=9))).date()-timedelta(days=2)
+        game=dict(self.g,G_DT=day.strftime('%Y%m%d'),GAME_STATE_SC='3',GAME_RESULT_CK='1')
+        session=Session({'code':'100','game':[game]}); c=OfficialClient(self.tmp.name,session=session)
+        with patch.object(off.time,'sleep'),patch.object(off,'now_utc',return_value=current):
+            c.schedule([day])
+        with patch.object(off.time,'sleep'),patch.object(off,'now_utc',return_value=current+timedelta(minutes=10)):
+            c.schedule([day])
+        self.assertEqual(session.calls,1)
+        game['GAME_STATE_SC']='1';session=Session({'code':'100','game':[game]});c=OfficialClient(Path(self.tmp.name)/'unfinished',session=session)
+        with patch.object(off.time,'sleep'),patch.object(off,'now_utc',return_value=current):
+            c.schedule([day])
+        with patch.object(off.time,'sleep'),patch.object(off,'now_utc',return_value=current+timedelta(minutes=10)):
+            c.schedule([day])
+        self.assertEqual(session.calls,2)
+
     def test_403_backoff_expires_and_large_response_stops(self):
         import research.kbo_forward.official as off
         class Stateful:
