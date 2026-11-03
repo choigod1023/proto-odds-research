@@ -146,7 +146,7 @@ def main():
       daily=y['daily_official_row'];de=y['daily_evidence'];pid=x['player_id']
       if not pid or str(de.get('query',{}).get('playerId'))!=pid or daily['date']!=r['game_date'] or any(daily[k]!=x[k] for k in ('AB','H','R','RBI')) or daily['BB']!=y['BB'] or not all(integer(z) for z in (x['AB'],x['H'],y['BB'])) or x['H']>x['AB']:raise ValueError('invalid matched batter')
       bh[pid].append({'fixture_id':fid,'date':day,'ab':x['AB'],'hit':x['H'],'bb':y['BB'],'hr':y.get('HR'),'provenance':{'box':ev(r['evidence']['box']),'daily':ev(de)}})
-      counts['batter_complete']+=1;counts['batter_zero_ab_bb']+=int(x['AB']==0 and y['BB']==0)
+      counts['batter_complete']+=1;counts['batter_zero_ab_bb']+=int(x['AB']==0 and y['BB']==0);counts['batter_zero_pa']+=int(daily['PA']==0)
      pp=sup['pitcher_id_supplement'][side]
      if len(ps)!=len(pp):raise ValueError('pitcher index length mismatch')
      linked=[]

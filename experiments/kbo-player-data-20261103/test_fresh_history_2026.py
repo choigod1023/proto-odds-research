@@ -87,4 +87,4 @@ for variant in ('projected','official_batting_and_starter'):
     assert actual==expected
     independent_checks+=1
 p=H/'fresh-history-2026-incomplete-batters.jsonl.gz';missing=gz(p);assert hashlib.sha256(p.read_bytes()).hexdigest()==manifest['outputs_sha256']['incomplete_batters'];assert len(missing)==3026 and all(x['bb'] is None for x in missing)
-print(json.dumps({'status':'ok','variant_rows':counts['variant_rows'],'player_histories':counts['player_histories'],'independent_new_history_checks':independent_checks,'distinct_zero_pa_source_rows_retained':len(zero_sources),'incomplete_rows':len(missing),'scalar_edge_cases':'ok','nested_temporal_checks':'ok','factorial_and_fixed_core':'ok'}))
+print(json.dumps({'status':'ok','variant_rows':counts['variant_rows'],'player_histories':counts['player_histories'],'independent_new_history_checks':independent_checks,'distinct_zero_ab_and_bb_source_rows_retained':len(zero_sources),'incomplete_rows':len(missing),'scalar_edge_cases':'ok','nested_temporal_checks':'ok','factorial_and_fixed_core':'ok'}))
