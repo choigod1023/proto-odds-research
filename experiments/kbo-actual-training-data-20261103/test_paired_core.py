@@ -10,7 +10,7 @@ class PairedTest(unittest.TestCase):
   self.assertTrue(valid_pitcher({'outs':0,'er':0}));self.assertFalse(valid_pitcher({'outs':None,'er':0}))
  def test_target_poison_and_nonplayer_equal(self):
   base={'fixture_id':'T','features':{s+'_'+k:{'value':'old'} for s in ('home','away') for k in ('lineup_strength','starter_strength','team_strength','bullpen_load','rest_days')}};base['features']['park_factor']={'value':'park'}
-  roster={'status':'complete','hitters':{s:[{'slot':i,'player_id':str(i)} for i in range(1,10)] for s in ('home','away')},'starters':{s:{'player_id':'P','actual_record_verified':True} for s in ('home','away')}}
+  roster={'status':'complete','hitters':{s:[{'slot':i,'player_id':str(i+(10 if s=='away' else 0))} for i in range(1,10)] for s in ('home','away')},'starters':{s:{'player_id':'P' if s=='home' else 'Q','actual_record_verified':True} for s in ('home','away')}}
   bh={'1':[{'fixture_id':'old','date':'2023-01-01','ab':0,'hit':0,'bb':0},{'fixture_id':'T','date':'2023-01-02','ab':1,'hit':1,'bb':0}]};ph={'P':[{'fixture_id':'old','date':'2023-01-01','outs':3,'er':0},{'fixture_id':'T','date':'2023-01-02','outs':3,'er':3}]};a=build_actual(base,roster,bh,ph,'2023-01-02');poison=copy.deepcopy(bh);poison['1'][1]['hit']=0;b=build_actual(base,roster,poison,ph,'2023-01-02');self.assertEqual(a,b)
   for k in base['features']:
    if not k.endswith(('lineup_strength','starter_strength')):self.assertEqual(a['features'][k],base['features'][k])

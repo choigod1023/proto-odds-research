@@ -13,6 +13,10 @@ GAP=Path(r'C:\Users\user\Documents\Codex\kbor\experiments\kbo-official-record-ga
 def sha(b):return hashlib.sha256(b).hexdigest()
 def evidence(cache,meta):
  if not isinstance(meta,dict) or meta.get('http_status')!=200:raise ValueError('bad_source_evidence')
+ if not str(meta.get('url') or '').startswith('https://www.koreabaseball.com/'):raise ValueError('nonofficial_source_url')
+ try:received=datetime.fromisoformat(meta['received_at'].replace('Z','+00:00'))
+ except (KeyError,TypeError,ValueError) as exc:raise ValueError('bad_source_receipt') from exc
+ if received.utcoffset() is None:raise ValueError('source_receipt_timezone_missing')
  p=cache/'raw'/meta['sha256'];raw=p.read_bytes()
  if sha(raw)!=meta['sha256'] or len(raw)!=meta['bytes']:raise ValueError('bad_source_bytes')
  return raw
@@ -55,7 +59,7 @@ def main():
   official=Path(r'C:\Users\user\Documents\Codex\klu\experiments\kbo-official-lineups-20261103\official-lineups-2026.jsonl');raw=official.read_bytes()
   if sha(raw)!='f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3':raise ValueError('2026_official_frozen_source_mismatch')
   records=list(map(json.loads,raw.splitlines()))
- else:records=[json.loads(s) for s in (CACHE/'official-lineups.jsonl').read_text(encoding='utf8').splitlines()]
+ else:records=[json.loads(s) for s in (CACHE/'official-lineups-2023-final.jsonl').read_text(encoding='utf8').splitlines()]
  records=[r for r in records if str(r.get('fixture_id','')).endswith(str(args.season)) or r.get('season_id')==args.season]
  rows=[json.loads(s) for s in ROWS.read_text(encoding='utf8').splitlines()];selected={r['fixture_id']:r for r in rows if r['season']==args.season}
  if args.season==2026:

@@ -247,7 +247,7 @@ def run(args):
     team_index = build_team_index(source)
     target = Path(args.output)
     target.mkdir(parents=True, exist_ok=True)
-    output = target/'official-lineups.jsonl'
+    output = target/('retry-lineups.jsonl' if args.retry_identity else 'official-lineups.jsonl')
     previous = [json.loads(x) for x in output.read_text(encoding='utf8').splitlines()] if output.exists() else []
     done = {x['fixture_id'] for x in previous}
     if len(done) != len(previous):
@@ -263,10 +263,16 @@ def run(args):
         try:
             direct_id = bool(re.fullmatch(r'\d{8}[A-Z]{4}\d\d{4}', fid))
             score_match = re.fullmatch(r'score:(\d{4})-(\d{2})-(\d{2}):([^:]+):([^:]+)', fid)
+            alias=False
             if direct_id:
                 if fid[-4:] != str(row['season']):
                     raise ValueError('season_mismatch')
                 gid, day = fid[:-4], fid[:8]
+                if day[:4]!=str(row['season']):
+                    if not args.retry_identity or not row.get('kickoff_at'):raise ValueError('fixture_year_alias_unverified')
+                    actual_day=datetime.fromisoformat(row['kickoff_at']).strftime('%Y%m%d')
+                    if actual_day[4:]!=day[4:] or actual_day[:4]!=str(row['season']):raise ValueError('fixture_year_alias_date_mismatch')
+                    day=actual_day;gid=day+fid[8:13];alias=True
             elif score_match:
                 day = ''.join(score_match.group(i) for i in (1,2,3))
                 if day[:4] != str(row['season']) or (score_match.group(4),score_match.group(5)) != (row['home_id'],row['away_id']):
@@ -282,16 +288,18 @@ def run(args):
             gid = game['G_ID']
             if str(game['G_DT']) != day or str(game['SEASON_ID']) != str(row['season']) or str(game['LE_ID']) != '1' or gid != day+game['AWAY_ID']+game['HOME_ID']+str(game['HEADER_NO']):
                 raise ValueError('game_schedule_identity_mismatch')
+            kickoff_conflict=None
             if row.get('kickoff_at'):
                 local_start = datetime.fromisoformat(row['kickoff_at'])
                 if local_start.utcoffset() is None or local_start.astimezone(timezone(timedelta(hours=9))).strftime('%Y%m%d %H:%M') != day+' '+game['G_TM']:
-                    raise ValueError('kickoff_mismatch')
+                    if not args.retry_identity or not direct_id:raise ValueError('kickoff_mismatch')
+                    kickoff_conflict={'archive_kickoff':row['kickoff_at'],'official_schedule_time':game['G_TM'],'fixture_identity_basis':'exact official G_ID including doubleheader header; time discrepancy retained'}
             params = {'leId':game['LE_ID'],'srId':game['SR_ID'],'seasonId':game['SEASON_ID'],'gameId':gid}
             raw, lineup_meta = f.fetch('POST', LINEUP, params)
             lineup = parse_lineup(raw, game)
             rec = {'fixture_id':fid, 'official_game_id':gid, 'game_date':day, 'home_team_id':game['HOME_ID'],
                    'away_team_id':game['AWAY_ID'], 'header_no':game['HEADER_NO'], 'league_id':game['LE_ID'],
-                   'fixture_match_basis':'exact_official_game_id' if direct_id else 'unique_date_home_away_schedule_match',
+                   'fixture_match_basis':('encoded_year_alias_exact_official_schedule_match' if alias else 'exact_official_game_id') if direct_id else 'unique_date_home_away_schedule_match',
                    'source_kickoff_available':bool(row.get('kickoff_at')),
                    'series_id':game['SR_ID'], 'season_id':game['SEASON_ID'], 'schedule_evidence':schedule_meta,
                    'lineup_evidence':lineup_meta, 'historical_publication_time':None,
@@ -299,15 +307,17 @@ def run(args):
                    'historical_publication_time_proven':False, 'historical_receipt_proven':False,
                    'eligible_as_pregame_feature':False,
                    'lineup_status':'not_announced_or_recent_fallback' if lineup is None else 'official_flag_true',
-                   'lineup_flag':lineup is not None, 'lineups':lineup,
+                   'lineup_flag':lineup is not None, 'lineups':lineup, 'kickoff_conflict':kickoff_conflict,
                    'starting_pitcher_check':game.get('START_PIT_CK'),
                    'starting_pitchers': {side:{'player_id':str(game.get(prefix+'_PIT_P_ID') or ''),
                        'name':game.get(prefix+'_PIT_P_NM'), 'status':'schedule_field_historical_confirmation_unproven'}
                        for side,prefix in [('home','B'),('away','T')]}}
             if lineup is not None:
-                source_id = gid + str(row['season'])
+                source_id = fid if alias and fid in source else gid + str(row['season'])
                 try:
                     if source_id in source:
+                        historical=source[source_id]
+                        if (str(historical.get('date','')).replace('-',''),historical.get('home'),historical.get('away'))!=(day,row['home_id'],row['away_id']):raise ValueError('archive_game_team_date_mismatch')
                         match_players(lineup, source[source_id])
                     else:
                         match_from_team_season(lineup, game, team_index)
@@ -373,7 +383,7 @@ def run(args):
                 'lineups_sha256':digest(output.read_bytes()) if output.exists() else None,
                 'historical_publication_time_proven':0, 'historical_receipt_proven':0,
                 'notes':'Player IDs use postgame same-game or same-team-season crossmatch and official current profile name; publication time and revision history are unproven.'}
-    (target/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2,sort_keys=True)+'\n',encoding='utf8')
+    (target/('retry-manifest.json' if args.retry_identity else 'manifest.json')).write_text(json.dumps(manifest,ensure_ascii=False,indent=2,sort_keys=True)+'\n',encoding='utf8')
     print(json.dumps(manifest,ensure_ascii=False))
 
 
@@ -383,7 +393,9 @@ if __name__ == '__main__':
     p.add_argument('--max-requests',type=int,default=100); p.add_argument('--delay',type=float,default=1.0)
     p.add_argument('--fixture',action='append')
     p.add_argument('--only-season',type=int,default=None)
+    p.add_argument('--retry-identity',action='store_true',help='retry explicit fixture with a validated official-ID alias or retained kickoff discrepancy')
     a=p.parse_args()
+    if a.retry_identity and not a.fixture:p.error('retry requires explicit --fixture')
     if a.max_requests < 1 or a.delay < 1.5: p.error('max-requests must be positive and delay at least 1.5 seconds')
     with capture_lock(Path(a.output)):
         run(a)

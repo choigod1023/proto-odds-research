@@ -28,6 +28,8 @@ def main():
   o=official[fid];x=captured[fid];reason=None;actual=None
   try:
    if x['status']!='ok':raise ValueError(x.get('reason','actual_record_unavailable'))
+   bm=x['actual_pitcher_record_evidence'];params=bm.get('params') or {}
+   if bm.get('url')!=p.BOX or bm.get('method')!='POST' or any(str(params.get(k))!=str(v) for k,v in [('gameId',o['official_game_id']),('leId',1),('seasonId',2026),('srId',o['series_id'])]):raise ValueError('starter_request_identity_mismatch')
    schedule=json.loads(response(x['schedule_evidence']));matches=[g for g in schedule['game'] if g.get('G_ID')==o['official_game_id']]
    if len(matches)!=1:raise ValueError('schedule_ambiguous')
    game=matches[0]

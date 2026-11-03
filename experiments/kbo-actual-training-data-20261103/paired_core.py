@@ -14,6 +14,9 @@ def value(data,source):
 def build_actual(base,roster,batter_history,pitcher_history,day):
  """Leave every non-player feature unchanged, replacing only selected histories."""
  if roster.get('status')!='complete':raise ValueError('actual_roster_not_complete')
+ all_hitters=[x['player_id'] for s in ('home','away') for x in roster['hitters'][s]]
+ if len(all_hitters)!=18 or len(set(all_hitters))!=18:raise ValueError('actual_cross_team_batter_id_duplicate')
+ if roster['starters']['home']['player_id']==roster['starters']['away']['player_id']:raise ValueError('actual_cross_team_starter_id_duplicate')
  out=copy.deepcopy(base)
  for side in ('home','away'):
   players=roster['hitters'][side];starter=roster['starters'][side]
@@ -47,5 +50,14 @@ def verify_projected_history(source,batter_history,pitcher_history,day):
    if not profile or profile['projected_player_id']!=pid or profile['appearances']!=expected:raise ValueError('projected_pitcher_history_mismatch')
   elif profile is not None:raise ValueError('projected_pitcher_history_mismatch')
 def model_row(source,raw,roles,adapter):
- return {'fixture_id':source['fixture_id'],'event_date':raw['event_date'],'season':raw['season'],'home_id':raw['home_id'],'away_id':raw['away_id'],
+ return {'fixture_id':source['fixture_id'],'event_date':raw['event_date'],'season':raw['season'],'home_id':raw['home_id'],'away_id':raw['away_id'],'availability_tier':'retrospective_unproven','historical_receipt_proven':False,
          'features':{key:{'value':adapter.scalar(key,entry['value'])} for key,entry in source['features'].items()},'roster':roles,'raw_features':source['features']}
+def training_pair(source,raw,roster,batter_history,pitcher_history,adapter):
+ if source['fixture_id']!=roster['fixture_id'] or source['fixture_id']!=raw['fixture_id']:raise ValueError('paired_fixture_mismatch')
+ if (roster['teams']['home'],roster['teams']['away'])!=(raw['home_id'],raw['away_id']):raise ValueError('paired_team_mismatch')
+ if roster['date']!=raw['event_date'] or roster['season']!=raw['season']:raise ValueError('paired_date_mismatch')
+ verify_projected_history(source,batter_history,pitcher_history,raw['event_date'])
+ actual=build_actual(source,roster,batter_history,pitcher_history,raw['event_date'])
+ for key,v in source['features'].items():
+  if not key.endswith(PLAYER_KEYS) and actual['features'][key]!=v:raise ValueError('paired_nonplayer_changed')
+ return model_row(source,raw,roles_projected(source),adapter),model_row(actual,raw,roles_actual(roster),adapter)
