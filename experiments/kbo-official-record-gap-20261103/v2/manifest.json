@@ -1,0 +1,47 @@
+{
+  "batter_tasks": 306,
+  "batter_tasks_captured": 153,
+  "counts": {
+    "batter_daily_not_captured": 2799,
+    "batter_matched": 3939,
+    "batter_missing_player_id": 227,
+    "pitcher_already_linked": 1760,
+    "pitcher_no_official_numeric_claim": 764,
+    "pitcher_verified_official_profile": 53
+  },
+  "daily_raw_gzip_sha256": "53ed7b68ee3c8c2f642f114bff7138d28d80c01932b1841911e19032a543ac39",
+  "direct_source_requests": {
+    "kbo_cookie_free_collector": 290,
+    "kbo_initial_probe": 5,
+    "naver_timed_out": 4,
+    "total": 299
+  },
+  "excluded_initial_probe_related_entries": 6,
+  "games": 256,
+  "games_all_batters_matched": 0,
+  "games_any_batter_matched": 252,
+  "historical_receipt_proven": false,
+  "initial_session_cookie_usage": "unknown; six related response records excluded",
+  "new_requests": 0,
+  "past_received_at_proven": false,
+  "pitcher_candidate_ids": 12,
+  "pitcher_profiles_captured": 12,
+  "provider": "KBO official Daily.aspx; Naver unavailable and not used",
+  "raw_request_entries": 295,
+  "scalar_coverage": {
+    "excluded_missing_or_conflict": 3026,
+    "excluded_zero_opportunities": 537,
+    "included": 3402,
+    "prior_batter_rows": 6965
+  },
+  "selection": "pitcher candidate IDs ascending, then KBO regular-season player IDs ascending, then other series ascending",
+  "source_lineups_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+  "source_v1_gzip_sha256": "e9d84a6ee8dd3d0262fa6ef04a8fc6e23c79b6b5b04f52fc85a4223b41bc3334",
+  "stop_reason": "cache_miss_offline",
+  "supplement_gzip_sha256": "0293a109c20c3f3344215dd1bd7bfad5e55f2755ada22e01e3c0a5329fd67c84",
+  "supplement_uncompressed_sha256": "ffee5a9197861fbea847310e0a2543170c5fdc0582632cbf6cc7fe005c221451",
+  "team_reconciliation": {
+    "not_checkable_partial": 512
+  },
+  "web_search_calls_separate_from_source_request_count": 3
+}
