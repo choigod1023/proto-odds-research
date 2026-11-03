@@ -1,5 +1,5 @@
 {
-  "status": "ready_for_results",
+  "status": "ready_for_model_results",
   "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "branch": "codex/kbo-player-review-20261103",
   "protocol_commit": "867afbdd60ec69bd8b5d74bf75c8418c9ae49698",
@@ -12,12 +12,12 @@
   ],
   "data_rows_validated": 2913,
   "model_runs": 0,
-  "tests_pending": "Model target-id/label poisoning, actual score/price common cohorts, prospective proof and paired Decimal reconciliation",
+  "tests_pending": "Fixed model adapter, projected-vs-hindsight isolation, label and target-participant poisoning at model level, selected-market draw exclusions and Decimal settlement",
   "scope": "No production actions; no performance claims; contract-only initial review.",
   "commit": "see git history",
   "pr": "https://github.com/choigod1023/proto-odds-research/pull/510",
   "review_spec_commit": "3e1d0bcf",
-  "review_stage": "immutable data commit 96eca22 audited; model not audited",
+  "review_stage": "immutable prior-projected features b0833a6 independently audited; model not audited",
   "audit_report": "experiments/kbo-player-independent-review-20261103/data-audit-96eca22.md",
   "findings": [
     "Target actual lineup/starter selection leaks into prior aggregates despite prior-date provenance; projected model must reconstruct from prior history only.",
@@ -25,5 +25,10 @@
     "Draw refund rule in dataset is an assumption pending independent rule and contemporaneous price evidence."
   ],
   "source_data_commit": "96eca22",
-  "protocol_amendment": "1770f8b3"
+  "protocol_amendment": "1770f8b3",
+  "projection_commit": "b0833a6",
+  "projection_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+  "projection_rows_verified": 2913,
+  "projection_report": "experiments/kbo-player-independent-review-20261103/projection-audit-b0833a6.md",
+  "projection_findings": "No target-day or future dependence observed in requested validation; still retrospective scenario, not receipt verification. Model adapter and actual selected features not yet reviewed."
 }
