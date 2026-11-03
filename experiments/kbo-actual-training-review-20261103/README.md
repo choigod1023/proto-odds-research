@@ -9,7 +9,9 @@
 `reference.py`의 산술과 합성 증거 검사를 실행한다:
 
 ```text
-python -B -X utf8 -m unittest discover -s experiments/kbo-actual-training-review-20261103 -p test_reference.py -v
+python -B -X utf8 -m unittest discover -s experiments/kbo-actual-training-review-20261103 -p 'test_*.py' -v
 ```
 
 계약 SHA-256은 `512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480`이다. 2023~2026 자료는 이미 연구된 후향 비교다. 선수 ID의 사후 식별과 과거 실제 사전 수신·체결을 구분하고 새 후보·튜닝·운영·모의원장 변경은 하지 않는다.
+
+모델 준비 커밋 `bee74bae`의 `workflow.validate_snapshot`에 대해 합성 재현을 실행했다. 실제 타순 첫 선수 ID를 `h0`, 타자 특성의 첫 ID를 `wrong0`으로 둔 입력이 검증을 통과했다. 이는 입력 검증의 공백이며 실제 인계 자료의 오류가 확인됐다는 뜻은 아니다. 독립 검토기는 선수 특성 프로필이 존재할 때 선택한 타순과 선발 ID에 일치하는지 별도로 검사한다. 공식 원천 판독기는 과거 예시 응답 해시와 명시적 선발 표시를 검사하지만, 선수 ID의 동일성이나 과거 수신 시각을 증명하지 않는다.

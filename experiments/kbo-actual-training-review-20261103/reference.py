@@ -148,3 +148,15 @@ def paired_weekly(records,resamples=5000,seed=20261103):
     if len(groups)<2:return {'weeks':len(groups),'changed':changed,'accuracy_ci95':None,'roi_ci95':None}
     a=np.array([groups[x] for x in sorted(groups)]);rng=np.random.default_rng(seed);s=a[rng.integers(0,len(a),size=(resamples,len(a)))].sum(axis=1)
     return {'weeks':len(groups),'changed':changed,'accuracy_ci95':np.quantile(s[:,1]/s[:,0],[.025,.975]).tolist() if np.all(s[:,0]>0) else None,'roi_ci95':np.quantile(s[:,3]/s[:,2],[.025,.975]).tolist()}
+
+
+def assert_roster_feature_identity(row, lineage):
+    """Check non-null player feature profiles against the actual selected IDs."""
+    for side in ('home', 'away'):
+        selected = row['roster'][side]
+        hitters = lineage[side + '_lineup_strength']['value']
+        pitcher = lineage[side + '_starter_strength']['value']
+        if hitters is not None and [p['player_id'] for p in hitters] != selected['hitters']:
+            raise ValueError(side + ' lineup feature IDs or order do not match selected roster')
+        if pitcher is not None and pitcher['projected_player_id'] != selected['starter']:
+            raise ValueError(side + ' starting pitcher feature ID does not match selected roster')

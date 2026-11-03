@@ -55,4 +55,20 @@ class IndependentReferenceTests(unittest.TestCase):
         self.assertEqual((z['n'],z['draws'],z['decisive_hits']),(2,1,1));self.assertAlmostEqual(z['conditional_logloss'],math.log(2));self.assertAlmostEqual(z['mean_draw_probability'],.15)
         pairs=[{'date':'2026-04-01','a':[.6,.4],'b':[.4,.6],'prices':[1.8,2.2],'winner':'home'},{'date':'2026-04-08','a':[.6,.4],'b':[.4,.6],'prices':[1.8,2.2],'winner':'draw'}]
         p=r.paired_weekly(pairs);self.assertEqual(p['weeks'],2);self.assertEqual(p['changed'],2);self.assertIsNone(p['accuracy_ci95']);self.assertTrue(all(x>=0 for x in p['roi_ci95']))
+
+class FeatureIdentityTests(unittest.TestCase):
+    def test_feature_identity_and_order(self):
+        row={'roster':{s:{'hitters':[s+str(i) for i in range(9)],'starter':s+'p'} for s in ('home','away')}}
+        lineage={}
+        for s in ('home','away'):
+            lineage[s+'_lineup_strength']={'value':[{'player_id':i,'history':[]} for i in row['roster'][s]['hitters']]}
+            lineage[s+'_starter_strength']={'value':{'projected_player_id':row['roster'][s]['starter'],'appearances':[]}}
+        r.assert_roster_feature_identity(row,lineage)
+        bad=copy.deepcopy(lineage);bad['home_lineup_strength']['value'][0]['player_id']='wrong'
+        with self.assertRaises(ValueError):r.assert_roster_feature_identity(row,bad)
+        bad=copy.deepcopy(lineage);bad['away_starter_strength']['value']['projected_player_id']='wrong'
+        with self.assertRaises(ValueError):r.assert_roster_feature_identity(row,bad)
+        bad=copy.deepcopy(lineage);bad['home_lineup_strength']['value']=None
+        r.assert_roster_feature_identity(row,bad)
+
 if __name__=='__main__':unittest.main()
