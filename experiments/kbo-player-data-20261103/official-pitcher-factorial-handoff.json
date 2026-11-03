@@ -1,0 +1,97 @@
+{
+  "role": "KBO data linkage",
+  "status": "retrospective_assumption_only_no_training_no_scores",
+  "protocol_commit": "c897a13e06209da14561ce1eb2c3c856eff6e757",
+  "parent_factorial_contract_commits": [
+    "38d25ef3",
+    "e03addcb"
+  ],
+  "source_audit_commit": "9bb05671",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/511",
+  "official_source_sha256": "92015aa1af2e23813b0b4d8c3c5bd182d1c0ee7b2226920af3445e86569ae67c",
+  "fixed_h1_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+  "exact_input_git_blob_checks": {
+    "experiments/kbo-player-data-20261103/rows.jsonl": {
+      "raw_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "git_blob_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/labels.jsonl": {
+      "raw_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "git_blob_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-features.jsonl.gz": {
+      "raw_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "git_blob_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_batters_indiv_2023_2026.json": {
+      "raw_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "git_blob_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/official-lineup-overlay-2026.jsonl.gz": {
+      "raw_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "git_blob_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_baseball_2023_2026.json": {
+      "raw_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "git_blob_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "exact_bytes_equal": true
+    },
+    "data/model_candidates/kbo/archived-games.jsonl.gz": {
+      "raw_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "git_blob_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "exact_bytes_equal": true
+    }
+  },
+  "outputs_sha256": {
+    "official_starter_only": "beda5b82e7cd9045e01fdb09b5b27061ce2f82cd58b568b057bd119f37609fce",
+    "official_batting_and_starter": "4306cc9b429446de30677a4916577ac0680480d36aa2cdd509eb487e20a0cb7a"
+  },
+  "outputs": {
+    "official_starter_only": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-starter-only-2026.jsonl.gz",
+    "official_batting_and_starter": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-batting-and-starter-2026.jsonl.gz"
+  },
+  "manifest": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-pitcher-factorial-manifest.json",
+  "counts": {
+    "h1_cohort": 193,
+    "common_2x2_cohort": 193,
+    "excluded_games": 0,
+    "exclusion_reasons": {},
+    "missing_history": {
+      "either_team_missing_games": 17,
+      "both_teams_missing_games": 2,
+      "home_missing": 12,
+      "away_missing": 7
+    },
+    "postgame_first_pitcher_crosscheck_sides": {
+      "match": 386,
+      "mismatch": 0,
+      "postgame_missing": 0
+    },
+    "point_in_time_verified": 0,
+    "frozen_adapter_scalar_nonnull_sides": 366,
+    "frozen_adapter_scalar_null_sides": 20
+  },
+  "commands": [
+    "python experiments/kbo-player-data-20261103/build_official_pitcher_factorial.py",
+    "python -m pytest experiments/kbo-player-data-20261103/test_official_pitcher_factorial.py experiments/kbo-player-data-20261103/test_official_lineup_overlay.py experiments/kbo-player-data-20261103/test_prior_projection.py experiments/kbo-player-data-20261103/test_build.py -q -p no:cacheprovider"
+  ],
+  "tests": "20 passed: official selection/invalid ID/duplicate/team and H1 date/doubleheader validation, target/future pitcher poison, no non-starter feature changes, exact raw/Git hashes, frozen scalar and strict historical dates. Independent three-case verify.py passed.",
+  "limitations": [
+    "Only 3 official examples independently checked by name, ID matching archived postgame record is not independent official certification.",
+    "Official schedule fields are retrospective assumptions of actual starter; publication/receipt timing and changes unproven.",
+    "Postgame first pitcher crosscheck is diagnostic only and does not select/filter the cohort.",
+    "Historical prior dates assumed completed; source BF units unknown; no target-day and future stats.",
+    "No model fitting, predictions, returns, production or wallet changes.",
+    "H1 primary 193 game cohort remains unchanged; 2x2 is a secondary comparison on the common set.",
+    "Standard frozen model build_features intentionally does not accept these new scenarios; model worker must add a separate pre-registered adapter without changing frozen weights.",
+    "20 scalar null sides comprise 19 no-prior-history sides and one additional insufficient-outs side."
+  ],
+  "model_fit": false,
+  "prediction": false,
+  "roi_computed": false
+}
