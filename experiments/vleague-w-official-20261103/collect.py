@@ -37,12 +37,17 @@ def validate(body,g):
     assert x['gameDate']==g['gameDate'] and l and l['rset']==1 and str(l['gnum'])==str(g['number']) and l['gpart']=='201'
     return p
 
+def retry_permitted(manifest):
+    return (manifest.get('last_error') or {}).get('status') not in (403,429)
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--max-new',type=int,default=126);args=ap.parse_args()
     if not 0 <= args.max_new <= 126: raise ValueError('max-new must be in 0..126')
     fd=os.open(LOCK,os.O_CREAT|os.O_EXCL|os.O_WRONLY);os.close(fd)
     try:
         games=census(); existing=load(MANIFEST) if MANIFEST.exists() else {'schema':'kovo-women-capture-v1','protocol_commit':'0df0fc6','games':{}}
+        if not retry_permitted(existing):
+            raise RuntimeError('blocked by prior 403/429; inspect before any further request')
         discovery=load(EVIDENCE/'discovery.json')
         for event in discovery:
             if not event['name'].startswith('sample_set1_'):continue

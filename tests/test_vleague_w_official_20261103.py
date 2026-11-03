@@ -46,6 +46,9 @@ class OfficialCaptureTests(unittest.TestCase):
         with self.assertRaises(AssertionError):collect.validate(json.dumps(p).encode(),game)
         p=json.loads((ROOT/self.events[str(game['number'])]['file']).read_bytes());p['payload']['lineup']['rset']=2
         with self.assertRaises(AssertionError):collect.validate(json.dumps(p).encode(),game)
+    def test_prior_rate_limit_or_access_denial_blocks_resume(self):
+        for status in (403,429): self.assertFalse(collect.retry_permitted({'last_error':{'status':status}}))
+        self.assertTrue(collect.retry_permitted({}))
     def test_volleyball_set_thresholds_and_deuce(self):
         for a,b,n in [(25,0,1),(25,23,4),(26,24,3),(15,13,5),(17,15,5)]:
             self.assertTrue(audit.valid_set_score(a,b,n),(a,b,n))
