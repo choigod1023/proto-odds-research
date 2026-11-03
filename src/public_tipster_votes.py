@@ -298,6 +298,7 @@ def collect(db, session):
     progress(f"fixtures_ready:{len(fixtures)}")
     now = datetime.now(timezone.utc)
     summary = {"observed_at": now.isoformat(), "source": SOURCE, "written": 0, "parsed": 0,
+               "market_candidates_written": 0,
                "sports": {}, "errors": {}, "rejected": {}}
     counts, rejects, sports = Counter(), Counter(), Counter()
     links = []
@@ -361,6 +362,15 @@ def collect(db, session):
             summary["parsed"] += 1
             event = match_vote(row, fixtures)
             summary["written"] += db.append_events("public_tipster_votes", [event], identity_keys=("source", "pick_id"))
+            # Reuse exactly these received bytes and timestamp: no extra HTTP
+            # poll and no change to the winner-only operating electorate.
+            from public_tipster_market_candidates import candidate_events
+            try:
+                extra = candidate_events(event, url, html)
+                summary["market_candidates_written"] += db.append_events(
+                    "public_tipster_votes", extra, identity_keys=("source", "pick_id")) if extra else 0
+            except (ValueError, KeyError, TypeError, AttributeError) as exc:
+                rejects["market_candidates:"+type(exc).__name__] += 1
             sports[event["sport"]] += 1
             progress(f"matched:{event['sport']}")
         except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError) as exc:

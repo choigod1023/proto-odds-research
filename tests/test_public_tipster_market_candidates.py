@@ -40,10 +40,10 @@ def test_ambiguous_or_missing_line(section):
 
 
 def test_handicap_settlement_and_market_completeness():
-    two, = extract_candidates("[핸디 2way] 원정 -1.5")
-    three, = extract_candidates("[핸디 3way] 무 -1.5")
+    two, = extract_candidates("[핸디 2way] 원정 홈기준 -1.5")
+    three, = extract_candidates("[핸디 3way] 무 홈기준 -1.0")
     g2 = options("핸디캡", "H -1.5", -1.5, ["핸디홈", "핸디원정"])
-    g3 = options("핸디캡", "H -1.5", -1.5, ["핸디홈", "핸디무", "핸디원정"])
+    g3 = options("핸디캡", "H -1.0", -1.0, ["핸디홈", "핸디무", "핸디원정"])
     assert match_candidate(two, g2)["선택"] == "핸디원정"
     assert match_candidate(three, g3)["선택"] == "핸디무"
     assert match_candidate(two, g3) is None

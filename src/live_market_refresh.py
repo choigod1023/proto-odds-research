@@ -493,6 +493,14 @@ def refresh_document(document: dict, live_odds: dict, *,
         if can_predict and use_database and game.get("sport") in {"bs", "bk", "sc", "vl"} and tipster_votes is None:
             tipster_votes = load_votes(decision_clock.isoformat())
         if can_predict and game.get("sport") in {"bs", "bk", "sc", "vl"}:
+            from market_diversity import build_market_candidates
+            market_candidates = build_market_candidates(dict(game, options=options), tipster_votes or [],
+                decision_clock.isoformat(), decision_clock.isoformat())
+            if game.get("market_candidates") != market_candidates:
+                # New same-line evidence is display-only. Publish it even when
+                # prices and winner votes are unchanged; do not rewrite the pick.
+                game["market_candidates"] = market_candidates
+                display_changed = True
             info = tipster_context(game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat())
             prior = snapshot.get("tipster_hybrid") or {}
             tipster_changed = (info.get("version"), info.get("status"), info.get("reason"), info.get("evidence_hash")) != (prior.get("version"), prior.get("input_status", prior.get("status")), prior.get("input_reason", prior.get("reason")), prior.get("evidence_hash"))

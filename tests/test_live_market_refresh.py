@@ -488,6 +488,21 @@ def test_recorded_pick_gets_a_consistent_new_revision_before_freeze():
     assert selected[0]["시장확률"] == snapshot["probability"]["market"]
 
 
+def test_other_market_evidence_publishes_without_rewriting_same_price_winner(monkeypatch):
+    import copy
+    import market_diversity
+    document={"live":[_pinned_pregame_game()],"past":[]}
+    document,_=refresh_document(document,_live_odds())
+    original=copy.deepcopy(document["live"][0]["decision_snapshot"])
+    candidate=dict(document["live"][0]["market_candidates"],status="candidates",offers=[{"synthetic":"display-only"}])
+    monkeypatch.setattr(market_diversity,"build_market_candidates",lambda *args:copy.deepcopy(candidate))
+    document,changed=refresh_document(document,_live_odds())
+    assert changed==1 and document["live"][0]["market_candidates"]==candidate
+    assert document["live"][0]["decision_snapshot"]==original
+    _,changed=refresh_document(document,_live_odds())
+    assert changed==0
+
+
 def test_pick_drift_clears_when_market_returns_to_the_pinned_side():
     document = {"generated_at": "2026-08-29T00:00:00+00:00", "rounds": [102],
                 "live": [_pinned_pregame_game()], "past": []}

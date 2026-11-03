@@ -1,9 +1,15 @@
-import copy,sys
+import copy,sys,importlib.util
 from pathlib import Path
 from unittest.mock import patch
 import pytest
 sys.path.insert(0,str(Path(__file__).parent))
-import connected
+# Root pytest may already have imported src/features.py. Load this test's
+# sibling explicitly, without replacing that unrelated module for other tests.
+_spec=importlib.util.spec_from_file_location("kbo_forward_connected_test_features",Path(__file__).with_name("features.py"))
+_features=importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_features)
+with patch.dict(sys.modules,{"features":_features}):
+    import connected
 from test_ledger import payload
 
 def test_unannounced_game_never_materializes_or_fetches_history(tmp_path):
