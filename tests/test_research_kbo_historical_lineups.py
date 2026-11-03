@@ -63,6 +63,13 @@ def test_doubleheader_requires_unambiguous_game_id():
     assert k.select_schedule_game(games, 'g2', 'H', 'A')['G_ID'] == 'g2'
 
 
+def test_fallback_team_names_resolve_real_official_schedule():
+    games=json.loads((SAMPLES/'20250322-schedule.bin').read_bytes())['game']
+    game=k.select_schedule_game(games,None,'KIA','NC')
+    assert game['G_ID']=='20250322NCHT0'
+    assert (game['G_DT'],str(game['HEADER_NO'])) == ('20250322','0')
+
+
 def test_missing_same_game_uses_unique_team_season_identity_only():
     raw, game = sample()
     lineup = k.parse_lineup(raw, game)
@@ -243,3 +250,16 @@ def test_independent_audit_rejects_corrupted_profile(tmp_path):
     last_profile.write_bytes(b'corrupted')
     result=subprocess.run([sys.executable,str(script),str(tmp_path)],capture_output=True)
     assert result.returncode!=0 and b'raw_hash_mismatch' in result.stderr
+
+
+def test_fixed_season_export_is_exclusive_and_does_not_filter_results(tmp_path):
+    from scripts.export_kbo_cohort import export
+    rows=tmp_path/'rows'; rows.write_text('\n'.join(map(json.dumps,[{'fixture_id':'a','season':2026},{'fixture_id':'b','season':2026},{'fixture_id':'c','season':2023}]))+'\n',encoding='utf8')
+    source=tmp_path/'source'; source.write_text('\n'.join(map(json.dumps,[{'fixture_id':'a','lineup_status':'unresolved'},{'fixture_id':'c','lineup_status':'confirmed'}]))+'\n',encoding='utf8')
+    output=tmp_path/'out';before=source.read_bytes();summary=export(rows,source,output,2026)
+    assert (summary['season_denominator'],summary['exported'],summary['unprocessed'])==(2,1,1)
+    assert json.loads(output.read_text(encoding='utf8'))['lineup_status']=='unresolved'
+    assert source.read_bytes()==before
+    with pytest.raises(FileExistsError):export(rows,source,output,2026)
+    source.write_text('\n'.join(map(json.dumps,[{'fixture_id':'a','official_game_id':'same'}, {'fixture_id':'b','official_game_id':'same'}]))+'\n',encoding='utf8')
+    assert export(rows,source,tmp_path/'out2',2026)['duplicate_official_game_ids']==1

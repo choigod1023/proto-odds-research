@@ -9,10 +9,14 @@ from research_kbo_historical_lineups import parse_lineup, profile_name
 
 def audit(directory):
     directory=Path(directory)
+    verified_raw={}
+    verified_profiles={}
     def raw(meta):
+        if meta['http_status']!=200: raise ValueError('http_status_not_success')
+        if meta['sha256'] in verified_raw: return verified_raw[meta['sha256']]
         data=(directory/'raw'/meta['sha256']).read_bytes()
         if hashlib.sha256(data).hexdigest()!=meta['sha256']: raise ValueError('raw_hash_mismatch')
-        if meta['http_status']!=200: raise ValueError('http_status_not_success')
+        verified_raw[meta['sha256']]=data
         return data
     output=directory/'official-lineups.jsonl'
     rows=[json.loads(line) for line in output.read_text(encoding='utf8').splitlines() if line.strip()]
@@ -47,7 +51,10 @@ def audit(directory):
                     if p['player_id'] in used: raise ValueError('duplicate_player_id')
                     used.add(p['player_id'])
                     evidence=p['official_profile_evidence']
-                    if str(evidence['params']['playerId'])!=p['player_id'] or profile_name(raw(evidence))!=p['name']:
+                    body=raw(evidence)
+                    if evidence['sha256'] not in verified_profiles:
+                        verified_profiles[evidence['sha256']]=profile_name(body)
+                    if str(evidence['params']['playerId'])!=p['player_id'] or verified_profiles[evidence['sha256']]!=p['name']:
                         raise ValueError('profile_mismatch')
     return {'lineups_sha256':hashlib.sha256(output.read_bytes()).hexdigest(),
             'rows':len(rows),'counts':dict(counts),'checked_at':'local_audit_no_new_network'}
