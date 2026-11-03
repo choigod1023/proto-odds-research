@@ -45,6 +45,7 @@ def append(path,make):return f.append_locked(path,make)
 
 def capture(payload,path,clock=utcnow,infer=f.forecast):
     first=clock();kickoff=validate_model_snapshot(payload,first)
+    if first-moment(payload["evidence"]["odds"]["received_at"])>timedelta(minutes=10):raise ValueError("price receipt stale at capture")
     predictions,hashes=infer(payload["row"])
     if set(predictions)!=set(MODELS):raise ValueError("paired models required")
     for p in predictions.values():
