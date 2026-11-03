@@ -86,9 +86,11 @@ forward.py는 이 계약을 검사하는 로컬 staging CLI다. 원문 내용 �
 - 2024 고정 예측: historical/predictions2024.json (7f06e76d), SHA 2643db9ee19e01de8a31ac13316ad0b2c05366ccf5ffb911b4b8b865a0d4f92b.
 - 가격·라벨 고정본: data/handoff.json (f6681d75); data/audit_inputs.py가 모든 원천 해시와 1,459개 라벨·1,390개 가격을 대조했다.
 - 정산 실행: python -B -X utf8 experiments/kbo-m0-followup-20261103/study.py. 결과 파일은 존재하면 덮어쓰지 않는다. 이미 보관된 결과는 --verify 옵션으로 모든 계산을 재생해 정확히 일치하는지 확인한다. 별도 checkout에서 재생하려면 results.json의 source_hashes에 기재된 원천 Git 객체가 있어야 한다(해당 작업 브랜치/PR refs를 fetch).
-- 테스트: 상위 pytest 14개, historical unittest 4개, data 5개, sources 5개; 합계 28개 통과. 독립 감사는 review/에 별도 기록한다.
+- 테스트: 상위 pytest 14개, historical unittest 4개, data 5개, sources 5개; 합계 28개 통과. 독립 감사는 review/final-audit-report.md에 기록했다. 연간 3개·반기 6개·엄격 가격 1개 표본의 모델 결과 40개와 가격 차이 신뢰구간이 독립 재계산에 일치했다. 결과 지표의 짝지은 신뢰구간은 별도 독립 재계산하지 않았다. 2024 모델 재적합·입력 접근 차단·전향 시점 경계도 감사했다.
 - 로컬 CLI 상태: python -B -X utf8 experiments/kbo-m0-followup-20261103/forward.py status. source_verified_paired_settlements=0, schedule_installed=false.
 
 연구 코드·증거 보존 PR이다. 병합·배포·운영 재시작·추천 기준·DB·스케줄·자동화 큐·실제 베팅·이메일 전송은 수행하지 않았다.
 
 관련 원천: [이전 고정 모델 연구 PR #544](https://github.com/choigod1023/proto-odds-research/pull/544), [공식 KBO 경기정보](https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx).
+
+독립 감사 스크립트의 Git 원천은 감사 워커가 사용한 로컬 checkout 경로와 고정 커밋에 연결돼 있다. 다른 컴퓨터에서 재현하려면 그 경로를 해당 Git 객체가 있는 checkout으로 지정해야 한다. 부모 study.py --verify는 현재 checkout에서 고정 원천 객체를 읽는다.
