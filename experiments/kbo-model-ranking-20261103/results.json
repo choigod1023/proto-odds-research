@@ -1,0 +1,3843 @@
+{
+  "current_service_replay": false,
+  "full_709_outcomes": {
+    "fixed_player.official_batting_and_starter": {
+      "accuracy": 0.5684062059238364,
+      "brier": 0.5270687676196767,
+      "hits": 403,
+      "logloss": 0.8454701287889971,
+      "n": 709
+    },
+    "fixed_player.official_batting_only": {
+      "accuracy": 0.5684062059238364,
+      "brier": 0.5285880219606244,
+      "hits": 403,
+      "logloss": 0.847246591610146,
+      "n": 709
+    },
+    "fixed_player.official_starter_only": {
+      "accuracy": 0.5627644569816643,
+      "brier": 0.5272034886997192,
+      "hits": 399,
+      "logloss": 0.8456135605393139,
+      "n": 709
+    },
+    "fixed_player.original_projected": {
+      "accuracy": 0.5613540197461213,
+      "brier": 0.5287131889731728,
+      "hits": 398,
+      "logloss": 0.8473827936424743,
+      "n": 709
+    },
+    "matched.actual.M0_actual": {
+      "accuracy": 0.5895627644569816,
+      "brier": 0.522587210442674,
+      "hits": 418,
+      "logloss": 0.8403966941918163,
+      "n": 709
+    },
+    "matched.actual.M0_projected": {
+      "accuracy": 0.5655853314527504,
+      "brier": 0.5272630420831758,
+      "hits": 401,
+      "logloss": 0.8456783804602761,
+      "n": 709
+    },
+    "matched.actual.M2_actual": {
+      "accuracy": 0.5585331452750353,
+      "brier": 0.5070532060896394,
+      "hits": 396,
+      "logloss": 0.7706217097825548,
+      "n": 709
+    },
+    "matched.actual.M2_projected": {
+      "accuracy": 0.5528913963328632,
+      "brier": 0.5093078492078147,
+      "hits": 392,
+      "logloss": 0.7723177859977247,
+      "n": 709
+    },
+    "matched.actual.oldfull_M0": {
+      "accuracy": 0.5684062059238364,
+      "brier": 0.527238987619408,
+      "hits": 403,
+      "logloss": 0.8456724068155381,
+      "n": 709
+    },
+    "matched.actual.oldfull_M2": {
+      "accuracy": 0.5500705218617772,
+      "brier": 0.5093239052425897,
+      "hits": 390,
+      "logloss": 0.7723462972485765,
+      "n": 709
+    },
+    "matched.projected.M0_actual": {
+      "accuracy": 0.5528913963328632,
+      "brier": 0.5296540598340522,
+      "hits": 392,
+      "logloss": 0.8483930011552476,
+      "n": 709
+    },
+    "matched.projected.M0_projected": {
+      "accuracy": 0.5613540197461213,
+      "brier": 0.5288820052751935,
+      "hits": 398,
+      "logloss": 0.8475927926086433,
+      "n": 709
+    },
+    "matched.projected.M2_actual": {
+      "accuracy": 0.5641748942172073,
+      "brier": 0.5109956515273393,
+      "hits": 400,
+      "logloss": 0.7744725352901516,
+      "n": 709
+    },
+    "matched.projected.M2_projected": {
+      "accuracy": 0.5528913963328632,
+      "brier": 0.5093917609169893,
+      "hits": 392,
+      "logloss": 0.7721186715777976,
+      "n": 709
+    },
+    "matched.projected.oldfull_M0": {
+      "accuracy": 0.5613540197461213,
+      "brier": 0.5288939965726187,
+      "hits": 398,
+      "logloss": 0.8476298888795561,
+      "n": 709
+    },
+    "matched.projected.oldfull_M2": {
+      "accuracy": 0.5571227080394923,
+      "brier": 0.509550260415788,
+      "hits": 395,
+      "logloss": 0.7723144827133579,
+      "n": 709
+    },
+    "prior.official_batting_and_starter.M1": {
+      "accuracy": 0.5218617771509168,
+      "brier": 0.5472196486990641,
+      "hits": 370,
+      "logloss": 0.8733549454555192,
+      "n": 709
+    },
+    "prior.official_batting_and_starter.M2": {
+      "accuracy": 0.5486600846262342,
+      "brier": 0.5083528556335304,
+      "hits": 389,
+      "logloss": 0.7713507263856147,
+      "n": 709
+    },
+    "prior.projected.M1": {
+      "accuracy": 0.5458392101551481,
+      "brier": 0.5480542547701834,
+      "hits": 387,
+      "logloss": 0.8749572761486657,
+      "n": 709
+    },
+    "prior.projected.M2": {
+      "accuracy": 0.5500705218617772,
+      "brier": 0.50898024718308,
+      "hits": 390,
+      "logloss": 0.7718860193816567,
+      "n": 709
+    }
+  },
+  "global_all_sports_winner_proven": false,
+  "model_metadata": {
+    "fixed_player.official_batting_and_starter": {
+      "evaluation_roster": "official_batting_and_starter",
+      "one_fixed_model_different_input_scenario": true,
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "fixed_player.official_batting_only": {
+      "evaluation_roster": "official_batting_only",
+      "one_fixed_model_different_input_scenario": true,
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "fixed_player.official_starter_only": {
+      "evaluation_roster": "official_starter_only",
+      "one_fixed_model_different_input_scenario": true,
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "fixed_player.original_projected": {
+      "evaluation_roster": "original_projected",
+      "one_fixed_model_different_input_scenario": true,
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.bullpen": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "bullpen",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.lineup": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "lineup",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.market": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "market",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.player": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "player",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.starter": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "starter",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.starter_lineup": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "starter_lineup",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "ledger.team": {
+      "evaluation_roster": "legacy_ledger_setting_not_same_roster_control",
+      "full_709_forecasts_available": false,
+      "model": "team",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "matched.actual.M0_actual": {
+      "current_service_replay": false,
+      "evaluation_roster": "actual",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M0_actual"
+    },
+    "matched.actual.M0_projected": {
+      "current_service_replay": false,
+      "evaluation_roster": "actual",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M0_projected"
+    },
+    "matched.actual.M2_actual": {
+      "current_service_replay": false,
+      "evaluation_roster": "actual",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M2_actual"
+    },
+    "matched.actual.M2_projected": {
+      "current_service_replay": false,
+      "evaluation_roster": "actual",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M2_projected"
+    },
+    "matched.actual.oldfull_M0": {
+      "current_service_replay": false,
+      "evaluation_roster": "actual",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "oldfull_M0"
+    },
+    "matched.actual.oldfull_M2": {
+      "current_service_replay": false,
+      "evaluation_roster": "actual",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "oldfull_M2"
+    },
+    "matched.projected.M0_actual": {
+      "current_service_replay": false,
+      "evaluation_roster": "projected",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M0_actual"
+    },
+    "matched.projected.M0_projected": {
+      "current_service_replay": false,
+      "evaluation_roster": "projected",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M0_projected"
+    },
+    "matched.projected.M2_actual": {
+      "current_service_replay": false,
+      "evaluation_roster": "projected",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M2_actual"
+    },
+    "matched.projected.M2_projected": {
+      "current_service_replay": false,
+      "evaluation_roster": "projected",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "M2_projected"
+    },
+    "matched.projected.oldfull_M0": {
+      "current_service_replay": false,
+      "evaluation_roster": "projected",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "oldfull_M0"
+    },
+    "matched.projected.oldfull_M2": {
+      "current_service_replay": false,
+      "evaluation_roster": "projected",
+      "source_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "training": "oldfull_M2"
+    },
+    "prior.official_batting_and_starter.M1": {
+      "M2_is_uncorrected_legacy": false,
+      "evaluation_roster": "official_batting_and_starter",
+      "family": "M1",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "prior.official_batting_and_starter.M2": {
+      "M2_is_uncorrected_legacy": true,
+      "evaluation_roster": "official_batting_and_starter",
+      "family": "M2",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "prior.projected.M1": {
+      "M2_is_uncorrected_legacy": false,
+      "evaluation_roster": "projected",
+      "family": "M1",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    },
+    "prior.projected.M2": {
+      "M2_is_uncorrected_legacy": true,
+      "evaluation_roster": "projected",
+      "family": "M2",
+      "source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa"
+    }
+  },
+  "multiple_comparisons_corrected": false,
+  "new_model_fits": 0,
+  "price_cohorts": {
+    "extended_day_team_source_confirmed": {
+      "comparisons_reference_minus_candidate": {
+        "fixed_player.official_batting_and_starter": {
+          "changed_picks": 78,
+          "decisive_accuracy_delta_ci95": [
+            -0.008511547554100746,
+            0.06148318360715977
+          ],
+          "roi_delta_ci95": [
+            -0.019654915921592908,
+            0.09889083970861934
+          ],
+          "weeks": 30
+        },
+        "fixed_player.official_batting_only": {
+          "changed_picks": 81,
+          "decisive_accuracy_delta_ci95": [
+            -0.006416666666666664,
+            0.061517002310993725
+          ],
+          "roi_delta_ci95": [
+            -0.016086323743248858,
+            0.09971169226100152
+          ],
+          "weeks": 30
+        },
+        "fixed_player.official_starter_only": {
+          "changed_picks": 77,
+          "decisive_accuracy_delta_ci95": [
+            0.0014534883720930232,
+            0.05975044347685854
+          ],
+          "roi_delta_ci95": [
+            -0.0034322604713914852,
+            0.0974677826989024
+          ],
+          "weeks": 30
+        },
+        "fixed_player.original_projected": {
+          "changed_picks": 79,
+          "decisive_accuracy_delta_ci95": [
+            0.0016443350334304817,
+            0.06436540799894835
+          ],
+          "roi_delta_ci95": [
+            -0.0015843128949133405,
+            0.10470055002075543
+          ],
+          "weeks": 30
+        },
+        "ledger.bullpen": {
+          "changed_picks": 84,
+          "decisive_accuracy_delta_ci95": [
+            0.006277969974926208,
+            0.06618772214825762
+          ],
+          "roi_delta_ci95": [
+            0.007316692661800783,
+            0.10759676924997999
+          ],
+          "weeks": 30
+        },
+        "ledger.lineup": {
+          "changed_picks": 87,
+          "decisive_accuracy_delta_ci95": [
+            -0.005768184951890754,
+            0.05919142938639908
+          ],
+          "roi_delta_ci95": [
+            -0.014940982561602019,
+            0.09467707945787932
+          ],
+          "weeks": 30
+        },
+        "ledger.market": {
+          "changed_picks": 129,
+          "decisive_accuracy_delta_ci95": [
+            -0.02145922746781116,
+            0.04603369013311374
+          ],
+          "roi_delta_ci95": [
+            -0.011211041386523228,
+            0.10559555251453985
+          ],
+          "weeks": 30
+        },
+        "ledger.player": {
+          "changed_picks": 84,
+          "decisive_accuracy_delta_ci95": [
+            -0.003274545840107443,
+            0.06643952299829642
+          ],
+          "roi_delta_ci95": [
+            -0.012141533448732306,
+            0.10702099784805379
+          ],
+          "weeks": 30
+        },
+        "ledger.starter": {
+          "changed_picks": 80,
+          "decisive_accuracy_delta_ci95": [
+            -0.0028828976860980496,
+            0.06695829762342025
+          ],
+          "roi_delta_ci95": [
+            -0.008522113095238103,
+            0.10672089105823206
+          ],
+          "weeks": 30
+        },
+        "ledger.starter_lineup": {
+          "changed_picks": 85,
+          "decisive_accuracy_delta_ci95": [
+            -0.008788901503958195,
+            0.06355244194166677
+          ],
+          "roi_delta_ci95": [
+            -0.020763759010325348,
+            0.10163216010138561
+          ],
+          "weeks": 30
+        },
+        "ledger.team": {
+          "changed_picks": 85,
+          "decisive_accuracy_delta_ci95": [
+            0.003115264797507788,
+            0.07067780838234197
+          ],
+          "roi_delta_ci95": [
+            0.002001675040916145,
+            0.11541841871441125
+          ],
+          "weeks": 30
+        },
+        "matched.actual.M0_projected": {
+          "changed_picks": 82,
+          "decisive_accuracy_delta_ci95": [
+            -0.0031398408419971765,
+            0.06283779504576442
+          ],
+          "roi_delta_ci95": [
+            -0.011220151542486017,
+            0.10034746599093079
+          ],
+          "weeks": 30
+        },
+        "matched.actual.M2_actual": {
+          "changed_picks": 159,
+          "decisive_accuracy_delta_ci95": [
+            -0.0033622005678332454,
+            0.06593448729184925
+          ],
+          "roi_delta_ci95": [
+            -0.028678493367092984,
+            0.08540902048319318
+          ],
+          "weeks": 30
+        },
+        "matched.actual.M2_projected": {
+          "changed_picks": 182,
+          "decisive_accuracy_delta_ci95": [
+            -0.009053590761457958,
+            0.07754547100440085
+          ],
+          "roi_delta_ci95": [
+            -0.042078629364295135,
+            0.10361672135498345
+          ],
+          "weeks": 30
+        },
+        "matched.actual.oldfull_M0": {
+          "changed_picks": 80,
+          "decisive_accuracy_delta_ci95": [
+            -0.00709251351044934,
+            0.05950514538796658
+          ],
+          "roi_delta_ci95": [
+            -0.01734675597696095,
+            0.09620162541359437
+          ],
+          "weeks": 30
+        },
+        "matched.actual.oldfull_M2": {
+          "changed_picks": 189,
+          "decisive_accuracy_delta_ci95": [
+            -0.005878158177104505,
+            0.08495890773079137
+          ],
+          "roi_delta_ci95": [
+            -0.03796506727497679,
+            0.11317936495997068
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M0_actual": {
+          "changed_picks": 68,
+          "decisive_accuracy_delta_ci95": [
+            0.0210352342633896,
+            0.0660387748316848
+          ],
+          "roi_delta_ci95": [
+            0.029942159310229078,
+            0.10086667519373074
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M0_projected": {
+          "changed_picks": 85,
+          "decisive_accuracy_delta_ci95": [
+            -0.0033400280783821876,
+            0.06501610913941956
+          ],
+          "roi_delta_ci95": [
+            -0.011013995999477789,
+            0.10513652215265117
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M2_actual": {
+          "changed_picks": 187,
+          "decisive_accuracy_delta_ci95": [
+            -0.016229768281322773,
+            0.07373305873876812
+          ],
+          "roi_delta_ci95": [
+            -0.05968789123630675,
+            0.09738156100886156
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M2_projected": {
+          "changed_picks": 193,
+          "decisive_accuracy_delta_ci95": [
+            -0.011446154605100883,
+            0.09130140615447316
+          ],
+          "roi_delta_ci95": [
+            -0.04947766880131602,
+            0.123860393732579
+          ],
+          "weeks": 30
+        },
+        "matched.projected.oldfull_M0": {
+          "changed_picks": 81,
+          "decisive_accuracy_delta_ci95": [
+            0.0,
+            0.06708293251857869
+          ],
+          "roi_delta_ci95": [
+            -0.0031789806795469657,
+            0.10928731755860237
+          ],
+          "weeks": 30
+        },
+        "matched.projected.oldfull_M2": {
+          "changed_picks": 187,
+          "decisive_accuracy_delta_ci95": [
+            -0.012524262955502656,
+            0.0801764974722642
+          ],
+          "roi_delta_ci95": [
+            -0.0464990154194177,
+            0.10908631952110792
+          ],
+          "weeks": 30
+        },
+        "prior.official_batting_and_starter.M1": {
+          "changed_picks": 221,
+          "decisive_accuracy_delta_ci95": [
+            0.03189745833467133,
+            0.11370348519234659
+          ],
+          "roi_delta_ci95": [
+            0.01034929117777576,
+            0.1609844859813083
+          ],
+          "weeks": 30
+        },
+        "prior.official_batting_and_starter.M2": {
+          "changed_picks": 179,
+          "decisive_accuracy_delta_ci95": [
+            -0.009248410187091027,
+            0.08638202570123045
+          ],
+          "roi_delta_ci95": [
+            -0.04251491644577869,
+            0.12033127344708172
+          ],
+          "weeks": 30
+        },
+        "prior.projected.M1": {
+          "changed_picks": 225,
+          "decisive_accuracy_delta_ci95": [
+            0.002657522746352649,
+            0.09457207097819284
+          ],
+          "roi_delta_ci95": [
+            -0.02835690789473684,
+            0.13399038260095317
+          ],
+          "weeks": 30
+        },
+        "prior.projected.M2": {
+          "changed_picks": 188,
+          "decisive_accuracy_delta_ci95": [
+            -0.006211663860993402,
+            0.08731301047915785
+          ],
+          "roi_delta_ci95": [
+            -0.040880719513826116,
+            0.12055679525970754
+          ],
+          "weeks": 30
+        }
+      },
+      "distinct_pick_vectors": 27,
+      "identical_pick_groups": [],
+      "metrics": {
+        "fixed_player.official_batting_and_starter": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5797546012269938,
+          "hits": 378,
+          "max_daily_close_drawdown_units": "64.58",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-1.23",
+            "2026-05": "-6.12",
+            "2026-06": "-6.39",
+            "2026-07": "-17.87",
+            "2026-08": "-8.79",
+            "2026-09": "1.95",
+            "2026-10": "-12.28"
+          },
+          "n": 667,
+          "net_units": "-55.11",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08262368815592204
+        },
+        "fixed_player.official_batting_only": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5782208588957055,
+          "hits": 377,
+          "max_daily_close_drawdown_units": "67.84",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "0.37",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62",
+            "2026-07": "-25.19",
+            "2026-08": "-8.98",
+            "2026-09": "0.58",
+            "2026-10": "-10.82"
+          },
+          "n": 667,
+          "net_units": "-57.37",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.0860119940029985
+        },
+        "fixed_player.official_starter_only": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5751533742331288,
+          "hits": 375,
+          "max_daily_close_drawdown_units": "68.49",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-6.48",
+            "2026-05": "-6.12",
+            "2026-06": "-6.39",
+            "2026-07": "-19.54",
+            "2026-08": "-5.36",
+            "2026-09": "-1.58",
+            "2026-10": "-10.82"
+          },
+          "n": 667,
+          "net_units": "-60.67",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.09095952023988006
+        },
+        "fixed_player.original_projected": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5720858895705522,
+          "hits": 373,
+          "max_daily_close_drawdown_units": "73.02",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-4.88",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62",
+            "2026-07": "-25.19",
+            "2026-08": "-7.11",
+            "2026-09": "-1.44",
+            "2026-10": "-12.25"
+          },
+          "n": 667,
+          "net_units": "-64.20",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.09625187406296852
+        },
+        "ledger.bullpen": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5690184049079755,
+          "hits": 371,
+          "max_daily_close_drawdown_units": "73.23",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-6.69",
+            "2026-05": "-6.29",
+            "2026-06": "-6.63",
+            "2026-07": "-24.99",
+            "2026-08": "-3.78",
+            "2026-09": "-3.23",
+            "2026-10": "-12.22"
+          },
+          "n": 667,
+          "net_units": "-68.25",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.10232383808095952
+        },
+        "ledger.lineup": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5782208588957055,
+          "hits": 377,
+          "max_daily_close_drawdown_units": "65.50",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.02",
+            "2026-05": "-4.54",
+            "2026-06": "-8.35",
+            "2026-07": "-19.98",
+            "2026-08": "-3.78",
+            "2026-09": "0.89",
+            "2026-10": "-13.65"
+          },
+          "n": 667,
+          "net_units": "-56.85",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08523238380809595
+        },
+        "ledger.market": {
+          "decisive": 652,
+          "decisive_accuracy": 0.593558282208589,
+          "hits": 387,
+          "max_daily_close_drawdown_units": "64.05",
+          "monthly_units": {
+            "2026-03": "-4.73",
+            "2026-04": "-10.61",
+            "2026-05": "-16.74",
+            "2026-06": "-4.35",
+            "2026-07": "-16.37",
+            "2026-08": "-3.90",
+            "2026-09": "-6.51",
+            "2026-10": "2.97"
+          },
+          "n": 667,
+          "net_units": "-60.24",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09031484257871064
+        },
+        "ledger.player": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5736196319018405,
+          "hits": 374,
+          "max_daily_close_drawdown_units": "70.38",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-4.88",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62",
+            "2026-07": "-25.19",
+            "2026-08": "-3.72",
+            "2026-09": "0.92",
+            "2026-10": "-15.36"
+          },
+          "n": 667,
+          "net_units": "-61.56",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09229385307346327
+        },
+        "ledger.starter": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5736196319018405,
+          "hits": 374,
+          "max_daily_close_drawdown_units": "70.26",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.80",
+            "2026-05": "-4.31",
+            "2026-06": "-6.07",
+            "2026-07": "-23.42",
+            "2026-08": "-5.47",
+            "2026-09": "0.92",
+            "2026-10": "-15.36"
+          },
+          "n": 667,
+          "net_units": "-61.93",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09284857571214393
+        },
+        "ledger.starter_lineup": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5782208588957055,
+          "hits": 377,
+          "max_daily_close_drawdown_units": "68.43",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-0.13",
+            "2026-05": "-6.29",
+            "2026-06": "-4.13",
+            "2026-07": "-23.30",
+            "2026-08": "-3.72",
+            "2026-09": "0.92",
+            "2026-10": "-15.36"
+          },
+          "n": 667,
+          "net_units": "-56.43",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08460269865067466
+        },
+        "ledger.team": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5690184049079755,
+          "hits": 371,
+          "max_daily_close_drawdown_units": "73.14",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-5.12",
+            "2026-05": "-4.54",
+            "2026-06": "-9.79",
+            "2026-07": "-21.60",
+            "2026-08": "-5.53",
+            "2026-09": "-3.23",
+            "2026-10": "-13.93"
+          },
+          "n": 667,
+          "net_units": "-68.16",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.10218890554722639
+        },
+        "matched.actual.M0_actual": {
+          "decisive": 652,
+          "decisive_accuracy": 0.6058282208588958,
+          "hits": 395,
+          "max_daily_close_drawdown_units": "40.98",
+          "monthly_units": {
+            "2026-03": "-2.73",
+            "2026-04": "-16.38",
+            "2026-05": "1.30",
+            "2026-06": "3.80",
+            "2026-07": "-20.59",
+            "2026-08": "5.00",
+            "2026-09": "2.42",
+            "2026-10": "-1.87"
+          },
+          "n": 667,
+          "net_units": "-29.05",
+          "profitable_months": 4,
+          "refunds": 15,
+          "roi": -0.04355322338830585
+        },
+        "matched.actual.M0_projected": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5766871165644172,
+          "hits": 376,
+          "max_daily_close_drawdown_units": "67.68",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-1.23",
+            "2026-05": "-2.30",
+            "2026-06": "-6.39",
+            "2026-07": "-22.98",
+            "2026-08": "-9.04",
+            "2026-09": "0.39",
+            "2026-10": "-12.28"
+          },
+          "n": 667,
+          "net_units": "-58.21",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08727136431784108
+        },
+        "matched.actual.M2_actual": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5736196319018405,
+          "hits": 374,
+          "max_daily_close_drawdown_units": "67.74",
+          "monthly_units": {
+            "2026-03": "0.79",
+            "2026-04": "3.15",
+            "2026-05": "-23.03",
+            "2026-06": "-6.58",
+            "2026-07": "-24.16",
+            "2026-08": "0.27",
+            "2026-09": "2.61",
+            "2026-10": "-2.30"
+          },
+          "n": 667,
+          "net_units": "-49.25",
+          "profitable_months": 4,
+          "refunds": 15,
+          "roi": -0.07383808095952024
+        },
+        "matched.actual.M2_projected": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5690184049079755,
+          "hits": 371,
+          "max_daily_close_drawdown_units": "61.51",
+          "monthly_units": {
+            "2026-03": "-4.66",
+            "2026-04": "4.87",
+            "2026-05": "-19.57",
+            "2026-06": "-9.81",
+            "2026-07": "-23.92",
+            "2026-08": "-0.82",
+            "2026-09": "9.81",
+            "2026-10": "-8.79"
+          },
+          "n": 667,
+          "net_units": "-52.89",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.07929535232383808
+        },
+        "matched.actual.oldfull_M0": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5797546012269938,
+          "hits": 378,
+          "max_daily_close_drawdown_units": "64.83",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-1.23",
+            "2026-05": "-6.12",
+            "2026-06": "-6.39",
+            "2026-07": "-17.87",
+            "2026-08": "-9.04",
+            "2026-09": "1.95",
+            "2026-10": "-12.28"
+          },
+          "n": 667,
+          "net_units": "-55.36",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08299850074962518
+        },
+        "matched.actual.oldfull_M2": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5644171779141104,
+          "hits": 368,
+          "max_daily_close_drawdown_units": "68.30",
+          "monthly_units": {
+            "2026-03": "-4.66",
+            "2026-04": "4.15",
+            "2026-05": "-16.78",
+            "2026-06": "-17.58",
+            "2026-07": "-23.92",
+            "2026-08": "-0.95",
+            "2026-09": "9.81",
+            "2026-10": "-6.85"
+          },
+          "n": 667,
+          "net_units": "-56.78",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.08512743628185906
+        },
+        "matched.projected.M0_actual": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5628834355828221,
+          "hits": 367,
+          "max_daily_close_drawdown_units": "72.24",
+          "monthly_units": {
+            "2026-03": "-8.08",
+            "2026-04": "-9.45",
+            "2026-05": "-9.43",
+            "2026-06": "-2.77",
+            "2026-07": "-27.04",
+            "2026-08": "-4.27",
+            "2026-09": "-7.02",
+            "2026-10": "-4.18"
+          },
+          "n": 667,
+          "net_units": "-72.24",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.10830584707646176
+        },
+        "matched.projected.M0_projected": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5751533742331288,
+          "hits": 375,
+          "max_daily_close_drawdown_units": "71.39",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.23",
+            "2026-05": "-6.04",
+            "2026-06": "-2.62",
+            "2026-07": "-25.19",
+            "2026-08": "-10.75",
+            "2026-09": "3.58",
+            "2026-10": "-12.25"
+          },
+          "n": 667,
+          "net_units": "-60.92",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.0913343328335832
+        },
+        "matched.projected.M2_actual": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5766871165644172,
+          "hits": 376,
+          "max_daily_close_drawdown_units": "59.03",
+          "monthly_units": {
+            "2026-03": "-6.32",
+            "2026-04": "5.71",
+            "2026-05": "-5.35",
+            "2026-06": "-16.73",
+            "2026-07": "-24.21",
+            "2026-08": "-4.12",
+            "2026-09": "6.61",
+            "2026-10": "1.86"
+          },
+          "n": 667,
+          "net_units": "-42.55",
+          "profitable_months": 3,
+          "refunds": 15,
+          "roi": -0.06379310344827586
+        },
+        "matched.projected.M2_projected": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5628834355828221,
+          "hits": 367,
+          "max_daily_close_drawdown_units": "79.82",
+          "monthly_units": {
+            "2026-03": "-1.00",
+            "2026-04": "13.59",
+            "2026-05": "-21.54",
+            "2026-06": "-20.16",
+            "2026-07": "-24.98",
+            "2026-08": "-5.86",
+            "2026-09": "9.32",
+            "2026-10": "-6.52"
+          },
+          "n": 667,
+          "net_units": "-57.15",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.08568215892053974
+        },
+        "matched.projected.oldfull_M0": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5720858895705522,
+          "hits": 373,
+          "max_daily_close_drawdown_units": "73.54",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.31",
+            "2026-05": "-7.79",
+            "2026-06": "-2.62",
+            "2026-07": "-25.19",
+            "2026-08": "-10.75",
+            "2026-09": "1.61",
+            "2026-10": "-12.25"
+          },
+          "n": 667,
+          "net_units": "-64.72",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09703148425787106
+        },
+        "matched.projected.oldfull_M2": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5690184049079755,
+          "hits": 371,
+          "max_daily_close_drawdown_units": "67.17",
+          "monthly_units": {
+            "2026-03": "-2.97",
+            "2026-04": "11.52",
+            "2026-05": "-17.05",
+            "2026-06": "-11.48",
+            "2026-07": "-25.03",
+            "2026-08": "-5.86",
+            "2026-09": "4.50",
+            "2026-10": "-6.52"
+          },
+          "n": 667,
+          "net_units": "-52.89",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.07929535232383808
+        },
+        "prior.official_batting_and_starter.M1": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5322085889570553,
+          "hits": 347,
+          "max_daily_close_drawdown_units": "89.23",
+          "monthly_units": {
+            "2026-03": "-6.36",
+            "2026-04": "-20.10",
+            "2026-05": "-18.81",
+            "2026-06": "-10.63",
+            "2026-07": "-4.39",
+            "2026-08": "-16.53",
+            "2026-09": "2.05",
+            "2026-10": "-12.99"
+          },
+          "n": 667,
+          "net_units": "-87.76",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.13157421289355323
+        },
+        "prior.official_batting_and_starter.M2": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5644171779141104,
+          "hits": 368,
+          "max_daily_close_drawdown_units": "66.42",
+          "monthly_units": {
+            "2026-03": "-2.69",
+            "2026-04": "-0.31",
+            "2026-05": "-21.75",
+            "2026-06": "-11.26",
+            "2026-07": "-20.87",
+            "2026-08": "-4.57",
+            "2026-09": "11.18",
+            "2026-10": "-7.97"
+          },
+          "n": 667,
+          "net_units": "-58.24",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08731634182908546
+        },
+        "prior.projected.M1": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5567484662576687,
+          "hits": 363,
+          "max_daily_close_drawdown_units": "67.50",
+          "monthly_units": {
+            "2026-03": "-0.62",
+            "2026-04": "-10.06",
+            "2026-05": "-9.43",
+            "2026-06": "-0.49",
+            "2026-07": "-0.11",
+            "2026-08": "-17.72",
+            "2026-09": "-11.06",
+            "2026-10": "-14.91"
+          },
+          "n": 667,
+          "net_units": "-64.40",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.09655172413793103
+        },
+        "prior.projected.M2": {
+          "decisive": 652,
+          "decisive_accuracy": 0.5613496932515337,
+          "hits": 366,
+          "max_daily_close_drawdown_units": "68.15",
+          "monthly_units": {
+            "2026-03": "-2.97",
+            "2026-04": "6.93",
+            "2026-05": "-24.42",
+            "2026-06": "-12.61",
+            "2026-07": "-20.28",
+            "2026-08": "-4.19",
+            "2026-09": "5.53",
+            "2026-10": "-8.17"
+          },
+          "n": 667,
+          "net_units": "-60.18",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.09022488755622189
+        }
+      },
+      "n": 667,
+      "roi_ranking": [
+        "matched.actual.M0_actual",
+        "matched.projected.M2_actual",
+        "matched.actual.M2_actual",
+        "matched.actual.M2_projected",
+        "matched.projected.oldfull_M2",
+        "fixed_player.official_batting_and_starter",
+        "matched.actual.oldfull_M0",
+        "ledger.starter_lineup",
+        "matched.actual.oldfull_M2",
+        "ledger.lineup",
+        "matched.projected.M2_projected",
+        "fixed_player.official_batting_only",
+        "matched.actual.M0_projected",
+        "prior.official_batting_and_starter.M2",
+        "prior.projected.M2",
+        "ledger.market",
+        "fixed_player.official_starter_only",
+        "matched.projected.M0_projected",
+        "ledger.player",
+        "ledger.starter",
+        "fixed_player.original_projected",
+        "prior.projected.M1",
+        "matched.projected.oldfull_M0",
+        "ledger.team",
+        "ledger.bullpen",
+        "matched.projected.M0_actual",
+        "prior.official_batting_and_starter.M1"
+      ]
+    },
+    "extended_day_team_source_confirmed_current_reject_excluded": {
+      "comparisons_reference_minus_candidate": {
+        "fixed_player.official_batting_and_starter": {
+          "changed_picks": 76,
+          "decisive_accuracy_delta_ci95": [
+            -0.005823268779530328,
+            0.06540729420143625
+          ],
+          "roi_delta_ci95": [
+            -0.014274994158196054,
+            0.10699652173913034
+          ],
+          "weeks": 30
+        },
+        "fixed_player.official_batting_only": {
+          "changed_picks": 80,
+          "decisive_accuracy_delta_ci95": [
+            -0.0056774753011861615,
+            0.06360467261167056
+          ],
+          "roi_delta_ci95": [
+            -0.013359906162069012,
+            0.10433033171553485
+          ],
+          "weeks": 30
+        },
+        "fixed_player.official_starter_only": {
+          "changed_picks": 75,
+          "decisive_accuracy_delta_ci95": [
+            0.004163570055951335,
+            0.06382978723404255
+          ],
+          "roi_delta_ci95": [
+            0.002239875028928486,
+            0.10428881727449767
+          ],
+          "weeks": 30
+        },
+        "fixed_player.original_projected": {
+          "changed_picks": 78,
+          "decisive_accuracy_delta_ci95": [
+            0.00313874386964088,
+            0.06739902140735851
+          ],
+          "roi_delta_ci95": [
+            0.000817011081162023,
+            0.11031218196714444
+          ],
+          "weeks": 30
+        },
+        "ledger.bullpen": {
+          "changed_picks": 83,
+          "decisive_accuracy_delta_ci95": [
+            0.0076672526169332626,
+            0.06875143348623852
+          ],
+          "roi_delta_ci95": [
+            0.010309922753268702,
+            0.11404598557458398
+          ],
+          "weeks": 30
+        },
+        "ledger.lineup": {
+          "changed_picks": 86,
+          "decisive_accuracy_delta_ci95": [
+            -0.004405448302669085,
+            0.061612443430851996
+          ],
+          "roi_delta_ci95": [
+            -0.011637768880514996,
+            0.09994736842105259
+          ],
+          "weeks": 30
+        },
+        "ledger.market": {
+          "changed_picks": 128,
+          "decisive_accuracy_delta_ci95": [
+            -0.022321428571428572,
+            0.04389645054196867
+          ],
+          "roi_delta_ci95": [
+            -0.012444899413125666,
+            0.10251188680754296
+          ],
+          "weeks": 30
+        },
+        "ledger.player": {
+          "changed_picks": 83,
+          "decisive_accuracy_delta_ci95": [
+            -0.0017678227975897606,
+            0.0686626749313774
+          ],
+          "roi_delta_ci95": [
+            -0.009414751838235296,
+            0.11201030625421053
+          ],
+          "weeks": 30
+        },
+        "ledger.starter": {
+          "changed_picks": 79,
+          "decisive_accuracy_delta_ci95": [
+            0.0,
+            0.06866440609275981
+          ],
+          "roi_delta_ci95": [
+            -0.005454767184035475,
+            0.11127948407954787
+          ],
+          "weeks": 30
+        },
+        "ledger.starter_lineup": {
+          "changed_picks": 84,
+          "decisive_accuracy_delta_ci95": [
+            -0.007331378299120235,
+            0.06525552037019262
+          ],
+          "roi_delta_ci95": [
+            -0.01751017610257202,
+            0.10641405884897219
+          ],
+          "weeks": 30
+        },
+        "ledger.team": {
+          "changed_picks": 84,
+          "decisive_accuracy_delta_ci95": [
+            0.0046723538361225815,
+            0.07297346616689682
+          ],
+          "roi_delta_ci95": [
+            0.004796345609245839,
+            0.12091742288378766
+          ],
+          "weeks": 30
+        },
+        "matched.actual.M0_projected": {
+          "changed_picks": 80,
+          "decisive_accuracy_delta_ci95": [
+            0.0,
+            0.06645819730828362
+          ],
+          "roi_delta_ci95": [
+            -0.005418781677038557,
+            0.10776957234252671
+          ],
+          "weeks": 30
+        },
+        "matched.actual.M2_actual": {
+          "changed_picks": 157,
+          "decisive_accuracy_delta_ci95": [
+            -0.003054022313564298,
+            0.06565694255992764
+          ],
+          "roi_delta_ci95": [
+            -0.02682722567287785,
+            0.08652458681066927
+          ],
+          "weeks": 30
+        },
+        "matched.actual.M2_projected": {
+          "changed_picks": 180,
+          "decisive_accuracy_delta_ci95": [
+            -0.008697238971754997,
+            0.07772876580490831
+          ],
+          "roi_delta_ci95": [
+            -0.041540023041474645,
+            0.1050420821767824
+          ],
+          "weeks": 30
+        },
+        "matched.actual.oldfull_M0": {
+          "changed_picks": 78,
+          "decisive_accuracy_delta_ci95": [
+            -0.004567439409905162,
+            0.06349264964479144
+          ],
+          "roi_delta_ci95": [
+            -0.011904202239716152,
+            0.10451674438460529
+          ],
+          "weeks": 30
+        },
+        "matched.actual.oldfull_M2": {
+          "changed_picks": 187,
+          "decisive_accuracy_delta_ci95": [
+            -0.005781186987498319,
+            0.0859509741595303
+          ],
+          "roi_delta_ci95": [
+            -0.03699093844521854,
+            0.1155368024649093
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M0_actual": {
+          "changed_picks": 68,
+          "decisive_accuracy_delta_ci95": [
+            0.021308170601379576,
+            0.06686489745593156
+          ],
+          "roi_delta_ci95": [
+            0.030231669155705125,
+            0.10182957721237558
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M0_projected": {
+          "changed_picks": 84,
+          "decisive_accuracy_delta_ci95": [
+            -0.0016699425844876594,
+            0.06724195917736198
+          ],
+          "roi_delta_ci95": [
+            -0.007655279634486847,
+            0.11055816196882334
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M2_actual": {
+          "changed_picks": 185,
+          "decisive_accuracy_delta_ci95": [
+            -0.016594530788904188,
+            0.0744202631481959
+          ],
+          "roi_delta_ci95": [
+            -0.0589910236124635,
+            0.09961026032129267
+          ],
+          "weeks": 30
+        },
+        "matched.projected.M2_projected": {
+          "changed_picks": 191,
+          "decisive_accuracy_delta_ci95": [
+            -0.009854490875503805,
+            0.09118098054983849
+          ],
+          "roi_delta_ci95": [
+            -0.04615375965316352,
+            0.12514937858065062
+          ],
+          "weeks": 30
+        },
+        "matched.projected.oldfull_M0": {
+          "changed_picks": 80,
+          "decisive_accuracy_delta_ci95": [
+            0.0015943320995456052,
+            0.06924400500552935
+          ],
+          "roi_delta_ci95": [
+            -0.0003716931216931212,
+            0.11480028242289109
+          ],
+          "weeks": 30
+        },
+        "matched.projected.oldfull_M2": {
+          "changed_picks": 185,
+          "decisive_accuracy_delta_ci95": [
+            -0.011206173290572267,
+            0.08028832569887401
+          ],
+          "roi_delta_ci95": [
+            -0.04397311485196678,
+            0.10987759555428729
+          ],
+          "weeks": 30
+        },
+        "prior.official_batting_and_starter.M1": {
+          "changed_picks": 219,
+          "decisive_accuracy_delta_ci95": [
+            0.03354541023603856,
+            0.11458374215070642
+          ],
+          "roi_delta_ci95": [
+            0.013597874373676327,
+            0.1622125932411839
+          ],
+          "weeks": 30
+        },
+        "prior.official_batting_and_starter.M2": {
+          "changed_picks": 177,
+          "decisive_accuracy_delta_ci95": [
+            -0.008647735424033827,
+            0.08723204365727723
+          ],
+          "roi_delta_ci95": [
+            -0.042086463977545834,
+            0.12148241787225444
+          ],
+          "weeks": 30
+        },
+        "prior.projected.M1": {
+          "changed_picks": 222,
+          "decisive_accuracy_delta_ci95": [
+            0.0056864456079115805,
+            0.09621451104100946
+          ],
+          "roi_delta_ci95": [
+            -0.0217711356790029,
+            0.1379757165861513
+          ],
+          "weeks": 30
+        },
+        "prior.projected.M2": {
+          "changed_picks": 186,
+          "decisive_accuracy_delta_ci95": [
+            -0.004911612152005927,
+            0.0867775769054178
+          ],
+          "roi_delta_ci95": [
+            -0.03754769958691621,
+            0.12004951603079997
+          ],
+          "weeks": 30
+        }
+      },
+      "distinct_pick_vectors": 27,
+      "identical_pick_groups": [],
+      "metrics": {
+        "fixed_player.official_batting_and_starter": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5767441860465117,
+          "hits": 372,
+          "max_daily_close_drawdown_units": "67.68",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-2.58",
+            "2026-05": "-8.12",
+            "2026-06": "-6.14",
+            "2026-07": "-17.87",
+            "2026-08": "-8.79",
+            "2026-09": "1.95",
+            "2026-10": "-12.28"
+          },
+          "n": 660,
+          "net_units": "-59.01",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08940909090909091
+        },
+        "fixed_player.official_batting_only": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5767441860465117,
+          "hits": 372,
+          "max_daily_close_drawdown_units": "70.94",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-0.98",
+            "2026-05": "-8.29",
+            "2026-06": "-2.37",
+            "2026-07": "-25.19",
+            "2026-08": "-8.98",
+            "2026-09": "0.58",
+            "2026-10": "-10.82"
+          },
+          "n": 660,
+          "net_units": "-59.47",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.0901060606060606
+        },
+        "fixed_player.official_starter_only": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5720930232558139,
+          "hits": 369,
+          "max_daily_close_drawdown_units": "71.59",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-7.83",
+            "2026-05": "-8.12",
+            "2026-06": "-6.14",
+            "2026-07": "-19.54",
+            "2026-08": "-5.36",
+            "2026-09": "-1.58",
+            "2026-10": "-10.82"
+          },
+          "n": 660,
+          "net_units": "-64.57",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.09783333333333333
+        },
+        "fixed_player.original_projected": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5705426356589147,
+          "hits": 368,
+          "max_daily_close_drawdown_units": "76.12",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-6.23",
+            "2026-05": "-8.29",
+            "2026-06": "-2.37",
+            "2026-07": "-25.19",
+            "2026-08": "-7.11",
+            "2026-09": "-1.44",
+            "2026-10": "-12.25"
+          },
+          "n": 660,
+          "net_units": "-66.30",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.10045454545454545
+        },
+        "ledger.bullpen": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5674418604651162,
+          "hits": 366,
+          "max_daily_close_drawdown_units": "76.33",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-8.04",
+            "2026-05": "-8.29",
+            "2026-06": "-6.38",
+            "2026-07": "-24.99",
+            "2026-08": "-3.78",
+            "2026-09": "-3.23",
+            "2026-10": "-12.22"
+          },
+          "n": 660,
+          "net_units": "-70.35",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.1065909090909091
+        },
+        "ledger.lineup": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5767441860465117,
+          "hits": 372,
+          "max_daily_close_drawdown_units": "68.60",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-4.37",
+            "2026-05": "-6.54",
+            "2026-06": "-8.10",
+            "2026-07": "-19.98",
+            "2026-08": "-3.78",
+            "2026-09": "0.89",
+            "2026-10": "-13.65"
+          },
+          "n": 660,
+          "net_units": "-58.95",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08931818181818182
+        },
+        "ledger.market": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5953488372093023,
+          "hits": 384,
+          "max_daily_close_drawdown_units": "62.66",
+          "monthly_units": {
+            "2026-03": "-3.73",
+            "2026-04": "-9.61",
+            "2026-05": "-16.99",
+            "2026-06": "-4.10",
+            "2026-07": "-16.37",
+            "2026-08": "-3.90",
+            "2026-09": "-6.51",
+            "2026-10": "2.97"
+          },
+          "n": 660,
+          "net_units": "-58.24",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08824242424242425
+        },
+        "ledger.player": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5720930232558139,
+          "hits": 369,
+          "max_daily_close_drawdown_units": "73.48",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-6.23",
+            "2026-05": "-8.29",
+            "2026-06": "-2.37",
+            "2026-07": "-25.19",
+            "2026-08": "-3.72",
+            "2026-09": "0.92",
+            "2026-10": "-15.36"
+          },
+          "n": 660,
+          "net_units": "-63.66",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09645454545454546
+        },
+        "ledger.starter": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5720930232558139,
+          "hits": 369,
+          "max_daily_close_drawdown_units": "73.36",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-5.15",
+            "2026-05": "-6.31",
+            "2026-06": "-5.82",
+            "2026-07": "-23.42",
+            "2026-08": "-5.47",
+            "2026-09": "0.92",
+            "2026-10": "-15.36"
+          },
+          "n": 660,
+          "net_units": "-64.03",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09701515151515151
+        },
+        "ledger.starter_lineup": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5767441860465117,
+          "hits": 372,
+          "max_daily_close_drawdown_units": "71.53",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-1.48",
+            "2026-05": "-8.29",
+            "2026-06": "-3.88",
+            "2026-07": "-23.30",
+            "2026-08": "-3.72",
+            "2026-09": "0.92",
+            "2026-10": "-15.36"
+          },
+          "n": 660,
+          "net_units": "-58.53",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08868181818181818
+        },
+        "ledger.team": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5674418604651162,
+          "hits": 366,
+          "max_daily_close_drawdown_units": "76.24",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-6.47",
+            "2026-05": "-6.54",
+            "2026-06": "-9.54",
+            "2026-07": "-21.60",
+            "2026-08": "-5.53",
+            "2026-09": "-3.23",
+            "2026-10": "-13.93"
+          },
+          "n": 660,
+          "net_units": "-70.26",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.10645454545454545
+        },
+        "matched.actual.M0_actual": {
+          "decisive": 645,
+          "decisive_accuracy": 0.6062015503875969,
+          "hits": 391,
+          "max_daily_close_drawdown_units": "41.73",
+          "monthly_units": {
+            "2026-03": "-1.73",
+            "2026-04": "-15.38",
+            "2026-05": "-0.70",
+            "2026-06": "4.05",
+            "2026-07": "-20.59",
+            "2026-08": "5.00",
+            "2026-09": "2.42",
+            "2026-10": "-1.87"
+          },
+          "n": 660,
+          "net_units": "-28.80",
+          "profitable_months": 3,
+          "refunds": 15,
+          "roi": -0.04363636363636364
+        },
+        "matched.actual.M0_projected": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5736434108527132,
+          "hits": 370,
+          "max_daily_close_drawdown_units": "70.78",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-2.58",
+            "2026-05": "-4.30",
+            "2026-06": "-6.14",
+            "2026-07": "-22.98",
+            "2026-08": "-9.04",
+            "2026-09": "0.39",
+            "2026-10": "-12.28"
+          },
+          "n": 660,
+          "net_units": "-62.11",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09410606060606061
+        },
+        "matched.actual.M2_actual": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5736434108527132,
+          "hits": 370,
+          "max_daily_close_drawdown_units": "69.09",
+          "monthly_units": {
+            "2026-03": "1.79",
+            "2026-04": "1.80",
+            "2026-05": "-23.28",
+            "2026-06": "-6.33",
+            "2026-07": "-24.16",
+            "2026-08": "0.27",
+            "2026-09": "2.61",
+            "2026-10": "-2.30"
+          },
+          "n": 660,
+          "net_units": "-49.60",
+          "profitable_months": 4,
+          "refunds": 15,
+          "roi": -0.07515151515151515
+        },
+        "matched.actual.M2_projected": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5689922480620155,
+          "hits": 367,
+          "max_daily_close_drawdown_units": "62.86",
+          "monthly_units": {
+            "2026-03": "-3.66",
+            "2026-04": "3.52",
+            "2026-05": "-19.82",
+            "2026-06": "-9.56",
+            "2026-07": "-23.92",
+            "2026-08": "-0.82",
+            "2026-09": "9.81",
+            "2026-10": "-8.79"
+          },
+          "n": 660,
+          "net_units": "-53.24",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.08066666666666666
+        },
+        "matched.actual.oldfull_M0": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5767441860465117,
+          "hits": 372,
+          "max_daily_close_drawdown_units": "67.93",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-2.58",
+            "2026-05": "-8.12",
+            "2026-06": "-6.14",
+            "2026-07": "-17.87",
+            "2026-08": "-9.04",
+            "2026-09": "1.95",
+            "2026-10": "-12.28"
+          },
+          "n": 660,
+          "net_units": "-59.26",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08978787878787879
+        },
+        "matched.actual.oldfull_M2": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5643410852713179,
+          "hits": 364,
+          "max_daily_close_drawdown_units": "69.65",
+          "monthly_units": {
+            "2026-03": "-3.66",
+            "2026-04": "2.80",
+            "2026-05": "-17.03",
+            "2026-06": "-17.33",
+            "2026-07": "-23.92",
+            "2026-08": "-0.95",
+            "2026-09": "9.81",
+            "2026-10": "-6.85"
+          },
+          "n": 660,
+          "net_units": "-57.13",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.08656060606060606
+        },
+        "matched.projected.M0_actual": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5627906976744186,
+          "hits": 363,
+          "max_daily_close_drawdown_units": "71.99",
+          "monthly_units": {
+            "2026-03": "-7.08",
+            "2026-04": "-8.45",
+            "2026-05": "-11.43",
+            "2026-06": "-2.52",
+            "2026-07": "-27.04",
+            "2026-08": "-4.27",
+            "2026-09": "-7.02",
+            "2026-10": "-4.18"
+          },
+          "n": 660,
+          "net_units": "-71.99",
+          "profitable_months": 0,
+          "refunds": 15,
+          "roi": -0.10907575757575758
+        },
+        "matched.projected.M0_projected": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5736434108527132,
+          "hits": 370,
+          "max_daily_close_drawdown_units": "74.49",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-4.58",
+            "2026-05": "-8.04",
+            "2026-06": "-2.37",
+            "2026-07": "-25.19",
+            "2026-08": "-10.75",
+            "2026-09": "3.58",
+            "2026-10": "-12.25"
+          },
+          "n": 660,
+          "net_units": "-63.02",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.09548484848484848
+        },
+        "matched.projected.M2_actual": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5767441860465117,
+          "hits": 372,
+          "max_daily_close_drawdown_units": "60.38",
+          "monthly_units": {
+            "2026-03": "-5.32",
+            "2026-04": "4.36",
+            "2026-05": "-5.60",
+            "2026-06": "-16.48",
+            "2026-07": "-24.21",
+            "2026-08": "-4.12",
+            "2026-09": "6.61",
+            "2026-10": "1.86"
+          },
+          "n": 660,
+          "net_units": "-42.90",
+          "profitable_months": 3,
+          "refunds": 15,
+          "roi": -0.065
+        },
+        "matched.projected.M2_projected": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5627906976744186,
+          "hits": 363,
+          "max_daily_close_drawdown_units": "81.01",
+          "monthly_units": {
+            "2026-03": "0.00",
+            "2026-04": "12.24",
+            "2026-05": "-21.79",
+            "2026-06": "-19.91",
+            "2026-07": "-24.98",
+            "2026-08": "-5.86",
+            "2026-09": "9.32",
+            "2026-10": "-6.52"
+          },
+          "n": 660,
+          "net_units": "-57.50",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.08712121212121213
+        },
+        "matched.projected.oldfull_M0": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5705426356589147,
+          "hits": 368,
+          "max_daily_close_drawdown_units": "76.64",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-4.66",
+            "2026-05": "-9.79",
+            "2026-06": "-2.37",
+            "2026-07": "-25.19",
+            "2026-08": "-10.75",
+            "2026-09": "1.61",
+            "2026-10": "-12.25"
+          },
+          "n": 660,
+          "net_units": "-66.82",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.10124242424242424
+        },
+        "matched.projected.oldfull_M2": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5689922480620155,
+          "hits": 367,
+          "max_daily_close_drawdown_units": "68.52",
+          "monthly_units": {
+            "2026-03": "-1.97",
+            "2026-04": "10.17",
+            "2026-05": "-17.30",
+            "2026-06": "-11.23",
+            "2026-07": "-25.03",
+            "2026-08": "-5.86",
+            "2026-09": "4.50",
+            "2026-10": "-6.52"
+          },
+          "n": 660,
+          "net_units": "-53.24",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.08066666666666666
+        },
+        "prior.official_batting_and_starter.M1": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5317829457364341,
+          "hits": 343,
+          "max_daily_close_drawdown_units": "89.16",
+          "monthly_units": {
+            "2026-03": "-5.36",
+            "2026-04": "-19.10",
+            "2026-05": "-19.06",
+            "2026-06": "-12.31",
+            "2026-07": "-4.39",
+            "2026-08": "-16.53",
+            "2026-09": "2.05",
+            "2026-10": "-12.99"
+          },
+          "n": 660,
+          "net_units": "-87.69",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.13286363636363635
+        },
+        "prior.official_batting_and_starter.M2": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5643410852713179,
+          "hits": 364,
+          "max_daily_close_drawdown_units": "67.77",
+          "monthly_units": {
+            "2026-03": "-1.69",
+            "2026-04": "-1.66",
+            "2026-05": "-22.00",
+            "2026-06": "-11.01",
+            "2026-07": "-20.87",
+            "2026-08": "-4.57",
+            "2026-09": "11.18",
+            "2026-10": "-7.97"
+          },
+          "n": 660,
+          "net_units": "-58.59",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.08877272727272727
+        },
+        "prior.projected.M1": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5550387596899224,
+          "hits": 358,
+          "max_daily_close_drawdown_units": "69.78",
+          "monthly_units": {
+            "2026-03": "0.38",
+            "2026-04": "-11.41",
+            "2026-05": "-9.68",
+            "2026-06": "-2.17",
+            "2026-07": "-0.11",
+            "2026-08": "-17.72",
+            "2026-09": "-11.06",
+            "2026-10": "-14.91"
+          },
+          "n": 660,
+          "net_units": "-66.68",
+          "profitable_months": 1,
+          "refunds": 15,
+          "roi": -0.10103030303030303
+        },
+        "prior.projected.M2": {
+          "decisive": 645,
+          "decisive_accuracy": 0.5612403100775194,
+          "hits": 362,
+          "max_daily_close_drawdown_units": "69.34",
+          "monthly_units": {
+            "2026-03": "-1.97",
+            "2026-04": "5.58",
+            "2026-05": "-24.67",
+            "2026-06": "-12.36",
+            "2026-07": "-20.28",
+            "2026-08": "-4.19",
+            "2026-09": "5.53",
+            "2026-10": "-8.17"
+          },
+          "n": 660,
+          "net_units": "-60.53",
+          "profitable_months": 2,
+          "refunds": 15,
+          "roi": -0.09171212121212122
+        }
+      },
+      "n": 660,
+      "roi_ranking": [
+        "matched.actual.M0_actual",
+        "matched.projected.M2_actual",
+        "matched.actual.M2_actual",
+        "matched.actual.M2_projected",
+        "matched.projected.oldfull_M2",
+        "matched.actual.oldfull_M2",
+        "matched.projected.M2_projected",
+        "ledger.market",
+        "ledger.starter_lineup",
+        "prior.official_batting_and_starter.M2",
+        "ledger.lineup",
+        "fixed_player.official_batting_and_starter",
+        "matched.actual.oldfull_M0",
+        "fixed_player.official_batting_only",
+        "prior.projected.M2",
+        "matched.actual.M0_projected",
+        "matched.projected.M0_projected",
+        "ledger.player",
+        "ledger.starter",
+        "fixed_player.official_starter_only",
+        "fixed_player.original_projected",
+        "prior.projected.M1",
+        "matched.projected.oldfull_M0",
+        "ledger.team",
+        "ledger.bullpen",
+        "matched.projected.M0_actual",
+        "prior.official_batting_and_starter.M1"
+      ]
+    },
+    "strict_original_time_match": {
+      "comparisons_reference_minus_candidate": {
+        "fixed_player.official_batting_and_starter": {
+          "changed_picks": 48,
+          "decisive_accuracy_delta_ci95": [
+            -0.024039909638554218,
+            0.044668670115642066
+          ],
+          "roi_delta_ci95": [
+            -0.04679247878652544,
+            0.07303299108882871
+          ],
+          "weeks": 17
+        },
+        "fixed_player.official_batting_only": {
+          "changed_picks": 47,
+          "decisive_accuracy_delta_ci95": [
+            -0.024831822827173385,
+            0.048518174443252286
+          ],
+          "roi_delta_ci95": [
+            -0.04661339351510687,
+            0.080510127644274
+          ],
+          "weeks": 17
+        },
+        "fixed_player.official_starter_only": {
+          "changed_picks": 48,
+          "decisive_accuracy_delta_ci95": [
+            -0.011441647597254004,
+            0.04973854549243312
+          ],
+          "roi_delta_ci95": [
+            -0.02558490041738499,
+            0.0815292238078493
+          ],
+          "weeks": 17
+        },
+        "fixed_player.original_projected": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.015946240417719807,
+            0.052372499538742595
+          ],
+          "roi_delta_ci95": [
+            -0.03192577038197688,
+            0.08669010897373619
+          ],
+          "weeks": 17
+        },
+        "ledger.bullpen": {
+          "changed_picks": 52,
+          "decisive_accuracy_delta_ci95": [
+            0.0,
+            0.05349044850498336
+          ],
+          "roi_delta_ci95": [
+            -0.0024153641637125285,
+            0.08922315789473678
+          ],
+          "weeks": 17
+        },
+        "ledger.lineup": {
+          "changed_picks": 52,
+          "decisive_accuracy_delta_ci95": [
+            -0.01666766109785203,
+            0.04516291133084776
+          ],
+          "roi_delta_ci95": [
+            -0.03216076920746026,
+            0.07562172655171838
+          ],
+          "weeks": 17
+        },
+        "ledger.market": {
+          "changed_picks": 87,
+          "decisive_accuracy_delta_ci95": [
+            -0.032968328840970354,
+            0.05321507760532151
+          ],
+          "roi_delta_ci95": [
+            -0.03125576594533029,
+            0.11720695685969684
+          ],
+          "weeks": 17
+        },
+        "ledger.player": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.015946240417719807,
+            0.052372499538742595
+          ],
+          "roi_delta_ci95": [
+            -0.03192577038197688,
+            0.08669010897373619
+          ],
+          "weeks": 17
+        },
+        "ledger.starter": {
+          "changed_picks": 43,
+          "decisive_accuracy_delta_ci95": [
+            -0.014084507042253521,
+            0.047848974783959275
+          ],
+          "roi_delta_ci95": [
+            -0.025275470035252642,
+            0.07790359548812587
+          ],
+          "weeks": 17
+        },
+        "ledger.starter_lineup": {
+          "changed_picks": 47,
+          "decisive_accuracy_delta_ci95": [
+            -0.023861300793646685,
+            0.048426150121065374
+          ],
+          "roi_delta_ci95": [
+            -0.04480567554669049,
+            0.07937492086250547
+          ],
+          "weeks": 17
+        },
+        "ledger.team": {
+          "changed_picks": 53,
+          "decisive_accuracy_delta_ci95": [
+            -0.0078012069452286815,
+            0.05213323876153936
+          ],
+          "roi_delta_ci95": [
+            -0.016076212471131637,
+            0.08516968009718563
+          ],
+          "weeks": 17
+        },
+        "matched.actual.M0_projected": {
+          "changed_picks": 50,
+          "decisive_accuracy_delta_ci95": [
+            -0.024512271351493618,
+            0.04728132387706856
+          ],
+          "roi_delta_ci95": [
+            -0.04891696462274042,
+            0.0748073785005993
+          ],
+          "weeks": 17
+        },
+        "matched.actual.M2_actual": {
+          "changed_picks": 110,
+          "decisive_accuracy_delta_ci95": [
+            -0.021328280667784895,
+            0.08274382255951572
+          ],
+          "roi_delta_ci95": [
+            -0.05056558921454876,
+            0.11665703397663497
+          ],
+          "weeks": 17
+        },
+        "matched.actual.M2_projected": {
+          "changed_picks": 131,
+          "decisive_accuracy_delta_ci95": [
+            -0.01569506726457399,
+            0.10383815334620122
+          ],
+          "roi_delta_ci95": [
+            -0.056029036962328936,
+            0.14238154344306522
+          ],
+          "weeks": 17
+        },
+        "matched.actual.oldfull_M0": {
+          "changed_picks": 48,
+          "decisive_accuracy_delta_ci95": [
+            -0.024039909638554218,
+            0.044668670115642066
+          ],
+          "roi_delta_ci95": [
+            -0.04679247878652544,
+            0.07303299108882871
+          ],
+          "weeks": 17
+        },
+        "matched.actual.oldfull_M2": {
+          "changed_picks": 137,
+          "decisive_accuracy_delta_ci95": [
+            -0.009030884465421711,
+            0.11708032679348788
+          ],
+          "roi_delta_ci95": [
+            -0.045738575689260874,
+            0.15990699843871975
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M0_actual": {
+          "changed_picks": 38,
+          "decisive_accuracy_delta_ci95": [
+            0.004761340555179418,
+            0.059574743688678204
+          ],
+          "roi_delta_ci95": [
+            0.006097278911564629,
+            0.09495035071942445
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M0_projected": {
+          "changed_picks": 49,
+          "decisive_accuracy_delta_ci95": [
+            -0.020884104294777148,
+            0.053300338409475456
+          ],
+          "roi_delta_ci95": [
+            -0.039441710633116876,
+            0.08739003346713389
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M2_actual": {
+          "changed_picks": 123,
+          "decisive_accuracy_delta_ci95": [
+            -0.02898631599378882,
+            0.09091454109439713
+          ],
+          "roi_delta_ci95": [
+            -0.07350903720462543,
+            0.12648447700906473
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M2_projected": {
+          "changed_picks": 138,
+          "decisive_accuracy_delta_ci95": [
+            -0.025708295455229586,
+            0.11566640727721572
+          ],
+          "roi_delta_ci95": [
+            -0.07195827684709982,
+            0.1582025608960418
+          ],
+          "weeks": 17
+        },
+        "matched.projected.oldfull_M0": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.01735506307939694,
+            0.05405551655551654
+          ],
+          "roi_delta_ci95": [
+            -0.033452651085394434,
+            0.0879370924276711
+          ],
+          "weeks": 17
+        },
+        "matched.projected.oldfull_M2": {
+          "changed_picks": 131,
+          "decisive_accuracy_delta_ci95": [
+            -0.02714960058097313,
+            0.09615641711229943
+          ],
+          "roi_delta_ci95": [
+            -0.07241252633796881,
+            0.12945889140271494
+          ],
+          "weeks": 17
+        },
+        "prior.official_batting_and_starter.M1": {
+          "changed_picks": 153,
+          "decisive_accuracy_delta_ci95": [
+            0.006813656476267097,
+            0.10305024805479024
+          ],
+          "roi_delta_ci95": [
+            -0.039923851711227136,
+            0.14174873811521246
+          ],
+          "weeks": 17
+        },
+        "prior.official_batting_and_starter.M2": {
+          "changed_picks": 131,
+          "decisive_accuracy_delta_ci95": [
+            -0.016473515472539727,
+            0.11321182561074739
+          ],
+          "roi_delta_ci95": [
+            -0.059175258771154586,
+            0.15833649425287352
+          ],
+          "weeks": 17
+        },
+        "prior.projected.M1": {
+          "changed_picks": 150,
+          "decisive_accuracy_delta_ci95": [
+            -0.04619204943973997,
+            0.04929656413819237
+          ],
+          "roi_delta_ci95": [
+            -0.11622488224247275,
+            0.05140450580492953
+          ],
+          "weeks": 17
+        },
+        "prior.projected.M2": {
+          "changed_picks": 139,
+          "decisive_accuracy_delta_ci95": [
+            -0.018183893731838936,
+            0.10695249347096131
+          ],
+          "roi_delta_ci95": [
+            -0.06029681964644935,
+            0.14948204195545206
+          ],
+          "weeks": 17
+        }
+      },
+      "distinct_pick_vectors": 25,
+      "identical_pick_groups": [
+        [
+          "matched.actual.oldfull_M0",
+          "fixed_player.official_batting_and_starter"
+        ],
+        [
+          "fixed_player.original_projected",
+          "ledger.player"
+        ]
+      ],
+      "metrics": {
+        "fixed_player.official_batting_and_starter": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5804195804195804,
+          "hits": 249,
+          "max_daily_close_drawdown_units": "45.01",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-1.23",
+            "2026-05": "-6.12",
+            "2026-06": "-6.39",
+            "2026-07": "-17.42"
+          },
+          "n": 439,
+          "net_units": "-35.54",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.08095671981776766
+        },
+        "fixed_player.official_batting_only": {
+          "decisive": 429,
+          "decisive_accuracy": 0.578088578088578,
+          "hits": 248,
+          "max_daily_close_drawdown_units": "48.17",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "0.37",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62",
+            "2026-07": "-24.74"
+          },
+          "n": 439,
+          "net_units": "-37.70",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.08587699316628701
+        },
+        "fixed_player.official_starter_only": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5710955710955711,
+          "hits": 245,
+          "max_daily_close_drawdown_units": "50.28",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-6.48",
+            "2026-05": "-6.12",
+            "2026-06": "-6.39",
+            "2026-07": "-19.09"
+          },
+          "n": 439,
+          "net_units": "-42.46",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09671981776765376
+        },
+        "fixed_player.original_projected": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5710955710955711,
+          "hits": 245,
+          "max_daily_close_drawdown_units": "51.77",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-4.88",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62",
+            "2026-07": "-24.74"
+          },
+          "n": 439,
+          "net_units": "-42.95",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09783599088838268
+        },
+        "ledger.bullpen": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5641025641025641,
+          "hits": 242,
+          "max_daily_close_drawdown_units": "53.55",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-6.69",
+            "2026-05": "-6.29",
+            "2026-06": "-6.63",
+            "2026-07": "-24.54"
+          },
+          "n": 439,
+          "net_units": "-48.57",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.1106378132118451
+        },
+        "ledger.lineup": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5757575757575758,
+          "hits": 247,
+          "max_daily_close_drawdown_units": "48.64",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.02",
+            "2026-05": "-4.54",
+            "2026-06": "-8.35",
+            "2026-07": "-19.66"
+          },
+          "n": 439,
+          "net_units": "-39.99",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09109339407744875
+        },
+        "ledger.market": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5827505827505828,
+          "hits": 250,
+          "max_daily_close_drawdown_units": "46.83",
+          "monthly_units": {
+            "2026-03": "-4.73",
+            "2026-04": "-10.61",
+            "2026-05": "-16.74",
+            "2026-06": "-4.35",
+            "2026-07": "-10.40"
+          },
+          "n": 439,
+          "net_units": "-46.83",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.1066742596810934
+        },
+        "ledger.player": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5710955710955711,
+          "hits": 245,
+          "max_daily_close_drawdown_units": "51.77",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-4.88",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62",
+            "2026-07": "-24.74"
+          },
+          "n": 439,
+          "net_units": "-42.95",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09783599088838268
+        },
+        "ledger.starter": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5734265734265734,
+          "hits": 246,
+          "max_daily_close_drawdown_units": "49.90",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.80",
+            "2026-05": "-4.31",
+            "2026-06": "-6.07",
+            "2026-07": "-22.97"
+          },
+          "n": 439,
+          "net_units": "-41.57",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09469248291571754
+        },
+        "ledger.starter_lineup": {
+          "decisive": 429,
+          "decisive_accuracy": 0.578088578088578,
+          "hits": 248,
+          "max_daily_close_drawdown_units": "49.82",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-0.13",
+            "2026-05": "-6.29",
+            "2026-06": "-4.13",
+            "2026-07": "-22.85"
+          },
+          "n": 439,
+          "net_units": "-37.82",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.08615034168564921
+        },
+        "ledger.team": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5687645687645687,
+          "hits": 244,
+          "max_daily_close_drawdown_units": "50.00",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-5.12",
+            "2026-05": "-4.54",
+            "2026-06": "-9.79",
+            "2026-07": "-21.15"
+          },
+          "n": 439,
+          "net_units": "-45.02",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10255125284738041
+        },
+        "matched.actual.M0_actual": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5920745920745921,
+          "hits": 254,
+          "max_daily_close_drawdown_units": "30.89",
+          "monthly_units": {
+            "2026-03": "-2.73",
+            "2026-04": "-16.38",
+            "2026-05": "1.30",
+            "2026-06": "3.80",
+            "2026-07": "-14.66"
+          },
+          "n": 439,
+          "net_units": "-28.67",
+          "profitable_months": 2,
+          "refunds": 10,
+          "roi": -0.06530751708428247
+        },
+        "matched.actual.M0_projected": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5804195804195804,
+          "hits": 249,
+          "max_daily_close_drawdown_units": "44.36",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-1.23",
+            "2026-05": "-2.30",
+            "2026-06": "-6.39",
+            "2026-07": "-20.59"
+          },
+          "n": 439,
+          "net_units": "-34.89",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.0794760820045558
+        },
+        "matched.actual.M2_actual": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5594405594405595,
+          "hits": 240,
+          "max_daily_close_drawdown_units": "57.12",
+          "monthly_units": {
+            "2026-03": "0.79",
+            "2026-04": "3.15",
+            "2026-05": "-23.03",
+            "2026-06": "-6.58",
+            "2026-07": "-19.60"
+          },
+          "n": 439,
+          "net_units": "-45.27",
+          "profitable_months": 2,
+          "refunds": 10,
+          "roi": -0.10312072892938497
+        },
+        "matched.actual.M2_projected": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5431235431235432,
+          "hits": 233,
+          "max_daily_close_drawdown_units": "57.98",
+          "monthly_units": {
+            "2026-03": "-4.66",
+            "2026-04": "4.87",
+            "2026-05": "-19.57",
+            "2026-06": "-9.81",
+            "2026-07": "-22.13"
+          },
+          "n": 439,
+          "net_units": "-51.30",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.11685649202733485
+        },
+        "matched.actual.oldfull_M0": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5804195804195804,
+          "hits": 249,
+          "max_daily_close_drawdown_units": "45.01",
+          "monthly_units": {
+            "2026-03": "-4.38",
+            "2026-04": "-1.23",
+            "2026-05": "-6.12",
+            "2026-06": "-6.39",
+            "2026-07": "-17.42"
+          },
+          "n": 439,
+          "net_units": "-35.54",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.08095671981776766
+        },
+        "matched.actual.oldfull_M2": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5337995337995338,
+          "hits": 229,
+          "max_daily_close_drawdown_units": "63.14",
+          "monthly_units": {
+            "2026-03": "-4.66",
+            "2026-04": "4.15",
+            "2026-05": "-16.78",
+            "2026-06": "-17.58",
+            "2026-07": "-22.13"
+          },
+          "n": 439,
+          "net_units": "-57.00",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.12984054669703873
+        },
+        "matched.projected.M0_actual": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5594405594405595,
+          "hits": 240,
+          "max_daily_close_drawdown_units": "50.94",
+          "monthly_units": {
+            "2026-03": "-8.08",
+            "2026-04": "-9.45",
+            "2026-05": "-9.43",
+            "2026-06": "-2.77",
+            "2026-07": "-21.21"
+          },
+          "n": 439,
+          "net_units": "-50.94",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.1160364464692483
+        },
+        "matched.projected.M0_projected": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5734265734265734,
+          "hits": 246,
+          "max_daily_close_drawdown_units": "51.52",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.23",
+            "2026-05": "-6.04",
+            "2026-06": "-2.62",
+            "2026-07": "-24.74"
+          },
+          "n": 439,
+          "net_units": "-41.05",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09350797266514807
+        },
+        "matched.projected.M2_actual": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5594405594405595,
+          "hits": 240,
+          "max_daily_close_drawdown_units": "43.44",
+          "monthly_units": {
+            "2026-03": "-6.32",
+            "2026-04": "5.71",
+            "2026-05": "-5.35",
+            "2026-06": "-16.73",
+            "2026-07": "-19.18"
+          },
+          "n": 439,
+          "net_units": "-41.87",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.09537585421412301
+        },
+        "matched.projected.M2_projected": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5407925407925408,
+          "hits": 232,
+          "max_daily_close_drawdown_units": "66.46",
+          "monthly_units": {
+            "2026-03": "-1.00",
+            "2026-04": "13.59",
+            "2026-05": "-21.54",
+            "2026-06": "-20.16",
+            "2026-07": "-23.19"
+          },
+          "n": 439,
+          "net_units": "-52.30",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.11913439635535307
+        },
+        "matched.projected.oldfull_M0": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5710955710955711,
+          "hits": 245,
+          "max_daily_close_drawdown_units": "51.70",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.31",
+            "2026-05": "-7.79",
+            "2026-06": "-2.62",
+            "2026-07": "-24.74"
+          },
+          "n": 439,
+          "net_units": "-42.88",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09767653758542141
+        },
+        "matched.projected.oldfull_M2": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5524475524475524,
+          "hits": 237,
+          "max_daily_close_drawdown_units": "55.78",
+          "monthly_units": {
+            "2026-03": "-2.97",
+            "2026-04": "11.52",
+            "2026-05": "-17.05",
+            "2026-06": "-11.48",
+            "2026-07": "-25.21"
+          },
+          "n": 439,
+          "net_units": "-45.19",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.10293849658314351
+        },
+        "prior.official_batting_and_starter.M1": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5337995337995338,
+          "hits": 229,
+          "max_daily_close_drawdown_units": "56.86",
+          "monthly_units": {
+            "2026-03": "-6.36",
+            "2026-04": "-20.10",
+            "2026-05": "-18.81",
+            "2026-06": "-10.63",
+            "2026-07": "1.37"
+          },
+          "n": 439,
+          "net_units": "-54.53",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.12421412300683371
+        },
+        "prior.official_batting_and_starter.M2": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5384615384615384,
+          "hits": 231,
+          "max_daily_close_drawdown_units": "58.00",
+          "monthly_units": {
+            "2026-03": "-2.69",
+            "2026-04": "-0.31",
+            "2026-05": "-21.75",
+            "2026-06": "-11.26",
+            "2026-07": "-19.08"
+          },
+          "n": 439,
+          "net_units": "-55.09",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.1254897494305239
+        },
+        "prior.projected.M1": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5874125874125874,
+          "hits": 252,
+          "max_daily_close_drawdown_units": "30.15",
+          "monthly_units": {
+            "2026-03": "-0.62",
+            "2026-04": "-10.06",
+            "2026-05": "-9.43",
+            "2026-06": "-0.49",
+            "2026-07": "3.44"
+          },
+          "n": 439,
+          "net_units": "-17.16",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.03908883826879271
+        },
+        "prior.projected.M2": {
+          "decisive": 429,
+          "decisive_accuracy": 0.5407925407925408,
+          "hits": 232,
+          "max_daily_close_drawdown_units": "59.06",
+          "monthly_units": {
+            "2026-03": "-2.97",
+            "2026-04": "6.93",
+            "2026-05": "-24.42",
+            "2026-06": "-12.61",
+            "2026-07": "-20.46"
+          },
+          "n": 439,
+          "net_units": "-53.53",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.12193621867881549
+        }
+      },
+      "n": 439,
+      "roi_ranking": [
+        "prior.projected.M1",
+        "matched.actual.M0_actual",
+        "matched.actual.M0_projected",
+        "fixed_player.official_batting_and_starter",
+        "matched.actual.oldfull_M0",
+        "fixed_player.official_batting_only",
+        "ledger.starter_lineup",
+        "ledger.lineup",
+        "matched.projected.M0_projected",
+        "ledger.starter",
+        "matched.projected.M2_actual",
+        "fixed_player.official_starter_only",
+        "matched.projected.oldfull_M0",
+        "fixed_player.original_projected",
+        "ledger.player",
+        "ledger.team",
+        "matched.projected.oldfull_M2",
+        "matched.actual.M2_actual",
+        "ledger.market",
+        "ledger.bullpen",
+        "matched.projected.M0_actual",
+        "matched.actual.M2_projected",
+        "matched.projected.M2_projected",
+        "prior.projected.M2",
+        "prior.official_batting_and_starter.M1",
+        "prior.official_batting_and_starter.M2",
+        "matched.actual.oldfull_M2"
+      ]
+    },
+    "strict_original_time_match_current_reject_excluded": {
+      "comparisons_reference_minus_candidate": {
+        "fixed_player.official_batting_and_starter": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.020787509582608107,
+            0.051164344538250354
+          ],
+          "roi_delta_ci95": [
+            -0.04077888544188862,
+            0.0863667361151301
+          ],
+          "weeks": 17
+        },
+        "fixed_player.official_batting_only": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.023707891684105177,
+            0.05203802364618301
+          ],
+          "roi_delta_ci95": [
+            -0.04400036945812808,
+            0.0885919692578702
+          ],
+          "weeks": 17
+        },
+        "fixed_player.official_starter_only": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.007353846711098232,
+            0.05623635755815857
+          ],
+          "roi_delta_ci95": [
+            -0.017773317602369644,
+            0.09460047162517392
+          ],
+          "weeks": 17
+        },
+        "fixed_player.original_projected": {
+          "changed_picks": 45,
+          "decisive_accuracy_delta_ci95": [
+            -0.014598540145985401,
+            0.05609961633324195
+          ],
+          "roi_delta_ci95": [
+            -0.028908757675930687,
+            0.0951216768097373
+          ],
+          "weeks": 17
+        },
+        "ledger.bullpen": {
+          "changed_picks": 51,
+          "decisive_accuracy_delta_ci95": [
+            0.0022674454397143473,
+            0.05660493540291847
+          ],
+          "roi_delta_ci95": [
+            0.0012178993493559987,
+            0.09619195974889691
+          ],
+          "weeks": 17
+        },
+        "ledger.lineup": {
+          "changed_picks": 51,
+          "decisive_accuracy_delta_ci95": [
+            -0.015231347449595596,
+            0.048783197831978285
+          ],
+          "roi_delta_ci95": [
+            -0.028409989048811014,
+            0.08330700406342598
+          ],
+          "weeks": 17
+        },
+        "ledger.market": {
+          "changed_picks": 86,
+          "decisive_accuracy_delta_ci95": [
+            -0.0341468970498361,
+            0.05021858985862694
+          ],
+          "roi_delta_ci95": [
+            -0.03297506593599812,
+            0.11231924157749335
+          ],
+          "weeks": 17
+        },
+        "ledger.player": {
+          "changed_picks": 45,
+          "decisive_accuracy_delta_ci95": [
+            -0.014598540145985401,
+            0.05609961633324195
+          ],
+          "roi_delta_ci95": [
+            -0.028908757675930687,
+            0.0951216768097373
+          ],
+          "weeks": 17
+        },
+        "ledger.starter": {
+          "changed_picks": 42,
+          "decisive_accuracy_delta_ci95": [
+            -0.011682926962726258,
+            0.050761421319796954
+          ],
+          "roi_delta_ci95": [
+            -0.020469813787657398,
+            0.08408759946137838
+          ],
+          "weeks": 17
+        },
+        "ledger.starter_lineup": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.02314949084815674,
+            0.05172515212981743
+          ],
+          "roi_delta_ci95": [
+            -0.04314240239195293,
+            0.08750364219114215
+          ],
+          "weeks": 17
+        },
+        "ledger.team": {
+          "changed_picks": 52,
+          "decisive_accuracy_delta_ci95": [
+            -0.006944847254447022,
+            0.05530227496565054
+          ],
+          "roi_delta_ci95": [
+            -0.013342640284176054,
+            0.09237375950525846
+          ],
+          "weeks": 17
+        },
+        "matched.actual.M0_projected": {
+          "changed_picks": 48,
+          "decisive_accuracy_delta_ci95": [
+            -0.021037668354379712,
+            0.05308009477214681
+          ],
+          "roi_delta_ci95": [
+            -0.04165142658407266,
+            0.08639645059407425
+          ],
+          "weeks": 17
+        },
+        "matched.actual.M2_actual": {
+          "changed_picks": 108,
+          "decisive_accuracy_delta_ci95": [
+            -0.020883188979725707,
+            0.08196931483816726
+          ],
+          "roi_delta_ci95": [
+            -0.04855221896203924,
+            0.11752164734558847
+          ],
+          "weeks": 17
+        },
+        "matched.actual.M2_projected": {
+          "changed_picks": 129,
+          "decisive_accuracy_delta_ci95": [
+            -0.013702584706887276,
+            0.10335932841383422
+          ],
+          "roi_delta_ci95": [
+            -0.05381162613142983,
+            0.14251165251960887
+          ],
+          "weeks": 17
+        },
+        "matched.actual.oldfull_M0": {
+          "changed_picks": 46,
+          "decisive_accuracy_delta_ci95": [
+            -0.020787509582608107,
+            0.051164344538250354
+          ],
+          "roi_delta_ci95": [
+            -0.04077888544188862,
+            0.0863667361151301
+          ],
+          "weeks": 17
+        },
+        "matched.actual.oldfull_M2": {
+          "changed_picks": 135,
+          "decisive_accuracy_delta_ci95": [
+            -0.007661734693877548,
+            0.11779465023816084
+          ],
+          "roi_delta_ci95": [
+            -0.044825598194130914,
+            0.16115706909269728
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M0_actual": {
+          "changed_picks": 38,
+          "decisive_accuracy_delta_ci95": [
+            0.004819277108433735,
+            0.060608059486687425
+          ],
+          "roi_delta_ci95": [
+            0.0062096822891285494,
+            0.09658024621639937
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M0_projected": {
+          "changed_picks": 48,
+          "decisive_accuracy_delta_ci95": [
+            -0.019513387798914664,
+            0.05665024630541872
+          ],
+          "roi_delta_ci95": [
+            -0.037496332250284044,
+            0.09502379255387598
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M2_actual": {
+          "changed_picks": 121,
+          "decisive_accuracy_delta_ci95": [
+            -0.028714114832535883,
+            0.09207478551087406
+          ],
+          "roi_delta_ci95": [
+            -0.07209788128707238,
+            0.13052381254225826
+          ],
+          "weeks": 17
+        },
+        "matched.projected.M2_projected": {
+          "changed_picks": 136,
+          "decisive_accuracy_delta_ci95": [
+            -0.02332216585736375,
+            0.11568619879298735
+          ],
+          "roi_delta_ci95": [
+            -0.06863973938343446,
+            0.158353366796668
+          ],
+          "weeks": 17
+        },
+        "matched.projected.oldfull_M0": {
+          "changed_picks": 45,
+          "decisive_accuracy_delta_ci95": [
+            -0.01583800186741363,
+            0.05747333167948397
+          ],
+          "roi_delta_ci95": [
+            -0.03028451472072309,
+            0.09700077197149642
+          ],
+          "weeks": 17
+        },
+        "matched.projected.oldfull_M2": {
+          "changed_picks": 129,
+          "decisive_accuracy_delta_ci95": [
+            -0.026129821287184708,
+            0.09644670050761421
+          ],
+          "roi_delta_ci95": [
+            -0.06839347751956923,
+            0.12891606746911607
+          ],
+          "weeks": 17
+        },
+        "prior.official_batting_and_starter.M1": {
+          "changed_picks": 151,
+          "decisive_accuracy_delta_ci95": [
+            0.00857021103896104,
+            0.10426746342468572
+          ],
+          "roi_delta_ci95": [
+            -0.036691328251484086,
+            0.141621567742935
+          ],
+          "weeks": 17
+        },
+        "prior.official_batting_and_starter.M2": {
+          "changed_picks": 129,
+          "decisive_accuracy_delta_ci95": [
+            -0.015910907015359067,
+            0.11467989197346995
+          ],
+          "roi_delta_ci95": [
+            -0.056713625184456475,
+            0.16147114423440032
+          ],
+          "weeks": 17
+        },
+        "prior.projected.M1": {
+          "changed_picks": 147,
+          "decisive_accuracy_delta_ci95": [
+            -0.04187407420166041,
+            0.04943820224719101
+          ],
+          "roi_delta_ci95": [
+            -0.10859764705882353,
+            0.05388951612903225
+          ],
+          "weeks": 17
+        },
+        "prior.projected.M2": {
+          "changed_picks": 137,
+          "decisive_accuracy_delta_ci95": [
+            -0.016241770886386356,
+            0.10666821345707655
+          ],
+          "roi_delta_ci95": [
+            -0.05649259097409819,
+            0.14851177367176802
+          ],
+          "weeks": 17
+        }
+      },
+      "distinct_pick_vectors": 25,
+      "identical_pick_groups": [
+        [
+          "matched.actual.oldfull_M0",
+          "fixed_player.official_batting_and_starter"
+        ],
+        [
+          "fixed_player.original_projected",
+          "ledger.player"
+        ]
+      ],
+      "metrics": {
+        "fixed_player.official_batting_and_starter": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5758293838862559,
+          "hits": 243,
+          "max_daily_close_drawdown_units": "48.11",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-2.58",
+            "2026-05": "-8.12",
+            "2026-06": "-6.14",
+            "2026-07": "-17.42"
+          },
+          "n": 432,
+          "net_units": "-39.44",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09129629629629629
+        },
+        "fixed_player.official_batting_only": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5758293838862559,
+          "hits": 243,
+          "max_daily_close_drawdown_units": "51.27",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-0.98",
+            "2026-05": "-8.29",
+            "2026-06": "-2.37",
+            "2026-07": "-24.74"
+          },
+          "n": 432,
+          "net_units": "-39.80",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09212962962962963
+        },
+        "fixed_player.official_starter_only": {
+          "decisive": 422,
+          "decisive_accuracy": 0.566350710900474,
+          "hits": 239,
+          "max_daily_close_drawdown_units": "53.38",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-7.83",
+            "2026-05": "-8.12",
+            "2026-06": "-6.14",
+            "2026-07": "-19.09"
+          },
+          "n": 432,
+          "net_units": "-46.36",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10731481481481482
+        },
+        "fixed_player.original_projected": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5687203791469194,
+          "hits": 240,
+          "max_daily_close_drawdown_units": "54.87",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-6.23",
+            "2026-05": "-8.29",
+            "2026-06": "-2.37",
+            "2026-07": "-24.74"
+          },
+          "n": 432,
+          "net_units": "-45.05",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10428240740740741
+        },
+        "ledger.bullpen": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5616113744075829,
+          "hits": 237,
+          "max_daily_close_drawdown_units": "56.65",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-8.04",
+            "2026-05": "-8.29",
+            "2026-06": "-6.38",
+            "2026-07": "-24.54"
+          },
+          "n": 432,
+          "net_units": "-50.67",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.11729166666666667
+        },
+        "ledger.lineup": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5734597156398105,
+          "hits": 242,
+          "max_daily_close_drawdown_units": "51.74",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-4.37",
+            "2026-05": "-6.54",
+            "2026-06": "-8.10",
+            "2026-07": "-19.66"
+          },
+          "n": 432,
+          "net_units": "-42.09",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09743055555555556
+        },
+        "ledger.market": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5853080568720379,
+          "hits": 247,
+          "max_daily_close_drawdown_units": "45.44",
+          "monthly_units": {
+            "2026-03": "-3.73",
+            "2026-04": "-9.61",
+            "2026-05": "-16.99",
+            "2026-06": "-4.10",
+            "2026-07": "-10.40"
+          },
+          "n": 432,
+          "net_units": "-44.83",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10377314814814814
+        },
+        "ledger.player": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5687203791469194,
+          "hits": 240,
+          "max_daily_close_drawdown_units": "54.87",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-6.23",
+            "2026-05": "-8.29",
+            "2026-06": "-2.37",
+            "2026-07": "-24.74"
+          },
+          "n": 432,
+          "net_units": "-45.05",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10428240740740741
+        },
+        "ledger.starter": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5710900473933649,
+          "hits": 241,
+          "max_daily_close_drawdown_units": "53.00",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-5.15",
+            "2026-05": "-6.31",
+            "2026-06": "-5.82",
+            "2026-07": "-22.97"
+          },
+          "n": 432,
+          "net_units": "-43.67",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10108796296296296
+        },
+        "ledger.starter_lineup": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5758293838862559,
+          "hits": 243,
+          "max_daily_close_drawdown_units": "52.92",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-1.48",
+            "2026-05": "-8.29",
+            "2026-06": "-3.88",
+            "2026-07": "-22.85"
+          },
+          "n": 432,
+          "net_units": "-39.92",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09240740740740741
+        },
+        "ledger.team": {
+          "decisive": 422,
+          "decisive_accuracy": 0.566350710900474,
+          "hits": 239,
+          "max_daily_close_drawdown_units": "53.10",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-6.47",
+            "2026-05": "-6.54",
+            "2026-06": "-9.54",
+            "2026-07": "-21.15"
+          },
+          "n": 432,
+          "net_units": "-47.12",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10907407407407407
+        },
+        "matched.actual.M0_actual": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5924170616113744,
+          "hits": 250,
+          "max_daily_close_drawdown_units": "31.64",
+          "monthly_units": {
+            "2026-03": "-1.73",
+            "2026-04": "-15.38",
+            "2026-05": "-0.70",
+            "2026-06": "4.05",
+            "2026-07": "-14.66"
+          },
+          "n": 432,
+          "net_units": "-28.42",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.06578703703703703
+        },
+        "matched.actual.M0_projected": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5758293838862559,
+          "hits": 243,
+          "max_daily_close_drawdown_units": "47.46",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-2.58",
+            "2026-05": "-4.30",
+            "2026-06": "-6.14",
+            "2026-07": "-20.59"
+          },
+          "n": 432,
+          "net_units": "-38.79",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.08979166666666667
+        },
+        "matched.actual.M2_actual": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5592417061611374,
+          "hits": 236,
+          "max_daily_close_drawdown_units": "58.47",
+          "monthly_units": {
+            "2026-03": "1.79",
+            "2026-04": "1.80",
+            "2026-05": "-23.28",
+            "2026-06": "-6.33",
+            "2026-07": "-19.60"
+          },
+          "n": 432,
+          "net_units": "-45.62",
+          "profitable_months": 2,
+          "refunds": 10,
+          "roi": -0.10560185185185185
+        },
+        "matched.actual.M2_projected": {
+          "decisive": 422,
+          "decisive_accuracy": 0.542654028436019,
+          "hits": 229,
+          "max_daily_close_drawdown_units": "59.33",
+          "monthly_units": {
+            "2026-03": "-3.66",
+            "2026-04": "3.52",
+            "2026-05": "-19.82",
+            "2026-06": "-9.56",
+            "2026-07": "-22.13"
+          },
+          "n": 432,
+          "net_units": "-51.65",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.11956018518518519
+        },
+        "matched.actual.oldfull_M0": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5758293838862559,
+          "hits": 243,
+          "max_daily_close_drawdown_units": "48.11",
+          "monthly_units": {
+            "2026-03": "-5.18",
+            "2026-04": "-2.58",
+            "2026-05": "-8.12",
+            "2026-06": "-6.14",
+            "2026-07": "-17.42"
+          },
+          "n": 432,
+          "net_units": "-39.44",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09129629629629629
+        },
+        "matched.actual.oldfull_M2": {
+          "decisive": 422,
+          "decisive_accuracy": 0.533175355450237,
+          "hits": 225,
+          "max_daily_close_drawdown_units": "64.49",
+          "monthly_units": {
+            "2026-03": "-3.66",
+            "2026-04": "2.80",
+            "2026-05": "-17.03",
+            "2026-06": "-17.33",
+            "2026-07": "-22.13"
+          },
+          "n": 432,
+          "net_units": "-57.35",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.13275462962962964
+        },
+        "matched.projected.M0_actual": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5592417061611374,
+          "hits": 236,
+          "max_daily_close_drawdown_units": "50.69",
+          "monthly_units": {
+            "2026-03": "-7.08",
+            "2026-04": "-8.45",
+            "2026-05": "-11.43",
+            "2026-06": "-2.52",
+            "2026-07": "-21.21"
+          },
+          "n": 432,
+          "net_units": "-50.69",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.11733796296296296
+        },
+        "matched.projected.M0_projected": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5710900473933649,
+          "hits": 241,
+          "max_daily_close_drawdown_units": "54.62",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-4.58",
+            "2026-05": "-8.04",
+            "2026-06": "-2.37",
+            "2026-07": "-24.74"
+          },
+          "n": 432,
+          "net_units": "-43.15",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.09988425925925926
+        },
+        "matched.projected.M2_actual": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5592417061611374,
+          "hits": 236,
+          "max_daily_close_drawdown_units": "44.79",
+          "monthly_units": {
+            "2026-03": "-5.32",
+            "2026-04": "4.36",
+            "2026-05": "-5.60",
+            "2026-06": "-16.48",
+            "2026-07": "-19.18"
+          },
+          "n": 432,
+          "net_units": "-42.22",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.09773148148148147
+        },
+        "matched.projected.M2_projected": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5402843601895735,
+          "hits": 228,
+          "max_daily_close_drawdown_units": "67.65",
+          "monthly_units": {
+            "2026-03": "0.00",
+            "2026-04": "12.24",
+            "2026-05": "-21.79",
+            "2026-06": "-19.91",
+            "2026-07": "-23.19"
+          },
+          "n": 432,
+          "net_units": "-52.65",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.121875
+        },
+        "matched.projected.oldfull_M0": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5687203791469194,
+          "hits": 240,
+          "max_daily_close_drawdown_units": "54.80",
+          "monthly_units": {
+            "2026-03": "-3.42",
+            "2026-04": "-4.66",
+            "2026-05": "-9.79",
+            "2026-06": "-2.37",
+            "2026-07": "-24.74"
+          },
+          "n": 432,
+          "net_units": "-44.98",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.10412037037037038
+        },
+        "matched.projected.oldfull_M2": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5521327014218009,
+          "hits": 233,
+          "max_daily_close_drawdown_units": "57.13",
+          "monthly_units": {
+            "2026-03": "-1.97",
+            "2026-04": "10.17",
+            "2026-05": "-17.30",
+            "2026-06": "-11.23",
+            "2026-07": "-25.21"
+          },
+          "n": 432,
+          "net_units": "-45.54",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.10541666666666667
+        },
+        "prior.official_batting_and_starter.M1": {
+          "decisive": 422,
+          "decisive_accuracy": 0.533175355450237,
+          "hits": 225,
+          "max_daily_close_drawdown_units": "56.79",
+          "monthly_units": {
+            "2026-03": "-5.36",
+            "2026-04": "-19.10",
+            "2026-05": "-19.06",
+            "2026-06": "-12.31",
+            "2026-07": "1.37"
+          },
+          "n": 432,
+          "net_units": "-54.46",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.12606481481481482
+        },
+        "prior.official_batting_and_starter.M2": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5379146919431279,
+          "hits": 227,
+          "max_daily_close_drawdown_units": "59.35",
+          "monthly_units": {
+            "2026-03": "-1.69",
+            "2026-04": "-1.66",
+            "2026-05": "-22.00",
+            "2026-06": "-11.01",
+            "2026-07": "-19.08"
+          },
+          "n": 432,
+          "net_units": "-55.44",
+          "profitable_months": 0,
+          "refunds": 10,
+          "roi": -0.12833333333333333
+        },
+        "prior.projected.M1": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5853080568720379,
+          "hits": 247,
+          "max_daily_close_drawdown_units": "30.75",
+          "monthly_units": {
+            "2026-03": "0.38",
+            "2026-04": "-11.41",
+            "2026-05": "-9.68",
+            "2026-06": "-2.17",
+            "2026-07": "3.44"
+          },
+          "n": 432,
+          "net_units": "-19.44",
+          "profitable_months": 2,
+          "refunds": 10,
+          "roi": -0.045
+        },
+        "prior.projected.M2": {
+          "decisive": 422,
+          "decisive_accuracy": 0.5402843601895735,
+          "hits": 228,
+          "max_daily_close_drawdown_units": "60.25",
+          "monthly_units": {
+            "2026-03": "-1.97",
+            "2026-04": "5.58",
+            "2026-05": "-24.67",
+            "2026-06": "-12.36",
+            "2026-07": "-20.46"
+          },
+          "n": 432,
+          "net_units": "-53.88",
+          "profitable_months": 1,
+          "refunds": 10,
+          "roi": -0.12472222222222222
+        }
+      },
+      "n": 432,
+      "roi_ranking": [
+        "prior.projected.M1",
+        "matched.actual.M0_actual",
+        "matched.actual.M0_projected",
+        "fixed_player.official_batting_and_starter",
+        "matched.actual.oldfull_M0",
+        "fixed_player.official_batting_only",
+        "ledger.starter_lineup",
+        "ledger.lineup",
+        "matched.projected.M2_actual",
+        "matched.projected.M0_projected",
+        "ledger.starter",
+        "ledger.market",
+        "matched.projected.oldfull_M0",
+        "fixed_player.original_projected",
+        "ledger.player",
+        "matched.projected.oldfull_M2",
+        "matched.actual.M2_actual",
+        "fixed_player.official_starter_only",
+        "ledger.team",
+        "ledger.bullpen",
+        "matched.projected.M0_actual",
+        "matched.actual.M2_projected",
+        "matched.projected.M2_projected",
+        "prior.projected.M2",
+        "prior.official_batting_and_starter.M1",
+        "prior.official_batting_and_starter.M2",
+        "matched.actual.oldfull_M2"
+      ]
+    }
+  },
+  "retrospective_not_blind": true,
+  "source_hashes": {
+    "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa:experiments/kbo-player-effects-20261103/artifacts/predictions.json": "ba1ed43123a58535f2ee997de4181931449008b0e9bbbba4ba317245c7525fa9",
+    "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa:experiments/kbo-player-effects-20261103/inputs/old-fresh-predictions.json": "9bcb16da33843f3e60b869c62d4b2cb67f65e346b87c1be215e49a2b9b5c1f0e",
+    "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa:experiments/kbo-player-effects-20261103/inputs/price-ledgers.json": "24938f0f5489d22bbc76a830e2f48e2491da6687d3f4a5a2f9e8e8c376790d23",
+    "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa:experiments/kbo-player-effects-20261103/inputs/price-reject-audit.jsonl.gz": "629c26c049669b07c6f0fc7413cd9c55a86beba24b20ce75767f2f54e82a2d93",
+    "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa:experiments/kbo-player-effects-20261103/inputs/test-labels.jsonl.gz": "885b5dc0d182fa91d29ea4d74a078fb8835acf817095604106564864d0e19dc9",
+    "ff2bef35988eb5add154b4bebf8b265f42792db1:experiments/kbo-actual-training-20261103/artifacts/predictions.json": "b41b8dc71af26ccfb5b17ad568309dd4bf742df15e2ba8aaf5091eda693aabbd"
+  }
+}
