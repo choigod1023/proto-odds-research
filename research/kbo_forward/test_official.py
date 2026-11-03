@@ -21,6 +21,8 @@ def lineup(game, confirmed=True):
 class Response:
     status_code = 200
     def __init__(self, payload): self.content = json.dumps(payload).encode()
+    def iter_content(self, chunk_size): yield self.content
+    def close(self): pass
 
 
 class Session:
@@ -80,11 +82,14 @@ class OfficialTests(unittest.TestCase):
                '<tr><td>1</td><td><a href="/Record/Player/HitterDetail/Basic.aspx?playerId=123">Kim</a></td><td>SS</td></tr>'
                '<tr><td>#</td><td><a href="/Record/Retire/Hitter.aspx?playerId=456">Kim</a></td><td>SS</td></tr>'
                '</tbody></table></div>').encode()
+        with self.assertRaisesRegex(SourceError, 'ambiguous'):
+            parse_player_search(raw, 'Kim', 'SS')
+        raw=raw.replace(b'Retire/Hitter.aspx', b'Retire/Pitcher.aspx')
         self.assertEqual(parse_player_search(raw, 'Kim', 'SS'), '123')
         with self.assertRaisesRegex(SourceError, 'incomplete'):
             parse_player_search(raw.replace(b'>2</span>', b'>3</span>'), 'Kim', 'SS')
         with self.assertRaisesRegex(SourceError, 'ambiguous'):
-            parse_player_search(raw.replace(b'Retire/Hitter.aspx', b'Player/HitterDetail/Basic.aspx'), 'Kim', 'SS')
+            parse_player_search(raw.replace(b'Retire/Pitcher.aspx', b'Player/HitterDetail/Basic.aspx'), 'Kim', 'SS')
 
     def test_delta_rejects_same_day_before_fetch(self):
         s = Session({}); c = OfficialClient(self.tmp.name, session=s)
@@ -111,13 +116,16 @@ class OfficialTests(unittest.TestCase):
         c=OfficialClient(self.tmp.name,session=MultiSession(self.g,obj))
         def build(event,roster,history,received):
             names=('home_team_strength','away_team_strength','home_rest_days','away_rest_days','park_factor','home_lineup_strength','away_lineup_strength','home_starter_strength','away_starter_strength','home_bullpen_load','away_bullpen_load')
-            return {'roster':roster,'fixture_id':event['official_game_id']+str(event['season']),'home_id':event['home_id'],'away_id':event['away_id'],'season':event['season'],'event_date':event['kickoff_at'][:10], 'raw_features':{x:{'value':None,'source_fixture_ids':[]} for x in names},'features':{x:{'value':None} for x in names}}
+            return {'roster':roster,'fixture_id':event['official_game_id']+str(event['season']),'home_id':event['home_id'],'away_id':event['away_id'],'season':event['season'],'event_date':event['kickoff_at'][:10], 'raw_features':{x:{'value':None,'source_fixture_ids':[]} for x in names},'features':{x:{'value':None} for x in names}, 'history_coverage':{s:{'status':'complete'} for s in ('home','away')}}
         with patch.object(off.time,'sleep'):
             game=c.schedule([datetime.strptime(self.g['G_DT'],'%Y%m%d').date()])['games'][0]
             seed={'through_date':(datetime.strptime(self.g['G_DT'],'%Y%m%d').date()-timedelta(days=1)).isoformat(), 'received_at':datetime.now(timezone.utc).isoformat(), 'games':[]}
-            hist={'seed':seed,'source_receipts':[game['receipt']],'games':[]}
-            x=c.snapshot(game, history=hist, build_row=build, verify_history=lambda *x: True)
-            y=c.snapshot(game, history=hist, build_row=build, verify_history=lambda *x: False)
+            event={'home_id':self.g['HOME_ID'],'away_id':self.g['AWAY_ID'],'kickoff_at':datetime.strptime(self.g['G_DT']+' '+self.g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=timezone(timedelta(hours=9))).isoformat()}
+            hist=c.derive_history(event,seed,[game['receipt']])
+            with patch.object(off,'frozen_seed',return_value=seed):
+                x=c.snapshot(game, history=hist, build_row=build)
+                bad=dict(hist, schedules={})
+                y=c.snapshot(game, history=bad, build_row=build)
         self.assertTrue(x['source_verified']); self.assertEqual(len(x['row']['roster']['home']['hitters']),9)
         import importlib.util, sys, hashlib
         path=Path(__file__).resolve().parents[2]/'experiments/kbo-m0-followup-20261103/forward.py'
@@ -151,6 +159,52 @@ class OfficialTests(unittest.TestCase):
         c=OfficialClient(Path(self.tmp.name)/'second',session=Session({'code':'100','game':[game]}))
         with patch('research.kbo_forward.official.time.sleep'):
             self.assertFalse(c.result({'source':self.g})['verified'])
+
+    def test_completed_box_is_rebuilt_and_tampering_fails(self):
+        import copy
+        import research.kbo_forward.official as off
+        target=datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=9))).date()+timedelta(days=1)
+        day=target-timedelta(days=1); game=dict(self.g,G_DT=day.strftime('%Y%m%d'),G_ID=day.strftime('%Y%m%d')+'AAHH0',GAME_STATE_SC='3',GAME_RESULT_CK=1,B_SCORE_CN='6',T_SCORE_CN='1',HOME_NM='Home',AWAY_NM='Away')
+        def table(headers,rows): return {'headers':[{'row':[{'Text':x} for x in headers]}],'rows':[{'row':[{'Text':x} for x in row]} for row in rows]}
+        bh=['slot','pos','선수명','타수','안타']; ph=['선수명','등판','이닝','피안타','홈런','삼진','실점','자책']
+        box={'tables':[{},table(bh,[['1','P','101','4','1']]),table(bh,[['1','P','201','5','2']]),table(ph,[['102','선발','5 2/3','2','0','3','2','2'],['103','교체','1/3','0','0','1','0','0']]),table(ph,[['202','선발','9','1','0','5','1','1']])]}
+        class Multi:
+            def __init__(self): self.headers={}
+            def post(self,url,**kw): return Response({'code':'100','game':[game]} if url==SCHEDULE else box)
+        c=OfficialClient(self.tmp.name,session=Multi())
+        with patch.object(off.time,'sleep'):
+            item=c.schedule([day])['games'][0]
+            _,rec=c.fetch(off.BOX,{'leId':game['LE_ID'],'srId':game['SR_ID'],'seasonId':game['SEASON_ID'],'gameId':game['G_ID']})
+        seed={'through_date':(day-timedelta(days=1)).isoformat(),'team_through':{'HH':(day-timedelta(days=1)).isoformat(),'AA':(day-timedelta(days=1)).isoformat()},'received_at':datetime.now(timezone.utc).isoformat(),'games':[]}
+        event={'home_id':'HH','away_id':'AA','kickoff_at':target.isoformat()+'T18:30:00+09:00'}
+        history=c.derive_history(event,seed,[item['receipt'],rec])
+        with patch.object(off,'frozen_seed',return_value=seed):
+            self.assertTrue(c.verify_history(event,history)); self.assertTrue(c.verify_history_coverage(event,history))
+            for mutate in (lambda h:h['games'][0]['teams']['HH'].__setitem__('runs_for',99),lambda h:h['games'][0].__setitem__('fixture_id','other'),lambda h:h['schedules']['HH']['events'][0].__setitem__('status','unknown'),lambda h:h['source_receipts'][1].__setitem__('sha256','0'*64),lambda h:h['games'][0]['teams'].__setitem__('wrong',{})):
+                wrong=copy.deepcopy(history);mutate(wrong);self.assertFalse(c.verify_history(event,wrong))
+        self.assertEqual(history['games'][0]['pitchers']['102']['outs'],17)
+        self.assertIsNone(history['games'][0]['batters']['101']['bb'])
+
+    def test_403_backoff_expires_and_large_response_stops(self):
+        import research.kbo_forward.official as off
+        class Stateful:
+            def __init__(self): self.headers={}; self.calls=0
+            def post(self,*args,**kwargs):
+                self.calls+=1; result=Response({'ok':1}); result.status_code=403 if self.calls==1 else 200; return result
+        session=Stateful(); c=OfficialClient(self.tmp.name,session=session)
+        with patch.object(off.time,'sleep'):
+            with self.assertRaisesRegex(SourceError,'http_403'): c.fetch(SCHEDULE,{'date':'x'})
+            with self.assertRaisesRegex(SourceError,'backoff_active'): c.fetch(SCHEDULE,{'date':'x'})
+            c.records[-1]['finished_at']=(datetime.now(timezone.utc)-timedelta(minutes=16)).isoformat()
+            self.assertEqual(c.fetch(SCHEDULE,{'date':'x'})[1]['status'],200)
+        class Huge:
+            def __init__(self): self.headers={}
+            def post(self,*args,**kwargs):
+                result=Response({});result.content=b'x'*(4*1024*1024+1);return result
+        c=OfficialClient(Path(self.tmp.name)/'huge',session=Huge())
+        with patch.object(off.time,'sleep'):
+            with self.assertRaisesRegex(SourceError,'response_too_large'): c.fetch(SCHEDULE,{'date':'x'})
+        self.assertTrue(c.records[-1]['truncated'])
 
     def test_limits(self):
         with self.assertRaises(ValueError): OfficialClient(self.tmp.name, max_requests=81)

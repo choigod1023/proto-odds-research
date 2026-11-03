@@ -3,6 +3,8 @@
 No inferred batting identity, same-day performance, or postgame backfill is used.
 """
 import base64
+import copy
+from functools import lru_cache
 import hashlib
 import importlib.util
 import json
@@ -69,8 +71,10 @@ class OfficialClient:
                 if sha(raw) != rec['sha256']:
                     raise SourceError('cached_body_sha_mismatch')
                 return raw, rec
-        if self.records and self.records[-1]['status'] == 403:
-            raise SourceError('previous_403')
+        if self.records and self.records[-1]['status'] in (403, 429, None):
+            cooldown = 900 if self.records[-1]['status'] == 403 else 15
+            if (current - datetime.fromisoformat(self.records[-1]['finished_at'])).total_seconds() < cooldown:
+                raise SourceError('source_backoff_active')
         for attempt in range(2):
             if self.count >= self.max_requests:
                 raise SourceError('request_cap')
@@ -81,9 +85,18 @@ class OfficialClient:
             self.lineups += int(url == LINEUP)
             rec = {'url': url, 'method': 'GET' if url in (PROFILE, SEARCH) else 'POST', 'params': params, 'requested_at': now_utc().isoformat(), 'attempt': attempt + 1}
             try:
-                response = (self.session.get(url, params=params, timeout=(5, 15), allow_redirects=False) if url in (PROFILE, SEARCH) else self.session.post(url, data=params, timeout=(5, 15), allow_redirects=False))
-                raw = response.content
-                rec.update(status=response.status_code, sha256=sha(raw), body_file='bodies/' + sha(raw) + '.bin')
+                response = (self.session.get(url, params=params, timeout=(5, 15), allow_redirects=False, stream=True) if url in (PROFILE, SEARCH) else self.session.post(url, data=params, timeout=(5, 15), allow_redirects=False, stream=True))
+                chunks, size, oversized = [], 0, False
+                for chunk in response.iter_content(chunk_size=65536):
+                    if not chunk: continue
+                    size += len(chunk)
+                    if size > 4 * 1024 * 1024:
+                        oversized = True
+                        break
+                    chunks.append(chunk)
+                raw = b''.join(chunks)
+                if hasattr(response, 'close'): response.close()
+                rec.update(status=413 if oversized else response.status_code, sha256=sha(raw), body_file='bodies/' + sha(raw) + '.bin', truncated=oversized)
                 (self.root / rec['body_file']).write_bytes(raw)
             except requests.RequestException as exc:
                 response, raw = None, b''
@@ -93,8 +106,10 @@ class OfficialClient:
             with self.index.open('a', encoding='utf-8') as f:
                 f.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + '\n')
             self.records.append(rec)
-            if response is not None and response.status_code == 200:
+            if rec['status'] == 200:
                 return raw, rec
+            if rec['status'] == 413:
+                raise SourceError('response_too_large')
             if response is not None and response.status_code == 403:
                 raise SourceError('http_403')
             if response is not None and response.status_code != 429:
@@ -176,6 +191,8 @@ class OfficialClient:
                     continue
                 cancel, state, result = str(g.get('CANCEL_SC_ID')), str(g.get('GAME_STATE_SC')), str(g.get('GAME_RESULT_CK'))
                 if cancel != '0':
+                    if '취소' in str(g.get('CANCEL_SC_NM') or ''):
+                        continue
                     raise SourceError('history_cancel_or_suspension_unresolved')
                 if state != '3' or result != '1':
                     raise SourceError('history_game_not_final')
@@ -233,16 +250,19 @@ class OfficialClient:
         answer = {'source_verified': False, 'announcement_verified': announcement_verified, 'missing': list(missing), 'game': game, 'kickoff_at': kickoff.isoformat(), 'starters': starters, 'lineups': ordered, 'batter_ids': ids, 'lineup_receipt': rec, 'identity_receipts': identity_receipts}
         if not announcement_verified:
             return answer
-        if history is None or build_row is None or verify_history is None:
+        if history is None or build_row is None:
             answer['missing'].append('verified_history_features_not_attached')
             return answer
-        event = {'official_game_id': g['G_ID'], 'season': int(g['SEASON_ID']), 'kickoff_at': kickoff.isoformat(), 'home_id': str(g['HOME_NM']).strip(), 'away_id': str(g['AWAY_NM']).strip()}
+        event = {'official_game_id': g['G_ID'], 'season': int(g['SEASON_ID']), 'kickoff_at': kickoff.isoformat(), 'home_id': str(g['HOME_ID']).strip(), 'away_id': str(g['AWAY_ID']).strip()}
         roster = {side: {'starter': starters[side]['player_id'], 'hitters': ids[side]} for side in ('home', 'away')}
         if not self.verify_history_coverage(event, history):
             answer['missing'].append('history_coverage_not_verified')
             return answer
-        if verify_history(event, roster, history, self) is not True:
+        if not self.verify_history(event, history):
             answer['missing'].append('history_evidence_not_verified')
+            return answer
+        if verify_history is not None and verify_history(event, roster, history) is not True:
+            answer['missing'].append('additional_history_check_failed')
             return answer
         history_receipts = history.get('source_receipts') or []
         if not history_receipts:
@@ -253,6 +273,9 @@ class OfficialClient:
         if row.get('roster') != roster or row.get('fixture_id') != g['G_ID'] + str(g['SEASON_ID']) or row.get('home_id') != event['home_id'] or row.get('away_id') != event['away_id']:
             raise SourceError('feature_row_identity_mismatch')
         validate_feature_row(row, event, history)
+        if any(row.get('history_coverage', {}).get(side, {}).get('status') != 'complete' for side in ('home', 'away')):
+            answer['missing'].append('feature_history_coverage_incomplete')
+            return answer
         if now_utc() > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):
             answer['missing'].append('feature_build_after_t_minus_30')
             return answer
@@ -266,12 +289,162 @@ class OfficialClient:
         return answer
 
 
-    def verify_history_coverage(self, event, history):
-        """Reconcile every date after the seed against official source bytes.
+    def normalize_box(self, item, box_receipt, identity_receipts=None, with_receipts=False):
+        """Derive prior game's score and player stats only from raw official tables.
 
-        The caller-supplied verifier must additionally authenticate seed bytes
-        and every normalized statistic against its box response.
+        Four-ball totals combine walks and hit-by-pitch; individual BB is not
+        recoverable and is deliberately left null.
         """
+        game = item['source']
+        raw = self.verified_body(box_receipt, BOX)
+        params = box_receipt.get('params') or {}
+        if any(str(params.get(k)) != str(game.get(v)) for k,v in (('gameId','G_ID'),('leId','LE_ID'),('srId','SR_ID'),('seasonId','SEASON_ID'))):
+            raise SourceError('box_request_identity_mismatch')
+        if str(game.get('GAME_STATE_SC')) != '3' or str(game.get('GAME_RESULT_CK')) != '1' or str(game.get('CANCEL_SC_ID')) != '0':
+            raise SourceError('box_game_not_final')
+        body = json.loads(raw)
+        tables = body.get('tables') if isinstance(body, dict) else None
+        if not isinstance(tables,list) or len(tables) < 5:
+            raise SourceError('box_tables_missing')
+        fetched = []
+        def resolve(name, team, role, position=None):
+            if name.isdigit():
+                if int(name)<=0: raise SourceError('invalid_box_player_id')
+                return name
+            if identity_receipts is None:
+                raw_id, rec = self.fetch(SEARCH, {'searchWord': name}, refresh_seconds=3600)
+            else:
+                choices = [r for r in identity_receipts if r.get('url') == SEARCH and (r.get('params') or {}).get('searchWord') == name]
+                if len(choices) != 1: raise SourceError('box_identity_receipt_missing_or_duplicate')
+                rec = choices[0]; raw_id = self.verified_body(rec, SEARCH)
+            pid = parse_player_search(raw_id, name, team, role, position)
+            fetched.append(rec)
+            return pid
+        try:
+            hs, aws = int(game['B_SCORE_CN']), int(game['T_SCORE_CN'])
+            if hs < 0 or aws < 0: raise ValueError()
+            team_names = {'home':str(game['HOME_NM']).strip(),'away':str(game['AWAY_NM']).strip()}
+            if not all(team_names.values()) or team_names['home']==team_names['away']: raise ValueError()
+            teams = {str(game['HOME_ID']):{'runs_for':hs,'runs_against':aws},str(game['AWAY_ID']):{'runs_for':aws,'runs_against':hs}}
+            batters, pitchers = {}, {}
+            for side, bi, pi in (('away',1,3),('home',2,4)):
+                team=team_names[side]
+                batting=tables[bi]; pitching=tables[pi]
+                headers=[str(x.get('Text') or '').strip() for x in batting['headers'][0]['row']]
+                if headers.count('타수') != 1 or headers.count('안타') != 1 or not batting['rows'] or not pitching['rows']:
+                    raise SourceError('box_batting_schema_invalid')
+                for r in batting['rows']:
+                    cells=[str(x.get('Text') or '').strip() for x in r['row']]
+                    name=cells[2]; pid=resolve(name,team,'hitter',cells[1])
+                    ab,hit=int(cells[headers.index('타수')]),int(cells[headers.index('안타')])
+                    if pid in batters or min(ab,hit)<0 or hit>ab: raise SourceError('box_batter_duplicate_or_invalid')
+                    batters[pid]={'ab':ab,'hit':hit,'bb':None,'hr':None}
+                headers=[str(x.get('Text') or '').strip() for x in pitching['headers'][0]['row']]
+                for label in ('선수명','등판','이닝','피안타','홈런','삼진','실점','자책'):
+                    if headers.count(label)!=1: raise SourceError('box_pitching_schema_invalid')
+                relief_outs=0; starts=0
+                for r in pitching['rows']:
+                    cells=[str(x.get('Text') or '').strip() for x in r['row']]
+                    pid=resolve(cells[headers.index('선수명')],team,'pitcher')
+                    outs=innings_outs(cells[headers.index('이닝')])
+                    numbers={key:int(cells[headers.index(label)]) for key,label in (('hit','피안타'),('hr','홈런'),('kk','삼진'),('r','실점'),('er','자책'))}
+                    if pid in pitchers or outs is None or min(numbers.values())<0: raise SourceError('box_pitcher_duplicate_or_invalid')
+                    pitchers[pid]={'outs':outs,**numbers,'bb':None}
+                    if cells[headers.index('등판')]=='선발': starts+=1
+                    else: relief_outs += outs
+                if starts != 1: raise SourceError('box_starter_marker_invalid')
+                teams[str(game[side.upper() + '_ID'])]['relief']={'outs':relief_outs}
+            received=max([box_receipt['finished_at'],item['receipt']['finished_at']] + [r['finished_at'] for r in fetched],key=datetime.fromisoformat)
+            normalized = {'fixture_id':game['G_ID']+str(game['SEASON_ID']),'date':datetime.strptime(game['G_DT'],'%Y%m%d').date().isoformat(),'received_at':received,'teams':teams,'batters':batters,'pitchers':pitchers,'box_complete':True,'source':{'schedule_sha256':item['receipt']['sha256'],'box_sha256':box_receipt['sha256']}}
+            return (normalized, fetched) if with_receipts else normalized
+        except (KeyError,IndexError,TypeError,ValueError) as exc:
+            raise SourceError('box_schema_or_stat_invalid') from exc
+
+    def make_history(self, game, seed):
+        """Fetch the exact calendar gap and normalize official final boxes."""
+        g=game['source']; target=datetime.strptime(g['G_DT'],'%Y%m%d').date()
+        event={'home_id':str(g['HOME_ID']),'away_id':str(g['AWAY_ID']),'kickoff_at':datetime.strptime(g['G_DT']+' '+g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=KST).isoformat()}
+        start=min(date.fromisoformat(seed.get('team_through',{}).get(t,seed['through_date'])) for t in (event['home_id'],event['away_id']))+timedelta(days=1)
+        days=[start+timedelta(days=i) for i in range(max(0,(target-start).days))]
+        delta=self.history_delta(days,[event['home_id'],event['away_id']],target)
+        receipts=[]
+        for day in delta['days']:
+            receipts.append(day['schedule_receipt'])
+            for item in day['games']:
+                receipts.append(item['box_receipt'])
+                _, identities=self.normalize_box(item['game'],item['box_receipt'],with_receipts=True)
+                receipts.extend(identities)
+        if not receipts: receipts=[game['receipt']]
+        unique={json.dumps([x['url'],x['params']],sort_keys=True,ensure_ascii=False):x for x in receipts}
+        return self.derive_history(event,seed,list(unique.values()))
+
+    def derive_history(self, event, seed, receipts):
+        """Rebuild games and team schedules entirely from retained responses."""
+        target=datetime.fromisoformat(event['kickoff_at']).astimezone(KST).date()
+        teams=(event['home_id'],event['away_id'])
+        bounds={team:date.fromisoformat(seed.get('team_through',{}).get(team,seed['through_date'])) for team in teams}
+        start=min(bounds.values())+timedelta(days=1); last=target-timedelta(days=1)
+        schedules={}; boxes={}
+        for rec in receipts:
+            url=rec.get('url')
+            if url not in (SCHEDULE,BOX,SEARCH): raise SourceError('history_receipt_endpoint_invalid')
+            raw=self.verified_body(rec,url)
+            if url==SCHEDULE:
+                d=datetime.strptime(rec['params']['date'],'%Y%m%d').date()
+                if d in schedules: raise SourceError('duplicate_schedule_receipt')
+                obj=json.loads(raw)
+                if not isinstance(obj,dict) or str(obj.get('code'))!='100' or not isinstance(obj.get('game'),list): raise SourceError('invalid_schedule')
+                schedules[d]=(rec,obj['game'])
+            if url==BOX:
+                gid=rec['params']['gameId']
+                if gid in boxes: raise SourceError('duplicate_box_receipt')
+                boxes[gid]=rec
+        events={team:[] for team in teams}; games=[]; seen=set(); day=start
+        while day<=last:
+            if day not in schedules: raise SourceError('history_missing_schedule_day')
+            rec, source_games=schedules[day]
+            for g in source_games:
+                if g.get('G_DT')!=day.strftime('%Y%m%d') or str(g.get('LE_ID'))!='1' or not g.get('G_ID') or g['G_ID'] in seen:
+                    raise SourceError('history_schedule_identity_invalid')
+                seen.add(g['G_ID']); game_teams=(str(g.get('HOME_ID')),str(g.get('AWAY_ID')))
+                needed=[t for t in teams if t in game_teams and day>bounds[t]]
+                if not needed: continue
+                if str(g.get('CANCEL_SC_ID'))!='0':
+                    if '취소' not in str(g.get('CANCEL_SC_NM') or ''): raise SourceError('history_cancel_status_unknown')
+                    status='cancelled'
+                elif str(g.get('GAME_STATE_SC'))=='3' and str(g.get('GAME_RESULT_CK'))=='1': status='final'
+                else: raise SourceError('history_game_not_final')
+                fid=g['G_ID']+str(g['SEASON_ID'])
+                for team in needed: events[team].append({'fixture_id':fid,'date':day.isoformat(),'status':status})
+                if status=='final':
+                    if g['G_ID'] not in boxes: raise SourceError('history_box_missing')
+                    item={'source':g,'receipt':rec}
+                    normalized=self.normalize_box(item,boxes[g['G_ID']],identity_receipts=receipts)
+                    games.append(normalized)
+            day+=timedelta(days=1)
+        received=max([seed['received_at']]+[r['finished_at'] for r in receipts],key=datetime.fromisoformat)
+        summary={}
+        for team in teams:
+            ev=events[team]
+            body=json.dumps({'schedule_sha256s':[schedules[d][0]['sha256'] for d in sorted(schedules) if start<=d<=last],'events':ev},sort_keys=True,separators=(',',':'),ensure_ascii=False)
+            summary[team]={'from_date':start.isoformat(),'through_date':last.isoformat(),'received_at':received,'events':ev,'uri':SCHEDULE,'body':body,'sha256':sha(body.encode('utf8'))}
+        return {'seed':seed,'games':games,'schedules':summary,'source_receipts':receipts}
+
+    def verify_history(self,event,history):
+        try:
+            seed=history['seed']
+            target=datetime.fromisoformat(event['kickoff_at']).astimezone(KST).date().isoformat()
+            if seed != frozen_seed(seed['received_at'],target): return False
+            rebuilt=self.derive_history(event,seed,history['source_receipts'])
+            return rebuilt == history
+        except (SourceError,KeyError,ValueError,TypeError,OSError,ImportError):
+            return False
+
+    def verify_history_stats(self, event, roster, history):
+        return self.verify_history_coverage(event, history) and self.verify_history(event, history)
+
+    def verify_history_coverage(self, event, history):
+        """Reconcile every date after the seed against official source bytes."""
         seed = history.get('seed')
         if not isinstance(seed, dict):
             return False
@@ -317,7 +490,7 @@ class OfficialClient:
                     if g.get('G_DT') != current.strftime('%Y%m%d') or str(g.get('LE_ID')) != '1':
                         return False
                     home, away = str(g.get('HOME_NM') or '').strip(), str(g.get('AWAY_NM') or '').strip()
-                    needed = [team for team in bounds if team in (home, away) and current > bounds[team]]
+                    needed = [team for team in bounds if team in (str(g.get('HOME_ID')), str(g.get('AWAY_ID'))) and current > bounds[team]]
                     if not needed:
                         continue
                     if str(g.get('CANCEL_SC_ID')) != '0':
@@ -402,7 +575,7 @@ def parse_lineup(raw, game):
     return out
 
 
-def parse_player_search(raw, name, team_name):
+def parse_player_search(raw, name, team_name, role='hitter', position=None):
     """Only accept a complete official result page and one current team match."""
     soup = BeautifulSoup(raw, 'html.parser')
     root = soup.select_one('div.inquiry')
@@ -420,12 +593,22 @@ def parse_player_search(raw, name, team_name):
         a = cells[1].find('a', href=True)
         if not a or a.get_text(strip=True) != name or cells[2].get_text(strip=True) != team_name:
             continue
+        # Restrict only when the official box position unambiguously identifies
+        # a fielding group; pinch hitters/designated hitters remain ambiguous.
+        pos = str(position or '')
+        group = ('외야수' if pos and all(c in '좌중우' for c in pos) else
+                 '내야수' if pos and all(c in '一二三유' for c in pos) else
+                 '포수' if pos == '포' else None)
+        if group and len(cells) >= 4 and cells[3].get_text(strip=True) != group:
+            continue
         url = urlparse(a['href'])
         ids = parse_qs(url.query).get('playerId', [])
-        if url.scheme or url.netloc or url.path != '/Record/Player/HitterDetail/Basic.aspx' or len(ids) != 1 or not ids[0].isdigit() or int(ids[0]) <= 0:
+        valid = '/Record/Player/HitterDetail/Basic.aspx' if role == 'hitter' else '/Record/Player/PitcherDetail/Basic.aspx'
+        retired = '/Record/Retire/Hitter.aspx' if role == 'hitter' else '/Record/Retire/Pitcher.aspx'
+        if url.scheme or url.netloc or url.path not in (valid, retired) or len(ids) != 1 or not ids[0].isdigit() or int(ids[0]) <= 0:
             continue
-        matches.append(ids[0])
-    if len(matches) != 1:
+        matches.append(ids[0] if url.path == valid else 'retired:' + ids[0])
+    if len(matches) != 1 or matches[0].startswith('retired:'):
         raise SourceError('player_search_missing_or_ambiguous')
     return matches[0]
 
@@ -457,3 +640,27 @@ def validate_feature_row(row, event, history):
             raise SourceError('feature_lineup_owner_or_window_mismatch')
         if starter is not None and (starter['projected_player_id'] != row['roster'][side]['starter'] or len(starter['appearances']) > 10):
             raise SourceError('feature_starter_owner_or_window_mismatch')
+
+
+def innings_outs(value):
+    text=str(value).strip()
+    frac=re.fullmatch(r'(?:(\d+)\s+)?([12])/3',text)
+    if frac:return 3*int(frac[1] or 0)+int(frac[2])
+    m=re.fullmatch(r'(\d+)(?:\.(\d)|\s*([⅓⅔]))?',text)
+    if not m:return None
+    fraction=m[2] or {'⅓':'1','⅔':'2'}.get(m[3],'0')
+    if fraction not in ('0','1','2'):return None
+    return 3*int(m[1])+int(fraction)
+
+
+@lru_cache(maxsize=2)
+def _seed_template(target_date):
+    from research.kbo_forward.features import seed_from_frozen
+    return seed_from_frozen('2000-01-01T00:00:00+00:00',target_date)
+
+def frozen_seed(received_at,target_date):
+    seed=copy.deepcopy(_seed_template(target_date))
+    seed['received_at']=received_at
+    seed['provenance']['received_at']=received_at
+    for src in seed['provenance']['sources']:src['received_at']=received_at
+    return seed
