@@ -1,0 +1,92 @@
+{
+  "contract_commit": "0e8ecbb27f4800481dd8a8630c1388cda4b9e2ba",
+  "contract_sha256": "ced8a96f42425cac0f532fe5e3b4f21252e570bc32d30941be0494b0c95a9ba6",
+  "common_guard_commits": [
+    "c43d386eb4ef90aa3ae4b0e4a6e039fce51ed120",
+    "7f29ae1be6cfa3a6210b643bd6c67e3d551b358f"
+  ],
+  "baseline_development_coefficients_and_predictions_exact": true,
+  "baseline_final_coefficients_and_actual_predictions_exact": true,
+  "baseline_final_artifact": "artifacts/baseline-final.json",
+  "workers": [
+    {
+      "family": "recency",
+      "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
+      "workspace": "C:/Users/user/Documents/Codex/kbmrec",
+      "status": "completed",
+      "selected": "shrink",
+      "implementation_commit": "ff94372a35ed2a8945e2ef7cc042ca8a7ca09c34",
+      "development_commit": "7cc6b0b4aefcc52fcf2d7416d685ffdb33da6e2d",
+      "prediction_commit": "1110b13e7a1b552607cbeed53468cf15ca3bfbda",
+      "pr": 539,
+      "final_worker_commit": "30ca43bdda624480f2ff57c09537a516bc967d1f"
+    },
+    {
+      "family": "opponent",
+      "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+      "workspace": "C:/Users/user/Documents/Codex/kbmopp",
+      "status": "completed",
+      "selected": "baseline",
+      "implementation_commit": "a979dc46934dfc53eb86b314b9b0156c69b981a9",
+      "development_commit": "ca41b6da7f6d5cb89fd5d5e8dbfb6ad882bfcafb",
+      "prediction_commit": "8c708d0915f08b2f17c51e34b266cafc574b1035",
+      "final_worker_commit": "8c6da19b054d2ad4db591ca40ad780b30e409b78",
+      "pr": 541
+    },
+    {
+      "family": "distribution",
+      "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
+      "workspace": "C:/Users/user/Documents/Codex/kbmdist",
+      "status": "completed",
+      "selected": "negative_binomial_alpha03",
+      "implementation_commit": "5db520b7fd89a0c4e28a0b45751bd563ce852d80",
+      "development_commit": "373cd13a2590c2c0e8c1fb0516dbc9e5396e80a0",
+      "prediction_commit": "fddc7f998d4b1860867601529192031f1de188de",
+      "final_worker_commit": "0c5da7822939f6140640415c0bb3b03103740e1b",
+      "pr": 542
+    },
+    {
+      "family": "review",
+      "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
+      "workspace": "C:/Users/user/Documents/Codex/kbmreview",
+      "status": "completed",
+      "common_and_forecast_review_commit": "9b908d0da056059ae4cdf8ce289e0de887bb5783",
+      "pr": 540,
+      "final_review_commit": "341c58fb4445b09ade990c42ef6a1c02e29ef5b9",
+      "audit_counts": {
+        "가격paired": 40,
+        "가격모델": 48,
+        "개별정산": 26376,
+        "결과paired": 10,
+        "결과모델": 12
+      }
+    }
+  ],
+  "production_changes": false,
+  "model_adoption": false,
+  "test_outcomes_loaded_for_new_candidates": true,
+  "wallet_changes": false,
+  "existing_monthly_simulation_loss_limit_krw": 50000,
+  "prediction_freeze_commit": "627cadca9096acae18a30f72484c342edab7acd3",
+  "prediction_sha256": "8749562073997c4e2374effe3b53fa41efcd2e4e1a60f38ab658496633e732b4",
+  "results_commit": "9495a91512d19e80d158a545d21d7311023ac36c",
+  "global_primary_preselected_on2025": "recency",
+  "secondary_ensemble_not_promoted_after_test": true,
+  "test_outcomes_first_new_settlement_after_prediction_freeze": true,
+  "parent_and_worker_tests_passed_so_far": {
+    "common_selection": 4,
+    "evaluation_freeze_ensemble": 2,
+    "recency": 4,
+    "opponent": 5,
+    "distribution": 4,
+    "independent_synthetic": 6
+  },
+  "new_research_status": "completed_models_predictions_settlement_and_independent_audit",
+  "unique_tests_passed": 25,
+  "test_groups_run_in_separate_processes": true,
+  "merge_performed": false,
+  "deployment_performed": false,
+  "production_model_changed": false,
+  "post2026_global_selection_changed": false,
+  "decision": "Primary validation-selected recency failed against existing M0; keep existing reference. Fixed ensemble remains secondary research candidate, not adopted."
+}

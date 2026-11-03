@@ -1,0 +1,85 @@
+{
+  "artifact_sha256": {
+    "candidate.py": "67061a64d14cc6e12a9fbb1d64be63680365516797c49f508b2601c85af4d69d",
+    "development.py": "8340a39d65ff6b0bb7a1a0197193311cd316353a85a5f3a0158061e912a3befc",
+    "development/models.json": "47ae9d7e85c76c0211c5fb6f32b75c917e9bbee45212a28df4f1408bc7834b47",
+    "development/predictions.json": "bc8caba81bcc23f656aa7d9633c1481be3a98e9854ec5e17b728ad2777f1e60b",
+    "development/selection.json": "7ebe103f7c37fee018a69271c74f383ced39e64ab15f6b18e279403da3088b71",
+    "final.py": "77ed8db1438d916c2e8d92fbc10c04af7ba18b9c59ef6dd64198b0434f7ab9a5",
+    "final/model.json": "a9a0a0de578961acb6151165ee187787a1df0b2800a36623932fe12f8cc04d44",
+    "final/predictions.json": "aaeb9314fd8591f969ae93feb121f45cc9b3df7ab6d6071cf855d496a4ec0003",
+    "verify.py": "a12c3f585101d57c445c568e30732860fb74b040701d7d3fb2eca66d06a27a98"
+  },
+  "baseline_reference_replay_max_abs_error": 0.0,
+  "byte_policy": "JSON artifacts exact bytes with opponent/.gitattributes; Python source stores raw SHA and separately normalized LF Git blob SHA.",
+  "code_git_blob_sha256_lf": {
+    "candidate.py": "8bcbcd552149be354ef878a27d24ab1844b736f332b7b4d332ba1f56118833cb",
+    "development.py": "f13741807230277e4de092899fe90b98f958d531e0e4c89cb11051f57681d271",
+    "final.py": "1e4e38ffa429b20e678a015380cbf289e0b53ce8bf431ef8b32aa9dc261246bb"
+  },
+  "dev_metrics": {
+    "baseline": {
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6911346317435354
+    },
+    "interaction10": {
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6913855293155992
+    },
+    "interaction100": {
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6913774147991357
+    },
+    "training_decay365": {
+      "decisive": 709,
+      "decisive_accuracy": 0.5472496473906912,
+      "decisive_hits": 388,
+      "decisive_logloss": 0.6930872976592221
+    },
+    "training_decay365_interaction100": {
+      "decisive": 709,
+      "decisive_accuracy": 0.5514809590973202,
+      "decisive_hits": 391,
+      "decisive_logloss": 0.6928450527932066
+    }
+  },
+  "development_freeze_commit": "ca41b6d",
+  "final_baseline_reference_replay_max_abs_error": 0.0,
+  "final_model_path": "experiments/kbo-m0-evolution-20261103/opponent/final/model.json",
+  "final_predictions_path": "experiments/kbo-m0-evolution-20261103/opponent/final/predictions.json",
+  "historical_receipt_proven": false,
+  "implementation_commit": "a979dc4",
+  "limits": [
+    "retrospective previously observed seasons",
+    "official confirmed batting lineup may differ from actual starts",
+    "development selection is not an independent blind evaluation"
+  ],
+  "production_changed": false,
+  "ranking": [
+    "baseline",
+    "interaction100",
+    "interaction10",
+    "training_decay365_interaction100",
+    "training_decay365"
+  ],
+  "selected": "baseline",
+  "selection_rule": "decisive accuracy descending, decisive log loss ascending, baseline on ties, lexical",
+  "source_contract_commit": "0e8ecbb27f4800481dd8a8630c1388cda4b9e2ba",
+  "status": "ready_for_parent_scoring",
+  "test_actual_count": 709,
+  "test_cli": "python experiments/kbo-m0-evolution-20261103/opponent/test_candidate.py",
+  "test_projected_count": 709,
+  "training_count_development": 1451,
+  "training_count_final": 2182,
+  "used_2026_labels": false,
+  "used_prices": false,
+  "validation_count": 731,
+  "validation_season": 2025,
+  "verify_cli": "python experiments/kbo-m0-evolution-20261103/opponent/verify.py"
+}

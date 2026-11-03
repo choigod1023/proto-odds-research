@@ -1,0 +1,35 @@
+{
+  "artifact_sha256_unchanged": {
+    "development/models.json": "47ae9d7e85c76c0211c5fb6f32b75c917e9bbee45212a28df4f1408bc7834b47",
+    "development/predictions.json": "bc8caba81bcc23f656aa7d9633c1481be3a98e9854ec5e17b728ad2777f1e60b",
+    "development/selection.json": "7ebe103f7c37fee018a69271c74f383ced39e64ab15f6b18e279403da3088b71",
+    "final/model.json": "a9a0a0de578961acb6151165ee187787a1df0b2800a36623932fe12f8cc04d44",
+    "final/predictions.json": "aaeb9314fd8591f969ae93feb121f45cc9b3df7ab6d6071cf855d496a4ec0003"
+  },
+  "core_sha256": "0cffe22795c5d36b5862648568904332fdf93e4252e60a62f2e57b6e62a8f603",
+  "core_verified_manifest": true,
+  "development_all_fixtures": 731,
+  "development_candidates": 4,
+  "final_actual_fixtures": 709,
+  "final_projected_fixtures": 709,
+  "forecast_probability_checks": "finite, normalized and conditional consistency for both sets",
+  "local_cherry_pick_commits": [
+    "42ac4eb",
+    "8a0e648"
+  ],
+  "manifest_sha256": "5efd473a740323b52baa6c1161e549270c83c087f702c6d17616425339093ab8",
+  "original_fix_commits": [
+    "c43d386eb4ef90aa3ae4b0e4a6e039fce51ed120",
+    "7f29ae1be6cfa3a6210b643bd6c67e3d551b358f"
+  ],
+  "refit_performed": false,
+  "selection_2025": "baseline",
+  "status": "verified_without_refit",
+  "test_outcomes_or_prices_read": false,
+  "tests": {
+    "common_selection": "4 passed",
+    "final_probability_validation": "1418 passed",
+    "opponent_candidate": "5 passed",
+    "replay_verify": "passed"
+  }
+}

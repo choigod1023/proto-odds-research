@@ -1,0 +1,100 @@
+{
+  "baseline_replay_max_abs_probability_error": 0.0,
+  "configurations": {
+    "interaction10": {
+      "decay_days": null,
+      "interaction_penalty": 10.0
+    },
+    "interaction100": {
+      "decay_days": null,
+      "interaction_penalty": 100.0
+    },
+    "training_decay365": {
+      "decay_days": 365,
+      "interaction_penalty": null
+    },
+    "training_decay365_interaction100": {
+      "decay_days": 365,
+      "interaction_penalty": 100.0
+    }
+  },
+  "fit_n": 1451,
+  "fit_seasons": [
+    2023,
+    2024
+  ],
+  "metrics": {
+    "baseline": {
+      "accuracy": 0.5376196990424077,
+      "brier": 0.5391012015082852,
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_brier": 0.49784198465447466,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6911346317435354,
+      "hits": 393,
+      "logloss": 0.8627602304437175,
+      "n": 731
+    },
+    "interaction10": {
+      "accuracy": 0.5376196990424077,
+      "brier": 0.5392406728241305,
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_brier": 0.49802556203045223,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6913855293155992,
+      "hits": 393,
+      "logloss": 0.8629645918132852,
+      "n": 731
+    },
+    "interaction100": {
+      "accuracy": 0.5376196990424077,
+      "brier": 0.5392355585623,
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_brier": 0.4980196801375157,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6913774147991357,
+      "hits": 393,
+      "logloss": 0.8629566790438264,
+      "n": 731
+    },
+    "training_decay365": {
+      "accuracy": 0.53077975376197,
+      "brier": 0.5401438033327624,
+      "decisive": 709,
+      "decisive_accuracy": 0.5472496473906912,
+      "decisive_brier": 0.4995872821475002,
+      "decisive_hits": 388,
+      "decisive_logloss": 0.6930872976592221,
+      "hits": 388,
+      "logloss": 0.8632946091900401,
+      "n": 731
+    },
+    "training_decay365_interaction100": {
+      "accuracy": 0.5348837209302325,
+      "brier": 0.5400281852085373,
+      "decisive": 709,
+      "decisive_accuracy": 0.5514809590973202,
+      "decisive_brier": 0.49941235879674006,
+      "decisive_hits": 391,
+      "decisive_logloss": 0.6928450527932066,
+      "hits": 391,
+      "logloss": 0.8631205761745296,
+      "n": 731
+    }
+  },
+  "note": "retrospective, prior results known, no prices or test labels read",
+  "ranking": [
+    "baseline",
+    "interaction100",
+    "interaction10",
+    "training_decay365_interaction100",
+    "training_decay365"
+  ],
+  "selected": "baseline",
+  "selection_n": 731,
+  "selection_season": 2025,
+  "used2026_outcomes": false
+}
