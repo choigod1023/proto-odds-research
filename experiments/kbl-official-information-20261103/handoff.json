@@ -8,7 +8,7 @@
   "input_sha256s": {
     "official_schedule": "c705d8673ce7bf2c7399c38eb68cb2ce2092c6a4e412561429fb26c858988ba3",
     "fixture_census": "e5a817b0a88aa0a55f20a26f2f176aa9236c5ce9988f21183cc4ca6806799d4d",
-    "manifest": "792d30ca07002151200e65b3204ae70b20e91425c70053e3cae6921f0b967617"
+    "manifest": "59ebe5764ff124bdf8aa91fa8b54cc3009182b26e4750d3d197f79a1670bcee7"
   },
   "new_input_ids": [
     "S47G01N1",
@@ -140,7 +140,7 @@
   "tests": [
     "python -X utf8 -m unittest discover -s experiments/kbl-official-information-20261103 -p test_*.py -v",
     "python -X utf8 experiments/kbl-official-information-20261103/analyze.py",
-    "checkout-index core.autocrlf true/false SHA verification",
+    "independent clones core.autocrlf true/false SHA verification",
     "git diff --check"
   ],
   "metrics": {
@@ -169,7 +169,7 @@
     "official historical pregame status/receipt and executable price missing",
     "product-specific settlement and season-specific rules require verification"
   ],
-  "pr_url": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/523",
   "next_data_needed": [
     "dated predecision official roster/absence bytes with actual receipt",
     "T-30 full two-way price vector and source receipt",
