@@ -31,3 +31,9 @@ def test_replacement_boundaries_and_no_scoring_in_preflight():
     assert f.same_except(a,b,('pitcher',))
     b['team']=4;assert not f.same_except(a,b,('pitcher',))
     src=inspect.getsource(f.main);assert 'test-labels' not in src and 'model.predict' not in src and 'model.fit' not in src
+
+def test_source_id_date_team_fallback_and_wrong_fixture():
+    row={'season':2026,'event_date':'2026-08-20','home_id':'LG','away_id':'KT'}
+    assert f.fixture_matches('score:2026-08-20:LG:KT','20260820KTLG0',row)
+    assert not f.fixture_matches('score:2026-08-20:KT:LG','20260820KTLG0',row)
+    assert f.fixture_matches('20260820KTLG02026','20260820KTLG0',row)

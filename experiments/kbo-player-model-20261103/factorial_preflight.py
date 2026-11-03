@@ -29,6 +29,9 @@ def validate_starter(entry,person,fixture,day,dates):
     if any(set(a)!=APP_FIELDS for a in value['appearances']):raise ValueError('unexpected starter history fields')
     return m.adapter.scalar('home_starter_strength',value)
 
+def fixture_matches(fid,official_game_id,base):
+    return fid==official_game_id+str(base['season']) or fid==f"score:{base['event_date']}:{base['home_id']}:{base['away_id']}"
+
 def validate(prior,lineup,starter,both,base):
     fid=base['fixture_id'];day=date.fromisoformat(base['event_date']);dates=validate.dates
     if any(x['fixture_id']!=fid for x in (prior,lineup,starter,both)):raise ValueError('fixture mismatch')
@@ -36,7 +39,7 @@ def validate(prior,lineup,starter,both,base):
     if any(m.canonical(x['projection'])!=m.canonical(prior['projection']) for x in (lineup,starter,both)):raise ValueError('prior metadata changed')
     if not same_except(prior['features'],lineup['features'],BAT) or not same_except(prior['features'],starter['features'],STARTER) or not same_except(lineup['features'],both['features'],STARTER) or not same_except(starter['features'],both['features'],BAT):raise ValueError('features changed outside factorial setting')
     lc=lineup['official_lineup_context']
-    if m.canonical(lc)!=m.canonical(both['official_lineup_context']) or lc['official_game_id']+str(base['season'])!=fid or lc['official_game_date']!=day.strftime('%Y%m%d') or lc['basis']!=m.DATA_SCENARIO or any(lc[k] is not False for k in ('historical_receipt_proven','eligible_as_pregame_feature','point_in_time_verified')):raise ValueError('invalid lineup identity or availability')
+    if m.canonical(lc)!=m.canonical(both['official_lineup_context']) or not fixture_matches(fid,lc['official_game_id'],base) or lc['official_game_date']!=day.strftime('%Y%m%d') or lc['basis']!=m.DATA_SCENARIO or any(lc[k] is not False for k in ('historical_receipt_proven','eligible_as_pregame_feature','point_in_time_verified')):raise ValueError('invalid lineup identity or availability')
     seen=set()
     for side in ('home','away'):
         k=side+'_lineup_strength';entry=lineup['features'][k];players=lc['lineups'][side];profiles=entry['value']
@@ -51,7 +54,8 @@ def validate(prior,lineup,starter,both,base):
     ctx=starter['official_schedule_pitcher_context']
     if m.canonical(ctx)!=m.canonical(both['official_schedule_pitcher_context']):raise ValueError('starter context mismatch')
     if ctx['basis']!='retrospective_official_schedule_listed_actual_starter_assumed_available' or any(ctx[k] is not False for k in ('historical_receipt_proven','eligible_as_pregame_feature','point_in_time_verified')) or ctx['baseline_projection_metadata_not_official_selector'] is not True:raise ValueError('unsafe availability')
-    if ctx['game_date']!=day.strftime('%Y%m%d') or fid!=ctx['official_game_id']+str(base['season']):raise ValueError('starter game mismatch')
+    if ctx['game_date']!=day.strftime('%Y%m%d') or not fixture_matches(fid,ctx['official_game_id'],base):raise ValueError('starter game mismatch')
+    if ctx['official_game_id']!=lc['official_game_id']:raise ValueError('lineup/starter official game mismatch')
     result=[];ids=[]
     for side in ('home','away'):
         person=ctx['pitchers'][side];ids.append(person['player_id']);key=side+'_starter_strength'
