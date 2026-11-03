@@ -8,8 +8,10 @@
       "role": "2023_and_paired_data_integration",
       "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
       "workspace": "C:/Users/user/Documents/Codex/kbtdata",
-      "status": "active",
-      "progress_path": "C:/Users/user/Documents/Codex/kbtdata/.research-state/kbo-actual-2023/progress.json"
+      "status": "2023_frozen_2026_verification_in_progress",
+      "progress_path": "C:/Users/user/Documents/Codex/kbtdata/.research-state/kbo-actual-2023/progress.json",
+      "source_2023_commit": "38463a3f2eb9ac2b00c4ddf9edd6ebacf8a99b55",
+      "source_2023_actual_games": 723
     },
     {
       "role": "2024_official_rosters",
@@ -29,13 +31,21 @@
       "role": "paired_M0_M2_refit",
       "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
       "workspace": "C:/Users/user/Documents/Codex/kbtmodel",
-      "status": "preparing"
+      "status": "waiting_fixed_inputs",
+      "preparation_commit": "22edf69d",
+      "pr": 535,
+      "synthetic_preparation_tests": 51,
+      "preparation_tests": 66,
+      "input_identity_regression_fixed": true
     },
     {
       "role": "independent_source_and_metric_audit",
       "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
       "workspace": "C:/Users/user/Documents/Codex/kbtreview",
-      "status": "preparing"
+      "status": "auditing_fixed_2023_source",
+      "preparation_commit": "8297b6dd871f89fc243d46116e36ba9d38e9ba4c",
+      "pr": 533,
+      "synthetic_preparation_tests": 15
     }
   ],
   "actual_receipt_proven": false,
@@ -45,5 +55,13 @@
   "wallet_changes": false,
   "existing_monthly_simulation_loss_limit_krw": 50000,
   "parent_contract_validation": "Git blob SHA, cohort and frozen settings, true/false autocrlf clones passed",
-  "progress_is_not_final_verified_data": true
+  "progress_is_not_final_verified_data": true,
+  "preparation_tests_are_not_actual_model_results": true,
+  "preparation_defect": "old preparation allowed mismatched roster/history owner IDs; fixed before real data ingestion, unknown-but-matching players remain allowed",
+  "source_2023_worker_replay": {
+    "official_raw_responses": 1902,
+    "batting_slots": 13014,
+    "starter_slots": 1446,
+    "not_historical_receipt_proof": true
+  }
 }
