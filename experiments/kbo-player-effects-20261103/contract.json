@@ -1,0 +1,146 @@
+{
+  "schema": "kbo-player-effects-fixed-research-v1",
+  "date_kst": "2026-11-03",
+  "manual_human_request": true,
+  "purpose": "Compare roster identity effects against aggregate player features, not promise higher future accuracy.",
+  "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "input_pins": {
+    "data_commit": "13291d23e855e0d500327cb39ac64a480e395837",
+    "fresh_input_commit": "0d980b40697997021256be9f42f6fd254b3c1049",
+    "old_model_result_commit": "b160d3d186002b90ff00117543bdc3fc19d3e866",
+    "old_review_commit": "95e4e8a26b9a0534c0b89c128988e02ab38f9dc5",
+    "rows_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+    "labels_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+    "projected_history_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+    "fresh_projected_sha256": "8b090ed9b204a50584c5e2a854bd0c6210a133a8518de78db51ca8f4217aa23f",
+    "fresh_official_both_sha256": "82a1e8630fafe2e790957900e981512fdfc8e70ba536f5ced45ac785f79dc706"
+  },
+  "source_truth": {
+    "training_rosters": "previous-calendar projected selectors, not verified actual announced lineups",
+    "historical_prematch_receipt_proven": false,
+    "2026_seen_before_hypothesis": true,
+    "2024_2025_previously_researched": true,
+    "training_with_uniform_confirmed_rosters_not_available": true,
+    "partial_official_2023_prior_id_mappable_games": 169,
+    "raw_pitcher_bf_must_not_be_used_as_batters_faced": true
+  },
+  "hypothesis": "Roster identity effects and direct outcome modeling may retain information lost by pooled AB/H/BB and ERA averages. Falsifiable, not a new academic invention.",
+  "candidate_families": {
+    "M0_reference": {
+      "family": "same aggregate-player independent Poisson reference refit",
+      "base_team_and_scalar_l2": 10,
+      "roster_identity_effects": false
+    },
+    "M1_roster_poisson": {
+      "family": "penalized hitter and opposing starter identity effects added to reference log-run means",
+      "base_team_and_scalar_l2": 10,
+      "player_l2_grid": [
+        1,
+        10,
+        100
+      ],
+      "batting_weights": "ORDER_PA 4.7,4.6,4.5,4.4,4.3,4.2,4.1,4.0,3.9 divided by their mean; fixed, no search",
+      "effects": "own nine hitter effects plus opposing starter effect, distinct roles; no target outcome/statistics"
+    },
+    "M2_roster_outcome": {
+      "family": "ridge three-category multinomial logistic using same past scalar features, home-away weighted hitter exposure and home-away starter exposure",
+      "base_team_and_scalar_l2": 10,
+      "player_l2_grid": [
+        1,
+        10,
+        100
+      ],
+      "draw": "explicit draw category; no arbitrary probability threshold",
+      "no_market_or_tipster_input": true,
+      "team_identity": "home-minus-away team categorical exposures, train-only vocabulary, base L2=10",
+      "batting_weights": "same fixed ORDER_PA weights as M1, normalized to mean one"
+    }
+  },
+  "fit_rules": {
+    "player_vocabulary": "fit partition only; new hitter/starter IDs neutral role effect, with explicit missing/unknown indicators; do not drop matches",
+    "numeric_transform": "fit partition only, train mean plus missing indicator; observed zero distinct from null",
+    "intercept": "unpenalized",
+    "identity_exposure": "fixed role-specific sparse design, no seasonal end-statistics",
+    "player_effect_interpretation": "predictive associations confounded with team/usage, not causal player value",
+    "no_added_hyperparameters_after_scores": true,
+    "optimizer": "bounded deterministic numerical convergence checks; stop/report failures, no silent fallbacks"
+  },
+  "temporal_protocol": {
+    "inner_fit": "2023",
+    "inner_validation": "2024 with seven calendar days before boundary embargo",
+    "inner_selection": "select each M1/M2 player L2 by 3-way outcome log loss; ties within 1e-12 prefer stronger shrinkage",
+    "outer_fit": "2023-2024",
+    "outer_validation": "2025 with seven calendar days before boundary embargo",
+    "family_selection": "2025 3-way log loss, then Brier within 1e-12, then M0/M1/M2 complexity order; freeze before scoring 2026",
+    "final_fit": "2023-2025; keep 2024-selected player penalties",
+    "2026": "retrospective reused diagnostic only, no selection/tuning by 2026 outcomes",
+    "rolling_features": "previous calendar dates only even when weights frozen; same-date doubleheaders cannot see one another"
+  },
+  "evaluation": {
+    "primary_roster_scenario": "fresh projected target 709, identical fixture set as preceding study",
+    "secondary_roster_scenario": "fresh official batting and starter 709, no family reselection",
+    "all_selected_families_reported": true,
+    "prices": "same original frozen price ledgers from b160d3d1; strict and extended separated; no new price optimization",
+    "old_frozen_reference": "report preceding 398/403 and ROI -9.625/-8.262 as labeled fixed old baseline; not equivalent to newly refitted M0",
+    "metrics": [
+      "3way log loss",
+      "3way Brier",
+      "3way accuracy",
+      "two-way conditional accuracy",
+      "Decimal flat-unit ROI with draw refunds in stake denominator",
+      "monthly net units",
+      "daily-close max drawdown",
+      "paired calendar-week bootstrap intervals",
+      "unknown player coverage",
+      "known-player substitution counterfactuals and role effects"
+    ],
+    "price_2026_extended_n": 667,
+    "price_current_reject_sensitivity": "exclude same seven nonzero current buyReject records for every model; do not assert historical sellability",
+    "multiple_comparisons": "two challenger families with preregistered finite penalties; no winner promotion from retrospective diagnostics"
+  },
+  "required_tests": [
+    "fixed input Git blob SHA",
+    "train-only player vocabulary and standardization",
+    "role distinction and player substitution sensitivity",
+    "same/future-label poison before prediction",
+    "same-date boundary",
+    "zero vs missing",
+    "unknown neutral players no dropped fixture",
+    "Poisson and softmax probability mass and finite tails",
+    "swapped role fixtures sanity",
+    "independent predictions and Decimal settlements",
+    "byte-stable persisted contracts and predictions across CRLF modes"
+  ],
+  "future_evaluation": "Any genuinely prospective future schedule must preserve actual received source and price snapshots before kickoff. No automatic production or schedule changes in this task.",
+  "out_of_scope": [
+    "Markov baserunner model until detailed transition inputs and approximations are separately agreed",
+    "pitcher handedness/platoon absent from current raw fields",
+    "actual service 9:1 or actual tipster replay without matched frozen predictions",
+    "production changes",
+    "merging",
+    "deployment",
+    "automatic adoption",
+    "automation queue change",
+    "wallet replay or monthly ledger change",
+    "new network scraping"
+  ],
+  "existing_monthly_simulation_loss_limit_krw": 50000,
+  "sources": [
+    {
+      "url": "https://jds-online.org/journal/JDS/article/1117/info",
+      "use": "Yang and Swartz 2004 motivate distinct team, batting and starting-pitcher contributions; this is not exact reproduction"
+    },
+    {
+      "url": "https://www.jstage.jst.go.jp/article/tqs/7/2/7_69/_article",
+      "use": "Uehara et al. 2022 latent-class/base-out model needs richer transitions; not implemented or claimed as profit evidence"
+    },
+    {
+      "local": "src/lineup_batting.py",
+      "use": "existing player shrinkage/order-weighted experiment is prior work, not new discovery"
+    },
+    {
+      "local": "docs/research/2026-10-30-dynamic-score-state-model.md",
+      "use": "existing team outcome/state models lack direct full-roster identity input; distinguish extension from new invention"
+    }
+  ]
+}

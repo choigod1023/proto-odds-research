@@ -9,3 +9,12 @@ docs/research/2026-10-01-score-tournament-protocol.md text eol=lf
 
 # Research evidence hashes the exact script bytes, including line endings.
 scripts/evaluate_draw_calibration_holdout.py text eol=lf
+experiments/kbo-player-effects-20261103/inputs/*.gz binary
+experiments/kbo-player-effects-20261103/contract.json -text
+experiments/kbo-player-effects-20261103/artifacts/*.json text eol=lf
+experiments/kbo-player-effects-20261103/inputs/manifest.json text eol=lf
+experiments/kbo-player-effects-20261103/inputs/price-ledgers.json -text
+experiments/kbo-player-effects-20261103/inputs/old-fresh-predictions.json -text
+experiments/kbo-player-effects-20261103/inputs/evaluation-manifest.json text eol=lf
+experiments/kbo-player-effects-20261103/v2/*.json text eol=lf
+experiments/kbo-player-effects-20261103/v2/correction-contract.json -text
