@@ -53,7 +53,7 @@
   "overlay_commit": "5c797509a9305674307ecce83df99ea8f9a2b0c1",
   "overlay_results_sha256": "24938f0f5489d22bbc76a830e2f48e2491da6687d3f4a5a2f9e8e8c376790d23",
   "overlay_report": "experiments/kbo-player-independent-review-20261103/overlay-audit-5c797509.md",
-  "overlay_finding": "phase3_overlay.py expects CRLF checkout SHA d9fc..., but canonical Git blob LF SHA cb556...; checked() rejects the same valid content on LF checkouts. Prior phase5 audit incorrectly called CRLF Git archive bytes raw blob; explicit correction added.",
+  "overlay_finding": "Original source 9bcbd53 LF Git blob failed phase3 CRLF SHA; source correction 3167b4b1 now preserves the expected bytes across autocrlf settings. Model worker integration commit remains unreviewed.",
   "overlay_results": {
     "strict_n": 439,
     "strict_void": 10,
