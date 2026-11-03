@@ -143,7 +143,7 @@
   "tests": [
     "python -m unittest tests.test_vleague_w_official_20261103 -v: 6 passed",
     "126 raw event hashes and fixture identities verified",
-    "155 raw and derived files: autocrlf true/false checkout SHA match"
+    "156 raw and derived files: autocrlf true/false independent clone SHA match"
   ],
   "metrics": {
     "official_census": 126,
@@ -174,7 +174,7 @@
     "independently evidenced predecision official lineup and price receipt",
     "official legacy market/selection and settlement semantics"
   ],
-  "pr_url": null,
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/524",
   "next_data_needed": [
     "documented public legacy Betman market and selection mapping and settlement",
     "actual predecision official lineup receipts",
