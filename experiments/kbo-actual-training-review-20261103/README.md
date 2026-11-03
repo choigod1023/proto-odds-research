@@ -17,3 +17,5 @@ python -B -X utf8 -m unittest discover -s experiments/kbo-actual-training-review
 모델 준비 커밋 `bee74bae`의 `workflow.validate_snapshot`에 대해 합성 재현을 실행했다. 실제 타순 첫 선수 ID를 `h0`, 타자 특성의 첫 ID를 `wrong0`으로 둔 입력이 검증을 통과했다. 이는 입력 검증의 공백이며 실제 인계 자료의 오류가 확인됐다는 뜻은 아니다. 독립 검토기는 선수 특성 프로필이 존재할 때 선택한 타순과 선발 ID에 일치하는지 별도로 검사한다. 공식 원천 판독기는 과거 예시 응답 해시와 명시적 선발 표시를 검사하지만, 선수 ID의 동일성이나 과거 수신 시각을 증명하지 않는다.
 
 2023 원천 감사 결과와 재현 명령은 `audit-2023-report.md`에 기록했다. 723경기·타순 13,014슬롯·실제 선발 1,446건을 점검했으며 실제 모델 성능 감사는 아직 하지 않았다.
+
+2026 실제 선발 원천과 2023·2026 입력 재구성 검사는 `audit-2026-source-and-paired-report.md`에 기록했다. 최종 paired 산출물은 아직 인계되지 않았다.
