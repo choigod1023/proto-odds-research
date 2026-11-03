@@ -1,0 +1,34 @@
+{
+  "schema": "kbo-player-effects-bug-correction-v1",
+  "original_contract_commit": "7ceda125",
+  "original_contract_sha256": "6ffdf7947559df052c248a1f9fb5e7ad871321f52e7920126934bf21771465ed",
+  "original_result_commit": "2156ec6b2c7c54a104c051c5cddc5a9d0b9d46f7",
+  "timing": "after original 2026 results were seen; preserve original artifacts, do not call corrected replay blind",
+  "confirmed_defect": "M2 used only home-minus-away missing/unknown flags: both missing vs both unknown, and both numeric missing vs observed train mean, produce exactly identical design rows. This fails the intended explicit missing/unknown/observed-zero distinction.",
+  "parent_python_reproduction": {
+    "paired_roster_missing_vs_unseen_design_max_abs_diff": 0.0,
+    "paired_numeric_missing_vs_observed_mean_design_max_abs_diff": 0.0
+  },
+  "minimal_correction": "For M2 preserve original contrasts and add symmetric sums of the existing home/away missingness and roster-quality flags. Keep identity exposure, observed numeric values, train-only vocabulary/scaling, intercept and base L2=10 unchanged. M0/M1 unchanged.",
+  "no_new_candidate_family": true,
+  "no_new_penalty_grid": true,
+  "validation": "Rerun the same 2023->2024 M2 penalty grid 1/10/100, use fixed M0/M1 outer validation for same 2025 family selection, freeze new selected family before 2026 scoring, report all original and corrected results. Do not optimize correction by 2026 results.",
+  "persist": "separate v2 artifacts/scripts; original prediction/selection/result bytes remain available unchanged",
+  "tests": [
+    "both-roster-missing vs both-roster-unseen nonidentical design",
+    "both numeric null vs observed train mean/zero nonidentical design",
+    "single-side and paired-side missing/unknown states",
+    "swapping home and away negates directional flags but preserves symmetric quality counts",
+    "all original probability/temporal/neutral/settlement tests"
+  ],
+  "out_of_scope": [
+    "new features unrelated to missingness",
+    "new model families",
+    "new tuning values",
+    "fitting on 2026 labels",
+    "adoption",
+    "merging",
+    "deployment",
+    "production or wallet changes"
+  ]
+}
