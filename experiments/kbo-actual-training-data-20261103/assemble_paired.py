@@ -54,7 +54,8 @@ def source_rosters(args,rows):
   if set(source)!=expected:raise ValueError('source_fixture_population_mismatch:'+str(year))
   for fid,r in source.items():
    if r.get('season')!=year or r.get('status') not in ('complete','excluded') or 'exclusions' not in r:raise ValueError('unrecognized_source_schema:'+str(year))
-  sources[year]=source;meta[str(year)]={'commit':commit,'path':rel,'sha256':sha(data),'population':len(source)}
+   if (r['status']=='excluded' and not r['exclusions']) or (r['status']=='complete' and r['exclusions']):raise ValueError('source_exclusion_reason_mismatch:'+str(year))
+  sources[year]=source;meta[str(year)]={'commit':commit,'path':rel,'sha256':sha(data),'population':len(source),'statuses':dict(Counter(r['status'] for r in source.values()))}
  if set(sources)!={2023,2024,2025}:raise ValueError('three_final_source_commits_required')
  return sources,meta
 
@@ -77,6 +78,7 @@ def main():
    for reason in roster['exclusions']:excluded[str(year)+':'+reason]+=1
    continue
   day=gmap[fid]['date'];raw={'fixture_id':fid,'event_date':day,'season':year,'home_id':row['home_id'],'away_id':row['away_id']}
+  if baseline[fid].get('scenario')!='projected_from_prior_games' or baseline[fid].get('availability_tier')!='retrospective_unproven':raise ValueError('training_scenario_or_availability_mismatch')
   adapter.check_nested(baseline[fid]['features'],fid,dates[fid],dates);adapter.check_nested(baseline[fid]['projection'],fid,dates[fid],dates)
   p,a=training_pair(baseline[fid],raw,roster,bh,ph,adapter);projected.append(p);actual.append(a)
  if [x['fixture_id'] for x in projected]!=[x['fixture_id'] for x in actual]:raise ValueError('training_pair_order')
@@ -92,12 +94,17 @@ def main():
    for reason in vr.get('exclusions') or ['verification_missing_reason']:excluded['2026:'+reason]+=1
    continue
   b=tests['projected'][fid];a=copy.deepcopy(tests['official_batting_and_starter'][fid]);day=gmap[fid]['date'];row=rows[fid]
+  if b.get('scenario')!='fresh_history_projected' or a.get('scenario')!='fresh_history_official_batting_and_starter':raise ValueError('2026_scenario_mismatch')
+  for context in ('official_lineup_context','official_schedule_pitcher_context'):
+   if any(a[context].get(k) is not False for k in ('historical_receipt_proven','eligible_as_pregame_feature','point_in_time_verified')):raise ValueError('unproven_historical_availability_promoted')
   if vr['date'] not in (day,day.replace('-','')):raise ValueError('2026_verification_date_mismatch')
   if vr['official_game_id']!=a['official_lineup_context']['official_game_id']:raise ValueError('2026_verification_game_mismatch')
+  if any(str(vr['teams'][s])!=str(a['official_lineup_context'][s+'_team_id']) for s in ('home','away')):raise ValueError('2026_verification_team_mismatch')
   proles=roles_projected(b);aroles={}
   for side in ('home','away'):
    p=vr['starters'][side];line=a['official_lineup_context']['lineups'][side];hitters=[x['player_id'] for x in line]
    if not p['actual_record_verified'] or len(hitters)!=9 or len(set(hitters))!=9:raise ValueError('2026_actual_roster_invalid')
+   if [x['order'] for x in line]!=list(range(1,10)) or [x['player_id'] for x in a['features'][side+'_lineup_strength']['value']]!=hitters:raise ValueError('2026_actual_lineup_feature_mismatch')
    expected=a['official_schedule_pitcher_context']['pitchers'][side]['player_id'];pid=p['player_id'];history=previous(fresh.get(pid,[]),day,valid_pitcher)
    actual_change['schedule_diff_sides']+=int(pid!=expected)
    old=a['features'][side+'_starter_strength']['value']
