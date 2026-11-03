@@ -1,0 +1,52 @@
+{
+  "fixtures": 726,
+  "frozen_code_reconstructed_from_git_commit": "5cb48043 CRLF verified",
+  "independent_decimal_settlements": 4248,
+  "limits": "Forecasts and scores are retrospective; archive price and final result are not independently authenticated.",
+  "max_probability_error": 3.658184866139891e-13,
+  "models": {
+    "bullpen": {
+      "hits": 209,
+      "n": 354,
+      "net_units": "-24.03"
+    },
+    "lineup": {
+      "hits": 211,
+      "n": 354,
+      "net_units": "-20.33"
+    },
+    "player": {
+      "hits": 212,
+      "n": 354,
+      "net_units": "-18.21"
+    },
+    "starter": {
+      "hits": 212,
+      "n": 354,
+      "net_units": "-18.60"
+    },
+    "starter_lineup": {
+      "hits": 214,
+      "n": 354,
+      "net_units": "-14.97"
+    },
+    "team": {
+      "hits": 209,
+      "n": 354,
+      "net_units": "-23.87"
+    }
+  },
+  "poisoned_test_labels": 726,
+  "predictions_unchanged_after_poison": true,
+  "price_date_range": [
+    "2026-03-28",
+    "2026-06-30"
+  ],
+  "price_matched": 354,
+  "priced_results": {
+    "non_draw": 354
+  },
+  "results_sha256": "8c8776c43dc0013056026c83c3b5afaf2d462a7de3e346438b2e71e536408562",
+  "source_predictions_sha256": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
+  "total_draws": 17
+}
