@@ -67,5 +67,30 @@ class MatchTest(unittest.TestCase):
             self.assertEqual(row['response_sha256'],byfile[row['response_file']]['body_sha256'])
             self.assertEqual(row['received_at'],byfile[row['response_file']]['received_at'])
 
+    def test_all_restored_rows_against_official_response(self):
+        output=restore.read_jsonl(ROOT/'restored-prices.jsonl')
+        snapshots={}
+        for row in output:
+            path=row['response_file']
+            if path not in snapshots:
+                raw=gzip.decompress((ROOT/path).read_bytes())
+                data=json.loads(raw); comp=data['compSchedules']
+                snapshots[path]=(data, [dict(zip(comp['keys'], values)) for values in comp['datas']])
+            data, candidates=snapshots[path]
+            self.assertEqual(data['gmTs'],row['official_round_id'])
+            matches=[x for x in candidates if x['matchSeq']==row['match_seq']]
+            self.assertEqual(len(matches),1)
+            source=matches[0]
+            self.assertEqual((source['homeId'],source['awayId'],source['mchScore']),
+                             (row['official_home_id'],row['official_away_id'],row['score']))
+            self.assertEqual((source['winAllot'],source['loseAllot']),
+                             (row['prices']['home'],row['prices']['away']))
+            self.assertEqual((source['betId'],source['betTypId'],source['handi']),
+                             (row['source_market_type']['betId'],row['source_market_type']['betTypId'],row['source_market_type']['handi']))
+            self.assertEqual((source['gameResult'],source['protoStatus'],source['gameReject'],source['buyReject']),
+                             (row['source_result_code'],row['source_status'],row['source_reject']['game'],row['source_reject']['buy']))
+            self.assertEqual(datetime.fromtimestamp(source['gameDate']/1000,restore.KST).isoformat(),row['game_at'])
+        self.assertEqual(len(output),373)
+
 
 if __name__=='__main__': unittest.main()

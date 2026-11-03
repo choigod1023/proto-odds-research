@@ -167,7 +167,10 @@ def main():
             'availability_tier':'retrospective_official_snapshot_time_unverified'})
     dupes=Counter(x['market_id'] for x in output)
     output=[x for x in output if dupes[x['market_id']]==1]
-    (ROOT/'restored-prices.jsonl').write_text(''.join(json.dumps(x,ensure_ascii=False,separators=(',',':'))+'\n' for x in output),encoding='utf8')
+    # This frozen artifact was published with CRLF.  Write its exact bytes on
+    # every platform; the manifest and downstream analyses pin this SHA-256.
+    payload=''.join(json.dumps(x,ensure_ascii=False,separators=(',',':'))+'\r\n' for x in output)
+    (ROOT/'restored-prices.jsonl').write_bytes(payload.encode('utf8'))
     manifest={'status':'ready_for_join' if output else 'blocked_with_actual_response_evidence',
         'input_rows_sha256':sha(rows_bytes),'input_labels_sha256':sha(labels_bytes),
         'archived_games_sha256':sha(GAME_PATH.read_bytes()),'missing_inputs':len(missing),
