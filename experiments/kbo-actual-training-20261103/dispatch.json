@@ -8,7 +8,7 @@
       "role": "2023_and_paired_data_integration",
       "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
       "workspace": "C:/Users/user/Documents/Codex/kbtdata",
-      "status": "ready_for_join",
+      "status": "completed",
       "progress_path": "C:/Users/user/Documents/Codex/kbtdata/.research-state/kbo-actual-2023/progress.json",
       "source_2023_commit": "38463a3f2eb9ac2b00c4ddf9edd6ebacf8a99b55",
       "source_2023_actual_games": 723,
@@ -22,7 +22,7 @@
       "role": "2024_official_rosters",
       "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
       "workspace": "C:/Users/user/Documents/Codex/kbt24",
-      "status": "source_frozen",
+      "status": "completed",
       "progress_path": "C:/Users/user/Documents/Codex/kbo-actual-2024-20261103/progress.json",
       "source_commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
       "eligible_games": 728,
@@ -32,7 +32,7 @@
       "role": "2025_official_rosters",
       "thread_id": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
       "workspace": "C:/Users/user/Documents/Codex/kbt25",
-      "status": "ready_for_join",
+      "status": "completed",
       "progress_path": "C:/Users/user/Documents/Codex/kbt25/experiments/kbo-actual-lineups-2025-20261103/capture-state/progress.json",
       "source_commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
       "eligible_games": 731,
@@ -43,7 +43,7 @@
       "role": "paired_M0_M2_refit",
       "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
       "workspace": "C:/Users/user/Documents/Codex/kbtmodel",
-      "status": "predictions_frozen_settled_final_tests",
+      "status": "completed_research_ci_pending",
       "preparation_commit": "22edf69d",
       "pr": 535,
       "synthetic_preparation_tests": 51,
@@ -51,13 +51,16 @@
       "input_identity_regression_fixed": true,
       "input_commit": "0d7cffe4173855c1e6b2ef5ebc9af3ba10c76ae5",
       "development_commit": "0277fa14b2e7ee2f950d683cf0093f9f1b6d788d",
-      "prediction_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1"
+      "prediction_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "result_commit": "54dbcfcdd9ffc3ca0ad473cf9d586a38398cde4e",
+      "related_regression_tests": 72,
+      "parent_rerun_specific_pytest": 37
     },
     {
       "role": "independent_source_and_metric_audit",
       "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
       "workspace": "C:/Users/user/Documents/Codex/kbtreview",
-      "status": "independent_settlement_completed_waiting_model_result",
+      "status": "completed",
       "preparation_commit": "8297b6dd871f89fc243d46116e36ba9d38e9ba4c",
       "pr": 533,
       "synthetic_preparation_tests": 15,
@@ -68,7 +71,12 @@
       "paired_input_review_commit": "d597dbc2462cb5f971a0f3c2c04bd5dcbb422e42",
       "model_prediction_review_commit": "f4a3e3d300e02406601d844f86a6eb50d54a76ec",
       "official_score_matches": 709,
-      "official_score_mismatches": 0
+      "official_score_mismatches": 0,
+      "final_review_commit": "9b4f318c8ffb073b987d530ca0a0d7146d8d7240",
+      "final_price_model_comparisons": 48,
+      "final_outcome_model_comparisons": 12,
+      "decimal_fixture_settlements": 26376,
+      "paired_price_intervals": 48
     }
   ],
   "actual_receipt_proven": false,
@@ -118,5 +126,43 @@
     "superiority_established": false
   },
   "parent_settlement_script": "parent_settlement.py",
-  "parent_settlement_result": "parent-settlement.json"
+  "parent_settlement_result": "parent-settlement.json",
+  "parent_independent_result_comparison": "parent-v-independent-audit.json",
+  "parent_model_result_comparison": "parent-v-model-audit.json",
+  "model_pr_final_ci_snapshot": {
+    "checked_at_utc": "2026-11-03T06:56:19.803241+00:00",
+    "headRefOid": "54dbcfcdd9ffc3ca0ad473cf9d586a38398cde4e",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/choigod1023/proto-odds-research/actions/runs/41592563736/job/125772403892",
+        "name": "test (3.11)",
+        "startedAt": "2026-11-03T06:51:50Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "python-tests"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/choigod1023/proto-odds-research/actions/runs/41592563736/job/125772403568",
+        "name": "test (3.12)",
+        "startedAt": "2026-11-03T06:51:50Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "python-tests"
+      },
+      {
+        "__typename": "StatusContext",
+        "context": "CodeRabbit",
+        "startedAt": "2026-11-03T06:51:51Z",
+        "state": "SUCCESS",
+        "targetUrl": ""
+      }
+    ]
+  },
+  "research_status": "completed_actual_training_prediction_settlement_and_independent_audit",
+  "merging": false,
+  "deployment": false
 }
