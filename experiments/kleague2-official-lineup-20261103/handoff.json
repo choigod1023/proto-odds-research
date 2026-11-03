@@ -1,0 +1,58 @@
+{
+  "role": "K League 2 official lineup research",
+  "league": "K League 2",
+  "status": "source_verified_historical_timing_blocked",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/kleague2-official-lineup-20261103",
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "input_sha256s": {
+    "2024-2-1-info.bin": "701b326dafe462fac506323c2ef82976555e51feabc5fb4d474306a6327b7066",
+    "2024-2-1-match.bin": "f3e6b1625faed755bb83e955b19d2bc813582c8d71a6897a98a1183d3d504cc2",
+    "2024-2-schedule-03.bin": "c92a27fdf70ffb8c0e3b47b02b9a86775f2ac7f6a3fcec8cde859bbcb605e14f",
+    "2025-1-1-info.bin": "1eccbec6f490167da68f54dd5c434564a3f617ef605d3d72ba230e2889913581",
+    "2025-1-1-match.bin": "7f1a52a0a449fa11e254ed02dcdbf56601448ca38eae3f9ca070419c7e271f2c",
+    "2025-2-1-info.bin": "999f3c18a6abab4d39fdff05e47e8fc7855cbb1e701a760df02dbcbaa00c5785",
+    "2025-2-1-match.bin": "725810da293e2963a077d4c0fec0df15f473d9e0e0574b77bdbc65d6d6d73180",
+    "2025-2-253-info.bin": "266e39ce7afe1a66cd6534b18a24361b70f5cc7d51ea85ef06cd7c46107f1e97",
+    "2025-2-253-match.bin": "33f1ec667ff3e03f01dbf289f1f08c9ba263fed5355a1ae39d7dccd731d1bce3",
+    "2026-2-1-info.bin": "ae12f916527bf419c263c36488f107af3836981074d6f5125e2ac916fdf722e7",
+    "2026-2-1-match.bin": "82dd637fdcb71ece1f9506353ab56091566978d81c63a7573b852732aedeab6e",
+    "2026-2-schedule-02.bin": "acac198f1f686a7f40d4e93e8236d81f2fbc1b8378372e406425e94e31b136ac"
+  },
+  "new_input_ids": [
+    "kleague:2024:2:1",
+    "kleague:2025:2:1",
+    "kleague:2025:2:253",
+    "kleague:2026:2:1",
+    "kleague:2025:1:1"
+  ],
+  "protocol_sha": null,
+  "tests": [
+    "python -m unittest discover -s tests -p test_kleague2_official_lineup_20261103.py -v: 3 passed"
+  ],
+  "metrics": {
+    "k2_games": 4,
+    "k2_starting_rows": 88,
+    "k2_bench_rows": 60,
+    "k2_score_schedule_links": 4,
+    "k1_control_games": 1,
+    "k2_substitution_rows_with_time_and_partner": 72,
+    "all_substitution_rows_unresolved_partner_id": 2,
+    "review_target_id_matches": 0,
+    "historically_certified_pregame_receipts": 0
+  },
+  "limitations": [
+    "Five selected games do not establish season coverage.",
+    "Official match-centre response includes post-match information and does not establish pregame publication or receipt.",
+    "Price overlap is scoped to one saved target input and event_id; other identifiers and operating ledger not checked.",
+    "Formation and announcement times not extracted.",
+    "Two substitution partner names not uniquely matched to a player ID."
+  ],
+  "blockers": [
+    "Historical pregame reception and same-product prices and frozen predictions are not proven."
+  ],
+  "pr_url": null,
+  "next_data_needed": [
+    "Authenticated predecision lineup capture with actual reception, fixture/player IDs, complete contemporaneous product price and frozen operating pick, result and settlement; a bounded sampling budget for further official match-centre collection."
+  ]
+}
