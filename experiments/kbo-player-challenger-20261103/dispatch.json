@@ -4,19 +4,19 @@
   "protocol_commit": "867afbdd",
   "protocol_sha256": "c3a687077f822087bc94df8c2cd314ff988a1cdd9359941f8152a779cff9926d",
   "contract_sha256": "59d4c7259dfb3135e9cbbba7fee2f415f614c6c6badb9c99120c0d1cf84c99ec",
-  "dispatch_verified_at": "2026-11-03T03:44:35.303878+00:00",
-  "current_stage": "fresh_kbo_history_inputs_in_progress_after_official_lineup_factorial_audit",
+  "dispatch_verified_at": "2026-11-03T03:59:31.723761+00:00",
+  "current_stage": "finite_official_source_recovery_and_fixed_kbo_kleague_comparisons_complete_no_adoption",
   "workers": [
     {
       "role": "data",
       "title": "승부예측 Terra · KBO",
       "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
       "native_send_succeeded": true,
-      "observed_status": "active",
+      "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "fresh_prior_history_generation",
+      "stage": "fresh_prior_history_inputs_completed",
       "pr": 511,
-      "commit": "1a15ab92da2d26a1744600716a44dcdf4f6bc37b",
+      "commit": "13291d23e855e0d500327cb39ac64a480e395837",
       "actual_workspace": "C:/Users/user/Documents/Codex/kbodata",
       "previous_snapshot": {
         "stage": "projection_reliability_completed",
@@ -30,11 +30,11 @@
       "title": "승부예측 Terra · 모델 개발",
       "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
       "native_send_succeeded": true,
-      "observed_status": "notLoaded",
+      "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "fixed_official_four_settings_completed_ci_passed",
+      "stage": "fresh_history_comparison_completed",
       "pr": 512,
-      "commit": "7130afb576be9553ad35cb14fa71ce29202cf861",
+      "commit": "b160d3d186002b90ff00117543bdc3fc19d3e866",
       "previous_snapshot": {
         "stage": "official_price_overlay_completed",
         "commit": "5c797509a9305674307ecce83df99ea8f9a2b0c1",
@@ -46,11 +46,11 @@
       "title": "승부예측 Terra · 독립 검토",
       "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
       "native_send_succeeded": true,
-      "observed_status": "active",
+      "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "kleague_fixed_results_independent_audit",
+      "stage": "fresh_kbo_and_kleague_independent_audits_complete",
       "pr": 510,
-      "commit": "9ed1183d870e10f5d0063fc58feb50a6d2918cae",
+      "commit": "95e4e8a26b9a0534c0b89c128988e02ab38f9dc5",
       "previous_snapshot": {
         "stage": "phase6_overlay_audit",
         "commit": "431e7e9f39b301a94bf7cfbc2501dab35f3d0086",
@@ -197,15 +197,15 @@
   "league_stages": [
     {
       "league": "KBO",
-      "status": "official_709_factorial_independently_reproduced_fresh_history_pending"
+      "status": "official_inputs_and_fixed_comparisons_complete_independently_audited_retrospective_only"
     },
     {
       "league": "K1_K2",
-      "status": "actual_fixed_model_results_available_independent_audit_in_progress"
+      "status": "official_inputs_and_fixed_models_complete_independently_audited_no_consistent_superiority"
     },
     {
       "league": "NPB_MLB_KBL_NBA_volleyball_J1",
-      "status": "finite_source_collection_completed_no_model_evaluation"
+      "status": "source_collection_complete_model_evaluation_not_performed"
     }
   ],
   "automation_queue_changed": false,
@@ -337,8 +337,90 @@
     "missing_batter_id_rows": 227,
     "extra_verified_pitcher_id_rows": 53,
     "not_a_refit": true,
-    "four_input_files_status": "in_progress",
-    "future_effectiveness_established": false
+    "four_input_files_status": "complete_parent_git_blob_hash_check_passed",
+    "future_effectiveness_established": false,
+    "fixed_inputs_commit": "0d980b40697997021256be9f42f6fd254b3c1049",
+    "handoff_commit": "13291d23e855e0d500327cb39ac64a480e395837",
+    "independent_lineage_comparisons": 28131,
+    "parent_fixed_output_hashes_checked": 5,
+    "prediction_commit": "c91cc13d55360706fdebf4b8b970f1d2b2589d25",
+    "result_commit": "b160d3d186002b90ff00117543bdc3fc19d3e866",
+    "comparison_complete": true,
+    "independent_review": "passed",
+    "full_709": {
+      "fresh_official_batting_and_starter": {
+        "hits_3way": 403,
+        "accuracy_3way": 0.5684062059238364,
+        "same_prices_n": 667,
+        "net_units": "-55.11",
+        "roi_including_refunds": -0.08262368815592204
+      },
+      "fresh_official_batting_only": {
+        "hits_3way": 403,
+        "accuracy_3way": 0.5684062059238364,
+        "same_prices_n": 667,
+        "net_units": "-57.37",
+        "roi_including_refunds": -0.0860119940029985
+      },
+      "fresh_official_starter_only": {
+        "hits_3way": 399,
+        "accuracy_3way": 0.5627644569816643,
+        "same_prices_n": 667,
+        "net_units": "-60.67",
+        "roi_including_refunds": -0.09095952023988006
+      },
+      "fresh_original_projected": {
+        "hits_3way": 398,
+        "accuracy_3way": 0.5613540197461213,
+        "same_prices_n": 667,
+        "net_units": "-64.20",
+        "roi_including_refunds": -0.09625187406296852
+      },
+      "old_official_batting_and_starter": {
+        "hits_3way": 406,
+        "accuracy_3way": 0.5726375176304654,
+        "same_prices_n": 667,
+        "net_units": "-48.16",
+        "roi_including_refunds": -0.07220389805097452
+      },
+      "old_official_batting_only": {
+        "hits_3way": 402,
+        "accuracy_3way": 0.5669957686882934,
+        "same_prices_n": 667,
+        "net_units": "-56.62",
+        "roi_including_refunds": -0.08488755622188905
+      },
+      "old_official_starter_only": {
+        "hits_3way": 398,
+        "accuracy_3way": 0.5613540197461213,
+        "same_prices_n": 667,
+        "net_units": "-60.57",
+        "roi_including_refunds": -0.0908095952023988
+      },
+      "old_original_projected": {
+        "hits_3way": 398,
+        "accuracy_3way": 0.5613540197461213,
+        "same_prices_n": 667,
+        "net_units": "-61.56",
+        "roi_including_refunds": -0.09229385307346327
+      },
+      "team": {
+        "hits_3way": 397,
+        "accuracy_3way": 0.5599435825105783,
+        "same_prices_n": 667,
+        "net_units": "-68.16",
+        "roi_including_refunds": -0.10218890554722639
+      }
+    },
+    "targeted_tests_passed": 41,
+    "final_result_ci": "passed_python_3_11_and_3_12",
+    "parent_independent_replay": {
+      "predictions": 2836,
+      "outcome_groups": 5,
+      "price_groups": 10,
+      "decimal_monthly_drawdown_refunds": "passed"
+    },
+    "independent_audit_commit": "95e4e8a26b9a0534c0b89c128988e02ab38f9dc5"
   },
   "kleague_comparisons": {
     "k1": {
@@ -373,9 +455,10 @@
       }
     },
     "ci_passed": true,
-    "independent_worker_audit": "in_progress",
+    "independent_worker_audit": "passed",
     "blind": false,
-    "adoption_justified": false
+    "adoption_justified": false,
+    "independent_audit_commit": "f6cddcc0f2994099d708a2c80cbf6c5838abd0be"
   },
   "new_league_sources": {
     "npb": {
@@ -431,5 +514,15 @@
       "actual_tminus30_execution_prices_proven": false,
       "model_training_or_roi_evaluation_performed": false
     }
+  },
+  "parent_validation": {
+    "immutable_contracts_git_blob_and_both_autocrlf_clones": 6,
+    "fixed_fresh_data_outputs_git_blob_sha_checked": 5,
+    "unique_worker_routes": 14,
+    "independent_fresh_prediction_replay": 2836,
+    "outcome_groups": 5,
+    "price_groups": 10,
+    "monthly_drawdown_refunds_recomputed": true,
+    "no_production_automation_or_wallet_changes": true
   }
 }
