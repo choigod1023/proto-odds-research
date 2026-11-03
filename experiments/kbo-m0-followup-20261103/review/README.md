@@ -1,6 +1,6 @@
 # 후속 연구 공통 계약 독립 검토
 
-상태: `waiting_frozen_implementation`. 공통 계약 `0fe05367fc85e71f2df2784c6ddf50fb017bcba2`과 원천 `ed11ca0561e485319f2b951409287f42167f42b5`을 검사했다. 지정 원천 파일 15개의 Git blob과 복사본 SHA-256이 같고, `fit2023-labels.jsonl.gz`의 723개는 기존 고정 개발 레이블의 2023 부분과 정확히 같다. 2024 평가 대상은 728경기이며 2024 첫 경기 2024-03-23 기준 7일 경계는 2024-03-16, 적격 2023 학습은 723경기다.
+상태: `waiting_corrected_staging_and_frozen_settlement`. 공통 계약 `0fe05367fc85e71f2df2784c6ddf50fb017bcba2`과 원천 `ed11ca0561e485319f2b951409287f42167f42b5`을 검사했다. 지정 원천 파일 15개의 Git blob과 복사본 SHA-256이 같고, `fit2023-labels.jsonl.gz`의 723개는 기존 고정 개발 레이블의 2023 부분과 정확히 같다. 2024 평가 대상은 728경기이며 2024 첫 경기 2024-03-23 기준 7일 경계는 2024-03-16, 적격 2023 학습은 723경기다.
 
 ## 레이블·기존 계수 노출
 
@@ -15,3 +15,5 @@
 전향 기록 구현 전 검증해야 할 사례와 시점 조건은 `prospective-review-checklist.md`에 적었다. 이 문서는 확인 항목이며 아직 새 CLI가 통과했다는 뜻이 아니다. 과거 자료의 피처·공식 명단 감사는 반복 수집하지 않았다.
 
 재현: `python -B -X utf8 experiments/kbo-m0-followup-20261103/review/audit_contract.py`. 기계 판독 결과는 `contract-audit-result.json`이다. 새 후보·파라미터, 수집, 운영·DB·지갑·스케줄 변경은 하지 않았다.
+
+고정 2024 예측을 2023 전용 레이블 접근 감시와 독립 수식으로 재생했다. staging 코드의 T−30 정각 및 이력 미래 수신 허용 반례 2건과 미검증 표본 유지·수정 기록 제한은 `implementation-audit.md`에 기록했다. 수정된 staging 및 고정 가격·정산 인계를 기다린다.
