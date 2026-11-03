@@ -145,3 +145,16 @@ def test_merge_loader_requires_both_exact_input_hashes(tmp_path):
     games,supp=m.load_verified_sources(v1,s,hashlib.sha256(s.read_bytes()).hexdigest())
     assert len(games)==256 and supp==[{}]
     with pytest.raises(ValueError,match='input_sha_mismatch'):m.load_verified_sources(v1,s,'0'*64)
+
+
+def test_unpack_restores_only_eligible_bytes_and_fails_closed(tmp_path):
+    import base64
+    from scripts.unpack_kbo_daily_cache import unpack
+    raw=b'public source';h=k.sha(raw);meta={'method':'GET','url':k.DAILY,'query':{'playerId':'1'},'tag':'daily-get','sha256':h,'bytes':len(raw)}
+    item={'metadata':meta,'raw_base64':base64.b64encode(raw).decode(),'eligible_for_supplement':True}
+    excluded={'metadata':dict(meta,tag='excluded'),'raw_base64':base64.b64encode(raw).decode(),'eligible_for_supplement':False}
+    daily=tmp_path/'daily.gz';daily.write_bytes(gzip.compress((json.dumps(item)+'\n'+json.dumps(excluded)+'\n').encode(),mtime=0))
+    v1=tmp_path/'v1.gz';v1.write_bytes(gzip.compress((json.dumps({'kind':'official_schedule','metadata':meta,'raw_base64':base64.b64encode(raw).decode()})+'\n').encode(),mtime=0))
+    result=unpack(daily,v1,tmp_path/'out');assert result=={'eligible_responses':1,'schedule_bodies':1,'network_requests':0}
+    assert (tmp_path/'out'/'schedule'/h).read_bytes()==raw
+    with pytest.raises(FileExistsError):unpack(daily,v1,tmp_path/'out')
