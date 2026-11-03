@@ -49,7 +49,8 @@ export default function MarketCandidateComparison({ game, options = [], blocked 
         <h4 className="m-0 text-[12px] font-semibold">{offer.gameNo} · {offer.market} {offer.label}</h4>
         <p className="my-1 text-[10.5px] text-ink3">{offer.settlementScope ? `정산 ${offer.settlementScope}` : "정산 범위 미확인"} · 개별 가격의 현재 판매 여부는 공식 발매처에서 확인</p>
         {offer.candidate?.status === "candidate" ? <p className="text-[11px]">픽스터 시장 후보: {offer.candidate.selection} · {offer.candidate.authors}명/발행처 · 수익성 미검증</p>
-          : <p className="text-[11px] text-ink3">{offer.candidate ? "픽스터 의견 동률 또는 상충 · 방향 보류" : "기준점까지 일치하는 경기 전 픽스터 의견 없음"}</p>}
+          : <p className="text-[11px] text-ink3">{game?.market_candidates?.status === "tipster_input_unavailable" ? "픽스터 자료 조회 실패 · 의견 유무 확인 대기"
+            : offer.candidate ? "픽스터 의견 동률 또는 상충 · 방향 보류" : "기준점까지 일치하는 경기 전 픽스터 의견 없음"}</p>}
         <div className="flex flex-wrap gap-2">
           {offer.selections.map((s) => <button key={s.name} type="button" className="bet-record-button" aria-pressed={chosen === choiceKey(s.original)}
             onClick={() => setChosen(choiceKey(s.original))}>

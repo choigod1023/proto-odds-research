@@ -39,5 +39,7 @@ test("multi-sport comparison keeps line identities and never invents a profitabl
     assert.equal(comparisonOffers(recorded,verified.map(o=>({...o,settlement_scope:null})))[0].selections[0].actionable,false);
     const empty=renderToStaticMarkup(createElement(Comparison,{game:{},options:[]}));
     assert.match(empty,/비교할 완전한 상품 자료가 없습니다/);
+    const unavailable=renderToStaticMarkup(createElement(Comparison,{game:{market_candidates:{status:"tipster_input_unavailable"}},options:totals}));
+    assert.match(unavailable,/픽스터 자료 조회 실패/);assert.doesNotMatch(unavailable,/경기 전 픽스터 의견 없음/);
   } finally { await server.close(); }
 });

@@ -67,6 +67,10 @@ def test_first_author_line_is_fixed_before_matching_current_price():
     result=build_market_candidates(fixture(),[e,earlier],AT,AT)
     assert result["offers"]==[] and result["rejected"]["market_line_or_scope_mismatch"]==1
 
+def test_input_failure_is_not_reported_as_absent_opinion():
+    result=build_market_candidates(fixture(),[{"_tipster_load_error":True}],AT,AT)
+    assert result["status"]=="tipster_input_unavailable" and result["offers"]==[]
+
 def test_reversed_source_home_handicap_is_not_silently_reoriented():
     g=fixture();g["home"],g["away"]="부산","서울"
     body=html("[핸디 2way] 홈 -1.5");winner=match_vote(parse_page(URL,body,AT),[g])

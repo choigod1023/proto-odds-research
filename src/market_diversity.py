@@ -15,6 +15,8 @@ VERSION="tipster-market-candidates-v1"
 def build_market_candidates(game, rows, as_of, built_at):
     result={"version":VERSION,"candidate_only":True,"validated_edge":False,
             "affects_selection":False,"affects_probability":False,"offers":[],"rejected":{}}
+    if any(isinstance(row,dict) and row.get("_tipster_load_error") for row in rows or []):
+        return dict(result,status="tipster_input_unavailable")
     try:
         start=kickoff(game);cutoff=min(stamp(as_of),start-timedelta(minutes=30))
         if max(stamp(as_of),stamp(built_at))>start-timedelta(minutes=30):
