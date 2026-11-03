@@ -1,5 +1,5 @@
 {
-  "status": "overlay_audited_reproducibility_correction_required",
+  "status": "source_byte_fix_verified_model_integration_pending",
   "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "branch": "codex/kbo-player-review-20261103",
   "protocol_commit": "867afbdd60ec69bd8b5d74bf75c8418c9ae49698",
@@ -12,12 +12,12 @@
   ],
   "data_rows_validated": 2913,
   "model_runs": 0,
-  "tests_pending": "Cross-platform LF/CRLF reproducibility fix and synthetic regression; prospective receipt/settlement and current operating comparison remain unverified.",
+  "tests_pending": "Model worker pin/erratum/replay integration not reviewed; future source and official lineups excluded; historical price receipt and execution remain unverified.",
   "scope": "No production actions; no performance claims; contract-only initial review.",
   "commit": "see git history",
   "pr": "https://github.com/choigod1023/proto-odds-research/pull/510",
   "review_spec_commit": "3e1d0bcf",
-  "review_stage": "immutable model overlay 5c797509 independent Decimal audit complete",
+  "review_stage": "immutable source correction 3167b4b1 independently checked",
   "audit_report": "experiments/kbo-player-independent-review-20261103/data-audit-96eca22.md",
   "findings": [
     "Target actual lineup/starter selection leaks into prior aggregates despite prior-date provenance; projected model must reconstruct from prior history only.",
@@ -65,5 +65,10 @@
     "extended_market_hits": 398,
     "date_only_2026": 244,
     "independent_settlements": 7854
-  }
+  },
+  "official_price_corrected_commit": "3167b4b19c2f5877af754d3a1a41ee2a8761a3f2",
+  "corrected_git_blob_sha256": "d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117",
+  "older_git_blob_sha256": "cb556b0fb182eb13de6d22a513b8a04952e5e22d6b31a6b6ca44f543edb647aa",
+  "source_byte_closure": "experiments/kbo-player-independent-review-20261103/price-byte-closure-3167b4b1.md",
+  "source_fix_verification": "373 JSON rows identical; 104 raw compressed documents unchanged; isolated Git autocrlf true/false preserve exact SHA; existing phase3 checked passes; source unittest 6 passed; old frozen 7854 settlement audit reproduced."
 }
