@@ -29,7 +29,7 @@ def main():
     r=session.get(f'https://user-api.kovo.co.kr/stat/game-schedule/{n}',params=PARAMS,headers=HEADERS,timeout=15); last=time.monotonic()
     received=datetime.datetime.now(datetime.timezone.utc).isoformat(); b=r.content
     m={'url':r.url,'parameters':PARAMS,'received_at':received,'status':r.status_code,'sha256':digest(b)}
-    body.write_bytes(b);meta.write_text(json.dumps(m,indent=2)+'\n',encoding='utf8')
+    body.write_bytes(b);meta.write_text(json.dumps(m,indent=2)+'\n',encoding='utf8',newline='\n')
     if r.status_code in (403,429): raise RuntimeError(f'stopped on HTTP {r.status_code}')
     r.raise_for_status()
    d=json.loads(b); g=(d.get('payload') or {}).get('game') or {}
