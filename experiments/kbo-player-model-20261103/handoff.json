@@ -74,7 +74,7 @@
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/512",
   "head": "see git HEAD",
   "implementation_commit": "d2e8a7067d744ccf4849657817bb0652f8bf6ef4",
-  "full_suite": "2257 passed, 6 skipped, 93 subtests passed; collected before final retrospective-label change and new targeted test; final targeted 34 passed",
+  "full_suite": "2261 passed, 6 skipped, 93 subtests passed; collected before the final archived-price opt-in test was added; final relevant tests 37 passed",
   "integration_protocol_commit": "3d468fbf",
   "pre_fit_code_and_development_data_commit": "5cb48043",
   "predictions_freeze_commit": "9b920679",
@@ -98,5 +98,6 @@
     "python -X utf8 experiments/kbo-player-model-20261103/adapter.py --source C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103 --stage test --assume-prior-calendar-day --output experiments/kbo-player-model-20261103/phase2/test-labels.jsonl.gz",
     "python -X utf8 experiments/kbo-player-model-20261103/run.py score --rows experiments/kbo-player-model-20261103/phase2/features.jsonl.gz --predictions experiments/kbo-player-model-20261103/phase2/predictions.json --predictions-sha256 d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317 --test-labels experiments/kbo-player-model-20261103/phase2/test-labels.jsonl.gz --assume-prior-calendar-day --archived-price-scenario --output experiments/kbo-player-model-20261103/phase2/results.json"
   ],
-  "execution_environment": "OPENBLAS_NUM_THREADS=1, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1; Windows CRLF source bytes from commit 5cb48043"
+  "execution_environment": "OPENBLAS_NUM_THREADS=1, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1; Windows CRLF source bytes from commit 5cb48043",
+  "results_commit": "b112d573cbd0d2fe4d29ecb6f79ba2cba6fb9566"
 }
