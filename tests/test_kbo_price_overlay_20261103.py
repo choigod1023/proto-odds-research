@@ -58,3 +58,15 @@ def test_original_price_must_have_valid_product_and_clock():
     assert m.classify(row,label,None,listing,official,{})[1]=='original_price_invalid'
     row['market']['selections']['home']=1.7;row['kickoff_at']=None
     assert m.classify(row,label,None,listing,official,{})[1]=='original_kickoff_missing'
+
+def test_closed_listing_and_worker_manifest_tampering_rejected(tmp_path,monkeypatch):
+    import gzip,hashlib,json
+    evidence=tmp_path/'evidence';evidence.mkdir();listing=b'{"schedules":{"data":[]}}'
+    (evidence/'closed-list.body.gz').write_bytes(gzip.compress(listing))
+    attempts=[{'http_status':200,'body_file':'evidence/closed-list.body.gz','body_sha256':hashlib.sha256(listing).hexdigest()}]
+    raw=json.dumps(attempts).encode();(evidence/'attempts.json').write_bytes(raw)
+    monkeypatch.setattr(m,'S',tmp_path);monkeypatch.setattr(m.subprocess,'check_output',lambda *args,**kw:raw+b' ')
+    with pytest.raises(ValueError,match='manifest differs'):m.load_evidence()
+    monkeypatch.setattr(m.subprocess,'check_output',lambda *args,**kw:raw)
+    (evidence/'closed-list.body.gz').write_bytes(gzip.compress(b'{}'))
+    with pytest.raises(ValueError,match='closed-list SHA'):m.load_evidence()

@@ -77,9 +77,14 @@ def candidate_matches(candidate,row,label):
 
 
 def load_evidence():
-    attempts=json.loads((S/'evidence/attempts.json').read_text(encoding='utf8'))
+    attempts_raw=(S/'evidence/attempts.json').read_bytes()
+    blob=subprocess.check_output(['git','-C',str(DATA),'show',COMMIT+':experiments/kbo-official-odds-20261103/evidence/attempts.json'])
+    if attempts_raw.replace(b'\r\n',b'\n')!=blob.replace(b'\r\n',b'\n'):raise ValueError('worker evidence manifest differs from commit')
+    attempts=json.loads(attempts_raw)
     by_file={a['body_file']:a for a in attempts if a.get('http_status')==200 and a.get('body_file')}
-    listing=json.loads(gzip.decompress((S/'evidence/closed-list.body.gz').read_bytes()))['schedules']['data']
+    listing_raw=gzip.decompress((S/'evidence/closed-list.body.gz').read_bytes())
+    if 'evidence/closed-list.body.gz' not in by_file or sha(listing_raw)!=by_file['evidence/closed-list.body.gz']['body_sha256']:raise ValueError('official closed-list SHA mismatch')
+    listing=json.loads(listing_raw)['schedules']['data']
     official={}
     for body,attempt in by_file.items():
         if not body.startswith('evidence/detail-') or not body.endswith('.body.gz'):continue
