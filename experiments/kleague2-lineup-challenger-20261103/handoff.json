@@ -1,7 +1,8 @@
 {
   "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "blockers": [
-    "No verified pregame actual receipt of XI or executable odds; no frozen service ledger comparison."
+    "No verified pregame actual receipt of XI or executable odds; no frozen service ledger comparison.",
+    "Existing Dixon-Coles covariate extension is unvalidated; do not select or retune the same inspected test cohort post hoc."
   ],
   "branch": "codex/kleague2-lineup-challenger-20261103",
   "frozen_prediction_commit": "e8288f5d92245bcdcb2f1a221966e228309eb465",
@@ -19,7 +20,8 @@
     "Price snapshots are retrospective with no confirmed executable time.",
     "No frozen operating model comparison; no deployment or recommendation.",
     "No Cup, K1 or national-team history for player features.",
-    "Previously inspected 2026 sample; not blind."
+    "Previously inspected 2026 sample; not blind.",
+    "Existing scripts/local_dc_incremental.py implements Dixon-Coles; this preregistered independent-Poisson analysis does not complete the requested existing-DC conditional comparison."
   ],
   "metrics": {
     "cohort_n": 128,
@@ -235,7 +237,7 @@
   "protocol_sha": "ead1596c636233d6042c26e65d3e50d68309d35f",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "role": "K League 2 lineup challenger",
-  "status": "retrospective_comparison_complete_unvalidated",
+  "status": "poisson_ablation_complete_requested_existing_dc_comparison_not_done",
   "tests": [
     "python -m unittest discover -s tests -p test_kleague2_lineup_challenger_20261103.py -v: 8 passed",
     "independent Decimal settlement for 127 matched games and three models"
