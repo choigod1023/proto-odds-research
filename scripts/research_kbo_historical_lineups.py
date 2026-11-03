@@ -94,6 +94,35 @@ def match_players(lineup, game_data):
             seen.add(pid)
             p['player_id'] = pid
             p['player_id_basis'] = 'same_game_side_name_order_postgame_crossmatch_pending_official_profile'
+            p['_match_scope'] = 'same_game_side_order'
+    return lineup
+
+
+def build_team_index(source):
+    index = {}
+    for fid, game in source.items():
+        if not isinstance(game, dict) or not re.search(r'\d{4}$', fid):
+            continue
+        season = fid[-4:]
+        for side in ('home', 'away'):
+            team = str(game.get(side) or '').strip()
+            for player in (game.get('data') or {}).get(side, []):
+                name = str(player.get('name') or '').strip()
+                pid = str(player.get('code') or '')
+                if team and name and pid.isdigit():
+                    index.setdefault((season, team, name), set()).add(pid)
+    return index
+
+
+def match_from_team_season(lineup, game, team_index):
+    for side in ('home', 'away'):
+        team = game[side.upper()+'_NM'].strip()
+        for p in lineup[side]:
+            candidates = team_index.get((str(game['SEASON_ID']), team, p['name']), set())
+            if len(candidates) != 1:
+                raise ValueError('ambiguous_or_missing_team_season_player_id')
+            p['_candidate_ids'] = sorted(candidates)
+            p['_match_scope'] = 'other_game_same_team_season_name'
     return lineup
 
 
@@ -156,6 +185,7 @@ class Fetcher:
 def run(args):
     rows = [json.loads(x) for x in Path(args.rows).read_text(encoding='utf8').splitlines() if x.strip()]
     source = json.loads(Path(args.batters).read_text(encoding='utf8'))
+    team_index = build_team_index(source)
     target = Path(args.output)
     target.mkdir(parents=True, exist_ok=True)
     output = target/'official-lineups.jsonl'
@@ -213,19 +243,19 @@ def run(args):
                        for side,prefix in [('home','B'),('away','T')]}}
             if lineup is not None:
                 source_id = gid + str(row['season'])
-                if source_id not in source:
-                    rec['lineup_status']='official_flag_true_player_ids_unavailable'
-                else:
-                    try:
+                try:
+                    if source_id in source:
                         match_players(lineup, source[source_id])
-                    except (ValueError, KeyError, TypeError) as exc:
+                    else:
+                        match_from_team_season(lineup, game, team_index)
+                except (ValueError, KeyError, TypeError) as exc:
                         # Strip partial assignments; never leak a partial match as verified.
                         for players in lineup.values():
                             for p in players:
-                                p.pop('player_id',None); p.pop('player_id_basis',None); p.pop('_candidate_ids',None)
+                                p.pop('player_id',None); p.pop('player_id_basis',None); p.pop('_candidate_ids',None); p.pop('_match_scope',None)
                         rec['lineup_status']='official_flag_true_player_ids_unavailable'
                         rec['player_id_error']=str(exc)
-                    else:
+                else:
                         try:
                             all_ids = set()
                             for players in lineup.values():
@@ -240,13 +270,13 @@ def run(args):
                                         raise ValueError('official_profile_name_mismatch')
                                     p['player_id'], p['official_profile_evidence'] = matched[0]
                                     all_ids.add(p['player_id'])
-                                    p['player_id_basis']='postgame_same_game_side_order_and_official_profile_name'
+                                    p['player_id_basis']='postgame_'+p.pop('_match_scope','same_game_side_order')+'_and_official_profile_name'
                             rec['lineup_status']='official_flag_true_profile_name_crossmatched'
                         except (ValueError, UnicodeError) as exc:
                             for players in lineup.values():
                                 for p in players:
                                     p.pop('player_id',None); p.pop('player_id_basis',None)
-                                    p.pop('official_profile_evidence',None); p.pop('_candidate_ids',None)
+                                    p.pop('official_profile_evidence',None); p.pop('_candidate_ids',None); p.pop('_match_scope',None)
                             rec['lineup_status']='official_flag_true_player_ids_unavailable'
                             rec['player_id_error']=str(exc)
             with output.open('a',encoding='utf8',newline='\n') as out:

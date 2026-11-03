@@ -57,6 +57,25 @@ def test_doubleheader_requires_unambiguous_game_id():
     assert k.select_schedule_game(games, 'g2', 'H', 'A')['G_ID'] == 'g2'
 
 
+def test_missing_same_game_uses_unique_team_season_identity_only():
+    raw, game = sample()
+    lineup = k.parse_lineup(raw, game)
+    source = {}
+    for side, offset in (('home',0),('away',100)):
+        team = game[side.upper()+'_NM'].strip()
+        source[side] = [{'name':p['name'],'code':str(offset+p['order'])} for p in lineup[side]]
+        game[side.upper()+'_NM'] = team
+    season = str(game['SEASON_ID'])
+    index = {(season,game[side.upper()+'_NM'],p['name']):{p['code']}
+             for side in ('home','away') for p in source[side]}
+    matched = k.match_from_team_season(copy.deepcopy(lineup),game,index)
+    assert matched['home'][0]['_match_scope'] == 'other_game_same_team_season_name'
+    first = lineup['home'][0]
+    index[(season,game['HOME_NM'],first['name'])] = {'1','999'}
+    with pytest.raises(ValueError, match='ambiguous'):
+        k.match_from_team_season(copy.deepcopy(lineup),game,index)
+
+
 def test_nine_and_team_validation():
     raw, game = sample()
     body = json.loads(raw)
