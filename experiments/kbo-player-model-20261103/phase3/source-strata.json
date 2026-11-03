@@ -1,0 +1,675 @@
+{
+  "extended_day_team_source_confirmed": {
+    "official_restored": {
+      "date_range": [
+        "2026-03-31",
+        "2026-10-27"
+      ],
+      "models": {
+        "bullpen": {
+          "accuracy_decisive": 0.536741214057508,
+          "bets": 329,
+          "brier_decisive": 0.5006659438731054,
+          "decisive": 313,
+          "hits": 168,
+          "logloss_decisive": 0.6942079803776003,
+          "max_daily_close_drawdown_units": "50.37",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-24.99",
+            "2026-08": "-4.06",
+            "2026-09": "-8.10",
+            "2026-10": "-13.22"
+          },
+          "net_units": "-50.37",
+          "roi_including_refunds": -0.15310030395136778,
+          "voids": 16
+        },
+        "lineup": {
+          "accuracy_decisive": 0.549520766773163,
+          "bets": 329,
+          "brier_decisive": 0.5012611830445187,
+          "decisive": 313,
+          "hits": 172,
+          "logloss_decisive": 0.6947910621213099,
+          "max_daily_close_drawdown_units": "43.74",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-19.98",
+            "2026-08": "-4.06",
+            "2026-09": "-3.98",
+            "2026-10": "-14.65"
+          },
+          "net_units": "-42.67",
+          "roi_including_refunds": -0.12969604863221884,
+          "voids": 16
+        },
+        "market": {
+          "accuracy_decisive": 0.6070287539936102,
+          "bets": 329,
+          "brier_decisive": 0.4818013970437564,
+          "decisive": 313,
+          "hits": 190,
+          "logloss_decisive": 0.6749501749641513,
+          "max_daily_close_drawdown_units": "30.65",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-16.37",
+            "2026-08": "-2.59",
+            "2026-09": "-6.81",
+            "2026-10": "3.50"
+          },
+          "net_units": "-22.27",
+          "roi_including_refunds": -0.06768996960486322,
+          "voids": 16
+        },
+        "player": {
+          "accuracy_decisive": 0.536741214057508,
+          "bets": 329,
+          "brier_decisive": 0.5022755206431401,
+          "decisive": 313,
+          "hits": 168,
+          "logloss_decisive": 0.6958087102267638,
+          "max_daily_close_drawdown_units": "49.50",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-25.19",
+            "2026-08": "-4.00",
+            "2026-09": "-3.95",
+            "2026-10": "-16.36"
+          },
+          "net_units": "-49.50",
+          "roi_including_refunds": -0.15045592705167174,
+          "voids": 16
+        },
+        "starter": {
+          "accuracy_decisive": 0.536741214057508,
+          "bets": 329,
+          "brier_decisive": 0.5015069598799843,
+          "decisive": 313,
+          "hits": 168,
+          "logloss_decisive": 0.695097458281279,
+          "max_daily_close_drawdown_units": "49.48",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-23.42",
+            "2026-08": "-5.75",
+            "2026-09": "-3.95",
+            "2026-10": "-16.36"
+          },
+          "net_units": "-49.48",
+          "roi_including_refunds": -0.1503951367781155,
+          "voids": 16
+        },
+        "starter_lineup": {
+          "accuracy_decisive": 0.5399361022364217,
+          "bets": 329,
+          "brier_decisive": 0.5021645664940899,
+          "decisive": 313,
+          "hits": 169,
+          "logloss_decisive": 0.6957192151025698,
+          "max_daily_close_drawdown_units": "47.61",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-23.30",
+            "2026-08": "-4.00",
+            "2026-09": "-3.95",
+            "2026-10": "-16.36"
+          },
+          "net_units": "-47.61",
+          "roi_including_refunds": -0.1447112462006079,
+          "voids": 16
+        },
+        "team": {
+          "accuracy_decisive": 0.536741214057508,
+          "bets": 329,
+          "brier_decisive": 0.5005857435549854,
+          "decisive": 313,
+          "hits": 168,
+          "logloss_decisive": 0.694161676281332,
+          "max_daily_close_drawdown_units": "50.44",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-21.60",
+            "2026-08": "-5.81",
+            "2026-09": "-8.10",
+            "2026-10": "-14.93"
+          },
+          "net_units": "-50.44",
+          "roi_including_refunds": -0.1533130699088146,
+          "voids": 16
+        }
+      },
+      "n": 329,
+      "player_vs_market": {
+        "accuracy_delta_ci95": [
+          -0.15603061316096598,
+          0.008477304139084851
+        ],
+        "changed": 78,
+        "roi_delta_ci95": [
+          -0.21963969099392547,
+          0.04542958636537724
+        ],
+        "weeks": 21
+      },
+      "player_vs_team": {
+        "accuracy_delta_ci95": [
+          -0.019739452798663324,
+          0.016827125420875416
+        ],
+        "changed": 10,
+        "roi_delta_ci95": [
+          -0.029461469905488306,
+          0.031902928188056255
+        ],
+        "weeks": 21
+      },
+      "refunds": 16
+    },
+    "original_archived": {
+      "date_range": [
+        "2026-03-28",
+        "2026-06-30"
+      ],
+      "models": {
+        "bullpen": {
+          "accuracy_decisive": 0.5903954802259888,
+          "bets": 354,
+          "brier_decisive": 0.48531324051726754,
+          "decisive": 354,
+          "hits": 209,
+          "logloss_decisive": 0.678586389299084,
+          "max_daily_close_drawdown_units": "34.30",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-6.69",
+            "2026-05": "-6.29",
+            "2026-06": "-6.63"
+          },
+          "net_units": "-24.03",
+          "roi_including_refunds": -0.06788135593220339,
+          "voids": 0
+        },
+        "lineup": {
+          "accuracy_decisive": 0.596045197740113,
+          "bets": 354,
+          "brier_decisive": 0.4855262975851579,
+          "decisive": 354,
+          "hits": 211,
+          "logloss_decisive": 0.6788156352226897,
+          "max_daily_close_drawdown_units": "34.06",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.02",
+            "2026-05": "-4.54",
+            "2026-06": "-8.35"
+          },
+          "net_units": "-20.33",
+          "roi_including_refunds": -0.057429378531073445,
+          "voids": 0
+        },
+        "market": {
+          "accuracy_decisive": 0.5875706214689266,
+          "bets": 354,
+          "brier_decisive": 0.4743523662082065,
+          "decisive": 354,
+          "hits": 208,
+          "logloss_decisive": 0.6669350997945667,
+          "max_daily_close_drawdown_units": "40.38",
+          "monthly_units": {
+            "2026-03": "-4.73",
+            "2026-04": "-10.61",
+            "2026-05": "-16.74",
+            "2026-06": "-4.35"
+          },
+          "net_units": "-36.43",
+          "roi_including_refunds": -0.10290960451977402,
+          "voids": 0
+        },
+        "player": {
+          "accuracy_decisive": 0.5988700564971752,
+          "bets": 354,
+          "brier_decisive": 0.4849651273557489,
+          "decisive": 354,
+          "hits": 212,
+          "logloss_decisive": 0.6782741891847888,
+          "max_daily_close_drawdown_units": "37.48",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-4.88",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62"
+          },
+          "net_units": "-18.21",
+          "roi_including_refunds": -0.051440677966101696,
+          "voids": 0
+        },
+        "starter": {
+          "accuracy_decisive": 0.5988700564971752,
+          "bets": 354,
+          "brier_decisive": 0.4846365265852474,
+          "decisive": 354,
+          "hits": 212,
+          "logloss_decisive": 0.6778681878609073,
+          "max_daily_close_drawdown_units": "31.94",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.80",
+            "2026-05": "-4.31",
+            "2026-06": "-6.07"
+          },
+          "net_units": "-18.60",
+          "roi_including_refunds": -0.05254237288135593,
+          "voids": 0
+        },
+        "starter_lineup": {
+          "accuracy_decisive": 0.6045197740112994,
+          "bets": 354,
+          "brier_decisive": 0.48492391553244607,
+          "decisive": 354,
+          "hits": 214,
+          "logloss_decisive": 0.6782033785728958,
+          "max_daily_close_drawdown_units": "35.91",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-0.13",
+            "2026-05": "-6.29",
+            "2026-06": "-4.13"
+          },
+          "net_units": "-14.97",
+          "roi_including_refunds": -0.04228813559322034,
+          "voids": 0
+        },
+        "team": {
+          "accuracy_decisive": 0.5903954802259888,
+          "bets": 354,
+          "brier_decisive": 0.48521356685602196,
+          "decisive": 354,
+          "hits": 209,
+          "logloss_decisive": 0.6784504067769135,
+          "max_daily_close_drawdown_units": "32.47",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-5.12",
+            "2026-05": "-4.54",
+            "2026-06": "-9.79"
+          },
+          "net_units": "-23.87",
+          "roi_including_refunds": -0.06742937853107345,
+          "voids": 0
+        }
+      },
+      "n": 354,
+      "player_vs_market": {
+        "accuracy_delta_ci95": [
+          -0.05044979904593772,
+          0.07520956855074615
+        ],
+        "changed": 88,
+        "roi_delta_ci95": [
+          -0.058030333763599465,
+          0.16832021325648416
+        ],
+        "weeks": 14
+      },
+      "player_vs_team": {
+        "accuracy_delta_ci95": [
+          -0.018128261466630047,
+          0.039274040879107776
+        ],
+        "changed": 15,
+        "roi_delta_ci95": [
+          -0.02989331677937447,
+          0.06890860412790431
+        ],
+        "weeks": 14
+      },
+      "refunds": 0
+    }
+  },
+  "strict_original_time_match": {
+    "official_restored": {
+      "date_range": [
+        "2026-03-31",
+        "2026-07-26"
+      ],
+      "models": {
+        "bullpen": {
+          "accuracy_decisive": 0.44,
+          "bets": 85,
+          "brier_decisive": 0.5242330241644831,
+          "decisive": 75,
+          "hits": 33,
+          "logloss_decisive": 0.7175538094831614,
+          "max_daily_close_drawdown_units": "24.54",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-24.54"
+          },
+          "net_units": "-24.54",
+          "roi_including_refunds": -0.2887058823529412,
+          "voids": 10
+        },
+        "lineup": {
+          "accuracy_decisive": 0.48,
+          "bets": 85,
+          "brier_decisive": 0.5246680056359719,
+          "decisive": 75,
+          "hits": 36,
+          "logloss_decisive": 0.7180271710061045,
+          "max_daily_close_drawdown_units": "20.73",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-19.66"
+          },
+          "net_units": "-19.66",
+          "roi_including_refunds": -0.23129411764705882,
+          "voids": 10
+        },
+        "market": {
+          "accuracy_decisive": 0.56,
+          "bets": 85,
+          "brier_decisive": 0.5155611879676397,
+          "decisive": 75,
+          "hits": 42,
+          "logloss_decisive": 0.7101710701367753,
+          "max_daily_close_drawdown_units": "14.45",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-10.40"
+          },
+          "net_units": "-10.40",
+          "roi_including_refunds": -0.1223529411764706,
+          "voids": 10
+        },
+        "player": {
+          "accuracy_decisive": 0.44,
+          "bets": 85,
+          "brier_decisive": 0.5268830988265857,
+          "decisive": 75,
+          "hits": 33,
+          "logloss_decisive": 0.7203866767220399,
+          "max_daily_close_drawdown_units": "24.74",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-24.74"
+          },
+          "net_units": "-24.74",
+          "roi_including_refunds": -0.29105882352941176,
+          "voids": 10
+        },
+        "starter": {
+          "accuracy_decisive": 0.4533333333333333,
+          "bets": 85,
+          "brier_decisive": 0.5251972815117725,
+          "decisive": 75,
+          "hits": 34,
+          "logloss_decisive": 0.7186625905288887,
+          "max_daily_close_drawdown_units": "22.97",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-22.97"
+          },
+          "net_units": "-22.97",
+          "roi_including_refunds": -0.2702352941176471,
+          "voids": 10
+        },
+        "starter_lineup": {
+          "accuracy_decisive": 0.4533333333333333,
+          "bets": 85,
+          "brier_decisive": 0.5261640881266363,
+          "decisive": 75,
+          "hits": 34,
+          "logloss_decisive": 0.7196660648720329,
+          "max_daily_close_drawdown_units": "22.85",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-22.85"
+          },
+          "net_units": "-22.85",
+          "roi_including_refunds": -0.2688235294117647,
+          "voids": 10
+        },
+        "team": {
+          "accuracy_decisive": 0.4666666666666667,
+          "bets": 85,
+          "brier_decisive": 0.5235968905939846,
+          "decisive": 75,
+          "hits": 35,
+          "logloss_decisive": 0.7169222472906956,
+          "max_daily_close_drawdown_units": "21.15",
+          "monthly_units": {
+            "2026-03": "0",
+            "2026-04": "0",
+            "2026-05": "0",
+            "2026-06": "0",
+            "2026-07": "-21.15"
+          },
+          "net_units": "-21.15",
+          "roi_including_refunds": -0.2488235294117647,
+          "voids": 10
+        }
+      },
+      "n": 85,
+      "player_vs_market": {
+        "accuracy_delta_ci95": null,
+        "changed": 15,
+        "roi_delta_ci95": [
+          -0.28857142857142853,
+          -0.04271659090909105
+        ],
+        "weeks": 8
+      },
+      "player_vs_team": {
+        "accuracy_delta_ci95": null,
+        "changed": 2,
+        "roi_delta_ci95": [
+          -0.10795918367346939,
+          0.0
+        ],
+        "weeks": 8
+      },
+      "refunds": 10
+    },
+    "original_archived": {
+      "date_range": [
+        "2026-03-28",
+        "2026-06-30"
+      ],
+      "models": {
+        "bullpen": {
+          "accuracy_decisive": 0.5903954802259888,
+          "bets": 354,
+          "brier_decisive": 0.48531324051726754,
+          "decisive": 354,
+          "hits": 209,
+          "logloss_decisive": 0.678586389299084,
+          "max_daily_close_drawdown_units": "34.30",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-6.69",
+            "2026-05": "-6.29",
+            "2026-06": "-6.63"
+          },
+          "net_units": "-24.03",
+          "roi_including_refunds": -0.06788135593220339,
+          "voids": 0
+        },
+        "lineup": {
+          "accuracy_decisive": 0.596045197740113,
+          "bets": 354,
+          "brier_decisive": 0.4855262975851579,
+          "decisive": 354,
+          "hits": 211,
+          "logloss_decisive": 0.6788156352226897,
+          "max_daily_close_drawdown_units": "34.06",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.02",
+            "2026-05": "-4.54",
+            "2026-06": "-8.35"
+          },
+          "net_units": "-20.33",
+          "roi_including_refunds": -0.057429378531073445,
+          "voids": 0
+        },
+        "market": {
+          "accuracy_decisive": 0.5875706214689266,
+          "bets": 354,
+          "brier_decisive": 0.4743523662082065,
+          "decisive": 354,
+          "hits": 208,
+          "logloss_decisive": 0.6669350997945667,
+          "max_daily_close_drawdown_units": "40.38",
+          "monthly_units": {
+            "2026-03": "-4.73",
+            "2026-04": "-10.61",
+            "2026-05": "-16.74",
+            "2026-06": "-4.35"
+          },
+          "net_units": "-36.43",
+          "roi_including_refunds": -0.10290960451977402,
+          "voids": 0
+        },
+        "player": {
+          "accuracy_decisive": 0.5988700564971752,
+          "bets": 354,
+          "brier_decisive": 0.4849651273557489,
+          "decisive": 354,
+          "hits": 212,
+          "logloss_decisive": 0.6782741891847888,
+          "max_daily_close_drawdown_units": "37.48",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-4.88",
+            "2026-05": "-6.29",
+            "2026-06": "-2.62"
+          },
+          "net_units": "-18.21",
+          "roi_including_refunds": -0.051440677966101696,
+          "voids": 0
+        },
+        "starter": {
+          "accuracy_decisive": 0.5988700564971752,
+          "bets": 354,
+          "brier_decisive": 0.4846365265852474,
+          "decisive": 354,
+          "hits": 212,
+          "logloss_decisive": 0.6778681878609073,
+          "max_daily_close_drawdown_units": "31.94",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-3.80",
+            "2026-05": "-4.31",
+            "2026-06": "-6.07"
+          },
+          "net_units": "-18.60",
+          "roi_including_refunds": -0.05254237288135593,
+          "voids": 0
+        },
+        "starter_lineup": {
+          "accuracy_decisive": 0.6045197740112994,
+          "bets": 354,
+          "brier_decisive": 0.48492391553244607,
+          "decisive": 354,
+          "hits": 214,
+          "logloss_decisive": 0.6782033785728958,
+          "max_daily_close_drawdown_units": "35.91",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-0.13",
+            "2026-05": "-6.29",
+            "2026-06": "-4.13"
+          },
+          "net_units": "-14.97",
+          "roi_including_refunds": -0.04228813559322034,
+          "voids": 0
+        },
+        "team": {
+          "accuracy_decisive": 0.5903954802259888,
+          "bets": 354,
+          "brier_decisive": 0.48521356685602196,
+          "decisive": 354,
+          "hits": 209,
+          "logloss_decisive": 0.6784504067769135,
+          "max_daily_close_drawdown_units": "32.47",
+          "monthly_units": {
+            "2026-03": "-4.42",
+            "2026-04": "-5.12",
+            "2026-05": "-4.54",
+            "2026-06": "-9.79"
+          },
+          "net_units": "-23.87",
+          "roi_including_refunds": -0.06742937853107345,
+          "voids": 0
+        }
+      },
+      "n": 354,
+      "player_vs_market": {
+        "accuracy_delta_ci95": [
+          -0.05044979904593772,
+          0.07520956855074615
+        ],
+        "changed": 88,
+        "roi_delta_ci95": [
+          -0.058030333763599465,
+          0.16832021325648416
+        ],
+        "weeks": 14
+      },
+      "player_vs_team": {
+        "accuracy_delta_ci95": [
+          -0.018128261466630047,
+          0.039274040879107776
+        ],
+        "changed": 15,
+        "roi_delta_ci95": [
+          -0.02989331677937447,
+          0.06890860412790431
+        ],
+        "weeks": 14
+      },
+      "refunds": 0
+    }
+  }
+}

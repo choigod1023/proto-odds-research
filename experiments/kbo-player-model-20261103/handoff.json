@@ -70,7 +70,7 @@
     "5만원 capped wallet replay not implemented; equal unit scenario not actual wallet",
     "frozen code hash was computed from CRLF Windows bytes; verification reconstructs from pre-fit commit"
   ],
-  "next": "Independent review of source mapping, causal cutoffs, prediction freeze, matched accounting and limitations; no model adoption, merge or deployment.",
+  "next": "Independent review of phase3 official evidence, reconstructed fixture identities, pre-registered cohort definition, paired settlements and limitations; no model adoption, merge or deployment.",
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/512",
   "head": "see git HEAD",
   "implementation_commit": "d2e8a7067d744ccf4849657817bb0652f8bf6ef4",
@@ -99,5 +99,97 @@
     "python -X utf8 experiments/kbo-player-model-20261103/run.py score --rows experiments/kbo-player-model-20261103/phase2/features.jsonl.gz --predictions experiments/kbo-player-model-20261103/phase2/predictions.json --predictions-sha256 d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317 --test-labels experiments/kbo-player-model-20261103/phase2/test-labels.jsonl.gz --assume-prior-calendar-day --archived-price-scenario --output experiments/kbo-player-model-20261103/phase2/results.json"
   ],
   "execution_environment": "OPENBLAS_NUM_THREADS=1, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1; Windows CRLF source bytes from commit 5cb48043",
-  "results_commit": "b112d573cbd0d2fe4d29ecb6f79ba2cba6fb9566"
+  "results_commit": "b112d573cbd0d2fe4d29ecb6f79ba2cba6fb9566",
+  "phase3": {
+    "protocol_commit": "b9b4a88a",
+    "calculation_code_commit": "1de3d926",
+    "evidence_manifest_guard_commit": "28ee50d4",
+    "official_worker_commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
+    "official_source": "C:/Users/user/Documents/Codex/kbo-official-odds-20261103/experiments/kbo-official-odds-20261103",
+    "official_restored_price_sha256": "d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117",
+    "input_predictions_sha256": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
+    "phase2_results_sha256": "8c8776c43dc0013056026c83c3b5afaf2d462a7de3e346438b2e71e536408562",
+    "overlay_results_sha256": "24938f0f5489d22bbc76a830e2f48e2491da6687d3f4a5a2f9e8e8c376790d23",
+    "verification_sha256": "758908eb6a4a7269c0692a74c57b71fe3ad22e373cd5d8bbc9bf9d25e03be953",
+    "exclusion_audit_sha256": "d5603d8a04f4ff151b5900f6511e9f92bb224a53cfb4fe6361a92ee1c8a12fdb",
+    "fixture_opportunities": 726,
+    "strict": {
+      "n": 439,
+      "decisive": 429,
+      "refunds": 10,
+      "original": 354,
+      "restored": 85,
+      "player_hits": 245,
+      "player_roi": -0.09783599088838268,
+      "market_hits": 250,
+      "market_roi": -0.1066742596810934
+    },
+    "extended": {
+      "n": 683,
+      "decisive": 667,
+      "refunds": 16,
+      "original": 354,
+      "restored": 329,
+      "restored_without_original_clock": 244,
+      "player_hits": 380,
+      "player_roi": -0.09913616398243046,
+      "market_hits": 398,
+      "market_roi": -0.08594436310395315,
+      "player_accuracy_delta_ci95": [
+        -0.07871990483099843,
+        0.02343388176616504
+      ]
+    },
+    "excluded_2026": {
+      "no_round_in_sale_window": 27,
+      "cancelled_or_sales_rejected": 16
+    },
+    "verified_execution_price_n": 0,
+    "verified_execution_roi": null,
+    "source_all_years": {
+      "restored": 373,
+      "restored_draws": 56,
+      "restored_without_source_clock": 249
+    },
+    "verification": "7854 independent Decimal settlements; maximum probability error 4.81e-13; original 354 outcomes unchanged across all six candidates and market",
+    "tests": "42 passed, including official listing tamper guard and scenario matching/refund",
+    "limitations": [
+      "retrospective price/lineup and outcomes not proven pregame or executable",
+      "date-only extended matching has no original kickoff evidence",
+      "result score was used as identity matching evidence, possible selection bias",
+      "strict cohort timing is fixture-clock match, not price-receipt verification",
+      "no independent operating/tipster/9:1 comparison",
+      "no 50000 KRW capped wallet replay"
+    ],
+    "erratum": "phase2 scenario comparison_note incorrectly says independently evidenced historical price timing; the phase2 result remains unchanged and no such price timing was established",
+    "commands": [
+      "python -X utf8 experiments/kbo-player-model-20261103/phase3_overlay.py --output NEW_PATH.json",
+      "python -X utf8 experiments/kbo-player-model-20261103/verify_phase3.py",
+      "python -X utf8 experiments/kbo-player-model-20261103/phase3_source_strata.py",
+      "python -X utf8 experiments/kbo-player-model-20261103/audit_phase3_exclusions.py",
+      "python -m pytest -q tests/test_kbo_price_overlay_20261103.py tests/test_kbo_player_model_20261103.py tests/test_devig.py tests/test_market_residual_experiment.py"
+    ],
+    "source_strata_sha256": "c5be1bef50d24b791e13e24c3488828aed35eb8ffb5d8e4418fd16757fe7beab",
+    "official_restored_only_extended": {
+      "n": 329,
+      "refunds": 16,
+      "decisive": 313,
+      "player_hits": 168,
+      "player_roi": -0.15045592705167174,
+      "market_hits": 190,
+      "market_roi": -0.06768996960486322
+    },
+    "official_restored_only_strict": {
+      "n": 85,
+      "refunds": 10,
+      "decisive": 75,
+      "player_hits": 33,
+      "player_roi": -0.29105882352941176,
+      "market_hits": 42,
+      "market_roi": -0.1223529411764706
+    },
+    "identical_recheck": "after guards 28ee50d4 and 8795652b overlay results SHA unchanged",
+    "market_id_guard_commit": "8795652b",
+    "full_suite": "2265 passed, 6 skipped, 93 subtests passed; collected before final official-listing tamper guard test; final relevant tests 42 passed"
+  }
 }
