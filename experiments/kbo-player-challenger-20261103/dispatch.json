@@ -4,31 +4,42 @@
   "protocol_commit": "867afbdd",
   "protocol_sha256": "c3a687077f822087bc94df8c2cd314ff988a1cdd9359941f8152a779cff9926d",
   "contract_sha256": "59d4c7259dfb3135e9cbbba7fee2f415f614c6c6badb9c99120c0d1cf84c99ec",
-  "dispatch_verified_at": "2026-11-03T01:50:31Z",
-  "current_stage": "kbo_official_price_overlay_review_and_official_lineup_capture",
+  "dispatch_verified_at": "2026-11-03T03:44:35.303878+00:00",
+  "current_stage": "fresh_kbo_history_inputs_in_progress_after_official_lineup_factorial_audit",
   "workers": [
     {
       "role": "data",
       "title": "승부예측 Terra · KBO",
       "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
       "native_send_succeeded": true,
-      "observed_status": "idle",
+      "observed_status": "active",
       "runtime_model_verified": false,
-      "stage": "projection_reliability_completed",
+      "stage": "fresh_prior_history_generation",
       "pr": 511,
-      "commit": "63425c1",
-      "actual_workspace": "C:/Users/user/Documents/Codex/kbodata"
+      "commit": "1a15ab92da2d26a1744600716a44dcdf4f6bc37b",
+      "actual_workspace": "C:/Users/user/Documents/Codex/kbodata",
+      "previous_snapshot": {
+        "stage": "projection_reliability_completed",
+        "commit": "63425c1",
+        "pr": 511,
+        "actual_workspace": "C:/Users/user/Documents/Codex/kbodata"
+      }
     },
     {
       "role": "model",
       "title": "승부예측 Terra · 모델 개발",
       "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
       "native_send_succeeded": true,
-      "observed_status": "active",
+      "observed_status": "notLoaded",
       "runtime_model_verified": false,
-      "stage": "official_price_overlay_completed",
+      "stage": "fixed_official_four_settings_completed_ci_passed",
       "pr": 512,
-      "commit": "5c797509a9305674307ecce83df99ea8f9a2b0c1"
+      "commit": "7130afb576be9553ad35cb14fa71ce29202cf861",
+      "previous_snapshot": {
+        "stage": "official_price_overlay_completed",
+        "commit": "5c797509a9305674307ecce83df99ea8f9a2b0c1",
+        "pr": 512
+      }
     },
     {
       "role": "independent_review",
@@ -37,64 +48,164 @@
       "native_send_succeeded": true,
       "observed_status": "active",
       "runtime_model_verified": false,
-      "stage": "phase6_overlay_audit",
+      "stage": "kleague_fixed_results_independent_audit",
       "pr": 510,
-      "commit": "431e7e9f39b301a94bf7cfbc2501dab35f3d0086"
+      "commit": "9ed1183d870e10f5d0063fc58feb50a6d2918cae",
+      "previous_snapshot": {
+        "stage": "phase6_overlay_audit",
+        "commit": "431e7e9f39b301a94bf7cfbc2501dab35f3d0086",
+        "pr": 510
+      }
     },
     {
       "role": "official_price_restoration",
       "thread_id": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
-      "branch": "codex/kbo-official-odds-20261103",
-      "actual_workspace": "C:/Users/user/Documents/Codex/kbo-official-odds-20261103",
+      "branch": "codex/multileague-official-prices-20261103",
+      "actual_workspace": "C:/Users/user/Documents/Codex/mlprice",
       "native_send_succeeded": true,
       "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "ready_for_join_independently_audited",
-      "commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
-      "pr": 513
+      "stage": "multileague_official_prices_completed",
+      "commit": "d73d7ac67a14801ff2123243b89fa49bf3622205",
+      "pr": 528,
+      "previous_snapshot": {
+        "stage": "ready_for_join_independently_audited",
+        "commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
+        "pr": 513,
+        "actual_workspace": "C:/Users/user/Documents/Codex/kbo-official-odds-20261103",
+        "branch": "codex/kbo-official-odds-20261103"
+      }
     },
     {
       "role": "official_lineup_restoration",
       "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
-      "branch": "codex/kbo-official-lineup-short-20261103",
-      "actual_workspace": "C:/Users/user/Documents/Codex/klu",
+      "branch": "codex/kbo-official-record-gap-20261103",
+      "actual_workspace": "C:/Users/user/Documents/Codex/kbor",
       "native_send_succeeded": true,
-      "observed_status": "active",
+      "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "confirmed_lineup_capture_priority_2026",
-      "commit": "b3f1f2c2fb79354150c42a22199078943860c042",
-      "pr": 514,
-      "partial_confirmed_count_observed": 377
+      "stage": "official_record_daily_supplement_completed_ci_passed",
+      "commit": "d11367b7b37f3ea34f4c08987ca042af9235575e",
+      "pr": 520,
+      "previous_snapshot": {
+        "stage": "confirmed_lineup_capture_priority_2026",
+        "commit": "b3f1f2c2fb79354150c42a22199078943860c042",
+        "pr": 514,
+        "actual_workspace": "C:/Users/user/Documents/Codex/klu",
+        "branch": "codex/kbo-official-lineup-short-20261103"
+      }
     },
     {
       "role": "kleague1_official_inputs",
       "thread_id": "01a18f7e-9f1e-7660-9274-8bd728a12f3b",
       "native_send_succeeded": true,
-      "observed_status": "active",
+      "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "actual_official_api_inventory_and_collection"
+      "stage": "fixed_lineup_poisson_comparison_completed_ci_passed",
+      "previous_snapshot": {
+        "stage": "actual_official_api_inventory_and_collection"
+      },
+      "commit": "b8f5117d2ec60f37562007dcd050c62d35e25d23",
+      "pr": 519,
+      "actual_workspace": "C:/Users/user/Documents/Codex/k1model"
     },
     {
       "role": "kleague2_official_inputs",
       "thread_id": "01a18f7e-a351-7773-b538-e09a0d65a5e3",
       "native_send_succeeded": true,
-      "observed_status": "active",
+      "observed_status": "idle",
       "runtime_model_verified": false,
-      "stage": "actual_official_api_inventory_and_collection"
+      "stage": "fixed_poisson_and_dc_comparisons_completed_ci_passed",
+      "previous_snapshot": {
+        "stage": "actual_official_api_inventory_and_collection"
+      },
+      "commit": "32c690e55df246db5e122a037fd4eda0cd2c6be2",
+      "pr": 518,
+      "actual_workspace": "C:/Users/user/Documents/Codex/k2model"
+    },
+    {
+      "role": "npb",
+      "thread_id": "01a18f7e-ac5f-7a11-935a-4296d5ce2f95",
+      "pr": 526,
+      "commit": "395e81bb40e2b43bcb00981c22519112be806832",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
+    },
+    {
+      "role": "mlb",
+      "thread_id": "01a18f7e-b0f7-7a00-b05f-c52dc92ba3b6",
+      "pr": 527,
+      "commit": "bf9125e806cfc761ff947475e1dc7650b7c634c3",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
+    },
+    {
+      "role": "kbl",
+      "thread_id": "01a18f7e-b5ad-79f3-aaaa-4507d632a5cd",
+      "pr": 523,
+      "commit": "7a80add",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
+    },
+    {
+      "role": "nba",
+      "thread_id": "01a18f7e-ba1a-7930-b826-1ab71813a752",
+      "pr": 521,
+      "commit": "2df626042f633ba08f381f755ccc18f2068733f6",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
+    },
+    {
+      "role": "vleague_m",
+      "thread_id": "01a18f7e-be7d-71b3-8f39-19165e69a770",
+      "pr": 522,
+      "commit": "63d1371",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
+    },
+    {
+      "role": "vleague_w",
+      "thread_id": "01a18f7e-c38b-7ca1-9494-d2816daf84c8",
+      "pr": 524,
+      "commit": "020c14d",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
+    },
+    {
+      "role": "j1",
+      "thread_id": "01a18f7e-c88c-7be3-8885-a3a8d9f38664",
+      "pr": 525,
+      "commit": "b27dc1d",
+      "observed_status": "idle",
+      "native_send_succeeded": true,
+      "runtime_model_verified": false,
+      "stage": "source_collection_only_no_model_or_roi_evaluation"
     }
   ],
   "league_stages": [
     {
       "league": "KBO",
-      "status": "initial_comparison_done_official_input_enrichment_in_progress"
+      "status": "official_709_factorial_independently_reproduced_fresh_history_pending"
     },
     {
-      "league": "K리그1·K리그2",
-      "status": "official_input_collection_started_after_initial_kbo_comparison"
+      "league": "K1_K2",
+      "status": "actual_fixed_model_results_available_independent_audit_in_progress"
     },
     {
-      "league": "NPB·MLB·KBL·NBA·배구·기타 축구",
-      "status": "waiting_for_kleague_results"
+      "league": "NPB_MLB_KBL_NBA_volleyball_J1",
+      "status": "finite_source_collection_completed_no_model_evaluation"
     }
   ],
   "automation_queue_changed": false,
@@ -113,7 +224,8 @@
     "tipster_eligible": 0,
     "draw_count": 60,
     "draws_with_usable_prices": 0,
-    "selection_bias": "all_draws_lack_usable_original_prices"
+    "selection_bias": "all_draws_lack_usable_original_prices",
+    "original_snapshot_only": true
   },
   "integration_amendment_commit": "1770f8b35a4986fb39fa3615a158cab083add864",
   "restoration_priority": {
@@ -170,5 +282,154 @@
     "conclusion": "No demonstrated superiority; extended cohort favors market point estimate. No adoption.",
     "wallet_replay_performed": false,
     "independent_final_audit_complete": false
+  },
+  "official_lineup_factorial": {
+    "source_period": [
+      "2026-03-28",
+      "2026-10-27"
+    ],
+    "archived_target_count": 726,
+    "common_official_id_count": 709,
+    "unresolved_ids": 17,
+    "configuration_order": [
+      "projected",
+      "official_batting_only",
+      "official_starter_only",
+      "official_both"
+    ],
+    "hits_3way": [
+      398,
+      402,
+      398,
+      406
+    ],
+    "roi_common_price_n": 667,
+    "roi_percent_rounded": [
+      -9.23,
+      -8.49,
+      -9.08,
+      -7.22
+    ],
+    "independent_audit_commit": "9ed1183d870e10f5d0063fc58feb50a6d2918cae",
+    "audit_passed": true,
+    "current_buy_reject_nonzero_common_excluded_sensitivity_n": 660,
+    "sensitivity_roi_percent_rounded": [
+      -9.65,
+      -8.9,
+      -9.77,
+      -7.89
+    ],
+    "pre_match_receipt_proven": false,
+    "actual_execution_price_proven": false,
+    "blind": false,
+    "service_9_to_1_comparison": false,
+    "numeric_history_gap_after": "2026-07-26",
+    "gap_affects_target_games": 239,
+    "not_evidence_of_production_history_gap": true
+  },
+  "fresh_history": {
+    "preregistered_contract_commit": "497cf651205fdda83fd03504d1b5d58c36c6ac9c",
+    "source_commit": "d11367b7b37f3ea34f4c08987ca042af9235575e",
+    "source_games": 256,
+    "batter_rows": 6965,
+    "verified_daily_rows": 3939,
+    "daily_rows_not_captured": 2799,
+    "missing_batter_id_rows": 227,
+    "extra_verified_pitcher_id_rows": 53,
+    "not_a_refit": true,
+    "four_input_files_status": "in_progress",
+    "future_effectiveness_established": false
+  },
+  "kleague_comparisons": {
+    "k1": {
+      "test_n": 114,
+      "same_prices_n": 113,
+      "hit_n_same_prices": {
+        "market": 44,
+        "team": 42,
+        "lineup": 41
+      },
+      "roi_percent_rounded": {
+        "market": -26.22,
+        "team": -23.73,
+        "lineup": -27.18
+      }
+    },
+    "k2": {
+      "test_n": 128,
+      "same_prices_n": 127,
+      "hits_all_test": {
+        "poisson_team": 58,
+        "poisson_lineup": 59,
+        "dc_team": 57,
+        "dc_lineup": 58
+      },
+      "roi_percent_rounded": {
+        "market": -11.54,
+        "poisson_team": -17.99,
+        "poisson_lineup": -16.72,
+        "dc_team": -19.54,
+        "dc_lineup": -18.63
+      }
+    },
+    "ci_passed": true,
+    "independent_worker_audit": "in_progress",
+    "blind": false,
+    "adoption_justified": false
+  },
+  "new_league_sources": {
+    "npb": {
+      "completed_lineups": 137,
+      "period": [
+        "2026-03-27",
+        "2026-09-29"
+      ],
+      "initial_cached_price_candidates": 77,
+      "enriched_same_product_normal_end_prices": 114,
+      "enrichment_eligible_normal_end_games": 135
+    },
+    "mlb": {
+      "selected": 102,
+      "event_time_checks_passed": 101,
+      "cached_price_candidates": 66,
+      "historical_player_asof_unverified": true
+    },
+    "kbl": {
+      "selected": 120,
+      "player_score_checks_passed": 119,
+      "enriched_same_product_prices": 116,
+      "enriched_player_verified_price_intersection": 115
+    },
+    "nba": {
+      "official_verified_examples": 3,
+      "provider": "ESPN",
+      "provider_selected": 126,
+      "provider_postgame_starters": 125,
+      "verified_prices": 0
+    },
+    "vleague_m": {
+      "official_regular_games": 126,
+      "first_set_lineups": 126,
+      "period_months_approx": 5,
+      "enriched_same_product_prices": 119
+    },
+    "vleague_w": {
+      "official_regular_games": 126,
+      "first_set_lineups": 126,
+      "period_months_approx": 5,
+      "cached_price_candidates": 28,
+      "verified_same_product_prices": 0
+    },
+    "j1": {
+      "official_season_census": 380,
+      "selected_lineups": 100,
+      "initial_cached_price_candidates": 83,
+      "enriched_same_product_prices": 94
+    },
+    "all": {
+      "actual_pre_match_receipt_proven": false,
+      "actual_tminus30_execution_prices_proven": false,
+      "model_training_or_roi_evaluation_performed": false
+    }
   }
 }
