@@ -1,6 +1,6 @@
 """Preregistered offline KBO score model; never reads future target labels."""
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
 import math
 import numpy as np
@@ -25,15 +25,25 @@ def stamp(value, required=True):
     return d.astimezone(timezone.utc)
 
 
-def validate_rows(rows):
+def validate_rows(rows, *, allow_retrospective_dates=False):
     seen=set()
     for row in rows:
-        if set(row)!=ROW_KEYS:raise ValueError('unexpected/missing row keys: target results forbidden')
+        extra={'event_date','decision_time_basis','identity_basis'} if allow_retrospective_dates else set()
+        if not ROW_KEYS<=set(row) or set(row)-ROW_KEYS-extra:raise ValueError('unexpected/missing row keys: target results forbidden')
         if row['league']!='KBO' or not all(isinstance(row[k],str) and row[k].strip() for k in ('fixture_id','home_id','away_id')) or row['home_id']==row['away_id']:raise ValueError('invalid fixture identity')
         if row['fixture_id'] in seen:raise ValueError('duplicate fixture')
         seen.add(row['fixture_id'])
-        kickoff=stamp(row['kickoff_at']);decision=stamp(row['decision_at']);tier=row['availability_tier']
-        if decision>kickoff-timedelta(minutes=30) or int(row['season'])!=kickoff.year or tier not in ('point_in_time_verified','retrospective_unproven'):raise ValueError('invalid chronology or tier')
+        tier=row['availability_tier'];retro=allow_retrospective_dates and tier=='retrospective_unproven'
+        kickoff=stamp(row['kickoff_at'],required=not retro);decision=stamp(row['decision_at'],required=not retro)
+        if tier not in ('point_in_time_verified','retrospective_unproven'):raise ValueError('invalid tier')
+        if retro:
+            event=date.fromisoformat(row.get('event_date',''))
+            if int(row['season'])!=event.year or (kickoff and kickoff.astimezone(timezone(timedelta(hours=9))).date()!=event):raise ValueError('invalid event date')
+            if (kickoff is None)!=(decision is None):raise ValueError('partial kickoff/decision')
+        else:
+            event=kickoff.date()
+            if int(row['season'])!=kickoff.year:raise ValueError('invalid season')
+        if decision is not None and decision>kickoff-timedelta(minutes=30):raise ValueError('invalid chronology')
         if not isinstance(row['sources'],list):raise ValueError('sources must be a list')
         sources={}
         for s in row['sources']:
@@ -50,58 +60,72 @@ def validate_rows(rows):
             if type(item['value']) not in (float,int) or not math.isfinite(item['value']):raise ValueError('invalid feature value')
             if item['source_id'] not in sources or not isinstance(item['availability_basis'],str) or not item['availability_basis'].strip():raise ValueError('feature source missing')
             available=stamp(item['available_at'],required=False);source,received=sources[item['source_id']]
-            if available is not None and available>decision:raise ValueError('future feature')
+            if available is not None and (decision is None or available>decision):raise ValueError('future feature')
             if tier=='point_in_time_verified' and (available is None or received is None or received>decision or not source['availability_basis']):raise ValueError('unverified feature')
             if name in HISTORY_FEATURES:
                 completed=stamp(item.get('history_max_completed_at'),required=False);ids=item.get('history_fixture_ids')
-                if completed is None or completed>=decision or (available is not None and completed>available) or (tier=='point_in_time_verified' and received is not None and completed>received) or not isinstance(ids,list) or not ids or row['fixture_id'] in ids:raise ValueError('history completion or fixture leakage')
+                if not isinstance(ids,list) or not ids or row['fixture_id'] in ids:raise ValueError('history fixture leakage')
+                if retro and completed is None:
+                    latest=date.fromisoformat(item.get('history_latest_date',''))
+                    if item.get('availability_basis')!='prior_calendar_day_assumed_completed_not_received' or latest>=event:raise ValueError('date-only history leakage')
+                elif completed is None or decision is None or completed>=decision or (available is not None and completed>available) or (tier=='point_in_time_verified' and received is not None and completed>received):raise ValueError('history completion or fixture leakage')
         market=row['market']
         if market is not None:
             if not isinstance(market,dict) or not {'market_id','kind','selections','odds_observed_at','settlement_rule'}<=set(market):raise ValueError('invalid market')
             kind=market['kind'];expected={'home','away'} if kind=='full_game_2way' else {'home','draw','away'} if kind=='full_game_3way' else set()
             if not isinstance(market['market_id'],str) or not market['market_id'] or not expected or not isinstance(market['selections'],dict) or set(market['selections'])!=expected:raise ValueError('invalid market product')
-            if market['settlement_rule']!=('draw_refund' if len(expected)==2 else 'draw_selection'):raise ValueError('invalid draw rule')
+            if market['settlement_rule'] not in (('draw_refund','draw_void_refund') if retro and len(expected)==2 else ('draw_refund',) if len(expected)==2 else ('draw_selection',)):raise ValueError('invalid draw rule')
             for price in market['selections'].values():
                 try: val=Decimal(str(price))
                 except InvalidOperation as e:raise ValueError('bad price') from e
                 if not val.is_finite() or val<=1:raise ValueError('bad price')
             observed=stamp(market['odds_observed_at'],required=False)
-            if observed and observed>decision:raise ValueError('late odds')
+            if observed and (decision is None or observed>decision):raise ValueError('late odds')
     return rows
 
 
-def validate_labels(labels):
+def validate_labels(labels, *, allow_retrospective_dates=False):
     seen=set()
     for label in labels:
         required={'fixture_id','status','home_score','away_score','completed_at','received_at','revision'}
-        if not required<=set(label) or not isinstance(label['fixture_id'],str) or label['fixture_id'] in seen or not label['revision']:raise ValueError('duplicate or incomplete label')
+        if not required<=set(label) or not isinstance(label['fixture_id'],str) or label['fixture_id'] in seen or (not label['revision'] and not (allow_retrospective_dates and label.get('revision_basis')=='archive_content_hash_not_official_revision')):raise ValueError('duplicate or incomplete label')
         seen.add(label['fixture_id'])
         if label['status'] not in ('final','void','pending'):raise ValueError('unknown label status')
         if label['status']=='final':
             if any(type(label[k]) is not int or label[k]<0 for k in ('home_score','away_score')):raise ValueError('invalid final score')
-            end=stamp(label['completed_at']);received=stamp(label['received_at'],required=False)
-            if received is None and label.get('availability_basis')!='retrospective_completion_assumption':raise ValueError('missing label receipt basis')
-            if received is not None and received<end:raise ValueError('label received before completion')
+            end=stamp(label['completed_at'],required=False);received=stamp(label['received_at'],required=False)
+            if end is None:
+                if not allow_retrospective_dates or label.get('availability_basis')!='retrospective_prior_calendar_day_assumption' or received is not None:raise ValueError('missing completion evidence')
+                date.fromisoformat(label['assumed_completed_date'])
+            elif received is None and label.get('availability_basis')!='retrospective_completion_assumption':raise ValueError('missing label receipt basis')
+            if received is not None and (end is None or received<end):raise ValueError('label received before completion')
     return labels
 
 
-def split(rows,labels):
-    validate_rows(rows);validate_labels(labels)
+def split(rows,labels, *, allow_retrospective_dates=False):
+    validate_rows(rows,allow_retrospective_dates=allow_retrospective_dates);validate_labels(labels,allow_retrospective_dates=allow_retrospective_dates)
     if len({r['availability_tier'] for r in rows})>1:raise ValueError('availability tiers must be evaluated separately')
     lookup={r['fixture_id']:r for r in labels};out={}
     for name,years in [('train',range(1,2025)),('validation',(2025,)),('test',(2026,))]:
-        subset=sorted([r for r in rows if int(r['season']) in years],key=lambda r:(r['kickoff_at'],r['fixture_id']))
+        subset=sorted([r for r in rows if int(r['season']) in years],key=lambda r:(r.get('event_date') or r['kickoff_at'],r['fixture_id']))
         out[name]=subset
     if any(len(out[k])<n for k,n in [('train',100),('validation',30),('test',30)]):raise ValueError('insufficient preregistered season split')
     if any(r['fixture_id'] in lookup for r in out['test']):raise ValueError('test labels forbidden before prediction freeze')
     for later,earlier in [('validation','train'),('test','train'),('test','validation')]:
-        first=min(stamp(r['decision_at']) for r in out[later]);cut=first-timedelta(days=7)
+        retro=allow_retrospective_dates and out[later][0]['availability_tier']=='retrospective_unproven'
+        first=min(date.fromisoformat(r['event_date']) for r in out[later]) if retro else min(stamp(r['decision_at']) for r in out[later]);cut=first-timedelta(days=7)
         for row in out[earlier]:
             label=lookup.get(row['fixture_id'])
-            if label is None or label['status']!='final' or stamp(label['completed_at'])<stamp(row['kickoff_at']):raise ValueError('missing/late training label at fold boundary')
-            received=stamp(label['received_at'],required=False)
-            if received is None and row['availability_tier']!='retrospective_unproven':raise ValueError('verified training label receipt missing')
-            if (received or stamp(label['completed_at']))>cut:raise ValueError('missing/late training label at fold boundary')
+            if label is None or label['status']!='final':raise ValueError('missing training label at fold boundary')
+            if retro and label['completed_at'] is None:
+                assumed=date.fromisoformat(label['assumed_completed_date'])
+                if assumed!=date.fromisoformat(row['event_date']) or assumed>cut:raise ValueError('late or inconsistent date-only label')
+            else:
+                if stamp(label['completed_at'])<stamp(row['kickoff_at']):raise ValueError('label before kickoff')
+                received=stamp(label['received_at'],required=False)
+                if received is None and row['availability_tier']!='retrospective_unproven':raise ValueError('verified training label receipt missing')
+                boundary=(received or stamp(label['completed_at']))
+                if (boundary.date() if retro else boundary)>cut:raise ValueError('missing/late training label at fold boundary')
     return out
 
 
@@ -125,6 +149,7 @@ class ScoreModel:
     scale:np.ndarray
     beta:np.ndarray
     alpha:float
+    retrospective:bool=False
 
 
 def _raw(rows,mode,teams):
@@ -145,8 +170,8 @@ def _matrix(raw,meta,mean,scale):
     return np.c_[meta,(filled-mean)/scale,missing.astype(float)]
 
 
-def fit(rows,labels,mode,alpha):
-    validate_rows(rows);validate_labels(labels)
+def fit(rows,labels,mode,alpha, *, allow_retrospective_dates=False):
+    validate_rows(rows,allow_retrospective_dates=allow_retrospective_dates);validate_labels(labels,allow_retrospective_dates=allow_retrospective_dates)
     if not rows or alpha not in RIDGE:raise ValueError('bad training inputs')
     byid={r['fixture_id']:r for r in labels};teams=tuple(sorted({r[k] for r in rows for k in ('home_id','away_id')}))
     raw,meta,_=_raw(rows,mode,teams);observed=~np.isnan(raw);counts=observed.sum(axis=0);mean=np.divide(np.where(observed,raw,0).sum(axis=0),counts,out=np.zeros(raw.shape[1]),where=counts>0)
@@ -154,7 +179,10 @@ def fit(rows,labels,mode,alpha):
     x=_matrix(raw,meta,mean,scale);y=[]
     for row in rows:
         label=byid.get(row['fixture_id'])
-        if not label or label['status']!='final' or stamp(label['completed_at'])<stamp(row['kickoff_at']):raise ValueError('training label unavailable or invalid')
+        if not label or label['status']!='final':raise ValueError('training label unavailable or invalid')
+        if label['completed_at'] is None:
+            if not allow_retrospective_dates or row['availability_tier']!='retrospective_unproven' or label['assumed_completed_date']!=row['event_date']:raise ValueError('invalid date-only label')
+        elif stamp(label['completed_at'])<stamp(row['kickoff_at']):raise ValueError('training label before kickoff')
         if label['received_at'] is None and row['availability_tier']!='retrospective_unproven':raise ValueError('verified training label receipt missing')
         y.extend((label['home_score'],label['away_score']))
     y=np.array(y,dtype=float)
@@ -166,7 +194,7 @@ def fit(rows,labels,mode,alpha):
     beta=np.zeros(x.shape[1]);beta[0]=math.log(max(float(y.mean()),.1))
     result=minimize(obj,beta,jac=True,method='L-BFGS-B',options={'maxiter':2000,'ftol':1e-11})
     if not result.success or not np.isfinite(result.x).all():raise ValueError('fit did not converge')
-    return ScoreModel(mode,teams,mean,scale,result.x,float(alpha))
+    return ScoreModel(mode,teams,mean,scale,result.x,float(alpha),allow_retrospective_dates)
 
 
 def distribution(home_rate,away_rate):
@@ -181,7 +209,7 @@ def distribution(home_rate,away_rate):
 
 
 def predict(model,rows):
-    validate_rows(rows)
+    validate_rows(rows,allow_retrospective_dates=model.retrospective)
     if not rows:return []
     raw,meta,unknown=_raw(rows,model.mode,model.teams);eta=_matrix(raw,meta,model.mean,model.scale)@model.beta
     if not np.isfinite(eta).all() or np.any(np.abs(eta)>20):raise ValueError('unstable predicted rate')

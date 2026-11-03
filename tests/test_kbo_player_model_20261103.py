@@ -1,5 +1,5 @@
 import copy,importlib.util,sys
-from datetime import datetime,timedelta,timezone
+from datetime import date,datetime,timedelta,timezone
 from pathlib import Path
 import numpy as np
 import pytest
@@ -117,3 +117,30 @@ def test_retrospective_missing_label_receipt_is_explicit_and_not_verified():
     with pytest.raises(ValueError,match='tiers'):m.split(rows,dev)
     for row in rows:row['availability_tier']='point_in_time_verified'
     with pytest.raises(ValueError,match='receipt'):m.split(rows,dev)
+
+
+def test_prior_adapter_excludes_target_features_and_assumes_only_prior_days():
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('kbo_adapter',P/'adapter.py');a=importlib.util.module_from_spec(spec);spec.loader.exec_module(a)
+    raw={'fixture_id':'20240412HHWO02024','league':'KBO','season':2024,'kickoff_at':'2024-04-12T18:30:00+09:00','decision_at':'2024-04-12T18:00:00+09:00','home_id':'A','away_id':'B','market':None,'availability_tier':'retrospective_unproven','sources':[],'features':{'actual_target_player_id':'secret','target_score':99}}
+    before=a.sanitize_raw_metadata(raw);raw['features']={'actual_target_player_id':'poison','target_score':0}
+    assert before==a.sanitize_raw_metadata(raw) and 'features' not in before
+    dates={'prev':date(2024,4,11),'same':date(2024,4,12),'future':date(2024,4,13)}
+    a.check_nested({'source_fixture_ids':['prev'],'date':'2024-04-11'},raw['fixture_id'],date(2024,4,12),dates)
+    for item in ({'fixture_id':raw['fixture_id']},{'source_fixture_ids':['same']},{'fixture_id':'future'},{'date':'2024-04-12'}):
+        with pytest.raises(ValueError):a.check_nested(item,raw['fixture_id'],date(2024,4,12),dates)
+    assert a.scalar('home_starter_strength',{'appearances':[{'er':3,'outs':17}]})==pytest.approx(81/17)
+    assert a.scalar('home_bullpen_load',{'games':[{'relief':{'outs':17}}]})==17
+    assert a.scalar('home_lineup_strength',[{'history':[{'ab':4,'hit':2,'bb':1}]}])==pytest.approx(.6)
+
+
+def test_date_only_retrospective_never_passes_strict_or_fabricates_receipts():
+    rows,labels=synthetic(); row=copy.deepcopy(rows[0]);row['availability_tier']='retrospective_unproven';row['event_date']=row['kickoff_at'][:10]
+    row['kickoff_at']=row['decision_at']=None;row['decision_time_basis']='unknown';row['identity_basis']='archive';row['market']=None
+    for source in row['sources']:source['received_at']=None
+    for feat in row['features'].values():
+        feat['available_at']=None;feat['availability_basis']='prior_calendar_day_assumed_completed_not_received';feat['history_max_completed_at']=None;feat['history_latest_date']='2023-12-31'
+    m.validate_rows([row],allow_retrospective_dates=True)
+    with pytest.raises(ValueError):m.validate_rows([row])
+    row['features']['home_team_strength']['value']=1;row['features']['home_team_strength']['history_latest_date']=row['event_date']
+    with pytest.raises(ValueError,match='date-only'):m.validate_rows([row],allow_retrospective_dates=True)
