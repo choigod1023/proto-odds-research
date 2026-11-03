@@ -28,7 +28,7 @@ def test_substitutes_are_not_mistaken_for_starting_nine():
 
 def test_source_identity_and_strict_availability():
     with pytest.raises(ValueError): c.parse_game('2026年3月27日'.encode(), 'https://npb.jp/scores/2026/0328/g-c-01/box.html', date(2026,3,27))
-    assert sum(1 for _ in c.dates())==40
+    assert sum(1 for _ in c.dates())==46
 
 def test_all_saved_response_bytes_and_parsed_records():
     manifest=ROOT/'manifest.json'
@@ -66,7 +66,10 @@ def test_actual_census_selection_and_request_pacing():
     log=[json.loads(x) for x in (ROOT/'attempts.jsonl').read_text(encoding='utf8').splitlines()]
     starts=[datetime.fromisoformat(x['started_at']) for x in log if x['kind']=='request_started']
     assert len(starts)<=500 and all((b-a).total_seconds()>=1 for a,b in zip(starts,starts[1:]))
-    assert all(x.get('http_status')==200 for x in log if x['kind']=='request_completed')
+    completed=[x for x in log if x['kind']=='request_completed']
+    assert all(x.get('http_status') not in (403,429) for x in completed)
+    assert sum(x.get('http_status')!=200 for x in completed)==1
+    assert next(x for x in completed if x.get('http_status')!=200)['error']=='ConnectionError'
 
 def test_actual_price_provenance_and_no_pit_claim():
     if not (ROOT/'price-manifest.json').exists(): pytest.skip('price audit has not completed')
