@@ -33,7 +33,7 @@ def main():
  pitch_archive=json.loads(fixed_file(PIT,'c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66'))
  if len(rows)!=723:raise ValueError('2023_cohort_not_723')
  line=[json.loads(x) for x in (CACHE/'official-lineups-2023-final.jsonl').read_text(encoding='utf8').splitlines()];line={x['fixture_id']:x for x in line if x['fixture_id'] in rows}
- starters=[json.loads(x) for x in (CACHE/'actual-starters-2023.jsonl').read_text(encoding='utf8').splitlines()]
+ starters=[json.loads(x) for x in (CACHE/'actual-starters-2023-final.jsonl').read_text(encoding='utf8').splitlines()]
  if len(starters)!=len({x['fixture_id'] for x in starters}):raise ValueError('starter_duplicate')
  starters={x['fixture_id']:x for x in starters}
  if set(rows)!=set(line) or set(rows)!=set(starters):raise ValueError('capture_not_finished')
@@ -73,6 +73,11 @@ def main():
     hitters[side]=items
   except (ValueError,KeyError,TypeError,IndexError) as exc:reasons.append('lineup:'+str(exc))
   try:
+   if st.get('failure_evidence'):
+    failure=st['failure_evidence'];failed=(CACHE/'raw'/failure['sha256']).read_bytes()
+    if sha(failed)!=failure['sha256'] or len(failed)!=failure['bytes']:raise ValueError('failure_raw_sha_mismatch')
+    raws[failure['sha256']]=failed
+   if st.get('actual_pitcher_record_evidence'):raw(st['actual_pitcher_record_evidence'])
    if st['status']!='ok':raise ValueError(st.get('reason','starter_capture_unavailable'))
    if schedule is None:raise ValueError('schedule_unavailable')
    bm=st['actual_pitcher_record_evidence'];params=bm.get('params') or {}
@@ -84,7 +89,11 @@ def main():
      if claim!=pid:raise ValueError('starter_numeric_claim_mismatch')
     else:
      candidates={str(x['pcode']) for x in ((pitch_archive.get(fid) or {}).get('data') or {}).get(side,[]) if str(x.get('name') or '').strip()==claim and str(x.get('pcode') or '').isdigit()}
-     if candidates!={pid} or name!=claim:raise ValueError('starter_name_mapping_ambiguous')
+     if candidates!={pid}:
+      scheduled=(rec.get('starting_pitchers') or {}).get(side) or {};sname=str(scheduled.get('name') or '').strip();sid=str(scheduled.get('player_id') or '')
+      candidates={str(x['pcode']) for x in ((pitch_archive.get(fid) or {}).get('data') or {}).get(side,[]) if str(x.get('name') or '').strip()==sname and str(x.get('pcode') or '').isdigit()}
+      if sid!=pid or candidates!={pid}:raise ValueError('starter_name_mapping_ambiguous')
+     if name!=claim:raise ValueError('starter_profile_name_mismatch')
     return pid,name,ev
    actual=p.parse_box(json.loads(raw(st['actual_pitcher_record_evidence'])),game,rec,resolve)
    if actual!=st['starters']:raise ValueError('starter_recheck_mismatch')
@@ -92,7 +101,7 @@ def main():
   except (ValueError,KeyError,TypeError,IndexError) as exc:reasons.append('starter:'+str(exc))
   stats['lineup_complete']+=int(hitters is not None);stats['starter_complete']+=int(pitchers is not None);stats['actual_complete']+=int(not reasons)
   for reason in reasons:stats['excluded_'+reason]+=1
-  results.append({'fixture_id':fid,'season':2023,'date':row['kickoff_at'][:10] if row.get('kickoff_at') else fid[:4]+'-'+fid[4:6]+'-'+fid[6:8],'official_game_id':rec.get('official_game_id'),'fixture_match_basis':rec.get('fixture_match_basis'),'teams':{'home':row['home_id'],'away':row['away_id']},'hitters':hitters,'starters':pitchers,'status':'complete' if not reasons else 'excluded','exclusions':reasons,'kickoff_conflict':rec.get('kickoff_conflict'),'source_kind':'official_retrospective_identity_only','historical_publication_time_proven':False,'historical_receipt_proven':False,'target_player_stats_used_as_features':False})
+  results.append({'fixture_id':fid,'season':2023,'date':row['kickoff_at'][:10] if row.get('kickoff_at') else fid[:4]+'-'+fid[4:6]+'-'+fid[6:8],'official_game_id':rec.get('official_game_id'),'fixture_match_basis':rec.get('fixture_match_basis'),'teams':{'home':row['home_id'],'away':row['away_id']},'hitters':hitters,'starters':pitchers,'status':'complete' if not reasons else 'excluded','exclusions':reasons,'previous_starter_exclusion':st.get('previous_exclusion_reason'),'kickoff_conflict':rec.get('kickoff_conflict'),'source_evidence':{'schedule':rec.get('schedule_evidence'),'lineup':rec.get('lineup_evidence'),'actual_pitcher_record':st.get('actual_pitcher_record_evidence'),'failure':st.get('failure_evidence')},'source_kind':'official_retrospective_identity_only','historical_publication_time_proven':False,'historical_receipt_proven':False,'target_player_stats_used_as_features':False})
  out=HERE/'actual-rosters-2023.jsonl.gz';rawout=HERE/'actual-rosters-2023-raw.jsonl.gz';outsha=gzwrite(out,results);rawsha=gzwrite(rawout,({'sha256':k,'bytes':len(v),'raw_base64':base64.b64encode(v).decode('ascii')} for k,v in sorted(raws.items())))
  m={'status':'finalized_2023_source_only','population':723,'counts':dict(stats),'rows_sha256':outsha,'raw_evidence_bundle_sha256':rawsha,'source_rows_commit':FROZEN,'official_raw_response_count':len(raws),'historical_receipt_proven':0,'historical_publication_time_proven':0,'limitations':['Official hitter IDs crossmatched with same-game team/order identity and current official profile, never target scores/statistics.','Pitcher must be an official unique first starting-flag row matching official schedule team and ID/name.','Official records and identity verification are retrospective; historical announcement and receipt were not proven.','No downstream training/evaluation performed.']}
  tmp=HERE/'actual-rosters-2023-manifest.json.tmp';tmp.write_text(json.dumps(m,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf8',newline='\n');os.replace(tmp,HERE/'actual-rosters-2023-manifest.json');print(json.dumps(m,ensure_ascii=False))

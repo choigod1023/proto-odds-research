@@ -202,6 +202,7 @@ class Fetcher:
             if digest(raw) != meta['sha256']:
                 raise StopCapture('cached_sha256_mismatch')
             if meta.get('http_status') != 200:
+                self.last_failure_meta=meta
                 raise StopCapture('cached_http_status:'+str(meta.get('http_status')))
             return raw, meta
         if self.requests >= self.limit:
@@ -237,6 +238,7 @@ class Fetcher:
         (self.path/'raw'/meta['sha256']).write_bytes(raw)
         meta_path.write_text(json.dumps(meta, ensure_ascii=False, sort_keys=True), encoding='utf8')
         if r.status_code != 200:
+            self.last_failure_meta=meta
             raise StopCapture('http_status:'+str(r.status_code))
         return raw, meta
 

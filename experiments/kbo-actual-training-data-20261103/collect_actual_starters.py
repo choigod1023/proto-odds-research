@@ -45,7 +45,7 @@ def parse_box(body,schedule,source,resolver=None):
   else:
    if resolver is None:raise ValueError(side+'_official_box_schedule_starter_mismatch')
    actual_id,actual_name,profile=resolver(side,raw_id)
-   ev={'basis':'official_completed_boxscore_unique_first_starting_flag_and_official_pitcher_profile','schedule_matches_actual':False,'schedule_player_id':expected_id,'schedule_name':expected_name,'profile':profile}
+   ev={'basis':'official_completed_boxscore_unique_first_starting_flag_and_official_pitcher_profile','schedule_matches_actual':False,'schedule_id_matches_actual':actual_id==expected_id,'schedule_player_id':expected_id,'schedule_name':expected_name,'profile':profile}
   if actual_id in seen:raise ValueError('starter_id_duplicate')
   seen.add(actual_id)
   ev.update(box_row_player_field=raw_id,box_table_index=i,schedule_team_id=str(schedule[side.upper()+'_ID']))
@@ -53,7 +53,8 @@ def parse_box(body,schedule,source,resolver=None):
  return ret
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('--season',required=True,type=int,choices=(2023,2026));ap.add_argument('--max-requests',required=True,type=int);ap.add_argument('--cached-only',action='store_true');args=ap.parse_args()
+ ap=argparse.ArgumentParser();ap.add_argument('--season',required=True,type=int,choices=(2023,2026));ap.add_argument('--max-requests',required=True,type=int);ap.add_argument('--cached-only',action='store_true');ap.add_argument('--retry-excluded',action='store_true');ap.add_argument('--fixture',action='append');args=ap.parse_args()
+ if args.retry_excluded and not args.fixture:ap.error('retry requires explicit fixture IDs')
  if args.max_requests<0:raise ValueError('negative request budget')
  if args.season==2026:
   official=Path(r'C:\Users\user\Documents\Codex\klu\experiments\kbo-official-lineups-20261103\official-lineups-2026.jsonl');raw=official.read_bytes()
@@ -66,8 +67,12 @@ def main():
   groups=json.loads((ROWS.parent/'official-full-2026-cohorts.jsonl').read_text(encoding='utf8'))
   selected={k:v for k,v in selected.items() if k in set(groups['all'])}
   if len(selected)!=709:raise ValueError('2026_fixed_709_cohort_mismatch')
+ if args.fixture:
+  if not set(args.fixture)<=set(selected):raise ValueError('retry_fixture_outside_fixed_cohort')
+  selected={k:v for k,v in selected.items() if k in set(args.fixture)}
  records={r['fixture_id']:r for r in records if r['fixture_id'] in selected}
- path=CACHE/('actual-starters-'+str(args.season)+'.jsonl');prior=[json.loads(s) for s in path.read_text(encoding='utf8').splitlines()] if path.exists() else []
+ suffix='-retry' if args.retry_excluded else ''
+ path=CACHE/('actual-starters-'+str(args.season)+suffix+'.jsonl');prior=[json.loads(s) for s in path.read_text(encoding='utf8').splitlines()] if path.exists() else []
  done={x['fixture_id'] for x in prior}
  if len(prior)!=len(done):raise ValueError('duplicate_checkpoint')
  fetch=lineups.Fetcher(CACHE,args.max_requests,1.5);fetch.phase='actual-starters-'+str(args.season);stop='complete'
@@ -92,6 +97,10 @@ def main():
     box=archive.get(fid) or {};players=((box.get('data') or {}).get(side) or [])
     candidates={str(x['pcode']) for x in players if str(x.get('name') or '').strip()==claim and str(x.get('pcode') or '').isdigit()}
     if claim.isdigit():candidates={claim}
+    if not candidates and not claim.isdigit():
+     scheduled=(source.get('starting_pitchers') or {}).get(side) or {};scheduled_id=str(scheduled.get('player_id') or '');scheduled_name=str(scheduled.get('name') or '').strip()
+     old={str(x['pcode']) for x in players if str(x.get('name') or '').strip()==scheduled_name and str(x.get('pcode') or '').isdigit()}
+     if old=={scheduled_id}:candidates=old
     if len(candidates)!=1:raise ValueError(side+'_actual_starter_identity_missing_or_ambiguous')
     pid=next(iter(candidates));pr,pm=fetch.fetch('GET',lineups.ROOT+'/Record/Player/PitcherDetail/Basic.aspx',{'playerId':pid})
     name=lineups.profile_name(pr)
@@ -101,11 +110,15 @@ def main():
    record={'fixture_id':fid,'season':args.season,'date':g['G_DT'],'official_game_id':g['G_ID'],'status':'ok','starters':starters,'schedule_evidence':sm,'actual_pitcher_record_evidence':bm,'historical_publication_time_proven':False,'historical_receipt_proven':False}
   except lineups.StopCapture as exc:
    if args.cached_only:continue
-   stop=str(exc);break
+   failure=getattr(fetch,'last_failure_meta',None)
+   if failure and 400<=failure.get('http_status',0)<500 and failure.get('http_status')!=429:
+    record={'fixture_id':fid,'season':args.season,'status':'excluded','reason':'official_source_http_'+str(failure['http_status']),'schedule_evidence':sm,'actual_pitcher_record_evidence':bm,'failure_evidence':failure}
+    fetch.last_failure_meta=None
+   else:stop=str(exc);break
   except (ValueError,KeyError,IndexError,TypeError,json.JSONDecodeError) as exc:
    record={'fixture_id':fid,'season':args.season,'status':'excluded','reason':str(exc)[:200],'schedule_evidence':sm,'actual_pitcher_record_evidence':bm}
   with path.open('a',encoding='utf8',newline='\n') as out:out.write(json.dumps(record,ensure_ascii=False,sort_keys=True)+'\n')
   done.add(fid)
  info={'season':args.season,'population':len(selected),'processed':len(done),'remaining':len(selected)-len(done),'requests_started':fetch.requests,'stop_reason':stop,'finished_at':datetime.now(timezone.utc).isoformat()}
- (CACHE/('actual-starters-'+str(args.season)+'-progress.json')).write_text(json.dumps(info,indent=2),encoding='utf8');print(json.dumps(info))
+ (CACHE/('actual-starters-'+str(args.season)+suffix+'-progress.json')).write_text(json.dumps(info,indent=2),encoding='utf8');print(json.dumps(info))
 if __name__=='__main__':main()
