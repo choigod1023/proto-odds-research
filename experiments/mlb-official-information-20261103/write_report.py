@@ -31,7 +31,7 @@ text=f'''# MLB 공식 원천 연결 — 2026-11-03
 
 실제 HTTP 수신 기록·요청 파라미터·응답 상태·원문 SHA는 `evidence/*.meta.json`, 압축 원문은 해당 `.json.gz`에 있다. 압축을 풀면 원문 바이트가 된다. `manifest.json`은 전체 입력 해시와 수집 현황을 기록한다. 당초 최신 시즌을 2025년으로 잘못 선택해 24경기의 예비 원문을 받은 뒤 2026년 수집 전에 선정 규칙을 정정했다. 2025년 예비 자료는 보존하되 2026년 표본에 포함하지 않았다. 앞선 간이 탐색 4요청은 수신 로그가 없어 본 증거 집계에 포함하지 않는다.
 
-재개 명령: `python -X utf8 experiments/mlb-official-information-20261103/collect.py capture`. 이미 해시 검증된 응답은 재요청하지 않는다. 실행 중 lock은 중복 실행을 막는다. 불완전한 캐시 쌍 또는 중단 표식은 자동 덮어쓰지 않으며 확인이 필요하다. 403/429 등 실패를 감지한 새 실행기는 실패를 보존하고 중단한다. 원문 검증: `python -X utf8 experiments/mlb-official-information-20261103/verify_source.py`, `python -X utf8 experiments/mlb-official-information-20261103/verify_integrity.py`; 단위 검사: `python -X utf8 -m pytest tests/test_mlb_official_source_20261103.py -q -p no:cacheprovider`. 이 작업은 운영 모델·원장·자동화·배포를 변경하지 않았다.
+재개 명령: `python -X utf8 experiments/mlb-official-information-20261103/collect.py capture`. 이미 해시 검증된 응답은 재요청하지 않는다. 실행 중 lock은 중복 실행을 막는다. 불완전한 캐시 쌍 또는 중단 표식은 자동 덮어쓰지 않으며 확인이 필요하다. 403/429 등 실패를 감지한 새 실행기는 실패를 보존하고 중단한다. 원문 검증: `python -X utf8 experiments/mlb-official-information-20261103/verify_source.py`, `python -X utf8 experiments/mlb-official-information-20261103/verify_integrity.py`; 단위 검사: `python -X utf8 -m pytest tests/test_mlb_official_source_20261103.py -q -p no:cacheprovider`. 독립 복제본 두 곳에서 `core.autocrlf=true`와 `false`로 각각 checkout한 621개 산출물의 Git blob 해시 불일치는 0이었다. 이 검사는 해당 시점 커밋 `cadc765`의 바이트 보존만 확인한다. 이 작업은 운영 모델·원장·자동화·배포를 변경하지 않았다.
 '''
 (P/'report.md').write_text(text,encoding='utf8',newline='\n')
 print('report generated')
