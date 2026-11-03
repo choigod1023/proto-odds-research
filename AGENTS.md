@@ -12,3 +12,9 @@
 - Distinguish the requested comparison from the experiment actually executed. Never substitute an odds/form-only experiment for a requested tipster/model/hybrid comparison and report that request complete.
 - Every result must identify the actual input sources, model definitions, matched event counts, time splits, and execution artifact. Clearly state omitted inputs and unverified claims.
 - A research PR merge preserves code and evidence; it does not mean model adoption, production deployment, or proof of future profit.
+
+# Research worker preference
+
+- For prediction research, use available native worker sessions to separate data linkage, model development, and independent review; the main session owns planning and synthesis. See `.cursor/rules/research-workers.mdc`.
+- Follow the user's current league order: KBO first, then K League, then other sports. A later user instruction can change this order.
+- Do not start repetitive research or extra schedules without new eligible input or an explicit new manual hypothesis. Worker use does not authorize automatic model adoption, merge, deployment, or real betting.

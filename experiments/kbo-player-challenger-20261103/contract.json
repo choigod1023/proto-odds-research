@@ -1,0 +1,21 @@
+{
+  "schema_version": "kbo-player-challenger-input-v1",
+  "format": "jsonl",
+  "unit": "unique_fixture_and_full_game_market",
+  "required_keys": ["fixture_id", "league", "season", "kickoff_at", "decision_at", "home_id", "away_id", "market", "availability_tier", "features", "sources"],
+  "league": "KBO",
+  "availability_tiers": ["point_in_time_verified", "retrospective_unproven"],
+  "market": {
+    "nullable_for_score_training_only": true,
+    "required_keys": ["market_id", "kind", "selections", "odds_observed_at", "settlement_rule"],
+    "kind": ["full_game_2way", "full_game_3way"],
+    "selections": "mapping of stable selection key to decimal odds; complete for the exact same product"
+  },
+  "features": "mapping of feature name to {value, available_at, availability_basis, source_id}; null is missing, not an observed zero",
+  "sources": "list of {source_id, path_or_url, sha256, received_at, availability_basis}; no invented receipt timestamps",
+  "label_storage": "separate labels.jsonl keyed by fixture_id and market_id; include official scores/result, received_at, revision and settlement rule",
+  "pregame_cutoff_minutes": 30,
+  "existing_wallet_monthly_net_loss_limit_krw": 50000,
+  "production_changes": false,
+  "automatic_adoption": false
+}
