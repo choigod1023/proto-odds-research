@@ -1,0 +1,23 @@
+{
+  "status": "ready_for_data",
+  "branch": "codex/kbo-player-model-20261103",
+  "base": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "coordinator_protocol": "867afbdd",
+  "model_protocol": "b12cf82a",
+  "ablation_addendum": "61f3ec7d",
+  "retrospective_addendum": "9babf4e1",
+  "actual_input_path": null,
+  "actual_input_sha256": null,
+  "data_worker_expected": "experiments/kbo-player-data-20261103/{rows.jsonl,labels.jsonl,inventory.json,handoff.json}",
+  "actual_split_counts": null,
+  "actual_metrics": null,
+  "model": "ridge Poisson score regression; conditional independence; separate team, starter, lineup, bullpen, starter_lineup, player modes",
+  "fixed_grid": [1, 10, 100],
+  "splits": "through 2024 train, 2025 validation, 2026 diagnostic; 7-day fold boundary; minimum 100/30/30",
+  "tests": ["python -m pytest -q tests/test_kbo_player_model_20261103.py tests/test_devig.py tests/test_market_residual_experiment.py", "python -X utf8 experiments/kbo-player-model-20261103/run.py --help"],
+  "targeted_test_result": "34 passed (only synthetic model data)",
+  "limitations": ["actual input not yet available or executed", "feature contract and tier mapping require independent source audit", "KBO retrospective 2026 not independent blind", "market requires explicit source_id and verified prior receipt", "tipster/current/9:1 inputs unavailable", "5만원 capped wallet replay not implemented; equal unit simulation is not actual wallet", "source timestamps alone do not prove provenance", "prediction artifact must be frozen and sha provided before test scoring"],
+  "next": "Data worker delivers exact files and checksums; coordinator independently verifies completeness and requests second phase before any real fit or evaluation.",
+  "pr_url": null,
+  "head": "see git HEAD"
+}
