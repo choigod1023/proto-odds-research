@@ -1,0 +1,25 @@
+{
+  "code_commit": "0d7cffe4173855c1e6b2ef5ebc9af3ba10c76ae5",
+  "development_commit": "0277fa14b2e7ee2f950d683cf0093f9f1b6d788d",
+  "development_sha256": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45",
+  "final_fit_freeze_gate": "code verifies exact committed development blob before loading/fitting; execution order awaits final artifact",
+  "final_model_audited": false,
+  "fixture_adapter_exact": true,
+  "four_models": [
+    "M0_actual",
+    "M0_projected",
+    "M2_actual",
+    "M2_projected"
+  ],
+  "gradient_max": {
+    "M0_actual": 0.0570714703345121,
+    "M0_projected": 0.008288587580249142,
+    "M2_actual": 0.0004750338485541711,
+    "M2_projected": 0.0005485356753989201
+  },
+  "independently_checked_predictions": 5848,
+  "max_probability_error": 3.9641900873021996e-14,
+  "train_n": 1451,
+  "train_only_spec_exact": true,
+  "validation_n": 731
+}
