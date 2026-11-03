@@ -1,0 +1,35 @@
+{
+  "role": "nba_official_source_worker",
+  "league": "NBA",
+  "status": "partial_source_access_blocked_census",
+  "branch": "codex/nba-official-information-20261103",
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "protocol_sha": "9e56cde975dbc530dbb91958091a30826de13521",
+  "selection_cohort_2025_26_identified": 0,
+  "target_minimum": 100,
+  "discovery_boxscores": 3,
+  "postgame_starter_fives": 6,
+  "calendar_dates": 27,
+  "calendar_event_count_unfiltered": 198,
+  "strict_pit": 0,
+  "price_qualified_matches": 0,
+  "source_manifest": "manifest.json",
+  "limitations": [
+    "NBA official gamecard API 503, CDN 403, stats timeout; official fixture IDs not enumerated",
+    "2025 injury PDF 403; earlier 2026 PDF 200 body not retained; no source-byte PIT verification",
+    "No model fit, ROI or forecast result; 3 discovery games are not the preregistered selection",
+    "Betman cache time-only candidates cannot identify same game and product"
+  ],
+  "tests": [
+    "python -m pytest -q tests/test_nba_official_20261103.py",
+    "git diff --cached --check",
+    "raw manifest SHA-256 verification",
+    "checkout-index autocrlf true/false byte comparison"
+  ],
+  "next_data_needed": [
+    "Official game ID census for 27 designated dates with actual acquisition metadata",
+    "Official pregame injury and confirmed lineup document bytes with claimed publication and actual receipt times",
+    "Same fixture and market complete price vector and settlement rules"
+  ],
+  "pr_url": null
+}
