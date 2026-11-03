@@ -1,0 +1,78 @@
+{
+  "fixed_data_commit": "58556de08c64604276de8682373d3ccc8d535d7c",
+  "meaning": "numeric prior-history availability, not fitted role-vocabulary coverage or model performance",
+  "counts": {
+    "train-actual": {
+      "2023": {
+        "games": 723,
+        "team_games": 1446,
+        "lineup_missing": 0,
+        "selected_batter_slots": 13014,
+        "batter_slots_with_prior_history": 12864,
+        "starter_with_prior_history": 1371
+      },
+      "2024": {
+        "games": 728,
+        "team_games": 1456,
+        "lineup_missing": 0,
+        "selected_batter_slots": 13104,
+        "batter_slots_with_prior_history": 13080,
+        "starter_with_prior_history": 1424
+      },
+      "2025": {
+        "games": 731,
+        "team_games": 1462,
+        "lineup_missing": 0,
+        "selected_batter_slots": 13158,
+        "batter_slots_with_prior_history": 13134,
+        "starter_with_prior_history": 1435
+      }
+    },
+    "train-projected": {
+      "2023": {
+        "games": 723,
+        "team_games": 1446,
+        "lineup_missing": 12,
+        "starter_with_prior_history": 1383,
+        "selected_batter_slots": 12906,
+        "batter_slots_with_prior_history": 12906
+      },
+      "2024": {
+        "games": 728,
+        "team_games": 1456,
+        "lineup_missing": 7,
+        "selected_batter_slots": 13041,
+        "batter_slots_with_prior_history": 13041,
+        "starter_with_prior_history": 1448
+      },
+      "2025": {
+        "games": 731,
+        "team_games": 1462,
+        "lineup_missing": 29,
+        "selected_batter_slots": 12897,
+        "batter_slots_with_prior_history": 12897,
+        "starter_with_prior_history": 1437
+      }
+    },
+    "test-actual": {
+      "2026": {
+        "games": 709,
+        "team_games": 1418,
+        "lineup_missing": 0,
+        "selected_batter_slots": 12762,
+        "batter_slots_with_prior_history": 12745,
+        "starter_with_prior_history": 1387
+      }
+    },
+    "test-projected": {
+      "2026": {
+        "games": 709,
+        "team_games": 1418,
+        "lineup_missing": 22,
+        "selected_batter_slots": 12564,
+        "batter_slots_with_prior_history": 12564,
+        "starter_with_prior_history": 1418
+      }
+    }
+  }
+}
