@@ -1,0 +1,49 @@
+{
+  "schema": "manual-actual-training-dispatch-v1",
+  "contract_commit": "c5407e9b",
+  "contract_sha256": "512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480",
+  "started_at_utc": "2026-11-03T05:20:10.434019+00:00",
+  "workers": [
+    {
+      "role": "2023_and_paired_data_integration",
+      "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+      "workspace": "C:/Users/user/Documents/Codex/kbtdata",
+      "status": "active",
+      "progress_path": "C:/Users/user/Documents/Codex/kbtdata/.research-state/kbo-actual-2023/progress.json"
+    },
+    {
+      "role": "2024_official_rosters",
+      "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
+      "workspace": "C:/Users/user/Documents/Codex/kbt24",
+      "status": "active",
+      "progress_path": "C:/Users/user/Documents/Codex/kbo-actual-2024-20261103/progress.json"
+    },
+    {
+      "role": "2025_official_rosters",
+      "thread_id": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
+      "workspace": "C:/Users/user/Documents/Codex/kbt25",
+      "status": "active",
+      "progress_path": "C:/Users/user/Documents/Codex/kbt25/experiments/kbo-actual-lineups-2025-20261103/capture-state/progress.json"
+    },
+    {
+      "role": "paired_M0_M2_refit",
+      "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
+      "workspace": "C:/Users/user/Documents/Codex/kbtmodel",
+      "status": "preparing"
+    },
+    {
+      "role": "independent_source_and_metric_audit",
+      "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
+      "workspace": "C:/Users/user/Documents/Codex/kbtreview",
+      "status": "preparing"
+    }
+  ],
+  "actual_receipt_proven": false,
+  "automatic_model_adoption": false,
+  "production_changes": false,
+  "automation_queue_changes": false,
+  "wallet_changes": false,
+  "existing_monthly_simulation_loss_limit_krw": 50000,
+  "parent_contract_validation": "Git blob SHA, cohort and frozen settings, true/false autocrlf clones passed",
+  "progress_is_not_final_verified_data": true
+}
