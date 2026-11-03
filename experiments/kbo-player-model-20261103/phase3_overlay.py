@@ -114,6 +114,7 @@ def classify(row,label,rec,listing,official,physical_counts):
     if label['status']!='final':return None,'nonfinal_label'
     old=row['market']
     if old is not None:
+        if not isinstance(old.get('market_id'),str) or not old['market_id'].strip():return None,'original_market_id_missing'
         if old.get('kind')!='full_game_2way' or old.get('settlement_rule')!='draw_void_refund' or set(old.get('selections',{}))!={'home','away'}:return None,'original_product_mismatch'
         if not all(valid_price(v) for v in old['selections'].values()):return None,'original_price_invalid'
         if row['kickoff_at'] is None:return None,'original_kickoff_missing'

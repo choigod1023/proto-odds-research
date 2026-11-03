@@ -58,6 +58,8 @@ def test_original_price_must_have_valid_product_and_clock():
     assert m.classify(row,label,None,listing,official,{})[1]=='original_price_invalid'
     row['market']['selections']['home']=1.7;row['kickoff_at']=None
     assert m.classify(row,label,None,listing,official,{})[1]=='original_kickoff_missing'
+    row['market']['market_id']=''
+    assert m.classify(row,label,None,listing,official,{})[1]=='original_market_id_missing'
 
 def test_closed_listing_and_worker_manifest_tampering_rejected(tmp_path,monkeypatch):
     import gzip,hashlib,json
