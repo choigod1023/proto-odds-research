@@ -1,5 +1,5 @@
 {
-  "status": "audit_complete_correction_required",
+  "status": "ready_for_overlay_results",
   "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "branch": "codex/kbo-player-review-20261103",
   "protocol_commit": "867afbdd60ec69bd8b5d74bf75c8418c9ae49698",
@@ -12,12 +12,12 @@
   ],
   "data_rows_validated": 2913,
   "model_runs": 0,
-  "tests_pending": "Correction of price-provenance note; prospective receipt, operating/tipster/9:1 comparisons, wallet replay and post-recovery new-price cohort remain unverified.",
+  "tests_pending": "Model phase 3 overlay independent validation; post-observation new-lineup evidence; preserve original 354-case results.",
   "scope": "No production actions; no performance claims; contract-only initial review.",
   "commit": "see git history",
   "pr": "https://github.com/choigod1023/proto-odds-research/pull/510",
   "review_spec_commit": "3e1d0bcf",
-  "review_stage": "immutable model phase 4 commit 09b259b5 independently audited",
+  "review_stage": "immutable official price commit 9bcbd53 audited; model overlay not audited",
   "audit_report": "experiments/kbo-player-independent-review-20261103/data-audit-96eca22.md",
   "findings": [
     "Target actual lineup/starter selection leaks into prior aggregates despite prior-date provenance; projected model must reconstruct from prior history only.",
@@ -36,5 +36,18 @@
   "results_sha256": "8c8776c43dc0013056026c83c3b5afaf2d462a7de3e346438b2e71e536408562",
   "model_audit_report": "experiments/kbo-player-independent-review-20261103/phase4-model-audit-09b259b5.md",
   "phase4_finding": "run.py:62 and archived_price_scenario.comparison_note incorrectly assert independently evidenced historical price timing; preserve original and correct as unverified in a new artifact.",
-  "phase4_verification": "Independent 2913x11 adapter conversion, 4356 rate/distribution predictions, 354x6+market Decimal settlement, 14-week bootstrap and strict/target-future poison checks."
+  "phase4_verification": "Independent 2913x11 adapter conversion, 4356 rate/distribution predictions, 354x6+market Decimal settlement, 14-week bootstrap and strict/target-future poison checks.",
+  "official_price_commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
+  "official_prices_sha256": "d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117",
+  "official_price_audit_report": "experiments/kbo-player-independent-review-20261103/official-price-audit-9bcbd53.md",
+  "official_price_validation": {
+    "restored": 373,
+    "draws": 56,
+    "known_kickoff_matched": 124,
+    "kickoff_unverified": 249,
+    "source_documents_hash_verified": 104,
+    "detail_rounds": 102,
+    "tests_passed": 2
+  },
+  "official_price_limitations": "Historical official response fields only; all receipts postgame, no actual historical price time or execution proof. 249 match without source kickoff and require separate cohort. Archived score matching is not independent KBO official result authentication."
 }
