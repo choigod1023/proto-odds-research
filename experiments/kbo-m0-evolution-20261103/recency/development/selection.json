@@ -1,0 +1,97 @@
+{
+  "baseline": "common/inputs/baseline-reference.json:development_predictions",
+  "configurations": {
+    "decay30": {
+      "half_life": 30,
+      "ordered": false,
+      "shrink": false
+    },
+    "decay90": {
+      "half_life": 90,
+      "ordered": false,
+      "shrink": false
+    },
+    "ordered_decay30_shrink": {
+      "half_life": 30,
+      "ordered": true,
+      "shrink": true
+    },
+    "shrink": {
+      "half_life": null,
+      "ordered": false,
+      "shrink": true
+    }
+  },
+  "contract_sha256": "ced8a96f42425cac0f532fe5e3b4f21252e570bc32d30941be0494b0c95a9ba6",
+  "metrics": {
+    "baseline": {
+      "accuracy": 0.5376196990424077,
+      "brier": 0.5391012015082852,
+      "decisive": 709,
+      "decisive_accuracy": 0.5543018335684062,
+      "decisive_brier": 0.49784198465447466,
+      "decisive_hits": 393,
+      "decisive_logloss": 0.6911346317435354,
+      "hits": 393,
+      "logloss": 0.8627602304437175,
+      "n": 731
+    },
+    "decay30": {
+      "accuracy": 0.533515731874145,
+      "brier": 0.5399824909023537,
+      "decisive": 709,
+      "decisive_accuracy": 0.5500705218617772,
+      "decisive_brier": 0.4986410169650408,
+      "decisive_hits": 390,
+      "decisive_logloss": 0.6920937095166073,
+      "hits": 390,
+      "logloss": 0.8639951248381985,
+      "n": 731
+    },
+    "decay90": {
+      "accuracy": 0.5362517099863201,
+      "brier": 0.5393673777468894,
+      "decisive": 709,
+      "decisive_accuracy": 0.5528913963328632,
+      "decisive_brier": 0.49800883969681425,
+      "decisive_hits": 392,
+      "decisive_logloss": 0.6913422056708959,
+      "hits": 392,
+      "logloss": 0.8631660530097192,
+      "n": 731
+    },
+    "ordered_decay30_shrink": {
+      "accuracy": 0.5512995896032832,
+      "brier": 0.5384382556615197,
+      "decisive": 709,
+      "decisive_accuracy": 0.5684062059238364,
+      "decisive_brier": 0.49710241669948874,
+      "decisive_hits": 403,
+      "decisive_logloss": 0.6904946060581534,
+      "hits": 403,
+      "logloss": 0.8622863359301395,
+      "n": 731
+    },
+    "shrink": {
+      "accuracy": 0.5540355677154583,
+      "brier": 0.535184865912765,
+      "decisive": 709,
+      "decisive_accuracy": 0.5712270803949224,
+      "decisive_brier": 0.49371209876729094,
+      "decisive_hits": 405,
+      "decisive_logloss": 0.687116556109291,
+      "hits": 405,
+      "logloss": 0.8584700602037005,
+      "n": 731
+    }
+  },
+  "ranking": [
+    "shrink",
+    "ordered_decay30_shrink",
+    "baseline",
+    "decay90",
+    "decay30"
+  ],
+  "selected": "shrink",
+  "used2026_outcomes": false
+}
