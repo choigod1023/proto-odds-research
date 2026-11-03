@@ -1,0 +1,33 @@
+{
+  "2026_가족별원본예측검사": {
+    "baseline": 1418,
+    "distribution": 1418,
+    "draw_hurdle": 1418,
+    "opponent": 1418,
+    "recency": 1418
+  },
+  "2026_앙상블평균검사": 1418,
+  "2026결과열람": false,
+  "개발731_승부적중": {
+    "baseline": 393,
+    "distribution": 395,
+    "opponent": 393,
+    "recency": 405
+  },
+  "개발앙상블_승부적중": 397,
+  "상태": "전역선택_통합예측_감사통과",
+  "선택SHA256": "ec6fc195fcb8dffde75a73f00e482332048de395e2665327c1af1c2ab15c832a",
+  "예측SHA256": "8749562073997c4e2374effe3b53fa41efcd2e4e1a60f38ab658496633e732b4",
+  "유의사항": "전역 선택과 통합 예측은 같은 Git 커밋에서 고정; 각 family 개발 선택은 각 family 최종 fit보다 먼저 고정",
+  "전역선택": "recency",
+  "전역순위": [
+    "recency",
+    "distribution",
+    "baseline",
+    "opponent"
+  ],
+  "통합커밋": "627cadca9096acae18a30f72484c342edab7acd3",
+  "평균_최대오차": 0.0,
+  "합성_2026_레이블_양극단_선택불변": true,
+  "후보원본해시검사": 12
+}
