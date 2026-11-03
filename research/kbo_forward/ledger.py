@@ -19,6 +19,16 @@ def utcnow():return datetime.now(timezone.utc)
 def moment(x):return f.moment(x)
 def contract_sha():return digest((Path(__file__).parent/"contract.json").read_bytes())
 
+MODEL_TEAM_NAMES={"HH":"한화","KT":"KT","SS":"삼성","OB":"두산","LG":"LG","WO":"키움","HT":"KIA","LT":"롯데","NC":"NC","SK":"SSG"}
+
+def infer_frozen(row):
+    """Official IDs stay in the ledger; frozen coefficients use training labels."""
+    model_row=copy.deepcopy(row)
+    for key in ("home_id","away_id"):
+        if row[key] not in MODEL_TEAM_NAMES:raise ValueError("unknown official team code")
+        model_row[key]=MODEL_TEAM_NAMES[row[key]]
+    return f.forecast(model_row)
+
 def price_terms(market):
     kind=market["kind"]
     if kind not in ("full_game_2way","full_game_3way"):raise ValueError("only full-game moneyline products")
@@ -56,7 +66,7 @@ def append(path,make):
         finally:os.close(fd)
         return record
 
-def capture(payload,path,clock=utcnow,infer=f.forecast):
+def capture(payload,path,clock=utcnow,infer=infer_frozen):
     first=clock();kickoff=validate_model_snapshot(payload,first)
     if first-moment(payload["evidence"]["odds"]["received_at"])>timedelta(minutes=10):raise ValueError("price receipt stale at capture")
     predictions,hashes=infer(payload["row"])
@@ -65,7 +75,7 @@ def capture(payload,path,clock=utcnow,infer=f.forecast):
         q=p["probabilities_3way"];two=p["probabilities_2way"]
         if set(q)!=set(SIDES) or any(not math.isfinite(v) or not 0<=v<=1 for v in q.values()) or abs(sum(q.values())-1)>1e-9:raise ValueError("invalid model probabilities")
         den=q["home"]+q["away"]
-        if den<=0 or set(two)!={"home","away"} or any(abs(two[k]-q[k]/den)>1e-9 for k in two):raise ValueError("invalid conditional probabilities")
+        if den<=0 or set(two)!={"home","away"} or any((not math.isfinite(two[k]) or abs(two[k]-q[k]/den)>1e-9) for k in two):raise ValueError("invalid conditional probabilities")
         if p["fixture_id"]!=payload["row"]["fixture_id"] or p["event_date"]!=payload["row"]["event_date"]:raise ValueError("forecast identity mismatch")
     finished=clock()
     if finished<first:raise ValueError("local clock moved backwards during prediction")
@@ -74,17 +84,17 @@ def capture(payload,path,clock=utcnow,infer=f.forecast):
     key=digest(canonical({"official_game_id":payload["event"]["official_game_id"],"season":payload["event"]["season"],"product":kind}))
     def make(rows):
         if any(r["type"]=="capture" and r["event_key"]==key for r in rows):return None
-        return {"type":"capture","event_key":key,"received_at":first.isoformat(),"frozen_at":finished.isoformat(),"input":payload,"input_sha256":digest(canonical(payload)),"models":predictions,"model_sha256":hashes,"contract_sha256":contract_sha(),"source_policy":POLICY,"source_verification":"direct_fetch_parsed_identity_checked_local_clock","actual_execution_verified":False,"eligible_for_paired_paper_comparison":True}
+        return {"type":"capture","event_key":key,"received_at":first.isoformat(),"frozen_at":finished.isoformat(),"input":payload,"input_sha256":digest(canonical(payload)),"models":predictions,"model_sha256":hashes,"model_team_encoding":"official_codes_to_frozen_training_names_v1","contract_sha256":contract_sha(),"source_policy":POLICY,"source_verification":"direct_fetch_parsed_identity_checked_local_clock","actual_execution_verified":False,"eligible_for_paired_paper_comparison":True}
     return append(path,make)
 
-def capture_unpriced(payload,path,clock=utcnow,infer=f.forecast):
+def capture_unpriced(payload,path,clock=utcnow,infer=infer_frozen):
     """Separate observed model forecasts: no invented odds and never ROI-eligible."""
     first=clock();kickoff=validate_model_snapshot(payload,first,unpriced=True);ps,hashes=infer(payload["row"]);end=clock()
     if end>kickoff-timedelta(minutes=30):raise ValueError("forecast completed after T-30")
     key=digest(canonical({"official_game_id":payload["event"]["official_game_id"],"season":payload["event"]["season"],"product":"unpriced"}))
     def make(rows):
         if any(r["type"]=="unpriced_forecast" and r["event_key"]==key for r in rows):return None
-        return {"type":"unpriced_forecast","event_key":key,"received_at":first.isoformat(),"frozen_at":end.isoformat(),"input":payload,"input_sha256":digest(canonical(payload)),"models":ps,"model_sha256":hashes,"contract_sha256":contract_sha(),"source_policy":POLICY,"eligible_for_paired_paper_comparison":False,"reason":"no verified same-product pregame price"}
+        return {"type":"unpriced_forecast","event_key":key,"received_at":first.isoformat(),"frozen_at":end.isoformat(),"input":payload,"input_sha256":digest(canonical(payload)),"models":ps,"model_sha256":hashes,"model_team_encoding":"official_codes_to_frozen_training_names_v1","contract_sha256":contract_sha(),"source_policy":POLICY,"eligible_for_paired_paper_comparison":False,"reason":"no verified same-product pregame price"}
     return append(path,make)
 
 def profits(capture,result):

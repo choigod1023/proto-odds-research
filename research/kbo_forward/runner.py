@@ -25,14 +25,26 @@ def evidence(client,receipt):
     body=json.loads(raw)
     return {"uri":receipt["url"],"received_at":receipt["finished_at"],"body":body,"sha256":ledger.digest(ledger.canonical(body)),"raw_sha256":receipt["sha256"]}
 
-def price_packet(quote,state):
+def price_packet(quote,state,official_event):
     """Wrap verified Betman row terms; retain exact bytes and canonical body digest."""
-    source=quote["evidence"];body_path=Path(source["body_file"]).resolve()
+    from prices import DETAIL_URL,parse_detail
+    source=quote["evidence"]
+    if source["uri"]!=DETAIL_URL or source["received_at"]!=quote["received_at"]:raise ValueError("unapproved price source or receipt differs")
+    body_path=Path(source["body_file"]).resolve()
     allowed=(Path(state)/"prices/price-evidence").resolve()
     if not body_path.is_relative_to(allowed):raise ValueError("price evidence outside collector state")
     raw=body_path.read_bytes()
     if hashlib.sha256(raw).hexdigest()!=source["sha256"]:raise ValueError("price raw bytes changed")
     body=json.loads(raw)
+    listing_path=allowed/(source["round_listing_sha256"]+".body")
+    listing_raw=listing_path.read_bytes()
+    if hashlib.sha256(listing_raw).hexdigest()!=source["round_listing_sha256"]:raise ValueError("listing evidence changed")
+    parts=quote["market_id"].split(":")
+    rounds=[r for r in json.loads(listing_raw)["protoGames"] if r.get("gmId")=="G101" and str(r.get("gmTs"))==parts[1]]
+    if len(parts)!=3 or len(rounds)!=1:raise ValueError("price round not in verified listing")
+    parsed,_=parse_detail(raw,rounds[0],[official_event],source["received_at"],source)
+    matches=[q for q in parsed if q["market_id"]==quote["market_id"]]
+    if len(matches)!=1 or any(matches[0][k]!=quote[k] for k in ("official_game_id","home_id","away_id","kickoff_at","kind","settlement_rule","odds")):raise ValueError("normalized quote differs from raw official row")
     market={k:quote[k] for k in ("kind","settlement_rule","market_id","odds")}
     market.update({k:quote[k] for k in ("close_at","round_close_at","source_product") if k in quote})
     receipt={"uri":source["uri"],"received_at":source["received_at"],"body":body,"sha256":ledger.digest(ledger.canonical(body)),"raw_sha256":source["sha256"],"round_listing_sha256":source.get("round_listing_sha256")}
@@ -42,9 +54,10 @@ def packet(snapshot):
     if not snapshot.get("source_verified"):raise ValueError("source snapshot not verified")
     x=snapshot.get("payload") or snapshot
     if not all(k in x for k in ("event","row","announcement","evidence")):raise ValueError("official adapter missing canonical model payload")
+    if set(x["row"].get("history_coverage",{}))!={"home","away"} or any(c.get("status")!="complete" for c in x["row"]["history_coverage"].values()):raise ValueError("verified history coverage incomplete")
     return {k:copy.deepcopy(x[k]) for k in ("event","row","announcement","evidence")}
 
-def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.f.forecast):
+def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
@@ -88,7 +101,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                     official_id=g["source"]["G_ID"]
                     current_quotes=[q for q in price_result["quotes"] if q["official_game_id"]==official_id]
                     if not current_quotes and any(r["type"]=="unpriced_forecast" and r["input"]["event"]["official_game_id"]==official_id for r in rows):continue
-                    if current_quotes and all(any(r["type"]=="capture" and r["input"]["event"]["official_game_id"]==official_id and r["input"]["market"]["kind"]==(q["market"]["kind"] if "market" in q else q["kind"]) for r in rows) for q in current_quotes):continue
+                    if current_quotes and all(any(r["type"]=="capture" and r["input"]["event"]["official_game_id"]==official_id and r["input"]["market"]["kind"]==q["kind"] for r in rows) for q in current_quotes):continue
                     s=official.snapshot(g)
                     if not s.get("source_verified"):
                         report["excluded"].append({"official_game_id":g["source"]["G_ID"],"reasons":s.get("missing",["unverified_source"])});continue
@@ -99,7 +112,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                         rec=ledger.capture_unpriced(x,path,clock=clock,infer=infer);report["unpriced_this_run"]+=int(rec is not None)
                     for q in qs:
                         if q["home_id"]!=x["event"]["home_id"] or q["away_id"]!=x["event"]["away_id"] or ledger.moment(q["kickoff_at"])!=ledger.moment(x["event"]["kickoff_at"]):raise ValueError("price event metadata mismatch")
-                        priced=copy.deepcopy(x);priced["market"],priced["evidence"]["odds"]=price_packet(q,state) if "market" not in q else (q["market"],q["evidence"])
+                        priced=copy.deepcopy(x);priced["market"],priced["evidence"]["odds"]=price_packet(q,state,x["event"])
                         rec=ledger.capture(priced,path,clock=clock,infer=infer);report["captured_this_run"]+=int(rec is not None)
                 except Exception as exc:report["excluded"].append({"official_game_id":g["source"]["G_ID"],"error_type":type(exc).__name__,"reason":str(exc)[:300]})
             # Re-read captures so successful inference is never lost on later failures.

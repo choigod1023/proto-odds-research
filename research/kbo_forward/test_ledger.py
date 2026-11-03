@@ -66,3 +66,13 @@ def test_first_complete_capture_remains_frozen_and_chain_tamper_rejected(tmp_pat
     assert p.read_bytes()==before
     p.write_bytes(before.replace(b'"market_id":"test-only"',b'"market_id":"changed"'))
     with pytest.raises(ValueError,match='chain differs'):l.read(p)
+
+
+def test_official_codes_reproduce_frozen_training_team_coefficients():
+    row=old.snapshot()['row'];original=copy.deepcopy(row)
+    assert (row['home_id'],row['away_id'])==('삼성','KIA')
+    expected,_=l.f.forecast(row);row.update(home_id='SS',away_id='HT')
+    got,_=l.infer_frozen(row)
+    for model in l.MODELS:
+        assert got[model]['probabilities_3way']==pytest.approx(expected[model]['probabilities_3way'])
+    assert (row['home_id'],row['away_id'])==('SS','HT')

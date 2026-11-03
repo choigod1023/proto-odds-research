@@ -15,16 +15,27 @@ class Official:
     def schedule(self,dates):return {'games':[self.game]}
     def snapshot(self,game):
         self.snapshot_calls+=1
-        x=copy.deepcopy(self.x);x.pop('market');x['evidence'].pop('odds')
+        x=copy.deepcopy(self.x);x.pop('market');x['evidence'].pop('odds');x['row']['history_coverage']={k:{'status':'complete'} for k in ('home','away')}
         return {'source_verified':True,'payload':x}
     def result(self,game):return {'verified':False}
 
-def quote(x):
-    return {**{k:x['event'][k] for k in ('official_game_id','season','home_id','away_id','kickoff_at')},'market':copy.deepcopy(x['market']),'evidence':copy.deepcopy(x['evidence']['odds'])}
+def quote(x,state,now):
+    import prices
+    from test_prices import ROW,ROUND,detail,ms
+    target=Path(state)/'prices/price-evidence';target.mkdir(parents=True,exist_ok=True)
+    start=ledger.moment(x['event']['kickoff_at'])
+    row=ROW|{'homeId':x['event']['home_id'],'awayId':x['event']['away_id'],'gameDate':ms(start),'endDate':ms(start),'winAllot':1.80,'loseAllot':1.90}
+    r=ROUND|{'saleEndDate':ms(start+timedelta(hours=4))}
+    body=detail([row]);listing=json.dumps({'protoGames':[r],'test_only':True}).encode()
+    for raw in (body,listing):(target/(ledger.digest(raw)+'.body')).write_bytes(raw)
+    evidence={'uri':prices.DETAIL_URL,'body_file':str(target/(ledger.digest(body)+'.body')),'sha256':ledger.digest(body),'received_at':now.isoformat(),'round_listing_sha256':ledger.digest(listing)}
+    q,_=prices.parse_detail(body,r,[x['event']],now.isoformat(),evidence)
+    assert len(q)==1
+    return q[0]
 
 def test_actual_runner_persists_paired_capture_and_restart_is_idempotent(tmp_path):
-    x=payload();now=ledger.moment(x['event']['kickoff_at'])-timedelta(hours=2)
-    x["evidence"]["odds"]["received_at"]=now.isoformat();official=Official(x);prices=lambda *a:{'quotes':[quote(x)],'excluded':[],'requests':[]}
+    x=payload('full_game_2way');x['event'].update(home_id='SS',away_id='HT');x['row'].update(home_id='SS',away_id='HT');now=ledger.moment(x['event']['kickoff_at'])-timedelta(hours=2)
+    x["evidence"]["odds"]["received_at"]=now.isoformat();official=Official(x);prices=lambda *a:{'quotes':[quote(x,tmp_path,now)],'excluded':[],'requests':[]}
     a=runner.run_once(tmp_path,official,prices,clock=lambda:now,infer=old.fake_infer)
     before=(tmp_path/'paired-ledger.jsonl').read_bytes()
     b=runner.run_once(tmp_path,official,prices,clock=lambda:now+timedelta(minutes=5),infer=old.fake_infer)
