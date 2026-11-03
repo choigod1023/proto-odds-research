@@ -1,5 +1,5 @@
 {
-  "status": "ready_for_model_results",
+  "status": "audit_complete_correction_required",
   "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "branch": "codex/kbo-player-review-20261103",
   "protocol_commit": "867afbdd60ec69bd8b5d74bf75c8418c9ae49698",
@@ -12,12 +12,12 @@
   ],
   "data_rows_validated": 2913,
   "model_runs": 0,
-  "tests_pending": "Fixed model adapter, projected-vs-hindsight isolation, label and target-participant poisoning at model level, selected-market draw exclusions and Decimal settlement",
+  "tests_pending": "Correction of price-provenance note; prospective receipt, operating/tipster/9:1 comparisons, wallet replay and post-recovery new-price cohort remain unverified.",
   "scope": "No production actions; no performance claims; contract-only initial review.",
   "commit": "see git history",
   "pr": "https://github.com/choigod1023/proto-odds-research/pull/510",
   "review_spec_commit": "3e1d0bcf",
-  "review_stage": "immutable prior-projected features b0833a6 independently audited; model not audited",
+  "review_stage": "immutable model phase 4 commit 09b259b5 independently audited",
   "audit_report": "experiments/kbo-player-independent-review-20261103/data-audit-96eca22.md",
   "findings": [
     "Target actual lineup/starter selection leaks into prior aggregates despite prior-date provenance; projected model must reconstruct from prior history only.",
@@ -30,5 +30,11 @@
   "projection_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
   "projection_rows_verified": 2913,
   "projection_report": "experiments/kbo-player-independent-review-20261103/projection-audit-b0833a6.md",
-  "projection_findings": "No target-day or future dependence observed in requested validation; still retrospective scenario, not receipt verification. Model adapter and actual selected features not yet reviewed."
+  "projection_findings": "No target-day or future dependence observed in requested validation; still retrospective scenario, not receipt verification. Model adapter and actual selected features not yet reviewed.",
+  "model_commit": "09b259b5d3d3793951332bab5da7b4c5cb16c384",
+  "prediction_sha256": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
+  "results_sha256": "8c8776c43dc0013056026c83c3b5afaf2d462a7de3e346438b2e71e536408562",
+  "model_audit_report": "experiments/kbo-player-independent-review-20261103/phase4-model-audit-09b259b5.md",
+  "phase4_finding": "run.py:62 and archived_price_scenario.comparison_note incorrectly assert independently evidenced historical price timing; preserve original and correct as unverified in a new artifact.",
+  "phase4_verification": "Independent 2913x11 adapter conversion, 4356 rate/distribution predictions, 354x6+market Decimal settlement, 14-week bootstrap and strict/target-future poison checks."
 }
