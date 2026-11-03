@@ -12,6 +12,8 @@ H1SHA='5c0a9d88287e0bf84747003386cecac0a81684b169ec08604776de3669679c17'
 
 def load():
     for name,(commit,sha) in f.CONTRACTS.items():f.exact_blob(m.ORCH,commit,Path('experiments/kbo-player-challenger-20261103')/name,sha)
+    official_repo=Path('C:/Users/user/Documents/Codex/klu')
+    f.exact_blob(official_repo,'b24739cf52435070586f8687011fd473a16123e4',Path('experiments/kbo-official-lineups-20261103/official-lineups-2026.jsonl'),'f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3')
     x=m.load_inputs();sets={}
     for name in NAMES[1:]:
         path=Path('experiments/kbo-player-data-20261103')/('official-full-2026-'+name+'.jsonl.gz')
