@@ -74,3 +74,29 @@ def test_frozen_predictions_have_hash_no_labels_and_sum_to_one():
  for r in rows:
   for key in ('team_p','lineup_p'):
    assert len(r[key])==3 and sum(r[key])==pytest.approx(1,abs=1e-10) and all(0<=x<=1 for x in r[key])
+
+
+def test_actual_future_xi_and_target_label_poison_cannot_change_earlier_prediction():
+ import json
+ games,_=data.load_inputs();_,_,_,test=data.partition(games)
+ initial=model.history_features(games);first=test[0];last=test[-1]
+ assert last['date']>first['date']
+ poisoned=copy.deepcopy(games)
+ for g in poisoned:
+  if g['id']==last['id']:
+   g['score']=[999999,999999];g['xi'][0]=[f'poison{i:03d}' for i in range(11)]
+ later=model.history_features(poisoned);assert initial[first['id']]==later[first['id']]
+ manifest=json.loads((data.ROOT/'frozen/manifest.json').read_bytes());state=manifest['states']['lineup'];state['coeff']=np.array(state['coeff'])
+ a=model.predict(state,[first],initial)[1];b=model.predict(state,[first],later)[1]
+ np.testing.assert_array_equal(a,b)
+
+
+def test_scoring_refund_and_mismatched_product_fail_closed():
+ import json,score
+ frozen=[json.loads(x) for x in (data.ROOT/'frozen/predictions.jsonl').read_bytes().splitlines()];r=next(x for x in frozen if x['price'])
+ games,_=data.load_inputs(scoring=True);g=next(x for x in games if x['id']==r['fixture_id'])
+ code=score.winner(g['score']);q=r['price'];src={'settlement_code':'refund','official_score':g['score'],'gmId':q['product_id'][0],'gmTs':q['product_id'][1],'matchSeq':q['product_id'][2], 'prices':dict(zip(('home','draw','away'),q['odds']))}
+ full,priced,excluded=score.score_rows([r],[g],{g['id']:src})
+ assert len(full)==1 and not priced and excluded=={'refund_or_nonstandard_settlement':1}
+ src['settlement_code']=str(code);src['matchSeq']=-1
+ with pytest.raises(ValueError,match='frozen price mismatch'):score.score_rows([r],[g],{g['id']:src})

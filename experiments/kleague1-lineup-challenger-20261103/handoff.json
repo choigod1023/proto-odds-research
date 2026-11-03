@@ -1,0 +1,122 @@
+{
+  "role": "K1 official lineup ablation",
+  "status": "evaluated_retrospective_no_promotion",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/519",
+  "branch": "codex/kleague1-lineup-challenger-20261103",
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "protocol_commit": "92ab6ec7e7c38436e1b9a47e2402ecb1e1f92981",
+  "freeze_commit": "77bb7c3ebe3dee87bd75fca5046b05577a9996f2",
+  "input_counts": {
+    "total": 432,
+    "train": 228,
+    "validation": 90,
+    "embargo": 0,
+    "test": 114,
+    "test_priced": 113,
+    "test_missing_price": 1
+  },
+  "selected_alpha": {
+    "lineup": 100,
+    "team": 100
+  },
+  "metrics": {
+    "market": {
+      "n": 113,
+      "hits": 44,
+      "accuracy": 0.3893805309734513,
+      "logloss": 1.0858088752059258,
+      "brier": 0.6600378137887188,
+      "net": -29.63,
+      "roi": -0.262212389380531,
+      "monthly_net": {
+        "2026-07": -13.18,
+        "2026-08": -7.25,
+        "2026-09": -6.04,
+        "2026-10": -2.97,
+        "2026-11": -0.19
+      },
+      "daily_close_max_drawdown": 29.63
+    },
+    "team": {
+      "n": 113,
+      "hits": 42,
+      "accuracy": 0.37168141592920356,
+      "logloss": 1.1090940341299114,
+      "brier": 0.6727162448981936,
+      "net": -26.82,
+      "roi": -0.23734513274336283,
+      "monthly_net": {
+        "2026-07": -9.9,
+        "2026-08": -3.13,
+        "2026-09": -8.75,
+        "2026-10": -2.84,
+        "2026-11": -2.2
+      },
+      "daily_close_max_drawdown": 26.82
+    },
+    "lineup": {
+      "n": 113,
+      "hits": 41,
+      "accuracy": 0.36283185840707965,
+      "logloss": 1.1082704230646656,
+      "brier": 0.672193120029113,
+      "net": -30.71,
+      "roi": -0.27176991150442475,
+      "monthly_net": {
+        "2026-07": -9.9,
+        "2026-08": -4.86,
+        "2026-09": -10.91,
+        "2026-10": -2.84,
+        "2026-11": -2.2
+      },
+      "daily_close_max_drawdown": 30.71
+    }
+  },
+  "independent_verification": {
+    "fixture_labels_checked": 114,
+    "settlement_checks": 339,
+    "mismatches": 0,
+    "results": {
+      "market": {
+        "n": 113,
+        "hits": 44,
+        "net_exact": "-29.63",
+        "drawdown_exact": "29.63"
+      },
+      "team": {
+        "n": 113,
+        "hits": 42,
+        "net_exact": "-26.82",
+        "drawdown_exact": "26.82"
+      },
+      "lineup": {
+        "n": 113,
+        "hits": 41,
+        "net_exact": "-30.71",
+        "drawdown_exact": "30.71"
+      }
+    }
+  },
+  "artifact_sha256s": {
+    "protocol.json": "60df27f09e80526163468ed241bc4ba076dcdfcac00728bc2c1b470d91f22410",
+    "frozen/manifest.json": "0e1183bf907010b84996e2b565ad0a7526489443d597d29e8f284027743587cc",
+    "frozen/predictions.jsonl": "9cd736435efb23f76758f373498792e9fcacc83621491636e324717e77c5abc0",
+    "evaluation/results.json": "2375cb6142c3ed950a89af983b75f3c22f99d6defad1cd63218963acafbd81bf",
+    "evaluation/ledger.jsonl": "fb396cc9e241fda433558a2f834722ffcc9ce9216cd31506371cbe445e4777d5",
+    "evaluation/verification.json": "1f017140328e34e53799d5e4c297c470bd14c36d2eaa3583903813ac1be35e44",
+    "inputs/lineups2025.jsonl": "6a0ba2a0a2a0e1903de9fcd79ea26b7dea8ae90ec28ff684b0b4cc7333b8ca2e",
+    "inputs/lineups2026.jsonl": "de4590bf5a201ff30be3ebf33e98d75237491fe601795460a8d31b880ebc9d40",
+    "inputs/schedule2026.json": "b59089d287ab58904bb70cf3088925c2921f4abfcfa14c53d8ff7aa21bf44e01",
+    "inputs/lineups2025-manifest.json": "2ef4fb04de9fe94cb6aeb968dbdf835b094dc92a9773c1087d5accfb57af9c6e",
+    "inputs/lineups2026-manifest.json": "212384007b5265a83e74be8a751428a43686e36c0b1f3d6b618c871daf175960",
+    "inputs/prices.jsonl.gz": "820e46c60eaec875618164c32b2fd88ebe3d38343a627d247219e7e59bf218c1",
+    "inputs/price-manifest.json": "f6c1e47151115fe6ecd2683406424a2d26929316e2282771620aa1c34218d800"
+  },
+  "test_command": "python -m pytest -q tests/test_kleague1_lineup_challenger.py",
+  "limitations": [
+    "Retrospective official actual XI and official stored prices; historical pregame receipt and execution unverified.",
+    "Reused 2026 and 114-test sample: not blind and not proof of edge.",
+    "No current operating 9:1/tipster frozen replay; flat-unit simulation is not monthly loss-limit wallet."
+  ],
+  "production_change": false
+}
