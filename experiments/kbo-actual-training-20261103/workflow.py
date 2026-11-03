@@ -4,11 +4,11 @@ from pathlib import Path
 import pipeline as p
 import runner,settlement,source_adapter
 
-def validate_snapshot(paired,lineage,evidence,known_dates,verified_hashes,seasons):
+def validate_snapshot(paired,lineage,evidence,projected_proofs,known_dates,verified_hashes,seasons):
  """Require paired feature lineage and official identity evidence for every fixture."""
  normalized=p.validate_pairs(paired['projected'],paired['actual'],seasons)
  ids={x['fixture_id'] for x in normalized['actual']}
- if set(evidence)!=ids or set(lineage)!=set(p.SELECTORS) or any(set(lineage[s])!=ids for s in p.SELECTORS) or not verified_hashes:raise ValueError('source evidence or lineage coverage mismatch')
+ if set(evidence)!=ids or set(projected_proofs)!=ids or set(lineage)!=set(p.SELECTORS) or any(set(lineage[s])!=ids for s in p.SELECTORS) or not verified_hashes:raise ValueError('source evidence or lineage coverage mismatch')
  for selector in p.SELECTORS:
   for row in normalized[selector]:
    fid=row['fixture_id'];feature_lineage=lineage[selector][fid];p.validate_lineage(fid,row['event_date'],feature_lineage,known_dates)
@@ -16,6 +16,7 @@ def validate_snapshot(paired,lineage,evidence,known_dates,verified_hashes,season
     value=p.original.adapter.scalar(k,feature_lineage[k]['value'])
     if value!=row['features'][k]['value']:raise ValueError('scalar value differs from pinned source lineage')
    if selector=='actual':source_adapter.validate_official_identity(row,evidence[fid],verified_hashes)
+   else:source_adapter.validate_projected_identity(row,projected_proofs[fid],known_dates)
  return normalized
 
 def development(snapshot,labels):

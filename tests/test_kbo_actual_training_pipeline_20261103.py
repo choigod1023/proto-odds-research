@@ -90,8 +90,12 @@ def test_full_source_validation_detects_wrong_scalar_and_unverified_hash():
  import workflow
  a=row();b=copy.deepcopy(a)
  for k in m.PLAYER:a['features'][k]['value']=None;b['features'][k]['value']=None
- entry={k:empty_entry() for k in m.PLAYER};lineage={s:{'g':copy.deepcopy(entry)} for s in m.SELECTORS};e={'fixture_id':'g','event_date':a['event_date'],'home_id':'A','away_id':'B','official_game_id':'official','source_sha256':'a'*64,'retrospective_only':True,'historical_receipt_verified':False,'sides':{s:{'team_id':a[s+'_id'],'hitters':a['roster'][s]['hitters'],'starter':a['roster'][s]['starter'],'batting_basis':'official_confirmed_starting_lineup','starter_basis':'official_explicit_start_flag'} for s in ('home','away')}};pairs={'projected':[a],'actual':[b]};dates={'g':date(2024,4,1)}
- assert len(workflow.validate_snapshot(pairs,lineage,{'g':e},dates,{'a'*64},{2024})['actual'])==1
- with pytest.raises(ValueError,match='source evidence'):workflow.validate_snapshot(pairs,lineage,{'g':e},dates,{'b'*64},{2024})
+ entry={k:empty_entry() for k in m.PLAYER};lineage={s:{'g':copy.deepcopy(entry)} for s in m.SELECTORS};e={'fixture_id':'g','event_date':a['event_date'],'home_id':'A','away_id':'B','official_game_id':'official','source_sha256':'a'*64,'retrospective_only':True,'historical_receipt_verified':False,'sides':{s:{'team_id':a[s+'_id'],'hitters':a['roster'][s]['hitters'],'starter':a['roster'][s]['starter'],'batting_basis':'official_confirmed_starting_lineup','starter_basis':'official_explicit_start_flag'} for s in ('home','away')}};pairs={'projected':[a],'actual':[b]};dates={'g':date(2024,4,1),**{'old'+str(i):date(2024,3,20+i) for i in range(5)}};proof={side+'_lineup':{'basis':'projected_from_prior_games','player_ids':a['roster'][side]['hitters'],'source_fixture_ids':['old0']} for side in ('home','away')};proof.update({side+'_starter':{'basis':'projected_from_prior_games','player_id':a['roster'][side]['starter'],'rotation_candidates':[{'player_id':a['roster'][side]['starter'] if i==0 else side+str(i),'date':str(dates['old'+str(i)]),'fixture_id':'old'+str(i)} for i in range(5)]} for side in ('home','away')})
+ assert len(workflow.validate_snapshot(pairs,lineage,{'g':e},{'g':proof},dates,{'a'*64},{2024})['actual'])==1
+ with pytest.raises(ValueError,match='source evidence'):workflow.validate_snapshot(pairs,lineage,{'g':e},{'g':proof},dates,{'b'*64},{2024})
  b['features']['home_lineup_strength']['value']=0.
- with pytest.raises(ValueError,match='scalar value'):workflow.validate_snapshot(pairs,lineage,{'g':e},dates,{'a'*64},{2024})
+ with pytest.raises(ValueError,match='scalar value'):workflow.validate_snapshot(pairs,lineage,{'g':e},{'g':proof},dates,{'a'*64},{2024})
+
+def test_independent_dense_replay_for_both_frozen_families():
+ import independent_verify as check
+ sample=row('x');sample['features']['home_lineup_strength']['value']=None;models=m.frozen_context_models();preds={k:m.predict(v,[sample]) for k,v in models.items()};report=check.verify_predictions({'models':models,'predictions':{'actual':preds}},{'actual':[sample]});assert report['predictions']==2 and report['max_probability_error']<1e-9
