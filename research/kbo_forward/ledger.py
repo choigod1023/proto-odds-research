@@ -66,18 +66,21 @@ def append(path,make):
         finally:os.close(fd)
         return record
 
-def capture(payload,path,clock=utcnow,infer=infer_frozen):
-    first=clock();kickoff=validate_model_snapshot(payload,first)
-    if any(first>=moment(payload["market"][k]) for k in ("close_at","round_close_at")):raise ValueError("market closed before capture")
-    if first-moment(payload["evidence"]["odds"]["received_at"])>timedelta(minutes=10):raise ValueError("price receipt stale at capture")
-    predictions,hashes=infer(payload["row"])
+def validate_forecasts(predictions,row):
     if set(predictions)!=set(MODELS):raise ValueError("paired models required")
     for p in predictions.values():
         q=p["probabilities_3way"];two=p["probabilities_2way"]
         if set(q)!=set(SIDES) or any(not math.isfinite(v) or not 0<=v<=1 for v in q.values()) or abs(sum(q.values())-1)>1e-9:raise ValueError("invalid model probabilities")
         den=q["home"]+q["away"]
         if den<=0 or set(two)!={"home","away"} or any((not math.isfinite(two[k]) or abs(two[k]-q[k]/den)>1e-9) for k in two):raise ValueError("invalid conditional probabilities")
-        if p["fixture_id"]!=payload["row"]["fixture_id"] or p["event_date"]!=payload["row"]["event_date"]:raise ValueError("forecast identity mismatch")
+        if p["fixture_id"]!=row["fixture_id"] or p["event_date"]!=row["event_date"]:raise ValueError("forecast identity mismatch")
+
+def capture(payload,path,clock=utcnow,infer=infer_frozen):
+    first=clock();kickoff=validate_model_snapshot(payload,first)
+    if any(first>=moment(payload["market"][k]) for k in ("close_at","round_close_at")):raise ValueError("market closed before capture")
+    if first-moment(payload["evidence"]["odds"]["received_at"])>timedelta(minutes=10):raise ValueError("price receipt stale at capture")
+    predictions,hashes=infer(payload["row"])
+    validate_forecasts(predictions,payload["row"])
     finished=clock()
     if any(finished>=moment(payload["market"][k]) for k in ("close_at","round_close_at")):raise ValueError("market closed during inference")
     if finished<first:raise ValueError("local clock moved backwards during prediction")
@@ -91,7 +94,8 @@ def capture(payload,path,clock=utcnow,infer=infer_frozen):
 
 def capture_unpriced(payload,path,clock=utcnow,infer=infer_frozen):
     """Separate observed model forecasts: no invented odds and never ROI-eligible."""
-    first=clock();kickoff=validate_model_snapshot(payload,first,unpriced=True);ps,hashes=infer(payload["row"]);end=clock()
+    first=clock();kickoff=validate_model_snapshot(payload,first,unpriced=True);ps,hashes=infer(payload["row"]);validate_forecasts(ps,payload["row"]);end=clock()
+    if end<first:raise ValueError("local clock moved backwards during prediction")
     if end>kickoff-timedelta(minutes=30):raise ValueError("forecast completed after T-30")
     key=digest(canonical({"official_game_id":payload["event"]["official_game_id"],"season":payload["event"]["season"],"product":"unpriced"}))
     def make(rows):

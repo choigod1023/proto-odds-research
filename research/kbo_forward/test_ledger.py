@@ -116,3 +116,16 @@ def test_newer_confirmation_rejects_older_conflicting_result(tmp_path):
     conflict,_=result(x,c,h=1,a=3);conflict['evidence']['received_at']=(end+timedelta(minutes=1)).isoformat()
     with pytest.raises(ValueError,match='stale conflicting'):l.settle(conflict,p,clock=lambda:end+timedelta(minutes=3))
     assert l.summary(p)['corrections']==0
+
+
+@pytest.mark.parametrize('defect',['missing_pair','nonfinite','wrong_identity'])
+def test_unpriced_invalid_forecasts_cannot_enter_comparison(tmp_path,defect):
+    x=payload();x.pop('market');x['evidence'].pop('odds')
+    def wrong(row):
+        p,h=old.fake_infer(row)
+        if defect=='missing_pair':p.pop('equal_ensemble')
+        elif defect=='nonfinite':p['equal_ensemble']['probabilities_3way']['home']=float('nan')
+        else:p['equal_ensemble']['fixture_id']='another-game'
+        return p,h
+    with pytest.raises(ValueError):l.capture_unpriced(x,tmp_path/'x.jsonl',clock=lambda:old.NOW,infer=wrong)
+    assert not (tmp_path/'x.jsonl').exists()
