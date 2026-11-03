@@ -41,3 +41,5 @@
 재개 명령: `python experiments/kleague2-official-lineup-20261103/cohort/collect_cohort.py --years 2026 2025`. 저장 캐시의 양쪽 해시를 확인하고 재사용하며 중복 프로세스는 파일 잠금으로 막는다. 요청당 10초 연결·15초 읽기 제한, 응답 3MB 상한, 새 요청 후 1초 대기, HTTP 비200에서 중단한다. 이후 실행 버전은 연도별 최대 400경기 상한도 적용한다. 중간에 종료되어 응답·메타데이터 한쪽만 남으면 임의로 재작성하지 않고 중단한다. 오프라인 파싱은 `python experiments/kleague2-official-lineup-20261103/cohort/derive.py`다.
 
 원문 `.bin`·`.gz`는 Git에서 바이너리로 보존하고 JSON·JSONL은 LF로 고정한다. `cohort/manifest.json`은 기존 표본과 이번 전체 원문·메타데이터·파생 결과의 정확한 Git 저장 바이트 SHA-256을 기록한다. `python experiments/kleague2-official-lineup-20261103/cohort/manifest.py`로 검증한다. 캐시·429 중단·중복 수집 잠금·신원 오류·9경기 교차표 등 Python 검사 7개가 통과했다. 실제 사이트 429를 유발한 것이 아니라 합성 응답을 사용한 검사다.
+
+독립 체크아웃 검증: `core.autocrlf=true`와 `false` 설정에서 각각 매니페스트 파일 1,126개 해시 불일치 0건, Git 작업 상태 변경 0건이었다. Git 인덱스의 원본 blob 1,126개도 매니페스트와 대조했다. 원문 압축을 풀었을 때의 응답 SHA-256은 각 수집 메타데이터에 별도 보존한다.

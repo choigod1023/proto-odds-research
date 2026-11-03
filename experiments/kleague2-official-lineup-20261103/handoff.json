@@ -30,7 +30,9 @@
   "tests": [
     "python -m unittest discover -s tests -p test_kleague2*20261103.py -v: 7 passed",
     "12 earlier committed raw bytes verified against recorded hashes",
-    "live duplicate collector blocked by Windows file lock"
+    "live duplicate collector blocked by Windows file lock",
+    "1126 staged Git blobs match manifest SHA256",
+    "independent sparse checkouts core.autocrlf=true and false: 1126 hashes match, clean worktrees"
   ],
   "metrics": {
     "season_2026": {
