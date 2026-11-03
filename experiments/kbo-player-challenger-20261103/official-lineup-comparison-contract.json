@@ -1,0 +1,81 @@
+{
+  "schema_version": "kbo-official-batting-only-counterfactual-v1",
+  "purpose": "Isolate historical official batting-order information from prior-game projected batting order; not operational model adoption.",
+  "registered_before_new_prediction_or_scoring": true,
+  "parent_primary_scenario_unchanged": true,
+  "input": {
+    "official_lineups_path": "C:/Users/user/Documents/Codex/klu/.research-state/kbo-lineups-v4/official-lineups.jsonl",
+    "sha256": "92015aa1af2e23813b0b4d8c3c5bd182d1c0ee7b2226920af3445e86569ae67c",
+    "total_records": 533,
+    "eligible_target_year": 2026,
+    "target_records_observed": 193,
+    "published_before_game_proven": false,
+    "received_before_game_proven": false
+  },
+  "scenario": "retrospective_official_batting_order_assumed_available",
+  "changes_allowed": [
+    "home_lineup_strength",
+    "away_lineup_strength"
+  ],
+  "changes_forbidden": [
+    "model_coefficients",
+    "alpha",
+    "training_population",
+    "scalers",
+    "home_away_orientation",
+    "starter_features",
+    "bullpen_features",
+    "team_features",
+    "park_features",
+    "rest_features",
+    "fixed_selection_rule",
+    "original_predictions_or_results",
+    "price_selection_by_result"
+  ],
+  "model_reference": {
+    "pr": 512,
+    "original_prediction_sha256": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
+    "training_seasons": [
+      2023,
+      2024,
+      2025
+    ],
+    "refit": false,
+    "retune": false
+  },
+  "price_reference": {
+    "pr": 513,
+    "exact_byte_commit": "3167b4b19c2f5877af754d3a1a41ee2a8761a3f2",
+    "sha256": "d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117",
+    "strict_and_date_only_extended_separate": true,
+    "no_historical_price_timing_or_executability_proven": true
+  },
+  "cohort_rules": [
+    "Require exact fixture, official teams, both batting orders 1 through 9, unique verified player identities.",
+    "Keep season-wide and collected denominators, exclusion counts and missing player-history coverage.",
+    "Use only player history dated before target calendar day; no target boxscore numerical data or same-day data.",
+    "Use original fixed transforms; training statistics and missingness treatment remain unchanged.",
+    "Starting-pitcher schedule fields remain unproven and are not used as confirmed starters.",
+    "Compare original and replacement predictions only on identical games/products/prices.",
+    "Freeze new predictions before scoring labels; preserve all old predictions and hashes."
+  ],
+  "report": [
+    "same_cohort_accuracy",
+    "logloss",
+    "brier",
+    "selected_pick_changes",
+    "probability_changes",
+    "unit_roi_including_refund_stakes",
+    "paired_week_block_uncertainty",
+    "source_and_price_coverage",
+    "conditional_assumption_not_point_in_time_proof"
+  ],
+  "limitations": [
+    "This is a retrospective counterfactual on previously inspected 2026 data.",
+    "Current official confirmed batting order is not evidence of the exact historic announcement or changes.",
+    "This does not train an official-lineup model from scratch or compare the deployed 9:1 model.",
+    "Wallet replay and production are out of scope; existing monthly loss cap ledger is preserved."
+  ],
+  "production_changes": false,
+  "automatic_adoption": false
+}
