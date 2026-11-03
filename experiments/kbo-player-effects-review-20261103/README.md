@@ -1,6 +1,6 @@
 # KBO 선수별 구조 비교 독립 검토
 
-상태 `audited_with_indicator_limitation`: 계약 `7ceda125`, 모델 예측 `433d915a`, 정산 `2156ec6b`의 Git 객체를 독립적으로 검산했다. 작업 중 파일은 평가 근거로 쓰지 않았다. M2의 양 팀 미등록·결측 표시가 차이로 상쇄될 수 있으므로 [최종 감사](final-audit.md)의 제한과 결과를 함께 읽는다.
+상태 `v2_verified_retrospective_correction`: 계약 `7ceda125`, 원본 모델 예측 `433d915a`, 정산 `2156ec6b`, 수정 예측 `18c2e84d`와 정산 `d08ccb70`의 Git 객체를 독립적으로 검산했다. 원본 M2의 양 팀 미등록·결측 표시 상쇄는 구현 결함이며 원본 [감사](final-audit.md)와 [수정 감사](v2-independent-audit.md)를 함께 읽는다. 수정은 이미 2026 결과를 본 뒤 이루어졌다.
 
 계약 SHA-256은 `6ffdf7947559df052c248a1f9fb5e7ad871321f52e7920126934bf21771465ed`다. 2023·2024·2025·2026 고정 자료는 각각 723·728·736·726경기다. 후향 2026 선수 시나리오 두 개는 같은 709경기이며 타순·선발 이외의 입력은 같다. 선수 이력·예상 선택 근거의 경기 ID와 날짜는 타깃보다 이전 달력 날짜임을 검증했다. 경기 전 수신·완료를 인증한 것은 아니다.
 
@@ -15,6 +15,10 @@ python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_inputs.py
 python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_frozen.py
 python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_results.py
 python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_bytes.py
+python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_v2_code.py
+python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_v2_frozen.py
+python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_v2_results.py
+python -B -X utf8 experiments/kbo-player-effects-review-20261103/audit_v2_bytes.py
 python -B -X utf8 -m unittest discover -s experiments/kbo-player-effects-review-20261103 -p test_audit*.py -v
 ```
 
