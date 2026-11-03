@@ -51,7 +51,9 @@
         100
       ],
       "draw": "explicit draw category; no arbitrary probability threshold",
-      "no_market_or_tipster_input": true
+      "no_market_or_tipster_input": true,
+      "team_identity": "home-minus-away team categorical exposures, train-only vocabulary, base L2=10",
+      "batting_weights": "same fixed ORDER_PA weights as M1, normalized to mean one"
     }
   },
   "fit_rules": {
