@@ -22,6 +22,13 @@ def lineup_rows(payload, fixture):
             out.append({'side':side,'slot':n,'slot_kind':'court_six' if n<=6 else 'source_libero_slot', 'name':name,'player_id':player_id,'position':position,'identity_match_count':len(unique)})
     return out
 
+def valid_set_score(a, b, set_number):
+    if not all(isinstance(v, int) and not isinstance(v, bool) and v >= 0 for v in (a,b)) or not 1 <= set_number <= 5:
+        return False
+    target=15 if set_number==5 else 25
+    high,low=max(a,b),min(a,b)
+    return high>=target and high-low>=2 and (high==target or high-low==2)
+
 def run():
     games=collect.census();events=collect.load(collect.MANIFEST)['games'];stat=collect.load(collect.EVIDENCE/'stat_schedule.httpbody')['payload']['content']; stats={int(x['gnum']):x for x in stat}; assert len(stats)==126
     counts=Counter();out=[];issues=[]
@@ -35,7 +42,7 @@ def run():
         if len(played) not in (3,4,5):issues_here.append('invalid_set_count')
         if sum(a>b for a,b in played)!=g['homeTeam']['score'] or sum(a<b for a,b in played)!=g['awayTeam']['score']:issues_here.append('set_result_mismatch')
         for n,(a,b) in enumerate(played,1):
-            if max(a,b)<(15 if n==5 else 25) or abs(a-b)!=2 and min(a,b)>=(14 if n==5 else 24) or abs(a-b)<2: issues_here.append('invalid_set_score')
+            if not valid_set_score(a,b,n): issues_here.append('invalid_set_score')
         for side in ('home','away'):
             court=[r for r in rows if r['side']==side and r['slot_kind']=='court_six'];lib=[r for r in rows if r['side']==side and r['slot_kind']=='source_libero_slot']
             if len(court)!=6:issues_here.append(side+'_court_count')

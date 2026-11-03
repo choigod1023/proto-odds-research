@@ -46,6 +46,11 @@ class OfficialCaptureTests(unittest.TestCase):
         with self.assertRaises(AssertionError):collect.validate(json.dumps(p).encode(),game)
         p=json.loads((ROOT/self.events[str(game['number'])]['file']).read_bytes());p['payload']['lineup']['rset']=2
         with self.assertRaises(AssertionError):collect.validate(json.dumps(p).encode(),game)
+    def test_volleyball_set_thresholds_and_deuce(self):
+        for a,b,n in [(25,0,1),(25,23,4),(26,24,3),(15,13,5),(17,15,5)]:
+            self.assertTrue(audit.valid_set_score(a,b,n),(a,b,n))
+        for a,b,n in [(30,20,1),(25,24,1),(14,12,5),(16,13,5),(0,0,1)]:
+            self.assertFalse(audit.valid_set_score(a,b,n),(a,b,n))
     def test_discovery_bodies_are_exact_and_have_actual_receipt(self):
         folder=ROOT/'evidence'/'postgame'
         for e in json.loads((folder/'discovery.json').read_text(encoding='utf8')):
