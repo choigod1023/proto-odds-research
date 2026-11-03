@@ -8,30 +8,41 @@
       "role": "2023_and_paired_data_integration",
       "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
       "workspace": "C:/Users/user/Documents/Codex/kbtdata",
-      "status": "2023_frozen_2026_verification_in_progress",
+      "status": "ready_for_join",
       "progress_path": "C:/Users/user/Documents/Codex/kbtdata/.research-state/kbo-actual-2023/progress.json",
       "source_2023_commit": "38463a3f2eb9ac2b00c4ddf9edd6ebacf8a99b55",
-      "source_2023_actual_games": 723
+      "source_2023_actual_games": 723,
+      "source_2026_commit": "e6068b83e1b076f0aa24a71a33a77930d4c09f2c",
+      "paired_training_games": 2182,
+      "paired_test_games": 709,
+      "data_commit": "58556de08c64604276de8682373d3ccc8d535d7c",
+      "pr": 534
     },
     {
       "role": "2024_official_rosters",
       "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
       "workspace": "C:/Users/user/Documents/Codex/kbt24",
-      "status": "active",
-      "progress_path": "C:/Users/user/Documents/Codex/kbo-actual-2024-20261103/progress.json"
+      "status": "source_frozen",
+      "progress_path": "C:/Users/user/Documents/Codex/kbo-actual-2024-20261103/progress.json",
+      "source_commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+      "eligible_games": 728
     },
     {
       "role": "2025_official_rosters",
       "thread_id": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
       "workspace": "C:/Users/user/Documents/Codex/kbt25",
-      "status": "active",
-      "progress_path": "C:/Users/user/Documents/Codex/kbt25/experiments/kbo-actual-lineups-2025-20261103/capture-state/progress.json"
+      "status": "ready_for_join",
+      "progress_path": "C:/Users/user/Documents/Codex/kbt25/experiments/kbo-actual-lineups-2025-20261103/capture-state/progress.json",
+      "source_commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
+      "eligible_games": 731,
+      "excluded_games": 5,
+      "pr": 537
     },
     {
       "role": "paired_M0_M2_refit",
       "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
       "workspace": "C:/Users/user/Documents/Codex/kbtmodel",
-      "status": "waiting_fixed_inputs",
+      "status": "real_input_validation_and_refit",
       "preparation_commit": "22edf69d",
       "pr": 535,
       "synthetic_preparation_tests": 51,
@@ -42,10 +53,13 @@
       "role": "independent_source_and_metric_audit",
       "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
       "workspace": "C:/Users/user/Documents/Codex/kbtreview",
-      "status": "auditing_fixed_2023_source",
+      "status": "auditing_frozen_paired_inputs",
       "preparation_commit": "8297b6dd871f89fc243d46116e36ba9d38e9ba4c",
       "pr": 533,
-      "synthetic_preparation_tests": 15
+      "synthetic_preparation_tests": 15,
+      "source_2023_review_commit": "ffe52635f64b51b1b45e59202c4db99b0a528a5d",
+      "source_2023_audit": "passed_723_games_1902_responses",
+      "source_2024_review_commit": "e447b06072a1c9e9d21a922222860f04757e1338"
     }
   ],
   "actual_receipt_proven": false,
@@ -63,5 +77,18 @@
     "batting_slots": 13014,
     "starter_slots": 1446,
     "not_historical_receipt_proof": true
-  }
+  },
+  "verified_2023_name_alias": {
+    "player_id": "68419",
+    "historical_name": "최채흥",
+    "current_name": "최지명",
+    "verified_occurrences": 7,
+    "not_fuzzy_linkage": true
+  },
+  "source_2025_collection_progress": "Finalized: 731 of 736 eligible; five unconfirmed batting orders excluded from both training schemes. Five homonymous starters resolved by official daily start/relief identity evidence.",
+  "source_2024_capture_limitations": {
+    "spacing_violations_under_1_5_seconds": 128,
+    "overlapping_collectors_stopped_and_exclusive_lock_added": true
+  },
+  "parent_input_byte_audit": "parent-input-byte-audit.json"
 }
