@@ -1,0 +1,8 @@
+{
+ "scope": "Official MLB 2025 regular season, April 1 through September 30 UTC; schedule gameDate controls month and selection. Existing retrospective model sample is not retrained or evaluated.",
+ "selection": "Enumerate official schedule sportId=1, gameType=R; deduplicate gamePk; for each UTC month April through September sort by gameDate then gamePk and take first 17. Select independently of score, starter, lineup, prices or results. Do not replace missing or postponed games. Target 102; all other census records explicitly unprocessed.",
+ "probe": "Before bulk capture, compare multiple requested timecodes plus current final for three distinct games in different months. Verify provider metadata, no post-cutoff plays, state and target-game stats; examine initial vs substituted battingOrder codes in actual final boxscore.",
+ "capture": "For selected games fetch pregame feed at original schedule gameDate minus 35 minutes and current final boxscore; retain raw response bytes, HTTP status, URL, UTC receive completion and SHA256. Exact original start and identity ambiguity or post-cutoff provider event must fail replay validation. All current-time retrieval is retrospective, not contemporaneous receipt. Target-game final stats and result are postgame only.",
+ "constraints": "At most 500 requests; minimum one second between host requests; 15 second timeout; stop immediately on 403/429; lock collector; cache and resume without overwriting existing bytes. No fit, ROI, production access, deployment or automated promotion.",
+ "price_join": "Read-only official Betman caches; require uniquely matched league/game date/teams/product/period/line and complete two-sided odds. Otherwise report unjoined, never infer price or ROI."
+}

@@ -1,0 +1,5 @@
+# Preserve exact upstream bytes and LF-authored metadata regardless of checkout settings.
+experiments/mlb-official-information-20261103/evidence/** -text
+experiments/mlb-official-information-20261103/*.json text eol=lf
+experiments/mlb-official-information-20261103/*.py text eol=lf
+experiments/mlb-official-information-20261103/*.md text eol=lf
