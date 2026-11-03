@@ -1,0 +1,57 @@
+{
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "blockers": [
+    "verified contemporaneous confirmed lineups and original receipt at or before decision",
+    "historical executable quotes and exact product-specific draw/void/extra-inning settlement"
+  ],
+  "branch": "codex/npb-official-information-20261103",
+  "league": "NPB",
+  "limitations": [
+    "40 day census is not the full season",
+    "117 completed games include two rain-called games; three selected games were cancelled",
+    "actual HTTP receipts in November 2026 are retrospective and not evidence of historical pregame receipt",
+    "source price/product links are retrospective; market period and product settlement unverified",
+    "64 fixtures not selected in window; outside the windows not counted",
+    "not a model or ROI experiment"
+  ],
+  "metrics": {
+    "batter_starting_rows": 2106,
+    "batting_substitution_rows": 1076,
+    "both_starting_nines": 117,
+    "both_starting_pitchers": 117,
+    "bullpen_pitcher_rows": 734,
+    "called_games_in_completed": 2,
+    "census_days": 40,
+    "census_fixtures": 184,
+    "distinct_starting_batter_ids": 319,
+    "market_period_verified": false,
+    "not_selected_fixtures": 64,
+    "npb_http_requests": 160,
+    "official_draws": 1,
+    "price_score_agreement": 57,
+    "price_sources_read": 76,
+    "retrospective_normal_winloss_price_game_candidates": 57,
+    "selected_cancelled": 3,
+    "selected_completed": 117,
+    "selected_fixtures": 120,
+    "settlement_verified": false,
+    "stored_npB_docs": 160,
+    "stored_price_docs": 9,
+    "strict_pit_lineup_and_price_games": 0
+  },
+  "next_data_needed": [
+    "official pregame lineup snapshots with actual receipt and player IDs",
+    "official pregame probable starter version history",
+    "same product full quotes before decision and receipt evidence",
+    "versioned sportstoto market settlement rules",
+    "independently received earlier completed bullpen boxscores"
+  ],
+  "pr_url": null,
+  "protocol_sha": "65d8d0c9982c9f8032ef70f6ec7ad80f2cce1058",
+  "repo": "https://github.com/choigod1023/proto-odds-research.git",
+  "resume": "python experiments/npb-official-information-20261103/collect.py",
+  "role": "NPB official information",
+  "source_manifest_sha256": "f1aac7f926c5173af138f9c1dd9c91b672d2f013ca700d9482bff2139a131c0a",
+  "status": "completed_retrospective_capture_blocked_strict_pit",
+  "tests": "python -m pytest tests/test_npb_official_information_20261103.py -q: 9 passed"
+}
