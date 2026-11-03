@@ -1,5 +1,5 @@
 import unittest,copy
-from paired_core import previous,valid_batter,valid_pitcher,build_actual,training_pair
+from paired_core import previous,valid_batter,valid_pitcher,build_actual,training_pair,verify_shared_histories
 class PairedTest(unittest.TestCase):
  def test_strict_prior_zero_and_complete(self):
   h=[{'date':'2023-01-01','ab':0,'hit':0,'bb':0},{'date':'2023-01-02','ab':1,'hit':0,'bb':None},{'date':'2023-01-03','ab':1,'hit':1,'bb':0}]
@@ -27,4 +27,12 @@ class PairedTest(unittest.TestCase):
    def scalar(name,data):return data
   projected,actual=training_pair(source,raw,roster,{}, {},Adapter())
   self.assertEqual(projected['fixture_id'],actual['fixture_id']);self.assertEqual(projected['raw_features']['home_team_strength'],actual['raw_features']['home_team_strength']);self.assertIsNone(projected['roster']['home']['hitters']);self.assertEqual(len(actual['roster']['home']['hitters']),9)
+ def test_shared_player_must_have_identical_history(self):
+  a={'features':{s+'_lineup_strength':{'value':[{'player_id':'A','history':[{'ab':1}]}]} for s in ('home','away')}}
+  for s in ('home','away'):a['features'][s+'_starter_strength']={'value':None}
+  b=copy.deepcopy(a);verify_shared_histories(a,b);b['features']['home_lineup_strength']['value'][0]['history'][0]['ab']=2
+  with self.assertRaises(ValueError):verify_shared_histories(a,b)
+ def test_excluded_training_fixture_can_be_prior_history(self):
+  prior=[{'fixture_id':'excluded_from_training','date':'2023-01-01','ab':1,'hit':1,'bb':0}]
+  self.assertEqual(previous(prior,'2023-01-02',valid_batter),prior)
 if __name__=='__main__':unittest.main()

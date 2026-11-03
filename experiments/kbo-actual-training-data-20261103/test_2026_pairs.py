@@ -2,7 +2,7 @@
 import copy,json,collections
 from datetime import date
 import assemble_paired as a
-from paired_core import previous,valid_pitcher,value,roles_projected,model_row
+from paired_core import previous,valid_pitcher,value,roles_projected,model_row,verify_shared_histories
 
 def main():
  adapter=a.adapter_module();prior,games,gmap,rows,baseline,bh,ph,pit=a.old_inputs();dates={fid:date.fromisoformat(g['date']) for fid,g in gmap.items()};history=a.fresh_pitch(prior,games,pit)
@@ -20,6 +20,7 @@ def main():
    actual['features'][side+'_starter_strength']=value({'projected_player_id':pid,'appearances':copy.deepcopy(h)} if h else None,h);roles[side]={'hitters':players,'starter':pid};counts['schedule_id_changed']+=int(pid!=oldid);counts['pitcher_history_missing']+=int(not h)
   for key in original['features']:
    if not key.endswith(('lineup_strength','starter_strength')):assert original['features'][key]==actual['features'][key]
+  verify_shared_histories(original,actual)
   adapter.check_nested(original['features'],fid,dates[fid],dates);adapter.check_nested(actual['features'],fid,dates[fid],dates);raw={'fixture_id':fid,'event_date':day,'season':2026,'home_id':row['home_id'],'away_id':row['away_id']};p=model_row(original,raw,roles_projected(original),adapter);q=model_row(actual,raw,roles,adapter);assert p['fixture_id']==q['fixture_id'];counts['paired_games']+=1
  assert counts['paired_games']==709;print(json.dumps({'status':'ok',**counts}))
 if __name__=='__main__':main()

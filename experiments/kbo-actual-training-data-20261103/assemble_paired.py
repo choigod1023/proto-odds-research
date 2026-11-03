@@ -10,7 +10,7 @@ from collections import Counter
 from datetime import date
 from pathlib import Path
 from build_rosters_2023 import SOURCE,FROZEN,fixed_file,gzwrite
-from paired_core import training_pair,model_row,roles_projected,previous,valid_pitcher,value
+from paired_core import training_pair,model_row,roles_projected,previous,valid_pitcher,value,verify_shared_histories
 from history_index import build_old,build_fresh_pitch
 
 HERE=Path(__file__).resolve().parent
@@ -29,6 +29,21 @@ def index(rows):
  out={x['fixture_id']:x for x in rows}
  if len(out)!=len(rows):raise ValueError('duplicate_fixture')
  return out
+def compare_selectors(counter,projected,actual):
+ lineup_both=[];starter_both=[]
+ for side in ('home','away'):
+  p=projected[side];q=actual[side];line=p['hitters'];truth=q['hitters'];starter=p['starter']
+  if line is None:counter['lineup_missing_sides']+=1;lineup_both.append(None)
+  else:
+   if len(line)!=9 or len(set(line))!=9:raise ValueError('invalid_projected_selector')
+   counter['lineup_comparable_sides']+=1;counter['lineup_same_set_sides']+=int(set(line)==set(truth));counter['lineup_same_order_sides']+=int(line==truth);lineup_both.append(line==truth)
+  if starter is None:counter['starter_missing_sides']+=1;starter_both.append(None)
+  else:
+   counter['starter_comparable_sides']+=1;match=starter==q['starter'];counter['starter_same_id_sides']+=int(match);starter_both.append(match)
+ if None not in lineup_both:
+  counter['lineup_comparable_games']+=1;counter['lineup_same_order_both_sides_games']+=int(all(lineup_both))
+ if None not in starter_both:
+  counter['starter_comparable_games']+=1;counter['starter_same_id_both_sides_games']+=int(all(starter_both))
 def old_inputs():
  sys.path.insert(0,str(SOURCE/'experiments/kbo-player-data-20261103'));import build_prior_projection as prior
  games=gz(fixed_file(prior.GAMES,'c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce'));gmap={x['source_fixture_id']:x for x in games}
@@ -69,7 +84,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--source',nargs=4,action='append',required=True,metavar=('YEAR','CHECKOUT','COMMIT','FILE'));ap.add_argument('--verification',nargs=3,required=True,metavar=('CHECKOUT','COMMIT','FILE'));args=ap.parse_args()
  if sha((HERE/'parent-contract.json').read_bytes())!=CONTRACT_SHA:raise ValueError('parent_contract_mismatch')
  adapter=adapter_module();prior,games,gmap,rows,baseline,bh,ph,pit=old_inputs();sources,meta=source_rosters(args,rows)
- projected=[];actual=[];excluded=Counter();dates={fid:date.fromisoformat(g['date']) for fid,g in gmap.items()}
+ projected=[];actual=[];excluded=Counter();selector={str(y):Counter() for y in (2023,2024,2025,2026)};dates={fid:date.fromisoformat(g['date']) for fid,g in gmap.items()}
  for fid,row in sorted(rows.items(),key=lambda z:(gmap[z[0]]['date'],z[0])):
   year=row['season']
   if year not in sources:continue
@@ -80,7 +95,7 @@ def main():
   day=gmap[fid]['date'];raw={'fixture_id':fid,'event_date':day,'season':year,'home_id':row['home_id'],'away_id':row['away_id']}
   if baseline[fid].get('scenario')!='projected_from_prior_games' or baseline[fid].get('availability_tier')!='retrospective_unproven':raise ValueError('training_scenario_or_availability_mismatch')
   adapter.check_nested(baseline[fid]['features'],fid,dates[fid],dates);adapter.check_nested(baseline[fid]['projection'],fid,dates[fid],dates)
-  p,a=training_pair(baseline[fid],raw,roster,bh,ph,adapter);projected.append(p);actual.append(a)
+  p,a=training_pair(baseline[fid],raw,roster,bh,ph,adapter);compare_selectors(selector[str(year)],p['roster'],a['roster']);projected.append(p);actual.append(a)
  if [x['fixture_id'] for x in projected]!=[x['fixture_id'] for x in actual]:raise ValueError('training_pair_order')
  verroot,vercommit,verrel=args.verification;verraw=pin(verroot,vercommit,verrel);verification=index(gz(verraw))
  groups=json.loads(fixed_file(prior.OUT/'official-full-2026-cohorts.jsonl'));ids=groups['all']
@@ -113,12 +128,13 @@ def main():
    aroles[side]={'hitters':hitters,'starter':pid}
   for key in b['features']:
    if not key.endswith(('lineup_strength','starter_strength')) and b['features'][key]!=a['features'][key]:raise ValueError('2026_nonplayer_mismatch')
+  verify_shared_histories(b,a);compare_selectors(selector['2026'],proles,aroles)
   raw={'fixture_id':fid,'event_date':day,'season':2026,'home_id':row['home_id'],'away_id':row['away_id']}
   adapter.check_nested(a['features'],fid,dates[fid],dates);adapter.check_nested(b['features'],fid,dates[fid],dates)
   testp.append(model_row(b,raw,proles,adapter));testa.append(model_row(a,raw,aroles,adapter))
  if [x['fixture_id'] for x in testp]!=[x['fixture_id'] for x in testa]:raise ValueError('test_pair_order')
  outputs={}
  for name,items in [('train-projected',projected),('train-actual',actual),('test-projected',testp),('test-actual',testa)]:outputs[name]=gzwrite(HERE/('paired-'+name+'.jsonl.gz'),items)
- info={'status':'finalized_paired_research_inputs','parent_contract_sha256':CONTRACT_SHA,'old_data_commit':FROZEN,'source_rosters':meta,'verification':{'commit':vercommit,'path':verrel,'sha256':sha(verraw)},'training_by_year':dict(Counter(str(x['season']) for x in projected)),'test_original_population':709,'test_verified_actual':len(testp),'exclusions':dict(excluded),'actual_starter_schedule_differences':dict(actual_change),'output_sha256':outputs,'no_labels_read':True,'target_same_day_future_features_excluded':True,'point_in_time_proven':0,'no_model_fit_or_score':True}
+ info={'status':'finalized_paired_research_inputs','parent_contract_sha256':CONTRACT_SHA,'old_data_commit':FROZEN,'source_rosters':meta,'verification':{'commit':vercommit,'path':verrel,'sha256':sha(verraw)},'training_by_year':dict(Counter(str(x['season']) for x in projected)),'test_original_population':709,'test_verified_actual':len(testp),'exclusions':dict(excluded),'selector_match_counts_by_year':{k:dict(v) for k,v in selector.items()},'shared_selected_player_histories_canonical_bytes_equal':True,'history_population_policy':'All validated prior component records remain available, including records from fixtures excluded as paired training rows.','actual_starter_schedule_differences':dict(actual_change),'output_sha256':outputs,'no_labels_read':True,'target_same_day_future_features_excluded':True,'point_in_time_proven':0,'no_model_fit_or_score':True}
  (HERE/'paired-inputs-manifest.json').write_text(json.dumps(info,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf8',newline='\n');print(json.dumps(info,ensure_ascii=False))
 if __name__=='__main__':main()

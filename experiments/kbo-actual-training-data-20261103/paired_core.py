@@ -35,6 +35,19 @@ def roles_projected(src):
  return {s:{'hitters':src['projection'][s+'_lineup']['player_ids'],'starter':src['projection'][s+'_starter']['player_id']} for s in ('home','away')}
 def roles_actual(roster):
  return {s:{'hitters':[x['player_id'] for x in roster['hitters'][s]],'starter':roster['starters'][s]['player_id']} for s in ('home','away')}
+def verify_shared_histories(projected,actual):
+ """Shared identity must expose byte-equivalent canonical player history."""
+ import json
+ canonical=lambda obj:json.dumps(obj,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False).encode('utf8')
+ for side in ('home','away'):
+  before=projected['features'][side+'_lineup_strength']['value'] or []
+  after=actual['features'][side+'_lineup_strength']['value'] or []
+  b={x['player_id']:x['history'] for x in before};a={x['player_id']:x['history'] for x in after}
+  if len(b)!=len(before) or len(a)!=len(after):raise ValueError('duplicate_lineup_player_id')
+  for pid in set(a)&set(b):
+   if canonical(a[pid])!=canonical(b[pid]):raise ValueError('shared_batter_history_mismatch')
+  p=projected['features'][side+'_starter_strength']['value'];q=actual['features'][side+'_starter_strength']['value']
+  if p and q and p['projected_player_id']==q['projected_player_id'] and canonical(p['appearances'])!=canonical(q['appearances']):raise ValueError('shared_starter_history_mismatch')
 def verify_projected_history(source,batter_history,pitcher_history,day):
  for side in ('home','away'):
   selected=source['projection'][side+'_lineup']['player_ids'];profiles=source['features'][side+'_lineup_strength']['value']
@@ -58,6 +71,7 @@ def training_pair(source,raw,roster,batter_history,pitcher_history,adapter):
  if roster['date']!=raw['event_date'] or roster['season']!=raw['season']:raise ValueError('paired_date_mismatch')
  verify_projected_history(source,batter_history,pitcher_history,raw['event_date'])
  actual=build_actual(source,roster,batter_history,pitcher_history,raw['event_date'])
+ verify_shared_histories(source,actual)
  for key,v in source['features'].items():
   if not key.endswith(PLAYER_KEYS) and actual['features'][key]!=v:raise ValueError('paired_nonplayer_changed')
  return model_row(source,raw,roles_projected(source),adapter),model_row(actual,raw,roles_actual(roster),adapter)
