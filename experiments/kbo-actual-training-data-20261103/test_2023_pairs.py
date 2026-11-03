@@ -5,7 +5,7 @@ from paired_core import training_pair
 from pathlib import Path
 
 def main():
- adapter=a.adapter_module();prior,games,gmap,rows,base,bh,ph,pit=a.old_inputs();path=a.HERE/'actual-rosters-2023.jsonl.gz';rosters=a.index(a.gz(path.read_bytes()));assert len(rosters)==723
+ adapter=a.adapter_module();prior,games,gmap,rows,base,bh,ph,pit=a.old_inputs();path=a.HERE/'actual-rosters-2023.jsonl.gz';raw=a.pin(a.HERE.parents[1],'38463a3',path.relative_to(a.HERE.parents[1]).as_posix(),'53ea290c9bfe40dd792ddfd6b952faae4ee2d151176e0729a00abd8d216c9ff4');rosters=a.index(a.gz(raw));assert len(rosters)==723
  counts=collections.Counter()
  for fid,roster in rosters.items():
   if roster['status']!='complete':counts['excluded']+=1;continue

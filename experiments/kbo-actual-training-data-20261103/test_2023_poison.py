@@ -5,7 +5,7 @@ from history_index import build_old
 from paired_core import training_pair
 
 def main():
- adapter=a.adapter_module();prior,games,gmap,rows,baseline,bh,ph,pit=a.old_inputs();bat=json.loads(a.fixed_file(prior.BAT));rosters=a.index(a.gz((a.HERE/'actual-rosters-2023.jsonl.gz').read_bytes()))
+ adapter=a.adapter_module();prior,games,gmap,rows,baseline,bh,ph,pit=a.old_inputs();bat=json.loads(a.fixed_file(prior.BAT));path=a.HERE/'actual-rosters-2023.jsonl.gz';raw=a.pin(a.HERE.parents[1],'38463a3',path.relative_to(a.HERE.parents[1]).as_posix(),'53ea290c9bfe40dd792ddfd6b952faae4ee2d151176e0729a00abd8d216c9ff4');rosters=a.index(a.gz(raw))
  byday={}
  for g in games:
   if g['date'].startswith('2023'):byday.setdefault(g['date'],[]).append(g['source_fixture_id'])

@@ -6,7 +6,7 @@ from paired_core import previous,valid_pitcher,value,roles_projected,model_row
 
 def main():
  adapter=a.adapter_module();prior,games,gmap,rows,baseline,bh,ph,pit=a.old_inputs();dates={fid:date.fromisoformat(g['date']) for fid,g in gmap.items()};history=a.fresh_pitch(prior,games,pit)
- veri=a.index(a.gz((a.HERE/'actual-starters-2026.jsonl.gz').read_bytes()));groups=json.loads(a.fixed_file(prior.OUT/'official-full-2026-cohorts.jsonl'));ids=groups['all'];sources={name:a.index(a.gz(a.fixed_file(prior.OUT/('fresh-history-2026-'+name+'.jsonl.gz')))) for name in ('projected','official_batting_and_starter')}
+ path=a.HERE/'actual-starters-2026.jsonl.gz';raw=a.pin(a.HERE.parents[1],'c4e6bdb',path.relative_to(a.HERE.parents[1]).as_posix(),'ca1d6dbc1f301ee4681237cbf1cd864df5079a3ab9364c2f7b50129a9574a69d');veri=a.index(a.gz(raw));groups=json.loads(a.fixed_file(prior.OUT/'official-full-2026-cohorts.jsonl'));ids=groups['all'];sources={name:a.index(a.gz(a.fixed_file(prior.OUT/('fresh-history-2026-'+name+'.jsonl.gz')))) for name in ('projected','official_batting_and_starter')}
  assert len(ids)==709 and set(veri)==set(ids);counts=collections.Counter()
  for fid in ids:
   v=veri[fid]
