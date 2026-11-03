@@ -1,0 +1,45 @@
+{
+  "schema_version": "manual-worker-research-dispatch-v1",
+  "request_date_kst": "2026-11-03",
+  "protocol_commit": "867afbdd",
+  "protocol_sha256": "c3a687077f822087bc94df8c2cd314ff988a1cdd9359941f8152a779cff9926d",
+  "contract_sha256": "59d4c7259dfb3135e9cbbba7fee2f415f614c6c6badb9c99120c0d1cf84c99ec",
+  "dispatch_verified_at": "2026-11-03T01:11:36Z",
+  "current_stage": "kbo_data_and_model_preparation",
+  "workers": [
+    {
+      "role": "data",
+      "title": "승부예측 Terra · KBO",
+      "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+      "native_send_succeeded": true,
+      "observed_status": "active",
+      "runtime_model_verified": false
+    },
+    {
+      "role": "model",
+      "title": "승부예측 Terra · 모델 개발",
+      "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
+      "native_send_succeeded": true,
+      "observed_status": "active",
+      "runtime_model_verified": false
+    },
+    {
+      "role": "independent_review",
+      "title": "승부예측 Terra · 독립 검토",
+      "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
+      "native_send_succeeded": true,
+      "observed_status": "active",
+      "runtime_model_verified": false
+    }
+  ],
+  "league_stages": [
+    {"league": "KBO", "status": "in_progress"},
+    {"league": "K리그1·K리그2", "status": "waiting_for_kbo_results"},
+    {"league": "NPB·MLB·KBL·NBA·배구·기타 축구", "status": "waiting_for_kleague_results"}
+  ],
+  "automation_queue_changed": false,
+  "new_automation_created": false,
+  "automatic_model_adoption": false,
+  "production_changes": false,
+  "existing_monthly_loss_limit_krw": 50000
+}
