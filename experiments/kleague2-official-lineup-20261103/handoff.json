@@ -1,7 +1,7 @@
 {
   "role": "K League 2 official lineup research",
   "league": "K League 2",
-  "status": "source_verified_historical_timing_blocked",
+  "status": "cohort_captured_historical_timing_blocked",
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/kleague2-official-lineup-20261103",
   "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
@@ -17,43 +17,70 @@
     "2025-2-253-match.bin": "33f1ec667ff3e03f01dbf289f1f08c9ba263fed5355a1ae39d7dccd731d1bce3",
     "2026-2-1-info.bin": "ae12f916527bf419c263c36488f107af3836981074d6f5125e2ac916fdf722e7",
     "2026-2-1-match.bin": "82dd637fdcb71ece1f9506353ab56091566978d81c63a7573b852732aedeab6e",
-    "2026-2-schedule-02.bin": "acac198f1f686a7f40d4e93e8236d81f2fbc1b8378372e406425e94e31b136ac"
+    "2026-2-schedule-02.bin": "acac198f1f686a7f40d4e93e8236d81f2fbc1b8378372e406425e94e31b136ac",
+    "review-targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "review-predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd"
   },
   "new_input_ids": [
-    "kleague:2024:2:1",
-    "kleague:2025:2:1",
-    "kleague:2025:2:253",
-    "kleague:2026:2:1",
-    "kleague:2025:1:1"
+    "official-k2-2026-census-272",
+    "official-k2-2025-census-275",
+    "official-lineup-pages-523"
   ],
   "protocol_sha": null,
   "tests": [
-    "python -m unittest discover -s tests -p test_kleague2_official_lineup_20261103.py -v: 3 passed",
-    "12 committed raw responses match their recorded SHA-256 after binary attributes"
+    "python -m unittest discover -s tests -p test_kleague2*20261103.py -v: 7 passed",
+    "12 earlier committed raw bytes verified against recorded hashes",
+    "live duplicate collector blocked by Windows file lock"
   ],
   "metrics": {
-    "k2_games": 4,
-    "k2_starting_rows": 88,
-    "k2_bench_rows": 60,
-    "k2_score_schedule_links": 4,
-    "k1_control_games": 1,
-    "k2_substitution_rows_with_time_and_partner": 72,
-    "all_substitution_rows_unresolved_partner_id": 2,
-    "review_target_id_matches": 0,
-    "historically_certified_pregame_receipts": 0
+    "season_2026": {
+      "bench_player_rows": 4461,
+      "captured": 248,
+      "census": 272,
+      "certified_historical_pregame": 0,
+      "complete_lineups": 248,
+      "finished": 248,
+      "missing_game_ids": [],
+      "not_captured": 0,
+      "not_finished": 24,
+      "parse_errors": [],
+      "parse_failed": 0,
+      "starting_player_rows": 5456,
+      "substitution_player_rows": 4665,
+      "unresolved_partner_ids": 3
+    },
+    "season_2025": {
+      "bench_player_rows": 3848,
+      "captured": 275,
+      "census": 275,
+      "certified_historical_pregame": 0,
+      "complete_lineups": 275,
+      "finished": 275,
+      "missing_game_ids": [],
+      "not_captured": 0,
+      "not_finished": 0,
+      "parse_errors": [],
+      "parse_failed": 0,
+      "starting_player_rows": 6050,
+      "substitution_player_rows": 5146,
+      "unresolved_partner_ids": 18
+    },
+    "review_targets": 9,
+    "review_identity_matched_lineup_3way_and_result": 9,
+    "review_prediction_rows": 72,
+    "independent_historical_pregame_receipts": 0
   },
   "limitations": [
-    "Five selected games do not establish season coverage.",
-    "Official match-centre response includes post-match information and does not establish pregame publication or receipt.",
-    "Price overlap is scoped to one saved target input and event_id; other identifiers and operating ledger not checked.",
-    "Formation and announcement times not extracted.",
-    "Two substitution partner names not uniquely matched to a player ID."
+    "Official schedule is the census; independent completeness verification absent.",
+    "All lineup pages were received after the historical matches; no T-30 receipt authentication.",
+    "Target records omit separate product ID, price ID and prediction ID; input lines refer to retrospective calculations, not frozen operating predictions.",
+    "Substitution counts are player rows, not distinct substitutions."
   ],
   "blockers": [
-    "Historical pregame reception and same-product prices and frozen predictions are not proven."
+    "No authenticated historical predecision lineup receipt, product-specific executable prices or frozen operating ledger."
   ],
   "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/515",
   "next_data_needed": [
-    "Authenticated predecision lineup capture with actual reception, fixture/player IDs, complete contemporaneous product price and frozen operating pick, result and settlement; a bounded sampling budget for further official match-centre collection."
+    "New actual-receipt predecision official lineup, same product price and frozen operating prediction; independently authenticated timing."
   ]
 }
