@@ -1,0 +1,70 @@
+{
+  "development_commit": "0277fa14b2e7ee2f950d683cf0093f9f1b6d788d",
+  "development_sha256": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45",
+  "training_n": 1451,
+  "validation_n": 731,
+  "family_or_hyperparameter_selection": false,
+  "2026_labels_read": false,
+  "scenarios": {
+    "actual": {
+      "M0_actual": {
+        "hits": 393,
+        "n": 731,
+        "accuracy": 0.5376196990424077,
+        "logloss": 0.8627602304437175,
+        "brier": 0.5391012015082852
+      },
+      "M0_projected": {
+        "hits": 385,
+        "n": 731,
+        "accuracy": 0.5266757865937073,
+        "logloss": 0.8676918949692461,
+        "brier": 0.5431974530903951
+      },
+      "M2_actual": {
+        "hits": 398,
+        "n": 731,
+        "accuracy": 0.5444596443228454,
+        "logloss": 0.8088906491288699,
+        "brier": 0.5221761437942559
+      },
+      "M2_projected": {
+        "hits": 393,
+        "n": 731,
+        "accuracy": 0.5376196990424077,
+        "logloss": 0.8107895281520635,
+        "brier": 0.5260667684238465
+      }
+    },
+    "projected": {
+      "M0_actual": {
+        "hits": 386,
+        "n": 731,
+        "accuracy": 0.5280437756497948,
+        "logloss": 0.8642152832259691,
+        "brier": 0.5406249647933715
+      },
+      "M0_projected": {
+        "hits": 385,
+        "n": 731,
+        "accuracy": 0.5266757865937073,
+        "logloss": 0.8662130973138578,
+        "brier": 0.542039858103041
+      },
+      "M2_actual": {
+        "hits": 383,
+        "n": 731,
+        "accuracy": 0.5239398084815321,
+        "logloss": 0.808719264048885,
+        "brier": 0.5248801232951834
+      },
+      "M2_projected": {
+        "hits": 394,
+        "n": 731,
+        "accuracy": 0.5389876880984952,
+        "logloss": 0.8092403984476754,
+        "brier": 0.5249703547786482
+      }
+    }
+  }
+}

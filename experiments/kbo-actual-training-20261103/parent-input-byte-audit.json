@@ -1,0 +1,53 @@
+{
+  "data_commit": "58556de08c64604276de8682373d3ccc8d535d7c",
+  "manifest_sha256": "8be3db58b4915383acd1f375a1e244840c22fcf6b2a2a40cf71a9bf5441e84f9",
+  "files": {
+    "train-actual": {
+      "sha256": "0d760f7cc1f993792d8ab5e697a9e77c903e5abc4f90823730baabcdc1c4adf9",
+      "n": 2182,
+      "years": {
+        "2023": 723,
+        "2024": 728,
+        "2025": 731
+      },
+      "first_date": "2023-04-01",
+      "last_date": "2025-10-31"
+    },
+    "train-projected": {
+      "sha256": "300da51d893770af62317ef975efec8e37edd5a60445c3c545daadf3e7a39eb8",
+      "n": 2182,
+      "years": {
+        "2023": 723,
+        "2024": 728,
+        "2025": 731
+      },
+      "first_date": "2023-04-01",
+      "last_date": "2025-10-31"
+    },
+    "test-actual": {
+      "sha256": "f904267d65e790fbde663b2280f0489b6d8a9df26a73f5e9c9ca713bc0a64a5d",
+      "n": 709,
+      "years": {
+        "2026": 709
+      },
+      "first_date": "2026-03-28",
+      "last_date": "2026-10-27"
+    },
+    "test-projected": {
+      "sha256": "2ef8e3a7f17b9f43262b875d3b913f0420e23f31a25aaba8f943131445a35bc6",
+      "n": 709,
+      "years": {
+        "2026": 709
+      },
+      "first_date": "2026-03-28",
+      "last_date": "2026-10-27"
+    }
+  },
+  "common_cohorts": true,
+  "unique_fixture_ids": true,
+  "verified_actual_ordered_nine_and_starters": true,
+  "unchanged_nonplayer_features": true,
+  "train_test_fixture_disjoint": true,
+  "historical_receipt_proof": false,
+  "performance_evaluated": false
+}

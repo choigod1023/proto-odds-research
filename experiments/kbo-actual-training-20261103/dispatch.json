@@ -1,0 +1,168 @@
+{
+  "schema": "manual-actual-training-dispatch-v1",
+  "contract_commit": "c5407e9b",
+  "contract_sha256": "512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480",
+  "started_at_utc": "2026-11-03T05:20:10.434019+00:00",
+  "workers": [
+    {
+      "role": "2023_and_paired_data_integration",
+      "thread_id": "01a18f7e-a7eb-7cb0-af28-2d8de142995b",
+      "workspace": "C:/Users/user/Documents/Codex/kbtdata",
+      "status": "completed",
+      "progress_path": "C:/Users/user/Documents/Codex/kbtdata/.research-state/kbo-actual-2023/progress.json",
+      "source_2023_commit": "38463a3f2eb9ac2b00c4ddf9edd6ebacf8a99b55",
+      "source_2023_actual_games": 723,
+      "source_2026_commit": "e6068b83e1b076f0aa24a71a33a77930d4c09f2c",
+      "paired_training_games": 2182,
+      "paired_test_games": 709,
+      "data_commit": "58556de08c64604276de8682373d3ccc8d535d7c",
+      "pr": 534
+    },
+    {
+      "role": "2024_official_rosters",
+      "thread_id": "01a18c2d-e5cd-7941-bdd7-8b7f44c53873",
+      "workspace": "C:/Users/user/Documents/Codex/kbt24",
+      "status": "completed",
+      "progress_path": "C:/Users/user/Documents/Codex/kbo-actual-2024-20261103/progress.json",
+      "source_commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+      "eligible_games": 728,
+      "pr": 536
+    },
+    {
+      "role": "2025_official_rosters",
+      "thread_id": "01a18c2d-f0d7-79e3-ba97-6f4400dca5f2",
+      "workspace": "C:/Users/user/Documents/Codex/kbt25",
+      "status": "completed",
+      "progress_path": "C:/Users/user/Documents/Codex/kbt25/experiments/kbo-actual-lineups-2025-20261103/capture-state/progress.json",
+      "source_commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
+      "eligible_games": 731,
+      "excluded_games": 5,
+      "pr": 537
+    },
+    {
+      "role": "paired_M0_M2_refit",
+      "thread_id": "01a18c2d-e953-7d83-8b66-05e7173ae159",
+      "workspace": "C:/Users/user/Documents/Codex/kbtmodel",
+      "status": "completed_research_ci_pending",
+      "preparation_commit": "22edf69d",
+      "pr": 535,
+      "synthetic_preparation_tests": 51,
+      "preparation_tests": 66,
+      "input_identity_regression_fixed": true,
+      "input_commit": "0d7cffe4173855c1e6b2ef5ebc9af3ba10c76ae5",
+      "development_commit": "0277fa14b2e7ee2f950d683cf0093f9f1b6d788d",
+      "prediction_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+      "result_commit": "54dbcfcdd9ffc3ca0ad473cf9d586a38398cde4e",
+      "related_regression_tests": 72,
+      "parent_rerun_specific_pytest": 37
+    },
+    {
+      "role": "independent_source_and_metric_audit",
+      "thread_id": "01a18c2d-ed38-7e83-b759-0bf22e208fc1",
+      "workspace": "C:/Users/user/Documents/Codex/kbtreview",
+      "status": "completed",
+      "preparation_commit": "8297b6dd871f89fc243d46116e36ba9d38e9ba4c",
+      "pr": 533,
+      "synthetic_preparation_tests": 15,
+      "source_2023_review_commit": "ffe52635f64b51b1b45e59202c4db99b0a528a5d",
+      "source_2023_audit": "passed_723_games_1902_responses",
+      "source_2024_review_commit": "e447b06072a1c9e9d21a922222860f04757e1338",
+      "source_2025_review_commit": "da5fcf08",
+      "paired_input_review_commit": "d597dbc2462cb5f971a0f3c2c04bd5dcbb422e42",
+      "model_prediction_review_commit": "f4a3e3d300e02406601d844f86a6eb50d54a76ec",
+      "official_score_matches": 709,
+      "official_score_mismatches": 0,
+      "final_review_commit": "9b4f318c8ffb073b987d530ca0a0d7146d8d7240",
+      "final_price_model_comparisons": 48,
+      "final_outcome_model_comparisons": 12,
+      "decimal_fixture_settlements": 26376,
+      "paired_price_intervals": 48
+    }
+  ],
+  "actual_receipt_proven": false,
+  "automatic_model_adoption": false,
+  "production_changes": false,
+  "automation_queue_changes": false,
+  "wallet_changes": false,
+  "existing_monthly_simulation_loss_limit_krw": 50000,
+  "parent_contract_validation": "Git blob SHA, cohort and frozen settings, true/false autocrlf clones passed",
+  "progress_is_not_final_verified_data": true,
+  "preparation_tests_are_not_actual_model_results": true,
+  "preparation_defect": "old preparation allowed mismatched roster/history owner IDs; fixed before real data ingestion, unknown-but-matching players remain allowed",
+  "source_2023_worker_replay": {
+    "official_raw_responses": 1902,
+    "batting_slots": 13014,
+    "starter_slots": 1446,
+    "not_historical_receipt_proof": true
+  },
+  "verified_2023_name_alias": {
+    "player_id": "68419",
+    "historical_name": "최채흥",
+    "current_name": "최지명",
+    "verified_occurrences": 7,
+    "not_fuzzy_linkage": true
+  },
+  "source_2025_collection_progress": "Finalized: 731 of 736 eligible; five unconfirmed batting orders excluded from both training schemes. Five homonymous starters resolved by official daily start/relief identity evidence.",
+  "source_2024_capture_limitations": {
+    "spacing_violations_under_1_5_seconds": 128,
+    "overlapping_collectors_stopped_and_exclusive_lock_added": true
+  },
+  "parent_input_byte_audit": "parent-input-byte-audit.json",
+  "parent_history_coverage": "parent-history-coverage.json",
+  "measured_actual_scenario": {
+    "evaluation_games": 709,
+    "price_games": 667,
+    "M0_actual": {
+      "hits": 418,
+      "net_units": "-29.05",
+      "roi": -0.04355322338830585
+    },
+    "M2_actual": {
+      "hits": 396,
+      "net_units": "-49.25",
+      "roi": -0.07383808095952024
+    },
+    "all_negative_roi": true,
+    "superiority_established": false
+  },
+  "parent_settlement_script": "parent_settlement.py",
+  "parent_settlement_result": "parent-settlement.json",
+  "parent_independent_result_comparison": "parent-v-independent-audit.json",
+  "parent_model_result_comparison": "parent-v-model-audit.json",
+  "model_pr_final_ci_snapshot": {
+    "checked_at_utc": "2026-11-03T06:56:19.803241+00:00",
+    "headRefOid": "54dbcfcdd9ffc3ca0ad473cf9d586a38398cde4e",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/choigod1023/proto-odds-research/actions/runs/41592563736/job/125772403892",
+        "name": "test (3.11)",
+        "startedAt": "2026-11-03T06:51:50Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "python-tests"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/choigod1023/proto-odds-research/actions/runs/41592563736/job/125772403568",
+        "name": "test (3.12)",
+        "startedAt": "2026-11-03T06:51:50Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "python-tests"
+      },
+      {
+        "__typename": "StatusContext",
+        "context": "CodeRabbit",
+        "startedAt": "2026-11-03T06:51:51Z",
+        "state": "SUCCESS",
+        "targetUrl": ""
+      }
+    ]
+  },
+  "research_status": "completed_actual_training_prediction_settlement_and_independent_audit",
+  "merging": false,
+  "deployment": false
+}
