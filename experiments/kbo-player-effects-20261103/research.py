@@ -50,6 +50,20 @@ def roster(src,scenario):
   out[side]={'hitters':players,'starter':pitch}
  return out
 
+TEAM_IDS={'한화':'HH','KT':'KT','삼성':'SS','두산':'OB','LG':'LG','키움':'WO','KIA':'HT','롯데':'LT','NC':'NC','SSG':'SK'}
+def check_roster_identity(src,scenario,base):
+ roles=roster(src,scenario)
+ for side in ('home','away'):
+  line=src['features'][side+'_lineup_strength']['value'];pitch=src['features'][side+'_starter_strength']['value']
+  if line is not None and [p['player_id'] for p in line]!=roles[side]['hitters']:raise ValueError('lineup selector and profiles differ')
+  if pitch is not None and pitch['projected_player_id']!=roles[side]['starter']:raise ValueError('starter selector and profile differ')
+ if scenario=='official_batting_and_starter':
+  a=src['official_lineup_context'];b=src['official_schedule_pitcher_context'];fid=base['fixture_id'];day=base['event_date'];gid=a['official_game_id'];expected_score=f"score:{day}:{base['home_id']}:{base['away_id']}"
+  if b['official_game_id']!=gid or fid not in (gid+str(base['season']),expected_score) or a['official_game_date']!=day.replace('-','') or b['game_date']!=day.replace('-',''):raise ValueError('official fixture mismatch')
+  for side in ('home','away'):
+   if a[side+'_team_id']!=TEAM_IDS.get(base[side+'_id']) or b['pitchers'][side]['team_id']!=TEAM_IDS.get(base[side+'_id']):raise ValueError('official team mismatch')
+ return roles
+
 def load_data():
  verify_inputs();base=index(read_gz('features.jsonl.gz'));prior=index(read_gz('prior-projected-features.jsonl.gz'));raw=index(read_gz('rows.jsonl.gz'));labels=index(read_gz('development-labels.jsonl.gz'))
  if len(base)!=2913 or set(base)!=set(prior) or set(base)!=set(raw) or any(x['fixture_id'] not in base or base[x['fixture_id']]['season']==2026 for x in labels.values()):raise ValueError('baseline or development cohort mismatch')
@@ -62,7 +76,7 @@ def load_data():
    if actual!=expected:raise ValueError('original scalar mismatch')
   if b['season']<2026:
    if fid not in labels:raise ValueError('missing development label')
-   training.append({'fixture_id':fid,'event_date':b['event_date'],'season':b['season'],'home_id':b['home_id'],'away_id':b['away_id'],'features':b['features'],'roster':roster(src,'projected')})
+   training.append({'fixture_id':fid,'event_date':b['event_date'],'season':b['season'],'home_id':b['home_id'],'away_id':b['away_id'],'features':b['features'],'roster':check_roster_identity(src,'projected',b)})
  predsets={}
  for scenario in SETTINGS:
   src=index(read_gz('fresh-history-2026-'+scenario+'.jsonl.gz'));out=[]
@@ -78,7 +92,7 @@ def load_data():
    if scenario=='official_batting_and_starter':
     for context in ('official_lineup_context','official_schedule_pitcher_context'):
      if any(s[context][k] is not False for k in ('historical_receipt_proven','eligible_as_pregame_feature','point_in_time_verified')):raise ValueError('prematch availability promoted')
-   out.append({'fixture_id':fid,'event_date':b['event_date'],'season':2026,'home_id':b['home_id'],'away_id':b['away_id'],'features':features,'roster':roster(s,scenario)})
+   out.append({'fixture_id':fid,'event_date':b['event_date'],'season':2026,'home_id':b['home_id'],'away_id':b['away_id'],'features':features,'roster':check_roster_identity(s,scenario,b)})
   predsets[scenario]=sorted(out,key=lambda x:(x['event_date'],x['fixture_id']))
  if [x['fixture_id'] for x in predsets['projected']]!=[x['fixture_id'] for x in predsets['official_batting_and_starter']]:raise ValueError('709 roster cohort mismatch')
  return sorted(training,key=lambda x:(x['event_date'],x['fixture_id'])),labels,predsets

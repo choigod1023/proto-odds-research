@@ -1,0 +1,129 @@
+{
+  "diagnostic_2026": {
+    "official_batting_and_starter": {
+      "M0": {
+        "actual_draw_rate": 0.022566995768688293,
+        "actual_draws": 16,
+        "decisive": 693,
+        "decisive_accuracy": 0.5815295815295816,
+        "decisive_brier": 0.4894190629334553,
+        "decisive_direction_logloss_per_game": 0.6671785239291951,
+        "decisive_hits": 403,
+        "decisive_logloss": 0.6825823570935056,
+        "draw_event_logloss_per_game": 0.1784938828863424,
+        "mean_predicted_draw_probability": 0.1262753905751575,
+        "n": 709
+      },
+      "M1": {
+        "actual_draw_rate": 0.022566995768688293,
+        "actual_draws": 16,
+        "decisive": 693,
+        "decisive_accuracy": 0.5339105339105339,
+        "decisive_brier": 0.5188010763247174,
+        "decisive_direction_logloss_per_game": 0.7008340863861278,
+        "decisive_hits": 370,
+        "decisive_logloss": 0.7170149599534842,
+        "draw_event_logloss_per_game": 0.17252085906939102,
+        "mean_predicted_draw_probability": 0.12017016698205428,
+        "n": 709
+      },
+      "M2": {
+        "actual_draw_rate": 0.022566995768688293,
+        "actual_draws": 16,
+        "decisive": 693,
+        "decisive_accuracy": 0.5613275613275613,
+        "decisive_brier": 0.48598330482559904,
+        "decisive_direction_logloss_per_game": 0.6635687693618888,
+        "decisive_hits": 389,
+        "decisive_logloss": 0.6788892604294072,
+        "draw_event_logloss_per_game": 0.10778195702372657,
+        "mean_predicted_draw_probability": 0.019376865554708207,
+        "n": 709
+      }
+    },
+    "projected": {
+      "M0": {
+        "actual_draw_rate": 0.022566995768688293,
+        "actual_draws": 16,
+        "decisive": 693,
+        "decisive_accuracy": 0.5743145743145743,
+        "decisive_brier": 0.4914680594433776,
+        "decisive_direction_logloss_per_game": 0.6694171712820226,
+        "decisive_hits": 398,
+        "decisive_logloss": 0.6848726903881011,
+        "draw_event_logloss_per_game": 0.17821271759753243,
+        "mean_predicted_draw_probability": 0.12611177240836882,
+        "n": 709
+      },
+      "M1": {
+        "actual_draw_rate": 0.022566995768688293,
+        "actual_draws": 16,
+        "decisive": 693,
+        "decisive_accuracy": 0.5584415584415584,
+        "decisive_brier": 0.5192492793710176,
+        "decisive_direction_logloss_per_game": 0.7022357422659282,
+        "decisive_hits": 387,
+        "decisive_logloss": 0.7184489772965991,
+        "draw_event_logloss_per_game": 0.1727215338827369,
+        "mean_predicted_draw_probability": 0.1202008111378684,
+        "n": 709
+      },
+      "M2": {
+        "actual_draw_rate": 0.022566995768688293,
+        "actual_draws": 16,
+        "decisive": 693,
+        "decisive_accuracy": 0.5627705627705628,
+        "decisive_brier": 0.48663235510706354,
+        "decisive_direction_logloss_per_game": 0.6642640938658654,
+        "decisive_hits": 390,
+        "decisive_logloss": 0.6796006386015851,
+        "draw_event_logloss_per_game": 0.10762192551579099,
+        "mean_predicted_draw_probability": 0.019292823824076443,
+        "n": 709
+      }
+    }
+  },
+  "note": "No fitting or model selection; 2026 is previously inspected and retrospective.",
+  "selection_unchanged": true,
+  "validation_2025": {
+    "M0": {
+      "actual_draw_rate": 0.029891304347826088,
+      "actual_draws": 22,
+      "decisive": 714,
+      "decisive_accuracy": 0.5406162464985994,
+      "decisive_brier": 0.501938788968697,
+      "decisive_direction_logloss_per_game": 0.6746401584831876,
+      "decisive_hits": 386,
+      "decisive_logloss": 0.6954273902571794,
+      "draw_event_logloss_per_game": 0.19206873435149605,
+      "mean_predicted_draw_probability": 0.1255040717880331,
+      "n": 736
+    },
+    "M1": {
+      "actual_draw_rate": 0.029891304347826088,
+      "actual_draws": 22,
+      "decisive": 714,
+      "decisive_accuracy": 0.5448179271708683,
+      "decisive_brier": 0.5278058879381727,
+      "decisive_direction_logloss_per_game": 0.7074913926917202,
+      "decisive_hits": 389,
+      "decisive_logloss": 0.7292908473684959,
+      "draw_event_logloss_per_game": 0.18471964746788347,
+      "mean_predicted_draw_probability": 0.11817733395099471,
+      "n": 736
+    },
+    "M2": {
+      "actual_draw_rate": 0.029891304347826088,
+      "actual_draws": 22,
+      "decisive": 714,
+      "decisive_accuracy": 0.561624649859944,
+      "decisive_brier": 0.4974872300701253,
+      "decisive_direction_logloss_per_game": 0.6700809781120838,
+      "decisive_hits": 401,
+      "decisive_logloss": 0.6907277309390667,
+      "draw_event_logloss_per_game": 0.14067003112317064,
+      "mean_predicted_draw_probability": 0.014290317093611875,
+      "n": 736
+    }
+  }
+}
