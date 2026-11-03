@@ -241,6 +241,31 @@ class OfficialTests(unittest.TestCase):
             with self.assertRaisesRegex(SourceError,'response_too_large'): c.fetch(SCHEDULE,{'date':'x'})
         self.assertTrue(c.records[-1]['truncated'])
 
+    def test_retired_candidate_requires_official_earlier_last_season(self):
+        import research.kbo_forward.official as off
+        search=('<div class="inquiry"><p class="title"><span class="point">2</span></p><table class="tEx"><tbody>'
+                '<tr><td>61</td><td><a href="/Record/Player/PitcherDetail/Basic.aspx?playerId=53029">Kim</a></td><td>KT</td></tr>'
+                '<tr><td>#</td><td><a href="/Record/Retire/Pitcher.aspx?playerId=63901">Kim</a></td><td>KT</td></tr>'
+                '</tbody></table></div>')
+        def retired(year):
+            row='' if year is None else '<tr><td>'+str(year)+'</td><td>KT</td><td>1</td></tr>'
+            return ('<span id="x_ucRetireInfo_lblName">Kim</span><img id="x_ucRetireInfo_imgProgile" src="/person/middle/63901.jpg">'
+                    '<table class="tData01"><thead><tr><th>연도</th><th>팀명</th><th>G</th></tr></thead><tbody>'+row+'</tbody></table>')
+        class Get:
+            def __init__(self,year): self.headers={};self.year=year
+            def get(self,url,**kwargs):
+                r=Response({});r.content=(search if url==off.SEARCH else retired(self.year)).encode();return r
+        with patch.object(off.time,'sleep'):
+            client=OfficialClient(self.tmp.name,session=Get(2018))
+            pid,receipts=client.resolve_identity('Kim','KT','pitcher',2026)
+            self.assertEqual(pid,'53029');self.assertEqual(len(receipts),2)
+            self.assertEqual(client.resolve_identity('Kim','KT','pitcher',2026,identity_receipts=receipts)[0],pid)
+            for year,reason in ((2026,'retired_candidate_in_game_season'),(None,'retired_last_season_unavailable')):
+                other=OfficialClient(Path(self.tmp.name)/str(year),session=Get(year))
+                with self.assertRaisesRegex(SourceError,reason):other.resolve_identity('Kim','KT','pitcher',2026)
+            with self.assertRaisesRegex(SourceError,'identity_receipt_missing'):
+                client.resolve_identity('Kim','KT','pitcher',2026,identity_receipts=receipts[:1])
+
     def test_limits(self):
         with self.assertRaises(ValueError): OfficialClient(self.tmp.name, max_requests=81)
         with self.assertRaises(ValueError): OfficialClient(self.tmp.name, max_lineup_requests=6)
