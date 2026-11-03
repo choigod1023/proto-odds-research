@@ -67,11 +67,12 @@ def evidence(row,rosters,starter2026,official2026,man):
 def check_shared(left,right):
  for key in p.FEATURES:
   if key not in p.ROSTER_FEATURES and left['raw_features'][key]!=right['raw_features'][key]:raise ValueError('matched nonroster raw input changed')
- for side in ('home','away'):
-  l=left['raw_features'][side+'_lineup_strength']['value'] or [];r=right['raw_features'][side+'_lineup_strength']['value'] or [];aa={x['player_id']:x['history'] for x in l};bb={x['player_id']:x['history'] for x in r}
-  if any(aa[x]!=bb[x] for x in set(aa)&set(bb)):raise ValueError('shared hitter history mismatch')
-  l=left['raw_features'][side+'_starter_strength']['value'];r=right['raw_features'][side+'_starter_strength']['value']
-  if left['roster'][side]['starter'] is not None and left['roster'][side]['starter']==right['roster'][side]['starter'] and l!=r:raise ValueError('shared starter history mismatch')
+ for left_side in ('home','away'):
+  for right_side in ('home','away'):
+   l=left['raw_features'][left_side+'_lineup_strength']['value'] or [];r=right['raw_features'][right_side+'_lineup_strength']['value'] or [];aa={x['player_id']:x['history'] for x in l};bb={x['player_id']:x['history'] for x in r}
+   if any(aa[x]!=bb[x] for x in set(aa)&set(bb)):raise ValueError('shared hitter history mismatch')
+   l=left['raw_features'][left_side+'_starter_strength']['value'];r=right['raw_features'][right_side+'_starter_strength']['value']
+   if left['roster'][left_side]['starter'] is not None and left['roster'][left_side]['starter']==right['roster'][right_side]['starter'] and l!=r:raise ValueError('shared starter history mismatch')
 
 def load():
  man,idx=verify_snapshot();base=p.index(rows('features.jsonl.gz'));known={fid:date.fromisoformat(x['event_date']) for fid,x in base.items()};proofs={2023:p.index(rows('prior-projected-features.jsonl.gz')),2026:p.index(rows('fresh-history-2026-projected.jsonl.gz'))};official=p.index(rows('fresh-history-2026-official_batting_and_starter.jsonl.gz'));rosters={y:p.index(rows('actual-rosters-'+str(y)+'.jsonl.gz')) for y in (2023,2024,2025)};starters=p.index(rows('actual-starters-2026.jsonl.gz'));hashes={man['source_rosters'][str(y)]['sha256'] for y in (2023,2024,2025)}|{man['verification']['sha256']};out={}

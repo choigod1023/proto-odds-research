@@ -78,6 +78,8 @@ def test_six_models_identical_prices_refund_and_reject_sensitivity():
  for name in m.MODEL_NAMES:
   metric=result['price_cohorts']['strict']['models'][name];assert metric['hits']==1 and metric['net_units']=='1' and metric['roi_including_refunds']==.5
  assert result['price_cohorts']['strict_current_reject_excluded']['n']==1 and result['price_cohorts']['strict_current_reject_excluded']['models']['M0_actual']['roi_including_refunds']==0
+ import independent_verify as check
+ wrapped={'results':{'actual':result},'ledgers':{'actual':ledgers}};assert check.verify_settlements(wrapped)['decimal_settlements']==18 and check.verify_paired_intervals(wrapped)['paired_price_intervals']==12
 
 def test_non_full_commit_or_unverified_sha_is_rejected():
  with pytest.raises(ValueError,match='full immutable'):source.committed_blob(P,'abc','file','a'*64)
@@ -186,3 +188,31 @@ def test_shared_player_history_must_match_across_training_selectors():
  import dataset
  a={'raw_features':{k:empty_entry() for k in m.FEATURES},'roster':{'home':{'starter':None},'away':{'starter':None}}};b=copy.deepcopy(a);a['raw_features']['home_lineup_strength']['value']=[{'player_id':'h0','history':[{'ab':1}]}];b['raw_features']['home_lineup_strength']['value']=[{'player_id':'h0','history':[{'ab':2}]}]
  with pytest.raises(ValueError,match='shared hitter'):dataset.check_shared(a,b)
+ b['raw_features']['away_lineup_strength']['value']=b['raw_features']['home_lineup_strength']['value'];b['raw_features']['home_lineup_strength']['value']=None
+ with pytest.raises(ValueError,match='shared hitter'):dataset.check_shared(a,b)
+
+def test_draw_loss_decomposes_separately_from_decisive_score():
+ import draw_components
+ pred=[{'fixture_id':'a','probabilities_3way':{'home':.5,'draw':.2,'away':.3},'probabilities_2way':{'home':.625,'away':.375}},{'fixture_id':'b','probabilities_3way':{'home':.5,'draw':.2,'away':.3},'probabilities_2way':{'home':.625,'away':.375}}];labels={'a':{'home_score':1,'away_score':1},'b':{'home_score':2,'away_score':0}};x=draw_components.calculate(pred,labels);import math
+ assert x['draws']==1 and x['decisive_hits']==1 and abs(x['draw_event_logloss_per_game']+x['decisive_direction_logloss_per_game']-(-math.log(.2)-math.log(.5))/2)<1e-12
+
+def test_synthetic_year_fixture_matches_only_exact_date_and_oriented_teams():
+ import dataset
+ a=row('44441019OBNC02023','2023-10-19');a['home_id']='NC';a['away_id']='두산';a['roster']['home']['hitters']=['h'+str(i) for i in range(9)];a['roster']['away']['hitters']=['a'+str(i) for i in range(9)]
+ hitters={s:[{'slot':i+1,'player_id':v} for i,v in enumerate(a['roster'][s]['hitters'])] for s in ('home','away')};starters={s:{'player_id':a['roster'][s]['starter'],'actual_record_verified':True,'evidence':{'basis':'official_completed_boxscore_unique_first_starting_flag_and_official_schedule_same_team_name_or_id'}} for s in ('home','away')};rec={'fixture_id':a['fixture_id'],'season':2023,'date':'2023-10-19','official_game_id':'20231019OBNC0','teams':{'home':'NC','away':'두산'},'status':'complete','exclusions':[],'source_kind':'official_retrospective_identity_only','historical_receipt_proven':False,'historical_publication_time_proven':False,'target_player_stats_used_as_features':False,'hitters':hitters,'starters':starters};sources={2023:{a['fixture_id']:rec}};manifest={'source_rosters':{'2023':{'sha256':'a'*64}}};assert dataset.evidence(a,sources,{}, {},manifest)['official_game_id']=='20231019OBNC0'
+ rec['official_game_id']='20231019OBNC1'
+ with pytest.raises(ValueError,match='game key'):dataset.evidence(a,sources,{}, {},manifest)
+
+def test_pinned_independent_review_matches_prediction_and_official_score_audit():
+ import hashlib,json
+ a=P/'artifacts/independent-review.json';raw=a.read_bytes();assert hashlib.sha256(raw).hexdigest()=='e1a8a7accd9e82f9492a3839c3fc8a306d5b963d711d21d2d20cd3a5eab638a0';review=json.loads(raw)
+ assert review['prediction_commit']=='ff2bef35988eb5add154b4bebf8b265f42792db1' and review['official_score_comparison']['matched']==709 and review['official_score_comparison']['mismatch']==0 and review['official_score_comparison']['missing']==0
+ assert review['historical_receipt_proven'] is False and review['actual_execution_proven'] is False
+ result=json.loads((P/'artifacts/results.json').read_bytes())
+ for model in ('M0_actual','M2_actual'):
+  assert review['scenarios']['actual']['outcomes'][model]['hits']==result['results']['actual']['outcome'][model]['threeway']['hits']
+  assert review['scenarios']['actual']['price_cohorts']['extended_day_team_source_confirmed']['models'][model]['net_units']==result['results']['actual']['price_cohorts']['extended_day_team_source_confirmed']['models'][model]['net_units']
+
+def test_original_score_label_basis_remains_unchanged_after_official_crosscheck():
+ import gzip,json,hashlib
+ path=P/'evaluation-inputs/test-labels.jsonl.gz';raw=path.read_bytes();assert hashlib.sha256(raw).hexdigest()=='885b5dc0d182fa91d29ea4d74a078fb8835acf817095604106564864d0e19dc9';labels=[json.loads(x) for x in gzip.decompress(raw).splitlines()];assert len(labels)==726 and {x['status_basis'] for x in labels}=={'archived_score_not_independently_official'}

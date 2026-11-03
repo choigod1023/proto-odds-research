@@ -63,3 +63,38 @@ def verify_settlements(result):
     if not rows and (ref['max_daily_close_drawdown_units'] is not None or ref['roi_including_refunds'] is not None):raise ValueError('empty price cohort metric')
     count+=len(rows)
  return {'decimal_settlements':count}
+
+
+def verify_outcomes(frozen,labels,result):
+ count=0
+ for selector,models in frozen['predictions'].items():
+  for name,items in models.items():
+   hits=draws=dhit=0;loss=brier=dloss=dbrier=0.;drawprob=0.
+   for x in items:
+    y=labels[x['fixture_id']];h=y['home_score'];a=y['away_score'];truth='home' if h>a else 'away' if h<a else 'draw';q=x['probabilities_3way'];z=x['probabilities_2way'];hits+=max(('home','draw','away'),key=q.get)==truth;loss-=math.log(q[truth]);brier+=sum((q[k]-(k==truth))**2 for k in ('home','draw','away'));drawprob+=q['draw'];draws+=truth=='draw'
+    if truth!='draw':dhit+=max(('home','away'),key=z.get)==truth;dloss-=math.log(z[truth]);dbrier+=sum((z[k]-(k==truth))**2 for k in ('home','away'))
+   ref=result['results'][selector]['outcome'][name];three=ref['threeway'];n=len(items);dec=n-draws
+   if hits!=three['hits'] or draws!=ref['draws'] or dhit!=ref['decisive_hits'] or abs(loss/n-three['logloss'])>1e-12 or abs(brier/n-three['brier'])>1e-12 or abs(drawprob/n-ref['mean_predicted_draw'])>1e-12 or abs(dloss/dec-ref['decisive_logloss'])>1e-12 or abs(dbrier/dec-ref['decisive_brier'])>1e-12:raise ValueError('independent outcome score discrepancy')
+   count+=n
+ return {'outcome_scores':count}
+
+def verify_paired_intervals(result):
+ from datetime import date
+ import numpy as np
+ checked=0
+ for selector,tiers in result['ledgers'].items():
+  for tier,rows in tiers.items():
+   for pair,ref in result['results'][selector]['price_cohorts'][tier]['paired'].items():
+    first,second=pair.split('_vs_');weeks={};changed=0
+    for row in rows:
+     a=row['forecasts'][first];b=row['forecasts'][second];week=date.fromisoformat(row['date']).isocalendar()[:2];v=weeks.setdefault(week,[0.,0.,0.,0.])
+     if not a['void']:v[0]+=1;v[1]+=int(a['hit'])-int(b['hit'])
+     v[2]+=1;v[3]+=float(Decimal(a['net'])-Decimal(b['net']));changed+=a['pick']!=b['pick']
+    if len(weeks)!=ref['weeks'] or changed!=ref['changed']:raise ValueError('independent paired counts mismatch')
+    if len(weeks)>=2:
+     arr=np.array([weeks[k] for k in sorted(weeks)]);rng=np.random.default_rng(20261103);draws=arr[rng.integers(0,len(arr),size=(5000,len(arr)))].sum(1);expected={'accuracy_delta_ci95':np.quantile(draws[:,1]/draws[:,0],[.025,.975]).tolist() if np.all(draws[:,0]>0) else None,'roi_delta_ci95':np.quantile(draws[:,3]/draws[:,2],[.025,.975]).tolist()}
+     for k,x in expected.items():
+      y=ref[k]
+      if (x is None)!=(y is None) or x is not None and any(abs(a-b)>1e-12 for a,b in zip(x,y)):raise ValueError('independent paired interval mismatch')
+    checked+=1
+ return {'paired_price_intervals':checked}
