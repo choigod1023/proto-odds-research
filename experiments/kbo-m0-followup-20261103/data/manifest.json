@@ -1,0 +1,182 @@
+{
+  "contract_sha256": "c56b5675def7e54783b6e67c87e09c5d03d405aba90d12fa07b0fb577be8f7ef",
+  "corroboration_policy": "2024 validation archive only; never replaces or adds a quote",
+  "draw_selection_limitation": "All 9 target draws in 2024 and all 22 target draws in 2025 are absent from original price rows; price-covered subsets contain zero draws. No prices were added from any other source.",
+  "excluded_fixture_reasons_may_overlap": true,
+  "execution_price_verified": 0,
+  "no_models_scored": true,
+  "no_new_data_collection": true,
+  "official_results": "current official schedule was independently matched to archived scores, no historical receipt proof",
+  "original_price_builder": {
+    "commit": "13291d23e855e0d500327cb39ac64a480e395837",
+    "git_blob_sha256": "5f493bc975276f27cb5ecc0af80ead5f684fd5d8f0054199e8fdad3db23e0c6f",
+    "path": "experiments/kbo-player-data-20261103/build.py",
+    "selection": "original builder excluded void rows and required archived final-score agreement"
+  },
+  "outputs_sha256": {
+    "exclusions-2024": "a251d611541693e24adcdd02566cc563ba6d1d0c3986899b812a5a05cf4aecec",
+    "exclusions-2025": "e325dd66f27755f99d4a00d3ff86254cb6f5eaac5bcd5a0fb4e6ab3b42326580",
+    "labels-2024": "7d6364117a87714bc470bc1c9f8e017cbcde30c0718ca1cf56efac59506fa61a",
+    "labels-2025": "0956bc966855c8cc036a2dc11e38e719f09fb99ed48e88af7468d060e0e34deb",
+    "prices-2024": "ce2026eae3b08bbeb46bc9e9f2185f76b15aa44763dfce1776fbc757b5719a56",
+    "prices-2025": "75c382a229cfec4fc81158312dcb907bc661eca7a001de95cc2630f4609e153c"
+  },
+  "pit_quote_receipt_verified": 0,
+  "population": {
+    "2024": {
+      "corroboration": {
+        "corroboration_fixture": 712,
+        "corroboration_price_comparable": 712,
+        "corroboration_price_equal": 712,
+        "label_draws": 9,
+        "official_result_verified": 728,
+        "price_eligible_draws": 0,
+        "price_excluded_draws": 9
+      },
+      "excluded_unique_fixtures": 14,
+      "exclusion_reason_counts": {
+        "market_missing": 14
+      },
+      "execution_verified": 0,
+      "labels_verified": 728,
+      "price_receipt_verified": 0,
+      "prices_eligible": 714,
+      "source_market_present": 714,
+      "target_fixtures": 728
+    },
+    "2025": {
+      "corroboration": {
+        "label_draws": 22,
+        "official_result_verified": 731,
+        "price_eligible_draws": 0,
+        "price_excluded_draws": 22
+      },
+      "excluded_unique_fixtures": 55,
+      "exclusion_reason_counts": {
+        "market_missing": 55
+      },
+      "execution_verified": 0,
+      "labels_verified": 731,
+      "price_receipt_verified": 0,
+      "prices_eligible": 676,
+      "source_market_present": 676,
+      "target_fixtures": 731
+    }
+  },
+  "preexisting_2025_roster_exclusions": [
+    {
+      "fixture_id": "20250930HTSS02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930KTNC02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930LTHH02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930OBLG02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930SKWO02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    }
+  ],
+  "quote_tier": "raw quote archived; original timestamp and execution unverified",
+  "schema": "kbo-retrospective-rawquote-label-2024-2025-v1",
+  "source_2024_collection_limitation": {
+    "note": "Earlier restart left overlapping collection processes; both were stopped, evidence hashes checked, and an exclusive lock added.",
+    "request_spacing_violations_under_1_5_seconds": 128
+  },
+  "source_pins": {
+    "data/model_candidates/kbo/archived-games.jsonl.gz": {
+      "commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+      "exact_worktree_git_blob": true,
+      "sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce"
+    },
+    "data/model_candidates/kbo/archived-reproduction.jsonl.gz": {
+      "commit": "66f1c255b41714dabc6dc0638bbd8f1e12e13006",
+      "exact_worktree_git_blob": true,
+      "sha256": "4f5bc713a6487585ea5d42aff6371043b55cdaacdef3690c97ea67e54e2c1773"
+    },
+    "domestic_market_csv": {
+      "exact_recorded_source_sha": true,
+      "git_blob_witness": false,
+      "sha256": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4"
+    },
+    "experiments/kbo-actual-2024-20261103/manifest.json": {
+      "commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+      "exact_worktree_git_blob": true,
+      "sha256": "87c9def24b8a084423e1645984f2d9be86b041f39e79f5edaacb910eb86009fb"
+    },
+    "experiments/kbo-actual-2024-20261103/official-evidence.tar.gz": {
+      "commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+      "exact_worktree_git_blob": true,
+      "sha256": "512bed8407fca4132d2497e2dcc7b1ee43cd92133d7ffbe1e65d4ff4eae88800"
+    },
+    "experiments/kbo-actual-2024-20261103/rosters.jsonl": {
+      "commit": "e8ba21f970f73594848e75cc6515a1dd3a994bf1",
+      "exact_worktree_git_blob": true,
+      "sha256": "2c56d0139dd6de89777aefe9e74d3e925af5bb9dafc3d4603c68f44fd640d485"
+    },
+    "experiments/kbo-actual-lineups-2025-20261103/actual-lineups-2025.jsonl.gz": {
+      "commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
+      "exact_worktree_git_blob": true,
+      "sha256": "dc7e9b3b539a8e34e2023240990c966946f4e42ae242c515b5efb63d0a0620c5"
+    },
+    "experiments/kbo-actual-lineups-2025-20261103/manifest.json": {
+      "commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
+      "exact_worktree_git_blob": true,
+      "sha256": "8e4063a12e885b62fec5c5ebf8e3786ba4b7ae6698adf67f22881f3418f83db2"
+    },
+    "experiments/kbo-actual-lineups-2025-20261103/raw-evidence.jsonl.gz": {
+      "commit": "11aa00812d45fdcf35e462413acfc48935dd530d",
+      "exact_worktree_git_blob": true,
+      "sha256": "8a214d0e87c8dd84aa9178ae0c2bb8786dadb8c5c6eb4320e6d00e8943833b56"
+    },
+    "experiments/kbo-m0-followup-20261103/contract.json": {
+      "commit": "0fe05367fc85e71f2df2784c6ddf50fb017bcba2",
+      "exact_worktree_git_blob": true,
+      "sha256": "c56b5675def7e54783b6e67c87e09c5d03d405aba90d12fa07b0fb577be8f7ef"
+    },
+    "experiments/kbo-m0-followup-20261103/vendor/evolution/common/inputs/development-labels.jsonl.gz": {
+      "commit": "0fe05367fc85e71f2df2784c6ddf50fb017bcba2",
+      "exact_worktree_git_blob": true,
+      "sha256": "d55a39c5c8300cff21a4a902a68db4f1a8ad882778633a50df500be4f46ae8bc"
+    },
+    "experiments/kbo-m0-followup-20261103/vendor/evolution/common/inputs/train-actual.jsonl.gz": {
+      "commit": "0fe05367fc85e71f2df2784c6ddf50fb017bcba2",
+      "exact_worktree_git_blob": true,
+      "sha256": "0d760f7cc1f993792d8ab5e697a9e77c903e5abc4f90823730baabcdc1c4adf9"
+    },
+    "experiments/kbo-player-effects-20261103/inputs/development-labels.jsonl.gz": {
+      "commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+      "exact_worktree_git_blob": true,
+      "sha256": "22f3691f1e9017bbcfd9b2bde35ca0f6c208e292f117d056dd5271a80e9f6a33"
+    },
+    "experiments/kbo-player-effects-20261103/inputs/rows.jsonl.gz": {
+      "commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+      "exact_worktree_git_blob": true,
+      "sha256": "793f48649b5936d55424e4d48d65166548ffe762fa244381618a27b62e4b1bf2"
+    }
+  },
+  "status": "ready_for_model_worker_frozen_inputs_only"
+}

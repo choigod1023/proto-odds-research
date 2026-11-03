@@ -1,0 +1,140 @@
+{
+  "audit_cli": "python experiments/kbo-m0-followup-20261103/data/audit_inputs.py",
+  "build_cli": "python experiments/kbo-m0-followup-20261103/data/build_inputs.py",
+  "contract_commit": "0fe05367fc85e71f2df2784c6ddf50fb017bcba2",
+  "contract_sha256": "c56b5675def7e54783b6e67c87e09c5d03d405aba90d12fa07b0fb577be8f7ef",
+  "draw_selection_limitation": "All 9 target draws in 2024 and all 22 target draws in 2025 are absent from original price rows; price-covered subsets contain zero draws. No prices were added from any other source.",
+  "execution_price_verified": 0,
+  "files": {
+    "exclusions-2024": {
+      "path": "experiments/kbo-m0-followup-20261103/data/exclusions-2024.jsonl.gz",
+      "sha256": "a251d611541693e24adcdd02566cc563ba6d1d0c3986899b812a5a05cf4aecec"
+    },
+    "exclusions-2025": {
+      "path": "experiments/kbo-m0-followup-20261103/data/exclusions-2025.jsonl.gz",
+      "sha256": "e325dd66f27755f99d4a00d3ff86254cb6f5eaac5bcd5a0fb4e6ab3b42326580"
+    },
+    "labels-2024": {
+      "path": "experiments/kbo-m0-followup-20261103/data/labels-2024.jsonl.gz",
+      "sha256": "7d6364117a87714bc470bc1c9f8e017cbcde30c0718ca1cf56efac59506fa61a"
+    },
+    "labels-2025": {
+      "path": "experiments/kbo-m0-followup-20261103/data/labels-2025.jsonl.gz",
+      "sha256": "0956bc966855c8cc036a2dc11e38e719f09fb99ed48e88af7468d060e0e34deb"
+    },
+    "prices-2024": {
+      "path": "experiments/kbo-m0-followup-20261103/data/prices-2024.jsonl.gz",
+      "sha256": "ce2026eae3b08bbeb46bc9e9f2185f76b15aa44763dfce1776fbc757b5719a56"
+    },
+    "prices-2025": {
+      "path": "experiments/kbo-m0-followup-20261103/data/prices-2025.jsonl.gz",
+      "sha256": "75c382a229cfec4fc81158312dcb907bc661eca7a001de95cc2630f4609e153c"
+    }
+  },
+  "manifest_path": "experiments/kbo-m0-followup-20261103/data/manifest.json",
+  "manifest_sha256": "df3d994cae8a75e3da329ca15b1f0cf866a2b0b681db486d8bbcf504448ba646",
+  "no_model_scoring": true,
+  "no_new_data_collection": true,
+  "original_price_builder": {
+    "commit": "13291d23e855e0d500327cb39ac64a480e395837",
+    "git_blob_sha256": "5f493bc975276f27cb5ecc0af80ead5f684fd5d8f0054199e8fdad3db23e0c6f",
+    "path": "experiments/kbo-player-data-20261103/build.py",
+    "selection": "original builder excluded void rows and required archived final-score agreement"
+  },
+  "population": {
+    "2024": {
+      "corroboration": {
+        "corroboration_fixture": 712,
+        "corroboration_price_comparable": 712,
+        "corroboration_price_equal": 712,
+        "label_draws": 9,
+        "official_result_verified": 728,
+        "price_eligible_draws": 0,
+        "price_excluded_draws": 9
+      },
+      "excluded_unique_fixtures": 14,
+      "exclusion_reason_counts": {
+        "market_missing": 14
+      },
+      "execution_verified": 0,
+      "labels_verified": 728,
+      "price_receipt_verified": 0,
+      "prices_eligible": 714,
+      "source_market_present": 714,
+      "target_fixtures": 728
+    },
+    "2025": {
+      "corroboration": {
+        "label_draws": 22,
+        "official_result_verified": 731,
+        "price_eligible_draws": 0,
+        "price_excluded_draws": 22
+      },
+      "excluded_unique_fixtures": 55,
+      "exclusion_reason_counts": {
+        "market_missing": 55
+      },
+      "execution_verified": 0,
+      "labels_verified": 731,
+      "price_receipt_verified": 0,
+      "prices_eligible": 676,
+      "source_market_present": 676,
+      "target_fixtures": 731
+    }
+  },
+  "preexisting_2025_roster_exclusions": [
+    {
+      "fixture_id": "20250930HTSS02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930KTNC02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930LTHH02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930OBLG02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    },
+    {
+      "fixture_id": "20250930SKWO02025",
+      "reasons": [
+        "lineup_flag_false",
+        "complete_verified_lineup_unavailable"
+      ]
+    }
+  ],
+  "price_receipt_proven": 0,
+  "quote_tier": "raw quote archived; original timestamp and execution unverified",
+  "schema": {
+    "label_row": "unchanged original development-label row",
+    "price_row": "fixture_id,date,home_id,away_id,winner,price_source,result_evidence",
+    "price_source": "prices.home, prices.away, market_id, kind, settlement_rule, origin, quote_tier, observation/provenance",
+    "winner_values": [
+      "home",
+      "away",
+      "draw"
+    ]
+  },
+  "source_2024_collection_limitation": {
+    "note": "Earlier restart left overlapping collection processes; both were stopped, evidence hashes checked, and an exclusive lock added.",
+    "request_spacing_violations_under_1_5_seconds": 128
+  },
+  "status": "ready_for_model_worker_frozen_inputs_only",
+  "unit_test_cli": "python experiments/kbo-m0-followup-20261103/data/test_build_inputs.py"
+}
