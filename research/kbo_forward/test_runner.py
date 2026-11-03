@@ -104,3 +104,16 @@ def test_mutated_price_sale_close_and_product_label_rejected(tmp_path):
     with pytest.raises(ValueError,match='differs from raw'):runner.price_packet(q,tmp_path,x['event'])
     q=quote(x,tmp_path,now);q['source_product']['betNm']='wrong product label'
     with pytest.raises(ValueError,match='differs from raw'):runner.price_packet(q,tmp_path,x['event'])
+
+
+def test_schedule_outage_still_closes_missed_cutoff(tmp_path):
+    x=payload();p=tmp_path/'paired-ledger.jsonl'
+    ledger.observe_opportunity(x['event'],p,{'test_only':True},clock=lambda:old.NOW)
+    class Broken:
+        count=1
+        def schedule(self,dates):raise TimeoutError('synthetic source outage')
+    late=ledger.moment(x['event']['kickoff_at'])-timedelta(minutes=29)
+    d=runner.run_once(tmp_path,Broken(),lambda *a:None,clock=lambda:late,infer=old.fake_infer)
+    assert d['status']=='failed' and d['comparison']['closed_without_any_prediction']==1
+    missed=[r for r in ledger.read(p) if r['type']=='missed_cutoff'][0]
+    assert missed['last_exclusion']['reason']=='source_collection_failed'

@@ -34,6 +34,9 @@ def test_corrections_append_and_unchanged_economics_do_not_duplicate(tmp_path):
     x=payload();p=tmp_path/'x.jsonl';c=l.capture(x,p,clock=lambda:old.NOW,infer=old.fake_infer)
     r,end=result(x,c,h=4,a=2);s=l.settle(r,p,clock=lambda:end);before=p.read_bytes()
     r['evidence']['received_at']=(end+timedelta(minutes=1)).isoformat()
+    assert l.settle(r,p,clock=lambda:end+timedelta(minutes=1))['type']=='result_confirmation'
+    assert p.read_bytes().startswith(before)
+    before=p.read_bytes()
     assert l.settle(r,p,clock=lambda:end+timedelta(minutes=1)) is None
     assert p.read_bytes()==before
     r,end=result(x,c,h=1,a=2);end+=timedelta(minutes=2);r['evidence']['received_at']=end.isoformat();correction=l.settle(r,p,clock=lambda:end)
@@ -104,3 +107,12 @@ def test_missing_prices_stay_in_preobserved_opportunity_denominator(tmp_path):
     assert p.read_bytes()==before
     s=l.summary(p,now=late)
     assert s['observed_pregame_opportunities']==1 and s['closed_without_priced_prediction']==1 and s['captured']==0
+
+
+def test_newer_confirmation_rejects_older_conflicting_result(tmp_path):
+    x=payload();p=tmp_path/'x.jsonl';c=l.capture(x,p,clock=lambda:old.NOW,infer=old.fake_infer)
+    r,end=result(x,c,h=3,a=1);l.settle(r,p,clock=lambda:end)
+    r['evidence']['received_at']=(end+timedelta(minutes=2)).isoformat();l.settle(r,p,clock=lambda:end+timedelta(minutes=2))
+    conflict,_=result(x,c,h=1,a=3);conflict['evidence']['received_at']=(end+timedelta(minutes=1)).isoformat()
+    with pytest.raises(ValueError,match='stale conflicting'):l.settle(conflict,p,clock=lambda:end+timedelta(minutes=3))
+    assert l.summary(p)['corrections']==0

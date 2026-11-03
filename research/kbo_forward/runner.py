@@ -129,14 +129,17 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                     z=official.result(g)
                     if not z.get("verified"):continue
                     current=z["game"];r={"event_key":c["event_key"],**{k:e[k] for k in ("official_game_id","season","home_id","away_id")},"game_date":datetime.strptime(current["source"]["G_DT"],"%Y%m%d").date().isoformat(),"status":z.get("status","final"),"home_score":z.get("home_score"),"away_score":z.get("away_score"),"evidence":evidence(official,current["receipt"])}
-                    out=ledger.settle(r,path,clock=clock);report["settled_this_run"]+=int(out is not None)
+                    out=ledger.settle(r,path,clock=clock);report["settled_this_run"]+=int(out is not None and out["type"]!="result_confirmation")
                 except Exception as exc:report["excluded"].append({"official_game_id":e["official_game_id"],"result_error_type":type(exc).__name__,"reason":str(exc)[:300]})
-            ledger.close_missed_opportunities(path,previous.get("excluded",[])+report["excluded"],clock=clock)
             report["requests"]=getattr(official,"count",0)
         except Exception as exc:
             report.update(status="failed",error_type=type(exc).__name__,reason=str(exc)[:300]);report["requests"]=getattr(official,"count",0)
         finally:
-            report["finished_at"]=clock().isoformat();report["comparison"]=ledger.summary(path,now=clock())
+            report["finished_at"]=clock().isoformat()
+            failures=previous.get("excluded",[])+report["excluded"]
+            if report["status"]=="failed":failures.append({"reason":"source_collection_failed","detail":report.get("reason"),"error_type":report.get("error_type")})
+            ledger.close_missed_opportunities(path,failures,clock=clock)
+            report["comparison"]=ledger.summary(path,now=clock())
             atomic_json(state/"summary.json",report["comparison"]);atomic_json(state/"last-run.json",report)
             # A digest-addressed history retains changes; identical repeated skips are quiet.
             meaningful={k:report[k] for k in ("status","excluded","comparison")};key=ledger.digest(ledger.canonical(meaningful))

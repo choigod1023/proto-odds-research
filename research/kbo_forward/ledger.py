@@ -128,8 +128,12 @@ def settle(result,path,clock=utcnow):
         if result["status"]=="final" and received<moment(event["kickoff_at"]):raise ValueError("final score before kickoff")
         previous=[r for r in rows if r["event_key"]==key and r["type"] in ("settlement","correction","unpriced_settlement","unpriced_correction")]
         economic={k:result.get(k) for k in ("official_game_id","season","home_id","away_id","game_date","status","home_score","away_score")}
-        if previous and previous[-1]["economic_result"]==economic:return None
-        if previous and received<=moment(previous[-1]["result"]["evidence"]["received_at"]):raise ValueError("stale conflicting result receipt")
+        confirmations=[r for r in rows if r["event_key"]==key and r["type"]=="result_confirmation"]
+        latest=max([moment(r["result"]["evidence"]["received_at"]) for r in previous]+[moment(r["evidence"]["received_at"]) for r in confirmations],default=None)
+        if previous and previous[-1]["economic_result"]==economic:
+            if latest is not None and received<=latest:return None
+            return {"type":"result_confirmation","event_key":key,"recorded_at":now.isoformat(),"evidence":ev,"economic_result":economic,"confirms_hash":previous[-1]["hash"]}
+        if latest is not None and received<=latest:raise ValueError("stale conflicting result receipt")
         if c["type"]=="unpriced_forecast":
             h,a=result.get("home_score"),result.get("away_score")
             if result["status"] not in ("final","cancelled"):raise ValueError("unpriced result not final")
@@ -157,7 +161,7 @@ def close_missed_opportunities(path,exclusions,clock=utcnow):
             if now<=moment(o["event"]["kickoff_at"])-timedelta(minutes=30):continue
             fid=o["event"]["official_game_id"]
             captures=[r for r in rows if r["type"] in ("capture","unpriced_forecast") and r["input"]["event"]["official_game_id"]==fid and r["input"]["event"]["season"]==o["event"]["season"]]
-            return {"type":"missed_cutoff","event_key":o["event_key"],"event":o["event"],"observed_at":now.isoformat(),"priced_prediction_captured":any(c["type"]=="capture" for c in captures),"unpriced_prediction_captured":any(c["type"]=="unpriced_forecast" for c in captures),"last_exclusion":reasons.get(fid,{"reason":"no complete pregame pair by deadline"})}
+            return {"type":"missed_cutoff","event_key":o["event_key"],"event":o["event"],"observed_at":now.isoformat(),"priced_prediction_captured":any(c["type"]=="capture" for c in captures),"unpriced_prediction_captured":any(c["type"]=="unpriced_forecast" for c in captures),"last_exclusion":reasons.get(fid,reasons.get(None,{"reason":"no complete pregame pair by deadline"}))}
         return None
     for _ in range(10):
         if append(path,next_record) is None:break
