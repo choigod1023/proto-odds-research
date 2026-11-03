@@ -53,5 +53,9 @@ class AuditMathTests(unittest.TestCase):
         z=a.summarize(r);self.assertEqual(z['net'],Decimal('-.2'));self.assertEqual(z['roi'],Decimal('-.2')/3);self.assertEqual(z['drawdown'],Decimal('1'))
         self.assertEqual(z['months'],{'2026-01':Decimal('-1'),'2026-02':Decimal('.8')})
         self.assertIsNone(a.summarize([])['roi'])
+    def test_draw_and_decisive_diagnostic(self):
+        records=[{'probabilities':{'home':.45,'draw':.25,'away':.30},'winner':'draw'},{'probabilities':{'home':.40,'draw':.20,'away':.40},'winner':'home'},{'probabilities':{'home':.20,'draw':.20,'away':.60},'winner':'away'}]
+        d=a.draw_diagnostic(records);self.assertEqual((d['n'],d['observed_draws'],d['decisive_n'],d['decisive_hits']),(3,1,2,2))
+        self.assertAlmostEqual(d['mean_draw_probability'],.65/3);self.assertAlmostEqual(d['conditional_logloss'],(-math.log(.5)-math.log(.75))/2);self.assertAlmostEqual(d['conditional_brier'],(.5+.125)/2)
 
 if __name__=='__main__':unittest.main()

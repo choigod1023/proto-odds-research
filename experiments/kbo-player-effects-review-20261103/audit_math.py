@@ -123,3 +123,19 @@ def summarize(records):
     balance=peak=drawdown=Decimal(0)
     for day in sorted(daily):balance+=daily[day];peak=max(peak,balance);drawdown=max(drawdown,peak-balance)
     return {'n':len(records),'net':net,'roi':net/len(records) if records else None,'months':dict(months),'drawdown':drawdown if records else None}
+
+def draw_diagnostic(records):
+    """Separate mean draw probability and decisive-game conditional performance."""
+    if not records:raise ValueError('empty diagnostic cohort')
+    losses=[];briers=[];hits=0;draws=0;average=0.
+    for r in records:
+        p=r['probabilities'];winner=r['winner']
+        if set(p)!={'home','draw','away'} or winner not in ('home','draw','away') or any(not math.isfinite(x) or x<0 for x in p.values()) or abs(sum(p.values())-1)>1e-10:raise ValueError('invalid diagnostic row')
+        average+=p['draw'];draws+=int(winner=='draw')
+        if winner=='draw':continue
+        denom=p['home']+p['away']
+        if denom<=0:raise ValueError('invalid non-draw conditioning')
+        q=[p['home']/denom,p['away']/denom];y=0 if winner=='home' else 1
+        losses.append(-math.log(max(q[y],1e-15)));briers.append(sum((x-int(i==y))**2 for i,x in enumerate(q)));hits+=int((0 if q[0]>=q[1] else 1)==y)
+    n=len(records);d=len(losses)
+    return {'n':n,'observed_draws':draws,'observed_draw_rate':draws/n,'mean_draw_probability':average/n,'decisive_n':d,'decisive_hits':hits,'conditional_accuracy':hits/d if d else None,'conditional_logloss':sum(losses)/d if d else None,'conditional_brier':sum(briers)/d if d else None}
