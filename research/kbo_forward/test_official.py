@@ -126,6 +126,11 @@ class OfficialTests(unittest.TestCase):
                 x=c.snapshot(game, history=hist, build_row=build)
                 bad=dict(hist, schedules={})
                 y=c.snapshot(game, history=bad, build_row=build)
+                blocked=dict(hist,games=[{'unresolved_identities':[{'team':'HH','role':'pitcher','name':'HomeStarter'}]}])
+                z=c.snapshot(game, history=blocked, build_row=build)
+                self.assertEqual(z['missing'],['required_player_history_identity_unresolved'])
+                blocked['games'][0]['unresolved_identities'][0]['name']='OtherReliever'
+                self.assertFalse(off.unresolved_required(blocked,{'HH':{'pitcher':{'HomeStarter'},'hitter':set()}}))
         self.assertTrue(x['source_verified']); self.assertEqual(len(x['row']['roster']['home']['hitters']),9)
         import importlib.util, sys, hashlib
         path=Path(__file__).resolve().parents[2]/'experiments/kbo-m0-followup-20261103/forward.py'
@@ -201,6 +206,13 @@ class OfficialTests(unittest.TestCase):
         with patch.object(c2,'fetch',side_effect=SourceError('identity_unavailable')):
             with self.assertRaisesRegex(SourceError,'identity_unavailable'):
                 c2.normalize_box(item2,rec2,required_team_ids=['AA'])
+        # Source-backed ambiguity is retained while relief outs remain exact.
+        with patch.object(c2,'resolve_identity',side_effect=SourceError('retired_last_season_unavailable')):
+            unknown=c2.normalize_box(item2,rec2,required_team_ids=['AA'])
+        self.assertEqual(len(unknown['unresolved_identities']),3)
+        self.assertEqual(unknown['teams']['AA']['relief']['outs'],1)
+        self.assertTrue(off.unresolved_required({'games':[unknown]},{'AA':{'pitcher':{'Unknown rival pitcher'}}}))
+        self.assertFalse(off.unresolved_required({'games':[unknown]},{'AA':{'pitcher':{'Other'}}}))
 
     def test_historical_final_schedule_cache_and_unfinished_refresh(self):
         import research.kbo_forward.official as off
@@ -240,6 +252,14 @@ class OfficialTests(unittest.TestCase):
         with patch.object(off.time,'sleep'):
             with self.assertRaisesRegex(SourceError,'response_too_large'): c.fetch(SCHEDULE,{'date':'x'})
         self.assertTrue(c.records[-1]['truncated'])
+
+    def test_unresolved_player_requirement_is_team_and_role_specific(self):
+        from research.kbo_forward.official import unresolved_required
+        h={'games':[{'unresolved_identities':[{'team':'KT','role':'pitcher','name':'Kim','raw_stats':{'outs':3}}]}]}
+        self.assertTrue(unresolved_required(h,{'KT':{'pitcher':{'Kim'}}}))
+        self.assertFalse(unresolved_required(h,{'KT':{'pitcher':{'Other'}}}))
+        self.assertFalse(unresolved_required(h,{'SS':{'pitcher':{'Kim'}}}))
+        self.assertFalse(unresolved_required(h,{'KT':{'hitter':{'Kim'}}}))
 
     def test_retired_candidate_requires_official_earlier_last_season(self):
         import research.kbo_forward.official as off
