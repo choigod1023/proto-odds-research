@@ -10,11 +10,20 @@
     "Python parsed protocol contract and asserted market kinds, T-30, nullable market, loss cap and no automatic adoption",
     "Read previous KBO 51- and 198-game reports and production contract"
   ],
-  "data_rows_validated": 0,
+  "data_rows_validated": 2913,
   "model_runs": 0,
-  "tests_pending": "All listed data/model/settlement cases require completed worker outputs.",
+  "tests_pending": "Model target-id/label poisoning, actual score/price common cohorts, prospective proof and paired Decimal reconciliation",
   "scope": "No production actions; no performance claims; contract-only initial review.",
   "commit": "see git history",
   "pr": "https://github.com/choigod1023/proto-odds-research/pull/510",
-  "review_spec_commit": "3e1d0bcf"
+  "review_spec_commit": "3e1d0bcf",
+  "review_stage": "immutable data commit 96eca22 audited; model not audited",
+  "audit_report": "experiments/kbo-player-independent-review-20261103/data-audit-96eca22.md",
+  "findings": [
+    "Target actual lineup/starter selection leaks into prior aggregates despite prior-date provenance; projected model must reconstruct from prior history only.",
+    "All 60 draws have null market; 46 match post-result void rows 1.00/1.00, so refund exposure and conditioned price denominator must be reported.",
+    "Draw refund rule in dataset is an assumption pending independent rule and contemporaneous price evidence."
+  ],
+  "source_data_commit": "96eca22",
+  "protocol_amendment": "1770f8b3"
 }
