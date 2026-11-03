@@ -769,6 +769,7 @@ def history_fixture_id(game, schedule_games, seed):
         raise SourceError('history_alias_ambiguous_schedule')
     prior=alias_rows[0]
     if prior.get('date')!=day:raise SourceError('history_alias_date_conflict')
+    if not any(all(type(v.get(k)) is int for k in ('runs_for','runs_against')) for v in (prior.get('teams',{}).get(str(game[k]),{}) for k in ('HOME_ID','AWAY_ID'))):raise SourceError('history_alias_complete_score_missing')
     for side,prefix,opponent in (('HOME','B','T'),('AWAY','T','B')):
         team=str(game[side+'_ID']); old=(prior.get('teams') or {}).get(team)
         if not old:continue

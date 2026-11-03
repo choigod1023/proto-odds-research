@@ -300,6 +300,16 @@ class OfficialTests(unittest.TestCase):
             with self.assertRaisesRegex(SourceError,'identity_receipt_missing'):
                 client.resolve_identity('Kim','KT','pitcher',2026,identity_receipts=receipts[:1])
 
+    def test_score_alias_requires_complete_score_evidence(self):
+        from research.kbo_forward.official import history_fixture_id
+        g={'G_ID':'g0','G_DT':'20261012','SEASON_ID':2026,'HOME_ID':'SS','AWAY_ID':'KT','HOME_NM':'삼성','AWAY_NM':'KT','B_SCORE_CN':'6','T_SCORE_CN':'1'}
+        alias='score:2026-10-12:삼성:KT'
+        for stats in ({},{'runs_for':6}):
+            seed={'games':[{'fixture_id':alias,'date':'2026-10-12','teams':{'SS':stats}}]}
+            with self.assertRaisesRegex(SourceError,'complete_score_missing'):history_fixture_id(g,[g],seed)
+        seed={'games':[{'fixture_id':alias,'date':'2026-10-12','teams':{'SS':{'runs_for':6,'runs_against':1}}}]}
+        self.assertEqual(history_fixture_id(g,[g],seed),alias)
+
     def test_limits(self):
         with self.assertRaises(ValueError): OfficialClient(self.tmp.name, max_requests=81)
         with self.assertRaises(ValueError): OfficialClient(self.tmp.name, max_lineup_requests=6)

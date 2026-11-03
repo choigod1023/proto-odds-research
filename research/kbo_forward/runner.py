@@ -3,6 +3,7 @@ import argparse,copy,gzip,hashlib,json,os,sys,traceback
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
 
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0,str(Path(__file__).parent))
 import ledger
 from locking import single_writer
