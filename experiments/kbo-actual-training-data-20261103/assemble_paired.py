@@ -60,17 +60,47 @@ def adapter_module():
  pin(EFFECTS,'d08ccb708033fb6b067e84e80eae81ea3c9b4cfa',rel,'581fac3ccd0d1aa0c82d9830776f8307b03aab89eab7d23206044a0417e9062f',True)
  spec=importlib.util.spec_from_file_location('frozen_paired_adapter',path);mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod);return mod
 
+def adapt_2024(root,commit,rel,roster_raw):
+ """Translate the finalized source-2024 contract without changing its evidence."""
+ directory=Path(rel).parent
+ def source(name,want=None):return pin(root,commit,(directory/name).as_posix(),want)
+ manifest_raw=source('manifest.json');manifest=json.loads(manifest_raw)
+ notes={}
+ for name in ('README.md','verification.md'):
+  relnote=(directory/name).as_posix();notes[name]=sha(pin(root,commit,relnote,text_normalize=True).replace(b'\r\n',b'\n'))
+ if manifest.get('season')!=2024 or manifest.get('population')!=728 or manifest.get('contract_sha256')!=CONTRACT_SHA or manifest.get('historical_receipt_proven') is not False:raise ValueError('2024_manifest_contract_mismatch')
+ if sha(roster_raw)!=manifest['rosters_sha256']:raise ValueError('2024_roster_manifest_sha_mismatch')
+ source('official-evidence.tar.gz',manifest['evidence_bundle_sha256']);source('batter-identity-only.json',manifest['batter_identity_extract_sha256'])
+ if manifest['input_sha256']!='66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c' or manifest['batter_source_sha256']!='24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8' or manifest['pitcher_identity_source_sha256']!='c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66':raise ValueError('2024_fixed_identity_source_mismatch')
+ output=[];official_ids=set()
+ for record in map(json.loads,roster_raw.splitlines()):
+  if record.get('season')!=2024 or record.get('identity_tier')!='retrospective_only' or record.get('eligible_as_pregame_feature') is not False or record.get('historical_receipt_time') is not None or record.get('historical_publication_time') is not None:raise ValueError('2024_retrospective_status_invalid')
+  reasons=record.get('exclusion_reasons') or [];complete=not reasons
+  if complete:
+   gid=record.get('official_game_id')
+   if not gid or gid in official_ids:raise ValueError('2024_official_fixture_duplicate')
+   official_ids.add(gid)
+   if not str(record.get('lineup_semantics','')).startswith('confirmed_official_lineup_'):raise ValueError('2024_official_lineup_semantics')
+  hitters={s:(record.get(s) or {}).get('ordered_hitters') for s in ('home','away')};starters={s:(record.get(s) or {}).get('starter') for s in ('home','away')}
+  if complete and any(not starters[s] or starters[s].get('actual_record_verified') is not True or not hitters[s] for s in ('home','away')):raise ValueError('2024_actual_roster_incomplete')
+  output.append({'fixture_id':record['fixture_id'],'season':2024,'date':record['date'],'teams':{'home':record['home_team'],'away':record['away_team']},'status':'complete' if complete else 'excluded','exclusions':reasons,'hitters':hitters,'starters':starters})
+ if len(output)!=728 or sum(x['status']=='complete' for x in output)!=manifest['eligible']:raise ValueError('2024_manifest_eligibility_mismatch')
+ return output,{'manifest_sha256':sha(manifest_raw),'handoff_and_verification_sha256_lf':notes,'raw_bundle_sha256':manifest['evidence_bundle_sha256'],'request_spacing_violations_under_1_5_seconds':manifest['request_spacing_violations_under_1_5_seconds'],'request_spacing_note':manifest['request_spacing_note']}
+
 def source_rosters(args,rows):
  sources={};meta={}
  for year,root,commit,rel in args.source:
   year=int(year)
   if year in sources or year not in (2023,2024,2025):raise ValueError('source_year_duplicate_or_invalid')
-  data=pin(root,commit,rel);source=index(gz(data));expected={fid for fid,x in rows.items() if x['season']==year}
+  data=pin(root,commit,rel);extra={}
+  if year==2024:translated,extra=adapt_2024(root,commit,rel,data)
+  else:translated=gz(data)
+  source=index(translated);expected={fid for fid,x in rows.items() if x['season']==year}
   if set(source)!=expected:raise ValueError('source_fixture_population_mismatch:'+str(year))
   for fid,r in source.items():
    if r.get('season')!=year or r.get('status') not in ('complete','excluded') or 'exclusions' not in r:raise ValueError('unrecognized_source_schema:'+str(year))
    if (r['status']=='excluded' and not r['exclusions']) or (r['status']=='complete' and r['exclusions']):raise ValueError('source_exclusion_reason_mismatch:'+str(year))
-  sources[year]=source;meta[str(year)]={'commit':commit,'path':rel,'sha256':sha(data),'population':len(source),'statuses':dict(Counter(r['status'] for r in source.values()))}
+  sources[year]=source;meta[str(year)]={'commit':commit,'path':rel,'sha256':sha(data),'population':len(source),'statuses':dict(Counter(r['status'] for r in source.values())),**extra}
  if set(sources)!={2023,2024,2025}:raise ValueError('three_final_source_commits_required')
  return sources,meta
 
