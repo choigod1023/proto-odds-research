@@ -138,7 +138,7 @@ def test_complete_then_resume_preserves_jsonl_and_manifest(tmp_path, monkeypatch
     gid = game['G_ID']; fid = gid + str(game['SEASON_ID'])
     fixture = {'fixture_id':fid,'season':game['SEASON_ID'],'home_id':game['HOME_NM'].strip(),
                'away_id':game['AWAY_NM'].strip(),'kickoff_at':'2023-04-01T14:00:00+09:00'}
-    rows = tmp_path/'rows.jsonl'; rows.write_text(json.dumps(fixture,ensure_ascii=False)+'\n',encoding='utf8')
+    rows = tmp_path/'rows.jsonl'; rows.write_text(json.dumps(fixture,ensure_ascii=False)+'\n'+json.dumps({'fixture_id':'other','season':2024})+'\n',encoding='utf8')
     batters = tmp_path/'batters.json'; batters.write_text(json.dumps({fid:source},ensure_ascii=False),encoding='utf8')
     calls = []
     def fake_fetch(self, method, url, params):
@@ -149,7 +149,7 @@ def test_complete_then_resume_preserves_jsonl_and_manifest(tmp_path, monkeypatch
         return response, {'url':url,'sha256':k.digest(response),'received_at':'2026-11-03T00:00:00+00:00'}
     monkeypatch.setattr(k.Fetcher,'fetch',fake_fetch)
     args = types.SimpleNamespace(rows=str(rows),batters=str(batters),output=str(tmp_path/'out'),
-                                 max_requests=100,delay=1,fixture=None)
+                                 max_requests=100,delay=1,fixture=None,only_season=2023)
     k.run(args)
     output=tmp_path/'out'/'official-lineups.jsonl'; first=output.read_bytes()
     record=json.loads(first); assert record['lineup_status']=='official_flag_true_profile_name_crossmatched'
@@ -159,7 +159,8 @@ def test_complete_then_resume_preserves_jsonl_and_manifest(tmp_path, monkeypatch
     before=len(calls); k.run(args)
     assert len(calls)==before and output.read_bytes()==first
     manifest=json.loads((tmp_path/'out'/'manifest.json').read_text(encoding='utf8'))
-    assert (manifest['denominator'],manifest['processed'],manifest['unprocessed'])==(1,1,0)
+    assert (manifest['denominator'],manifest['processed'],manifest['unprocessed'])==(2,1,1)
+    assert (manifest['selected_denominator'],manifest['selected_processed'],manifest['selected_unprocessed'])==(1,1,0)
     assert manifest['lineups_sha256']==k.digest(first)
 
 
@@ -170,9 +171,33 @@ def test_request_failure_stops_without_marking_fixture_completed(tmp_path, monke
     batters=tmp_path/'batters.json';batters.write_text('{}',encoding='utf8')
     def failed(*_args): raise k.StopCapture('http_status:429')
     monkeypatch.setattr(k.Fetcher,'fetch',failed)
-    args=types.SimpleNamespace(rows=str(rows),batters=str(batters),output=str(tmp_path/'out'),max_requests=10,delay=1,fixture=None)
+    args=types.SimpleNamespace(rows=str(rows),batters=str(batters),output=str(tmp_path/'out'),max_requests=10,delay=1,fixture=None,only_season=None)
     k.run(args)
     assert not (tmp_path/'out'/'official-lineups.jsonl').exists()
     result=json.loads((tmp_path/'out'/'manifest.json').read_text(encoding='utf8'))
     assert result['stop_reason']=='http_status:429'
     assert (result['processed'],result['unprocessed'])==(0,1)
+
+
+def test_two_collectors_cannot_share_the_same_output(tmp_path):
+    with k.capture_lock(tmp_path):
+        with pytest.raises(k.StopCapture,match='output_already_in_use'):
+            with k.capture_lock(tmp_path):
+                pass
+    with k.capture_lock(tmp_path):
+        pass
+
+
+def test_checkpoint_recovery_rejects_conflict_and_preserves_source(tmp_path):
+    from scripts.recover_kbo_collector_checkpoint import recover
+    source=tmp_path/'old';source.mkdir();(source/'raw').mkdir();(source/'requests').mkdir()
+    row={'fixture_id':'g','official_game_id':'g','lineup_status':'unresolved','reason':'x'}
+    original=(json.dumps(row)+'\n')*2
+    (source/'official-lineups.jsonl').write_text(original,encoding='utf8')
+    recover(source,tmp_path/'new')
+    assert len((tmp_path/'new'/'official-lineups.jsonl').read_text(encoding='utf8').splitlines())==1
+    assert (source/'official-lineups.jsonl').read_text(encoding='utf8')==original
+    changed=dict(row,reason='different')
+    (source/'official-lineups.jsonl').write_text(json.dumps(row)+'\n'+json.dumps(changed)+'\n',encoding='utf8')
+    with pytest.raises(ValueError,match='conflicting_duplicate'):
+        recover(source,tmp_path/'another')

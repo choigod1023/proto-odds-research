@@ -17,10 +17,14 @@
 python scripts/research_kbo_historical_lineups.py `
   --rows C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103/rows.jsonl `
   --batters C:/Users/user/Documents/Codex/kbodata/data/raw/detail/kbo_batters_indiv_2023_2026.json `
-  --output .research-state/kbo-lineups-v3 --max-requests 10000
+  --output .research-state/kbo-lineups-v4 --max-requests 10000 --only-season 2026
 ```
 
 요청 간격은 최소 1초, 타임아웃은 연결 5초·응답 15초다. `--max-requests`는 신규 네트워크 요청의 상한이며 캐시 조회는 제외한다. 같은 출력 경로로 재실행하면 수집된 응답의 SHA를 검사하고 완료된 경기는 건너뛴다. 403·429를 포함한 비정상 HTTP 상태와 네트워크 오류에서는 중단한다. 부분적으로 처리된 경기는 결과에 넣지 않고 다음 실행에서 캐시를 이용해 다시 처리한다. `--fixture`를 반복해 특정 경기만 대상으로 삼을 수 있다. 출력 경로는 Git에서 제외된 독립 연구 상태이며 운영 DB가 아니다.
+
+고정된 예측 대상에 맞춰 `--only-season 2026`으로 전체 분모 2,913건 중 2026년 726건을 먼저 처리한다. 결과나 손익을 기준으로 경기를 고르지 않는다. 시즌 선택을 빼고 같은 경로로 재개하면 나머지 연도를 처리한다. 동일 출력 경로는 OS 잠금으로 단일 수집기만 사용할 수 있다.
+
+처음 재시작할 때 이전 Python 자식 프로세스가 살아 있어 v3에 중복이 생겼다. 두 로컬 연구 프로세스를 중단한 뒤 429개 행, 340개 고유 경기에서 중복 89개를 확인했고, 경기·팀과 선수 이름·ID·타순·포지션의 충돌은 없었다. `scripts/recover_kbo_collector_checkpoint.py`는 원본 v3를 보존하고 모든 참조 응답 해시 및 중복의 의미를 검증한 다음 별도 v4 체크포인트를 만든다. 상충하는 중복은 임의로 선택하지 않고 중단한다. `recovery.json`에는 두 파일의 해시와 복구 건수를 기록한다.
 
 `official-lineups.jsonl`은 완료·미확정·식별 불가 결과를 경기별로 기록한다. `manifest.json`은 실행을 정상 종료하거나 제한에 도달했을 때 분모, 상태별 건수, 미처리 수, 입력과 결과 해시, 중단 이유를 기록한다. `requests/`와 `raw/`의 파일은 함께 보존해야 출처를 재검증할 수 있다.
 

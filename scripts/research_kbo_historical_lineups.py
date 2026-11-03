@@ -1,5 +1,6 @@
 """Detached, resumable KBO historical lineup research; no production writes."""
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import re
@@ -138,6 +139,30 @@ class StopCapture(Exception):
     pass
 
 
+@contextmanager
+def capture_lock(path):
+    """An OS-held lock prevents two collectors sharing an output/cache directory."""
+    path.mkdir(parents=True, exist_ok=True)
+    lock = (path/'capture.lock').open('a+b')
+    try:
+        lock.seek(0, 2)
+        if lock.tell() == 0:
+            lock.write(b'0'); lock.flush()
+        lock.seek(0)
+        try:
+            if __import__('os').name == 'nt':
+                import msvcrt
+                msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            raise StopCapture('output_already_in_use') from exc
+        yield
+    finally:
+        lock.close()
+
+
 class Fetcher:
     def __init__(self, path, limit, delay):
         self.path = path
@@ -189,13 +214,16 @@ def run(args):
     target = Path(args.output)
     target.mkdir(parents=True, exist_ok=True)
     output = target/'official-lineups.jsonl'
-    done = {json.loads(x)['fixture_id'] for x in output.read_text(encoding='utf8').splitlines()} if output.exists() else set()
+    previous = [json.loads(x) for x in output.read_text(encoding='utf8').splitlines()] if output.exists() else []
+    done = {x['fixture_id'] for x in previous}
+    if len(done) != len(previous):
+        raise StopCapture('duplicate_fixture_in_output')
     f = Fetcher(target, args.max_requests, args.delay)
     reason = 'complete'
     count = 0
     for row in rows:
         fid = row['fixture_id']
-        if fid in done or (args.fixture and fid not in args.fixture):
+        if fid in done or (args.fixture and fid not in args.fixture) or (args.only_season and row['season'] != args.only_season):
             continue
         schedule_meta = lineup_meta = None
         try:
@@ -297,7 +325,13 @@ def run(args):
     for item in captured:
         status = item['lineup_status']
         counts[status] = counts.get(status, 0) + 1
+    selected = [r for r in rows if (not args.fixture or r['fixture_id'] in args.fixture)
+                and (not args.only_season or r['season'] == args.only_season)]
+    selected_done = sum(r['fixture_id'] in {x['fixture_id'] for x in captured} for r in selected)
     manifest = {'denominator':len(rows), 'processed':len(captured), 'unprocessed':len(rows)-len(captured),
+                'selection_rule':{'only_season':args.only_season,'fixture_ids':args.fixture},
+                'selected_denominator':len(selected), 'selected_processed':selected_done,
+                'selected_unprocessed':len(selected)-selected_done,
                 'status_counts':counts, 'completed_this_run':count, 'requests_this_run':f.requests,
                 'stop_reason':reason, 'rows_sha256':digest(Path(args.rows).read_bytes()),
                 'batters_sha256':digest(Path(args.batters).read_bytes()),
@@ -313,6 +347,8 @@ if __name__ == '__main__':
     p.add_argument('--rows',required=True); p.add_argument('--batters',required=True); p.add_argument('--output',required=True)
     p.add_argument('--max-requests',type=int,default=100); p.add_argument('--delay',type=float,default=1.0)
     p.add_argument('--fixture',action='append')
+    p.add_argument('--only-season',type=int,default=None)
     a=p.parse_args()
     if a.max_requests < 1 or a.delay < 1: p.error('max-requests must be positive and delay at least 1 second')
-    run(a)
+    with capture_lock(Path(a.output)):
+        run(a)
