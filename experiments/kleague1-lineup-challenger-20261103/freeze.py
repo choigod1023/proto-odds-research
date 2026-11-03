@@ -1,8 +1,16 @@
 """Select on earlier validation and freeze label-free later predictions."""
 import hashlib,json
+from pathlib import Path
 import numpy as np
-from data import load_inputs,partition,ROOT,CUTOFF,TRAIN_CUTOFF
-import model
+import importlib.util
+def _local_module(name):
+    path=Path(__file__).resolve().with_name(name+'.py')
+    spec=importlib.util.spec_from_file_location('k1_lineup_ablation_'+name,path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+data=_local_module('data');model=_local_module('model')
+load_inputs,partition,ROOT,CUTOFF,TRAIN_CUTOFF=data.load_inputs,data.partition,data.ROOT,data.CUTOFF,data.TRAIN_CUTOFF
 
 
 def main():

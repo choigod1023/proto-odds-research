@@ -2,8 +2,16 @@
 import collections,datetime,decimal,gzip,hashlib,json,math,subprocess
 from pathlib import Path
 import numpy as np
-from data import load_inputs,partition,ROOT,INPUT
-from model import history_features
+import importlib.util
+def _local_module(name):
+    path=Path(__file__).resolve().with_name(name+'.py')
+    spec=importlib.util.spec_from_file_location('k1_lineup_ablation_'+name,path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+data=_local_module('data');model=_local_module('model')
+load_inputs,partition,ROOT,INPUT=data.load_inputs,data.partition,data.ROOT,data.INPUT
+history_features=model.history_features
 
 FREEZE='77bb7c3ebe3dee87bd75fca5046b05577a9996f2'
 NBOOT=2000;SEED=20261103

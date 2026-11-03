@@ -112,11 +112,13 @@
     "inputs/prices.jsonl.gz": "820e46c60eaec875618164c32b2fd88ebe3d38343a627d247219e7e59bf218c1",
     "inputs/price-manifest.json": "f6c1e47151115fe6ecd2683406424a2d26929316e2282771620aa1c34218d800"
   },
-  "test_command": "python -m pytest -q tests/test_kleague1_lineup_challenger.py",
+  "test_command": "python -m pytest -q tests/test_kleague1_lineup_challenger.py tests/test_dynamic_score_state_model.py",
   "limitations": [
     "Retrospective official actual XI and official stored prices; historical pregame receipt and execution unverified.",
     "Reused 2026 and 114-test sample: not blind and not proof of edge.",
     "No current operating 9:1/tipster frozen replay; flat-unit simulation is not monthly loss-limit wallet."
   ],
-  "production_change": false
+  "production_change": false,
+  "test_result": "35 passed",
+  "post_freeze_import_isolation": "Module import isolation changed after freeze; independent checkout regenerated identical frozen prediction SHA 9cd736435efb23f76758f373498792e9fcacc83621491636e324717e77c5abc0; no model or grid change."
 }

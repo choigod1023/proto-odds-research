@@ -2,8 +2,12 @@ import copy,datetime,sys
 from pathlib import Path
 import numpy as np
 import pytest
-sys.path.insert(0,str(Path('experiments/kleague1-lineup-challenger-20261103').resolve()))
-import data, model
+import importlib.util
+ROOT=Path('experiments/kleague1-lineup-challenger-20261103').resolve()
+def local_module(name):
+ spec=importlib.util.spec_from_file_location('k1_lineup_test_'+name,ROOT/(name+'.py'))
+ module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
+data=local_module('data');model=local_module('model')
 
 
 def game(id,day,home,away,hxi,axi,score=(1,0)):
@@ -92,7 +96,8 @@ def test_actual_future_xi_and_target_label_poison_cannot_change_earlier_predicti
 
 
 def test_scoring_refund_and_mismatched_product_fail_closed():
- import json,score
+ import json
+ score=local_module('score')
  frozen=[json.loads(x) for x in (data.ROOT/'frozen/predictions.jsonl').read_bytes().splitlines()];r=next(x for x in frozen if x['price'])
  games,_=data.load_inputs(scoring=True);g=next(x for x in games if x['id']==r['fixture_id'])
  code=score.winner(g['score']);q=r['price'];src={'settlement_code':'refund','official_score':g['score'],'gmId':q['product_id'][0],'gmTs':q['product_id'][1],'matchSeq':q['product_id'][2], 'prices':dict(zip(('home','draw','away'),q['odds']))}
@@ -100,3 +105,11 @@ def test_scoring_refund_and_mismatched_product_fail_closed():
  assert len(full)==1 and not priced and excluded=={'refund_or_nonstandard_settlement':1}
  src['settlement_code']=str(code);src['matchSeq']=-1
  with pytest.raises(ValueError,match='frozen price mismatch'):score.score_rows([r],[g],{g['id']:src})
+
+
+def test_imports_isolated_from_other_research_modules(monkeypatch):
+ import types
+ monkeypatch.setitem(sys.modules,'model',types.SimpleNamespace(foreign=True))
+ monkeypatch.setitem(sys.modules,'data',types.SimpleNamespace(foreign=True))
+ scorer=local_module('score');freezer=local_module('freeze')
+ assert callable(scorer.history_features) and callable(freezer.model.fit)
