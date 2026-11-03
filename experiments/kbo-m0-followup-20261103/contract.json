@@ -1,0 +1,85 @@
+{
+  "2026_prices": "same fixed extended667/strict439 and same reject sensitivity",
+  "all_historical_periods_already_seen": true,
+  "metrics": [
+    "accuracy3way and conditional2way, logloss/Brier",
+    "flat1unit ROI incl draw refunds/monthly/daily-closeDD",
+    "calendar-week paired5000 seed20261103 nominal95%CI, no multiple-comparison correction"
+  ],
+  "new_period_model_fit": "only actual2023 records and fit2023labels; 7day boundary embargo; fit-onlyscaler",
+  "no_merge_or_deploy": true,
+  "no_new_hyperparameter_or_weight_search": true,
+  "period_subgroups": "predeclared calendar half-years, report all, groups below30 settled pairs descriptive only",
+  "prediction_freeze_before_new_settlement": true,
+  "preserve": [
+    "shared dirty checkout",
+    "production",
+    "DB",
+    "existing schedules/automationqueue",
+    "existing monthly50000KRW simulation ledger"
+  ],
+  "prices": "2024/25 original frozen raw rows market full_game_2way first, exact official fixture/date/team/score checks, record missing/conflicts; no price substitution; optional e0 archive corroboration",
+  "probe": {
+    "cache_and_backoff": true,
+    "max_direct_public_requests": 20,
+    "min_interval_seconds": 1.5,
+    "only_bounded_schedule_or_source_metadata_no_heavy_generator": true
+  },
+  "prospective": {
+    "automatic_collection_scheduling": "not installed by this task; local CLI/adapter and one bounded public metadata probe only",
+    "automatic_model_adoption": false,
+    "evidence": "runtimeUTC receipt, sourceURI/SHA, explicit timezone/date/team/officialgameid/full-game-two-way market/bothodds",
+    "first_formal_review": "at least200 new settled matched events and8weeks; minimum permits review, not proof; no repeated lucky-stop selection",
+    "first_snapshot": "first complete eligible immutable local receipt at least30minutes before original kickoff; one event/product capture, no overwrite",
+    "history": "strictly earlier calendar date, no same-day or future player statistics",
+    "input": "official confirmed pregame announced starters and ordered batting nine, no postgame actual-start evidence required before kickoff; later discrepancy recorded separately",
+    "models": "freeze existing2023-25 coefficients and 1:1:1 recipe for new event captures",
+    "outcomes": "official final/cancel evidence separately after kickoff; no result-dependent inclusion or refitting",
+    "real_betting": false
+  },
+  "recipe_frozen": {
+    "aggregation": "average unconditional3way then derive conditional2way",
+    "baseline": "original M0 baseL2=10",
+    "distribution": "NB2alpha=.3 baseL2=10",
+    "shrink": "OBP proxy .33/20PA per hitter, ERA4.5/27outs, no decay",
+    "weights": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ]
+  },
+  "retrospective_windows": [
+    {
+      "evaluate_year": 2024,
+      "fit_n": 723,
+      "kind": "new coefficient refit, already-seen retrospective recipe stability; not fresh holdout",
+      "target_n": 728,
+      "train_years": [
+        2023
+      ]
+    },
+    {
+      "evaluate_year": 2025,
+      "fit_n": 1451,
+      "kind": "reuse frozen validation component forecasts, selection-reused not independent",
+      "target_n": 731,
+      "train_years": [
+        2023,
+        2024
+      ]
+    },
+    {
+      "evaluate_year": 2026,
+      "fit_n": 2182,
+      "kind": "reuse frozen prior test, descriptive half-year stability only",
+      "target_n": 709,
+      "train_years": [
+        2023,
+        2024,
+        2025
+      ]
+    }
+  ],
+  "scope": "followup of fixed M0/shrink/NB03 1:1:1 ensemble only",
+  "source_evolution_commit": "ed11ca0561e485319f2b951409287f42167f42b5"
+}
