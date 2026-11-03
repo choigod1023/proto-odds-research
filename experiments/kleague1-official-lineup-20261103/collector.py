@@ -24,11 +24,12 @@ def write_json(path,value):
     path.write_bytes((json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode('utf8'))
 
 def capture(targets,max_fixtures):
-    if not 1<=max_fixtures<=4:raise ValueError('max-fixtures must be 1..4')
+    if not 1<=max_fixtures<=228:raise ValueError('max-fixtures must be 1..228')
     entries=json.loads(LOG.read_text(encoding='utf8')) if LOG.exists() else []
     if any(e.get('status') in (401,403,429) for e in entries):raise ValueError('previous access restriction; do not retry automatically')
     (BASE/'raw').mkdir(exist_ok=True)
-    for year,gid in targets[:max_fixtures]:
+    for position,(year,gid) in enumerate(targets[:max_fixtures],1):
+        if position==1 or position%10==0:print(f'fixture {position}/{min(len(targets),max_fixtures)}: {year}:{gid}',flush=True)
         if year not in (2023,2024,2025,2026) or not (1<=gid<=999):raise ValueError('invalid target')
         jobs=[('GET',f'https://www.kleague.com/match.do?year={year}&leagueId=1&gameId={gid}&meetSeq=1&startTabNum=2',None,f'raw/match-{year}-{gid}.html.gz',3000000),
           ('POST','https://www.kleague.com/api/ddf/match/matchInfo.do',{'year':str(year),'meetSeq':'1','gameId':str(gid)},f'raw/info-{year}-{gid}.json',1000000)]
@@ -143,12 +144,22 @@ def build():
       'request_log_sha256':hashlib.sha256(LOG.read_bytes()).hexdigest(),
       'failures':failures,'requests_total':len(entries),'fixtures_sha256':hashlib.sha256((BASE/'fixtures.jsonl').read_bytes()).hexdigest(),
       'limitations':['Retrospective current official page; lineup publication/receipt time not established.','Lineup is recorded starting XI, not proof of an earlier official announcement or absence report.','Substitution playerId/playerId2 are retained in source order; direction is not inferred.','Kickoff timezone, historical prices and pre-match player features remain unverified.']}
-    write_json(BASE/'manifest.json',coverage);print(json.dumps(coverage,ensure_ascii=False))
+    write_json(BASE/'manifest.json',coverage);print(json.dumps({k:coverage[k] for k in ('attempted_fixtures','parsed_fixtures','both_sides_xi_11','player_starters','bench_players','formation_sides','substitution_events','failures','requests_total','fixtures_sha256')},ensure_ascii=False),flush=True)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--capture',action='store_true');p.add_argument('--target',action='append',default=[],help='year:game_id');p.add_argument('--max-fixtures',type=int,default=1);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--capture',action='store_true');p.add_argument('--target',action='append',default=[],help='year:game_id');p.add_argument('--season-plan',action='store_true');p.add_argument('--max-fixtures',type=int,default=1);a=p.parse_args()
     if a.capture:
-        targets=[tuple(map(int,x.split(':'))) for x in a.target]
-        if not targets:raise ValueError('explicit official fixture target required')
-        capture(targets,a.max_fixtures)
+        import os
+        lock=BASE/'capture.lock'
+        fd=os.open(lock,os.O_CREAT|os.O_EXCL|os.O_WRONLY)
+        try:
+            os.write(fd,str(os.getpid()).encode());os.close(fd)
+            if a.season_plan:
+                plan=json.loads((BASE/'cohort-plan.json').read_text(encoding='utf8'))
+                targets=[(r['year'],r['game_id']) for r in plan['targets'] if r['game_status']=='FE' and r['end_yn']=='Y']
+            else:targets=[tuple(map(int,x.split(':'))) for x in a.target]
+            if not targets:raise ValueError('explicit official fixture target required')
+            capture(targets,a.max_fixtures)
+        finally:
+            lock.unlink()
     build()

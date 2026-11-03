@@ -47,13 +47,13 @@ def test_cache_does_not_request_again(monkeypatch):
 
 def test_hashes_and_coverage():
     entries=json.loads((BASE/'requests.json').read_text(encoding='utf8'))
-    assert len(entries)==6 and all(e['status']==200 and e.get('received_at') for e in entries)
+    assert len(entries)>=6 and all(e['status']==200 and e.get('received_at') for e in entries)
     for e in entries:
         b=(BASE/e['raw_file']).read_bytes()
         if e['raw_file'].endswith('.gz'):b=gzip.decompress(b)
         assert hashlib.sha256(b).hexdigest()==e['sha256']
     m=json.loads((BASE/'manifest.json').read_text(encoding='utf8'))
-    assert (m['parsed_fixtures'],m['player_starters'],m['bench_players'],m['formation_sides'],m['substitution_events'])==(3,66,50,6,27)
+    assert m['parsed_fixtures']>=3 and m['player_starters']>=66 and m['bench_players']>=50 and m['formation_sides']>=6 and m['substitution_events']>=27
     assert m['historical_actual_pregame_receipt_verified']==0
 
 
@@ -81,3 +81,29 @@ def test_crosswalk_rejects_incomplete_or_invalid_prices():
     f={'fixture_id':'id','day':'2025-01-01','lineups':[{'team_id':'H'},{'team_id':'A'}],'scores':{'home':1,'away':0}}
     row={'id':'id','day':'2025-01-01','home_id':'H','away_id':'A','hg':1,'ag':0,'prices':['2','bad','4']}
     assert cross.compare([f],[row])[0]['complete_threeway_price'] is False
+
+
+def test_frozen_2026_season_denominator_and_raw_schedule():
+    plan=json.loads((BASE/'cohort-plan.json').read_text(encoding='utf8'))
+    entries=json.loads((BASE/'schedule-requests.json').read_text(encoding='utf8'))
+    assert len(entries)==12 and all(e['status']==200 for e in entries)
+    for e in entries:
+        assert hashlib.sha256((BASE/e['raw_file']).read_bytes()).hexdigest()==e['sha256']
+    assert plan['seasons']['2026']['official_scheduled_fixtures']==228
+    assert plan['seasons']['2026']['completed']==204 and plan['seasons']['2026']['not_completed']==24
+    assert len({x['fixture_id'] for x in plan['targets']})==228
+
+
+def test_coverage_excludes_wrong_score_and_separates_research_from_operating():
+    spec=importlib.util.spec_from_file_location('lineup_coverage',BASE/'coverage.py')
+    coverage=importlib.util.module_from_spec(spec);spec.loader.exec_module(coverage)
+    plan={'targets':[{'fixture_id':'kleague:2026:1:1','day':'2026-01-01','home_team_id':'H','away_team_id':'A','home_goal':1,'away_goal':0}],
+          'seasons':{'2026':{'completed':1,'official_scheduled_fixtures':1}}}
+    f={'fixture_id':'kleague:2026:1:1','day':'2026-01-01','lineups':[{'team_id':'H'},{'team_id':'A'}],'scores':{'home':1,'away':0}}
+    old={'id':f['fixture_id'],'day':f['day'],'home_id':'H','away_id':'A','prices':['2','3','4']}
+    pred={'id':f['fixture_id'],'day':f['day'],'prices':['2','3','4']}
+    a=coverage.calculate(plan,[f],{f['fixture_id']:old},{f['fixture_id']:pred})
+    assert a['archived_3way_price_on_same_id']==1 and a['research_frozen_predictions_on_same_id']==1
+    assert a['operating_frozen_prediction_intersection'] is None
+    bad={**f,'scores':{'home':2,'away':0}}
+    assert coverage.calculate(plan,[bad],{}, {})['official_2026_lineups_with_22_starters_and_matching_result']==0
