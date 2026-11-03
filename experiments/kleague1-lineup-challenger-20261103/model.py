@@ -63,4 +63,3 @@ def predict(model,games,feats):
 
 def score_loss(games,rates):
  y=np.array([g['score'] for g in games]);return float(np.mean(np.sum(rates-y*np.log(rates)+gammaln(y+1),axis=1)))
-
