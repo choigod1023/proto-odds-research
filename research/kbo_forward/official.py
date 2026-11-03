@@ -464,12 +464,16 @@ class OfficialClient:
                     status='cancelled'
                 elif str(g.get('GAME_STATE_SC'))=='3' and str(g.get('GAME_RESULT_CK'))=='1': status='final'
                 else: raise SourceError('history_game_not_final')
-                fid=g['G_ID']+str(g['SEASON_ID'])
+                fid=history_fixture_id(g,source_games,seed) if status=='final' else g['G_ID']+str(g['SEASON_ID'])
                 for team in needed: events[team].append({'fixture_id':fid,'date':day.isoformat(),'status':status})
                 if status=='final':
                     if g['G_ID'] not in boxes: raise SourceError('history_box_missing')
                     item={'source':g,'receipt':rec}
                     normalized=self.normalize_box(item,boxes[g['G_ID']],identity_receipts=receipts,required_team_ids=teams)
+                    if normalized['fixture_id'] != fid:
+                        normalized['official_fixture_id']=normalized['fixture_id']
+                        normalized['source']['official_fixture_id']=normalized['fixture_id']
+                        normalized['fixture_id']=fid
                     games.append(normalized)
             day+=timedelta(days=1)
         received=max([seed['received_at']]+[r['finished_at'] for r in receipts],key=datetime.fromisoformat)
@@ -549,7 +553,7 @@ class OfficialClient:
                         return False
                     if str(g.get('GAME_STATE_SC')) != '3' or str(g.get('GAME_RESULT_CK')) != '1':
                         return False
-                    gid = g['G_ID']; fid = gid + str(g['SEASON_ID'])
+                    gid = g['G_ID']; fid = history_fixture_id(g,schedules[current],seed)
                     if gid not in boxes or fid not in normalized:
                         return False
                     params = boxes[gid]['params']
@@ -558,8 +562,7 @@ class OfficialClient:
                     row = normalized[fid]
                     if row.get('date') != current.isoformat() or any(team not in row.get('teams', {}) for team in needed):
                         return False
-                    alias = 'score:' + current.isoformat() + ':' + home + ':' + away
-                    if any(z.get('fixture_id') == alias for z in seed.get('games', [])):
+                    if fid != gid + str(g['SEASON_ID']) and row.get('official_fixture_id') != gid + str(g['SEASON_ID']):
                         return False
                 current += timedelta(days=1)
             return True
@@ -745,3 +748,31 @@ def unresolved_required(history, required_names):
             if item.get('name') in required_names.get(item.get('team'), {}).get(item.get('role'), set()):
                 return True
     return False
+
+
+def history_fixture_id(game, schedule_games, seed):
+    """Preserve an existing score alias only for one exact official fixture."""
+    day=datetime.strptime(str(game['G_DT']),'%Y%m%d').date().isoformat()
+    home=str(game.get('HOME_NM') or '').strip();away=str(game.get('AWAY_NM') or '').strip()
+    if not home or not away or not game.get('HOME_ID') or not game.get('AWAY_ID'):
+        raise SourceError('history_alias_team_missing')
+    canonical=str(game['G_ID'])+str(game['SEASON_ID'])
+    alias='score:'+day+':'+home+':'+away
+    seed_games=seed.get('games') or []
+    alias_rows=[x for x in seed_games if x.get('fixture_id')==alias]
+    canon_rows=[x for x in seed_games if x.get('fixture_id')==canonical]
+    if len(alias_rows)>1 or len(canon_rows)>1 or (alias_rows and canon_rows):
+        raise SourceError('history_alias_duplicate_seed_identity')
+    if not alias_rows:return canonical
+    same=[g for g in schedule_games if str(g.get('G_DT'))==str(game['G_DT']) and str(g.get('HOME_ID'))==str(game['HOME_ID']) and str(g.get('AWAY_ID'))==str(game['AWAY_ID'])]
+    if len(same)!=1 or same[0].get('G_ID')!=game['G_ID']:
+        raise SourceError('history_alias_ambiguous_schedule')
+    prior=alias_rows[0]
+    if prior.get('date')!=day:raise SourceError('history_alias_date_conflict')
+    for side,prefix,opponent in (('HOME','B','T'),('AWAY','T','B')):
+        team=str(game[side+'_ID']); old=(prior.get('teams') or {}).get(team)
+        if not old:continue
+        for key,source in (('runs_for',prefix+'_SCORE_CN'),('runs_against',opponent+'_SCORE_CN')):
+            if old.get(key) is not None and (not str(game.get(source)).isdigit() or old[key]!=int(game[source])):
+                raise SourceError('history_alias_score_conflict')
+    return alias

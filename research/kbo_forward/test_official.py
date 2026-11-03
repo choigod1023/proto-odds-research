@@ -189,6 +189,20 @@ class OfficialTests(unittest.TestCase):
             self.assertFalse(c.verify_history_coverage(event,no_games))
             for mutate in (lambda h:h['games'][0]['teams']['HH'].__setitem__('runs_for',99),lambda h:h['games'][0].__setitem__('fixture_id','other'),lambda h:h['schedules']['HH']['events'][0].__setitem__('status','unknown'),lambda h:h['source_receipts'][1].__setitem__('sha256','0'*64),lambda h:h['games'][0]['teams'].__setitem__('wrong',{})):
                 wrong=copy.deepcopy(history);mutate(wrong);self.assertFalse(c.verify_history(event,wrong))
+        alias='score:'+day.isoformat()+':Home:Away'
+        old={'fixture_id':alias,'date':day.isoformat(),'teams':{'AA':{'runs_for':1,'runs_against':6}},'batters':{},'pitchers':{}}
+        alias_seed={'through_date':day.isoformat(),'team_through':{'HH':(day-timedelta(days=1)).isoformat(),'AA':day.isoformat()},'received_at':datetime.now(timezone.utc).isoformat(),'games':[old]}
+        aliased=c.derive_history(event,alias_seed,[item['receipt'],rec])
+        self.assertEqual(aliased['games'][0]['fixture_id'],alias)
+        self.assertEqual(aliased['games'][0]['official_fixture_id'],game['G_ID']+str(game['SEASON_ID']))
+        self.assertEqual(aliased['schedules']['HH']['events'][0]['fixture_id'],alias)
+        with patch.object(off,'frozen_seed',return_value=alias_seed):self.assertTrue(c.verify_history_stats(event,{},aliased))
+        double=dict(game,G_ID=game['G_ID'][:-1]+'1')
+        with self.assertRaisesRegex(SourceError,'ambiguous_schedule'):off.history_fixture_id(game,[game,double],alias_seed)
+        bad_seed=copy.deepcopy(alias_seed);bad_seed['games'][0]['teams']['AA']['runs_for']=99
+        with self.assertRaisesRegex(SourceError,'score_conflict'):off.history_fixture_id(game,[game],bad_seed)
+        duplicate=copy.deepcopy(alias_seed);duplicate['games'].append(dict(old,fixture_id=game['G_ID']+str(game['SEASON_ID'])))
+        with self.assertRaisesRegex(SourceError,'duplicate_seed_identity'):off.history_fixture_id(game,[game],duplicate)
         self.assertEqual(history['games'][0]['pitchers']['102']['outs'],17)
         self.assertIsNone(history['games'][0]['batters']['101']['bb'])
         # A rival's unresolved identity is irrelevant to the requested team;
