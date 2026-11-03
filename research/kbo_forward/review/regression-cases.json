@@ -1,0 +1,270 @@
+{
+  "purpose": "Regression specifications awaiting actual runner/adapter; not evidence implementation passed",
+  "base_commit": "eaa0172d75dcbc203cf29f0514886fd90d2db3aa",
+  "cases": [
+    {
+      "id": "market_3way_drop_draw",
+      "area": "market",
+      "input": "official 3-way odds home/draw/away; adapter drops draw",
+      "expected": "reject"
+    },
+    {
+      "id": "market_3way_home_loses_draw",
+      "area": "market",
+      "input": "3-way home selection on draw, 1-unit stake",
+      "expected": "net=-1"
+    },
+    {
+      "id": "market_2way_draw_refund",
+      "area": "market",
+      "input": "verified 2-way draw-void product; home on draw",
+      "expected": "net=0"
+    },
+    {
+      "id": "market_unknown_rule",
+      "area": "market",
+      "input": "two prices but no official draw rule",
+      "expected": "reject"
+    },
+    {
+      "id": "market_mislabeled_source",
+      "area": "market",
+      "input": "official says three selections but normalized says 2way",
+      "expected": "reject"
+    },
+    {
+      "id": "market_valid_rule",
+      "area": "market",
+      "input": "official 2way raw, matching selections and explicit draw refund",
+      "expected": "eligible subject to all other gates"
+    },
+    {
+      "id": "market_wrong_game",
+      "area": "identity",
+      "input": "same teams same day, wrong doubleheader game number",
+      "expected": "reject"
+    },
+    {
+      "id": "market_reverse_teams",
+      "area": "identity",
+      "input": "home and away reversed between market and official event",
+      "expected": "reject"
+    },
+    {
+      "id": "market_suspended",
+      "area": "market",
+      "input": "matching market but suspended when received",
+      "expected": "reject"
+    },
+    {
+      "id": "market_bad_price",
+      "area": "market",
+      "input": "NaN, infinity, zero, one or missing selection",
+      "expected": "reject"
+    },
+    {
+      "id": "source_forged_body",
+      "area": "source",
+      "input": "caller supplies official URL with fabricated JSON and own hash",
+      "expected": "reject verification"
+    },
+    {
+      "id": "source_normalization_mismatch",
+      "area": "source",
+      "input": "raw official says team A; normalized says team B",
+      "expected": "reject"
+    },
+    {
+      "id": "source_redirect",
+      "area": "source",
+      "input": "official URL redirects to an untrusted host",
+      "expected": "reject verification"
+    },
+    {
+      "id": "source_error_page",
+      "area": "source",
+      "input": "HTTP 200 containing CAPTCHA or an error page",
+      "expected": "reject"
+    },
+    {
+      "id": "source_cache_old",
+      "area": "source",
+      "input": "cached body lacks provable freshness or age",
+      "expected": "reject verification"
+    },
+    {
+      "id": "roster_probable",
+      "area": "roster",
+      "input": "probable starter or projected order, not confirmed",
+      "expected": "reject"
+    },
+    {
+      "id": "roster_duplicates",
+      "area": "roster",
+      "input": "duplicate hitter, missing ninth hitter or cross-team ID",
+      "expected": "reject"
+    },
+    {
+      "id": "history_future_nested",
+      "area": "history",
+      "input": "nested received_at or observed_at one microsecond after capture",
+      "expected": "reject"
+    },
+    {
+      "id": "history_unknown_receipt",
+      "area": "history",
+      "input": "past game but no verifiable receipt time",
+      "expected": "reject verification"
+    },
+    {
+      "id": "history_same_day",
+      "area": "history",
+      "input": "target-day or target-game player statistics",
+      "expected": "reject"
+    },
+    {
+      "id": "timing_exact",
+      "area": "timing",
+      "input": "complete evidence, prediction and durable freeze at original kickoff minus 30 minutes",
+      "expected": "eligible subject to all other gates"
+    },
+    {
+      "id": "timing_late",
+      "area": "timing",
+      "input": "any required completion one microsecond after original T-30",
+      "expected": "reject"
+    },
+    {
+      "id": "timing_request_started_early",
+      "area": "timing",
+      "input": "request starts before deadline but last byte arrives after",
+      "expected": "reject"
+    },
+    {
+      "id": "timing_clock_naive",
+      "area": "timing",
+      "input": "timestamp has no timezone offset",
+      "expected": "reject"
+    },
+    {
+      "id": "timing_clock_rollback",
+      "area": "timing",
+      "input": "wall clock goes backwards or cannot establish trusted ordering",
+      "expected": "quarantine"
+    },
+    {
+      "id": "timing_delayed_game",
+      "area": "timing",
+      "input": "official start delayed after original cutoff",
+      "expected": "do not extend original cutoff retroactively"
+    },
+    {
+      "id": "timing_sleep",
+      "area": "scheduler",
+      "input": "PC asleep through original cutoff; wake after cutoff",
+      "expected": "record missed opportunity; no backfill"
+    },
+    {
+      "id": "freeze_repeat",
+      "area": "freeze",
+      "input": "same event and same product receives revised price after first complete freeze",
+      "expected": "preserve first, reject overwrite"
+    },
+    {
+      "id": "freeze_partial_first",
+      "area": "freeze",
+      "input": "earlier missing roster, later complete snapshot before cutoff",
+      "expected": "retain failure evidence and freeze first complete eligible snapshot"
+    },
+    {
+      "id": "freeze_model_changed",
+      "area": "freeze",
+      "input": "model or recipe digest differs from preregistered model",
+      "expected": "reject"
+    },
+    {
+      "id": "settle_pre_game",
+      "area": "settlement",
+      "input": "final result received before kickoff",
+      "expected": "reject"
+    },
+    {
+      "id": "settle_wrong_game",
+      "area": "settlement",
+      "input": "result game ID, season, date or teams conflict",
+      "expected": "reject"
+    },
+    {
+      "id": "settle_cancel",
+      "area": "settlement",
+      "input": "official cancellation and applicable product rule says refund",
+      "expected": "net=0"
+    },
+    {
+      "id": "settle_correction",
+      "area": "settlement",
+      "input": "official correction arrives after original final",
+      "expected": "append correction or quarantine; never overwrite/double count"
+    },
+    {
+      "id": "settle_unproven_rule",
+      "area": "settlement",
+      "input": "score draw but product refund rule not evidenced",
+      "expected": "reject verification"
+    },
+    {
+      "id": "race_parallel",
+      "area": "concurrency",
+      "input": "two workers freeze identical event concurrently",
+      "expected": "at most one immutable capture"
+    },
+    {
+      "id": "race_restart",
+      "area": "concurrency",
+      "input": "crash during write, restart and repeat",
+      "expected": "quarantine partial tail; no silent truncation or duplicate"
+    },
+    {
+      "id": "race_stale_lock",
+      "area": "concurrency",
+      "input": "existing lock ownership unknown",
+      "expected": "do not delete lock automatically; report and recover safely"
+    },
+    {
+      "id": "scheduler_duplicate",
+      "area": "scheduler",
+      "input": "two registrations or overlapping schedules",
+      "expected": "one active writer per event; surface duplicate"
+    },
+    {
+      "id": "scheduler_offline",
+      "area": "scheduler",
+      "input": "PC off or asleep during scheduled collection",
+      "expected": "report missed opportunity; no fabricated capture"
+    },
+    {
+      "id": "scheduler_disabled",
+      "area": "scheduler",
+      "input": "scheduler is not explicitly installed and enabled",
+      "expected": "no autonomous execution"
+    },
+    {
+      "id": "cohort_exclusions",
+      "area": "cohort",
+      "input": "all eligible complete and excluded attempts logged before result",
+      "expected": "include by frozen pre-result criteria only"
+    },
+    {
+      "id": "cohort_threshold",
+      "area": "cohort",
+      "input": "199 verified settlements or under 8 weeks",
+      "expected": "formal review not ready"
+    },
+    {
+      "id": "production_isolation",
+      "area": "isolation",
+      "input": "collector operates in research mode",
+      "expected": "no production recommendation, paid account, existing wallet or 50000 KRW ledger changes"
+    }
+  ]
+}
