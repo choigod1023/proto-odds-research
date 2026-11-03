@@ -1,0 +1,293 @@
+{
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "blockers": [
+    "No verified pregame actual receipt of XI or executable odds; no frozen service ledger comparison."
+  ],
+  "branch": "codex/kleague2-lineup-challenger-20261103",
+  "frozen_prediction_commit": "e8288f5d92245bcdcb2f1a221966e228309eb465",
+  "frozen_prediction_sha256": "96006c7e54b335d31bc83a4c7bebc2ed07b31427ff196a567a9d41a8257a8872",
+  "input_sha256s": {
+    "census-2025.json": "a61241a4560e6d659161affdc6465a3245d8d408e7bedb0080c76b90007ca3e9",
+    "census-2026.json": "3e0d570885107ddf05ac3c3a1f3ecc76e3e963a6fc9d502091325ff5dffc017b",
+    "joined-prices.jsonl.gz": "820e46c60eaec875618164c32b2fd88ebe3d38343a627d247219e7e59bf218c1",
+    "lineups.jsonl": "a23f332c1d1799ce3ecce069e382bf52f7733a028cfbf79484cc5fa65d2247a0",
+    "price-manifest.json": "f6c1e47151115fe6ecd2683406424a2d26929316e2282771620aa1c34218d800"
+  },
+  "league": "K League 2",
+  "limitations": [
+    "Postmatch sourced official actual XI; no independent T-30 reception authentication.",
+    "Price snapshots are retrospective with no confirmed executable time.",
+    "No frozen operating model comparison; no deployment or recommendation.",
+    "No Cup, K1 or national-team history for player features.",
+    "Previously inspected 2026 sample; not blind."
+  ],
+  "metrics": {
+    "cohort_n": 128,
+    "excluded": {
+      "non_regular_playoff": 2
+    },
+    "freeze_commit": "e8288f5d92245bcdcb2f1a221966e228309eb465",
+    "history_coverage_by_fold": {
+      "test": {
+        "fewer_than_three": 0,
+        "no_previous": 0,
+        "team_sides": 256
+      },
+      "train": {
+        "fewer_than_three": 42,
+        "no_previous": 14,
+        "team_sides": 546
+      },
+      "validation": {
+        "fewer_than_three": 15,
+        "no_previous": 5,
+        "team_sides": 240
+      }
+    },
+    "limitations": [
+      "Postmatch sourced official actual XI; no independent T-30 reception authentication.",
+      "Price snapshots are retrospective with no confirmed executable time.",
+      "No frozen operating model comparison; no deployment or recommendation.",
+      "No Cup, K1 or national-team history for player features.",
+      "Previously inspected 2026 sample; not blind."
+    ],
+    "prediction_sha256": "96006c7e54b335d31bc83a4c7bebc2ed07b31427ff196a567a9d41a8257a8872",
+    "price_changed_picks": 9,
+    "price_exclusions": {
+      "missing_quote": 1
+    },
+    "price_matched_accuracy_loss": {
+      "lineup": {
+        "accuracy": 0.4566929133858268,
+        "brier": 0.6520843065526095,
+        "hits": 58,
+        "logloss": 1.0792591156769071,
+        "n": 127
+      },
+      "market": {
+        "accuracy": 0.4881889763779528,
+        "brier": 0.6167385531131133,
+        "hits": 62,
+        "logloss": 1.0296651924374511,
+        "n": 127
+      },
+      "team_only": {
+        "accuracy": 0.44881889763779526,
+        "brier": 0.6513280955416013,
+        "hits": 57,
+        "logloss": 1.0784595725267294,
+        "n": 127
+      }
+    },
+    "price_matched_candidate_minus_team_roi_ci95": {
+      "ci95": [
+        -0.07212356975885831,
+        0.09355708661417318
+      ],
+      "resamples": 2000,
+      "seed": 20261103,
+      "weeks": 16
+    },
+    "price_matched_lineup_minus_market_ci95": {
+      "accuracy": {
+        "ci95": [
+          -0.0866313585801775,
+          0.023622047244094502
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "brier": {
+        "ci95": [
+          0.006596224520658942,
+          0.06474564761474898
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "logloss": {
+        "ci95": [
+          0.007514143449355681,
+          0.08937622562853921
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "roi": {
+        "ci95": [
+          -0.18220820932539683,
+          0.08320634920634906
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      }
+    },
+    "price_matched_n": 127,
+    "price_matched_returns": {
+      "lineup": {
+        "daily_closing_max_drawdown_units": 28.20000000000001,
+        "monthly_profit_units": {
+          "2026-07": -10.440000000000003,
+          "2026-08": -8.72,
+          "2026-09": -3.54,
+          "2026-10": 1.2699999999999991,
+          "2026-11": 0.19000000000000017
+        },
+        "n": 127,
+        "profit_units": -21.240000000000006,
+        "roi": -0.16724409448818903
+      },
+      "market": {
+        "daily_closing_max_drawdown_units": 17.62,
+        "monthly_profit_units": {
+          "2026-07": -5.710000000000001,
+          "2026-08": -2.6300000000000003,
+          "2026-09": -3.8200000000000003,
+          "2026-10": 0.25999999999999845,
+          "2026-11": -2.76
+        },
+        "n": 127,
+        "profit_units": -14.66,
+        "roi": -0.11543307086614173
+      },
+      "team_only": {
+        "daily_closing_max_drawdown_units": 29.810000000000006,
+        "monthly_profit_units": {
+          "2026-07": -15.050000000000002,
+          "2026-08": -5.72,
+          "2026-09": -3.54,
+          "2026-10": 1.2699999999999991,
+          "2026-11": 0.19000000000000017
+        },
+        "n": 127,
+        "profit_units": -22.850000000000005,
+        "roi": -0.17992125984251972
+      }
+    },
+    "status": "retrospective_diagnostic_not_certified_pregame",
+    "test_all": {
+      "lineup": {
+        "accuracy": 0.4609375,
+        "brier": 0.651108963326051,
+        "hits": 59,
+        "logloss": 1.0778186405288555,
+        "n": 128
+      },
+      "team_only": {
+        "accuracy": 0.453125,
+        "brier": 0.6504480016260359,
+        "hits": 58,
+        "logloss": 1.0771424420529412,
+        "n": 128
+      }
+    },
+    "test_changed_picks": 9,
+    "test_paired_ci95": {
+      "accuracy": {
+        "ci95": [
+          -0.0234375,
+          0.0390625
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "brier": {
+        "ci95": [
+          -0.0008679323196399136,
+          0.0021787897817818246
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "logloss": {
+        "ci95": [
+          -0.001587462004161172,
+          0.002906230976098728
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      }
+    },
+    "unknown_team_sides": {
+      "lineup": 0,
+      "team_only": 0
+    },
+    "xi_feature_missing_team_sides": {
+      "less_than_three": 0.0,
+      "no_previous": 0.0
+    }
+  },
+  "new_input_ids": [
+    "PR515:99dc30b official 2025-2026 K2 XI",
+    "price:4f3ee6b Betman official snapshot"
+  ],
+  "next_data_needed": [
+    "Forward timestamped official lineup receipts, complete contemporaneous same-product prices and frozen operating decisions, K1 and other competition player history."
+  ],
+  "pr_url": null,
+  "protocol_sha": "ead1596c636233d6042c26e65d3e50d68309d35f",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "role": "K League 2 lineup challenger",
+  "status": "retrospective_comparison_complete_unvalidated",
+  "tests": [
+    "python -m unittest discover -s tests -p test_kleague2_lineup_challenger_20261103.py -v: 8 passed",
+    "independent Decimal settlement for 127 matched games and three models"
+  ],
+  "validation": {
+    "alpha_grid": [
+      1,
+      10,
+      100
+    ],
+    "excluded": {
+      "non_regular_playoff": 2
+    },
+    "folds": {
+      "test": 128,
+      "train": 273,
+      "validation": 120
+    },
+    "selected": {
+      "lineup": 100,
+      "team_only": 100
+    },
+    "test_results_scored": false,
+    "validation_score_logloss": {
+      "lineup": [
+        {
+          "alpha": 1,
+          "score_logloss": 2.9941455732868767
+        },
+        {
+          "alpha": 10,
+          "score_logloss": 2.9206116363154644
+        },
+        {
+          "alpha": 100,
+          "score_logloss": 2.872721929652522
+        }
+      ],
+      "team_only": [
+        {
+          "alpha": 1,
+          "score_logloss": 2.9505751159715947
+        },
+        {
+          "alpha": 10,
+          "score_logloss": 2.903851562765904
+        },
+        {
+          "alpha": 100,
+          "score_logloss": 2.870229501037606
+        }
+      ]
+    }
+  }
+}
