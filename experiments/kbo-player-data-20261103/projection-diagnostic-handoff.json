@@ -1,0 +1,29 @@
+{
+  "status": "descriptive_diagnostic_only_no_training",
+  "role": "KBO data linkage",
+  "original_head": "b0833a69814b3fadf1eb91b8205abc35ffee4d55",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/511",
+  "report": "projection-accuracy.md",
+  "metrics": "projection-accuracy.json",
+  "metrics_sha256": "7357421247a1e91db4af47b6be8e68a0781d0e60ecbdf7ed91551e9829f4e8fa",
+  "input_sha256": {
+    "rows.jsonl": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+    "labels.jsonl": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+    "prior-projected-features.jsonl.gz": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+    "inventory.json": "b8fea1a1f4087f7408358f2dcb0f21e39b6eb9d2e1f07d46d4ceb878cd8cccf0",
+    "prior-projected-manifest.json": "8da1fc6f925e771b3de35977ef164bda06b020b9344bbe4ada0e7b4b6535558c"
+  },
+  "phase_unknown_games": 2913,
+  "point_in_time_verified": 0,
+  "tests": "11 passed: team/game denominators, missing/conflict distinction, actual/projection fixture identity, source/manifest frozen hash, prior-only poison/date checks",
+  "limitations": [
+    "Actual IDs are postgame reconstruction, not independent official confirmed starters/lineups.",
+    "Batting order takes first listed non-substitution entry in each slot; actual starting nine not independently established.",
+    "The history coverage denominator is projected slots, not unique individuals; generation from a previous lineup makes presence largely structural.",
+    "Prior-day completion is assumed; no actual contemporaneous receipt or independent price authentication.",
+    "No source field independently specifies season phase; all phase_unknown, despite yearly counts above 720.",
+    "No performance, model tuning, ROI, model input or operating change."
+  ],
+  "model_fit": false,
+  "roi_computed": false
+}
