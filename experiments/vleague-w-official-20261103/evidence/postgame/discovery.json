@@ -1,0 +1,178 @@
+[
+  {
+    "name": "seasons",
+    "url": "https://user-api.kovo.co.kr/matches/001/seasons",
+    "params": {},
+    "status": 200,
+    "received_at": "2026-11-03T03:03:13.335532+00:00",
+    "sha256": "ce26765ac52b9eedf9704c48ae6442655f0a3b1ce72f3928bdce40e7de6ea695",
+    "length": 5173
+  },
+  {
+    "name": "leagues",
+    "url": "https://user-api.kovo.co.kr/matches/001/seasons/022/leagues",
+    "params": {},
+    "status": 200,
+    "received_at": "2026-11-03T03:03:27.063414+00:00",
+    "sha256": "475a435bace5238ee7493beb1985efa7ef1826e9431bd29a55cb87c8cb34ec23",
+    "length": 1107
+  },
+  {
+    "name": "schedule",
+    "url": "https://user-api.kovo.co.kr/games/schedules?match=001&season=022&gender=FEMALE",
+    "params": {
+      "match": "001",
+      "season": "022",
+      "gender": "FEMALE"
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:03:28.298077+00:00",
+    "sha256": "a640a416a97be13800f48d1c04ec90be7838e1c6b2bffb9917705008453e9aaf",
+    "length": 71437
+  },
+  {
+    "name": "detail_1",
+    "url": "https://user-api.kovo.co.kr/stat/game-schedule/1?gcode=001&seasonCode=022&leagueCode=201&gender=2&round=1&tcode=2004&acode=2003&gdate=2025-10-18",
+    "params": {
+      "gcode": "001",
+      "seasonCode": "022",
+      "leagueCode": "201",
+      "gender": "2",
+      "round": 1,
+      "tcode": "2004",
+      "acode": "2003",
+      "gdate": "2025-10-18"
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:03:48.637502+00:00",
+    "sha256": "03742b39a825fc276ee399351bf76da15f9ae3651a2d33a86f20cbfae5b9613b",
+    "length": 74
+  },
+  {
+    "name": "detail_127",
+    "url": "https://user-api.kovo.co.kr/stat/game-schedule/127?gcode=001&seasonCode=022&leagueCode=201&gender=2&round=4&tcode=2004&acode=2001&gdate=2025-12-31",
+    "params": {
+      "gcode": "001",
+      "seasonCode": "022",
+      "leagueCode": "201",
+      "gender": "2",
+      "round": 4,
+      "tcode": "2004",
+      "acode": "2001",
+      "gdate": "2025-12-31"
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:03:49.873706+00:00",
+    "sha256": "03742b39a825fc276ee399351bf76da15f9ae3651a2d33a86f20cbfae5b9613b",
+    "length": 74
+  },
+  {
+    "name": "detail_251",
+    "url": "https://user-api.kovo.co.kr/stat/game-schedule/251?gcode=001&seasonCode=022&leagueCode=201&gender=2&round=6&tcode=2005&acode=2001&gdate=2026-03-18",
+    "params": {
+      "gcode": "001",
+      "seasonCode": "022",
+      "leagueCode": "201",
+      "gender": "2",
+      "round": 6,
+      "tcode": "2005",
+      "acode": "2001",
+      "gdate": "2026-03-18"
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:03:51.102653+00:00",
+    "sha256": "03742b39a825fc276ee399351bf76da15f9ae3651a2d33a86f20cbfae5b9613b",
+    "length": 74
+  },
+  {
+    "name": "stat_schedule",
+    "url": "https://user-api.kovo.co.kr/stat/game-schedule?gcode=001&seasonCode=022&leagueCode=201&gender=2&size=1000&page=0",
+    "params": {
+      "gcode": "001",
+      "seasonCode": "022",
+      "leagueCode": "201",
+      "gender": "2",
+      "size": 1000,
+      "page": 0
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:04:00.455167+00:00",
+    "sha256": "7cba936734fa97a49954d2b76b9fb74e272c1ed0e7592d86e8af1a1528c6caba",
+    "length": 131910
+  },
+  {
+    "name": "realtime_1",
+    "url": "https://user-api.kovo.co.kr/stat/real-time?season=022&gcode=001&gnum=1&round=1&hcode=2004&acode=2003&page=0&size=10000",
+    "params": {
+      "season": "022",
+      "gcode": "001",
+      "gnum": 1,
+      "round": 1,
+      "hcode": "2004",
+      "acode": "2003",
+      "page": 0,
+      "size": 10000
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:04:01.823640+00:00",
+    "sha256": "7ff870a8740e0b83ca62ea7a3ce5ea5785e0b4aa0aad44eb7e157b0251418eb0",
+    "length": 102180
+  },
+  {
+    "name": "sample_set1_1",
+    "url": "https://user-api.kovo.co.kr/stat/real-time?season=022&gcode=001&gnum=1&round=1&hcode=2004&acode=2003&rset=1&page=0&size=10000",
+    "params": {
+      "season": "022",
+      "gcode": "001",
+      "gnum": 1,
+      "round": 1,
+      "hcode": "2004",
+      "acode": "2003",
+      "rset": 1,
+      "page": 0,
+      "size": 10000
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:04:18.261025+00:00",
+    "sha256": "127f1014fd707c947557c3a0e63bf630f5ab01ae28be567616eb53a48d7e3bd9",
+    "length": 108004
+  },
+  {
+    "name": "sample_set1_127",
+    "url": "https://user-api.kovo.co.kr/stat/real-time?season=022&gcode=001&gnum=127&round=4&hcode=2004&acode=2001&rset=1&page=0&size=10000",
+    "params": {
+      "season": "022",
+      "gcode": "001",
+      "gnum": 127,
+      "round": 4,
+      "hcode": "2004",
+      "acode": "2001",
+      "rset": 1,
+      "page": 0,
+      "size": 10000
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:04:19.535609+00:00",
+    "sha256": "148d70affc716f246c62edcb8c9dfb3a899c7e0a421df2f54fa95fec257c2269",
+    "length": 78481
+  },
+  {
+    "name": "sample_set1_251",
+    "url": "https://user-api.kovo.co.kr/stat/real-time?season=022&gcode=001&gnum=251&round=6&hcode=2005&acode=2001&rset=1&page=0&size=10000",
+    "params": {
+      "season": "022",
+      "gcode": "001",
+      "gnum": 251,
+      "round": 6,
+      "hcode": "2005",
+      "acode": "2001",
+      "rset": 1,
+      "page": 0,
+      "size": 10000
+    },
+    "status": 200,
+    "received_at": "2026-11-03T03:04:20.795361+00:00",
+    "sha256": "6123f72d0104881a1019e08038b029689273e40ea85c000fe0d4fedd5b997df1",
+    "length": 71755
+  }
+]

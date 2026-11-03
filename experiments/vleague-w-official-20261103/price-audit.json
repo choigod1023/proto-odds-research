@@ -1,0 +1,358 @@
+{
+  "cache_bodies_verified": 147,
+  "unverified_body_files": 0,
+  "matched_source_bodies": 13,
+  "candidate_rows": 84,
+  "candidate_fixtures": 28,
+  "rows_by_legacy_handi_code": {
+    "0": 28,
+    "2": 28,
+    "9": 28
+  },
+  "code0_score_matches": 28,
+  "code0_score_mismatches": 0,
+  "validated_full_market_selection_count": 0,
+  "strict_pit_count": 0,
+  "reason": "legacy betId/betTypId/betNm and selection labels absent; period/settlement rules not independently verified",
+  "failures": [],
+  "source_manifest": [
+    {
+      "body_sha256": "d007ec15ab06a5a0526322247c0c76ea41d17284fbc0305c79cc5d804d519f1d",
+      "file": "evidence/prices/d007ec15ab06a5a0526322247c0c76ea41d17284fbc0305c79cc5d804d519f1d.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-123.body.gz",
+      "capture": {
+        "name": "detail-2025-123",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250123",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:27.935190+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "d007ec15ab06a5a0526322247c0c76ea41d17284fbc0305c79cc5d804d519f1d",
+        "body_file": "evidence/detail-2025-123.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "97abcd5851e5ccd6ccc9d59033062137515fff9384587bdab33c551381570e36",
+      "file": "evidence/prices/97abcd5851e5ccd6ccc9d59033062137515fff9384587bdab33c551381570e36.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-126.body.gz",
+      "capture": {
+        "name": "detail-2025-126",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250126",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:29.131244+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "97abcd5851e5ccd6ccc9d59033062137515fff9384587bdab33c551381570e36",
+        "body_file": "evidence/detail-2025-126.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "ff95123454c74bb2457443d4dd578e8cfca427167c109c54a79784412cb0f894",
+      "file": "evidence/prices/ff95123454c74bb2457443d4dd578e8cfca427167c109c54a79784412cb0f894.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-129.body.gz",
+      "capture": {
+        "name": "detail-2025-129",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250129",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:30.315616+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "ff95123454c74bb2457443d4dd578e8cfca427167c109c54a79784412cb0f894",
+        "body_file": "evidence/detail-2025-129.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "8dabd82213aff9a35fdd3c680c98365c160f4b132fdac057bbc6800cbf211e16",
+      "file": "evidence/prices/8dabd82213aff9a35fdd3c680c98365c160f4b132fdac057bbc6800cbf211e16.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-132.body.gz",
+      "capture": {
+        "name": "detail-2025-132",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250132",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:31.522431+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "8dabd82213aff9a35fdd3c680c98365c160f4b132fdac057bbc6800cbf211e16",
+        "body_file": "evidence/detail-2025-132.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "3da1889d9c5408df61d3248b1ddb909312a9589c6c439cc36d77d01690001835",
+      "file": "evidence/prices/3da1889d9c5408df61d3248b1ddb909312a9589c6c439cc36d77d01690001835.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-138.body.gz",
+      "capture": {
+        "name": "detail-2025-138",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250138",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:32.698678+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "3da1889d9c5408df61d3248b1ddb909312a9589c6c439cc36d77d01690001835",
+        "body_file": "evidence/detail-2025-138.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "1050bcb942cf0506b8546eb47c5ba5d5a841409a1955e892e09f60f30fa00a6e",
+      "file": "evidence/prices/1050bcb942cf0506b8546eb47c5ba5d5a841409a1955e892e09f60f30fa00a6e.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-140.body.gz",
+      "capture": {
+        "name": "detail-2025-140",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250140",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:33.846865+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "1050bcb942cf0506b8546eb47c5ba5d5a841409a1955e892e09f60f30fa00a6e",
+        "body_file": "evidence/detail-2025-140.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "4e8361e1ce417266e32bb1b8a467fcfa8a1f4fabeb1780c2860ac3cb307cdad1",
+      "file": "evidence/prices/4e8361e1ce417266e32bb1b8a467fcfa8a1f4fabeb1780c2860ac3cb307cdad1.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2025-141.body.gz",
+      "capture": {
+        "name": "detail-2025-141",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "250141",
+          "gameYear": "2025",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:35.037068+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "4e8361e1ce417266e32bb1b8a467fcfa8a1f4fabeb1780c2860ac3cb307cdad1",
+        "body_file": "evidence/detail-2025-141.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "82f079e43ccf658e1628bbd0e6756f2ccaf6818d6bb697f9a5172dc798b67abc",
+      "file": "evidence/prices/82f079e43ccf658e1628bbd0e6756f2ccaf6818d6bb697f9a5172dc798b67abc.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-26.body.gz",
+      "capture": {
+        "name": "detail-2026-26",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "260026",
+          "gameYear": "2026",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:36.238315+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "82f079e43ccf658e1628bbd0e6756f2ccaf6818d6bb697f9a5172dc798b67abc",
+        "body_file": "evidence/detail-2026-26.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "d136eebc7d389fe169dba41d6b9bbf750b6217217e2670be1ddb86b3299f5aa0",
+      "file": "evidence/prices/d136eebc7d389fe169dba41d6b9bbf750b6217217e2670be1ddb86b3299f5aa0.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-27.body.gz",
+      "capture": {
+        "name": "detail-2026-27",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "260027",
+          "gameYear": "2026",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:37.324003+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "d136eebc7d389fe169dba41d6b9bbf750b6217217e2670be1ddb86b3299f5aa0",
+        "body_file": "evidence/detail-2026-27.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "f9f8b695e788551954a205e54881a029fd34f125591af70445f4b0d452e18029",
+      "file": "evidence/prices/f9f8b695e788551954a205e54881a029fd34f125591af70445f4b0d452e18029.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-29.body.gz",
+      "capture": {
+        "name": "detail-2026-29",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "260029",
+          "gameYear": "2026",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:38.524088+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "f9f8b695e788551954a205e54881a029fd34f125591af70445f4b0d452e18029",
+        "body_file": "evidence/detail-2026-29.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "d4b92f93a8cc1078c0c4f8ffc2e9fd1cd02f27e6c741ebc204ccdc2033dc9708",
+      "file": "evidence/prices/d4b92f93a8cc1078c0c4f8ffc2e9fd1cd02f27e6c741ebc204ccdc2033dc9708.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-32.body.gz",
+      "capture": {
+        "name": "detail-2026-32",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "260032",
+          "gameYear": "2026",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:39.727262+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "d4b92f93a8cc1078c0c4f8ffc2e9fd1cd02f27e6c741ebc204ccdc2033dc9708",
+        "body_file": "evidence/detail-2026-32.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "24864326c80c0a8b909f55c98107f2fbc71eee29ac7a5db84d3297c8d1bc7202",
+      "file": "evidence/prices/24864326c80c0a8b909f55c98107f2fbc71eee29ac7a5db84d3297c8d1bc7202.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-33.body.gz",
+      "capture": {
+        "name": "detail-2026-33",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "260033",
+          "gameYear": "2026",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:40.809347+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "24864326c80c0a8b909f55c98107f2fbc71eee29ac7a5db84d3297c8d1bc7202",
+        "body_file": "evidence/detail-2026-33.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    },
+    {
+      "body_sha256": "98aa4d902a7d4271e5e24d1e87675a0773cff46f4dc2580b5a2fffce053e0b44",
+      "file": "evidence/prices/98aa4d902a7d4271e5e24d1e87675a0773cff46f4dc2580b5a2fffce053e0b44.body.gz",
+      "original": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-34.body.gz",
+      "capture": {
+        "name": "detail-2026-34",
+        "origin": "kleague_new_request",
+        "method": "POST",
+        "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+        "request_json": {
+          "gmId": "G101",
+          "gmTs": "260034",
+          "gameYear": "2026",
+          "_sbmInfo": {
+            "debugMode": "false"
+          }
+        },
+        "timeout_seconds": 15,
+        "received_at": "2026-11-03T02:20:41.888287+00:00",
+        "http_status": 200,
+        "content_type": "application/json;charset=UTF-8",
+        "body_sha256": "98aa4d902a7d4271e5e24d1e87675a0773cff46f4dc2580b5a2fffce053e0b44",
+        "body_file": "evidence/detail-2026-34.body.gz",
+        "body_encoding": "gzip; sha256 is of decompressed response bytes"
+      }
+    }
+  ]
+}
