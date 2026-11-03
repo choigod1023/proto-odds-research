@@ -35,3 +35,24 @@ def validate_projected_identity(row,projection,known_dates):
    if len(candidates)!=5 or len({x.get('player_id') for x in candidates})!=5 or any(not x.get('date') or not x.get('fixture_id') for x in candidates):raise ValueError('projected rotation selector incomplete')
    oldest=min(x['date'] for x in candidates);selected=[x['player_id'] for x in candidates if x['date']==oldest]
    if selected!=[roles['starter']]:raise ValueError('projected rotation selection mismatch')
+
+def normalize_overlay(base,overlay,selector,evidence,known_dates,verified_hashes):
+ """Convert a frozen source overlay to the exact scalar/roster model schema."""
+ import pipeline
+ if selector not in ('projected','actual') or overlay.get('fixture_id')!=base['fixture_id'] or set(overlay.get('features',{}))!=set(pipeline.FEATURES) or overlay.get('availability_tier')!='retrospective_unproven' or overlay.get('received_at') is not None or overlay.get('completed_at') is not None:raise ValueError('source overlay identity, schema or availability mismatch')
+ from datetime import date
+ for entry in overlay['features'].values():pipeline.original.adapter.check_nested(entry,base['fixture_id'],date.fromisoformat(base['event_date']),known_dates)
+ side_roster={}
+ for side in ('home','away'):
+  if selector=='projected':
+   side_roster[side]={'hitters':overlay['projection'][side+'_lineup']['player_ids'],'starter':overlay['projection'][side+'_starter']['player_id']}
+  else:
+   side_roster[side]={'hitters':evidence['sides'][side]['hitters'],'starter':evidence['sides'][side]['starter']}
+ features={k:{'value':pipeline.original.adapter.scalar(k,v['value'])} for k,v in overlay['features'].items()};row={k:base[k] for k in ('fixture_id','season','event_date','home_id','away_id')};row.update({'features':features,'roster':side_roster});pipeline.validate_row(row,selector=='actual');lineage={k:overlay['features'][k] for k in pipeline.PLAYER};pipeline.validate_lineage(row['fixture_id'],row['event_date'],lineage,known_dates)
+ if selector=='projected':validate_projected_identity(row,overlay['projection'],known_dates)
+ else:validate_official_identity(row,evidence,verified_hashes)
+ for side in ('home','away'):
+  line=overlay['features'][side+'_lineup_strength']['value'];starter=overlay['features'][side+'_starter_strength']['value']
+  if line is not None and [x['player_id'] for x in line]!=side_roster[side]['hitters']:raise ValueError('lineup player history not aligned')
+  if starter is not None and starter['projected_player_id']!=side_roster[side]['starter']:raise ValueError('starter player history not aligned')
+ return row,lineage

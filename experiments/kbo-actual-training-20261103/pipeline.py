@@ -50,7 +50,7 @@ def validate_lineage(fid,event_date,lineage,known_dates):
  if set(lineage)!=set(PLAYER):raise ValueError('missing player feature lineage')
  day=date.fromisoformat(event_date)
  for name,entry in lineage.items():
-  if not isinstance(entry,dict) or entry.get('availability_basis')!='prior_calendar_day_assumed_completed_not_received' or entry.get('completed_at') is not None or entry.get('received_at') is not None:raise ValueError('history availability invalid')
+  if not isinstance(entry,dict) or set(entry)!={'availability_basis','completed_at','received_at','latest_source_date','source_fixture_ids','value'} or not isinstance(entry['source_fixture_ids'],list) or entry.get('availability_basis')!='prior_calendar_day_assumed_completed_not_received' or entry.get('completed_at') is not None or entry.get('received_at') is not None:raise ValueError('history schema or availability invalid')
   original.adapter.check_nested(entry,fid,day,known_dates)
   value=entry.get('value')
   if 'lineup' in name and value is not None:

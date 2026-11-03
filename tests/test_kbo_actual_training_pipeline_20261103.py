@@ -32,6 +32,8 @@ def test_no_same_day_future_and_partial_bb_never_zero():
   with pytest.raises(ValueError,match='temporal'):m.validate_lineage('target','2024-04-01',z,dates)
  z=copy.deepcopy(lineage);z['home_lineup_strength']['value'][0]['history'][0]['bb']=None
  with pytest.raises(ValueError,match='incomplete batting'):m.validate_lineage('target','2024-04-01',z,dates)
+ z=copy.deepcopy(lineage);z['home_lineup_strength']['target_score']=5
+ with pytest.raises(ValueError,match='history schema'):m.validate_lineage('target','2024-04-01',z,dates)
 def test_verified_official_starter_and_receipt_flags():
  a=row();e={'fixture_id':'g','event_date':a['event_date'],'home_id':'A','away_id':'B','official_game_id':'gameid','source_sha256':'a'*64,'retrospective_only':True,'historical_receipt_verified':False,'sides':{s:{'team_id':a[s+'_id'],'hitters':a['roster'][s]['hitters'],'starter':a['roster'][s]['starter'],'batting_basis':'official_confirmed_starting_lineup','starter_basis':'official_explicit_start_flag'} for s in ('home','away')}};source.validate_official_identity(a,e,{'a'*64})
  for field,value in [('starter_basis','schedule_probable'),('starter','winner_id')]:
@@ -112,3 +114,11 @@ def test_synthetic_full_six_cell_path_matches_independent_predictions():
   x=row('target'+str(i),(date(2026,4,1)+timedelta(days=i)).isoformat());y=copy.deepcopy(x);y['roster']['home']['hitters'][0]='actual_hitter';targets['projected'].append(x);targets['actual'].append(y)
  frozen=runner.final_predictions({'projected':projected,'actual':actual},labels,targets);assert frozen['training_n']==120 and frozen['target_n']==4 and frozen['2026_labels_read'] is False
  assert all(set(x)==set(m.MODEL_NAMES) for x in frozen['predictions'].values());check=independent_verify.verify_predictions(frozen,targets);assert check['predictions']==48 and check['max_probability_error']<1e-9
+
+def test_normalize_overlay_filters_target_metadata_and_rejects_team_future():
+ a=row();dates={'g':date(2024,4,1)};ov={'fixture_id':'g','availability_tier':'retrospective_unproven','received_at':None,'completed_at':None,'features':{k:empty_entry() for k in m.FEATURES},'projection':{}}
+ for side in ('home','away'):
+  ov['projection'][side+'_lineup']={'basis':'projected_from_prior_games','player_ids':None,'source_fixture_ids':[]};ov['projection'][side+'_starter']={'basis':'projected_from_prior_games','player_id':None,'rotation_candidates':[]}
+ base={**a,'target_score':123};norm,lineage=source.normalize_overlay(base,ov,'projected',None,dates,set());assert 'target_score' not in norm and norm['features']['home_lineup_strength']['value'] is None and len(lineage)==6
+ ov['features']['home_team_strength']['source_fixture_ids']=['g']
+ with pytest.raises(ValueError,match='temporal'):source.normalize_overlay(base,ov,'projected',None,dates,set())
