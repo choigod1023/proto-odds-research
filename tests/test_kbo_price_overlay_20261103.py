@@ -67,8 +67,23 @@ def test_closed_listing_and_worker_manifest_tampering_rejected(tmp_path,monkeypa
     (evidence/'closed-list.body.gz').write_bytes(gzip.compress(listing))
     attempts=[{'http_status':200,'body_file':'evidence/closed-list.body.gz','body_sha256':hashlib.sha256(listing).hexdigest()}]
     raw=json.dumps(attempts).encode();(evidence/'attempts.json').write_bytes(raw)
-    monkeypatch.setattr(m,'S',tmp_path);monkeypatch.setattr(m.subprocess,'check_output',lambda *args,**kw:raw+b' ')
+    monkeypatch.setattr(m,'S',tmp_path);monkeypatch.setattr(m.subprocess,'check_output',lambda *args,**kw:b'[]')
     with pytest.raises(ValueError,match='manifest differs'):m.load_evidence()
     monkeypatch.setattr(m.subprocess,'check_output',lambda *args,**kw:raw)
     (evidence/'closed-list.body.gz').write_bytes(gzip.compress(b'{}'))
     with pytest.raises(ValueError,match='closed-list SHA'):m.load_evidence()
+
+
+def test_corrected_source_is_exact_bytes_not_newline_normalized():
+    assert m.COMMIT=='3167b4b19c2f5877af754d3a1a41ee2a8761a3f2'
+    assert m.SOURCE_HASH=='d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117'
+    m.exact_committed_price(b'one\r\ntwo\r\n',b'one\r\ntwo\r\n')
+    with pytest.raises(ValueError,match='bytes differ'):
+        m.exact_committed_price(b'one\r\ntwo\r\n',b'one\ntwo\n')
+
+def test_checked_hash_uses_exact_price_bytes(tmp_path):
+    import hashlib
+    p=tmp_path/'prices.jsonl';raw=b'{"fixture":1}\r\n';p.write_bytes(raw);expected=hashlib.sha256(raw).hexdigest()
+    assert m.checked(p,expected)==raw
+    p.write_bytes(raw.replace(b'\r\n',b'\n'))
+    with pytest.raises(ValueError,match='SHA mismatch'):m.checked(p,expected)

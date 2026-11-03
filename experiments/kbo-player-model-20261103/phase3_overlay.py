@@ -10,7 +10,7 @@ P=ROOT/'phase2'
 DATA=Path('C:/Users/user/Documents/Codex/kbo-official-odds-20261103')
 S=DATA/'experiments/kbo-official-odds-20261103'
 ORIGINAL=Path('C:/Users/user/Documents/Codex/kbodata/experiments/kbo-player-data-20261103')
-COMMIT='9bcbd53bf95ce6c6961b5b88fd43877152d602b6'
+COMMIT='3167b4b19c2f5877af754d3a1a41ee2a8761a3f2'
 EXPECTED={'predictions.json':'d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317','features.jsonl.gz':'346edd84d4388f99cc9ad23f7ad530560445b4bc06b6f841b745dabffa1a8b42','test-labels.jsonl.gz':'885b5dc0d182fa91d29ea4d74a078fb8835acf817095604106564864d0e19dc9','results.json':'8c8776c43dc0013056026c83c3b5afaf2d462a7de3e346438b2e71e536408562'}
 SOURCE_HASH='d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117'
 RAW_HASH={'rows.jsonl':'66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c','labels.jsonl':'ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca'}
@@ -26,15 +26,19 @@ def checked(path,expected):
 
 def load_gzip(path,expected):return [json.loads(x) for x in gzip.decompress(checked(path,expected)).splitlines() if x.strip()]
 
-def verify_sources():
+def exact_committed_price(contents,blob):
+    if contents!=blob:raise ValueError('official price bytes differ from committed blob')
+
+def verify_sources(price_path=None):
     for name,expected in EXPECTED.items():checked(P/name,expected)
     for name,expected in RAW_HASH.items():checked(ORIGINAL/name,expected)
     manifest=json.loads((S/'manifest.json').read_text(encoding='utf8'))
     if manifest['status']!='ready_for_join' or manifest['output_sha256']!=SOURCE_HASH or any(manifest['input_'+name+'_sha256']!=RAW_HASH[name+'.jsonl'] for name in ('rows','labels')):raise ValueError('manifest mismatch')
-    raw=checked(S/'restored-prices.jsonl',SOURCE_HASH)
+    raw=checked(price_path or S/'restored-prices.jsonl',SOURCE_HASH)
     for name,contents in [('manifest.json',(S/'manifest.json').read_bytes()),('restored-prices.jsonl',raw)]:
         blob=subprocess.check_output(['git','-C',str(DATA),'show',COMMIT+':experiments/kbo-official-odds-20261103/'+name])
-        if contents.replace(b'\r\n',b'\n')!=blob.replace(b'\r\n',b'\n'):raise ValueError('worker commit mismatch: '+name)
+        if name=='restored-prices.jsonl':exact_committed_price(contents,blob)
+        elif json.loads(contents)!=json.loads(blob):raise ValueError('worker manifest differs from commit')
     restored=[json.loads(x) for x in raw.splitlines()]
     if len(restored)!=373 or len({r['fixture_id'] for r in restored})!=373 or len({r['market_id'] for r in restored})!=373:raise ValueError('restored duplicate/count')
     return manifest,restored
@@ -79,7 +83,7 @@ def candidate_matches(candidate,row,label):
 def load_evidence():
     attempts_raw=(S/'evidence/attempts.json').read_bytes()
     blob=subprocess.check_output(['git','-C',str(DATA),'show',COMMIT+':experiments/kbo-official-odds-20261103/evidence/attempts.json'])
-    if attempts_raw.replace(b'\r\n',b'\n')!=blob.replace(b'\r\n',b'\n'):raise ValueError('worker evidence manifest differs from commit')
+    if json.loads(attempts_raw)!=json.loads(blob):raise ValueError('worker evidence manifest differs from commit')
     attempts=json.loads(attempts_raw)
     by_file={a['body_file']:a for a in attempts if a.get('http_status')==200 and a.get('body_file')}
     listing_raw=gzip.decompress((S/'evidence/closed-list.body.gz').read_bytes())
@@ -192,7 +196,7 @@ def evaluate(fixtures,labels,pred,restored,listing,official,worker_excluded):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--output',required=True);args=parser.parse_args();manifest,restored=verify_sources()
+    parser=argparse.ArgumentParser();parser.add_argument('--output',required=True);parser.add_argument('--restored-prices-path',help='exact raw blob, defaults to worker file');args=parser.parse_args();manifest,restored=verify_sources(args.restored_prices_path)
     features=load_gzip(P/'features.jsonl.gz',EXPECTED['features.jsonl.gz']);labels=load_gzip(P/'test-labels.jsonl.gz',EXPECTED['test-labels.jsonl.gz']);pred=json.loads(checked(P/'predictions.json',EXPECTED['predictions.json']))
     fixtures={r['fixture_id']:r for r in features if r['season']==2026};ys={r['fixture_id']:r for r in labels}
     listing,official=load_evidence();out,groups=evaluate(fixtures,ys,pred['predictions'],restored,listing,official,manifest['excluded'])

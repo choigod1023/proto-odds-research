@@ -31,3 +31,7 @@ python -X utf8 experiments/kbo-player-model-20261103/run.py score --rows ROWS.js
 **현재 제한:** 결과 점수 API의 `final`은 외부 공식 원천인지 자동 인증할 수 없다. 가상 월 손실 5만원 중단 재생과 실제 지갑/운영픽 연결은 구현하지 않았다. 미정산 원금이나 동시 노출을 이 엔진의 일별 마감 단폴 손익으로 대체해서는 안 된다. 실제 가격·선발 명단·이전 완료 증거가 없으면 해당 관측을 검증된 운영 실적으로 분류하지 않는다.
 
 합성 회귀 검증: `python -m pytest -q tests/test_kbo_player_model_20261103.py tests/test_devig.py tests/test_market_residual_experiment.py`. 실행기 도움말: `python -X utf8 experiments/kbo-player-model-20261103/run.py --help`.
+
+## 공식 회차 가격 원본 바이트 정정
+
+최초 phase3 계산은 `9bcbd53`의 Windows 작업 파일 CRLF SHA `d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117`을 사용했다. 그 시점 Git blob은 LF SHA `cb556b0fb182eb13de6d22a513b8a04952e5e22d6b31a6b6ca44f543edb647aa`였으므로 서로 원바이트가 같지 않았다. 수정 원천 `3167b4b19c2f5877af754d3a1a41ee2a8761a3f2`은 실제 CRLF 바이트를 `-text`로 보존해 Git blob과 작업 파일의 SHA가 모두 원래 실행값 `d9fc...`와 같다. 기존 결과나 예측을 변경하지 않았다. 상세와 임시 파일 재현 명령은 [출처 정정](provenance-erratum.md)에 있다.

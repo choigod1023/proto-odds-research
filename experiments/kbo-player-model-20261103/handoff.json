@@ -104,7 +104,7 @@
     "protocol_commit": "b9b4a88a",
     "calculation_code_commit": "1de3d926",
     "evidence_manifest_guard_commit": "28ee50d4",
-    "official_worker_commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
+    "official_worker_commit": "3167b4b19c2f5877af754d3a1a41ee2a8761a3f2",
     "official_source": "C:/Users/user/Documents/Codex/kbo-official-odds-20261103/experiments/kbo-official-odds-20261103",
     "official_restored_price_sha256": "d9fc2f04fabec1fa41d29521aeafdb96e676747e59723396f36ba5c88a9b8117",
     "input_predictions_sha256": "d841cd9549a9dab4f3c9612e2fbdea84b9f914b390da4f9c80c0d9e2b3e5d317",
@@ -152,7 +152,7 @@
       "restored_without_source_clock": 249
     },
     "verification": "7854 independent Decimal settlements; maximum probability error 4.81e-13; original 354 outcomes unchanged across all six candidates and market",
-    "tests": "42 passed, including official listing tamper guard and scenario matching/refund",
+    "tests": "44 passed including exact-byte SHA and CRLF-versus-LF rejection; 7854 independent Decimal settlements retained",
     "limitations": [
       "retrospective price/lineup and outcomes not proven pregame or executable",
       "date-only extended matching has no original kickoff evidence",
@@ -163,6 +163,7 @@
     ],
     "erratum": "phase2 scenario comparison_note incorrectly says independently evidenced historical price timing; the phase2 result remains unchanged and no such price timing was established",
     "commands": [
+      "python -X utf8 experiments/kbo-player-model-20261103/verify_source_commit.py",
       "python -X utf8 experiments/kbo-player-model-20261103/phase3_overlay.py --output NEW_PATH.json",
       "python -X utf8 experiments/kbo-player-model-20261103/verify_phase3.py",
       "python -X utf8 experiments/kbo-player-model-20261103/phase3_source_strata.py",
@@ -190,6 +191,13 @@
     },
     "identical_recheck": "after guards 28ee50d4 and 8795652b overlay results SHA unchanged",
     "market_id_guard_commit": "8795652b",
-    "full_suite": "2265 passed, 6 skipped, 93 subtests passed; collected before final official-listing tamper guard test; final relevant tests 42 passed"
+    "full_suite": "2265 passed, 6 skipped, 93 subtests passed; collected before final official-listing tamper guard test; final relevant tests 42 passed",
+    "original_calculation_worker_commit": "9bcbd53bf95ce6c6961b5b88fd43877152d602b6",
+    "original_worker_git_blob_sha256": "cb556b0fb182eb13de6d22a513b8a04952e5e22d6b31a6b6ca44f543edb647aa",
+    "corrected_source_git_blob_equals_original_windows_working_bytes": true,
+    "source_commit_verification_path": "experiments/kbo-player-model-20261103/phase3/source-commit-verification.json",
+    "source_commit_verification_sha256": "d6dd8ff0b11fb3ece352d0d0175165380534b73350eee3c2e859bcaa7370d5a3",
+    "source_replay": "corrected 3167 raw Git blob written to tempfile without normalization; 373 rows; exact d9fc source and 24938f result hashes match",
+    "provenance_erratum": "experiments/kbo-player-model-20261103/provenance-erratum.md"
   }
 }
