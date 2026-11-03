@@ -1,0 +1,19 @@
+{
+  "status": "ready_for_results",
+  "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "branch": "codex/kbo-player-review-20261103",
+  "protocol_commit": "867afbdd60ec69bd8b5d74bf75c8418c9ae49698",
+  "protocol_sha256": "c3a687077f822087bc94df8c2cd314ff988a1cdd9359941f8152a779cff9926d",
+  "contract_sha256": "59d4c7259dfb3135e9cbbba7fee2f415f614c6c6badb9c99120c0d1cf84c99ec",
+  "spec_path": "experiments\\kbo-player-independent-review-20261103\\test-spec.md",
+  "performed": [
+    "Python parsed protocol contract and asserted market kinds, T-30, nullable market, loss cap and no automatic adoption",
+    "Read previous KBO 51- and 198-game reports and production contract"
+  ],
+  "data_rows_validated": 0,
+  "model_runs": 0,
+  "tests_pending": "All listed data/model/settlement cases require completed worker outputs.",
+  "scope": "No production actions; no performance claims; contract-only initial review.",
+  "commit": "see git history",
+  "pr": null
+}
