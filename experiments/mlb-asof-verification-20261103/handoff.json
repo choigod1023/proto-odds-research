@@ -1,0 +1,64 @@
+{
+  "role": "MLB official-source verification",
+  "league": "MLB",
+  "status": "completed_boundary_check_pit_unverified",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/mlb-asof-verification-20261103",
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "input_sha256s": {
+    "822855-pregame.json.gz": "85b22f4ca88a34d709e49ae5e5c133358a793f579d40078f294a4a653c9815d1",
+    "822855-pregame.meta.json": "bfd4937aadd23f3ab1357799bd59ad0a28033e25c28e2a2567f55c00c6c2d6fa",
+    "822974-pregame.json.gz": "6aadbf5b90fe2475f3fcec3d299492bd15184e94b36cbf6f0519feb3eabc27e6",
+    "822974-pregame.meta.json": "cdb083cf139f4f0a7f80a0834630e61615e454b1ceea9a80c5780c1c3936dc0e",
+    "824940-pregame.json.gz": "fd9927495994847f8003bcb8bd8c80df3174f4439fe00219ef6f1dfa50849e90",
+    "824940-pregame.meta.json": "a3cab3bd49bdc27381a4746ce9dda37ab2e06499dc34250f2f9239e64c7c799b",
+    "early-822855.bin": "9feca6bf052c23ce977d8ce58cbd55ca80183defef011a599ba49b7b5e6a060f",
+    "early-822855.json": "6aeb7da9079761bb697bedaec7d824643de8a1dba04d9999919d5b4c83529a41",
+    "early-822974.bin": "cfe8b3bffb3e731ee160a7c1cc2a48fdececdc9d50e42c6bd6f43389ec54e34c",
+    "early-822974.json": "841bb53becad3ce1ef3aea62c1c7feab5f959ac843b9d4de73f4e52f0f10dd99",
+    "early.bin": "32117e2d5d84e92c50cc4a8ba71b2da97f8c6e36a7811692cd966d343ecae560",
+    "early.json": "fc10ed09b0f9d7b3ec8f1411234a6647d71ae7a12f7fb182870c8af868a49d24",
+    "timestamps-822855.bin": "c000ca75f0b22666aa25b0f364ac80faadfca13efaf190787fbf739dc9ed828f",
+    "timestamps-822855.json": "c302c666eda863ce461bc8d229331fd12cee8e7c1d118c3c15a899add309b832",
+    "timestamps-822974.bin": "fbe3b1ddce89e086c0f6f454723fab14ebc1adc779de9145ff005178a28b31c5",
+    "timestamps-822974.json": "70f5731308f2bdc7a966d9cd6332c4bb91e31af1ce83353cd25e27aaac9c6105",
+    "timestamps.bin": "addc8b098089e5b8c683e6a9ad5aed18baa99a22af60c9a15fb503bab0661325",
+    "timestamps.json": "199b5339bc083aff66abba7e19381161053f6cba298f9ce2976d45f8945c268c",
+    "twodays.bin": "32117e2d5d84e92c50cc4a8ba71b2da97f8c6e36a7811692cd966d343ecae560",
+    "twodays.json": "4da478b264f76d0ac7d36032926bcd3ef8c1bb93b223a214d4ee03bacf421bf0"
+  },
+  "new_input_ids": [
+    "824940",
+    "822974",
+    "822855"
+  ],
+  "protocol_sha": null,
+  "tests": [
+    "2 pytest passed",
+    "7 new official raw response hashes and 3 earlier T-35 raw response hashes verified",
+    "3 future-provider rejections and 3 exact T-35 byte matches"
+  ],
+  "metrics": {
+    "new_requests": 7,
+    "three_games": 3,
+    "future_timestamp_to_request": 3,
+    "matches_earliest_timestamp": 3,
+    "same_bytes_as_T35": 3,
+    "strict_pit_certified": 0,
+    "accuracy": null,
+    "roi": null
+  },
+  "limitations": [
+    "Three games only; not proof that every game behaves identically.",
+    "Provider timestamp does not authenticate player-field publication or historical receipt.",
+    "No actual lineup as-of certification, model fitting or betting evaluation."
+  ],
+  "blockers": [
+    "No independently verified player publication or contemporaneous receipt."
+  ],
+  "pr_url": null,
+  "next_data_needed": [
+    "Official player-level publication and revision evidence and actual receipt before decision",
+    "Matched historic price and frozen operational selection"
+  ]
+}
