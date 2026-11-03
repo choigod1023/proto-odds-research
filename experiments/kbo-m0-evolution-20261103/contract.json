@@ -1,0 +1,95 @@
+{
+  "base_commit": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "baseline_in_each_family": true,
+  "boundary_embargo_days": 7,
+  "families": {
+    "distribution": {
+      "NB": "Var(Y)=mu+alpha*mu^2, log link, refit mean coefficients; penalties same M0",
+      "configs": [
+        "negative_binomial_alpha01",
+        "negative_binomial_alpha03",
+        "draw_hurdle"
+      ],
+      "diagnostic": "carry draw_hurdle final even if not selected; no claim unchanged picks improve ROI",
+      "hurdle": "unchanged baseline conditional win probabilities, draw logit intercept fit on training labels only to smoothed (draws+.5)/(n+1); null/pseudo-BF not added"
+    },
+    "opponent": {
+      "base_penalty": 10,
+      "configs": [
+        "interaction10",
+        "interaction100",
+        "training_decay365",
+        "training_decay365_interaction100"
+      ],
+      "interactions": [
+        "own_lineup_z*opposing_starter_z",
+        "opposing_starter_z*opposing_bullpen_z",
+        "own_rest_z*opposing_bullpen_z"
+      ],
+      "missing_products": "zero product when either missing; preserve original missing flags",
+      "new_column_penalty": [
+        10,
+        100
+      ],
+      "sample_weight": "2^(-(max training date - sample date)/365days), normalized to mean1"
+    },
+    "recency": {
+      "configs": [
+        "decay30",
+        "decay90",
+        "shrink",
+        "ordered_decay30_shrink"
+      ],
+      "decay": "calendar-day half-life30/90; exposure-weighted AB/H/BB and ER/outs",
+      "ordered": "per-player shrunk OBP with fixed expected PA order weights [4.7,4.6,4.5,4.4,4.3,4.2,4.1,4.0,3.9]/4.3; unknown role gets stated prior, all-unknown keeps null",
+      "shrink": "fixed hypothetical priors OBP .33 with20PA; ERA4.5 with27outs; no claim these are observed league facts"
+    }
+  },
+  "final": "fit2023-25 (2182) ->2026 actual709; projected709 secondary",
+  "final_outputs": [
+    "three preselected family nominees",
+    "unchanged baseline",
+    "equal-probability average of three nominees",
+    "predeclared baseline draw hurdle diagnostic"
+  ],
+  "global_winner": "same 2025 rule across family nominees; never reselect on 2026",
+  "limits": [
+    "all existing seasons already seen; retrospective not blind",
+    "confirmed batting lineup not proof of each batter physical appearance or prematch receipt",
+    "no new source collection or unseen source promises",
+    "no claim of global optimum or guaranteed profit"
+  ],
+  "maximum_nonbaseline_trials": 11,
+  "metrics": [
+    "accuracy3way, conditional2way, logloss/Brier, draw decomposition",
+    "same price667extended/439strict and current-buyReject sensitivity660/432",
+    "Decimal unit ROI/monthly/daily-close DD, calendar-week paired95%CI5000 seed20261103"
+  ],
+  "model_and_prediction_freeze": "development settings/selection committed before final fit; final forecasts committed before new settlement",
+  "no_merge_or_deploy": true,
+  "no_posthoc_family_weight_search": true,
+  "outcome_access": "common materialization excludes2026labels and prices; parent scores only after final freeze",
+  "preserve": [
+    "production",
+    "DB",
+    "schedules",
+    "automation queue",
+    "existing50000KRW monthly simulation ledger"
+  ],
+  "raw_inputs_commit": "58556de08c64604276de8682373d3ccc8d535d7c",
+  "reference": "actual-roster-trained M0, base L2 10",
+  "task": "bounded KBO M0 evolution, no production adoption",
+  "training_by_year": {
+    "2023": 723,
+    "2024": 728,
+    "2025": 731
+  },
+  "training_count": 2182,
+  "validation": "fit2023-24 (1451) ->2025 (731)",
+  "validation_selection": [
+    "maximum decisive two-way accuracy",
+    "minimum decisive two-way log loss",
+    "baseline preferred on complete ties",
+    "lexical configuration id"
+  ]
+}
