@@ -7,6 +7,7 @@ import research_v2 as corrected
 CONTRACT_SHA='512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480'
 FEATURES=('home_team_strength','away_team_strength','home_rest_days','away_rest_days','park_factor','home_lineup_strength','away_lineup_strength','home_starter_strength','away_starter_strength','home_bullpen_load','away_bullpen_load')
 PLAYER=tuple(k for k in FEATURES if any(s in k for s in ('lineup_strength','starter_strength','bullpen_load')))
+ROSTER_FEATURES=tuple(k for k in PLAYER if 'lineup_strength' in k or 'starter_strength' in k)
 FAMILIES=('M0','M2');SELECTORS=('projected','actual');MODEL_NAMES=('M0_projected','M0_actual','M2_projected','M2_actual','oldfull_M0','oldfull_M2')
 
 def verify_pinned_code():
@@ -72,7 +73,7 @@ def validate_pairs(projected,actual,expected_seasons=None):
   y=b[fid];validate_row(x,False);validate_row(y,True)
   if any(x[k]!=y[k] for k in ('fixture_id','season','event_date','home_id','away_id')):raise ValueError('paired identity differs')
   if expected_seasons is not None and x['season'] not in expected_seasons:raise ValueError('unexpected season')
-  if any(x['features'][k]!=y['features'][k] for k in FEATURES if k not in PLAYER):raise ValueError('nonplayer feature differs')
+  if any(x['features'][k]!=y['features'][k] for k in FEATURES if k not in ROSTER_FEATURES):raise ValueError('nonplayer or bullpen feature differs')
  return {k:sorted(v,key=lambda x:(x['event_date'],x['fixture_id'])) for k,v in [('projected',projected),('actual',actual)]}
 
 def fit_gate(rows,labels):

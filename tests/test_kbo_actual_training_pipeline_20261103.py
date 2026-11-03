@@ -14,6 +14,8 @@ def test_matched_cohort_nonplayer_and_extra_target_fields():
  a=row();b=copy.deepcopy(a);b['roster']['home']['hitters'][0]='other';assert len(m.validate_pairs([a],[b])['projected'])==1
  c=copy.deepcopy(b);c['features']['home_rest_days']['value']=1
  with pytest.raises(ValueError,match='nonplayer'):m.validate_pairs([a],[c])
+ c=copy.deepcopy(b);c['features']['home_bullpen_load']['value']=1
+ with pytest.raises(ValueError,match='bullpen'):m.validate_pairs([a],[c])
  c=copy.deepcopy(b);c['target_score']=5
  with pytest.raises(ValueError,match='extra target'):m.validate_pairs([a],[c])
  with pytest.raises(ValueError,match='fixture sets'):m.validate_pairs([a],[])
@@ -99,3 +101,14 @@ def test_full_source_validation_detects_wrong_scalar_and_unverified_hash():
 def test_independent_dense_replay_for_both_frozen_families():
  import independent_verify as check
  sample=row('x');sample['features']['home_lineup_strength']['value']=None;models=m.frozen_context_models();preds={k:m.predict(v,[sample]) for k,v in models.items()};report=check.verify_predictions({'models':models,'predictions':{'actual':preds}},{'actual':[sample]});assert report['predictions']==2 and report['max_probability_error']<1e-9
+
+def test_synthetic_full_six_cell_path_matches_independent_predictions():
+ import runner,independent_verify
+ start=date(2024,4,1);projected=[];actual=[];labels={}
+ for i in range(120):
+  x=row('d'+str(i),(start+timedelta(days=i)).isoformat());x['features']['home_team_strength']['value']=float(i%5);y=copy.deepcopy(x);y['roster']['home']['hitters'][0]='actual_hitter';projected.append(x);actual.append(y);h,a=[(2,1),(1,1),(0,1)][i%3];labels[x['fixture_id']]={'status':'final','home_score':h,'away_score':a}
+ targets={'projected':[],'actual':[]}
+ for i in range(4):
+  x=row('target'+str(i),(date(2026,4,1)+timedelta(days=i)).isoformat());y=copy.deepcopy(x);y['roster']['home']['hitters'][0]='actual_hitter';targets['projected'].append(x);targets['actual'].append(y)
+ frozen=runner.final_predictions({'projected':projected,'actual':actual},labels,targets);assert frozen['training_n']==120 and frozen['target_n']==4 and frozen['2026_labels_read'] is False
+ assert all(set(x)==set(m.MODEL_NAMES) for x in frozen['predictions'].values());check=independent_verify.verify_predictions(frozen,targets);assert check['predictions']==48 and check['max_probability_error']<1e-9
