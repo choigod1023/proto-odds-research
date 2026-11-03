@@ -5,9 +5,9 @@
   "repo": "https://github.com/choigod1023/proto-odds-research",
   "branch": "codex/football_other-official-information-20261103",
   "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
-  "protocol_sha": "5b6448b",
+  "protocol_sha": "5b6448b212efac89a5c59f03abedbc68bd1fe213",
   "input_sha256s": {
-    "manifest_sha256": "5bbdd1ff1770816f0fa6ef419fe4d2db8977c9edb237c15b04db46a93a9c6507"
+    "manifest_sha256": "9c9a979e698f623a42b81c6c4cfd18532f03ec1360cf675b7f5269e5bfc4c1cb"
   },
   "new_input_ids": [
     "jleague:j1:2025:021401",
@@ -128,7 +128,10 @@
     "roi": null
   },
   "tests": [
-    "five Python unit tests including three real different-period official pages and 83 Betman source price records"
+    "five Python unit tests including three real different-period official pages and 83 Betman source price records",
+    "111 raw official response hashes match",
+    "two autocrlf modes: 200 tracked file SHA256 match",
+    "cached resume: 111 requests before and after"
   ],
   "limitations": [
     "2026 receipt is not pregame receipt",

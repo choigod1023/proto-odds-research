@@ -27,3 +27,5 @@
 - `python -X utf8 -m unittest discover -s experiments/j1-official-lineups-20261103 -p test_evidence.py -v`: 시즌 선택 규칙, 서로 다른 세 시기의 공식 원문·선발 구조, 프로필 없는 공식 ID, 83개 가격 원문과 부적격 마켓 배제를 검증한다. 이는 모델 성능 검증이 아니다.
 
 `.gitattributes`는 이 디렉터리의 바이트 줄바꿈 변환을 끈다. `manifest.json`의 SHA는 압축 파일 자체 및 원문 파일을 포함한다. 운영 코드·DB·추천·월 손실 제한·일정·배포를 변경하지 않았다.
+
+검증 결과: Python 테스트 5개 통과, J리그 원문 111건 SHA 일치, Git checkout `core.autocrlf=true`와 `false` 각각 manifest 파일 200개 SHA 일치, 캐시 재개 전후 요청 원장 111건으로 동일.
