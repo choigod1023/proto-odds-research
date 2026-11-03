@@ -122,3 +122,29 @@ def ledger_metrics(rows):
     balance=peak=dd=Decimal(0)
     for day in sorted(days):balance+=days[day];peak=max(peak,balance);dd=max(dd,peak-balance)
     return {'n':len(rows),'net':net,'roi':net/len(rows) if rows else None,'monthly':dict(months),'drawdown':dd if rows else None}
+
+def outcome_metrics(records):
+    """3-way proper scores and separate decisive-game conditional scores."""
+    if not records:raise ValueError('empty outcome cohort')
+    ll=br=draw_p=conditional_ll=conditional_br=0.;hits=decisive_hits=draws=0
+    for x in records:
+        p=x['probabilities'];y=x['winner']
+        if set(p)!={'home','draw','away'} or y not in p or any(not math.isfinite(v) or v<0 for v in p.values()) or abs(sum(p.values())-1)>1e-10:raise ValueError('invalid outcome row')
+        hit=max(('home','draw','away'),key=p.get)==y;hits+=hit;ll-=math.log(max(p[y],1e-15));br+=sum((p[k]-int(k==y))**2 for k in ('home','draw','away'));draw_p+=p['draw'];draws+=int(y=='draw')
+        if y!='draw':
+            denom=p['home']+p['away']
+            if denom<=0:raise ValueError('invalid draw conditioning')
+            q=[p['home']/denom,p['away']/denom];j=0 if y=='home' else 1;conditional_ll-=math.log(max(q[j],1e-15));conditional_br+=sum((v-int(i==j))**2 for i,v in enumerate(q));decisive_hits+=int((0 if q[0]>=q[1] else 1)==j)
+    n=len(records);d=n-draws
+    return {'n':n,'hits':hits,'accuracy':hits/n,'logloss':ll/n,'brier':br/n,'draws':draws,'mean_draw_probability':draw_p/n,'decisive':d,'decisive_hits':decisive_hits,'conditional_accuracy':decisive_hits/d if d else None,'conditional_logloss':conditional_ll/d if d else None,'conditional_brier':conditional_br/d if d else None}
+
+def paired_weekly(records,resamples=5000,seed=20261103):
+    """Same-fixture week bootstrap: accuracy on decisive games, ROI on all stakes."""
+    groups={};changed=0
+    for r in records:
+        week=date.fromisoformat(r['date']).isocalendar()[:2];g=groups.setdefault(week,np.zeros(4));pick_a,a=settle(r['a'],r['prices'],r['winner']);pick_b,b=settle(r['b'],r['prices'],r['winner'])
+        if r['winner']!='draw':g[0]+=1;g[1]+=int(pick_a==r['winner'])-int(pick_b==r['winner'])
+        g[2]+=1;g[3]+=float(a-b);changed+=int(pick_a!=pick_b)
+    if len(groups)<2:return {'weeks':len(groups),'changed':changed,'accuracy_ci95':None,'roi_ci95':None}
+    a=np.array([groups[x] for x in sorted(groups)]);rng=np.random.default_rng(seed);s=a[rng.integers(0,len(a),size=(resamples,len(a)))].sum(axis=1)
+    return {'weeks':len(groups),'changed':changed,'accuracy_ci95':np.quantile(s[:,1]/s[:,0],[.025,.975]).tolist() if np.all(s[:,0]>0) else None,'roi_ci95':np.quantile(s[:,3]/s[:,2],[.025,.975]).tolist()}

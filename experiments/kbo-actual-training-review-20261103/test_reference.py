@@ -50,4 +50,9 @@ class IndependentReferenceTests(unittest.TestCase):
         self.assertEqual(r.settle([.5,.5],[2,3],'draw'),('home',Decimal(0)))
         rows=[{'date':'2026-04-01','p':[.6,.4],'prices':[1.8,2.1],'winner':'away'},{'date':'2026-04-02','p':[.6,.4],'prices':[1.8,2.1],'winner':'draw'},{'date':'2026-05-01','p':[.6,.4],'prices':[1.8,2.1],'winner':'home'}];z=r.ledger_metrics(rows)
         self.assertEqual(z['net'],Decimal('-.2'));self.assertEqual(z['roi'],Decimal('-.2')/3);self.assertEqual(z['drawdown'],Decimal(1));self.assertIsNone(r.ledger_metrics([])['roi'])
+    def test_draw_separation_and_weekly_pairing(self):
+        x=[{'probabilities':{'home':.4,'draw':.2,'away':.4},'winner':'draw'},{'probabilities':{'home':.45,'draw':.1,'away':.45},'winner':'home'}];z=r.outcome_metrics(x)
+        self.assertEqual((z['n'],z['draws'],z['decisive_hits']),(2,1,1));self.assertAlmostEqual(z['conditional_logloss'],math.log(2));self.assertAlmostEqual(z['mean_draw_probability'],.15)
+        pairs=[{'date':'2026-04-01','a':[.6,.4],'b':[.4,.6],'prices':[1.8,2.2],'winner':'home'},{'date':'2026-04-08','a':[.6,.4],'b':[.4,.6],'prices':[1.8,2.2],'winner':'draw'}]
+        p=r.paired_weekly(pairs);self.assertEqual(p['weeks'],2);self.assertEqual(p['changed'],2);self.assertIsNone(p['accuracy_ci95']);self.assertTrue(all(x>=0 for x in p['roi_ci95']))
 if __name__=='__main__':unittest.main()
