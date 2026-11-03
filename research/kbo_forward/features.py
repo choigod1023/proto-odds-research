@@ -22,6 +22,10 @@ BASE=ROOT/'experiments/kbo-m0-followup-20261103'
 V=BASE/'vendor/evolution/common'
 MANIFEST_SHA='af91485a7da0a479b02dcd8ecb26ced9ad6ea3f34da65e148cbc2143a48c2f25'
 CORE_MANIFEST_SHA='5efd473a740323b52baa6c1161e549270c83c087f702c6d17616425339093ab8'
+# Exact labels from the frozen model spec, paired with official KBO IDs.
+MODEL_TO_CODE={'한화':'HH','KT':'KT','삼성':'SS','두산':'OB','LG':'LG','키움':'WO','KIA':'HT','롯데':'LT','NC':'NC','SSG':'SK'}
+CODE_TO_MODEL={code:name for name,code in MODEL_TO_CODE.items()}
+
 spec=importlib.util.spec_from_file_location('forward_feature_adapter',V/'vendor/original_adapter.py')
 adapter=importlib.util.module_from_spec(spec);spec.loader.exec_module(adapter)
 
@@ -34,7 +38,7 @@ def build_row(event,roster,history,received_at):
  now=moment(received_at);kickoff=moment(event['kickoff_at']);day=datetime.fromisoformat(event['kickoff_at']).astimezone(timezone(timedelta(hours=9))).date()
  if now>=kickoff or int(event['season'])!=day.year:raise ValueError('invalid capture date/time')
  official=event['official_game_id'];fid=official+str(event['season'])
- if not official or not event['home_id'] or not event['away_id'] or event['home_id']==event['away_id']:raise ValueError('invalid event identity')
+ if not official or event['home_id'] not in CODE_TO_MODEL or event['away_id'] not in CODE_TO_MODEL or event['home_id']==event['away_id']:raise ValueError('invalid official event team IDs')
  if set(roster)!={'home','away'}:raise ValueError('roster sides')
  for side in ('home','away'):
   r=roster[side];h=r['hitters'];st=r['starter']
@@ -74,6 +78,7 @@ def build_row(event,roster,history,received_at):
   gd=date.fromisoformat(g['date']);gid=g['fixture_id']
   if not isinstance(gid,str) or not gid or gid in seen or gid in (fid,official) or gd>=day or moment(g['received_at'])>now:raise ValueError('duplicate, target, future, or unavailable history')
   seen.add(gid)
+  if any(team not in CODE_TO_MODEL for team in g.get('teams',{})):raise ValueError('history team IDs must be official codes')
   for mapping in (g.get('teams',{}),g.get('batters',{}),g.get('pitchers',{})):
    if any(not isinstance(k,str) or not k for k in mapping):raise ValueError('bad history owner ID')
  games.sort(key=lambda g:(g['date'],g['fixture_id']))
@@ -179,7 +184,8 @@ def seed_from_frozen(received_at, target_date):
  team_through={}
  for r in rows:
   for side in ('home','away'):
-   team=r[side+'_id'];day=date.fromisoformat(r['event_date'])-timedelta(days=1)
+   if r[side+'_id'] not in MODEL_TO_CODE:raise ValueError('unknown frozen team name')
+   team=MODEL_TO_CODE[r[side+'_id']];day=date.fromisoformat(r['event_date'])-timedelta(days=1)
    team_through[team]=max(day,team_through.get(team,day))
  if through>=target:raise ValueError('seed not prior to target')
  games={}
@@ -196,7 +202,8 @@ def seed_from_frozen(received_at, target_date):
    if v is not None:d[k]=v
  for row in rows:
   for side in ('home','away'):
-   team=row[side+'_id'];features=row['raw_features']
+   if row[side+'_id'] not in MODEL_TO_CODE:raise ValueError('unknown frozen team name')
+   team=MODEL_TO_CODE[row[side+'_id']];features=row['raw_features']
    for x in features[side+'_team_strength']['value'] or []:
     g=game(x['fixture_id'],x['date']);merge(g['teams'],team,{k:x.get(k) for k in ('runs_for','runs_against')})
    for player in features[side+'_lineup_strength']['value'] or []:
