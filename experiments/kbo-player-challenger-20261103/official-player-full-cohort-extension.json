@@ -1,0 +1,39 @@
+{
+  "schema_version": "kbo-official-information-full-2026-extension-v1",
+  "prior_contract": "official-player-factorial-contract.json",
+  "purpose": "Extend the already fixed four information settings to all available captured 2026 official lineups without retuning.",
+  "source_pr": 514,
+  "source_commit": "b24739cf",
+  "source_path": "C:/Users/user/Documents/Codex/klu/experiments/kbo-official-lineups-20261103/official-lineups-2026.jsonl",
+  "source_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+  "source_opportunities": 726,
+  "verified_player_id_lineups": 709,
+  "unresolved_identity_lineups": 17,
+  "earlier_batting_only_193_result_already_known": true,
+  "cohort_rule": "All source-validated fixture/team/both starting nines and unique schedule-listed pitcher identities. Never select by model score, realized result or ROI.",
+  "report_cohorts": [
+    "entire eligible 2026 cohort",
+    "original 193 common subset",
+    "new eligible complement excluding original 193"
+  ],
+  "all_original_files_and_predictions_preserved": true,
+  "settings_and_transforms_unchanged": true,
+  "fit_or_tune_allowed": false,
+  "history_rule": "Calendar dates strictly before target; retain missing and stale-history diagnostics, never backfill with target statistics.",
+  "required_diagnostics": [
+    "lineup and pitcher identity exclusions",
+    "missing player histories",
+    "latest prior-history date and gap distributions",
+    "unchanged non-player features",
+    "identical common prices and refund denominator",
+    "frozen outputs and independent calculation"
+  ],
+  "limitations": [
+    "2026 is retrospective and previously inspected, including partial official-batting results.",
+    "Current official records do not establish pregame publication, historical receipt or exact executable price.",
+    "This isolates source information under fixed models rather than training an optimal official-lineup model."
+  ],
+  "production_changes": false,
+  "automatic_adoption": false,
+  "wallet_changes": false
+}

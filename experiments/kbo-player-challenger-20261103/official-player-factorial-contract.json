@@ -1,0 +1,67 @@
+{
+  "schema_version": "kbo-official-player-information-factorial-v1",
+  "primary_batting_only_contract": "d2685536",
+  "primary_batting_only_unchanged": true,
+  "reason": "Official pitcher-source audit 9bb05671 found schedule pitcher IDs match actual starters in three games with different winning pitchers; historical publication remains unproven.",
+  "source_official_193_sha256": "92015aa1af2e23813b0b4d8c3c5bd182d1c0ee7b2226920af3445e86569ae67c",
+  "models_fixed_to_original": true,
+  "refit": false,
+  "retune": false,
+  "cohort": "Common subset of the 193 captured 2026 games with both official batting orders and uniquely source-linked official schedule-listed pitcher IDs. Report all exclusions.",
+  "settings": [
+    {
+      "id": "original_projected",
+      "batting": "prior_projection",
+      "starter": "prior_projection"
+    },
+    {
+      "id": "official_batting_only",
+      "batting": "official_historical_assumed_available",
+      "starter": "prior_projection"
+    },
+    {
+      "id": "official_starter_only",
+      "batting": "prior_projection",
+      "starter": "official_schedule_listed_actual_starter_assumed_available"
+    },
+    {
+      "id": "official_batting_and_starter",
+      "batting": "official_historical_assumed_available",
+      "starter": "official_schedule_listed_actual_starter_assumed_available"
+    }
+  ],
+  "allowed_secondary_changes": [
+    "home_starter_strength",
+    "away_starter_strength"
+  ],
+  "unchanged": [
+    "coefficients",
+    "alpha",
+    "training_population",
+    "scalers",
+    "other_features",
+    "prices",
+    "pick_rule",
+    "refund_rule",
+    "original_artifacts"
+  ],
+  "source_rules": [
+    "Schedule field semantics checked only for three examples, not universal pregame certification.",
+    "Validate each pitcher ID and team/fixture against official source; separately cross-check available archived first-pitcher record without using target statistics as features.",
+    "Use only prior calendar-day pitcher history, with outs not decimal innings.",
+    "Missing or conflicting identities remain missing/excluded with denominators; never fill with winning-pitcher or target ERA data.",
+    "Publication, historical receipt and exact pregame availability remain unproven."
+  ],
+  "evaluation": [
+    "Save frozen counterfactual predictions before scoring labels.",
+    "Report all four settings and common-cohort changes, accuracy, probability loss, unit ROI, uncertainty and coverage.",
+    "Do not choose a best setting by inspected test results or replace the original primary scenario.",
+    "All 2026 results are retrospective and previously inspected."
+  ],
+  "production_changes": false,
+  "automatic_adoption": false,
+  "wallet_changes": false,
+  "registered_before_parent_viewed_batting_only_scores": true,
+  "registered_before_secondary_starter_input_predictions_or_scores": true,
+  "registration_scope": "The already preregistered batting-only job may be progressing independently; this addendum does not claim that no other worker has scored it. Secondary starter inputs are not built yet."
+}

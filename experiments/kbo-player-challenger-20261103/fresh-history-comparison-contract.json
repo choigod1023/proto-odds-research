@@ -1,0 +1,49 @@
+{
+  "schema_version": "kbo-history-source-repair-comparison-v1",
+  "purpose": "Measure correction of the confirmed post-2026-07-26 player-history gap, separately from current official roster information, under unchanged trained models.",
+  "registration_scope": "Old 709 and 193 outcomes are already known. This is a retrospective data-quality diagnostic, registered before repaired inputs and predictions.",
+  "source_supplement_pr": 520,
+  "supplement_commit_and_hash": "Must be pinned after ready-for-join handoff; never consume changing working outputs.",
+  "cohort": "The same 709 physical fixtures of the prior full official-information experiment; no performance-based additions or deletions.",
+  "source_quality_levels": [
+    "original fixed history pipeline",
+    "repaired prior-only selectors, complete player numeric observations, and same-unit relief-outs histories"
+  ],
+  "current_information_levels": [
+    "projected batting and projected starter",
+    "official batting only",
+    "official schedule-listed starter only",
+    "official batting and starter"
+  ],
+  "old_four_settings": "Reuse the existing frozen artifacts, unchanged.",
+  "new_four_settings": "Regenerate prior selectors by the same latest-unique-lineup and last-five-distinct-starters rules, using only earlier calendar-day official records. Apply the same original scalar formulas with repaired lagged observations.",
+  "history_policy": [
+    "Keep confirmed zero values distinct from missing values.",
+    "For batting use only direct or exactly justified AB,H,BB observations; BB+HBP is never pure BB. Preserve incomplete observations separately.",
+    "Window numeric components on the last ten complete observed appearances, including recorded zero-PA appearances; retain exact game/date/identity evidence. Do not silently replace unknown BB with zero.",
+    "For starters require ER and outs from prior games with correct innings conversion.",
+    "Use the original relief-outs proxy definition, not pitch counts substituted into its numeric scale. Aggregate relief workload may use source-validated team pitching records even if some non-starter IDs are missing.",
+    "Resolve duplicates and identity conflicts by fixed provenance rules, never realized return.",
+    "Never include target, same-date or future game numeric results. Keep real receipt times and explicit previous-calendar-day completion assumptions.",
+    "Do not change team/rest/park features or unrelated fields."
+  ],
+  "model_parameters_fixed": true,
+  "refit": false,
+  "retune": false,
+  "new_features_or_units_allowed": false,
+  "source_missing_policy": "Partial verified coverage is acceptable but must retain nulls and report component-usable freshness, not just the date of any captured row.",
+  "evaluation": [
+    "Freeze repaired predictions in Git before scoring.",
+    "Use identical prices, products, tie order, refunds and cohorts for all source-quality and current-information settings.",
+    "Report full 709, old 193, new 516, and pre-gap versus post-gap groups with their overlapping nature explicit.",
+    "Report all settings, probability loss, changes, accuracy, unit ROI including refund stakes, weekly paired uncertainty and coverage.",
+    "Do not select an operating winner by inspected test performance."
+  ],
+  "limitations": [
+    "Currently retrieved historic records do not establish actual pregame receipt or exact executable prices.",
+    "The fixed model was trained on projected information; this is not a newly trained optimal official-player model."
+  ],
+  "production_changes": false,
+  "wallet_changes": false,
+  "automatic_adoption": false
+}
