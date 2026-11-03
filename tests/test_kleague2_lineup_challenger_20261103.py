@@ -1,4 +1,4 @@
-import copy,datetime,importlib.util,sys,unittest,json,hashlib,subprocess,math
+import copy,datetime,importlib.util,sys,unittest,json,hashlib,subprocess,math,collections
 from decimal import Decimal
 from pathlib import Path
 import numpy as np
@@ -54,9 +54,12 @@ class TestK2Model(unittest.TestCase):
  def test_independent_metrics_and_decimal_settlement(self):
   rows=[json.loads(l) for l in (P.parent/'results/scored.jsonl').read_bytes().splitlines()];metrics=json.loads((P.parent/'results/metrics.json').read_bytes())
   for mode in ('team_only','lineup','market'):
-   subset=[r for r in rows if r['odds'] is not None];hits=0;loss=0.;profit=Decimal(0)
+   subset=[r for r in rows if r['odds'] is not None];hits=0;loss=0.;brier=0.;profit=Decimal(0);daily=collections.defaultdict(Decimal)
    for r in subset:
-    p=r['p'][mode];pick=max(range(3),key=lambda i:p[i]);y=r['outcome'];hits+=pick==y;loss-=math.log(p[y]);profit+=Decimal(str(r['odds'][pick]))-1 if pick==y else Decimal(-1)
+    p=r['p'][mode];pick=max(range(3),key=lambda i:p[i]);y=r['outcome'];hits+=pick==y;loss-=math.log(p[y]);brier+=sum((p[i]-(i==y))**2 for i in range(3));gain=Decimal(str(r['odds'][pick]))-1 if pick==y else Decimal(-1);profit+=gain;daily[r['date']]+=gain
    a=metrics['price_matched_accuracy_loss'][mode];b=metrics['price_matched_returns'][mode]
-   self.assertEqual(a['hits'],hits);self.assertAlmostEqual(a['logloss'],loss/len(subset),places=12);self.assertAlmostEqual(b['profit_units'],float(profit),places=10)
+   self.assertEqual(a['hits'],hits);self.assertAlmostEqual(a['logloss'],loss/len(subset),places=12);self.assertAlmostEqual(a['brier'],brier/len(subset),places=12);self.assertAlmostEqual(b['profit_units'],float(profit),places=10)
+   balance=Decimal(0);peak=Decimal(0);maximum=Decimal(0)
+   for day in sorted(daily):balance+=daily[day];peak=max(peak,balance);maximum=max(maximum,peak-balance)
+   self.assertAlmostEqual(b['daily_closing_max_drawdown_units'],float(maximum),places=10)
 if __name__=='__main__':unittest.main()
