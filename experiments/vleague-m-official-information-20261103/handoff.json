@@ -142,7 +142,10 @@
   "tests": [
     "two Python unit tests pass",
     "126 actual identity/score/roster/source-byte checks pass",
-    "27 cached complete two-way prices checked"
+    "27 cached complete two-way prices checked",
+    "272 file hashes match Git blobs and independent autocrlf true/false checkouts",
+    "cache resume: 126/126 with no new requests",
+    "git diff --check passed"
   ],
   "metrics": {
     "schedule_n": 126,
