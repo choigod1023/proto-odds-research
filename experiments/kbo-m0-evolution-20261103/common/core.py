@@ -70,6 +70,8 @@ def metrics(predictions,labels):
 def choose(predictions,labels):
  if "baseline" not in predictions:raise ValueError("baseline missing")
  ids=set(unique(predictions["baseline"]));scores={}
+ expected={fid for fid,y in labels.items() if str(y.get("assumed_completed_date","")).startswith("2025")}
+ if len(expected)!=731 or ids!=expected:raise ValueError("selection requires complete fixed2025 cohort of731")
  for key,rows_ in predictions.items():
   if set(unique(rows_))!=ids:raise ValueError("selection populations differ")
   if any(not str(labels[fid].get("assumed_completed_date","")).startswith("2025") for fid in ids):raise ValueError("selection restricted to2025")
