@@ -52,3 +52,25 @@ def test_market_identity_invalid_market_refund_and_kickoff_rejected():
 def test_model_rejects_training_after_cutoff():
  x=[str(i) for i in range(11)];g=game('x','2026-06-25','A','B',x,x);features=model.history_features([g])
  with pytest.raises(ValueError,match='embargo'):model.fit([g],features,1,False,data.CUTOFF)
+
+
+def test_prediction_never_reads_target_score():
+ class Guard(dict):
+  def __getitem__(self,key):
+   if key in {'score','hg','ag','y'}:raise AssertionError('target leakage')
+   return super().__getitem__(key)
+ x=[str(i) for i in range(11)];g=Guard(game('q','2026-07-01','A','B',x,x));feat={'q':[[0,0,1,1],[0,0,1,1]]}
+ state={'coeff':np.zeros(6),'teams':{'A':0,'B':1},'candidate':False}
+ assert model.predict(state,[g],feat)[1].sum()==pytest.approx(1)
+
+
+def test_frozen_predictions_have_hash_no_labels_and_sum_to_one():
+ import hashlib,json
+ root=data.ROOT/'frozen';m=json.loads((root/'manifest.json').read_bytes());b=(root/'predictions.jsonl').read_bytes()
+ assert hashlib.sha256(b).hexdigest()==m['predictions_sha256']
+ rows=[json.loads(s) for s in b.splitlines()]
+ assert len(rows)==114 and len({r['fixture_id'] for r in rows})==114
+ assert all(not ({'score','result','y','hg','ag'}&set(r)) for r in rows)
+ for r in rows:
+  for key in ('team_p','lineup_p'):
+   assert len(r[key])==3 and sum(r[key])==pytest.approx(1,abs=1e-10) and all(0<=x<=1 for x in r[key])
