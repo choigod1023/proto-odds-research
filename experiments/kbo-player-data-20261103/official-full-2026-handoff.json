@@ -1,0 +1,339 @@
+{
+  "role": "KBO data linkage",
+  "status": "ready_retrospective_only_no_model_fit_or_scoring",
+  "branch": "codex/kbo-player-data-20261103",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/511",
+  "protocol_commit": "97b76a9c7a605a4ba3526530b1d4fdabb320f640",
+  "parent_contract_commit": "69694632",
+  "source_commit": "b24739cf52435070586f8687011fd473a16123e4",
+  "source_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+  "source_player_id_basis_counts": {
+    "postgame_same_game_side_order_and_official_profile_name": 8460,
+    "postgame_other_game_same_team_season_name_and_official_profile_name": 4302
+  },
+  "source_path": "C:\\Users\\user\\Documents\\Codex\\klu\\experiments\\kbo-official-lineups-20261103\\official-lineups-2026.jsonl",
+  "v5_evidence_path": "C:\\Users\\user\\Documents\\Codex\\klu\\.research-state\\kbo-lineups-v5",
+  "manifest_path": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-full-2026-manifest.json",
+  "cohort_path": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-full-2026-cohorts.jsonl",
+  "cohort_sha256": "f8995e367882320398d2c7600ef08bc2cd9d709d35aeac33c4c8f1177f8ac7af",
+  "outputs": {
+    "official_batting_only": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-full-2026-official_batting_only.jsonl.gz",
+      "sha256": "789a413ab35575b2461dd2d6943485e88be55f96e1eab9364b6e706691ee3e58"
+    },
+    "official_starter_only": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-full-2026-official_starter_only.jsonl.gz",
+      "sha256": "c5481b7fd7a36bc345e11ec953225ab659431408059cbb03fedab40050df6a46"
+    },
+    "official_batting_and_starter": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\official-full-2026-official_batting_and_starter.jsonl.gz",
+      "sha256": "f16c08073737188b9bd2dec9de59791cdeb72033e6bba8c3061061809a2a8131"
+    }
+  },
+  "counts": {
+    "opportunities": 726,
+    "common_cohort": 709,
+    "excluded": 17,
+    "exclusion_reasons": {
+      "lineup_player_ids_unavailable": 17
+    },
+    "official_pitcher_missing_or_conflict_exclusions": 0,
+    "original_193_overlap": 193,
+    "new_complement": 516,
+    "archived_market_present": 354,
+    "archived_market_missing": 355,
+    "price_receipt_verified": 0,
+    "point_in_time_verified": 0,
+    "batters_no_history_slots": 17,
+    "pitchers_no_history_slots": 58,
+    "adapter_lineup_scalar_null_sides": 0,
+    "adapter_starter_scalar_null_sides": 59,
+    "targets_after_detail_source_last": 239
+  },
+  "freshness": {
+    "batters": {
+      "2026-03": {
+        "observed": 262,
+        "no_history": 8,
+        "median_days": 2.0,
+        "p90_nearest_rank_days": 179,
+        "max_days": 1049,
+        "greater_than_14_days": 88,
+        "greater_than_30_days": 88,
+        "greater_than_60_days": 88,
+        "greater_than_90_days": 88
+      },
+      "2026-04": {
+        "observed": 2195,
+        "no_history": 1,
+        "median_days": 1,
+        "p90_nearest_rank_days": 2,
+        "max_days": 684,
+        "greater_than_14_days": 21,
+        "greater_than_30_days": 15,
+        "greater_than_60_days": 15,
+        "greater_than_90_days": 15
+      },
+      "2026-05": {
+        "observed": 2301,
+        "no_history": 3,
+        "median_days": 1,
+        "p90_nearest_rank_days": 2,
+        "max_days": 588,
+        "greater_than_14_days": 27,
+        "greater_than_30_days": 10,
+        "greater_than_60_days": 7,
+        "greater_than_90_days": 7
+      },
+      "2026-06": {
+        "observed": 2213,
+        "no_history": 1,
+        "median_days": 1,
+        "p90_nearest_rank_days": 2,
+        "max_days": 648,
+        "greater_than_14_days": 33,
+        "greater_than_30_days": 25,
+        "greater_than_60_days": 11,
+        "greater_than_90_days": 5
+      },
+      "2026-07": {
+        "observed": 1832,
+        "no_history": 4,
+        "median_days": 1.0,
+        "p90_nearest_rank_days": 5,
+        "max_days": 87,
+        "greater_than_14_days": 21,
+        "greater_than_30_days": 18,
+        "greater_than_60_days": 6,
+        "greater_than_90_days": 0
+      },
+      "2026-08": {
+        "observed": 1494,
+        "no_history": 0,
+        "median_days": 24.0,
+        "p90_nearest_rank_days": 34,
+        "max_days": 126,
+        "greater_than_14_days": 1323,
+        "greater_than_30_days": 351,
+        "greater_than_60_days": 41,
+        "greater_than_90_days": 19
+      },
+      "2026-09": {
+        "observed": 1638,
+        "no_history": 0,
+        "median_days": 51.0,
+        "p90_nearest_rank_days": 66,
+        "max_days": 1205,
+        "greater_than_14_days": 1638,
+        "greater_than_30_days": 1638,
+        "greater_than_60_days": 382,
+        "greater_than_90_days": 37
+      },
+      "2026-10": {
+        "observed": 810,
+        "no_history": 0,
+        "median_days": 73.0,
+        "p90_nearest_rank_days": 92,
+        "max_days": 185,
+        "greater_than_14_days": 810,
+        "greater_than_30_days": 810,
+        "greater_than_60_days": 810,
+        "greater_than_90_days": 84
+      },
+      "new_complement": {
+        "observed": 9281,
+        "no_history": 7,
+        "median_days": 3,
+        "p90_nearest_rank_days": 67,
+        "max_days": 1205,
+        "greater_than_14_days": 3833,
+        "greater_than_30_days": 2844,
+        "greater_than_60_days": 1251,
+        "greater_than_90_days": 146
+      },
+      "original_193": {
+        "observed": 3464,
+        "no_history": 10,
+        "median_days": 1.0,
+        "p90_nearest_rank_days": 2,
+        "max_days": 1049,
+        "greater_than_14_days": 128,
+        "greater_than_30_days": 111,
+        "greater_than_60_days": 109,
+        "greater_than_90_days": 109
+      },
+      "overall": {
+        "observed": 12745,
+        "no_history": 17,
+        "median_days": 2,
+        "p90_nearest_rank_days": 63,
+        "max_days": 1205,
+        "greater_than_14_days": 3961,
+        "greater_than_30_days": 2955,
+        "greater_than_60_days": 1360,
+        "greater_than_90_days": 255
+      }
+    },
+    "pitchers": {
+      "2026-03": {
+        "observed": 17,
+        "no_history": 13,
+        "median_days": 179,
+        "p90_nearest_rank_days": 186,
+        "max_days": 199,
+        "greater_than_14_days": 17,
+        "greater_than_30_days": 17,
+        "greater_than_60_days": 17,
+        "greater_than_90_days": 17
+      },
+      "2026-04": {
+        "observed": 240,
+        "no_history": 4,
+        "median_days": 6.0,
+        "p90_nearest_rank_days": 16,
+        "max_days": 955,
+        "greater_than_14_days": 25,
+        "greater_than_30_days": 23,
+        "greater_than_60_days": 23,
+        "greater_than_90_days": 23
+      },
+      "2026-05": {
+        "observed": 254,
+        "no_history": 2,
+        "median_days": 6.0,
+        "p90_nearest_rank_days": 10,
+        "max_days": 642,
+        "greater_than_14_days": 13,
+        "greater_than_30_days": 7,
+        "greater_than_60_days": 4,
+        "greater_than_90_days": 4
+      },
+      "2026-06": {
+        "observed": 243,
+        "no_history": 3,
+        "median_days": 6,
+        "p90_nearest_rank_days": 11,
+        "max_days": 650,
+        "greater_than_14_days": 10,
+        "greater_than_30_days": 5,
+        "greater_than_60_days": 4,
+        "greater_than_90_days": 3
+      },
+      "2026-07": {
+        "observed": 199,
+        "no_history": 5,
+        "median_days": 6,
+        "p90_nearest_rank_days": 14,
+        "max_days": 42,
+        "greater_than_14_days": 19,
+        "greater_than_30_days": 2,
+        "greater_than_60_days": 0,
+        "greater_than_90_days": 0
+      },
+      "2026-08": {
+        "observed": 157,
+        "no_history": 9,
+        "median_days": 26,
+        "p90_nearest_rank_days": 36,
+        "max_days": 61,
+        "greater_than_14_days": 140,
+        "greater_than_30_days": 48,
+        "greater_than_60_days": 1,
+        "greater_than_90_days": 0
+      },
+      "2026-09": {
+        "observed": 170,
+        "no_history": 12,
+        "median_days": 54.0,
+        "p90_nearest_rank_days": 69,
+        "max_days": 728,
+        "greater_than_14_days": 170,
+        "greater_than_30_days": 170,
+        "greater_than_60_days": 53,
+        "greater_than_90_days": 5
+      },
+      "2026-10": {
+        "observed": 80,
+        "no_history": 10,
+        "median_days": 76.0,
+        "p90_nearest_rank_days": 96,
+        "max_days": 112,
+        "greater_than_14_days": 80,
+        "greater_than_30_days": 80,
+        "greater_than_60_days": 80,
+        "greater_than_90_days": 13
+      },
+      "new_complement": {
+        "observed": 993,
+        "no_history": 39,
+        "median_days": 9,
+        "p90_nearest_rank_days": 69,
+        "max_days": 728,
+        "greater_than_14_days": 424,
+        "greater_than_30_days": 308,
+        "greater_than_60_days": 139,
+        "greater_than_90_days": 22
+      },
+      "original_193": {
+        "observed": 367,
+        "no_history": 19,
+        "median_days": 6,
+        "p90_nearest_rank_days": 156,
+        "max_days": 955,
+        "greater_than_14_days": 50,
+        "greater_than_30_days": 44,
+        "greater_than_60_days": 43,
+        "greater_than_90_days": 43
+      },
+      "overall": {
+        "observed": 1360,
+        "no_history": 58,
+        "median_days": 7.0,
+        "p90_nearest_rank_days": 70,
+        "max_days": 955,
+        "greater_than_14_days": 474,
+        "greater_than_30_days": 352,
+        "greater_than_60_days": 182,
+        "greater_than_90_days": 65
+      }
+    }
+  },
+  "source_last_dates": {
+    "batters": {
+      "all_source_latest_date": "2026-07-26",
+      "archive_linked_latest_date": "2026-07-26",
+      "source_rows": 2896
+    },
+    "pitchers": {
+      "all_source_latest_date": "2026-07-26",
+      "archive_linked_latest_date": "2026-07-26",
+      "source_rows": 2884
+    }
+  },
+  "nonplayer_feature_sha256": "4881002bfcd57d5c06d320688f8e379294d74079de33d5e627b2a052958774d7",
+  "postgame_first_pitcher_crosscheck_sides": {
+    "match": 940,
+    "missing": 478,
+    "mismatch": 0
+  },
+  "postgame_crosscheck_affects_selection": false,
+  "tests": "27 passed; fixed byte SHA and Git blob (four text manifest CRLF/LF explicitly normalized), source responses/profiles, duplicate/wrong fixture/team/date/doubleheader, target/same-day/future poison, all prior dates, unchanged features, original 193 identical, independently calculated gap counts, frozen model scalar shape",
+  "commands": [
+    "python experiments/kbo-player-data-20261103/build_official_full_2026.py",
+    "python -m pytest experiments/kbo-player-data-20261103/test_official_full_2026.py experiments/kbo-player-data-20261103/test_official_pitcher_factorial.py experiments/kbo-player-data-20261103/test_official_lineup_overlay.py experiments/kbo-player-data-20261103/test_prior_projection.py experiments/kbo-player-data-20261103/test_build.py -q -p no:cacheprovider"
+  ],
+  "limitations": [
+    "Expansion after H1 193 outcome observed: not blind or independent.",
+    "Official lineup and schedule pitcher publication/receipt before game unproven; retrospective availability assumed.",
+    "256 source fixtures require date and oriented-team uniqueness; official current profiles and crosswalk do not independently prove identity. Same-team same-season player-ID crosswalk can draw on later source records for identity, not player statistics; no pregame identity claim.",
+    "No true game end or prior observation timestamps; prior calendar date completion is assumed.",
+    "Raw BF meaning unverified. Missing and stale prior data are not filled with target or later stats.",
+    "Existing frozen adapter requires separate explicit scenario support; no model fitting, tuning, predictions, ROI or operational change.",
+    "Fixed adapter.scalar accepts the histories; build_features must explicitly support new scenarios without changing frozen weights.",
+    "No independent real-time evidence; published partial H1 108→112 was known before the expansion."
+  ],
+  "model_fit": false,
+  "prediction": false,
+  "roi_computed": false,
+  "dataset_commit": "69f24e8adce42bd0052826a0f7d6d8f5f8f447cb"
+}
