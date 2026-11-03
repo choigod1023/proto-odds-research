@@ -1,5 +1,5 @@
 {
-  "status": "ready_for_overlay_results",
+  "status": "overlay_audited_reproducibility_correction_required",
   "base_main": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
   "branch": "codex/kbo-player-review-20261103",
   "protocol_commit": "867afbdd60ec69bd8b5d74bf75c8418c9ae49698",
@@ -12,12 +12,12 @@
   ],
   "data_rows_validated": 2913,
   "model_runs": 0,
-  "tests_pending": "Model phase 3 overlay independent validation; post-observation new-lineup evidence; preserve original 354-case results.",
+  "tests_pending": "Cross-platform LF/CRLF reproducibility fix and synthetic regression; prospective receipt/settlement and current operating comparison remain unverified.",
   "scope": "No production actions; no performance claims; contract-only initial review.",
   "commit": "see git history",
   "pr": "https://github.com/choigod1023/proto-odds-research/pull/510",
   "review_spec_commit": "3e1d0bcf",
-  "review_stage": "immutable official price commit 9bcbd53 audited; model overlay not audited",
+  "review_stage": "immutable model overlay 5c797509 independent Decimal audit complete",
   "audit_report": "experiments/kbo-player-independent-review-20261103/data-audit-96eca22.md",
   "findings": [
     "Target actual lineup/starter selection leaks into prior aggregates despite prior-date provenance; projected model must reconstruct from prior history only.",
@@ -49,5 +49,21 @@
     "detail_rounds": 102,
     "tests_passed": 2
   },
-  "official_price_limitations": "Historical official response fields only; all receipts postgame, no actual historical price time or execution proof. 249 match without source kickoff and require separate cohort. Archived score matching is not independent KBO official result authentication."
+  "official_price_limitations": "Historical official response fields only; all receipts postgame, no actual historical price time or execution proof. 249 match without source kickoff and require separate cohort. Archived score matching is not independent KBO official result authentication.",
+  "overlay_commit": "5c797509a9305674307ecce83df99ea8f9a2b0c1",
+  "overlay_results_sha256": "24938f0f5489d22bbc76a830e2f48e2491da6687d3f4a5a2f9e8e8c376790d23",
+  "overlay_report": "experiments/kbo-player-independent-review-20261103/overlay-audit-5c797509.md",
+  "overlay_finding": "phase3_overlay.py expects CRLF checkout SHA d9fc..., but canonical Git blob LF SHA cb556...; checked() rejects the same valid content on LF checkouts. Prior phase5 audit incorrectly called CRLF Git archive bytes raw blob; explicit correction added.",
+  "overlay_results": {
+    "strict_n": 439,
+    "strict_void": 10,
+    "strict_player_hits": 245,
+    "strict_market_hits": 250,
+    "extended_n": 683,
+    "extended_void": 16,
+    "extended_player_hits": 380,
+    "extended_market_hits": 398,
+    "date_only_2026": 244,
+    "independent_settlements": 7854
+  }
 }

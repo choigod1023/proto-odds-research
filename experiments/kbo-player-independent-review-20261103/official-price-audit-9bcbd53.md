@@ -1,5 +1,7 @@
 # KBO 공식 마감 회차의 과거 배당 필드 독립 감사
 
+> **바이트 해시 정정:** 아래 `d9fc…`는 CRLF 체크아웃 바이트 해시다. 원래 Git blob LF 해시는 `cb556b0fb182eb13de6d22a513b8a04952e5e22d6b31a6b6ca44f543edb647aa`이며, 당시 `git archive`가 로컬 설정에 따라 CRLF로 변환했다. 행과 가격 감사 결과는 변하지 않는다. 상세는 `overlay-audit-5c797509.md`를 참조한다.
+
 상태: `ready_for_overlay_results`. 가격 PR #513의 immutable commit `9bcbd53bf95ce6c6961b5b88fd43877152d602b6`과 데이터 PR #511 `b0833a6`을 사용했다. 가격·원문은 Git blob에서, 원본 경기 gzip은 manifest와 SHA를 확인한 뒤 읽었다. 모델의 진행 중 overlay나 새 타순 수집 결과는 읽거나 수정하지 않았다.
 
 ## 결과

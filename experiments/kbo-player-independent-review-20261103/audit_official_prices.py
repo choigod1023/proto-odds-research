@@ -46,8 +46,10 @@ def audit(official_repo, data_repo):
     with tarfile.open(fileobj=io.BytesIO(package)) as archive:
         files = {m.name[len(BASE):]: archive.extractfile(m).read() for m in archive.getmembers() if m.isfile()}
     manifest = json.loads(files['manifest.json'])
-    assert hashlib.sha256(files['restored-prices.jsonl']).hexdigest() == manifest['output_sha256']
-    output = [json.loads(s) for s in files['restored-prices.jsonl'].splitlines()]
+    price_blob = files['restored-prices.jsonl'].replace(b'\r\n', b'\n')
+    assert hashlib.sha256(price_blob).hexdigest() == 'cb556b0fb182eb13de6d22a513b8a04952e5e22d6b31a6b6ca44f543edb647aa'
+    assert hashlib.sha256(price_blob.replace(b'\n', b'\r\n')).hexdigest() == manifest['output_sha256']
+    output = [json.loads(s) for s in price_blob.splitlines()]
     raw_rows = git_blob(data_repo,DATA_COMMIT,DATA_BASE+'rows.jsonl')
     raw_labels = git_blob(data_repo,DATA_COMMIT,DATA_BASE+'labels.jsonl')
     assert hashlib.sha256(raw_rows).hexdigest() == manifest['input_rows_sha256']
