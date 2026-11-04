@@ -4,13 +4,13 @@
 
 2026-03-29 14:00부터 2026-07-23 18:30까지(KST)의 실제 게시 주장과 사후 확정 명단 oracle을 결합한 진단이다. 투표 동률 10경기 제외, 중립·방향 불명 등 상품·선택 모호 3행 제외, 작성자 내 상충 1명 제외다. 각 선택의 게시 주장 시각은 경기 전이지만 최초 관측은 경기 후이며 미래에 기록한 본문을 당시 수신으로 승격하지 않았다. 원문 최초 관측·수정 이력, 선수명단 수신 및 배당 수신 시각이 경기 전임을 입증하지 못한다. 이미 본 기간이며 블라인드 검증이 아니다. 2025 원문 KBO 행은 이 입력에 없다. 단위 단폴 수익이며 월 손실 제한 원장이 아니다.
 
-Exact official game ID and identical archived home/away prices; full-game moneyline only; one vote per source+author, conflicting authors excluded; tied vote excludes game; model/market/hybrid ties no bet; draws refund; 1 unit single bets; Fixed market90_vote10 is 0.9 normalized inverse-price market home probability + 0.1 author vote home fraction; separately named player90_vote10 uses each model probability. ROI includes refunds in stake denominator; hit rate excludes refunds. Source-claim and retrospective lineup oracle only, not blind or real-time.
+Exact official game ID and identical archived home/away prices; full-game moneyline only; one vote per source+author, conflicting authors excluded; tied vote excludes game; model/market/hybrid ties no bet; draws refund; 1 unit single bets; Fixed market90_vote10_multiplicative is 0.9 multiplicative normalized inverse-price market home probability (not a claim of production Shin probability) + 0.1 author vote home fraction; separately named player90_vote10 uses each model probability. ROI includes refunds in stake denominator; hit rate excludes refunds. Source-claim and retrospective lineup oracle only, not blind or real-time.
 
 | 전략 | 베팅 N | 적중/확정 N | 적중률 | ROI | 순손익 단위 |
 |---|---:|---:|---:|---:|---:|
 | market | 197 | 116/197 | 58.88% | -10.75% | -21.17 |
 | vote | 197 | 112/197 | 56.85% | -8.61% | -16.97 |
-| market90_vote10 | 197 | 120/197 | 60.91% | -5.67% | -11.17 |
+| market90_vote10_multiplicative | 197 | 120/197 | 60.91% | -5.67% | -11.17 |
 | kbo-actual-training-2026-M0_actual | 197 | 120/197 | 60.91% | -5.06% | -9.96 |
 | kbo-actual-training-2026-M2_actual | 197 | 106/197 | 53.81% | -14.87% | -29.29 |
 | kbo-player-effects-v2-2026-M0 | 197 | 116/197 | 58.88% | -8.18% | -16.12 |

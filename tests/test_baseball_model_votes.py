@@ -34,8 +34,8 @@ class BaseballComparisonTests(unittest.TestCase):
         self.assertEqual(recovery['summary']['official_id_team_date_time_verified'],239)
         self.assertEqual(recovery['summary']['schedule_bodies_hash_verified'],66)
         for r in rows:
-            self.assertEqual(r['selections']['market90_vote10'],pick(market_vote_probability(r['prices'],r['vote_home_fraction'])))
-            self.assertEqual(r['profit']['market90_vote10'],settle(r['selections']['market90_vote10'],r['winner'],r['prices']))
+            self.assertEqual(r['selections']['market90_vote10_multiplicative'],pick(market_vote_probability(r['prices'],r['vote_home_fraction'])))
+            self.assertEqual(r['profit']['market90_vote10_multiplicative'],settle(r['selections']['market90_vote10_multiplicative'],r['winner'],r['prices']))
             self.assertTrue(all(dt(v['published_at_claim']) < dt(r['kickoff']) for v in r['votes']))
 
     def test_empty_summary(self):
