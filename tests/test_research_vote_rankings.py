@@ -107,7 +107,6 @@ def test_bad_vote_evidence_fails(mutation):
 
 
 @pytest.mark.parametrize("field", ["source_url", "content_hash"])
-@pytest.mark.xfail(strict=True, reason="source URL/content hash duplicates are not currently rejected")
 def test_duplicate_source_evidence_fails(field):
     f, _ = fixture()
     e = deepcopy(f["evidence"][0]); e.update(id="another", author="another")
