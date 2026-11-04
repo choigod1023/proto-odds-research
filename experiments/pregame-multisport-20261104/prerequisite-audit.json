@@ -1,0 +1,42 @@
+{
+  "audit_date": "2026-11-04",
+  "checkout": "88d607459d9c8b4674ff132cba410db828166dea",
+  "scope": "Local saved code and research artifacts, plus read-only GitHub workflow metadata; not a new production server audit.",
+  "items": [
+    {
+      "component": "player/starter/lineup collection",
+      "existing": ["src/player_info.py", "src/pregame_player_capture.py", "src/kbo_pregame.py", "src/lineup_soccer.py", "src/npb_lineups.py"],
+      "status": "Code retained. Presence and a document update timestamp do not establish actual confirmed pregame model inputs."
+    },
+    {
+      "component": "KBO M0 and fixed ensemble forward runner",
+      "existing": ["experiments/kbo-m0-followup-20261103/forward.py", "experiments/kbo-m0-followup-20261103/REPORT.md"],
+      "status": "Existing status function explicitly reports no trusted source adapter wired/deployed, no installed schedule and zero source-verified paired settlements. This is not a completed automatic six-model evaluation."
+    },
+    {
+      "component": "operating same-snapshot controls",
+      "existing": ["src/operating_model_capture.py", "src/operating_model_comparison.py"],
+      "status": "Market/9:1/saved score references and retained MLB/KBO candidate slots exist. Saved score reference is not automatically the KBO M0/M1/M2 research artifact, and absent saved forecasts cannot be recreated as operating predictions."
+    },
+    {
+      "component": "historical KBO M0/M1/M2",
+      "existing": ["codex/kbo-player-effects-20261103", "codex/kbo-actual-training-model-20261103", "experiments/kbo-m0-followup-20261103/"],
+      "status": "Models and results retained, but M0 names span different feature/model families. Bind code+artifact+training period before comparing; no cross-sport renaming."
+    },
+    {
+      "component": "Python paper automation",
+      "existing": [".github/workflows/forward-paper.yml", "scripts/run_forward_paper.py"],
+      "status": "Existing tipster-vote paper workflow had completed successful runs on 2026-11-03/04. That does not prove player inputs, M0/M1/M2 simultaneous predictions or their source verification. Its shared monthly -50000won ledger is unchanged.",
+      "run_urls": ["https://github.com/choigod1023/proto-odds-research/actions/runs/41744674240", "https://github.com/choigod1023/proto-odds-research/actions/runs/41702503058"]
+    },
+    {
+      "component": "new-source-only AI worker polling",
+      "existing": ["src/research_dispatch.py"],
+      "status": "Metadata queue is not a data collector or performance certificate. User-disabled AI recurring checks are not reactivated by this task."
+    },
+    {
+      "component": "2025-to-current multi-sport exact comparison",
+      "status": "Incomplete before this task. Implementing bounded source adapters and a shared exact-product/timing/lineage gate. Historical postgame capture cannot restore an absent pregame receipt. No complete six-arm ROI claim until the common cohort is nonempty."
+    }
+  ]
+}

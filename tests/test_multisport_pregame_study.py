@@ -15,6 +15,7 @@ def record(kind, rid, payload, received="2025-05-01T07:00:00Z"):
     return dict(record_id=rid, kind=kind, sport="bs", league="KBO", home="H", away="A",
                 kickoff="2025-05-01T09:30:00Z", received_at=received,
                 source_url="https://www.betman.co.kr/official", timing_basis="actual_receipt",
+                timestamp_basis="http_response_body_completed",
                 receipt_verified=True, body_sha256="a"*64, payload=payload)
 
 
@@ -27,13 +28,15 @@ def fixture():
             record("lineup", "l", dict(confirmed=True,
                    home=dict(starter="hp", batting_order=[f"h{i}" for i in range(9)]),
                    away=dict(starter="ap", batting_order=[f"a{i}" for i in range(9)]))),
-            record("player_history", "h", dict(latest_source_kickoff="2025-04-30T09:30:00Z")),
+            record("player_history", "h", dict(latest_source_kickoff="2025-04-30T09:30:00Z", latest_source_completed_at="2025-04-30T12:30:00Z")),
             record("result", "r", dict(product, confirmed=True, home_score=3, away_score=1), "2025-05-01T12:00:00Z")]
     for name in ("kbo_m0", "kbo_m1", "kbo_m2"):
-        rows.append(record("model_prediction", name, dict(model_id=name, artifact_sha256="b"*64,
+        model_row = record("model_prediction", name, dict(model_id=name, artifact_sha256="b"*64,
                     train_end="2024-12-31T23:00:00Z", as_of="2025-05-01T07:30:00Z",
                     input_record_ids=["l", "h"], product_id=product["product_id"],
-                    probabilities={"home": .6, "away": .4}), "2025-05-01T07:31:00Z"))
+                    probabilities={"home": .6, "away": .4}), "2025-05-01T07:31:00Z")
+        model_row["model_artifact_verified"] = True
+        rows.append(model_row)
     return rows
 
 
@@ -133,6 +136,8 @@ def test_baseball_models_cannot_be_renamed_as_soccer_models():
     rows = fixture()
     for row in rows:
         row.update(sport="sc", league="K리그1")
+        if "settlement_rule" in row["payload"]:
+            row["payload"]["settlement_rule"] = "regulation_90_plus_stoppage"
     result = run(rows)["summary"]["sc/K리그1"]
     assert result["all_models_common_n"] == 0 and "kbo_m0" in result["unavailable_scope"]
     assert "kbo_m0" not in result["models"]
@@ -150,3 +155,37 @@ def test_period_does_not_pull_2024_into_2025_results():
     for row in rows:
         row["kickoff"] = "2024-05-01T09:30:00Z"
     assert run(rows)["physical_fixtures"] == 0
+
+
+@pytest.mark.parametrize("basis", [None, "legacy_batch_start_unrecognized", "http_request_started"])
+def test_unknown_or_disguised_legacy_clock_is_not_completed_receipt(basis):
+    rows = fixture(); rows[0]["timestamp_basis"] = basis
+    assert not run(rows)["events"]
+
+
+def test_different_expert_product_or_settlement_rule_is_not_same_market():
+    rows = fixture()
+    for row in rows[1:3]:
+        row["payload"].update(product_id="other", settlement_rule="regulation_only")
+    assert run(rows)["summary"]["bs/KBO"]["controls_common_n"] == 0
+
+
+def test_history_cannot_contain_game_after_claimed_receipt_or_forecast():
+    rows = fixture()
+    for row in rows:
+        if row["kind"] in {"lineup", "player_history", "model_prediction"}:
+            row["received_at"] = "2025-04-30T07:00:00Z"
+        if row["kind"] == "model_prediction":
+            row["payload"]["as_of"] = "2025-04-30T08:00:00Z"
+    assert run(rows)["summary"]["bs/KBO"]["all_models_common_n"] == 0
+
+
+def test_both_supported_baseball_refund_contracts_keep_same_stake_denominator():
+    rows = fixture()
+    for row in rows:
+        if "settlement_rule" in row["payload"]:
+            row["payload"]["settlement_rule"] = "full_game_including_extra_innings_draw_refund"
+    rows[5]["payload"].update(home_score=2, away_score=2)
+    result = run(rows)["summary"]["bs/KBO"]
+    assert result["all_models_common_n"] == 1
+    assert all(m["bets"] == 1 and m["void"] == 1 for m in result["all_models"].values())

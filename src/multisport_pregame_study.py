@@ -30,6 +30,8 @@ OFFICIAL_HOSTS = {
 }
 SHA = re.compile(r"^[a-f0-9]{64}$")
 KST = timezone(timedelta(hours=9))
+COMPLETION_CLOCKS = {"http_response_body_completed", "fetch_parse_completed_upper_bound",
+                     "preserved_prediction_ledger_capture"}
 
 
 def canonical(value):
@@ -82,8 +84,8 @@ def pregame(row, at, *, max_age=None):
         return "input_after_decision_or_T30"
     if max_age is not None and at - received > max_age:
         return "stale_price"
-    # No API caller flag can upgrade a batch-start clock to HTTP completion.
-    if row.get("timestamp_basis") in {"legacy_batch_start", "legacy_batch_start_not_HTTP_receipt"}:
+    # Unknown names are unavailable too; a deny-list can be bypassed by a suffix.
+    if row.get("timestamp_basis") not in COMPLETION_CLOCKS:
         return "quote_completion_clock_unproven"
     return None
 
@@ -117,6 +119,10 @@ def price_vector(row):
     sides = {"home", "away"} if p["market"] == "winner_2way" else {"home", "draw", "away"}
     if not p.get("product_id") or set(p["odds"]) != sides:
         raise ValueError("incomplete_price_roster")
+    rules = {"bs": {"draw_void_refund", "full_game_including_extra_innings_draw_refund"},
+             "sc": {"regulation_90_plus_stoppage"}, "bk": {"full_game_including_overtime"}}
+    if p.get("settlement_rule") not in rules[row["sport"]]:
+        raise ValueError("unknown_or_different_settlement_terms")
     odds = {s: numeric(v) for s, v in p["odds"].items()}
     if any(v <= 1 for v in odds.values()):
         raise ValueError("invalid_decimal_odds")
@@ -163,6 +169,8 @@ def choose(rows):
         reason = pregame(row, at)
         p = row["payload"]
         if (p.get("period") != "full" or p.get("market") != product["market"] or p.get("line") is not None
+                or p.get("product_id") != product["product_id"]
+                or p.get("settlement_rule") != product["settlement_rule"]
                 or p.get("selection") not in odds or not p.get("author") or not p.get("raw_text")):
             reason = "invalid_vote_product_author_or_original_text"
         if reason:
@@ -201,6 +209,8 @@ def choose(rows):
             continue
         reason = pregame(row, at)
         try:
+            if row.get("model_artifact_verified") is not True:
+                reason = reason or "model_artifact_not_verified"
             if moment(p["train_end"]) >= moment(p["as_of"]) or moment(p["as_of"]) > at:
                 reason = "model_training_or_forecast_clock_leaks"
             if p.get("product_id") != product["product_id"] or not SHA.fullmatch(str(p.get("artifact_sha256", ""))):
@@ -218,7 +228,10 @@ def choose(rows):
             for r in inputs:
                 if r and r["kind"] == "player_history":
                     last = r["payload"].get("latest_source_kickoff")
-                    if last is None or moment(last) >= moment(row["kickoff"]).astimezone(KST).replace(hour=0, minute=0, second=0, microsecond=0):
+                    completed = r["payload"].get("latest_source_completed_at")
+                    if (last is None or completed is None
+                            or not moment(last) <= moment(completed) <= moment(r["received_at"]) <= moment(p["as_of"])
+                            or moment(last) >= moment(row["kickoff"]).astimezone(KST).replace(hour=0, minute=0, second=0, microsecond=0)):
                         reason = "same_day_future_or_unbounded_player_history"
             probs = {s: numeric(v) for s, v in p["probabilities"].items()}
             if set(probs) != set(odds) or abs(sum(probs.values())-1) > Decimal(".0002") or any(not 0<=v<=1 for v in probs.values()):
@@ -287,7 +300,7 @@ def metrics(events, model, stake=10000):
         h, a = result["home_score"], result["away_score"]
         winner = "home" if h > a else "away" if h < a else "draw"
         void = winner == "draw" and product["market"] == "winner_2way"
-        if void and product.get("settlement_rule") != "draw_void_refund":
+        if void and product.get("settlement_rule") not in {"draw_void_refund", "full_game_including_extra_innings_draw_refund"}:
             continue
         hit = not void and side == winner
         price = numeric(event["odds"][side])
