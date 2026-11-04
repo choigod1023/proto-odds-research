@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory=$true)][string]$PythonExe,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
-    [Parameter(Mandatory=$true)][string]$StateRoot
+    [Parameter(Mandatory=$true)][string]$StateRoot,
+    [string]$M1StateRoot = ''
 )
 $ErrorActionPreference = 'Stop'
 $scriptPath = Join-Path $RuntimeRoot 'research/kbo_forward/runner.py'
@@ -11,5 +12,7 @@ $env:PYTHONDONTWRITEBYTECODE = '1'
 $env:PYTHONUTF8 = '1'
 # Task Scheduler owns repetition and rejects concurrent instances; Python also
 # holds an OS lock. Only the last process log is replaced, never the ledger.
-& $PythonExe -B -X utf8 $scriptPath --state $StateRoot *> (Join-Path $StateRoot 'last-process.log')
+$collectorArguments = @('-B', '-X', 'utf8', $scriptPath, '--state', $StateRoot)
+if ($M1StateRoot) { $collectorArguments += @('--m1-state', $M1StateRoot) }
+& $PythonExe @collectorArguments *> (Join-Path $StateRoot 'last-process.log')
 exit $LASTEXITCODE

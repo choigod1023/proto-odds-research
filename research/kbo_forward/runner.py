@@ -58,7 +58,7 @@ def packet(snapshot):
     if set(x["row"].get("history_coverage",{}))!={"home","away"} or any(c.get("status")!="complete" for c in x["row"]["history_coverage"].values()):raise ValueError("verified history coverage incomplete")
     return {k:copy.deepcopy(x[k]) for k in ("event","row","announcement","evidence")}
 
-def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen):
+def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
@@ -70,7 +70,20 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
         if price_fn is None:
             from prices import collect_prices
             price_fn=collect_prices
+        m1_observer=None
         report={"started_at":started.isoformat(),"status":"ok","captured_this_run":0,"unpriced_this_run":0,"settled_this_run":0,"excluded":[],"requests":0,"scheduler_scope":"separate local task; PC must be awake/online"}
+        if m1_state is not None:
+            try:
+                from research.m1_service.observer import Recorder
+                m1_path=Path(m1_state)/'predictions.jsonl'
+                if m1_path.resolve()==path.resolve():raise ValueError('M1 ledger must be separate')
+                m1_observer=Recorder(m1_path,ledger.validate_model_snapshot,
+                                     archive_root=getattr(official,'root',None),
+                                     price_archive_root=state/'prices/price-evidence',clock=clock)
+            except Exception as exc:
+                report['m1_status']='blocked'
+                report['m1_candidate_excluded']=[{'reason':'M1 initialization: '+str(exc)[:250]}]
+                report['m1_comparison']={'status':'failed','reason':str(exc)[:250]}
         try:
             today=started.astimezone(KST).date();dates={today.isoformat(),(today+timedelta(days=1)).isoformat()}
             # Fair bounded reconciliation: never run an unbounded historical crawl.
@@ -103,8 +116,8 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 try:
                     official_id=g["source"]["G_ID"]
                     current_quotes=[q for q in price_result["quotes"] if q["official_game_id"]==official_id]
-                    if not current_quotes and any(r["type"]=="unpriced_forecast" and r["input"]["event"]["official_game_id"]==official_id for r in rows):continue
-                    if current_quotes and all(any(r["type"]=="capture" and r["input"]["event"]["official_game_id"]==official_id and r["input"]["market"]["kind"]==q["kind"] for r in rows) for q in current_quotes):continue
+                    if not current_quotes and any(r["type"]=="unpriced_forecast" and r["input"]["event"]["official_game_id"]==official_id for r in rows) and (m1_observer is None or m1_observer.has_capture(event(g))):continue
+                    if current_quotes and all(any(r["type"]=="capture" and r["input"]["event"]["official_game_id"]==official_id and r["input"]["market"]["kind"]==q["kind"] for r in rows) for q in current_quotes) and (m1_observer is None or all(m1_observer.has_capture(event(g),q['market_id']) for q in current_quotes)):continue
                     s=official.snapshot(g)
                     if not s.get("source_verified"):
                         report["excluded"].append({"official_game_id":g["source"]["G_ID"],"reasons":s.get("missing",["unverified_source"])});continue
@@ -117,10 +130,16 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                     if not qs:
                         x["evidence"].pop("odds",None)
                         rec=ledger.capture_unpriced(x,path,clock=clock,infer=infer);report["unpriced_this_run"]+=int(rec is not None)
+                        if m1_observer is not None:
+                            try:m1_observer.capture(x,unpriced=True)
+                            except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':official_id,'reason':str(exc)[:300]})
                     for q in qs:
                         if q["home_id"]!=x["event"]["home_id"] or q["away_id"]!=x["event"]["away_id"] or ledger.moment(q["kickoff_at"])!=ledger.moment(x["event"]["kickoff_at"]):raise ValueError("price event metadata mismatch")
                         priced=copy.deepcopy(x);priced["market"],priced["evidence"]["odds"]=price_packet(q,state,x["event"])
                         rec=ledger.capture(priced,path,clock=clock,infer=infer);report["captured_this_run"]+=int(rec is not None)
+                        if m1_observer is not None:
+                            try:m1_observer.capture(priced)
+                            except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':official_id,'reason':str(exc)[:300]})
                 except Exception as exc:report["excluded"].append({"official_game_id":g["source"]["G_ID"],"error_type":type(exc).__name__,"reason":str(exc)[:300]})
             # Re-read captures so successful inference is never lost on later failures.
             for c in [r for r in ledger.read(path) if r["type"] in ("capture","unpriced_forecast")]:
@@ -131,6 +150,9 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                     if not z.get("verified"):continue
                     current=z["game"];r={"event_key":c["event_key"],**{k:e[k] for k in ("official_game_id","season","home_id","away_id")},"game_date":datetime.strptime(current["source"]["G_DT"],"%Y%m%d").date().isoformat(),"status":z.get("status","final"),"home_score":z.get("home_score"),"away_score":z.get("away_score"),"evidence":evidence(official,current["receipt"])}
                     out=ledger.settle(r,path,clock=clock);report["settled_this_run"]+=int(out is not None and out["type"]!="result_confirmation")
+                    if m1_observer is not None:
+                        try:m1_observer.settle(r)
+                        except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':e['official_game_id'],'reason':str(exc)[:300]})
                 except Exception as exc:report["excluded"].append({"official_game_id":e["official_game_id"],"result_error_type":type(exc).__name__,"reason":str(exc)[:300]})
             report["requests"]=getattr(official,"count",0)
         except Exception as exc:
@@ -141,19 +163,25 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
             if report["status"]=="failed":failures.append({"reason":"source_collection_failed","detail":report.get("reason"),"error_type":report.get("error_type")})
             ledger.close_missed_opportunities(path,failures,clock=clock)
             report["comparison"]=ledger.summary(path,now=clock())
+            if m1_observer is not None:
+                try:report['m1_comparison']=m1_observer.summary()
+                except Exception as exc:report['m1_comparison']={'status':'failed','reason':str(exc)[:300]}
+                report['m1_status']=('blocked' if report.get('m1_candidate_excluded') or report['m1_comparison'].get('status')=='failed' else 'recorded' if report['m1_comparison'].get('captured') else 'waiting_for_eligible_inputs')
             atomic_json(state/"summary.json",report["comparison"]);atomic_json(state/"last-run.json",report)
             # A digest-addressed history retains changes; identical repeated skips are quiet.
-            meaningful={k:report[k] for k in ("status","excluded","comparison")};key=ledger.digest(ledger.canonical(meaningful))
+            meaningful={k:report[k] for k in ("status","excluded","comparison")}
+            if m1_state is not None:meaningful.update({k:report.get(k) for k in ('m1_status','m1_comparison','m1_candidate_excluded')})
+            key=ledger.digest(ledger.canonical(meaningful))
             if key!=previous.get("notification_digest"):
                 atomic_json(state/"reports"/(key+".json"),report)
             report["notification_digest"]=key;atomic_json(state/"last-run.json",report)
         return report
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--state",type=Path,default=DEFAULT_STATE);ap.add_argument("--status",action="store_true");args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument("--state",type=Path,default=DEFAULT_STATE);ap.add_argument("--status",action="store_true");ap.add_argument('--m1-state',type=Path,help='opt-in separate frozen M1 rehearsal; never promotes operating picks');args=ap.parse_args()
     if args.status:
         print(json.dumps(ledger.summary(args.state/"paired-ledger.jsonl"),ensure_ascii=False));return
-    result=run_once(args.state)
+    result=run_once(args.state,m1_state=args.m1_state)
     print(json.dumps({k:result.get(k) for k in ("status","captured_this_run","unpriced_this_run","settled_this_run","requests")},ensure_ascii=False))
     if result["status"]=="failed":sys.exit(1)
 if __name__=="__main__":main()

@@ -19,3 +19,8 @@ scripts/evaluate_draw_calibration_holdout.py text eol=lf
 /experiments/kbo-m0-followup-20261103/historical/*.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /experiments/pregame-multisport-20261104/** text eol=lf
 /experiments/pregame-multisport-20261104/**/*.gz -text
+
+# Frozen coefficients and archived source receipts use exact-byte SHA256 checks.
+/research/m1_service/frozen-models.json -text
+/experiments/m1-service-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/experiments/m1-input-readiness-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

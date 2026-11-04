@@ -1,0 +1,495 @@
+{
+  "description": "Three deterministic first/middle/last preserved official-roster test rows. Retrospective replay, not actual pregame captures. No outcome labels included.",
+  "source_predictions_sha256": "ba1ed43123a58535f2ee997de4181931449008b0e9bbbba4ba317245c7525fa9",
+  "cases": [
+    {
+      "row": {
+        "fixture_id": "20260328HTSK02026",
+        "event_date": "2026-03-28",
+        "season": 2026,
+        "home_id": "SSG",
+        "away_id": "KIA",
+        "features": {
+          "away_bullpen_load": {
+            "value": null
+          },
+          "away_lineup_strength": {
+            "value": 0.2882882882882883
+          },
+          "away_rest_days": {
+            "value": 174.0
+          },
+          "away_starter_strength": {
+            "value": 1.7704918032786885
+          },
+          "away_team_strength": {
+            "value": -1.8
+          },
+          "home_bullpen_load": {
+            "value": null
+          },
+          "home_lineup_strength": {
+            "value": 0.31456953642384106
+          },
+          "home_rest_days": {
+            "value": 164.0
+          },
+          "home_starter_strength": {
+            "value": 3.5294117647058822
+          },
+          "home_team_strength": {
+            "value": -1.0
+          },
+          "park_factor": {
+            "value": null
+          }
+        },
+        "roster": {
+          "home": {
+            "hitters": [
+              "67893",
+              "53827",
+              "75847",
+              "78224",
+              "51868",
+              "50854",
+              "51865",
+              "62934",
+              "54812"
+            ],
+            "starter": "55855"
+          },
+          "away": {
+            "hitters": [
+              "65653",
+              "56626",
+              "52605",
+              "62947",
+              "78603",
+              "69636",
+              "52667",
+              "78122",
+              "50657"
+            ],
+            "starter": "54640"
+          }
+        }
+      },
+      "expected": {
+        "m0_projected": {
+          "away_rate": 5.580848500447248,
+          "event_date": "2026-03-28",
+          "fixture_id": "20260328HTSK02026",
+          "home_rate": 5.4792328780988315,
+          "probabilities_2way": {
+            "away": 0.5137113916365754,
+            "home": 0.4862886083634246
+          },
+          "probabilities_3way": {
+            "away": 0.45137931588782126,
+            "draw": 0.12133675982963392,
+            "home": 0.42728392428254486
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ],
+            "home": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "m1_projected": {
+          "away_rate": 4.949995182585869,
+          "event_date": "2026-03-28",
+          "fixture_id": "20260328HTSK02026",
+          "home_rate": 4.683849456392562,
+          "probabilities_2way": {
+            "away": 0.5387497983924944,
+            "home": 0.46125020160750557
+          },
+          "probabilities_3way": {
+            "away": 0.46878951720720335,
+            "draw": 0.12985671900766627,
+            "home": 0.4013537637851303
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ],
+            "home": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "m0_actual": {
+          "away_rate": 5.543133559415346,
+          "event_date": "2026-03-28",
+          "fixture_id": "20260328HTSK02026",
+          "home_rate": 5.203463256166759,
+          "probabilities_2way": {
+            "away": 0.5464766731184031,
+            "home": 0.45352332688159697
+          },
+          "probabilities_3way": {
+            "away": 0.4794975954327623,
+            "draw": 0.12256530055241469,
+            "home": 0.39793710401482296
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ],
+            "home": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "row": {
+        "fixture_id": "20260623HTWO02026",
+        "event_date": "2026-06-23",
+        "season": 2026,
+        "home_id": "키움",
+        "away_id": "KIA",
+        "features": {
+          "away_bullpen_load": {
+            "value": 21.0
+          },
+          "away_lineup_strength": {
+            "value": 0.34674922600619196
+          },
+          "away_rest_days": {
+            "value": 1.0
+          },
+          "away_starter_strength": {
+            "value": 3.142857142857143
+          },
+          "away_team_strength": {
+            "value": -0.2
+          },
+          "home_bullpen_load": {
+            "value": 12.0
+          },
+          "home_lineup_strength": {
+            "value": 0.2875816993464052
+          },
+          "home_rest_days": {
+            "value": 1.0
+          },
+          "home_starter_strength": {
+            "value": 2.9008264462809916
+          },
+          "home_team_strength": {
+            "value": -1.2
+          },
+          "park_factor": {
+            "value": null
+          }
+        },
+        "roster": {
+          "home": {
+            "hitters": [
+              "78168",
+              "56305",
+              "65898",
+              "79608",
+              "76267",
+              "64346",
+              "68362",
+              "55392",
+              "53344"
+            ],
+            "starter": "56318"
+          },
+          "away": {
+            "hitters": [
+              "55636",
+              "65653",
+              "52605",
+              "62947",
+              "56626",
+              "78603",
+              "68646",
+              "69727",
+              "66614"
+            ],
+            "starter": "55633"
+          }
+        }
+      },
+      "expected": {
+        "m0_projected": {
+          "away_rate": 5.778154198388353,
+          "event_date": "2026-06-23",
+          "fixture_id": "20260623HTWO02026",
+          "home_rate": 4.48816950480295,
+          "probabilities_2way": {
+            "away": 0.6752816405209774,
+            "home": 0.3247183594790226
+          },
+          "probabilities_3way": {
+            "away": 0.5964497546928503,
+            "draw": 0.11673927010263234,
+            "home": 0.2868109752045173
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              1.0
+            ],
+            "home": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "m1_projected": {
+          "away_rate": 4.420001604268568,
+          "event_date": "2026-06-23",
+          "fixture_id": "20260623HTWO02026",
+          "home_rate": 3.0960906251722675,
+          "probabilities_2way": {
+            "away": 0.7111552101850404,
+            "home": 0.2888447898149597
+          },
+          "probabilities_3way": {
+            "away": 0.6167082942082422,
+            "draw": 0.13280773961034922,
+            "home": 0.25048396618140845
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              1.0
+            ],
+            "home": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "m0_actual": {
+          "away_rate": 5.611701459827678,
+          "event_date": "2026-06-23",
+          "fixture_id": "20260623HTWO02026",
+          "home_rate": 4.383724749073277,
+          "probabilities_2way": {
+            "away": 0.669771006728295,
+            "home": 0.3302289932717049
+          },
+          "probabilities_3way": {
+            "away": 0.590065833450275,
+            "draw": 0.11900361836706677,
+            "home": 0.2909305481826583
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              1.0
+            ],
+            "home": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "row": {
+        "fixture_id": "score:2026-10-27:삼성:KIA",
+        "event_date": "2026-10-27",
+        "season": 2026,
+        "home_id": "삼성",
+        "away_id": "KIA",
+        "features": {
+          "away_bullpen_load": {
+            "value": 14.0
+          },
+          "away_lineup_strength": {
+            "value": 0.3196480938416422
+          },
+          "away_rest_days": {
+            "value": 0.0
+          },
+          "away_starter_strength": {
+            "value": 3.0815217391304346
+          },
+          "away_team_strength": {
+            "value": 3.7
+          },
+          "home_bullpen_load": {
+            "value": 13.0
+          },
+          "home_lineup_strength": {
+            "value": 0.3931034482758621
+          },
+          "home_rest_days": {
+            "value": 0.0
+          },
+          "home_starter_strength": {
+            "value": 4.5
+          },
+          "home_team_strength": {
+            "value": -3.3
+          },
+          "park_factor": {
+            "value": null
+          }
+        },
+        "roster": {
+          "home": {
+            "hitters": [
+              "50458",
+              "69418",
+              "62404",
+              "54400",
+              "72443",
+              "52430",
+              "74540",
+              "62234",
+              "52415"
+            ],
+            "starter": "53375"
+          },
+          "away": {
+            "hitters": [
+              "55636",
+              "68504",
+              "52605",
+              "56626",
+              "62947",
+              "78603",
+              "68646",
+              "62700",
+              "65653"
+            ],
+            "starter": "55633"
+          }
+        }
+      },
+      "expected": {
+        "m0_projected": {
+          "away_rate": 5.181851115174264,
+          "event_date": "2026-10-27",
+          "fixture_id": "score:2026-10-27:삼성:KIA",
+          "home_rate": 5.10793292818765,
+          "probabilities_2way": {
+            "away": 0.5103865100894893,
+            "home": 0.48961348991051074
+          },
+          "probabilities_3way": {
+            "away": 0.4461089038968069,
+            "draw": 0.12593907738943205,
+            "home": 0.42795201871376093
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ],
+            "home": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "m1_projected": {
+          "away_rate": 4.65139922948785,
+          "event_date": "2026-10-27",
+          "fixture_id": "score:2026-10-27:삼성:KIA",
+          "home_rate": 5.918377355963972,
+          "probabilities_2way": {
+            "away": 0.330251401351546,
+            "home": 0.669748598648454
+          },
+          "probabilities_3way": {
+            "away": 0.292088218632704,
+            "draw": 0.11555797360029388,
+            "home": 0.5923538077670022
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ],
+            "home": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "m0_actual": {
+          "away_rate": 5.187959320613047,
+          "event_date": "2026-10-27",
+          "fixture_id": "score:2026-10-27:삼성:KIA",
+          "home_rate": 5.015505814357922,
+          "probabilities_2way": {
+            "away": 0.5243341911663526,
+            "home": 0.47566580883364734
+          },
+          "probabilities_3way": {
+            "away": 0.4580887092520119,
+            "draw": 0.12634209828464793,
+            "home": 0.4155691924633401
+          },
+          "roster_coverage": {
+            "away": [
+              0.0,
+              0.1111111111111111,
+              0.0,
+              0.0
+            ],
+            "home": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
