@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-11-05T00:24:17.2655699+09:00",
+  "installed_revision": "4c64a4a0ddd779e8e0ae1af3478c7c15ef66000a",
+  "task_name": "ProtoKboM0Forward-v1",
+  "enabled": true,
+  "task_state": "Ready",
+  "last_scheduled_run": "2026-11-05T00:23:51.0000000+09:00",
+  "last_exit": 0,
+  "next_run": "2026-11-05T00:28:50.0000000+09:00",
+  "repeat_interval": "PT5M",
+  "collector_started": "2026-11-05T00:23:52.923986+09:00",
+  "collector_finished": "2026-11-05T00:23:53.086944+09:00",
+  "collector_status": "ok",
+  "m0_status": "waiting_for_eligible_inputs",
+  "common_comparison": {
+    "bridge_attempts": [],
+    "captured": 0,
+    "final_operating_performance_verified": false,
+    "formal_promotion_eligible": false,
+    "methods": {
+      "m0_actual": {
+        "bets": 0,
+        "decided": 0,
+        "hit_rate": null,
+        "hits": 0,
+        "net_units": "0",
+        "roi": null
+      },
+      "market": {
+        "bets": 0,
+        "decided": 0,
+        "hit_rate": null,
+        "hits": 0,
+        "net_units": "0",
+        "roi": null
+      },
+      "operating_vote": {
+        "bets": 0,
+        "decided": 0,
+        "hit_rate": null,
+        "hits": 0,
+        "net_units": "0",
+        "roi": null
+      }
+    },
+    "paper_wallet_changed": false,
+    "pending_eligible_m0_captures": 0,
+    "production_policy_changed": false,
+    "sample_scope": "first_common_shadow_not_final_operating_performance",
+    "schema": "prospective-common-shadow-v1",
+    "settled": 0
+  },
+  "scope": "Actual next scheduled run after the new runtime manual activation. No future game performance verified."
+}
