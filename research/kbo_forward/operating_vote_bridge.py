@@ -25,14 +25,14 @@ from research.m1_service.model import metadata, forecast, TEAM_NAMES
 MAX_RECORDS = 1000
 MAX_EXPORT_BYTES = 32 * 1024 * 1024
 MAX_STDERR_BYTES = 64 * 1024
+MAX_TRANSPORT_BYTES = 64 * 1024 * 1024
+MAX_MACHINE_LIST_BYTES = 2 * 1024 * 1024
 MAX_REFRESH_EVENTS = 5
 TRANSPORT_TIMEOUT_SECONDS = 25
 
 
-def _bounded_fly(command):
+def _bounded_process(args, stdout_limit):
     """Drain both pipes while enforcing hard byte and wall-clock limits."""
-    args = ['flyctl', 'ssh', 'console', '-q', '--pty=false', '-a',
-            'proto-odds-collector', '-C', command]
     flags = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
     proc = subprocess.Popen(args, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, creationflags=flags)
@@ -53,7 +53,7 @@ def _bounded_fly(command):
             errors.append(name + '_read_failed')
             try: proc.kill()
             except OSError: pass
-    threads = [threading.Thread(target=drain, args=('stdout', proc.stdout, MAX_EXPORT_BYTES), daemon=True),
+    threads = [threading.Thread(target=drain, args=('stdout', proc.stdout, stdout_limit), daemon=True),
                threading.Thread(target=drain, args=('stderr', proc.stderr, MAX_STDERR_BYTES), daemon=True)]
     for thread in threads: thread.start()
     try:
@@ -70,6 +70,40 @@ def _bounded_fly(command):
     if errors: raise ValueError('fly_transport_' + errors[0])
     if code != 0: raise ValueError('fly_transport_nonzero_exit:' + str(code))
     return bytes(data['stdout'])
+
+
+def _running_machine():
+    raw = _bounded_process(['flyctl', 'machine', 'list', '-a', 'proto-odds-collector', '--json'],
+                           MAX_MACHINE_LIST_BYTES)
+    machines = json.loads(raw)
+    if not isinstance(machines, list) or len(machines) > 100:
+        raise ValueError('fly_machine_list_invalid')
+    active = [m for m in machines if isinstance(m, dict) and m.get('state') == 'started'
+              and (m.get('config') or {}).get('metadata', {}).get('fly_process_group') == 'app']
+    if len(active) != 1:
+        raise ValueError('fly_running_app_machine_missing_or_ambiguous')
+    identity = active[0].get('id')
+    if not isinstance(identity, str) or not re.fullmatch(r'[0-9a-f]{8,32}', identity):
+        raise ValueError('fly_machine_id_invalid')
+    return identity
+
+
+def _machine_export(machine_id, command):
+    envelope = json.loads(_bounded_process(
+        ['flyctl', 'machine', 'exec', machine_id, command, '-a', 'proto-odds-collector',
+         '-j', '--timeout', str(TRANSPORT_TIMEOUT_SECONDS - 5)], MAX_TRANSPORT_BYTES))
+    if not isinstance(envelope, dict) or set(envelope) - {'stdout', 'stderr', 'exit_code'}:
+        raise ValueError('fly_machine_exec_response_invalid')
+    # Fly's JSON omits the zero exit_code; nonzero codes are explicitly emitted.
+    remote_exit = envelope.get('exit_code', 0)
+    if type(remote_exit) is not int or remote_exit != 0:
+        raise ValueError('fly_machine_exec_remote_nonzero_exit')
+    if envelope.get('stderr') or not isinstance(envelope.get('stdout'), str):
+        raise ValueError('fly_machine_exec_output_invalid')
+    raw = envelope['stdout'].encode('utf-8')
+    if not raw or len(raw) > MAX_EXPORT_BYTES:
+        raise ValueError('fly_machine_exec_export_limit_or_empty')
+    return raw
 
 
 def _store_content(root, raw):
@@ -123,13 +157,14 @@ def refresh_operating_export(state, events, now, *, clock=lambda: datetime.now(t
     script = script_path.read_bytes()
     root = Path(state['export_path']).parent / 'operating-export-archive'
     exports, errors = {}, {}
+    machine_id = _running_machine()
     for event in events:
         identity = event['official_game_id']
         try:
             command = _remote_export_command(script, event)
             requested = clock()
             if requested < start: raise ValueError('refresh_clock_before_request')
-            raw = _bounded_fly(command)
+            raw = _machine_export(machine_id, command)
             received = clock()
             if received < requested: raise ValueError('refresh_clock_moved_backwards')
             obj = json.loads(raw)
@@ -157,8 +192,9 @@ def refresh_operating_export(state, events, now, *, clock=lambda: datetime.now(t
                            or moment(r['captured_at']) > moment(meta['queried_at']) for r in rows)):
                 raise ValueError('remote_export_rows_mismatch')
             export_path, sha = _store_content(root / 'exports', raw)
-            receipt = {'schema': 'fly-readonly-export-receipt-v1', 'transport': 'flyctl_ssh',
-                       'exit_code': 0, 'export_sha256': sha, 'exporter_raw_sha256': hashlib.sha256(script).hexdigest(),
+            receipt = {'schema': 'fly-readonly-export-receipt-v1', 'transport': 'flyctl_machine_exec',
+                       'exit_code': 0, 'remote_exit_code': 0, 'machine_id': machine_id,
+                       'export_sha256': sha, 'exporter_raw_sha256': hashlib.sha256(script).hexdigest(),
                        'official_game_id': identity, 'requested_at': requested.isoformat(),
                        'received_at': received.isoformat(), 'external_authentication': False}
             receipt_raw = canonical(receipt)
@@ -173,6 +209,18 @@ def refresh_operating_export(state, events, now, *, clock=lambda: datetime.now(t
         if errors: raise ValueError(next(iter(errors.values())))
         return exports[ids[0]]
     return {'exports_by_official_id': exports, 'errors_by_official_id': errors}
+
+
+def _receipt_matches(receipt, export_hash):
+    if not isinstance(receipt, dict) or not export_hash or receipt.get('export_sha256') != export_hash:
+        return False
+    if receipt.get('transport') == 'flyctl_machine_exec':
+        return (type(receipt.get('exit_code')) is int and receipt['exit_code'] == 0
+                and type(receipt.get('remote_exit_code')) is int and receipt['remote_exit_code'] == 0
+                and isinstance(receipt.get('machine_id'), str)
+                and bool(re.fullmatch(r'[0-9a-f]{8,32}', receipt['machine_id'])))
+    return (receipt.get('transport') == 'flyctl_ssh'
+            and type(receipt.get('exit_code')) is int and receipt['exit_code'] == 0)
 
 
 def load_operating_export(state, events, now):
@@ -213,8 +261,7 @@ def load_operating_export(state, events, now):
     receipt_at = state.get('received_at') or (source_receipt or {}).get('received_at')
     complete, reasons = _export_completeness(records, meta, receipt_at, now)
     export_hash = hashlib.sha256(raw).hexdigest()
-    if (not isinstance(source_receipt, dict) or source_receipt.get('transport') != 'flyctl_ssh'
-            or source_receipt.get('export_sha256') != export_hash):
+    if not _receipt_matches(source_receipt, export_hash):
         complete = False
         reasons = ['operating_ssh_receipt_missing_or_mismatched']
     return {'records': records, 'evidence': {k: v for k, v in evidence.items() if k in wanted},
@@ -323,9 +370,7 @@ def _match(capture, export, now):
         raise ValueError('not_m1_priced_capture')
     receipt = export.get('source_receipt')
     meta = export.get('metadata', {})
-    if (not isinstance(receipt, dict) or receipt.get('transport') != 'flyctl_ssh'
-            or receipt.get('export_sha256') != export.get('export_sha256')
-            or not export.get('export_sha256')):
+    if not _receipt_matches(receipt, export.get('export_sha256')):
         raise ValueError('operating_ssh_receipt_missing_or_mismatched')
     if not moment(meta['queried_at']) <= moment(receipt['received_at']) <= now:
         raise ValueError('operating_ssh_receipt_clock_invalid')
