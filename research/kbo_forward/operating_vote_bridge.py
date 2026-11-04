@@ -229,7 +229,8 @@ def _match(capture, export, now):
         if not isinstance(row, dict): raise ValueError('invalid_operating_record')
         fixture = row.get('features', {}).get('fixture', {})
         ids = [fixture.get('source_event_id'), fixture.get('match_id')]
-        direct = event['official_game_id'] in ids
+        direct = (event['official_game_id'] in ids
+                  and all(not value or value == event['official_game_id'] for value in ids))
         fallback = not any(ids) and _fixture_matches(fixture, event)
         if (direct and _fixture_matches(fixture, event)) or fallback:
             op_rows.append(row)
@@ -264,8 +265,27 @@ def _match(capture, export, now):
     if op['operating']['market'] != '승패' or len(roster) != 2:
         raise ValueError('operating_market_mismatch')
     market_id = market['market_id']
-    if not all(_offer_matches(row, option, market_id) for option in roster):
-        raise ValueError('operating_game_number_unverified')
+    game_number_verified = all(_offer_matches(row, option, market_id) for option in roster)
+    degraded = False
+    if not game_number_verified:
+        mapping = meta.get('mapping') or {}
+        parts = market_id.split(':')
+        if (mapping.get('mapping') != 'degraded_unique_fixture_round_two_way'
+                or mapping.get('candidate_event_count') != 1
+                or mapping.get('uniqueness_scope') != 'last_3_days_bounded_prediction_rows'
+                or mapping.get('game_number_verified') is not False
+                or mapping.get('internal_event_id') != row['event_id']
+                or mapping.get('official_id') != event['official_game_id']
+                or mapping.get('home_id') != event['home_id']
+                or mapping.get('away_id') != event['away_id']
+                or moment(mapping.get('kickoff')) != kickoff
+                or mapping.get('market_id') != market_id
+                or len(parts) != 3 or parts[0] != 'G101' or len(parts[1]) != 6
+                or not all(p.isdigit() for p in parts[1:])
+                or int(parts[1][:2]) != event['season'] % 100
+                or str(row['features']['fixture'].get('round')) != str(int(parts[1][-3:]))):
+            raise ValueError('operating_game_number_unverified')
+        degraded = True
     prices = {sides[x['selection']]: x['odds'] for x in roster}
     if set(prices) != {'home', 'away'}:
         raise ValueError('operating_prices_incomplete')
@@ -282,18 +302,22 @@ def _match(capture, export, now):
         if moment(receipt['received_at']) != moment(op['market_observed_at']):
             raise ValueError('operating_price_receipt_mismatch')
         _verify_market_bytes(packet, export.get('price_archive_root'))
-        verified_raw = True
+        verified_raw = not degraded
     market_probs = {sides[x['selection']]: x.get('market_probability') for x in roster}
     if any(type(v) not in (int, float) or not math.isfinite(v) for v in market_probs.values()) or market_probs['home'] == market_probs['away']:
         raise ValueError('market_selection_missing_or_tied')
     exact = (verified_raw and market == op_market and original_price_time == moment(receipt['received_at'])
              and payload['evidence']['odds']['raw_sha256'] == receipt['raw_sha256'])
     return {'status': 'eligible', 'reason': None, 'exclusion_reasons': [],
-            'comparison_kind': 'matched_exact_original_frame' if exact else 'operating_price_shadow',
+            'comparison_kind': 'degraded_first_shadow' if degraded else ('matched_exact_original_frame' if exact else 'operating_price_shadow'),
             'original_m0_price_differs': market['odds'] != prices or original_price_time != moment(op['market_observed_at']),
             'original_m0_market': market, 'original_m0_price_received_at': original_price_time.isoformat(),
             'operating_record_hash': row['record_hash'], 'operating_snapshot_id': row['snapshot_id'],
-            'official_game_id': event['official_game_id'], 'market_id': market_id,
+            'official_game_id': event['official_game_id'], 'market_id': None if degraded else market_id,
+            'candidate_m0_market_id': market_id, 'game_number_verified': game_number_verified,
+            'operating_market_identity_verified': game_number_verified,
+            'operating_settlement_rule_verified': False,
+            'identity_limitation': 'offer_id_recipe_or_game_number_unverified' if degraded else None,
             'price_received_at': op['market_observed_at'], 'shared_prices': prices,
             'three_selections': {'m0_actual': m0_side, 'operating_vote': sides[op['operating']['selection']],
                                  'market': max(market_probs, key=market_probs.get)},
@@ -302,6 +326,6 @@ def _match(capture, export, now):
             'hash_chain_verified': False, 'final_operating_performance_verified': False,
             'official_raw_price_verified': verified_raw, 'formal_promotion_eligible': False,
             'source_stage': 'saved_operating_snapshot_transport_not_independently_authenticated',
-            'sample_scope': 'first_common_shadow_not_final_operating_performance',
+            'sample_scope': 'degraded_first_shadow_not_final_operating_performance' if degraded else 'first_common_shadow_not_final_operating_performance',
             'source_scope': 'local archived bytes and clocks checked; no external timestamp authentication',
             'actual_execution_verified': False}

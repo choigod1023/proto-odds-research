@@ -56,23 +56,27 @@ def fixture_matches(row, target):
     local = datetime(target['season'], *map(int, match.groups()), tzinfo=timezone(timedelta(hours=9)))
     if local != moment(target['kickoff']):
         return False
-    ids = [fixture.get('source_event_id'), fixture.get('match_id')]
-    if any(ids) and target['official_id'] not in ids:
-        return False
+    parts = target['market_id'].split(':')
+    return (len(parts) == 3 and parts[0] == 'G101' and len(parts[1]) == 6
+            and all(x.isdigit() for x in parts[1:])
+            and int(parts[1][:2]) == target['season'] % 100
+            and str(fixture.get('round')) == str(int(parts[1][-3:])))
+
+
+def full_market(row):
     options = [o for o in row.get('features', {}).get('options', [])
                if o.get('market') == '승패' and not o.get('label') and o.get('line') is None]
-    return (len(options) == 2 and {o.get('selection') for o in options} == {'홈', '원정'}
-            and all(offer_matches(o, fixture, target['market_id']) for o in options))
+    return options if len(options) == 2 and {o.get('selection') for o in options} == {'홈', '원정'} else []
 
 
-def discover(conn, target, now):
+def discover(conn, target, now, *, allow_degraded=False):
     if (not target.get('official_id') or target.get('home_id') not in TEAMS
             or target.get('away_id') not in TEAMS or target['home_id'] == target['away_id']
             or type(target.get('season')) is not int):
         raise ValueError('discovery_target_invalid')
     cutoff = (now - timedelta(days=3)).isoformat()
     cursor = conn.execute("SELECT record_json FROM prediction_records WHERE record_type='prediction' AND julianday(captured_at)>=julianday(?) ORDER BY ledger_sequence DESC LIMIT ?", (cutoff, MAX_SCAN + 1))
-    event_ids = set(); seen = 0; size = 0
+    event_ids = set(); matched_rows = []; seen = 0; size = 0
     for (raw,) in cursor:
         seen += 1
         if seen > MAX_SCAN:
@@ -81,17 +85,45 @@ def discover(conn, target, now):
         if size > MAX_BYTES:
             raise ValueError('discovery_byte_limit_exceeded')
         row = json.loads(raw)
-        if fixture_matches(row, target): event_ids.add(row['event_id'])
+        if fixture_matches(row, target):
+            fixture = row['features']['fixture']
+            ids = (fixture.get('source_event_id'), fixture.get('match_id'))
+            if any(value != target['official_id'] for value in ids if value):
+                raise ValueError('discovery_conflicting_official_id')
+            event_ids.add(row['event_id']); matched_rows.append(row)
     if len(event_ids) != 1:
         raise ValueError('discovery_no_match' if not event_ids else 'discovery_ambiguous')
+    cutoff_time = moment(target['kickoff']) - timedelta(minutes=30)
+    pre_cutoff = []
+    for row in matched_rows:
+        as_of, captured = moment(row['as_of']), moment(row['captured_at'])
+        if max(as_of, captured) < cutoff_time:
+            pre_cutoff.append(((as_of, captured, row['ledger_sequence']), row))
+    if not pre_cutoff:
+        raise ValueError('discovery_pre_cutoff_revision_missing')
+    order = max(key for key, _ in pre_cutoff)
+    latest = [row for key, row in pre_cutoff if key == order]
+    if len(latest) != 1:
+        raise ValueError('discovery_ambiguous_latest_revision')
+    chosen = latest[0]
+    offers = full_market(chosen)
+    strict = bool(offers) and all(offer_matches(o, chosen['features']['fixture'], target['market_id'])
+                                  for o in offers)
+    if not strict and not allow_degraded:
+        raise ValueError('discovery_offer_id_unverified')
+    if not offers:
+        raise ValueError('discovery_complete_two_way_missing')
+    mode = 'exact_kbo_fixture_and_both_offer_ids' if strict else 'degraded_unique_fixture_round_two_way'
     return next(iter(event_ids)), {'official_id': target['official_id'],
            'internal_event_id': next(iter(event_ids)), 'home_id': target['home_id'],
            'away_id': target['away_id'], 'kickoff': target['kickoff'],
            'market_id': target['market_id'], 'rows_scanned': seen, 'window_days': 3,
-           'mapping': 'exact_kbo_fixture_and_both_offer_ids'}
+           'mapping': mode, 'candidate_event_count': len(event_ids),
+           'game_number_verified': strict,
+           'uniqueness_scope': 'last_3_days_bounded_prediction_rows'}
 
 
-def export(db, events=None, target=None):
+def export(db, events=None, target=None, *, allow_degraded=False):
     events = list(events or [])
     if target is None and (not events or len(events) > MAX_EVENTS or len(set(events)) != len(events)):
         raise ValueError('event_id_bound_or_duplicates')
@@ -105,7 +137,7 @@ def export(db, events=None, target=None):
     try:
         started = datetime.now(timezone.utc); mapping = None
         if target is not None:
-            event_id, mapping = discover(conn, target, started)
+            event_id, mapping = discover(conn, target, started, allow_degraded=allow_degraded)
             events = [event_id]
         counts = {}; rows = []; total_bytes = 0
         for event in events:
@@ -136,12 +168,13 @@ def main():
     p.add_argument('--db', required=True); p.add_argument('--event-id', action='append')
     p.add_argument('--official-id'); p.add_argument('--season', type=int)
     p.add_argument('--home-id'); p.add_argument('--away-id'); p.add_argument('--kickoff'); p.add_argument('--market-id')
+    p.add_argument('--allow-degraded-first-shadow', action='store_true')
     args = p.parse_args()
     target = None
     if args.official_id:
         target = dict(official_id=args.official_id, season=args.season, home_id=args.home_id,
                       away_id=args.away_id, kickoff=args.kickoff, market_id=args.market_id)
-    print(json.dumps(export(args.db, args.event_id, target), ensure_ascii=False, separators=(',', ':'), allow_nan=False))
+    print(json.dumps(export(args.db, args.event_id, target, allow_degraded=args.allow_degraded_first_shadow), ensure_ascii=False, separators=(',', ':'), allow_nan=False))
 
 
 if __name__ == '__main__': main()

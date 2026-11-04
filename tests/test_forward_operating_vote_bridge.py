@@ -144,6 +144,29 @@ def test_shadow_uses_saved_operating_price_and_blocks_late_or_withheld(monkeypat
     withheld['record_hash'] = b._hash_row(withheld)
     result = b.match_operating(capture, make_export([op, withheld]), NOW.isoformat())
     assert result['status'] == 'excluded' and 'operating_revision_excluded:' in result['reason']
+    degraded = copy.deepcopy(op)
+    degraded['features']['fixture']['source_event_id'] = None
+    for option in degraded['features']['options']:
+        option['offer_id'] = 'unresolved-' + option['selection_id']
+    chosen = next(o for o in degraded['features']['options']
+                  if o['selection_id'] == degraded['predictions']['selection_id'])
+    degraded['predictions']['offer_id'] = chosen['offer_id']
+    degraded['record_hash'] = b._hash_row(degraded)
+    candidate = make_export([degraded])
+    assert b.match_operating(capture, candidate, NOW.isoformat())['reason'] == 'operating_game_number_unverified'
+    candidate['metadata']['mapping'] = {
+        'mapping': 'degraded_unique_fixture_round_two_way', 'candidate_event_count': 1,
+        'uniqueness_scope': 'last_3_days_bounded_prediction_rows', 'game_number_verified': False,
+        'internal_event_id': degraded['event_id'], 'official_id': 'g1', 'home_id': 'SS',
+        'away_id': 'KT', 'kickoff': op['kickoff'], 'market_id': 'G101:260131:44'}
+    result = b.match_operating(capture, candidate, NOW.isoformat())
+    assert result['status'] == 'eligible' and result['comparison_kind'] == 'degraded_first_shadow'
+    assert result['market_id'] is None and result['candidate_m0_market_id'] == 'G101:260131:44'
+    assert result['identity_limitation'] == 'offer_id_recipe_or_game_number_unverified'
+    assert not result['game_number_verified'] and not result['formal_promotion_eligible']
+    assert not result['official_raw_price_verified'] and not result['final_operating_performance_verified']
+    candidate['metadata']['mapping']['candidate_event_count'] = 2
+    assert b.match_operating(capture, candidate, NOW.isoformat())['reason'] == 'operating_game_number_unverified'
 
 
 
@@ -175,10 +198,24 @@ def test_official_discovery_resolves_internal_id_only_after_exact_offer_match(tm
     assert got['metadata']['mapping']['internal_event_id'] == op['event_id']
     assert got['metadata']['mapping']['official_id'] == 'g1'
     assert list(got['metadata']['events']) == [op['event_id']]
-    with pytest.raises(ValueError, match='discovery_no_match'):
+    with pytest.raises(ValueError, match='discovery_offer_id_unverified'):
         run_export(path, target={**target, 'market_id': 'G101:260131:45'})
     with pytest.raises(ValueError, match='discovery_no_match'):
         run_export(path, target={**target, 'home_id': 'LG'})
+    # A later revision with changed IDs must not inherit the older strict match.
+    import copy
+    newer = copy.deepcopy(op)
+    newer['ledger_sequence'] = 2
+    newer['as_of'] = now.isoformat()
+    for option in newer['features']['options']:
+        option['offer_id'] = 'different-' + option['selection_id']
+    c = sqlite3.connect(path)
+    c.execute('insert into prediction_records values(?,?,?,?,?)',
+              (newer['event_id'], 'prediction', 2, newer['captured_at'], json.dumps(newer)))
+    c.commit(); c.close()
+    with pytest.raises(ValueError, match='discovery_offer_id_unverified'):
+        run_export(path, target=target)
+    assert run_export(path, target=target, allow_degraded=True)['metadata']['mapping']['mapping'] == 'degraded_unique_fixture_round_two_way'
 
 
 
@@ -194,3 +231,52 @@ def test_loader_completeness_requires_receipt_bound_to_export_bytes(tmp_path):
     assert b.load_operating_export(state, ['g1'], query.isoformat())['complete'] is True
     receipt['export_sha256'] = 'wrong'
     assert b.load_operating_export(state, ['g1'], query.isoformat())['complete'] is False
+
+
+
+def test_degraded_discovery_requires_unique_event_exact_time_round_and_market(tmp_path):
+    from scripts.export_forward_operating_votes import export as run_export
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('op_degraded_fixture', 'tests/test_operating_ledger_inputs.py')
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    op, _ = mod.operating_record()
+    now = datetime.now(timezone.utc)
+    kickoff = (now + timedelta(days=1)).replace(second=0, microsecond=0)
+    local = kickoff.astimezone(timezone(timedelta(hours=9)))
+    op['features']['fixture'].update(league='KBO', sport='bs', home='삼성', away='KT',
+                                     year=local.year, date=local.strftime('%m.%d(금) %H:%M'),
+                                     source_event_id=None, match_id=None, round=131)
+    op['kickoff'] = kickoff.isoformat(); op['captured_at'] = now.isoformat()
+    path = tmp_path/'discover.db'; c = sqlite3.connect(path)
+    c.execute('create table prediction_records(event_id text, record_type text, ledger_sequence integer, captured_at text, record_json text)')
+    def insert(r):
+        c.execute('insert into prediction_records values(?,?,?,?,?)', (r['event_id'], 'prediction', r['ledger_sequence'], r['captured_at'], json.dumps(r)))
+    insert(op); c.commit()
+    target = {'official_id': 'g1', 'season': local.year, 'home_id': 'SS', 'away_id': 'KT',
+              'kickoff': kickoff.isoformat(), 'market_id': f'G101:{local.year % 100:02d}0131:44'}
+    with pytest.raises(ValueError, match='discovery_offer_id_unverified'):
+        run_export(path, target=target)
+    got = run_export(path, target=target, allow_degraded=True)
+    mapping = got['metadata']['mapping']
+    assert mapping['mapping'] == 'degraded_unique_fixture_round_two_way'
+    assert not mapping['game_number_verified'] and mapping['candidate_event_count'] == 1
+    assert mapping['uniqueness_scope'] == 'last_3_days_bounded_prediction_rows'
+    with pytest.raises(ValueError, match='discovery_no_match'):
+        run_export(path, target={**target, 'kickoff': (kickoff+timedelta(minutes=1)).isoformat()}, allow_degraded=True)
+    with pytest.raises(ValueError, match='discovery_no_match'):
+        run_export(path, target={**target, 'market_id': f'G101:{local.year % 100:02d}0132:44'}, allow_degraded=True)
+    import copy
+    ambiguous_roster = copy.deepcopy(op)
+    ambiguous_roster['features']['options'].append(copy.deepcopy(ambiguous_roster['features']['options'][0]))
+    c.execute('update prediction_records set record_json=? where ledger_sequence=1', (json.dumps(ambiguous_roster),))
+    c.commit()
+    with pytest.raises(ValueError, match='discovery_complete_two_way_missing'):
+        run_export(path, target=target, allow_degraded=True)
+    c.execute('update prediction_records set record_json=? where ledger_sequence=1', (json.dumps(op),))
+    c.commit()
+    duplicate = copy.deepcopy(op)
+    duplicate['event_id'] = 'another-event'; duplicate['ledger_sequence'] = 2
+    duplicate['features']['options'] = []  # An incomplete competing event still defeats uniqueness.
+    insert(duplicate); c.commit(); c.close()
+    with pytest.raises(ValueError, match='discovery_ambiguous'):
+        run_export(path, target=target, allow_degraded=True)
