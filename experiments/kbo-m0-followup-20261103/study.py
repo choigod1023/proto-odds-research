@@ -4,9 +4,19 @@ from pathlib import Path
 P=Path(__file__).resolve().parent;REPO=P.parents[1];BASE="experiments/kbo-m0-followup-20261103/";sys.path.insert(0,str(P/"vendor/evolution/common"));import core
 import metrics,outcome_metrics
 SOURCES={}
+REPLAY_MANIFEST_SHA256="c9cc637a6e2f5b99441e1184d0cf475ef8b609064c0ec5b0184e79887212d5ec"
 
 def fixed(rev,path,repo=REPO):
- raw=subprocess.check_output(["git","-C",str(repo),"show",rev+":"+path]);SOURCES[rev+":"+path]=hashlib.sha256(raw).hexdigest();body=gzip.decompress(raw) if path.endswith(".gz") else raw;return [json.loads(line) for line in body.splitlines() if line.strip()] if ".jsonl" in path else json.loads(body)
+ # Original local-only commits are absent in a fresh CI checkout. Preserve
+ # their exact blobs, not replacements from the current tree or new results.
+ manifest_raw=(P/"replay-sources.json").read_bytes()
+ if hashlib.sha256(manifest_raw).hexdigest()!=REPLAY_MANIFEST_SHA256:raise ValueError("frozen replay manifest changed")
+ entry=json.loads(manifest_raw)["sources"].get(rev+":"+path)
+ if entry is not None:
+  raw=gzip.decompress((P/entry["relative_path"]).read_bytes())
+  if len(raw)!=entry["raw_bytes"] or hashlib.sha256(raw).hexdigest()!=entry["raw_sha256"]:raise ValueError("frozen replay blob changed")
+ else:raw=subprocess.check_output(["git","-C",str(repo),"show",rev+":"+path])
+ SOURCES[rev+":"+path]=hashlib.sha256(raw).hexdigest();body=gzip.decompress(raw) if path.endswith(".gz") else raw;return [json.loads(line) for line in body.splitlines() if line.strip()] if ".jsonl" in path else json.loads(body)
 def unique(x):return core.unique(x)
 def validate(preds,targets):
  target_map=unique(targets);ids=set(target_map)
