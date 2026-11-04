@@ -75,4 +75,64 @@ class SeasonTests(unittest.TestCase):
             self.assertEqual(old_path.read_bytes(),old_bytes)
             self.assertEqual(cached['received_at'],meta['received_at'])
 
+    def test_refresh_schedule_batch_resume_and_versioned_identity(self):
+        import tempfile, json, gzip, sys
+        from datetime import datetime, timezone
+        from unittest.mock import patch
+        class Clock(datetime):
+            @classmethod
+            def now(cls, tz=None): return cls(2026,11,4,12,0,tzinfo=timezone.utc).astimezone(tz)
+        old_fixture={'year':2026,'leagueId':1,'meetSeq':1,'gameId':205,'gameDate':'2026.10.31','gameTime':'14:00','homeTeam':'K01','awayTeam':'K02','homeTeamName':'A','awayTeamName':'B','gameStatus':'','endYn':'N','roundId':1}
+        new_fixture={**old_fixture,'gameDate':'2026.12.06','gameTime':'16:00'}
+        def schedule(rows): return json.dumps({'resultCode':'200','data':{'scheduleList':rows}}).encode()
+        page=('''<select id="year"><option selected value="2026"></option></select><select id="meetSeq"><option selected value="1"></option></select><select id="gameId"><option selected value="205"></option></select><div class="game-info"><div class="team K01"></div><div class="team K02"></div></div><div class="team-versus"><div class="versus"><p>2026/12/06 16:00</p></div></div>''').encode()
+        calls=[]; finished=[False]
+        class Response:
+            status_code=200
+            def __init__(self,raw): self.raw=raw
+            def __enter__(self): return self
+            def __exit__(self,*args): pass
+            def iter_content(self,size): yield self.raw
+        def fake_request(method,url,params=None,json=None,data=None,**kwargs):
+            calls.append((url, params or json or data))
+            if url==c.SCHEDULE_URL:
+                month=json['month']; fixture={**new_fixture,'gameStatus':'FE','endYn':'Y','homeGoal':2,'awayGoal':1} if finished[0] else new_fixture; return Response(schedule([fixture] if month=='12' else []))
+            if url==c.PAGE_URL: return Response(page)
+            if url==c.URL: return Response(b'{"resultCode":"200","data":{}}')
+            raise AssertionError(url)
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); evidence=root/'evidence'; evidence.mkdir();out=root/'records.jsonl'
+            for month in range(1,13):
+                params={'leagueId':'1','teamId':'','ticketStatus':'','year':'2026','month':f'{month:02}','ticketYn':'N'}
+                raw=schedule([old_fixture] if month==10 else [])
+                stem=f'schedule-2026-1-{month:02}'
+                (evidence/(stem+'.body.gz')).write_bytes(gzip.compress(raw))
+                (evidence/(stem+'.json')).write_text(json.dumps({'url':c.SCHEDULE_URL,'params':params,'received_at':'2026-10-01T00:00:00+00:00','body_sha256':c.sha(raw)}),encoding='utf8')
+            original=(evidence/'schedule-2026-1-10.json').read_bytes()
+            def args(limit): return ['collector','--season-collect','--evidence',str(evidence),'--output',str(out),'--years','2026','--leagues','1','--prior-root',str(root/'missing'),'--max-requests',str(limit),'--max-lineups','0','--probe-unfinished','--forecast-fixture','kleague:2026:1:205','--refresh','--capture-id','batch-one']
+            with patch.object(c,'datetime',Clock),patch('requests.request',side_effect=fake_request),patch.object(c.time,'sleep'):
+                with patch.object(sys,'argv',args(2)):
+                    with self.assertRaisesRegex(RuntimeError,'budget exhausted'): c.season_main()
+                self.assertEqual(len(calls),2)
+                with patch.object(sys,'argv',args(3)): c.season_main()
+                self.assertEqual(len(calls),5)
+                with patch.object(sys,'argv',args(0)): c.season_main()
+                self.assertEqual(len(calls),5)
+            self.assertEqual((evidence/'schedule-2026-1-10.json').read_bytes(),original)
+            rows=[json.loads(line) for line in out.read_text(encoding='utf8').splitlines()]
+            fixture=next(r for r in rows if r['kind']=='fixture')
+            self.assertEqual(fixture['kickoff'],'2026-12-06T16:00:00+09:00')
+            old_meta=json.loads(original)
+            self.assertNotEqual(fixture['record_id'],c.observation_id('fixture','kleague:2026:1:205',old_meta))
+            self.assertEqual(fixture['timestamp_basis'],'http_response_body_completed')
+            self.assertEqual(len([r for r in rows if r['kind']=='lineup']),1)
+            finished[0]=True
+            with patch.object(c,'datetime',Clock),patch('requests.request',side_effect=fake_request),patch.object(c.time,'sleep'):
+                second=args(3);second[second.index('batch-one')]='batch-two'
+                with patch.object(sys,'argv',second): c.season_main()
+            updated=[json.loads(line) for line in out.read_text(encoding='utf8').splitlines()]
+            self.assertEqual(next(r for r in updated if r['kind']=='result')['payload']['score'],[2,1])
+            self.assertNotEqual(fixture['record_id'],next(r for r in updated if r['kind']=='fixture')['record_id'])
+            self.assertTrue((evidence/'observation-batch-one.json').exists())
+
 if __name__ == '__main__': unittest.main()

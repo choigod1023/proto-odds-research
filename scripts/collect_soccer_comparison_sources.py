@@ -3,7 +3,7 @@ import gzip
 import hashlib
 import json
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, build_opener, HTTPRedirectHandler
@@ -204,6 +204,11 @@ def parse_official_page(raw, fixture):
     return 'partial_or_unparseable', groups
 
 
+def observation_id(kind, fixture_id, meta):
+    identity = json.dumps([kind, fixture_id, meta['received_at'], meta['body_sha256']], ensure_ascii=False, separators=(',', ':')).encode('utf8')
+    return f'kleague:{kind}:{fixture_id}:' + sha(identity)
+
+
 def season_main():
     p=argparse.ArgumentParser(description='Bounded resumable K League official schedule and lineup collection')
     p.add_argument('--season-collect',action='store_true')
@@ -223,12 +228,24 @@ def season_main():
     if a.refresh and (not a.probe_unfinished or not a.capture_id): raise ValueError('--refresh requires --probe-unfinished and --capture-id')
     if a.capture_id and (not a.refresh or not re.fullmatch(r'[A-Za-z0-9_-]{1,64}',a.capture_id)): raise ValueError('capture-id requires refresh and safe identifier')
     fixtures={};source={};imports=0
+    current_kst=datetime.now(timezone(timedelta(hours=9)))
+    current_month=(current_kst.year,current_kst.month)
     for year in sorted(set(a.years)):
         for league in sorted(set(a.leagues)):
             for month in range(1,13):
                 imports+=import_schedule_cache(a.evidence,year,league,month,a.prior_root)
                 params={'leagueId':str(league),'teamId':'','ticketStatus':'','year':str(year),'month':f'{month:02}','ticketYn':'N'}
-                raw,meta=cached_request(a.evidence,f'schedule-{year}-{league}-{month:02}',SCHEDULE_URL,'POST',params,budget)
+                stem=f'schedule-{year}-{league}-{month:02}'
+                refresh_month=a.refresh and ((year,month)>=current_month or (a.evidence/(stem+'-'+a.capture_id+'.json')).exists() or (a.evidence/(stem+'-'+a.capture_id+'.body.gz')).exists())
+                if not refresh_month:
+                    raw,meta=cached_request(a.evidence,stem,SCHEDULE_URL,'POST',params,budget)
+                    # An explicitly targeted unfinished fixture may have been postponed in a past month.
+                    if a.refresh and a.forecast_fixture:
+                        old=json.loads(raw); old_rows=(old.get('data') or {}).get('scheduleList')
+                        if not isinstance(old_rows,list): raise ValueError('invalid schedule')
+                        refresh_month=any(f"kleague:{r.get('year')}:{r.get('leagueId')}:{r.get('gameId')}"==a.forecast_fixture and (r.get('gameStatus')!='FE' or r.get('endYn')!='Y') for r in old_rows)
+                if refresh_month:
+                    raw,meta=cached_request(a.evidence,stem+'-'+a.capture_id,SCHEDULE_URL,'POST',params,budget)
                 obj=json.loads(raw);rows=(obj.get('data') or {}).get('scheduleList')
                 if str(obj.get('resultCode'))!='200' or not isinstance(rows,list): raise ValueError('invalid schedule')
                 for f in rows:
@@ -249,26 +266,26 @@ def season_main():
     if a.forecast_fixture:
         if not a.probe_unfinished or not re.fullmatch(r'kleague:(2025|2026):[12]:[0-9]+',a.forecast_fixture): raise ValueError('invalid forecast fixture')
         parts=a.forecast_fixture.split(':');probe=tuple(map(int,parts[1:]))
-        if probe not in fixtures or (fixtures[probe].get('gameStatus')=='FE' and fixtures[probe].get('endYn')=='Y'): raise ValueError('forecast fixture missing or finished')
+        if probe not in fixtures: raise ValueError('forecast fixture absent from refreshed schedules')
     for key,f in sorted(fixtures.items()):
         year,league,gid=key; m=source[key]
         kickoff=datetime.fromisoformat(f['gameDate'].replace('.','-')+'T'+f['gameTime']+':00+09:00').isoformat()
         fid=f'kleague:{year}:{league}:{gid}'
         base={'sport':'sc','league':f'K{league}','kickoff':kickoff,'home':f['homeTeamName'],'away':f['awayTeamName']}
-        rec={'record_id':'kleague:fixture:'+fid,'kind':'fixture',**base,'source_url':SCHEDULE_URL,'body_sha256':m['body_sha256'],'received_at':m['received_at'],'timestamp_basis':m.get('timestamp_basis'),'timing_basis':'retrospective' if datetime.fromisoformat(m['received_at'])>=datetime.fromisoformat(kickoff) else 'actual_receipt','payload':{'source_fixture_id':fid,'home_team_id':f['homeTeam'],'away_team_id':f['awayTeam'],'game_status':f.get('gameStatus'),'end_yn':f.get('endYn'),'round_id':f.get('roundId')}}
+        rec={'record_id':observation_id('fixture',fid,m),'kind':'fixture',**base,'source_url':SCHEDULE_URL,'body_sha256':m['body_sha256'],'received_at':m['received_at'],'timestamp_basis':m.get('timestamp_basis'),'timing_basis':'retrospective' if datetime.fromisoformat(m['received_at'])>=datetime.fromisoformat(kickoff) else 'actual_receipt','payload':{'source_fixture_id':fid,'home_team_id':f['homeTeam'],'away_team_id':f['awayTeam'],'game_status':f.get('gameStatus'),'end_yn':f.get('endYn'),'round_id':f.get('roundId')}}
         records.append(rec)
         bucket=counts.setdefault(f'{year}-K{league}',{'fixtures':0,'finished':0,'lineups':0,'missing_lineups':0})
         bucket['fixtures']+=1
         if f.get('gameStatus')=='FE' and f.get('endYn')=='Y':
             bucket['finished']+=1
             if type(f.get('homeGoal')) is int and type(f.get('awayGoal')) is int:
-                records.append({**rec,'record_id':'kleague:schedule-result:'+fid,'kind':'result','timing_basis':'retrospective','payload':{'source_fixture_id':fid,'score':[f['homeGoal'],f['awayGoal']]}})
+                records.append({**rec,'record_id':observation_id('result',fid,m),'kind':'result','timing_basis':'retrospective','payload':{'source_fixture_id':fid,'score':[f['homeGoal'],f['awayGoal']]}})
             if key in selected:
                 params={'year':str(year),'leagueId':str(league),'meetSeq':str(league),'gameId':str(gid)}
                 page,pm=cached_request(a.evidence,f'match-{year}-{league}-{gid}',PAGE_URL,'GET',params,budget)
                 status,teams=parse_official_page(page,f);lineups+=1
                 if status=='complete_starting_eleven':bucket['lineups']+=1
-                records.append({**rec,'record_id':'kleague:lineup:'+fid,'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timestamp_basis':pm.get('timestamp_basis'),'timing_basis':'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False}})
+                records.append({**rec,'record_id':observation_id('lineup',fid,pm),'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timestamp_basis':pm.get('timestamp_basis'),'timing_basis':'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False}})
         elif key == probe:
             params={'year':str(year),'leagueId':str(league),'meetSeq':str(league),'gameId':str(gid)}
             suffix='-'+a.capture_id if a.refresh else ''
@@ -279,11 +296,10 @@ def season_main():
             api_raw,api_meta=cached_request(a.evidence,f'forecast-info-{year}-{league}-{gid}{suffix}',URL,'POST_FORM',api_params,budget)
             api=json.loads(api_raw)
             if str(api.get('resultCode'))!='200' or not isinstance(api.get('data'),dict): raise ValueError('invalid official match info')
-            records.append({**rec,'record_id':'kleague:lineup:'+fid,'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timestamp_basis':pm.get('timestamp_basis'),'timing_basis':'actual_receipt' if datetime.fromisoformat(pm['received_at'])<datetime.fromisoformat(kickoff) else 'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False,'official_info':{'source_url':URL,'body_sha256':api_meta['body_sha256'],'received_at':api_meta['received_at'],'timestamp_basis':api_meta.get('timestamp_basis'),'game_status':api['data'].get('gameStatus'),'lineup_field_present':any('lineup' in k.lower() for k in api['data'])},'note':'page display and API response only; not proof of publication status at other channels'}})
+            records.append({**rec,'record_id':observation_id('lineup',fid,pm),'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timestamp_basis':pm.get('timestamp_basis'),'timing_basis':'actual_receipt' if datetime.fromisoformat(pm['received_at'])<datetime.fromisoformat(kickoff) else 'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False,'official_info':{'source_url':URL,'body_sha256':api_meta['body_sha256'],'received_at':api_meta['received_at'],'timestamp_basis':api_meta.get('timestamp_basis'),'game_status':api['data'].get('gameStatus'),'lineup_field_present':any('lineup' in k.lower() for k in api['data'])},'note':'page display and API response only; not proof of publication status at other channels'}})
     for bucket in counts.values(): bucket['missing_lineups']=bucket['finished']-bucket['lineups']
-    if a.refresh and probe:
-        observation=next(r for r in records if r['record_id']=='kleague:lineup:'+f'kleague:{probe[0]}:{probe[1]}:{probe[2]}')
-        observation['record_id'] += ':'+a.capture_id
+    if a.refresh and probe and not (fixtures[probe].get('gameStatus')=='FE' and fixtures[probe].get('endYn')=='Y'):
+        observation=next(r for r in records if r['kind']=='lineup' and r['payload']['source_fixture_id']==f'kleague:{probe[0]}:{probe[1]}:{probe[2]}')
         obs_path=a.evidence/('observation-'+a.capture_id+'.json')
         encoded=(json.dumps(observation,ensure_ascii=False,sort_keys=True)+'\n').encode('utf8')
         if obs_path.exists():
