@@ -29,6 +29,9 @@ class HumanRecoveryTests(unittest.TestCase):
         result=json.loads((root/'joined-2025.json').read_text(encoding='utf8'));r=result['rows'][0]
         self.assertEqual(result['summary']['matched_games'],1)
         self.assertEqual(result['summary']['strict_games'],0)
+        self.assertEqual(result['summary']['distinct_claimed_author_handles'],1)
+        self.assertFalse(result['summary']['human_identity_independently_verified'])
+        self.assertIn('not independently verified',r['source_author_identity_verification'])
         self.assertEqual((r['fixture_id'],r['official_game_id']),('20250719LTLG02025','20250719LTLG0'))
         self.assertEqual((r['away_score'],r['home_score']),(6,1))
         self.assertEqual(r['source_win_pick_excerpt'],'LG 승')

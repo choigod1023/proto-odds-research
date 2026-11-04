@@ -1,12 +1,13 @@
 {
   "summary": {
     "matched_games": 1,
-    "independent_authors": 1,
+    "distinct_claimed_author_handles": 1,
+    "human_identity_independently_verified": false,
     "strict_games": 0,
     "matched_price_rows": 1,
     "model_revision_rows": 2,
     "metrics": {
-      "human_source": {
+      "named_author_source": {
         "bets": 1,
         "wins": 0,
         "hit_rate_decided": 0,
@@ -64,6 +65,7 @@
       "official_winner": "away",
       "source_url": "https://kboinsight.tistory.com/33",
       "source_author_claim": "KBOINSIGHT",
+      "source_author_identity_verification": "handle on page only; human identity not independently verified",
       "source_fixture_evidence": "https://m.sports.naver.com/game/20250719LTLG02025/preview",
       "source_publication_claim": "2025-07-19T12:36:06+09:00",
       "source_modification_claim": "2025-07-19T12:36:06+09:00",
@@ -133,14 +135,14 @@
         }
       },
       "selections": {
-        "human_source": "home",
+        "named_author_source": "home",
         "market": "home",
         "market90_source10_multiplicative": "home",
         "M0_actual": "home",
         "M2_actual": "home"
       },
       "profit_units": {
-        "human_source": -1,
+        "named_author_source": -1,
         "market": -1,
         "market90_source10_multiplicative": -1,
         "M0_actual": -1,
