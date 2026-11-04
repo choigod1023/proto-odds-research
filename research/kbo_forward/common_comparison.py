@@ -130,8 +130,16 @@ def reconcile(recorder,state,now,*,source_fn=None):
     model_rows=read(recorder.path);current=read(path)
     used={(r['event']['season'],r['event']['official_game_id']) for r in current if r.get('type')=='paired_capture'}
     pending=[r for r in model_rows if r.get('type')=='capture' and r['roi_eligible']
+             and r['input']['market']['kind']=='full_game_2way'
+             and r['input']['market']['settlement_rule']=='draw_void_refund'
              and (r['input']['event']['season'],r['input']['event']['official_game_id']) not in used
              and now<=moment(r['input']['event']['kickoff_at'])-timedelta(minutes=30)]
+    # This cohort is one first-common two-way frame per fixture. Other saved
+    # products remain in the original ledger and must not duplicate export IDs.
+    first_by_fixture={}
+    for row in pending:
+        ev=row['input']['event'];first_by_fixture.setdefault((ev['season'],ev['official_game_id']),row)
+    pending=list(first_by_fixture.values())
     notes=[]
     if pending:
         try:
@@ -146,7 +154,16 @@ def reconcile(recorder,state,now,*,source_fn=None):
             else:
                 exported=bridge.load_operating_export(config,[e['official_game_id'] for e in events],now.isoformat())
             for cap in pending[:5]:
-                notes.append(capture_pair(path,cap,exported,recorder.clock(),clock=recorder.clock))
+                identity=cap['input']['event']['official_game_id']
+                try:
+                    if 'exports_by_official_id' in exported:
+                        if identity in exported.get('errors_by_official_id',{}):
+                            raise ValueError(exported['errors_by_official_id'][identity])
+                        current_export=exported['exports_by_official_id'][identity]
+                    else:current_export=exported
+                    notes.append({'official_game_id':identity,**capture_pair(path,cap,current_export,recorder.clock(),clock=recorder.clock)})
+                except Exception as exc:
+                    notes.append({'official_game_id':identity,'recorded':False,'status':'source_unavailable','reason':str(exc)[:200]})
         except Exception as exc:
             notes.append({'recorded':False,'status':'source_unavailable','reason':str(exc)[:200]})
     settle_pairs(path,model_rows,now)

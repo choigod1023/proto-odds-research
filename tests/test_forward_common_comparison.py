@@ -130,7 +130,15 @@ def test_reconcile_capture_restart_and_official_settlement(tmp_path,monkeypatch)
     monkeypatch.setattr(observer,'_verify_market_bytes',lambda *a:None)
     p,now=packet();recorder=observer.Recorder(tmp_path/'predictions.jsonl',test_validator,clock=lambda:now)
     m0=recorder.capture(p)
-    def source(config,events,when):return {'export_sha256':'e'*64}
+    three=deepcopy(p)
+    three['market'].update(market_id='synthetic-three-way',kind='full_game_3way',settlement_rule='draw_is_outcome')
+    three['market']['odds']['draw']='8.0'
+    recorder.capture(three)
+    other=deepcopy(p);other['market']['market_id']='another-two-way-frame';recorder.capture(other)
+    def source(config,events,when):
+        assert len(events)==1 and events[0]['market_id']==p['market']['market_id']
+        return {'exports_by_official_id':{p['event']['official_game_id']:{'export_sha256':'e'*64}},
+                'errors_by_official_id':{}}
     def match(capture,export,when):
         return {'status':'eligible','official_game_id':p['event']['official_game_id'],
                 'market_id':p['market']['market_id'],'operating_record_hash':'b'*64,
