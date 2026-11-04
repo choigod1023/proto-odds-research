@@ -1,0 +1,35 @@
+{
+  "seed": 20261104,
+  "replicates": 10000,
+  "stake": 10000,
+  "timing_warning": "Legacy quote batch-start timestamps; completed HTTP receipt before T30 is not proven.",
+  "note": "Retrospective day-block sensitivity. Handles may correlate across days; no external timing/execution authentication.",
+  "market_same_product": {
+    "days": 24,
+    "fixtures": 260,
+    "accuracy_delta_pp": 2.3076923076923066,
+    "accuracy_delta_day_block_95percentile": [
+      -2.6315789473684212,
+      7.5
+    ],
+    "roi_delta_pp": 0.9999999999999991,
+    "roi_delta_day_block_95percentile": [
+      -7.601374663072775,
+      9.814516018619933
+    ]
+  },
+  "market90_vote10": {
+    "days": 24,
+    "fixtures": 260,
+    "accuracy_delta_pp": 2.3076923076923066,
+    "accuracy_delta_day_block_95percentile": [
+      -1.5874596850692466,
+      6.563755313755313
+    ],
+    "roi_delta_pp": 1.2923076923076922,
+    "roi_delta_day_block_95percentile": [
+      -5.771439215850894,
+      8.481575246132206
+    ]
+  }
+}

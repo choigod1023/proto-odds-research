@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-04",
+  "reviewer": "separate finite research worker",
+  "mode": "read-only independent recalculation and evidence crosscheck",
+  "cohorts": [
+    {
+      "all_with_votes": 22,
+      "ties": 1,
+      "common": 21
+    },
+    {
+      "all_with_votes": 278,
+      "ties": 18,
+      "common": 260
+    }
+  ],
+  "verified": [
+    "source event hashes present in original export",
+    "prices agree with ledger or quote export",
+    "fixture and scores agree with direct official DOM",
+    "matched hit counts and flat-stake ROI"
+  ],
+  "limits": [
+    "Legacy quote batch-start clocks cannot prove completed HTTP receipt before T30",
+    "21-game replay is not actual operating vote performance",
+    "Not a blind new holdout"
+  ],
+  "file_mutations_or_network_or_production_access_by_reviewer": false
+}

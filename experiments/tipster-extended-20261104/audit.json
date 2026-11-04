@@ -1,0 +1,45 @@
+{
+  "version": "extended-saved-votes-v1",
+  "ledger_raw_sha256": "88e42b7cfd090485340f4b07dc7e382ffa4953c4a3c731a358a4add0fe15dc4f",
+  "full_ledger_chain_verified": true,
+  "observed_quote_export_sha256": null,
+  "price_evidence": "frozen_prediction_ledger_options",
+  "source_event_export_raw_sha256": "e04f4f47440cded0e806d704bd776ce32823ff281f999d7ae8224d3e159d866c",
+  "official_manifest_sha256": "8b7a5f338b4e7ebf9f64ec703b1fd1456606636a3aba51509d5ca424e8cca075",
+  "official_score_exclusions": {
+    "not_confirmed_full_game_score": 601
+  },
+  "quote_exclusions": {
+    "missing_original_complete_winner_vector": 43,
+    "original_offer_fingerprint_not_reproduced": 387
+  },
+  "source_event_exclusions": {
+    "not_eligible_native_pregame_text": 9930,
+    "not_explicit_full_game_winner": 1760,
+    "source_receipt_not_before_T30": 128,
+    "source_header_teams_disagree": 2
+  },
+  "no_pregame_vote_by_month": {
+    "2026-08": 15,
+    "2026-09": 260,
+    "2026-10": 27
+  },
+  "audit": {
+    "ambiguous_same_author_first_votes": 1
+  },
+  "valid_quote_fixtures_all_sports": 2260,
+  "native_text_fixture_count": 22,
+  "authors": 34,
+  "dates": [
+    "2026-08-30T02:05:00.000000Z",
+    "2026-09-18T01:38:00.000000Z"
+  ],
+  "by_month": {
+    "2026-08": 2,
+    "2026-09": 20
+  },
+  "evidence_kind": "saved source-native pick text, not full HTML; stored receipt clocks are not external time certificates",
+  "policies_are_counterfactual_replay_not_operating_returns": true,
+  "quote_time_basis": "prediction_payload_captured_before_T30",
+  "protocol_limits_not_proven": []
+}
