@@ -1,0 +1,3242 @@
+{
+  "inputs": {
+    "baseball": {
+      "path": "experiments\\matched-baseball-20261104\\rows.json",
+      "sha256": "34250a17437b3cfd6a19c915a092c19bfa1356ddf823b0bc537e9e6d88c43882",
+      "rows": 103
+    },
+    "soccer": {
+      "path": "experiments\\matched-soccer-20261104\\rows.json",
+      "sha256": "47e770da93a6a56afa37488d44a89db447b9486f77f4475ce7b7c1affecdf9cd",
+      "rows": 23
+    },
+    "basketball": {
+      "path": "experiments\\matched-basketball-20261104\\comparisons.jsonl",
+      "sha256": "3cc764ff0f07fd681c48d950081bc5e2516b6bc81a4ef64c4d6e89588fff36e7",
+      "rows": 24
+    },
+    "soccer_2025": {
+      "path": "experiments\\matched-soccer-20261104\\recovery-2025\\joined.json",
+      "sha256": "5e7d3dc60ae75dad54aafc7303410635d4cc4faa655cf9593abbd8456caab7ab",
+      "rows": 4
+    }
+  },
+  "cohorts": {
+    "baseball/controls": {
+      "candidate_fixtures": 103,
+      "common_bet_fixtures": 103,
+      "period": [
+        "2026-03-31T18:30:00+09:00",
+        "2026-07-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 103
+      },
+      "methods": {
+        "vote": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -4.06,
+          "roi": -0.039417475728155335
+        },
+        "market_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 63,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6116504854368932,
+          "net_units": -5.92,
+          "roi": -0.05747572815533981
+        },
+        "market90_vote10_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -9.82,
+          "roi": -0.09533980582524272
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -0.92,
+          "roi": -0.008932038834951452
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -6.88,
+          "roi": -0.06679611650485437
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -6.13,
+          "roi": -0.05951456310679611
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 67,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6504854368932039,
+          "net_units": 7.87,
+          "roi": 0.07640776699029125
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -5.06,
+          "roi": -0.04912621359223301
+        }
+      }
+    },
+    "baseball/2026/controls": {
+      "candidate_fixtures": 103,
+      "common_bet_fixtures": 103,
+      "period": [
+        "2026-03-31T18:30:00+09:00",
+        "2026-07-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 103
+      },
+      "methods": {
+        "vote": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -4.06,
+          "roi": -0.039417475728155335
+        },
+        "market_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 63,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6116504854368932,
+          "net_units": -5.92,
+          "roi": -0.05747572815533981
+        },
+        "market90_vote10_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -9.82,
+          "roi": -0.09533980582524272
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -0.92,
+          "roi": -0.008932038834951452
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -6.88,
+          "roi": -0.06679611650485437
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -6.13,
+          "roi": -0.05951456310679611
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 67,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6504854368932039,
+          "net_units": 7.87,
+          "roi": 0.07640776699029125
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -5.06,
+          "roi": -0.04912621359223301
+        }
+      }
+    },
+    "baseball/2026-03/controls": {
+      "candidate_fixtures": 3,
+      "common_bet_fixtures": 3,
+      "period": [
+        "2026-03-31T18:30:00+09:00",
+        "2026-03-31T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 3
+      },
+      "methods": {
+        "vote": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "market_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "market_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "market90_vote10_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        }
+      }
+    },
+    "KBO/2026/controls": {
+      "candidate_fixtures": 103,
+      "common_bet_fixtures": 103,
+      "period": [
+        "2026-03-31T18:30:00+09:00",
+        "2026-07-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 103
+      },
+      "methods": {
+        "vote": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -4.06,
+          "roi": -0.039417475728155335
+        },
+        "market_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 63,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6116504854368932,
+          "net_units": -5.92,
+          "roi": -0.05747572815533981
+        },
+        "market90_vote10_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -9.82,
+          "roi": -0.09533980582524272
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -0.92,
+          "roi": -0.008932038834951452
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -6.88,
+          "roi": -0.06679611650485437
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -6.13,
+          "roi": -0.05951456310679611
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 67,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6504854368932039,
+          "net_units": 7.87,
+          "roi": 0.07640776699029125
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -5.06,
+          "roi": -0.04912621359223301
+        }
+      }
+    },
+    "baseball/player_intersection": {
+      "candidate_fixtures": 103,
+      "common_bet_fixtures": 103,
+      "period": [
+        "2026-03-31T18:30:00+09:00",
+        "2026-07-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 103
+      },
+      "methods": {
+        "vote": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -4.06,
+          "roi": -0.039417475728155335
+        },
+        "market_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -4.15,
+          "roi": -0.04029126213592232
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 63,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6116504854368932,
+          "net_units": -5.92,
+          "roi": -0.05747572815533981
+        },
+        "market90_vote10_shin": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -9.82,
+          "roi": -0.09533980582524272
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 65,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6310679611650486,
+          "net_units": -0.92,
+          "roi": -0.008932038834951452
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -6.88,
+          "roi": -0.06679611650485437
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 62,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6019417475728155,
+          "net_units": -6.13,
+          "roi": -0.05951456310679611
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 67,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6504854368932039,
+          "net_units": 7.87,
+          "roi": 0.07640776699029125
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 103,
+          "decided": 103,
+          "hits": 61,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5922330097087378,
+          "net_units": -5.06,
+          "roi": -0.04912621359223301
+        }
+      }
+    },
+    "baseball/player_intersection/2026-03": {
+      "candidate_fixtures": 3,
+      "common_bet_fixtures": 3,
+      "period": [
+        "2026-03-31T18:30:00+09:00",
+        "2026-03-31T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 3
+      },
+      "methods": {
+        "vote": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "market_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "market_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "market90_vote10_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.64,
+          "roi": -0.5466666666666666
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.33,
+          "roi": 0.11000000000000003
+        }
+      }
+    },
+    "baseball/2026-04/controls": {
+      "candidate_fixtures": 28,
+      "common_bet_fixtures": 28,
+      "period": [
+        "2026-04-01T18:30:00+09:00",
+        "2026-04-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 28
+      },
+      "methods": {
+        "vote": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 18,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6428571428571429,
+          "net_units": 0.33,
+          "roi": 0.011785714285714288
+        },
+        "market_multiplicative": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7142857142857143,
+          "net_units": 2.49,
+          "roi": 0.08892857142857144
+        },
+        "market_shin": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7142857142857143,
+          "net_units": 2.49,
+          "roi": 0.08892857142857144
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6785714285714286,
+          "net_units": 1.31,
+          "roi": 0.046785714285714285
+        },
+        "market90_vote10_shin": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 18,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6428571428571429,
+          "net_units": -0.63,
+          "roi": -0.022499999999999996
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 5.0,
+          "roi": 0.17857142857142858
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7142857142857143,
+          "net_units": 3.39,
+          "roi": 0.12107142857142858
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 5.23,
+          "roi": 0.1867857142857143
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 16,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5714285714285714,
+          "net_units": -2.57,
+          "roi": -0.09178571428571429
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 18,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6428571428571429,
+          "net_units": 0.2,
+          "roi": 0.007142857142857141
+        }
+      }
+    },
+    "baseball/player_intersection/2026-04": {
+      "candidate_fixtures": 28,
+      "common_bet_fixtures": 28,
+      "period": [
+        "2026-04-01T18:30:00+09:00",
+        "2026-04-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 28
+      },
+      "methods": {
+        "vote": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 18,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6428571428571429,
+          "net_units": 0.33,
+          "roi": 0.011785714285714288
+        },
+        "market_multiplicative": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7142857142857143,
+          "net_units": 2.49,
+          "roi": 0.08892857142857144
+        },
+        "market_shin": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7142857142857143,
+          "net_units": 2.49,
+          "roi": 0.08892857142857144
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6785714285714286,
+          "net_units": 1.31,
+          "roi": 0.046785714285714285
+        },
+        "market90_vote10_shin": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 18,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6428571428571429,
+          "net_units": -0.63,
+          "roi": -0.022499999999999996
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 5.0,
+          "roi": 0.17857142857142858
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7142857142857143,
+          "net_units": 3.39,
+          "roi": 0.12107142857142858
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 5.23,
+          "roi": 0.1867857142857143
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 16,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5714285714285714,
+          "net_units": -2.57,
+          "roi": -0.09178571428571429
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 28,
+          "decided": 28,
+          "hits": 18,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6428571428571429,
+          "net_units": 0.2,
+          "roi": 0.007142857142857141
+        }
+      }
+    },
+    "baseball/2026-05/controls": {
+      "candidate_fixtures": 1,
+      "common_bet_fixtures": 1,
+      "period": [
+        "2026-05-30T17:00:00+09:00",
+        "2026-05-30T17:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 1
+      },
+      "methods": {
+        "vote": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "market_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        }
+      }
+    },
+    "baseball/player_intersection/2026-05": {
+      "candidate_fixtures": 1,
+      "common_bet_fixtures": 1,
+      "period": [
+        "2026-05-30T17:00:00+09:00",
+        "2026-05-30T17:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 1
+      },
+      "methods": {
+        "vote": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "market_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 0.97,
+          "roi": 0.97
+        }
+      }
+    },
+    "baseball/2026-06/controls": {
+      "candidate_fixtures": 30,
+      "common_bet_fixtures": 30,
+      "period": [
+        "2026-06-05T18:30:00+09:00",
+        "2026-06-19T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 30
+      },
+      "methods": {
+        "vote": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": 0.62,
+          "roi": 0.020666666666666663
+        },
+        "market_multiplicative": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 17,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5666666666666667,
+          "net_units": -4.91,
+          "roi": -0.16366666666666668
+        },
+        "market_shin": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 17,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5666666666666667,
+          "net_units": -4.91,
+          "roi": -0.16366666666666668
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 1.09,
+          "roi": 0.036333333333333336
+        },
+        "market90_vote10_shin": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": -0.87,
+          "roi": -0.028999999999999995
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": 0.11,
+          "roi": 0.0036666666666666627
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": -0.35,
+          "roi": -0.011666666666666669
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 17,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5666666666666667,
+          "net_units": -3.72,
+          "roi": -0.12399999999999999
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 22,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7333333333333333,
+          "net_units": 6.68,
+          "roi": 0.22266666666666665
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7,
+          "net_units": 4.11,
+          "roi": 0.13699999999999998
+        }
+      }
+    },
+    "baseball/player_intersection/2026-06": {
+      "candidate_fixtures": 30,
+      "common_bet_fixtures": 30,
+      "period": [
+        "2026-06-05T18:30:00+09:00",
+        "2026-06-19T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 30
+      },
+      "methods": {
+        "vote": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": 0.62,
+          "roi": 0.020666666666666663
+        },
+        "market_multiplicative": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 17,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5666666666666667,
+          "net_units": -4.91,
+          "roi": -0.16366666666666668
+        },
+        "market_shin": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 17,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5666666666666667,
+          "net_units": -4.91,
+          "roi": -0.16366666666666668
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 20,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 1.09,
+          "roi": 0.036333333333333336
+        },
+        "market90_vote10_shin": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": -0.87,
+          "roi": -0.028999999999999995
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": 0.11,
+          "roi": 0.0036666666666666627
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6333333333333333,
+          "net_units": -0.35,
+          "roi": -0.011666666666666669
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 17,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5666666666666667,
+          "net_units": -3.72,
+          "roi": -0.12399999999999999
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 22,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7333333333333333,
+          "net_units": 6.68,
+          "roi": 0.22266666666666665
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 30,
+          "decided": 30,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.7,
+          "net_units": 4.11,
+          "roi": 0.13699999999999998
+        }
+      }
+    },
+    "baseball/2026-07/controls": {
+      "candidate_fixtures": 41,
+      "common_bet_fixtures": 41,
+      "period": [
+        "2026-07-01T18:30:00+09:00",
+        "2026-07-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 41
+      },
+      "methods": {
+        "vote": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 22,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5365853658536586,
+          "net_units": -6.31,
+          "roi": -0.15390243902439024
+        },
+        "market_multiplicative": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 27,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6585365853658537,
+          "net_units": 0.91,
+          "roi": 0.022195121951219515
+        },
+        "market_shin": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 27,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6585365853658537,
+          "net_units": 0.91,
+          "roi": 0.022195121951219515
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 23,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5609756097560976,
+          "net_units": -5.68,
+          "roi": -0.13853658536585364
+        },
+        "market90_vote10_shin": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 23,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5609756097560976,
+          "net_units": -5.68,
+          "roi": -0.13853658536585364
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 22,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5365853658536586,
+          "net_units": -7.33,
+          "roi": -0.17878048780487804
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4634146341463415,
+          "net_units": -11.22,
+          "roi": -0.2736585365853658
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5121951219512195,
+          "net_units": -8.94,
+          "roi": -0.21804878048780488
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 27,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6585365853658537,
+          "net_units": 4.43,
+          "roi": 0.10804878048780488
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4634146341463415,
+          "net_units": -10.67,
+          "roi": -0.2602439024390244
+        }
+      }
+    },
+    "baseball/player_intersection/2026-07": {
+      "candidate_fixtures": 41,
+      "common_bet_fixtures": 41,
+      "period": [
+        "2026-07-01T18:30:00+09:00",
+        "2026-07-23T18:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "source_publication_claim_plus_retrospective_lineup_oracle": 41
+      },
+      "methods": {
+        "vote": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 22,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5365853658536586,
+          "net_units": -6.31,
+          "roi": -0.15390243902439024
+        },
+        "market_multiplicative": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 27,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6585365853658537,
+          "net_units": 0.91,
+          "roi": 0.022195121951219515
+        },
+        "market_shin": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 27,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6585365853658537,
+          "net_units": 0.91,
+          "roi": 0.022195121951219515
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 23,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5609756097560976,
+          "net_units": -5.68,
+          "roi": -0.13853658536585364
+        },
+        "market90_vote10_shin": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 23,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5609756097560976,
+          "net_units": -5.68,
+          "roi": -0.13853658536585364
+        },
+        "kbo-actual-training-2026-M0_actual": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 22,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5365853658536586,
+          "net_units": -7.33,
+          "roi": -0.17878048780487804
+        },
+        "kbo-actual-training-2026-M2_actual": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4634146341463415,
+          "net_units": -11.22,
+          "roi": -0.2736585365853658
+        },
+        "kbo-player-effects-v2-2026-M0": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 21,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5121951219512195,
+          "net_units": -8.94,
+          "roi": -0.21804878048780488
+        },
+        "kbo-player-effects-v2-2026-M1": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 27,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6585365853658537,
+          "net_units": 4.43,
+          "roi": 0.10804878048780488
+        },
+        "kbo-player-effects-v2-2026-M2": {
+          "bets": 41,
+          "decided": 41,
+          "hits": 19,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4634146341463415,
+          "net_units": -10.67,
+          "roi": -0.2602439024390244
+        }
+      }
+    },
+    "soccer/controls": {
+      "candidate_fixtures": 27,
+      "common_bet_fixtures": 27,
+      "period": [
+        "2025-07-06T19:00:00+09:00",
+        "2026-09-20T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 23,
+        "retrospective_publication_claim_only": 4
+      },
+      "methods": {
+        "vote": {
+          "bets": 27,
+          "decided": 27,
+          "hits": 13,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.48148148148148145,
+          "net_units": -0.96,
+          "roi": -0.03555555555555557
+        },
+        "market_multiplicative": {
+          "bets": 27,
+          "decided": 27,
+          "hits": 15,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5555555555555556,
+          "net_units": 1.52,
+          "roi": 0.05629629629629629
+        },
+        "market_shin": {
+          "bets": 27,
+          "decided": 27,
+          "hits": 15,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5555555555555556,
+          "net_units": 1.52,
+          "roi": 0.05629629629629629
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 27,
+          "decided": 27,
+          "hits": 15,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5555555555555556,
+          "net_units": 2.57,
+          "roi": 0.09518518518518516
+        },
+        "market90_vote10_shin": {
+          "bets": 27,
+          "decided": 27,
+          "hits": 15,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5555555555555556,
+          "net_units": 2.57,
+          "roi": 0.09518518518518516
+        }
+      }
+    },
+    "soccer/2026/controls": {
+      "candidate_fixtures": 23,
+      "common_bet_fixtures": 23,
+      "period": [
+        "2026-03-07T14:00:00+09:00",
+        "2026-09-20T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 23
+      },
+      "methods": {
+        "vote": {
+          "bets": 23,
+          "decided": 23,
+          "hits": 12,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5217391304347826,
+          "net_units": 0.6,
+          "roi": 0.026086956521739115
+        },
+        "market_multiplicative": {
+          "bets": 23,
+          "decided": 23,
+          "hits": 14,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6086956521739131,
+          "net_units": 3.08,
+          "roi": 0.13391304347826088
+        },
+        "market_shin": {
+          "bets": 23,
+          "decided": 23,
+          "hits": 14,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6086956521739131,
+          "net_units": 3.08,
+          "roi": 0.13391304347826088
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 23,
+          "decided": 23,
+          "hits": 14,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6086956521739131,
+          "net_units": 4.13,
+          "roi": 0.17956521739130435
+        },
+        "market90_vote10_shin": {
+          "bets": 23,
+          "decided": 23,
+          "hits": 14,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6086956521739131,
+          "net_units": 4.13,
+          "roi": 0.17956521739130435
+        }
+      }
+    },
+    "soccer/2026-08/controls": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-08-01T19:30:00+09:00",
+        "2026-08-02T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        }
+      }
+    },
+    "K1/2026/controls": {
+      "candidate_fixtures": 18,
+      "common_bet_fixtures": 18,
+      "period": [
+        "2026-03-07T16:30:00+09:00",
+        "2026-09-20T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 18
+      },
+      "methods": {
+        "vote": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3888888888888889,
+          "net_units": -3.24,
+          "roi": -0.18000000000000002
+        },
+        "market_multiplicative": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 9,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.76,
+          "roi": -0.042222222222222223
+        },
+        "market_shin": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 9,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.76,
+          "roi": -0.042222222222222223
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 9,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": 0.29,
+          "roi": 0.0161111111111111
+        },
+        "market90_vote10_shin": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 9,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": 0.29,
+          "roi": 0.0161111111111111
+        }
+      }
+    },
+    "soccer/player_intersection": {
+      "candidate_fixtures": 15,
+      "common_bet_fixtures": 15,
+      "period": [
+        "2026-07-04T19:30:00+09:00",
+        "2026-09-20T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 15
+      },
+      "methods": {
+        "vote": {
+          "bets": 15,
+          "decided": 15,
+          "hits": 8,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5333333333333333,
+          "net_units": 1.26,
+          "roi": 0.08399999999999999
+        },
+        "market_multiplicative": {
+          "bets": 15,
+          "decided": 15,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4666666666666667,
+          "net_units": -2.22,
+          "roi": -0.14800000000000002
+        },
+        "market_shin": {
+          "bets": 15,
+          "decided": 15,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4666666666666667,
+          "net_units": -2.22,
+          "roi": -0.14800000000000002
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 15,
+          "decided": 15,
+          "hits": 8,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5333333333333333,
+          "net_units": 1.26,
+          "roi": 0.08399999999999999
+        },
+        "market90_vote10_shin": {
+          "bets": 15,
+          "decided": 15,
+          "hits": 8,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5333333333333333,
+          "net_units": 1.26,
+          "roi": 0.08399999999999999
+        },
+        "league_specific_postgame_roster_oracle": {
+          "bets": 15,
+          "decided": 15,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -6.5,
+          "roi": -0.43333333333333335
+        }
+      }
+    },
+    "soccer/player_intersection/2026-08": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-08-01T19:30:00+09:00",
+        "2026-08-02T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.28,
+          "roi": -0.04666666666666671
+        },
+        "league_specific_postgame_roster_oracle": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.19,
+          "roi": -0.36500000000000005
+        }
+      }
+    },
+    "soccer/2026-09/controls": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-09-09T19:30:00+09:00",
+        "2026-09-20T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 3.1,
+          "roi": 0.5166666666666667
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.75,
+          "roi": -0.4583333333333333
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.75,
+          "roi": -0.4583333333333333
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 3.1,
+          "roi": 0.5166666666666667
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 3.1,
+          "roi": 0.5166666666666667
+        },
+        "k1_lineup_postgame_roster_oracle": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.75,
+          "roi": -0.4583333333333333
+        }
+      }
+    },
+    "soccer/player_intersection/2026-09": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-09-09T19:30:00+09:00",
+        "2026-09-20T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 3.1,
+          "roi": 0.5166666666666667
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.75,
+          "roi": -0.4583333333333333
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.75,
+          "roi": -0.4583333333333333
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 3.1,
+          "roi": 0.5166666666666667
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 3.1,
+          "roi": 0.5166666666666667
+        },
+        "league_specific_postgame_roster_oracle": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.75,
+          "roi": -0.4583333333333333
+        }
+      }
+    },
+    "soccer/2026-04/controls": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-04-04T14:00:00+09:00",
+        "2026-04-05T16:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.16,
+          "roi": -0.02666666666666669
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.8333333333333334,
+          "net_units": 3.37,
+          "roi": 0.5616666666666666
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.8333333333333334,
+          "net_units": 3.37,
+          "roi": 0.5616666666666666
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.8333333333333334,
+          "net_units": 3.37,
+          "roi": 0.5616666666666666
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.8333333333333334,
+          "net_units": 3.37,
+          "roi": 0.5616666666666666
+        }
+      }
+    },
+    "soccer/2026-03/controls": {
+      "candidate_fixtures": 2,
+      "common_bet_fixtures": 2,
+      "period": [
+        "2026-03-07T14:00:00+09:00",
+        "2026-03-07T16:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 2
+      },
+      "methods": {
+        "vote": {
+          "bets": 2,
+          "decided": 2,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.5,
+          "roi": -0.25
+        },
+        "market_multiplicative": {
+          "bets": 2,
+          "decided": 2,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 1.93,
+          "roi": 0.9650000000000001
+        },
+        "market_shin": {
+          "bets": 2,
+          "decided": 2,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 1.93,
+          "roi": 0.9650000000000001
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 2,
+          "decided": 2,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.5,
+          "roi": -0.25
+        },
+        "market90_vote10_shin": {
+          "bets": 2,
+          "decided": 2,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.5,
+          "roi": -0.25
+        }
+      }
+    },
+    "soccer/2026-07/controls": {
+      "candidate_fixtures": 3,
+      "common_bet_fixtures": 3,
+      "period": [
+        "2026-07-04T19:30:00+09:00",
+        "2026-07-04T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 3
+      },
+      "methods": {
+        "vote": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        },
+        "market_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.81,
+          "roi": 0.27
+        },
+        "market_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.81,
+          "roi": 0.27
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        },
+        "market90_vote10_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        }
+      }
+    },
+    "soccer/player_intersection/2026-07": {
+      "candidate_fixtures": 3,
+      "common_bet_fixtures": 3,
+      "period": [
+        "2026-07-04T19:30:00+09:00",
+        "2026-07-04T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 3
+      },
+      "methods": {
+        "vote": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        },
+        "market_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.81,
+          "roi": 0.27
+        },
+        "market_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.81,
+          "roi": 0.27
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        },
+        "market90_vote10_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        },
+        "league_specific_postgame_roster_oracle": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -1.56,
+          "roi": -0.52
+        }
+      }
+    },
+    "K2/2026/controls": {
+      "candidate_fixtures": 5,
+      "common_bet_fixtures": 5,
+      "period": [
+        "2026-03-07T14:00:00+09:00",
+        "2026-08-01T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "historical_publication_claim_retrospective_price": 5
+      },
+      "methods": {
+        "vote": {
+          "bets": 5,
+          "decided": 5,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 3.84,
+          "roi": 0.768
+        },
+        "market_multiplicative": {
+          "bets": 5,
+          "decided": 5,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 3.84,
+          "roi": 0.768
+        },
+        "market_shin": {
+          "bets": 5,
+          "decided": 5,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 3.84,
+          "roi": 0.768
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 5,
+          "decided": 5,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 3.84,
+          "roi": 0.768
+        },
+        "market90_vote10_shin": {
+          "bets": 5,
+          "decided": 5,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 3.84,
+          "roi": 0.768
+        }
+      }
+    },
+    "basketball/controls": {
+      "candidate_fixtures": 24,
+      "common_bet_fixtures": 24,
+      "period": [
+        "2026-03-03T09:30:00+09:00",
+        "2026-10-25T14:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 24
+      },
+      "methods": {
+        "vote": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 16,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 9.7,
+          "roi": 0.4041666666666666
+        },
+        "market_multiplicative": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 11,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4583333333333333,
+          "net_units": -7.11,
+          "roi": -0.29625
+        },
+        "market_shin": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 11,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4583333333333333,
+          "net_units": -7.11,
+          "roi": -0.29625
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 13,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5416666666666666,
+          "net_units": -2.64,
+          "roi": -0.11000000000000003
+        },
+        "market90_vote10_shin": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 13,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5416666666666666,
+          "net_units": -3.39,
+          "roi": -0.14125000000000001
+        }
+      }
+    },
+    "basketball/2026/controls": {
+      "candidate_fixtures": 24,
+      "common_bet_fixtures": 24,
+      "period": [
+        "2026-03-03T09:30:00+09:00",
+        "2026-10-25T14:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 24
+      },
+      "methods": {
+        "vote": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 16,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 9.7,
+          "roi": 0.4041666666666666
+        },
+        "market_multiplicative": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 11,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4583333333333333,
+          "net_units": -7.11,
+          "roi": -0.29625
+        },
+        "market_shin": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 11,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4583333333333333,
+          "net_units": -7.11,
+          "roi": -0.29625
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 13,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5416666666666666,
+          "net_units": -2.64,
+          "roi": -0.11000000000000003
+        },
+        "market90_vote10_shin": {
+          "bets": 24,
+          "decided": 24,
+          "hits": 13,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5416666666666666,
+          "net_units": -3.39,
+          "roi": -0.14125000000000001
+        }
+      }
+    },
+    "basketball/2026-03/controls": {
+      "candidate_fixtures": 13,
+      "common_bet_fixtures": 13,
+      "period": [
+        "2026-03-03T09:30:00+09:00",
+        "2026-03-31T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 13
+      },
+      "methods": {
+        "vote": {
+          "bets": 13,
+          "decided": 13,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5384615384615384,
+          "net_units": 1.45,
+          "roi": 0.1115384615384615
+        },
+        "market_multiplicative": {
+          "bets": 13,
+          "decided": 13,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5384615384615384,
+          "net_units": -2.31,
+          "roi": -0.1776923076923077
+        },
+        "market_shin": {
+          "bets": 13,
+          "decided": 13,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5384615384615384,
+          "net_units": -2.31,
+          "roi": -0.1776923076923077
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 13,
+          "decided": 13,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5384615384615384,
+          "net_units": -1.75,
+          "roi": -0.13461538461538464
+        },
+        "market90_vote10_shin": {
+          "bets": 13,
+          "decided": 13,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5384615384615384,
+          "net_units": -2.13,
+          "roi": -0.16384615384615384
+        }
+      }
+    },
+    "KBL/2026/controls": {
+      "candidate_fixtures": 18,
+      "common_bet_fixtures": 18,
+      "period": [
+        "2026-03-05T19:00:00+09:00",
+        "2026-10-25T14:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 18
+      },
+      "methods": {
+        "vote": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 12,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 8.48,
+          "roi": 0.47111111111111115
+        },
+        "market_multiplicative": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3888888888888889,
+          "net_units": -7.54,
+          "roi": -0.41888888888888887
+        },
+        "market_shin": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 7,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3888888888888889,
+          "net_units": -7.54,
+          "roi": -0.41888888888888887
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 9,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -3.25,
+          "roi": -0.18055555555555555
+        },
+        "market90_vote10_shin": {
+          "bets": 18,
+          "decided": 18,
+          "hits": 8,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.4444444444444444,
+          "net_units": -5.57,
+          "roi": -0.30944444444444447
+        }
+      }
+    },
+    "basketball/2026-04/controls": {
+      "candidate_fixtures": 4,
+      "common_bet_fixtures": 4,
+      "period": [
+        "2026-04-05T14:00:00+09:00",
+        "2026-04-26T14:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 4
+      },
+      "methods": {
+        "vote": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 1.05,
+          "roi": 0.26249999999999996
+        },
+        "market_multiplicative": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 0.63,
+          "roi": 0.15749999999999997
+        },
+        "market_shin": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 0.63,
+          "roi": 0.15749999999999997
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 2.57,
+          "roi": 0.6425
+        },
+        "market90_vote10_shin": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.75,
+          "net_units": 0.63,
+          "roi": 0.15749999999999997
+        }
+      }
+    },
+    "basketball/2026-10/controls": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-10-06T19:00:00+09:00",
+        "2026-10-25T14:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.8333333333333334,
+          "net_units": 6.07,
+          "roi": 1.0116666666666667
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.16666666666666666,
+          "net_units": -4.43,
+          "roi": -0.7383333333333333
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.16666666666666666,
+          "net_units": -4.43,
+          "roi": -0.7383333333333333
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 2,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -2.46,
+          "roi": -0.41
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 3,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.5,
+          "net_units": -0.89,
+          "roi": -0.14833333333333332
+        }
+      }
+    },
+    "NBA/2026/controls": {
+      "candidate_fixtures": 6,
+      "common_bet_fixtures": 6,
+      "period": [
+        "2026-03-03T09:30:00+09:00",
+        "2026-10-25T09:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 6
+      },
+      "methods": {
+        "vote": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 1.22,
+          "roi": 0.20333333333333328
+        },
+        "market_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.43,
+          "roi": 0.07166666666666666
+        },
+        "market_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.43,
+          "roi": 0.07166666666666666
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 4,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.6666666666666666,
+          "net_units": 0.61,
+          "roi": 0.10166666666666664
+        },
+        "market90_vote10_shin": {
+          "bets": 6,
+          "decided": 6,
+          "hits": 5,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.8333333333333334,
+          "net_units": 2.18,
+          "roi": 0.3633333333333333
+        }
+      }
+    },
+    "basketball/2026-05/controls": {
+      "candidate_fixtures": 1,
+      "common_bet_fixtures": 1,
+      "period": [
+        "2026-05-31T09:00:00+09:00",
+        "2026-05-31T09:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_no_pregame_claim": 1
+      },
+      "methods": {
+        "vote": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 1.0,
+          "net_units": 1.13,
+          "roi": 1.13
+        },
+        "market_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        }
+      }
+    },
+    "soccer/2025/controls": {
+      "candidate_fixtures": 4,
+      "common_bet_fixtures": 4,
+      "period": [
+        "2025-07-06T19:00:00+09:00",
+        "2025-07-18T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_publication_claim_only": 4
+      },
+      "methods": {
+        "vote": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market_multiplicative": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market_shin": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market90_vote10_shin": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        }
+      }
+    },
+    "soccer/2025-07/controls": {
+      "candidate_fixtures": 4,
+      "common_bet_fixtures": 4,
+      "period": [
+        "2025-07-06T19:00:00+09:00",
+        "2025-07-18T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_publication_claim_only": 4
+      },
+      "methods": {
+        "vote": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market_multiplicative": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market_shin": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        },
+        "market90_vote10_shin": {
+          "bets": 4,
+          "decided": 4,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.25,
+          "net_units": -1.56,
+          "roi": -0.39
+        }
+      }
+    },
+    "K1/2025/controls": {
+      "candidate_fixtures": 1,
+      "common_bet_fixtures": 1,
+      "period": [
+        "2025-07-18T19:30:00+09:00",
+        "2025-07-18T19:30:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_publication_claim_only": 1
+      },
+      "methods": {
+        "vote": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        },
+        "market90_vote10_shin": {
+          "bets": 1,
+          "decided": 1,
+          "hits": 0,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.0,
+          "net_units": -1.0,
+          "roi": -1.0
+        }
+      }
+    },
+    "K2/2025/controls": {
+      "candidate_fixtures": 3,
+      "common_bet_fixtures": 3,
+      "period": [
+        "2025-07-06T19:00:00+09:00",
+        "2025-07-13T19:00:00+09:00"
+      ],
+      "evidence_counts": {
+        "retrospective_publication_claim_only": 3
+      },
+      "methods": {
+        "vote": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -0.56,
+          "roi": -0.18666666666666668
+        },
+        "market_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -0.56,
+          "roi": -0.18666666666666668
+        },
+        "market_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -0.56,
+          "roi": -0.18666666666666668
+        },
+        "market90_vote10_multiplicative": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -0.56,
+          "roi": -0.18666666666666668
+        },
+        "market90_vote10_shin": {
+          "bets": 3,
+          "decided": 3,
+          "hits": 1,
+          "refunds": 0,
+          "abstained": 0,
+          "hit_rate": 0.3333333333333333,
+          "net_units": -0.56,
+          "roi": -0.18666666666666668
+        }
+      }
+    }
+  },
+  "method": "Flat single stake 1; no monthly cap simulation; no model fitting or promotion. Tie abstains. Two-way baseball draw refunds. Soccer regulation 3way; basketball underlying historical fullgame/OT assumptions remain conditional.",
+  "probability_bases": {
+    "multiplicative": "normalized inverse decimal odds",
+    "shin": "pinned repository src/devig.py shin; same market basis as production, not a replay of entire production electorate/filter policy"
+  },
+  "code_sha256": "2a102be60e3e07c03644afff1480f72e07d2fe1d08165f98cfed5bc5b29f31c9",
+  "strict_pregame_common_evidence_proven": false,
+  "production_policy_or_monthly_ledger_modified": false
+}

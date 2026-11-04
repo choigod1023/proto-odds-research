@@ -37,7 +37,7 @@ class BasketballComparison(unittest.TestCase):
             lines(root/'prices/offers.jsonl',[price]);old=m.SEASON;m.SEASON=season
             try:
                 out=repo/'out';summary=m.run(root,out);self.assertEqual(summary['unique_fixtures'],1)
-                row=json.loads((out/'comparisons.jsonl').read_text());self.assertEqual(row['category'],'historical_posted_claim');self.assertEqual(len(row['votes']),1);self.assertEqual(row['votes'][0]['candidate_id'],'1')
+                row=json.loads((out/'comparisons.jsonl').read_text(encoding='utf8'));self.assertEqual(row['category'],'historical_posted_claim');self.assertEqual(len(row['votes']),1);self.assertEqual(row['votes'][0]['candidate_id'],'1')
                 lines(root/'prices/offers.jsonl',[price,dict(price,odds=[2.1,1.6])]);self.assertEqual(m.run(root,out)['unique_fixtures'],0)
             finally:m.SEASON=old
 
