@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory=$true)][string]$PythonExe,
     [Parameter(Mandatory=$true)][string]$RuntimeRoot,
-    [Parameter(Mandatory=$true)][string]$StateRoot
+    [Parameter(Mandatory=$true)][string]$StateRoot,
+    [string]$M1StateRoot = ''
 )
 $ErrorActionPreference = 'Stop'
 $taskName = 'ProtoKboM0Forward-v1'
@@ -15,6 +16,10 @@ $description = 'KBO paired M0 research only; direct sources; no wagering or prod
 $existing = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
 if ($existing) { throw 'Collector task already exists; preserve it and inspect its pinned revision before any explicit update' }
 $arguments = '-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + $entryPoint + '" -PythonExe "' + $PythonExe + '" -RuntimeRoot "' + $RuntimeRoot + '" -StateRoot "' + $StateRoot + '"'
+if ($M1StateRoot) {
+    $M1StateRoot = [System.IO.Path]::GetFullPath($M1StateRoot)
+    $arguments += ' -M1StateRoot "' + $M1StateRoot + '"'
+}
 $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $arguments -WorkingDirectory $RuntimeRoot
 $trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(1)) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration (New-TimeSpan -Days 3650)
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 5)

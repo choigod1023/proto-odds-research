@@ -1,0 +1,31 @@
+{
+  "schema": "frozen-m1-service-rehearsal-v1",
+  "league": "KBO",
+  "models": ["m0_actual", "m0_projected", "m1_projected"],
+  "frozen_training_seasons": [2023, 2024, 2025],
+  "live_cutoff_minutes": 30,
+  "first_capture_immutable": true,
+  "source_input_reconstructed_from_archived_bytes": true,
+  "local_receipts_are_not_external_timestamp_authentication": true,
+  "one_input_payload_for_all_models": true,
+  "unpriced_forecasts_have_no_roi": true,
+  "product_results_separated": true,
+  "low_odds_trigger_inclusive": "1.20",
+  "low_odds_estimated_ev": "p_win*(odds-1)-p_loss; refund has net zero",
+  "alternatives": "research Pareto frontier in hit probability and estimated EV, no forced replacement",
+  "handicap_total_model": "independent Poisson/Skellam estimates only, not calibrated or promoted",
+  "handicap_total_live_price_stream_connected": false,
+  "production_policy_changed": false,
+  "existing_monthly_loss_limit_krw": 50000,
+  "existing_paper_wallet_changed": false,
+  "recurring_task_or_installed_runtime_changed": false,
+  "model_promoted": false,
+  "promotion_status": "blocked_by_full_cohort_performance_and_missing_live_positive_capture",
+  "promotion_requires": [
+    "real pregame complete announced IDs, history and price capture with preserved source lineage",
+    "same event, price and settlement comparison on a separately frozen evaluation period",
+    "accuracy, ROI and probability calibration support beyond the selected tipster subset",
+    "no retrospective replacement of frozen picks or existing budget ledger",
+    "explicit production release authorization"
+  ]
+}

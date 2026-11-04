@@ -1,0 +1,1740 @@
+{
+  "method": "first captured pre-kickoff snapshot per event; selected product settlement by snapshot and selection id",
+  "ledger": {
+    "records": 10749,
+    "pregame_prediction_records": 8084,
+    "events": 2918,
+    "eligible_market_reference_events": 2717,
+    "original": {
+      "selected": 2717,
+      "settled": 675,
+      "pending": 2042,
+      "hit": 383,
+      "miss": 292,
+      "void": 0,
+      "hit_rate_ex_void": 0.5674074074074074,
+      "roi_settled_stake": -0.08586666666666666,
+      "profit_units": -57.959999999999994,
+      "max_drawdown_units_settled_only": 68.71999999999997
+    },
+    "skip_at_most_1_20": {
+      "selected": 2679,
+      "settled": 669,
+      "pending": 2010,
+      "hit": 377,
+      "miss": 292,
+      "void": 0,
+      "hit_rate_ex_void": 0.5635276532137519,
+      "roi_settled_stake": -0.08733931240657697,
+      "profit_units": -58.42999999999999,
+      "max_drawdown_units_settled_only": 69.19
+    },
+    "low_original": {
+      "selected": 38,
+      "settled": 6,
+      "pending": 32,
+      "hit": 6,
+      "miss": 0,
+      "void": 0,
+      "hit_rate_ex_void": 1.0,
+      "roi_settled_stake": 0.07833333333333337,
+      "profit_units": 0.4700000000000002,
+      "max_drawdown_units_settled_only": 0.0
+    },
+    "low_abstain": 38,
+    "low_with_same_signature_descriptive_alternative": 38,
+    "alternative_settled": 0,
+    "validated_ev_alternatives": 0,
+    "monthly": {
+      "2026-08": {
+        "original": {
+          "selected": 123,
+          "settled": 3,
+          "pending": 120,
+          "hit": 2,
+          "miss": 1,
+          "void": 0,
+          "hit_rate_ex_void": 0.6666666666666666,
+          "roi_settled_stake": 0.06999999999999999,
+          "profit_units": 0.20999999999999996,
+          "max_drawdown_units_settled_only": 1.0
+        },
+        "skip": {
+          "selected": 123,
+          "settled": 3,
+          "pending": 120,
+          "hit": 2,
+          "miss": 1,
+          "void": 0,
+          "hit_rate_ex_void": 0.6666666666666666,
+          "roi_settled_stake": 0.06999999999999999,
+          "profit_units": 0.20999999999999996,
+          "max_drawdown_units_settled_only": 1.0
+        },
+        "low": {
+          "selected": 0,
+          "settled": 0,
+          "pending": 0,
+          "hit": 0,
+          "miss": 0,
+          "void": 0,
+          "hit_rate_ex_void": null,
+          "roi_settled_stake": null,
+          "profit_units": 0,
+          "max_drawdown_units_settled_only": 0.0
+        }
+      },
+      "2026-09": {
+        "original": {
+          "selected": 1404,
+          "settled": 544,
+          "pending": 860,
+          "hit": 302,
+          "miss": 242,
+          "void": 0,
+          "hit_rate_ex_void": 0.5551470588235294,
+          "roi_settled_stake": -0.11119485294117647,
+          "profit_units": -60.489999999999995,
+          "max_drawdown_units_settled_only": 65.08999999999999
+        },
+        "skip": {
+          "selected": 1402,
+          "settled": 543,
+          "pending": 859,
+          "hit": 301,
+          "miss": 242,
+          "void": 0,
+          "hit_rate_ex_void": 0.5543278084714549,
+          "roi_settled_stake": -0.11141804788213627,
+          "profit_units": -60.49999999999999,
+          "max_drawdown_units_settled_only": 65.1
+        },
+        "low": {
+          "selected": 2,
+          "settled": 1,
+          "pending": 1,
+          "hit": 1,
+          "miss": 0,
+          "void": 0,
+          "hit_rate_ex_void": 1.0,
+          "roi_settled_stake": 0.010000000000000009,
+          "profit_units": 0.010000000000000009,
+          "max_drawdown_units_settled_only": 0.0
+        }
+      },
+      "2026-10": {
+        "original": {
+          "selected": 1037,
+          "settled": 92,
+          "pending": 945,
+          "hit": 56,
+          "miss": 36,
+          "void": 0,
+          "hit_rate_ex_void": 0.6086956521739131,
+          "roi_settled_stake": -0.02836956521739129,
+          "profit_units": -2.6099999999999985,
+          "max_drawdown_units_settled_only": 11.77
+        },
+        "skip": {
+          "selected": 1027,
+          "settled": 91,
+          "pending": 936,
+          "hit": 55,
+          "miss": 36,
+          "void": 0,
+          "hit_rate_ex_void": 0.6043956043956044,
+          "roi_settled_stake": -0.029340659340659322,
+          "profit_units": -2.669999999999998,
+          "max_drawdown_units_settled_only": 11.77
+        },
+        "low": {
+          "selected": 10,
+          "settled": 1,
+          "pending": 9,
+          "hit": 1,
+          "miss": 0,
+          "void": 0,
+          "hit_rate_ex_void": 1.0,
+          "roi_settled_stake": 0.06000000000000005,
+          "profit_units": 0.06000000000000005,
+          "max_drawdown_units_settled_only": 0.0
+        }
+      },
+      "2026-11": {
+        "original": {
+          "selected": 153,
+          "settled": 36,
+          "pending": 117,
+          "hit": 23,
+          "miss": 13,
+          "void": 0,
+          "hit_rate_ex_void": 0.6388888888888888,
+          "roi_settled_stake": 0.13694444444444445,
+          "profit_units": 4.930000000000001,
+          "max_drawdown_units_settled_only": 4.61
+        },
+        "skip": {
+          "selected": 127,
+          "settled": 32,
+          "pending": 95,
+          "hit": 19,
+          "miss": 13,
+          "void": 0,
+          "hit_rate_ex_void": 0.59375,
+          "roi_settled_stake": 0.1415625,
+          "profit_units": 4.53,
+          "max_drawdown_units_settled_only": 4.61
+        },
+        "low": {
+          "selected": 26,
+          "settled": 4,
+          "pending": 22,
+          "hit": 4,
+          "miss": 0,
+          "void": 0,
+          "hit_rate_ex_void": 1.0,
+          "roi_settled_stake": 0.10000000000000003,
+          "profit_units": 0.40000000000000013,
+          "max_drawdown_units_settled_only": 0.0
+        }
+      }
+    },
+    "low_rows": [
+      {
+        "event_id": "evt_bc6cd580368568cf",
+        "snapshot_id": "dec_7cbf98f64b74af01",
+        "kickoff": "2026-09-06T01:30:00.000000Z",
+        "odds": 1.11,
+        "probability": 0.8334,
+        "market": "핸디캡",
+        "label": "H -2.0",
+        "selection_id": "sel_ed5b50e2af290202",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_c89429f48ca3b957",
+        "snapshot_id": "dec_4063b73abb42328f",
+        "kickoff": "2026-09-08T22:00:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.922,
+        "market": "핸디캡",
+        "label": "H -3.5",
+        "selection_id": "sel_6ec086fcd71ed991",
+        "result": "hit",
+        "settlement_source": {
+          "manifest_sha256": "8b7a5f338b4e7ebf9f64ec703b1fd1456606636a3aba51509d5ca424e8cca075",
+          "mode": "official_score_with_frozen_terms",
+          "name": "betman_official_closed_slip",
+          "official_scores": [
+            {
+              "official_game_no": "70",
+              "official_line": "H -1.0",
+              "official_result_text": "1:0",
+              "official_round": 106,
+              "official_source": {
+                "evidence_sha256": "75abe5a865cdc8b15ef066b56d55304e0c67953d517a2afa5632cedabcfea18b",
+                "game_name": "플루미넨:플라텐세",
+                "game_no": "70",
+                "kickoff_text": "20260909070000",
+                "label": "H -1.0",
+                "league": "코파리베",
+                "market_text": "축구 핸디캡",
+                "options": [
+                  {
+                    "key": "1",
+                    "side": "승"
+                  },
+                  {
+                    "key": "2",
+                    "side": "무"
+                  },
+                  {
+                    "key": "3",
+                    "side": "패"
+                  }
+                ],
+                "received_at": "2026-11-04T02:34:04.723000+00:00",
+                "result_action": "결과보기",
+                "result_text": "1:0",
+                "row_index": 324,
+                "rowname": "플루미넨시_CA플라텐세_1788904800000",
+                "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260106&isIFR=Y"
+              }
+            },
+            {
+              "official_game_no": "71",
+              "official_line": "H -2.0",
+              "official_result_text": "0:0",
+              "official_round": 106,
+              "official_source": {
+                "evidence_sha256": "75abe5a865cdc8b15ef066b56d55304e0c67953d517a2afa5632cedabcfea18b",
+                "game_name": "플루미넨:플라텐세",
+                "game_no": "71",
+                "kickoff_text": "20260909070000",
+                "label": "H -2.0",
+                "league": "코파리베",
+                "market_text": "축구 핸디캡",
+                "options": [
+                  {
+                    "key": "1",
+                    "side": "승"
+                  },
+                  {
+                    "key": "2",
+                    "side": "무"
+                  },
+                  {
+                    "key": "3",
+                    "side": "패"
+                  }
+                ],
+                "received_at": "2026-11-04T02:34:04.723000+00:00",
+                "result_action": "결과보기",
+                "result_text": "0:0",
+                "row_index": 325,
+                "rowname": "플루미넨시_CA플라텐세_1788904800000",
+                "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260106&isIFR=Y"
+              }
+            },
+            {
+              "official_game_no": "72",
+              "official_line": "H -3.5",
+              "official_result_text": "-1.5:0",
+              "official_round": 106,
+              "official_source": {
+                "evidence_sha256": "75abe5a865cdc8b15ef066b56d55304e0c67953d517a2afa5632cedabcfea18b",
+                "game_name": "플루미넨:플라텐세",
+                "game_no": "72",
+                "kickoff_text": "20260909070000",
+                "label": "H -3.5",
+                "league": "코파리베",
+                "market_text": "축구 소수핸디캡",
+                "options": [
+                  {
+                    "key": "1",
+                    "side": "승"
+                  },
+                  {
+                    "key": "3",
+                    "side": "패"
+                  }
+                ],
+                "received_at": "2026-11-04T02:34:04.723000+00:00",
+                "result_action": "결과보기",
+                "result_text": "-1.5:0",
+                "row_index": 326,
+                "rowname": "플루미넨시_CA플라텐세_1788904800000",
+                "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260106&isIFR=Y"
+              }
+            }
+          ],
+          "original_label": "H -3.5",
+          "original_line": "-3.5",
+          "original_market": "핸디캡",
+          "original_n_way": 2,
+          "provenance": "captured_betman_website_dom"
+        },
+        "official_match": {
+          "evidence_sha256": "75abe5a865cdc8b15ef066b56d55304e0c67953d517a2afa5632cedabcfea18b",
+          "game_name": "플루미넨:플라텐세",
+          "game_no": "72",
+          "kickoff_text": "20260909070000",
+          "label": "H -3.5",
+          "league": "코파리베",
+          "market_text": "축구 소수핸디캡",
+          "options": [
+            {
+              "key": "1",
+              "side": "승"
+            },
+            {
+              "key": "3",
+              "side": "패"
+            }
+          ],
+          "received_at": "2026-11-04T02:34:04.723000+00:00",
+          "result_action": "결과보기",
+          "result_text": "-1.5:0",
+          "row_index": 326,
+          "rowname": "플루미넨시_CA플라텐세_1788904800000",
+          "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260106&isIFR=Y"
+        }
+      },
+      {
+        "event_id": "evt_c4b76523975f3f28",
+        "snapshot_id": "dec_c9a97e3ae8557fe9",
+        "kickoff": "2026-10-11T02:30:00.000000Z",
+        "odds": 1.1,
+        "probability": 0.8412,
+        "market": "핸디캡",
+        "label": "H -2.0",
+        "selection_id": "sel_117133cba4371c09",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_593bd494105dfd49",
+        "snapshot_id": "dec_f8ef29400dfdd93b",
+        "kickoff": "2026-10-27T10:00:00.000000Z",
+        "odds": 1.14,
+        "probability": 0.8109,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_931ad804f9f9b3fc",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_212a99dea5a30d6b",
+        "snapshot_id": "dec_0e0da1c2606c67b2",
+        "kickoff": "2026-10-27T23:30:00.000000Z",
+        "odds": 1.05,
+        "probability": 0.8778,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_2e923d7b20497368",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_96e5d9e40fff0bcb",
+        "snapshot_id": "dec_ab14d72eee9e1a61",
+        "kickoff": "2026-10-28T00:00:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.9154,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_d83d823e9c89a8e3",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_29c43aab3aa85555",
+        "snapshot_id": "dec_2459e61482573adc",
+        "kickoff": "2026-10-28T12:10:00.000000Z",
+        "odds": 1.12,
+        "probability": 0.8182,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_7b5bccc563edd861",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_1ac03c8f756e1f5c",
+        "snapshot_id": "dec_63b36e4ed32fd8bc",
+        "kickoff": "2026-10-28T23:00:00.000000Z",
+        "odds": 1.1,
+        "probability": 0.8344,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_e92df62ec3af5dd1",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_7d9a7d6b258bbf25",
+        "snapshot_id": "dec_22b2429cb3db9e24",
+        "kickoff": "2026-10-28T23:00:00.000000Z",
+        "odds": 1.2,
+        "probability": 0.7584,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_9d26699406bdf7dc",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_ba03496a231fbc07",
+        "snapshot_id": "dec_ece8394edc41f366",
+        "kickoff": "2026-10-29T00:00:00.000000Z",
+        "odds": 1.15,
+        "probability": 0.7947,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_9658b622e7a3c7fb",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_55340db161a08b63",
+        "snapshot_id": "dec_ccaa97656dc0794e",
+        "kickoff": "2026-10-29T01:00:00.000000Z",
+        "odds": 1.05,
+        "probability": 0.8778,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_eb7d9442beb223d1",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_6a0175da2c521b87",
+        "snapshot_id": "dec_f52c4c10b462bed5",
+        "kickoff": "2026-10-31T07:30:00.000000Z",
+        "odds": 1.06,
+        "probability": 0.8686,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_b5ac01ff01fe62e1",
+        "result": "hit",
+        "settlement_source": {
+          "game_date": "10.31(토) 16:30",
+          "game_no": "1539",
+          "name": "proto_official",
+          "path": "live_odds",
+          "round": "129"
+        },
+        "official_match": {
+          "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260129&isIFR=Y",
+          "evidence_sha256": "a1228db25d420807a8337588240963b3036be5eafa222884acb84b1550afe4d2",
+          "received_at": "2026-11-04T02:35:14.362000+00:00",
+          "result_text": "94:67",
+          "result_action": "결과보기",
+          "market_text": "농구 승패",
+          "label": "",
+          "row_index": 247,
+          "kickoff_text": "20261031163000",
+          "rowname": "대구한국가스공사 페가수스_울산현대모비스 피버스_1793431800000",
+          "game_name": "한국가스:울산모비",
+          "game_no": "1539",
+          "league": "KBL",
+          "options": [
+            {
+              "key": "1",
+              "side": "승"
+            },
+            {
+              "key": "3",
+              "side": "패"
+            }
+          ]
+        }
+      },
+      {
+        "event_id": "evt_bf85ee547c44acec",
+        "snapshot_id": "dec_1450376f653bfc72",
+        "kickoff": "2026-11-01T00:00:00.000000Z",
+        "odds": 1.06,
+        "probability": 0.8686,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_a376664652c87df4",
+        "result": "hit",
+        "settlement_source": {
+          "game_date": "11.01(일) 09:00",
+          "game_no": "1812",
+          "name": "proto_official",
+          "path": "live_odds",
+          "round": "129"
+        },
+        "official_match": {
+          "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260129&isIFR=Y",
+          "evidence_sha256": "a1228db25d420807a8337588240963b3036be5eafa222884acb84b1550afe4d2",
+          "received_at": "2026-11-04T02:35:14.362000+00:00",
+          "result_text": "136:105",
+          "result_action": "결과보기",
+          "market_text": "농구 승패",
+          "label": "",
+          "row_index": 488,
+          "kickoff_text": "20261101090000",
+          "rowname": "멤피스 그리즐리스_새크라멘토 킹스_1793491200000",
+          "game_name": "멤피그리:새크킹스",
+          "game_no": "1812",
+          "league": "NBA",
+          "options": [
+            {
+              "key": "1",
+              "side": "승"
+            },
+            {
+              "key": "3",
+              "side": "패"
+            }
+          ]
+        }
+      },
+      {
+        "event_id": "evt_8650a78f791f996e",
+        "snapshot_id": "dec_87972f04d9865522",
+        "kickoff": "2026-11-01T00:00:00.000000Z",
+        "odds": 1.12,
+        "probability": 0.8182,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_a8af282149dcc1bf",
+        "result": "hit",
+        "settlement_source": {
+          "game_date": "11.01(일) 09:00",
+          "game_no": "1816",
+          "name": "proto_official",
+          "path": "live_odds",
+          "round": "129"
+        },
+        "official_match": {
+          "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260129&isIFR=Y",
+          "evidence_sha256": "a1228db25d420807a8337588240963b3036be5eafa222884acb84b1550afe4d2",
+          "received_at": "2026-11-04T02:35:14.362000+00:00",
+          "result_text": "111:136",
+          "result_action": "결과보기",
+          "market_text": "농구 승패",
+          "label": "",
+          "row_index": 492,
+          "kickoff_text": "20261101090000",
+          "rowname": "밀워키 벅스_클리블랜드 캐벌리어스_1793491200000",
+          "game_name": "밀워벅스:클리캐벌",
+          "game_no": "1816",
+          "league": "NBA",
+          "options": [
+            {
+              "key": "1",
+              "side": "승"
+            },
+            {
+              "key": "3",
+              "side": "패"
+            }
+          ]
+        }
+      },
+      {
+        "event_id": "evt_318fd1eb73c4ca13",
+        "snapshot_id": "dec_5c96eb7494189884",
+        "kickoff": "2026-11-01T00:00:00.000000Z",
+        "odds": 1.02,
+        "probability": 0.9057,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_b6f82dcbb299ca4b",
+        "result": "hit",
+        "settlement_source": {
+          "game_date": "11.01(일) 09:00",
+          "game_no": "1820",
+          "name": "proto_official",
+          "path": "live_odds",
+          "round": "129"
+        },
+        "official_match": {
+          "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260129&isIFR=Y",
+          "evidence_sha256": "a1228db25d420807a8337588240963b3036be5eafa222884acb84b1550afe4d2",
+          "received_at": "2026-11-04T02:35:14.362000+00:00",
+          "result_text": "121:111",
+          "result_action": "결과보기",
+          "market_text": "농구 승패",
+          "label": "",
+          "row_index": 496,
+          "kickoff_text": "20261101090000",
+          "rowname": "샌안토니오 스퍼스_미네소타 팀버울브스_1793491200000",
+          "game_name": "샌안스퍼:미네울브",
+          "game_no": "1820",
+          "league": "NBA",
+          "options": [
+            {
+              "key": "1",
+              "side": "승"
+            },
+            {
+              "key": "3",
+              "side": "패"
+            }
+          ]
+        }
+      },
+      {
+        "event_id": "evt_25386dd748640ed8",
+        "snapshot_id": "dec_a28194ebf87fa25e",
+        "kickoff": "2026-11-02T16:00:00.000000Z",
+        "odds": 1.2,
+        "probability": 0.7678,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_4a5ed374ae868ef8",
+        "result": "hit",
+        "settlement_source": {
+          "game_date": "11.03(화) 01:00",
+          "game_no": "2080",
+          "name": "proto_official",
+          "path": "live_odds",
+          "round": "130"
+        },
+        "official_match": {
+          "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameSlipIFR.do?gmId=G101&gmTs=260130&isIFR=Y",
+          "evidence_sha256": "40652e53ba6f7a54eae6ec2ece145356b17f9405a93217c7f5252367b6100d11",
+          "received_at": "2026-11-04T02:35:15.944000+00:00",
+          "result_text": "4:3",
+          "result_action": "결과보기",
+          "market_text": "축구 승무패",
+          "label": "",
+          "row_index": 47,
+          "kickoff_text": "20261103010000",
+          "rowname": "알와슬_에어포스 알쿠와알자위야_1793635200000",
+          "game_name": "알와슬:에어알쿠",
+          "game_no": "2080",
+          "league": "ACLE",
+          "options": [
+            {
+              "key": "1",
+              "side": "승"
+            },
+            {
+              "key": "2",
+              "side": "무"
+            },
+            {
+              "key": "3",
+              "side": "패"
+            }
+          ]
+        }
+      },
+      {
+        "event_id": "evt_5ed8500894c1fe4f",
+        "snapshot_id": "dec_719638295ee01719",
+        "kickoff": "2026-11-03T00:30:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.9154,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_991f682fe59f96a4",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_844d5ee21501fd13",
+        "snapshot_id": "dec_acb5cf46840cffd6",
+        "kickoff": "2026-11-03T00:30:00.000000Z",
+        "odds": 1.02,
+        "probability": 0.9057,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_a7d233b8f1c3d3fe",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_0abeff366d1beba4",
+        "snapshot_id": "dec_cd57fd3c2043213a",
+        "kickoff": "2026-11-03T01:00:00.000000Z",
+        "odds": 1.09,
+        "probability": 0.8427,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_6ab592cf4afc64f7",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_065d167e0ac972d1",
+        "snapshot_id": "dec_a7d5d1064d74e36d",
+        "kickoff": "2026-11-03T01:00:00.000000Z",
+        "odds": 1.06,
+        "probability": 0.8686,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_3ad55b4a53e5509b",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_3016d8a4a8fde193",
+        "snapshot_id": "dec_98265730d40ad630",
+        "kickoff": "2026-11-03T01:30:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.9154,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_d8c073a8a2b91d42",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_020c2135c42aef94",
+        "snapshot_id": "dec_e523e9180d996c43",
+        "kickoff": "2026-11-03T20:00:00.000000Z",
+        "odds": 1.18,
+        "probability": 0.7815,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_f29930eb6205c67b",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_2ee4e760bfdbf8dc",
+        "snapshot_id": "dec_fc33ef4eb8466a9b",
+        "kickoff": "2026-11-03T10:00:00.000000Z",
+        "odds": 1.17,
+        "probability": 0.7882,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_a39119903154e985",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_9c13cc3ed135b73d",
+        "snapshot_id": "dec_7ba7efe5d5596405",
+        "kickoff": "2026-11-04T10:00:00.000000Z",
+        "odds": 1.07,
+        "probability": 0.8658,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_ec0c57c2b6aeadb1",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_5de2d5f47faef84b",
+        "snapshot_id": "dec_bba1d8688cec6a51",
+        "kickoff": "2026-11-04T10:00:00.000000Z",
+        "odds": 1.2,
+        "probability": 0.7584,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_1b31c71ff960b853",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_c7cbecdb29563f26",
+        "snapshot_id": "dec_fd45cf5b860b5818",
+        "kickoff": "2026-11-04T10:40:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.9154,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_db544fa7a2878b09",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_2ad425d59e810fd3",
+        "snapshot_id": "dec_ac4d840808873203",
+        "kickoff": "2026-11-04T17:45:00.000000Z",
+        "odds": 1.17,
+        "probability": 0.7888,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_c65f68192afed9b5",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_579c07c4339fbfcc",
+        "snapshot_id": "dec_60390731da09bf7e",
+        "kickoff": "2026-11-04T20:00:00.000000Z",
+        "odds": 1.19,
+        "probability": 0.7744,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_377748b3a230730b",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_a5b83f2dbcbe4f10",
+        "snapshot_id": "dec_8314afb563be2513",
+        "kickoff": "2026-11-05T17:45:00.000000Z",
+        "odds": 1.12,
+        "probability": 0.8253,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_12856e4d70da534d",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_80de9075f1d8b15b",
+        "snapshot_id": "dec_ad7dfecb5875734d",
+        "kickoff": "2026-11-05T17:45:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.9189,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_113e2df53bed5b34",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_d2564d0c12560cbd",
+        "snapshot_id": "dec_0553e80c71147d6a",
+        "kickoff": "2026-11-05T20:00:00.000000Z",
+        "odds": 1.13,
+        "probability": 0.8172,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_5c221cb44b16d354",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_985eebad4ba6936c",
+        "snapshot_id": "dec_fc4d855dfc5edd9d",
+        "kickoff": "2026-11-05T20:00:00.000000Z",
+        "odds": 1.14,
+        "probability": 0.8109,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_7b14816603aaa884",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_09fe5484aca5626e",
+        "snapshot_id": "dec_8aa0a9bf2094cc6e",
+        "kickoff": "2026-11-05T20:00:00.000000Z",
+        "odds": 1.11,
+        "probability": 0.8332,
+        "market": "승무패",
+        "label": "",
+        "selection_id": "sel_aefb9e3751395881",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_733f758ecbd9c65e",
+        "snapshot_id": "dec_6d66bbd38a802d81",
+        "kickoff": "2026-11-05T00:30:00.000000Z",
+        "odds": 1.04,
+        "probability": 0.8868,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_202062cc5b6553f4",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_8a023a71637f545c",
+        "snapshot_id": "dec_39d2c1d0256f9f53",
+        "kickoff": "2026-11-05T00:30:00.000000Z",
+        "odds": 1.01,
+        "probability": 0.9154,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_61d7e8643c0ce031",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_e312dba63d8eae5b",
+        "snapshot_id": "dec_217ca04747cdc4dd",
+        "kickoff": "2026-11-05T01:30:00.000000Z",
+        "odds": 1.14,
+        "probability": 0.8024,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_30aa58a69f799ce7",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_9e8719d7a58b2a85",
+        "snapshot_id": "dec_a5201136f9ee1952",
+        "kickoff": "2026-11-05T02:30:00.000000Z",
+        "odds": 1.05,
+        "probability": 0.8778,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_2e2f86f6bf6d7f90",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      },
+      {
+        "event_id": "evt_bd4c27d18cf4f8ea",
+        "snapshot_id": "dec_632470c258572384",
+        "kickoff": "2026-11-05T03:00:00.000000Z",
+        "odds": 1.04,
+        "probability": 0.8868,
+        "market": "승패",
+        "label": "",
+        "selection_id": "sel_56478d0a467a6ec2",
+        "result": null,
+        "settlement_source": null,
+        "official_match": null
+      }
+    ],
+    "alternative_rows": [
+      {
+        "event_id": "evt_bc6cd580368568cf",
+        "snapshot_id": "dec_7cbf98f64b74af01",
+        "option": {
+          "final_probability": 0.1042,
+          "label": "H -2.0",
+          "line": -2.0,
+          "market": "핸디캡",
+          "market_probability": 0.1042,
+          "odds": 6.8,
+          "offer_id": "off_ee7b3b0d3d65ac60",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "핸디무",
+          "selection_id": "sel_f45c4f95164a414c"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_c89429f48ca3b957",
+        "snapshot_id": "dec_4063b73abb42328f",
+        "option": {
+          "final_probability": 0.078,
+          "label": "H -3.5",
+          "line": -3.5,
+          "market": "핸디캡",
+          "market_probability": 0.078,
+          "odds": 6.84,
+          "offer_id": "off_c183a7927ead5d0f",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "핸디홈",
+          "selection_id": "sel_8c31dad3e3417268"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_c4b76523975f3f28",
+        "snapshot_id": "dec_c9a97e3ae8557fe9",
+        "option": {
+          "final_probability": 0.1018,
+          "label": "H -2.0",
+          "line": -2.0,
+          "market": "핸디캡",
+          "market_probability": 0.1018,
+          "odds": 6.9,
+          "offer_id": "off_e3e6739ee7b672a9",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "핸디무",
+          "selection_id": "sel_8ca3b3a8a683a12f"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_593bd494105dfd49",
+        "snapshot_id": "dec_f8ef29400dfdd93b",
+        "option": {
+          "final_probability": 0.1314,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1314,
+          "odds": 5.7,
+          "offer_id": "off_678edbbb81d40bb0",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_afd7d47383f779a2"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_212a99dea5a30d6b",
+        "snapshot_id": "dec_0e0da1c2606c67b2",
+        "option": {
+          "final_probability": 0.1222,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1222,
+          "odds": 5.08,
+          "offer_id": "off_f98d9b0403344041",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_a85f4c8dfceb1315"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_96e5d9e40fff0bcb",
+        "snapshot_id": "dec_ab14d72eee9e1a61",
+        "option": {
+          "final_probability": 0.0846,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0846,
+          "odds": 6.28,
+          "offer_id": "off_ef465bcc2899225f",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_a6ef9e769b483105"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_29c43aab3aa85555",
+        "snapshot_id": "dec_2459e61482573adc",
+        "option": {
+          "final_probability": 0.1818,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1818,
+          "odds": 3.9,
+          "offer_id": "off_059c35c340198411",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "홈",
+          "selection_id": "sel_4a10b70b9ba4a005"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_1ac03c8f756e1f5c",
+        "snapshot_id": "dec_63b36e4ed32fd8bc",
+        "option": {
+          "final_probability": 0.1656,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1656,
+          "odds": 4.16,
+          "offer_id": "off_de8829bb11fd59be",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_97f61d3208f02a9c"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_7d9a7d6b258bbf25",
+        "snapshot_id": "dec_22b2429cb3db9e24",
+        "option": {
+          "final_probability": 0.2416,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.2416,
+          "odds": 3.16,
+          "offer_id": "off_910b370e65a6ff5a",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_a21ed7a59bd7cbe6"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_ba03496a231fbc07",
+        "snapshot_id": "dec_ece8394edc41f366",
+        "option": {
+          "final_probability": 0.2053,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.2053,
+          "odds": 3.57,
+          "offer_id": "off_f103b820c88fface",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "홈",
+          "selection_id": "sel_795fd29b39b75538"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_55340db161a08b63",
+        "snapshot_id": "dec_ccaa97656dc0794e",
+        "option": {
+          "final_probability": 0.1222,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1222,
+          "odds": 5.08,
+          "offer_id": "off_b07c7ebea323489b",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "홈",
+          "selection_id": "sel_061afb184455cc6c"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_6a0175da2c521b87",
+        "snapshot_id": "dec_f52c4c10b462bed5",
+        "option": {
+          "final_probability": 0.1314,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1314,
+          "odds": 4.85,
+          "offer_id": "off_ec12011ba0735222",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_28eb49677c13e4f2"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_bf85ee547c44acec",
+        "snapshot_id": "dec_1450376f653bfc72",
+        "option": {
+          "final_probability": 0.1314,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1314,
+          "odds": 4.85,
+          "offer_id": "off_a52eca85eb5b0df2",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_0b45dc6e872243e4"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_8650a78f791f996e",
+        "snapshot_id": "dec_87972f04d9865522",
+        "option": {
+          "final_probability": 0.1818,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1818,
+          "odds": 3.9,
+          "offer_id": "off_d45349169a2a9e46",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "홈",
+          "selection_id": "sel_b4547e1316c54bf8"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_318fd1eb73c4ca13",
+        "snapshot_id": "dec_5c96eb7494189884",
+        "option": {
+          "final_probability": 0.0943,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0943,
+          "odds": 5.92,
+          "offer_id": "off_5cf06696be419565",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_f2f737da94dc73de"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_25386dd748640ed8",
+        "snapshot_id": "dec_a28194ebf87fa25e",
+        "option": {
+          "final_probability": 0.1551,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1551,
+          "odds": 5.0,
+          "offer_id": "off_d1058536c80e261a",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_ae1006251e2cbfbd"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_5ed8500894c1fe4f",
+        "snapshot_id": "dec_719638295ee01719",
+        "option": {
+          "final_probability": 0.0846,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0846,
+          "odds": 6.28,
+          "offer_id": "off_75a8db8b1d598f6e",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_2cee5a59bfd57ffa"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_844d5ee21501fd13",
+        "snapshot_id": "dec_acb5cf46840cffd6",
+        "option": {
+          "final_probability": 0.0943,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0943,
+          "odds": 5.92,
+          "offer_id": "off_6ab4900b88eb6325",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_e0c57208173c4ca5"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_0abeff366d1beba4",
+        "snapshot_id": "dec_cd57fd3c2043213a",
+        "option": {
+          "final_probability": 0.1573,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1573,
+          "odds": 4.31,
+          "offer_id": "off_5f8b04aa32a66d42",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_1544cf06bb786789"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_065d167e0ac972d1",
+        "snapshot_id": "dec_a7d5d1064d74e36d",
+        "option": {
+          "final_probability": 0.1314,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1314,
+          "odds": 4.85,
+          "offer_id": "off_bc232d59453d95c8",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_132c9713f3bf8ccb"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_3016d8a4a8fde193",
+        "snapshot_id": "dec_98265730d40ad630",
+        "option": {
+          "final_probability": 0.0846,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0846,
+          "odds": 6.28,
+          "offer_id": "off_996a473cb0c6f62a",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_43b478a72e348981"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_020c2135c42aef94",
+        "snapshot_id": "dec_e523e9180d996c43",
+        "option": {
+          "final_probability": 0.1349,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1349,
+          "odds": 5.6,
+          "offer_id": "off_8a586b3983158e30",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_61e6e16158d371bf"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_2ee4e760bfdbf8dc",
+        "snapshot_id": "dec_fc33ef4eb8466a9b",
+        "option": {
+          "final_probability": 0.1543,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1543,
+          "odds": 5.0,
+          "offer_id": "off_35d06d5d0b8194f6",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_52187fdf03e1870b"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_9c13cc3ed135b73d",
+        "snapshot_id": "dec_7ba7efe5d5596405",
+        "option": {
+          "final_probability": 0.1057,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1057,
+          "odds": 6.6,
+          "offer_id": "off_7fe20d47b53ecbcd",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_e7fb9e293d69022a"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_5de2d5f47faef84b",
+        "snapshot_id": "dec_bba1d8688cec6a51",
+        "option": {
+          "final_probability": 0.2416,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.2416,
+          "odds": 3.16,
+          "offer_id": "off_79318f62f73d6f1c",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "홈",
+          "selection_id": "sel_c78032b9ddc59b99"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_c7cbecdb29563f26",
+        "snapshot_id": "dec_fd45cf5b860b5818",
+        "option": {
+          "final_probability": 0.0846,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0846,
+          "odds": 6.28,
+          "offer_id": "off_5acacb7752405159",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_e7a3541eb7fad09f"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_2ad425d59e810fd3",
+        "snapshot_id": "dec_ac4d840808873203",
+        "option": {
+          "final_probability": 0.1378,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1378,
+          "odds": 5.5,
+          "offer_id": "off_fda20d66d2868f36",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_5bcf1c54e22deb4b"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_579c07c4339fbfcc",
+        "snapshot_id": "dec_60390731da09bf7e",
+        "option": {
+          "final_probability": 0.1587,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1587,
+          "odds": 4.9,
+          "offer_id": "off_68ac88270d6be1dd",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_1c26345b91150d3e"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_a5b83f2dbcbe4f10",
+        "snapshot_id": "dec_8314afb563be2513",
+        "option": {
+          "final_probability": 0.1248,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1248,
+          "odds": 5.9,
+          "offer_id": "off_39a19b9b472af7a7",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_73d713d2197aadc7"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_80de9075f1d8b15b",
+        "snapshot_id": "dec_ad7dfecb5875734d",
+        "option": {
+          "final_probability": 0.0689,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.0689,
+          "odds": 8.5,
+          "offer_id": "off_0d0cb5c66e759e91",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_1795f05605e810b5"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_d2564d0c12560cbd",
+        "snapshot_id": "dec_0553e80c71147d6a",
+        "option": {
+          "final_probability": 0.1331,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1331,
+          "odds": 5.6,
+          "offer_id": "off_6aa1ae1ab5958b20",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_9f23fe7c34daa731"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_985eebad4ba6936c",
+        "snapshot_id": "dec_fc4d855dfc5edd9d",
+        "option": {
+          "final_probability": 0.1314,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.1314,
+          "odds": 5.7,
+          "offer_id": "off_2ef4850bd014e355",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_ecfd3e8cdd03f254"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_09fe5484aca5626e",
+        "snapshot_id": "dec_8aa0a9bf2094cc6e",
+        "option": {
+          "final_probability": 0.117,
+          "label": "",
+          "line": null,
+          "market": "승무패",
+          "market_probability": 0.117,
+          "odds": 6.2,
+          "offer_id": "off_d06813a51d716325",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "무",
+          "selection_id": "sel_f3fe1d13be59bd89"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_733f758ecbd9c65e",
+        "snapshot_id": "dec_6d66bbd38a802d81",
+        "option": {
+          "final_probability": 0.1132,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1132,
+          "odds": 5.32,
+          "offer_id": "off_0684fde44ade3bb6",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_e69918b13634e86a"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_8a023a71637f545c",
+        "snapshot_id": "dec_39d2c1d0256f9f53",
+        "option": {
+          "final_probability": 0.0846,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.0846,
+          "odds": 6.28,
+          "offer_id": "off_79c5f72dbb00effd",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_48c0c5376af988dd"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_e312dba63d8eae5b",
+        "snapshot_id": "dec_217ca04747cdc4dd",
+        "option": {
+          "final_probability": 0.1976,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1976,
+          "odds": 3.67,
+          "offer_id": "off_a311c8a5a968423a",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_5119e3a550422c06"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_9e8719d7a58b2a85",
+        "snapshot_id": "dec_a5201136f9ee1952",
+        "option": {
+          "final_probability": 0.1222,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1222,
+          "odds": 5.08,
+          "offer_id": "off_be65b67f3ad326bc",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "원정",
+          "selection_id": "sel_a247b73b4a9cf57e"
+        },
+        "outcome": null
+      },
+      {
+        "event_id": "evt_bd4c27d18cf4f8ea",
+        "snapshot_id": "dec_632470c258572384",
+        "option": {
+          "final_probability": 0.1132,
+          "label": "",
+          "line": null,
+          "market": "승패",
+          "market_probability": 0.1132,
+          "odds": 5.32,
+          "offer_id": "off_8838a96ceecd0f55",
+          "residual_model_probability": null,
+          "score_model_probability": null,
+          "selection": "홈",
+          "selection_id": "sel_8480e402ed3a69e9"
+        },
+        "outcome": null
+      }
+    ]
+  },
+  "common103_retrospective": {
+    "n": 103,
+    "m1_original": {
+      "selected": 103,
+      "settled": 103,
+      "pending": 0,
+      "hit": 67,
+      "miss": 36,
+      "void": 0,
+      "hit_rate_ex_void": 0.6504854368932039,
+      "roi_settled_stake": 0.07640776699029125,
+      "profit_units": 7.869999999999999,
+      "max_drawdown_units_settled_only": 6.290000000000001
+    },
+    "m1_low": {
+      "selected": 0,
+      "settled": 0,
+      "pending": 0,
+      "hit": 0,
+      "miss": 0,
+      "void": 0,
+      "hit_rate_ex_void": null,
+      "roi_settled_stake": null,
+      "profit_units": 0,
+      "max_drawdown_units_settled_only": 0.0
+    },
+    "m1_skip": {
+      "selected": 103,
+      "settled": 103,
+      "pending": 0,
+      "hit": 67,
+      "miss": 36,
+      "void": 0,
+      "hit_rate_ex_void": 0.6504854368932039,
+      "roi_settled_stake": 0.07640776699029125,
+      "profit_units": 7.869999999999999,
+      "max_drawdown_units_settled_only": 6.290000000000001
+    }
+  },
+  "source_inventory": {
+    "archived_price_rows": 10726,
+    "archived_low_price_options": 615,
+    "archived_sports": {
+      "sc": 3430,
+      "bk": 972,
+      "bs": 6324
+    },
+    "archived_years": {
+      "2026": 5278,
+      "2025": 5448
+    },
+    "extended_quote_rows": 477,
+    "m1_scenarios": {
+      "official_batting_and_starter": {
+        "M0": 709,
+        "M1": 709,
+        "M2": 709
+      },
+      "projected": {
+        "M0": 709,
+        "M1": 709,
+        "M2": 709
+      }
+    }
+  }
+}
