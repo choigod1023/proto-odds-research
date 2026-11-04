@@ -1,7 +1,9 @@
-"""Offline, fail-closed bridge for prospective operating-price shadow samples.
+"""Fail-closed bridge for prospective operating-price shadow samples.
 
-Neither export metadata nor hashes authenticate an external clock. No writes,
-network access, settlement, promotion, or operating ledger modification.
+Matching and export validation are offline. Explicit refresh performs bounded
+read-only Fly requests and writes content-addressed local exports and receipts.
+Neither metadata nor hashes authenticate an external clock; no settlement,
+promotion, or operating ledger modification is performed here.
 """
 from __future__ import annotations
 
@@ -65,6 +67,8 @@ def _bounded_process(args, stdout_limit):
         raise ValueError('fly_transport_timeout') from exc
     finally:
         for thread in threads: thread.join(timeout=2)
+        for thread, pipe in zip(threads, (proc.stdout, proc.stderr)):
+            if not thread.is_alive(): pipe.close()
     if any(thread.is_alive() for thread in threads):
         raise ValueError('fly_transport_pipe_not_closed')
     if errors: raise ValueError('fly_transport_' + errors[0])
