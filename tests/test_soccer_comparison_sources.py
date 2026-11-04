@@ -43,4 +43,36 @@ class SeasonTests(unittest.TestCase):
         fixture['homeTeam']='K03'
         with self.assertRaises(ValueError): c.parse_official_page(html.encode(),fixture)
 
+    def test_completion_timestamp_only_after_full_body_and_cache_not_upgraded(self):
+        import tempfile, json
+        from unittest.mock import patch
+        events=[]
+        class Response:
+            status_code=200
+            def __enter__(self): return self
+            def __exit__(self, *args): pass
+            def iter_content(self, size):
+                events.append('first_chunk'); yield b'hello'
+                events.append('body_completed')
+        class Clock:
+            @classmethod
+            def now(cls, tz):
+                self.assertEqual(events[-1], 'body_completed')
+                from datetime import datetime, timezone
+                return datetime(2026,11,4,tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            with patch('requests.request', return_value=Response()), patch.object(c,'datetime',Clock), patch.object(c.time,'sleep'):
+                raw, meta=c.cached_request(root,'new','https://example.test','GET',{},c.Budget(1))
+            self.assertEqual(raw,b'hello')
+            self.assertEqual(meta['timestamp_basis'],'http_response_body_completed')
+            old_path=root/'new.json'
+            old=json.loads(old_path.read_text(encoding='utf8')); del old['timestamp_basis']
+            old_path.write_text(json.dumps(old),encoding='utf8')
+            old_bytes=old_path.read_bytes()
+            _, cached=c.cached_request(root,'new','https://example.test','GET',{},c.Budget(0))
+            self.assertIsNone(cached.get('timestamp_basis'))
+            self.assertEqual(old_path.read_bytes(),old_bytes)
+            self.assertEqual(cached['received_at'],meta['received_at'])
+
 if __name__ == '__main__': unittest.main()

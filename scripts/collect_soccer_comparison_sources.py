@@ -22,7 +22,7 @@ def price_record(row):
             'kind': 'price', 'sport': 'sc', 'league': 'K' + str(row['league_id']),
             'kickoff': kickoff.isoformat(), 'home': row['league_home_name'], 'away': row['league_away_name'],
             'source_url': PRICE_URL, 'body_sha256': row['response_sha256'],
-            'received_at': row['received_at'], 'timing_basis': 'retrospective',
+            'received_at': row['received_at'], 'timestamp_basis': None, 'timing_basis': 'retrospective',
             'payload': {'source_fixture_id': row['fixture_id'], 'home_team_id': row['home_team_id'],
                         'away_team_id': row['away_team_id'], 'prices': row['prices'],
                         'gmId': row['gmId'], 'gmTs': row['gmTs'], 'matchSeq': row['matchSeq'],
@@ -50,7 +50,7 @@ def fetch(year, league, game, evidence):
         raw = response.read(1000001)
         if len(raw) > 1000000: raise ValueError('response too large')
         received = datetime.now(timezone.utc).isoformat()
-        meta = {'url': URL, 'params': params, 'status': response.status, 'received_at': received, 'body_sha256': sha(raw)}
+        meta = {'url': URL, 'params': params, 'status': response.status, 'received_at': received, 'timestamp_basis': 'http_response_body_completed', 'body_sha256': sha(raw)}
     body_path.write_bytes(gzip.compress(raw, mtime=0))
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2)+'\n', encoding='utf8')
     time.sleep(1)
@@ -78,7 +78,7 @@ def main():
                 raise ValueError('official score mismatch or non-final fixture')
             record = price_record(row)
             record.update(record_id='kleague:result:'+row['fixture_id'], kind='result', source_url=URL,
-                          body_sha256=meta['body_sha256'], received_at=meta['received_at'], timing_basis='retrospective',
+                          body_sha256=meta['body_sha256'], received_at=meta['received_at'], timestamp_basis=meta.get('timestamp_basis'), timing_basis='retrospective',
                           payload={'source_fixture_id': row['fixture_id'], 'score': score, 'game_status':'FE'})
             records.append(record)
             checks.append({'fixture_id':row['fixture_id'], 'score':score, 'new_request':new, **meta})
@@ -127,7 +127,7 @@ def cached_request(evidence, stem, url, method, params, budget):
             chunks.append(chunk)
         raw = b''.join(chunks)
         meta = {'url':url,'method':method,'params':params,'status':response.status_code,
-                'received_at':datetime.now(timezone.utc).isoformat(),'body_sha256':sha(raw)}
+                'received_at':datetime.now(timezone.utc).isoformat(),'timestamp_basis':'http_response_body_completed','body_sha256':sha(raw)}
     body_path.write_bytes(gzip.compress(raw,mtime=0))
     meta_path.write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     time.sleep(0.2)
@@ -255,7 +255,7 @@ def season_main():
         kickoff=datetime.fromisoformat(f['gameDate'].replace('.','-')+'T'+f['gameTime']+':00+09:00').isoformat()
         fid=f'kleague:{year}:{league}:{gid}'
         base={'sport':'sc','league':f'K{league}','kickoff':kickoff,'home':f['homeTeamName'],'away':f['awayTeamName']}
-        rec={'record_id':'kleague:fixture:'+fid,'kind':'fixture',**base,'source_url':SCHEDULE_URL,'body_sha256':m['body_sha256'],'received_at':m['received_at'],'timing_basis':'retrospective' if datetime.fromisoformat(m['received_at'])>=datetime.fromisoformat(kickoff) else 'actual_receipt','payload':{'source_fixture_id':fid,'home_team_id':f['homeTeam'],'away_team_id':f['awayTeam'],'game_status':f.get('gameStatus'),'end_yn':f.get('endYn'),'round_id':f.get('roundId')}}
+        rec={'record_id':'kleague:fixture:'+fid,'kind':'fixture',**base,'source_url':SCHEDULE_URL,'body_sha256':m['body_sha256'],'received_at':m['received_at'],'timestamp_basis':m.get('timestamp_basis'),'timing_basis':'retrospective' if datetime.fromisoformat(m['received_at'])>=datetime.fromisoformat(kickoff) else 'actual_receipt','payload':{'source_fixture_id':fid,'home_team_id':f['homeTeam'],'away_team_id':f['awayTeam'],'game_status':f.get('gameStatus'),'end_yn':f.get('endYn'),'round_id':f.get('roundId')}}
         records.append(rec)
         bucket=counts.setdefault(f'{year}-K{league}',{'fixtures':0,'finished':0,'lineups':0,'missing_lineups':0})
         bucket['fixtures']+=1
@@ -268,7 +268,7 @@ def season_main():
                 page,pm=cached_request(a.evidence,f'match-{year}-{league}-{gid}',PAGE_URL,'GET',params,budget)
                 status,teams=parse_official_page(page,f);lineups+=1
                 if status=='complete_starting_eleven':bucket['lineups']+=1
-                records.append({**rec,'record_id':'kleague:lineup:'+fid,'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timing_basis':'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False}})
+                records.append({**rec,'record_id':'kleague:lineup:'+fid,'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timestamp_basis':pm.get('timestamp_basis'),'timing_basis':'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False}})
         elif key == probe:
             params={'year':str(year),'leagueId':str(league),'meetSeq':str(league),'gameId':str(gid)}
             suffix='-'+a.capture_id if a.refresh else ''
@@ -279,7 +279,7 @@ def season_main():
             api_raw,api_meta=cached_request(a.evidence,f'forecast-info-{year}-{league}-{gid}{suffix}',URL,'POST_FORM',api_params,budget)
             api=json.loads(api_raw)
             if str(api.get('resultCode'))!='200' or not isinstance(api.get('data'),dict): raise ValueError('invalid official match info')
-            records.append({**rec,'record_id':'kleague:lineup:'+fid,'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timing_basis':'actual_receipt' if datetime.fromisoformat(pm['received_at'])<datetime.fromisoformat(kickoff) else 'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False,'official_info':{'source_url':URL,'body_sha256':api_meta['body_sha256'],'received_at':api_meta['received_at'],'game_status':api['data'].get('gameStatus'),'lineup_field_present':any('lineup' in k.lower() for k in api['data'])},'note':'page display and API response only; not proof of publication status at other channels'}})
+            records.append({**rec,'record_id':'kleague:lineup:'+fid,'kind':'lineup','source_url':PAGE_URL,'body_sha256':pm['body_sha256'],'received_at':pm['received_at'],'timestamp_basis':pm.get('timestamp_basis'),'timing_basis':'actual_receipt' if datetime.fromisoformat(pm['received_at'])<datetime.fromisoformat(kickoff) else 'retrospective','payload':{'source_fixture_id':fid,'lineup_status':status,'teams':teams,'published_at':None,'pregame_receipt_verified':False,'official_info':{'source_url':URL,'body_sha256':api_meta['body_sha256'],'received_at':api_meta['received_at'],'timestamp_basis':api_meta.get('timestamp_basis'),'game_status':api['data'].get('gameStatus'),'lineup_field_present':any('lineup' in k.lower() for k in api['data'])},'note':'page display and API response only; not proof of publication status at other channels'}})
     for bucket in counts.values(): bucket['missing_lineups']=bucket['finished']-bucket['lineups']
     if a.refresh and probe:
         observation=next(r for r in records if r['record_id']=='kleague:lineup:'+f'kleague:{probe[0]}:{probe[1]}:{probe[2]}')
