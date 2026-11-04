@@ -18,3 +18,13 @@
 양쪽 `offer_id`를 M0 상품 게임번호로 재현하지 못해도 위 조건을 만족하면 `degraded_first_shadow`로 반환한다. `market_id=null`, `candidate_m0_market_id`는 M0 원본의 ID로 별도 보존하고 `game_number_verified=false`, `operating_market_identity_verified=false`, `operating_settlement_rule_verified=false`, `official_raw_price_verified=false`, `formal_promotion_eligible=false`를 명시한다. 원래 M0 가격과 운영 원장 가격은 각각 보존한다. 운영 가격의 실제 상품번호·공식 판매 조건이 일치했다는 뜻이 아니므로 정식 동일 상품 표본이나 최종 운영 성과로 합산할 수 없다.
 
 보관한 실제 운영 행 21개를 임시 SQLite에 넣고 합성 공식 ID와 게임번호를 넣어 시험했을 때, 최근 3일 범위에서 고유 내부 event 1개와 그 revision 21개를 찾았다. 이 실험은 실제 공식 ID·게임번호·M0 capture를 검증하지 않는다. 실운영의 다음 경기 연결과 정산은 별도 실측이 필요하다.
+
+## offer ID와 읽기 전용 전송 후속 확인
+
+운영 Fly 체크아웃 `be716c1ac63a930a6d9abccd5a886ab032153b89`의 `src/ai_decision.py`, `src/prediction_runtime.py`는 기준 `b3f0d5d6`와 차이가 없었다. 운영 저장 원장의 선택지에는 게임번호가 없지만, 운영 `odds_snapshots`의 같은 KBO 경기·회차·2-way 승패 상품에는 문자열 게임번호 `2395`가 있었다. 운영 `offer_id()`에 해당 문자열을 사용하면 홈·원정 offer ID가 모두 실제 원장과 일치했고 정수 `2395`는 일치하지 않았다. 기준 후보 `G101:260131:2395`를 브리지의 기존 엄격 검사에 넣은 독립 로컬 시험에서도 두 ID가 일치했다. 이 후보는 M0 Betman 응답을 확인해 얻은 값이 아니다. 근처 가격 스냅샷의 관측 시각과 원장의 가격 관측 시각은 달랐고, 실제 M0 capture나 같은 원문 수신을 증명하지 않는다. 결과는 `offer-id-source-probe.json`에 기록했다.
+
+`refresh_operating_export(state, events, now)`는 각 event에 M0 원본 `market_id`를 요구한다. 한 건이면 `load_operating_export` 결과와 `export_path`, `source_receipt_path`를 반환하며, 여러 건이면 `exports_by_official_id`, `errors_by_official_id`로 구분한다. 빈 목록은 네트워크와 파일 쓰기를 하지 않는다. 최대 5건, 각 전송 25초, 출력 32 MiB, stderr 64 KiB이며 정확한 exporter 바이트 해시, 레코드 해시·건수·출처 시각과 fixture를 검사한다. stdout 원본과 수신 기록은 내용 해시 경로에 보존한다. 외부 서명이나 전체 체인 인증은 아니다.
+
+Windows에서 `flyctl ssh console -q --pty=false`는 정상 `123` 출력 뒤에도 `Error: The handle is invalid.`와 종료 코드 1을 반환했다. 합성 공식 ID를 사용한 실제 읽기 전용 exporter 점검에서도 JSON과 운영 행 36개가 돌아왔지만 종료 코드는 1이었다. 함수는 출력이 있더라도 모든 비영 종료 코드를 거부하므로 현재 Windows에서 실제 source refresh는 막힌다. OS/CLI 처리 문제의 독립적인 수정과 성공적 종료 검증 전까지 source 연결 성공으로 표시하지 않는다. 기존 main common ledger는 `market_id=null`인 degraded 표본을 의도적으로 거부한다.
+
+시장 기준 선택은 운영 원장에 저장된 시장 확률의 순위를 재사용하지 않고, 비교에 쓰는 실제 양쪽 공통 배당의 역수를 정규화해 산출한다. 배당이 같으면 동률로 제외한다. 운영 모델의 저장 확률과 정책은 바꾸지 않는다.

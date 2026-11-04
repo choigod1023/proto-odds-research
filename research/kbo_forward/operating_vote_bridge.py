@@ -11,7 +11,11 @@ import io
 import json
 import math
 import re
+import subprocess
+import threading
+import zlib
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal
 from pathlib import Path
 
 from src.operating_ledger_inputs import latest_pre_cutoff
@@ -20,6 +24,155 @@ from research.m1_service.model import metadata, forecast, TEAM_NAMES
 
 MAX_RECORDS = 1000
 MAX_EXPORT_BYTES = 32 * 1024 * 1024
+MAX_STDERR_BYTES = 64 * 1024
+MAX_REFRESH_EVENTS = 5
+TRANSPORT_TIMEOUT_SECONDS = 25
+
+
+def _bounded_fly(command):
+    """Drain both pipes while enforcing hard byte and wall-clock limits."""
+    args = ['flyctl', 'ssh', 'console', '-q', '--pty=false', '-a',
+            'proto-odds-collector', '-C', command]
+    flags = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+    proc = subprocess.Popen(args, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, creationflags=flags)
+    data = {'stdout': bytearray(), 'stderr': bytearray()}
+    errors = []
+    def drain(name, pipe, limit):
+        try:
+            while True:
+                block = pipe.read(32768)
+                if not block:
+                    break
+                if len(data[name]) + len(block) > limit:
+                    errors.append(name + '_limit_exceeded')
+                    proc.kill()
+                    break
+                data[name].extend(block)
+        except (OSError, ValueError):
+            errors.append(name + '_read_failed')
+            try: proc.kill()
+            except OSError: pass
+    threads = [threading.Thread(target=drain, args=('stdout', proc.stdout, MAX_EXPORT_BYTES), daemon=True),
+               threading.Thread(target=drain, args=('stderr', proc.stderr, MAX_STDERR_BYTES), daemon=True)]
+    for thread in threads: thread.start()
+    try:
+        code = proc.wait(timeout=TRANSPORT_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired as exc:
+        proc.kill()
+        try: proc.wait(timeout=5)
+        except subprocess.TimeoutExpired: pass
+        raise ValueError('fly_transport_timeout') from exc
+    finally:
+        for thread in threads: thread.join(timeout=2)
+    if any(thread.is_alive() for thread in threads):
+        raise ValueError('fly_transport_pipe_not_closed')
+    if errors: raise ValueError('fly_transport_' + errors[0])
+    if code != 0: raise ValueError('fly_transport_nonzero_exit:' + str(code))
+    return bytes(data['stdout'])
+
+
+def _store_content(root, raw):
+    root = Path(root); root.mkdir(parents=True, exist_ok=True)
+    sha = hashlib.sha256(raw).hexdigest(); path = root / (sha + '.json')
+    try:
+        with path.open('xb') as out: out.write(raw)
+    except FileExistsError:
+        if path.read_bytes() != raw: raise ValueError('content_address_collision')
+    return path, sha
+
+
+def _remote_export_command(script, event):
+    """Package exact committed bytes in the command; never use a remote file."""
+    official_id = event.get('official_game_id'); home = event.get('home_id'); away = event.get('away_id')
+    season = event.get('season'); kickoff = event.get('kickoff_at'); market = event.get('market_id')
+    if (not isinstance(official_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,40}', official_id)
+            or home not in TEAM_NAMES or away not in TEAM_NAMES or home == away
+            or type(season) is not int or not 2026 <= season <= 2100
+            or not isinstance(kickoff, str) or not re.fullmatch(r'[0-9TZ:+.\-]{19,40}', kickoff)
+            or not isinstance(market, str) or not re.fullmatch(r'G101:[0-9]{6}:[0-9]{1,8}', market)):
+        raise ValueError('refresh_event_identity_invalid')
+    if moment(kickoff).astimezone(timezone(timedelta(hours=9))).year != season:
+        raise ValueError('refresh_event_season_mismatch')
+    packed = ','.join(map(str, zlib.compress(script, 9)))
+    # No quoted shell strings or user-controlled metacharacters occur here.
+    program = 'exec((__bridge_source:=__import__(bytes([122,108,105,98]).decode()).decompress(bytes([' + packed + ']))))'
+    command = ('python -c ' + program + ' --db /data/proodd.sqlite3 --official-id ' + official_id
+            + ' --season ' + str(season) + ' --home-id ' + home + ' --away-id ' + away
+            + ' --kickoff ' + kickoff + ' --market-id ' + market + ' --allow-degraded-first-shadow')
+    if len(command) > 24000: raise ValueError('refresh_command_limit_exceeded')
+    return command
+
+
+def refresh_operating_export(state, events, now, *, clock=lambda: datetime.now(timezone.utc)):
+    """Bounded read-only Fly export per M0 event; empty events perform no I/O.
+
+    Each event must include the captured M0 market_id. A single event returns a
+    load_operating_export-compatible mapping; multiple events return
+    exports_by_official_id and errors_by_official_id for independent handling.
+    Receipts document local observations, not externally signed timestamps.
+    """
+    events = list(events)
+    if not events: return {'exports_by_official_id': {}, 'errors_by_official_id': {}}
+    if len(events) > MAX_REFRESH_EVENTS: raise ValueError('refresh_event_limit_exceeded')
+    ids = [e.get('official_game_id') for e in events]
+    if len(set(ids)) != len(ids): raise ValueError('refresh_duplicate_official_id')
+    start = moment(now)
+    script_path = Path(__file__).resolve().parents[2] / 'scripts/export_forward_operating_votes.py'
+    if script_path.stat().st_size > 128 * 1024: raise ValueError('refresh_script_limit_exceeded')
+    script = script_path.read_bytes()
+    root = Path(state['export_path']).parent / 'operating-export-archive'
+    exports, errors = {}, {}
+    for event in events:
+        identity = event['official_game_id']
+        try:
+            command = _remote_export_command(script, event)
+            requested = clock()
+            if requested < start: raise ValueError('refresh_clock_before_request')
+            raw = _bounded_fly(command)
+            received = clock()
+            if received < requested: raise ValueError('refresh_clock_moved_backwards')
+            obj = json.loads(raw)
+            meta = obj['metadata']
+            if (meta.get('exporter_raw_sha256') != hashlib.sha256(script).hexdigest()
+                    or meta.get('exporter_sha256') != hashlib.sha256(script.replace(b'\r\n', b'\n')).hexdigest()
+                    or not requested <= moment(meta['queried_at']) <= received):
+                raise ValueError('remote_exporter_hash_or_clock_mismatch')
+            mapping = meta.get('mapping') or {}
+            if (mapping.get('official_id') != identity or mapping.get('home_id') != event['home_id']
+                    or mapping.get('away_id') != event['away_id'] or mapping.get('market_id') != event['market_id']
+                    or moment(mapping.get('kickoff')) != moment(event['kickoff_at'])):
+                raise ValueError('remote_export_fixture_mismatch')
+            rows = obj['records']; claims = meta['events']; event_id = mapping['internal_event_id']
+            if (meta.get('schema') != 'operating-event-export-v1'
+                    or meta.get('query_mode') != 'sqlite_readonly_transaction'
+                    or not isinstance(rows, list) or not 0 < len(rows) <= MAX_RECORDS
+                    or set(claims) != {event_id}):
+                raise ValueError('remote_export_shape_mismatch')
+            sequences = [r['ledger_sequence'] for r in rows]
+            if (len(rows) != claims[event_id]['count'] or len(set(sequences)) != len(sequences)
+                    or max(sequences) != claims[event_id]['max_sequence']
+                    or any(r.get('event_id') != event_id or r.get('record_type') != 'prediction'
+                           or r.get('record_hash') != _hash_row(r)
+                           or moment(r['captured_at']) > moment(meta['queried_at']) for r in rows)):
+                raise ValueError('remote_export_rows_mismatch')
+            export_path, sha = _store_content(root / 'exports', raw)
+            receipt = {'schema': 'fly-readonly-export-receipt-v1', 'transport': 'flyctl_ssh',
+                       'exit_code': 0, 'export_sha256': sha, 'exporter_raw_sha256': hashlib.sha256(script).hexdigest(),
+                       'official_game_id': identity, 'requested_at': requested.isoformat(),
+                       'received_at': received.isoformat(), 'external_authentication': False}
+            receipt_raw = canonical(receipt)
+            receipt_path, _ = _store_content(root / 'receipts', receipt_raw)
+            config = {**state, 'export_path': export_path, 'source_receipt': receipt}
+            value = load_operating_export(config, [identity], received.isoformat())
+            value.update(export_path=str(export_path), source_receipt_path=str(receipt_path))
+            exports[identity] = value
+        except (KeyError, TypeError, ValueError, OSError, OverflowError, subprocess.SubprocessError) as exc:
+            errors[identity] = str(exc)[:200] or type(exc).__name__
+    if len(events) == 1:
+        if errors: raise ValueError(next(iter(errors.values())))
+        return exports[ids[0]]
+    return {'exports_by_official_id': exports, 'errors_by_official_id': errors}
 
 
 def load_operating_export(state, events, now):
@@ -79,7 +232,8 @@ def _export_completeness(records, meta, received_at, now):
         exporter = Path(__file__).resolve().parents[2] / 'scripts/export_forward_operating_votes.py'
         if (meta['schema'] != 'operating-event-export-v1'
                 or meta['query_mode'] != 'sqlite_readonly_transaction'
-                or meta['exporter_sha256'] != hashlib.sha256(exporter.read_bytes().replace(b'\r\n', b'\n')).hexdigest()):
+                or meta['exporter_sha256'] != hashlib.sha256(exporter.read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+                or meta['exporter_raw_sha256'] != hashlib.sha256(exporter.read_bytes()).hexdigest()):
             raise ValueError('exporter_identity_unverified')
         queried = moment(meta['queried_at']); received = moment(received_at)
         if not queried <= received <= moment(now):
@@ -178,7 +332,8 @@ def _match(capture, export, now):
     exporter = Path(__file__).resolve().parents[2] / 'scripts/export_forward_operating_votes.py'
     if (meta.get('schema') != 'operating-event-export-v1'
             or meta.get('query_mode') != 'sqlite_readonly_transaction'
-            or meta.get('exporter_sha256') != hashlib.sha256(exporter.read_bytes().replace(b'\r\n', b'\n')).hexdigest()):
+            or meta.get('exporter_sha256') != hashlib.sha256(exporter.read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+            or meta.get('exporter_raw_sha256') != hashlib.sha256(exporter.read_bytes()).hexdigest()):
         raise ValueError('operating_export_provenance_missing')
     claims = meta['events']
     if not isinstance(claims, dict) or not 0 < len(claims) <= 100:
@@ -303,9 +458,11 @@ def _match(capture, export, now):
             raise ValueError('operating_price_receipt_mismatch')
         _verify_market_bytes(packet, export.get('price_archive_root'))
         verified_raw = not degraded
-    market_probs = {sides[x['selection']]: x.get('market_probability') for x in roster}
-    if any(type(v) not in (int, float) or not math.isfinite(v) for v in market_probs.values()) or market_probs['home'] == market_probs['away']:
-        raise ValueError('market_selection_missing_or_tied')
+    implied = {side: Decimal(1) / Decimal(str(value)) for side, value in prices.items()}
+    if implied['home'] == implied['away']:
+        raise ValueError('market_selection_tied')
+    total_implied = sum(implied.values())
+    market_probs = {side: float(value / total_implied) for side, value in implied.items()}
     exact = (verified_raw and market == op_market and original_price_time == moment(receipt['received_at'])
              and payload['evidence']['odds']['raw_sha256'] == receipt['raw_sha256'])
     return {'status': 'eligible', 'reason': None, 'exclusion_reasons': [],
@@ -320,7 +477,9 @@ def _match(capture, export, now):
             'identity_limitation': 'offer_id_recipe_or_game_number_unverified' if degraded else None,
             'price_received_at': op['market_observed_at'], 'shared_prices': prices,
             'three_selections': {'m0_actual': m0_side, 'operating_vote': sides[op['operating']['selection']],
-                                 'market': max(market_probs, key=market_probs.get)},
+                                 'market': max(implied, key=implied.get)},
+            'market_probabilities': market_probs,
+            'market_probability_source': 'normalized_inverse_shared_odds',
             'operating_as_of': op['as_of'], 'm0_captured_at': frozen.isoformat(),
             'parent_check': parent_check,
             'hash_chain_verified': False, 'final_operating_performance_verified': False,

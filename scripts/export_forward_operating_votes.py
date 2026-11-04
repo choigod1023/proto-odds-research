@@ -157,7 +157,8 @@ def export(db, events=None, target=None, *, allow_degraded=False):
         return {'metadata': {'schema': 'operating-event-export-v1', 'events': counts,
                              'mapping': mapping, 'queried_at': stamp,
                              'query_mode': 'sqlite_readonly_transaction',
-                             'exporter_sha256': hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(), 'full_chain': False},
+                             'exporter_sha256': hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(),
+                             'exporter_raw_sha256': hashlib.sha256(source).hexdigest(), 'full_chain': False},
                 'records': rows, 'evidence': {}}
     finally:
         conn.rollback(); conn.close()
