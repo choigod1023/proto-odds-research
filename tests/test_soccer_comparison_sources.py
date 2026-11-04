@@ -17,4 +17,30 @@ class Tests(unittest.TestCase):
     def test_reject_naive_kickoff(self):
         with self.assertRaises(ValueError): c.price_record({'kickoff_kst':'2025-02-15T13:00:00','price_observed_at':None})
 
+
+class SeasonTests(unittest.TestCase):
+    def test_budget_and_cache_identity(self):
+        import tempfile, json, gzip
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); raw=b'{"ok":true}'; params={'year':'2025'}
+            (root/'one.body.gz').write_bytes(gzip.compress(raw))
+            (root/'one.json').write_text(json.dumps({'url':'https://example.test','params':params,'body_sha256':c.sha(raw)}),encoding='utf8')
+            b=c.Budget(0)
+            with patch('requests.request',side_effect=AssertionError('unexpected network')):
+                self.assertEqual(c.cached_request(root,'one','https://example.test','GET',params,b)[0],raw)
+                self.assertEqual(b.used,0)
+                with self.assertRaises(ValueError): c.cached_request(root,'one','https://example.test','GET',{'year':'2026'},b)
+                with self.assertRaises(RuntimeError): c.cached_request(root,'missing','https://example.test','GET',params,b)
+            (root/'one.body.gz').write_bytes(gzip.compress(b'tampered'))
+            with self.assertRaises(ValueError): c.cached_request(root,'one','https://example.test','GET',params,c.Budget(0))
+        with self.assertRaises(ValueError): c.Budget(61)
+
+    def test_official_page_identity_and_empty_lineup(self):
+        html='''<select id="year"><option selected value="2026"></option></select><select id="meetSeq"><option selected value="1"></option></select><select id="gameId"><option selected value="205"></option></select><div class="game-info"><div class="team K01"></div><div class="team K02"></div></div><div class="team-versus"><div class="versus"><p>2026/11/07 14:00</p></div></div>'''
+        fixture={'year':2026,'leagueId':1,'gameId':205,'homeTeam':'K01','awayTeam':'K02','gameDate':'2026.11.07'}
+        self.assertEqual(c.parse_official_page(html.encode(),fixture),('not_displayed_on_official_page',[]))
+        fixture['homeTeam']='K03'
+        with self.assertRaises(ValueError): c.parse_official_page(html.encode(),fixture)
+
 if __name__ == '__main__': unittest.main()
