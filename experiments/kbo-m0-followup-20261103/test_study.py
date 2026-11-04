@@ -73,3 +73,11 @@ def test_corrupt_replay_manifest_is_rejected(tmp_path,monkeypatch):
     (tmp_path/"replay-sources.json").write_bytes((s.P/"replay-sources.json").read_bytes()+b" ")
     monkeypatch.setattr(s,"P",tmp_path)
     with pytest.raises(ValueError,match="replay manifest changed"):s.fixed("TEST","input.jsonl.gz")
+
+
+def test_float_roundoff_does_not_relax_identity_count_or_money_checks():
+    s.assert_replay_equal({"metric":.6},{"metric":.6+1e-14})
+    for left,right in (({"n":1},{"n":2}),({"money":"-29.05"},{"money":"-29.04"}),
+                       ({"sha":"a"},{"sha":"b"}),({"flag":False},{"flag":0}),
+                       ({"metric":.6},{"metric":.6+1e-8}),({"metric":.6},{"metric":float('nan')})):
+        with pytest.raises(ValueError,match="replay"):s.assert_replay_equal(left,right)

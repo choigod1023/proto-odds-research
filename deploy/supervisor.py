@@ -601,13 +601,17 @@ def push_data() -> None:
     # git gc는 서비스 부팅·수집과 분리한다. 여기서 실행하면 push 스레드가 아니라
     # 다음 재시작의 fetch까지 maintenance lock에 묶일 수 있다.
 def _tipster_revision(name):
-    """One indexed last-event read; no history scan or large artifact decoding."""
+    """Indexed last-event reads; no history scan or large artifact decoding."""
     if not os.environ.get("PROODD_DB_PATH"):
         return None
     from runtime_db import RuntimeDatabase
     stream = "pickster_pick_events" if name == "공개 픽스터" else "public_tipster_votes"
     row = RuntimeDatabase().latest_event(stream)
-    return (row.get("pick_id"), row.get("observed_at"), row.get("event_type")) if row else None
+    primary=(row.get("pick_id"), row.get("observed_at"), row.get("event_type")) if row else None
+    if name=="다종목 픽스터":
+        reference=RuntimeDatabase().latest_event("public_tipster_market_observations")
+        if reference:return (primary,(reference.get("pick_id"),reference.get("observed_at"),reference.get("event_type")))
+    return primary
 
 
 def _collect_tipster_and_publish(name, cmd):

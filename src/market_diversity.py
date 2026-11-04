@@ -12,9 +12,46 @@ from public_tipster_votes import SOURCE,fixture_key,kickoff,safe_url
 
 VERSION="tipster-market-candidates-v1"
 
+def reference_context(game, rows, cutoff, start):
+    """Keep source lines as non-voting references, including price mismatches."""
+    from public_market_observations import safe_reference_url
+    electorate=defaultdict(list)
+    for row in rows or []:
+        try:
+            if not (isinstance(row,dict) and row.get("source")=="public_market_reference_v1"
+                    and row.get("event_type")=="first_observed" and row.get("market_type")=="source_line_reference"
+                    and row.get("reference_only") is True and row.get("eligible_pre_event") is True
+                    and row.get("fixture")==fixture_key(game) and safe_reference_url(row.get("source_url",""))
+                    and row.get("voter") and row.get("family") in {"total","handicap"}
+                    and row.get("period")=="unknown" and row.get("settlement")=="unknown"
+                    and start-timedelta(days=3)<=stamp(row["observed_at"])<=cutoff):continue
+            line=row.get("line") if row["family"]=="total" else row.get("team_line")
+            if type(line) not in (int,float) or not math.isfinite(line):continue
+            electorate[(row["voter"],row["family"])].append(row)
+        except (KeyError,ValueError,TypeError,AttributeError):continue
+    result=[]
+    for key,items in sorted(electorate.items()):
+        earliest=min(stamp(r["observed_at"]) for r in items)
+        same=[r for r in items if stamp(r["observed_at"])==earliest]
+        if len({(r.get("line"),r.get("team_line"),r.get("side"),r.get("selected_team")) for r in same})!=1:continue
+        r=min(same,key=lambda r:r["pick_id"])
+        market="언더오버" if r["family"]=="total" else "핸디캡"
+        current_lines=sorted({float(o["line"]) for o in game.get("options",[]) if o.get("market")==market and type(o.get("line")) in (int,float) and math.isfinite(o["line"])})
+        source_line=r.get("line") if r["family"]=="total" else r.get("team_line")
+        home_line=source_line if r["family"]=="total" or r.get("side")=="home" else -source_line
+        matches=home_line in current_lines
+        result.append({"family":r["family"],"market":market,"side":r.get("side"),
+            "selected_team":r.get("selected_team"),"source_line":source_line,"unit":r.get("unit"),
+            "current_lines":current_lines,"line_matches_current":matches,
+            "status":"scope_unverified" if matches else "line_mismatch","reference_only":True,
+            "is_parlay_leg":r.get("is_parlay_leg") is True,"source_url":r["source_url"],"author":r["voter"],
+            "observed_at":r["observed_at"],"content_hash":r.get("content_hash"),
+            "period":"unknown","settlement":"unknown","price_receipt_verified":False})
+    return result[:32]
+
 def build_market_candidates(game, rows, as_of, built_at):
     result={"version":VERSION,"candidate_only":True,"validated_edge":False,
-            "affects_selection":False,"affects_probability":False,"offers":[],"rejected":{}}
+            "affects_selection":False,"affects_probability":False,"offers":[],"references":[],"rejected":{}}
     if any(isinstance(row,dict) and row.get("_tipster_load_error") for row in rows or []):
         return dict(result,status="tipster_input_unavailable")
     try:
@@ -23,6 +60,8 @@ def build_market_candidates(game, rows, as_of, built_at):
             return dict(result,status="after_t30")
         fixture=fixture_key(game)
     except (ValueError,KeyError,TypeError,AttributeError):return dict(result,status="unknown_fixture")
+    result["references"]=reference_context(game,rows,cutoff,start)
+    result["references_status"]="input_unavailable" if any(isinstance(r,dict) and r.get("_market_reference_load_error") for r in rows or []) else "observed" if result["references"] else "none"
     groups=defaultdict(list);electorate=defaultdict(list)
     for row in rows or []:
         if not isinstance(row,dict) or row.get("market_type") not in {"full_game_total","full_game_handicap"}:continue

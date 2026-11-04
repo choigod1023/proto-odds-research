@@ -41,5 +41,12 @@ test("multi-sport comparison keeps line identities and never invents a profitabl
     assert.match(empty,/비교할 완전한 상품 자료가 없습니다/);
     const unavailable=renderToStaticMarkup(createElement(Comparison,{game:{market_candidates:{status:"tipster_input_unavailable"}},options:totals}));
     assert.match(unavailable,/픽스터 자료 조회 실패/);assert.doesNotMatch(unavailable,/경기 전 픽스터 의견 없음/);
+    const reference={reference_only:true,market:"언더오버",family:"total",source_line:182.5,unit:"points",current_lines:[186.5],
+      side:"over",status:"line_mismatch",is_parlay_leg:true,source_url:"https://www.goli.tv/board/free/298798",author:"public:author",observed_at:"2026-11-04T01:07:01Z"};
+    const sourceGame={market_candidates:{version:"tipster-market-candidates-v1",candidate_only:true,affects_selection:false,affects_probability:false,references:[reference]}};
+    const references=renderToStaticMarkup(createElement(Comparison,{game:sourceGame,options:totals}));
+    assert.match(references,/픽스터 원문 참고 후보/);assert.match(references,/오버 182\.5점/);assert.match(references,/186\.5/);
+    assert.match(references,/원문과 달라 같은 상품으로 연결하지 않음/);assert.match(references,/조합글의 개별 의견/);
+    assert.doesNotMatch(references,/검증된 추천|원문 적중확률/);
   } finally { await server.close(); }
 });

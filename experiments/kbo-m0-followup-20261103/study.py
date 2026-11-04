@@ -39,6 +39,21 @@ def coverage(targets,quotes,labels):
  ids=set(unique(quotes));missing=[r["fixture_id"] for r in targets if r["fixture_id"] not in ids]
  return {"target_n":len(targets),"price_n":len(quotes),"missing_price_n":len(missing),"target_draws":sum(metrics.winner(labels[r["fixture_id"]])=="draw" for r in targets),"price_draws":sum(metrics.winner(labels[f])=="draw" for f in ids),"missing_draws":sum(metrics.winner(labels[f])=="draw" for f in missing),"missing_decisive":sum(metrics.winner(labels[f])!="draw" for f in missing),"excluded_ids":missing}
 
+def assert_replay_equal(expected,actual,path="result"):
+ # Hashes, identities, integer counts and Decimal money strings stay exact.
+ # Floating metrics may differ by libm/NumPy rounding across platforms only.
+ if type(expected) is not type(actual):raise ValueError("replay type mismatch at "+path)
+ if isinstance(expected,dict):
+  if expected.keys()!=actual.keys():raise ValueError("replay keys mismatch at "+path)
+  for key in expected:assert_replay_equal(expected[key],actual[key],path+"/"+str(key))
+ elif isinstance(expected,list):
+  if len(expected)!=len(actual):raise ValueError("replay length mismatch at "+path)
+  for index,(left,right) in enumerate(zip(expected,actual)):assert_replay_equal(left,right,path+"/"+str(index))
+ elif isinstance(expected,float):
+  if not math.isfinite(expected) or not math.isfinite(actual) or abs(expected-actual)>1e-12:
+   raise ValueError(f"replay float mismatch at {path}: {expected!r} != {actual!r}")
+ elif expected!=actual:raise ValueError(f"replay exact mismatch at {path}: {expected!r} != {actual!r}")
+
 def summarize(predictions,labels,quotes,targets):
  validate(predictions,targets);qids=set(unique(quotes));tids=set(unique(targets));tmap=unique(targets)
  if not qids<=tids or set(labels)!=tids:raise ValueError("price/label population mismatch")
@@ -80,7 +95,7 @@ def main(verify=False):
    ps={name:[r for r in rs if r["fixture_id"] in fids] for name,rs in predictions[year].items()};ls={f:labels[year][f] for f in fids};qs=[r for r in prices[year] if r["fixture_id"] in fids];result["halves"][str(year)][str(half)]=summarize(ps,ls,qs,t)
  result["2026_strict_price_sensitivity"]=summarize(pred26,labels[2026],[r for r in tiers26["strict_original_time_match"] if r["fixture_id"] in ids],targets[2026]);result["data_join_limitation"]=handoff["draw_selection_limitation"];result["source_hashes"]=SOURCES
  if verify:
-  if json.loads((P/"results.json").read_bytes())!=result:raise ValueError("committed cross-period results differ")
+  assert_replay_equal(json.loads((P/"results.json").read_bytes()),result)
  else:core.dump(P/"results.json",result)
  for year,d in result["annual"].items():
   print(year,{k:v for k,v in d["coverage"].items() if k!="excluded_ids"})
