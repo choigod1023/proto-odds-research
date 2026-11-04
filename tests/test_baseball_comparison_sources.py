@@ -22,6 +22,17 @@ class Tests(unittest.TestCase):
   rows=m.records(doc,meta,lineup,meta)
   self.assertEqual(rows[0]['timestamp_basis'],'unknown');self.assertEqual(rows[0]['payload']['status'],'not_confirmed');self.assertTrue(rows[0]['payload']['pregame_receipt']);self.assertIsNone(rows[0]['payload']['ordered_nine'])
   meta['received_at']='2026-11-04T10:00:00+00:00';self.assertFalse(m.records(doc,meta,lineup,meta)[0]['payload']['pregame_receipt'])
+ def test_observation_identity_is_canonical_and_replay_stable(self):
+  import re
+  g={'G_DT':'20261104','G_TM':'18:30','G_ID':'20261104SSKT0','HOME_NM':'KT','AWAY_NM':'삼성'}
+  doc=json.dumps({'code':'100','game':[g]}).encode()
+  meta={'received_at':'2026-11-04T05:00:00+00:00','url':'https://example.org/a','body_sha256':m.sha(doc)}
+  first=m.records(doc,meta)[0];self.assertRegex(first['record_id'],r'^fixture:[0-9a-f]{64}$')
+  self.assertEqual(first,m.records(doc,dict(meta))[0])
+  later=dict(meta,received_at='2026-11-04T05:01:00+00:00',timestamp_basis='http_response_body_completed')
+  second=m.records(doc,later)[0];self.assertNotEqual(first['record_id'],second['record_id']);self.assertEqual(first['body_sha256'],second['body_sha256'])
+  self.assertEqual(first['timestamp_basis'],'unknown');self.assertEqual(second['timestamp_basis'],'http_response_body_completed')
+  other=dict(meta,url='https://example.org/b');self.assertNotEqual(first['record_id'],m.records(doc,other)[0]['record_id'])
  def test_legacy_cache_keeps_unknown_basis_and_original_time(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d); raw=b'{}'; name='legacy'; digest=m.sha(raw)
@@ -56,6 +67,8 @@ class BatchTests(unittest.TestCase):
     first=m.run(*args,capture_id='capture1',session=f);self.assertEqual(first['status'],'partial');self.assertEqual(first['new_requests'],2)
     second=m.run(*args,capture_id='capture1',session=f);self.assertEqual(second['status'],'complete');self.assertEqual(second['new_requests'],1)
     oldrows=[json.loads(z) for z in (root/'out.jsonl').read_text(encoding='utf8').splitlines()];self.assertEqual(len(oldrows),4)
+    state=json.loads((root/'cursor.json').read_text(encoding='utf8'));state.update(status='partial',date=day.isoformat(),game_index=-1);(root/'cursor.json').write_text(json.dumps(state),encoding='utf8')
+    replay=m.run(*args,capture_id='capture1',session=f);self.assertEqual(replay['new_requests'],0);self.assertEqual(replay['new_records'],0);self.assertEqual(len(f.calls),3)
     third=m.run(day,day,3,root/'e',root/'out.jsonl',root/'cursor.json',capture_id='capture2',refresh=True,session=f);self.assertEqual(third['new_requests'],3)
     newrows=[json.loads(z) for z in (root/'out.jsonl').read_text(encoding='utf8').splitlines()];self.assertEqual(len(newrows),8);self.assertEqual(newrows[:4],oldrows)
    finally:m.time.sleep=old

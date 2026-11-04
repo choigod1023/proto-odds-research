@@ -34,3 +34,7 @@ actual-training의 M0_actual(-4.36%)과 player-effects-v2의 M0(-8.30%)는 이�
 새 HTTP 응답은 `response.content`를 읽은 뒤 실제 UTC를 기록하며 metadata와 교환 레코드에 `timestamp_basis=http_response_body_completed`를 남긴다. 기존 캐시 metadata를 변경하거나 수신 시각을 새로 만들지 않는다. 기존에 기준이 없는 캐시에서 레코드를 만들면 `timestamp_basis=unknown`이다. 엄격 gate에는 실제 수신, 원문 해시 검증, 알려진 본문 완료 기준이 모두 필요하며 batch 시작 시각을 수신 완료 시각으로 사용하지 않는다. 과거 경기의 사후 조회는 새 본문 완료 시각이 있어도 경기 전 수신 증명이 아니다.
 
 completion-basis-20261104 관측의 원문과 metadata는 이전 관측과 별개로 추가했다. 이전 metadata·레코드에는 기준을 소급 삽입하지 않았다. 모델 예측에는 실제 과거 수신과 본문 완료 증거가 없으며 retrospective로 유지한다.
+
+## 관측 ID 보완
+
+새 레코드는 kind·source_fixture_id·source_url·body_sha256·received_at을 키 정렬과 공백 없는 UTF-8 JSON으로 직렬화한 SHA-256 전체를 `fixture:` 또는 `lineup:` 뒤에 붙인다. 같은 응답의 캐시 재생은 같은 ID이고, 같은 본문을 다른 시각에 다시 관측하면 새 ID다. 기존 레코드는 변경하지 않았다. `synthetic-observation-identity.json`은 외부 HTTP 요청 없이 만든 테스트 예시이며 실제 수집 증거가 아니다. 이는 관측 로그만 구분하며 source fact의 의미 변화나 worker 큐 갱신을 뜻하지 않는다.

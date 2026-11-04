@@ -1,0 +1,56 @@
+{
+  "synthetic": true,
+  "description": "Synthetic identity example only; not HTTP collection or evidence. Replay of first observation equals original; same body with later observation has a different ID.",
+  "network_requests": 0,
+  "observations": [
+    {
+      "record_id": "fixture:dc99134f5865ced6d43f80bb8c0091929ad00d3a8cc2fa4469a326299ef6dc14",
+      "kind": "fixture",
+      "sport": "bs",
+      "league": "KBO",
+      "kickoff": "2026-11-04T18:30:00+09:00",
+      "home": "SYNTHETIC_HOME",
+      "away": "SYNTHETIC_AWAY",
+      "source_url": "https://example.invalid/synthetic",
+      "body_sha256": "9b6337f3f5d3c2df7dfbf7de2ae66e643baa83c6bd9cfa1d4b03c200f243df35",
+      "received_at": "2026-11-04T05:00:00+00:00",
+      "timestamp_basis": "unknown",
+      "timing_basis": "actual_receipt",
+      "payload": {
+        "source_fixture_id": "20261104TEST0",
+        "source_state": null,
+        "source_cancel": null,
+        "starters": {
+          "source_flag": null,
+          "status": "not_confirmed_both",
+          "announced": {}
+        }
+      }
+    },
+    {
+      "record_id": "fixture:a063c9bd4db7e2a4b257676465b0b0a7a51e4fc9014579a33b943c037ceaa3cf",
+      "kind": "fixture",
+      "sport": "bs",
+      "league": "KBO",
+      "kickoff": "2026-11-04T18:30:00+09:00",
+      "home": "SYNTHETIC_HOME",
+      "away": "SYNTHETIC_AWAY",
+      "source_url": "https://example.invalid/synthetic",
+      "body_sha256": "9b6337f3f5d3c2df7dfbf7de2ae66e643baa83c6bd9cfa1d4b03c200f243df35",
+      "received_at": "2026-11-04T05:01:00+00:00",
+      "timestamp_basis": "http_response_body_completed",
+      "timing_basis": "actual_receipt",
+      "payload": {
+        "source_fixture_id": "20261104TEST0",
+        "source_state": null,
+        "source_cancel": null,
+        "starters": {
+          "source_flag": null,
+          "status": "not_confirmed_both",
+          "announced": {}
+        }
+      }
+    }
+  ],
+  "replay_record_id": "fixture:dc99134f5865ced6d43f80bb8c0091929ad00d3a8cc2fa4469a326299ef6dc14"
+}
