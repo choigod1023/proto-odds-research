@@ -83,3 +83,22 @@ def test_raw_price_body_prevents_edited_market_terms(tmp_path):
     x['market']['odds']['home'] = 1.20
     with pytest.raises(ValueError, match='market differs'):
         _verify_market_bytes(x, root)
+
+
+def test_alternative_hook_failure_preserves_both_captures(tmp_path, monkeypatch):
+    from research.m1_service import observer, alternative_observer
+    monkeypatch.setattr(observer, '_verify_archives', lambda *a: None)
+    h=helpers();x=h.payload('full_game_2way')
+    x['event'].update(home_id='SS',away_id='HT');x['row'].update(home_id='SS',away_id='HT')
+    now=h.ledger.moment(x['event']['kickoff_at'])-h.timedelta(hours=2)
+    calls=[]
+    def fail(recorder,capture,records,clock):
+        calls.append(capture['hash'])
+        raise ValueError('alternative source unavailable')
+    monkeypatch.setattr(alternative_observer,'attach',fail)
+    prices=lambda *args:{'quotes':[h.quote(x,tmp_path,now)],'excluded':[],'requests':[]}
+    result=h.runner.run_once(tmp_path,h.Official(x),prices,clock=lambda:now,infer=h.old.fake_infer,m1_state=tmp_path/'candidate')
+    assert result['status']=='ok' and result['captured_this_run']==1
+    assert result['m1_status']=='recorded' and result['m1_comparison']['captured']==1
+    assert len(calls)==1
+    assert result['m1_alternative_reviews']==[{'recorded':False,'reason':'alternative source unavailable'}]

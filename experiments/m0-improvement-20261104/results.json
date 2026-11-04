@@ -1,0 +1,517 @@
+{
+  "all709_accuracy_diagnostics": {
+    "baseline": {
+      "accuracy": 0.6031746031746031,
+      "bets": 0,
+      "brier_3way": 0.522587210442674,
+      "decided": 693,
+      "fixtures": 709,
+      "hits": 418,
+      "log_loss_3way": 0.8403966941918163,
+      "net_units": "0",
+      "refunds": 0,
+      "roi": null
+    },
+    "combined": {
+      "accuracy": 0.5901875901875901,
+      "bets": 0,
+      "brier_3way": 0.5203351682611078,
+      "decided": 693,
+      "fixtures": 709,
+      "hits": 409,
+      "log_loss_3way": 0.8374648429449429,
+      "net_units": "0",
+      "refunds": 0,
+      "roi": null
+    },
+    "rest_cap": {
+      "accuracy": 0.5959595959595959,
+      "bets": 0,
+      "brier_3way": 0.5235168682682368,
+      "decided": 693,
+      "fixtures": 709,
+      "hits": 413,
+      "log_loss_3way": 0.8415833493642635,
+      "net_units": "0",
+      "refunds": 0,
+      "roi": null
+    },
+    "small_sample_shrinkage": {
+      "accuracy": 0.5930735930735931,
+      "bets": 0,
+      "brier_3way": 0.5194057829922187,
+      "decided": 693,
+      "fixtures": 709,
+      "hits": 411,
+      "log_loss_3way": 0.8363114147656886,
+      "net_units": "0",
+      "refunds": 0,
+      "roi": null
+    }
+  },
+  "evaluation_scope": "2026 KBO already-examined actual-roster archive; not live operating vote performance",
+  "frozen_prediction_commit": "8137b06fec6466ce9985d7974333daaed902d121",
+  "historical_receipt_proven": false,
+  "independent_blind_holdout": false,
+  "max_baseline_probability_error": 6.661338147750939e-16,
+  "metrics": {
+    "2026-03": {
+      "baseline": {
+        "accuracy": 0.5,
+        "bets": 15,
+        "brier_3way": 0.6063898552186796,
+        "decided": 14,
+        "fixtures": 15,
+        "hits": 7,
+        "log_loss_3way": 0.9595494040290514,
+        "net_units": "-2.73",
+        "refunds": 1,
+        "roi": -0.182
+      },
+      "combined": {
+        "accuracy": 0.5,
+        "bets": 15,
+        "brier_3way": 0.6026359221825307,
+        "decided": 14,
+        "fixtures": 15,
+        "hits": 7,
+        "log_loss_3way": 0.9551240946126283,
+        "net_units": "-2.73",
+        "refunds": 1,
+        "roi": -0.182
+      },
+      "rest_cap": {
+        "accuracy": 0.5,
+        "bets": 15,
+        "brier_3way": 0.59712219450653,
+        "decided": 14,
+        "fixtures": 15,
+        "hits": 7,
+        "log_loss_3way": 0.9485098540609838,
+        "net_units": "-2.73",
+        "refunds": 1,
+        "roi": -0.182
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.5,
+        "bets": 15,
+        "brier_3way": 0.612203798136073,
+        "decided": 14,
+        "fixtures": 15,
+        "hits": 7,
+        "log_loss_3way": 0.9679716648247542,
+        "net_units": "-2.73",
+        "refunds": 1,
+        "roi": -0.182
+      }
+    },
+    "2026-04": {
+      "baseline": {
+        "accuracy": 0.5212765957446809,
+        "bets": 95,
+        "brier_3way": 0.5254453134010472,
+        "decided": 94,
+        "fixtures": 95,
+        "hits": 49,
+        "log_loss_3way": 0.8378455926645634,
+        "net_units": "-16.38",
+        "refunds": 1,
+        "roi": -0.17242105263157895
+      },
+      "combined": {
+        "accuracy": 0.5319148936170213,
+        "bets": 95,
+        "brier_3way": 0.5275252998448404,
+        "decided": 94,
+        "fixtures": 95,
+        "hits": 50,
+        "log_loss_3way": 0.8402716473665296,
+        "net_units": "-14.11",
+        "refunds": 1,
+        "roi": -0.14852631578947367
+      },
+      "rest_cap": {
+        "accuracy": 0.5319148936170213,
+        "bets": 95,
+        "brier_3way": 0.5258490801805316,
+        "decided": 94,
+        "fixtures": 95,
+        "hits": 50,
+        "log_loss_3way": 0.8384576735898986,
+        "net_units": "-14.91",
+        "refunds": 1,
+        "roi": -0.15694736842105264
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.5319148936170213,
+        "bets": 95,
+        "brier_3way": 0.5272966297127094,
+        "decided": 94,
+        "fixtures": 95,
+        "hits": 50,
+        "log_loss_3way": 0.8398726649406271,
+        "net_units": "-14.11",
+        "refunds": 1,
+        "roi": -0.14852631578947367
+      }
+    },
+    "2026-05": {
+      "baseline": {
+        "accuracy": 0.6428571428571429,
+        "bets": 128,
+        "brier_3way": 0.5005860338632624,
+        "decided": 126,
+        "fixtures": 128,
+        "hits": 81,
+        "log_loss_3way": 0.81084239763794,
+        "net_units": "1.30",
+        "refunds": 2,
+        "roi": 0.01015625
+      },
+      "combined": {
+        "accuracy": 0.6190476190476191,
+        "bets": 128,
+        "brier_3way": 0.4997851694458622,
+        "decided": 126,
+        "fixtures": 128,
+        "hits": 78,
+        "log_loss_3way": 0.8099563684965765,
+        "net_units": "-2.79",
+        "refunds": 2,
+        "roi": -0.021796875
+      },
+      "rest_cap": {
+        "accuracy": 0.626984126984127,
+        "bets": 128,
+        "brier_3way": 0.5009132359191388,
+        "decided": 126,
+        "fixtures": 128,
+        "hits": 79,
+        "log_loss_3way": 0.8112334338408851,
+        "net_units": "-1.89",
+        "refunds": 2,
+        "roi": -0.014765625
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.6190476190476191,
+        "bets": 128,
+        "brier_3way": 0.4994791545000354,
+        "decided": 126,
+        "fixtures": 128,
+        "hits": 78,
+        "log_loss_3way": 0.8095433409547631,
+        "net_units": "-2.79",
+        "refunds": 2,
+        "roi": -0.021796875
+      }
+    },
+    "2026-06": {
+      "baseline": {
+        "accuracy": 0.65,
+        "bets": 122,
+        "brier_3way": 0.5040120846099065,
+        "decided": 120,
+        "fixtures": 122,
+        "hits": 78,
+        "log_loss_3way": 0.8159347957586658,
+        "net_units": "3.80",
+        "refunds": 2,
+        "roi": 0.03114754098360656
+      },
+      "combined": {
+        "accuracy": 0.6416666666666667,
+        "bets": 122,
+        "brier_3way": 0.5001118139701057,
+        "decided": 120,
+        "fixtures": 122,
+        "hits": 77,
+        "log_loss_3way": 0.8115430496167694,
+        "net_units": "1.62",
+        "refunds": 2,
+        "roi": 0.013278688524590163
+      },
+      "rest_cap": {
+        "accuracy": 0.65,
+        "bets": 122,
+        "brier_3way": 0.5036178483044409,
+        "decided": 120,
+        "fixtures": 122,
+        "hits": 78,
+        "log_loss_3way": 0.8155388241316598,
+        "net_units": "3.80",
+        "refunds": 2,
+        "roi": 0.03114754098360656
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.6333333333333333,
+        "bets": 122,
+        "brier_3way": 0.5005431397029193,
+        "decided": 120,
+        "fixtures": 122,
+        "hits": 76,
+        "log_loss_3way": 0.8119850256497614,
+        "net_units": "-0.15",
+        "refunds": 2,
+        "roi": -0.0012295081967213116
+      }
+    },
+    "2026-07": {
+      "baseline": {
+        "accuracy": 0.5052631578947369,
+        "bets": 99,
+        "brier_3way": 0.5653381469493528,
+        "decided": 95,
+        "fixtures": 99,
+        "hits": 48,
+        "log_loss_3way": 0.8984931129115186,
+        "net_units": "-20.59",
+        "refunds": 4,
+        "roi": -0.207979797979798
+      },
+      "combined": {
+        "accuracy": 0.5157894736842106,
+        "bets": 99,
+        "brier_3way": 0.5628762105449373,
+        "decided": 95,
+        "fixtures": 99,
+        "hits": 49,
+        "log_loss_3way": 0.8949733843290533,
+        "net_units": "-18.36",
+        "refunds": 4,
+        "roi": -0.18545454545454546
+      },
+      "rest_cap": {
+        "accuracy": 0.5052631578947369,
+        "bets": 99,
+        "brier_3way": 0.5628064929646155,
+        "decided": 95,
+        "fixtures": 99,
+        "hits": 48,
+        "log_loss_3way": 0.8953651459427788,
+        "net_units": "-20.28",
+        "refunds": 4,
+        "roi": -0.20484848484848484
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.5157894736842106,
+        "bets": 99,
+        "brier_3way": 0.5649755257349329,
+        "decided": 95,
+        "fixtures": 99,
+        "hits": 49,
+        "log_loss_3way": 0.8975930739980125,
+        "net_units": "-18.36",
+        "refunds": 4,
+        "roi": -0.18545454545454546
+      }
+    },
+    "2026-08": {
+      "baseline": {
+        "accuracy": 0.6623376623376623,
+        "bets": 79,
+        "brier_3way": 0.516220361928775,
+        "decided": 77,
+        "fixtures": 79,
+        "hits": 51,
+        "log_loss_3way": 0.8347511466351771,
+        "net_units": "5.00",
+        "refunds": 2,
+        "roi": 0.06329113924050633
+      },
+      "combined": {
+        "accuracy": 0.6103896103896104,
+        "bets": 79,
+        "brier_3way": 0.507557801902507,
+        "decided": 77,
+        "fixtures": 79,
+        "hits": 47,
+        "log_loss_3way": 0.8240200171894129,
+        "net_units": "-2.35",
+        "refunds": 2,
+        "roi": -0.029746835443037974
+      },
+      "rest_cap": {
+        "accuracy": 0.6493506493506493,
+        "bets": 79,
+        "brier_3way": 0.514376445648764,
+        "decided": 77,
+        "fixtures": 79,
+        "hits": 50,
+        "log_loss_3way": 0.8325719932741769,
+        "net_units": "3.18",
+        "refunds": 2,
+        "roi": 0.040253164556962026
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.6233766233766234,
+        "bets": 79,
+        "brier_3way": 0.5089426835242684,
+        "decided": 77,
+        "fixtures": 79,
+        "hits": 48,
+        "log_loss_3way": 0.825692061542875,
+        "net_units": "-0.65",
+        "refunds": 2,
+        "roi": -0.008227848101265823
+      }
+    },
+    "2026-09": {
+      "baseline": {
+        "accuracy": 0.6551724137931034,
+        "bets": 89,
+        "brier_3way": 0.5169429711317026,
+        "decided": 87,
+        "fixtures": 89,
+        "hits": 57,
+        "log_loss_3way": 0.8352864534691914,
+        "net_units": "2.42",
+        "refunds": 2,
+        "roi": 0.027191011235955055
+      },
+      "combined": {
+        "accuracy": 0.6436781609195402,
+        "bets": 89,
+        "brier_3way": 0.510557541014852,
+        "decided": 87,
+        "fixtures": 89,
+        "hits": 56,
+        "log_loss_3way": 0.8256494384088349,
+        "net_units": "0.92",
+        "refunds": 2,
+        "roi": 0.010337078651685393
+      },
+      "rest_cap": {
+        "accuracy": 0.632183908045977,
+        "bets": 89,
+        "brier_3way": 0.5226193863895967,
+        "decided": 87,
+        "fixtures": 89,
+        "hits": 55,
+        "log_loss_3way": 0.8420075795408504,
+        "net_units": "-0.47",
+        "refunds": 2,
+        "roi": -0.005280898876404494
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.6551724137931034,
+        "bets": 89,
+        "brier_3way": 0.5050806971109097,
+        "decided": 87,
+        "fixtures": 89,
+        "hits": 57,
+        "log_loss_3way": 0.8191133612494197,
+        "net_units": "2.49",
+        "refunds": 2,
+        "roi": 0.02797752808988764
+      }
+    },
+    "2026-10": {
+      "baseline": {
+        "accuracy": 0.6153846153846154,
+        "bets": 40,
+        "brier_3way": 0.5387745844297173,
+        "decided": 39,
+        "fixtures": 40,
+        "hits": 24,
+        "log_loss_3way": 0.859289459202287,
+        "net_units": "-1.87",
+        "refunds": 1,
+        "roi": -0.04675
+      },
+      "combined": {
+        "accuracy": 0.5641025641025641,
+        "bets": 40,
+        "brier_3way": 0.5335609427070871,
+        "decided": 39,
+        "fixtures": 40,
+        "hits": 22,
+        "log_loss_3way": 0.8531464689404678,
+        "net_units": "-4.99",
+        "refunds": 1,
+        "roi": -0.12475
+      },
+      "rest_cap": {
+        "accuracy": 0.5897435897435898,
+        "bets": 40,
+        "brier_3way": 0.543818021272558,
+        "decided": 39,
+        "fixtures": 40,
+        "hits": 23,
+        "log_loss_3way": 0.8652181525188191,
+        "net_units": "-3.65",
+        "refunds": 1,
+        "roi": -0.09125
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.5897435897435898,
+        "bets": 40,
+        "brier_3way": 0.5287271943999601,
+        "decided": 39,
+        "fixtures": 40,
+        "hits": 23,
+        "log_loss_3way": 0.8474937626127195,
+        "net_units": "-3.21",
+        "refunds": 1,
+        "roi": -0.08025
+      }
+    },
+    "all667": {
+      "baseline": {
+        "accuracy": 0.6058282208588958,
+        "bets": 667,
+        "brier_3way": 0.5230681142527058,
+        "decided": 652,
+        "fixtures": 667,
+        "hits": 395,
+        "log_loss_3way": 0.8409725274858343,
+        "net_units": "-29.05",
+        "refunds": 15,
+        "roi": -0.04355322338830585
+      },
+      "combined": {
+        "accuracy": 0.5920245398773006,
+        "bets": 667,
+        "brier_3way": 0.5198567546690753,
+        "decided": 652,
+        "fixtures": 667,
+        "hits": 386,
+        "log_loss_3way": 0.8367975117276787,
+        "net_units": "-42.79",
+        "refunds": 15,
+        "roi": -0.06415292353823089
+      },
+      "rest_cap": {
+        "accuracy": 0.598159509202454,
+        "bets": 667,
+        "brier_3way": 0.5233736064090946,
+        "decided": 652,
+        "fixtures": 667,
+        "hits": 390,
+        "log_loss_3way": 0.8413440486874574,
+        "net_units": "-36.95",
+        "refunds": 15,
+        "roi": -0.055397301349325336
+      },
+      "small_sample_shrinkage": {
+        "accuracy": 0.5950920245398773,
+        "bets": 667,
+        "brier_3way": 0.5195144684850883,
+        "decided": 652,
+        "fixtures": 667,
+        "hits": 388,
+        "log_loss_3way": 0.8364069351673293,
+        "net_units": "-39.51",
+        "refunds": 15,
+        "roi": -0.05923538230884558
+      }
+    }
+  },
+  "paper_wallet_changed": false,
+  "price_replay_sha256": "0788ba9e9b1301878563bc6adf1ca2617191c42b36d171ed7f54492012f9655a",
+  "production_changed": false,
+  "promoted": false,
+  "protocol_sha256": "e9083038cec3dbbef04c92f922d3ee44ead1ce05e799bca2a477b7fefc93a648",
+  "selected_before_2026_evaluation": "small_sample_shrinkage",
+  "stage": "retrospective_replay",
+  "test_labels_sha256": "885b5dc0d182fa91d29ea4d74a078fb8835acf817095604106564864d0e19dc9"
+}
