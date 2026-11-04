@@ -74,7 +74,7 @@ def parse_detail(raw, round_info, games, receipt, evidence, as_of):
                 raise ValueError('fixture_unmatched_or_ambiguous')
             prices = (_price(row['winAllot']), _price(row['loseAllot']))
             fixture = matches[0]['official_game_id']
-            common = {'fixture_id': fixture, 'period': 'full_game', 'kind': 'full_game_total', 'line': line, 'settlement_rule': 'push_refund', 'market_id': market_id, 'received_at': received.isoformat(), 'as_of': decision.isoformat(), 'source_sha256': evidence['sha256'], 'evidence': dict(evidence), 'source_product': dict(zip(('betId','betTypId','betNm','betTypNm'), product)), 'original_draw_refund': False, 'research_only': True}
+            common = {'fixture_id': fixture, 'period': 'full_game', 'kind': 'full_game_total', 'line': line, 'settlement_rule': 'push_refund', 'market_id': market_id, 'received_at': received.isoformat(), 'as_of': decision.isoformat(), 'close_at': close.isoformat(), 'round_close_at': closing.isoformat(), 'source_sha256': evidence['sha256'], 'evidence': dict(evidence), 'source_product': dict(zip(('betId','betTypId','betNm','betTypNm'), product)), 'original_draw_refund': False, 'research_only': True}
             offers.extend(dict(common, offer_id=f'{market_id}:{side}', selection=side, odds=price) for side, price in zip(('under', 'over'), prices))
         except (KeyError, TypeError, ValueError, OverflowError, OSError) as exc:
             excluded.append({'market_id': market_id, 'reason': str(exc) or 'invalid_field'})

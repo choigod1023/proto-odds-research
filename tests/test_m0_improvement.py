@@ -61,19 +61,27 @@ def test_settlement_counts_draw_as_zero_profit_not_hit_and_rejects_bad_price():
     predictions=[{'fixture_id':'a','probabilities_3way':{'home':.5,'draw':.1,'away':.4},'home_probability':5/9},
                  {'fixture_id':'b','probabilities_3way':{'home':.5,'draw':.1,'away':.4},'home_probability':5/9}]
     labels={'a':{'home_score':2,'away_score':1,'status':'final'},'b':{'home_score':2,'away_score':2,'status':'final'}}
-    result=e.metrics(predictions,labels,{'a':{'home':1.2},'b':{'home':1.8}})
+    result=e.metrics(predictions,labels,{'a':{'home':1.2,'away':2.},'b':{'home':1.8,'away':2.}})
     assert result['hits']==1 and result['decided']==1 and result['refunds']==1
     assert result['net_units']=='0.2' and result['roi']==.1
-    with pytest.raises(ValueError):e.metrics(predictions,labels,{'a':{'home':float('nan')}})
+    with pytest.raises(ValueError):e.metrics(predictions,labels,{'a':{'home':float('nan'),'away':2.}})
+    with pytest.raises(ValueError):e.metrics(predictions,labels,{'a':{'home':1.2,'away':float('nan')}})
 
 
 def test_real_fit_respects_gap_and_probabilities_are_normalized():
     rows=[];labels={}
     for i in range(25):
         r=row();r.update(fixture_id=str(i),event_date=(date(2024,4,1)+timedelta(days=i)).isoformat(),season=2024)
+        for side in ('home','away'):
+            for person in r['raw_features'][side+'_lineup_strength']['value']: person['history'][0]['date']='2024-03-01'
+            r['raw_features'][side+'_starter_strength']['value']['appearances'][0]['date']='2024-03-01'
         rows.append(r);labels[str(i)]={'home_score':i%6,'away_score':i%5,'status':'final'}
     with pytest.raises(ValueError):e.fit(rows,labels,'baseline','2024-04-27')
-    model=e.fit(rows,labels,'baseline','2025-04-01');pred=e.predict(model,rows)
+    model=e.fit(rows,labels,'baseline','2025-04-01')
+    with pytest.raises(ValueError,match='overlaps training'):e.predict(model,rows)
+    targets=deepcopy(rows)
+    for r in targets:r.update(event_date='2025-04-01',season=2025)
+    pred=e.predict(model,targets)
     assert model['training_n']==25 and model['promoted'] is False
     assert all(sum(p['probabilities_3way'].values())==pytest.approx(1) for p in pred)
     assert np.isfinite(model['beta']).all()
@@ -89,3 +97,11 @@ def test_freeze_checks_committed_bytes(tmp_path):
     # Paths outside this task cannot masquerade as its frozen development artifact.
     p=tmp_path/'dev.json';p.write_text(json.dumps({'test_labels_read':False}))
     with pytest.raises(ValueError):e.committed(p,'a'*40)
+
+
+@pytest.mark.parametrize('variant',e.VARIANTS)
+def test_all_candidates_reject_future_lineage_and_negative_rest(variant):
+    r=row();r['features']['home_rest_days']['value']=-1
+    with pytest.raises(ValueError,match='negative rest'):e.transform(r,variant)
+    r=row();r['raw_features']['home_lineup_strength']['value'][0]['history'][0]['date']=r['event_date']
+    with pytest.raises(ValueError,match='future'):e.transform(r,variant)

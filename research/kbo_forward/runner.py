@@ -138,7 +138,15 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                         priced=copy.deepcopy(x);priced["market"],priced["evidence"]["odds"]=price_packet(q,state,x["event"])
                         rec=ledger.capture(priced,path,clock=clock,infer=infer);report["captured_this_run"]+=int(rec is not None)
                         if m1_observer is not None:
-                            try:m1_observer.capture(priced)
+                            try:
+                                candidate=m1_observer.capture(priced)
+                                if candidate is not None:
+                                    try:
+                                        from research.m1_service.alternative_observer import attach
+                                        review=attach(m1_observer,candidate,price_result['requests'],clock())
+                                        report.setdefault('m1_alternative_reviews',[]).append(review)
+                                    except Exception as exc:
+                                        report.setdefault('m1_alternative_reviews',[]).append({'recorded':False,'reason':str(exc)[:300]})
                             except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':official_id,'reason':str(exc)[:300]})
                 except Exception as exc:report["excluded"].append({"official_game_id":g["source"]["G_ID"],"error_type":type(exc).__name__,"reason":str(exc)[:300]})
             # Re-read captures so successful inference is never lost on later failures.
@@ -170,7 +178,7 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
             atomic_json(state/"summary.json",report["comparison"]);atomic_json(state/"last-run.json",report)
             # A digest-addressed history retains changes; identical repeated skips are quiet.
             meaningful={k:report[k] for k in ("status","excluded","comparison")}
-            if m1_state is not None:meaningful.update({k:report.get(k) for k in ('m1_status','m1_comparison','m1_candidate_excluded')})
+            if m1_state is not None:meaningful.update({k:report.get(k) for k in ('m1_status','m1_comparison','m1_candidate_excluded','m1_alternative_reviews')})
             key=ledger.digest(ledger.canonical(meaningful))
             if key!=previous.get("notification_digest"):
                 atomic_json(state/"reports"/(key+".json"),report)

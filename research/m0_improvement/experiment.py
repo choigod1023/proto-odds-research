@@ -6,7 +6,7 @@ The 2026 cohort has already been examined; it is not a new blind holdout.
 import argparse
 from copy import deepcopy
 from datetime import date, timedelta
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import gzip
 import hashlib
 import json
@@ -70,6 +70,22 @@ def transform(row, variant):
         if v['value'] is not None and (type(v['value']) not in (int,float) or not math.isfinite(v['value'])):
             raise ValueError('invalid scalar')
     for side in ('home','away'):
+        rest=out['features'][side+'_rest_days']['value']
+        if rest is not None and rest<0: raise ValueError('negative rest')
+        # Validate preserved lineage for *every* candidate, including controls.
+        people=row['raw_features'][side+'_lineup_strength']['value']
+        if people is not None:
+            if [p['player_id'] for p in people]!=row['roster'][side]['hitters']:
+                raise ValueError('lineup history owner differs')
+            for person in people:
+                for h in histories(person['history'],row):
+                    if count(h['hit'])>count(h['ab']): raise ValueError('hits exceed at bats')
+                    count(h['bb'])
+        starter=row['raw_features'][side+'_starter_strength']['value']
+        if starter is not None:
+            if starter['projected_player_id']!=row['roster'][side]['starter']:
+                raise ValueError('starter history owner differs')
+            for h in histories(starter['appearances'],row): count(h['er']);count(h['outs'])
         if variant in ('rest_cap','combined'):
             key = side+'_rest_days'; v = out['features'][key]['value']
             if v is not None:
@@ -164,6 +180,8 @@ def fit(rows, labels, variant, first_target):
 
 
 def predict(model, rows):
+    if any(date.fromisoformat(r['event_date']) < date.fromisoformat(model['last_training_date'])+timedelta(days=7) for r in rows):
+        raise ValueError('prediction target overlaps training or seven-day gap')
     x = design([transform(r,model['variant']) for r in rows],model['spec']); eta = x@np.array(model['beta'])
     if not np.isfinite(eta).all() or np.max(np.abs(eta)) > 20: raise ValueError('unstable rates')
     rates = np.exp(eta).reshape(-1,2); h,a = rates.T
@@ -181,15 +199,21 @@ def metrics(predictions, labels, prices=None):
     for p in predictions:
         fid = p['fixture_id']; z = labels[fid]; h,a = count(z['home_score']),count(z['away_score'])
         if z['status'] != 'final': raise ValueError('nonfinal evaluation result')
+        if z.get('settlement_rule') not in (None,'draw_void_refund'): raise ValueError('wrong archived settlement rule')
+        market=None
+        if prices is not None and fid in prices:
+            if set(prices[fid])!={'home','away'}: raise ValueError('complete two-way price required')
+            try: market={s:Decimal(str(v)) for s,v in prices[fid].items() if not isinstance(v,bool)}
+            except (InvalidOperation,ValueError): raise ValueError('invalid stored price')
+            if len(market)!=2 or any(not v.is_finite() or v<=1 for v in market.values()): raise ValueError('invalid stored price')
         winner = 'home' if h>a else 'away' if a>h else 'draw'; n+=1
         ll -= math.log(max(p['probabilities_3way'][winner],1e-15))
         brier += sum((p['probabilities_3way'][k]-int(k==winner))**2 for k in ('home','draw','away'))
         q = p['home_probability']; pick = None if abs(q-.5)<=1e-12 else 'home' if q>.5 else 'away'
         if winner!='draw':
             decided+=1; hits+=int(pick==winner)
-        if prices is not None and fid in prices and pick is not None:
-            odds = Decimal(str(prices[fid][pick]))
-            if not odds.is_finite() or odds<=1: raise ValueError('invalid stored price')
+        if market is not None and pick is not None:
+            odds = market[pick]
             bets+=1; refunds+=int(winner=='draw')
             net += Decimal(0) if winner=='draw' else odds-1 if pick==winner else Decimal(-1)
     return {'fixtures':n,'decided':decided,'hits':hits,'accuracy':hits/decided if decided else None,
