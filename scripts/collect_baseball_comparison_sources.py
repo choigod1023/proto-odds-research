@@ -45,7 +45,8 @@ def records(schedule_raw,schedule_meta,lineup_raw=None,lineup_meta=None,game_id=
         start=datetime.strptime(str(g['G_DT'])+' '+str(g['G_TM']),'%Y%m%d %H:%M').replace(tzinfo=probe.KST)
         base=dict(sport='bs',league='KBO',kickoff=start.isoformat(),home=str(g['HOME_NM']).strip(),away=str(g['AWAY_NM']).strip())
         def make(kind,meta,payload):
-            rid=sha((kind+str(g['G_ID'])+meta['body_sha256']+meta['received_at']).encode())[:24]
+            identity={'kind':kind,'source_fixture_id':str(g['G_ID']),'source_url':meta['url'],'body_sha256':meta['body_sha256'],'received_at':meta['received_at']}
+            rid=sha(json.dumps(identity,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf8'))
             return dict(record_id=kind+':'+rid,kind=kind,**base,source_url=meta['url'],body_sha256=meta['body_sha256'],received_at=meta['received_at'],timestamp_basis=meta.get('timestamp_basis','unknown'),timing_basis='actual_receipt',payload={'source_fixture_id':str(g['G_ID']),**payload})
         if lineup_raw is None:
             out.append(make('fixture',schedule_meta,{'source_state':g.get('GAME_STATE_SC'),'source_cancel':g.get('CANCEL_SC_ID'),'starters':probe.starter_metadata(g)}))
