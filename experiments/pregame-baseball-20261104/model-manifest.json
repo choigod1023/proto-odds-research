@@ -1,0 +1,6112 @@
+{
+  "comparison": {
+    "n_actual": 667,
+    "n_effect_price_ledger": 683,
+    "n_common": 667,
+    "price_source_different": 0,
+    "winner_different": 0,
+    "probability_pairs_different": 667,
+    "selection_different": 80,
+    "effects_m0_equals_oldfull_m0": 667,
+    "net_difference_actual_minus_effects": 26.31,
+    "timing": "both quote receipt times unverified; same price_source object"
+  },
+  "models": [
+    {
+      "model_id": "kbo-actual-training-2025-M0_actual",
+      "coefficient_sha256": "2a54eb2580f28fa0026c85a7c53ac285ac4d171ee4dc960ebc0caa135bdc3266",
+      "code_sha256": "a1cadf110601ed82e533711a4faf8ffa3653ff33e7b88a5e5da721f10b9db6f5",
+      "input_branch": "paired-train-actual / 2025 validation subset",
+      "train_end": "2024-10-28",
+      "exported": 727,
+      "artifact_rows": 731,
+      "source_artifact_sha256": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M2_actual",
+      "coefficient_sha256": "add362f61bada9404d49e8133fd6757690fc7f4c92e581db91f7e72b974b222b",
+      "code_sha256": "a1cadf110601ed82e533711a4faf8ffa3653ff33e7b88a5e5da721f10b9db6f5",
+      "input_branch": "paired-train-actual / 2025 validation subset",
+      "train_end": "2024-10-28",
+      "exported": 727,
+      "artifact_rows": 731,
+      "source_artifact_sha256": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "coefficient_sha256": "6488704a3cbc685109f138e04494df88d15d2d023cab475e8c942a62c75454f9",
+      "code_sha256": "a1cadf110601ed82e533711a4faf8ffa3653ff33e7b88a5e5da721f10b9db6f5",
+      "input_branch": "paired-train-actual / paired-test-actual",
+      "train_end": "2025-10-31",
+      "exported": 470,
+      "artifact_rows": 709,
+      "source_artifact_sha256": "b41b8dc71af26ccfb5b17ad568309dd4bf742df15e2ba8aaf5091eda693aabbd"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "coefficient_sha256": "95373d6fda9bc7359e7cfa6eb129af2b173bbb3fbd724e52068c77a7c063d5f8",
+      "code_sha256": "a1cadf110601ed82e533711a4faf8ffa3653ff33e7b88a5e5da721f10b9db6f5",
+      "input_branch": "paired-train-actual / paired-test-actual",
+      "train_end": "2025-10-31",
+      "exported": 470,
+      "artifact_rows": 709,
+      "source_artifact_sha256": "b41b8dc71af26ccfb5b17ad568309dd4bf742df15e2ba8aaf5091eda693aabbd"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "coefficient_sha256": "e5f50ae4d8484f255db33814a802fb2439979bb2e874c5275a67a73026544c31",
+      "code_sha256": "0c0e7e47600885a15ad63bc47aa9da555ad236a7d45343e2013559efd10ce17a",
+      "input_branch": "projected-training / official-batting-and-starter-evaluation",
+      "train_end": "2025-10-31",
+      "exported": 470,
+      "artifact_rows": 709,
+      "source_artifact_sha256": "ba1ed43123a58535f2ee997de4181931449008b0e9bbbba4ba317245c7525fa9"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "coefficient_sha256": "3b419b42faf11b708ec8fdc9970fd0502cd8a531cd6b296a773c9eb1d35f1cae",
+      "code_sha256": "0c0e7e47600885a15ad63bc47aa9da555ad236a7d45343e2013559efd10ce17a",
+      "input_branch": "projected-training / official-batting-and-starter-evaluation",
+      "train_end": "2025-10-31",
+      "exported": 470,
+      "artifact_rows": 709,
+      "source_artifact_sha256": "ba1ed43123a58535f2ee997de4181931449008b0e9bbbba4ba317245c7525fa9"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "coefficient_sha256": "03d44d2443c28a2fd2ec97cc56cd7f70914915646b038ea67e43842e62481d79",
+      "code_sha256": "0c0e7e47600885a15ad63bc47aa9da555ad236a7d45343e2013559efd10ce17a",
+      "input_branch": "projected-training / official-batting-and-starter-evaluation",
+      "train_end": "2025-10-31",
+      "exported": 470,
+      "artifact_rows": 709,
+      "source_artifact_sha256": "ba1ed43123a58535f2ee997de4181931449008b0e9bbbba4ba317245c7525fa9"
+    }
+  ],
+  "missing_fixture_metadata": [
+    {
+      "model_id": "kbo-actual-training-2025-M0_actual",
+      "fixture_id": "score:2025-03-22:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M0_actual",
+      "fixture_id": "score:2025-03-22:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M0_actual",
+      "fixture_id": "score:2025-03-22:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M0_actual",
+      "fixture_id": "score:2025-03-30:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M2_actual",
+      "fixture_id": "score:2025-03-22:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M2_actual",
+      "fixture_id": "score:2025-03-22:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M2_actual",
+      "fixture_id": "score:2025-03-22:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2025-M2_actual",
+      "fixture_id": "score:2025-03-30:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-28:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-28:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-28:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-28:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-28:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-30:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-30:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-30:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-30:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-30:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-02:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-04:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-04:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-04:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-11:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-11:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-11:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-11:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-11:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-13:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-13:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-13:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-13:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-13:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-15:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-15:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-15:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-15:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-15:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-16:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-16:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-16:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-18:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-18:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-18:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-18:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-18:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-20:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-20:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-20:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-20:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-22:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-22:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-23:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-23:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-23:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-23:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-25:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-25:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-25:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-25:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-25:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-27:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-27:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-27:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-27:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-29:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-29:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-29:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-29:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-29:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-30:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-08-30:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-01:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-01:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-03:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-03:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-03:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-03:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-05:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-05:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-05:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-05:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-06:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-06:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-06:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-06:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-08:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-08:NC:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-08:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-08:한화:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-10:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-10:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-10:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-12:KT:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-12:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-12:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-12:키움:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-13:KIA:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-13:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-13:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-13:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-15:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-15:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-15:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-17:KIA:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-19:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-19:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-19:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-19:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-20:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-20:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-20:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-20:SSG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-20:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-22:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-22:삼성:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-22:키움:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-22:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-24:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-26:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-26:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-26:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-27:두산:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-27:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-29:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-29:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-29:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-29:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-29:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-01:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-01:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-01:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-01:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-03:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-03:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-03:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-03:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-03:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-04:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-04:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-04:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-04:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-04:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-06:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-06:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-06:롯데:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-06:키움:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-06:한화:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-09:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-09:SSG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-09:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-10:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-10:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-10:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-11:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-11:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-14:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-17:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-18:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-20:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M0_actual",
+      "fixture_id": "score:2026-10-27:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-28:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-28:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-28:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-28:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-28:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-30:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-30:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-30:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-30:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-30:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-02:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-04:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-04:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-04:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-11:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-11:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-11:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-11:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-11:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-13:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-13:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-13:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-13:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-13:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-15:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-15:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-15:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-15:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-15:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-16:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-16:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-16:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-18:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-18:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-18:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-18:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-18:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-20:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-20:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-20:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-20:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-22:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-22:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-23:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-23:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-23:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-23:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-25:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-25:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-25:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-25:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-25:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-27:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-27:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-27:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-27:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-29:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-29:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-29:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-29:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-29:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-30:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-08-30:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-01:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-01:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-03:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-03:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-03:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-03:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-05:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-05:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-05:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-05:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-06:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-06:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-06:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-06:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-08:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-08:NC:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-08:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-08:한화:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-10:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-10:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-10:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-12:KT:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-12:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-12:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-12:키움:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-13:KIA:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-13:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-13:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-13:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-15:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-15:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-15:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-17:KIA:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-19:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-19:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-19:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-19:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-20:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-20:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-20:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-20:SSG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-20:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-22:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-22:삼성:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-22:키움:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-22:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-24:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-26:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-26:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-26:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-27:두산:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-27:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-29:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-29:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-29:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-29:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-29:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-01:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-01:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-01:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-01:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-03:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-03:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-03:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-03:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-03:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-04:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-04:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-04:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-04:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-04:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-06:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-06:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-06:롯데:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-06:키움:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-06:한화:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-09:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-09:SSG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-09:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-10:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-10:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-10:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-11:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-11:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-14:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-17:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-18:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-20:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-actual-training-2026-M2_actual",
+      "fixture_id": "score:2026-10-27:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-28:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-28:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-28:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-28:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-28:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-30:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-30:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-30:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-30:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-30:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-02:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-04:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-04:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-04:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-11:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-11:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-11:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-11:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-11:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-13:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-13:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-13:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-13:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-13:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-15:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-15:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-15:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-15:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-15:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-16:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-16:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-16:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-18:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-18:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-18:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-18:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-18:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-20:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-20:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-20:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-20:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-22:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-22:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-23:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-23:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-23:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-23:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-25:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-25:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-25:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-25:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-25:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-27:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-27:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-27:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-27:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-29:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-29:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-29:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-29:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-29:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-30:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-08-30:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-01:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-01:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-03:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-03:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-03:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-03:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-05:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-05:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-05:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-05:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-06:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-06:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-06:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-06:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-08:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-08:NC:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-08:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-08:한화:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-10:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-10:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-10:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-12:KT:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-12:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-12:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-12:키움:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-13:KIA:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-13:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-13:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-13:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-15:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-15:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-15:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-17:KIA:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-19:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-19:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-19:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-19:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-20:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-20:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-20:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-20:SSG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-20:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-22:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-22:삼성:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-22:키움:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-22:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-24:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-26:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-26:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-26:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-27:두산:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-27:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-29:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-29:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-29:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-29:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-29:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-01:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-01:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-01:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-01:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-03:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-03:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-03:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-03:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-03:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-04:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-04:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-04:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-04:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-04:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-06:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-06:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-06:롯데:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-06:키움:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-06:한화:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-09:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-09:SSG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-09:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-10:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-10:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-10:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-11:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-11:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-14:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-17:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-18:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-20:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M0",
+      "fixture_id": "score:2026-10-27:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-28:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-28:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-28:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-28:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-28:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-30:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-30:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-30:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-30:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-30:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-02:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-04:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-04:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-04:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-11:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-11:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-11:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-11:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-11:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-13:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-13:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-13:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-13:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-13:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-15:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-15:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-15:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-15:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-15:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-16:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-16:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-16:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-18:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-18:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-18:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-18:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-18:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-20:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-20:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-20:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-20:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-22:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-22:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-23:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-23:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-23:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-23:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-25:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-25:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-25:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-25:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-25:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-27:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-27:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-27:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-27:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-29:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-29:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-29:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-29:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-29:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-30:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-08-30:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-01:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-01:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-03:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-03:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-03:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-03:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-05:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-05:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-05:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-05:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-06:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-06:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-06:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-06:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-08:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-08:NC:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-08:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-08:한화:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-10:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-10:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-10:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-12:KT:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-12:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-12:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-12:키움:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-13:KIA:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-13:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-13:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-13:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-15:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-15:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-15:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-17:KIA:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-19:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-19:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-19:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-19:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-20:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-20:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-20:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-20:SSG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-20:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-22:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-22:삼성:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-22:키움:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-22:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-24:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-26:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-26:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-26:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-27:두산:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-27:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-29:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-29:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-29:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-29:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-29:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-01:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-01:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-01:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-01:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-03:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-03:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-03:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-03:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-03:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-04:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-04:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-04:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-04:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-04:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-06:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-06:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-06:롯데:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-06:키움:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-06:한화:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-09:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-09:SSG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-09:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-10:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-10:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-10:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-11:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-11:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-14:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-17:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-18:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-20:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M1",
+      "fixture_id": "score:2026-10-27:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-28:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-28:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-28:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-28:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-28:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-30:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-30:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-30:SSG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-30:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-30:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-02:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-04:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-04:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-04:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-11:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-11:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-11:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-11:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-11:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-13:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-13:NC:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-13:SSG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-13:두산:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-13:키움:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-15:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-15:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-15:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-15:롯데:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-15:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-16:KIA:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-16:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-16:LG:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-18:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-18:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-18:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-18:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-18:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-20:NC:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-20:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-20:삼성:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-20:한화:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-22:NC:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-22:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-23:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-23:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-23:키움:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-23:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-25:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-25:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-25:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-25:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-25:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-27:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-27:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-27:SSG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-27:키움:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-29:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-29:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-29:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-29:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-29:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-30:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-08-30:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-01:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-01:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-01:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-01:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-01:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-03:KT:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-03:두산:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-03:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-03:키움:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-05:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-05:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-05:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-05:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-06:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-06:LG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-06:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-06:키움:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-08:LG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-08:NC:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-08:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-08:한화:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-10:KIA:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-10:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-10:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-12:KT:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-12:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-12:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-12:키움:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-13:KIA:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-13:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-13:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-13:삼성:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-15:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-15:삼성:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-15:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-17:KIA:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-19:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-19:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-19:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-19:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-20:KT:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-20:LG:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-20:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-20:SSG:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-20:롯데:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-22:SSG:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-22:삼성:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-22:키움:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-22:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-24:LG:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-26:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-26:KT:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-26:NC:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-27:두산:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-27:롯데:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-29:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-29:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-29:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-29:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-29:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-01:KIA:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-01:SSG:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-01:두산:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-01:삼성:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-03:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-03:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-03:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-03:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-03:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-04:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-04:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-04:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-04:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-04:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-06:KIA:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-06:LG:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-06:롯데:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-06:키움:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-06:한화:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-09:NC:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-09:SSG:삼성",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-09:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-10:KIA:SSG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-10:롯데:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-10:한화:NC",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-11:KIA:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-11:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-14:LG:두산",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-17:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-18:KIA:LG",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-20:LG:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    },
+    {
+      "model_id": "kbo-player-effects-v2-2026-M2",
+      "fixture_id": "score:2026-10-27:삼성:KIA",
+      "reason": "missing_fixture_metadata"
+    }
+  ],
+  "prediction_records": 3804,
+  "uncompressed_sha256": "ec861e34a00cffb55580bc637394656b162db565a22ea511d213db5564e493da",
+  "actual_training_M1": "notimplemented for both years",
+  "limitations": [
+    "train_end is latest training game date, not proof of model availability",
+    "no pregame receipt proven",
+    "fixture metadata from archived source, identity requires mapping; no fuzzy joins",
+    "2025 and 2026 KBO artifacts only; other sports and leagues not covered"
+  ]
+}
