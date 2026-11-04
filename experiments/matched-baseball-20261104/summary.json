@@ -147,7 +147,7 @@
         "net_units": -16.97,
         "roi": -0.08614213197969542
       },
-      "market90_vote10": {
+      "market90_vote10_multiplicative": {
         "bets": 197,
         "decided": 197,
         "wins": 120,
@@ -266,7 +266,7 @@
         "net_units": 2.52,
         "roi": 0.42
       },
-      "market90_vote10": {
+      "market90_vote10_multiplicative": {
         "bets": 6,
         "decided": 6,
         "wins": 3,
@@ -385,7 +385,7 @@
         "net_units": -0.94,
         "roi": -0.019183673469387767
       },
-      "market90_vote10": {
+      "market90_vote10_multiplicative": {
         "bets": 49,
         "decided": 49,
         "wins": 31,
@@ -504,7 +504,7 @@
         "net_units": -14.87,
         "roi": -0.22194029850746266
       },
-      "market90_vote10": {
+      "market90_vote10_multiplicative": {
         "bets": 67,
         "decided": 67,
         "wins": 39,
@@ -623,7 +623,7 @@
         "net_units": 2.75,
         "roi": 0.08870967741935484
       },
-      "market90_vote10": {
+      "market90_vote10_multiplicative": {
         "bets": 31,
         "decided": 31,
         "wins": 22,
@@ -742,7 +742,7 @@
         "net_units": -6.43,
         "roi": -0.14613636363636362
       },
-      "market90_vote10": {
+      "market90_vote10_multiplicative": {
         "bets": 44,
         "decided": 44,
         "wins": 25,
@@ -843,5 +843,5 @@
       }
     }
   },
-  "rules": "Exact official game ID and identical archived home/away prices; full-game moneyline only; one vote per source+author, conflicting authors excluded; tied vote excludes game; model/market/hybrid ties no bet; draws refund; 1 unit single bets; Fixed market90_vote10 is 0.9 normalized inverse-price market home probability + 0.1 author vote home fraction; separately named player90_vote10 uses each model probability. ROI includes refunds in stake denominator; hit rate excludes refunds. Source-claim and retrospective lineup oracle only, not blind or real-time."
+  "rules": "Exact official game ID and identical archived home/away prices; full-game moneyline only; one vote per source+author, conflicting authors excluded; tied vote excludes game; model/market/hybrid ties no bet; draws refund; 1 unit single bets; Fixed market90_vote10_multiplicative is 0.9 multiplicative normalized inverse-price market home probability (not a claim of production Shin probability) + 0.1 author vote home fraction; separately named player90_vote10 uses each model probability. ROI includes refunds in stake denominator; hit rate excludes refunds. Source-claim and retrospective lineup oracle only, not blind or real-time."
 }
