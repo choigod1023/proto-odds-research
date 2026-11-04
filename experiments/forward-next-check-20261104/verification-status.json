@@ -1,0 +1,100 @@
+{
+  "game_id": "20261106KTSS0",
+  "season": 2026,
+  "since": "2026-11-04T14:41:13+00:00",
+  "stages": {
+    "opportunity": {
+      "complete": true,
+      "reason": "verified official schedule receipt"
+    },
+    "announced": {
+      "complete": false,
+      "reason": "independent announcement not verified"
+    },
+    "captured": {
+      "complete": false,
+      "reason": "verified prospective m0_actual missing"
+    },
+    "operating_same_price": {
+      "complete": false,
+      "reason": "common comparison schema and vote/market evidence unconfirmed"
+    },
+    "official_settled": {
+      "complete": false,
+      "reason": "matched common comparison settlement not verified"
+    }
+  },
+  "complete": false,
+  "sources": {
+    "m1_ledger": "missing",
+    "legacy_m0_ledger": "read",
+    "common_comparison_ledger": "missing",
+    "parent_report": "read"
+  },
+  "parent_report_summary": {
+    "m1_status": "waiting_for_eligible_inputs",
+    "m1_comparison": {
+      "aggregate_scope": "per-product paper entries; not independent game counts",
+      "by_product": {},
+      "captured": 0,
+      "methods": {
+        "m0_actual": {
+          "bets": 0,
+          "decided": 0,
+          "hit_rate": null,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "m0_projected": {
+          "bets": 0,
+          "decided": 0,
+          "hit_rate": null,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        },
+        "m1_projected": {
+          "bets": 0,
+          "decided": 0,
+          "hit_rate": null,
+          "hits": 0,
+          "net_units": "0",
+          "roi": null
+        }
+      },
+      "paper_wallet_changed": false,
+      "production_policy_changed": false,
+      "promoted": false,
+      "settled": 0,
+      "unique_fixtures": 0,
+      "unpriced": 0,
+      "unpriced_three_way_accuracy": {
+        "m0_actual": {
+          "hit_rate": null,
+          "roi": null,
+          "three_way_hits": 0,
+          "three_way_judged": 0
+        },
+        "m0_projected": {
+          "hit_rate": null,
+          "roi": null,
+          "three_way_hits": 0,
+          "three_way_judged": 0
+        },
+        "m1_projected": {
+          "hit_rate": null,
+          "roi": null,
+          "three_way_hits": 0,
+          "three_way_judged": 0
+        }
+      }
+    }
+  },
+  "common_records_read": 0,
+  "m1_candidate_captures": 0,
+  "verified_m0_actual_captures": 0,
+  "legacy_m0_captures_not_m0_actual": 0,
+  "capture_issues": [],
+  "scope": "one prospective end-to-end game; not a 200-game performance certification"
+}
