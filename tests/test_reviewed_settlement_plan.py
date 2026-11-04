@@ -68,3 +68,20 @@ def test_score_derived_plan_preserves_terms_and_checks_every_source(tmp_path):
     with pytest.raises(ValueError, match="official evidence"):
         apply_reviewed_plan(runtime.ledger, doc, apply=True)
     assert len(runtime.ledger.records()) == 1
+
+
+def test_cli_rejects_a_different_database_lock_path_before_opening_ledger(tmp_path, monkeypatch):
+    import importlib.util
+    import sys
+    spec = importlib.util.spec_from_file_location("reviewed_plan_cli", Path(__file__).resolve().parents[1] / "scripts/apply_reviewed_settlement_plan.py")
+    cli = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cli)
+    raw = json.dumps(dict(version="reviewed-official-settlements-v1", entries=[])).encode()
+    path = tmp_path / "plan.json"
+    path.write_bytes(raw)
+    database = tmp_path / "must-not-open.sqlite3"
+    monkeypatch.setenv("PROODD_DB_PATH", str(database))
+    monkeypatch.setattr(sys, "argv", ["apply", "--plan", str(path), "--approved-sha256", hashlib.sha256(raw).hexdigest(), "--ledger", str(tmp_path / "other-lock.jsonl")])
+    with pytest.raises(ValueError, match="canonical shared ledger lock"):
+        cli.main()
+    assert not database.exists()

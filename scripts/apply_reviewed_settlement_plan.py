@@ -8,6 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+import prediction_ledger
 from prediction_ledger import PredictionLedger
 from reviewed_settlement_plan import read_plan, apply_reviewed_plan
 
@@ -23,6 +24,10 @@ def main():
     if args.plan.suffix == ".gz":
         raw = gzip.decompress(raw)
     plan = read_plan(raw, args.approved_sha256)
+    if os.environ.get("PROODD_DB_PATH"):
+        canonical = Path(prediction_ledger.__file__).resolve().parents[1] / "data/raw/prediction_ledger/pregame.jsonl"
+        if args.ledger.resolve() != canonical.resolve():
+            raise ValueError("DB operations must use the canonical shared ledger lock path")
     if args.apply and os.environ.get("PROODD_DB_PATH"):
         available = next(int(line.split()[1]) for line in Path("/proc/meminfo").read_text().splitlines()
                          if line.startswith("MemAvailable:"))

@@ -5,7 +5,7 @@ import re
 from datetime import datetime, timezone
 from urllib.parse import urlsplit
 
-from prediction_runtime import _latest_predictions
+from prediction_revision_index import _latest_predictions
 
 
 def moment(value):

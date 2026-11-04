@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from prediction_runtime import _latest_predictions
+from prediction_revision_index import _latest_predictions
 from ai_decision import can_apply_decision_selection
 
 POLICY = "tipster-vote-v1"
