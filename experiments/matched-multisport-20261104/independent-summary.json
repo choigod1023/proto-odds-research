@@ -3238,5 +3238,569 @@
   },
   "code_sha256": "2a102be60e3e07c03644afff1480f72e07d2fe1d08165f98cfed5bc5b29f31c9",
   "strict_pregame_common_evidence_proven": false,
-  "production_policy_or_monthly_ledger_modified": false
+  "production_policy_or_monthly_ledger_modified": false,
+  "supplemental_baseball_2025": {
+    "input_path": "experiments\\matched-baseball-20261104\\recovery-2025\\human\\joined-2025.json",
+    "input_sha256": "c02af7d509435373748adf4b5d7504857f064bff0af5f33fb8d5190b336a8b6f",
+    "cohorts": {
+      "baseball/controls": {
+        "candidate_fixtures": 1,
+        "common_bet_fixtures": 1,
+        "period": [
+          "2025-07-19T18:00:00+09:00",
+          "2025-07-19T18:00:00+09:00"
+        ],
+        "evidence_counts": {
+          "supplementary_publication_claim_postgame_roster_oracle": 1
+        },
+        "methods": {
+          "vote": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M0_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M2_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          }
+        }
+      },
+      "baseball/2025/controls": {
+        "candidate_fixtures": 1,
+        "common_bet_fixtures": 1,
+        "period": [
+          "2025-07-19T18:00:00+09:00",
+          "2025-07-19T18:00:00+09:00"
+        ],
+        "evidence_counts": {
+          "supplementary_publication_claim_postgame_roster_oracle": 1
+        },
+        "methods": {
+          "vote": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M0_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M2_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          }
+        }
+      },
+      "baseball/2025-07/controls": {
+        "candidate_fixtures": 1,
+        "common_bet_fixtures": 1,
+        "period": [
+          "2025-07-19T18:00:00+09:00",
+          "2025-07-19T18:00:00+09:00"
+        ],
+        "evidence_counts": {
+          "supplementary_publication_claim_postgame_roster_oracle": 1
+        },
+        "methods": {
+          "vote": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M0_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M2_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          }
+        }
+      },
+      "KBO/2025/controls": {
+        "candidate_fixtures": 1,
+        "common_bet_fixtures": 1,
+        "period": [
+          "2025-07-19T18:00:00+09:00",
+          "2025-07-19T18:00:00+09:00"
+        ],
+        "evidence_counts": {
+          "supplementary_publication_claim_postgame_roster_oracle": 1
+        },
+        "methods": {
+          "vote": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M0_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M2_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          }
+        }
+      },
+      "baseball/player_intersection": {
+        "candidate_fixtures": 1,
+        "common_bet_fixtures": 1,
+        "period": [
+          "2025-07-19T18:00:00+09:00",
+          "2025-07-19T18:00:00+09:00"
+        ],
+        "evidence_counts": {
+          "supplementary_publication_claim_postgame_roster_oracle": 1
+        },
+        "methods": {
+          "vote": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M0_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M2_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          }
+        }
+      },
+      "baseball/player_intersection/2025-07": {
+        "candidate_fixtures": 1,
+        "common_bet_fixtures": 1,
+        "period": [
+          "2025-07-19T18:00:00+09:00",
+          "2025-07-19T18:00:00+09:00"
+        ],
+        "evidence_counts": {
+          "supplementary_publication_claim_postgame_roster_oracle": 1
+        },
+        "methods": {
+          "vote": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_multiplicative": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "market90_vote10_shin": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M0_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          },
+          "kbo-actual-training-2025-M2_actual": {
+            "bets": 1,
+            "decided": 1,
+            "hits": 0,
+            "refunds": 0,
+            "abstained": 0,
+            "hit_rate": 0.0,
+            "net_units": -1.0,
+            "roi": -1.0
+          }
+        }
+      }
+    },
+    "rows": [
+      {
+        "fixture_id": "20250719LTLG0",
+        "league": "KBO",
+        "kickoff": "2025-07-19T18:00:00+09:00",
+        "odds": [
+          1.66,
+          1.87
+        ],
+        "outcome": 1,
+        "vote_share": [
+          1.0,
+          0.0
+        ],
+        "models": {
+          "kbo-actual-training-2025-M0_actual": [
+            0.6094534094190004,
+            0.39054659058099955
+          ],
+          "kbo-actual-training-2025-M2_actual": [
+            0.5975180842263559,
+            0.40248191577364417
+          ]
+        },
+        "evidence": "supplementary_publication_claim_postgame_roster_oracle",
+        "claimed_selections": {
+          "vote": 0,
+          "market_multiplicative": 0,
+          "market90_vote10_multiplicative": 0,
+          "kbo-actual-training-2025-M0_actual": 0,
+          "kbo-actual-training-2025-M2_actual": 0
+        },
+        "claimed_profit": {
+          "vote": -1,
+          "market_multiplicative": -1,
+          "market90_vote10_multiplicative": -1,
+          "kbo-actual-training-2025-M0_actual": -1,
+          "kbo-actual-training-2025-M2_actual": -1
+        },
+        "selections": {
+          "vote": 0,
+          "market_multiplicative": 0,
+          "market_shin": 0,
+          "market90_vote10_multiplicative": 0,
+          "market90_vote10_shin": 0,
+          "kbo-actual-training-2025-M0_actual": 0,
+          "kbo-actual-training-2025-M2_actual": 0
+        },
+        "profits": {
+          "vote": -1.0,
+          "market_multiplicative": -1.0,
+          "market_shin": -1.0,
+          "market90_vote10_multiplicative": -1.0,
+          "market90_vote10_shin": -1.0,
+          "kbo-actual-training-2025-M0_actual": -1.0,
+          "kbo-actual-training-2025-M2_actual": -1.0
+        }
+      }
+    ],
+    "note": "Individually curated explicit win component; not pooled with conservative 2026 excerpt filter. Author identity unverified; retrospective case only."
+  }
 }

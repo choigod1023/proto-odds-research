@@ -121,6 +121,29 @@ def normalize_basketball(rows):
     return out
 
 
+def normalize_baseball_2025(rows):
+    out = []
+    side = {'home': 0, 'away': 1, None: None}
+    for r in rows:
+        if not r['kickoff_kst'].startswith('2025-'):
+            raise ValueError('supplement is not 2025')
+        if r['selections'].get('named_author_source') not in ('home', 'away'):
+            raise ValueError('supplement needs an explicit source selection')
+        models = {r['model_identity'][m]['model_id']: [p['home'], p['away']]
+                  for m, p in r['model_probabilities'].items()}
+        aliases = {'vote': 'named_author_source', 'market_multiplicative': 'market',
+                   'market90_vote10_multiplicative': 'market90_source10_multiplicative',
+                   **{r['model_identity'][m]['model_id']: m for m in r['model_probabilities']}}
+        vh = float(r['selections']['named_author_source'] == 'home')
+        out.append(dict(fixture_id=r['official_game_id'], league='KBO', kickoff=r['kickoff_kst'],
+                        odds=[r['prices']['home'], r['prices']['away']], outcome=side[r['official_winner']],
+                        vote_share=[vh, 1-vh], models=models,
+                        evidence='supplementary_publication_claim_postgame_roster_oracle',
+                        claimed_selections={a: side[r['selections'][b]] for a, b in aliases.items()},
+                        claimed_profit={a: r['profit_units'][b] for a, b in aliases.items()}))
+    return out
+
+
 def summarize(rows, arms):
     result = {}
     for arm in arms:
@@ -147,6 +170,8 @@ def markdown(result):
               'kbo-player-effects-v2-2026-M0': '별도 projected-training M0',
               'kbo-player-effects-v2-2026-M1': '별도 projected-training M1',
               'kbo-player-effects-v2-2026-M2': '별도 projected-training M2',
+              'kbo-actual-training-2025-M0_actual': '2025 실제 타순 학습 M0_actual',
+              'kbo-actual-training-2025-M2_actual': '2025 실제 타순 학습 M2_actual',
               'league_specific_postgame_roster_oracle': '리그별 사후 명단 모델'}
     lines = ['# 동일 경기·배당 비교 재계산 — 2026-11-04', '',
              '요청 기간은 2025-01-01~2026-11-04다. **전 기간·전 리그의 경기 전 자료 연결은 미완료**다. '
@@ -166,10 +191,15 @@ def markdown(result):
              ('soccer/2026/controls', 'K리그 2026: 선수모델을 요구하지 않은 대조군'),
              ('KBL/2026/controls', 'KBL 2026: 대조군만'), ('NBA/2026/controls', 'NBA 2026: 대조군만'),
              ('soccer/2025/controls', 'K리그 2025: 새 원문 복구의 탐색 표본')]
+    view = dict(result['cohorts'])
+    supplement = result.get('supplemental_baseball_2025')
+    if supplement:
+        view['baseball_2025_supplement'] = supplement['cohorts']['baseball/player_intersection']
+        specs.append(('baseball_2025_supplement', 'KBO 2025: 별도 원문 복구 사례(주 비교와 합산하지 않음)'))
     for key, title in specs:
-        if key not in result['cohorts']:
+        if key not in view:
             continue
-        cohort = result['cohorts'][key]
+        cohort = view[key]
         lines += ['### ' + title, '',
                   f"{cohort['common_bet_fixtures']}경기, {cohort['period'][0]}~{cohort['period'][1]}. 기간의 모든 경기를 뜻하지 않는다.", '',
                   '| 방식 | 적중/확정 | 적중률 | 순손익(단위) | ROI |', '|---|---:|---:|---:|---:|']
@@ -228,6 +258,7 @@ def main():
     for sport in ('baseball', 'soccer', 'basketball'):
         p.add_argument('--' + sport, type=Path, required=True)
     p.add_argument('--soccer-2025', type=Path)
+    p.add_argument('--baseball-2025', type=Path, help='separate source-curated case; never pool with 2026 player arms')
     p.add_argument('--output', type=Path, required=True)
     args = p.parse_args()
     rows, inputs = [], {}
@@ -251,11 +282,24 @@ def main():
               'code_sha256': hashlib.sha256((ROOT/'src/devig.py').read_bytes()).hexdigest(),
               'strict_pregame_common_evidence_proven': False,
               'production_policy_or_monthly_ledger_modified': False}
+    supplemental_count = 0
+    if args.baseball_2025:
+        raw = args.baseball_2025.read_bytes()
+        supplemental_rows = [score_row(r) for r in normalize_baseball_2025(json.loads(raw)['rows'])]
+        # Check identities jointly, but keep the different source-selection and
+        # annual coefficient sets in a separate comparison population.
+        cohorts(scored + supplemental_rows)
+        result['supplemental_baseball_2025'] = {
+            'input_path': str(args.baseball_2025), 'input_sha256': hashlib.sha256(raw).hexdigest(),
+            'cohorts': cohorts(supplemental_rows), 'rows': supplemental_rows,
+            'note': 'Individually curated explicit win component; not pooled with conservative 2026 excerpt filter. Author identity unverified; retrospective case only.'}
+        supplemental_count = len(supplemental_rows)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False)+'\n', encoding='utf8')
     (args.output.parent/'recalculated-rows.json').write_text(json.dumps(scored, ensure_ascii=False, indent=2, allow_nan=False)+'\n', encoding='utf8')
     (args.output.parent/'REPORT.md').write_text(markdown(result), encoding='utf8')
-    print(json.dumps({'verified_rows': len(scored), 'cohorts': len(result['cohorts'])}))
+    print(json.dumps({'verified_main_rows': len(scored), 'supplemental_2025_rows': supplemental_count,
+                      'cohorts': len(result['cohorts'])}))
 
 
 if __name__ == '__main__':

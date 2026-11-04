@@ -1,6 +1,6 @@
 import copy
 import unittest
-from scripts.recalculate_matched_multisport import cohorts, payout, score_row
+from scripts.recalculate_matched_multisport import cohorts, normalize_baseball_2025, payout, score_row
 
 
 def row():
@@ -44,6 +44,22 @@ class RecalculationTests(unittest.TestCase):
         summary = cohorts([score_row(r)])
         self.assertNotIn('baseball/player_intersection', summary)
         self.assertNotIn('M0', summary['baseball/controls']['methods'])
+
+    def test_2025_case_preserves_annual_model_identity_and_requires_source_pick(self):
+        r = {'kickoff_kst': '2025-07-19T18:00:00+09:00', 'official_game_id': 'game2025',
+             'prices': {'home': 1.66, 'away': 1.87}, 'official_winner': 'away',
+             'model_probabilities': {'M0_actual': {'home': .6, 'away': .4}},
+             'model_identity': {'M0_actual': {'model_id': 'frozen2025M0'}},
+             'selections': {'named_author_source': 'home', 'market': 'home',
+                            'market90_source10_multiplicative': 'home', 'M0_actual': 'home'},
+             'profit_units': {'named_author_source': -1, 'market': -1,
+                              'market90_source10_multiplicative': -1, 'M0_actual': -1}}
+        normalized = score_row(normalize_baseball_2025([r])[0])
+        self.assertEqual(normalized['models'], {'frozen2025M0': [.6, .4]})
+        self.assertEqual(normalized['profits']['frozen2025M0'], -1)
+        r['selections']['named_author_source'] = None
+        with self.assertRaisesRegex(ValueError, 'explicit source'):
+            normalize_baseball_2025([r])
 
 
 if __name__ == '__main__':

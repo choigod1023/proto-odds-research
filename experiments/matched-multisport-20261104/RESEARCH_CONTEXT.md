@@ -7,7 +7,7 @@
 - 야구의 최초 197경기 결과는 최종 비교에서 철회했다. 기존 결합 분류를 믿으면 F5(전반 5이닝) 추천이 전체 승패에 들어가는 반례가 있었다. 원문 발췌를 다시 검사해 다른/혼합 상품 25행과 선택 팀의 명시적 승리 문구를 확정하지 못한 95행 등을 보류했다. 이는 추천이 없다는 뜻이 아니다. 다른 상품·기간 표식이 없는 일반 팀 승리·ML 문구는 전체 경기로 가정했으며 연장 포함까지 원문이 명시했다는 뜻은 아니다. 이 보수적 필터의 최종 교집합은 103경기다. 분류별 제외 기록은 `../matched-baseball-20261104/vote-excerpt-audit.json`과 `excluded-source-rows.json`에 있다.
 - 이 KBO 103경기에서 102경기는 작성자 한 명, 1경기는 두 명이다. 다수 독립 전문가의 합의로 해석할 수 없다. 모든 원문 최초 관측은 경기 후이고, 실제 명단 및 배당의 경기 전 수신도 입증되지 않았다. 후보 M1의 +7.64% 역시 사후 자료와 탐색 표본의 값이며, 실전 우위나 기대수익 보장이 아니다.
 - KBO에서 이름이 같은 두 M0는 서로 다른 학습 계열이다. `kbo-actual-training`은 실제 타순으로 학습한 M0_actual/M2_actual, `kbo-player-effects-v2`는 별도 projected-training M0/M1/M2다. actual-training M1은 구현되지 않았으며 채워 넣지 않았다.
-- 누락된 KBO 모델 경기 239개의 공식 ID·팀·일정은 보관 일정 원문 66개의 SHA 검증으로 복구했다. 그중 원문 후보 6개는 가격의 정확한 공식 ID 연결이 부족해 최종 비교에서 제외했다. 조사한 2025 원문 아카이브에는 KBO 교집합이 없었다. MLB 후보를 KBO 모델로 대신 계산하지 않았다. MLB·NPB까지 선수모델 공통 검증을 완료한 것이 아니다.
+- 누락된 KBO 모델 경기 239개의 공식 ID·팀·일정은 보관 일정 원문 66개의 SHA 검증으로 복구했다. 그중 원문 후보 6개는 가격의 정확한 공식 ID 연결이 부족해 최종 비교에서 제외했다. 처음 조사한 기존 2025 원문 아카이브에는 KBO 교집합이 없었다. 후속 공개 웹 수집에서는 아래의 별도 1경기를 추가로 연결했다. MLB 후보를 KBO 모델로 대신 계산하지 않았다. MLB·NPB까지 선수모델 공통 검증을 완료한 것이 아니다.
 - 축구는 K1/K2만 비교했다. 2026년 23경기 중 보존된 선수 예측이 있는 것은 15경기이며, 그 모델은 사후 수집 선발명단을 사용한 oracle다. 2025년 원문 11개를 새로 수집해 명시적 단일 승무패 4개를 연결했지만 2025 선수모델 예측은 없었다. 2025 표본은 사후 문구 선별을 포함하므로 탐색 결과다. 다른 축구 리그까지 검증하지 않았다.
 - 농구의 최초 116행/115경기 진단은 최종 결과가 아니다. 원문 상품 범위, 중복, 공식 결과 바이트를 재검사해 KBL 18·NBA 6경기만 남겼다. NBA 6개 날짜의 공식 페이지를 새로 받아 ID·팀·최종 점수·쿼터를 확인했다. 24경기 모두 작성자 한 명이고 게시 전 시점은 미입증이다. 가격 응답 원본 바이트도 미확보다. 농구 선수모델의 동결 예측이 없어 선수모델 비교나 M0/M1/M2 확장 완료로 부르지 않는다.
 - 각 종목의 비교 표본과 기간이 다르므로 종목 간 수익률 순위를 만들지 않는다. 성과를 보고 혼합 비율이나 추천 기준을 새로 고르지 않았다.
@@ -32,3 +32,19 @@
 재계산은 `scripts/recalculate_matched_multisport.py`, 원장 감사는 `scripts/audit_saved_player_comparison.py`다. 스포츠별 원문·선택·가격·공식 결과 연결은 각 `matched-*/` 폴더에 보존했다. `independent-summary.json`에 입력 파일 SHA와 코드 SHA, 코호트별 분모·적중·ROI가 있고 `recalculated-rows.json`에는 행별 선택과 손익이 있다. 동일한 손실액 뒤에 다른 선택 오류가 숨지 않도록 선택 방향도 별도 대조한다. 통합 JSON에는 종목·연도·월별 대조군 및 선수모델 공통 교집합도 보존했다.
 
 스포츠별 워커 초안: [#568](https://github.com/choigod1023/proto-odds-research/pull/568), [#569](https://github.com/choigod1023/proto-odds-research/pull/569), [#570](https://github.com/choigod1023/proto-odds-research/pull/570), [#571](https://github.com/choigod1023/proto-odds-research/pull/571). 이 통합 브랜치는 해당 증거와 수정을 포함하며, 별도 PR 병합·배포는 하지 않았다.
+
+## 2025 KBO 추가 연결 1경기와 실패한 원문 후보
+
+검색 후보 BetClan 5개 페이지의 정확한 URL은 모두 직접 요청에서 HTTP404였다. 한 URL의 오타 요청까지 합한 실제 요청은 6회이며 원래 실패 기록도 보존했다. 검색 캐시 텍스트를 전체 원문으로 대체하지 않았다. 국내 후보 3곳 중 2곳은 연결이 끊겼고, [KBOINSIGHT 게시물 33](https://kboinsight.tistory.com/33) 1곳은 원문 본문을 받았다.
+
+2025-07-19 롯데–LG의 원문 네이버 경기 키를 공식 ID `20250719LTLG0`와 대조하고 보관 공식 결과·가격·2025년 동결 M0_actual/M2_actual에 연결했다. 원문은 LG 승리와 합계 선택을 구분해 기재했으며 이 개별 사례에는 LG 승만 사용했다. 원문·시장·두 방식의 9:1·M0_actual·M2_actual 모두 LG를 선택해 0/1, ROI -100%였다. 공식 결과는 롯데 6–LG 1, 보관 가격은 홈1.66·원정1.87이다. 독립 검산의 입력 SHA·확률·선택·행별 손익은 `independent-summary.json`의 `supplemental_baseball_2025`에 있다.
+
+이 1경기는 2026년 103경기와 원문 선별 절차 및 연도별 모델 계수가 달라 주 비교 집합에 합산하지 않았다. 작성자명 KBOINSIGHT는 사이트의 표시이며 신원이나 사람 작성 여부를 독립 확인한 것이 아니다. 게시·수정 시각은 사이트 주장이고 실제 첫 수신은 2026-11-04다. 명단과 배당 역시 사전 수신을 입증하지 못했다. 원문 전체와 결론을 사후에 확인한 탐색 사례이므로 일반화하거나 엄격한 사전 검증 1경기로 부르지 않는다.
+
+배당 변경 이력 후보도 조사했다. 젠토토 회고 페이지의 시각·양쪽 가격이 기존 가격과 일부 같았지만 상품 ID/라벨 해석이 확정되지 않고 원문 바이트도 받지 못해 같은 상품이나 사전 배당 증거로 승격하지 않았다. 실패 기록은 `../matched-archive-proofs-20261104/zentoto-20250718/README.md`에 있다.
+
+재계산 명령(네트워크 없음):
+
+```powershell
+python scripts/recalculate_matched_multisport.py --baseball experiments/matched-baseball-20261104/rows.json --soccer experiments/matched-soccer-20261104/rows.json --soccer-2025 experiments/matched-soccer-20261104/recovery-2025/joined.json --baseball-2025 experiments/matched-baseball-20261104/recovery-2025/human/joined-2025.json --basketball experiments/matched-basketball-20261104/comparisons.jsonl --output experiments/matched-multisport-20261104/independent-summary.json
+```
