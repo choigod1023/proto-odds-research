@@ -149,3 +149,10 @@ def test_two_way_zero_draw_votes_allowed_but_positive_draw_votes_rejected():
                                     observed_at="2026-11-01T09:00:00Z"))
     with pytest.raises(ValueError):
         select_rules(invalid)
+
+
+def test_vote_received_after_as_of_is_rejected_even_before_t30():
+    f, _ = fixture()
+    f["evidence"][0]["observed_at"] = "2026-11-01T10:30:00Z"
+    with pytest.raises(ValueError):
+        select_rules(f)
