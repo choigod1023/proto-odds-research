@@ -94,7 +94,7 @@ def _common_capture(row, m0, root, archive_root, price_archive_root, now):
     export_hash = hashlib.sha256(export_path.read_bytes()).hexdigest()
     if (not re.fullmatch(r'[0-9a-f]{64}', str(row.get('export_sha256', '')))
             or export_hash != row['export_sha256'] or receipt != row.get('source_receipt')
-            or receipt.get('transport') != 'flyctl_ssh' or receipt.get('export_sha256') != export_hash
+            or not bridge._receipt_matches(receipt, export_hash)
             or observer.moment(receipt['received_at']) > stamp):
         raise ValueError('export bytes or receipt differ')
     config = {'export_path': export_path, 'source_receipt': receipt,

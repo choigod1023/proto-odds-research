@@ -80,6 +80,7 @@ def _lifecycle(tmp_path, monkeypatch):
     import hashlib
     import sys
     from types import SimpleNamespace
+    from research.kbo_forward.operating_vote_bridge import _receipt_matches
     now = datetime.now(timezone.utc).replace(microsecond=0)
     frozen = now-timedelta(hours=5)
     kickoff = now-timedelta(hours=3)
@@ -100,7 +101,9 @@ def _lifecycle(tmp_path, monkeypatch):
     raw = json.dumps({'selections': selections, 'odds': market['odds']}).encode()
     export_hash = hashlib.sha256(raw).hexdigest()
     (tmp_path/'export.json').write_bytes(raw)
-    receipt = {'transport': 'flyctl_ssh', 'received_at': (frozen+timedelta(minutes=10)).isoformat(), 'export_sha256': export_hash}
+    receipt = {'transport': 'flyctl_machine_exec', 'exit_code': 0, 'remote_exit_code': 0,
+               'machine_id': '12345678abcdef00',
+               'received_at': (frozen+timedelta(minutes=10)).isoformat(), 'export_sha256': export_hash}
     (tmp_path/'receipt.json').write_text(json.dumps(receipt))
     def load(config, events, timestamp):
         b = Path(config['export_path']).read_bytes()
@@ -110,7 +113,8 @@ def _lifecycle(tmp_path, monkeypatch):
                 'operating_record_hash': 'b'*64, 'operating_as_of': (frozen+timedelta(minutes=5)).isoformat(),
                 'shared_prices': export['data']['odds'], 'three_selections': export['data']['selections'],
                 'official_raw_price_verified': False, 'comparison_kind': 'operating_price_shadow'}
-    monkeypatch.setitem(sys.modules, 'research.kbo_forward.operating_vote_bridge', SimpleNamespace(load_operating_export=load, match_operating=match))
+    monkeypatch.setitem(sys.modules, 'research.kbo_forward.operating_vote_bridge', SimpleNamespace(
+        load_operating_export=load, match_operating=match, _receipt_matches=_receipt_matches))
     # Explicit import handles namespace packages in both branch versions.
     from research import kbo_forward
     monkeypatch.setattr(kbo_forward, 'operating_vote_bridge', sys.modules['research.kbo_forward.operating_vote_bridge'], raising=False)
