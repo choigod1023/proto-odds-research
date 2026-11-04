@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from src.multisport_pregame_study import compare, choose
+from src.multisport_pregame_study import compare, choose, physical
 
 
 START = "2025-01-01T00:00:00+09:00"
@@ -189,3 +189,52 @@ def test_both_supported_baseball_refund_contracts_keep_same_stake_denominator():
     result = run(rows)["summary"]["bs/KBO"]
     assert result["all_models_common_n"] == 1
     assert all(m["bets"] == 1 and m["void"] == 1 for m in result["all_models"].values())
+
+
+def test_foreign_book_prices_are_not_substituted_for_proto_prices():
+    rows = fixture(); rows[0]["source_url"] = "https://other-book.example/quote"
+    assert not run(rows)["events"]
+
+
+def test_basketball_official_two_way_draw_is_refund_not_missing_settlement():
+    rows = fixture()
+    for row in rows:
+        row.update(sport="bk", league="KBL")
+        if "settlement_rule" in row["payload"]:
+            row["payload"]["settlement_rule"] = "full_game_including_overtime"
+    rows[5]["payload"].update(home_score=80, away_score=80)
+    result = run(rows)["summary"]["bk/KBL"]
+    assert result["controls_common_n"] == 1
+    assert all(m["bets"] == 1 and m["void"] == 1 for m in result["controls"].values())
+
+
+def test_known_official_team_ids_bridge_names_without_fuzzy_matching():
+    first = record("fixture", "f", dict(home_team_id="K03", away_team_id="K10"))
+    first.update(sport="sc", league="K1", home="포항스틸러스", away="대전하나시티즌")
+    second = deepcopy(first)
+    second.update(league="K리그1", home="포항", away="대전", payload=dict(source_identity={"homeId":"K03","awayId":"K10"}))
+    assert physical(first) == physical(second)
+    second["kickoff"] = "2025-05-01T10:00:00Z"
+    assert physical(first) != physical(second)
+
+
+def test_kbo_id_name_contradiction_is_held_not_guessed():
+    row = record("fixture", "f", dict(source_identity={"homeId":"SS","awayId":"KT"}))
+    row.update(home="두산", away="KT")
+    with pytest.raises(ValueError, match="source_team_name_ID_disagreement"):
+        physical(row)
+
+
+def test_preserved_actual_and_projected_m0_are_distinct_arms():
+    rows = fixture()[:6]
+    template = fixture()[6]
+    names = ("kbo-actual-training-2026-M0_actual", "kbo-actual-training-2026-M2_actual",
+             "kbo-player-effects-v2-2026-M0", "kbo-player-effects-v2-2026-M1", "kbo-player-effects-v2-2026-M2")
+    for name in names:
+        row = deepcopy(template); row["record_id"] = name; row["payload"]["model_id"] = name
+        rows.append(row)
+    summary = run(rows)["summary"]["bs/KBO"]
+    assert summary["all_models_common_n"] == 1
+    assert "kbo_m0_actual_training" in summary["all_models"]
+    assert "kbo_m0_projected_training" in summary["all_models"]
+    assert "kbo_m0" not in summary["all_models"]

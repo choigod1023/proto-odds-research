@@ -17,3 +17,5 @@ scripts/evaluate_draw_calibration_holdout.py text eol=lf
 # Preserve worker source bytes while accepting intentional CRLF.
 /experiments/kbo-m0-followup-20261103/historical/*.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /experiments/kbo-m0-followup-20261103/historical/*.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/experiments/pregame-multisport-20261104/** text eol=lf
+/experiments/pregame-multisport-20261104/**/*.gz -text

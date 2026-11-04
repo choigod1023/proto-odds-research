@@ -11,11 +11,20 @@ import json
 import re
 from urllib.parse import urlsplit
 
-VERSION = "multisport-pregame-study-v1"
+VERSION = "multisport-pregame-study-v2"
 CONTROLS = ("vote", "market", "market90_vote10")
 MODEL_SCOPES = {
     "kbo_m0": ("bs", "KBO"), "kbo_m1": ("bs", "KBO"), "kbo_m2": ("bs", "KBO"),
     "mlb_player_lineup": ("bs", "MLB"),
+}
+PRESERVED_MODEL_ARMS = {
+    "kbo-actual-training-2025-M0_actual": "kbo_m0_actual_training",
+    "kbo-actual-training-2026-M0_actual": "kbo_m0_actual_training",
+    "kbo-actual-training-2025-M2_actual": "kbo_m2_actual_training",
+    "kbo-actual-training-2026-M2_actual": "kbo_m2_actual_training",
+    "kbo-player-effects-v2-2026-M0": "kbo_m0_projected_training",
+    "kbo-player-effects-v2-2026-M1": "kbo_m1_player_effects",
+    "kbo-player-effects-v2-2026-M2": "kbo_m2_player_effects",
 }
 OFFICIAL_HOSTS = {
     "KBO": {"www.betman.co.kr", "www.koreabaseball.com", "koreabaseball.com"},
@@ -32,6 +41,14 @@ SHA = re.compile(r"^[a-f0-9]{64}$")
 KST = timezone(timedelta(hours=9))
 COMPLETION_CLOCKS = {"http_response_body_completed", "fetch_parse_completed_upper_bound",
                      "preserved_prediction_ledger_capture"}
+LEAGUE_ALIASES = {"K1": "K리그1", "K2": "K리그2"}
+KBO_NAMES = {
+    "HH": ("한화", "한화이글스"), "KT": ("KT", "KT위즈"),
+    "SS": ("삼성", "삼성라이온즈"), "OB": ("두산", "두산베어스"),
+    "LG": ("LG", "LG트윈스"), "WO": ("키움", "키움히어로즈"),
+    "HT": ("KIA", "KIA타이거즈"), "LT": ("롯데", "롯데자이언츠"),
+    "NC": ("NC", "NC다이노스"), "SK": ("SSG", "SSG랜더스"),
+}
 
 
 def canonical(value):
@@ -56,7 +73,30 @@ def physical(row):
         raise ValueError("exact_fixture_identity_required")
     if row["home"] == row["away"]:
         raise ValueError("opposing_team_identity_collision")
-    return (row["sport"], row["league"], moment(row["kickoff"]).isoformat(), row["home"], row["away"])
+    league = LEAGUE_ALIASES.get(row["league"], row["league"])
+    payload = row.get("payload") or {}
+    source = payload.get("source_identity") or {}
+    # Use explicit source IDs only within known league namespaces. Keep source
+    # names in every record; no date tolerance, fuzzy names or NBA code guesses.
+    def team(side):
+        name = row[side]
+        ident = payload.get(side + "_team_id") or source.get(side + "Id")
+        if league == "KBO":
+            possible = {code for code, names in KBO_NAMES.items() if name == code or name in names}
+            if ident is not None and str(ident) in KBO_NAMES:
+                if possible and possible != {str(ident)}:
+                    raise ValueError("source_team_name_ID_disagreement")
+                return "KBO:" + str(ident)
+            return "KBO:" + next(iter(possible)) if len(possible) == 1 else name
+        if league in {"K리그1", "K리그2"} and ident is not None and re.fullmatch(r"K\d{2}", str(ident)):
+            return "KLEAGUE:" + str(ident)
+        if league == "KBL" and ident is not None and re.fullmatch(r"\d{1,3}", str(ident)):
+            return "KBL:" + str(ident)
+        return name
+    home, away = team("home"), team("away")
+    if home == away:
+        raise ValueError("opposing_canonical_team_identity_collision")
+    return (row["sport"], league, moment(row["kickoff"]).isoformat(), home, away)
 
 
 def numeric(value):
@@ -114,11 +154,17 @@ def confirmed_baseball_lineup(row):
 
 def price_vector(row):
     p = row["payload"]
+    source = urlsplit(row.get("source_url", ""))
+    if (source.scheme != "https" or source.hostname != "www.betman.co.kr"
+            or not re.fullmatch(r"G101:\d{6}:\d{1,8}", str(p.get("product_id", "")))):
+        raise ValueError("same_official_proto_product_required")
     if p.get("period") != "full" or p.get("market") not in {"winner_2way", "winner_3way"} or p.get("line") is not None:
         raise ValueError("non_full_game_winner_product")
     sides = {"home", "away"} if p["market"] == "winner_2way" else {"home", "draw", "away"}
     if not p.get("product_id") or set(p["odds"]) != sides:
         raise ValueError("incomplete_price_roster")
+    if (row["sport"] == "sc") != (p["market"] == "winner_3way"):
+        raise ValueError("sport_and_standard_winner_product_disagree")
     rules = {"bs": {"draw_void_refund", "full_game_including_extra_innings_draw_refund"},
              "sc": {"regulation_90_plus_stoppage"}, "bk": {"full_game_including_overtime"}}
     if p.get("settlement_rule") not in rules[row["sport"]]:
@@ -134,7 +180,7 @@ def price_vector(row):
     return p, odds, {s: v/total for s, v in probabilities.items()}
 
 
-def choose(rows):
+def choose(rows, *, model_scopes=None):
     """Freeze all choices before any score enters grading."""
     prices = []
     rejected = Counter()
@@ -196,14 +242,15 @@ def choose(rows):
             reasons["vote"]["tied_votes"] += 1
     else:
         reasons["vote"]["missing_eligible_votes"] += 1
-    scoped = {m for m, scope in MODEL_SCOPES.items() if scope == (rows[0]["sport"], rows[0]["league"])}
+    model_scopes = model_scopes or MODEL_SCOPES
+    scoped = {m for m, scope in model_scopes.items() if scope == (rows[0]["sport"], rows[0]["league"])}
     by_id = {r["record_id"]: r for r in rows}
     model_predictions = defaultdict(list)
     for row in rows:
         if row["kind"] != "model_prediction":
             continue
         p = row["payload"]
-        model = p.get("model_id")
+        model = PRESERVED_MODEL_ARMS.get(p.get("model_id"), p.get("model_id"))
         if model not in scoped:
             reasons[str(model)]["model_not_applicable_to_league"] += 1
             continue
@@ -300,7 +347,7 @@ def metrics(events, model, stake=10000):
         h, a = result["home_score"], result["away_score"]
         winner = "home" if h > a else "away" if h < a else "draw"
         void = winner == "draw" and product["market"] == "winner_2way"
-        if void and product.get("settlement_rule") not in {"draw_void_refund", "full_game_including_extra_innings_draw_refund"}:
+        if void and product.get("settlement_rule") not in {"draw_void_refund", "full_game_including_extra_innings_draw_refund", "full_game_including_overtime"}:
             continue
         hit = not void and side == winner
         price = numeric(event["odds"][side])
@@ -337,10 +384,16 @@ def compare(records, *, start, end, evaluated_at):
             if str(exc) == "conflicting_record_id":
                 raise
             malformed[str(exc)] += 1
+    model_scopes = dict(MODEL_SCOPES)
+    # Keep the actual/projected training families distinct and retain original
+    # yearly artifact IDs in inputs. Do not silently call both of them 'M0'.
+    if any(r.get("payload", {}).get("model_id") in PRESERVED_MODEL_ARMS for r in records):
+        model_scopes = {m:s for m,s in model_scopes.items() if s != ("bs", "KBO")}
+        model_scopes.update({m:("bs", "KBO") for m in PRESERVED_MODEL_ARMS.values()})
     events, blocked, availability = [], [], defaultdict(Counter)
     # All outcome-free choices are made before result_for is invoked.
     for key, rows in sorted(groups.items()):
-        selected, reasons = choose(rows)
+        selected, reasons = choose(rows, model_scopes=model_scopes)
         group = "/".join(key[:2])
         for row in rows:
             availability[group][row["kind"]] += 1
@@ -357,7 +410,7 @@ def compare(records, *, start, end, evaluated_at):
     for group in sorted(availability):
         sport, league = group.split("/", 1)
         rows = [e for e in events if (e["sport"], e["league"]) == (sport, league)]
-        models = (*CONTROLS, *(m for m, scope in MODEL_SCOPES.items() if scope == (sport, league)))
+        models = (*CONTROLS, *(m for m, scope in model_scopes.items() if scope == (sport, league)))
         all_common = [e for e in rows if e["result"] is not None and all(e["picks"].get(m) is not None for m in models)]
         control_common = [e for e in rows if e["result"] is not None and all(e["picks"].get(m) is not None for m in CONTROLS)]
         # No winner if a player arm is missing or the model is not implemented.
@@ -388,6 +441,7 @@ def compare(records, *, start, end, evaluated_at):
     return dict(version=VERSION, period=dict(start=start.isoformat(), end=end.isoformat()),
                 evaluated_at=evaluated_at.isoformat(), received_record_count=len(ids), physical_fixtures=len(groups),
                 invalid_records=dict(malformed), summary=summary, events=events, blocked=blocked,
+                model_arms={m:list(scope) for m,scope in model_scopes.items()},
                 limits=["Local body/receipt checks are not independent time certification.",
                         "Same full-game winner product only; O/U and handicap require separate result contracts.",
                         "No live policy, production store, schedule or monthly paper wallet is changed."])

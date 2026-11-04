@@ -17,7 +17,7 @@ def metadata(tmp_path, *, filename="one.body.gz"):
     raw = b'{"status":"before"}'
     (tmp_path / filename).write_bytes(gzip.compress(raw, mtime=0))
     meta = dict(url="https://www.koreabaseball.com/source", received_at="2026-11-04T05:00:00Z",
-                status=200, body_sha256=hashlib.sha256(raw).hexdigest(), body_file=filename)
+                status=200, timestamp_basis="http_response_body_completed", body_sha256=hashlib.sha256(raw).hexdigest(), body_file=filename)
     write_json(tmp_path / "one.json", meta)
     return meta
 
@@ -26,11 +26,21 @@ def test_manifest_url_clock_and_uncompressed_body_hash_all_bind_receipt(tmp_path
     meta = metadata(tmp_path)
     index, audit = receipt_index([tmp_path])
     assert audit["verified_cached_bodies"] == 1
-    row = dict(kind="fixture", payload={}, body_sha256=meta["body_sha256"], source_url=meta["url"], received_at=meta["received_at"])
+    row = dict(kind="fixture", payload={}, body_sha256=meta["body_sha256"], source_url=meta["url"], received_at=meta["received_at"], timestamp_basis=meta["timestamp_basis"])
     assert normalize(row, index, set())["receipt_verified"] is True
-    for key in ("body_sha256", "source_url", "received_at"):
+    for key in ("body_sha256", "source_url", "received_at", "timestamp_basis"):
         changed = dict(row); changed[key] = "wrong"
         assert normalize(changed, index, set())["receipt_verified"] is False
+
+
+def test_old_manifest_clock_cannot_be_upgraded_by_record_flag(tmp_path):
+    meta = metadata(tmp_path)
+    meta["timestamp_basis"] = "legacy_batch_start"
+    write_json(tmp_path / "one.json", meta)
+    index, _ = receipt_index([tmp_path])
+    row = dict(kind="fixture", payload={}, body_sha256=meta["body_sha256"], source_url=meta["url"],
+               received_at=meta["received_at"], timestamp_basis="http_response_body_completed", receipt_verified=True)
+    assert normalize(row, index, set())["receipt_verified"] is False
 
 
 def test_asserted_receipt_is_not_a_manifest(tmp_path):

@@ -16,7 +16,8 @@ from src.multisport_pregame_study import canonical, compare, digest, moment
 COLLECTORS = {"baseball": "collect_baseball_comparison_sources.py",
               "soccer": "collect_soccer_comparison_sources.py",
               "basketball": "collect_basketball_comparison_sources.py",
-              "proto_prices": "collect_proto_comparison_prices.py"}
+              "proto_prices": "collect_proto_comparison_prices.py",
+              "tipsters": "collect_tipster_comparison_sources.py"}
 MAX_BODY_BYTES = 16_000_000
 
 
@@ -72,7 +73,7 @@ def receipt_index(roots):
                 if len(raw) > MAX_BODY_BYTES or sha(raw) != meta["body_sha256"]:
                     raise ValueError("receipt_body_hash_or_size_mismatch")
                 received = moment(meta["received_at"]).isoformat()
-                index.add((meta["body_sha256"], meta["url"], received))
+                index.add((meta["body_sha256"], meta["url"], received, meta.get("timestamp_basis")))
                 checked += 1
             except (ValueError, OSError, TypeError, KeyError) as exc:
                 errors.append(dict(manifest=str(path), error=str(exc)))
@@ -98,7 +99,7 @@ def normalize(record, receipts, models):
     row["receipt_verified"] = False
     row["model_artifact_verified"] = False
     try:
-        row["receipt_verified"] = (row.get("body_sha256"), row.get("source_url"), moment(row.get("received_at")).isoformat()) in receipts
+        row["receipt_verified"] = (row.get("body_sha256"), row.get("source_url"), moment(row.get("received_at")).isoformat(), row.get("timestamp_basis")) in receipts
     except (TypeError, ValueError):
         pass
     p = row.get("payload") or {}

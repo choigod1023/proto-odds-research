@@ -35,6 +35,6 @@ NBA 공식 부상 PDF 원문의 ET 날짜·12시간 시각·팀 코드 쌍이 NB
 
 ### 실행 계약
 
-[main-cli-config.json](main-cli-config.json)은 실행기와 `args` 배열을 제공한다. `--start`, `--end`, `--evidence`, `--output`은 필수 형식으로 지원하며 `--output`은 JSONL 파일 경로다. 결과 옆 `.manifest.json`의 `nba_next_cursor`를 다음 `--nba-cursor`에 넣고 `--nba-max-days`로 배치 크기를 제한한다. 각 배치의 출력 파일은 별도로 보존·합쳐야 한다. KBL은 연도별 범위를 자동 분할한다. `--nba-only`로 KBL 재처리를 생략할 수 있다. 동일 증거 디렉터리에서는 URL당 최대 세 HTTP 요청을 예약해 누적 기본 예산 60을 보수적으로 강제하며, 실행당 신규 URL은 최대 12개다. 예산 한도 때문에 이번 승인만으로 NBA 전체 기간을 수집했다고 할 수 없다. 추후 더 큰 `--total-http-budget`은 별도 승인된 작업에서만 사용한다.
+[main-cli-config.json](main-cli-config.json)은 실행기와 `args` 배열을 제공한다. `--start`, `--end`, `--evidence`, `--output`은 필수 형식으로 지원하며 `--output`은 JSONL 파일 경로다. 결과 옆 `.manifest.json`의 `nba_next_cursor`를 다음 `--nba-cursor`에 넣고 `--nba-max-days`로 배치 크기를 제한한다. 각 배치의 출력 파일은 별도로 보존·합쳐야 한다. KBL은 연도별 범위를 자동 분할한다. `--nba-only`로 KBL 재처리를 생략할 수 있다. 동일 증거 디렉터리에서는 URL당 최대 세 HTTP 요청을 예약해 누적 기본 예산 60을 보수적으로 강제하며, 실행당 신규 URL은 최대 12개다. 예산 한도 때문에 이번 승인만으로 NBA 전체 기간을 수집했다고 할 수 없다. 다음 배치에서 수집 범위를 확대할 때는 `--total-http-budget` 등 유한 요청 상한을 명시하고 원천의 접근 정책을 따른다.
 
 최근·미래 일정과 부상 문서는 `--capture-id`로 버전을 구분한다. 새 관측은 새 ID와 `--refresh`를 함께 지정한다. 같은 ID의 기존 관측이 있으면 `--refresh`는 덮어쓰지 않고 중단하며, 중단 후 `--refresh` 없이 같은 ID로 재실행하면 보존된 캐시부터 이어간다. 과거 완료 범위의 캐시는 보존하고, 최근 날짜의 사전 일정 스냅샷은 해당 날짜가 지난 후의 결과 캐시로 자동 승격하지 않는다. NBA 부상 PDF는 `--injury-pdf`에 실제 공식 PDF URL을 명시해야 하며 PDF 본문 파싱에는 PyMuPDF(`fitz`)가 필요하다. 결측 시 manifest에 사유를 기록한다.

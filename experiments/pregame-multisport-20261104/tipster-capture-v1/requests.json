@@ -1,0 +1,61 @@
+[
+  {
+    "url": "https://pick79.com/posts/soccer/",
+    "requested_at": "2026-11-04T05:45:12.925777+00:00",
+    "received_at": null,
+    "body_sha256": null,
+    "status": 200,
+    "error": "ValueError:article_body_or_total_time_cap",
+    "failed_at": "2026-11-04T05:45:14.526713+00:00"
+  },
+  {
+    "url": "https://pick79.com/posts/baseball/",
+    "requested_at": "2026-11-04T05:45:14.527371+00:00",
+    "received_at": null,
+    "body_sha256": null,
+    "status": 200,
+    "error": "ValueError:article_body_or_total_time_cap",
+    "failed_at": "2026-11-04T05:45:15.373058+00:00"
+  },
+  {
+    "url": "https://pick79.com/posts/basketball/",
+    "requested_at": "2026-11-04T05:45:15.373821+00:00",
+    "received_at": "2026-11-04T05:45:16.039080+00:00",
+    "body_sha256": "f1b92834ded8db405d63d24a9afdaaceb4f3c4bf7ecea670e1b0b1066c362564",
+    "status": 200,
+    "timestamp_basis": "http_response_body_completed",
+    "encoding": "utf-8",
+    "body_file": "6e641e5efdda504d8d360a7e-20261104T054512925308Z.body.gz",
+    "bytes": 577036
+  },
+  {
+    "url": "https://www.goli.tv/board/analysis",
+    "requested_at": "2026-11-04T05:45:16.175987+00:00",
+    "received_at": null,
+    "body_sha256": null,
+    "status": null,
+    "error": "ConnectionError:('Connection aborted.', ConnectionResetError(10054, '현재 연결은 원격 호스트에 의해 강제로 끊겼습니다', None, 10054, None))",
+    "failed_at": "2026-11-04T05:45:16.583001+00:00"
+  },
+  {
+    "url": "https://pick79.com/posts/detail/analyze-500356-2026-06-05-shanghai",
+    "requested_at": "2026-11-04T05:45:16.583859+00:00",
+    "received_at": null,
+    "body_sha256": null,
+    "status": 308,
+    "canonical_url": "https://pick79.com/posts/detail/analyze-500356-2026-06-05-shanghai/",
+    "error": "ValueError:http_308",
+    "failed_at": "2026-11-04T05:45:16.731559+00:00"
+  },
+  {
+    "url": "https://pick79.com/posts/detail/analyze-500356-2026-06-05-shanghai/",
+    "requested_at": "2026-11-04T05:45:16.732142+00:00",
+    "received_at": "2026-11-04T05:45:17.122031+00:00",
+    "body_sha256": "7a591cfb9b4f256c9ae563ae73b93f51ae3420cdb0b0a0caaecd6ae47b2f18e5",
+    "status": 200,
+    "timestamp_basis": "http_response_body_completed",
+    "encoding": "utf-8",
+    "body_file": "90f1d907297de0b691e1807a-20261104T054512925308Z.body.gz",
+    "bytes": 36341
+  }
+]
